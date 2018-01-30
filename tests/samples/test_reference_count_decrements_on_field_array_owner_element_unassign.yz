@@ -9,7 +9,7 @@ model MCar {
 }
 
 controller CController {
-  receive MCar[5]* mArray;
+  receive MCar[]* mArray;
 
 
   public void set(MCar car) {

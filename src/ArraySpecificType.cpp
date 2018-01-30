@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/ArraySpecificOwnerType.hpp"
 #include "wisey/ArraySpecificType.hpp"
 #include "wisey/IRWriter.hpp"
 
@@ -17,13 +18,19 @@ using namespace wisey;
 ArraySpecificType::ArraySpecificType(const IType* elementType, vector<unsigned long> dimensions) :
 mElementType(elementType), mDimensions(dimensions) {
   assert(dimensions.size());
+  mArraySpecificOwnerType = new ArraySpecificOwnerType(this);
 }
 
 ArraySpecificType::~ArraySpecificType() {
+  delete mArraySpecificOwnerType;
+}
+
+const ArraySpecificOwnerType* ArraySpecificType::getOwner() const {
+  return mArraySpecificOwnerType;
 }
 
 wisey::ArrayType* ArraySpecificType::getArrayType(IRGenerationContext& context) const {
-  return context.getArrayType(mElementType, mDimensions);
+  return context.getArrayType(mElementType, mDimensions.size());
 }
 
 vector<unsigned long> ArraySpecificType::getDimensions() const {

@@ -9,8 +9,8 @@ model MCar {
 controller CProgram implements IProgram {
 
   public int run() {
-    MCar*[3]* array = new MCar*[3];
-    MCar*[3] reference = array;
+    MCar*[]* array = new MCar*[3];
+    MCar*[] reference = array;
     array = null;
 
     return 1;

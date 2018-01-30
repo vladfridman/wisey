@@ -27,25 +27,21 @@ struct ArrayOwnerTypeSpecifierTest : public Test {
 
 TEST_F(ArrayOwnerTypeSpecifierTest, creationTest) {
   PrimitiveTypeSpecifier* intSpecifer = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
-  vector<unsigned long> dimensions;
-  dimensions.push_back(3u);
-  ArrayTypeSpecifier* arraySpecifier = new ArrayTypeSpecifier(intSpecifer, dimensions);
+  ArrayTypeSpecifier* arraySpecifier = new ArrayTypeSpecifier(intSpecifer, 1u);
   ArrayOwnerTypeSpecifier* specifier = new ArrayOwnerTypeSpecifier(arraySpecifier);
   const IType* type = specifier->getType(mContext);
   
   EXPECT_EQ(ARRAY_OWNER_TYPE, type->getTypeKind());
-  EXPECT_STREQ("int[3]*", type->getTypeName().c_str());
+  EXPECT_STREQ("int[]*", type->getTypeName().c_str());
   
   const ArrayOwnerType* arrayType = (const ArrayOwnerType*) type;
   EXPECT_EQ(PrimitiveTypes::INT_TYPE, arrayType->getArrayType()->getElementType());
-  EXPECT_EQ(3u, arrayType->getArrayType()->getDimensions().front());
+  EXPECT_EQ(1u, arrayType->getArrayType()->getNumberOfDimensions());
 }
 
 TEST_F(ArrayOwnerTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {
   PrimitiveTypeSpecifier* floatSpecifer = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  vector<unsigned long> dimensions;
-  dimensions.push_back(3u);
-  ArrayTypeSpecifier* arraySpecifier = new ArrayTypeSpecifier(floatSpecifer, dimensions);
+  ArrayTypeSpecifier* arraySpecifier = new ArrayTypeSpecifier(floatSpecifer, 1u);
   ArrayOwnerTypeSpecifier* specifier = new ArrayOwnerTypeSpecifier(arraySpecifier);
   const IType* type1 = specifier->getType(mContext);
   const IType* type2 = specifier->getType(mContext);
@@ -55,15 +51,13 @@ TEST_F(ArrayOwnerTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {
 
 TEST_F(ArrayOwnerTypeSpecifierTest, printToStreamTest) {
   PrimitiveTypeSpecifier* stringSpecifer = new PrimitiveTypeSpecifier(PrimitiveTypes::STRING_TYPE);
-  vector<unsigned long> dimensions;
-  dimensions.push_back(5u);
-  ArrayTypeSpecifier* arraySpecifier = new ArrayTypeSpecifier(stringSpecifer, dimensions);
+  ArrayTypeSpecifier* arraySpecifier = new ArrayTypeSpecifier(stringSpecifer, 1u);
   ArrayOwnerTypeSpecifier* specifier = new ArrayOwnerTypeSpecifier(arraySpecifier);
 
   stringstream stringStream;
   specifier->printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("string[5]*", stringStream.str().c_str());
+  EXPECT_STREQ("string[]*", stringStream.str().c_str());
 }
 
 

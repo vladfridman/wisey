@@ -35,7 +35,7 @@ TEST_F(ArraySpecificTypeSpecifierTest, creationTest) {
   EXPECT_EQ(ARRAY_TYPE, type->getTypeKind());
   EXPECT_STREQ("int[3]", type->getTypeName().c_str());
   
-  const ArrayType* arrayType = (const ArrayType*) type;
+  const ArraySpecificType* arrayType = (const ArraySpecificType*) type;
   EXPECT_EQ(PrimitiveTypes::INT_TYPE, arrayType->getElementType());
   EXPECT_EQ(3u, arrayType->getDimensions().front());
 }

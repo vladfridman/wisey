@@ -38,8 +38,8 @@ struct ArraySpecificTypeTest : public Test {
 };
 
 TEST_F(ArraySpecificTypeTest, getArrayTest) {
-  ArrayType* arrayType = mContext.getArrayType(mArraySpecificType->getElementType(),
-                                               mArraySpecificType->getDimensions());
+  const ArrayType* arrayType = mContext.getArrayType(mArraySpecificType->getElementType(),
+                                                     mArraySpecificType->getDimensions().size());
   EXPECT_EQ(arrayType, mArraySpecificType->getArrayType(mContext));
 }
 
@@ -68,6 +68,7 @@ TEST_F(ArraySpecificTypeTest, getLLVMTypeTest) {
   
   EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(0));
   EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(1));
+  EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(2));
   EXPECT_EQ(llvm::ArrayType::get(llvm::Type::getInt64Ty(mLLVMContext), 5u),
             arrayStruct->getElementType(ArrayType::ARRAY_ELEMENTS_START_INDEX));
 }

@@ -27,9 +27,7 @@ struct ArrayOwnerTypeTest : public Test {
   ArrayOwnerType* mArrayOwnerType;
   
   ArrayOwnerTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
-    vector<unsigned long> dimensions;
-    dimensions.push_back(5u);
-    mArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, dimensions);
+    mArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, 1u);
     mArrayOwnerType = new ArrayOwnerType(mArrayType);
   }
 };
@@ -39,17 +37,18 @@ TEST_F(ArrayOwnerTypeTest, getArrayTypeTest) {
 }
 
 TEST_F(ArrayOwnerTypeTest, getNameTest) {
-  EXPECT_STREQ("long[5]*", mArrayOwnerType->getTypeName().c_str());
+  EXPECT_STREQ("long[]*", mArrayOwnerType->getTypeName().c_str());
 }
 
 TEST_F(ArrayOwnerTypeTest, getLLVMTypeTest) {
-  llvm::PointerType* arrayLLVMType = mArrayType->getLLVMType(mContext);
+  llvm::PointerType* arrayLLVMType = mArrayOwnerType->getLLVMType(mContext);
   ASSERT_TRUE(arrayLLVMType->getPointerElementType()->isStructTy());
   llvm::StructType* arrayStruct = (llvm::StructType*) arrayLLVMType->getPointerElementType();
 
   EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(0));
   EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(1));
-  EXPECT_EQ(llvm::ArrayType::get(llvm::Type::getInt64Ty(mLLVMContext), 5u),
+  EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(2));
+  EXPECT_EQ(llvm::ArrayType::get(llvm::Type::getInt64Ty(mLLVMContext), 0u),
             arrayStruct->getElementType(ArrayType::ARRAY_ELEMENTS_START_INDEX));
 }
 

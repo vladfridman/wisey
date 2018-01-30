@@ -16,6 +16,8 @@
 
 namespace wisey {
   
+  class ArraySpecificOwnerType;
+  
   /**
    * Represents the array type where each dimension is specified.
    *
@@ -25,6 +27,7 @@ namespace wisey {
     
     const IType* mElementType;
     std::vector<unsigned long> mDimensions;
+    const ArraySpecificOwnerType* mArraySpecificOwnerType;
     
   public:
     
@@ -32,6 +35,11 @@ namespace wisey {
     
     ~ArraySpecificType();
     
+    /**
+     * Returns the owner type for this specific array type
+     */
+    const ArraySpecificOwnerType* getOwner() const;
+
     /**
      * Returns corresponding ArrayType
      */

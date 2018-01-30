@@ -9,7 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/ArrayAllocation.hpp"
-#include "wisey/ArrayOwnerType.hpp"
+#include "wisey/ArraySpecificOwnerType.hpp"
 #include "wisey/IVariable.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/IRWriter.hpp"
@@ -107,7 +107,7 @@ bool ArrayAllocation::isConstant() const {
 }
 
 const IType* ArrayAllocation::getType(IRGenerationContext& context) const {
-  return mArraySpecificTypeSpecifier->getType(context)->getArrayType(context)->getOwner();
+  return mArraySpecificTypeSpecifier->getType(context)->getOwner();
 }
 
 void ArrayAllocation::printToStream(IRGenerationContext &context, iostream &stream) const {

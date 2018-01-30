@@ -103,7 +103,7 @@ public:
   /**
    * Get an array type
    */
-  wisey::ArrayType* getArrayType(const IType* elementType, std::vector<unsigned long> dimensions);
+  wisey::ArrayType* getArrayType(const IType* elementType, unsigned long numberOfDimensions);
 
   /**
    * Get an array specific type

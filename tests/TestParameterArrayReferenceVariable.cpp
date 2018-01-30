@@ -45,9 +45,7 @@ struct ParameterArrayReferenceVariableTest : public Test {
 public:
   
   ParameterArrayReferenceVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
-    vector<unsigned long> dimensions;
-    dimensions.push_back(3u);
-    mArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, dimensions);
+    mArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 1u);
     
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
@@ -84,7 +82,7 @@ TEST_F(ParameterArrayReferenceVariableTest, decrementReferenceCounterTest) {
   
   string expected =
   "\nentry:"
-  "\n  %0 = bitcast { i64, i64, i64, [3 x i32] }* null to i8*"
+  "\n  %0 = bitcast { i64, i64, i64, [0 x i32] }* null to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %0, i64 -1)"
   "\n";
   

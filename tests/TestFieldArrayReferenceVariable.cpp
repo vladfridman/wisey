@@ -53,11 +53,8 @@ public:
     mStringStream = new raw_string_ostream(mStringBuffer);
     
     vector<unsigned long> dimensions;
-    dimensions.push_back(3u);
-    mArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, dimensions);
-    dimensions.clear();
-    dimensions.push_back(5u);
-    mAnotherArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, dimensions);
+    mArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 1u);
+    mAnotherArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 2u);
 
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
@@ -108,7 +105,7 @@ TEST_F(FieldArrayReferenceVariableTest, generateIdentifierIRTest) {
   string expected = string() +
   "\nentry:" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1"
-  "\n  %1 = load { i64, i64, i64, [3 x i32] }*, { i64, i64, i64, [3 x i32] }** %0\n";
+  "\n  %1 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -127,12 +124,12 @@ TEST_F(FieldArrayReferenceVariableTest, generateWholeArrayAssignmentTest) {
   string expected =
   "\nentry:"
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1"
-  "\n  %1 = load { i64, i64, i64, [3 x i32] }*, { i64, i64, i64, [3 x i32] }** %0"
-  "\n  %2 = bitcast { i64, i64, i64, [3 x i32] }* %1 to i8*"
+  "\n  %1 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %0"
+  "\n  %2 = bitcast { i64, i64, i64, [0 x i32] }* %1 to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %2, i64 -1)"
-  "\n  %3 = bitcast { i64, i64, i64, [3 x i32] }* null to i8*"
+  "\n  %3 = bitcast { i64, i64, i64, [0 x i32] }* null to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %3, i64 1)"
-  "\n  store { i64, i64, i64, [3 x i32] }* null, { i64, i64, i64, [3 x i32] }** %0\n";
+  "\n  store { i64, i64, i64, [0 x i32] }* null, { i64, i64, i64, [0 x i32] }** %0\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -149,7 +146,7 @@ TEST_F(FieldArrayReferenceVariableTest, generateWholeArrayAssignmentDeathTest) {
                                                                  arrayIndices,
                                                                  0),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: can not cast from type 'int\\[5\\]' to 'int\\[3\\]\\'");
+              "Error: Incompatible types: can not cast from type 'int\\[\\]\\[\\]' to 'int\\[\\]\\'");
 }
 
 TEST_F(TestFileSampleRunner, fieldArrayReferenceOfIntsRunTest) {

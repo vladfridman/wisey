@@ -29,10 +29,8 @@ struct ArrayTypeTest : public Test {
   
   ArrayTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
     vector<unsigned long> dimensions;
-    dimensions.push_back(5u);
-    mArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, dimensions);
-    dimensions.push_back(10u);
-    mMultiDimentionalArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, dimensions);
+    mArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, 1u);
+    mMultiDimentionalArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, 2u);
   }
 };
 
@@ -46,18 +44,12 @@ TEST_F(ArrayTypeTest, getElementTypeTest) {
   EXPECT_EQ(PrimitiveTypes::LONG_TYPE, mMultiDimentionalArrayType->getElementType());
 }
 
-TEST_F(ArrayTypeTest, getDimensionsTest) {
-  vector<unsigned long> dimensions;
-  dimensions.push_back(5u);
-  dimensions.push_back(10u);
-
-  EXPECT_EQ(dimensions.size(), mMultiDimentionalArrayType->getDimensions().size());
-  EXPECT_EQ(dimensions.front(), mMultiDimentionalArrayType->getDimensions().front());
-  EXPECT_EQ(dimensions.back(), mMultiDimentionalArrayType->getDimensions().back());
+TEST_F(ArrayTypeTest, getNumberOfDimensionsTest) {
+  EXPECT_EQ(2u, mMultiDimentionalArrayType->getNumberOfDimensions());
 }
 
 TEST_F(ArrayTypeTest, getNameTest) {
-  EXPECT_STREQ("long[5]", mArrayType->getTypeName().c_str());
+  EXPECT_STREQ("long[]", mArrayType->getTypeName().c_str());
 }
 
 TEST_F(ArrayTypeTest, getLLVMTypeTest) {
@@ -67,7 +59,8 @@ TEST_F(ArrayTypeTest, getLLVMTypeTest) {
 
   EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(0));
   EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(1));
-  EXPECT_EQ(llvm::ArrayType::get(llvm::Type::getInt64Ty(mLLVMContext), 5u),
+  EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(2));
+  EXPECT_EQ(llvm::ArrayType::get(llvm::Type::getInt64Ty(mLLVMContext), 0u),
             arrayStruct->getElementType(ArrayType::ARRAY_ELEMENTS_START_INDEX));
 }
 
@@ -83,14 +76,6 @@ TEST_F(ArrayTypeTest, canCastToTest) {
 TEST_F(ArrayTypeTest, canAutoCastToTest) {
   EXPECT_FALSE(mArrayType->canAutoCastTo(PrimitiveTypes::STRING_TYPE));
   EXPECT_TRUE(mArrayType->canAutoCastTo(mArrayType));
-}
-
-TEST_F(ArrayTypeTest, getNumberOfDimensionsTest) {
-  EXPECT_EQ(2u, mMultiDimentionalArrayType->getNumberOfDimensions());
-}
-
-TEST_F(ArrayTypeTest, getLinearSizeTest) {
-  EXPECT_EQ(50u, mMultiDimentionalArrayType->getLinearSize());
 }
 
 TEST_F(ArrayTypeTest, isOwnerTest) {

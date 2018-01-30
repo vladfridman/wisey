@@ -67,8 +67,8 @@ bool ArrayAllocationStatic::isConstant() const {
   return false;
 }
 
-const ArrayOwnerType* ArrayAllocationStatic::getType(IRGenerationContext& context) const {
-  return getSpecificType(context)->getArrayType(context)->getOwner();
+const ArraySpecificOwnerType* ArrayAllocationStatic::getType(IRGenerationContext& context) const {
+  return getSpecificType(context)->getOwner();
 }
 
 const ArraySpecificType* ArrayAllocationStatic::getSpecificType(IRGenerationContext&
@@ -81,11 +81,12 @@ const ArraySpecificType* ArrayAllocationStatic::getSpecificType(IRGenerationCont
     return context.getArraySpecificType(elementType, dimensions);
   }
   
-  const ArrayType* subArrayType = ((const ArrayOwnerType*) elementType)->getArrayType();
-  for (unsigned long dimension : subArrayType->getDimensions()) {
+  const ArraySpecificOwnerType* subArrayType = (const ArraySpecificOwnerType*) elementType;
+  for (unsigned long dimension : subArrayType->getArraySpecificType()->getDimensions()) {
     dimensions.push_back(dimension);
   }
-  return context.getArraySpecificType(subArrayType->getElementType(), dimensions);
+  return context.getArraySpecificType(subArrayType->getArraySpecificType()->getElementType(),
+                                      dimensions);
 }
 
 

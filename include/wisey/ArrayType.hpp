@@ -33,12 +33,12 @@ class ArrayOwnerType;
 class ArrayType : public IReferenceType {
   
   const IType* mElementType;
-  std::vector<unsigned long> mDimensions;
+  unsigned long mNumberOfDimensions;
   const ArrayOwnerType* mArrayOwnerType;
   
 public:
   
-  ArrayType(const IType* elementType, std::vector<unsigned long> dimensions);
+  ArrayType(const IType* elementType, unsigned long numberOfDimensions);
   
   ~ArrayType();
   
@@ -53,16 +53,6 @@ public:
    * Returns the number of dimensions in this array
    */
   unsigned long getNumberOfDimensions() const;
-  
-  /**
-   * Returns linear size of the array that equals to product of all dimention sizes
-   */
-  unsigned long getLinearSize() const;
-  
-  /**
-   * Return array dimensions
-   */
-  std::vector<unsigned long> getDimensions() const;
   
   /**
    * Returns single array element type

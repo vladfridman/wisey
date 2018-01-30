@@ -124,11 +124,6 @@ Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
   
   Value* index[2];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
-  
-  list<unsigned long> dimensions;
-  for (unsigned long dimension : arrayType->getDimensions()) {
-    dimensions.push_back(dimension);
-  }
 
   Value* value = arrayStructPointer;
   while (arrayIndices.size()) {
@@ -142,18 +137,10 @@ Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
     const IExpression* indexExpression = arrayIndices.back();
     arrayIndices.pop_back();
     
-    dimensions.pop_front();
-    vector<unsigned long> subDimensions;
-    for (unsigned long dimension : dimensions) {
-      subDimensions.push_back(dimension);
-    }
-    
     Value* element = getArrayElement(context, arrayPointer, elementSize, indexExpression);
-    Type* subArrayType = subDimensions.size()
-    ? context.getArrayType(arrayType->getElementType(), subDimensions)->getLLVMType(context)
-    : arrayType->getElementType()->getLLVMType(context)->getPointerTo();
-    
-    value = IRWriter::newBitCastInst(context, element, subArrayType);
+    const ArrayType* subArrayType = context.getArrayType(arrayType->getElementType(),
+                                                         arrayIndices.size());
+    value = IRWriter::newBitCastInst(context, element, subArrayType->getLLVMType(context));
   }
   
   return value;
@@ -182,18 +169,8 @@ const IType* ArrayElementExpression::getType(IRGenerationContext& context) const
   : ((const ArrayOwnerType*) arrayExpressionType)->getArrayType();
   const IType* elementType = arrayType->getElementType();
 
-  list<unsigned long> dimensions;
-  for (unsigned long dimension : arrayType->getDimensions()) {
-    dimensions.push_back(dimension);
-  }
-  dimensions.pop_front();
-  vector<unsigned long> subDimensions;
-  for (unsigned long dimension : dimensions) {
-    subDimensions.push_back(dimension);
-  }
-
   return arrayType->getNumberOfDimensions() - 1
-  ? context.getArrayType(elementType, subDimensions)
+  ? context.getArrayType(elementType, arrayType->getNumberOfDimensions() - 1)
   : elementType;
 }
 

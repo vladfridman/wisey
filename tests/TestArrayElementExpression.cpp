@@ -62,9 +62,7 @@ struct ArrayElementExpressionTest : Test {
     mContext.getScopes().pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
     
-    vector<unsigned long> dimensions;
-    dimensions.push_back(5u);
-    mArrayType = new wisey::ArrayType(PrimitiveTypes::INT_TYPE, dimensions);
+    mArrayType = new wisey::ArrayType(PrimitiveTypes::INT_TYPE, 1u);
     Value* null = ConstantPointerNull::get(mArrayType->getLLVMType(mContext));
     ON_CALL(*mArrayExpression, generateIR(_, _)).WillByDefault(Return(null));
     ON_CALL(*mArrayExpression, getType(_)).WillByDefault(Return(mArrayType));
@@ -104,7 +102,7 @@ TEST_F(ArrayElementExpressionTest, generateIRTest) {
   string expected =
   "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
-  "\n  %0 = bitcast { i64, i64, i64, [5 x i32] }* null to i8*"
+  "\n  %0 = bitcast { i64, i64, i64, [0 x i32] }* null to i8*"
   "\n  invoke void @__checkForNullAndThrow(i8* %0)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
@@ -114,12 +112,12 @@ TEST_F(ArrayElementExpressionTest, generateIRTest) {
   "\n  resume { i8*, i32 } %1"
   "\n"
   "\ninvoke.continue:                                  ; preds = %entry"
-  "\n  %2 = getelementptr { i64, i64, i64, [5 x i32] }, { i64, i64, i64, [5 x i32] }* null, i64 0, i32 2"
+  "\n  %2 = getelementptr { i64, i64, i64, [0 x i32] }, { i64, i64, i64, [0 x i32] }* null, i64 0, i32 2"
   "\n  %elementSize = load i64, i64* %2"
-  "\n  %3 = getelementptr { i64, i64, i64, [5 x i32] }, { i64, i64, i64, [5 x i32] }* null, i64 0, i32 3"
+  "\n  %3 = getelementptr { i64, i64, i64, [0 x i32] }, { i64, i64, i64, [0 x i32] }* null, i64 0, i32 3"
   "\n  %conv = zext i32 3 to i64"
   "\n  %offset = mul i64 %elementSize, %conv"
-  "\n  %4 = bitcast [5 x i32]* %3 to i8*"
+  "\n  %4 = bitcast [0 x i32]* %3 to i8*"
   "\n  %5 = getelementptr i8, i8* %4, i64 %offset"
   "\n  %6 = bitcast i8* %5 to i32*"
   "\n  %7 = load i32, i32* %6"
@@ -184,10 +182,7 @@ TEST_F(ArrayElementExpressionTest, generateIRDeathTest) {
   Mock::AllowLeak(mArrayVariable);
   vector<const IExpression*> arrayIndices;
 
-  vector<unsigned long> dimensions;
-  dimensions.push_back(3u);
-  dimensions.push_back(5u);
-  mArrayType = new wisey::ArrayType(PrimitiveTypes::INT_TYPE, dimensions);
+  mArrayType = new wisey::ArrayType(PrimitiveTypes::INT_TYPE, 2u);
   Value* null = ConstantPointerNull::get(mArrayType->getLLVMType(mContext));
 
   EXPECT_EXIT(ArrayElementExpression::generateElementIR(mContext,

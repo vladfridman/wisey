@@ -3,10 +3,10 @@ package systems.vos.wisey.compiler.tests;
 import wisey.lang.IProgram;
 
 controller CController {
-  receive int[5]* mOwnerArray;
+  receive int[]* mOwnerArray;
 
   public void getRce() {
-    int[5] reference = mOwnerArray;
+    int[] reference = mOwnerArray;
     mOwnerArray = null;
   }
 }

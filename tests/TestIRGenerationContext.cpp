@@ -357,9 +357,7 @@ TEST_F(IRGenerationContextRunTest, printAssemblyTest) {
 }
 
 TEST_F(IRGenerationContextTest, getArrayTypeTest) {
-  vector<unsigned long> dimensions;
-  dimensions.push_back(3u);
-  wisey::ArrayType* arrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, dimensions);
+  wisey::ArrayType* arrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 1u);
   
-  EXPECT_EQ(mContext.getArrayType(PrimitiveTypes::INT_TYPE, dimensions), arrayType);
+  EXPECT_EQ(mContext.getArrayType(PrimitiveTypes::INT_TYPE, 1u), arrayType);
 }

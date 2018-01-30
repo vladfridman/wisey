@@ -11,7 +11,7 @@ model MCar {
 controller CProgram implements IProgram {
 
   public int run() {
-    MCar[5] array = new MCar[5];
+    MCar[] array = new MCar[5];
 
     return array[0].getYear();
   }

@@ -3,7 +3,7 @@ package systems.vos.wisey.compiler.tests;
 import wisey.lang.IProgram;
 
 controller CController {
-  receive int[5]* mArray;
+  receive int[]* mArray;
 
   public void init() {
     mArray[4] = 0;

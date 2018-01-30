@@ -31,7 +31,7 @@ struct ArraySpecificOwnerTypeTest : public Test {
     vector<unsigned long> dimensions;
     dimensions.push_back(5u);
     mArraySpecificType = new ArraySpecificType(PrimitiveTypes::LONG_TYPE, dimensions);
-    mArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, dimensions);
+    mArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, 1u);
     mArraySpecificOwnerType = new ArraySpecificOwnerType(mArraySpecificType);
   }
 };

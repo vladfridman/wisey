@@ -4,8 +4,8 @@ import wisey.lang.IProgram;
 
 controller CProgram implements IProgram {
   
-  private int[5][3] getArray() {
-    int[5][3]* array = new int[5][3];
+  private int[][] getArray() {
+    int[][]* array = new int[5][3];
     array[4][2] = 5;
     return array;
   }

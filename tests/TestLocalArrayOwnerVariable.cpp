@@ -48,9 +48,7 @@ public:
   LocalArrayOwnerVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     mStringStream = new raw_string_ostream(mStringBuffer);
     
-    vector<unsigned long> dimensions;
-    dimensions.push_back(3u);
-    mArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, dimensions);
+    mArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 1u);
 
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
@@ -76,8 +74,8 @@ TEST_F(LocalArrayOwnerVariableTest, generatePrimitiveArrayIdentifierIRTest) {
   
   string expected =
   "\nentry:"
-  "\n  %foo = alloca { i64, i64, i64, [3 x i32] }*"
-  "\n  %0 = load { i64, i64, i64, [3 x i32] }*, { i64, i64, i64, [3 x i32] }** %foo\n";
+  "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*"
+  "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -98,11 +96,11 @@ TEST_F(LocalArrayOwnerVariableTest, generatePrimitiveArrayWholeArrayAssignmentTe
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %foo = alloca { i64, i64, i64, [3 x i32] }*"
-  "\n  %0 = load { i64, i64, i64, [3 x i32] }*, { i64, i64, i64, [3 x i32] }** %foo"
-  "\n  %1 = bitcast { i64, i64, i64, [3 x i32] }* %0 to i64*"
+  "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*"
+  "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo"
+  "\n  %1 = bitcast { i64, i64, i64, [0 x i32] }* %0 to i64*"
   "\n  call void @__destroyPrimitiveArrayFunction(i64* %1, i64 1, i64 4, i1 true)"
-  "\n  store { i64, i64, i64, [3 x i32] }* null, { i64, i64, i64, [3 x i32] }** %foo\n";
+  "\n  store { i64, i64, i64, [0 x i32] }* null, { i64, i64, i64, [0 x i32] }** %foo\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -119,7 +117,7 @@ TEST_F(LocalArrayOwnerVariableTest, generatePrimitiveArrayWholeArrayAssignmentDe
   
   EXPECT_EXIT(variable.generateAssignmentIR(mContext, &mockExpression, arrayIndices, 0),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: can not cast from type 'int\\[3\\]' to 'int\\[3\\]\\*'");
+              "Error: Incompatible types: can not cast from type 'int\\[\\]' to 'int\\[\\]\\*'");
 }
 
 TEST_F(TestFileSampleRunner, arrayOwnerOfIntsRunTest) {

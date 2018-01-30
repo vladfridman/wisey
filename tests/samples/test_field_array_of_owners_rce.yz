@@ -9,10 +9,10 @@ model MCar {
 }
 
 controller CController {
-  receive MCar*[5]* mOwnerArray;
+  receive MCar*[]* mOwnerArray;
 
   public void getRce() {
-    MCar*[5] reference = mOwnerArray;
+    MCar*[] reference = mOwnerArray;
     mOwnerArray = null;
   }
 }

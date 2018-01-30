@@ -4,9 +4,9 @@ import wisey.lang.IProgram;
 
 controller CProgram implements IProgram {
 
-  state int[5][3]* mArray;
+  state int[][]* mArray;
 
-  private int[5][3] getArray() {
+  private int[][] getArray() {
     mArray = new int[5][3];
     mArray[4][2] = 5;
     return mArray;

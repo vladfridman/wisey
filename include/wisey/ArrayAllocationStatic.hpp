@@ -10,7 +10,7 @@
 #define ArrayAllocationStatic_h
 
 #include "wisey/ArrayOwnerType.hpp"
-#include "wisey/ArraySpecificType.hpp"
+#include "wisey/ArraySpecificOwnerType.hpp"
 #include "wisey/IExpression.hpp"
 
 namespace wisey {
@@ -41,7 +41,7 @@ namespace wisey {
     
     bool isConstant() const override;
     
-    const ArrayOwnerType* getType(IRGenerationContext& context) const override;
+    const ArraySpecificOwnerType* getType(IRGenerationContext& context) const override;
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 

@@ -5,8 +5,8 @@ import wisey.lang.IProgram;
 controller CProgram implements IProgram {
 
   public int run() {
-    int[5][3]* array = new int[5][3];
-    int[5][3] reference = array;
+    int[][]* array = new int[5][3];
+    int[][] reference = array;
     array = null;
 
     return 1;

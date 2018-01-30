@@ -18,9 +18,8 @@
 using namespace std;
 using namespace wisey;
 
-ArrayType::ArrayType(const IType* elementType, vector<unsigned long> dimensions) :
-mElementType(elementType), mDimensions(dimensions) {
-  assert(dimensions.size());
+ArrayType::ArrayType(const IType* elementType, unsigned long numberOfDimensions) :
+mElementType(elementType), mNumberOfDimensions(numberOfDimensions) {
   mArrayOwnerType = new ArrayOwnerType(this);
 }
 
@@ -34,18 +33,14 @@ const ArrayOwnerType* ArrayType::getOwner() const {
   return mArrayOwnerType;
 }
 
-vector<unsigned long> ArrayType::getDimensions() const {
-  return mDimensions;
-}
-
 const IType* ArrayType::getElementType() const {
   return mElementType;
 }
 
 string ArrayType::getTypeName() const {
   string name = mElementType->getTypeName();
-  for (unsigned long dimension : mDimensions) {
-    name = name + "[" + to_string(dimension) + "]";
+  for (unsigned long i = 0u; i < mNumberOfDimensions; i++) {
+    name = name + "[]";
   }
   return name;
 }
@@ -54,12 +49,8 @@ llvm::PointerType* ArrayType::getLLVMType(IRGenerationContext& context) const {
   llvm::LLVMContext& llvmContext = context.getLLVMContext();
   
   llvm::Type* type = mElementType->getLLVMType(context);
-  list<unsigned long> dimensionsReversed;
-  for (unsigned long dimension : mDimensions) {
-    dimensionsReversed.push_front(dimension);
-  }
-  for (unsigned long dimension : dimensionsReversed) {
-    llvm::ArrayType* arrayType = llvm::ArrayType::get(type, dimension);
+  for (unsigned long i = 0; i < mNumberOfDimensions; i++) {
+    llvm::ArrayType* arrayType = llvm::ArrayType::get(type, 0);
     vector<llvm::Type*> types;
     types.push_back(llvm::Type::getInt64Ty(llvmContext));
     types.push_back(llvm::Type::getInt64Ty(llvmContext));
@@ -104,16 +95,8 @@ void ArrayType::decrementReferenceCount(IRGenerationContext& context,
   AdjustReferenceCounterForConcreteObjectSafelyFunction::call(context, arrayPointer, -1);
 }
 
-unsigned long ArrayType::getLinearSize() const {
-  unsigned long size = 1;
-  for (unsigned long dimension : mDimensions) {
-    size *= dimension;
-  }
-  return size;
-}
-
 unsigned long ArrayType::getNumberOfDimensions() const {
-  return mDimensions.size();
+  return mNumberOfDimensions;
 }
 
 llvm::PointerType* ArrayType::getGenericArrayType(IRGenerationContext& context) {

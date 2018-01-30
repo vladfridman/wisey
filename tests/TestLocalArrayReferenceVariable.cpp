@@ -49,12 +49,8 @@ public:
   LocalArrayReferenceVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     mStringStream = new raw_string_ostream(mStringBuffer);
     
-    vector<unsigned long> dimensions;
-    dimensions.push_back(3u);
-    mArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, dimensions);
-    dimensions.clear();
-    dimensions.push_back(5u);
-    mAnotherArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, dimensions);
+    mArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 1u);
+    mAnotherArrayType = mContext.getArrayType(PrimitiveTypes::FLOAT_TYPE, 1u);
     
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
@@ -80,8 +76,8 @@ TEST_F(LocalArrayReferenceVariableTest, generateArrayIdentifierIRTest) {
   
   string expected =
   "\nentry:"
-  "\n  %foo = alloca { i64, i64, i64, [3 x i32] }*"
-  "\n  %0 = load { i64, i64, i64, [3 x i32] }*, { i64, i64, i64, [3 x i32] }** %foo\n";
+  "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*"
+  "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -102,13 +98,13 @@ TEST_F(LocalArrayReferenceVariableTest, generateArrayWholeArrayAssignmentTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %foo = alloca { i64, i64, i64, [3 x i32] }*"
-  "\n  %0 = load { i64, i64, i64, [3 x i32] }*, { i64, i64, i64, [3 x i32] }** %foo"
-  "\n  %1 = bitcast { i64, i64, i64, [3 x i32] }* %0 to i8*"
+  "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*"
+  "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo"
+  "\n  %1 = bitcast { i64, i64, i64, [0 x i32] }* %0 to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %1, i64 -1)"
-  "\n  %2 = bitcast { i64, i64, i64, [3 x i32] }* null to i8*"
+  "\n  %2 = bitcast { i64, i64, i64, [0 x i32] }* null to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %2, i64 1)"
-  "\n  store { i64, i64, i64, [3 x i32] }* null, { i64, i64, i64, [3 x i32] }** %foo\n";
+  "\n  store { i64, i64, i64, [0 x i32] }* null, { i64, i64, i64, [0 x i32] }** %foo\n";
 
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -126,7 +122,7 @@ TEST_F(LocalArrayReferenceVariableTest, generateArrayWholeArrayAssignmentDeathTe
 
   EXPECT_EXIT(variable.generateAssignmentIR(mContext, &mockExpression, arrayIndices, 0),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: can not cast from type 'int\\[5\\]' to 'int\\[3\\]'");
+              "Error: Incompatible types: can not cast from type 'float\\[\\]' to 'int\\[\\]'");
 }
 
 TEST_F(TestFileSampleRunner, arrayReferenceOfIntsRunTest) {

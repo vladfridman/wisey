@@ -20,11 +20,11 @@ namespace wisey {
  */
 class ArrayTypeSpecifier : public ITypeSpecifier {
   ITypeSpecifier* mElementTypeSpecifier;
-  std::vector<unsigned long> mDimensions;
+  unsigned long mNumberOfDimensions;
   
 public:
   
-  ArrayTypeSpecifier(ITypeSpecifier* elementTypeSpecifier, std::vector<unsigned long> dimensions);
+  ArrayTypeSpecifier(ITypeSpecifier* elementTypeSpecifier, unsigned long numberOfDimentions);
   
   ~ArrayTypeSpecifier();
   

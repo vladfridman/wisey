@@ -4,12 +4,12 @@ import wisey.lang.IProgram;
 
 controller CProgram implements IProgram {
 
-  private static int[5][3] getArray(int[5][3]* array) {
+  private static int[][] getArray(int[][]* array) {
     return array;
   }
 
   public int run() {
-    int[5][3]* array = new int[5][3];
+    int[][]* array = new int[5][3];
     array[4][2] = 5;
     return getArray(array)[4][2];
   }

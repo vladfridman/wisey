@@ -18,6 +18,7 @@
 #include "MockVariable.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "wisey/ArrayAllocation.hpp"
+#include "wisey/ArraySpecificOwnerType.hpp"
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
@@ -61,7 +62,7 @@ struct ArrayAllocationTest : Test {
     
     vector<unsigned long> dimensions;
     dimensions.push_back(5u);
-    mArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, dimensions);
+    mArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 1u);
     PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
     mArraySpecificTypeSpecifier = new ArraySpecificTypeSpecifier(intSpecifier, dimensions);
     
@@ -100,7 +101,11 @@ TEST_F(ArrayAllocationTest, isConstantTest) {
 }
 
 TEST_F(ArrayAllocationTest, getTypeTest) {
-  EXPECT_EQ(mArrayType->getOwner(), mArrayAllocation->getType(mContext));
+  vector<unsigned long> dimensions;
+  dimensions.push_back(5u);
+  const IType* expected = mContext.getArraySpecificType(PrimitiveTypes::INT_TYPE,
+                                                        dimensions)->getOwner();
+  EXPECT_EQ(expected, mArrayAllocation->getType(mContext));
 }
 
 TEST_F(ArrayAllocationTest, printToStreamTest) {
