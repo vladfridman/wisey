@@ -104,7 +104,7 @@ TEST_F(ArrayElementExpressionTest, generateIRTest) {
   string expected =
   "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
-  "\n  %0 = bitcast { i64, i64, [5 x i32] }* null to i8*"
+  "\n  %0 = bitcast { i64, i64, i64, [5 x i32] }* null to i8*"
   "\n  invoke void @__checkForNullAndThrow(i8* %0)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
@@ -114,7 +114,7 @@ TEST_F(ArrayElementExpressionTest, generateIRTest) {
   "\n  resume { i8*, i32 } %1"
   "\n"
   "\ninvoke.continue:                                  ; preds = %entry"
-  "\n  %2 = getelementptr { i64, i64, [5 x i32] }, { i64, i64, [5 x i32] }* null, i64 0, i32 2"
+  "\n  %2 = getelementptr { i64, i64, i64, [5 x i32] }, { i64, i64, i64, [5 x i32] }* null, i64 0, i32 3"
   "\n  %3 = getelementptr [5 x i32], [5 x i32]* %2, i32 0, i32 3"
   "\n  %4 = load i32, i32* %3"
   "\n}\n";

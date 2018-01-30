@@ -64,29 +64,35 @@ Value* ArrayAllocation::allocateArray(IRGenerationContext& context,
 }
 
 void ArrayAllocation::initializeEmptyArray(IRGenerationContext& context,
-                                           Value* arrayPointer,
+                                           Value* arrayStructPointer,
                                            std::list<unsigned long> dimensions) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Value* index[2];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
-  Value* sizeStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
+  Value* sizeStore = IRWriter::createGetElementPtrInst(context, arrayStructPointer, index);
   unsigned long arraySize = dimensions.front();
   ConstantInt* sizeValue = ConstantInt::get(Type::getInt64Ty(llvmContext), arraySize);
   IRWriter::newStoreInst(context, sizeValue, sizeStore);
   
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), ArrayType::ARRAY_ELEMENTS_START_INDEX);
+  Value* arrayPointer = IRWriter::createGetElementPtrInst(context, arrayStructPointer, index);
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+  Value* firstElement = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
+  Value* elementSize = ConstantExpr::getSizeOf(firstElement->getType()->getPointerElementType());
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 2u);
+  Value* elementSizeStore = IRWriter::createGetElementPtrInst(context, arrayStructPointer, index);
+  IRWriter::newStoreInst(context, elementSize, elementSizeStore);
+
   if (dimensions.size() == 1) {
     return;
   }
   
   dimensions.pop_front();
-  
-  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), ArrayType::ARRAY_ELEMENTS_START_INDEX);
-  Value* arrayStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
 
   for (unsigned int i = 0; i < arraySize; i++) {
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), i);
-    Value* arrayElement = IRWriter::createGetElementPtrInst(context, arrayStore, index);
+    Value* arrayElement = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
     initializeEmptyArray(context, arrayElement, dimensions);
   }
 }

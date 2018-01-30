@@ -65,7 +65,7 @@ Function* DestroyPrimitiveArrayFunction::define(IRGenerationContext& context) {
   argumentTypes.push_back(Type::getInt64Ty(llvmContext));
   argumentTypes.push_back(Type::getInt1Ty(llvmContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  Type* llvmReturnType = Type::getInt64Ty(llvmContext);
+  Type* llvmReturnType = Type::getVoidTy(llvmContext);
   FunctionType* ftype = FunctionType::get(llvmReturnType, argTypesArray, false);
   
   return Function::Create(ftype, GlobalValue::InternalLinkage, getName(), context.getModule());
@@ -77,8 +77,9 @@ void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Functi
   Type* int32type = Type::getInt32Ty(llvmContext);
   llvm::Constant* zero = ConstantInt::get(int64type, 0);
   llvm::Constant* one = ConstantInt::get(int64type, 1);
+  llvm::Constant* two = ConstantInt::get(int64type, 2);
   PointerType* genericPointer = int64type->getPointerTo();
-  PointerType* bitPointer = Type::getInt1Ty(llvmContext)->getPointerTo();
+  PointerType* bytePointer = Type::getInt8Ty(llvmContext)->getPointerTo();
 
   context.getScopes().pushScope();
   
@@ -100,28 +101,25 @@ void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Functi
   Value* shouldFree = llvmArgument;
   
   BasicBlock* entry = BasicBlock::Create(llvmContext, "entry", function);
-  BasicBlock* ifNull = BasicBlock::Create(llvmContext, "if.null", function);
+  BasicBlock* returnVoid = BasicBlock::Create(llvmContext, "return.void", function);
   BasicBlock* ifNotNull = BasicBlock::Create(llvmContext, "if.not.null", function);
   BasicBlock* refCountZeroBlock = BasicBlock::Create(llvmContext, "ref.count.zero", function);
   BasicBlock* refCountNotZeroBlock = BasicBlock::Create(llvmContext, "ref.count.notzero", function);
+  BasicBlock* multiDimensional = BasicBlock::Create(llvmContext, "multi.dimensional", function);
   BasicBlock* forCond = BasicBlock::Create(llvmContext, "for.cond", function);
   BasicBlock* forBody = BasicBlock::Create(llvmContext, "for.body", function);
-  BasicBlock* oneDimensional = BasicBlock::Create(llvmContext, "one.dimensional", function);
   BasicBlock* maybeFreeArray = BasicBlock::Create(llvmContext, "maybe.free.array", function);
-  BasicBlock* reminderZero = BasicBlock::Create(llvmContext, "reminder.zero", function);
-  BasicBlock* reminderNonZero = BasicBlock::Create(llvmContext, "reminder.non.zero", function);
   BasicBlock* freeArray = BasicBlock::Create(llvmContext, "free.array", function);
-  BasicBlock* dontFreeArray = BasicBlock::Create(llvmContext, "dont.free.array", function);
   
   context.setBasicBlock(entry);
   
   Value* null = ConstantPointerNull::get(genericPointer);
   Value* isNull = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, arrayPointer, null, "isNull");
-  IRWriter::createConditionalBranch(context, ifNull, ifNotNull, isNull);
+  IRWriter::createConditionalBranch(context, returnVoid, ifNotNull, isNull);
   
-  context.setBasicBlock(ifNull);
+  context.setBasicBlock(returnVoid);
   
-  IRWriter::createReturnInst(context, zero);
+  IRWriter::createReturnInst(context, NULL);
   
   context.setBasicBlock(ifNotNull);
   
@@ -129,16 +127,15 @@ void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Functi
   index[0] = one;
   Value* sizeStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
   Value* size = IRWriter::newLoadInst(context, sizeStore, "size");
-  
-  Value* numberOfDimensionsMinusOne = IRWriter::createBinaryOperator(context,
-                                                                     llvm::Instruction::Sub,
-                                                                     numberOfDimensions,
-                                                                     one,
-                                                                     "dimensionsMinusOne");
-  
+  index[0] = two;
+  Value* elementSizeStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
+  Value* elementSize = IRWriter::newLoadInst(context, elementSizeStore, "elementSize");
+
   if (context.isDestructorDebugOn()) {
     ExpressionList printOutArguments;
-    printOutArguments.push_back(new StringLiteral("destructor primitive["));
+    printOutArguments.push_back(new StringLiteral("destructor primitive<"));
+    printOutArguments.push_back(new FakeExpression(elementSize, PrimitiveTypes::INT_TYPE));
+    printOutArguments.push_back(new StringLiteral(" bytes>["));
     printOutArguments.push_back(new FakeExpression(size, PrimitiveTypes::INT_TYPE));
     printOutArguments.push_back(new StringLiteral("]\n"));
     PrintOutStatement printOutStatement(printOutArguments);
@@ -156,21 +153,29 @@ void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Functi
   
   context.setBasicBlock(refCountZeroBlock);
   
-  index[0] = ConstantInt::get(int32type, ArrayType::ARRAY_ELEMENTS_START_INDEX);
-  Value* arrayStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
-  Value* array = IRWriter::newBitCastInst(context, arrayStore, bitPointer);
-  
-  Value* indexStore = IRWriter::newAllocaInst(context, int64type, "indexStore");
-  IRWriter::newStoreInst(context, zero, indexStore);
-  Value* offsetStore = IRWriter::newAllocaInst(context, int64type, "offsetStore");
-  IRWriter::newStoreInst(context, zero, offsetStore);
-  
   Value* isMultiDimensional = IRWriter::newICmpInst(context,
                                                     ICmpInst::ICMP_SGT,
                                                     numberOfDimensions,
                                                     one,
                                                     "cmp");
-  IRWriter::createConditionalBranch(context, forCond, oneDimensional, isMultiDimensional);
+  IRWriter::createConditionalBranch(context, multiDimensional, maybeFreeArray, isMultiDimensional);
+  
+  context.setBasicBlock(multiDimensional);
+  
+  index[0] = ConstantInt::get(int32type, ArrayType::ARRAY_ELEMENTS_START_INDEX);
+  Value* arrayStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
+  Value* array = IRWriter::newBitCastInst(context, arrayStore, bytePointer);
+  
+  Value* indexStore = IRWriter::newAllocaInst(context, int64type, "indexStore");
+  IRWriter::newStoreInst(context, zero, indexStore);
+  Value* offsetStore = IRWriter::newAllocaInst(context, int64type, "offsetStore");
+  IRWriter::newStoreInst(context, zero, offsetStore);
+  Value* numberOfDimensionsMinusOne = IRWriter::createBinaryOperator(context,
+                                                                     llvm::Instruction::Sub,
+                                                                     numberOfDimensions,
+                                                                     one,
+                                                                     "dimensionsMinusOne");
+  IRWriter::createBranch(context, forCond);
   
   context.setBasicBlock(forCond);
   
@@ -195,7 +200,7 @@ void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Functi
   recursiveCallArguments.push_back(numberOfDimensionsMinusOne);
   recursiveCallArguments.push_back(primitiveSize);
   recursiveCallArguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 0));
-  Value* elementSize = IRWriter::createCallInst(context, function, recursiveCallArguments, "");
+  IRWriter::createCallInst(context, function, recursiveCallArguments, "");
   Value* newOffset = IRWriter::createBinaryOperator(context,
                                                     Instruction::Add,
                                                     offsetValue,
@@ -204,61 +209,14 @@ void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Functi
   IRWriter::newStoreInst(context, newOffset, offsetStore);
   IRWriter::createBranch(context, forCond);
 
-  context.setBasicBlock(oneDimensional);
-  
-  Value* sizeInBytes = IRWriter::createBinaryOperator(context,
-                                                      Instruction::Mul,
-                                                      size,
-                                                      primitiveSize,
-                                                      "sizeInBytes");
-  llvm::Constant* eight = ConstantInt::get(int64type, 8);
-  Value* reminder = IRWriter::createBinaryOperator(context,
-                                                   Instruction::SRem,
-                                                   sizeInBytes,
-                                                   eight,
-                                                   "");
-  compare = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, reminder, zero, "cmp");
-  IRWriter::createConditionalBranch(context, reminderZero, reminderNonZero, compare);
-
-  context.setBasicBlock(reminderZero);
-
-  IRWriter::newStoreInst(context, sizeInBytes, offsetStore);
-  IRWriter::createBranch(context, maybeFreeArray);
-
-  context.setBasicBlock(reminderNonZero);
-  
-  Value* leftToNext64Bit = IRWriter::createBinaryOperator(context,
-                                                          Instruction::Sub,
-                                                          eight,
-                                                          reminder,
-                                                          "");
-  Value* alignedSizeInBytes = IRWriter::createBinaryOperator(context,
-                                                             Instruction::Add,
-                                                             sizeInBytes,
-                                                             leftToNext64Bit,
-                                                             "");
-  IRWriter::newStoreInst(context, alignedSizeInBytes, offsetStore);
-  IRWriter::createBranch(context, maybeFreeArray);
-
   context.setBasicBlock(maybeFreeArray);
   
-  offsetValue = IRWriter::newLoadInst(context, offsetStore, "offset");
-  Value* arrayStartSize = ConstantInt::get(int64type, int64type->getPrimitiveSizeInBits() * 2 / 8);
-  Value* offsetPlusTwo = IRWriter::createBinaryOperator(context,
-                                                        Instruction::Add,
-                                                        offsetValue,
-                                                        arrayStartSize,
-                                                        "offsetPlusTwo");
-  IRWriter::createConditionalBranch(context, freeArray, dontFreeArray, shouldFree);
+  IRWriter::createConditionalBranch(context, freeArray, returnVoid, shouldFree);
   
   context.setBasicBlock(freeArray);
   
   IRWriter::createFree(context, arrayPointer);
-  IRWriter::createReturnInst(context, offsetPlusTwo);
-  
-  context.setBasicBlock(dontFreeArray);
-  
-  IRWriter::createReturnInst(context, offsetPlusTwo);
-  
+  IRWriter::createReturnInst(context, NULL);
+
   context.getScopes().popScope(context, 0);
 }

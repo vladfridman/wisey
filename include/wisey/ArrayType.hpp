@@ -26,6 +26,7 @@ class ArrayOwnerType;
  * {
  *   int_64 ref_count
  *   int_64 array_size
+ *   int_64 element_size_in_bytes
  *   [ array ]
  * }
  */

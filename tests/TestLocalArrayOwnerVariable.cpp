@@ -76,8 +76,8 @@ TEST_F(LocalArrayOwnerVariableTest, generatePrimitiveArrayIdentifierIRTest) {
   
   string expected =
   "\nentry:"
-  "\n  %foo = alloca { i64, i64, [3 x i32] }*"
-  "\n  %0 = load { i64, i64, [3 x i32] }*, { i64, i64, [3 x i32] }** %foo\n";
+  "\n  %foo = alloca { i64, i64, i64, [3 x i32] }*"
+  "\n  %0 = load { i64, i64, i64, [3 x i32] }*, { i64, i64, i64, [3 x i32] }** %foo\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -98,11 +98,11 @@ TEST_F(LocalArrayOwnerVariableTest, generatePrimitiveArrayWholeArrayAssignmentTe
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %foo = alloca { i64, i64, [3 x i32] }*"
-  "\n  %0 = load { i64, i64, [3 x i32] }*, { i64, i64, [3 x i32] }** %foo"
-  "\n  %1 = bitcast { i64, i64, [3 x i32] }* %0 to i64*"
-  "\n  %2 = call i64 @__destroyPrimitiveArrayFunction(i64* %1, i64 1, i64 4, i1 true)"
-  "\n  store { i64, i64, [3 x i32] }* null, { i64, i64, [3 x i32] }** %foo\n";
+  "\n  %foo = alloca { i64, i64, i64, [3 x i32] }*"
+  "\n  %0 = load { i64, i64, i64, [3 x i32] }*, { i64, i64, i64, [3 x i32] }** %foo"
+  "\n  %1 = bitcast { i64, i64, i64, [3 x i32] }* %0 to i64*"
+  "\n  call void @__destroyPrimitiveArrayFunction(i64* %1, i64 1, i64 4, i1 true)"
+  "\n  store { i64, i64, i64, [3 x i32] }* null, { i64, i64, i64, [3 x i32] }** %foo\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -144,7 +144,7 @@ TEST_F(TestFileSampleRunner, arrayOwnerOfModelOwnersRunTest) {
 
 TEST_F(TestFileSampleRunner, arrayOwnerOfModelOwnersDestructorsAreCalledRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_array_owner_of_model_owners.yz",
-                                        "destructor <object>*[5]\n"
+                                        "destructor object<8 bytes>*[5]\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");

@@ -108,7 +108,7 @@ TEST_F(FieldArrayReferenceVariableTest, generateIdentifierIRTest) {
   string expected = string() +
   "\nentry:" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1"
-  "\n  %1 = load { i64, i64, [3 x i32] }*, { i64, i64, [3 x i32] }** %0\n";
+  "\n  %1 = load { i64, i64, i64, [3 x i32] }*, { i64, i64, i64, [3 x i32] }** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -127,12 +127,12 @@ TEST_F(FieldArrayReferenceVariableTest, generateWholeArrayAssignmentTest) {
   string expected =
   "\nentry:"
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1"
-  "\n  %1 = load { i64, i64, [3 x i32] }*, { i64, i64, [3 x i32] }** %0"
-  "\n  %2 = bitcast { i64, i64, [3 x i32] }* %1 to i8*"
+  "\n  %1 = load { i64, i64, i64, [3 x i32] }*, { i64, i64, i64, [3 x i32] }** %0"
+  "\n  %2 = bitcast { i64, i64, i64, [3 x i32] }* %1 to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %2, i64 -1)"
-  "\n  %3 = bitcast { i64, i64, [3 x i32] }* null to i8*"
+  "\n  %3 = bitcast { i64, i64, i64, [3 x i32] }* null to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %3, i64 1)"
-  "\n  store { i64, i64, [3 x i32] }* null, { i64, i64, [3 x i32] }** %0\n";
+  "\n  store { i64, i64, i64, [3 x i32] }* null, { i64, i64, i64, [3 x i32] }** %0\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -170,7 +170,7 @@ TEST_F(TestFileSampleRunner, fieldArrayReferenceOfModelOwnersRunTest) {
 
 TEST_F(TestFileSampleRunner, fieldArrayReferenceOfModelOwnersDestructorsAreCalledRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_field_array_reference_of_model_owners.yz",
-                                        "destructor <object>*[5]\n"
+                                        "destructor object<8 bytes>*[5]\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
                                         "destructor systems.vos.wisey.compiler.tests.CController\n"
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n",

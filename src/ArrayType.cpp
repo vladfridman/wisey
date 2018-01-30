@@ -28,7 +28,7 @@ ArrayType::~ArrayType() {
   delete mArrayOwnerType;
 }
 
-const unsigned int ArrayType::ARRAY_ELEMENTS_START_INDEX = 2u;
+const unsigned int ArrayType::ARRAY_ELEMENTS_START_INDEX = 3u;
 
 const ArrayOwnerType* ArrayType::getOwner() const {
   return mArrayOwnerType;
@@ -61,6 +61,7 @@ llvm::PointerType* ArrayType::getLLVMType(IRGenerationContext& context) const {
   for (unsigned long dimension : dimensionsReversed) {
     llvm::ArrayType* arrayType = llvm::ArrayType::get(type, dimension);
     vector<llvm::Type*> types;
+    types.push_back(llvm::Type::getInt64Ty(llvmContext));
     types.push_back(llvm::Type::getInt64Ty(llvmContext));
     types.push_back(llvm::Type::getInt64Ty(llvmContext));
     types.push_back(arrayType);

@@ -406,12 +406,12 @@ TEST_F(TestFileSampleRunner, staticReturnArrayOwnerRunTest) {
 
 TEST_F(TestFileSampleRunner, staticReturnArrayOwnerDestructorsAreCalledRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_static_return_array_owner.yz",
-                                        "destructor primitive[5]\n"
-                                        "destructor primitive[3]\n"
-                                        "destructor primitive[3]\n"
-                                        "destructor primitive[3]\n"
-                                        "destructor primitive[3]\n"
-                                        "destructor primitive[3]\n"
+                                        "destructor primitive<40 bytes>[5]\n"
+                                        "destructor primitive<4 bytes>[3]\n"
+                                        "destructor primitive<4 bytes>[3]\n"
+                                        "destructor primitive<4 bytes>[3]\n"
+                                        "destructor primitive<4 bytes>[3]\n"
+                                        "destructor primitive<4 bytes>[3]\n"
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");
 }
