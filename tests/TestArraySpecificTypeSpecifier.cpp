@@ -27,7 +27,7 @@ struct ArraySpecificTypeSpecifierTest : public Test {
 
 TEST_F(ArraySpecificTypeSpecifierTest, creationTest) {
   PrimitiveTypeSpecifier* intSpecifer = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
-  vector<unsigned long> dimensions;
+  list<unsigned long> dimensions;
   dimensions.push_back(3u);
   ArraySpecificTypeSpecifier* specifier = new ArraySpecificTypeSpecifier(intSpecifer, dimensions);
   const IType* type = specifier->getType(mContext);
@@ -42,7 +42,7 @@ TEST_F(ArraySpecificTypeSpecifierTest, creationTest) {
 
 TEST_F(ArraySpecificTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {
   PrimitiveTypeSpecifier* floatSpecifer = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  vector<unsigned long> dimensions;
+  list<unsigned long> dimensions;
   dimensions.push_back(3u);
   ArraySpecificTypeSpecifier* specifier = new ArraySpecificTypeSpecifier(floatSpecifer, dimensions);
   const IType* type1 = specifier->getType(mContext);
@@ -53,7 +53,7 @@ TEST_F(ArraySpecificTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {
 
 TEST_F(ArraySpecificTypeSpecifierTest, printToStreamTest) {
   PrimitiveTypeSpecifier* stringSpecifer = new PrimitiveTypeSpecifier(PrimitiveTypes::STRING_TYPE);
-  vector<unsigned long> dimensions;
+  list<unsigned long> dimensions;
   dimensions.push_back(5u);
   ArraySpecificTypeSpecifier specifier(stringSpecifer, dimensions);
   

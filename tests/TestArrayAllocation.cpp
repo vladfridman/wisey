@@ -60,7 +60,7 @@ struct ArrayAllocationTest : Test {
     mContext.getScopes().pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
     
-    vector<unsigned long> dimensions;
+    list<unsigned long> dimensions;
     dimensions.push_back(5u);
     mArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 1u);
     PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
@@ -101,7 +101,7 @@ TEST_F(ArrayAllocationTest, isConstantTest) {
 }
 
 TEST_F(ArrayAllocationTest, getTypeTest) {
-  vector<unsigned long> dimensions;
+  list<unsigned long> dimensions;
   dimensions.push_back(5u);
   const IType* expected = mContext.getArraySpecificType(PrimitiveTypes::INT_TYPE,
                                                         dimensions)->getOwner();

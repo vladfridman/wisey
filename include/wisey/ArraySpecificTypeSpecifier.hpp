@@ -9,6 +9,8 @@
 #ifndef ArraySpecificTypeSpecifier_h
 #define ArraySpecificTypeSpecifier_h
 
+#include <list>
+
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IType.hpp"
 #include "wisey/ITypeSpecifier.hpp"
@@ -20,11 +22,11 @@ namespace wisey {
    */
   class ArraySpecificTypeSpecifier : public ITypeSpecifier {
     ITypeSpecifier* mElementTypeSpecifier;
-    std::vector<unsigned long> mDimensions;
+    std::list<unsigned long> mDimensions;
     
   public:
     
-    ArraySpecificTypeSpecifier(ITypeSpecifier* elementTypeSpecifier, std::vector<unsigned long> dimensions);
+    ArraySpecificTypeSpecifier(ITypeSpecifier* elementTypeSpecifier, std::list<unsigned long> dimensions);
     
     ~ArraySpecificTypeSpecifier();
     

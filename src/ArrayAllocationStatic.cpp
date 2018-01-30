@@ -38,11 +38,10 @@ Value* ArrayAllocationStatic::generateIR(IRGenerationContext &context,
                                          const IType* assignToType) const {
   const ArraySpecificType* arraySpecificType = getSpecificType(context);
   Value* arrayStructPointer = ArrayAllocation::allocateArray(context, arraySpecificType);
-  list<unsigned long> dimensions;
-  for (unsigned long dimension : arraySpecificType->getDimensions()) {
-    dimensions.push_back(dimension);
-  }
-  initializeArray(context, arrayStructPointer, arraySpecificType->getElementType(), dimensions);
+  initializeArray(context,
+                  arrayStructPointer,
+                  arraySpecificType->getElementType(),
+                  arraySpecificType->getDimensions());
   
   if (assignToType->isOwner()) {
     return arrayStructPointer;
@@ -75,7 +74,7 @@ const ArraySpecificType* ArrayAllocationStatic::getSpecificType(IRGenerationCont
                                                                 context) const {
   checkArrayElements(context);
   const IType* elementType = mExpressionList.front()->getType(context);
-  vector<unsigned long> dimensions;
+  list<unsigned long> dimensions;
   dimensions.push_back(mExpressionList.size());
   if (elementType->getTypeKind() != ARRAY_OWNER_TYPE) {
     return context.getArraySpecificType(elementType, dimensions);

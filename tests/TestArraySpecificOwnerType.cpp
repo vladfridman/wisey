@@ -28,7 +28,7 @@ struct ArraySpecificOwnerTypeTest : public Test {
   ArraySpecificOwnerType* mArraySpecificOwnerType;
   
   ArraySpecificOwnerTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
-    vector<unsigned long> dimensions;
+    list<unsigned long> dimensions;
     dimensions.push_back(5u);
     mArraySpecificType = new ArraySpecificType(PrimitiveTypes::LONG_TYPE, dimensions);
     mArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, 1u);

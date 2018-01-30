@@ -168,7 +168,7 @@
   std::vector<wisey::ITypeSpecifier*>* type_specifier_list;
   std::vector<wisey::IModelTypeSpecifier*>* model_type_specifier_list;
   std::vector<wisey::IInterfaceTypeSpecifier*>* interface_list;
-  std::vector<unsigned long>* list_of_unsigned_longs;
+  std::list<unsigned long>* list_of_unsigned_longs;
   std::string* string;
   unsigned long unsignedlong;
   int token;
@@ -1237,7 +1237,7 @@ array_specific_type_specifier
 array_dimensions
   : '[' TINTEGER ']' 
     { 
-      $$ = new std::vector<unsigned long>(); 
+      $$ = new std::list<unsigned long>(); 
       $$->push_back(strtoul($2->c_str(), NULL, 0)); 
       delete $2; 
     }

@@ -13,7 +13,7 @@ using namespace std;
 using namespace wisey;
 
 ArraySpecificTypeSpecifier::ArraySpecificTypeSpecifier(ITypeSpecifier* elementTypeSpecifier,
-                                       std::vector<unsigned long> dimensions) :
+                                       std::list<unsigned long> dimensions) :
 mElementTypeSpecifier(elementTypeSpecifier), mDimensions(dimensions) {
 }
 

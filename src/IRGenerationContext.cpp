@@ -124,7 +124,7 @@ wisey::ArrayType* IRGenerationContext::getArrayType(const IType* elementType,
 }
 
 ArraySpecificType* IRGenerationContext::getArraySpecificType(const IType* elementType,
-                                                             vector<unsigned long> dimensions) {
+                                                             list<unsigned long> dimensions) {
   string key = elementType->getTypeName();
   for (long dimension : dimensions) {
     key = key + "[" + to_string(dimension) + "]";

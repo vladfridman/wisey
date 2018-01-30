@@ -109,7 +109,7 @@ public:
    * Get an array specific type
    */
   ArraySpecificType* getArraySpecificType(const IType* elementType,
-                                          std::vector<unsigned long> dimensions);
+                                          std::list<unsigned long> dimensions);
 
   /**
    * Add a model type

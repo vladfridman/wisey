@@ -28,7 +28,7 @@ struct ArraySpecificTypeTest : public Test {
   ArraySpecificType* mMultiDimentionalArraySpecificType;
   
   ArraySpecificTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
-    vector<unsigned long> dimensions;
+    list<unsigned long> dimensions;
     dimensions.push_back(5u);
     mArraySpecificType = new ArraySpecificType(PrimitiveTypes::LONG_TYPE, dimensions);
     dimensions.push_back(10u);
@@ -48,7 +48,7 @@ TEST_F(ArraySpecificTypeTest, getElementTypeTest) {
 }
 
 TEST_F(ArraySpecificTypeTest, getDimensionsTest) {
-  vector<unsigned long> dimensions;
+  list<unsigned long> dimensions;
   dimensions.push_back(5u);
   dimensions.push_back(10u);
   

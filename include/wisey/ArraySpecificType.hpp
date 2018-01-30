@@ -9,6 +9,8 @@
 #ifndef ArraySpecificType_h
 #define ArraySpecificType_h
 
+#include <list>
+
 #include <llvm/IR/DerivedTypes.h>
 
 #include "wisey/ArrayType.hpp"
@@ -26,12 +28,12 @@ namespace wisey {
   class ArraySpecificType : public IType {
     
     const IType* mElementType;
-    std::vector<unsigned long> mDimensions;
+    std::list<unsigned long> mDimensions;
     const ArraySpecificOwnerType* mArraySpecificOwnerType;
     
   public:
     
-    ArraySpecificType(const IType* elementType, std::vector<unsigned long> dimensions);
+    ArraySpecificType(const IType* elementType, std::list<unsigned long> dimensions);
     
     ~ArraySpecificType();
     
@@ -58,7 +60,7 @@ namespace wisey {
     /**
      * Return array dimensions
      */
-    std::vector<unsigned long> getDimensions() const;
+    std::list<unsigned long> getDimensions() const;
     
     /**
      * Returns single array element type

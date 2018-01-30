@@ -53,19 +53,14 @@ Value* ArrayAllocation::allocateArray(IRGenerationContext& context,
   Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, "newarray");
   IntrinsicFunctions::setMemoryToZero(context, malloc, structType);
   
-  list<unsigned long> dimensions;
-  for (unsigned long dimension : arraySpecificType->getDimensions()) {
-    dimensions.push_back(dimension);
-  }
-  
-  initializeEmptyArray(context, malloc, dimensions);
+  initializeEmptyArray(context, malloc, arraySpecificType->getDimensions());
   
   return malloc;
 }
 
 void ArrayAllocation::initializeEmptyArray(IRGenerationContext& context,
                                            Value* arrayStructPointer,
-                                           std::list<unsigned long> dimensions) {
+                                           list<unsigned long> dimensions) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Value* index[2];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);

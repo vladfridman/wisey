@@ -15,7 +15,7 @@
 using namespace std;
 using namespace wisey;
 
-ArraySpecificType::ArraySpecificType(const IType* elementType, vector<unsigned long> dimensions) :
+ArraySpecificType::ArraySpecificType(const IType* elementType, list<unsigned long> dimensions) :
 mElementType(elementType), mDimensions(dimensions) {
   assert(dimensions.size());
   mArraySpecificOwnerType = new ArraySpecificOwnerType(this);
@@ -33,7 +33,7 @@ wisey::ArrayType* ArraySpecificType::getArrayType(IRGenerationContext& context) 
   return context.getArrayType(mElementType, mDimensions.size());
 }
 
-vector<unsigned long> ArraySpecificType::getDimensions() const {
+list<unsigned long> ArraySpecificType::getDimensions() const {
   return mDimensions;
 }
 

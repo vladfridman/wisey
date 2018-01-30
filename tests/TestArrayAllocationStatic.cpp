@@ -126,7 +126,7 @@ TEST_F(ArrayAllocationStaticTest, isConstantTest) {
 }
 
 TEST_F(ArrayAllocationStaticTest, getTypeTest) {
-  vector<unsigned long> dimensions;
+  list<unsigned long> dimensions;
   dimensions.push_back(2u);
   const ArraySpecificType* arrayType = mContext.getArraySpecificType(PrimitiveTypes::INT_TYPE,
                                                                      dimensions);
