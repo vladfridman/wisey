@@ -53,11 +53,6 @@ namespace wisey {
     unsigned long getNumberOfDimensions() const;
     
     /**
-     * Returns linear size of the array that equals to product of all dimention sizes
-     */
-    unsigned long getLinearSize() const;
-    
-    /**
      * Return array dimensions
      */
     std::list<unsigned long> getDimensions() const;

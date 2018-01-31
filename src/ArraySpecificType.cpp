@@ -93,14 +93,6 @@ llvm::Value* ArraySpecificType::castTo(IRGenerationContext &context,
   return NULL;
 }
 
-unsigned long ArraySpecificType::getLinearSize() const {
-  unsigned long size = 1;
-  for (unsigned long dimension : mDimensions) {
-    size *= dimension;
-  }
-  return size;
-}
-
 unsigned long ArraySpecificType::getNumberOfDimensions() const {
   return mDimensions.size();
 }

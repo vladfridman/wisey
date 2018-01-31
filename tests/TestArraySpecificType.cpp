@@ -91,10 +91,6 @@ TEST_F(ArraySpecificTypeTest, getNumberOfDimensionsTest) {
   EXPECT_EQ(2u, mMultiDimentionalArraySpecificType->getNumberOfDimensions());
 }
 
-TEST_F(ArraySpecificTypeTest, getLinearSizeTest) {
-  EXPECT_EQ(50u, mMultiDimentionalArraySpecificType->getLinearSize());
-}
-
 TEST_F(ArraySpecificTypeTest, isOwnerTest) {
   EXPECT_FALSE(mArraySpecificType->isOwner());
 }
