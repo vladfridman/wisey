@@ -31,10 +31,15 @@ public:
   static std::string getReferenceCountExceptionName();
 
   /**
-   * Returns names of the model representing the cast exception
+   * Returns name of the model representing the cast exception
    */
   static std::string getCastExceptionName();
   
+  /**
+   * Returns name of the model representing the array index out of bounds exception
+   */
+  static std::string getArrayIndexOutOfBoundsModelName();
+
   /**
    * Returns name of the IProgram interface that main function calls
    */

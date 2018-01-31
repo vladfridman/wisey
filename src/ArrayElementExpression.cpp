@@ -12,6 +12,7 @@
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/ArrayType.hpp"
 #include "wisey/Composer.hpp"
+#include "wisey/CheckArrayIndexFunction.hpp"
 #include "wisey/CheckForNullAndThrowFunction.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
@@ -34,7 +35,6 @@ ArrayElementExpression::~ArrayElementExpression() {
 
 Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
                                           const IType* assignToType) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
   const IType* expressionType = mArrayExpression->getType(context);
   if (!IType::isArrayType(expressionType)) {
     reportErrorArrayType(expressionType->getTypeName());
@@ -47,17 +47,9 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   
   Composer::pushCallStack(context, mLine);
   CheckForNullAndThrowFunction::call(context, arrayStructPointer);
-  Value* index[2];
-  index[0] = ConstantInt::get(llvm::Type::getInt64Ty(llvmContext), 0);
-  index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 2);
-  Value* elementSizeStore = IRWriter::createGetElementPtrInst(context, arrayStructPointer, index);
-  Value* elementSize = IRWriter::newLoadInst(context, elementSizeStore, "elementSize");
-  index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext),
-                              ArrayType::ARRAY_ELEMENTS_START_INDEX);
-  Value* arrayPointer = IRWriter::createGetElementPtrInst(context, arrayStructPointer, index);
+  Value* pointer = getArrayElement(context, arrayStructPointer, mArrayIndexExpresion);
   Composer::popCallStack(context);
   
-  Value* pointer = getArrayElement(context, arrayPointer, elementSize, mArrayIndexExpresion);
   if (arrayType->getNumberOfDimensions() > 1) {
     Type* resultType = getType(context)->getLLVMType(context);
     return IRWriter::newBitCastInst(context, pointer, resultType);
@@ -78,8 +70,7 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
 }
 
 Value* ArrayElementExpression::getArrayElement(IRGenerationContext &context,
-                                               Value* arrayPointer,
-                                               Value* elementSize,
+                                               Value* arrayStructPointer,
                                                const IExpression* indexExpression) {
   LLVMContext& llvmContext = context.getLLVMContext();
   const IType* arrayIndexExpressionType = indexExpression->getType(context);
@@ -89,12 +80,26 @@ Value* ArrayElementExpression::getArrayElement(IRGenerationContext &context,
            arrayIndexExpressionType->getTypeName());
     exit(1);
   }
-  
+
   Value* indexValue = indexExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
   Value* indexValueCast = arrayIndexExpressionType->castTo(context,
                                                            indexValue,
                                                            PrimitiveTypes::LONG_TYPE,
                                                            0);
+
+  Value* index[2];
+  index[0] = ConstantInt::get(llvm::Type::getInt64Ty(llvmContext), 0);
+  index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 1);
+  Value* arraySizeStore = IRWriter::createGetElementPtrInst(context, arrayStructPointer, index);
+  Value* arraySize = IRWriter::newLoadInst(context, arraySizeStore, "arraySize");
+  CheckArrayIndexFunction::call(context, indexValueCast, arraySize);
+  index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 2);
+  Value* elementSizeStore = IRWriter::createGetElementPtrInst(context, arrayStructPointer, index);
+  Value* elementSize = IRWriter::newLoadInst(context, elementSizeStore, "elementSize");
+  index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext),
+                              ArrayType::ARRAY_ELEMENTS_START_INDEX);
+  Value* arrayPointer = IRWriter::createGetElementPtrInst(context, arrayStructPointer, index);
+
   Value* offset = IRWriter::createBinaryOperator(context,
                                                  Instruction::Mul,
                                                  elementSize,
@@ -127,17 +132,10 @@ Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
 
   Value* value = arrayStructPointer;
   while (arrayIndices.size()) {
-    index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 2);
-    Value* elementSizeStore = IRWriter::createGetElementPtrInst(context, value, index);
-    Value* elementSize = IRWriter::newLoadInst(context, elementSizeStore, "elementSize");
-    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext),
-                                ArrayType::ARRAY_ELEMENTS_START_INDEX);
-    Value* arrayPointer = IRWriter::createGetElementPtrInst(context, value, index);
-
     const IExpression* indexExpression = arrayIndices.back();
     arrayIndices.pop_back();
     
-    Value* element = getArrayElement(context, arrayPointer, elementSize, indexExpression);
+    Value* element = getArrayElement(context, value, indexExpression);
     const ArrayType* subArrayType = context.getArrayType(arrayType->getElementType(),
                                                          arrayIndices.size());
     value = IRWriter::newBitCastInst(context, element, subArrayType->getLLVMType(context));

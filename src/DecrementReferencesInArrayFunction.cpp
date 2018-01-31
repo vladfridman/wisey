@@ -76,7 +76,7 @@ void DecrementReferencesInArrayFunction::compose(IRGenerationContext& context, F
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Function::arg_iterator llvmArguments = function->arg_begin();
-  llvm::Argument *llvmArgument = &*llvmArguments;
+  llvm::Argument* llvmArgument = &*llvmArguments;
   llvmArgument->setName("arrayBitcast");
   Value* arrayBitcast = llvmArgument;
   llvmArguments++;

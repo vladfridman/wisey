@@ -1,6 +1,7 @@
 package wisey.lang;
 
 import wisey.lang.IProgram;
+import wisey.lang.MArrayIndexOutOfBoundsException;
 import wisey.lang.MCastException;
 import wisey.lang.MNullPointerException;
 import wisey.lang.MReferenceCountException;
@@ -26,6 +27,11 @@ controller CProgramRunner {
       thread.reportException(exception);
       printerr("Details: Can not cast from " + exception.getFromType() + " to " + 
         exception.getToType() + "\n");
+      exit(1);
+    } catch (MArrayIndexOutOfBoundsException* exception) {
+      thread.reportException(exception);
+      printerr("Details: Index " + exception.getIndex() + " is used on array of size " + 
+        exception.getArraySize() + "\n");
       exit(1);
     }
   }

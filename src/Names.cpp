@@ -23,6 +23,10 @@ string Names::getCastExceptionName() {
   return "MCastException";
 }
 
+string Names::getArrayIndexOutOfBoundsModelName() {
+  return "MArrayIndexOutOfBoundsException";
+}
+
 string Names::getIProgramName() {
   return "IProgram";
 }

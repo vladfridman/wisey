@@ -1,0 +1,19 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+model MCar {
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    MCar*[]* array = new MCar*[5];
+
+    array[5];
+
+    return 1;
+  }
+}
+
+bind(CProgram).to(IProgram);

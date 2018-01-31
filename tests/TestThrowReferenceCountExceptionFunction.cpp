@@ -121,6 +121,3 @@ TEST_F(ThrowReferenceCountExceptionFunctionTest, getTest) {
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
-
-
-

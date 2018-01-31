@@ -216,7 +216,6 @@ TEST_F(TestFileSampleRunner, localArrayOfOwnersRceRunDeathTest) {
                                "Details: Object referenced by expression still has 1 active reference\n");
 }
 
-
 TEST_F(TestFileSampleRunner, localArrayOfReferencesRceRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_local_array_of_references_rce.yz",
                                1,
@@ -224,4 +223,31 @@ TEST_F(TestFileSampleRunner, localArrayOfReferencesRceRunDeathTest) {
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_local_array_of_references_rce.yz:14)\n"
                                "Details: Object referenced by expression still has 1 active reference\n");
+}
+
+TEST_F(TestFileSampleRunner, localArrayOwnerOfIntsOutOfBoundsRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_local_array_owner_of_ints_out_of_bounds.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MArrayIndexOutOfBoundsException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_local_array_owner_of_ints_out_of_bounds.yz:10)\n"
+                               "Details: Index 2 is used on array of size 2\n");
+}
+
+TEST_F(TestFileSampleRunner, localArrayOwnerOfInts2dOutOfBoundsRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_local_array_owner_of_ints_2d_out_of_bounds.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MArrayIndexOutOfBoundsException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_local_array_owner_of_ints_2d_out_of_bounds.yz:10)\n"
+                               "Details: Index 6 is used on array of size 5\n");
+}
+
+TEST_F(TestFileSampleRunner, localArrayOwnerOfModelOwnersOutOfBoundsRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_local_array_owner_of_model_owners_out_of_bounds.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MArrayIndexOutOfBoundsException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_local_array_owner_of_model_owners_out_of_bounds.yz:13)\n"
+                               "Details: Index 5 is used on array of size 5\n");
 }

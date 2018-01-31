@@ -1,0 +1,20 @@
+package wisey.lang;
+
+import wisey.lang.IException;
+
+model MArrayIndexOutOfBoundsException implements IException {
+  long mArraySize;
+  long mIndex;
+
+  public string getName() {
+    return "wisey.lang.MArrayIndexOutOfBoundsException";
+  }
+
+  public long getArraySize() {
+    return mArraySize;
+  }
+
+  public long getIndex() {
+    return mIndex;
+  }
+}

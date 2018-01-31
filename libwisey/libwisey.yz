@@ -12,6 +12,18 @@ external interface wisey.lang.IProgram {
 
 /* Models */
 
+external model wisey.lang.MArrayIndexOutOfBoundsException
+  implements
+    wisey.lang.IException {
+
+  fixed long mArraySize;
+  fixed long mIndex;
+
+  string getName();
+  long getArraySize();
+  long getIndex();
+}
+
 external model wisey.lang.MCastException
   implements
     wisey.lang.IException {

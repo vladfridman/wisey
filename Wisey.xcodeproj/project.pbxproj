@@ -456,6 +456,9 @@
 		F5603B4820211E7B00BBA05D /* ArraySpecificOwnerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5603B4720211E7B00BBA05D /* ArraySpecificOwnerType.cpp */; };
 		F5603B492021219200BBA05D /* TestArraySpecificOwnerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5603B4420211E5100BBA05D /* TestArraySpecificOwnerType.cpp */; };
 		F5603B4A202121B000BBA05D /* ArraySpecificOwnerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5603B4720211E7B00BBA05D /* ArraySpecificOwnerType.cpp */; };
+		F5603B4D2021316E00BBA05D /* CheckArrayIndexFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5603B4C2021316E00BBA05D /* CheckArrayIndexFunction.cpp */; };
+		F5603B4E2021316E00BBA05D /* CheckArrayIndexFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5603B4C2021316E00BBA05D /* CheckArrayIndexFunction.cpp */; };
+		F5603B502021562800BBA05D /* TestCheckArrayIndexFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5603B4F2021562800BBA05D /* TestCheckArrayIndexFunction.cpp */; };
 		F569E9F01DF9CC9600BBB20E /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EB1DF9CC9600BBB20E /* Log.cpp */; };
 		F569E9F21DF9CC9600BBB20E /* Parser.ypp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9ED1DF9CC9600BBB20E /* Parser.ypp */; };
 		F569E9F31DF9CC9600BBB20E /* Tokens.lpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */; };
@@ -1333,6 +1336,9 @@
 		F5603B4420211E5100BBA05D /* TestArraySpecificOwnerType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestArraySpecificOwnerType.cpp; path = tests/TestArraySpecificOwnerType.cpp; sourceTree = "<group>"; };
 		F5603B4620211E6B00BBA05D /* ArraySpecificOwnerType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ArraySpecificOwnerType.hpp; path = include/wisey/ArraySpecificOwnerType.hpp; sourceTree = "<group>"; };
 		F5603B4720211E7B00BBA05D /* ArraySpecificOwnerType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ArraySpecificOwnerType.cpp; path = src/ArraySpecificOwnerType.cpp; sourceTree = "<group>"; };
+		F5603B4B2021310800BBA05D /* CheckArrayIndexFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CheckArrayIndexFunction.hpp; path = include/wisey/CheckArrayIndexFunction.hpp; sourceTree = "<group>"; };
+		F5603B4C2021316E00BBA05D /* CheckArrayIndexFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CheckArrayIndexFunction.cpp; path = src/CheckArrayIndexFunction.cpp; sourceTree = "<group>"; };
+		F5603B4F2021562800BBA05D /* TestCheckArrayIndexFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCheckArrayIndexFunction.cpp; path = tests/TestCheckArrayIndexFunction.cpp; sourceTree = "<group>"; };
 		F569E9EB1DF9CC9600BBB20E /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Log.cpp; path = src/Log.cpp; sourceTree = "<group>"; };
 		F569E9ED1DF9CC9600BBB20E /* Parser.ypp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; name = Parser.ypp; path = src/Parser.ypp; sourceTree = "<group>"; };
 		F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; name = Tokens.lpp; path = src/Tokens.lpp; sourceTree = "<group>"; };
@@ -1843,6 +1849,7 @@
 				F53914791FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp */,
 				F52C66611FBF41C000E89B04 /* AdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp */,
 				F52C66651FBF446400E89B04 /* AdjustReferenceCounterForInterfaceFunction.cpp */,
+				F5603B4C2021316E00BBA05D /* CheckArrayIndexFunction.cpp */,
 				F52C665D1FBF38CC00E89B04 /* CheckForNullAndThrowFunction.cpp */,
 				F5E6BD061F190B4700D59444 /* Composer.cpp */,
 				F54985811FE983C8004C204C /* DecrementReferencesInArrayFunction.cpp */,
@@ -1861,6 +1868,7 @@
 				F53914781FDE697100CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp */,
 				F52C66601FBF415700E89B04 /* AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp */,
 				F52C66641FBF441A00E89B04 /* AdjustReferenceCounterForInterfaceFunction.hpp */,
+				F5603B4B2021310800BBA05D /* CheckArrayIndexFunction.hpp */,
 				F52C665C1FBF387900E89B04 /* CheckForNullAndThrowFunction.hpp */,
 				F5E6BD051F190B3900D59444 /* Composer.hpp */,
 				F54985801FE98341004C204C /* DecrementReferencesInArrayFunction.hpp */,
@@ -2015,6 +2023,7 @@
 				F518B5E71EB2240C00577EEB /* TestCatch.cpp */,
 				F531B65C1E0DEB26008304F3 /* TestCharConstant.cpp */,
 				F5C6FD671E48B16F0054209D /* TestCharType.cpp */,
+				F5603B4F2021562800BBA05D /* TestCheckArrayIndexFunction.cpp */,
 				F5105FBC1FD1A65E00ACF57B /* TestCheckForNullAndThrowFunction.cpp */,
 				F5FCAE3C1ED5F67F00C69899 /* TestCompiler.cpp */,
 				F5FCAE3A1ED5CAD300C69899 /* TestCompilerArgumentParser.cpp */,
@@ -3203,6 +3212,7 @@
 				F5A67DAA2012DBEB0018068F /* ArrayElementAssignment.cpp in Sources */,
 				F57086031E5317E8007D627E /* AutoCast.cpp in Sources */,
 				F574115C1E01A13B009809FF /* TestLogicalOrExpression.cpp in Sources */,
+				F5603B4E2021316E00BBA05D /* CheckArrayIndexFunction.cpp in Sources */,
 				F5B3DCE61F9116AF00FC76D3 /* IMethodCall.cpp in Sources */,
 				F51942FB1FE3D7D6009C3158 /* TestIdentifierChain.cpp in Sources */,
 				F5A98A371F9A37910063D626 /* ConstantReference.cpp in Sources */,
@@ -3260,6 +3270,7 @@
 				F59D82201E0F68DF00057FB5 /* TestIfElseStatement.cpp in Sources */,
 				F5105FB41FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp in Sources */,
 				F50FA2A11E269B4700435EEA /* TestCompoundStatement.cpp in Sources */,
+				F5603B502021562800BBA05D /* TestCheckArrayIndexFunction.cpp in Sources */,
 				F5436DB41FCF72BB003ABF6F /* ModelTypeSpecifierFull.cpp in Sources */,
 				F56AD49D1E9F4E400020868C /* ThrowStatement.cpp in Sources */,
 				F56AD4A21E9F66C40020868C /* IObjectType.cpp in Sources */,
@@ -3398,6 +3409,7 @@
 				F51764CB1ECCEAEB000AFBA7 /* ProgramFile.cpp in Sources */,
 				F569E9F01DF9CC9600BBB20E /* Log.cpp in Sources */,
 				F5105FAA1FD02B6200ACF57B /* ImportProfile.cpp in Sources */,
+				F5603B4D2021316E00BBA05D /* CheckArrayIndexFunction.cpp in Sources */,
 				F5ADB6211E66F9B400FFC941 /* Interface.cpp in Sources */,
 				F5E209301E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp in Sources */,
 				F5E6BD0A1F190B8500D59444 /* FakeExpression.cpp in Sources */,

@@ -199,3 +199,12 @@ TEST_F(TestFileSampleRunner, referenceArrayReferenceInitializedToNullRunDeathTes
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_array_reference_initialized_to_null.yz:16)\n");
 }
 
+TEST_F(TestFileSampleRunner, localArrayReferenceOfModelReferencesOutOfBoundsRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_local_array_reference_of_model_references_out_of_bounds.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MArrayIndexOutOfBoundsException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_local_array_reference_of_model_references_out_of_bounds.yz:14)\n"
+                               "Details: Index -1 is used on array of size 5\n");
+}
+

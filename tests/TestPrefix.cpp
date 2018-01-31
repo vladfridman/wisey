@@ -31,6 +31,19 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
                                                "mReferenceCount",
                                                arguments));
   defineModel(context, Names::getReferenceCountExceptionName(), modelElements);
+  modelElements.clear();
+  
+  longTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
+  modelElements.push_back(new FieldDeclaration(FIXED_FIELD,
+                                               longTypeSpecifier,
+                                               "mArraySize",
+                                               arguments));
+  longTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
+  modelElements.push_back(new FieldDeclaration(FIXED_FIELD,
+                                               longTypeSpecifier,
+                                               "mIndex",
+                                               arguments));
+  defineModel(context, Names::getArrayIndexOutOfBoundsModelName(), modelElements);
   defineThreadController(context);
 }
 
