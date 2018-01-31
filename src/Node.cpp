@@ -302,7 +302,8 @@ void Node::checkAllFieldsAreSet(const ObjectBuilderArgumentList& objectBuilderAr
 Instruction* Node::createMalloc(IRGenerationContext& context) const {
   Type* structType = getLLVMType(context)->getPointerElementType();
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
-  Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, "buildervar");
+  llvm::Constant* one = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 1);
+  Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, one, "buildervar");
   
   return malloc;
 }

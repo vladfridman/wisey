@@ -76,6 +76,7 @@ public:
   static llvm::Instruction* createMalloc(IRGenerationContext& context,
                                          llvm::Type* structType,
                                          llvm::Value* allocSize,
+                                         llvm::Value* arraySize,
                                          std::string variableName);
   
   /**

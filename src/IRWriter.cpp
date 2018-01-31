@@ -111,6 +111,7 @@ InvokeInst* IRWriter::createInvokeInst(IRGenerationContext& context,
 Instruction* IRWriter::createMalloc(IRGenerationContext& context,
                                     Type* structType,
                                     Value* allocSize,
+                                    Value* arraySize,
                                     string variableName) {
   BasicBlock* currentBlock = context.getBasicBlock();
   
@@ -123,7 +124,7 @@ Instruction* IRWriter::createMalloc(IRGenerationContext& context,
                                                pointerType,
                                                structType,
                                                allocSize,
-                                               nullptr,
+                                               arraySize,
                                                nullptr,
                                                variableName);
   currentBlock->getInstList().push_back(malloc);

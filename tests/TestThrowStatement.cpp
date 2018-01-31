@@ -138,14 +138,15 @@ TEST_F(ThrowStatementTest, modelExpressionTypeTest) {
 TEST_F(ThrowStatementTest, ownerVariablesAreClearedTest) {
   Type* structType = mCircleModel->getLLVMType(mContext)->getPointerElementType();
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
-  Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
+  llvm::Constant* one = ConstantInt::get(Type::getInt64Ty(mLLVMContext), 1);
+  Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, one, "");
   Value* fooPointer = IRWriter::newAllocaInst(mContext, fooMalloc->getType(), "pointer");
   IRWriter::newStoreInst(mContext, fooMalloc, fooPointer);
   IVariable* foo = new LocalOwnerVariable("foo", mCircleModel->getOwner(), fooPointer);
   mContext.getScopes().setVariable(foo);
   
   mContext.getScopes().pushScope();
-  Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
+  Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, one, "");
   Value* barPointer = IRWriter::newAllocaInst(mContext, barMalloc->getType(), "pointer");
   IRWriter::newStoreInst(mContext, barMalloc, barPointer);
   IVariable* bar = new LocalOwnerVariable("bar", mCircleModel->getOwner(), barPointer);
@@ -207,14 +208,15 @@ TEST_F(ThrowStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
   types.push_back(Type::getInt32Ty(mLLVMContext));
   structType->setBody(types);
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
-  Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
+  llvm::Constant* one = ConstantInt::get(Type::getInt64Ty(mLLVMContext), 1);
+  Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, one, "");
   Value* fooStore = IRWriter::newAllocaInst(mContext, fooMalloc->getType(), "");
   IRWriter::newStoreInst(mContext, fooMalloc, fooStore);
   IVariable* foo = new LocalReferenceVariable("foo", mCircleModel, fooStore);
   mContext.getScopes().setVariable(foo);
 
   mContext.getScopes().pushScope();
-  Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
+  Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, one, "");
   Value* barStore = IRWriter::newAllocaInst(mContext, barMalloc->getType(), "");
   IRWriter::newStoreInst(mContext, barMalloc, barStore);
   IVariable* bar = new LocalReferenceVariable("bar", mCircleModel, barStore);

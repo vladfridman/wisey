@@ -230,7 +230,8 @@ unsigned long Controller::getVTableSize() const {
 Instruction* Controller::createMalloc(IRGenerationContext& context) const {
   Type* structType = getLLVMType(context)->getPointerElementType();
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
-  Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, "injectvar");
+  llvm::Constant* one = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 1);
+  Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, one, "injectvar");
   
   return malloc;
 }

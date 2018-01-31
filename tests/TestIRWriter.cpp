@@ -155,7 +155,8 @@ TEST_F(IRWriterTest, createInvokeInstTest) {
 TEST_F(IRWriterTest, createMallocTest) {
   Type* structType = Type::getInt8Ty(mLLVMContext);
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
-  Instruction* instruction = IRWriter::createMalloc(mContext, structType, allocSize, "");
+  llvm::Constant* one = ConstantInt::get(Type::getInt64Ty(mLLVMContext), 1);
+  Instruction* instruction = IRWriter::createMalloc(mContext, structType, allocSize, one, "");
 
   EXPECT_EQ(mBasicBlock->size(), 1u);
   *mStringStream << *instruction;
@@ -168,7 +169,7 @@ TEST_F(IRWriterTest, createMallocTest) {
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
   
-  IRWriter::createMalloc(mContext, structType, allocSize, "");
+  IRWriter::createMalloc(mContext, structType, allocSize, one, "");
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
 }

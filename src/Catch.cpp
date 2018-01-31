@@ -58,7 +58,12 @@ bool Catch::generateIR(IRGenerationContext& context,
   CallInst* exceptionPointer = IRWriter::createCallInst(context, beginCatchFunction, arguments, "");
   
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(exceptionStructLLVMType);
-  Instruction* malloc = IRWriter::createMalloc(context, exceptionStructLLVMType, allocSize, "");
+  llvm::Constant* one = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 1);
+  Instruction* malloc = IRWriter::createMalloc(context,
+                                               exceptionStructLLVMType,
+                                               allocSize,
+                                               one,
+                                               "");
   Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
   BitCastInst* mallocBitcast = IRWriter::newBitCastInst(context, malloc, int8PointerType);
   
