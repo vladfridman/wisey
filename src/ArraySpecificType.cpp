@@ -53,10 +53,8 @@ llvm::PointerType* ArraySpecificType::getLLVMType(IRGenerationContext& context) 
   llvm::LLVMContext& llvmContext = context.getLLVMContext();
   
   llvm::Type* type = mElementType->getLLVMType(context);
-  list<unsigned long> dimensionsReversed;
-  for (unsigned long dimension : mDimensions) {
-    dimensionsReversed.push_front(dimension);
-  }
+  list<unsigned long> dimensionsReversed = mDimensions;
+  dimensionsReversed.reverse();
   for (unsigned long dimension : dimensionsReversed) {
     llvm::ArrayType* arrayType = llvm::ArrayType::get(type, dimension);
     vector<llvm::Type*> types;
