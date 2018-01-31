@@ -6,6 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Constants.h>
+
 #include "wisey/ModelOwner.hpp"
 #include "wisey/IRWriter.hpp"
 
@@ -27,6 +29,10 @@ string ModelOwner::getTypeName() const {
 
 PointerType* ModelOwner::getLLVMType(IRGenerationContext& context) const {
   return mModel->getLLVMType(context);
+}
+
+Value* ModelOwner::computeSize(IRGenerationContext& context) const {
+  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 8);
 }
 
 TypeKind ModelOwner::getTypeKind() const {

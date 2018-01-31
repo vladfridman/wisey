@@ -26,6 +26,10 @@ Type* PackageType::getLLVMType(IRGenerationContext &context) const {
   return NULL;
 }
 
+Value* PackageType::computeSize(IRGenerationContext& context) const {
+  return NULL;
+}
+
 TypeKind PackageType::getTypeKind() const {
   return PACKAGE_TYPE;
 }

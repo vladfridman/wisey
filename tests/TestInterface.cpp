@@ -198,6 +198,11 @@ TEST_F(InterfaceTest, interfaceInstantiationTest) {
   EXPECT_EQ(mShapeInterface->getOwner()->getObject(), mShapeInterface);
 }
 
+TEST_F(InterfaceTest, computeSizeTest) {
+  EXPECT_EQ(ConstantInt::get(Type::getInt64Ty(mLLVMContext), 8),
+            mShapeInterface->computeSize(mContext));
+}
+
 TEST_F(InterfaceTest, findMethodTest) {
   EXPECT_NE(mShapeInterface->findMethod("foo"), nullptr);
   EXPECT_STREQ(mShapeInterface->findMethod("foo")->getName().c_str(), "foo");

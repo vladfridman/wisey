@@ -6,6 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Constants.h>
+
 #include "wisey/Cast.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LongType.hpp"
@@ -19,8 +21,13 @@ string LongType::getTypeName() const {
   return "long";
 }
 
-llvm::Type* LongType::getLLVMType(IRGenerationContext& context) const {
+Type* LongType::getLLVMType(IRGenerationContext& context) const {
   return Type::getInt64Ty(context.getLLVMContext());
+}
+
+Value* LongType::computeSize(IRGenerationContext& context) const {
+  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()),
+                          getLLVMType(context)->getPrimitiveSizeInBits() / 8);
 }
 
 TypeKind LongType::getTypeKind() const {

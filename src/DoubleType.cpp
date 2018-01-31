@@ -6,6 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Constants.h>
+
 #include "wisey/Cast.hpp"
 #include "wisey/DoubleType.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -19,8 +21,13 @@ string DoubleType::getTypeName() const {
   return "double";
 }
 
-llvm::Type* DoubleType::getLLVMType(IRGenerationContext& context) const {
+Type* DoubleType::getLLVMType(IRGenerationContext& context) const {
   return Type::getDoubleTy(context.getLLVMContext());
+}
+
+Value* DoubleType::computeSize(IRGenerationContext& context) const {
+  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()),
+                          getLLVMType(context)->getPrimitiveSizeInBits() / 8);
 }
 
 TypeKind DoubleType::getTypeKind() const {

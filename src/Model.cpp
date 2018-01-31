@@ -213,6 +213,10 @@ llvm::PointerType* Model::getLLVMType(IRGenerationContext& context) const {
   return mStructType->getPointerTo();
 }
 
+Value* Model::computeSize(IRGenerationContext& context) const {
+  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 8);
+}
+
 TypeKind Model::getTypeKind() const {
   return MODEL_TYPE;
 }

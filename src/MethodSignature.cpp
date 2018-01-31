@@ -6,6 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Constants.h>
+
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/MethodArgument.hpp"
@@ -71,6 +73,10 @@ string MethodSignature::getTypeName() const {
 
 FunctionType* MethodSignature::getLLVMType(IRGenerationContext& context) const {
   return IMethodDescriptor::getLLVMFunctionType(context, this, mObjectType);
+}
+
+Value* MethodSignature::computeSize(IRGenerationContext& context) const {
+  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 8);
 }
 
 TypeKind MethodSignature::getTypeKind() const {

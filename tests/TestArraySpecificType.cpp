@@ -11,6 +11,8 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+#include <llvm/IR/Constants.h>
+
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/ArraySpecificType.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -71,6 +73,13 @@ TEST_F(ArraySpecificTypeTest, getLLVMTypeTest) {
   EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(2));
   EXPECT_EQ(llvm::ArrayType::get(llvm::Type::getInt64Ty(mLLVMContext), 5u),
             arrayStruct->getElementType(ArrayType::ARRAY_ELEMENTS_START_INDEX));
+}
+
+TEST_F(ArraySpecificTypeTest, computeSizeTest) {
+  llvm::PointerType* arrayLLVMType = mArraySpecificType->getLLVMType(mContext);
+  llvm::StructType* arrayStruct = (llvm::StructType*) arrayLLVMType->getPointerElementType();
+  llvm::Value* expected = llvm::ConstantExpr::getSizeOf(arrayStruct);
+  EXPECT_EQ(expected, mArraySpecificType->computeSize(mContext));
 }
 
 TEST_F(ArraySpecificTypeTest, getTypeKindTest) {

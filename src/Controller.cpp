@@ -279,8 +279,12 @@ string Controller::getShortName() const {
   return mName.substr(mName.find_last_of('.') + 1);
 }
 
-llvm::PointerType* Controller::getLLVMType(IRGenerationContext& context) const {
+PointerType* Controller::getLLVMType(IRGenerationContext& context) const {
   return mStructType->getPointerTo();
+}
+
+Value* Controller::computeSize(IRGenerationContext& context) const {
+  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 8);
 }
 
 TypeKind Controller::getTypeKind() const {

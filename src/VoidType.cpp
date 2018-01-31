@@ -6,6 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Constants.h>
+
 #include "wisey/Cast.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -19,8 +21,12 @@ string VoidType::getTypeName() const {
   return "void";
 }
 
-llvm::Type* VoidType::getLLVMType(IRGenerationContext& context) const {
+Type* VoidType::getLLVMType(IRGenerationContext& context) const {
   return Type::getVoidTy(context.getLLVMContext());
+}
+
+Value* VoidType::computeSize(IRGenerationContext& context) const {
+  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 0);
 }
 
 TypeKind VoidType::getTypeKind() const {

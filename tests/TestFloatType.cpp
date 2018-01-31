@@ -60,6 +60,10 @@ TEST_F(FloatTypeTest, floatTypeTest) {
   EXPECT_EQ(mFloatType.getFormat(), "%f");
 }
 
+TEST_F(FloatTypeTest, computeSizeTest) {
+  EXPECT_EQ(ConstantInt::get(Type::getInt64Ty(mLLVMContext), 4), mFloatType.computeSize(mContext));
+}
+
 TEST_F(FloatTypeTest, canAutoCastToTest) {
   EXPECT_FALSE(mFloatType.canAutoCastTo(PrimitiveTypes::VOID_TYPE));
   EXPECT_FALSE(mFloatType.canAutoCastTo(PrimitiveTypes::STRING_TYPE));

@@ -60,6 +60,10 @@ TEST_F(BooleanTypeTest, booleanTypeTest) {
   EXPECT_EQ(mBoleanType.getFormat(), "%d");
 }
 
+TEST_F(BooleanTypeTest, computeSizeTest) {
+  EXPECT_EQ(ConstantInt::get(Type::getInt64Ty(mLLVMContext), 1), mBoleanType.computeSize(mContext));
+}
+
 TEST_F(BooleanTypeTest, canAutoCastToTest) {
   EXPECT_FALSE(mBoleanType.canAutoCastTo(PrimitiveTypes::VOID_TYPE));
   EXPECT_FALSE(mBoleanType.canAutoCastTo(PrimitiveTypes::STRING_TYPE));

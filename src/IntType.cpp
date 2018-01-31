@@ -6,6 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Constants.h>
+
 #include "wisey/Cast.hpp"
 #include "wisey/IntType.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -19,8 +21,13 @@ string IntType::getTypeName() const {
   return "int";
 }
 
-llvm::Type* IntType::getLLVMType(IRGenerationContext& context) const {
+Type* IntType::getLLVMType(IRGenerationContext& context) const {
   return Type::getInt32Ty(context.getLLVMContext());
+}
+
+Value* IntType::computeSize(IRGenerationContext& context) const {
+  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()),
+                          getLLVMType(context)->getPrimitiveSizeInBits() / 8);
 }
 
 TypeKind IntType::getTypeKind() const {

@@ -60,6 +60,10 @@ TEST_F(VoidTypeTest, voidTypeTest) {
   EXPECT_EQ(mVoidType.getFormat(), "");
 }
 
+TEST_F(VoidTypeTest, computeSizeTest) {
+  EXPECT_EQ(ConstantInt::get(Type::getInt64Ty(mLLVMContext), 0), mVoidType.computeSize(mContext));
+}
+
 TEST_F(VoidTypeTest, canAutoCastToTest) {
   EXPECT_TRUE(mVoidType.canAutoCastTo(PrimitiveTypes::VOID_TYPE));
   EXPECT_FALSE(mVoidType.canAutoCastTo(PrimitiveTypes::BOOLEAN_TYPE));

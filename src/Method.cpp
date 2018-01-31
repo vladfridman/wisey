@@ -83,6 +83,10 @@ FunctionType* Method::getLLVMType(IRGenerationContext& context) const {
   return IMethodDescriptor::getLLVMFunctionType(context, this, mObjectType);
 }
 
+Value* Method::computeSize(IRGenerationContext& context) const {
+  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 8);
+}
+
 TypeKind Method::getTypeKind() const {
   return TypeKind::FUNCTION_TYPE;
 }

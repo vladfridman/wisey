@@ -98,6 +98,11 @@ TEST_F(StaticMethodTest, basicStaticMethodTest) {
   EXPECT_EQ(FUNCTION_TYPE, mStaticMethod->getTypeKind());
 }
 
+TEST_F(StaticMethodTest, computeSizeTest) {
+  EXPECT_EQ(ConstantInt::get(Type::getInt64Ty(mLLVMContext), 8),
+            mStaticMethod->computeSize(mContext));
+}
+
 TEST_F(StaticMethodTest, getLLVMTypeTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
   std::vector<MethodArgument*> arguments;

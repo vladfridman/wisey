@@ -57,6 +57,11 @@ TEST_F(NullTypeTest, getLLVMTypeTest) {
   ASSERT_EQ(NullType::NULL_TYPE->getLLVMType(mContext), int8PointerType);
 }
 
+TEST_F(NullTypeTest, computeSizeTest) {
+  EXPECT_EQ(ConstantInt::get(Type::getInt64Ty(mLLVMContext), 8),
+            NullType::NULL_TYPE->computeSize(mContext));
+}
+
 TEST_F(NullTypeTest, getTypeKindTest) {
   ASSERT_EQ(NullType::NULL_TYPE->getTypeKind(), NULL_TYPE_KIND);
 }

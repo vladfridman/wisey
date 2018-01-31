@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include <llvm/IR/Instructions.h>
+#include <llvm/IR/Constants.h>
 
 #include "wisey/Cast.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -20,8 +20,13 @@ string StringType::getTypeName() const {
   return "string";
 }
 
-llvm::Type* StringType::getLLVMType(IRGenerationContext& context) const {
+Type* StringType::getLLVMType(IRGenerationContext& context) const {
   return Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+}
+
+Value* StringType::computeSize(IRGenerationContext& context) const {
+  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()),
+                          getLLVMType(context)->getPrimitiveSizeInBits() / 8);
 }
 
 TypeKind StringType::getTypeKind() const {
