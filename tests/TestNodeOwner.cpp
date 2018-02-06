@@ -281,11 +281,6 @@ TEST_F(NodeOwnerTest, getLLVMTypeTest) {
             mComplicatedNode->getLLVMType(mContext));
 }
 
-TEST_F(NodeOwnerTest, computeSizeTest) {
-  EXPECT_EQ(ConstantInt::get(Type::getInt64Ty(mLLVMContext), 8),
-            mComplicatedNode->getOwner()->computeSize(mContext));
-}
-
 TEST_F(NodeOwnerTest, getTypeKindTest) {
   EXPECT_EQ(mComplicatedNode->getOwner()->getTypeKind(), NODE_OWNER_TYPE);
 }

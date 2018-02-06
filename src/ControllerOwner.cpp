@@ -6,8 +6,6 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include <llvm/IR/Constants.h>
-
 #include "wisey/ControllerOwner.hpp"
 #include "wisey/IRWriter.hpp"
 
@@ -29,10 +27,6 @@ string ControllerOwner::getTypeName() const {
 
 PointerType* ControllerOwner::getLLVMType(IRGenerationContext& context) const {
   return mController->getLLVMType(context);
-}
-
-Value* ControllerOwner::computeSize(IRGenerationContext& context) const {
-  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 8);
 }
 
 TypeKind ControllerOwner::getTypeKind() const {

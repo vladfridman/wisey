@@ -60,10 +60,6 @@ TEST_F(LongTypeTest, longTypeTest) {
   EXPECT_EQ(mLongType.getFormat(), "%d");
 }
 
-TEST_F(LongTypeTest, computeSizeTest) {
-  EXPECT_EQ(ConstantInt::get(Type::getInt64Ty(mLLVMContext), 8), mLongType.computeSize(mContext));
-}
-
 TEST_F(LongTypeTest, canAutoCastToTest) {
   EXPECT_FALSE(mLongType.canAutoCastTo(PrimitiveTypes::VOID_TYPE));
   EXPECT_FALSE(mLongType.canAutoCastTo(PrimitiveTypes::STRING_TYPE));

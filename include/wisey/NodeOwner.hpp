@@ -33,8 +33,6 @@ public:
   
   llvm::PointerType* getLLVMType(IRGenerationContext& context) const override;
   
-  llvm::Value* computeSize(IRGenerationContext& context) const override;
-
   void free(IRGenerationContext& context, llvm::Value* value) const override;
 
   TypeKind getTypeKind() const override;

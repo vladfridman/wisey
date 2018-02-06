@@ -11,8 +11,6 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include <llvm/IR/Constants.h>
-
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/ArraySpecificType.hpp"
 #include "wisey/IRGenerationContext.hpp"

@@ -273,11 +273,6 @@ TEST_F(ModelOwnerTest, getLLVMTypeTest) {
   EXPECT_EQ(mModel->getOwner()->getLLVMType(mContext), mModel->getLLVMType(mContext));
 }
 
-TEST_F(ModelOwnerTest, computeSizeTest) {
-  EXPECT_EQ(ConstantInt::get(Type::getInt64Ty(mLLVMContext), 8),
-            mModel->getOwner()->computeSize(mContext));
-}
-
 TEST_F(ModelOwnerTest, getTypeKindTest) {
   EXPECT_EQ(mModel->getOwner()->getTypeKind(), MODEL_OWNER_TYPE);
 }

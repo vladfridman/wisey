@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include <llvm/IR/Constants.h>
+#include <llvm/IR/Value.h>
 
 #include "wisey/Cast.hpp"
 #include "wisey/CharType.hpp"
@@ -21,13 +21,8 @@ string CharType::getTypeName() const {
   return "char";
 }
 
-Type* CharType::getLLVMType(IRGenerationContext& context) const {
+llvm::Type* CharType::getLLVMType(IRGenerationContext& context) const {
   return Type::getInt16Ty(context.getLLVMContext());
-}
-
-Value* CharType::computeSize(IRGenerationContext& context) const {
-  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()),
-                          getLLVMType(context)->getPrimitiveSizeInBits() / 8);
 }
 
 TypeKind CharType::getTypeKind() const {

@@ -28,8 +28,6 @@ public:
   
   llvm::Type* getLLVMType(IRGenerationContext& context) const override;
   
-  llvm::Value* computeSize(IRGenerationContext& context) const override;
-
   TypeKind getTypeKind() const override;
   
   bool canCastTo(const IType* toType) const override;

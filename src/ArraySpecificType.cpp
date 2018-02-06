@@ -49,11 +49,6 @@ llvm::PointerType* ArraySpecificType::getLLVMType(IRGenerationContext& context) 
   return getArrayType(context)->getLLVMType(context);
 }
 
-llvm::Value* ArraySpecificType::computeSize(IRGenerationContext& context) const {
-// This is not used
-  return NULL;
-}
-
 list<tuple<llvm::Value*, llvm::Value*>>
 ArraySpecificType::computeArrayAllocData(IRGenerationContext& context) const {
   llvm::LLVMContext& llvmContext = context.getLLVMContext();

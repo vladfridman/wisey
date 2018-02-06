@@ -32,10 +32,6 @@ PointerType* InterfaceOwner::getLLVMType(IRGenerationContext& context) const {
   return mInterface->getLLVMType(context);
 }
 
-Value* InterfaceOwner::computeSize(IRGenerationContext& context) const {
-  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 8);
-}
-
 TypeKind InterfaceOwner::getTypeKind() const {
   return INTERFACE_OWNER_TYPE;
 }

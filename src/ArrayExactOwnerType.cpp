@@ -36,10 +36,6 @@ llvm::PointerType* ArrayExactOwnerType::getLLVMType(IRGenerationContext& context
   return mArrayExactType->getLLVMType(context);
 }
 
-llvm::Value* ArrayExactOwnerType::computeSize(IRGenerationContext& context) const {
-  return mArrayExactType->computeSize(context);
-}
-
 TypeKind ArrayExactOwnerType::getTypeKind() const {
   return ARRAY_OWNER_TYPE;
 }

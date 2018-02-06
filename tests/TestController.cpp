@@ -333,11 +333,6 @@ TEST_F(ControllerTest, getLLVMTypeTest) {
   EXPECT_EQ(mMultiplierController->getLLVMType(mContext), mStructType->getPointerTo());
 }
 
-TEST_F(ControllerTest, computeSizeTest) {
-  EXPECT_EQ(ConstantInt::get(Type::getInt64Ty(mLLVMContext), 8),
-            mMultiplierController->computeSize(mContext));
-}
-
 TEST_F(ControllerTest, getInterfacesTest) {
   EXPECT_EQ(mMultiplierController->getInterfaces().size(), 2u);
 }

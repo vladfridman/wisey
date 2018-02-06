@@ -346,11 +346,6 @@ TEST_F(NodeTest, getLLVMTypeTest) {
   EXPECT_EQ(mComplicatedNode->getLLVMType(mContext), mStructType->getPointerTo());
 }
 
-TEST_F(NodeTest, computeSizeTest) {
-  EXPECT_EQ(ConstantInt::get(Type::getInt64Ty(mLLVMContext), 8),
-            mComplicatedNode->computeSize(mContext));
-}
-
 TEST_F(NodeTest, getInterfacesTest) {
   EXPECT_EQ(mComplicatedNode->getInterfaces().size(), 2u);
 }

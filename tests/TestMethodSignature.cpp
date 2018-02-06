@@ -10,8 +10,6 @@
 
 #include <gtest/gtest.h>
 
-#include <llvm/IR/Constants.h>
-
 #include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/MethodSignature.hpp"
@@ -61,11 +59,6 @@ TEST_F(MethodSignatureTest, methodSignatureTest) {
   EXPECT_STREQ("systems.vos.wisey.compiler.tests.IInterface.foo",
                mMethodSignature->getTypeName().c_str());
   EXPECT_EQ(FUNCTION_TYPE, mMethodSignature->getTypeKind());
-}
-
-TEST_F(MethodSignatureTest, computeSizeTest) {
-  EXPECT_EQ(ConstantInt::get(Type::getInt64Ty(mContext.getLLVMContext()), 8),
-            mMethodSignature->computeSize(mContext));
 }
 
 TEST_F(MethodSignatureTest, createCopyTest) {

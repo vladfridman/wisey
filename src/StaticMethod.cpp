@@ -6,8 +6,6 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include <llvm/IR/Constants.h>
-
 #include "wisey/Cleanup.hpp"
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/EmptyStatement.hpp"
@@ -81,10 +79,6 @@ string StaticMethod::getTypeName() const {
 
 FunctionType* StaticMethod::getLLVMType(IRGenerationContext& context) const {
   return IMethodDescriptor::getLLVMFunctionType(context, this, mObjectType);
-}
-
-Value* StaticMethod::computeSize(IRGenerationContext& context) const {
-  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 8);
 }
 
 TypeKind StaticMethod::getTypeKind() const {

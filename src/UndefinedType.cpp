@@ -7,6 +7,7 @@
 //
 
 #include <llvm/IR/Constants.h>
+#include <llvm/IR/Instructions.h>
 
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -21,10 +22,6 @@ string UndefinedType::getTypeName() const {
 }
 
 Type* UndefinedType::getLLVMType(IRGenerationContext& context) const {
-  return NULL;
-}
-
-Value* UndefinedType::computeSize(IRGenerationContext& context) const {
   return NULL;
 }
 

@@ -74,13 +74,6 @@ TEST_F(ArrayExactTypeTest, getLLVMTypeTest) {
             arrayStruct->getElementType(ArrayType::ARRAY_ELEMENTS_START_INDEX));
 }
 
-TEST_F(ArrayExactTypeTest, computeSizeTest) {
-  llvm::PointerType* arrayLLVMType = mArrayExactType->getLLVMType(mContext);
-  llvm::StructType* arrayStruct = (llvm::StructType*) arrayLLVMType->getPointerElementType();
-  llvm::Value* expected = llvm::ConstantExpr::getSizeOf(arrayStruct);
-  EXPECT_EQ(expected, mArrayExactType->computeSize(mContext));
-}
-
 TEST_F(ArrayExactTypeTest, getTypeKindTest) {
   EXPECT_EQ(ARRAY_TYPE, mArrayExactType->getTypeKind());
 }

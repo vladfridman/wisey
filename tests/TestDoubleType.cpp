@@ -60,10 +60,6 @@ TEST_F(DoubleTypeTest, doubleTypeTest) {
   EXPECT_EQ(mDoubleType.getFormat(), "%e");
 }
 
-TEST_F(DoubleTypeTest, computeSizeTest) {
-  EXPECT_EQ(ConstantInt::get(Type::getInt64Ty(mLLVMContext), 8), mDoubleType.computeSize(mContext));
-}
-
 TEST_F(DoubleTypeTest, canAutoCastToTest) {
   EXPECT_FALSE(mDoubleType.canAutoCastTo(PrimitiveTypes::VOID_TYPE));
   EXPECT_FALSE(mDoubleType.canAutoCastTo(PrimitiveTypes::STRING_TYPE));

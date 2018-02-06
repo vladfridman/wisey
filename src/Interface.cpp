@@ -516,10 +516,6 @@ llvm::PointerType* Interface::getLLVMType(IRGenerationContext& context) const {
   return mStructType->getPointerTo();
 }
 
-Value* Interface::computeSize(IRGenerationContext& context) const {
-  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 8);
-}
-
 TypeKind Interface::getTypeKind() const {
   return INTERFACE_TYPE;
 }

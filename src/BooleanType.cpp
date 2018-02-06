@@ -6,8 +6,6 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include <llvm/IR/Constants.h>
-
 #include "wisey/BooleanType.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -21,12 +19,8 @@ string BooleanType::getTypeName() const {
   return "boolean";
 }
 
-Type* BooleanType::getLLVMType(IRGenerationContext& context) const {
+llvm::Type* BooleanType::getLLVMType(IRGenerationContext& context) const {
   return Type::getInt1Ty(context.getLLVMContext());
-}
-
-Value* BooleanType::computeSize(IRGenerationContext& context) const {
-  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 1);
 }
 
 TypeKind BooleanType::getTypeKind() const {

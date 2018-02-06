@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include <llvm/IR/Constants.h>
+#include <llvm/IR/TypeBuilder.h>
 
 #include "wisey/AccessLevel.hpp"
 #include "wisey/ExternalStaticMethod.hpp"
@@ -77,10 +77,6 @@ string ExternalStaticMethod::getTypeName() const {
 
 FunctionType* ExternalStaticMethod::getLLVMType(IRGenerationContext& context) const {
   return IMethodDescriptor::getLLVMFunctionType(context, this, mObjectType);
-}
-
-Value* ExternalStaticMethod::computeSize(IRGenerationContext& context) const {
-  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 8);
 }
 
 TypeKind ExternalStaticMethod::getTypeKind() const {

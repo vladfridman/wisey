@@ -35,10 +35,6 @@ TEST_F(UndefinedTypeTest, getLLVMTypeTest) {
   ASSERT_EQ(nullptr, UndefinedType::UNDEFINED_TYPE->getLLVMType(mContext));
 }
 
-TEST_F(UndefinedTypeTest, computeSizeTest) {
-  EXPECT_EQ(nullptr, UndefinedType::UNDEFINED_TYPE->computeSize(mContext));
-}
-
 TEST_F(UndefinedTypeTest, getTypeKindTest) {
   ASSERT_EQ(UNDEFINED_TYPE_KIND, UndefinedType::UNDEFINED_TYPE->getTypeKind());
 }

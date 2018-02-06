@@ -188,10 +188,6 @@ PointerType* Node::getLLVMType(IRGenerationContext& context) const {
   return mStructType->getPointerTo();
 }
 
-Value* Node::computeSize(IRGenerationContext& context) const {
-  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 8);
-}
-
 TypeKind Node::getTypeKind() const {
   return NODE_TYPE;
 }

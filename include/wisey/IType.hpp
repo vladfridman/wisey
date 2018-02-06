@@ -59,11 +59,6 @@ public:
   virtual llvm::Type* getLLVMType(IRGenerationContext& context) const = 0;
   
   /**
-   * Computes size in bytes of this type
-   */
-  virtual llvm::Value* computeSize(IRGenerationContext& context) const = 0;
-
-  /**
    * Tells what kind of data type is this type: primitive/model/controller
    */
   virtual TypeKind getTypeKind() const = 0;

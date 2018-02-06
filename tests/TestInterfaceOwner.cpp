@@ -93,11 +93,6 @@ TEST_F(InterfaceOwnerTest, getLLVMTypeTest) {
             mShapeInterface->getLLVMType(mContext));
 }
 
-TEST_F(InterfaceOwnerTest, computeSizeTest) {
-  EXPECT_EQ(ConstantInt::get(Type::getInt64Ty(mLLVMContext), 8),
-            mShapeInterface->getOwner()->computeSize(mContext));
-}
-
 TEST_F(InterfaceOwnerTest, getTypeKindTest) {
   EXPECT_EQ(mShapeInterface->getOwner()->getTypeKind(), INTERFACE_OWNER_TYPE);
 }

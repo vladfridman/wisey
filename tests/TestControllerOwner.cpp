@@ -146,11 +146,6 @@ TEST_F(ControllerOwnerTest, getLLVMTypeTest) {
             mMultiplierController->getLLVMType(mContext));
 }
 
-TEST_F(ControllerOwnerTest, computeSizeTest) {
-  EXPECT_EQ(ConstantInt::get(Type::getInt64Ty(mLLVMContext), 8),
-            mMultiplierController->getOwner()->computeSize(mContext));
-}
-
 TEST_F(ControllerOwnerTest, getTypeKindTest) {
   EXPECT_EQ(mMultiplierController->getOwner()->getTypeKind(), CONTROLLER_OWNER_TYPE);
 }

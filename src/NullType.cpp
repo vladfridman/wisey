@@ -7,6 +7,7 @@
 //
 
 #include <llvm/IR/Constants.h>
+#include <llvm/IR/Instructions.h>
 
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -22,10 +23,6 @@ string NullType::getTypeName() const {
 
 Type* NullType::getLLVMType(IRGenerationContext& context) const {
   return Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-}
-
-Value* NullType::computeSize(IRGenerationContext& context) const {
-  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 8);
 }
 
 TypeKind NullType::getTypeKind() const {

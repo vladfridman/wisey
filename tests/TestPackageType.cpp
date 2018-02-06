@@ -42,10 +42,6 @@ TEST_F(PackageTypeTest, getLLVMTypeTest) {
   ASSERT_EQ(nullptr, mPackageType->getLLVMType(mContext));
 }
 
-TEST_F(PackageTypeTest, computeSizeTest) {
-  EXPECT_EQ(nullptr, mPackageType->computeSize(mContext));
-}
-
 TEST_F(PackageTypeTest, getTypeKindTest) {
   ASSERT_EQ(PACKAGE_TYPE, mPackageType->getTypeKind());
 }

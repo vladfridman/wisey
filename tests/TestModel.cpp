@@ -333,11 +333,6 @@ TEST_F(ModelTest, getLLVMTypeTest) {
   EXPECT_EQ(mModel->getLLVMType(mContext), mStructType->getPointerTo());
 }
 
-TEST_F(ModelTest, computeSizeTest) {
-  EXPECT_EQ(ConstantInt::get(Type::getInt64Ty(mLLVMContext), 8),
-            mModel->computeSize(mContext));
-}
-
 TEST_F(ModelTest, getInterfacesTest) {
   EXPECT_EQ(mModel->getInterfaces().size(), 2u);
 }

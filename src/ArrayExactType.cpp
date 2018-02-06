@@ -68,11 +68,6 @@ llvm::PointerType* ArrayExactType::getLLVMType(IRGenerationContext& context) con
   return type->getPointerTo();
 }
 
-llvm::Value* ArrayExactType::computeSize(IRGenerationContext& context) const {
-  llvm::StructType* structType = (llvm::StructType*) getLLVMType(context)->getPointerElementType();
-  return llvm::ConstantExpr::getSizeOf(structType);
-}
-
 TypeKind ArrayExactType::getTypeKind() const {
   return ARRAY_TYPE;
 }

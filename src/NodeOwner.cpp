@@ -6,8 +6,6 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include <llvm/IR/Constants.h>
-
 #include "wisey/IRWriter.hpp"
 #include "wisey/NodeOwner.hpp"
 
@@ -29,10 +27,6 @@ string NodeOwner::getTypeName() const {
 
 PointerType* NodeOwner::getLLVMType(IRGenerationContext& context) const {
   return mNode->getLLVMType(context);
-}
-
-Value* NodeOwner::computeSize(IRGenerationContext& context) const {
-  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 8);
 }
 
 TypeKind NodeOwner::getTypeKind() const {

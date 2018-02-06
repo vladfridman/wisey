@@ -6,8 +6,6 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include <llvm/IR/Constants.h>
-
 #include "wisey/Cast.hpp"
 #include "wisey/FloatType.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -21,13 +19,8 @@ string FloatType::getTypeName() const {
   return "float";
 }
 
-Type* FloatType::getLLVMType(IRGenerationContext& context) const {
+llvm::Type* FloatType::getLLVMType(IRGenerationContext& context) const {
   return Type::getFloatTy(context.getLLVMContext());
-}
-
-Value* FloatType::computeSize(IRGenerationContext& context) const {
-  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()),
-                          getLLVMType(context)->getPrimitiveSizeInBits() / 8);
 }
 
 TypeKind FloatType::getTypeKind() const {

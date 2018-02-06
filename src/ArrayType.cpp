@@ -62,10 +62,6 @@ llvm::PointerType* ArrayType::getLLVMType(IRGenerationContext& context) const {
   return type->getPointerTo();
 }
 
-llvm::Value* ArrayType::computeSize(IRGenerationContext& context) const {
-  return llvm::ConstantInt::get(llvm::Type::getInt64Ty(context.getLLVMContext()), 0);
-}
-
 TypeKind ArrayType::getTypeKind() const {
   return ARRAY_TYPE;
 }
