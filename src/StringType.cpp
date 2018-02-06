@@ -25,8 +25,7 @@ Type* StringType::getLLVMType(IRGenerationContext& context) const {
 }
 
 Value* StringType::computeSize(IRGenerationContext& context) const {
-  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()),
-                          getLLVMType(context)->getPrimitiveSizeInBits() / 8);
+  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 8);
 }
 
 TypeKind StringType::getTypeKind() const {

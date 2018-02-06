@@ -33,10 +33,6 @@ wisey::ArrayType* ArraySpecificType::getArrayType(IRGenerationContext& context) 
   return context.getArrayType(mElementType, mDimensions.size());
 }
 
-list<unsigned long> ArraySpecificType::getDimensions() const {
-  return mDimensions;
-}
-
 const IType* ArraySpecificType::getElementType() const {
   return mElementType;
 }
@@ -50,27 +46,45 @@ string ArraySpecificType::getTypeName() const {
 }
 
 llvm::PointerType* ArraySpecificType::getLLVMType(IRGenerationContext& context) const {
-  llvm::LLVMContext& llvmContext = context.getLLVMContext();
-  
-  llvm::Type* type = mElementType->getLLVMType(context);
-  list<unsigned long> dimensionsReversed = mDimensions;
-  dimensionsReversed.reverse();
-  for (unsigned long dimension : dimensionsReversed) {
-    llvm::ArrayType* arrayType = llvm::ArrayType::get(type, dimension);
-    vector<llvm::Type*> types;
-    types.push_back(llvm::Type::getInt64Ty(llvmContext));
-    types.push_back(llvm::Type::getInt64Ty(llvmContext));
-    types.push_back(llvm::Type::getInt64Ty(llvmContext));
-    types.push_back(arrayType);
-    type = llvm::StructType::get(llvmContext, types);
-  }
-  
-  return type->getPointerTo();
+  return getArrayType(context)->getLLVMType(context);
 }
 
 llvm::Value* ArraySpecificType::computeSize(IRGenerationContext& context) const {
-  llvm::StructType* structType = (llvm::StructType*) getLLVMType(context)->getPointerElementType();
-  return llvm::ConstantExpr::getSizeOf(structType);
+// This is not used
+  return NULL;
+}
+
+list<tuple<llvm::Value*, llvm::Value*>>
+ArraySpecificType::computeArrayAllocData(IRGenerationContext& context) const {
+  llvm::LLVMContext& llvmContext = context.getLLVMContext();
+  llvm::Type* int64Type = llvm::Type::getInt64Ty(llvmContext);
+  llvm::Value* headerSize = llvm::ConstantInt::get(int64Type, 8 * 3);
+  list<tuple<llvm::Value*, llvm::Value*>> result;
+  
+  llvm::Value* elementSize = mElementType->computeSize(context);
+  llvm::Value* sizeStore = IRWriter::newAllocaInst(context, int64Type, "arraySize");
+  IRWriter::newStoreInst(context, elementSize, sizeStore);
+  list<unsigned long> dimensionsReversed = mDimensions;
+  dimensionsReversed.reverse();
+  for (unsigned long dimension : dimensionsReversed) {
+    llvm::Value* dimensionValue = llvm::ConstantInt::get(int64Type, dimension);
+    llvm::Value* sizeValue = IRWriter::newLoadInst(context, sizeStore, "size");
+    result.push_front(make_tuple(dimensionValue, sizeValue));
+    llvm::Value* newSize = IRWriter::createBinaryOperator(context,
+                                                          llvm::Instruction::Mul,
+                                                          dimensionValue,
+                                                          sizeValue,
+                                                          "");
+    llvm::Value* withHeader = IRWriter::createBinaryOperator(context,
+                                                             llvm::Instruction::Add,
+                                                             newSize,
+                                                             headerSize,
+                                                             "");
+    IRWriter::newStoreInst(context, withHeader, sizeStore);
+  }
+  llvm::Value* arraySize = IRWriter::newLoadInst(context, sizeStore, "");
+  result.push_front(make_tuple(llvm::ConstantInt::get(int64Type, 1), arraySize));
+  return result;
 }
 
 TypeKind ArraySpecificType::getTypeKind() const {
@@ -103,3 +117,4 @@ unsigned long ArraySpecificType::getNumberOfDimensions() const {
 bool ArraySpecificType::isOwner() const {
   return false;
 }
+

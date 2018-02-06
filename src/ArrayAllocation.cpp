@@ -47,50 +47,89 @@ Value* ArrayAllocation::generateIR(IRGenerationContext &context, const IType* as
 
 Value* ArrayAllocation::allocateArray(IRGenerationContext& context,
                                       const ArraySpecificType* arraySpecificType) {
-  PointerType* arrayPointerType = arraySpecificType->getLLVMType(context);
-  StructType* structType = (StructType*) arrayPointerType->getPointerElementType();
-  llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
-  llvm::Constant* one = llvm::ConstantInt::get(llvm::Type::getInt64Ty(context.getLLVMContext()), 1);
-  Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, one, "newarray");
-  IntrinsicFunctions::setMemoryToZero(context, malloc, ConstantExpr::getSizeOf(structType));
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Type* byteType = Type::getInt8Ty(llvmContext);
+  Type* int64Type = Type::getInt64Ty(llvmContext);
+  Value* one = ConstantInt::get(int64Type, 1);
 
-  initializeEmptyArray(context, malloc, arraySpecificType->getDimensions());
+  list<tuple<Value*, Value*>> arrayData = arraySpecificType->computeArrayAllocData(context);
+  Value* allocSize = get<1>(arrayData.front());
+  Instruction* malloc = IRWriter::createMalloc(context, byteType, one, allocSize, "newarray");
+  IntrinsicFunctions::setMemoryToZero(context, malloc, allocSize);
+
+  arrayData.pop_front();
+  initializeEmptyArray(context, malloc, arrayData);
   
   return malloc;
 }
 
 void ArrayAllocation::initializeEmptyArray(IRGenerationContext& context,
                                            Value* arrayStructPointer,
-                                           list<unsigned long> dimensions) {
+                                           list<tuple<Value*, Value*>> arrayData) {
   LLVMContext& llvmContext = context.getLLVMContext();
+  Type* int8Type = Type::getInt8Ty(llvmContext);
+  Type* int64Type = Type::getInt64Ty(llvmContext);
+  Value* zero = ConstantInt::get(int64Type, 0);
+  Value* one = ConstantInt::get(int64Type, 1);
+  Value* two = ConstantInt::get(int64Type, 2);
   Value* index[2];
-  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
-  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
-  Value* sizeStore = IRWriter::createGetElementPtrInst(context, arrayStructPointer, index);
-  unsigned long arraySize = dimensions.front();
-  ConstantInt* sizeValue = ConstantInt::get(Type::getInt64Ty(llvmContext), arraySize);
+  index[0] = zero;
+  index[1] = one;
+  Type* int8ArrayType = llvm::ArrayType::get(int8Type, 0)->getPointerTo();
+  Type* int64ArrayType = llvm::ArrayType::get(int64Type, 0)->getPointerTo();
+  Value* int64ArrayPointer = IRWriter::newBitCastInst(context, arrayStructPointer, int64ArrayType);
+  Value* sizeStore = IRWriter::createGetElementPtrInst(context, int64ArrayPointer, index);
+  Value* sizeValue = get<0>(arrayData.front());
   IRWriter::newStoreInst(context, sizeValue, sizeStore);
   
-  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), ArrayType::ARRAY_ELEMENTS_START_INDEX);
-  Value* arrayPointer = IRWriter::createGetElementPtrInst(context, arrayStructPointer, index);
-  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
-  Value* firstElement = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
-  Value* elementSize = ConstantExpr::getSizeOf(firstElement->getType()->getPointerElementType());
-  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 2u);
-  Value* elementSizeStore = IRWriter::createGetElementPtrInst(context, arrayStructPointer, index);
+  Value* elementSize = get<1>(arrayData.front());
+  index[1] = two;
+  Value* elementSizeStore = IRWriter::createGetElementPtrInst(context, int64ArrayPointer, index);
   IRWriter::newStoreInst(context, elementSize, elementSizeStore);
 
-  if (dimensions.size() == 1) {
+  if (arrayData.size() == 1) {
+    arrayData.pop_front();
     return;
   }
   
-  dimensions.pop_front();
+  Function* function = context.getBasicBlock()->getParent();
+  BasicBlock* forCond = BasicBlock::Create(context.getLLVMContext(), "for.cond", function);
+  BasicBlock* forBody = BasicBlock::Create(context.getLLVMContext(), "for.body", function);
+  BasicBlock* forEnd = BasicBlock::Create(context.getLLVMContext(), "for.end", function);
 
-  for (unsigned int i = 0; i < arraySize; i++) {
-    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), i);
-    Value* arrayElement = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
-    initializeEmptyArray(context, arrayElement, dimensions);
-  }
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), ArrayType::ARRAY_ELEMENTS_START_INDEX);
+  Value* arrayPointer = IRWriter::createGetElementPtrInst(context, int64ArrayPointer, index);
+  Value* int8ArrayPointer = IRWriter::newBitCastInst(context, arrayPointer, int8ArrayType);
+  Value* indexStore = IRWriter::newAllocaInst(context, int64Type, "index");
+  IRWriter::newStoreInst(context, zero, indexStore);
+  IRWriter::createBranch(context, forCond);
+  
+  context.setBasicBlock(forCond);
+  
+  Value* indexValue = IRWriter::newLoadInst(context, indexStore, "index");
+  Value* compare = IRWriter::newICmpInst(context, ICmpInst::ICMP_SLT, indexValue, sizeValue, "cmp");
+  IRWriter::createConditionalBranch(context, forBody, forEnd, compare);
+  
+  context.setBasicBlock(forBody);
+  
+  Value* offset = IRWriter::createBinaryOperator(context,
+                                                 Instruction::Mul,
+                                                 indexValue,
+                                                 elementSize,
+                                                 "");
+  index[1] = offset;
+  Value* arrayElement = IRWriter::createGetElementPtrInst(context, int8ArrayPointer, index);
+  arrayData.pop_front();
+  initializeEmptyArray(context, arrayElement, arrayData);
+  Value* newIndex = IRWriter::createBinaryOperator(context,
+                                                   Instruction::Add,
+                                                   indexValue,
+                                                   one,
+                                                   "indexIncrement");
+  IRWriter::newStoreInst(context, newIndex, indexStore);
+  IRWriter::createBranch(context, forCond);
+  
+  context.setBasicBlock(forEnd);
 }
 
 IVariable* ArrayAllocation::getVariable(IRGenerationContext &context,

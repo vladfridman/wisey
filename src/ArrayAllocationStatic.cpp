@@ -34,7 +34,7 @@ ArrayAllocationStatic::~ArrayAllocationStatic() {
   mExpressionList.clear();
 }
 
-Value* ArrayAllocationStatic::generateIR(IRGenerationContext &context,
+Value* ArrayAllocationStatic::generateIR(IRGenerationContext& context,
                                          const IType* assignToType) const {
   const ArrayExactType* arrayExactType = getExactType(context);
   Value* arrayStructPointer = allocateArray(context, arrayExactType);

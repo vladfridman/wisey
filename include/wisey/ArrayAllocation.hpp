@@ -45,7 +45,7 @@ namespace wisey {
     
     static void initializeEmptyArray(IRGenerationContext& context,
                                      llvm::Value* arrayStructPointer,
-                                     std::list<unsigned long> dimensions);
+                                     std::list<std::tuple<llvm::Value*, llvm::Value*>> arrayData);
 
   };
 

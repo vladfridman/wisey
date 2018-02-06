@@ -438,7 +438,7 @@ TEST_F(TestFileSampleRunner, returnArrayOwnerRunTest) {
 
 TEST_F(TestFileSampleRunner, returnArrayOwnerDestructorsAreCalledRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_return_array_owner.yz",
-                                        "destructor primitive<40 bytes>[5]\n"
+                                        "destructor primitive<36 bytes>[5]\n"
                                         "destructor primitive<4 bytes>[3]\n"
                                         "destructor primitive<4 bytes>[3]\n"
                                         "destructor primitive<4 bytes>[3]\n"

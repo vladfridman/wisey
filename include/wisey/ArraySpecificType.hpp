@@ -53,14 +53,12 @@ namespace wisey {
     unsigned long getNumberOfDimensions() const;
     
     /**
-     * Return array dimensions
-     */
-    std::list<unsigned long> getDimensions() const;
-    
-    /**
      * Returns single array element type
      */
     const IType* getElementType() const;
+    
+    std::list<std::tuple<llvm::Value*, llvm::Value*>> computeArrayAllocData(IRGenerationContext&
+                                                                            context) const;
     
     std::string getTypeName() const override;
     

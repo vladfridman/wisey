@@ -37,7 +37,7 @@ TEST_F(ArraySpecificTypeSpecifierTest, creationTest) {
   
   const ArraySpecificType* arrayType = (const ArraySpecificType*) type;
   EXPECT_EQ(PrimitiveTypes::INT_TYPE, arrayType->getElementType());
-  EXPECT_EQ(3u, arrayType->getDimensions().front());
+  EXPECT_EQ(1u, arrayType->getNumberOfDimensions());
 }
 
 TEST_F(ArraySpecificTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {

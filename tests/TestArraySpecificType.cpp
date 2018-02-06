@@ -41,22 +41,12 @@ struct ArraySpecificTypeTest : public Test {
 
 TEST_F(ArraySpecificTypeTest, getArrayTest) {
   const ArrayType* arrayType = mContext.getArrayType(mArraySpecificType->getElementType(),
-                                                     mArraySpecificType->getDimensions().size());
+                                                     mArraySpecificType->getNumberOfDimensions());
   EXPECT_EQ(arrayType, mArraySpecificType->getArrayType(mContext));
 }
 
 TEST_F(ArraySpecificTypeTest, getElementTypeTest) {
   EXPECT_EQ(PrimitiveTypes::LONG_TYPE, mMultiDimentionalArraySpecificType->getElementType());
-}
-
-TEST_F(ArraySpecificTypeTest, getDimensionsTest) {
-  list<unsigned long> dimensions;
-  dimensions.push_back(5u);
-  dimensions.push_back(10u);
-  
-  EXPECT_EQ(dimensions.size(), mMultiDimentionalArraySpecificType->getDimensions().size());
-  EXPECT_EQ(dimensions.front(), mMultiDimentionalArraySpecificType->getDimensions().front());
-  EXPECT_EQ(dimensions.back(), mMultiDimentionalArraySpecificType->getDimensions().back());
 }
 
 TEST_F(ArraySpecificTypeTest, getNameTest) {
@@ -71,15 +61,8 @@ TEST_F(ArraySpecificTypeTest, getLLVMTypeTest) {
   EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(0));
   EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(1));
   EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(2));
-  EXPECT_EQ(llvm::ArrayType::get(llvm::Type::getInt64Ty(mLLVMContext), 5u),
+  EXPECT_EQ(llvm::ArrayType::get(llvm::Type::getInt64Ty(mLLVMContext), 0u),
             arrayStruct->getElementType(ArrayType::ARRAY_ELEMENTS_START_INDEX));
-}
-
-TEST_F(ArraySpecificTypeTest, computeSizeTest) {
-  llvm::PointerType* arrayLLVMType = mArraySpecificType->getLLVMType(mContext);
-  llvm::StructType* arrayStruct = (llvm::StructType*) arrayLLVMType->getPointerElementType();
-  llvm::Value* expected = llvm::ConstantExpr::getSizeOf(arrayStruct);
-  EXPECT_EQ(expected, mArraySpecificType->computeSize(mContext));
 }
 
 TEST_F(ArraySpecificTypeTest, getTypeKindTest) {
