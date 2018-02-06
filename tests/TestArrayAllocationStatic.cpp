@@ -128,9 +128,9 @@ TEST_F(ArrayAllocationStaticTest, isConstantTest) {
 TEST_F(ArrayAllocationStaticTest, getTypeTest) {
   list<unsigned long> dimensions;
   dimensions.push_back(2u);
-  const ArraySpecificType* arrayType = mContext.getArraySpecificType(PrimitiveTypes::INT_TYPE,
-                                                                     dimensions);
-  EXPECT_EQ(arrayType->getOwner(), mArrayAllocationStatic->getType(mContext));
+  const ArrayExactType* arrayExactType = mContext.getArrayExactType(PrimitiveTypes::INT_TYPE,
+                                                                    dimensions);
+  EXPECT_EQ(arrayExactType->getOwner(), mArrayAllocationStatic->getType(mContext));
 }
 
 TEST_F(ArrayAllocationStaticTest, printToStreamTest) {

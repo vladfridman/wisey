@@ -27,12 +27,6 @@ namespace wisey {
     
     ~ArrayAllocation();
     
-    /**
-     * Allocates memory for the given type array
-     */
-    static llvm::Value* allocateArray(IRGenerationContext &context,
-                                      const ArraySpecificType* arrayType);
-    
     llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
     
     IVariable* getVariable(IRGenerationContext& context,
@@ -45,6 +39,9 @@ namespace wisey {
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
   private:
+    
+    static llvm::Value* allocateArray(IRGenerationContext &context,
+                                      const ArraySpecificType* arrayType);
     
     static void initializeEmptyArray(IRGenerationContext& context,
                                      llvm::Value* arrayStructPointer,

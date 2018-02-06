@@ -359,5 +359,25 @@ TEST_F(IRGenerationContextRunTest, printAssemblyTest) {
 TEST_F(IRGenerationContextTest, getArrayTypeTest) {
   wisey::ArrayType* arrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 1u);
   
-  EXPECT_EQ(mContext.getArrayType(PrimitiveTypes::INT_TYPE, 1u), arrayType);
+  EXPECT_EQ(arrayType, mContext.getArrayType(PrimitiveTypes::INT_TYPE, 1u));
 }
+
+TEST_F(IRGenerationContextTest, getArraySpecificTypeTest) {
+  list<unsigned long> dimensions;
+  dimensions.push_back(5);
+  dimensions.push_back(3);
+  ArraySpecificType* arraySpecificType = mContext.getArraySpecificType(PrimitiveTypes::INT_TYPE,
+                                                                       dimensions);
+  
+  EXPECT_EQ(arraySpecificType, mContext.getArraySpecificType(PrimitiveTypes::INT_TYPE, dimensions));
+}
+
+TEST_F(IRGenerationContextTest, getArrayExactTypeTest) {
+  list<unsigned long> dimensions;
+  dimensions.push_back(5);
+  dimensions.push_back(3);
+  ArrayExactType* arrayExactType = mContext.getArrayExactType(PrimitiveTypes::INT_TYPE, dimensions);
+  
+  EXPECT_EQ(arrayExactType, mContext.getArrayExactType(PrimitiveTypes::INT_TYPE, dimensions));
+}
+

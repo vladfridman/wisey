@@ -103,4 +103,3 @@ TEST_F(ArraySpecificTypeTest, getNumberOfDimensionsTest) {
 TEST_F(ArraySpecificTypeTest, isOwnerTest) {
   EXPECT_FALSE(mArraySpecificType->isOwner());
 }
-

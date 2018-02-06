@@ -39,6 +39,11 @@ IRGenerationContext::~IRGenerationContext() {
        iterator++) {
     delete iterator->second;
   }
+  for (map<string, ArrayExactType*>::iterator iterator = mArrayExactTypes.begin();
+       iterator != mArrayExactTypes.end();
+       iterator++) {
+    delete iterator->second;
+  }
   for (map<string, ArraySpecificType*>::iterator iterator = mArraySpecificTypes.begin();
        iterator != mArraySpecificTypes.end();
        iterator++) {
@@ -121,6 +126,21 @@ wisey::ArrayType* IRGenerationContext::getArrayType(const IType* elementType,
   mArrayTypes[key] = arrayType;
   
   return arrayType;
+}
+
+ArrayExactType* IRGenerationContext::getArrayExactType(const IType* elementType,
+                                                       list<unsigned long> dimensions) {
+  string key = elementType->getTypeName();
+  for (long dimension : dimensions) {
+    key = key + "[" + to_string(dimension) + "]";
+  }
+  if (mArrayExactTypes.count(key)) {
+    return mArrayExactTypes.at(key);
+  }
+  ArrayExactType* arrayExactType = new ArrayExactType(elementType, dimensions);
+  mArrayExactTypes[key] = arrayExactType;
+  
+  return arrayExactType;
 }
 
 ArraySpecificType* IRGenerationContext::getArraySpecificType(const IType* elementType,

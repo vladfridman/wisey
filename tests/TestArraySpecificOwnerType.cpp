@@ -84,5 +84,3 @@ TEST_F(ArraySpecificOwnerTypeTest, canAutoCastToTest) {
 TEST_F(ArraySpecificOwnerTypeTest, isOwnerTest) {
   EXPECT_TRUE(mArraySpecificOwnerType->isOwner());
 }
-
-

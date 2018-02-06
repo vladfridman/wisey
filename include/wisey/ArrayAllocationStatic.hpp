@@ -9,8 +9,8 @@
 #ifndef ArrayAllocationStatic_h
 #define ArrayAllocationStatic_h
 
+#include "wisey/ArrayExactOwnerType.hpp"
 #include "wisey/ArrayOwnerType.hpp"
-#include "wisey/ArraySpecificOwnerType.hpp"
 #include "wisey/IExpression.hpp"
 
 namespace wisey {
@@ -41,7 +41,7 @@ namespace wisey {
     
     bool isConstant() const override;
     
-    const ArraySpecificOwnerType* getType(IRGenerationContext& context) const override;
+    const ArrayExactOwnerType* getType(IRGenerationContext& context) const override;
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 
@@ -52,12 +52,19 @@ namespace wisey {
                          const IType* elementType,
                          std::list<unsigned long> dimensions) const;
 
-    const ArraySpecificType* getSpecificType(IRGenerationContext& context) const;
+    const ArrayExactType* getExactType(IRGenerationContext& context) const;
     
     void checkArrayElements(IRGenerationContext& context) const;
     
     ExpressionList flattenExpressionList(IRGenerationContext& context) const;
     
+    static llvm::Value* allocateArray(IRGenerationContext &context,
+                                      const ArrayExactType* arrayType);
+
+    static void initializeEmptyArray(IRGenerationContext& context,
+                                     llvm::Value* arrayStructPointer,
+                                     std::list<unsigned long> dimensions);
+
   };
   
 } /* namespace wisey */
