@@ -135,3 +135,10 @@ TEST_F(TestFileSampleRunner, localPrimitiveArrayAllocationRunTest) {
 TEST_F(TestFileSampleRunner, localOwnerArrayOfIntsCreatedDynamicallyRunTest) {
   runFile("tests/samples/test_local_owner_array_of_ints_created_dynamically.yz", "1");
 }
+
+TEST_F(TestFileSampleRunner, localOwnerArrayOfIntsFloatDimensionDeathRunTest) {
+  expectFailCompile("tests/samples/test_local_owner_array_of_ints_float_dimension.yz",
+                    1,
+                    "Error: Dimension in array allocation should be castable to long, "
+                    "but it is of float type");
+}

@@ -11,6 +11,7 @@
 #include "wisey/ArraySpecificOwnerType.hpp"
 #include "wisey/ArraySpecificType.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/Log.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace std;
@@ -65,9 +66,12 @@ ArraySpecificType::computeArrayAllocData(IRGenerationContext& context) const {
   dimensionsReversed.reverse();
   for (const IExpression* dimension : dimensionsReversed) {
     llvm::Value* dimensionValue = dimension->generateIR(context, PrimitiveTypes::VOID_TYPE);
-    llvm::Value* dimensionCast = dimension->getType(context)->castTo(context,
-                                                                     dimensionValue,
-                                                                     PrimitiveTypes::LONG_TYPE, 0);
+    const IType* dimensionType = dimension->getType(context);
+    checkDimensionType(dimensionType);
+    llvm::Value* dimensionCast = dimensionType->castTo(context,
+                                                       dimensionValue,
+                                                       PrimitiveTypes::LONG_TYPE,
+                                                       0);
     llvm::Value* sizeValue = IRWriter::newLoadInst(context, sizeStore, "size");
     result.push_front(make_tuple(dimensionCast, sizeValue));
     llvm::Value* newSize = IRWriter::createBinaryOperator(context,
@@ -116,5 +120,14 @@ unsigned long ArraySpecificType::getNumberOfDimensions() const {
 
 bool ArraySpecificType::isOwner() const {
   return false;
+}
+
+void ArraySpecificType::checkDimensionType(const IType* type) const {
+  if (type->canAutoCastTo(PrimitiveTypes::LONG_TYPE)) {
+    return;
+  }
+  Log::e("Dimension in array allocation should be castable to long, but it is of " +
+         type->getTypeName() + " type");
+  exit(1);
 }
 

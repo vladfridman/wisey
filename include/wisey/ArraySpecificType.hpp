@@ -81,6 +81,10 @@ namespace wisey {
     
     bool isOwner() const override;
     
+  private:
+    
+    void checkDimensionType(const IType* type) const;
+    
   };
   
 } /* namespace wisey */
