@@ -10,6 +10,9 @@
 
 #include <gtest/gtest.h>
 
+#include <llvm/IR/Constants.h>
+
+#include "MockExpression.hpp"
 #include "wisey/ArraySpecificTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
@@ -17,48 +20,51 @@
 using namespace std;
 using namespace wisey;
 
+using ::testing::_;
+using ::testing::Invoke;
+using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
 
 struct ArraySpecificTypeSpecifierTest : public Test {
   IRGenerationContext mContext;
+  llvm::LLVMContext& mLLVMContext;
+  list<const IExpression*> mDimensions;
+  NiceMock<MockExpression> mThreeExpression;
+
+  ArraySpecificTypeSpecifierTest() : mLLVMContext(mContext.getLLVMContext()) {
+    llvm::Constant* three = llvm::ConstantInt::get(llvm::Type::getInt64Ty(mLLVMContext), 3);
+    ON_CALL(mThreeExpression, generateIR(_, _)).WillByDefault(Return(three));
+    ON_CALL(mThreeExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(mThreeExpression, printToStream(_, _)).WillByDefault(Invoke(printThree));
+    mDimensions.push_back(&mThreeExpression);
+  }
   
-  ArraySpecificTypeSpecifierTest() { }
+  static void printThree(IRGenerationContext& context, iostream& stream) {
+    stream << "3";
+  }
 };
 
 TEST_F(ArraySpecificTypeSpecifierTest, creationTest) {
   PrimitiveTypeSpecifier* intSpecifer = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
-  list<unsigned long> dimensions;
-  dimensions.push_back(3u);
-  ArraySpecificTypeSpecifier* specifier = new ArraySpecificTypeSpecifier(intSpecifer, dimensions);
+  ArraySpecificTypeSpecifier* specifier = new ArraySpecificTypeSpecifier(intSpecifer, mDimensions);
   const IType* type = specifier->getType(mContext);
   
   EXPECT_EQ(ARRAY_TYPE, type->getTypeKind());
-  EXPECT_STREQ("int[3]", type->getTypeName().c_str());
+  EXPECT_STREQ("int[]", type->getTypeName().c_str());
   
   const ArraySpecificType* arrayType = (const ArraySpecificType*) type;
   EXPECT_EQ(PrimitiveTypes::INT_TYPE, arrayType->getElementType());
   EXPECT_EQ(1u, arrayType->getNumberOfDimensions());
 }
 
-TEST_F(ArraySpecificTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {
-  PrimitiveTypeSpecifier* floatSpecifer = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  list<unsigned long> dimensions;
-  dimensions.push_back(3u);
-  ArraySpecificTypeSpecifier* specifier = new ArraySpecificTypeSpecifier(floatSpecifer, dimensions);
-  const IType* type1 = specifier->getType(mContext);
-  const IType* type2 = specifier->getType(mContext);
-  
-  EXPECT_EQ(type1, type2);
-}
-
 TEST_F(ArraySpecificTypeSpecifierTest, printToStreamTest) {
   PrimitiveTypeSpecifier* stringSpecifer = new PrimitiveTypeSpecifier(PrimitiveTypes::STRING_TYPE);
-  list<unsigned long> dimensions;
-  dimensions.push_back(5u);
-  ArraySpecificTypeSpecifier specifier(stringSpecifer, dimensions);
+  ArraySpecificTypeSpecifier* specifier = new ArraySpecificTypeSpecifier(stringSpecifer,
+                                                                         mDimensions);
   
   stringstream stringStream;
-  specifier.printToStream(mContext, stringStream);
+  specifier->printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("string[5]", stringStream.str().c_str());
+  EXPECT_STREQ("string[3]", stringStream.str().c_str());
 }

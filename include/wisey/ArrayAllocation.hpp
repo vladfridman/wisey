@@ -10,6 +10,7 @@
 #define ArrayAllocation_h
 
 #include "wisey/ArraySpecificTypeSpecifier.hpp"
+#include "wisey/ArraySpecificType.hpp"
 #include "wisey/IExpression.hpp"
 
 namespace wisey {

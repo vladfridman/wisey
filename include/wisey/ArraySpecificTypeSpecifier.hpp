@@ -11,6 +11,8 @@
 
 #include <list>
 
+#include "wisey/ArraySpecificType.hpp"
+#include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IType.hpp"
 #include "wisey/ITypeSpecifier.hpp"
@@ -22,11 +24,11 @@ namespace wisey {
    */
   class ArraySpecificTypeSpecifier : public ITypeSpecifier {
     ITypeSpecifier* mElementTypeSpecifier;
-    std::list<unsigned long> mDimensions;
+    std::list<const IExpression*> mDimensions;
     
   public:
     
-    ArraySpecificTypeSpecifier(ITypeSpecifier* elementTypeSpecifier, std::list<unsigned long> dimensions);
+    ArraySpecificTypeSpecifier(ITypeSpecifier* elementTypeSpecifier, std::list<const IExpression*> dimensions);
     
     ~ArraySpecificTypeSpecifier();
     

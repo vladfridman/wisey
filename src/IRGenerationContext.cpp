@@ -44,11 +44,6 @@ IRGenerationContext::~IRGenerationContext() {
        iterator++) {
     delete iterator->second;
   }
-  for (map<string, ArraySpecificType*>::iterator iterator = mArraySpecificTypes.begin();
-       iterator != mArraySpecificTypes.end();
-       iterator++) {
-    delete iterator->second;
-  }
   for (map<string, Model*>::iterator iterator = mModels.begin();
        iterator != mModels.end();
        iterator++) {
@@ -141,21 +136,6 @@ ArrayExactType* IRGenerationContext::getArrayExactType(const IType* elementType,
   mArrayExactTypes[key] = arrayExactType;
   
   return arrayExactType;
-}
-
-ArraySpecificType* IRGenerationContext::getArraySpecificType(const IType* elementType,
-                                                             list<unsigned long> dimensions) {
-  string key = elementType->getTypeName();
-  for (long dimension : dimensions) {
-    key = key + "[" + to_string(dimension) + "]";
-  }
-  if (mArraySpecificTypes.count(key)) {
-    return mArraySpecificTypes.at(key);
-  }
-  ArraySpecificType* arraySpecificType = new ArraySpecificType(elementType, dimensions);
-  mArraySpecificTypes[key] = arraySpecificType;
-  
-  return arraySpecificType;
 }
 
 void IRGenerationContext::addModel(Model* model) {

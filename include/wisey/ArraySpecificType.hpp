@@ -14,6 +14,7 @@
 #include <llvm/IR/DerivedTypes.h>
 
 #include "wisey/ArrayType.hpp"
+#include "wisey/IExpression.hpp"
 #include "wisey/IType.hpp"
 
 namespace wisey {
@@ -28,12 +29,12 @@ namespace wisey {
   class ArraySpecificType : public IType {
     
     const IType* mElementType;
-    std::list<unsigned long> mDimensions;
+    std::list<const IExpression*> mDimensions;
     const ArraySpecificOwnerType* mArraySpecificOwnerType;
     
   public:
     
-    ArraySpecificType(const IType* elementType, std::list<unsigned long> dimensions);
+    ArraySpecificType(const IType* elementType, std::list<const IExpression*> dimensions);
     
     ~ArraySpecificType();
     

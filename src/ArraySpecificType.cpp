@@ -11,11 +11,13 @@
 #include "wisey/ArraySpecificOwnerType.hpp"
 #include "wisey/ArraySpecificType.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace std;
 using namespace wisey;
 
-ArraySpecificType::ArraySpecificType(const IType* elementType, list<unsigned long> dimensions) :
+ArraySpecificType::ArraySpecificType(const IType* elementType,
+                                     list<const IExpression*> dimensions) :
 mElementType(elementType), mDimensions(dimensions) {
   assert(dimensions.size());
   mArraySpecificOwnerType = new ArraySpecificOwnerType(this);
@@ -39,8 +41,8 @@ const IType* ArraySpecificType::getElementType() const {
 
 string ArraySpecificType::getTypeName() const {
   string name = mElementType->getTypeName();
-  for (unsigned long dimension : mDimensions) {
-    name = name + "[" + to_string(dimension) + "]";
+  for (unsigned i = 0; i < mDimensions.size(); i++) {
+    name = name + "[]";
   }
   return name;
 }
@@ -59,15 +61,18 @@ ArraySpecificType::computeArrayAllocData(IRGenerationContext& context) const {
   llvm::Value* elementSize = llvm::ConstantExpr::getSizeOf(mElementType->getLLVMType(context));
   llvm::Value* sizeStore = IRWriter::newAllocaInst(context, int64Type, "arraySize");
   IRWriter::newStoreInst(context, elementSize, sizeStore);
-  list<unsigned long> dimensionsReversed = mDimensions;
+  list<const IExpression*> dimensionsReversed = mDimensions;
   dimensionsReversed.reverse();
-  for (unsigned long dimension : dimensionsReversed) {
-    llvm::Value* dimensionValue = llvm::ConstantInt::get(int64Type, dimension);
+  for (const IExpression* dimension : dimensionsReversed) {
+    llvm::Value* dimensionValue = dimension->generateIR(context, PrimitiveTypes::VOID_TYPE);
+    llvm::Value* dimensionCast = dimension->getType(context)->castTo(context,
+                                                                     dimensionValue,
+                                                                     PrimitiveTypes::LONG_TYPE, 0);
     llvm::Value* sizeValue = IRWriter::newLoadInst(context, sizeStore, "size");
-    result.push_front(make_tuple(dimensionValue, sizeValue));
+    result.push_front(make_tuple(dimensionCast, sizeValue));
     llvm::Value* newSize = IRWriter::createBinaryOperator(context,
                                                           llvm::Instruction::Mul,
-                                                          dimensionValue,
+                                                          dimensionCast,
                                                           sizeValue,
                                                           "");
     llvm::Value* withHeader = IRWriter::createBinaryOperator(context,

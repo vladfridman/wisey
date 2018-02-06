@@ -13,23 +13,28 @@ using namespace std;
 using namespace wisey;
 
 ArraySpecificTypeSpecifier::ArraySpecificTypeSpecifier(ITypeSpecifier* elementTypeSpecifier,
-                                       std::list<unsigned long> dimensions) :
+                                                       std::list<const IExpression*> dimensions) :
 mElementTypeSpecifier(elementTypeSpecifier), mDimensions(dimensions) {
 }
 
 ArraySpecificTypeSpecifier::~ArraySpecificTypeSpecifier() {
   delete mElementTypeSpecifier;
+  for (const IExpression* expression : mDimensions) {
+    delete expression;
+  }
 }
 
 ArraySpecificType* ArraySpecificTypeSpecifier::getType(IRGenerationContext& context) const {
-  return context.getArraySpecificType(mElementTypeSpecifier->getType(context), mDimensions);
+  return new ArraySpecificType(mElementTypeSpecifier->getType(context), mDimensions);
 }
 
 void ArraySpecificTypeSpecifier::printToStream(IRGenerationContext& context,
                                                iostream &stream) const {
   mElementTypeSpecifier->printToStream(context, stream);
-  for (long dimension : mDimensions) {
-    stream << "[" << dimension << "]";
+  for (const IExpression* dimension : mDimensions) {
+    stream << "[";
+    dimension->printToStream(context, stream);
+    stream << "]";
   }
 }
 

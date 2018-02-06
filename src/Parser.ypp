@@ -168,7 +168,7 @@
   std::vector<wisey::ITypeSpecifier*>* type_specifier_list;
   std::vector<wisey::IModelTypeSpecifier*>* model_type_specifier_list;
   std::vector<wisey::IInterfaceTypeSpecifier*>* interface_list;
-  std::list<unsigned long>* list_of_unsigned_longs;
+  std::list<const wisey::IExpression*>* list_of_const_expressions;
   std::string* string;
   unsigned long unsignedlong;
   int token;
@@ -259,7 +259,7 @@
 %type <catch_vector> catch_block
 %type <model_type_specifier_list> method_exceptions exception_type_specifier_list
 %type <interface_list> interface_list implmeneted_interfaces extends_interfaces
-%type <list_of_unsigned_longs> array_dimensions
+%type <list_of_const_expressions> array_dimensions
 %type <unsignedlong> array_undefined_dimensions_list;
 
 %left '+' '-'
@@ -1235,14 +1235,13 @@ array_specific_type_specifier
   ;
 
 array_dimensions
-  : '[' TINTEGER ']' 
+  : '[' expression ']' 
     { 
-      $$ = new std::list<unsigned long>(); 
-      $$->push_back(strtoul($2->c_str(), NULL, 0)); 
-      delete $2; 
+      $$ = new std::list<const IExpression*>(); 
+      $$->push_back($2); 
     }
-  | array_dimensions '[' TINTEGER ']' 
-    { $1->push_back(strtoul($3->c_str(), NULL, 0)); $$ = $1; delete $3; }
+  | array_dimensions '[' expression ']' 
+    { $1->push_back($3); $$ = $1; }
   ;
 
 array_undefined_dimensions_list

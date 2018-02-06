@@ -19,7 +19,6 @@
 
 #include "wisey/ArrayType.hpp"
 #include "wisey/ArrayExactType.hpp"
-#include "wisey/ArraySpecificType.hpp"
 #include "wisey/Controller.hpp"
 #include "wisey/ImportProfile.hpp"
 #include "wisey/Interface.hpp"
@@ -47,7 +46,6 @@ class IRGenerationContext : public IPrintable {
   std::unique_ptr<llvm::Module> mModuleOwner;
   llvm::BasicBlock* mBasicBlock;
   std::map<std::string, ArrayType*> mArrayTypes;
-  std::map<std::string, ArraySpecificType*> mArraySpecificTypes;
   std::map<std::string, ArrayExactType*> mArrayExactTypes;
   std::map<std::string, Model*> mModels;
   std::map<std::string, Controller*> mControllers;
@@ -112,12 +110,6 @@ public:
    */
   ArrayExactType* getArrayExactType(const IType* elementType,
                                     std::list<unsigned long> dimensions);
-
-  /**
-   * Get an array specific type for dynamic array allocation such as new int[5]
-   */
-  ArraySpecificType* getArraySpecificType(const IType* elementType,
-                                          std::list<unsigned long> dimensions);
 
   /**
    * Add a model type

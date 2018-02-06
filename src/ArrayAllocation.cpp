@@ -30,19 +30,23 @@ ArrayAllocation::~ArrayAllocation() {
 Value* ArrayAllocation::generateIR(IRGenerationContext &context, const IType* assignToType) const {
   ArraySpecificType* arraySpecificType = mArraySpecificTypeSpecifier->getType(context);
   Value* arrayPointer = allocateArray(context, arraySpecificType);
-  
+  Value* arrayCast = IRWriter::newBitCastInst(context, arrayPointer, arraySpecificType->
+                                              getArrayType(context)->getLLVMType(context));
+
   if (assignToType->isOwner()) {
-    return arrayPointer;
+    return arrayCast;
   }
 
-  Value* alloc = IRWriter::newAllocaInst(context, arrayPointer->getType(), "");
-  IRWriter::newStoreInst(context, arrayPointer, alloc);
+  Value* alloc = IRWriter::newAllocaInst(context, arrayCast->getType(), "");
+  IRWriter::newStoreInst(context, arrayCast, alloc);
   const ArrayOwnerType* arrayOwnerType = arraySpecificType->getArrayType(context)->getOwner();
   string variableName = IVariable::getTemporaryVariableName(this);
   IVariable* variable = new LocalArrayOwnerVariable(variableName, arrayOwnerType, alloc);
   context.getScopes().setVariable(variable);
+
+  delete arraySpecificType;
   
-  return arrayPointer;
+  return arrayCast;
 }
 
 Value* ArrayAllocation::allocateArray(IRGenerationContext& context,
@@ -142,7 +146,10 @@ bool ArrayAllocation::isConstant() const {
 }
 
 const IType* ArrayAllocation::getType(IRGenerationContext& context) const {
-  return mArraySpecificTypeSpecifier->getType(context)->getOwner();
+  const ArraySpecificType* arraySpecificType = mArraySpecificTypeSpecifier->getType(context);
+  const ArrayOwnerType* arrayOwnerType = arraySpecificType->getArrayType(context)->getOwner();
+  delete arraySpecificType;
+  return arrayOwnerType;
 }
 
 void ArrayAllocation::printToStream(IRGenerationContext &context, iostream &stream) const {

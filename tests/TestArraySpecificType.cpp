@@ -11,6 +11,9 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+#include <llvm/IR/Constants.h>
+
+#include "MockExpression.hpp"
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/ArraySpecificType.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -19,6 +22,9 @@
 using namespace std;
 using namespace wisey;
 
+using ::testing::_;
+using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
 
 struct ArraySpecificTypeTest : public Test {
@@ -26,12 +32,20 @@ struct ArraySpecificTypeTest : public Test {
   llvm::LLVMContext& mLLVMContext;
   ArraySpecificType* mArraySpecificType;
   ArraySpecificType* mMultiDimentionalArraySpecificType;
-  
+  NiceMock<MockExpression> mFiveExpression;
+  NiceMock<MockExpression> mTenExpression;
+
   ArraySpecificTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
-    list<unsigned long> dimensions;
-    dimensions.push_back(5u);
+    llvm::Constant* five = llvm::ConstantInt::get(llvm::Type::getInt64Ty(mLLVMContext), 5);
+    ON_CALL(mFiveExpression, generateIR(_, _)).WillByDefault(Return(five));
+    ON_CALL(mFiveExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    llvm::Constant* ten = llvm::ConstantInt::get(llvm::Type::getInt64Ty(mLLVMContext), 10);
+    ON_CALL(mTenExpression, generateIR(_, _)).WillByDefault(Return(ten));
+    ON_CALL(mTenExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    list<const IExpression*> dimensions;
+    dimensions.push_back(&mFiveExpression);
     mArraySpecificType = new ArraySpecificType(PrimitiveTypes::LONG_TYPE, dimensions);
-    dimensions.push_back(10u);
+    dimensions.push_back(&mTenExpression);
     mMultiDimentionalArraySpecificType = new ArraySpecificType(PrimitiveTypes::LONG_TYPE,
                                                                dimensions);
   }
@@ -48,7 +62,7 @@ TEST_F(ArraySpecificTypeTest, getElementTypeTest) {
 }
 
 TEST_F(ArraySpecificTypeTest, getNameTest) {
-  EXPECT_STREQ("long[5]", mArraySpecificType->getTypeName().c_str());
+  EXPECT_STREQ("long[]", mArraySpecificType->getTypeName().c_str());
 }
 
 TEST_F(ArraySpecificTypeTest, getLLVMTypeTest) {

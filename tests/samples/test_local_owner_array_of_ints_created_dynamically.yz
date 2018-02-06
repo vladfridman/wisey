@@ -1,0 +1,20 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+
+  private int[]* createIntArray(int size) {
+    return new int[size];
+  }
+
+  public int run() {
+
+    int[]* array = createIntArray(5);
+    array[4] = 1;
+
+    return array[4];
+  }
+}
+
+bind(CProgram).to(IProgram);
