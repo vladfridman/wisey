@@ -1072,7 +1072,8 @@ static_array_allocation
 
 static_array_elements
   : expression { $$ = new ExpressionList(); $$->push_back($1); }
-  | call_arguments ',' expression  { $1->push_back($3); }
+  | call_arguments ',' expression  { $1->push_back($3); $$ = $1; }
+  | call_arguments ','  { $$ = $1; }
   ;
 
 injection

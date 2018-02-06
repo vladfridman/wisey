@@ -144,3 +144,7 @@ TEST_F(TestFileSampleRunner, localArrayOwnerOfIntsStaticAllocationRunTest) {
   runFile("tests/samples/test_local_array_owner_of_ints_static_allocation.yz", "5");
 }
 
+TEST_F(TestFileSampleRunner, localArrayOwnerOfIntsStaticAllocationTrailingCommaRunTest) {
+  runFile("tests/samples/test_local_array_owner_of_ints_static_allocation_trailing_comma.yz", "5");
+}
+
