@@ -52,8 +52,8 @@ Value* ArrayAllocation::allocateArray(IRGenerationContext& context,
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   llvm::Constant* one = llvm::ConstantInt::get(llvm::Type::getInt64Ty(context.getLLVMContext()), 1);
   Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, one, "newarray");
-  IntrinsicFunctions::setMemoryToZero(context, malloc, structType);
-  
+  IntrinsicFunctions::setMemoryToZero(context, malloc, ConstantExpr::getSizeOf(structType));
+
   initializeEmptyArray(context, malloc, arraySpecificType->getDimensions());
   
   return malloc;

@@ -256,7 +256,7 @@ Instruction* Node::build(IRGenerationContext& context,
                          int line) const {
   checkArguments(objectBuilderArgumentList);
   Instruction* malloc = createMalloc(context);
-  IntrinsicFunctions::setMemoryToZero(context, malloc, mStructType);
+  IntrinsicFunctions::setMemoryToZero(context, malloc, ConstantExpr::getSizeOf(mStructType));
   initializePresetFields(context, objectBuilderArgumentList, malloc, line);
   initializeVTable(context, (IConcreteObjectType*) this, malloc);
   

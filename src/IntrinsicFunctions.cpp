@@ -61,20 +61,19 @@ Function* IntrinsicFunctions::getMemSetFunction(IRGenerationContext& context) {
 }
 
 Instruction* IntrinsicFunctions::setMemoryToZero(IRGenerationContext& context,
-                                                 llvm::Value* memoryPointer,
-                                                 llvm::Type* type) {
+                                                 Value* memoryPointer,
+                                                 Value* size) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Value* bitcast = IRWriter::newBitCastInst(context,
                                             memoryPointer,
                                             Type::getInt8Ty(llvmContext)->getPointerTo());
   ConstantInt* zero = ConstantInt::get(Type::getInt8Ty(llvmContext), 0);
-  llvm::Constant* allocSize = ConstantExpr::getSizeOf(type);
   
   vector<Value*> arguments;
   unsigned int memoryAlignment = Environment::getDefaultMemoryAllignment();
   arguments.push_back(bitcast);
   arguments.push_back(zero);
-  arguments.push_back(allocSize);
+  arguments.push_back(size);
   arguments.push_back(ConstantInt::get(Type::getInt32Ty(llvmContext), memoryAlignment));
   arguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 0));
   Function* memSetFunction = getMemSetFunction(context);

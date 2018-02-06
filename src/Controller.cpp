@@ -148,7 +148,7 @@ Instruction* Controller::inject(IRGenerationContext& context,
   
   checkArguments(injectionArgumentList);
   Instruction* malloc = createMalloc(context);
-  IntrinsicFunctions::setMemoryToZero(context, malloc, mStructType);
+  IntrinsicFunctions::setMemoryToZero(context, malloc, ConstantExpr::getSizeOf(mStructType));
   initializeReceivedFields(context, injectionArgumentList, malloc, line);
   initializeInjectedFields(context, malloc, line);
   initializeVTable(context, (IConcreteObjectType*) this, malloc);

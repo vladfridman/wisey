@@ -9,6 +9,7 @@
 
 #include <gtest/gtest.h>
 
+#include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
 #include "wisey/IRWriter.hpp"
@@ -68,7 +69,7 @@ TEST_F(IntrinsicFunctionsTest, getMemCopyFunctionTest) {
 TEST_F(IntrinsicFunctionsTest, setMemoryToZeroTest) {
   Type* type = Type::getInt32Ty(mLLVMContext);
   Value* alloca = IRWriter::newAllocaInst(mContext, type, "");
-  IntrinsicFunctions::setMemoryToZero(mContext, alloca, type);
+  IntrinsicFunctions::setMemoryToZero(mContext, alloca, ConstantExpr::getSizeOf(type));
   
   *mStringStream << *mBasicBlock;
   string expected =

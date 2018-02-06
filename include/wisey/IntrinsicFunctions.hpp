@@ -47,7 +47,7 @@ public:
    */
   static llvm::Instruction* setMemoryToZero(IRGenerationContext& context,
                                             llvm::Value* memoryPointer,
-                                            llvm::Type* type);
+                                            llvm::Value* size);
   
   /**
    * Declares __gxx_personality_v0 function that is used orchestrate exception handling
