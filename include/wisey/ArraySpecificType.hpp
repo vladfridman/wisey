@@ -57,6 +57,9 @@ namespace wisey {
      */
     const IType* getElementType() const;
     
+    /**
+     * Computes sizes of all sub arrays and array element sizes
+     */
     std::list<std::tuple<llvm::Value*, llvm::Value*>> computeArrayAllocData(IRGenerationContext&
                                                                             context) const;
     

@@ -82,7 +82,7 @@ TEST_F(ArrayAllocationTest, generateIRTest) {
   string expected =
   "\nentry:"
   "\n  %arraySize = alloca i64"
-  "\n  store i64 4, i64* %arraySize"
+  "\n  store i64 ptrtoint (i32* getelementptr (i32, i32* null, i32 1) to i64), i64* %arraySize"
   "\n  %size = load i64, i64* %arraySize"
   "\n  %0 = mul i64 5, %size"
   "\n  %1 = add i64 %0, 24"

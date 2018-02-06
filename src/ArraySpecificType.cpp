@@ -61,7 +61,7 @@ ArraySpecificType::computeArrayAllocData(IRGenerationContext& context) const {
   llvm::Value* headerSize = llvm::ConstantInt::get(int64Type, 8 * 3);
   list<tuple<llvm::Value*, llvm::Value*>> result;
   
-  llvm::Value* elementSize = mElementType->computeSize(context);
+  llvm::Value* elementSize = llvm::ConstantExpr::getSizeOf(mElementType->getLLVMType(context));
   llvm::Value* sizeStore = IRWriter::newAllocaInst(context, int64Type, "arraySize");
   IRWriter::newStoreInst(context, elementSize, sizeStore);
   list<unsigned long> dimensionsReversed = mDimensions;
