@@ -9,7 +9,10 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
+#include "wisey/ArrayElementAssignment.hpp"
+#include "wisey/ArrayElementExpression.hpp"
 #include "wisey/AutoCast.hpp"
+#include "wisey/Composer.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
@@ -46,11 +49,31 @@ Value* ParameterArrayReferenceVariable::generateAssignmentIR(IRGenerationContext
                                                              IExpression* assignToExpression,
                                                              vector<const IExpression*> arrayIndices,
                                                              int line) {
-  Log::e("Assignment to method parameters is not allowed");
-  exit(1);
+  if (!arrayIndices.size()) {
+    Log::e("Assignment to method parameters is not allowed");
+    exit(1);
+  }
+  
+  Composer::pushCallStack(context, line);
+  
+  Value* elementStore = ArrayElementExpression::generateElementIR(context,
+                                                                  mArrayType,
+                                                                  mValue,
+                                                                  arrayIndices);
+  
+  Value* result = ArrayElementAssignment::generateElementAssignment(context,
+                                                                    mArrayType->getElementType(),
+                                                                    assignToExpression,
+                                                                    elementStore,
+                                                                    line);
+
+  Composer::popCallStack(context);
+  
+  return result;
 }
 
 void ParameterArrayReferenceVariable::decrementReferenceCounter(IRGenerationContext&
                                                                 context) const {
   mArrayType->decrementReferenceCount(context, mValue);
 }
+

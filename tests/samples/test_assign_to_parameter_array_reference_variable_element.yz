@@ -1,0 +1,18 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+
+  private void assignToElement(int[] array, int index, int value) {
+    array[index] = value;
+  }
+
+  public int run() {
+    int[]* array = { 1, 2, 3, 4, 5};
+    assignToElement(array, 4, 7);
+    return array[4];
+  }
+}
+
+bind(CProgram).to(IProgram);
