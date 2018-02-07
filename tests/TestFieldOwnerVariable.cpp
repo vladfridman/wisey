@@ -79,8 +79,8 @@ struct FieldOwnerVariableTest : Test {
     objectStructType->setBody(types);
     vector<Field*> fields;
     InjectionArgumentList fieldArguments;
-    fields.push_back(new Field(STATE_FIELD, mNode->getOwner(), "foo", fieldArguments));
-    fields.push_back(new Field(STATE_FIELD, mInterface->getOwner(), "bar", fieldArguments));
+    fields.push_back(new Field(STATE_FIELD, mNode->getOwner(), NULL, "foo", fieldArguments));
+    fields.push_back(new Field(STATE_FIELD, mInterface->getOwner(), NULL, "bar", fieldArguments));
     mObject = Node::newNode(AccessLevel::PUBLIC_ACCESS, objectFullName, objectStructType);
     mObject->setFields(fields, 1u);
     

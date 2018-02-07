@@ -76,8 +76,8 @@ public:
     
     vector<Field*> fields;
     InjectionArgumentList fieldArguments;
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "foo", fieldArguments));
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "bar", fieldArguments));
+    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "foo", fieldArguments));
+    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "bar", fieldArguments));
     mModel->setFields(fields, 1u);
     
     mStringStream = new raw_string_ostream(mStringBuffer);

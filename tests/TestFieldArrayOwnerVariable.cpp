@@ -70,7 +70,7 @@ public:
     objectStructType->setBody(types);
     vector<Field*> fields;
     InjectionArgumentList fieldArguments;
-    fields.push_back(new Field(STATE_FIELD, mArrayType->getOwner(), "foo", fieldArguments));
+    fields.push_back(new Field(STATE_FIELD, mArrayType->getOwner(), NULL, "foo", fieldArguments));
     mObject = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                         objectFullName,
                                         objectStructType);

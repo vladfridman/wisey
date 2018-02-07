@@ -6,6 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/ArrayOwnerType.hpp"
+#include "wisey/ArraySpecificOwnerType.hpp"
 #include "wisey/Field.hpp"
 #include "wisey/FieldDeclaration.hpp"
 
@@ -39,6 +41,13 @@ Field* FieldDeclaration::declare(IRGenerationContext& context,
     fieldType = context.getBoundController(interface)->getOwner();
   }
   
-  return new Field(mFieldKind, fieldType, mName, mInjectionArgumentList);
+  const IType* injectedType = NULL;
+  if (mFieldKind == INJECTED_FIELD && IType::isArrayType(fieldType)) {
+    injectedType = fieldType;
+    fieldType = ((const ArraySpecificOwnerType*) fieldType)->getArraySpecificType()
+    ->getArrayType(context)->getOwner();
+  }
+  
+  return new Field(mFieldKind, fieldType, injectedType, mName, mInjectionArgumentList);
 }
 

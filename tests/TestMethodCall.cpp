@@ -91,8 +91,10 @@ public:
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, mStructType);
     vector<Field*> fields;
     InjectionArgumentList fieldArguments;
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", fieldArguments));
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", fieldArguments));
+    Field* field = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "width", fieldArguments);
+    fields.push_back(field);
+    field = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "height", fieldArguments);
+    fields.push_back(field);
     MethodArgument* methodArgument = new MethodArgument(PrimitiveTypes::FLOAT_TYPE, "argument");
     vector<MethodArgument*> methodArguments;
     methodArguments.push_back(methodArgument);

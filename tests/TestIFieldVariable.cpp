@@ -34,8 +34,9 @@ struct IFieldVariableTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   Controller* mController;
+  Model* mModel;
   Field* mStateField;
-  Field* mInjectedField;
+  Field* mFixedField;
   BasicBlock* mBasicBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
@@ -49,14 +50,28 @@ struct IFieldVariableTest : Test {
     StructType* controllerStructType = StructType::create(mLLVMContext, controllerFullName);
     controllerStructType->setBody(types);
     vector<Field*> controllerFields;
-    mInjectedField = new Field(INJECTED_FIELD, PrimitiveTypes::INT_TYPE, "foo", fieldArguments);
-    mStateField = new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, "bar", fieldArguments);
-    controllerFields.push_back(mInjectedField);
+    mStateField = new Field(STATE_FIELD,
+                            PrimitiveTypes::INT_TYPE,
+                            NULL,
+                            "bar",
+                            fieldArguments);
     controllerFields.push_back(mStateField);
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             controllerFullName,
                                             controllerStructType);
     mController->setFields(controllerFields, 1u);
+    
+    string modelFullName = "systems.vos.wisey.compiler.tests.MModel";
+    StructType* modelStructType = StructType::create(mLLVMContext, modelFullName);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, modelStructType);
+    mFixedField = new Field(FIXED_FIELD,
+                            PrimitiveTypes::INT_TYPE,
+                            NULL,
+                            "foo",
+                            fieldArguments);
+    vector<Field*> modelFields;
+    modelFields.push_back(mFixedField);
+    mModel->setFields(modelFields, 1u);
     
     FunctionType* functionType =
       FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
@@ -87,7 +102,7 @@ TEST_F(IFieldVariableTest, checkAndFindFieldForAssignmentTest) {
 }
 
 TEST_F(IFieldVariableTest, getFieldPointerTest) {
-  IFieldVariable::getFieldPointer(mContext, mController, "foo");
+  IFieldVariable::getFieldPointer(mContext, mController, "bar");
 
   *mStringStream << *mBasicBlock;
   string expected = string() +
@@ -106,7 +121,7 @@ TEST_F(IFieldVariableTest, checkAndFindFieldForAssignmentDoesNotExistDeathTest) 
 }
 
 TEST_F(IFieldVariableTest, checkAndFindFieldForAssignmentNotAssignableDeathTest) {
-  EXPECT_EXIT(IFieldVariable::checkAndFindFieldForAssignment(mContext, mController, "foo"),
+  EXPECT_EXIT(IFieldVariable::checkAndFindFieldForAssignment(mContext, mModel, "foo"),
               ::testing::ExitedWithCode(1),
               "Error: Can not assign to field foo");
 }

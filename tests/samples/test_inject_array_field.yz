@@ -2,17 +2,19 @@ package systems.vos.wisey.compiler.tests;
 
 import wisey.lang.IProgram;
 
-controller CAdder {
-  public int get() { return 1; }
+model MCar {
+  public int getYear() {
+    return 2018;
+  }
 }
 
 controller CProgram implements IProgram {
-  inject CAdder* mAdder1;
-  inject CAdder* mAdder2;
+
+  inject MCar*[5]* mArray;
 
   public int run() {
-    mAdder1 = mAdder2;
-    return mAdder1.get() + mAdder2.get();
+    mArray[4] = builder(MCar).build();
+    return mArray[4].getYear();
   }
 }
 

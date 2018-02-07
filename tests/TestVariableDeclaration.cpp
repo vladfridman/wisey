@@ -125,8 +125,8 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   structType->setBody(types);
   vector<Field*> fields;
   InjectionArgumentList arguments;
-  fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "fieldA", arguments));
-  fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "fieldB", arguments));
+  fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "fieldA", arguments));
+  fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "fieldB", arguments));
   Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
   model->setFields(fields, 1u);
 

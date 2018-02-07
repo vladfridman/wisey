@@ -315,8 +315,8 @@ TEST_F(InterfaceTest, printToStreamTest) {
   Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL);
   vector<Field*> fields;
   InjectionArgumentList arguments;
-  Field* field1 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mField1", arguments);
-  Field* field2 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mField2", arguments);
+  Field* field1 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mField1", arguments);
+  Field* field2 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mField2", arguments);
   fields.push_back(field1);
   fields.push_back(field2);
   innerPublicModel->setFields(fields, 0);

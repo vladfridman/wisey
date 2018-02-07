@@ -97,10 +97,12 @@ struct IConcreteObjectTypeTest : public Test {
     vector<Field*> starFields;
     starFields.push_back(new Field(FIXED_FIELD,
                                    PrimitiveTypes::INT_TYPE,
+                                   NULL,
                                    "mBrightness",
                                    fieldArguments));
     starFields.push_back(new Field(FIXED_FIELD,
                                    PrimitiveTypes::INT_TYPE,
+                                   NULL,
                                    "mWeight",
                                    fieldArguments));
     mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, starFullName, starStructType);
@@ -116,6 +118,7 @@ struct IConcreteObjectTypeTest : public Test {
     vector<Field*> galaxyFields;
     galaxyFields.push_back(new Field(FIXED_FIELD,
                                      mStarModel->getOwner(),
+                                     NULL,
                                      "mStar",
                                      fieldArguments));
     mGalaxyModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, galaxyFullName, galaxyStructType);
@@ -129,7 +132,7 @@ struct IConcreteObjectTypeTest : public Test {
     StructType* constellationStructType = StructType::create(mLLVMContext, constellationFullName);
     constellationStructType->setBody(constellationTypes);
     vector<Field*> constellationFields;
-    constellationFields.push_back(new Field(FIXED_FIELD, mStarModel, "mStar", fieldArguments));
+    constellationFields.push_back(new Field(FIXED_FIELD, mStarModel, NULL, "mStar", fieldArguments));
     mConstellationModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                           constellationFullName,
                                           constellationStructType);
@@ -157,6 +160,7 @@ struct IConcreteObjectTypeTest : public Test {
     vector<Field*> carFields;
     carFields.push_back(new Field(FIXED_FIELD,
                                   mCanNavigate->getOwner(),
+                                  NULL,
                                   "mNavigator",
                                   fieldArguments));
     mCarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, carFullName, carStructType);

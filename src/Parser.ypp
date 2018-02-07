@@ -7,6 +7,7 @@
   #include "wisey/ArrayAllocationStatic.hpp"
   #include "wisey/ArrayElementExpression.hpp"
   #include "wisey/ArrayOwnerTypeSpecifier.hpp"
+  #include "wisey/ArraySpecificOwnerTypeSpecifier.hpp"
   #include "wisey/ArraySpecificTypeSpecifier.hpp"
   #include "wisey/ArrayTypeSpecifier.hpp"
   #include "wisey/Assignment.hpp"
@@ -234,7 +235,8 @@
 %type <object_element_list> interface_element_delcaration_list
 %type <object_element_list> external_interface_element_delcaration_list
 %type <type_specifier> type_specifier primitive_type_specifier object_owner_type_specifier 
-%type <type_specifier> non_array_type_specifier
+%type <type_specifier> non_array_type_specifier injectable_type_specifier 
+%type <type_specifier> array_specific_owner_type_specifier
 %type <array_type_specifier> array_type_specifier
 %type <array_owner_type_specifier> array_owner_type_specifier
 %type <array_specific_type_specifier> array_specific_type_specifier
@@ -701,13 +703,13 @@ field_declaration
       $$ = new FieldDeclaration(FieldKind::FIXED_FIELD, $2, *$3, arguments);
       delete $3;
     }
-  | TINJECT type_specifier TFIELDIDENTIFIER ';'
+  | TINJECT injectable_type_specifier TFIELDIDENTIFIER ';'
     {
       InjectionArgumentList arguments;
       $$ = new FieldDeclaration(FieldKind::INJECTED_FIELD, $2, *$3, arguments);
       delete $3;
     }
-  | TINJECT type_specifier TFIELDIDENTIFIER injection_argument_list ';'
+  | TINJECT injectable_type_specifier TFIELDIDENTIFIER injection_argument_list ';'
     {
       $$ = new FieldDeclaration(INJECTED_FIELD, $2, *$3, *$4);
       delete $3;
@@ -1121,6 +1123,11 @@ type_specifier
   | array_owner_type_specifier { $$ = (ITypeSpecifier*) $1; }
   ;
 
+injectable_type_specifier
+  : non_array_type_specifier
+  | array_specific_owner_type_specifier
+  ;
+
 non_array_type_specifier
   : primitive_type_specifier
   | top_level_object_type_specifier { $$ = (ITypeSpecifier*) $1; }
@@ -1228,6 +1235,11 @@ array_owner_type_specifier
 array_type_specifier
   : non_array_type_specifier array_undefined_dimensions_list
     { $$ = new ArrayTypeSpecifier($1, $2); }
+  ;
+
+array_specific_owner_type_specifier
+  : array_specific_type_specifier '*'
+    { $$ = new ArraySpecificOwnerTypeSpecifier($1); }
   ;
 
 array_specific_type_specifier

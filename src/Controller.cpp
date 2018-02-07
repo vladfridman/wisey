@@ -9,6 +9,8 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp"
+#include "wisey/ArrayAllocation.hpp"
+#include "wisey/ArraySpecificOwnerType.hpp"
 #include "wisey/AutoCast.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/Controller.hpp"
@@ -346,16 +348,25 @@ void Controller::initializeInjectedFields(IRGenerationContext& context,
   index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
   for (Field* field : mInjectedFields) {
     const IType* fieldType = field->getType();
-    if (fieldType->getTypeKind() == CONTROLLER_TYPE) {
+    TypeKind fieldTypeKind = fieldType->getTypeKind();
+    Value* fieldValue = NULL;
+    if (fieldTypeKind == CONTROLLER_TYPE || fieldTypeKind == ARRAY_TYPE) {
       Log::e("Injected fields must have owner type denoted by '*'");
       exit(1);
-    }
-    if (fieldType->getTypeKind() != CONTROLLER_OWNER_TYPE) {
-      Log::e("Attempt to inject a variable that is not a Controller or an Interface");
+    } else if (fieldTypeKind == ARRAY_OWNER_TYPE) {
+      const ArraySpecificOwnerType* arraySpecificOwnerType =
+      (const ArraySpecificOwnerType*) field->getInjectedType();
+      const ArraySpecificType* arraySpecificType = arraySpecificOwnerType->getArraySpecificType();
+      Value* arrayPointer = ArrayAllocation::allocateArray(context, arraySpecificType);
+      fieldValue = IRWriter::newBitCastInst(context, arrayPointer, arraySpecificType->
+                                            getArrayType(context)->getLLVMType(context));
+    } else if (fieldTypeKind == CONTROLLER_OWNER_TYPE) {
+      Controller* controller = (Controller*) ((IObjectOwnerType*) fieldType)->getObject();
+      fieldValue = controller->inject(context, field->getInjectionArguments(), line);
+    } else {
+      Log::e("Attempt to inject a variable that is not a controller, an interface or an array");
       exit(1);
     }
-    Controller* controller = (Controller*) ((IObjectOwnerType*) fieldType)->getObject();
-    Value* fieldValue = controller->inject(context, field->getInjectionArguments(), line);
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     IRWriter::newStoreInst(context, fieldValue, fieldPointer);

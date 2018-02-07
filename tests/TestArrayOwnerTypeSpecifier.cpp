@@ -59,5 +59,3 @@ TEST_F(ArrayOwnerTypeSpecifierTest, printToStreamTest) {
   
   EXPECT_STREQ("string[]*", stringStream.str().c_str());
 }
-
-

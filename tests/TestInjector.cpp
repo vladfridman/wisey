@@ -65,8 +65,8 @@ struct InjectorTest : Test {
     controllerStructType->setBody(types);
     vector<Field*> controllerFields;
     InjectionArgumentList arguments;
-    Field* fieldLeft = new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, "left", arguments);
-    Field* fieldRight = new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, "right", arguments);
+    Field* fieldLeft = new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, NULL, "left", arguments);
+    Field* fieldRight = new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, NULL, "right", arguments);
      controllerFields.push_back(fieldLeft);
     controllerFields.push_back(fieldRight);
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,

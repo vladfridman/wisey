@@ -42,10 +42,12 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
     InjectionArgumentList fieldArguments;
     fields.push_back(new Field(RECEIVED_FIELD,
                                PrimitiveTypes::INT_TYPE,
+                               NULL,
                                "left",
                                fieldArguments));
     fields.push_back(new Field(RECEIVED_FIELD,
                                PrimitiveTypes::INT_TYPE,
+                               NULL,
                                "right",
                                 fieldArguments));
     vector<MethodArgument*> methodArguments;

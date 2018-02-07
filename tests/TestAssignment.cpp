@@ -200,8 +200,3 @@ TEST_F(TestFileSampleRunner, assignToAssignmentObjectRunTest) {
   runFile("tests/samples/test_assingment_to_assignment_object.yz", "3");
 }
 
-TEST_F(TestFileSampleRunner, assignToControllerRunDeathTest) {
-  expectFailCompile("tests/samples/test_assign_to_controller.yz",
-                    1,
-                    "Error: Can not assign to field mAdder1");
-}

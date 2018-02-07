@@ -6,6 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/ArraySpecificOwnerType.hpp"
 #include "wisey/Field.hpp"
 
 using namespace std;
@@ -13,16 +14,21 @@ using namespace wisey;
 
 Field::Field(FieldKind fieldKind,
              const IType* type,
+             const IType* injectedType,
              std::string name,
              InjectionArgumentList injectionArgumentList) :
 mFieldKind(fieldKind),
 mType(type),
+mInjectedType(injectedType),
 mName(name),
 mInjectionArgumentList(injectionArgumentList) { }
 
 Field::~Field() {
   // Injection arguments are deleted with field delcarations
   mInjectionArgumentList.clear();
+  if (mFieldKind == INJECTED_FIELD && mInjectedType && IType::isArrayType(mInjectedType)) {
+    delete ((const ArraySpecificOwnerType*) mInjectedType)->getArraySpecificType();
+  }
 }
 
 FieldKind Field::getFieldKind() const {
@@ -31,6 +37,10 @@ FieldKind Field::getFieldKind() const {
 
 const IType* Field::getType() const {
   return mType;
+}
+
+const IType* Field::getInjectedType() const {
+  return mInjectedType == NULL ? mType : mInjectedType;
 }
 
 string Field::getName() const {
@@ -42,7 +52,7 @@ InjectionArgumentList Field::getInjectionArguments() const {
 }
 
 bool Field::isAssignable() const {
-  return mFieldKind == FieldKind::STATE_FIELD || mFieldKind == FieldKind::RECEIVED_FIELD;
+  return mFieldKind != FieldKind::FIXED_FIELD;
 }
 
 ObjectElementType Field::getObjectElementType() const {

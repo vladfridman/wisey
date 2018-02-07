@@ -96,8 +96,8 @@ struct ModelTest : public Test {
     mStructType->setBody(types);
     vector<Field*> fields;
     InjectionArgumentList arguments;
-    mWidthField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mWidth", arguments);
-    mHeightField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mHeight", arguments);
+    mWidthField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mWidth", arguments);
+    mHeightField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mHeight", arguments);
     fields.push_back(mWidthField);
     fields.push_back(mHeightField);
     vector<MethodArgument*> methodArguments;
@@ -257,9 +257,10 @@ struct ModelTest : public Test {
     vector<Field*> starFields;
     starFields.push_back(new Field(FIXED_FIELD,
                                    mBirthdateModel->getOwner(),
+                                   NULL,
                                    "mBirthdate",
                                    arguments));
-    starFields.push_back(new Field(FIXED_FIELD, mGalaxyModel, "mGalaxy", arguments));
+    starFields.push_back(new Field(FIXED_FIELD, mGalaxyModel, NULL, "mGalaxy", arguments));
     mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, starFullName, starStructType);
     mStarModel->setFields(starFields, 1u);
     mContext.addModel(mStarModel);
@@ -685,8 +686,8 @@ TEST_F(ModelTest, printToStreamTest) {
   Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL);
   vector<Field*> fields;
   InjectionArgumentList arguments;
-  Field* field1 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mField1", arguments);
-  Field* field2 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mField2", arguments);
+  Field* field1 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mField1", arguments);
+  Field* field2 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mField2", arguments);
   fields.push_back(field1);
   fields.push_back(field2);
   innerPublicModel->setFields(fields, 0);

@@ -81,8 +81,8 @@ struct ModelOwnerTest : public Test {
 
     vector<Field*> fields;
     InjectionArgumentList arguments;
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", arguments));
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", arguments));
+    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "width", arguments));
+    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "height", arguments));
     vector<MethodArgument*> methodArguments;
     vector<const Model*> thrownExceptions;
     IMethod* method = new Method(mModel,
@@ -215,10 +215,12 @@ struct ModelOwnerTest : public Test {
     vector<Field*> starFields;
     starFields.push_back(new Field(FIXED_FIELD,
                                    PrimitiveTypes::INT_TYPE,
+                                   NULL,
                                    "mBrightness",
                                    arguments));
     starFields.push_back(new Field(FIXED_FIELD,
                                    PrimitiveTypes::INT_TYPE,
+                                   NULL,
                                    "mWeight",
                                    arguments));
     mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, starFullName, starStructType);

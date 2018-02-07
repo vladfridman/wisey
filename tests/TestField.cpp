@@ -57,18 +57,19 @@ public:
 };
 
 TEST_F(FieldTest, injectedFieldObjectCreationTest) {
-  Field field(FieldKind::INJECTED_FIELD, mType, mName, mInjectionArgumentList);
+  Field field(FieldKind::INJECTED_FIELD, mType, mType, mName, mInjectionArgumentList);
   
   EXPECT_EQ(field.getType(), mType);
+  EXPECT_EQ(field.getInjectedType(), mType);
   EXPECT_STREQ(field.getName().c_str(), "mField");
   EXPECT_EQ(field.getInjectionArguments().size(), 1u);
   EXPECT_EQ(field.getInjectionArguments().at(0), mInjectionArgument);
-  EXPECT_FALSE(field.isAssignable());
+  EXPECT_TRUE(field.isAssignable());
   EXPECT_EQ(field.getFieldKind(), FieldKind::INJECTED_FIELD);
 }
 
 TEST_F(FieldTest, injectedFieldPrintToStreamTest) {
-  Field field(FieldKind::INJECTED_FIELD, mType, mName, mInjectionArgumentList);
+  Field field(FieldKind::INJECTED_FIELD, mType, mType, mName, mInjectionArgumentList);
   
   stringstream stringStream;
   field.printToStream(mContext, stringStream);
@@ -78,7 +79,7 @@ TEST_F(FieldTest, injectedFieldPrintToStreamTest) {
 
 TEST_F(FieldTest, receivedFieldPrintToStreamTest) {
   InjectionArgumentList arguments;
-  Field field(FieldKind::RECEIVED_FIELD, PrimitiveTypes::DOUBLE_TYPE, mName, arguments);
+  Field field(FieldKind::RECEIVED_FIELD, PrimitiveTypes::DOUBLE_TYPE, NULL, mName, arguments);
 
   stringstream stringStream;
   field.printToStream(mContext, stringStream);
@@ -88,7 +89,7 @@ TEST_F(FieldTest, receivedFieldPrintToStreamTest) {
 
 TEST_F(FieldTest, stateFieldPrintToStreamTest) {
   InjectionArgumentList arguments;
-  Field field(FieldKind::STATE_FIELD, PrimitiveTypes::DOUBLE_TYPE, mName, arguments);
+  Field field(FieldKind::STATE_FIELD, PrimitiveTypes::DOUBLE_TYPE, NULL, mName, arguments);
 
   stringstream stringStream;
   field.printToStream(mContext, stringStream);
@@ -98,7 +99,7 @@ TEST_F(FieldTest, stateFieldPrintToStreamTest) {
 
 TEST_F(FieldTest, fixedFieldPrintToStreamTest) {
   InjectionArgumentList arguments;
-  Field field(FieldKind::FIXED_FIELD, PrimitiveTypes::DOUBLE_TYPE, mName, arguments);
+  Field field(FieldKind::FIXED_FIELD, PrimitiveTypes::DOUBLE_TYPE, NULL, mName, arguments);
 
   stringstream stringStream;
   field.printToStream(mContext, stringStream);

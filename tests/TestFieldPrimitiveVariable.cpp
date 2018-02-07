@@ -52,7 +52,7 @@ struct FieldPrimitiveVariableTest : Test {
     objectStructType->setBody(types);
     vector<Field*> fields;
     InjectionArgumentList arguments;
-    fields.push_back(new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, "foo", arguments));
+    fields.push_back(new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, NULL, "foo", arguments));
     mObject = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                         objectFullName,
                                         objectStructType);

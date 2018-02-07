@@ -154,8 +154,12 @@ struct ControllerTest : public Test {
                                                       mStructType);
     vector<Field*> fields;
     InjectionArgumentList fieldArguments;
-    mLeftField = new Field(RECEIVED_FIELD, PrimitiveTypes::INT_TYPE, "left", fieldArguments);
-    mRightField = new Field(RECEIVED_FIELD, PrimitiveTypes::INT_TYPE, "right", fieldArguments);
+    mLeftField = new Field(RECEIVED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "left", fieldArguments);
+    mRightField = new Field(RECEIVED_FIELD,
+                            PrimitiveTypes::INT_TYPE,
+                            NULL,
+                            "right",
+                            fieldArguments);
     fields.push_back(mLeftField);
     fields.push_back(mRightField);
     vector<MethodArgument*> methodArguments;
@@ -230,10 +234,12 @@ struct ControllerTest : public Test {
     vector<Field*> additorFields;
     additorFields.push_back(new Field(RECEIVED_FIELD,
                                       mOwnerNode->getOwner(),
+                                      NULL,
                                       "mOwner",
                                       fieldArguments));
     additorFields.push_back(new Field(RECEIVED_FIELD,
                                       mReferenceModel,
+                                      NULL,
                                       "mReference",
                                       fieldArguments));
     mAdditorController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
@@ -252,6 +258,7 @@ struct ControllerTest : public Test {
     vector<Field*> doublerFields;
     doublerFields.push_back(new Field(INJECTED_FIELD,
                                       PrimitiveTypes::INT_TYPE,
+                                      NULL,
                                       "left",
                                       fieldArguments));
     mDoublerController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
@@ -616,7 +623,8 @@ TEST_F(ControllerTest, injectNonInjectableTypeDeathTest) {
 
   EXPECT_EXIT(mDoublerController->inject(mContext, injectionArguments, 0),
               ::testing::ExitedWithCode(1),
-              "Error: Attempt to inject a variable that is not a Controller or an Interface");
+              "Error: Attempt to inject a variable that is not a controller, "
+              "an interface or an array");
 }
 
 TEST_F(ControllerTest, notWellFormedInjectionArgumentsDeathTest) {
@@ -697,6 +705,7 @@ TEST_F(ControllerTest, injectFieldTest) {
   InjectionArgumentList fieldArguments;
   parentFields.push_back(new Field(INJECTED_FIELD,
                                    childController->getOwner(),
+                                   NULL,
                                    "mChild",
                                    fieldArguments));
   Controller* parentController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
@@ -744,8 +753,8 @@ TEST_F(ControllerTest, printToStreamTest) {
   Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL);
   vector<Field*> fields;
   InjectionArgumentList arguments;
-  Field* field1 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mField1", arguments);
-  Field* field2 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mField2", arguments);
+  Field* field1 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mField1", arguments);
+  Field* field2 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mField2", arguments);
   fields.push_back(field1);
   fields.push_back(field2);
   innerPublicModel->setFields(fields, 0);
@@ -815,8 +824,13 @@ TEST_F(TestFileSampleRunner, controllerInjectionWithRecievedReferenceRunTest) {
   runFile("tests/samples/test_controller_injection_with_recieved_reference.yz", "7");
 }
 
+TEST_F(TestFileSampleRunner, injectArrayFieldRunTest) {
+  runFile("tests/samples/test_inject_array_field.yz", "2018");
+}
+
 TEST_F(TestFileSampleRunner, injectNonOwnerRunDeathTest) {
   expectFailCompile("tests/samples/test_inject_non_owner_run_death_test.yz",
                     1,
                     "Error: Injected fields must have owner type denoted by '\\*'");
 }
+

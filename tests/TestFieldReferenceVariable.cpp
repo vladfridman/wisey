@@ -79,8 +79,8 @@ struct FieldReferenceVariableTest : Test {
     objectStructType->setBody(types);
     vector<Field*> fields;
     InjectionArgumentList fieldArguments;
-    fields.push_back(new Field(STATE_FIELD, mNode, "foo", fieldArguments));
-    fields.push_back(new Field(STATE_FIELD, mInterface, "bar", fieldArguments));
+    fields.push_back(new Field(STATE_FIELD, mNode, NULL, "foo", fieldArguments));
+    fields.push_back(new Field(STATE_FIELD, mInterface, NULL, "bar", fieldArguments));
     mObject = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                         objectFullName,
                                         objectStructType);

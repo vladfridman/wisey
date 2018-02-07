@@ -26,6 +26,7 @@ namespace wisey {
 class Field : public IPrintable, public IObjectElement {
   const FieldKind mFieldKind;
   const IType* mType;
+  const IType* mInjectedType;
   std::string mName;
   InjectionArgumentList mInjectionArgumentList;
   
@@ -33,6 +34,7 @@ public:
   
   Field(FieldKind fieldKind,
         const IType* type,
+        const IType* injectedType,
         std::string name,
         InjectionArgumentList injectionArgumentList);
   
@@ -47,6 +49,11 @@ public:
    * Returns field type
    */
   const IType* getType() const;
+  
+  /**
+   * Returns type that should be injected and assigned to the field when injecting an object
+   */
+  const IType* getInjectedType() const;
   
   /**
    * Returns field name

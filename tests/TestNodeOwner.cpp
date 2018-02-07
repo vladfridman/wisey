@@ -138,8 +138,8 @@ struct NodeOwnerTest : public Test {
     mStructType->setBody(types);
     vector<Field*> fields;
     InjectionArgumentList fieldArguments;
-    mLeftField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mLeft", fieldArguments);
-    mRightField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mRight", fieldArguments);
+    mLeftField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mLeft", fieldArguments);
+    mRightField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mRight", fieldArguments);
     fields.push_back(mLeftField);
     fields.push_back(mRightField);
     vector<MethodArgument*> methodArguments;
@@ -186,13 +186,15 @@ struct NodeOwnerTest : public Test {
     vector<Field*> simpleNodeFields;
     simpleNodeFields.push_back(new Field(FIXED_FIELD,
                                          PrimitiveTypes::INT_TYPE,
+                                         NULL,
                                          "mLeft",
                                           fieldArguments));
     simpleNodeFields.push_back(new Field(FIXED_FIELD,
                                          PrimitiveTypes::INT_TYPE,
+                                         NULL,
                                          "mRight",
                                          fieldArguments));
-    mAreaField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mArea", fieldArguments);
+    mAreaField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mArea", fieldArguments);
     simpleNodeFields.push_back(mAreaField);
     mSimpleNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                 simpleNodeFullName,
@@ -210,10 +212,12 @@ struct NodeOwnerTest : public Test {
     vector<Field*> simplerNodeFields;
     simplerNodeFields.push_back(new Field(FIXED_FIELD,
                                           PrimitiveTypes::INT_TYPE,
+                                          NULL,
                                           "mLeft",
                                           fieldArguments));
     simplerNodeFields.push_back(new Field(FIXED_FIELD,
                                           PrimitiveTypes::INT_TYPE,
+                                          NULL, 
                                           "mRight",
                                           fieldArguments));
     mSimplerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,

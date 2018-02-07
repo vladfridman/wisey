@@ -157,8 +157,8 @@ struct NodeTest : public Test {
                                      complicatedNodeFullName,
                                      mStructType);
    InjectionArgumentList arguments;
-    mLeftField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mLeft", arguments);
-    mRightField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mRight", arguments);
+    mLeftField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE,  NULL, "mLeft", arguments);
+    mRightField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE,  NULL, "mRight", arguments);
     fields.push_back(mLeftField);
     fields.push_back(mRightField);
     vector<MethodArgument*> methodArguments;
@@ -228,9 +228,14 @@ struct NodeTest : public Test {
     vector<Field*> simpleNodeFields;
     simpleNodeFields.push_back(new Field(FIXED_FIELD,
                                          mOwnerNode->getOwner(),
+                                         NULL,
                                          "mOwner",
                                         arguments));
-    simpleNodeFields.push_back(new Field(FIXED_FIELD, mReferenceModel, "mReference", arguments));
+    simpleNodeFields.push_back(new Field(FIXED_FIELD,
+                                         mReferenceModel,
+                                         NULL,
+                                         "mReference",
+                                         arguments));
     mSimpleNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                 simpleNodeFullName,
                                 simpleNodeStructType);
@@ -247,10 +252,12 @@ struct NodeTest : public Test {
     vector<Field*> simplerNodeFields;
     simplerNodeFields.push_back(new Field(FIXED_FIELD,
                                           PrimitiveTypes::INT_TYPE,
+                                          NULL,
                                           "mLeft",
                                           arguments));
     simplerNodeFields.push_back(new Field(FIXED_FIELD,
                                           PrimitiveTypes::INT_TYPE,
+                                          NULL,
                                           "mRight",
                                           arguments));
     mSimplerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
@@ -670,8 +677,8 @@ TEST_F(NodeTest, printToStreamTest) {
   Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL);
   vector<Field*> fields;
   InjectionArgumentList arguments;
-  Field* field1 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mField1", arguments);
-  Field* field2 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mField2", arguments);
+  Field* field1 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mField1", arguments);
+  Field* field2 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mField2", arguments);
   fields.push_back(field1);
   fields.push_back(field2);
   innerPublicModel->setFields(fields, 0);

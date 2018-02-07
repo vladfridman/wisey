@@ -93,8 +93,10 @@ struct TypeComparisionExpressionTest : public Test {
 
     vector<Field*> squareFields;
     InjectionArgumentList arguments;
-    squareFields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", arguments));
-    squareFields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", arguments));
+    Field* field = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "width", arguments);
+    squareFields.push_back(field);
+    field = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "height", arguments);
+    squareFields.push_back(field);
     vector<MethodArgument*> methodArguments;
     vector<IMethod*> squareMethods;
     vector<const Model*> thrownExceptions;

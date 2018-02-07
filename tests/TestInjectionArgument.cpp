@@ -46,7 +46,8 @@ struct InjectionArgumentTest : Test {
     structType->setBody(types);
     vector<Field*> fields;
     InjectionArgumentList arguments;
-    fields.push_back(new Field(RECEIVED_FIELD, PrimitiveTypes::INT_TYPE, "mFieldA", arguments));
+    Field* field = new Field(RECEIVED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mFieldA", arguments);
+    fields.push_back(field);
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
     mController->setFields(fields, 1u);
     
