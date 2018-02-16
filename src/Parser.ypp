@@ -84,7 +84,7 @@
   #include "wisey/NullExpression.hpp"
   #include "wisey/ObjectBuilder.hpp"
   #include "wisey/ObjectBuilderArgument.hpp"
-  #include "wisey/OwnerTypeSpecifier.hpp"
+  #include "wisey/ObjectOwnerTypeSpecifier.hpp"
   #include "wisey/PackageType.hpp"
   #include "wisey/PrimitiveTypes.hpp"
   #include "wisey/PrimitiveTypeSpecifier.hpp"
@@ -1137,8 +1137,8 @@ non_array_type_specifier
 
 
 object_owner_type_specifier
-  : top_level_object_type_specifier '*' { $$ = new OwnerTypeSpecifier($1); }
-  | inner_object_type_specifier '*' { $$ = new OwnerTypeSpecifier($1); }
+  : top_level_object_type_specifier '*' { $$ = new ObjectOwnerTypeSpecifier($1); }
+  | inner_object_type_specifier '*' { $$ = new ObjectOwnerTypeSpecifier($1); }
   ;
 
 inner_model_type_specifier

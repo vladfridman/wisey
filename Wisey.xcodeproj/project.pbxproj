@@ -774,8 +774,8 @@
 		F5EEDDA01E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EEDD9F1E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp */; };
 		F5EEDDA11E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EEDD9F1E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp */; };
 		F5EEDDA31E6EF50100215278 /* TestInterfaceTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EEDDA21E6EF50100215278 /* TestInterfaceTypeSpecifier.cpp */; };
-		F5F2F3771EEAFAF80060CF42 /* OwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F2F3761EEAFAF80060CF42 /* OwnerTypeSpecifier.cpp */; };
-		F5F2F3781EEAFAF80060CF42 /* OwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F2F3761EEAFAF80060CF42 /* OwnerTypeSpecifier.cpp */; };
+		F5F2F3771EEAFAF80060CF42 /* ObjectOwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F2F3761EEAFAF80060CF42 /* ObjectOwnerTypeSpecifier.cpp */; };
+		F5F2F3781EEAFAF80060CF42 /* ObjectOwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F2F3761EEAFAF80060CF42 /* ObjectOwnerTypeSpecifier.cpp */; };
 		F5F396D71E34BBDD00F34296 /* ObjectBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396D61E34BBDD00F34296 /* ObjectBuilder.cpp */; };
 		F5F396D81E34BBDD00F34296 /* ObjectBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396D61E34BBDD00F34296 /* ObjectBuilder.cpp */; };
 		F5F396DB1E34BFE000F34296 /* ObjectBuilderArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396DA1E34BFE000F34296 /* ObjectBuilderArgument.cpp */; };
@@ -1543,8 +1543,8 @@
 		F5E6BD0D1F1B7DCD00D59444 /* TestComposer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestComposer.cpp; path = tests/TestComposer.cpp; sourceTree = "<group>"; };
 		F5EEDD9F1E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InterfaceTypeSpecifier.cpp; path = src/InterfaceTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F5EEDDA21E6EF50100215278 /* TestInterfaceTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInterfaceTypeSpecifier.cpp; path = tests/TestInterfaceTypeSpecifier.cpp; sourceTree = "<group>"; };
-		F5F2F3751EEAFA110060CF42 /* OwnerTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = OwnerTypeSpecifier.hpp; path = include/wisey/OwnerTypeSpecifier.hpp; sourceTree = "<group>"; };
-		F5F2F3761EEAFAF80060CF42 /* OwnerTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OwnerTypeSpecifier.cpp; path = src/OwnerTypeSpecifier.cpp; sourceTree = "<group>"; };
+		F5F2F3751EEAFA110060CF42 /* ObjectOwnerTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ObjectOwnerTypeSpecifier.hpp; path = include/wisey/ObjectOwnerTypeSpecifier.hpp; sourceTree = "<group>"; };
+		F5F2F3761EEAFAF80060CF42 /* ObjectOwnerTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectOwnerTypeSpecifier.cpp; path = src/ObjectOwnerTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F5F396D61E34BBDD00F34296 /* ObjectBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectBuilder.cpp; path = src/ObjectBuilder.cpp; sourceTree = "<group>"; };
 		F5F396DA1E34BFE000F34296 /* ObjectBuilderArgument.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectBuilderArgument.cpp; path = src/ObjectBuilderArgument.cpp; sourceTree = "<group>"; };
 		F5F396DD1E3F898900F34296 /* TestObjectBuilderArgument.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectBuilderArgument.cpp; path = tests/TestObjectBuilderArgument.cpp; sourceTree = "<group>"; };
@@ -2529,7 +2529,7 @@
 				F5436DB11FCF7240003ABF6F /* NodeTypeSpecifierFull.hpp */,
 				F5089C931ECD01D9004A1223 /* ObjectBuilder.hpp */,
 				F5089C941ECD01D9004A1223 /* ObjectBuilderArgument.hpp */,
-				F5F2F3751EEAFA110060CF42 /* OwnerTypeSpecifier.hpp */,
+				F5F2F3751EEAFA110060CF42 /* ObjectOwnerTypeSpecifier.hpp */,
 			);
 			name = objects;
 			sourceTree = "<group>";
@@ -2568,7 +2568,7 @@
 				F5436DB51FCF72CE003ABF6F /* NodeTypeSpecifierFull.cpp */,
 				F5F396D61E34BBDD00F34296 /* ObjectBuilder.cpp */,
 				F5F396DA1E34BFE000F34296 /* ObjectBuilderArgument.cpp */,
-				F5F2F3761EEAFAF80060CF42 /* OwnerTypeSpecifier.cpp */,
+				F5F2F3761EEAFAF80060CF42 /* ObjectOwnerTypeSpecifier.cpp */,
 			);
 			name = objects;
 			sourceTree = "<group>";
@@ -3002,7 +3002,7 @@
 				F53A2C461F0298E800E76A9E /* NullType.cpp in Sources */,
 				F558057C1F96A29D004F62F2 /* ExitStatement.cpp in Sources */,
 				F57085FD1E51E2ED007D627E /* MethodCall.cpp in Sources */,
-				F5F2F3781EEAFAF80060CF42 /* OwnerTypeSpecifier.cpp in Sources */,
+				F5F2F3781EEAFAF80060CF42 /* ObjectOwnerTypeSpecifier.cpp in Sources */,
 				F531B63D1E089E59008304F3 /* ExpressionStatement.cpp in Sources */,
 				F574116C1E042390009809FF /* IncrementExpression.cpp in Sources */,
 				F51797141E660779009B16AA /* TestInterfaceDefinition.cpp in Sources */,
@@ -3505,7 +3505,7 @@
 				F508E0691E72D954005D6115 /* IMethodDescriptor.cpp in Sources */,
 				F5B3DCE51F9116AF00FC76D3 /* IMethodCall.cpp in Sources */,
 				F58A83561F798B6300369388 /* ExternalNodeDefinition.cpp in Sources */,
-				F5F2F3771EEAFAF80060CF42 /* OwnerTypeSpecifier.cpp in Sources */,
+				F5F2F3771EEAFAF80060CF42 /* ObjectOwnerTypeSpecifier.cpp in Sources */,
 				F5A67DA520120A0A0018068F /* LocalArrayReferenceVariable.cpp in Sources */,
 				F51701A4200E992200A10B7C /* ArrayOwnerType.cpp in Sources */,
 				F5A363571F376C90005880B3 /* IFieldVariable.cpp in Sources */,

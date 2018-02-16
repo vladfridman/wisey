@@ -24,7 +24,7 @@
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/ObjectBuilder.hpp"
-#include "wisey/OwnerTypeSpecifier.hpp"
+#include "wisey/ObjectOwnerTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramSuffix.hpp"
 #include "wisey/ReturnStatement.hpp"
@@ -86,9 +86,10 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   programInterfaceSpecifier = new InterfaceTypeSpecifier(packageExpression,
                                                          Names::getIProgramName());
-  OwnerTypeSpecifier* programOwnerTypeSpecifier = new OwnerTypeSpecifier(programInterfaceSpecifier);
+  ObjectOwnerTypeSpecifier* programObjectOwnerTypeSpecifier =
+  new ObjectOwnerTypeSpecifier(programInterfaceSpecifier);
   VariableDeclaration* programVariableDeclaration =
-  VariableDeclaration::createWithAssignment(programOwnerTypeSpecifier,
+  VariableDeclaration::createWithAssignment(programObjectOwnerTypeSpecifier,
                                             programIdentifier,
                                             injector,
                                             0);
