@@ -114,6 +114,14 @@ TEST_F(ConstantReferenceTest, printToStreamTest) {
   EXPECT_STREQ("MMyObject.MYCONSTANT", stringStream.str().c_str());
 }
 
+TEST_F(ConstantReferenceTest, printToStreamConstantReferenceWihtoutObjectTest) {
+  stringstream stringStream;
+  ConstantReference constantReference(NULL, mName);
+  constantReference.printToStream(mContext, stringStream);
+  
+  EXPECT_STREQ("MYCONSTANT", stringStream.str().c_str());
+}
+
 TEST_F(TestFileSampleRunner, constantReferenceInObjectRunTest) {
   runFile("tests/samples/test_constant_reference_in_object.yz", "5");
 }

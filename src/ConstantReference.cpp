@@ -55,7 +55,10 @@ bool ConstantReference::isConstant() const {
 
 void ConstantReference::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   const IObjectType* objectType = getObjectType(context);
-  stream << objectType->getTypeName() << "." << mConstantName;
+  if (objectType) {
+    stream << objectType->getTypeName() << ".";
+  }
+  stream << mConstantName;
 }
 
 const IObjectType* ConstantReference::getObjectType(IRGenerationContext& context) const {
