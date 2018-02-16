@@ -63,8 +63,10 @@ external controller wisey.lang.CProgramRunner {
 
 external controller wisey.lang.CThread {
 
-  state wisey.lang.CThread.NCallStackNode* mCallStackHead;
-  state wisey.lang.CThread.NCallStackNode mCallStackTail;
+  public constant int CALL_STACK_SIZE = 1024;
+
+  inject wisey.lang.CThread.NCallStackNode*[CALL_STACK_SIZE]* mCallStack;
+  state int mCallIStackIndex;
 
   void pushStack(
     string objectName,

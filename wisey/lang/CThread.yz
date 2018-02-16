@@ -4,8 +4,10 @@ package wisey.lang;
  * Keeps track of the method call stack and can print out a strack trace
  */
 controller CThread {
-  state NCallStackNode* mCallStackHead;
-  state NCallStackNode mCallStackTail;
+  public constant int CALL_STACK_SIZE = 1024;
+
+  inject NCallStackNode*[CALL_STACK_SIZE]* mCallStack;
+  state int mCallIStackIndex;
 
   /**
    * Pushes a new method on the call stack
@@ -14,54 +16,33 @@ controller CThread {
                         string methodName, 
                         string fileName, 
                         int lineNumber) {
-    if (mCallStackTail == null) {
-      NCallStackNode* newNode = builder(NCallStackNode)
-        .withObjectName(objectName)
-        .withMethodName(methodName)
-        .withFileName(fileName)
-        .withLineNumber(lineNumber)
-        .withPreviousNode(null)
-        .build();
-      mCallStackHead = newNode;
-      mCallStackTail = mCallStackHead;
-    } else {
-      NCallStackNode* newNode = builder(NCallStackNode)
-        .withObjectName(objectName)
-        .withMethodName(methodName)
-        .withFileName(fileName)
-        .withLineNumber(lineNumber)
-        .withPreviousNode(mCallStackTail)
-        .build();
-      mCallStackTail.setNext(newNode);
-      mCallStackTail = mCallStackTail.getNext();
-    }
+    NCallStackNode* newNode = builder(NCallStackNode)
+      .withObjectName(objectName)
+      .withMethodName(methodName)
+      .withFileName(fileName)
+      .withLineNumber(lineNumber)
+      .build();
+
+    mCallStack[mCallIStackIndex] = newNode;
+    mCallIStackIndex++;
   }
 
   /**
    * Pops the method call stack
    */
   public void popStack() {
-    if (mCallStackTail == null) {
-      return;
-    }
-
-    mCallStackTail = mCallStackTail.getPrevious();
-    if (mCallStackTail == null) {
-      mCallStackHead = null;
-    } else {
-      mCallStackTail.setNext(null);
-    }
+    mCallStack[mCallIStackIndex] = null;
+    mCallIStackIndex--;
   }
 
   /**
    * Dumps the call stack to standart output
    */
   public void dumpStack() {
-    NCallStackNode iterator = mCallStackTail;
-    while (iterator != null) {
-      printout(iterator.getObjectName() + "." + iterator.getMethodName() + "(" + 
-        iterator.getFileName() + ":" + iterator.getLineNumber() + ")\n");
-      iterator = iterator.getPrevious();
+    for (int i = mCallIStackIndex - 1; i >= 0; i--) {
+      NCallStackNode current = mCallStack[i];
+      printout(current.getObjectName() + "." + current.getMethodName() + "(" + 
+        current.getFileName() + ":" + current.getLineNumber() + ")\n");
     }
   }
 
@@ -72,11 +53,10 @@ controller CThread {
    */
   public void reportException(IException exception) {
     printerr("Unhandled exception " + exception.getName() + "\n");
-    NCallStackNode iterator = mCallStackTail;
-    while (iterator != null) {
-      printerr("  at " + iterator.getObjectName() + "." + iterator.getMethodName() + "(" +
-        iterator.getFileName() + ":" + iterator.getLineNumber() + ")\n");
-      iterator = iterator.getPrevious();
+    for (int i = mCallIStackIndex - 1; i >= 0; i--) {
+      NCallStackNode current = mCallStack[i];
+      printerr("  at " + current.getObjectName() + "." + current.getMethodName() + "(" +
+        current.getFileName() + ":" + current.getLineNumber() + ")\n");
     }
   }
 
@@ -88,8 +68,6 @@ controller CThread {
     string mMethodName;
     string mFileName;
     int mLineNumber;
-    NCallStackNode mPreviousNode;
-    state NCallStackNode* mNextNode;
 
     public string getObjectName() {
       return mObjectName;
@@ -105,18 +83,6 @@ controller CThread {
 
     public int getLineNumber() {
       return mLineNumber;
-    }
-
-    public void setNext(NCallStackNode* next) {
-      mNextNode = next;
-    }
-
-    public NCallStackNode getNext() {
-      return mNextNode;
-    }
-
-    public NCallStackNode getPrevious() {
-      return mPreviousNode;
     }
   }
 }
