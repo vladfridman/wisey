@@ -5,6 +5,7 @@ import wisey.lang.MArrayIndexOutOfBoundsException;
 import wisey.lang.MCastException;
 import wisey.lang.MNullPointerException;
 import wisey.lang.MReferenceCountException;
+import wisey.lang.MStackOverflowException;
 
 /**
  * Injects program controller and runs it
@@ -32,6 +33,9 @@ controller CProgramRunner {
       thread.reportException(exception);
       printerr("Details: Index " + exception.getIndex() + " is used on array of size " + 
         exception.getArraySize() + "\n");
+      exit(1);
+    } catch (MStackOverflowException* exception) {
+      thread.reportException(exception);
       exit(1);
     }
   }

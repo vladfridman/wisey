@@ -1,0 +1,20 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.CThread;
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+
+  private void callRecursive(int iteration) {
+    if (iteration > 0) {
+      callRecursive(iteration - 1);
+    }
+  }
+
+  public int run() {
+    callRecursive(wisey.lang.CThread.CALL_STACK_SIZE);
+    return 1;
+  }
+}
+
+bind(CProgram).to(IProgram);

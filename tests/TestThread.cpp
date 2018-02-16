@@ -36,3 +36,13 @@ TEST_F(TestFileSampleRunner, stackTraceMultipleFilesRunTest) {
   files.push_back("tests/samples/test_multifile_stack_trace/MAdder.yz");
   runFilesCheckOutput(files, expected.c_str(), "");
 }
+
+TEST_F(TestFileSampleRunner, stackOverflowRunDeathTest) {
+  string expected = "Unhandled exception wisey.lang.MStackOverflowException\n";
+  for (int i = 0; i < 1023; i++) {
+    expected += "  at systems.vos.wisey.compiler.tests.CProgram.callRecursive(tests/samples/test_stack_overflow.yz:10)\n";
+  }
+  expected += "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_stack_overflow.yz:15)\n";
+  
+  compileAndRunFileCheckOutput("tests/samples/test_stack_overflow.yz", 1, "", expected.c_str());
+}

@@ -1,0 +1,9 @@
+package wisey.lang;
+
+import wisey.lang.IException;
+
+model MStackOverflowException implements IException {
+  public string getName() {
+    return "wisey.lang.MStackOverflowException";
+  }
+}

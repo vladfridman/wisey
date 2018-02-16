@@ -53,6 +53,13 @@ external model wisey.lang.MReferenceCountException
   long getReferenceCount();
 }
 
+external model wisey.lang.MStackOverflowException
+  implements
+    wisey.lang.IException {
+
+  string getName();
+}
+
 /* Controllers */
 
 external controller wisey.lang.CProgramRunner {

@@ -1,5 +1,7 @@
 package wisey.lang;
 
+import wisey.lang.MStackOverflowException;
+
 /**
  * Keeps track of the method call stack and can print out a strack trace
  */
@@ -19,6 +21,9 @@ controller CThread {
                         string methodName, 
                         string fileName, 
                         int lineNumber) {
+    if (mCallIStackIndex >= CALL_STACK_SIZE) {
+      throw builder(MStackOverflowException).build();
+    }
     mCallStackObjectNames[mCallIStackIndex] = objectName;
     mCallStackMethodNames[mCallIStackIndex] = methodName;
     mCallStackFileNames[mCallIStackIndex] = fileName;
@@ -30,6 +35,10 @@ controller CThread {
    * Pops the method call stack
    */
   public void popStack() {
+    if (mCallIStackIndex == 0) {
+      return;
+    }
+
     mCallIStackIndex--;
   }
 
