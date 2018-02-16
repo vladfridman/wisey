@@ -201,7 +201,7 @@
 %type <expression> conditional_expression postfix_expression object_builder
 %type <expression> cast_expression primary_expression assignment unary_expression
 %type <expression> type_comparision_expression injection array_allocation static_array_allocation
-%type <expression> thread_expression constant_reference static_method_call
+%type <expression> thread_expression constant_reference static_method_call field_identifier
 %type <variable_vector> method_declaration_arguments
 %type <expression_vector> call_arguments string_concatenation_list static_array_elements
 %type <block> block_item_list 
@@ -955,11 +955,15 @@ static_method_call
 
 identifier
   : TIDENTIFIER { $$ = new Identifier(*$1); delete $1; }
-  | TFIELDIDENTIFIER { $$ = new Identifier(*$1); delete $1; }
+  ;
+
+field_identifier
+  : TFIELDIDENTIFIER { $$ = new Identifier(*$1); delete $1; }
   ;
 
 primary_expression
   : identifier { $$ = (IExpression*) $1; }
+  | field_identifier
   | constant_value
   | constant_reference
   | string_literal
