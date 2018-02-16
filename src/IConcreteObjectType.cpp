@@ -560,19 +560,19 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
   }
   stream << " {" << endl;
   
+  if (object->getConstants().size()) {
+    stream << endl;
+  }
+  for (Constant* constant : object->getConstants()) {
+    constant->printToStream(context, stream);
+  }
+
   vector<Field*> fields = object->getFields();
   if (fields.size()) {
     stream << endl;
   }
   for (Field* field : fields) {
     field->printToStream(context, stream);
-  }
-  
-  if (object->getConstants().size()) {
-    stream << endl;
-  }
-  for (Constant* constant : object->getConstants()) {
-    constant->printToStream(context, stream);
   }
   
   if (object->getMethods().size()) {
