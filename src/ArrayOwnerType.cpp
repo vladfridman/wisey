@@ -88,3 +88,7 @@ void ArrayOwnerType::free(IRGenerationContext& context, llvm::Value* arrayPointe
 bool ArrayOwnerType::isOwner() const {
   return true;
 }
+
+void ArrayOwnerType::printToStream(IRGenerationContext &context, iostream& stream) const {
+  stream << getTypeName();
+}

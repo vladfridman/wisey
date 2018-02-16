@@ -68,3 +68,7 @@ bool FloatType::isOwner() const {
 string FloatType::getFormat() const {
   return "%f";
 }
+
+void FloatType::printToStream(IRGenerationContext &context, iostream& stream) const {
+  stream << getTypeName();
+}

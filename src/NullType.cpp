@@ -48,4 +48,8 @@ bool NullType::isOwner() const {
   return false;
 }
 
+void NullType::printToStream(IRGenerationContext &context, iostream& stream) const {
+  stream << getTypeName();
+}
+
 NullType* NullType::NULL_TYPE = new NullType();

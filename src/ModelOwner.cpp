@@ -75,3 +75,7 @@ Function* ModelOwner::getDestructorFunction(IRGenerationContext& context) const 
 bool ModelOwner::isOwner() const {
   return true;
 }
+
+void ModelOwner::printToStream(IRGenerationContext &context, iostream& stream) const {
+  stream << getTypeName();
+}

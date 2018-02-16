@@ -48,5 +48,9 @@ bool UndefinedType::isOwner() const {
   return false;
 }
 
+void UndefinedType::printToStream(IRGenerationContext &context, iostream& stream) const {
+  stream << getTypeName();
+}
+
 UndefinedType* UndefinedType::UNDEFINED_TYPE = new UndefinedType();
 

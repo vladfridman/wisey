@@ -13,7 +13,6 @@
 
 #include "wisey/IMethodDescriptor.hpp"
 #include "wisey/IObjectOwnerType.hpp"
-#include "wisey/IPrintable.hpp"
 #include "wisey/IReferenceType.hpp"
 #include "wisey/ImportProfile.hpp"
 
@@ -24,7 +23,7 @@ class Constant;
 /**
  * Represents an IType that is either model, controller or interface
  */
-class IObjectType : public IPrintable, public IReferenceType {
+class IObjectType : public IReferenceType {
     
 public:
   

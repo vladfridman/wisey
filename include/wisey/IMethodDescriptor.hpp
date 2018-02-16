@@ -31,7 +31,7 @@ class Model;
  *
  * There are two implementations: Method and MethodSignature
  */
-class IMethodDescriptor : public IType, public IPrintable {
+class IMethodDescriptor : public IType {
 
 public:
   

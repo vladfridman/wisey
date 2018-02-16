@@ -61,3 +61,7 @@ bool VoidType::isOwner() const {
 string VoidType::getFormat() const {
   return "";
 }
+
+void VoidType::printToStream(IRGenerationContext &context, iostream& stream) const {
+  stream << getTypeName();
+}

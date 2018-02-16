@@ -118,3 +118,6 @@ bool ArrayType::isOwner() const {
   return false;
 }
 
+void ArrayType::printToStream(IRGenerationContext &context, iostream& stream) const {
+  stream << getTypeName();
+}

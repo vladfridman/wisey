@@ -87,3 +87,7 @@ Function* InterfaceOwner::getDestructorFunction(IRGenerationContext& context) co
 bool InterfaceOwner::isOwner() const {
   return true;
 }
+
+void InterfaceOwner::printToStream(IRGenerationContext &context, iostream& stream) const {
+  stream << getTypeName();
+}

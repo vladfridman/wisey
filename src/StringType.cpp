@@ -55,3 +55,7 @@ bool StringType::isOwner() const {
 string StringType::getFormat() const {
   return "%s";
 }
+
+void StringType::printToStream(IRGenerationContext &context, iostream& stream) const {
+  stream << getTypeName();
+}

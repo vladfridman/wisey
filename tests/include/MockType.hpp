@@ -30,6 +30,7 @@ public:
                                            const wisey::IType*,
                                            int));
   MOCK_CONST_METHOD0(isOwner, bool ());
+  MOCK_CONST_METHOD2(printToStream, void (wisey::IRGenerationContext&, std::iostream& stream));
 };
 
 #endif /* MockType_h */

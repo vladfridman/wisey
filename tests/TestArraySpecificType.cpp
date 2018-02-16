@@ -23,6 +23,7 @@ using namespace std;
 using namespace wisey;
 
 using ::testing::_;
+using ::testing::Invoke;
 using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
@@ -39,15 +40,25 @@ struct ArraySpecificTypeTest : public Test {
     llvm::Constant* five = llvm::ConstantInt::get(llvm::Type::getInt64Ty(mLLVMContext), 5);
     ON_CALL(mFiveExpression, generateIR(_, _)).WillByDefault(Return(five));
     ON_CALL(mFiveExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(mFiveExpression, printToStream(_, _)).WillByDefault(Invoke(printFive));
     llvm::Constant* ten = llvm::ConstantInt::get(llvm::Type::getInt64Ty(mLLVMContext), 10);
     ON_CALL(mTenExpression, generateIR(_, _)).WillByDefault(Return(ten));
     ON_CALL(mTenExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(mTenExpression, printToStream(_, _)).WillByDefault(Invoke(printTen));
     list<const IExpression*> dimensions;
     dimensions.push_back(&mFiveExpression);
     mArraySpecificType = new ArraySpecificType(PrimitiveTypes::LONG_TYPE, dimensions);
     dimensions.push_back(&mTenExpression);
     mMultiDimentionalArraySpecificType = new ArraySpecificType(PrimitiveTypes::LONG_TYPE,
                                                                dimensions);
+  }
+  
+  static void printFive(IRGenerationContext& context, iostream& stream) {
+    stream << "5";
+  }
+  
+  static void printTen(IRGenerationContext& context, iostream& stream) {
+    stream << "10";
   }
 };
 
@@ -97,4 +108,11 @@ TEST_F(ArraySpecificTypeTest, getNumberOfDimensionsTest) {
 
 TEST_F(ArraySpecificTypeTest, isOwnerTest) {
   EXPECT_FALSE(mArraySpecificType->isOwner());
+}
+
+TEST_F(ArraySpecificTypeTest, printToStreamTest) {
+  stringstream stringStream;
+  mMultiDimentionalArraySpecificType->printToStream(mContext, stringStream);
+  
+  EXPECT_STREQ("long[5][10]", stringStream.str().c_str());
 }

@@ -48,3 +48,7 @@ Value* PackageType::castTo(IRGenerationContext &context,
 bool PackageType::isOwner() const {
   return false;
 }
+
+void PackageType::printToStream(IRGenerationContext &context, iostream& stream) const {
+  stream << getTypeName();
+}

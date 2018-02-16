@@ -73,3 +73,7 @@ bool CharType::isOwner() const {
 string CharType::getFormat() const {
   return "%c";
 }
+
+void CharType::printToStream(IRGenerationContext &context, iostream& stream) const {
+  stream << getTypeName();
+}

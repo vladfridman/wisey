@@ -131,3 +131,11 @@ void ArraySpecificType::checkDimensionType(const IType* type) const {
   exit(1);
 }
 
+void ArraySpecificType::printToStream(IRGenerationContext &context, iostream& stream) const {
+  mElementType->printToStream(context, stream);
+  for (const IExpression* dimension : mDimensions) {
+    stream << "[";
+    dimension->printToStream(context, stream);
+    stream << "]";
+  }
+}

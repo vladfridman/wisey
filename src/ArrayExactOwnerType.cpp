@@ -79,3 +79,7 @@ void ArrayExactOwnerType::free(IRGenerationContext& context, llvm::Value* arrayP
 bool ArrayExactOwnerType::isOwner() const {
   return true;
 }
+
+void ArrayExactOwnerType::printToStream(IRGenerationContext &context, iostream& stream) const {
+  stream << getTypeName();
+}

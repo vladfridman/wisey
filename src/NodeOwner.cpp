@@ -75,3 +75,7 @@ Function* NodeOwner::getDestructorFunction(IRGenerationContext& context) const {
 bool NodeOwner::isOwner() const {
   return true;
 }
+
+void NodeOwner::printToStream(IRGenerationContext &context, iostream& stream) const {
+  stream << getTypeName();
+}

@@ -72,3 +72,7 @@ bool BooleanType::isOwner() const {
 string BooleanType::getFormat() const {
   return "%d";
 }
+
+void BooleanType::printToStream(IRGenerationContext &context, iostream& stream) const {
+  stream << getTypeName();
+}

@@ -69,3 +69,7 @@ bool IntType::isOwner() const {
 string IntType::getFormat() const {
   return "%d";
 }
+
+void IntType::printToStream(IRGenerationContext &context, iostream& stream) const {
+  stream << getTypeName();
+}

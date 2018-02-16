@@ -22,6 +22,7 @@ using namespace std;
 using namespace wisey;
 
 using ::testing::_;
+using ::testing::Invoke;
 using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
@@ -39,11 +40,16 @@ struct ArraySpecificOwnerTypeTest : public Test {
     llvm::Constant* five = llvm::ConstantInt::get(llvm::Type::getInt64Ty(mLLVMContext), 5);
     ON_CALL(mFiveExpression, generateIR(_, _)).WillByDefault(Return(five));
     ON_CALL(mFiveExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(mFiveExpression, printToStream(_, _)).WillByDefault(Invoke(printFive));
     list<const IExpression*> dimensions;
     dimensions.push_back(&mFiveExpression);
     mArraySpecificType = new ArraySpecificType(PrimitiveTypes::LONG_TYPE, dimensions);
     mArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, 1u);
     mArraySpecificOwnerType = new ArraySpecificOwnerType(mArraySpecificType);
+  }
+  
+  static void printFive(IRGenerationContext& context, iostream& stream) {
+    stream << "5";
   }
 };
 
@@ -85,4 +91,11 @@ TEST_F(ArraySpecificOwnerTypeTest, canAutoCastToTest) {
 
 TEST_F(ArraySpecificOwnerTypeTest, isOwnerTest) {
   EXPECT_TRUE(mArraySpecificOwnerType->isOwner());
+}
+
+TEST_F(ArraySpecificOwnerTypeTest, printToStreamTest) {
+  stringstream stringStream;
+  mArraySpecificOwnerType->printToStream(mContext, stringStream);
+  
+  EXPECT_STREQ("long[5]*", stringStream.str().c_str());
 }

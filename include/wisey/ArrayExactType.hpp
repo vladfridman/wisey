@@ -79,6 +79,8 @@ namespace wisey {
     
     bool isOwner() const override;
     
+    void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
+
   };
   
 } /* namespace wisey */

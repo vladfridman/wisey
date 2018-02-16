@@ -80,3 +80,8 @@ bool ArraySpecificOwnerType::isOwner() const {
   return true;
 }
 
+void ArraySpecificOwnerType::printToStream(IRGenerationContext &context, iostream& stream) const {
+  mArraySpecificType->printToStream(context, stream);
+  stream << "*";
+}
+

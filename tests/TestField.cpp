@@ -42,13 +42,17 @@ public:
   mName("mField") {
     mInjectionArgument = new InjectionArgument("withFoo", mExpression);
     mInjectionArgumentList.push_back(mInjectionArgument);
-    ON_CALL(*mType, getTypeName()).WillByDefault(Return("MObject*"));
+    ON_CALL(*mType, printToStream(_, _)).WillByDefault(Invoke(printType));
     ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
   }
   
   ~FieldTest() {
     delete mType;
     delete mExpression;
+  }
+
+  static void printType(IRGenerationContext& context, iostream& stream) {
+    stream << "MObject*";
   }
 
   static void printExpression(IRGenerationContext& context, iostream& stream) {

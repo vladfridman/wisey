@@ -81,6 +81,8 @@ namespace wisey {
     
     bool isOwner() const override;
     
+    void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
+
   private:
     
     void checkDimensionType(const IType* type) const;

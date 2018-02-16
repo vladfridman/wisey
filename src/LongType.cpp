@@ -67,3 +67,7 @@ Value* LongType::castTo(IRGenerationContext& context,
 string LongType::getFormat() const {
   return "%d";
 }
+
+void LongType::printToStream(IRGenerationContext &context, iostream& stream) const {
+  stream << getTypeName();
+}

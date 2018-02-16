@@ -75,3 +75,7 @@ Function* ControllerOwner::getDestructorFunction(IRGenerationContext& context) c
 bool ControllerOwner::isOwner() const {
   return true;
 }
+
+void ControllerOwner::printToStream(IRGenerationContext &context, iostream& stream) const {
+  stream << getTypeName();
+}

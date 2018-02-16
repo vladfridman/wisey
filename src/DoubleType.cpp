@@ -68,3 +68,7 @@ bool DoubleType::isOwner() const {
 string DoubleType::getFormat() const {
   return "%e";
 }
+
+void DoubleType::printToStream(IRGenerationContext &context, iostream& stream) const {
+  stream << getTypeName();
+}
