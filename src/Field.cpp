@@ -75,7 +75,7 @@ void Field::printToStream(IRGenerationContext& context, iostream& stream) const 
       break;
   }
 
-  getType()->printToStream(context, stream);
+  (mInjectedType ? mInjectedType : mType)->printToStream(context, stream);
   stream << " " << getName();
   
   if (!mInjectionArgumentList.size()) {

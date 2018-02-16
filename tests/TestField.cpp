@@ -29,6 +29,7 @@ using ::testing::Test;
 struct FieldTest : public Test {
   IRGenerationContext mContext;
   NiceMock<MockType>* mType;
+  NiceMock<MockType>* mInjectedType;
   NiceMock<MockExpression>* mExpression;
   string mName;
   InjectionArgumentList mInjectionArgumentList;
@@ -38,21 +39,28 @@ public:
   
   FieldTest() :
   mType(new NiceMock<MockType>()),
+  mInjectedType(new NiceMock<MockType>()),
   mExpression(new NiceMock<MockExpression>()),
   mName("mField") {
     mInjectionArgument = new InjectionArgument("withFoo", mExpression);
     mInjectionArgumentList.push_back(mInjectionArgument);
     ON_CALL(*mType, printToStream(_, _)).WillByDefault(Invoke(printType));
+    ON_CALL(*mInjectedType, printToStream(_, _)).WillByDefault(Invoke(printInjectedType));
     ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
   }
   
   ~FieldTest() {
     delete mType;
     delete mExpression;
+    delete mInjectedType;
   }
 
   static void printType(IRGenerationContext& context, iostream& stream) {
     stream << "MObject*";
+  }
+
+  static void printInjectedType(IRGenerationContext& context, iostream& stream) {
+    stream << "MInjectedObject*";
   }
 
   static void printExpression(IRGenerationContext& context, iostream& stream) {
@@ -73,12 +81,13 @@ TEST_F(FieldTest, injectedFieldObjectCreationTest) {
 }
 
 TEST_F(FieldTest, injectedFieldPrintToStreamTest) {
-  Field field(FieldKind::INJECTED_FIELD, mType, mType, mName, mInjectionArgumentList);
+  Field field(FieldKind::INJECTED_FIELD, mType, mInjectedType, mName, mInjectionArgumentList);
   
   stringstream stringStream;
   field.printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("  inject MObject* mField.withFoo(expression);\n", stringStream.str().c_str());
+  EXPECT_STREQ("  inject MInjectedObject* mField.withFoo(expression);\n",
+               stringStream.str().c_str());
 }
 
 TEST_F(FieldTest, receivedFieldPrintToStreamTest) {
