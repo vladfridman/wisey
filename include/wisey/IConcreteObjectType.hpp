@@ -330,10 +330,6 @@ private:
   static llvm::Constant* getObjectShortNamePointer(const IConcreteObjectType* object,
                                                    IRGenerationContext& context);
 
-  static bool hasReferenceArrayField(const IConcreteObjectType* object);
-
-  static bool hasOwnerArrayField(const IConcreteObjectType* object);
-
 };
   
 } /* namespace wisey */

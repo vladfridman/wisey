@@ -208,34 +208,6 @@ void IConcreteObjectType::scheduleDestructorBodyComposition(IRGenerationContext&
   context.addComposingCallback1Objects(composeDestructorBody, function, object);
 }
 
-bool IConcreteObjectType::hasReferenceArrayField(const IConcreteObjectType* object) {
-  for (Field* field : object->getFields()) {
-    if (field->getType()->getTypeKind() != ARRAY_TYPE) {
-      continue;
-    }
-    const wisey::ArrayType* arrayType = (const wisey::ArrayType*) field->getType();
-    if (IType::isReferenceType(arrayType->getElementType())) {
-      return true;
-    }
-  }
-  
-  return false;
-}
-
-bool IConcreteObjectType::hasOwnerArrayField(const IConcreteObjectType* object) {
-  for (Field* field : object->getFields()) {
-    if (field->getType()->getTypeKind() != ARRAY_TYPE) {
-      continue;
-    }
-    const wisey::ArrayType* arrayType = (const wisey::ArrayType*) field->getType();
-    if (IType::isOwnerType(arrayType->getElementType())) {
-      return true;
-    }
-  }
-  
-  return false;
-}
-
 void IConcreteObjectType::addUnthunkInfo(IRGenerationContext& context,
                                          const IConcreteObjectType* object,
                                          vector<vector<llvm::Constant*>>& vTables) {
