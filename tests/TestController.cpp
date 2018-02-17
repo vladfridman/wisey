@@ -812,8 +812,8 @@ TEST_F(ControllerTest, printToStreamTest) {
                stringStream.str().c_str());
 }
 
-TEST_F(ControllerTest, allocateVariableTest) {
-  mMultiplierController->allocateVariable(mContext, "temp");
+TEST_F(ControllerTest, allocateLocalVariableTest) {
+  mMultiplierController->allocateLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);

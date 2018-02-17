@@ -173,7 +173,7 @@ void StaticMethod::printToStream(IRGenerationContext& context, iostream& stream)
   IMethodDescriptor::printDescriptorToStream(this, stream);
 }
 
-void StaticMethod::allocateVariable(IRGenerationContext& context, string name) const {
+void StaticMethod::allocateLocalVariable(IRGenerationContext& context, string name) const {
   assert(false);
 }
 

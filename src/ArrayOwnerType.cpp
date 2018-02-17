@@ -100,7 +100,7 @@ void ArrayOwnerType::printToStream(IRGenerationContext& context, iostream& strea
   stream << getTypeName();
 }
 
-void ArrayOwnerType::allocateVariable(IRGenerationContext& context, string name) const {
+void ArrayOwnerType::allocateLocalVariable(IRGenerationContext& context, string name) const {
   llvm::PointerType* llvmType = getLLVMType(context);
   llvm::AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
   IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloc);

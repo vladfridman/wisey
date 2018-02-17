@@ -735,8 +735,8 @@ TEST_F(NodeTest, printToStreamTest) {
                stringStream.str().c_str());
 }
 
-TEST_F(NodeTest, allocateVariableTest) {
-  mComplicatedNode->allocateVariable(mContext, "temp");
+TEST_F(NodeTest, allocateLocalVariableTest) {
+  mComplicatedNode->allocateLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);

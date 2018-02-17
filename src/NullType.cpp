@@ -58,7 +58,7 @@ void NullType::printToStream(IRGenerationContext &context, iostream& stream) con
   stream << getTypeName();
 }
 
-void NullType::allocateVariable(IRGenerationContext& context, string name) const {
+void NullType::allocateLocalVariable(IRGenerationContext& context, string name) const {
   assert(false);
 }
 

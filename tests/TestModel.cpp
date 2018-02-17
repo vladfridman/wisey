@@ -744,8 +744,8 @@ TEST_F(ModelTest, printToStreamTest) {
                stringStream.str().c_str());
 }
 
-TEST_F(ModelTest, allocateVariableTest) {
-  mModel->allocateVariable(mContext, "temp");
+TEST_F(ModelTest, allocateLocalVariableTest) {
+  mModel->allocateLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);

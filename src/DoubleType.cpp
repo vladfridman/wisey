@@ -82,7 +82,7 @@ void DoubleType::printToStream(IRGenerationContext &context, iostream& stream) c
   stream << getTypeName();
 }
 
-void DoubleType::allocateVariable(IRGenerationContext& context, string name) const {
+void DoubleType::allocateLocalVariable(IRGenerationContext& context, string name) const {
   Type* llvmType = getLLVMType(context);
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
   

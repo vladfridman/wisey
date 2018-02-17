@@ -36,7 +36,7 @@ public:
   MOCK_CONST_METHOD0(isReference, bool ());
   MOCK_CONST_METHOD1(getDestructorFunction, llvm::Function* (wisey::IRGenerationContext&));
   MOCK_CONST_METHOD2(printToStream, void (wisey::IRGenerationContext&, std::iostream& stream));
-  MOCK_CONST_METHOD2(allocateVariable, void (wisey::IRGenerationContext&, std::string name));
+  MOCK_CONST_METHOD2(allocateLocalVariable, void (wisey::IRGenerationContext&, std::string name));
   MOCK_CONST_METHOD1(getArrayType, wisey::ArrayType* (wisey::IRGenerationContext&));
 };
 

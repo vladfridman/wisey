@@ -906,7 +906,7 @@ Function* Interface::getReferenceAdjustmentFunction(IRGenerationContext& context
   return AdjustReferenceCounterForInterfaceFunction::get(context);
 }
 
-void Interface::allocateVariable(IRGenerationContext& context, string name) const {
+void Interface::allocateLocalVariable(IRGenerationContext& context, string name) const {
   PointerType* llvmType = getLLVMType(context);
   
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "referenceDeclaration");

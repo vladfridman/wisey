@@ -127,8 +127,8 @@ TEST_F(LongTypeTest, isReferenceTest) {
   EXPECT_FALSE(mLongType.isReference());
 }
 
-TEST_F(LongTypeTest, allocateVariableTest) {
-  mLongType.allocateVariable(mContext, "temp");
+TEST_F(LongTypeTest, allocateLocalVariableTest) {
+  mLongType.allocateLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);

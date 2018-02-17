@@ -53,7 +53,7 @@ public:
   MOCK_CONST_METHOD0(isInner, bool ());
   MOCK_CONST_METHOD1(getReferenceAdjustmentFunction,
                      llvm::Function* (wisey::IRGenerationContext& context));
-  MOCK_CONST_METHOD2(allocateVariable, void (wisey::IRGenerationContext&, std::string name));
+  MOCK_CONST_METHOD2(allocateLocalVariable, void (wisey::IRGenerationContext&, std::string name));
   MOCK_CONST_METHOD1(getArrayType, wisey::ArrayType* (wisey::IRGenerationContext&));
 };
 

@@ -57,7 +57,7 @@ void UndefinedType::printToStream(IRGenerationContext &context, iostream& stream
   stream << getTypeName();
 }
 
-void UndefinedType::allocateVariable(IRGenerationContext& context, string name) const {
+void UndefinedType::allocateLocalVariable(IRGenerationContext& context, string name) const {
   assert(false);
 }
 

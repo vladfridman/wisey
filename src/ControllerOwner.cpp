@@ -87,7 +87,7 @@ void ControllerOwner::printToStream(IRGenerationContext &context, iostream& stre
   stream << getTypeName();
 }
 
-void ControllerOwner::allocateVariable(IRGenerationContext& context, string name) const {
+void ControllerOwner::allocateLocalVariable(IRGenerationContext& context, string name) const {
   PointerType* llvmType = getLLVMType(context);
   
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "ownerDeclaration");

@@ -140,7 +140,7 @@ void ArraySpecificType::printToStream(IRGenerationContext &context, iostream& st
   }
 }
 
-void ArraySpecificType::allocateVariable(IRGenerationContext& context, string name) const {
+void ArraySpecificType::allocateLocalVariable(IRGenerationContext& context, string name) const {
   assert(false);
 }
 

@@ -565,8 +565,8 @@ TEST_F(InterfaceTest, circularDependencyDeathTest) {
               "systems.vos.wisey.compiler.tests.IParent");
 }
 
-TEST_F(InterfaceTest, allocateVariableTest) {
-  mShapeInterface->allocateVariable(mContext, "temp");
+TEST_F(InterfaceTest, allocateLocalVariableTest) {
+  mShapeInterface->allocateLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);

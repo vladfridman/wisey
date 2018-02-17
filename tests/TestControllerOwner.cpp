@@ -250,8 +250,8 @@ TEST_F(ControllerOwnerTest, castToSecondInterfaceTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(ControllerOwnerTest, allocateVariableTest) {
-  mMultiplierController->allocateVariable(mContext, "temp");
+TEST_F(ControllerOwnerTest, allocateLocalVariableTest) {
+  mMultiplierController->allocateLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);

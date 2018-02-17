@@ -137,8 +137,8 @@ TEST_F(InterfaceOwnerTest, isReferenceTest) {
   EXPECT_FALSE(mObjectInterface->getOwner()->isReference());
 }
 
-TEST_F(InterfaceOwnerTest, allocateVariableTest) {
-  mObjectInterface->allocateVariable(mContext, "temp");
+TEST_F(InterfaceOwnerTest, allocateLocalVariableTest) {
+  mObjectInterface->allocateLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);

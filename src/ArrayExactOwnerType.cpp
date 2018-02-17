@@ -87,7 +87,7 @@ void ArrayExactOwnerType::printToStream(IRGenerationContext &context, iostream& 
   stream << getTypeName();
 }
 
-void ArrayExactOwnerType::allocateVariable(IRGenerationContext& context, string name) const {
+void ArrayExactOwnerType::allocateLocalVariable(IRGenerationContext& context, string name) const {
   assert(false);
 }
 

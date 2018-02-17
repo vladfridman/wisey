@@ -427,7 +427,7 @@ Function* Model::getReferenceAdjustmentFunction(IRGenerationContext& context) co
   return AdjustReferenceCounterForConcreteObjectSafelyFunction::get(context);
 }
 
-void Model::allocateVariable(IRGenerationContext& context, string name) const {
+void Model::allocateLocalVariable(IRGenerationContext& context, string name) const {
   PointerType* llvmType = getLLVMType(context);
   
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "referenceDeclaration");

@@ -58,7 +58,7 @@ void PackageType::printToStream(IRGenerationContext &context, iostream& stream) 
   stream << getTypeName();
 }
 
-void PackageType::allocateVariable(IRGenerationContext& context, string name) const {
+void PackageType::allocateLocalVariable(IRGenerationContext& context, string name) const {
   assert(false);
 }
 

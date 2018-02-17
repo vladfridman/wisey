@@ -82,7 +82,7 @@ void FloatType::printToStream(IRGenerationContext &context, iostream& stream) co
   stream << getTypeName();
 }
 
-void FloatType::allocateVariable(IRGenerationContext& context, string name) const {
+void FloatType::allocateLocalVariable(IRGenerationContext& context, string name) const {
   Type* llvmType = getLLVMType(context);
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
   

@@ -95,9 +95,9 @@ namespace wisey {
     virtual bool isReference() const = 0;
 
     /**
-     * Allocates variable of the type and stores it in scope
+     * Allocates local variable of the type and stores it in scope
      */
-    virtual void allocateVariable(IRGenerationContext& context, std::string name) const = 0;
+    virtual void allocateLocalVariable(IRGenerationContext& context, std::string name) const = 0;
     
     /**
      * Returns ArrayType if this type has one associated with it otherwise reports an error
