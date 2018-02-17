@@ -193,12 +193,12 @@ TypeKind Node::getTypeKind() const {
   return NODE_TYPE;
 }
 
-bool Node::canCastTo(const IType* toType) const {
+bool Node::canCastTo(IRGenerationContext& context, const IType* toType) const {
   return IConcreteObjectType::canCast(this, toType);
 }
 
-bool Node::canAutoCastTo(const IType* toType) const {
-  return canCastTo(toType);
+bool Node::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
+  return canCastTo(context, toType);
 }
 
 Value* Node::castTo(IRGenerationContext& context,
@@ -322,7 +322,7 @@ void Node::initializePresetFields(IRGenerationContext& context,
 
     Value* argumentValue = argument->getValue(context, fieldType);
     const IType* argumentType = argument->getType(context);
-    if (!argumentType->canAutoCastTo(fieldType)) {
+    if (!argumentType->canAutoCastTo(context, fieldType)) {
       Log::e("Node builder argument value for field " + argumentName +
              " does not match its type");
       exit(1);

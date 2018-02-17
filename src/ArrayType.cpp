@@ -67,11 +67,11 @@ TypeKind ArrayType::getTypeKind() const {
   return ARRAY_TYPE;
 }
 
-bool ArrayType::canCastTo(const IType *toType) const {
+bool ArrayType::canCastTo(IRGenerationContext& context, const IType *toType) const {
   return toType == this;
 }
 
-bool ArrayType::canAutoCastTo(const IType *toType) const {
+bool ArrayType::canAutoCastTo(IRGenerationContext& context, const IType *toType) const {
   return toType == this;
 }
 

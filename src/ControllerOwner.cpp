@@ -36,20 +36,20 @@ TypeKind ControllerOwner::getTypeKind() const {
   return CONTROLLER_OWNER_TYPE;
 }
 
-bool ControllerOwner::canCastTo(const IType* toType) const {
+bool ControllerOwner::canCastTo(IRGenerationContext& context, const IType* toType) const {
   if (toType == this || toType == mController) {
     return true;
   }
   
   if (IType::isOwnerType(toType)) {
-    return mController->canCastTo(((IObjectOwnerType*) toType)->getObject());
+    return mController->canCastTo(context, ((IObjectOwnerType*) toType)->getObject());
   }
   
-  return mController->canCastTo(toType);
+  return mController->canCastTo(context, toType);
 }
 
-bool ControllerOwner::canAutoCastTo(const IType* toType) const {
-  return canCastTo(toType);
+bool ControllerOwner::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
+  return canCastTo(context, toType);
 }
 
 Value* ControllerOwner::castTo(IRGenerationContext& context,

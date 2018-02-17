@@ -439,23 +439,23 @@ TEST_F(NodeTest, getReferenceAdjustmentFunctionTest) {
 }
 
 TEST_F(NodeTest, canCastToTest) {
-  EXPECT_FALSE(mComplicatedNode->canCastTo(PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(mComplicatedNode->canCastTo(mSimplerNode));
-  EXPECT_FALSE(mComplicatedNode->canCastTo(mVehicleInterface));
-  EXPECT_TRUE(mComplicatedNode->canCastTo(mComplicatedNode));
-  EXPECT_TRUE(mComplicatedNode->canCastTo(mElementInterface));
-  EXPECT_FALSE(mComplicatedNode->canCastTo(NullType::NULL_TYPE));
-  EXPECT_TRUE(mComplicatedNode->canCastTo(mComplicatedNode));
+  EXPECT_FALSE(mComplicatedNode->canCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mComplicatedNode->canCastTo(mContext, mSimplerNode));
+  EXPECT_FALSE(mComplicatedNode->canCastTo(mContext, mVehicleInterface));
+  EXPECT_TRUE(mComplicatedNode->canCastTo(mContext, mComplicatedNode));
+  EXPECT_TRUE(mComplicatedNode->canCastTo(mContext, mElementInterface));
+  EXPECT_FALSE(mComplicatedNode->canCastTo(mContext, NullType::NULL_TYPE));
+  EXPECT_TRUE(mComplicatedNode->canCastTo(mContext, mComplicatedNode));
 }
 
 TEST_F(NodeTest, canAutoCastToTest) {
-  EXPECT_FALSE(mComplicatedNode->canAutoCastTo(PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(mComplicatedNode->canAutoCastTo(mSimplerNode));
-  EXPECT_FALSE(mComplicatedNode->canAutoCastTo(mVehicleInterface));
-  EXPECT_TRUE(mComplicatedNode->canAutoCastTo(mComplicatedNode));
-  EXPECT_TRUE(mComplicatedNode->canAutoCastTo(mElementInterface));
-  EXPECT_FALSE(mComplicatedNode->canAutoCastTo(NullType::NULL_TYPE));
-  EXPECT_TRUE(mComplicatedNode->canAutoCastTo(mComplicatedNode));
+  EXPECT_FALSE(mComplicatedNode->canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mComplicatedNode->canAutoCastTo(mContext, mSimplerNode));
+  EXPECT_FALSE(mComplicatedNode->canAutoCastTo(mContext, mVehicleInterface));
+  EXPECT_TRUE(mComplicatedNode->canAutoCastTo(mContext, mComplicatedNode));
+  EXPECT_TRUE(mComplicatedNode->canAutoCastTo(mContext, mElementInterface));
+  EXPECT_FALSE(mComplicatedNode->canAutoCastTo(mContext, NullType::NULL_TYPE));
+  EXPECT_TRUE(mComplicatedNode->canAutoCastTo(mContext, mComplicatedNode));
 }
 
 TEST_F(NodeTest, castToFirstInterfaceTest) {

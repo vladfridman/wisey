@@ -83,12 +83,12 @@ Value* RelationalExpression::generateIRForObjects(IRGenerationContext& context,
     return IRWriter::newICmpInst(context, predicate, leftValue, rightValue, "cmp");
   }
   
-  if (leftType->canAutoCastTo(rightType)) {
+  if (leftType->canAutoCastTo(context, rightType)) {
     Value* castedLeftValue = leftType->castTo(context, leftValue, rightType, mLine);
     return IRWriter::newICmpInst(context, predicate, castedLeftValue, rightValue, "cmp");
   }
   
-  if (rightType->canAutoCastTo(leftType)) {
+  if (rightType->canAutoCastTo(context, leftType)) {
     Value* castedRightValue = rightType->castTo(context, rightValue, leftType, mLine);
     return IRWriter::newICmpInst(context, predicate, leftValue, castedRightValue, "cmp");
   }
@@ -119,12 +119,12 @@ Value* RelationalExpression::generateIRForFloats(IRGenerationContext& context,
     return IRWriter::newFCmpInst(context, predicate, leftValue, rightValue, "cmp");
   }
   
-  if (leftType->canAutoCastTo(rightType)) {
+  if (leftType->canAutoCastTo(context, rightType)) {
     Value* castedLeftValue = leftType->castTo(context, leftValue, rightType, mLine);
     return IRWriter::newFCmpInst(context, predicate, castedLeftValue, rightValue, "cmp");
   }
   
-  if (rightType->canAutoCastTo(leftType)) {
+  if (rightType->canAutoCastTo(context, leftType)) {
     Value* castedRightValue = rightType->castTo(context, rightValue, leftType, mLine);
     return IRWriter::newFCmpInst(context, predicate, leftValue, castedRightValue, "cmp");
   }
@@ -155,12 +155,12 @@ Value* RelationalExpression::generateIRForInts(IRGenerationContext& context,
     return IRWriter::newICmpInst(context, predicate, leftValue, rightValue, "cmp");
   }
   
-  if (leftType->canAutoCastTo(rightType)) {
+  if (leftType->canAutoCastTo(context, rightType)) {
     Value* castedLeftValue = leftType->castTo(context, leftValue, rightType, mLine);
     return IRWriter::newICmpInst(context, predicate, castedLeftValue, rightValue, "cmp");
   }
   
-  if (rightType->canAutoCastTo(leftType)) {
+  if (rightType->canAutoCastTo(context, leftType)) {
     Value* castedRightValue = rightType->castTo(context, rightValue, leftType, mLine);
     return IRWriter::newICmpInst(context, predicate, leftValue, castedRightValue, "cmp");
   }

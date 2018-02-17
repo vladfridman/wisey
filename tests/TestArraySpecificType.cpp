@@ -93,13 +93,13 @@ TEST_F(ArraySpecificTypeTest, getTypeKindTest) {
 }
 
 TEST_F(ArraySpecificTypeTest, canCastToTest) {
-  EXPECT_FALSE(mArraySpecificType->canCastTo(PrimitiveTypes::STRING_TYPE));
-  EXPECT_TRUE(mArraySpecificType->canCastTo(mArraySpecificType));
+  EXPECT_FALSE(mArraySpecificType->canCastTo(mContext, PrimitiveTypes::STRING_TYPE));
+  EXPECT_TRUE(mArraySpecificType->canCastTo(mContext, mArraySpecificType));
 }
 
 TEST_F(ArraySpecificTypeTest, canAutoCastToTest) {
-  EXPECT_FALSE(mArraySpecificType->canAutoCastTo(PrimitiveTypes::STRING_TYPE));
-  EXPECT_TRUE(mArraySpecificType->canAutoCastTo(mArraySpecificType));
+  EXPECT_FALSE(mArraySpecificType->canAutoCastTo(mContext, PrimitiveTypes::STRING_TYPE));
+  EXPECT_TRUE(mArraySpecificType->canAutoCastTo(mContext, mArraySpecificType));
 }
 
 TEST_F(ArraySpecificTypeTest, getNumberOfDimensionsTest) {

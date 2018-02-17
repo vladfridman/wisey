@@ -30,11 +30,11 @@ TypeKind PackageType::getTypeKind() const {
   return PACKAGE_TYPE;
 }
 
-bool PackageType::canCastTo(const IType *toType) const {
+bool PackageType::canCastTo(IRGenerationContext& context, const IType *toType) const {
   return false;
 }
 
-bool PackageType::canAutoCastTo(const IType *toType) const {
+bool PackageType::canAutoCastTo(IRGenerationContext& context, const IType *toType) const {
   return false;
 }
 

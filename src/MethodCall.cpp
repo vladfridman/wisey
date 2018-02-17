@@ -231,7 +231,7 @@ void MethodCall::checkArgumentType(const IObjectType* objectWithMethods,
     const IType* methodArgumentType = methodArgument->getType();
     const IType* callArgumentType = (*callArgumentsIterator)->getType(context);
     
-    if (!callArgumentType->canAutoCastTo(methodArgumentType)) {
+    if (!callArgumentType->canAutoCastTo(context, methodArgumentType)) {
       Log::e("Call argument types do not match for a call to method '" +
              methodDescriptor->getName() +
              "' of the object type '" + objectWithMethods->getTypeName() + "'");

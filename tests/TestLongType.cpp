@@ -61,25 +61,25 @@ TEST_F(LongTypeTest, longTypeTest) {
 }
 
 TEST_F(LongTypeTest, canAutoCastToTest) {
-  EXPECT_FALSE(mLongType.canAutoCastTo(PrimitiveTypes::VOID_TYPE));
-  EXPECT_FALSE(mLongType.canAutoCastTo(PrimitiveTypes::STRING_TYPE));
-  EXPECT_FALSE(mLongType.canAutoCastTo(PrimitiveTypes::BOOLEAN_TYPE));
-  EXPECT_FALSE(mLongType.canAutoCastTo(PrimitiveTypes::CHAR_TYPE));
-  EXPECT_FALSE(mLongType.canAutoCastTo(PrimitiveTypes::INT_TYPE));
-  EXPECT_TRUE(mLongType.canAutoCastTo(PrimitiveTypes::LONG_TYPE));
-  EXPECT_FALSE(mLongType.canAutoCastTo(PrimitiveTypes::FLOAT_TYPE));
-  EXPECT_FALSE(mLongType.canAutoCastTo(PrimitiveTypes::DOUBLE_TYPE));
+  EXPECT_FALSE(mLongType.canAutoCastTo(mContext, PrimitiveTypes::VOID_TYPE));
+  EXPECT_FALSE(mLongType.canAutoCastTo(mContext, PrimitiveTypes::STRING_TYPE));
+  EXPECT_FALSE(mLongType.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN_TYPE));
+  EXPECT_FALSE(mLongType.canAutoCastTo(mContext, PrimitiveTypes::CHAR_TYPE));
+  EXPECT_FALSE(mLongType.canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_TRUE(mLongType.canAutoCastTo(mContext, PrimitiveTypes::LONG_TYPE));
+  EXPECT_FALSE(mLongType.canAutoCastTo(mContext, PrimitiveTypes::FLOAT_TYPE));
+  EXPECT_FALSE(mLongType.canAutoCastTo(mContext, PrimitiveTypes::DOUBLE_TYPE));
 }
 
 TEST_F(LongTypeTest, canCastTest) {
-  EXPECT_FALSE(mLongType.canCastTo(PrimitiveTypes::VOID_TYPE));
-  EXPECT_FALSE(mLongType.canCastTo(PrimitiveTypes::STRING_TYPE));
-  EXPECT_TRUE(mLongType.canCastTo(PrimitiveTypes::BOOLEAN_TYPE));
-  EXPECT_TRUE(mLongType.canCastTo(PrimitiveTypes::CHAR_TYPE));
-  EXPECT_TRUE(mLongType.canCastTo(PrimitiveTypes::INT_TYPE));
-  EXPECT_TRUE(mLongType.canCastTo(PrimitiveTypes::LONG_TYPE));
-  EXPECT_TRUE(mLongType.canCastTo(PrimitiveTypes::FLOAT_TYPE));
-  EXPECT_TRUE(mLongType.canCastTo(PrimitiveTypes::DOUBLE_TYPE));
+  EXPECT_FALSE(mLongType.canCastTo(mContext, PrimitiveTypes::VOID_TYPE));
+  EXPECT_FALSE(mLongType.canCastTo(mContext, PrimitiveTypes::STRING_TYPE));
+  EXPECT_TRUE(mLongType.canCastTo(mContext, PrimitiveTypes::BOOLEAN_TYPE));
+  EXPECT_TRUE(mLongType.canCastTo(mContext, PrimitiveTypes::CHAR_TYPE));
+  EXPECT_TRUE(mLongType.canCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_TRUE(mLongType.canCastTo(mContext, PrimitiveTypes::LONG_TYPE));
+  EXPECT_TRUE(mLongType.canCastTo(mContext, PrimitiveTypes::FLOAT_TYPE));
+  EXPECT_TRUE(mLongType.canCastTo(mContext, PrimitiveTypes::DOUBLE_TYPE));
 }
 
 TEST_F(LongTypeTest, castToTest) {

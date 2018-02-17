@@ -85,11 +85,11 @@ TypeKind StaticMethod::getTypeKind() const {
   return TypeKind::FUNCTION_TYPE;
 }
 
-bool StaticMethod::canCastTo(const IType* toType) const {
+bool StaticMethod::canCastTo(IRGenerationContext& context, const IType* toType) const {
   return false;
 }
 
-bool StaticMethod::canAutoCastTo(const IType *toType) const {
+bool StaticMethod::canAutoCastTo(IRGenerationContext& context, const IType *toType) const {
   return false;
 }
 

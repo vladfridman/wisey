@@ -83,11 +83,11 @@ TypeKind ExternalMethod::getTypeKind() const {
   return TypeKind::FUNCTION_TYPE;
 }
 
-bool ExternalMethod::canCastTo(const IType* toType) const {
+bool ExternalMethod::canCastTo(IRGenerationContext& context, const IType* toType) const {
   return false;
 }
 
-bool ExternalMethod::canAutoCastTo(const IType *toType) const {
+bool ExternalMethod::canAutoCastTo(IRGenerationContext& context, const IType *toType) const {
   return false;
 }
 

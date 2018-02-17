@@ -73,7 +73,7 @@ Value* IConcreteObjectType::castTo(IRGenerationContext& context,
   if (toType == object) {
     return fromValue;
   }
-  if (!object->canCastTo(toType)) {
+  if (!object->canCastTo(context, toType)) {
     Cast::exitIncompatibleTypes(object, toType);
     return NULL;
   }

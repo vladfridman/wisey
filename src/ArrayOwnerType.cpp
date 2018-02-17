@@ -41,7 +41,7 @@ TypeKind ArrayOwnerType::getTypeKind() const {
   return ARRAY_OWNER_TYPE;
 }
 
-bool ArrayOwnerType::canCastTo(const IType* toType) const {
+bool ArrayOwnerType::canCastTo(IRGenerationContext& context, const IType* toType) const {
   if (toType == this || toType == mArrayType) {
     return true;
   }
@@ -49,8 +49,8 @@ bool ArrayOwnerType::canCastTo(const IType* toType) const {
   return false;
 }
 
-bool ArrayOwnerType::canAutoCastTo(const IType* toType) const {
-  return canCastTo(toType);
+bool ArrayOwnerType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
+  return canCastTo(context, toType);
 }
 
 llvm::Value* ArrayOwnerType::castTo(IRGenerationContext &context,

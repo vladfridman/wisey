@@ -294,29 +294,29 @@ TEST_F(ModelOwnerTest, getDestructorFunctionTest) {
 }
 
 TEST_F(ModelOwnerTest, canCastToTest) {
-  EXPECT_FALSE(mModel->getOwner()->canCastTo(PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(mModel->getOwner()->canCastTo(mCircleModel->getOwner()));
-  EXPECT_FALSE(mModel->getOwner()->canCastTo(mCarInterface->getOwner()));
-  EXPECT_TRUE(mModel->getOwner()->canCastTo(mModel->getOwner()));
-  EXPECT_TRUE(mModel->getOwner()->canCastTo(mShapeInterface->getOwner()));
+  EXPECT_FALSE(mModel->getOwner()->canCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mModel->getOwner()->canCastTo(mContext, mCircleModel->getOwner()));
+  EXPECT_FALSE(mModel->getOwner()->canCastTo(mContext, mCarInterface->getOwner()));
+  EXPECT_TRUE(mModel->getOwner()->canCastTo(mContext, mModel->getOwner()));
+  EXPECT_TRUE(mModel->getOwner()->canCastTo(mContext, mShapeInterface->getOwner()));
 
-  EXPECT_FALSE(mModel->getOwner()->canCastTo(mCircleModel));
-  EXPECT_FALSE(mModel->getOwner()->canCastTo(mCarInterface));
-  EXPECT_TRUE(mModel->getOwner()->canCastTo(mModel));
-  EXPECT_TRUE(mModel->getOwner()->canCastTo(mShapeInterface));
+  EXPECT_FALSE(mModel->getOwner()->canCastTo(mContext, mCircleModel));
+  EXPECT_FALSE(mModel->getOwner()->canCastTo(mContext, mCarInterface));
+  EXPECT_TRUE(mModel->getOwner()->canCastTo(mContext, mModel));
+  EXPECT_TRUE(mModel->getOwner()->canCastTo(mContext, mShapeInterface));
 }
 
 TEST_F(ModelOwnerTest, canAutoCastToTest) {
-  EXPECT_FALSE(mModel->getOwner()->canAutoCastTo(PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(mModel->getOwner()->canAutoCastTo(mCircleModel->getOwner()));
-  EXPECT_FALSE(mModel->getOwner()->canAutoCastTo(mCarInterface->getOwner()));
-  EXPECT_TRUE(mModel->getOwner()->canAutoCastTo(mModel->getOwner()));
-  EXPECT_TRUE(mModel->getOwner()->canAutoCastTo(mShapeInterface->getOwner()));
+  EXPECT_FALSE(mModel->getOwner()->canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mModel->getOwner()->canAutoCastTo(mContext, mCircleModel->getOwner()));
+  EXPECT_FALSE(mModel->getOwner()->canAutoCastTo(mContext, mCarInterface->getOwner()));
+  EXPECT_TRUE(mModel->getOwner()->canAutoCastTo(mContext, mModel->getOwner()));
+  EXPECT_TRUE(mModel->getOwner()->canAutoCastTo(mContext, mShapeInterface->getOwner()));
   
-  EXPECT_FALSE(mModel->getOwner()->canAutoCastTo(mCircleModel));
-  EXPECT_FALSE(mModel->getOwner()->canAutoCastTo(mCarInterface));
-  EXPECT_TRUE(mModel->getOwner()->canAutoCastTo(mModel));
-  EXPECT_TRUE(mModel->getOwner()->canAutoCastTo(mShapeInterface));
+  EXPECT_FALSE(mModel->getOwner()->canAutoCastTo(mContext, mCircleModel));
+  EXPECT_FALSE(mModel->getOwner()->canAutoCastTo(mContext, mCarInterface));
+  EXPECT_TRUE(mModel->getOwner()->canAutoCastTo(mContext, mModel));
+  EXPECT_TRUE(mModel->getOwner()->canAutoCastTo(mContext, mShapeInterface));
 }
 
 TEST_F(ModelOwnerTest, castToFirstInterfaceTest) {

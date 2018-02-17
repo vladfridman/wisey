@@ -72,11 +72,11 @@ TypeKind ArrayExactType::getTypeKind() const {
   return ARRAY_TYPE;
 }
 
-bool ArrayExactType::canCastTo(const IType *toType) const {
+bool ArrayExactType::canCastTo(IRGenerationContext& context, const IType *toType) const {
   return toType == this;
 }
 
-bool ArrayExactType::canAutoCastTo(const IType *toType) const {
+bool ArrayExactType::canAutoCastTo(IRGenerationContext& context, const IType *toType) const {
   return toType == this;
 }
 

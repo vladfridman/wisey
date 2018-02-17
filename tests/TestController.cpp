@@ -429,23 +429,23 @@ TEST_F(ControllerTest, getReferenceAdjustmentFunctionTest) {
 }
 
 TEST_F(ControllerTest, canCastToTest) {
-  EXPECT_FALSE(mMultiplierController->canCastTo(PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(mMultiplierController->canCastTo(mAdditorController));
-  EXPECT_FALSE(mMultiplierController->canCastTo(mVehicleInterface));
-  EXPECT_TRUE(mMultiplierController->canCastTo(mMultiplierController));
-  EXPECT_TRUE(mMultiplierController->canCastTo(mCalculatorInterface));
-  EXPECT_FALSE(mMultiplierController->canCastTo(NullType::NULL_TYPE));
-  EXPECT_TRUE(mMultiplierController->canCastTo(mMultiplierController));
+  EXPECT_FALSE(mMultiplierController->canCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mMultiplierController->canCastTo(mContext, mAdditorController));
+  EXPECT_FALSE(mMultiplierController->canCastTo(mContext, mVehicleInterface));
+  EXPECT_TRUE(mMultiplierController->canCastTo(mContext, mMultiplierController));
+  EXPECT_TRUE(mMultiplierController->canCastTo(mContext, mCalculatorInterface));
+  EXPECT_FALSE(mMultiplierController->canCastTo(mContext, NullType::NULL_TYPE));
+  EXPECT_TRUE(mMultiplierController->canCastTo(mContext, mMultiplierController));
 }
 
 TEST_F(ControllerTest, canAutoCastToTest) {
-  EXPECT_FALSE(mMultiplierController->canAutoCastTo(PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(mMultiplierController->canAutoCastTo(mAdditorController));
-  EXPECT_FALSE(mMultiplierController->canAutoCastTo(mVehicleInterface));
-  EXPECT_TRUE(mMultiplierController->canAutoCastTo(mMultiplierController));
-  EXPECT_TRUE(mMultiplierController->canAutoCastTo(mCalculatorInterface));
-  EXPECT_FALSE(mMultiplierController->canAutoCastTo(NullType::NULL_TYPE));
-  EXPECT_TRUE(mMultiplierController->canAutoCastTo(mMultiplierController));
+  EXPECT_FALSE(mMultiplierController->canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mMultiplierController->canAutoCastTo(mContext, mAdditorController));
+  EXPECT_FALSE(mMultiplierController->canAutoCastTo(mContext, mVehicleInterface));
+  EXPECT_TRUE(mMultiplierController->canAutoCastTo(mContext, mMultiplierController));
+  EXPECT_TRUE(mMultiplierController->canAutoCastTo(mContext, mCalculatorInterface));
+  EXPECT_FALSE(mMultiplierController->canAutoCastTo(mContext, NullType::NULL_TYPE));
+  EXPECT_TRUE(mMultiplierController->canAutoCastTo(mContext, mMultiplierController));
 }
 
 TEST_F(ControllerTest, castToFirstInterfaceTest) {

@@ -61,23 +61,23 @@ TEST_F(VoidTypeTest, voidTypeTest) {
 }
 
 TEST_F(VoidTypeTest, canAutoCastToTest) {
-  EXPECT_TRUE(mVoidType.canAutoCastTo(PrimitiveTypes::VOID_TYPE));
-  EXPECT_FALSE(mVoidType.canAutoCastTo(PrimitiveTypes::BOOLEAN_TYPE));
-  EXPECT_FALSE(mVoidType.canAutoCastTo(PrimitiveTypes::CHAR_TYPE));
-  EXPECT_FALSE(mVoidType.canAutoCastTo(PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(mVoidType.canAutoCastTo(PrimitiveTypes::LONG_TYPE));
-  EXPECT_FALSE(mVoidType.canAutoCastTo(PrimitiveTypes::FLOAT_TYPE));
-  EXPECT_FALSE(mVoidType.canAutoCastTo(PrimitiveTypes::DOUBLE_TYPE));
+  EXPECT_TRUE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::VOID_TYPE));
+  EXPECT_FALSE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN_TYPE));
+  EXPECT_FALSE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::CHAR_TYPE));
+  EXPECT_FALSE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::LONG_TYPE));
+  EXPECT_FALSE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::FLOAT_TYPE));
+  EXPECT_FALSE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::DOUBLE_TYPE));
 }
 
 TEST_F(VoidTypeTest, canCastTest) {
-  EXPECT_TRUE(mVoidType.canCastTo(PrimitiveTypes::VOID_TYPE));
-  EXPECT_FALSE(mVoidType.canCastTo(PrimitiveTypes::BOOLEAN_TYPE));
-  EXPECT_FALSE(mVoidType.canCastTo(PrimitiveTypes::CHAR_TYPE));
-  EXPECT_FALSE(mVoidType.canCastTo(PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(mVoidType.canCastTo(PrimitiveTypes::LONG_TYPE));
-  EXPECT_FALSE(mVoidType.canCastTo(PrimitiveTypes::FLOAT_TYPE));
-  EXPECT_FALSE(mVoidType.canCastTo(PrimitiveTypes::DOUBLE_TYPE));
+  EXPECT_TRUE(mVoidType.canCastTo(mContext, PrimitiveTypes::VOID_TYPE));
+  EXPECT_FALSE(mVoidType.canCastTo(mContext, PrimitiveTypes::BOOLEAN_TYPE));
+  EXPECT_FALSE(mVoidType.canCastTo(mContext, PrimitiveTypes::CHAR_TYPE));
+  EXPECT_FALSE(mVoidType.canCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mVoidType.canCastTo(mContext, PrimitiveTypes::LONG_TYPE));
+  EXPECT_FALSE(mVoidType.canCastTo(mContext, PrimitiveTypes::FLOAT_TYPE));
+  EXPECT_FALSE(mVoidType.canCastTo(mContext, PrimitiveTypes::DOUBLE_TYPE));
 }
 
 TEST_F(VoidTypeTest, castToTest) {

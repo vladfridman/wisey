@@ -37,20 +37,20 @@ TypeKind InterfaceOwner::getTypeKind() const {
   return INTERFACE_OWNER_TYPE;
 }
 
-bool InterfaceOwner::canCastTo(const IType* toType) const {
+bool InterfaceOwner::canCastTo(IRGenerationContext& context, const IType* toType) const {
   if (toType == this || toType == mInterface) {
     return true;
   }
   
   if (IType::isOwnerType(toType)) {
-    return mInterface->canCastTo(((IObjectOwnerType*) toType)->getObject());
+    return mInterface->canCastTo(context, ((IObjectOwnerType*) toType)->getObject());
   }
   
-  return mInterface->canCastTo(toType);
+  return mInterface->canCastTo(context, toType);
 }
 
-bool InterfaceOwner::canAutoCastTo(const IType* toType) const {
-  return canCastTo(toType);
+bool InterfaceOwner::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
+  return canCastTo(context, toType);
 }
 
 Value* InterfaceOwner::castTo(IRGenerationContext& context,

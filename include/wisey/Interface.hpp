@@ -182,9 +182,9 @@ public:
   
   TypeKind getTypeKind() const override;
   
-  bool canCastTo(const IType* toType) const override;
+  bool canCastTo(IRGenerationContext& context, const IType* toType) const override;
   
-  bool canAutoCastTo(const IType* toType) const override;
+  bool canAutoCastTo(IRGenerationContext& context, const IType* toType) const override;
   
   llvm::Value* castTo(IRGenerationContext& context,
                       llvm::Value* fromValue,

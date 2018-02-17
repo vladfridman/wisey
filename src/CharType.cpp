@@ -31,7 +31,7 @@ TypeKind CharType::getTypeKind() const {
   return PRIMITIVE_TYPE;
 }
 
-bool CharType::canCastTo(const IType* toType) const {
+bool CharType::canCastTo(IRGenerationContext& context, const IType* toType) const {
   if (!IType::isPrimitveType(toType)) {
     return false;
   }
@@ -39,7 +39,7 @@ bool CharType::canCastTo(const IType* toType) const {
   return toType != PrimitiveTypes::VOID_TYPE && toType != PrimitiveTypes::STRING_TYPE;
 }
 
-bool CharType::canAutoCastTo(const IType* toType) const {
+bool CharType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
   if (!IType::isPrimitveType(toType)) {
     return false;
   }

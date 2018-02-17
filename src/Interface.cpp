@@ -521,7 +521,7 @@ TypeKind Interface::getTypeKind() const {
   return INTERFACE_TYPE;
 }
 
-bool Interface::canCastTo(const IType* toType) const {
+bool Interface::canCastTo(IRGenerationContext& context, const IType* toType) const {
   if (IType::isPrimitveType(toType) || toType->getTypeKind() == NULL_TYPE_KIND) {
     return false;
   }
@@ -530,7 +530,7 @@ bool Interface::canCastTo(const IType* toType) const {
   return true;
 }
 
-bool Interface::canAutoCastTo(const IType* toType) const {
+bool Interface::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
   if (toType == this) {
     return true;
   }

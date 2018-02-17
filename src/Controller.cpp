@@ -291,12 +291,12 @@ TypeKind Controller::getTypeKind() const {
   return CONTROLLER_TYPE;
 }
 
-bool Controller::canCastTo(const IType* toType) const {
+bool Controller::canCastTo(IRGenerationContext& context, const IType* toType) const {
   return IConcreteObjectType::canCast(this, toType);
 }
 
-bool Controller::canAutoCastTo(const IType* toType) const {
-  return canCastTo(toType);
+bool Controller::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
+  return canCastTo(context, toType);
 }
 
 Value* Controller::castTo(IRGenerationContext& context,
@@ -327,7 +327,7 @@ void Controller::initializeReceivedFields(IRGenerationContext& context,
     
     Value* argumentValue = argument->getValue(context, fieldType);
     const IType* argumentType = argument->getType(context);
-    if (!argumentType->canAutoCastTo(fieldType)) {
+    if (!argumentType->canAutoCastTo(context, fieldType)) {
       Log::e("Controller injector argumet value for field '" + field->getName() +
              "' does not match its type");
       exit(1);

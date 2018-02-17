@@ -153,31 +153,31 @@ TEST_F(ControllerOwnerTest, getTypeKindTest) {
 TEST_F(ControllerOwnerTest, canCastTest) {
   const IObjectOwnerType* controllerOwner = mMultiplierController->getOwner();
 
-  EXPECT_FALSE(controllerOwner->canCastTo(PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(controllerOwner->canCastTo(mAdditorController));
-  EXPECT_FALSE(controllerOwner->canCastTo(mVehicleInterface));
-  EXPECT_TRUE(controllerOwner->canCastTo(mMultiplierController));
-  EXPECT_TRUE(controllerOwner->canCastTo(mCalculatorInterface));
+  EXPECT_FALSE(controllerOwner->canCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(controllerOwner->canCastTo(mContext, mAdditorController));
+  EXPECT_FALSE(controllerOwner->canCastTo(mContext, mVehicleInterface));
+  EXPECT_TRUE(controllerOwner->canCastTo(mContext, mMultiplierController));
+  EXPECT_TRUE(controllerOwner->canCastTo(mContext, mCalculatorInterface));
 
-  EXPECT_FALSE(controllerOwner->canCastTo(mAdditorController->getOwner()));
-  EXPECT_FALSE(controllerOwner->canCastTo(mVehicleInterface->getOwner()));
-  EXPECT_TRUE(controllerOwner->canCastTo(mMultiplierController->getOwner()));
-  EXPECT_TRUE(controllerOwner->canCastTo(mCalculatorInterface->getOwner()));
+  EXPECT_FALSE(controllerOwner->canCastTo(mContext, mAdditorController->getOwner()));
+  EXPECT_FALSE(controllerOwner->canCastTo(mContext, mVehicleInterface->getOwner()));
+  EXPECT_TRUE(controllerOwner->canCastTo(mContext, mMultiplierController->getOwner()));
+  EXPECT_TRUE(controllerOwner->canCastTo(mContext, mCalculatorInterface->getOwner()));
 }
 
 TEST_F(ControllerOwnerTest, canAutoCastTest) {
   const IObjectOwnerType* controllerOwner = mMultiplierController->getOwner();
   
-  EXPECT_FALSE(controllerOwner->canAutoCastTo(PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(controllerOwner->canAutoCastTo(mAdditorController));
-  EXPECT_FALSE(controllerOwner->canAutoCastTo(mVehicleInterface));
-  EXPECT_TRUE(controllerOwner->canAutoCastTo(mMultiplierController));
-  EXPECT_TRUE(controllerOwner->canAutoCastTo(mCalculatorInterface));
+  EXPECT_FALSE(controllerOwner->canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(controllerOwner->canAutoCastTo(mContext, mAdditorController));
+  EXPECT_FALSE(controllerOwner->canAutoCastTo(mContext, mVehicleInterface));
+  EXPECT_TRUE(controllerOwner->canAutoCastTo(mContext, mMultiplierController));
+  EXPECT_TRUE(controllerOwner->canAutoCastTo(mContext, mCalculatorInterface));
   
-  EXPECT_FALSE(controllerOwner->canAutoCastTo(mAdditorController->getOwner()));
-  EXPECT_FALSE(controllerOwner->canAutoCastTo(mVehicleInterface->getOwner()));
-  EXPECT_TRUE(controllerOwner->canAutoCastTo(mMultiplierController->getOwner()));
-  EXPECT_TRUE(controllerOwner->canAutoCastTo(mCalculatorInterface->getOwner()));
+  EXPECT_FALSE(controllerOwner->canAutoCastTo(mContext, mAdditorController->getOwner()));
+  EXPECT_FALSE(controllerOwner->canAutoCastTo(mContext, mVehicleInterface->getOwner()));
+  EXPECT_TRUE(controllerOwner->canAutoCastTo(mContext, mMultiplierController->getOwner()));
+  EXPECT_TRUE(controllerOwner->canAutoCastTo(mContext, mCalculatorInterface->getOwner()));
 }
 
 TEST_F(ControllerOwnerTest, castToItselfTest) {

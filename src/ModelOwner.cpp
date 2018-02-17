@@ -36,20 +36,20 @@ TypeKind ModelOwner::getTypeKind() const {
   return MODEL_OWNER_TYPE;
 }
 
-bool ModelOwner::canCastTo(const IType* toType) const {
+bool ModelOwner::canCastTo(IRGenerationContext& context, const IType* toType) const {
   if (toType == this || toType == mModel) {
     return true;
   }
   
   if (IType::isOwnerType(toType)) {
-    return mModel->canCastTo(((IObjectOwnerType*) toType)->getObject());
+    return mModel->canCastTo(context, ((IObjectOwnerType*) toType)->getObject());
   }
   
-  return mModel->canCastTo(toType);
+  return mModel->canCastTo(context, toType);
 }
 
-bool ModelOwner::canAutoCastTo(const IType* toType) const {
-  return canCastTo(toType);
+bool ModelOwner::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
+  return canCastTo(context, toType);
 }
 
 Value* ModelOwner::castTo(IRGenerationContext& context,

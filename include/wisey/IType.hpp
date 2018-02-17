@@ -68,12 +68,12 @@ namespace wisey {
     /**
      * Indicates whether this type can be cast to another type
      */
-    virtual bool canCastTo(const IType* toType) const = 0;
+    virtual bool canCastTo(IRGenerationContext& context, const IType* toType) const = 0;
     
     /**
      * Indicates whether this type can be auto cast to another type
      */
-    virtual bool canAutoCastTo(const IType* toType) const = 0;
+    virtual bool canAutoCastTo(IRGenerationContext& context, const IType* toType) const = 0;
     
     /**
      * Casts given value to a given type

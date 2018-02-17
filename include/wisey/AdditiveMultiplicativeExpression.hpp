@@ -44,7 +44,7 @@ public:
 
 private:
   
-  void checkTypes(const IType* leftType, const IType* rightType) const;
+  void checkTypes(IRGenerationContext& context, const IType* leftType, const IType* rightType) const;
 };
 
 } /* namespace wisey */

@@ -66,13 +66,13 @@ TEST_F(NullTypeTest, canCastToTest) {
   StructType* structType = StructType::create(mLLVMContext, modelFullName);
   Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
 
-  ASSERT_TRUE(NullType::NULL_TYPE->canCastTo(model));
-  ASSERT_TRUE(NullType::NULL_TYPE->canCastTo(model->getOwner()));
+  ASSERT_TRUE(NullType::NULL_TYPE->canCastTo(mContext, model));
+  ASSERT_TRUE(NullType::NULL_TYPE->canCastTo(mContext, model->getOwner()));
   
   NullType anotherNullType;
-  ASSERT_TRUE(NullType::NULL_TYPE->canCastTo(&anotherNullType));
+  ASSERT_TRUE(NullType::NULL_TYPE->canCastTo(mContext, &anotherNullType));
   
-  ASSERT_FALSE(NullType::NULL_TYPE->canCastTo(PrimitiveTypes::INT_TYPE));
+  ASSERT_FALSE(NullType::NULL_TYPE->canCastTo(mContext, PrimitiveTypes::INT_TYPE));
 }
 
 TEST_F(NullTypeTest, canAutoCastToTest) {
@@ -80,13 +80,13 @@ TEST_F(NullTypeTest, canAutoCastToTest) {
   StructType* structType = StructType::create(mLLVMContext, modelFullName);
   Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
   
-  ASSERT_TRUE(NullType::NULL_TYPE->canAutoCastTo(model));
-  ASSERT_TRUE(NullType::NULL_TYPE->canAutoCastTo(model->getOwner()));
+  ASSERT_TRUE(NullType::NULL_TYPE->canAutoCastTo(mContext, model));
+  ASSERT_TRUE(NullType::NULL_TYPE->canAutoCastTo(mContext, model->getOwner()));
   
   NullType anotherNullType;
-  ASSERT_TRUE(NullType::NULL_TYPE->canAutoCastTo(&anotherNullType));
+  ASSERT_TRUE(NullType::NULL_TYPE->canAutoCastTo(mContext, &anotherNullType));
   
-  ASSERT_FALSE(NullType::NULL_TYPE->canAutoCastTo(PrimitiveTypes::INT_TYPE));
+  ASSERT_FALSE(NullType::NULL_TYPE->canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
 }
 
 TEST_F(NullTypeTest, castToModelTest) {

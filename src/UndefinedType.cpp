@@ -29,11 +29,11 @@ TypeKind UndefinedType::getTypeKind() const {
   return UNDEFINED_TYPE_KIND;
 }
 
-bool UndefinedType::canCastTo(const IType* toType) const {
+bool UndefinedType::canCastTo(IRGenerationContext& context, const IType* toType) const {
   return false;
 }
 
-bool UndefinedType::canAutoCastTo(const IType* toType) const {
+bool UndefinedType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
   return false;
 }
 

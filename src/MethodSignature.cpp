@@ -77,11 +77,11 @@ TypeKind MethodSignature::getTypeKind() const {
   return TypeKind::FUNCTION_TYPE;
 }
 
-bool MethodSignature::canCastTo(const IType* toType) const {
+bool MethodSignature::canCastTo(IRGenerationContext& context, const IType* toType) const {
   return false;
 }
 
-bool MethodSignature::canAutoCastTo(const IType *toType) const {
+bool MethodSignature::canAutoCastTo(IRGenerationContext& context, const IType *toType) const {
   return false;
 }
 

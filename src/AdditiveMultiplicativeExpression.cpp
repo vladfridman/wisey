@@ -43,7 +43,7 @@ Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context
                                                     const IType* assignToType) const {
   const IType* leftType = mLeftExpression->getType(context);
   const IType* rightType = mRightExpression->getType(context);
-  checkTypes(leftType, rightType);
+  checkTypes(context, leftType, rightType);
 
   Instruction::BinaryOps instruction;
   string name;
@@ -62,7 +62,7 @@ Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context
   Value* leftValue = mLeftExpression->generateIR(context, assignToType);
   Value* rightValue = mRightExpression->generateIR(context, assignToType);
   
-  if (leftType->canAutoCastTo(rightType)) {
+  if (leftType->canAutoCastTo(context, rightType)) {
     leftValue = AutoCast::maybeCast(context, leftType, leftValue, rightType, mLine);
   } else {
     rightValue = AutoCast::maybeCast(context, rightType, rightValue, leftType, mLine);
@@ -74,16 +74,17 @@ Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context
 const IType* AdditiveMultiplicativeExpression::getType(IRGenerationContext& context) const {
   const IType* leftType = mLeftExpression->getType(context);
   const IType* rightType = mRightExpression->getType(context);
-  checkTypes(leftType, rightType);
+  checkTypes(context, leftType, rightType);
 
-  if (leftType->canAutoCastTo(rightType)) {
+  if (leftType->canAutoCastTo(context, rightType)) {
     return rightType;
   }
   return leftType;
 }
 
 // TODO: implement a more sensible type checking/casting
-void AdditiveMultiplicativeExpression::checkTypes(const IType* leftType,
+void AdditiveMultiplicativeExpression::checkTypes(IRGenerationContext& context,
+                                                  const IType* leftType,
                                                   const IType* rightType) const {
   if (leftType == PrimitiveTypes::VOID_TYPE || rightType == PrimitiveTypes::VOID_TYPE) {
     Log::e("Can not use expressions of type VOID in a '" + string(1, mOperation) + "' operation");
@@ -95,12 +96,12 @@ void AdditiveMultiplicativeExpression::checkTypes(const IType* leftType,
     exit(1);
   }
 
-  if (!leftType->canCastTo(rightType) && !rightType->canCastTo(leftType)) {
+  if (!leftType->canCastTo(context, rightType) && !rightType->canCastTo(context, leftType)) {
     Log::e("Incompatible types in '" + string(1, mOperation) + "' operation");
     exit(1);
   }
   
-  if (!leftType->canAutoCastTo(rightType) && !rightType->canAutoCastTo(leftType)) {
+  if (!leftType->canAutoCastTo(context, rightType) && !rightType->canAutoCastTo(context, leftType)) {
     Log::e("Incompatible types in '" + string(1, mOperation) +
            "' operation that require an explicit cast");
     exit(1);

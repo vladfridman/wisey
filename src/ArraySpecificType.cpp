@@ -67,7 +67,7 @@ ArraySpecificType::computeArrayAllocData(IRGenerationContext& context) const {
   for (const IExpression* dimension : dimensionsReversed) {
     llvm::Value* dimensionValue = dimension->generateIR(context, PrimitiveTypes::VOID_TYPE);
     const IType* dimensionType = dimension->getType(context);
-    checkDimensionType(dimensionType);
+    checkDimensionType(context, dimensionType);
     llvm::Value* dimensionCast = dimensionType->castTo(context,
                                                        dimensionValue,
                                                        PrimitiveTypes::LONG_TYPE,
@@ -95,11 +95,11 @@ TypeKind ArraySpecificType::getTypeKind() const {
   return ARRAY_TYPE;
 }
 
-bool ArraySpecificType::canCastTo(const IType *toType) const {
+bool ArraySpecificType::canCastTo(IRGenerationContext& context, const IType *toType) const {
   return toType == this;
 }
 
-bool ArraySpecificType::canAutoCastTo(const IType *toType) const {
+bool ArraySpecificType::canAutoCastTo(IRGenerationContext& context, const IType *toType) const {
   return toType == this;
 }
 
@@ -122,8 +122,8 @@ bool ArraySpecificType::isOwner() const {
   return false;
 }
 
-void ArraySpecificType::checkDimensionType(const IType* type) const {
-  if (type->canAutoCastTo(PrimitiveTypes::LONG_TYPE)) {
+void ArraySpecificType::checkDimensionType(IRGenerationContext& context, const IType* type) const {
+  if (type->canAutoCastTo(context, PrimitiveTypes::LONG_TYPE)) {
     return;
   }
   Log::e("Dimension in array allocation should be castable to long, but it is of " +

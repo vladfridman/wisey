@@ -304,29 +304,29 @@ TEST_F(NodeOwnerTest, getDestructorFunctionTest) {
 }
 
 TEST_F(NodeOwnerTest, canCastToTest) {
-  EXPECT_FALSE(mComplicatedNode->getOwner()->canCastTo(PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(mComplicatedNode->getOwner()->canCastTo(mSimplerNode->getOwner()));
-  EXPECT_FALSE(mComplicatedNode->getOwner()->canCastTo(mVehicleInterface->getOwner()));
-  EXPECT_TRUE(mComplicatedNode->getOwner()->canCastTo(mComplicatedNode->getOwner()));
-  EXPECT_TRUE(mComplicatedNode->getOwner()->canCastTo(mElementInterface->getOwner()));
+  EXPECT_FALSE(mComplicatedNode->getOwner()->canCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mComplicatedNode->getOwner()->canCastTo(mContext, mSimplerNode->getOwner()));
+  EXPECT_FALSE(mComplicatedNode->getOwner()->canCastTo(mContext, mVehicleInterface->getOwner()));
+  EXPECT_TRUE(mComplicatedNode->getOwner()->canCastTo(mContext, mComplicatedNode->getOwner()));
+  EXPECT_TRUE(mComplicatedNode->getOwner()->canCastTo(mContext, mElementInterface->getOwner()));
   
-  EXPECT_FALSE(mComplicatedNode->getOwner()->canCastTo(mSimplerNode));
-  EXPECT_FALSE(mComplicatedNode->getOwner()->canCastTo(mVehicleInterface));
-  EXPECT_TRUE(mComplicatedNode->getOwner()->canCastTo(mComplicatedNode));
-  EXPECT_TRUE(mComplicatedNode->getOwner()->canCastTo(mElementInterface));
+  EXPECT_FALSE(mComplicatedNode->getOwner()->canCastTo(mContext, mSimplerNode));
+  EXPECT_FALSE(mComplicatedNode->getOwner()->canCastTo(mContext, mVehicleInterface));
+  EXPECT_TRUE(mComplicatedNode->getOwner()->canCastTo(mContext, mComplicatedNode));
+  EXPECT_TRUE(mComplicatedNode->getOwner()->canCastTo(mContext, mElementInterface));
 }
 
 TEST_F(NodeOwnerTest, canAutoCastToTest) {
-  EXPECT_FALSE(mComplicatedNode->getOwner()->canAutoCastTo(PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(mComplicatedNode->getOwner()->canAutoCastTo(mSimplerNode->getOwner()));
-  EXPECT_FALSE(mComplicatedNode->getOwner()->canAutoCastTo(mVehicleInterface->getOwner()));
-  EXPECT_TRUE(mComplicatedNode->getOwner()->canAutoCastTo(mComplicatedNode->getOwner()));
-  EXPECT_TRUE(mComplicatedNode->getOwner()->canAutoCastTo(mElementInterface->getOwner()));
+  EXPECT_FALSE(mComplicatedNode->getOwner()->canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mComplicatedNode->getOwner()->canAutoCastTo(mContext, mSimplerNode->getOwner()));
+  EXPECT_FALSE(mComplicatedNode->getOwner()->canAutoCastTo(mContext, mVehicleInterface->getOwner()));
+  EXPECT_TRUE(mComplicatedNode->getOwner()->canAutoCastTo(mContext, mComplicatedNode->getOwner()));
+  EXPECT_TRUE(mComplicatedNode->getOwner()->canAutoCastTo(mContext, mElementInterface->getOwner()));
   
-  EXPECT_FALSE(mComplicatedNode->getOwner()->canAutoCastTo(mSimplerNode));
-  EXPECT_FALSE(mComplicatedNode->getOwner()->canCastTo(mVehicleInterface));
-  EXPECT_TRUE(mComplicatedNode->getOwner()->canAutoCastTo(mComplicatedNode));
-  EXPECT_TRUE(mComplicatedNode->getOwner()->canAutoCastTo(mElementInterface));
+  EXPECT_FALSE(mComplicatedNode->getOwner()->canAutoCastTo(mContext, mSimplerNode));
+  EXPECT_FALSE(mComplicatedNode->getOwner()->canCastTo(mContext, mVehicleInterface));
+  EXPECT_TRUE(mComplicatedNode->getOwner()->canAutoCastTo(mContext, mComplicatedNode));
+  EXPECT_TRUE(mComplicatedNode->getOwner()->canAutoCastTo(mContext, mElementInterface));
 }
 
 TEST_F(NodeOwnerTest, castToFirstInterfaceTest) {

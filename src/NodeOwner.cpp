@@ -36,20 +36,20 @@ TypeKind NodeOwner::getTypeKind() const {
   return NODE_OWNER_TYPE;
 }
 
-bool NodeOwner::canCastTo(const IType* toType) const {
+bool NodeOwner::canCastTo(IRGenerationContext& context, const IType* toType) const {
   if (toType == this || toType == mNode) {
     return true;
   }
   
   if (IType::isOwnerType(toType)) {
-    return mNode->canCastTo(((IObjectOwnerType*) toType)->getObject());
+    return mNode->canCastTo(context, ((IObjectOwnerType*) toType)->getObject());
   }
   
-  return mNode->canCastTo(toType);
+  return mNode->canCastTo(context, toType);
 }
 
-bool NodeOwner::canAutoCastTo(const IType* toType) const {
-  return canCastTo(toType);
+bool NodeOwner::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
+  return canCastTo(context, toType);
 }
 
 Value* NodeOwner::castTo(IRGenerationContext& context,

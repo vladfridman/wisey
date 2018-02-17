@@ -87,11 +87,11 @@ TypeKind Method::getTypeKind() const {
   return TypeKind::FUNCTION_TYPE;
 }
 
-bool Method::canCastTo(const IType* toType) const {
+bool Method::canCastTo(IRGenerationContext& context, const IType* toType) const {
   return false;
 }
 
-bool Method::canAutoCastTo(const IType *toType) const {
+bool Method::canAutoCastTo(IRGenerationContext& context, const IType *toType) const {
   return false;
 }
 

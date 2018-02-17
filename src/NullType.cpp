@@ -30,11 +30,11 @@ TypeKind NullType::getTypeKind() const {
   return NULL_TYPE_KIND;
 }
 
-bool NullType::canCastTo(const IType* toType) const {
+bool NullType::canCastTo(IRGenerationContext& context, const IType* toType) const {
   return !IType::isPrimitveType(toType);
 }
 
-bool NullType::canAutoCastTo(const IType* toType) const {
+bool NullType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
   return !IType::isPrimitveType(toType);
 }
 

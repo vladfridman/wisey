@@ -78,15 +78,15 @@ TEST_F(ArraySpecificOwnerTypeTest, getTypeKindTest) {
 }
 
 TEST_F(ArraySpecificOwnerTypeTest, canCastToTest) {
-  EXPECT_FALSE(mArraySpecificOwnerType->canCastTo(PrimitiveTypes::STRING_TYPE));
-  EXPECT_TRUE(mArraySpecificOwnerType->canCastTo(mArraySpecificOwnerType));
-  EXPECT_TRUE(mArraySpecificOwnerType->canCastTo(mArrayType));
+  EXPECT_FALSE(mArraySpecificOwnerType->canCastTo(mContext, PrimitiveTypes::STRING_TYPE));
+  EXPECT_TRUE(mArraySpecificOwnerType->canCastTo(mContext, mArraySpecificOwnerType));
+  EXPECT_TRUE(mArraySpecificOwnerType->canCastTo(mContext, mArrayType));
 }
 
 TEST_F(ArraySpecificOwnerTypeTest, canAutoCastToTest) {
-  EXPECT_FALSE(mArraySpecificOwnerType->canAutoCastTo(PrimitiveTypes::STRING_TYPE));
-  EXPECT_TRUE(mArraySpecificOwnerType->canAutoCastTo(mArraySpecificOwnerType));
-  EXPECT_TRUE(mArraySpecificOwnerType->canAutoCastTo(mArrayType));
+  EXPECT_FALSE(mArraySpecificOwnerType->canAutoCastTo(mContext, PrimitiveTypes::STRING_TYPE));
+  EXPECT_TRUE(mArraySpecificOwnerType->canAutoCastTo(mContext, mArraySpecificOwnerType));
+  EXPECT_TRUE(mArraySpecificOwnerType->canAutoCastTo(mContext, mArrayType));
 }
 
 TEST_F(ArraySpecificOwnerTypeTest, isOwnerTest) {

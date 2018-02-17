@@ -40,7 +40,7 @@ TypeKind ArraySpecificOwnerType::getTypeKind() const {
   return ARRAY_OWNER_TYPE;
 }
 
-bool ArraySpecificOwnerType::canCastTo(const IType* toType) const {
+bool ArraySpecificOwnerType::canCastTo(IRGenerationContext& context, const IType* toType) const {
   if (toType == this) {
     return true;
   }
@@ -56,8 +56,8 @@ bool ArraySpecificOwnerType::canCastTo(const IType* toType) const {
   toArrayType->getNumberOfDimensions() == mArraySpecificType->getNumberOfDimensions();
 }
 
-bool ArraySpecificOwnerType::canAutoCastTo(const IType* toType) const {
-  return canCastTo(toType);
+bool ArraySpecificOwnerType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
+  return canCastTo(context, toType);
 }
 
 llvm::Value* ArraySpecificOwnerType::castTo(IRGenerationContext &context,

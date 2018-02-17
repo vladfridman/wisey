@@ -27,7 +27,7 @@ ExitStatement::~ExitStatement() {
 
 Value* ExitStatement::generateIR(IRGenerationContext& context) const {
   const IType* expressionType = mExpression->getType(context);
-  if (!expressionType->canAutoCastTo(PrimitiveTypes::INT_TYPE)) {
+  if (!expressionType->canAutoCastTo(context, PrimitiveTypes::INT_TYPE)) {
     Log::e("Can not auto cast exit statement parameter to int");
     exit(1);
   }

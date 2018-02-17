@@ -31,11 +31,11 @@ TypeKind StringType::getTypeKind() const {
   return PRIMITIVE_TYPE;
 }
 
-bool StringType::canCastTo(const IType* toType) const {
+bool StringType::canCastTo(IRGenerationContext& context, const IType* toType) const {
   return toType == PrimitiveTypes::STRING_TYPE;
 }
 
-bool StringType::canAutoCastTo(const IType* toType) const {
+bool StringType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
   return toType == PrimitiveTypes::STRING_TYPE;
 }
 

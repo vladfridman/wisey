@@ -218,12 +218,12 @@ TypeKind Model::getTypeKind() const {
   return MODEL_TYPE;
 }
 
-bool Model::canCastTo(const IType* toType) const {
+bool Model::canCastTo(IRGenerationContext& context, const IType* toType) const {
   return IConcreteObjectType::canCast(this, toType);
 }
 
-bool Model::canAutoCastTo(const IType* toType) const {
-  return canCastTo(toType);
+bool Model::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
+  return canCastTo(context, toType);
 }
 
 Value* Model::castTo(IRGenerationContext& context,
@@ -347,7 +347,7 @@ void Model::initializeFields(IRGenerationContext& context,
     
     Value* argumentValue = argument->getValue(context, fieldType);
     const IType* argumentType = argument->getType(context);
-    if (!argumentType->canAutoCastTo(fieldType)) {
+    if (!argumentType->canAutoCastTo(context, fieldType)) {
       Log::e("Model builder argument value for field " + argumentName +
              " does not match its type");
       exit(1);

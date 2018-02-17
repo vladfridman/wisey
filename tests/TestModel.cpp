@@ -429,23 +429,23 @@ TEST_F(ModelTest, getReferenceAdjustmentFunctionTest) {
 }
 
 TEST_F(ModelTest, canCastToTest) {
-  EXPECT_FALSE(mModel->canCastTo(PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(mModel->canCastTo(mCircleModel));
-  EXPECT_FALSE(mModel->canCastTo(mCarInterface));
-  EXPECT_TRUE(mModel->canCastTo(mModel));
-  EXPECT_TRUE(mModel->canCastTo(mShapeInterface));
-  EXPECT_FALSE(mModel->canCastTo(NullType::NULL_TYPE));
-  EXPECT_TRUE(mModel->canCastTo(mModel));
+  EXPECT_FALSE(mModel->canCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mModel->canCastTo(mContext, mCircleModel));
+  EXPECT_FALSE(mModel->canCastTo(mContext, mCarInterface));
+  EXPECT_TRUE(mModel->canCastTo(mContext, mModel));
+  EXPECT_TRUE(mModel->canCastTo(mContext, mShapeInterface));
+  EXPECT_FALSE(mModel->canCastTo(mContext, NullType::NULL_TYPE));
+  EXPECT_TRUE(mModel->canCastTo(mContext, mModel));
 }
 
 TEST_F(ModelTest, canAutoCastToTest) {
-  EXPECT_FALSE(mModel->canAutoCastTo(PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(mModel->canAutoCastTo(mCircleModel));
-  EXPECT_FALSE(mModel->canAutoCastTo(mCarInterface));
-  EXPECT_TRUE(mModel->canAutoCastTo(mModel));
-  EXPECT_TRUE(mModel->canAutoCastTo(mShapeInterface));
-  EXPECT_FALSE(mModel->canAutoCastTo(NullType::NULL_TYPE));
-  EXPECT_TRUE(mModel->canAutoCastTo(mModel));
+  EXPECT_FALSE(mModel->canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mModel->canAutoCastTo(mContext, mCircleModel));
+  EXPECT_FALSE(mModel->canAutoCastTo(mContext, mCarInterface));
+  EXPECT_TRUE(mModel->canAutoCastTo(mContext, mModel));
+  EXPECT_TRUE(mModel->canAutoCastTo(mContext, mShapeInterface));
+  EXPECT_FALSE(mModel->canAutoCastTo(mContext, NullType::NULL_TYPE));
+  EXPECT_TRUE(mModel->canAutoCastTo(mContext, mModel));
 }
 
 TEST_F(ModelTest, castToFirstInterfaceTest) {

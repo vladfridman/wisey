@@ -289,21 +289,21 @@ TEST_F(InterfaceTest, getReferenceAdjustmentFunctionTest) {
 }
 
 TEST_F(InterfaceTest, canCastToTest) {
-  EXPECT_FALSE(mObjectInterface->canCastTo(PrimitiveTypes::INT_TYPE));
-  EXPECT_TRUE(mObjectInterface->canCastTo(mShapeInterface));
-  EXPECT_TRUE(mShapeInterface->canCastTo(mObjectInterface));
-  EXPECT_FALSE(mObjectInterface->canCastTo(NullType::NULL_TYPE));
-  EXPECT_TRUE(mObjectInterface->canCastTo(mObjectInterface));
-  EXPECT_TRUE(mShapeInterface->canCastTo(mShapeInterface));
+  EXPECT_FALSE(mObjectInterface->canCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_TRUE(mObjectInterface->canCastTo(mContext, mShapeInterface));
+  EXPECT_TRUE(mShapeInterface->canCastTo(mContext, mObjectInterface));
+  EXPECT_FALSE(mObjectInterface->canCastTo(mContext, NullType::NULL_TYPE));
+  EXPECT_TRUE(mObjectInterface->canCastTo(mContext, mObjectInterface));
+  EXPECT_TRUE(mShapeInterface->canCastTo(mContext, mShapeInterface));
 }
 
 TEST_F(InterfaceTest, canAutoCastToTest) {
-  EXPECT_FALSE(mObjectInterface->canAutoCastTo(PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(mObjectInterface->canAutoCastTo(mShapeInterface));
-  EXPECT_TRUE(mShapeInterface->canAutoCastTo(mObjectInterface));
-  EXPECT_FALSE(mObjectInterface->canAutoCastTo(NullType::NULL_TYPE));
-  EXPECT_TRUE(mObjectInterface->canAutoCastTo(mObjectInterface));
-  EXPECT_TRUE(mShapeInterface->canAutoCastTo(mShapeInterface));
+  EXPECT_FALSE(mObjectInterface->canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mObjectInterface->canAutoCastTo(mContext, mShapeInterface));
+  EXPECT_TRUE(mShapeInterface->canAutoCastTo(mContext, mObjectInterface));
+  EXPECT_FALSE(mObjectInterface->canAutoCastTo(mContext, NullType::NULL_TYPE));
+  EXPECT_TRUE(mObjectInterface->canAutoCastTo(mContext, mObjectInterface));
+  EXPECT_TRUE(mShapeInterface->canAutoCastTo(mContext, mShapeInterface));
 }
 
 TEST_F(InterfaceTest, isOwnerTest) {
