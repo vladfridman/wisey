@@ -83,3 +83,7 @@ bool ArrayExactOwnerType::isOwner() const {
 void ArrayExactOwnerType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }
+
+void ArrayExactOwnerType::allocateVariable(IRGenerationContext& context, string name) const {
+  assert(false);
+}

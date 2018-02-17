@@ -139,3 +139,7 @@ void ArraySpecificType::printToStream(IRGenerationContext &context, iostream& st
     stream << "]";
   }
 }
+
+void ArraySpecificType::allocateVariable(IRGenerationContext& context, string name) const {
+  assert(false);
+}

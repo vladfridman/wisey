@@ -6,9 +6,13 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Constants.h>
+
 #include "wisey/Cast.hpp"
-#include "wisey/IntType.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/IntType.hpp"
+#include "wisey/LocalPrimitiveVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -72,4 +76,15 @@ string IntType::getFormat() const {
 
 void IntType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
+}
+
+void IntType::allocateVariable(IRGenerationContext& context, string name) const {
+  Type* llvmType = getLLVMType(context);
+  AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
+  
+  LocalPrimitiveVariable* variable = new LocalPrimitiveVariable(name, this, alloc);
+  context.getScopes().setVariable(variable);
+  
+  Value* value = ConstantInt::get(llvmType, 0);
+  IRWriter::newStoreInst(context, value, alloc);
 }

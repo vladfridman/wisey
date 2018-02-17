@@ -122,3 +122,20 @@ TEST_F(BooleanTypeTest, castToTest) {
 TEST_F(BooleanTypeTest, isOwnerTest) {
   EXPECT_FALSE(mBoleanType.isOwner());
 }
+
+TEST_F(BooleanTypeTest, allocateVariableTest) {
+  mBoleanType.allocateVariable(mContext, "temp");
+  IVariable* variable = mContext.getScopes().getVariable("temp");
+  
+  ASSERT_NE(variable, nullptr);
+  
+  *mStringStream << *mBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %0 = alloca i1"
+  "\n  store i1 false, i1* %0\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}

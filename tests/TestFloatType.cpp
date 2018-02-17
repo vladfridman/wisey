@@ -122,3 +122,20 @@ TEST_F(FloatTypeTest, castToTest) {
 TEST_F(FloatTypeTest, isOwnerTest) {
   EXPECT_FALSE(mFloatType.isOwner());
 }
+
+TEST_F(FloatTypeTest, allocateVariableTest) {
+  mFloatType.allocateVariable(mContext, "temp");
+  IVariable* variable = mContext.getScopes().getVariable("temp");
+  
+  ASSERT_NE(variable, nullptr);
+  
+  *mStringStream << *mBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %0 = alloca float"
+  "\n  store float 0.000000e+00, float* %0\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}

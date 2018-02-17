@@ -6,8 +6,11 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Constants.h>
+
 #include "wisey/ControllerOwner.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LocalOwnerVariable.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -78,4 +81,14 @@ bool ControllerOwner::isOwner() const {
 
 void ControllerOwner::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
+}
+
+void ControllerOwner::allocateVariable(IRGenerationContext& context, string name) const {
+  PointerType* llvmType = getLLVMType(context);
+  
+  Value* alloca = IRWriter::newAllocaInst(context, llvmType, "ownerDeclaration");
+  IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloca);
+  
+  IVariable* uninitializedVariable = new LocalOwnerVariable(name, this, alloca);
+  context.getScopes().setVariable(uninitializedVariable);
 }

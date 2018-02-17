@@ -52,3 +52,7 @@ bool PackageType::isOwner() const {
 void PackageType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }
+
+void PackageType::allocateVariable(IRGenerationContext& context, string name) const {
+  assert(false);
+}

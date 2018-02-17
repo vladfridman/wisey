@@ -6,12 +6,15 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Constants.h>
+
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/DestroyOwnerArrayFunction.hpp"
 #include "wisey/DestroyPrimitiveArrayFunction.hpp"
 #include "wisey/DestroyReferenceArrayFunction.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LocalArrayOwnerVariable.hpp"
 
 using namespace std;
 using namespace wisey;
@@ -89,6 +92,15 @@ bool ArrayOwnerType::isOwner() const {
   return true;
 }
 
-void ArrayOwnerType::printToStream(IRGenerationContext &context, iostream& stream) const {
+void ArrayOwnerType::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << getTypeName();
+}
+
+void ArrayOwnerType::allocateVariable(IRGenerationContext& context, string name) const {
+  llvm::PointerType* llvmType = getLLVMType(context);
+  llvm::AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
+  IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloc);
+  
+  IVariable* variable = new LocalArrayOwnerVariable(name, this, alloc);
+  context.getScopes().setVariable(variable);
 }

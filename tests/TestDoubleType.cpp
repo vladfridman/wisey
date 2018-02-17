@@ -122,3 +122,20 @@ TEST_F(DoubleTypeTest, castToTest) {
 TEST_F(DoubleTypeTest, isOwnerTest) {
   EXPECT_FALSE(mDoubleType.isOwner());
 }
+
+TEST_F(DoubleTypeTest, allocateVariableTest) {
+  mDoubleType.allocateVariable(mContext, "temp");
+  IVariable* variable = mContext.getScopes().getVariable("temp");
+  
+  ASSERT_NE(variable, nullptr);
+  
+  *mStringStream << *mBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %0 = alloca double"
+  "\n  store double 0.000000e+00, double* %0\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}

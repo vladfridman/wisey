@@ -561,6 +561,23 @@ TEST_F(InterfaceTest, circularDependencyDeathTest) {
               "systems.vos.wisey.compiler.tests.IParent");
 }
 
+TEST_F(InterfaceTest, allocateVariableTest) {
+  mShapeInterface->allocateVariable(mContext, "temp");
+  IVariable* variable = mContext.getScopes().getVariable("temp");
+  
+  ASSERT_NE(variable, nullptr);
+  
+  *mStringStream << *mBasicBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %referenceDeclaration = alloca %systems.vos.wisey.compiler.tests.IShape*"
+  "\n  store %systems.vos.wisey.compiler.tests.IShape* null, %systems.vos.wisey.compiler.tests.IShape** %referenceDeclaration\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
 TEST_F(TestFileSampleRunner, interfaceMethodNotImplmentedDeathTest) {
   expectFailCompile("tests/samples/test_interface_method_not_implmented.yz",
                     1,

@@ -6,9 +6,13 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Constants.h>
+
 #include "wisey/BooleanType.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/LocalPrimitiveVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -75,4 +79,15 @@ string BooleanType::getFormat() const {
 
 void BooleanType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
+}
+
+void BooleanType::allocateVariable(IRGenerationContext& context, string name) const {
+  Type* llvmType = getLLVMType(context);
+  AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
+  
+  LocalPrimitiveVariable* variable = new LocalPrimitiveVariable(name, this, alloc);
+  context.getScopes().setVariable(variable);
+  
+  Value* value = ConstantInt::get(llvmType, 0);
+  IRWriter::newStoreInst(context, value, alloc);
 }

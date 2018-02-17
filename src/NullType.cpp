@@ -12,6 +12,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/NullType.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -50,6 +51,10 @@ bool NullType::isOwner() const {
 
 void NullType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
+}
+
+void NullType::allocateVariable(IRGenerationContext& context, string name) const {
+  assert(false);
 }
 
 NullType* NullType::NULL_TYPE = new NullType();

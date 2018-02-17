@@ -61,15 +61,6 @@ private:
                       IExpression* assignmentExpression,
                       int line);
 
-  void allocatePrimitive(IRGenerationContext& context, const IPrimitiveType* type) const;
-  
-  void allocateArray(IRGenerationContext& context, const wisey::ArrayType* type) const;
-  
-  void allocateArrayOwner(IRGenerationContext& context, const wisey::ArrayOwnerType* type) const;
-
-  void allocateOwner(IRGenerationContext& context, const IObjectOwnerType* type) const;
-  
-  void allocateReference(IRGenerationContext& context, const IObjectType* type) const;
 };
 
 /**

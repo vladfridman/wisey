@@ -108,3 +108,7 @@ const IObjectType* ExternalMethod::getObjectType() const {
 
 void ExternalMethod::printToStream(IRGenerationContext& context, iostream& stream) const {
 }
+
+void ExternalMethod::allocateVariable(IRGenerationContext& context, string name) const {
+  assert(false);
+}

@@ -133,6 +133,23 @@ TEST_F(InterfaceOwnerTest, isOwnerTest) {
   EXPECT_TRUE(mObjectInterface->getOwner()->isOwner());
 }
 
+TEST_F(InterfaceOwnerTest, allocateVariableTest) {
+  mObjectInterface->allocateVariable(mContext, "temp");
+  IVariable* variable = mContext.getScopes().getVariable("temp");
+  
+  ASSERT_NE(variable, nullptr);
+  
+  *mStringStream << *mBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %referenceDeclaration = alloca %systems.vos.wisey.compiler.tests.IObject*"
+  "\n  store %systems.vos.wisey.compiler.tests.IObject* null, %systems.vos.wisey.compiler.tests.IObject** %referenceDeclaration\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
 TEST_F(TestFileSampleRunner, interfaceOwnerCastToModelOwnerRunTest) {
   runFile("tests/samples/test_interface_owner_cast_to_model_owner.yz", "5");
 }

@@ -16,6 +16,7 @@
 
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ProgramPrefix.hpp"
 #include "wisey/StringType.hpp"
 
 using namespace llvm;
@@ -119,4 +120,23 @@ TEST_F(StringTypeTest, castToTest) {
 
 TEST_F(StringTypeTest, isOwnerTest) {
   EXPECT_FALSE(mStringType.isOwner());
+}
+
+TEST_F(StringTypeTest, allocateVariableTest) {
+  ProgramPrefix programPrefix;
+  programPrefix.generateIR(mContext);
+  mStringType.allocateVariable(mContext, "temp");
+  IVariable* variable = mContext.getScopes().getVariable("temp");
+  
+  ASSERT_NE(variable, nullptr);
+  
+  *mStringStream << *mBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %0 = alloca i8*"
+  "\n  store i8* getelementptr inbounds ([1 x i8], [1 x i8]* @__empty.str, i32 0, i32 0), i8** %0\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
 }

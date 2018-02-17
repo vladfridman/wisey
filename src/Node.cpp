@@ -13,6 +13,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
+#include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/Node.hpp"
@@ -387,4 +388,14 @@ bool Node::isInner() const {
 
 Function* Node::getReferenceAdjustmentFunction(IRGenerationContext& context) const {
   return AdjustReferenceCounterForConcreteObjectUnsafelyFunction::get(context);
+}
+
+void Node::allocateVariable(IRGenerationContext& context, string name) const {
+  PointerType* llvmType = getLLVMType(context);
+  
+  Value* alloca = IRWriter::newAllocaInst(context, llvmType, "referenceDeclaration");
+  IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloca);
+  
+  IVariable* uninitializedVariable = new LocalReferenceVariable(name, this, alloca);
+  context.getScopes().setVariable(uninitializedVariable);
 }

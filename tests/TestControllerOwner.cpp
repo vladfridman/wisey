@@ -246,6 +246,23 @@ TEST_F(ControllerOwnerTest, castToSecondInterfaceTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(ControllerOwnerTest, allocateVariableTest) {
+  mMultiplierController->allocateVariable(mContext, "temp");
+  IVariable* variable = mContext.getScopes().getVariable("temp");
+  
+  ASSERT_NE(variable, nullptr);
+  
+  *mStringStream << *mBasicBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %referenceDeclaration = alloca %systems.vos.wisey.compiler.tests.CMultiplier*"
+  "\n  store %systems.vos.wisey.compiler.tests.CMultiplier* null, %systems.vos.wisey.compiler.tests.CMultiplier** %referenceDeclaration\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
 TEST_F(TestFileSampleRunner, controllerPassModelReferenceRunTest) {
   runFile("tests/samples/test_controller_pass_model_reference.yz", "3");
 }

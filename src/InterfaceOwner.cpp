@@ -11,6 +11,7 @@
 #include "wisey/Environment.hpp"
 #include "wisey/InterfaceOwner.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LocalOwnerVariable.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -90,4 +91,14 @@ bool InterfaceOwner::isOwner() const {
 
 void InterfaceOwner::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
+}
+
+void InterfaceOwner::allocateVariable(IRGenerationContext& context, string name) const {
+  PointerType* llvmType = getLLVMType(context);
+  
+  Value* alloca = IRWriter::newAllocaInst(context, llvmType, "ownerDeclaration");
+  IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloca);
+  
+  IVariable* uninitializedVariable = new LocalOwnerVariable(name, this, alloca);
+  context.getScopes().setVariable(uninitializedVariable);
 }

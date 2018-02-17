@@ -103,3 +103,7 @@ const IObjectType* MethodSignature::getObjectType() const {
 void MethodSignature::printToStream(IRGenerationContext& context, iostream& stream) const {
   IMethodDescriptor::printDescriptorToStream(this, stream);
 }
+
+void MethodSignature::allocateVariable(IRGenerationContext& context, string name) const {
+  assert(false);
+}

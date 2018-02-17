@@ -99,6 +99,10 @@ bool ArrayExactType::isOwner() const {
   return false;
 }
 
-void ArrayExactType::printToStream(IRGenerationContext &context, iostream& stream) const {
+void ArrayExactType::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << getTypeName();
+}
+
+void ArrayExactType::allocateVariable(IRGenerationContext& context, string name) const {
+  assert(false);
 }

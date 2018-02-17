@@ -88,6 +88,11 @@ namespace wisey {
      */
     virtual bool isOwner() const = 0;
     
+    /*
+     * Allocates variable of the type and stores it in scope
+     */
+    virtual void allocateVariable(IRGenerationContext& context, std::string name) const = 0;
+    
     /**
      * Tells whether the given type is an owner type
      */

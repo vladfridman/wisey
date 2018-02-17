@@ -168,3 +168,7 @@ const IObjectType* StaticMethod::getObjectType() const {
 void StaticMethod::printToStream(IRGenerationContext& context, iostream& stream) const {
   IMethodDescriptor::printDescriptorToStream(this, stream);
 }
+
+void StaticMethod::allocateVariable(IRGenerationContext& context, string name) const {
+  assert(false);
+}

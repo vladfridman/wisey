@@ -368,3 +368,20 @@ TEST_F(NodeOwnerTest, castToSecondInterfaceTest) {
 TEST_F(NodeOwnerTest, isOwnerTest) {
   EXPECT_TRUE(mSimpleNode->getOwner()->isOwner());
 }
+
+TEST_F(NodeOwnerTest, allocateVariableTest) {
+  mComplicatedNode->allocateVariable(mContext, "temp");
+  IVariable* variable = mContext.getScopes().getVariable("temp");
+  
+  ASSERT_NE(variable, nullptr);
+  
+  *mStringStream << *mBasicBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %referenceDeclaration = alloca %systems.vos.wisey.compiler.tests.NComplicatedNode*"
+  "\n  store %systems.vos.wisey.compiler.tests.NComplicatedNode* null, %systems.vos.wisey.compiler.tests.NComplicatedNode** %referenceDeclaration\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}

@@ -52,5 +52,9 @@ void UndefinedType::printToStream(IRGenerationContext &context, iostream& stream
   stream << getTypeName();
 }
 
+void UndefinedType::allocateVariable(IRGenerationContext& context, string name) const {
+  assert(false);
+}
+
 UndefinedType* UndefinedType::UNDEFINED_TYPE = new UndefinedType();
 

@@ -99,16 +99,16 @@ TEST_F(VariableDeclarationTest, stackVariableDeclarationWithAssignmentTest) {
   declaration->generateIR(mContext);
   
   EXPECT_NE(mContext.getScopes().getVariable("foo"), nullptr);
-  ASSERT_EQ(2ul, mBlock->size());
 
-  BasicBlock::iterator iterator = mBlock->begin();
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %0 = alloca i32");
-  iterator++;
-  mStringBuffer.clear();
+  *mStringStream << *mBlock;
+
+  string expected =
+  "\nentry:"
+  "\n  %0 = alloca i32"
+  "\n  store i32 0, i32* %0"
+  "\n  store i32 5, i32* %0\n";
   
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  store i32 5, i32* %0");
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
   delete declaration;
 }

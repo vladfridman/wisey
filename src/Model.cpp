@@ -13,6 +13,7 @@
 #include "wisey/Cast.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
+#include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Model.hpp"
 #include "wisey/ModelOwner.hpp"
@@ -420,4 +421,14 @@ bool Model::isInner() const {
 
 Function* Model::getReferenceAdjustmentFunction(IRGenerationContext& context) const {
   return AdjustReferenceCounterForConcreteObjectSafelyFunction::get(context);
+}
+
+void Model::allocateVariable(IRGenerationContext& context, string name) const {
+  PointerType* llvmType = getLLVMType(context);
+  
+  Value* alloca = IRWriter::newAllocaInst(context, llvmType, "referenceDeclaration");
+  IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloca);
+  
+  IVariable* uninitializedVariable = new LocalReferenceVariable(name, this, alloca);
+  context.getScopes().setVariable(uninitializedVariable);
 }

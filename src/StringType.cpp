@@ -6,9 +6,12 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include <llvm/IR/Instructions.h>
+#include <llvm/IR/Constants.h>
 
 #include "wisey/Cast.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/LocalPrimitiveVariable.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/StringType.hpp"
 
@@ -58,4 +61,24 @@ string StringType::getFormat() const {
 
 void StringType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
+}
+
+void StringType::allocateVariable(IRGenerationContext& context, string name) const {
+  Type* llvmType = getLLVMType(context);
+  AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
+  
+  LocalPrimitiveVariable* variable = new LocalPrimitiveVariable(name, this, alloc);
+  context.getScopes().setVariable(variable);
+  
+  GlobalVariable* nameGlobal =
+  context.getModule()->getNamedGlobal(Names::getEmptyStringName());
+  ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);
+  Value* Idx[2];
+  Idx[0] = zeroInt32;
+  Idx[1] = zeroInt32;
+  Type* elementType = nameGlobal->getType()->getPointerElementType();
+  
+  Value* value = ConstantExpr::getGetElementPtr(elementType, nameGlobal, Idx);
+
+  IRWriter::newStoreInst(context, value, alloc);
 }

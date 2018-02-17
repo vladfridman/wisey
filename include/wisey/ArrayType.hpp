@@ -83,6 +83,8 @@ public:
   bool isOwner() const override;
 
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
+  
+  void allocateVariable(IRGenerationContext& context, std::string name) const override;
 
   /**
    * Returns generic type for arrays

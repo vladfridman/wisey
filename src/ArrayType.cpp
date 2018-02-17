@@ -14,6 +14,7 @@
 #include "wisey/ArrayType.hpp"
 #include "wisey/DecrementReferencesInArrayFunction.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LocalArrayReferenceVariable.hpp"
 
 using namespace std;
 using namespace wisey;
@@ -120,4 +121,13 @@ bool ArrayType::isOwner() const {
 
 void ArrayType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
+}
+
+void ArrayType::allocateVariable(IRGenerationContext &context, string name) const {
+  llvm::PointerType* llvmType = getLLVMType(context);
+  llvm::AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
+  IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloc);
+  
+  IVariable* variable = new LocalArrayReferenceVariable(name, this, alloc);
+  context.getScopes().setVariable(variable);
 }

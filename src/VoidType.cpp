@@ -65,3 +65,7 @@ string VoidType::getFormat() const {
 void VoidType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }
+
+void VoidType::allocateVariable(IRGenerationContext& context, string name) const {
+  assert(false);
+}

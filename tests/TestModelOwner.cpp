@@ -355,6 +355,23 @@ TEST_F(ModelOwnerTest, isOwnerTest) {
   EXPECT_TRUE(mModel->getOwner()->isOwner());
 }
 
+TEST_F(ModelOwnerTest, allocateVariableTest) {
+  mModel->allocateVariable(mContext, "temp");
+  IVariable* variable = mContext.getScopes().getVariable("temp");
+  
+  ASSERT_NE(variable, nullptr);
+  
+  *mStringStream << *mBasicBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %referenceDeclaration = alloca %systems.vos.wisey.compiler.tests.MSquare*"
+  "\n  store %systems.vos.wisey.compiler.tests.MSquare* null, %systems.vos.wisey.compiler.tests.MSquare** %referenceDeclaration\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
 TEST_F(TestFileSampleRunner, ownerAssignToReferenceRunTest) {
   runFile("tests/samples/test_owner_assign_to_reference.yz", "3");
 }

@@ -169,6 +169,8 @@ public:
   bool isInner() const override;
   
   llvm::Function* getReferenceAdjustmentFunction(IRGenerationContext& context) const override;
+  
+  void allocateVariable(IRGenerationContext& context, std::string name) const override;
 
 private:
   

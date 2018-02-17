@@ -11,6 +11,8 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+#include <llvm/Support/raw_ostream.h>
+
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -25,10 +27,25 @@ struct ArrayOwnerTypeTest : public Test {
   llvm::LLVMContext& mLLVMContext;
   ArrayType* mArrayType;
   ArrayOwnerType* mArrayOwnerType;
-  
+  llvm::BasicBlock* mBasicBlock;
+  string mStringBuffer;
+  llvm::raw_string_ostream* mStringStream;
+
   ArrayOwnerTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
     mArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, 1u);
     mArrayOwnerType = new ArrayOwnerType(mArrayType);
+
+    llvm::FunctionType* functionType =
+    llvm::FunctionType::get(llvm::Type::getInt32Ty(mContext.getLLVMContext()), false);
+    llvm::Function* function = llvm::Function::Create(functionType,
+                                                      llvm::GlobalValue::InternalLinkage,
+                                                      "main",
+                                                      mContext.getModule());
+    mBasicBlock = llvm::BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setBasicBlock(mBasicBlock);
+    mContext.getScopes().pushScope();
+    
+    mStringStream = new llvm::raw_string_ostream(mStringBuffer);
   }
 };
 
@@ -72,3 +89,19 @@ TEST_F(ArrayOwnerTypeTest, isOwnerTest) {
   EXPECT_TRUE(mArrayOwnerType->isOwner());
 }
 
+TEST_F(ArrayOwnerTypeTest, allocateVariableTest) {
+  mArrayOwnerType->allocateVariable(mContext, "temp");
+  IVariable* variable = mContext.getScopes().getVariable("temp");
+  
+  ASSERT_NE(variable, nullptr);
+  
+  *mStringStream << *mBasicBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %0 = alloca { i64, i64, i64, [0 x i64] }*"
+  "\n  store { i64, i64, i64, [0 x i64] }* null, { i64, i64, i64, [0 x i64] }** %0\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}

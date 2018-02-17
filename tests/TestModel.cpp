@@ -740,6 +740,23 @@ TEST_F(ModelTest, printToStreamTest) {
                stringStream.str().c_str());
 }
 
+TEST_F(ModelTest, allocateVariableTest) {
+  mModel->allocateVariable(mContext, "temp");
+  IVariable* variable = mContext.getScopes().getVariable("temp");
+  
+  ASSERT_NE(variable, nullptr);
+  
+  *mStringStream << *mBasicBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %referenceDeclaration = alloca %systems.vos.wisey.compiler.tests.MSquare*"
+  "\n  store %systems.vos.wisey.compiler.tests.MSquare* null, %systems.vos.wisey.compiler.tests.MSquare** %referenceDeclaration\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
 TEST_F(TestFileSampleRunner, modelBuilderObjectArgumentAutocastRunTest) {
   runFile("tests/samples/test_model_builder_object_argument_autocast.yz", "2017");
 }

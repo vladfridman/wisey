@@ -40,6 +40,7 @@ public:
                                            int));
   MOCK_CONST_METHOD0(isOwner, bool ());
   MOCK_CONST_METHOD2(printToStream, void (wisey::IRGenerationContext&, std::iostream& stream));
+  MOCK_CONST_METHOD2(allocateVariable, void (wisey::IRGenerationContext&, std::string name));
 };
 
 #endif /* MockMethodDescriptor_h */

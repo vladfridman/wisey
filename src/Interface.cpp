@@ -20,6 +20,7 @@
 #include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodCall.hpp"
@@ -899,4 +900,14 @@ bool Interface::isInner() const {
 
 Function* Interface::getReferenceAdjustmentFunction(IRGenerationContext& context) const {
   return AdjustReferenceCounterForInterfaceFunction::get(context);
+}
+
+void Interface::allocateVariable(IRGenerationContext& context, string name) const {
+  PointerType* llvmType = getLLVMType(context);
+  
+  Value* alloca = IRWriter::newAllocaInst(context, llvmType, "referenceDeclaration");
+  IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloca);
+  
+  IVariable* uninitializedVariable = new LocalReferenceVariable(name, this, alloca);
+  context.getScopes().setVariable(uninitializedVariable);
 }

@@ -122,3 +122,20 @@ TEST_F(CharTypeTest, castToTest) {
 TEST_F(CharTypeTest, isOwnerTest) {
   EXPECT_FALSE(mCharType.isOwner());
 }
+
+TEST_F(CharTypeTest, allocateVariableTest) {
+  mCharType.allocateVariable(mContext, "temp");
+  IVariable* variable = mContext.getScopes().getVariable("temp");
+  
+  ASSERT_NE(variable, nullptr);
+  
+  *mStringStream << *mBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %0 = alloca i16"
+  "\n  store i16 0, i16* %0\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}

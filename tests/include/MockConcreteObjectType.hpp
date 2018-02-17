@@ -69,6 +69,7 @@ public:
   MOCK_CONST_METHOD0(isInner, bool ());
   MOCK_CONST_METHOD1(getReferenceAdjustmentFunction,
                      llvm::Function* (wisey::IRGenerationContext& context));
+  MOCK_CONST_METHOD2(allocateVariable, void (wisey::IRGenerationContext&, std::string name));
 };
 
 #endif /* MockConcreteObjectType_h */

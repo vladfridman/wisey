@@ -20,6 +20,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
+#include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Names.hpp"
 
@@ -432,3 +433,12 @@ Function* Controller::getReferenceAdjustmentFunction(IRGenerationContext& contex
   return AdjustReferenceCounterForConcreteObjectUnsafelyFunction::get(context);
 }
 
+void Controller::allocateVariable(IRGenerationContext& context, string name) const {
+  PointerType* llvmType = getLLVMType(context);
+  
+  Value* alloca = IRWriter::newAllocaInst(context, llvmType, "referenceDeclaration");
+  IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloca);
+  
+  IVariable* uninitializedVariable = new LocalReferenceVariable(name, this, alloca);
+  context.getScopes().setVariable(uninitializedVariable);
+}

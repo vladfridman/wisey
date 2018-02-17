@@ -122,3 +122,20 @@ TEST_F(LongTypeTest, castToTest) {
 TEST_F(LongTypeTest, isOwnerTest) {
   EXPECT_FALSE(mLongType.isOwner());
 }
+
+TEST_F(LongTypeTest, allocateVariableTest) {
+  mLongType.allocateVariable(mContext, "temp");
+  IVariable* variable = mContext.getScopes().getVariable("temp");
+  
+  ASSERT_NE(variable, nullptr);
+  
+  *mStringStream << *mBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %0 = alloca i64"
+  "\n  store i64 0, i64* %0\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
