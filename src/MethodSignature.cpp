@@ -107,3 +107,8 @@ void MethodSignature::printToStream(IRGenerationContext& context, iostream& stre
 void MethodSignature::allocateVariable(IRGenerationContext& context, string name) const {
   assert(false);
 }
+
+const wisey::ArrayType* MethodSignature::getArrayType(IRGenerationContext& context) const {
+  ArrayType::reportNonArrayType();
+  exit(1);
+}

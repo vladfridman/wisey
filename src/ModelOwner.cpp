@@ -93,3 +93,7 @@ void ModelOwner::allocateVariable(IRGenerationContext& context, string name) con
   context.getScopes().setVariable(uninitializedVariable);
 }
 
+const wisey::ArrayType* ModelOwner::getArrayType(IRGenerationContext& context) const {
+  ArrayType::reportNonArrayType();
+  exit(1);
+}

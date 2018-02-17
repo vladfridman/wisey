@@ -171,6 +171,8 @@ public:
   llvm::Function* getReferenceAdjustmentFunction(IRGenerationContext& context) const override;
   
   void allocateVariable(IRGenerationContext& context, std::string name) const override;
+  
+  const ArrayType* getArrayType(IRGenerationContext& context) const override;
 
 private:
   

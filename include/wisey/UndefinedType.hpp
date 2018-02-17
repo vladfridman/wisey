@@ -45,6 +45,8 @@ public:
   
   void allocateVariable(IRGenerationContext& context, std::string name) const override;
 
+  const ArrayType* getArrayType(IRGenerationContext& context) const override;
+  
   static UndefinedType* UNDEFINED_TYPE;
   
 };

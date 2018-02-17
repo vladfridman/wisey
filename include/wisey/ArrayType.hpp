@@ -85,11 +85,18 @@ public:
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
   
   void allocateVariable(IRGenerationContext& context, std::string name) const override;
+  
+  const ArrayType* getArrayType(IRGenerationContext& context) const override;
 
   /**
    * Returns generic type for arrays
    */
   static llvm::PointerType* getGenericArrayType(IRGenerationContext& context);
+  
+  /**
+   * Prints an error that type is not an array type
+   */
+  static void reportNonArrayType();
 
 private:
   

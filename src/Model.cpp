@@ -432,3 +432,8 @@ void Model::allocateVariable(IRGenerationContext& context, string name) const {
   IVariable* uninitializedVariable = new LocalReferenceVariable(name, this, alloca);
   context.getScopes().setVariable(uninitializedVariable);
 }
+
+const wisey::ArrayType* Model::getArrayType(IRGenerationContext& context) const {
+  ArrayType::reportNonArrayType();
+  exit(1);
+}

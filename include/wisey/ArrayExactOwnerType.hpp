@@ -54,6 +54,8 @@ namespace wisey {
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
     void allocateVariable(IRGenerationContext& context, std::string name) const override;
+    
+    const ArrayType* getArrayType(IRGenerationContext& context) const override;
 
   };
   

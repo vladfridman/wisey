@@ -64,9 +64,10 @@ Value* LocalArrayOwnerVariable::generateArrayElementAssignment(IRGenerationConte
                                                                arrayIndices,
                                                                int line) {
   Value* arrayPointer = IRWriter::newLoadInst(context, mValueStore, "");
-  const IType* elementType = mArrayOwnerType->getArrayType()->getElementType();
+  const ArrayType* arrayType = mArrayOwnerType->getArrayType(context);
+  const IType* elementType = arrayType->getElementType();
   Value* elementStore = ArrayElementExpression::generateElementIR(context,
-                                                                  mArrayOwnerType->getArrayType(),
+                                                                  arrayType,
                                                                   arrayPointer,
                                                                   arrayIndices);
   

@@ -399,3 +399,8 @@ void Node::allocateVariable(IRGenerationContext& context, string name) const {
   IVariable* uninitializedVariable = new LocalReferenceVariable(name, this, alloca);
   context.getScopes().setVariable(uninitializedVariable);
 }
+
+const wisey::ArrayType* Node::getArrayType(IRGenerationContext& context) const {
+  ArrayType::reportNonArrayType();
+  exit(1);
+}

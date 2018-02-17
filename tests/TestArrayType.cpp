@@ -54,7 +54,7 @@ struct ArrayTypeTest : public Test {
 TEST_F(ArrayTypeTest, getOwnerTest) {
   const ArrayOwnerType* arrayOwnerType = mArrayType->getOwner();
   EXPECT_EQ(ARRAY_OWNER_TYPE, arrayOwnerType->getTypeKind());
-  EXPECT_EQ(mArrayType, arrayOwnerType->getArrayType());
+  EXPECT_EQ(mArrayType, arrayOwnerType->getArrayType(mContext));
 }
 
 TEST_F(ArrayTypeTest, getElementTypeTest) {

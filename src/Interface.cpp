@@ -911,3 +911,8 @@ void Interface::allocateVariable(IRGenerationContext& context, string name) cons
   IVariable* uninitializedVariable = new LocalReferenceVariable(name, this, alloca);
   context.getScopes().setVariable(uninitializedVariable);
 }
+
+const wisey::ArrayType* Interface::getArrayType(IRGenerationContext& context) const {
+  ArrayType::reportNonArrayType();
+  exit(1);
+}

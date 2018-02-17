@@ -43,11 +43,6 @@ namespace wisey {
     const ArrayExactOwnerType* getOwner() const;
     
     /**
-     * Returns corresponding ArrayType
-     */
-    ArrayType* getArrayType(IRGenerationContext& context) const;
-    
-    /**
      * Returns the number of dimensions in this array
      */
     unsigned long getNumberOfDimensions() const;
@@ -82,6 +77,8 @@ namespace wisey {
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
     void allocateVariable(IRGenerationContext& context, std::string name) const override;
+    
+    const ArrayType* getArrayType(IRGenerationContext& context) const override;
 
   };
   

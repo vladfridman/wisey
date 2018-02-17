@@ -112,3 +112,8 @@ void ExternalMethod::printToStream(IRGenerationContext& context, iostream& strea
 void ExternalMethod::allocateVariable(IRGenerationContext& context, string name) const {
   assert(false);
 }
+
+const wisey::ArrayType* ExternalMethod::getArrayType(IRGenerationContext& context) const {
+  ArrayType::reportNonArrayType();
+  exit(1);
+}

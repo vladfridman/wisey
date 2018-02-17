@@ -25,7 +25,7 @@ ArrayOwnerType::ArrayOwnerType(const ArrayType* arrayType) : mArrayType(arrayTyp
 ArrayOwnerType::~ArrayOwnerType() {
 }
 
-const ArrayType* ArrayOwnerType::getArrayType() const {
+const ArrayType* ArrayOwnerType::getArrayType(IRGenerationContext& context) const {
   return mArrayType;
 }
 

@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/ArrayType.hpp"
 #include "wisey/ArrayExactOwnerType.hpp"
 #include "wisey/ArrayExactType.hpp"
 #include "wisey/IRWriter.hpp"
@@ -27,10 +28,6 @@ ArrayExactType::~ArrayExactType() {
 
 const ArrayExactOwnerType* ArrayExactType::getOwner() const {
   return mArrayExactOwnerType;
-}
-
-wisey::ArrayType* ArrayExactType::getArrayType(IRGenerationContext& context) const {
-  return context.getArrayType(mElementType, mDimensions.size());
 }
 
 list<unsigned long> ArrayExactType::getDimensions() const {
@@ -105,4 +102,8 @@ void ArrayExactType::printToStream(IRGenerationContext& context, iostream& strea
 
 void ArrayExactType::allocateVariable(IRGenerationContext& context, string name) const {
   assert(false);
+}
+
+const wisey::ArrayType* ArrayExactType::getArrayType(IRGenerationContext& context) const {
+  return context.getArrayType(mElementType, getNumberOfDimensions());
 }

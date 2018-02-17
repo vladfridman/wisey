@@ -42,11 +42,6 @@ namespace wisey {
      * Returns the owner type for this specific array type
      */
     const ArraySpecificOwnerType* getOwner() const;
-
-    /**
-     * Returns corresponding ArrayType
-     */
-    ArrayType* getArrayType(IRGenerationContext& context) const;
     
     /**
      * Returns the number of dimensions in this array
@@ -84,6 +79,8 @@ namespace wisey {
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
     void allocateVariable(IRGenerationContext& context, std::string name) const override;
+    
+    const ArrayType* getArrayType(IRGenerationContext& context) const override;
 
   private:
     

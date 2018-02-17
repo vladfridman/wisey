@@ -27,11 +27,6 @@ namespace wisey {
     
     ~ArrayOwnerType();
     
-    /**
-     * Return array type that this type is owner of
-     */
-    const ArrayType* getArrayType() const;
-    
     void free(IRGenerationContext& context, llvm::Value* arrayPointer) const override;
 
     std::string getTypeName() const override;
@@ -54,6 +49,8 @@ namespace wisey {
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
     void allocateVariable(IRGenerationContext& context, std::string name) const override;
+    
+    const ArrayType* getArrayType(IRGenerationContext& context) const override;
 
   };
 

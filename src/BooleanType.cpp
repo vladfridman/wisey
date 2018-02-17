@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/ArrayType.hpp"
 #include "wisey/BooleanType.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -91,3 +92,9 @@ void BooleanType::allocateVariable(IRGenerationContext& context, string name) co
   Value* value = ConstantInt::get(llvmType, 0);
   IRWriter::newStoreInst(context, value, alloc);
 }
+
+const wisey::ArrayType* BooleanType::getArrayType(IRGenerationContext& context) const {
+  ArrayType::reportNonArrayType();
+  exit(1);
+}
+

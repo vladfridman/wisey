@@ -102,3 +102,9 @@ void InterfaceOwner::allocateVariable(IRGenerationContext& context, string name)
   IVariable* uninitializedVariable = new LocalOwnerVariable(name, this, alloca);
   context.getScopes().setVariable(uninitializedVariable);
 }
+
+const wisey::ArrayType* InterfaceOwner::getArrayType(IRGenerationContext& context) const {
+  ArrayType::reportNonArrayType();
+  exit(1);
+}
+

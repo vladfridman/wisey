@@ -6,6 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/ArrayType.hpp"
 #include "wisey/PackageType.hpp"
 
 using namespace std;
@@ -55,4 +56,9 @@ void PackageType::printToStream(IRGenerationContext &context, iostream& stream) 
 
 void PackageType::allocateVariable(IRGenerationContext& context, string name) const {
   assert(false);
+}
+
+const wisey::ArrayType* PackageType::getArrayType(IRGenerationContext& context) const {
+  ArrayType::reportNonArrayType();
+  exit(1);
 }

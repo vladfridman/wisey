@@ -99,3 +99,8 @@ TEST_F(ArraySpecificOwnerTypeTest, printToStreamTest) {
   
   EXPECT_STREQ("long[5]*", stringStream.str().c_str());
 }
+
+TEST_F(ArraySpecificOwnerTypeTest, getArrayTypeTest) {
+  EXPECT_EQ(mContext.getArrayType(PrimitiveTypes::LONG_TYPE, 1u),
+            mArraySpecificOwnerType->getArrayType(mContext));
+}

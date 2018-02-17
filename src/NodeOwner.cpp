@@ -93,3 +93,8 @@ void NodeOwner::allocateVariable(IRGenerationContext& context, string name) cons
   context.getScopes().setVariable(uninitializedVariable);
 }
 
+const wisey::ArrayType* NodeOwner::getArrayType(IRGenerationContext& context) const {
+  ArrayType::reportNonArrayType();
+  exit(1);
+}
+

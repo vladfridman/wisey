@@ -50,7 +50,7 @@ bool ArrayExactOwnerType::canCastTo(IRGenerationContext& context, const IType* t
   }
   
   const ArrayType* toArrayType = toType->getTypeKind() == ARRAY_TYPE
-  ? (const ArrayType*) toType : ((const ArrayOwnerType*) toType)->getArrayType();
+  ? (const ArrayType*) toType : ((const ArrayOwnerType*) toType)->getArrayType(context);
   
   return toArrayType->getElementType() == mArrayExactType->getElementType() &&
   toArrayType->getNumberOfDimensions() == mArrayExactType->getNumberOfDimensions();
@@ -86,4 +86,8 @@ void ArrayExactOwnerType::printToStream(IRGenerationContext &context, iostream& 
 
 void ArrayExactOwnerType::allocateVariable(IRGenerationContext& context, string name) const {
   assert(false);
+}
+
+const ArrayType* ArrayExactOwnerType::getArrayType(IRGenerationContext& context) const {
+  return mArrayExactType->getArrayType(context);
 }

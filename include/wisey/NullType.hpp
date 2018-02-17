@@ -45,7 +45,10 @@ public:
   
   void allocateVariable(IRGenerationContext& context, std::string name) const override;
 
+  const ArrayType* getArrayType(IRGenerationContext& context) const override;
+  
   static NullType* NULL_TYPE;
+
 };
   
 } /* namespace wisey */

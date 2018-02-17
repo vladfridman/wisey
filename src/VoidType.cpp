@@ -6,6 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/ArrayType.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -68,4 +69,9 @@ void VoidType::printToStream(IRGenerationContext &context, iostream& stream) con
 
 void VoidType::allocateVariable(IRGenerationContext& context, string name) const {
   assert(false);
+}
+
+const wisey::ArrayType* VoidType::getArrayType(IRGenerationContext& context) const {
+  ArrayType::reportNonArrayType();
+  exit(1);
 }

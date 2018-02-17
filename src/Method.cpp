@@ -179,3 +179,8 @@ void Method::printToStream(IRGenerationContext& context, iostream& stream) const
 void Method::allocateVariable(IRGenerationContext& context, string name) const {
   assert(false);
 }
+
+const wisey::ArrayType* Method::getArrayType(IRGenerationContext& context) const {
+  ArrayType::reportNonArrayType();
+  exit(1);
+}

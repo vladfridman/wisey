@@ -113,3 +113,8 @@ void ExternalStaticMethod::allocateVariable(IRGenerationContext& context, string
   assert(false);
 }
 
+const wisey::ArrayType* ExternalStaticMethod::getArrayType(IRGenerationContext& context) const {
+  ArrayType::reportNonArrayType();
+  exit(1);
+}
+

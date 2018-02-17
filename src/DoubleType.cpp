@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/ArrayType.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/DoubleType.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -86,4 +87,9 @@ void DoubleType::allocateVariable(IRGenerationContext& context, string name) con
   
   Value* value = ConstantFP::get(llvmType, 0);
   IRWriter::newStoreInst(context, value, alloc);
+}
+
+const wisey::ArrayType* DoubleType::getArrayType(IRGenerationContext& context) const {
+  ArrayType::reportNonArrayType();
+  exit(1);
 }

@@ -91,9 +91,10 @@ Value* FieldArrayOwnerVariable::generateArrayElementAssignment(IRGenerationConte
   const IType* fieldType = field->getType();
   assert(fieldType->getTypeKind() == ARRAY_OWNER_TYPE);
   const ArrayOwnerType* arrayOwnerType = (const ArrayOwnerType*) fieldType;
-  const IType* elementType = arrayOwnerType->getArrayType()->getElementType();
+  const ArrayType* arrayType = arrayOwnerType->getArrayType(context);
+  const IType* elementType = arrayType->getElementType();
   Value* elementStore = ArrayElementExpression::generateElementIR(context,
-                                                                  arrayOwnerType->getArrayType(),
+                                                                  arrayType,
                                                                   arrayPointer,
                                                                   arrayIndices);
   

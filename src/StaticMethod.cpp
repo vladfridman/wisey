@@ -172,3 +172,8 @@ void StaticMethod::printToStream(IRGenerationContext& context, iostream& stream)
 void StaticMethod::allocateVariable(IRGenerationContext& context, string name) const {
   assert(false);
 }
+
+const wisey::ArrayType* StaticMethod::getArrayType(IRGenerationContext& context) const {
+  ArrayType::reportNonArrayType();
+  exit(1);
+}

@@ -32,10 +32,6 @@ const ArraySpecificOwnerType* ArraySpecificType::getOwner() const {
   return mArraySpecificOwnerType;
 }
 
-wisey::ArrayType* ArraySpecificType::getArrayType(IRGenerationContext& context) const {
-  return context.getArrayType(mElementType, mDimensions.size());
-}
-
 const IType* ArraySpecificType::getElementType() const {
   return mElementType;
 }
@@ -142,4 +138,8 @@ void ArraySpecificType::printToStream(IRGenerationContext &context, iostream& st
 
 void ArraySpecificType::allocateVariable(IRGenerationContext& context, string name) const {
   assert(false);
+}
+
+const wisey::ArrayType* ArraySpecificType::getArrayType(IRGenerationContext& context) const {
+  return context.getArrayType(mElementType, getNumberOfDimensions());
 }

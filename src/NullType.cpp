@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
+#include "wisey/ArrayType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/NullType.hpp"
@@ -55,6 +56,11 @@ void NullType::printToStream(IRGenerationContext &context, iostream& stream) con
 
 void NullType::allocateVariable(IRGenerationContext& context, string name) const {
   assert(false);
+}
+
+const wisey::ArrayType* NullType::getArrayType(IRGenerationContext& context) const {
+  ArrayType::reportNonArrayType();
+  exit(1);
 }
 
 NullType* NullType::NULL_TYPE = new NullType();

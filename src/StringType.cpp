@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/ArrayType.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalPrimitiveVariable.hpp"
@@ -81,4 +82,9 @@ void StringType::allocateVariable(IRGenerationContext& context, string name) con
   Value* value = ConstantExpr::getGetElementPtr(elementType, nameGlobal, Idx);
 
   IRWriter::newStoreInst(context, value, alloc);
+}
+
+const wisey::ArrayType* StringType::getArrayType(IRGenerationContext& context) const {
+  ArrayType::reportNonArrayType();
+  exit(1);
 }

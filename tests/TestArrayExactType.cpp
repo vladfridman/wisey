@@ -95,3 +95,8 @@ TEST_F(ArrayExactTypeTest, getNumberOfDimensionsTest) {
 TEST_F(ArrayExactTypeTest, isOwnerTest) {
   EXPECT_FALSE(mArrayExactType->isOwner());
 }
+
+TEST_F(ArrayExactTypeTest, getArrayTypeTest) {
+  EXPECT_EQ(mContext.getArrayType(PrimitiveTypes::LONG_TYPE, 2u),
+            mMultiDimentionalArrayExactType->getArrayType(mContext));
+}

@@ -15,6 +15,7 @@
 #include "wisey/DecrementReferencesInArrayFunction.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalArrayReferenceVariable.hpp"
+#include "wisey/Log.hpp"
 
 using namespace std;
 using namespace wisey;
@@ -130,4 +131,12 @@ void ArrayType::allocateVariable(IRGenerationContext &context, string name) cons
   
   IVariable* variable = new LocalArrayReferenceVariable(name, this, alloc);
   context.getScopes().setVariable(variable);
+}
+
+void ArrayType::reportNonArrayType() {
+  Log::e("Trying to perform array operation on a non-array type expression");
+}
+
+const ArrayType* ArrayType::getArrayType(IRGenerationContext& context) const {
+  return this;
 }
