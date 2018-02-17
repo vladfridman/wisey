@@ -123,6 +123,10 @@ TEST_F(BooleanTypeTest, isOwnerTest) {
   EXPECT_FALSE(mBoleanType.isOwner());
 }
 
+TEST_F(BooleanTypeTest, isReferenceTest) {
+  EXPECT_FALSE(mBoleanType.isReference());
+}
+
 TEST_F(BooleanTypeTest, allocateVariableTest) {
   mBoleanType.allocateVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");

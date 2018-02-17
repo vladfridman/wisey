@@ -102,6 +102,10 @@ bool ExternalStaticMethod::isOwner() const {
   return false;
 }
 
+bool ExternalStaticMethod::isReference() const {
+  return false;
+}
+
 const IObjectType* ExternalStaticMethod::getObjectType() const {
   return mObjectType;
 }

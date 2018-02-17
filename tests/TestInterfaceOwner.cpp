@@ -133,6 +133,10 @@ TEST_F(InterfaceOwnerTest, isOwnerTest) {
   EXPECT_TRUE(mObjectInterface->getOwner()->isOwner());
 }
 
+TEST_F(InterfaceOwnerTest, isReferenceTest) {
+  EXPECT_FALSE(mObjectInterface->getOwner()->isReference());
+}
+
 TEST_F(InterfaceOwnerTest, allocateVariableTest) {
   mObjectInterface->allocateVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");

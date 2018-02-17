@@ -106,6 +106,10 @@ bool Method::isOwner() const {
   return false;
 }
 
+bool Method::isReference() const {
+  return false;
+}
+
 Function* Method::defineFunction(IRGenerationContext& context) {
   mFunction = IMethod::defineFunction(context, mObjectType, this);
   

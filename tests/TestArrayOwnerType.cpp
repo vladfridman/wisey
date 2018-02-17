@@ -89,6 +89,10 @@ TEST_F(ArrayOwnerTypeTest, isOwnerTest) {
   EXPECT_TRUE(mArrayOwnerType->isOwner());
 }
 
+TEST_F(ArrayOwnerTypeTest, isReferenceTest) {
+  EXPECT_FALSE(mArrayOwnerType->isReference());
+}
+
 TEST_F(ArrayOwnerTypeTest, allocateVariableTest) {
   mArrayOwnerType->allocateVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");

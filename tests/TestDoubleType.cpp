@@ -123,6 +123,10 @@ TEST_F(DoubleTypeTest, isOwnerTest) {
   EXPECT_FALSE(mDoubleType.isOwner());
 }
 
+TEST_F(DoubleTypeTest, isReferenceTest) {
+  EXPECT_FALSE(mDoubleType.isReference());
+}
+
 TEST_F(DoubleTypeTest, allocateVariableTest) {
   mDoubleType.allocateVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");

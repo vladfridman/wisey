@@ -237,6 +237,10 @@ bool Model::isOwner() const {
   return false;
 }
 
+bool Model::isReference() const {
+  return true;
+}
+
 Instruction* Model::build(IRGenerationContext& context,
                           const ObjectBuilderArgumentList& objectBuilderArgumentList,
                           int line) const {

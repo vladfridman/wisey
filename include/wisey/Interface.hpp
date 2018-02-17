@@ -192,6 +192,8 @@ public:
                       int line) const override;
   
   bool isOwner() const override;
+  
+  bool isReference() const override;
 
   const IObjectOwnerType* getOwner() const override;
   

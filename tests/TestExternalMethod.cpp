@@ -123,3 +123,7 @@ TEST_F(ExternalMethodTest, defineFunctionTest) {
 TEST_F(ExternalMethodTest, isOwnerTest) {
   EXPECT_FALSE(mMethod->isOwner());
 }
+
+TEST_F(ExternalMethodTest, isReferenceTest) {
+  EXPECT_FALSE(mMethod->isReference());
+}

@@ -116,3 +116,7 @@ TEST_F(VoidTypeTest, castToTest) {
 TEST_F(VoidTypeTest, isOwnerTest) {
   EXPECT_FALSE(mVoidType.isOwner());
 }
+
+TEST_F(VoidTypeTest, isReferenceTest) {
+  EXPECT_FALSE(mVoidType.isReference());
+}

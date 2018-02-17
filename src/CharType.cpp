@@ -73,6 +73,10 @@ bool CharType::isOwner() const {
   return false;
 }
 
+bool CharType::isReference() const {
+  return false;
+}
+
 string CharType::getFormat() const {
   return "%c";
 }

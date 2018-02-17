@@ -484,6 +484,10 @@ TEST_F(ControllerTest, isOwnerTest) {
   EXPECT_FALSE(mMultiplierController->isOwner());
 }
 
+TEST_F(ControllerTest, isReferenceTest) {
+  EXPECT_TRUE(mMultiplierController->isReference());
+}
+
 TEST_F(ControllerTest, incrementReferenceCountTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mMultiplierController->getLLVMType(mContext));

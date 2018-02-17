@@ -110,6 +110,10 @@ TEST_F(ArraySpecificTypeTest, isOwnerTest) {
   EXPECT_FALSE(mArraySpecificType->isOwner());
 }
 
+TEST_F(ArraySpecificTypeTest, isReferenceTest) {
+  EXPECT_TRUE(mArraySpecificType->isReference());
+}
+
 TEST_F(ArraySpecificTypeTest, printToStreamTest) {
   stringstream stringStream;
   mMultiDimentionalArraySpecificType->printToStream(mContext, stringStream);

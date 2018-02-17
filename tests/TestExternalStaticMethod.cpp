@@ -131,3 +131,7 @@ TEST_F(ExternalStaticMethodTest, definePublicFunctionTest) {
 TEST_F(ExternalStaticMethodTest, isOwnerTest) {
   EXPECT_FALSE(mStaticMethod->isOwner());
 }
+
+TEST_F(ExternalStaticMethodTest, isReferenceTest) {
+  EXPECT_FALSE(mStaticMethod->isReference());
+}

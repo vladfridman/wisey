@@ -49,3 +49,7 @@ TEST_F(PackageTypeTest, getTypeKindTest) {
 TEST_F(PackageTypeTest, isOwnerTest) {
   EXPECT_FALSE(mPackageType->isOwner());
 }
+
+TEST_F(PackageTypeTest, isReferenceTest) {
+  EXPECT_FALSE(mPackageType->isReference());
+}

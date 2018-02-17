@@ -102,6 +102,10 @@ bool ExternalMethod::isOwner() const {
   return false;
 }
 
+bool ExternalMethod::isReference() const {
+  return false;
+}
+
 const IObjectType* ExternalMethod::getObjectType() const {
   return mObjectType;
 }

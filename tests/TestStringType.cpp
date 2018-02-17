@@ -122,6 +122,10 @@ TEST_F(StringTypeTest, isOwnerTest) {
   EXPECT_FALSE(mStringType.isOwner());
 }
 
+TEST_F(StringTypeTest, isReferenceTest) {
+  EXPECT_FALSE(mStringType.isReference());
+}
+
 TEST_F(StringTypeTest, allocateVariableTest) {
   ProgramPrefix programPrefix;
   programPrefix.generateIR(mContext);

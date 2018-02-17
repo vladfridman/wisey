@@ -310,6 +310,10 @@ bool Controller::isOwner() const {
   return false;
 }
 
+bool Controller::isReference() const {
+  return true;
+}
+
 void Controller::initializeReceivedFields(IRGenerationContext& context,
                                           const InjectionArgumentList& controllerInjectorArguments,
                                           Instruction* malloc,

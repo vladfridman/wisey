@@ -42,3 +42,7 @@ TEST_F(UndefinedTypeTest, getTypeKindTest) {
 TEST_F(UndefinedTypeTest, isOwnerTest) {
   EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isOwner());
 }
+
+TEST_F(UndefinedTypeTest, isReferenceTest) {
+  EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isReference());
+}

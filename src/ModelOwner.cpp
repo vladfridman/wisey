@@ -79,6 +79,10 @@ bool ModelOwner::isOwner() const {
   return true;
 }
 
+bool ModelOwner::isReference() const {
+  return false;
+}
+
 void ModelOwner::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

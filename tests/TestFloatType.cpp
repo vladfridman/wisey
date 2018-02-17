@@ -123,6 +123,10 @@ TEST_F(FloatTypeTest, isOwnerTest) {
   EXPECT_FALSE(mFloatType.isOwner());
 }
 
+TEST_F(FloatTypeTest, isReferenceTest) {
+  EXPECT_FALSE(mFloatType.isReference());
+}
+
 TEST_F(FloatTypeTest, allocateVariableTest) {
   mFloatType.allocateVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");

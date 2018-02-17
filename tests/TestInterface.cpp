@@ -310,6 +310,10 @@ TEST_F(InterfaceTest, isOwnerTest) {
   EXPECT_FALSE(mObjectInterface->isOwner());
 }
 
+TEST_F(InterfaceTest, isReferenceTest) {
+  EXPECT_TRUE(mObjectInterface->isReference());
+}
+
 TEST_F(InterfaceTest, printToStreamTest) {
   stringstream stringStream;
   Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL);

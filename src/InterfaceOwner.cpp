@@ -89,6 +89,10 @@ bool InterfaceOwner::isOwner() const {
   return true;
 }
 
+bool InterfaceOwner::isReference() const {
+  return false;
+}
+
 void InterfaceOwner::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

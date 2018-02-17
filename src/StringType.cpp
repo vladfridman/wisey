@@ -56,6 +56,10 @@ bool StringType::isOwner() const {
   return false;
 }
 
+bool StringType::isReference() const {
+  return false;
+}
+
 string StringType::getFormat() const {
   return "%s";
 }

@@ -81,6 +81,8 @@ public:
                       int line) const override;
   
   bool isOwner() const override;
+  
+  bool isReference() const override;
 
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
   

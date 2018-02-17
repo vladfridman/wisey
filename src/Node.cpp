@@ -212,6 +212,10 @@ bool Node::isOwner() const {
   return false;
 }
 
+bool Node::isReference() const {
+  return true;
+}
+
 string Node::getVTableName() const {
   return mName + ".vtable";
 }

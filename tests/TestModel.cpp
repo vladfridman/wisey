@@ -482,6 +482,10 @@ TEST_F(ModelTest, isOwnerTest) {
   EXPECT_FALSE(mModel->isOwner());
 }
 
+TEST_F(ModelTest, isReferenceTest) {
+  EXPECT_TRUE(mModel->isReference());
+}
+
 TEST_F(ModelTest, incrementReferenceCountTest) {
   ConstantPointerNull* pointer = ConstantPointerNull::get(mModel->getLLVMType(mContext));
   mModel->incrementReferenceCount(mContext, pointer);

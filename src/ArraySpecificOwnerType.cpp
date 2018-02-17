@@ -79,6 +79,10 @@ bool ArraySpecificOwnerType::isOwner() const {
   return true;
 }
 
+bool ArraySpecificOwnerType::isReference() const {
+  return false;
+}
+
 void ArraySpecificOwnerType::printToStream(IRGenerationContext &context, iostream& stream) const {
   mArraySpecificType->printToStream(context, stream);
   stream << "*";

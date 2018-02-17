@@ -120,6 +120,10 @@ bool ArrayType::isOwner() const {
   return false;
 }
 
+bool ArrayType::isReference() const {
+  return true;
+}
+
 void ArrayType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

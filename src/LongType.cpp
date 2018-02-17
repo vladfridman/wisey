@@ -52,6 +52,10 @@ bool LongType::isOwner() const {
   return false;
 }
 
+bool LongType::isReference() const {
+  return false;
+}
+
 Value* LongType::castTo(IRGenerationContext& context,
                         Value* fromValue,
                         const IType* toType,

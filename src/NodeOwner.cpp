@@ -79,6 +79,10 @@ bool NodeOwner::isOwner() const {
   return true;
 }
 
+bool NodeOwner::isReference() const {
+  return false;
+}
+
 void NodeOwner::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

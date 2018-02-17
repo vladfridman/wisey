@@ -579,6 +579,10 @@ bool Interface::isOwner() const {
   return false;
 }
 
+bool Interface::isReference() const {
+  return true;
+}
+
 Function* Interface::defineCastFunction(IRGenerationContext& context,
                                         const IObjectType* toType) const {
   vector<Type*> argumentTypes;

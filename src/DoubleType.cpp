@@ -70,6 +70,10 @@ bool DoubleType::isOwner() const {
   return false;
 }
 
+bool DoubleType::isReference() const {
+  return false;
+}
+
 string DoubleType::getFormat() const {
   return "%e";
 }

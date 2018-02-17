@@ -96,6 +96,10 @@ bool MethodSignature::isOwner() const {
   return false;
 }
 
+bool MethodSignature::isReference() const {
+  return false;
+}
+
 const IObjectType* MethodSignature::getObjectType() const {
   return mObjectType;
 }

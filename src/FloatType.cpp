@@ -70,6 +70,10 @@ bool FloatType::isOwner() const {
   return false;
 }
 
+bool FloatType::isReference() const {
+  return false;
+}
+
 string FloatType::getFormat() const {
   return "%f";
 }

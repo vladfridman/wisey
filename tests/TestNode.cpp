@@ -494,6 +494,10 @@ TEST_F(NodeTest, isOwnerTest) {
   EXPECT_FALSE(mSimpleNode->isOwner());
 }
 
+TEST_F(NodeTest, isReferenceTest) {
+  EXPECT_TRUE(mSimpleNode->isReference());
+}
+
 TEST_F(NodeTest, incrementReferenceCountTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mComplicatedNode->getLLVMType(mContext));

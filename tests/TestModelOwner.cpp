@@ -355,6 +355,10 @@ TEST_F(ModelOwnerTest, isOwnerTest) {
   EXPECT_TRUE(mModel->getOwner()->isOwner());
 }
 
+TEST_F(ModelOwnerTest, isReferenceTest) {
+  EXPECT_FALSE(mModel->getOwner()->isReference());
+}
+
 TEST_F(ModelOwnerTest, allocateVariableTest) {
   mModel->allocateVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");

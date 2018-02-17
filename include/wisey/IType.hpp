@@ -85,10 +85,15 @@ namespace wisey {
                                 int line) const = 0;
     
     /**
-     * Tells whether this type is an owner type
+     * Tells whether this type is an owner pointer type
      */
     virtual bool isOwner() const = 0;
     
+    /**
+     * Tells whether this type is a reference pointer type
+     */
+    virtual bool isReference() const = 0;
+
     /**
      * Allocates variable of the type and stores it in scope
      */

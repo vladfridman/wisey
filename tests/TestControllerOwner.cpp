@@ -195,6 +195,10 @@ TEST_F(ControllerOwnerTest, isOwnerTest) {
   EXPECT_TRUE(mMultiplierController->getOwner()->isOwner());
 }
 
+TEST_F(ControllerOwnerTest, isReferenceTest) {
+  EXPECT_FALSE(mMultiplierController->getOwner()->isReference());
+}
+
 TEST_F(ControllerOwnerTest, getDestructorFunctionTest) {
   Function* result = mAdditorController->getOwner()->getDestructorFunction(mContext);
   

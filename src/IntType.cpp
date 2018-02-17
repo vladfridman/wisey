@@ -71,6 +71,10 @@ bool IntType::isOwner() const {
   return false;
 }
 
+bool IntType::isReference() const {
+  return false;
+}
+
 string IntType::getFormat() const {
   return "%d";
 }

@@ -113,3 +113,6 @@ TEST_F(NullTypeTest, isOwnerTest) {
   EXPECT_FALSE(NullType::NULL_TYPE->isOwner());
 }
 
+TEST_F(NullTypeTest, isReferenceTest) {
+  EXPECT_FALSE(NullType::NULL_TYPE->isReference());
+}

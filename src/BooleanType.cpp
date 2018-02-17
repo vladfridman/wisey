@@ -74,6 +74,10 @@ bool BooleanType::isOwner() const {
   return false;
 }
 
+bool BooleanType::isReference() const {
+  return false;
+}
+
 string BooleanType::getFormat() const {
   return "%d";
 }

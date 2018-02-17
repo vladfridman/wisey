@@ -59,6 +59,10 @@ bool VoidType::isOwner() const {
   return false;
 }
 
+bool VoidType::isReference() const {
+  return false;
+}
+
 string VoidType::getFormat() const {
   return "";
 }
