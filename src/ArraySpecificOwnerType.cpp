@@ -49,8 +49,7 @@ bool ArraySpecificOwnerType::canCastTo(IRGenerationContext& context, const IType
     return false;
   }
   
-  const ArrayType* toArrayType = toType->getTypeKind() == ARRAY_TYPE
-  ? (const ArrayType*) toType : ((const ArrayOwnerType*) toType)->getArrayType(context);
+  const ArrayType* toArrayType = toType->getArrayType(context);
   
   return toArrayType->getElementType() == mArraySpecificType->getElementType() &&
   toArrayType->getNumberOfDimensions() == mArraySpecificType->getNumberOfDimensions();

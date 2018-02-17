@@ -40,9 +40,7 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
     reportErrorArrayType(expressionType->getTypeName());
     exit(1);
   }
-  const ArrayType* arrayType = expressionType->getTypeKind() == ARRAY_TYPE
-  ? (const ArrayType*) expressionType
-  : ((const ArrayOwnerType*) expressionType)->getArrayType(context);
+  const ArrayType* arrayType = expressionType->getArrayType(context);
   Value* arrayStructPointer = mArrayExpression->generateIR(context, assignToType);
   
   Composer::pushCallStack(context, mLine);
@@ -162,9 +160,7 @@ const IType* ArrayElementExpression::getType(IRGenerationContext& context) const
     exit(1);
   }
   
-  const ArrayType* arrayType = arrayExpressionType->getTypeKind() == ARRAY_TYPE
-  ? (const ArrayType*) arrayExpressionType
-  : ((const ArrayOwnerType*) arrayExpressionType)->getArrayType(context);
+  const ArrayType* arrayType = arrayExpressionType->getArrayType(context);
   const IType* elementType = arrayType->getElementType();
 
   return arrayType->getNumberOfDimensions() - 1
