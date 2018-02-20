@@ -88,7 +88,7 @@ void ArraySpecificOwnerType::printToStream(IRGenerationContext &context, iostrea
   stream << "*";
 }
 
-void ArraySpecificOwnerType::allocateLocalVariable(IRGenerationContext& context, string name) const {
+void ArraySpecificOwnerType::createLocalVariable(IRGenerationContext& context, string name) const {
   assert(false);
 }
 

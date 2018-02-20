@@ -113,8 +113,8 @@ TEST_F(ArrayTypeTest, isReferenceTest) {
   EXPECT_TRUE(mArrayType->isReference());
 }
 
-TEST_F(ArrayTypeTest, allocateLocalVariableTest) {
-  mArrayType->allocateLocalVariable(mContext, "temp");
+TEST_F(ArrayTypeTest, createLocalVariableTest) {
+  mArrayType->createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);

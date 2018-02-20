@@ -159,7 +159,7 @@ public:
   
   llvm::Function* getReferenceAdjustmentFunction(IRGenerationContext& context) const override;
   
-  void allocateLocalVariable(IRGenerationContext& context, std::string name) const override;
+  void createLocalVariable(IRGenerationContext& context, std::string name) const override;
   
   void createFieldVariable(IRGenerationContext& context,
                            std::string name,

@@ -139,10 +139,10 @@ TEST_F(StringTypeTest, isReferenceTest) {
   EXPECT_FALSE(mStringType.isReference());
 }
 
-TEST_F(StringTypeTest, allocateLocalVariableTest) {
+TEST_F(StringTypeTest, createLocalVariableTest) {
   ProgramPrefix programPrefix;
   programPrefix.generateIR(mContext);
-  mStringType.allocateLocalVariable(mContext, "temp");
+  mStringType.createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);

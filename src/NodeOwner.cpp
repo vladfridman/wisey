@@ -88,7 +88,7 @@ void NodeOwner::printToStream(IRGenerationContext &context, iostream& stream) co
   stream << getTypeName();
 }
 
-void NodeOwner::allocateLocalVariable(IRGenerationContext& context, string name) const {
+void NodeOwner::createLocalVariable(IRGenerationContext& context, string name) const {
   PointerType* llvmType = getLLVMType(context);
   
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "ownerDeclaration");

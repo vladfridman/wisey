@@ -98,7 +98,7 @@ namespace wisey {
     /**
      * Allocates local variable of the type and stores it in the scope
      */
-    virtual void allocateLocalVariable(IRGenerationContext& context, std::string name) const = 0;
+    virtual void createLocalVariable(IRGenerationContext& context, std::string name) const = 0;
 
     /**
      * Allocates field variable of the type and stores it in the scope

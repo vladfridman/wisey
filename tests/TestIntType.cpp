@@ -140,8 +140,8 @@ TEST_F(IntTypeTest, isReferenceTest) {
   EXPECT_FALSE(mIntType.isReference());
 }
 
-TEST_F(IntTypeTest, allocateLocalVariableTest) {
-  mIntType.allocateLocalVariable(mContext, "temp");
+TEST_F(IntTypeTest, createLocalVariableTest) {
+  mIntType.createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);

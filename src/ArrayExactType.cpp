@@ -104,7 +104,7 @@ void ArrayExactType::printToStream(IRGenerationContext& context, iostream& strea
   stream << getTypeName();
 }
 
-void ArrayExactType::allocateLocalVariable(IRGenerationContext& context, string name) const {
+void ArrayExactType::createLocalVariable(IRGenerationContext& context, string name) const {
   assert(false);
 }
 

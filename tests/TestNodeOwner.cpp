@@ -374,8 +374,8 @@ TEST_F(NodeOwnerTest, isReferenceTest) {
   EXPECT_FALSE(mSimpleNode->getOwner()->isReference());
 }
 
-TEST_F(NodeOwnerTest, allocateLocalVariableTest) {
-  mComplicatedNode->getOwner()->allocateLocalVariable(mContext, "temp");
+TEST_F(NodeOwnerTest, createLocalVariableTest) {
+  mComplicatedNode->getOwner()->createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);

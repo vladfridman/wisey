@@ -140,8 +140,8 @@ TEST_F(FloatTypeTest, isReferenceTest) {
   EXPECT_FALSE(mFloatType.isReference());
 }
 
-TEST_F(FloatTypeTest, allocateLocalVariableTest) {
-  mFloatType.allocateLocalVariable(mContext, "temp");
+TEST_F(FloatTypeTest, createLocalVariableTest) {
+  mFloatType.createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);

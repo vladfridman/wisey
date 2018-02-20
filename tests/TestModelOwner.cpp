@@ -360,8 +360,8 @@ TEST_F(ModelOwnerTest, isReferenceTest) {
   EXPECT_FALSE(mModel->getOwner()->isReference());
 }
 
-TEST_F(ModelOwnerTest, allocateLocalVariableTest) {
-  mModel->getOwner()->allocateLocalVariable(mContext, "temp");
+TEST_F(ModelOwnerTest, createLocalVariableTest) {
+  mModel->getOwner()->createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);

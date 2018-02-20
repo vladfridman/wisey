@@ -69,7 +69,7 @@ void StringType::printToStream(IRGenerationContext &context, iostream& stream) c
   stream << getTypeName();
 }
 
-void StringType::allocateLocalVariable(IRGenerationContext& context, string name) const {
+void StringType::createLocalVariable(IRGenerationContext& context, string name) const {
   Type* llvmType = getLLVMType(context);
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
   

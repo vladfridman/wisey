@@ -141,8 +141,8 @@ TEST_F(DoubleTypeTest, isReferenceTest) {
   EXPECT_FALSE(mDoubleType.isReference());
 }
 
-TEST_F(DoubleTypeTest, allocateLocalVariableTest) {
-  mDoubleType.allocateLocalVariable(mContext, "temp");
+TEST_F(DoubleTypeTest, createLocalVariableTest) {
+  mDoubleType.createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);

@@ -129,7 +129,7 @@ void ArrayType::printToStream(IRGenerationContext &context, iostream& stream) co
   stream << getTypeName();
 }
 
-void ArrayType::allocateLocalVariable(IRGenerationContext &context, string name) const {
+void ArrayType::createLocalVariable(IRGenerationContext &context, string name) const {
   llvm::PointerType* llvmType = getLLVMType(context);
   llvm::AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
   IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloc);

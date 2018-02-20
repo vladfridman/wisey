@@ -87,7 +87,7 @@ void BooleanType::printToStream(IRGenerationContext &context, iostream& stream) 
   stream << getTypeName();
 }
 
-void BooleanType::allocateLocalVariable(IRGenerationContext& context, string name) const {
+void BooleanType::createLocalVariable(IRGenerationContext& context, string name) const {
   Type* llvmType = getLLVMType(context);
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
   

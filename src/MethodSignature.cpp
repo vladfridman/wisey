@@ -108,7 +108,7 @@ void MethodSignature::printToStream(IRGenerationContext& context, iostream& stre
   IMethodDescriptor::printDescriptorToStream(this, stream);
 }
 
-void MethodSignature::allocateLocalVariable(IRGenerationContext& context, string name) const {
+void MethodSignature::createLocalVariable(IRGenerationContext& context, string name) const {
   assert(false);
 }
 

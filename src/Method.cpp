@@ -180,7 +180,7 @@ void Method::printToStream(IRGenerationContext& context, iostream& stream) const
   IMethodDescriptor::printDescriptorToStream(this, stream);
 }
 
-void Method::allocateLocalVariable(IRGenerationContext& context, string name) const {
+void Method::createLocalVariable(IRGenerationContext& context, string name) const {
   assert(false);
 }
 

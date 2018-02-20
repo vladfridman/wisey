@@ -71,7 +71,7 @@ void VoidType::printToStream(IRGenerationContext &context, iostream& stream) con
   stream << getTypeName();
 }
 
-void VoidType::allocateLocalVariable(IRGenerationContext& context, string name) const {
+void VoidType::createLocalVariable(IRGenerationContext& context, string name) const {
   assert(false);
 }
 

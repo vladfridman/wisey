@@ -395,7 +395,7 @@ Function* Node::getReferenceAdjustmentFunction(IRGenerationContext& context) con
   return AdjustReferenceCounterForConcreteObjectUnsafelyFunction::get(context);
 }
 
-void Node::allocateLocalVariable(IRGenerationContext& context, string name) const {
+void Node::createLocalVariable(IRGenerationContext& context, string name) const {
   PointerType* llvmType = getLLVMType(context);
   
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "referenceDeclaration");

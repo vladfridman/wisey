@@ -59,7 +59,7 @@ VariableDeclaration* VariableDeclaration::createWithAssignment(const ITypeSpecif
 }
 
 Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
-  mTypeSpecifier->getType(context)->allocateLocalVariable(context, mIdentifier->getIdentifierName());
+  mTypeSpecifier->getType(context)->createLocalVariable(context, mIdentifier->getIdentifierName());
   
   if (mAssignmentExpression == NULL) {
     return NULL;

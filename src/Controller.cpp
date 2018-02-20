@@ -438,7 +438,7 @@ Function* Controller::getReferenceAdjustmentFunction(IRGenerationContext& contex
   return AdjustReferenceCounterForConcreteObjectUnsafelyFunction::get(context);
 }
 
-void Controller::allocateLocalVariable(IRGenerationContext& context, string name) const {
+void Controller::createLocalVariable(IRGenerationContext& context, string name) const {
   PointerType* llvmType = getLLVMType(context);
   
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "referenceDeclaration");

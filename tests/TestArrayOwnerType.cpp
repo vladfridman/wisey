@@ -98,8 +98,8 @@ TEST_F(ArrayOwnerTypeTest, isReferenceTest) {
   EXPECT_FALSE(mArrayOwnerType->isReference());
 }
 
-TEST_F(ArrayOwnerTypeTest, allocateLocalVariableTest) {
-  mArrayOwnerType->allocateLocalVariable(mContext, "temp");
+TEST_F(ArrayOwnerTypeTest, createLocalVariableTest) {
+  mArrayOwnerType->createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);
