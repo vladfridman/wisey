@@ -323,22 +323,7 @@ GlobalVariable* IConcreteObjectType::createTypeListGlobal(IRGenerationContext& c
 void IConcreteObjectType::declareFieldVariables(IRGenerationContext& context,
                                                 const IConcreteObjectType* object) {
   for (Field* field : object->getFields()) {
-    const IType* type = field->getType();
-    IVariable* fieldVariable = NULL;
-    if (IType::isOwnerType(type)) {
-      fieldVariable = new FieldOwnerVariable(field->getName(), object);
-    } else if (IType::isReferenceType(type)) {
-      fieldVariable = new FieldReferenceVariable(field->getName(), object);
-    } else if (type->getTypeKind() == ARRAY_OWNER_TYPE) {
-      fieldVariable = new FieldArrayOwnerVariable(field->getName(), object);
-    } else if (type->getTypeKind() == ARRAY_TYPE) {
-      fieldVariable = new FieldArrayReferenceVariable(field->getName(), object);
-    } else {
-      assert(IType::isPrimitveType(type));
-      fieldVariable = new FieldPrimitiveVariable(field->getName(), object);
-    }
-    
-    context.getScopes().setVariable(fieldVariable);
+    field->getType()->createFieldVariable(context, field->getName(), object);
   }
 }
 
