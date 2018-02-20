@@ -14,6 +14,7 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "MockConcreteObjectType.hpp"
 #include "MockExpression.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/IRWriter.hpp"
@@ -374,7 +375,7 @@ TEST_F(NodeOwnerTest, isReferenceTest) {
 }
 
 TEST_F(NodeOwnerTest, allocateLocalVariableTest) {
-  mComplicatedNode->allocateLocalVariable(mContext, "temp");
+  mComplicatedNode->getOwner()->allocateLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);
@@ -383,9 +384,24 @@ TEST_F(NodeOwnerTest, allocateLocalVariableTest) {
   
   string expected =
   "\nentry:"
-  "\n  %referenceDeclaration = alloca %systems.vos.wisey.compiler.tests.NComplicatedNode*"
-  "\n  store %systems.vos.wisey.compiler.tests.NComplicatedNode* null, %systems.vos.wisey.compiler.tests.NComplicatedNode** %referenceDeclaration\n";
+  "\n  %ownerDeclaration = alloca %systems.vos.wisey.compiler.tests.NComplicatedNode*"
+  "\n  store %systems.vos.wisey.compiler.tests.NComplicatedNode* null, %systems.vos.wisey.compiler.tests.NComplicatedNode** %ownerDeclaration\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(NodeOwnerTest, createFieldVariableTest) {
+  NiceMock<MockConcreteObjectType> concreteObjectType;
+  InjectionArgumentList injectionArgumentList;
+  Field* field = new Field(FIXED_FIELD,
+                           mComplicatedNode->getOwner(),
+                           NULL,
+                           "mField",
+                           injectionArgumentList);
+  ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
+  mComplicatedNode->getOwner()->createFieldVariable(mContext, "mField", &concreteObjectType);
+  IVariable* variable = mContext.getScopes().getVariable("mField");
+  
+  EXPECT_NE(variable, nullptr);
 }

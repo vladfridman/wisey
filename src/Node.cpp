@@ -10,6 +10,7 @@
 
 #include "wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp"
 #include "wisey/AutoCast.hpp"
+#include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
@@ -402,6 +403,13 @@ void Node::allocateLocalVariable(IRGenerationContext& context, string name) cons
   
   IVariable* uninitializedVariable = new LocalReferenceVariable(name, this, alloca);
   context.getScopes().setVariable(uninitializedVariable);
+}
+
+void Node::createFieldVariable(IRGenerationContext& context,
+                               string name,
+                               const IConcreteObjectType* object) const {
+  IVariable* variable = new FieldReferenceVariable(name, object);
+  context.getScopes().setVariable(variable);
 }
 
 const wisey::ArrayType* Node::getArrayType(IRGenerationContext& context) const {

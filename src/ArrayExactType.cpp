@@ -108,6 +108,12 @@ void ArrayExactType::allocateLocalVariable(IRGenerationContext& context, string 
   assert(false);
 }
 
+void ArrayExactType::createFieldVariable(IRGenerationContext& context,
+                                         string name,
+                                         const IConcreteObjectType* object) const {
+  assert(false);
+}
+
 const wisey::ArrayType* ArrayExactType::getArrayType(IRGenerationContext& context) const {
   return context.getArrayType(mElementType, getNumberOfDimensions());
 }

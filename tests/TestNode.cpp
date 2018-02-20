@@ -14,6 +14,7 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "MockConcreteObjectType.hpp"
 #include "MockExpression.hpp"
 #include "MockObjectType.hpp"
 #include "MockVariable.hpp"
@@ -21,6 +22,7 @@
 #include "TestPrefix.hpp"
 #include "wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp"
 #include "wisey/Constant.hpp"
+#include "wisey/Field.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IntConstant.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -750,6 +752,17 @@ TEST_F(NodeTest, allocateLocalVariableTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(NodeTest, createFieldVariableTest) {
+  NiceMock<MockConcreteObjectType> concreteObjectType;
+  InjectionArgumentList injectionArgumentList;
+  Field* field = new Field(FIXED_FIELD, mComplicatedNode, NULL, "mField", injectionArgumentList);
+  ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
+  mComplicatedNode->createFieldVariable(mContext, "mField", &concreteObjectType);
+  IVariable* variable = mContext.getScopes().getVariable("mField");
+  
+  EXPECT_NE(variable, nullptr);
 }
 
 TEST_F(TestFileSampleRunner, linkListRunTest) {

@@ -92,6 +92,13 @@ void ArraySpecificOwnerType::allocateLocalVariable(IRGenerationContext& context,
   assert(false);
 }
 
+void ArraySpecificOwnerType::createFieldVariable(IRGenerationContext& context,
+                                                 string name,
+                                                 const IConcreteObjectType* object) const {
+  assert(false);
+}
+
 const ArrayType* ArraySpecificOwnerType::getArrayType(IRGenerationContext& context) const {
   return mArraySpecificType->getArrayType(context);
 }
+

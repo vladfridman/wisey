@@ -117,6 +117,12 @@ void ExternalMethod::allocateLocalVariable(IRGenerationContext& context, string 
   assert(false);
 }
 
+void ExternalMethod::createFieldVariable(IRGenerationContext& context,
+                                         string name,
+                                         const IConcreteObjectType* object) const {
+  assert(false);
+}
+
 const wisey::ArrayType* ExternalMethod::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);

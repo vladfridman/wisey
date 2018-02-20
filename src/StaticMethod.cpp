@@ -177,6 +177,12 @@ void StaticMethod::allocateLocalVariable(IRGenerationContext& context, string na
   assert(false);
 }
 
+void StaticMethod::createFieldVariable(IRGenerationContext& context,
+                                       string name,
+                                       const IConcreteObjectType* object) const {
+  assert(false);
+}
+
 const wisey::ArrayType* StaticMethod::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);

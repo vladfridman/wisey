@@ -13,6 +13,7 @@
 
 #include <llvm/Support/raw_ostream.h>
 
+#include "MockConcreteObjectType.hpp"
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -20,6 +21,10 @@
 using namespace std;
 using namespace wisey;
 
+using ::testing::_;
+using ::testing::Mock;
+using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
 
 struct ArrayOwnerTypeTest : public Test {
@@ -108,4 +113,19 @@ TEST_F(ArrayOwnerTypeTest, allocateLocalVariableTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(ArrayOwnerTypeTest, createFieldVariableTest) {
+  NiceMock<MockConcreteObjectType> concreteObjectType;
+  InjectionArgumentList injectionArgumentList;
+  Field* field = new Field(FIXED_FIELD,
+                           mArrayOwnerType,
+                           NULL,
+                           "mField",
+                           injectionArgumentList);
+  ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
+  mArrayOwnerType->createFieldVariable(mContext, "mField", &concreteObjectType);
+  IVariable* variable = mContext.getScopes().getVariable("mField");
+  
+  EXPECT_NE(variable, nullptr);
 }

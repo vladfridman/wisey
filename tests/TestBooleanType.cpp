@@ -14,7 +14,9 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "MockConcreteObjectType.hpp"
 #include "wisey/BooleanType.hpp"
+#include "wisey/Field.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -22,6 +24,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+using ::testing::_;
+using ::testing::Mock;
+using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
 
 struct BooleanTypeTest : public Test {
@@ -31,7 +37,8 @@ struct BooleanTypeTest : public Test {
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   BooleanType mBoleanType;
-  
+  NiceMock<MockConcreteObjectType> mConcreteObjectType;
+
 public:
   
   BooleanTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
@@ -45,6 +52,10 @@ public:
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
     
+    InjectionArgumentList injectionArgumentList;
+    Field* field = new Field(FIXED_FIELD, &mBoleanType, NULL, "mField", injectionArgumentList);
+    ON_CALL(mConcreteObjectType, findField(_)).WillByDefault(Return(field));
+
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
@@ -83,6 +94,8 @@ TEST_F(BooleanTypeTest, canCastTest) {
 }
 
 TEST_F(BooleanTypeTest, castToTest) {
+  Mock::AllowLeak(&mConcreteObjectType);
+  
   Value* result;
   Value* expressionValue = ConstantInt::get(Type::getInt1Ty(mLLVMContext), 1);
   
@@ -142,4 +155,11 @@ TEST_F(BooleanTypeTest, allocateLocalVariableTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(BooleanTypeTest, createFieldVariableTest) {
+  mBoleanType.createFieldVariable(mContext, "mField", &mConcreteObjectType);
+  IVariable* variable = mContext.getScopes().getVariable("mField");
+  
+  EXPECT_NE(variable, nullptr);
 }

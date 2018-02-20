@@ -17,6 +17,7 @@
 #include <llvm/Support/TargetSelect.h>
 #include <llvm-c/Target.h>
 
+#include "MockConcreteObjectType.hpp"
 #include "MockExpression.hpp"
 #include "MockObjectType.hpp"
 #include "MockVariable.hpp"
@@ -24,6 +25,7 @@
 #include "TestPrefix.hpp"
 #include "wisey/AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp"
 #include "wisey/Constant.hpp"
+#include "wisey/Field.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IntConstant.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -75,7 +77,7 @@ struct ModelTest : public Test {
   raw_string_ostream* mStringStream;
   string mPackage = "systems.vos.wisey.compiler.tests";
   ImportProfile* mImportProfile;
-  
+
   ModelTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mField1Expression(new NiceMock<MockExpression>()),
@@ -298,7 +300,7 @@ struct ModelTest : public Test {
     ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadController));
     ON_CALL(*mThreadVariable, generateIdentifierIR(_)).WillByDefault(Return(threadObject));
     mContext.getScopes().setVariable(mThreadVariable);
-    
+
     mStringStream = new raw_string_ostream(mStringBuffer);
 }
   
@@ -759,6 +761,17 @@ TEST_F(ModelTest, allocateLocalVariableTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(ModelTest, createFieldVariableTest) {
+  NiceMock<MockConcreteObjectType> concreteObjectType;
+  InjectionArgumentList injectionArgumentList;
+  Field* field = new Field(FIXED_FIELD, mModel, NULL, "mField", injectionArgumentList);
+  ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
+  mModel->createFieldVariable(mContext, "temp", &concreteObjectType);
+  IVariable* variable = mContext.getScopes().getVariable("temp");
+  
+  EXPECT_NE(variable, nullptr);
 }
 
 TEST_F(TestFileSampleRunner, modelBuilderObjectArgumentAutocastRunTest) {

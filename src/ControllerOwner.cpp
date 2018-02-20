@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/ControllerOwner.hpp"
+#include "wisey/FieldOwnerVariable.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
 
@@ -95,6 +96,13 @@ void ControllerOwner::allocateLocalVariable(IRGenerationContext& context, string
   
   IVariable* uninitializedVariable = new LocalOwnerVariable(name, this, alloca);
   context.getScopes().setVariable(uninitializedVariable);
+}
+
+void ControllerOwner::createFieldVariable(IRGenerationContext& context,
+                                          string name,
+                                          const IConcreteObjectType* object) const {
+  IVariable* variable = new FieldOwnerVariable(name, object);
+  context.getScopes().setVariable(variable);
 }
 
 const wisey::ArrayType* ControllerOwner::getArrayType(IRGenerationContext& context) const {

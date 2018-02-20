@@ -18,9 +18,10 @@
 
 namespace wisey {
 
-  class IRGenerationContext;
   class ArrayType;
-  
+  class IConcreteObjectType;
+  class IRGenerationContext;
+
   /**
    * Lists possible data type kinds
    */
@@ -95,10 +96,17 @@ namespace wisey {
     virtual bool isReference() const = 0;
 
     /**
-     * Allocates local variable of the type and stores it in scope
+     * Allocates local variable of the type and stores it in the scope
      */
     virtual void allocateLocalVariable(IRGenerationContext& context, std::string name) const = 0;
-    
+
+    /**
+     * Allocates field variable of the type and stores it in the scope
+     */
+    virtual void createFieldVariable(IRGenerationContext& context,
+                                     std::string name,
+                                     const IConcreteObjectType* object) const = 0;
+
     /**
      * Returns ArrayType if this type has one associated with it otherwise reports an error
      */

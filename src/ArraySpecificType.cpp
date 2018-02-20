@@ -144,6 +144,12 @@ void ArraySpecificType::allocateLocalVariable(IRGenerationContext& context, stri
   assert(false);
 }
 
+void ArraySpecificType::createFieldVariable(IRGenerationContext& context,
+                                            string name,
+                                            const IConcreteObjectType* object) const {
+  assert(false);
+}
+
 const wisey::ArrayType* ArraySpecificType::getArrayType(IRGenerationContext& context) const {
   return context.getArrayType(mElementType, getNumberOfDimensions());
 }

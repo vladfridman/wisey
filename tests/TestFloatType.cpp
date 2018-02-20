@@ -14,6 +14,8 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "MockConcreteObjectType.hpp"
+#include "wisey/Field.hpp"
 #include "wisey/FloatType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -22,6 +24,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+using ::testing::_;
+using ::testing::Mock;
+using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
 
 struct FloatTypeTest : public Test {
@@ -31,7 +37,8 @@ struct FloatTypeTest : public Test {
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   FloatType mFloatType;
-  
+  NiceMock<MockConcreteObjectType> mConcreteObjectType;
+
 public:
   
   FloatTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
@@ -44,6 +51,10 @@ public:
     mBlock = BasicBlock::Create(mLLVMContext, "entry", function);
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
+
+    InjectionArgumentList injectionArgumentList;
+    Field* field = new Field(FIXED_FIELD, &mFloatType, NULL, "mField", injectionArgumentList);
+    ON_CALL(mConcreteObjectType, findField(_)).WillByDefault(Return(field));
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -83,6 +94,8 @@ TEST_F(FloatTypeTest, canCastTest) {
 }
 
 TEST_F(FloatTypeTest, castToTest) {
+  Mock::AllowLeak(&mConcreteObjectType);
+
   Value* result;
   Value* expressionValue = ConstantFP::get(Type::getFloatTy(mLLVMContext), 2.5);
   
@@ -142,4 +155,11 @@ TEST_F(FloatTypeTest, allocateLocalVariableTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(FloatTypeTest, createFieldVariableTest) {
+  mFloatType.createFieldVariable(mContext, "mField", &mConcreteObjectType);
+  IVariable* variable = mContext.getScopes().getVariable("mField");
+  
+  EXPECT_NE(variable, nullptr);
 }

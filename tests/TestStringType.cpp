@@ -14,6 +14,8 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "MockConcreteObjectType.hpp"
+#include "wisey/Field.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramPrefix.hpp"
@@ -23,6 +25,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+using ::testing::_;
+using ::testing::Mock;
+using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
 
 struct StringTypeTest : public Test {
@@ -32,7 +38,8 @@ struct StringTypeTest : public Test {
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   StringType mStringType;
-  
+  NiceMock<MockConcreteObjectType> mConcreteObjectType;
+
 public:
   
   StringTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
@@ -45,6 +52,10 @@ public:
     mBlock = BasicBlock::Create(mLLVMContext, "entry", function);
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
+    
+    InjectionArgumentList injectionArgumentList;
+    Field* field = new Field(FIXED_FIELD, &mStringType, NULL, "mField", injectionArgumentList);
+    ON_CALL(mConcreteObjectType, findField(_)).WillByDefault(Return(field));
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -84,6 +95,8 @@ TEST_F(StringTypeTest, canCastTest) {
 }
 
 TEST_F(StringTypeTest, castToTest) {
+  Mock::AllowLeak(&mConcreteObjectType);
+  
   Value* expressionValue = ConstantPointerNull::get(Type::getInt16Ty(mLLVMContext)->getPointerTo());
   
   EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::VOID_TYPE, 0),
@@ -143,4 +156,11 @@ TEST_F(StringTypeTest, allocateLocalVariableTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(StringTypeTest, createFieldVariableTest) {
+  mStringType.createFieldVariable(mContext, "mField", &mConcreteObjectType);
+  IVariable* variable = mContext.getScopes().getVariable("mField");
+  
+  EXPECT_NE(variable, nullptr);
 }

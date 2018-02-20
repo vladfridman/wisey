@@ -46,6 +46,10 @@ public:
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
   
   void allocateLocalVariable(IRGenerationContext& context, std::string name) const override;
+  
+  void createFieldVariable(IRGenerationContext& context,
+                           std::string name,
+                           const IConcreteObjectType* object) const override;
 
   const ArrayType* getArrayType(IRGenerationContext& context) const override;
   

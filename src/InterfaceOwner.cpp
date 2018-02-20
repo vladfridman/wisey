@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/Environment.hpp"
+#include "wisey/FieldOwnerVariable.hpp"
 #include "wisey/InterfaceOwner.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
@@ -105,6 +106,13 @@ void InterfaceOwner::allocateLocalVariable(IRGenerationContext& context, string 
   
   IVariable* uninitializedVariable = new LocalOwnerVariable(name, this, alloca);
   context.getScopes().setVariable(uninitializedVariable);
+}
+
+void InterfaceOwner::createFieldVariable(IRGenerationContext& context,
+                                          string name,
+                                          const IConcreteObjectType* object) const {
+  IVariable* variable = new FieldOwnerVariable(name, object);
+  context.getScopes().setVariable(variable);
 }
 
 const wisey::ArrayType* InterfaceOwner::getArrayType(IRGenerationContext& context) const {

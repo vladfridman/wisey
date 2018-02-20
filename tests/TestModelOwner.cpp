@@ -14,6 +14,7 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "MockConcreteObjectType.hpp"
 #include "MockExpression.hpp"
 #include "TestPrefix.hpp"
 #include "TestFileSampleRunner.hpp"
@@ -360,7 +361,7 @@ TEST_F(ModelOwnerTest, isReferenceTest) {
 }
 
 TEST_F(ModelOwnerTest, allocateLocalVariableTest) {
-  mModel->allocateLocalVariable(mContext, "temp");
+  mModel->getOwner()->allocateLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);
@@ -369,11 +370,26 @@ TEST_F(ModelOwnerTest, allocateLocalVariableTest) {
   
   string expected =
   "\nentry:"
-  "\n  %referenceDeclaration = alloca %systems.vos.wisey.compiler.tests.MSquare*"
-  "\n  store %systems.vos.wisey.compiler.tests.MSquare* null, %systems.vos.wisey.compiler.tests.MSquare** %referenceDeclaration\n";
+  "\n  %ownerDeclaration = alloca %systems.vos.wisey.compiler.tests.MSquare*"
+  "\n  store %systems.vos.wisey.compiler.tests.MSquare* null, %systems.vos.wisey.compiler.tests.MSquare** %ownerDeclaration\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(ModelOwnerTest, createFieldVariableTest) {
+  NiceMock<MockConcreteObjectType> concreteObjectType;
+  InjectionArgumentList injectionArgumentList;
+  Field* field = new Field(FIXED_FIELD,
+                           mModel->getOwner(),
+                           NULL,
+                           "mField",
+                           injectionArgumentList);
+  ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
+  mModel->getOwner()->createFieldVariable(mContext, "mField", &concreteObjectType);
+  IVariable* variable = mContext.getScopes().getVariable("mField");
+  
+  EXPECT_NE(variable, nullptr);
 }
 
 TEST_F(TestFileSampleRunner, ownerAssignToReferenceRunTest) {

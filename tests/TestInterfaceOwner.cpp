@@ -9,10 +9,12 @@
 //
 
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "MockConcreteObjectType.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "wisey/InstanceOf.hpp"
 #include "wisey/InterfaceOwner.hpp"
@@ -23,6 +25,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+using ::testing::_;
+using ::testing::Mock;
+using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
 
 struct InterfaceOwnerTest : public Test {
@@ -138,7 +144,7 @@ TEST_F(InterfaceOwnerTest, isReferenceTest) {
 }
 
 TEST_F(InterfaceOwnerTest, allocateLocalVariableTest) {
-  mObjectInterface->allocateLocalVariable(mContext, "temp");
+  mObjectInterface->getOwner()->allocateLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);
@@ -147,11 +153,26 @@ TEST_F(InterfaceOwnerTest, allocateLocalVariableTest) {
   
   string expected =
   "\nentry:"
-  "\n  %referenceDeclaration = alloca %systems.vos.wisey.compiler.tests.IObject*"
-  "\n  store %systems.vos.wisey.compiler.tests.IObject* null, %systems.vos.wisey.compiler.tests.IObject** %referenceDeclaration\n";
+  "\n  %ownerDeclaration = alloca %systems.vos.wisey.compiler.tests.IObject*"
+  "\n  store %systems.vos.wisey.compiler.tests.IObject* null, %systems.vos.wisey.compiler.tests.IObject** %ownerDeclaration\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(InterfaceOwnerTest, createFieldVariableTest) {
+  NiceMock<MockConcreteObjectType> concreteObjectType;
+  InjectionArgumentList injectionArgumentList;
+  Field* field = new Field(FIXED_FIELD,
+                           mObjectInterface->getOwner(),
+                           NULL,
+                           "mField",
+                           injectionArgumentList);
+  ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
+  mObjectInterface->getOwner()->createFieldVariable(mContext, "mField", &concreteObjectType);
+  IVariable* variable = mContext.getScopes().getVariable("mField");
+  
+  EXPECT_NE(variable, nullptr);
 }
 
 TEST_F(TestFileSampleRunner, interfaceOwnerCastToModelOwnerRunTest) {

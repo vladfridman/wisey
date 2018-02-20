@@ -71,6 +71,9 @@ public:
   MOCK_CONST_METHOD1(getReferenceAdjustmentFunction,
                      llvm::Function* (wisey::IRGenerationContext& context));
   MOCK_CONST_METHOD2(allocateLocalVariable, void (wisey::IRGenerationContext&, std::string name));
+  MOCK_CONST_METHOD3(createFieldVariable, void (wisey::IRGenerationContext&,
+                                                std::string name,
+                                                const wisey::IConcreteObjectType* object));
   MOCK_CONST_METHOD1(getArrayType, wisey::ArrayType* (wisey::IRGenerationContext&));
 };
 

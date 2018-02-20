@@ -14,6 +14,7 @@
 #include "wisey/Composer.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/FakeExpression.hpp"
+#include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/InstanceOf.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceOwner.hpp"
@@ -914,6 +915,13 @@ void Interface::allocateLocalVariable(IRGenerationContext& context, string name)
   
   IVariable* uninitializedVariable = new LocalReferenceVariable(name, this, alloca);
   context.getScopes().setVariable(uninitializedVariable);
+}
+
+void Interface::createFieldVariable(IRGenerationContext& context,
+                                    string name,
+                                    const IConcreteObjectType* object) const {
+  IVariable* variable = new FieldReferenceVariable(name, object);
+  context.getScopes().setVariable(variable);
 }
 
 const wisey::ArrayType* Interface::getArrayType(IRGenerationContext& context) const {

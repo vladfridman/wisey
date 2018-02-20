@@ -12,6 +12,7 @@
 #include "wisey/AutoCast.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/Environment.hpp"
+#include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Log.hpp"
@@ -435,6 +436,13 @@ void Model::allocateLocalVariable(IRGenerationContext& context, string name) con
   
   IVariable* uninitializedVariable = new LocalReferenceVariable(name, this, alloca);
   context.getScopes().setVariable(uninitializedVariable);
+}
+
+void Model::createFieldVariable(IRGenerationContext& context,
+                                string name,
+                                const IConcreteObjectType* object) const {
+  IVariable* variable = new FieldReferenceVariable(name, object);
+  context.getScopes().setVariable(variable);
 }
 
 const wisey::ArrayType* Model::getArrayType(IRGenerationContext& context) const {

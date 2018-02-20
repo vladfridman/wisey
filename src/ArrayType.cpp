@@ -13,6 +13,7 @@
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/ArrayType.hpp"
 #include "wisey/DecrementReferencesInArrayFunction.hpp"
+#include "wisey/FieldArrayReferenceVariable.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalArrayReferenceVariable.hpp"
 #include "wisey/Log.hpp"
@@ -134,6 +135,13 @@ void ArrayType::allocateLocalVariable(IRGenerationContext &context, string name)
   IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloc);
   
   IVariable* variable = new LocalArrayReferenceVariable(name, this, alloc);
+  context.getScopes().setVariable(variable);
+}
+
+void ArrayType::createFieldVariable(IRGenerationContext& context,
+                                    string name,
+                                    const IConcreteObjectType* object) const {
+  IVariable* variable = new FieldArrayReferenceVariable(name, object);
   context.getScopes().setVariable(variable);
 }
 

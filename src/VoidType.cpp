@@ -75,6 +75,12 @@ void VoidType::allocateLocalVariable(IRGenerationContext& context, string name) 
   assert(false);
 }
 
+void VoidType::createFieldVariable(IRGenerationContext& context,
+                                   string name,
+                                   const IConcreteObjectType* object) const {
+  assert(false);
+}
+
 const wisey::ArrayType* VoidType::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);

@@ -12,6 +12,7 @@
 #include "wisey/DestroyOwnerArrayFunction.hpp"
 #include "wisey/DestroyPrimitiveArrayFunction.hpp"
 #include "wisey/DestroyReferenceArrayFunction.hpp"
+#include "wisey/FieldArrayOwnerVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalArrayOwnerVariable.hpp"
@@ -106,5 +107,12 @@ void ArrayOwnerType::allocateLocalVariable(IRGenerationContext& context, string 
   IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloc);
   
   IVariable* variable = new LocalArrayOwnerVariable(name, this, alloc);
+  context.getScopes().setVariable(variable);
+}
+
+void ArrayOwnerType::createFieldVariable(IRGenerationContext& context,
+                                         string name,
+                                         const IConcreteObjectType* object) const {
+  IVariable* variable = new FieldArrayOwnerVariable(name, object);
   context.getScopes().setVariable(variable);
 }

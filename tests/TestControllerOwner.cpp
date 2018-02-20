@@ -13,6 +13,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "MockConcreteObjectType.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/ControllerOwner.hpp"
@@ -25,6 +26,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+using ::testing::_;
+using ::testing::Mock;
+using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
 
 struct ControllerOwnerTest : public Test {
@@ -251,7 +256,7 @@ TEST_F(ControllerOwnerTest, castToSecondInterfaceTest) {
 }
 
 TEST_F(ControllerOwnerTest, allocateLocalVariableTest) {
-  mMultiplierController->allocateLocalVariable(mContext, "temp");
+  mMultiplierController->getOwner()->allocateLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);
@@ -260,11 +265,26 @@ TEST_F(ControllerOwnerTest, allocateLocalVariableTest) {
   
   string expected =
   "\nentry:"
-  "\n  %referenceDeclaration = alloca %systems.vos.wisey.compiler.tests.CMultiplier*"
-  "\n  store %systems.vos.wisey.compiler.tests.CMultiplier* null, %systems.vos.wisey.compiler.tests.CMultiplier** %referenceDeclaration\n";
+  "\n  %ownerDeclaration = alloca %systems.vos.wisey.compiler.tests.CMultiplier*"
+  "\n  store %systems.vos.wisey.compiler.tests.CMultiplier* null, %systems.vos.wisey.compiler.tests.CMultiplier** %ownerDeclaration\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(ControllerOwnerTest, createFieldVariableTest) {
+  NiceMock<MockConcreteObjectType> concreteObjectType;
+  InjectionArgumentList injectionArgumentList;
+  Field* field = new Field(FIXED_FIELD,
+                           mMultiplierController->getOwner(),
+                           NULL,
+                           "mField",
+                           injectionArgumentList);
+  ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
+  mMultiplierController->getOwner()->createFieldVariable(mContext, "mField", &concreteObjectType);
+  IVariable* variable = mContext.getScopes().getVariable("mField");
+
+  EXPECT_NE(variable, nullptr);
 }
 
 TEST_F(TestFileSampleRunner, controllerPassModelReferenceRunTest) {

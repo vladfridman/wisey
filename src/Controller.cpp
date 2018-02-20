@@ -16,6 +16,7 @@
 #include "wisey/Controller.hpp"
 #include "wisey/ControllerOwner.hpp"
 #include "wisey/Environment.hpp"
+#include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -445,6 +446,13 @@ void Controller::allocateLocalVariable(IRGenerationContext& context, string name
   
   IVariable* uninitializedVariable = new LocalReferenceVariable(name, this, alloca);
   context.getScopes().setVariable(uninitializedVariable);
+}
+
+void Controller::createFieldVariable(IRGenerationContext& context,
+                                      string name,
+                                      const IConcreteObjectType* object) const {
+  IVariable* variable = new FieldReferenceVariable(name, object);
+  context.getScopes().setVariable(variable);
 }
 
 const wisey::ArrayType* Controller::getArrayType(IRGenerationContext& context) const {

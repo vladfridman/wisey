@@ -33,6 +33,9 @@ public:
   MOCK_CONST_METHOD0(isReference, bool ());
   MOCK_CONST_METHOD2(printToStream, void (wisey::IRGenerationContext&, std::iostream& stream));
   MOCK_CONST_METHOD2(allocateLocalVariable, void (wisey::IRGenerationContext&, std::string name));
+  MOCK_CONST_METHOD3(createFieldVariable, void (wisey::IRGenerationContext&,
+                                                std::string name,
+                                                const wisey::IConcreteObjectType* object));
   MOCK_CONST_METHOD1(getArrayType, wisey::ArrayType* (wisey::IRGenerationContext&));
 };
 

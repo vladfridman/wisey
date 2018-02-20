@@ -62,6 +62,12 @@ void PackageType::allocateLocalVariable(IRGenerationContext& context, string nam
   assert(false);
 }
 
+void PackageType::createFieldVariable(IRGenerationContext& context,
+                                      string name,
+                                      const IConcreteObjectType* object) const {
+  assert(false);
+}
+
 const wisey::ArrayType* PackageType::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);

@@ -11,6 +11,7 @@
 #include "wisey/ArrayType.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/DoubleType.hpp"
+#include "wisey/FieldPrimitiveVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalPrimitiveVariable.hpp"
@@ -91,6 +92,13 @@ void DoubleType::allocateLocalVariable(IRGenerationContext& context, string name
   
   Value* value = ConstantFP::get(llvmType, 0);
   IRWriter::newStoreInst(context, value, alloc);
+}
+
+void DoubleType::createFieldVariable(IRGenerationContext& context,
+                                     string name,
+                                     const IConcreteObjectType* object) const {
+  IVariable* variable = new FieldPrimitiveVariable(name, object);
+  context.getScopes().setVariable(variable);
 }
 
 const wisey::ArrayType* DoubleType::getArrayType(IRGenerationContext& context) const {

@@ -13,14 +13,19 @@
 
 #include <llvm/Support/raw_ostream.h>
 
+#include "MockConcreteObjectType.hpp"
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/ArrayType.hpp"
+#include "wisey/Field.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace std;
 using namespace wisey;
 
+using ::testing::_;
+using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
 
 struct ArrayTypeTest : public Test {
@@ -31,6 +36,7 @@ struct ArrayTypeTest : public Test {
   llvm::BasicBlock* mBasicBlock;
   string mStringBuffer;
   llvm::raw_string_ostream* mStringStream;
+  NiceMock<MockConcreteObjectType> mConcreteObjectType;
 
   ArrayTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
     vector<unsigned long> dimensions;
@@ -47,6 +53,10 @@ struct ArrayTypeTest : public Test {
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
+    InjectionArgumentList injectionArgumentList;
+    Field* field = new Field(FIXED_FIELD, mArrayType, NULL, "mField", injectionArgumentList);
+    ON_CALL(mConcreteObjectType, findField(_)).WillByDefault(Return(field));
+
     mStringStream = new llvm::raw_string_ostream(mStringBuffer);
 }
 };
@@ -118,4 +128,11 @@ TEST_F(ArrayTypeTest, allocateLocalVariableTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(ArrayTypeTest, createFieldVariableTest) {
+  mArrayType->createFieldVariable(mContext, "mField", &mConcreteObjectType);
+  IVariable* variable = mContext.getScopes().getVariable("mField");
+  
+  EXPECT_NE(variable, nullptr);
 }

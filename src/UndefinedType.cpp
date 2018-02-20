@@ -61,6 +61,12 @@ void UndefinedType::allocateLocalVariable(IRGenerationContext& context, string n
   assert(false);
 }
 
+void UndefinedType::createFieldVariable(IRGenerationContext& context,
+                                        string name,
+                                        const IConcreteObjectType* object) const {
+  assert(false);
+}
+
 const wisey::ArrayType* UndefinedType::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);
