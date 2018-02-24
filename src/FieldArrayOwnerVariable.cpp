@@ -35,7 +35,7 @@ string FieldArrayOwnerVariable::getName() const {
 
 const ArrayOwnerType* FieldArrayOwnerVariable::getType() const {
   const IType* type = mObject->findField(mName)->getType();
-  assert(type->getTypeKind() == ARRAY_OWNER_TYPE);
+  assert(type->isArray() && type->isOwner());
   
   return (const ArrayOwnerType*) type;
 }
@@ -89,7 +89,7 @@ Value* FieldArrayOwnerVariable::generateArrayElementAssignment(IRGenerationConte
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   Value* arrayPointer = IRWriter::newLoadInst(context, fieldPointer, "");
   const IType* fieldType = field->getType();
-  assert(fieldType->getTypeKind() == ARRAY_OWNER_TYPE);
+  assert(fieldType->isArray() && fieldType->isOwner());
   const ArrayOwnerType* arrayOwnerType = (const ArrayOwnerType*) fieldType;
   const ArrayType* arrayType = arrayOwnerType->getArrayType(context);
   const IType* elementType = arrayType->getElementType();

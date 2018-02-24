@@ -75,7 +75,7 @@ const ArrayExactType* ArrayAllocationStatic::getExactType(IRGenerationContext& c
   const IType* elementType = mExpressionList.front()->getType(context);
   list<unsigned long> dimensions;
   dimensions.push_back(mExpressionList.size());
-  if (elementType->getTypeKind() != ARRAY_OWNER_TYPE) {
+  if (!elementType->isArray()) {
     return context.getArrayExactType(elementType, dimensions);
   }
   
@@ -158,7 +158,7 @@ ExpressionList ArrayAllocationStatic::flattenExpressionList(IRGenerationContext&
   while (stack.size()) {
     const IExpression* expression = stack.back();
     stack.pop_back();
-    if (expression->getType(context)->getTypeKind() == ARRAY_OWNER_TYPE) {
+    if (expression->getType(context)->isArray()) {
       for (const IExpression* subExpression :
            ((ArrayAllocationStatic*) expression)->getExpressionList()) {
         stack.push_back(subExpression);

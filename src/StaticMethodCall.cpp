@@ -121,7 +121,7 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
   Value* pointer = IRWriter::newAllocaInst(context, result->getType(), "returnedObjectPointer");
   IRWriter::newStoreInst(context, result, pointer);
   
-  IVariable* tempVariable = returnType->getTypeKind() == ARRAY_OWNER_TYPE
+  IVariable* tempVariable = returnType->isArray()
   ? new LocalArrayOwnerVariable(variableName, (const ArrayOwnerType*) returnType, pointer)
   : (IVariable*) new LocalOwnerVariable(variableName, (IObjectOwnerType*) returnType, pointer);
   context.getScopes().setVariable(tempVariable);

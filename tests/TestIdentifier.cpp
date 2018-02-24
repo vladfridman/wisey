@@ -78,6 +78,7 @@ TEST_F(IdentifierTest, generateIRForObjectOwnerVariableSetToNullTest) {
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
   ON_CALL(mockVariable, generateIdentifierIR(_)).WillByDefault(Return(objectPointer));
   ON_CALL(mockType, getTypeKind()).WillByDefault(Return(MODEL_OWNER_TYPE));
+  ON_CALL(mockType, isOwner()).WillByDefault(Return(true));
   EXPECT_CALL(mockVariable, setToNull(_));
   mContext.getScopes().setVariable(&mockVariable);
   Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, modelStructType);
