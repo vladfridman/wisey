@@ -106,6 +106,10 @@ bool ExternalMethod::isReference() const {
   return false;
 }
 
+bool ExternalMethod::isArray() const {
+  return false;
+}
+
 const IObjectType* ExternalMethod::getObjectType() const {
   return mObjectType;
 }

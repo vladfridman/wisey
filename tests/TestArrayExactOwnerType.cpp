@@ -82,6 +82,10 @@ TEST_F(ArrayExactOwnerTypeTest, isReferenceTest) {
   EXPECT_FALSE(mArrayExactOwnerType->isReference());
 }
 
+TEST_F(ArrayExactOwnerTypeTest, isArrayTest) {
+  EXPECT_TRUE(mArrayExactOwnerType->isArray());
+}
+
 TEST_F(ArrayExactOwnerTypeTest, getArrayTypeTest) {
   EXPECT_EQ(mContext.getArrayType(PrimitiveTypes::LONG_TYPE, 1u),
             mArrayExactOwnerType->getArrayType(mContext));

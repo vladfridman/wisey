@@ -122,6 +122,10 @@ bool ArraySpecificType::isReference() const {
   return true;
 }
 
+bool ArraySpecificType::isArray() const {
+  return true;
+}
+
 void ArraySpecificType::checkDimensionType(IRGenerationContext& context, const IType* type) const {
   if (type->canAutoCastTo(context, PrimitiveTypes::LONG_TYPE)) {
     return;

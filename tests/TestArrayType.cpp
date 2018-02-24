@@ -114,6 +114,10 @@ TEST_F(ArrayTypeTest, isReferenceTest) {
   EXPECT_TRUE(mArrayType->isReference());
 }
 
+TEST_F(ArrayTypeTest, isArrayTest) {
+  EXPECT_TRUE(mArrayType->isArray());
+}
+
 TEST_F(ArrayTypeTest, createLocalVariableTest) {
   mArrayType->createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");

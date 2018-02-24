@@ -585,6 +585,10 @@ bool Interface::isReference() const {
   return true;
 }
 
+bool Interface::isArray() const {
+  return false;
+}
+
 Function* Interface::defineCastFunction(IRGenerationContext& context,
                                         const IObjectType* toType) const {
   vector<Type*> argumentTypes;

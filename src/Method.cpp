@@ -110,6 +110,10 @@ bool Method::isReference() const {
   return false;
 }
 
+bool Method::isArray() const {
+  return false;
+}
+
 Function* Method::defineFunction(IRGenerationContext& context) {
   mFunction = IMethod::defineFunction(context, mObjectType, this);
   

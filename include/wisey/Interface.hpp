@@ -194,6 +194,8 @@ public:
   bool isOwner() const override;
   
   bool isReference() const override;
+  
+  bool isArray() const override;
 
   const IObjectOwnerType* getOwner() const override;
   

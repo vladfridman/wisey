@@ -95,6 +95,10 @@ bool InterfaceOwner::isReference() const {
   return false;
 }
 
+bool InterfaceOwner::isArray() const {
+  return false;
+}
+
 void InterfaceOwner::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

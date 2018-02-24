@@ -100,6 +100,10 @@ bool MethodSignature::isReference() const {
   return false;
 }
 
+bool MethodSignature::isArray() const {
+  return false;
+}
+
 const IObjectType* MethodSignature::getObjectType() const {
   return mObjectType;
 }

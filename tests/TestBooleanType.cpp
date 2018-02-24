@@ -140,6 +140,10 @@ TEST_F(BooleanTypeTest, isReferenceTest) {
   EXPECT_FALSE(mBoleanType.isReference());
 }
 
+TEST_F(BooleanTypeTest, isArrayTest) {
+  EXPECT_FALSE(mBoleanType.isArray());
+}
+
 TEST_F(BooleanTypeTest, createLocalVariableTest) {
   mBoleanType.createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");

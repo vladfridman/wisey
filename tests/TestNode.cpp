@@ -500,6 +500,10 @@ TEST_F(NodeTest, isReferenceTest) {
   EXPECT_TRUE(mSimpleNode->isReference());
 }
 
+TEST_F(NodeTest, isArrayTest) {
+  EXPECT_FALSE(mSimpleNode->isArray());
+}
+
 TEST_F(NodeTest, incrementReferenceCountTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mComplicatedNode->getLLVMType(mContext));

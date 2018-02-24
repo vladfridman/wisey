@@ -82,6 +82,8 @@ public:
   bool isOwner() const override;
   
   bool isReference() const override;
+  
+  bool isArray() const override;
 
   const IObjectType* getObjectType() const override;
 

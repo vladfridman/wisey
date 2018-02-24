@@ -99,6 +99,10 @@ TEST_F(ArrayOwnerTypeTest, isReferenceTest) {
   EXPECT_FALSE(mArrayOwnerType->isReference());
 }
 
+TEST_F(ArrayOwnerTypeTest, isArrayTest) {
+  EXPECT_TRUE(mArrayOwnerType->isArray());
+}
+
 TEST_F(ArrayOwnerTypeTest, createLocalVariableTest) {
   mArrayOwnerType->createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");

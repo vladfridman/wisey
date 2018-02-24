@@ -315,6 +315,10 @@ TEST_F(InterfaceTest, isReferenceTest) {
   EXPECT_TRUE(mObjectInterface->isReference());
 }
 
+TEST_F(InterfaceTest, isArrayTest) {
+  EXPECT_FALSE(mObjectInterface->isArray());
+}
+
 TEST_F(InterfaceTest, printToStreamTest) {
   stringstream stringStream;
   Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL);

@@ -63,6 +63,10 @@ bool VoidType::isReference() const {
   return false;
 }
 
+bool VoidType::isArray() const {
+  return false;
+}
+
 string VoidType::getFormat() const {
   return "";
 }

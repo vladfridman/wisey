@@ -85,6 +85,10 @@ bool ControllerOwner::isReference() const {
   return false;
 }
 
+bool ControllerOwner::isArray() const {
+  return false;
+}
+
 void ControllerOwner::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

@@ -66,6 +66,10 @@ string StringType::getFormat() const {
   return "%s";
 }
 
+bool StringType::isArray() const {
+  return false;
+}
+
 void StringType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

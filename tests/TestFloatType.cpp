@@ -140,6 +140,10 @@ TEST_F(FloatTypeTest, isReferenceTest) {
   EXPECT_FALSE(mFloatType.isReference());
 }
 
+TEST_F(FloatTypeTest, isArrayTest) {
+  EXPECT_FALSE(mFloatType.isArray());
+}
+
 TEST_F(FloatTypeTest, createLocalVariableTest) {
   mFloatType.createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");

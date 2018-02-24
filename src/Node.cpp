@@ -218,6 +218,10 @@ bool Node::isReference() const {
   return true;
 }
 
+bool Node::isArray() const {
+  return false;
+}
+
 string Node::getVTableName() const {
   return mName + ".vtable";
 }

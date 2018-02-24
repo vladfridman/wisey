@@ -243,6 +243,10 @@ bool Model::isReference() const {
   return true;
 }
 
+bool Model::isArray() const {
+  return false;
+}
+
 Instruction* Model::build(IRGenerationContext& context,
                           const ObjectBuilderArgumentList& objectBuilderArgumentList,
                           int line) const {

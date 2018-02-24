@@ -76,6 +76,10 @@ bool FloatType::isReference() const {
   return false;
 }
 
+bool FloatType::isArray() const {
+  return false;
+}
+
 string FloatType::getFormat() const {
   return "%f";
 }

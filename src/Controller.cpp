@@ -316,6 +316,10 @@ bool Controller::isReference() const {
   return true;
 }
 
+bool Controller::isArray() const {
+  return false;
+}
+
 void Controller::initializeReceivedFields(IRGenerationContext& context,
                                           const InjectionArgumentList& controllerInjectorArguments,
                                           Instruction* malloc,

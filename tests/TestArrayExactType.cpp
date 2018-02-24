@@ -100,6 +100,10 @@ TEST_F(ArrayExactTypeTest, isReferenceTest) {
   EXPECT_TRUE(mArrayExactType->isReference());
 }
 
+TEST_F(ArrayExactTypeTest, isArrayTest) {
+  EXPECT_TRUE(mArrayExactType->isArray());
+}
+
 TEST_F(ArrayExactTypeTest, getArrayTypeTest) {
   EXPECT_EQ(mContext.getArrayType(PrimitiveTypes::LONG_TYPE, 2u),
             mMultiDimentionalArrayExactType->getArrayType(mContext));

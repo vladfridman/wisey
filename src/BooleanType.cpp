@@ -80,6 +80,10 @@ bool BooleanType::isReference() const {
   return false;
 }
 
+bool BooleanType::isArray() const {
+  return false;
+}
+
 string BooleanType::getFormat() const {
   return "%d";
 }

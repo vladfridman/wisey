@@ -119,6 +119,8 @@ public:
   bool isOwner() const override;
   
   bool isReference() const override;
+  
+  bool isArray() const override;
 
   std::string getVTableName() const override;
 

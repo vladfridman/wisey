@@ -114,6 +114,10 @@ TEST_F(ArraySpecificTypeTest, isReferenceTest) {
   EXPECT_TRUE(mArraySpecificType->isReference());
 }
 
+TEST_F(ArraySpecificTypeTest, isArrayTest) {
+  EXPECT_TRUE(mArraySpecificType->isArray());
+}
+
 TEST_F(ArraySpecificTypeTest, printToStreamTest) {
   stringstream stringStream;
   mMultiDimentionalArraySpecificType->printToStream(mContext, stringStream);

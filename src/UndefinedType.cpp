@@ -53,6 +53,10 @@ bool UndefinedType::isReference() const {
   return false;
 }
 
+bool UndefinedType::isArray() const {
+  return false;
+}
+
 void UndefinedType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

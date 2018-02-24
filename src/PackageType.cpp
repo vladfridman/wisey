@@ -54,6 +54,10 @@ bool PackageType::isReference() const {
   return false;
 }
 
+bool PackageType::isArray() const {
+  return false;
+}
+
 void PackageType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

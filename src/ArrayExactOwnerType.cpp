@@ -83,6 +83,10 @@ bool ArrayExactOwnerType::isReference() const {
   return false;
 }
 
+bool ArrayExactOwnerType::isArray() const {
+  return true;
+}
+
 void ArrayExactOwnerType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

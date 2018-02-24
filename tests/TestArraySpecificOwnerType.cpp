@@ -97,6 +97,10 @@ TEST_F(ArraySpecificOwnerTypeTest, isReferenceTest) {
   EXPECT_FALSE(mArraySpecificOwnerType->isReference());
 }
 
+TEST_F(ArraySpecificOwnerTypeTest, isArrayTest) {
+  EXPECT_TRUE(mArraySpecificOwnerType->isArray());
+}
+
 TEST_F(ArraySpecificOwnerTypeTest, printToStreamTest) {
   stringstream stringStream;
   mArraySpecificOwnerType->printToStream(mContext, stringStream);

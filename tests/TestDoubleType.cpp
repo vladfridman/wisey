@@ -141,6 +141,10 @@ TEST_F(DoubleTypeTest, isReferenceTest) {
   EXPECT_FALSE(mDoubleType.isReference());
 }
 
+TEST_F(DoubleTypeTest, isArrayTest) {
+  EXPECT_FALSE(mDoubleType.isArray());
+}
+
 TEST_F(DoubleTypeTest, createLocalVariableTest) {
   mDoubleType.createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");

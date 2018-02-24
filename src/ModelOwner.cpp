@@ -85,6 +85,10 @@ bool ModelOwner::isReference() const {
   return false;
 }
 
+bool ModelOwner::isArray() const {
+  return false;
+}
+
 void ModelOwner::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

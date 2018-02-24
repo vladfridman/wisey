@@ -54,6 +54,10 @@ bool NullType::isReference() const {
   return false;
 }
 
+bool NullType::isArray() const {
+  return false;
+}
+
 void NullType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

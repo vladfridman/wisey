@@ -76,6 +76,10 @@ bool DoubleType::isReference() const {
   return false;
 }
 
+bool DoubleType::isArray() const {
+  return false;
+}
+
 string DoubleType::getFormat() const {
   return "%e";
 }

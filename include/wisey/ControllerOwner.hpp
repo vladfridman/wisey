@@ -49,6 +49,8 @@ public:
   bool isOwner() const override;
   
   bool isReference() const override;
+  
+  bool isArray() const override;
 
   llvm::Function* getDestructorFunction(IRGenerationContext& context) const override;
 

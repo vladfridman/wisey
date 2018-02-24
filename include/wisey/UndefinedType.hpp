@@ -42,6 +42,8 @@ public:
   bool isOwner() const override;
   
   bool isReference() const override;
+  
+  bool isArray() const override;
 
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
   

@@ -360,6 +360,10 @@ TEST_F(ModelOwnerTest, isReferenceTest) {
   EXPECT_FALSE(mModel->getOwner()->isReference());
 }
 
+TEST_F(ModelOwnerTest, isArrayTest) {
+  EXPECT_FALSE(mModel->getOwner()->isArray());
+}
+
 TEST_F(ModelOwnerTest, createLocalVariableTest) {
   mModel->getOwner()->createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");

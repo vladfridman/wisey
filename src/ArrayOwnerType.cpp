@@ -98,6 +98,10 @@ bool ArrayOwnerType::isReference() const {
   return false;
 }
 
+bool ArrayOwnerType::isArray() const {
+  return true;
+}
+
 void ArrayOwnerType::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << getTypeName();
 }

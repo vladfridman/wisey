@@ -126,6 +126,10 @@ bool ArrayType::isReference() const {
   return true;
 }
 
+bool ArrayType::isArray() const {
+  return true;
+}
+
 void ArrayType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

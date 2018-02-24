@@ -77,6 +77,10 @@ bool IntType::isReference() const {
   return false;
 }
 
+bool IntType::isArray() const {
+  return false;
+}
+
 string IntType::getFormat() const {
   return "%d";
 }

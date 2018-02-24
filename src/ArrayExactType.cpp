@@ -100,6 +100,10 @@ bool ArrayExactType::isReference() const {
   return true;
 }
 
+bool ArrayExactType::isArray() const {
+  return true;
+}
+
 void ArrayExactType::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << getTypeName();
 }

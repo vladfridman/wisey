@@ -140,6 +140,10 @@ TEST_F(LongTypeTest, isReferenceTest) {
   EXPECT_FALSE(mLongType.isReference());
 }
 
+TEST_F(LongTypeTest, isArrayTest) {
+  EXPECT_FALSE(mLongType.isArray());
+}
+
 TEST_F(LongTypeTest, createLocalVariableTest) {
   mLongType.createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");

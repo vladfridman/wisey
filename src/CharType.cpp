@@ -79,6 +79,10 @@ bool CharType::isReference() const {
   return false;
 }
 
+bool CharType::isArray() const {
+  return false;
+}
+
 string CharType::getFormat() const {
   return "%c";
 }

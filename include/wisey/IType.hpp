@@ -94,6 +94,11 @@ namespace wisey {
      * Tells whether this type is a reference pointer type
      */
     virtual bool isReference() const = 0;
+    
+    /**
+     * Tells whether this type is of array type
+     */
+    virtual bool isArray() const = 0;
 
     /**
      * Allocates local variable of the type and stores it in the scope
