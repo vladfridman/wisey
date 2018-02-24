@@ -31,39 +31,7 @@ void IMethod::storeArgumentValue(IRGenerationContext& context,
                                  string variableName,
                                  const IType* variableType,
                                  Value* variableValue) {
-  IVariable* variable = NULL;
-  
-  if (IType::isPrimitveType(variableType)) {
-    const IPrimitiveType* primitiveType = (const IPrimitiveType*) variableType;
-    variable = new ParameterPrimitiveVariable(variableName, primitiveType, variableValue);
-    
-  } else if (variableType->getTypeKind() == ARRAY_OWNER_TYPE) {
-    Type* variableLLVMType = variableType->getLLVMType(context);
-    Value* alloc = IRWriter::newAllocaInst(context, variableLLVMType, "parameterArrayPointer");
-    IRWriter::newStoreInst(context, variableValue, alloc);
-    ArrayOwnerType* arrayOwnerType = (ArrayOwnerType*) variableType;
-    variable = new ParameterArrayOwnerVariable(variableName, arrayOwnerType, alloc);
-    
-  } else if (variableType->getTypeKind() == ARRAY_TYPE) {
-    ArrayType* arrayType = (ArrayType*) variableType;
-    variable = new ParameterArrayReferenceVariable(variableName, arrayType,  variableValue);
-    arrayType->incrementReferenceCount(context, variableValue);
-
-  } else if (IType::isOwnerType(variableType)) {
-    Type* variableLLVMType = variableType->getLLVMType(context);
-    Value* alloc = IRWriter::newAllocaInst(context, variableLLVMType, "parameterObjectPointer");
-    IRWriter::newStoreInst(context, variableValue, alloc);
-    IObjectOwnerType* objectOwnerType = (IObjectOwnerType*) variableType;
-    variable = new ParameterOwnerVariable(variableName, objectOwnerType, alloc);
-    
-  } else {
-    assert(IType::isReferenceType(variableType));
-    IObjectType* referenceType = (IObjectType*) variableType;
-    variable = new ParameterReferenceVariable(variableName, referenceType, variableValue);
-    referenceType->incrementReferenceCount(context, variableValue);
-  }
-  
-  context.getScopes().setVariable(variable);
+  variableType->createParameterVariable(context, variableName, variableValue);
 }
 
 void IMethod::checkForUnhandledExceptions(IRGenerationContext& context, const IMethod* method) {
