@@ -144,6 +144,13 @@ TEST_F(FloatTypeTest, isArrayTest) {
   EXPECT_FALSE(mFloatType.isArray());
 }
 
+TEST_F(FloatTypeTest, isObjectTest) {
+  EXPECT_FALSE(mFloatType.isController());
+  EXPECT_FALSE(mFloatType.isInterface());
+  EXPECT_FALSE(mFloatType.isModel());
+  EXPECT_FALSE(mFloatType.isNode());
+}
+
 TEST_F(FloatTypeTest, createLocalVariableTest) {
   mFloatType.createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");

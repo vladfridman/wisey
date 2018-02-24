@@ -104,6 +104,13 @@ TEST_F(ArrayExactTypeTest, isArrayTest) {
   EXPECT_TRUE(mArrayExactType->isArray());
 }
 
+TEST_F(ArrayExactTypeTest, isObjectTest) {
+  EXPECT_FALSE(mArrayExactType->isController());
+  EXPECT_FALSE(mArrayExactType->isInterface());
+  EXPECT_FALSE(mArrayExactType->isModel());
+  EXPECT_FALSE(mArrayExactType->isNode());
+}
+
 TEST_F(ArrayExactTypeTest, getArrayTypeTest) {
   EXPECT_EQ(mContext.getArrayType(PrimitiveTypes::LONG_TYPE, 2u),
             mMultiDimentionalArrayExactType->getArrayType(mContext));

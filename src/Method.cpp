@@ -114,6 +114,22 @@ bool Method::isArray() const {
   return false;
 }
 
+bool Method::isController() const {
+  return false;
+}
+
+bool Method::isInterface() const {
+  return false;
+}
+
+bool Method::isModel() const {
+  return false;
+}
+
+bool Method::isNode() const {
+  return false;
+}
+
 Function* Method::defineFunction(IRGenerationContext& context) {
   mFunction = IMethod::defineFunction(context, mObjectType, this);
   

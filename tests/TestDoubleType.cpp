@@ -145,6 +145,13 @@ TEST_F(DoubleTypeTest, isArrayTest) {
   EXPECT_FALSE(mDoubleType.isArray());
 }
 
+TEST_F(DoubleTypeTest, isObjectTest) {
+  EXPECT_FALSE(mDoubleType.isController());
+  EXPECT_FALSE(mDoubleType.isInterface());
+  EXPECT_FALSE(mDoubleType.isModel());
+  EXPECT_FALSE(mDoubleType.isNode());
+}
+
 TEST_F(DoubleTypeTest, createLocalVariableTest) {
   mDoubleType.createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");

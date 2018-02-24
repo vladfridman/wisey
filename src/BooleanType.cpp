@@ -84,6 +84,22 @@ bool BooleanType::isArray() const {
   return false;
 }
 
+bool BooleanType::isController() const {
+  return false;
+}
+
+bool BooleanType::isInterface() const {
+  return false;
+}
+
+bool BooleanType::isModel() const {
+  return false;
+}
+
+bool BooleanType::isNode() const {
+  return false;
+}
+
 string BooleanType::getFormat() const {
   return "%d";
 }

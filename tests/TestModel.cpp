@@ -492,6 +492,13 @@ TEST_F(ModelTest, isArrayTest) {
   EXPECT_FALSE(mModel->isArray());
 }
 
+TEST_F(ModelTest, isObjectTest) {
+  EXPECT_FALSE(mModel->isController());
+  EXPECT_FALSE(mModel->isInterface());
+  EXPECT_TRUE(mModel->isModel());
+  EXPECT_FALSE(mModel->isNode());
+}
+
 TEST_F(ModelTest, incrementReferenceCountTest) {
   ConstantPointerNull* pointer = ConstantPointerNull::get(mModel->getLLVMType(mContext));
   mModel->incrementReferenceCount(mContext, pointer);

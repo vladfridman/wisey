@@ -89,6 +89,22 @@ bool ControllerOwner::isArray() const {
   return false;
 }
 
+bool ControllerOwner::isController() const {
+  return true;
+}
+
+bool ControllerOwner::isInterface() const {
+  return false;
+}
+
+bool ControllerOwner::isModel() const {
+  return false;
+}
+
+bool ControllerOwner::isNode() const {
+  return false;
+}
+
 void ControllerOwner::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

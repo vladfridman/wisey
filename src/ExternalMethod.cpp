@@ -110,6 +110,22 @@ bool ExternalMethod::isArray() const {
   return false;
 }
 
+bool ExternalMethod::isController() const {
+  return false;
+}
+
+bool ExternalMethod::isInterface() const {
+  return false;
+}
+
+bool ExternalMethod::isModel() const {
+  return false;
+}
+
+bool ExternalMethod::isNode() const {
+  return false;
+}
+
 const IObjectType* ExternalMethod::getObjectType() const {
   return mObjectType;
 }

@@ -87,6 +87,22 @@ bool ArrayExactOwnerType::isArray() const {
   return true;
 }
 
+bool ArrayExactOwnerType::isController() const {
+  return false;
+}
+
+bool ArrayExactOwnerType::isInterface() const {
+  return false;
+}
+
+bool ArrayExactOwnerType::isModel() const {
+  return false;
+}
+
+bool ArrayExactOwnerType::isNode() const {
+  return false;
+}
+
 void ArrayExactOwnerType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

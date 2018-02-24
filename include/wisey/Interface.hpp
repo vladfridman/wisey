@@ -197,6 +197,14 @@ public:
   
   bool isArray() const override;
 
+  bool isController() const override;
+  
+  bool isInterface() const override;
+  
+  bool isModel() const override;
+  
+  bool isNode() const override;
+  
   const IObjectOwnerType* getOwner() const override;
   
   bool isExternal() const override;

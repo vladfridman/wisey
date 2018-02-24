@@ -51,6 +51,14 @@ public:
   
   bool isArray() const override;
 
+  bool isController() const override;
+  
+  bool isInterface() const override;
+  
+  bool isModel() const override;
+  
+  bool isNode() const override;
+  
   llvm::Function* getDestructorFunction(IRGenerationContext& context) const override;
 
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;

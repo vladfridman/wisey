@@ -104,6 +104,22 @@ bool MethodSignature::isArray() const {
   return false;
 }
 
+bool MethodSignature::isController() const {
+  return false;
+}
+
+bool MethodSignature::isInterface() const {
+  return false;
+}
+
+bool MethodSignature::isModel() const {
+  return false;
+}
+
+bool MethodSignature::isNode() const {
+  return false;
+}
+
 const IObjectType* MethodSignature::getObjectType() const {
   return mObjectType;
 }

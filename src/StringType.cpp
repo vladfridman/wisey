@@ -70,6 +70,22 @@ bool StringType::isArray() const {
   return false;
 }
 
+bool StringType::isController() const {
+  return false;
+}
+
+bool StringType::isInterface() const {
+  return false;
+}
+
+bool StringType::isModel() const {
+  return false;
+}
+
+bool StringType::isNode() const {
+  return false;
+}
+
 void StringType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

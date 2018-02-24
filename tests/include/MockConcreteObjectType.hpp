@@ -51,6 +51,10 @@ public:
   MOCK_CONST_METHOD0(isOwner, bool ());
   MOCK_CONST_METHOD0(isReference, bool ());
   MOCK_CONST_METHOD0(isArray, bool ());
+  MOCK_CONST_METHOD0(isController, bool ());
+  MOCK_CONST_METHOD0(isInterface, bool ());
+  MOCK_CONST_METHOD0(isModel, bool ());
+  MOCK_CONST_METHOD0(isNode, bool ());
   MOCK_CONST_METHOD0(isExternal, bool ());
   MOCK_CONST_METHOD2(printToStream, void (wisey::IRGenerationContext&, std::iostream& stream));
   MOCK_METHOD2(setFields, void (std::vector<wisey::Field*>, unsigned long));

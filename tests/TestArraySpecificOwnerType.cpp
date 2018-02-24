@@ -101,6 +101,13 @@ TEST_F(ArraySpecificOwnerTypeTest, isArrayTest) {
   EXPECT_TRUE(mArraySpecificOwnerType->isArray());
 }
 
+TEST_F(ArraySpecificOwnerTypeTest, isObjectTest) {
+  EXPECT_FALSE(mArraySpecificOwnerType->isController());
+  EXPECT_FALSE(mArraySpecificOwnerType->isInterface());
+  EXPECT_FALSE(mArraySpecificOwnerType->isModel());
+  EXPECT_FALSE(mArraySpecificOwnerType->isNode());
+}
+
 TEST_F(ArraySpecificOwnerTypeTest, printToStreamTest) {
   stringstream stringStream;
   mArraySpecificOwnerType->printToStream(mContext, stringStream);

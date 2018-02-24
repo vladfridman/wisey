@@ -247,6 +247,22 @@ bool Model::isArray() const {
   return false;
 }
 
+bool Model::isController() const {
+  return false;
+}
+
+bool Model::isInterface() const {
+  return false;
+}
+
+bool Model::isModel() const {
+  return true;
+}
+
+bool Model::isNode() const {
+  return false;
+}
+
 Instruction* Model::build(IRGenerationContext& context,
                           const ObjectBuilderArgumentList& objectBuilderArgumentList,
                           int line) const {

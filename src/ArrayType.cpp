@@ -130,6 +130,22 @@ bool ArrayType::isArray() const {
   return true;
 }
 
+bool ArrayType::isController() const {
+  return false;
+}
+
+bool ArrayType::isInterface() const {
+  return false;
+}
+
+bool ArrayType::isModel() const {
+  return false;
+}
+
+bool ArrayType::isNode() const {
+  return false;
+}
+
 void ArrayType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

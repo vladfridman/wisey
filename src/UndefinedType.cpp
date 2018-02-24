@@ -57,6 +57,22 @@ bool UndefinedType::isArray() const {
   return false;
 }
 
+bool UndefinedType::isController() const {
+  return false;
+}
+
+bool UndefinedType::isInterface() const {
+  return false;
+}
+
+bool UndefinedType::isModel() const {
+  return false;
+}
+
+bool UndefinedType::isNode() const {
+  return false;
+}
+
 void UndefinedType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

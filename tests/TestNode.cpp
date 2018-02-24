@@ -504,6 +504,13 @@ TEST_F(NodeTest, isArrayTest) {
   EXPECT_FALSE(mSimpleNode->isArray());
 }
 
+TEST_F(NodeTest, isObjectTest) {
+  EXPECT_FALSE(mSimpleNode->isController());
+  EXPECT_FALSE(mSimpleNode->isInterface());
+  EXPECT_FALSE(mSimpleNode->isModel());
+  EXPECT_TRUE(mSimpleNode->isNode());
+}
+
 TEST_F(NodeTest, incrementReferenceCountTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mComplicatedNode->getLLVMType(mContext));

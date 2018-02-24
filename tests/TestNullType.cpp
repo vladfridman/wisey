@@ -116,3 +116,14 @@ TEST_F(NullTypeTest, isOwnerTest) {
 TEST_F(NullTypeTest, isReferenceTest) {
   EXPECT_FALSE(NullType::NULL_TYPE->isReference());
 }
+
+TEST_F(NullTypeTest, isArrayTest) {
+  EXPECT_FALSE(NullType::NULL_TYPE->isArray());
+}
+
+TEST_F(NullTypeTest, isObjectTest) {
+  EXPECT_FALSE(NullType::NULL_TYPE->isController());
+  EXPECT_FALSE(NullType::NULL_TYPE->isInterface());
+  EXPECT_FALSE(NullType::NULL_TYPE->isModel());
+  EXPECT_FALSE(NullType::NULL_TYPE->isNode());
+}

@@ -123,6 +123,14 @@ public:
   
   bool isArray() const override;
 
+  bool isController() const override;
+  
+  bool isInterface() const override;
+  
+  bool isModel() const override;
+  
+  bool isNode() const override;
+  
   std::string getVTableName() const override;
   
   unsigned long getVTableSize() const override;

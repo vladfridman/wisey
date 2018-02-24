@@ -493,6 +493,13 @@ TEST_F(ControllerTest, isArrayTest) {
   EXPECT_FALSE(mMultiplierController->isArray());
 }
 
+TEST_F(ControllerTest, isObjectTest) {
+  EXPECT_TRUE(mMultiplierController->isController());
+  EXPECT_FALSE(mMultiplierController->isInterface());
+  EXPECT_FALSE(mMultiplierController->isModel());
+  EXPECT_FALSE(mMultiplierController->isNode());
+}
+
 TEST_F(ControllerTest, incrementReferenceCountTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mMultiplierController->getLLVMType(mContext));

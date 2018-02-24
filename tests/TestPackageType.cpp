@@ -53,3 +53,14 @@ TEST_F(PackageTypeTest, isOwnerTest) {
 TEST_F(PackageTypeTest, isReferenceTest) {
   EXPECT_FALSE(mPackageType->isReference());
 }
+
+TEST_F(PackageTypeTest, isArrayTest) {
+  EXPECT_FALSE(mPackageType->isArray());
+}
+
+TEST_F(PackageTypeTest, isObjectTest) {
+  EXPECT_FALSE(mPackageType->isController());
+  EXPECT_FALSE(mPackageType->isInterface());
+  EXPECT_FALSE(mPackageType->isModel());
+  EXPECT_FALSE(mPackageType->isNode());
+}

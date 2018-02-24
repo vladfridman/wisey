@@ -83,6 +83,22 @@ bool CharType::isArray() const {
   return false;
 }
 
+bool CharType::isController() const {
+  return false;
+}
+
+bool CharType::isInterface() const {
+  return false;
+}
+
+bool CharType::isModel() const {
+  return false;
+}
+
+bool CharType::isNode() const {
+  return false;
+}
+
 string CharType::getFormat() const {
   return "%c";
 }

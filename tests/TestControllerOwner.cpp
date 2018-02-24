@@ -208,6 +208,13 @@ TEST_F(ControllerOwnerTest, isArrayTest) {
   EXPECT_FALSE(mMultiplierController->getOwner()->isArray());
 }
 
+TEST_F(ControllerOwnerTest, isObjectTest) {
+  EXPECT_TRUE(mMultiplierController->getOwner()->isController());
+  EXPECT_FALSE(mMultiplierController->getOwner()->isInterface());
+  EXPECT_FALSE(mMultiplierController->getOwner()->isModel());
+  EXPECT_FALSE(mMultiplierController->getOwner()->isNode());
+}
+
 TEST_F(ControllerOwnerTest, getDestructorFunctionTest) {
   Function* result = mAdditorController->getOwner()->getDestructorFunction(mContext);
   

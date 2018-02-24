@@ -143,6 +143,13 @@ TEST_F(StringTypeTest, isArrayTest) {
   EXPECT_FALSE(mStringType.isArray());
 }
 
+TEST_F(StringTypeTest, isObjectTest) {
+  EXPECT_FALSE(mStringType.isController());
+  EXPECT_FALSE(mStringType.isInterface());
+  EXPECT_FALSE(mStringType.isModel());
+  EXPECT_FALSE(mStringType.isNode());
+}
+
 TEST_F(StringTypeTest, createLocalVariableTest) {
   ProgramPrefix programPrefix;
   programPrefix.generateIR(mContext);

@@ -67,6 +67,22 @@ bool VoidType::isArray() const {
   return false;
 }
 
+bool VoidType::isController() const {
+  return false;
+}
+
+bool VoidType::isInterface() const {
+  return false;
+}
+
+bool VoidType::isModel() const {
+  return false;
+}
+
+bool VoidType::isNode() const {
+  return false;
+}
+
 string VoidType::getFormat() const {
   return "";
 }

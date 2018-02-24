@@ -58,6 +58,22 @@ bool PackageType::isArray() const {
   return false;
 }
 
+bool PackageType::isController() const {
+  return false;
+}
+
+bool PackageType::isInterface() const {
+  return false;
+}
+
+bool PackageType::isModel() const {
+  return false;
+}
+
+bool PackageType::isNode() const {
+  return false;
+}
+
 void PackageType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

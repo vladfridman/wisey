@@ -80,6 +80,22 @@ bool FloatType::isArray() const {
   return false;
 }
 
+bool FloatType::isController() const {
+  return false;
+}
+
+bool FloatType::isInterface() const {
+  return false;
+}
+
+bool FloatType::isModel() const {
+  return false;
+}
+
+bool FloatType::isNode() const {
+  return false;
+}
+
 string FloatType::getFormat() const {
   return "%f";
 }

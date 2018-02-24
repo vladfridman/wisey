@@ -46,3 +46,14 @@ TEST_F(UndefinedTypeTest, isOwnerTest) {
 TEST_F(UndefinedTypeTest, isReferenceTest) {
   EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isReference());
 }
+
+TEST_F(UndefinedTypeTest, isArrayTest) {
+  EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isArray());
+}
+
+TEST_F(UndefinedTypeTest, isObjectTest) {
+  EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isController());
+  EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isInterface());
+  EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isModel());
+  EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isNode());
+}

@@ -80,6 +80,22 @@ bool DoubleType::isArray() const {
   return false;
 }
 
+bool DoubleType::isController() const {
+  return false;
+}
+
+bool DoubleType::isInterface() const {
+  return false;
+}
+
+bool DoubleType::isModel() const {
+  return false;
+}
+
+bool DoubleType::isNode() const {
+  return false;
+}
+
 string DoubleType::getFormat() const {
   return "%e";
 }

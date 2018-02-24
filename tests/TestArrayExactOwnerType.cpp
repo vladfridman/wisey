@@ -86,6 +86,13 @@ TEST_F(ArrayExactOwnerTypeTest, isArrayTest) {
   EXPECT_TRUE(mArrayExactOwnerType->isArray());
 }
 
+TEST_F(ArrayExactOwnerTypeTest, isObjectTest) {
+  EXPECT_FALSE(mArrayExactOwnerType->isController());
+  EXPECT_FALSE(mArrayExactOwnerType->isInterface());
+  EXPECT_FALSE(mArrayExactOwnerType->isModel());
+  EXPECT_FALSE(mArrayExactOwnerType->isNode());
+}
+
 TEST_F(ArrayExactOwnerTypeTest, getArrayTypeTest) {
   EXPECT_EQ(mContext.getArrayType(PrimitiveTypes::LONG_TYPE, 1u),
             mArrayExactOwnerType->getArrayType(mContext));

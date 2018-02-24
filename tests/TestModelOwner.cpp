@@ -364,6 +364,13 @@ TEST_F(ModelOwnerTest, isArrayTest) {
   EXPECT_FALSE(mModel->getOwner()->isArray());
 }
 
+TEST_F(ModelOwnerTest, isObjectTest) {
+  EXPECT_FALSE(mModel->getOwner()->isController());
+  EXPECT_FALSE(mModel->getOwner()->isInterface());
+  EXPECT_TRUE(mModel->getOwner()->isModel());
+  EXPECT_FALSE(mModel->getOwner()->isNode());
+}
+
 TEST_F(ModelOwnerTest, createLocalVariableTest) {
   mModel->getOwner()->createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");

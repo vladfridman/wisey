@@ -104,6 +104,22 @@ bool ArrayExactType::isArray() const {
   return true;
 }
 
+bool ArrayExactType::isController() const {
+  return false;
+}
+
+bool ArrayExactType::isInterface() const {
+  return false;
+}
+
+bool ArrayExactType::isModel() const {
+  return false;
+}
+
+bool ArrayExactType::isNode() const {
+  return false;
+}
+
 void ArrayExactType::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << getTypeName();
 }

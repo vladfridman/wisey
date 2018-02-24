@@ -589,6 +589,22 @@ bool Interface::isArray() const {
   return false;
 }
 
+bool Interface::isController() const {
+  return false;
+}
+
+bool Interface::isInterface() const {
+  return true;
+}
+
+bool Interface::isModel() const {
+  return false;
+}
+
+bool Interface::isNode() const {
+  return false;
+}
+
 Function* Interface::defineCastFunction(IRGenerationContext& context,
                                         const IObjectType* toType) const {
   vector<Type*> argumentTypes;

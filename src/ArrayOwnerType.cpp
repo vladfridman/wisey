@@ -102,6 +102,22 @@ bool ArrayOwnerType::isArray() const {
   return true;
 }
 
+bool ArrayOwnerType::isController() const {
+  return false;
+}
+
+bool ArrayOwnerType::isInterface() const {
+  return false;
+}
+
+bool ArrayOwnerType::isModel() const {
+  return false;
+}
+
+bool ArrayOwnerType::isNode() const {
+  return false;
+}
+
 void ArrayOwnerType::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << getTypeName();
 }

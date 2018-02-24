@@ -320,6 +320,22 @@ bool Controller::isArray() const {
   return false;
 }
 
+bool Controller::isController() const {
+  return true;
+}
+
+bool Controller::isInterface() const {
+  return false;
+}
+
+bool Controller::isModel() const {
+  return false;
+}
+
+bool Controller::isNode() const {
+  return false;
+}
+
 void Controller::initializeReceivedFields(IRGenerationContext& context,
                                           const InjectionArgumentList& controllerInjectorArguments,
                                           Instruction* malloc,

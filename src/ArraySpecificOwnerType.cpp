@@ -87,6 +87,22 @@ bool ArraySpecificOwnerType::isArray() const {
   return true;
 }
 
+bool ArraySpecificOwnerType::isController() const {
+  return false;
+}
+
+bool ArraySpecificOwnerType::isInterface() const {
+  return false;
+}
+
+bool ArraySpecificOwnerType::isModel() const {
+  return false;
+}
+
+bool ArraySpecificOwnerType::isNode() const {
+  return false;
+}
+
 void ArraySpecificOwnerType::printToStream(IRGenerationContext &context, iostream& stream) const {
   mArraySpecificType->printToStream(context, stream);
   stream << "*";

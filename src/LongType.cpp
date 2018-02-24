@@ -87,6 +87,22 @@ bool LongType::isArray() const {
   return false;
 }
 
+bool LongType::isController() const {
+  return false;
+}
+
+bool LongType::isInterface() const {
+  return false;
+}
+
+bool LongType::isModel() const {
+  return false;
+}
+
+bool LongType::isNode() const {
+  return false;
+}
+
 void LongType::createLocalVariable(IRGenerationContext& context, string name) const {
   Type* llvmType = getLLVMType(context);
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");

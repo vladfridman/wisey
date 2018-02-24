@@ -99,6 +99,26 @@ namespace wisey {
      * Tells whether this type is of array type
      */
     virtual bool isArray() const = 0;
+    
+    /**
+     * Tells whether this type is of controller type
+     */
+    virtual bool isController() const = 0;
+    
+    /**
+     * Tells whether this type is of interface type
+     */
+    virtual bool isInterface() const = 0;
+    
+    /**
+     * Tells whether this type is of model type
+     */
+    virtual bool isModel() const = 0;
+    
+    /**
+     * Tells whether this type is of node type
+     */
+    virtual bool isNode() const = 0;
 
     /**
      * Allocates local variable of the type and stores it in the scope

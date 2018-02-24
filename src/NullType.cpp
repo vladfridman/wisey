@@ -58,6 +58,22 @@ bool NullType::isArray() const {
   return false;
 }
 
+bool NullType::isController() const {
+  return false;
+}
+
+bool NullType::isInterface() const {
+  return false;
+}
+
+bool NullType::isModel() const {
+  return false;
+}
+
+bool NullType::isNode() const {
+  return false;
+}
+
 void NullType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

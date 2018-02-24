@@ -222,6 +222,22 @@ bool Node::isArray() const {
   return false;
 }
 
+bool Node::isController() const {
+  return false;
+}
+
+bool Node::isInterface() const {
+  return false;
+}
+
+bool Node::isModel() const {
+  return false;
+}
+
+bool Node::isNode() const {
+  return true;
+}
+
 string Node::getVTableName() const {
   return mName + ".vtable";
 }

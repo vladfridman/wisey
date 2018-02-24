@@ -144,6 +144,13 @@ TEST_F(CharTypeTest, isArrayTest) {
   EXPECT_FALSE(mCharType.isArray());
 }
 
+TEST_F(CharTypeTest, isObjectTest) {
+  EXPECT_FALSE(mCharType.isController());
+  EXPECT_FALSE(mCharType.isInterface());
+  EXPECT_FALSE(mCharType.isModel());
+  EXPECT_FALSE(mCharType.isNode());
+}
+
 TEST_F(CharTypeTest, createLocalVariableTest) {
   mCharType.createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");

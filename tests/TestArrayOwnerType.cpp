@@ -103,6 +103,13 @@ TEST_F(ArrayOwnerTypeTest, isArrayTest) {
   EXPECT_TRUE(mArrayOwnerType->isArray());
 }
 
+TEST_F(ArrayOwnerTypeTest, isObjectTest) {
+  EXPECT_FALSE(mArrayOwnerType->isController());
+  EXPECT_FALSE(mArrayOwnerType->isInterface());
+  EXPECT_FALSE(mArrayOwnerType->isModel());
+  EXPECT_FALSE(mArrayOwnerType->isNode());
+}
+
 TEST_F(ArrayOwnerTypeTest, createLocalVariableTest) {
   mArrayOwnerType->createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");

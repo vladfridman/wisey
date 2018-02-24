@@ -378,6 +378,13 @@ TEST_F(NodeOwnerTest, isArrayTest) {
   EXPECT_FALSE(mSimpleNode->getOwner()->isArray());
 }
 
+TEST_F(NodeOwnerTest, isObjectTest) {
+  EXPECT_FALSE(mSimpleNode->getOwner()->isController());
+  EXPECT_FALSE(mSimpleNode->getOwner()->isInterface());
+  EXPECT_FALSE(mSimpleNode->getOwner()->isModel());
+  EXPECT_TRUE(mSimpleNode->getOwner()->isNode());
+}
+
 TEST_F(NodeOwnerTest, createLocalVariableTest) {
   mComplicatedNode->getOwner()->createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");

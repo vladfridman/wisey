@@ -118,6 +118,13 @@ TEST_F(ArrayTypeTest, isArrayTest) {
   EXPECT_TRUE(mArrayType->isArray());
 }
 
+TEST_F(ArrayTypeTest, isObjectTest) {
+  EXPECT_FALSE(mArrayType->isController());
+  EXPECT_FALSE(mArrayType->isInterface());
+  EXPECT_FALSE(mArrayType->isModel());
+  EXPECT_FALSE(mArrayType->isNode());
+}
+
 TEST_F(ArrayTypeTest, createLocalVariableTest) {
   mArrayType->createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");

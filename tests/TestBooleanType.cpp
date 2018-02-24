@@ -144,6 +144,13 @@ TEST_F(BooleanTypeTest, isArrayTest) {
   EXPECT_FALSE(mBoleanType.isArray());
 }
 
+TEST_F(BooleanTypeTest, isObjectTest) {
+  EXPECT_FALSE(mBoleanType.isController());
+  EXPECT_FALSE(mBoleanType.isInterface());
+  EXPECT_FALSE(mBoleanType.isModel());
+  EXPECT_FALSE(mBoleanType.isNode());
+}
+
 TEST_F(BooleanTypeTest, createLocalVariableTest) {
   mBoleanType.createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");

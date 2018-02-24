@@ -118,6 +118,13 @@ TEST_F(ArraySpecificTypeTest, isArrayTest) {
   EXPECT_TRUE(mArraySpecificType->isArray());
 }
 
+TEST_F(ArraySpecificTypeTest, isObjectTest) {
+  EXPECT_FALSE(mArraySpecificType->isController());
+  EXPECT_FALSE(mArraySpecificType->isInterface());
+  EXPECT_FALSE(mArraySpecificType->isModel());
+  EXPECT_FALSE(mArraySpecificType->isNode());
+}
+
 TEST_F(ArraySpecificTypeTest, printToStreamTest) {
   stringstream stringStream;
   mMultiDimentionalArraySpecificType->printToStream(mContext, stringStream);

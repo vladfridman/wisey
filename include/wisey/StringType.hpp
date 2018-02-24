@@ -44,6 +44,14 @@ public:
   bool isReference() const override;
   
   bool isArray() const override;
+  
+  bool isController() const override;
+  
+  bool isInterface() const override;
+  
+  bool isModel() const override;
+  
+  bool isNode() const override;
 
   std::string getFormat() const override;
   

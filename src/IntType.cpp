@@ -81,6 +81,22 @@ bool IntType::isArray() const {
   return false;
 }
 
+bool IntType::isController() const {
+  return false;
+}
+
+bool IntType::isInterface() const {
+  return false;
+}
+
+bool IntType::isModel() const {
+  return false;
+}
+
+bool IntType::isNode() const {
+  return false;
+}
+
 string IntType::getFormat() const {
   return "%d";
 }

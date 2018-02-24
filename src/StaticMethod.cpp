@@ -112,6 +112,22 @@ bool StaticMethod::isArray() const {
   return false;
 }
 
+bool StaticMethod::isController() const {
+  return false;
+}
+
+bool StaticMethod::isInterface() const {
+  return false;
+}
+
+bool StaticMethod::isModel() const {
+  return false;
+}
+
+bool StaticMethod::isNode() const {
+  return false;
+}
+
 Function* StaticMethod::defineFunction(IRGenerationContext& context) {
   mFunction = IMethod::defineFunction(context, mObjectType, this);
   
