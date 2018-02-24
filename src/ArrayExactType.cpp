@@ -114,6 +114,12 @@ void ArrayExactType::createFieldVariable(IRGenerationContext& context,
   assert(false);
 }
 
+void ArrayExactType::createParameterVariable(IRGenerationContext& context,
+                                             string name,
+                                             llvm::Value* value) const {
+  assert(false);
+}
+
 const wisey::ArrayType* ArrayExactType::getArrayType(IRGenerationContext& context) const {
   return context.getArrayType(mElementType, getNumberOfDimensions());
 }

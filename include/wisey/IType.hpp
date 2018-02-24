@@ -108,6 +108,13 @@ namespace wisey {
                                      const IConcreteObjectType* object) const = 0;
 
     /**
+     * Allocates parameter variable of the type and stores it in the scope
+     */
+    virtual void createParameterVariable(IRGenerationContext& context,
+                                         std::string name,
+                                         llvm::Value* value) const = 0;
+
+    /**
      * Returns ArrayType if this type has one associated with it otherwise reports an error
      */
     virtual const ArrayType* getArrayType(IRGenerationContext& context) const = 0;

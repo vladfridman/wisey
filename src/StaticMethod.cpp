@@ -183,6 +183,12 @@ void StaticMethod::createFieldVariable(IRGenerationContext& context,
   assert(false);
 }
 
+void StaticMethod::createParameterVariable(IRGenerationContext& context,
+                                           string name,
+                                           Value* value) const {
+  assert(false);
+}
+
 const wisey::ArrayType* StaticMethod::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);

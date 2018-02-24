@@ -163,3 +163,10 @@ TEST_F(LongTypeTest, createFieldVariableTest) {
   
   EXPECT_NE(variable, nullptr);
 }
+
+TEST_F(LongTypeTest, createParameterVariableTest) {
+  mLongType.createParameterVariable(mContext, "var", NULL);
+  IVariable* variable = mContext.getScopes().getVariable("var");
+  
+  EXPECT_NE(variable, nullptr);
+}

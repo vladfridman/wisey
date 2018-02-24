@@ -17,6 +17,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalArrayReferenceVariable.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/ParameterArrayReferenceVariable.hpp"
 
 using namespace std;
 using namespace wisey;
@@ -142,6 +143,14 @@ void ArrayType::createFieldVariable(IRGenerationContext& context,
                                     string name,
                                     const IConcreteObjectType* object) const {
   IVariable* variable = new FieldArrayReferenceVariable(name, object);
+  context.getScopes().setVariable(variable);
+}
+
+void ArrayType::createParameterVariable(IRGenerationContext& context,
+                                        string name,
+                                        llvm::Value* value) const {
+  IVariable* variable = new ParameterArrayReferenceVariable(name, this,  value);
+  incrementReferenceCount(context, value);
   context.getScopes().setVariable(variable);
 }
 

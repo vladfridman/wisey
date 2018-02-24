@@ -774,6 +774,24 @@ TEST_F(ModelTest, createFieldVariableTest) {
   EXPECT_NE(variable, nullptr);
 }
 
+TEST_F(ModelTest, createParameterVariableTest) {
+  Value* value = ConstantPointerNull::get(mModel->getLLVMType(mContext));
+  mModel->createParameterVariable(mContext, "var", value);
+  IVariable* variable = mContext.getScopes().getVariable("var");
+  
+  EXPECT_NE(variable, nullptr);
+  
+  *mStringStream << *mBasicBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null to i8*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %0, i64 1)\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
 TEST_F(TestFileSampleRunner, modelBuilderObjectArgumentAutocastRunTest) {
   runFile("tests/samples/test_model_builder_object_argument_autocast.yz", "2017");
 }

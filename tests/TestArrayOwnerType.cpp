@@ -12,6 +12,7 @@
 #include <gmock/gmock.h>
 
 #include <llvm/Support/raw_ostream.h>
+#include <llvm/IR/Constants.h>
 
 #include "MockConcreteObjectType.hpp"
 #include "wisey/ArrayOwnerType.hpp"
@@ -128,4 +129,22 @@ TEST_F(ArrayOwnerTypeTest, createFieldVariableTest) {
   IVariable* variable = mContext.getScopes().getVariable("mField");
   
   EXPECT_NE(variable, nullptr);
+}
+
+TEST_F(ArrayOwnerTypeTest, createParameterVariableTest) {
+  llvm::Value* value = llvm::ConstantPointerNull::get(mArrayOwnerType->getLLVMType(mContext));
+  mArrayOwnerType->createParameterVariable(mContext, "var", value);
+  IVariable* variable = mContext.getScopes().getVariable("var");
+  
+  EXPECT_NE(variable, nullptr);
+  
+  *mStringStream << *mBasicBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %parameterArrayPointer = alloca { i64, i64, i64, [0 x i64] }*"
+  "\n  store { i64, i64, i64, [0 x i64] }* null, { i64, i64, i64, [0 x i64] }** %parameterArrayPointer\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
 }

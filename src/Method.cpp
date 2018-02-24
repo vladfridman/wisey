@@ -190,6 +190,12 @@ void Method::createFieldVariable(IRGenerationContext& context,
   assert(false);
 }
 
+void Method::createParameterVariable(IRGenerationContext& context,
+                                     string name,
+                                     Value* value) const {
+  assert(false);
+}
+
 const wisey::ArrayType* Method::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);

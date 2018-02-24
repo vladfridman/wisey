@@ -24,6 +24,7 @@
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Names.hpp"
+#include "wisey/ParameterReferenceVariable.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -452,6 +453,14 @@ void Controller::createFieldVariable(IRGenerationContext& context,
                                       string name,
                                       const IConcreteObjectType* object) const {
   IVariable* variable = new FieldReferenceVariable(name, object);
+  context.getScopes().setVariable(variable);
+}
+
+void Controller::createParameterVariable(IRGenerationContext& context,
+                                         string name,
+                                         Value* value) const {
+  IVariable* variable = new ParameterReferenceVariable(name, this, value);
+  incrementReferenceCount(context, value);
   context.getScopes().setVariable(variable);
 }
 

@@ -405,3 +405,21 @@ TEST_F(NodeOwnerTest, createFieldVariableTest) {
   
   EXPECT_NE(variable, nullptr);
 }
+
+TEST_F(NodeOwnerTest, createParameterVariableTest) {
+  Value* value = ConstantPointerNull::get(mComplicatedNode->getOwner()->getLLVMType(mContext));
+  mComplicatedNode->getOwner()->createParameterVariable(mContext, "var", value);
+  IVariable* variable = mContext.getScopes().getVariable("var");
+  
+  EXPECT_NE(variable, nullptr);
+  
+  *mStringStream << *mBasicBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %parameterObjectPointer = alloca %systems.vos.wisey.compiler.tests.NComplicatedNode*"
+  "\n  store %systems.vos.wisey.compiler.tests.NComplicatedNode* null, %systems.vos.wisey.compiler.tests.NComplicatedNode** %parameterObjectPointer\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}

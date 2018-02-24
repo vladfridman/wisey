@@ -845,6 +845,24 @@ TEST_F(ControllerTest, createFieldVariableTest) {
   EXPECT_NE(variable, nullptr);
 }
 
+TEST_F(ControllerTest, createParameterVariableTest) {
+  Value* value = ConstantPointerNull::get(mMultiplierController->getLLVMType(mContext));
+  mMultiplierController->createParameterVariable(mContext, "var", value);
+  IVariable* variable = mContext.getScopes().getVariable("var");
+  
+  EXPECT_NE(variable, nullptr);
+
+  *mStringStream << *mBasicBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i8*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %0, i64 1)\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
 TEST_F(TestFileSampleRunner, controllerInjectionChainRunTest) {
   runFile("tests/samples/test_controller_injection_chain.yz", "2");
 }

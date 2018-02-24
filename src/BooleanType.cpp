@@ -15,6 +15,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalPrimitiveVariable.hpp"
+#include "wisey/ParameterPrimitiveVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -102,6 +103,13 @@ void BooleanType::createFieldVariable(IRGenerationContext& context,
                                       string name,
                                       const IConcreteObjectType* object) const {
   IVariable* variable = new FieldPrimitiveVariable(name, object);
+  context.getScopes().setVariable(variable);
+}
+
+void BooleanType::createParameterVariable(IRGenerationContext& context,
+                                          string name,
+                                          Value* value) const {
+  IVariable* variable = new ParameterPrimitiveVariable(name, this, value);
   context.getScopes().setVariable(variable);
 }
 

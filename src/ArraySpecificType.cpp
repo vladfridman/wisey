@@ -150,6 +150,12 @@ void ArraySpecificType::createFieldVariable(IRGenerationContext& context,
   assert(false);
 }
 
+void ArraySpecificType::createParameterVariable(IRGenerationContext& context,
+                                                string name,
+                                                llvm::Value* value) const {
+  assert(false);
+}
+
 const wisey::ArrayType* ArraySpecificType::getArrayType(IRGenerationContext& context) const {
   return context.getArrayType(mElementType, getNumberOfDimensions());
 }

@@ -765,6 +765,24 @@ TEST_F(NodeTest, createFieldVariableTest) {
   EXPECT_NE(variable, nullptr);
 }
 
+TEST_F(NodeTest, createParameterVariableTest) {
+  Value* value = ConstantPointerNull::get(mComplicatedNode->getLLVMType(mContext));
+  mComplicatedNode->createParameterVariable(mContext, "var", value);
+  IVariable* variable = mContext.getScopes().getVariable("var");
+  
+  EXPECT_NE(variable, nullptr);
+  
+  *mStringStream << *mBasicBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i8*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %0, i64 1)\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
 TEST_F(TestFileSampleRunner, linkListRunTest) {
   runFile("tests/samples/test_linklist.yz", "9");
 }

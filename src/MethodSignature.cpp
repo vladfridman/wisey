@@ -118,6 +118,12 @@ void MethodSignature::createFieldVariable(IRGenerationContext& context,
   assert(false);
 }
 
+void MethodSignature::createParameterVariable(IRGenerationContext& context,
+                                              string name,
+                                              Value* value) const {
+  assert(false);
+}
+
 const wisey::ArrayType* MethodSignature::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);

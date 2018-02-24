@@ -97,6 +97,12 @@ void ArrayExactOwnerType::createFieldVariable(IRGenerationContext& context,
   assert(false);
 }
 
+void ArrayExactOwnerType::createParameterVariable(IRGenerationContext& context,
+                                                  string name,
+                                                  llvm::Value* value) const {
+  assert(false);
+}
+
 const ArrayType* ArrayExactOwnerType::getArrayType(IRGenerationContext& context) const {
   return mArrayExactType->getArrayType(context);
 }

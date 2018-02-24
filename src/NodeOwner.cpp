@@ -12,6 +12,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/NodeOwner.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
+#include "wisey/ParameterOwnerVariable.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -102,6 +103,16 @@ void NodeOwner::createFieldVariable(IRGenerationContext& context,
                                     string name,
                                     const IConcreteObjectType* object) const {
   IVariable* variable = new FieldOwnerVariable(name, object);
+  context.getScopes().setVariable(variable);
+}
+
+void NodeOwner::createParameterVariable(IRGenerationContext& context,
+                                        string name,
+                                        Value* value) const {
+  Type* llvmType = getLLVMType(context);
+  Value* alloc = IRWriter::newAllocaInst(context, llvmType, "parameterObjectPointer");
+  IRWriter::newStoreInst(context, value, alloc);
+  IVariable* variable = new ParameterOwnerVariable(name, this, alloc);
   context.getScopes().setVariable(variable);
 }
 

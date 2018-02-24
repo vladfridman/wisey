@@ -164,3 +164,10 @@ TEST_F(DoubleTypeTest, createFieldVariableTest) {
   
   EXPECT_NE(variable, nullptr);
 }
+
+TEST_F(DoubleTypeTest, createParameterVariableTest) {
+  mDoubleType.createParameterVariable(mContext, "var", NULL);
+  IVariable* variable = mContext.getScopes().getVariable("var");
+  
+  EXPECT_NE(variable, nullptr);
+}

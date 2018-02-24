@@ -30,6 +30,7 @@
 #include "wisey/Names.hpp"
 #include "wisey/ObjectBuilder.hpp"
 #include "wisey/ParameterPrimitiveVariable.hpp"
+#include "wisey/ParameterReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ThreadExpression.hpp"
 #include "wisey/ThrowStatement.hpp"
@@ -921,6 +922,14 @@ void Interface::createFieldVariable(IRGenerationContext& context,
                                     string name,
                                     const IConcreteObjectType* object) const {
   IVariable* variable = new FieldReferenceVariable(name, object);
+  context.getScopes().setVariable(variable);
+}
+
+void Interface::createParameterVariable(IRGenerationContext& context,
+                                         string name,
+                                         Value* value) const {
+  IVariable* variable = new ParameterReferenceVariable(name, this, value);
+  incrementReferenceCount(context, value);
   context.getScopes().setVariable(variable);
 }
 

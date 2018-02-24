@@ -164,3 +164,10 @@ TEST_F(StringTypeTest, createFieldVariableTest) {
   
   EXPECT_NE(variable, nullptr);
 }
+
+TEST_F(StringTypeTest, createParameterVariableTest) {
+  mStringType.createParameterVariable(mContext, "var", NULL);
+  IVariable* variable = mContext.getScopes().getVariable("var");
+  
+  EXPECT_NE(variable, nullptr);
+}

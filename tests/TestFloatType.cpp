@@ -163,3 +163,10 @@ TEST_F(FloatTypeTest, createFieldVariableTest) {
   
   EXPECT_NE(variable, nullptr);
 }
+
+TEST_F(FloatTypeTest, createParameterVariableTest) {
+  mFloatType.createParameterVariable(mContext, "var", NULL);
+  IVariable* variable = mContext.getScopes().getVariable("var");
+  
+  EXPECT_NE(variable, nullptr);
+}

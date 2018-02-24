@@ -594,6 +594,24 @@ TEST_F(InterfaceTest, createFieldVariableTest) {
   EXPECT_NE(variable, nullptr);
 }
 
+TEST_F(InterfaceTest, createParameterVariableTest) {
+  Value* value = ConstantPointerNull::get(mShapeInterface->getLLVMType(mContext));
+  mShapeInterface->createParameterVariable(mContext, "var", value);
+  IVariable* variable = mContext.getScopes().getVariable("var");
+  
+  EXPECT_NE(variable, nullptr);
+  
+  *mStringStream << *mBasicBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
+  "\n  call void @__adjustReferenceCounterForInterface(i8* %0, i64 1)\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
 TEST_F(TestFileSampleRunner, interfaceMethodNotImplmentedDeathTest) {
   expectFailCompile("tests/samples/test_interface_method_not_implmented.yz",
                     1,

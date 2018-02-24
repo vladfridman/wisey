@@ -67,6 +67,12 @@ void UndefinedType::createFieldVariable(IRGenerationContext& context,
   assert(false);
 }
 
+void UndefinedType::createParameterVariable(IRGenerationContext& context,
+                                            string name,
+                                            Value* value) const {
+  assert(false);
+}
+
 const wisey::ArrayType* UndefinedType::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);

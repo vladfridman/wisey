@@ -20,6 +20,7 @@
 #include "wisey/ModelOwner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/ParameterReferenceVariable.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -442,6 +443,14 @@ void Model::createFieldVariable(IRGenerationContext& context,
                                 string name,
                                 const IConcreteObjectType* object) const {
   IVariable* variable = new FieldReferenceVariable(name, object);
+  context.getScopes().setVariable(variable);
+}
+
+void Model::createParameterVariable(IRGenerationContext& context,
+                                    string name,
+                                    Value* value) const {
+  IVariable* variable = new ParameterReferenceVariable(name, this, value);
+  incrementReferenceCount(context, value);
   context.getScopes().setVariable(variable);
 }
 

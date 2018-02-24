@@ -81,6 +81,12 @@ void VoidType::createFieldVariable(IRGenerationContext& context,
   assert(false);
 }
 
+void VoidType::createParameterVariable(IRGenerationContext& context,
+                                       string name,
+                                       Value* value) const {
+  assert(false);
+}
+
 const wisey::ArrayType* VoidType::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);

@@ -68,6 +68,12 @@ void PackageType::createFieldVariable(IRGenerationContext& context,
   assert(false);
 }
 
+void PackageType::createParameterVariable(IRGenerationContext& context,
+                                          string name,
+                                          Value* value) const {
+  assert(false);
+}
+
 const wisey::ArrayType* PackageType::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);

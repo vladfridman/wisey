@@ -16,6 +16,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalArrayOwnerVariable.hpp"
+#include "wisey/ParameterArrayOwnerVariable.hpp"
 
 using namespace std;
 using namespace wisey;
@@ -116,3 +117,15 @@ void ArrayOwnerType::createFieldVariable(IRGenerationContext& context,
   IVariable* variable = new FieldArrayOwnerVariable(name, object);
   context.getScopes().setVariable(variable);
 }
+
+
+void ArrayOwnerType::createParameterVariable(IRGenerationContext& context,
+                                             string name,
+                                             llvm::Value* value) const {
+  llvm::Type* llvmType = getLLVMType(context);
+  llvm::Value* alloc = IRWriter::newAllocaInst(context, llvmType, "parameterArrayPointer");
+  IRWriter::newStoreInst(context, value, alloc);
+  IVariable* variable = new ParameterArrayOwnerVariable(name, this, alloc);
+  context.getScopes().setVariable(variable);
+}
+

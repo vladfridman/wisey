@@ -19,6 +19,7 @@
 #include "wisey/Names.hpp"
 #include "wisey/Node.hpp"
 #include "wisey/NodeOwner.hpp"
+#include "wisey/ParameterReferenceVariable.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -409,6 +410,14 @@ void Node::createFieldVariable(IRGenerationContext& context,
                                string name,
                                const IConcreteObjectType* object) const {
   IVariable* variable = new FieldReferenceVariable(name, object);
+  context.getScopes().setVariable(variable);
+}
+
+void Node::createParameterVariable(IRGenerationContext& context,
+                                   string name,
+                                   Value* value) const {
+  IVariable* variable = new ParameterReferenceVariable(name, this, value);
+  incrementReferenceCount(context, value);
   context.getScopes().setVariable(variable);
 }
 

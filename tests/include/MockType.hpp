@@ -36,6 +36,9 @@ public:
   MOCK_CONST_METHOD3(createFieldVariable, void (wisey::IRGenerationContext&,
                                                 std::string name,
                                                 const wisey::IConcreteObjectType* object));
+  MOCK_CONST_METHOD3(createParameterVariable, void (wisey::IRGenerationContext&,
+                                                    std::string name,
+                                                    llvm::Value* value));
   MOCK_CONST_METHOD1(getArrayType, wisey::ArrayType* (wisey::IRGenerationContext&));
 };
 

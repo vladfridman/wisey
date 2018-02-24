@@ -98,6 +98,12 @@ void ArraySpecificOwnerType::createFieldVariable(IRGenerationContext& context,
   assert(false);
 }
 
+void ArraySpecificOwnerType::createParameterVariable(IRGenerationContext& context,
+                                                     string name,
+                                                     llvm::Value* value) const {
+  assert(false);
+}
+
 const ArrayType* ArraySpecificOwnerType::getArrayType(IRGenerationContext& context) const {
   return mArraySpecificType->getArrayType(context);
 }

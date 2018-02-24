@@ -61,7 +61,11 @@ namespace wisey {
                              std::string name,
                              const IConcreteObjectType* object) const override;
 
-    const ArrayType* getArrayType(IRGenerationContext& context) const override;
+    void createParameterVariable(IRGenerationContext& context,
+                                 std::string name,
+                                 llvm::Value* value) const override;
+    
+   const ArrayType* getArrayType(IRGenerationContext& context) const override;
 
   };
   

@@ -123,6 +123,12 @@ void ExternalStaticMethod::createFieldVariable(IRGenerationContext& context,
   assert(false);
 }
 
+void ExternalStaticMethod::createParameterVariable(IRGenerationContext& context,
+                                                   string name,
+                                                   Value* value) const {
+  assert(false);
+}
+
 const wisey::ArrayType* ExternalStaticMethod::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);
