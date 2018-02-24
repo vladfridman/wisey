@@ -36,7 +36,7 @@ ArrayElementExpression::~ArrayElementExpression() {
 Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
                                           const IType* assignToType) const {
   const IType* expressionType = mArrayExpression->getType(context);
-  if (!IType::isArrayType(expressionType)) {
+  if (!expressionType->isArray()) {
     reportErrorArrayType(expressionType->getTypeName());
     exit(1);
   }
@@ -155,7 +155,7 @@ bool ArrayElementExpression::isConstant() const {
 const IType* ArrayElementExpression::getType(IRGenerationContext& context) const {
   const IType* arrayExpressionType = mArrayExpression->getType(context);
   
-  if (!IType::isArrayType(arrayExpressionType)) {
+  if (!arrayExpressionType->isArray()) {
     reportErrorArrayType(arrayExpressionType->getTypeName());
     exit(1);
   }

@@ -26,7 +26,7 @@ mInjectionArgumentList(injectionArgumentList) { }
 Field::~Field() {
   // Injection arguments are deleted with field delcarations
   mInjectionArgumentList.clear();
-  if (mFieldKind == INJECTED_FIELD && mInjectedType && IType::isArrayType(mInjectedType)) {
+  if (mFieldKind == INJECTED_FIELD && mInjectedType && mInjectedType->isArray()) {
     delete ((const ArraySpecificOwnerType*) mInjectedType)->getArraySpecificType();
   }
 }

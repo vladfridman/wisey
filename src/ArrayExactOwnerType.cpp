@@ -45,7 +45,7 @@ bool ArrayExactOwnerType::canCastTo(IRGenerationContext& context, const IType* t
     return true;
   }
   
-  if (!IType::isArrayType(toType)) {
+  if (!toType->isArray()) {
     return false;
   }
   

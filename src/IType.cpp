@@ -34,10 +34,6 @@ bool IType::isConcreteObjectType(const IType* type) {
   return typeKind == MODEL_TYPE || typeKind == CONTROLLER_TYPE || typeKind == NODE_TYPE;
 }
 
-bool IType::isArrayType(const IType* type) {
-  return type->isArray();
-}
-
 bool IType::isPrimitveType(const IType* type) {
   return type->getTypeKind() == PRIMITIVE_TYPE;
 }
