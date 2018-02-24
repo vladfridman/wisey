@@ -375,19 +375,18 @@ void Controller::initializeInjectedFields(IRGenerationContext& context,
   index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
   for (Field* field : mInjectedFields) {
     const IType* fieldType = field->getType();
-    TypeKind fieldTypeKind = fieldType->getTypeKind();
     Value* fieldValue = NULL;
-    if (fieldTypeKind == CONTROLLER_TYPE || fieldTypeKind == ARRAY_TYPE) {
+    if (fieldType->isReference()) {
       Log::e("Injected fields must have owner type denoted by '*'");
       exit(1);
-    } else if (fieldTypeKind == ARRAY_OWNER_TYPE) {
+    } else if (fieldType->isArray()) {
       const ArraySpecificOwnerType* arraySpecificOwnerType =
       (const ArraySpecificOwnerType*) field->getInjectedType();
       const ArraySpecificType* arraySpecificType = arraySpecificOwnerType->getArraySpecificType();
       Value* arrayPointer = ArrayAllocation::allocateArray(context, arraySpecificType);
       fieldValue = IRWriter::newBitCastInst(context, arrayPointer, arraySpecificType->
                                             getArrayType(context)->getLLVMType(context));
-    } else if (fieldTypeKind == CONTROLLER_OWNER_TYPE) {
+    } else if (fieldType->isController()) {
       Controller* controller = (Controller*) ((IObjectOwnerType*) fieldType)->getObject();
       fieldValue = controller->inject(context, field->getInjectionArguments(), line);
     } else {

@@ -35,9 +35,7 @@ bool IType::isConcreteObjectType(const IType* type) {
 }
 
 bool IType::isArrayType(const IType* type) {
-  TypeKind typeKind = type->getTypeKind();
-  
-  return typeKind == ARRAY_OWNER_TYPE || typeKind == ARRAY_TYPE;
+  return type->isArray();
 }
 
 bool IType::isPrimitveType(const IType* type) {

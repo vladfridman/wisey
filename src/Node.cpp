@@ -77,11 +77,11 @@ void Node::setFields(vector<Field*> fields, unsigned long startIndex) {
   for (Field* field : fields) {
     mFields[field->getName()] = field;
     mFieldIndexes[field] = index;
-    TypeKind typeKind = field->getType()->getTypeKind();
-    if (typeKind == ARRAY_TYPE) {
-      typeKind = ((const wisey::ArrayType*) field->getType())->getElementType()->getTypeKind();
+    const IType* type = field->getType();
+    if (type->isArray() && type->isReference()) {
+      type = ((const wisey::ArrayType*) field->getType())->getElementType();
     }
-    if (typeKind == CONTROLLER_TYPE || typeKind == CONTROLLER_OWNER_TYPE) {
+    if (type->isController()) {
       Log::e("Nodes can only have fields of primitive or model or node type");
       exit(1);
     }
@@ -90,7 +90,7 @@ void Node::setFields(vector<Field*> fields, unsigned long startIndex) {
         mFixedFields.push_back(field);
         break;
       case FieldKind::STATE_FIELD :
-        if (typeKind != NODE_OWNER_TYPE && typeKind != INTERFACE_OWNER_TYPE) {
+        if (type->isReference() || (!type->isNode() && !type->isInterface())) {
           Log::e("Node state fields can only be node owner or interface owner type");
           exit(1);
         }

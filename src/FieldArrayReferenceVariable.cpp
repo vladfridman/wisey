@@ -35,7 +35,7 @@ string FieldArrayReferenceVariable::getName() const {
 
 const wisey::ArrayType* FieldArrayReferenceVariable::getType() const {
   const IType* type = mObject->findField(mName)->getType();
-  assert(type->getTypeKind() == ARRAY_TYPE);
+  assert(type->isArray() && type->isReference());
   
   return (const wisey::ArrayType*) type;
 }
@@ -67,7 +67,7 @@ Value* FieldArrayReferenceVariable::generateWholeArrayAssignment(IRGenerationCon
   Field* field = checkAndFindFieldForAssignment(context, mObject, mName);
   
   const IType* fieldType = field->getType();
-  assert(fieldType->getTypeKind() == ARRAY_TYPE);
+  assert(fieldType->isArray() && fieldType->isReference());
   const ArrayType* arrayType = (const wisey::ArrayType*) fieldType;
   const IType* assignToType = assignToExpression->getType(context);
   Value* assignToValue = assignToExpression->generateIR(context, field->getType());
@@ -91,7 +91,7 @@ Value* FieldArrayReferenceVariable::generateArrayElementAssignment(IRGenerationC
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   Value* arrayPointer = IRWriter::newLoadInst(context, fieldPointer, "");
   const IType* fieldType = field->getType();
-  assert(fieldType->getTypeKind() == ARRAY_TYPE);
+  assert(fieldType->isArray() && fieldType->isReference());
   const ArrayType* arrayType = (const wisey::ArrayType*) fieldType;
   const IType* elementType = arrayType->getElementType();
   Value* elementStore = ArrayElementExpression::generateElementIR(context,
