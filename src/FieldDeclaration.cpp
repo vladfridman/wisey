@@ -36,7 +36,7 @@ Field* FieldDeclaration::declare(IRGenerationContext& context,
                                  const IObjectType* objectType) const {
   const IType* fieldType = mTypeSpecifier->getType(context);
   
-  if (mFieldKind == INJECTED_FIELD && fieldType->getTypeKind() == INTERFACE_OWNER_TYPE) {
+  if (mFieldKind == INJECTED_FIELD && fieldType->isInterface() && fieldType->isOwner()) {
     Interface* interface = (Interface*) fieldType->getObjectType();
     fieldType = context.getBoundController(interface)->getOwner();
   }
