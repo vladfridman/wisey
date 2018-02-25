@@ -17,7 +17,8 @@ controller CController {
 controller CProgram implements IProgram {
 
   public int run() {
-    CController* mycontroller = injector(CController).withArray(new int[5][3]).inject();
+    int[][]* array = new int[5][3];
+    CController* mycontroller = injector(CController).withArray(array).inject();
     mycontroller.setValue(5);
 
     return mycontroller.getValue();

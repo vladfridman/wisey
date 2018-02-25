@@ -48,39 +48,6 @@ TEST_F(ITypeTest, isObjectTypeTest) {
   EXPECT_FALSE(IType::isObjectType(&mockType));
 }
 
-TEST_F(ITypeTest, isReferenceTypeTest) {
-  NiceMock<MockType> mockType;
-  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(PRIMITIVE_TYPE));
-  EXPECT_FALSE(IType::isReferenceType(&mockType));
-  
-  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(MODEL_TYPE));
-  EXPECT_TRUE(IType::isReferenceType(&mockType));
-  
-  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(INTERFACE_TYPE));
-  EXPECT_TRUE(IType::isReferenceType(&mockType));
-  
-  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(CONTROLLER_TYPE));
-  EXPECT_TRUE(IType::isReferenceType(&mockType));
-  
-  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(NODE_TYPE));
-  EXPECT_TRUE(IType::isReferenceType(&mockType));
-  
-  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(MODEL_OWNER_TYPE));
-  EXPECT_FALSE(IType::isReferenceType(&mockType));
-  
-  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(INTERFACE_OWNER_TYPE));
-  EXPECT_FALSE(IType::isReferenceType(&mockType));
-  
-  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(CONTROLLER_OWNER_TYPE));
-  EXPECT_FALSE(IType::isReferenceType(&mockType));
-  
-  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(NODE_OWNER_TYPE));
-  EXPECT_FALSE(IType::isReferenceType(&mockType));
-  
-  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(NULL_TYPE_KIND));
-  EXPECT_FALSE(IType::isReferenceType(&mockType));
-}
-
 TEST_F(ITypeTest, isConcreteObjectTypeTest) {
   NiceMock<MockType> mockType;
   ON_CALL(mockType, getTypeKind()).WillByDefault(Return(PRIMITIVE_TYPE));

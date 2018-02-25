@@ -30,7 +30,7 @@ string FieldReferenceVariable::getName() const {
 
 const IObjectType* FieldReferenceVariable::getType() const {
   const IType* type = mObject->findField(mName)->getType();
-  assert(IType::isReferenceType(type));
+  assert(type->isReference());
   
   return (const IObjectType*) type;
 }
@@ -48,7 +48,7 @@ Value* FieldReferenceVariable::generateAssignmentIR(IRGenerationContext& context
   Field* field = checkAndFindFieldForAssignment(context, mObject, mName);
 
   const IType* expressionType = assignToExpression->getType(context);
-  assert(IType::isReferenceType(field->getType()));
+  assert(field->getType()->isReference());
   const IObjectType* fieldType = (IObjectType*) field->getType();
   if (!expressionType->canAutoCastTo(context, fieldType)) {
     Log::e("Can not assign to field '" + mName + "' of object '" + mObject->getTypeName() +

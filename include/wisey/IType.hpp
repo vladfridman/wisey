@@ -156,11 +156,6 @@ namespace wisey {
     static bool isObjectType(const IType* type);
     
     /**
-     * Tells whether the given type is a reference type
-     */
-    static bool isReferenceType(const IType* type);
-    
-    /**
      * Tells whether the given type is a concrete object type such as model, node or controller
      */
     static bool isConcreteObjectType(const IType* type);

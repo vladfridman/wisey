@@ -51,7 +51,7 @@ Value* TypeComparisionExpression::generateIR(IRGenerationContext& context,
                                    (const IObjectOwnerType*) expressionType,
                                    (const IObjectOwnerType*) type);
   }
-  if (IType::isReferenceType(expressionType) && IType::isReferenceType(type)) {
+  if (expressionType->isReference() && type->isReference()) {
     return generateIRforReferenceTypes(context,
                                        (const IObjectType*) expressionType,
                                        (const IObjectType*) type);

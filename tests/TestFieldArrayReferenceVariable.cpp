@@ -167,9 +167,9 @@ TEST_F(TestFileSampleRunner, fieldArrayReferenceOfModelOwnersRunTest) {
 
 TEST_F(TestFileSampleRunner, fieldArrayReferenceOfModelOwnersDestructorsAreCalledRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_field_array_reference_of_model_owners.yz",
+                                        "destructor systems.vos.wisey.compiler.tests.CController\n"
                                         "destructor object<8 bytes>*[5]\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
-                                        "destructor systems.vos.wisey.compiler.tests.CController\n"
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");
 }
@@ -180,7 +180,7 @@ TEST_F(TestFileSampleRunner, fieldArrayReferenceElementIsNulledOnOwnerTranserRun
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
                                "  at systems.vos.wisey.compiler.tests.CController.getCarYear(tests/samples/test_field_array_reference_element_is_nulled_on_owner_transfer.yz:24)\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_field_array_reference_element_is_nulled_on_owner_transfer.yz:35)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_field_array_reference_element_is_nulled_on_owner_transfer.yz:36)\n");
 }
 
 TEST_F(TestFileSampleRunner,
@@ -190,7 +190,7 @@ TEST_F(TestFileSampleRunner,
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
                                "  at systems.vos.wisey.compiler.tests.CController.getCarYear(tests/samples/test_owner_variable_is_nulled_on_ownership_transfer_to_field_array_reference_element.yz:18)\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_variable_is_nulled_on_ownership_transfer_to_field_array_reference_element.yz:27)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_variable_is_nulled_on_ownership_transfer_to_field_array_reference_element.yz:28)\n");
 }
 
 TEST_F(TestFileSampleRunner, ownerFieldArrayReferenceElementsInitializedToNullRunDeathTest) {
@@ -199,7 +199,7 @@ TEST_F(TestFileSampleRunner, ownerFieldArrayReferenceElementsInitializedToNullRu
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
                                "  at systems.vos.wisey.compiler.tests.CController.getCarYear(tests/samples/test_owner_field_array_reference_elements_initialized_to_null.yz:16)\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_field_array_reference_elements_initialized_to_null.yz:25)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_field_array_reference_elements_initialized_to_null.yz:26)\n");
 }
 
 TEST_F(TestFileSampleRunner, fieldArrayReferenceOfModelReferencesRunTest) {
@@ -225,6 +225,6 @@ TEST_F(TestFileSampleRunner, referenceFieldArrayReferenceInitializedToNullRunDea
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
                                "  at systems.vos.wisey.compiler.tests.CController.getCarYear(tests/samples/test_reference_field_array_reference_initialized_to_null.yz:15)\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_field_array_reference_initialized_to_null.yz:24)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_field_array_reference_initialized_to_null.yz:25)\n");
 }
 
