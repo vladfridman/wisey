@@ -524,7 +524,7 @@ TypeKind Interface::getTypeKind() const {
 }
 
 bool Interface::canCastTo(IRGenerationContext& context, const IType* toType) const {
-  if (IType::isPrimitveType(toType) || toType->getTypeKind() == NULL_TYPE_KIND) {
+  if (!IType::isObjectType(toType)) {
     return false;
   }
   
@@ -537,10 +537,10 @@ bool Interface::canAutoCastTo(IRGenerationContext& context, const IType* toType)
     return true;
   }
   
-  if (IType::isPrimitveType(toType) || toType->getTypeKind() == NULL_TYPE_KIND) {
+  if (!IType::isObjectType(toType)) {
     return false;
   }
-  
+
   if (toType->getTypeKind() == INTERFACE_TYPE && doesExtendInterface((Interface*) toType)) {
     return true;
   }

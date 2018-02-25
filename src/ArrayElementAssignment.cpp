@@ -35,7 +35,7 @@ llvm::Value* ArrayElementAssignment::generateElementAssignment(IRGenerationConte
                                               line);
   }
   
-  assert(IType::isPrimitveType(elementType));
+  assert(elementType->isPrimitive());
   return generatePrimitiveElementAssignment(context,
                                             elementType,
                                             assignToExpression,

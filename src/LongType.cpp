@@ -36,7 +36,7 @@ TypeKind LongType::getTypeKind() const {
 }
 
 bool LongType::canCastTo(IRGenerationContext& context, const IType* toType) const {
-  if (!IType::isPrimitveType(toType)) {
+  if (!toType->isPrimitive()) {
     return false;
   }
   
@@ -44,7 +44,7 @@ bool LongType::canCastTo(IRGenerationContext& context, const IType* toType) cons
 }
 
 bool LongType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
-  if (!IType::isPrimitveType(toType)) {
+  if (!toType->isPrimitive()) {
     return false;
   }
   

@@ -33,11 +33,11 @@ TypeKind NullType::getTypeKind() const {
 }
 
 bool NullType::canCastTo(IRGenerationContext& context, const IType* toType) const {
-  return !IType::isPrimitveType(toType);
+  return !toType->isPrimitive();
 }
 
 bool NullType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
-  return !IType::isPrimitveType(toType);
+  return !toType->isPrimitive();
 }
 
 Value* NullType::castTo(IRGenerationContext& context,

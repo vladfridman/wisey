@@ -24,7 +24,7 @@ Value* IPrintStatement::getFormatString(IRGenerationContext& context,
   string formatString = "";
   for (const IExpression* expression : expressionList) {
     const IType* type = expression->getType(context);
-    if (!IType::isPrimitveType(type)) {
+    if (!type->isPrimitive()) {
       Log::e("Can not print non primitive types");
       exit(1);
     }

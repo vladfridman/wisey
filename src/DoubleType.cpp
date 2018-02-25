@@ -36,7 +36,7 @@ TypeKind DoubleType::getTypeKind() const {
 }
 
 bool DoubleType::canCastTo(IRGenerationContext& context, const IType* toType) const {
-  if (!IType::isPrimitveType(toType)) {
+  if (!toType->isPrimitive()) {
     return false;
   }
   
@@ -44,7 +44,7 @@ bool DoubleType::canCastTo(IRGenerationContext& context, const IType* toType) co
 }
 
 bool DoubleType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
-  if (!IType::isPrimitveType(toType)) {
+  if (!toType->isPrimitive()) {
     return false;
   }
   

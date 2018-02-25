@@ -32,7 +32,7 @@ IVariable* NegateExpression::getVariable(IRGenerationContext& context,
 
 Value* NegateExpression::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   const IType* type = getType(context);
-  if (!IType::isPrimitveType(type) || type == PrimitiveTypes::VOID_TYPE) {
+  if (!type->isPrimitive() || type == PrimitiveTypes::VOID_TYPE) {
     Log::e("Can not apply negate operation to type '" + type->getTypeName() + "'");
     exit(1);
   }

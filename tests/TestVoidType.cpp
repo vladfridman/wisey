@@ -114,7 +114,7 @@ TEST_F(VoidTypeTest, castToTest) {
 }
 
 TEST_F(VoidTypeTest, isPrimitiveTest) {
-  EXPECT_FALSE(mVoidType.isPrimitive());
+  EXPECT_TRUE(mVoidType.isPrimitive());
 }
 
 TEST_F(VoidTypeTest, isOwnerTest) {

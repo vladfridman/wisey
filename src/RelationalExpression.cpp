@@ -41,13 +41,13 @@ Value* RelationalExpression::generateIR(IRGenerationContext& context,
                                         const IType* assignToType) const {
   const IType* leftType = mLeftExpression->getType(context);
   const IType* rightType = mRightExpression->getType(context);
-  if ((!IType::isPrimitveType(leftType) && IType::isPrimitveType(rightType)) ||
-      (IType::isPrimitveType(leftType) && !IType::isPrimitveType(rightType))) {
+  if ((!leftType->isPrimitive() && rightType->isPrimitive()) ||
+      (leftType->isPrimitive() && !rightType->isPrimitive())) {
     Log::e("Can not compare objects to primitive types");
     exit(1);
   }
   
-  if (!IType::isPrimitveType(leftType) || !IType::isPrimitveType(rightType)) {
+  if (!leftType->isPrimitive() || !rightType->isPrimitive()) {
     return generateIRForObjects(context, assignToType);
   }
   

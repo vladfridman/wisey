@@ -36,7 +36,7 @@ TypeKind CharType::getTypeKind() const {
 }
 
 bool CharType::canCastTo(IRGenerationContext& context, const IType* toType) const {
-  if (!IType::isPrimitveType(toType)) {
+  if (!toType->isPrimitive()) {
     return false;
   }
   
@@ -44,7 +44,7 @@ bool CharType::canCastTo(IRGenerationContext& context, const IType* toType) cons
 }
 
 bool CharType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
-  if (!IType::isPrimitveType(toType)) {
+  if (!toType->isPrimitive()) {
     return false;
   }
 

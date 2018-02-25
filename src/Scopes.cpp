@@ -45,7 +45,7 @@ void Scopes::setVariable(IVariable* variable) {
     exit(1);
   }
   getScope()->setVariable(variable->getName(), variable);
-  if (!IType::isPrimitveType(variable->getType())) {
+  if (!variable->getType()->isPrimitive()) {
     clearCachedLandingPadBlock();
   }
 }
