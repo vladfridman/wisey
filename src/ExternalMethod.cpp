@@ -98,6 +98,10 @@ Value* ExternalMethod::castTo(IRGenerationContext& context,
   return NULL;
 }
 
+bool ExternalMethod::isPrimitive() const {
+  return false;
+}
+
 bool ExternalMethod::isOwner() const {
   return false;
 }

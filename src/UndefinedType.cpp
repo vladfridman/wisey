@@ -46,6 +46,10 @@ Value* UndefinedType::castTo(IRGenerationContext& context,
   return NULL;
 }
 
+bool UndefinedType::isPrimitive() const {
+  return false;
+}
+
 bool UndefinedType::isOwner() const {
   return false;
 }

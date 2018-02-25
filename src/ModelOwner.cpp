@@ -81,6 +81,10 @@ Function* ModelOwner::getDestructorFunction(IRGenerationContext& context) const 
   return IConcreteObjectType::getDestructorFunctionForObject(context, getObjectType());
 }
 
+bool ModelOwner::isPrimitive() const {
+  return false;
+}
+
 bool ModelOwner::isOwner() const {
   return true;
 }

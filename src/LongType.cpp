@@ -51,6 +51,10 @@ bool LongType::canAutoCastTo(IRGenerationContext& context, const IType* toType) 
   return toType == PrimitiveTypes::LONG_TYPE;
 }
 
+bool LongType::isPrimitive() const {
+  return true;
+}
+
 bool LongType::isOwner() const {
   return false;
 }

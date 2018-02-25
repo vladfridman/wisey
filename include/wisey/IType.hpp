@@ -87,6 +87,11 @@ namespace wisey {
                                 int line) const = 0;
     
     /**
+     * Tells whether this type is of primitive type
+     */
+    virtual bool isPrimitive() const = 0;
+
+    /**
      * Tells whether this type is an owner pointer type
      */
     virtual bool isOwner() const = 0;
@@ -95,7 +100,7 @@ namespace wisey {
      * Tells whether this type is a reference pointer type
      */
     virtual bool isReference() const = 0;
-    
+
     /**
      * Tells whether this type is of array type
      */

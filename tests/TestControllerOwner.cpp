@@ -196,6 +196,10 @@ TEST_F(ControllerOwnerTest, castToItselfTest) {
   EXPECT_EQ(result, pointer);
 }
 
+TEST_F(ControllerOwnerTest, isPrimitiveTest) {
+  EXPECT_FALSE(mMultiplierController->getOwner()->isPrimitive());
+}
+
 TEST_F(ControllerOwnerTest, isOwnerTest) {
   EXPECT_TRUE(mMultiplierController->getOwner()->isOwner());
 }

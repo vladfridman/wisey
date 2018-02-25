@@ -73,6 +73,10 @@ Value* BooleanType::castTo(IRGenerationContext& context,
   return NULL;
 }
 
+bool BooleanType::isPrimitive() const {
+  return true;
+}
+
 bool BooleanType::isOwner() const {
   return false;
 }

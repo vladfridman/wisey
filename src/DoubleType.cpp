@@ -69,6 +69,10 @@ Value* DoubleType::castTo(IRGenerationContext& context,
   return NULL;
 }
 
+bool DoubleType::isPrimitive() const {
+  return true;
+}
+
 bool DoubleType::isOwner() const {
   return false;
 }

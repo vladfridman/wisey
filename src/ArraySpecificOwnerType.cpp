@@ -75,6 +75,10 @@ void ArraySpecificOwnerType::free(IRGenerationContext& context, llvm::Value* arr
   assert(false);
 }
 
+bool ArraySpecificOwnerType::isPrimitive() const {
+  return false;
+}
+
 bool ArraySpecificOwnerType::isOwner() const {
   return true;
 }

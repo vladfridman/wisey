@@ -132,6 +132,10 @@ TEST_F(CharTypeTest, castToTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(CharTypeTest, isPrimitiveTest) {
+  EXPECT_TRUE(mCharType.isPrimitive());
+}
+
 TEST_F(CharTypeTest, isOwnerTest) {
   EXPECT_FALSE(mCharType.isOwner());
 }

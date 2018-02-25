@@ -85,6 +85,10 @@ struct InterfaceOwnerTest : public Test {
   }
 };
 
+TEST_F(InterfaceOwnerTest, isPrimitiveTest) {
+  EXPECT_FALSE(mShapeInterface->getOwner()->isPrimitive());
+}
+
 TEST_F(InterfaceOwnerTest, getObjectTest) {
   EXPECT_EQ(mShapeInterface->getOwner()->getObjectType(), mShapeInterface);
 }

@@ -75,6 +75,10 @@ void ArrayExactOwnerType::free(IRGenerationContext& context, llvm::Value* arrayP
   assert(false);
 }
 
+bool ArrayExactOwnerType::isPrimitive() const {
+  return false;
+}
+
 bool ArrayExactOwnerType::isOwner() const {
   return true;
 }

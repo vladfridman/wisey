@@ -70,6 +70,10 @@ Value* IntType::castTo(IRGenerationContext& context,
   return NULL;
 }
 
+bool IntType::isPrimitive() const {
+  return true;
+}
+
 bool IntType::isOwner() const {
   return false;
 }

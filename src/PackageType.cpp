@@ -47,6 +47,10 @@ Value* PackageType::castTo(IRGenerationContext &context,
   return NULL;
 }
 
+bool PackageType::isPrimitive() const {
+  return false;
+}
+
 bool PackageType::isOwner() const {
   return false;
 }

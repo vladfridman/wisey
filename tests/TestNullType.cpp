@@ -109,6 +109,10 @@ TEST_F(NullTypeTest, castToModelOwnerTest) {
   EXPECT_EQ(cast, ConstantPointerNull::get(structType->getPointerTo()));
 }
 
+TEST_F(NullTypeTest, isPrimitiveTest) {
+  EXPECT_FALSE(NullType::NULL_TYPE->isPrimitive());
+}
+
 TEST_F(NullTypeTest, isOwnerTest) {
   EXPECT_FALSE(NullType::NULL_TYPE->isOwner());
 }

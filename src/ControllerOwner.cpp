@@ -81,6 +81,10 @@ Function* ControllerOwner::getDestructorFunction(IRGenerationContext& context) c
   return IConcreteObjectType::getDestructorFunctionForObject(context, getObjectType());
 }
 
+bool ControllerOwner::isPrimitive() const {
+  return false;
+}
+
 bool ControllerOwner::isOwner() const {
   return true;
 }

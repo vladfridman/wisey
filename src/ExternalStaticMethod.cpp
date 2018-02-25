@@ -110,6 +110,10 @@ bool ExternalStaticMethod::isArray() const {
   return false;
 }
 
+bool ExternalStaticMethod::isPrimitive() const {
+  return false;
+}
+
 bool ExternalStaticMethod::isController() const {
   return false;
 }

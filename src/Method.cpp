@@ -102,6 +102,10 @@ Value* Method::castTo(IRGenerationContext& context,
   return NULL;
 }
 
+bool Method::isPrimitive() const {
+  return false;
+}
+
 bool Method::isOwner() const {
   return false;
 }

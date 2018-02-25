@@ -92,6 +92,10 @@ unsigned long ArrayExactType::getNumberOfDimensions() const {
   return mDimensions.size();
 }
 
+bool ArrayExactType::isPrimitive() const {
+  return false;
+}
+
 bool ArrayExactType::isOwner() const {
   return false;
 }

@@ -133,6 +133,10 @@ TEST_F(DoubleTypeTest, castToTest) {
   EXPECT_EQ(result, expressionValue);
 }
 
+TEST_F(DoubleTypeTest, isPrimitiveTest) {
+  EXPECT_TRUE(mDoubleType.isPrimitive());
+}
+
 TEST_F(DoubleTypeTest, isOwnerTest) {
   EXPECT_FALSE(mDoubleType.isOwner());
 }

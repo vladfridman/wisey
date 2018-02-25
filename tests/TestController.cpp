@@ -485,6 +485,10 @@ TEST_F(ControllerTest, castToSecondInterfaceTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(ControllerTest, isPrimitiveTest) {
+  EXPECT_FALSE(mMultiplierController->isPrimitive());
+}
+
 TEST_F(ControllerTest, isOwnerTest) {
   EXPECT_FALSE(mMultiplierController->isOwner());
 }

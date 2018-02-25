@@ -496,6 +496,10 @@ TEST_F(NodeTest, castToSecondInterfaceTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(NodeTest, isPrimitiveTest) {
+  EXPECT_FALSE(mSimpleNode->isPrimitive());
+}
+
 TEST_F(NodeTest, isOwnerTest) {
   EXPECT_FALSE(mSimpleNode->isOwner());
 }

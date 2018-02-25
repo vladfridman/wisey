@@ -132,6 +132,10 @@ TEST_F(LongTypeTest, castToTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(LongTypeTest, isPrimitiveTest) {
+  EXPECT_TRUE(mLongType.isPrimitive());
+}
+
 TEST_F(LongTypeTest, isOwnerTest) {
   EXPECT_FALSE(mLongType.isOwner());
 }

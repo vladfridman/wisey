@@ -104,6 +104,10 @@ bool MethodSignature::isArray() const {
   return false;
 }
 
+bool MethodSignature::isPrimitive() const {
+  return false;
+}
+
 bool MethodSignature::isController() const {
   return false;
 }

@@ -32,6 +32,7 @@ public:
                                            llvm::Value*,
                                            const wisey::IType*,
                                            int));
+  MOCK_CONST_METHOD0(isPrimitive, bool ());
   MOCK_CONST_METHOD0(isOwner, bool ());
   MOCK_CONST_METHOD0(isReference, bool ());
   MOCK_CONST_METHOD0(isArray, bool ());

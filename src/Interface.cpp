@@ -577,6 +577,10 @@ Value* Interface::castTo(IRGenerationContext& context,
   return result;
 }
 
+bool Interface::isPrimitive() const {
+  return false;
+}
+
 bool Interface::isOwner() const {
   return false;
 }

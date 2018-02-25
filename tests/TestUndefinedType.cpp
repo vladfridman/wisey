@@ -39,6 +39,10 @@ TEST_F(UndefinedTypeTest, getTypeKindTest) {
   ASSERT_EQ(UNDEFINED_TYPE_KIND, UndefinedType::UNDEFINED_TYPE->getTypeKind());
 }
 
+TEST_F(UndefinedTypeTest, isPrimitiveTest) {
+  EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isPrimitive());
+}
+
 TEST_F(UndefinedTypeTest, isOwnerTest) {
   EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isOwner());
 }

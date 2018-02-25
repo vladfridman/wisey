@@ -74,6 +74,8 @@ namespace wisey {
                         const IType* toType,
                         int line) const override;
     
+    bool isPrimitive() const override;
+
     bool isOwner() const override;
     
     bool isReference() const override;

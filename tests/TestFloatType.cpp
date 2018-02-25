@@ -132,6 +132,10 @@ TEST_F(FloatTypeTest, castToTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(FloatTypeTest, isPrimitiveTest) {
+  EXPECT_TRUE(mFloatType.isPrimitive());
+}
+
 TEST_F(FloatTypeTest, isOwnerTest) {
   EXPECT_FALSE(mFloatType.isOwner());
 }

@@ -100,6 +100,10 @@ Value* StaticMethod::castTo(IRGenerationContext& context,
   return NULL;
 }
 
+bool StaticMethod::isPrimitive() const {
+  return false;
+}
+
 bool StaticMethod::isOwner() const {
   return false;
 }

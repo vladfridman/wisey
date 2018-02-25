@@ -72,6 +72,10 @@ Value* CharType::castTo(IRGenerationContext& context,
   return NULL;
 }
 
+bool CharType::isPrimitive() const {
+  return true;
+}
+
 bool CharType::isOwner() const {
   return false;
 }

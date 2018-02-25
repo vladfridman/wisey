@@ -89,6 +89,10 @@ TEST_F(ArraySpecificOwnerTypeTest, canAutoCastToTest) {
   EXPECT_TRUE(mArraySpecificOwnerType->canAutoCastTo(mContext, mArrayType));
 }
 
+TEST_F(ArraySpecificOwnerTypeTest, isPrimitiveTest) {
+  EXPECT_FALSE(mArraySpecificOwnerType->isPrimitive());
+}
+
 TEST_F(ArraySpecificOwnerTypeTest, isOwnerTest) {
   EXPECT_TRUE(mArraySpecificOwnerType->isOwner());
 }

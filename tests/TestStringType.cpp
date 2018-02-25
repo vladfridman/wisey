@@ -131,6 +131,10 @@ TEST_F(StringTypeTest, castToTest) {
             expressionValue);
 }
 
+TEST_F(StringTypeTest, isPrimitiveTest) {
+  EXPECT_TRUE(mStringType.isPrimitive());
+}
+
 TEST_F(StringTypeTest, isOwnerTest) {
   EXPECT_FALSE(mStringType.isOwner());
 }

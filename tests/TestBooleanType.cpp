@@ -132,6 +132,10 @@ TEST_F(BooleanTypeTest, castToTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(BooleanTypeTest, isPrimitiveTest) {
+  EXPECT_TRUE(mBoleanType.isPrimitive());
+}
+
 TEST_F(BooleanTypeTest, isOwnerTest) {
   EXPECT_FALSE(mBoleanType.isOwner());
 }

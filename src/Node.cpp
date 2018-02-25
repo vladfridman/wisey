@@ -210,6 +210,10 @@ Value* Node::castTo(IRGenerationContext& context,
   return IConcreteObjectType::castTo(context, (IConcreteObjectType*) this, fromValue, toType);
 }
 
+bool Node::isPrimitive() const {
+  return false;
+}
+
 bool Node::isOwner() const {
   return false;
 }

@@ -118,6 +118,10 @@ llvm::Value* ArrayType::bitcastToGenericPointer(IRGenerationContext& context,
   return IRWriter::newBitCastInst(context, arrayPointer, genericPointer);
 }
 
+bool ArrayType::isPrimitive() const {
+  return false;
+}
+
 bool ArrayType::isOwner() const {
   return false;
 }

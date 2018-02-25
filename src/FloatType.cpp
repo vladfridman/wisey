@@ -69,6 +69,10 @@ Value* FloatType::castTo(IRGenerationContext& context,
   return NULL;
 }
 
+bool FloatType::isPrimitive() const {
+  return true;
+}
+
 bool FloatType::isOwner() const {
   return false;
 }

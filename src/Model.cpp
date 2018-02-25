@@ -235,6 +235,10 @@ Value* Model::castTo(IRGenerationContext& context,
   return IConcreteObjectType::castTo(context, (IConcreteObjectType*) this, fromValue, toType);
 }
 
+bool Model::isPrimitive() const {
+  return false;
+}
+
 bool Model::isOwner() const {
   return false;
 }

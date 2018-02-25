@@ -352,6 +352,10 @@ TEST_F(ModelOwnerTest, castToSecondInterfaceTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(ModelOwnerTest, isPrimitiveTest) {
+  EXPECT_FALSE(mModel->getOwner()->isPrimitive());
+}
+
 TEST_F(ModelOwnerTest, isOwnerTest) {
   EXPECT_TRUE(mModel->getOwner()->isOwner());
 }

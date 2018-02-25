@@ -114,6 +114,10 @@ unsigned long ArraySpecificType::getNumberOfDimensions() const {
   return mDimensions.size();
 }
 
+bool ArraySpecificType::isPrimitive() const {
+  return false;
+}
+
 bool ArraySpecificType::isOwner() const {
   return false;
 }

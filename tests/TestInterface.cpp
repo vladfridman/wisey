@@ -311,6 +311,10 @@ TEST_F(InterfaceTest, canAutoCastToTest) {
   EXPECT_TRUE(mShapeInterface->canAutoCastTo(mContext, mShapeInterface));
 }
 
+TEST_F(InterfaceTest, isPrimitiveTest) {
+  EXPECT_FALSE(mObjectInterface->isPrimitive());
+}
+
 TEST_F(InterfaceTest, isOwnerTest) {
   EXPECT_FALSE(mObjectInterface->isOwner());
 }

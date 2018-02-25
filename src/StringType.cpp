@@ -55,6 +55,10 @@ Value* StringType::castTo(IRGenerationContext& context,
   return NULL;
 }
 
+bool StringType::isPrimitive() const {
+  return true;
+}
+
 bool StringType::isOwner() const {
   return false;
 }

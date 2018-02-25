@@ -56,6 +56,10 @@ Value* VoidType::castTo(IRGenerationContext& context,
   return NULL;
 }
 
+bool VoidType::isPrimitive() const {
+  return false;
+}
+
 bool VoidType::isOwner() const {
   return false;
 }

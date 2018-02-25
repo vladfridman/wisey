@@ -308,6 +308,10 @@ Value* Controller::castTo(IRGenerationContext& context,
   return IConcreteObjectType::castTo(context, (IConcreteObjectType*) this, fromValue, toType);
 }
 
+bool Controller::isPrimitive() const {
+  return false;
+}
+
 bool Controller::isOwner() const {
   return false;
 }
