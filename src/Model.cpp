@@ -80,9 +80,8 @@ void Model::setFields(vector<Field*> fields, unsigned long startIndex) {
       Log::e("Models can only have fixed fields");
       exit(1);
     }
-    TypeKind typeKind = field->getType()->getTypeKind();
-    if (typeKind == NODE_TYPE || typeKind == NODE_OWNER_TYPE ||
-        typeKind == CONTROLLER_TYPE || typeKind == CONTROLLER_OWNER_TYPE) {
+    const IType* fieldType = field->getType();
+    if (fieldType->isNode() || fieldType->isController()) {
       Log::e("Models can only have fields of primitive or model type");
       exit(1);
     }

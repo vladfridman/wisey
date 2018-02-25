@@ -93,7 +93,7 @@ TEST_F(ThrowStatementTest, wrongExpressionTypeDeathTest) {
   Mock::AllowLeak(&mMockType);
   Mock::AllowLeak(mMockExpression);
   
-  ON_CALL(mMockType, getTypeKind()).WillByDefault(Return(CONTROLLER_TYPE));
+  ON_CALL(mMockType, isController()).WillByDefault(Return(true));
   ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(&mMockType));
   ThrowStatement throwStatement(mMockExpression, 0);
   
