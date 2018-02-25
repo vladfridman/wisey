@@ -541,7 +541,7 @@ bool Interface::canAutoCastTo(IRGenerationContext& context, const IType* toType)
     return false;
   }
 
-  if (toType->getTypeKind() == INTERFACE_TYPE && doesExtendInterface((Interface*) toType)) {
+  if (toType->isInterface() && doesExtendInterface((Interface*) toType)) {
     return true;
   }
   

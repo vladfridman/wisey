@@ -70,7 +70,7 @@ Value* MethodCall::generateIR(IRGenerationContext& context, const IType* assignT
                                       methodDescriptor,
                                       assignToType);
   }
-  if (objectWithMethodsType->getTypeKind() == INTERFACE_TYPE) {
+  if (objectWithMethodsType->isInterface()) {
     return generateInterfaceMethodCallIR(context,
                                          (Interface*) objectWithMethodsType,
                                          methodDescriptor,

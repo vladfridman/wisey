@@ -77,13 +77,13 @@ Value* TypeComparisionExpression::generateIRforReferenceTypes(IRGenerationContex
   if (IType::isConcreteObjectType(expressionType) && IType::isConcreteObjectType(type)) {
     return valueFalse;
   }
-  if (IType::isConcreteObjectType(expressionType) && type->getTypeKind() == INTERFACE_TYPE) {
+  if (IType::isConcreteObjectType(expressionType) && type->isInterface()) {
     IConcreteObjectType* concreteObjectType = (IConcreteObjectType*) expressionType;
     return IConcreteObjectType::getInterfaceIndex(concreteObjectType, (Interface*) type) >= 0
     ? valueTrue : valueFalse;
   }
   Interface* interface = (Interface*) expressionType;
-  if (type->getTypeKind() == INTERFACE_TYPE && interface->doesExtendInterface((Interface*) type)) {
+  if (type->isInterface() && interface->doesExtendInterface((Interface*) type)) {
     return valueTrue;
   }
   return checkInterfaceImplemented(context, expressionType, type);

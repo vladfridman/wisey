@@ -498,7 +498,7 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
                                               const IConcreteObjectType* object,
                                               iostream& stream) {
   stream << "external ";
-  printTypeKind(object->getTypeKind(), stream);
+  printTypeKind(object, stream);
   stream << (object->isInner() ? object->getShortName() : object->getTypeName());
   if (object->getAccessLevel() == PRIVATE_ACCESS) {
     stream << " {" << endl << "}" << endl;
@@ -555,12 +555,12 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
   stream << "}" << endl;
 }
 
-void IConcreteObjectType::printTypeKind(TypeKind typeKind, iostream& stream) {
-  if (typeKind == MODEL_TYPE) {
+void IConcreteObjectType::printTypeKind(const IConcreteObjectType* type, iostream& stream) {
+  if (type->isModel()) {
     stream << "model ";
-  } else if (typeKind == NODE_TYPE) {
+  } else if (type->isNode()) {
     stream << "node ";
-  } else if (typeKind == INTERFACE_TYPE) {
+  } else if (type->isInterface()) {
     stream << "interface ";
   } else {
     stream << "controller ";
@@ -590,7 +590,7 @@ bool IConcreteObjectType::canCast(const IType* fromType, const IType* toType) {
   if (fromType == toType) {
     return true;
   }
-  if (toType->getTypeKind() == INTERFACE_TYPE &&
+  if (toType->isInterface() &&
       getInterfaceIndex((IConcreteObjectType*) fromType, (Interface*) toType) >= 0) {
     return true;
   }

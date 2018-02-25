@@ -325,7 +325,7 @@ private:
                                     llvm::Function* function,
                                     const IObjectType* object);
   
-  static void printTypeKind(TypeKind typeKind, std::iostream& stream);
+  static void printTypeKind(const IConcreteObjectType* type, std::iostream& stream);
   
   static llvm::Constant* getObjectShortNamePointer(const IConcreteObjectType* object,
                                                    IRGenerationContext& context);
