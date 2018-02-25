@@ -30,14 +30,11 @@ ThrowStatement::~ThrowStatement() {
 
 Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
   const IType* expressionType = mExpression->getType(context);
-  TypeKind typeKind = expressionType->getTypeKind();
-  if (typeKind != MODEL_TYPE && typeKind != MODEL_OWNER_TYPE) {
+  if (!expressionType->isModel()) {
     Log::e("Thrown object can only be a model");
     exit(1);
   }
-  Model* model = typeKind == MODEL_OWNER_TYPE
-  ? (Model*) expressionType->getObjectType()
-  : (Model*) expressionType;
+  Model* model = (Model*) expressionType->getObjectType();
 
   LLVMContext& llvmContext = context.getLLVMContext();
   context.getScopes().getScope()->addException(model);
