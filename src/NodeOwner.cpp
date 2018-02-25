@@ -43,7 +43,11 @@ bool NodeOwner::canCastTo(IRGenerationContext& context, const IType* toType) con
     return true;
   }
   
-  if (IType::isOwnerType(toType)) {
+  if (toType->isArray()) {
+    return false;
+  }
+  
+  if (toType->isOwner()) {
     return mNode->canCastTo(context, toType->getObjectType());
   }
   
@@ -62,7 +66,8 @@ Value* NodeOwner::castTo(IRGenerationContext& context,
     return fromValue;
   }
   
-  if (IType::isOwnerType(toType)) {
+  
+  if (toType->isOwner()) {
     return mNode->castTo(context, fromValue, toType->getObjectType(), line);
   }
   

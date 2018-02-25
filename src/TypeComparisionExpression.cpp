@@ -46,7 +46,7 @@ Value* TypeComparisionExpression::generateIR(IRGenerationContext& context,
   if (IType::isPrimitveType(type) || IType::isPrimitveType(expressionType)) {
     return valueFalse;
   }
-  if (IType::isOwnerType(expressionType) && IType::isOwnerType(type)) {
+  if (expressionType->isOwner() && type->isOwner()) {
     return generateIRforOwnerTypes(context,
                                    (const IObjectOwnerType*) expressionType,
                                    (const IObjectOwnerType*) type);

@@ -43,7 +43,11 @@ bool ControllerOwner::canCastTo(IRGenerationContext& context, const IType* toTyp
     return true;
   }
   
-  if (IType::isOwnerType(toType)) {
+  if (toType->isArray()) {
+    return false;
+  }
+  
+  if (toType->isOwner()) {
     return mController->canCastTo(context, toType->getObjectType());
   }
   
@@ -62,7 +66,7 @@ Value* ControllerOwner::castTo(IRGenerationContext& context,
     return fromValue;
   }
 
-  if (IType::isOwnerType(toType)) {
+  if (toType->isOwner()) {
     return mController->castTo(context, fromValue, toType->getObjectType(), line);
   }
   

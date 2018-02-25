@@ -19,7 +19,7 @@ llvm::Value* ArrayElementAssignment::generateElementAssignment(IRGenerationConte
                                                                const IExpression* assignToExpression,
                                                                llvm::Value* elementStore,
                                                                int line) {
-  if (IType::isOwnerType(elementType)) {
+  if (elementType->isOwner()) {
     return generateOwnerElementAssignment(context,
                                           elementType,
                                           assignToExpression,
@@ -27,7 +27,7 @@ llvm::Value* ArrayElementAssignment::generateElementAssignment(IRGenerationConte
                                           line);
   }
   
-  if (IType::isReferenceType(elementType)) {
+  if (elementType->isReference()) {
     return generateReferenceElementAssignment(context,
                                               elementType,
                                               assignToExpression,

@@ -151,9 +151,9 @@ namespace wisey {
     virtual const IObjectType* getObjectType() const = 0;
 
     /**
-     * Tells whether the given type is an owner type
+     * Tells whether the given type is an object or an object owner type
      */
-    static bool isOwnerType(const IType* type);
+    static bool isObjectType(const IType* type);
     
     /**
      * Tells whether the given type is a reference type

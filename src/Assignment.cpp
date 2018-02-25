@@ -42,7 +42,7 @@ Value* Assignment::generateIR(IRGenerationContext& context, const IType* assignT
   Value* result = variable->generateAssignmentIR(context, mExpression, arrayIndices, mLine);
   
   if (assignToType->isOwner()) {
-    assert(IType::isOwnerType(variable->getType()));
+    assert(variable->getType()->isOwner());
     ((IOwnerVariable*) variable)->setToNull(context);
   }
 

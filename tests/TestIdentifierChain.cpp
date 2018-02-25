@@ -115,7 +115,9 @@ TEST_F(IdentifierChainTest, getTypeForObjectBaseTypeTest) {
   NiceMock<MockMethodDescriptor> mockMethodDescriptor;
   ON_CALL(*mockExpression, getType(_)).WillByDefault(Return(&mockObjectType));
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printObjectTypeExpression));
-  ON_CALL(mockObjectType, getTypeKind()).WillByDefault(Return(MODEL_TYPE));
+  ON_CALL(mockObjectType, isModel()).WillByDefault(Return(true));
+  ON_CALL(mockObjectType, isReference()).WillByDefault(Return(true));
+  ON_CALL(mockObjectType, getObjectType()).WillByDefault(Return(&mockObjectType));
   ON_CALL(mockObjectType, findMethod("foo")).WillByDefault(Return(&mockMethodDescriptor));
   ON_CALL(mockMethodDescriptor, getObjectType()).WillByDefault(Return(&mockObjectType));
 
@@ -147,7 +149,9 @@ TEST_F(IdentifierChainTest, getTypeForObjectBaseTypeMethodNotFoundDeathTest) {
   string modelFullName = "systems.vos.wisey.compiler.tests.MObject";
   ON_CALL(*mockExpression, getType(_)).WillByDefault(Return(&mockObjectType));
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printObjectTypeExpression));
-  ON_CALL(mockObjectType, getTypeKind()).WillByDefault(Return(MODEL_TYPE));
+  ON_CALL(mockObjectType, isModel()).WillByDefault(Return(true));
+  ON_CALL(mockObjectType, isReference()).WillByDefault(Return(true));
+  ON_CALL(mockObjectType, getObjectType()).WillByDefault(Return(&mockObjectType));
   ON_CALL(mockObjectType, getTypeName()).WillByDefault(Return(modelFullName));
 
   IdentifierChain identifierChain(mockExpression, "foo");
@@ -168,7 +172,9 @@ TEST_F(IdentifierChainTest, generateIRTest) {
   Value* objectPointer = ConstantPointerNull::get(modelStructType->getPointerTo());
   ON_CALL(*mockExpression, getType(_)).WillByDefault(Return(&mockObjectType));
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printObjectTypeExpression));
-  ON_CALL(mockObjectType, getTypeKind()).WillByDefault(Return(MODEL_TYPE));
+  ON_CALL(mockObjectType, isModel()).WillByDefault(Return(true));
+  ON_CALL(mockObjectType, isReference()).WillByDefault(Return(true));
+  ON_CALL(mockObjectType, getObjectType()).WillByDefault(Return(&mockObjectType));
   ON_CALL(mockObjectType, findMethod("foo")).WillByDefault(Return(&mockMethodDescriptor));
   ON_CALL(mockObjectType, getTypeName()).WillByDefault(Return(modelFullName));
   ON_CALL(mockMethodDescriptor, getObjectType()).WillByDefault(Return(&mockObjectType));
@@ -188,7 +194,9 @@ TEST_F(IdentifierChainTest, generateIRForPrivateMethodDeathTest) {
   string modelFullName = "systems.vos.wisey.compiler.tests.MObject";
   ON_CALL(*mockExpression, getType(_)).WillByDefault(Return(&mockObjectType));
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printObjectTypeExpression));
-  ON_CALL(mockObjectType, getTypeKind()).WillByDefault(Return(MODEL_TYPE));
+  ON_CALL(mockObjectType, isModel()).WillByDefault(Return(true));
+  ON_CALL(mockObjectType, isReference()).WillByDefault(Return(true));
+  ON_CALL(mockObjectType, getObjectType()).WillByDefault(Return(&mockObjectType));
   ON_CALL(mockObjectType, findMethod("foo")).WillByDefault(Return(&mockMethodDescriptor));
   ON_CALL(mockObjectType, getTypeName()).WillByDefault(Return(modelFullName));
   ON_CALL(mockMethodDescriptor, getObjectType()).WillByDefault(Return(&mockObjectType));

@@ -10,13 +10,8 @@
 
 using namespace wisey;
 
-bool IType::isOwnerType(const IType* type) {
-  TypeKind typeKind = type->getTypeKind();
-  
-  return typeKind == MODEL_OWNER_TYPE ||
-  typeKind == INTERFACE_OWNER_TYPE ||
-  typeKind == CONTROLLER_OWNER_TYPE ||
-  typeKind == NODE_OWNER_TYPE;
+bool IType::isObjectType(const IType* type) {
+  return type->isController() || type->isInterface() || type->isModel() || type->isNode();
 }
 
 bool IType::isReferenceType(const IType* type) {

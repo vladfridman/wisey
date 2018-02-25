@@ -71,14 +71,14 @@ void ArrayOwnerType::free(IRGenerationContext& context, llvm::Value* arrayPointe
   llvm::Type* genericPointer = llvm::Type::getInt64Ty(context.getLLVMContext())->getPointerTo();
   llvm::Value* arrayBitcast = IRWriter::newBitCastInst(context, arrayPointer, genericPointer);
   
-  if (IType::isOwnerType(elementType)) {
+  if (elementType->isOwner()) {
     const IObjectOwnerType* objectOwnerType = (const IObjectOwnerType*) elementType;
     llvm::Value* destructor = objectOwnerType->getDestructorFunction(context);
     DestroyOwnerArrayFunction::call(context,
                                     arrayBitcast,
                                     mArrayType->getNumberOfDimensions(),
                                     destructor);
-  } else if (IType::isReferenceType(elementType)) {
+  } else if (elementType->isReference()) {
     DestroyReferenceArrayFunction::call(context, arrayBitcast, mArrayType->getNumberOfDimensions());
   } else {
     assert(IType::isPrimitveType(elementType));

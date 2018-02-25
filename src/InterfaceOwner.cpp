@@ -44,7 +44,11 @@ bool InterfaceOwner::canCastTo(IRGenerationContext& context, const IType* toType
     return true;
   }
   
-  if (IType::isOwnerType(toType)) {
+  if (toType->isArray()) {
+    return false;
+  }
+  
+  if (toType->isOwner()) {
     return mInterface->canCastTo(context, toType->getObjectType());
   }
   
@@ -63,7 +67,7 @@ Value* InterfaceOwner::castTo(IRGenerationContext& context,
     return fromValue;
   }
 
-  if (IType::isOwnerType(toType)) {
+  if (toType->isOwner()) {
     return mInterface->castTo(context, fromValue, toType->getObjectType(), line);
   }
   

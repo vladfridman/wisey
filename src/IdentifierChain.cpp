@@ -65,14 +65,12 @@ void IdentifierChain::printToStream(IRGenerationContext& context, iostream& stre
 
 IMethodDescriptor* IdentifierChain::getMethodDescriptor(IRGenerationContext& context) const {
   const IType* expressionType = mObjectExpression->getType(context);
-  if (!IType::isOwnerType(expressionType) && !IType::isReferenceType(expressionType)) {
+  if (!IType::isObjectType(expressionType)) {
     Log::e("Attempt to call a method '" + mName + "' on an identifier that is not an object");
     exit(1);
   }
   
-  const IObjectType* objectType = IType::isOwnerType(expressionType)
-  ? expressionType->getObjectType()
-  : (IObjectType*) expressionType;
+  const IObjectType* objectType = expressionType->getObjectType();
   
   IMethodDescriptor* methodDescriptor = objectType->findMethod(mName);
   
