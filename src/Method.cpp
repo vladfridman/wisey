@@ -122,6 +122,10 @@ bool Method::isFunction() const {
   return true;
 }
 
+bool Method::isPackage() const {
+  return false;
+}
+
 bool Method::isController() const {
   return false;
 }

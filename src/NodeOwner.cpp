@@ -102,6 +102,10 @@ bool NodeOwner::isFunction() const {
   return false;
 }
 
+bool NodeOwner::isPackage() const {
+  return false;
+}
+
 bool NodeOwner::isController() const {
   return false;
 }

@@ -110,6 +110,10 @@ TEST_F(MethodSignatureTest, isFunctionTest) {
   EXPECT_TRUE(mMethodSignature->isFunction());
 }
 
+TEST_F(MethodSignatureTest, isPackageTest) {
+  EXPECT_FALSE(mMethodSignature->isPackage());
+}
+
 TEST_F(MethodSignatureTest, printToStreamTest) {
   stringstream stringStream;
   mMethodSignature->printToStream(mContext, stringStream);

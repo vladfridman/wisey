@@ -67,6 +67,10 @@ bool PackageType::isFunction() const {
   return false;
 }
 
+bool PackageType::isPackage() const {
+  return true;
+}
+
 bool PackageType::isController() const {
   return false;
 }

@@ -101,6 +101,10 @@ bool ModelOwner::isFunction() const {
   return false;
 }
 
+bool ModelOwner::isPackage() const {
+  return false;
+}
+
 bool ModelOwner::isController() const {
   return false;
 }

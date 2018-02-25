@@ -246,6 +246,10 @@ bool Node::isNode() const {
   return true;
 }
 
+bool Node::isPackage() const {
+  return false;
+}
+
 string Node::getVTableName() const {
   return mName + ".vtable";
 }

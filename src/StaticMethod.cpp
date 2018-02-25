@@ -120,6 +120,10 @@ bool StaticMethod::isFunction() const {
   return true;
 }
 
+bool StaticMethod::isPackage() const {
+  return false;
+}
+
 bool StaticMethod::isController() const {
   return false;
 }

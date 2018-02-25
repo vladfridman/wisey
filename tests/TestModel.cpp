@@ -504,6 +504,10 @@ TEST_F(ModelTest, isFunctionTest) {
   EXPECT_FALSE(mModel->isFunction());
 }
 
+TEST_F(ModelTest, isPackageTest) {
+  EXPECT_FALSE(mModel->isPackage());
+}
+
 TEST_F(ModelTest, isObjectTest) {
   EXPECT_FALSE(mModel->isController());
   EXPECT_FALSE(mModel->isInterface());

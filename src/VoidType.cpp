@@ -68,6 +68,10 @@ bool VoidType::isFunction() const {
   return false;
 }
 
+bool VoidType::isPackage() const {
+  return false;
+}
+
 bool VoidType::isController() const {
   return false;
 }

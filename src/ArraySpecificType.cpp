@@ -134,6 +134,10 @@ bool ArraySpecificType::isFunction() const {
   return false;
 }
 
+bool ArraySpecificType::isPackage() const {
+  return false;
+}
+
 bool ArraySpecificType::isController() const {
   return false;
 }

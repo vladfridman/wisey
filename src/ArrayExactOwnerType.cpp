@@ -95,6 +95,10 @@ bool ArrayExactOwnerType::isFunction() const {
   return false;
 }
 
+bool ArrayExactOwnerType::isPackage() const {
+  return false;
+}
+
 bool ArrayExactOwnerType::isController() const {
   return false;
 }

@@ -231,6 +231,10 @@ TEST_F(StaticMethodTest, isFunctionTest) {
   EXPECT_TRUE(mStaticMethod->isFunction());
 }
 
+TEST_F(StaticMethodTest, isPackageTest) {
+  EXPECT_FALSE(mStaticMethod->isPackage());
+}
+
 TEST_F(TestFileSampleRunner, staticMethodDefinitionRunTest) {
   runFile("tests/samples/test_static_method_definition.yz", "2018");
 }

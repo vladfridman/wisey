@@ -92,6 +92,10 @@ bool CharType::isFunction() const {
   return false;
 }
 
+bool CharType::isPackage() const {
+  return false;
+}
+
 bool CharType::isController() const {
   return false;
 }

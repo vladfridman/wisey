@@ -331,6 +331,10 @@ TEST_F(InterfaceTest, isFunctionTest) {
   EXPECT_FALSE(mObjectInterface->isFunction());
 }
 
+TEST_F(InterfaceTest, isPackageTest) {
+  EXPECT_FALSE(mObjectInterface->isPackage());
+}
+
 TEST_F(InterfaceTest, isObjectTest) {
   EXPECT_FALSE(mObjectInterface->isController());
   EXPECT_TRUE(mObjectInterface->isInterface());

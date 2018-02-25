@@ -126,6 +126,10 @@ TEST_F(ArrayTypeTest, isFunctionTest) {
   EXPECT_FALSE(mArrayType->isFunction());
 }
 
+TEST_F(ArrayTypeTest, isPackageTest) {
+  EXPECT_FALSE(mArrayType->isPackage());
+}
+
 TEST_F(ArrayTypeTest, isObjectTest) {
   EXPECT_FALSE(mArrayType->isController());
   EXPECT_FALSE(mArrayType->isInterface());

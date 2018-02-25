@@ -152,6 +152,10 @@ TEST_F(LongTypeTest, isFunctionTest) {
   EXPECT_FALSE(mLongType.isFunction());
 }
 
+TEST_F(LongTypeTest, isPackageTest) {
+  EXPECT_FALSE(mLongType.isPackage());
+}
+
 TEST_F(LongTypeTest, isObjectTest) {
   EXPECT_FALSE(mLongType.isController());
   EXPECT_FALSE(mLongType.isInterface());

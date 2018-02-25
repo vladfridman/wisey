@@ -89,6 +89,10 @@ bool FloatType::isArray() const {
   return false;
 }
 
+bool FloatType::isPackage() const {
+  return false;
+}
+
 bool FloatType::isController() const {
   return false;
 }

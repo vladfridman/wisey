@@ -51,18 +51,6 @@ bool LongType::canAutoCastTo(IRGenerationContext& context, const IType* toType) 
   return toType == PrimitiveTypes::LONG_TYPE;
 }
 
-bool LongType::isPrimitive() const {
-  return true;
-}
-
-bool LongType::isOwner() const {
-  return false;
-}
-
-bool LongType::isReference() const {
-  return false;
-}
-
 Value* LongType::castTo(IRGenerationContext& context,
                         Value* fromValue,
                         const IType* toType,
@@ -88,11 +76,27 @@ void LongType::printToStream(IRGenerationContext &context, iostream& stream) con
   stream << getTypeName();
 }
 
+bool LongType::isPrimitive() const {
+  return true;
+}
+
+bool LongType::isOwner() const {
+  return false;
+}
+
+bool LongType::isReference() const {
+  return false;
+}
+
 bool LongType::isArray() const {
   return false;
 }
 
 bool LongType::isFunction() const {
+  return false;
+}
+
+bool LongType::isPackage() const {
   return false;
 }
 

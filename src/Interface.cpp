@@ -597,6 +597,10 @@ bool Interface::isFunction() const {
   return false;
 }
 
+bool Interface::isPackage() const {
+  return false;
+}
+
 bool Interface::isController() const {
   return false;
 }

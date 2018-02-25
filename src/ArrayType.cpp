@@ -138,6 +138,10 @@ bool ArrayType::isFunction() const {
   return false;
 }
 
+bool ArrayType::isPackage() const {
+  return false;
+}
+
 bool ArrayType::isController() const {
   return false;
 }

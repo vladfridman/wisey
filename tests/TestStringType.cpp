@@ -151,6 +151,10 @@ TEST_F(StringTypeTest, isFunctionTest) {
   EXPECT_FALSE(mStringType.isFunction());
 }
 
+TEST_F(StringTypeTest, isPackageTest) {
+  EXPECT_FALSE(mStringType.isPackage());
+}
+
 TEST_F(StringTypeTest, isObjectTest) {
   EXPECT_FALSE(mStringType.isController());
   EXPECT_FALSE(mStringType.isInterface());

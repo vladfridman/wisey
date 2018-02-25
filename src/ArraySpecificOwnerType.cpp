@@ -95,6 +95,10 @@ bool ArraySpecificOwnerType::isFunction() const {
   return false;
 }
 
+bool ArraySpecificOwnerType::isPackage() const {
+  return false;
+}
+
 bool ArraySpecificOwnerType::isController() const {
   return false;
 }

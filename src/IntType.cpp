@@ -90,6 +90,10 @@ bool IntType::isFunction() const {
   return false;
 }
 
+bool IntType::isPackage() const {
+  return false;
+}
+
 bool IntType::isController() const {
   return false;
 }

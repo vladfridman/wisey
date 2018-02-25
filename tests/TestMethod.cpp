@@ -228,6 +228,10 @@ TEST_F(MethodTest, isFunctionTest) {
   EXPECT_TRUE(mMethod->isFunction());
 }
 
+TEST_F(MethodTest, isPackageTest) {
+  EXPECT_FALSE(mMethod->isPackage());
+}
+
 TEST_F(MethodTest, printToStreamTest) {
   stringstream stringStream;
   mMethod->printToStream(mContext, stringStream);

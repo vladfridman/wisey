@@ -93,6 +93,10 @@ bool BooleanType::isFunction() const {
   return false;
 }
 
+bool BooleanType::isPackage() const {
+  return false;
+}
+
 bool BooleanType::isController() const {
   return false;
 }

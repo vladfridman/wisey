@@ -255,6 +255,10 @@ bool Model::isFunction() const {
   return false;
 }
 
+bool Model::isPackage() const {
+  return false;
+}
+
 bool Model::isController() const {
   return false;
 }

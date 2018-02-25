@@ -112,6 +112,10 @@ TEST_F(ArrayExactTypeTest, isFunctionTest) {
   EXPECT_FALSE(mArrayExactType->isFunction());
 }
 
+TEST_F(ArrayExactTypeTest, isPackageTest) {
+  EXPECT_FALSE(mArrayExactType->isPackage());
+}
+
 TEST_F(ArrayExactTypeTest, isObjectTest) {
   EXPECT_FALSE(mArrayExactType->isController());
   EXPECT_FALSE(mArrayExactType->isInterface());

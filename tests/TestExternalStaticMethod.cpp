@@ -147,3 +147,7 @@ TEST_F(ExternalStaticMethodTest, isArrayTest) {
 TEST_F(ExternalStaticMethodTest, isFunctionTest) {
   EXPECT_TRUE(mStaticMethod->isFunction());
 }
+
+TEST_F(ExternalStaticMethodTest, isPackageTest) {
+  EXPECT_FALSE(mStaticMethod->isPackage());
+}

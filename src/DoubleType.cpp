@@ -89,6 +89,10 @@ bool DoubleType::isFunction() const {
   return false;
 }
 
+bool DoubleType::isPackage() const {
+  return false;
+}
+
 bool DoubleType::isController() const {
   return false;
 }

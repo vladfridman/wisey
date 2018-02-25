@@ -153,6 +153,10 @@ TEST_F(DoubleTypeTest, isFunctionTest) {
   EXPECT_FALSE(mDoubleType.isFunction());
 }
 
+TEST_F(DoubleTypeTest, isPackageTest) {
+  EXPECT_FALSE(mDoubleType.isPackage());
+}
+
 TEST_F(DoubleTypeTest, isObjectTest) {
   EXPECT_FALSE(mDoubleType.isController());
   EXPECT_FALSE(mDoubleType.isInterface());

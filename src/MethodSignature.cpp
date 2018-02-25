@@ -108,6 +108,10 @@ bool MethodSignature::isFunction() const {
   return true;
 }
 
+bool MethodSignature::isPackage() const {
+  return false;
+}
+
 bool MethodSignature::isPrimitive() const {
   return false;
 }

@@ -516,6 +516,10 @@ TEST_F(NodeTest, isFunctionTest) {
   EXPECT_FALSE(mSimpleNode->isFunction());
 }
 
+TEST_F(NodeTest, isPackageTest) {
+  EXPECT_FALSE(mSimpleNode->isPackage());
+}
+
 TEST_F(NodeTest, isObjectTest) {
   EXPECT_FALSE(mSimpleNode->isController());
   EXPECT_FALSE(mSimpleNode->isInterface());

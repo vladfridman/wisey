@@ -114,6 +114,10 @@ bool ExternalStaticMethod::isFunction() const {
   return true;
 }
 
+bool ExternalStaticMethod::isPackage() const {
+  return false;
+}
+
 bool ExternalStaticMethod::isPrimitive() const {
   return false;
 }

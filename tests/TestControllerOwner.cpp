@@ -216,6 +216,10 @@ TEST_F(ControllerOwnerTest, isFunctionTest) {
   EXPECT_FALSE(mMultiplierController->getOwner()->isFunction());
 }
 
+TEST_F(ControllerOwnerTest, isPackageTest) {
+  EXPECT_FALSE(mMultiplierController->getOwner()->isPackage());
+}
+
 TEST_F(ControllerOwnerTest, isObjectTest) {
   EXPECT_TRUE(mMultiplierController->getOwner()->isController());
   EXPECT_FALSE(mMultiplierController->getOwner()->isInterface());

@@ -129,6 +129,10 @@ TEST_F(NullTypeTest, isFunctionTest) {
   EXPECT_FALSE(NullType::NULL_TYPE->isFunction());
 }
 
+TEST_F(NullTypeTest, isPackageTest) {
+  EXPECT_FALSE(NullType::NULL_TYPE->isPackage());
+}
+
 TEST_F(NullTypeTest, isObjectTest) {
   EXPECT_FALSE(NullType::NULL_TYPE->isController());
   EXPECT_FALSE(NullType::NULL_TYPE->isInterface());

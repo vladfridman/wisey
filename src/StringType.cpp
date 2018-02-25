@@ -79,6 +79,10 @@ bool StringType::isFunction() const {
   return false;
 }
 
+bool StringType::isPackage() const {
+  return false;
+}
+
 bool StringType::isController() const {
   return false;
 }

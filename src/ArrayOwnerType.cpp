@@ -110,6 +110,10 @@ bool ArrayOwnerType::isFunction() const {
   return false;
 }
 
+bool ArrayOwnerType::isPackage() const {
+  return false;
+}
+
 bool ArrayOwnerType::isController() const {
   return false;
 }

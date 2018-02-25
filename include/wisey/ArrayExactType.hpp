@@ -81,6 +81,8 @@ namespace wisey {
     bool isArray() const override;
     
     bool isFunction() const override;
+    
+    bool isPackage() const override;
 
     bool isController() const override;
     

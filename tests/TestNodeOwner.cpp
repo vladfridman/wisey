@@ -386,6 +386,10 @@ TEST_F(NodeOwnerTest, isFunctionTest) {
   EXPECT_FALSE(mSimpleNode->getOwner()->isFunction());
 }
 
+TEST_F(NodeOwnerTest, isPackageTest) {
+  EXPECT_FALSE(mSimpleNode->getOwner()->isPackage());
+}
+
 TEST_F(NodeOwnerTest, isObjectTest) {
   EXPECT_FALSE(mSimpleNode->getOwner()->isController());
   EXPECT_FALSE(mSimpleNode->getOwner()->isInterface());

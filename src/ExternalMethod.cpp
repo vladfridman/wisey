@@ -118,6 +118,10 @@ bool ExternalMethod::isFunction() const {
   return true;
 }
 
+bool ExternalMethod::isPackage() const {
+  return false;
+}
+
 bool ExternalMethod::isController() const {
   return false;
 }

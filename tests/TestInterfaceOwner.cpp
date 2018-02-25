@@ -155,6 +155,10 @@ TEST_F(InterfaceOwnerTest, isFunctionTest) {
   EXPECT_FALSE(mObjectInterface->getOwner()->isFunction());
 }
 
+TEST_F(InterfaceOwnerTest, isPackageTest) {
+  EXPECT_FALSE(mObjectInterface->getOwner()->isPackage());
+}
+
 TEST_F(InterfaceOwnerTest, isObjectTest) {
   EXPECT_FALSE(mObjectInterface->getOwner()->isController());
   EXPECT_TRUE(mObjectInterface->getOwner()->isInterface());

@@ -112,6 +112,10 @@ bool ArrayExactType::isFunction() const {
   return false;
 }
 
+bool ArrayExactType::isPackage() const {
+  return false;
+}
+
 bool ArrayExactType::isController() const {
   return false;
 }

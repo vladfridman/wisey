@@ -66,6 +66,10 @@ bool UndefinedType::isFunction() const {
   return false;
 }
 
+bool UndefinedType::isPackage() const {
+  return false;
+}
+
 bool UndefinedType::isController() const {
   return false;
 }

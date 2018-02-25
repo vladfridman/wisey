@@ -328,6 +328,10 @@ bool Controller::isFunction() const {
   return false;
 }
 
+bool Controller::isPackage() const {
+  return false;
+}
+
 bool Controller::isController() const {
   return true;
 }

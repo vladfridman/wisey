@@ -139,3 +139,7 @@ TEST_F(ExternalMethodTest, isArrayTest) {
 TEST_F(ExternalMethodTest, isFunctionTest) {
   EXPECT_TRUE(mMethod->isFunction());
 }
+
+TEST_F(ExternalMethodTest, isPackageTest) {
+  EXPECT_FALSE(mMethod->isPackage());
+}
