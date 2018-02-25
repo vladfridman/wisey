@@ -12,6 +12,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IdentifierChain.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/UndefinedType.hpp"
 
 using namespace std;
 using namespace llvm;
@@ -44,8 +45,7 @@ Value* IdentifierChain::generateIR(IRGenerationContext& context, const IType* as
 
 const IType* IdentifierChain::getType(IRGenerationContext& context) const {
   const IType* expressionType = mObjectExpression->getType(context);
-  TypeKind typeKind = expressionType->getTypeKind();
-  if (typeKind == PACKAGE_TYPE || typeKind == UNDEFINED_TYPE_KIND) {
+  if (expressionType->isPackage() || expressionType == UndefinedType::UNDEFINED_TYPE) {
     stringstream stringStream;
     mObjectExpression->printToStream(context, stringStream);
     return context.getPackageType(stringStream.str() + "." + mName);

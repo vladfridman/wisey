@@ -27,6 +27,7 @@
 #include "wisey/IdentifierChain.hpp"
 #include "wisey/LocalPrimitiveVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/UndefinedType.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -84,14 +85,13 @@ TEST_F(IdentifierChainTest, printToStreamTest) {
 TEST_F(IdentifierChainTest, getTypeForUndefinedBaseTypeTest) {
   NiceMock<MockExpression>* mockExpression = new NiceMock<MockExpression>();
   NiceMock<MockType> mockType;
-  ON_CALL(*mockExpression, getType(_)).WillByDefault(Return(&mockType));
+  ON_CALL(*mockExpression, getType(_)).WillByDefault(Return(UndefinedType::UNDEFINED_TYPE));
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printUndefinedTypeExpression));
-  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(UNDEFINED_TYPE_KIND));
   
   IdentifierChain identifierChain(mockExpression, "lang");
   const IType* type = identifierChain.getType(mContext);
   
-  EXPECT_EQ(PACKAGE_TYPE, type->getTypeKind());
+  EXPECT_TRUE(type->isPackage());
   EXPECT_STREQ("wisey.lang", type->getTypeName().c_str());
 }
 
@@ -100,12 +100,12 @@ TEST_F(IdentifierChainTest, getTypeForPackageBaseTypeTest) {
   NiceMock<MockType> mockType;
   ON_CALL(*mockExpression, getType(_)).WillByDefault(Return(&mockType));
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printPackageTypeExpression));
-  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(PACKAGE_TYPE));
+  ON_CALL(mockType, isPackage()).WillByDefault(Return(true));
   
   IdentifierChain identifierChain(mockExpression, "tests");
   const IType* type = identifierChain.getType(mContext);
   
-  EXPECT_EQ(PACKAGE_TYPE, type->getTypeKind());
+  EXPECT_TRUE(type->isPackage());
   EXPECT_STREQ("systems.vos.wisey.compiler.tests", type->getTypeName().c_str());
 }
 
