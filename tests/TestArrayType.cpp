@@ -64,7 +64,8 @@ struct ArrayTypeTest : public Test {
 
 TEST_F(ArrayTypeTest, getOwnerTest) {
   const ArrayOwnerType* arrayOwnerType = mArrayType->getOwner();
-  EXPECT_EQ(ARRAY_OWNER_TYPE, arrayOwnerType->getTypeKind());
+  EXPECT_TRUE(arrayOwnerType->isArray());
+  EXPECT_TRUE(arrayOwnerType->isOwner());
   EXPECT_EQ(mArrayType, arrayOwnerType->getArrayType(mContext));
 }
 
@@ -90,10 +91,6 @@ TEST_F(ArrayTypeTest, getLLVMTypeTest) {
   EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(2));
   EXPECT_EQ(llvm::ArrayType::get(llvm::Type::getInt64Ty(mLLVMContext), 0u),
             arrayStruct->getElementType(ArrayType::ARRAY_ELEMENTS_START_INDEX));
-}
-
-TEST_F(ArrayTypeTest, getTypeKindTest) {
-  EXPECT_EQ(ARRAY_TYPE, mArrayType->getTypeKind());
 }
 
 TEST_F(ArrayTypeTest, canCastToTest) {

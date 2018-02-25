@@ -25,10 +25,6 @@ llvm::Type* VoidType::getLLVMType(IRGenerationContext& context) const {
   return Type::getVoidTy(context.getLLVMContext());
 }
 
-TypeKind VoidType::getTypeKind() const {
-  return PRIMITIVE_TYPE;
-}
-
 bool VoidType::canCastTo(IRGenerationContext& context, const IType* toType) const {
   return toType == PrimitiveTypes::VOID_TYPE;
 }

@@ -57,10 +57,6 @@ TEST_F(NullTypeTest, getLLVMTypeTest) {
   ASSERT_EQ(NullType::NULL_TYPE->getLLVMType(mContext), int8PointerType);
 }
 
-TEST_F(NullTypeTest, getTypeKindTest) {
-  ASSERT_EQ(NullType::NULL_TYPE->getTypeKind(), NULL_TYPE_KIND);
-}
-
 TEST_F(NullTypeTest, canCastToTest) {
   string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
   StructType* structType = StructType::create(mLLVMContext, modelFullName);

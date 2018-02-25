@@ -87,10 +87,6 @@ ArraySpecificType::computeArrayAllocData(IRGenerationContext& context) const {
   return result;
 }
 
-TypeKind ArraySpecificType::getTypeKind() const {
-  return ARRAY_TYPE;
-}
-
 bool ArraySpecificType::canCastTo(IRGenerationContext& context, const IType *toType) const {
   return toType == this;
 }

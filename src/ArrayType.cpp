@@ -66,10 +66,6 @@ llvm::PointerType* ArrayType::getLLVMType(IRGenerationContext& context) const {
   return type->getPointerTo();
 }
 
-TypeKind ArrayType::getTypeKind() const {
-  return ARRAY_TYPE;
-}
-
 bool ArrayType::canCastTo(IRGenerationContext& context, const IType *toType) const {
   return toType == this;
 }

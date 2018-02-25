@@ -27,8 +27,6 @@ public:
   std::string getTypeName() const override;
 
   llvm::Type* getLLVMType(IRGenerationContext& context) const override;
-  
-  TypeKind getTypeKind() const override;
 
   bool canCastTo(IRGenerationContext& context, const IType* toType) const override;
   

@@ -31,7 +31,8 @@ TEST_F(ArrayOwnerTypeSpecifierTest, creationTest) {
   ArrayOwnerTypeSpecifier* specifier = new ArrayOwnerTypeSpecifier(arraySpecifier);
   const IType* type = specifier->getType(mContext);
   
-  EXPECT_EQ(ARRAY_OWNER_TYPE, type->getTypeKind());
+  EXPECT_TRUE(type->isArray());
+  EXPECT_TRUE(type->isOwner());
   EXPECT_STREQ("int[]*", type->getTypeName().c_str());
   
   const ArrayOwnerType* arrayType = (const ArrayOwnerType*) type;

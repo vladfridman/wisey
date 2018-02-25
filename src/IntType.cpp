@@ -31,10 +31,6 @@ llvm::Type* IntType::getLLVMType(IRGenerationContext& context) const {
   return Type::getInt32Ty(context.getLLVMContext());
 }
 
-TypeKind IntType::getTypeKind() const {
-  return PRIMITIVE_TYPE;
-}
-
 bool IntType::canCastTo(IRGenerationContext& context, const IType* toType) const {
   if (!toType->isPrimitive()) {
     return false;

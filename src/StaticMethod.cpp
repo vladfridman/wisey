@@ -81,10 +81,6 @@ FunctionType* StaticMethod::getLLVMType(IRGenerationContext& context) const {
   return IMethodDescriptor::getLLVMFunctionType(context, this, mObjectType);
 }
 
-TypeKind StaticMethod::getTypeKind() const {
-  return TypeKind::FUNCTION_TYPE;
-}
-
 bool StaticMethod::canCastTo(IRGenerationContext& context, const IType* toType) const {
   return false;
 }

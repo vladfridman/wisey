@@ -27,10 +27,6 @@ Type* UndefinedType::getLLVMType(IRGenerationContext& context) const {
   return NULL;
 }
 
-TypeKind UndefinedType::getTypeKind() const {
-  return UNDEFINED_TYPE_KIND;
-}
-
 bool UndefinedType::canCastTo(IRGenerationContext& context, const IType* toType) const {
   return false;
 }

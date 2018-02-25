@@ -31,10 +31,6 @@ llvm::Type* LongType::getLLVMType(IRGenerationContext& context) const {
   return Type::getInt64Ty(context.getLLVMContext());
 }
 
-TypeKind LongType::getTypeKind() const {
-  return PRIMITIVE_TYPE;
-}
-
 bool LongType::canCastTo(IRGenerationContext& context, const IType* toType) const {
   if (!toType->isPrimitive()) {
     return false;

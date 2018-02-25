@@ -34,10 +34,6 @@ PointerType* ControllerOwner::getLLVMType(IRGenerationContext& context) const {
   return mController->getLLVMType(context);
 }
 
-TypeKind ControllerOwner::getTypeKind() const {
-  return CONTROLLER_OWNER_TYPE;
-}
-
 bool ControllerOwner::canCastTo(IRGenerationContext& context, const IType* toType) const {
   if (toType == this || toType == mController) {
     return true;

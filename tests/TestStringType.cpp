@@ -68,7 +68,6 @@ public:
 TEST_F(StringTypeTest, stringTypeTest) {
   EXPECT_EQ(mStringType.getLLVMType(mContext), Type::getInt8Ty(mLLVMContext)->getPointerTo());
   EXPECT_STREQ(mStringType.getTypeName().c_str(), "string");
-  EXPECT_EQ(mStringType.getTypeKind(), PRIMITIVE_TYPE);
   EXPECT_EQ(mStringType.getFormat(), "%s");
 }
 

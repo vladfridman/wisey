@@ -31,10 +31,6 @@ llvm::Type* FloatType::getLLVMType(IRGenerationContext& context) const {
   return Type::getFloatTy(context.getLLVMContext());
 }
 
-TypeKind FloatType::getTypeKind() const {
-  return PRIMITIVE_TYPE;
-}
-
 bool FloatType::canCastTo(IRGenerationContext& context, const IType* toType) const {
   if (!toType->isPrimitive()) {
     return false;

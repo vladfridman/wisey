@@ -22,27 +22,6 @@ namespace wisey {
   class IConcreteObjectType;
   class IObjectType;
   class IRGenerationContext;
-
-  /**
-   * Lists possible data type kinds
-   */
-  typedef enum TypeKindEnum {
-    PRIMITIVE_TYPE,
-    ARRAY_TYPE,
-    ARRAY_OWNER_TYPE,
-    FUNCTION_TYPE,
-    PACKAGE_TYPE,
-    INTERFACE_TYPE,
-    INTERFACE_OWNER_TYPE,
-    MODEL_TYPE,
-    MODEL_OWNER_TYPE,
-    CONTROLLER_TYPE,
-    CONTROLLER_OWNER_TYPE,
-    NODE_TYPE,
-    NODE_OWNER_TYPE,
-    NULL_TYPE_KIND,
-    UNDEFINED_TYPE_KIND,
-  } TypeKind;
   
   /**
    * Interface representing expression type in wisey language
@@ -62,11 +41,6 @@ namespace wisey {
      * Return corresponding LLVM type
      */
     virtual llvm::Type* getLLVMType(IRGenerationContext& context) const = 0;
-    
-    /**
-     * Tells what kind of data type is this type: primitive/model/controller
-     */
-    virtual TypeKind getTypeKind() const = 0;
     
     /**
      * Indicates whether this type can be cast to another type

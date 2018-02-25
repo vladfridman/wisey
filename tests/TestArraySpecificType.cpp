@@ -88,10 +88,6 @@ TEST_F(ArraySpecificTypeTest, getLLVMTypeTest) {
             arrayStruct->getElementType(ArrayType::ARRAY_ELEMENTS_START_INDEX));
 }
 
-TEST_F(ArraySpecificTypeTest, getTypeKindTest) {
-  EXPECT_EQ(ARRAY_TYPE, mArraySpecificType->getTypeKind());
-}
-
 TEST_F(ArraySpecificTypeTest, canCastToTest) {
   EXPECT_FALSE(mArraySpecificType->canCastTo(mContext, PrimitiveTypes::STRING_TYPE));
   EXPECT_TRUE(mArraySpecificType->canCastTo(mContext, mArraySpecificType));

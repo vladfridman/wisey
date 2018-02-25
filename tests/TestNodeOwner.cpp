@@ -286,10 +286,6 @@ TEST_F(NodeOwnerTest, getLLVMTypeTest) {
             mComplicatedNode->getLLVMType(mContext));
 }
 
-TEST_F(NodeOwnerTest, getTypeKindTest) {
-  EXPECT_EQ(mComplicatedNode->getOwner()->getTypeKind(), NODE_OWNER_TYPE);
-}
-
 TEST_F(NodeOwnerTest, getDestructorFunctionTest) {
   Function* result = mSimplerNode->getOwner()->getDestructorFunction(mContext);
   

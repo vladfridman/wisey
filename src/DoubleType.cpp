@@ -31,10 +31,6 @@ llvm::Type* DoubleType::getLLVMType(IRGenerationContext& context) const {
   return Type::getDoubleTy(context.getLLVMContext());
 }
 
-TypeKind DoubleType::getTypeKind() const {
-  return PRIMITIVE_TYPE;
-}
-
 bool DoubleType::canCastTo(IRGenerationContext& context, const IType* toType) const {
   if (!toType->isPrimitive()) {
     return false;

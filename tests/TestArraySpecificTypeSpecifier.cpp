@@ -50,7 +50,8 @@ TEST_F(ArraySpecificTypeSpecifierTest, creationTest) {
   ArraySpecificTypeSpecifier* specifier = new ArraySpecificTypeSpecifier(intSpecifer, mDimensions);
   const IType* type = specifier->getType(mContext);
   
-  EXPECT_EQ(ARRAY_TYPE, type->getTypeKind());
+  EXPECT_TRUE(type->isArray());
+  EXPECT_TRUE(type->isReference());
   EXPECT_STREQ("int[]", type->getTypeName().c_str());
   
   const ArraySpecificType* arrayType = (const ArraySpecificType*) type;

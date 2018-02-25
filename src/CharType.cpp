@@ -31,10 +31,6 @@ llvm::Type* CharType::getLLVMType(IRGenerationContext& context) const {
   return Type::getInt16Ty(context.getLLVMContext());
 }
 
-TypeKind CharType::getTypeKind() const {
-  return PRIMITIVE_TYPE;
-}
-
 bool CharType::canCastTo(IRGenerationContext& context, const IType* toType) const {
   if (!toType->isPrimitive()) {
     return false;

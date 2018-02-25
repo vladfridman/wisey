@@ -73,10 +73,6 @@ FunctionType* MethodSignature::getLLVMType(IRGenerationContext& context) const {
   return IMethodDescriptor::getLLVMFunctionType(context, this, mObjectType);
 }
 
-TypeKind MethodSignature::getTypeKind() const {
-  return TypeKind::FUNCTION_TYPE;
-}
-
 bool MethodSignature::canCastTo(IRGenerationContext& context, const IType* toType) const {
   return false;
 }

@@ -53,7 +53,8 @@ TEST_F(ArraySpecificOwnerTypeSpecifierTest, creationTest) {
   ArraySpecificOwnerTypeSpecifier* ownerSpecifier = new ArraySpecificOwnerTypeSpecifier(specifier);
   const IType* type = ownerSpecifier->getType(mContext);
   
-  EXPECT_EQ(ARRAY_OWNER_TYPE, type->getTypeKind());
+  EXPECT_TRUE(type->isArray());
+  EXPECT_TRUE(type->isOwner());
   EXPECT_STREQ("int[]*", type->getTypeName().c_str());
   
   const ArraySpecificOwnerType* arraySpecificOwnerType = (const ArraySpecificOwnerType*) type;

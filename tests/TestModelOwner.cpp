@@ -276,10 +276,6 @@ TEST_F(ModelOwnerTest, getLLVMTypeTest) {
   EXPECT_EQ(mModel->getOwner()->getLLVMType(mContext), mModel->getLLVMType(mContext));
 }
 
-TEST_F(ModelOwnerTest, getTypeKindTest) {
-  EXPECT_EQ(mModel->getOwner()->getTypeKind(), MODEL_OWNER_TYPE);
-}
-
 TEST_F(ModelOwnerTest, getDestructorFunctionTest) {
   Function* result = mCircleModel->getOwner()->getDestructorFunction(mContext);
   

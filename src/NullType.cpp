@@ -28,10 +28,6 @@ Type* NullType::getLLVMType(IRGenerationContext& context) const {
   return Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
 }
 
-TypeKind NullType::getTypeKind() const {
-  return NULL_TYPE_KIND;
-}
-
 bool NullType::canCastTo(IRGenerationContext& context, const IType* toType) const {
   return !toType->isPrimitive();
 }

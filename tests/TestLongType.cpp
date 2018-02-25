@@ -67,7 +67,6 @@ public:
 TEST_F(LongTypeTest, longTypeTest) {
   EXPECT_EQ(mLongType.getLLVMType(mContext), (llvm::Type*) Type::getInt64Ty(mLLVMContext));
   EXPECT_STREQ(mLongType.getTypeName().c_str(), "long");
-  EXPECT_EQ(mLongType.getTypeKind(), PRIMITIVE_TYPE);
   EXPECT_EQ(mLongType.getFormat(), "%d");
 }
 

@@ -28,10 +28,6 @@ Type* PackageType::getLLVMType(IRGenerationContext &context) const {
   return NULL;
 }
 
-TypeKind PackageType::getTypeKind() const {
-  return PACKAGE_TYPE;
-}
-
 bool PackageType::canCastTo(IRGenerationContext& context, const IType *toType) const {
   return false;
 }

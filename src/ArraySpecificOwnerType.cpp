@@ -36,10 +36,6 @@ llvm::PointerType* ArraySpecificOwnerType::getLLVMType(IRGenerationContext& cont
   return mArraySpecificType->getLLVMType(context);
 }
 
-TypeKind ArraySpecificOwnerType::getTypeKind() const {
-  return ARRAY_OWNER_TYPE;
-}
-
 bool ArraySpecificOwnerType::canCastTo(IRGenerationContext& context, const IType* toType) const {
   if (toType == this) {
     return true;

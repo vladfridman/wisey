@@ -56,7 +56,6 @@ public:
 TEST_F(VoidTypeTest, voidTypeTest) {
   EXPECT_EQ(mVoidType.getLLVMType(mContext), Type::getVoidTy(mLLVMContext));
   EXPECT_STREQ(mVoidType.getTypeName().c_str(), "void");
-  EXPECT_EQ(mVoidType.getTypeKind(), PRIMITIVE_TYPE);
   EXPECT_EQ(mVoidType.getFormat(), "");
 }
 

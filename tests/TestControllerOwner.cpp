@@ -151,10 +151,6 @@ TEST_F(ControllerOwnerTest, getLLVMTypeTest) {
             mMultiplierController->getLLVMType(mContext));
 }
 
-TEST_F(ControllerOwnerTest, getTypeKindTest) {
-  EXPECT_EQ(mMultiplierController->getOwner()->getTypeKind(), CONTROLLER_OWNER_TYPE);
-}
-
 TEST_F(ControllerOwnerTest, canCastTest) {
   const IObjectOwnerType* controllerOwner = mMultiplierController->getOwner();
 

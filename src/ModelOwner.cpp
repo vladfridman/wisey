@@ -34,10 +34,6 @@ PointerType* ModelOwner::getLLVMType(IRGenerationContext& context) const {
   return mModel->getLLVMType(context);
 }
 
-TypeKind ModelOwner::getTypeKind() const {
-  return MODEL_OWNER_TYPE;
-}
-
 bool ModelOwner::canCastTo(IRGenerationContext& context, const IType* toType) const {
   if (toType == this || toType == mModel) {
     return true;

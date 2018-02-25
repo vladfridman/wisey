@@ -61,8 +61,6 @@ namespace wisey {
     
     llvm::PointerType* getLLVMType(IRGenerationContext& context) const override;
     
-    TypeKind getTypeKind() const override;
-    
     bool canCastTo(IRGenerationContext& context, const IType* toType) const override;
     
     bool canAutoCastTo(IRGenerationContext& context, const IType* toType) const override;

@@ -31,10 +31,6 @@ llvm::Type* StringType::getLLVMType(IRGenerationContext& context) const {
   return Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
 }
 
-TypeKind StringType::getTypeKind() const {
-  return PRIMITIVE_TYPE;
-}
-
 bool StringType::canCastTo(IRGenerationContext& context, const IType* toType) const {
   return toType == PrimitiveTypes::STRING_TYPE;
 }

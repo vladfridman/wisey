@@ -75,10 +75,6 @@ TEST_F(ArrayOwnerTypeTest, getLLVMTypeTest) {
             arrayStruct->getElementType(ArrayType::ARRAY_ELEMENTS_START_INDEX));
 }
 
-TEST_F(ArrayOwnerTypeTest, getTypeKindTest) {
-  EXPECT_EQ(ARRAY_OWNER_TYPE, mArrayOwnerType->getTypeKind());
-}
-
 TEST_F(ArrayOwnerTypeTest, canCastToTest) {
   EXPECT_FALSE(mArrayOwnerType->canCastTo(mContext, PrimitiveTypes::STRING_TYPE));
   EXPECT_TRUE(mArrayOwnerType->canCastTo(mContext, mArrayOwnerType));

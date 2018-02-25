@@ -31,10 +31,6 @@ llvm::Type* BooleanType::getLLVMType(IRGenerationContext& context) const {
   return Type::getInt1Ty(context.getLLVMContext());
 }
 
-TypeKind BooleanType::getTypeKind() const {
-  return PRIMITIVE_TYPE;
-}
-
 bool BooleanType::canCastTo(IRGenerationContext& context, const IType* toType) const {
   if (!toType->isPrimitive()) {
     return false;

@@ -215,10 +215,6 @@ llvm::PointerType* Model::getLLVMType(IRGenerationContext& context) const {
   return mStructType->getPointerTo();
 }
 
-TypeKind Model::getTypeKind() const {
-  return MODEL_TYPE;
-}
-
 bool Model::canCastTo(IRGenerationContext& context, const IType* toType) const {
   return IConcreteObjectType::canCast(this, toType);
 }

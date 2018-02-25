@@ -58,7 +58,6 @@ TEST_F(MethodSignatureTest, methodSignatureTest) {
   EXPECT_EQ(0u, mMethodSignature->getArguments().size());
   EXPECT_STREQ("systems.vos.wisey.compiler.tests.IInterface.foo",
                mMethodSignature->getTypeName().c_str());
-  EXPECT_EQ(FUNCTION_TYPE, mMethodSignature->getTypeKind());
 }
 
 TEST_F(MethodSignatureTest, createCopyTest) {

@@ -328,10 +328,6 @@ TEST_F(ModelTest, getVTableNameTest) {
   EXPECT_STREQ(mModel->getVTableName().c_str(), "systems.vos.wisey.compiler.tests.MSquare.vtable");
 }
 
-TEST_F(ModelTest, getTypeKindTest) {
-  EXPECT_EQ(mModel->getTypeKind(), MODEL_TYPE);
-}
-
 TEST_F(ModelTest, getLLVMTypeTest) {
   EXPECT_EQ(mModel->getLLVMType(mContext), mStructType->getPointerTo());
 }

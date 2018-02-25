@@ -35,10 +35,6 @@ PointerType* InterfaceOwner::getLLVMType(IRGenerationContext& context) const {
   return mInterface->getLLVMType(context);
 }
 
-TypeKind InterfaceOwner::getTypeKind() const {
-  return INTERFACE_OWNER_TYPE;
-}
-
 bool InterfaceOwner::canCastTo(IRGenerationContext& context, const IType* toType) const {
   if (toType == this || toType == mInterface) {
     return true;

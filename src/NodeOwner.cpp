@@ -34,10 +34,6 @@ PointerType* NodeOwner::getLLVMType(IRGenerationContext& context) const {
   return mNode->getLLVMType(context);
 }
 
-TypeKind NodeOwner::getTypeKind() const {
-  return NODE_OWNER_TYPE;
-}
-
 bool NodeOwner::canCastTo(IRGenerationContext& context, const IType* toType) const {
   if (toType == this || toType == mNode) {
     return true;

@@ -132,7 +132,7 @@ TEST_F(IdentifierChainTest, getTypeForPrimitiveBaseTypeDeathTest) {
   NiceMock<MockObjectType> mockObjectType;
   ON_CALL(*mockExpression, getType(_)).WillByDefault(Return(&mockObjectType));
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printObjectTypeExpression));
-  ON_CALL(mockObjectType, getTypeKind()).WillByDefault(Return(PRIMITIVE_TYPE));
+  ON_CALL(mockObjectType, isPrimitive()).WillByDefault(Return(true));
   
   IdentifierChain identifierChain(mockExpression, "foo");
   

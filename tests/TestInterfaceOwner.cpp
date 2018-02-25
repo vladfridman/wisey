@@ -103,10 +103,6 @@ TEST_F(InterfaceOwnerTest, getLLVMTypeTest) {
             mShapeInterface->getLLVMType(mContext));
 }
 
-TEST_F(InterfaceOwnerTest, getTypeKindTest) {
-  EXPECT_EQ(mShapeInterface->getOwner()->getTypeKind(), INTERFACE_OWNER_TYPE);
-}
-
 TEST_F(InterfaceOwnerTest, getDestructorFunctionTest) {
   Function* result = mObjectInterface->getOwner()->getDestructorFunction(mContext);
   

@@ -289,10 +289,6 @@ llvm::PointerType* Controller::getLLVMType(IRGenerationContext& context) const {
   return mStructType->getPointerTo();
 }
 
-TypeKind Controller::getTypeKind() const {
-  return CONTROLLER_TYPE;
-}
-
 bool Controller::canCastTo(IRGenerationContext& context, const IType* toType) const {
   return IConcreteObjectType::canCast(this, toType);
 }

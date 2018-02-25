@@ -74,10 +74,6 @@ TEST_F(ArrayExactTypeTest, getLLVMTypeTest) {
             arrayStruct->getElementType(ArrayType::ARRAY_ELEMENTS_START_INDEX));
 }
 
-TEST_F(ArrayExactTypeTest, getTypeKindTest) {
-  EXPECT_EQ(ARRAY_TYPE, mArrayExactType->getTypeKind());
-}
-
 TEST_F(ArrayExactTypeTest, canCastToTest) {
   EXPECT_FALSE(mArrayExactType->canCastTo(mContext, PrimitiveTypes::STRING_TYPE));
   EXPECT_TRUE(mArrayExactType->canCastTo(mContext, mArrayExactType));

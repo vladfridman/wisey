@@ -351,10 +351,6 @@ TEST_F(NodeTest, getVTableNameTest) {
                "systems.vos.wisey.compiler.tests.NComplicatedNode.vtable");
 }
 
-TEST_F(NodeTest, getTypeKindTest) {
-  EXPECT_EQ(mComplicatedNode->getTypeKind(), NODE_TYPE);
-}
-
 TEST_F(NodeTest, getLLVMTypeTest) {
   EXPECT_EQ(mComplicatedNode->getLLVMType(mContext), mStructType->getPointerTo());
 }

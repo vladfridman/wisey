@@ -95,7 +95,6 @@ TEST_F(StaticMethodTest, basicStaticMethodTest) {
   EXPECT_TRUE(mStaticMethod->isStatic());
   EXPECT_STREQ("systems.vos.wisey.compiler.tests.MObject.mymethod",
                mStaticMethod->getTypeName().c_str());
-  EXPECT_EQ(FUNCTION_TYPE, mStaticMethod->getTypeKind());
 }
 
 TEST_F(StaticMethodTest, getLLVMTypeTest) {

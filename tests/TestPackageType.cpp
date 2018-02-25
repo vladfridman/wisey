@@ -42,10 +42,6 @@ TEST_F(PackageTypeTest, getLLVMTypeTest) {
   ASSERT_EQ(nullptr, mPackageType->getLLVMType(mContext));
 }
 
-TEST_F(PackageTypeTest, getTypeKindTest) {
-  ASSERT_EQ(PACKAGE_TYPE, mPackageType->getTypeKind());
-}
-
 TEST_F(PackageTypeTest, isPrimitiveTest) {
   EXPECT_FALSE(mPackageType->isPrimitive());
 }

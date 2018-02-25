@@ -519,10 +519,6 @@ llvm::PointerType* Interface::getLLVMType(IRGenerationContext& context) const {
   return mStructType->getPointerTo();
 }
 
-TypeKind Interface::getTypeKind() const {
-  return INTERFACE_TYPE;
-}
-
 bool Interface::canCastTo(IRGenerationContext& context, const IType* toType) const {
   if (!IType::isObjectType(toType)) {
     return false;

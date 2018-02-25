@@ -191,10 +191,6 @@ PointerType* Node::getLLVMType(IRGenerationContext& context) const {
   return mStructType->getPointerTo();
 }
 
-TypeKind Node::getTypeKind() const {
-  return NODE_TYPE;
-}
-
 bool Node::canCastTo(IRGenerationContext& context, const IType* toType) const {
   return IConcreteObjectType::canCast(this, toType);
 }

@@ -333,10 +333,6 @@ TEST_F(ControllerTest, getVTableNameTest) {
                "systems.vos.wisey.compiler.tests.CMultiplier.vtable");
 }
 
-TEST_F(ControllerTest, getTypeKindTest) {
-  EXPECT_EQ(mMultiplierController->getTypeKind(), CONTROLLER_TYPE);
-}
-
 TEST_F(ControllerTest, getLLVMTypeTest) {
   EXPECT_EQ(mMultiplierController->getLLVMType(mContext), mStructType->getPointerTo());
 }
