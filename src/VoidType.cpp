@@ -8,6 +8,7 @@
 
 #include "wisey/ArrayType.hpp"
 #include "wisey/Cast.hpp"
+#include "wisey/IObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/VoidType.hpp"
@@ -111,3 +112,8 @@ const wisey::ArrayType* VoidType::getArrayType(IRGenerationContext& context) con
   ArrayType::reportNonArrayType();
   exit(1);
 }
+
+const IObjectType* VoidType::getObjectType() const {
+  return NULL;
+}
+

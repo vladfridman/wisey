@@ -957,3 +957,7 @@ const wisey::ArrayType* Interface::getArrayType(IRGenerationContext& context) co
   ArrayType::reportNonArrayType();
   exit(1);
 }
+
+const Interface* Interface::getObjectType() const {
+  return this;
+}

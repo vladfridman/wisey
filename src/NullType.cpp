@@ -10,6 +10,7 @@
 #include <llvm/IR/Instructions.h>
 
 #include "wisey/ArrayType.hpp"
+#include "wisey/IObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/NullType.hpp"
@@ -97,6 +98,10 @@ void NullType::createParameterVariable(IRGenerationContext& context,
 const wisey::ArrayType* NullType::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);
+}
+
+const IObjectType* NullType::getObjectType() const {
+  return NULL;
 }
 
 NullType* NullType::NULL_TYPE = new NullType();

@@ -180,6 +180,8 @@ public:
 
   const ArrayType* getArrayType(IRGenerationContext& context) const override;
 
+  const Controller* getObjectType() const override;
+
 private:
 
   Controller(AccessLevel accessLevel,

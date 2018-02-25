@@ -445,3 +445,7 @@ const wisey::ArrayType* Node::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);
 }
+
+const Node* Node::getObjectType() const {
+  return this;
+}

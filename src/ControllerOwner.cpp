@@ -22,7 +22,7 @@ ControllerOwner::ControllerOwner(Controller* controller) : mController(controlle
 
 ControllerOwner::~ControllerOwner() { }
 
-Controller* ControllerOwner::getObject() const {
+Controller* ControllerOwner::getObjectType() const {
   return mController;
 }
 
@@ -44,7 +44,7 @@ bool ControllerOwner::canCastTo(IRGenerationContext& context, const IType* toTyp
   }
   
   if (IType::isOwnerType(toType)) {
-    return mController->canCastTo(context, ((IObjectOwnerType*) toType)->getObject());
+    return mController->canCastTo(context, toType->getObjectType());
   }
   
   return mController->canCastTo(context, toType);
@@ -63,18 +63,18 @@ Value* ControllerOwner::castTo(IRGenerationContext& context,
   }
 
   if (IType::isOwnerType(toType)) {
-    return mController->castTo(context, fromValue, ((IObjectOwnerType*) toType)->getObject(), line);
+    return mController->castTo(context, fromValue, toType->getObjectType(), line);
   }
   
   return mController->castTo(context, fromValue, toType, line);
 }
 
 void ControllerOwner::free(IRGenerationContext& context, Value* value) const {
-  IConcreteObjectType::composeDestructorCall(context, getObject(), value);
+  IConcreteObjectType::composeDestructorCall(context, getObjectType(), value);
 }
 
 Function* ControllerOwner::getDestructorFunction(IRGenerationContext& context) const {
-  return IConcreteObjectType::getDestructorFunctionForObject(context, getObject());
+  return IConcreteObjectType::getDestructorFunctionForObject(context, getObjectType());
 }
 
 bool ControllerOwner::isOwner() const {

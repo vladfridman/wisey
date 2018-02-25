@@ -273,7 +273,7 @@ struct NodeOwnerTest : public Test {
 };
 
 TEST_F(NodeOwnerTest, getObjectTest) {
-  EXPECT_EQ(mComplicatedNode->getOwner()->getObject(), mComplicatedNode);
+  EXPECT_EQ(mComplicatedNode->getOwner()->getObjectType(), mComplicatedNode);
 }
 
 TEST_F(NodeOwnerTest, getNameTest) {

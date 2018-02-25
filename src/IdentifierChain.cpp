@@ -71,7 +71,7 @@ IMethodDescriptor* IdentifierChain::getMethodDescriptor(IRGenerationContext& con
   }
   
   const IObjectType* objectType = IType::isOwnerType(expressionType)
-  ? ((IObjectOwnerType*) expressionType)->getObject()
+  ? expressionType->getObjectType()
   : (IObjectType*) expressionType;
   
   IMethodDescriptor* methodDescriptor = objectType->findMethod(mName);

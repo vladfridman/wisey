@@ -101,7 +101,7 @@ void IConcreteObjectDefinition::collectFieldTypes(IRGenerationContext& context,
     
     if (field->getFieldKind() == INJECTED_FIELD &&
         fieldType->getTypeKind() == INTERFACE_OWNER_TYPE) {
-      Interface* interface = (Interface*) ((IObjectOwnerType*) fieldType)->getObject();
+      Interface* interface = (Interface*) fieldType->getObjectType();
       fieldType = context.getBoundController(interface);
     }
     

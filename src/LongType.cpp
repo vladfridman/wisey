@@ -11,6 +11,7 @@
 #include "wisey/ArrayType.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/FieldPrimitiveVariable.hpp"
+#include "wisey/IObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalPrimitiveVariable.hpp"
@@ -131,4 +132,8 @@ void LongType::createParameterVariable(IRGenerationContext& context,
 const wisey::ArrayType* LongType::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);
+}
+
+const IObjectType* LongType::getObjectType() const {
+  return NULL;
 }

@@ -67,6 +67,8 @@ public:
 
   const ArrayType* getArrayType(IRGenerationContext& context) const override;
   
+  const IObjectType* getObjectType() const override;
+
   static UndefinedType* UNDEFINED_TYPE;
   
 };

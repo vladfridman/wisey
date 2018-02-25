@@ -355,7 +355,11 @@ TEST_F(ControllerTest, getFieldsTest) {
 
 TEST_F(ControllerTest, getOwnerTest) {
   ASSERT_NE(mMultiplierController->getOwner(), nullptr);
-  EXPECT_EQ(mMultiplierController->getOwner()->getObject(), mMultiplierController);
+  EXPECT_EQ(mMultiplierController->getOwner()->getObjectType(), mMultiplierController);
+}
+
+TEST_F(ControllerTest, getObjectTypeTest) {
+  EXPECT_EQ(mMultiplierController, mMultiplierController->getObjectType());
 }
 
 TEST_F(ControllerTest, getFieldIndexTest) {

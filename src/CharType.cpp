@@ -12,6 +12,7 @@
 #include "wisey/Cast.hpp"
 #include "wisey/CharType.hpp"
 #include "wisey/FieldPrimitiveVariable.hpp"
+#include "wisey/IObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalPrimitiveVariable.hpp"
@@ -135,4 +136,8 @@ void CharType::createParameterVariable(IRGenerationContext& context,
 const wisey::ArrayType* CharType::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);
+}
+
+const IObjectType* CharType::getObjectType() const {
+  return NULL;
 }

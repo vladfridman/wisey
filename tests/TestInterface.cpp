@@ -196,7 +196,11 @@ TEST_F(InterfaceTest, interfaceInstantiationTest) {
   EXPECT_EQ(mShapeInterface->getTypeKind(), INTERFACE_TYPE);
   EXPECT_EQ(mShapeInterface->getLLVMType(mContext), mShapeStructType->getPointerTo());
   ASSERT_NE(mShapeInterface->getOwner(), nullptr);
-  EXPECT_EQ(mShapeInterface->getOwner()->getObject(), mShapeInterface);
+  EXPECT_EQ(mShapeInterface->getOwner()->getObjectType(), mShapeInterface);
+}
+
+TEST_F(InterfaceTest, getObjectTypeTest) {
+  EXPECT_EQ(mShapeInterface, mShapeInterface->getObjectType());
 }
 
 TEST_F(InterfaceTest, findMethodTest) {

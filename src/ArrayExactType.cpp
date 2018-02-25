@@ -143,3 +143,7 @@ void ArrayExactType::createParameterVariable(IRGenerationContext& context,
 const wisey::ArrayType* ArrayExactType::getArrayType(IRGenerationContext& context) const {
   return context.getArrayType(mElementType, getNumberOfDimensions());
 }
+
+const IObjectType* ArrayExactType::getObjectType() const {
+  return NULL;
+}

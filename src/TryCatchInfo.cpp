@@ -41,7 +41,7 @@ BasicBlock* TryCatchInfo::defineLandingPadBlock(IRGenerationContext& context,
   }
   
   for (Catch* catchClause : mCatchList) {
-    context.getScopes().getScope()->removeException(catchClause->getType(context)->getObject());
+    context.getScopes().getScope()->removeException(catchClause->getType(context)->getObjectType());
   }
 
   BasicBlock* landingPadBlock = BasicBlock::Create(llvmContext, "eh.landing.pad", function);
@@ -120,7 +120,7 @@ TryCatchInfo::generateLandingPad(IRGenerationContext& context,
   for (Catch* catchClause : catchList) {
     ModelOwner* exceptionType = catchClause->getType(context);
     landingPad->addClause(context.getModule()->
-                          getNamedGlobal(exceptionType->getObject()->getRTTIVariableName()));
+                          getNamedGlobal(exceptionType->getObjectType()->getRTTIVariableName()));
   }
   
   Value* landingPadReturnValueAlloca = IRWriter::newAllocaInst(context, landingPadReturnType, "");
@@ -181,7 +181,7 @@ TryCatchInfo::generateSelectCatchByExceptionType(IRGenerationContext& context,
     context.setBasicBlock(currentBlock);
     ModelOwner* exceptionType = catchClause->getType(context);
     Value* rtti = context.getModule()->
-    getNamedGlobal(exceptionType->getObject()->getRTTIVariableName());
+    getNamedGlobal(exceptionType->getObjectType()->getRTTIVariableName());
     Value* rttiBitcast = IRWriter::newBitCastInst(context, rtti, int8PointerType);
     vector<Value*> arguments;
     arguments.push_back(rttiBitcast);
@@ -189,10 +189,10 @@ TryCatchInfo::generateSelectCatchByExceptionType(IRGenerationContext& context,
     typeId->setTailCall();
     ICmpInst* compare =
     IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, exceptionTypeId, typeId, "");
-    string catchBlockName = "catch." + exceptionType->getObject()->getTypeName();
+    string catchBlockName = "catch." + exceptionType->getObjectType()->getTypeName();
     BasicBlock* catchBlock = BasicBlock::Create(llvmContext, catchBlockName, function);
     catchesAndBlocks.push_back(make_tuple(catchClause, catchBlock));
-    string nextBlockName = "not." + exceptionType->getObject()->getTypeName();
+    string nextBlockName = "not." + exceptionType->getObjectType()->getTypeName();
     BasicBlock* nextBlock = BasicBlock::Create(llvmContext, nextBlockName, function);
     IRWriter::createConditionalBranch(context, catchBlock, nextBlock, compare);
     currentBlock = nextBlock;

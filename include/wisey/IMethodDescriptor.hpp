@@ -71,11 +71,6 @@ public:
    * Return corresponding LLVM type
    */
   virtual llvm::FunctionType* getLLVMType(IRGenerationContext& context) const = 0;
-  
-  /**
-   * Returns object type that this method belongs to
-   */
-  virtual const IObjectType* getObjectType() const = 0;
 
   /**
    * Returns two if two method descriptors are the same in terms of their name, return type

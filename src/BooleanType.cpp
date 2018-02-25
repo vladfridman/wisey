@@ -12,6 +12,7 @@
 #include "wisey/BooleanType.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/FieldPrimitiveVariable.hpp"
+#include "wisey/IObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalPrimitiveVariable.hpp"
@@ -136,5 +137,9 @@ void BooleanType::createParameterVariable(IRGenerationContext& context,
 const wisey::ArrayType* BooleanType::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);
+}
+
+const IObjectType* BooleanType::getObjectType() const {
+  return NULL;
 }
 

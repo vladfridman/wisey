@@ -102,6 +102,8 @@ namespace wisey {
     
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
 
+    const IObjectType* getObjectType() const override;
+
   private:
     
     void checkDimensionType(IRGenerationContext& context, const IType* type) const;

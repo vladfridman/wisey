@@ -11,6 +11,7 @@
 #include "wisey/ArrayType.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/FieldPrimitiveVariable.hpp"
+#include "wisey/IObjectType.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalPrimitiveVariable.hpp"
 #include "wisey/Names.hpp"
@@ -129,3 +130,6 @@ const wisey::ArrayType* StringType::getArrayType(IRGenerationContext& context) c
   exit(1);
 }
 
+const IObjectType* StringType::getObjectType() const {
+  return NULL;
+}

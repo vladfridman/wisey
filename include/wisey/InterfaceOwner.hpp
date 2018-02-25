@@ -26,7 +26,7 @@ public:
   
   ~InterfaceOwner();
 
-  Interface* getObject() const override;
+  Interface* getObjectType() const override;
 
   std::string getTypeName() const override;
   

@@ -179,3 +179,7 @@ void ArraySpecificType::createParameterVariable(IRGenerationContext& context,
 const wisey::ArrayType* ArraySpecificType::getArrayType(IRGenerationContext& context) const {
   return context.getArrayType(mElementType, getNumberOfDimensions());
 }
+
+const IObjectType* ArraySpecificType::getObjectType() const {
+  return NULL;
+}

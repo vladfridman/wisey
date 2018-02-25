@@ -181,6 +181,8 @@ public:
 
   const ArrayType* getArrayType(IRGenerationContext& context) const override;
 
+  const Node* getObjectType() const override;
+
 private:
   
   Node(AccessLevel accessLevel, std::string name, llvm::StructType* structType, bool isExternal);

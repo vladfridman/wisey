@@ -62,7 +62,9 @@ Value* TypeComparisionExpression::generateIR(IRGenerationContext& context,
 Value* TypeComparisionExpression::generateIRforOwnerTypes(IRGenerationContext& context,
                                                           const IObjectOwnerType* expressionType,
                                                           const IObjectOwnerType* type) const {
-  return generateIRforReferenceTypes(context, expressionType->getObject(), type->getObject());
+  return generateIRforReferenceTypes(context,
+                                     expressionType->getObjectType(),
+                                     type->getObjectType());
 }
 
 Value* TypeComparisionExpression::generateIRforReferenceTypes(IRGenerationContext& context,

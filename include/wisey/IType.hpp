@@ -20,6 +20,7 @@ namespace wisey {
 
   class ArrayType;
   class IConcreteObjectType;
+  class IObjectType;
   class IRGenerationContext;
 
   /**
@@ -143,7 +144,12 @@ namespace wisey {
      * Returns ArrayType if this type has one associated with it otherwise reports an error
      */
     virtual const ArrayType* getArrayType(IRGenerationContext& context) const = 0;
-    
+
+    /**
+     * Returns IObjectType if this type has one associated with it otherwise returns NULL
+     */
+    virtual const IObjectType* getObjectType() const = 0;
+
     /**
      * Tells whether the given type is an owner type
      */

@@ -12,6 +12,7 @@
 #include "wisey/Cast.hpp"
 #include "wisey/DoubleType.hpp"
 #include "wisey/FieldPrimitiveVariable.hpp"
+#include "wisey/IObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalPrimitiveVariable.hpp"
@@ -132,4 +133,8 @@ void DoubleType::createParameterVariable(IRGenerationContext& context,
 const wisey::ArrayType* DoubleType::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);
+}
+
+const IObjectType* DoubleType::getObjectType() const {
+  return NULL;
 }

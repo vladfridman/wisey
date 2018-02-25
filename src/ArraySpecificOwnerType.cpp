@@ -128,3 +128,6 @@ const ArrayType* ArraySpecificOwnerType::getArrayType(IRGenerationContext& conte
   return mArraySpecificType->getArrayType(context);
 }
 
+const IObjectType* ArraySpecificOwnerType::getObjectType() const {
+  return NULL;
+}

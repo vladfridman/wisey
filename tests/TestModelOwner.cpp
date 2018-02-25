@@ -264,7 +264,7 @@ struct ModelOwnerTest : public Test {
 };
 
 TEST_F(ModelOwnerTest, getObjectTest) {
-  EXPECT_EQ(mModel->getOwner()->getObject(), mModel);
+  EXPECT_EQ(mModel->getOwner()->getObjectType(), mModel);
 }
 
 TEST_F(ModelOwnerTest, getNameTest) {

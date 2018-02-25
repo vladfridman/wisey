@@ -138,7 +138,6 @@ void ArrayOwnerType::createFieldVariable(IRGenerationContext& context,
   context.getScopes().setVariable(variable);
 }
 
-
 void ArrayOwnerType::createParameterVariable(IRGenerationContext& context,
                                              string name,
                                              llvm::Value* value) const {
@@ -147,5 +146,9 @@ void ArrayOwnerType::createParameterVariable(IRGenerationContext& context,
   IRWriter::newStoreInst(context, value, alloc);
   IVariable* variable = new ParameterArrayOwnerVariable(name, this, alloc);
   context.getScopes().setVariable(variable);
+}
+
+const IObjectType* ArrayOwnerType::getObjectType() const {
+  return NULL;
 }
 

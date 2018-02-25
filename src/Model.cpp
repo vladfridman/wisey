@@ -478,3 +478,7 @@ const wisey::ArrayType* Model::getArrayType(IRGenerationContext& context) const 
   ArrayType::reportNonArrayType();
   exit(1);
 }
+
+const Model* Model::getObjectType() const {
+  return this;
+}

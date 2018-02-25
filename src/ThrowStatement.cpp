@@ -36,7 +36,7 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
     exit(1);
   }
   Model* model = typeKind == MODEL_OWNER_TYPE
-  ? (Model*) ((IObjectOwnerType*) expressionType)->getObject()
+  ? (Model*) expressionType->getObjectType()
   : (Model*) expressionType;
 
   LLVMContext& llvmContext = context.getLLVMContext();

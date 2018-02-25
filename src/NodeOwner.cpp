@@ -22,7 +22,7 @@ NodeOwner::NodeOwner(Node* node) : mNode(node) { }
 
 NodeOwner::~NodeOwner() { }
 
-Node* NodeOwner::getObject() const {
+Node* NodeOwner::getObjectType() const {
   return mNode;
 }
 
@@ -44,7 +44,7 @@ bool NodeOwner::canCastTo(IRGenerationContext& context, const IType* toType) con
   }
   
   if (IType::isOwnerType(toType)) {
-    return mNode->canCastTo(context, ((IObjectOwnerType*) toType)->getObject());
+    return mNode->canCastTo(context, toType->getObjectType());
   }
   
   return mNode->canCastTo(context, toType);
@@ -63,18 +63,18 @@ Value* NodeOwner::castTo(IRGenerationContext& context,
   }
   
   if (IType::isOwnerType(toType)) {
-    return mNode->castTo(context, fromValue, ((IObjectOwnerType*) toType)->getObject(), line);
+    return mNode->castTo(context, fromValue, toType->getObjectType(), line);
   }
   
   return mNode->castTo(context, fromValue, toType, line);
 }
 
 void NodeOwner::free(IRGenerationContext &context, Value *value) const {
-  IConcreteObjectType::composeDestructorCall(context, getObject(), value);
+  IConcreteObjectType::composeDestructorCall(context, getObjectType(), value);
 }
 
 Function* NodeOwner::getDestructorFunction(IRGenerationContext& context) const {
-  return IConcreteObjectType::getDestructorFunctionForObject(context, getObject());
+  return IConcreteObjectType::getDestructorFunctionForObject(context, getObjectType());
 }
 
 bool NodeOwner::isOwner() const {

@@ -10,6 +10,7 @@
 #include <llvm/IR/Instructions.h>
 
 #include "wisey/ArrayType.hpp"
+#include "wisey/IObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/UndefinedType.hpp"
@@ -96,6 +97,10 @@ void UndefinedType::createParameterVariable(IRGenerationContext& context,
 const wisey::ArrayType* UndefinedType::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);
+}
+
+const IObjectType* UndefinedType::getObjectType() const {
+  return NULL;
 }
 
 UndefinedType* UndefinedType::UNDEFINED_TYPE = new UndefinedType();

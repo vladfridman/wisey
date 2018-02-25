@@ -26,7 +26,7 @@ public:
   
   ~ModelOwner();
   
-  Model* getObject() const override;
+  Model* getObjectType() const override;
   
   std::string getTypeName() const override;
   

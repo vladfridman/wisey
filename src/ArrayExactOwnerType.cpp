@@ -126,3 +126,7 @@ void ArrayExactOwnerType::createParameterVariable(IRGenerationContext& context,
 const ArrayType* ArrayExactOwnerType::getArrayType(IRGenerationContext& context) const {
   return mArrayExactType->getArrayType(context);
 }
+
+const IObjectType* ArrayExactOwnerType::getObjectType() const {
+  return NULL;
+}

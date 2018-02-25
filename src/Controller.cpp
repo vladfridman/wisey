@@ -387,7 +387,7 @@ void Controller::initializeInjectedFields(IRGenerationContext& context,
       fieldValue = IRWriter::newBitCastInst(context, arrayPointer, arraySpecificType->
                                             getArrayType(context)->getLLVMType(context));
     } else if (fieldType->isController()) {
-      Controller* controller = (Controller*) ((IObjectOwnerType*) fieldType)->getObject();
+      Controller* controller = (Controller*) fieldType->getObjectType();
       fieldValue = controller->inject(context, field->getInjectionArguments(), line);
     } else {
       Log::e("Attempt to inject a variable that is not a controller, an interface or an array");
@@ -488,3 +488,6 @@ const wisey::ArrayType* Controller::getArrayType(IRGenerationContext& context) c
   exit(1);
 }
 
+const Controller* Controller::getObjectType() const {
+  return this;
+}

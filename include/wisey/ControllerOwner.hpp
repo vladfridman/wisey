@@ -27,7 +27,7 @@ public:
   
   ~ControllerOwner();
   
-  Controller* getObject() const override;
+  Controller* getObjectType() const override;
 
   std::string getTypeName() const override;
   

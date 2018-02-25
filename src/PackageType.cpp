@@ -7,6 +7,7 @@
 //
 
 #include "wisey/ArrayType.hpp"
+#include "wisey/IObjectType.hpp"
 #include "wisey/PackageType.hpp"
 
 using namespace std;
@@ -97,4 +98,8 @@ void PackageType::createParameterVariable(IRGenerationContext& context,
 const wisey::ArrayType* PackageType::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);
+}
+
+const IObjectType* PackageType::getObjectType() const {
+  return NULL;
 }

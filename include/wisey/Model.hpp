@@ -194,6 +194,8 @@ public:
 
   const ArrayType* getArrayType(IRGenerationContext& context) const override;
 
+  const Model* getObjectType() const override;
+
 private:
   
   Model(AccessLevel accessLevel, std::string name, llvm::StructType* structType, bool isExternal);

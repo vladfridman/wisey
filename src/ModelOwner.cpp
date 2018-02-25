@@ -22,7 +22,7 @@ ModelOwner::ModelOwner(Model* model) : mModel(model) { }
 
 ModelOwner::~ModelOwner() { }
 
-Model* ModelOwner::getObject() const {
+Model* ModelOwner::getObjectType() const {
   return mModel;
 }
 
@@ -44,7 +44,7 @@ bool ModelOwner::canCastTo(IRGenerationContext& context, const IType* toType) co
   }
   
   if (IType::isOwnerType(toType)) {
-    return mModel->canCastTo(context, ((IObjectOwnerType*) toType)->getObject());
+    return mModel->canCastTo(context, toType->getObjectType());
   }
   
   return mModel->canCastTo(context, toType);
@@ -63,18 +63,18 @@ Value* ModelOwner::castTo(IRGenerationContext& context,
   }
 
   if (IType::isOwnerType(toType)) {
-    return mModel->castTo(context, fromValue, ((IObjectOwnerType*) toType)->getObject(), line);
+    return mModel->castTo(context, fromValue, toType->getObjectType(), line);
   }
 
   return mModel->castTo(context, fromValue, toType, line);
 }
 
 void ModelOwner::free(IRGenerationContext &context, Value* value) const {
-  IConcreteObjectType::composeDestructorCall(context, getObject(), value);
+  IConcreteObjectType::composeDestructorCall(context, getObjectType(), value);
 }
 
 Function* ModelOwner::getDestructorFunction(IRGenerationContext& context) const {
-  return IConcreteObjectType::getDestructorFunctionForObject(context, getObject());
+  return IConcreteObjectType::getDestructorFunctionForObject(context, getObjectType());
 }
 
 bool ModelOwner::isOwner() const {

@@ -25,11 +25,6 @@ class IObjectOwnerType : public IOwnerType {
 public:
   
   /**
-   * Returns the owner type for this object
-   */
-  virtual IObjectType* getObject() const = 0;
-  
-  /**
    * Override method from IType because ObjectOwner llvm type is always a PointerType
    */
   virtual llvm::PointerType* getLLVMType(IRGenerationContext& context) const override = 0;

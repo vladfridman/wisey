@@ -245,6 +245,8 @@ public:
 
   const ArrayType* getArrayType(IRGenerationContext& context) const override;
 
+  const Interface* getObjectType() const override;
+
 private:
   
   Interface(AccessLevel accessLevel,

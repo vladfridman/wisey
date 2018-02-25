@@ -27,7 +27,7 @@ public:
   
   ~NodeOwner();
   
-  Node* getObject() const override;
+  Node* getObjectType() const override;
   
   std::string getTypeName() const override;
   
