@@ -216,6 +216,18 @@ TEST_F(MethodTest, isReferenceTest) {
   EXPECT_FALSE(mMethod->isReference());
 }
 
+TEST_F(MethodTest, isPrimitiveTest) {
+  EXPECT_FALSE(mMethod->isPrimitive());
+}
+
+TEST_F(MethodTest, isArrayTest) {
+  EXPECT_FALSE(mMethod->isArray());
+}
+
+TEST_F(MethodTest, isFunctionTest) {
+  EXPECT_TRUE(mMethod->isFunction());
+}
+
 TEST_F(MethodTest, printToStreamTest) {
   stringstream stringStream;
   mMethod->printToStream(mContext, stringStream);

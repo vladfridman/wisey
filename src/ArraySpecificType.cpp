@@ -130,6 +130,10 @@ bool ArraySpecificType::isArray() const {
   return true;
 }
 
+bool ArraySpecificType::isFunction() const {
+  return false;
+}
+
 bool ArraySpecificType::isController() const {
   return false;
 }

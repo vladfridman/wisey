@@ -104,6 +104,10 @@ bool MethodSignature::isArray() const {
   return false;
 }
 
+bool MethodSignature::isFunction() const {
+  return true;
+}
+
 bool MethodSignature::isPrimitive() const {
   return false;
 }

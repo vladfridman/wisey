@@ -593,6 +593,10 @@ bool Interface::isArray() const {
   return false;
 }
 
+bool Interface::isFunction() const {
+  return false;
+}
+
 bool Interface::isController() const {
   return false;
 }

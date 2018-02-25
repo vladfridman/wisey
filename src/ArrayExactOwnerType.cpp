@@ -91,6 +91,10 @@ bool ArrayExactOwnerType::isArray() const {
   return true;
 }
 
+bool ArrayExactOwnerType::isFunction() const {
+  return false;
+}
+
 bool ArrayExactOwnerType::isController() const {
   return false;
 }

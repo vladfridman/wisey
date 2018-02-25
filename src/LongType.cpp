@@ -92,6 +92,10 @@ bool LongType::isArray() const {
   return false;
 }
 
+bool LongType::isFunction() const {
+  return false;
+}
+
 bool LongType::isController() const {
   return false;
 }

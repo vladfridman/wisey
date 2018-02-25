@@ -75,6 +75,10 @@ bool StringType::isArray() const {
   return false;
 }
 
+bool StringType::isFunction() const {
+  return false;
+}
+
 bool StringType::isController() const {
   return false;
 }

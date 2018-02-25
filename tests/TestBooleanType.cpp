@@ -148,6 +148,10 @@ TEST_F(BooleanTypeTest, isArrayTest) {
   EXPECT_FALSE(mBoleanType.isArray());
 }
 
+TEST_F(BooleanTypeTest, isFunctionTest) {
+  EXPECT_FALSE(mBoleanType.isFunction());
+}
+
 TEST_F(BooleanTypeTest, isObjectTest) {
   EXPECT_FALSE(mBoleanType.isController());
   EXPECT_FALSE(mBoleanType.isInterface());

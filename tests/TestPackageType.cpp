@@ -62,6 +62,10 @@ TEST_F(PackageTypeTest, isArrayTest) {
   EXPECT_FALSE(mPackageType->isArray());
 }
 
+TEST_F(PackageTypeTest, isFunctionTest) {
+  EXPECT_FALSE(mPackageType->isFunction());
+}
+
 TEST_F(PackageTypeTest, isObjectTest) {
   EXPECT_FALSE(mPackageType->isController());
   EXPECT_FALSE(mPackageType->isInterface());

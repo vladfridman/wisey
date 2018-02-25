@@ -85,6 +85,10 @@ bool DoubleType::isArray() const {
   return false;
 }
 
+bool DoubleType::isFunction() const {
+  return false;
+}
+
 bool DoubleType::isController() const {
   return false;
 }

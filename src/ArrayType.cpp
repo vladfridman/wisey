@@ -134,6 +134,10 @@ bool ArrayType::isArray() const {
   return true;
 }
 
+bool ArrayType::isFunction() const {
+  return false;
+}
+
 bool ArrayType::isController() const {
   return false;
 }

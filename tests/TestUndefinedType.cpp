@@ -55,6 +55,10 @@ TEST_F(UndefinedTypeTest, isArrayTest) {
   EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isArray());
 }
 
+TEST_F(UndefinedTypeTest, isFunctionTest) {
+  EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isFunction());
+}
+
 TEST_F(UndefinedTypeTest, isObjectTest) {
   EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isController());
   EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isInterface());

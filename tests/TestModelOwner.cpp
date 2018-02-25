@@ -368,6 +368,10 @@ TEST_F(ModelOwnerTest, isArrayTest) {
   EXPECT_FALSE(mModel->getOwner()->isArray());
 }
 
+TEST_F(ModelOwnerTest, isFunctionTest) {
+  EXPECT_FALSE(mModel->getOwner()->isFunction());
+}
+
 TEST_F(ModelOwnerTest, isObjectTest) {
   EXPECT_FALSE(mModel->getOwner()->isController());
   EXPECT_FALSE(mModel->getOwner()->isInterface());

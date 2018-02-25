@@ -124,3 +124,11 @@ TEST_F(VoidTypeTest, isOwnerTest) {
 TEST_F(VoidTypeTest, isReferenceTest) {
   EXPECT_FALSE(mVoidType.isReference());
 }
+
+TEST_F(VoidTypeTest, isArrayType) {
+  EXPECT_FALSE(mVoidType.isArray());
+}
+
+TEST_F(VoidTypeTest, isFunctionTest) {
+  EXPECT_FALSE(mVoidType.isFunction());
+}

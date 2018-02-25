@@ -63,6 +63,10 @@ bool PackageType::isArray() const {
   return false;
 }
 
+bool PackageType::isFunction() const {
+  return false;
+}
+
 bool PackageType::isController() const {
   return false;
 }

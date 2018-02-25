@@ -52,6 +52,8 @@ public:
   bool isReference() const override;
   
   bool isArray() const override;
+  
+  bool isFunction() const override;
 
   bool isController() const override;
   

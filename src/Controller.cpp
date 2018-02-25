@@ -324,6 +324,10 @@ bool Controller::isArray() const {
   return false;
 }
 
+bool Controller::isFunction() const {
+  return false;
+}
+
 bool Controller::isController() const {
   return true;
 }

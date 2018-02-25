@@ -81,6 +81,10 @@ bool FloatType::isReference() const {
   return false;
 }
 
+bool FloatType::isFunction() const {
+  return false;
+}
+
 bool FloatType::isArray() const {
   return false;
 }

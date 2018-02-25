@@ -105,7 +105,12 @@ namespace wisey {
      * Tells whether this type is of array type
      */
     virtual bool isArray() const = 0;
-    
+   
+    /**
+     * Tells whether this type is of function type
+     */
+    virtual bool isFunction() const = 0;
+
     /**
      * Tells whether this type is of controller type
      */

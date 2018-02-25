@@ -114,6 +114,10 @@ bool ExternalMethod::isArray() const {
   return false;
 }
 
+bool ExternalMethod::isFunction() const {
+  return true;
+}
+
 bool ExternalMethod::isController() const {
   return false;
 }

@@ -226,6 +226,10 @@ bool Node::isArray() const {
   return false;
 }
 
+bool Node::isFunction() const {
+  return false;
+}
+
 bool Node::isController() const {
   return false;
 }

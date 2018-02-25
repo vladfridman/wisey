@@ -501,6 +501,10 @@ TEST_F(ControllerTest, isArrayTest) {
   EXPECT_FALSE(mMultiplierController->isArray());
 }
 
+TEST_F(ControllerTest, isFunctionTest) {
+  EXPECT_FALSE(mMultiplierController->isFunction());
+}
+
 TEST_F(ControllerTest, isObjectTest) {
   EXPECT_TRUE(mMultiplierController->isController());
   EXPECT_FALSE(mMultiplierController->isInterface());

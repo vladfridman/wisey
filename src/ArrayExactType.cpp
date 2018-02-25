@@ -108,6 +108,10 @@ bool ArrayExactType::isArray() const {
   return true;
 }
 
+bool ArrayExactType::isFunction() const {
+  return false;
+}
+
 bool ArrayExactType::isController() const {
   return false;
 }

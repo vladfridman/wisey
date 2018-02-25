@@ -116,6 +116,10 @@ bool StaticMethod::isArray() const {
   return false;
 }
 
+bool StaticMethod::isFunction() const {
+  return true;
+}
+
 bool StaticMethod::isController() const {
   return false;
 }

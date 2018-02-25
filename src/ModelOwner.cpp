@@ -97,6 +97,10 @@ bool ModelOwner::isArray() const {
   return false;
 }
 
+bool ModelOwner::isFunction() const {
+  return false;
+}
+
 bool ModelOwner::isController() const {
   return false;
 }

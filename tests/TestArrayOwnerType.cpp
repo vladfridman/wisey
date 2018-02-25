@@ -107,6 +107,10 @@ TEST_F(ArrayOwnerTypeTest, isArrayTest) {
   EXPECT_TRUE(mArrayOwnerType->isArray());
 }
 
+TEST_F(ArrayOwnerTypeTest, isFunctionTest) {
+  EXPECT_FALSE(mArrayOwnerType->isFunction());
+}
+
 TEST_F(ArrayOwnerTypeTest, isObjectTest) {
   EXPECT_FALSE(mArrayOwnerType->isController());
   EXPECT_FALSE(mArrayOwnerType->isInterface());

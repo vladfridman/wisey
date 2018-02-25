@@ -86,6 +86,10 @@ bool IntType::isArray() const {
   return false;
 }
 
+bool IntType::isFunction() const {
+  return false;
+}
+
 bool IntType::isController() const {
   return false;
 }

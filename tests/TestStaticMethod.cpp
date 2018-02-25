@@ -219,6 +219,18 @@ TEST_F(StaticMethodTest, isReferenceTest) {
   EXPECT_FALSE(mStaticMethod->isReference());
 }
 
+TEST_F(StaticMethodTest, isPrimitiveTest) {
+  EXPECT_FALSE(mStaticMethod->isPrimitive());
+}
+
+TEST_F(StaticMethodTest, isArrayTest) {
+  EXPECT_FALSE(mStaticMethod->isArray());
+}
+
+TEST_F(StaticMethodTest, isFunctionTest) {
+  EXPECT_TRUE(mStaticMethod->isFunction());
+}
+
 TEST_F(TestFileSampleRunner, staticMethodDefinitionRunTest) {
   runFile("tests/samples/test_static_method_definition.yz", "2018");
 }

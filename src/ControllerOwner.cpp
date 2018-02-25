@@ -97,6 +97,10 @@ bool ControllerOwner::isArray() const {
   return false;
 }
 
+bool ControllerOwner::isFunction() const {
+  return false;
+}
+
 bool ControllerOwner::isController() const {
   return true;
 }

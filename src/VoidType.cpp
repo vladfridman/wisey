@@ -64,6 +64,10 @@ bool VoidType::isArray() const {
   return false;
 }
 
+bool VoidType::isFunction() const {
+  return false;
+}
+
 bool VoidType::isController() const {
   return false;
 }

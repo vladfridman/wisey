@@ -135,3 +135,15 @@ TEST_F(ExternalStaticMethodTest, isOwnerTest) {
 TEST_F(ExternalStaticMethodTest, isReferenceTest) {
   EXPECT_FALSE(mStaticMethod->isReference());
 }
+
+TEST_F(ExternalStaticMethodTest, isPrimitiveTest) {
+  EXPECT_FALSE(mStaticMethod->isPrimitive());
+}
+
+TEST_F(ExternalStaticMethodTest, isArrayTest) {
+  EXPECT_FALSE(mStaticMethod->isArray());
+}
+
+TEST_F(ExternalStaticMethodTest, isFunctionTest) {
+  EXPECT_TRUE(mStaticMethod->isFunction());
+}

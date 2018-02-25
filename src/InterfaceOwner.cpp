@@ -107,6 +107,10 @@ bool InterfaceOwner::isArray() const {
   return false;
 }
 
+bool InterfaceOwner::isFunction() const {
+  return false;
+}
+
 bool InterfaceOwner::isController() const {
   return false;
 }

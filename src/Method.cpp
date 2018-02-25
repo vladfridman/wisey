@@ -118,6 +118,10 @@ bool Method::isArray() const {
   return false;
 }
 
+bool Method::isFunction() const {
+  return true;
+}
+
 bool Method::isController() const {
   return false;
 }

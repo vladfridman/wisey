@@ -382,6 +382,10 @@ TEST_F(NodeOwnerTest, isArrayTest) {
   EXPECT_FALSE(mSimpleNode->getOwner()->isArray());
 }
 
+TEST_F(NodeOwnerTest, isFunctionTest) {
+  EXPECT_FALSE(mSimpleNode->getOwner()->isFunction());
+}
+
 TEST_F(NodeOwnerTest, isObjectTest) {
   EXPECT_FALSE(mSimpleNode->getOwner()->isController());
   EXPECT_FALSE(mSimpleNode->getOwner()->isInterface());

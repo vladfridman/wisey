@@ -148,6 +148,10 @@ TEST_F(LongTypeTest, isArrayTest) {
   EXPECT_FALSE(mLongType.isArray());
 }
 
+TEST_F(LongTypeTest, isFunctionTest) {
+  EXPECT_FALSE(mLongType.isFunction());
+}
+
 TEST_F(LongTypeTest, isObjectTest) {
   EXPECT_FALSE(mLongType.isController());
   EXPECT_FALSE(mLongType.isInterface());

@@ -89,6 +89,10 @@ bool BooleanType::isArray() const {
   return false;
 }
 
+bool BooleanType::isFunction() const {
+  return false;
+}
+
 bool BooleanType::isController() const {
   return false;
 }

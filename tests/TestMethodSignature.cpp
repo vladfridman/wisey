@@ -98,6 +98,18 @@ TEST_F(MethodSignatureTest, isReferenceTest) {
   EXPECT_FALSE(mMethodSignature->isReference());
 }
 
+TEST_F(MethodSignatureTest, isPrimitiveTest) {
+  EXPECT_FALSE(mMethodSignature->isPrimitive());
+}
+
+TEST_F(MethodSignatureTest, isArrayTest) {
+  EXPECT_FALSE(mMethodSignature->isArray());
+}
+
+TEST_F(MethodSignatureTest, isFunctionTest) {
+  EXPECT_TRUE(mMethodSignature->isFunction());
+}
+
 TEST_F(MethodSignatureTest, printToStreamTest) {
   stringstream stringStream;
   mMethodSignature->printToStream(mContext, stringStream);

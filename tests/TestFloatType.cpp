@@ -148,6 +148,10 @@ TEST_F(FloatTypeTest, isArrayTest) {
   EXPECT_FALSE(mFloatType.isArray());
 }
 
+TEST_F(FloatTypeTest, isFunctionTest) {
+  EXPECT_FALSE(mFloatType.isFunction());
+}
+
 TEST_F(FloatTypeTest, isObjectTest) {
   EXPECT_FALSE(mFloatType.isController());
   EXPECT_FALSE(mFloatType.isInterface());

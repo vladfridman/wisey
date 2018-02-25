@@ -251,6 +251,10 @@ bool Model::isArray() const {
   return false;
 }
 
+bool Model::isFunction() const {
+  return false;
+}
+
 bool Model::isController() const {
   return false;
 }

@@ -33,6 +33,7 @@ public:
   MOCK_CONST_METHOD0(isOwner, bool ());
   MOCK_CONST_METHOD0(isReference, bool ());
   MOCK_CONST_METHOD0(isArray, bool ());
+  MOCK_CONST_METHOD0(isFunction, bool ());
   MOCK_CONST_METHOD0(isController, bool ());
   MOCK_CONST_METHOD0(isInterface, bool ());
   MOCK_CONST_METHOD0(isModel, bool ());

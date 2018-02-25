@@ -106,6 +106,10 @@ bool ArrayOwnerType::isArray() const {
   return true;
 }
 
+bool ArrayOwnerType::isFunction() const {
+  return false;
+}
+
 bool ArrayOwnerType::isController() const {
   return false;
 }

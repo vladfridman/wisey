@@ -327,6 +327,10 @@ TEST_F(InterfaceTest, isArrayTest) {
   EXPECT_FALSE(mObjectInterface->isArray());
 }
 
+TEST_F(InterfaceTest, isFunctionTest) {
+  EXPECT_FALSE(mObjectInterface->isFunction());
+}
+
 TEST_F(InterfaceTest, isObjectTest) {
   EXPECT_FALSE(mObjectInterface->isController());
   EXPECT_TRUE(mObjectInterface->isInterface());

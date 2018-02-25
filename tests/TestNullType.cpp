@@ -125,6 +125,10 @@ TEST_F(NullTypeTest, isArrayTest) {
   EXPECT_FALSE(NullType::NULL_TYPE->isArray());
 }
 
+TEST_F(NullTypeTest, isFunctionTest) {
+  EXPECT_FALSE(NullType::NULL_TYPE->isFunction());
+}
+
 TEST_F(NullTypeTest, isObjectTest) {
   EXPECT_FALSE(NullType::NULL_TYPE->isController());
   EXPECT_FALSE(NullType::NULL_TYPE->isInterface());

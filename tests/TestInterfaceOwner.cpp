@@ -151,6 +151,10 @@ TEST_F(InterfaceOwnerTest, isArrayTest) {
   EXPECT_FALSE(mObjectInterface->getOwner()->isArray());
 }
 
+TEST_F(InterfaceOwnerTest, isFunctionTest) {
+  EXPECT_FALSE(mObjectInterface->getOwner()->isFunction());
+}
+
 TEST_F(InterfaceOwnerTest, isObjectTest) {
   EXPECT_FALSE(mObjectInterface->getOwner()->isController());
   EXPECT_TRUE(mObjectInterface->getOwner()->isInterface());

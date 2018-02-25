@@ -98,6 +98,10 @@ bool NodeOwner::isArray() const {
   return false;
 }
 
+bool NodeOwner::isFunction() const {
+  return false;
+}
+
 bool NodeOwner::isController() const {
   return false;
 }
