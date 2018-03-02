@@ -428,7 +428,7 @@ interface_element_delcaration_list
     }
   | interface_element_delcaration_list interface_element_declaration
     { std::get<0>(*$1).push_back($2); }
-  | interface_element_delcaration_list object_definition
+  | interface_element_delcaration_list inner_object_definition
     { std::get<1>(*$1).push_back($2); }
   ;
 
