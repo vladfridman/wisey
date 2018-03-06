@@ -242,6 +242,10 @@ bool Node::isNode() const {
   return true;
 }
 
+bool Node::isThread() const {
+  return false;
+}
+
 bool Node::isPackage() const {
   return false;
 }

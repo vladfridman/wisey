@@ -58,6 +58,7 @@ public:
   MOCK_CONST_METHOD0(isModel, bool ());
   MOCK_CONST_METHOD0(isNode, bool ());
   MOCK_CONST_METHOD0(isExternal, bool ());
+  MOCK_CONST_METHOD0(isThread, bool ());
   MOCK_CONST_METHOD2(printToStream, void (wisey::IRGenerationContext&, std::iostream& stream));
   MOCK_METHOD2(setFields, void (std::vector<wisey::Field*>, unsigned long));
   MOCK_METHOD1(setInterfaces, void (std::vector<wisey::Interface*>));

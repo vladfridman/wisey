@@ -160,6 +160,7 @@ TEST_F(LongTypeTest, isObjectTest) {
   EXPECT_FALSE(mLongType.isInterface());
   EXPECT_FALSE(mLongType.isModel());
   EXPECT_FALSE(mLongType.isNode());
+  EXPECT_FALSE(mLongType.isThread());
 }
 
 TEST_F(LongTypeTest, createLocalVariableTest) {

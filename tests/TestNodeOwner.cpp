@@ -391,6 +391,7 @@ TEST_F(NodeOwnerTest, isObjectTest) {
   EXPECT_FALSE(mSimpleNode->getOwner()->isInterface());
   EXPECT_FALSE(mSimpleNode->getOwner()->isModel());
   EXPECT_TRUE(mSimpleNode->getOwner()->isNode());
+  EXPECT_FALSE(mSimpleNode->getOwner()->isThread());
 }
 
 TEST_F(NodeOwnerTest, createLocalVariableTest) {

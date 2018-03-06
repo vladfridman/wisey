@@ -86,6 +86,8 @@ public:
   bool isModel() const override;
   
   bool isNode() const override;
+  
+  bool isThread() const override;
 
   const IObjectType* getObjectType() const override;
 

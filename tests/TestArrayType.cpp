@@ -132,6 +132,7 @@ TEST_F(ArrayTypeTest, isObjectTest) {
   EXPECT_FALSE(mArrayType->isInterface());
   EXPECT_FALSE(mArrayType->isModel());
   EXPECT_FALSE(mArrayType->isNode());
+  EXPECT_FALSE(mArrayType->isThread());
 }
 
 TEST_F(ArrayTypeTest, createLocalVariableTest) {

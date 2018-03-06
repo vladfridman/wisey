@@ -126,6 +126,10 @@ bool ArrayOwnerType::isNode() const {
   return false;
 }
 
+bool ArrayOwnerType::isThread() const {
+  return false;
+}
+
 void ArrayOwnerType::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << getTypeName();
 }

@@ -108,6 +108,10 @@ bool CharType::isNode() const {
   return false;
 }
 
+bool CharType::isThread() const {
+  return false;
+}
+
 string CharType::getFormat() const {
   return "%c";
 }

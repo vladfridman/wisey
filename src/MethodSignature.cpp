@@ -128,6 +128,10 @@ bool MethodSignature::isNode() const {
   return false;
 }
 
+bool MethodSignature::isThread() const {
+  return false;
+}
+
 const IObjectType* MethodSignature::getObjectType() const {
   return mObjectType;
 }

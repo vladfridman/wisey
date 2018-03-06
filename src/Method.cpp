@@ -138,6 +138,10 @@ bool Method::isNode() const {
   return false;
 }
 
+bool Method::isThread() const {
+  return false;
+}
+
 Function* Method::defineFunction(IRGenerationContext& context) {
   mFunction = IMethod::defineFunction(context, mObjectType, this);
   

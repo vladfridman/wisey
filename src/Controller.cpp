@@ -344,6 +344,10 @@ bool Controller::isNode() const {
   return false;
 }
 
+bool Controller::isThread() const {
+  return false;
+}
+
 void Controller::initializeReceivedFields(IRGenerationContext& context,
                                           const InjectionArgumentList& controllerInjectorArguments,
                                           Instruction* malloc,

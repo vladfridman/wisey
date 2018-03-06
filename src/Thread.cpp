@@ -333,6 +333,10 @@ bool Thread::isNode() const {
   return false;
 }
 
+bool Thread::isThread() const {
+  return true;
+}
+
 const IObjectOwnerType* Thread::getOwner() const {
   return mThreadOwner;
 }

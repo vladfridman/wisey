@@ -56,6 +56,8 @@ public:
   bool isModel() const override;
   
   bool isNode() const override;
+  
+  bool isThread() const override;
 
   std::string getFormat() const override;
 

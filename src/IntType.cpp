@@ -106,6 +106,10 @@ bool IntType::isNode() const {
   return false;
 }
 
+bool IntType::isThread() const {
+  return false;
+}
+
 string IntType::getFormat() const {
   return "%d";
 }

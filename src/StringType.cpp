@@ -95,6 +95,10 @@ bool StringType::isNode() const {
   return false;
 }
 
+bool StringType::isThread() const {
+  return false;
+}
+
 void StringType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

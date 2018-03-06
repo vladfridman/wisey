@@ -270,6 +270,10 @@ bool Model::isNode() const {
   return false;
 }
 
+bool Model::isThread() const {
+  return false;
+}
+
 Instruction* Model::build(IRGenerationContext& context,
                           const ObjectBuilderArgumentList& objectBuilderArgumentList,
                           int line) const {

@@ -111,6 +111,10 @@ bool ArraySpecificOwnerType::isNode() const {
   return false;
 }
 
+bool ArraySpecificOwnerType::isThread() const {
+  return false;
+}
+
 void ArraySpecificOwnerType::printToStream(IRGenerationContext &context, iostream& stream) const {
   mArraySpecificType->printToStream(context, stream);
   stream << "*";

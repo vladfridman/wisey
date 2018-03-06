@@ -510,6 +510,7 @@ TEST_F(ControllerTest, isObjectTest) {
   EXPECT_FALSE(mMultiplierController->isInterface());
   EXPECT_FALSE(mMultiplierController->isModel());
   EXPECT_FALSE(mMultiplierController->isNode());
+  EXPECT_FALSE(mMultiplierController->isThread());
 }
 
 TEST_F(ControllerTest, incrementReferenceCountTest) {

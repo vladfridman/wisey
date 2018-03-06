@@ -84,6 +84,10 @@ bool VoidType::isNode() const {
   return false;
 }
 
+bool VoidType::isThread() const {
+  return false;
+}
+
 string VoidType::getFormat() const {
   return "";
 }

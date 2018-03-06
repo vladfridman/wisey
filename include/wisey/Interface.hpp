@@ -209,6 +209,8 @@ public:
   
   bool isNode() const override;
   
+  bool isThread() const override;
+
   const IObjectOwnerType* getOwner() const override;
   
   bool isExternal() const override;

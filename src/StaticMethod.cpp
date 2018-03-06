@@ -136,6 +136,10 @@ bool StaticMethod::isNode() const {
   return false;
 }
 
+bool StaticMethod::isThread() const {
+  return false;
+}
+
 Function* StaticMethod::defineFunction(IRGenerationContext& context) {
   mFunction = IMethod::defineFunction(context, mObjectType, this);
   

@@ -117,6 +117,10 @@ bool ControllerOwner::isNode() const {
   return false;
 }
 
+bool ControllerOwner::isThread() const {
+  return false;
+}
+
 void ControllerOwner::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

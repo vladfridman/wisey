@@ -105,6 +105,10 @@ bool DoubleType::isNode() const {
   return false;
 }
 
+bool DoubleType::isThread() const {
+  return false;
+}
+
 string DoubleType::getFormat() const {
   return "%e";
 }

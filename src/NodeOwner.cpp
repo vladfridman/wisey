@@ -118,6 +118,10 @@ bool NodeOwner::isNode() const {
   return true;
 }
 
+bool NodeOwner::isThread() const {
+  return false;
+}
+
 void NodeOwner::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

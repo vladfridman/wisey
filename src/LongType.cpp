@@ -112,6 +112,10 @@ bool LongType::isNode() const {
   return false;
 }
 
+bool LongType::isThread() const {
+  return false;
+}
+
 void LongType::createLocalVariable(IRGenerationContext& context, string name) const {
   Type* llvmType = getLLVMType(context);
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");

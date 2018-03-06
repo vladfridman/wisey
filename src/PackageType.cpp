@@ -83,6 +83,10 @@ bool PackageType::isNode() const {
   return false;
 }
 
+bool PackageType::isThread() const {
+  return false;
+}
+
 void PackageType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

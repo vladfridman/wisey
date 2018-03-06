@@ -130,6 +130,8 @@ namespace wisey {
     
     bool isNode() const override;
     
+    bool isThread() const override;
+
     std::string getVTableName() const override;
     
     unsigned long getVTableSize() const override;

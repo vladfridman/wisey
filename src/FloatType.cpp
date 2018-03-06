@@ -105,6 +105,10 @@ bool FloatType::isNode() const {
   return false;
 }
 
+bool FloatType::isThread() const {
+  return false;
+}
+
 string FloatType::getFormat() const {
   return "%f";
 }

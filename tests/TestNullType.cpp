@@ -134,4 +134,5 @@ TEST_F(NullTypeTest, isObjectTest) {
   EXPECT_FALSE(NullType::NULL_TYPE->isInterface());
   EXPECT_FALSE(NullType::NULL_TYPE->isModel());
   EXPECT_FALSE(NullType::NULL_TYPE->isNode());
+  EXPECT_FALSE(NullType::NULL_TYPE->isThread());
 }

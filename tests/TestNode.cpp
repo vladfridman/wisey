@@ -521,6 +521,7 @@ TEST_F(NodeTest, isObjectTest) {
   EXPECT_FALSE(mSimpleNode->isInterface());
   EXPECT_FALSE(mSimpleNode->isModel());
   EXPECT_TRUE(mSimpleNode->isNode());
+  EXPECT_FALSE(mSimpleNode->isThread());
 }
 
 TEST_F(NodeTest, incrementReferenceCountTest) {

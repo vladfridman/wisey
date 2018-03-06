@@ -613,6 +613,10 @@ bool Interface::isNode() const {
   return false;
 }
 
+bool Interface::isThread() const {
+  return false;
+}
+
 Function* Interface::defineCastFunction(IRGenerationContext& context,
                                         const IObjectType* toType) const {
   vector<Type*> argumentTypes;

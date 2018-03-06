@@ -82,6 +82,10 @@ bool UndefinedType::isNode() const {
   return false;
 }
 
+bool UndefinedType::isThread() const {
+  return false;
+}
+
 void UndefinedType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

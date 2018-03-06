@@ -17,4 +17,3 @@ bool IType::isObjectType(const IType* type) {
 bool IType::isConcreteObjectType(const IType* type) {
   return type->isController() || type->isModel() || type->isNode();
 }
-

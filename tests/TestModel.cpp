@@ -509,6 +509,7 @@ TEST_F(ModelTest, isObjectTest) {
   EXPECT_FALSE(mModel->isInterface());
   EXPECT_TRUE(mModel->isModel());
   EXPECT_FALSE(mModel->isNode());
+  EXPECT_FALSE(mModel->isThread());
 }
 
 TEST_F(ModelTest, incrementReferenceCountTest) {

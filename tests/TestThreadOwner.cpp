@@ -145,6 +145,7 @@ TEST_F(ThreadOwnerTest, isObjectTest) {
   EXPECT_FALSE(mThread->getOwner()->isInterface());
   EXPECT_FALSE(mThread->getOwner()->isModel());
   EXPECT_FALSE(mThread->getOwner()->isNode());
+  EXPECT_TRUE(mThread->getOwner()->isThread());
 }
 
 TEST_F(ThreadOwnerTest, getDestructorFunctionTest) {

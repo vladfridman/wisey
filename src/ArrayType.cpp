@@ -154,6 +154,10 @@ bool ArrayType::isNode() const {
   return false;
 }
 
+bool ArrayType::isThread() const {
+  return false;
+}
+
 void ArrayType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

@@ -134,6 +134,10 @@ bool ExternalStaticMethod::isNode() const {
   return false;
 }
 
+bool ExternalStaticMethod::isThread() const {
+  return false;
+}
+
 const IObjectType* ExternalStaticMethod::getObjectType() const {
   return mObjectType;
 }

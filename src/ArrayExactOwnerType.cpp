@@ -111,6 +111,10 @@ bool ArrayExactOwnerType::isNode() const {
   return false;
 }
 
+bool ArrayExactOwnerType::isThread() const {
+  return false;
+}
+
 void ArrayExactOwnerType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

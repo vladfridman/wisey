@@ -117,6 +117,10 @@ bool ThreadOwner::isNode() const {
   return false;
 }
 
+bool ThreadOwner::isThread() const {
+  return true;
+}
+
 void ThreadOwner::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

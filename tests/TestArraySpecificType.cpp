@@ -131,6 +131,7 @@ TEST_F(ArraySpecificTypeTest, isObjectTest) {
   EXPECT_FALSE(mArraySpecificType->isInterface());
   EXPECT_FALSE(mArraySpecificType->isModel());
   EXPECT_FALSE(mArraySpecificType->isNode());
+  EXPECT_FALSE(mArraySpecificType->isThread());
 }
 
 TEST_F(ArraySpecificTypeTest, printToStreamTest) {

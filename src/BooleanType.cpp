@@ -109,6 +109,10 @@ bool BooleanType::isNode() const {
   return false;
 }
 
+bool BooleanType::isThread() const {
+  return false;
+}
+
 string BooleanType::getFormat() const {
   return "%d";
 }
