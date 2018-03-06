@@ -40,7 +40,8 @@ struct IRGenerationContextTest : public Test {
   Controller* mController;
   Model* mModel;
   Node* mNode;
-  
+  Thread* mThread;
+
   IRGenerationContextTest() : mLLVMContext(mContext.getLLVMContext()) {
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
@@ -71,6 +72,10 @@ struct IRGenerationContextTest : public Test {
     string nodeFullName = "systems.vos.wisey.compiler.tests.NMyNode";
     StructType* nodeStructType = StructType::create(mLLVMContext, "NMyNode");
     mNode = Node::newNode(AccessLevel::PUBLIC_ACCESS, nodeFullName, nodeStructType);
+
+    string threadFullName = "systems.vos.wisey.compiler.tests.TMyThread";
+    StructType* threadStructType = StructType::create(mLLVMContext, "TMyThread");
+    mThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS, threadFullName, threadStructType);
   }
   
   ~IRGenerationContextTest() { }
@@ -170,6 +175,28 @@ TEST_F(IRGenerationContextTest, getControllerDoesNotExistDeathTest) {
   EXPECT_EXIT(mContext.getController("systems.vos.wisey.compiler.tests.CMyController"),
               ::testing::ExitedWithCode(1),
               "Controller systems.vos.wisey.compiler.tests.CMyController is not defined");
+}
+
+TEST_F(IRGenerationContextTest, addThreadTest) {
+  mContext.addThread(mThread);
+
+  Thread* resultThread = mContext.getThread("systems.vos.wisey.compiler.tests.TMyThread");
+  
+  EXPECT_EQ(mThread, resultThread);
+}
+
+TEST_F(IRGenerationContextTest, addThreadAlreadyDefinedDeathTest) {
+  mContext.addThread(mThread);
+  
+  EXPECT_EXIT(mContext.addThread(mThread),
+              ::testing::ExitedWithCode(1),
+              "Redefinition of thread systems.vos.wisey.compiler.tests.TMyThread");
+}
+
+TEST_F(IRGenerationContextTest, getThreadDoesNotExistDeathTest) {
+  EXPECT_EXIT(mContext.getThread("systems.vos.wisey.compiler.tests.TMyThread"),
+              ::testing::ExitedWithCode(1),
+              "Thread systems.vos.wisey.compiler.tests.TMyThread is not defined");
 }
 
 TEST_F(IRGenerationContextTest, addInterfaceTest) {

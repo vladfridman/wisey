@@ -651,8 +651,7 @@ TEST_F(ControllerTest, injectNonInjectableTypeDeathTest) {
 
   EXPECT_EXIT(mDoublerController->inject(mContext, injectionArguments, 0),
               ::testing::ExitedWithCode(1),
-              "Error: Attempt to inject a variable that is not a controller, "
-              "an interface or an array");
+              "Error: Attempt to inject a variable that is not of injectable type");
 }
 
 TEST_F(ControllerTest, notWellFormedInjectionArgumentsDeathTest) {

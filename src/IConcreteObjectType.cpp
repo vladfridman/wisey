@@ -499,6 +499,7 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
                                               iostream& stream) {
   stream << "external ";
   printTypeKind(object, stream);
+  stream << " ";
   stream << (object->isInner() ? object->getShortName() : object->getTypeName());
   if (object->getAccessLevel() == PRIVATE_ACCESS) {
     stream << " {" << endl << "}" << endl;
@@ -557,13 +558,15 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
 
 void IConcreteObjectType::printTypeKind(const IConcreteObjectType* type, iostream& stream) {
   if (type->isModel()) {
-    stream << "model ";
+    stream << "model";
   } else if (type->isNode()) {
-    stream << "node ";
+    stream << "node";
   } else if (type->isInterface()) {
-    stream << "interface ";
+    stream << "interface";
+  } else if (type->isController()) {
+    stream << "controller";
   } else {
-    stream << "controller ";
+    stream << "thread";
   }
 }
 

@@ -81,7 +81,7 @@ void Model::setFields(vector<Field*> fields, unsigned long startIndex) {
       exit(1);
     }
     const IType* fieldType = field->getType();
-    if (fieldType->isNode() || fieldType->isController()) {
+    if (!fieldType->isPrimitive() && !fieldType->isModel() && !fieldType->isInterface()) {
       Log::e("Models can only have fields of primitive or model type");
       exit(1);
     }

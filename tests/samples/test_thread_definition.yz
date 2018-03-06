@@ -1,0 +1,10 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+thread TThread sends int {
+
+  public void run() {
+    
+  }
+}

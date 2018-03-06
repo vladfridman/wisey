@@ -64,6 +64,11 @@ IRGenerationContext::~IRGenerationContext() {
        iterator++) {
     delete iterator->second;
   }
+  for (map<string, Thread*>::iterator iterator = mThreads.begin();
+       iterator != mThreads.end();
+       iterator++) {
+    delete iterator->second;
+  }
   for (map<string, PackageType*>::iterator iterator = mPackageTypes.begin();
        iterator != mPackageTypes.end();
        iterator++) {
@@ -202,6 +207,28 @@ Node* IRGenerationContext::getNode(string fullName) {
   IObjectType::checkAccess(mObjectType, node);
   
   return node;
+}
+
+void IRGenerationContext::addThread(Thread* thread) {
+  string name = thread->getTypeName();
+  if (mThreads.count(name)) {
+    Log::e("Redefinition of thread " + name);
+    exit(1);
+  }
+  
+  mThreads[name] = thread;
+}
+
+Thread* IRGenerationContext::getThread(string fullName) {
+  if (!mThreads.count(fullName)) {
+    Log::e("Thread " + fullName + " is not defined");
+    exit(1);
+  }
+  
+  Thread* thread = mThreads.at(fullName);
+  IObjectType::checkAccess(mObjectType, thread);
+  
+  return thread;
 }
 
 void IRGenerationContext::addInterface(Interface* interface) {

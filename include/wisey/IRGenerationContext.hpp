@@ -27,6 +27,7 @@
 #include "wisey/Node.hpp"
 #include "wisey/PackageType.hpp"
 #include "wisey/Scopes.hpp"
+#include "wisey/Thread.hpp"
 
 namespace wisey {
   
@@ -50,6 +51,7 @@ class IRGenerationContext : public IPrintable {
   std::map<std::string, Model*> mModels;
   std::map<std::string, Controller*> mControllers;
   std::map<std::string, Node*> mNodes;
+  std::map<std::string, Thread*> mThreads;
   std::map<std::string, Interface*> mInterfaces;
   std::map<std::string, PackageType*> mPackageTypes;
   std::map<Interface*, Controller*> mBindings;
@@ -141,6 +143,16 @@ public:
    */
   Node* getNode(std::string name);
   
+  /**
+   * Add a thread type
+   */
+  void addThread(Thread* thread);
+  
+  /**
+   * Look up a thread type
+   */
+  Thread* getThread(std::string name);
+
   /**
    * Add an interface type
    */

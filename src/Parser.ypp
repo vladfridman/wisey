@@ -99,6 +99,9 @@
   #include "wisey/StaticMethodDeclaration.hpp"
   #include "wisey/SwitchStatement.hpp"
   #include "wisey/ThreadExpression.hpp"
+  #include "wisey/ThreadDefinition.hpp"
+  #include "wisey/ThreadTypeSpecifier.hpp"
+  #include "wisey/ThreadTypeSpecifierFull.hpp"
   #include "wisey/TryCatchStatement.hpp"
   #include "wisey/ThrowStatement.hpp"
   #include "wisey/TypeComparisionExpression.hpp"
@@ -156,6 +159,7 @@
   wisey::IInterfaceTypeSpecifier* interface_type_specifier;
   wisey::IObjectElementDeclaration* object_element;
   wisey::INodeTypeSpecifier* node_type_specifier;
+  wisey::IThreadTypeSpecifier* thread_type_specifier;
   wisey::AccessLevel access_specifier;
   wisey::MethodSignatureDeclaration* method_signature;
   wisey::Catch* catch_clause;
@@ -180,15 +184,15 @@
  */
 %token <string> TIDENTIFIER TCHAR TINTEGER TLONG TFLOAT TDOUBLE STRING_LITERAL TMODELIDENTIFIER
 %token <string> TFIELDIDENTIFIER TINTERFACEIDENTIFIER TCONTROLLERIDENTIFIER TNODEIDENTIFIER
-%token <string> TCONSTANTIDENTIFIER
+%token <string> TCONSTANTIDENTIFIER TTHREADIDENTIFIER
 
 %token <token> TANDOP TBIND TBREAK TBUILD TBUILDER TCASE TCATCH TCEQ TCGE TCLE TINCOP
 %token <token> TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDO TELSE TEXIT TEXTENDS TEXTERNAL
 %token <token> TDEFAULT TFALLTHROUGH TFALSE TFIXED TFOR TIF TIMPLEMENTS TIMPORT TINJECTOR TINJECT
 %token <token> TINSTANCEOF TINTERFACE TMODEL TNEW TNODE TNULL TOROP TPACKAGE TPRINTERR TPRINTOUT
-%token <token> TPRIVATE TPUBLIC TRECEIVE TRETURN TSTATE TSTATIC
-%token <token> TSWITCH TTHREAD TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN TTYPECHAR TTYPEDOUBLE 
-%token <token> TTYPEFLOAT TTYPEINT TTYPELONG TTYPESTRING TTYPEVOID TWHILE
+%token <token> TPRIVATE TPUBLIC TRECEIVE TRETURN TSENDS TSTATE TSTATIC
+%token <token> TSWITCH TTHREAD TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN 
+%token <token> TTYPECHAR TTYPEDOUBLE TTYPEFLOAT TTYPEINT TTYPELONG TTYPESTRING TTYPEVOID TWHILE
 
 /**
  * Parsing tree node types
@@ -213,7 +217,7 @@
 %type <statement> throw_statement try_catch_statement
 %type <global_statement> bind_action import_statement global_statement
 %type <object_definition> controller_definition interface_definition model_definition
-%type <object_definition> node_definition
+%type <object_definition> node_definition thread_definition
 %type <object_definition> object_definition external_object_definition external_model_definition
 %type <object_definition> external_node_definition external_controller_definition
 %type <object_definition> external_interface_definition
@@ -236,7 +240,7 @@
 %type <object_element_list> external_interface_element_delcaration_list
 %type <type_specifier> type_specifier primitive_type_specifier object_owner_type_specifier 
 %type <type_specifier> non_array_type_specifier injectable_type_specifier 
-%type <type_specifier> array_specific_owner_type_specifier
+%type <type_specifier> array_specific_owner_type_specifier sends_object
 %type <array_type_specifier> array_type_specifier
 %type <array_owner_type_specifier> array_owner_type_specifier
 %type <array_specific_type_specifier> array_specific_type_specifier
@@ -250,6 +254,7 @@
 %type <model_type_specifier> model_type_specifier exception_type_specifier 
 %type <model_type_specifier> model_type_specifier_full inner_model_type_specifier 
 %type <model_type_specifier> inner_model_type_specifier_full
+%type <thread_type_specifier> thread_type_specifier thread_type_specifier_full
 %type <controller_type_specifier> controller_type_specifier controller_type_specifier_full
 %type <controller_type_specifier> inner_controller_type_specifier inner_controller_type_specifier_full
 %type <interface_type_specifier> interface_type_specifier interface_type_specifier_full
@@ -318,6 +323,7 @@ object_definition
   | interface_definition
   | model_definition
   | node_definition
+  | thread_definition
   ;
 
 external_object_definition
@@ -610,6 +616,26 @@ external_model_definition
     }
   ;
 
+thread_definition
+  : TTHREAD thread_type_specifier sends_object implmeneted_interfaces 
+      '{' object_element_declaration_list '}'
+    {
+      IExpression* package = $2->takePackage();
+      package = package ? package : new FakeExpression(NULL, filePackageType);
+      ThreadTypeSpecifierFull* fullSpecifier =
+        new ThreadTypeSpecifierFull(package, $2->getShortName());
+      $$ = new ThreadDefinition(AccessLevel::PUBLIC_ACCESS, 
+                                fullSpecifier, 
+                                $3,
+                                std::get<0>(*$6), 
+                                *$4, 
+                                std::get<1>(*$6));
+      delete $2;
+      delete $4;
+      delete $6;
+    }
+  ;
+
 external_method_declaration
   : type_specifier TIDENTIFIER '(' method_declaration_arguments ')' method_exceptions ';'
       {
@@ -633,6 +659,11 @@ external_static_method_declaration
 implmeneted_interfaces
   : /* blank */ { $$ = new std::vector<IInterfaceTypeSpecifier*>(); }
   | TIMPLEMENTS interface_list { $$ = $2; }
+  ;
+
+sends_object
+  : /* blank */ { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE); }
+  | TSENDS type_specifier { $$ = $2; }
   ;
 
 extends_interfaces
@@ -1318,6 +1349,17 @@ node_type_specifier
 node_type_specifier_full
   : postfix_expression '.' TNODEIDENTIFIER 
     { $$ = new NodeTypeSpecifierFull($1, *$3); delete $3; }
+  ;
+
+thread_type_specifier
+  : TTHREADIDENTIFIER
+    { $$ = new ThreadTypeSpecifier(NULL, *$1); delete $1; }
+  | thread_type_specifier_full
+  ;
+
+thread_type_specifier_full
+  : postfix_expression '.' TTHREADIDENTIFIER 
+    { $$ = new ThreadTypeSpecifierFull($1, *$3); delete $3; }
   ;
 
 exception_type_specifier

@@ -398,7 +398,7 @@ void Controller::initializeInjectedFields(IRGenerationContext& context,
       Controller* controller = (Controller*) fieldType->getObjectType();
       fieldValue = controller->inject(context, field->getInjectionArguments(), line);
     } else {
-      Log::e("Attempt to inject a variable that is not a controller, an interface or an array");
+      Log::e("Attempt to inject a variable that is not of injectable type");
       exit(1);
     }
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));

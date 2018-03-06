@@ -1,0 +1,80 @@
+
+
+model MData {
+  
+}
+
+thread TDataThread sends MList<MData*>* {
+  inject CList<MData*>* mList;
+
+  public void run() {
+    while(true) { 
+      for (int i = 0; i < 10; i++) {
+        MResult* result = builder(MResult).build();
+        mList.append(result);
+      }
+      thread.send(mList.getModel());
+      thread.sleep(10000);
+    }
+  }
+}
+
+thread TUIThread sends boolean {
+  inject TDataThread* mDataThread;
+  
+  public void run() {
+    // start data fetching if neccessary
+    if (!mDataThread.isStarted()) {
+      mDataThread.start();
+    }
+
+    while (true) {
+      // read data
+      if (!mDataThread.hasMessage()) {
+        return;
+      }
+
+      MList<MData*>* dataArray = mDataThread.getMessage();
+
+      // draw everything into GPU buffer
+      render(dataArray);
+
+      thread.send(true);
+    }
+  }
+}
+
+// This is instantiated by native code
+controller COrchestrator implements IOrchestrator {
+  inject TUIThread* mUIThread;
+  
+  // This is called by native code. Returns 1 if the new frame was drawn 0 otherwise.
+  public int vsync() {
+
+    if (!mUIThread.isStarted()) {
+      mUIThread.start();
+    }
+
+    if (!mUIThread.hasMessage()) {
+      // still processing previous frame
+      return 0;
+    }
+
+    return mUIThread.getMessage();
+  }
+}
+
+/*
+
+Threads have these methods:
+
+  isStarted()
+  start()
+  stop()
+  hasMessage()
+  getMessage()
+  awaitMessage()
+  send(<message>)
+  sleep(int milliseconds)
+
+*/
