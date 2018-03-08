@@ -84,7 +84,6 @@ TEST_F(IdentifierChainTest, printToStreamTest) {
 
 TEST_F(IdentifierChainTest, getTypeForUndefinedBaseTypeTest) {
   NiceMock<MockExpression>* mockExpression = new NiceMock<MockExpression>();
-  NiceMock<MockType> mockType;
   ON_CALL(*mockExpression, getType(_)).WillByDefault(Return(UndefinedType::UNDEFINED_TYPE));
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printUndefinedTypeExpression));
   
@@ -101,6 +100,7 @@ TEST_F(IdentifierChainTest, getTypeForPackageBaseTypeTest) {
   ON_CALL(*mockExpression, getType(_)).WillByDefault(Return(&mockType));
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printPackageTypeExpression));
   ON_CALL(mockType, isPackage()).WillByDefault(Return(true));
+  EXPECT_CALL(mockType, die());
   
   IdentifierChain identifierChain(mockExpression, "tests");
   const IType* type = identifierChain.getType(mContext);

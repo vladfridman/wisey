@@ -28,6 +28,8 @@ struct ITypeTest : public Test {
 
 TEST_F(ITypeTest, isObjectTypeTest) {
   NiceMock<MockType> mockType;
+  EXPECT_CALL(mockType, die());
+  
   ON_CALL(mockType, isController()).WillByDefault(Return(true));
   EXPECT_TRUE(IType::isObjectType(&mockType));
 
@@ -54,6 +56,8 @@ TEST_F(ITypeTest, isObjectTypeTest) {
 
 TEST_F(ITypeTest, isConcreteObjectTypeTest) {
   NiceMock<MockType> mockType;
+  EXPECT_CALL(mockType, die());
+
   ON_CALL(mockType, isController()).WillByDefault(Return(true));
   EXPECT_TRUE(IType::isConcreteObjectType(&mockType));
   

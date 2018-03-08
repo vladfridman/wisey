@@ -32,6 +32,7 @@ struct NativeTypeSpecifierTest : public Test {
   NativeTypeSpecifierTest() :
   mNativeType(new NiceMock<MockType>()),
   mNativeTypeSpecifier(new NativeTypeSpecifier(mNativeType)) {
+    EXPECT_CALL(*mNativeType, die());
   }
   
   ~NativeTypeSpecifierTest() {

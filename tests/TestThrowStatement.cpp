@@ -82,6 +82,8 @@ struct ThrowStatementTest : public Test {
     mBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
+    
+    EXPECT_CALL(mMockType, die());
   }
   
   ~ThrowStatementTest() {

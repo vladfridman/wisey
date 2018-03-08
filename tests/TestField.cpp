@@ -47,6 +47,8 @@ public:
     ON_CALL(*mType, printToStream(_, _)).WillByDefault(Invoke(printType));
     ON_CALL(*mInjectedType, printToStream(_, _)).WillByDefault(Invoke(printInjectedType));
     ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
+    EXPECT_CALL(*mType, die());
+    EXPECT_CALL(*mInjectedType, die());
   }
   
   ~FieldTest() {
