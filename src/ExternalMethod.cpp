@@ -138,6 +138,10 @@ bool ExternalMethod::isThread() const {
   return false;
 }
 
+bool ExternalMethod::isNative() const {
+  return false;
+}
+
 const IObjectType* ExternalMethod::getObjectType() const {
   return mObjectType;
 }

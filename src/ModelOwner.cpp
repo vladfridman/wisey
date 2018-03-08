@@ -121,6 +121,10 @@ bool ModelOwner::isThread() const {
   return false;
 }
 
+bool ModelOwner::isNative() const {
+  return false;
+}
+
 void ModelOwner::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

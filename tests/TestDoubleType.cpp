@@ -162,6 +162,7 @@ TEST_F(DoubleTypeTest, isObjectTest) {
   EXPECT_FALSE(mDoubleType.isModel());
   EXPECT_FALSE(mDoubleType.isNode());
   EXPECT_FALSE(mDoubleType.isThread());
+  EXPECT_FALSE(mDoubleType.isNative());
 }
 
 TEST_F(DoubleTypeTest, createLocalVariableTest) {

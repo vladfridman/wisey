@@ -109,6 +109,10 @@ bool FloatType::isThread() const {
   return false;
 }
 
+bool FloatType::isNative() const {
+  return false;
+}
+
 string FloatType::getFormat() const {
   return "%f";
 }

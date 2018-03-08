@@ -348,6 +348,10 @@ bool Controller::isThread() const {
   return false;
 }
 
+bool Controller::isNative() const {
+  return false;
+}
+
 void Controller::initializeReceivedFields(IRGenerationContext& context,
                                           const InjectionArgumentList& controllerInjectorArguments,
                                           Instruction* malloc,
@@ -401,6 +405,9 @@ void Controller::initializeInjectedFields(IRGenerationContext& context,
     } else if (fieldType->isController()) {
       Controller* controller = (Controller*) fieldType->getObjectType();
       fieldValue = controller->inject(context, field->getInjectionArguments(), line);
+    } else if (fieldType->isThread()) {
+      Thread* thread = (Thread*) fieldType->getObjectType();
+      fieldValue = thread->inject(context, field->getInjectionArguments(), line);
     } else {
       Log::e("Attempt to inject a variable that is not of injectable type");
       exit(1);

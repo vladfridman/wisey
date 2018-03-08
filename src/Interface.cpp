@@ -617,6 +617,10 @@ bool Interface::isThread() const {
   return false;
 }
 
+bool Interface::isNative() const {
+  return false;
+}
+
 Function* Interface::defineCastFunction(IRGenerationContext& context,
                                         const IObjectType* toType) const {
   vector<Type*> argumentTypes;

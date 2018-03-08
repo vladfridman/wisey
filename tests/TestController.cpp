@@ -511,6 +511,7 @@ TEST_F(ControllerTest, isObjectTest) {
   EXPECT_FALSE(mMultiplierController->isModel());
   EXPECT_FALSE(mMultiplierController->isNode());
   EXPECT_FALSE(mMultiplierController->isThread());
+  EXPECT_FALSE(mMultiplierController->isNative());
 }
 
 TEST_F(ControllerTest, incrementReferenceCountTest) {

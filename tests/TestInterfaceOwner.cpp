@@ -161,6 +161,7 @@ TEST_F(InterfaceOwnerTest, isObjectTest) {
   EXPECT_FALSE(mObjectInterface->getOwner()->isModel());
   EXPECT_FALSE(mObjectInterface->getOwner()->isNode());
   EXPECT_FALSE(mObjectInterface->getOwner()->isThread());
+  EXPECT_FALSE(mObjectInterface->getOwner()->isNative());
 }
 
 TEST_F(InterfaceOwnerTest, createLocalVariableTest) {

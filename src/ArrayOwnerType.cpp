@@ -130,6 +130,10 @@ bool ArrayOwnerType::isThread() const {
   return false;
 }
 
+bool ArrayOwnerType::isNative() const {
+  return false;
+}
+
 void ArrayOwnerType::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << getTypeName();
 }

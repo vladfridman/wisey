@@ -86,6 +86,10 @@ bool UndefinedType::isThread() const {
   return false;
 }
 
+bool UndefinedType::isNative() const {
+  return false;
+}
+
 void UndefinedType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

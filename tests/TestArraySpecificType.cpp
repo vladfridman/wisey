@@ -132,6 +132,7 @@ TEST_F(ArraySpecificTypeTest, isObjectTest) {
   EXPECT_FALSE(mArraySpecificType->isModel());
   EXPECT_FALSE(mArraySpecificType->isNode());
   EXPECT_FALSE(mArraySpecificType->isThread());
+  EXPECT_FALSE(mArraySpecificType->isNative());
 }
 
 TEST_F(ArraySpecificTypeTest, printToStreamTest) {

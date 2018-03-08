@@ -118,6 +118,7 @@ TEST_F(ArrayExactTypeTest, isObjectTest) {
   EXPECT_FALSE(mArrayExactType->isModel());
   EXPECT_FALSE(mArrayExactType->isNode());
   EXPECT_FALSE(mArrayExactType->isThread());
+  EXPECT_FALSE(mArrayExactType->isNative());
 }
 
 TEST_F(ArrayExactTypeTest, getArrayTypeTest) {

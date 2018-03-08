@@ -132,6 +132,10 @@ bool ArrayExactType::isThread() const {
   return false;
 }
 
+bool ArrayExactType::isNative() const {
+  return false;
+}
+
 void ArrayExactType::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << getTypeName();
 }

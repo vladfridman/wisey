@@ -117,6 +117,7 @@ TEST_F(ArrayOwnerTypeTest, isObjectTest) {
   EXPECT_FALSE(mArrayOwnerType->isModel());
   EXPECT_FALSE(mArrayOwnerType->isNode());
   EXPECT_FALSE(mArrayOwnerType->isThread());
+  EXPECT_FALSE(mArrayOwnerType->isNative());
 }
 
 TEST_F(ArrayOwnerTypeTest, createLocalVariableTest) {

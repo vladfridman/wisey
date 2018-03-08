@@ -131,6 +131,10 @@ bool InterfaceOwner::isThread() const {
   return false;
 }
 
+bool InterfaceOwner::isNative() const {
+  return false;
+}
+
 void InterfaceOwner::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

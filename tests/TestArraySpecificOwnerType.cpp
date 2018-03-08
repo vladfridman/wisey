@@ -115,6 +115,7 @@ TEST_F(ArraySpecificOwnerTypeTest, isObjectTest) {
   EXPECT_FALSE(mArraySpecificOwnerType->isModel());
   EXPECT_FALSE(mArraySpecificOwnerType->isNode());
   EXPECT_FALSE(mArraySpecificOwnerType->isThread());
+  EXPECT_FALSE(mArraySpecificOwnerType->isNative());
 }
 
 TEST_F(ArraySpecificOwnerTypeTest, printToStreamTest) {

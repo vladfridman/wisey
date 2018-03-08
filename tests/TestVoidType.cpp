@@ -138,4 +138,5 @@ TEST_F(VoidTypeTest, isObjectTest) {
   EXPECT_FALSE(mVoidType.isModel());
   EXPECT_FALSE(mVoidType.isNode());
   EXPECT_FALSE(mVoidType.isThread());
+  EXPECT_FALSE(mVoidType.isNative());
 }

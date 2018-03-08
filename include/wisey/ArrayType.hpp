@@ -99,6 +99,8 @@ public:
   bool isNode() const override;
   
   bool isThread() const override;
+  
+  bool isNative() const override;
 
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
   

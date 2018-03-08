@@ -99,6 +99,10 @@ bool StringType::isThread() const {
   return false;
 }
 
+bool StringType::isNative() const {
+  return false;
+}
+
 void StringType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

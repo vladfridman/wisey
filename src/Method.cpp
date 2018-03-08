@@ -142,6 +142,10 @@ bool Method::isThread() const {
   return false;
 }
 
+bool Method::isNative() const {
+  return false;
+}
+
 Function* Method::defineFunction(IRGenerationContext& context) {
   mFunction = IMethod::defineFunction(context, mObjectType, this);
   

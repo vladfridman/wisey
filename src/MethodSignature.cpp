@@ -132,6 +132,10 @@ bool MethodSignature::isThread() const {
   return false;
 }
 
+bool MethodSignature::isNative() const {
+  return false;
+}
+
 const IObjectType* MethodSignature::getObjectType() const {
   return mObjectType;
 }

@@ -71,4 +71,5 @@ TEST_F(PackageTypeTest, isObjectTest) {
   EXPECT_FALSE(mPackageType->isInterface());
   EXPECT_FALSE(mPackageType->isModel());
   EXPECT_FALSE(mPackageType->isNode());
+  EXPECT_FALSE(mPackageType->isNative());
 }

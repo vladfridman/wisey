@@ -222,6 +222,7 @@ TEST_F(ControllerOwnerTest, isObjectTest) {
   EXPECT_FALSE(mMultiplierController->getOwner()->isModel());
   EXPECT_FALSE(mMultiplierController->getOwner()->isNode());
   EXPECT_FALSE(mMultiplierController->getOwner()->isThread());
+  EXPECT_FALSE(mMultiplierController->getOwner()->isNative());
 }
 
 TEST_F(ControllerOwnerTest, getDestructorFunctionTest) {

@@ -161,6 +161,7 @@ TEST_F(FloatTypeTest, isObjectTest) {
   EXPECT_FALSE(mFloatType.isModel());
   EXPECT_FALSE(mFloatType.isNode());
   EXPECT_FALSE(mFloatType.isThread());
+  EXPECT_FALSE(mFloatType.isNative());
 }
 
 TEST_F(FloatTypeTest, createLocalVariableTest) {

@@ -340,6 +340,7 @@ TEST_F(InterfaceTest, isObjectTest) {
   EXPECT_FALSE(mObjectInterface->isModel());
   EXPECT_FALSE(mObjectInterface->isNode());
   EXPECT_FALSE(mObjectInterface->isThread());
+  EXPECT_FALSE(mObjectInterface->isNative());
 }
 
 TEST_F(InterfaceTest, printToStreamTest) {

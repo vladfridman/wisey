@@ -337,6 +337,10 @@ bool Thread::isThread() const {
   return true;
 }
 
+bool Thread::isNative() const {
+  return false;
+}
+
 const IObjectOwnerType* Thread::getOwner() const {
   return mThreadOwner;
 }

@@ -121,6 +121,10 @@ bool ThreadOwner::isThread() const {
   return true;
 }
 
+bool ThreadOwner::isNative() const {
+  return false;
+}
+
 void ThreadOwner::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

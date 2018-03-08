@@ -246,6 +246,10 @@ bool Node::isThread() const {
   return false;
 }
 
+bool Node::isNative() const {
+  return false;
+}
+
 bool Node::isPackage() const {
   return false;
 }

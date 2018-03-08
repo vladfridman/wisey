@@ -112,6 +112,10 @@ bool CharType::isThread() const {
   return false;
 }
 
+bool CharType::isNative() const {
+  return false;
+}
+
 string CharType::getFormat() const {
   return "%c";
 }

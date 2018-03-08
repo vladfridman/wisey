@@ -65,6 +65,8 @@ namespace wisey {
     bool isNode() const override;
     
     bool isThread() const override;
+    
+    bool isNative() const override;
 
     llvm::Function* getDestructorFunction(IRGenerationContext& context) const override;
     

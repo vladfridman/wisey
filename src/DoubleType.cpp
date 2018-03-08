@@ -109,6 +109,10 @@ bool DoubleType::isThread() const {
   return false;
 }
 
+bool DoubleType::isNative() const {
+  return false;
+}
+
 string DoubleType::getFormat() const {
   return "%e";
 }

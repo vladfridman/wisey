@@ -161,6 +161,7 @@ TEST_F(CharTypeTest, isObjectTest) {
   EXPECT_FALSE(mCharType.isModel());
   EXPECT_FALSE(mCharType.isNode());
   EXPECT_FALSE(mCharType.isThread());
+  EXPECT_FALSE(mCharType.isNative());
 }
 
 TEST_F(CharTypeTest, createLocalVariableTest) {

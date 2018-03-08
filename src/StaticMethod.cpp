@@ -140,6 +140,10 @@ bool StaticMethod::isThread() const {
   return false;
 }
 
+bool StaticMethod::isNative() const {
+  return false;
+}
+
 Function* StaticMethod::defineFunction(IRGenerationContext& context) {
   mFunction = IMethod::defineFunction(context, mObjectType, this);
   

@@ -88,6 +88,10 @@ bool VoidType::isThread() const {
   return false;
 }
 
+bool VoidType::isNative() const {
+  return false;
+}
+
 string VoidType::getFormat() const {
   return "";
 }

@@ -161,6 +161,7 @@ TEST_F(BooleanTypeTest, isObjectTest) {
   EXPECT_FALSE(mBoleanType.isModel());
   EXPECT_FALSE(mBoleanType.isNode());
   EXPECT_FALSE(mBoleanType.isThread());
+  EXPECT_FALSE(mBoleanType.isNative());
 }
 
 TEST_F(BooleanTypeTest, createLocalVariableTest) {

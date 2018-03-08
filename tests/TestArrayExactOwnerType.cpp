@@ -100,6 +100,7 @@ TEST_F(ArrayExactOwnerTypeTest, isObjectTest) {
   EXPECT_FALSE(mArrayExactOwnerType->isModel());
   EXPECT_FALSE(mArrayExactOwnerType->isNode());
   EXPECT_FALSE(mArrayExactOwnerType->isThread());
+  EXPECT_FALSE(mArrayExactOwnerType->isNative());
 }
 
 TEST_F(ArrayExactOwnerTypeTest, getArrayTypeTest) {

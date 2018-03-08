@@ -114,6 +114,11 @@ namespace wisey {
      * Tells whether this type is of thread type
      */
     virtual bool isThread() const = 0;
+    
+    /**
+     * Tells whether this type is of native type
+     */
+    virtual bool isNative() const = 0;
 
     /**
      * Allocates local variable of the type and stores it in the scope

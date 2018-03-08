@@ -316,6 +316,7 @@ TEST_F(ThreadTest, isObjectTest) {
   EXPECT_FALSE(mThread->isModel());
   EXPECT_FALSE(mThread->isNode());
   EXPECT_TRUE(mThread->isThread());
+  EXPECT_FALSE(mThread->isNative());
 }
 
 TEST_F(ThreadTest, incrementReferenceCountTest) {

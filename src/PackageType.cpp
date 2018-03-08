@@ -87,6 +87,10 @@ bool PackageType::isThread() const {
   return false;
 }
 
+bool PackageType::isNative() const {
+  return false;
+}
+
 void PackageType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

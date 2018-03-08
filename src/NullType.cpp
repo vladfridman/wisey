@@ -87,6 +87,10 @@ bool NullType::isThread() const {
   return false;
 }
 
+bool NullType::isNative() const {
+  return false;
+}
+
 void NullType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

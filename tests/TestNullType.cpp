@@ -135,4 +135,5 @@ TEST_F(NullTypeTest, isObjectTest) {
   EXPECT_FALSE(NullType::NULL_TYPE->isModel());
   EXPECT_FALSE(NullType::NULL_TYPE->isNode());
   EXPECT_FALSE(NullType::NULL_TYPE->isThread());
+  EXPECT_FALSE(NullType::NULL_TYPE->isNative());
 }

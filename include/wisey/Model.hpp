@@ -149,6 +149,8 @@ public:
   bool isNode() const override;
   
   bool isThread() const override;
+  
+  bool isNative() const override;
 
   std::string getVTableName() const override;
   

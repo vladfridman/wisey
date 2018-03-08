@@ -522,6 +522,7 @@ TEST_F(NodeTest, isObjectTest) {
   EXPECT_FALSE(mSimpleNode->isModel());
   EXPECT_TRUE(mSimpleNode->isNode());
   EXPECT_FALSE(mSimpleNode->isThread());
+  EXPECT_FALSE(mSimpleNode->isNative());
 }
 
 TEST_F(NodeTest, incrementReferenceCountTest) {

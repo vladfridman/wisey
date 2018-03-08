@@ -274,6 +274,10 @@ bool Model::isThread() const {
   return false;
 }
 
+bool Model::isNative() const {
+  return false;
+}
+
 Instruction* Model::build(IRGenerationContext& context,
                           const ObjectBuilderArgumentList& objectBuilderArgumentList,
                           int line) const {

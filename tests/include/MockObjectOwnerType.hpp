@@ -42,6 +42,7 @@ public:
   MOCK_CONST_METHOD0(isModel, bool ());
   MOCK_CONST_METHOD0(isNode, bool ());
   MOCK_CONST_METHOD0(isThread, bool ());
+  MOCK_CONST_METHOD0(isNative, bool ());
   MOCK_CONST_METHOD1(getDestructorFunction, llvm::Function* (wisey::IRGenerationContext&));
   MOCK_CONST_METHOD2(printToStream, void (wisey::IRGenerationContext&, std::iostream& stream));
   MOCK_CONST_METHOD2(createLocalVariable, void (wisey::IRGenerationContext&, std::string name));
