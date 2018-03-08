@@ -33,7 +33,6 @@ mName(name), mType(type), mValueStore(valueStore), mIsInitialized(false) {
 LocalReferenceVariable::~LocalReferenceVariable() {
 }
 
-
 string LocalReferenceVariable::getName() const {
   return mName;
 }

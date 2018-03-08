@@ -49,7 +49,6 @@ string DecrementReferencesInArrayFunction::getName() {
 Function* DecrementReferencesInArrayFunction::define(IRGenerationContext& context) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
-  
   vector<Type*> decrementorArgumentTypes;
   decrementorArgumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
   decrementorArgumentTypes.push_back(Type::getInt64Ty(llvmContext));
@@ -134,7 +133,6 @@ void DecrementReferencesInArrayFunction::compose(IRGenerationContext& context, F
   IRWriter::createBranch(context, forCond);
   
   context.setBasicBlock(forEnd);
-  
   
   IRWriter::createReturnInst(context, NULL);
 }
