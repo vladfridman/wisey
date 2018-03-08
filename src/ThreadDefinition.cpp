@@ -10,9 +10,24 @@
 #include <llvm/IR/GlobalValue.h>
 #include <llvm/IR/DerivedTypes.h>
 
+#include "wisey/Block.hpp"
+#include "wisey/CompoundStatement.hpp"
 #include "wisey/Environment.hpp"
+#include "wisey/FakeExpressionWithCleanup.hpp"
+#include "wisey/FieldDeclaration.hpp"
+#include "wisey/IMethodCall.hpp"
+#include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/MethodDeclaration.hpp"
+#include "wisey/Names.hpp"
+#include "wisey/NativeFunctionCall.hpp"
+#include "wisey/NativeType.hpp"
+#include "wisey/NativeTypeSpecifier.hpp"
+#include "wisey/NullExpression.hpp"
+#include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ThreadDefinition.hpp"
+#include "wisey/ThreadInfrastructure.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -71,7 +86,8 @@ void ThreadDefinition::prototypeMethods(IRGenerationContext& context) const {
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(thread);
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
-  configureObject(context, thread, mObjectElementDeclarations, mInterfaceSpecifiers);
+  vector<IObjectElementDeclaration*> withThreadElements = addThreadObjectElements(context, thread);
+  configureObject(context, thread, withThreadElements, mInterfaceSpecifiers);
   context.setObjectType(lastObjectType);
 }
 
@@ -97,3 +113,58 @@ Value* ThreadDefinition::generateIR(IRGenerationContext& context) const {
   return NULL;
 }
 
+MethodDeclaration* ThreadDefinition::createStartMethodDeclaration(IRGenerationContext& context,
+                                                                  const Thread* thread) const {
+  VariableList arguments;
+  vector<IModelTypeSpecifier*> exceptions;
+  Block* block = new Block();
+  StatementList& statements = block->getStatements();
+  Function* runBridgeFunction = ThreadInfrastructure::getRunBridgeFunction(context, thread);
+  NativeType* runBridgeFunctionType = new NativeType(runBridgeFunction->getType());
+  NativeType* threadAtrributesType =
+  ThreadInfrastructure::createNativeThreadAttributesType(context);
+  Value* nullValue = ConstantPointerNull::get((PointerType*) threadAtrributesType->
+                                              getLLVMType(context));
+  vector<IExpression*> callArguments;
+  callArguments.push_back(new Identifier("mNativeThread"));
+  callArguments.push_back(new FakeExpressionWithCleanup(nullValue, threadAtrributesType));
+  callArguments.push_back(new FakeExpressionWithCleanup(runBridgeFunction, runBridgeFunctionType));
+  callArguments.push_back(new NullExpression());
+  Function* createFunction = ThreadInfrastructure::getThreadCreateFunction(context);
+  NativeFunctionCall* nativeFunctionCall = new NativeFunctionCall(createFunction, callArguments);
+  statements.push_back(nativeFunctionCall);
+  CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
+  
+  return new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
+                               new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE),
+                               "start",
+                               arguments,
+                               exceptions,
+                               compoundStatement,
+                               0);
+}
+
+FieldDeclaration* ThreadDefinition::createNativeThreadHandleField(IRGenerationContext&
+                                                                   context) const {
+  InjectionArgumentList arguments;
+  
+  NativeType* nativeType = ThreadInfrastructure::createNativeThreadType(context);
+  NativeTypeSpecifier* nativeTypeSpecifier = new NativeTypeSpecifier(nativeType);
+  return new FieldDeclaration(FieldKind::STATE_FIELD,
+                              nativeTypeSpecifier,
+                              "mNativeThread",
+                              arguments);
+}
+
+vector<IObjectElementDeclaration*>
+ThreadDefinition::addThreadObjectElements(IRGenerationContext& context,
+                                          const Thread* thread) const {
+  vector<IObjectElementDeclaration*> result;
+  result.push_back(createNativeThreadHandleField(context));
+  for (IObjectElementDeclaration* element : mObjectElementDeclarations) {
+    result.push_back(element);
+  }
+  result.push_back(createStartMethodDeclaration(context, thread));
+
+  return result;
+}

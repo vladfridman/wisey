@@ -1,0 +1,24 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+thread TWorker sends int {
+
+  public void run() {
+    printout("This is worker thread!\n");
+  }
+}
+
+controller CProgram implements IProgram {
+  inject TWorker* mWorker;
+
+  public int run() {
+    printout("Starting worker thread\n");
+    mWorker.start();
+    printout("Worker thread started\n");
+
+    return 1;
+  }
+}
+
+bind(CProgram).to(IProgram);

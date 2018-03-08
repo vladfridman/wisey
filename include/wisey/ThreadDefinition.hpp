@@ -13,6 +13,7 @@
 #include "wisey/IConcreteObjectDefinition.hpp"
 #include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"
+#include "wisey/MethodDeclaration.hpp"
 #include "wisey/ThreadTypeSpecifierFull.hpp"
 
 namespace wisey {
@@ -44,6 +45,22 @@ namespace wisey {
     void prototypeMethods(IRGenerationContext& context) const override;
     
     llvm::Value* generateIR(IRGenerationContext& context) const override;
+    
+  private:
+    
+    std::vector<IObjectElementDeclaration*> addThreadObjectElements(IRGenerationContext& context,
+                                                                    const Thread* thread) const;
+    
+    MethodDeclaration* createStartMethodDeclaration(IRGenerationContext& context,
+                                                    const Thread* thread) const;
+    
+    FieldDeclaration* createNativeThreadHandleField(IRGenerationContext& context) const;
+    
+    static llvm::Function* defineRunBridgeFunction(IRGenerationContext& context, const Thread* thread);
+    
+    static void composeRunBridgeFunction(IRGenerationContext& context,
+                                         llvm::Function* function,
+                                         const IObjectType* thread);
     
   };
   

@@ -195,6 +195,9 @@ vector<string> Thread::getMissingReceivedFields(set<string> givenFields) const {
   vector<string> missingFields;
   
   for (Field* field : mFieldsOrdered) {
+    if (field->getFieldKind() != FIXED_FIELD) {
+      continue;
+    }
     if (givenFields.find(field->getName()) == givenFields.end()) {
       missingFields.push_back(field->getName());
     }

@@ -32,6 +32,7 @@
 #include "wisey/ProgramPrefix.hpp"
 #include "wisey/ReturnStatement.hpp"
 #include "wisey/ThreadDefinition.hpp"
+#include "wisey/ThreadInfrastructure.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -173,11 +174,12 @@ TEST_F(ThreadDefinitionTest, threadDefinitionGenerateIRTest) {
   StructType* structType = (StructType*) thread->getLLVMType(mContext)->getPointerElementType();
   
   ASSERT_NE(structType, nullptr);
-  EXPECT_EQ(structType->getNumElements(), 3u);
-  // reference counter
+  EXPECT_EQ(structType->getNumElements(), 4u);
+  NativeType* nativeThreadType = ThreadInfrastructure::createNativeThreadType(mContext);
   EXPECT_EQ(structType->getElementType(0), Type::getInt64Ty(mLLVMContext));
-  EXPECT_EQ(structType->getElementType(1), Type::getInt64Ty(mLLVMContext));
-  EXPECT_EQ(structType->getElementType(2), Type::getFloatTy(mLLVMContext));
+  EXPECT_EQ(structType->getElementType(1), nativeThreadType->getLLVMType(mContext));
+  EXPECT_EQ(structType->getElementType(2), Type::getInt64Ty(mLLVMContext));
+  EXPECT_EQ(structType->getElementType(3), Type::getFloatTy(mLLVMContext));
   EXPECT_STREQ(thread->getShortName().c_str(), "TWorker");
   EXPECT_STREQ(thread->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.TWorker");
   EXPECT_NE(thread->findMethod("foo"), nullptr);
@@ -236,3 +238,10 @@ TEST_F(TestFileSampleRunner, threadDefinitionRunTest) {
   compileFile("tests/samples/test_thread_definition.yz");
 }
 
+TEST_F(TestFileSampleRunner, threadRunRunTest) {
+  runFileCheckOutput("tests/samples/test_thread_run.yz",
+                     "Starting worker thread\n"
+                     "Worker thread started\n"
+                     "This is worker thread!\n",
+                     "");
+}
