@@ -254,7 +254,7 @@
 %type <model_type_specifier> model_type_specifier exception_type_specifier 
 %type <model_type_specifier> model_type_specifier_full inner_model_type_specifier 
 %type <model_type_specifier> inner_model_type_specifier_full
-%type <thread_type_specifier> thread_type_specifier thread_type_specifier_full
+%type <thread_type_specifier> thread_type_specifier thread_type_specifier_full inner_thread_type_specifier
 %type <controller_type_specifier> controller_type_specifier controller_type_specifier_full
 %type <controller_type_specifier> inner_controller_type_specifier inner_controller_type_specifier_full
 %type <interface_type_specifier> interface_type_specifier interface_type_specifier_full
@@ -1170,7 +1170,6 @@ non_array_type_specifier
   | object_owner_type_specifier
   ;
 
-
 object_owner_type_specifier
   : top_level_object_type_specifier '*' { $$ = new ObjectOwnerTypeSpecifier($1); }
   | inner_object_type_specifier '*' { $$ = new ObjectOwnerTypeSpecifier($1); }
@@ -1212,11 +1211,21 @@ inner_node_type_specifier
     }
   ;
 
+inner_thread_type_specifier
+  : top_level_object_type_specifier '.' TTHREADIDENTIFIER 
+    { 
+      $$ = new ThreadTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3);
+      delete $1; 
+      delete $3; 
+    }
+  ;
+
 inner_object_type_specifier
   : inner_model_type_specifier { $$ = (IObjectTypeSpecifier*) $1; }
   | inner_controller_type_specifier { $$ = (IObjectTypeSpecifier*) $1; }
   | inner_interface_type_specifier { $$ = (IObjectTypeSpecifier*) $1; }
   | inner_node_type_specifier { $$ = (IObjectTypeSpecifier*) $1; }
+  | inner_thread_type_specifier { $$ = (IObjectTypeSpecifier*) $1; }
   ;
 
 top_level_object_type_specifier
@@ -1224,6 +1233,7 @@ top_level_object_type_specifier
   | controller_type_specifier { $$ = $1; }
   | interface_type_specifier { $$ = $1; }
   | node_type_specifier { $$ = $1; }
+  | thread_type_specifier { $$ = $1; }
   ;
 
 inner_model_type_specifier_full
