@@ -6,6 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 //  Tests {@link IntrinsicFunctions}
+//
 
 #include <gtest/gtest.h>
 
