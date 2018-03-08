@@ -85,12 +85,14 @@ void Thread::setFields(vector<Field*> fields, unsigned long startIndex) {
     mFields[field->getName()] = field;
     mFieldsOrdered.push_back(field);
     mFieldIndexes[field] = index;
-    if (field->getFieldKind() != FIXED_FIELD) {
+    FieldKind fieldTypeKind = field->getFieldKind();
+    const IType* fieldType = field->getType();
+    if (fieldTypeKind != FIXED_FIELD && !(fieldType->isNative() && fieldTypeKind == STATE_FIELD)) {
       Log::e("Threads can only have fixed fields");
       exit(1);
     }
-    const IType* fieldType = field->getType();
-    if (!fieldType->isPrimitive() && !fieldType->isModel() && !fieldType->isInterface()) {
+    if (!fieldType->isPrimitive() && !fieldType->isModel() && !fieldType->isInterface() &&
+        !fieldType->isNative()) {
       Log::e("Threads can only have fields of primitive or model type");
       exit(1);
     }
