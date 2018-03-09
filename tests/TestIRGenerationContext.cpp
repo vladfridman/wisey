@@ -13,7 +13,9 @@
 
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
+#include <llvm/Support/TargetSelect.h>
 #include <llvm/Support/raw_ostream.h>
+#include <llvm-c/Target.h>
 
 #include "MockVariable.hpp"
 #include "TestPrefix.hpp"
@@ -361,6 +363,8 @@ public:
 };
 
 TEST_F(IRGenerationContextRunTest, runCodeTest) {
+  InitializeNativeTarget();
+  LLVMInitializeNativeAsmPrinter();
   GenericValue result = mContext.runCode();
   
   EXPECT_EQ(result.IntVal.toString(10, true), "5");
