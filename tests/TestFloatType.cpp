@@ -15,7 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockConcreteObjectType.hpp"
-#include "wisey/Field.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/FloatType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -52,8 +52,7 @@ public:
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
 
-    InjectionArgumentList injectionArgumentList;
-    Field* field = new Field(FIXED_FIELD, &mFloatType, NULL, "mField", injectionArgumentList);
+    IField* field = new FixedField(&mFloatType, "mField");
     ON_CALL(mConcreteObjectType, findField(_)).WillByDefault(Return(field));
     
     mStringStream = new raw_string_ostream(mStringBuffer);

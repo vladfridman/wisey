@@ -6,6 +6,7 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/StateField.hpp"
 #include "wisey/StateFieldDeclaration.hpp"
 
 using namespace llvm;
@@ -19,12 +20,11 @@ StateFieldDeclaration::~StateFieldDeclaration() {
   delete mTypeSpecifier;
 }
 
-Field* StateFieldDeclaration::declare(IRGenerationContext& context,
-                                      const IObjectType* objectType) const {
+IField* StateFieldDeclaration::declare(IRGenerationContext& context,
+                                       const IObjectType* objectType) const {
   const IType* fieldType = mTypeSpecifier->getType(context);
-  InjectionArgumentList injectionArgumentList;
   
-  return new Field(STATE_FIELD, fieldType, NULL, mName, injectionArgumentList);
+  return new StateField(fieldType, mName);
 }
 
 bool StateFieldDeclaration::isConstant() const {

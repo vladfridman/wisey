@@ -9,6 +9,7 @@
 #ifndef FixedFieldDeclaration_h
 #define FixedFieldDeclaration_h
 
+#include "wisey/IField.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 #include "wisey/InjectionArgument.hpp"
@@ -30,7 +31,7 @@ namespace wisey {
 
     ~FixedFieldDeclaration();
     
-    Field* declare(IRGenerationContext& context, const IObjectType* objectType) const override;
+    IField* declare(IRGenerationContext& context, const IObjectType* objectType) const override;
     
     bool isConstant() const override;
     

@@ -17,7 +17,7 @@
 
 #include "MockConcreteObjectType.hpp"
 #include "wisey/DoubleType.hpp"
-#include "wisey/Field.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -53,8 +53,7 @@ public:
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
     
-    InjectionArgumentList injectionArgumentList;
-    Field* field = new Field(FIXED_FIELD, &mDoubleType, NULL, "mField", injectionArgumentList);
+    IField* field = new FixedField(&mDoubleType, "mField");
     ON_CALL(mConcreteObjectType, findField(_)).WillByDefault(Return(field));
     
     mStringStream = new raw_string_ostream(mStringBuffer);

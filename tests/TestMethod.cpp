@@ -16,6 +16,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/CompoundStatement.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/Names.hpp"
@@ -55,12 +56,9 @@ public:
     string modelFullName = "systems.vos.wisey.compiler.tests.MObject";
     StructType* structType = StructType::create(mLLVMContext, modelFullName);
     structType->setBody(types);
-    vector<Field*> fields;
-    InjectionArgumentList fieldArguments;
-    Field* field = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "foo", fieldArguments);
-    fields.push_back(field);
-    field = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "bar", fieldArguments);
-    fields.push_back(field);
+    vector<IField*> fields;
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "foo"));
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "bar"));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
     mModel->setFields(fields, 1u);
 

@@ -16,6 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
@@ -62,12 +63,9 @@ public:
     string modelFullName = "systems.vos.wisey.compiler.tests.MShape";
     StructType* structType = StructType::create(mLLVMContext, modelFullName);
     structType->setBody(types);
-    vector<Field*> fields;
-    InjectionArgumentList fieldArguments;
-    Field* field = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "width", fieldArguments);
-    fields.push_back(field);
-    field = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "height", fieldArguments);
-    fields.push_back(field);
+    vector<IField*> fields;
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width"));
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height"));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
     mModel->setFields(fields, 1u);
 

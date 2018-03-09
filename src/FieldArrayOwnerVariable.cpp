@@ -64,7 +64,7 @@ Value* FieldArrayOwnerVariable::generateAssignmentIR(IRGenerationContext& contex
 Value* FieldArrayOwnerVariable::generateWholeArrayAssignment(IRGenerationContext& context,
                                                              IExpression* assignToExpression,
                                                              int line) {
-  Field* field = checkAndFindFieldForAssignment(context, mObject, mName);
+  IField* field = checkAndFindFieldForAssignment(context, mObject, mName);
   
   const IType* fieldType = field->getType();
   const IType* assignToType = assignToExpression->getType(context);
@@ -84,7 +84,7 @@ Value* FieldArrayOwnerVariable::generateArrayElementAssignment(IRGenerationConte
                                                                vector<const IExpression*>
                                                                arrayIndices,
                                                                int line) {
-  Field* field = checkAndFindFieldForAssignment(context, mObject, mName);
+  IField* field = checkAndFindFieldForAssignment(context, mObject, mName);
 
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   Value* arrayPointer = IRWriter::newLoadInst(context, fieldPointer, "");

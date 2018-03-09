@@ -44,7 +44,7 @@ mIsInner(false) {
 
 Thread::~Thread() {
   delete mThreadOwner;
-  for(Field* field : mFieldsOrdered) {
+  for(IField* field : mFieldsOrdered) {
     delete field;
   }
   mFieldsOrdered.clear();
@@ -79,15 +79,14 @@ AccessLevel Thread::getAccessLevel() const {
   return mAccessLevel;
 }
 
-void Thread::setFields(vector<Field*> fields, unsigned long startIndex) {
+void Thread::setFields(vector<IField*> fields, unsigned long startIndex) {
   unsigned long index = startIndex;
-  for (Field* field : fields) {
+  for (IField* field : fields) {
     mFields[field->getName()] = field;
     mFieldsOrdered.push_back(field);
     mFieldIndexes[field] = index;
-    FieldKind fieldTypeKind = field->getFieldKind();
     const IType* fieldType = field->getType();
-    if (fieldTypeKind != FIXED_FIELD && !(fieldType->isNative() && fieldTypeKind == STATE_FIELD)) {
+    if (!field->isFixed() && !(fieldType->isNative() && field->isState())) {
       Log::e("Threads can only have fixed fields");
       exit(1);
     }
@@ -194,8 +193,8 @@ void Thread::checkAllFieldsAreSet(const InjectionArgumentList& injectionArgument
 vector<string> Thread::getMissingReceivedFields(set<string> givenFields) const {
   vector<string> missingFields;
   
-  for (Field* field : mFieldsOrdered) {
-    if (field->getFieldKind() != FIXED_FIELD) {
+  for (IField* field : mFieldsOrdered) {
+    if (!field->isFixed()) {
       continue;
     }
     if (givenFields.find(field->getName()) == givenFields.end()) {
@@ -235,7 +234,7 @@ Instruction* Thread::createMalloc(IRGenerationContext& context) const {
   return malloc;
 }
 
-Field* Thread::findField(string fieldName) const {
+IField* Thread::findField(string fieldName) const {
   if (!mFields.count(fieldName)) {
     return NULL;
   }
@@ -243,11 +242,11 @@ Field* Thread::findField(string fieldName) const {
   return mFields.at(fieldName);
 }
 
-unsigned long Thread::getFieldIndex(Field* field) const {
+unsigned long Thread::getFieldIndex(IField* field) const {
   return mFieldIndexes.at(field);
 }
 
-vector<Field*> Thread::getFields() const {
+vector<IField*> Thread::getFields() const {
   return mFieldsOrdered;
 }
 
@@ -449,7 +448,7 @@ void Thread::initializeFiexedFields(IRGenerationContext& context,
   index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
   for (InjectionArgument* argument : controllerInjectorArguments) {
     string argumentName = argument->deriveFieldName();
-    Field* field = findField(argumentName);
+    IField* field = findField(argumentName);
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     const IType* fieldType = field->getType();

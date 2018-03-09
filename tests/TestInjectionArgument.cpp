@@ -16,9 +16,9 @@
 
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
-#include "wisey/Field.hpp"
 #include "wisey/InjectionArgument.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ReceivedField.hpp"
 
 using ::testing::_;
 using ::testing::Invoke;
@@ -44,10 +44,8 @@ struct InjectionArgumentTest : Test {
     string modelFullName = "systems.vos.wisey.compiler.tests.CController";
     StructType *structType = StructType::create(llvmContext, modelFullName);
     structType->setBody(types);
-    vector<Field*> fields;
-    InjectionArgumentList arguments;
-    Field* field = new Field(RECEIVED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mFieldA", arguments);
-    fields.push_back(field);
+    vector<IField*> fields;
+    fields.push_back(new ReceivedField(PrimitiveTypes::INT_TYPE, "mFieldA"));
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
     mController->setFields(fields, 1u);
     

@@ -16,6 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockConcreteObjectType.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/NativeType.hpp"
 
@@ -93,12 +94,7 @@ TEST_F(NativeTypeTest, isObjectTest) {
 
 TEST_F(NativeTypeTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  InjectionArgumentList injectionArgumentList;
-  Field* field = new Field(FIXED_FIELD,
-                           mNativeType,
-                           NULL,
-                           "mField",
-                           injectionArgumentList);
+  IField* field = new FixedField(mNativeType, "mField");
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mNativeType->createFieldVariable(mContext, "mField", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("mField");

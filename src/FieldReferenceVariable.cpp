@@ -45,7 +45,7 @@ Value* FieldReferenceVariable::generateAssignmentIR(IRGenerationContext& context
                                                     IExpression* assignToExpression,
                                                     vector<const IExpression*> arrayIndices,
                                                     int line) {
-  Field* field = checkAndFindFieldForAssignment(context, mObject, mName);
+  IField* field = checkAndFindFieldForAssignment(context, mObject, mName);
 
   const IType* expressionType = assignToExpression->getType(context);
   assert(field->getType()->isReference());

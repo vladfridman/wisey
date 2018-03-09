@@ -16,7 +16,7 @@
 
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
-#include "wisey/Field.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/ObjectBuilderArgument.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -44,9 +44,9 @@ struct ObjectBuilderArgumentTest : Test {
     string modelFullName = "systems.vos.wisey.compiler.tests.MModel";
     StructType *structType = StructType::create(llvmContext, modelFullName);
     structType->setBody(types);
-    vector<Field*> fields;
+    vector<IField*> fields;
     InjectionArgumentList arguments;
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mFieldA", arguments));
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mFieldA"));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
     mModel->setFields(fields, 1u);
     

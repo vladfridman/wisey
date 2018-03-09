@@ -55,7 +55,7 @@ struct IRGenerationContextTest : public Test {
     
     string controllerFullName = "systems.vos.wisey.compiler.tests.CMyController";
     StructType* controllerStructType = StructType::create(mLLVMContext, controllerFullName);
-    vector<Field*> controllerFields;
+    vector<IField*> controllerFields;
     vector<IMethod*> controllerMethods;
     vector<Interface*> controllerInterfaces;
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,

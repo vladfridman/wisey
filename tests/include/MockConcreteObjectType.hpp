@@ -22,10 +22,10 @@
  */
 class MockConcreteObjectType : public wisey::IConcreteObjectType {
 public:
-  MOCK_CONST_METHOD1(findField, wisey::Field* (std::string));
+  MOCK_CONST_METHOD1(findField, wisey::IField* (std::string));
   MOCK_CONST_METHOD1(findConstant, wisey::Constant* (std::string));
-  MOCK_CONST_METHOD1(getFieldIndex, unsigned long (wisey::Field*));
-  MOCK_CONST_METHOD0(getFields, std::vector<wisey::Field*> ());
+  MOCK_CONST_METHOD1(getFieldIndex, unsigned long (wisey::IField*));
+  MOCK_CONST_METHOD0(getFields, std::vector<wisey::IField*> ());
   MOCK_CONST_METHOD0(getVTableName, std::string ());
   MOCK_CONST_METHOD0(getVTableSize, unsigned long ());
   MOCK_CONST_METHOD0(getInterfaces, std::vector<wisey::Interface*> ());
@@ -61,7 +61,7 @@ public:
   MOCK_CONST_METHOD0(isThread, bool ());
   MOCK_CONST_METHOD0(isNative, bool ());
   MOCK_CONST_METHOD2(printToStream, void (wisey::IRGenerationContext&, std::iostream& stream));
-  MOCK_METHOD2(setFields, void (std::vector<wisey::Field*>, unsigned long));
+  MOCK_METHOD2(setFields, void (std::vector<wisey::IField*>, unsigned long));
   MOCK_METHOD1(setInterfaces, void (std::vector<wisey::Interface*>));
   MOCK_METHOD1(setMethods, void (std::vector<wisey::IMethod*>));
   MOCK_METHOD1(setStructBodyTypes, void (std::vector<llvm::Type*>));

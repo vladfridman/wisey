@@ -12,6 +12,7 @@
 #include <gmock/gmock.h>
 
 #include "wisey/FakeExpression.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -40,12 +41,9 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
     StructType* structType = StructType::create(llvmContext, modelFullName);
     structType->setBody(types);
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
-    vector<Field*> fields;
-    InjectionArgumentList fieldArguments;
-    Field* field = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "width", fieldArguments);
-    fields.push_back(field);
-    field = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "height", fieldArguments);
-    fields.push_back(field);
+    vector<IField*> fields;
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width"));
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height"));
     vector<MethodArgument*> methodArguments;
     vector<IMethod*> methods;
     vector<const Model*> thrownExceptions;

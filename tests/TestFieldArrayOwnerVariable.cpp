@@ -25,6 +25,7 @@
 #include "wisey/IntConstant.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/StateField.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -68,9 +69,8 @@ public:
     string objectFullName = "systems.vos.wisey.compiler.tests.CObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
-    vector<Field*> fields;
-    InjectionArgumentList fieldArguments;
-    fields.push_back(new Field(STATE_FIELD, mArrayType->getOwner(), NULL, "foo", fieldArguments));
+    vector<IField*> fields;
+    fields.push_back(new StateField(mArrayType->getOwner(), "foo"));
     mObject = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                         objectFullName,
                                         objectStructType);

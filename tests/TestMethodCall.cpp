@@ -21,6 +21,7 @@
 #include "TestPrefix.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/FakeExpression.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -89,12 +90,9 @@ public:
     mStructType = StructType::create(mLLVMContext, modelFullName);
     mStructType->setBody(types);
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, mStructType);
-    vector<Field*> fields;
-    InjectionArgumentList fieldArguments;
-    Field* field = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "width", fieldArguments);
-    fields.push_back(field);
-    field = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "height", fieldArguments);
-    fields.push_back(field);
+    vector<IField*> fields;
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width"));
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height"));
     MethodArgument* methodArgument = new MethodArgument(PrimitiveTypes::FLOAT_TYPE, "argument");
     vector<MethodArgument*> methodArguments;
     methodArguments.push_back(methodArgument);

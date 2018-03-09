@@ -23,6 +23,7 @@
 #include "wisey/Injector.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/StateField.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -63,12 +64,9 @@ struct InjectorTest : Test {
     string controllerFullName = "systems.vos.wisey.compiler.tests.CMultiplier";
     StructType *controllerStructType = StructType::create(llvmContext, controllerFullName);
     controllerStructType->setBody(types);
-    vector<Field*> controllerFields;
-    InjectionArgumentList arguments;
-    Field* fieldLeft = new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, NULL, "left", arguments);
-    Field* fieldRight = new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, NULL, "right", arguments);
-     controllerFields.push_back(fieldLeft);
-    controllerFields.push_back(fieldRight);
+    vector<IField*> controllerFields;
+    controllerFields.push_back(new StateField(PrimitiveTypes::INT_TYPE, "left"));
+    controllerFields.push_back(new StateField(PrimitiveTypes::INT_TYPE, "right"));
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             controllerFullName,
                                             controllerStructType);

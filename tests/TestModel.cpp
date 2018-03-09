@@ -25,7 +25,7 @@
 #include "TestPrefix.hpp"
 #include "wisey/AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp"
 #include "wisey/Constant.hpp"
-#include "wisey/Field.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IntConstant.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -66,8 +66,8 @@ struct ModelTest : public Test {
   Interface* mCarInterface;
   IMethod* mMethod;
   StructType* mStructType;
-  Field* mWidthField;
-  Field* mHeightField;
+  FixedField* mWidthField;
+  FixedField* mHeightField;
   NiceMock<MockExpression>* mField1Expression;
   NiceMock<MockExpression>* mField2Expression;
   wisey::Constant* mConstant;
@@ -96,10 +96,9 @@ struct ModelTest : public Test {
     string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
     mStructType = StructType::create(mLLVMContext, modelFullName);
     mStructType->setBody(types);
-    vector<Field*> fields;
-    InjectionArgumentList arguments;
-    mWidthField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mWidth", arguments);
-    mHeightField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mHeight", arguments);
+    vector<IField*> fields;
+    mWidthField = new FixedField(PrimitiveTypes::INT_TYPE, "mWidth");
+    mHeightField = new FixedField(PrimitiveTypes::INT_TYPE, "mHeight");
     fields.push_back(mWidthField);
     fields.push_back(mHeightField);
     vector<MethodArgument*> methodArguments;
@@ -256,13 +255,9 @@ struct ModelTest : public Test {
     string starFullName = "systems.vos.wisey.compiler.tests.MStar";
     StructType *starStructType = StructType::create(mLLVMContext, starFullName);
     starStructType->setBody(starTypes);
-    vector<Field*> starFields;
-    starFields.push_back(new Field(FIXED_FIELD,
-                                   mBirthdateModel->getOwner(),
-                                   NULL,
-                                   "mBirthdate",
-                                   arguments));
-    starFields.push_back(new Field(FIXED_FIELD, mGalaxyModel, NULL, "mGalaxy", arguments));
+    vector<IField*> starFields;
+    starFields.push_back(new FixedField(mBirthdateModel->getOwner(), "mBirthdate"));
+    starFields.push_back(new FixedField(mGalaxyModel, "mGalaxy"));
     mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, starFullName, starStructType);
     mStarModel->setFields(starFields, 1u);
     mContext.addModel(mStarModel);
@@ -715,12 +710,9 @@ TEST_F(ModelTest, buildNotAllFieldsAreSetDeathTest) {
 TEST_F(ModelTest, printToStreamTest) {
   stringstream stringStream;
   Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL);
-  vector<Field*> fields;
-  InjectionArgumentList arguments;
-  Field* field1 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mField1", arguments);
-  Field* field2 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mField2", arguments);
-  fields.push_back(field1);
-  fields.push_back(field2);
+  vector<IField*> fields;
+  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1"));
+  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2"));
   innerPublicModel->setFields(fields, 0);
 
   vector<MethodArgument*> methodArguments;
@@ -790,8 +782,7 @@ TEST_F(ModelTest, createLocalVariableTest) {
 
 TEST_F(ModelTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  InjectionArgumentList injectionArgumentList;
-  Field* field = new Field(FIXED_FIELD, mModel, NULL, "mField", injectionArgumentList);
+  FixedField* field = new FixedField(mModel, "mField");
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mModel->createFieldVariable(mContext, "temp", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("temp");

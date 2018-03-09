@@ -13,11 +13,11 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/Field.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IInjectable.hpp"
 #include "wisey/IMethod.hpp"
+#include "wisey/InjectedField.hpp"
 #include "wisey/Interface.hpp"
 
 namespace wisey {
@@ -34,13 +34,13 @@ class Controller : public IConcreteObjectType, public IInjectable {
   bool mIsExternal;
   bool mIsInner;
   ControllerOwner* mControllerOwner;
-  std::vector<Field*> mReceivedFields;
-  std::vector<Field*> mInjectedFields;
-  std::vector<Field*> mStateFields;
+  std::vector<IField*> mReceivedFields;
+  std::vector<InjectedField*> mInjectedFields;
+  std::vector<IField*> mStateFields;
   std::vector<IMethod*> mMethods;
-  std::map<std::string, Field*> mFields;
-  std::vector<Field*> mFieldsOrdered;
-  std::map<Field*, unsigned long> mFieldIndexes;
+  std::map<std::string, IField*> mFields;
+  std::vector<IField*> mFieldsOrdered;
+  std::map<IField*, unsigned long> mFieldIndexes;
   std::map<std::string, IMethod*> mNameToMethodMap;
   std::vector<Interface*> mInterfaces;
   std::vector<Interface*> mFlattenedInterfaceHierarchy;
@@ -71,7 +71,7 @@ public:
                             const InjectionArgumentList injectionArgumentList,
                             int line) const override;
   
-  void setFields(std::vector<Field*> fields, unsigned long startIndex) override;
+  void setFields(std::vector<IField*> fields, unsigned long startIndex) override;
   
   void setInterfaces(std::vector<Interface*> interfaces) override;
   
@@ -83,11 +83,11 @@ public:
   
   std::vector<Constant*> getConstants() const override;
 
-  Field* findField(std::string fieldName) const override;
+  IField* findField(std::string fieldName) const override;
   
-  unsigned long getFieldIndex(Field* field) const override;
+  unsigned long getFieldIndex(IField* field) const override;
   
-  std::vector<Field*> getFields() const override;
+  std::vector<IField*> getFields() const override;
   
   IMethod* findMethod(std::string methodName) const override;
   

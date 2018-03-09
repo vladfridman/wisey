@@ -26,6 +26,7 @@
 #include "wisey/ParameterReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramPrefix.hpp"
+#include "wisey/StateField.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -77,10 +78,9 @@ struct FieldOwnerVariableTest : Test {
     string objectFullName = "systems.vos.wisey.compiler.tests.NObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
-    vector<Field*> fields;
-    InjectionArgumentList fieldArguments;
-    fields.push_back(new Field(STATE_FIELD, mNode->getOwner(), NULL, "foo", fieldArguments));
-    fields.push_back(new Field(STATE_FIELD, mInterface->getOwner(), NULL, "bar", fieldArguments));
+    vector<IField*> fields;
+    fields.push_back(new StateField(mNode->getOwner(), "foo"));
+    fields.push_back(new StateField(mInterface->getOwner(), "bar"));
     mObject = Node::newNode(AccessLevel::PUBLIC_ACCESS, objectFullName, objectStructType);
     mObject->setFields(fields, 1u);
     

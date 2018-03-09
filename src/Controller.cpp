@@ -44,7 +44,7 @@ mIsInner(false) {
 
 Controller::~Controller() {
   delete mControllerOwner;
-  for(Field* field : mFieldsOrdered) {
+  for(IField* field : mFieldsOrdered) {
     delete field;
   }
   mFieldsOrdered.clear();
@@ -82,26 +82,21 @@ AccessLevel Controller::getAccessLevel() const {
   return mAccessLevel;
 }
 
-void Controller::setFields(vector<Field*> fields, unsigned long startIndex) {
+void Controller::setFields(vector<IField*> fields, unsigned long startIndex) {
   unsigned long index = startIndex;
-  for (Field* field : fields) {
+  for (IField* field : fields) {
     mFields[field->getName()] = field;
     mFieldsOrdered.push_back(field);
     mFieldIndexes[field] = index;
-    switch (field->getFieldKind()) {
-      case FieldKind::RECEIVED_FIELD :
-        mReceivedFields.push_back(field);
-        break;
-      case FieldKind::STATE_FIELD :
-        mStateFields.push_back(field);
-        break;
-      case FieldKind::INJECTED_FIELD :
-        mInjectedFields.push_back(field);
-        break;
-      default:
-        Log::e("Controllers can only have received, injected or state fields");
-        exit(1);
-        break;
+    if (field->isReceived()) {
+      mReceivedFields.push_back(field);
+    } else if (field->isState()) {
+      mStateFields.push_back(field);
+    } else if (field->isInjected()) {
+      mInjectedFields.push_back((InjectedField*) field);
+    } else {
+      Log::e("Controllers can only have received, injected or state fields");
+      exit(1);
     }
     index++;
   }
@@ -203,7 +198,7 @@ void Controller::checkAllFieldsAreSet(const InjectionArgumentList& injectionArgu
 vector<string> Controller::getMissingReceivedFields(set<string> givenFields) const {
   vector<string> missingFields;
   
-  for (Field* field : mReceivedFields) {
+  for (IField* field : mReceivedFields) {
     if (givenFields.find(field->getName()) == givenFields.end()) {
       missingFields.push_back(field->getName());
     }
@@ -241,7 +236,7 @@ Instruction* Controller::createMalloc(IRGenerationContext& context) const {
   return malloc;
 }
 
-Field* Controller::findField(string fieldName) const {
+IField* Controller::findField(string fieldName) const {
   if (!mFields.count(fieldName)) {
     return NULL;
   }
@@ -249,11 +244,11 @@ Field* Controller::findField(string fieldName) const {
   return mFields.at(fieldName);
 }
 
-unsigned long Controller::getFieldIndex(Field* field) const {
+unsigned long Controller::getFieldIndex(IField* field) const {
   return mFieldIndexes.at(field);
 }
 
-vector<Field*> Controller::getFields() const {
+vector<IField*> Controller::getFields() const {
   return mFieldsOrdered;
 }
 
@@ -362,7 +357,7 @@ void Controller::initializeReceivedFields(IRGenerationContext& context,
   index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
   for (InjectionArgument* argument : controllerInjectorArguments) {
     string argumentName = argument->deriveFieldName();
-    Field* field = findField(argumentName);
+    IField* field = findField(argumentName);
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     const IType* fieldType = field->getType();
@@ -389,7 +384,7 @@ void Controller::initializeInjectedFields(IRGenerationContext& context,
 
   Value *index[2];
   index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
-  for (Field* field : mInjectedFields) {
+  for (InjectedField* field : mInjectedFields) {
     const IType* fieldType = field->getType();
     Value* fieldValue = NULL;
     if (fieldType->isReference()) {

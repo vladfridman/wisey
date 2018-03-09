@@ -50,7 +50,7 @@ public:
 };
 
 TEST_F(StateFieldDeclarationTest, declareTest) {
-  Field* field = mFieldDeclaration->declare(mContext, NULL);
+  IField* field = mFieldDeclaration->declare(mContext, NULL);
   
   EXPECT_FALSE(field->isConstant());
   EXPECT_TRUE(field->isField());
@@ -60,8 +60,11 @@ TEST_F(StateFieldDeclarationTest, declareTest) {
   
   EXPECT_EQ(field->getType(), PrimitiveTypes::INT_TYPE);
   EXPECT_STREQ(field->getName().c_str(), "mField");
-  EXPECT_EQ(field->getInjectionArguments().size(), 0u);
   EXPECT_TRUE(field->isAssignable());
-  EXPECT_EQ(field->getFieldKind(), FieldKind::STATE_FIELD);
+  
+  EXPECT_FALSE(field->isFixed());
+  EXPECT_FALSE(field->isInjected());
+  EXPECT_FALSE(field->isReceived());
+  EXPECT_TRUE(field->isState());
 }
 

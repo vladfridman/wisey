@@ -18,6 +18,7 @@
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "wisey/ControllerTypeSpecifier.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
@@ -123,10 +124,9 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   types.push_back(Type::getInt32Ty(mLLVMContext));
   types.push_back(Type::getInt32Ty(mLLVMContext));
   structType->setBody(types);
-  vector<Field*> fields;
-  InjectionArgumentList arguments;
-  fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "fieldA", arguments));
-  fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "fieldB", arguments));
+  vector<IField*> fields;
+  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "fieldA"));
+  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "fieldB"));
   Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
   model->setFields(fields, 1u);
 

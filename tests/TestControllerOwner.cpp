@@ -17,6 +17,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/ControllerOwner.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -295,12 +296,7 @@ TEST_F(ControllerOwnerTest, createLocalVariableTest) {
 
 TEST_F(ControllerOwnerTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  InjectionArgumentList injectionArgumentList;
-  Field* field = new Field(FIXED_FIELD,
-                           mMultiplierController->getOwner(),
-                           NULL,
-                           "mField",
-                           injectionArgumentList);
+  IField* field = new FixedField(mMultiplierController->getOwner(), "mField");
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mMultiplierController->getOwner()->createFieldVariable(mContext, "mField", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("mField");

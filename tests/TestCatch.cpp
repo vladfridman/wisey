@@ -12,6 +12,7 @@
 #include <gmock/gmock.h>
 
 #include "wisey/Catch.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -46,10 +47,9 @@ public:
     string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
     StructType* structType = StructType::create(mLLVMContext, modelFullName);
     structType->setBody(types);
-    vector<Field*> fields;
-    InjectionArgumentList arguments;
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "width", arguments));
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "height", arguments));
+    vector<IField*> fields;
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width"));
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height"));
     vector<MethodArgument*> methodArguments;
     vector<IMethod*> methods;
     vector<const Model*> thrownExceptions;

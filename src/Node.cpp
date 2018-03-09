@@ -36,7 +36,7 @@ mIsInner(false) {
 
 Node::~Node() {
   delete mNodeOwner;
-  for(Field* field : mFieldsOrdered) {
+  for(IField* field : mFieldsOrdered) {
     delete field;
   }
   mFieldsOrdered.clear();
@@ -71,35 +71,34 @@ AccessLevel Node::getAccessLevel() const {
   return mAccessLevel;
 }
 
-void Node::setFields(vector<Field*> fields, unsigned long startIndex) {
+void Node::setFields(vector<IField*> fields, unsigned long startIndex) {
   mFieldsOrdered = fields;
   unsigned long index = startIndex;
-  for (Field* field : fields) {
+  for (IField* field : fields) {
     mFields[field->getName()] = field;
     mFieldIndexes[field] = index;
     const IType* type = field->getType();
+    
     if (type->isArray() && type->isReference()) {
       type = ((const wisey::ArrayType*) field->getType())->getElementType();
     }
+    
     if (type->isController()) {
       Log::e("Nodes can only have fields of primitive or model or node type");
       exit(1);
     }
-    switch (field->getFieldKind()) {
-      case FieldKind::FIXED_FIELD :
+    
+    if (field->isFixed()) {
         mFixedFields.push_back(field);
-        break;
-      case FieldKind::STATE_FIELD :
-        if (type->isReference() || (!type->isNode() && !type->isInterface())) {
-          Log::e("Node state fields can only be node owner or interface owner type");
-          exit(1);
-        }
-        mStateFields.push_back(field);
-        break;
-      default:
-        Log::e("Nodes can only have fixed or state fields");
+    } else if (field->isState()) {
+      if (type->isReference() || (!type->isNode() && !type->isInterface())) {
+        Log::e("Node state fields can only be node owner or interface owner type");
         exit(1);
-        break;
+      }
+      mStateFields.push_back(field);
+    } else {
+      Log::e("Nodes can only have fixed or state fields");
+      exit(1);
     }
     index++;
   }
@@ -143,7 +142,7 @@ vector<wisey::Constant*> Node::getConstants() const {
   return mConstants;
 }
 
-Field* Node::findField(string fieldName) const {
+IField* Node::findField(string fieldName) const {
   if (!mFields.count(fieldName)) {
     return NULL;
   }
@@ -151,11 +150,11 @@ Field* Node::findField(string fieldName) const {
   return mFields.at(fieldName);
 }
 
-unsigned long Node::getFieldIndex(Field* field) const {
+unsigned long Node::getFieldIndex(IField* field) const {
   return mFieldIndexes.at(field);
 }
 
-vector<Field*> Node::getFields() const {
+vector<IField*> Node::getFields() const {
   return mFieldsOrdered;
 }
 
@@ -281,7 +280,7 @@ const IObjectOwnerType* Node::getOwner() const {
 vector<string> Node::getMissingFields(set<string> givenFields) const {
   vector<string> missingFields;
   
-  for (Field* fixedField : mFixedFields) {
+  for (IField* fixedField : mFixedFields) {
     if (givenFields.find(fixedField->getName()) == givenFields.end()) {
       missingFields.push_back(fixedField->getName());
     }
@@ -357,7 +356,7 @@ void Node::initializePresetFields(IRGenerationContext& context,
   index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
   for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
     string argumentName = argument->deriveFieldName();
-    Field* field = findField(argumentName);
+    IField* field = findField(argumentName);
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     const IType* fieldType = field->getType();

@@ -16,6 +16,7 @@
 
 #include "MockConcreteObjectType.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/InstanceOf.hpp"
 #include "wisey/InterfaceOwner.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -183,12 +184,7 @@ TEST_F(InterfaceOwnerTest, createLocalVariableTest) {
 
 TEST_F(InterfaceOwnerTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  InjectionArgumentList injectionArgumentList;
-  Field* field = new Field(FIXED_FIELD,
-                           mObjectInterface->getOwner(),
-                           NULL,
-                           "mField",
-                           injectionArgumentList);
+  IField* field = new FixedField(mObjectInterface->getOwner(), "mField");
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mObjectInterface->getOwner()->createFieldVariable(mContext, "mField", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("mField");

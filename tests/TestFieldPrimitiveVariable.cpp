@@ -23,6 +23,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/StateField.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -50,9 +51,8 @@ struct FieldPrimitiveVariableTest : Test {
     string objectFullName = "systems.vos.wisey.compiler.tests.CController";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
-    vector<Field*> fields;
-    InjectionArgumentList arguments;
-    fields.push_back(new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, NULL, "foo", arguments));
+    vector<IField*> fields;
+    fields.push_back(new StateField(PrimitiveTypes::INT_TYPE, "foo"));
     mObject = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                         objectFullName,
                                         objectStructType);

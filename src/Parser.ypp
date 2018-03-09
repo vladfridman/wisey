@@ -42,7 +42,6 @@
   #include "wisey/ExternalNodeDefinition.hpp"
   #include "wisey/ExternalStaticMethodDeclaration.hpp"
   #include "wisey/FakeExpression.hpp"
-  #include "wisey/FieldKind.hpp"
   #include "wisey/FixedFieldDeclaration.hpp"
   #include "wisey/FloatConstant.hpp"
   #include "wisey/ForStatement.hpp"

@@ -18,6 +18,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/FakeExpression.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -94,17 +95,9 @@ struct IConcreteObjectTypeTest : public Test {
     string starFullName = "systems.vos.wisey.compiler.tests.MStar";
     StructType* starStructType = StructType::create(mLLVMContext, starFullName);
     starStructType->setBody(starTypes);
-    vector<Field*> starFields;
-    starFields.push_back(new Field(FIXED_FIELD,
-                                   PrimitiveTypes::INT_TYPE,
-                                   NULL,
-                                   "mBrightness",
-                                   fieldArguments));
-    starFields.push_back(new Field(FIXED_FIELD,
-                                   PrimitiveTypes::INT_TYPE,
-                                   NULL,
-                                   "mWeight",
-                                   fieldArguments));
+    vector<IField*> starFields;
+    starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mBrightness"));
+    starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mWeight"));
     mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, starFullName, starStructType);
     mStarModel->setFields(starFields, 1u);
     mContext.addModel(mStarModel);
@@ -115,12 +108,8 @@ struct IConcreteObjectTypeTest : public Test {
     string galaxyFullName = "systems.vos.wisey.compiler.tests.MGalaxy";
     StructType* galaxyStructType = StructType::create(mLLVMContext, galaxyFullName);
     galaxyStructType->setBody(galaxyTypes);
-    vector<Field*> galaxyFields;
-    galaxyFields.push_back(new Field(FIXED_FIELD,
-                                     mStarModel->getOwner(),
-                                     NULL,
-                                     "mStar",
-                                     fieldArguments));
+    vector<IField*> galaxyFields;
+    galaxyFields.push_back(new FixedField(mStarModel->getOwner(), "mStar"));
     mGalaxyModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, galaxyFullName, galaxyStructType);
     mGalaxyModel->setFields(galaxyFields, 1u);
     mContext.addModel(mGalaxyModel);
@@ -131,8 +120,8 @@ struct IConcreteObjectTypeTest : public Test {
     string constellationFullName = "systems.vos.wisey.compiler.tests.MConstellation";
     StructType* constellationStructType = StructType::create(mLLVMContext, constellationFullName);
     constellationStructType->setBody(constellationTypes);
-    vector<Field*> constellationFields;
-    constellationFields.push_back(new Field(FIXED_FIELD, mStarModel, NULL, "mStar", fieldArguments));
+    vector<IField*> constellationFields;
+    constellationFields.push_back(new FixedField(mStarModel, "mStar"));
     mConstellationModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                           constellationFullName,
                                           constellationStructType);
@@ -157,12 +146,8 @@ struct IConcreteObjectTypeTest : public Test {
     string carFullName = "systems.vos.wisey.compiler.tests.MCar";
     StructType* carStructType = StructType::create(mLLVMContext, carFullName);
     carStructType->setBody(carTypes);
-    vector<Field*> carFields;
-    carFields.push_back(new Field(FIXED_FIELD,
-                                  mCanNavigate->getOwner(),
-                                  NULL,
-                                  "mNavigator",
-                                  fieldArguments));
+    vector<IField*> carFields;
+    carFields.push_back(new FixedField(mCanNavigate->getOwner(), "mNavigator"));
     mCarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, carFullName, carStructType);
     mCarModel->setFields(carFields, 1u);
     mContext.addModel(mCarModel);

@@ -16,6 +16,7 @@
 
 #include "MockConcreteObjectType.hpp"
 #include "wisey/ArrayOwnerType.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -139,12 +140,7 @@ TEST_F(ArrayOwnerTypeTest, createLocalVariableTest) {
 
 TEST_F(ArrayOwnerTypeTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  InjectionArgumentList injectionArgumentList;
-  Field* field = new Field(FIXED_FIELD,
-                           mArrayOwnerType,
-                           NULL,
-                           "mField",
-                           injectionArgumentList);
+  IField* field = new FixedField(mArrayOwnerType, "mField");
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mArrayOwnerType->createFieldVariable(mContext, "mField", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("mField");

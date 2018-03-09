@@ -17,7 +17,7 @@
 #include "MockConcreteObjectType.hpp"
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/ArrayType.hpp"
-#include "wisey/Field.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -55,7 +55,7 @@ struct ArrayTypeTest : public Test {
     mContext.getScopes().pushScope();
     
     InjectionArgumentList injectionArgumentList;
-    Field* field = new Field(FIXED_FIELD, mArrayType, NULL, "mField", injectionArgumentList);
+    IField* field = new FixedField(mArrayType, "mField");
     ON_CALL(mConcreteObjectType, findField(_)).WillByDefault(Return(field));
 
     mStringStream = new llvm::raw_string_ostream(mStringBuffer);

@@ -25,6 +25,7 @@
 #include "wisey/Constant.hpp"
 #include "wisey/Controller.hpp"
 #include "wisey/FakeExpression.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/IntConstant.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/Method.hpp"
@@ -36,6 +37,7 @@
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ProgramPrefix.hpp"
+#include "wisey/ReceivedField.hpp"
 #include "wisey/ThreadExpression.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
@@ -61,8 +63,8 @@ struct ControllerTest : public Test {
   Model* mReferenceModel;
   IMethod* mMethod;
   StructType* mStructType;
-  Field* mLeftField;
-  Field* mRightField;
+  ReceivedField* mLeftField;
+  ReceivedField* mRightField;
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock *mBasicBlock;
@@ -153,14 +155,9 @@ struct ControllerTest : public Test {
     mMultiplierController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                       multiplierFullName,
                                                       mStructType);
-    vector<Field*> fields;
-    InjectionArgumentList fieldArguments;
-    mLeftField = new Field(RECEIVED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "left", fieldArguments);
-    mRightField = new Field(RECEIVED_FIELD,
-                            PrimitiveTypes::INT_TYPE,
-                            NULL,
-                            "right",
-                            fieldArguments);
+    vector<IField*> fields;
+    mLeftField = new ReceivedField(PrimitiveTypes::INT_TYPE, "left");
+    mRightField = new ReceivedField(PrimitiveTypes::INT_TYPE, "right");
     fields.push_back(mLeftField);
     fields.push_back(mRightField);
     vector<MethodArgument*> methodArguments;
@@ -232,17 +229,9 @@ struct ControllerTest : public Test {
     string additorFullName = "systems.vos.wisey.compiler.tests.CAdditor";
     StructType* additorStructType = StructType::create(mLLVMContext, additorFullName);
     additorStructType->setBody(additorTypes);
-    vector<Field*> additorFields;
-    additorFields.push_back(new Field(RECEIVED_FIELD,
-                                      mOwnerNode->getOwner(),
-                                      NULL,
-                                      "mOwner",
-                                      fieldArguments));
-    additorFields.push_back(new Field(RECEIVED_FIELD,
-                                      mReferenceModel,
-                                      NULL,
-                                      "mReference",
-                                      fieldArguments));
+    vector<IField*> additorFields;
+    additorFields.push_back(new ReceivedField(mOwnerNode->getOwner(), "mOwner"));
+    additorFields.push_back(new ReceivedField(mReferenceModel, "mReference"));
     mAdditorController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                    additorFullName,
                                                    additorStructType);
@@ -256,12 +245,12 @@ struct ControllerTest : public Test {
     string doublerFullName = "systems.vos.wisey.compiler.tests.CDoubler";
     StructType* doublerStructType = StructType::create(mLLVMContext, doublerFullName);
     doublerStructType->setBody(doublerTypes);
-    vector<Field*> doublerFields;
-    doublerFields.push_back(new Field(INJECTED_FIELD,
-                                      PrimitiveTypes::INT_TYPE,
-                                      NULL,
-                                      "left",
-                                      fieldArguments));
+    vector<IField*> doublerFields;
+    InjectionArgumentList fieldArguments;
+    doublerFields.push_back(new InjectedField(PrimitiveTypes::INT_TYPE,
+                                              NULL,
+                                              "left",
+                                              fieldArguments));
     mDoublerController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                    doublerFullName,
                                                    doublerStructType);
@@ -717,7 +706,7 @@ TEST_F(ControllerTest, injectFieldTest) {
   StructType* childStructType = StructType::create(mLLVMContext, childFullName);
   childTypes.push_back(Type::getInt64Ty(mLLVMContext));
   childStructType->setBody(childTypes);
-  vector<Field*> childFields;
+  vector<IField*> childFields;
   Controller* childController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                           childFullName,
                                                           childStructType);
@@ -730,13 +719,12 @@ TEST_F(ControllerTest, injectFieldTest) {
   string parentFullName = "systems.vos.wisey.compiler.tests.CParent";
   StructType* parentStructType = StructType::create(mLLVMContext, parentFullName);
   parentStructType->setBody(parentTypes);
-  vector<Field*> parentFields;
+  vector<IField*> parentFields;
   InjectionArgumentList fieldArguments;
-  parentFields.push_back(new Field(INJECTED_FIELD,
-                                   childController->getOwner(),
-                                   NULL,
-                                   "mChild",
-                                   fieldArguments));
+  parentFields.push_back(new InjectedField(childController->getOwner(),
+                                           NULL,
+                                           "mChild", 
+                                           fieldArguments));
   Controller* parentController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                            parentFullName,
                                                            parentStructType);
@@ -780,12 +768,9 @@ TEST_F(ControllerTest, injectFieldTest) {
 TEST_F(ControllerTest, printToStreamTest) {
   stringstream stringStream;
   Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL);
-  vector<Field*> fields;
-  InjectionArgumentList arguments;
-  Field* field1 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mField1", arguments);
-  Field* field2 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mField2", arguments);
-  fields.push_back(field1);
-  fields.push_back(field2);
+  vector<IField*> fields;
+  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1"));
+  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2"));
   innerPublicModel->setFields(fields, 0);
   
   vector<MethodArgument*> methodArguments;
@@ -856,12 +841,7 @@ TEST_F(ControllerTest, createLocalVariableTest) {
 
 TEST_F(ControllerTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  InjectionArgumentList injectionArgumentList;
-  Field* field = new Field(FIXED_FIELD,
-                           mMultiplierController,
-                           NULL,
-                           "mField",
-                           injectionArgumentList);
+  IField* field = new FixedField(mMultiplierController, "mField");
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mMultiplierController->createFieldVariable(mContext, "mField", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("mField");

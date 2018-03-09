@@ -24,6 +24,7 @@
 #include "wisey/AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp"
 #include "wisey/Constant.hpp"
 #include "wisey/FakeExpression.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/IntConstant.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/Method.hpp"
@@ -53,8 +54,8 @@ struct ThreadTest : public Test {
   Thread* mThread;
   IMethod* mMethod;
   StructType* mStructType;
-  Field* mFromField;
-  Field* mToField;
+  FixedField* mFromField;
+  FixedField* mToField;
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock *mBasicBlock;
@@ -82,10 +83,9 @@ struct ThreadTest : public Test {
     mStructType = StructType::create(mLLVMContext, workerFullName);
     mStructType->setBody(types);
     mThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS, workerFullName, mStructType);
-    vector<Field*> fields;
-    InjectionArgumentList fieldArguments;
-    mFromField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mFrom", fieldArguments);
-    mToField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mTo", fieldArguments);
+    vector<IField*> fields;
+    mFromField = new FixedField(PrimitiveTypes::INT_TYPE, "mFrom");
+    mToField = new FixedField(PrimitiveTypes::INT_TYPE, "mTo");
     fields.push_back(mFromField);
     fields.push_back(mToField);
     vector<MethodArgument*> methodArguments;
@@ -433,12 +433,9 @@ TEST_F(ThreadTest, injectWrongTypeOfArgumentDeathTest) {
 TEST_F(ThreadTest, printToStreamTest) {
   stringstream stringStream;
   Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL);
-  vector<Field*> fields;
-  InjectionArgumentList arguments;
-  Field* field1 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mField1", arguments);
-  Field* field2 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mField2", arguments);
-  fields.push_back(field1);
-  fields.push_back(field2);
+  vector<IField*> fields;
+  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1"));
+  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2"));
   innerPublicModel->setFields(fields, 0);
   
   vector<MethodArgument*> methodArguments;
@@ -506,12 +503,7 @@ TEST_F(ThreadTest, createLocalVariableTest) {
 
 TEST_F(ThreadTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  InjectionArgumentList injectionArgumentList;
-  Field* field = new Field(FIXED_FIELD,
-                           mThread,
-                           NULL,
-                           "mField",
-                           injectionArgumentList);
+  IField* field = new FixedField(mThread, "mField");
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mThread->createFieldVariable(mContext, "mField", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("mField");

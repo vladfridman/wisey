@@ -16,6 +16,7 @@
 #include "MockConcreteObjectType.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -182,12 +183,7 @@ TEST_F(ThreadOwnerTest, createLocalVariableTest) {
 
 TEST_F(ThreadOwnerTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  InjectionArgumentList injectionArgumentList;
-  Field* field = new Field(FIXED_FIELD,
-                           mThread->getOwner(),
-                           NULL,
-                           "mField",
-                           injectionArgumentList);
+  IField* field = new FixedField(mThread->getOwner(), "mField");
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mThread->getOwner()->createFieldVariable(mContext, "mField", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("mField");

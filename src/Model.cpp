@@ -37,7 +37,7 @@ mIsInner(false) {
 
 Model::~Model() {
   delete mModelOwner;
-  for(Field* field : mFieldsOrdered) {
+  for(IField* field : mFieldsOrdered) {
     delete field;
   }
   mFieldsOrdered.clear();
@@ -70,13 +70,13 @@ AccessLevel Model::getAccessLevel() const {
   return mAccessLevel;
 }
 
-void Model::setFields(vector<Field*> fields, unsigned long startIndex) {
+void Model::setFields(vector<IField*> fields, unsigned long startIndex) {
   mFieldsOrdered = fields;
   unsigned long index = startIndex;
-  for (Field* field : fields) {
+  for (IField* field : fields) {
     mFields[field->getName()] = field;
     mFieldIndexes[field] = index;
-    if (field->getFieldKind() != FIXED_FIELD) {
+    if (!field->isFixed()) {
       Log::e("Models can only have fixed fields");
       exit(1);
     }
@@ -127,7 +127,7 @@ vector<wisey::Constant*> Model::getConstants() const {
   return mConstants;
 }
 
-Field* Model::findField(string fieldName) const {
+IField* Model::findField(string fieldName) const {
   if (!mFields.count(fieldName)) {
     return NULL;
   }
@@ -135,18 +135,18 @@ Field* Model::findField(string fieldName) const {
   return mFields.at(fieldName);
 }
 
-unsigned long Model::getFieldIndex(Field* field) const {
+unsigned long Model::getFieldIndex(IField* field) const {
   return mFieldIndexes.at(field);
 }
 
-vector<Field*> Model::getFields() const {
+vector<IField*> Model::getFields() const {
   return mFieldsOrdered;
 }
 
 vector<string> Model::getMissingFields(set<string> givenFields) const {
   vector<string> missingFields;
   
-  for (map<string, Field*>::const_iterator iterator = mFields.begin();
+  for (map<string, IField*>::const_iterator iterator = mFields.begin();
        iterator != mFields.end();
        iterator++) {
     string fieldName = iterator->first;
@@ -381,7 +381,7 @@ void Model::initializeFields(IRGenerationContext& context,
   index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
   for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
     string argumentName = argument->deriveFieldName();
-    Field* field = findField(argumentName);
+    IField* field = findField(argumentName);
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     const IType* fieldType = field->getType();

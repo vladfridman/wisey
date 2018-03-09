@@ -13,7 +13,6 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/Field.hpp"
 #include "wisey/IBuildableConcreteObjectType.hpp"
 #include "wisey/IMethod.hpp"
 #include "wisey/ObjectBuilderArgument.hpp"
@@ -33,9 +32,9 @@ class Model : public IBuildableConcreteObjectType {
   bool mIsExternal;
   bool mIsInner;
   ModelOwner* mModelOwner;
-  std::map<std::string, Field*> mFields;
-  std::vector<Field*> mFieldsOrdered;
-  std::map<Field*, unsigned long> mFieldIndexes;
+  std::map<std::string, IField*> mFields;
+  std::vector<IField*> mFieldsOrdered;
+  std::map<IField*, unsigned long> mFieldIndexes;
   std::vector<IMethod*> mMethods;
   std::map<std::string, IMethod*> mNameToMethodMap;
   std::vector<Interface*> mInterfaces;
@@ -81,7 +80,7 @@ public:
 
   AccessLevel getAccessLevel() const override;
 
-  void setFields(std::vector<Field*> fields, unsigned long startIndex) override;
+  void setFields(std::vector<IField*> fields, unsigned long startIndex) override;
   
   void setInterfaces(std::vector<Interface*> interfaces) override;
   
@@ -97,11 +96,11 @@ public:
                            const ObjectBuilderArgumentList& objectBuilderArgumentList,
                            int line) const override;
   
-  Field* findField(std::string fieldName) const override;
+  IField* findField(std::string fieldName) const override;
   
-  unsigned long getFieldIndex(Field* field) const override;
+  unsigned long getFieldIndex(IField* field) const override;
 
-  std::vector<Field*> getFields() const override;
+  std::vector<IField*> getFields() const override;
   
   IMethod* findMethod(std::string methodName) const override;
   

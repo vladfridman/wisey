@@ -18,6 +18,7 @@
 #include "MockExpression.hpp"
 #include "TestPrefix.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/Method.hpp"
@@ -50,8 +51,8 @@ struct ModelOwnerTest : public Test {
   Interface* mObjectInterface;
   Interface* mCarInterface;
   StructType* mStructType;
-  Field* mWidthField;
-  Field* mHeightField;
+  FixedField* mWidthField;
+  FixedField* mHeightField;
   NiceMock<MockExpression>* mField1Expression;
   NiceMock<MockExpression>* mField2Expression;
   NiceMock<MockExpression>* mField3Expression;
@@ -80,10 +81,9 @@ struct ModelOwnerTest : public Test {
     mStructType->setBody(types);
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, mStructType);
 
-    vector<Field*> fields;
-    InjectionArgumentList arguments;
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "width", arguments));
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "height", arguments));
+    vector<IField*> fields;
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width"));
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height"));
     vector<MethodArgument*> methodArguments;
     vector<const Model*> thrownExceptions;
     IMethod* method = new Method(mModel,
@@ -213,17 +213,9 @@ struct ModelOwnerTest : public Test {
     string starFullName = "systems.vos.wisey.compiler.tests.MStar";
     StructType *starStructType = StructType::create(mLLVMContext, starFullName);
     starStructType->setBody(starTypes);
-    vector<Field*> starFields;
-    starFields.push_back(new Field(FIXED_FIELD,
-                                   PrimitiveTypes::INT_TYPE,
-                                   NULL,
-                                   "mBrightness",
-                                   arguments));
-    starFields.push_back(new Field(FIXED_FIELD,
-                                   PrimitiveTypes::INT_TYPE,
-                                   NULL,
-                                   "mWeight",
-                                   arguments));
+    vector<IField*> starFields;
+    starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mBrightness"));
+    starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mWeight"));
     mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, starFullName, starStructType);
     mStarModel->setFields(starFields, 1u);
     mContext.addModel(mStarModel);
@@ -400,12 +392,7 @@ TEST_F(ModelOwnerTest, createLocalVariableTest) {
 
 TEST_F(ModelOwnerTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  InjectionArgumentList injectionArgumentList;
-  Field* field = new Field(FIXED_FIELD,
-                           mModel->getOwner(),
-                           NULL,
-                           "mField",
-                           injectionArgumentList);
+  IField* field = new FixedField(mModel->getOwner(), "mField");
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mModel->getOwner()->createFieldVariable(mContext, "mField", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("mField");

@@ -8,6 +8,7 @@
 
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/ArraySpecificOwnerType.hpp"
+#include "wisey/InjectedField.hpp"
 #include "wisey/InjectedFieldDeclaration.hpp"
 
 using namespace llvm;
@@ -29,8 +30,8 @@ InjectedFieldDeclaration::~InjectedFieldDeclaration() {
   mInjectionArgumentList.clear();
 }
 
-Field* InjectedFieldDeclaration::declare(IRGenerationContext& context,
-                                 const IObjectType* objectType) const {
+IField* InjectedFieldDeclaration::declare(IRGenerationContext& context,
+                                          const IObjectType* objectType) const {
   const IType* fieldType = mTypeSpecifier->getType(context);
   
   if (fieldType->isInterface() && fieldType->isOwner()) {
@@ -45,7 +46,7 @@ Field* InjectedFieldDeclaration::declare(IRGenerationContext& context,
     ->getArrayType(context)->getOwner();
   }
   
-  return new Field(INJECTED_FIELD, fieldType, injectedType, mName, mInjectionArgumentList);
+  return new InjectedField(fieldType, injectedType, mName, mInjectionArgumentList);
 }
 
 bool InjectedFieldDeclaration::isConstant() const {

@@ -22,7 +22,7 @@
 #include "TestPrefix.hpp"
 #include "wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp"
 #include "wisey/Constant.hpp"
-#include "wisey/Field.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IntConstant.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -64,8 +64,8 @@ struct NodeTest : public Test {
   Interface* mVehicleInterface;
   IMethod* mMethod;
   StructType* mStructType;
-  Field* mLeftField;
-  Field* mRightField;
+  FixedField* mLeftField;
+  FixedField* mRightField;
   BasicBlock* mBasicBlock;
   NiceMock<MockExpression>* mField1Expression;
   NiceMock<MockExpression>* mField2Expression;
@@ -154,13 +154,13 @@ struct NodeTest : public Test {
     string complicatedNodeFullName = "systems.vos.wisey.compiler.tests.NComplicatedNode";
     mStructType = StructType::create(mLLVMContext, complicatedNodeFullName);
     mStructType->setBody(types);
-    vector<Field*> fields;
+    vector<IField*> fields;
     mComplicatedNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                      complicatedNodeFullName,
                                      mStructType);
    InjectionArgumentList arguments;
-    mLeftField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE,  NULL, "mLeft", arguments);
-    mRightField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE,  NULL, "mRight", arguments);
+    mLeftField = new FixedField(PrimitiveTypes::INT_TYPE, "mLeft");
+    mRightField = new FixedField(PrimitiveTypes::INT_TYPE, "mRight");
     fields.push_back(mLeftField);
     fields.push_back(mRightField);
     vector<MethodArgument*> methodArguments;
@@ -227,17 +227,9 @@ struct NodeTest : public Test {
     string simpleNodeFullName = "systems.vos.wisey.compiler.tests.NSimpleNode";
     StructType* simpleNodeStructType = StructType::create(mLLVMContext, simpleNodeFullName);
     simpleNodeStructType->setBody(simpleNodeTypes);
-    vector<Field*> simpleNodeFields;
-    simpleNodeFields.push_back(new Field(FIXED_FIELD,
-                                         mOwnerNode->getOwner(),
-                                         NULL,
-                                         "mOwner",
-                                        arguments));
-    simpleNodeFields.push_back(new Field(FIXED_FIELD,
-                                         mReferenceModel,
-                                         NULL,
-                                         "mReference",
-                                         arguments));
+    vector<IField*> simpleNodeFields;
+    simpleNodeFields.push_back(new FixedField(mOwnerNode->getOwner(), "mOwner"));
+    simpleNodeFields.push_back(new FixedField(mReferenceModel, "mReference"));
     mSimpleNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                 simpleNodeFullName,
                                 simpleNodeStructType);
@@ -251,17 +243,9 @@ struct NodeTest : public Test {
     string simplerNodeFullName = "systems.vos.wisey.compiler.tests.NSimplerNode";
     StructType* simplerNodeStructType = StructType::create(mLLVMContext, simplerNodeFullName);
     simplerNodeStructType->setBody(simplerNodeTypes);
-    vector<Field*> simplerNodeFields;
-    simplerNodeFields.push_back(new Field(FIXED_FIELD,
-                                          PrimitiveTypes::INT_TYPE,
-                                          NULL,
-                                          "mLeft",
-                                          arguments));
-    simplerNodeFields.push_back(new Field(FIXED_FIELD,
-                                          PrimitiveTypes::INT_TYPE,
-                                          NULL,
-                                          "mRight",
-                                          arguments));
+    vector<IField*> simplerNodeFields;
+    simplerNodeFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mLeft"));
+    simplerNodeFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mRight"));
     mSimplerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                  simplerNodeFullName,
                                  simplerNodeStructType);
@@ -706,12 +690,9 @@ TEST_F(NodeTest, buildNotAllFieldsAreSetDeathTest) {
 TEST_F(NodeTest, printToStreamTest) {
   stringstream stringStream;
   Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL);
-  vector<Field*> fields;
-  InjectionArgumentList arguments;
-  Field* field1 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mField1", arguments);
-  Field* field2 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mField2", arguments);
-  fields.push_back(field1);
-  fields.push_back(field2);
+  vector<IField*> fields;
+  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1"));
+  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2"));
   innerPublicModel->setFields(fields, 0);
   
   vector<MethodArgument*> methodArguments;
@@ -782,7 +763,7 @@ TEST_F(NodeTest, createLocalVariableTest) {
 TEST_F(NodeTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
   InjectionArgumentList injectionArgumentList;
-  Field* field = new Field(FIXED_FIELD, mComplicatedNode, NULL, "mField", injectionArgumentList);
+  IField* field = new FixedField(mComplicatedNode, "mField");
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mComplicatedNode->createFieldVariable(mContext, "mField", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("mField");

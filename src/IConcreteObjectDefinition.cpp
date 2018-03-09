@@ -21,7 +21,7 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
                                                 vector<IInterfaceTypeSpecifier*>
                                                   interfaceSpecifiers) {
   vector<Interface*> interfaces = processInterfaces(context, interfaceSpecifiers);
-  tuple<vector<Constant*>, vector<Field*>, vector<IMethod*>> elements =
+  tuple<vector<Constant*>, vector<IField*>, vector<IMethod*>> elements =
     createElements(context, object, elementDeclarations);
   object->setFields(get<1>(elements), interfaces.size() + 1);
   object->setInterfaces(interfaces);
@@ -47,11 +47,11 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
   IConcreteObjectType::generateConstantsIR(context, object);
 }
 
-tuple<vector<Constant*>, vector<Field*>, vector<IMethod*>>
+tuple<vector<Constant*>, vector<IField*>, vector<IMethod*>>
 IConcreteObjectDefinition::createElements(IRGenerationContext& context,
                                           const IConcreteObjectType* concreteObjectType,
                                           vector<IObjectElementDeclaration*> elementDeclarations) {
-  vector<Field*> fields;
+  vector<IField*> fields;
   vector<IMethod*> methods;
   vector<Constant*> constants;
   for (IObjectElementDeclaration* elementDeclaration : elementDeclarations) {
@@ -67,7 +67,7 @@ IConcreteObjectDefinition::createElements(IRGenerationContext& context,
         Log::e("Fields should be declared before methods");
         exit(1);
       }
-      fields.push_back((Field*) element);
+      fields.push_back((IField*) element);
     } else {
       methods.push_back((IMethod*) element);
     }
@@ -95,12 +95,11 @@ vector<Interface*> IConcreteObjectDefinition::processInterfaces(IRGenerationCont
 
 void IConcreteObjectDefinition::collectFieldTypes(IRGenerationContext& context,
                                                   vector<llvm::Type*>& types,
-                                                  vector<Field*> fields) {
-  for (Field* field : fields) {
+                                                  vector<IField*> fields) {
+  for (IField* field : fields) {
     const IType* fieldType = field->getType();
     
-    if (field->getFieldKind() == INJECTED_FIELD &&
-        fieldType->isInterface() && fieldType->isOwner()) {
+    if (field->isInjected() && fieldType->isInterface() && fieldType->isOwner()) {
       Interface* interface = (Interface*) fieldType->getObjectType();
       fieldType = context.getBoundController(interface);
     }

@@ -322,7 +322,7 @@ GlobalVariable* IConcreteObjectType::createTypeListGlobal(IRGenerationContext& c
 
 void IConcreteObjectType::declareFieldVariables(IRGenerationContext& context,
                                                 const IConcreteObjectType* object) {
-  for (Field* field : object->getFields()) {
+  for (IField* field : object->getFields()) {
     field->getType()->createFieldVariable(context, field->getName(), object);
   }
 }
@@ -393,7 +393,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
 void IConcreteObjectType::decrementReferenceFields(IRGenerationContext& context,
                                                    Value* thisValue,
                                                    const IConcreteObjectType* object) {
-  for (Field* field : object->getFields()) {
+  for (IField* field : object->getFields()) {
     const IType* fieldType = field->getType();
     
     if (!fieldType->isReference()) {
@@ -409,7 +409,7 @@ void IConcreteObjectType::decrementReferenceFields(IRGenerationContext& context,
 void IConcreteObjectType::freeOwnerFields(IRGenerationContext& context,
                                           Value* thisValue,
                                           const IConcreteObjectType* object) {
-  for (Field* field : object->getFields()) {
+  for (IField* field : object->getFields()) {
     const IType* fieldType = field->getType();
     
     if (!fieldType->isOwner()) {
@@ -425,7 +425,7 @@ void IConcreteObjectType::freeOwnerFields(IRGenerationContext& context,
 Value* IConcreteObjectType::getFieldValuePointer(IRGenerationContext& context,
                                                  Value* thisValue,
                                                  const IConcreteObjectType* object,
-                                                 Field* field) {
+                                                 IField* field) {
   Value* fieldPointer = getFieldPointer(context, thisValue, object, field);
   return IRWriter::newLoadInst(context, fieldPointer, "");
 }
@@ -433,7 +433,7 @@ Value* IConcreteObjectType::getFieldValuePointer(IRGenerationContext& context,
 Value* IConcreteObjectType::getFieldPointer(IRGenerationContext& context,
                                             Value* thisValue,
                                             const IConcreteObjectType* object,
-                                            Field* field) {
+                                            IField* field) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Value* index[2];
@@ -525,11 +525,11 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
     constant->printToStream(context, stream);
   }
 
-  vector<Field*> fields = object->getFields();
+  vector<IField*> fields = object->getFields();
   if (fields.size()) {
     stream << endl;
   }
-  for (Field* field : fields) {
+  for (IField* field : fields) {
     field->printToStream(context, stream);
   }
   

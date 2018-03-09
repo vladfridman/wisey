@@ -18,7 +18,7 @@
 
 #include "MockExpression.hpp"
 #include "MockVariable.hpp"
-#include "wisey/Field.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/ObjectBuilder.hpp"
@@ -64,10 +64,9 @@ struct ObjectBuilderTest : Test {
     string modelFullName = "systems.vos.wisey.compiler.tests.MShape";
     StructType *structType = StructType::create(llvmContext, modelFullName);
     structType->setBody(types);
-    vector<Field*> fields;
-    InjectionArgumentList arguments;
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mWidth", arguments));
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mHeight", arguments));
+    vector<IField*> fields;
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mWidth"));
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mHeight"));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
     mModel->setFields(fields, 1u);
     mContext.addModel(mModel);

@@ -12,7 +12,7 @@
 #include <llvm/IR/Instructions.h>
 
 #include "wisey/Constant.hpp"
-#include "wisey/Field.hpp"
+#include "wisey/IField.hpp"
 #include "wisey/IMethod.hpp"
 #include "wisey/IMethodDescriptor.hpp"
 #include "wisey/IObjectType.hpp"
@@ -78,17 +78,17 @@ public:
   /**
    * Looks for a field with a given name in the object
    */
-  virtual Field* findField(std::string fieldName) const = 0;
+  virtual IField* findField(std::string fieldName) const = 0;
   
   /**
    * Returns field index in the struct data type representing this object
    */
-  virtual unsigned long getFieldIndex(Field* field) const = 0;
+  virtual unsigned long getFieldIndex(IField* field) const = 0;
 
   /**
    * Returns a list of all fields
    */
-  virtual std::vector<Field*> getFields() const = 0;
+  virtual std::vector<IField*> getFields() const = 0;
   
   /**
    * Returns the name of the vTable global varaible
@@ -128,7 +128,7 @@ public:
   /**
    * Set fields to the given map of fields
    */
-  virtual void setFields(std::vector<Field*> fields, unsigned long startIndex) = 0;
+  virtual void setFields(std::vector<IField*> fields, unsigned long startIndex) = 0;
   
   /**
    * Set interfaces for this object
@@ -314,12 +314,12 @@ private:
   static llvm::Value* getFieldValuePointer(IRGenerationContext& context,
                                            llvm::Value* thisValue,
                                            const IConcreteObjectType* object,
-                                           Field* field);
+                                           IField* field);
 
   static llvm::Value* getFieldPointer(IRGenerationContext& context,
                                       llvm::Value* thisValue,
                                       const IConcreteObjectType* object,
-                                      Field* field);
+                                      IField* field);
 
   static void composeDestructorBody(IRGenerationContext& context,
                                     llvm::Function* function,

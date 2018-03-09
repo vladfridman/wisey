@@ -14,6 +14,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestPrefix.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/MethodArgument.hpp"
@@ -52,10 +53,9 @@ public:
     string modelFullName = "systems.vos.wisey.compiler.tests.MObject";
     StructType* structType = StructType::create(mLLVMContext, "MObject");
     structType->setBody(types);
-    vector<Field*> fields;
-    InjectionArgumentList fieldArguments;
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "foo", fieldArguments));
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "bar", fieldArguments));
+    vector<IField*> fields;
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "foo"));
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "bar"));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
     mModel->setFields(fields, 1u);
     

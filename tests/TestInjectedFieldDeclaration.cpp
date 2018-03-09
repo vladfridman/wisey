@@ -55,7 +55,7 @@ public:
 };
 
 TEST_F(InjectedFieldDeclarationTest, declareTest) {
-  Field* field = mFieldDeclaration->declare(mContext, NULL);
+  IField* field = mFieldDeclaration->declare(mContext, NULL);
   
   EXPECT_FALSE(field->isConstant());
   EXPECT_TRUE(field->isField());
@@ -65,9 +65,15 @@ TEST_F(InjectedFieldDeclarationTest, declareTest) {
 
   EXPECT_EQ(field->getType(), PrimitiveTypes::INT_TYPE);
   EXPECT_STREQ(field->getName().c_str(), "mField");
-  EXPECT_EQ(field->getInjectionArguments().size(), 1u);
-  EXPECT_EQ(field->getInjectionArguments().at(0), mInjectionArgument);
   EXPECT_TRUE(field->isAssignable());
-  EXPECT_EQ(field->getFieldKind(), FieldKind::INJECTED_FIELD);
+
+  EXPECT_FALSE(field->isFixed());
+  EXPECT_TRUE(field->isInjected());
+  EXPECT_FALSE(field->isReceived());
+  EXPECT_FALSE(field->isState());
+
+  InjectedField* injetedField = (InjectedField*) field;
+  EXPECT_EQ(injetedField->getInjectionArguments().size(), 1u);
+  EXPECT_EQ(injetedField->getInjectionArguments().at(0), mInjectionArgument);
 }
 

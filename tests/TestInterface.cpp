@@ -23,6 +23,7 @@
 #include "TestPrefix.hpp"
 #include "wisey/AdjustReferenceCounterForInterfaceFunction.hpp"
 #include "wisey/ConstantDeclaration.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/FixedFieldDeclaration.hpp"
 #include "wisey/GetOriginalObjectFunction.hpp"
 #include "wisey/InstanceOf.hpp"
@@ -346,12 +347,9 @@ TEST_F(InterfaceTest, isObjectTest) {
 TEST_F(InterfaceTest, printToStreamTest) {
   stringstream stringStream;
   Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL);
-  vector<Field*> fields;
-  InjectionArgumentList arguments;
-  Field* field1 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mField1", arguments);
-  Field* field2 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mField2", arguments);
-  fields.push_back(field1);
-  fields.push_back(field2);
+  vector<IField*> fields;
+  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1"));
+  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2"));
   innerPublicModel->setFields(fields, 0);
   
   vector<MethodArgument*> methodArguments;
@@ -609,7 +607,7 @@ TEST_F(InterfaceTest, createLocalVariableTest) {
 TEST_F(InterfaceTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
   InjectionArgumentList injectionArgumentList;
-  Field* field = new Field(FIXED_FIELD, mShapeInterface, NULL, "mField", injectionArgumentList);
+  IField* field = new FixedField(mShapeInterface, "mField");
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mShapeInterface->createFieldVariable(mContext, "mField", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("mField");

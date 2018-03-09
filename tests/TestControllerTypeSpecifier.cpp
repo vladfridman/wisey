@@ -15,6 +15,7 @@
 #include "wisey/FakeExpression.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ReceivedField.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -38,18 +39,9 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
     string controllerFullName = "systems.vos.wisey.compiler.tests.CMultiplier";
     StructType* structType = StructType::create(llvmContext, "CMultiplier");
     structType->setBody(types);
-    vector<Field*> fields;
-    InjectionArgumentList fieldArguments;
-    fields.push_back(new Field(RECEIVED_FIELD,
-                               PrimitiveTypes::INT_TYPE,
-                               NULL,
-                               "left",
-                               fieldArguments));
-    fields.push_back(new Field(RECEIVED_FIELD,
-                               PrimitiveTypes::INT_TYPE,
-                               NULL,
-                               "right",
-                                fieldArguments));
+    vector<IField*> fields;
+    fields.push_back(new ReceivedField(PrimitiveTypes::INT_TYPE, "left"));
+    fields.push_back(new ReceivedField(PrimitiveTypes::INT_TYPE, "right"));
     vector<MethodArgument*> methodArguments;
     vector<IMethod*> methods;
     vector<const Model*> thrownExceptions;

@@ -6,6 +6,7 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/FixedField.hpp"
 #include "wisey/FixedFieldDeclaration.hpp"
 
 using namespace llvm;
@@ -19,12 +20,11 @@ FixedFieldDeclaration::~FixedFieldDeclaration() {
   delete mTypeSpecifier;
 }
 
-Field* FixedFieldDeclaration::declare(IRGenerationContext& context,
-                                      const IObjectType* objectType) const {
+IField* FixedFieldDeclaration::declare(IRGenerationContext& context,
+                                       const IObjectType* objectType) const {
   const IType* fieldType = mTypeSpecifier->getType(context);
-  InjectionArgumentList injectionArgumentList;
   
-  return new Field(FIXED_FIELD, fieldType, NULL, mName, injectionArgumentList);
+  return new FixedField(fieldType, mName);
 }
 
 bool FixedFieldDeclaration::isConstant() const {

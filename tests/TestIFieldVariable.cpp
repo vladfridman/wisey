@@ -14,11 +14,12 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "wisey/Field.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/IFieldVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/StateField.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -35,26 +36,21 @@ struct IFieldVariableTest : Test {
   LLVMContext& mLLVMContext;
   Controller* mController;
   Model* mModel;
-  Field* mStateField;
-  Field* mFixedField;
+  StateField* mStateField;
+  FixedField* mFixedField;
   BasicBlock* mBasicBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
   IFieldVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
-    InjectionArgumentList fieldArguments;
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mContext));
     string controllerFullName = "systems.vos.wisey.compiler.tests.CController";
     StructType* controllerStructType = StructType::create(mLLVMContext, controllerFullName);
     controllerStructType->setBody(types);
-    vector<Field*> controllerFields;
-    mStateField = new Field(STATE_FIELD,
-                            PrimitiveTypes::INT_TYPE,
-                            NULL,
-                            "bar",
-                            fieldArguments);
+    vector<IField*> controllerFields;
+    mStateField = new StateField(PrimitiveTypes::INT_TYPE, "bar");
     controllerFields.push_back(mStateField);
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             controllerFullName,
@@ -64,12 +60,8 @@ struct IFieldVariableTest : Test {
     string modelFullName = "systems.vos.wisey.compiler.tests.MModel";
     StructType* modelStructType = StructType::create(mLLVMContext, modelFullName);
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, modelStructType);
-    mFixedField = new Field(FIXED_FIELD,
-                            PrimitiveTypes::INT_TYPE,
-                            NULL,
-                            "foo",
-                            fieldArguments);
-    vector<Field*> modelFields;
+    mFixedField = new FixedField(PrimitiveTypes::INT_TYPE, "foo");
+    vector<IField*> modelFields;
     modelFields.push_back(mFixedField);
     mModel->setFields(modelFields, 1u);
     

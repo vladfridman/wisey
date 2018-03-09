@@ -6,6 +6,7 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/ReceivedField.hpp"
 #include "wisey/ReceivedFieldDeclaration.hpp"
 
 using namespace llvm;
@@ -19,12 +20,11 @@ ReceivedFieldDeclaration::~ReceivedFieldDeclaration() {
   delete mTypeSpecifier;
 }
 
-Field* ReceivedFieldDeclaration::declare(IRGenerationContext& context,
+IField* ReceivedFieldDeclaration::declare(IRGenerationContext& context,
                                       const IObjectType* objectType) const {
   const IType* fieldType = mTypeSpecifier->getType(context);
-  InjectionArgumentList injectionArgumentList;
   
-  return new Field(RECEIVED_FIELD, fieldType, NULL, mName, injectionArgumentList);
+  return new ReceivedField(fieldType, mName);
 }
 
 bool ReceivedFieldDeclaration::isConstant() const {

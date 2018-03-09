@@ -19,6 +19,7 @@
 #include "MockTypeSpecifier.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -91,12 +92,9 @@ struct TypeComparisionExpressionTest : public Test {
     squareStructType->setBody(squareTypes);
     mSquareModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, squareFullName, squareStructType);
 
-    vector<Field*> squareFields;
-    InjectionArgumentList arguments;
-    Field* field = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "width", arguments);
-    squareFields.push_back(field);
-    field = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "height", arguments);
-    squareFields.push_back(field);
+    vector<IField*> squareFields;
+    squareFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width"));
+    squareFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height"));
     vector<MethodArgument*> methodArguments;
     vector<IMethod*> squareMethods;
     vector<const Model*> thrownExceptions;

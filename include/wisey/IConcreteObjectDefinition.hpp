@@ -11,6 +11,7 @@
 
 #include "wisey/Constant.hpp"
 #include "wisey/IConcreteObjectType.hpp"
+#include "wisey/IField.hpp"
 #include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IObjectElement.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"
@@ -48,7 +49,7 @@ public:
   
 private:
 
-  static std::tuple<std::vector<Constant*>, std::vector<Field*>, std::vector<IMethod*>>
+  static std::tuple<std::vector<Constant*>, std::vector<IField*>, std::vector<IMethod*>>
   createElements(IRGenerationContext& context,
                  const IConcreteObjectType* concreteObjectType,
                  std::vector<IObjectElementDeclaration*> elementDeclarations);
@@ -59,7 +60,7 @@ private:
   
   static void collectFieldTypes(IRGenerationContext& context,
                                 std::vector<llvm::Type*>& types,
-                                std::vector<Field*> fields);
+                                std::vector<IField*> fields);
 
 };
 

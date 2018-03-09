@@ -26,6 +26,7 @@
 #include "wisey/ParameterReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramPrefix.hpp"
+#include "wisey/StateField.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -60,9 +61,8 @@ struct FieldNativeVariableTest : Test {
     string objectFullName = "systems.vos.wisey.compiler.tests.TObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
-    vector<Field*> fields;
-    InjectionArgumentList fieldArguments;
-    fields.push_back(new Field(STATE_FIELD, mNativeType, NULL, "mFoo", fieldArguments));
+    vector<IField*> fields;
+    fields.push_back(new StateField(mNativeType, "mFoo"));
     mObject = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
                                 objectFullName,
                                 objectStructType);

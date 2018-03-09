@@ -12,6 +12,7 @@
 #include <gmock/gmock.h>
 
 #include "wisey/FakeExpression.hpp"
+#include "wisey/FixedField.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ThreadTypeSpecifier.hpp"
@@ -40,12 +41,9 @@ struct ThreadTypeSpecifierTest : public ::testing::Test {
     StructType* structType = StructType::create(llvmContext, threadFullName);
     structType->setBody(types);
     mThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS, threadFullName, structType);
-    vector<Field*> fields;
-    InjectionArgumentList fieldArguments;
-    Field* field = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mFrom", fieldArguments);
-    fields.push_back(field);
-    field = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, NULL, "mTo", fieldArguments);
-    fields.push_back(field);
+    vector<IField*> fields;
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mFrom"));
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mTo"));
     vector<MethodArgument*> methodArguments;
     vector<IMethod*> methods;
     vector<const Model*> thrownExceptions;
