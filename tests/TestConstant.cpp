@@ -70,8 +70,12 @@ TEST_F(ConstantTest, gettersTest) {
   EXPECT_EQ(mConstant->getType(), PrimitiveTypes::INT_TYPE);
 }
 
-TEST_F(ConstantTest, getObjectElementTypeTest) {
+TEST_F(ConstantTest, elementTypeTest) {
   EXPECT_TRUE(mConstant->isConstant());
+  EXPECT_FALSE(mConstant->isField());
+  EXPECT_FALSE(mConstant->isMethod());
+  EXPECT_FALSE(mConstant->isStaticMethod());
+  EXPECT_FALSE(mConstant->isMethodSignature());
 }
 
 TEST_F(ConstantTest, getConstantGlobalNameTest) {

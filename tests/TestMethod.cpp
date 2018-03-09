@@ -98,6 +98,14 @@ TEST_F(MethodTest, basicMethodTest) {
   EXPECT_STREQ("systems.vos.wisey.compiler.tests.MObject.mymethod", mMethod->getTypeName().c_str());
 }
 
+TEST_F(MethodTest, elementTypeTest) {
+  EXPECT_FALSE(mMethod->isConstant());
+  EXPECT_FALSE(mMethod->isField());
+  EXPECT_TRUE(mMethod->isMethod());
+  EXPECT_FALSE(mMethod->isStaticMethod());
+  EXPECT_FALSE(mMethod->isMethodSignature());
+}
+
 TEST_F(MethodTest, getLLVMTypeTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
   std::vector<MethodArgument*> arguments;

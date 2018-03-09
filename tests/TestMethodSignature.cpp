@@ -60,6 +60,14 @@ TEST_F(MethodSignatureTest, methodSignatureTest) {
                mMethodSignature->getTypeName().c_str());
 }
 
+TEST_F(MethodSignatureTest, elementTypeTest) {
+  EXPECT_FALSE(mMethodSignature->isConstant());
+  EXPECT_FALSE(mMethodSignature->isField());
+  EXPECT_FALSE(mMethodSignature->isMethod());
+  EXPECT_FALSE(mMethodSignature->isStaticMethod());
+  EXPECT_TRUE(mMethodSignature->isMethodSignature());
+}
+
 TEST_F(MethodSignatureTest, createCopyTest) {
   vector<IInterfaceTypeSpecifier*> parentInterfaces;
   vector<IObjectElementDeclaration*> interfaceElements;

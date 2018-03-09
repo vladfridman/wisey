@@ -82,6 +82,16 @@ TEST_F(FieldTest, injectedFieldObjectCreationTest) {
   EXPECT_EQ(field.getFieldKind(), FieldKind::INJECTED_FIELD);
 }
 
+TEST_F(FieldTest, elementTypeTest) {
+  Field field(FieldKind::INJECTED_FIELD, mType, mType, mName, mInjectionArgumentList);
+  
+  EXPECT_FALSE(field.isConstant());
+  EXPECT_TRUE(field.isField());
+  EXPECT_FALSE(field.isMethod());
+  EXPECT_FALSE(field.isStaticMethod());
+  EXPECT_FALSE(field.isMethodSignature());
+}
+
 TEST_F(FieldTest, injectedFieldPrintToStreamTest) {
   Field field(FieldKind::INJECTED_FIELD, mType, mInjectedType, mName, mInjectionArgumentList);
   

@@ -97,6 +97,14 @@ TEST_F(StaticMethodTest, basicStaticMethodTest) {
                mStaticMethod->getTypeName().c_str());
 }
 
+TEST_F(StaticMethodTest, elementTypeTest) {
+  EXPECT_FALSE(mStaticMethod->isConstant());
+  EXPECT_FALSE(mStaticMethod->isField());
+  EXPECT_FALSE(mStaticMethod->isMethod());
+  EXPECT_TRUE(mStaticMethod->isStaticMethod());
+  EXPECT_FALSE(mStaticMethod->isMethodSignature());
+}
+
 TEST_F(StaticMethodTest, getLLVMTypeTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
   std::vector<MethodArgument*> arguments;
