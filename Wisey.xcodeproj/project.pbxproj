@@ -350,7 +350,7 @@
 		F539147A1FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53914791FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp */; };
 		F539147B1FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53914791FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp */; };
 		F539147D1FDE6BD900CD5174 /* TestAdjustReferenceCounterForConcreteObjectSafelyFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F539147C1FDE6BD900CD5174 /* TestAdjustReferenceCounterForConcreteObjectSafelyFunction.cpp */; };
-		F53A2C001EEC167000E76A9E /* TestOwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2BFF1EEC167000E76A9E /* TestOwnerTypeSpecifier.cpp */; };
+		F53A2C001EEC167000E76A9E /* TestObjectOwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2BFF1EEC167000E76A9E /* TestObjectOwnerTypeSpecifier.cpp */; };
 		F53A2C041EEC31CC00E76A9E /* ControllerOwner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C031EEC31CC00E76A9E /* ControllerOwner.cpp */; };
 		F53A2C051EEC31CC00E76A9E /* ControllerOwner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C031EEC31CC00E76A9E /* ControllerOwner.cpp */; };
 		F53A2C081EEC34E900E76A9E /* ModelOwner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C071EEC34E900E76A9E /* ModelOwner.cpp */; };
@@ -645,7 +645,7 @@
 		F592A7C21F7D8D690026BD2F /* ExternalMethodDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592A7C01F7D8D690026BD2F /* ExternalMethodDeclaration.cpp */; };
 		F592A7C41F7D8EAE0026BD2F /* IMethodDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592A7C31F7D8EAE0026BD2F /* IMethodDeclaration.cpp */; };
 		F592A7C51F7D8EAE0026BD2F /* IMethodDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592A7C31F7D8EAE0026BD2F /* IMethodDeclaration.cpp */; };
-		F592C9961ED323F7007FB2D0 /* TestMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592C9951ED323F7007FB2D0 /* TestMain.cpp */; };
+		F592C9961ED323F7007FB2D0 /* TestWiseyc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592C9951ED323F7007FB2D0 /* TestWiseyc.cpp */; };
 		F59496FE1F5469900002F14F /* InstanceOf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59496FD1F5469900002F14F /* InstanceOf.cpp */; };
 		F59496FF1F5469900002F14F /* InstanceOf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59496FD1F5469900002F14F /* InstanceOf.cpp */; };
 		F59497011F546CED0002F14F /* TestInstanceOf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59497001F546CED0002F14F /* TestInstanceOf.cpp */; };
@@ -1234,7 +1234,7 @@
 		F53914781FDE697100CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp; path = include/wisey/AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp; sourceTree = "<group>"; };
 		F53914791FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp; path = src/AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp; sourceTree = "<group>"; };
 		F539147C1FDE6BD900CD5174 /* TestAdjustReferenceCounterForConcreteObjectSafelyFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestAdjustReferenceCounterForConcreteObjectSafelyFunction.cpp; path = tests/TestAdjustReferenceCounterForConcreteObjectSafelyFunction.cpp; sourceTree = "<group>"; };
-		F53A2BFF1EEC167000E76A9E /* TestOwnerTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestOwnerTypeSpecifier.cpp; path = tests/TestOwnerTypeSpecifier.cpp; sourceTree = "<group>"; };
+		F53A2BFF1EEC167000E76A9E /* TestObjectOwnerTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectOwnerTypeSpecifier.cpp; path = tests/TestObjectOwnerTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F53A2C011EEC174800E76A9E /* MockObjectTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockObjectTypeSpecifier.hpp; path = tests/include/MockObjectTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F53A2C021EEC30F700E76A9E /* ControllerOwner.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ControllerOwner.hpp; path = include/wisey/ControllerOwner.hpp; sourceTree = "<group>"; };
 		F53A2C031EEC31CC00E76A9E /* ControllerOwner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControllerOwner.cpp; path = src/ControllerOwner.cpp; sourceTree = "<group>"; };
@@ -1462,7 +1462,7 @@
 		F592A7BF1F7D8CEF0026BD2F /* ExternalMethodDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ExternalMethodDeclaration.hpp; path = include/wisey/ExternalMethodDeclaration.hpp; sourceTree = "<group>"; };
 		F592A7C01F7D8D690026BD2F /* ExternalMethodDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ExternalMethodDeclaration.cpp; path = src/ExternalMethodDeclaration.cpp; sourceTree = "<group>"; };
 		F592A7C31F7D8EAE0026BD2F /* IMethodDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IMethodDeclaration.cpp; path = src/IMethodDeclaration.cpp; sourceTree = "<group>"; };
-		F592C9951ED323F7007FB2D0 /* TestMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMain.cpp; path = tests/TestMain.cpp; sourceTree = "<group>"; };
+		F592C9951ED323F7007FB2D0 /* TestWiseyc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestWiseyc.cpp; path = tests/TestWiseyc.cpp; sourceTree = "<group>"; };
 		F59496FC1F5467540002F14F /* InstanceOf.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InstanceOf.hpp; path = include/wisey/InstanceOf.hpp; sourceTree = "<group>"; };
 		F59496FD1F5469900002F14F /* InstanceOf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InstanceOf.cpp; path = src/InstanceOf.cpp; sourceTree = "<group>"; };
 		F59497001F546CED0002F14F /* TestInstanceOf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInstanceOf.cpp; path = tests/TestInstanceOf.cpp; sourceTree = "<group>"; };
@@ -2076,188 +2076,25 @@
 		F530B45D1DFA02EB00477384 /* tests */ = {
 			isa = PBXGroup;
 			children = (
+				F5CB7F9120527904007628B5 /* arrays */,
+				F5CB7F922052795F007628B5 /* compiler */,
+				F5CB7F93205279A2007628B5 /* composer */,
+				F5CB7F9420527A20007628B5 /* constants */,
+				F5CB7FA120527F60007628B5 /* exceptions */,
+				F5CB7F9520527A89007628B5 /* expressions */,
+				F5CB7F9620527B43007628B5 /* fields */,
+				F5CB7F9720527BA5007628B5 /* generator */,
 				F53401021DFED9AB0002BF7E /* include */,
+				F5CB7FA22052800F007628B5 /* infrastructure */,
+				F5CB7F9820527BD9007628B5 /* interfaces */,
 				F534FFD31DFAC6B10002BF7E /* lib */,
+				F5CB7F9920527C59007628B5 /* methods */,
+				F5CB7F9A20527CC0007628B5 /* native */,
+				F5CB7F9B20527CE4007628B5 /* objects */,
 				F53400F01DFC6B970002BF7E /* samples */,
-				F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */,
-				F539147C1FDE6BD900CD5174 /* TestAdjustReferenceCounterForConcreteObjectSafelyFunction.cpp */,
-				F5105FC01FD1AF7700ACF57B /* TestAdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp */,
-				F5105FC21FD1B18F00ACF57B /* TestAdjustReferenceCounterForInterfaceFunction.cpp */,
-				F526D8AA1FEBB33A008103B9 /* TestArrayAllocation.cpp */,
-				F52746C8201A3C0700503713 /* TestArrayAllocationStatic.cpp */,
-				F5A67DAB20134C920018068F /* TestArrayElementAssignment.cpp */,
-				F51942E11FE030AA009C3158 /* TestArrayElementExpression.cpp */,
-				F532506D202A286B007D8597 /* TestArrayExactOwnerType.cpp */,
-				F532506B202A27AA007D8597 /* TestArrayExactType.cpp */,
-				F51701A6200E9A9300A10B7C /* TestArrayOwnerType.cpp */,
-				F51701AB200FD13900A10B7C /* TestArrayOwnerTypeSpecifier.cpp */,
-				F5603B4420211E5100BBA05D /* TestArraySpecificOwnerType.cpp */,
-				F5325073202B9EE6007D8597 /* TestArraySpecificOwnerTypeSpecifier.cpp */,
-				F5F61AA2201DE99300EF9EB7 /* TestArraySpecificType.cpp */,
-				F5F61AA4201DEADC00EF9EB7 /* TestArraySpecificTypeSpecifier.cpp */,
-				F5F3F8DE1FDEEE47001BA5B9 /* TestArrayType.cpp */,
-				F5F3F8DC1FDEEA71001BA5B9 /* TestArrayTypeSpecifier.cpp */,
-				F531B64A1E0A5329008304F3 /* TestAssignment.cpp */,
-				F57086041E533667007D627E /* TestAutoCast.cpp */,
-				F57780B31ECA384B0049542D /* TestBindAction.cpp */,
-				F531B6441E0A4A7D008304F3 /* TestBlock.cpp */,
-				F50FA3071E32640B00435EEA /* TestBooleanConstant.cpp */,
-				F57E2E2A1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp */,
-				F5C6FD731E48B4920054209D /* TestBooleanType.cpp */,
-				F501B4931E161D140010783D /* TestBreakStatement.cpp */,
-				F50FA2AD1E27AFA500435EEA /* TestCaseStatement.cpp */,
-				F5ADB6121E5DA13600FFC941 /* TestCast.cpp */,
-				F51797091E5C95BC009B16AA /* TestCastExpression.cpp */,
-				F518B5E71EB2240C00577EEB /* TestCatch.cpp */,
-				F531B65C1E0DEB26008304F3 /* TestCharConstant.cpp */,
-				F5C6FD671E48B16F0054209D /* TestCharType.cpp */,
-				F5603B4F2021562800BBA05D /* TestCheckArrayIndexFunction.cpp */,
-				F5105FBC1FD1A65E00ACF57B /* TestCheckForNullAndThrowFunction.cpp */,
-				F5FCAE3C1ED5F67F00C69899 /* TestCompiler.cpp */,
-				F5FCAE3A1ED5CAD300C69899 /* TestCompilerArgumentParser.cpp */,
-				F5E6BD0D1F1B7DCD00D59444 /* TestComposer.cpp */,
-				F50FA2A01E269B4700435EEA /* TestCompoundStatement.cpp */,
-				F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */,
-				F5E270761F990024008D2EB7 /* TestConstant.cpp */,
-				F55173D51F99025400613993 /* TestConstantDeclaration.cpp */,
-				F52010301F9A4BB200D982B5 /* TestConstantReference.cpp */,
-				F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */,
-				F51581311E8AB1A9009CE419 /* TestController.cpp */,
-				F515812A1E89BFB6009CE419 /* TestControllerDefinition.cpp */,
-				F53A2C111EEEC56700E76A9E /* TestControllerOwner.cpp */,
-				F51581331E8ABBB5009CE419 /* TestControllerTypeSpecifier.cpp */,
-				F54985841FE98F95004C204C /* TestDecrementReferencesInArrayFunction.cpp */,
-				F5BD74631EE15BD00035E8FC /* TestDefaultCaseStatement.cpp */,
-				F54985781FE95FFE004C204C /* TestDestroyOwnerArrayFunction.cpp */,
-				F5170190200DC64500A10B7C /* TestDestroyPrimitiveArrayFunction.cpp */,
-				F5170198200DCB9100A10B7C /* TestDestroyReferenceArrayFunction.cpp */,
-				F50FA2B91E28C0C900435EEA /* TestDoStatement.cpp */,
-				F50FA2ED1E2E3B2A00435EEA /* TestDoubleConstant.cpp */,
-				F5C6FD781E48B59C0054209D /* TestDoubleType.cpp */,
-				F59D82161E0F414F00057FB5 /* TestEmptyExpression.cpp */,
-				F59D82071E0F102000057FB5 /* TestEmptyStatement.cpp */,
-				F558057D1F96A6E8004F62F2 /* TestExitStatement.cpp */,
-				F531B63E1E089ED6008304F3 /* TestExpressionStatement.cpp */,
-				F5E39A3D1F7C1F2000B2ABD5 /* TestExternalControllerDefinition.cpp */,
-				F55CF1791F7DA3EA00A11426 /* TestExternalMethod.cpp */,
-				F5FE0A1D1F7D9B84000621CA /* TestExternalMethodDeclaration.cpp */,
-				F5C7D1571F7C256400D65584 /* TestExternalModelDefinition.cpp */,
-				F5C7D1591F7C270800D65584 /* TestExternalNodeDefinition.cpp */,
-				F55CF17B1F7DA54900A11426 /* TestExternalStaticMethod.cpp */,
-				F55CF1771F7DA22800A11426 /* TestExternalStaticMethodDeclaration.cpp */,
-				F5E6BD0B1F1B7B1600D59444 /* TestFakeExpression.cpp */,
-				F5CB7F83205181FC007628B5 /* TestFakeExpressionWithCleanup.cpp */,
-				F509E7611F7D22CD00F96C14 /* TestField.cpp */,
-				F5A67DB820171D060018068F /* TestFieldArrayOwnerVariable.cpp */,
-				F513DDFD20179374001A075B /* TestFieldArrayReferenceVariable.cpp */,
-				F5A3BE5A1F9906BB000FDB09 /* TestFieldDeclaration.cpp */,
-				F5CB7F8920519130007628B5 /* TestFieldNativeVariable.cpp */,
-				F5A3634F1F374DCB005880B3 /* TestFieldOwnerVariable.cpp */,
-				F5A363591F376F1C005880B3 /* TestFieldPrimitiveVariable.cpp */,
-				F57085F51E511BAC007D627E /* TestFieldReferenceVariable.cpp */,
-				F53401051DFEDB620002BF7E /* TestFileSampleRunner.cpp */,
-				F50FA2EE1E2E3B2A00435EEA /* TestFloatConstant.cpp */,
-				F5C6FD7D1E48B6810054209D /* TestFloatType.cpp */,
-				F59D82131E0F3BA500057FB5 /* TestForStatement.cpp */,
-				F5105FB51FD1767400ACF57B /* TestGetOriginalObjectFunction.cpp */,
-				F556E6591EDEE3E700CCC3D7 /* TestIConcreteObjectType.cpp */,
-				F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */,
-				F51942FA1FE3D7D6009C3158 /* TestIdentifierChain.cpp */,
-				F59D821F1E0F68DF00057FB5 /* TestIfElseStatement.cpp */,
-				F5A3635B1F377F84005880B3 /* TestIFieldVariable.cpp */,
-				F59D82251E0F6E8800057FB5 /* TestIfStatement.cpp */,
-				F508E06B1E72DC7D005D6115 /* TestIMethodDescriptor.cpp */,
-				F5105FAD1FD0553900ACF57B /* TestImportProfile.cpp */,
-				F574116F1E042607009809FF /* TestIncrementExpression.cpp */,
-				F519ED791FD8665400BE3FED /* TestInjectionArgument.cpp */,
-				F57780B51ECA6B460049542D /* TestInjector.cpp */,
-				F59497001F546CED0002F14F /* TestInstanceOf.cpp */,
-				F50FA2EF1E2E3B2A00435EEA /* TestIntConstant.cpp */,
-				F5ADB6251E67075400FFC941 /* TestInterface.cpp */,
-				F51797131E660779009B16AA /* TestInterfaceDefinition.cpp */,
-				F53A2C131EF018EE00E76A9E /* TestInterfaceOwner.cpp */,
-				F5EEDDA21E6EF50100215278 /* TestInterfaceTypeSpecifier.cpp */,
-				F5CB180E1EB0C24D007E2E43 /* TestIntrinsicFunctions.cpp */,
-				F5C6FD821E48B7260054209D /* TestIntType.cpp */,
-				F51DF67C1FDB166800475F0B /* TestIObjectDefinition.cpp */,
-				F56AD4A31E9F6D5B0020868C /* TestIObjectType.cpp */,
-				F55DB0611F793D8C0009942C /* TestIObjectTypeSpecifier.cpp */,
-				F57411671E02CE96009809FF /* TestIRGenerationContext.cpp */,
-				F5601F3C1EB4C5E300C9E2D8 /* TestIRWriter.cpp */,
-				F5CE2D431EF6A4CB002ABB85 /* TestIType.cpp */,
-				F53A2C201EF96FEA00E76A9E /* TestIVariable.cpp */,
-				F51701BB20105FE900A10B7C /* TestLocalArrayOwnerVariable.cpp */,
-				F5A67DAD201353300018068F /* TestLocalArrayReferenceVariable.cpp */,
-				F5A363431F33D08F005880B3 /* TestLocalOwnerVariable.cpp */,
-				F50427AE1E4DD329001CB148 /* TestLocalPrimitiveVariable.cpp */,
-				F50427B01E4DD621001CB148 /* TestLocalReferenceVariable.cpp */,
-				F57411541E019B32009809FF /* TestLogicalAndExpression.cpp */,
-				F574115B1E01A13B009809FF /* TestLogicalOrExpression.cpp */,
-				F50FA2F01E2E3B2A00435EEA /* TestLongConstant.cpp */,
-				F5C6FD871E48B7DE0054209D /* TestLongType.cpp */,
-				F592C9951ED323F7007FB2D0 /* TestMain.cpp */,
-				F5ADB62A1E69860F00FFC941 /* TestMethod.cpp */,
-				F57085FE1E51F8C9007D627E /* TestMethodCall.cpp */,
-				F534011B1E000DBC0002BF7E /* TestMethodDeclaration.cpp */,
-				F5B9B14F1E797B4800456CB4 /* TestMethodSignature.cpp */,
-				F5ADB6231E6705CC00FFC941 /* TestMethodSignatureDeclaration.cpp */,
-				F5C6FD891E48D08F0054209D /* TestModel.cpp */,
-				F50FA2D61E2D12E000435EEA /* TestModelDefinition.cpp */,
-				F53A2C151EF020B400E76A9E /* TestModelOwner.cpp */,
-				F50FA2FB1E30051700435EEA /* TestModelTypeSpecifier.cpp */,
-				F5CB7F8520518686007628B5 /* TestNativeFunctionCall.cpp */,
-				F5CB7F8B20519141007628B5 /* TestNativeType.cpp */,
-				F5CB7F8C20519141007628B5 /* TestNativeTypeSpecifier.cpp */,
-				F5ADB61C1E5F587300FFC941 /* TestNegateExpression.cpp */,
-				F53A2C361EFFFCEE00E76A9E /* TestNode.cpp */,
-				F53A2C3A1F00029600E76A9E /* TestNodeDefinition.cpp */,
-				F53A2C3C1F00048C00E76A9E /* TestNodeOwner.cpp */,
-				F53A2C3E1F0005B800E76A9E /* TestNodeTypeSpecifier.cpp */,
-				F53A2C4D1F02A4EC00E76A9E /* TestNullExpression.cpp */,
-				F53A2C4B1F029DC800E76A9E /* TestNullType.cpp */,
-				F5F396DF1E3F8C5700F34296 /* TestObjectBuilder.cpp */,
-				F5F396DD1E3F898900F34296 /* TestObjectBuilderArgument.cpp */,
-				F53A2BFF1EEC167000E76A9E /* TestOwnerTypeSpecifier.cpp */,
-				F51942F01FE30024009C3158 /* TestPackageType.cpp */,
-				F513DE0320186CFC001A075B /* TestParameterArrayOwnerVariable.cpp */,
-				F513DE092018AA3E001A075B /* TestParameterArrayReferenceVariable.cpp */,
-				F5A363491F373FFE005880B3 /* TestParameterOwnerVariable.cpp */,
-				F5F435CB1FACA32A0097E5D0 /* TestParameterPrimitiveVariable.cpp */,
-				F53A2C1B1EF92D8300E76A9E /* TestParameterReferenceVariable.cpp */,
-				F55CF1871F850EEB00A11426 /* TestPrefix.cpp */,
-				F53A2C4F1F02D55A00E76A9E /* TestPrimitiveTypes.cpp */,
-				F531B6381E07A80F008304F3 /* TestPrimitiveTypeSpecifier.cpp */,
-				F58725641F70178D00FA25E6 /* TestPrintErrStatement.cpp */,
-				F5E3D64C1F6C19D900FC37CB /* TestPrintOutStatement.cpp */,
-				F51764CD1ECCEDAE000AFBA7 /* TestProgramFile.cpp */,
-				F53400FA1DFD999B0002BF7E /* TestRelationalExpression.cpp */,
-				F57411451E015DBC009809FF /* TestReturnStatement.cpp */,
-				F574114B1E019597009809FF /* TestReturnVoidStatement.cpp */,
-				F57411651E01BF18009809FF /* TestScope.cpp */,
-				F50FA3011E3240D800435EEA /* TestScopes.cpp */,
-				F530B45E1DFA031A00477384 /* TestsRun.cpp */,
-				F5CB7F4E204B7D89007628B5 /* TestStackTrace.cpp */,
-				F51D2BB61F6921DB00510784 /* TestStaticMethod.cpp */,
-				F58D07F11F697027001A7544 /* TestStaticMethodCall.cpp */,
-				F5FE0A1F1F7D9E7C000621CA /* TestStaticMethodDeclaration.cpp */,
-				F531B6561E0DE040008304F3 /* TestStringLiteral.cpp */,
-				F58725541F6DB97C00FA25E6 /* TestStringType.cpp */,
-				F50FA2AB1E27ADA200435EEA /* TestSwitchStatement.cpp */,
-				F519ED7B1FD9910D00BE3FED /* TestThis.cpp */,
-				F5CB7F50204B7E26007628B5 /* TestThread.cpp */,
-				F5CB7F40204A1AE0007628B5 /* TestThreadDefinition.cpp */,
-				F58748361F951E580088F1E3 /* TestThreadExpression.cpp */,
-				F5CB7F8720518B7F007628B5 /* TestThreadInfrastructure.cpp */,
-				F5CB7F52204B9C7D007628B5 /* TestThreadOwner.cpp */,
-				F5CB7F42204A1B4A007628B5 /* TestThreadTypeSpecifier.cpp */,
-				F5105FBE1FD1ABC900ACF57B /* TestThrowReferenceCountExceptionFunction.cpp */,
-				F56AD49E1E9F50FD0020868C /* TestThrowStatement.cpp */,
-				F52F2C981EA95C7B0081DE38 /* TestTryCatch.cpp */,
-				F5B9B1571E7AC0F200456CB4 /* TestTypeComparisionExpression.cpp */,
-				F51942FD1FE3F3CF009C3158 /* TestUndefinedType.cpp */,
-				F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */,
-				F5C6FD6C1E48B37D0054209D /* TestVoidType.cpp */,
-				F59D820D1E0F25DF00057FB5 /* TestWhileStatement.cpp */,
+				F5CB7F9C20527DC3007628B5 /* statements */,
+				F5CB7F9F20527E9B007628B5 /* types */,
+				F5CB7FA020527ED7007628B5 /* variables */,
 			);
 			name = tests;
 			sourceTree = "<group>";
@@ -2361,6 +2198,7 @@
 				F587253C1F6D344100FA25E6 /* constants */,
 				F58725461F6D6DFA00FA25E6 /* exceptions */,
 				F58725401F6D6B7000FA25E6 /* expressions */,
+				F5CB7F902052788A007628B5 /* fields */,
 				F587254E1F6D728800FA25E6 /* generator */,
 				F587253A1F6D337900FA25E6 /* interfaces */,
 				F58725481F6D6E5D00FA25E6 /* methods */,
@@ -2368,7 +2206,6 @@
 				F587253E1F6D6A9200FA25E6 /* objects */,
 				F587254B1F6D716D00FA25E6 /* parser */,
 				F58725441F6D6D5900FA25E6 /* statements */,
-				F5CB7F5B2050F97B007628B5 /* threads */,
 				F58725371F6D32A700FA25E6 /* types */,
 				F58725421F6D6C6300FA25E6 /* variables */,
 			);
@@ -2427,13 +2264,13 @@
 				F587253B1F6D33DA00FA25E6 /* constants */,
 				F58725451F6D6DB700FA25E6 /* exceptions */,
 				F587253F1F6D6B1700FA25E6 /* expressions */,
+				F5CB7F8F2052787C007628B5 /* fields */,
 				F587254D1F6D724200FA25E6 /* generator */,
 				F58725391F6D332300FA25E6 /* interfaces */,
 				F58725471F6D6E3B00FA25E6 /* methods */,
 				F5CB7F582050F86F007628B5 /* native */,
 				F587253D1F6D6A0800FA25E6 /* objects */,
 				F58725431F6D6CFC00FA25E6 /* statements */,
-				F5CB7F592050F894007628B5 /* threads */,
 				F58725361F6D323F00FA25E6 /* types */,
 				F58725411F6D6BDD00FA25E6 /* variables */,
 			);
@@ -2578,40 +2415,14 @@
 		F587253D1F6D6A0800FA25E6 /* objects */ = {
 			isa = PBXGroup;
 			children = (
-				F5089C491ECD01D9004A1223 /* AccessLevel.hpp */,
-				F5089C5D1ECD01D9004A1223 /* Controller.hpp */,
-				F5089C5E1ECD01D9004A1223 /* ControllerDefinition.hpp */,
-				F53A2C021EEC30F700E76A9E /* ControllerOwner.hpp */,
-				F5089C601ECD01D9004A1223 /* ControllerTypeSpecifier.hpp */,
-				F5436DA31FCF640F003ABF6F /* ControllerTypeSpecifierFull.hpp */,
-				F58A834C1F79882700369388 /* ExternalControllerDefinition.hpp */,
-				F53CDAD11F8BC44B00D27687 /* ExternalInterfaceDefinition.hpp */,
-				F58A83501F7989C100369388 /* ExternalModelDefinition.hpp */,
-				F58A83541F798AFC00369388 /* ExternalNodeDefinition.hpp */,
-				F509E75D1F7D128500F96C14 /* Field.hpp */,
-				F5089C5F1ECD01D9004A1223 /* FieldDeclaration.hpp */,
-				F509E75C1F7D0A6E00F96C14 /* FieldKind.hpp */,
-				F5105FAB1FD02B7100ACF57B /* ImportProfile.hpp */,
-				F519ED751FD845EE00BE3FED /* InjectionArgument.hpp */,
-				F587482E1F921ECB0088F1E3 /* Injector.hpp */,
-				F5089C771ECD01D9004A1223 /* Interface.hpp */,
-				F5089C781ECD01D9004A1223 /* InterfaceDefinition.hpp */,
-				F53A2C0A1EEC36F800E76A9E /* InterfaceOwner.hpp */,
-				F5089C7A1ECD01D9004A1223 /* InterfaceTypeSpecifier.hpp */,
-				F5436DA71FCF6643003ABF6F /* InterfaceTypeSpecifierFull.hpp */,
-				F5089C921ECD01D9004A1223 /* Model.hpp */,
-				F5089C951ECD01D9004A1223 /* ModelDefinition.hpp */,
-				F53A2C061EEC343C00E76A9E /* ModelOwner.hpp */,
-				F5089C971ECD01D9004A1223 /* ModelTypeSpecifier.hpp */,
-				F5436DAF1FCF7209003ABF6F /* ModelTypeSpecifierFull.hpp */,
-				F53A2C2A1EFFD4C700E76A9E /* Node.hpp */,
-				F53A2C221EFFCFFD00E76A9E /* NodeDefinition.hpp */,
-				F53A2C2E1EFFD86F00E76A9E /* NodeOwner.hpp */,
-				F53A2C261EFFD3D700E76A9E /* NodeTypeSpecifier.hpp */,
-				F5436DB11FCF7240003ABF6F /* NodeTypeSpecifierFull.hpp */,
-				F5089C931ECD01D9004A1223 /* ObjectBuilder.hpp */,
-				F5089C941ECD01D9004A1223 /* ObjectBuilderArgument.hpp */,
-				F5F2F3751EEAFA110060CF42 /* ObjectOwnerTypeSpecifier.hpp */,
+				F5CB7FB120528195007628B5 /* builder */,
+				F5CB7FAB2052815D007628B5 /* controller */,
+				F5CB7FB020528188007628B5 /* injection */,
+				F5CB7FAD20528168007628B5 /* interface */,
+				F5CB7FAC20528163007628B5 /* model */,
+				F5CB7FAE2052816E007628B5 /* node */,
+				F5CB7FB22052819A007628B5 /* other */,
+				F5CB7FAF20528172007628B5 /* thread */,
 			);
 			name = objects;
 			sourceTree = "<group>";
@@ -2619,38 +2430,14 @@
 		F587253E1F6D6A9200FA25E6 /* objects */ = {
 			isa = PBXGroup;
 			children = (
-				F515812E1E8AAB12009CE419 /* Controller.cpp */,
-				F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */,
-				F53A2C031EEC31CC00E76A9E /* ControllerOwner.cpp */,
-				F51581271E89B9A6009CE419 /* ControllerTypeSpecifier.cpp */,
-				F5436DA41FCF6551003ABF6F /* ControllerTypeSpecifierFull.cpp */,
-				F58A834D1F7988D600369388 /* ExternalControllerDefinition.cpp */,
-				F53CDAD21F8BC4ED00D27687 /* ExternalInterfaceDefinition.cpp */,
-				F58A83511F798A6C00369388 /* ExternalModelDefinition.cpp */,
-				F58A83551F798B6300369388 /* ExternalNodeDefinition.cpp */,
-				F509E75E1F7D131C00F96C14 /* Field.cpp */,
-				F51581231E89B02F009CE419 /* FieldDeclaration.cpp */,
-				F5105FA91FD02B6200ACF57B /* ImportProfile.cpp */,
-				F519ED761FD8476800BE3FED /* InjectionArgument.cpp */,
-				F587482F1F921F6B0088F1E3 /* Injector.cpp */,
-				F5ADB6201E66F9B400FFC941 /* Interface.cpp */,
-				F517970D1E6600BA009B16AA /* InterfaceDefinition.cpp */,
-				F53A2C0B1EEC37E900E76A9E /* InterfaceOwner.cpp */,
-				F5EEDD9F1E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp */,
-				F5436DAC1FCF71A9003ABF6F /* InterfaceTypeSpecifierFull.cpp */,
-				F507D2641E43551900495E2D /* Model.cpp */,
-				F50FA2D01E2D0AD600435EEA /* ModelDefinition.cpp */,
-				F53A2C071EEC34E900E76A9E /* ModelOwner.cpp */,
-				F50FA2D21E2D0AD600435EEA /* ModelTypeSpecifier.cpp */,
-				F5436DB21FCF72BB003ABF6F /* ModelTypeSpecifierFull.cpp */,
-				F53A2C2B1EFFD5E800E76A9E /* Node.cpp */,
-				F53A2C231EFFD0BC00E76A9E /* NodeDefinition.cpp */,
-				F53A2C2F1EFFD91200E76A9E /* NodeOwner.cpp */,
-				F53A2C271EFFD42000E76A9E /* NodeTypeSpecifier.cpp */,
-				F5436DB51FCF72CE003ABF6F /* NodeTypeSpecifierFull.cpp */,
-				F5F396D61E34BBDD00F34296 /* ObjectBuilder.cpp */,
-				F5F396DA1E34BFE000F34296 /* ObjectBuilderArgument.cpp */,
-				F5F2F3761EEAFAF80060CF42 /* ObjectOwnerTypeSpecifier.cpp */,
+				F5CB7FA9205280EC007628B5 /* builder */,
+				F5CB7FA320528056007628B5 /* controller */,
+				F5CB7FA8205280D6007628B5 /* injection */,
+				F5CB7FA620528072007628B5 /* interface */,
+				F5CB7FA420528061007628B5 /* model */,
+				F5CB7FA520528066007628B5 /* node */,
+				F5CB7FAA20528144007628B5 /* other */,
+				F5CB7FA720528079007628B5 /* thread */,
 			);
 			name = objects;
 			sourceTree = "<group>";
@@ -2955,19 +2742,6 @@
 			name = native;
 			sourceTree = "<group>";
 		};
-		F5CB7F592050F894007628B5 /* threads */ = {
-			isa = PBXGroup;
-			children = (
-				F5CB7F44204B60C5007628B5 /* Thread.hpp */,
-				F5CB7F322049F402007628B5 /* ThreadDefinition.hpp */,
-				F5CB7F542050262C007628B5 /* ThreadInfrastructure.hpp */,
-				F5CB7F45204B661E007628B5 /* ThreadOwner.hpp */,
-				F5CB7F3C204A0652007628B5 /* ThreadTypeSpecifier.hpp */,
-				F5CB7F332049F563007628B5 /* ThreadTypeSpecifierFull.hpp */,
-			);
-			name = threads;
-			sourceTree = "<group>";
-		};
 		F5CB7F5A2050F967007628B5 /* native */ = {
 			isa = PBXGroup;
 			children = (
@@ -2978,7 +2752,346 @@
 			name = native;
 			sourceTree = "<group>";
 		};
-		F5CB7F5B2050F97B007628B5 /* threads */ = {
+		F5CB7F8F2052787C007628B5 /* fields */ = {
+			isa = PBXGroup;
+			children = (
+				F509E75D1F7D128500F96C14 /* Field.hpp */,
+				F5089C5F1ECD01D9004A1223 /* FieldDeclaration.hpp */,
+				F509E75C1F7D0A6E00F96C14 /* FieldKind.hpp */,
+			);
+			name = fields;
+			sourceTree = "<group>";
+		};
+		F5CB7F902052788A007628B5 /* fields */ = {
+			isa = PBXGroup;
+			children = (
+				F509E75E1F7D131C00F96C14 /* Field.cpp */,
+				F51581231E89B02F009CE419 /* FieldDeclaration.cpp */,
+			);
+			name = fields;
+			sourceTree = "<group>";
+		};
+		F5CB7F9120527904007628B5 /* arrays */ = {
+			isa = PBXGroup;
+			children = (
+				F526D8AA1FEBB33A008103B9 /* TestArrayAllocation.cpp */,
+				F52746C8201A3C0700503713 /* TestArrayAllocationStatic.cpp */,
+				F5A67DAB20134C920018068F /* TestArrayElementAssignment.cpp */,
+				F51942E11FE030AA009C3158 /* TestArrayElementExpression.cpp */,
+				F532506D202A286B007D8597 /* TestArrayExactOwnerType.cpp */,
+				F532506B202A27AA007D8597 /* TestArrayExactType.cpp */,
+				F51701A6200E9A9300A10B7C /* TestArrayOwnerType.cpp */,
+				F51701AB200FD13900A10B7C /* TestArrayOwnerTypeSpecifier.cpp */,
+				F5603B4420211E5100BBA05D /* TestArraySpecificOwnerType.cpp */,
+				F5325073202B9EE6007D8597 /* TestArraySpecificOwnerTypeSpecifier.cpp */,
+				F5F61AA2201DE99300EF9EB7 /* TestArraySpecificType.cpp */,
+				F5F61AA4201DEADC00EF9EB7 /* TestArraySpecificTypeSpecifier.cpp */,
+				F5F3F8DE1FDEEE47001BA5B9 /* TestArrayType.cpp */,
+				F5F3F8DC1FDEEA71001BA5B9 /* TestArrayTypeSpecifier.cpp */,
+			);
+			name = arrays;
+			sourceTree = "<group>";
+		};
+		F5CB7F922052795F007628B5 /* compiler */ = {
+			isa = PBXGroup;
+			children = (
+				F5FCAE3C1ED5F67F00C69899 /* TestCompiler.cpp */,
+				F5FCAE3A1ED5CAD300C69899 /* TestCompilerArgumentParser.cpp */,
+				F592C9951ED323F7007FB2D0 /* TestWiseyc.cpp */,
+			);
+			name = compiler;
+			sourceTree = "<group>";
+		};
+		F5CB7F93205279A2007628B5 /* composer */ = {
+			isa = PBXGroup;
+			children = (
+				F539147C1FDE6BD900CD5174 /* TestAdjustReferenceCounterForConcreteObjectSafelyFunction.cpp */,
+				F5105FC01FD1AF7700ACF57B /* TestAdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp */,
+				F5105FC21FD1B18F00ACF57B /* TestAdjustReferenceCounterForInterfaceFunction.cpp */,
+				F5603B4F2021562800BBA05D /* TestCheckArrayIndexFunction.cpp */,
+				F5105FBC1FD1A65E00ACF57B /* TestCheckForNullAndThrowFunction.cpp */,
+				F5E6BD0D1F1B7DCD00D59444 /* TestComposer.cpp */,
+				F54985841FE98F95004C204C /* TestDecrementReferencesInArrayFunction.cpp */,
+				F54985781FE95FFE004C204C /* TestDestroyOwnerArrayFunction.cpp */,
+				F5170190200DC64500A10B7C /* TestDestroyPrimitiveArrayFunction.cpp */,
+				F5170198200DCB9100A10B7C /* TestDestroyReferenceArrayFunction.cpp */,
+				F5105FB51FD1767400ACF57B /* TestGetOriginalObjectFunction.cpp */,
+				F5105FBE1FD1ABC900ACF57B /* TestThrowReferenceCountExceptionFunction.cpp */,
+			);
+			name = composer;
+			sourceTree = "<group>";
+		};
+		F5CB7F9420527A20007628B5 /* constants */ = {
+			isa = PBXGroup;
+			children = (
+				F50FA3071E32640B00435EEA /* TestBooleanConstant.cpp */,
+				F531B65C1E0DEB26008304F3 /* TestCharConstant.cpp */,
+				F5E270761F990024008D2EB7 /* TestConstant.cpp */,
+				F55173D51F99025400613993 /* TestConstantDeclaration.cpp */,
+				F52010301F9A4BB200D982B5 /* TestConstantReference.cpp */,
+				F50FA2ED1E2E3B2A00435EEA /* TestDoubleConstant.cpp */,
+				F50FA2EE1E2E3B2A00435EEA /* TestFloatConstant.cpp */,
+				F50FA2EF1E2E3B2A00435EEA /* TestIntConstant.cpp */,
+				F50FA2F01E2E3B2A00435EEA /* TestLongConstant.cpp */,
+				F531B6561E0DE040008304F3 /* TestStringLiteral.cpp */,
+			);
+			name = constants;
+			sourceTree = "<group>";
+		};
+		F5CB7F9520527A89007628B5 /* expressions */ = {
+			isa = PBXGroup;
+			children = (
+				F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */,
+				F531B64A1E0A5329008304F3 /* TestAssignment.cpp */,
+				F57086041E533667007D627E /* TestAutoCast.cpp */,
+				F57E2E2A1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp */,
+				F5ADB6121E5DA13600FFC941 /* TestCast.cpp */,
+				F51797091E5C95BC009B16AA /* TestCastExpression.cpp */,
+				F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */,
+				F59D82161E0F414F00057FB5 /* TestEmptyExpression.cpp */,
+				F5E6BD0B1F1B7B1600D59444 /* TestFakeExpression.cpp */,
+				F5CB7F83205181FC007628B5 /* TestFakeExpressionWithCleanup.cpp */,
+				F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */,
+				F51942FA1FE3D7D6009C3158 /* TestIdentifierChain.cpp */,
+				F574116F1E042607009809FF /* TestIncrementExpression.cpp */,
+				F59497001F546CED0002F14F /* TestInstanceOf.cpp */,
+				F57411541E019B32009809FF /* TestLogicalAndExpression.cpp */,
+				F574115B1E01A13B009809FF /* TestLogicalOrExpression.cpp */,
+				F5ADB61C1E5F587300FFC941 /* TestNegateExpression.cpp */,
+				F53A2C4D1F02A4EC00E76A9E /* TestNullExpression.cpp */,
+				F53400FA1DFD999B0002BF7E /* TestRelationalExpression.cpp */,
+				F58748361F951E580088F1E3 /* TestThreadExpression.cpp */,
+				F5B9B1571E7AC0F200456CB4 /* TestTypeComparisionExpression.cpp */,
+			);
+			name = expressions;
+			sourceTree = "<group>";
+		};
+		F5CB7F9620527B43007628B5 /* fields */ = {
+			isa = PBXGroup;
+			children = (
+				F509E7611F7D22CD00F96C14 /* TestField.cpp */,
+				F5A3BE5A1F9906BB000FDB09 /* TestFieldDeclaration.cpp */,
+			);
+			name = fields;
+			sourceTree = "<group>";
+		};
+		F5CB7F9720527BA5007628B5 /* generator */ = {
+			isa = PBXGroup;
+			children = (
+				F5CB180E1EB0C24D007E2E43 /* TestIntrinsicFunctions.cpp */,
+				F57411671E02CE96009809FF /* TestIRGenerationContext.cpp */,
+				F5601F3C1EB4C5E300C9E2D8 /* TestIRWriter.cpp */,
+				F57411651E01BF18009809FF /* TestScope.cpp */,
+				F50FA3011E3240D800435EEA /* TestScopes.cpp */,
+			);
+			name = generator;
+			sourceTree = "<group>";
+		};
+		F5CB7F9820527BD9007628B5 /* interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				F556E6591EDEE3E700CCC3D7 /* TestIConcreteObjectType.cpp */,
+				F5A3635B1F377F84005880B3 /* TestIFieldVariable.cpp */,
+				F508E06B1E72DC7D005D6115 /* TestIMethodDescriptor.cpp */,
+				F51DF67C1FDB166800475F0B /* TestIObjectDefinition.cpp */,
+				F56AD4A31E9F6D5B0020868C /* TestIObjectType.cpp */,
+				F55DB0611F793D8C0009942C /* TestIObjectTypeSpecifier.cpp */,
+				F5CE2D431EF6A4CB002ABB85 /* TestIType.cpp */,
+				F53A2C201EF96FEA00E76A9E /* TestIVariable.cpp */,
+			);
+			name = interfaces;
+			sourceTree = "<group>";
+		};
+		F5CB7F9920527C59007628B5 /* methods */ = {
+			isa = PBXGroup;
+			children = (
+				F55CF1791F7DA3EA00A11426 /* TestExternalMethod.cpp */,
+				F5FE0A1D1F7D9B84000621CA /* TestExternalMethodDeclaration.cpp */,
+				F55CF17B1F7DA54900A11426 /* TestExternalStaticMethod.cpp */,
+				F55CF1771F7DA22800A11426 /* TestExternalStaticMethodDeclaration.cpp */,
+				F5ADB62A1E69860F00FFC941 /* TestMethod.cpp */,
+				F57085FE1E51F8C9007D627E /* TestMethodCall.cpp */,
+				F534011B1E000DBC0002BF7E /* TestMethodDeclaration.cpp */,
+				F5B9B14F1E797B4800456CB4 /* TestMethodSignature.cpp */,
+				F5ADB6231E6705CC00FFC941 /* TestMethodSignatureDeclaration.cpp */,
+				F51D2BB61F6921DB00510784 /* TestStaticMethod.cpp */,
+				F58D07F11F697027001A7544 /* TestStaticMethodCall.cpp */,
+				F5FE0A1F1F7D9E7C000621CA /* TestStaticMethodDeclaration.cpp */,
+			);
+			name = methods;
+			sourceTree = "<group>";
+		};
+		F5CB7F9A20527CC0007628B5 /* native */ = {
+			isa = PBXGroup;
+			children = (
+				F5CB7F8520518686007628B5 /* TestNativeFunctionCall.cpp */,
+				F5CB7F8B20519141007628B5 /* TestNativeType.cpp */,
+				F5CB7F8C20519141007628B5 /* TestNativeTypeSpecifier.cpp */,
+			);
+			name = native;
+			sourceTree = "<group>";
+		};
+		F5CB7F9B20527CE4007628B5 /* objects */ = {
+			isa = PBXGroup;
+			children = (
+				F5CB7FB320528207007628B5 /* builder */,
+				F5CB7FB42052820C007628B5 /* controller */,
+				F5CB7FB520528211007628B5 /* injection */,
+				F5CB7FB72052821E007628B5 /* interface */,
+				F5CB7FB620528218007628B5 /* model */,
+				F5CB7FB820528222007628B5 /* node */,
+				F5CB7FB920528227007628B5 /* other */,
+				F5CB7FBA2052822B007628B5 /* thread */,
+			);
+			name = objects;
+			sourceTree = "<group>";
+		};
+		F5CB7F9C20527DC3007628B5 /* statements */ = {
+			isa = PBXGroup;
+			children = (
+				F57780B31ECA384B0049542D /* TestBindAction.cpp */,
+				F531B6441E0A4A7D008304F3 /* TestBlock.cpp */,
+				F501B4931E161D140010783D /* TestBreakStatement.cpp */,
+				F50FA2AD1E27AFA500435EEA /* TestCaseStatement.cpp */,
+				F50FA2A01E269B4700435EEA /* TestCompoundStatement.cpp */,
+				F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */,
+				F5BD74631EE15BD00035E8FC /* TestDefaultCaseStatement.cpp */,
+				F50FA2B91E28C0C900435EEA /* TestDoStatement.cpp */,
+				F59D82071E0F102000057FB5 /* TestEmptyStatement.cpp */,
+				F558057D1F96A6E8004F62F2 /* TestExitStatement.cpp */,
+				F531B63E1E089ED6008304F3 /* TestExpressionStatement.cpp */,
+				F59D82131E0F3BA500057FB5 /* TestForStatement.cpp */,
+				F59D821F1E0F68DF00057FB5 /* TestIfElseStatement.cpp */,
+				F59D82251E0F6E8800057FB5 /* TestIfStatement.cpp */,
+				F58725641F70178D00FA25E6 /* TestPrintErrStatement.cpp */,
+				F5E3D64C1F6C19D900FC37CB /* TestPrintOutStatement.cpp */,
+				F51764CD1ECCEDAE000AFBA7 /* TestProgramFile.cpp */,
+				F57411451E015DBC009809FF /* TestReturnStatement.cpp */,
+				F574114B1E019597009809FF /* TestReturnVoidStatement.cpp */,
+				F50FA2AB1E27ADA200435EEA /* TestSwitchStatement.cpp */,
+				F59D820D1E0F25DF00057FB5 /* TestWhileStatement.cpp */,
+			);
+			name = statements;
+			sourceTree = "<group>";
+		};
+		F5CB7F9F20527E9B007628B5 /* types */ = {
+			isa = PBXGroup;
+			children = (
+				F5C6FD731E48B4920054209D /* TestBooleanType.cpp */,
+				F5C6FD671E48B16F0054209D /* TestCharType.cpp */,
+				F5C6FD781E48B59C0054209D /* TestDoubleType.cpp */,
+				F5C6FD7D1E48B6810054209D /* TestFloatType.cpp */,
+				F5C6FD821E48B7260054209D /* TestIntType.cpp */,
+				F5C6FD871E48B7DE0054209D /* TestLongType.cpp */,
+				F53A2C4B1F029DC800E76A9E /* TestNullType.cpp */,
+				F51942F01FE30024009C3158 /* TestPackageType.cpp */,
+				F53A2C4F1F02D55A00E76A9E /* TestPrimitiveTypes.cpp */,
+				F531B6381E07A80F008304F3 /* TestPrimitiveTypeSpecifier.cpp */,
+				F58725541F6DB97C00FA25E6 /* TestStringType.cpp */,
+				F51942FD1FE3F3CF009C3158 /* TestUndefinedType.cpp */,
+				F5C6FD6C1E48B37D0054209D /* TestVoidType.cpp */,
+			);
+			name = types;
+			sourceTree = "<group>";
+		};
+		F5CB7FA020527ED7007628B5 /* variables */ = {
+			isa = PBXGroup;
+			children = (
+				F5A67DB820171D060018068F /* TestFieldArrayOwnerVariable.cpp */,
+				F513DDFD20179374001A075B /* TestFieldArrayReferenceVariable.cpp */,
+				F5CB7F8920519130007628B5 /* TestFieldNativeVariable.cpp */,
+				F5A3634F1F374DCB005880B3 /* TestFieldOwnerVariable.cpp */,
+				F5A363591F376F1C005880B3 /* TestFieldPrimitiveVariable.cpp */,
+				F57085F51E511BAC007D627E /* TestFieldReferenceVariable.cpp */,
+				F51701BB20105FE900A10B7C /* TestLocalArrayOwnerVariable.cpp */,
+				F5A67DAD201353300018068F /* TestLocalArrayReferenceVariable.cpp */,
+				F5A363431F33D08F005880B3 /* TestLocalOwnerVariable.cpp */,
+				F50427AE1E4DD329001CB148 /* TestLocalPrimitiveVariable.cpp */,
+				F50427B01E4DD621001CB148 /* TestLocalReferenceVariable.cpp */,
+				F513DE0320186CFC001A075B /* TestParameterArrayOwnerVariable.cpp */,
+				F513DE092018AA3E001A075B /* TestParameterArrayReferenceVariable.cpp */,
+				F5A363491F373FFE005880B3 /* TestParameterOwnerVariable.cpp */,
+				F5F435CB1FACA32A0097E5D0 /* TestParameterPrimitiveVariable.cpp */,
+				F53A2C1B1EF92D8300E76A9E /* TestParameterReferenceVariable.cpp */,
+				F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */,
+			);
+			name = variables;
+			sourceTree = "<group>";
+		};
+		F5CB7FA120527F60007628B5 /* exceptions */ = {
+			isa = PBXGroup;
+			children = (
+				F518B5E71EB2240C00577EEB /* TestCatch.cpp */,
+				F56AD49E1E9F50FD0020868C /* TestThrowStatement.cpp */,
+				F52F2C981EA95C7B0081DE38 /* TestTryCatch.cpp */,
+				F5CB7F4E204B7D89007628B5 /* TestStackTrace.cpp */,
+			);
+			name = exceptions;
+			sourceTree = "<group>";
+		};
+		F5CB7FA22052800F007628B5 /* infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				F53401051DFEDB620002BF7E /* TestFileSampleRunner.cpp */,
+				F55CF1871F850EEB00A11426 /* TestPrefix.cpp */,
+				F530B45E1DFA031A00477384 /* TestsRun.cpp */,
+			);
+			name = infrastructure;
+			sourceTree = "<group>";
+		};
+		F5CB7FA320528056007628B5 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				F515812E1E8AAB12009CE419 /* Controller.cpp */,
+				F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */,
+				F53A2C031EEC31CC00E76A9E /* ControllerOwner.cpp */,
+				F51581271E89B9A6009CE419 /* ControllerTypeSpecifier.cpp */,
+				F5436DA41FCF6551003ABF6F /* ControllerTypeSpecifierFull.cpp */,
+				F58A834D1F7988D600369388 /* ExternalControllerDefinition.cpp */,
+			);
+			name = controller;
+			sourceTree = "<group>";
+		};
+		F5CB7FA420528061007628B5 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				F58A83511F798A6C00369388 /* ExternalModelDefinition.cpp */,
+				F507D2641E43551900495E2D /* Model.cpp */,
+				F50FA2D01E2D0AD600435EEA /* ModelDefinition.cpp */,
+				F53A2C071EEC34E900E76A9E /* ModelOwner.cpp */,
+				F50FA2D21E2D0AD600435EEA /* ModelTypeSpecifier.cpp */,
+				F5436DB21FCF72BB003ABF6F /* ModelTypeSpecifierFull.cpp */,
+			);
+			name = model;
+			sourceTree = "<group>";
+		};
+		F5CB7FA520528066007628B5 /* node */ = {
+			isa = PBXGroup;
+			children = (
+				F58A83551F798B6300369388 /* ExternalNodeDefinition.cpp */,
+				F53A2C2B1EFFD5E800E76A9E /* Node.cpp */,
+				F53A2C231EFFD0BC00E76A9E /* NodeDefinition.cpp */,
+				F53A2C2F1EFFD91200E76A9E /* NodeOwner.cpp */,
+				F53A2C271EFFD42000E76A9E /* NodeTypeSpecifier.cpp */,
+				F5436DB51FCF72CE003ABF6F /* NodeTypeSpecifierFull.cpp */,
+			);
+			name = node;
+			sourceTree = "<group>";
+		};
+		F5CB7FA620528072007628B5 /* interface */ = {
+			isa = PBXGroup;
+			children = (
+				F53CDAD21F8BC4ED00D27687 /* ExternalInterfaceDefinition.cpp */,
+				F5ADB6201E66F9B400FFC941 /* Interface.cpp */,
+				F517970D1E6600BA009B16AA /* InterfaceDefinition.cpp */,
+				F53A2C0B1EEC37E900E76A9E /* InterfaceOwner.cpp */,
+				F5EEDD9F1E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp */,
+				F5436DAC1FCF71A9003ABF6F /* InterfaceTypeSpecifierFull.cpp */,
+			);
+			name = interface;
+			sourceTree = "<group>";
+		};
+		F5CB7FA720528079007628B5 /* thread */ = {
 			isa = PBXGroup;
 			children = (
 				F5CB7F49204B6A89007628B5 /* Thread.cpp */,
@@ -2988,7 +3101,214 @@
 				F5CB7F3D204A06A3007628B5 /* ThreadTypeSpecifier.cpp */,
 				F5CB7F342049F5ED007628B5 /* ThreadTypeSpecifierFull.cpp */,
 			);
-			name = threads;
+			name = thread;
+			sourceTree = "<group>";
+		};
+		F5CB7FA8205280D6007628B5 /* injection */ = {
+			isa = PBXGroup;
+			children = (
+				F519ED761FD8476800BE3FED /* InjectionArgument.cpp */,
+				F587482F1F921F6B0088F1E3 /* Injector.cpp */,
+			);
+			name = injection;
+			sourceTree = "<group>";
+		};
+		F5CB7FA9205280EC007628B5 /* builder */ = {
+			isa = PBXGroup;
+			children = (
+				F5F396D61E34BBDD00F34296 /* ObjectBuilder.cpp */,
+				F5F396DA1E34BFE000F34296 /* ObjectBuilderArgument.cpp */,
+			);
+			name = builder;
+			sourceTree = "<group>";
+		};
+		F5CB7FAA20528144007628B5 /* other */ = {
+			isa = PBXGroup;
+			children = (
+				F5105FA91FD02B6200ACF57B /* ImportProfile.cpp */,
+				F5F2F3761EEAFAF80060CF42 /* ObjectOwnerTypeSpecifier.cpp */,
+			);
+			name = other;
+			sourceTree = "<group>";
+		};
+		F5CB7FAB2052815D007628B5 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				F5089C5D1ECD01D9004A1223 /* Controller.hpp */,
+				F5089C5E1ECD01D9004A1223 /* ControllerDefinition.hpp */,
+				F53A2C021EEC30F700E76A9E /* ControllerOwner.hpp */,
+				F5089C601ECD01D9004A1223 /* ControllerTypeSpecifier.hpp */,
+				F5436DA31FCF640F003ABF6F /* ControllerTypeSpecifierFull.hpp */,
+				F58A834C1F79882700369388 /* ExternalControllerDefinition.hpp */,
+			);
+			name = controller;
+			sourceTree = "<group>";
+		};
+		F5CB7FAC20528163007628B5 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				F58A83501F7989C100369388 /* ExternalModelDefinition.hpp */,
+				F5089C921ECD01D9004A1223 /* Model.hpp */,
+				F5089C951ECD01D9004A1223 /* ModelDefinition.hpp */,
+				F53A2C061EEC343C00E76A9E /* ModelOwner.hpp */,
+				F5089C971ECD01D9004A1223 /* ModelTypeSpecifier.hpp */,
+				F5436DAF1FCF7209003ABF6F /* ModelTypeSpecifierFull.hpp */,
+			);
+			name = model;
+			sourceTree = "<group>";
+		};
+		F5CB7FAD20528168007628B5 /* interface */ = {
+			isa = PBXGroup;
+			children = (
+				F53CDAD11F8BC44B00D27687 /* ExternalInterfaceDefinition.hpp */,
+				F5089C771ECD01D9004A1223 /* Interface.hpp */,
+				F5089C781ECD01D9004A1223 /* InterfaceDefinition.hpp */,
+				F53A2C0A1EEC36F800E76A9E /* InterfaceOwner.hpp */,
+				F5089C7A1ECD01D9004A1223 /* InterfaceTypeSpecifier.hpp */,
+				F5436DA71FCF6643003ABF6F /* InterfaceTypeSpecifierFull.hpp */,
+			);
+			name = interface;
+			sourceTree = "<group>";
+		};
+		F5CB7FAE2052816E007628B5 /* node */ = {
+			isa = PBXGroup;
+			children = (
+				F58A83541F798AFC00369388 /* ExternalNodeDefinition.hpp */,
+				F53A2C2A1EFFD4C700E76A9E /* Node.hpp */,
+				F53A2C221EFFCFFD00E76A9E /* NodeDefinition.hpp */,
+				F53A2C2E1EFFD86F00E76A9E /* NodeOwner.hpp */,
+				F53A2C261EFFD3D700E76A9E /* NodeTypeSpecifier.hpp */,
+				F5436DB11FCF7240003ABF6F /* NodeTypeSpecifierFull.hpp */,
+			);
+			name = node;
+			sourceTree = "<group>";
+		};
+		F5CB7FAF20528172007628B5 /* thread */ = {
+			isa = PBXGroup;
+			children = (
+				F5CB7F44204B60C5007628B5 /* Thread.hpp */,
+				F5CB7F322049F402007628B5 /* ThreadDefinition.hpp */,
+				F5CB7F542050262C007628B5 /* ThreadInfrastructure.hpp */,
+				F5CB7F45204B661E007628B5 /* ThreadOwner.hpp */,
+				F5CB7F3C204A0652007628B5 /* ThreadTypeSpecifier.hpp */,
+				F5CB7F332049F563007628B5 /* ThreadTypeSpecifierFull.hpp */,
+			);
+			name = thread;
+			sourceTree = "<group>";
+		};
+		F5CB7FB020528188007628B5 /* injection */ = {
+			isa = PBXGroup;
+			children = (
+				F519ED751FD845EE00BE3FED /* InjectionArgument.hpp */,
+				F587482E1F921ECB0088F1E3 /* Injector.hpp */,
+			);
+			name = injection;
+			sourceTree = "<group>";
+		};
+		F5CB7FB120528195007628B5 /* builder */ = {
+			isa = PBXGroup;
+			children = (
+				F5089C931ECD01D9004A1223 /* ObjectBuilder.hpp */,
+				F5089C941ECD01D9004A1223 /* ObjectBuilderArgument.hpp */,
+			);
+			name = builder;
+			sourceTree = "<group>";
+		};
+		F5CB7FB22052819A007628B5 /* other */ = {
+			isa = PBXGroup;
+			children = (
+				F5089C491ECD01D9004A1223 /* AccessLevel.hpp */,
+				F5105FAB1FD02B7100ACF57B /* ImportProfile.hpp */,
+				F5F2F3751EEAFA110060CF42 /* ObjectOwnerTypeSpecifier.hpp */,
+			);
+			name = other;
+			sourceTree = "<group>";
+		};
+		F5CB7FB320528207007628B5 /* builder */ = {
+			isa = PBXGroup;
+			children = (
+				F5F396DF1E3F8C5700F34296 /* TestObjectBuilder.cpp */,
+				F5F396DD1E3F898900F34296 /* TestObjectBuilderArgument.cpp */,
+			);
+			name = builder;
+			sourceTree = "<group>";
+		};
+		F5CB7FB42052820C007628B5 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				F51581311E8AB1A9009CE419 /* TestController.cpp */,
+				F515812A1E89BFB6009CE419 /* TestControllerDefinition.cpp */,
+				F53A2C111EEEC56700E76A9E /* TestControllerOwner.cpp */,
+				F51581331E8ABBB5009CE419 /* TestControllerTypeSpecifier.cpp */,
+				F5E39A3D1F7C1F2000B2ABD5 /* TestExternalControllerDefinition.cpp */,
+			);
+			name = controller;
+			sourceTree = "<group>";
+		};
+		F5CB7FB520528211007628B5 /* injection */ = {
+			isa = PBXGroup;
+			children = (
+				F519ED791FD8665400BE3FED /* TestInjectionArgument.cpp */,
+				F57780B51ECA6B460049542D /* TestInjector.cpp */,
+			);
+			name = injection;
+			sourceTree = "<group>";
+		};
+		F5CB7FB620528218007628B5 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				F5C7D1571F7C256400D65584 /* TestExternalModelDefinition.cpp */,
+				F5C6FD891E48D08F0054209D /* TestModel.cpp */,
+				F50FA2D61E2D12E000435EEA /* TestModelDefinition.cpp */,
+				F53A2C151EF020B400E76A9E /* TestModelOwner.cpp */,
+				F50FA2FB1E30051700435EEA /* TestModelTypeSpecifier.cpp */,
+			);
+			name = model;
+			sourceTree = "<group>";
+		};
+		F5CB7FB72052821E007628B5 /* interface */ = {
+			isa = PBXGroup;
+			children = (
+				F5ADB6251E67075400FFC941 /* TestInterface.cpp */,
+				F51797131E660779009B16AA /* TestInterfaceDefinition.cpp */,
+				F53A2C131EF018EE00E76A9E /* TestInterfaceOwner.cpp */,
+				F5EEDDA21E6EF50100215278 /* TestInterfaceTypeSpecifier.cpp */,
+			);
+			name = interface;
+			sourceTree = "<group>";
+		};
+		F5CB7FB820528222007628B5 /* node */ = {
+			isa = PBXGroup;
+			children = (
+				F5C7D1591F7C270800D65584 /* TestExternalNodeDefinition.cpp */,
+				F53A2C361EFFFCEE00E76A9E /* TestNode.cpp */,
+				F53A2C3A1F00029600E76A9E /* TestNodeDefinition.cpp */,
+				F53A2C3C1F00048C00E76A9E /* TestNodeOwner.cpp */,
+				F53A2C3E1F0005B800E76A9E /* TestNodeTypeSpecifier.cpp */,
+			);
+			name = node;
+			sourceTree = "<group>";
+		};
+		F5CB7FB920528227007628B5 /* other */ = {
+			isa = PBXGroup;
+			children = (
+				F5105FAD1FD0553900ACF57B /* TestImportProfile.cpp */,
+				F53A2BFF1EEC167000E76A9E /* TestObjectOwnerTypeSpecifier.cpp */,
+				F519ED7B1FD9910D00BE3FED /* TestThis.cpp */,
+			);
+			name = other;
+			sourceTree = "<group>";
+		};
+		F5CB7FBA2052822B007628B5 /* thread */ = {
+			isa = PBXGroup;
+			children = (
+				F5CB7F50204B7E26007628B5 /* TestThread.cpp */,
+				F5CB7F40204A1AE0007628B5 /* TestThreadDefinition.cpp */,
+				F5CB7F8720518B7F007628B5 /* TestThreadInfrastructure.cpp */,
+				F5CB7F52204B9C7D007628B5 /* TestThreadOwner.cpp */,
+				F5CB7F42204A1B4A007628B5 /* TestThreadTypeSpecifier.cpp */,
+			);
+			name = thread;
 			sourceTree = "<group>";
 		};
 		F5F3F8CC1FDEC574001BA5B9 /* arrays */ = {
@@ -3152,7 +3472,7 @@
 				F55CF1881F850EEB00A11426 /* TestPrefix.cpp in Sources */,
 				F5A67DA620120A0A0018068F /* LocalArrayReferenceVariable.cpp in Sources */,
 				F53400EF1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp in Sources */,
-				F592C9961ED323F7007FB2D0 /* TestMain.cpp in Sources */,
+				F592C9961ED323F7007FB2D0 /* TestWiseyc.cpp in Sources */,
 				F53A2C091EEC34E900E76A9E /* ModelOwner.cpp in Sources */,
 				F5CB7F57205026AA007628B5 /* ThreadInfrastructure.cpp in Sources */,
 				F5CB7F4F204B7D89007628B5 /* TestStackTrace.cpp in Sources */,
@@ -3312,7 +3632,7 @@
 				F50FA2E91E2E3B0F00435EEA /* DoubleConstant.cpp in Sources */,
 				F53A2C4C1F029DC800E76A9E /* TestNullType.cpp in Sources */,
 				F55173D61F99025400613993 /* TestConstantDeclaration.cpp in Sources */,
-				F53A2C001EEC167000E76A9E /* TestOwnerTypeSpecifier.cpp in Sources */,
+				F53A2C001EEC167000E76A9E /* TestObjectOwnerTypeSpecifier.cpp in Sources */,
 				F531B6451E0A4A7D008304F3 /* TestBlock.cpp in Sources */,
 				F5E39A3E1F7C1F2000B2ABD5 /* TestExternalControllerDefinition.cpp in Sources */,
 				F534011C1E000DBC0002BF7E /* TestMethodDeclaration.cpp in Sources */,

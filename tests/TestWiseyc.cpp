@@ -5,7 +5,8 @@
 //  Created by Vladimir Fridman on 5/22/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests main.cpp
+//  Tests wiseyc.cpp
+//
 
 #include <gtest/gtest.h>
 
