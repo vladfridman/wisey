@@ -9,7 +9,6 @@
 #ifndef ExternalInterfaceDefinition_h
 #define ExternalInterfaceDefinition_h
 
-#include "wisey/FieldDeclaration.hpp"
 #include "wisey/IConcreteObjectDefinition.hpp"
 #include "wisey/InterfaceTypeSpecifierFull.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"

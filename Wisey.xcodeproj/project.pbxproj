@@ -89,8 +89,6 @@
 		F513DE0A2018AA3E001A075B /* TestParameterArrayReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F513DE092018AA3E001A075B /* TestParameterArrayReferenceVariable.cpp */; };
 		F51581211E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */; };
 		F51581221E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */; };
-		F51581241E89B02F009CE419 /* FieldDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581231E89B02F009CE419 /* FieldDeclaration.cpp */; };
-		F51581251E89B02F009CE419 /* FieldDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581231E89B02F009CE419 /* FieldDeclaration.cpp */; };
 		F51581281E89B9A6009CE419 /* ControllerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581271E89B9A6009CE419 /* ControllerTypeSpecifier.cpp */; };
 		F51581291E89B9A6009CE419 /* ControllerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581271E89B9A6009CE419 /* ControllerTypeSpecifier.cpp */; };
 		F515812B1E89BFB6009CE419 /* TestControllerDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F515812A1E89BFB6009CE419 /* TestControllerDefinition.cpp */; };
@@ -682,7 +680,7 @@
 		F5A363581F376C90005880B3 /* IFieldVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A363561F376C90005880B3 /* IFieldVariable.cpp */; };
 		F5A3635A1F376F1C005880B3 /* TestFieldPrimitiveVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A363591F376F1C005880B3 /* TestFieldPrimitiveVariable.cpp */; };
 		F5A3635C1F377F84005880B3 /* TestIFieldVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A3635B1F377F84005880B3 /* TestIFieldVariable.cpp */; };
-		F5A3BE5B1F9906BB000FDB09 /* TestFieldDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A3BE5A1F9906BB000FDB09 /* TestFieldDeclaration.cpp */; };
+		F5A3BE5B1F9906BB000FDB09 /* TestInjectedFieldDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A3BE5A1F9906BB000FDB09 /* TestInjectedFieldDeclaration.cpp */; };
 		F5A67DA520120A0A0018068F /* LocalArrayReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A67DA420120A0A0018068F /* LocalArrayReferenceVariable.cpp */; };
 		F5A67DA620120A0A0018068F /* LocalArrayReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A67DA420120A0A0018068F /* LocalArrayReferenceVariable.cpp */; };
 		F5A67DA92012DBEB0018068F /* ArrayElementAssignment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A67DA82012DBEB0018068F /* ArrayElementAssignment.cpp */; };
@@ -780,6 +778,17 @@
 		F5CB7F8A20519130007628B5 /* TestFieldNativeVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB7F8920519130007628B5 /* TestFieldNativeVariable.cpp */; };
 		F5CB7F8D20519141007628B5 /* TestNativeType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB7F8B20519141007628B5 /* TestNativeType.cpp */; };
 		F5CB7F8E20519141007628B5 /* TestNativeTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB7F8C20519141007628B5 /* TestNativeTypeSpecifier.cpp */; };
+		F5CB7FBD20529B65007628B5 /* FixedFieldDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB7FBC20529B65007628B5 /* FixedFieldDeclaration.cpp */; };
+		F5CB7FBE20529B65007628B5 /* FixedFieldDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB7FBC20529B65007628B5 /* FixedFieldDeclaration.cpp */; };
+		F5CB7FC220529D20007628B5 /* StateFieldDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB7FC120529D20007628B5 /* StateFieldDeclaration.cpp */; };
+		F5CB7FC320529D20007628B5 /* StateFieldDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB7FC120529D20007628B5 /* StateFieldDeclaration.cpp */; };
+		F5CB7FC920529DE3007628B5 /* ReceivedFieldDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB7FC820529DE3007628B5 /* ReceivedFieldDeclaration.cpp */; };
+		F5CB7FCA20529DE3007628B5 /* ReceivedFieldDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB7FC820529DE3007628B5 /* ReceivedFieldDeclaration.cpp */; };
+		F5CB7FCD20529E77007628B5 /* InjectedFieldDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB7FCC20529E77007628B5 /* InjectedFieldDeclaration.cpp */; };
+		F5CB7FCE20529E77007628B5 /* InjectedFieldDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB7FCC20529E77007628B5 /* InjectedFieldDeclaration.cpp */; };
+		F5CB7FD02052A54C007628B5 /* TestFixedFieldDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB7FCF2052A54C007628B5 /* TestFixedFieldDeclaration.cpp */; };
+		F5CB7FD22052A5A8007628B5 /* TestStateFieldDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB7FD12052A5A8007628B5 /* TestStateFieldDeclaration.cpp */; };
+		F5CB7FD42052A5B9007628B5 /* TestReceivedFieldDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB7FD32052A5B9007628B5 /* TestReceivedFieldDeclaration.cpp */; };
 		F5CE2D411EF6A43C002ABB85 /* IType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CE2D401EF6A43C002ABB85 /* IType.cpp */; };
 		F5CE2D421EF6A43C002ABB85 /* IType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CE2D401EF6A43C002ABB85 /* IType.cpp */; };
 		F5CE2D441EF6A4CB002ABB85 /* TestIType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CE2D431EF6A4CB002ABB85 /* TestIType.cpp */; };
@@ -893,7 +902,6 @@
 		F5089C5C1ECD01D9004A1223 /* ContinueStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ContinueStatement.hpp; path = include/wisey/ContinueStatement.hpp; sourceTree = "<group>"; };
 		F5089C5D1ECD01D9004A1223 /* Controller.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Controller.hpp; path = include/wisey/Controller.hpp; sourceTree = "<group>"; };
 		F5089C5E1ECD01D9004A1223 /* ControllerDefinition.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ControllerDefinition.hpp; path = include/wisey/ControllerDefinition.hpp; sourceTree = "<group>"; };
-		F5089C5F1ECD01D9004A1223 /* FieldDeclaration.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FieldDeclaration.hpp; path = include/wisey/FieldDeclaration.hpp; sourceTree = "<group>"; };
 		F5089C601ECD01D9004A1223 /* ControllerTypeSpecifier.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ControllerTypeSpecifier.hpp; path = include/wisey/ControllerTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F5089C611ECD01D9004A1223 /* DefaultCaseStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DefaultCaseStatement.hpp; path = include/wisey/DefaultCaseStatement.hpp; sourceTree = "<group>"; };
 		F5089C621ECD01D9004A1223 /* DoStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DoStatement.hpp; path = include/wisey/DoStatement.hpp; sourceTree = "<group>"; };
@@ -1019,7 +1027,6 @@
 		F513DE062018A0F7001A075B /* ParameterArrayReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ParameterArrayReferenceVariable.cpp; path = src/ParameterArrayReferenceVariable.cpp; sourceTree = "<group>"; };
 		F513DE092018AA3E001A075B /* TestParameterArrayReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestParameterArrayReferenceVariable.cpp; path = tests/TestParameterArrayReferenceVariable.cpp; sourceTree = "<group>"; };
 		F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControllerDefinition.cpp; path = src/ControllerDefinition.cpp; sourceTree = "<group>"; };
-		F51581231E89B02F009CE419 /* FieldDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FieldDeclaration.cpp; path = src/FieldDeclaration.cpp; sourceTree = "<group>"; };
 		F51581271E89B9A6009CE419 /* ControllerTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControllerTypeSpecifier.cpp; path = src/ControllerTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F515812A1E89BFB6009CE419 /* TestControllerDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestControllerDefinition.cpp; path = tests/TestControllerDefinition.cpp; sourceTree = "<group>"; };
 		F515812E1E8AAB12009CE419 /* Controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Controller.cpp; path = src/Controller.cpp; sourceTree = "<group>"; };
@@ -1493,7 +1500,7 @@
 		F5A363561F376C90005880B3 /* IFieldVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IFieldVariable.cpp; path = src/IFieldVariable.cpp; sourceTree = "<group>"; };
 		F5A363591F376F1C005880B3 /* TestFieldPrimitiveVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestFieldPrimitiveVariable.cpp; path = tests/TestFieldPrimitiveVariable.cpp; sourceTree = "<group>"; };
 		F5A3635B1F377F84005880B3 /* TestIFieldVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIFieldVariable.cpp; path = tests/TestIFieldVariable.cpp; sourceTree = "<group>"; };
-		F5A3BE5A1F9906BB000FDB09 /* TestFieldDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestFieldDeclaration.cpp; path = tests/TestFieldDeclaration.cpp; sourceTree = "<group>"; };
+		F5A3BE5A1F9906BB000FDB09 /* TestInjectedFieldDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestInjectedFieldDeclaration.cpp; path = tests/TestInjectedFieldDeclaration.cpp; sourceTree = "<group>"; };
 		F5A67DA32012084D0018068F /* LocalArrayReferenceVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LocalArrayReferenceVariable.hpp; path = include/wisey/LocalArrayReferenceVariable.hpp; sourceTree = "<group>"; };
 		F5A67DA420120A0A0018068F /* LocalArrayReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LocalArrayReferenceVariable.cpp; path = src/LocalArrayReferenceVariable.cpp; sourceTree = "<group>"; };
 		F5A67DA72012DAA60018068F /* ArrayElementAssignment.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ArrayElementAssignment.hpp; path = include/wisey/ArrayElementAssignment.hpp; sourceTree = "<group>"; };
@@ -1580,6 +1587,17 @@
 		F5CB7F8920519130007628B5 /* TestFieldNativeVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestFieldNativeVariable.cpp; path = tests/TestFieldNativeVariable.cpp; sourceTree = "<group>"; };
 		F5CB7F8B20519141007628B5 /* TestNativeType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestNativeType.cpp; path = tests/TestNativeType.cpp; sourceTree = "<group>"; };
 		F5CB7F8C20519141007628B5 /* TestNativeTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestNativeTypeSpecifier.cpp; path = tests/TestNativeTypeSpecifier.cpp; sourceTree = "<group>"; };
+		F5CB7FBB20529B4C007628B5 /* FixedFieldDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = FixedFieldDeclaration.hpp; path = include/wisey/FixedFieldDeclaration.hpp; sourceTree = "<group>"; };
+		F5CB7FBC20529B65007628B5 /* FixedFieldDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FixedFieldDeclaration.cpp; path = src/FixedFieldDeclaration.cpp; sourceTree = "<group>"; };
+		F5CB7FC020529D0F007628B5 /* StateFieldDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = StateFieldDeclaration.hpp; path = include/wisey/StateFieldDeclaration.hpp; sourceTree = "<group>"; };
+		F5CB7FC120529D20007628B5 /* StateFieldDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = StateFieldDeclaration.cpp; path = src/StateFieldDeclaration.cpp; sourceTree = "<group>"; };
+		F5CB7FC420529DA3007628B5 /* ReceivedFieldDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ReceivedFieldDeclaration.hpp; path = include/wisey/ReceivedFieldDeclaration.hpp; sourceTree = "<group>"; };
+		F5CB7FC820529DE3007628B5 /* ReceivedFieldDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ReceivedFieldDeclaration.cpp; path = src/ReceivedFieldDeclaration.cpp; sourceTree = "<group>"; };
+		F5CB7FCB20529E3A007628B5 /* InjectedFieldDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InjectedFieldDeclaration.hpp; path = include/wisey/InjectedFieldDeclaration.hpp; sourceTree = "<group>"; };
+		F5CB7FCC20529E77007628B5 /* InjectedFieldDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = InjectedFieldDeclaration.cpp; path = src/InjectedFieldDeclaration.cpp; sourceTree = "<group>"; };
+		F5CB7FCF2052A54C007628B5 /* TestFixedFieldDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestFixedFieldDeclaration.cpp; path = tests/TestFixedFieldDeclaration.cpp; sourceTree = "<group>"; };
+		F5CB7FD12052A5A8007628B5 /* TestStateFieldDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestStateFieldDeclaration.cpp; path = tests/TestStateFieldDeclaration.cpp; sourceTree = "<group>"; };
+		F5CB7FD32052A5B9007628B5 /* TestReceivedFieldDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestReceivedFieldDeclaration.cpp; path = tests/TestReceivedFieldDeclaration.cpp; sourceTree = "<group>"; };
 		F5CE2D401EF6A43C002ABB85 /* IType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IType.cpp; path = src/IType.cpp; sourceTree = "<group>"; };
 		F5CE2D431EF6A4CB002ABB85 /* TestIType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIType.cpp; path = tests/TestIType.cpp; sourceTree = "<group>"; };
 		F5CE2D4D1F1809EE002ABB85 /* TryCatchInfo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = TryCatchInfo.hpp; path = include/wisey/TryCatchInfo.hpp; sourceTree = "<group>"; };
@@ -2754,8 +2772,11 @@
 			isa = PBXGroup;
 			children = (
 				F509E75D1F7D128500F96C14 /* Field.hpp */,
-				F5089C5F1ECD01D9004A1223 /* FieldDeclaration.hpp */,
 				F509E75C1F7D0A6E00F96C14 /* FieldKind.hpp */,
+				F5CB7FBB20529B4C007628B5 /* FixedFieldDeclaration.hpp */,
+				F5CB7FCB20529E3A007628B5 /* InjectedFieldDeclaration.hpp */,
+				F5CB7FC420529DA3007628B5 /* ReceivedFieldDeclaration.hpp */,
+				F5CB7FC020529D0F007628B5 /* StateFieldDeclaration.hpp */,
 			);
 			name = fields;
 			sourceTree = "<group>";
@@ -2764,7 +2785,10 @@
 			isa = PBXGroup;
 			children = (
 				F509E75E1F7D131C00F96C14 /* Field.cpp */,
-				F51581231E89B02F009CE419 /* FieldDeclaration.cpp */,
+				F5CB7FBC20529B65007628B5 /* FixedFieldDeclaration.cpp */,
+				F5CB7FCC20529E77007628B5 /* InjectedFieldDeclaration.cpp */,
+				F5CB7FC820529DE3007628B5 /* ReceivedFieldDeclaration.cpp */,
+				F5CB7FC120529D20007628B5 /* StateFieldDeclaration.cpp */,
 			);
 			name = fields;
 			sourceTree = "<group>";
@@ -2868,7 +2892,10 @@
 			isa = PBXGroup;
 			children = (
 				F509E7611F7D22CD00F96C14 /* TestField.cpp */,
-				F5A3BE5A1F9906BB000FDB09 /* TestFieldDeclaration.cpp */,
+				F5CB7FCF2052A54C007628B5 /* TestFixedFieldDeclaration.cpp */,
+				F5A3BE5A1F9906BB000FDB09 /* TestInjectedFieldDeclaration.cpp */,
+				F5CB7FD32052A5B9007628B5 /* TestReceivedFieldDeclaration.cpp */,
+				F5CB7FD12052A5A8007628B5 /* TestStateFieldDeclaration.cpp */,
 			);
 			name = fields;
 			sourceTree = "<group>";
@@ -3436,6 +3463,7 @@
 				F5F396E01E3F8C5700F34296 /* TestObjectBuilder.cpp in Sources */,
 				F5A3635C1F377F84005880B3 /* TestIFieldVariable.cpp in Sources */,
 				F532506E202A286B007D8597 /* TestArrayExactOwnerType.cpp in Sources */,
+				F5CB7FCA20529DE3007628B5 /* ReceivedFieldDeclaration.cpp in Sources */,
 				F5CB7F712051532A007628B5 /* FakeExpressionWithCleanup.cpp in Sources */,
 				F5ADB6221E66F9B400FFC941 /* Interface.cpp in Sources */,
 				F51764CC1ECCEAEB000AFBA7 /* ProgramFile.cpp in Sources */,
@@ -3510,6 +3538,7 @@
 				F52FF1861F1C570C003F4D37 /* Names.cpp in Sources */,
 				F5F3F8DF1FDEEE47001BA5B9 /* TestArrayType.cpp in Sources */,
 				F57411741E043EE4009809FF /* Identifier.cpp in Sources */,
+				F5CB7FD22052A5A8007628B5 /* TestStateFieldDeclaration.cpp in Sources */,
 				F5A363481F37257C005880B3 /* ParameterOwnerVariable.cpp in Sources */,
 				F53A2C1F1EF96C0200E76A9E /* IVariable.cpp in Sources */,
 				F507D2661E43551900495E2D /* Model.cpp in Sources */,
@@ -3584,6 +3613,7 @@
 				F54985851FE98F95004C204C /* TestDecrementReferencesInArrayFunction.cpp in Sources */,
 				F58748351F95143A0088F1E3 /* ThreadExpression.cpp in Sources */,
 				F59D82121E0F311B00057FB5 /* ForStatement.cpp in Sources */,
+				F5CB7FD42052A5B9007628B5 /* TestReceivedFieldDeclaration.cpp in Sources */,
 				F5ADB6131E5DA13600FFC941 /* TestCast.cpp in Sources */,
 				F50FA3081E32640B00435EEA /* TestBooleanConstant.cpp in Sources */,
 				F513DE082018A0F7001A075B /* ParameterArrayReferenceVariable.cpp in Sources */,
@@ -3598,7 +3628,6 @@
 				F5105FAC1FD02F6900ACF57B /* ImportProfile.cpp in Sources */,
 				F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */,
 				F52FF1811F1B8729003F4D37 /* Composer.cpp in Sources */,
-				F51581251E89B02F009CE419 /* FieldDeclaration.cpp in Sources */,
 				F5A67DAE201353300018068F /* TestLocalArrayReferenceVariable.cpp in Sources */,
 				F54ED9601FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp in Sources */,
 				F51D2BBB1F6940D800510784 /* StaticMethodCall.cpp in Sources */,
@@ -3684,6 +3713,7 @@
 				F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */,
 				F53A2C1C1EF92D8300E76A9E /* TestParameterReferenceVariable.cpp in Sources */,
 				F517970A1E5C95BC009B16AA /* TestCastExpression.cpp in Sources */,
+				F5CB7FBE20529B65007628B5 /* FixedFieldDeclaration.cpp in Sources */,
 				F53A2C4A1F029BA500E76A9E /* NullExpression.cpp in Sources */,
 				F51581291E89B9A6009CE419 /* ControllerTypeSpecifier.cpp in Sources */,
 				F57411641E01BBFC009809FF /* Scope.cpp in Sources */,
@@ -3712,6 +3742,7 @@
 				F5A67DAA2012DBEB0018068F /* ArrayElementAssignment.cpp in Sources */,
 				F57086031E5317E8007D627E /* AutoCast.cpp in Sources */,
 				F574115C1E01A13B009809FF /* TestLogicalOrExpression.cpp in Sources */,
+				F5CB7FC320529D20007628B5 /* StateFieldDeclaration.cpp in Sources */,
 				F5603B4E2021316E00BBA05D /* CheckArrayIndexFunction.cpp in Sources */,
 				F5B3DCE61F9116AF00FC76D3 /* IMethodCall.cpp in Sources */,
 				F51942FB1FE3D7D6009C3158 /* TestIdentifierChain.cpp in Sources */,
@@ -3724,6 +3755,7 @@
 				F592A7C51F7D8EAE0026BD2F /* IMethodDeclaration.cpp in Sources */,
 				F5C6FD6D1E48B37D0054209D /* TestVoidType.cpp in Sources */,
 				F556E6551EDDD2F900CCC3D7 /* IConcreteObjectType.cpp in Sources */,
+				F5CB7FD02052A54C007628B5 /* TestFixedFieldDeclaration.cpp in Sources */,
 				F55CF17A1F7DA3EA00A11426 /* TestExternalMethod.cpp in Sources */,
 				F55CF1781F7DA22800A11426 /* TestExternalStaticMethodDeclaration.cpp in Sources */,
 				F50FA2D81E2D324100435EEA /* CaseStatement.cpp in Sources */,
@@ -3769,6 +3801,7 @@
 				F5170194200DC7A900A10B7C /* DestroyPrimitiveArrayFunction.cpp in Sources */,
 				F51701AA200FCE8400A10B7C /* ArrayOwnerTypeSpecifier.cpp in Sources */,
 				F5A67DBA20171F0B0018068F /* FieldArrayOwnerVariable.cpp in Sources */,
+				F5CB7FCE20529E77007628B5 /* InjectedFieldDeclaration.cpp in Sources */,
 				F5F396D81E34BBDD00F34296 /* ObjectBuilder.cpp in Sources */,
 				F53A2C291EFFD42000E76A9E /* NodeTypeSpecifier.cpp in Sources */,
 				F59D82201E0F68DF00057FB5 /* TestIfElseStatement.cpp in Sources */,
@@ -3792,7 +3825,7 @@
 				F5E270771F990024008D2EB7 /* TestConstant.cpp in Sources */,
 				F531B6551E0DDD96008304F3 /* StringLiteral.cpp in Sources */,
 				F5FCAE3B1ED5CAD300C69899 /* TestCompilerArgumentParser.cpp in Sources */,
-				F5A3BE5B1F9906BB000FDB09 /* TestFieldDeclaration.cpp in Sources */,
+				F5A3BE5B1F9906BB000FDB09 /* TestInjectedFieldDeclaration.cpp in Sources */,
 				F509E7601F7D131C00F96C14 /* Field.cpp in Sources */,
 				F51D2BB51F691C8100510784 /* IMethod.cpp in Sources */,
 				F501B4941E161D140010783D /* TestBreakStatement.cpp in Sources */,
@@ -3910,7 +3943,9 @@
 				F539147A1FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp in Sources */,
 				F56AD49C1E9F4E400020868C /* ThrowStatement.cpp in Sources */,
 				F526D8A81FEBA854008103B9 /* ArrayAllocation.cpp in Sources */,
+				F5CB7FBD20529B65007628B5 /* FixedFieldDeclaration.cpp in Sources */,
 				F51942EE1FE2D7C7009C3158 /* PackageType.cpp in Sources */,
+				F5CB7FC220529D20007628B5 /* StateFieldDeclaration.cpp in Sources */,
 				F50427B41E4E3FA7001CB148 /* FieldReferenceVariable.cpp in Sources */,
 				F531B6421E0A16D7008304F3 /* Block.cpp in Sources */,
 				F5CB18111EB0C615007E2E43 /* TryCatchStatement.cpp in Sources */,
@@ -3939,6 +3974,7 @@
 				F52746C6201A232900503713 /* ArrayAllocationStatic.cpp in Sources */,
 				F51D2BB41F691C8100510784 /* IMethod.cpp in Sources */,
 				F5CE2D411EF6A43C002ABB85 /* IType.cpp in Sources */,
+				F5CB7FCD20529E77007628B5 /* InjectedFieldDeclaration.cpp in Sources */,
 				F53A2C0C1EEC37E900E76A9E /* InterfaceOwner.cpp in Sources */,
 				F51942F81FE3C123009C3158 /* UndefinedType.cpp in Sources */,
 				F5436DAD1FCF71A9003ABF6F /* InterfaceTypeSpecifierFull.cpp in Sources */,
@@ -3946,7 +3982,7 @@
 				F5E3D64A1F6C01CE00FC37CB /* PrintOutStatement.cpp in Sources */,
 				F5CB7F5E2050FB46007628B5 /* NativeTypeSpecifier.cpp in Sources */,
 				F51581211E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */,
-				F51581241E89B02F009CE419 /* FieldDeclaration.cpp in Sources */,
+				F5CB7FC920529DE3007628B5 /* ReceivedFieldDeclaration.cpp in Sources */,
 				F57411591E01A09B009809FF /* LogicalOrExpression.cpp in Sources */,
 				F51D2BBA1F6940D800510784 /* StaticMethodCall.cpp in Sources */,
 				F57411421E015961009809FF /* ReturnStatement.cpp in Sources */,

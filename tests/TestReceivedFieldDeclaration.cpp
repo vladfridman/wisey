@@ -1,11 +1,11 @@
 //
-//  TestFieldDeclaration.cpp
+//  TestReceivedFieldDeclaration.cpp
 //  runtests
 //
-//  Created by Vladimir Fridman on 10/19/17.
-//  Copyright © 2017 Vladimir Fridman. All rights reserved.
+//  Created by Vladimir Fridman on 3/9/18.
+//  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link FieldDeclaration}
+//  Tests {@link ReceivedFieldDeclaration}
 //
 
 #include <gtest/gtest.h>
@@ -13,9 +13,9 @@
 
 #include "MockExpression.hpp"
 #include "MockType.hpp"
-#include "wisey/FieldDeclaration.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "wisey/ReceivedFieldDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -27,37 +27,29 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct FieldDeclarationTest : public Test {
+struct ReceivedFieldDeclarationTest : public Test {
   IRGenerationContext mContext;
   NiceMock<MockType>* mType;
   NiceMock<MockExpression>* mExpression;
   string mName;
-  InjectionArgumentList mArguments;
-  InjectionArgument* mInjectionArgument;
-  FieldDeclaration* mFieldDeclaration;
+  ReceivedFieldDeclaration* mFieldDeclaration;
   
 public:
   
-  FieldDeclarationTest() :
+  ReceivedFieldDeclarationTest() :
   mType(new NiceMock<MockType>()),
   mExpression(new NiceMock<MockExpression>()),
   mName("mField") {
-    mInjectionArgument = new InjectionArgument("withFoo", mExpression);
-    mArguments.push_back(mInjectionArgument);
-    
     PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
-    mFieldDeclaration = new FieldDeclaration(FieldKind::FIXED_FIELD,
-                                             intSpecifier,
-                                             mName,
-                                             mArguments);
+    mFieldDeclaration = new ReceivedFieldDeclaration(intSpecifier, mName);
   }
   
-  ~FieldDeclarationTest() {
+  ~ReceivedFieldDeclarationTest() {
     delete mFieldDeclaration;
   }
 };
 
-TEST_F(FieldDeclarationTest, declareTest) {
+TEST_F(ReceivedFieldDeclarationTest, declareTest) {
   Field* field = mFieldDeclaration->declare(mContext, NULL);
   
   EXPECT_FALSE(field->isConstant());
@@ -65,12 +57,11 @@ TEST_F(FieldDeclarationTest, declareTest) {
   EXPECT_FALSE(field->isMethod());
   EXPECT_FALSE(field->isStaticMethod());
   EXPECT_FALSE(field->isMethodSignature());
-
+  
   EXPECT_EQ(field->getType(), PrimitiveTypes::INT_TYPE);
   EXPECT_STREQ(field->getName().c_str(), "mField");
-  EXPECT_EQ(field->getInjectionArguments().size(), 1u);
-  EXPECT_EQ(field->getInjectionArguments().at(0), mInjectionArgument);
-  EXPECT_FALSE(field->isAssignable());
-  EXPECT_EQ(field->getFieldKind(), FieldKind::FIXED_FIELD);
+  EXPECT_EQ(field->getInjectionArguments().size(), 0u);
+  EXPECT_TRUE(field->isAssignable());
+  EXPECT_EQ(field->getFieldKind(), FieldKind::RECEIVED_FIELD);
 }
 

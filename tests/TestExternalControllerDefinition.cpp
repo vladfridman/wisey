@@ -19,7 +19,6 @@
 #include "wisey/FakeExpression.hpp"
 #include "wisey/ExternalControllerDefinition.hpp"
 #include "wisey/ExternalMethodDeclaration.hpp"
-#include "wisey/FieldDeclaration.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -28,6 +27,7 @@
 #include "wisey/MethodArgument.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "wisey/ReceivedFieldDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -65,9 +65,8 @@ struct ExternalControllerDefinitionTest : public Test {
     PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
     PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
     InjectionArgumentList arguments;
-    FieldDeclaration* field1 = new FieldDeclaration(RECEIVED_FIELD, longType, "mField1", arguments);
-    FieldDeclaration* field2 =
-      new FieldDeclaration(RECEIVED_FIELD, floatType, "mField2", arguments);
+    ReceivedFieldDeclaration* field1 = new ReceivedFieldDeclaration(longType, "mField1");
+    ReceivedFieldDeclaration* field2 = new ReceivedFieldDeclaration(floatType, "mField2");
     mElementDeclarations.push_back(field1);
     mElementDeclarations.push_back(field2);
     mElementDeclarations.push_back(methodDeclaration);

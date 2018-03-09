@@ -20,7 +20,7 @@
 #include "wisey/AccessLevel.hpp"
 #include "wisey/ControllerDefinition.hpp"
 #include "wisey/FakeExpression.hpp"
-#include "wisey/FieldDeclaration.hpp"
+#include "wisey/FixedFieldDeclaration.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -31,6 +31,7 @@
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ProgramPrefix.hpp"
+#include "wisey/ReceivedFieldDeclaration.hpp"
 #include "wisey/ReturnStatement.hpp"
 
 using namespace llvm;
@@ -85,9 +86,8 @@ struct ControllerDefinitionTest : public Test {
 
     PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
     PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-    InjectionArgumentList arguments;
-    FieldDeclaration* field1 = new FieldDeclaration(RECEIVED_FIELD, longType, "field1", arguments);
-    FieldDeclaration* field2 = new FieldDeclaration(RECEIVED_FIELD, floatType, "field2", arguments);
+    ReceivedFieldDeclaration* field1 = new ReceivedFieldDeclaration(longType, "field1");
+    ReceivedFieldDeclaration* field2 = new ReceivedFieldDeclaration(floatType, "field2");
     mElementDeclarations.push_back(field1);
     mElementDeclarations.push_back(field2);
     mElementDeclarations.push_back(methodDeclaration);
@@ -182,9 +182,8 @@ TEST_F(ControllerDefinitionTest, controllerWithFixedFieldDeathTest) {
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(packageExpression,
                                                                                "CMyController");
-  InjectionArgumentList arguments;
   PrimitiveTypeSpecifier* intType = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
-  FieldDeclaration* field = new FieldDeclaration(FIXED_FIELD, intType, "field3", arguments);
+  FixedFieldDeclaration* field = new FixedFieldDeclaration(intType, "field3");
   mElementDeclarations.clear();
   mElementDeclarations.push_back(field);
   vector<IObjectDefinition*> innerObjectDefinitions;
@@ -207,7 +206,7 @@ TEST_F(ControllerDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
                                                                                "CMyController");
   InjectionArgumentList arguments;
   PrimitiveTypeSpecifier* intType = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
-  FieldDeclaration* field = new FieldDeclaration(FIXED_FIELD, intType, "field3", arguments);
+  FixedFieldDeclaration* field = new FixedFieldDeclaration(intType, "field3");
   mElementDeclarations.push_back(field);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ControllerDefinition controllerDefinition(AccessLevel::PUBLIC_ACCESS,

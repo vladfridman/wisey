@@ -14,6 +14,7 @@
 #include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"
 #include "wisey/MethodDeclaration.hpp"
+#include "wisey/StateFieldDeclaration.hpp"
 #include "wisey/ThreadTypeSpecifierFull.hpp"
 
 namespace wisey {
@@ -54,7 +55,7 @@ namespace wisey {
     MethodDeclaration* createStartMethodDeclaration(IRGenerationContext& context,
                                                     const Thread* thread) const;
     
-    FieldDeclaration* createNativeThreadHandleField(IRGenerationContext& context) const;
+    StateFieldDeclaration* createNativeThreadHandleField(IRGenerationContext& context) const;
     
     static llvm::Function* defineRunBridgeFunction(IRGenerationContext& context, const Thread* thread);
     

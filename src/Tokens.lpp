@@ -9,7 +9,6 @@
   #include "wisey/ControllerTypeSpecifier.hpp"
   #include "wisey/CaseStatement.hpp"
   #include "wisey/DefaultCaseStatement.hpp"
-  #include "wisey/FieldDeclaration.hpp"
   #include "wisey/IObjectDefinition.hpp"
   #include "wisey/Identifier.hpp"
   #include "wisey/InterfaceTypeSpecifier.hpp"

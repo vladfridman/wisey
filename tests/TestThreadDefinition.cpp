@@ -19,7 +19,7 @@
 #include "TestPrefix.hpp"
 #include "wisey/AccessLevel.hpp"
 #include "wisey/FakeExpression.hpp"
-#include "wisey/FieldDeclaration.hpp"
+#include "wisey/FixedFieldDeclaration.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -31,6 +31,7 @@
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ProgramPrefix.hpp"
 #include "wisey/ReturnStatement.hpp"
+#include "wisey/StateFieldDeclaration.hpp"
 #include "wisey/ThreadDefinition.hpp"
 #include "wisey/ThreadInfrastructure.hpp"
 
@@ -86,9 +87,8 @@ struct ThreadDefinitionTest : public Test {
     
     PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
     PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-    InjectionArgumentList arguments;
-    FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
-    FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
+    FixedFieldDeclaration* field1 = new FixedFieldDeclaration(longType, "field1");
+    FixedFieldDeclaration* field2 = new FixedFieldDeclaration(floatType, "field2");
     mElementDeclarations.push_back(field1);
     mElementDeclarations.push_back(field2);
     mElementDeclarations.push_back(methodDeclaration);
@@ -190,9 +190,8 @@ TEST_F(ThreadDefinitionTest, threadWithStateFieldDeathTest) {
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ThreadTypeSpecifierFull* typeSpecifier = new ThreadTypeSpecifierFull(packageExpression,
                                                                        "TWorker");
-  InjectionArgumentList arguments;
   PrimitiveTypeSpecifier* intType = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
-  FieldDeclaration* field = new FieldDeclaration(STATE_FIELD, intType, "field3", arguments);
+  StateFieldDeclaration* field = new StateFieldDeclaration(intType, "field3");
   mElementDeclarations.clear();
   mElementDeclarations.push_back(field);
   vector<IObjectDefinition*> innerObjectDefinitions;
@@ -215,9 +214,8 @@ TEST_F(ThreadDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ThreadTypeSpecifierFull* typeSpecifier = new ThreadTypeSpecifierFull(packageExpression,
                                                                        "TWorker");
-  InjectionArgumentList arguments;
   PrimitiveTypeSpecifier* intType = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
-  FieldDeclaration* field = new FieldDeclaration(FIXED_FIELD, intType, "field3", arguments);
+  FixedFieldDeclaration* field = new FixedFieldDeclaration(intType, "field3");
   mElementDeclarations.push_back(field);
   vector<IObjectDefinition*> innerObjectDefinitions;
   PrimitiveTypeSpecifier* voidTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE);

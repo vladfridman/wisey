@@ -17,9 +17,10 @@
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/FakeExpression.hpp"
-#include "wisey/FieldDeclaration.hpp"
+#include "wisey/FixedFieldDeclaration.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"
+#include "wisey/InjectedFieldDeclaration.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodDeclaration.hpp"
@@ -90,9 +91,8 @@ struct NodeDefinitionTest : public Test {
 TEST_F(NodeDefinitionTest, prototypeObjectTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  InjectionArgumentList arguments;
-  FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
-  FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
+  FixedFieldDeclaration* field1 = new FixedFieldDeclaration(longType, "field1");
+  FixedFieldDeclaration* field2 = new FixedFieldDeclaration(floatType, "field2");
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDeclaration);
@@ -120,9 +120,8 @@ TEST_F(NodeDefinitionTest, prototypeObjectTest) {
 TEST_F(NodeDefinitionTest, prototypeMethodsTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  InjectionArgumentList arguments;
-  FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
-  FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
+  FixedFieldDeclaration* field1 = new FixedFieldDeclaration(longType, "field1");
+  FixedFieldDeclaration* field2 = new FixedFieldDeclaration(floatType, "field2");
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDeclaration);
@@ -149,9 +148,8 @@ TEST_F(NodeDefinitionTest, prototypeMethodsTest) {
 TEST_F(NodeDefinitionTest, generateIRTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  InjectionArgumentList arguments;
-  FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
-  FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
+  FixedFieldDeclaration* field1 = new FixedFieldDeclaration(longType, "field1");
+  FixedFieldDeclaration* field2 = new FixedFieldDeclaration(floatType, "field2");
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDeclaration);
@@ -289,8 +287,8 @@ TEST_F(NodeDefinitionTest, nodeWithInjectedFieldDeathTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
   InjectionArgumentList arguments;
-  FieldDeclaration* field1 = new FieldDeclaration(INJECTED_FIELD, longType, "field1", arguments);
-  FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
+  InjectedFieldDeclaration* field1 = new InjectedFieldDeclaration(longType, "field1", arguments);
+  FixedFieldDeclaration* field2 = new FixedFieldDeclaration(floatType, "field2");
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDeclaration);

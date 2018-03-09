@@ -23,7 +23,7 @@
 #include "TestPrefix.hpp"
 #include "wisey/AdjustReferenceCounterForInterfaceFunction.hpp"
 #include "wisey/ConstantDeclaration.hpp"
-#include "wisey/FieldDeclaration.hpp"
+#include "wisey/FixedFieldDeclaration.hpp"
 #include "wisey/GetOriginalObjectFunction.hpp"
 #include "wisey/InstanceOf.hpp"
 #include "wisey/Interface.hpp"
@@ -404,12 +404,7 @@ TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
   Mock::AllowLeak(mThreadVariable);
 
   PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
-  InjectionArgumentList arguments;
-  FieldDeclaration* fieldDeclaration = new FieldDeclaration(FieldKind::FIXED_FIELD,
-                                                            intSpecifier,
-                                                            "mField",
-                                                            arguments);
-  
+  FixedFieldDeclaration* fieldDeclaration = new FixedFieldDeclaration(intSpecifier, "mField");
   
   string name = "systems.vos.wisey.compiler.tests.IInterface";
   StructType* structType = StructType::create(mLLVMContext, name);

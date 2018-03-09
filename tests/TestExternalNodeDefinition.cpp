@@ -15,7 +15,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/FakeExpression.hpp"
-#include "wisey/FieldDeclaration.hpp"
+#include "wisey/FixedFieldDeclaration.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/ExternalNodeDefinition.hpp"
 #include "wisey/ExternalMethodDeclaration.hpp"
@@ -67,9 +67,8 @@ struct ExternalNodeDefinitionTest : public Test {
 TEST_F(ExternalNodeDefinitionTest, prototypeObjectTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  InjectionArgumentList arguments;
-  FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
-  FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
+  FixedFieldDeclaration* field1 = new FixedFieldDeclaration(longType, "field1");
+  FixedFieldDeclaration* field2 = new FixedFieldDeclaration(floatType, "field2");
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDeclaration);
@@ -96,9 +95,8 @@ TEST_F(ExternalNodeDefinitionTest, prototypeObjectTest) {
 TEST_F(ExternalNodeDefinitionTest, prototypeMethodsTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  InjectionArgumentList arguments;
-  FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
-  FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
+  FixedFieldDeclaration* field1 = new FixedFieldDeclaration(longType, "field1");
+  FixedFieldDeclaration* field2 = new FixedFieldDeclaration(floatType, "field2");
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDeclaration);

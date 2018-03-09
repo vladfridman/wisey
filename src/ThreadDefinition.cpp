@@ -14,7 +14,6 @@
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/FakeExpressionWithCleanup.hpp"
-#include "wisey/FieldDeclaration.hpp"
 #include "wisey/IMethodCall.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
@@ -144,16 +143,13 @@ MethodDeclaration* ThreadDefinition::createStartMethodDeclaration(IRGenerationCo
                                0);
 }
 
-FieldDeclaration* ThreadDefinition::createNativeThreadHandleField(IRGenerationContext&
+StateFieldDeclaration* ThreadDefinition::createNativeThreadHandleField(IRGenerationContext&
                                                                    context) const {
   InjectionArgumentList arguments;
   
   NativeType* nativeType = ThreadInfrastructure::createNativeThreadType(context);
   NativeTypeSpecifier* nativeTypeSpecifier = new NativeTypeSpecifier(nativeType);
-  return new FieldDeclaration(FieldKind::STATE_FIELD,
-                              nativeTypeSpecifier,
-                              "mNativeThread",
-                              arguments);
+  return new StateFieldDeclaration(nativeTypeSpecifier, "mNativeThread");
 }
 
 vector<IObjectElementDeclaration*>

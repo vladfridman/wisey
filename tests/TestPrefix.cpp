@@ -9,7 +9,7 @@
 #include "TestPrefix.hpp"
 #include "wisey/ControllerDefinition.hpp"
 #include "wisey/FakeExpression.hpp"
-#include "wisey/FieldDeclaration.hpp"
+#include "wisey/FixedFieldDeclaration.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/MethodDeclaration.hpp"
 #include "wisey/ModelDefinition.hpp"
@@ -24,25 +24,15 @@ using namespace wisey;
 void TestPrefix::generateIR(IRGenerationContext& context) {
   vector<IObjectElementDeclaration*> modelElements;
   defineModel(context, Names::getNPEModelName(), modelElements);
-  InjectionArgumentList arguments;
   PrimitiveTypeSpecifier* longTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
-  modelElements.push_back(new FieldDeclaration(FIXED_FIELD,
-                                               longTypeSpecifier,
-                                               "mReferenceCount",
-                                               arguments));
+  modelElements.push_back(new FixedFieldDeclaration(longTypeSpecifier, "mReferenceCount"));
   defineModel(context, Names::getReferenceCountExceptionName(), modelElements);
   modelElements.clear();
   
   longTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
-  modelElements.push_back(new FieldDeclaration(FIXED_FIELD,
-                                               longTypeSpecifier,
-                                               "mArraySize",
-                                               arguments));
+  modelElements.push_back(new FixedFieldDeclaration(longTypeSpecifier, "mArraySize"));
   longTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
-  modelElements.push_back(new FieldDeclaration(FIXED_FIELD,
-                                               longTypeSpecifier,
-                                               "mIndex",
-                                               arguments));
+  modelElements.push_back(new FixedFieldDeclaration(longTypeSpecifier, "mIndex"));
   defineModel(context, Names::getArrayIndexOutOfBoundsModelName(), modelElements);
   defineThreadController(context);
 }
