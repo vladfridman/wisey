@@ -50,6 +50,9 @@ Thread::~Thread() {
   mFieldsOrdered.clear();
   mFieldIndexes.clear();
   mFields.clear();
+  mReceivedFields.clear();
+  mInjectedFields.clear();
+  mStateFields.clear();
   for (IMethod* method : mMethods) {
     delete method;
   }
@@ -85,14 +88,14 @@ void Thread::setFields(vector<IField*> fields, unsigned long startIndex) {
     mFields[field->getName()] = field;
     mFieldsOrdered.push_back(field);
     mFieldIndexes[field] = index;
-    const IType* fieldType = field->getType();
-    if (!field->isFixed() && !(fieldType->isNative() && field->isState())) {
-      Log::e("Threads can only have fixed fields");
-      exit(1);
-    }
-    if (!fieldType->isPrimitive() && !fieldType->isModel() && !fieldType->isInterface() &&
-        !fieldType->isNative()) {
-      Log::e("Threads can only have fields of primitive or model type");
+    if (field->isReceived()) {
+      mReceivedFields.push_back(field);
+    } else if (field->isState()) {
+      mStateFields.push_back(field);
+    } else if (field->isInjected()) {
+      mInjectedFields.push_back((InjectedField*) field);
+    } else {
+      Log::e("Threads can only have received, injected or state fields");
       exit(1);
     }
     index++;
@@ -146,7 +149,8 @@ Instruction* Thread::inject(IRGenerationContext& context,
   checkArguments(injectionArgumentList);
   Instruction* malloc = createMalloc(context);
   IntrinsicFunctions::setMemoryToZero(context, malloc, ConstantExpr::getSizeOf(mStructType));
-  initializeFiexedFields(context, injectionArgumentList, malloc, line);
+  initializeReceivedFields(context, injectionArgumentList, malloc, line);
+  initializeInjectedFields(context, malloc, line);
   initializeVTable(context, (IConcreteObjectType*) this, malloc);
   
   context.setObjectType(lastObjectType);
@@ -184,19 +188,16 @@ void Thread::checkAllFieldsAreSet(const InjectionArgumentList& injectionArgument
   }
   
   for (string missingField : missingFields) {
-    Log::e("Fixed field " + missingField + " is not initialized");
+    Log::e("Received field " + missingField + " is not initialized");
   }
-  Log::e("Some fixed fields of the thread " + mName + " are not initialized.");
+  Log::e("Some received fields of the thread " + mName + " are not initialized.");
   exit(1);
 }
 
 vector<string> Thread::getMissingReceivedFields(set<string> givenFields) const {
   vector<string> missingFields;
   
-  for (IField* field : mFieldsOrdered) {
-    if (!field->isFixed()) {
-      continue;
-    }
+  for (IField* field : mReceivedFields) {
     if (givenFields.find(field->getName()) == givenFields.end()) {
       missingFields.push_back(field->getName());
     }
@@ -438,10 +439,10 @@ const Thread* Thread::getObjectType() const {
   return this;
 }
 
-void Thread::initializeFiexedFields(IRGenerationContext& context,
-                                    const InjectionArgumentList& controllerInjectorArguments,
-                                    Instruction* malloc,
-                                    int line) const {
+void Thread::initializeReceivedFields(IRGenerationContext& context,
+                                      const InjectionArgumentList& controllerInjectorArguments,
+                                      Instruction* malloc,
+                                      int line) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Value* index[2];
@@ -465,5 +466,41 @@ void Thread::initializeFiexedFields(IRGenerationContext& context,
     if (fieldType->isReference()) {
       ((IObjectType*) fieldType)->incrementReferenceCount(context, castValue);
     }
+  }
+}
+
+void Thread::initializeInjectedFields(IRGenerationContext& context,
+                                      Instruction* malloc,
+                                      int line) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
+  Value *index[2];
+  index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  for (InjectedField* field : mInjectedFields) {
+    const IType* fieldType = field->getType();
+    Value* fieldValue = NULL;
+    if (fieldType->isReference()) {
+      Log::e("Injected fields must have owner type denoted by '*'");
+      exit(1);
+    } else if (fieldType->isArray()) {
+      const ArraySpecificOwnerType* arraySpecificOwnerType =
+      (const ArraySpecificOwnerType*) field->getInjectedType();
+      const ArraySpecificType* arraySpecificType = arraySpecificOwnerType->getArraySpecificType();
+      Value* arrayPointer = ArrayAllocation::allocateArray(context, arraySpecificType);
+      fieldValue = IRWriter::newBitCastInst(context, arrayPointer, arraySpecificType->
+                                            getArrayType(context)->getLLVMType(context));
+    } else if (fieldType->isController()) {
+      Controller* controller = (Controller*) fieldType->getObjectType();
+      fieldValue = controller->inject(context, field->getInjectionArguments(), line);
+    } else if (fieldType->isThread()) {
+      Thread* thread = (Thread*) fieldType->getObjectType();
+      fieldValue = thread->inject(context, field->getInjectionArguments(), line);
+    } else {
+      Log::e("Attempt to inject a variable that is not of injectable type");
+      exit(1);
+    }
+    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
+    GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
+    IRWriter::newStoreInst(context, fieldValue, fieldPointer);
   }
 }

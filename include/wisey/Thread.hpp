@@ -33,6 +33,9 @@ namespace wisey {
     bool mIsInner;
     ThreadOwner* mThreadOwner;
     std::map<std::string, IField*> mFields;
+    std::vector<IField*> mReceivedFields;
+    std::vector<InjectedField*> mInjectedFields;
+    std::vector<IField*> mStateFields;
     std::vector<IField*> mFieldsOrdered;
     std::map<IField*, unsigned long> mFieldIndexes;
     std::vector<IMethod*> mMethods;
@@ -202,11 +205,15 @@ namespace wisey {
     
     llvm::Instruction* createMalloc(IRGenerationContext& context) const;
     
-    void initializeFiexedFields(IRGenerationContext& context,
-                                const InjectionArgumentList& controllerInjectorArguments,
-                                llvm::Instruction* malloc,
-                                int line) const;
+    void initializeReceivedFields(IRGenerationContext& context,
+                                  const InjectionArgumentList& controllerInjectorArguments,
+                                  llvm::Instruction* malloc,
+                                  int line) const;
 
+    void initializeInjectedFields(IRGenerationContext& context,
+                                  llvm::Instruction* malloc,
+                                  int line) const;
+    
   };
 
 } /* namespace wisey */

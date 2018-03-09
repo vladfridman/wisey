@@ -36,6 +36,8 @@
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ProgramPrefix.hpp"
+#include "wisey/ReceivedField.hpp"
+#include "wisey/StateField.hpp"
 #include "wisey/Thread.hpp"
 #include "wisey/ThreadExpression.hpp"
 #include "wisey/VariableDeclaration.hpp"
@@ -52,10 +54,12 @@ using ::testing::Test;
 
 struct ThreadTest : public Test {
   Thread* mThread;
+  Thread* mNonInjectableFieldThread;
+  Thread* mNotWellFormedArgumentsThread;
   IMethod* mMethod;
   StructType* mStructType;
-  FixedField* mFromField;
-  FixedField* mToField;
+  StateField* mFromField;
+  StateField* mToField;
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock *mBasicBlock;
@@ -84,8 +88,8 @@ struct ThreadTest : public Test {
     mStructType->setBody(types);
     mThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS, workerFullName, mStructType);
     vector<IField*> fields;
-    mFromField = new FixedField(PrimitiveTypes::INT_TYPE, "mFrom");
-    mToField = new FixedField(PrimitiveTypes::INT_TYPE, "mTo");
+    mFromField = new StateField(PrimitiveTypes::INT_TYPE, "mFrom");
+    mToField = new StateField(PrimitiveTypes::INT_TYPE, "mTo");
     fields.push_back(mFromField);
     fields.push_back(mToField);
     vector<MethodArgument*> methodArguments;
@@ -130,6 +134,43 @@ struct ThreadTest : public Test {
     mThread->setInterfaces(interfaces);
     mThread->setConstants(constants);
     mContext.addThread(mThread);
+    
+    vector<Type*> nonInjectableFieldThreadTypes;
+    nonInjectableFieldThreadTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    nonInjectableFieldThreadTypes.push_back(Type::getInt32Ty(mLLVMContext));
+    nonInjectableFieldThreadTypes.push_back(Type::getInt32Ty(mLLVMContext));
+    string nonInjectableFieldThreadFullName =
+    "systems.vos.wisey.compiler.tests.TNonInjectableFieldThread";
+    StructType* nonInjectableFieldThreadStructType =
+    StructType::create(mLLVMContext, nonInjectableFieldThreadFullName);
+    nonInjectableFieldThreadStructType->setBody(nonInjectableFieldThreadTypes);
+    vector<IField*> nonInjectableFieldThreadFields;
+    InjectionArgumentList fieldArguments;
+    InjectedField* injectedField =
+    new InjectedField(PrimitiveTypes::INT_TYPE, NULL, "left", fieldArguments);
+    nonInjectableFieldThreadFields.push_back(injectedField);
+    mNonInjectableFieldThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
+                                                  nonInjectableFieldThreadFullName,
+                                                  nonInjectableFieldThreadStructType);
+    mNonInjectableFieldThread->setFields(nonInjectableFieldThreadFields, 1u);
+    mContext.addThread(mNonInjectableFieldThread);
+    
+    vector<Type*> notWellFormedArgumentsThreadTypes;
+    notWellFormedArgumentsThreadTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    notWellFormedArgumentsThreadTypes.push_back(Type::getInt32Ty(mLLVMContext));
+    string notWellFormedArgumentsThreadFullName =
+    "systems.vos.wisey.compiler.tests.TNotWellFormedArgumentsThread";
+    StructType* notWellFormedArgumentsThreadStructType =
+    StructType::create(mLLVMContext, notWellFormedArgumentsThreadFullName);
+    notWellFormedArgumentsThreadStructType->setBody(notWellFormedArgumentsThreadTypes);
+    vector<IField*> notWellFormedArgumentsThreadFields;
+    notWellFormedArgumentsThreadFields.
+    push_back(new ReceivedField(PrimitiveTypes::INT_TYPE, "mValue"));
+    mNotWellFormedArgumentsThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
+                                                      notWellFormedArgumentsThreadFullName,
+                                                      notWellFormedArgumentsThreadStructType);
+    mNotWellFormedArgumentsThread->setFields(notWellFormedArgumentsThreadFields, 1u);
+    mContext.addThread(mNotWellFormedArgumentsThread);
     
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);
     mFunction = Function::Create(functionType,
@@ -375,13 +416,13 @@ TEST_F(ThreadTest, injectTest) {
   Value* toValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   ON_CALL(toExpression, generateIR(_, _)).WillByDefault(Return(toValue));
   ON_CALL(toExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-
+  
   InjectionArgument* ownerArgument = new InjectionArgument("withFrom", &fromExpression);
   InjectionArgument* referenceArgument = new InjectionArgument("withTo", &toExpression);
   
   injectionArguments.push_back(ownerArgument);
   injectionArguments.push_back(referenceArgument);
-
+  
   Value* result = mThread->inject(mContext, injectionArguments, 0);
   
   EXPECT_NE(result, nullptr);
@@ -430,6 +471,125 @@ TEST_F(ThreadTest, injectWrongTypeOfArgumentDeathTest) {
               "does not match its type");
 }
 
+TEST_F(ThreadTest, injectNonInjectableTypeDeathTest) {
+  InjectionArgumentList injectionArguments;
+  Mock::AllowLeak(mThreadVariable);
+  
+  EXPECT_EXIT(mNonInjectableFieldThread->inject(mContext, injectionArguments, 0),
+              ::testing::ExitedWithCode(1),
+              "Error: Attempt to inject a variable that is not of injectable type");
+}
+
+TEST_F(ThreadTest, notWellFormedInjectionArgumentsDeathTest) {
+  InjectionArgumentList injectionArguments;
+  NiceMock<MockExpression>* injectArgument1Expression = new NiceMock<MockExpression>();
+  Mock::AllowLeak(injectArgument1Expression);
+  Mock::AllowLeak(mThreadVariable);
+  InjectionArgument* injectionArgument = new InjectionArgument("value",
+                                                               injectArgument1Expression);
+  injectionArguments.push_back(injectionArgument);
+  
+  EXPECT_EXIT(mNotWellFormedArgumentsThread->inject(mContext, injectionArguments, 0),
+              ::testing::ExitedWithCode(1),
+              "Error: Injection argument should start with 'with'. e.g. .withField\\(value\\).\n"
+              "Error: Some injection arguments for thread "
+              "systems.vos.wisey.compiler.tests.TNotWellFormedArgumentsThread are not well formed");
+}
+
+TEST_F(ThreadTest, injectTooFewArgumentsDeathTest) {
+  InjectionArgumentList injectionArguments;
+  Mock::AllowLeak(mThreadVariable);
+  
+  EXPECT_EXIT(mNotWellFormedArgumentsThread->inject(mContext, injectionArguments, 0),
+              ::testing::ExitedWithCode(1),
+              "Error: Received field mValue is not initialized");
+}
+
+TEST_F(ThreadTest, injectTooManyArgumentsDeathTest) {
+  InjectionArgumentList injectionArguments;
+  NiceMock<MockExpression>* injectArgument1Expression = new NiceMock<MockExpression>();
+  NiceMock<MockExpression>* injectArgument2Expression = new NiceMock<MockExpression>();
+  Mock::AllowLeak(injectArgument1Expression);
+  Mock::AllowLeak(injectArgument2Expression);
+  Mock::AllowLeak(mThreadVariable);
+  InjectionArgument* injectionArgument1 = new InjectionArgument("withValue",
+                                                                injectArgument1Expression);
+  InjectionArgument* injectionArgument2 = new InjectionArgument("withOwner",
+                                                                injectArgument2Expression);
+  injectionArguments.push_back(injectionArgument1);
+  injectionArguments.push_back(injectionArgument2);
+  
+  EXPECT_EXIT(mNotWellFormedArgumentsThread->inject(mContext, injectionArguments, 0),
+              ::testing::ExitedWithCode(1),
+              "Error: Injector could not find field mOwner in object "
+              "systems.vos.wisey.compiler.tests.TNotWellFormedArgumentsThread");
+}
+
+TEST_F(ThreadTest, injectFieldTest) {
+  vector<Type*> childTypes;
+  string childFullName = "systems.vos.wisey.compiler.tests.TChild";
+  StructType* childStructType = StructType::create(mLLVMContext, childFullName);
+  childTypes.push_back(Type::getInt64Ty(mLLVMContext));
+  childStructType->setBody(childTypes);
+  vector<IField*> childFields;
+  Thread* childThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
+                                          childFullName,
+                                          childStructType);
+  childThread->setFields(childFields, 1u);
+  mContext.addThread(childThread);
+  
+  vector<Type*> parentTypes;
+  parentTypes.push_back(Type::getInt64Ty(mLLVMContext));
+  parentTypes.push_back(childThread->getLLVMType(mContext));
+  string parentFullName = "systems.vos.wisey.compiler.tests.TParent";
+  StructType* parentStructType = StructType::create(mLLVMContext, parentFullName);
+  parentStructType->setBody(parentTypes);
+  vector<IField*> parentFields;
+  InjectionArgumentList fieldArguments;
+  parentFields.push_back(new InjectedField(childThread->getOwner(),
+                                           NULL,
+                                           "mChild",
+                                           fieldArguments));
+  Thread* parentThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
+                                           parentFullName,
+                                           parentStructType);
+  parentThread->setFields(parentFields, 1u);
+  mContext.addThread(parentThread);
+  
+  InjectionArgumentList injectionArguments;
+  Value* result = parentThread->inject(mContext, injectionArguments, 0);
+  
+  EXPECT_NE(result, nullptr);
+  EXPECT_TRUE(BitCastInst::classof(result));
+  
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint "
+  "(%systems.vos.wisey.compiler.tests.TParent* getelementptr "
+  "(%systems.vos.wisey.compiler.tests.TParent, "
+  "%systems.vos.wisey.compiler.tests.TParent* null, i32 1) to i64))"
+  "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.TParent*"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.TParent* %injectvar to i8*"
+  "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint ("
+  "%systems.vos.wisey.compiler.tests.TParent* getelementptr ("
+  "%systems.vos.wisey.compiler.tests.TParent, "
+  "%systems.vos.wisey.compiler.tests.TParent* null, i32 1) to i64), i32 4, i1 false)"
+  "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint (i64* getelementptr "
+  "(i64, i64* null, i32 1) to i64))"
+  "\n  %injectvar2 = bitcast i8* %malloccall1 to %systems.vos.wisey.compiler.tests.TChild*"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.TChild* %injectvar2 to i8*"
+  "\n  call void @llvm.memset.p0i8.i64(i8* %1, i8 0, i64 ptrtoint ("
+  "i64* getelementptr (i64, i64* null, i32 1) to i64), i32 4, i1 false)"
+  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.TParent, "
+  "%systems.vos.wisey.compiler.tests.TParent* %injectvar, i32 0, i32 1"
+  "\n  store %systems.vos.wisey.compiler.tests.TChild* "
+  "%injectvar2, %systems.vos.wisey.compiler.tests.TChild** %2\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
 TEST_F(ThreadTest, printToStreamTest) {
   stringstream stringStream;
   Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL);
@@ -463,8 +623,8 @@ TEST_F(ThreadTest, printToStreamTest) {
                "\n"
                "  public constant int MYCONSTANT = 5;\n"
                "\n"
-               "  fixed int mFrom;\n"
-               "  fixed int mTo;\n"
+               "  state int mFrom;\n"
+               "  state int mTo;\n"
                "\n"
                "  int work();\n"
                "  int foo();\n"
@@ -503,7 +663,7 @@ TEST_F(ThreadTest, createLocalVariableTest) {
 
 TEST_F(ThreadTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  IField* field = new FixedField(mThread, "mField");
+  IField* field = new StateField(mThread, "mField");
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mThread->createFieldVariable(mContext, "mField", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("mField");
@@ -528,3 +688,4 @@ TEST_F(ThreadTest, createParameterVariableTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
+

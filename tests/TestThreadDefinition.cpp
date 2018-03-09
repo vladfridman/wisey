@@ -87,8 +87,8 @@ struct ThreadDefinitionTest : public Test {
     
     PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
     PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-    FixedFieldDeclaration* field1 = new FixedFieldDeclaration(longType, "field1");
-    FixedFieldDeclaration* field2 = new FixedFieldDeclaration(floatType, "field2");
+    StateFieldDeclaration* field1 = new StateFieldDeclaration(longType, "field1");
+    StateFieldDeclaration* field2 = new StateFieldDeclaration(floatType, "field2");
     mElementDeclarations.push_back(field1);
     mElementDeclarations.push_back(field2);
     mElementDeclarations.push_back(methodDeclaration);
@@ -185,13 +185,13 @@ TEST_F(ThreadDefinitionTest, threadDefinitionGenerateIRTest) {
   EXPECT_NE(thread->findMethod("foo"), nullptr);
 }
 
-TEST_F(ThreadDefinitionTest, threadWithStateFieldDeathTest) {
+TEST_F(ThreadDefinitionTest, threadWithFixedFieldDeathTest) {
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ThreadTypeSpecifierFull* typeSpecifier = new ThreadTypeSpecifierFull(packageExpression,
                                                                        "TWorker");
   PrimitiveTypeSpecifier* intType = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
-  StateFieldDeclaration* field = new StateFieldDeclaration(intType, "field3");
+  FixedFieldDeclaration* field = new FixedFieldDeclaration(intType, "field3");
   mElementDeclarations.clear();
   mElementDeclarations.push_back(field);
   vector<IObjectDefinition*> innerObjectDefinitions;
@@ -206,7 +206,7 @@ TEST_F(ThreadDefinitionTest, threadWithStateFieldDeathTest) {
   
   EXPECT_EXIT(threadDefinition.prototypeMethods(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: Threads can only have fixed fields");
+              "Error: Threads can only have received, injected or state fields");
 }
 
 TEST_F(ThreadDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
@@ -215,7 +215,7 @@ TEST_F(ThreadDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
   ThreadTypeSpecifierFull* typeSpecifier = new ThreadTypeSpecifierFull(packageExpression,
                                                                        "TWorker");
   PrimitiveTypeSpecifier* intType = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
-  FixedFieldDeclaration* field = new FixedFieldDeclaration(intType, "field3");
+  StateFieldDeclaration* field = new StateFieldDeclaration(intType, "field3");
   mElementDeclarations.push_back(field);
   vector<IObjectDefinition*> innerObjectDefinitions;
   PrimitiveTypeSpecifier* voidTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE);
