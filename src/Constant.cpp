@@ -39,10 +39,6 @@ const IType* Constant::getType() const {
   return mType;
 }
 
-ObjectElementType Constant::getObjectElementType() const {
-  return OBJECT_ELEMENT_CONSTANT;
-}
-
 void Constant::printToStream(IRGenerationContext& context, iostream& stream) const {
   if (mAccessLevel == PRIVATE_ACCESS) {
     return;
@@ -78,4 +74,24 @@ llvm::Value* Constant::generateIR(IRGenerationContext& context,
 
 string Constant::getConstantGlobalName(const IObjectType* objectType) const {
   return "constant." + objectType->getTypeName() + "." + mName;
+}
+
+bool Constant::isConstant() const {
+  return true;
+}
+
+bool Constant::isField() const {
+  return false;
+}
+
+bool Constant::isMethod() const {
+  return false;
+}
+
+bool Constant::isStaticMethod() const {
+  return false;
+}
+
+bool Constant::isMethodSignature() const {
+  return false;
 }

@@ -204,8 +204,24 @@ void Method::createArguments(IRGenerationContext& context, Function* function) c
   }
 }
 
-ObjectElementType Method::getObjectElementType() const {
-  return OBJECT_ELEMENT_METHOD;
+bool Method::isConstant() const {
+  return false;
+}
+
+bool Method::isField() const {
+  return false;
+}
+
+bool Method::isMethod() const {
+  return true;
+}
+
+bool Method::isStaticMethod() const {
+  return false;
+}
+
+bool Method::isMethodSignature() const {
+  return false;
 }
 
 const IObjectType* Method::getObjectType() const {

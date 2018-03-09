@@ -56,13 +56,13 @@ IConcreteObjectDefinition::createElements(IRGenerationContext& context,
   vector<Constant*> constants;
   for (IObjectElementDeclaration* elementDeclaration : elementDeclarations) {
     IObjectElement* element = elementDeclaration->declare(context, concreteObjectType);
-    if (element->getObjectElementType() == OBJECT_ELEMENT_CONSTANT) {
+    if (element->isConstant()) {
       if (methods.size() || fields.size()) {
         Log::e("Constants should be declared before fields and methods");
         exit(1);
       }
       constants.push_back((Constant*) element);
-    } else if (element->getObjectElementType() == OBJECT_ELEMENT_FIELD) {
+    } else if (element->isField()) {
       if (methods.size()) {
         Log::e("Fields should be declared before methods");
         exit(1);

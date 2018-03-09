@@ -51,9 +51,18 @@ public:
    */
   std::string getConstantGlobalName(const IObjectType* objectType) const;
   
-  ObjectElementType getObjectElementType() const override;
-  
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
+
+  bool isConstant() const override;
+  
+  bool isField() const override;
+  
+  bool isMethod() const override;
+  
+  bool isStaticMethod() const override;
+  
+  bool isMethodSignature() const override;
+  
 };
 
 } /* namespace wisey */

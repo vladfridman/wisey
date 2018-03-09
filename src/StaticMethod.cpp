@@ -197,8 +197,24 @@ void StaticMethod::createArguments(IRGenerationContext& context, Function* funct
   }
 }
 
-ObjectElementType StaticMethod::getObjectElementType() const {
-  return OBJECT_ELEMENT_STATIC_METHOD;
+bool StaticMethod::isConstant() const {
+  return false;
+}
+
+bool StaticMethod::isField() const {
+  return false;
+}
+
+bool StaticMethod::isMethod() const {
+  return false;
+}
+
+bool StaticMethod::isStaticMethod() const {
+  return true;
+}
+
+bool StaticMethod::isMethodSignature() const {
+  return false;
 }
 
 const IObjectType* StaticMethod::getObjectType() const {

@@ -67,8 +67,24 @@ vector<const Model*> ExternalStaticMethod::getThrownExceptions() const {
   return mThrownExceptions;
 }
 
-ObjectElementType ExternalStaticMethod::getObjectElementType() const {
-  return OBJECT_ELEMENT_STATIC_METHOD;
+bool ExternalStaticMethod::isConstant() const {
+  return false;
+}
+
+bool ExternalStaticMethod::isField() const {
+  return false;
+}
+
+bool ExternalStaticMethod::isMethod() const {
+  return false;
+}
+
+bool ExternalStaticMethod::isStaticMethod() const {
+  return true;
+}
+
+bool ExternalStaticMethod::isMethodSignature() const {
+  return false;
 }
 
 string ExternalStaticMethod::getTypeName() const {

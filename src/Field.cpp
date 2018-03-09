@@ -55,8 +55,24 @@ bool Field::isAssignable() const {
   return mFieldKind != FieldKind::FIXED_FIELD;
 }
 
-ObjectElementType Field::getObjectElementType() const {
-  return OBJECT_ELEMENT_FIELD;
+bool Field::isConstant() const {
+  return false;
+}
+
+bool Field::isField() const {
+  return true;
+}
+
+bool Field::isMethod() const {
+  return false;
+}
+
+bool Field::isStaticMethod() const {
+  return false;
+}
+
+bool Field::isMethodSignature() const {
+  return false;
 }
 
 void Field::printToStream(IRGenerationContext& context, iostream& stream) const {

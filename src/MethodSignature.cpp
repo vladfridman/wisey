@@ -61,8 +61,24 @@ MethodSignature* MethodSignature::createCopy(const Interface* interface) const {
   return new MethodSignature(interface, mName, mReturnType, mArguments, mThrownExceptions);
 }
 
-ObjectElementType MethodSignature::getObjectElementType() const {
-  return OBJECT_ELEMENT_METHOD_SIGNATURE;
+bool MethodSignature::isConstant() const {
+  return false;
+}
+
+bool MethodSignature::isField() const {
+  return false;
+}
+
+bool MethodSignature::isMethod() const {
+  return false;
+}
+
+bool MethodSignature::isStaticMethod() const {
+  return false;
+}
+
+bool MethodSignature::isMethodSignature() const {
+  return true;
 }
 
 string MethodSignature::getTypeName() const {

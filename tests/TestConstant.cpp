@@ -71,7 +71,7 @@ TEST_F(ConstantTest, gettersTest) {
 }
 
 TEST_F(ConstantTest, getObjectElementTypeTest) {
-  EXPECT_EQ(mConstant->getObjectElementType(), OBJECT_ELEMENT_CONSTANT);
+  EXPECT_TRUE(mConstant->isConstant());
 }
 
 TEST_F(ConstantTest, getConstantGlobalNameTest) {

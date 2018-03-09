@@ -12,17 +12,6 @@
 namespace wisey {
   
 /**
- * An object element can be either a field or a method
- */
-typedef enum ObjectElementTypeEnum {
-  OBJECT_ELEMENT_CONSTANT,
-  OBJECT_ELEMENT_FIELD,
-  OBJECT_ELEMENT_METHOD,
-  OBJECT_ELEMENT_STATIC_METHOD,
-  OBJECT_ELEMENT_METHOD_SIGNATURE,
-} ObjectElementType;
-
-/**
  * Represents a an object element such as a method or a field
  */
 class IObjectElement {
@@ -30,8 +19,19 @@ class IObjectElement {
 public:
   
   virtual ~IObjectElement() { }
+
+  /**
+   * Methods for determining the type of object element
+   */
+  virtual bool isConstant() const = 0;
   
-  virtual ObjectElementType getObjectElementType() const = 0;
+  virtual bool isField() const = 0;
+  
+  virtual bool isMethod() const = 0;
+  
+  virtual bool isStaticMethod() const = 0;
+  
+  virtual bool isMethodSignature() const = 0;
 
 };
 

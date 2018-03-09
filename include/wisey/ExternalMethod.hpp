@@ -54,7 +54,15 @@ public:
   
   std::vector<const Model*> getThrownExceptions() const override;
 
-  ObjectElementType getObjectElementType() const override;
+  bool isConstant() const override;
+  
+  bool isField() const override;
+  
+  bool isMethod() const override;
+  
+  bool isStaticMethod() const override;
+  
+  bool isMethodSignature() const override;
 
   std::string getTypeName() const override;
   

@@ -792,23 +792,23 @@ Interface::createElements(IRGenerationContext& context,
   vector<StaticMethod*> staticMethods;
   for (IObjectElementDeclaration* elementDeclaration : elementDeclarations) {
     IObjectElement* objectElement = elementDeclaration->declare(context, this);
-    if (objectElement->getObjectElementType() == OBJECT_ELEMENT_FIELD) {
+    if (objectElement->isField()) {
       Log::e("Interfaces can not contain fields");
       exit(1);
     }
-    if (objectElement->getObjectElementType() == OBJECT_ELEMENT_METHOD) {
+    if (objectElement->isMethod()) {
       Log::e("Interfaces can not contain method implmentations");
       exit(1);
     }
-    if (objectElement->getObjectElementType() == OBJECT_ELEMENT_CONSTANT) {
+    if (objectElement->isConstant()) {
       if (methodSignatures.size() || staticMethods.size()) {
         Log::e("In interfaces constants should be declared before methods");
         exit(1);
       }
       constants.push_back((wisey::Constant*) objectElement);
-    } else if (objectElement->getObjectElementType() == OBJECT_ELEMENT_METHOD_SIGNATURE) {
+    } else if (objectElement->isMethodSignature()) {
       methodSignatures.push_back((MethodSignature*) objectElement);
-    } else if (objectElement->getObjectElementType() == OBJECT_ELEMENT_STATIC_METHOD) {
+    } else if (objectElement->isStaticMethod()) {
       staticMethods.push_back((StaticMethod*) objectElement);
     } else {
       Log::e("Unexpected element in interface definition");
