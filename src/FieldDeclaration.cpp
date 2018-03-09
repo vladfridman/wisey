@@ -42,7 +42,7 @@ Field* FieldDeclaration::declare(IRGenerationContext& context,
   }
   
   const IType* injectedType = NULL;
-  if (mFieldKind == INJECTED_FIELD && fieldType->isArray()) {
+  if (mFieldKind == INJECTED_FIELD && fieldType->isArray() && fieldType->isOwner()) {
     injectedType = fieldType;
     fieldType = ((const ArraySpecificOwnerType*) fieldType)->getArraySpecificType()
     ->getArrayType(context)->getOwner();
