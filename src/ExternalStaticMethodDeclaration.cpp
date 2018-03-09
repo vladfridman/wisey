@@ -47,3 +47,22 @@ ExternalStaticMethod* ExternalStaticMethodDeclaration::declare(IRGenerationConte
   return new ExternalStaticMethod(objectType, mName, returnType, arguments, exceptions);
 }
 
+bool ExternalStaticMethodDeclaration::isConstant() const {
+  return false;
+}
+
+bool ExternalStaticMethodDeclaration::isField() const {
+  return false;
+}
+
+bool ExternalStaticMethodDeclaration::isMethod() const {
+  return false;
+}
+
+bool ExternalStaticMethodDeclaration::isStaticMethod() const {
+  return true;
+}
+
+bool ExternalStaticMethodDeclaration::isMethodSignature() const {
+  return false;
+}

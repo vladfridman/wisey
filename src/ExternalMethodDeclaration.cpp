@@ -45,3 +45,23 @@ ExternalMethod* ExternalMethodDeclaration::declare(IRGenerationContext& context,
 
   return new ExternalMethod(objectType, mName, returnType, arguments, exceptions);
 }
+
+bool ExternalMethodDeclaration::isConstant() const {
+  return false;
+}
+
+bool ExternalMethodDeclaration::isField() const {
+  return false;
+}
+
+bool ExternalMethodDeclaration::isMethod() const {
+  return true;
+}
+
+bool ExternalMethodDeclaration::isStaticMethod() const {
+  return false;
+}
+
+bool ExternalMethodDeclaration::isMethodSignature() const {
+  return false;
+}

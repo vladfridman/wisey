@@ -39,6 +39,16 @@ public:
   
   Field* declare(IRGenerationContext& context, const IObjectType* objectType) const override;
   
+  bool isConstant() const override;
+  
+  bool isField() const override;
+  
+  bool isMethod() const override;
+  
+  bool isStaticMethod() const override;
+  
+  bool isMethodSignature() const override;
+
 };
   
 } /* namespace wisey */

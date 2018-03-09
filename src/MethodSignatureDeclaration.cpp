@@ -46,3 +46,23 @@ MethodSignature* MethodSignatureDeclaration::declare(IRGenerationContext& contex
 
   return new MethodSignature(objectType, mMethodName, returnType, arguments, exceptions);
 }
+
+bool MethodSignatureDeclaration::isConstant() const {
+  return false;
+}
+
+bool MethodSignatureDeclaration::isField() const {
+  return false;
+}
+
+bool MethodSignatureDeclaration::isMethod() const {
+  return false;
+}
+
+bool MethodSignatureDeclaration::isStaticMethod() const {
+  return false;
+}
+
+bool MethodSignatureDeclaration::isMethodSignature() const {
+  return true;
+}

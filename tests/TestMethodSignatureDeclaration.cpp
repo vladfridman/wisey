@@ -82,6 +82,12 @@ TEST_F(MethodSignatureDeclarationTest, methodDescriptorExtractTest) {
   MethodSignature* methodSignature = methodSignatureDeclaration.declare(mContext, NULL);
   vector<MethodArgument*> arguments = methodSignature->getArguments();
   
+  EXPECT_FALSE(methodSignatureDeclaration.isConstant());
+  EXPECT_FALSE(methodSignatureDeclaration.isField());
+  EXPECT_FALSE(methodSignatureDeclaration.isMethod());
+  EXPECT_FALSE(methodSignatureDeclaration.isStaticMethod());
+  EXPECT_TRUE(methodSignatureDeclaration.isMethodSignature());
+
   EXPECT_STREQ(methodSignature->getName().c_str(), "foo");
   EXPECT_EQ(methodSignature->getReturnType(), PrimitiveTypes::FLOAT_TYPE);
   EXPECT_EQ(arguments.size(), 2ul);

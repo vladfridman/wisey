@@ -60,6 +60,12 @@ public:
 TEST_F(FieldDeclarationTest, declareTest) {
   Field* field = mFieldDeclaration->declare(mContext, NULL);
   
+  EXPECT_FALSE(field->isConstant());
+  EXPECT_TRUE(field->isField());
+  EXPECT_FALSE(field->isMethod());
+  EXPECT_FALSE(field->isStaticMethod());
+  EXPECT_FALSE(field->isMethodSignature());
+
   EXPECT_EQ(field->getType(), PrimitiveTypes::INT_TYPE);
   EXPECT_STREQ(field->getName().c_str(), "mField");
   EXPECT_EQ(field->getInjectionArguments().size(), 1u);

@@ -31,6 +31,20 @@ public:
   virtual IObjectElement* declare(IRGenerationContext& context,
                                   const IObjectType* objectType) const = 0;
 
+
+  /**
+   * Methods for determining the type of object element
+   */
+  virtual bool isConstant() const = 0;
+  
+  virtual bool isField() const = 0;
+  
+  virtual bool isMethod() const = 0;
+  
+  virtual bool isStaticMethod() const = 0;
+  
+  virtual bool isMethodSignature() const = 0;
+
 };
 
 } /* namespace wisey */

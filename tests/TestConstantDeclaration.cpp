@@ -53,6 +53,12 @@ public:
 };
 
 TEST_F(ConstantDeclarationTest, declareTest) {
+  EXPECT_TRUE(mConstantDeclaration->isConstant());
+  EXPECT_FALSE(mConstantDeclaration->isField());
+  EXPECT_FALSE(mConstantDeclaration->isMethod());
+  EXPECT_FALSE(mConstantDeclaration->isStaticMethod());
+  EXPECT_FALSE(mConstantDeclaration->isMethodSignature());
+
   EXPECT_NE(mConstantDeclaration->declare(mContext, NULL), nullptr);
 }
 

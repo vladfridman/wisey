@@ -29,3 +29,23 @@ wisey::Constant* ConstantDeclaration::declare(IRGenerationContext& context,
                                               const IObjectType* objectType) const {
   return new Constant(mAccessLevel, mTypeSpecifier->getType(context), mName, mExpression);
 }
+
+bool ConstantDeclaration::isConstant() const {
+  return true;
+}
+
+bool ConstantDeclaration::isField() const {
+  return false;
+}
+
+bool ConstantDeclaration::isMethod() const {
+  return false;
+}
+
+bool ConstantDeclaration::isStaticMethod() const {
+  return false;
+}
+
+bool ConstantDeclaration::isMethodSignature() const {
+  return false;
+}

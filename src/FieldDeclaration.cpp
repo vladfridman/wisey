@@ -51,3 +51,22 @@ Field* FieldDeclaration::declare(IRGenerationContext& context,
   return new Field(mFieldKind, fieldType, injectedType, mName, mInjectionArgumentList);
 }
 
+bool FieldDeclaration::isConstant() const {
+  return false;
+}
+
+bool FieldDeclaration::isField() const {
+  return true;
+}
+
+bool FieldDeclaration::isMethod() const {
+  return false;
+}
+
+bool FieldDeclaration::isStaticMethod() const {
+  return false;
+}
+
+bool FieldDeclaration::isMethodSignature() const {
+  return false;
+}

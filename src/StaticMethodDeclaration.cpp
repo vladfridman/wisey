@@ -61,3 +61,23 @@ IMethod* StaticMethodDeclaration::declare(IRGenerationContext& context,
                           mCompoundStatement,
                           mLine);
 }
+
+bool StaticMethodDeclaration::isConstant() const {
+  return false;
+}
+
+bool StaticMethodDeclaration::isField() const {
+  return false;
+}
+
+bool StaticMethodDeclaration::isMethod() const {
+  return false;
+}
+
+bool StaticMethodDeclaration::isStaticMethod() const {
+  return true;
+}
+
+bool StaticMethodDeclaration::isMethodSignature() const {
+  return false;
+}

@@ -67,6 +67,12 @@ TEST_F(StaticMethodDeclarationTest, methodDescriptorExtractTest) {
   IMethod* method = methodDeclaration.declare(mContext, NULL);
   vector<MethodArgument*> arguments = method->getArguments();
   
+  EXPECT_FALSE(methodDeclaration.isConstant());
+  EXPECT_FALSE(methodDeclaration.isField());
+  EXPECT_FALSE(methodDeclaration.isMethod());
+  EXPECT_TRUE(methodDeclaration.isStaticMethod());
+  EXPECT_FALSE(methodDeclaration.isMethodSignature());
+
   EXPECT_TRUE(method->isStatic());
   EXPECT_STREQ(method->getName().c_str(), "foo");
   EXPECT_EQ(method->getReturnType(), PrimitiveTypes::FLOAT_TYPE);
