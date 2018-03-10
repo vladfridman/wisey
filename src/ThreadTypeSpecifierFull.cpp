@@ -38,7 +38,7 @@ string ThreadTypeSpecifierFull::getName(IRGenerationContext& context) const {
 }
 
 Thread* ThreadTypeSpecifierFull::getType(IRGenerationContext& context) const {
-  return NULL;
+  return context.getThread(getName(context));
 }
 
 void ThreadTypeSpecifierFull::printToStream(IRGenerationContext& context, iostream& stream) const {

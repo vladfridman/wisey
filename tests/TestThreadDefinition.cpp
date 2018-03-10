@@ -14,10 +14,12 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "MockExpression.hpp"
 #include "MockStatement.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/AccessLevel.hpp"
+#include "wisey/ConstantDeclaration.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/FixedFieldDeclaration.hpp"
 #include "wisey/FloatConstant.hpp"
@@ -230,6 +232,41 @@ TEST_F(ThreadDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
   EXPECT_EXIT(threadDefinition.prototypeMethods(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Fields should be declared before methods");
+}
+
+TEST_F(ThreadDefinitionTest, addThreadObjectElementsTest) {
+  PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+  NiceMock<MockExpression>* mockExpression = new NiceMock<MockExpression>();
+  ConstantDeclaration* constantDeclaration = new ConstantDeclaration(PUBLIC_ACCESS,
+                                                                     intSpecifier,
+                                                                     "MY_CONSTANT",
+                                                                     mockExpression);
+  PrimitiveTypeSpecifier* voidSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE);
+  VariableList arguments;
+  vector<IModelTypeSpecifier*> exceptions;
+  Block* block = new Block();
+  CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
+  MethodDeclaration* methodDeclaration = new MethodDeclaration(PUBLIC_ACCESS,
+                                                               voidSpecifier,
+                                                               "work",
+                                                               arguments,
+                                                               exceptions,
+                                                               compoundStatement,
+                                                               0);
+
+  Thread* thread = Thread::newThread(PUBLIC_ACCESS, "TWorker", NULL);
+  vector<IObjectElementDeclaration*> objectElements;
+  objectElements.push_back(constantDeclaration);
+  objectElements.push_back(methodDeclaration);
+  
+  vector<IObjectElementDeclaration*> newElements =
+  ThreadDefinition::addThreadObjectElements(mContext, objectElements, thread);
+  
+  EXPECT_EQ(4u, newElements.size());
+  EXPECT_TRUE(newElements.at(0)->isConstant());
+  EXPECT_TRUE(newElements.at(1)->isField());
+  EXPECT_TRUE(newElements.at(2)->isMethod());
+  EXPECT_TRUE(newElements.at(3)->isMethod());
 }
 
 TEST_F(TestFileSampleRunner, threadDefinitionRunTest) {

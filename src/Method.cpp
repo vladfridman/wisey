@@ -192,7 +192,7 @@ void Method::createArguments(IRGenerationContext& context, Function* function) c
   llvmFunctionArguments++;
   IMethod::storeArgumentValue(context,
                               ThreadExpression::THREAD,
-                              context.getController(Names::getThreadControllerFullName()),
+                              context.getThread(Names::getMainThreadFullName()),
                               &*llvmFunctionArguments);
   llvmFunctionArguments++;
   for (MethodArgument* methodArgument : mArguments) {

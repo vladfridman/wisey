@@ -168,11 +168,11 @@ struct InterfaceTest : public Test {
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
 
-    Controller* threadController = mContext.getController(Names::getThreadControllerFullName());
-    Value* threadObject = ConstantPointerNull::get(threadController->getLLVMType(mContext));
+    Thread* mainThread = mContext.getThread(Names::getMainThreadFullName());
+    Value* threadObject = ConstantPointerNull::get(mainThread->getLLVMType(mContext));
     mThreadVariable = new NiceMock<MockReferenceVariable>();
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
-    ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadController));
+    ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(mainThread));
     ON_CALL(*mThreadVariable, generateIdentifierIR(_)).WillByDefault(Return(threadObject));
     mContext.getScopes().setVariable(mThreadVariable);
     

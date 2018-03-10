@@ -23,7 +23,7 @@ using namespace wisey;
 void Composer::pushCallStack(IRGenerationContext& context, int line) {
   const IObjectType* objectType = context.getObjectType();
   if (objectType == NULL || !objectType->getTypeName().find(Names::getLangPackageName())) {
-    // avoid inifinite recursion in wisey.lang.CThread
+    // avoid inifinite recursion in wisey.lang.TMainThread
     return;
   }
 
@@ -47,10 +47,9 @@ void Composer::pushCallStack(IRGenerationContext& context, int line) {
   arguments.push_back(currentMethodVariable->generateIdentifierIR(context));
   arguments.push_back(sourceFileNamePointer);
   arguments.push_back(ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), line));
-  Controller* threadController = context.getController(Names::getThreadControllerFullName());
+  Thread* mainThread = context.getThread(Names::getMainThreadFullName());
   string pushStackFunctionName =
-    IMethodCall::translateObjectMethodToLLVMFunctionName(threadController,
-                                                         Names::getThreadPushStack());
+    IMethodCall::translateObjectMethodToLLVMFunctionName(mainThread, Names::getThreadPushStack());
   Function* pushStackFunction = context.getModule()->getFunction(pushStackFunctionName.c_str());
   IRWriter::createCallInst(context, pushStackFunction, arguments, "");
 }
@@ -58,7 +57,7 @@ void Composer::pushCallStack(IRGenerationContext& context, int line) {
 void Composer::popCallStack(IRGenerationContext& context) {
   const IObjectType* objectType = context.getObjectType();
   if (objectType == NULL || !objectType->getTypeName().find(Names::getLangPackageName())) {
-    // avoid inifinite recursion in wisey.lang.CThread
+    // avoid inifinite recursion in wisey.lang.TMainThread
     return;
   }
 
@@ -70,13 +69,12 @@ void Composer::popCallStack(IRGenerationContext& context) {
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
   Value* threadObject = threadVariable->generateIdentifierIR(context);
 
-  Controller* threadController = context.getController(Names::getThreadControllerFullName());
+  Thread* mainThread = context.getThread(Names::getMainThreadFullName());
   vector<Value*> arguments;
   arguments.push_back(threadObject);
   arguments.push_back(threadObject);
   string popStackFunctionName =
-    IMethodCall::translateObjectMethodToLLVMFunctionName(threadController,
-                                                         Names::getThreadPopStack());
+    IMethodCall::translateObjectMethodToLLVMFunctionName(mainThread, Names::getThreadPopStack());
   Function* popStackFunction = context.getModule()->getFunction(popStackFunctionName.c_str());
   IRWriter::createCallInst(context, popStackFunction, arguments, "");
 }

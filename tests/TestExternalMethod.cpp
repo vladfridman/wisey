@@ -100,8 +100,9 @@ TEST_F(ExternalMethodTest, getLLVMTypeTest) {
 
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mModel->getLLVMType(mContext));
-  Controller* threadController = mContext.getController(Names::getThreadControllerFullName());
-  argumentTypes.push_back(threadController->getLLVMType(mContext));
+
+  Thread* mainThread = mContext.getThread(Names::getMainThreadFullName());
+  argumentTypes.push_back(mainThread->getLLVMType(mContext));
   argumentTypes.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext);
@@ -122,7 +123,7 @@ TEST_F(ExternalMethodTest, defineFunctionTest) {
   
   *mStringStream << *function;
   string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.foo("
-  "%systems.vos.wisey.compiler.tests.MObject*, %wisey.lang.CThread*, i32)\n";
+  "%systems.vos.wisey.compiler.tests.MObject*, %wisey.lang.TMainThread*, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }

@@ -530,7 +530,9 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
     stream << endl;
   }
   for (IField* field : fields) {
-    field->printToStream(context, stream);
+    if (!field->getType()->isNative()) {
+      field->printToStream(context, stream);
+    }
   }
   
   if (object->getMethods().size()) {

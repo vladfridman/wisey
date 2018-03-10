@@ -44,8 +44,8 @@ FunctionType* IMethodDescriptor::getLLVMFunctionType(IRGenerationContext& contex
   if (!method->isStatic()) {
     argumentTypes.push_back(object->getLLVMType(context));
   }
-  Controller* threadController = context.getController(Names::getThreadControllerFullName());
-  argumentTypes.push_back(threadController->getLLVMType(context));
+  Thread* mainThread = context.getThread(Names::getMainThreadFullName());
+  argumentTypes.push_back(mainThread->getLLVMType(context));
   
   for (MethodArgument* methodArgument : method->getArguments()) {
     const IType* type = methodArgument->getType();

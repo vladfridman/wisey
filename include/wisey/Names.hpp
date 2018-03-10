@@ -61,14 +61,14 @@ public:
   static std::string getEmptyStringName();
   
   /**
-   * Thread controller name
+   * Main thread short name
    */
-  static std::string getThreadControllerName();
+  static std::string getMainThreadShortName();
 
   /**
-   * Thread controller name
+   * Main thread full name
    */
-  static std::string getThreadControllerFullName();
+  static std::string getMainThreadFullName();
   
   /**
    * Get the method for setting call stack's current object and method

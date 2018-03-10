@@ -1,6 +1,6 @@
 package systems.vos.wisey.compiler.tests;
 
-import wisey.lang.CThread;
+import wisey.lang.TMainThread;
 import wisey.lang.IProgram;
 
 controller CProgram implements IProgram {
@@ -12,7 +12,7 @@ controller CProgram implements IProgram {
   }
 
   public int run() {
-    callRecursive(wisey.lang.CThread.CALL_STACK_SIZE);
+    callRecursive(wisey.lang.TMainThread.CALL_STACK_SIZE);
     return 1;
   }
 }

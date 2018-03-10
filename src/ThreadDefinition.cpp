@@ -85,7 +85,8 @@ void ThreadDefinition::prototypeMethods(IRGenerationContext& context) const {
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(thread);
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
-  vector<IObjectElementDeclaration*> withThreadElements = addThreadObjectElements(context, thread);
+  vector<IObjectElementDeclaration*> withThreadElements =
+  addThreadObjectElements(context, mObjectElementDeclarations, thread);
   configureObject(context, thread, withThreadElements, mInterfaceSpecifiers);
   context.setObjectType(lastObjectType);
 }
@@ -113,7 +114,7 @@ Value* ThreadDefinition::generateIR(IRGenerationContext& context) const {
 }
 
 MethodDeclaration* ThreadDefinition::createStartMethodDeclaration(IRGenerationContext& context,
-                                                                  const Thread* thread) const {
+                                                                  const Thread* thread) {
   VariableList arguments;
   vector<IModelTypeSpecifier*> exceptions;
   Block* block = new Block();
@@ -144,7 +145,7 @@ MethodDeclaration* ThreadDefinition::createStartMethodDeclaration(IRGenerationCo
 }
 
 StateFieldDeclaration* ThreadDefinition::createNativeThreadHandleField(IRGenerationContext&
-                                                                   context) const {
+                                                                       context) {
   InjectionArgumentList arguments;
   
   NativeType* nativeType = ThreadInfrastructure::createNativeThreadType(context);
@@ -154,13 +155,30 @@ StateFieldDeclaration* ThreadDefinition::createNativeThreadHandleField(IRGenerat
 
 vector<IObjectElementDeclaration*>
 ThreadDefinition::addThreadObjectElements(IRGenerationContext& context,
-                                          const Thread* thread) const {
+                                          vector<IObjectElementDeclaration*> objectElements,
+                                          const Thread* thread) {
   vector<IObjectElementDeclaration*> result;
+  vector<IObjectElementDeclaration*>::const_iterator iterator = objectElements.begin();
+  for (; iterator != objectElements.end(); iterator++) {
+    IObjectElementDeclaration* element = *iterator;
+    if (!element->isConstant()) {
+      break;
+    }
+    result.push_back(element);
+  }
   result.push_back(createNativeThreadHandleField(context));
-  for (IObjectElementDeclaration* element : mObjectElementDeclarations) {
+  for (; iterator != objectElements.end(); iterator++) {
+    IObjectElementDeclaration* element = *iterator;
+    if (!element->isField()) {
+      break;
+    }
     result.push_back(element);
   }
   result.push_back(createStartMethodDeclaration(context, thread));
+  
+  for (; iterator != objectElements.end(); iterator++) {
+    result.push_back(*iterator);
+  }
 
   return result;
 }

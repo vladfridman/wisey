@@ -43,12 +43,12 @@ string Names::getEmptyStringName() {
   return "__empty.str";
 }
 
-string Names::getThreadControllerName() {
-  return "CThread";
+string Names::getMainThreadShortName() {
+  return "TMainThread";
 }
 
-string Names::getThreadControllerFullName() {
-  return getLangPackageName() + "." + getThreadControllerName();
+string Names::getMainThreadFullName() {
+  return getLangPackageName() + "." + getMainThreadShortName();
 }
 
 string Names::getThreadSetObjectAndMethod() {

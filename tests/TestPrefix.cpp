@@ -7,7 +7,6 @@
 //
 
 #include "TestPrefix.hpp"
-#include "wisey/ControllerDefinition.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/FixedFieldDeclaration.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -16,6 +15,8 @@
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ThreadDefinition.hpp"
+#include "wisey/ThreadTypeSpecifierFull.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -60,8 +61,8 @@ void TestPrefix::defineModel(IRGenerationContext& context,
 void TestPrefix::defineThreadController(IRGenerationContext& context) {
   PackageType* packageType = new PackageType(Names::getLangPackageName());
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ControllerTypeSpecifierFull* controllerTypeSpecifier =
-    new ControllerTypeSpecifierFull(packageExpression, Names::getThreadControllerName());
+  ThreadTypeSpecifierFull* threadTypeSpecifier =
+    new ThreadTypeSpecifierFull(packageExpression, Names::getMainThreadShortName());
   vector<IObjectElementDeclaration*> elementDeclarations;
   vector<IInterfaceTypeSpecifier*> interfaceSpecifiers;
   
@@ -104,15 +105,31 @@ void TestPrefix::defineThreadController(IRGenerationContext& context) {
                                                             compoundStatement,
                                                             0);
 
+  arguments.clear();
+  voidTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE);
+  block = new Block();
+  compoundStatement = new CompoundStatement(block, 0);
+  MethodDeclaration* runMethod = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
+                                                       voidTypeSpecifier,
+                                                       "run",
+                                                       arguments,
+                                                       exceptions,
+                                                       compoundStatement,
+                                                       0);
+
   elementDeclarations.push_back(pushStackMethod);
   elementDeclarations.push_back(popStackMethod);
+  elementDeclarations.push_back(runMethod);
 
+  voidTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE);
+  
   vector<IObjectDefinition*> innerObjectDefinitions;
-  ControllerDefinition threadControllerDefinition(AccessLevel::PUBLIC_ACCESS,
-                                                  controllerTypeSpecifier,
-                                                  elementDeclarations,
-                                                  interfaceSpecifiers,
-                                                  innerObjectDefinitions);
-  threadControllerDefinition.prototypeObject(context);
-  threadControllerDefinition.prototypeMethods(context);
+  ThreadDefinition mainThreadDefinition(AccessLevel::PUBLIC_ACCESS,
+                                        threadTypeSpecifier,
+                                        voidTypeSpecifier,
+                                        elementDeclarations,
+                                        interfaceSpecifiers,
+                                        innerObjectDefinitions);
+  mainThreadDefinition.prototypeObject(context);
+  mainThreadDefinition.prototypeMethods(context);
 }

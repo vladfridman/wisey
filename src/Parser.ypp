@@ -40,6 +40,7 @@
   #include "wisey/ExternalMethodDeclaration.hpp"
   #include "wisey/ExternalModelDefinition.hpp"
   #include "wisey/ExternalNodeDefinition.hpp"
+  #include "wisey/ExternalThreadDefinition.hpp"
   #include "wisey/ExternalStaticMethodDeclaration.hpp"
   #include "wisey/FakeExpression.hpp"
   #include "wisey/FixedFieldDeclaration.hpp"
@@ -219,7 +220,7 @@
 %type <statement> throw_statement try_catch_statement
 %type <global_statement> bind_action import_statement global_statement
 %type <object_definition> controller_definition interface_definition model_definition
-%type <object_definition> node_definition thread_definition
+%type <object_definition> node_definition thread_definition external_thread_definition
 %type <object_definition> object_definition external_object_definition external_model_definition
 %type <object_definition> external_node_definition external_controller_definition
 %type <object_definition> external_interface_definition
@@ -256,7 +257,8 @@
 %type <model_type_specifier> model_type_specifier exception_type_specifier 
 %type <model_type_specifier> model_type_specifier_full inner_model_type_specifier 
 %type <model_type_specifier> inner_model_type_specifier_full
-%type <thread_type_specifier> thread_type_specifier thread_type_specifier_full inner_thread_type_specifier
+%type <thread_type_specifier> thread_type_specifier thread_type_specifier_full 
+%type <thread_type_specifier> inner_thread_type_specifier inner_thread_type_specifier_full
 %type <controller_type_specifier> controller_type_specifier controller_type_specifier_full
 %type <controller_type_specifier> inner_controller_type_specifier inner_controller_type_specifier_full
 %type <interface_type_specifier> interface_type_specifier interface_type_specifier_full
@@ -333,6 +335,7 @@ external_object_definition
   | external_interface_definition
   | external_model_definition
   | external_node_definition
+  | external_thread_definition
   ;
 
 import_statement
@@ -340,10 +343,12 @@ import_statement
   | TIMPORT model_type_specifier_full ';' { $$ = new ImportStatement($2); }
   | TIMPORT controller_type_specifier_full ';' { $$ = new ImportStatement($2); }
   | TIMPORT node_type_specifier_full ';' { $$ = new ImportStatement($2); }
+  | TIMPORT thread_type_specifier_full ';' { $$ = new ImportStatement($2); }
   | TIMPORT inner_interface_type_specifier_full ';' { $$ = new ImportStatement($2); }
   | TIMPORT inner_model_type_specifier_full ';' { $$ = new ImportStatement($2); }
   | TIMPORT inner_controller_type_specifier_full ';' { $$ = new ImportStatement($2); }
   | TIMPORT inner_node_type_specifier_full ';' { $$ = new ImportStatement($2); }
+  | TIMPORT inner_thread_type_specifier_full ';' { $$ = new ImportStatement($2); }
   ;
 
 bind_action
@@ -635,6 +640,24 @@ thread_definition
       delete $2;
       delete $4;
       delete $6;
+    }
+  ;
+
+external_thread_definition
+  : TEXTERNAL TTHREAD thread_type_specifier implmeneted_interfaces
+      '{' external_object_element_declaration_list '}'
+    {
+      IExpression* package = $3->takePackage();
+      package = package ? package : new FakeExpression(NULL, filePackageType);
+      ThreadTypeSpecifierFull* fullSpecifier =
+        new ThreadTypeSpecifierFull(package, $3->getShortName());
+      $$ = new ExternalThreadDefinition(fullSpecifier, 
+                                        std::get<0>(*$6), 
+                                        *$4,
+                                        std::get<1>(*$6));
+      delete $3;
+      delete $6;
+      delete $4;
     }
   ;
 
@@ -1265,6 +1288,15 @@ inner_node_type_specifier_full
   : top_level_object_type_specifier '.' TNODEIDENTIFIER
     { 
       $$ = new NodeTypeSpecifierFull($1->takePackage(), $1->getShortName() + "." + *$3);
+      delete $1; 
+      delete $3; 
+    }
+  ;
+
+inner_thread_type_specifier_full
+  : top_level_object_type_specifier '.' TTHREADIDENTIFIER
+    { 
+      $$ = new ThreadTypeSpecifierFull($1->takePackage(), $1->getShortName() + "." + *$3);
       delete $1; 
       delete $3; 
     }

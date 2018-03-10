@@ -5,7 +5,7 @@ import wisey.lang.MStackOverflowException;
 /**
  * Keeps track of the method call stack and can print out a strack trace
  */
-controller CThread {
+thread TMainThread {
   public constant int CALL_STACK_SIZE = 1024;
 
   inject string[CALL_STACK_SIZE]* mCallStackObjectNames;
@@ -13,6 +13,10 @@ controller CThread {
   inject string[CALL_STACK_SIZE]* mCallStackFileNames;
   inject int[CALL_STACK_SIZE]* mCallStackLineNumbers;
   state int mCallIStackIndex;
+
+
+  public void run() {
+  }
 
   /**
    * Pushes a new method on the call stack

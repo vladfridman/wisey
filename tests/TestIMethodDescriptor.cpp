@@ -32,7 +32,7 @@ struct IMethodDescriptorTest : public Test {
   LLVMContext& mLLVMContext;
   Method* mMethod;
   Model* mModel;
-  Controller* mThreadController;
+  Thread* mMainThread;
   
 public:
   
@@ -68,7 +68,7 @@ public:
                          NULL,
                          0);
 
-    mThreadController = mContext.getController(Names::getThreadControllerFullName());
+    mMainThread = mContext.getThread(Names::getMainThreadFullName());
   }
 };
 
@@ -161,7 +161,6 @@ TEST_F(IMethodDescriptorTest, getLLVMFunctionTypeTest) {
   EXPECT_EQ(functionType->getReturnType(), Type::getFloatTy(mLLVMContext));
   EXPECT_EQ(functionType->getNumParams(), 3u);
   EXPECT_EQ(functionType->getParamType(0), mModel->getLLVMType(mContext));
-  EXPECT_EQ(functionType->getParamType(1), mThreadController->getLLVMType(mContext));
+  EXPECT_EQ(functionType->getParamType(1), mMainThread->getLLVMType(mContext));
   EXPECT_EQ(functionType->getParamType(2), Type::getInt32Ty(mLLVMContext));
 }
-

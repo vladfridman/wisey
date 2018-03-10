@@ -5,7 +5,7 @@
 //  Created by Vladimir Fridman on 10/9/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests reporting stack trace by CThread wisey controller
+//  Tests reporting stack trace by TMainThread
 //
 
 #include "TestFileSampleRunner.hpp"

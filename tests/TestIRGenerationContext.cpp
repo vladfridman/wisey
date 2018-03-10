@@ -308,6 +308,7 @@ TEST_F(IRGenerationContextTest, printToStreamTest) {
   mContext.addNode(mNode);
   mContext.addController(mController);
   mContext.addModel(mModel);
+  mContext.addThread(mThread);
   
   stringstream stringStream;
   mContext.printToStream(mContext, stringStream);
@@ -330,6 +331,11 @@ TEST_F(IRGenerationContextTest, printToStreamTest) {
                "/* Nodes */\n"
                "\n"
                "external node systems.vos.wisey.compiler.tests.NMyNode {\n"
+               "}\n"
+               "\n"
+               "/* Threads */\n"
+               "\n"
+               "external thread systems.vos.wisey.compiler.tests.TMyThread {\n"
                "}\n"
                "\n"
                "/* Bindings */\n"

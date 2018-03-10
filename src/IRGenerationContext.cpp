@@ -360,6 +360,18 @@ void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& 
     stream << endl;
   }
   
+  stream << "/* Threads */" << endl << endl;
+  for (map<string, Thread*>::const_iterator iterator = mThreads.begin();
+       iterator != mThreads.end();
+       iterator++) {
+    Thread* thread = iterator->second;
+    if (thread->isExternal() || thread->isInner()) {
+      continue;
+    }
+    thread->printToStream(context, stream);
+    stream << endl;
+  }
+  
   stream << "/* Bindings */" << endl << endl;
   for (map<Interface*, Controller*>::const_iterator iterator = mBindings.begin();
        iterator != mBindings.end();

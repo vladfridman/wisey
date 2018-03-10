@@ -120,8 +120,8 @@ TEST_F(MethodTest, getLLVMTypeTest) {
   
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mModel->getLLVMType(mContext));
-  Controller* threadController = mContext.getController(Names::getThreadControllerFullName());
-  argumentTypes.push_back(threadController->getLLVMType(mContext));
+  Thread* mainThread = mContext.getThread(Names::getMainThreadFullName());
+  argumentTypes.push_back(mainThread->getLLVMType(mContext));
   argumentTypes.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext);
@@ -149,7 +149,7 @@ TEST_F(MethodTest, definePublicFunctionTest) {
   
   *mStringStream << *function;
   string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.foo("
-  "%systems.vos.wisey.compiler.tests.MObject*, %wisey.lang.CThread*, i32)\n";
+  "%systems.vos.wisey.compiler.tests.MObject*, %wisey.lang.TMainThread*, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
@@ -171,7 +171,7 @@ TEST_F(MethodTest, definePrivateFunctionTest) {
   
   *mStringStream << *function;
   string expected = "\ndeclare internal float @systems.vos.wisey.compiler.tests.MObject.foo("
-  "%systems.vos.wisey.compiler.tests.MObject*, %wisey.lang.CThread*, i32)\n";
+  "%systems.vos.wisey.compiler.tests.MObject*, %wisey.lang.TMainThread*, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
@@ -195,15 +195,15 @@ TEST_F(MethodTest, generateIRTest) {
   *mStringStream << *function;
   string expected =
   "\ndefine void @systems.vos.wisey.compiler.tests.MObject.foo("
-  "%systems.vos.wisey.compiler.tests.MObject* %this, %wisey.lang.CThread* %thread, "
+  "%systems.vos.wisey.compiler.tests.MObject* %this, %wisey.lang.TMainThread* %thread, "
   "i32 %intargument) {"
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MObject* %this to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %0, i64 1)"
-  "\n  %1 = bitcast %wisey.lang.CThread* %thread to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %1, i64 1)"
-  "\n  %2 = bitcast %wisey.lang.CThread* %thread to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %2, i64 -1)"
+  "\n  %1 = bitcast %wisey.lang.TMainThread* %thread to i8*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %1, i64 1)"
+  "\n  %2 = bitcast %wisey.lang.TMainThread* %thread to i8*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %2, i64 -1)"
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MObject* %this to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %3, i64 -1)"
   "\n  ret void"

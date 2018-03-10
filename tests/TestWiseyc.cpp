@@ -111,6 +111,8 @@ TEST_F(MainTest, extractHeadersTest) {
                "\n"
                "/* Nodes */\n"
                "\n"
+               "/* Threads */\n"
+               "\n"
               "/* Bindings */\n"
                "\n"
                "bind(systems.vos.wisey.compiler.tests.CProgram).to(wisey.lang.IProgram);\n"

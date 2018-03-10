@@ -68,7 +68,11 @@ external controller wisey.lang.CProgramRunner {
     wisey.lang.IProgram* runnable);
 }
 
-external controller wisey.lang.CThread {
+/* Nodes */
+
+/* Threads */
+
+external thread wisey.lang.TMainThread {
 
   public constant int CALL_STACK_SIZE = 1024;
 
@@ -78,6 +82,8 @@ external controller wisey.lang.CThread {
   inject int[CALL_STACK_SIZE]* mCallStackLineNumbers;
   state int mCallIStackIndex;
 
+  void start();
+  void run();
   void pushStack(
     string objectName,
     string methodName,
@@ -88,8 +94,6 @@ external controller wisey.lang.CThread {
   void reportException(
     wisey.lang.IException exception);
 }
-
-/* Nodes */
 
 /* Bindings */
 

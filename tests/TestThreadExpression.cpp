@@ -40,7 +40,7 @@ using ::testing::Test;
 struct ThreadExpressionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  Controller* mThreadController;
+  Thread* mMainThread;
   LocalReferenceVariable* mThreadVariable;
   ThreadExpression mThreadExpression;
   BasicBlock* mBasicBlock;
@@ -61,15 +61,15 @@ struct ThreadExpressionTest : public Test {
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
 
-    mThreadController = mContext.getController(Names::getThreadControllerFullName());
-    PointerType* controllerType = mThreadController->getLLVMType(mContext);
+    mMainThread = mContext.getThread(Names::getMainThreadFullName());
+    PointerType* controllerType = mMainThread->getLLVMType(mContext);
     Value* threadStore = IRWriter::newAllocaInst(mContext, controllerType, "threadStore");
     llvm::Constant* null = ConstantPointerNull::get(controllerType);
     IRWriter::newStoreInst(mContext, null, threadStore);
     mThreadVariable = new LocalReferenceVariable(ThreadExpression::THREAD,
-                                                 mThreadController,
+                                                 mMainThread,
                                                  threadStore);
-    FakeExpression* fakeExpression = new FakeExpression(null, mThreadController);
+    FakeExpression* fakeExpression = new FakeExpression(null, mMainThread);
     vector<const IExpression*> arrayIndices;
     mThreadVariable->generateAssignmentIR(mContext, fakeExpression, arrayIndices, 0);
     
@@ -87,14 +87,14 @@ TEST_F(ThreadExpressionTest, getVariableTest) {
 }
 
 TEST_F(ThreadExpressionTest, getTypeTest) {
-  EXPECT_EQ(mThreadExpression.getType(mContext), mThreadController);
+  EXPECT_EQ(mThreadExpression.getType(mContext), mMainThread);
 }
 
 TEST_F(ThreadExpressionTest, generateIRTest) {
   Value* instruction = mThreadExpression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
 
   *mStringStream << *instruction;
-  string expected = "  %3 = load %wisey.lang.CThread*, %wisey.lang.CThread** %threadStore";
+  string expected = "  %3 = load %wisey.lang.TMainThread*, %wisey.lang.TMainThread** %threadStore";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 

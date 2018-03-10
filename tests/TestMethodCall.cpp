@@ -58,7 +58,7 @@ struct MethodCallTest : public Test {
   Model* mModel;
   Model* mReturnedModel;
   StructType* mStructType;
-  Controller* mThreadController;
+  Thread* mMainThread;
   Function* mMainFunction;
   Method* mFooMethod;
   Method* mBarMethod;
@@ -144,15 +144,15 @@ public:
     ON_CALL(*mExpression, getType(_)).WillByDefault(Return(mFooMethod));
     ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
     
-    mThreadController = mContext.getController(Names::getThreadControllerFullName());
-    PointerType* llvmType = mThreadController->getLLVMType(mContext);
+    mMainThread = mContext.getThread(Names::getMainThreadFullName());
+    PointerType* llvmType = mMainThread->getLLVMType(mContext);
     Value* threadStore = IRWriter::newAllocaInst(mContext, llvmType, "threadStore");
     llvm::Constant* null = ConstantPointerNull::get(llvmType);
     IRWriter::newStoreInst(mContext, null, threadStore);
     IVariable* threadVariable = new LocalReferenceVariable(ThreadExpression::THREAD,
-                                                           mThreadController,
+                                                           mMainThread,
                                                            threadStore);
-    FakeExpression* fakeExpression = new FakeExpression(null, mThreadController);
+    FakeExpression* fakeExpression = new FakeExpression(null, mMainThread);
     vector<const IExpression*> arrayIndices;
     threadVariable->generateAssignmentIR(mContext, fakeExpression, arrayIndices, 0);
     mContext.getScopes().setVariable(threadVariable);
@@ -232,7 +232,7 @@ TEST_F(MethodCallTest, translateInterfaceMethodToLLVMFunctionNameTest) {
 TEST_F(MethodCallTest, modelMethodCallTest) {
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mStructType->getPointerTo());
-  argumentTypes.push_back(mThreadController->getLLVMType(mContext));
+  argumentTypes.push_back(mMainThread->getLLVMType(mContext));
   argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   FunctionType* functionType = FunctionType::get(mReturnedModel->getLLVMType(mContext),
@@ -256,7 +256,7 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
   string expected =
   "  %9 = invoke %systems.vos.wisey.compiler.tests.MReturnedModel* "
   "@systems.vos.wisey.compiler.tests.MSquare.foo(%systems.vos.wisey.compiler.tests.MSquare* %0, "
-  "%wisey.lang.CThread* %8, float 0x4014CCCCC0000000)"
+  "%wisey.lang.TMainThread* %8, float 0x4014CCCCC0000000)"
   "\n          to label %invoke.continue1 unwind label %cleanup";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(methodCall.getType(mContext), mReturnedModel);
@@ -265,7 +265,7 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
 TEST_F(MethodCallTest, modelMethodCallWithTryCatchTest) {
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mStructType->getPointerTo());
-  argumentTypes.push_back(mThreadController->getLLVMType(mContext));
+  argumentTypes.push_back(mMainThread->getLLVMType(mContext));
   argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext),
@@ -293,7 +293,7 @@ TEST_F(MethodCallTest, modelMethodCallWithTryCatchTest) {
   *mStringStream << *irValue;
   EXPECT_STREQ("  %6 = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar("
                "%systems.vos.wisey.compiler.tests.MSquare* %0, "
-               "%wisey.lang.CThread* %5, "
+               "%wisey.lang.TMainThread* %5, "
                "float 0x4014CCCCC0000000)\n"
                "          to label %invoke.continue1 unwind label %eh.landing.pad",
                mStringStream->str().c_str());

@@ -178,8 +178,8 @@ void ThreadInfrastructure::composeRunBridgeFunction(IRGenerationContext& context
   Type* threadLLVMType = thread->getLLVMType(context);
   Value* threadObject = IRWriter::newBitCastInst(context, threadArgument, threadLLVMType);
   
-  Controller* threadController = context.getController(Names::getThreadControllerFullName());
-  Type* threadControllerLLVMType = threadController->getLLVMType(context);
+  Thread* mainThread = context.getThread(Names::getMainThreadFullName());
+  Type* threadControllerLLVMType = mainThread->getLLVMType(context);
   Value* threadControllerObject = IRWriter::newBitCastInst(context,
                                                            threadArgument,
                                                            threadControllerLLVMType);

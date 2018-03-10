@@ -798,6 +798,9 @@
 		F5CB7FE92052C972007628B5 /* TestFixedField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB7FE82052C972007628B5 /* TestFixedField.cpp */; };
 		F5CB7FEB2052CA62007628B5 /* TestReceivedField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB7FEA2052CA62007628B5 /* TestReceivedField.cpp */; };
 		F5CB7FED2052CAC9007628B5 /* TestStateField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB7FEC2052CAC9007628B5 /* TestStateField.cpp */; };
+		F5CB7FF02052FCFA007628B5 /* ExternalThreadDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB7FEF2052FCFA007628B5 /* ExternalThreadDefinition.cpp */; };
+		F5CB7FF12052FCFA007628B5 /* ExternalThreadDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB7FEF2052FCFA007628B5 /* ExternalThreadDefinition.cpp */; };
+		F5CB7FF320544CCD007628B5 /* TestExternalThreadDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB7FF220544CCD007628B5 /* TestExternalThreadDefinition.cpp */; };
 		F5CE2D411EF6A43C002ABB85 /* IType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CE2D401EF6A43C002ABB85 /* IType.cpp */; };
 		F5CE2D421EF6A43C002ABB85 /* IType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CE2D401EF6A43C002ABB85 /* IType.cpp */; };
 		F5CE2D441EF6A4CB002ABB85 /* TestIType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CE2D431EF6A4CB002ABB85 /* TestIType.cpp */; };
@@ -1616,6 +1619,9 @@
 		F5CB7FE82052C972007628B5 /* TestFixedField.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestFixedField.cpp; path = tests/TestFixedField.cpp; sourceTree = "<group>"; };
 		F5CB7FEA2052CA62007628B5 /* TestReceivedField.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestReceivedField.cpp; path = tests/TestReceivedField.cpp; sourceTree = "<group>"; };
 		F5CB7FEC2052CAC9007628B5 /* TestStateField.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestStateField.cpp; path = tests/TestStateField.cpp; sourceTree = "<group>"; };
+		F5CB7FEE2052FCA4007628B5 /* ExternalThreadDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ExternalThreadDefinition.hpp; path = include/wisey/ExternalThreadDefinition.hpp; sourceTree = "<group>"; };
+		F5CB7FEF2052FCFA007628B5 /* ExternalThreadDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ExternalThreadDefinition.cpp; path = src/ExternalThreadDefinition.cpp; sourceTree = "<group>"; };
+		F5CB7FF220544CCD007628B5 /* TestExternalThreadDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestExternalThreadDefinition.cpp; path = tests/TestExternalThreadDefinition.cpp; sourceTree = "<group>"; };
 		F5CE2D401EF6A43C002ABB85 /* IType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IType.cpp; path = src/IType.cpp; sourceTree = "<group>"; };
 		F5CE2D431EF6A4CB002ABB85 /* TestIType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIType.cpp; path = tests/TestIType.cpp; sourceTree = "<group>"; };
 		F5CE2D4D1F1809EE002ABB85 /* TryCatchInfo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = TryCatchInfo.hpp; path = include/wisey/TryCatchInfo.hpp; sourceTree = "<group>"; };
@@ -3154,6 +3160,7 @@
 				F5CB7F46204B69D7007628B5 /* ThreadOwner.cpp */,
 				F5CB7F3D204A06A3007628B5 /* ThreadTypeSpecifier.cpp */,
 				F5CB7F342049F5ED007628B5 /* ThreadTypeSpecifierFull.cpp */,
+				F5CB7FEF2052FCFA007628B5 /* ExternalThreadDefinition.cpp */,
 			);
 			name = thread;
 			sourceTree = "<group>";
@@ -3246,6 +3253,7 @@
 				F5CB7F45204B661E007628B5 /* ThreadOwner.hpp */,
 				F5CB7F3C204A0652007628B5 /* ThreadTypeSpecifier.hpp */,
 				F5CB7F332049F563007628B5 /* ThreadTypeSpecifierFull.hpp */,
+				F5CB7FEE2052FCA4007628B5 /* ExternalThreadDefinition.hpp */,
 			);
 			name = thread;
 			sourceTree = "<group>";
@@ -3361,6 +3369,7 @@
 				F5CB7F8720518B7F007628B5 /* TestThreadInfrastructure.cpp */,
 				F5CB7F52204B9C7D007628B5 /* TestThreadOwner.cpp */,
 				F5CB7F42204A1B4A007628B5 /* TestThreadTypeSpecifier.cpp */,
+				F5CB7FF220544CCD007628B5 /* TestExternalThreadDefinition.cpp */,
 			);
 			name = thread;
 			sourceTree = "<group>";
@@ -3695,6 +3704,7 @@
 				F55173D61F99025400613993 /* TestConstantDeclaration.cpp in Sources */,
 				F53A2C001EEC167000E76A9E /* TestObjectOwnerTypeSpecifier.cpp in Sources */,
 				F531B6451E0A4A7D008304F3 /* TestBlock.cpp in Sources */,
+				F5CB7FF12052FCFA007628B5 /* ExternalThreadDefinition.cpp in Sources */,
 				F5E39A3E1F7C1F2000B2ABD5 /* TestExternalControllerDefinition.cpp in Sources */,
 				F534011C1E000DBC0002BF7E /* TestMethodDeclaration.cpp in Sources */,
 				F5CB7F8A20519130007628B5 /* TestFieldNativeVariable.cpp in Sources */,
@@ -3786,6 +3796,7 @@
 				F57085F61E511BAC007D627E /* TestFieldReferenceVariable.cpp in Sources */,
 				F513DDFC201790A1001A075B /* FieldArrayReferenceVariable.cpp in Sources */,
 				F592A7C51F7D8EAE0026BD2F /* IMethodDeclaration.cpp in Sources */,
+				F5CB7FF320544CCD007628B5 /* TestExternalThreadDefinition.cpp in Sources */,
 				F5C6FD6D1E48B37D0054209D /* TestVoidType.cpp in Sources */,
 				F556E6551EDDD2F900CCC3D7 /* IConcreteObjectType.cpp in Sources */,
 				F5CB7FD02052A54C007628B5 /* TestFixedFieldDeclaration.cpp in Sources */,
@@ -4005,6 +4016,7 @@
 				F50FA2E81E2E3B0900435EEA /* LongConstant.cpp in Sources */,
 				F5CB7F6920512732007628B5 /* NativeFunctionCall.cpp in Sources */,
 				F51D2BAE1F68453500510784 /* StaticMethod.cpp in Sources */,
+				F5CB7FF02052FCFA007628B5 /* ExternalThreadDefinition.cpp in Sources */,
 				F50FA2D51E2D0AD600435EEA /* ModelTypeSpecifier.cpp in Sources */,
 				F52746C6201A232900503713 /* ArrayAllocationStatic.cpp in Sources */,
 				F5CB7FE02052AE32007628B5 /* ReceivedField.cpp in Sources */,

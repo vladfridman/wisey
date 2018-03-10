@@ -66,17 +66,16 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   context.getScopes().pushScope();
   context.getScopes().setReturnType(PrimitiveTypes::INT_TYPE);
   
-  Controller* threadController = context.getController("wisey.lang.CThread");
+  Thread* mainThread = context.getThread("wisey.lang.TMainThread");
   InjectionArgumentList injectionArguments;
-  Value* injectedThread = threadController->inject(context, injectionArguments, 0);
+  Value* injectedThread = mainThread->inject(context, injectionArguments, 0);
   Value* threadStore = IRWriter::newAllocaInst(context, injectedThread->getType(), "threadStore");
   IOwnerVariable* threadVariable = new LocalOwnerVariable(ThreadExpression::THREAD,
-                                                          threadController->getOwner(),
+                                                          mainThread->getOwner(),
                                                           threadStore);
   context.getScopes().setVariable(threadVariable);
   threadVariable->setToNull(context);
-  FakeExpression* threadExpression = new FakeExpression(injectedThread,
-                                                        threadController->getOwner());
+  FakeExpression* threadExpression = new FakeExpression(injectedThread, mainThread->getOwner());
   vector<const IExpression*> arrayIndices;
   threadVariable->generateAssignmentIR(context, threadExpression, arrayIndices, 0);
 

@@ -43,7 +43,6 @@ struct ComposerTest : public Test {
   Model* mModel;
   Function* mMainFunction;
   string mMethodName;
-  Controller* mThreadController;
   NiceMock<MockReferenceVariable>* mThreadVariable;
   ImportProfile* mImportProfile;
   string mPackage = "systems.vos.wisey.compiler.tests";
@@ -107,11 +106,11 @@ public:
     IConcreteObjectType::defineCurrentObjectNameVariable(mContext, mModel);
     IMethod::defineCurrentMethodNameVariable(mContext, mMethodName);
 
-    mThreadController = mContext.getController(Names::getThreadControllerFullName());
-    Value* threadObject = ConstantPointerNull::get(mThreadController->getLLVMType(mContext));
+    Thread* mainThread = mContext.getThread(Names::getMainThreadFullName());
+    Value* threadObject = ConstantPointerNull::get(mainThread->getLLVMType(mContext));
     mThreadVariable = new NiceMock<MockReferenceVariable>();
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
-    ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(mThreadController));
+    ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(mainThread));
     ON_CALL(*mThreadVariable, generateIdentifierIR(_)).WillByDefault(Return(threadObject));
     mContext.getScopes().pushScope();
     mContext.getScopes().setVariable(mThreadVariable);
@@ -132,9 +131,9 @@ TEST_F(ComposerTest, pushCallStackTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  call void @wisey.lang.CThread.pushStack("
-    "%wisey.lang.CThread* null, "
-    "%wisey.lang.CThread* null, "
+  "\n  call void @wisey.lang.TMainThread.pushStack("
+    "%wisey.lang.TMainThread* null, "
+    "%wisey.lang.TMainThread* null, "
     "i8* getelementptr inbounds ([42 x i8], [42 x i8]* "
     "@systems.vos.wisey.compiler.tests.MMyModel.name, i32 0, i32 0), "
     "i8* getelementptr inbounds ([4 x i8], [4 x i8]* @methodname.foo, i32 0, i32 0), "
@@ -151,9 +150,9 @@ TEST_F(ComposerTest, popCallStackTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  call void @wisey.lang.CThread.popStack("
-  "%wisey.lang.CThread* null, "
-  "%wisey.lang.CThread* null)\n";
+  "\n  call void @wisey.lang.TMainThread.popStack("
+  "%wisey.lang.TMainThread* null, "
+  "%wisey.lang.TMainThread* null)\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
   
   mStringBuffer.clear();

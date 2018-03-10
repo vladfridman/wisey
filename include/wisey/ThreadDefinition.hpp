@@ -41,6 +41,14 @@ namespace wisey {
 
     ~ThreadDefinition();
     
+    /**
+     * Adds a field that contains the native thread handle and thread automatically generated methods
+     */
+    static std::vector<IObjectElementDeclaration*>
+    addThreadObjectElements(IRGenerationContext& context,
+                            std::vector<IObjectElementDeclaration*> objectElements,
+                            const Thread* thread);
+
     Thread* prototypeObject(IRGenerationContext& context) const override;
     
     void prototypeMethods(IRGenerationContext& context) const override;
@@ -48,14 +56,11 @@ namespace wisey {
     llvm::Value* generateIR(IRGenerationContext& context) const override;
     
   private:
+
+    static MethodDeclaration* createStartMethodDeclaration(IRGenerationContext& context,
+                                                           const Thread* thread);
     
-    std::vector<IObjectElementDeclaration*> addThreadObjectElements(IRGenerationContext& context,
-                                                                    const Thread* thread) const;
-    
-    MethodDeclaration* createStartMethodDeclaration(IRGenerationContext& context,
-                                                    const Thread* thread) const;
-    
-    StateFieldDeclaration* createNativeThreadHandleField(IRGenerationContext& context) const;
+    static StateFieldDeclaration* createNativeThreadHandleField(IRGenerationContext& context);
     
     static llvm::Function* defineRunBridgeFunction(IRGenerationContext& context, const Thread* thread);
     

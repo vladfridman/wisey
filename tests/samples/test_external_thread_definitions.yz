@@ -1,0 +1,29 @@
+external thread wisey.lang.TWorker {
+
+  void run();
+}
+
+external thread wisey.lang.TWorkerWithFieldsAndMethods {
+  receive int mReceivedField;
+  inject wisey.lang.TWorker* mInjectedField;
+  state int mStateField;
+
+  int getValue();
+
+  void run();
+}
+
+interface wisey.lang.IInterface {
+
+}
+
+external thread wisey.lang.TWorkerWithFieldsAndMethodsAndInterface
+    implements wisey.lang.IInterface {
+  receive int mReceivedField;
+  inject wisey.lang.TWorker* mInjectedField;
+  state int mStateField;
+
+  int getValue();
+
+  void run();
+}
