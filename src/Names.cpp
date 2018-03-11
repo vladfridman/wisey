@@ -55,6 +55,18 @@ string Names::getThreadSetObjectAndMethod() {
   return "setObjectAndMethod";
 }
 
+string Names::getCallStackControllerName() {
+  return "CCallStack";
+}
+
+string Names::getCallStackControllerFullName() {
+  return getLangPackageName() + "." + getCallStackControllerName();
+}
+
+string Names::getCallStackMethodName() {
+  return "getCallStack";
+}
+
 string Names::getThreadPushStack() {
   return "pushStack";
 }

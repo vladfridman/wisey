@@ -62,6 +62,27 @@ external model wisey.lang.MStackOverflowException
 
 /* Controllers */
 
+external controller wisey.lang.CCallStack {
+
+  public constant int CALL_STACK_SIZE = 1024;
+
+  inject string[CALL_STACK_SIZE]* mCallStackObjectNames;
+  inject string[CALL_STACK_SIZE]* mCallStackMethodNames;
+  inject string[CALL_STACK_SIZE]* mCallStackFileNames;
+  inject int[CALL_STACK_SIZE]* mCallStackLineNumbers;
+  state int mCallIStackIndex;
+
+  void pushStack(
+    string objectName,
+    string methodName,
+    string fileName,
+    int lineNumber);
+  void popStack();
+  void dumpStack();
+  void reportException(
+    wisey.lang.IException exception);
+}
+
 external controller wisey.lang.CProgramRunner {
 
   static int run(
@@ -74,25 +95,11 @@ external controller wisey.lang.CProgramRunner {
 
 external thread wisey.lang.TMainThread {
 
-  public constant int CALL_STACK_SIZE = 1024;
-
-  inject string[CALL_STACK_SIZE]* mCallStackObjectNames;
-  inject string[CALL_STACK_SIZE]* mCallStackMethodNames;
-  inject string[CALL_STACK_SIZE]* mCallStackFileNames;
-  inject int[CALL_STACK_SIZE]* mCallStackLineNumbers;
-  state int mCallIStackIndex;
+  inject wisey.lang.CCallStack* mCallStack;
 
   void start();
   void run();
-  void pushStack(
-    string objectName,
-    string methodName,
-    string fileName,
-    int lineNumber);
-  void popStack();
-  void dumpStack();
-  void reportException(
-    wisey.lang.IException exception);
+  wisey.lang.CCallStack getCallStack();
 }
 
 /* Bindings */

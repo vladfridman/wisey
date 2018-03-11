@@ -76,6 +76,21 @@ public:
   static std::string getThreadSetObjectAndMethod();
   
   /**
+   * Get the name of the CCallStack controller
+   */
+  static std::string getCallStackControllerName();
+  
+  /**
+   * Get the full name of the CCallStack controller
+   */
+  static std::string getCallStackControllerFullName();
+  
+  /**
+   * Get method name for getting the call stack object from the thread
+   */
+  static std::string getCallStackMethodName();
+  
+  /**
    * Get the method for pushing the call stack
    */
   static std::string getThreadPushStack();

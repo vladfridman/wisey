@@ -2,7 +2,7 @@ package systems.vos.wisey.compiler.tests.multifile;
 
 model MAdder {
   public int add(int a, int b) {
-    thread.dumpStack();
+    thread.getCallStack().dumpStack();
     return a + b; 
   }
 }

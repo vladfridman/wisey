@@ -131,14 +131,8 @@ TEST_F(ComposerTest, pushCallStackTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  call void @wisey.lang.TMainThread.pushStack("
-    "%wisey.lang.TMainThread* null, "
-    "%wisey.lang.TMainThread* null, "
-    "i8* getelementptr inbounds ([42 x i8], [42 x i8]* "
-    "@systems.vos.wisey.compiler.tests.MMyModel.name, i32 0, i32 0), "
-    "i8* getelementptr inbounds ([4 x i8], [4 x i8]* @methodname.foo, i32 0, i32 0), "
-    "i8* getelementptr inbounds ([8 x i8], [8 x i8]* @sourcefile.test.yz, i32 0, i32 0), "
-    "i32 5)\n";
+  "\n  %0 = call %wisey.lang.CCallStack* @wisey.lang.TMainThread.getCallStack(%wisey.lang.TMainThread* null, %wisey.lang.TMainThread* null)"
+  "\n  call void @wisey.lang.CCallStack.pushStack(%wisey.lang.CCallStack* %0, %wisey.lang.TMainThread* null, i8* getelementptr inbounds ([42 x i8], [42 x i8]* @systems.vos.wisey.compiler.tests.MMyModel.name, i32 0, i32 0), i8* getelementptr inbounds ([4 x i8], [4 x i8]* @methodname.foo, i32 0, i32 0), i8* getelementptr inbounds ([8 x i8], [8 x i8]* @sourcefile.test.yz, i32 0, i32 0), i32 5)\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
   
   mStringBuffer.clear();
@@ -150,9 +144,8 @@ TEST_F(ComposerTest, popCallStackTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  call void @wisey.lang.TMainThread.popStack("
-  "%wisey.lang.TMainThread* null, "
-  "%wisey.lang.TMainThread* null)\n";
+  "\n  %0 = call %wisey.lang.CCallStack* @wisey.lang.TMainThread.getCallStack(%wisey.lang.TMainThread* null, %wisey.lang.TMainThread* null)"
+  "\n  call void @wisey.lang.CCallStack.popStack(%wisey.lang.CCallStack* %0, %wisey.lang.TMainThread* null)\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
   
   mStringBuffer.clear();

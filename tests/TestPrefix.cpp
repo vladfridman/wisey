@@ -7,7 +7,8 @@
 //
 
 #include "TestPrefix.hpp"
-#include "wisey/FakeExpression.hpp"
+#include "wisey/ControllerDefinition.hpp"
+#include "wisey/FakeExpressionWithCleanup.hpp"
 #include "wisey/FixedFieldDeclaration.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/MethodDeclaration.hpp"
@@ -35,7 +36,14 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   longTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   modelElements.push_back(new FixedFieldDeclaration(longTypeSpecifier, "mIndex"));
   defineModel(context, Names::getArrayIndexOutOfBoundsModelName(), modelElements);
-  defineThreadController(context);
+  
+  ControllerDefinition* callStackDefinition = defineCallStackController(context);
+  ThreadDefinition* mainThreadDefinition = defineMainThread(context);
+
+  callStackDefinition->prototypeObject(context);
+  mainThreadDefinition->prototypeObject(context);
+  callStackDefinition->prototypeMethods(context);
+  mainThreadDefinition->prototypeMethods(context);
 }
 
 void TestPrefix::defineModel(IRGenerationContext& context,
@@ -43,7 +51,7 @@ void TestPrefix::defineModel(IRGenerationContext& context,
                              vector<IObjectElementDeclaration*> modelElements) {
   vector<IInterfaceTypeSpecifier*> modelParentInterfaces;
   PackageType* packageType = new PackageType(Names::getLangPackageName());
-  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
   ModelTypeSpecifierFull* modelTypeSpecifier =
     new ModelTypeSpecifierFull(packageExpression, modelName);
   vector<IObjectDefinition*> innerObjectDefinitions;
@@ -58,14 +66,7 @@ void TestPrefix::defineModel(IRGenerationContext& context,
   model->createRTTI(context);
 }
 
-void TestPrefix::defineThreadController(IRGenerationContext& context) {
-  PackageType* packageType = new PackageType(Names::getLangPackageName());
-  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ThreadTypeSpecifierFull* threadTypeSpecifier =
-    new ThreadTypeSpecifierFull(packageExpression, Names::getMainThreadShortName());
-  vector<IObjectElementDeclaration*> elementDeclarations;
-  vector<IInterfaceTypeSpecifier*> interfaceSpecifiers;
-  
+ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext& context) {
   PrimitiveTypeSpecifier* stringTypeSpecifier;
   VariableList arguments;
   vector<IModelTypeSpecifier*> exceptions;
@@ -87,7 +88,7 @@ void TestPrefix::defineThreadController(IRGenerationContext& context) {
   CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
   MethodDeclaration* pushStackMethod = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
                                                              voidTypeSpecifier,
-                                                             "pushStack",
+                                                             Names::getThreadPushStack(),
                                                              arguments,
                                                              exceptions,
                                                              compoundStatement,
@@ -99,14 +100,57 @@ void TestPrefix::defineThreadController(IRGenerationContext& context) {
   compoundStatement = new CompoundStatement(block, 0);
   MethodDeclaration* popStackMethod = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
                                                             voidTypeSpecifier,
-                                                            "popStack",
+                                                            Names::getThreadPopStack(),
                                                             arguments,
                                                             exceptions,
                                                             compoundStatement,
                                                             0);
 
+  PackageType* packageType = new PackageType(Names::getLangPackageName());
+  FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
+  ControllerTypeSpecifierFull* controllerTypeSpecifier =
+  new ControllerTypeSpecifierFull(packageExpression, Names::getCallStackControllerName());
+  vector<IObjectElementDeclaration*> elementDeclarations;
+  elementDeclarations.push_back(pushStackMethod);
+  elementDeclarations.push_back(popStackMethod);
+
+  vector<IInterfaceTypeSpecifier*> interfaceSpecifiers;
+  vector<IObjectDefinition*> innerObjectDefinitions;
+  
+  ControllerDefinition* callStackDefinition = new ControllerDefinition(AccessLevel::PUBLIC_ACCESS,
+                                                                       controllerTypeSpecifier,
+                                                                       elementDeclarations,
+                                                                       interfaceSpecifiers,
+                                                                       innerObjectDefinitions);
+  return callStackDefinition;
+}
+
+ThreadDefinition* TestPrefix::defineMainThread(IRGenerationContext& context) {
+  PackageType* packageType = new PackageType(Names::getLangPackageName());
+  FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
+  ThreadTypeSpecifierFull* threadTypeSpecifier =
+    new ThreadTypeSpecifierFull(packageExpression, Names::getMainThreadShortName());
+  vector<IObjectElementDeclaration*> elementDeclarations;
+  vector<IInterfaceTypeSpecifier*> interfaceSpecifiers;
+  
+  packageType = new PackageType(Names::getLangPackageName());
+  packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
+  ControllerTypeSpecifierFull* callStackTypeSpecifier =
+  new ControllerTypeSpecifierFull(packageExpression, Names::getCallStackControllerName());
+  VariableList arguments;
+  vector<IModelTypeSpecifier*> exceptions;
+  Block* block = new Block();
+  CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
+  MethodDeclaration* getCallStackMethod = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
+                                                                callStackTypeSpecifier,
+                                                                Names::getCallStackMethodName(),
+                                                                arguments,
+                                                                exceptions,
+                                                                compoundStatement,
+                                                                0);
+
   arguments.clear();
-  voidTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE);
+  PrimitiveTypeSpecifier* voidTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE);
   block = new Block();
   compoundStatement = new CompoundStatement(block, 0);
   MethodDeclaration* runMethod = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
@@ -117,19 +161,17 @@ void TestPrefix::defineThreadController(IRGenerationContext& context) {
                                                        compoundStatement,
                                                        0);
 
-  elementDeclarations.push_back(pushStackMethod);
-  elementDeclarations.push_back(popStackMethod);
+  elementDeclarations.push_back(getCallStackMethod);
   elementDeclarations.push_back(runMethod);
 
   voidTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE);
   
   vector<IObjectDefinition*> innerObjectDefinitions;
-  ThreadDefinition mainThreadDefinition(AccessLevel::PUBLIC_ACCESS,
-                                        threadTypeSpecifier,
-                                        voidTypeSpecifier,
-                                        elementDeclarations,
-                                        interfaceSpecifiers,
-                                        innerObjectDefinitions);
-  mainThreadDefinition.prototypeObject(context);
-  mainThreadDefinition.prototypeMethods(context);
+  ThreadDefinition* mainThreadDefinition = new ThreadDefinition(AccessLevel::PUBLIC_ACCESS,
+                                                                threadTypeSpecifier,
+                                                                voidTypeSpecifier,
+                                                                elementDeclarations,
+                                                                interfaceSpecifiers,
+                                                                innerObjectDefinitions);
+  return mainThreadDefinition;
 }

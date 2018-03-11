@@ -1,73 +1,18 @@
 package wisey.lang;
 
+import wisey.lang.CCallStack;
 import wisey.lang.MStackOverflowException;
 
 /**
- * Keeps track of the method call stack and can print out a strack trace
+ * Represents main thread where the program runs
  */
 thread TMainThread {
-  public constant int CALL_STACK_SIZE = 1024;
-
-  inject string[CALL_STACK_SIZE]* mCallStackObjectNames;
-  inject string[CALL_STACK_SIZE]* mCallStackMethodNames;
-  inject string[CALL_STACK_SIZE]* mCallStackFileNames;
-  inject int[CALL_STACK_SIZE]* mCallStackLineNumbers;
-  state int mCallIStackIndex;
-
+  inject CCallStack* mCallStack;
 
   public void run() {
   }
 
-  /**
-   * Pushes a new method on the call stack
-   */
-  public void pushStack(string objectName, 
-                        string methodName, 
-                        string fileName, 
-                        int lineNumber) {
-    if (mCallIStackIndex >= CALL_STACK_SIZE) {
-      throw builder(MStackOverflowException).build();
-    }
-    mCallStackObjectNames[mCallIStackIndex] = objectName;
-    mCallStackMethodNames[mCallIStackIndex] = methodName;
-    mCallStackFileNames[mCallIStackIndex] = fileName;
-    mCallStackLineNumbers[mCallIStackIndex] = lineNumber;
-    mCallIStackIndex++;
-  }
-
-  /**
-   * Pops the method call stack
-   */
-  public void popStack() {
-    if (mCallIStackIndex == 0) {
-      return;
-    }
-
-    mCallIStackIndex--;
-  }
-
-  /**
-   * Dumps the call stack to standart output
-   */
-  public void dumpStack() {
-    for (int i = mCallIStackIndex - 1; i >= 0; i--) {
-      printout(mCallStackObjectNames[i] + "." + 
-               mCallStackMethodNames[i] + "(" + 
-               mCallStackFileNames[i] + ":" + 
-               mCallStackLineNumbers[i] + ")\n");
-    }
-  }
-
-  /**
-   * Print a stack trace for an exception.
-   *
-   * The last element in the stack trace is the call to this method and is not printed
-   */
-  public void reportException(IException exception) {
-    printerr("Unhandled exception " + exception.getName() + "\n");
-    for (int i = mCallIStackIndex - 1; i >= 0; i--) {
-      printerr("  at " + mCallStackObjectNames[i] + "." + mCallStackMethodNames[i] + "(" +
-        mCallStackFileNames[i] + ":" + mCallStackLineNumbers[i] + ")\n");
-    }
+  public CCallStack getCallStack() {
+    return mCallStack;
   }
 }

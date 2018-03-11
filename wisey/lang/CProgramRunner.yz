@@ -16,26 +16,26 @@ controller CProgramRunner {
     try {
       return runnable.run();
     } catch (MNullPointerException* exception) {
-      thread.reportException(exception);
+      thread.getCallStack().reportException(exception);
       exit(1);
     } catch (MReferenceCountException* exception) {
-      thread.reportException(exception);
+      thread.getCallStack().reportException(exception);
       string ending = exception.getReferenceCount() > 1 ? "s" : "";
       printerr("Details: Object referenced by expression still has " + 
         exception.getReferenceCount() + " active reference" + ending + "\n");
       exit(1);
     } catch (MCastException* exception) {
-      thread.reportException(exception);
+      thread.getCallStack().reportException(exception);
       printerr("Details: Can not cast from " + exception.getFromType() + " to " + 
         exception.getToType() + "\n");
       exit(1);
     } catch (MArrayIndexOutOfBoundsException* exception) {
-      thread.reportException(exception);
+      thread.getCallStack().reportException(exception);
       printerr("Details: Index " + exception.getIndex() + " is used on array of size " + 
         exception.getArraySize() + "\n");
       exit(1);
     } catch (MStackOverflowException* exception) {
-      thread.reportException(exception);
+      thread.getCallStack().reportException(exception);
       exit(1);
     }
   }
