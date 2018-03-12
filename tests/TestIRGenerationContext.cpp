@@ -294,7 +294,7 @@ TEST_F(IRGenerationContextTest, getPackageTypeTest) {
 TEST_F(IRGenerationContextTest, getThisTest) {
   mContext.getScopes().pushScope();
   NiceMock<MockVariable> mockVariable;
-  ON_CALL(mockVariable, getName()).WillByDefault(Return("this"));
+  ON_CALL(mockVariable, getName()).WillByDefault(Return(IObjectType::THIS));
   ON_CALL(mockVariable, getType()).WillByDefault(Return(mModel));
   mContext.getScopes().setVariable(&mockVariable);
   mContext.getScopes().pushScope();

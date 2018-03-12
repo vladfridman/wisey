@@ -298,7 +298,7 @@ Scopes& IRGenerationContext::getScopes() {
 }
 
 IVariable* IRGenerationContext::getThis() {
-  return getScopes().getVariable("this");
+  return getScopes().getVariable(IObjectType::THIS);
 }
 
 LLVMContext& IRGenerationContext::getLLVMContext() {

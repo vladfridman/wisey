@@ -95,7 +95,9 @@ struct FieldOwnerVariableTest : Test {
     mContext.getScopes().pushScope();
     
     Value* thisPointer = ConstantPointerNull::get(mObject->getLLVMType(mContext));
-    IVariable* thisVariable = new ParameterReferenceVariable("this", mObject, thisPointer);
+    IVariable* thisVariable = new ParameterReferenceVariable(IObjectType::THIS,
+                                                             mObject,
+                                                             thisPointer);
     mContext.getScopes().setVariable(thisVariable);
     
     mFieldOwnerVariable = new FieldOwnerVariable("foo", mObject);

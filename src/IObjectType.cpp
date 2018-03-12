@@ -20,6 +20,8 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
+string IObjectType::THIS = "this";
+
 llvm::Constant* IObjectType::getObjectNamePointer(const IObjectType* object,
                                                   IRGenerationContext& context) {
   GlobalVariable* nameGlobal =

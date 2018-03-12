@@ -341,7 +341,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   
   Function::arg_iterator functionArguments = function->arg_begin();
   Argument* thisGeneric = &*functionArguments;
-  thisGeneric->setName("this");
+  thisGeneric->setName(IObjectType::THIS);
   
   Value* nullValue = ConstantPointerNull::get((PointerType*) thisGeneric->getType());
   Value* isNull = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, thisGeneric, nullValue, "");

@@ -99,7 +99,7 @@ TEST_F(IdentifierTest, generateIRForMethodTest) {
   Value* objectPointer = ConstantPointerNull::get(modelStructType->getPointerTo());
   ON_CALL(mockObjecType, findMethod("foo")).WillByDefault(Return(&mockMethodDescriptor));
   ON_CALL(mockVariable, getType()).WillByDefault(Return(&mockObjecType));
-  ON_CALL(mockVariable, getName()).WillByDefault(Return("this"));
+  ON_CALL(mockVariable, getName()).WillByDefault(Return(IObjectType::THIS));
   ON_CALL(mockVariable, generateIdentifierIR(_)).WillByDefault(Return(objectPointer));
   mContext.setObjectType(&mockObjecType);
   mContext.getScopes().setVariable(&mockVariable);
@@ -116,7 +116,7 @@ TEST_F(IdentifierTest, getTypeForMethodTest) {
   NiceMock<MockReferenceVariable> mockVariable;
   ON_CALL(mockObjecType, findMethod("foo")).WillByDefault(Return(&mockMethodDescriptor));
   ON_CALL(mockVariable, getType()).WillByDefault(Return(&mockObjecType));
-  ON_CALL(mockVariable, getName()).WillByDefault(Return("this"));
+  ON_CALL(mockVariable, getName()).WillByDefault(Return(IObjectType::THIS));
   mContext.setObjectType(&mockObjecType);
   mContext.getScopes().setVariable(&mockVariable);
   

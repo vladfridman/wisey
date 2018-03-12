@@ -103,7 +103,7 @@ Function* InstanceOf::createFunction(IRGenerationContext& context, const Interfa
   
   Function::arg_iterator functionArguments = function->arg_begin();
   Argument* thisArgument = &*functionArguments;
-  thisArgument->setName("this");
+  thisArgument->setName(IObjectType::THIS);
   functionArguments++;
   Argument* compareToArgument = &*functionArguments;
   compareToArgument->setName("compareto");

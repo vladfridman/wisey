@@ -176,7 +176,7 @@ void Method::generateIR(IRGenerationContext& context) const {
 void Method::createArguments(IRGenerationContext& context, Function* function) const {
   Function::arg_iterator llvmFunctionArguments = function->arg_begin();
   llvm::Argument *llvmFunctionArgument = &*llvmFunctionArguments;
-  llvmFunctionArgument->setName("this");
+  llvmFunctionArgument->setName(IObjectType::THIS);
   llvmFunctionArguments++;
   llvmFunctionArgument = &*llvmFunctionArguments;
   llvmFunctionArgument->setName(ThreadExpression::THREAD);
@@ -191,7 +191,7 @@ void Method::createArguments(IRGenerationContext& context, Function* function) c
   }
   
   llvmFunctionArguments = function->arg_begin();
-  IMethod::storeArgumentValue(context, "this", mObjectType, &*llvmFunctionArguments);
+  IMethod::storeArgumentValue(context, IObjectType::THIS, mObjectType, &*llvmFunctionArguments);
   llvmFunctionArguments++;
   IMethod::storeArgumentValue(context,
                               ThreadExpression::THREAD,

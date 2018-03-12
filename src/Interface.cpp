@@ -648,7 +648,7 @@ void Interface::composeCastFunction(IRGenerationContext& context,
 
   Function::arg_iterator functionArguments = function->arg_begin();
   Argument* thisArgument = &*functionArguments;
-  thisArgument->setName("this");
+  thisArgument->setName(IObjectType::THIS);
   functionArguments++;
   
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function);

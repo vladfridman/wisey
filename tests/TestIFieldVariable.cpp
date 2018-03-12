@@ -76,7 +76,7 @@ struct IFieldVariableTest : Test {
     mContext.getScopes().pushScope();
     
     Value* thisPointer = ConstantPointerNull::get(mController->getLLVMType(mContext));
-    IVariable* thisVariable = new ParameterReferenceVariable("this", mController, thisPointer);
+    IVariable* thisVariable = new ParameterReferenceVariable(IObjectType::THIS, mController, thisPointer);
     mContext.getScopes().setVariable(thisVariable);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
