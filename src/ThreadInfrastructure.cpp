@@ -179,18 +179,21 @@ void ThreadInfrastructure::composeRunBridgeFunction(IRGenerationContext& context
   Value* threadObject = IRWriter::newBitCastInst(context, threadArgument, threadLLVMType);
   
   Thread* mainThread = context.getThread(Names::getMainThreadFullName());
-  Type* threadControllerLLVMType = mainThread->getLLVMType(context);
-  Value* threadControllerObject = IRWriter::newBitCastInst(context,
-                                                           threadArgument,
-                                                           threadControllerLLVMType);
+  Type* mainThreadLLVMType = mainThread->getLLVMType(context);
+  Value* mainThreadValue = IRWriter::newBitCastInst(context, threadArgument, mainThreadLLVMType);
   
+  Controller* callStack = context.getController(Names::getCallStackControllerFullName());
+  Type* callStackLLVMType = callStack->getLLVMType(context);
+  Value* callStackObject = IRWriter::newBitCastInst(context, threadArgument, callStackLLVMType);
+
   string runFunctionName = IMethodCall::translateObjectMethodToLLVMFunctionName(thread, "run");
   
   Function* runFunction = context.getModule()->getFunction(runFunctionName);
   vector<Value*> callArguments;
   callArguments.push_back(threadObject);
-  callArguments.push_back(threadControllerObject);
-  
+  callArguments.push_back(mainThreadValue);
+  callArguments.push_back(callStackObject);
+
   IRWriter::createCallInst(context, runFunction, callArguments, "");
   
   IRWriter::createReturnInst(context, threadArgument);

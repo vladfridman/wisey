@@ -60,6 +60,7 @@ struct StaticMethodCallTest : public Test {
   ModelTypeSpecifier* mModelSpecifier;
   StructType* mStructType;
   Thread* mMainThread;
+  Controller* mCallStack;
   string mPackage = "systems.vos.wisey.compiler.tests";
   ImportProfile* mImportProfile;
 
@@ -154,8 +155,20 @@ public:
                                                           threadStore);
     FakeExpression* fakeExpression = new FakeExpression(null, mMainThread);
     vector<const IExpression*> arrayIndices;
-   threadVariable->generateAssignmentIR(mContext, fakeExpression, arrayIndices, 0);
+    threadVariable->generateAssignmentIR(mContext, fakeExpression, arrayIndices, 0);
     mContext.getScopes().setVariable(threadVariable);
+
+    mCallStack = mContext.getController(Names::getCallStackControllerFullName());
+    PointerType* callStackLLVMType = mCallStack->getLLVMType(mContext);
+    Value* callStackStore = IRWriter::newAllocaInst(mContext, callStackLLVMType, "");
+    null = ConstantPointerNull::get(callStackLLVMType);
+    IRWriter::newStoreInst(mContext, null, callStackStore);
+    IVariable* callStackVariable = new LocalReferenceVariable(ThreadExpression::CALL_STACK,
+                                                              mCallStack,
+                                                              callStackStore);
+    fakeExpression = new FakeExpression(null, mCallStack);
+    callStackVariable->generateAssignmentIR(mContext, fakeExpression, arrayIndices, 0);
+    mContext.getScopes().setVariable(callStackVariable);
 
     string objectName = mModel->getObjectNameGlobalVariableName();
     llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
@@ -204,6 +217,7 @@ public:
 TEST_F(StaticMethodCallTest, modelStaticMethodCallTest) {
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mMainThread->getLLVMType(mContext));
+  argumentTypes.push_back(mCallStack->getLLVMType(mContext));
   argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   FunctionType* functionType = FunctionType::get(mReturnedModel->getLLVMType(mContext),
@@ -225,8 +239,7 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallTest) {
   
   *mStringStream << *irValue;
   string expected =
-  "  %call = invoke %systems.vos.wisey.compiler.tests.MReturnedModel* "
-  "@systems.vos.wisey.compiler.tests.MSquare.foo(%wisey.lang.TMainThread* %3, float 0x4014CCCCC0000000)"
+  "  %call = invoke %systems.vos.wisey.compiler.tests.MReturnedModel* @systems.vos.wisey.compiler.tests.MSquare.foo(%wisey.lang.TMainThread* %7, %wisey.lang.CCallStack* %8, float 0x4014CCCCC0000000)"
   "\n          to label %invoke.continue unwind label %cleanup";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(staticMethodCall.getType(mContext), mReturnedModel);
@@ -235,6 +248,7 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallTest) {
 TEST_F(StaticMethodCallTest, modelStaticMethodCallWithTryCatchTest) {
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mMainThread->getLLVMType(mContext));
+  argumentTypes.push_back(mCallStack->getLLVMType(mContext));
   argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext),
@@ -259,8 +273,7 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallWithTryCatchTest) {
   Value* irValue = staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   *mStringStream << *irValue;
-  EXPECT_STREQ("  %call = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar("
-               "%wisey.lang.TMainThread* %3, float 0x4014CCCCC0000000)\n"
+  EXPECT_STREQ("  %call = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar(%wisey.lang.TMainThread* %7, %wisey.lang.CCallStack* %8, float 0x4014CCCCC0000000)\n"
                "          to label %invoke.continue unwind label %eh.landing.pad",
                mStringStream->str().c_str());
   EXPECT_EQ(staticMethodCall.getType(mContext), PrimitiveTypes::INT_TYPE);

@@ -452,6 +452,8 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   arguments++;
   Value* threadReference = &*arguments;
   arguments++;
+  Value* callStackReference = &*arguments;
+  arguments++;
   vector<Value*> argumentPointers;
   for (MethodArgument* methodArgument : methodSignature->getArguments()) {
     Value* argumentPointer = storeArgumentValue(context,
@@ -478,6 +480,7 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   vector<Value*> callArguments;
   callArguments.push_back(castedObjectThis);
   callArguments.push_back(threadReference);
+  callArguments.push_back(callStackReference);
   for (Value* argumentPointer : argumentPointers) {
     Value* loadedCallArgument = IRWriter::newLoadInst(context, argumentPointer, "");
     callArguments.push_back(loadedCallArgument);

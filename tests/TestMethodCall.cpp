@@ -59,6 +59,7 @@ struct MethodCallTest : public Test {
   Model* mReturnedModel;
   StructType* mStructType;
   Thread* mMainThread;
+  Controller* mCallStack;
   Function* mMainFunction;
   Method* mFooMethod;
   Method* mBarMethod;
@@ -156,6 +157,18 @@ public:
     vector<const IExpression*> arrayIndices;
     threadVariable->generateAssignmentIR(mContext, fakeExpression, arrayIndices, 0);
     mContext.getScopes().setVariable(threadVariable);
+    
+    mCallStack = mContext.getController(Names::getCallStackControllerFullName());
+    PointerType* callStackLLVMType = mCallStack->getLLVMType(mContext);
+    Value* callStackStore = IRWriter::newAllocaInst(mContext, callStackLLVMType, "");
+    null = ConstantPointerNull::get(callStackLLVMType);
+    IRWriter::newStoreInst(mContext, null, callStackStore);
+    IVariable* callStackVariable = new LocalReferenceVariable(ThreadExpression::CALL_STACK,
+                                                              mCallStack,
+                                                              callStackStore);
+    fakeExpression = new FakeExpression(null, mCallStack);
+    callStackVariable->generateAssignmentIR(mContext, fakeExpression, arrayIndices, 0);
+    mContext.getScopes().setVariable(callStackVariable);
 
     string objectName = mModel->getObjectNameGlobalVariableName();
     llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
@@ -233,6 +246,7 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mStructType->getPointerTo());
   argumentTypes.push_back(mMainThread->getLLVMType(mContext));
+  argumentTypes.push_back(mCallStack->getLLVMType(mContext));
   argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   FunctionType* functionType = FunctionType::get(mReturnedModel->getLLVMType(mContext),
@@ -254,9 +268,8 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
 
   *mStringStream << *irValue;
   string expected =
-  "  %9 = invoke %systems.vos.wisey.compiler.tests.MReturnedModel* "
-  "@systems.vos.wisey.compiler.tests.MSquare.foo(%systems.vos.wisey.compiler.tests.MSquare* %0, "
-  "%wisey.lang.TMainThread* %8, float 0x4014CCCCC0000000)"
+  "  %16 = invoke %systems.vos.wisey.compiler.tests.MReturnedModel* "
+  "@systems.vos.wisey.compiler.tests.MSquare.foo(%systems.vos.wisey.compiler.tests.MSquare* %0, %wisey.lang.TMainThread* %14, %wisey.lang.CCallStack* %15, float 0x4014CCCCC0000000)"
   "\n          to label %invoke.continue1 unwind label %cleanup";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(methodCall.getType(mContext), mReturnedModel);
@@ -266,6 +279,7 @@ TEST_F(MethodCallTest, modelMethodCallWithTryCatchTest) {
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mStructType->getPointerTo());
   argumentTypes.push_back(mMainThread->getLLVMType(mContext));
+  argumentTypes.push_back(mCallStack->getLLVMType(mContext));
   argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext),
@@ -291,10 +305,7 @@ TEST_F(MethodCallTest, modelMethodCallWithTryCatchTest) {
   Value* irValue = methodCall.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   *mStringStream << *irValue;
-  EXPECT_STREQ("  %6 = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar("
-               "%systems.vos.wisey.compiler.tests.MSquare* %0, "
-               "%wisey.lang.TMainThread* %5, "
-               "float 0x4014CCCCC0000000)\n"
+  EXPECT_STREQ("  %11 = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar(%systems.vos.wisey.compiler.tests.MSquare* %0, %wisey.lang.TMainThread* %9, %wisey.lang.CCallStack* %10, float 0x4014CCCCC0000000)\n"
                "          to label %invoke.continue1 unwind label %eh.landing.pad",
                mStringStream->str().c_str());
   EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);

@@ -176,6 +176,9 @@ void StaticMethod::createArguments(IRGenerationContext& context, Function* funct
   llvm::Argument *llvmFunctionArgument = &*llvmFunctionArguments;
   llvmFunctionArgument->setName(ThreadExpression::THREAD);
   llvmFunctionArguments++;
+  llvmFunctionArgument = &*llvmFunctionArguments;
+  llvmFunctionArgument->setName(ThreadExpression::CALL_STACK);
+  llvmFunctionArguments++;
   for (MethodArgument* methodArgument : mArguments) {
     llvmFunctionArgument = &*llvmFunctionArguments;
     llvmFunctionArgument->setName(methodArgument->getName());
@@ -186,6 +189,11 @@ void StaticMethod::createArguments(IRGenerationContext& context, Function* funct
   IMethod::storeArgumentValue(context,
                               ThreadExpression::THREAD,
                               context.getThread(Names::getMainThreadFullName()),
+                              &*llvmFunctionArguments);
+  llvmFunctionArguments++;
+  IMethod::storeArgumentValue(context,
+                              ThreadExpression::CALL_STACK,
+                              context.getController(Names::getCallStackControllerFullName()),
                               &*llvmFunctionArguments);
   llvmFunctionArguments++;
   for (MethodArgument* methodArgument : mArguments) {

@@ -16,6 +16,8 @@ using namespace wisey;
 
 string ThreadExpression::THREAD = "thread";
 
+string ThreadExpression::CALL_STACK = "callstack";
+
 ThreadExpression::ThreadExpression() { }
 
 ThreadExpression::~ThreadExpression() { }

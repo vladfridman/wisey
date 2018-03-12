@@ -44,6 +44,7 @@ struct ComposerTest : public Test {
   Function* mMainFunction;
   string mMethodName;
   NiceMock<MockReferenceVariable>* mThreadVariable;
+  NiceMock<MockReferenceVariable>* mCallStackVariable;
   ImportProfile* mImportProfile;
   string mPackage = "systems.vos.wisey.compiler.tests";
 
@@ -106,22 +107,32 @@ public:
     IConcreteObjectType::defineCurrentObjectNameVariable(mContext, mModel);
     IMethod::defineCurrentMethodNameVariable(mContext, mMethodName);
 
+    mContext.getScopes().pushScope();
+
     Thread* mainThread = mContext.getThread(Names::getMainThreadFullName());
     Value* threadObject = ConstantPointerNull::get(mainThread->getLLVMType(mContext));
     mThreadVariable = new NiceMock<MockReferenceVariable>();
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
     ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(mainThread));
     ON_CALL(*mThreadVariable, generateIdentifierIR(_)).WillByDefault(Return(threadObject));
-    mContext.getScopes().pushScope();
     mContext.getScopes().setVariable(mThreadVariable);
-    mContext.setObjectType(mModel);
 
+    Controller* callStack = mContext.getController(Names::getCallStackControllerFullName());
+    Value* callStackValue = ConstantPointerNull::get(callStack->getLLVMType(mContext));
+    mCallStackVariable = new NiceMock<MockReferenceVariable>();
+    ON_CALL(*mCallStackVariable, getName()).WillByDefault(Return(ThreadExpression::CALL_STACK));
+    ON_CALL(*mCallStackVariable, getType()).WillByDefault(Return(callStack));
+    ON_CALL(*mCallStackVariable, generateIdentifierIR(_)).WillByDefault(Return(callStackValue));
+    mContext.getScopes().setVariable(mCallStackVariable);
+
+    mContext.setObjectType(mModel);
     mStringStream = new raw_string_ostream(mStringBuffer);
 }
   
   ~ComposerTest() {
     delete mStringStream;
     delete mThreadVariable;
+    delete mCallStackVariable;
   }
 };
 
@@ -131,8 +142,7 @@ TEST_F(ComposerTest, pushCallStackTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = call %wisey.lang.CCallStack* @wisey.lang.TMainThread.getCallStack(%wisey.lang.TMainThread* null, %wisey.lang.TMainThread* null)"
-  "\n  call void @wisey.lang.CCallStack.pushStack(%wisey.lang.CCallStack* %0, %wisey.lang.TMainThread* null, i8* getelementptr inbounds ([42 x i8], [42 x i8]* @systems.vos.wisey.compiler.tests.MMyModel.name, i32 0, i32 0), i8* getelementptr inbounds ([4 x i8], [4 x i8]* @methodname.foo, i32 0, i32 0), i8* getelementptr inbounds ([8 x i8], [8 x i8]* @sourcefile.test.yz, i32 0, i32 0), i32 5)\n";
+  "\n  call void @wisey.lang.CCallStack.pushStack(%wisey.lang.CCallStack* null, %wisey.lang.TMainThread* null, %wisey.lang.CCallStack* null, i8* getelementptr inbounds ([42 x i8], [42 x i8]* @systems.vos.wisey.compiler.tests.MMyModel.name, i32 0, i32 0), i8* getelementptr inbounds ([4 x i8], [4 x i8]* @methodname.foo, i32 0, i32 0), i8* getelementptr inbounds ([8 x i8], [8 x i8]* @sourcefile.test.yz, i32 0, i32 0), i32 5)\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
   
   mStringBuffer.clear();
@@ -144,8 +154,7 @@ TEST_F(ComposerTest, popCallStackTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = call %wisey.lang.CCallStack* @wisey.lang.TMainThread.getCallStack(%wisey.lang.TMainThread* null, %wisey.lang.TMainThread* null)"
-  "\n  call void @wisey.lang.CCallStack.popStack(%wisey.lang.CCallStack* %0, %wisey.lang.TMainThread* null)\n";
+  "\n  call void @wisey.lang.CCallStack.popStack(%wisey.lang.CCallStack* null, %wisey.lang.TMainThread* null, %wisey.lang.CCallStack* null)\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
   
   mStringBuffer.clear();

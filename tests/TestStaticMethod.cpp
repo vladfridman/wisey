@@ -122,6 +122,8 @@ TEST_F(StaticMethodTest, getLLVMTypeTest) {
   vector<Type*> argumentTypes;
   Thread* mainThread = mContext.getThread(Names::getMainThreadFullName());
   argumentTypes.push_back(mainThread->getLLVMType(mContext));
+  Controller* callStack = mContext.getController(Names::getCallStackControllerFullName());
+  argumentTypes.push_back(callStack->getLLVMType(mContext));
   argumentTypes.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext);
@@ -148,7 +150,7 @@ TEST_F(StaticMethodTest, definePublicFunctionTest) {
   Function* function = staticMethod.defineFunction(mContext);
   
   *mStringStream << *function;
-  string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.foo(%wisey.lang.TMainThread*, i32)\n";
+  string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.foo(%wisey.lang.TMainThread*, %wisey.lang.CCallStack*, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
@@ -169,7 +171,7 @@ TEST_F(StaticMethodTest, definePrivateFunctionTest) {
   Function* function = staticMethod.defineFunction(mContext);
   
   *mStringStream << *function;
-  string expected = "\ndeclare internal float @systems.vos.wisey.compiler.tests.MObject.foo(%wisey.lang.TMainThread*, i32)\n";
+  string expected = "\ndeclare internal float @systems.vos.wisey.compiler.tests.MObject.foo(%wisey.lang.TMainThread*, %wisey.lang.CCallStack*, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
@@ -192,13 +194,16 @@ TEST_F(StaticMethodTest, generateIRTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @systems.vos.wisey.compiler.tests.MObject.foo("
-  "%wisey.lang.TMainThread* %thread, i32 %intargument) {"
+  "\ndefine void @systems.vos.wisey.compiler.tests.MObject.foo(%wisey.lang.TMainThread* %thread, %wisey.lang.CCallStack* %callstack, i32 %intargument) {"
   "\nentry:"
   "\n  %0 = bitcast %wisey.lang.TMainThread* %thread to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %0, i64 1)"
-  "\n  %1 = bitcast %wisey.lang.TMainThread* %thread to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %1, i64 -1)"
+  "\n  %1 = bitcast %wisey.lang.CCallStack* %callstack to i8*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %1, i64 1)"
+  "\n  %2 = bitcast %wisey.lang.CCallStack* %callstack to i8*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %2, i64 -1)"
+  "\n  %3 = bitcast %wisey.lang.TMainThread* %thread to i8*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %3, i64 -1)"
   "\n  ret void"
   "\n}"
   "\n";

@@ -160,9 +160,12 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
 
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
   Value* threadObject = threadVariable->generateIdentifierIR(context);
+  IVariable* callStackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
+  Value* callStackObject = callStackVariable->generateIdentifierIR(context);
 
   arguments.push_back(threadObject);
-  
+  arguments.push_back(callStackObject);
+
   vector<MethodArgument*> methodArguments = methodDescriptor->getArguments();
   vector<MethodArgument*>::iterator methodArgumentIterator = methodArguments.begin();
   for (const IExpression* callArgument : mArguments) {

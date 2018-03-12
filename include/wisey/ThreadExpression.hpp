@@ -25,7 +25,15 @@ public:
   
   ~ThreadExpression();
   
+  /**
+   * Variable name referencing the current thread
+   */
   static std::string THREAD;
+  
+  /**
+   * Variable name referencing current thread's call stack
+   */
+  static std::string CALL_STACK;
   
   IVariable* getVariable(IRGenerationContext& context,
                          std::vector<const IExpression*>& arrayIndices) const override;

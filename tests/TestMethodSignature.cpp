@@ -88,6 +88,8 @@ TEST_F(MethodSignatureTest, getLLVMTypeTest) {
   argumentTypes.push_back(mInterface->getLLVMType(mContext));
   Thread* mainThread = mContext.getThread(Names::getMainThreadFullName());
   argumentTypes.push_back(mainThread->getLLVMType(mContext));
+  Controller* callStack = mContext.getController(Names::getCallStackControllerFullName());
+  argumentTypes.push_back(callStack->getLLVMType(mContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = PrimitiveTypes::LONG_TYPE->getLLVMType(mContext);
   FunctionType* expectedType = FunctionType::get(llvmReturnType, argTypesArray, false);

@@ -35,29 +35,22 @@ void Composer::pushCallStack(IRGenerationContext& context, int line) {
 
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
   Value* threadObject = threadVariable->generateIdentifierIR(context);
-  const IType* threadVariableType = threadVariable->getType();
-  assert(threadVariableType->isThread());
-  const Thread* currentThread = (const Thread*) threadVariableType;
-  
+
+  IVariable* callStackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
+  Value* callStackObject = callStackVariable->generateIdentifierIR(context);
+
   IVariable* currentObjectVariable = context.getScopes()
     .getVariable(Names::getCurrentObjectVariableName());
   IVariable* currentMethodVariable = context.getScopes()
     .getVariable(Names::getCurrentMethodVariableName());
   
   vector<Value*> arguments;
-  arguments.push_back(threadObject);
-  arguments.push_back(threadObject);
-  string getCallStackFunctionName =
-  IMethodCall::translateObjectMethodToLLVMFunctionName(currentThread,
-                                                       Names::getCallStackMethodName());
-  Function* getCallStackFunction = context.getModule()->
-  getFunction(getCallStackFunctionName.c_str());
-  Value* callStackObject = IRWriter::createCallInst(context, getCallStackFunction, arguments, "");
 
   Controller* callStackController = context.getController(Names::getCallStackControllerFullName());
   arguments.clear();
   arguments.push_back(callStackObject);
   arguments.push_back(threadObject);
+  arguments.push_back(callStackObject);
   arguments.push_back(currentObjectVariable->generateIdentifierIR(context));
   arguments.push_back(currentMethodVariable->generateIdentifierIR(context));
   arguments.push_back(sourceFileNamePointer);
@@ -83,24 +76,16 @@ void Composer::popCallStack(IRGenerationContext& context) {
 
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
   Value* threadObject = threadVariable->generateIdentifierIR(context);
-  const IType* threadVariableType = threadVariable->getType();
-  assert(threadVariableType->isThread());
-  const Thread* currentThread = (const Thread*) threadVariableType;
+  IVariable* callStackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
+  Value* callStackObject = callStackVariable->generateIdentifierIR(context);
 
   vector<Value*> arguments;
-  arguments.push_back(threadObject);
-  arguments.push_back(threadObject);
-  string getCallStackFunctionName =
-  IMethodCall::translateObjectMethodToLLVMFunctionName(currentThread,
-                                                       Names::getCallStackMethodName());
-  Function* getCallStackFunction = context.getModule()->
-  getFunction(getCallStackFunctionName.c_str());
-  Value* callStackObject = IRWriter::createCallInst(context, getCallStackFunction, arguments, "");
 
   Controller* callStackController = context.getController(Names::getCallStackControllerFullName());
   arguments.clear();
   arguments.push_back(callStackObject);
   arguments.push_back(threadObject);
+  arguments.push_back(callStackObject);
   string popStackFunctionName =
   IMethodCall::translateObjectMethodToLLVMFunctionName(callStackController,
                                                        Names::getThreadPopStack());

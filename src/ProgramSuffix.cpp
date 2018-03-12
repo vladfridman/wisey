@@ -16,13 +16,16 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Identifier.hpp"
+#include "wisey/IdentifierChain.hpp"
 #include "wisey/IfStatement.hpp"
 #include "wisey/Injector.hpp"
 #include "wisey/IntConstant.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
+#include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/MethodCall.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
+#include "wisey/NullExpression.hpp"
 #include "wisey/ObjectBuilder.hpp"
 #include "wisey/ObjectOwnerTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -66,7 +69,7 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   context.getScopes().pushScope();
   context.getScopes().setReturnType(PrimitiveTypes::INT_TYPE);
   
-  Thread* mainThread = context.getThread("wisey.lang.TMainThread");
+  Thread* mainThread = context.getThread(Names::getMainThreadFullName());
   InjectionArgumentList injectionArguments;
   Value* injectedThread = mainThread->inject(context, injectionArguments, 0);
   Value* threadStore = IRWriter::newAllocaInst(context, injectedThread->getType(), "threadStore");
@@ -78,6 +81,32 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   FakeExpression* threadExpression = new FakeExpression(injectedThread, mainThread->getOwner());
   vector<const IExpression*> arrayIndices;
   threadVariable->generateAssignmentIR(context, threadExpression, arrayIndices, 0);
+
+  Controller* callStack = context.getController(Names::getCallStackControllerFullName());
+  Value* callStackStore = IRWriter::newAllocaInst(context,
+                                                  callStack->getLLVMType(context),
+                                                  "callStackStore");
+  IReferenceVariable* callStackVariable = new LocalReferenceVariable(ThreadExpression::CALL_STACK,
+                                                                     callStack,
+                                                                     callStackStore);
+  context.getScopes().setVariable(callStackVariable);
+
+  NullExpression* nullExpression = new NullExpression();
+  callStackVariable->generateAssignmentIR(context, nullExpression, arrayIndices, 0);
+  
+  string getCallStackFunctionName =
+  IMethodCall::translateObjectMethodToLLVMFunctionName(mainThread, "getCallStack");
+  Function* getCallStackFunction = context.getModule()->getFunction(getCallStackFunctionName);
+  vector<Value*> getCallStackArguments;
+  getCallStackArguments.push_back(injectedThread);
+  getCallStackArguments.push_back(injectedThread);
+  getCallStackArguments.push_back(callStackVariable->generateIdentifierIR(context));
+  Value* callStackValue = IRWriter::createCallInst(context,
+                                                   getCallStackFunction,
+                                                   getCallStackArguments,
+                                                   "");
+  FakeExpression* callStackExpression = new FakeExpression(callStackValue, callStack);
+  callStackVariable->generateAssignmentIR(context, callStackExpression, arrayIndices, 0);
 
   Injector* injector = new Injector(programInterfaceSpecifier, injectionArguments, 0);
   Identifier* programIdentifier = new Identifier("program");
