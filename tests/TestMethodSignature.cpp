@@ -86,8 +86,8 @@ TEST_F(MethodSignatureTest, createCopyTest) {
 TEST_F(MethodSignatureTest, getLLVMTypeTest) {
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mInterface->getLLVMType(mContext));
-  Thread* mainThread = mContext.getThread(Names::getMainThreadFullName());
-  argumentTypes.push_back(mainThread->getLLVMType(mContext));
+  Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName());
+  argumentTypes.push_back(threadInterface->getLLVMType(mContext));
   Controller* callStack = mContext.getController(Names::getCallStackControllerFullName());
   argumentTypes.push_back(callStack->getLLVMType(mContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);

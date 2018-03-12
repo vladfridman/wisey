@@ -44,8 +44,8 @@ FunctionType* IMethodDescriptor::getLLVMFunctionType(IRGenerationContext& contex
   if (!method->isStatic()) {
     argumentTypes.push_back(object->getLLVMType(context));
   }
-  Thread* mainThread = context.getThread(Names::getMainThreadFullName());
-  argumentTypes.push_back(mainThread->getLLVMType(context));
+  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName());
+  argumentTypes.push_back(threadInterface->getLLVMType(context));
   Controller* callStack = context.getController(Names::getCallStackControllerFullName());
   argumentTypes.push_back(callStack->getLLVMType(context));
   

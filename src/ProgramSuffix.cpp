@@ -26,6 +26,7 @@
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/NullExpression.hpp"
+#include "wisey/NullType.hpp"
 #include "wisey/ObjectBuilder.hpp"
 #include "wisey/ObjectOwnerTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -72,9 +73,12 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   Thread* mainThread = context.getThread(Names::getMainThreadFullName());
   InjectionArgumentList injectionArguments;
   Value* injectedThread = mainThread->inject(context, injectionArguments, 0);
-  Value* threadStore = IRWriter::newAllocaInst(context, injectedThread->getType(), "threadStore");
+  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName());
+  Value* threadStore = IRWriter::newAllocaInst(context,
+                                               threadInterface->getOwner()->getLLVMType(context),
+                                               "threadStore");
   IOwnerVariable* threadVariable = new LocalOwnerVariable(ThreadExpression::THREAD,
-                                                          mainThread->getOwner(),
+                                                          threadInterface->getOwner(),
                                                           threadStore);
   context.getScopes().setVariable(threadVariable);
   threadVariable->setToNull(context);
@@ -93,7 +97,6 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
                                                                      callStack,
                                                                      callStackStore);
   context.getScopes().setVariable(callStackVariable);
-
   NullExpression* nullExpression = new NullExpression();
   callStackVariable->generateAssignmentIR(context, nullExpression, arrayIndices, 0);
   

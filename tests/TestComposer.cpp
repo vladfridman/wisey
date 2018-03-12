@@ -109,11 +109,11 @@ public:
 
     mContext.getScopes().pushScope();
 
-    Thread* mainThread = mContext.getThread(Names::getMainThreadFullName());
-    Value* threadObject = ConstantPointerNull::get(mainThread->getLLVMType(mContext));
+    Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName());
+    Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));
     mThreadVariable = new NiceMock<MockReferenceVariable>();
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
-    ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(mainThread));
+    ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadInterface));
     ON_CALL(*mThreadVariable, generateIdentifierIR(_)).WillByDefault(Return(threadObject));
     mContext.getScopes().setVariable(mThreadVariable);
 
@@ -142,7 +142,7 @@ TEST_F(ComposerTest, pushCallStackTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  call void @wisey.lang.CCallStack.pushStack(%wisey.lang.CCallStack* null, %wisey.lang.TMainThread* null, %wisey.lang.CCallStack* null, i8* getelementptr inbounds ([42 x i8], [42 x i8]* @systems.vos.wisey.compiler.tests.MMyModel.name, i32 0, i32 0), i8* getelementptr inbounds ([4 x i8], [4 x i8]* @methodname.foo, i32 0, i32 0), i8* getelementptr inbounds ([8 x i8], [8 x i8]* @sourcefile.test.yz, i32 0, i32 0), i32 5)\n";
+  "\n  call void @wisey.lang.CCallStack.pushStack(%wisey.lang.CCallStack* null, %wisey.lang.IThread* null, %wisey.lang.CCallStack* null, i8* getelementptr inbounds ([42 x i8], [42 x i8]* @systems.vos.wisey.compiler.tests.MMyModel.name, i32 0, i32 0), i8* getelementptr inbounds ([4 x i8], [4 x i8]* @methodname.foo, i32 0, i32 0), i8* getelementptr inbounds ([8 x i8], [8 x i8]* @sourcefile.test.yz, i32 0, i32 0), i32 5)\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
   
   mStringBuffer.clear();
@@ -154,7 +154,7 @@ TEST_F(ComposerTest, popCallStackTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  call void @wisey.lang.CCallStack.popStack(%wisey.lang.CCallStack* null, %wisey.lang.TMainThread* null, %wisey.lang.CCallStack* null)\n";
+  "\n  call void @wisey.lang.CCallStack.popStack(%wisey.lang.CCallStack* null, %wisey.lang.IThread* null, %wisey.lang.CCallStack* null)\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
   
   mStringBuffer.clear();

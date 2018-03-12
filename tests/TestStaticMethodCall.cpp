@@ -59,7 +59,7 @@ struct StaticMethodCallTest : public Test {
   Model* mReturnedModel;
   ModelTypeSpecifier* mModelSpecifier;
   StructType* mStructType;
-  Thread* mMainThread;
+  Interface* mThreadInterface;
   Controller* mCallStack;
   string mPackage = "systems.vos.wisey.compiler.tests";
   ImportProfile* mImportProfile;
@@ -145,15 +145,15 @@ public:
     mContext.getScopes().pushScope();
     mContext.setMainFunction(mainFunction);
     
-    mMainThread = mContext.getThread(Names::getMainThreadFullName());
-    PointerType* llvmType = mMainThread->getLLVMType(mContext);
+    mThreadInterface = mContext.getInterface(Names::getThreadInterfaceFullName());
+    PointerType* llvmType = mThreadInterface->getLLVMType(mContext);
     Value* threadStore = IRWriter::newAllocaInst(mContext, llvmType, "threadStore");
     llvm::Constant* null = ConstantPointerNull::get(llvmType);
     IRWriter::newStoreInst(mContext, null, threadStore);
     IVariable* threadVariable = new LocalReferenceVariable(ThreadExpression::THREAD,
-                                                          mMainThread,
+                                                          mThreadInterface,
                                                           threadStore);
-    FakeExpression* fakeExpression = new FakeExpression(null, mMainThread);
+    FakeExpression* fakeExpression = new FakeExpression(null, mThreadInterface);
     vector<const IExpression*> arrayIndices;
     threadVariable->generateAssignmentIR(mContext, fakeExpression, arrayIndices, 0);
     mContext.getScopes().setVariable(threadVariable);
@@ -216,7 +216,7 @@ public:
 
 TEST_F(StaticMethodCallTest, modelStaticMethodCallTest) {
   vector<Type*> argumentTypes;
-  argumentTypes.push_back(mMainThread->getLLVMType(mContext));
+  argumentTypes.push_back(mThreadInterface->getLLVMType(mContext));
   argumentTypes.push_back(mCallStack->getLLVMType(mContext));
   argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
@@ -239,7 +239,7 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallTest) {
   
   *mStringStream << *irValue;
   string expected =
-  "  %call = invoke %systems.vos.wisey.compiler.tests.MReturnedModel* @systems.vos.wisey.compiler.tests.MSquare.foo(%wisey.lang.TMainThread* %7, %wisey.lang.CCallStack* %8, float 0x4014CCCCC0000000)"
+  "  %call = invoke %systems.vos.wisey.compiler.tests.MReturnedModel* @systems.vos.wisey.compiler.tests.MSquare.foo(%wisey.lang.IThread* %7, %wisey.lang.CCallStack* %8, float 0x4014CCCCC0000000)"
   "\n          to label %invoke.continue unwind label %cleanup";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(staticMethodCall.getType(mContext), mReturnedModel);
@@ -247,7 +247,7 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallTest) {
 
 TEST_F(StaticMethodCallTest, modelStaticMethodCallWithTryCatchTest) {
   vector<Type*> argumentTypes;
-  argumentTypes.push_back(mMainThread->getLLVMType(mContext));
+  argumentTypes.push_back(mThreadInterface->getLLVMType(mContext));
   argumentTypes.push_back(mCallStack->getLLVMType(mContext));
   argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
@@ -273,7 +273,7 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallWithTryCatchTest) {
   Value* irValue = staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   *mStringStream << *irValue;
-  EXPECT_STREQ("  %call = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar(%wisey.lang.TMainThread* %7, %wisey.lang.CCallStack* %8, float 0x4014CCCCC0000000)\n"
+  EXPECT_STREQ("  %call = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar(%wisey.lang.IThread* %7, %wisey.lang.CCallStack* %8, float 0x4014CCCCC0000000)\n"
                "          to label %invoke.continue unwind label %eh.landing.pad",
                mStringStream->str().c_str());
   EXPECT_EQ(staticMethodCall.getType(mContext), PrimitiveTypes::INT_TYPE);

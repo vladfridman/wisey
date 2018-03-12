@@ -286,11 +286,11 @@ struct ControllerTest : public Test {
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
-    Thread* mainThread = mContext.getThread(Names::getMainThreadFullName());
-    Value* threadObject = ConstantPointerNull::get(mainThread->getLLVMType(mContext));
+    Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName());
+    Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));
     mThreadVariable = new NiceMock<MockVariable>();
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
-    ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(mainThread));
+    ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadInterface));
     ON_CALL(*mThreadVariable, generateIdentifierIR(_)).WillByDefault(Return(threadObject));
     mContext.getScopes().setVariable(mThreadVariable);
 

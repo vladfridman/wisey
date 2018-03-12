@@ -66,6 +66,16 @@ public:
   static std::string getMainThreadShortName();
 
   /**
+   * Retuns IThread inteface name
+   */
+  static std::string getThreadInterfaceName();
+  
+  /**
+   * Retuns IThread inteface full name
+   */
+  static std::string getThreadInterfaceFullName();
+  
+  /**
    * Main thread full name
    */
   static std::string getMainThreadFullName();

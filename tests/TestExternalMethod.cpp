@@ -101,8 +101,8 @@ TEST_F(ExternalMethodTest, getLLVMTypeTest) {
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mModel->getLLVMType(mContext));
 
-  Thread* mainThread = mContext.getThread(Names::getMainThreadFullName());
-  argumentTypes.push_back(mainThread->getLLVMType(mContext));
+  Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName());
+  argumentTypes.push_back(threadInterface->getLLVMType(mContext));
   Controller* callStack = mContext.getController(Names::getCallStackControllerFullName());
   argumentTypes.push_back(callStack->getLLVMType(mContext));
   argumentTypes.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mContext));
@@ -124,7 +124,7 @@ TEST_F(ExternalMethodTest, defineFunctionTest) {
   Function* function = method.defineFunction(mContext);
   
   *mStringStream << *function;
-  string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.foo(%systems.vos.wisey.compiler.tests.MObject*, %wisey.lang.TMainThread*, %wisey.lang.CCallStack*, i32)\n";
+  string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.foo(%systems.vos.wisey.compiler.tests.MObject*, %wisey.lang.IThread*, %wisey.lang.CCallStack*, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }

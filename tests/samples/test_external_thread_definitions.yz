@@ -1,9 +1,13 @@
-external thread wisey.lang.TWorker {
+external thread wisey.lang.TWorker 
+    implements wisey.lang.IThread {
 
   void run();
+
+  wisey.lang.CCallStack getCallStack();
 }
 
-external thread wisey.lang.TWorkerWithFieldsAndMethods {
+external thread wisey.lang.TWorkerWithFieldsAndMethods 
+    implements wisey.lang.IThread {
   receive int mReceivedField;
   inject wisey.lang.TWorker* mInjectedField;
   state int mStateField;
@@ -11,14 +15,16 @@ external thread wisey.lang.TWorkerWithFieldsAndMethods {
   int getValue();
 
   void run();
+
+  wisey.lang.CCallStack getCallStack();
 }
 
 interface wisey.lang.IInterface {
 
 }
 
-external thread wisey.lang.TWorkerWithFieldsAndMethodsAndInterface
-    implements wisey.lang.IInterface {
+external thread wisey.lang.TWorkerWithFieldsAndMethodsAndInterface 
+    implements wisey.lang.IThread, wisey.lang.IInterface {
   receive int mReceivedField;
   inject wisey.lang.TWorker* mInjectedField;
   state int mStateField;
@@ -26,4 +32,6 @@ external thread wisey.lang.TWorkerWithFieldsAndMethodsAndInterface
   int getValue();
 
   void run();
+
+  wisey.lang.CCallStack getCallStack();
 }

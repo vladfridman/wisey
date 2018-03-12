@@ -37,9 +37,12 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   modelElements.push_back(new FixedFieldDeclaration(longTypeSpecifier, "mIndex"));
   defineModel(context, Names::getArrayIndexOutOfBoundsModelName(), modelElements);
   
+  InterfaceDefinition* threadInterfaceDefinition = defineThreadInterface(context);
   ControllerDefinition* callStackDefinition = defineCallStackController(context);
   ThreadDefinition* mainThreadDefinition = defineMainThread(context);
 
+  threadInterfaceDefinition->prototypeObject(context);
+  threadInterfaceDefinition->prototypeMethods(context);
   callStackDefinition->prototypeObject(context);
   mainThreadDefinition->prototypeObject(context);
   callStackDefinition->prototypeMethods(context);
@@ -117,12 +120,11 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
   vector<IInterfaceTypeSpecifier*> interfaceSpecifiers;
   vector<IObjectDefinition*> innerObjectDefinitions;
   
-  ControllerDefinition* callStackDefinition = new ControllerDefinition(AccessLevel::PUBLIC_ACCESS,
-                                                                       controllerTypeSpecifier,
-                                                                       elementDeclarations,
-                                                                       interfaceSpecifiers,
-                                                                       innerObjectDefinitions);
-  return callStackDefinition;
+  return new ControllerDefinition(AccessLevel::PUBLIC_ACCESS,
+                                  controllerTypeSpecifier,
+                                  elementDeclarations,
+                                  interfaceSpecifiers,
+                                  innerObjectDefinitions);
 }
 
 ThreadDefinition* TestPrefix::defineMainThread(IRGenerationContext& context) {
@@ -131,7 +133,6 @@ ThreadDefinition* TestPrefix::defineMainThread(IRGenerationContext& context) {
   ThreadTypeSpecifierFull* threadTypeSpecifier =
     new ThreadTypeSpecifierFull(packageExpression, Names::getMainThreadShortName());
   vector<IObjectElementDeclaration*> elementDeclarations;
-  vector<IInterfaceTypeSpecifier*> interfaceSpecifiers;
   
   packageType = new PackageType(Names::getLangPackageName());
   packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
@@ -167,11 +168,33 @@ ThreadDefinition* TestPrefix::defineMainThread(IRGenerationContext& context) {
   voidTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE);
   
   vector<IObjectDefinition*> innerObjectDefinitions;
-  ThreadDefinition* mainThreadDefinition = new ThreadDefinition(AccessLevel::PUBLIC_ACCESS,
-                                                                threadTypeSpecifier,
-                                                                voidTypeSpecifier,
-                                                                elementDeclarations,
-                                                                interfaceSpecifiers,
-                                                                innerObjectDefinitions);
-  return mainThreadDefinition;
+  vector<IInterfaceTypeSpecifier*> interfaceSpecifiers;
+  packageType = new PackageType(Names::getLangPackageName());
+  packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
+  InterfaceTypeSpecifierFull* interfaceTypeSpecifer =
+  new InterfaceTypeSpecifierFull(packageExpression, Names::getThreadInterfaceName());
+  interfaceSpecifiers.push_back(interfaceTypeSpecifer);
+  
+  return new ThreadDefinition(AccessLevel::PUBLIC_ACCESS,
+                              threadTypeSpecifier,
+                              voidTypeSpecifier,
+                              elementDeclarations,
+                              interfaceSpecifiers,
+                              innerObjectDefinitions);
+}
+
+InterfaceDefinition* TestPrefix::defineThreadInterface(IRGenerationContext& context) {
+  PackageType* packageType = new PackageType(Names::getLangPackageName());
+  FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
+  InterfaceTypeSpecifierFull* interfaceTypeSpecifier =
+    new InterfaceTypeSpecifierFull(packageExpression, Names::getThreadInterfaceName());
+  vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers;
+  vector<IObjectElementDeclaration *> elementDeclarations;
+  vector<IObjectDefinition*> innerObjectDefinitions;
+
+  return new InterfaceDefinition(AccessLevel::PUBLIC_ACCESS,
+                                 interfaceTypeSpecifier,
+                                 parentInterfaceSpecifiers,
+                                 elementDeclarations,
+                                 innerObjectDefinitions);
 }

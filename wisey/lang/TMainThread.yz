@@ -1,12 +1,12 @@
 package wisey.lang;
 
 import wisey.lang.CCallStack;
-import wisey.lang.MStackOverflowException;
+import wisey.lang.IThread;
 
 /**
  * Represents main thread where the program runs
  */
-thread TMainThread {
+thread TMainThread implements IThread {
   inject CCallStack* mCallStack;
 
   public void run() {

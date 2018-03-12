@@ -1,0 +1,20 @@
+package wisey.lang;
+
+import wisey.lang.CCallStack;
+
+/**
+ * Represents a thread of execution. All thread objects must implement this interface.
+ */
+interface IThread {
+
+  /**
+   * This method is called when thread is started
+   */ 
+  void run();
+
+  /**
+   * Returns the call stack for this thread
+   */
+  CCallStack getCallStack();
+
+}

@@ -178,9 +178,10 @@ void ThreadInfrastructure::composeRunBridgeFunction(IRGenerationContext& context
   Type* threadLLVMType = thread->getLLVMType(context);
   Value* threadObject = IRWriter::newBitCastInst(context, threadArgument, threadLLVMType);
   
-  Thread* mainThread = context.getThread(Names::getMainThreadFullName());
-  Type* mainThreadLLVMType = mainThread->getLLVMType(context);
-  Value* mainThreadValue = IRWriter::newBitCastInst(context, threadArgument, mainThreadLLVMType);
+  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName());
+  Value* threadInterfaceObject = IRWriter::newBitCastInst(context,
+                                                          threadArgument,
+                                                          threadInterface->getLLVMType(context));
   
   Controller* callStack = context.getController(Names::getCallStackControllerFullName());
   Type* callStackLLVMType = callStack->getLLVMType(context);
@@ -191,7 +192,7 @@ void ThreadInfrastructure::composeRunBridgeFunction(IRGenerationContext& context
   Function* runFunction = context.getModule()->getFunction(runFunctionName);
   vector<Value*> callArguments;
   callArguments.push_back(threadObject);
-  callArguments.push_back(mainThreadValue);
+  callArguments.push_back(threadInterfaceObject);
   callArguments.push_back(callStackObject);
 
   IRWriter::createCallInst(context, runFunction, callArguments, "");

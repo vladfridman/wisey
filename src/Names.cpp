@@ -43,6 +43,14 @@ string Names::getEmptyStringName() {
   return "__empty.str";
 }
 
+string Names::getThreadInterfaceName() {
+  return "IThread";
+}
+
+string Names::getThreadInterfaceFullName() {
+  return getLangPackageName() + "." + getThreadInterfaceName();
+}
+
 string Names::getMainThreadShortName() {
   return "TMainThread";
 }

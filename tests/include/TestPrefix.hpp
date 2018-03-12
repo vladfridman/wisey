@@ -10,6 +10,7 @@
 #define TestPrefix_h
 
 #include "wisey/ControllerDefinition.hpp"
+#include "wisey/InterfaceDefinition.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/ThreadDefinition.hpp"
 
@@ -37,7 +38,9 @@ private:
                           std::string modelName,
                           std::vector<wisey::IObjectElementDeclaration*> modelElements);
   
-  static wisey::ControllerDefinition* defineCallStackController(wisey::IRGenerationContext& 
+  static wisey::InterfaceDefinition* defineThreadInterface(wisey::IRGenerationContext& context);
+  
+  static wisey::ControllerDefinition* defineCallStackController(wisey::IRGenerationContext&
                                                                 context);
   
   static wisey::ThreadDefinition* defineMainThread(wisey::IRGenerationContext& context);

@@ -10,6 +10,12 @@ external interface wisey.lang.IProgram {
   int run() throws wisey.lang.MReferenceCountException, wisey.lang.MNullPointerException;
 }
 
+external interface wisey.lang.IThread {
+
+  void run();
+  wisey.lang.CCallStack getCallStack();
+}
+
 /* Models */
 
 external model wisey.lang.MArrayIndexOutOfBoundsException
@@ -93,7 +99,9 @@ external controller wisey.lang.CProgramRunner {
 
 /* Threads */
 
-external thread wisey.lang.TMainThread {
+external thread wisey.lang.TMainThread
+  implements
+    wisey.lang.IThread {
 
   inject wisey.lang.CCallStack* mCallStack;
 

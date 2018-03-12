@@ -40,7 +40,7 @@ using ::testing::Test;
 struct ThreadExpressionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  Thread* mMainThread;
+  Interface* mThreadInterface;
   LocalReferenceVariable* mThreadVariable;
   ThreadExpression mThreadExpression;
   BasicBlock* mBasicBlock;
@@ -61,15 +61,15 @@ struct ThreadExpressionTest : public Test {
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
 
-    mMainThread = mContext.getThread(Names::getMainThreadFullName());
-    PointerType* controllerType = mMainThread->getLLVMType(mContext);
-    Value* threadStore = IRWriter::newAllocaInst(mContext, controllerType, "threadStore");
-    llvm::Constant* null = ConstantPointerNull::get(controllerType);
+    mThreadInterface = mContext.getInterface(Names::getThreadInterfaceFullName());
+    PointerType* llvmType = mThreadInterface->getLLVMType(mContext);
+    Value* threadStore = IRWriter::newAllocaInst(mContext, llvmType, "threadStore");
+    llvm::Constant* null = ConstantPointerNull::get(llvmType);
     IRWriter::newStoreInst(mContext, null, threadStore);
     mThreadVariable = new LocalReferenceVariable(ThreadExpression::THREAD,
-                                                 mMainThread,
+                                                 mThreadInterface,
                                                  threadStore);
-    FakeExpression* fakeExpression = new FakeExpression(null, mMainThread);
+    FakeExpression* fakeExpression = new FakeExpression(null, mThreadInterface);
     vector<const IExpression*> arrayIndices;
     mThreadVariable->generateAssignmentIR(mContext, fakeExpression, arrayIndices, 0);
     
@@ -87,14 +87,14 @@ TEST_F(ThreadExpressionTest, getVariableTest) {
 }
 
 TEST_F(ThreadExpressionTest, getTypeTest) {
-  EXPECT_EQ(mThreadExpression.getType(mContext), mMainThread);
+  EXPECT_EQ(mThreadExpression.getType(mContext), mThreadInterface);
 }
 
 TEST_F(ThreadExpressionTest, generateIRTest) {
   Value* instruction = mThreadExpression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
 
   *mStringStream << *instruction;
-  string expected = "  %3 = load %wisey.lang.TMainThread*, %wisey.lang.TMainThread** %threadStore";
+  string expected = "  %3 = load %wisey.lang.IThread*, %wisey.lang.IThread** %threadStore";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 

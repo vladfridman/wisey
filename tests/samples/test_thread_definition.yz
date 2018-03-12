@@ -1,10 +1,16 @@
 package systems.vos.wisey.compiler.tests;
 
+import wisey.lang.CCallStack;
 import wisey.lang.IProgram;
+import wisey.lang.IThread;
 
-thread TThread sends int {
+thread TThread sends int implements IThread {
 
   public void run() {
     
+  }
+
+  public CCallStack getCallStack() {
+    return null;
   }
 }

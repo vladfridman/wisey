@@ -76,6 +76,7 @@ void Composer::popCallStack(IRGenerationContext& context) {
 
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
   Value* threadObject = threadVariable->generateIdentifierIR(context);
+
   IVariable* callStackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
   Value* callStackObject = callStackVariable->generateIdentifierIR(context);
 

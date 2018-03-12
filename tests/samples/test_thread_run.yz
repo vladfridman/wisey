@@ -1,11 +1,17 @@
 package systems.vos.wisey.compiler.tests;
 
+import wisey.lang.CCallStack;
 import wisey.lang.IProgram;
+import wisey.lang.IThread;
 
-thread TWorker sends int {
+thread TWorker sends int implements IThread {
 
   public void run() {
     printout("This is worker thread!\n");
+  }
+
+  public CCallStack getCallStack() {
+    return null;
   }
 }
 

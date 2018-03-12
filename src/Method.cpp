@@ -195,7 +195,7 @@ void Method::createArguments(IRGenerationContext& context, Function* function) c
   llvmFunctionArguments++;
   IMethod::storeArgumentValue(context,
                               ThreadExpression::THREAD,
-                              context.getThread(Names::getMainThreadFullName()),
+                              context.getInterface(Names::getThreadInterfaceFullName()),
                               &*llvmFunctionArguments);
   llvmFunctionArguments++;
   IMethod::storeArgumentValue(context,
