@@ -78,14 +78,17 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
                                                           threadStore);
   context.getScopes().setVariable(threadVariable);
   threadVariable->setToNull(context);
-  FakeExpression* threadExpression = new FakeExpression(injectedThread, mainThread->getOwner());
+  FakeExpression threadExpression(injectedThread, mainThread->getOwner());
   vector<const IExpression*> arrayIndices;
-  threadVariable->generateAssignmentIR(context, threadExpression, arrayIndices, 0);
+  threadVariable->generateAssignmentIR(context, &threadExpression, arrayIndices, 0);
 
   Controller* callStack = context.getController(Names::getCallStackControllerFullName());
   Value* callStackStore = IRWriter::newAllocaInst(context,
                                                   callStack->getLLVMType(context),
                                                   "callStackStore");
+  IRWriter::newStoreInst(context,
+                         ConstantPointerNull::get(callStack->getLLVMType(context)),
+                         callStackStore);
   IReferenceVariable* callStackVariable = new LocalReferenceVariable(ThreadExpression::CALL_STACK,
                                                                      callStack,
                                                                      callStackStore);
@@ -94,19 +97,11 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   NullExpression* nullExpression = new NullExpression();
   callStackVariable->generateAssignmentIR(context, nullExpression, arrayIndices, 0);
   
-  string getCallStackFunctionName =
-  IMethodCall::translateObjectMethodToLLVMFunctionName(mainThread, "getCallStack");
-  Function* getCallStackFunction = context.getModule()->getFunction(getCallStackFunctionName);
-  vector<Value*> getCallStackArguments;
-  getCallStackArguments.push_back(injectedThread);
-  getCallStackArguments.push_back(injectedThread);
-  getCallStackArguments.push_back(callStackVariable->generateIdentifierIR(context));
-  Value* callStackValue = IRWriter::createCallInst(context,
-                                                   getCallStackFunction,
-                                                   getCallStackArguments,
-                                                   "");
-  FakeExpression* callStackExpression = new FakeExpression(callStackValue, callStack);
-  callStackVariable->generateAssignmentIR(context, callStackExpression, arrayIndices, 0);
+  Identifier* threadIdentifier = new Identifier(ThreadExpression::THREAD);
+  IdentifierChain* getCallStackIdentifier = new IdentifierChain(threadIdentifier, "getCallStack");
+  ExpressionList methodCallArguments;
+  MethodCall* methodCall = new MethodCall(getCallStackIdentifier, methodCallArguments, 0);
+  callStackVariable->generateAssignmentIR(context, methodCall, arrayIndices, 0);
 
   Injector* injector = new Injector(programInterfaceSpecifier, injectionArguments, 0);
   Identifier* programIdentifier = new Identifier("program");
@@ -134,8 +129,8 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
                                                       "run",
                                                       argumentList,
                                                       0);
-  ReturnStatement* returnStatement = new ReturnStatement(runnerCall, 0);
-  returnStatement->generateIR(context);
+  ReturnStatement returnStatement(runnerCall, 0);
+  returnStatement.generateIR(context);
 
   context.getScopes().popScope(context, 0);
   context.setMainFunction(mainFunction);
