@@ -71,12 +71,38 @@ Function* ThreadInfrastructure::defineThreadJoinFunction(IRGenerationContext& co
                           context.getModule());
 }
 
+Function* ThreadInfrastructure::getThreadExitFunction(IRGenerationContext& context) {
+  Function* function = context.getModule()->getFunction(getThreadExitFunctionName());
+  
+  return function ? function : defineThreadExitFunction(context);
+}
+
+Function* ThreadInfrastructure::defineThreadExitFunction(IRGenerationContext& context) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  PointerType* genericPointer = Type::getInt8Ty(llvmContext)->getPointerTo();
+  
+  vector<Type*> argumentTypes;
+  argumentTypes.push_back(genericPointer);
+  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
+  Type* llvmReturnType = Type::getVoidTy(llvmContext);
+  FunctionType* ftype = FunctionType::get(llvmReturnType, argTypesArray, false);
+  
+  return Function::Create(ftype,
+                          GlobalValue::ExternalLinkage,
+                          getThreadExitFunctionName(),
+                          context.getModule());
+}
+
 string ThreadInfrastructure::getThreadCreateFunctionName() {
   return "pthread_create";
 }
 
 string ThreadInfrastructure::getThreadJoinFunctionName() {
   return "pthread_join";
+}
+
+string ThreadInfrastructure::getThreadExitFunctionName() {
+  return "pthread_exit";
 }
 
 StructType* ThreadInfrastructure::getNativeThreadStruct(IRGenerationContext& context) {

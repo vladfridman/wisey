@@ -64,6 +64,12 @@ TEST_F(ThreadInfrastructureTest, getThreadJoinFunctionTest) {
   EXPECT_NE(mModule->getFunction("pthread_join"), nullptr);
 }
 
+TEST_F(ThreadInfrastructureTest, getThreadExitFunctionTest) {
+  EXPECT_EQ(mModule->getFunction("pthread_exit"), nullptr);
+  EXPECT_NE(ThreadInfrastructure::getThreadExitFunction(mContext), nullptr);
+  EXPECT_NE(mModule->getFunction("pthread_exit"), nullptr);
+}
+
 TEST_F(ThreadInfrastructureTest, getRunBridgeFunctionTest) {
   EXPECT_EQ(mModule->getFunction("TWorker.runBridge"), nullptr);
   EXPECT_NE(ThreadInfrastructure::getRunBridgeFunction(mContext, mThread), nullptr);
