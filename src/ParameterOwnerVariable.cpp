@@ -41,6 +41,10 @@ const IType* ParameterOwnerVariable::getType() const {
   return mType;
 }
 
+bool ParameterOwnerVariable::isSystem() const {
+  return false;
+}
+
 Value* ParameterOwnerVariable::generateIdentifierIR(IRGenerationContext& context) const {
   return IRWriter::newLoadInst(context, mValueStore, "");
 }

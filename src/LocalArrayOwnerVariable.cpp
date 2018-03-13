@@ -43,6 +43,10 @@ llvm::Value* LocalArrayOwnerVariable::generateIdentifierIR(IRGenerationContext& 
   return IRWriter::newLoadInst(context, mValueStore, "");
 }
 
+bool LocalArrayOwnerVariable::isSystem() const {
+  return false;
+}
+
 llvm::Value* LocalArrayOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
                                                            IExpression* assignToExpression,
                                                            vector<const IExpression*> arrayIndices,

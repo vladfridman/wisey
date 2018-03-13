@@ -66,6 +66,16 @@ public:
   }
 };
 
+TEST_F(LocalArrayReferenceVariableTest, basicFieldsTest) {
+  llvm::PointerType* arrayPointerType = mArrayType->getLLVMType(mContext);
+  AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
+  LocalArrayReferenceVariable variable("foo", mArrayType, alloc);
+
+  EXPECT_STREQ("foo", variable.getName().c_str());
+  EXPECT_EQ(mArrayType, variable.getType());
+  EXPECT_FALSE(variable.isSystem());
+}
+
 TEST_F(LocalArrayReferenceVariableTest, generateArrayIdentifierIRTest) {
   llvm::PointerType* arrayPointerType = mArrayType->getLLVMType(mContext);
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");

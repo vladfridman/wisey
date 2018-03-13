@@ -1,11 +1,11 @@
 //
-//  TestParameterPrimitiveVariable.cpp
+//  TestParameterSystemReferenceVariable.cpp
 //  runtests
 //
-//  Created by Vladimir Fridman on 11/3/17.
-//  Copyright © 2017 Vladimir Fridman. All rights reserved.
+//  Created by Vladimir Fridman on 3/13/18.
+//  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link ParameterPrimitiveVariable}
+//  Tests {@link ParameterSystemReferenceVariable}
 //
 
 #include <gtest/gtest.h>
@@ -18,7 +18,8 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/ParameterPrimitiveVariable.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/ParameterSystemReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramPrefix.hpp"
 
@@ -32,7 +33,7 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct ParameterPrimitiveVariableTest : public Test {
+struct ParameterSystemReferenceVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBlock;
@@ -42,7 +43,7 @@ struct ParameterPrimitiveVariableTest : public Test {
   
 public:
   
-  ParameterPrimitiveVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+  ParameterSystemReferenceVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     
@@ -72,35 +73,42 @@ public:
   }
 };
 
-TEST_F(ParameterPrimitiveVariableTest, basicFieldsTest) {
-  Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
-  ParameterPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, fooValue);
-
+TEST_F(ParameterSystemReferenceVariableTest, basicFieldsTest) {
+  Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mContext));
+  ParameterSystemReferenceVariable variable("foo", mModel, fooValue);
+  
   EXPECT_STREQ("foo", variable.getName().c_str());
-  EXPECT_EQ(PrimitiveTypes::INT_TYPE, variable.getType());
-  EXPECT_FALSE(variable.isSystem());
+  EXPECT_EQ(mModel, variable.getType());
+  EXPECT_TRUE(variable.isSystem());
 }
 
-TEST_F(ParameterPrimitiveVariableTest, parameterReferenceVariableAssignmentDeathTest) {
-  Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
-  ParameterPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, fooValue);
+TEST_F(ParameterSystemReferenceVariableTest, variableAssignmentDeathTest) {
+  Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mContext));
+  ParameterSystemReferenceVariable variable("foo", mModel, fooValue);
   vector<const IExpression*> arrayIndices;
-
+  
   EXPECT_EXIT(variable.generateAssignmentIR(mContext, NULL, arrayIndices, 0),
               ::testing::ExitedWithCode(1),
               "Error: Assignment to method parameters is not allowed");
 }
 
-TEST_F(ParameterPrimitiveVariableTest, parameterReferenceVariableIdentifierTest) {
-  Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
-  ParameterPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, fooValue);
-
+TEST_F(ParameterSystemReferenceVariableTest, variableIdentifierTest) {
+  Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mContext));
+  ParameterSystemReferenceVariable variable("foo", mModel, fooValue);
+  
   EXPECT_EQ(variable.generateIdentifierIR(mContext), fooValue);
 }
 
-TEST_F(TestFileSampleRunner, methodAssignToPrimitiveArgumentDeathRunTest) {
-  expectFailCompile("tests/samples/test_method_assign_to_primitive_argument.yz",
-                    1,
-                    "Error: Assignment to method parameters is not allowed");
+TEST_F(ParameterSystemReferenceVariableTest, decrementReferenceCounterTest) {
+  Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mContext));
+  ParameterSystemReferenceVariable variable("foo", mModel, fooValue);
+  
+  variable.decrementReferenceCounter(mContext);
+  
+  *mStringStream << *mBlock;
+  string expected =
+  "\nentry:"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MShape* null to i8*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %0, i64 -1)\n";
+  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
-

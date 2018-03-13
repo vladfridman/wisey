@@ -41,6 +41,10 @@ const wisey::ArrayType* ParameterArrayReferenceVariable::getType() const {
   return mArrayType;
 }
 
+bool ParameterArrayReferenceVariable::isSystem() const {
+  return false;
+}
+
 Value* ParameterArrayReferenceVariable::generateIdentifierIR(IRGenerationContext& context) const {
   return mValue;
 }

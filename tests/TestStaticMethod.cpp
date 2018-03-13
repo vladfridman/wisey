@@ -196,14 +196,6 @@ TEST_F(StaticMethodTest, generateIRTest) {
   string expected =
   "\ndefine void @systems.vos.wisey.compiler.tests.MObject.foo(%wisey.lang.IThread* %thread, %wisey.lang.CCallStack* %callstack, i32 %intargument) {"
   "\nentry:"
-  "\n  %0 = bitcast %wisey.lang.IThread* %thread to i8*"
-  "\n  call void @__adjustReferenceCounterForInterface(i8* %0, i64 1)"
-  "\n  %1 = bitcast %wisey.lang.CCallStack* %callstack to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %1, i64 1)"
-  "\n  %2 = bitcast %wisey.lang.CCallStack* %callstack to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %2, i64 -1)"
-  "\n  %3 = bitcast %wisey.lang.IThread* %thread to i8*"
-  "\n  call void @__adjustReferenceCounterForInterface(i8* %3, i64 -1)"
   "\n  ret void"
   "\n}"
   "\n";

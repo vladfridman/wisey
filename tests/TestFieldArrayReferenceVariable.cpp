@@ -92,12 +92,10 @@ public:
   }
 };
 
-TEST_F(FieldArrayReferenceVariableTest, getNameTest) {
+TEST_F(FieldArrayReferenceVariableTest, basicFieldsTest) {
   EXPECT_STREQ("foo", mFieldArrayReferenceVariable->getName().c_str());
-}
-
-TEST_F(FieldArrayReferenceVariableTest, getTypeTest) {
   EXPECT_EQ(mArrayType, mFieldArrayReferenceVariable->getType());
+  EXPECT_FALSE(mFieldArrayReferenceVariable->isSystem());
 }
 
 TEST_F(FieldArrayReferenceVariableTest, generateIdentifierIRTest) {

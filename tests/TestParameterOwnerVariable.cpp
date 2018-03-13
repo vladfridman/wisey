@@ -79,6 +79,16 @@ public:
   }
 };
 
+TEST_F(ParameterOwnerVariableTest, basicFieldsTest) {
+  Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
+  Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
+  ParameterOwnerVariable variable("foo", mModel->getOwner(), fooValue);
+
+  EXPECT_STREQ("foo", variable.getName().c_str());
+  EXPECT_EQ(mModel->getOwner(), variable.getType());
+  EXPECT_FALSE(variable.isSystem());
+}
+
 TEST_F(ParameterOwnerVariableTest, freeTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");

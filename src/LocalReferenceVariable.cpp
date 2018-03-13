@@ -41,6 +41,10 @@ const IObjectType* LocalReferenceVariable::getType() const {
   return mType;
 }
 
+bool LocalReferenceVariable::isSystem() const {
+  return false;
+}
+
 Value* LocalReferenceVariable::generateIdentifierIR(IRGenerationContext& context) const {
   if (!mIsInitialized) {
     Log::e("Variable '" + mName + "' is used before it is initialized");

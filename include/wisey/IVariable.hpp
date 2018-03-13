@@ -55,6 +55,11 @@ public:
    * Returns variable's type
    */
   virtual const IType* getType() const = 0;
+  
+  /**
+   * Tells whether this is system variable passed to every method, e.g. this, thread, callstack
+   */
+  virtual bool isSystem() const = 0;
 
   /**
    * Generated LLVM IR for the variable when it used in an identifier

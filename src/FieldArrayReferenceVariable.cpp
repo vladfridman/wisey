@@ -33,6 +33,10 @@ string FieldArrayReferenceVariable::getName() const {
   return mName;
 }
 
+bool FieldArrayReferenceVariable::isSystem() const {
+  return false;
+}
+
 const wisey::ArrayType* FieldArrayReferenceVariable::getType() const {
   const IType* type = mObject->findField(mName)->getType();
   assert(type->isArray() && type->isReference());

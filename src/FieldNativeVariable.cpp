@@ -35,6 +35,10 @@ const NativeType* FieldNativeVariable::getType() const {
   return (const NativeType*) type;
 }
 
+bool FieldNativeVariable::isSystem() const {
+  return false;
+}
+
 Value* FieldNativeVariable::generateIdentifierIR(IRGenerationContext& context) const {
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   

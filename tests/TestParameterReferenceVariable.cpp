@@ -73,6 +73,15 @@ public:
   }
 };
 
+TEST_F(ParameterReferenceVariableTest, basicFieldsTest) {
+  Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mContext));
+  ParameterReferenceVariable variable("foo", mModel, fooValue);
+
+  EXPECT_STREQ("foo", variable.getName().c_str());
+  EXPECT_EQ(mModel, variable.getType());
+  EXPECT_FALSE(variable.isSystem());
+}
+
 TEST_F(ParameterReferenceVariableTest, parameterReferenceVariableAssignmentDeathTest) {
   Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mContext));
   ParameterReferenceVariable parameterReferenceVariable("foo", mModel, fooValue);

@@ -81,6 +81,16 @@ public:
   }
 };
 
+TEST_F(LocalOwnerVariableTest, basicFieldsTest) {
+  Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
+  Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
+  IVariable* variable = new LocalOwnerVariable("foo", mModel->getOwner(), fooValue);
+
+  EXPECT_STREQ("foo", variable->getName().c_str());
+  EXPECT_EQ(mModel->getOwner(), variable->getType());
+  EXPECT_FALSE(variable->isSystem());
+}
+
 TEST_F(LocalOwnerVariableTest, localOwnerVariableAssignmentTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");

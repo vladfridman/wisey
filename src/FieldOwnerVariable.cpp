@@ -38,6 +38,10 @@ const IObjectOwnerType* FieldOwnerVariable::getType() const {
   return (const IObjectOwnerType*) type;
 }
 
+bool FieldOwnerVariable::isSystem() const {
+  return false;
+}
+
 Value* FieldOwnerVariable::generateIdentifierIR(IRGenerationContext& context) const {
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   

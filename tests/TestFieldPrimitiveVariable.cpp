@@ -86,8 +86,9 @@ struct FieldPrimitiveVariableTest : Test {
 };
 
 TEST_F(FieldPrimitiveVariableTest, basicFieldsTest) {
-  EXPECT_STREQ(mFieldPrimitiveVariable->getName().c_str(), "foo");
-  EXPECT_EQ(mFieldPrimitiveVariable->getType(), PrimitiveTypes::INT_TYPE);
+  EXPECT_STREQ("foo", mFieldPrimitiveVariable->getName().c_str());
+  EXPECT_EQ(PrimitiveTypes::INT_TYPE, mFieldPrimitiveVariable->getType());
+  EXPECT_FALSE(mFieldPrimitiveVariable->isSystem());
 }
 
 TEST_F(FieldPrimitiveVariableTest, primitiveFieldVariableGenerateIdentifierIRTest) {

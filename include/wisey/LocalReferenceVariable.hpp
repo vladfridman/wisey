@@ -16,7 +16,7 @@
 namespace wisey {
 
 /**
- * Represents a variable that is a reference to an owner object
+ * Represents a variable that is a reference to an object
  */
 class LocalReferenceVariable : public IReferenceVariable {
   
@@ -35,6 +35,8 @@ public:
   
   const IObjectType* getType() const override;
   
+  bool isSystem() const override;
+
   llvm::Value* generateIdentifierIR(IRGenerationContext& context) const override;
   
   llvm::Value* generateAssignmentIR(IRGenerationContext& context,

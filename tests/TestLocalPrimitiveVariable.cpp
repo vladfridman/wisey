@@ -60,6 +60,15 @@ public:
   }
 };
 
+TEST_F(LocalPrimitiveVariableTest, basicFieldsTest) {
+  AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), "foo");
+  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, alloc);
+
+  EXPECT_STREQ("foo", variable.getName().c_str());
+  EXPECT_EQ(PrimitiveTypes::INT_TYPE, variable.getType());
+  EXPECT_FALSE(variable.isSystem());
+}
+
 TEST_F(LocalPrimitiveVariableTest, generateAssignmentIRTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), "foo");
 

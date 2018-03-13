@@ -36,9 +36,16 @@ public:
    * Store method argument as a variable in the current scope
    */
   static void storeArgumentValue(IRGenerationContext& context,
-                                 std::string variableName,
-                                 const IType* variableType,
-                                 llvm::Value* variableValue);
+                                 std::string name,
+                                 const IType* type,
+                                 llvm::Value* value);
+  /**
+   * Store method argument as a variable in the current scope
+   */
+  static void storeSystemArgumentValue(IRGenerationContext& context,
+                                       std::string name,
+                                       const IObjectType* type,
+                                       llvm::Value* value);
 
   /**
    * Check that the method handles or rethrows all the exceptions and print an error if it does not

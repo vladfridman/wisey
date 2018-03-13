@@ -123,8 +123,9 @@ struct FieldOwnerVariableTest : Test {
 };
 
 TEST_F(FieldOwnerVariableTest, basicFieldsTest) {
-  EXPECT_STREQ(mFieldOwnerVariable->getName().c_str(), "foo");
-  EXPECT_EQ(mFieldOwnerVariable->getType(), mNode->getOwner());
+  EXPECT_STREQ("foo", mFieldOwnerVariable->getName().c_str());
+  EXPECT_EQ(mNode->getOwner(), mFieldOwnerVariable->getType());
+  EXPECT_FALSE(mFieldOwnerVariable->isSystem());
 }
 
 TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateIdentifierIRTest) {

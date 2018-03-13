@@ -33,6 +33,10 @@ string FieldArrayOwnerVariable::getName() const {
   return mName;
 }
 
+bool FieldArrayOwnerVariable::isSystem() const {
+  return false;
+}
+
 const ArrayOwnerType* FieldArrayOwnerVariable::getType() const {
   const IType* type = mObject->findField(mName)->getType();
   assert(type->isArray() && type->isOwner());
@@ -115,5 +119,3 @@ void FieldArrayOwnerVariable::setToNull(IRGenerationContext& context) {
 void FieldArrayOwnerVariable::free(IRGenerationContext& context) const {
   /** Freed using object destructor */
 }
-
-

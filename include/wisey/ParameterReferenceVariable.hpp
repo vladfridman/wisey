@@ -16,7 +16,7 @@
 namespace wisey {
   
 /**
- * Represents a method parameter that is a reference to an object owner.
+ * Represents a method parameter that is a reference to an object.
  */
 class ParameterReferenceVariable : public IReferenceVariable {
   
@@ -34,6 +34,8 @@ public:
   
   const IObjectType* getType() const override;
   
+  bool isSystem() const override;
+
   llvm::Value* generateIdentifierIR(IRGenerationContext& context) const override;
   
   llvm::Value* generateAssignmentIR(IRGenerationContext& context,

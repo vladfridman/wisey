@@ -34,6 +34,10 @@ const IPrimitiveType* LocalPrimitiveVariable::getType() const {
   return mType;
 }
 
+bool LocalPrimitiveVariable::isSystem() const {
+  return false;
+}
+
 Value* LocalPrimitiveVariable::generateIdentifierIR(IRGenerationContext& context) const {
   return IRWriter::newLoadInst(context, mValueStore, "");
 }

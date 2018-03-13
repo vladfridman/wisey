@@ -33,6 +33,10 @@ const IType* FieldPrimitiveVariable::getType() const {
   return mObject->findField(mName)->getType();
 }
 
+bool FieldPrimitiveVariable::isSystem() const {
+  return false;
+}
+
 Value* FieldPrimitiveVariable::generateIdentifierIR(IRGenerationContext& context) const {
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   

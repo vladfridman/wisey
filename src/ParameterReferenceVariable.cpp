@@ -35,6 +35,10 @@ const IObjectType* ParameterReferenceVariable::getType() const {
   return mType;
 }
 
+bool ParameterReferenceVariable::isSystem() const {
+  return false;
+}
+
 Value* ParameterReferenceVariable::generateIdentifierIR(IRGenerationContext& context) const {
   return mValue;
 }

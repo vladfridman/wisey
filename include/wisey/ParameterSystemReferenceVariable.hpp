@@ -1,44 +1,41 @@
 //
-//  ParameterArrayReferenceVariable.hpp
+//  ParameterSystemReferenceVariable.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 1/24/18.
+//  Created by Vladimir Fridman on 3/13/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef ParameterArrayReferenceVariable_h
-#define ParameterArrayReferenceVariable_h
+#ifndef ParameterSystemReferenceVariable_h
+#define ParameterSystemReferenceVariable_h
 
-#include "wisey/ArrayType.hpp"
-#include "wisey/IConcreteObjectType.hpp"
-#include "wisey/IFieldVariable.hpp"
+#include "wisey/IExpression.hpp"
+#include "wisey/IObjectType.hpp"
 #include "wisey/IReferenceVariable.hpp"
 
 namespace wisey {
   
   /**
-   * Represents a method parameter that is of array reference type
+   * Represents a method parameter that is a reference to a system object e.g. this, thread
    */
-  class ParameterArrayReferenceVariable : public IReferenceVariable {
+  class ParameterSystemReferenceVariable : public IReferenceVariable {
     
     std::string mName;
-    const ArrayType* mArrayType;
+    const IObjectType* mType;
     llvm::Value* mValue;
     
   public:
     
-    ParameterArrayReferenceVariable(std::string name,
-                                const ArrayType* arrayType,
-                                llvm::Value* value);
+    ParameterSystemReferenceVariable(std::string name, const IObjectType* type, llvm::Value* value);
     
-    ~ParameterArrayReferenceVariable();
+    ~ParameterSystemReferenceVariable();
     
     std::string getName() const override;
     
-    const ArrayType* getType() const override;
+    const IObjectType* getType() const override;
     
     bool isSystem() const override;
-
+    
     llvm::Value* generateIdentifierIR(IRGenerationContext& context) const override;
     
     llvm::Value* generateAssignmentIR(IRGenerationContext& context,
@@ -47,9 +44,9 @@ namespace wisey {
                                       int line) override;
     
     void decrementReferenceCounter(IRGenerationContext& context) const override;
-
+    
   };
   
 } /* namespace wisey */
 
-#endif /* ParameterArrayReferenceVariable_h */
+#endif /* ParameterSystemReferenceVariable_h */

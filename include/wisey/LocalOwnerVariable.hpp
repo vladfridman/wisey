@@ -34,7 +34,9 @@ public:
   std::string getName() const override;
   
   const IObjectOwnerType* getType() const override;
- 
+  
+  bool isSystem() const override;
+
   llvm::Value* generateIdentifierIR(IRGenerationContext& context) const override;
   
   llvm::Value* generateAssignmentIR(IRGenerationContext& context,

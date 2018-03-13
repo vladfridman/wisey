@@ -39,6 +39,10 @@ const ArrayOwnerType* ParameterArrayOwnerVariable::getType() const {
   return mArrayOwnerType;
 }
 
+bool ParameterArrayOwnerVariable::isSystem() const {
+  return false;
+}
+
 Value* ParameterArrayOwnerVariable::generateIdentifierIR(IRGenerationContext& context) const {
   return IRWriter::newLoadInst(context, mValueStore, "");
 }

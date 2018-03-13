@@ -96,8 +96,9 @@ struct FieldNativeVariableTest : Test {
 };
 
 TEST_F(FieldNativeVariableTest, basicFieldsTest) {
-  EXPECT_STREQ(mFieldNativeVariable->getName().c_str(), "mFoo");
-  EXPECT_EQ(mFieldNativeVariable->getType(), mNativeType);
+  EXPECT_STREQ("mFoo", mFieldNativeVariable->getName().c_str());
+  EXPECT_EQ(mNativeType, mFieldNativeVariable->getType());
+  EXPECT_FALSE(mFieldNativeVariable->isSystem());
 }
 
 TEST_F(FieldNativeVariableTest, referenceFieldVariableGenerateIdentifierIRTest) {

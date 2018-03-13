@@ -15,7 +15,7 @@
 namespace wisey {
   
   /**
-   * Represents a local variable of array owner type where each element could be of any type
+   * Represents a local variable of array type where each element could be of any type
    */
   class LocalArrayReferenceVariable : public IReferenceVariable {
     
@@ -35,6 +35,8 @@ namespace wisey {
     
     const ArrayType* getType() const override;
     
+    bool isSystem() const override;
+
     llvm::Value* generateIdentifierIR(IRGenerationContext& context) const override;
     
     llvm::Value* generateAssignmentIR(IRGenerationContext& context,

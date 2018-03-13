@@ -94,6 +94,16 @@ public:
   }
 };
 
+TEST_F(LocalReferenceVariableTest, basicFieldsTest) {
+  Type* llvmType = mModel->getLLVMType(mContext);
+  Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
+  IVariable* variable = new LocalReferenceVariable("foo", mModel, fooValue);
+
+  EXPECT_STREQ("foo", variable->getName().c_str());
+  EXPECT_EQ(mModel, variable->getType());
+  EXPECT_FALSE(variable->isSystem());
+}
+
 TEST_F(LocalReferenceVariableTest, localReferenceVariableAssignmentTest) {
   Type* llvmType = mModel->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");

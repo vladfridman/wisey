@@ -32,6 +32,10 @@ const IPrimitiveType* ParameterPrimitiveVariable::getType() const {
   return mType;
 }
 
+bool ParameterPrimitiveVariable::isSystem() const {
+  return false;
+}
+
 Value* ParameterPrimitiveVariable::generateIdentifierIR(IRGenerationContext& context) const {
   return mValue;
 }

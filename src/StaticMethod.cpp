@@ -186,15 +186,15 @@ void StaticMethod::createArguments(IRGenerationContext& context, Function* funct
   }
   
   llvmFunctionArguments = function->arg_begin();
-  IMethod::storeArgumentValue(context,
-                              ThreadExpression::THREAD,
-                              context.getInterface(Names::getThreadInterfaceFullName()),
-                              &*llvmFunctionArguments);
+  IMethod::storeSystemArgumentValue(context,
+                                    ThreadExpression::THREAD,
+                                    context.getInterface(Names::getThreadInterfaceFullName()),
+                                    &*llvmFunctionArguments);
   llvmFunctionArguments++;
-  IMethod::storeArgumentValue(context,
-                              ThreadExpression::CALL_STACK,
-                              context.getController(Names::getCallStackControllerFullName()),
-                              &*llvmFunctionArguments);
+  IMethod::storeSystemArgumentValue(context,
+                                    ThreadExpression::CALL_STACK,
+                                    context.getController(Names::getCallStackControllerFullName()),
+                                    &*llvmFunctionArguments);
   llvmFunctionArguments++;
   for (MethodArgument* methodArgument : mArguments) {
     IMethod::storeArgumentValue(context,

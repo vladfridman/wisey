@@ -35,6 +35,10 @@ const IObjectType* FieldReferenceVariable::getType() const {
   return (const IObjectType*) type;
 }
 
+bool FieldReferenceVariable::isSystem() const {
+  return false;
+}
+
 Value* FieldReferenceVariable::generateIdentifierIR(IRGenerationContext& context) const {
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   

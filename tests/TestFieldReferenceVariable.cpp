@@ -114,8 +114,9 @@ struct FieldReferenceVariableTest : Test {
 };
 
 TEST_F(FieldReferenceVariableTest, basicFieldsTest) {
-  EXPECT_STREQ(mFieldReferenceVariable->getName().c_str(), "foo");
-  EXPECT_EQ(mFieldReferenceVariable->getType(), mNode);
+  EXPECT_STREQ("foo", mFieldReferenceVariable->getName().c_str());
+  EXPECT_EQ(mNode, mFieldReferenceVariable->getType());
+  EXPECT_FALSE(mFieldReferenceVariable->isSystem());
 }
 
 TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateIdentifierIRTest) {

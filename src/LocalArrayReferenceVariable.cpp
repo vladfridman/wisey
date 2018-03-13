@@ -36,6 +36,10 @@ const wisey::ArrayType* LocalArrayReferenceVariable::getType() const {
   return mArrayType;
 }
 
+bool LocalArrayReferenceVariable::isSystem() const {
+  return false;
+}
+
 llvm::Value* LocalArrayReferenceVariable::generateIdentifierIR(IRGenerationContext& context) const {
   return IRWriter::newLoadInst(context, mValueStore, "");
 }

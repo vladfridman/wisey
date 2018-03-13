@@ -462,6 +462,9 @@
 		F5603B4D2021316E00BBA05D /* CheckArrayIndexFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5603B4C2021316E00BBA05D /* CheckArrayIndexFunction.cpp */; };
 		F5603B4E2021316E00BBA05D /* CheckArrayIndexFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5603B4C2021316E00BBA05D /* CheckArrayIndexFunction.cpp */; };
 		F5603B502021562800BBA05D /* TestCheckArrayIndexFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5603B4F2021562800BBA05D /* TestCheckArrayIndexFunction.cpp */; };
+		F5609F072057C07F00664ADD /* ParameterSystemReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F062057C07F00664ADD /* ParameterSystemReferenceVariable.cpp */; };
+		F5609F082057C07F00664ADD /* ParameterSystemReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F062057C07F00664ADD /* ParameterSystemReferenceVariable.cpp */; };
+		F5609F0C2057C54900664ADD /* TestParameterSystemReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F0B2057C54900664ADD /* TestParameterSystemReferenceVariable.cpp */; };
 		F569E9F01DF9CC9600BBB20E /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EB1DF9CC9600BBB20E /* Log.cpp */; };
 		F569E9F21DF9CC9600BBB20E /* Parser.ypp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9ED1DF9CC9600BBB20E /* Parser.ypp */; };
 		F569E9F31DF9CC9600BBB20E /* Tokens.lpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */; };
@@ -1403,6 +1406,9 @@
 		F5603B4B2021310800BBA05D /* CheckArrayIndexFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CheckArrayIndexFunction.hpp; path = include/wisey/CheckArrayIndexFunction.hpp; sourceTree = "<group>"; };
 		F5603B4C2021316E00BBA05D /* CheckArrayIndexFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CheckArrayIndexFunction.cpp; path = src/CheckArrayIndexFunction.cpp; sourceTree = "<group>"; };
 		F5603B4F2021562800BBA05D /* TestCheckArrayIndexFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCheckArrayIndexFunction.cpp; path = tests/TestCheckArrayIndexFunction.cpp; sourceTree = "<group>"; };
+		F5609F052057BF7300664ADD /* ParameterSystemReferenceVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ParameterSystemReferenceVariable.hpp; path = include/wisey/ParameterSystemReferenceVariable.hpp; sourceTree = "<group>"; };
+		F5609F062057C07F00664ADD /* ParameterSystemReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ParameterSystemReferenceVariable.cpp; path = src/ParameterSystemReferenceVariable.cpp; sourceTree = "<group>"; };
+		F5609F0B2057C54900664ADD /* TestParameterSystemReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestParameterSystemReferenceVariable.cpp; path = tests/TestParameterSystemReferenceVariable.cpp; sourceTree = "<group>"; };
 		F569E9EB1DF9CC9600BBB20E /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Log.cpp; path = src/Log.cpp; sourceTree = "<group>"; };
 		F569E9ED1DF9CC9600BBB20E /* Parser.ypp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; name = Parser.ypp; path = src/Parser.ypp; sourceTree = "<group>"; };
 		F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; name = Tokens.lpp; path = src/Tokens.lpp; sourceTree = "<group>"; };
@@ -2559,6 +2565,7 @@
 				F5A363451F3724EF005880B3 /* ParameterOwnerVariable.hpp */,
 				F5F435C71FACA10A0097E5D0 /* ParameterPrimitiveVariable.hpp */,
 				F53A2C171EF85D5B00E76A9E /* ParameterReferenceVariable.hpp */,
+				F5609F052057BF7300664ADD /* ParameterSystemReferenceVariable.hpp */,
 				F5089CAA1ECD01D9004A1223 /* VariableDeclaration.hpp */,
 			);
 			name = variables;
@@ -2583,6 +2590,7 @@
 				F5A363461F37257C005880B3 /* ParameterOwnerVariable.cpp */,
 				F5F435C81FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp */,
 				F53A2C181EF85DF000E76A9E /* ParameterReferenceVariable.cpp */,
+				F5609F062057C07F00664ADD /* ParameterSystemReferenceVariable.cpp */,
 				F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */,
 			);
 			name = variables;
@@ -3073,6 +3081,7 @@
 				F5A363491F373FFE005880B3 /* TestParameterOwnerVariable.cpp */,
 				F5F435CB1FACA32A0097E5D0 /* TestParameterPrimitiveVariable.cpp */,
 				F53A2C1B1EF92D8300E76A9E /* TestParameterReferenceVariable.cpp */,
+				F5609F0B2057C54900664ADD /* TestParameterSystemReferenceVariable.cpp */,
 				F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */,
 			);
 			name = variables;
@@ -3667,6 +3676,7 @@
 				F5CB7F362049F5ED007628B5 /* ThreadTypeSpecifierFull.cpp in Sources */,
 				F5105FAC1FD02F6900ACF57B /* ImportProfile.cpp in Sources */,
 				F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */,
+				F5609F0C2057C54900664ADD /* TestParameterSystemReferenceVariable.cpp in Sources */,
 				F52FF1811F1B8729003F4D37 /* Composer.cpp in Sources */,
 				F5A67DAE201353300018068F /* TestLocalArrayReferenceVariable.cpp in Sources */,
 				F54ED9601FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp in Sources */,
@@ -3717,6 +3727,7 @@
 				F5E270751F98FFA9008D2EB7 /* ConstantDeclaration.cpp in Sources */,
 				F5A363441F33D08F005880B3 /* TestLocalOwnerVariable.cpp in Sources */,
 				F50FA3001E323AAD00435EEA /* Scopes.cpp in Sources */,
+				F5609F082057C07F00664ADD /* ParameterSystemReferenceVariable.cpp in Sources */,
 				F51942FE1FE3F3CF009C3158 /* TestUndefinedType.cpp in Sources */,
 				F5C6FD7C1E48B64C0054209D /* FloatType.cpp in Sources */,
 				F51581321E8AB1A9009CE419 /* TestController.cpp in Sources */,
@@ -4061,6 +4072,7 @@
 				F574116B1E042390009809FF /* IncrementExpression.cpp in Sources */,
 				F5FE0A231F7DA00B000621CA /* ExternalStaticMethodDeclaration.cpp in Sources */,
 				F5CB7F65205116D4007628B5 /* FieldNativeVariable.cpp in Sources */,
+				F5609F072057C07F00664ADD /* ParameterSystemReferenceVariable.cpp in Sources */,
 				F5C7D1611F7D02FD00D65584 /* ExternalMethod.cpp in Sources */,
 				F51942F41FE302DD009C3158 /* IdentifierChain.cpp in Sources */,
 				F587255E1F6FFB2D00FA25E6 /* PrintErrStatement.cpp in Sources */,

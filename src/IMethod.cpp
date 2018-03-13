@@ -8,19 +8,13 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/IMethod.hpp"
-#include "wisey/IPrimitiveType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/LocalPrimitiveVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/MethodCall.hpp"
 #include "wisey/Names.hpp"
-#include "wisey/ParameterArrayOwnerVariable.hpp"
-#include "wisey/ParameterArrayReferenceVariable.hpp"
-#include "wisey/ParameterOwnerVariable.hpp"
 #include "wisey/ParameterPrimitiveVariable.hpp"
-#include "wisey/ParameterReferenceVariable.hpp"
+#include "wisey/ParameterSystemReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace std;
@@ -28,10 +22,18 @@ using namespace llvm;
 using namespace wisey;
 
 void IMethod::storeArgumentValue(IRGenerationContext& context,
-                                 string variableName,
-                                 const IType* variableType,
-                                 Value* variableValue) {
-  variableType->createParameterVariable(context, variableName, variableValue);
+                                 string name,
+                                 const IType* type,
+                                 Value* value) {
+  type->createParameterVariable(context, name, value);
+}
+
+void IMethod::storeSystemArgumentValue(IRGenerationContext& context,
+                                       string name,
+                                       const IObjectType* type,
+                                       Value* value) {
+  IVariable* variable = new ParameterSystemReferenceVariable(name, type, value);
+  context.getScopes().setVariable(variable);
 }
 
 void IMethod::checkForUnhandledExceptions(IRGenerationContext& context, const IMethod* method) {
