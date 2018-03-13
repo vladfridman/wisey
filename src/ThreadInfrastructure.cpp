@@ -48,8 +48,35 @@ Function* ThreadInfrastructure::defineThreadCreateFunction(IRGenerationContext& 
                           context.getModule());
 }
 
+Function* ThreadInfrastructure::getThreadJoinFunction(IRGenerationContext& context) {
+  Function* function = context.getModule()->getFunction(getThreadJoinFunctionName());
+  
+  return function ? function : defineThreadJoinFunction(context);
+}
+
+Function* ThreadInfrastructure::defineThreadJoinFunction(IRGenerationContext& context) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  PointerType* genericPointer = Type::getInt8Ty(llvmContext)->getPointerTo();
+  
+  vector<Type*> argumentTypes;
+  argumentTypes.push_back(getNativeThreadStruct(context)->getPointerTo());
+  argumentTypes.push_back(genericPointer->getPointerTo());
+  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
+  Type* llvmReturnType = Type::getVoidTy(llvmContext);
+  FunctionType* ftype = FunctionType::get(llvmReturnType, argTypesArray, false);
+  
+  return Function::Create(ftype,
+                          GlobalValue::ExternalLinkage,
+                          getThreadJoinFunctionName(),
+                          context.getModule());
+}
+
 string ThreadInfrastructure::getThreadCreateFunctionName() {
   return "pthread_create";
+}
+
+string ThreadInfrastructure::getThreadJoinFunctionName() {
+  return "pthread_join";
 }
 
 StructType* ThreadInfrastructure::getNativeThreadStruct(IRGenerationContext& context) {
@@ -179,21 +206,30 @@ void ThreadInfrastructure::composeRunBridgeFunction(IRGenerationContext& context
   Value* threadObject = IRWriter::newBitCastInst(context, threadArgument, threadLLVMType);
   
   Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName());
-  Value* threadInterfaceObject = IRWriter::newBitCastInst(context,
-                                                          threadArgument,
-                                                          threadInterface->getLLVMType(context));
+  Value* threadInterfaceObject = thread->castTo(context, threadObject, threadInterface, 0);
   
   Controller* callStack = context.getController(Names::getCallStackControllerFullName());
-  Type* callStackLLVMType = callStack->getLLVMType(context);
-  Value* callStackObject = IRWriter::newBitCastInst(context, threadArgument, callStackLLVMType);
+  PointerType* callStackLLVMType = callStack->getLLVMType(context);
+  string getCallStackFunctionName =
+  IMethodCall::translateObjectMethodToLLVMFunctionName(thread, Names::getCallStackMethodName());
+  Function* getCallStackFunction = context.getModule()->getFunction(getCallStackFunctionName);
+  Value* null = ConstantPointerNull::get(callStackLLVMType);
+  vector<Value*> callArguments;
+  callArguments.push_back(threadObject);
+  callArguments.push_back(threadInterfaceObject);
+  callArguments.push_back(null);
+  Value* callStackValue = IRWriter::createCallInst(context, 
+                                                   getCallStackFunction,
+                                                   callArguments,
+                                                   "");
 
   string runFunctionName = IMethodCall::translateObjectMethodToLLVMFunctionName(thread, "run");
   
   Function* runFunction = context.getModule()->getFunction(runFunctionName);
-  vector<Value*> callArguments;
+  callArguments.clear();
   callArguments.push_back(threadObject);
   callArguments.push_back(threadInterfaceObject);
-  callArguments.push_back(callStackObject);
+  callArguments.push_back(callStackValue);
 
   IRWriter::createCallInst(context, runFunction, callArguments, "");
   

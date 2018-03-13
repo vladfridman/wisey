@@ -30,6 +30,11 @@ namespace wisey {
     static llvm::Function* getThreadCreateFunction(IRGenerationContext& context);
 
     /**
+     * Native function for joining a thread
+     */
+    static llvm::Function* getThreadJoinFunction(IRGenerationContext& context);
+
+    /**
      * Gets or creates a function that calls Thread's run method
      */
     static llvm::Function* getRunBridgeFunction(IRGenerationContext& context, const Thread* thread);
@@ -48,6 +53,8 @@ namespace wisey {
     
     static llvm::Function* defineThreadCreateFunction(IRGenerationContext& context);
     
+    static llvm::Function* defineThreadJoinFunction(IRGenerationContext& context);
+
     static llvm::Function* defineRunBridgeFunction(IRGenerationContext& context,
                                                    const Thread* thread);
     
@@ -62,7 +69,9 @@ namespace wisey {
     static llvm::StructType* getNativeThreadAttributesStruct(IRGenerationContext& context);
 
     static std::string getThreadCreateFunctionName();
-
+    
+    static std::string getThreadJoinFunctionName();
+    
     static std::string getNativeThreadStructName();
     
     static std::string getNativeThreadHandlerName();
