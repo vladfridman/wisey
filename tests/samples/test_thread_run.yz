@@ -5,13 +5,15 @@ import wisey.lang.IProgram;
 import wisey.lang.IThread;
 
 thread TWorker sends int implements IThread {
+  inject CCallStack* mCallStack;
 
   public void run() {
     printout("This is worker thread!\n");
   }
 
   public CCallStack getCallStack() {
-    return null;
+    printout("Getting call stack!\n");
+    return mCallStack;
   }
 }
 

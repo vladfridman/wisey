@@ -78,6 +78,10 @@ Value* IConcreteObjectType::castTo(IRGenerationContext& context,
     return NULL;
   }
   LLVMContext& llvmContext = context.getLLVMContext();
+  if (toType->isNative() && toType->isReference()) {
+    return IRWriter::newBitCastInst(context, fromValue, toType->getLLVMType(context));
+  }
+  
   Interface* interface = (Interface*) toType;
   Type* llvmType = (PointerType*) interface->getLLVMType(context);
   int interfaceIndex = getInterfaceIndex(object, interface);
@@ -597,6 +601,9 @@ bool IConcreteObjectType::canCast(const IType* fromType, const IType* toType) {
   }
   if (toType->isInterface() &&
       getInterfaceIndex((IConcreteObjectType*) fromType, (Interface*) toType) >= 0) {
+    return true;
+  }
+  if (toType->isNative() && toType->isReference()) {
     return true;
   }
   return false;

@@ -276,7 +276,8 @@ TEST_F(TestFileSampleRunner, threadDefinitionRunTest) {
 TEST_F(TestFileSampleRunner, threadRunRunTest) {
   runFileCheckOutput("tests/samples/test_thread_run.yz",
                      "Starting worker thread\n"
-                     "Worker thread started\n"
-                     "This is worker thread!\n",
+                     "Getting call stack!\n"
+                     "This is worker thread!\n"
+                     "Worker thread started\n",
                      "");
 }

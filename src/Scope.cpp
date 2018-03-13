@@ -48,9 +48,9 @@ IVariable* Scope::findVariable(string name) {
 void Scope::setVariable(string name, IVariable* variable) {
   mVariables[name] = variable;
   const IType* variableType = variable->getType();
-  if (variableType->isReference() && !variable->isSystem()) {
+  if (variableType->isReference() && !variable->isSystem() && !variableType->isNative()) {
     mReferenceVariables.push_front((IReferenceVariable*) variable);
-  } else if (variableType->isOwner()) {
+  } else if (variableType->isOwner() && !variable->isField()) {
     mOwnerVariables.push_front((IOwnerVariable*) variable);
   }
 }
@@ -109,13 +109,13 @@ void Scope::freeOwnedMemory(IRGenerationContext& context, int line) {
     return;
   }
   
-  if (line) {
+  if (line && mOwnerVariables.size()) {
     Composer::pushCallStack(context, line);
   }
   for (IOwnerVariable* ownerVariable : mOwnerVariables) {
     ownerVariable->free(context);
   }
-  if (line) {
+  if (line && mOwnerVariables.size()) {
     Composer::popCallStack(context);
   }
 }

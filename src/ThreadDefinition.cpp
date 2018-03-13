@@ -11,8 +11,10 @@
 #include <llvm/IR/DerivedTypes.h>
 
 #include "wisey/Block.hpp"
+#include "wisey/CastExpression.hpp"
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/Environment.hpp"
+#include "wisey/DereferenceExpression.hpp"
 #include "wisey/FakeExpressionWithCleanup.hpp"
 #include "wisey/IMethodCall.hpp"
 #include "wisey/IRWriter.hpp"
@@ -21,6 +23,7 @@
 #include "wisey/Names.hpp"
 #include "wisey/NativeFunctionCall.hpp"
 #include "wisey/NativeType.hpp"
+#include "wisey/NativeVoidPointerType.hpp"
 #include "wisey/NativeTypeSpecifier.hpp"
 #include "wisey/NullExpression.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
@@ -125,14 +128,32 @@ MethodDeclaration* ThreadDefinition::createStartMethodDeclaration(IRGenerationCo
   ThreadInfrastructure::createNativeThreadAttributesType(context);
   Value* nullValue = ConstantPointerNull::get((PointerType*) threadAtrributesType->
                                               getLLVMType(context));
+  NativeVoidPointerType* voidPointerType = new NativeVoidPointerType();
+  NativeTypeSpecifier* voidPointerTypeSpecifier = new NativeTypeSpecifier(voidPointerType);
+  CastExpression* castExpression = new CastExpression(voidPointerTypeSpecifier,
+                                                      new Identifier(IObjectType::THIS),
+                                                      0);
   vector<IExpression*> callArguments;
   callArguments.push_back(new Identifier("mNativeThread"));
   callArguments.push_back(new FakeExpressionWithCleanup(nullValue, threadAtrributesType));
   callArguments.push_back(new FakeExpressionWithCleanup(runBridgeFunction, runBridgeFunctionType));
-  callArguments.push_back(new NullExpression());
+  callArguments.push_back(castExpression);
   Function* createFunction = ThreadInfrastructure::getThreadCreateFunction(context);
-  NativeFunctionCall* nativeFunctionCall = new NativeFunctionCall(createFunction, callArguments);
-  statements.push_back(nativeFunctionCall);
+  NativeFunctionCall* createFunctionCall = new NativeFunctionCall(createFunction, callArguments);
+  statements.push_back(createFunctionCall);
+  
+  voidPointerType = new NativeVoidPointerType();
+  voidPointerTypeSpecifier = new NativeTypeSpecifier(voidPointerType);
+  VariableDeclaration* resultDeclaration =
+  VariableDeclaration::create(voidPointerTypeSpecifier, new Identifier("result"), 0);
+  callArguments.clear();
+  callArguments.push_back(new DereferenceExpression(new Identifier("mNativeThread")));
+  callArguments.push_back(new Identifier("result"));
+  Function* joinFunction = ThreadInfrastructure::getThreadJoinFunction(context);
+  NativeFunctionCall* joinFunctionCall = new NativeFunctionCall(joinFunction, callArguments);
+  statements.push_back(resultDeclaration);
+  statements.push_back(joinFunctionCall);
+
   CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
   
   return new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
