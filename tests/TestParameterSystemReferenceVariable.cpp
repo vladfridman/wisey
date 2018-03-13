@@ -79,6 +79,7 @@ TEST_F(ParameterSystemReferenceVariableTest, basicFieldsTest) {
   
   EXPECT_STREQ("foo", variable.getName().c_str());
   EXPECT_EQ(mModel, variable.getType());
+  EXPECT_FALSE(variable.isField());
   EXPECT_TRUE(variable.isSystem());
 }
 

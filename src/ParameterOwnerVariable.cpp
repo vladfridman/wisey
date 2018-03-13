@@ -41,6 +41,10 @@ const IType* ParameterOwnerVariable::getType() const {
   return mType;
 }
 
+bool ParameterOwnerVariable::isField() const {
+  return false;
+}
+
 bool ParameterOwnerVariable::isSystem() const {
   return false;
 }

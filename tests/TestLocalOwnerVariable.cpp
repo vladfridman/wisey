@@ -88,6 +88,7 @@ TEST_F(LocalOwnerVariableTest, basicFieldsTest) {
 
   EXPECT_STREQ("foo", variable->getName().c_str());
   EXPECT_EQ(mModel->getOwner(), variable->getType());
+  EXPECT_FALSE(variable->isField());
   EXPECT_FALSE(variable->isSystem());
 }
 

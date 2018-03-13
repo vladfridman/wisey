@@ -39,6 +39,10 @@ const ArrayOwnerType* ParameterArrayOwnerVariable::getType() const {
   return mArrayOwnerType;
 }
 
+bool ParameterArrayOwnerVariable::isField() const {
+  return false;
+}
+
 bool ParameterArrayOwnerVariable::isSystem() const {
   return false;
 }

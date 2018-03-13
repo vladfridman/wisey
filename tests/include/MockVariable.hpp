@@ -23,6 +23,7 @@ class MockVariable : public wisey::IVariable {
 public:
   MOCK_CONST_METHOD0(getName, std::string ());
   MOCK_CONST_METHOD0(getType, const wisey::IType* ());
+  MOCK_CONST_METHOD0(isField, bool ());
   MOCK_CONST_METHOD0(isSystem, bool ());
   MOCK_CONST_METHOD0(getValue, llvm::Value* ());
   MOCK_CONST_METHOD1(generateIdentifierIR, llvm::Value* (wisey::IRGenerationContext&));

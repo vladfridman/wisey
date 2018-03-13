@@ -35,6 +35,10 @@ const NativeType* FieldNativeVariable::getType() const {
   return (const NativeType*) type;
 }
 
+bool FieldNativeVariable::isField() const {
+  return true;
+}
+
 bool FieldNativeVariable::isSystem() const {
   return false;
 }

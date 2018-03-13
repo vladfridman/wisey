@@ -33,6 +33,10 @@ const IType* FieldPrimitiveVariable::getType() const {
   return mObject->findField(mName)->getType();
 }
 
+bool FieldPrimitiveVariable::isField() const {
+  return true;
+}
+
 bool FieldPrimitiveVariable::isSystem() const {
   return false;
 }

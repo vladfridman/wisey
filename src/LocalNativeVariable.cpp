@@ -33,6 +33,10 @@ const IType* LocalNativeVariable::getType() const {
   return mType;
 }
 
+bool LocalNativeVariable::isField() const {
+  return false;
+}
+
 bool LocalNativeVariable::isSystem() const {
   return false;
 }

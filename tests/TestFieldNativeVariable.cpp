@@ -98,6 +98,7 @@ struct FieldNativeVariableTest : Test {
 TEST_F(FieldNativeVariableTest, basicFieldsTest) {
   EXPECT_STREQ("mFoo", mFieldNativeVariable->getName().c_str());
   EXPECT_EQ(mNativeType, mFieldNativeVariable->getType());
+  EXPECT_TRUE(mFieldNativeVariable->isField());
   EXPECT_FALSE(mFieldNativeVariable->isSystem());
 }
 

@@ -28,6 +28,10 @@ string ParameterPrimitiveVariable::getName() const {
   return mName;
 }
 
+bool ParameterPrimitiveVariable::isField() const {
+  return false;
+}
+
 const IPrimitiveType* ParameterPrimitiveVariable::getType() const {
   return mType;
 }

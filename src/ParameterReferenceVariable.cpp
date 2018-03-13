@@ -35,6 +35,10 @@ const IObjectType* ParameterReferenceVariable::getType() const {
   return mType;
 }
 
+bool ParameterReferenceVariable::isField() const {
+  return false;
+}
+
 bool ParameterReferenceVariable::isSystem() const {
   return false;
 }

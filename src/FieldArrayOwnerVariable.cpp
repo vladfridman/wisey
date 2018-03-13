@@ -33,6 +33,10 @@ string FieldArrayOwnerVariable::getName() const {
   return mName;
 }
 
+bool FieldArrayOwnerVariable::isField() const {
+  return true;
+}
+
 bool FieldArrayOwnerVariable::isSystem() const {
   return false;
 }

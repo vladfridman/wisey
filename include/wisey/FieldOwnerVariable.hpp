@@ -32,6 +32,8 @@ public:
   
   std::string getName() const override;
   
+  bool isField() const override;
+
   const IObjectOwnerType* getType() const override;
   
   bool isSystem() const override;

@@ -31,6 +31,10 @@ mName(name), mArrayOwnerType(arrayOwnerType), mValueStore(valueStore) {
 LocalArrayOwnerVariable::~LocalArrayOwnerVariable() {
 }
 
+bool LocalArrayOwnerVariable::isField() const {
+  return false;
+}
+
 string LocalArrayOwnerVariable::getName() const {
   return mName;
 }

@@ -55,6 +55,7 @@ TEST_F(LocalNativeVariableTest, basicFieldsTest) {
   
   EXPECT_STREQ("foo", variable->getName().c_str());
   EXPECT_EQ(mNativeType, variable->getType());
+  EXPECT_FALSE(variable->isField());
   EXPECT_FALSE(variable->isSystem());
 }
 

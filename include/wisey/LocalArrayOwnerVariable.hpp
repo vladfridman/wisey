@@ -35,6 +35,8 @@ namespace wisey {
     
     const ArrayOwnerType* getType() const override;
     
+    bool isField() const override;
+
     bool isSystem() const override;
 
     llvm::Value* generateIdentifierIR(IRGenerationContext& context) const override;

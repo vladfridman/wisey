@@ -92,6 +92,7 @@ public:
 TEST_F(FieldArrayOwnerVariableTest, basicFieldsTest) {
   EXPECT_STREQ("foo", mFieldArrayOwnerVariable->getName().c_str());
   EXPECT_EQ(mArrayType->getOwner(), mFieldArrayOwnerVariable->getType());
+  EXPECT_TRUE(mFieldArrayOwnerVariable->isField());
   EXPECT_FALSE(mFieldArrayOwnerVariable->isSystem());
 }
 

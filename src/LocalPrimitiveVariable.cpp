@@ -34,6 +34,10 @@ const IPrimitiveType* LocalPrimitiveVariable::getType() const {
   return mType;
 }
 
+bool LocalPrimitiveVariable::isField() const {
+  return false;
+}
+
 bool LocalPrimitiveVariable::isSystem() const {
   return false;
 }

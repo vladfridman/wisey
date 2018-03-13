@@ -41,6 +41,10 @@ const IObjectType* LocalReferenceVariable::getType() const {
   return mType;
 }
 
+bool LocalReferenceVariable::isField() const {
+  return false;
+}
+
 bool LocalReferenceVariable::isSystem() const {
   return false;
 }

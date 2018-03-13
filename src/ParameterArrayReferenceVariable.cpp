@@ -41,6 +41,10 @@ const wisey::ArrayType* ParameterArrayReferenceVariable::getType() const {
   return mArrayType;
 }
 
+bool ParameterArrayReferenceVariable::isField() const {
+  return false;
+}
+
 bool ParameterArrayReferenceVariable::isSystem() const {
   return false;
 }

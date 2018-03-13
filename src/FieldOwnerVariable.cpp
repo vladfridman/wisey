@@ -38,6 +38,10 @@ const IObjectOwnerType* FieldOwnerVariable::getType() const {
   return (const IObjectOwnerType*) type;
 }
 
+bool FieldOwnerVariable::isField() const {
+  return true;
+}
+
 bool FieldOwnerVariable::isSystem() const {
   return false;
 }

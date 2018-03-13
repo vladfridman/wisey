@@ -57,6 +57,11 @@ public:
   virtual const IType* getType() const = 0;
   
   /**
+   * Tells whether this is a field variable
+   */
+  virtual bool isField() const = 0;
+  
+  /**
    * Tells whether this is system variable passed to every method, e.g. this, thread, callstack
    */
   virtual bool isSystem() const = 0;

@@ -125,6 +125,7 @@ struct FieldOwnerVariableTest : Test {
 TEST_F(FieldOwnerVariableTest, basicFieldsTest) {
   EXPECT_STREQ("foo", mFieldOwnerVariable->getName().c_str());
   EXPECT_EQ(mNode->getOwner(), mFieldOwnerVariable->getType());
+  EXPECT_TRUE(mFieldOwnerVariable->isField());
   EXPECT_FALSE(mFieldOwnerVariable->isSystem());
 }
 

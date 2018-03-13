@@ -36,6 +36,10 @@ const wisey::ArrayType* LocalArrayReferenceVariable::getType() const {
   return mArrayType;
 }
 
+bool LocalArrayReferenceVariable::isField() const {
+  return false;
+}
+
 bool LocalArrayReferenceVariable::isSystem() const {
   return false;
 }

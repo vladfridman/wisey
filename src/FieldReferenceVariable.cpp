@@ -35,6 +35,10 @@ const IObjectType* FieldReferenceVariable::getType() const {
   return (const IObjectType*) type;
 }
 
+bool FieldReferenceVariable::isField() const {
+  return true;
+}
+
 bool FieldReferenceVariable::isSystem() const {
   return false;
 }

@@ -41,6 +41,10 @@ const IObjectOwnerType* LocalOwnerVariable::getType() const {
   return mType;
 }
 
+bool LocalOwnerVariable::isField() const {
+  return false;
+}
+
 bool LocalOwnerVariable::isSystem() const {
   return false;
 }

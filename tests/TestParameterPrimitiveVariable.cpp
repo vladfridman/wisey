@@ -78,6 +78,7 @@ TEST_F(ParameterPrimitiveVariableTest, basicFieldsTest) {
 
   EXPECT_STREQ("foo", variable.getName().c_str());
   EXPECT_EQ(PrimitiveTypes::INT_TYPE, variable.getType());
+  EXPECT_FALSE(variable.isField());
   EXPECT_FALSE(variable.isSystem());
 }
 
