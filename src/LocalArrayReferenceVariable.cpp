@@ -48,6 +48,11 @@ llvm::Value* LocalArrayReferenceVariable::generateIdentifierIR(IRGenerationConte
   return IRWriter::newLoadInst(context, mValueStore, "");
 }
 
+llvm::Value* LocalArrayReferenceVariable::generateIdentifierReferenceIR(IRGenerationContext&
+                                                                        context) const {
+  return mValueStore;
+}
+
 llvm::Value* LocalArrayReferenceVariable::
 generateAssignmentIR(IRGenerationContext& context,
                      IExpression* assignToExpression,

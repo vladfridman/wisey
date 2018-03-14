@@ -36,7 +36,7 @@ using ::testing::Test;
 struct ParameterReferenceVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBlock;
+  BasicBlock* mBasicBlock;
   Model* mModel;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
@@ -52,8 +52,8 @@ public:
                                           GlobalValue::InternalLinkage,
                                           "test",
                                           mContext.getModule());
-    mBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBlock);
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
     vector<Type*> types;
@@ -93,11 +93,11 @@ TEST_F(ParameterReferenceVariableTest, parameterReferenceVariableAssignmentDeath
               "Error: Assignment to method parameters is not allowed");
 }
 
-TEST_F(ParameterReferenceVariableTest, parameterReferenceVariableIdentifierTest) {
-  Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mContext));
-  ParameterReferenceVariable parameterReferenceVariable("foo", mModel, fooValue);
+TEST_F(ParameterReferenceVariableTest, generateIdentifierIRTest) {
+  Value* fooValueStore = ConstantPointerNull::get(mModel->getLLVMType(mContext));
+  ParameterReferenceVariable parameterReferenceVariable("foo", mModel, fooValueStore);
   
-  EXPECT_EQ(parameterReferenceVariable.generateIdentifierIR(mContext), fooValue);
+  EXPECT_EQ(fooValueStore, parameterReferenceVariable.generateIdentifierIR(mContext));
 }
 
 TEST_F(ParameterReferenceVariableTest, decrementReferenceCounterTest) {
@@ -106,7 +106,7 @@ TEST_F(ParameterReferenceVariableTest, decrementReferenceCounterTest) {
   
   parameterReferenceVariable.decrementReferenceCounter(mContext);
 
-  *mStringStream << *mBlock;
+  *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MShape* null to i8*"

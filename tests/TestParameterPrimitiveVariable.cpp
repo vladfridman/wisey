@@ -35,7 +35,7 @@ using ::testing::Test;
 struct ParameterPrimitiveVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBlock;
+  BasicBlock* mBasicBlock;
   Model* mModel;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
@@ -51,8 +51,8 @@ public:
                                           GlobalValue::InternalLinkage,
                                           "test",
                                           mContext.getModule());
-    mBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBlock);
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
     vector<Type*> types;
@@ -73,13 +73,20 @@ public:
 };
 
 TEST_F(ParameterPrimitiveVariableTest, basicFieldsTest) {
-  Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
-  ParameterPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, fooValue);
+  Value* fooValueStore = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
+  ParameterPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, fooValueStore);
 
   EXPECT_STREQ("foo", variable.getName().c_str());
   EXPECT_EQ(PrimitiveTypes::INT_TYPE, variable.getType());
   EXPECT_FALSE(variable.isField());
   EXPECT_FALSE(variable.isSystem());
+}
+
+TEST_F(ParameterPrimitiveVariableTest, generateIdentifierIRTest) {
+  Value* fooValueStore = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
+  ParameterPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, fooValueStore);
+
+  EXPECT_EQ(fooValueStore, variable.generateIdentifierIR(mContext));
 }
 
 TEST_F(ParameterPrimitiveVariableTest, parameterReferenceVariableAssignmentDeathTest) {

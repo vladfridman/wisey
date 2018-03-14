@@ -46,7 +46,11 @@ bool FieldNativeVariable::isSystem() const {
 Value* FieldNativeVariable::generateIdentifierIR(IRGenerationContext& context) const {
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   
-  return fieldPointer;
+  return IRWriter::newLoadInst(context, fieldPointer, "");
+}
+
+Value* FieldNativeVariable::generateIdentifierReferenceIR(IRGenerationContext& context) const {
+  return getFieldPointer(context, mObject, mName);
 }
 
 Value* FieldNativeVariable::generateAssignmentIR(IRGenerationContext& context,

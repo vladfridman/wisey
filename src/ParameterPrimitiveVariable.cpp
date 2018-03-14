@@ -44,6 +44,11 @@ Value* ParameterPrimitiveVariable::generateIdentifierIR(IRGenerationContext& con
   return mValue;
 }
 
+Value* ParameterPrimitiveVariable::generateIdentifierReferenceIR(IRGenerationContext&
+                                                                 context) const {
+  assert(false);
+}
+
 Value* ParameterPrimitiveVariable::generateAssignmentIR(IRGenerationContext& context,
                                                         IExpression* assignToExpression,
                                                         vector<const IExpression*> arrayIndices,

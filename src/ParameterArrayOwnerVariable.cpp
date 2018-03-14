@@ -51,6 +51,11 @@ Value* ParameterArrayOwnerVariable::generateIdentifierIR(IRGenerationContext& co
   return IRWriter::newLoadInst(context, mValueStore, "");
 }
 
+Value* ParameterArrayOwnerVariable::generateIdentifierReferenceIR(IRGenerationContext&
+                                                                  context) const {
+  return mValueStore;
+}
+
 Value* ParameterArrayOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
                                                          IExpression* assignToExpression,
                                                          vector<const IExpression*> arrayIndices,

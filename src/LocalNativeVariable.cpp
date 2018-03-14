@@ -42,6 +42,10 @@ bool LocalNativeVariable::isSystem() const {
 }
 
 Value* LocalNativeVariable::generateIdentifierIR(IRGenerationContext& context) const {
+  return IRWriter::newLoadInst(context, mValueStore, "");
+}
+
+Value* LocalNativeVariable::generateIdentifierReferenceIR(IRGenerationContext& context) const {
   return mValueStore;
 }
 

@@ -58,6 +58,10 @@ Value* LocalReferenceVariable::generateIdentifierIR(IRGenerationContext& context
   return IRWriter::newLoadInst(context, mValueStore, "");
 }
 
+Value* LocalReferenceVariable::generateIdentifierReferenceIR(IRGenerationContext& context) const {
+  return mValueStore;
+}
+
 Value* LocalReferenceVariable::generateAssignmentIR(IRGenerationContext& context,
                                                     IExpression* assignToExpression,
                                                     vector<const IExpression*> arrayIndices,

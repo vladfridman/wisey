@@ -342,6 +342,8 @@
 		F53401121DFF333E0002BF7E /* MethodDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53401101DFF333E0002BF7E /* MethodDeclaration.cpp */; };
 		F534011C1E000DBC0002BF7E /* TestMethodDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534011B1E000DBC0002BF7E /* TestMethodDeclaration.cpp */; };
 		F534FFD61DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */; };
+		F5378F6D2058F11500E5B5FD /* IdentifierReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5378F6C2058F11500E5B5FD /* IdentifierReference.cpp */; };
+		F5378F6E2058F11500E5B5FD /* IdentifierReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5378F6C2058F11500E5B5FD /* IdentifierReference.cpp */; };
 		F539147A1FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53914791FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp */; };
 		F539147B1FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53914791FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp */; };
 		F539147D1FDE6BD900CD5174 /* TestAdjustReferenceCounterForConcreteObjectSafelyFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F539147C1FDE6BD900CD5174 /* TestAdjustReferenceCounterForConcreteObjectSafelyFunction.cpp */; };
@@ -429,6 +431,7 @@
 		F54985821FE983C8004C204C /* DecrementReferencesInArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54985811FE983C8004C204C /* DecrementReferencesInArrayFunction.cpp */; };
 		F54985831FE983C8004C204C /* DecrementReferencesInArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54985811FE983C8004C204C /* DecrementReferencesInArrayFunction.cpp */; };
 		F54985851FE98F95004C204C /* TestDecrementReferencesInArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54985841FE98F95004C204C /* TestDecrementReferencesInArrayFunction.cpp */; };
+		F54B14352059015F0030773F /* TestIdentifierReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B14342059015F0030773F /* TestIdentifierReference.cpp */; };
 		F54ED95F1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54ED95E1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp */; };
 		F54ED9601FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54ED95E1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp */; };
 		F55173D61F99025400613993 /* TestConstantDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55173D51F99025400613993 /* TestConstantDeclaration.cpp */; };
@@ -1258,6 +1261,8 @@
 		F53401101DFF333E0002BF7E /* MethodDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MethodDeclaration.cpp; path = src/MethodDeclaration.cpp; sourceTree = "<group>"; };
 		F534011B1E000DBC0002BF7E /* TestMethodDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethodDeclaration.cpp; path = tests/TestMethodDeclaration.cpp; sourceTree = "<group>"; };
 		F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestAdditiveMultiplicativeExpression.cpp; path = tests/TestAdditiveMultiplicativeExpression.cpp; sourceTree = "<group>"; };
+		F5378F6B2058F0B500E5B5FD /* IdentifierReference.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IdentifierReference.hpp; path = include/wisey/IdentifierReference.hpp; sourceTree = "<group>"; };
+		F5378F6C2058F11500E5B5FD /* IdentifierReference.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IdentifierReference.cpp; path = src/IdentifierReference.cpp; sourceTree = "<group>"; };
 		F53914781FDE697100CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp; path = include/wisey/AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp; sourceTree = "<group>"; };
 		F53914791FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp; path = src/AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp; sourceTree = "<group>"; };
 		F539147C1FDE6BD900CD5174 /* TestAdjustReferenceCounterForConcreteObjectSafelyFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestAdjustReferenceCounterForConcreteObjectSafelyFunction.cpp; path = tests/TestAdjustReferenceCounterForConcreteObjectSafelyFunction.cpp; sourceTree = "<group>"; };
@@ -1382,6 +1387,7 @@
 		F54985801FE98341004C204C /* DecrementReferencesInArrayFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DecrementReferencesInArrayFunction.hpp; path = include/wisey/DecrementReferencesInArrayFunction.hpp; sourceTree = "<group>"; };
 		F54985811FE983C8004C204C /* DecrementReferencesInArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DecrementReferencesInArrayFunction.cpp; path = src/DecrementReferencesInArrayFunction.cpp; sourceTree = "<group>"; };
 		F54985841FE98F95004C204C /* TestDecrementReferencesInArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestDecrementReferencesInArrayFunction.cpp; path = tests/TestDecrementReferencesInArrayFunction.cpp; sourceTree = "<group>"; };
+		F54B14342059015F0030773F /* TestIdentifierReference.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestIdentifierReference.cpp; path = tests/TestIdentifierReference.cpp; sourceTree = "<group>"; };
 		F54ED95D1FE84C9400847A2B /* DestroyOwnerArrayFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DestroyOwnerArrayFunction.hpp; path = include/wisey/DestroyOwnerArrayFunction.hpp; sourceTree = "<group>"; };
 		F54ED95E1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DestroyOwnerArrayFunction.cpp; path = src/DestroyOwnerArrayFunction.cpp; sourceTree = "<group>"; };
 		F55173D51F99025400613993 /* TestConstantDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestConstantDeclaration.cpp; path = tests/TestConstantDeclaration.cpp; sourceTree = "<group>"; };
@@ -2523,6 +2529,7 @@
 				F5CB7F6E205152DC007628B5 /* FakeExpressionWithCleanup.hpp */,
 				F5089C6E1ECD01D9004A1223 /* Identifier.hpp */,
 				F51942F21FE302C3009C3158 /* IdentifierChain.hpp */,
+				F5378F6B2058F0B500E5B5FD /* IdentifierReference.hpp */,
 				F5089C741ECD01D9004A1223 /* IncrementExpression.hpp */,
 				F59496FC1F5467540002F14F /* InstanceOf.hpp */,
 				F5089C881ECD01D9004A1223 /* LogicalAndExpression.hpp */,
@@ -2553,6 +2560,7 @@
 				F5CB7F6F2051532A007628B5 /* FakeExpressionWithCleanup.cpp */,
 				F57411721E043EE4009809FF /* Identifier.cpp */,
 				F51942F31FE302DC009C3158 /* IdentifierChain.cpp */,
+				F5378F6C2058F11500E5B5FD /* IdentifierReference.cpp */,
 				F574116A1E042390009809FF /* IncrementExpression.cpp */,
 				F59496FD1F5469900002F14F /* InstanceOf.cpp */,
 				F57411511E019A46009809FF /* LogicalAndExpression.cpp */,
@@ -2938,6 +2946,7 @@
 				F5CB7F83205181FC007628B5 /* TestFakeExpressionWithCleanup.cpp */,
 				F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */,
 				F51942FA1FE3D7D6009C3158 /* TestIdentifierChain.cpp */,
+				F54B14342059015F0030773F /* TestIdentifierReference.cpp */,
 				F574116F1E042607009809FF /* TestIncrementExpression.cpp */,
 				F59497001F546CED0002F14F /* TestInstanceOf.cpp */,
 				F57411541E019B32009809FF /* TestLogicalAndExpression.cpp */,
@@ -3695,6 +3704,7 @@
 				F5ADB6131E5DA13600FFC941 /* TestCast.cpp in Sources */,
 				F5CB7FE72052C895007628B5 /* TestInjectedField.cpp in Sources */,
 				F50FA3081E32640B00435EEA /* TestBooleanConstant.cpp in Sources */,
+				F5378F6E2058F11500E5B5FD /* IdentifierReference.cpp in Sources */,
 				F513DE082018A0F7001A075B /* ParameterArrayReferenceVariable.cpp in Sources */,
 				F513DE0420186CFC001A075B /* TestParameterArrayOwnerVariable.cpp in Sources */,
 				F53A2C4E1F02A4EC00E76A9E /* TestNullExpression.cpp in Sources */,
@@ -3754,6 +3764,7 @@
 				F5F61AA3201DE99300EF9EB7 /* TestArraySpecificType.cpp in Sources */,
 				F539147B1FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp in Sources */,
 				F57780AE1EC7CC7B0049542D /* BindAction.cpp in Sources */,
+				F54B14352059015F0030773F /* TestIdentifierReference.cpp in Sources */,
 				F5CB7F632050FBF4007628B5 /* NativeType.cpp in Sources */,
 				F5E270751F98FFA9008D2EB7 /* ConstantDeclaration.cpp in Sources */,
 				F5A363441F33D08F005880B3 /* TestLocalOwnerVariable.cpp in Sources */,
@@ -4133,6 +4144,7 @@
 				F5325069202A22B7007D8597 /* ArrayExactOwnerType.cpp in Sources */,
 				F53A2C1E1EF96C0200E76A9E /* IVariable.cpp in Sources */,
 				F59D82111E0F311B00057FB5 /* ForStatement.cpp in Sources */,
+				F5378F6D2058F11500E5B5FD /* IdentifierReference.cpp in Sources */,
 				F5C6FD801E48B6E80054209D /* IntType.cpp in Sources */,
 				F52C66621FBF41C000E89B04 /* AdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp in Sources */,
 				F5F435C91FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp in Sources */,

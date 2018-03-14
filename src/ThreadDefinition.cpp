@@ -16,6 +16,7 @@
 #include "wisey/Environment.hpp"
 #include "wisey/DereferenceExpression.hpp"
 #include "wisey/FakeExpressionWithCleanup.hpp"
+#include "wisey/IdentifierReference.hpp"
 #include "wisey/IMethodCall.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
@@ -134,7 +135,7 @@ MethodDeclaration* ThreadDefinition::createStartMethodDeclaration(IRGenerationCo
                                                       new Identifier(IObjectType::THIS),
                                                       0);
   vector<IExpression*> callArguments;
-  callArguments.push_back(new Identifier("mNativeThread"));
+  callArguments.push_back(new IdentifierReference("mNativeThread"));
   callArguments.push_back(new FakeExpressionWithCleanup(nullValue, threadAtrributesType));
   callArguments.push_back(new FakeExpressionWithCleanup(runBridgeFunction, runBridgeFunctionType));
   callArguments.push_back(castExpression);
@@ -147,8 +148,8 @@ MethodDeclaration* ThreadDefinition::createStartMethodDeclaration(IRGenerationCo
   VariableDeclaration* resultDeclaration =
   VariableDeclaration::create(voidPointerTypeSpecifier, new Identifier("result"), 0);
   callArguments.clear();
-  callArguments.push_back(new DereferenceExpression(new Identifier("mNativeThread")));
-  callArguments.push_back(new Identifier("result"));
+  callArguments.push_back(new Identifier("mNativeThread"));
+  callArguments.push_back(new IdentifierReference("result"));
   Function* joinFunction = ThreadInfrastructure::getThreadJoinFunction(context);
   NativeFunctionCall* joinFunctionCall = new NativeFunctionCall(joinFunction, callArguments);
   statements.push_back(resultDeclaration);

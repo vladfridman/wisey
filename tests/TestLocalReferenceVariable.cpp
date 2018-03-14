@@ -42,7 +42,7 @@ using ::testing::Test;
 struct LocalReferenceVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBlock;
+  BasicBlock* mBasicBlock;
   Model* mModel;
   NiceMock<MockVariable>* mThreadVariable;
   string mStringBuffer;
@@ -60,8 +60,8 @@ public:
                                           GlobalValue::InternalLinkage,
                                           "test",
                                           mContext.getModule());
-    mBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBlock);
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
 
     vector<Type*> types;
@@ -121,23 +121,21 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableAssignmentTest) {
   
   uninitializedHeapVariable->generateAssignmentIR(mContext, &expression, arrayIndices, 0);
 
-  *mStringStream << *mBlock;
+  *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
   "\n  %1 = alloca %systems.vos.wisey.compiler.tests.MShape*"
-  "\n  %2 = load %systems.vos.wisey.compiler.tests.MShape*, "
-  "%systems.vos.wisey.compiler.tests.MShape** %0"
+  "\n  %2 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0"
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MShape* %2 to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %3, i64 -1)"
   "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MShape* null to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %4, i64 1)"
-  "\n  store %systems.vos.wisey.compiler.tests.MShape* null, "
-  "%systems.vos.wisey.compiler.tests.MShape** %0\n";
+  "\n  store %systems.vos.wisey.compiler.tests.MShape* null, %systems.vos.wisey.compiler.tests.MShape** %0\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(LocalReferenceVariableTest, localReferenceVariableIdentifierTest) {
+TEST_F(LocalReferenceVariableTest, generateIdentifierIRTest) {
   PointerType* llvmType = mModel->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalReferenceVariable localReferenceVariable("foo", mModel, fooValue);
@@ -145,14 +143,21 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableIdentifierTest) {
   FakeExpression* fakeExpression = new FakeExpression(null, mModel);
   vector<const IExpression*> arrayIndices;
   localReferenceVariable.generateAssignmentIR(mContext, fakeExpression, arrayIndices, 0);
-
+  
   Value* instruction = localReferenceVariable.generateIdentifierIR(mContext);
-
+  
   *mStringStream << *instruction;
   string expected =
-  "  %4 = load %systems.vos.wisey.compiler.tests.MShape*, "
-  "%systems.vos.wisey.compiler.tests.MShape** %0";
+  "  %4 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
+}
+
+TEST_F(LocalReferenceVariableTest, generateIdentifierReferenceIRTest) {
+  PointerType* llvmType = mModel->getLLVMType(mContext);
+  Value* fooValueStore = IRWriter::newAllocaInst(mContext, llvmType, "");
+  LocalReferenceVariable localReferenceVariable("foo", mModel, fooValueStore);
+  
+  EXPECT_EQ(fooValueStore, localReferenceVariable.generateIdentifierReferenceIR(mContext));
 }
 
 TEST_F(LocalReferenceVariableTest, decrementReferenceCounterTest) {
@@ -163,12 +168,11 @@ TEST_F(LocalReferenceVariableTest, decrementReferenceCounterTest) {
   
   localReferenceVariable.decrementReferenceCounter(mContext);
   
-  *mStringStream << *mBlock;
+  *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
-  "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, "
-  "%systems.vos.wisey.compiler.tests.MShape** %0"
+  "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0"
   "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.MShape* %1 to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %2, i64 -1)\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());

@@ -46,6 +46,10 @@ Value* LocalPrimitiveVariable::generateIdentifierIR(IRGenerationContext& context
   return IRWriter::newLoadInst(context, mValueStore, "");
 }
 
+Value* LocalPrimitiveVariable::generateIdentifierReferenceIR(IRGenerationContext& context) const {
+  return mValueStore;
+}
+
 Value* LocalPrimitiveVariable::generateAssignmentIR(IRGenerationContext& context,
                                                     IExpression* assignToExpression,
                                                     std::vector<const IExpression*> arrayIndices,

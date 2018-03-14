@@ -102,14 +102,25 @@ TEST_F(FieldNativeVariableTest, basicFieldsTest) {
   EXPECT_FALSE(mFieldNativeVariable->isSystem());
 }
 
-TEST_F(FieldNativeVariableTest, referenceFieldVariableGenerateIdentifierIRTest) {
+TEST_F(FieldNativeVariableTest, generateIdentifierIRTest) {
   mFieldNativeVariable->generateIdentifierIR(mContext);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.TObject, "
-  "%systems.vos.wisey.compiler.tests.TObject* null, i32 0, i32 0\n";
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.TObject, %systems.vos.wisey.compiler.tests.TObject* null, i32 0, i32 0"
+  "\n  %1 = load i64, i64* %0\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+}
+
+TEST_F(FieldNativeVariableTest, generateIdentifierReferenceIRTest) {
+  mFieldNativeVariable->generateIdentifierReferenceIR(mContext);
+  
+  *mStringStream << *mBasicBlock;
+  string expected = string() +
+  "\nentry:" +
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.TObject, %systems.vos.wisey.compiler.tests.TObject* null, i32 0, i32 0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

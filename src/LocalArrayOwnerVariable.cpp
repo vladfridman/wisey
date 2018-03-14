@@ -47,6 +47,11 @@ llvm::Value* LocalArrayOwnerVariable::generateIdentifierIR(IRGenerationContext& 
   return IRWriter::newLoadInst(context, mValueStore, "");
 }
 
+llvm::Value* LocalArrayOwnerVariable::generateIdentifierReferenceIR(IRGenerationContext&
+                                                                    context) const {
+  return mValueStore;
+}
+
 bool LocalArrayOwnerVariable::isSystem() const {
   return false;
 }

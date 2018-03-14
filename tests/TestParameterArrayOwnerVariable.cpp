@@ -38,6 +38,7 @@ struct ParameterArrayOwnerVariableTest : public Test {
   BasicBlock* mBasicBlock;
   const wisey::ArrayType* mArrayType;
   ParameterArrayOwnerVariable* mVariable;
+  AllocaInst* mArrayAlloc;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
@@ -56,8 +57,8 @@ public:
     mContext.getScopes().pushScope();
     
     llvm::PointerType* arrayPointerType = mArrayType->getOwner()->getLLVMType(mContext);
-    AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
-    mVariable = new ParameterArrayOwnerVariable("foo", mArrayType->getOwner(), alloc);
+    mArrayAlloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
+    mVariable = new ParameterArrayOwnerVariable("foo", mArrayType->getOwner(), mArrayAlloc);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -82,6 +83,10 @@ TEST_F(ParameterArrayOwnerVariableTest, generateIdentifierIRTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(ParameterArrayOwnerVariableTest, generateIdentifierReferenceIRTest) {
+  EXPECT_EQ(mArrayAlloc, mVariable->generateIdentifierReferenceIR(mContext));
 }
 
 TEST_F(ParameterArrayOwnerVariableTest, freeTest) {

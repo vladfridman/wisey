@@ -53,6 +53,11 @@ Value* ParameterArrayReferenceVariable::generateIdentifierIR(IRGenerationContext
   return mValue;
 }
 
+Value* ParameterArrayReferenceVariable::generateIdentifierReferenceIR(IRGenerationContext&
+                                                                      context) const {
+  assert(false);
+}
+
 Value* ParameterArrayReferenceVariable::generateAssignmentIR(IRGenerationContext& context,
                                                              IExpression* assignToExpression,
                                                              vector<const IExpression*> arrayIndices,

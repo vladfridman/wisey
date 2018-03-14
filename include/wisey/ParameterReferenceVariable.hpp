@@ -40,6 +40,8 @@ public:
 
   llvm::Value* generateIdentifierIR(IRGenerationContext& context) const override;
   
+  llvm::Value* generateIdentifierReferenceIR(IRGenerationContext& context) const override;
+
   llvm::Value* generateAssignmentIR(IRGenerationContext& context,
                                     IExpression* assignToExpression,
                                     std::vector<const IExpression*> arrayIndices,

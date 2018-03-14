@@ -58,6 +58,10 @@ Value* LocalOwnerVariable::generateIdentifierIR(IRGenerationContext& context) co
   return IRWriter::newLoadInst(context, mValueStore, "");
 }
 
+Value* LocalOwnerVariable::generateIdentifierReferenceIR(IRGenerationContext& context) const {
+  return mValueStore;
+}
+
 Value* LocalOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
                                                 IExpression* assignToExpression,
                                                 vector<const IExpression*> arrayIndices,

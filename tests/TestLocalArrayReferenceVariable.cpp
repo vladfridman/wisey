@@ -77,7 +77,7 @@ TEST_F(LocalArrayReferenceVariableTest, basicFieldsTest) {
   EXPECT_FALSE(variable.isSystem());
 }
 
-TEST_F(LocalArrayReferenceVariableTest, generateArrayIdentifierIRTest) {
+TEST_F(LocalArrayReferenceVariableTest, generateIdentifierIRTest) {
   llvm::PointerType* arrayPointerType = mArrayType->getLLVMType(mContext);
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
   LocalArrayReferenceVariable variable("foo", mArrayType, alloc);
@@ -94,7 +94,15 @@ TEST_F(LocalArrayReferenceVariableTest, generateArrayIdentifierIRTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(LocalArrayReferenceVariableTest, generateArrayWholeArrayAssignmentTest) {
+TEST_F(LocalArrayReferenceVariableTest, generateIdentifierReferenceIRTest) {
+  llvm::PointerType* arrayPointerType = mArrayType->getLLVMType(mContext);
+  AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
+  LocalArrayReferenceVariable variable("foo", mArrayType, alloc);
+  
+  EXPECT_EQ(alloc, variable.generateIdentifierReferenceIR(mContext));
+}
+
+TEST_F(LocalArrayReferenceVariableTest, generateWholeArrayAssignmentTest) {
   llvm::PointerType* arrayPointerType = mArrayType->getLLVMType(mContext);
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
   LocalArrayReferenceVariable variable("foo", mArrayType, alloc);
@@ -121,7 +129,7 @@ TEST_F(LocalArrayReferenceVariableTest, generateArrayWholeArrayAssignmentTest) {
 }
 
 
-TEST_F(LocalArrayReferenceVariableTest, generateArrayWholeArrayAssignmentDeathTest) {
+TEST_F(LocalArrayReferenceVariableTest, generateWholeArrayAssignmentDeathTest) {
   llvm::PointerType* arrayPointerType = mArrayType->getLLVMType(mContext);
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
   LocalArrayReferenceVariable variable("foo", mArrayType, alloc);

@@ -37,7 +37,7 @@ using ::testing::Test;
 struct ParameterOwnerVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBlock;
+  BasicBlock* mBasicBlock;
   Model* mModel;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
@@ -71,8 +71,8 @@ public:
                                           GlobalValue::InternalLinkage,
                                           "test",
                                           mContext.getModule());
-    mBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBlock);
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
 
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -81,13 +81,39 @@ public:
 
 TEST_F(ParameterOwnerVariableTest, basicFieldsTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
-  Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  ParameterOwnerVariable variable("foo", mModel->getOwner(), fooValue);
+  Value* fooValueStore = IRWriter::newAllocaInst(mContext, llvmType, "");
+  ParameterOwnerVariable variable("foo", mModel->getOwner(), fooValueStore);
 
   EXPECT_STREQ("foo", variable.getName().c_str());
   EXPECT_EQ(mModel->getOwner(), variable.getType());
   EXPECT_FALSE(variable.isField());
   EXPECT_FALSE(variable.isSystem());
+}
+
+TEST_F(ParameterOwnerVariableTest, generateIdentifierIRTest) {
+  Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
+  Value* fooValueStore = IRWriter::newAllocaInst(mContext, llvmType, "");
+  ParameterOwnerVariable variable("foo", mModel->getOwner(), fooValueStore);
+  
+  variable.generateIdentifierIR(mContext);
+  
+  *mStringStream << *mBasicBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
+TEST_F(ParameterOwnerVariableTest, generateIdentifierReferenceIRTest) {
+  Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
+  Value* fooValueStore = IRWriter::newAllocaInst(mContext, llvmType, "");
+  ParameterOwnerVariable variable("foo", mModel->getOwner(), fooValueStore);
+  
+  EXPECT_EQ(fooValueStore, variable.generateIdentifierReferenceIR(mContext));
 }
 
 TEST_F(ParameterOwnerVariableTest, freeTest) {
@@ -97,13 +123,12 @@ TEST_F(ParameterOwnerVariableTest, freeTest) {
   
   heapMethodParameter.free(mContext);
   
-  *mStringStream << *mBlock;
+  *mStringStream << *mBasicBlock;
   
   string expected =
   "\nentry:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
-  "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, "
-  "%systems.vos.wisey.compiler.tests.MShape** %0"
+  "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0"
   "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.MShape* %1 to i8*"
   "\n  call void @destructor.systems.vos.wisey.compiler.tests.MShape(i8* %2)\n";
   
@@ -118,7 +143,7 @@ TEST_F(ParameterOwnerVariableTest, setToNullTest) {
   
   heapMethodParameter.setToNull(mContext);
   
-  *mStringStream << *mBlock;
+  *mStringStream << *mBasicBlock;
   
   string expected =
   "\nentry:"

@@ -120,21 +120,30 @@ TEST_F(FieldReferenceVariableTest, basicFieldsTest) {
   EXPECT_FALSE(mFieldReferenceVariable->isSystem());
 }
 
-TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateIdentifierIRTest) {
+TEST_F(FieldReferenceVariableTest, generateIdentifierIRTest) {
   mFieldReferenceVariable->generateIdentifierIR(mContext);
-
+  
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
-  "%systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
-  "\n  %referenceFieldIdentifier = load %systems.vos.wisey.compiler.tests.NNode*, "
-  "%systems.vos.wisey.compiler.tests.NNode** %0\n";
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
+  "\n  %referenceFieldIdentifier = load %systems.vos.wisey.compiler.tests.NNode*, %systems.vos.wisey.compiler.tests.NNode** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateAssignmentIRTest) {
+TEST_F(FieldReferenceVariableTest, generateIdentifierreferenceIRTest) {
+  mFieldReferenceVariable->generateIdentifierReferenceIR(mContext);
+  
+  *mStringStream << *mBasicBlock;
+  string expected = string() +
+  "\nentry:" +
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+}
+
+TEST_F(FieldReferenceVariableTest, generateAssignmentIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
   PointerType* llvmType = (PointerType*) mNode->getLLVMType(mContext);
@@ -148,10 +157,8 @@ TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateAssignmentIRTes
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
-  "%systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
-  "\n  %1 = load %systems.vos.wisey.compiler.tests.NNode*, "
-  "%systems.vos.wisey.compiler.tests.NNode** %0"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
+  "\n  %1 = load %systems.vos.wisey.compiler.tests.NNode*, %systems.vos.wisey.compiler.tests.NNode** %0"
   "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.NNode* %1 to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %2, i64 -1)"
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.NNode* null to i8*"
@@ -162,7 +169,7 @@ TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateAssignmentIRTes
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateAssignmentWithCastIRTest) {
+TEST_F(FieldReferenceVariableTest, generateAssignmentWithCastIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
   PointerType* llvmType = mNode->getLLVMType(mContext);
@@ -180,10 +187,8 @@ TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateAssignmentWithC
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NNode* null to i8*"
   "\n  %1 = getelementptr i8, i8* %0, i64 8"
   "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IInterface*"
-  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
-  "%systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 2"
-  "\n  %4 = load %systems.vos.wisey.compiler.tests.IInterface*, "
-  "%systems.vos.wisey.compiler.tests.IInterface** %3"
+  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 2"
+  "\n  %4 = load %systems.vos.wisey.compiler.tests.IInterface*, %systems.vos.wisey.compiler.tests.IInterface** %3"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.IInterface* %4 to i8*"
   "\n  call void @__adjustReferenceCounterForInterface(i8* %5, i64 -1)"
   "\n  %6 = bitcast %systems.vos.wisey.compiler.tests.IInterface* %2 to i8*"

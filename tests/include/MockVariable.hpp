@@ -27,6 +27,7 @@ public:
   MOCK_CONST_METHOD0(isSystem, bool ());
   MOCK_CONST_METHOD0(getValue, llvm::Value* ());
   MOCK_CONST_METHOD1(generateIdentifierIR, llvm::Value* (wisey::IRGenerationContext&));
+  MOCK_CONST_METHOD1(generateIdentifierReferenceIR, llvm::Value* (wisey::IRGenerationContext&));
   MOCK_METHOD4(generateAssignmentIR, llvm::Value* (wisey::IRGenerationContext&,
                                                    wisey::IExpression*,
                                                    std::vector<const wisey::IExpression*>

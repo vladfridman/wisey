@@ -38,7 +38,7 @@ using ::testing::Test;
 struct VariableDeclarationTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBlock;
+  BasicBlock* mBasicBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   Function* mFunction;
@@ -57,9 +57,9 @@ struct VariableDeclarationTest : public Test {
                                  GlobalValue::InternalLinkage,
                                  "test",
                                  mContext.getModule());
-    mBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
     
-    mContext.setBasicBlock(mBlock);
+    mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -76,8 +76,8 @@ TEST_F(VariableDeclarationTest, stackVariableDeclarationWithoutAssignmentTest) {
   declaration->generateIR(mContext);
   
   EXPECT_NE(mContext.getScopes().getVariable("foo"), nullptr);
-  ASSERT_EQ(2ul, mBlock->size());
-  *mStringStream << *mBlock;
+  ASSERT_EQ(2ul, mBasicBlock->size());
+  *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
   "\n  %0 = alloca i32"
@@ -101,7 +101,7 @@ TEST_F(VariableDeclarationTest, stackVariableDeclarationWithAssignmentTest) {
   
   EXPECT_NE(mContext.getScopes().getVariable("foo"), nullptr);
 
-  *mStringStream << *mBlock;
+  *mStringStream << *mBasicBlock;
 
   string expected =
   "\nentry:"
@@ -137,7 +137,7 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   
   EXPECT_NE(mContext.getScopes().getVariable("foo"), nullptr);
 
-  *mStringStream << *mBlock;
+  *mStringStream << *mBasicBlock;
   
   string expected =
   "\nentry:"

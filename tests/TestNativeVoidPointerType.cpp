@@ -107,7 +107,7 @@ TEST_F(NativeVoidPointerTypeTest, createLocalVariableTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %nativeVariable = alloca i8*\n";
+  "\n  %variable = alloca i8*\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

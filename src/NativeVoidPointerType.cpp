@@ -101,7 +101,7 @@ void NativeVoidPointerType::printToStream(IRGenerationContext &context, iostream
 }
 
 void NativeVoidPointerType::createLocalVariable(IRGenerationContext& context, string name) const {
-  Value* alloca = IRWriter::newAllocaInst(context, getLLVMType(context), "nativeVariable");
+  Value* alloca = IRWriter::newAllocaInst(context, getLLVMType(context), name);
   IVariable* variable = new LocalNativeVariable(name, this, alloca);
   context.getScopes().setVariable(variable);
 }

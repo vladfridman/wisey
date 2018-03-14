@@ -108,6 +108,17 @@ TEST_F(FieldArrayOwnerVariableTest, generateIdentifierIRTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
+TEST_F(FieldArrayOwnerVariableTest, generateIdentifierReferenceIRTest) {
+  mFieldArrayOwnerVariable->generateIdentifierReferenceIR(mContext);
+  
+  *mStringStream << *mBasicBlock;
+  string expected = string() +
+  "\nentry:" +
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+}
+
 TEST_F(FieldArrayOwnerVariableTest, generateWholeArrayAssignmentTest) {
   llvm::PointerType* arrayPointerType = mArrayType->getOwner()->getLLVMType(mContext);
   vector<const IExpression*> arrayIndices;

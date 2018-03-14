@@ -36,7 +36,7 @@ using ::testing::Test;
 struct LocalPrimitiveVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBlock;
+  BasicBlock* mBasicBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
@@ -48,8 +48,8 @@ public:
                                           GlobalValue::InternalLinkage,
                                           "test",
                                           mContext.getModule());
-    mBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBlock);
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
 
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -82,8 +82,8 @@ TEST_F(LocalPrimitiveVariableTest, generateAssignmentIRTest) {
 
   variable.generateAssignmentIR(mContext, &expression, arrayIndices, 0);
   
-  ASSERT_EQ(2ul, mBlock->size());
-  BasicBlock::iterator iterator = mBlock->begin();
+  ASSERT_EQ(2ul, mBasicBlock->size());
+  BasicBlock::iterator iterator = mBasicBlock->begin();
   *mStringStream << *iterator;
   EXPECT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i32");
   mStringBuffer.clear();
@@ -105,8 +105,8 @@ TEST_F(LocalPrimitiveVariableTest, generateAssignmentIRWithCastTest) {
 
   variable.generateAssignmentIR(mContext, &expression, arrayIndices, 0);
   
-  ASSERT_EQ(3ul, mBlock->size());
-  BasicBlock::iterator iterator = mBlock->begin();
+  ASSERT_EQ(3ul, mBasicBlock->size());
+  BasicBlock::iterator iterator = mBasicBlock->begin();
   *mStringStream << *iterator;
   EXPECT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i32");
   mStringBuffer.clear();
@@ -128,9 +128,9 @@ TEST_F(LocalPrimitiveVariableTest, generateIdentifierIRTest) {
   
   variable.generateIdentifierIR(mContext);
 
-  ASSERT_EQ(2ul, mBlock->size());
+  ASSERT_EQ(2ul, mBasicBlock->size());
   
-  BasicBlock::iterator iterator = mBlock->begin();
+  BasicBlock::iterator iterator = mBasicBlock->begin();
   *mStringStream << *iterator;
   EXPECT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i32");
   mStringBuffer.clear();
@@ -139,6 +139,13 @@ TEST_F(LocalPrimitiveVariableTest, generateIdentifierIRTest) {
   *mStringStream << *iterator;
   EXPECT_STREQ(mStringStream->str().c_str(), "  %0 = load i32, i32* %foo");
   mStringBuffer.clear();
+}
+
+TEST_F(LocalPrimitiveVariableTest, generateIdentifierReferenceIRTest) {
+  AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), "foo");
+  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, alloc);
+  
+  EXPECT_EQ(alloc, variable.generateIdentifierReferenceIR(mContext));
 }
 
 TEST_F(TestFileSampleRunner, assignmentWithAutocastRunTest) {

@@ -129,21 +129,30 @@ TEST_F(FieldOwnerVariableTest, basicFieldsTest) {
   EXPECT_FALSE(mFieldOwnerVariable->isSystem());
 }
 
-TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateIdentifierIRTest) {
+TEST_F(FieldOwnerVariableTest, generateIdentifierIRTest) {
   mFieldOwnerVariable->generateIdentifierIR(mContext);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
-  "%systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
-  "\n  %1 = load %systems.vos.wisey.compiler.tests.NNode*, "
-  "%systems.vos.wisey.compiler.tests.NNode** %0\n";
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
+  "\n  %1 = load %systems.vos.wisey.compiler.tests.NNode*, %systems.vos.wisey.compiler.tests.NNode** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateAssignmentIRTest) {
+TEST_F(FieldOwnerVariableTest, generateIdentifierReferenceIRTest) {
+  mFieldOwnerVariable->generateIdentifierReferenceIR(mContext);
+  
+  *mStringStream << *mBasicBlock;
+  string expected = string() +
+  "\nentry:" +
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+}
+
+TEST_F(FieldOwnerVariableTest, generateAssignmentIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
   PointerType* llvmType = (PointerType*) mNode->getOwner()->getLLVMType(mContext);
@@ -169,7 +178,7 @@ TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateAssignmentIRTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateAssignmentWithCastIRTest) {
+TEST_F(FieldOwnerVariableTest, generateAssignmentWithCastIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
   PointerType* llvmType = mNode->getOwner()->getLLVMType(mContext);
@@ -213,7 +222,7 @@ TEST_F(FieldOwnerVariableTest, setToNullTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, objectFieldVariableSetToNullRunDeathTest) {
+TEST_F(TestFileSampleRunner, variableSetToNullRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_object_field_variable_set_to_null.yz",
                                1,
                                "",

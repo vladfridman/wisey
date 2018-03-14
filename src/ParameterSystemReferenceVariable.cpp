@@ -47,6 +47,11 @@ Value* ParameterSystemReferenceVariable::generateIdentifierIR(IRGenerationContex
   return mValue;
 }
 
+Value* ParameterSystemReferenceVariable::generateIdentifierReferenceIR(IRGenerationContext&
+                                                                       context) const {
+  assert(false);
+}
+
 Value* ParameterSystemReferenceVariable::generateAssignmentIR(IRGenerationContext& context,
                                                               IExpression* assignToExpression,
                                                               vector<const IExpression*>

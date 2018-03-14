@@ -47,6 +47,10 @@ Value* FieldPrimitiveVariable::generateIdentifierIR(IRGenerationContext& context
   return IRWriter::newLoadInst(context, fieldPointer, "");
 }
 
+Value* FieldPrimitiveVariable::generateIdentifierReferenceIR(IRGenerationContext& context) const {
+  return getFieldPointer(context, mObject, mName);
+}
+
 Value* FieldPrimitiveVariable::generateAssignmentIR(IRGenerationContext& context,
                                                     IExpression* assignToExpression,
                                                     vector<const IExpression*> arrayIndices,

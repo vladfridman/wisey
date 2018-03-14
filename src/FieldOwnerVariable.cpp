@@ -52,6 +52,10 @@ Value* FieldOwnerVariable::generateIdentifierIR(IRGenerationContext& context) co
   return IRWriter::newLoadInst(context, fieldPointer, "");
 }
 
+Value* FieldOwnerVariable::generateIdentifierReferenceIR(IRGenerationContext& context) const {
+  return getFieldPointer(context, mObject, mName);
+}
+
 Value* FieldOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
                                                 IExpression* assignToExpression,
                                                 vector<const IExpression*> arrayIndices,

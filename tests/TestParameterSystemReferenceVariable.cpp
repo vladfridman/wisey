@@ -36,7 +36,7 @@ using ::testing::Test;
 struct ParameterSystemReferenceVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBlock;
+  BasicBlock* mBasicBlock;
   Model* mModel;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
@@ -52,8 +52,8 @@ public:
                                           GlobalValue::InternalLinkage,
                                           "test",
                                           mContext.getModule());
-    mBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBlock);
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
     vector<Type*> types;
@@ -94,10 +94,10 @@ TEST_F(ParameterSystemReferenceVariableTest, variableAssignmentDeathTest) {
 }
 
 TEST_F(ParameterSystemReferenceVariableTest, variableIdentifierTest) {
-  Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mContext));
-  ParameterSystemReferenceVariable variable("foo", mModel, fooValue);
+  Value* fooValueStore = ConstantPointerNull::get(mModel->getLLVMType(mContext));
+  ParameterSystemReferenceVariable variable("foo", mModel, fooValueStore);
   
-  EXPECT_EQ(variable.generateIdentifierIR(mContext), fooValue);
+  EXPECT_EQ(fooValueStore, variable.generateIdentifierIR(mContext));
 }
 
 TEST_F(ParameterSystemReferenceVariableTest, decrementReferenceCounterTest) {
@@ -106,7 +106,7 @@ TEST_F(ParameterSystemReferenceVariableTest, decrementReferenceCounterTest) {
   
   variable.decrementReferenceCounter(mContext);
   
-  *mStringStream << *mBlock;
+  *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MShape* null to i8*"

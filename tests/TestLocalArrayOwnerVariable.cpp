@@ -75,7 +75,7 @@ TEST_F(LocalArrayOwnerVariableTest, basicFieldsTest) {
   EXPECT_FALSE(variable.isSystem());
 }
 
-TEST_F(LocalArrayOwnerVariableTest, generatePrimitiveArrayIdentifierIRTest) {
+TEST_F(LocalArrayOwnerVariableTest, generateIdentifierIRTest) {
   llvm::PointerType* arrayPointerType = mArrayType->getOwner()->getLLVMType(mContext);
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
   LocalArrayOwnerVariable variable("foo", mArrayType->getOwner(), alloc);
@@ -92,7 +92,15 @@ TEST_F(LocalArrayOwnerVariableTest, generatePrimitiveArrayIdentifierIRTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(LocalArrayOwnerVariableTest, generatePrimitiveArrayWholeArrayAssignmentTest) {
+TEST_F(LocalArrayOwnerVariableTest, generateIdentifierReferenceIRTest) {
+  llvm::PointerType* arrayPointerType = mArrayType->getOwner()->getLLVMType(mContext);
+  AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
+  LocalArrayOwnerVariable variable("foo", mArrayType->getOwner(), alloc);
+
+  EXPECT_EQ(alloc, variable.generateIdentifierReferenceIR(mContext));
+}
+
+TEST_F(LocalArrayOwnerVariableTest, generateAssignmentTest) {
   llvm::PointerType* arrayPointerType = mArrayType->getOwner()->getLLVMType(mContext);
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
   LocalArrayOwnerVariable variable("foo", mArrayType->getOwner(), alloc);
@@ -116,7 +124,7 @@ TEST_F(LocalArrayOwnerVariableTest, generatePrimitiveArrayWholeArrayAssignmentTe
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(LocalArrayOwnerVariableTest, generatePrimitiveArrayWholeArrayAssignmentDeathTest) {
+TEST_F(LocalArrayOwnerVariableTest, generateAssignmentDeathTest) {
   llvm::PointerType* arrayPointerType = mArrayType->getOwner()->getLLVMType(mContext);
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
   LocalArrayOwnerVariable variable("foo", mArrayType->getOwner(), alloc);
