@@ -103,9 +103,12 @@ external thread wisey.lang.TMainThread
   implements
     wisey.lang.IThread {
 
+  state int mMessage;
   inject wisey.lang.CCallStack* mCallStack;
 
-  void start();
+  int start();
+  void send(
+    int message);
   void run();
   wisey.lang.CCallStack getCallStack();
 }

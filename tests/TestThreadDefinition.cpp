@@ -176,12 +176,13 @@ TEST_F(ThreadDefinitionTest, threadDefinitionGenerateIRTest) {
   StructType* structType = (StructType*) thread->getLLVMType(mContext)->getPointerElementType();
   
   ASSERT_NE(structType, nullptr);
-  EXPECT_EQ(structType->getNumElements(), 4u);
+  EXPECT_EQ(structType->getNumElements(), 5u);
   NativeType* nativeThreadType = ThreadInfrastructure::createNativeThreadType(mContext);
   EXPECT_EQ(structType->getElementType(0), Type::getInt64Ty(mLLVMContext));
   EXPECT_EQ(structType->getElementType(1), nativeThreadType->getLLVMType(mContext));
-  EXPECT_EQ(structType->getElementType(2), Type::getInt64Ty(mLLVMContext));
-  EXPECT_EQ(structType->getElementType(3), Type::getFloatTy(mLLVMContext));
+  EXPECT_EQ(structType->getElementType(2), Type::getInt32Ty(mLLVMContext));
+  EXPECT_EQ(structType->getElementType(3), Type::getInt64Ty(mLLVMContext));
+  EXPECT_EQ(structType->getElementType(4), Type::getFloatTy(mLLVMContext));
   EXPECT_STREQ(thread->getShortName().c_str(), "TWorker");
   EXPECT_STREQ(thread->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.TWorker");
   EXPECT_NE(thread->findMethod("foo"), nullptr);
@@ -262,11 +263,13 @@ TEST_F(ThreadDefinitionTest, addThreadObjectElementsTest) {
   vector<IObjectElementDeclaration*> newElements =
   ThreadDefinition::addThreadObjectElements(mContext, objectElements, thread);
   
-  EXPECT_EQ(4u, newElements.size());
+  EXPECT_EQ(6u, newElements.size());
   EXPECT_TRUE(newElements.at(0)->isConstant());
   EXPECT_TRUE(newElements.at(1)->isField());
-  EXPECT_TRUE(newElements.at(2)->isMethod());
+  EXPECT_TRUE(newElements.at(2)->isField());
   EXPECT_TRUE(newElements.at(3)->isMethod());
+  EXPECT_TRUE(newElements.at(4)->isMethod());
+  EXPECT_TRUE(newElements.at(5)->isMethod());
 }
 
 TEST_F(TestFileSampleRunner, threadDefinitionRunTest) {
@@ -278,6 +281,7 @@ TEST_F(TestFileSampleRunner, threadRunRunTest) {
                      "Starting worker thread\n"
                      "Getting call stack!\n"
                      "This is worker thread!\n"
-                     "Worker thread started\n",
+                     "Worker thread started\n"
+                     "Worker thread result: 5\n",
                      "");
 }

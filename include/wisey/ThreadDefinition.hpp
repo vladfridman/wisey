@@ -42,7 +42,7 @@ namespace wisey {
     ~ThreadDefinition();
     
     /**
-     * Adds a field that contains the native thread handle and thread automatically generated methods
+     * Adds a field that contains the native thread handle and automatically generated methods
      */
     static std::vector<IObjectElementDeclaration*>
     addThreadObjectElements(IRGenerationContext& context,
@@ -60,9 +60,15 @@ namespace wisey {
     static MethodDeclaration* createStartMethodDeclaration(IRGenerationContext& context,
                                                            const Thread* thread);
     
+    static MethodDeclaration* createSendMethodDeclaration(IRGenerationContext& context,
+                                                          const Thread* thread);
+    
     static StateFieldDeclaration* createNativeThreadHandleField(IRGenerationContext& context);
     
-    static llvm::Function* defineRunBridgeFunction(IRGenerationContext& context, const Thread* thread);
+    static StateFieldDeclaration* createNativeThreadResultField(IRGenerationContext& context);
+    
+    static llvm::Function* defineRunBridgeFunction(IRGenerationContext& context,
+                                                   const Thread* thread);
     
     static void composeRunBridgeFunction(IRGenerationContext& context,
                                          llvm::Function* function,

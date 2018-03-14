@@ -33,7 +33,7 @@ using ::testing::Test;
 struct PointerTypeTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBlock;
+  BasicBlock* mBasicBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   wisey::PointerType* mPointerType;
@@ -48,8 +48,8 @@ public:
                                           GlobalValue::InternalLinkage,
                                           "main",
                                           mContext.getModule());
-    mBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBlock);
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -109,6 +109,26 @@ TEST_F(PointerTypeTest, isObjectTest) {
   EXPECT_FALSE(mPointerType->isThread());
 }
 
+TEST_F(PointerTypeTest, getPointerTypeTest) {
+  EXPECT_EQ(mPointerType, mPointerType->getPointerType()->getDereferenceType());
+}
+
 TEST_F(PointerTypeTest, getDereferenceTypeTest) {
   EXPECT_EQ(PrimitiveTypes::INT_TYPE, mPointerType->getDereferenceType());
+}
+
+TEST_F(PointerTypeTest, createLocalVariableTest) {
+  mPointerType->createLocalVariable(mContext, "temp");
+  IVariable* variable = mContext.getScopes().getVariable("temp");
+  
+  ASSERT_NE(variable, nullptr);
+  
+  *mStringStream << *mBasicBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %temp = alloca i32*\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
 }

@@ -9,6 +9,7 @@
 #include "wisey/DereferenceExpression.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/NativeType.hpp"
 
 using namespace std;
 using namespace llvm;
@@ -33,13 +34,15 @@ Value* DereferenceExpression::generateIR(IRGenerationContext& context,
 }
 
 const IType* DereferenceExpression::getType(IRGenerationContext& context) const {
-  return mExpression->getType(context);
+  const IType* expressionType = mExpression->getType(context);
+  return expressionType->getDereferenceType();
 }
 
 bool DereferenceExpression::isConstant() const {
   return false;
 }
 
-void DereferenceExpression::printToStream(IRGenerationContext& context, std::iostream& stream) const {
+void DereferenceExpression::printToStream(IRGenerationContext& context,
+                                          std::iostream& stream) const {
 }
 

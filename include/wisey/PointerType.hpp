@@ -11,14 +11,19 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "wisey/IType.hpp"
+
 namespace wisey {
   
+  class PointerPointerType;
+  
   /**
-   * Represents type that is a pointer to another type
+   * Represents a pointer type to an existing type
    */
   class PointerType : public IType {
     
     const IType* mBaseType;
+    const PointerPointerType* mPointerPointerType;
     
   public:
     

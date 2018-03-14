@@ -60,28 +60,14 @@ TEST_F(NativeTypeTest, getLLVMTypeTest) {
   ASSERT_EQ(Type::getInt8Ty(mLLVMContext)->getPointerTo(), mNativeType->getLLVMType(mContext));
 }
 
-TEST_F(NativeTypeTest, isPrimitiveTest) {
+TEST_F(NativeTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mNativeType->isPrimitive());
-}
-
-TEST_F(NativeTypeTest, isOwnerTest) {
   EXPECT_FALSE(mNativeType->isOwner());
-}
-
-TEST_F(NativeTypeTest, isReferenceTest) {
-  EXPECT_FALSE(mNativeType->isReference());
-}
-
-TEST_F(NativeTypeTest, isArrayTest) {
+  EXPECT_TRUE(mNativeType->isReference());
   EXPECT_FALSE(mNativeType->isArray());
-}
-
-TEST_F(NativeTypeTest, isFunctionTest) {
   EXPECT_FALSE(mNativeType->isFunction());
-}
-
-TEST_F(NativeTypeTest, isPackageTest) {
   EXPECT_FALSE(mNativeType->isPackage());
+  EXPECT_TRUE(mNativeType->isNative());
 }
 
 TEST_F(NativeTypeTest, isObjectTest) {
@@ -89,7 +75,7 @@ TEST_F(NativeTypeTest, isObjectTest) {
   EXPECT_FALSE(mNativeType->isInterface());
   EXPECT_FALSE(mNativeType->isModel());
   EXPECT_FALSE(mNativeType->isNode());
-  EXPECT_TRUE(mNativeType->isNative());
+  EXPECT_FALSE(mNativeType->isThread());
 }
 
 TEST_F(NativeTypeTest, createFieldVariableTest) {
@@ -100,4 +86,37 @@ TEST_F(NativeTypeTest, createFieldVariableTest) {
   IVariable* variable = mContext.getScopes().getVariable("mField");
   
   EXPECT_NE(variable, nullptr);
+}
+
+TEST_F(NativeTypeTest, canCastToTest) {
+  NativeType* anotherType = new NativeType(Type::getInt8Ty(mLLVMContext)->getPointerTo());
+  
+  EXPECT_TRUE(mNativeType->canCastTo(mContext, anotherType));
+}
+
+TEST_F(NativeTypeTest, canAutoCastToTest) {
+  NativeType* anotherType = new NativeType(Type::getInt8Ty(mLLVMContext)->getPointerTo());
+  
+  EXPECT_TRUE(mNativeType->canAutoCastTo(mContext, anotherType));
+}
+
+TEST_F(NativeTypeTest, castToTest) {
+  llvm::PointerType* int8PointerType = Type::getInt8Ty(mLLVMContext)->getPointerTo();
+  NativeType* anotherType = new NativeType(int8PointerType);
+  Value* null = ConstantPointerNull::get(int8PointerType);
+  
+  EXPECT_EQ(null, mNativeType->castTo(mContext, null, anotherType, 0));
+}
+
+TEST_F(NativeTypeTest, isReferenceTest) {
+  NativeType* anotherType = new NativeType(Type::getInt8Ty(mLLVMContext));
+
+  EXPECT_TRUE(mNativeType->isReference());
+  EXPECT_FALSE(anotherType->isReference());
+}
+
+TEST_F(NativeTypeTest, getPointerTypeTest) {
+  const IType* pointerType = mNativeType->getPointerType();
+  EXPECT_EQ(Type::getInt8Ty(mLLVMContext)->getPointerTo()->getPointerTo(),
+            pointerType->getLLVMType(mContext));
 }

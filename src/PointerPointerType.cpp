@@ -1,5 +1,5 @@
 //
-//  PointerType.cpp
+//  PointerPointerType.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 3/14/18.
@@ -15,37 +15,34 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalNativeVariable.hpp"
 #include "wisey/PointerPointerType.hpp"
-#include "wisey/PointerType.hpp"
 
 using namespace std;
 using namespace wisey;
 
-PointerType::PointerType(const IType* baseType) {
+PointerPointerType::PointerPointerType(const PointerType* baseType) {
   mBaseType = baseType;
-  mPointerPointerType = new PointerPointerType(this);
 }
 
-PointerType::~PointerType() {
-  delete mPointerPointerType;
+PointerPointerType::~PointerPointerType() {
 }
 
-string PointerType::getTypeName() const {
-  return "pointer";
+string PointerPointerType::getTypeName() const {
+  return "pointerpointer";
 }
 
-llvm::PointerType* PointerType::getLLVMType(IRGenerationContext& context) const {
+llvm::PointerType* PointerPointerType::getLLVMType(IRGenerationContext& context) const {
   return mBaseType->getLLVMType(context)->getPointerTo();
 }
 
-bool PointerType::canCastTo(IRGenerationContext& context, const IType* toType) const {
+bool PointerPointerType::canCastTo(IRGenerationContext& context, const IType* toType) const {
   return toType->isNative() && toType->isReference();
 }
 
-bool PointerType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
+bool PointerPointerType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
   return toType->isNative() && toType->isReference();
 }
 
-llvm::Value* PointerType::castTo(IRGenerationContext& context,
+llvm::Value* PointerPointerType::castTo(IRGenerationContext& context,
                                  llvm::Value* fromValue,
                                  const IType* toType,
                                  int line) const {
@@ -55,90 +52,89 @@ llvm::Value* PointerType::castTo(IRGenerationContext& context,
   assert(false);
 }
 
-bool PointerType::isPrimitive() const {
+bool PointerPointerType::isPrimitive() const {
   return false;
 }
 
-bool PointerType::isOwner() const {
+bool PointerPointerType::isOwner() const {
   return false;
 }
 
-bool PointerType::isReference() const {
+bool PointerPointerType::isReference() const {
   return true;
 }
 
-bool PointerType::isArray() const {
+bool PointerPointerType::isArray() const {
   return false;
 }
 
-bool PointerType::isFunction() const {
+bool PointerPointerType::isFunction() const {
   return false;
 }
 
-bool PointerType::isPackage() const {
+bool PointerPointerType::isPackage() const {
   return false;
 }
 
-bool PointerType::isController() const {
+bool PointerPointerType::isController() const {
   return false;
 }
 
-bool PointerType::isInterface() const {
+bool PointerPointerType::isInterface() const {
   return false;
 }
 
-bool PointerType::isModel() const {
+bool PointerPointerType::isModel() const {
   return false;
 }
 
-bool PointerType::isNode() const {
+bool PointerPointerType::isNode() const {
   return false;
 }
 
-bool PointerType::isThread() const {
+bool PointerPointerType::isThread() const {
   return false;
 }
 
-bool PointerType::isNative() const {
+bool PointerPointerType::isNative() const {
   return true;
 }
 
-void PointerType::printToStream(IRGenerationContext &context, iostream& stream) const {
+void PointerPointerType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }
 
-void PointerType::createLocalVariable(IRGenerationContext& context, string name) const {
+void PointerPointerType::createLocalVariable(IRGenerationContext& context, string name) const {
   llvm::Value* alloca = IRWriter::newAllocaInst(context, getLLVMType(context), name);
   IVariable* variable = new LocalNativeVariable(name, this, alloca);
   context.getScopes().setVariable(variable);
 }
 
-void PointerType::createFieldVariable(IRGenerationContext& context,
+void PointerPointerType::createFieldVariable(IRGenerationContext& context,
                                       string name,
                                       const IConcreteObjectType* object) const {
   assert(false);
 }
 
-void PointerType::createParameterVariable(IRGenerationContext& context,
+void PointerPointerType::createParameterVariable(IRGenerationContext& context,
                                           string name,
                                           llvm::Value* value) const {
   assert(false);
 }
 
-const wisey::ArrayType* PointerType::getArrayType(IRGenerationContext& context) const {
+const wisey::ArrayType* PointerPointerType::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);
 }
 
-const IObjectType* PointerType::getObjectType() const {
+const IObjectType* PointerPointerType::getObjectType() const {
   return NULL;
 }
 
-const IType* PointerType::getPointerType() const {
-  return mPointerPointerType;
+const PointerType* PointerPointerType::getPointerType() const {
+  assert(false);
 }
 
-const IType* PointerType::getDereferenceType() const {
+const IType* PointerPointerType::getDereferenceType() const {
   return mBaseType;
 }
-

@@ -9,6 +9,7 @@ thread TWorker sends int implements IThread {
 
   public void run() {
     printout("This is worker thread!\n");
+    send(5);
   }
 
   public CCallStack getCallStack() {
@@ -22,10 +23,11 @@ controller CProgram implements IProgram {
 
   public int run() {
     printout("Starting worker thread\n");
-    mWorker.start();
+    int result = mWorker.start();
     printout("Worker thread started\n");
+    printout("Worker thread result: " + result + "\n");
 
-    return 1;
+    return result;
   }
 }
 

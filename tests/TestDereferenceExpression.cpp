@@ -56,7 +56,8 @@ public:
     Type* int64Type = Type::getInt64Ty(mLLVMContext);
     Value* value = IRWriter::newAllocaInst(mContext, int64Type, "variable");
     ON_CALL(*mExpression, generateIR(_, _)).WillByDefault(Return(value));
-    ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
+    ON_CALL(*mExpression, getType(_)).
+    WillByDefault(Return(PrimitiveTypes::LONG_TYPE->getPointerType()));
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }

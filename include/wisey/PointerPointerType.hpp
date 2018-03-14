@@ -1,38 +1,34 @@
 //
-//  NativeType.hpp
+//  PointerPointerType.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 3/8/18.
+//  Created by Vladimir Fridman on 3/14/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef NativeType_h
-#define NativeType_h
+#ifndef PointerPointerType_h
+#define PointerPointerType_h
 
-#include <llvm/IR/Constants.h>
-
-#include "wisey/IPrimitiveType.hpp"
-#include "wisey/PointerType.hpp"
+#include <llvm/IR/Instructions.h>
 
 namespace wisey {
   
   /**
-   * Represents type that can only be represented in terms of native LLVM type
+   * Represents a pointer type to a pointer type to an existing type
    */
-  class NativeType : public IType {
+  class PointerPointerType : public IType {
     
-    llvm::Type* mType;
-    const PointerType* mPointerType;
+    const PointerType* mBaseType;
     
   public:
     
-    NativeType(llvm::Type* type);
+    PointerPointerType(const PointerType* baseType);
     
-    ~NativeType();
+    ~PointerPointerType();
     
     std::string getTypeName() const override;
     
-    llvm::Type* getLLVMType(IRGenerationContext& context) const override;
+    llvm::PointerType* getLLVMType(IRGenerationContext& context) const override;
     
     bool canCastTo(IRGenerationContext& context, const IType* toType) const override;
     
@@ -66,7 +62,7 @@ namespace wisey {
     bool isThread() const override;
     
     bool isNative() const override;
-
+    
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
     void createLocalVariable(IRGenerationContext& context, std::string name) const override;
@@ -83,12 +79,12 @@ namespace wisey {
     
     const IObjectType* getObjectType() const override;
     
-    const IType* getPointerType() const override;
+    const PointerType* getPointerType() const override;
     
     const IType* getDereferenceType() const override;
-
+    
   };
   
 } /* namespace wisey */
 
-#endif /* NativeType_h */
+#endif /* PointerPointerType_h */

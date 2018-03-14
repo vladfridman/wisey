@@ -8,16 +8,18 @@
 
 #include "wisey/FieldNativeVariable.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LocalNativeVariable.hpp"
 #include "wisey/NativeType.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-NativeType::NativeType(Type* type) : mType(type) {
+NativeType::NativeType(Type* type) : mType(type), mPointerType(new PointerType(this)) {
 }
 
 NativeType::~NativeType() {
+  delete mPointerType;
 }
 
 string NativeType::getTypeName() const {
@@ -29,22 +31,22 @@ llvm::Type* NativeType::getLLVMType(IRGenerationContext& context) const {
 }
 
 bool NativeType::canCastTo(IRGenerationContext& context, const IType* toType) const {
-  return toType == this;
+  return toType == this || toType->getLLVMType(context) == getLLVMType(context);
 }
 
 bool NativeType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
-  return toType == this;
+  return toType == this || toType->getLLVMType(context) == getLLVMType(context);
 }
 
 Value* NativeType::castTo(IRGenerationContext& context,
                           Value* fromValue,
                           const IType* toType,
                           int line) const {
-  if (toType == this) {
+  if (toType == this || toType->getLLVMType(context) == getLLVMType(context)) {
     return fromValue;
   }
   
-  return NULL;
+  assert(false);
 }
 
 bool NativeType::isPrimitive() const {
@@ -56,7 +58,7 @@ bool NativeType::isOwner() const {
 }
 
 bool NativeType::isReference() const {
-  return false;
+  return mType->isPointerTy();
 }
 
 bool NativeType::isArray() const {
@@ -126,7 +128,7 @@ const IObjectType* NativeType::getObjectType() const {
 }
 
 const IType* NativeType::getPointerType() const {
-  assert(false);
+  return mPointerType;
 }
 
 const IType* NativeType::getDereferenceType() const {
