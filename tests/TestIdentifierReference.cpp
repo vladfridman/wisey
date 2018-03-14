@@ -77,7 +77,7 @@ TEST_F(IdentifierReferenceTest, getTypeTest) {
   
   IdentifierReference identifierReference("foo");
   
-  EXPECT_EQ(identifierReference.getType(mContext), PrimitiveTypes::INT_TYPE);
+  EXPECT_EQ(identifierReference.getType(mContext), PrimitiveTypes::INT_TYPE->getPointerType());
 }
 
 TEST_F(IdentifierReferenceTest, getTypeForUndefinedTypeTest) {

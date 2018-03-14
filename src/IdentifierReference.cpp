@@ -37,7 +37,7 @@ const IType* IdentifierReference::getType(IRGenerationContext& context) const {
   IVariable* variable = context.getScopes().getVariable(mName);
 
   if (variable) {
-    return variable->getType();
+    return variable->getType()->getPointerType();
   }
   
   return UndefinedType::UNDEFINED_TYPE;
