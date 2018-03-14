@@ -19,9 +19,14 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-InterfaceOwner::InterfaceOwner(Interface* interface) : mInterface(interface) { }
+InterfaceOwner::InterfaceOwner(Interface* interface) :
+mInterface(interface),
+mPointerType(new PointerType(this)) {
+}
 
-InterfaceOwner::~InterfaceOwner() { }
+InterfaceOwner::~InterfaceOwner() {
+  delete mPointerType;
+}
 
 Interface* InterfaceOwner::getObjectType() const {
   return mInterface;
@@ -31,7 +36,7 @@ string InterfaceOwner::getTypeName() const {
   return mInterface->getTypeName() + '*';
 }
 
-PointerType* InterfaceOwner::getLLVMType(IRGenerationContext& context) const {
+llvm::PointerType* InterfaceOwner::getLLVMType(IRGenerationContext& context) const {
   return mInterface->getLLVMType(context);
 }
 
@@ -140,7 +145,7 @@ void InterfaceOwner::printToStream(IRGenerationContext &context, iostream& strea
 }
 
 void InterfaceOwner::createLocalVariable(IRGenerationContext& context, string name) const {
-  PointerType* llvmType = getLLVMType(context);
+  llvm::PointerType* llvmType = getLLVMType(context);
   
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "ownerDeclaration");
   IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloca);
@@ -171,3 +176,6 @@ const wisey::ArrayType* InterfaceOwner::getArrayType(IRGenerationContext& contex
   exit(1);
 }
 
+const wisey::PointerType* InterfaceOwner::getPointerType() const {
+  return mPointerType;
+}

@@ -210,8 +210,8 @@ TEST_F(IRWriterTest, createGetElementPtrInstTest) {
 }
 
 TEST_F(IRWriterTest, newBitCastInst) {
-  PointerType* int8PointerType = Type::getInt8Ty(mLLVMContext)->getPointerTo();
-  PointerType* castToType = int8PointerType->getPointerTo();
+  llvm::PointerType* int8PointerType = Type::getInt8Ty(mLLVMContext)->getPointerTo();
+  llvm::PointerType* castToType = int8PointerType->getPointerTo();
   Value* value = ConstantPointerNull::get(int8PointerType);
   BitCastInst* bitCastInst = IRWriter::newBitCastInst(mContext, value, castToType);
   
@@ -229,7 +229,7 @@ TEST_F(IRWriterTest, newBitCastInst) {
 }
 
 TEST_F(IRWriterTest, newStoreInst) {
-  PointerType* int32PointerType = Type::getInt32Ty(mLLVMContext)->getPointerTo();
+  llvm::PointerType* int32PointerType = Type::getInt32Ty(mLLVMContext)->getPointerTo();
   Value* pointer = ConstantPointerNull::get(int32PointerType);
   ConstantInt* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 0);
   StoreInst* storeInst = IRWriter::newStoreInst(mContext, value, pointer);
@@ -266,7 +266,7 @@ TEST_F(IRWriterTest, newAllocaInst) {
 }
 
 TEST_F(IRWriterTest, newLoadInst) {
-  PointerType* int32PointerType = Type::getInt32Ty(mLLVMContext)->getPointerTo();
+  llvm::PointerType* int32PointerType = Type::getInt32Ty(mLLVMContext)->getPointerTo();
   Value* pointer = ConstantPointerNull::get(int32PointerType);
   LoadInst* loadInst = IRWriter::newLoadInst(mContext, pointer, "foo");
   ConstantInt* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 0);
@@ -393,7 +393,7 @@ TEST_F(IRWriterTest, newFPToSIInstTest) {
 }
 
 TEST_F(IRWriterTest, newPtrToIntInstTest) {
-  PointerType* int32PointerType = Type::getInt32Ty(mLLVMContext)->getPointerTo();
+  llvm::PointerType* int32PointerType = Type::getInt32Ty(mLLVMContext)->getPointerTo();
   Value* pointer = ConstantPointerNull::get(int32PointerType);
   Type* type = Type::getInt16Ty(mLLVMContext);
   CastInst* castInst = IRWriter::newPtrToIntInst(mContext, pointer, type, "conv");

@@ -13,6 +13,7 @@
 #include "wisey/IObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/PointerType.hpp"
 #include "wisey/UndefinedType.hpp"
 
 using namespace llvm;
@@ -117,6 +118,10 @@ const wisey::ArrayType* UndefinedType::getArrayType(IRGenerationContext& context
 
 const IObjectType* UndefinedType::getObjectType() const {
   return NULL;
+}
+
+const wisey::PointerType* UndefinedType::getPointerType() const {
+  assert(false);
 }
 
 UndefinedType* UndefinedType::UNDEFINED_TYPE = new UndefinedType();

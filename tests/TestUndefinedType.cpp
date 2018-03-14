@@ -35,28 +35,14 @@ TEST_F(UndefinedTypeTest, getLLVMTypeTest) {
   ASSERT_EQ(nullptr, UndefinedType::UNDEFINED_TYPE->getLLVMType(mContext));
 }
 
-TEST_F(UndefinedTypeTest, isPrimitiveTest) {
+TEST_F(UndefinedTypeTest, isTypeKindTest) {
   EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isPrimitive());
-}
-
-TEST_F(UndefinedTypeTest, isOwnerTest) {
   EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isOwner());
-}
-
-TEST_F(UndefinedTypeTest, isReferenceTest) {
   EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isReference());
-}
-
-TEST_F(UndefinedTypeTest, isArrayTest) {
   EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isArray());
-}
-
-TEST_F(UndefinedTypeTest, isFunctionTest) {
   EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isFunction());
-}
-
-TEST_F(UndefinedTypeTest, isPackageTest) {
   EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isPackage());
+  EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isNative());
 }
 
 TEST_F(UndefinedTypeTest, isObjectTest) {
@@ -65,5 +51,4 @@ TEST_F(UndefinedTypeTest, isObjectTest) {
   EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isModel());
   EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isNode());
   EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isThread());
-  EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isNative());
 }

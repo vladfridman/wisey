@@ -24,7 +24,7 @@ Function* ThreadInfrastructure::getThreadCreateFunction(IRGenerationContext& con
 
 Function* ThreadInfrastructure::defineThreadCreateFunction(IRGenerationContext& context) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  PointerType* genericPointer = Type::getInt8Ty(llvmContext)->getPointerTo();
+  llvm::PointerType* genericPointer = Type::getInt8Ty(llvmContext)->getPointerTo();
   
   vector<Type*> runnerFunctionArgumentTypes;
   runnerFunctionArgumentTypes.push_back(genericPointer);
@@ -56,7 +56,7 @@ Function* ThreadInfrastructure::getThreadJoinFunction(IRGenerationContext& conte
 
 Function* ThreadInfrastructure::defineThreadJoinFunction(IRGenerationContext& context) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  PointerType* genericPointer = Type::getInt8Ty(llvmContext)->getPointerTo();
+  llvm::PointerType* genericPointer = Type::getInt8Ty(llvmContext)->getPointerTo();
   
   vector<Type*> argumentTypes;
   argumentTypes.push_back(getNativeThreadStruct(context)->getPointerTo());
@@ -79,7 +79,7 @@ Function* ThreadInfrastructure::getThreadExitFunction(IRGenerationContext& conte
 
 Function* ThreadInfrastructure::defineThreadExitFunction(IRGenerationContext& context) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  PointerType* genericPointer = Type::getInt8Ty(llvmContext)->getPointerTo();
+  llvm::PointerType* genericPointer = Type::getInt8Ty(llvmContext)->getPointerTo();
   
   vector<Type*> argumentTypes;
   argumentTypes.push_back(genericPointer);
@@ -134,7 +134,7 @@ StructType* ThreadInfrastructure::getNativeThreadHandlerStruct(IRGenerationConte
   
   structType = StructType::create(llvmContext, getNativeThreadHandlerName());
 
-  PointerType* genericPointer = Type::getInt64Ty(llvmContext)->getPointerTo();
+  llvm::PointerType* genericPointer = Type::getInt64Ty(llvmContext)->getPointerTo();
   vector<Type*> funcArgumentTypes;
   funcArgumentTypes.push_back(genericPointer);
   ArrayRef<Type*> funcArgTypesArray = ArrayRef<Type*>(funcArgumentTypes);
@@ -235,7 +235,7 @@ void ThreadInfrastructure::composeRunBridgeFunction(IRGenerationContext& context
   Value* threadInterfaceObject = thread->castTo(context, threadObject, threadInterface, 0);
   
   Controller* callStack = context.getController(Names::getCallStackControllerFullName());
-  PointerType* callStackLLVMType = callStack->getLLVMType(context);
+  llvm::PointerType* callStackLLVMType = callStack->getLLVMType(context);
   string getCallStackFunctionName =
   IMethodCall::translateObjectMethodToLLVMFunctionName(thread, Names::getCallStackMethodName());
   Function* getCallStackFunction = context.getModule()->getFunction(getCallStackFunctionName);

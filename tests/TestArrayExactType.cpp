@@ -88,28 +88,14 @@ TEST_F(ArrayExactTypeTest, getNumberOfDimensionsTest) {
   EXPECT_EQ(2u, mMultiDimentionalArrayExactType->getNumberOfDimensions());
 }
 
-TEST_F(ArrayExactTypeTest, isPrimitiveTest) {
+TEST_F(ArrayExactTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mArrayExactType->isPrimitive());
-}
-
-TEST_F(ArrayExactTypeTest, isOwnerTest) {
   EXPECT_FALSE(mArrayExactType->isOwner());
-}
-
-TEST_F(ArrayExactTypeTest, isReferenceTest) {
   EXPECT_TRUE(mArrayExactType->isReference());
-}
-
-TEST_F(ArrayExactTypeTest, isArrayTest) {
   EXPECT_TRUE(mArrayExactType->isArray());
-}
-
-TEST_F(ArrayExactTypeTest, isFunctionTest) {
   EXPECT_FALSE(mArrayExactType->isFunction());
-}
-
-TEST_F(ArrayExactTypeTest, isPackageTest) {
   EXPECT_FALSE(mArrayExactType->isPackage());
+  EXPECT_FALSE(mArrayExactType->isNative());
 }
 
 TEST_F(ArrayExactTypeTest, isObjectTest) {
@@ -118,10 +104,15 @@ TEST_F(ArrayExactTypeTest, isObjectTest) {
   EXPECT_FALSE(mArrayExactType->isModel());
   EXPECT_FALSE(mArrayExactType->isNode());
   EXPECT_FALSE(mArrayExactType->isThread());
-  EXPECT_FALSE(mArrayExactType->isNative());
 }
 
 TEST_F(ArrayExactTypeTest, getArrayTypeTest) {
   EXPECT_EQ(mContext.getArrayType(PrimitiveTypes::LONG_TYPE, 2u),
             mMultiDimentionalArrayExactType->getArrayType(mContext));
+}
+
+TEST_F(ArrayExactTypeTest, getPointerTypeTest) {
+  const wisey::PointerType* pointerType = mArrayExactType->getPointerType();
+  EXPECT_EQ(mArrayExactType->getLLVMType(mContext)->getPointerTo(),
+            pointerType->getLLVMType(mContext));
 }

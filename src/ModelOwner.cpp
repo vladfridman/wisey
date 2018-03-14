@@ -18,9 +18,11 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ModelOwner::ModelOwner(Model* model) : mModel(model) { }
+ModelOwner::ModelOwner(Model* model) : mModel(model), mPointerType(new PointerType(this)) { }
 
-ModelOwner::~ModelOwner() { }
+ModelOwner::~ModelOwner() {
+  delete mPointerType;
+}
 
 Model* ModelOwner::getObjectType() const {
   return mModel;
@@ -30,7 +32,7 @@ string ModelOwner::getTypeName() const {
   return mModel->getTypeName() + '*';
 }
 
-PointerType* ModelOwner::getLLVMType(IRGenerationContext& context) const {
+llvm::PointerType* ModelOwner::getLLVMType(IRGenerationContext& context) const {
   return mModel->getLLVMType(context);
 }
 
@@ -130,7 +132,7 @@ void ModelOwner::printToStream(IRGenerationContext &context, iostream& stream) c
 }
 
 void ModelOwner::createLocalVariable(IRGenerationContext& context, string name) const {
-  PointerType* llvmType = getLLVMType(context);
+  llvm::PointerType* llvmType = getLLVMType(context);
   
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "ownerDeclaration");
   IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloca);
@@ -159,4 +161,8 @@ void ModelOwner::createParameterVariable(IRGenerationContext& context,
 const wisey::ArrayType* ModelOwner::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);
+}
+
+const wisey::PointerType* ModelOwner::getPointerType() const {
+  return mPointerType;
 }

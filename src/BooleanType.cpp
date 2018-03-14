@@ -23,6 +23,14 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+BooleanType::BooleanType() {
+  mPointerType = new PointerType(this);
+}
+
+BooleanType::~BooleanType() {
+  delete mPointerType;
+}
+
 string BooleanType::getTypeName() const {
   return "boolean";
 }
@@ -159,3 +167,6 @@ const IObjectType* BooleanType::getObjectType() const {
   return NULL;
 }
 
+const wisey::PointerType* BooleanType::getPointerType() const {
+  return mPointerType;
+}

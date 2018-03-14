@@ -33,10 +33,12 @@ mStructType(structType),
 mIsExternal(isExternal),
 mIsInner(false) {
   mModelOwner = new ModelOwner(this);
+  mPointerType = new PointerType(this);
 }
 
 Model::~Model() {
   delete mModelOwner;
+  delete mPointerType;
   for(IField* field : mFieldsOrdered) {
     delete field;
   }
@@ -465,7 +467,7 @@ Function* Model::getReferenceAdjustmentFunction(IRGenerationContext& context) co
 }
 
 void Model::createLocalVariable(IRGenerationContext& context, string name) const {
-  PointerType* llvmType = getLLVMType(context);
+  llvm::PointerType* llvmType = getLLVMType(context);
   
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "referenceDeclaration");
   IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloca);
@@ -496,4 +498,8 @@ const wisey::ArrayType* Model::getArrayType(IRGenerationContext& context) const 
 
 const Model* Model::getObjectType() const {
   return this;
+}
+
+const wisey::PointerType* Model::getPointerType() const {
+  return mPointerType;
 }

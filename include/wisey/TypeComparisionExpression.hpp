@@ -49,7 +49,7 @@ private:
                                        const IObjectOwnerType* expressionType,
                                        const IObjectOwnerType* type) const;
   
-  llvm::Value* generateIRforReferenceTypes(IRGenerationContext& context,
+  llvm::Value* generateIRforPointerTypes(IRGenerationContext& context,
                                            const IObjectType* expressionType,
                                            const IObjectType* type) const;
 };

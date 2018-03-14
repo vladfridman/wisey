@@ -127,7 +127,7 @@ MethodDeclaration* ThreadDefinition::createStartMethodDeclaration(IRGenerationCo
   NativeType* runBridgeFunctionType = new NativeType(runBridgeFunction->getType());
   NativeType* threadAtrributesType =
   ThreadInfrastructure::createNativeThreadAttributesType(context);
-  Value* nullValue = ConstantPointerNull::get((PointerType*) threadAtrributesType->
+  Value* nullValue = ConstantPointerNull::get((llvm::PointerType*) threadAtrributesType->
                                               getLLVMType(context));
   NativeVoidPointerType* voidPointerType = new NativeVoidPointerType();
   NativeTypeSpecifier* voidPointerTypeSpecifier = new NativeTypeSpecifier(voidPointerType);

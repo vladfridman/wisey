@@ -65,9 +65,14 @@ public:
 };
 
 TEST_F(DoubleTypeTest, doubleTypeTest) {
-  EXPECT_EQ(mDoubleType.getLLVMType(mContext), Type::getDoubleTy(mLLVMContext));
-  EXPECT_STREQ(mDoubleType.getTypeName().c_str(), "double");
-  EXPECT_EQ(mDoubleType.getFormat(), "%e");
+  EXPECT_EQ(Type::getDoubleTy(mLLVMContext), mDoubleType.getLLVMType(mContext));
+  EXPECT_STREQ("double", mDoubleType.getTypeName().c_str());
+  EXPECT_EQ("%e", mDoubleType.getFormat());
+}
+
+TEST_F(DoubleTypeTest, getPointerTypeTest) {
+  const wisey::PointerType* pointerType = mDoubleType.getPointerType();
+  EXPECT_EQ(Type::getDoubleTy(mLLVMContext)->getPointerTo(), pointerType->getLLVMType(mContext));
 }
 
 TEST_F(DoubleTypeTest, canAutoCastToTest) {
@@ -131,28 +136,14 @@ TEST_F(DoubleTypeTest, castToTest) {
   EXPECT_EQ(result, expressionValue);
 }
 
-TEST_F(DoubleTypeTest, isPrimitiveTest) {
+TEST_F(DoubleTypeTest, isTypeKindTest) {
   EXPECT_TRUE(mDoubleType.isPrimitive());
-}
-
-TEST_F(DoubleTypeTest, isOwnerTest) {
   EXPECT_FALSE(mDoubleType.isOwner());
-}
-
-TEST_F(DoubleTypeTest, isReferenceTest) {
   EXPECT_FALSE(mDoubleType.isReference());
-}
-
-TEST_F(DoubleTypeTest, isArrayTest) {
   EXPECT_FALSE(mDoubleType.isArray());
-}
-
-TEST_F(DoubleTypeTest, isFunctionTest) {
   EXPECT_FALSE(mDoubleType.isFunction());
-}
-
-TEST_F(DoubleTypeTest, isPackageTest) {
   EXPECT_FALSE(mDoubleType.isPackage());
+  EXPECT_FALSE(mDoubleType.isNative());
 }
 
 TEST_F(DoubleTypeTest, isObjectTest) {
@@ -161,7 +152,6 @@ TEST_F(DoubleTypeTest, isObjectTest) {
   EXPECT_FALSE(mDoubleType.isModel());
   EXPECT_FALSE(mDoubleType.isNode());
   EXPECT_FALSE(mDoubleType.isThread());
-  EXPECT_FALSE(mDoubleType.isNative());
 }
 
 TEST_F(DoubleTypeTest, createLocalVariableTest) {

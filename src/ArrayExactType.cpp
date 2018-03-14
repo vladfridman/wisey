@@ -20,10 +20,12 @@ ArrayExactType::ArrayExactType(const IType* elementType, list<unsigned long> dim
 mElementType(elementType), mDimensions(dimensions) {
   assert(dimensions.size());
   mArrayExactOwnerType = new ArrayExactOwnerType(this);
+  mPointerType = new PointerType(this);
 }
 
 ArrayExactType::~ArrayExactType() {
   delete mArrayExactOwnerType;
+  delete mPointerType;
 }
 
 const ArrayExactOwnerType* ArrayExactType::getOwner() const {
@@ -162,4 +164,8 @@ const wisey::ArrayType* ArrayExactType::getArrayType(IRGenerationContext& contex
 
 const IObjectType* ArrayExactType::getObjectType() const {
   return NULL;
+}
+
+const wisey::PointerType* ArrayExactType::getPointerType() const {
+  return mPointerType;
 }

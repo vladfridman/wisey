@@ -11,6 +11,7 @@
 #include "wisey/IObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/PointerType.hpp"
 #include "wisey/VoidType.hpp"
 
 using namespace llvm;
@@ -125,3 +126,6 @@ const IObjectType* VoidType::getObjectType() const {
   return NULL;
 }
 
+const wisey::PointerType* VoidType::getPointerType() const {
+  assert(false);
+}

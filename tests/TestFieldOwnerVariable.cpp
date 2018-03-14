@@ -155,7 +155,7 @@ TEST_F(FieldOwnerVariableTest, generateIdentifierReferenceIRTest) {
 TEST_F(FieldOwnerVariableTest, generateAssignmentIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
-  PointerType* llvmType = (PointerType*) mNode->getOwner()->getLLVMType(mContext);
+  llvm::PointerType* llvmType = (llvm::PointerType*) mNode->getOwner()->getLLVMType(mContext);
   Value* assignToValue = ConstantPointerNull::get(llvmType);
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode->getOwner()));
   ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
@@ -181,7 +181,7 @@ TEST_F(FieldOwnerVariableTest, generateAssignmentIRTest) {
 TEST_F(FieldOwnerVariableTest, generateAssignmentWithCastIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
-  PointerType* llvmType = mNode->getOwner()->getLLVMType(mContext);
+  llvm::PointerType* llvmType = mNode->getOwner()->getLLVMType(mContext);
   Value* assignToValue = ConstantPointerNull::get(llvmType);
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode->getOwner()));
   ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));

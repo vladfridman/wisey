@@ -14,6 +14,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/NullType.hpp"
+#include "wisey/PointerType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -118,6 +119,10 @@ const wisey::ArrayType* NullType::getArrayType(IRGenerationContext& context) con
 
 const IObjectType* NullType::getObjectType() const {
   return NULL;
+}
+
+const wisey::PointerType* NullType::getPointerType() const {
+  assert(false);
 }
 
 NullType* NullType::NULL_TYPE = new NullType();

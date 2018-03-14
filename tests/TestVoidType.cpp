@@ -54,9 +54,9 @@ public:
 };
 
 TEST_F(VoidTypeTest, voidTypeTest) {
-  EXPECT_EQ(mVoidType.getLLVMType(mContext), Type::getVoidTy(mLLVMContext));
-  EXPECT_STREQ(mVoidType.getTypeName().c_str(), "void");
-  EXPECT_EQ(mVoidType.getFormat(), "");
+  EXPECT_EQ(Type::getVoidTy(mLLVMContext), mVoidType.getLLVMType(mContext));
+  EXPECT_STREQ("void", mVoidType.getTypeName().c_str());
+  EXPECT_EQ("", mVoidType.getFormat());
 }
 
 TEST_F(VoidTypeTest, canAutoCastToTest) {
@@ -112,24 +112,14 @@ TEST_F(VoidTypeTest, castToTest) {
   
 }
 
-TEST_F(VoidTypeTest, isPrimitiveTest) {
+TEST_F(VoidTypeTest, isTypeKindTest) {
   EXPECT_TRUE(mVoidType.isPrimitive());
-}
-
-TEST_F(VoidTypeTest, isOwnerTest) {
   EXPECT_FALSE(mVoidType.isOwner());
-}
-
-TEST_F(VoidTypeTest, isReferenceTest) {
   EXPECT_FALSE(mVoidType.isReference());
-}
-
-TEST_F(VoidTypeTest, isArrayType) {
   EXPECT_FALSE(mVoidType.isArray());
-}
-
-TEST_F(VoidTypeTest, isFunctionTest) {
   EXPECT_FALSE(mVoidType.isFunction());
+  EXPECT_FALSE(mVoidType.isPackage());
+  EXPECT_FALSE(mVoidType.isNative());
 }
 
 TEST_F(VoidTypeTest, isObjectTest) {
@@ -138,5 +128,4 @@ TEST_F(VoidTypeTest, isObjectTest) {
   EXPECT_FALSE(mVoidType.isModel());
   EXPECT_FALSE(mVoidType.isNode());
   EXPECT_FALSE(mVoidType.isThread());
-  EXPECT_FALSE(mVoidType.isNative());
 }

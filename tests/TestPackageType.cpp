@@ -42,28 +42,14 @@ TEST_F(PackageTypeTest, getLLVMTypeTest) {
   ASSERT_EQ(nullptr, mPackageType->getLLVMType(mContext));
 }
 
-TEST_F(PackageTypeTest, isPrimitiveTest) {
+TEST_F(PackageTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mPackageType->isPrimitive());
-}
-
-TEST_F(PackageTypeTest, isOwnerTest) {
   EXPECT_FALSE(mPackageType->isOwner());
-}
-
-TEST_F(PackageTypeTest, isReferenceTest) {
   EXPECT_FALSE(mPackageType->isReference());
-}
-
-TEST_F(PackageTypeTest, isArrayTest) {
   EXPECT_FALSE(mPackageType->isArray());
-}
-
-TEST_F(PackageTypeTest, isFunctionTest) {
   EXPECT_FALSE(mPackageType->isFunction());
-}
-
-TEST_F(PackageTypeTest, isPackageTest) {
   EXPECT_TRUE(mPackageType->isPackage());
+  EXPECT_FALSE(mPackageType->isNative());
 }
 
 TEST_F(PackageTypeTest, isObjectTest) {
@@ -71,5 +57,4 @@ TEST_F(PackageTypeTest, isObjectTest) {
   EXPECT_FALSE(mPackageType->isInterface());
   EXPECT_FALSE(mPackageType->isModel());
   EXPECT_FALSE(mPackageType->isNode());
-  EXPECT_FALSE(mPackageType->isNative());
 }

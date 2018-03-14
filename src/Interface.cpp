@@ -51,12 +51,14 @@ mStructType(structType),
 mIsExternal(isExternal),
 mIsInner(false),
 mInterfaceOwner(new InterfaceOwner(this)),
+mPointerType(new PointerType(this)),
 mParentInterfaceSpecifiers(parentInterfaceSpecifiers),
 mElementDeclarations(elementDelcarations),
 mIsComplete(false) { }
 
 Interface::~Interface() {
   delete mInterfaceOwner;
+  delete mPointerType;
   mParentInterfaces.clear();
   for (MethodSignature* methodSignature : mMethodSignatures) {
     delete methodSignature;
@@ -629,7 +631,7 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
   vector<Type*> argumentTypes;
   argumentTypes.push_back(getLLVMType(context));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  PointerType* llvmReturnType = (PointerType*) toType->getLLVMType(context);
+  llvm::PointerType* llvmReturnType = (llvm::PointerType*) toType->getLLVMType(context);
   FunctionType* functionType = FunctionType::get(llvmReturnType, argTypesArray, false);
   return Function::Create(functionType,
                           GlobalValue::ExternalLinkage,
@@ -948,7 +950,7 @@ Function* Interface::getReferenceAdjustmentFunction(IRGenerationContext& context
 }
 
 void Interface::createLocalVariable(IRGenerationContext& context, string name) const {
-  PointerType* llvmType = getLLVMType(context);
+  llvm::PointerType* llvmType = getLLVMType(context);
   
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "referenceDeclaration");
   IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloca);
@@ -979,4 +981,8 @@ const wisey::ArrayType* Interface::getArrayType(IRGenerationContext& context) co
 
 const Interface* Interface::getObjectType() const {
   return this;
+}
+
+const wisey::PointerType* Interface::getPointerType() const {
+  return mPointerType;
 }

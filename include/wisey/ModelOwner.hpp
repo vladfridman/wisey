@@ -19,7 +19,8 @@ namespace wisey {
 class ModelOwner : public IObjectOwnerType {
 
   Model* mModel;
-  
+  const PointerType* mPointerType;
+
 public:
   
   ModelOwner(Model* model);
@@ -82,6 +83,8 @@ public:
                                llvm::Value* value) const override;
 
   const ArrayType* getArrayType(IRGenerationContext& context) const override;
+  
+  const PointerType* getPointerType() const override;
 
 };
   

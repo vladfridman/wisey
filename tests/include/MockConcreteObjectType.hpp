@@ -88,6 +88,7 @@ public:
                                                     llvm::Value* value));
   MOCK_CONST_METHOD1(getArrayType, wisey::ArrayType* (wisey::IRGenerationContext&));
   MOCK_CONST_METHOD0(getObjectType, wisey::IObjectType* ());
+  MOCK_CONST_METHOD0(getPointerType, wisey::PointerType* ());
 };
 
 #endif /* MockConcreteObjectType_h */

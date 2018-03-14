@@ -263,3 +263,7 @@ const wisey::ArrayType* Method::getArrayType(IRGenerationContext& context) const
   ArrayType::reportNonArrayType();
   exit(1);
 }
+
+const wisey::PointerType* Method::getPointerType() const {
+  assert(false);
+}

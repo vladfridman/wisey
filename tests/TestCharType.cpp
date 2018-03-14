@@ -64,9 +64,14 @@ public:
 };
 
 TEST_F(CharTypeTest, charTypeTest) {
-  EXPECT_EQ(mCharType.getLLVMType(mContext), (llvm::Type*) Type::getInt16Ty(mLLVMContext));
-  EXPECT_STREQ(mCharType.getTypeName().c_str(), "char");
-  EXPECT_EQ(mCharType.getFormat(), "%c");
+  EXPECT_EQ(Type::getInt16Ty(mLLVMContext), mCharType.getLLVMType(mContext));
+  EXPECT_STREQ("char", mCharType.getTypeName().c_str());
+  EXPECT_EQ("%c", mCharType.getFormat());
+}
+
+TEST_F(CharTypeTest, getPointerTypeTest) {
+  const wisey::PointerType* pointerType = mCharType.getPointerType();
+  EXPECT_EQ(Type::getInt16Ty(mLLVMContext)->getPointerTo(), pointerType->getLLVMType(mContext));
 }
 
 TEST_F(CharTypeTest, canAutoCastToTest) {
@@ -130,28 +135,14 @@ TEST_F(CharTypeTest, castToTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(CharTypeTest, isPrimitiveTest) {
+TEST_F(CharTypeTest, isTypeKindTest) {
   EXPECT_TRUE(mCharType.isPrimitive());
-}
-
-TEST_F(CharTypeTest, isOwnerTest) {
   EXPECT_FALSE(mCharType.isOwner());
-}
-
-TEST_F(CharTypeTest, isReferenceTest) {
   EXPECT_FALSE(mCharType.isReference());
-}
-
-TEST_F(CharTypeTest, isArrayTest) {
   EXPECT_FALSE(mCharType.isArray());
-}
-
-TEST_F(CharTypeTest, isFunctionTest) {
   EXPECT_FALSE(mCharType.isFunction());
-}
-
-TEST_F(CharTypeTest, isPackageTest) {
   EXPECT_FALSE(mCharType.isPackage());
+  EXPECT_FALSE(mCharType.isNative());
 }
 
 TEST_F(CharTypeTest, isObjectTest) {
@@ -160,7 +151,6 @@ TEST_F(CharTypeTest, isObjectTest) {
   EXPECT_FALSE(mCharType.isModel());
   EXPECT_FALSE(mCharType.isNode());
   EXPECT_FALSE(mCharType.isThread());
-  EXPECT_FALSE(mCharType.isNative());
 }
 
 TEST_F(CharTypeTest, createLocalVariableTest) {

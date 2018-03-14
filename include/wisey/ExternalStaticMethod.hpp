@@ -116,6 +116,8 @@ public:
                                llvm::Value* value) const override;
 
   const ArrayType* getArrayType(IRGenerationContext& context) const override;
+  
+  const PointerType* getPointerType() const override;
 
 };
 

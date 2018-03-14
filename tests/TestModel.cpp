@@ -475,28 +475,14 @@ TEST_F(ModelTest, castToSecondInterfaceTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(ModelTest, isPrimitiveTest) {
+TEST_F(ModelTest, isTypeKindTest) {
   EXPECT_FALSE(mModel->isPrimitive());
-}
-
-TEST_F(ModelTest, isOwnerTest) {
   EXPECT_FALSE(mModel->isOwner());
-}
-
-TEST_F(ModelTest, isReferenceTest) {
   EXPECT_TRUE(mModel->isReference());
-}
-
-TEST_F(ModelTest, isArrayTest) {
   EXPECT_FALSE(mModel->isArray());
-}
-
-TEST_F(ModelTest, isFunctionTest) {
   EXPECT_FALSE(mModel->isFunction());
-}
-
-TEST_F(ModelTest, isPackageTest) {
   EXPECT_FALSE(mModel->isPackage());
+  EXPECT_FALSE(mModel->isNative());
 }
 
 TEST_F(ModelTest, isObjectTest) {
@@ -505,7 +491,6 @@ TEST_F(ModelTest, isObjectTest) {
   EXPECT_TRUE(mModel->isModel());
   EXPECT_FALSE(mModel->isNode());
   EXPECT_FALSE(mModel->isThread());
-  EXPECT_FALSE(mModel->isNative());
 }
 
 TEST_F(ModelTest, incrementReferenceCountTest) {
@@ -806,6 +791,12 @@ TEST_F(ModelTest, createParameterVariableTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(ModelTest, getPointerTypeTest) {
+  const wisey::PointerType* pointerType = mModel->getPointerType();
+  EXPECT_EQ(mModel->getLLVMType(mContext)->getPointerTo(),
+            pointerType->getLLVMType(mContext));
 }
 
 TEST_F(TestFileSampleRunner, modelBuilderObjectArgumentAutocastRunTest) {

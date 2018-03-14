@@ -32,10 +32,12 @@ mStructType(structType),
 mIsExternal(isExternal),
 mIsInner(false) {
   mNodeOwner = new NodeOwner(this);
+  mPointerType = new PointerType(this);
 }
 
 Node::~Node() {
   delete mNodeOwner;
+  delete mPointerType;
   for(IField* field : mFieldsOrdered) {
     delete field;
   }
@@ -186,7 +188,7 @@ string Node::getShortName() const {
   return mName.substr(mName.find_last_of('.') + 1);
 }
 
-PointerType* Node::getLLVMType(IRGenerationContext& context) const {
+llvm::PointerType* Node::getLLVMType(IRGenerationContext& context) const {
   return mStructType->getPointerTo();
 }
 
@@ -432,7 +434,7 @@ Function* Node::getReferenceAdjustmentFunction(IRGenerationContext& context) con
 }
 
 void Node::createLocalVariable(IRGenerationContext& context, string name) const {
-  PointerType* llvmType = getLLVMType(context);
+  llvm::PointerType* llvmType = getLLVMType(context);
   
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "referenceDeclaration");
   IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloca);
@@ -463,4 +465,8 @@ const wisey::ArrayType* Node::getArrayType(IRGenerationContext& context) const {
 
 const Node* Node::getObjectType() const {
   return this;
+}
+
+const wisey::PointerType* Node::getPointerType() const {
+  return mPointerType;
 }

@@ -88,28 +88,14 @@ TEST_F(ArrayOwnerTypeTest, canAutoCastToTest) {
   EXPECT_TRUE(mArrayOwnerType->canAutoCastTo(mContext, mArrayType));
 }
 
-TEST_F(ArrayOwnerTypeTest, isPrimitiveTest) {
+TEST_F(ArrayOwnerTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mArrayOwnerType->isPrimitive());
-}
-
-TEST_F(ArrayOwnerTypeTest, isOwnerTest) {
   EXPECT_TRUE(mArrayOwnerType->isOwner());
-}
-
-TEST_F(ArrayOwnerTypeTest, isReferenceTest) {
   EXPECT_FALSE(mArrayOwnerType->isReference());
-}
-
-TEST_F(ArrayOwnerTypeTest, isArrayTest) {
   EXPECT_TRUE(mArrayOwnerType->isArray());
-}
-
-TEST_F(ArrayOwnerTypeTest, isFunctionTest) {
   EXPECT_FALSE(mArrayOwnerType->isFunction());
-}
-
-TEST_F(ArrayOwnerTypeTest, isPackageTest) {
   EXPECT_FALSE(mArrayOwnerType->isPackage());
+  EXPECT_FALSE(mArrayOwnerType->isNative());
 }
 
 TEST_F(ArrayOwnerTypeTest, isObjectTest) {
@@ -118,7 +104,6 @@ TEST_F(ArrayOwnerTypeTest, isObjectTest) {
   EXPECT_FALSE(mArrayOwnerType->isModel());
   EXPECT_FALSE(mArrayOwnerType->isNode());
   EXPECT_FALSE(mArrayOwnerType->isThread());
-  EXPECT_FALSE(mArrayOwnerType->isNative());
 }
 
 TEST_F(ArrayOwnerTypeTest, createLocalVariableTest) {
@@ -164,4 +149,10 @@ TEST_F(ArrayOwnerTypeTest, createParameterVariableTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(ArrayOwnerTypeTest, getPointerTypeTest) {
+  const wisey::PointerType* pointerType = mArrayOwnerType->getPointerType();
+  EXPECT_EQ(mArrayOwnerType->getLLVMType(mContext)->getPointerTo(),
+            pointerType->getLLVMType(mContext));
 }

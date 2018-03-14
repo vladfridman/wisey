@@ -64,9 +64,14 @@ public:
 };
 
 TEST_F(LongTypeTest, longTypeTest) {
-  EXPECT_EQ(mLongType.getLLVMType(mContext), (llvm::Type*) Type::getInt64Ty(mLLVMContext));
-  EXPECT_STREQ(mLongType.getTypeName().c_str(), "long");
-  EXPECT_EQ(mLongType.getFormat(), "%d");
+  EXPECT_EQ(Type::getInt64Ty(mLLVMContext), mLongType.getLLVMType(mContext));
+  EXPECT_STREQ("long", mLongType.getTypeName().c_str());
+  EXPECT_EQ("%d", mLongType.getFormat());
+}
+
+TEST_F(LongTypeTest, getPointerTypeTest) {
+  const wisey::PointerType* pointerType = mLongType.getPointerType();
+  EXPECT_EQ(Type::getInt64Ty(mLLVMContext)->getPointerTo(), pointerType->getLLVMType(mContext));
 }
 
 TEST_F(LongTypeTest, canAutoCastToTest) {
@@ -130,28 +135,14 @@ TEST_F(LongTypeTest, castToTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(LongTypeTest, isPrimitiveTest) {
+TEST_F(LongTypeTest, isTypeKindTest) {
   EXPECT_TRUE(mLongType.isPrimitive());
-}
-
-TEST_F(LongTypeTest, isOwnerTest) {
   EXPECT_FALSE(mLongType.isOwner());
-}
-
-TEST_F(LongTypeTest, isReferenceTest) {
   EXPECT_FALSE(mLongType.isReference());
-}
-
-TEST_F(LongTypeTest, isArrayTest) {
   EXPECT_FALSE(mLongType.isArray());
-}
-
-TEST_F(LongTypeTest, isFunctionTest) {
   EXPECT_FALSE(mLongType.isFunction());
-}
-
-TEST_F(LongTypeTest, isPackageTest) {
   EXPECT_FALSE(mLongType.isPackage());
+  EXPECT_FALSE(mLongType.isNative());
 }
 
 TEST_F(LongTypeTest, isObjectTest) {
@@ -160,7 +151,6 @@ TEST_F(LongTypeTest, isObjectTest) {
   EXPECT_FALSE(mLongType.isModel());
   EXPECT_FALSE(mLongType.isNode());
   EXPECT_FALSE(mLongType.isThread());
-  EXPECT_FALSE(mLongType.isNative());
 }
 
 TEST_F(LongTypeTest, createLocalVariableTest) {

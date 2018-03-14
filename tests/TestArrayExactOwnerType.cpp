@@ -70,28 +70,14 @@ TEST_F(ArrayExactOwnerTypeTest, canAutoCastToTest) {
   EXPECT_TRUE(mArrayExactOwnerType->canAutoCastTo(mContext, mArrayType));
 }
 
-TEST_F(ArrayExactOwnerTypeTest, isPrimitiveTest) {
+TEST_F(ArrayExactOwnerTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mArrayExactOwnerType->isPrimitive());
-}
-
-TEST_F(ArrayExactOwnerTypeTest, isOwnerTest) {
   EXPECT_TRUE(mArrayExactOwnerType->isOwner());
-}
-
-TEST_F(ArrayExactOwnerTypeTest, isReferenceTest) {
   EXPECT_FALSE(mArrayExactOwnerType->isReference());
-}
-
-TEST_F(ArrayExactOwnerTypeTest, isArrayTest) {
   EXPECT_TRUE(mArrayExactOwnerType->isArray());
-}
-
-TEST_F(ArrayExactOwnerTypeTest, isFunctionTest) {
   EXPECT_FALSE(mArrayExactOwnerType->isFunction());
-}
-
-TEST_F(ArrayExactOwnerTypeTest, isPackageTest) {
   EXPECT_FALSE(mArrayExactOwnerType->isPackage());
+  EXPECT_FALSE(mArrayExactOwnerType->isNative());
 }
 
 TEST_F(ArrayExactOwnerTypeTest, isObjectTest) {
@@ -100,10 +86,15 @@ TEST_F(ArrayExactOwnerTypeTest, isObjectTest) {
   EXPECT_FALSE(mArrayExactOwnerType->isModel());
   EXPECT_FALSE(mArrayExactOwnerType->isNode());
   EXPECT_FALSE(mArrayExactOwnerType->isThread());
-  EXPECT_FALSE(mArrayExactOwnerType->isNative());
 }
 
 TEST_F(ArrayExactOwnerTypeTest, getArrayTypeTest) {
   EXPECT_EQ(mContext.getArrayType(PrimitiveTypes::LONG_TYPE, 1u),
             mArrayExactOwnerType->getArrayType(mContext));
+}
+
+TEST_F(ArrayExactOwnerTypeTest, getPointerTypeTest) {
+  const wisey::PointerType* pointerType = mArrayExactOwnerType->getPointerType();
+  EXPECT_EQ(mArrayExactOwnerType->getLLVMType(mContext)->getPointerTo(),
+            pointerType->getLLVMType(mContext));
 }

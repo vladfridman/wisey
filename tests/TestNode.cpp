@@ -476,28 +476,14 @@ TEST_F(NodeTest, castToSecondInterfaceTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(NodeTest, isPrimitiveTest) {
+TEST_F(NodeTest, isTypeKindTest) {
   EXPECT_FALSE(mSimpleNode->isPrimitive());
-}
-
-TEST_F(NodeTest, isOwnerTest) {
   EXPECT_FALSE(mSimpleNode->isOwner());
-}
-
-TEST_F(NodeTest, isReferenceTest) {
   EXPECT_TRUE(mSimpleNode->isReference());
-}
-
-TEST_F(NodeTest, isArrayTest) {
   EXPECT_FALSE(mSimpleNode->isArray());
-}
-
-TEST_F(NodeTest, isFunctionTest) {
   EXPECT_FALSE(mSimpleNode->isFunction());
-}
-
-TEST_F(NodeTest, isPackageTest) {
   EXPECT_FALSE(mSimpleNode->isPackage());
+  EXPECT_FALSE(mSimpleNode->isNative());
 }
 
 TEST_F(NodeTest, isObjectTest) {
@@ -506,7 +492,6 @@ TEST_F(NodeTest, isObjectTest) {
   EXPECT_FALSE(mSimpleNode->isModel());
   EXPECT_TRUE(mSimpleNode->isNode());
   EXPECT_FALSE(mSimpleNode->isThread());
-  EXPECT_FALSE(mSimpleNode->isNative());
 }
 
 TEST_F(NodeTest, incrementReferenceCountTest) {
@@ -787,6 +772,12 @@ TEST_F(NodeTest, createParameterVariableTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(NodeTest, getPointerTypeTest) {
+  const wisey::PointerType* pointerType = mComplicatedNode->getPointerType();
+  EXPECT_EQ(mComplicatedNode->getLLVMType(mContext)->getPointerTo(),
+            pointerType->getLLVMType(mContext));
 }
 
 TEST_F(TestFileSampleRunner, linkListRunTest) {

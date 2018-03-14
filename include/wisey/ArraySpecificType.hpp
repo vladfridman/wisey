@@ -16,6 +16,7 @@
 #include "wisey/ArrayType.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IType.hpp"
+#include "wisey/PointerType.hpp"
 
 namespace wisey {
   
@@ -24,14 +25,15 @@ namespace wisey {
   /**
    * Represents the array type where each dimension is specified.
    *
-   * This class is used for array allocation command e.g. new int[5]; 
+   * This class is used for array allocation command e.g. new int[5];
    */
   class ArraySpecificType : public IType {
     
     const IType* mElementType;
     std::list<const IExpression*> mDimensions;
     const ArraySpecificOwnerType* mArraySpecificOwnerType;
-    
+    const PointerType* mPointerType;
+
   public:
     
     ArraySpecificType(const IType* elementType, std::list<const IExpression*> dimensions);
@@ -73,7 +75,7 @@ namespace wisey {
                         int line) const override;
     
     bool isPrimitive() const override;
-
+    
     bool isOwner() const override;
     
     bool isReference() const override;
@@ -83,7 +85,7 @@ namespace wisey {
     bool isFunction() const override;
     
     bool isPackage() const override;
-
+    
     bool isController() const override;
     
     bool isInterface() const override;
@@ -95,7 +97,7 @@ namespace wisey {
     bool isThread() const override;
     
     bool isNative() const override;
-
+    
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
     void createLocalVariable(IRGenerationContext& context, std::string name) const override;
@@ -103,14 +105,16 @@ namespace wisey {
     void createFieldVariable(IRGenerationContext& context,
                              std::string name,
                              const IConcreteObjectType* object) const override;
-
+    
     void createParameterVariable(IRGenerationContext& context,
                                  std::string name,
                                  llvm::Value* value) const override;
     
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
-
+    
     const IObjectType* getObjectType() const override;
+    
+    const PointerType* getPointerType() const override;
 
   private:
     
@@ -121,3 +125,4 @@ namespace wisey {
 } /* namespace wisey */
 
 #endif /* ArraySpecificType_h */
+

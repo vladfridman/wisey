@@ -432,6 +432,9 @@
 		F54985831FE983C8004C204C /* DecrementReferencesInArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54985811FE983C8004C204C /* DecrementReferencesInArrayFunction.cpp */; };
 		F54985851FE98F95004C204C /* TestDecrementReferencesInArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54985841FE98F95004C204C /* TestDecrementReferencesInArrayFunction.cpp */; };
 		F54B14352059015F0030773F /* TestIdentifierReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B14342059015F0030773F /* TestIdentifierReference.cpp */; };
+		F54B145A205941040030773F /* PointerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B1459205941040030773F /* PointerType.cpp */; };
+		F54B145B205941040030773F /* PointerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B1459205941040030773F /* PointerType.cpp */; };
+		F54B145D2059552A0030773F /* TestPointerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B145C2059552A0030773F /* TestPointerType.cpp */; };
 		F54ED95F1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54ED95E1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp */; };
 		F54ED9601FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54ED95E1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp */; };
 		F55173D61F99025400613993 /* TestConstantDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55173D51F99025400613993 /* TestConstantDeclaration.cpp */; };
@@ -1388,6 +1391,9 @@
 		F54985811FE983C8004C204C /* DecrementReferencesInArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DecrementReferencesInArrayFunction.cpp; path = src/DecrementReferencesInArrayFunction.cpp; sourceTree = "<group>"; };
 		F54985841FE98F95004C204C /* TestDecrementReferencesInArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestDecrementReferencesInArrayFunction.cpp; path = tests/TestDecrementReferencesInArrayFunction.cpp; sourceTree = "<group>"; };
 		F54B14342059015F0030773F /* TestIdentifierReference.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestIdentifierReference.cpp; path = tests/TestIdentifierReference.cpp; sourceTree = "<group>"; };
+		F54B1458205932070030773F /* PointerType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = PointerType.hpp; path = include/wisey/PointerType.hpp; sourceTree = "<group>"; };
+		F54B1459205941040030773F /* PointerType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PointerType.cpp; path = src/PointerType.cpp; sourceTree = "<group>"; };
+		F54B145C2059552A0030773F /* TestPointerType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestPointerType.cpp; path = tests/TestPointerType.cpp; sourceTree = "<group>"; };
 		F54ED95D1FE84C9400847A2B /* DestroyOwnerArrayFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DestroyOwnerArrayFunction.hpp; path = include/wisey/DestroyOwnerArrayFunction.hpp; sourceTree = "<group>"; };
 		F54ED95E1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DestroyOwnerArrayFunction.cpp; path = src/DestroyOwnerArrayFunction.cpp; sourceTree = "<group>"; };
 		F55173D51F99025400613993 /* TestConstantDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestConstantDeclaration.cpp; path = tests/TestConstantDeclaration.cpp; sourceTree = "<group>"; };
@@ -2354,6 +2360,7 @@
 				F5089C8B1ECD01D9004A1223 /* LongType.hpp */,
 				F53A2C431F02987800E76A9E /* NullType.hpp */,
 				F51942EC1FE2D779009C3158 /* PackageType.hpp */,
+				F54B1458205932070030773F /* PointerType.hpp */,
 				F5089C9A1ECD01D9004A1223 /* PrimitiveTypes.hpp */,
 				F5089C9B1ECD01D9004A1223 /* PrimitiveTypeSpecifier.hpp */,
 				F58725501F6D744600FA25E6 /* StringType.hpp */,
@@ -2374,6 +2381,7 @@
 				F5C6FD841E48B7A00054209D /* LongType.cpp */,
 				F53A2C441F0298E800E76A9E /* NullType.cpp */,
 				F51942ED1FE2D7C7009C3158 /* PackageType.cpp */,
+				F54B1459205941040030773F /* PointerType.cpp */,
 				F507D26C1E46044700495E2D /* PrimitiveTypes.cpp */,
 				F5E2092F1E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp */,
 				F58725511F6D749100FA25E6 /* StringType.cpp */,
@@ -3088,6 +3096,7 @@
 				F5C6FD871E48B7DE0054209D /* TestLongType.cpp */,
 				F53A2C4B1F029DC800E76A9E /* TestNullType.cpp */,
 				F51942F01FE30024009C3158 /* TestPackageType.cpp */,
+				F54B145C2059552A0030773F /* TestPointerType.cpp */,
 				F53A2C4F1F02D55A00E76A9E /* TestPrimitiveTypes.cpp */,
 				F531B6381E07A80F008304F3 /* TestPrimitiveTypeSpecifier.cpp */,
 				F58725541F6DB97C00FA25E6 /* TestStringType.cpp */,
@@ -3682,6 +3691,7 @@
 				F53400DE1DFBE6F60002BF7E /* Tokens.lpp in Sources */,
 				F5601F3D1EB4C5E300C9E2D8 /* TestIRWriter.cpp in Sources */,
 				F53A2C371EFFFCEE00E76A9E /* TestNode.cpp in Sources */,
+				F54B145D2059552A0030773F /* TestPointerType.cpp in Sources */,
 				F5609F1820580DE000664ADD /* LocalNativeVariable.cpp in Sources */,
 				F58725631F70143100FA25E6 /* IPrintStatement.cpp in Sources */,
 				F5CB7F43204A1B4A007628B5 /* TestThreadTypeSpecifier.cpp in Sources */,
@@ -3817,6 +3827,7 @@
 				F58725551F6DB97C00FA25E6 /* TestStringType.cpp in Sources */,
 				F5CB7FE52052AEB1007628B5 /* StateField.cpp in Sources */,
 				F57411461E015DBC009809FF /* TestReturnStatement.cpp in Sources */,
+				F54B145B205941040030773F /* PointerType.cpp in Sources */,
 				F5A363421F33C1A8005880B3 /* LocalOwnerVariable.cpp in Sources */,
 				F59D82171E0F414F00057FB5 /* TestEmptyExpression.cpp in Sources */,
 				F515812B1E89BFB6009CE419 /* TestControllerDefinition.cpp in Sources */,
@@ -4009,6 +4020,7 @@
 				F531B6541E0DDD96008304F3 /* StringLiteral.cpp in Sources */,
 				F5C6FD761E48B50A0054209D /* DoubleType.cpp in Sources */,
 				F50FA2A81E269E5700435EEA /* CaseStatement.cpp in Sources */,
+				F54B145A205941040030773F /* PointerType.cpp in Sources */,
 				F50FA2FF1E323AAD00435EEA /* Scopes.cpp in Sources */,
 				F53A2C191EF85DF000E76A9E /* ParameterReferenceVariable.cpp in Sources */,
 				F5A363471F37257C005880B3 /* ParameterOwnerVariable.cpp in Sources */,

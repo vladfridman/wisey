@@ -22,6 +22,7 @@ namespace wisey {
   class IConcreteObjectType;
   class IObjectType;
   class IRGenerationContext;
+  class PointerType;
   
   /**
    * Interface representing expression type in wisey language
@@ -148,6 +149,11 @@ namespace wisey {
      * Returns IObjectType if this type has one associated with it otherwise returns NULL
      */
     virtual const IObjectType* getObjectType() const = 0;
+    
+    /**
+     * Returns reference type which is the pointer to this type
+     */
+    virtual const PointerType* getPointerType() const = 0;
 
     /**
      * Tells whether the given type is an object or an object owner type

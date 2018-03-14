@@ -178,7 +178,7 @@ ExpressionList ArrayAllocationStatic::flattenExpressionList(IRGenerationContext&
 
 Value* ArrayAllocationStatic::allocateArray(IRGenerationContext& context,
                                             const ArrayExactType* arrayExactType) {
-  PointerType* arrayPointerType = arrayExactType->getLLVMType(context);
+  llvm::PointerType* arrayPointerType = arrayExactType->getLLVMType(context);
   StructType* structType = (StructType*) arrayPointerType->getPointerElementType();
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   llvm::Constant* one = llvm::ConstantInt::get(llvm::Type::getInt64Ty(context.getLLVMContext()), 1);

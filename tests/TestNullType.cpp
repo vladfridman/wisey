@@ -49,12 +49,12 @@ struct NullTypeTest : public Test {
 };
 
 TEST_F(NullTypeTest, getNameTest) {
-  ASSERT_STREQ(NullType::NULL_TYPE->getTypeName().c_str(), "null");
+  ASSERT_STREQ("null", NullType::NULL_TYPE->getTypeName().c_str());
 }
 
 TEST_F(NullTypeTest, getLLVMTypeTest) {
   Type* int8PointerType = Type::getInt8Ty(mLLVMContext)->getPointerTo();
-  ASSERT_EQ(NullType::NULL_TYPE->getLLVMType(mContext), int8PointerType);
+  ASSERT_EQ(int8PointerType, NullType::NULL_TYPE->getLLVMType(mContext));
 }
 
 TEST_F(NullTypeTest, canCastToTest) {
@@ -105,28 +105,14 @@ TEST_F(NullTypeTest, castToModelOwnerTest) {
   EXPECT_EQ(cast, ConstantPointerNull::get(structType->getPointerTo()));
 }
 
-TEST_F(NullTypeTest, isPrimitiveTest) {
+TEST_F(NullTypeTest, isTypeKindTest) {
   EXPECT_FALSE(NullType::NULL_TYPE->isPrimitive());
-}
-
-TEST_F(NullTypeTest, isOwnerTest) {
   EXPECT_FALSE(NullType::NULL_TYPE->isOwner());
-}
-
-TEST_F(NullTypeTest, isReferenceTest) {
   EXPECT_FALSE(NullType::NULL_TYPE->isReference());
-}
-
-TEST_F(NullTypeTest, isArrayTest) {
   EXPECT_FALSE(NullType::NULL_TYPE->isArray());
-}
-
-TEST_F(NullTypeTest, isFunctionTest) {
   EXPECT_FALSE(NullType::NULL_TYPE->isFunction());
-}
-
-TEST_F(NullTypeTest, isPackageTest) {
   EXPECT_FALSE(NullType::NULL_TYPE->isPackage());
+  EXPECT_FALSE(NullType::NULL_TYPE->isNative());
 }
 
 TEST_F(NullTypeTest, isObjectTest) {
@@ -135,5 +121,4 @@ TEST_F(NullTypeTest, isObjectTest) {
   EXPECT_FALSE(NullType::NULL_TYPE->isModel());
   EXPECT_FALSE(NullType::NULL_TYPE->isNode());
   EXPECT_FALSE(NullType::NULL_TYPE->isThread());
-  EXPECT_FALSE(NullType::NULL_TYPE->isNative());
 }

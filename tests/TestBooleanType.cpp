@@ -64,9 +64,14 @@ public:
 };
 
 TEST_F(BooleanTypeTest, booleanTypeTest) {
-  EXPECT_EQ(mBoleanType.getLLVMType(mContext), (llvm::Type*) Type::getInt1Ty(mLLVMContext));
-  EXPECT_STREQ(mBoleanType.getTypeName().c_str(), "boolean");
-  EXPECT_EQ(mBoleanType.getFormat(), "%d");
+  EXPECT_EQ(Type::getInt1Ty(mLLVMContext), mBoleanType.getLLVMType(mContext));
+  EXPECT_STREQ("boolean", mBoleanType.getTypeName().c_str());
+  EXPECT_EQ("%d", mBoleanType.getFormat());
+}
+
+TEST_F(BooleanTypeTest, getPointerTypeTest) {
+  const wisey::PointerType* pointerType = mBoleanType.getPointerType();
+  EXPECT_EQ(Type::getInt1Ty(mLLVMContext)->getPointerTo(), pointerType->getLLVMType(mContext));
 }
 
 TEST_F(BooleanTypeTest, canAutoCastToTest) {
@@ -130,28 +135,14 @@ TEST_F(BooleanTypeTest, castToTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(BooleanTypeTest, isPrimitiveTest) {
+TEST_F(BooleanTypeTest, isTypeKindTest) {
   EXPECT_TRUE(mBoleanType.isPrimitive());
-}
-
-TEST_F(BooleanTypeTest, isOwnerTest) {
   EXPECT_FALSE(mBoleanType.isOwner());
-}
-
-TEST_F(BooleanTypeTest, isReferenceTest) {
   EXPECT_FALSE(mBoleanType.isReference());
-}
-
-TEST_F(BooleanTypeTest, isArrayTest) {
   EXPECT_FALSE(mBoleanType.isArray());
-}
-
-TEST_F(BooleanTypeTest, isFunctionTest) {
   EXPECT_FALSE(mBoleanType.isFunction());
-}
-
-TEST_F(BooleanTypeTest, isPackageTest) {
   EXPECT_FALSE(mBoleanType.isPackage());
+  EXPECT_FALSE(mBoleanType.isNative());
 }
 
 TEST_F(BooleanTypeTest, isObjectTest) {
@@ -160,7 +151,6 @@ TEST_F(BooleanTypeTest, isObjectTest) {
   EXPECT_FALSE(mBoleanType.isModel());
   EXPECT_FALSE(mBoleanType.isNode());
   EXPECT_FALSE(mBoleanType.isThread());
-  EXPECT_FALSE(mBoleanType.isNative());
 }
 
 TEST_F(BooleanTypeTest, createLocalVariableTest) {

@@ -23,6 +23,14 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+FloatType::FloatType() {
+  mPointerType = new PointerType(this);
+}
+
+FloatType::~FloatType() {
+  delete mPointerType;
+}
+
 string FloatType::getTypeName() const {
   return "float";
 }
@@ -153,4 +161,8 @@ const wisey::ArrayType* FloatType::getArrayType(IRGenerationContext& context) co
 
 const IObjectType* FloatType::getObjectType() const {
   return NULL;
+}
+
+const wisey::PointerType* FloatType::getPointerType() const {
+  return mPointerType;
 }

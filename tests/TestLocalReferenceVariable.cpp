@@ -111,7 +111,7 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableAssignmentTest) {
   
   IVariable* uninitializedHeapVariable = new LocalReferenceVariable("foo", mModel, fooValue);
   mContext.getScopes().setVariable(uninitializedHeapVariable);
-  Value* barValue = ConstantPointerNull::get((PointerType*) llvmType);
+  Value* barValue = ConstantPointerNull::get((llvm::PointerType*) llvmType);
   Value* referenceStore = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalReferenceVariable localReferenceVariable("bar", mModel, referenceStore);
   NiceMock<MockExpression> expression;
@@ -136,7 +136,7 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableAssignmentTest) {
 }
 
 TEST_F(LocalReferenceVariableTest, generateIdentifierIRTest) {
-  PointerType* llvmType = mModel->getLLVMType(mContext);
+  llvm::PointerType* llvmType = mModel->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalReferenceVariable localReferenceVariable("foo", mModel, fooValue);
   llvm::Constant* null = ConstantPointerNull::get(llvmType);
@@ -153,7 +153,7 @@ TEST_F(LocalReferenceVariableTest, generateIdentifierIRTest) {
 }
 
 TEST_F(LocalReferenceVariableTest, generateIdentifierReferenceIRTest) {
-  PointerType* llvmType = mModel->getLLVMType(mContext);
+  llvm::PointerType* llvmType = mModel->getLLVMType(mContext);
   Value* fooValueStore = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalReferenceVariable localReferenceVariable("foo", mModel, fooValueStore);
   

@@ -52,7 +52,7 @@ Value* TypeComparisionExpression::generateIR(IRGenerationContext& context,
                                    (const IObjectOwnerType*) type);
   }
   if (expressionType->isReference() && type->isReference()) {
-    return generateIRforReferenceTypes(context,
+    return generateIRforPointerTypes(context,
                                        (const IObjectType*) expressionType,
                                        (const IObjectType*) type);
   }
@@ -62,12 +62,12 @@ Value* TypeComparisionExpression::generateIR(IRGenerationContext& context,
 Value* TypeComparisionExpression::generateIRforOwnerTypes(IRGenerationContext& context,
                                                           const IObjectOwnerType* expressionType,
                                                           const IObjectOwnerType* type) const {
-  return generateIRforReferenceTypes(context,
+  return generateIRforPointerTypes(context,
                                      expressionType->getObjectType(),
                                      type->getObjectType());
 }
 
-Value* TypeComparisionExpression::generateIRforReferenceTypes(IRGenerationContext& context,
+Value* TypeComparisionExpression::generateIRforPointerTypes(IRGenerationContext& context,
                                                               const IObjectType* expressionType,
                                                               const IObjectType* type) const {
   LLVMContext& llvmContext = context.getLLVMContext();

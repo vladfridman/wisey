@@ -180,3 +180,7 @@ const wisey::ArrayType* MethodSignature::getArrayType(IRGenerationContext& conte
   ArrayType::reportNonArrayType();
   exit(1);
 }
+
+const wisey::PointerType* MethodSignature::getPointerType() const {
+  assert(false);
+}

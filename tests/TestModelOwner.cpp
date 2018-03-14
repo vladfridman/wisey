@@ -340,28 +340,14 @@ TEST_F(ModelOwnerTest, castToSecondInterfaceTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(ModelOwnerTest, isPrimitiveTest) {
+TEST_F(ModelOwnerTest, isTypeKindTest) {
   EXPECT_FALSE(mModel->getOwner()->isPrimitive());
-}
-
-TEST_F(ModelOwnerTest, isOwnerTest) {
   EXPECT_TRUE(mModel->getOwner()->isOwner());
-}
-
-TEST_F(ModelOwnerTest, isReferenceTest) {
   EXPECT_FALSE(mModel->getOwner()->isReference());
-}
-
-TEST_F(ModelOwnerTest, isArrayTest) {
   EXPECT_FALSE(mModel->getOwner()->isArray());
-}
-
-TEST_F(ModelOwnerTest, isFunctionTest) {
   EXPECT_FALSE(mModel->getOwner()->isFunction());
-}
-
-TEST_F(ModelOwnerTest, isPackageTest) {
   EXPECT_FALSE(mModel->getOwner()->isPackage());
+  EXPECT_FALSE(mModel->getOwner()->isNative());
 }
 
 TEST_F(ModelOwnerTest, isObjectTest) {
@@ -370,7 +356,6 @@ TEST_F(ModelOwnerTest, isObjectTest) {
   EXPECT_TRUE(mModel->getOwner()->isModel());
   EXPECT_FALSE(mModel->getOwner()->isNode());
   EXPECT_FALSE(mModel->getOwner()->isThread());
-  EXPECT_FALSE(mModel->getOwner()->isNative());
 }
 
 TEST_F(ModelOwnerTest, createLocalVariableTest) {
@@ -416,6 +401,12 @@ TEST_F(ModelOwnerTest, createParameterVariableTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(ModelOwnerTest, getPointerTypeTest) {
+  const wisey::PointerType* pointerType = mModel->getOwner()->getPointerType();
+  EXPECT_EQ(mModel->getOwner()->getLLVMType(mContext)->getPointerTo(),
+            pointerType->getLLVMType(mContext));
 }
 
 TEST_F(TestFileSampleRunner, ownerAssignToReferenceRunTest) {

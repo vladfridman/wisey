@@ -40,10 +40,12 @@ mStructType(structType),
 mIsExternal(isExternal),
 mIsInner(false) {
   mThreadOwner = new ThreadOwner(this);
+  mPointerType = new PointerType(this);
 }
 
 Thread::~Thread() {
   delete mThreadOwner;
+  delete mPointerType;
   for(IField* field : mFieldsOrdered) {
     delete field;
   }
@@ -406,7 +408,7 @@ Function* Thread::getReferenceAdjustmentFunction(IRGenerationContext& context) c
 }
 
 void Thread::createLocalVariable(IRGenerationContext& context, string name) const {
-  PointerType* llvmType = getLLVMType(context);
+  llvm::PointerType* llvmType = getLLVMType(context);
   
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "referenceDeclaration");
   IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloca);
@@ -503,4 +505,8 @@ void Thread::initializeInjectedFields(IRGenerationContext& context,
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     IRWriter::newStoreInst(context, fieldValue, fieldPointer);
   }
+}
+
+const wisey::PointerType* Thread::getPointerType() const {
+  return mPointerType;
 }

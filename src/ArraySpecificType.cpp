@@ -22,10 +22,12 @@ ArraySpecificType::ArraySpecificType(const IType* elementType,
 mElementType(elementType), mDimensions(dimensions) {
   assert(dimensions.size());
   mArraySpecificOwnerType = new ArraySpecificOwnerType(this);
+  mPointerType = new PointerType(this);
 }
 
 ArraySpecificType::~ArraySpecificType() {
   delete mArraySpecificOwnerType;
+  delete mPointerType;
 }
 
 const ArraySpecificOwnerType* ArraySpecificType::getOwner() const {
@@ -198,4 +200,8 @@ const wisey::ArrayType* ArraySpecificType::getArrayType(IRGenerationContext& con
 
 const IObjectType* ArraySpecificType::getObjectType() const {
   return NULL;
+}
+
+const wisey::PointerType* ArraySpecificType::getPointerType() const {
+  return mPointerType;
 }

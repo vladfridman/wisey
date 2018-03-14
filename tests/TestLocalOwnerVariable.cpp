@@ -99,7 +99,7 @@ TEST_F(LocalOwnerVariableTest, generateAssignmentIRTest) {
   IVariable* uninitializedHeapVariable =
     new LocalOwnerVariable("foo", mModel->getOwner(), fooValue);
   mContext.getScopes().setVariable(uninitializedHeapVariable);
-  Value* barValue = ConstantPointerNull::get((PointerType*) llvmType);
+  Value* barValue = ConstantPointerNull::get((llvm::PointerType*) llvmType);
   Value* ownerStore = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalOwnerVariable heapOwnerVariable("bar", mModel->getOwner(), ownerStore);
   NiceMock<MockExpression> expression;

@@ -11,6 +11,7 @@
 
 #include "wisey/ArraySpecificType.hpp"
 #include "wisey/IOwnerType.hpp"
+#include "wisey/PointerType.hpp"
 
 namespace wisey {
   
@@ -20,6 +21,7 @@ namespace wisey {
   class ArraySpecificOwnerType : public IOwnerType {
     
     const ArraySpecificType* mArraySpecificType;
+    const PointerType* mPointerType;
     
   public:
     
@@ -48,7 +50,7 @@ namespace wisey {
                         int line) const override;
     
     bool isPrimitive() const override;
-
+    
     bool isOwner() const override;
     
     bool isReference() const override;
@@ -58,7 +60,7 @@ namespace wisey {
     bool isFunction() const override;
     
     bool isPackage() const override;
-
+    
     bool isController() const override;
     
     bool isInterface() const override;
@@ -70,7 +72,7 @@ namespace wisey {
     bool isThread() const override;
     
     bool isNative() const override;
-
+    
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
     void createLocalVariable(IRGenerationContext& context, std::string name) const override;
@@ -78,17 +80,20 @@ namespace wisey {
     void createFieldVariable(IRGenerationContext& context,
                              std::string name,
                              const IConcreteObjectType* object) const override;
-
+    
     void createParameterVariable(IRGenerationContext& context,
                                  std::string name,
                                  llvm::Value* value) const override;
     
-   const ArrayType* getArrayType(IRGenerationContext& context) const override;
-
+    const ArrayType* getArrayType(IRGenerationContext& context) const override;
+    
     const IObjectType* getObjectType() const override;
+    
+    const PointerType* getPointerType() const override;
 
   };
   
 } /* namespace wisey */
 
 #endif /* ArraySpecificOwnerType_h */
+

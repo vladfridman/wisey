@@ -18,9 +18,11 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-NodeOwner::NodeOwner(Node* node) : mNode(node) { }
+NodeOwner::NodeOwner(Node* node) : mNode(node), mPointerType(new PointerType(this)) { }
 
-NodeOwner::~NodeOwner() { }
+NodeOwner::~NodeOwner() {
+  delete mPointerType;
+}
 
 Node* NodeOwner::getObjectType() const {
   return mNode;
@@ -30,7 +32,7 @@ string NodeOwner::getTypeName() const {
   return mNode->getTypeName() + '*';
 }
 
-PointerType* NodeOwner::getLLVMType(IRGenerationContext& context) const {
+llvm::PointerType* NodeOwner::getLLVMType(IRGenerationContext& context) const {
   return mNode->getLLVMType(context);
 }
 
@@ -131,7 +133,7 @@ void NodeOwner::printToStream(IRGenerationContext &context, iostream& stream) co
 }
 
 void NodeOwner::createLocalVariable(IRGenerationContext& context, string name) const {
-  PointerType* llvmType = getLLVMType(context);
+  llvm::PointerType* llvmType = getLLVMType(context);
   
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "ownerDeclaration");
   IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloca);
@@ -162,3 +164,6 @@ const wisey::ArrayType* NodeOwner::getArrayType(IRGenerationContext& context) co
   exit(1);
 }
 
+const wisey::PointerType* NodeOwner::getPointerType() const {
+  return mPointerType;
+}

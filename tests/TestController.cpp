@@ -440,7 +440,7 @@ TEST_F(ControllerTest, canAutoCastToTest) {
 
 TEST_F(ControllerTest, castToFirstInterfaceTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get((PointerType*) mMultiplierController->getLLVMType(mContext));
+  ConstantPointerNull::get((llvm::PointerType*) mMultiplierController->getLLVMType(mContext));
   mMultiplierController->castTo(mContext, pointer, mScienceCalculatorInterface, 0);
 
   *mStringStream << *mBasicBlock;
@@ -470,28 +470,14 @@ TEST_F(ControllerTest, castToSecondInterfaceTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(ControllerTest, isPrimitiveTest) {
+TEST_F(ControllerTest, isTypeKindTest) {
   EXPECT_FALSE(mMultiplierController->isPrimitive());
-}
-
-TEST_F(ControllerTest, isOwnerTest) {
   EXPECT_FALSE(mMultiplierController->isOwner());
-}
-
-TEST_F(ControllerTest, isReferenceTest) {
   EXPECT_TRUE(mMultiplierController->isReference());
-}
-
-TEST_F(ControllerTest, isArrayTest) {
   EXPECT_FALSE(mMultiplierController->isArray());
-}
-
-TEST_F(ControllerTest, isFunctionTest) {
   EXPECT_FALSE(mMultiplierController->isFunction());
-}
-
-TEST_F(ControllerTest, isPackageTest) {
   EXPECT_FALSE(mMultiplierController->isPackage());
+  EXPECT_FALSE(mMultiplierController->isNative());
 }
 
 TEST_F(ControllerTest, isObjectTest) {
@@ -500,7 +486,6 @@ TEST_F(ControllerTest, isObjectTest) {
   EXPECT_FALSE(mMultiplierController->isModel());
   EXPECT_FALSE(mMultiplierController->isNode());
   EXPECT_FALSE(mMultiplierController->isThread());
-  EXPECT_FALSE(mMultiplierController->isNative());
 }
 
 TEST_F(ControllerTest, incrementReferenceCountTest) {
@@ -865,6 +850,12 @@ TEST_F(ControllerTest, createParameterVariableTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(ControllerTest, getPointerTypeTest) {
+  const wisey::PointerType* pointerType = mMultiplierController->getPointerType();
+  EXPECT_EQ(mMultiplierController->getLLVMType(mContext)->getPointerTo(),
+            pointerType->getLLVMType(mContext));
 }
 
 TEST_F(TestFileSampleRunner, controllerInjectionChainRunTest) {

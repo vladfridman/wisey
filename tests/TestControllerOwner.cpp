@@ -193,28 +193,14 @@ TEST_F(ControllerOwnerTest, castToItselfTest) {
   EXPECT_EQ(result, pointer);
 }
 
-TEST_F(ControllerOwnerTest, isPrimitiveTest) {
+TEST_F(ControllerOwnerTest, isTypeKindTest) {
   EXPECT_FALSE(mMultiplierController->getOwner()->isPrimitive());
-}
-
-TEST_F(ControllerOwnerTest, isOwnerTest) {
   EXPECT_TRUE(mMultiplierController->getOwner()->isOwner());
-}
-
-TEST_F(ControllerOwnerTest, isReferenceTest) {
   EXPECT_FALSE(mMultiplierController->getOwner()->isReference());
-}
-
-TEST_F(ControllerOwnerTest, isArrayTest) {
   EXPECT_FALSE(mMultiplierController->getOwner()->isArray());
-}
-
-TEST_F(ControllerOwnerTest, isFunctionTest) {
   EXPECT_FALSE(mMultiplierController->getOwner()->isFunction());
-}
-
-TEST_F(ControllerOwnerTest, isPackageTest) {
   EXPECT_FALSE(mMultiplierController->getOwner()->isPackage());
+  EXPECT_FALSE(mMultiplierController->getOwner()->isNative());
 }
 
 TEST_F(ControllerOwnerTest, isObjectTest) {
@@ -223,7 +209,6 @@ TEST_F(ControllerOwnerTest, isObjectTest) {
   EXPECT_FALSE(mMultiplierController->getOwner()->isModel());
   EXPECT_FALSE(mMultiplierController->getOwner()->isNode());
   EXPECT_FALSE(mMultiplierController->getOwner()->isThread());
-  EXPECT_FALSE(mMultiplierController->getOwner()->isNative());
 }
 
 TEST_F(ControllerOwnerTest, getDestructorFunctionTest) {
@@ -320,6 +305,12 @@ TEST_F(ControllerOwnerTest, createParameterVariableTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(ControllerOwnerTest, getPointerTypeTest) {
+  const wisey::PointerType* pointerType = mMultiplierController->getOwner()->getPointerType();
+  EXPECT_EQ(mMultiplierController->getOwner()->getLLVMType(mContext)->getPointerTo(),
+            pointerType->getLLVMType(mContext));
 }
 
 TEST_F(TestFileSampleRunner, controllerPassModelReferenceRunTest) {

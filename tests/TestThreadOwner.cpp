@@ -117,28 +117,14 @@ TEST_F(ThreadOwnerTest, castToItselfTest) {
   EXPECT_EQ(result, pointer);
 }
 
-TEST_F(ThreadOwnerTest, isPrimitiveTest) {
+TEST_F(ThreadOwnerTest, isTypeKindTest) {
   EXPECT_FALSE(mThread->getOwner()->isPrimitive());
-}
-
-TEST_F(ThreadOwnerTest, isOwnerTest) {
   EXPECT_TRUE(mThread->getOwner()->isOwner());
-}
-
-TEST_F(ThreadOwnerTest, isReferenceTest) {
   EXPECT_FALSE(mThread->getOwner()->isReference());
-}
-
-TEST_F(ThreadOwnerTest, isArrayTest) {
   EXPECT_FALSE(mThread->getOwner()->isArray());
-}
-
-TEST_F(ThreadOwnerTest, isFunctionTest) {
   EXPECT_FALSE(mThread->getOwner()->isFunction());
-}
-
-TEST_F(ThreadOwnerTest, isPackageTest) {
   EXPECT_FALSE(mThread->getOwner()->isPackage());
+  EXPECT_FALSE(mThread->getOwner()->isNative());
 }
 
 TEST_F(ThreadOwnerTest, isObjectTest) {
@@ -147,7 +133,6 @@ TEST_F(ThreadOwnerTest, isObjectTest) {
   EXPECT_FALSE(mThread->getOwner()->isModel());
   EXPECT_FALSE(mThread->getOwner()->isNode());
   EXPECT_TRUE(mThread->getOwner()->isThread());
-  EXPECT_FALSE(mThread->getOwner()->isNative());
 }
 
 TEST_F(ThreadOwnerTest, getDestructorFunctionTest) {
@@ -207,4 +192,10 @@ TEST_F(ThreadOwnerTest, createParameterVariableTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(ThreadOwnerTest, getPointerTypeTest) {
+  const wisey::PointerType* pointerType = mThread->getOwner()->getPointerType();
+  EXPECT_EQ(mThread->getOwner()->getLLVMType(mContext)->getPointerTo(),
+            pointerType->getLLVMType(mContext));
 }

@@ -327,28 +327,14 @@ TEST_F(ThreadTest, canAutoCastToTest) {
   EXPECT_TRUE(mThread->canAutoCastTo(mContext, mThread));
 }
 
-TEST_F(ThreadTest, isPrimitiveTest) {
+TEST_F(ThreadTest, isTypeKindTest) {
   EXPECT_FALSE(mThread->isPrimitive());
-}
-
-TEST_F(ThreadTest, isOwnerTest) {
   EXPECT_FALSE(mThread->isOwner());
-}
-
-TEST_F(ThreadTest, isReferenceTest) {
   EXPECT_TRUE(mThread->isReference());
-}
-
-TEST_F(ThreadTest, isArrayTest) {
   EXPECT_FALSE(mThread->isArray());
-}
-
-TEST_F(ThreadTest, isFunctionTest) {
   EXPECT_FALSE(mThread->isFunction());
-}
-
-TEST_F(ThreadTest, isPackageTest) {
   EXPECT_FALSE(mThread->isPackage());
+  EXPECT_FALSE(mThread->isNative());
 }
 
 TEST_F(ThreadTest, isObjectTest) {
@@ -357,7 +343,6 @@ TEST_F(ThreadTest, isObjectTest) {
   EXPECT_FALSE(mThread->isModel());
   EXPECT_FALSE(mThread->isNode());
   EXPECT_TRUE(mThread->isThread());
-  EXPECT_FALSE(mThread->isNative());
 }
 
 TEST_F(ThreadTest, incrementReferenceCountTest) {
@@ -689,3 +674,8 @@ TEST_F(ThreadTest, createParameterVariableTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(ThreadTest, getPointerTypeTest) {
+  const wisey::PointerType* pointerType = mThread->getPointerType();
+  EXPECT_EQ(mThread->getLLVMType(mContext)->getPointerTo(),
+            pointerType->getLLVMType(mContext));
+}

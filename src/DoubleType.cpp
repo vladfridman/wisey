@@ -23,6 +23,14 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+DoubleType::DoubleType() {
+  mPointerType = new PointerType(this);
+}
+
+DoubleType::~DoubleType() {
+  delete mPointerType;
+}
+
 string DoubleType::getTypeName() const {
   return "double";
 }
@@ -153,4 +161,8 @@ const wisey::ArrayType* DoubleType::getArrayType(IRGenerationContext& context) c
 
 const IObjectType* DoubleType::getObjectType() const {
   return NULL;
+}
+
+const wisey::PointerType* DoubleType::getPointerType() const {
+  return mPointerType;
 }

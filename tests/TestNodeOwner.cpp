@@ -311,7 +311,7 @@ TEST_F(NodeOwnerTest, canAutoCastToTest) {
 }
 
 TEST_F(NodeOwnerTest, castToFirstInterfaceTest) {
-  PointerType* type = mComplicatedNode->getOwner()->getLLVMType(mContext);
+  llvm::PointerType* type = mComplicatedNode->getOwner()->getLLVMType(mContext);
   ConstantPointerNull* pointer = ConstantPointerNull::get(type);
   mComplicatedNode->getOwner()->castTo(mContext,
                                        pointer,
@@ -346,28 +346,14 @@ TEST_F(NodeOwnerTest, castToSecondInterfaceTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(NodeOwnerTest, isPrimitiveTest) {
+TEST_F(NodeOwnerTest, isTypeKindTest) {
   EXPECT_FALSE(mSimpleNode->getOwner()->isPrimitive());
-}
-
-TEST_F(NodeOwnerTest, isOwnerTest) {
   EXPECT_TRUE(mSimpleNode->getOwner()->isOwner());
-}
-
-TEST_F(NodeOwnerTest, isReferenceTest) {
   EXPECT_FALSE(mSimpleNode->getOwner()->isReference());
-}
-
-TEST_F(NodeOwnerTest, isArrayTest) {
   EXPECT_FALSE(mSimpleNode->getOwner()->isArray());
-}
-
-TEST_F(NodeOwnerTest, isFunctionTest) {
   EXPECT_FALSE(mSimpleNode->getOwner()->isFunction());
-}
-
-TEST_F(NodeOwnerTest, isPackageTest) {
   EXPECT_FALSE(mSimpleNode->getOwner()->isPackage());
+  EXPECT_FALSE(mSimpleNode->getOwner()->isNative());
 }
 
 TEST_F(NodeOwnerTest, isObjectTest) {
@@ -376,7 +362,6 @@ TEST_F(NodeOwnerTest, isObjectTest) {
   EXPECT_FALSE(mSimpleNode->getOwner()->isModel());
   EXPECT_TRUE(mSimpleNode->getOwner()->isNode());
   EXPECT_FALSE(mSimpleNode->getOwner()->isThread());
-  EXPECT_FALSE(mSimpleNode->getOwner()->isNative());
 }
 
 TEST_F(NodeOwnerTest, createLocalVariableTest) {
@@ -422,4 +407,10 @@ TEST_F(NodeOwnerTest, createParameterVariableTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(NodeOwnerTest, getPointerTypeTest) {
+  const wisey::PointerType* pointerType = mComplicatedNode->getOwner()->getPointerType();
+  EXPECT_EQ(mComplicatedNode->getOwner()->getLLVMType(mContext)->getPointerTo(),
+            pointerType->getLLVMType(mContext));
 }

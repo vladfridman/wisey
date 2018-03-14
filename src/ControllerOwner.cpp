@@ -18,9 +18,14 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ControllerOwner::ControllerOwner(Controller* controller) : mController(controller) { }
+ControllerOwner::ControllerOwner(Controller* controller) :
+mController(controller),
+mPointerType(new PointerType(this)) {
+}
 
-ControllerOwner::~ControllerOwner() { }
+ControllerOwner::~ControllerOwner() {
+  delete mPointerType;
+}
 
 Controller* ControllerOwner::getObjectType() const {
   return mController;
@@ -30,7 +35,7 @@ string ControllerOwner::getTypeName() const {
   return mController->getTypeName() + '*';
 }
 
-PointerType* ControllerOwner::getLLVMType(IRGenerationContext& context) const {
+llvm::PointerType* ControllerOwner::getLLVMType(IRGenerationContext& context) const {
   return mController->getLLVMType(context);
 }
 
@@ -130,7 +135,7 @@ void ControllerOwner::printToStream(IRGenerationContext &context, iostream& stre
 }
 
 void ControllerOwner::createLocalVariable(IRGenerationContext& context, string name) const {
-  PointerType* llvmType = getLLVMType(context);
+  llvm::PointerType* llvmType = getLLVMType(context);
   
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "ownerDeclaration");
   IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloca);
@@ -161,3 +166,6 @@ const wisey::ArrayType* ControllerOwner::getArrayType(IRGenerationContext& conte
   exit(1);
 }
 
+const wisey::PointerType* ControllerOwner::getPointerType() const {
+  return mPointerType;
+}

@@ -86,10 +86,6 @@ struct InterfaceOwnerTest : public Test {
   }
 };
 
-TEST_F(InterfaceOwnerTest, isPrimitiveTest) {
-  EXPECT_FALSE(mShapeInterface->getOwner()->isPrimitive());
-}
-
 TEST_F(InterfaceOwnerTest, getObjectTest) {
   EXPECT_EQ(mShapeInterface->getOwner()->getObjectType(), mShapeInterface);
 }
@@ -136,24 +132,14 @@ TEST_F(InterfaceOwnerTest, canAutoCastToTest) {
   EXPECT_TRUE(mShapeInterface->getOwner()->canAutoCastTo(mContext, mObjectInterface->getOwner()));
 }
 
-TEST_F(InterfaceOwnerTest, isOwnerTest) {
+TEST_F(InterfaceOwnerTest, isTypeKindTest) {
+  EXPECT_FALSE(mShapeInterface->getOwner()->isPrimitive());
   EXPECT_TRUE(mObjectInterface->getOwner()->isOwner());
-}
-
-TEST_F(InterfaceOwnerTest, isReferenceTest) {
   EXPECT_FALSE(mObjectInterface->getOwner()->isReference());
-}
-
-TEST_F(InterfaceOwnerTest, isArrayTest) {
   EXPECT_FALSE(mObjectInterface->getOwner()->isArray());
-}
-
-TEST_F(InterfaceOwnerTest, isFunctionTest) {
   EXPECT_FALSE(mObjectInterface->getOwner()->isFunction());
-}
-
-TEST_F(InterfaceOwnerTest, isPackageTest) {
   EXPECT_FALSE(mObjectInterface->getOwner()->isPackage());
+  EXPECT_FALSE(mObjectInterface->getOwner()->isNative());
 }
 
 TEST_F(InterfaceOwnerTest, isObjectTest) {
@@ -162,7 +148,6 @@ TEST_F(InterfaceOwnerTest, isObjectTest) {
   EXPECT_FALSE(mObjectInterface->getOwner()->isModel());
   EXPECT_FALSE(mObjectInterface->getOwner()->isNode());
   EXPECT_FALSE(mObjectInterface->getOwner()->isThread());
-  EXPECT_FALSE(mObjectInterface->getOwner()->isNative());
 }
 
 TEST_F(InterfaceOwnerTest, createLocalVariableTest) {
@@ -208,6 +193,12 @@ TEST_F(InterfaceOwnerTest, createParameterVariableTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(InterfaceOwnerTest, getPointerTypeTest) {
+  const wisey::PointerType* pointerType = mObjectInterface->getOwner()->getPointerType();
+  EXPECT_EQ(mObjectInterface->getOwner()->getLLVMType(mContext)->getPointerTo(),
+            pointerType->getLLVMType(mContext));
 }
 
 TEST_F(TestFileSampleRunner, interfaceOwnerCastToModelOwnerRunTest) {

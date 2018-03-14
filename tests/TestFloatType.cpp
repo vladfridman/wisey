@@ -64,9 +64,14 @@ public:
 };
 
 TEST_F(FloatTypeTest, floatTypeTest) {
-  EXPECT_EQ(mFloatType.getLLVMType(mContext), Type::getFloatTy(mLLVMContext));
-  EXPECT_STREQ(mFloatType.getTypeName().c_str(), "float");
-  EXPECT_EQ(mFloatType.getFormat(), "%f");
+  EXPECT_EQ(Type::getFloatTy(mLLVMContext), mFloatType.getLLVMType(mContext));
+  EXPECT_STREQ("float", mFloatType.getTypeName().c_str());
+  EXPECT_EQ("%f", mFloatType.getFormat());
+}
+
+TEST_F(FloatTypeTest, getPointerTypeTest) {
+  const wisey::PointerType* pointerType = mFloatType.getPointerType();
+  EXPECT_EQ(Type::getFloatTy(mLLVMContext)->getPointerTo(), pointerType->getLLVMType(mContext));
 }
 
 TEST_F(FloatTypeTest, canAutoCastToTest) {
@@ -130,28 +135,14 @@ TEST_F(FloatTypeTest, castToTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(FloatTypeTest, isPrimitiveTest) {
+TEST_F(FloatTypeTest, isTypeKindTest) {
   EXPECT_TRUE(mFloatType.isPrimitive());
-}
-
-TEST_F(FloatTypeTest, isOwnerTest) {
   EXPECT_FALSE(mFloatType.isOwner());
-}
-
-TEST_F(FloatTypeTest, isReferenceTest) {
   EXPECT_FALSE(mFloatType.isReference());
-}
-
-TEST_F(FloatTypeTest, isArrayTest) {
   EXPECT_FALSE(mFloatType.isArray());
-}
-
-TEST_F(FloatTypeTest, isFunctionTest) {
   EXPECT_FALSE(mFloatType.isFunction());
-}
-
-TEST_F(FloatTypeTest, isPackageTest) {
   EXPECT_FALSE(mFloatType.isPackage());
+  EXPECT_FALSE(mFloatType.isNative());
 }
 
 TEST_F(FloatTypeTest, isObjectTest) {
@@ -160,7 +151,6 @@ TEST_F(FloatTypeTest, isObjectTest) {
   EXPECT_FALSE(mFloatType.isModel());
   EXPECT_FALSE(mFloatType.isNode());
   EXPECT_FALSE(mFloatType.isThread());
-  EXPECT_FALSE(mFloatType.isNative());
 }
 
 TEST_F(FloatTypeTest, createLocalVariableTest) {

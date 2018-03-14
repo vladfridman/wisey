@@ -17,6 +17,7 @@
 #include "wisey/IInjectable.hpp"
 #include "wisey/IMethod.hpp"
 #include "wisey/ObjectBuilderArgument.hpp"
+#include "wisey/PointerType.hpp"
 
 namespace wisey {
   
@@ -32,6 +33,7 @@ namespace wisey {
     bool mIsExternal;
     bool mIsInner;
     ThreadOwner* mThreadOwner;
+    const PointerType* mPointerType;
     std::map<std::string, IField*> mFields;
     std::vector<IField*> mReceivedFields;
     std::vector<InjectedField*> mInjectedFields;
@@ -188,6 +190,8 @@ namespace wisey {
     
     const Thread* getObjectType() const override;
     
+    const PointerType* getPointerType() const override;
+
   private:
     
     Thread(AccessLevel accessLevel,

@@ -19,6 +19,7 @@
 #include "wisey/IInjectable.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"
 #include "wisey/MethodSignature.hpp"
+#include "wisey/PointerType.hpp"
 #include "wisey/StaticMethod.hpp"
 
 namespace wisey {
@@ -38,6 +39,7 @@ class Interface : public IObjectType, public IInjectable {
   bool mIsExternal;
   bool mIsInner;
   InterfaceOwner* mInterfaceOwner;
+  const PointerType* mPointerType;
   std::vector<IInterfaceTypeSpecifier*> mParentInterfaceSpecifiers;
   std::vector<IObjectElementDeclaration *> mElementDeclarations;
   std::vector<Interface*> mParentInterfaces;
@@ -254,6 +256,8 @@ public:
   const ArrayType* getArrayType(IRGenerationContext& context) const override;
 
   const Interface* getObjectType() const override;
+  
+  const PointerType* getPointerType() const override;
 
 private:
   

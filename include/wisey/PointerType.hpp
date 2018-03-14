@@ -1,34 +1,34 @@
 //
-//  PackageType.hpp
+//  PointerType.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 12/14/17.
-//  Copyright © 2017 Vladimir Fridman. All rights reserved.
+//  Created by Vladimir Fridman on 3/14/18.
+//  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef PackageType_h
-#define PackageType_h
+#ifndef PointerType_h
+#define PointerType_h
 
-#include "wisey/IType.hpp"
+#include <llvm/IR/Instructions.h>
 
 namespace wisey {
   
   /**
-   * Represents a type that repressents a package identifier
+   *
    */
-  class PackageType : public IType {
+  class PointerType : public IType {
     
-    std::string mPackageName;
+    const IType* mBaseType;
     
   public:
     
-    PackageType(std::string packageName);
+    PointerType(const IType* baseType);
     
-    ~PackageType();
+    ~PointerType();
     
     std::string getTypeName() const override;
     
-    llvm::Type* getLLVMType(IRGenerationContext& context) const override;
+    llvm::PointerType* getLLVMType(IRGenerationContext& context) const override;
     
     bool canCastTo(IRGenerationContext& context, const IType* toType) const override;
     
@@ -85,5 +85,4 @@ namespace wisey {
   
 } /* namespace wisey */
 
-#endif /* PackageType_h */
-
+#endif /* PointerType_h */

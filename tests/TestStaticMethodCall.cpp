@@ -146,7 +146,7 @@ public:
     mContext.setMainFunction(mainFunction);
     
     mThreadInterface = mContext.getInterface(Names::getThreadInterfaceFullName());
-    PointerType* llvmType = mThreadInterface->getLLVMType(mContext);
+    llvm::PointerType* llvmType = mThreadInterface->getLLVMType(mContext);
     Value* threadStore = IRWriter::newAllocaInst(mContext, llvmType, "threadStore");
     llvm::Constant* null = ConstantPointerNull::get(llvmType);
     IRWriter::newStoreInst(mContext, null, threadStore);
@@ -159,7 +159,7 @@ public:
     mContext.getScopes().setVariable(threadVariable);
 
     mCallStack = mContext.getController(Names::getCallStackControllerFullName());
-    PointerType* callStackLLVMType = mCallStack->getLLVMType(mContext);
+    llvm::PointerType* callStackLLVMType = mCallStack->getLLVMType(mContext);
     Value* callStackStore = IRWriter::newAllocaInst(mContext, callStackLLVMType, "");
     null = ConstantPointerNull::get(callStackLLVMType);
     IRWriter::newStoreInst(mContext, null, callStackStore);

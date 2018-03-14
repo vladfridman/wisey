@@ -20,6 +20,7 @@ namespace wisey {
 class NodeOwner : public IObjectOwnerType {
     
   Node* mNode;
+  const PointerType* mPointerType;
   
 public:
   
@@ -84,6 +85,8 @@ public:
 
   const ArrayType* getArrayType(IRGenerationContext& context) const override;
 
+  const PointerType* getPointerType() const override;
+  
 };
   
 } /* namespace wisey */

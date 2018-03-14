@@ -18,9 +18,13 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ThreadOwner::ThreadOwner(Thread* thread) : mThread(thread) { }
+ThreadOwner::ThreadOwner(Thread* thread) :
+mThread(thread),
+mPointerType(new PointerType(this)) { }
 
-ThreadOwner::~ThreadOwner() { }
+ThreadOwner::~ThreadOwner() {
+  delete mPointerType;
+}
 
 Thread* ThreadOwner::getObjectType() const {
   return mThread;
@@ -30,7 +34,7 @@ string ThreadOwner::getTypeName() const {
   return mThread->getTypeName() + '*';
 }
 
-PointerType* ThreadOwner::getLLVMType(IRGenerationContext& context) const {
+llvm::PointerType* ThreadOwner::getLLVMType(IRGenerationContext& context) const {
   return mThread->getLLVMType(context);
 }
 
@@ -130,7 +134,7 @@ void ThreadOwner::printToStream(IRGenerationContext &context, iostream& stream) 
 }
 
 void ThreadOwner::createLocalVariable(IRGenerationContext& context, string name) const {
-  PointerType* llvmType = getLLVMType(context);
+  llvm::PointerType* llvmType = getLLVMType(context);
   
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "ownerDeclaration");
   IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloca);
@@ -161,4 +165,6 @@ const wisey::ArrayType* ThreadOwner::getArrayType(IRGenerationContext& context) 
   exit(1);
 }
 
-
+const wisey::PointerType* ThreadOwner::getPointerType() const {
+  return mPointerType;
+}

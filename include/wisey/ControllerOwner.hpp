@@ -20,6 +20,7 @@ namespace wisey {
 class ControllerOwner : public IObjectOwnerType {
   
   Controller* mController;
+  const PointerType* mPointerType;
   
 public:
   
@@ -83,6 +84,8 @@ public:
                                llvm::Value* value) const override;
 
   const ArrayType* getArrayType(IRGenerationContext& context) const override;
+  
+  const PointerType* getPointerType() const override;
 
 };
   

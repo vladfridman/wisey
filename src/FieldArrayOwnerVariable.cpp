@@ -118,7 +118,7 @@ Value* FieldArrayOwnerVariable::generateArrayElementAssignment(IRGenerationConte
 }
 
 void FieldArrayOwnerVariable::setToNull(IRGenerationContext& context) {
-  PointerType* type = (PointerType*) getType()->getLLVMType(context);
+  llvm::PointerType* type = (llvm::PointerType*) getType()->getLLVMType(context);
   Value* null = ConstantPointerNull::get(type);
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   IRWriter::newStoreInst(context, null, fieldPointer);

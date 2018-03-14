@@ -311,28 +311,14 @@ TEST_F(InterfaceTest, canAutoCastToTest) {
   EXPECT_TRUE(mShapeInterface->canAutoCastTo(mContext, mShapeInterface));
 }
 
-TEST_F(InterfaceTest, isPrimitiveTest) {
+TEST_F(InterfaceTest, isTypeKindTest) {
   EXPECT_FALSE(mObjectInterface->isPrimitive());
-}
-
-TEST_F(InterfaceTest, isOwnerTest) {
   EXPECT_FALSE(mObjectInterface->isOwner());
-}
-
-TEST_F(InterfaceTest, isReferenceTest) {
   EXPECT_TRUE(mObjectInterface->isReference());
-}
-
-TEST_F(InterfaceTest, isArrayTest) {
   EXPECT_FALSE(mObjectInterface->isArray());
-}
-
-TEST_F(InterfaceTest, isFunctionTest) {
   EXPECT_FALSE(mObjectInterface->isFunction());
-}
-
-TEST_F(InterfaceTest, isPackageTest) {
   EXPECT_FALSE(mObjectInterface->isPackage());
+  EXPECT_FALSE(mObjectInterface->isNative());
 }
 
 TEST_F(InterfaceTest, isObjectTest) {
@@ -341,7 +327,6 @@ TEST_F(InterfaceTest, isObjectTest) {
   EXPECT_FALSE(mObjectInterface->isModel());
   EXPECT_FALSE(mObjectInterface->isNode());
   EXPECT_FALSE(mObjectInterface->isThread());
-  EXPECT_FALSE(mObjectInterface->isNative());
 }
 
 TEST_F(InterfaceTest, printToStreamTest) {
@@ -631,6 +616,12 @@ TEST_F(InterfaceTest, createParameterVariableTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(InterfaceTest, getPointerTypeTest) {
+  const wisey::PointerType* pointerType = mShapeInterface->getPointerType();
+  EXPECT_EQ(mShapeInterface->getLLVMType(mContext)->getPointerTo(),
+            pointerType->getLLVMType(mContext));
 }
 
 TEST_F(TestFileSampleRunner, interfaceMethodNotImplmentedDeathTest) {

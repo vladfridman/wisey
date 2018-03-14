@@ -102,28 +102,14 @@ TEST_F(ArraySpecificTypeTest, getNumberOfDimensionsTest) {
   EXPECT_EQ(2u, mMultiDimentionalArraySpecificType->getNumberOfDimensions());
 }
 
-TEST_F(ArraySpecificTypeTest, isPrimitiveTest) {
+TEST_F(ArraySpecificTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mArraySpecificType->isPrimitive());
-}
-
-TEST_F(ArraySpecificTypeTest, isOwnerTest) {
   EXPECT_FALSE(mArraySpecificType->isOwner());
-}
-
-TEST_F(ArraySpecificTypeTest, isReferenceTest) {
   EXPECT_TRUE(mArraySpecificType->isReference());
-}
-
-TEST_F(ArraySpecificTypeTest, isArrayTest) {
   EXPECT_TRUE(mArraySpecificType->isArray());
-}
-
-TEST_F(ArraySpecificTypeTest, isFunctionTest) {
   EXPECT_FALSE(mArraySpecificType->isFunction());
-}
-
-TEST_F(ArraySpecificTypeTest, isPackageTest) {
   EXPECT_FALSE(mArraySpecificType->isPackage());
+  EXPECT_FALSE(mArraySpecificType->isNative());
 }
 
 TEST_F(ArraySpecificTypeTest, isObjectTest) {
@@ -132,7 +118,6 @@ TEST_F(ArraySpecificTypeTest, isObjectTest) {
   EXPECT_FALSE(mArraySpecificType->isModel());
   EXPECT_FALSE(mArraySpecificType->isNode());
   EXPECT_FALSE(mArraySpecificType->isThread());
-  EXPECT_FALSE(mArraySpecificType->isNative());
 }
 
 TEST_F(ArraySpecificTypeTest, printToStreamTest) {
@@ -140,4 +125,10 @@ TEST_F(ArraySpecificTypeTest, printToStreamTest) {
   mMultiDimentionalArraySpecificType->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("long[5][10]", stringStream.str().c_str());
+}
+
+TEST_F(ArraySpecificTypeTest, getPointerTypeTest) {
+  const wisey::PointerType* pointerType = mArraySpecificType->getPointerType();
+  EXPECT_EQ(mArraySpecificType->getLLVMType(mContext)->getPointerTo(),
+            pointerType->getLLVMType(mContext));
 }

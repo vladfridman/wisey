@@ -65,9 +65,15 @@ public:
 };
 
 TEST_F(StringTypeTest, stringTypeTest) {
-  EXPECT_EQ(mStringType.getLLVMType(mContext), Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  EXPECT_STREQ(mStringType.getTypeName().c_str(), "string");
-  EXPECT_EQ(mStringType.getFormat(), "%s");
+  EXPECT_EQ(Type::getInt8Ty(mLLVMContext)->getPointerTo(), mStringType.getLLVMType(mContext));
+  EXPECT_STREQ("string", mStringType.getTypeName().c_str());
+  EXPECT_EQ("%s", mStringType.getFormat());
+}
+
+TEST_F(StringTypeTest, getPointerTypeTest) {
+  const wisey::PointerType* pointerType = mStringType.getPointerType();
+  EXPECT_EQ(Type::getInt8Ty(mLLVMContext)->getPointerTo()->getPointerTo(),
+            pointerType->getLLVMType(mContext));
 }
 
 TEST_F(StringTypeTest, canAutoCastToTest) {
@@ -129,28 +135,14 @@ TEST_F(StringTypeTest, castToTest) {
             expressionValue);
 }
 
-TEST_F(StringTypeTest, isPrimitiveTest) {
+TEST_F(StringTypeTest, isTypeKindTest) {
   EXPECT_TRUE(mStringType.isPrimitive());
-}
-
-TEST_F(StringTypeTest, isOwnerTest) {
   EXPECT_FALSE(mStringType.isOwner());
-}
-
-TEST_F(StringTypeTest, isReferenceTest) {
   EXPECT_FALSE(mStringType.isReference());
-}
-
-TEST_F(StringTypeTest, isArrayTest) {
   EXPECT_FALSE(mStringType.isArray());
-}
-
-TEST_F(StringTypeTest, isFunctionTest) {
   EXPECT_FALSE(mStringType.isFunction());
-}
-
-TEST_F(StringTypeTest, isPackageTest) {
   EXPECT_FALSE(mStringType.isPackage());
+  EXPECT_FALSE(mStringType.isNative());
 }
 
 TEST_F(StringTypeTest, isObjectTest) {
@@ -159,7 +151,6 @@ TEST_F(StringTypeTest, isObjectTest) {
   EXPECT_FALSE(mStringType.isModel());
   EXPECT_FALSE(mStringType.isNode());
   EXPECT_FALSE(mStringType.isThread());
-  EXPECT_FALSE(mStringType.isNative());
 }
 
 TEST_F(StringTypeTest, createLocalVariableTest) {

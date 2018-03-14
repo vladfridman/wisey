@@ -83,7 +83,7 @@ Value* IConcreteObjectType::castTo(IRGenerationContext& context,
   }
   
   Interface* interface = (Interface*) toType;
-  Type* llvmType = (PointerType*) interface->getLLVMType(context);
+  llvm::Type* llvmType = (llvm::PointerType*) interface->getLLVMType(context);
   int interfaceIndex = getInterfaceIndex(object, interface);
   
   Type* int8Type = Type::getInt8Ty(llvmContext);
@@ -170,7 +170,7 @@ void IConcreteObjectType::addTypeListInfo(IRGenerationContext& context,
                                           vector<vector<llvm::Constant*>>& vTables) {
   GlobalVariable* typeListGlobal = createTypeListGlobal(context, object);
   
-  PointerType* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+  llvm::PointerType* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   vector<llvm::Constant*> vTablePortion;
   
   vTablePortion.push_back(ConstantExpr::getNullValue(int8Pointer));
@@ -347,7 +347,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   Argument* thisGeneric = &*functionArguments;
   thisGeneric->setName(IObjectType::THIS);
   
-  Value* nullValue = ConstantPointerNull::get((PointerType*) thisGeneric->getType());
+  Value* nullValue = ConstantPointerNull::get((llvm::PointerType*) thisGeneric->getType());
   Value* isNull = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, thisGeneric, nullValue, "");
   
   BasicBlock* ifThisIsNullBlock = BasicBlock::Create(llvmContext, "if.this.null", function);

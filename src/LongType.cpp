@@ -23,6 +23,14 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+LongType::LongType() {
+  mPointerType = new PointerType(this);
+}
+
+LongType::~LongType() {
+  delete mPointerType;
+}
+
 string LongType::getTypeName() const {
   return "long";
 }
@@ -152,4 +160,8 @@ const wisey::ArrayType* LongType::getArrayType(IRGenerationContext& context) con
 
 const IObjectType* LongType::getObjectType() const {
   return NULL;
+}
+
+const wisey::PointerType* LongType::getPointerType() const {
+  return mPointerType;
 }

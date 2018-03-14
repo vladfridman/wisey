@@ -119,3 +119,7 @@ const wisey::ArrayType* PackageType::getArrayType(IRGenerationContext& context) 
 const IObjectType* PackageType::getObjectType() const {
   return NULL;
 }
+
+const wisey::PointerType* PackageType::getPointerType() const {
+  assert(false);
+}

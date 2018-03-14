@@ -57,7 +57,7 @@ string DestroyPrimitiveArrayFunction::getName() {
 
 Function* DestroyPrimitiveArrayFunction::define(IRGenerationContext& context) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  PointerType* genericPointer = Type::getInt64Ty(llvmContext)->getPointerTo();
+  llvm::PointerType* genericPointer = Type::getInt64Ty(llvmContext)->getPointerTo();
 
   vector<Type*> argumentTypes;
   argumentTypes.push_back(genericPointer);
@@ -78,8 +78,8 @@ void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Functi
   llvm::Constant* zero = ConstantInt::get(int64type, 0);
   llvm::Constant* one = ConstantInt::get(int64type, 1);
   llvm::Constant* two = ConstantInt::get(int64type, 2);
-  PointerType* genericPointer = int64type->getPointerTo();
-  PointerType* bytePointer = Type::getInt8Ty(llvmContext)->getPointerTo();
+  llvm::PointerType* genericPointer = int64type->getPointerTo();
+  llvm::PointerType* bytePointer = Type::getInt8Ty(llvmContext)->getPointerTo();
 
   context.getScopes().pushScope();
   

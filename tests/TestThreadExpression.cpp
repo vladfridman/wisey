@@ -62,7 +62,7 @@ struct ThreadExpressionTest : public Test {
     mContext.getScopes().pushScope();
 
     mThreadInterface = mContext.getInterface(Names::getThreadInterfaceFullName());
-    PointerType* llvmType = mThreadInterface->getLLVMType(mContext);
+    llvm::PointerType* llvmType = mThreadInterface->getLLVMType(mContext);
     Value* threadStore = IRWriter::newAllocaInst(mContext, llvmType, "threadStore");
     llvm::Constant* null = ConstantPointerNull::get(llvmType);
     IRWriter::newStoreInst(mContext, null, threadStore);

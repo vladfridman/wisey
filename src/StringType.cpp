@@ -23,6 +23,14 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+StringType::StringType() {
+  mPointerType = new PointerType(this);
+}
+
+StringType::~StringType() {
+  delete mPointerType;
+}
+
 string StringType::getTypeName() const {
   return "string";
 }
@@ -148,4 +156,8 @@ const wisey::ArrayType* StringType::getArrayType(IRGenerationContext& context) c
 
 const IObjectType* StringType::getObjectType() const {
   return NULL;
+}
+
+const wisey::PointerType* StringType::getPointerType() const {
+  return mPointerType;
 }

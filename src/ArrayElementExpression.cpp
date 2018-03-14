@@ -60,7 +60,7 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   
   if (assignToType->isOwner()) {
     assert(elementType->isOwner());
-    Value* null = ConstantPointerNull::get((PointerType* ) resultLLVMType);
+    Value* null = ConstantPointerNull::get((llvm::PointerType* ) resultLLVMType);
     IRWriter::newStoreInst(context, null, resultStore);
   }
   
@@ -104,7 +104,7 @@ Value* ArrayElementExpression::getArrayElement(IRGenerationContext &context,
                                                  indexValueCast,
                                                  "offset");
   
-  PointerType* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
+  llvm::PointerType* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
   Value* genericPointer = IRWriter::newBitCastInst(context, arrayPointer, int8Pointer);
   Value* idx[1];
   idx[0] = offset;

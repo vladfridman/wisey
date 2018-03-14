@@ -19,7 +19,8 @@ namespace wisey {
 class InterfaceOwner : public IObjectOwnerType {
   
   Interface* mInterface;
-  
+  const PointerType* mPointerType;
+
 public:
   
   InterfaceOwner(Interface* interface);
@@ -82,6 +83,8 @@ public:
                                llvm::Value* value) const override;
 
   const ArrayType* getArrayType(IRGenerationContext& context) const override;
+  
+  const PointerType* getPointerType() const override;
 
 };
   
