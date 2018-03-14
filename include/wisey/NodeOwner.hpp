@@ -87,6 +87,8 @@ public:
 
   const PointerType* getPointerType() const override;
   
+  const IType* getDereferenceType() const override;
+
 };
   
 } /* namespace wisey */

@@ -511,3 +511,7 @@ const Controller* Controller::getObjectType() const {
 const wisey::PointerType* Controller::getPointerType() const {
   return mPointerType;
 }
+
+const IType* Controller::getDereferenceType() const {
+  assert(false);
+}

@@ -123,3 +123,7 @@ const IObjectType* PackageType::getObjectType() const {
 const wisey::PointerType* PackageType::getPointerType() const {
   assert(false);
 }
+
+const IType* PackageType::getDereferenceType() const {
+  assert(false);
+}

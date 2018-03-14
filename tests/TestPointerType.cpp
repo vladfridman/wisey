@@ -109,3 +109,6 @@ TEST_F(PointerTypeTest, isObjectTest) {
   EXPECT_FALSE(mPointerType->isThread());
 }
 
+TEST_F(PointerTypeTest, getDereferenceTypeTest) {
+  EXPECT_EQ(PrimitiveTypes::INT_TYPE, mPointerType->getDereferenceType());
+}

@@ -152,3 +152,7 @@ const IObjectType* ArraySpecificOwnerType::getObjectType() const {
 const wisey::PointerType* ArraySpecificOwnerType::getPointerType() const {
   return mPointerType;
 }
+
+const IType* ArraySpecificOwnerType::getDereferenceType() const {
+  assert(false);
+}

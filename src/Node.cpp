@@ -470,3 +470,7 @@ const Node* Node::getObjectType() const {
 const wisey::PointerType* Node::getPointerType() const {
   return mPointerType;
 }
+
+const IType* Node::getDereferenceType() const {
+  assert(false);
+}

@@ -267,3 +267,7 @@ const wisey::ArrayType* Method::getArrayType(IRGenerationContext& context) const
 const wisey::PointerType* Method::getPointerType() const {
   assert(false);
 }
+
+const IType* Method::getDereferenceType() const {
+  assert(false);
+}

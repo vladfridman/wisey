@@ -165,3 +165,7 @@ const IObjectType* LongType::getObjectType() const {
 const wisey::PointerType* LongType::getPointerType() const {
   return mPointerType;
 }
+
+const IType* LongType::getDereferenceType() const {
+  assert(false);
+}

@@ -169,3 +169,7 @@ const IObjectType* CharType::getObjectType() const {
 const wisey::PointerType* CharType::getPointerType() const {
   return mPointerType;
 }
+
+const IType* CharType::getDereferenceType() const {
+  assert(false);
+}

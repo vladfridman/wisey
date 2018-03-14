@@ -129,3 +129,7 @@ const IObjectType* VoidType::getObjectType() const {
 const wisey::PointerType* VoidType::getPointerType() const {
   assert(false);
 }
+
+const IType* VoidType::getDereferenceType() const {
+  assert(false);
+}

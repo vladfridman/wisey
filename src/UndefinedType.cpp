@@ -124,5 +124,9 @@ const wisey::PointerType* UndefinedType::getPointerType() const {
   assert(false);
 }
 
+const IType* UndefinedType::getDereferenceType() const {
+  assert(false);
+}
+
 UndefinedType* UndefinedType::UNDEFINED_TYPE = new UndefinedType();
 

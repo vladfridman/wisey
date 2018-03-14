@@ -503,3 +503,7 @@ const Model* Model::getObjectType() const {
 const wisey::PointerType* Model::getPointerType() const {
   return mPointerType;
 }
+
+const IType* Model::getDereferenceType() const {
+  assert(false);
+}

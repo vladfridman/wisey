@@ -205,3 +205,7 @@ const IObjectType* ArraySpecificType::getObjectType() const {
 const wisey::PointerType* ArraySpecificType::getPointerType() const {
   return mPointerType;
 }
+
+const IType* ArraySpecificType::getDereferenceType() const {
+  assert(false);
+}

@@ -167,3 +167,7 @@ const IObjectType* IntType::getObjectType() const {
 const wisey::PointerType* IntType::getPointerType() const {
   return mPointerType;
 }
+
+const IType* IntType::getDereferenceType() const {
+  assert(false);
+}

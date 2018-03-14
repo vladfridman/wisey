@@ -168,3 +168,7 @@ const wisey::ArrayType* ThreadOwner::getArrayType(IRGenerationContext& context) 
 const wisey::PointerType* ThreadOwner::getPointerType() const {
   return mPointerType;
 }
+
+const IType* ThreadOwner::getDereferenceType() const {
+  assert(false);
+}

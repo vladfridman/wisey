@@ -986,3 +986,7 @@ const Interface* Interface::getObjectType() const {
 const wisey::PointerType* Interface::getPointerType() const {
   return mPointerType;
 }
+
+const IType* Interface::getDereferenceType() const {
+  assert(false);
+}

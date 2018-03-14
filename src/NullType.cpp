@@ -125,4 +125,8 @@ const wisey::PointerType* NullType::getPointerType() const {
   assert(false);
 }
 
+const IType* NullType::getDereferenceType() const {
+  assert(false);
+}
+
 NullType* NullType::NULL_TYPE = new NullType();

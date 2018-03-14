@@ -166,3 +166,7 @@ const IObjectType* FloatType::getObjectType() const {
 const wisey::PointerType* FloatType::getPointerType() const {
   return mPointerType;
 }
+
+const IType* FloatType::getDereferenceType() const {
+  assert(false);
+}

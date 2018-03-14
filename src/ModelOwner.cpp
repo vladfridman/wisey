@@ -166,3 +166,7 @@ const wisey::ArrayType* ModelOwner::getArrayType(IRGenerationContext& context) c
 const wisey::PointerType* ModelOwner::getPointerType() const {
   return mPointerType;
 }
+
+const IType* ModelOwner::getDereferenceType() const {
+  assert(false);
+}

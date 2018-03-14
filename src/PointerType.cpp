@@ -131,3 +131,8 @@ const IObjectType* PointerType::getObjectType() const {
 const PointerType* PointerType::getPointerType() const {
   assert(false);
 }
+
+const IType* PointerType::getDereferenceType() const {
+  return mBaseType;
+}
+

@@ -128,3 +128,7 @@ const IObjectType* NativeType::getObjectType() const {
 const wisey::PointerType* NativeType::getPointerType() const {
   assert(false);
 }
+
+const IType* NativeType::getDereferenceType() const {
+  assert(false);
+}

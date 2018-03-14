@@ -154,6 +154,11 @@ namespace wisey {
      * Returns reference type which is the pointer to this type
      */
     virtual const PointerType* getPointerType() const = 0;
+    
+    /**
+     * Returns dereference type which is the type of the value the pointer type is pointing to
+     */
+    virtual const IType* getDereferenceType() const = 0;
 
     /**
      * Tells whether the given type is an object or an object owner type

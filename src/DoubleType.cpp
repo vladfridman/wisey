@@ -166,3 +166,7 @@ const IObjectType* DoubleType::getObjectType() const {
 const wisey::PointerType* DoubleType::getPointerType() const {
   return mPointerType;
 }
+
+const IType* DoubleType::getDereferenceType() const {
+  assert(false);
+}

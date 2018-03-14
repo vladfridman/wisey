@@ -510,3 +510,7 @@ void Thread::initializeInjectedFields(IRGenerationContext& context,
 const wisey::PointerType* Thread::getPointerType() const {
   return mPointerType;
 }
+
+const IType* Thread::getDereferenceType() const {
+  assert(false);
+}

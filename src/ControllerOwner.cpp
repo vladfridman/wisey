@@ -169,3 +169,7 @@ const wisey::ArrayType* ControllerOwner::getArrayType(IRGenerationContext& conte
 const wisey::PointerType* ControllerOwner::getPointerType() const {
   return mPointerType;
 }
+
+const IType* ControllerOwner::getDereferenceType() const {
+  assert(false);
+}

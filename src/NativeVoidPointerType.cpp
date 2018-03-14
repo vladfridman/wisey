@@ -130,3 +130,7 @@ const IObjectType* NativeVoidPointerType::getObjectType() const {
 const wisey::PointerType* NativeVoidPointerType::getPointerType() const {
   assert(false);
 }
+
+const IType* NativeVoidPointerType::getDereferenceType() const {
+  assert(false);
+}

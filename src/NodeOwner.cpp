@@ -167,3 +167,7 @@ const wisey::ArrayType* NodeOwner::getArrayType(IRGenerationContext& context) co
 const wisey::PointerType* NodeOwner::getPointerType() const {
   return mPointerType;
 }
+
+const IType* NodeOwner::getDereferenceType() const {
+  assert(false);
+}

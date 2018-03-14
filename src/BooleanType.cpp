@@ -170,3 +170,7 @@ const IObjectType* BooleanType::getObjectType() const {
 const wisey::PointerType* BooleanType::getPointerType() const {
   return mPointerType;
 }
+
+const IType* BooleanType::getDereferenceType() const {
+  assert(false);
+}
