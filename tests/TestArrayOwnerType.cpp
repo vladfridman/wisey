@@ -152,7 +152,7 @@ TEST_F(ArrayOwnerTypeTest, createParameterVariableTest) {
 }
 
 TEST_F(ArrayOwnerTypeTest, getPointerTypeTest) {
-  const wisey::PointerType* pointerType = mArrayOwnerType->getPointerType();
+  const IType* pointerType = mArrayOwnerType->getPointerType();
   EXPECT_EQ(mArrayOwnerType->getLLVMType(mContext)->getPointerTo(),
             pointerType->getLLVMType(mContext));
 }

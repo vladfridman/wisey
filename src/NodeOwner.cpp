@@ -164,7 +164,7 @@ const wisey::ArrayType* NodeOwner::getArrayType(IRGenerationContext& context) co
   exit(1);
 }
 
-const wisey::PointerType* NodeOwner::getPointerType() const {
+const IType* NodeOwner::getPointerType() const {
   return mPointerType;
 }
 

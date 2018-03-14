@@ -983,7 +983,7 @@ const Interface* Interface::getObjectType() const {
   return this;
 }
 
-const wisey::PointerType* Interface::getPointerType() const {
+const IType* Interface::getPointerType() const {
   return mPointerType;
 }
 

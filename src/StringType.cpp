@@ -158,7 +158,7 @@ const IObjectType* StringType::getObjectType() const {
   return NULL;
 }
 
-const wisey::PointerType* StringType::getPointerType() const {
+const IType* StringType::getPointerType() const {
   return mPointerType;
 }
 

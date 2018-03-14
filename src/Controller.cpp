@@ -508,7 +508,7 @@ const Controller* Controller::getObjectType() const {
   return this;
 }
 
-const wisey::PointerType* Controller::getPointerType() const {
+const IType* Controller::getPointerType() const {
   return mPointerType;
 }
 

@@ -195,7 +195,7 @@ TEST_F(ThreadOwnerTest, createParameterVariableTest) {
 }
 
 TEST_F(ThreadOwnerTest, getPointerTypeTest) {
-  const wisey::PointerType* pointerType = mThread->getOwner()->getPointerType();
+  const IType* pointerType = mThread->getOwner()->getPointerType();
   EXPECT_EQ(mThread->getOwner()->getLLVMType(mContext)->getPointerTo(),
             pointerType->getLLVMType(mContext));
 }

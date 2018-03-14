@@ -149,7 +149,7 @@ const IObjectType* ArraySpecificOwnerType::getObjectType() const {
   return NULL;
 }
 
-const wisey::PointerType* ArraySpecificOwnerType::getPointerType() const {
+const IType* ArraySpecificOwnerType::getPointerType() const {
   return mPointerType;
 }
 

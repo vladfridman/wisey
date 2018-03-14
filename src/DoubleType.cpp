@@ -163,7 +163,7 @@ const IObjectType* DoubleType::getObjectType() const {
   return NULL;
 }
 
-const wisey::PointerType* DoubleType::getPointerType() const {
+const IType* DoubleType::getPointerType() const {
   return mPointerType;
 }
 

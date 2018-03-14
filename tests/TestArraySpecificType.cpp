@@ -128,7 +128,7 @@ TEST_F(ArraySpecificTypeTest, printToStreamTest) {
 }
 
 TEST_F(ArraySpecificTypeTest, getPointerTypeTest) {
-  const wisey::PointerType* pointerType = mArraySpecificType->getPointerType();
+  const IType* pointerType = mArraySpecificType->getPointerType();
   EXPECT_EQ(mArraySpecificType->getLLVMType(mContext)->getPointerTo(),
             pointerType->getLLVMType(mContext));
 }

@@ -166,7 +166,7 @@ const IObjectType* CharType::getObjectType() const {
   return NULL;
 }
 
-const wisey::PointerType* CharType::getPointerType() const {
+const IType* CharType::getPointerType() const {
   return mPointerType;
 }
 

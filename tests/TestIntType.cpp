@@ -70,7 +70,7 @@ TEST_F(IntTypeTest, intTypeTest) {
 }
 
 TEST_F(IntTypeTest, getPointerTypeTest) {
-  const wisey::PointerType* pointerType = mIntType.getPointerType();
+  const IType* pointerType = mIntType.getPointerType();
   EXPECT_EQ(Type::getInt32Ty(mLLVMContext)->getPointerTo(), pointerType->getLLVMType(mContext));
 }
 

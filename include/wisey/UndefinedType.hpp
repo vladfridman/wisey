@@ -79,7 +79,7 @@ namespace wisey {
     
     static UndefinedType* UNDEFINED_TYPE;
     
-    const PointerType* getPointerType() const override;
+    const IType* getPointerType() const override;
     
     const IType* getDereferenceType() const override;
 

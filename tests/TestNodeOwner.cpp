@@ -410,7 +410,7 @@ TEST_F(NodeOwnerTest, createParameterVariableTest) {
 }
 
 TEST_F(NodeOwnerTest, getPointerTypeTest) {
-  const wisey::PointerType* pointerType = mComplicatedNode->getOwner()->getPointerType();
+  const IType* pointerType = mComplicatedNode->getOwner()->getPointerType();
   EXPECT_EQ(mComplicatedNode->getOwner()->getLLVMType(mContext)->getPointerTo(),
             pointerType->getLLVMType(mContext));
 }

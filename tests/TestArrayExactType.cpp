@@ -112,7 +112,7 @@ TEST_F(ArrayExactTypeTest, getArrayTypeTest) {
 }
 
 TEST_F(ArrayExactTypeTest, getPointerTypeTest) {
-  const wisey::PointerType* pointerType = mArrayExactType->getPointerType();
+  const IType* pointerType = mArrayExactType->getPointerType();
   EXPECT_EQ(mArrayExactType->getLLVMType(mContext)->getPointerTo(),
             pointerType->getLLVMType(mContext));
 }

@@ -125,7 +125,7 @@ const IObjectType* NativeType::getObjectType() const {
   return NULL;
 }
 
-const wisey::PointerType* NativeType::getPointerType() const {
+const IType* NativeType::getPointerType() const {
   assert(false);
 }
 

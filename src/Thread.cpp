@@ -507,7 +507,7 @@ void Thread::initializeInjectedFields(IRGenerationContext& context,
   }
 }
 
-const wisey::PointerType* Thread::getPointerType() const {
+const IType* Thread::getPointerType() const {
   return mPointerType;
 }
 

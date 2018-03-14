@@ -202,7 +202,7 @@ const IObjectType* ArraySpecificType::getObjectType() const {
   return NULL;
 }
 
-const wisey::PointerType* ArraySpecificType::getPointerType() const {
+const IType* ArraySpecificType::getPointerType() const {
   return mPointerType;
 }
 

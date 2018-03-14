@@ -128,7 +128,7 @@ const IObjectType* PointerType::getObjectType() const {
   return NULL;
 }
 
-const PointerType* PointerType::getPointerType() const {
+const IType* PointerType::getPointerType() const {
   assert(false);
 }
 

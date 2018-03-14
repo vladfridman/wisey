@@ -204,7 +204,7 @@ const IObjectType* ArrayType::getObjectType() const {
   return NULL;
 }
 
-const wisey::PointerType* ArrayType::getPointerType() const {
+const IType* ArrayType::getPointerType() const {
   return mPointerType;
 }
 

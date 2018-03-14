@@ -794,7 +794,7 @@ TEST_F(ModelTest, createParameterVariableTest) {
 }
 
 TEST_F(ModelTest, getPointerTypeTest) {
-  const wisey::PointerType* pointerType = mModel->getPointerType();
+  const IType* pointerType = mModel->getPointerType();
   EXPECT_EQ(mModel->getLLVMType(mContext)->getPointerTo(),
             pointerType->getLLVMType(mContext));
 }

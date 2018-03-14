@@ -120,7 +120,7 @@ const IObjectType* PackageType::getObjectType() const {
   return NULL;
 }
 
-const wisey::PointerType* PackageType::getPointerType() const {
+const IType* PackageType::getPointerType() const {
   assert(false);
 }
 

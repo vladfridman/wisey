@@ -71,7 +71,7 @@ TEST_F(DoubleTypeTest, doubleTypeTest) {
 }
 
 TEST_F(DoubleTypeTest, getPointerTypeTest) {
-  const wisey::PointerType* pointerType = mDoubleType.getPointerType();
+  const IType* pointerType = mDoubleType.getPointerType();
   EXPECT_EQ(Type::getDoubleTy(mLLVMContext)->getPointerTo(), pointerType->getLLVMType(mContext));
 }
 

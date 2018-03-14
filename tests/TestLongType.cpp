@@ -70,7 +70,7 @@ TEST_F(LongTypeTest, longTypeTest) {
 }
 
 TEST_F(LongTypeTest, getPointerTypeTest) {
-  const wisey::PointerType* pointerType = mLongType.getPointerType();
+  const IType* pointerType = mLongType.getPointerType();
   EXPECT_EQ(Type::getInt64Ty(mLLVMContext)->getPointerTo(), pointerType->getLLVMType(mContext));
 }
 

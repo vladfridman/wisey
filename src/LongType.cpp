@@ -162,7 +162,7 @@ const IObjectType* LongType::getObjectType() const {
   return NULL;
 }
 
-const wisey::PointerType* LongType::getPointerType() const {
+const IType* LongType::getPointerType() const {
   return mPointerType;
 }
 

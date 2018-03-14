@@ -467,7 +467,7 @@ const Node* Node::getObjectType() const {
   return this;
 }
 
-const wisey::PointerType* Node::getPointerType() const {
+const IType* Node::getPointerType() const {
   return mPointerType;
 }
 

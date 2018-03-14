@@ -164,7 +164,7 @@ TEST_F(ArrayTypeTest, createParameterVariableTest) {
 }
 
 TEST_F(ArrayTypeTest, getPointerTypeTest) {
-  const wisey::PointerType* pointerType = mArrayType->getPointerType();
+  const IType* pointerType = mArrayType->getPointerType();
   EXPECT_EQ(mArrayType->getLLVMType(mContext)->getPointerTo(),
             pointerType->getLLVMType(mContext));
 }

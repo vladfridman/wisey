@@ -166,7 +166,7 @@ const IObjectType* ArrayExactType::getObjectType() const {
   return NULL;
 }
 
-const wisey::PointerType* ArrayExactType::getPointerType() const {
+const IType* ArrayExactType::getPointerType() const {
   return mPointerType;
 }
 

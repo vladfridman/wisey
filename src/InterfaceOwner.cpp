@@ -176,7 +176,7 @@ const wisey::ArrayType* InterfaceOwner::getArrayType(IRGenerationContext& contex
   exit(1);
 }
 
-const wisey::PointerType* InterfaceOwner::getPointerType() const {
+const IType* InterfaceOwner::getPointerType() const {
   return mPointerType;
 }
 

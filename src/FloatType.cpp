@@ -163,7 +163,7 @@ const IObjectType* FloatType::getObjectType() const {
   return NULL;
 }
 
-const wisey::PointerType* FloatType::getPointerType() const {
+const IType* FloatType::getPointerType() const {
   return mPointerType;
 }
 

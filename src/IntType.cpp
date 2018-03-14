@@ -164,7 +164,7 @@ const IObjectType* IntType::getObjectType() const {
   return NULL;
 }
 
-const wisey::PointerType* IntType::getPointerType() const {
+const IType* IntType::getPointerType() const {
   return mPointerType;
 }
 

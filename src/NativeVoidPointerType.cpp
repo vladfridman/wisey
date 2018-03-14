@@ -127,7 +127,7 @@ const IObjectType* NativeVoidPointerType::getObjectType() const {
   return NULL;
 }
 
-const wisey::PointerType* NativeVoidPointerType::getPointerType() const {
+const IType* NativeVoidPointerType::getPointerType() const {
   assert(false);
 }
 

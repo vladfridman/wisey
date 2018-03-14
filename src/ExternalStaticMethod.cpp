@@ -186,7 +186,7 @@ const wisey::ArrayType* ExternalStaticMethod::getArrayType(IRGenerationContext& 
   exit(1);
 }
 
-const wisey::PointerType* ExternalStaticMethod::getPointerType() const {
+const IType* ExternalStaticMethod::getPointerType() const {
   assert(false);
 }
 

@@ -115,7 +115,7 @@ public:
 
   const ArrayType* getArrayType(IRGenerationContext& context) const override;
   
-  const PointerType* getPointerType() const override;
+  const IType* getPointerType() const override;
   
   const IType* getDereferenceType() const override;
 

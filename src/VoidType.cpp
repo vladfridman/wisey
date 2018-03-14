@@ -126,7 +126,7 @@ const IObjectType* VoidType::getObjectType() const {
   return NULL;
 }
 
-const wisey::PointerType* VoidType::getPointerType() const {
+const IType* VoidType::getPointerType() const {
   assert(false);
 }
 

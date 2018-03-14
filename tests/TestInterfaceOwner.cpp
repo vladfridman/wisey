@@ -196,7 +196,7 @@ TEST_F(InterfaceOwnerTest, createParameterVariableTest) {
 }
 
 TEST_F(InterfaceOwnerTest, getPointerTypeTest) {
-  const wisey::PointerType* pointerType = mObjectInterface->getOwner()->getPointerType();
+  const IType* pointerType = mObjectInterface->getOwner()->getPointerType();
   EXPECT_EQ(mObjectInterface->getOwner()->getLLVMType(mContext)->getPointerTo(),
             pointerType->getLLVMType(mContext));
 }

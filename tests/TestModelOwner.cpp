@@ -404,7 +404,7 @@ TEST_F(ModelOwnerTest, createParameterVariableTest) {
 }
 
 TEST_F(ModelOwnerTest, getPointerTypeTest) {
-  const wisey::PointerType* pointerType = mModel->getOwner()->getPointerType();
+  const IType* pointerType = mModel->getOwner()->getPointerType();
   EXPECT_EQ(mModel->getOwner()->getLLVMType(mContext)->getPointerTo(),
             pointerType->getLLVMType(mContext));
 }

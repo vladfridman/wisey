@@ -167,7 +167,7 @@ const IObjectType* BooleanType::getObjectType() const {
   return NULL;
 }
 
-const wisey::PointerType* BooleanType::getPointerType() const {
+const IType* BooleanType::getPointerType() const {
   return mPointerType;
 }
 

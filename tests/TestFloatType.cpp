@@ -70,7 +70,7 @@ TEST_F(FloatTypeTest, floatTypeTest) {
 }
 
 TEST_F(FloatTypeTest, getPointerTypeTest) {
-  const wisey::PointerType* pointerType = mFloatType.getPointerType();
+  const IType* pointerType = mFloatType.getPointerType();
   EXPECT_EQ(Type::getFloatTy(mLLVMContext)->getPointerTo(), pointerType->getLLVMType(mContext));
 }
 

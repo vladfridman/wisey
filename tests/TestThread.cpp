@@ -675,7 +675,7 @@ TEST_F(ThreadTest, createParameterVariableTest) {
 }
 
 TEST_F(ThreadTest, getPointerTypeTest) {
-  const wisey::PointerType* pointerType = mThread->getPointerType();
+  const IType* pointerType = mThread->getPointerType();
   EXPECT_EQ(mThread->getLLVMType(mContext)->getPointerTo(),
             pointerType->getLLVMType(mContext));
 }

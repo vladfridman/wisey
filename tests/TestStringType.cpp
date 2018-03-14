@@ -71,7 +71,7 @@ TEST_F(StringTypeTest, stringTypeTest) {
 }
 
 TEST_F(StringTypeTest, getPointerTypeTest) {
-  const wisey::PointerType* pointerType = mStringType.getPointerType();
+  const IType* pointerType = mStringType.getPointerType();
   EXPECT_EQ(Type::getInt8Ty(mLLVMContext)->getPointerTo()->getPointerTo(),
             pointerType->getLLVMType(mContext));
 }

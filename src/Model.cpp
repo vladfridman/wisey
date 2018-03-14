@@ -500,7 +500,7 @@ const Model* Model::getObjectType() const {
   return this;
 }
 
-const wisey::PointerType* Model::getPointerType() const {
+const IType* Model::getPointerType() const {
   return mPointerType;
 }
 

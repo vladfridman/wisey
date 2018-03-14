@@ -619,7 +619,7 @@ TEST_F(InterfaceTest, createParameterVariableTest) {
 }
 
 TEST_F(InterfaceTest, getPointerTypeTest) {
-  const wisey::PointerType* pointerType = mShapeInterface->getPointerType();
+  const IType* pointerType = mShapeInterface->getPointerType();
   EXPECT_EQ(mShapeInterface->getLLVMType(mContext)->getPointerTo(),
             pointerType->getLLVMType(mContext));
 }

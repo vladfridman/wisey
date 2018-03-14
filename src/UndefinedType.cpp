@@ -120,7 +120,7 @@ const IObjectType* UndefinedType::getObjectType() const {
   return NULL;
 }
 
-const wisey::PointerType* UndefinedType::getPointerType() const {
+const IType* UndefinedType::getPointerType() const {
   assert(false);
 }
 

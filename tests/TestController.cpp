@@ -853,7 +853,7 @@ TEST_F(ControllerTest, createParameterVariableTest) {
 }
 
 TEST_F(ControllerTest, getPointerTypeTest) {
-  const wisey::PointerType* pointerType = mMultiplierController->getPointerType();
+  const IType* pointerType = mMultiplierController->getPointerType();
   EXPECT_EQ(mMultiplierController->getLLVMType(mContext)->getPointerTo(),
             pointerType->getLLVMType(mContext));
 }

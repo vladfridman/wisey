@@ -121,7 +121,7 @@ const IObjectType* NullType::getObjectType() const {
   return NULL;
 }
 
-const wisey::PointerType* NullType::getPointerType() const {
+const IType* NullType::getPointerType() const {
   assert(false);
 }
 

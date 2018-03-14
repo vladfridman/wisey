@@ -70,7 +70,7 @@ TEST_F(BooleanTypeTest, booleanTypeTest) {
 }
 
 TEST_F(BooleanTypeTest, getPointerTypeTest) {
-  const wisey::PointerType* pointerType = mBoleanType.getPointerType();
+  const IType* pointerType = mBoleanType.getPointerType();
   EXPECT_EQ(Type::getInt1Ty(mLLVMContext)->getPointerTo(), pointerType->getLLVMType(mContext));
 }
 

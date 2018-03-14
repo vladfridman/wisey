@@ -79,7 +79,7 @@ namespace wisey {
     
     static NullType* NULL_TYPE;
     
-    const PointerType* getPointerType() const override;
+    const IType* getPointerType() const override;
     
     const IType* getDereferenceType() const override;
 
