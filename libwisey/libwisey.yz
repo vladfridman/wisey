@@ -105,6 +105,8 @@ external thread wisey.lang.TMainThread
 
   state int mMessage;
   inject wisey.lang.CCallStack* mCallStack;
+  inject wisey.lang.CProgramRunner* mProgramRunner;
+  receive wisey.lang.IProgram* mProgram;
 
   int start();
   void send(

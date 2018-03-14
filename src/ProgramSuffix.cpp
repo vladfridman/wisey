@@ -70,42 +70,7 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   context.getScopes().pushScope();
   context.getScopes().setReturnType(PrimitiveTypes::INT_TYPE);
   
-  Thread* mainThread = context.getThread(Names::getMainThreadFullName());
   InjectionArgumentList injectionArguments;
-  Value* injectedThread = mainThread->inject(context, injectionArguments, 0);
-  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName());
-  Value* threadStore = IRWriter::newAllocaInst(context,
-                                               threadInterface->getOwner()->getLLVMType(context),
-                                               "threadStore");
-  IOwnerVariable* threadVariable = new LocalOwnerVariable(ThreadExpression::THREAD,
-                                                          threadInterface->getOwner(),
-                                                          threadStore);
-  context.getScopes().setVariable(threadVariable);
-  threadVariable->setToNull(context);
-  FakeExpression threadExpression(injectedThread, mainThread->getOwner());
-  vector<const IExpression*> arrayIndices;
-  threadVariable->generateAssignmentIR(context, &threadExpression, arrayIndices, 0);
-
-  Controller* callStack = context.getController(Names::getCallStackControllerFullName());
-  Value* callStackStore = IRWriter::newAllocaInst(context,
-                                                  callStack->getLLVMType(context),
-                                                  "callStackStore");
-  IRWriter::newStoreInst(context,
-                         ConstantPointerNull::get(callStack->getLLVMType(context)),
-                         callStackStore);
-  IReferenceVariable* callStackVariable = new LocalReferenceVariable(ThreadExpression::CALL_STACK,
-                                                                     callStack,
-                                                                     callStackStore);
-  context.getScopes().setVariable(callStackVariable);
-  NullExpression* nullExpression = new NullExpression();
-  callStackVariable->generateAssignmentIR(context, nullExpression, arrayIndices, 0);
-  
-  Identifier* threadIdentifier = new Identifier(ThreadExpression::THREAD);
-  IdentifierChain* getCallStackIdentifier = new IdentifierChain(threadIdentifier, "getCallStack");
-  ExpressionList methodCallArguments;
-  MethodCall* methodCall = new MethodCall(getCallStackIdentifier, methodCallArguments, 0);
-  callStackVariable->generateAssignmentIR(context, methodCall, arrayIndices, 0);
-
   Injector* injector = new Injector(programInterfaceSpecifier, injectionArguments, 0);
   Identifier* programIdentifier = new Identifier("program");
   PackageType* packageType = context.getPackageType(Names::getLangPackageName());
@@ -122,17 +87,53 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   programVariableDeclaration->generateIR(context);
   delete programVariableDeclaration;
 
-  ExpressionList argumentList;
-  programIdentifier = new Identifier("program");
-  argumentList.push_back(programIdentifier);
-  packageExpression = new FakeExpression(NULL, packageType);
-  ControllerTypeSpecifier* programRunnerControllerSpecifier =
-    new ControllerTypeSpecifier(packageExpression, "CProgramRunner");
-  StaticMethodCall* runnerCall = new StaticMethodCall(programRunnerControllerSpecifier,
-                                                      "run",
-                                                      argumentList,
-                                                      0);
-  ReturnStatement returnStatement(runnerCall, 0);
+  Thread* mainThread = context.getThread(Names::getMainThreadFullName());
+  injectionArguments.push_back(new InjectionArgument("withProgram", new Identifier("program")));
+  Value* injectedThread = mainThread->inject(context, injectionArguments, 0);
+  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName());
+  Value* threadStore = IRWriter::newAllocaInst(context,
+                                               threadInterface->getLLVMType(context),
+                                               "threadStore");
+  IRWriter::newStoreInst(context,
+                         ConstantPointerNull::get(threadInterface->getLLVMType(context)),
+                         threadStore);
+  IReferenceVariable* threadVariable = new LocalReferenceVariable(ThreadExpression::THREAD,
+                                                                  threadInterface,
+                                                                  threadStore);
+  context.getScopes().setVariable(threadVariable);
+  FakeExpression threadExpression(injectedThread, mainThread->getOwner());
+  vector<const IExpression*> arrayIndices;
+  threadVariable->generateAssignmentIR(context, &threadExpression, arrayIndices, 0);
+
+  Value* mainThreadStore = IRWriter::newAllocaInst(context,
+                                                   mainThread->getOwner()->getLLVMType(context),
+                                                   "mainThread");
+  IOwnerVariable* mainThreadVariable = new LocalOwnerVariable("mainThread",
+                                                              mainThread->getOwner(),
+                                                              mainThreadStore);
+  context.getScopes().setVariable(mainThreadVariable);
+  mainThreadVariable->setToNull(context);
+  FakeExpression mainThreadExpression(injectedThread, mainThread->getOwner());
+  mainThreadVariable->generateAssignmentIR(context, &mainThreadExpression, arrayIndices, 0);
+
+  Controller* callStack = context.getController(Names::getCallStackControllerFullName());
+  Value* callStackStore = IRWriter::newAllocaInst(context,
+                                                  callStack->getLLVMType(context),
+                                                  "callStackStore");
+  IRWriter::newStoreInst(context,
+                         ConstantPointerNull::get(callStack->getLLVMType(context)),
+                         callStackStore);
+  IReferenceVariable* callStackVariable = new LocalReferenceVariable(ThreadExpression::CALL_STACK,
+                                                                     callStack,
+                                                                     callStackStore);
+  context.getScopes().setVariable(callStackVariable);
+  NullExpression* nullExpression = new NullExpression();
+  callStackVariable->generateAssignmentIR(context, nullExpression, arrayIndices, 0);
+  
+  IdentifierChain* startMethod = new IdentifierChain(new Identifier("mainThread"), "start");
+  ExpressionList callArguments;
+  MethodCall* startMethodCall = new MethodCall(startMethod, callArguments, 0);
+  ReturnStatement returnStatement(startMethodCall, 0);
   returnStatement.generateIR(context);
 
   context.getScopes().popScope(context, 0);

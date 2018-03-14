@@ -1,15 +1,22 @@
 package wisey.lang;
 
 import wisey.lang.CCallStack;
+import wisey.lang.CProgramRunner;
+import wisey.lang.IProgram;
 import wisey.lang.IThread;
 
 /**
  * Represents main thread where the program runs
  */
-thread TMainThread implements IThread {
+thread TMainThread sends int implements IThread {
   inject CCallStack* mCallStack;
+  inject CProgramRunner* mProgramRunner;
+
+  receive IProgram* mProgram;
 
   public void run() {
+    int result = mProgramRunner.run(mProgram);
+    send(result);
   }
 
   public CCallStack getCallStack() {
