@@ -19,35 +19,36 @@
 #include "wisey/IObjectElementDeclaration.hpp"
 
 namespace wisey {
-
-/**
- * Represents controller definition which is analogous to a class in C++ with dependency injection
- */
-class ControllerDefinition : public IConcreteObjectDefinition {
-  AccessLevel mAccessLevel;
-  ControllerTypeSpecifierFull* mControllerTypeSpecifierFull;
-  std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
-  std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
-  std::vector<IObjectDefinition*> mInnerObjectDefinitions;
   
-public:
+  /**
+   * Represents controller definition which is analogous to a class in C++ with dependency injection
+   */
+  class ControllerDefinition : public IConcreteObjectDefinition {
+    AccessLevel mAccessLevel;
+    ControllerTypeSpecifierFull* mControllerTypeSpecifierFull;
+    std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
+    std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
+    std::vector<IObjectDefinition*> mInnerObjectDefinitions;
+    
+  public:
+    
+    ControllerDefinition(AccessLevel accessLevel,
+                         ControllerTypeSpecifierFull* controllerTypeSpecifierFull,
+                         std::vector<IObjectElementDeclaration*> objectElementDeclarations,
+                         std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
+                         std::vector<IObjectDefinition*> innerObjectDefinitions);
+    
+    ~ControllerDefinition();
+    
+    Controller* prototypeObject(IRGenerationContext& context) const override;
+    
+    void prototypeMethods(IRGenerationContext& context) const override;
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+    
+  };
   
-  ControllerDefinition(AccessLevel accessLevel,
-                       ControllerTypeSpecifierFull* controllerTypeSpecifierFull,
-                       std::vector<IObjectElementDeclaration*> objectElementDeclarations,
-                       std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
-                       std::vector<IObjectDefinition*> innerObjectDefinitions);
-  
-  ~ControllerDefinition();
-
-  Controller* prototypeObject(IRGenerationContext& context) const override;
-  
-  void prototypeMethods(IRGenerationContext& context) const override;
-
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-
-};
-
 } /* namespace wisey */
 
 #endif /* ControllerDefinition_h */
+

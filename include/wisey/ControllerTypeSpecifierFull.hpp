@@ -13,31 +13,32 @@
 
 namespace wisey {
   
-/**
- * Represents a fully qualified controller type specifier
- */
-class ControllerTypeSpecifierFull : public IControllerTypeSpecifier {
-  IExpression* mPackageExpression;
-  const std::string mShortName;
-
-public:
+  /**
+   * Represents a fully qualified controller type specifier
+   */
+  class ControllerTypeSpecifierFull : public IControllerTypeSpecifier {
+    IExpression* mPackageExpression;
+    const std::string mShortName;
+    
+  public:
+    
+    ControllerTypeSpecifierFull(IExpression* packageExpression, std::string shortName);
+    
+    ~ControllerTypeSpecifierFull();
+    
+    std::string getShortName() const override;
+    
+    IExpression* takePackage() override;
+    
+    std::string getName(IRGenerationContext& context) const override;
+    
+    const Controller* getType(IRGenerationContext& context) const override;
+    
+    void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
+    
+  };
   
-  ControllerTypeSpecifierFull(IExpression* packageExpression, std::string shortName);
-  
-  ~ControllerTypeSpecifierFull();
-  
-  std::string getShortName() const override;
-  
-  IExpression* takePackage() override;
-
-  std::string getName(IRGenerationContext& context) const override;
-  
-  const Controller* getType(IRGenerationContext& context) const override;
-  
-  void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
-  
-};
-
 } /* namespace wisey */
 
 #endif /* ControllerTypeSpecifierFull_h */
+

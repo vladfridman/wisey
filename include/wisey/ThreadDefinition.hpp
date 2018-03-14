@@ -38,7 +38,7 @@ namespace wisey {
                      std::vector<IObjectElementDeclaration*> objectElementDeclarations,
                      std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
                      std::vector<IObjectDefinition*> innerObjectDefinitions);
-
+    
     ~ThreadDefinition();
     
     /**
@@ -48,7 +48,7 @@ namespace wisey {
     addThreadObjectElements(IRGenerationContext& context,
                             std::vector<IObjectElementDeclaration*> objectElements,
                             const Thread* thread);
-
+    
     Thread* prototypeObject(IRGenerationContext& context) const override;
     
     void prototypeMethods(IRGenerationContext& context) const override;
@@ -56,7 +56,7 @@ namespace wisey {
     llvm::Value* generateIR(IRGenerationContext& context) const override;
     
   private:
-
+    
     static MethodDeclaration* createStartMethodDeclaration(IRGenerationContext& context,
                                                            const Thread* thread);
     
@@ -79,3 +79,4 @@ namespace wisey {
 } /* namespace wisey */
 
 #endif /* ThreadDefinition_h */
+

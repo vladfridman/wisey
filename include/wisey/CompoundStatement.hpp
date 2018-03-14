@@ -14,24 +14,25 @@
 #include "wisey/IStatement.hpp"
 
 namespace wisey {
-
-/**
- * Wraps a block in a statement
- */
-class CompoundStatement : public IStatement {
   
-  Block* mBlock;
-  int mLine;
+  /**
+   * Wraps a block in a statement
+   */
+  class CompoundStatement : public IStatement {
+    
+    Block* mBlock;
+    int mLine;
+    
+  public:
+    
+    CompoundStatement(Block* block, int line);
+    
+    ~CompoundStatement();
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+  };
   
-public:
-  
-  CompoundStatement(Block* block, int line);
-  
-  ~CompoundStatement();
-  
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-};
-
 } /* namespace wisey */
 
 #endif /* CompoundStatement_h */
+

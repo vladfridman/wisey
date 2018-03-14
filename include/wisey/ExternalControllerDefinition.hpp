@@ -19,31 +19,32 @@
 
 namespace wisey {
   
-/**
- * Represents controller definition implemented in a shared library
- */
-class ExternalControllerDefinition : public IConcreteObjectDefinition {
-  ControllerTypeSpecifierFull* mControllerTypeSpecifierFull;
-  std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
-  std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
-  std::vector<IObjectDefinition*> mInnerObjectDefinitions;
-
-public:
-  
-  ExternalControllerDefinition(ControllerTypeSpecifierFull* controllerTypeSpecifierFull,
-                               std::vector<IObjectElementDeclaration*> objectElementDeclarations,
-                               std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
-                               std::vector<IObjectDefinition*> innerObjectDefinitions);
-  
-  ~ExternalControllerDefinition();
-  
-  Controller* prototypeObject(IRGenerationContext& context) const override;
-  
-  void prototypeMethods(IRGenerationContext& context) const override;
-  
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-
-};
+  /**
+   * Represents controller definition implemented in a shared library
+   */
+  class ExternalControllerDefinition : public IConcreteObjectDefinition {
+    ControllerTypeSpecifierFull* mControllerTypeSpecifierFull;
+    std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
+    std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
+    std::vector<IObjectDefinition*> mInnerObjectDefinitions;
+    
+  public:
+    
+    ExternalControllerDefinition(ControllerTypeSpecifierFull* controllerTypeSpecifierFull,
+                                 std::vector<IObjectElementDeclaration*> objectElementDeclarations,
+                                 std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
+                                 std::vector<IObjectDefinition*> innerObjectDefinitions);
+    
+    ~ExternalControllerDefinition();
+    
+    Controller* prototypeObject(IRGenerationContext& context) const override;
+    
+    void prototypeMethods(IRGenerationContext& context) const override;
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+    
+  };
   
 } /* namespace wisey */
 #endif /* ExternalControllerDefinition_h */
+

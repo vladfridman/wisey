@@ -19,30 +19,31 @@
 #include "wisey/VoidType.hpp"
 
 namespace wisey {
-
-/**
- * Has constants that stand for primitive types
- */
-class PrimitiveTypes {
-
-public:
   
-  static BooleanType* BOOLEAN_TYPE;
-  static CharType* CHAR_TYPE;
-  static DoubleType* DOUBLE_TYPE;
-  static FloatType* FLOAT_TYPE;
-  static IntType* INT_TYPE;
-  static LongType* LONG_TYPE;
-  static StringType* STRING_TYPE;
-  static VoidType* VOID_TYPE;
-
   /**
-   * Tells whether the given type is one of float types such as float or double
+   * Has constants that stand for primitive types
    */
-  static bool isFloatType(const IType* type);
-
-};
+  class PrimitiveTypes {
+    
+  public:
+    
+    static BooleanType* BOOLEAN_TYPE;
+    static CharType* CHAR_TYPE;
+    static DoubleType* DOUBLE_TYPE;
+    static FloatType* FLOAT_TYPE;
+    static IntType* INT_TYPE;
+    static LongType* LONG_TYPE;
+    static StringType* STRING_TYPE;
+    static VoidType* VOID_TYPE;
+    
+    /**
+     * Tells whether the given type is one of float types such as float or double
+     */
+    static bool isFloatType(const IType* type);
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* PrimitiveTypes_h */
+

@@ -47,3 +47,4 @@ namespace wisey {
 } /* namespace wisey */
 
 #endif /* DestroyReferenceArrayFunction_h */
+

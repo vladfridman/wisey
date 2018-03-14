@@ -46,3 +46,4 @@ namespace wisey {
 } /* namespace wisey */
 
 #endif /* CheckArrayIndexFunction_h */
+

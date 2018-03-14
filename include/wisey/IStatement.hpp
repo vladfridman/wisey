@@ -12,30 +12,31 @@
 #include <llvm/IR/Value.h>
 
 namespace wisey {
-
-class IRGenerationContext;
   
-/**
- * Interface representing a wisey language statement
- */
-class IStatement {
-
-public:
+  class IRGenerationContext;
   
-  virtual ~IStatement() { }
-
   /**
-   * Generate LLVM Intermediate Reprentation code
+   * Interface representing a wisey language statement
    */
-  virtual llvm::Value* generateIR(IRGenerationContext& context) const = 0;
-
-};
-
-/**
- * Represents a list of statements
- */
-typedef std::vector<IStatement*> StatementList;
-
+  class IStatement {
+    
+  public:
+    
+    virtual ~IStatement() { }
+    
+    /**
+     * Generate LLVM Intermediate Reprentation code
+     */
+    virtual llvm::Value* generateIR(IRGenerationContext& context) const = 0;
+    
+  };
+  
+  /**
+   * Represents a list of statements
+   */
+  typedef std::vector<IStatement*> StatementList;
+  
 } /* namespace wisey */
 
 #endif /* IStatement_h */
+

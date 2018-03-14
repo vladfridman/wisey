@@ -14,44 +14,45 @@
 #include "wisey/IReferenceVariable.hpp"
 
 namespace wisey {
-
-/**
- * Represents a variable that is a reference to an object
- */
-class LocalReferenceVariable : public IReferenceVariable {
   
-  std::string mName;
-  const IObjectType* mType;
-  llvm::Value* mValueStore;
-  bool mIsInitialized;
+  /**
+   * Represents a variable that is a reference to an object
+   */
+  class LocalReferenceVariable : public IReferenceVariable {
+    
+    std::string mName;
+    const IObjectType* mType;
+    llvm::Value* mValueStore;
+    bool mIsInitialized;
+    
+  public:
+    
+    LocalReferenceVariable(std::string name, const IObjectType* type, llvm::Value* valueStore);
+    
+    ~LocalReferenceVariable();
+    
+    std::string getName() const override;
+    
+    const IObjectType* getType() const override;
+    
+    bool isField() const override;
+    
+    bool isSystem() const override;
+    
+    llvm::Value* generateIdentifierIR(IRGenerationContext& context) const override;
+    
+    llvm::Value* generateIdentifierReferenceIR(IRGenerationContext& context) const override;
+    
+    llvm::Value* generateAssignmentIR(IRGenerationContext& context,
+                                      IExpression* assignToExpression,
+                                      std::vector<const IExpression*> arrayIndices,
+                                      int line) override;
+    
+    void decrementReferenceCounter(IRGenerationContext& context) const override;
+    
+  };
   
-public:
-  
-  LocalReferenceVariable(std::string name, const IObjectType* type, llvm::Value* valueStore);
-  
-  ~LocalReferenceVariable();
-  
-  std::string getName() const override;
-  
-  const IObjectType* getType() const override;
-  
-  bool isField() const override;
-
-  bool isSystem() const override;
-
-  llvm::Value* generateIdentifierIR(IRGenerationContext& context) const override;
-  
-  llvm::Value* generateIdentifierReferenceIR(IRGenerationContext& context) const override;
-
-  llvm::Value* generateAssignmentIR(IRGenerationContext& context,
-                                    IExpression* assignToExpression,
-                                    std::vector<const IExpression*> arrayIndices,
-                                    int line) override;
-  
-  void decrementReferenceCounter(IRGenerationContext& context) const override;
-
-};
-
 } /* namespace wisey */
 
 #endif /* LocalReferenceVariable_h */
+

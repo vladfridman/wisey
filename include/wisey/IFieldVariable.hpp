@@ -14,42 +14,43 @@
 
 namespace wisey {
   
-/**
- * Contains helper methods for dealing with field variables
- */
-class IFieldVariable {
-  
-public:
-  
   /**
-   * Returns an object's field given an object and field name
-   *
-   * Logs an error if the field is not assinable or does not exist
+   * Contains helper methods for dealing with field variables
    */
-  static IField* checkAndFindFieldForAssignment(IRGenerationContext& context,
-                                                const IConcreteObjectType* object,
-                                                std::string fieldName);
-
-  /**
-   * Returns an llvm pointer to the object's field given an object and field name
-   */
-  static llvm::GetElementPtrInst* getFieldPointer(IRGenerationContext& context,
+  class IFieldVariable {
+    
+  public:
+    
+    /**
+     * Returns an object's field given an object and field name
+     *
+     * Logs an error if the field is not assinable or does not exist
+     */
+    static IField* checkAndFindFieldForAssignment(IRGenerationContext& context,
                                                   const IConcreteObjectType* object,
                                                   std::string fieldName);
-
-private:
-  
-  /**
-   * Returns an object's field given an object and field name
-   *
-   * Logs an error if the field is not found and exits
-   */
-  static IField* checkAndFindField(IRGenerationContext& context,
-                                   const IConcreteObjectType* object,
-                                   std::string fieldName);
-
-};
+    
+    /**
+     * Returns an llvm pointer to the object's field given an object and field name
+     */
+    static llvm::GetElementPtrInst* getFieldPointer(IRGenerationContext& context,
+                                                    const IConcreteObjectType* object,
+                                                    std::string fieldName);
+    
+  private:
+    
+    /**
+     * Returns an object's field given an object and field name
+     *
+     * Logs an error if the field is not found and exits
+     */
+    static IField* checkAndFindField(IRGenerationContext& context,
+                                     const IConcreteObjectType* object,
+                                     std::string fieldName);
+    
+  };
   
 } /* namepsace wisey */
 
 #endif /* IFieldVariable_h */
+

@@ -24,7 +24,7 @@ namespace wisey {
     std::string mName;
     const ArrayOwnerType* mArrayOwnerType;
     llvm::Value* mValueStore;
-
+    
   public:
     
     ParameterArrayOwnerVariable(std::string name,
@@ -38,13 +38,13 @@ namespace wisey {
     const ArrayOwnerType* getType() const override;
     
     bool isField() const override;
-
+    
     bool isSystem() const override;
-
+    
     llvm::Value* generateIdentifierIR(IRGenerationContext& context) const override;
     
     llvm::Value* generateIdentifierReferenceIR(IRGenerationContext& context) const override;
-
+    
     llvm::Value* generateAssignmentIR(IRGenerationContext& context,
                                       IExpression* assignToExpression,
                                       std::vector<const IExpression*> arrayIndices,
@@ -59,3 +59,4 @@ namespace wisey {
 } /* namespace wisey */
 
 #endif /* ParameterArrayOwnerVariable_h */
+

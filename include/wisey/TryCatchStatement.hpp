@@ -18,23 +18,24 @@
 
 namespace wisey {
   
-/**
- * Represents a try/catch statement
- */
-class TryCatchStatement : public IStatement {
-  CompoundStatement* mTryCompoundStatement;
-  std::vector<Catch*> mCatchList;
-  
-public:
-  
-  TryCatchStatement(CompoundStatement* tryCompoundStatement, std::vector<Catch*> catchList);
-  
-  ~TryCatchStatement();
-  
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-  
-};
+  /**
+   * Represents a try/catch statement
+   */
+  class TryCatchStatement : public IStatement {
+    CompoundStatement* mTryCompoundStatement;
+    std::vector<Catch*> mCatchList;
+    
+  public:
+    
+    TryCatchStatement(CompoundStatement* tryCompoundStatement, std::vector<Catch*> catchList);
+    
+    ~TryCatchStatement();
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* TryCatchStatement_h */
+

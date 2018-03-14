@@ -28,8 +28,8 @@ namespace wisey {
   public:
     
     ParameterArrayReferenceVariable(std::string name,
-                                const ArrayType* arrayType,
-                                llvm::Value* value);
+                                    const ArrayType* arrayType,
+                                    llvm::Value* value);
     
     ~ParameterArrayReferenceVariable();
     
@@ -38,22 +38,23 @@ namespace wisey {
     const ArrayType* getType() const override;
     
     bool isField() const override;
-
+    
     bool isSystem() const override;
-
+    
     llvm::Value* generateIdentifierIR(IRGenerationContext& context) const override;
     
     llvm::Value* generateIdentifierReferenceIR(IRGenerationContext& context) const override;
-
+    
     llvm::Value* generateAssignmentIR(IRGenerationContext& context,
                                       IExpression* assignToExpression,
                                       std::vector<const IExpression*> arrayIndices,
                                       int line) override;
     
     void decrementReferenceCounter(IRGenerationContext& context) const override;
-
+    
   };
   
 } /* namespace wisey */
 
 #endif /* ParameterArrayReferenceVariable_h */
+

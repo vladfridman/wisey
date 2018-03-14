@@ -14,26 +14,27 @@
 #include "wisey/IStatement.hpp"
 
 namespace wisey {
-
-class IRGenerationContext;
   
-/**
- * Represents a block of statements
- */
-class Block : public IStatement {
-  StatementList mStatements;
+  class IRGenerationContext;
   
-public:
-  
-  Block();
-
-  ~Block();
-  
-  StatementList& getStatements();
-  
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-};
+  /**
+   * Represents a block of statements
+   */
+  class Block : public IStatement {
+    StatementList mStatements;
+    
+  public:
+    
+    Block();
+    
+    ~Block();
+    
+    StatementList& getStatements();
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+  };
   
 } /* namespace wisey */
 
 #endif /* Block_h */
+

@@ -14,26 +14,27 @@
 
 namespace wisey {
   
-/**
- * Represents a method call that could either be static or non-static method call
- */
-class IMethodCall : public IExpression {
-  
-public:
-  
   /**
-   * Translate object method name into its LLVM implemenation function name
+   * Represents a method call that could either be static or non-static method call
    */
-  static std::string translateObjectMethodToLLVMFunctionName(const IObjectType* object,
-                                                             std::string methodName);
-
-  /**
-   * Return name of the global constant containing method name
-   */
-  static std::string getMethodNameConstantName(std::string methodName);
-
-};
+  class IMethodCall : public IExpression {
+    
+  public:
+    
+    /**
+     * Translate object method name into its LLVM implemenation function name
+     */
+    static std::string translateObjectMethodToLLVMFunctionName(const IObjectType* object,
+                                                               std::string methodName);
+    
+    /**
+     * Return name of the global constant containing method name
+     */
+    static std::string getMethodNameConstantName(std::string methodName);
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* IMethodCall_h */
+

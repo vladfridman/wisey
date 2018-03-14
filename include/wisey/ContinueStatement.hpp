@@ -15,20 +15,21 @@
 
 namespace wisey {
   
-/**
- * Represents a continue statement used inside loops
- */
-class ContinueStatement : public IStatement {
-  
-public:
-  
-  ContinueStatement();
-  
-  ~ContinueStatement();
-  
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-};
+  /**
+   * Represents a continue statement used inside loops
+   */
+  class ContinueStatement : public IStatement {
+    
+  public:
+    
+    ContinueStatement();
+    
+    ~ContinueStatement();
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+  };
   
 }
 
 #endif /* ContinueStatement_h */
+

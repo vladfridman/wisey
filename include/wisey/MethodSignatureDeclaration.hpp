@@ -19,39 +19,40 @@
 
 namespace wisey {
   
-/**
- * Represents a method signature declaration contained within an interface
- */
-class MethodSignatureDeclaration : public IObjectElementDeclaration {
-  const ITypeSpecifier* mReturnTypeSpecifier;
-  std::string mMethodName;
-  VariableList mArguments;
-  std::vector<IModelTypeSpecifier*> mThrownExceptions;
-  
-public:
-  
-  MethodSignatureDeclaration(const ITypeSpecifier* returnTypeSpecifier,
-                             std::string methodName,
-                             const VariableList& arguments,
-                             std::vector<IModelTypeSpecifier*> thrownExceptions);
-  
-  ~MethodSignatureDeclaration();
-  
-  MethodSignature* declare(IRGenerationContext& context,
-                           const IObjectType* objectType) const override;
-  
-  bool isConstant() const override;
-  
-  bool isField() const override;
-  
-  bool isMethod() const override;
-  
-  bool isStaticMethod() const override;
-  
-  bool isMethodSignature() const override;
-
-};
+  /**
+   * Represents a method signature declaration contained within an interface
+   */
+  class MethodSignatureDeclaration : public IObjectElementDeclaration {
+    const ITypeSpecifier* mReturnTypeSpecifier;
+    std::string mMethodName;
+    VariableList mArguments;
+    std::vector<IModelTypeSpecifier*> mThrownExceptions;
+    
+  public:
+    
+    MethodSignatureDeclaration(const ITypeSpecifier* returnTypeSpecifier,
+                               std::string methodName,
+                               const VariableList& arguments,
+                               std::vector<IModelTypeSpecifier*> thrownExceptions);
+    
+    ~MethodSignatureDeclaration();
+    
+    MethodSignature* declare(IRGenerationContext& context,
+                             const IObjectType* objectType) const override;
+    
+    bool isConstant() const override;
+    
+    bool isField() const override;
+    
+    bool isMethod() const override;
+    
+    bool isStaticMethod() const override;
+    
+    bool isMethodSignature() const override;
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* MethodSignatureDeclaration_h */
+

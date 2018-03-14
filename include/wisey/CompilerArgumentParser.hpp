@@ -13,27 +13,28 @@
 
 namespace wisey {
   
-/**
- * Used for parsing command line arguments for the Wisey compiler
- */
-class CompilerArgumentParser {
-  
-public:
-  
-  CompilerArgumentParser() { }
-  
-  ~CompilerArgumentParser() { }
-  
   /**
-   * Parse given command line arguments
+   * Used for parsing command line arguments for the Wisey compiler
    */
-  CompilerArguments parse(int argc, char **argv) const;
-  
-private:
-  
-  void printSyntaxAndExit() const;
-};
+  class CompilerArgumentParser {
+    
+  public:
+    
+    CompilerArgumentParser() { }
+    
+    ~CompilerArgumentParser() { }
+    
+    /**
+     * Parse given command line arguments
+     */
+    CompilerArguments parse(int argc, char **argv) const;
+    
+  private:
+    
+    void printSyntaxAndExit() const;
+  };
   
 } /* namespace wisey */
 
 #endif /* CompilerArgumentParser_h */
+

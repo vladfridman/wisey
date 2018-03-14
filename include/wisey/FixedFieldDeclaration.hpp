@@ -28,7 +28,7 @@ namespace wisey {
   public:
     
     FixedFieldDeclaration(ITypeSpecifier* typeSpecifier, std::string name);
-
+    
     ~FixedFieldDeclaration();
     
     IField* declare(IRGenerationContext& context, const IObjectType* objectType) const override;
@@ -48,3 +48,4 @@ namespace wisey {
 } /* namespace wisey */
 
 #endif /* FixedFieldDeclaration_h */
+

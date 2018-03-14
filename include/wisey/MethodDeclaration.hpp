@@ -17,47 +17,48 @@
 #include "wisey/VariableDeclaration.hpp"
 
 namespace wisey {
-
-/**
- * Represents a concrete object's method declaration.
- *
- * A method contains a coumpound statement that is the body of the method.
- */
-class MethodDeclaration : public IMethodDeclaration {
-  const AccessLevel mAccessLevel;
-  const ITypeSpecifier* mReturnTypeSpecifier;
-  std::string mName;
-  VariableList mArguments;
-  std::vector<IModelTypeSpecifier*> mExceptions;
-  CompoundStatement* mCompoundStatement;
-  int mLine;
   
-public:
+  /**
+   * Represents a concrete object's method declaration.
+   *
+   * A method contains a coumpound statement that is the body of the method.
+   */
+  class MethodDeclaration : public IMethodDeclaration {
+    const AccessLevel mAccessLevel;
+    const ITypeSpecifier* mReturnTypeSpecifier;
+    std::string mName;
+    VariableList mArguments;
+    std::vector<IModelTypeSpecifier*> mExceptions;
+    CompoundStatement* mCompoundStatement;
+    int mLine;
+    
+  public:
+    
+    MethodDeclaration(const AccessLevel AccessLevel,
+                      const ITypeSpecifier* returnTypeSpecifier,
+                      std::string name,
+                      VariableList arguments,
+                      std::vector<IModelTypeSpecifier*> exceptions,
+                      CompoundStatement* compoundStatement,
+                      int line);
+    
+    ~MethodDeclaration();
+    
+    IMethod* declare(IRGenerationContext& context, const IObjectType* objectType) const override;
+    
+    bool isConstant() const override;
+    
+    bool isField() const override;
+    
+    bool isMethod() const override;
+    
+    bool isStaticMethod() const override;
+    
+    bool isMethodSignature() const override;
+    
+  };
   
-  MethodDeclaration(const AccessLevel AccessLevel,
-                    const ITypeSpecifier* returnTypeSpecifier,
-                    std::string name,
-                    VariableList arguments,
-                    std::vector<IModelTypeSpecifier*> exceptions,
-                    CompoundStatement* compoundStatement,
-                    int line);
-  
-  ~MethodDeclaration();
-  
-  IMethod* declare(IRGenerationContext& context, const IObjectType* objectType) const override;
-  
-  bool isConstant() const override;
-  
-  bool isField() const override;
-  
-  bool isMethod() const override;
-  
-  bool isStaticMethod() const override;
-  
-  bool isMethodSignature() const override;
-
-};
-
 } /* namespace wisey */
 
 #endif /* MethodDeclaration_h */
+

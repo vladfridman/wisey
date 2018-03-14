@@ -13,23 +13,24 @@
 
 namespace wisey {
   
-/**
- * Represents an empty statement that does not do anything
- */
-class EmptyStatement : public IStatement {
-
-public:
-
-  const static EmptyStatement EMPTY_STATEMENT;
-  
-  EmptyStatement();
-  
-  ~EmptyStatement();
-  
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-  
-};
+  /**
+   * Represents an empty statement that does not do anything
+   */
+  class EmptyStatement : public IStatement {
+    
+  public:
+    
+    const static EmptyStatement EMPTY_STATEMENT;
+    
+    EmptyStatement();
+    
+    ~EmptyStatement();
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* EmptyStatement_h */
+

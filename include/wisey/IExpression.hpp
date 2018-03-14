@@ -16,45 +16,46 @@
 #include "wisey/IVariable.hpp"
 
 namespace wisey {
-
-class IRGenerationContext;
-
-/**
- * Interface representing a wisey language expression
- */
-class IExpression : public IHasType, public IPrintable {
-
-public:
-
-  virtual ~IExpression() { }
-
-  /**
-   * Generate LLVM Intermediate Reprentation code
-   */
-  virtual llvm::Value* generateIR(IRGenerationContext& context,
-                                  const IType* assignToType) const = 0;
-
-  /**
-   * If this expression resolves to a vairable returns the variable otherwise returns NULL
-   *
-   * This is needed for checking wheather an increment operation can by applied to an expression
-   */
-  virtual IVariable* getVariable(IRGenerationContext& context,
-                                 std::vector<const IExpression*>& arrayIndices) const = 0;
-
-  /**
-   * Tells whether this expression returns a constant
-   */
-  virtual bool isConstant() const = 0;
-
-};
   
-/**
- * Represents a list of expressions
- */
-typedef std::vector<const IExpression*> ExpressionList;
-
+  class IRGenerationContext;
+  
+  /**
+   * Interface representing a wisey language expression
+   */
+  class IExpression : public IHasType, public IPrintable {
+    
+  public:
+    
+    virtual ~IExpression() { }
+    
+    /**
+     * Generate LLVM Intermediate Reprentation code
+     */
+    virtual llvm::Value* generateIR(IRGenerationContext& context,
+                                    const IType* assignToType) const = 0;
+    
+    /**
+     * If this expression resolves to a vairable returns the variable otherwise returns NULL
+     *
+     * This is needed for checking wheather an increment operation can by applied to an expression
+     */
+    virtual IVariable* getVariable(IRGenerationContext& context,
+                                   std::vector<const IExpression*>& arrayIndices) const = 0;
+    
+    /**
+     * Tells whether this expression returns a constant
+     */
+    virtual bool isConstant() const = 0;
+    
+  };
+  
+  /**
+   * Represents a list of expressions
+   */
+  typedef std::vector<const IExpression*> ExpressionList;
+  
 } /* namespace wisey */
 
 
 #endif /* IExpression_h */
+

@@ -10,15 +10,16 @@
 #define AccessLevel_h
 
 namespace wisey {
-
-/**
- * Represents public and private access levels to model methods
- */
-typedef enum AccessLevelEnum {
-  PRIVATE_ACCESS,
-  PUBLIC_ACCESS,
-} AccessLevel;
+  
+  /**
+   * Represents public and private access levels to model methods
+   */
+  typedef enum AccessLevelEnum {
+    PRIVATE_ACCESS,
+    PUBLIC_ACCESS,
+  } AccessLevel;
   
 } /* namespace wisey */
 
 #endif /* AccessLevel_h */
+

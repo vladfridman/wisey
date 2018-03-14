@@ -17,24 +17,25 @@
 
 namespace wisey {
   
-/**
- * Represents a throw statement that throws result of the given expression
- */
-class ThrowStatement : public IStatement {
-  IExpression* mExpression;
-  int mLine;
-  
-public:
-  
-  ThrowStatement(IExpression* expression, int line);
-  
-  ~ThrowStatement();
-
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-
-};
+  /**
+   * Represents a throw statement that throws result of the given expression
+   */
+  class ThrowStatement : public IStatement {
+    IExpression* mExpression;
+    int mLine;
+    
+  public:
+    
+    ThrowStatement(IExpression* expression, int line);
+    
+    ~ThrowStatement();
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+    
+  };
   
 } /* namespace wisey */
 
 
 #endif /* ThrowStatement_h */
+

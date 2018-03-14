@@ -15,26 +15,27 @@
 #include "wisey/IStatement.hpp"
 
 namespace wisey {
-
-class IRGenerationContext;
   
-/**
- * Represents an exit statement that ends the program
- */
-class ExitStatement : public IStatement {
-  IExpression* mExpression;
-  int mLine;
+  class IRGenerationContext;
   
-public:
+  /**
+   * Represents an exit statement that ends the program
+   */
+  class ExitStatement : public IStatement {
+    IExpression* mExpression;
+    int mLine;
+    
+  public:
+    
+    ExitStatement(IExpression* expression, int line);
+    
+    ~ExitStatement();
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+    
+  };
   
-  ExitStatement(IExpression* expression, int line);
-  
-  ~ExitStatement();
-  
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-  
-};
-
 } /* namespace wisey */
 
 #endif /* ExitStatement_h */
+

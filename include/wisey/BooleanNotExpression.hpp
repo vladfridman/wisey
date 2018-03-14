@@ -14,31 +14,32 @@
 
 namespace wisey {
   
-/**
- * Represents a boolean NOT operation
- */
-class BooleanNotExpression : public IExpression {
-  IExpression* mExpression;
-  
-public:
-  
-  BooleanNotExpression(IExpression* expression);
-  
-  ~BooleanNotExpression();
-  
-  IVariable* getVariable(IRGenerationContext& context,
-                         std::vector<const IExpression*>& arrayIndices) const override;
-  
-  llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
-  
-  const IType* getType(IRGenerationContext& context) const override;
-  
-  bool isConstant() const override;
-
-  void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
-
-};
+  /**
+   * Represents a boolean NOT operation
+   */
+  class BooleanNotExpression : public IExpression {
+    IExpression* mExpression;
+    
+  public:
+    
+    BooleanNotExpression(IExpression* expression);
+    
+    ~BooleanNotExpression();
+    
+    IVariable* getVariable(IRGenerationContext& context,
+                           std::vector<const IExpression*>& arrayIndices) const override;
+    
+    llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
+    
+    const IType* getType(IRGenerationContext& context) const override;
+    
+    bool isConstant() const override;
+    
+    void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* BooleanNotExpression_h */
+

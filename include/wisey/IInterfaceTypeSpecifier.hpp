@@ -13,17 +13,18 @@
 
 namespace wisey {
   
-/**
- * Represents interface type specifier
- */
-class IInterfaceTypeSpecifier : public IObjectTypeSpecifier {
+  /**
+   * Represents interface type specifier
+   */
+  class IInterfaceTypeSpecifier : public IObjectTypeSpecifier {
+    
+  public:
+    
+    virtual Interface* getType(IRGenerationContext& context) const = 0;
+    
+  };
   
-public:
-  
-  virtual Interface* getType(IRGenerationContext& context) const = 0;
-  
-};
-
 } /* namespace wisey */
 
 #endif /* IInterfaceTypeSpecifier_h */
+

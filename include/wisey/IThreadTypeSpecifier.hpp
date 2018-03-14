@@ -28,3 +28,4 @@ namespace wisey {
 } /* namespace wisey */
 
 #endif /* IThreadTypeSpecifier_h */
+

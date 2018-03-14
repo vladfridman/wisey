@@ -12,25 +12,26 @@
 #include "wisey/IType.hpp"
 
 namespace wisey {
-
-class IRGenerationContext;
-
-/**
- * Interface representing a typed entity
- */
-class IHasType {
   
-public:
-  
-  virtual ~IHasType() { }
+  class IRGenerationContext;
   
   /**
-   * Returns type
+   * Interface representing a typed entity
    */
-  virtual const IType* getType(IRGenerationContext& context) const = 0;
-
-};
+  class IHasType {
+    
+  public:
+    
+    virtual ~IHasType() { }
+    
+    /**
+     * Returns type
+     */
+    virtual const IType* getType(IRGenerationContext& context) const = 0;
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* IHasType_h */
+

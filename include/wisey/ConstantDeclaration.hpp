@@ -17,39 +17,40 @@
 
 namespace wisey {
   
-/**
- * Represents a constant declaration
- */
-class ConstantDeclaration : public IObjectElementDeclaration {
-
-  const AccessLevel mAccessLevel;
-  const ITypeSpecifier* mTypeSpecifier;
-  std::string mName;
-  IExpression* mExpression;
-
-public:
+  /**
+   * Represents a constant declaration
+   */
+  class ConstantDeclaration : public IObjectElementDeclaration {
+    
+    const AccessLevel mAccessLevel;
+    const ITypeSpecifier* mTypeSpecifier;
+    std::string mName;
+    IExpression* mExpression;
+    
+  public:
+    
+    ConstantDeclaration(const AccessLevel accessLevel,
+                        const ITypeSpecifier* typeSpecifier,
+                        std::string name,
+                        IExpression* expression);
+    
+    ~ConstantDeclaration();
+    
+    Constant* declare(IRGenerationContext& context, const IObjectType* objectType) const override;
+    
+    bool isConstant() const override;
+    
+    bool isField() const override;
+    
+    bool isMethod() const override;
+    
+    bool isStaticMethod() const override;
+    
+    bool isMethodSignature() const override;
+    
+  };
   
-  ConstantDeclaration(const AccessLevel accessLevel,
-                      const ITypeSpecifier* typeSpecifier,
-                      std::string name,
-                      IExpression* expression);
-  
-  ~ConstantDeclaration();
-  
-  Constant* declare(IRGenerationContext& context, const IObjectType* objectType) const override;
-  
-  bool isConstant() const override;
-  
-  bool isField() const override;
-  
-  bool isMethod() const override;
-  
-  bool isStaticMethod() const override;
-  
-  bool isMethodSignature() const override;
-
-};
-
 } /* namespace wisey */
-  
+
 #endif /* ConstantDeclaraton_h */
+

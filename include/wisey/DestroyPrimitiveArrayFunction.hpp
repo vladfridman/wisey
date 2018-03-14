@@ -48,3 +48,4 @@ namespace wisey {
 
 
 #endif /* DestroyPrimitiveArrayFunction_h */
+

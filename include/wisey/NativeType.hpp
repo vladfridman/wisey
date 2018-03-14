@@ -66,7 +66,7 @@ namespace wisey {
     bool isThread() const override;
     
     bool isNative() const override;
-
+    
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
     void createLocalVariable(IRGenerationContext& context, std::string name) const override;
@@ -86,9 +86,10 @@ namespace wisey {
     const IType* getPointerType() const override;
     
     const IType* getDereferenceType() const override;
-
+    
   };
   
 } /* namespace wisey */
 
 #endif /* NativeType_h */
+

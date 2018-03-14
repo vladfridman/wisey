@@ -19,7 +19,7 @@ namespace wisey {
    * Represents a field in a concrete object
    */
   class IField : public IObjectElement, public IPrintable {
-
+    
   public:
     
     /**
@@ -43,13 +43,14 @@ namespace wisey {
     virtual bool isFixed() const = 0;
     
     virtual bool isInjected() const = 0;
-
+    
     virtual bool isReceived() const = 0;
     
     virtual bool isState() const = 0;
     
   };
-
+  
 } /* namespace wisey */
 
 #endif /* IField_h */
+

@@ -17,34 +17,35 @@
 
 namespace wisey {
   
-/**
- * Represents model definition which is analogous to an immutable class in C++
- */
-class ModelDefinition : public IConcreteObjectDefinition {
-  AccessLevel mAccessLevel;
-  ModelTypeSpecifierFull* mModelTypeSpecifierFull;
-  std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
-  std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
-  std::vector<IObjectDefinition*> mInnerObjectDefinitions;
-
-public:
+  /**
+   * Represents model definition which is analogous to an immutable class in C++
+   */
+  class ModelDefinition : public IConcreteObjectDefinition {
+    AccessLevel mAccessLevel;
+    ModelTypeSpecifierFull* mModelTypeSpecifierFull;
+    std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
+    std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
+    std::vector<IObjectDefinition*> mInnerObjectDefinitions;
+    
+  public:
+    
+    ModelDefinition(AccessLevel accessLevel,
+                    ModelTypeSpecifierFull* modelTypeSpecifierFull,
+                    std::vector<IObjectElementDeclaration*> objectElementDeclarations,
+                    std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
+                    std::vector<IObjectDefinition*> innerObjectDefinitions);
+    
+    ~ModelDefinition();
+    
+    Model* prototypeObject(IRGenerationContext& context) const override;
+    
+    void prototypeMethods(IRGenerationContext& context) const override;
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+    
+  };
   
-  ModelDefinition(AccessLevel accessLevel,
-                  ModelTypeSpecifierFull* modelTypeSpecifierFull,
-                  std::vector<IObjectElementDeclaration*> objectElementDeclarations,
-                  std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
-                  std::vector<IObjectDefinition*> innerObjectDefinitions);
-  
-  ~ModelDefinition();
-
-  Model* prototypeObject(IRGenerationContext& context) const override;
-  
-  void prototypeMethods(IRGenerationContext& context) const override;
-  
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-
-};
-
 } /* namespace wisey */
 
 #endif /* ModelDefinition_h */
+

@@ -17,22 +17,23 @@
 
 namespace wisey {
   
-/**
- * Represents a while loop statement
- */
-class DoStatement : public IStatement {
-  IStatement* mStatement;
-  IExpression* mConditionExpression;
-  
-public:
-  
-  DoStatement(IStatement* statement, IExpression* conditionExpression);
-  
-  ~DoStatement();
+  /**
+   * Represents a while loop statement
+   */
+  class DoStatement : public IStatement {
+    IStatement* mStatement;
+    IExpression* mConditionExpression;
     
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-};
+  public:
+    
+    DoStatement(IStatement* statement, IExpression* conditionExpression);
+    
+    ~DoStatement();
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+  };
   
 } /* namespace wisey */
 
 #endif /* DoStatement_h */
+

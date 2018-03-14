@@ -37,3 +37,4 @@ namespace wisey {
 } /* namespace wisey */
 
 #endif /* NativeTypeSpecifier_h */
+

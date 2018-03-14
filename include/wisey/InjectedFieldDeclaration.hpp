@@ -31,7 +31,7 @@ namespace wisey {
     InjectedFieldDeclaration(ITypeSpecifier* typeSpecifier,
                              std::string name,
                              InjectionArgumentList injectionArguments);
-
+    
     ~InjectedFieldDeclaration();
     
     IField* declare(IRGenerationContext& context, const IObjectType* objectType) const override;
@@ -51,3 +51,4 @@ namespace wisey {
 } /* namespace wisey */
 
 #endif /* InjectedFieldDeclaration_h */
+

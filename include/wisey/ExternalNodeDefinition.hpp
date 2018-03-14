@@ -16,33 +16,34 @@
 
 namespace wisey {
   
-/**
- * Represents node definition implemented in a shared library
- */
-class ExternalNodeDefinition : public IConcreteObjectDefinition {
-  NodeTypeSpecifierFull* mNodeTypeSpecifierFull;
-  std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
-  std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
-  std::vector<IObjectDefinition*> mInnerObjectDefinitions;
-
-public:
+  /**
+   * Represents node definition implemented in a shared library
+   */
+  class ExternalNodeDefinition : public IConcreteObjectDefinition {
+    NodeTypeSpecifierFull* mNodeTypeSpecifierFull;
+    std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
+    std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
+    std::vector<IObjectDefinition*> mInnerObjectDefinitions;
+    
+  public:
+    
+    ExternalNodeDefinition(NodeTypeSpecifierFull* nodeTypeSpecifierFull,
+                           std::vector<IObjectElementDeclaration*> objectElementDeclarations,
+                           std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
+                           std::vector<IObjectDefinition*> innerObjectDefinitions);
+    
+    ~ExternalNodeDefinition();
+    
+    Node* prototypeObject(IRGenerationContext& context) const override;
+    
+    void prototypeMethods(IRGenerationContext& context) const override;
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+    
+  };
   
-  ExternalNodeDefinition(NodeTypeSpecifierFull* nodeTypeSpecifierFull,
-                         std::vector<IObjectElementDeclaration*> objectElementDeclarations,
-                         std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
-                         std::vector<IObjectDefinition*> innerObjectDefinitions);
-  
-  ~ExternalNodeDefinition();
-  
-  Node* prototypeObject(IRGenerationContext& context) const override;
-  
-  void prototypeMethods(IRGenerationContext& context) const override;
-  
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-  
-};
-
 } /* namespace wisey */
 
 
 #endif /* ExternalNodeDefinition_h */
+

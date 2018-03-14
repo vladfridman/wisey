@@ -17,42 +17,43 @@
 
 namespace wisey {
   
-/**
- * Represents a CASE statement inside a SWITCH statement
- */
-class CaseStatement : public IStatement {
-  IExpression* mExpression;
-  Block* mBlock;
-  bool mIsFallThrough;
-  
-  CaseStatement(IExpression* expression, Block* block, bool isFallThrough);
-  
-public:
-  
-  ~CaseStatement();
-  
   /**
-   * Calculate the value of the case expression. 
-   * Exit with an error if the value is not ConstantInt
+   * Represents a CASE statement inside a SWITCH statement
    */
-  llvm::ConstantInt* getExpressionValue(IRGenerationContext& context) const;
-  
-  bool isFallThrough() const;
-  
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-
-  /**
-   * Create a CASE statement
-   */
-  static CaseStatement * newCaseStatement(IExpression* expression, Block* block);
-
-  /**
-   * Create a CASE statement with FALLTHROUGH
-   */
-  static CaseStatement * newCaseStatementWithFallThrough(IExpression* expression, Block* block);
-  
-};
+  class CaseStatement : public IStatement {
+    IExpression* mExpression;
+    Block* mBlock;
+    bool mIsFallThrough;
+    
+    CaseStatement(IExpression* expression, Block* block, bool isFallThrough);
+    
+  public:
+    
+    ~CaseStatement();
+    
+    /**
+     * Calculate the value of the case expression.
+     * Exit with an error if the value is not ConstantInt
+     */
+    llvm::ConstantInt* getExpressionValue(IRGenerationContext& context) const;
+    
+    bool isFallThrough() const;
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+    
+    /**
+     * Create a CASE statement
+     */
+    static CaseStatement * newCaseStatement(IExpression* expression, Block* block);
+    
+    /**
+     * Create a CASE statement with FALLTHROUGH
+     */
+    static CaseStatement * newCaseStatementWithFallThrough(IExpression* expression, Block* block);
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* CaseStatement_hpp */
+

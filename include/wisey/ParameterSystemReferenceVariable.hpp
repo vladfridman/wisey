@@ -35,13 +35,13 @@ namespace wisey {
     const IObjectType* getType() const override;
     
     bool isField() const override;
-
+    
     bool isSystem() const override;
     
     llvm::Value* generateIdentifierIR(IRGenerationContext& context) const override;
     
     llvm::Value* generateIdentifierReferenceIR(IRGenerationContext& context) const override;
-
+    
     llvm::Value* generateAssignmentIR(IRGenerationContext& context,
                                       IExpression* assignToExpression,
                                       std::vector<const IExpression*> arrayIndices,
@@ -54,3 +54,4 @@ namespace wisey {
 } /* namespace wisey */
 
 #endif /* ParameterSystemReferenceVariable_h */
+

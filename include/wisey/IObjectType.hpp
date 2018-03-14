@@ -24,14 +24,14 @@ namespace wisey {
    * Represents an IType that is either model, controller or interface
    */
   class IObjectType : public IReferenceType {
-
+    
   public:
     
     /**
      * Name of the variable referring to the current object
      */
     static std::string THIS;
-
+    
     /**
      * Returns access level for this object
      */
@@ -127,12 +127,14 @@ namespace wisey {
     /**
      * Returns the reference count value for the given object
      */
-    static llvm::Value* getReferenceCountForObject(IRGenerationContext& context, llvm::Value* object);
+    static llvm::Value* getReferenceCountForObject(IRGenerationContext& context,
+                                                   llvm::Value* object);
     
     /**
      * Checks type of the object value, casts it to int64* type and returns it
      */
-    static llvm::Value* getReferenceCounterPointer(IRGenerationContext& context, llvm::Value* object);
+    static llvm::Value* getReferenceCounterPointer(IRGenerationContext& context,
+                                                   llvm::Value* object);
     
     /**
      * Check that the private object is accessable

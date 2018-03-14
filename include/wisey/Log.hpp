@@ -12,42 +12,43 @@
 #include <iostream>
 
 namespace wisey {
-
-typedef enum LogLevelEnum { ERRORLEVEL, INFOLEVEL, DEBUGLEVEL } LogLevel;
-
-/**
- * Simple Logger with 3 levels of logging. 
- *
- * DEBUGLEVEL is the most detailed.
- * INFOLEVEL is in between DEBUGLEVEL and ERRORLEVEL
- * ERRORLEVEL is the least detailed.
- */
-class Log {
-  static LogLevel sLogLevel;
   
-public:
+  typedef enum LogLevelEnum { ERRORLEVEL, INFOLEVEL, DEBUGLEVEL } LogLevel;
   
   /**
-   * Set log level for the entire run of the program or until it is reset to a different level
+   * Simple Logger with 3 levels of logging.
+   *
+   * DEBUGLEVEL is the most detailed.
+   * INFOLEVEL is in between DEBUGLEVEL and ERRORLEVEL
+   * ERRORLEVEL is the least detailed.
    */
-  static void setLogLevel(LogLevel logLevel);
-  
-  /**
-   * Log an error message
-   */
-  static void e(std::string message);
-  
-  /**
-   * Log an information message
-   */
-  static void i(std::string message);
-
-  /**
-   * Log a debug message
-   */
-  static void d(std::string message);
-};
+  class Log {
+    static LogLevel sLogLevel;
+    
+  public:
+    
+    /**
+     * Set log level for the entire run of the program or until it is reset to a different level
+     */
+    static void setLogLevel(LogLevel logLevel);
+    
+    /**
+     * Log an error message
+     */
+    static void e(std::string message);
+    
+    /**
+     * Log an information message
+     */
+    static void i(std::string message);
+    
+    /**
+     * Log a debug message
+     */
+    static void d(std::string message);
+  };
   
 } /* namespace wisey */
 
 #endif /* Log_h */
+

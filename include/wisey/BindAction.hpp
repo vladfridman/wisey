@@ -17,28 +17,29 @@
 
 namespace wisey {
   
-/**
- * Represents a bind action binding a controller to an interface
- */
-class BindAction : public IGlobalStatement {
-  IControllerTypeSpecifier* mContreollerTypeSpecifier;
-  IInterfaceTypeSpecifier* mInterfaceTypeSpecifier;
-  
-public:
-  
-  BindAction(IControllerTypeSpecifier* controllerTypeSpecifier,
-             IInterfaceTypeSpecifier* interfaceTypeSpecifier);
-  
-  ~BindAction();
-
-  IObjectType* prototypeObject(IRGenerationContext& context) const override;
-
-  void prototypeMethods(IRGenerationContext& context) const override;
-
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-  
-};
+  /**
+   * Represents a bind action binding a controller to an interface
+   */
+  class BindAction : public IGlobalStatement {
+    IControllerTypeSpecifier* mContreollerTypeSpecifier;
+    IInterfaceTypeSpecifier* mInterfaceTypeSpecifier;
+    
+  public:
+    
+    BindAction(IControllerTypeSpecifier* controllerTypeSpecifier,
+               IInterfaceTypeSpecifier* interfaceTypeSpecifier);
+    
+    ~BindAction();
+    
+    IObjectType* prototypeObject(IRGenerationContext& context) const override;
+    
+    void prototypeMethods(IRGenerationContext& context) const override;
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* BindAction_h */
+

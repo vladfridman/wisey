@@ -42,9 +42,10 @@ namespace wisey {
     static llvm::Function* define(IRGenerationContext& context);
     
     static void compose(IRGenerationContext& context, llvm::Function* function);
-
+    
   };
   
 } /* namespace wisey */
 
 #endif /* DestroyOwnerArrayFunction_h */
+

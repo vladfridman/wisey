@@ -16,23 +16,24 @@
 #include "wisey/IRGenerationContext.hpp"
 
 namespace wisey {
-
-/**
- * Represents a default CASE in a SWITCH statement
- */
-class DefaultCaseStatement : public IStatement {
   
-  Block* mBlock;
+  /**
+   * Represents a default CASE in a SWITCH statement
+   */
+  class DefaultCaseStatement : public IStatement {
+    
+    Block* mBlock;
+    
+  public:
+    
+    DefaultCaseStatement(Block* block);
+    
+    ~DefaultCaseStatement();
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+  };
   
-public:
-  
-  DefaultCaseStatement(Block* block);
-  
-  ~DefaultCaseStatement();
-  
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-};
-
 } /* namespace wisey */
 
 #endif /* DefaultCaseStatement_h */
+

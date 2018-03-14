@@ -13,17 +13,18 @@
 
 namespace wisey {
   
-/**
- * Represents model type specifier
- */
-class IModelTypeSpecifier : public IObjectTypeSpecifier {
+  /**
+   * Represents model type specifier
+   */
+  class IModelTypeSpecifier : public IObjectTypeSpecifier {
+    
+  public:
+    
+    virtual Model* getType(IRGenerationContext& context) const = 0;
+    
+  };
   
-public:
-  
-  virtual Model* getType(IRGenerationContext& context) const = 0;
-  
-};
-
 } /* namespace wisey */
 
 #endif /* IModelTypeSpecifier_h */
+

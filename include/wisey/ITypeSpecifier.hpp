@@ -14,12 +14,13 @@
 #include "wisey/IRGenerationContext.hpp"
 
 namespace wisey {
-
-/**
- * Represents a type specifier that could either be a primitive or an object type
- */
-class ITypeSpecifier : public IHasType, public IPrintable { };
-
+  
+  /**
+   * Represents a type specifier that could either be a primitive or an object type
+   */
+  class ITypeSpecifier : public IHasType, public IPrintable { };
+  
 } /* namespace wisey */
 
 #endif /* ITypeSpecifier_h */
+

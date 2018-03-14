@@ -15,36 +15,37 @@
 
 namespace wisey {
   
-/**
- * Represents injector used to initialize and instantiate controllers
- */
-class Injector : public IExpression {
+  /**
+   * Represents injector used to initialize and instantiate controllers
+   */
+  class Injector : public IExpression {
     
-  IObjectTypeSpecifier* mObjectTypeSpecifier;
-  InjectionArgumentList mInjectionArgumentList;
-  int mLine;
+    IObjectTypeSpecifier* mObjectTypeSpecifier;
+    InjectionArgumentList mInjectionArgumentList;
+    int mLine;
+    
+  public:
+    
+    Injector(IObjectTypeSpecifier* objectTypeSpecifier,
+             InjectionArgumentList injectionArgumentList,
+             int line);
+    
+    ~Injector();
+    
+    IVariable* getVariable(IRGenerationContext& context,
+                           std::vector<const IExpression*>& arrayIndices) const override;
+    
+    llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
+    
+    const IObjectOwnerType* getType(IRGenerationContext& context) const override;
+    
+    bool isConstant() const override;
+    
+    void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
+    
+  };
   
-public:
-  
-  Injector(IObjectTypeSpecifier* objectTypeSpecifier,
-           InjectionArgumentList injectionArgumentList,
-           int line);
-  
-  ~Injector();
-  
-  IVariable* getVariable(IRGenerationContext& context,
-                         std::vector<const IExpression*>& arrayIndices) const override;
-  
-  llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
-  
-  const IObjectOwnerType* getType(IRGenerationContext& context) const override;
-
-  bool isConstant() const override;
-
-  void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
-  
-};
-
 } /* namespace wisey */
 
 #endif /* Injector_h */
+

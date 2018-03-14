@@ -15,24 +15,25 @@
 
 namespace wisey {
   
-/**
- * Interface representing an injectable object type such as controller and interface
- */
-class IInjectable {
-    
-public:
-  
-  virtual ~IInjectable() { }
-  
   /**
-   * Inject an instance of this injectable object with given arguments
+   * Interface representing an injectable object type such as controller and interface
    */
-  virtual llvm::Instruction* inject(IRGenerationContext& context,
-                                    const InjectionArgumentList injectionArgumentList,
-                                    int line) const = 0;
-
-};
-
+  class IInjectable {
+    
+  public:
+    
+    virtual ~IInjectable() { }
+    
+    /**
+     * Inject an instance of this injectable object with given arguments
+     */
+    virtual llvm::Instruction* inject(IRGenerationContext& context,
+                                      const InjectionArgumentList injectionArgumentList,
+                                      int line) const = 0;
+    
+  };
+  
 } /* namespace wisey */
 
 #endif /* IInjectable_h */
+

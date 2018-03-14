@@ -16,43 +16,44 @@
 
 namespace wisey {
   
-/**
- * Represents an object field that is of owner type
- */
-class FieldOwnerVariable : public IFieldVariable, public IOwnerVariable {
+  /**
+   * Represents an object field that is of owner type
+   */
+  class FieldOwnerVariable : public IFieldVariable, public IOwnerVariable {
     
-  std::string mName;
-  const IConcreteObjectType* mObject;
-  
-public:
-  
-  FieldOwnerVariable(std::string name, const IConcreteObjectType* object);
-  
-  ~FieldOwnerVariable();
-  
-  std::string getName() const override;
-  
-  bool isField() const override;
-
-  const IObjectOwnerType* getType() const override;
-  
-  bool isSystem() const override;
-
-  llvm::Value* generateIdentifierIR(IRGenerationContext& context) const override;
-  
-  llvm::Value* generateIdentifierReferenceIR(IRGenerationContext& context) const override;
-
-  llvm::Value* generateAssignmentIR(IRGenerationContext& context,
-                                    IExpression* assignToExpression,
-                                    std::vector<const IExpression*> arrayIndices,
-                                    int line) override;
-  
-  void free(IRGenerationContext& context) const override;
-   
-  void setToNull(IRGenerationContext& context) override;
-  
-};
+    std::string mName;
+    const IConcreteObjectType* mObject;
+    
+  public:
+    
+    FieldOwnerVariable(std::string name, const IConcreteObjectType* object);
+    
+    ~FieldOwnerVariable();
+    
+    std::string getName() const override;
+    
+    bool isField() const override;
+    
+    const IObjectOwnerType* getType() const override;
+    
+    bool isSystem() const override;
+    
+    llvm::Value* generateIdentifierIR(IRGenerationContext& context) const override;
+    
+    llvm::Value* generateIdentifierReferenceIR(IRGenerationContext& context) const override;
+    
+    llvm::Value* generateAssignmentIR(IRGenerationContext& context,
+                                      IExpression* assignToExpression,
+                                      std::vector<const IExpression*> arrayIndices,
+                                      int line) override;
+    
+    void free(IRGenerationContext& context) const override;
+    
+    void setToNull(IRGenerationContext& context) override;
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* FieldOwnerVariable_h */
+

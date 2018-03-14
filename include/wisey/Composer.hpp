@@ -13,26 +13,27 @@
 #include "wisey/IRGenerationContext.hpp"
 
 namespace wisey {
-
-/**
- * A collection of static methods used to add wisey language code snippets
- */
-class Composer {
-
-public:
-
+  
   /**
-   * Push new entry on call stack
+   * A collection of static methods used to add wisey language code snippets
    */
-  static void pushCallStack(IRGenerationContext& context, int line);
-
-  /**
-   * Pop an entry from call stack
-   */
-  static void popCallStack(IRGenerationContext& context);
-
-};
-
+  class Composer {
+    
+  public:
+    
+    /**
+     * Push new entry on call stack
+     */
+    static void pushCallStack(IRGenerationContext& context, int line);
+    
+    /**
+     * Pop an entry from call stack
+     */
+    static void popCallStack(IRGenerationContext& context);
+    
+  };
+  
 } /* namespace wisey */
 
 #endif /* Composer_h */
+

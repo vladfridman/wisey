@@ -16,25 +16,26 @@
 #include "wisey/IType.hpp"
 
 namespace wisey {
-
-/**
- * Methods for automatic casting of expressions
- */
-class AutoCast {
-  
-public:
   
   /**
-   * Try to cast expression's value to a given type
+   * Methods for automatic casting of expressions
    */
-  static llvm::Value* maybeCast(IRGenerationContext& context,
-                                const IType* fromType,
-                                llvm::Value* fromValue,
-                                const IType* toType,
-                                int line);
+  class AutoCast {
+    
+  public:
+    
+    /**
+     * Try to cast expression's value to a given type
+     */
+    static llvm::Value* maybeCast(IRGenerationContext& context,
+                                  const IType* fromType,
+                                  llvm::Value* fromValue,
+                                  const IType* toType,
+                                  int line);
+    
+  };
   
-};
-
 } /* namespace wisey */
 
 #endif /* AutoCast_h */
+

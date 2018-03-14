@@ -15,24 +15,25 @@
 
 namespace wisey {
   
-class IRGenerationContext;
+  class IRGenerationContext;
   
-/**
- * Represents a printout statement for printing things to stdout stream
- */
-class PrintErrStatement : public IPrintStatement {
-  ExpressionList mExpressionList;
-  
-public:
-  
-  PrintErrStatement(ExpressionList expressionList);
-  
-  ~PrintErrStatement();
-  
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-
-};
+  /**
+   * Represents a printout statement for printing things to stdout stream
+   */
+  class PrintErrStatement : public IPrintStatement {
+    ExpressionList mExpressionList;
+    
+  public:
+    
+    PrintErrStatement(ExpressionList expressionList);
+    
+    ~PrintErrStatement();
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* PrintErrStatement_h */
+

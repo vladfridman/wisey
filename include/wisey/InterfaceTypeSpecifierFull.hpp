@@ -13,31 +13,32 @@
 
 namespace wisey {
   
-/**
- * Represents a fully qualified interface type specifier
- */
-class InterfaceTypeSpecifierFull : public IInterfaceTypeSpecifier {
-  IExpression* mPackageExpression;
-  const std::string mShortName;
+  /**
+   * Represents a fully qualified interface type specifier
+   */
+  class InterfaceTypeSpecifierFull : public IInterfaceTypeSpecifier {
+    IExpression* mPackageExpression;
+    const std::string mShortName;
+    
+  public:
+    
+    InterfaceTypeSpecifierFull(IExpression* packageExpression, std::string shortName);
+    
+    ~InterfaceTypeSpecifierFull();
+    
+    std::string getShortName() const override;
+    
+    IExpression* takePackage() override;
+    
+    std::string getName(IRGenerationContext& context) const override;
+    
+    Interface* getType(IRGenerationContext& context) const override;
+    
+    void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
+    
+  };
   
-public:
-  
-  InterfaceTypeSpecifierFull(IExpression* packageExpression, std::string shortName);
-  
-  ~InterfaceTypeSpecifierFull();
-  
-  std::string getShortName() const override;
-  
-  IExpression* takePackage() override;
-
-  std::string getName(IRGenerationContext& context) const override;
-  
-  Interface* getType(IRGenerationContext& context) const override;
-  
-  void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
-  
-};
-
 } /* namespace wisey */
 
 #endif /* InterfaceTypeSpecifierFull_h */
+

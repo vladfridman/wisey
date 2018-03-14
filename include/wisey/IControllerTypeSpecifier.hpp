@@ -13,17 +13,18 @@
 
 namespace wisey {
   
-/**
- * Represents controller type specifier
- */
-class IControllerTypeSpecifier : public IObjectTypeSpecifier {
-
-public:
-  
-  virtual const Controller* getType(IRGenerationContext& context) const = 0;
-
-};
+  /**
+   * Represents controller type specifier
+   */
+  class IControllerTypeSpecifier : public IObjectTypeSpecifier {
+    
+  public:
+    
+    virtual const Controller* getType(IRGenerationContext& context) const = 0;
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* IControllerTypeSpecifier_h */
+

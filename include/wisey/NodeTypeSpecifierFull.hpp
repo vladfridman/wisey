@@ -13,31 +13,32 @@
 
 namespace wisey {
   
-/**
- * Represents a fully qualified node type specifier
- */
-class NodeTypeSpecifierFull : public INodeTypeSpecifier {
-  IExpression* mPackageExpression;
-  const std::string mShortName;
+  /**
+   * Represents a fully qualified node type specifier
+   */
+  class NodeTypeSpecifierFull : public INodeTypeSpecifier {
+    IExpression* mPackageExpression;
+    const std::string mShortName;
+    
+  public:
+    
+    NodeTypeSpecifierFull(IExpression* packageExpression, std::string shortName);
+    
+    ~NodeTypeSpecifierFull();
+    
+    std::string getShortName() const override;
+    
+    IExpression* takePackage() override;
+    
+    std::string getName(IRGenerationContext& context) const override;
+    
+    Node* getType(IRGenerationContext& context) const override;
+    
+    void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
+    
+  };
   
-public:
-  
-  NodeTypeSpecifierFull(IExpression* packageExpression, std::string shortName);
-  
-  ~NodeTypeSpecifierFull();
-  
-  std::string getShortName() const override;
-  
-  IExpression* takePackage() override;
-
-  std::string getName(IRGenerationContext& context) const override;
-  
-  Node* getType(IRGenerationContext& context) const override;
-  
-  void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
-  
-};
-
 } /* namespace wisey */
 
 #endif /* NodeTypeSpecifierFull_h */
+

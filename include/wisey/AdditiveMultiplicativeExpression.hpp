@@ -12,41 +12,42 @@
 #include "wisey/IExpression.hpp"
 
 namespace wisey {
-
-/**
- * Represents simple binary expression such as addition or division
- */
-class AdditiveMultiplicativeExpression : public IExpression {
-  IExpression* mLeftExpression;
-  IExpression* mRightExpression;
-  int mOperation;
-  int mLine;
   
-public:
-
-  AdditiveMultiplicativeExpression(IExpression* leftExpression,
-                                   int operation,
-                                   IExpression* rightExpression,
-                                   int line);
+  /**
+   * Represents simple binary expression such as addition or division
+   */
+  class AdditiveMultiplicativeExpression : public IExpression {
+    IExpression* mLeftExpression;
+    IExpression* mRightExpression;
+    int mOperation;
+    int mLine;
+    
+  public:
+    
+    AdditiveMultiplicativeExpression(IExpression* leftExpression,
+                                     int operation,
+                                     IExpression* rightExpression,
+                                     int line);
+    
+    ~AdditiveMultiplicativeExpression();
+    
+    IVariable* getVariable(IRGenerationContext& context,
+                           std::vector<const IExpression*>& arrayIndices) const override;
+    
+    llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
+    
+    const IType* getType(IRGenerationContext& context) const override;
+    
+    bool isConstant() const override;
+    
+    void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
+    
+  private:
+    
+    void checkTypes(IRGenerationContext& context, const IType* leftType, const IType* rightType) const;
+  };
   
-  ~AdditiveMultiplicativeExpression();
-  
-  IVariable* getVariable(IRGenerationContext& context,
-                         std::vector<const IExpression*>& arrayIndices) const override;
-  
-  llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
-
-  const IType* getType(IRGenerationContext& context) const override;
-  
-  bool isConstant() const override;
-
-  void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
-
-private:
-  
-  void checkTypes(IRGenerationContext& context, const IType* leftType, const IType* rightType) const;
-};
-
 } /* namespace wisey */
 
 #endif /* AdditiveMultiplicativeExpression_hpp */
+

@@ -18,50 +18,51 @@
 
 namespace wisey {
   
-/**
- * Data structure to hold information about cases inside a SWITCH statement
- */
-struct SwitchCases {
-  
-  std::vector<CaseStatement*> caseStatements;
-  
-  DefaultCaseStatement* defaultStatement;
-};
-  
-/**
- * Represents a switch statement
- * switch (expression) statement;
- */
-class SwitchStatement : public IStatement {
-  IExpression* mCondition;
-  SwitchCases* mSwitchCases;
-  
-public:
-  
-  SwitchStatement(IExpression* condition, SwitchCases* switchCases);
-  
-  ~SwitchStatement();
-  
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-  
-private:
+  /**
+   * Data structure to hold information about cases inside a SWITCH statement
+   */
+  struct SwitchCases {
+    
+    std::vector<CaseStatement*> caseStatements;
+    
+    DefaultCaseStatement* defaultStatement;
+  };
   
   /**
-   * Generate IR for all the cases excluding the default one
+   * Represents a switch statement
+   * switch (expression) statement;
    */
-  void generateCasesIR(IRGenerationContext& context,
-                       llvm::BasicBlock* switchDefault,
-                       llvm::BasicBlock* switchEpilog,
-                       llvm::SwitchInst* switchInst) const;
-
-  /**
-   * Generate IR for all the default case
-   */
-  void generateDefaultCaseIR(IRGenerationContext& context,
-                             llvm::BasicBlock* switchDefault,
-                             llvm::BasicBlock* switchEpilog) const;
-};
+  class SwitchStatement : public IStatement {
+    IExpression* mCondition;
+    SwitchCases* mSwitchCases;
+    
+  public:
+    
+    SwitchStatement(IExpression* condition, SwitchCases* switchCases);
+    
+    ~SwitchStatement();
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+    
+  private:
+    
+    /**
+     * Generate IR for all the cases excluding the default one
+     */
+    void generateCasesIR(IRGenerationContext& context,
+                         llvm::BasicBlock* switchDefault,
+                         llvm::BasicBlock* switchEpilog,
+                         llvm::SwitchInst* switchInst) const;
+    
+    /**
+     * Generate IR for all the default case
+     */
+    void generateDefaultCaseIR(IRGenerationContext& context,
+                               llvm::BasicBlock* switchDefault,
+                               llvm::BasicBlock* switchEpilog) const;
+  };
   
 } /* namespace wisey */
 
 #endif /* SwitchStatement_h */
+

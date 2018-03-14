@@ -15,27 +15,28 @@
 
 namespace wisey {
   
-/**
- * Things that need to be run before the parsed program code
- */
-class ProgramPrefix : public IStatement {
-
-public:
-  
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-
-private:
-  
-  void defineAdjustReferenceCounterForInterfaceFunction(IRGenerationContext& context) const;
-  
-  llvm::StructType* defineFileStruct(IRGenerationContext& context) const;
-
-  void defineStderr(IRGenerationContext& context, llvm::StructType* fileStructType) const;
-  
-  void defineEmptyString(IRGenerationContext& context) const;
-  
-};
+  /**
+   * Things that need to be run before the parsed program code
+   */
+  class ProgramPrefix : public IStatement {
+    
+  public:
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+    
+  private:
+    
+    void defineAdjustReferenceCounterForInterfaceFunction(IRGenerationContext& context) const;
+    
+    llvm::StructType* defineFileStruct(IRGenerationContext& context) const;
+    
+    void defineStderr(IRGenerationContext& context, llvm::StructType* fileStructType) const;
+    
+    void defineEmptyString(IRGenerationContext& context) const;
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* ProgramPrefix_h */
+

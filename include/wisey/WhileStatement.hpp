@@ -16,23 +16,24 @@
 #include "wisey/IStatement.hpp"
 
 namespace wisey {
-
-/**
- * Represents a while loop statement
- */
-class WhileStatement : public IStatement {
-  IExpression* mConditionExpression;
-  IStatement* mStatement;
   
-public:
+  /**
+   * Represents a while loop statement
+   */
+  class WhileStatement : public IStatement {
+    IExpression* mConditionExpression;
+    IStatement* mStatement;
+    
+  public:
+    
+    WhileStatement(IExpression* conditionExpression, IStatement* statement);
+    
+    ~WhileStatement();
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+  };
   
-  WhileStatement(IExpression* conditionExpression, IStatement* statement);
-  
-  ~WhileStatement();
-
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-};
-
 } /* namespace wisey */
 
 #endif /* WhileStatement_h */
+

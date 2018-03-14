@@ -16,34 +16,35 @@
 
 namespace wisey {
   
-/**
- * Represents model definition implemented in a shared library
- */
-class ExternalModelDefinition : public IConcreteObjectDefinition {
-  ModelTypeSpecifierFull* mModelTypeSpecifierFull;
-  std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
-  std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
-  std::vector<IObjectDefinition*> mInnerObjectDefinitions;
-
-public:
+  /**
+   * Represents model definition implemented in a shared library
+   */
+  class ExternalModelDefinition : public IConcreteObjectDefinition {
+    ModelTypeSpecifierFull* mModelTypeSpecifierFull;
+    std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
+    std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
+    std::vector<IObjectDefinition*> mInnerObjectDefinitions;
+    
+  public:
+    
+    ExternalModelDefinition(ModelTypeSpecifierFull* modelTypeSpecifierFull,
+                            std::vector<IObjectElementDeclaration*> objectElementDeclarations,
+                            std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
+                            std::vector<IObjectDefinition*> innerObjectDefinitions);
+    
+    ~ExternalModelDefinition();
+    
+    Model* prototypeObject(IRGenerationContext& context) const override;
+    
+    void prototypeMethods(IRGenerationContext& context) const override;
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+    
+  private:
+    
+  };
   
-  ExternalModelDefinition(ModelTypeSpecifierFull* modelTypeSpecifierFull,
-                          std::vector<IObjectElementDeclaration*> objectElementDeclarations,
-                          std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
-                          std::vector<IObjectDefinition*> innerObjectDefinitions);
-  
-  ~ExternalModelDefinition();
-  
-  Model* prototypeObject(IRGenerationContext& context) const override;
-  
-  void prototypeMethods(IRGenerationContext& context) const override;
-  
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-  
-private:
-  
-};
-
 } /* namespace wisey */
 
 #endif /* ExternalModelDefinition_h */
+

@@ -12,21 +12,22 @@
 #include "wisey/IType.hpp"
 
 namespace wisey {
-
-/**
- * Represents a primitive type such as int, boolean, char, string
- */
-class IPrimitiveType : public IType {
-
-public:
   
   /**
-   * Returns format string used in printf to print this type
+   * Represents a primitive type such as int, boolean, char, string
    */
-  virtual std::string getFormat() const = 0;
-
-};
+  class IPrimitiveType : public IType {
+    
+  public:
+    
+    /**
+     * Returns format string used in printf to print this type
+     */
+    virtual std::string getFormat() const = 0;
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* IPrimitiveType_h */
+

@@ -14,39 +14,40 @@
 
 namespace wisey {
   
-/**
- * Represents an object field that is of primitive type
- */
-class FieldPrimitiveVariable : public IFieldVariable, public IVariable {
+  /**
+   * Represents an object field that is of primitive type
+   */
+  class FieldPrimitiveVariable : public IFieldVariable, public IVariable {
     
-  std::string mName;
-  const IConcreteObjectType* mObject;
-  
-public:
-  
-  FieldPrimitiveVariable(std::string name, const IConcreteObjectType* object);
-  
-  ~FieldPrimitiveVariable();
-  
-  std::string getName() const override;
-  
-  const IType* getType() const override;
-  
-  bool isField() const override;
-
-  bool isSystem() const override;
-
-  llvm::Value* generateIdentifierIR(IRGenerationContext& context) const override;
-
-  llvm::Value* generateIdentifierReferenceIR(IRGenerationContext& context) const override;
-
-  llvm::Value* generateAssignmentIR(IRGenerationContext& context,
-                                    IExpression* assignToExpression,
-                                    std::vector<const IExpression*> arrayIndices,
-                                    int line) override;
-  
-};
+    std::string mName;
+    const IConcreteObjectType* mObject;
+    
+  public:
+    
+    FieldPrimitiveVariable(std::string name, const IConcreteObjectType* object);
+    
+    ~FieldPrimitiveVariable();
+    
+    std::string getName() const override;
+    
+    const IType* getType() const override;
+    
+    bool isField() const override;
+    
+    bool isSystem() const override;
+    
+    llvm::Value* generateIdentifierIR(IRGenerationContext& context) const override;
+    
+    llvm::Value* generateIdentifierReferenceIR(IRGenerationContext& context) const override;
+    
+    llvm::Value* generateAssignmentIR(IRGenerationContext& context,
+                                      IExpression* assignToExpression,
+                                      std::vector<const IExpression*> arrayIndices,
+                                      int line) override;
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* FieldPrimitiveVariable_h */
+

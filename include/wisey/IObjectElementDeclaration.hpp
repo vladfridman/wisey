@@ -14,40 +14,41 @@
 
 namespace wisey {
   
-class IRGenerationContext;
-
-/**
- * Represents a declaration of an object element such as a method or a field
- */
-class IObjectElementDeclaration {
+  class IRGenerationContext;
+  
+  /**
+   * Represents a declaration of an object element such as a method or a field
+   */
+  class IObjectElementDeclaration {
     
-public:
+  public:
+    
+    virtual ~IObjectElementDeclaration() { }
+    
+    /**
+     * Returns a represention of an object element: a method or a field
+     */
+    virtual IObjectElement* declare(IRGenerationContext& context,
+                                    const IObjectType* objectType) const = 0;
+    
+    
+    /**
+     * Methods for determining the type of object element
+     */
+    virtual bool isConstant() const = 0;
+    
+    virtual bool isField() const = 0;
+    
+    virtual bool isMethod() const = 0;
+    
+    virtual bool isStaticMethod() const = 0;
+    
+    virtual bool isMethodSignature() const = 0;
+    
+  };
   
-  virtual ~IObjectElementDeclaration() { }
-  
-  /**
-   * Returns a represention of an object element: a method or a field
-   */
-  virtual IObjectElement* declare(IRGenerationContext& context,
-                                  const IObjectType* objectType) const = 0;
-
-
-  /**
-   * Methods for determining the type of object element
-   */
-  virtual bool isConstant() const = 0;
-  
-  virtual bool isField() const = 0;
-  
-  virtual bool isMethod() const = 0;
-  
-  virtual bool isStaticMethod() const = 0;
-  
-  virtual bool isMethodSignature() const = 0;
-
-};
-
 } /* namespace wisey */
 
 
 #endif /* IObjectElementDeclaration_h */
+

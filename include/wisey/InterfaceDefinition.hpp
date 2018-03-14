@@ -16,34 +16,35 @@
 
 namespace wisey {
   
-/**
- * Represents an interface definition which is analogous to a pure virtual class in C++
- */
-class InterfaceDefinition : public IObjectDefinition {
-  AccessLevel mAccessLevel;
-  InterfaceTypeSpecifierFull* mInterfaceTypeSpecifierFull;
-  std::vector<IInterfaceTypeSpecifier*> mParentInterfaceSpecifiers;
-  std::vector<IObjectElementDeclaration *> mElementDeclarations;
-  std::vector<IObjectDefinition*> mInnerObjectDefinitions;
-
-public:
-  
-  InterfaceDefinition(AccessLevel accessLevel,
-                      InterfaceTypeSpecifierFull* interfaceTypeSpecifierFull,
-                      std::vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
-                      std::vector<IObjectElementDeclaration *> elementDeclarations,
-                      std::vector<IObjectDefinition*> innerObjectDefinitions);
-  
-  ~InterfaceDefinition();
-  
-  Interface* prototypeObject(IRGenerationContext& context) const override;
-  
-  void prototypeMethods(IRGenerationContext& context) const override;
-  
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-  
-};
+  /**
+   * Represents an interface definition which is analogous to a pure virtual class in C++
+   */
+  class InterfaceDefinition : public IObjectDefinition {
+    AccessLevel mAccessLevel;
+    InterfaceTypeSpecifierFull* mInterfaceTypeSpecifierFull;
+    std::vector<IInterfaceTypeSpecifier*> mParentInterfaceSpecifiers;
+    std::vector<IObjectElementDeclaration *> mElementDeclarations;
+    std::vector<IObjectDefinition*> mInnerObjectDefinitions;
+    
+  public:
+    
+    InterfaceDefinition(AccessLevel accessLevel,
+                        InterfaceTypeSpecifierFull* interfaceTypeSpecifierFull,
+                        std::vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
+                        std::vector<IObjectElementDeclaration *> elementDeclarations,
+                        std::vector<IObjectDefinition*> innerObjectDefinitions);
+    
+    ~InterfaceDefinition();
+    
+    Interface* prototypeObject(IRGenerationContext& context) const override;
+    
+    void prototypeMethods(IRGenerationContext& context) const override;
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* InterfaceDefinition_h */
+

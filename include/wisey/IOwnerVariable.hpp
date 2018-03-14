@@ -12,26 +12,27 @@
 #include "wisey/IVariable.hpp"
 
 namespace wisey {
-
-/**
- * Represents a variable of owner type
- */
-class IOwnerVariable : public IVariable {
-
-public:
   
   /**
-   * Sets variable to null
+   * Represents a variable of owner type
    */
-  virtual void setToNull(IRGenerationContext& context) = 0;
-  
-  /**
-   * Free any allocated space associated with this variable
-   */
-  virtual void free(IRGenerationContext& context) const = 0;
-
-};
+  class IOwnerVariable : public IVariable {
+    
+  public:
+    
+    /**
+     * Sets variable to null
+     */
+    virtual void setToNull(IRGenerationContext& context) = 0;
+    
+    /**
+     * Free any allocated space associated with this variable
+     */
+    virtual void free(IRGenerationContext& context) const = 0;
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* IOwnerVariable_h */
+

@@ -48,3 +48,4 @@ namespace wisey {
 } /* namespace wisey */
 
 #endif /* ReceivedFieldDeclaration_h */
+

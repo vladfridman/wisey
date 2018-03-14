@@ -14,40 +14,41 @@
 
 namespace wisey {
   
-/**
- * Represents the current thread in a wisey program.
- */
-class ThreadExpression : public IExpression {
-  
-public:
-  
-  ThreadExpression();
-  
-  ~ThreadExpression();
-  
   /**
-   * Variable name referencing the current thread
+   * Represents the current thread in a wisey program.
    */
-  static std::string THREAD;
+  class ThreadExpression : public IExpression {
+    
+  public:
+    
+    ThreadExpression();
+    
+    ~ThreadExpression();
+    
+    /**
+     * Variable name referencing the current thread
+     */
+    static std::string THREAD;
+    
+    /**
+     * Variable name referencing current thread's call stack
+     */
+    static std::string CALL_STACK;
+    
+    IVariable* getVariable(IRGenerationContext& context,
+                           std::vector<const IExpression*>& arrayIndices) const override;
+    
+    llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
+    
+    const IType* getType(IRGenerationContext& context) const override;
+    
+    bool isConstant() const override;
+    
+    void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
+    
+  };
   
-  /**
-   * Variable name referencing current thread's call stack
-   */
-  static std::string CALL_STACK;
-  
-  IVariable* getVariable(IRGenerationContext& context,
-                         std::vector<const IExpression*>& arrayIndices) const override;
-  
-  llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
-  
-  const IType* getType(IRGenerationContext& context) const override;
-  
-  bool isConstant() const override;
-
-  void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
-  
-};
-
 } /* namespace wisey */
 
 #endif /* ThreadExpression_h */
+

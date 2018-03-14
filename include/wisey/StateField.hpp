@@ -49,7 +49,7 @@ namespace wisey {
     bool isReceived() const override;
     
     bool isState() const override;
-
+    
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
   };
@@ -57,3 +57,4 @@ namespace wisey {
 } /* namespace wisey */
 
 #endif /* StateField_h */
+

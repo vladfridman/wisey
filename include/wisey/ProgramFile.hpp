@@ -14,55 +14,56 @@
 #include "wisey/ImportProfile.hpp"
 
 namespace wisey {
-
-/**
- * Represents one Wisey progarm file
- */
-class ProgramFile : public IStatement {
-
-  GlobalStatementList mGlobalStatementList;
-  std::string mSourceFile;
-  ImportProfile* mImportProfile;
-  
-public:
-  
-  ProgramFile(std::string package, GlobalStatementList globalStatementList);
-  
-  ~ProgramFile();
   
   /**
-   * Generate object prototypes from controller, model and interface definitions
-   */  
-  void prototypeObjects(IRGenerationContext& context) const;
-  
-  /**
-   * Generate method information for prototyped objects
+   * Represents one Wisey progarm file
    */
-  void prototypeMethods(IRGenerationContext& context) const;
+  class ProgramFile : public IStatement {
+    
+    GlobalStatementList mGlobalStatementList;
+    std::string mSourceFile;
+    ImportProfile* mImportProfile;
+    
+  public:
+    
+    ProgramFile(std::string package, GlobalStatementList globalStatementList);
+    
+    ~ProgramFile();
+    
+    /**
+     * Generate object prototypes from controller, model and interface definitions
+     */
+    void prototypeObjects(IRGenerationContext& context) const;
+    
+    /**
+     * Generate method information for prototyped objects
+     */
+    void prototypeMethods(IRGenerationContext& context) const;
+    
+    /**
+     * Sets source file name pointer
+     */
+    void setSourceFile(std::string sourceFile);
+    
+    /**
+     * Returns source file name pointer
+     */
+    std::string getSourceFile() const;
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+    
+    /**
+     * Returns the name of the constant containing the given source file name
+     */
+    static std::string getSourceFileConstantName(std::string sourceFile);
+    
+  private:
+    
+    llvm::Value* defineSourceFileConstant(IRGenerationContext& context, std::string sourceFile) const;
+    
+  };
   
-  /**
-   * Sets source file name pointer
-   */
-  void setSourceFile(std::string sourceFile);
-
-  /**
-   * Returns source file name pointer
-   */
-  std::string getSourceFile() const;
-  
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-
-  /**
-   * Returns the name of the constant containing the given source file name
-   */
-  static std::string getSourceFileConstantName(std::string sourceFile);
-
-private:
-  
-  llvm::Value* defineSourceFileConstant(IRGenerationContext& context, std::string sourceFile) const;
-
-};
-
 } /* namespace wisey */
 
 #endif /* ProgramFile_h */
+

@@ -13,33 +13,34 @@
 
 namespace wisey {
   
-/**
- * This is used to fake an expression that returns a given value on generateIR
- */
-class FakeExpression : public IExpression {
-
-  llvm::Value* mValue;
-  const IType* mType;
-  
-public:
-  
-  FakeExpression(llvm::Value* value, const IType* type);
-  
-  ~FakeExpression();
-  
-  IVariable* getVariable(IRGenerationContext& context,
-                         std::vector<const IExpression*>& arrayIndices) const override;
- 
-  llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
-  
-  const IType* getType(IRGenerationContext& context) const override;
-  
-  bool isConstant() const override;
-
-  void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
-
-};
+  /**
+   * This is used to fake an expression that returns a given value on generateIR
+   */
+  class FakeExpression : public IExpression {
+    
+    llvm::Value* mValue;
+    const IType* mType;
+    
+  public:
+    
+    FakeExpression(llvm::Value* value, const IType* type);
+    
+    ~FakeExpression();
+    
+    IVariable* getVariable(IRGenerationContext& context,
+                           std::vector<const IExpression*>& arrayIndices) const override;
+    
+    llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
+    
+    const IType* getType(IRGenerationContext& context) const override;
+    
+    bool isConstant() const override;
+    
+    void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* FakeExpression_h */
+

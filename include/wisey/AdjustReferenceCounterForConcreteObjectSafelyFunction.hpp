@@ -15,33 +15,34 @@
 
 namespace wisey {
   
-/**
- * Global function that increments reference count for models in a thread safe manner
- */
-class AdjustReferenceCounterForConcreteObjectSafelyFunction {
+  /**
+   * Global function that increments reference count for models in a thread safe manner
+   */
+  class AdjustReferenceCounterForConcreteObjectSafelyFunction {
     
-public:
+  public:
+    
+    /**
+     * Returns the function
+     */
+    static llvm::Function* get(IRGenerationContext& context);
+    
+    /**
+     * Call function with given parameters
+     */
+    static void call(IRGenerationContext& context, llvm::Value* object, int adjustment);
+    
+  private:
+    
+    static std::string getName();
+    
+    static llvm::Function* define(IRGenerationContext& context);
+    
+    static void compose(IRGenerationContext& context, llvm::Function* function);
+    
+  };
   
-  /**
-   * Returns the function
-   */
-  static llvm::Function* get(IRGenerationContext& context);
-  
-  /**
-   * Call function with given parameters
-   */
-  static void call(IRGenerationContext& context, llvm::Value* object, int adjustment);
-  
-private:
-  
-  static std::string getName();
-  
-  static llvm::Function* define(IRGenerationContext& context);
-  
-  static void compose(IRGenerationContext& context, llvm::Function* function);
-  
-};
-
 } /* namespace wisey */
 
 #endif /* AdjustReferenceCounterForConcreteObjectSafelyFunction_h */
+

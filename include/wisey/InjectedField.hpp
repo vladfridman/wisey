@@ -29,7 +29,7 @@ namespace wisey {
                   const IType* injectedType,
                   std::string name,
                   InjectionArgumentList injectionArgumentList);
-
+    
     ~InjectedField();
     
     /**
@@ -47,7 +47,7 @@ namespace wisey {
     const IType* getType() const override;
     
     bool isAssignable() const override;
-
+    
     bool isConstant() const override;
     
     bool isField() const override;
@@ -65,7 +65,7 @@ namespace wisey {
     bool isReceived() const override;
     
     bool isState() const override;
-
+    
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
   };
@@ -73,3 +73,4 @@ namespace wisey {
 } /* namespace wisey */
 
 #endif /* InjectedField_h */
+

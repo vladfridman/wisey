@@ -13,20 +13,21 @@
 
 namespace wisey {
   
-/**
- * Represents a variable of reference type
- */
-class IReferenceVariable : public IVariable {
-    
-public:
-  
   /**
-   * Decrements reference counter for the object pointed to by this variable
+   * Represents a variable of reference type
    */
-  virtual void decrementReferenceCounter(IRGenerationContext& context) const = 0;
+  class IReferenceVariable : public IVariable {
+    
+  public:
+    
+    /**
+     * Decrements reference counter for the object pointed to by this variable
+     */
+    virtual void decrementReferenceCounter(IRGenerationContext& context) const = 0;
+    
+  };
   
-};
-
 } /* namespace wisey */
 
 #endif /* IReferenceVariable_h */
+

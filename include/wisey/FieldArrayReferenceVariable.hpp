@@ -35,20 +35,20 @@ namespace wisey {
     const ArrayType* getType() const override;
     
     bool isField() const override;
-
+    
     bool isSystem() const override;
-
+    
     llvm::Value* generateIdentifierIR(IRGenerationContext& context) const override;
-
+    
     llvm::Value* generateIdentifierReferenceIR(IRGenerationContext& context) const override;
-
+    
     llvm::Value* generateAssignmentIR(IRGenerationContext& context,
                                       IExpression* assignToExpression,
                                       std::vector<const IExpression*> arrayIndices,
                                       int line) override;
     
     void decrementReferenceCounter(IRGenerationContext& context) const override;
-
+    
   private:
     
     llvm::Value* generateWholeArrayAssignment(IRGenerationContext& context,
@@ -65,3 +65,4 @@ namespace wisey {
 } /* namespace wisey */
 
 #endif /* FieldArrayReferenceVariable_h */
+

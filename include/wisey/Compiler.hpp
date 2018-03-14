@@ -17,64 +17,65 @@
 
 namespace wisey {
   
-class IRGenerationContext;
-  
-/**
- * Represents Wisey language compiler
- */
-class Compiler {
-  IRGenerationContext mContext;
-  CompilerArguments& mArguments;
-  bool mHasCompiled;
-
-public:
-  
-  Compiler(CompilerArguments& argments) : mArguments(argments), mHasCompiled(false) { }
-  
-  ~Compiler();
+  class IRGenerationContext;
   
   /**
-   * Compile Wisey code passed through constructor arguments
+   * Represents Wisey language compiler
    */
-  void compile();
-  
-  /**
-   * Run compiled code
-   */
-  llvm::GenericValue run();
-  
-private:
-  
-  void printAssembly();
-  
-  void saveBinary(std::string outputFile);
-  
-  void extractHeaders(std::string headerFile);
-  
-  std::vector<ProgramFile*> parseFiles(std::vector<std::string> sourcePatterns);
-  
-  void prototypeObjects(std::vector<ProgramFile*> programFiles, IRGenerationContext& context);
-  
-  void prototypeMethods(std::vector<ProgramFile*> programFiles, IRGenerationContext& context);
-  
-  void generateIR(std::vector<ProgramFile*> programFiles, IRGenerationContext& context);
-  
-  void deleteProgramFiles(std::vector<ProgramFile*> programFiles);
-  
-private:
-  
-  std::vector<std::string> expandPatterns(std::vector<std::string> sourcePatterns);
-  
-  std::vector<std::string> listFilesInDirectory(std::string directory);
-  
-  void appendFilesFromDirectoryThatMatch(std::string directory,
-                                         std::string pattern,
-                                         std::vector<std::string>& sourceFiles);
-  
-  bool wildcardMatch(char const *needle, char const *haystack);
-  
-};
+  class Compiler {
+    IRGenerationContext mContext;
+    CompilerArguments& mArguments;
+    bool mHasCompiled;
+    
+  public:
+    
+    Compiler(CompilerArguments& argments) : mArguments(argments), mHasCompiled(false) { }
+    
+    ~Compiler();
+    
+    /**
+     * Compile Wisey code passed through constructor arguments
+     */
+    void compile();
+    
+    /**
+     * Run compiled code
+     */
+    llvm::GenericValue run();
+    
+  private:
+    
+    void printAssembly();
+    
+    void saveBinary(std::string outputFile);
+    
+    void extractHeaders(std::string headerFile);
+    
+    std::vector<ProgramFile*> parseFiles(std::vector<std::string> sourcePatterns);
+    
+    void prototypeObjects(std::vector<ProgramFile*> programFiles, IRGenerationContext& context);
+    
+    void prototypeMethods(std::vector<ProgramFile*> programFiles, IRGenerationContext& context);
+    
+    void generateIR(std::vector<ProgramFile*> programFiles, IRGenerationContext& context);
+    
+    void deleteProgramFiles(std::vector<ProgramFile*> programFiles);
+    
+  private:
+    
+    std::vector<std::string> expandPatterns(std::vector<std::string> sourcePatterns);
+    
+    std::vector<std::string> listFilesInDirectory(std::string directory);
+    
+    void appendFilesFromDirectoryThatMatch(std::string directory,
+                                           std::string pattern,
+                                           std::vector<std::string>& sourceFiles);
+    
+    bool wildcardMatch(char const *needle, char const *haystack);
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* Compiler_h */
+

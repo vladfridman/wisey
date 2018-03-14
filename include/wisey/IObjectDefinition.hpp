@@ -13,43 +13,45 @@
 #include "wisey/IObjectTypeSpecifier.hpp"
 
 namespace wisey {
-
-class IRGenerationContext;
   
-/**
- * Represents an object definition such as controller, model or interface definitions
- */
-class IObjectDefinition : public IGlobalStatement {
-  
-public:
+  class IRGenerationContext;
   
   /**
-   * Returns object's full name derived from its type specifier and outer object definitions
+   * Represents an object definition such as controller, model or interface definitions
    */
-  static std::string getFullName(IRGenerationContext& context, IObjectTypeSpecifier* typeSpecifier);
-  
-  /**
-   * Calls prototypeObject() on inner objects
-   */
-  static void prototypeInnerObjects(IRGenerationContext& context,
-                                    IObjectType* outerObject,
-                                    std::vector<IObjectDefinition*> innerObjectDefinitions);
-
-  
-  /**
-   * Calls prototypeMethods() on inner objects
-   */
-  static void prototypeInnerObjectMethods(IRGenerationContext& context,
-                                          std::vector<IObjectDefinition*> innerObjectDefinitions);
-
-  /**
-   * Calls generateIR() on inner objects
-   */
-  static void generateInnerObjectIR(IRGenerationContext& context,
-                                    std::vector<IObjectDefinition*> innerObjectDefinitions);
-
-};
+  class IObjectDefinition : public IGlobalStatement {
+    
+  public:
+    
+    /**
+     * Returns object's full name derived from its type specifier and outer object definitions
+     */
+    static std::string getFullName(IRGenerationContext& context,
+                                   IObjectTypeSpecifier* typeSpecifier);
+    
+    /**
+     * Calls prototypeObject() on inner objects
+     */
+    static void prototypeInnerObjects(IRGenerationContext& context,
+                                      IObjectType* outerObject,
+                                      std::vector<IObjectDefinition*> innerObjectDefinitions);
+    
+    
+    /**
+     * Calls prototypeMethods() on inner objects
+     */
+    static void prototypeInnerObjectMethods(IRGenerationContext& context,
+                                            std::vector<IObjectDefinition*> innerObjectDefinitions);
+    
+    /**
+     * Calls generateIR() on inner objects
+     */
+    static void generateInnerObjectIR(IRGenerationContext& context,
+                                      std::vector<IObjectDefinition*> innerObjectDefinitions);
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* IObjectDefinition_h */
+

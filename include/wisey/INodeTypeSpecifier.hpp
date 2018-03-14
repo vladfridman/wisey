@@ -13,17 +13,18 @@
 
 namespace wisey {
   
-/**
- * Represents node type specifier
- */
-class INodeTypeSpecifier : public IObjectTypeSpecifier {
+  /**
+   * Represents node type specifier
+   */
+  class INodeTypeSpecifier : public IObjectTypeSpecifier {
+    
+  public:
+    
+    virtual const Node* getType(IRGenerationContext& context) const = 0;
+    
+  };
   
-public:
-  
-  virtual const Node* getType(IRGenerationContext& context) const = 0;
-  
-};
-
 } /* namespace wisey */
 
 #endif /* INodeTypeSpecifier_h */
+

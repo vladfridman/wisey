@@ -15,42 +15,43 @@
 
 namespace wisey {
   
-/**
- * Represents a method parameter that is a reference to an object.
- */
-class ParameterReferenceVariable : public IReferenceVariable {
-  
-  std::string mName;
-  const IObjectType* mType;
-  llvm::Value* mValue;
-  
-public:
-  
-  ParameterReferenceVariable(std::string name, const IObjectType* type, llvm::Value* value);
-  
-  ~ParameterReferenceVariable();
-  
-  std::string getName() const override;
-  
-  const IObjectType* getType() const override;
-  
-  bool isField() const override;
-
-  bool isSystem() const override;
-
-  llvm::Value* generateIdentifierIR(IRGenerationContext& context) const override;
-  
-  llvm::Value* generateIdentifierReferenceIR(IRGenerationContext& context) const override;
-
-  llvm::Value* generateAssignmentIR(IRGenerationContext& context,
-                                    IExpression* assignToExpression,
-                                    std::vector<const IExpression*> arrayIndices,
-                                    int line) override;
-  
-  void decrementReferenceCounter(IRGenerationContext& context) const override;
-
-};
+  /**
+   * Represents a method parameter that is a reference to an object.
+   */
+  class ParameterReferenceVariable : public IReferenceVariable {
+    
+    std::string mName;
+    const IObjectType* mType;
+    llvm::Value* mValue;
+    
+  public:
+    
+    ParameterReferenceVariable(std::string name, const IObjectType* type, llvm::Value* value);
+    
+    ~ParameterReferenceVariable();
+    
+    std::string getName() const override;
+    
+    const IObjectType* getType() const override;
+    
+    bool isField() const override;
+    
+    bool isSystem() const override;
+    
+    llvm::Value* generateIdentifierIR(IRGenerationContext& context) const override;
+    
+    llvm::Value* generateIdentifierReferenceIR(IRGenerationContext& context) const override;
+    
+    llvm::Value* generateAssignmentIR(IRGenerationContext& context,
+                                      IExpression* assignToExpression,
+                                      std::vector<const IExpression*> arrayIndices,
+                                      int line) override;
+    
+    void decrementReferenceCounter(IRGenerationContext& context) const override;
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* ParameterReferenceVariable_h */
+

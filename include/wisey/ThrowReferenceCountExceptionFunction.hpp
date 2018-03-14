@@ -15,33 +15,34 @@
 
 namespace wisey {
   
-/**
- * Represents the global function that throws Reference Count Exception
- */
-class ThrowReferenceCountExceptionFunction {
-
-public:
-  
   /**
-   * Returns the function
+   * Represents the global function that throws Reference Count Exception
    */
-  static llvm::Function* get(IRGenerationContext& context);
-  
-  /**
-   * Call the function with given arguments
-   */
-  static void call(IRGenerationContext& context, llvm::Value* referenceCount);
-
-private:
-  
-  static std::string getName();
-  
-  static llvm::Function* define(IRGenerationContext& context);
-  
-  static void compose(IRGenerationContext& context, llvm::Function* function);
-  
-};
+  class ThrowReferenceCountExceptionFunction {
+    
+  public:
+    
+    /**
+     * Returns the function
+     */
+    static llvm::Function* get(IRGenerationContext& context);
+    
+    /**
+     * Call the function with given arguments
+     */
+    static void call(IRGenerationContext& context, llvm::Value* referenceCount);
+    
+  private:
+    
+    static std::string getName();
+    
+    static llvm::Function* define(IRGenerationContext& context);
+    
+    static void compose(IRGenerationContext& context, llvm::Function* function);
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* ThrowReferenceCountExceptionFunction_h */
+

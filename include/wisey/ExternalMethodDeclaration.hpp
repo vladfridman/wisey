@@ -20,39 +20,40 @@
 
 namespace wisey {
   
-/**
- * Represents method declaration for an externally implemented object
- */
-class ExternalMethodDeclaration : public IMethodDeclaration {
-  const ITypeSpecifier* mReturnTypeSpecifier;
-  std::string mName;
-  VariableList mArguments;
-  std::vector<IModelTypeSpecifier*> mThrownExceptions;
+  /**
+   * Represents method declaration for an externally implemented object
+   */
+  class ExternalMethodDeclaration : public IMethodDeclaration {
+    const ITypeSpecifier* mReturnTypeSpecifier;
+    std::string mName;
+    VariableList mArguments;
+    std::vector<IModelTypeSpecifier*> mThrownExceptions;
+    
+  public:
+    
+    ExternalMethodDeclaration(const ITypeSpecifier* returnTypeSpecifier,
+                              std::string name,
+                              const VariableList& arguments,
+                              std::vector<IModelTypeSpecifier*> thrownExceptions);
+    
+    ~ExternalMethodDeclaration();
+    
+    ExternalMethod* declare(IRGenerationContext& context,
+                            const IObjectType* objectType) const override;
+    
+    bool isConstant() const override;
+    
+    bool isField() const override;
+    
+    bool isMethod() const override;
+    
+    bool isStaticMethod() const override;
+    
+    bool isMethodSignature() const override;
+    
+  };
   
-public:
-  
-  ExternalMethodDeclaration(const ITypeSpecifier* returnTypeSpecifier,
-                            std::string name,
-                            const VariableList& arguments,
-                            std::vector<IModelTypeSpecifier*> thrownExceptions);
-  
-  ~ExternalMethodDeclaration();
-  
-  ExternalMethod* declare(IRGenerationContext& context,
-                          const IObjectType* objectType) const override;
-  
-  bool isConstant() const override;
-  
-  bool isField() const override;
-  
-  bool isMethod() const override;
-  
-  bool isStaticMethod() const override;
-  
-  bool isMethodSignature() const override;
-
-};
-
 } /* namespace wisey */
 
 #endif /* ExternalMethodDeclaration_h */
+

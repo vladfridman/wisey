@@ -39,3 +39,4 @@ namespace wisey {
 
 
 #endif /* ArrayOwnerTypeSpecifier_h */
+

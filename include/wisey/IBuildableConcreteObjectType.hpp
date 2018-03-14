@@ -14,22 +14,23 @@
 
 namespace wisey {
   
-/**
- * Interface representing a buildable object
- */
-class IBuildableConcreteObjectType : public IConcreteObjectType {
-
-public:
-  
   /**
-   * Builds an instance of this object and initializes all fields
+   * Interface representing a buildable object
    */
-  virtual llvm::Instruction* build(IRGenerationContext& context,
-                                   const ObjectBuilderArgumentList& objectBuilderArgumentList,
-                                   int line) const = 0;
-
-};
-
+  class IBuildableConcreteObjectType : public IConcreteObjectType {
+    
+  public:
+    
+    /**
+     * Builds an instance of this object and initializes all fields
+     */
+    virtual llvm::Instruction* build(IRGenerationContext& context,
+                                     const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                                     int line) const = 0;
+    
+  };
+  
 } /* namespace wisey */
 
 #endif /* IBuildableConcreteObjectType_h */
+

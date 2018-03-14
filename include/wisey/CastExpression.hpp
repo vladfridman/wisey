@@ -13,34 +13,35 @@
 #include "wisey/ITypeSpecifier.hpp"
 
 namespace wisey {
-
-/**
- * Represents a cast operation
- */
-class CastExpression : public IExpression {
-  ITypeSpecifier* mTypeSpecifier;
-  IExpression* mExpression;
-  int mLine;
   
-public:
-  
-  CastExpression(ITypeSpecifier* typeSpecifier, IExpression* expression, int line);
-  
-  ~CastExpression();
-  
-  IVariable* getVariable(IRGenerationContext& context,
-                         std::vector<const IExpression*>& arrayIndices) const override;
- 
-  llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
-  
-  const IType* getType(IRGenerationContext& context) const override;
-  
-  bool isConstant() const override;
-
-  void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
-
-};
+  /**
+   * Represents a cast operation
+   */
+  class CastExpression : public IExpression {
+    ITypeSpecifier* mTypeSpecifier;
+    IExpression* mExpression;
+    int mLine;
+    
+  public:
+    
+    CastExpression(ITypeSpecifier* typeSpecifier, IExpression* expression, int line);
+    
+    ~CastExpression();
+    
+    IVariable* getVariable(IRGenerationContext& context,
+                           std::vector<const IExpression*>& arrayIndices) const override;
+    
+    llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
+    
+    const IType* getType(IRGenerationContext& context) const override;
+    
+    bool isConstant() const override;
+    
+    void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* CastExpression_h */
+

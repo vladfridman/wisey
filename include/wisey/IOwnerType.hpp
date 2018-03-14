@@ -30,3 +30,4 @@ namespace wisey {
 } /* namespace wisey */
 
 #endif /* IOwnerType_h */
+

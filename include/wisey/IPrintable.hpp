@@ -12,25 +12,26 @@
 #include <iostream>
 
 namespace wisey {
-
-class IRGenerationContext;
   
-/**
- * Indicates that the class can be printed into a stream
- */
-class IPrintable {
-
-public:
-  
-  virtual ~IPrintable() { }
+  class IRGenerationContext;
   
   /**
-   * Converts the class instance to string form and prints it to the given stream
+   * Indicates that the class can be printed into a stream
    */
-  virtual void printToStream(IRGenerationContext& context, std::iostream& stream) const = 0;
-
-};
-
-} /* namespace wisey */
+  class IPrintable {
+    
+  public:
+    
+    virtual ~IPrintable() { }
+    
+    /**
+     * Converts the class instance to string form and prints it to the given stream
+     */
+    virtual void printToStream(IRGenerationContext& context, std::iostream& stream) const = 0;
+    
+  };
   
+} /* namespace wisey */
+
 #endif /* IPrintable_h */
+

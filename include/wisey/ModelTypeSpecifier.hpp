@@ -14,32 +14,33 @@
 #include "wisey/IModelTypeSpecifier.hpp"
 
 namespace wisey {
-
-/**
- * Represents model type specifier
- */
-class ModelTypeSpecifier : public IModelTypeSpecifier {
-  IExpression* mPackageExpression;
-  const std::string mShortName;
-
-public:
   
-  ModelTypeSpecifier(IExpression* packageExpression, std::string shortName);
+  /**
+   * Represents model type specifier
+   */
+  class ModelTypeSpecifier : public IModelTypeSpecifier {
+    IExpression* mPackageExpression;
+    const std::string mShortName;
+    
+  public:
+    
+    ModelTypeSpecifier(IExpression* packageExpression, std::string shortName);
+    
+    ~ModelTypeSpecifier();
+    
+    std::string getShortName() const override;
+    
+    IExpression* takePackage() override;
+    
+    std::string getName(IRGenerationContext& context) const override;
+    
+    Model* getType(IRGenerationContext& context) const override;
+    
+    void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
+    
+  };
   
-  ~ModelTypeSpecifier();
-
-  std::string getShortName() const override;
-  
-  IExpression* takePackage() override;
-
-  std::string getName(IRGenerationContext& context) const override;
-  
-  Model* getType(IRGenerationContext& context) const override;
-  
-  void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
-
-};
-
 } /* namespace wisey */
 
 #endif /* ModelTypeSpecifier_h */
+

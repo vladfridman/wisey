@@ -12,23 +12,24 @@
 #include "wisey/IRGenerationContext.hpp"
 
 namespace wisey {
-
-/**
- * Methods for generating cleanup landing pad for rethrowing exeptions
- */
-class Cleanup {
-  
-public:
   
   /**
-   * Generate landing pad code that is executed once an exception is thrown
-   *
-   * Returns the cleanup landing pad basic block
+   * Methods for generating cleanup landing pad for rethrowing exeptions
    */
-  static llvm::BasicBlock* generate(IRGenerationContext& context, int line);
-
-};
+  class Cleanup {
+    
+  public:
+    
+    /**
+     * Generate landing pad code that is executed once an exception is thrown
+     *
+     * Returns the cleanup landing pad basic block
+     */
+    static llvm::BasicBlock* generate(IRGenerationContext& context, int line);
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* Cleanup_h */
+

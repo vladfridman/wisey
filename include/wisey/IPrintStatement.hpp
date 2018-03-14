@@ -13,22 +13,23 @@
 #include "wisey/IStatement.hpp"
 
 namespace wisey {
-
-/**
- * Rrepresents a print statement such as printout and printerr
- */
-class IPrintStatement : public IStatement {
-
-public:
- 
-  /**
-   * Returns a printf type format string corresponding to expression types in the given list
-   */
-  static llvm::Value* getFormatString(IRGenerationContext& context, ExpressionList expressionList);
   
-};
+  /**
+   * Rrepresents a print statement such as printout and printerr
+   */
+  class IPrintStatement : public IStatement {
+    
+  public:
+    
+    /**
+     * Returns a printf type format string corresponding to expression types in the given list
+     */
+    static llvm::Value* getFormatString(IRGenerationContext& context, ExpressionList expressionList);
+    
+  };
   
 } /* namespace wisey */
 
 
 #endif /* IPrintStatement_h */
+

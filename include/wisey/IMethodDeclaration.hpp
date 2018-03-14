@@ -17,31 +17,32 @@
 #include "wisey/VariableDeclaration.hpp"
 
 namespace wisey {
-
-/**
- * Represents a method declaration that could either be static or non-static
- */
-class IMethodDeclaration : public IObjectElementDeclaration {
-  
-public:
-  
-  virtual ~IMethodDeclaration() { }
   
   /**
-   * Helper function for creating method argument list for different types of methods
+   * Represents a method declaration that could either be static or non-static
    */
-  static std::vector<MethodArgument*> createArgumnetList(IRGenerationContext& context,
-                                                         VariableList argumentDefinitions);
-  
-  /**
-   * Helper function for creating exception type list for different types of methods
-   */
-  static std::vector<const Model*> createExceptionList(IRGenerationContext& context,
-                                                       std::vector<IModelTypeSpecifier*>
-                                                       thrownExceptions);
-
-};
+  class IMethodDeclaration : public IObjectElementDeclaration {
+    
+  public:
+    
+    virtual ~IMethodDeclaration() { }
+    
+    /**
+     * Helper function for creating method argument list for different types of methods
+     */
+    static std::vector<MethodArgument*> createArgumnetList(IRGenerationContext& context,
+                                                           VariableList argumentDefinitions);
+    
+    /**
+     * Helper function for creating exception type list for different types of methods
+     */
+    static std::vector<const Model*> createExceptionList(IRGenerationContext& context,
+                                                         std::vector<IModelTypeSpecifier*>
+                                                         thrownExceptions);
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* IMethodDeclaration_h */
+

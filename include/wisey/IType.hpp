@@ -17,7 +17,7 @@
 #include "wisey/IPrintable.hpp"
 
 namespace wisey {
-
+  
   class ArrayType;
   class IConcreteObjectType;
   class IObjectType;
@@ -65,7 +65,7 @@ namespace wisey {
      * Tells whether this type is of primitive type
      */
     virtual bool isPrimitive() const = 0;
-
+    
     /**
      * Tells whether this type is an owner pointer type
      */
@@ -75,12 +75,12 @@ namespace wisey {
      * Tells whether this type is a reference pointer type
      */
     virtual bool isReference() const = 0;
-
+    
     /**
      * Tells whether this type is of array type
      */
     virtual bool isArray() const = 0;
-   
+    
     /**
      * Tells whether this type is of function type
      */
@@ -90,7 +90,7 @@ namespace wisey {
      * Tells whether this type is of function type
      */
     virtual bool isPackage() const = 0;
-
+    
     /**
      * Tells whether this type is of controller type
      */
@@ -120,31 +120,31 @@ namespace wisey {
      * Tells whether this type is of native type
      */
     virtual bool isNative() const = 0;
-
+    
     /**
      * Allocates local variable of the type and stores it in the scope
      */
     virtual void createLocalVariable(IRGenerationContext& context, std::string name) const = 0;
-
+    
     /**
      * Allocates field variable of the type and stores it in the scope
      */
     virtual void createFieldVariable(IRGenerationContext& context,
                                      std::string name,
                                      const IConcreteObjectType* object) const = 0;
-
+    
     /**
      * Allocates parameter variable of the type and stores it in the scope
      */
     virtual void createParameterVariable(IRGenerationContext& context,
                                          std::string name,
                                          llvm::Value* value) const = 0;
-
+    
     /**
      * Returns ArrayType if this type has one associated with it otherwise reports an error
      */
     virtual const ArrayType* getArrayType(IRGenerationContext& context) const = 0;
-
+    
     /**
      * Returns IObjectType if this type has one associated with it otherwise returns NULL
      */
@@ -159,7 +159,7 @@ namespace wisey {
      * Returns dereference type which is the type of the value the pointer type is pointing to
      */
     virtual const IType* getDereferenceType() const = 0;
-
+    
     /**
      * Tells whether the given type is an object or an object owner type
      */
@@ -171,7 +171,8 @@ namespace wisey {
     static bool isConcreteObjectType(const IType* type);
     
   };
-
+  
 } /* namespace wisey */
 
 #endif /* IType_h */
+

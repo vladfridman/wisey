@@ -15,33 +15,34 @@
 
 namespace wisey {
   
-/**
- * Represents a global function that throws an MNullPointerException if the given parameter is null
- */
-class CheckForNullAndThrowFunction {
+  /**
+   * Represents a global function that throws an MNullPointerException if the given parameter is null
+   */
+  class CheckForNullAndThrowFunction {
     
-public:
+  public:
+    
+    /**
+     * Returns the function
+     */
+    static llvm::Function* get(IRGenerationContext& context);
+    
+    /**
+     * Calls function with a given argument
+     */
+    static void call(IRGenerationContext& context, llvm::Value* value);
+    
+  private:
+    
+    static std::string getName();
+    
+    static llvm::Function* define(IRGenerationContext& context);
+    
+    static void compose(IRGenerationContext& context, llvm::Function* function);
+    
+  };
   
-  /**
-   * Returns the function
-   */
-  static llvm::Function* get(IRGenerationContext& context);
-  
-  /**
-   * Calls function with a given argument
-   */
-  static void call(IRGenerationContext& context, llvm::Value* value);
-
-private:
-  
-  static std::string getName();
-  
-  static llvm::Function* define(IRGenerationContext& context);
-  
-  static void compose(IRGenerationContext& context, llvm::Function* function);
-  
-};
-
 } /* namespace wisey */
 
 #endif /* CheckForNullAndThrowFunction_h */
+

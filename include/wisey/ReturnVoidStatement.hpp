@@ -12,23 +12,24 @@
 #include "wisey/IStatement.hpp"
 
 namespace wisey {
-
-/**
- * Represents a return that does not return any expression
- */
-class ReturnVoidStatement : public IStatement {
-
-  int mLine;
   
-public:
-
-  ReturnVoidStatement(int line);
-  
-  ~ReturnVoidStatement();
-  
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-};
+  /**
+   * Represents a return that does not return any expression
+   */
+  class ReturnVoidStatement : public IStatement {
+    
+    int mLine;
+    
+  public:
+    
+    ReturnVoidStatement(int line);
+    
+    ~ReturnVoidStatement();
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+  };
   
 } /* namespace wisey */
 
 #endif /* ReturnVoidStatement_h */
+

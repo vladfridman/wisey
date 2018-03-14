@@ -17,27 +17,28 @@
 
 namespace wisey {
   
-/**
- * Represents an if / else statement
- * if (expression) { statement } else { statement }
- */
-class IfElseStatement : public IStatement {
-  IExpression* mCondition;
-  CompoundStatement* mThenStatement;
-  IStatement* mElseStatement;
-  
-public:
-  
-  IfElseStatement(IExpression* condition,
-                  CompoundStatement* thenStatement,
-                  IStatement* elseStatement);
-  
-  ~IfElseStatement();
-  
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-
-};
+  /**
+   * Represents an if / else statement
+   * if (expression) { statement } else { statement }
+   */
+  class IfElseStatement : public IStatement {
+    IExpression* mCondition;
+    CompoundStatement* mThenStatement;
+    IStatement* mElseStatement;
+    
+  public:
+    
+    IfElseStatement(IExpression* condition,
+                    CompoundStatement* thenStatement,
+                    IStatement* elseStatement);
+    
+    ~IfElseStatement();
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* IfElseStatement_h */
+

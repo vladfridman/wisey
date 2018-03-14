@@ -19,51 +19,52 @@
 
 namespace wisey {
   
-class IRGenerationContext;
-  
-/**
- * Represents a concrete object definition such as controller, model or node definitions
- */
-class IConcreteObjectDefinition : public IObjectDefinition {
-  
-public:
+  class IRGenerationContext;
   
   /**
-   * Fill up concrete object prototype with methods, fields, types and other data
-   *
-   * The llvm struct representing the object consists of
-   * {
-   *    int64 reference pointer counter,
-   *    int8* imlemented interface1 vtable pointer,
-   *    int8* imlemented interface2 vtable pointer,
-   *    ...
-   *    <field1 type> field1,
-   *    <field2 type> field2,
-   *    ...
-   * }
+   * Represents a concrete object definition such as controller, model or node definitions
    */
-  static void configureObject(IRGenerationContext& context,
-                              IConcreteObjectType* object,
-                              std::vector<IObjectElementDeclaration*> elementDeclarations,
-                              std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers);
+  class IConcreteObjectDefinition : public IObjectDefinition {
+    
+  public:
+    
+    /**
+     * Fill up concrete object prototype with methods, fields, types and other data
+     *
+     * The llvm struct representing the object consists of
+     * {
+     *    int64 reference pointer counter,
+     *    int8* imlemented interface1 vtable pointer,
+     *    int8* imlemented interface2 vtable pointer,
+     *    ...
+     *    <field1 type> field1,
+     *    <field2 type> field2,
+     *    ...
+     * }
+     */
+    static void configureObject(IRGenerationContext& context,
+                                IConcreteObjectType* object,
+                                std::vector<IObjectElementDeclaration*> elementDeclarations,
+                                std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers);
+    
+  private:
+    
+    static std::tuple<std::vector<Constant*>, std::vector<IField*>, std::vector<IMethod*>>
+    createElements(IRGenerationContext& context,
+                   const IConcreteObjectType* concreteObjectType,
+                   std::vector<IObjectElementDeclaration*> elementDeclarations);
+    
+    static std::vector<Interface*> processInterfaces(IRGenerationContext& context,
+                                                     std::vector<IInterfaceTypeSpecifier*>
+                                                     interfaceSpecifiers);
+    
+    static void collectFieldTypes(IRGenerationContext& context,
+                                  std::vector<llvm::Type*>& types,
+                                  std::vector<IField*> fields);
+    
+  };
   
-private:
-
-  static std::tuple<std::vector<Constant*>, std::vector<IField*>, std::vector<IMethod*>>
-  createElements(IRGenerationContext& context,
-                 const IConcreteObjectType* concreteObjectType,
-                 std::vector<IObjectElementDeclaration*> elementDeclarations);
-
-  static std::vector<Interface*> processInterfaces(IRGenerationContext& context,
-                                                   std::vector<IInterfaceTypeSpecifier*>
-                                                   interfaceSpecifiers);
-  
-  static void collectFieldTypes(IRGenerationContext& context,
-                                std::vector<llvm::Type*>& types,
-                                std::vector<IField*> fields);
-
-};
-
 } /* namespace wisey */
 
 #endif /* IConcreteObjectDefinition_h */
+

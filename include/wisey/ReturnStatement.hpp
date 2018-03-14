@@ -13,24 +13,25 @@
 #include "wisey/IStatement.hpp"
 
 namespace wisey {
-
-/**
- * Represents a return statement that returns an expression
- */
-class ReturnStatement : public IStatement {
-
-  IExpression* mExpression;
-  int mLine;
   
-public:
+  /**
+   * Represents a return statement that returns an expression
+   */
+  class ReturnStatement : public IStatement {
+    
+    IExpression* mExpression;
+    int mLine;
+    
+  public:
+    
+    ReturnStatement(IExpression* expression, int line);
+    
+    ~ReturnStatement();
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+  };
   
-  ReturnStatement(IExpression* expression, int line);
-
-  ~ReturnStatement();
-  
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-};
-
 } /* namespace wisey */
 
 #endif /* ReturnStatement_h */
+

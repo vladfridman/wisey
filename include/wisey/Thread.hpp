@@ -137,7 +137,7 @@ namespace wisey {
     bool isThread() const override;
     
     bool isNative() const override;
-
+    
     std::string getVTableName() const override;
     
     unsigned long getVTableSize() const override;
@@ -193,7 +193,7 @@ namespace wisey {
     const IType* getPointerType() const override;
     
     const IType* getDereferenceType() const override;
-
+    
   private:
     
     Thread(AccessLevel accessLevel,
@@ -215,13 +215,14 @@ namespace wisey {
                                   const InjectionArgumentList& controllerInjectorArguments,
                                   llvm::Instruction* malloc,
                                   int line) const;
-
+    
     void initializeInjectedFields(IRGenerationContext& context,
                                   llvm::Instruction* malloc,
                                   int line) const;
     
   };
-
+  
 } /* namespace wisey */
 
 #endif /* Thread_h */
+

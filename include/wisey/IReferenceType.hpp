@@ -25,15 +25,16 @@ namespace wisey {
      */
     virtual void incrementReferenceCount(IRGenerationContext& context,
                                          llvm::Value* object) const = 0;
-
+    
     /**
      * Decrements reference counter for this object
      */
     virtual void decrementReferenceCount(IRGenerationContext& context,
                                          llvm::Value* object) const = 0;
-
+    
   };
   
 } /* namespace wisey */
 
 #endif /* IReferenceType_h */
+

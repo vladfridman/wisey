@@ -28,22 +28,22 @@ namespace wisey {
      * Native function that creates a thread object and starts its execution
      */
     static llvm::Function* getThreadCreateFunction(IRGenerationContext& context);
-
+    
     /**
      * Native function for joining a thread
      */
     static llvm::Function* getThreadJoinFunction(IRGenerationContext& context);
-
+    
     /**
      * Native function for exiting a thread
      */
     static llvm::Function* getThreadExitFunction(IRGenerationContext& context);
-
+    
     /**
      * Gets or creates a function that calls Thread's run method
      */
     static llvm::Function* getRunBridgeFunction(IRGenerationContext& context, const Thread* thread);
-
+    
     /**
      * Returns NativeType object with the llvm type that represents the native thread object
      */
@@ -61,26 +61,26 @@ namespace wisey {
     static llvm::Function* defineThreadJoinFunction(IRGenerationContext& context);
     
     static llvm::Function* defineThreadExitFunction(IRGenerationContext& context);
-
+    
     static llvm::Function* defineRunBridgeFunction(IRGenerationContext& context,
                                                    const Thread* thread);
     
     static void composeRunBridgeFunction(IRGenerationContext& context,
                                          llvm::Function* function,
                                          const IObjectType* thread);
-
+    
     static llvm::StructType* getNativeThreadStruct(IRGenerationContext& context);
     
     static llvm::StructType* getNativeThreadHandlerStruct(IRGenerationContext& context);
     
     static llvm::StructType* getNativeThreadAttributesStruct(IRGenerationContext& context);
-
+    
     static std::string getThreadCreateFunctionName();
     
     static std::string getThreadJoinFunctionName();
     
     static std::string getThreadExitFunctionName();
-
+    
     static std::string getNativeThreadStructName();
     
     static std::string getNativeThreadHandlerName();
@@ -88,8 +88,10 @@ namespace wisey {
     static std::string getNativeThreadAttributesName();
     
     static std::string getRunBridgeFunctionName(const Thread* thread);
-
+    
   };
-}
+  
+} /* namespace wisey */
 
 #endif /* ThreadInfrastructure_h */
+

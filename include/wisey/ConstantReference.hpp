@@ -14,36 +14,37 @@
 
 namespace wisey {
   
-/**
- * Represents a constant reference that looks like my.packge.MMyObject.MYCONSTANT
- */
-class ConstantReference : public IExpression {
-  
-  const IObjectTypeSpecifier* mObjectTypeSpecifier;
-  std::string mConstantName;
-  
-public:
-  ConstantReference(const IObjectTypeSpecifier* objectTypeSpecifier,
-                    std::string constantName);
-  
-  ~ConstantReference();
-  
-  IVariable* getVariable(IRGenerationContext& context,
-                         std::vector<const IExpression*>& arrayIndices) const override;
-  
-  llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
-  
-  const IType* getType(IRGenerationContext& context) const override;
-  
-  bool isConstant() const override;
-  
-  void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
-  
-private:
-  
-  const IObjectType* getObjectType(IRGenerationContext& context) const;
-};
+  /**
+   * Represents a constant reference that looks like my.packge.MMyObject.MYCONSTANT
+   */
+  class ConstantReference : public IExpression {
+    
+    const IObjectTypeSpecifier* mObjectTypeSpecifier;
+    std::string mConstantName;
+    
+  public:
+    ConstantReference(const IObjectTypeSpecifier* objectTypeSpecifier,
+                      std::string constantName);
+    
+    ~ConstantReference();
+    
+    IVariable* getVariable(IRGenerationContext& context,
+                           std::vector<const IExpression*>& arrayIndices) const override;
+    
+    llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
+    
+    const IType* getType(IRGenerationContext& context) const override;
+    
+    bool isConstant() const override;
+    
+    void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
+    
+  private:
+    
+    const IObjectType* getObjectType(IRGenerationContext& context) const;
+  };
   
 } /* namespace wisey */
 
 #endif /* ConstantReference_h */
+

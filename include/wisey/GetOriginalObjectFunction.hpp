@@ -15,43 +15,44 @@
 
 namespace wisey {
   
-/**
- * A global function that returns the pointer to the object given an interface object
- */
-class GetOriginalObjectFunction {
+  /**
+   * A global function that returns the pointer to the object given an interface object
+   */
+  class GetOriginalObjectFunction {
     
-public:
+  public:
+    
+    /**
+     * Returns the getOriginalObject function
+     */
+    static llvm::Function* get(IRGenerationContext& context);
+    
+    /**
+     * Calls getOriginalObject function to get the pointer to the original object
+     */
+    static llvm::Value* callGetObject(IRGenerationContext& context, llvm::Value* interfacePointer);
+    
+    /**
+     * Calls getOriginalObject function to get the pointer to the original object's vTable
+     */
+    static llvm::Value* callGetVTable(IRGenerationContext& context, llvm::Value* interfacePointer);
+    
+  private:
+    
+    static llvm::Value* call(IRGenerationContext& context,
+                             llvm::Value* interfacePointer,
+                             llvm::Value* adjustment);
+    
+    static std::string getName();
+    
+    static llvm::Function* define(IRGenerationContext& context);
+    
+    static void compose(IRGenerationContext& context, llvm::Function* function);
+    
+    static llvm::Value* getUnthunkBy(IRGenerationContext& context, llvm::Value* value);
+  };
   
-  /**
-   * Returns the getOriginalObject function
-   */
-  static llvm::Function* get(IRGenerationContext& context);
-  
-  /**
-   * Calls getOriginalObject function to get the pointer to the original object
-   */
-  static llvm::Value* callGetObject(IRGenerationContext& context, llvm::Value* interfacePointer);
-  
-  /**
-   * Calls getOriginalObject function to get the pointer to the original object's vTable
-   */
-  static llvm::Value* callGetVTable(IRGenerationContext& context, llvm::Value* interfacePointer);
-
-private:
-
-  static llvm::Value* call(IRGenerationContext& context,
-                           llvm::Value* interfacePointer,
-                           llvm::Value* adjustment);
-
-  static std::string getName();
-  
-  static llvm::Function* define(IRGenerationContext& context);
-  
-  static void compose(IRGenerationContext& context, llvm::Function* function);
-  
-  static llvm::Value* getUnthunkBy(IRGenerationContext& context, llvm::Value* value);
-};
-
 } /* namespace wisey */
 
 #endif /* GetOriginalObjectFunction_h */
+

@@ -14,45 +14,46 @@
 
 namespace wisey {
   
-/**
- * Represents a method parameter that is an object owner.
- */
-class ParameterOwnerVariable : public IOwnerVariable {
+  /**
+   * Represents a method parameter that is an object owner.
+   */
+  class ParameterOwnerVariable : public IOwnerVariable {
     
-  std::string mName;
-  const IObjectOwnerType* mType;
-  llvm::Value* mValueStore;
-  
-public:
-  
-  ParameterOwnerVariable(std::string name, const IObjectOwnerType* type, llvm::Value* valueStore);
-  
-  ~ParameterOwnerVariable();
-  
-  std::string getName() const override;
-  
-  const IType* getType() const override;
-  
-  bool isField() const override;
-
-  bool isSystem() const override;
-
-  llvm::Value* generateIdentifierIR(IRGenerationContext& context) const override;
-  
-  llvm::Value* generateIdentifierReferenceIR(IRGenerationContext& context) const override;
-
-  llvm::Value* generateAssignmentIR(IRGenerationContext& context,
-                                    IExpression* assignToExpression,
-                                    std::vector<const IExpression*> arrayIndices,
-                                    int line) override;
-  
-  void free(IRGenerationContext& context) const override;
-  
-  void setToNull(IRGenerationContext& context) override;
-  
-};
+    std::string mName;
+    const IObjectOwnerType* mType;
+    llvm::Value* mValueStore;
+    
+  public:
+    
+    ParameterOwnerVariable(std::string name, const IObjectOwnerType* type, llvm::Value* valueStore);
+    
+    ~ParameterOwnerVariable();
+    
+    std::string getName() const override;
+    
+    const IType* getType() const override;
+    
+    bool isField() const override;
+    
+    bool isSystem() const override;
+    
+    llvm::Value* generateIdentifierIR(IRGenerationContext& context) const override;
+    
+    llvm::Value* generateIdentifierReferenceIR(IRGenerationContext& context) const override;
+    
+    llvm::Value* generateAssignmentIR(IRGenerationContext& context,
+                                      IExpression* assignToExpression,
+                                      std::vector<const IExpression*> arrayIndices,
+                                      int line) override;
+    
+    void free(IRGenerationContext& context) const override;
+    
+    void setToNull(IRGenerationContext& context) override;
+    
+  };
   
 } /* namespace wisey */
 
 
 #endif /* ParameterOwnerVariable_h */
+

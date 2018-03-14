@@ -41,3 +41,4 @@ namespace wisey {
 } /* namespace wisey */
 
 #endif /* DereferenceExpression_h */
+

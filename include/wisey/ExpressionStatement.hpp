@@ -13,22 +13,23 @@
 #include "wisey/IStatement.hpp"
 
 namespace wisey {
-
-/**
- * Represents a statement
- */
-class ExpressionStatement : public IStatement {
-  IExpression* mExpression;
   
-public:
-
-  ExpressionStatement(IExpression* expression);
-
-  ~ExpressionStatement();
-
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-};
+  /**
+   * Represents a statement
+   */
+  class ExpressionStatement : public IStatement {
+    IExpression* mExpression;
+    
+  public:
+    
+    ExpressionStatement(IExpression* expression);
+    
+    ~ExpressionStatement();
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+  };
   
 } /* namespace wisey */
 
 #endif /* ExpressionStatement_h */
+

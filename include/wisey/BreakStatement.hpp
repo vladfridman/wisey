@@ -15,20 +15,21 @@
 
 namespace wisey {
   
-/**
- * Represents a break statement used inside loops and switch statements
- */
-class BreakStatement : public IStatement {
-  
-public:
-
-  BreakStatement();
-  
-  ~BreakStatement();
-
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-};
+  /**
+   * Represents a break statement used inside loops and switch statements
+   */
+  class BreakStatement : public IStatement {
+    
+  public:
+    
+    BreakStatement();
+    
+    ~BreakStatement();
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+  };
   
 }
 
 #endif /* BreakStatement_h */
+

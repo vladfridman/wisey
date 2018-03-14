@@ -17,35 +17,36 @@
 
 namespace wisey {
   
-/**
- * Represents a node definition which is an object that can have immutable model fields
- * and mutable fields that point to other nodes.
- */
-class NodeDefinition : public IConcreteObjectDefinition {
-  AccessLevel mAccessLevel;
-  NodeTypeSpecifierFull* mNodeTypeSpecifierFull;
-  std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
-  std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
-  std::vector<IObjectDefinition*> mInnerObjectDefinitions;
-
-public:
-  
-  NodeDefinition(AccessLevel accessLevel,
-                 NodeTypeSpecifierFull* nodeTypeSpecifierFull,
-                 std::vector<IObjectElementDeclaration*> objectElementDeclarations,
-                 std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
-                 std::vector<IObjectDefinition*> innerObjectDefinitions);
-  
-  ~NodeDefinition();
-
-  Node* prototypeObject(IRGenerationContext& context) const override;
-  
-  void prototypeMethods(IRGenerationContext& context) const override;
-  
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-
-};
+  /**
+   * Represents a node definition which is an object that can have immutable model fields
+   * and mutable fields that point to other nodes.
+   */
+  class NodeDefinition : public IConcreteObjectDefinition {
+    AccessLevel mAccessLevel;
+    NodeTypeSpecifierFull* mNodeTypeSpecifierFull;
+    std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
+    std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
+    std::vector<IObjectDefinition*> mInnerObjectDefinitions;
+    
+  public:
+    
+    NodeDefinition(AccessLevel accessLevel,
+                   NodeTypeSpecifierFull* nodeTypeSpecifierFull,
+                   std::vector<IObjectElementDeclaration*> objectElementDeclarations,
+                   std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
+                   std::vector<IObjectDefinition*> innerObjectDefinitions);
+    
+    ~NodeDefinition();
+    
+    Node* prototypeObject(IRGenerationContext& context) const override;
+    
+    void prototypeMethods(IRGenerationContext& context) const override;
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+    
+  };
   
 } /* namespace wisey */
 
 #endif /* NodeDefinition_h */
+

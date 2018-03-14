@@ -13,20 +13,20 @@
 
 namespace wisey {
   
-/**
- * Things that need to be run after the parsed program code
- */
-class ProgramSuffix : public IStatement {
+  /**
+   * Things that need to be run after the parsed program code
+   */
+  class ProgramSuffix : public IStatement {
     
-public:
-  
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
-
-private:
-
-  llvm::Value* generateMain(IRGenerationContext& context,
-                            InterfaceTypeSpecifier* programInterfaceSpecifier) const;
-};
+  public:
+    
+    llvm::Value* generateIR(IRGenerationContext& context) const override;
+    
+  private:
+    
+    llvm::Value* generateMain(IRGenerationContext& context,
+                              InterfaceTypeSpecifier* programInterfaceSpecifier) const;
+  };
   
 } /* namespace wisey */
 

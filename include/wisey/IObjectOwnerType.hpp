@@ -15,27 +15,28 @@
 
 namespace wisey {
   
-class IObjectType;
+  class IObjectType;
   
-/**
- * Represents an IType that is an owner of the model, controller or interface
- */
-class IObjectOwnerType : public IOwnerType {
+  /**
+   * Represents an IType that is an owner of the model, controller or interface
+   */
+  class IObjectOwnerType : public IOwnerType {
     
-public:
+  public:
+    
+    /**
+     * Override method from IType because ObjectOwner llvm type is always a PointerType
+     */
+    virtual llvm::PointerType* getLLVMType(IRGenerationContext& context) const override = 0;
+    
+    /**
+     * Returns detructor function for this object
+     */
+    virtual llvm::Function* getDestructorFunction(IRGenerationContext& context) const = 0;
+    
+  };
   
-  /**
-   * Override method from IType because ObjectOwner llvm type is always a PointerType
-   */
-  virtual llvm::PointerType* getLLVMType(IRGenerationContext& context) const override = 0;
-  
-  /**
-   * Returns detructor function for this object
-   */
-  virtual llvm::Function* getDestructorFunction(IRGenerationContext& context) const = 0;
-
-};
-
 } /* namespace wisey */
 
 #endif /* IObjectOwnerType_h */
+

@@ -43,3 +43,4 @@ namespace wisey {
 } /* namespace wisey */
 
 #endif /* FakeExpressionWithCleanup_h */
+
