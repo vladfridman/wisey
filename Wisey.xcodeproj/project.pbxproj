@@ -474,15 +474,12 @@
 		F5609F072057C07F00664ADD /* ParameterSystemReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F062057C07F00664ADD /* ParameterSystemReferenceVariable.cpp */; };
 		F5609F082057C07F00664ADD /* ParameterSystemReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F062057C07F00664ADD /* ParameterSystemReferenceVariable.cpp */; };
 		F5609F0C2057C54900664ADD /* TestParameterSystemReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F0B2057C54900664ADD /* TestParameterSystemReferenceVariable.cpp */; };
-		F5609F0F2057F47D00664ADD /* NativeVoidPointerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F0E2057F47D00664ADD /* NativeVoidPointerType.cpp */; };
-		F5609F102057F47D00664ADD /* NativeVoidPointerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F0E2057F47D00664ADD /* NativeVoidPointerType.cpp */; };
 		F5609F1320580BA300664ADD /* DereferenceExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F1220580BA300664ADD /* DereferenceExpression.cpp */; };
 		F5609F1420580BA300664ADD /* DereferenceExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F1220580BA300664ADD /* DereferenceExpression.cpp */; };
 		F5609F1720580DE000664ADD /* LocalNativeVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F1620580DE000664ADD /* LocalNativeVariable.cpp */; };
 		F5609F1820580DE000664ADD /* LocalNativeVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F1620580DE000664ADD /* LocalNativeVariable.cpp */; };
 		F5609F1A2058116000664ADD /* TestDereferenceExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F192058116000664ADD /* TestDereferenceExpression.cpp */; };
 		F5609F1C205815D900664ADD /* TestLocalNativeVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F1B205815D900664ADD /* TestLocalNativeVariable.cpp */; };
-		F5609F1E2058180900664ADD /* TestNativeVoidPointerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F1D2058180900664ADD /* TestNativeVoidPointerType.cpp */; };
 		F569E9F01DF9CC9600BBB20E /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EB1DF9CC9600BBB20E /* Log.cpp */; };
 		F569E9F21DF9CC9600BBB20E /* Parser.ypp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9ED1DF9CC9600BBB20E /* Parser.ypp */; };
 		F569E9F31DF9CC9600BBB20E /* Tokens.lpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */; };
@@ -1436,15 +1433,12 @@
 		F5609F052057BF7300664ADD /* ParameterSystemReferenceVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ParameterSystemReferenceVariable.hpp; path = include/wisey/ParameterSystemReferenceVariable.hpp; sourceTree = "<group>"; };
 		F5609F062057C07F00664ADD /* ParameterSystemReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ParameterSystemReferenceVariable.cpp; path = src/ParameterSystemReferenceVariable.cpp; sourceTree = "<group>"; };
 		F5609F0B2057C54900664ADD /* TestParameterSystemReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestParameterSystemReferenceVariable.cpp; path = tests/TestParameterSystemReferenceVariable.cpp; sourceTree = "<group>"; };
-		F5609F0D2057F42900664ADD /* NativeVoidPointerType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = NativeVoidPointerType.hpp; path = include/wisey/NativeVoidPointerType.hpp; sourceTree = "<group>"; };
-		F5609F0E2057F47D00664ADD /* NativeVoidPointerType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = NativeVoidPointerType.cpp; path = src/NativeVoidPointerType.cpp; sourceTree = "<group>"; };
 		F5609F1120580AD700664ADD /* DereferenceExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DereferenceExpression.hpp; path = include/wisey/DereferenceExpression.hpp; sourceTree = "<group>"; };
 		F5609F1220580BA300664ADD /* DereferenceExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DereferenceExpression.cpp; path = src/DereferenceExpression.cpp; sourceTree = "<group>"; };
 		F5609F1520580D9E00664ADD /* LocalNativeVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LocalNativeVariable.hpp; path = include/wisey/LocalNativeVariable.hpp; sourceTree = "<group>"; };
 		F5609F1620580DE000664ADD /* LocalNativeVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LocalNativeVariable.cpp; path = src/LocalNativeVariable.cpp; sourceTree = "<group>"; };
 		F5609F192058116000664ADD /* TestDereferenceExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestDereferenceExpression.cpp; path = tests/TestDereferenceExpression.cpp; sourceTree = "<group>"; };
 		F5609F1B205815D900664ADD /* TestLocalNativeVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLocalNativeVariable.cpp; path = tests/TestLocalNativeVariable.cpp; sourceTree = "<group>"; };
-		F5609F1D2058180900664ADD /* TestNativeVoidPointerType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestNativeVoidPointerType.cpp; path = tests/TestNativeVoidPointerType.cpp; sourceTree = "<group>"; };
 		F569E9EB1DF9CC9600BBB20E /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Log.cpp; path = src/Log.cpp; sourceTree = "<group>"; };
 		F569E9ED1DF9CC9600BBB20E /* Parser.ypp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; name = Parser.ypp; path = src/Parser.ypp; sourceTree = "<group>"; };
 		F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; name = Tokens.lpp; path = src/Tokens.lpp; sourceTree = "<group>"; };
@@ -2833,7 +2827,6 @@
 				F5CB7F6B20512763007628B5 /* NativeFunctionCall.hpp */,
 				F5CB7F602050FBDA007628B5 /* NativeType.hpp */,
 				F5CB7F5C2050FAF5007628B5 /* NativeTypeSpecifier.hpp */,
-				F5609F0D2057F42900664ADD /* NativeVoidPointerType.hpp */,
 			);
 			name = native;
 			sourceTree = "<group>";
@@ -2844,7 +2837,6 @@
 				F5CB7F6820512732007628B5 /* NativeFunctionCall.cpp */,
 				F5CB7F612050FBF4007628B5 /* NativeType.cpp */,
 				F5CB7F5D2050FB46007628B5 /* NativeTypeSpecifier.cpp */,
-				F5609F0E2057F47D00664ADD /* NativeVoidPointerType.cpp */,
 			);
 			name = native;
 			sourceTree = "<group>";
@@ -3043,7 +3035,6 @@
 				F5CB7F8520518686007628B5 /* TestNativeFunctionCall.cpp */,
 				F5CB7F8B20519141007628B5 /* TestNativeType.cpp */,
 				F5CB7F8C20519141007628B5 /* TestNativeTypeSpecifier.cpp */,
-				F5609F1D2058180900664ADD /* TestNativeVoidPointerType.cpp */,
 			);
 			name = native;
 			sourceTree = "<group>";
@@ -3676,7 +3667,6 @@
 				F5C6FD681E48B16F0054209D /* TestCharType.cpp in Sources */,
 				F59D821E1E0F66E800057FB5 /* IfElseStatement.cpp in Sources */,
 				F57411611E01AC98009809FF /* IRGenerationContext.cpp in Sources */,
-				F5609F102057F47D00664ADD /* NativeVoidPointerType.cpp in Sources */,
 				F5296AC11E564B9B00FB1E1D /* CastExpression.cpp in Sources */,
 				F534010A1DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
 				F50FA2DC1E2D329900435EEA /* ModelTypeSpecifier.cpp in Sources */,
@@ -3746,7 +3736,6 @@
 				F5A3635A1F376F1C005880B3 /* TestFieldPrimitiveVariable.cpp in Sources */,
 				F53B8EBC1ECE101A00F45564 /* ImportStatement.cpp in Sources */,
 				F513DE0A2018AA3E001A075B /* TestParameterArrayReferenceVariable.cpp in Sources */,
-				F5609F1E2058180900664ADD /* TestNativeVoidPointerType.cpp in Sources */,
 				F5105FC11FD1AF7700ACF57B /* TestAdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp in Sources */,
 				F58D07F21F697027001A7544 /* TestStaticMethodCall.cpp in Sources */,
 				F5A363501F374DCB005880B3 /* TestFieldOwnerVariable.cpp in Sources */,
@@ -3987,7 +3976,6 @@
 				F5A363531F376A23005880B3 /* FieldPrimitiveVariable.cpp in Sources */,
 				F5CE2D4F1F180B89002ABB85 /* TryCatchInfo.cpp in Sources */,
 				F51797111E6605FC009B16AA /* MethodSignatureDeclaration.cpp in Sources */,
-				F5609F0F2057F47D00664ADD /* NativeVoidPointerType.cpp in Sources */,
 				F5FA52931F7437A8001BBE67 /* wiseyrun.cpp in Sources */,
 				F592A7B91F7D62D10026BD2F /* IConcreteObjectDefinition.cpp in Sources */,
 				F53CDAD31F8BC4ED00D27687 /* ExternalInterfaceDefinition.cpp in Sources */,

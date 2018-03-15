@@ -27,7 +27,6 @@
 #include "wisey/Names.hpp"
 #include "wisey/NativeFunctionCall.hpp"
 #include "wisey/NativeType.hpp"
-#include "wisey/NativeVoidPointerType.hpp"
 #include "wisey/NativeTypeSpecifier.hpp"
 #include "wisey/NullExpression.hpp"
 #include "wisey/PointerType.hpp"
@@ -124,6 +123,7 @@ Value* ThreadDefinition::generateIR(IRGenerationContext& context) const {
 
 MethodDeclaration* ThreadDefinition::createStartMethodDeclaration(IRGenerationContext& context,
                                                                   const Thread* thread) {
+  LLVMContext& llvmContext = context.getLLVMContext();
   VariableList arguments;
   vector<IModelTypeSpecifier*> exceptions;
   Block* block = new Block();
@@ -134,7 +134,7 @@ MethodDeclaration* ThreadDefinition::createStartMethodDeclaration(IRGenerationCo
   ThreadInfrastructure::createNativeThreadAttributesType(context);
   Value* nullValue = ConstantPointerNull::get((llvm::PointerType*) threadAtrributesType->
                                               getLLVMType(context));
-  NativeVoidPointerType* voidPointerType = new NativeVoidPointerType();
+  NativeType* voidPointerType = new NativeType(Type::getInt8Ty(llvmContext)->getPointerTo());
   NativeTypeSpecifier* voidPointerTypeSpecifier = new NativeTypeSpecifier(voidPointerType);
   CastExpression* castExpression = new CastExpression(voidPointerTypeSpecifier,
                                                       new Identifier(IObjectType::THIS),
@@ -154,7 +154,7 @@ MethodDeclaration* ThreadDefinition::createStartMethodDeclaration(IRGenerationCo
   VariableDeclaration::create(intPointerTypeSpecifier, new Identifier("result"), 0);
   
   NativeType* int8PointerPointerType =
-  new NativeType(Type::getInt8Ty(context.getLLVMContext())->getPointerTo()->getPointerTo());
+  new NativeType(Type::getInt8Ty(llvmContext)->getPointerTo()->getPointerTo());
   NativeTypeSpecifier* int8PointerPointerTypeSpecifier =
   new NativeTypeSpecifier(int8PointerPointerType);
   CastExpression* castToI8Pointer = new CastExpression(int8PointerPointerTypeSpecifier,
@@ -187,6 +187,7 @@ MethodDeclaration* ThreadDefinition::createStartMethodDeclaration(IRGenerationCo
 
 MethodDeclaration* ThreadDefinition::createSendMethodDeclaration(IRGenerationContext& context,
                                                                  const Thread* thread) {
+  LLVMContext& llvmContext = context.getLLVMContext();
   VariableList arguments;
   vector<IModelTypeSpecifier*> exceptions;
   Block* block = new Block();
@@ -201,8 +202,8 @@ MethodDeclaration* ThreadDefinition::createSendMethodDeclaration(IRGenerationCon
   Assignment* assignment = new Assignment(new Identifier("mMessage"), new Identifier("message"), 0);
   statements.push_back(new ExpressionStatement(assignment));
 
-  NativeVoidPointerType* nativeVoidPointerType = new NativeVoidPointerType();
-  NativeTypeSpecifier* i8PointerTypeSpecifier = new NativeTypeSpecifier(nativeVoidPointerType);
+  NativeType* voidPointerType = new NativeType(Type::getInt8Ty(llvmContext)->getPointerTo());
+  NativeTypeSpecifier* i8PointerTypeSpecifier = new NativeTypeSpecifier(voidPointerType);
   CastExpression* castToi8Pointer = new CastExpression(i8PointerTypeSpecifier,
                                                        new IdentifierReference("mMessage"),
                                                        0);

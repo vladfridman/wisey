@@ -17,7 +17,7 @@
 #include "MockConcreteObjectType.hpp"
 #include "wisey/PointerPointerType.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/NativeVoidPointerType.hpp"
+#include "wisey/NativeType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -72,22 +72,22 @@ TEST_F(PointerPointerTypeTest, pointerPointerTypeTest) {
 
 TEST_F(PointerPointerTypeTest, canAutoCastToTest) {
   EXPECT_FALSE(mPointerPointerType->canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
-  NativeVoidPointerType* nativeVoidPointerType = new NativeVoidPointerType();
-  EXPECT_TRUE(mPointerPointerType->canAutoCastTo(mContext, nativeVoidPointerType));
+  NativeType* voidPointerType = new NativeType(Type::getInt8Ty(mLLVMContext)->getPointerTo());
+  EXPECT_TRUE(mPointerPointerType->canAutoCastTo(mContext, voidPointerType));
 }
 
 TEST_F(PointerPointerTypeTest, canCastTest) {
   EXPECT_FALSE(mPointerPointerType->canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
-  NativeVoidPointerType* nativeVoidPointerType = new NativeVoidPointerType();
-  EXPECT_TRUE(mPointerPointerType->canAutoCastTo(mContext, nativeVoidPointerType));
+  NativeType* voidPointerType = new NativeType(Type::getInt8Ty(mLLVMContext)->getPointerTo());
+  EXPECT_TRUE(mPointerPointerType->canAutoCastTo(mContext, voidPointerType));
 }
 
 TEST_F(PointerPointerTypeTest, castToTest) {
   Mock::AllowLeak(&mConcreteObjectType);
   
-  NativeVoidPointerType* nativeVoidPointerType = new NativeVoidPointerType();
+  NativeType* voidPointerType = new NativeType(Type::getInt8Ty(mLLVMContext)->getPointerTo());
   Value* value = ConstantPointerNull::get(mPointerPointerType->getLLVMType(mContext));
-  Value* result = mPointerPointerType->castTo(mContext, value, nativeVoidPointerType, 0);
+  Value* result = mPointerPointerType->castTo(mContext, value, voidPointerType, 0);
   *mStringStream << *result;
   
   EXPECT_STREQ("  %0 = bitcast i32** null to i8*", mStringStream->str().c_str());
