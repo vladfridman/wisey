@@ -12,7 +12,7 @@
 using namespace llvm;
 using namespace wisey;
 
-IType* PrimitiveTypeSpecifier::getType(IRGenerationContext& context) const {
+const IType* PrimitiveTypeSpecifier::getType(IRGenerationContext& context) const {
   return mType;
 }
 
