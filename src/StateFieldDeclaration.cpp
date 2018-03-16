@@ -13,7 +13,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-StateFieldDeclaration::StateFieldDeclaration(ITypeSpecifier* typeSpecifier, string name) :
+StateFieldDeclaration::StateFieldDeclaration(const ITypeSpecifier* typeSpecifier, string name) :
 mTypeSpecifier(typeSpecifier), mName(name) { }
 
 StateFieldDeclaration::~StateFieldDeclaration() {

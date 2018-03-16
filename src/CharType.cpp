@@ -175,6 +175,6 @@ const IType* CharType::getDereferenceType() const {
   assert(false);
 }
 
-PrimitiveTypeSpecifier* CharType::newTypeSpecifier() const {
+const PrimitiveTypeSpecifier* CharType::newTypeSpecifier() const {
   return new PrimitiveTypeSpecifier(this);
 }

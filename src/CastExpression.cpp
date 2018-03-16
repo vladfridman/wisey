@@ -17,7 +17,9 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-CastExpression::CastExpression(ITypeSpecifier* typeSpecifier, IExpression* expression, int line)
+CastExpression::CastExpression(const ITypeSpecifier* typeSpecifier,
+                               IExpression* expression,
+                               int line)
 : mTypeSpecifier(typeSpecifier), mExpression(expression), mLine(line) { }
 
 CastExpression::~CastExpression() {

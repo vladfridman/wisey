@@ -176,6 +176,6 @@ const IType* BooleanType::getDereferenceType() const {
   assert(false);
 }
 
-PrimitiveTypeSpecifier* BooleanType::newTypeSpecifier() const {
+const PrimitiveTypeSpecifier* BooleanType::newTypeSpecifier() const {
   return new PrimitiveTypeSpecifier(this);
 }

@@ -42,7 +42,7 @@ using namespace wisey;
 
 ThreadDefinition::ThreadDefinition(AccessLevel accessLevel,
                                    ThreadTypeSpecifierFull* threadTypeSpecifierFull,
-                                   ITypeSpecifier* sendsTypeSpecifier,
+                                   const ITypeSpecifier* sendsTypeSpecifier,
                                    vector<IObjectElementDeclaration*> objectElementDeclarations,
                                    vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
                                    vector<IObjectDefinition*> innerObjectDefinitions) :
@@ -194,7 +194,7 @@ MethodDeclaration* ThreadDefinition::createSendMethodDeclaration(IRGenerationCon
   StatementList& statements = block->getStatements();
   CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
   
-  PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
   VariableDeclaration* messageArgument =
   VariableDeclaration::create(intTypeSpecifier, new Identifier("message"), 0);
   arguments.push_back(messageArgument);
@@ -234,7 +234,7 @@ StateFieldDeclaration* ThreadDefinition::createNativeThreadHandleField(IRGenerat
 
 StateFieldDeclaration* ThreadDefinition::createNativeThreadResultField(IRGenerationContext&
                                                                        context) {
-  PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
   return new StateFieldDeclaration(intTypeSpecifier, "mMessage");
 }
 

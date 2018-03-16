@@ -31,8 +31,8 @@ using ::testing::Test;
 
 struct MethodSignatureDeclarationTest : Test {
   IRGenerationContext mContext;
-  PrimitiveTypeSpecifier* mFloatTypeSpecifier;
-  PrimitiveTypeSpecifier* mIntTypeSpecifier;
+  const PrimitiveTypeSpecifier* mFloatTypeSpecifier;
+  const PrimitiveTypeSpecifier* mIntTypeSpecifier;
   Identifier* mIntArgumentIdentifier;
   Identifier* mFloatArgumentIdentifier;
   VariableDeclaration* mIntArgument;
@@ -73,7 +73,7 @@ TEST_F(MethodSignatureDeclarationTest, methodDescriptorExtractTest) {
   mArguments.push_back(mIntArgument);
   mArguments.push_back(mFloatArgument);
   vector<IModelTypeSpecifier*> thrownExceptions;
-  PrimitiveTypeSpecifier* floatTypeSpecifier = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* floatTypeSpecifier = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
   MethodSignatureDeclaration methodSignatureDeclaration(floatTypeSpecifier,
                                                         "foo",
                                                         mArguments,

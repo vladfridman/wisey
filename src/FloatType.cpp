@@ -172,6 +172,6 @@ const IType* FloatType::getDereferenceType() const {
   assert(false);
 }
 
-PrimitiveTypeSpecifier* FloatType::newTypeSpecifier() const {
+const PrimitiveTypeSpecifier* FloatType::newTypeSpecifier() const {
   return new PrimitiveTypeSpecifier(this);
 }

@@ -135,6 +135,6 @@ const IType* VoidType::getDereferenceType() const {
   assert(false);
 }
 
-PrimitiveTypeSpecifier* VoidType::newTypeSpecifier() const {
+const PrimitiveTypeSpecifier* VoidType::newTypeSpecifier() const {
   return new PrimitiveTypeSpecifier(this);
 }

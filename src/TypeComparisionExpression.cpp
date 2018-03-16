@@ -19,7 +19,7 @@ using namespace std;
 using namespace wisey;
 
 TypeComparisionExpression::TypeComparisionExpression(IExpression* expression,
-                                                     ITypeSpecifier* typeSpecifier) :
+                                                     const ITypeSpecifier* typeSpecifier) :
 mExpression(expression), mTypeSpecifier(typeSpecifier) { }
 
 TypeComparisionExpression::~TypeComparisionExpression() {

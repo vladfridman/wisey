@@ -12,7 +12,7 @@
 using namespace std;
 using namespace wisey;
 
-ArrayTypeSpecifier::ArrayTypeSpecifier(ITypeSpecifier* elementTypeSpecifier,
+ArrayTypeSpecifier::ArrayTypeSpecifier(const ITypeSpecifier* elementTypeSpecifier,
                                        unsigned long numberOfDimentions) :
 mElementTypeSpecifier(elementTypeSpecifier), mNumberOfDimensions(numberOfDimentions) {
 }

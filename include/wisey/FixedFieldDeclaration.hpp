@@ -22,12 +22,12 @@ namespace wisey {
    * Represents a fixed field declaration in object definition
    */
   class FixedFieldDeclaration : public IObjectElementDeclaration {
-    ITypeSpecifier* mTypeSpecifier;
+    const ITypeSpecifier* mTypeSpecifier;
     std::string mName;
     
   public:
     
-    FixedFieldDeclaration(ITypeSpecifier* typeSpecifier, std::string name);
+    FixedFieldDeclaration(const ITypeSpecifier* typeSpecifier, std::string name);
     
     ~FixedFieldDeclaration();
     

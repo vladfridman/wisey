@@ -18,13 +18,13 @@ namespace wisey {
    * Represents a cast operation
    */
   class CastExpression : public IExpression {
-    ITypeSpecifier* mTypeSpecifier;
+    const ITypeSpecifier* mTypeSpecifier;
     IExpression* mExpression;
     int mLine;
     
   public:
     
-    CastExpression(ITypeSpecifier* typeSpecifier, IExpression* expression, int line);
+    CastExpression(const ITypeSpecifier* typeSpecifier, IExpression* expression, int line);
     
     ~CastExpression();
     

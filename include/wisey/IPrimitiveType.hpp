@@ -30,7 +30,7 @@ namespace wisey {
     /**
      * Creates a type specifier for this type
      */
-    virtual PrimitiveTypeSpecifier* newTypeSpecifier() const = 0;
+    virtual const PrimitiveTypeSpecifier* newTypeSpecifier() const = 0;
     
   };
   

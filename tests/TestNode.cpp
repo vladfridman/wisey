@@ -94,7 +94,7 @@ struct NodeTest : public Test {
     VariableList elementInterfaceMethodArguments;
     vector<IObjectElementDeclaration*> elementInterfaceElements;
     vector<IModelTypeSpecifier*> elementThrownExceptions;
-    PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
+    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
     IObjectElementDeclaration* getElementSignature =
       new MethodSignatureDeclaration(intSpecifier,
                                      "getElement",

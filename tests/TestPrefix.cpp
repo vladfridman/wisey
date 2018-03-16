@@ -26,7 +26,7 @@ using namespace wisey;
 void TestPrefix::generateIR(IRGenerationContext& context) {
   vector<IObjectElementDeclaration*> modelElements;
   defineModel(context, Names::getNPEModelName(), modelElements);
-  PrimitiveTypeSpecifier* longTypeSpecifier = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* longTypeSpecifier = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
   modelElements.push_back(new FixedFieldDeclaration(longTypeSpecifier, "mReferenceCount"));
   defineModel(context, Names::getReferenceCountExceptionName(), modelElements);
   modelElements.clear();
@@ -70,7 +70,7 @@ void TestPrefix::defineModel(IRGenerationContext& context,
 }
 
 ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext& context) {
-  PrimitiveTypeSpecifier* stringTypeSpecifier;
+  const PrimitiveTypeSpecifier* stringTypeSpecifier;
   VariableList arguments;
   vector<IModelTypeSpecifier*> exceptions;
   stringTypeSpecifier = PrimitiveTypes::STRING_TYPE->newTypeSpecifier();
@@ -83,10 +83,10 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
   stringTypeSpecifier = PrimitiveTypes::STRING_TYPE->newTypeSpecifier();
   declaration = VariableDeclaration::create(stringTypeSpecifier, new Identifier("fileName"), 0);
   arguments.push_back(declaration);
-  PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
   declaration = VariableDeclaration::create(intTypeSpecifier, new Identifier("lineNumber"), 0);
   arguments.push_back(declaration);
-  PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   Block* block = new Block();
   CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
   MethodDeclaration* pushStackMethod = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
@@ -151,7 +151,7 @@ ThreadDefinition* TestPrefix::defineMainThread(IRGenerationContext& context) {
                                                                 0);
 
   arguments.clear();
-  PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   block = new Block();
   compoundStatement = new CompoundStatement(block, 0);
   MethodDeclaration* runMethod = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,

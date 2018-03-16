@@ -13,7 +13,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-FixedFieldDeclaration::FixedFieldDeclaration(ITypeSpecifier* typeSpecifier, string name) :
+FixedFieldDeclaration::FixedFieldDeclaration(const ITypeSpecifier* typeSpecifier, string name) :
 mTypeSpecifier(typeSpecifier), mName(name) { }
 
 FixedFieldDeclaration::~FixedFieldDeclaration() {

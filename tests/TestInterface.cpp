@@ -87,7 +87,7 @@ struct InterfaceTest : public Test {
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     
-    PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
+    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
     VariableList methodArguments;
     mBarMethod = new MethodSignatureDeclaration(intSpecifier, "bar", methodArguments, exceptions);
     vector<IObjectElementDeclaration*> objectElementDeclarations;
@@ -386,7 +386,7 @@ TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
   Mock::AllowLeak(mMockExpression);
   Mock::AllowLeak(mThreadVariable);
 
-  PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
   FixedFieldDeclaration* fieldDeclaration = new FixedFieldDeclaration(intSpecifier, "mField");
   
   string name = "systems.vos.wisey.compiler.tests.IInterface";

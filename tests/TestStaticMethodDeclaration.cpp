@@ -30,8 +30,8 @@ using ::testing::Test;
 
 struct StaticMethodDeclarationTest : Test {
   IRGenerationContext mContext;
-  PrimitiveTypeSpecifier* mFloatTypeSpecifier;
-  PrimitiveTypeSpecifier* mIntTypeSpecifier;
+  const PrimitiveTypeSpecifier* mFloatTypeSpecifier;
+  const PrimitiveTypeSpecifier* mIntTypeSpecifier;
   Identifier* mIntArgumentIdentifier;
   Identifier* mFloatArgumentIdentifier;
   VariableDeclaration* mIntArgument;

@@ -19,12 +19,13 @@ namespace wisey {
    * Represents a wisey array type
    */
   class ArrayTypeSpecifier : public ITypeSpecifier {
-    ITypeSpecifier* mElementTypeSpecifier;
+    const ITypeSpecifier* mElementTypeSpecifier;
     unsigned long mNumberOfDimensions;
     
   public:
     
-    ArrayTypeSpecifier(ITypeSpecifier* elementTypeSpecifier, unsigned long numberOfDimentions);
+    ArrayTypeSpecifier(const ITypeSpecifier* elementTypeSpecifier,
+                       unsigned long numberOfDimentions);
     
     ~ArrayTypeSpecifier();
     

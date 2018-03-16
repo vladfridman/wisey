@@ -171,6 +171,6 @@ const IType* LongType::getDereferenceType() const {
   assert(false);
 }
 
-PrimitiveTypeSpecifier* LongType::newTypeSpecifier() const {
+const PrimitiveTypeSpecifier* LongType::newTypeSpecifier() const {
   return new PrimitiveTypeSpecifier(this);
 }

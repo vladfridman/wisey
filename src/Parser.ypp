@@ -145,7 +145,7 @@
   wisey::CaseStatement* case_statement;
   wisey::DefaultCaseStatement* default_case_statement;
   wisey::SwitchCases* switch_cases;
-  wisey::ITypeSpecifier* type_specifier;
+  const wisey::ITypeSpecifier* type_specifier;
   wisey::ArrayTypeSpecifier* array_type_specifier;
   wisey::ArrayOwnerTypeSpecifier* array_owner_type_specifier;
   wisey::ArraySpecificTypeSpecifier* array_specific_type_specifier;

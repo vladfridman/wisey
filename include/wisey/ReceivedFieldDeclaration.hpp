@@ -22,12 +22,12 @@ namespace wisey {
    * Represents a state field declaration in object definition
    */
   class ReceivedFieldDeclaration : public IObjectElementDeclaration {
-    ITypeSpecifier* mTypeSpecifier;
+    const ITypeSpecifier* mTypeSpecifier;
     std::string mName;
     
   public:
     
-    ReceivedFieldDeclaration(ITypeSpecifier* typeSpecifier, std::string name);
+    ReceivedFieldDeclaration(const ITypeSpecifier* typeSpecifier, std::string name);
     
     ~ReceivedFieldDeclaration();
     

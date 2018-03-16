@@ -22,13 +22,13 @@ namespace wisey {
    * Represents a field in controller definition
    */
   class InjectedFieldDeclaration : public IObjectElementDeclaration {
-    ITypeSpecifier* mTypeSpecifier;
+    const ITypeSpecifier* mTypeSpecifier;
     std::string mName;
     InjectionArgumentList mInjectionArgumentList;
     
   public:
     
-    InjectedFieldDeclaration(ITypeSpecifier* typeSpecifier,
+    InjectedFieldDeclaration(const ITypeSpecifier* typeSpecifier,
                              std::string name,
                              InjectionArgumentList injectionArguments);
     

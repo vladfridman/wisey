@@ -45,8 +45,9 @@ struct ExternalNodeDefinitionTest : public Test {
     mImportProfile = new ImportProfile(mPackage);
     mContext.setImportProfile(mImportProfile);
 
-    PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-    PrimitiveTypeSpecifier* floatTypeSpecifier = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
+    const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
+    const PrimitiveTypeSpecifier* floatTypeSpecifier =
+    PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
     Identifier* intArgumentIdentifier = new Identifier("intargument");
     VariableDeclaration* intArgument =
     VariableDeclaration::create(intTypeSpecifier, intArgumentIdentifier, 0);
@@ -64,8 +65,8 @@ struct ExternalNodeDefinitionTest : public Test {
 };
 
 TEST_F(ExternalNodeDefinitionTest, prototypeObjectTest) {
-  PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
-  PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
   FixedFieldDeclaration* field1 = new FixedFieldDeclaration(longType, "field1");
   FixedFieldDeclaration* field2 = new FixedFieldDeclaration(floatType, "field2");
   mObjectElements.push_back(field1);
@@ -92,8 +93,8 @@ TEST_F(ExternalNodeDefinitionTest, prototypeObjectTest) {
 }
 
 TEST_F(ExternalNodeDefinitionTest, prototypeMethodsTest) {
-  PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
-  PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
   FixedFieldDeclaration* field1 = new FixedFieldDeclaration(longType, "field1");
   FixedFieldDeclaration* field2 = new FixedFieldDeclaration(floatType, "field2");
   mObjectElements.push_back(field1);

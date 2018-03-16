@@ -69,8 +69,9 @@ struct ThreadDefinitionTest : public Test {
     block->getStatements().push_back(mMockStatement);
     block->getStatements().push_back(new ReturnStatement(new FloatConstant(0.5), 0));
     CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
-    PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-    PrimitiveTypeSpecifier* floatTypeSpecifier = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
+    const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
+    const PrimitiveTypeSpecifier* floatTypeSpecifier =
+    PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
     Identifier* intArgumentIdentifier = new Identifier("intargument");
     VariableDeclaration* intArgument =
     VariableDeclaration::create(intTypeSpecifier, intArgumentIdentifier, 0);
@@ -85,8 +86,8 @@ struct ThreadDefinitionTest : public Test {
                                               compoundStatement,
                                               0);
     
-    PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
-    PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
+    const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
+    const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
     StateFieldDeclaration* field1 = new StateFieldDeclaration(longType, "field1");
     StateFieldDeclaration* field2 = new StateFieldDeclaration(floatType, "field2");
     mElementDeclarations.push_back(field1);
@@ -103,7 +104,7 @@ TEST_F(ThreadDefinitionTest, threadDefinitionPrototypeObjectTest) {
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ThreadTypeSpecifierFull* typeSpecifier = new ThreadTypeSpecifierFull(packageExpression,
                                                                        "TWorker");
-  PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   vector<IObjectDefinition*> innerObjectDefinitions;
   ThreadDefinition threadDefinition(AccessLevel::PUBLIC_ACCESS,
                                     typeSpecifier,
@@ -130,7 +131,7 @@ TEST_F(ThreadDefinitionTest, threadDefinitionPrototypeMethodsTest) {
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ThreadTypeSpecifierFull* typeSpecifier = new ThreadTypeSpecifierFull(packageExpression,
                                                                        "TWorker");
-  PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   vector<IObjectDefinition*> innerObjectDefinitions;
   ThreadDefinition threadDefinition(AccessLevel::PUBLIC_ACCESS,
                                     typeSpecifier,
@@ -153,7 +154,7 @@ TEST_F(ThreadDefinitionTest, threadDefinitionGenerateIRTest) {
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ThreadTypeSpecifierFull* typeSpecifier = new ThreadTypeSpecifierFull(packageExpression,
                                                                        "TWorker");
-  PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   vector<IObjectDefinition*> innerObjectDefinitions;
   ThreadDefinition threadDefinition(AccessLevel::PUBLIC_ACCESS,
                                     typeSpecifier,
@@ -191,12 +192,12 @@ TEST_F(ThreadDefinitionTest, threadWithFixedFieldDeathTest) {
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ThreadTypeSpecifierFull* typeSpecifier = new ThreadTypeSpecifierFull(packageExpression,
                                                                        "TWorker");
-  PrimitiveTypeSpecifier* intType = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* intType = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
   FixedFieldDeclaration* field = new FixedFieldDeclaration(intType, "field3");
   mElementDeclarations.clear();
   mElementDeclarations.push_back(field);
   vector<IObjectDefinition*> innerObjectDefinitions;
-  PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   ThreadDefinition threadDefinition(AccessLevel::PUBLIC_ACCESS,
                                     typeSpecifier,
                                     voidTypeSpecifier,
@@ -215,11 +216,11 @@ TEST_F(ThreadDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ThreadTypeSpecifierFull* typeSpecifier = new ThreadTypeSpecifierFull(packageExpression,
                                                                        "TWorker");
-  PrimitiveTypeSpecifier* intType = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* intType = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
   StateFieldDeclaration* field = new StateFieldDeclaration(intType, "field3");
   mElementDeclarations.push_back(field);
   vector<IObjectDefinition*> innerObjectDefinitions;
-  PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   ThreadDefinition threadDefinition(AccessLevel::PUBLIC_ACCESS,
                                     typeSpecifier,
                                     voidTypeSpecifier,
@@ -234,13 +235,13 @@ TEST_F(ThreadDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
 }
 
 TEST_F(ThreadDefinitionTest, addThreadObjectElementsTest) {
-  PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
   NiceMock<MockExpression>* mockExpression = new NiceMock<MockExpression>();
   ConstantDeclaration* constantDeclaration = new ConstantDeclaration(PUBLIC_ACCESS,
                                                                      intSpecifier,
                                                                      "MY_CONSTANT",
                                                                      mockExpression);
-  PrimitiveTypeSpecifier* voidSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* voidSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   VariableList arguments;
   vector<IModelTypeSpecifier*> exceptions;
   Block* block = new Block();

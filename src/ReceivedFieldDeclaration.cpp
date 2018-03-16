@@ -13,7 +13,8 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ReceivedFieldDeclaration::ReceivedFieldDeclaration(ITypeSpecifier* typeSpecifier, string name) :
+ReceivedFieldDeclaration::ReceivedFieldDeclaration(const ITypeSpecifier* typeSpecifier,
+                                                   string name) :
 mTypeSpecifier(typeSpecifier), mName(name) { }
 
 ReceivedFieldDeclaration::~ReceivedFieldDeclaration() {

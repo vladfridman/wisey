@@ -23,12 +23,13 @@ namespace wisey {
    * Represents a wisey array type with dimensions specified
    */
   class ArraySpecificTypeSpecifier : public ITypeSpecifier {
-    ITypeSpecifier* mElementTypeSpecifier;
+    const ITypeSpecifier* mElementTypeSpecifier;
     std::list<const IExpression*> mDimensions;
     
   public:
     
-    ArraySpecificTypeSpecifier(ITypeSpecifier* elementTypeSpecifier, std::list<const IExpression*> dimensions);
+    ArraySpecificTypeSpecifier(const ITypeSpecifier* elementTypeSpecifier,
+                               std::list<const IExpression*> dimensions);
     
     ~ArraySpecificTypeSpecifier();
     

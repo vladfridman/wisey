@@ -39,7 +39,7 @@ struct InterfaceTypeSpecifierTest : public ::testing::Test {
     VariableList methodArguments;
     vector<IObjectElementDeclaration*> objectElements;
     vector<IModelTypeSpecifier*> methodExceptions;
-    PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
+    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
     IObjectElementDeclaration* methodSignature = new MethodSignatureDeclaration(intSpecifier,
                                                                                 "foo",
                                                                                 methodArguments,

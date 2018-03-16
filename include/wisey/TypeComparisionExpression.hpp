@@ -20,11 +20,11 @@ namespace wisey {
    */
   class TypeComparisionExpression : public IExpression {
     IExpression* mExpression;
-    ITypeSpecifier* mTypeSpecifier;
+    const ITypeSpecifier* mTypeSpecifier;
     
   public:
     
-    TypeComparisionExpression(IExpression* expression, ITypeSpecifier* typeSpecifier);
+    TypeComparisionExpression(IExpression* expression, const ITypeSpecifier* typeSpecifier);
     
     ~TypeComparisionExpression();
     

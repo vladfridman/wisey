@@ -167,6 +167,6 @@ const IType* StringType::getDereferenceType() const {
   assert(false);
 }
 
-PrimitiveTypeSpecifier* StringType::newTypeSpecifier() const {
+const PrimitiveTypeSpecifier* StringType::newTypeSpecifier() const {
   return new PrimitiveTypeSpecifier(this);
 }

@@ -15,7 +15,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-InjectedFieldDeclaration::InjectedFieldDeclaration(ITypeSpecifier* typeSpecifier,
+InjectedFieldDeclaration::InjectedFieldDeclaration(const ITypeSpecifier* typeSpecifier,
                                                    string name,
                                                    InjectionArgumentList injectionArguments) :
 mTypeSpecifier(typeSpecifier),

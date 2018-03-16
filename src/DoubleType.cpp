@@ -172,6 +172,6 @@ const IType* DoubleType::getDereferenceType() const {
   assert(false);
 }
 
-PrimitiveTypeSpecifier* DoubleType::newTypeSpecifier() const {
+const PrimitiveTypeSpecifier* DoubleType::newTypeSpecifier() const {
   return new PrimitiveTypeSpecifier(this);
 }
