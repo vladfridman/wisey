@@ -26,14 +26,14 @@ using namespace wisey;
 void TestPrefix::generateIR(IRGenerationContext& context) {
   vector<IObjectElementDeclaration*> modelElements;
   defineModel(context, Names::getNPEModelName(), modelElements);
-  PrimitiveTypeSpecifier* longTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
+  PrimitiveTypeSpecifier* longTypeSpecifier = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
   modelElements.push_back(new FixedFieldDeclaration(longTypeSpecifier, "mReferenceCount"));
   defineModel(context, Names::getReferenceCountExceptionName(), modelElements);
   modelElements.clear();
   
-  longTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
+  longTypeSpecifier = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
   modelElements.push_back(new FixedFieldDeclaration(longTypeSpecifier, "mArraySize"));
-  longTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
+  longTypeSpecifier = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
   modelElements.push_back(new FixedFieldDeclaration(longTypeSpecifier, "mIndex"));
   defineModel(context, Names::getArrayIndexOutOfBoundsModelName(), modelElements);
   
@@ -73,20 +73,20 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
   PrimitiveTypeSpecifier* stringTypeSpecifier;
   VariableList arguments;
   vector<IModelTypeSpecifier*> exceptions;
-  stringTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::STRING_TYPE);
+  stringTypeSpecifier = PrimitiveTypes::STRING_TYPE->newTypeSpecifier();
   VariableDeclaration* declaration;
   declaration = VariableDeclaration::create(stringTypeSpecifier, new Identifier("objectName"), 0);
   arguments.push_back(declaration);
-  stringTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::STRING_TYPE);
+  stringTypeSpecifier = PrimitiveTypes::STRING_TYPE->newTypeSpecifier();
   declaration = VariableDeclaration::create(stringTypeSpecifier, new Identifier("methodName"), 0);
   arguments.push_back(declaration);
-  stringTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::STRING_TYPE);
+  stringTypeSpecifier = PrimitiveTypes::STRING_TYPE->newTypeSpecifier();
   declaration = VariableDeclaration::create(stringTypeSpecifier, new Identifier("fileName"), 0);
   arguments.push_back(declaration);
-  PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+  PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
   declaration = VariableDeclaration::create(intTypeSpecifier, new Identifier("lineNumber"), 0);
   arguments.push_back(declaration);
-  PrimitiveTypeSpecifier* voidTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE);
+  PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   Block* block = new Block();
   CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
   MethodDeclaration* pushStackMethod = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
@@ -98,7 +98,7 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
                                                              0);
 
   arguments.clear();
-  voidTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE);
+  voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   block = new Block();
   compoundStatement = new CompoundStatement(block, 0);
   MethodDeclaration* popStackMethod = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
@@ -151,7 +151,7 @@ ThreadDefinition* TestPrefix::defineMainThread(IRGenerationContext& context) {
                                                                 0);
 
   arguments.clear();
-  PrimitiveTypeSpecifier* voidTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE);
+  PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   block = new Block();
   compoundStatement = new CompoundStatement(block, 0);
   MethodDeclaration* runMethod = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
@@ -165,7 +165,7 @@ ThreadDefinition* TestPrefix::defineMainThread(IRGenerationContext& context) {
   elementDeclarations.push_back(getCallStackMethod);
   elementDeclarations.push_back(runMethod);
 
-  voidTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE);
+  voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   
   vector<IObjectDefinition*> innerObjectDefinitions;
   vector<IInterfaceTypeSpecifier*> interfaceSpecifiers;

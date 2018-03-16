@@ -82,6 +82,8 @@ namespace wisey {
     const IType* getPointerType() const override;
     
     const IType* getDereferenceType() const override;
+    
+    PrimitiveTypeSpecifier* newTypeSpecifier() const override;
 
   };
   

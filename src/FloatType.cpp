@@ -17,6 +17,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalPrimitiveVariable.hpp"
 #include "wisey/ParameterPrimitiveVariable.hpp"
+#include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -169,4 +170,8 @@ const IType* FloatType::getPointerType() const {
 
 const IType* FloatType::getDereferenceType() const {
   assert(false);
+}
+
+PrimitiveTypeSpecifier* FloatType::newTypeSpecifier() const {
+  return new PrimitiveTypeSpecifier(this);
 }

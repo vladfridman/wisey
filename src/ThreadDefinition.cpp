@@ -177,7 +177,7 @@ MethodDeclaration* ThreadDefinition::createStartMethodDeclaration(IRGenerationCo
   CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
   
   return new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
-                               new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE),
+                               PrimitiveTypes::INT_TYPE->newTypeSpecifier(),
                                "start",
                                arguments,
                                exceptions,
@@ -194,7 +194,7 @@ MethodDeclaration* ThreadDefinition::createSendMethodDeclaration(IRGenerationCon
   StatementList& statements = block->getStatements();
   CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
   
-  PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+  PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
   VariableDeclaration* messageArgument =
   VariableDeclaration::create(intTypeSpecifier, new Identifier("message"), 0);
   arguments.push_back(messageArgument);
@@ -215,7 +215,7 @@ MethodDeclaration* ThreadDefinition::createSendMethodDeclaration(IRGenerationCon
   statements.push_back(createFunctionCall);
 
   return new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
-                               new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE),
+                               PrimitiveTypes::VOID_TYPE->newTypeSpecifier(),
                                "send",
                                arguments,
                                exceptions,
@@ -234,7 +234,7 @@ StateFieldDeclaration* ThreadDefinition::createNativeThreadHandleField(IRGenerat
 
 StateFieldDeclaration* ThreadDefinition::createNativeThreadResultField(IRGenerationContext&
                                                                        context) {
-  PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+  PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
   return new StateFieldDeclaration(intTypeSpecifier, "mMessage");
 }
 

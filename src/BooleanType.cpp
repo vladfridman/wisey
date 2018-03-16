@@ -18,6 +18,7 @@
 #include "wisey/LocalPrimitiveVariable.hpp"
 #include "wisey/ParameterPrimitiveVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/PrimitiveTypeSpecifier.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -173,4 +174,8 @@ const IType* BooleanType::getPointerType() const {
 
 const IType* BooleanType::getDereferenceType() const {
   assert(false);
+}
+
+PrimitiveTypeSpecifier* BooleanType::newTypeSpecifier() const {
+  return new PrimitiveTypeSpecifier(this);
 }

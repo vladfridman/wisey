@@ -17,6 +17,7 @@
 #include "wisey/Names.hpp"
 #include "wisey/ParameterPrimitiveVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/StringType.hpp"
 
 using namespace llvm;
@@ -164,4 +165,8 @@ const IType* StringType::getPointerType() const {
 
 const IType* StringType::getDereferenceType() const {
   assert(false);
+}
+
+PrimitiveTypeSpecifier* StringType::newTypeSpecifier() const {
+  return new PrimitiveTypeSpecifier(this);
 }

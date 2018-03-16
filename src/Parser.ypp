@@ -687,7 +687,7 @@ implmeneted_interfaces
   ;
 
 sends_object
-  : /* blank */ { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE); }
+  : /* blank */ { $$ = PrimitiveTypes::VOID_TYPE->newTypeSpecifier(); }
   | TSENDS type_specifier { $$ = $2; }
   ;
 
@@ -1337,14 +1337,14 @@ array_undefined_dimensions_list
   | array_undefined_dimensions_list '[' ']' { $$ = $1 + 1; }
 
 primitive_type_specifier
-  : TTYPEBOOLEAN { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::BOOLEAN_TYPE); }
-  | TTYPECHAR { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::CHAR_TYPE); }
-  | TTYPEDOUBLE { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::DOUBLE_TYPE); }
-  | TTYPEFLOAT { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE); }
-  | TTYPEINT { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE); }
-  | TTYPELONG { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE); }
-  | TTYPESTRING { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::STRING_TYPE); }
-  | TTYPEVOID { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE); }
+  : TTYPEBOOLEAN { $$ = PrimitiveTypes::BOOLEAN_TYPE->newTypeSpecifier(); }
+  | TTYPECHAR { $$ = PrimitiveTypes::CHAR_TYPE->newTypeSpecifier(); }
+  | TTYPEDOUBLE { $$ = PrimitiveTypes::DOUBLE_TYPE->newTypeSpecifier(); }
+  | TTYPEFLOAT { $$ = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(); }
+  | TTYPEINT { $$ = PrimitiveTypes::INT_TYPE->newTypeSpecifier(); }
+  | TTYPELONG { $$ = PrimitiveTypes::LONG_TYPE->newTypeSpecifier(); }
+  | TTYPESTRING { $$ = PrimitiveTypes::STRING_TYPE->newTypeSpecifier(); }
+  | TTYPEVOID { $$ = PrimitiveTypes::VOID_TYPE->newTypeSpecifier(); }
   ;
 
 model_type_specifier

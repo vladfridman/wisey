@@ -41,8 +41,8 @@ struct StaticMethodDeclarationTest : Test {
   CompoundStatement* mCompoundStatement;
   
   StaticMethodDeclarationTest() :
-  mFloatTypeSpecifier(new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE)),
-  mIntTypeSpecifier(new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE)),
+  mFloatTypeSpecifier(PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier()),
+  mIntTypeSpecifier(PrimitiveTypes::INT_TYPE->newTypeSpecifier()),
   mIntArgumentIdentifier(new Identifier("intargument")),
   mFloatArgumentIdentifier(new Identifier("floatargument")),
   mIntArgument(VariableDeclaration::create(mIntTypeSpecifier, mIntArgumentIdentifier, 0)),
@@ -58,7 +58,7 @@ TEST_F(StaticMethodDeclarationTest, methodDescriptorExtractTest) {
   mArguments.push_back(mFloatArgument);
   vector<IModelTypeSpecifier*> thrownExceptions;
   StaticMethodDeclaration methodDeclaration(AccessLevel::PUBLIC_ACCESS,
-                                            new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE),
+                                            PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(),
                                             "foo",
                                             mArguments,
                                             thrownExceptions,

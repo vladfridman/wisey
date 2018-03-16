@@ -13,6 +13,8 @@
 
 namespace wisey {
   
+  class PrimitiveTypeSpecifier;
+  
   /**
    * Represents a primitive type such as int, boolean, char, string
    */
@@ -24,6 +26,11 @@ namespace wisey {
      * Returns format string used in printf to print this type
      */
     virtual std::string getFormat() const = 0;
+    
+    /**
+     * Creates a type specifier for this type
+     */
+    virtual PrimitiveTypeSpecifier* newTypeSpecifier() const = 0;
     
   };
   

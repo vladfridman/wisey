@@ -11,6 +11,7 @@
 #include "wisey/IObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/PointerType.hpp"
 #include "wisey/VoidType.hpp"
 
@@ -132,4 +133,8 @@ const IType* VoidType::getPointerType() const {
 
 const IType* VoidType::getDereferenceType() const {
   assert(false);
+}
+
+PrimitiveTypeSpecifier* VoidType::newTypeSpecifier() const {
+  return new PrimitiveTypeSpecifier(this);
 }

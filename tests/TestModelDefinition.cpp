@@ -67,9 +67,8 @@ struct ModelDefinitionTest : public Test {
     mBlock->getStatements().push_back(mMockStatement);
     mBlock->getStatements().push_back(new ReturnStatement(new FloatConstant(0.5), 0));
     CompoundStatement* compoundStatement = new CompoundStatement(mBlock, 0);
-    PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
-    PrimitiveTypeSpecifier* floatTypeSpecifier =
-      new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
+    PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
+    PrimitiveTypeSpecifier* floatTypeSpecifier = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
     Identifier* intArgumentIdentifier = new Identifier("intargument");
     VariableDeclaration* intArgument =
     VariableDeclaration::create(intTypeSpecifier, intArgumentIdentifier, 0);
@@ -87,8 +86,8 @@ struct ModelDefinitionTest : public Test {
 };
 
 TEST_F(ModelDefinitionTest, prototypeObjectTest) {
-  PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
-  PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
+  PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
+  PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
   FixedFieldDeclaration* field1 = new FixedFieldDeclaration(longType, "field1");
   FixedFieldDeclaration* field2 = new FixedFieldDeclaration(floatType, "field2");
   mObjectElements.push_back(field1);
@@ -116,8 +115,8 @@ TEST_F(ModelDefinitionTest, prototypeObjectTest) {
 }
 
 TEST_F(ModelDefinitionTest, prototypeMethodsTest) {
-  PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
-  PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
+  PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
+  PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
   FixedFieldDeclaration* field1 = new FixedFieldDeclaration(longType, "field1");
   FixedFieldDeclaration* field2 = new FixedFieldDeclaration(floatType, "field2");
   mObjectElements.push_back(field1);
@@ -144,8 +143,8 @@ TEST_F(ModelDefinitionTest, prototypeMethodsTest) {
 }
 
 TEST_F(ModelDefinitionTest, generateIRTest) {
-  PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
-  PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
+  PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
+  PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
   FixedFieldDeclaration* field1 = new FixedFieldDeclaration(longType, "field1");
   FixedFieldDeclaration* field2 = new FixedFieldDeclaration(floatType, "field2");
   mObjectElements.push_back(field1);
@@ -193,11 +192,11 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   ModelTypeSpecifierFull* modelTypeSpecifier =
     new ModelTypeSpecifierFull(packageExpression, Names::getNPEModelName());
   methodThrownExceptions.push_back(modelTypeSpecifier);
-  const PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+  const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
   VariableDeclaration* methodArgument =
   VariableDeclaration::create(intSpecifier, new Identifier("intargument"), 0);
   methodArguments.push_back(methodArgument);
-  PrimitiveTypeSpecifier* floatSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
+  PrimitiveTypeSpecifier* floatSpecifier = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
   IObjectElementDeclaration* methodSignature =
     new MethodSignatureDeclaration(floatSpecifier,
                                    "foo",
@@ -282,7 +281,7 @@ TEST_F(ModelDefinitionTest, interfaceNotDefinedDeathTest) {
 }
 
 TEST_F(ModelDefinitionTest, modelWithInjectedFieldDeathTest) {
-  PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
+  PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
   InjectionArgumentList arguments;
   InjectedFieldDeclaration* field1 = new InjectedFieldDeclaration(longType, "field1", arguments);
   mObjectElements.push_back(field1);

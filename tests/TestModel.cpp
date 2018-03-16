@@ -129,7 +129,7 @@ struct ModelTest : public Test {
     VariableList subShapeInterfaceMethodArguments;
     vector<IObjectElementDeclaration*> subShapeInterfaceElements;
     vector<IModelTypeSpecifier*> subShapeInterfaceThrownExceptions;
-    PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+    PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
     IObjectElementDeclaration* methodFooSignature =
       new MethodSignatureDeclaration(intSpecifier,
                                      "foo",

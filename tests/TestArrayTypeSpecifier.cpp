@@ -26,7 +26,7 @@ struct ArrayTypeSpecifierTest : public Test {
 };
 
 TEST_F(ArrayTypeSpecifierTest, creationTest) {
-  PrimitiveTypeSpecifier* intSpecifer = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+  PrimitiveTypeSpecifier* intSpecifer = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
   ArrayTypeSpecifier* specifier = new ArrayTypeSpecifier(intSpecifer, 1u);
   const IType* type = specifier->getType(mContext);
   
@@ -40,7 +40,7 @@ TEST_F(ArrayTypeSpecifierTest, creationTest) {
 }
 
 TEST_F(ArrayTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {
-  PrimitiveTypeSpecifier* floatSpecifer = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
+  PrimitiveTypeSpecifier* floatSpecifer = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
   ArrayTypeSpecifier* specifier = new ArrayTypeSpecifier(floatSpecifer, 1u);
   const IType* type1 = specifier->getType(mContext);
   const IType* type2 = specifier->getType(mContext);
@@ -49,7 +49,7 @@ TEST_F(ArrayTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {
 }
 
 TEST_F(ArrayTypeSpecifierTest, printToStreamTest) {
-  PrimitiveTypeSpecifier* stringSpecifer = new PrimitiveTypeSpecifier(PrimitiveTypes::STRING_TYPE);
+  PrimitiveTypeSpecifier* stringSpecifer = PrimitiveTypes::STRING_TYPE->newTypeSpecifier();
   ArrayTypeSpecifier specifier(stringSpecifer, 1u);
 
   stringstream stringStream;

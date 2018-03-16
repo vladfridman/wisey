@@ -46,7 +46,7 @@ struct ArraySpecificTypeSpecifierTest : public Test {
 };
 
 TEST_F(ArraySpecificTypeSpecifierTest, creationTest) {
-  PrimitiveTypeSpecifier* intSpecifer = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+  PrimitiveTypeSpecifier* intSpecifer = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
   ArraySpecificTypeSpecifier* specifier = new ArraySpecificTypeSpecifier(intSpecifer, mDimensions);
   const IType* type = specifier->getType(mContext);
   
@@ -60,7 +60,7 @@ TEST_F(ArraySpecificTypeSpecifierTest, creationTest) {
 }
 
 TEST_F(ArraySpecificTypeSpecifierTest, printToStreamTest) {
-  PrimitiveTypeSpecifier* stringSpecifer = new PrimitiveTypeSpecifier(PrimitiveTypes::STRING_TYPE);
+  PrimitiveTypeSpecifier* stringSpecifer = PrimitiveTypes::STRING_TYPE->newTypeSpecifier();
   ArraySpecificTypeSpecifier* specifier = new ArraySpecificTypeSpecifier(stringSpecifer,
                                                                          mDimensions);
   

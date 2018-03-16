@@ -87,7 +87,7 @@ struct InterfaceTest : public Test {
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     
-    PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+    PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
     VariableList methodArguments;
     mBarMethod = new MethodSignatureDeclaration(intSpecifier, "bar", methodArguments, exceptions);
     vector<IObjectElementDeclaration*> objectElementDeclarations;
@@ -108,7 +108,7 @@ struct InterfaceTest : public Test {
     mFooMethod = new MethodSignatureDeclaration(intSpecifier, "foo", methodArguments, exceptions);
     vector<IObjectElementDeclaration*> shapeElements;
 
-    intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+    intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
     VariableList staticMethodArguments;
     vector<IModelTypeSpecifier*> staticMethodExceptions;
     Block* staticMethodBlock = new Block();
@@ -123,7 +123,7 @@ struct InterfaceTest : public Test {
     
     mMockExpression = new NiceMock<MockExpression>();
     ON_CALL(*mMockExpression, printToStream(_,_)).WillByDefault(Invoke(printExpression));
-    intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+    intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
     mConstantDeclaration = new ConstantDeclaration(PUBLIC_ACCESS,
                                                    intSpecifier,
                                                    "MYCONSTANT",
@@ -386,7 +386,7 @@ TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
   Mock::AllowLeak(mMockExpression);
   Mock::AllowLeak(mThreadVariable);
 
-  PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+  PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
   FixedFieldDeclaration* fieldDeclaration = new FixedFieldDeclaration(intSpecifier, "mField");
   
   string name = "systems.vos.wisey.compiler.tests.IInterface";
@@ -409,7 +409,7 @@ TEST_F(InterfaceTest, methodDeclarationDeathTest) {
   Mock::AllowLeak(mMockExpression);
   Mock::AllowLeak(mThreadVariable);
 
-  const PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+  const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
   VariableList arguments;
   vector<IModelTypeSpecifier*> thrownExceptions;
   Block* block = new Block();
