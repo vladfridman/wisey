@@ -62,12 +62,15 @@
   #include "wisey/InterfaceTypeSpecifierFull.hpp"
   #include "wisey/IControllerTypeSpecifier.hpp"
   #include "wisey/IInterfaceTypeSpecifier.hpp"
+  #include "wisey/ILLVMTypeSpecifier.hpp"
   #include "wisey/IModelTypeSpecifier.hpp"
   #include "wisey/INodeTypeSpecifier.hpp"
   #include "wisey/IObjectElementDeclaration.hpp"
   #include "wisey/IObjectDefinition.hpp"
   #include "wisey/IObjectTypeSpecifier.hpp"
   #include "wisey/ITypeSpecifier.hpp"
+  #include "wisey/LLVMPrimitiveTypes.hpp"
+  #include "wisey/LLVMStructDefinition.hpp"
   #include "wisey/Log.hpp"
   #include "wisey/LogicalAndExpression.hpp"
   #include "wisey/LogicalOrExpression.hpp"
@@ -167,6 +170,7 @@
   wisey::MethodSignatureDeclaration* method_signature;
   wisey::Catch* catch_clause;
   wisey::ProgramFile* program_file;
+  const wisey::ILLVMTypeSpecifier* llvm_type_specifier;
   std::vector<wisey::Catch*>* catch_vector;
   std::vector<wisey::VariableDeclaration*>* variable_vector;
   std::vector<const wisey::IExpression*>* expression_vector;
@@ -177,6 +181,7 @@
   std::vector<wisey::IModelTypeSpecifier*>* model_type_specifier_list;
   std::vector<wisey::IInterfaceTypeSpecifier*>* interface_list;
   std::list<const wisey::IExpression*>* list_of_const_expressions;
+  std::vector<const wisey::ILLVMTypeSpecifier*>* llvm_type_specifier_list;
   std::string* string;
   unsigned long unsignedlong;
   int token;
@@ -192,9 +197,9 @@
 %token <token> TANDOP TBIND TBREAK TBUILD TBUILDER TCASE TCATCH TCEQ TCGE TCLE TINCOP
 %token <token> TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDO TELSE TEXIT TEXTENDS TEXTERNAL
 %token <token> TDEFAULT TFALLTHROUGH TFALSE TFIXED TFOR TIF TIMPLEMENTS TIMPORT TINJECTOR TINJECT
-%token <token> TINSTANCEOF TINTERFACE TMODEL TNEW TNODE TNULL TOROP TPACKAGE TPRINTERR TPRINTOUT
-%token <token> TPRIVATE TPUBLIC TRECEIVE TRETURN TSENDS TSTATE TSTATIC
-%token <token> TSWITCH TTHREAD TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN 
+%token <token> TINSTANCEOF TINTERFACE TLLVM TMODEL TNEW TNODE TNULL TOROP TPACKAGE TPRINTERR 
+%token <token> TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN TSENDS TSTATE TSTATIC TSTRUCT
+%token <token> TSWITCH TI1 TI8 TI16 TI32 TI64 TTHREAD TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN 
 %token <token> TTYPECHAR TTYPEDOUBLE TTYPEFLOAT TTYPEINT TTYPELONG TTYPESTRING TTYPEVOID TWHILE
 
 /**
@@ -218,7 +223,8 @@
 %type <statement> declaration expression_statement iteration_statement
 %type <statement> print_statement selection_statement 
 %type <statement> throw_statement try_catch_statement
-%type <global_statement> bind_action import_statement global_statement
+%type <global_statement> bind_action import_statement global_statement llvm_statement 
+%type <global_statement> llvm_struct_definition
 %type <object_definition> controller_definition interface_definition model_definition
 %type <object_definition> node_definition thread_definition external_thread_definition
 %type <object_definition> object_definition external_object_definition external_model_definition
@@ -271,7 +277,9 @@
 %type <model_type_specifier_list> method_exceptions exception_type_specifier_list
 %type <interface_list> interface_list implmeneted_interfaces extends_interfaces
 %type <list_of_const_expressions> array_dimensions
-%type <unsignedlong> array_undefined_dimensions_list;
+%type <unsignedlong> array_undefined_dimensions_list
+%type <llvm_type_specifier> llvm_type_specifier llvm_i_type_specifier
+%type <llvm_type_specifier_list> llvm_type_specifier_list
 
 %left '+' '-'
 %left '*' '/'
@@ -314,6 +322,37 @@ global_statement
   | external_object_definition { $$ = (IGlobalStatement*) $1; }
   | bind_action
   | import_statement
+  | llvm_statement
+  ;
+
+llvm_statement
+  : llvm_struct_definition
+  ;
+
+llvm_struct_definition
+  : TLLVM TSTRUCT TIDENTIFIER '{' llvm_type_specifier_list '}' 
+    { $$ = new LLVMStructDefinition(*$3, *$5); delete $3; delete $5; }
+  ;
+
+llvm_type_specifier_list
+  : llvm_type_specifier
+    { $$ = new std::vector<const ILLVMTypeSpecifier*>(); $$->push_back($1); }
+  | llvm_type_specifier_list ',' llvm_type_specifier
+    { $1->push_back($3); $$ = $1; }
+  | llvm_type_specifier_list ','
+    { $$ = $1; }
+  ;
+
+llvm_type_specifier
+  : llvm_i_type_specifier { $$ = $1; }
+  ;
+
+llvm_i_type_specifier
+  : TLLVM TI1 { $$ = LLVMPrimitiveTypes::I1->newTypeSpecifier(); }
+  | TLLVM TI8 { $$ = LLVMPrimitiveTypes::I8->newTypeSpecifier(); }
+  | TLLVM TI16 { $$ = LLVMPrimitiveTypes::I16->newTypeSpecifier(); }
+  | TLLVM TI32 { $$ = LLVMPrimitiveTypes::I32->newTypeSpecifier(); }
+  | TLLVM TI64 { $$ = LLVMPrimitiveTypes::I64->newTypeSpecifier(); }
   ;
 
 inner_object_definition

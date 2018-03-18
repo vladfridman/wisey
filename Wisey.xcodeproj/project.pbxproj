@@ -438,6 +438,29 @@
 		F54B146020598C310030773F /* PointerPointerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B145F20598C310030773F /* PointerPointerType.cpp */; };
 		F54B146120598C310030773F /* PointerPointerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B145F20598C310030773F /* PointerPointerType.cpp */; };
 		F54B14632059913A0030773F /* TestPointerPointerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B14622059913A0030773F /* TestPointerPointerType.cpp */; };
+		F54B1466205D66AB0030773F /* LLVMi1Type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B1465205D66AB0030773F /* LLVMi1Type.cpp */; };
+		F54B1467205D66AB0030773F /* LLVMi1Type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B1465205D66AB0030773F /* LLVMi1Type.cpp */; };
+		F54B146A205D69D20030773F /* LLVMi8Type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B1469205D69D20030773F /* LLVMi8Type.cpp */; };
+		F54B146B205D69D20030773F /* LLVMi8Type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B1469205D69D20030773F /* LLVMi8Type.cpp */; };
+		F54B146E205D6ACB0030773F /* LLVMi16Type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B146D205D6ACB0030773F /* LLVMi16Type.cpp */; };
+		F54B146F205D6ACB0030773F /* LLVMi16Type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B146D205D6ACB0030773F /* LLVMi16Type.cpp */; };
+		F54B1472205D6B8F0030773F /* LLVMi32Type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B1471205D6B8F0030773F /* LLVMi32Type.cpp */; };
+		F54B1473205D6B8F0030773F /* LLVMi32Type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B1471205D6B8F0030773F /* LLVMi32Type.cpp */; };
+		F54B1476205D6BFD0030773F /* LLVMi64Type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B1475205D6BFD0030773F /* LLVMi64Type.cpp */; };
+		F54B1477205D6BFD0030773F /* LLVMi64Type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B1475205D6BFD0030773F /* LLVMi64Type.cpp */; };
+		F54B147A205D6D340030773F /* LLVMPrimitiveTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B1479205D6D340030773F /* LLVMPrimitiveTypes.cpp */; };
+		F54B147B205D6D340030773F /* LLVMPrimitiveTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B1479205D6D340030773F /* LLVMPrimitiveTypes.cpp */; };
+		F54B147F205D701C0030773F /* LLVMPrimitiveTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B147E205D701C0030773F /* LLVMPrimitiveTypeSpecifier.cpp */; };
+		F54B1480205D701C0030773F /* LLVMPrimitiveTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B147E205D701C0030773F /* LLVMPrimitiveTypeSpecifier.cpp */; };
+		F54B1484205D737B0030773F /* LLVMStructDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B1483205D737B0030773F /* LLVMStructDefinition.cpp */; };
+		F54B1485205D737B0030773F /* LLVMStructDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B1483205D737B0030773F /* LLVMStructDefinition.cpp */; };
+		F54B1487205D7A520030773F /* TestLLVMStructDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B1486205D7A520030773F /* TestLLVMStructDefinition.cpp */; };
+		F54B1489205EC5CD0030773F /* TestLLVMi1Type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B1488205EC5CD0030773F /* TestLLVMi1Type.cpp */; };
+		F54B148B205EC7090030773F /* TestLLVMi8Type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B148A205EC7090030773F /* TestLLVMi8Type.cpp */; };
+		F54B148D205EC7510030773F /* TestLLVMi16Type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B148C205EC7510030773F /* TestLLVMi16Type.cpp */; };
+		F54B148F205EC79D0030773F /* TestLLVMi32Type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B148E205EC79D0030773F /* TestLLVMi32Type.cpp */; };
+		F54B1491205EC82B0030773F /* TestLLVMi64Type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B1490205EC82B0030773F /* TestLLVMi64Type.cpp */; };
+		F54B1493205EC8C50030773F /* TestLLVMPrimitiveTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B1492205EC8C50030773F /* TestLLVMPrimitiveTypeSpecifier.cpp */; };
 		F54ED95F1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54ED95E1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp */; };
 		F54ED9601FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54ED95E1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp */; };
 		F55173D61F99025400613993 /* TestConstantDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55173D51F99025400613993 /* TestConstantDeclaration.cpp */; };
@@ -1397,6 +1420,31 @@
 		F54B145E20598BCF0030773F /* PointerPointerType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = PointerPointerType.hpp; path = include/wisey/PointerPointerType.hpp; sourceTree = "<group>"; };
 		F54B145F20598C310030773F /* PointerPointerType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PointerPointerType.cpp; path = src/PointerPointerType.cpp; sourceTree = "<group>"; };
 		F54B14622059913A0030773F /* TestPointerPointerType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestPointerPointerType.cpp; path = tests/TestPointerPointerType.cpp; sourceTree = "<group>"; };
+		F54B1464205D61100030773F /* LLVMi1Type.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMi1Type.hpp; path = include/wisey/LLVMi1Type.hpp; sourceTree = "<group>"; };
+		F54B1465205D66AB0030773F /* LLVMi1Type.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMi1Type.cpp; path = src/LLVMi1Type.cpp; sourceTree = "<group>"; };
+		F54B1468205D69940030773F /* LLVMi8Type.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMi8Type.hpp; path = include/wisey/LLVMi8Type.hpp; sourceTree = "<group>"; };
+		F54B1469205D69D20030773F /* LLVMi8Type.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMi8Type.cpp; path = src/LLVMi8Type.cpp; sourceTree = "<group>"; };
+		F54B146C205D6A910030773F /* LLVMi16Type.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMi16Type.hpp; path = include/wisey/LLVMi16Type.hpp; sourceTree = "<group>"; };
+		F54B146D205D6ACB0030773F /* LLVMi16Type.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMi16Type.cpp; path = src/LLVMi16Type.cpp; sourceTree = "<group>"; };
+		F54B1470205D6B5E0030773F /* LLVMi32Type.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMi32Type.hpp; path = include/wisey/LLVMi32Type.hpp; sourceTree = "<group>"; };
+		F54B1471205D6B8F0030773F /* LLVMi32Type.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMi32Type.cpp; path = src/LLVMi32Type.cpp; sourceTree = "<group>"; };
+		F54B1474205D6BCF0030773F /* LLVMi64Type.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMi64Type.hpp; path = include/wisey/LLVMi64Type.hpp; sourceTree = "<group>"; };
+		F54B1475205D6BFD0030773F /* LLVMi64Type.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMi64Type.cpp; path = src/LLVMi64Type.cpp; sourceTree = "<group>"; };
+		F54B1478205D6D190030773F /* LLVMPrimitiveTypes.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMPrimitiveTypes.hpp; path = include/wisey/LLVMPrimitiveTypes.hpp; sourceTree = "<group>"; };
+		F54B1479205D6D340030773F /* LLVMPrimitiveTypes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMPrimitiveTypes.cpp; path = src/LLVMPrimitiveTypes.cpp; sourceTree = "<group>"; };
+		F54B147C205D6ED40030773F /* ILLVMPrimitiveType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ILLVMPrimitiveType.hpp; path = include/wisey/ILLVMPrimitiveType.hpp; sourceTree = "<group>"; };
+		F54B147D205D70000030773F /* LLVMPrimitiveTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMPrimitiveTypeSpecifier.hpp; path = include/wisey/LLVMPrimitiveTypeSpecifier.hpp; sourceTree = "<group>"; };
+		F54B147E205D701C0030773F /* LLVMPrimitiveTypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMPrimitiveTypeSpecifier.cpp; path = src/LLVMPrimitiveTypeSpecifier.cpp; sourceTree = "<group>"; };
+		F54B1481205D71C60030773F /* ILLVMTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ILLVMTypeSpecifier.hpp; path = include/wisey/ILLVMTypeSpecifier.hpp; sourceTree = "<group>"; };
+		F54B1482205D725C0030773F /* LLVMStructDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMStructDefinition.hpp; path = include/wisey/LLVMStructDefinition.hpp; sourceTree = "<group>"; };
+		F54B1483205D737B0030773F /* LLVMStructDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMStructDefinition.cpp; path = src/LLVMStructDefinition.cpp; sourceTree = "<group>"; };
+		F54B1486205D7A520030773F /* TestLLVMStructDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMStructDefinition.cpp; path = tests/TestLLVMStructDefinition.cpp; sourceTree = "<group>"; };
+		F54B1488205EC5CD0030773F /* TestLLVMi1Type.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMi1Type.cpp; path = tests/TestLLVMi1Type.cpp; sourceTree = "<group>"; };
+		F54B148A205EC7090030773F /* TestLLVMi8Type.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMi8Type.cpp; path = tests/TestLLVMi8Type.cpp; sourceTree = "<group>"; };
+		F54B148C205EC7510030773F /* TestLLVMi16Type.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMi16Type.cpp; path = tests/TestLLVMi16Type.cpp; sourceTree = "<group>"; };
+		F54B148E205EC79D0030773F /* TestLLVMi32Type.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMi32Type.cpp; path = tests/TestLLVMi32Type.cpp; sourceTree = "<group>"; };
+		F54B1490205EC82B0030773F /* TestLLVMi64Type.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMi64Type.cpp; path = tests/TestLLVMi64Type.cpp; sourceTree = "<group>"; };
+		F54B1492205EC8C50030773F /* TestLLVMPrimitiveTypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMPrimitiveTypeSpecifier.cpp; path = tests/TestLLVMPrimitiveTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F54ED95D1FE84C9400847A2B /* DestroyOwnerArrayFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DestroyOwnerArrayFunction.hpp; path = include/wisey/DestroyOwnerArrayFunction.hpp; sourceTree = "<group>"; };
 		F54ED95E1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DestroyOwnerArrayFunction.cpp; path = src/DestroyOwnerArrayFunction.cpp; sourceTree = "<group>"; };
 		F55173D51F99025400613993 /* TestConstantDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestConstantDeclaration.cpp; path = tests/TestConstantDeclaration.cpp; sourceTree = "<group>"; };
@@ -2407,6 +2455,8 @@
 				F5089C721ECD01D9004A1223 /* IHasType.hpp */,
 				F587482D1F921CC60088F1E3 /* IInjectable.hpp */,
 				F5436DB91FCF7D4A003ABF6F /* IInterfaceTypeSpecifier.hpp */,
+				F54B147C205D6ED40030773F /* ILLVMPrimitiveType.hpp */,
+				F54B1481205D71C60030773F /* ILLVMTypeSpecifier.hpp */,
 				F51D2BA71F68390200510784 /* IMethod.hpp */,
 				F5B3DCE31F91156C00FC76D3 /* IMethodCall.hpp */,
 				F52FBDD51F67B85200339F92 /* IMethodDeclaration.hpp */,
@@ -2824,6 +2874,14 @@
 		F5CB7F582050F86F007628B5 /* native */ = {
 			isa = PBXGroup;
 			children = (
+				F54B1464205D61100030773F /* LLVMi1Type.hpp */,
+				F54B1468205D69940030773F /* LLVMi8Type.hpp */,
+				F54B146C205D6A910030773F /* LLVMi16Type.hpp */,
+				F54B1470205D6B5E0030773F /* LLVMi32Type.hpp */,
+				F54B1474205D6BCF0030773F /* LLVMi64Type.hpp */,
+				F54B1478205D6D190030773F /* LLVMPrimitiveTypes.hpp */,
+				F54B147D205D70000030773F /* LLVMPrimitiveTypeSpecifier.hpp */,
+				F54B1482205D725C0030773F /* LLVMStructDefinition.hpp */,
 				F5CB7F6B20512763007628B5 /* NativeFunctionCall.hpp */,
 				F5CB7F602050FBDA007628B5 /* NativeType.hpp */,
 				F5CB7F5C2050FAF5007628B5 /* NativeTypeSpecifier.hpp */,
@@ -2834,6 +2892,14 @@
 		F5CB7F5A2050F967007628B5 /* native */ = {
 			isa = PBXGroup;
 			children = (
+				F54B1465205D66AB0030773F /* LLVMi1Type.cpp */,
+				F54B1469205D69D20030773F /* LLVMi8Type.cpp */,
+				F54B146D205D6ACB0030773F /* LLVMi16Type.cpp */,
+				F54B1471205D6B8F0030773F /* LLVMi32Type.cpp */,
+				F54B1475205D6BFD0030773F /* LLVMi64Type.cpp */,
+				F54B1479205D6D340030773F /* LLVMPrimitiveTypes.cpp */,
+				F54B147E205D701C0030773F /* LLVMPrimitiveTypeSpecifier.cpp */,
+				F54B1483205D737B0030773F /* LLVMStructDefinition.cpp */,
 				F5CB7F6820512732007628B5 /* NativeFunctionCall.cpp */,
 				F5CB7F612050FBF4007628B5 /* NativeType.cpp */,
 				F5CB7F5D2050FB46007628B5 /* NativeTypeSpecifier.cpp */,
@@ -3032,6 +3098,13 @@
 		F5CB7F9A20527CC0007628B5 /* native */ = {
 			isa = PBXGroup;
 			children = (
+				F54B1488205EC5CD0030773F /* TestLLVMi1Type.cpp */,
+				F54B148A205EC7090030773F /* TestLLVMi8Type.cpp */,
+				F54B148C205EC7510030773F /* TestLLVMi16Type.cpp */,
+				F54B148E205EC79D0030773F /* TestLLVMi32Type.cpp */,
+				F54B1490205EC82B0030773F /* TestLLVMi64Type.cpp */,
+				F54B1492205EC8C50030773F /* TestLLVMPrimitiveTypeSpecifier.cpp */,
+				F54B1486205D7A520030773F /* TestLLVMStructDefinition.cpp */,
 				F5CB7F8520518686007628B5 /* TestNativeFunctionCall.cpp */,
 				F5CB7F8B20519141007628B5 /* TestNativeType.cpp */,
 				F5CB7F8C20519141007628B5 /* TestNativeTypeSpecifier.cpp */,
@@ -3554,6 +3627,7 @@
 				F5A3635C1F377F84005880B3 /* TestIFieldVariable.cpp in Sources */,
 				F532506E202A286B007D8597 /* TestArrayExactOwnerType.cpp in Sources */,
 				F5CB7FCA20529DE3007628B5 /* ReceivedFieldDeclaration.cpp in Sources */,
+				F54B148F205EC79D0030773F /* TestLLVMi32Type.cpp in Sources */,
 				F5CB7F712051532A007628B5 /* FakeExpressionWithCleanup.cpp in Sources */,
 				F5609F1420580BA300664ADD /* DereferenceExpression.cpp in Sources */,
 				F5ADB6221E66F9B400FFC941 /* Interface.cpp in Sources */,
@@ -3572,6 +3646,7 @@
 				F50FA2F71E2E3B3500435EEA /* TestIntConstant.cpp in Sources */,
 				F53400FB1DFD999B0002BF7E /* TestRelationalExpression.cpp in Sources */,
 				F519ED7C1FD9910D00BE3FED /* TestThis.cpp in Sources */,
+				F54B148B205EC7090030773F /* TestLLVMi8Type.cpp in Sources */,
 				F53A2C461F0298E800E76A9E /* NullType.cpp in Sources */,
 				F5CB7FE12052AE32007628B5 /* ReceivedField.cpp in Sources */,
 				F558057C1F96A29D004F62F2 /* ExitStatement.cpp in Sources */,
@@ -3585,6 +3660,7 @@
 				F59D82261E0F6E8800057FB5 /* TestIfStatement.cpp in Sources */,
 				F50FA2AE1E27AFA500435EEA /* TestCaseStatement.cpp in Sources */,
 				F5ADB61D1E5F587300FFC941 /* TestNegateExpression.cpp in Sources */,
+				F54B1491205EC82B0030773F /* TestLLVMi64Type.cpp in Sources */,
 				F5105FBF1FD1ABC900ACF57B /* TestThrowReferenceCountExceptionFunction.cpp in Sources */,
 				F50FA2F61E2E3B3200435EEA /* TestFloatConstant.cpp in Sources */,
 				F5ADB6291E69831A00FFC941 /* Method.cpp in Sources */,
@@ -3592,6 +3668,7 @@
 				F55CF1881F850EEB00A11426 /* TestPrefix.cpp in Sources */,
 				F5A67DA620120A0A0018068F /* LocalArrayReferenceVariable.cpp in Sources */,
 				F53400EF1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp in Sources */,
+				F54B146F205D6ACB0030773F /* LLVMi16Type.cpp in Sources */,
 				F592C9961ED323F7007FB2D0 /* TestWiseyc.cpp in Sources */,
 				F53A2C091EEC34E900E76A9E /* ModelOwner.cpp in Sources */,
 				F5CB7F57205026AA007628B5 /* ThreadInfrastructure.cpp in Sources */,
@@ -3617,6 +3694,7 @@
 				F5170191200DC64500A10B7C /* TestDestroyPrimitiveArrayFunction.cpp in Sources */,
 				F5E6BD0E1F1B7DCD00D59444 /* TestComposer.cpp in Sources */,
 				F5FE0A241F7DA00B000621CA /* ExternalStaticMethodDeclaration.cpp in Sources */,
+				F54B1480205D701C0030773F /* LLVMPrimitiveTypeSpecifier.cpp in Sources */,
 				F5603B492021219200BBA05D /* TestArraySpecificOwnerType.cpp in Sources */,
 				F58B32881E1637F50001CC15 /* TestContinueStatement.cpp in Sources */,
 				F58B32861E1635850001CC15 /* ContinueStatement.cpp in Sources */,
@@ -3638,6 +3716,7 @@
 				F507D2661E43551900495E2D /* Model.cpp in Sources */,
 				F539147D1FDE6BD900CD5174 /* TestAdjustReferenceCounterForConcreteObjectSafelyFunction.cpp in Sources */,
 				F531B65B1E0DE52F008304F3 /* CharConstant.cpp in Sources */,
+				F54B1485205D737B0030773F /* LLVMStructDefinition.cpp in Sources */,
 				F5F61A9D201DDCCE00EF9EB7 /* ArraySpecificType.cpp in Sources */,
 				F50FA2EB1E2E3B1500435EEA /* IntConstant.cpp in Sources */,
 				F58748371F951E580088F1E3 /* TestThreadExpression.cpp in Sources */,
@@ -3678,6 +3757,7 @@
 				F5CB7F84205181FC007628B5 /* TestFakeExpressionWithCleanup.cpp in Sources */,
 				F5FCAE3D1ED5F67F00C69899 /* TestCompiler.cpp in Sources */,
 				F519ED7A1FD8665400BE3FED /* TestInjectionArgument.cpp in Sources */,
+				F54B1477205D6BFD0030773F /* LLVMi64Type.cpp in Sources */,
 				F51797121E6605FC009B16AA /* MethodSignatureDeclaration.cpp in Sources */,
 				F5CB7F8820518B7F007628B5 /* TestThreadInfrastructure.cpp in Sources */,
 				F50FA2BA1E28C0C900435EEA /* TestDoStatement.cpp in Sources */,
@@ -3690,6 +3770,7 @@
 				F5E270741F98F6A4008D2EB7 /* Constant.cpp in Sources */,
 				F53400DE1DFBE6F60002BF7E /* Tokens.lpp in Sources */,
 				F5601F3D1EB4C5E300C9E2D8 /* TestIRWriter.cpp in Sources */,
+				F54B147B205D6D340030773F /* LLVMPrimitiveTypes.cpp in Sources */,
 				F53A2C371EFFFCEE00E76A9E /* TestNode.cpp in Sources */,
 				F54B145D2059552A0030773F /* TestPointerType.cpp in Sources */,
 				F5609F1820580DE000664ADD /* LocalNativeVariable.cpp in Sources */,
@@ -3701,6 +3782,7 @@
 				F51701A7200E9A9300A10B7C /* TestArrayOwnerType.cpp in Sources */,
 				F50FA2F81E2E3B3900435EEA /* TestLongConstant.cpp in Sources */,
 				F513DDFE20179374001A075B /* TestFieldArrayReferenceVariable.cpp in Sources */,
+				F54B146B205D69D20030773F /* LLVMi8Type.cpp in Sources */,
 				F5CB18141EB0D96A007E2E43 /* Catch.cpp in Sources */,
 				F5FE0A1E1F7D9B84000621CA /* TestExternalMethodDeclaration.cpp in Sources */,
 				F53401121DFF333E0002BF7E /* MethodDeclaration.cpp in Sources */,
@@ -3729,6 +3811,7 @@
 				F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */,
 				F5609F0C2057C54900664ADD /* TestParameterSystemReferenceVariable.cpp in Sources */,
 				F52FF1811F1B8729003F4D37 /* Composer.cpp in Sources */,
+				F54B1467205D66AB0030773F /* LLVMi1Type.cpp in Sources */,
 				F5A67DAE201353300018068F /* TestLocalArrayReferenceVariable.cpp in Sources */,
 				F54ED9601FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp in Sources */,
 				F51D2BBB1F6940D800510784 /* StaticMethodCall.cpp in Sources */,
@@ -3759,6 +3842,7 @@
 				F57780A61EC673EC0049542D /* EmptyStatement.cpp in Sources */,
 				F53A2C211EF96FEA00E76A9E /* TestIVariable.cpp in Sources */,
 				F51942F91FE3C123009C3158 /* UndefinedType.cpp in Sources */,
+				F54B1473205D6B8F0030773F /* LLVMi32Type.cpp in Sources */,
 				F5E3D64D1F6C19D900FC37CB /* TestPrintOutStatement.cpp in Sources */,
 				F50FA2E91E2E3B0F00435EEA /* DoubleConstant.cpp in Sources */,
 				F53A2C4C1F029DC800E76A9E /* TestNullType.cpp in Sources */,
@@ -3805,6 +3889,7 @@
 				F5F435CC1FACA32A0097E5D0 /* TestParameterPrimitiveVariable.cpp in Sources */,
 				F5ADB61E1E5F587D00FFC941 /* NegateExpression.cpp in Sources */,
 				F54985791FE95FFE004C204C /* TestDestroyOwnerArrayFunction.cpp in Sources */,
+				F54B1493205EC8C50030773F /* TestLLVMPrimitiveTypeSpecifier.cpp in Sources */,
 				F52C665F1FBF38CC00E89B04 /* CheckForNullAndThrowFunction.cpp in Sources */,
 				F532506C202A27AA007D8597 /* TestArrayExactType.cpp in Sources */,
 				F55DB0621F793D8C0009942C /* TestIObjectTypeSpecifier.cpp in Sources */,
@@ -3849,6 +3934,7 @@
 				F57086031E5317E8007D627E /* AutoCast.cpp in Sources */,
 				F574115C1E01A13B009809FF /* TestLogicalOrExpression.cpp in Sources */,
 				F5CB7FC320529D20007628B5 /* StateFieldDeclaration.cpp in Sources */,
+				F54B148D205EC7510030773F /* TestLLVMi16Type.cpp in Sources */,
 				F5603B4E2021316E00BBA05D /* CheckArrayIndexFunction.cpp in Sources */,
 				F5B3DCE61F9116AF00FC76D3 /* IMethodCall.cpp in Sources */,
 				F51942FB1FE3D7D6009C3158 /* TestIdentifierChain.cpp in Sources */,
@@ -3899,6 +3985,7 @@
 				F5609F1C205815D900664ADD /* TestLocalNativeVariable.cpp in Sources */,
 				F592A7C21F7D8D690026BD2F /* ExternalMethodDeclaration.cpp in Sources */,
 				F5CB7F4B204B6A89007628B5 /* Thread.cpp in Sources */,
+				F54B1489205EC5CD0030773F /* TestLLVMi1Type.cpp in Sources */,
 				F50427AF1E4DD329001CB148 /* TestLocalPrimitiveVariable.cpp in Sources */,
 				F59D822A1E1089E700057FB5 /* BreakStatement.cpp in Sources */,
 				F56AD49F1E9F50FD0020868C /* TestThrowStatement.cpp in Sources */,
@@ -3937,6 +4024,7 @@
 				F5FCAE3B1ED5CAD300C69899 /* TestCompilerArgumentParser.cpp in Sources */,
 				F5A3BE5B1F9906BB000FDB09 /* TestInjectedFieldDeclaration.cpp in Sources */,
 				F51D2BB51F691C8100510784 /* IMethod.cpp in Sources */,
+				F54B1487205D7A520030773F /* TestLLVMStructDefinition.cpp in Sources */,
 				F5CB7FE92052C972007628B5 /* TestFixedField.cpp in Sources */,
 				F501B4941E161D140010783D /* TestBreakStatement.cpp in Sources */,
 				F57E2E291E82D6E300FE1DB9 /* BooleanNotExpression.cpp in Sources */,
@@ -3980,6 +4068,7 @@
 				F592A7B91F7D62D10026BD2F /* IConcreteObjectDefinition.cpp in Sources */,
 				F53CDAD31F8BC4ED00D27687 /* ExternalInterfaceDefinition.cpp in Sources */,
 				F50FA3051E325E5400435EEA /* BooleanConstant.cpp in Sources */,
+				F54B1472205D6B8F0030773F /* LLVMi32Type.cpp in Sources */,
 				F5C6FD651E48AB3B0054209D /* CharType.cpp in Sources */,
 				F5325071202B8E29007D8597 /* ArraySpecificOwnerTypeSpecifier.cpp in Sources */,
 				F50FA2AA1E269E5700435EEA /* SwitchStatement.cpp in Sources */,
@@ -4010,6 +4099,7 @@
 				F5E6BD071F190B4700D59444 /* Composer.cpp in Sources */,
 				F5E209281E0779D100E1A147 /* VariableDeclaration.cpp in Sources */,
 				F59496FE1F5469900002F14F /* InstanceOf.cpp in Sources */,
+				F54B1484205D737B0030773F /* LLVMStructDefinition.cpp in Sources */,
 				F57411601E01AC98009809FF /* IRGenerationContext.cpp in Sources */,
 				F53A2C491F029BA500E76A9E /* NullExpression.cpp in Sources */,
 				F51DF67A1FDAB2F800475F0B /* IObjectDefinition.cpp in Sources */,
@@ -4034,6 +4124,7 @@
 				F5F396DB1E34BFE000F34296 /* ObjectBuilderArgument.cpp in Sources */,
 				F5CB180C1EB0C16D007E2E43 /* IntrinsicFunctions.cpp in Sources */,
 				F57411491E0194E5009809FF /* ReturnVoidStatement.cpp in Sources */,
+				F54B147A205D6D340030773F /* LLVMPrimitiveTypes.cpp in Sources */,
 				F519ED771FD8476800BE3FED /* InjectionArgument.cpp in Sources */,
 				F5105FB31FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp in Sources */,
 				F51701B1200FDE2C00A10B7C /* LocalArrayOwnerVariable.cpp in Sources */,
@@ -4044,6 +4135,7 @@
 				F52C66661FBF446400E89B04 /* AdjustReferenceCounterForInterfaceFunction.cpp in Sources */,
 				F53A2C241EFFD0BC00E76A9E /* NodeDefinition.cpp in Sources */,
 				F5603B4820211E7B00BBA05D /* ArraySpecificOwnerType.cpp in Sources */,
+				F54B146A205D69D20030773F /* LLVMi8Type.cpp in Sources */,
 				F5F61AA0201DDF2300EF9EB7 /* ArraySpecificTypeSpecifier.cpp in Sources */,
 				F5A3634D1F374680005880B3 /* FieldOwnerVariable.cpp in Sources */,
 				F54ED95F1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp in Sources */,
@@ -4082,6 +4174,7 @@
 				F5CB7FDC2052ABFE007628B5 /* FixedField.cpp in Sources */,
 				F569E9F21DF9CC9600BBB20E /* Parser.ypp in Sources */,
 				F5F396D71E34BBDD00F34296 /* ObjectBuilder.cpp in Sources */,
+				F54B147F205D701C0030773F /* LLVMPrimitiveTypeSpecifier.cpp in Sources */,
 				F50FA2E81E2E3B0900435EEA /* LongConstant.cpp in Sources */,
 				F5CB7F6920512732007628B5 /* NativeFunctionCall.cpp in Sources */,
 				F51D2BAE1F68453500510784 /* StaticMethod.cpp in Sources */,
@@ -4118,6 +4211,8 @@
 				F55CF1751F7DA11C00A11426 /* ExternalStaticMethod.cpp in Sources */,
 				F52C665A1FBF348D00E89B04 /* ThrowReferenceCountExceptionFunction.cpp in Sources */,
 				F57085FC1E51E2ED007D627E /* MethodCall.cpp in Sources */,
+				F54B146E205D6ACB0030773F /* LLVMi16Type.cpp in Sources */,
+				F54B1476205D6BFD0030773F /* LLVMi64Type.cpp in Sources */,
 				F5ADB61B1E5F568400FFC941 /* NegateExpression.cpp in Sources */,
 				F58A834E1F7988D600369388 /* ExternalControllerDefinition.cpp in Sources */,
 				F5ADB6101E5DA08200FFC941 /* Cast.cpp in Sources */,
@@ -4143,6 +4238,7 @@
 				F5B3DCE51F9116AF00FC76D3 /* IMethodCall.cpp in Sources */,
 				F5CB7F4A204B6A89007628B5 /* Thread.cpp in Sources */,
 				F58A83561F798B6300369388 /* ExternalNodeDefinition.cpp in Sources */,
+				F54B1466205D66AB0030773F /* LLVMi1Type.cpp in Sources */,
 				F5F2F3771EEAFAF80060CF42 /* ObjectOwnerTypeSpecifier.cpp in Sources */,
 				F5A67DA520120A0A0018068F /* LocalArrayReferenceVariable.cpp in Sources */,
 				F51701A4200E992200A10B7C /* ArrayOwnerType.cpp in Sources */,
