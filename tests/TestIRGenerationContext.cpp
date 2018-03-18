@@ -43,6 +43,7 @@ struct IRGenerationContextTest : public Test {
   Model* mModel;
   Node* mNode;
   Thread* mThread;
+  LLVMStructType* mLLVMStructType;
 
   IRGenerationContextTest() : mLLVMContext(mContext.getLLVMContext()) {
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
@@ -78,6 +79,9 @@ struct IRGenerationContextTest : public Test {
     string threadFullName = "systems.vos.wisey.compiler.tests.TMyThread";
     StructType* threadStructType = StructType::create(mLLVMContext, "TMyThread");
     mThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS, threadFullName, threadStructType);
+    
+    StructType* llvmStructType = StructType::create(mLLVMContext, "mystructtype");
+    mLLVMStructType = new LLVMStructType(llvmStructType);
   }
   
   ~IRGenerationContextTest() { }
@@ -199,6 +203,27 @@ TEST_F(IRGenerationContextTest, getThreadDoesNotExistDeathTest) {
   EXPECT_EXIT(mContext.getThread("systems.vos.wisey.compiler.tests.TMyThread"),
               ::testing::ExitedWithCode(1),
               "Thread systems.vos.wisey.compiler.tests.TMyThread is not defined");
+}
+
+TEST_F(IRGenerationContextTest, addLLVMStructTypeTest) {
+  mContext.addLLVMStructType(mLLVMStructType);
+  LLVMStructType* resultLLVMStructType = mContext.getLLVMStructType("mystructtype");
+  
+  EXPECT_EQ(mLLVMStructType, resultLLVMStructType);
+}
+
+TEST_F(IRGenerationContextTest, addLLVMStructTypeAlreadyDefinedDeathTest) {
+  mContext.addLLVMStructType(mLLVMStructType);
+
+  EXPECT_EXIT(mContext.addLLVMStructType(mLLVMStructType),
+              ::testing::ExitedWithCode(1),
+              "Redefinition of llvm struct type mystructtype");
+}
+
+TEST_F(IRGenerationContextTest, getLLVMStructTypeDoesNotExistDeathTest) {
+  EXPECT_EXIT(mContext.getLLVMStructType("mystructtype"),
+              ::testing::ExitedWithCode(1),
+              "llvm struct type mystructtype is not defined");
 }
 
 TEST_F(IRGenerationContextTest, addInterfaceTest) {

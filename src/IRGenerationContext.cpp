@@ -74,6 +74,11 @@ IRGenerationContext::~IRGenerationContext() {
        iterator++) {
     delete iterator->second;
   }
+  for (map<string, LLVMStructType*>::iterator iterator = mLLVMStructTypes.begin();
+       iterator != mLLVMStructTypes.end();
+       iterator++) {
+    delete iterator->second;
+  }
   mBindings.clear();
 }
 
@@ -251,6 +256,25 @@ Interface* IRGenerationContext::getInterface(string fullName) {
   IObjectType::checkAccess(mObjectType, interface);
   
   return interface;
+}
+
+void IRGenerationContext::addLLVMStructType(LLVMStructType* llvmStructType) {
+  string name = llvmStructType->getTypeName();
+  if (mLLVMStructTypes.count(name)) {
+    Log::e("Redefinition of llvm struct type " + name);
+    exit(1);
+  }
+  
+  mLLVMStructTypes[name] = llvmStructType;
+}
+
+LLVMStructType* IRGenerationContext::getLLVMStructType(string fullName) {
+  if (!mLLVMStructTypes.count(fullName)) {
+    Log::e("llvm struct type " + fullName + " is not defined");
+    exit(1);
+  }
+  
+  return mLLVMStructTypes.at(fullName);
 }
 
 void IRGenerationContext::bindInterfaceToController(Interface* interface, Controller* controller) {

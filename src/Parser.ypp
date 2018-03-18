@@ -71,6 +71,7 @@
   #include "wisey/ITypeSpecifier.hpp"
   #include "wisey/LLVMPrimitiveTypes.hpp"
   #include "wisey/LLVMStructDefinition.hpp"
+  #include "wisey/LLVMStructSpecifier.hpp"
   #include "wisey/Log.hpp"
   #include "wisey/LogicalAndExpression.hpp"
   #include "wisey/LogicalOrExpression.hpp"
@@ -195,10 +196,10 @@
 %token <string> TCONSTANTIDENTIFIER TTHREADIDENTIFIER
 
 %token <token> TANDOP TBIND TBREAK TBUILD TBUILDER TCASE TCATCH TCEQ TCGE TCLE TINCOP
-%token <token> TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDO TELSE TEXIT TEXTENDS TEXTERNAL
-%token <token> TDEFAULT TFALLTHROUGH TFALSE TFIXED TFOR TIF TIMPLEMENTS TIMPORT TINJECTOR TINJECT
-%token <token> TINSTANCEOF TINTERFACE TLLVM TMODEL TNEW TNODE TNULL TOROP TPACKAGE TPRINTERR 
-%token <token> TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN TSENDS TSTATE TSTATIC TSTRUCT
+%token <token> TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDO TDOUBLECOLON TELSE TEXIT TEXTENDS 
+%token <token> TEXTERNAL TDEFAULT TFALLTHROUGH TFALSE TFIXED TFOR TIF TIMPLEMENTS TIMPORT TINJECTOR 
+%token <token> TINJECT TINSTANCEOF TINTERFACE TLLVM TMODEL TNEW TNODE TNULL TOROP TPACKAGE 
+%token <token> TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN TSENDS TSTATE TSTATIC TSTRUCT
 %token <token> TSWITCH TI1 TI8 TI16 TI32 TI64 TTHREAD TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN 
 %token <token> TTYPECHAR TTYPEDOUBLE TTYPEFLOAT TTYPEINT TTYPELONG TTYPESTRING TTYPEVOID TWHILE
 
@@ -266,7 +267,8 @@
 %type <thread_type_specifier> thread_type_specifier thread_type_specifier_full 
 %type <thread_type_specifier> inner_thread_type_specifier inner_thread_type_specifier_full
 %type <controller_type_specifier> controller_type_specifier controller_type_specifier_full
-%type <controller_type_specifier> inner_controller_type_specifier inner_controller_type_specifier_full
+%type <controller_type_specifier> inner_controller_type_specifier 
+%type <controller_type_specifier> inner_controller_type_specifier_full
 %type <interface_type_specifier> interface_type_specifier interface_type_specifier_full
 %type <interface_type_specifier> inner_interface_type_specifier inner_interface_type_specifier_full
 %type <node_type_specifier> node_type_specifier node_type_specifier_full
@@ -278,7 +280,7 @@
 %type <interface_list> interface_list implmeneted_interfaces extends_interfaces
 %type <list_of_const_expressions> array_dimensions
 %type <unsignedlong> array_undefined_dimensions_list
-%type <llvm_type_specifier> llvm_type_specifier llvm_i_type_specifier
+%type <llvm_type_specifier> llvm_type_specifier llvm_i_type_specifier llvm_struct_specifier
 %type <llvm_type_specifier_list> llvm_type_specifier_list
 
 %left '+' '-'
@@ -344,7 +346,8 @@ llvm_type_specifier_list
   ;
 
 llvm_type_specifier
-  : llvm_i_type_specifier { $$ = $1; }
+  : llvm_i_type_specifier
+  | llvm_struct_specifier
   ;
 
 llvm_i_type_specifier
@@ -353,6 +356,11 @@ llvm_i_type_specifier
   | TLLVM TI16 { $$ = LLVMPrimitiveTypes::I16->newTypeSpecifier(); }
   | TLLVM TI32 { $$ = LLVMPrimitiveTypes::I32->newTypeSpecifier(); }
   | TLLVM TI64 { $$ = LLVMPrimitiveTypes::I64->newTypeSpecifier(); }
+  ;
+
+llvm_struct_specifier
+  : TLLVM TSTRUCT TDOUBLECOLON TIDENTIFIER
+    { $$ = new LLVMStructSpecifier(*$4); delete $4; }
   ;
 
 inner_object_definition
@@ -1228,6 +1236,7 @@ non_array_type_specifier
   | top_level_object_type_specifier { $$ = (ITypeSpecifier*) $1; }
   | inner_object_type_specifier { $$ = (ITypeSpecifier*) $1; }
   | object_owner_type_specifier
+  | llvm_type_specifier
   ;
 
 object_owner_type_specifier

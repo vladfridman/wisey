@@ -1,7 +1,13 @@
+package systems.vos.wisey.compiler.tests;
+
 ::llvm::struct mystruct {
   ::llvm::i1,
   ::llvm::i8,
   ::llvm::i16,
   ::llvm::i32,
   ::llvm::i64,
+}
+
+controller CService {
+  state ::llvm::struct::mystruct mHandle;
 }

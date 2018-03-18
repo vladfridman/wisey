@@ -55,6 +55,32 @@ struct LLVMStructDefinitionTest : public Test {
   }
 };
 
+TEST_F(LLVMStructDefinitionTest, prototypeObjectTest) {
+  mLLVMStructDefinition->prototypeObject(mContext);
+  
+  LLVMStructType* llvmStructType = mContext.getLLVMStructType("mystruct");
+  
+  ASSERT_NE(nullptr, llvmStructType);
+  
+  EXPECT_STREQ(llvmStructType->getTypeName().c_str(), "mystruct");
+  EXPECT_EQ(0u, llvmStructType->getLLVMType(mContext)->getNumElements());
+}
+
+TEST_F(LLVMStructDefinitionTest, prototypeMethodsTest) {
+  mLLVMStructDefinition->prototypeObject(mContext);
+  mLLVMStructDefinition->prototypeMethods(mContext);
+
+  LLVMStructType* llvmStructType = mContext.getLLVMStructType("mystruct");
+  
+  ASSERT_NE(nullptr, llvmStructType);
+  EXPECT_STREQ(llvmStructType->getTypeName().c_str(), "mystruct");
+  EXPECT_EQ(2u, llvmStructType->getLLVMType(mContext)->getNumElements());
+  EXPECT_EQ(Type::getInt8Ty(mLLVMContext),
+            llvmStructType->getLLVMType(mContext)->getElementType(0));
+  EXPECT_EQ(Type::getInt64Ty(mLLVMContext),
+            llvmStructType->getLLVMType(mContext)->getElementType(1));
+}
+
 TEST_F(TestFileSampleRunner, llvmStructDefinitionTest) {
   compileFile("tests/samples/llvm_struct_definition.yz");
 }

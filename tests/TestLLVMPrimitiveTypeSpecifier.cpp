@@ -39,3 +39,30 @@ TEST_F(LLVMPrimitiveTypeSpecifierTest, creationTest) {
   EXPECT_EQ(i32TypeSpecifier.getType(mContext), LLVMPrimitiveTypes::I32);
   EXPECT_EQ(i64TypeSpecifier.getType(mContext), LLVMPrimitiveTypes::I64);
 }
+
+TEST_F(LLVMPrimitiveTypeSpecifierTest, printToStreamTest) {
+  LLVMPrimitiveTypeSpecifier i1TypeSpecifier(LLVMPrimitiveTypes::I1);
+  stringstream i1StringStream;
+  i1TypeSpecifier.printToStream(mContext, i1StringStream);
+  EXPECT_STREQ("::llvm::i1", i1StringStream.str().c_str());
+  
+  LLVMPrimitiveTypeSpecifier i8TypeSpecifier(LLVMPrimitiveTypes::I8);
+  stringstream i8StringStream;
+  i8TypeSpecifier.printToStream(mContext, i8StringStream);
+  EXPECT_STREQ("::llvm::i8", i8StringStream.str().c_str());
+
+  LLVMPrimitiveTypeSpecifier i16TypeSpecifier(LLVMPrimitiveTypes::I16);
+  stringstream i16StringStream;
+  i16TypeSpecifier.printToStream(mContext, i16StringStream);
+  EXPECT_STREQ("::llvm::i16", i16StringStream.str().c_str());
+
+  LLVMPrimitiveTypeSpecifier i32TypeSpecifier(LLVMPrimitiveTypes::I32);
+  stringstream i32StringStream;
+  i32TypeSpecifier.printToStream(mContext, i32StringStream);
+  EXPECT_STREQ("::llvm::i32", i32StringStream.str().c_str());
+
+  LLVMPrimitiveTypeSpecifier i64TypeSpecifier(LLVMPrimitiveTypes::I64);
+  stringstream i64StringStream;
+  i64TypeSpecifier.printToStream(mContext, i64StringStream);
+  EXPECT_STREQ("::llvm::i64", i64StringStream.str().c_str());
+}

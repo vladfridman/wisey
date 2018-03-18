@@ -11,6 +11,7 @@
 
 #include "wisey/ILLVMTypeSpecifier.hpp"
 #include "wisey/IGlobalStatement.hpp"
+#include "wisey/LLVMStructType.hpp"
 
 namespace wisey {
   

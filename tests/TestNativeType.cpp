@@ -33,7 +33,6 @@ struct NativeTypeTest : public Test {
   
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  string mPackage = "systems.vos.wisey.compiler.tests";
   NativeType* mNativeType;
   BasicBlock* mBasicBlock;
   

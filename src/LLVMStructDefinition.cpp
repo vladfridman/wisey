@@ -26,10 +26,27 @@ LLVMStructDefinition::~LLVMStructDefinition() {
 }
 
 IObjectType* LLVMStructDefinition::prototypeObject(IRGenerationContext& context) const {
+  StructType* structType = context.getModule()->getTypeByName(mName);
+  assert(structType == NULL);
+  
+  structType = StructType::create(context.getLLVMContext(), mName);
+  LLVMStructType* llvmStructType = new LLVMStructType(structType);
+  context.addLLVMStructType(llvmStructType);
+
   return NULL;
 }
 
-void LLVMStructDefinition::prototypeMethods(IRGenerationContext &context) const {
+void LLVMStructDefinition::prototypeMethods(IRGenerationContext& context) const {
+  LLVMStructType* llvmStructType = context.getLLVMStructType(mName);
+  StructType* structType = llvmStructType->getLLVMType(context);
+  assert(structType);
+  
+  vector<Type*> types;
+  for (const ILLVMTypeSpecifier* llvmTypeSpecifier : mTypeSpecifiers) {
+    const IType* type = llvmTypeSpecifier->getType(context);
+    types.push_back(type->getLLVMType(context));
+  }
+  structType->setBody(types);
 }
 
 Value* LLVMStructDefinition::generateIR(IRGenerationContext& context) const {
