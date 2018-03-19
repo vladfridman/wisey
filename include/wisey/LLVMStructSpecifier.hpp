@@ -28,7 +28,7 @@ namespace wisey {
     
     ~LLVMStructSpecifier();
     
-    const IType* getType(IRGenerationContext& context) const override;
+    const ILLVMType* getType(IRGenerationContext& context) const override;
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     

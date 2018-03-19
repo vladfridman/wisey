@@ -10,14 +10,14 @@
 #define ILLVMPrimitiveType_h
 
 #include "wisey/ILLVMTypeSpecifier.hpp"
-#include "wisey/IType.hpp"
+#include "wisey/ILLVMType.hpp"
 
 namespace wisey {
   
   /**
    * Represents an LLVM primitive type such as i8, i32, etc.
    */
-  class ILLVMPrimitiveType : public IType {
+  class ILLVMPrimitiveType : public ILLVMType {
     
   public:
     

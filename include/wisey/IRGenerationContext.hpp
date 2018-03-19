@@ -23,6 +23,7 @@
 #include "wisey/ImportProfile.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/IPrintable.hpp"
+#include "wisey/LLVMArrayType.hpp"
 #include "wisey/LLVMStructType.hpp"
 #include "wisey/Model.hpp"
 #include "wisey/Node.hpp"
@@ -49,6 +50,7 @@ namespace wisey {
     llvm::BasicBlock* mBasicBlock;
     std::map<std::string, ArrayType*> mArrayTypes;
     std::map<std::string, ArrayExactType*> mArrayExactTypes;
+    std::map<std::string, LLVMArrayType*> mLLVMArrayTypes;
     std::map<std::string, Model*> mModels;
     std::map<std::string, Controller*> mControllers;
     std::map<std::string, Node*> mNodes;
@@ -115,6 +117,12 @@ namespace wisey {
     ArrayExactType* getArrayExactType(const IType* elementType,
                                       std::list<unsigned long> dimensions);
     
+    /**
+     * Get an llvm array type
+     */
+    LLVMArrayType* getLLVMArrayType(const ILLVMType* elementType,
+                                    std::list<unsigned long> dimensions);
+
     /**
      * Add a model type
      */

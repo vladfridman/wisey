@@ -69,6 +69,7 @@
   #include "wisey/IObjectDefinition.hpp"
   #include "wisey/IObjectTypeSpecifier.hpp"
   #include "wisey/ITypeSpecifier.hpp"
+  #include "wisey/LLVMArrayTypeSpecifer.hpp"
   #include "wisey/LLVMPrimitiveTypes.hpp"
   #include "wisey/LLVMStructDefinition.hpp"
   #include "wisey/LLVMStructSpecifier.hpp"
@@ -182,6 +183,7 @@
   std::vector<wisey::IModelTypeSpecifier*>* model_type_specifier_list;
   std::vector<wisey::IInterfaceTypeSpecifier*>* interface_list;
   std::list<const wisey::IExpression*>* list_of_const_expressions;
+  std::list<unsigned long>* list_of_ulongs;
   std::vector<const wisey::ILLVMTypeSpecifier*>* llvm_type_specifier_list;
   std::string* string;
   unsigned long unsignedlong;
@@ -281,7 +283,9 @@
 %type <list_of_const_expressions> array_dimensions
 %type <unsignedlong> array_undefined_dimensions_list
 %type <llvm_type_specifier> llvm_type_specifier llvm_i_type_specifier llvm_struct_specifier
+%type <llvm_type_specifier> llvm_non_array_type_specifier llvm_array_specifier
 %type <llvm_type_specifier_list> llvm_type_specifier_list
+%type <list_of_ulongs> llvm_array_dimensions
 
 %left '+' '-'
 %left '*' '/'
@@ -346,6 +350,11 @@ llvm_type_specifier_list
   ;
 
 llvm_type_specifier
+  : llvm_non_array_type_specifier
+  | llvm_array_specifier
+  ;
+
+llvm_non_array_type_specifier
   : llvm_i_type_specifier
   | llvm_struct_specifier
   ;
@@ -362,6 +371,23 @@ llvm_struct_specifier
   : TLLVM TSTRUCT TDOUBLECOLON TIDENTIFIER
     { $$ = new LLVMStructSpecifier(*$4); delete $4; }
   ;
+
+llvm_array_specifier
+  : llvm_non_array_type_specifier llvm_array_dimensions
+    { $$ = new LLVMArrayTypeSpecifer($1, *$2); delete $2; }
+  ;
+
+llvm_array_dimensions
+  : '[' TINTEGER ']' 
+    { 
+      $$ = new std::list<unsigned long>();
+      $$->push_back(atol($2->c_str()));
+      delete $2;
+    }
+  | llvm_array_dimensions '[' TINTEGER ']' 
+    { $1->push_back(atol($3->c_str())); $$ = $1; }
+  ;
+
 
 inner_object_definition
   : inner_controller_definition
@@ -1236,7 +1262,7 @@ non_array_type_specifier
   | top_level_object_type_specifier { $$ = (ITypeSpecifier*) $1; }
   | inner_object_type_specifier { $$ = (ITypeSpecifier*) $1; }
   | object_owner_type_specifier
-  | llvm_type_specifier
+  | llvm_struct_specifier
   ;
 
 object_owner_type_specifier

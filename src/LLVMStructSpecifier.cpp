@@ -18,7 +18,7 @@ LLVMStructSpecifier::LLVMStructSpecifier(string name) : mName(name) {
 LLVMStructSpecifier::~LLVMStructSpecifier() {
 }
 
-const IType* LLVMStructSpecifier::getType(IRGenerationContext& context) const {
+const ILLVMType* LLVMStructSpecifier::getType(IRGenerationContext& context) const {
   return context.getLLVMStructType(mName);
 }
 

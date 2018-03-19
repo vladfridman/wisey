@@ -9,6 +9,7 @@
 #ifndef ILLVMTypeSpecifier_h
 #define ILLVMTypeSpecifier_h
 
+#include "wisey/ILLVMType.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 
 namespace wisey {
@@ -18,6 +19,13 @@ namespace wisey {
    */
   class ILLVMTypeSpecifier : public ITypeSpecifier {
     
+  public:
+    
+    /**
+     * Returns llvm type
+     */
+    virtual const ILLVMType* getType(IRGenerationContext& context) const = 0;
+
   };
   
 } /* namespace wisey */

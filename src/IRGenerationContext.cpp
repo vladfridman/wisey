@@ -44,6 +44,11 @@ IRGenerationContext::~IRGenerationContext() {
        iterator++) {
     delete iterator->second;
   }
+  for (map<string, LLVMArrayType*>::iterator iterator = mLLVMArrayTypes.begin();
+       iterator != mLLVMArrayTypes.end();
+       iterator++) {
+    delete iterator->second;
+  }
   for (map<string, Model*>::iterator iterator = mModels.begin();
        iterator != mModels.end();
        iterator++) {
@@ -146,6 +151,21 @@ ArrayExactType* IRGenerationContext::getArrayExactType(const IType* elementType,
   mArrayExactTypes[key] = arrayExactType;
   
   return arrayExactType;
+}
+
+LLVMArrayType* IRGenerationContext::getLLVMArrayType(const ILLVMType* elementType,
+                                                     list<unsigned long> dimensions) {
+  string key = elementType->getTypeName();
+  for (long dimension : dimensions) {
+    key = key + "[" + to_string(dimension) + "]";
+  }
+  if (mLLVMArrayTypes.count(key)) {
+    return mLLVMArrayTypes.at(key);
+  }
+  LLVMArrayType* llvmArrayType = new LLVMArrayType(elementType, dimensions);
+  mLLVMArrayTypes[key] = llvmArrayType;
+  
+  return llvmArrayType;
 }
 
 void IRGenerationContext::addModel(Model* model) {

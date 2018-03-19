@@ -1,15 +1,17 @@
 //
-//  LLVMStructType.hpp
+//  LLVMArrayType.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 3/18/18.
+//  Created by Vladimir Fridman on 3/19/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef LLVMStructType_h
-#define LLVMStructType_h
+#ifndef LLVMArrayType_h
+#define LLVMArrayType_h
 
-#include <llvm/IR/Constants.h>
+#include <list>
+
+#include <llvm/IR/DerivedTypes.h>
 
 #include "wisey/ILLVMType.hpp"
 #include "wisey/PointerType.hpp"
@@ -17,22 +19,38 @@
 namespace wisey {
   
   /**
-   * Represents an llvm struct type
+   * Represents an llvm array type where each dimension is exactly defined and has a constant value.
    */
-  class LLVMStructType : public ILLVMType {
+  class LLVMArrayType : public ILLVMType {
     
-    llvm::StructType* mStructType;
+    const ILLVMType* mElementType;
+    std::list<unsigned long> mDimensions;
     const PointerType* mPointerType;
     
   public:
     
-    LLVMStructType(llvm::StructType* structType);
+    LLVMArrayType(const ILLVMType* elementType, std::list<unsigned long> dimensions);
     
-    ~LLVMStructType();
+    ~LLVMArrayType();
+    
+    /**
+     * Returns the number of dimensions in this array
+     */
+    unsigned long getNumberOfDimensions() const;
+    
+    /**
+     * Return array dimensions
+     */
+    std::list<unsigned long> getDimensions() const;
+    
+    /**
+     * Returns single array element type
+     */
+    const ILLVMType* getElementType() const;
     
     std::string getTypeName() const override;
     
-    llvm::StructType* getLLVMType(IRGenerationContext& context) const override;
+    llvm::ArrayType* getLLVMType(IRGenerationContext& context) const override;
     
     bool canCastTo(IRGenerationContext& context, const IType* toType) const override;
     
@@ -91,4 +109,4 @@ namespace wisey {
   
 } /* namespace wisey */
 
-#endif /* LLVMStructType_h */
+#endif /* LLVMArrayType_h */

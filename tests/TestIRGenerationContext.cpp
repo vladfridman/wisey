@@ -22,6 +22,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -433,3 +434,11 @@ TEST_F(IRGenerationContextTest, getArrayExactTypeTest) {
   EXPECT_EQ(arrayExactType, mContext.getArrayExactType(PrimitiveTypes::INT_TYPE, dimensions));
 }
 
+TEST_F(IRGenerationContextTest, getLLVMArrayTypeTest) {
+  list<unsigned long> dimensions;
+  dimensions.push_back(5);
+  dimensions.push_back(3);
+  LLVMArrayType* llvmArrayType = mContext.getLLVMArrayType(LLVMPrimitiveTypes::I16, dimensions);
+  
+  EXPECT_EQ(llvmArrayType, mContext.getLLVMArrayType(LLVMPrimitiveTypes::I16, dimensions));
+}
