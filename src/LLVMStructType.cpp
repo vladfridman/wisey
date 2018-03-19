@@ -16,7 +16,7 @@ using namespace wisey;
 
 LLVMStructType::LLVMStructType(StructType* structType) :
 mStructType(structType),
-mPointerType(new PointerType(this)) {
+mPointerType(new LLVMPointerType(this)) {
 }
 
 LLVMStructType::~LLVMStructType() {
@@ -128,7 +128,7 @@ const IObjectType* LLVMStructType::getObjectType() const {
   return NULL;
 }
 
-const IType* LLVMStructType::getPointerType() const {
+const LLVMPointerType* LLVMStructType::getPointerType() const {
   return mPointerType;
 }
 

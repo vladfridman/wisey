@@ -18,7 +18,7 @@ using namespace std;
 using namespace wisey;
 
 LLVMi32Type::LLVMi32Type() {
-  mPointerType = new PointerType(this);
+  mPointerType = new LLVMPointerType(this);
 }
 
 LLVMi32Type::~LLVMi32Type() {
@@ -129,7 +129,7 @@ const IObjectType* LLVMi32Type::getObjectType() const {
   return NULL;
 }
 
-const IType* LLVMi32Type::getPointerType() const {
+const LLVMPointerType* LLVMi32Type::getPointerType() const {
   return mPointerType;
 }
 

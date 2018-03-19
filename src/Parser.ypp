@@ -70,6 +70,7 @@
   #include "wisey/IObjectTypeSpecifier.hpp"
   #include "wisey/ITypeSpecifier.hpp"
   #include "wisey/LLVMArrayTypeSpecifer.hpp"
+  #include "wisey/LLVMPointerTypeSpecifier.hpp"
   #include "wisey/LLVMPrimitiveTypes.hpp"
   #include "wisey/LLVMStructDefinition.hpp"
   #include "wisey/LLVMStructSpecifier.hpp"
@@ -283,7 +284,8 @@
 %type <list_of_const_expressions> array_dimensions
 %type <unsignedlong> array_undefined_dimensions_list
 %type <llvm_type_specifier> llvm_type_specifier llvm_i_type_specifier llvm_struct_specifier
-%type <llvm_type_specifier> llvm_non_array_type_specifier llvm_array_specifier
+%type <llvm_type_specifier> llvm_non_array_type_specifier llvm_array_specifier 
+%type <llvm_type_specifier> llvm_pointer_type_specifier
 %type <llvm_type_specifier_list> llvm_type_specifier_list
 %type <list_of_ulongs> llvm_array_dimensions
 
@@ -352,11 +354,17 @@ llvm_type_specifier_list
 llvm_type_specifier
   : llvm_non_array_type_specifier
   | llvm_array_specifier
+  | llvm_pointer_type_specifier
   ;
 
 llvm_non_array_type_specifier
   : llvm_i_type_specifier
   | llvm_struct_specifier
+  ;
+
+llvm_pointer_type_specifier
+  : llvm_type_specifier '*'
+    { $$ = new LLVMPointerTypeSpecifier($1); }
   ;
 
 llvm_i_type_specifier

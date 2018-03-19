@@ -21,7 +21,7 @@ namespace wisey {
    */
   class LLVMi1Type : public ILLVMPrimitiveType {
     
-    const PointerType* mPointerType;
+    const LLVMPointerType* mPointerType;
     
   public:
     
@@ -82,7 +82,7 @@ namespace wisey {
     
     const IObjectType* getObjectType() const override;
     
-    const IType* getPointerType() const override;
+    const LLVMPointerType* getPointerType() const override;
     
     const IType* getDereferenceType() const override;
     

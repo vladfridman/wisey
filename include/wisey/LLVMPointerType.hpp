@@ -1,38 +1,36 @@
 //
-//  LLVMi64Type.hpp
+//  LLVMPointerType.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 3/17/18.
+//  Created by Vladimir Fridman on 3/19/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef LLVMi64Type_h
-#define LLVMi64Type_h
+#ifndef LLVMPointerType_h
+#define LLVMPointerType_h
 
-#include "wisey/ILLVMPrimitiveType.hpp"
-#include "wisey/LLVMPointerType.hpp"
+#include <llvm/IR/Instructions.h>
+
+#include "wisey/ILLVMType.hpp"
 
 namespace wisey {
   
-  class IRGenerationContext;
-  class PointerType;
-  
   /**
-   * Represents a llvm primitive iteger type i64
+   * Represents an llvm pointer type
    */
-  class LLVMi64Type : public ILLVMPrimitiveType {
+  class LLVMPointerType : public ILLVMType {
     
-    const LLVMPointerType* mPointerType;
+    const ILLVMType* mBaseType;
     
   public:
     
-    LLVMi64Type();
+    LLVMPointerType(const ILLVMType* baseType);
     
-    ~LLVMi64Type();
+    ~LLVMPointerType();
     
     std::string getTypeName() const override;
     
-    llvm::Type* getLLVMType(IRGenerationContext& context) const override;
+    llvm::PointerType* getLLVMType(IRGenerationContext& context) const override;
     
     bool canCastTo(IRGenerationContext& context, const IType* toType) const override;
     
@@ -87,10 +85,8 @@ namespace wisey {
     
     const IType* getDereferenceType() const override;
     
-    const ILLVMTypeSpecifier* newTypeSpecifier() const override;
-
   };
   
 } /* namespace wisey */
 
-#endif /* LLVMi64Type_h */
+#endif /* LLVMPointerType_h */

@@ -12,7 +12,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/ILLVMType.hpp"
-#include "wisey/PointerType.hpp"
+#include "wisey/LLVMPointerType.hpp"
 
 namespace wisey {
   
@@ -22,7 +22,7 @@ namespace wisey {
   class LLVMStructType : public ILLVMType {
     
     llvm::StructType* mStructType;
-    const PointerType* mPointerType;
+    const LLVMPointerType* mPointerType;
     
   public:
     
@@ -83,7 +83,7 @@ namespace wisey {
     
     const IObjectType* getObjectType() const override;
     
-    const IType* getPointerType() const override;
+    const LLVMPointerType* getPointerType() const override;
     
     const IType* getDereferenceType() const override;
     

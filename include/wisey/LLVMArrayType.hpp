@@ -14,7 +14,7 @@
 #include <llvm/IR/DerivedTypes.h>
 
 #include "wisey/ILLVMType.hpp"
-#include "wisey/PointerType.hpp"
+#include "wisey/LLVMPointerType.hpp"
 
 namespace wisey {
   
@@ -25,7 +25,7 @@ namespace wisey {
     
     const ILLVMType* mElementType;
     std::list<unsigned long> mDimensions;
-    const PointerType* mPointerType;
+    const LLVMPointerType* mPointerType;
     
   public:
     
@@ -101,7 +101,7 @@ namespace wisey {
     
     const IObjectType* getObjectType() const override;
     
-    const IType* getPointerType() const override;
+    const LLVMPointerType* getPointerType() const override;
     
     const IType* getDereferenceType() const override;
     

@@ -17,7 +17,7 @@ using namespace wisey;
 LLVMArrayType::LLVMArrayType(const ILLVMType* elementType, list<unsigned long> dimensions) :
 mElementType(elementType), mDimensions(dimensions) {
   assert(dimensions.size());
-  mPointerType = new PointerType(this);
+  mPointerType = new LLVMPointerType(this);
 }
 
 LLVMArrayType::~LLVMArrayType() {
@@ -151,7 +151,7 @@ const IObjectType* LLVMArrayType::getObjectType() const {
   return NULL;
 }
 
-const IType* LLVMArrayType::getPointerType() const {
+const LLVMPointerType* LLVMArrayType::getPointerType() const {
   return mPointerType;
 }
 

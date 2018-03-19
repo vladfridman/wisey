@@ -17,7 +17,14 @@ namespace wisey {
    * Represents an LLVM native type such as i8, i32, or llvm struct or llvm array
    */
   class ILLVMType : public IType {
+   
+  public:
     
+    /**
+     * Returns reference type which is the pointer to this type
+     */
+    virtual const ILLVMType* getPointerType() const = 0;
+
   };
   
 } /* namespace wisey */
