@@ -24,6 +24,7 @@
 #include "wisey/Interface.hpp"
 #include "wisey/IPrintable.hpp"
 #include "wisey/LLVMArrayType.hpp"
+#include "wisey/LLVMFunctionType.hpp"
 #include "wisey/LLVMStructType.hpp"
 #include "wisey/Model.hpp"
 #include "wisey/Node.hpp"
@@ -58,6 +59,7 @@ namespace wisey {
     std::map<std::string, Interface*> mInterfaces;
     std::map<std::string, PackageType*> mPackageTypes;
     std::map<std::string, LLVMStructType*> mLLVMStructTypes;
+    std::map<std::string, LLVMFunctionType*> mLLVMFunctionTypes;
     std::map<Interface*, Controller*> mBindings;
     ImportProfile* mImportProfile;
     std::string mPackage;
@@ -182,6 +184,12 @@ namespace wisey {
      * Look up a llvm struct type
      */
     LLVMStructType* getLLVMStructType(std::string name);
+    
+    /**
+     * Look up a llvm function type
+     */
+    LLVMFunctionType* getLLVMFunctionType(const ILLVMType* returnType,
+                                          std::vector<const ILLVMType*> argumentTypes);
     
     /**
      * Bind an interface to a controller for injection

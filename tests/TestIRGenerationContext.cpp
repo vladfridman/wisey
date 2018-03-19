@@ -442,3 +442,13 @@ TEST_F(IRGenerationContextTest, getLLVMArrayTypeTest) {
   
   EXPECT_EQ(llvmArrayType, mContext.getLLVMArrayType(LLVMPrimitiveTypes::I16, dimensions));
 }
+
+TEST_F(IRGenerationContextTest, getLLVMFunctionTypeTest) {
+  vector<const ILLVMType*> argumentTypes;
+  argumentTypes.push_back(LLVMPrimitiveTypes::I16);
+  argumentTypes.push_back(LLVMPrimitiveTypes::I64->getPointerType());
+  LLVMFunctionType* llvmFunctionType = mContext.getLLVMFunctionType(LLVMPrimitiveTypes::I8,
+                                                                    argumentTypes);
+  
+  EXPECT_EQ(llvmFunctionType, mContext.getLLVMFunctionType(LLVMPrimitiveTypes::I8,argumentTypes));
+}

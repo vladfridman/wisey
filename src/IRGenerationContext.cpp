@@ -84,6 +84,11 @@ IRGenerationContext::~IRGenerationContext() {
        iterator++) {
     delete iterator->second;
   }
+  for (map<string, LLVMFunctionType*>::iterator iterator = mLLVMFunctionTypes.begin();
+       iterator != mLLVMFunctionTypes.end();
+       iterator++) {
+    delete iterator->second;
+  }
   mBindings.clear();
 }
 
@@ -295,6 +300,26 @@ LLVMStructType* IRGenerationContext::getLLVMStructType(string fullName) {
   }
   
   return mLLVMStructTypes.at(fullName);
+}
+
+LLVMFunctionType* IRGenerationContext::getLLVMFunctionType(const ILLVMType* returnType,
+                                                           vector<const ILLVMType*> argumentTypes) {
+  string key = returnType->getTypeName() + " (";
+  for (const ILLVMType* argumentType : argumentTypes) {
+    key = key + argumentType->getTypeName();
+    if (argumentType != argumentTypes.back()) {
+      key = key + ", ";
+    }
+  }
+  key = key + ")";
+
+  if (mLLVMFunctionTypes.count(key)) {
+    return mLLVMFunctionTypes.at(key);
+  }
+  
+  LLVMFunctionType* llvmFunctionType = new LLVMFunctionType(returnType, argumentTypes);
+  mLLVMFunctionTypes[key] = llvmFunctionType;
+  return llvmFunctionType;
 }
 
 void IRGenerationContext::bindInterfaceToController(Interface* interface, Controller* controller) {
