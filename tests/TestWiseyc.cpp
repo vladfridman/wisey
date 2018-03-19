@@ -96,7 +96,9 @@ TEST_F(MainTest, extractHeadersTest) {
   stream.open("build/test.yzh");
   string output((istreambuf_iterator<char>(stream)), istreambuf_iterator<char>());
   
-  EXPECT_STREQ("/* Interfaces */\n"
+  EXPECT_STREQ("/* llvm Structs */\n"
+               "\n"
+               "/* Interfaces */\n"
                "\n"
                "/* Models */\n"
                "\n"

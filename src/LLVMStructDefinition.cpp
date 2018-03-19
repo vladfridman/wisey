@@ -38,15 +38,13 @@ IObjectType* LLVMStructDefinition::prototypeObject(IRGenerationContext& context)
 
 void LLVMStructDefinition::prototypeMethods(IRGenerationContext& context) const {
   LLVMStructType* llvmStructType = context.getLLVMStructType(mName);
-  StructType* structType = llvmStructType->getLLVMType(context);
-  assert(structType);
   
-  vector<Type*> types;
+  vector<const ILLVMType*> structTypes;
   for (const ILLVMTypeSpecifier* llvmTypeSpecifier : mTypeSpecifiers) {
-    const IType* type = llvmTypeSpecifier->getType(context);
-    types.push_back(type->getLLVMType(context));
+    const ILLVMType* type = llvmTypeSpecifier->getType(context);
+    structTypes.push_back(type);
   }
-  structType->setBody(types);
+  llvmStructType->setBodyTypes(context, structTypes);
 }
 
 Value* LLVMStructDefinition::generateIR(IRGenerationContext& context) const {

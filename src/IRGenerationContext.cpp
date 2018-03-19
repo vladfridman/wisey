@@ -381,6 +381,15 @@ void IRGenerationContext::printAssembly(raw_ostream &outputStream) {
 }
 
 void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& stream) const {
+  stream << "/* llvm Structs */" << endl << endl;
+  for (map<string, LLVMStructType*>::const_iterator iterator = mLLVMStructTypes.begin();
+       iterator != mLLVMStructTypes.end();
+       iterator++) {
+    LLVMStructType* structType = iterator->second;
+    structType->printToStream(context, stream);
+    stream << endl;
+  }
+  
   stream << "/* Interfaces */" << endl << endl;
   for (map<string, Interface*>::const_iterator iterator = mInterfaces.begin();
        iterator != mInterfaces.end();

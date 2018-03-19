@@ -103,3 +103,10 @@ TEST_F(LLVMFunctionTypeTest, getPointerTypeTest) {
 
   EXPECT_EQ(expected->getPointerTo(), mLLVMFunctionType->getPointerType()->getLLVMType(mContext));
 }
+
+TEST_F(LLVMFunctionTypeTest, printToStreamTest) {
+  stringstream stringStream;
+  mLLVMFunctionType->printToStream(mContext, stringStream);
+  
+  EXPECT_STREQ("::llvm::i8 (::llvm::i16, ::llvm::i64*)", stringStream.str().c_str());
+}

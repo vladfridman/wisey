@@ -81,3 +81,10 @@ TEST_F(LLVMi1TypeTest, getPointerTypeTest) {
   const IType* pointerType = mLLVMi1Type.getPointerType();
   EXPECT_EQ(Type::getInt1Ty(mLLVMContext)->getPointerTo(), pointerType->getLLVMType(mContext));
 }
+
+TEST_F(LLVMi1TypeTest, printToStreamTest) {
+  stringstream stringStream;
+  mLLVMi1Type.printToStream(mContext, stringStream);
+  
+  EXPECT_STREQ("::llvm::i1", stringStream.str().c_str());
+}

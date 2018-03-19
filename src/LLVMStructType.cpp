@@ -27,6 +27,16 @@ string LLVMStructType::getTypeName() const {
   return mStructType->getName().str();
 }
 
+void LLVMStructType::setBodyTypes(IRGenerationContext& context,
+                                  vector<const ILLVMType*> bodyTypes) {
+  mBodyTypes = bodyTypes;
+  vector<Type*> types;
+  for (const ILLVMType* llvmType : mBodyTypes) {
+    types.push_back(llvmType->getLLVMType(context));
+  }
+  mStructType->setBody(types);
+}
+
 llvm::StructType* LLVMStructType::getLLVMType(IRGenerationContext& context) const {
   return mStructType;
 }
@@ -99,7 +109,13 @@ bool LLVMStructType::isNative() const {
 }
 
 void LLVMStructType::printToStream(IRGenerationContext &context, iostream& stream) const {
-  assert(false);
+  stream << "::llvm::struct " << mStructType->getName().str() << " {\n";
+  for (const ILLVMType* llvmType : mBodyTypes) {
+    stream << "  ";
+    llvmType->printToStream(context, stream);
+    stream << ",\n";
+  }
+  stream << "}\n";
 }
 
 void LLVMStructType::createLocalVariable(IRGenerationContext& context, string name) const {

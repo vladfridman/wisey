@@ -81,3 +81,10 @@ TEST_F(LLVMi32TypeTest, getPointerTypeTest) {
   const IType* pointerType = mLLVMi32Type.getPointerType();
   EXPECT_EQ(Type::getInt32Ty(mLLVMContext)->getPointerTo(), pointerType->getLLVMType(mContext));
 }
+
+TEST_F(LLVMi32TypeTest, printToStreamTest) {
+  stringstream stringStream;
+  mLLVMi32Type.printToStream(mContext, stringStream);
+  
+  EXPECT_STREQ("::llvm::i32", stringStream.str().c_str());
+}

@@ -81,3 +81,10 @@ TEST_F(LLVMi64TypeTest, getPointerTypeTest) {
   const IType* pointerType = mLLVMi64Type.getPointerType();
   EXPECT_EQ(Type::getInt64Ty(mLLVMContext)->getPointerTo(), pointerType->getLLVMType(mContext));
 }
+
+TEST_F(LLVMi64TypeTest, printToStreamTest) {
+  stringstream stringStream;
+  mLLVMi64Type.printToStream(mContext, stringStream);
+  
+  EXPECT_STREQ("::llvm::i64", stringStream.str().c_str());
+}

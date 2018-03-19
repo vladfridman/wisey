@@ -59,5 +59,3 @@ TEST_F(LLVMFunctionTypeSpecifierTest, printToStreamTest) {
   
   EXPECT_STREQ("::llvm::i8 (::llvm::i16, ::llvm::i64)", stringStream.str().c_str());
 }
-
-

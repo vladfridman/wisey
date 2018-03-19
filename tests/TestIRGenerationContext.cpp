@@ -330,6 +330,7 @@ TEST_F(IRGenerationContextTest, getThisTest) {
 }
 
 TEST_F(IRGenerationContextTest, printToStreamTest) {
+  mContext.addLLVMStructType(mLLVMStructType);
   mContext.addInterface(mInterface);
   mContext.addNode(mNode);
   mContext.addController(mController);
@@ -339,7 +340,12 @@ TEST_F(IRGenerationContextTest, printToStreamTest) {
   stringstream stringStream;
   mContext.printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("/* Interfaces */\n"
+  EXPECT_STREQ("/* llvm Structs */\n"
+               "\n"
+               "::llvm::struct mystructtype {\n"
+               "}\n"
+               "\n"
+               "/* Interfaces */\n"
                "\n"
                "external interface systems.vos.wisey.compiler.tests.IMyInterface {\n"
                "}\n"

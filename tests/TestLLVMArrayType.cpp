@@ -105,3 +105,10 @@ TEST_F(LLVMArrayTypeTest, getPointerTypeTest) {
   EXPECT_EQ(mLLVMArrayType->getLLVMType(mContext)->getPointerTo(),
             arrayType->getPointerTo());
 }
+
+TEST_F(LLVMArrayTypeTest, printToStreamTest) {
+  stringstream stringStream;
+  mLLVMArrayType->printToStream(mContext, stringStream);
+  
+  EXPECT_STREQ("::llvm::i8 [5]", stringStream.str().c_str());
+}

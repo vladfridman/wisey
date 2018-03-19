@@ -22,6 +22,7 @@ namespace wisey {
   class LLVMStructType : public ILLVMType {
     
     llvm::StructType* mStructType;
+    std::vector<const ILLVMType*> mBodyTypes;
     const LLVMPointerType* mPointerType;
     
   public:
@@ -29,6 +30,11 @@ namespace wisey {
     LLVMStructType(llvm::StructType* structType);
     
     ~LLVMStructType();
+    
+    /**
+     * Sets body types of this struct type
+     */
+    void setBodyTypes(IRGenerationContext& context, std::vector<const ILLVMType*> bodyTypes);
     
     std::string getTypeName() const override;
     

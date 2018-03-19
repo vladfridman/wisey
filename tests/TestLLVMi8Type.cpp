@@ -81,3 +81,10 @@ TEST_F(LLVMi8TypeTest, getPointerTypeTest) {
   const IType* pointerType = mLLVMi8Type.getPointerType();
   EXPECT_EQ(Type::getInt8Ty(mLLVMContext)->getPointerTo(), pointerType->getLLVMType(mContext));
 }
+
+TEST_F(LLVMi8TypeTest, printToStreamTest) {
+  stringstream stringStream;
+  mLLVMi8Type.printToStream(mContext, stringStream);
+  
+  EXPECT_STREQ("::llvm::i8", stringStream.str().c_str());
+}

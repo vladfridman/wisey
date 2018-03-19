@@ -18,6 +18,7 @@
 #include "MockConcreteObjectType.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/LLVMStructType.hpp"
 
 using namespace llvm;
@@ -39,11 +40,11 @@ struct LLVMStructTypeTest : public Test {
   
   LLVMStructTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
     mStructType = StructType::create(mLLVMContext, "mystruct");
-    vector<Type*> structBodyTypes;
-    structBodyTypes.push_back(Type::getInt8Ty(mLLVMContext));
-    structBodyTypes.push_back(Type::getInt64Ty(mLLVMContext));
-    mStructType->setBody(structBodyTypes);
+    vector<const ILLVMType*> structBodyTypes;
+    structBodyTypes.push_back(LLVMPrimitiveTypes::I8);
+    structBodyTypes.push_back(LLVMPrimitiveTypes::I64);
     mLLVMStructType = new LLVMStructType(mStructType);
+    mLLVMStructType->setBodyTypes(mContext, structBodyTypes);
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
@@ -108,4 +109,15 @@ TEST_F(LLVMStructTypeTest, canAutoCastToTest) {
 TEST_F(LLVMStructTypeTest, getPointerTypeTest) {
   const IType* pointerType = mLLVMStructType->getPointerType();
   EXPECT_EQ(mStructType->getPointerTo(), pointerType->getLLVMType(mContext));
+}
+
+TEST_F(LLVMStructTypeTest, printToStreamTest) {
+  stringstream stringStream;
+  mLLVMStructType->printToStream(mContext, stringStream);
+  
+  EXPECT_STREQ("::llvm::struct mystruct {\n"
+               "  ::llvm::i8,\n"
+               "  ::llvm::i64,\n"
+               "}\n",
+               stringStream.str().c_str());
 }

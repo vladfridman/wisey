@@ -128,3 +128,9 @@ TEST_F(LLVMPointerTypeTest, createLocalVariableTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(LLVMPointerTypeTest, printToStreamTest) {
+  stringstream stringStream;
+  mLLVMPointerType->printToStream(mContext, stringStream);
+  
+  EXPECT_STREQ("::llvm::i8*", stringStream.str().c_str());
+}
