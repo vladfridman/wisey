@@ -115,4 +115,3 @@ TEST_F(PointerPointerTypeTest, isObjectTest) {
 TEST_F(PointerPointerTypeTest, getDereferenceTypeTest) {
   EXPECT_EQ(mPointerType, mPointerPointerType->getDereferenceType());
 }
-

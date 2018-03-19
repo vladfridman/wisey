@@ -130,7 +130,7 @@ const LLVMPointerType* LLVMVoidType::getPointerType() const {
   assert(false);
 }
 
-const IType* LLVMVoidType::getDereferenceType() const {
+const ILLVMType* LLVMVoidType::getDereferenceType() const {
   assert(false);
 }
 

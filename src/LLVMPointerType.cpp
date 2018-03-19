@@ -12,6 +12,7 @@
 #include "wisey/FieldNativeVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LLVMPointerPointerType.hpp"
 #include "wisey/LLVMPointerType.hpp"
 #include "wisey/LocalNativeVariable.hpp"
 #include "wisey/PointerType.hpp"
@@ -21,9 +22,11 @@ using namespace wisey;
 
 LLVMPointerType::LLVMPointerType(const ILLVMType* baseType) {
   mBaseType = baseType;
+  mPointerType = new LLVMPointerPointerType(this);
 }
 
 LLVMPointerType::~LLVMPointerType() {
+  delete mPointerType;
 }
 
 string LLVMPointerType::getTypeName() const {
@@ -132,10 +135,10 @@ const IObjectType* LLVMPointerType::getObjectType() const {
   return NULL;
 }
 
-const LLVMPointerType* LLVMPointerType::getPointerType() const {
-  assert(false);
+const ILLVMType* LLVMPointerType::getPointerType() const {
+  return mPointerType;
 }
 
-const IType* LLVMPointerType::getDereferenceType() const {
+const ILLVMType* LLVMPointerType::getDereferenceType() const {
   return mBaseType;
 }

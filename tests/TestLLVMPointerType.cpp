@@ -74,9 +74,9 @@ TEST_F(LLVMPointerTypeTest, canAutoCastToTest) {
 }
 
 TEST_F(LLVMPointerTypeTest, canCastTest) {
-  EXPECT_FALSE(mLLVMPointerType->canAutoCastTo(mContext, LLVMPrimitiveTypes::I8));
+  EXPECT_FALSE(mLLVMPointerType->canCastTo(mContext, LLVMPrimitiveTypes::I8));
   LLVMPointerType* anotherPointerType = new LLVMPointerType(LLVMPrimitiveTypes::I32);
-  EXPECT_TRUE(mLLVMPointerType->canAutoCastTo(mContext, anotherPointerType));
+  EXPECT_TRUE(mLLVMPointerType->canCastTo(mContext, anotherPointerType));
 }
 
 TEST_F(LLVMPointerTypeTest, castToTest) {
@@ -144,4 +144,8 @@ TEST_F(LLVMPointerTypeTest, printToStreamTest) {
   mLLVMPointerType->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("::llvm::i8*", stringStream.str().c_str());
+}
+
+TEST_F(LLVMPointerTypeTest, getPointerTypeTest) {
+  EXPECT_EQ(mLLVMPointerType, mLLVMPointerType->getPointerType()->getDereferenceType());
 }

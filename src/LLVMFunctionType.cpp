@@ -152,7 +152,7 @@ const LLVMPointerType* LLVMFunctionType::getPointerType() const {
   return mPointerType;
 }
 
-const IType* LLVMFunctionType::getDereferenceType() const {
+const ILLVMType* LLVMFunctionType::getDereferenceType() const {
   assert(false);
 }
 

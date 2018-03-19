@@ -1,37 +1,36 @@
 //
-//  LLVMi16Type.hpp
+//  LLVMPointerPointerType.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 3/17/18.
+//  Created by Vladimir Fridman on 3/19/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef LLVMi16Type_h
-#define LLVMi16Type_h
+#ifndef LLVMPointerPointerType_h
+#define LLVMPointerPointerType_h
 
-#include "wisey/ILLVMPrimitiveType.hpp"
+#include <llvm/IR/Instructions.h>
+
+#include "wisey/LLVMPointerPointerType.hpp"
 
 namespace wisey {
   
-  class IRGenerationContext;
-  class PointerType;
-  
   /**
-   * Represents a llvm primitive iteger type i16
+   * Represents an llvm pointer type to a pointer type
    */
-  class LLVMi16Type : public ILLVMPrimitiveType {
+  class LLVMPointerPointerType : public ILLVMType {
     
-    const LLVMPointerType* mPointerType;
+    const LLVMPointerType* mBaseType;
     
   public:
     
-    LLVMi16Type();
+    LLVMPointerPointerType(const LLVMPointerType* baseType);
     
-    ~LLVMi16Type();
+    ~LLVMPointerPointerType();
     
     std::string getTypeName() const override;
     
-    llvm::Type* getLLVMType(IRGenerationContext& context) const override;
+    llvm::PointerType* getLLVMType(IRGenerationContext& context) const override;
     
     bool canCastTo(IRGenerationContext& context, const IType* toType) const override;
     
@@ -82,14 +81,12 @@ namespace wisey {
     
     const IObjectType* getObjectType() const override;
     
-    const LLVMPointerType* getPointerType() const override;
+    const ILLVMType* getPointerType() const override;
     
     const ILLVMType* getDereferenceType() const override;
     
-    const ILLVMTypeSpecifier* newTypeSpecifier() const override;
-
   };
   
 } /* namespace wisey */
 
-#endif /* LLVMi16Type_h */
+#endif /* LLVMPointerPointerType_h */

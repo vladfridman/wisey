@@ -15,12 +15,15 @@
 
 namespace wisey {
   
+  class LLVMPointerPointerType;
+  
   /**
    * Represents an llvm pointer type
    */
   class LLVMPointerType : public ILLVMType {
     
     const ILLVMType* mBaseType;
+    const LLVMPointerPointerType* mPointerType;
     
   public:
     
@@ -81,9 +84,9 @@ namespace wisey {
     
     const IObjectType* getObjectType() const override;
     
-    const LLVMPointerType* getPointerType() const override;
+    const ILLVMType* getPointerType() const override;
     
-    const IType* getDereferenceType() const override;
+    const ILLVMType* getDereferenceType() const override;
     
   };
   

@@ -25,6 +25,11 @@ namespace wisey {
      */
     virtual const ILLVMType* getPointerType() const = 0;
 
+    /**
+     * Returns dereference type which is the type of the value the pointer type is pointing to
+     */
+    virtual const ILLVMType* getDereferenceType() const = 0;
+
   };
   
 } /* namespace wisey */

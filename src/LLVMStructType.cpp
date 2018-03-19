@@ -148,7 +148,6 @@ const LLVMPointerType* LLVMStructType::getPointerType() const {
   return mPointerType;
 }
 
-const IType* LLVMStructType::getDereferenceType() const {
+const ILLVMType* LLVMStructType::getDereferenceType() const {
   assert(false);
 }
-

@@ -133,7 +133,7 @@ const LLVMPointerType* LLVMi64Type::getPointerType() const {
   return mPointerType;
 }
 
-const IType* LLVMi64Type::getDereferenceType() const {
+const ILLVMType* LLVMi64Type::getDereferenceType() const {
   assert(false);
 }
 
