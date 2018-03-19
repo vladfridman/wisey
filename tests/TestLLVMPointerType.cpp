@@ -18,6 +18,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMPointerType.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
+#include "wisey/StateField.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -126,6 +127,16 @@ TEST_F(LLVMPointerTypeTest, createLocalVariableTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(LLVMPointerTypeTest, createFieldVariableTest) {
+  NiceMock<MockConcreteObjectType> concreteObjectType;
+  IField* field = new StateField(mLLVMPointerType, "mField");
+  ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
+  mLLVMPointerType->createFieldVariable(mContext, "mField", &concreteObjectType);
+  IVariable* variable = mContext.getScopes().getVariable("mField");
+  
+  EXPECT_NE(variable, nullptr);
 }
 
 TEST_F(LLVMPointerTypeTest, printToStreamTest) {

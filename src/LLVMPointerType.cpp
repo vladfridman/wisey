@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/ArrayType.hpp"
+#include "wisey/FieldNativeVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMPointerType.hpp"
@@ -110,9 +111,10 @@ void LLVMPointerType::createLocalVariable(IRGenerationContext& context, string n
 }
 
 void LLVMPointerType::createFieldVariable(IRGenerationContext& context,
-                                      string name,
-                                      const IConcreteObjectType* object) const {
-  assert(false);
+                                          string name,
+                                          const IConcreteObjectType* object) const {
+  IVariable* variable = new FieldNativeVariable(name, object);
+  context.getScopes().setVariable(variable);
 }
 
 void LLVMPointerType::createParameterVariable(IRGenerationContext& context,

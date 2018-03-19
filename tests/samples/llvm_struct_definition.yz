@@ -8,5 +8,5 @@ package systems.vos.wisey.compiler.tests;
 }
 
 controller CService {
-  state ::llvm::struct::mystruct mHandle;
+  state ::llvm::struct::mystruct* mHandle;
 }
