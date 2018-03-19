@@ -50,7 +50,14 @@ WS  [ \t\v\n\f]
 [ \t\n]                       ;
 "/*"                          { comment(); }
 "//".*                        { }
+"::i1"                        return TOKEN(TLLVMI1);
+"::i8"                        return TOKEN(TLLVMI8);
+"::i16"                       return TOKEN(TLLVMI16);
+"::i32"                       return TOKEN(TLLVMI32);
+"::i64"                       return TOKEN(TLLVMI64);
 "::llvm"                      return TOKEN(TLLVM);
+"::struct"                    return TOKEN(TLLVMSTRUCT);
+"::void"                      return TOKEN(TLLVMVOID);
 "bind"                        return TOKEN(TBIND);
 "boolean"                     return TOKEN(TTYPEBOOLEAN);
 "break"                       return TOKEN(TBREAK);
@@ -75,11 +82,6 @@ WS  [ \t\v\n\f]
 "float"                       return TOKEN(TTYPEFLOAT);
 "for"                         return TOKEN(TFOR);
 "if"                          return TOKEN(TIF);
-"::i1"                        return TOKEN(TI1);
-"::i8"                        return TOKEN(TI8);
-"::i16"                       return TOKEN(TI16);
-"::i32"                       return TOKEN(TI32);
-"::i64"                       return TOKEN(TI64);
 "implements"                  return TOKEN(TIMPLEMENTS);
 "import"                      return TOKEN(TIMPORT);
 "inject"                      return TOKEN(TINJECT);
@@ -103,7 +105,6 @@ WS  [ \t\v\n\f]
 "state"                       return TOKEN(TSTATE);
 "static"                      return TOKEN(TSTATIC);
 "string"                      return TOKEN(TTYPESTRING);
-"::struct"                    return TOKEN(TSTRUCT);
 "switch"                      return TOKEN(TSWITCH);
 "thread"                      return TOKEN(TTHREAD);
 "throw"                       return TOKEN(TTHROW);

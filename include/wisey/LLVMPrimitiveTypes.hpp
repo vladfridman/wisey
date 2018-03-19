@@ -14,6 +14,7 @@
 #include "wisey/LLVMi16Type.hpp"
 #include "wisey/LLVMi32Type.hpp"
 #include "wisey/LLVMi64Type.hpp"
+#include "wisey/LLVMVoidType.hpp"
 
 namespace wisey {
   
@@ -29,7 +30,8 @@ namespace wisey {
     static LLVMi16Type* I16;
     static LLVMi32Type* I32;
     static LLVMi64Type* I64;
-    
+    static LLVMVoidType* VOID;
+
   };
   
 } /* namespace wisey */

@@ -202,9 +202,11 @@
 %token <token> TANDOP TBIND TBREAK TBUILD TBUILDER TCASE TCATCH TCEQ TCGE TCLE TINCOP
 %token <token> TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDO TDOUBLECOLON TELSE TEXIT TEXTENDS 
 %token <token> TEXTERNAL TDEFAULT TFALLTHROUGH TFALSE TFIXED TFOR TIF TIMPLEMENTS TIMPORT TINJECTOR 
-%token <token> TINJECT TINSTANCEOF TINTERFACE TLLVM TMODEL TNEW TNODE TNULL TOROP TPACKAGE 
-%token <token> TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN TSENDS TSTATE TSTATIC TSTRUCT
-%token <token> TSWITCH TI1 TI8 TI16 TI32 TI64 TTHREAD TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN 
+%token <token> TINJECT TINSTANCEOF TINTERFACE  
+%token <token> TLLVM TLLVMI1 TLLVMI8 TLLVMI16 TLLVMI32 TLLVMI64 TLLVMSTRUCT TLLVMVOID
+%token <token> TMODEL TNEW TNODE TNULL TOROP TPACKAGE 
+%token <token> TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN TSENDS TSTATE TSTATIC 
+%token <token> TSWITCH TTHREAD TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN 
 %token <token> TTYPECHAR TTYPEDOUBLE TTYPEFLOAT TTYPEINT TTYPELONG TTYPESTRING TTYPEVOID TWHILE
 
 /**
@@ -287,6 +289,7 @@
 %type <llvm_type_specifier> llvm_type_specifier llvm_i_type_specifier llvm_struct_specifier
 %type <llvm_type_specifier> llvm_non_array_type_specifier llvm_array_specifier 
 %type <llvm_type_specifier> llvm_pointer_type_specifier llvm_function_type_specifier
+%type <llvm_type_specifier> llvm_void_type_specifier
 %type <llvm_type_specifier_list> llvm_type_specifier_list 
 %type <llvm_type_specifier_list> llvm_function_argument_type_specifier_list
 %type <list_of_ulongs> llvm_array_dimensions
@@ -340,7 +343,7 @@ llvm_statement
   ;
 
 llvm_struct_definition
-  : TLLVM TSTRUCT TIDENTIFIER '{' llvm_type_specifier_list '}' 
+  : TLLVM TLLVMSTRUCT TIDENTIFIER '{' llvm_type_specifier_list '}' 
     { $$ = new LLVMStructDefinition(*$3, *$5); delete $3; delete $5; }
   ;
 
@@ -362,6 +365,7 @@ llvm_type_specifier
 
 llvm_non_array_type_specifier
   : llvm_i_type_specifier
+  | llvm_void_type_specifier
   | llvm_struct_specifier
   ;
 
@@ -371,15 +375,18 @@ llvm_pointer_type_specifier
   ;
 
 llvm_i_type_specifier
-  : TLLVM TI1 { $$ = LLVMPrimitiveTypes::I1->newTypeSpecifier(); }
-  | TLLVM TI8 { $$ = LLVMPrimitiveTypes::I8->newTypeSpecifier(); }
-  | TLLVM TI16 { $$ = LLVMPrimitiveTypes::I16->newTypeSpecifier(); }
-  | TLLVM TI32 { $$ = LLVMPrimitiveTypes::I32->newTypeSpecifier(); }
-  | TLLVM TI64 { $$ = LLVMPrimitiveTypes::I64->newTypeSpecifier(); }
+  : TLLVM TLLVMI1 { $$ = LLVMPrimitiveTypes::I1->newTypeSpecifier(); }
+  | TLLVM TLLVMI8 { $$ = LLVMPrimitiveTypes::I8->newTypeSpecifier(); }
+  | TLLVM TLLVMI16 { $$ = LLVMPrimitiveTypes::I16->newTypeSpecifier(); }
+  | TLLVM TLLVMI32 { $$ = LLVMPrimitiveTypes::I32->newTypeSpecifier(); }
+  | TLLVM TLLVMI64 { $$ = LLVMPrimitiveTypes::I64->newTypeSpecifier(); }
   ;
 
+llvm_void_type_specifier
+  : TLLVM TLLVMVOID { $$ = LLVMPrimitiveTypes::VOID->newTypeSpecifier(); }
+
 llvm_struct_specifier
-  : TLLVM TSTRUCT TDOUBLECOLON TIDENTIFIER
+  : TLLVM TLLVMSTRUCT TDOUBLECOLON TIDENTIFIER
     { $$ = new LLVMStructSpecifier(*$4); delete $4; }
   ;
 

@@ -74,9 +74,6 @@ TEST_F(LLVMi8TypeTest, isObjectTest) {
   EXPECT_FALSE(mLLVMi8Type.isThread());
 }
 
-TEST_F(LLVMi8TypeTest, createFieldVariableTest) {
-}
-
 TEST_F(LLVMi8TypeTest, getPointerTypeTest) {
   const IType* pointerType = mLLVMi8Type.getPointerType();
   EXPECT_EQ(Type::getInt8Ty(mLLVMContext)->getPointerTo(), pointerType->getLLVMType(mContext));

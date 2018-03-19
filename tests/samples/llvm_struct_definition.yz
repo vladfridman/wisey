@@ -4,6 +4,7 @@ package systems.vos.wisey.compiler.tests;
   ::llvm::i1,
   ::llvm::i32 [256][2]*,
   ::llvm::i64* (::llvm::i64*)*,
+  ::llvm::void,
 }
 
 controller CService {

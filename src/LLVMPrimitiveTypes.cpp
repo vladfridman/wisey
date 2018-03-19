@@ -15,3 +15,4 @@ LLVMi8Type* LLVMPrimitiveTypes::I8 = new LLVMi8Type();
 LLVMi16Type* LLVMPrimitiveTypes::I16 = new LLVMi16Type();
 LLVMi32Type* LLVMPrimitiveTypes::I32 = new LLVMi32Type();
 LLVMi64Type* LLVMPrimitiveTypes::I64 = new LLVMi64Type();
+LLVMVoidType* LLVMPrimitiveTypes::VOID = new LLVMVoidType();
