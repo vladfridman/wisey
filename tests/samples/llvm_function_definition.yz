@@ -1,0 +1,2 @@
+
+::llvm::function ::llvm::i8* external_function (::llvm::i64*, ::llvm::i8**);

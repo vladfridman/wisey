@@ -33,7 +33,6 @@ struct LLVMStructDefinitionTest : public Test {
   
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  string mPackage = "systems.vos.wisey.compiler.tests";
   LLVMStructDefinition* mLLVMStructDefinition;
   BasicBlock* mBasicBlock;
   

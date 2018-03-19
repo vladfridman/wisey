@@ -70,6 +70,7 @@
   #include "wisey/IObjectTypeSpecifier.hpp"
   #include "wisey/ITypeSpecifier.hpp"
   #include "wisey/LLVMArrayTypeSpecifer.hpp"
+  #include "wisey/LLVMFunctionDeclaration.hpp"
   #include "wisey/LLVMFunctionTypeSpecifier.hpp"
   #include "wisey/LLVMPointerTypeSpecifier.hpp"
   #include "wisey/LLVMPrimitiveTypes.hpp"
@@ -203,7 +204,7 @@
 %token <token> TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDO TDOUBLECOLON TELSE TEXIT TEXTENDS 
 %token <token> TEXTERNAL TDEFAULT TFALLTHROUGH TFALSE TFIXED TFOR TIF TIMPLEMENTS TIMPORT TINJECTOR 
 %token <token> TINJECT TINSTANCEOF TINTERFACE  
-%token <token> TLLVM TLLVMI1 TLLVMI8 TLLVMI16 TLLVMI32 TLLVMI64 TLLVMSTRUCT TLLVMVOID
+%token <token> TLLVM TLLVMFUNCTION TLLVMI1 TLLVMI8 TLLVMI16 TLLVMI32 TLLVMI64 TLLVMSTRUCT TLLVMVOID
 %token <token> TMODEL TNEW TNODE TNULL TOROP TPACKAGE 
 %token <token> TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN TSENDS TSTATE TSTATIC 
 %token <token> TSWITCH TTHREAD TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN 
@@ -231,7 +232,7 @@
 %type <statement> print_statement selection_statement 
 %type <statement> throw_statement try_catch_statement
 %type <global_statement> bind_action import_statement global_statement llvm_statement 
-%type <global_statement> llvm_struct_definition
+%type <global_statement> llvm_struct_definition llvm_function_declaration
 %type <object_definition> controller_definition interface_definition model_definition
 %type <object_definition> node_definition thread_definition external_thread_definition
 %type <object_definition> object_definition external_object_definition external_model_definition
@@ -340,6 +341,13 @@ global_statement
 
 llvm_statement
   : llvm_struct_definition
+  | llvm_function_declaration
+  ;
+
+llvm_function_declaration
+  : TLLVM TLLVMFUNCTION llvm_type_specifier TIDENTIFIER
+    '(' llvm_function_argument_type_specifier_list ')' ';'
+      { $$ = new LLVMFunctionDeclaration(*$4, $3, *$6); delete $4; delete $6; }
   ;
 
 llvm_struct_definition
@@ -1281,7 +1289,7 @@ type_specifier
   : non_array_type_specifier
   | array_type_specifier { $$ = (ITypeSpecifier*) $1; }
   | array_owner_type_specifier { $$ = (ITypeSpecifier*) $1; }
-  | llvm_type_specifier
+  | llvm_type_specifier { $$ = (ITypeSpecifier*) $1; }
   ;
 
 injectable_type_specifier
