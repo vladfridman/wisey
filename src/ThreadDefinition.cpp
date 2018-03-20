@@ -93,9 +93,7 @@ void ThreadDefinition::prototypeMethods(IRGenerationContext& context) const {
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(thread);
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
-  vector<IObjectElementDefinition*> withThreadElements =
-  addThreadObjectElements(context, mObjectElementDeclarations, thread);
-  configureObject(context, thread, withThreadElements, mInterfaceSpecifiers);
+  configureObject(context, thread, mObjectElementDeclarations, mInterfaceSpecifiers);
   context.setObjectType(lastObjectType);
 }
 
@@ -112,6 +110,7 @@ Value* ThreadDefinition::generateIR(IRGenerationContext& context) const {
   IConcreteObjectType::generateStaticMethodsIR(context, thread);
   IConcreteObjectType::declareFieldVariables(context, thread);
   IConcreteObjectType::generateMethodsIR(context, thread);
+  IConcreteObjectType::generateLLVMFunctionsIR(context, thread);
   IConcreteObjectType::scheduleDestructorBodyComposition(context, thread);
   IConcreteObjectType::composeInterfaceMapFunctions(context, thread);
   

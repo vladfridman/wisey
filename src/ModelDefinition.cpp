@@ -86,6 +86,7 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   IConcreteObjectType::generateStaticMethodsIR(context, model);
   IConcreteObjectType::declareFieldVariables(context, model);
   IConcreteObjectType::generateMethodsIR(context, model);
+  IConcreteObjectType::generateLLVMFunctionsIR(context, model);
   IConcreteObjectType::scheduleDestructorBodyComposition(context, model);
   IConcreteObjectType::composeInterfaceMapFunctions(context, model);
 

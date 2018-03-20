@@ -80,6 +80,7 @@ Value* NodeDefinition::generateIR(IRGenerationContext& context) const {
   IConcreteObjectType::generateStaticMethodsIR(context, node);
   IConcreteObjectType::declareFieldVariables(context, node);
   IConcreteObjectType::generateMethodsIR(context, node);
+  IConcreteObjectType::generateLLVMFunctionsIR(context, node);
   IConcreteObjectType::scheduleDestructorBodyComposition(context, node);
   IConcreteObjectType::composeInterfaceMapFunctions(context, node);
 
