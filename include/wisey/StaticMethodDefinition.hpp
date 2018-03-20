@@ -1,17 +1,17 @@
 //
-//  StaticMethodDeclaration.hpp
+//  StaticMethodDefinition.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 9/12/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef StaticMethodDeclaration_h
-#define StaticMethodDeclaration_h
+#ifndef StaticMethodDefinition_h
+#define StaticMethodDefinition_h
 
 #include "wisey/AccessLevel.hpp"
 #include "wisey/CompoundStatement.hpp"
-#include "wisey/IMethodDeclaration.hpp"
+#include "wisey/IMethodDefinition.hpp"
 #include "wisey/IModelTypeSpecifier.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 #include "wisey/VariableDeclaration.hpp"
@@ -23,7 +23,7 @@ namespace wisey {
    *
    * Static method does not have access to object instance
    */
-  class StaticMethodDeclaration : public IMethodDeclaration {
+  class StaticMethodDefinition : public IMethodDefinition {
     const AccessLevel mAccessLevel;
     const ITypeSpecifier* mReturnTypeSpecifier;
     std::string mName;
@@ -34,7 +34,7 @@ namespace wisey {
     
   public:
     
-    StaticMethodDeclaration(const AccessLevel AccessLevel,
+    StaticMethodDefinition(const AccessLevel AccessLevel,
                             const ITypeSpecifier* returnTypeSpecifier,
                             std::string name,
                             VariableList arguments,
@@ -42,7 +42,7 @@ namespace wisey {
                             CompoundStatement* compoundStatement,
                             int line);
     
-    ~StaticMethodDeclaration();
+    ~StaticMethodDefinition();
     
     IMethod* define(IRGenerationContext& context, const IObjectType* objectType) const override;
     
@@ -60,5 +60,5 @@ namespace wisey {
   
 } /* namespace wisey */
 
-#endif /* StaticMethodDeclaration_h */
+#endif /* StaticMethodDefinition_h */
 

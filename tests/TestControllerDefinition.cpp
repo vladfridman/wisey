@@ -27,7 +27,7 @@
 #include "wisey/IModelTypeSpecifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/MethodArgument.hpp"
-#include "wisey/MethodDeclaration.hpp"
+#include "wisey/MethodDefinition.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ProgramPrefix.hpp"
@@ -60,7 +60,7 @@ struct ControllerDefinitionTest : public Test {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
 
-    MethodDeclaration *methodDeclaration;
+    MethodDefinition *methodDeclaration;
     Block* block = new Block();
 
     block->getStatements().push_back(mMockStatement);
@@ -75,7 +75,7 @@ struct ControllerDefinitionTest : public Test {
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
     vector<IModelTypeSpecifier*> thrownExceptions;
-    methodDeclaration = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
+    methodDeclaration = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                               floatTypeSpecifier,
                                               "foo",
                                               methodArguments,

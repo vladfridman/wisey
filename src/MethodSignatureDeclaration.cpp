@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/IMethodDeclaration.hpp"
+#include "wisey/IMethodDefinition.hpp"
 #include "wisey/MethodSignature.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/Names.hpp"
@@ -40,8 +40,8 @@ MethodSignatureDeclaration::~MethodSignatureDeclaration() {
 MethodSignature* MethodSignatureDeclaration::define(IRGenerationContext& context,
                                                     const IObjectType* objectType) const {
   const IType* returnType = mReturnTypeSpecifier->getType(context);
-  vector<MethodArgument*> arguments = IMethodDeclaration::createArgumnetList(context, mArguments);
-  vector<const Model*> exceptions = IMethodDeclaration::createExceptionList(context,
+  vector<MethodArgument*> arguments = IMethodDefinition::createArgumnetList(context, mArguments);
+  vector<const Model*> exceptions = IMethodDefinition::createExceptionList(context,
                                                                             mThrownExceptions);
 
   return new MethodSignature(objectType, mMethodName, returnType, arguments, exceptions);

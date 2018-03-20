@@ -23,7 +23,7 @@
 #include "wisey/IMethodCall.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
-#include "wisey/MethodDeclaration.hpp"
+#include "wisey/MethodDefinition.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/NativeFunctionCall.hpp"
 #include "wisey/NativeType.hpp"
@@ -121,7 +121,7 @@ Value* ThreadDefinition::generateIR(IRGenerationContext& context) const {
   return NULL;
 }
 
-MethodDeclaration* ThreadDefinition::createStartMethodDeclaration(IRGenerationContext& context,
+MethodDefinition* ThreadDefinition::createStartMethodDefinition(IRGenerationContext& context,
                                                                   const Thread* thread) {
   LLVMContext& llvmContext = context.getLLVMContext();
   VariableList arguments;
@@ -176,7 +176,7 @@ MethodDeclaration* ThreadDefinition::createStartMethodDeclaration(IRGenerationCo
   
   CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
   
-  return new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
+  return new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                PrimitiveTypes::INT_TYPE->newTypeSpecifier(),
                                "start",
                                arguments,
@@ -185,7 +185,7 @@ MethodDeclaration* ThreadDefinition::createStartMethodDeclaration(IRGenerationCo
                                0);
 }
 
-MethodDeclaration* ThreadDefinition::createSendMethodDeclaration(IRGenerationContext& context,
+MethodDefinition* ThreadDefinition::createSendMethodDefinition(IRGenerationContext& context,
                                                                  const Thread* thread) {
   LLVMContext& llvmContext = context.getLLVMContext();
   VariableList arguments;
@@ -214,7 +214,7 @@ MethodDeclaration* ThreadDefinition::createSendMethodDeclaration(IRGenerationCon
   NativeFunctionCall* createFunctionCall = new NativeFunctionCall(createFunction, callArguments);
   statements.push_back(createFunctionCall);
 
-  return new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
+  return new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                PrimitiveTypes::VOID_TYPE->newTypeSpecifier(),
                                "send",
                                arguments,
@@ -260,8 +260,8 @@ ThreadDefinition::addThreadObjectElements(IRGenerationContext& context,
     }
     result.push_back(element);
   }
-  result.push_back(createStartMethodDeclaration(context, thread));
-  result.push_back(createSendMethodDeclaration(context, thread));
+  result.push_back(createStartMethodDefinition(context, thread));
+  result.push_back(createSendMethodDefinition(context, thread));
 
   for (; iterator != objectElements.end(); iterator++) {
     result.push_back(*iterator);

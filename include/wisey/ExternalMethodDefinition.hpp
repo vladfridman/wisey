@@ -1,17 +1,17 @@
 //
-//  ExternalMethodDeclaration.hpp
+//  ExternalMethodDefinition.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 9/28/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef ExternalMethodDeclaration_h
-#define ExternalMethodDeclaration_h
+#ifndef ExternalMethodDefinition_h
+#define ExternalMethodDefinition_h
 
 #include "wisey/AccessLevel.hpp"
 #include "wisey/ExternalMethod.hpp"
-#include "wisey/IMethodDeclaration.hpp"
+#include "wisey/IMethodDefinition.hpp"
 #include "wisey/IModelTypeSpecifier.hpp"
 #include "wisey/IStatement.hpp"
 #include "wisey/ITypeSpecifier.hpp"
@@ -23,7 +23,7 @@ namespace wisey {
   /**
    * Represents method declaration for an externally implemented object
    */
-  class ExternalMethodDeclaration : public IMethodDeclaration {
+  class ExternalMethodDefinition : public IMethodDefinition {
     const ITypeSpecifier* mReturnTypeSpecifier;
     std::string mName;
     VariableList mArguments;
@@ -31,12 +31,12 @@ namespace wisey {
     
   public:
     
-    ExternalMethodDeclaration(const ITypeSpecifier* returnTypeSpecifier,
+    ExternalMethodDefinition(const ITypeSpecifier* returnTypeSpecifier,
                               std::string name,
                               const VariableList& arguments,
                               std::vector<IModelTypeSpecifier*> thrownExceptions);
     
-    ~ExternalMethodDeclaration();
+    ~ExternalMethodDefinition();
     
     ExternalMethod* define(IRGenerationContext& context,
                            const IObjectType* objectType) const override;
@@ -55,5 +55,5 @@ namespace wisey {
   
 } /* namespace wisey */
 
-#endif /* ExternalMethodDeclaration_h */
+#endif /* ExternalMethodDefinition_h */
 

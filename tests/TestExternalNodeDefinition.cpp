@@ -18,7 +18,7 @@
 #include "wisey/FixedFieldDeclaration.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/ExternalNodeDefinition.hpp"
-#include "wisey/ExternalMethodDeclaration.hpp"
+#include "wisey/ExternalMethodDefinition.hpp"
 #include "wisey/IObjectElementDefinition.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
@@ -34,7 +34,7 @@ using ::testing::Test;
 struct ExternalNodeDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  ExternalMethodDeclaration* mMethodDeclaration;
+  ExternalMethodDefinition* mMethodDefinition;
   vector<IObjectElementDefinition*> mObjectElements;
   string mPackage = "systems.vos.wisey.compiler.tests";
   ImportProfile* mImportProfile;
@@ -54,7 +54,7 @@ struct ExternalNodeDefinitionTest : public Test {
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
     vector<IModelTypeSpecifier*> thrownExceptions;
-    mMethodDeclaration = new ExternalMethodDeclaration(floatTypeSpecifier,
+    mMethodDefinition = new ExternalMethodDefinition(floatTypeSpecifier,
                                                        "foo",
                                                        methodArguments,
                                                        thrownExceptions);
@@ -71,7 +71,7 @@ TEST_F(ExternalNodeDefinitionTest, prototypeObjectTest) {
   FixedFieldDeclaration* field2 = new FixedFieldDeclaration(floatType, "field2");
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
-  mObjectElements.push_back(mMethodDeclaration);
+  mObjectElements.push_back(mMethodDefinition);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
   PackageType* packageType = new PackageType(mPackage);
@@ -99,7 +99,7 @@ TEST_F(ExternalNodeDefinitionTest, prototypeMethodsTest) {
   FixedFieldDeclaration* field2 = new FixedFieldDeclaration(floatType, "field2");
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
-  mObjectElements.push_back(mMethodDeclaration);
+  mObjectElements.push_back(mMethodDefinition);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
   PackageType* packageType = new PackageType(mPackage);

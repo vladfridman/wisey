@@ -1,17 +1,17 @@
 //
-//  MethodDeclaration.hpp
+//  MethodDefinition.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 12/12/16.
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef MethodDeclaration_h
-#define MethodDeclaration_h
+#ifndef MethodDefinition_h
+#define MethodDefinition_h
 
 #include "wisey/AccessLevel.hpp"
 #include "wisey/CompoundStatement.hpp"
-#include "wisey/IMethodDeclaration.hpp"
+#include "wisey/IMethodDefinition.hpp"
 #include "wisey/IModelTypeSpecifier.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 #include "wisey/VariableDeclaration.hpp"
@@ -23,7 +23,7 @@ namespace wisey {
    *
    * A method contains a coumpound statement that is the body of the method.
    */
-  class MethodDeclaration : public IMethodDeclaration {
+  class MethodDefinition : public IMethodDefinition {
     const AccessLevel mAccessLevel;
     const ITypeSpecifier* mReturnTypeSpecifier;
     std::string mName;
@@ -34,7 +34,7 @@ namespace wisey {
     
   public:
     
-    MethodDeclaration(const AccessLevel AccessLevel,
+    MethodDefinition(const AccessLevel AccessLevel,
                       const ITypeSpecifier* returnTypeSpecifier,
                       std::string name,
                       VariableList arguments,
@@ -42,7 +42,7 @@ namespace wisey {
                       CompoundStatement* compoundStatement,
                       int line);
     
-    ~MethodDeclaration();
+    ~MethodDefinition();
     
     IMethod* define(IRGenerationContext& context, const IObjectType* objectType) const override;
     
@@ -60,5 +60,5 @@ namespace wisey {
   
 } /* namespace wisey */
 
-#endif /* MethodDeclaration_h */
+#endif /* MethodDefinition_h */
 

@@ -17,7 +17,7 @@
 #include "TestPrefix.hpp"
 #include "wisey/AccessLevel.hpp"
 #include "wisey/FakeExpression.hpp"
-#include "wisey/ExternalMethodDeclaration.hpp"
+#include "wisey/ExternalMethodDefinition.hpp"
 #include "wisey/ExternalThreadDefinition.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/Interface.hpp"
@@ -45,7 +45,7 @@ struct ExternalThreadDefinitionTest : public Test {
   ExternalThreadDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     
-    ExternalMethodDeclaration* methodDeclaration;
+    ExternalMethodDefinition* methodDeclaration;
     
     const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
     const PrimitiveTypeSpecifier* floatTypeSpecifier =
@@ -56,7 +56,7 @@ struct ExternalThreadDefinitionTest : public Test {
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
     vector<IModelTypeSpecifier*> thrownExceptions;
-    methodDeclaration = new ExternalMethodDeclaration(floatTypeSpecifier,
+    methodDeclaration = new ExternalMethodDefinition(floatTypeSpecifier,
                                                       "foo",
                                                       methodArguments,
                                                       thrownExceptions);

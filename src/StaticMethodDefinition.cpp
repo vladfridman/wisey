@@ -1,5 +1,5 @@
 //
-//  StaticMethodDeclaration.cpp
+//  StaticMethodDefinition.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 9/12/17.
@@ -11,14 +11,14 @@
 #include "wisey/MethodArgument.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/StaticMethod.hpp"
-#include "wisey/StaticMethodDeclaration.hpp"
+#include "wisey/StaticMethodDefinition.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-StaticMethodDeclaration::
-StaticMethodDeclaration(const AccessLevel AccessLevel,
+StaticMethodDefinition::
+StaticMethodDefinition(const AccessLevel AccessLevel,
                         const ITypeSpecifier* returnTypeSpecifier,
                         string name,
                         VariableList arguments,
@@ -33,7 +33,7 @@ mExceptions(exceptions),
 mCompoundStatement(compoundStatement),
 mLine(line) { }
 
-StaticMethodDeclaration::~StaticMethodDeclaration() {
+StaticMethodDefinition::~StaticMethodDefinition() {
   delete mReturnTypeSpecifier;
   for (VariableDeclaration* argument : mArguments) {
     delete argument;
@@ -46,12 +46,12 @@ StaticMethodDeclaration::~StaticMethodDeclaration() {
   delete mCompoundStatement;
 }
 
-IMethod* StaticMethodDeclaration::define(IRGenerationContext& context,
+IMethod* StaticMethodDefinition::define(IRGenerationContext& context,
                                          const IObjectType* objectType) const {
   const IType* returnType = mReturnTypeSpecifier->getType(context);
   
-  vector<MethodArgument*> arguments = IMethodDeclaration::createArgumnetList(context, mArguments);
-  vector<const Model*> exceptions = IMethodDeclaration::createExceptionList(context, mExceptions);
+  vector<MethodArgument*> arguments = IMethodDefinition::createArgumnetList(context, mArguments);
+  vector<const Model*> exceptions = IMethodDefinition::createExceptionList(context, mExceptions);
   return new StaticMethod(objectType,
                           mName,
                           mAccessLevel,
@@ -62,22 +62,22 @@ IMethod* StaticMethodDeclaration::define(IRGenerationContext& context,
                           mLine);
 }
 
-bool StaticMethodDeclaration::isConstant() const {
+bool StaticMethodDefinition::isConstant() const {
   return false;
 }
 
-bool StaticMethodDeclaration::isField() const {
+bool StaticMethodDefinition::isField() const {
   return false;
 }
 
-bool StaticMethodDeclaration::isMethod() const {
+bool StaticMethodDefinition::isMethod() const {
   return false;
 }
 
-bool StaticMethodDeclaration::isStaticMethod() const {
+bool StaticMethodDefinition::isStaticMethod() const {
   return true;
 }
 
-bool StaticMethodDeclaration::isMethodSignature() const {
+bool StaticMethodDefinition::isMethodSignature() const {
   return false;
 }

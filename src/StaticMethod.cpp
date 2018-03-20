@@ -46,7 +46,7 @@ StaticMethod::~StaticMethod() {
     delete argument;
   }
   mArguments.clear();
-  // mCompoundStatement is deleted with MethodDeclaration
+  // mCompoundStatement is deleted with MethodDefinition
 }
 
 bool StaticMethod::isStatic() const {

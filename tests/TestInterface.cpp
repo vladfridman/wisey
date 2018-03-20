@@ -30,7 +30,7 @@
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/Method.hpp"
-#include "wisey/MethodDeclaration.hpp"
+#include "wisey/MethodDefinition.hpp"
 #include "wisey/MethodSignature.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/Names.hpp"
@@ -38,7 +38,7 @@
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ProgramPrefix.hpp"
-#include "wisey/StaticMethodDeclaration.hpp"
+#include "wisey/StaticMethodDefinition.hpp"
 #include "wisey/ThreadExpression.hpp"
 
 using namespace llvm;
@@ -113,7 +113,7 @@ struct InterfaceTest : public Test {
     vector<IModelTypeSpecifier*> staticMethodExceptions;
     Block* staticMethodBlock = new Block();
     CompoundStatement* staticMethodCompoundStatement = new CompoundStatement(staticMethodBlock, 0);
-    mStaticMethod = new StaticMethodDeclaration(AccessLevel::PUBLIC_ACCESS,
+    mStaticMethod = new StaticMethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                                 intSpecifier,
                                                 "foostatic",
                                                 staticMethodArguments,
@@ -414,8 +414,8 @@ TEST_F(InterfaceTest, methodDeclarationDeathTest) {
   vector<IModelTypeSpecifier*> thrownExceptions;
   Block* block = new Block();
   CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
-  MethodDeclaration* methodDeclaration =
-  new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
+  MethodDefinition* methodDeclaration =
+  new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                         intSpecifier,
                         "foo",
                         arguments,

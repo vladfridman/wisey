@@ -11,7 +11,7 @@
 #include "wisey/FakeExpressionWithCleanup.hpp"
 #include "wisey/FixedFieldDeclaration.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
-#include "wisey/MethodDeclaration.hpp"
+#include "wisey/MethodDefinition.hpp"
 #include "wisey/ModelDefinition.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
@@ -89,7 +89,7 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
   const PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   Block* block = new Block();
   CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
-  MethodDeclaration* pushStackMethod = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
+  MethodDefinition* pushStackMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                                              voidTypeSpecifier,
                                                              Names::getThreadPushStack(),
                                                              arguments,
@@ -101,7 +101,7 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
   voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   block = new Block();
   compoundStatement = new CompoundStatement(block, 0);
-  MethodDeclaration* popStackMethod = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
+  MethodDefinition* popStackMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                                             voidTypeSpecifier,
                                                             Names::getThreadPopStack(),
                                                             arguments,
@@ -142,7 +142,7 @@ ThreadDefinition* TestPrefix::defineMainThread(IRGenerationContext& context) {
   vector<IModelTypeSpecifier*> exceptions;
   Block* block = new Block();
   CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
-  MethodDeclaration* getCallStackMethod = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
+  MethodDefinition* getCallStackMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                                                 callStackTypeSpecifier,
                                                                 Names::getCallStackMethodName(),
                                                                 arguments,
@@ -154,7 +154,7 @@ ThreadDefinition* TestPrefix::defineMainThread(IRGenerationContext& context) {
   const PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   block = new Block();
   compoundStatement = new CompoundStatement(block, 0);
-  MethodDeclaration* runMethod = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
+  MethodDefinition* runMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                                        voidTypeSpecifier,
                                                        "run",
                                                        arguments,

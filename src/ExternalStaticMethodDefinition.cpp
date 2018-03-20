@@ -1,5 +1,5 @@
 //
-//  ExternalStaticMethodDeclaration.cpp
+//  ExternalStaticMethodDefinition.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 9/29/17.
@@ -7,15 +7,15 @@
 //
 
 #include "wisey/ExternalStaticMethod.hpp"
-#include "wisey/ExternalStaticMethodDeclaration.hpp"
-#include "wisey/IMethodDeclaration.hpp"
+#include "wisey/ExternalStaticMethodDefinition.hpp"
+#include "wisey/IMethodDefinition.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ExternalStaticMethodDeclaration::
-ExternalStaticMethodDeclaration(const ITypeSpecifier* returnTypeSpecifier,
+ExternalStaticMethodDefinition::
+ExternalStaticMethodDefinition(const ITypeSpecifier* returnTypeSpecifier,
                                 string name,
                                 const VariableList& arguments,
                                 vector<IModelTypeSpecifier*> thrownExceptions) :
@@ -24,7 +24,7 @@ mName(name),
 mArguments(arguments),
 mThrownExceptions(thrownExceptions) { }
 
-ExternalStaticMethodDeclaration::~ExternalStaticMethodDeclaration() {
+ExternalStaticMethodDefinition::~ExternalStaticMethodDefinition() {
   delete mReturnTypeSpecifier;
   for (VariableDeclaration* argument : mArguments) {
     delete argument;
@@ -36,32 +36,32 @@ ExternalStaticMethodDeclaration::~ExternalStaticMethodDeclaration() {
   mThrownExceptions.clear();
 }
 
-ExternalStaticMethod* ExternalStaticMethodDeclaration::define(IRGenerationContext& context,
+ExternalStaticMethod* ExternalStaticMethodDefinition::define(IRGenerationContext& context,
                                                              const IObjectType* objectType) const {
   const IType* returnType = mReturnTypeSpecifier->getType(context);
-  vector<MethodArgument*> arguments = IMethodDeclaration::createArgumnetList(context, mArguments);
-  vector<const Model*> exceptions = IMethodDeclaration::createExceptionList(context,
+  vector<MethodArgument*> arguments = IMethodDefinition::createArgumnetList(context, mArguments);
+  vector<const Model*> exceptions = IMethodDefinition::createExceptionList(context,
                                                                             mThrownExceptions);
   
   return new ExternalStaticMethod(objectType, mName, returnType, arguments, exceptions);
 }
 
-bool ExternalStaticMethodDeclaration::isConstant() const {
+bool ExternalStaticMethodDefinition::isConstant() const {
   return false;
 }
 
-bool ExternalStaticMethodDeclaration::isField() const {
+bool ExternalStaticMethodDefinition::isField() const {
   return false;
 }
 
-bool ExternalStaticMethodDeclaration::isMethod() const {
+bool ExternalStaticMethodDefinition::isMethod() const {
   return false;
 }
 
-bool ExternalStaticMethodDeclaration::isStaticMethod() const {
+bool ExternalStaticMethodDefinition::isStaticMethod() const {
   return true;
 }
 
-bool ExternalStaticMethodDeclaration::isMethodSignature() const {
+bool ExternalStaticMethodDefinition::isMethodSignature() const {
   return false;
 }

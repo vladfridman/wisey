@@ -13,7 +13,7 @@
   #include "wisey/IObjectDefinition.hpp"
   #include "wisey/Identifier.hpp"
   #include "wisey/InterfaceTypeSpecifier.hpp"
-  #include "wisey/MethodDeclaration.hpp"
+  #include "wisey/MethodDefinition.hpp"
   #include "wisey/MethodSignatureDeclaration.hpp"
   #include "wisey/ModelTypeSpecifier.hpp"
   #include "wisey/NodeTypeSpecifier.hpp"

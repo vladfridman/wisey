@@ -1,5 +1,5 @@
 //
-//  MethodDeclaration.cpp
+//  MethodDefinition.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 12/12/16.
@@ -10,14 +10,14 @@
 
 #include "wisey/Method.hpp"
 #include "wisey/MethodArgument.hpp"
-#include "wisey/MethodDeclaration.hpp"
+#include "wisey/MethodDefinition.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-MethodDeclaration::MethodDeclaration(const AccessLevel AccessLevel,
+MethodDefinition::MethodDefinition(const AccessLevel AccessLevel,
                                      const ITypeSpecifier* returnTypeSpecifier,
                                      string name,
                                      VariableList arguments,
@@ -32,7 +32,7 @@ mExceptions(exceptions),
 mCompoundStatement(compoundStatement),
 mLine(line) { }
 
-MethodDeclaration::~MethodDeclaration() {
+MethodDefinition::~MethodDefinition() {
   delete mReturnTypeSpecifier;
   for (VariableDeclaration* argument : mArguments) {
     delete argument;
@@ -45,12 +45,12 @@ MethodDeclaration::~MethodDeclaration() {
   delete mCompoundStatement;
 }
 
-IMethod* MethodDeclaration::define(IRGenerationContext& context,
+IMethod* MethodDefinition::define(IRGenerationContext& context,
                                    const IObjectType* objectType) const {
   const IType* returnType = mReturnTypeSpecifier->getType(context);
 
-  vector<MethodArgument*> arguments = IMethodDeclaration::createArgumnetList(context, mArguments);
-  vector<const Model*> exceptions = IMethodDeclaration::createExceptionList(context, mExceptions);
+  vector<MethodArgument*> arguments = IMethodDefinition::createArgumnetList(context, mArguments);
+  vector<const Model*> exceptions = IMethodDefinition::createExceptionList(context, mExceptions);
 
   return new Method(objectType,
                     mName,
@@ -62,22 +62,22 @@ IMethod* MethodDeclaration::define(IRGenerationContext& context,
                     mLine);
 }
 
-bool MethodDeclaration::isConstant() const {
+bool MethodDefinition::isConstant() const {
   return false;
 }
 
-bool MethodDeclaration::isField() const {
+bool MethodDefinition::isField() const {
   return false;
 }
 
-bool MethodDeclaration::isMethod() const {
+bool MethodDefinition::isMethod() const {
   return true;
 }
 
-bool MethodDeclaration::isStaticMethod() const {
+bool MethodDefinition::isStaticMethod() const {
   return false;
 }
 
-bool MethodDeclaration::isMethodSignature() const {
+bool MethodDefinition::isMethodSignature() const {
   return false;
 }

@@ -1,17 +1,17 @@
 //
-//  TestExternalMethodDeclaration.cpp
+//  TestExternalMethodDefinition.cpp
 //  runtests
 //
 //  Created by Vladimir Fridman on 9/29/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link ExternalMethodDeclaration}
+//  Tests {@link ExternalMethodDefinition}
 //
 
 #include <gtest/gtest.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/ExternalMethodDeclaration.hpp"
+#include "wisey/ExternalMethodDefinition.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IModelTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -23,7 +23,7 @@ using namespace wisey;
 
 using ::testing::Test;
 
-struct ExternalMethodDeclarationTest : Test {
+struct ExternalMethodDefinitionTest : Test {
   IRGenerationContext mContext;
   const PrimitiveTypeSpecifier* mFloatTypeSpecifier;
   const PrimitiveTypeSpecifier* mIntTypeSpecifier;
@@ -33,7 +33,7 @@ struct ExternalMethodDeclarationTest : Test {
   VariableDeclaration* mFloatArgument;
   VariableList mArguments;
   
-  ExternalMethodDeclarationTest() :
+  ExternalMethodDefinitionTest() :
   mFloatTypeSpecifier(PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier()),
   mIntTypeSpecifier(PrimitiveTypes::INT_TYPE->newTypeSpecifier()),
   mIntArgumentIdentifier(new Identifier("intargument")),
@@ -44,12 +44,12 @@ struct ExternalMethodDeclarationTest : Test {
   }
 };
 
-TEST_F(ExternalMethodDeclarationTest, methodDescriptorExtractTest) {
+TEST_F(ExternalMethodDefinitionTest, methodDescriptorExtractTest) {
   mArguments.push_back(mIntArgument);
   mArguments.push_back(mFloatArgument);
   vector<IModelTypeSpecifier*> thrownExceptions;
   const PrimitiveTypeSpecifier* floatTypeSpecifier = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
-  ExternalMethodDeclaration methodDeclaration(floatTypeSpecifier,
+  ExternalMethodDefinition methodDeclaration(floatTypeSpecifier,
                                               "foo",
                                               mArguments,
                                               thrownExceptions);

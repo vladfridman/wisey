@@ -37,11 +37,11 @@
   #include "wisey/ExpressionStatement.hpp"
   #include "wisey/ExternalControllerDefinition.hpp"
   #include "wisey/ExternalInterfaceDefinition.hpp"
-  #include "wisey/ExternalMethodDeclaration.hpp"
+  #include "wisey/ExternalMethodDefinition.hpp"
   #include "wisey/ExternalModelDefinition.hpp"
   #include "wisey/ExternalNodeDefinition.hpp"
   #include "wisey/ExternalThreadDefinition.hpp"
-  #include "wisey/ExternalStaticMethodDeclaration.hpp"
+  #include "wisey/ExternalStaticMethodDefinition.hpp"
   #include "wisey/FakeExpression.hpp"
   #include "wisey/FixedFieldDeclaration.hpp"
   #include "wisey/FloatConstant.hpp"
@@ -81,7 +81,7 @@
   #include "wisey/LogicalOrExpression.hpp"
   #include "wisey/LongConstant.hpp"
   #include "wisey/MethodCall.hpp"
-  #include "wisey/MethodDeclaration.hpp"
+  #include "wisey/MethodDefinition.hpp"
   #include "wisey/MethodSignatureDeclaration.hpp"
   #include "wisey/ModelDefinition.hpp"
   #include "wisey/ModelTypeSpecifier.hpp"
@@ -107,7 +107,7 @@
   #include "wisey/StringLiteral.hpp"
   #include "wisey/StateFieldDeclaration.hpp"
   #include "wisey/StaticMethodCall.hpp"
-  #include "wisey/StaticMethodDeclaration.hpp"
+  #include "wisey/StaticMethodDefinition.hpp"
   #include "wisey/SwitchStatement.hpp"
   #include "wisey/ThreadExpression.hpp"
   #include "wisey/ThreadDefinition.hpp"
@@ -248,9 +248,9 @@
 %type <switch_cases> case_statement_list case_statement_list_with_default
 %type <object_element> object_element_declaration external_object_element_declaration
 %type <object_element> field_declaration method_definition static_method_definition
-%type <object_element> external_method_declaration interface_static_method_definition
+%type <object_element> external_method_definition interface_static_method_definition
 %type <object_element> constant_declaration interface_element_declaration method_signature
-%type <object_element> external_interface_element_declaration external_static_method_declaration
+%type <object_element> external_interface_element_declaration external_static_method_definition
 %type <object_element_list> object_element_declaration_list 
 %type <object_element_list> external_object_element_declaration_list
 %type <object_element_list> interface_element_delcaration_list
@@ -542,7 +542,7 @@ external_interface_element_delcaration_list
 external_interface_element_declaration
   : method_signature
   | constant_declaration
-  | external_static_method_declaration
+  | external_static_method_definition
   ;
 
 interface_element_delcaration_list
@@ -773,20 +773,20 @@ external_thread_definition
     }
   ;
 
-external_method_declaration
+external_method_definition
   : type_specifier TIDENTIFIER '(' method_declaration_arguments ')' method_exceptions ';'
       {
-        $$ = new ExternalMethodDeclaration($1, *$2, *$4, *$6);
+        $$ = new ExternalMethodDefinition($1, *$2, *$4, *$6);
         delete $2;
         delete $4;
         delete $6;
       }
   ;
 
-external_static_method_declaration
+external_static_method_definition
   : TSTATIC type_specifier TIDENTIFIER '(' method_declaration_arguments ')' method_exceptions ';'
       {
-        $$ = new ExternalStaticMethodDeclaration($2, *$3, *$5, *$7);
+        $$ = new ExternalStaticMethodDefinition($2, *$3, *$5, *$7);
         delete $3;
         delete $5;
         delete $7;
@@ -849,8 +849,8 @@ external_object_element_declaration_list
 external_object_element_declaration
   : constant_declaration
   | field_declaration
-  | external_method_declaration
-  | external_static_method_declaration
+  | external_method_definition
+  | external_static_method_definition
   ;
 
 constant_declaration
@@ -1022,7 +1022,7 @@ method_definition
   : access_specifier type_specifier TIDENTIFIER '(' method_declaration_arguments ')'
       method_exceptions compound_statement
     {
-      $$ = new MethodDeclaration($1, $2, *$3, *$5, *$7, $8, yylineno);
+      $$ = new MethodDefinition($1, $2, *$3, *$5, *$7, $8, yylineno);
       delete $3;
       delete $5;
       delete $7;
@@ -1033,7 +1033,7 @@ static_method_definition
   : access_specifier TSTATIC type_specifier TIDENTIFIER '(' method_declaration_arguments ')'
       method_exceptions compound_statement
     {
-      $$ = new StaticMethodDeclaration($1, $3, *$4, *$6, *$8, $9, yylineno);
+      $$ = new StaticMethodDefinition($1, $3, *$4, *$6, *$8, $9, yylineno);
       delete $4;
       delete $6;
       delete $8;
@@ -1045,7 +1045,7 @@ interface_static_method_definition
       method_exceptions compound_statement
     {
       AccessLevel accessLevel = AccessLevel::PUBLIC_ACCESS;
-      $$ = new StaticMethodDeclaration(accessLevel, $2, *$3, *$5, *$7, $8, yylineno);
+      $$ = new StaticMethodDefinition(accessLevel, $2, *$3, *$5, *$7, $8, yylineno);
       delete $3;
       delete $5;
       delete $7;

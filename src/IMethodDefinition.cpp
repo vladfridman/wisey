@@ -1,19 +1,19 @@
 //
-//  IMethodDeclaration.cpp
+//  IMethodDefinition.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 9/28/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/IMethodDeclaration.hpp"
+#include "wisey/IMethodDefinition.hpp"
 #include "wisey/Names.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-vector<MethodArgument*> IMethodDeclaration::createArgumnetList(IRGenerationContext& context,
+vector<MethodArgument*> IMethodDefinition::createArgumnetList(IRGenerationContext& context,
                                                                VariableList argumentDefinitions) {
   vector<MethodArgument*> arguments;
   
@@ -29,7 +29,7 @@ vector<MethodArgument*> IMethodDeclaration::createArgumnetList(IRGenerationConte
   return arguments;
 }
 
-vector<const Model*> IMethodDeclaration::createExceptionList(IRGenerationContext& context,
+vector<const Model*> IMethodDefinition::createExceptionList(IRGenerationContext& context,
                                                              vector<IModelTypeSpecifier*>
                                                              thrownExceptions) {
   vector<const Model*> exceptions;

@@ -1,11 +1,11 @@
 //
-//  TestStaticMethodDeclaration.cpp
+//  TestStaticMethodDefinition.cpp
 //  runtests
 //
 //  Created by Vladimir Fridman on 9/29/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link StaticMethodDeclaration}
+//  Tests {@link StaticMethodDefinition}
 //
 
 #include <gtest/gtest.h>
@@ -19,7 +19,7 @@
 #include "wisey/MethodArgument.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/StaticMethodDeclaration.hpp"
+#include "wisey/StaticMethodDefinition.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
 using namespace llvm;
@@ -28,7 +28,7 @@ using namespace wisey;
 
 using ::testing::Test;
 
-struct StaticMethodDeclarationTest : Test {
+struct StaticMethodDefinitionTest : Test {
   IRGenerationContext mContext;
   const PrimitiveTypeSpecifier* mFloatTypeSpecifier;
   const PrimitiveTypeSpecifier* mIntTypeSpecifier;
@@ -40,7 +40,7 @@ struct StaticMethodDeclarationTest : Test {
   Block* mBlock;
   CompoundStatement* mCompoundStatement;
   
-  StaticMethodDeclarationTest() :
+  StaticMethodDefinitionTest() :
   mFloatTypeSpecifier(PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier()),
   mIntTypeSpecifier(PrimitiveTypes::INT_TYPE->newTypeSpecifier()),
   mIntArgumentIdentifier(new Identifier("intargument")),
@@ -53,11 +53,11 @@ struct StaticMethodDeclarationTest : Test {
   }
 };
 
-TEST_F(StaticMethodDeclarationTest, methodDescriptorExtractTest) {
+TEST_F(StaticMethodDefinitionTest, methodDescriptorExtractTest) {
   mArguments.push_back(mIntArgument);
   mArguments.push_back(mFloatArgument);
   vector<IModelTypeSpecifier*> thrownExceptions;
-  StaticMethodDeclaration methodDeclaration(AccessLevel::PUBLIC_ACCESS,
+  StaticMethodDefinition methodDeclaration(AccessLevel::PUBLIC_ACCESS,
                                             PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(),
                                             "foo",
                                             mArguments,

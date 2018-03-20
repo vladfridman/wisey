@@ -22,7 +22,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
-#include "wisey/MethodDeclaration.hpp"
+#include "wisey/MethodDefinition.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramPrefix.hpp"
 #include "wisey/ReturnStatement.hpp"

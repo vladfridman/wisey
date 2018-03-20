@@ -14,7 +14,7 @@
 
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/ExternalMethodDeclaration.hpp"
+#include "wisey/ExternalMethodDefinition.hpp"
 #include "wisey/ExternalModelDefinition.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/FixedFieldDeclaration.hpp"
@@ -33,7 +33,7 @@ using ::testing::Test;
 struct ExternalModelDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  ExternalMethodDeclaration* mMethodDeclaration;
+  ExternalMethodDefinition* mMethodDefinition;
   vector<IObjectElementDefinition*> mElementDeclarations;
   string mPackage = "systems.vos.wisey.compiler.tests";
   
@@ -49,7 +49,7 @@ struct ExternalModelDefinitionTest : public Test {
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
     vector<IModelTypeSpecifier*> thrownExceptions;
-    mMethodDeclaration = new ExternalMethodDeclaration(floatTypeSpecifier,
+    mMethodDefinition = new ExternalMethodDefinition(floatTypeSpecifier,
                                                        "foo",
                                                        methodArguments,
                                                        thrownExceptions);
@@ -64,7 +64,7 @@ TEST_F(ExternalModelDefinitionTest, prototypeObjectTest) {
   FixedFieldDeclaration* field2 = new FixedFieldDeclaration(floatType, "field2");
   mElementDeclarations.push_back(field1);
   mElementDeclarations.push_back(field2);
-  mElementDeclarations.push_back(mMethodDeclaration);
+  mElementDeclarations.push_back(mMethodDefinition);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
   PackageType* packageType = new PackageType(mPackage);
@@ -93,7 +93,7 @@ TEST_F(ExternalModelDefinitionTest, prototypeMethodsTest) {
   FixedFieldDeclaration* field2 = new FixedFieldDeclaration(floatType, "field2");
   mElementDeclarations.push_back(field1);
   mElementDeclarations.push_back(field2);
-  mElementDeclarations.push_back(mMethodDeclaration);
+  mElementDeclarations.push_back(mMethodDefinition);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
   PackageType* packageType = new PackageType(mPackage);

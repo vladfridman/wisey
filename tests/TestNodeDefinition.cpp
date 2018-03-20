@@ -23,7 +23,7 @@
 #include "wisey/InjectedFieldDeclaration.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/MethodArgument.hpp"
-#include "wisey/MethodDeclaration.hpp"
+#include "wisey/MethodDefinition.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
@@ -45,7 +45,7 @@ using ::testing::Test;
 struct NodeDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  MethodDeclaration *mMethodDeclaration;
+  MethodDefinition *mMethodDefinition;
   vector<IObjectElementDefinition*> mObjectElements;
   Block* mBlock;
   NiceMock<MockStatement>* mMockStatement;
@@ -75,7 +75,7 @@ struct NodeDefinitionTest : public Test {
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
     vector<IModelTypeSpecifier*> thrownExceptions;
-    mMethodDeclaration = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
+    mMethodDefinition = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                                floatTypeSpecifier,
                                                "foo",
                                                methodArguments,
@@ -95,7 +95,7 @@ TEST_F(NodeDefinitionTest, prototypeObjectTest) {
   FixedFieldDeclaration* field2 = new FixedFieldDeclaration(floatType, "field2");
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
-  mObjectElements.push_back(mMethodDeclaration);
+  mObjectElements.push_back(mMethodDefinition);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
   PackageType* packageType = new PackageType(mPackage);
@@ -124,7 +124,7 @@ TEST_F(NodeDefinitionTest, prototypeMethodsTest) {
   FixedFieldDeclaration* field2 = new FixedFieldDeclaration(floatType, "field2");
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
-  mObjectElements.push_back(mMethodDeclaration);
+  mObjectElements.push_back(mMethodDefinition);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
   PackageType* packageType = new PackageType(mPackage);
@@ -152,7 +152,7 @@ TEST_F(NodeDefinitionTest, generateIRTest) {
   FixedFieldDeclaration* field2 = new FixedFieldDeclaration(floatType, "field2");
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
-  mObjectElements.push_back(mMethodDeclaration);
+  mObjectElements.push_back(mMethodDefinition);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
   PackageType* packageType = new PackageType(mPackage);
@@ -226,7 +226,7 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
   vector<IInterfaceTypeSpecifier*> interfaces;
   interfaces.push_back(new InterfaceTypeSpecifier(NULL, "IMyInterface"));
 
-  mObjectElements.push_back(mMethodDeclaration);
+  mObjectElements.push_back(mMethodDefinition);
 
   packageType = new PackageType(mPackage);
   packageExpression = new FakeExpression(NULL, packageType);
@@ -265,7 +265,7 @@ TEST_F(NodeDefinitionTest, interfaceNotDefinedDeathTest) {
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   interfaces.push_back(new InterfaceTypeSpecifier(packageExpression, "IMyInterface"));
   
-  mObjectElements.push_back(mMethodDeclaration);
+  mObjectElements.push_back(mMethodDefinition);
 
   packageType = new PackageType(mPackage);
   packageExpression = new FakeExpression(NULL, packageType);
@@ -291,7 +291,7 @@ TEST_F(NodeDefinitionTest, nodeWithInjectedFieldDeathTest) {
   FixedFieldDeclaration* field2 = new FixedFieldDeclaration(floatType, "field2");
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
-  mObjectElements.push_back(mMethodDeclaration);
+  mObjectElements.push_back(mMethodDefinition);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
   PackageType* packageType = new PackageType(mPackage);

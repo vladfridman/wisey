@@ -13,7 +13,7 @@
 #include "wisey/IConcreteObjectDefinition.hpp"
 #include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IObjectElementDefinition.hpp"
-#include "wisey/MethodDeclaration.hpp"
+#include "wisey/MethodDefinition.hpp"
 #include "wisey/StateFieldDeclaration.hpp"
 #include "wisey/ThreadTypeSpecifierFull.hpp"
 
@@ -57,10 +57,10 @@ namespace wisey {
     
   private:
     
-    static MethodDeclaration* createStartMethodDeclaration(IRGenerationContext& context,
+    static MethodDefinition* createStartMethodDefinition(IRGenerationContext& context,
                                                            const Thread* thread);
     
-    static MethodDeclaration* createSendMethodDeclaration(IRGenerationContext& context,
+    static MethodDefinition* createSendMethodDefinition(IRGenerationContext& context,
                                                           const Thread* thread);
     
     static StateFieldDeclaration* createNativeThreadHandleField(IRGenerationContext& context);
