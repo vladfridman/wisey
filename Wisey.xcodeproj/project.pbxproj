@@ -889,6 +889,9 @@
 		F5D4660020611A4B00C1047A /* TestLLVMFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D465FF20611A4B00C1047A /* TestLLVMFunction.cpp */; };
 		F5D4660220611BEF00C1047A /* TestLLVMFunctionDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D4660120611BEF00C1047A /* TestLLVMFunctionDefinition.cpp */; };
 		F5D4660420611DA000C1047A /* TestLLVMVariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D4660320611DA000C1047A /* TestLLVMVariableDeclaration.cpp */; };
+		F5D466072061318F00C1047A /* ParameterNativeVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D466062061318F00C1047A /* ParameterNativeVariable.cpp */; };
+		F5D466082061318F00C1047A /* ParameterNativeVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D466062061318F00C1047A /* ParameterNativeVariable.cpp */; };
+		F5D4660A2061330C00C1047A /* TestParameterNativeVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D466092061330C00C1047A /* TestParameterNativeVariable.cpp */; };
 		F5E209281E0779D100E1A147 /* VariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */; };
 		F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */; };
 		F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */; };
@@ -1796,6 +1799,9 @@
 		F5D465FF20611A4B00C1047A /* TestLLVMFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMFunction.cpp; path = tests/TestLLVMFunction.cpp; sourceTree = "<group>"; };
 		F5D4660120611BEF00C1047A /* TestLLVMFunctionDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMFunctionDefinition.cpp; path = tests/TestLLVMFunctionDefinition.cpp; sourceTree = "<group>"; };
 		F5D4660320611DA000C1047A /* TestLLVMVariableDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMVariableDeclaration.cpp; path = tests/TestLLVMVariableDeclaration.cpp; sourceTree = "<group>"; };
+		F5D466052061316100C1047A /* ParameterNativeVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ParameterNativeVariable.hpp; path = include/wisey/ParameterNativeVariable.hpp; sourceTree = "<group>"; };
+		F5D466062061318F00C1047A /* ParameterNativeVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ParameterNativeVariable.cpp; path = src/ParameterNativeVariable.cpp; sourceTree = "<group>"; };
+		F5D466092061330C00C1047A /* TestParameterNativeVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestParameterNativeVariable.cpp; path = tests/TestParameterNativeVariable.cpp; sourceTree = "<group>"; };
 		F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VariableDeclaration.cpp; path = src/VariableDeclaration.cpp; sourceTree = "<group>"; };
 		F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestVariableDeclaration.cpp; path = tests/TestVariableDeclaration.cpp; sourceTree = "<group>"; };
 		F5E2092F1E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PrimitiveTypeSpecifier.cpp; path = src/PrimitiveTypeSpecifier.cpp; sourceTree = "<group>"; };
@@ -2738,6 +2744,7 @@
 				F5089C851ECD01D9004A1223 /* LocalReferenceVariable.hpp */,
 				F513DDFF2018682E001A075B /* ParameterArrayOwnerVariable.hpp */,
 				F513DE052018A0A7001A075B /* ParameterArrayReferenceVariable.hpp */,
+				F5D466052061316100C1047A /* ParameterNativeVariable.hpp */,
 				F5A363451F3724EF005880B3 /* ParameterOwnerVariable.hpp */,
 				F5F435C71FACA10A0097E5D0 /* ParameterPrimitiveVariable.hpp */,
 				F53A2C171EF85D5B00E76A9E /* ParameterReferenceVariable.hpp */,
@@ -2764,6 +2771,7 @@
 				F50427AB1E4D2747001CB148 /* LocalReferenceVariable.cpp */,
 				F513DE0020186900001A075B /* ParameterArrayOwnerVariable.cpp */,
 				F513DE062018A0F7001A075B /* ParameterArrayReferenceVariable.cpp */,
+				F5D466062061318F00C1047A /* ParameterNativeVariable.cpp */,
 				F5A363461F37257C005880B3 /* ParameterOwnerVariable.cpp */,
 				F5F435C81FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp */,
 				F53A2C181EF85DF000E76A9E /* ParameterReferenceVariable.cpp */,
@@ -3326,6 +3334,7 @@
 				F50427B01E4DD621001CB148 /* TestLocalReferenceVariable.cpp */,
 				F513DE0320186CFC001A075B /* TestParameterArrayOwnerVariable.cpp */,
 				F513DE092018AA3E001A075B /* TestParameterArrayReferenceVariable.cpp */,
+				F5D466092061330C00C1047A /* TestParameterNativeVariable.cpp */,
 				F5A363491F373FFE005880B3 /* TestParameterOwnerVariable.cpp */,
 				F5F435CB1FACA32A0097E5D0 /* TestParameterPrimitiveVariable.cpp */,
 				F53A2C1B1EF92D8300E76A9E /* TestParameterReferenceVariable.cpp */,
@@ -4002,6 +4011,7 @@
 				F57780AE1EC7CC7B0049542D /* BindAction.cpp in Sources */,
 				F54B14352059015F0030773F /* TestIdentifierReference.cpp in Sources */,
 				F5CB7F632050FBF4007628B5 /* NativeType.cpp in Sources */,
+				F5D466082061318F00C1047A /* ParameterNativeVariable.cpp in Sources */,
 				F5E270751F98FFA9008D2EB7 /* ConstantDefinition.cpp in Sources */,
 				F5A363441F33D08F005880B3 /* TestLocalOwnerVariable.cpp in Sources */,
 				F50FA3001E323AAD00435EEA /* Scopes.cpp in Sources */,
@@ -4067,6 +4077,7 @@
 				F59497011F546CED0002F14F /* TestInstanceOf.cpp in Sources */,
 				F52C66671FBF446400E89B04 /* AdjustReferenceCounterForInterfaceFunction.cpp in Sources */,
 				F5C6FD791E48B59C0054209D /* TestDoubleType.cpp in Sources */,
+				F5D4660A2061330C00C1047A /* TestParameterNativeVariable.cpp in Sources */,
 				F53401061DFEDB620002BF7E /* TestFileSampleRunner.cpp in Sources */,
 				F582707E20600ECD00839EC7 /* LLVMFunctionDeclaration.cpp in Sources */,
 				F5D465FE2061121000C1047A /* LLVMVariableDeclaration.cpp in Sources */,
@@ -4307,6 +4318,7 @@
 				F5436DB61FCF72CE003ABF6F /* NodeTypeSpecifierFull.cpp in Sources */,
 				F582707D20600ECD00839EC7 /* LLVMFunctionDeclaration.cpp in Sources */,
 				F5A67DA92012DBEB0018068F /* ArrayElementAssignment.cpp in Sources */,
+				F5D466072061318F00C1047A /* ParameterNativeVariable.cpp in Sources */,
 				F5601F3A1EB39B4400C9E2D8 /* IRWriter.cpp in Sources */,
 				F57E2E281E82D6E300FE1DB9 /* BooleanNotExpression.cpp in Sources */,
 				F539147A1FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp in Sources */,

@@ -15,7 +15,7 @@
 #include "wisey/LLVMPointerPointerType.hpp"
 #include "wisey/LLVMPointerType.hpp"
 #include "wisey/LocalNativeVariable.hpp"
-#include "wisey/PointerType.hpp"
+#include "wisey/ParameterNativeVariable.hpp"
 
 using namespace std;
 using namespace wisey;
@@ -121,9 +121,10 @@ void LLVMPointerType::createFieldVariable(IRGenerationContext& context,
 }
 
 void LLVMPointerType::createParameterVariable(IRGenerationContext& context,
-                                          string name,
-                                          llvm::Value* value) const {
-  assert(false);
+                                              string name,
+                                              llvm::Value* value) const {
+  IVariable* variable = new ParameterNativeVariable(name, this, value);
+  context.getScopes().setVariable(variable);
 }
 
 const wisey::ArrayType* LLVMPointerType::getArrayType(IRGenerationContext& context) const {

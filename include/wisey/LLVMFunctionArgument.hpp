@@ -26,9 +26,9 @@ namespace wisey {
     
     ~LLVMFunctionArgument() { }
     
-    const ILLVMType* getType() { return mType; }
+    const ILLVMType* getType() const { return mType; }
     
-    std::string getName() { return mName; }
+    std::string getName() const { return mName; }
   };
   
 } /* namespace wisey */

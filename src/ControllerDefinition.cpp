@@ -85,6 +85,7 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
   IConcreteObjectType::generateStaticMethodsIR(context, controller);
   IConcreteObjectType::declareFieldVariables(context, controller);
   IConcreteObjectType::generateMethodsIR(context, controller);
+  IConcreteObjectType::generateLLVMFunctionsIR(context, controller);
   IConcreteObjectType::scheduleDestructorBodyComposition(context, controller);
   IConcreteObjectType::composeInterfaceMapFunctions(context, controller);
 

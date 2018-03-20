@@ -246,6 +246,18 @@ namespace wisey {
     static void generateConstantsIR(IRGenerationContext& context, const IConcreteObjectType* object);
     
     /**
+     * Generates llvm function declarations
+     */
+    static void declareLLVMFunctions(IRGenerationContext& context,
+                                     const IConcreteObjectType* object);
+    
+    /**
+     * Generates llvm functions' bodies
+     */
+    static void generateLLVMFunctionsIR(IRGenerationContext& context,
+                                        const IConcreteObjectType* object);
+    
+    /**
      * Print the given object to the given stream
      */
     static void printObjectToStream(IRGenerationContext& context,

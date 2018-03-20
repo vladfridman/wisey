@@ -44,6 +44,7 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
   
   IConcreteObjectType::generateShortNameGlobal(context, object);
   IConcreteObjectType::generateNameGlobal(context, object);
+  IConcreteObjectType::declareLLVMFunctions(context, object);
   IConcreteObjectType::generateVTable(context, object);
   IConcreteObjectType::generateConstantsIR(context, object);
 }

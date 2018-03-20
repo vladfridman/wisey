@@ -23,7 +23,7 @@ namespace wisey {
     std::string mName;
     const ILLVMType* mReturnType;
     std::vector<const LLVMFunctionArgument*> mArguments;
-    CompoundStatement* mComoundStatement;
+    CompoundStatement* mCompoundStatement;
     int mLine;
     
   public:
@@ -31,15 +31,20 @@ namespace wisey {
     LLVMFunction(std::string name,
                  const ILLVMType* returnType,
                  std::vector<const LLVMFunctionArgument*> arguments,
-                 CompoundStatement* comoundStatement,
+                 CompoundStatement* compoundStatement,
                  int line);
 
     ~LLVMFunction();
     
     /**
-     * Generates IR defining llvm function
+     * Declares llvm function
      */
-    llvm::Value* generateIR(IRGenerationContext& context, const IObjectType* objectType) const;
+    llvm::Value* declareFunction(IRGenerationContext& context, const IObjectType* objectType) const;
+
+    /**
+     * Generates llvm function body IR code
+     */
+    void generateBodyIR(IRGenerationContext& context, const IObjectType* objectType) const;
     
     bool isConstant() const override;
     
@@ -52,6 +57,12 @@ namespace wisey {
     bool isMethodSignature() const override;
     
     bool isLLVMFunction() const override;
+
+  private:
+    
+    void createArguments(IRGenerationContext& context, llvm::Function* function) const;
+    
+    void maybeAddImpliedVoidReturn(IRGenerationContext& context, int line) const;
 
   };
   

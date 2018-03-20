@@ -27,6 +27,7 @@
 #include "wisey/InterfaceOwner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LLVMFunction.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/ObjectBuilder.hpp"
@@ -495,6 +496,20 @@ void IConcreteObjectType::generateConstantsIR(IRGenerationContext& context,
                                               const IConcreteObjectType* object) {
   for (Constant* constant : object->getConstants()) {
     constant->generateIR(context, object);
+  }
+}
+
+void IConcreteObjectType::declareLLVMFunctions(IRGenerationContext& context,
+                                               const IConcreteObjectType* object) {
+  for (LLVMFunction* llvmFunction : object->getLLVMFunctions()) {
+    llvmFunction->declareFunction(context, object);
+  }
+}
+
+void IConcreteObjectType::generateLLVMFunctionsIR(IRGenerationContext& context,
+                                                  const IConcreteObjectType* object) {
+  for (LLVMFunction* llvmFunction : object->getLLVMFunctions()) {
+    llvmFunction->generateBodyIR(context, object);
   }
 }
 
