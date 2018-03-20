@@ -73,6 +73,5 @@ TEST_F(LLVMFunctionDeclarationTest, prototypeMethodsTest) {
 }
 
 TEST_F(TestFileSampleRunner, LLVMFunctionDeclarationTest) {
-  compileFile("tests/samples/llvm_function_definition.yz");
+  compileFile("tests/samples/test_llvm_function_declaration.yz");
 }
-

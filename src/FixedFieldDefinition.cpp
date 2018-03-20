@@ -47,3 +47,7 @@ bool FixedFieldDefinition::isMethodSignature() const {
   return false;
 }
 
+bool FixedFieldDefinition::isLLVMFunction() const {
+  return false;
+}
+

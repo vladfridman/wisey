@@ -34,6 +34,7 @@ public:
   MOCK_CONST_METHOD1(findMethod, wisey::IMethod* (std::string));
   MOCK_CONST_METHOD0(getMethods, std::vector<wisey::IMethod*> ());
   MOCK_CONST_METHOD0(getConstants, std::vector<wisey::Constant*> ());
+  MOCK_CONST_METHOD0(getLLVMFunctions, std::vector<wisey::LLVMFunction*> ());
 
   MOCK_CONST_METHOD0(getObjectNameGlobalVariableName, std::string ());
   MOCK_CONST_METHOD0(getObjectShortNameGlobalVariableName, std::string ());
@@ -66,6 +67,7 @@ public:
   MOCK_METHOD1(setMethods, void (std::vector<wisey::IMethod*>));
   MOCK_METHOD1(setStructBodyTypes, void (std::vector<llvm::Type*>));
   MOCK_METHOD1(setConstants, void (std::vector<wisey::Constant*>));
+  MOCK_METHOD1(setLLVMFunctions, void (std::vector<wisey::LLVMFunction*>));
   MOCK_METHOD1(setImportProfile, void (wisey::ImportProfile*));
   MOCK_CONST_METHOD0(getImportProfile, wisey::ImportProfile* ());
   MOCK_CONST_METHOD2(incrementReferenceCount, void (wisey::IRGenerationContext&, llvm::Value*));

@@ -58,6 +58,8 @@ namespace wisey {
     
     bool isMethodSignature() const override;
     
+    bool isLLVMFunction() const override;
+
     bool isFixed() const override;
     
     bool isInjected() const override;

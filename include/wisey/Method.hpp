@@ -73,6 +73,8 @@ namespace wisey {
     
     bool isMethodSignature() const override;
     
+    bool isLLVMFunction() const override;
+
     std::string getTypeName() const override;
     
     llvm::FunctionType* getLLVMType(IRGenerationContext& context) const override;

@@ -69,6 +69,10 @@ bool InjectedField::isMethodSignature() const {
   return false;
 }
 
+bool InjectedField::isLLVMFunction() const {
+  return false;
+}
+
 bool InjectedField::isFixed() const {
   return false;
 }

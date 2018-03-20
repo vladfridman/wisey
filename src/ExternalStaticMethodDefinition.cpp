@@ -65,3 +65,7 @@ bool ExternalStaticMethodDefinition::isStaticMethod() const {
 bool ExternalStaticMethodDefinition::isMethodSignature() const {
   return false;
 }
+
+bool ExternalStaticMethodDefinition::isLLVMFunction() const {
+  return false;
+}

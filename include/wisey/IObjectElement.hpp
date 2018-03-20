@@ -33,6 +33,8 @@ namespace wisey {
     
     virtual bool isMethodSignature() const = 0;
     
+    virtual bool isLLVMFunction() const = 0;
+
   };
   
 } /* namespace wisey */

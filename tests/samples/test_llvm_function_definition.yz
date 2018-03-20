@@ -1,0 +1,7 @@
+package systems.vos.wisey.compiler.tests;
+
+controller CService {
+  ::llvm::function ::llvm::i8* myfunction(::llvm::i8* argument) {
+    return argument;
+  }
+}

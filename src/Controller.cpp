@@ -21,6 +21,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
+#include "wisey/LLVMFunction.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Names.hpp"
@@ -68,6 +69,10 @@ Controller::~Controller() {
   mConstants.clear();
   mNameToConstantMap.clear();
   mInnerObjects.clear();
+  for (LLVMFunction* llvmFunction : mLLVMFunctions) {
+    delete llvmFunction;
+  }
+  mLLVMFunctions.clear();
 }
 
 Controller* Controller::newController(AccessLevel accessLevel,
@@ -132,6 +137,14 @@ void Controller::setConstants(vector<Constant*> constants) {
 
 vector<wisey::Constant*> Controller::getConstants() const {
   return mConstants;
+}
+
+void Controller::setLLVMFunctions(vector<LLVMFunction*> llvmFunctions) {
+  mLLVMFunctions = llvmFunctions;
+}
+
+vector<LLVMFunction*> Controller::getLLVMFunctions() const {
+  return mLLVMFunctions;
 }
 
 wisey::Constant* Controller::findConstant(string constantName) const {

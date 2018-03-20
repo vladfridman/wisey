@@ -48,3 +48,7 @@ bool ReceivedFieldDefinition::isMethodSignature() const {
   return false;
 }
 
+bool ReceivedFieldDefinition::isLLVMFunction() const {
+  return false;
+}
+

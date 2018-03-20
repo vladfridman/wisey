@@ -21,7 +21,7 @@
 namespace wisey {
   
   /**
-   * Represents a static method declaration with an external implemention
+   * Represents a static method definition with an external implemention
    */
   class ExternalStaticMethodDefinition : public IMethodDefinition {
     const ITypeSpecifier* mReturnTypeSpecifier;
@@ -51,6 +51,8 @@ namespace wisey {
     
     bool isMethodSignature() const override;
     
+    bool isLLVMFunction() const override;
+
   };
   
 } /* namespace wisey */

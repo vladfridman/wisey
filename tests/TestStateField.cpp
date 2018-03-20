@@ -69,6 +69,7 @@ TEST_F(StateFieldTest, elementTypeTest) {
   EXPECT_FALSE(field.isMethod());
   EXPECT_FALSE(field.isStaticMethod());
   EXPECT_FALSE(field.isMethodSignature());
+  EXPECT_FALSE(field.isLLVMFunction());
 }
 
 TEST_F(StateFieldTest, fieldPrintToStreamTest) {

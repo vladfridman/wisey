@@ -235,6 +235,10 @@ bool Method::isMethodSignature() const {
   return false;
 }
 
+bool Method::isLLVMFunction() const {
+  return false;
+}
+
 const IObjectType* Method::getObjectType() const {
   return mObjectType;
 }

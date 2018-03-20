@@ -63,6 +63,8 @@ namespace wisey {
     
     bool isMethodSignature() const override;
     
+    bool isLLVMFunction() const override;
+
   };
   
 } /* namespace wisey */

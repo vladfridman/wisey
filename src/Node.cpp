@@ -14,6 +14,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
+#include "wisey/LLVMFunction.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Names.hpp"
@@ -59,6 +60,10 @@ Node::~Node() {
   mConstants.clear();
   mNameToConstantMap.clear();
   mInnerObjects.clear();
+  for (LLVMFunction* llvmFunction : mLLVMFunctions) {
+    delete llvmFunction;
+  }
+  mLLVMFunctions.clear();
 }
 
 Node* Node::newNode(AccessLevel accessLevel, string name, StructType* structType) {
@@ -142,6 +147,14 @@ wisey::Constant* Node::findConstant(string constantName) const {
 
 vector<wisey::Constant*> Node::getConstants() const {
   return mConstants;
+}
+
+void Node::setLLVMFunctions(vector<LLVMFunction*> llvmFunctions) {
+  mLLVMFunctions = llvmFunctions;
+}
+
+vector<LLVMFunction*> Node::getLLVMFunctions() const {
+  return mLLVMFunctions;
 }
 
 IField* Node::findField(string fieldName) const {

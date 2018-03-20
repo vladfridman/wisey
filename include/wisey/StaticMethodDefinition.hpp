@@ -19,7 +19,7 @@
 namespace wisey {
   
   /**
-   * Represents a concrete object's static method declaration.
+   * Represents a concrete object's static method definition.
    *
    * Static method does not have access to object instance
    */
@@ -56,6 +56,8 @@ namespace wisey {
     
     bool isMethodSignature() const override;
     
+    bool isLLVMFunction() const override;
+
   };
   
 } /* namespace wisey */

@@ -50,6 +50,10 @@ bool ReceivedField::isMethodSignature() const {
   return false;
 }
 
+bool ReceivedField::isLLVMFunction() const {
+  return false;
+}
+
 bool ReceivedField::isFixed() const {
   return false;
 }

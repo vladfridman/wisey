@@ -87,6 +87,10 @@ bool ExternalMethod::isMethodSignature() const {
   return false;
 }
 
+bool ExternalMethod::isLLVMFunction() const {
+  return false;
+}
+
 string ExternalMethod::getTypeName() const {
   return mObjectType->getTypeName() + "." + getName();
 }

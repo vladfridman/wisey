@@ -49,18 +49,19 @@ TEST_F(ExternalMethodDefinitionTest, methodDescriptorExtractTest) {
   mArguments.push_back(mFloatArgument);
   vector<IModelTypeSpecifier*> thrownExceptions;
   const PrimitiveTypeSpecifier* floatTypeSpecifier = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
-  ExternalMethodDefinition methodDeclaration(floatTypeSpecifier,
-                                              "foo",
-                                              mArguments,
-                                              thrownExceptions);
-  IMethod* method = methodDeclaration.define(mContext, NULL);
+  ExternalMethodDefinition methodDefinition(floatTypeSpecifier,
+                                            "foo",
+                                            mArguments,
+                                            thrownExceptions);
+  IMethod* method = methodDefinition.define(mContext, NULL);
   vector<MethodArgument*> arguments = method->getArguments();
 
-  EXPECT_FALSE(methodDeclaration.isConstant());
-  EXPECT_FALSE(methodDeclaration.isField());
-  EXPECT_TRUE(methodDeclaration.isMethod());
-  EXPECT_FALSE(methodDeclaration.isStaticMethod());
-  EXPECT_FALSE(methodDeclaration.isMethodSignature());
+  EXPECT_FALSE(methodDefinition.isConstant());
+  EXPECT_FALSE(methodDefinition.isField());
+  EXPECT_TRUE(methodDefinition.isMethod());
+  EXPECT_FALSE(methodDefinition.isStaticMethod());
+  EXPECT_FALSE(methodDefinition.isMethodSignature());
+  EXPECT_FALSE(methodDefinition.isLLVMFunction());
 
   EXPECT_STREQ(method->getName().c_str(), "foo");
   EXPECT_FALSE(method->isStatic());

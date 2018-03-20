@@ -46,7 +46,7 @@ MethodDefinition::~MethodDefinition() {
 }
 
 IMethod* MethodDefinition::define(IRGenerationContext& context,
-                                   const IObjectType* objectType) const {
+                                  const IObjectType* objectType) const {
   const IType* returnType = mReturnTypeSpecifier->getType(context);
 
   vector<MethodArgument*> arguments = IMethodDefinition::createArgumnetList(context, mArguments);
@@ -81,3 +81,8 @@ bool MethodDefinition::isStaticMethod() const {
 bool MethodDefinition::isMethodSignature() const {
   return false;
 }
+
+bool MethodDefinition::isLLVMFunction() const {
+  return false;
+}
+

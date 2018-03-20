@@ -76,6 +76,7 @@ TEST_F(ConstantTest, elementTypeTest) {
   EXPECT_FALSE(mConstant->isMethod());
   EXPECT_FALSE(mConstant->isStaticMethod());
   EXPECT_FALSE(mConstant->isMethodSignature());
+  EXPECT_FALSE(mConstant->isLLVMFunction());
 }
 
 TEST_F(ConstantTest, getConstantGlobalNameTest) {

@@ -20,6 +20,7 @@
 namespace wisey {
   
   class Interface;
+  class LLVMFunction;
   
   /**
    * Interface representing a object that has a vTable: controller, node or a model
@@ -155,6 +156,16 @@ namespace wisey {
      */
     virtual std::vector<Constant*> getConstants() const = 0;
     
+    /**
+     * Sets llvm functions defined within this object
+     */
+    virtual void setLLVMFunctions(std::vector<LLVMFunction*> constants) = 0;
+    
+    /**
+     * Returns llvm function defined within this object
+     */
+    virtual std::vector<LLVMFunction*> getLLVMFunctions() const = 0;
+
     /**
      * Generate global variable with the name of the given object
      */

@@ -81,5 +81,5 @@ TEST_F(LLVMStructDefinitionTest, prototypeMethodsTest) {
 }
 
 TEST_F(TestFileSampleRunner, llvmStructDefinitionTest) {
-  compileFile("tests/samples/llvm_struct_definition.yz");
+  compileFile("tests/samples/test_llvm_struct_definition.yz");
 }

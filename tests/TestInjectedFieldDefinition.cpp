@@ -62,6 +62,7 @@ TEST_F(InjectedFieldDefinitionTest, declareTest) {
   EXPECT_FALSE(field->isMethod());
   EXPECT_FALSE(field->isStaticMethod());
   EXPECT_FALSE(field->isMethodSignature());
+  EXPECT_FALSE(field->isLLVMFunction());
 
   EXPECT_EQ(field->getType(), PrimitiveTypes::INT_TYPE);
   EXPECT_STREQ(field->getName().c_str(), "mField");

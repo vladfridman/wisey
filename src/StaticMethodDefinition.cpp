@@ -81,3 +81,7 @@ bool StaticMethodDefinition::isStaticMethod() const {
 bool StaticMethodDefinition::isMethodSignature() const {
   return false;
 }
+
+bool StaticMethodDefinition::isLLVMFunction() const {
+  return false;
+}

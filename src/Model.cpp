@@ -14,6 +14,7 @@
 #include "wisey/Environment.hpp"
 #include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
+#include "wisey/LLVMFunction.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Model.hpp"
@@ -58,6 +59,10 @@ Model::~Model() {
   mConstants.clear();
   mNameToConstantMap.clear();
   mInnerObjects.clear();
+  for (LLVMFunction* llvmFunction : mLLVMFunctions) {
+    delete llvmFunction;
+  }
+  mLLVMFunctions.clear();
 }
 
 Model* Model::newModel(AccessLevel accessLevel, string name, StructType* structType) {
@@ -127,6 +132,14 @@ wisey::Constant* Model::findConstant(string constantName) const {
 
 vector<wisey::Constant*> Model::getConstants() const {
   return mConstants;
+}
+
+void Model::setLLVMFunctions(vector<LLVMFunction*> llvmFunctions) {
+  mLLVMFunctions = llvmFunctions;
+}
+
+vector<LLVMFunction*> Model::getLLVMFunctions() const {
+  return mLLVMFunctions;
 }
 
 IField* Model::findField(string fieldName) const {

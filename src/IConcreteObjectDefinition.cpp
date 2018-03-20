@@ -21,13 +21,14 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
                                                 vector<IInterfaceTypeSpecifier*>
                                                   interfaceSpecifiers) {
   vector<Interface*> interfaces = processInterfaces(context, interfaceSpecifiers);
-  tuple<vector<Constant*>, vector<IField*>, vector<IMethod*>> elements =
+  tuple<vector<Constant*>, vector<IField*>, vector<IMethod*>, vector<LLVMFunction*>> elements =
     createElements(context, object, elementDeclarations);
   object->setFields(get<1>(elements), interfaces.size() + 1);
   object->setInterfaces(interfaces);
   object->setMethods(get<2>(elements));
   object->setConstants(get<0>(elements));
-  
+  object->setLLVMFunctions(get<3>(elements));
+
   vector<llvm::Type*> types;
 
   // reference counter type
@@ -47,13 +48,14 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
   IConcreteObjectType::generateConstantsIR(context, object);
 }
 
-tuple<vector<Constant*>, vector<IField*>, vector<IMethod*>>
+tuple<vector<Constant*>, vector<IField*>, vector<IMethod*>, vector<LLVMFunction*>>
 IConcreteObjectDefinition::createElements(IRGenerationContext& context,
                                           const IConcreteObjectType* concreteObjectType,
                                           vector<IObjectElementDefinition*> elementDeclarations) {
   vector<IField*> fields;
   vector<IMethod*> methods;
   vector<Constant*> constants;
+  vector<LLVMFunction*> llvmFunctions;
   for (IObjectElementDefinition* elementDeclaration : elementDeclarations) {
     IObjectElement* element = elementDeclaration->define(context, concreteObjectType);
     if (element->isConstant()) {
@@ -68,12 +70,14 @@ IConcreteObjectDefinition::createElements(IRGenerationContext& context,
         exit(1);
       }
       fields.push_back((IField*) element);
+    } else if (element->isLLVMFunction()) {
+      llvmFunctions.push_back((LLVMFunction*) element);
     } else {
       methods.push_back((IMethod*) element);
     }
   }
   
-  return make_tuple(constants, fields, methods);
+  return make_tuple(constants, fields, methods, llvmFunctions);
 }
 
 vector<Interface*> IConcreteObjectDefinition::processInterfaces(IRGenerationContext& context,

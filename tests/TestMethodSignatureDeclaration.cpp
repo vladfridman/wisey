@@ -86,6 +86,7 @@ TEST_F(MethodSignatureDeclarationTest, methodDescriptorExtractTest) {
   EXPECT_FALSE(methodSignatureDeclaration.isMethod());
   EXPECT_FALSE(methodSignatureDeclaration.isStaticMethod());
   EXPECT_TRUE(methodSignatureDeclaration.isMethodSignature());
+  EXPECT_FALSE(methodSignatureDeclaration.isLLVMFunction());
 
   EXPECT_STREQ(methodSignature->getName().c_str(), "foo");
   EXPECT_EQ(methodSignature->getReturnType(), PrimitiveTypes::FLOAT_TYPE);

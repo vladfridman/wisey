@@ -57,22 +57,23 @@ TEST_F(StaticMethodDefinitionTest, methodDescriptorExtractTest) {
   mArguments.push_back(mIntArgument);
   mArguments.push_back(mFloatArgument);
   vector<IModelTypeSpecifier*> thrownExceptions;
-  StaticMethodDefinition methodDeclaration(AccessLevel::PUBLIC_ACCESS,
-                                            PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(),
-                                            "foo",
-                                            mArguments,
-                                            thrownExceptions,
-                                            mCompoundStatement,
-                                            0);
-  IMethod* method = methodDeclaration.define(mContext, NULL);
+  StaticMethodDefinition methodDefinition(AccessLevel::PUBLIC_ACCESS,
+                                          PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(),
+                                          "foo",
+                                          mArguments,
+                                          thrownExceptions,
+                                          mCompoundStatement,
+                                          0);
+  IMethod* method = methodDefinition.define(mContext, NULL);
   vector<MethodArgument*> arguments = method->getArguments();
   
-  EXPECT_FALSE(methodDeclaration.isConstant());
-  EXPECT_FALSE(methodDeclaration.isField());
-  EXPECT_FALSE(methodDeclaration.isMethod());
-  EXPECT_TRUE(methodDeclaration.isStaticMethod());
-  EXPECT_FALSE(methodDeclaration.isMethodSignature());
-
+  EXPECT_FALSE(methodDefinition.isConstant());
+  EXPECT_FALSE(methodDefinition.isField());
+  EXPECT_FALSE(methodDefinition.isMethod());
+  EXPECT_TRUE(methodDefinition.isStaticMethod());
+  EXPECT_FALSE(methodDefinition.isMethodSignature());
+  EXPECT_FALSE(methodDefinition.isLLVMFunction());
+  
   EXPECT_TRUE(method->isStatic());
   EXPECT_STREQ(method->getName().c_str(), "foo");
   EXPECT_EQ(method->getReturnType(), PrimitiveTypes::FLOAT_TYPE);

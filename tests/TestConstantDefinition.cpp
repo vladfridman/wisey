@@ -58,6 +58,7 @@ TEST_F(ConstantDefinitionTest, declareTest) {
   EXPECT_FALSE(mConstantDefinition->isMethod());
   EXPECT_FALSE(mConstantDefinition->isStaticMethod());
   EXPECT_FALSE(mConstantDefinition->isMethodSignature());
+  EXPECT_FALSE(mConstantDefinition->isLLVMFunction());
 
   EXPECT_NE(mConstantDefinition->define(mContext, NULL), nullptr);
 }

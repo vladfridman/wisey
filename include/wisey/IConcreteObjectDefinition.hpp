@@ -49,11 +49,12 @@ namespace wisey {
     
   private:
     
-    static std::tuple<std::vector<Constant*>, std::vector<IField*>, std::vector<IMethod*>>
-    createElements(IRGenerationContext& context,
-                   const IConcreteObjectType* concreteObjectType,
-                   std::vector<IObjectElementDefinition*> elementDeclarations);
-    
+    static std::tuple<std::vector<Constant*>, std::vector<IField*>, std::vector<IMethod*>,
+    std::vector<LLVMFunction*>> createElements(IRGenerationContext& context,
+                                               const IConcreteObjectType* concreteObjectType,
+                                               std::vector<IObjectElementDefinition*>
+                                               elementDeclarations);
+
     static std::vector<Interface*> processInterfaces(IRGenerationContext& context,
                                                      std::vector<IInterfaceTypeSpecifier*>
                                                      interfaceSpecifiers);

@@ -68,3 +68,7 @@ bool InjectedFieldDefinition::isStaticMethod() const {
 bool InjectedFieldDefinition::isMethodSignature() const {
   return false;
 }
+
+bool InjectedFieldDefinition::isLLVMFunction() const {
+  return false;
+}

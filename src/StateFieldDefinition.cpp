@@ -46,3 +46,8 @@ bool StateFieldDefinition::isStaticMethod() const {
 bool StateFieldDefinition::isMethodSignature() const {
   return false;
 }
+
+bool StateFieldDefinition::isLLVMFunction() const {
+  return false;
+}
+

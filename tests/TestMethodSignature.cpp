@@ -66,6 +66,7 @@ TEST_F(MethodSignatureTest, elementTypeTest) {
   EXPECT_FALSE(mMethodSignature->isMethod());
   EXPECT_FALSE(mMethodSignature->isStaticMethod());
   EXPECT_TRUE(mMethodSignature->isMethodSignature());
+  EXPECT_FALSE(mMethodSignature->isLLVMFunction());
 }
 
 TEST_F(MethodSignatureTest, createCopyTest) {

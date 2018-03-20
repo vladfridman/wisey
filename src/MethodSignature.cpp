@@ -81,6 +81,10 @@ bool MethodSignature::isMethodSignature() const {
   return true;
 }
 
+bool MethodSignature::isLLVMFunction() const {
+  return false;
+}
+
 string MethodSignature::getTypeName() const {
   return mObjectType->getTypeName() + "." + getName();
 }

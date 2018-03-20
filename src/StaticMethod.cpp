@@ -225,6 +225,10 @@ bool StaticMethod::isMethodSignature() const {
   return false;
 }
 
+bool StaticMethod::isLLVMFunction() const {
+  return false;
+}
+
 const IObjectType* StaticMethod::getObjectType() const {
   return mObjectType;
 }

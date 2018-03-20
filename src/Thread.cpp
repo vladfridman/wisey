@@ -19,6 +19,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
+#include "wisey/LLVMFunction.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Names.hpp"
@@ -68,6 +69,10 @@ Thread::~Thread() {
   mConstants.clear();
   mNameToConstantMap.clear();
   mInnerObjects.clear();
+  for (LLVMFunction* llvmFunction : mLLVMFunctions) {
+    delete llvmFunction;
+  }
+  mLLVMFunctions.clear();
 }
 
 Thread* Thread::newThread(AccessLevel accessLevel,
@@ -140,6 +145,14 @@ wisey::Constant* Thread::findConstant(string constantName) const {
     exit(1);
   }
   return mNameToConstantMap.at(constantName);
+}
+
+void Thread::setLLVMFunctions(vector<LLVMFunction*> llvmFunctions) {
+  mLLVMFunctions = llvmFunctions;
+}
+
+vector<LLVMFunction*> Thread::getLLVMFunctions() const {
+  return mLLVMFunctions;
 }
 
 Instruction* Thread::inject(IRGenerationContext& context,

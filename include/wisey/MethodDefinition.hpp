@@ -19,7 +19,7 @@
 namespace wisey {
   
   /**
-   * Represents a concrete object's method declaration.
+   * Represents a concrete object's method definition.
    *
    * A method contains a coumpound statement that is the body of the method.
    */
@@ -56,6 +56,8 @@ namespace wisey {
     
     bool isMethodSignature() const override;
     
+    bool isLLVMFunction() const override;
+
   };
   
 } /* namespace wisey */

@@ -50,9 +50,9 @@ Value* LocalNativeVariable::generateIdentifierReferenceIR(IRGenerationContext& c
 }
 
 Value* LocalNativeVariable::generateAssignmentIR(IRGenerationContext& context,
-                                                    IExpression* assignToExpression,
-                                                    vector<const IExpression*> arrayIndices,
-                                                    int line) {
+                                                 IExpression* assignToExpression,
+                                                 vector<const IExpression*> arrayIndices,
+                                                 int line) {
   assert(false);
 }
 

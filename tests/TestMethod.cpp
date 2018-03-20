@@ -102,6 +102,7 @@ TEST_F(MethodTest, elementTypeTest) {
   EXPECT_TRUE(mMethod->isMethod());
   EXPECT_FALSE(mMethod->isStaticMethod());
   EXPECT_FALSE(mMethod->isMethodSignature());
+  EXPECT_FALSE(mMethod->isLLVMFunction());
 }
 
 TEST_F(MethodTest, getLLVMTypeTest) {

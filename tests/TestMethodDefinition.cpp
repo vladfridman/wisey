@@ -58,22 +58,23 @@ TEST_F(MethodDefinitionTest, methodDescriptorExtractTest) {
   mArguments.push_back(mIntArgument);
   mArguments.push_back(mFloatArgument);
   vector<IModelTypeSpecifier*> thrownExceptions;
-  MethodDefinition methodDeclaration(AccessLevel::PUBLIC_ACCESS,
-                                      PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(),
-                                      "foo",
-                                      mArguments,
-                                      thrownExceptions,
-                                      mCompoundStatement,
-                                      0);
-  IMethod* method = methodDeclaration.define(mContext, NULL);
+  MethodDefinition methodDefinition(AccessLevel::PUBLIC_ACCESS,
+                                    PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(),
+                                    "foo",
+                                    mArguments,
+                                    thrownExceptions,
+                                    mCompoundStatement,
+                                    0);
+  IMethod* method = methodDefinition.define(mContext, NULL);
   vector<MethodArgument*> arguments = method->getArguments();
   
-  EXPECT_FALSE(methodDeclaration.isConstant());
-  EXPECT_FALSE(methodDeclaration.isField());
-  EXPECT_TRUE(methodDeclaration.isMethod());
-  EXPECT_FALSE(methodDeclaration.isStaticMethod());
-  EXPECT_FALSE(methodDeclaration.isMethodSignature());
-
+  EXPECT_FALSE(methodDefinition.isConstant());
+  EXPECT_FALSE(methodDefinition.isField());
+  EXPECT_TRUE(methodDefinition.isMethod());
+  EXPECT_FALSE(methodDefinition.isStaticMethod());
+  EXPECT_FALSE(methodDefinition.isMethodSignature());
+  EXPECT_FALSE(methodDefinition.isLLVMFunction());
+  
   EXPECT_FALSE(method->isStatic());
   EXPECT_STREQ(method->getName().c_str(), "foo");
   EXPECT_EQ(method->getReturnType(), PrimitiveTypes::FLOAT_TYPE);
@@ -95,3 +96,4 @@ TEST_F(TestFileSampleRunner, methodDecalarationImpliedReturnRunTest) {
 TEST_F(TestFileSampleRunner, methodDecalarationMultipleParametersRunTest) {
   runFile("tests/samples/test_method_multiple_arguments.yz", "6");
 }
+

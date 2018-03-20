@@ -71,11 +71,13 @@
   #include "wisey/ITypeSpecifier.hpp"
   #include "wisey/LLVMArrayTypeSpecifer.hpp"
   #include "wisey/LLVMFunctionDeclaration.hpp"
+  #include "wisey/LLVMFunctionDefinition.hpp"
   #include "wisey/LLVMFunctionTypeSpecifier.hpp"
   #include "wisey/LLVMPointerTypeSpecifier.hpp"
   #include "wisey/LLVMPrimitiveTypes.hpp"
   #include "wisey/LLVMStructDefinition.hpp"
   #include "wisey/LLVMStructSpecifier.hpp"
+  #include "wisey/LLVMVariableDeclaration.hpp"
   #include "wisey/Log.hpp"
   #include "wisey/LogicalAndExpression.hpp"
   #include "wisey/LogicalOrExpression.hpp"
@@ -188,6 +190,8 @@
   std::list<const wisey::IExpression*>* list_of_const_expressions;
   std::list<unsigned long>* list_of_ulongs;
   std::vector<const wisey::ILLVMTypeSpecifier*>* llvm_type_specifier_list;
+  std::vector<wisey::LLVMVariableDeclaration*>* llvm_variable_vector;
+  wisey::LLVMVariableDeclaration* llvm_variable_declaration;
   std::string* string;
   unsigned long unsignedlong;
   int token;
@@ -222,7 +226,7 @@
 %type <expression> cast_expression primary_expression assignment unary_expression
 %type <expression> type_comparision_expression injection array_allocation static_array_allocation
 %type <expression> thread_expression constant_reference static_method_call field_identifier
-%type <variable_vector> method_declaration_arguments
+%type <variable_vector> method_definition_arguments
 %type <expression_vector> call_arguments string_concatenation_list static_array_elements
 %type <block> block_item_list 
 %type <program_file> program
@@ -231,6 +235,7 @@
 %type <statement> declaration expression_statement iteration_statement
 %type <statement> print_statement selection_statement 
 %type <statement> throw_statement try_catch_statement
+%type <statement> llvm_function_argument_declaration
 %type <global_statement> bind_action import_statement global_statement llvm_statement 
 %type <global_statement> llvm_struct_definition llvm_function_declaration
 %type <object_definition> controller_definition interface_definition model_definition
@@ -251,6 +256,7 @@
 %type <object_element> external_method_definition interface_static_method_definition
 %type <object_element> constant_definition interface_element_declaration method_signature
 %type <object_element> external_interface_element_declaration external_static_method_definition
+%type <object_element> llvm_function_definition
 %type <object_element_list> object_element_declaration_list 
 %type <object_element_list> external_object_element_declaration_list
 %type <object_element_list> interface_element_delcaration_list
@@ -293,6 +299,7 @@
 %type <llvm_type_specifier> llvm_void_type_specifier
 %type <llvm_type_specifier_list> llvm_type_specifier_list 
 %type <llvm_type_specifier_list> llvm_function_argument_type_specifier_list
+%type <llvm_variable_vector> llvm_function_definition_arguments
 %type <list_of_ulongs> llvm_array_dimensions
 
 %left '+' '-'
@@ -426,6 +433,24 @@ llvm_function_argument_type_specifier_list
     { $$ = new std::vector<const ILLVMTypeSpecifier*>(); $$->push_back($1); }
   | llvm_function_argument_type_specifier_list ',' llvm_type_specifier
     { $1->push_back($3); $$ = $1; }
+  ;
+
+llvm_function_definition
+  : TLLVM TLLVMFUNCTION llvm_type_specifier TIDENTIFIER
+    '(' llvm_function_definition_arguments ')' compound_statement
+      { $$ = new LLVMFunctionDefinition(*$4, $3, *$6, $8, yylineno); delete $4; delete $6; }
+  ;
+
+llvm_function_definition_arguments
+  : /* blank */  { $$ = new LLVMVariableList(); }
+  | llvm_function_argument_declaration
+    { $$ = new LLVMVariableList(); $$->push_back($<llvm_variable_declaration>1); }
+  | llvm_function_definition_arguments ',' llvm_function_argument_declaration
+    { $$ = $1; $$->push_back($<llvm_variable_declaration>3); }
+  ;
+
+llvm_function_argument_declaration
+  : llvm_type_specifier identifier { $$ = LLVMVariableDeclaration::create($1, $2, yylineno); }
   ;
 
 inner_object_definition
@@ -564,7 +589,7 @@ interface_element_declaration
   ;
 
 method_signature
-  : type_specifier TIDENTIFIER '(' method_declaration_arguments ')' method_exceptions ';'
+  : type_specifier TIDENTIFIER '(' method_definition_arguments ')' method_exceptions ';'
       {
         $$ = new MethodSignatureDeclaration($1, *$2, *$4, *$6);
         delete $2;
@@ -774,7 +799,7 @@ external_thread_definition
   ;
 
 external_method_definition
-  : type_specifier TIDENTIFIER '(' method_declaration_arguments ')' method_exceptions ';'
+  : type_specifier TIDENTIFIER '(' method_definition_arguments ')' method_exceptions ';'
       {
         $$ = new ExternalMethodDefinition($1, *$2, *$4, *$6);
         delete $2;
@@ -784,7 +809,7 @@ external_method_definition
   ;
 
 external_static_method_definition
-  : TSTATIC type_specifier TIDENTIFIER '(' method_declaration_arguments ')' method_exceptions ';'
+  : TSTATIC type_specifier TIDENTIFIER '(' method_definition_arguments ')' method_exceptions ';'
       {
         $$ = new ExternalStaticMethodDefinition($2, *$3, *$5, *$7);
         delete $3;
@@ -832,6 +857,7 @@ object_element_declaration
   | field_definition
   | method_definition
   | static_method_definition
+  | llvm_function_definition
   ;
 
 external_object_element_declaration_list
@@ -1019,7 +1045,7 @@ variable_declaration
   ;
 
 method_definition
-  : access_specifier type_specifier TIDENTIFIER '(' method_declaration_arguments ')'
+  : access_specifier type_specifier TIDENTIFIER '(' method_definition_arguments ')'
       method_exceptions compound_statement
     {
       $$ = new MethodDefinition($1, $2, *$3, *$5, *$7, $8, yylineno);
@@ -1030,7 +1056,7 @@ method_definition
   ;
 
 static_method_definition
-  : access_specifier TSTATIC type_specifier TIDENTIFIER '(' method_declaration_arguments ')'
+  : access_specifier TSTATIC type_specifier TIDENTIFIER '(' method_definition_arguments ')'
       method_exceptions compound_statement
     {
       $$ = new StaticMethodDefinition($1, $3, *$4, *$6, *$8, $9, yylineno);
@@ -1041,7 +1067,7 @@ static_method_definition
   ;
 
 interface_static_method_definition
-  : TSTATIC type_specifier TIDENTIFIER '(' method_declaration_arguments ')'
+  : TSTATIC type_specifier TIDENTIFIER '(' method_definition_arguments ')'
       method_exceptions compound_statement
     {
       AccessLevel accessLevel = AccessLevel::PUBLIC_ACCESS;
@@ -1066,11 +1092,11 @@ method_argument_declaration
   : type_specifier identifier { $$ = VariableDeclaration::create($1, $2, yylineno); }
   ;
 
-method_declaration_arguments
+method_definition_arguments
   : /* blank */  { $$ = new VariableList(); }
   | method_argument_declaration
     { $$ = new VariableList(); $$->push_back($<variable_declaration>1); }
-  | method_declaration_arguments ',' method_argument_declaration
+  | method_definition_arguments ',' method_argument_declaration
     { $1->push_back($<variable_declaration>3); }
   ;
 
