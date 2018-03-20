@@ -219,9 +219,8 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallTest) {
   argumentTypes.push_back(mThreadInterface->getLLVMType(mContext));
   argumentTypes.push_back(mCallStack->getLLVMType(mContext));
   argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext));
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   FunctionType* functionType = FunctionType::get(mReturnedModel->getLLVMType(mContext),
-                                                 argTypesArray,
+                                                 argumentTypes,
                                                  false);
   Function::Create(functionType,
                    GlobalValue::InternalLinkage,
@@ -250,9 +249,8 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallWithTryCatchTest) {
   argumentTypes.push_back(mThreadInterface->getLLVMType(mContext));
   argumentTypes.push_back(mCallStack->getLLVMType(mContext));
   argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext));
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext),
-                                                 argTypesArray,
+                                                 argumentTypes,
                                                  false);
   Function::Create(functionType,
                    GlobalValue::InternalLinkage,
@@ -344,9 +342,8 @@ TEST_F(StaticMethodCallTest, incorrectArgumentTypesDeathTest) {
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mStructType->getPointerTo());
   argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext));
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   FunctionType* functionType = FunctionType::get(mReturnedModel->getLLVMType(mContext),
-                                                 argTypesArray,
+                                                 argumentTypes,
                                                  false);
   Function::Create(functionType,
                    GlobalValue::InternalLinkage,

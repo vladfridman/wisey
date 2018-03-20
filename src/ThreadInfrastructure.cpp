@@ -28,9 +28,8 @@ Function* ThreadInfrastructure::defineThreadCreateFunction(IRGenerationContext& 
   
   vector<Type*> runnerFunctionArgumentTypes;
   runnerFunctionArgumentTypes.push_back(genericPointer);
-  ArrayRef<Type*> runnerFunctionArgumentTypesArray = ArrayRef<Type*>(runnerFunctionArgumentTypes);
   FunctionType* runnerFunctionType = FunctionType::get(genericPointer,
-                                                       runnerFunctionArgumentTypesArray,
+                                                       runnerFunctionArgumentTypes,
                                                        false);
 
   vector<Type*> argumentTypes;
@@ -38,9 +37,8 @@ Function* ThreadInfrastructure::defineThreadCreateFunction(IRGenerationContext& 
   argumentTypes.push_back(getNativeThreadAttributesStruct(context)->getPointerTo());
   argumentTypes.push_back(runnerFunctionType->getPointerTo());
   argumentTypes.push_back(genericPointer);
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = Type::getVoidTy(llvmContext);
-  FunctionType* ftype = FunctionType::get(llvmReturnType, argTypesArray, false);
+  FunctionType* ftype = FunctionType::get(llvmReturnType, argumentTypes, false);
   
   return Function::Create(ftype,
                           GlobalValue::ExternalLinkage,
@@ -61,9 +59,8 @@ Function* ThreadInfrastructure::defineThreadJoinFunction(IRGenerationContext& co
   vector<Type*> argumentTypes;
   argumentTypes.push_back(getNativeThreadStruct(context)->getPointerTo());
   argumentTypes.push_back(genericPointer->getPointerTo());
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = Type::getVoidTy(llvmContext);
-  FunctionType* ftype = FunctionType::get(llvmReturnType, argTypesArray, false);
+  FunctionType* ftype = FunctionType::get(llvmReturnType, argumentTypes, false);
   
   return Function::Create(ftype,
                           GlobalValue::ExternalLinkage,
@@ -83,9 +80,8 @@ Function* ThreadInfrastructure::defineThreadExitFunction(IRGenerationContext& co
   
   vector<Type*> argumentTypes;
   argumentTypes.push_back(genericPointer);
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = Type::getVoidTy(llvmContext);
-  FunctionType* ftype = FunctionType::get(llvmReturnType, argTypesArray, false);
+  FunctionType* ftype = FunctionType::get(llvmReturnType, argumentTypes, false);
   
   return Function::Create(ftype,
                           GlobalValue::ExternalLinkage,
@@ -137,8 +133,7 @@ StructType* ThreadInfrastructure::getNativeThreadHandlerStruct(IRGenerationConte
   llvm::PointerType* genericPointer = Type::getInt64Ty(llvmContext)->getPointerTo();
   vector<Type*> funcArgumentTypes;
   funcArgumentTypes.push_back(genericPointer);
-  ArrayRef<Type*> funcArgTypesArray = ArrayRef<Type*>(funcArgumentTypes);
-  FunctionType* funcType = FunctionType::get(genericPointer, funcArgTypesArray, false);
+  FunctionType* funcType = FunctionType::get(genericPointer, funcArgumentTypes, false);
 
   vector<Type*> structTypes;
   structTypes.push_back(funcType->getPointerTo());
@@ -207,8 +202,7 @@ Function* ThreadInfrastructure::defineRunBridgeFunction(IRGenerationContext& con
   Type* genericPointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
   vector<Type*> argumentTypes;
   argumentTypes.push_back(genericPointerType);
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  FunctionType* ftype = FunctionType::get(genericPointerType, argTypesArray, false);
+  FunctionType* ftype = FunctionType::get(genericPointerType, argumentTypes, false);
   
   string functionName = getRunBridgeFunctionName(thread);
   

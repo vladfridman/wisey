@@ -70,9 +70,8 @@ Function* GetOriginalObjectFunction::define(IRGenerationContext& context) {
   Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
   argumentTypes.push_back(int8PointerType);
   argumentTypes.push_back(Type::getInt64Ty(llvmContext));
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = int8PointerType;
-  FunctionType* ftype = FunctionType::get(llvmReturnType, argTypesArray, false);
+  FunctionType* ftype = FunctionType::get(llvmReturnType, argumentTypes, false);
   
   return Function::Create(ftype, GlobalValue::InternalLinkage, getName(), context.getModule());
 }

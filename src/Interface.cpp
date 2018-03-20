@@ -372,9 +372,8 @@ Function* Interface::defineMapFunctionForMethod(IRGenerationContext& context,
   for (unsigned int i = 1; i < concreteObjectFunctionType->getNumParams(); i++) {
     argumentTypes.push_back(concreteObjectFunctionType->getParamType(i));
   }
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   FunctionType* functionType = FunctionType::get(concreteObjectFunctionType->getReturnType(),
-                                                 argTypesArray,
+                                                 argumentTypes,
                                                  true);
 
   Function* function = Function::Create(functionType,
@@ -630,9 +629,8 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
                                         const IObjectType* toType) const {
   vector<Type*> argumentTypes;
   argumentTypes.push_back(getLLVMType(context));
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   llvm::PointerType* llvmReturnType = (llvm::PointerType*) toType->getLLVMType(context);
-  FunctionType* functionType = FunctionType::get(llvmReturnType, argTypesArray, false);
+  FunctionType* functionType = FunctionType::get(llvmReturnType, argumentTypes, false);
   return Function::Create(functionType,
                           GlobalValue::ExternalLinkage,
                           getCastFunctionName(toType),
@@ -846,9 +844,8 @@ Function* Interface::defineDestructorFunction(IRGenerationContext& context) cons
 
   vector<Type*> argumentTypes;
   argumentTypes.push_back(int8Pointer);
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* voidType = Type::getVoidTy(llvmContext);
-  FunctionType* functionType = FunctionType::get(voidType, argTypesArray, false);
+  FunctionType* functionType = FunctionType::get(voidType, argumentTypes, false);
   Function* function = Function::Create(functionType,
                                         GlobalValue::ExternalLinkage,
                                         getDestructorFunctionName(),

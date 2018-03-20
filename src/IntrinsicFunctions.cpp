@@ -136,8 +136,7 @@ Function* IntrinsicFunctions::getFprintfFunction(IRGenerationContext& context) {
   vector<Type*> argumentTypes;
   argumentTypes.push_back(stderrPointer->getType()->getPointerElementType());
   argumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  FunctionType *printfType = FunctionType::get(Type::getInt32Ty(llvmContext), argTypesArray, true);
+  FunctionType *printfType = FunctionType::get(Type::getInt32Ty(llvmContext), argumentTypes, true);
   
   AttributeSet attributeSet = AttributeSet().addAttribute(llvmContext, 1U, Attribute::NoAlias);
   return cast<Function>(context.getModule()->

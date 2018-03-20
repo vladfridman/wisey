@@ -487,10 +487,9 @@ TEST_F(IConcreteObjectTypeTest, getDestructorFunctionTypeTest) {
   
   vector<Type*> argumentTypes;
   argumentTypes.push_back(int8Pointer);
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = Type::getVoidTy(mLLVMContext);
   
-  Type* expextedType = FunctionType::get(llvmReturnType, argTypesArray, false);
+  Type* expextedType = FunctionType::get(llvmReturnType, argumentTypes, false);
   Type* actualType = IConcreteObjectType::getDestructorFunctionType(mContext);
   
   EXPECT_EQ(expextedType, actualType);

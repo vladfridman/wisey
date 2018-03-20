@@ -104,9 +104,8 @@ struct FieldOwnerVariableTest : Test {
     
     vector<Type*> argumentTypes;
     argumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-    ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
     FunctionType* destructorFunctionType = FunctionType::get(Type::getVoidTy(mLLVMContext),
-                                                             argTypesArray,
+                                                             argumentTypes,
                                                              false);
     Function::Create(destructorFunctionType,
                      GlobalValue::InternalLinkage,

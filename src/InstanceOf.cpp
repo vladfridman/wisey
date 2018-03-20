@@ -93,9 +93,8 @@ Function* InstanceOf::createFunction(IRGenerationContext& context, const Interfa
   vector<Type*> argumentTypes;
   argumentTypes.push_back(interface->getLLVMType(context));
   argumentTypes.push_back(int8Type->getPointerTo());
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = PrimitiveTypes::INT_TYPE->getLLVMType(context);
-  FunctionType* functionType = FunctionType::get(llvmReturnType, argTypesArray, false);
+  FunctionType* functionType = FunctionType::get(llvmReturnType, argumentTypes, false);
   Function* function = Function::Create(functionType,
                                         GlobalValue::ExternalLinkage,
                                         getFunctionName(interface),

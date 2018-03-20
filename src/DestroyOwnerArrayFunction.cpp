@@ -64,9 +64,8 @@ Function* DestroyOwnerArrayFunction::define(IRGenerationContext& context) {
   argumentTypes.push_back(Type::getInt64Ty(llvmContext));
   argumentTypes.push_back(Type::getInt1Ty(llvmContext));
   argumentTypes.push_back(destructorFunctionType->getPointerTo());
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = Type::getVoidTy(llvmContext);
-  FunctionType* ftype = FunctionType::get(llvmReturnType, argTypesArray, false);
+  FunctionType* ftype = FunctionType::get(llvmReturnType, argumentTypes, false);
   
   return Function::Create(ftype, GlobalValue::InternalLinkage, getName(), context.getModule());
 }

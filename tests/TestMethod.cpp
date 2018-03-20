@@ -126,9 +126,8 @@ TEST_F(MethodTest, getLLVMTypeTest) {
   Controller* callStack = mContext.getController(Names::getCallStackControllerFullName());
   argumentTypes.push_back(callStack->getLLVMType(mContext));
   argumentTypes.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mContext));
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext);
-  FunctionType* expectedType = FunctionType::get(llvmReturnType, argTypesArray, false);
+  FunctionType* expectedType = FunctionType::get(llvmReturnType, argumentTypes, false);
 
   FunctionType* actualType = method.getLLVMType(mContext);
   

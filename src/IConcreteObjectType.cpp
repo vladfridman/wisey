@@ -201,10 +201,9 @@ FunctionType* IConcreteObjectType::getDestructorFunctionType(IRGenerationContext
   
   vector<Type*> argumentTypes;
   argumentTypes.push_back(int8Pointer);
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = Type::getVoidTy(llvmContext);
   
-  return FunctionType::get(llvmReturnType, argTypesArray, false);
+  return FunctionType::get(llvmReturnType, argumentTypes, false);
 }
 
 void IConcreteObjectType::scheduleDestructorBodyComposition(IRGenerationContext& context,
@@ -276,9 +275,8 @@ void IConcreteObjectType::createVTableGlobal(IRGenerationContext& context,
   vector<llvm::Constant*> vTableArray;
   vector<Type*> vTableTypes;
   for (vector<llvm::Constant*> vTablePortionVector : interfaceVTables) {
-    ArrayRef<llvm::Constant*> arrayRef(vTablePortionVector);
     llvm::ArrayType* arrayType = llvm::ArrayType::get(int8Pointer, vTablePortionVector.size());
-    llvm::Constant* constantArray = ConstantArray::get(arrayType, arrayRef);
+    llvm::Constant* constantArray = ConstantArray::get(arrayType, vTablePortionVector);
     
     vTableArray.push_back(constantArray);
     vTableTypes.push_back(arrayType);
@@ -313,9 +311,8 @@ GlobalVariable* IConcreteObjectType::createTypeListGlobal(IRGenerationContext& c
     typeNames.push_back(interfaceNamePointer);
   }
   typeNames.push_back(ConstantExpr::getNullValue(int8Pointer));
-  ArrayRef<llvm::Constant*> arrayRef(typeNames);
   llvm::ArrayType* arrayType = llvm::ArrayType::get(int8Pointer, typeNames.size());
-  llvm::Constant* constantArray = ConstantArray::get(arrayType, arrayRef);
+  llvm::Constant* constantArray = ConstantArray::get(arrayType, typeNames);
   
   return new GlobalVariable(*context.getModule(),
                             arrayType,

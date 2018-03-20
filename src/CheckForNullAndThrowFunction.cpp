@@ -57,9 +57,8 @@ Function* CheckForNullAndThrowFunction::define(IRGenerationContext& context) {
   LLVMContext& llvmContext = context.getLLVMContext();
   vector<Type*> argumentTypes;
   argumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = Type::getVoidTy(llvmContext);
-  FunctionType* ftype = FunctionType::get(llvmReturnType, argTypesArray, false);
+  FunctionType* ftype = FunctionType::get(llvmReturnType, argumentTypes, false);
   
   return Function::Create(ftype, GlobalValue::InternalLinkage, getName(), context.getModule());
 }

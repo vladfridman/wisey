@@ -53,9 +53,8 @@ FunctionType* IMethodDescriptor::getLLVMFunctionType(IRGenerationContext& contex
     const IType* type = methodArgument->getType();
     argumentTypes.push_back(type->getLLVMType(context));
   }
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = method->getReturnType()->getLLVMType(context);
-  return FunctionType::get(llvmReturnType, argTypesArray, false);
+  return FunctionType::get(llvmReturnType, argumentTypes, false);
 }
 
 void IMethodDescriptor::printDescriptorToStream(const IMethodDescriptor* method,

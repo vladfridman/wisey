@@ -59,33 +59,29 @@ StructType* ProgramPrefix::defineFileStruct(IRGenerationContext& context) const 
   sbufFileTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
   vector<Type*> argumentTypes;
   argumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   sbufFileTypes.push_back(FunctionType::get(Type::getInt32Ty(llvmContext),
-                                            argTypesArray,
+                                            argumentTypes,
                                             false)->getPointerTo());
   argumentTypes.clear();
   argumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
   argumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
   argumentTypes.push_back(Type::getInt32Ty(llvmContext));
-  argTypesArray = ArrayRef<Type*>(argumentTypes);
   sbufFileTypes.push_back(FunctionType::get(Type::getInt32Ty(llvmContext),
-                                            argTypesArray,
+                                            argumentTypes,
                                             false)->getPointerTo());
   argumentTypes.clear();
   argumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
   argumentTypes.push_back(Type::getInt64Ty(llvmContext));
   argumentTypes.push_back(Type::getInt32Ty(llvmContext));
-  argTypesArray = ArrayRef<Type*>(argumentTypes);
   sbufFileTypes.push_back(FunctionType::get(Type::getInt64Ty(llvmContext),
-                                            argTypesArray,
+                                            argumentTypes,
                                             false)->getPointerTo());
   argumentTypes.clear();
   argumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
   argumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
   argumentTypes.push_back(Type::getInt32Ty(llvmContext));
-  argTypesArray = ArrayRef<Type*>(argumentTypes);
   sbufFileTypes.push_back(FunctionType::get(Type::getInt32Ty(llvmContext),
-                                            argTypesArray,
+                                            argumentTypes,
                                             false)->getPointerTo());
   sbufFileTypes.push_back(sbufTypeStructType);
   sbufFileTypes.push_back(sbufFileXStructType->getPointerTo());

@@ -142,9 +142,8 @@ TEST_F(ThreadOwnerTest, getDestructorFunctionTest) {
   
   vector<Type*> argumentTypes;
   argumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = Type::getVoidTy(mLLVMContext);
-  FunctionType* functionType = FunctionType::get(llvmReturnType, argTypesArray, false);
+  FunctionType* functionType = FunctionType::get(llvmReturnType, argumentTypes, false);
   
   EXPECT_EQ(functionType, result->getFunctionType());
 }

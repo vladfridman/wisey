@@ -52,10 +52,9 @@ Function* DecrementReferencesInArrayFunction::define(IRGenerationContext& contex
   vector<Type*> decrementorArgumentTypes;
   decrementorArgumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
   decrementorArgumentTypes.push_back(Type::getInt64Ty(llvmContext));
-  ArrayRef<Type*> decrementorArgTypesArray = ArrayRef<Type*>(decrementorArgumentTypes);
   Type* decrementorReturnType = Type::getVoidTy(llvmContext);
   FunctionType* decrementorFunctionType = FunctionType::get(decrementorReturnType,
-                                                            decrementorArgTypesArray,
+                                                            decrementorArgumentTypes,
                                                             false);
 
   Type* genericPointer = Type::getInt8Ty(llvmContext)->getPointerTo();
@@ -64,9 +63,8 @@ Function* DecrementReferencesInArrayFunction::define(IRGenerationContext& contex
   argumentTypes.push_back(genericArray);
   argumentTypes.push_back(Type::getInt64Ty(llvmContext));
   argumentTypes.push_back(decrementorFunctionType->getPointerTo());
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = Type::getVoidTy(llvmContext);
-  FunctionType* ftype = FunctionType::get(llvmReturnType, argTypesArray, false);
+  FunctionType* ftype = FunctionType::get(llvmReturnType, argumentTypes, false);
   
   return Function::Create(ftype, GlobalValue::InternalLinkage, getName(), context.getModule());
 }

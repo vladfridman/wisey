@@ -42,10 +42,9 @@ struct DestroyPrimitiveArrayFunctionTest : Test {
     
     vector<Type*> destructorArgumentTypes;
     destructorArgumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-    ArrayRef<Type*> destructorArgTypesArray = ArrayRef<Type*>(destructorArgumentTypes);
     Type* detructorLlvmReturnType = Type::getVoidTy(mLLVMContext);
     FunctionType* destructorFunctionType = FunctionType::get(detructorLlvmReturnType,
-                                                             destructorArgTypesArray,
+                                                             destructorArgumentTypes,
                                                              false);
     mDestructor = Function::Create(destructorFunctionType,
                                    GlobalValue::ExternalLinkage,

@@ -44,10 +44,9 @@ struct DecrementReferencesInArrayFunctionTest : Test {
     vector<Type*> decrementorArgumentTypes;
     decrementorArgumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
     decrementorArgumentTypes.push_back(Type::getInt64Ty(mLLVMContext));
-    ArrayRef<Type*> decrementorArgTypesArray = ArrayRef<Type*>(decrementorArgumentTypes);
     Type* decrementorReturnType = Type::getVoidTy(mLLVMContext);
     FunctionType* decrementorFunctionType = FunctionType::get(decrementorReturnType,
-                                                              decrementorArgTypesArray,
+                                                              decrementorArgumentTypes,
                                                               false);
     mDecrementor = Function::Create(decrementorFunctionType,
                                     GlobalValue::ExternalLinkage,

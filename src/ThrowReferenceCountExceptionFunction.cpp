@@ -50,9 +50,8 @@ Function* ThrowReferenceCountExceptionFunction::define(IRGenerationContext& cont
   LLVMContext& llvmContext = context.getLLVMContext();
   vector<Type*> argumentTypes;
   argumentTypes.push_back(Type::getInt64Ty(llvmContext));
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = Type::getVoidTy(llvmContext);
-  FunctionType* functionType = FunctionType::get(llvmReturnType, argTypesArray, false);
+  FunctionType* functionType = FunctionType::get(llvmReturnType, argumentTypes, false);
   
   return Function::Create(functionType,
                           GlobalValue::InternalLinkage,
