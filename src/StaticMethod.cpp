@@ -38,7 +38,6 @@ mReturnType(returnType),
 mArguments(arguments),
 mThrownExceptions(thrownExceptions),
 mCompoundStatement(compoundStatement),
-mFunction(NULL),
 mLine(line) { }
 
 StaticMethod::~StaticMethod() {
@@ -144,25 +143,25 @@ bool StaticMethod::isNative() const {
   return false;
 }
 
-Function* StaticMethod::defineFunction(IRGenerationContext& context) {
-  mFunction = IMethod::defineFunction(context, mObjectType, this);
-  
-  return mFunction;
+Function* StaticMethod::defineFunction(IRGenerationContext& context) const {
+  return IMethod::defineFunction(context, mObjectType, this);
 }
 
 void StaticMethod::generateIR(IRGenerationContext& context) const {
-  assert(mFunction != NULL);
-  
+  string functionName = IMethodCall::translateObjectMethodToLLVMFunctionName(mObjectType, mName);
+  Function* function = context.getModule()->getFunction(functionName);
+  assert(function != NULL);
+
   Scopes& scopes = context.getScopes();
   
   scopes.pushScope();
   scopes.setReturnType(mReturnType);
-  BasicBlock* basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry", mFunction, 0);
+  BasicBlock* basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry", function, 0);
   context.setBasicBlock(basicBlock);
   
   defineCurrentMethodNameVariable(context, mName);
 
-  createArguments(context, mFunction);
+  createArguments(context, function);
   mCompoundStatement->generateIR(context);
   
   IMethod::maybeAddImpliedVoidReturn(context, this, mLine);

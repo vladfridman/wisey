@@ -25,7 +25,7 @@ namespace wisey {
     /**
      * Defines LLVM function for this method
      */
-    virtual llvm::Function* defineFunction(IRGenerationContext& context) = 0;
+    virtual llvm::Function* defineFunction(IRGenerationContext& context) const = 0;
     
     /**
      * Generates IR for this method in a given concrete object

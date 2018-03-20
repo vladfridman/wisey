@@ -30,7 +30,6 @@ namespace wisey {
     std::vector<MethodArgument*> mArguments;
     std::vector<const Model*> mThrownExceptions;
     CompoundStatement* mCompoundStatement;
-    llvm::Function* mFunction;
     int mLine;
     
   public:
@@ -48,7 +47,7 @@ namespace wisey {
     
     bool isStatic() const override;
     
-    llvm::Function* defineFunction(IRGenerationContext& context) override;
+    llvm::Function* defineFunction(IRGenerationContext& context) const override;
     
     void generateIR(IRGenerationContext& context) const override;
     
