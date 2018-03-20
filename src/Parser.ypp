@@ -65,7 +65,7 @@
   #include "wisey/ILLVMTypeSpecifier.hpp"
   #include "wisey/IModelTypeSpecifier.hpp"
   #include "wisey/INodeTypeSpecifier.hpp"
-  #include "wisey/IObjectElementDeclaration.hpp"
+  #include "wisey/IObjectElementDefinition.hpp"
   #include "wisey/IObjectDefinition.hpp"
   #include "wisey/IObjectTypeSpecifier.hpp"
   #include "wisey/ITypeSpecifier.hpp"
@@ -168,7 +168,7 @@
   wisey::IModelTypeSpecifier* model_type_specifier;
   wisey::IControllerTypeSpecifier* controller_type_specifier;
   wisey::IInterfaceTypeSpecifier* interface_type_specifier;
-  wisey::IObjectElementDeclaration* object_element;
+  wisey::IObjectElementDefinition* object_element;
   wisey::INodeTypeSpecifier* node_type_specifier;
   wisey::IThreadTypeSpecifier* thread_type_specifier;
   wisey::AccessLevel access_specifier;
@@ -180,7 +180,7 @@
   std::vector<wisey::VariableDeclaration*>* variable_vector;
   std::vector<const wisey::IExpression*>* expression_vector;
   std::vector<wisey::MethodSignatureDeclaration*>* method_signature_vector;
-  std::tuple<std::vector<wisey::IObjectElementDeclaration*>, 
+  std::tuple<std::vector<wisey::IObjectElementDefinition*>,
              std::vector<wisey::IObjectDefinition*>>* object_element_list;
   std::vector<wisey::ITypeSpecifier*>* type_specifier_list;
   std::vector<wisey::IModelTypeSpecifier*>* model_type_specifier_list;
@@ -530,7 +530,7 @@ external_interface_definition
 external_interface_element_delcaration_list
   : /* blank */ 
     { 
-      $$ = new std::tuple<std::vector<IObjectElementDeclaration*>,
+      $$ = new std::tuple<std::vector<IObjectElementDefinition*>,
                           std::vector<IObjectDefinition*>>();
     }
   | external_interface_element_delcaration_list external_interface_element_declaration
@@ -548,7 +548,7 @@ external_interface_element_declaration
 interface_element_delcaration_list
   : /* blank */ 
     { 
-      $$ = new std::tuple<std::vector<IObjectElementDeclaration*>,
+      $$ = new std::tuple<std::vector<IObjectElementDefinition*>,
                           std::vector<IObjectDefinition*>>();
     }
   | interface_element_delcaration_list interface_element_declaration
@@ -818,7 +818,7 @@ interface_list
 object_element_declaration_list
   : /* blank */  
     { 
-      $$ = new std::tuple<std::vector<IObjectElementDeclaration*>,
+      $$ = new std::tuple<std::vector<IObjectElementDefinition*>,
                           std::vector<IObjectDefinition*>>();
     }
   | object_element_declaration_list object_element_declaration
@@ -837,7 +837,7 @@ object_element_declaration
 external_object_element_declaration_list
   : /* blank */
     { 
-      $$ = new std::tuple<std::vector<IObjectElementDeclaration*>,
+      $$ = new std::tuple<std::vector<IObjectElementDefinition*>,
                           std::vector<IObjectDefinition*>>();
     }
   | external_object_element_declaration_list external_object_element_declaration

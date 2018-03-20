@@ -31,7 +31,7 @@ struct MethodSignatureTest : Test {
     TestPrefix::generateIR(mContext);
     
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
-    vector<IObjectElementDeclaration*> interfaceElements;
+    vector<IObjectElementDefinition*> interfaceElements;
     vector<Type*> types;
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IInterface";
     StructType* structType = StructType::create(mContext.getLLVMContext(), "IInterface");
@@ -70,7 +70,7 @@ TEST_F(MethodSignatureTest, elementTypeTest) {
 
 TEST_F(MethodSignatureTest, createCopyTest) {
   vector<IInterfaceTypeSpecifier*> parentInterfaces;
-  vector<IObjectElementDeclaration*> interfaceElements;
+  vector<IObjectElementDefinition*> interfaceElements;
   Interface* interface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                                  "systems.vos.wisey.compiler.tests.IAnother",
                                                  NULL,

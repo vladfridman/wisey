@@ -25,8 +25,8 @@ ConstantDeclaration::~ConstantDeclaration() {
   delete mExpression;
 }
 
-wisey::Constant* ConstantDeclaration::declare(IRGenerationContext& context,
-                                              const IObjectType* objectType) const {
+wisey::Constant* ConstantDeclaration::define(IRGenerationContext& context,
+                                             const IObjectType* objectType) const {
   return new Constant(mAccessLevel, mTypeSpecifier->getType(context), mName, mExpression);
 }
 

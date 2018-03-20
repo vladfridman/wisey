@@ -15,7 +15,7 @@
 #include "wisey/ThreadTypeSpecifierFull.hpp"
 #include "wisey/IConcreteObjectDefinition.hpp"
 #include "wisey/IInterfaceTypeSpecifier.hpp"
-#include "wisey/IObjectElementDeclaration.hpp"
+#include "wisey/IObjectElementDefinition.hpp"
 
 namespace wisey {
   
@@ -24,14 +24,14 @@ namespace wisey {
    */
   class ExternalThreadDefinition : public IConcreteObjectDefinition {
     ThreadTypeSpecifierFull* mThreadTypeSpecifierFull;
-    std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
+    std::vector<IObjectElementDefinition*> mObjectElementDeclarations;
     std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
     std::vector<IObjectDefinition*> mInnerObjectDefinitions;
     
   public:
     
     ExternalThreadDefinition(ThreadTypeSpecifierFull* threadTypeSpecifierFull,
-                             std::vector<IObjectElementDeclaration*> objectElementDeclarations,
+                             std::vector<IObjectElementDefinition*> objectElementDeclarations,
                              std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
                              std::vector<IObjectDefinition*> innerObjectDefinitions);
     

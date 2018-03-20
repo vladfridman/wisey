@@ -59,7 +59,7 @@ struct IConcreteObjectTypeTest : public Test {
 
     vector<Interface*> interfaces;
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
-    vector<IObjectElementDeclaration*> interfaceElements;
+    vector<IObjectElementDefinition*> interfaceElements;
     Interface* interface1 = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                                     "Interface1",
                                                     NULL,
@@ -133,7 +133,7 @@ struct IConcreteObjectTypeTest : public Test {
     string canNavigateFullName = "systems.vos.wisey.compiler.tests.ICanNavigate";
     StructType* canNavigateStructType = StructType::create(mLLVMContext, canNavigateFullName);
     vector<IInterfaceTypeSpecifier*> canNavigateParentInterfaces;
-    vector<IObjectElementDeclaration*> canNavigateElements;
+    vector<IObjectElementDefinition*> canNavigateElements;
     mCanNavigate = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                            canNavigateFullName,
                                            canNavigateStructType,
@@ -427,7 +427,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorCallTest) {
 
 TEST_F(IConcreteObjectTypeTest, addInterfaceAndItsParentsTest) {
   vector<IInterfaceTypeSpecifier*> interfaceTypeSpecifiers;
-  vector<IObjectElementDeclaration *> objectElements;
+  vector<IObjectElementDefinition *> objectElements;
 
   vector<Interface*> flattenedInterfaces;
 

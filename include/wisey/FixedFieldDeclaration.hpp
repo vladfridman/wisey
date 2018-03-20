@@ -10,7 +10,7 @@
 #define FixedFieldDeclaration_h
 
 #include "wisey/IField.hpp"
-#include "wisey/IObjectElementDeclaration.hpp"
+#include "wisey/IObjectElementDefinition.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 #include "wisey/InjectionArgument.hpp"
 
@@ -21,7 +21,7 @@ namespace wisey {
   /**
    * Represents a fixed field declaration in object definition
    */
-  class FixedFieldDeclaration : public IObjectElementDeclaration {
+  class FixedFieldDeclaration : public IObjectElementDefinition {
     const ITypeSpecifier* mTypeSpecifier;
     std::string mName;
     
@@ -31,7 +31,7 @@ namespace wisey {
     
     ~FixedFieldDeclaration();
     
-    IField* declare(IRGenerationContext& context, const IObjectType* objectType) const override;
+    IField* define(IRGenerationContext& context, const IObjectType* objectType) const override;
     
     bool isConstant() const override;
     

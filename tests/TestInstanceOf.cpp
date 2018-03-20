@@ -38,7 +38,7 @@ struct InstanceOfTest : public Test {
     string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
     StructType* shapeStructType = StructType::create(mLLVMContext, shapeFullName);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
-    vector<IObjectElementDeclaration*> interfaceElements;
+    vector<IObjectElementDefinition*> interfaceElements;
     mShapeInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                               shapeFullName,
                                               shapeStructType,

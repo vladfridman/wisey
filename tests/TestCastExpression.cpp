@@ -65,7 +65,7 @@ public:
     StructType* carInterfaceStructType = StructType::create(mContext.getLLVMContext(), carFullName);
     carInterfaceStructType->setBody(carInterfaceTypes);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
-    vector<IObjectElementDeclaration*> interfaceElements;
+    vector<IObjectElementDefinition*> interfaceElements;
     mCarInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                             carFullName,
                                             carInterfaceStructType,

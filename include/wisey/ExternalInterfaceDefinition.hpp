@@ -11,7 +11,7 @@
 
 #include "wisey/IConcreteObjectDefinition.hpp"
 #include "wisey/InterfaceTypeSpecifierFull.hpp"
-#include "wisey/IObjectElementDeclaration.hpp"
+#include "wisey/IObjectElementDefinition.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 
 namespace wisey {
@@ -22,14 +22,14 @@ namespace wisey {
   class ExternalInterfaceDefinition : public IConcreteObjectDefinition {
     InterfaceTypeSpecifierFull* mInterfaceTypeSpecifierFull;
     std::vector<IInterfaceTypeSpecifier*> mParentInterfaceSpecifiers;
-    std::vector<IObjectElementDeclaration*> mElementDeclarations;
+    std::vector<IObjectElementDefinition*> mElementDeclarations;
     std::vector<IObjectDefinition*> mInnerObjectDefinitions;
     
   public:
     
     ExternalInterfaceDefinition(InterfaceTypeSpecifierFull* interfaceTypeSpecifierFull,
                                 std::vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
-                                std::vector<IObjectElementDeclaration*> elementDeclarations,
+                                std::vector<IObjectElementDefinition*> elementDeclarations,
                                 std::vector<IObjectDefinition*> innerObjectDefinitions);
     
     ~ExternalInterfaceDefinition();

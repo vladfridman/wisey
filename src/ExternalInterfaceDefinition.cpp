@@ -21,7 +21,7 @@ ExternalInterfaceDefinition::ExternalInterfaceDefinition(InterfaceTypeSpecifierF
                                                          interfaceTypeSpecifierFull,
                                                          vector<IInterfaceTypeSpecifier*>
                                                          parentInterfaceSpecifiers,
-                                                         vector<IObjectElementDeclaration *>
+                                                         vector<IObjectElementDefinition *>
                                                          elementDeclarations,
                                                          vector<IObjectDefinition*>
                                                          innerObjectDefinitions) :
@@ -36,7 +36,7 @@ ExternalInterfaceDefinition::~ExternalInterfaceDefinition() {
     delete interfaceTypeSpecifier;
   }
   mParentInterfaceSpecifiers.clear();
-  for (IObjectElementDeclaration* elementDeclaration : mElementDeclarations) {
+  for (IObjectElementDefinition* elementDeclaration : mElementDeclarations) {
     delete elementDeclaration;
   }
   mElementDeclarations.clear();

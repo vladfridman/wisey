@@ -45,8 +45,8 @@ MethodDeclaration::~MethodDeclaration() {
   delete mCompoundStatement;
 }
 
-IMethod* MethodDeclaration::declare(IRGenerationContext& context,
-                                    const IObjectType* objectType) const {
+IMethod* MethodDeclaration::define(IRGenerationContext& context,
+                                   const IObjectType* objectType) const {
   const IType* returnType = mReturnTypeSpecifier->getType(context);
 
   vector<MethodArgument*> arguments = IMethodDeclaration::createArgumnetList(context, mArguments);

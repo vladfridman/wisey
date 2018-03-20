@@ -1,13 +1,13 @@
 //
-//  IObjectElementDeclaration.hpp
+//  IObjectElementDefinition.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 10/18/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef IObjectElementDeclaration_h
-#define IObjectElementDeclaration_h
+#ifndef IObjectElementDefinition_h
+#define IObjectElementDefinition_h
 
 #include "wisey/IObjectElement.hpp"
 #include "wisey/IObjectType.hpp"
@@ -17,19 +17,19 @@ namespace wisey {
   class IRGenerationContext;
   
   /**
-   * Represents a declaration of an object element such as a method or a field
+   * Represents a definition of an object element such as a method or a field
    */
-  class IObjectElementDeclaration {
+  class IObjectElementDefinition {
     
   public:
     
-    virtual ~IObjectElementDeclaration() { }
+    virtual ~IObjectElementDefinition() { }
     
     /**
      * Returns a represention of an object element: a method or a field
      */
-    virtual IObjectElement* declare(IRGenerationContext& context,
-                                    const IObjectType* objectType) const = 0;
+    virtual IObjectElement* define(IRGenerationContext& context,
+                                   const IObjectType* objectType) const = 0;
     
     
     /**
@@ -50,5 +50,5 @@ namespace wisey {
 } /* namespace wisey */
 
 
-#endif /* IObjectElementDeclaration_h */
+#endif /* IObjectElementDefinition_h */
 

@@ -47,7 +47,7 @@ public:
   mReferenceVariable(new NiceMock<MockReferenceVariable>()),
   mOwnerVariable(new NiceMock<MockOwnerVariable>()) {
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
-    vector<IObjectElementDeclaration*> interfaceElements;
+    vector<IObjectElementDefinition*> interfaceElements;
     mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                          "systems.vos.wisey.compiler.tests.IInterface",
                                          NULL,

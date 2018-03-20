@@ -14,7 +14,7 @@ using namespace llvm;
 using namespace wisey;
 
 ExternalModelDefinition::ExternalModelDefinition(ModelTypeSpecifierFull* modelTypeSpecifierFull,
-                                                 vector<IObjectElementDeclaration*>
+                                                 vector<IObjectElementDefinition*>
                                                    objectElementDeclarations,
                                                  vector<IInterfaceTypeSpecifier*>
                                                  interfaceSpecifiers,
@@ -27,7 +27,7 @@ mInnerObjectDefinitions(innerObjectDefinitions) { }
 
 ExternalModelDefinition::~ExternalModelDefinition() {
   delete mModelTypeSpecifierFull;
-  for (IObjectElementDeclaration* objectElementDeclaration : mObjectElementDeclarations) {
+  for (IObjectElementDefinition* objectElementDeclaration : mObjectElementDeclarations) {
     delete objectElementDeclaration;
   }
   mObjectElementDeclarations.clear();

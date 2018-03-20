@@ -15,7 +15,7 @@ using namespace wisey;
 
 ExternalControllerDefinition::ExternalControllerDefinition(ControllerTypeSpecifierFull*
                                                            controllerTypeSpecifierFull,
-                                                           vector<IObjectElementDeclaration*>
+                                                           vector<IObjectElementDefinition*>
                                                              objectElementDeclarations,
                                                            vector<IInterfaceTypeSpecifier*>
                                                            interfaceSpecifiers,
@@ -28,7 +28,7 @@ mInnerObjectDefinitions(innerObjectDefinitions) { }
 
 ExternalControllerDefinition::~ExternalControllerDefinition() {
   delete mControllerTypeSpecifierFull;
-  for (IObjectElementDeclaration* objectElementDeclaration : mObjectElementDeclarations) {
+  for (IObjectElementDefinition* objectElementDeclaration : mObjectElementDeclarations) {
     delete objectElementDeclaration;
   }
   mObjectElementDeclarations.clear();

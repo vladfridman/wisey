@@ -20,7 +20,7 @@ using namespace wisey;
 
 ModelDefinition::ModelDefinition(AccessLevel accessLevel,
                                  ModelTypeSpecifierFull* modelTypeSpecifierFull,
-                                 vector<IObjectElementDeclaration*> objectElementDeclarations,
+                                 vector<IObjectElementDefinition*> objectElementDeclarations,
                                  vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
                                  vector<IObjectDefinition*> innerObjectDefinitions) :
 mAccessLevel(accessLevel),
@@ -31,7 +31,7 @@ mInnerObjectDefinitions(innerObjectDefinitions) { }
 
 ModelDefinition::~ModelDefinition() {
   delete mModelTypeSpecifierFull;
-  for (IObjectElementDeclaration* objectElementDeclaration : mObjectElementDeclarations) {
+  for (IObjectElementDefinition* objectElementDeclaration : mObjectElementDeclarations) {
     delete objectElementDeclaration;
   }
   mObjectElementDeclarations.clear();

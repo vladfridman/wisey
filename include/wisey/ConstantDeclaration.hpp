@@ -12,7 +12,7 @@
 #include "wisey/AccessLevel.hpp"
 #include "wisey/Constant.hpp"
 #include "wisey/IExpression.hpp"
-#include "wisey/IObjectElementDeclaration.hpp"
+#include "wisey/IObjectElementDefinition.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 
 namespace wisey {
@@ -20,7 +20,7 @@ namespace wisey {
   /**
    * Represents a constant declaration
    */
-  class ConstantDeclaration : public IObjectElementDeclaration {
+  class ConstantDeclaration : public IObjectElementDefinition {
     
     const AccessLevel mAccessLevel;
     const ITypeSpecifier* mTypeSpecifier;
@@ -36,7 +36,7 @@ namespace wisey {
     
     ~ConstantDeclaration();
     
-    Constant* declare(IRGenerationContext& context, const IObjectType* objectType) const override;
+    Constant* define(IRGenerationContext& context, const IObjectType* objectType) const override;
     
     bool isConstant() const override;
     

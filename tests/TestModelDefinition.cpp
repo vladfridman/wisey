@@ -19,7 +19,7 @@
 #include "wisey/FakeExpression.hpp"
 #include "wisey/FixedFieldDeclaration.hpp"
 #include "wisey/FloatConstant.hpp"
-#include "wisey/IObjectElementDeclaration.hpp"
+#include "wisey/IObjectElementDefinition.hpp"
 #include "wisey/InjectedFieldDeclaration.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/MethodArgument.hpp"
@@ -47,7 +47,7 @@ struct ModelDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   MethodDeclaration *mMethodDeclaration;
-  vector<IObjectElementDeclaration*> mObjectElements;
+  vector<IObjectElementDefinition*> mObjectElements;
   Block* mBlock;
   NiceMock<MockStatement>* mMockStatement;
   string mPackage = "systems.vos.wisey.compiler.tests";
@@ -185,7 +185,7 @@ TEST_F(ModelDefinitionTest, generateIRTest) {
 TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
   StructType *structType = StructType::create(mLLVMContext, interfaceFullName);
-  vector<IObjectElementDeclaration*> interfaceElements;
+  vector<IObjectElementDefinition*> interfaceElements;
   VariableList methodArguments;
   vector<IModelTypeSpecifier*> methodThrownExceptions;
   PackageType* packageType = new PackageType(Names::getLangPackageName());
@@ -198,7 +198,7 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   VariableDeclaration::create(intSpecifier, new Identifier("intargument"), 0);
   methodArguments.push_back(methodArgument);
   const PrimitiveTypeSpecifier* floatSpecifier = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
-  IObjectElementDeclaration* methodSignature =
+  IObjectElementDefinition* methodSignature =
     new MethodSignatureDeclaration(floatSpecifier,
                                    "foo",
                                    methodArguments,

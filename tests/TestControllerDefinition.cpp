@@ -48,7 +48,7 @@ struct ControllerDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   NiceMock<MockStatement>* mMockStatement;
-  vector<IObjectElementDeclaration*> mElementDeclarations;
+  vector<IObjectElementDefinition*> mElementDeclarations;
   vector<IInterfaceTypeSpecifier*> mInterfaces;
   string mPackage = "systems.vos.wisey.compiler.tests";
   

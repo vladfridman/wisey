@@ -66,7 +66,7 @@ public:
     ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
 
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
-    vector<IObjectElementDeclaration*> interfaceElements;
+    vector<IObjectElementDefinition*> interfaceElements;
     mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                          "systems.vos.wisey.compiler.tests.IInterface",
                                          NULL,

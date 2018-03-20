@@ -19,7 +19,7 @@ using namespace wisey;
 InterfaceDefinition::InterfaceDefinition(AccessLevel accessLevel,
                                          InterfaceTypeSpecifierFull* interfaceTypeSpecifierFull,
                                          vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
-                                         vector<IObjectElementDeclaration *>
+                                         vector<IObjectElementDefinition *>
                                          elementDeclarations,
                                          vector<IObjectDefinition*> innerObjectDefinitions) :
 mAccessLevel(accessLevel),
@@ -34,7 +34,7 @@ InterfaceDefinition::~InterfaceDefinition() {
     delete interfaceTypeSpecifier;
   }
   mParentInterfaceSpecifiers.clear();
-  for (IObjectElementDeclaration* elementDeclaration : mElementDeclarations) {
+  for (IObjectElementDefinition* elementDeclaration : mElementDeclarations) {
     delete elementDeclaration;
   }
   mElementDeclarations.clear();

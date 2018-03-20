@@ -24,7 +24,7 @@ using namespace std;
 using namespace wisey;
 
 void TestPrefix::generateIR(IRGenerationContext& context) {
-  vector<IObjectElementDeclaration*> modelElements;
+  vector<IObjectElementDefinition*> modelElements;
   defineModel(context, Names::getNPEModelName(), modelElements);
   const PrimitiveTypeSpecifier* longTypeSpecifier = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
   modelElements.push_back(new FixedFieldDeclaration(longTypeSpecifier, "mReferenceCount"));
@@ -51,7 +51,7 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
 
 void TestPrefix::defineModel(IRGenerationContext& context,
                              string modelName,
-                             vector<IObjectElementDeclaration*> modelElements) {
+                             vector<IObjectElementDefinition*> modelElements) {
   vector<IInterfaceTypeSpecifier*> modelParentInterfaces;
   PackageType* packageType = new PackageType(Names::getLangPackageName());
   FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
@@ -113,7 +113,7 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
   FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
   ControllerTypeSpecifierFull* controllerTypeSpecifier =
   new ControllerTypeSpecifierFull(packageExpression, Names::getCallStackControllerName());
-  vector<IObjectElementDeclaration*> elementDeclarations;
+  vector<IObjectElementDefinition*> elementDeclarations;
   elementDeclarations.push_back(pushStackMethod);
   elementDeclarations.push_back(popStackMethod);
 
@@ -132,7 +132,7 @@ ThreadDefinition* TestPrefix::defineMainThread(IRGenerationContext& context) {
   FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
   ThreadTypeSpecifierFull* threadTypeSpecifier =
     new ThreadTypeSpecifierFull(packageExpression, Names::getMainThreadShortName());
-  vector<IObjectElementDeclaration*> elementDeclarations;
+  vector<IObjectElementDefinition*> elementDeclarations;
   
   packageType = new PackageType(Names::getLangPackageName());
   packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
@@ -189,7 +189,7 @@ InterfaceDefinition* TestPrefix::defineThreadInterface(IRGenerationContext& cont
   InterfaceTypeSpecifierFull* interfaceTypeSpecifier =
     new InterfaceTypeSpecifierFull(packageExpression, Names::getThreadInterfaceName());
   vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers;
-  vector<IObjectElementDeclaration *> elementDeclarations;
+  vector<IObjectElementDefinition *> elementDeclarations;
   vector<IObjectDefinition*> innerObjectDefinitions;
 
   return new InterfaceDefinition(AccessLevel::PUBLIC_ACCESS,

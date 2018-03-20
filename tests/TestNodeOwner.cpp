@@ -76,10 +76,10 @@ struct NodeOwnerTest : public Test {
     StructType* elementInterfaceStructType = StructType::create(mLLVMContext,
                                                                 elementInterfaceFullName);
     VariableList elementInterfaceMethodArguments;
-    vector<IObjectElementDeclaration*> elementObjectElements;
+    vector<IObjectElementDefinition*> elementObjectElements;
     vector<IModelTypeSpecifier*> elementThrownExceptions;
     const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-    IObjectElementDeclaration* getElementSignature =
+    IObjectElementDefinition* getElementSignature =
     new MethodSignatureDeclaration(intSpecifier,
                                    "getElement",
                                    elementInterfaceMethodArguments,
@@ -97,7 +97,7 @@ struct NodeOwnerTest : public Test {
     string complicatedElementFullName = "systems.vos.wisey.compiler.tests.IComplicatedElement";
     StructType* complicatedElementIinterfaceStructType =
     StructType::create(mLLVMContext, complicatedElementFullName);
-    vector<IObjectElementDeclaration*> complicatedElementObjectElements;
+    vector<IObjectElementDefinition*> complicatedElementObjectElements;
     complicatedElementObjectElements.push_back(getElementSignature);
     vector<IInterfaceTypeSpecifier*> complicatedElementParentInterfaces;
     InterfaceTypeSpecifier* elementInterfaceTypeSpecifier = new InterfaceTypeSpecifier(NULL,
@@ -114,9 +114,9 @@ struct NodeOwnerTest : public Test {
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectInterfaceStructType = StructType::create(mLLVMContext, objectFullName);
     VariableList objectInterfaceMethodArguments;
-    vector<IObjectElementDeclaration*> objectElements;
+    vector<IObjectElementDefinition*> objectElements;
     vector<IModelTypeSpecifier*> objectThrownExceptions;
-    IObjectElementDeclaration* methodBarSignature =
+    IObjectElementDefinition* methodBarSignature =
       new MethodSignatureDeclaration(intSpecifier,
                                      "foo",
                                      objectInterfaceMethodArguments,
@@ -217,7 +217,7 @@ struct NodeOwnerTest : public Test {
     string vehicleFullName = "systems.vos.wisey.compiler.tests.IVehicle";
     StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, vehicleFullName);
     vector<IInterfaceTypeSpecifier*> vehicleParentInterfaces;
-    vector<IObjectElementDeclaration*> vehicleObjectElements;
+    vector<IObjectElementDefinition*> vehicleObjectElements;
     mVehicleInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                                 vehicleFullName,
                                                 vehicleInterfaceStructType,

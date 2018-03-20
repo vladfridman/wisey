@@ -20,8 +20,8 @@ FixedFieldDeclaration::~FixedFieldDeclaration() {
   delete mTypeSpecifier;
 }
 
-IField* FixedFieldDeclaration::declare(IRGenerationContext& context,
-                                       const IObjectType* objectType) const {
+IField* FixedFieldDeclaration::define(IRGenerationContext& context,
+                                      const IObjectType* objectType) const {
   const IType* fieldType = mTypeSpecifier->getType(context);
   
   return new FixedField(fieldType, mName);

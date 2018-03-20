@@ -53,7 +53,7 @@ TEST_F(ExternalMethodDeclarationTest, methodDescriptorExtractTest) {
                                               "foo",
                                               mArguments,
                                               thrownExceptions);
-  IMethod* method = methodDeclaration.declare(mContext, NULL);
+  IMethod* method = methodDeclaration.define(mContext, NULL);
   vector<MethodArgument*> arguments = method->getArguments();
 
   EXPECT_FALSE(methodDeclaration.isConstant());

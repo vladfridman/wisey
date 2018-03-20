@@ -127,10 +127,10 @@ struct ModelTest : public Test {
     string subShapeFullName = "systems.vos.wisey.compiler.tests.ISubShape";
     StructType* subShapeIinterfaceStructType = StructType::create(mLLVMContext, subShapeFullName);
     VariableList subShapeInterfaceMethodArguments;
-    vector<IObjectElementDeclaration*> subShapeInterfaceElements;
+    vector<IObjectElementDefinition*> subShapeInterfaceElements;
     vector<IModelTypeSpecifier*> subShapeInterfaceThrownExceptions;
     const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-    IObjectElementDeclaration* methodFooSignature =
+    IObjectElementDefinition* methodFooSignature =
       new MethodSignatureDeclaration(intSpecifier,
                                      "foo",
                                      subShapeInterfaceMethodArguments,
@@ -148,7 +148,7 @@ struct ModelTest : public Test {
     string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
     StructType* shapeIinterfaceStructType = StructType::create(mLLVMContext, shapeFullName);
     VariableList shapeInterfaceMethodArguments;
-    vector<IObjectElementDeclaration*> shapeInterfaceElements;
+    vector<IObjectElementDefinition*> shapeInterfaceElements;
     vector<IModelTypeSpecifier*> shapeInterfaceThrownExceptions;
     methodFooSignature = new MethodSignatureDeclaration(intSpecifier,
                                                         "foo",
@@ -170,9 +170,9 @@ struct ModelTest : public Test {
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectInterfaceStructType = StructType::create(mLLVMContext, objectFullName);
     VariableList objectInterfaceMethodArguments;
-    vector<IObjectElementDeclaration*> objectInterfaceElements;
+    vector<IObjectElementDefinition*> objectInterfaceElements;
     vector<IModelTypeSpecifier*> objectInterfaceThrownExceptions;
-    IObjectElementDeclaration* methodBarSignature =
+    IObjectElementDefinition* methodBarSignature =
       new MethodSignatureDeclaration(intSpecifier,
                                      "bar",
                                      objectInterfaceMethodArguments,
@@ -190,7 +190,7 @@ struct ModelTest : public Test {
     string carFullName = "systems.vos.wisey.compiler.tests.ICar";
     StructType* carInterfaceStructType = StructType::create(mLLVMContext, carFullName);
     vector<IInterfaceTypeSpecifier*> carParentInterfaces;
-    vector<IObjectElementDeclaration*> carInterfaceElements;
+    vector<IObjectElementDefinition*> carInterfaceElements;
     mCarInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                             carFullName,
                                             carInterfaceStructType,

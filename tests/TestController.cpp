@@ -88,10 +88,10 @@ struct ControllerTest : public Test {
     StructType* calculatorIinterfaceStructType = StructType::create(mLLVMContext,
                                                                     calculatorFullName);
     VariableList calculatorInterfaceMethodArguments;
-    vector<IObjectElementDeclaration*> calculatorInterfaceElements;
+    vector<IObjectElementDefinition*> calculatorInterfaceElements;
     vector<IModelTypeSpecifier*> calculatorThrownExceptions;
     const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-    IObjectElementDeclaration* calculateSignature =
+    IObjectElementDefinition* calculateSignature =
       new MethodSignatureDeclaration(intSpecifier,
                                      "calculate",
                                      calculatorInterfaceMethodArguments,
@@ -109,7 +109,7 @@ struct ControllerTest : public Test {
     string scienceCalculatorFullName = "systems.vos.wisey.compiler.tests.IScienceCalculator";
     StructType* scienceCalculatorIinterfaceStructType =
       StructType::create(mLLVMContext, scienceCalculatorFullName);
-    vector<IObjectElementDeclaration*> scienceCalculatorInterfaceElements;
+    vector<IObjectElementDefinition*> scienceCalculatorInterfaceElements;
     scienceCalculatorInterfaceElements.push_back(calculateSignature);
     vector<IInterfaceTypeSpecifier*> scienceCalculatorParentInterfaces;
     PackageType* packageType = new PackageType(mPackage);
@@ -128,9 +128,9 @@ struct ControllerTest : public Test {
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectInterfaceStructType = StructType::create(mLLVMContext, objectFullName);
     VariableList objectInterfaceMethodArguments;
-    vector<IObjectElementDeclaration*> objectInterfaceElements;
+    vector<IObjectElementDefinition*> objectInterfaceElements;
     vector<IModelTypeSpecifier*> objectThrownExceptions;
-    IObjectElementDeclaration* methodBarSignature =
+    IObjectElementDefinition* methodBarSignature =
       new MethodSignatureDeclaration(intSpecifier,
                                      "foo",
                                      objectInterfaceMethodArguments,
@@ -260,7 +260,7 @@ struct ControllerTest : public Test {
     string vehicleFullName = "systems.vos.wisey.compiler.tests.IVehicle";
     StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, vehicleFullName);
     vector<IInterfaceTypeSpecifier*> vehicleParentInterfaces;
-    vector<IObjectElementDeclaration*> vehicleElements;
+    vector<IObjectElementDefinition*> vehicleElements;
     mVehicleInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                                 vehicleFullName,
                                                 vehicleInterfaceStructType,

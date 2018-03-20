@@ -55,7 +55,7 @@ public:
 };
 
 TEST_F(InjectedFieldDeclarationTest, declareTest) {
-  IField* field = mFieldDeclaration->declare(mContext, NULL);
+  IField* field = mFieldDeclaration->define(mContext, NULL);
   
   EXPECT_FALSE(field->isConstant());
   EXPECT_TRUE(field->isField());

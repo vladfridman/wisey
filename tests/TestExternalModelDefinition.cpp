@@ -34,7 +34,7 @@ struct ExternalModelDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   ExternalMethodDeclaration* mMethodDeclaration;
-  vector<IObjectElementDeclaration*> mElementDeclarations;
+  vector<IObjectElementDefinition*> mElementDeclarations;
   string mPackage = "systems.vos.wisey.compiler.tests";
   
   ExternalModelDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {

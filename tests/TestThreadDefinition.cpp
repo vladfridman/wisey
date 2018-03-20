@@ -51,7 +51,7 @@ struct ThreadDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   NiceMock<MockStatement>* mMockStatement;
-  vector<IObjectElementDeclaration*> mElementDeclarations;
+  vector<IObjectElementDefinition*> mElementDeclarations;
   vector<IInterfaceTypeSpecifier*> mInterfaces;
   string mPackage = "systems.vos.wisey.compiler.tests";
   
@@ -255,11 +255,11 @@ TEST_F(ThreadDefinitionTest, addThreadObjectElementsTest) {
                                                                0);
 
   Thread* thread = Thread::newThread(PUBLIC_ACCESS, "TWorker", NULL);
-  vector<IObjectElementDeclaration*> objectElements;
+  vector<IObjectElementDefinition*> objectElements;
   objectElements.push_back(constantDeclaration);
   objectElements.push_back(methodDeclaration);
   
-  vector<IObjectElementDeclaration*> newElements =
+  vector<IObjectElementDefinition*> newElements =
   ThreadDefinition::addThreadObjectElements(mContext, objectElements, thread);
   
   EXPECT_EQ(6u, newElements.size());

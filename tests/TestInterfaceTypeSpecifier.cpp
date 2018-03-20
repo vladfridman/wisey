@@ -37,10 +37,10 @@ struct InterfaceTypeSpecifierTest : public ::testing::Test {
     StructType* structType = StructType::create(mContext.getLLVMContext(), "IShape");
     structType->setBody(types);
     VariableList methodArguments;
-    vector<IObjectElementDeclaration*> objectElements;
+    vector<IObjectElementDefinition*> objectElements;
     vector<IModelTypeSpecifier*> methodExceptions;
     const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-    IObjectElementDeclaration* methodSignature = new MethodSignatureDeclaration(intSpecifier,
+    IObjectElementDefinition* methodSignature = new MethodSignatureDeclaration(intSpecifier,
                                                                                 "foo",
                                                                                 methodArguments,
                                                                                 methodExceptions);

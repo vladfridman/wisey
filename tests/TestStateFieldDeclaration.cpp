@@ -50,7 +50,7 @@ public:
 };
 
 TEST_F(StateFieldDeclarationTest, declareTest) {
-  IField* field = mFieldDeclaration->declare(mContext, NULL);
+  IField* field = mFieldDeclaration->define(mContext, NULL);
   
   EXPECT_FALSE(field->isConstant());
   EXPECT_TRUE(field->isField());

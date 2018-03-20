@@ -36,7 +36,7 @@ struct BindActionTest : public Test {
 
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
-    vector<IObjectElementDeclaration*> interfaceElements;
+    vector<IObjectElementDefinition*> interfaceElements;
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                          interfaceFullName,

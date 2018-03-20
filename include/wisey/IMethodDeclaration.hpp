@@ -12,7 +12,7 @@
 #include "wisey/IMethod.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IModelTypeSpecifier.hpp"
-#include "wisey/IObjectElementDeclaration.hpp"
+#include "wisey/IObjectElementDefinition.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
@@ -21,7 +21,7 @@ namespace wisey {
   /**
    * Represents a method declaration that could either be static or non-static
    */
-  class IMethodDeclaration : public IObjectElementDeclaration {
+  class IMethodDeclaration : public IObjectElementDefinition {
     
   public:
     

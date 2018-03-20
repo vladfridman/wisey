@@ -30,8 +30,8 @@ InjectedFieldDeclaration::~InjectedFieldDeclaration() {
   mInjectionArgumentList.clear();
 }
 
-IField* InjectedFieldDeclaration::declare(IRGenerationContext& context,
-                                          const IObjectType* objectType) const {
+IField* InjectedFieldDeclaration::define(IRGenerationContext& context,
+                                         const IObjectType* objectType) const {
   const IType* fieldType = mTypeSpecifier->getType(context);
   
   if (fieldType->isInterface() && fieldType->isOwner()) {

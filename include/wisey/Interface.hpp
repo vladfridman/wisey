@@ -17,7 +17,7 @@
 
 #include "wisey/Constant.hpp"
 #include "wisey/IInjectable.hpp"
-#include "wisey/IObjectElementDeclaration.hpp"
+#include "wisey/IObjectElementDefinition.hpp"
 #include "wisey/MethodSignature.hpp"
 #include "wisey/PointerType.hpp"
 #include "wisey/StaticMethod.hpp"
@@ -41,7 +41,7 @@ namespace wisey {
     InterfaceOwner* mInterfaceOwner;
     const PointerType* mPointerType;
     std::vector<IInterfaceTypeSpecifier*> mParentInterfaceSpecifiers;
-    std::vector<IObjectElementDeclaration *> mElementDeclarations;
+    std::vector<IObjectElementDefinition *> mElementDeclarations;
     std::vector<Interface*> mParentInterfaces;
     std::map<std::string, Interface*> mParentInterfacesMap;
     std::vector<MethodSignature*> mMethodSignatures;
@@ -67,7 +67,7 @@ namespace wisey {
                                    std::string name,
                                    llvm::StructType* structType,
                                    std::vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
-                                   std::vector<IObjectElementDeclaration *> elementDeclarations);
+                                   std::vector<IObjectElementDefinition *> elementDeclarations);
     
     /**
      * static method for external interface instantiation
@@ -76,7 +76,7 @@ namespace wisey {
                                            llvm::StructType* structType,
                                            std::vector<IInterfaceTypeSpecifier*>
                                            parentInterfaceSpecifiers,
-                                           std::vector<IObjectElementDeclaration *>
+                                           std::vector<IObjectElementDefinition *>
                                            elementDeclarations);
     
     /**
@@ -268,7 +268,7 @@ namespace wisey {
               llvm::StructType* structType,
               bool isExternal,
               std::vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
-              std::vector<IObjectElementDeclaration *> elementDelcarations);
+              std::vector<IObjectElementDefinition *> elementDelcarations);
     
     void includeInterfaceMethods(Interface* parentInterface);
     
@@ -310,7 +310,7 @@ namespace wisey {
     
     std::tuple<std::vector<MethodSignature*>, std::vector<wisey::Constant*>,
     std::vector<StaticMethod*>> createElements(IRGenerationContext& context,
-                                               std::vector<IObjectElementDeclaration*>
+                                               std::vector<IObjectElementDefinition*>
                                                elementDeclarations);
     
     static void composeCastFunction(IRGenerationContext& context,

@@ -14,7 +14,7 @@ using namespace std;
 using namespace wisey;
 
 ExternalNodeDefinition::ExternalNodeDefinition(NodeTypeSpecifierFull* nodeTypeSpecifierFull,
-                                               vector<IObjectElementDeclaration*>
+                                               vector<IObjectElementDefinition*>
                                                objectElementDeclarations,
                                                vector<IInterfaceTypeSpecifier*>
                                                interfaceSpecifiers,
@@ -26,7 +26,7 @@ mInnerObjectDefinitions(innerObjectDefinitions) { }
 
 ExternalNodeDefinition::~ExternalNodeDefinition() {
   delete mNodeTypeSpecifierFull;
-  for (IObjectElementDeclaration* objectElementDeclaration : mObjectElementDeclarations) {
+  for (IObjectElementDefinition* objectElementDeclaration : mObjectElementDeclarations) {
     delete objectElementDeclaration;
   }
   mObjectElementDeclarations.clear();

@@ -60,7 +60,7 @@ struct ControllerOwnerTest : public Test {
     string vehicleFullName = "systems.vos.wisey.compiler.tests.IVehicle";
     StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, vehicleFullName);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
-    vector<IObjectElementDeclaration*> interfaceElements;
+    vector<IObjectElementDefinition*> interfaceElements;
     mVehicleInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                                 vehicleFullName,
                                                 vehicleInterfaceStructType,
@@ -101,7 +101,7 @@ struct ControllerOwnerTest : public Test {
     StructType* scienceCalculatorIinterfaceStructType =
     StructType::create(mLLVMContext, scienceCalculatorFullName);
     vector<IInterfaceTypeSpecifier*> scienceCalculatorParentInterfaces;
-    vector<IObjectElementDeclaration*> scienceCalculatorInterfaceElements;
+    vector<IObjectElementDefinition*> scienceCalculatorInterfaceElements;
     InterfaceTypeSpecifier* calculatorTypeSpecifier = new InterfaceTypeSpecifier(NULL,
                                                                                  "ICalculator");
     scienceCalculatorParentInterfaces.push_back(calculatorTypeSpecifier);

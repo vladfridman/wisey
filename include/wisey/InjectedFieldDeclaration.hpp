@@ -10,7 +10,7 @@
 #define InjectedFieldDeclaration_h
 
 #include "wisey/IField.hpp"
-#include "wisey/IObjectElementDeclaration.hpp"
+#include "wisey/IObjectElementDefinition.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 #include "wisey/InjectionArgument.hpp"
 
@@ -21,7 +21,7 @@ namespace wisey {
   /**
    * Represents a field in controller definition
    */
-  class InjectedFieldDeclaration : public IObjectElementDeclaration {
+  class InjectedFieldDeclaration : public IObjectElementDefinition {
     const ITypeSpecifier* mTypeSpecifier;
     std::string mName;
     InjectionArgumentList mInjectionArgumentList;
@@ -34,7 +34,7 @@ namespace wisey {
     
     ~InjectedFieldDeclaration();
     
-    IField* declare(IRGenerationContext& context, const IObjectType* objectType) const override;
+    IField* define(IRGenerationContext& context, const IObjectType* objectType) const override;
     
     bool isConstant() const override;
     

@@ -12,7 +12,7 @@
 #include "wisey/AccessLevel.hpp"
 #include "wisey/IConcreteObjectDefinition.hpp"
 #include "wisey/IInterfaceTypeSpecifier.hpp"
-#include "wisey/IObjectElementDeclaration.hpp"
+#include "wisey/IObjectElementDefinition.hpp"
 #include "wisey/MethodDeclaration.hpp"
 #include "wisey/StateFieldDeclaration.hpp"
 #include "wisey/ThreadTypeSpecifierFull.hpp"
@@ -26,7 +26,7 @@ namespace wisey {
     AccessLevel mAccessLevel;
     ThreadTypeSpecifierFull* mThreadTypeSpecifierFull;
     const ITypeSpecifier* mSendsTypeSpecifier;
-    std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
+    std::vector<IObjectElementDefinition*> mObjectElementDeclarations;
     std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
     std::vector<IObjectDefinition*> mInnerObjectDefinitions;
     
@@ -35,7 +35,7 @@ namespace wisey {
     ThreadDefinition(AccessLevel accessLevel,
                      ThreadTypeSpecifierFull* threadTypeSpecifierFull,
                      const ITypeSpecifier* sendsTypeSpecifier,
-                     std::vector<IObjectElementDeclaration*> objectElementDeclarations,
+                     std::vector<IObjectElementDefinition*> objectElementDeclarations,
                      std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
                      std::vector<IObjectDefinition*> innerObjectDefinitions);
     
@@ -44,9 +44,9 @@ namespace wisey {
     /**
      * Adds a field that contains the native thread handle and automatically generated methods
      */
-    static std::vector<IObjectElementDeclaration*>
+    static std::vector<IObjectElementDefinition*>
     addThreadObjectElements(IRGenerationContext& context,
-                            std::vector<IObjectElementDeclaration*> objectElements,
+                            std::vector<IObjectElementDefinition*> objectElements,
                             const Thread* thread);
     
     Thread* prototypeObject(IRGenerationContext& context) const override;

@@ -19,7 +19,7 @@ using namespace wisey;
 
 ControllerDefinition::ControllerDefinition(AccessLevel accessLevel,
                                            ControllerTypeSpecifierFull* controllerTypeSpecifierFull,
-                                           vector<IObjectElementDeclaration*>
+                                           vector<IObjectElementDefinition*>
                                              objectElementDeclarations,
                                            vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
                                            vector<IObjectDefinition*> innerObjectDefinitions) :
@@ -31,7 +31,7 @@ mInnerObjectDefinitions(innerObjectDefinitions) { }
 
 ControllerDefinition::~ControllerDefinition() {
   delete mControllerTypeSpecifierFull;
-  for (IObjectElementDeclaration* objectElementDeclaration : mObjectElementDeclarations) {
+  for (IObjectElementDefinition* objectElementDeclaration : mObjectElementDeclarations) {
     delete objectElementDeclaration;
   }
   mObjectElementDeclarations.clear();

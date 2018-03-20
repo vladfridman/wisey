@@ -52,9 +52,9 @@ struct InterfaceDefinitionTest : public Test {
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
     vector<IModelTypeSpecifier*> thrownExceptions;
-    IObjectElementDeclaration* methodSignatureDeclaration =
+    IObjectElementDefinition* methodSignatureDeclaration =
       new MethodSignatureDeclaration(floatTypeSpecifier, "foo", methodArguments, thrownExceptions);
-    vector<IObjectElementDeclaration *> objectElements;
+    vector<IObjectElementDefinition *> objectElements;
     objectElements.push_back(methodSignatureDeclaration);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     

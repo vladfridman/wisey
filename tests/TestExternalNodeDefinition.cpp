@@ -19,7 +19,7 @@
 #include "wisey/FloatConstant.hpp"
 #include "wisey/ExternalNodeDefinition.hpp"
 #include "wisey/ExternalMethodDeclaration.hpp"
-#include "wisey/IObjectElementDeclaration.hpp"
+#include "wisey/IObjectElementDefinition.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -35,7 +35,7 @@ struct ExternalNodeDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   ExternalMethodDeclaration* mMethodDeclaration;
-  vector<IObjectElementDeclaration*> mObjectElements;
+  vector<IObjectElementDefinition*> mObjectElements;
   string mPackage = "systems.vos.wisey.compiler.tests";
   ImportProfile* mImportProfile;
 

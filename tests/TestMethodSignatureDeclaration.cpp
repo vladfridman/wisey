@@ -57,7 +57,7 @@ struct MethodSignatureDeclarationTest : Test {
     StructType* structType = StructType::create(llvmContext, interfaceFullName);
     structType->setBody(types);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
-    vector<IObjectElementDeclaration*> interfaceElements;
+    vector<IObjectElementDefinition*> interfaceElements;
     mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                          interfaceFullName,
                                          structType,
@@ -78,7 +78,7 @@ TEST_F(MethodSignatureDeclarationTest, methodDescriptorExtractTest) {
                                                         "foo",
                                                         mArguments,
                                                         thrownExceptions);
-  MethodSignature* methodSignature = methodSignatureDeclaration.declare(mContext, NULL);
+  MethodSignature* methodSignature = methodSignatureDeclaration.define(mContext, NULL);
   vector<MethodArgument*> arguments = methodSignature->getArguments();
   
   EXPECT_FALSE(methodSignatureDeclaration.isConstant());

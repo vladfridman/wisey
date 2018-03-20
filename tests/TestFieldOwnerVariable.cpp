@@ -57,7 +57,7 @@ struct FieldOwnerVariableTest : Test {
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IInterface";
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
-    vector<IObjectElementDeclaration*> interfaceElements;
+    vector<IObjectElementDefinition*> interfaceElements;
     mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                          interfaceFullName,
                                          interfaceStructType,

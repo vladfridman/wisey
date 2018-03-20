@@ -36,8 +36,8 @@ ExternalMethodDeclaration::~ExternalMethodDeclaration() {
   mThrownExceptions.clear();
 }
 
-ExternalMethod* ExternalMethodDeclaration::declare(IRGenerationContext& context,
-                                                   const IObjectType* objectType) const {
+ExternalMethod* ExternalMethodDeclaration::define(IRGenerationContext& context,
+                                                  const IObjectType* objectType) const {
   const IType* returnType = mReturnTypeSpecifier->getType(context);
   vector<MethodArgument*> arguments = IMethodDeclaration::createArgumnetList(context, mArguments);
   vector<const Model*> exceptions = IMethodDeclaration::createExceptionList(context,

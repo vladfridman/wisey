@@ -50,7 +50,7 @@ struct IRGenerationContextTest : public Test {
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
-    vector<IObjectElementDeclaration*> interfaceElements;
+    vector<IObjectElementDefinition*> interfaceElements;
     mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                          interfaceFullName,
                                          interfaceStructType,
@@ -231,7 +231,7 @@ TEST_F(IRGenerationContextTest, addInterfaceTest) {
   string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
   StructType* structType = StructType::create(mLLVMContext, interfaceFullName);
   vector<IInterfaceTypeSpecifier*> parentInterfaces;
-  vector<IObjectElementDeclaration*> interfaceElements;
+  vector<IObjectElementDefinition*> interfaceElements;
   Interface* interface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                                  interfaceFullName,
                                                  structType,
@@ -250,7 +250,7 @@ TEST_F(IRGenerationContextTest, addInterfaceAlreadyDefinedDeathTest) {
   string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
   StructType* structType = StructType::create(mLLVMContext, interfaceFullName);
   vector<IInterfaceTypeSpecifier*> parentInterfaces;
-  vector<IObjectElementDeclaration*> interfaceElements;
+  vector<IObjectElementDefinition*> interfaceElements;
   Interface* interface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                                  interfaceFullName,
                                                  structType,

@@ -44,7 +44,7 @@ Interface::Interface(AccessLevel accessLevel,
                      StructType* structType,
                      bool isExternal,
                      vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
-                     vector<IObjectElementDeclaration *> elementDelcarations) :
+                     vector<IObjectElementDefinition *> elementDelcarations) :
 mAccessLevel(accessLevel),
 mName(name),
 mStructType(structType),
@@ -81,7 +81,7 @@ Interface* Interface::newInterface(AccessLevel accessLevel,
                                    string name,
                                    StructType *structType,
                                    vector<IInterfaceTypeSpecifier *> parentInterfaceSpecifiers,
-                                   vector<IObjectElementDeclaration *>
+                                   vector<IObjectElementDefinition *>
                                    elementDeclarations) {
   return new Interface(accessLevel,
                        name,
@@ -95,7 +95,7 @@ Interface* Interface::newExternalInterface(string name,
                                            StructType *structType,
                                            vector<IInterfaceTypeSpecifier *>
                                            parentInterfaceSpecifiers,
-                                           vector<IObjectElementDeclaration *>
+                                           vector<IObjectElementDefinition *>
                                            elementDeclarations) {
   return new Interface(AccessLevel::PUBLIC_ACCESS,
                        name,
@@ -791,12 +791,12 @@ Instruction* Interface::inject(IRGenerationContext& context,
 
 tuple<vector<MethodSignature*>, vector<wisey::Constant*>, vector<StaticMethod*>>
 Interface::createElements(IRGenerationContext& context,
-                          vector<IObjectElementDeclaration*> elementDeclarations) {
+                          vector<IObjectElementDefinition*> elementDeclarations) {
   vector<MethodSignature*> methodSignatures;
   vector<wisey::Constant*> constants;
   vector<StaticMethod*> staticMethods;
-  for (IObjectElementDeclaration* elementDeclaration : elementDeclarations) {
-    IObjectElement* objectElement = elementDeclaration->declare(context, this);
+  for (IObjectElementDefinition* elementDeclaration : elementDeclarations) {
+    IObjectElement* objectElement = elementDeclaration->define(context, this);
     if (objectElement->isField()) {
       Log::e("Interfaces can not contain fields");
       exit(1);

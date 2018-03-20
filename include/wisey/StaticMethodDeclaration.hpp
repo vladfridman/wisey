@@ -44,7 +44,7 @@ namespace wisey {
     
     ~StaticMethodDeclaration();
     
-    IMethod* declare(IRGenerationContext& context, const IObjectType* objectType) const override;
+    IMethod* define(IRGenerationContext& context, const IObjectType* objectType) const override;
     
     bool isConstant() const override;
     

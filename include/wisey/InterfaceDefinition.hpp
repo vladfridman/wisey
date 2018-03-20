@@ -12,7 +12,7 @@
 #include "wisey/AccessLevel.hpp"
 #include "wisey/InterfaceTypeSpecifierFull.hpp"
 #include "wisey/IObjectDefinition.hpp"
-#include "wisey/IObjectElementDeclaration.hpp"
+#include "wisey/IObjectElementDefinition.hpp"
 
 namespace wisey {
   
@@ -23,7 +23,7 @@ namespace wisey {
     AccessLevel mAccessLevel;
     InterfaceTypeSpecifierFull* mInterfaceTypeSpecifierFull;
     std::vector<IInterfaceTypeSpecifier*> mParentInterfaceSpecifiers;
-    std::vector<IObjectElementDeclaration *> mElementDeclarations;
+    std::vector<IObjectElementDefinition *> mElementDeclarations;
     std::vector<IObjectDefinition*> mInnerObjectDefinitions;
     
   public:
@@ -31,7 +31,7 @@ namespace wisey {
     InterfaceDefinition(AccessLevel accessLevel,
                         InterfaceTypeSpecifierFull* interfaceTypeSpecifierFull,
                         std::vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
-                        std::vector<IObjectElementDeclaration *> elementDeclarations,
+                        std::vector<IObjectElementDefinition *> elementDeclarations,
                         std::vector<IObjectDefinition*> innerObjectDefinitions);
     
     ~InterfaceDefinition();

@@ -22,7 +22,7 @@ namespace wisey {
   /**
    * Represents a method signature declaration contained within an interface
    */
-  class MethodSignatureDeclaration : public IObjectElementDeclaration {
+  class MethodSignatureDeclaration : public IObjectElementDefinition {
     const ITypeSpecifier* mReturnTypeSpecifier;
     std::string mMethodName;
     VariableList mArguments;
@@ -37,8 +37,8 @@ namespace wisey {
     
     ~MethodSignatureDeclaration();
     
-    MethodSignature* declare(IRGenerationContext& context,
-                             const IObjectType* objectType) const override;
+    MethodSignature* define(IRGenerationContext& context,
+                            const IObjectType* objectType) const override;
     
     bool isConstant() const override;
     

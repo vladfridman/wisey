@@ -16,7 +16,7 @@ using namespace wisey;
 
 void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
                                                 IConcreteObjectType* object,
-                                                vector<IObjectElementDeclaration*>
+                                                vector<IObjectElementDefinition*>
                                                   elementDeclarations,
                                                 vector<IInterfaceTypeSpecifier*>
                                                   interfaceSpecifiers) {
@@ -50,12 +50,12 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
 tuple<vector<Constant*>, vector<IField*>, vector<IMethod*>>
 IConcreteObjectDefinition::createElements(IRGenerationContext& context,
                                           const IConcreteObjectType* concreteObjectType,
-                                          vector<IObjectElementDeclaration*> elementDeclarations) {
+                                          vector<IObjectElementDefinition*> elementDeclarations) {
   vector<IField*> fields;
   vector<IMethod*> methods;
   vector<Constant*> constants;
-  for (IObjectElementDeclaration* elementDeclaration : elementDeclarations) {
-    IObjectElement* element = elementDeclaration->declare(context, concreteObjectType);
+  for (IObjectElementDefinition* elementDeclaration : elementDeclarations) {
+    IObjectElement* element = elementDeclaration->define(context, concreteObjectType);
     if (element->isConstant()) {
       if (methods.size() || fields.size()) {
         Log::e("Constants should be declared before fields and methods");

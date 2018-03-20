@@ -15,7 +15,7 @@ using namespace wisey;
 
 NodeDefinition::NodeDefinition(AccessLevel accessLevel,
                                NodeTypeSpecifierFull* nodeTypeSpecifierFull,
-                               vector<IObjectElementDeclaration*> objectElementDeclarations,
+                               vector<IObjectElementDefinition*> objectElementDeclarations,
                                vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
                                vector<IObjectDefinition*> innerObjectDefinitions) :
 mAccessLevel(accessLevel),
@@ -26,7 +26,7 @@ mInnerObjectDefinitions(innerObjectDefinitions) { }
 
 NodeDefinition::~NodeDefinition() {
   delete mNodeTypeSpecifierFull;
-  for (IObjectElementDeclaration* objectElementDeclaration : mObjectElementDeclarations) {
+  for (IObjectElementDefinition* objectElementDeclaration : mObjectElementDeclarations) {
     delete objectElementDeclaration;
   }
   mObjectElementDeclarations.clear();

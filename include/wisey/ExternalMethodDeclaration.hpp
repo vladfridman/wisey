@@ -38,8 +38,8 @@ namespace wisey {
     
     ~ExternalMethodDeclaration();
     
-    ExternalMethod* declare(IRGenerationContext& context,
-                            const IObjectType* objectType) const override;
+    ExternalMethod* define(IRGenerationContext& context,
+                           const IObjectType* objectType) const override;
     
     bool isConstant() const override;
     

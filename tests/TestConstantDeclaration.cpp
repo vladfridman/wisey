@@ -59,7 +59,7 @@ TEST_F(ConstantDeclarationTest, declareTest) {
   EXPECT_FALSE(mConstantDeclaration->isStaticMethod());
   EXPECT_FALSE(mConstantDeclaration->isMethodSignature());
 
-  EXPECT_NE(mConstantDeclaration->declare(mContext, NULL), nullptr);
+  EXPECT_NE(mConstantDeclaration->define(mContext, NULL), nullptr);
 }
 
 TEST_F(TestFileSampleRunner, constantDeclarationInObjectRunTest) {

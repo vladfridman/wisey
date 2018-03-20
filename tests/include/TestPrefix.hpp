@@ -15,7 +15,7 @@
 #include "wisey/ThreadDefinition.hpp"
 
 namespace wisey {
-  class IObjectElementDeclaration;
+  class IObjectElementDefinition;
 }
 
 /**
@@ -36,7 +36,7 @@ private:
   
   static void defineModel(wisey::IRGenerationContext& context,
                           std::string modelName,
-                          std::vector<wisey::IObjectElementDeclaration*> modelElements);
+                          std::vector<wisey::IObjectElementDefinition*> modelElements);
   
   static wisey::InterfaceDefinition* defineThreadInterface(wisey::IRGenerationContext& context);
   

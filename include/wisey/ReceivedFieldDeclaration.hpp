@@ -10,7 +10,7 @@
 #define ReceivedFieldDeclaration_h
 
 #include "wisey/IField.hpp"
-#include "wisey/IObjectElementDeclaration.hpp"
+#include "wisey/IObjectElementDefinition.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 #include "wisey/InjectionArgument.hpp"
 
@@ -21,7 +21,7 @@ namespace wisey {
   /**
    * Represents a state field declaration in object definition
    */
-  class ReceivedFieldDeclaration : public IObjectElementDeclaration {
+  class ReceivedFieldDeclaration : public IObjectElementDefinition {
     const ITypeSpecifier* mTypeSpecifier;
     std::string mName;
     
@@ -31,7 +31,7 @@ namespace wisey {
     
     ~ReceivedFieldDeclaration();
     
-    IField* declare(IRGenerationContext& context, const IObjectType* objectType) const override;
+    IField* define(IRGenerationContext& context, const IObjectType* objectType) const override;
     
     bool isConstant() const override;
     

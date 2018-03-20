@@ -43,7 +43,7 @@ using namespace wisey;
 ThreadDefinition::ThreadDefinition(AccessLevel accessLevel,
                                    ThreadTypeSpecifierFull* threadTypeSpecifierFull,
                                    const ITypeSpecifier* sendsTypeSpecifier,
-                                   vector<IObjectElementDeclaration*> objectElementDeclarations,
+                                   vector<IObjectElementDefinition*> objectElementDeclarations,
                                    vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
                                    vector<IObjectDefinition*> innerObjectDefinitions) :
 mAccessLevel(accessLevel),
@@ -56,7 +56,7 @@ mInnerObjectDefinitions(innerObjectDefinitions) { }
 ThreadDefinition::~ThreadDefinition() {
   delete mThreadTypeSpecifierFull;
   delete mSendsTypeSpecifier;
-  for (IObjectElementDeclaration* objectElementDeclaration : mObjectElementDeclarations) {
+  for (IObjectElementDefinition* objectElementDeclaration : mObjectElementDeclarations) {
     delete objectElementDeclaration;
   }
   mObjectElementDeclarations.clear();
@@ -93,7 +93,7 @@ void ThreadDefinition::prototypeMethods(IRGenerationContext& context) const {
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(thread);
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
-  vector<IObjectElementDeclaration*> withThreadElements =
+  vector<IObjectElementDefinition*> withThreadElements =
   addThreadObjectElements(context, mObjectElementDeclarations, thread);
   configureObject(context, thread, withThreadElements, mInterfaceSpecifiers);
   context.setObjectType(lastObjectType);
@@ -238,14 +238,14 @@ StateFieldDeclaration* ThreadDefinition::createNativeThreadResultField(IRGenerat
   return new StateFieldDeclaration(intTypeSpecifier, "mMessage");
 }
 
-vector<IObjectElementDeclaration*>
+vector<IObjectElementDefinition*>
 ThreadDefinition::addThreadObjectElements(IRGenerationContext& context,
-                                          vector<IObjectElementDeclaration*> objectElements,
+                                          vector<IObjectElementDefinition*> objectElements,
                                           const Thread* thread) {
-  vector<IObjectElementDeclaration*> result;
-  vector<IObjectElementDeclaration*>::const_iterator iterator = objectElements.begin();
+  vector<IObjectElementDefinition*> result;
+  vector<IObjectElementDefinition*>::const_iterator iterator = objectElements.begin();
   for (; iterator != objectElements.end(); iterator++) {
-    IObjectElementDeclaration* element = *iterator;
+    IObjectElementDefinition* element = *iterator;
     if (!element->isConstant()) {
       break;
     }
@@ -254,7 +254,7 @@ ThreadDefinition::addThreadObjectElements(IRGenerationContext& context,
   result.push_back(createNativeThreadHandleField(context));
   result.push_back(createNativeThreadResultField(context));
   for (; iterator != objectElements.end(); iterator++) {
-    IObjectElementDeclaration* element = *iterator;
+    IObjectElementDefinition* element = *iterator;
     if (!element->isField()) {
       break;
     }

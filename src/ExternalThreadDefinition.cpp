@@ -15,7 +15,7 @@ using namespace wisey;
 
 ExternalThreadDefinition::ExternalThreadDefinition(ThreadTypeSpecifierFull*
                                                    threadTypeSpecifierFull,
-                                                   vector<IObjectElementDeclaration*>
+                                                   vector<IObjectElementDefinition*>
                                                    objectElementDeclarations,
                                                    vector<IInterfaceTypeSpecifier*>
                                                    interfaceSpecifiers,
@@ -28,7 +28,7 @@ mInnerObjectDefinitions(innerObjectDefinitions) { }
 
 ExternalThreadDefinition::~ExternalThreadDefinition() {
   delete mThreadTypeSpecifierFull;
-  for (IObjectElementDeclaration* objectElementDeclaration : mObjectElementDeclarations) {
+  for (IObjectElementDefinition* objectElementDeclaration : mObjectElementDeclarations) {
     delete objectElementDeclaration;
   }
   mObjectElementDeclarations.clear();
@@ -65,7 +65,7 @@ void ExternalThreadDefinition::prototypeMethods(IRGenerationContext& context) co
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(thread);
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
-  vector<IObjectElementDeclaration*> withThreadElements =
+  vector<IObjectElementDefinition*> withThreadElements =
   ThreadDefinition::addThreadObjectElements(context, mObjectElementDeclarations, thread);
   configureObject(context, thread, withThreadElements, mInterfaceSpecifiers);
   context.setObjectType(lastObjectType);

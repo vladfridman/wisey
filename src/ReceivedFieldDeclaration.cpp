@@ -21,8 +21,8 @@ ReceivedFieldDeclaration::~ReceivedFieldDeclaration() {
   delete mTypeSpecifier;
 }
 
-IField* ReceivedFieldDeclaration::declare(IRGenerationContext& context,
-                                      const IObjectType* objectType) const {
+IField* ReceivedFieldDeclaration::define(IRGenerationContext& context,
+                                         const IObjectType* objectType) const {
   const IType* fieldType = mTypeSpecifier->getType(context);
   
   return new ReceivedField(fieldType, mName);

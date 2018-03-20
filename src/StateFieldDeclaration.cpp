@@ -20,8 +20,8 @@ StateFieldDeclaration::~StateFieldDeclaration() {
   delete mTypeSpecifier;
 }
 
-IField* StateFieldDeclaration::declare(IRGenerationContext& context,
-                                       const IObjectType* objectType) const {
+IField* StateFieldDeclaration::define(IRGenerationContext& context,
+                                      const IObjectType* objectType) const {
   const IType* fieldType = mTypeSpecifier->getType(context);
   
   return new StateField(fieldType, mName);

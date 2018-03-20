@@ -38,7 +38,7 @@ using ::testing::Test;
 struct ExternalThreadDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  vector<IObjectElementDeclaration*> mElementDeclarations;
+  vector<IObjectElementDefinition*> mElementDeclarations;
   vector<IInterfaceTypeSpecifier*> mInterfaces;
   string mPackage = "systems.vos.wisey.compiler.tests";
   

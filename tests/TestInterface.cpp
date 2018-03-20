@@ -57,9 +57,9 @@ struct InterfaceTest : public Test {
   Interface* mObjectInterface;
   Interface* mIncompleteInterface;
   InterfaceTypeSpecifier* mObjectInterfaceSpecifier;
-  IObjectElementDeclaration* mFooMethod;
-  IObjectElementDeclaration* mBarMethod;
-  IObjectElementDeclaration* mStaticMethod;
+  IObjectElementDefinition* mFooMethod;
+  IObjectElementDefinition* mBarMethod;
+  IObjectElementDefinition* mStaticMethod;
   StructType* mShapeStructType;
   StructType* mIncompleteInterfaceStructType;
   IRGenerationContext mContext;
@@ -90,7 +90,7 @@ struct InterfaceTest : public Test {
     const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
     VariableList methodArguments;
     mBarMethod = new MethodSignatureDeclaration(intSpecifier, "bar", methodArguments, exceptions);
-    vector<IObjectElementDeclaration*> objectElementDeclarations;
+    vector<IObjectElementDefinition*> objectElementDeclarations;
     objectElementDeclarations.push_back(mBarMethod);
     vector<IInterfaceTypeSpecifier*> objectParentInterfaces;
     vector<MethodSignatureDeclaration*> methodDeclarations;
@@ -106,7 +106,7 @@ struct InterfaceTest : public Test {
     string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
     mShapeStructType = StructType::create(mLLVMContext, shapeFullName);
     mFooMethod = new MethodSignatureDeclaration(intSpecifier, "foo", methodArguments, exceptions);
-    vector<IObjectElementDeclaration*> shapeElements;
+    vector<IObjectElementDefinition*> shapeElements;
 
     intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
     VariableList staticMethodArguments;
@@ -391,7 +391,7 @@ TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
   
   string name = "systems.vos.wisey.compiler.tests.IInterface";
   StructType* structType = StructType::create(mLLVMContext, name);
-  vector<IObjectElementDeclaration*> elements;
+  vector<IObjectElementDefinition*> elements;
   elements.push_back(fieldDeclaration);
   vector<IInterfaceTypeSpecifier*> parentInterfaces;
   Interface* interface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
@@ -425,7 +425,7 @@ TEST_F(InterfaceTest, methodDeclarationDeathTest) {
 
   string name = "systems.vos.wisey.compiler.tests.IInterface";
   StructType* structType = StructType::create(mLLVMContext, name);
-  vector<IObjectElementDeclaration*> elements;
+  vector<IObjectElementDefinition*> elements;
   elements.push_back(methodDeclaration);
   vector<IInterfaceTypeSpecifier*> parentInterfaces;
   Interface* interface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
@@ -445,7 +445,7 @@ TEST_F(InterfaceTest, constantsAfterMethodSignaturesDeathTest) {
 
   string name = "systems.vos.wisey.compiler.tests.IInterface";
   StructType* structType = StructType::create(mLLVMContext, name);
-  vector<IObjectElementDeclaration*> elements;
+  vector<IObjectElementDefinition*> elements;
   elements.push_back(mBarMethod);
   elements.push_back(mConstantDeclaration);
   vector<IInterfaceTypeSpecifier*> parentInterfaces;
@@ -545,7 +545,7 @@ TEST_F(InterfaceTest, circularDependencyDeathTest) {
   StructType* childStructType = StructType::create(mLLVMContext, childFullName);
   vector<IInterfaceTypeSpecifier*> childParentInterfaces;
   childParentInterfaces.push_back(parentInterfaceSpecifier);
-  vector<IObjectElementDeclaration*> childElements;
+  vector<IObjectElementDefinition*> childElements;
   Interface* child = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                              childFullName,
                                              childStructType,
@@ -557,7 +557,7 @@ TEST_F(InterfaceTest, circularDependencyDeathTest) {
   StructType* parentStructType = StructType::create(mLLVMContext, parentFullName);
   vector<IInterfaceTypeSpecifier*> parentParentInterfaces;
   parentParentInterfaces.push_back(childInterfaceSpecifier);
-  vector<IObjectElementDeclaration*> parentElements;
+  vector<IObjectElementDefinition*> parentElements;
   Interface* parent = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                               parentFullName,
                                               parentStructType,
