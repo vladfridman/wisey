@@ -56,7 +56,7 @@ public:
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
 
-    ILLVMType* type = LLVMPrimitiveTypes::I8->getPointerType();
+    const LLVMPointerType* type = LLVMPrimitiveTypes::I8->getPointerType();
     mVariableValue = ConstantPointerNull::get(type->getLLVMType(mContext));
     mVariable = new ParameterNativeVariable("foo", type, mVariableValue);
 
