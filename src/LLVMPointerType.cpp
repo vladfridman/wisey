@@ -38,18 +38,18 @@ llvm::PointerType* LLVMPointerType::getLLVMType(IRGenerationContext& context) co
 }
 
 bool LLVMPointerType::canCastTo(IRGenerationContext& context, const IType* toType) const {
-  return toType->isNative() && toType->isReference();
+  return toType->isReference();
 }
 
 bool LLVMPointerType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
-  return toType->isNative() && toType->isReference();
+  return toType->isReference();
 }
 
 llvm::Value* LLVMPointerType::castTo(IRGenerationContext& context,
                                  llvm::Value* fromValue,
                                  const IType* toType,
                                  int line) const {
-  if (toType->isNative() && toType->isReference()) {
+  if (toType->isReference()) {
     return IRWriter::newBitCastInst(context, fromValue, toType->getLLVMType(context));
   }
   assert(false);

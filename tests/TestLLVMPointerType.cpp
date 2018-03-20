@@ -52,6 +52,12 @@ public:
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
+    StructType* structType = StructType::create(mLLVMContext, "mystruct");
+    
+    ON_CALL(mConcreteObjectType, isReference()).WillByDefault(Return(true));
+    ON_CALL(mConcreteObjectType, isNative()).WillByDefault(Return(false));
+    ON_CALL(mConcreteObjectType, getLLVMType(_)).WillByDefault(Return(structType->getPointerTo()));
+
     mStringStream = new raw_string_ostream(mStringBuffer);
     
     mLLVMPointerType = new LLVMPointerType(LLVMPrimitiveTypes::I8);
@@ -71,12 +77,14 @@ TEST_F(LLVMPointerTypeTest, canAutoCastToTest) {
   EXPECT_FALSE(mLLVMPointerType->canAutoCastTo(mContext, LLVMPrimitiveTypes::I8));
   LLVMPointerType* anotherPointerType = new LLVMPointerType(LLVMPrimitiveTypes::I32);
   EXPECT_TRUE(mLLVMPointerType->canAutoCastTo(mContext, anotherPointerType));
+  EXPECT_TRUE(mLLVMPointerType->canAutoCastTo(mContext, &mConcreteObjectType));
 }
 
 TEST_F(LLVMPointerTypeTest, canCastTest) {
   EXPECT_FALSE(mLLVMPointerType->canCastTo(mContext, LLVMPrimitiveTypes::I8));
   LLVMPointerType* anotherPointerType = new LLVMPointerType(LLVMPrimitiveTypes::I32);
   EXPECT_TRUE(mLLVMPointerType->canCastTo(mContext, anotherPointerType));
+  EXPECT_TRUE(mLLVMPointerType->canCastTo(mContext, &mConcreteObjectType));
 }
 
 TEST_F(LLVMPointerTypeTest, castToTest) {
@@ -88,6 +96,17 @@ TEST_F(LLVMPointerTypeTest, castToTest) {
   *mStringStream << *result;
   
   EXPECT_STREQ("  %0 = bitcast i8* null to i32*", mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
+TEST_F(LLVMPointerTypeTest, castToObjectTest) {
+  Mock::AllowLeak(&mConcreteObjectType);
+  
+  Value* value = ConstantPointerNull::get(mLLVMPointerType->getLLVMType(mContext));
+  Value* result = mLLVMPointerType->castTo(mContext, value, &mConcreteObjectType, 0);
+  *mStringStream << *result;
+  
+  EXPECT_STREQ("  %0 = bitcast i8* null to %mystruct*", mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 

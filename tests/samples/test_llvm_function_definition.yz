@@ -1,7 +1,27 @@
 package systems.vos.wisey.compiler.tests;
 
+interface IMyInterface {
+  int getValue();
+}
+
+model MMyModel implements IMyInterface {
+
+  public int getValue() {
+    return 5;
+  }
+}
+
 controller CService {
-  ::llvm::function ::llvm::i8* myfunction(::llvm::i8* argument) {
+
+  public void run() {
+  }
+
+  ::llvm::function ::llvm::i8* runBridge(::llvm::i8* argument) {
+    MMyModel myModel = (MMyModel) argument;
+    IMyInterface myInterface = (IMyInterface) myModel;
+    // int value = myInterface.getValue();
+    // ::llvm::function::wisey.lang.TMainThread.run(mainThread, iThread, null);
+
     return argument;
   }
 }
