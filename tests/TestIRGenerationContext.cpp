@@ -456,5 +456,12 @@ TEST_F(IRGenerationContextTest, getLLVMFunctionTypeTest) {
   LLVMFunctionType* llvmFunctionType = mContext.getLLVMFunctionType(LLVMPrimitiveTypes::I8,
                                                                     argumentTypes);
   
-  EXPECT_EQ(llvmFunctionType, mContext.getLLVMFunctionType(LLVMPrimitiveTypes::I8,argumentTypes));
+  EXPECT_EQ(llvmFunctionType, mContext.getLLVMFunctionType(LLVMPrimitiveTypes::I8, argumentTypes));
+}
+
+TEST_F(IRGenerationContextTest, getNativeTypeTest) {
+  NativeType* nativeType = mContext.getNativeType(Type::getInt8Ty(mLLVMContext)->getPointerTo());
+  
+  EXPECT_NE(nullptr, nativeType);
+  EXPECT_EQ(nativeType, mContext.getNativeType(Type::getInt8Ty(mLLVMContext)->getPointerTo()));
 }

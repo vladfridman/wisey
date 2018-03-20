@@ -70,6 +70,7 @@
   #include "wisey/IObjectTypeSpecifier.hpp"
   #include "wisey/ITypeSpecifier.hpp"
   #include "wisey/LLVMArrayTypeSpecifer.hpp"
+  #include "wisey/LLVMFunctionCall.hpp"
   #include "wisey/LLVMFunctionDeclaration.hpp"
   #include "wisey/LLVMFunctionDefinition.hpp"
   #include "wisey/LLVMFunctionTypeSpecifier.hpp"
@@ -218,7 +219,7 @@
  * Parsing tree node types
  */
 %type <identifier> identifier
-%type <string> package_optional package_name
+%type <string> package_optional package_name string_identifier llvm_function_name
 %type <expression> string_literal constant_value expression multiplicative_expression 
 %type <expression> additive_expression relational_expression equality_expression
 %type <expression> logical_and_expression logical_or_expression
@@ -226,6 +227,7 @@
 %type <expression> cast_expression primary_expression assignment unary_expression
 %type <expression> type_comparision_expression injection array_allocation static_array_allocation
 %type <expression> thread_expression constant_reference static_method_call field_identifier
+%type <expression> llvm_function_call
 %type <variable_vector> method_definition_arguments
 %type <expression_vector> call_arguments string_concatenation_list static_array_elements
 %type <block> block_item_list 
@@ -452,6 +454,31 @@ llvm_function_definition_arguments
 llvm_function_argument_declaration
   : llvm_type_specifier identifier { $$ = LLVMVariableDeclaration::create($1, $2, yylineno); }
   ;
+
+llvm_function_call
+  : TLLVM TLLVMFUNCTION TDOUBLECOLON llvm_function_name '(' call_arguments ')'
+    {
+      $$ = new LLVMFunctionCall(*$4, *$6, yylineno);
+      delete $4;
+      delete $6;
+    }
+  ;
+
+llvm_function_name
+  : string_identifier { $$ = $1; }
+  | llvm_function_name '.' string_identifier 
+    { $$ = new std::string(*$1 + "." + *$3); delete $1; delete $3; }
+  ;
+
+string_identifier
+  : TIDENTIFIER
+  | TMODELIDENTIFIER
+  | TINTERFACEIDENTIFIER
+  | TCONTROLLERIDENTIFIER
+  | TNODEIDENTIFIER
+  | TTHREADIDENTIFIER
+  | TFIELDIDENTIFIER
+  ;  
 
 inner_object_definition
   : inner_controller_definition
@@ -1161,6 +1188,7 @@ primary_expression
   | object_builder
   | injection
   | static_method_call
+  | llvm_function_call
   | thread_expression
   | '(' expression ')' { $$ = $2; }
   | TNULL { $$ = new NullExpression(); }

@@ -27,6 +27,7 @@
 #include "wisey/LLVMFunctionType.hpp"
 #include "wisey/LLVMStructType.hpp"
 #include "wisey/Model.hpp"
+#include "wisey/NativeType.hpp"
 #include "wisey/Node.hpp"
 #include "wisey/PackageType.hpp"
 #include "wisey/Scopes.hpp"
@@ -60,6 +61,7 @@ namespace wisey {
     std::map<std::string, PackageType*> mPackageTypes;
     std::map<std::string, LLVMStructType*> mLLVMStructTypes;
     std::map<std::string, LLVMFunctionType*> mLLVMFunctionTypes;
+    std::map<llvm::Type*, NativeType*> mNativeTypes;
     std::map<Interface*, Controller*> mBindings;
     ImportProfile* mImportProfile;
     std::string mPackage;
@@ -190,6 +192,11 @@ namespace wisey {
      */
     LLVMFunctionType* getLLVMFunctionType(const ILLVMType* returnType,
                                           std::vector<const ILLVMType*> argumentTypes);
+    
+    /**
+     * Lookup llvm native type and create one if neccessary
+     */
+    NativeType* getNativeType(llvm::Type* llvmType);
     
     /**
      * Bind an interface to a controller for injection

@@ -89,6 +89,11 @@ IRGenerationContext::~IRGenerationContext() {
        iterator++) {
     delete iterator->second;
   }
+  for (map<Type*, NativeType*>::iterator iterator = mNativeTypes.begin();
+       iterator != mNativeTypes.end();
+       iterator++) {
+    delete iterator->second;
+  }
   mBindings.clear();
 }
 
@@ -320,6 +325,17 @@ LLVMFunctionType* IRGenerationContext::getLLVMFunctionType(const ILLVMType* retu
   LLVMFunctionType* llvmFunctionType = new LLVMFunctionType(returnType, argumentTypes);
   mLLVMFunctionTypes[key] = llvmFunctionType;
   return llvmFunctionType;
+}
+
+NativeType* IRGenerationContext::getNativeType(Type* llvmType) {
+  if (mNativeTypes.count(llvmType)) {
+    return mNativeTypes.at(llvmType);
+  }
+  
+  NativeType* nativeType = new NativeType(llvmType);
+  mNativeTypes[llvmType] = nativeType;
+
+  return nativeType;
 }
 
 void IRGenerationContext::bindInterfaceToController(Interface* interface, Controller* controller) {

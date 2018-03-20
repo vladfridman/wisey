@@ -1,13 +1,15 @@
 package systems.vos.wisey.compiler.tests;
 
-interface IMyInterface {
-  int getValue();
-}
+import wisey.lang.CCallStack;
+import wisey.lang.IThread;
 
-model MMyModel implements IMyInterface {
+model MMyModel implements IThread {
 
-  public int getValue() {
-    return 5;
+  public void run() {
+  }
+
+  public CCallStack getCallStack() {
+    return null;
   }
 }
 
@@ -18,9 +20,8 @@ controller CService {
 
   ::llvm::function ::llvm::i8* runBridge(::llvm::i8* argument) {
     MMyModel myModel = (MMyModel) argument;
-    IMyInterface myInterface = (IMyInterface) myModel;
-    // int value = myInterface.getValue();
-    // ::llvm::function::wisey.lang.TMainThread.run(mainThread, iThread, null);
+    IThread myThread = (IThread) myModel;
+    CCallStack callStack = ::llvm::function::systems.vos.wisey.compiler.tests.MMyModel.getCallStack(myModel, myThread, (CCallStack) null);
 
     return argument;
   }
