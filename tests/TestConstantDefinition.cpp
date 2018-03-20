@@ -1,11 +1,11 @@
 //
-//  TestConstantDeclaration.cpp
+//  TestConstantDefinition.cpp
 //  runtests
 //
 //  Created by Vladimir Fridman on 10/19/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link ConstantDeclaration}
+//  Tests {@link ConstantDefinition}
 //
 
 #include <gtest/gtest.h>
@@ -13,7 +13,7 @@
 
 #include "TestFileSampleRunner.hpp"
 #include "MockExpression.hpp"
-#include "wisey/ConstantDeclaration.hpp"
+#include "wisey/ConstantDefinition.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 
@@ -25,25 +25,25 @@ using ::testing::Invoke;
 using ::testing::NiceMock;
 using ::testing::Test;
 
-struct ConstantDeclarationTest : public Test {
+struct ConstantDefinitionTest : public Test {
   IRGenerationContext mContext;
   NiceMock<MockExpression>* mExpression;
   string mName;
-  ConstantDeclaration* mConstantDeclaration;
+  ConstantDefinition* mConstantDefinition;
   
 public:
   
-  ConstantDeclarationTest() :
+  ConstantDefinitionTest() :
   mExpression(new NiceMock<MockExpression>()),
   mName("MYCONSTANT") {
     ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
     
     const PrimitiveTypeSpecifier* typeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-    mConstantDeclaration = new ConstantDeclaration(PUBLIC_ACCESS, typeSpecifier, mName, mExpression);
+    mConstantDefinition = new ConstantDefinition(PUBLIC_ACCESS, typeSpecifier, mName, mExpression);
 
   }
   
-  ~ConstantDeclarationTest() {
+  ~ConstantDefinitionTest() {
     delete mExpression;
   }
   
@@ -52,14 +52,14 @@ public:
   }
 };
 
-TEST_F(ConstantDeclarationTest, declareTest) {
-  EXPECT_TRUE(mConstantDeclaration->isConstant());
-  EXPECT_FALSE(mConstantDeclaration->isField());
-  EXPECT_FALSE(mConstantDeclaration->isMethod());
-  EXPECT_FALSE(mConstantDeclaration->isStaticMethod());
-  EXPECT_FALSE(mConstantDeclaration->isMethodSignature());
+TEST_F(ConstantDefinitionTest, declareTest) {
+  EXPECT_TRUE(mConstantDefinition->isConstant());
+  EXPECT_FALSE(mConstantDefinition->isField());
+  EXPECT_FALSE(mConstantDefinition->isMethod());
+  EXPECT_FALSE(mConstantDefinition->isStaticMethod());
+  EXPECT_FALSE(mConstantDefinition->isMethodSignature());
 
-  EXPECT_NE(mConstantDeclaration->define(mContext, NULL), nullptr);
+  EXPECT_NE(mConstantDefinition->define(mContext, NULL), nullptr);
 }
 
 TEST_F(TestFileSampleRunner, constantDeclarationInObjectRunTest) {

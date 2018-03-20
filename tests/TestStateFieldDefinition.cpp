@@ -1,11 +1,11 @@
 //
-//  TestStateFieldDeclaration.cpp
+//  TestStateFieldDefinition.cpp
 //  runtests
 //
 //  Created by Vladimir Fridman on 3/9/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link StateFieldDeclaration}
+//  Tests {@link StateFieldDefinition}
 //
 
 #include <gtest/gtest.h>
@@ -15,7 +15,7 @@
 #include "MockType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/StateFieldDeclaration.hpp"
+#include "wisey/StateFieldDefinition.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -27,29 +27,29 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct StateFieldDeclarationTest : public Test {
+struct StateFieldDefinitionTest : public Test {
   IRGenerationContext mContext;
   NiceMock<MockType>* mType;
   NiceMock<MockExpression>* mExpression;
   string mName;
-  StateFieldDeclaration* mFieldDeclaration;
+  StateFieldDefinition* mFieldDeclaration;
   
 public:
   
-  StateFieldDeclarationTest() :
+  StateFieldDefinitionTest() :
   mType(new NiceMock<MockType>()),
   mExpression(new NiceMock<MockExpression>()),
   mName("mField") {
     const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-    mFieldDeclaration = new StateFieldDeclaration(intSpecifier, mName);
+    mFieldDeclaration = new StateFieldDefinition(intSpecifier, mName);
   }
   
-  ~StateFieldDeclarationTest() {
+  ~StateFieldDefinitionTest() {
     delete mFieldDeclaration;
   }
 };
 
-TEST_F(StateFieldDeclarationTest, declareTest) {
+TEST_F(StateFieldDefinitionTest, declareTest) {
   IField* field = mFieldDeclaration->define(mContext, NULL);
   
   EXPECT_FALSE(field->isConstant());

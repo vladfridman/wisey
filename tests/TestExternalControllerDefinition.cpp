@@ -27,7 +27,7 @@
 #include "wisey/MethodArgument.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/ReceivedFieldDeclaration.hpp"
+#include "wisey/ReceivedFieldDefinition.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -64,8 +64,8 @@ struct ExternalControllerDefinitionTest : public Test {
     const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
     const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
     InjectionArgumentList arguments;
-    ReceivedFieldDeclaration* field1 = new ReceivedFieldDeclaration(longType, "mField1");
-    ReceivedFieldDeclaration* field2 = new ReceivedFieldDeclaration(floatType, "mField2");
+    ReceivedFieldDefinition* field1 = new ReceivedFieldDefinition(longType, "mField1");
+    ReceivedFieldDefinition* field2 = new ReceivedFieldDefinition(floatType, "mField2");
     mElementDeclarations.push_back(field1);
     mElementDeclarations.push_back(field2);
     mElementDeclarations.push_back(methodDeclaration);

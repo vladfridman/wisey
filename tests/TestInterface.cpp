@@ -22,9 +22,9 @@
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/AdjustReferenceCounterForInterfaceFunction.hpp"
-#include "wisey/ConstantDeclaration.hpp"
+#include "wisey/ConstantDefinition.hpp"
 #include "wisey/FixedField.hpp"
-#include "wisey/FixedFieldDeclaration.hpp"
+#include "wisey/FixedFieldDefinition.hpp"
 #include "wisey/GetOriginalObjectFunction.hpp"
 #include "wisey/InstanceOf.hpp"
 #include "wisey/Interface.hpp"
@@ -66,7 +66,7 @@ struct InterfaceTest : public Test {
   LLVMContext& mLLVMContext;
   BasicBlock* mBasicBlock;
   NiceMock<MockExpression>* mMockExpression;
-  ConstantDeclaration* mConstantDeclaration;
+  ConstantDefinition* mConstantDefinition;
   NiceMock<MockReferenceVariable>* mThreadVariable;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
@@ -124,11 +124,11 @@ struct InterfaceTest : public Test {
     mMockExpression = new NiceMock<MockExpression>();
     ON_CALL(*mMockExpression, printToStream(_,_)).WillByDefault(Invoke(printExpression));
     intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-    mConstantDeclaration = new ConstantDeclaration(PUBLIC_ACCESS,
+    mConstantDefinition = new ConstantDefinition(PUBLIC_ACCESS,
                                                    intSpecifier,
                                                    "MYCONSTANT",
                                                    mMockExpression);
-    shapeElements.push_back(mConstantDeclaration);
+    shapeElements.push_back(mConstantDefinition);
     shapeElements.push_back(mFooMethod);
     shapeElements.push_back(mStaticMethod);
 
@@ -387,7 +387,7 @@ TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
   Mock::AllowLeak(mThreadVariable);
 
   const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-  FixedFieldDeclaration* fieldDeclaration = new FixedFieldDeclaration(intSpecifier, "mField");
+  FixedFieldDefinition* fieldDeclaration = new FixedFieldDefinition(intSpecifier, "mField");
   
   string name = "systems.vos.wisey.compiler.tests.IInterface";
   StructType* structType = StructType::create(mLLVMContext, name);
@@ -447,7 +447,7 @@ TEST_F(InterfaceTest, constantsAfterMethodSignaturesDeathTest) {
   StructType* structType = StructType::create(mLLVMContext, name);
   vector<IObjectElementDefinition*> elements;
   elements.push_back(mBarMethod);
-  elements.push_back(mConstantDeclaration);
+  elements.push_back(mConstantDefinition);
   vector<IInterfaceTypeSpecifier*> parentInterfaces;
   Interface* interface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                                  name,

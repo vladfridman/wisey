@@ -1,17 +1,17 @@
 //
-//  ConstantDeclaration.cpp
+//  ConstantDefinition.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 10/18/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ConstantDeclaration.hpp"
+#include "wisey/ConstantDefinition.hpp"
 
 using namespace std;
 using namespace wisey;
 
-ConstantDeclaration::ConstantDeclaration(const AccessLevel accessLevel,
+ConstantDefinition::ConstantDefinition(const AccessLevel accessLevel,
                                          const ITypeSpecifier* typeSpecifier,
                                          std::string name,
                                          IExpression* expression) :
@@ -20,32 +20,32 @@ mTypeSpecifier(typeSpecifier),
 mName(name),
 mExpression(expression) { }
 
-ConstantDeclaration::~ConstantDeclaration() {
+ConstantDefinition::~ConstantDefinition() {
   delete mTypeSpecifier;
   delete mExpression;
 }
 
-wisey::Constant* ConstantDeclaration::define(IRGenerationContext& context,
+wisey::Constant* ConstantDefinition::define(IRGenerationContext& context,
                                              const IObjectType* objectType) const {
   return new Constant(mAccessLevel, mTypeSpecifier->getType(context), mName, mExpression);
 }
 
-bool ConstantDeclaration::isConstant() const {
+bool ConstantDefinition::isConstant() const {
   return true;
 }
 
-bool ConstantDeclaration::isField() const {
+bool ConstantDefinition::isField() const {
   return false;
 }
 
-bool ConstantDeclaration::isMethod() const {
+bool ConstantDefinition::isMethod() const {
   return false;
 }
 
-bool ConstantDeclaration::isStaticMethod() const {
+bool ConstantDefinition::isStaticMethod() const {
   return false;
 }
 
-bool ConstantDeclaration::isMethodSignature() const {
+bool ConstantDefinition::isMethodSignature() const {
   return false;
 }

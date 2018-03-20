@@ -1,5 +1,5 @@
 //
-//  StateFieldDeclaration.cpp
+//  StateFieldDefinition.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 3/9/18.
@@ -7,42 +7,42 @@
 //
 
 #include "wisey/StateField.hpp"
-#include "wisey/StateFieldDeclaration.hpp"
+#include "wisey/StateFieldDefinition.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-StateFieldDeclaration::StateFieldDeclaration(const ITypeSpecifier* typeSpecifier, string name) :
+StateFieldDefinition::StateFieldDefinition(const ITypeSpecifier* typeSpecifier, string name) :
 mTypeSpecifier(typeSpecifier), mName(name) { }
 
-StateFieldDeclaration::~StateFieldDeclaration() {
+StateFieldDefinition::~StateFieldDefinition() {
   delete mTypeSpecifier;
 }
 
-IField* StateFieldDeclaration::define(IRGenerationContext& context,
+IField* StateFieldDefinition::define(IRGenerationContext& context,
                                       const IObjectType* objectType) const {
   const IType* fieldType = mTypeSpecifier->getType(context);
   
   return new StateField(fieldType, mName);
 }
 
-bool StateFieldDeclaration::isConstant() const {
+bool StateFieldDefinition::isConstant() const {
   return false;
 }
 
-bool StateFieldDeclaration::isField() const {
+bool StateFieldDefinition::isField() const {
   return true;
 }
 
-bool StateFieldDeclaration::isMethod() const {
+bool StateFieldDefinition::isMethod() const {
   return false;
 }
 
-bool StateFieldDeclaration::isStaticMethod() const {
+bool StateFieldDefinition::isStaticMethod() const {
   return false;
 }
 
-bool StateFieldDeclaration::isMethodSignature() const {
+bool StateFieldDefinition::isMethodSignature() const {
   return false;
 }

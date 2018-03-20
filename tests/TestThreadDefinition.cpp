@@ -19,9 +19,9 @@
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/AccessLevel.hpp"
-#include "wisey/ConstantDeclaration.hpp"
+#include "wisey/ConstantDefinition.hpp"
 #include "wisey/FakeExpression.hpp"
-#include "wisey/FixedFieldDeclaration.hpp"
+#include "wisey/FixedFieldDefinition.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -33,7 +33,7 @@
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ProgramPrefix.hpp"
 #include "wisey/ReturnStatement.hpp"
-#include "wisey/StateFieldDeclaration.hpp"
+#include "wisey/StateFieldDefinition.hpp"
 #include "wisey/ThreadDefinition.hpp"
 #include "wisey/ThreadInfrastructure.hpp"
 
@@ -88,8 +88,8 @@ struct ThreadDefinitionTest : public Test {
     
     const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
     const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
-    StateFieldDeclaration* field1 = new StateFieldDeclaration(longType, "field1");
-    StateFieldDeclaration* field2 = new StateFieldDeclaration(floatType, "field2");
+    StateFieldDefinition* field1 = new StateFieldDefinition(longType, "field1");
+    StateFieldDefinition* field2 = new StateFieldDefinition(floatType, "field2");
     mElementDeclarations.push_back(field1);
     mElementDeclarations.push_back(field2);
     mElementDeclarations.push_back(methodDeclaration);
@@ -193,7 +193,7 @@ TEST_F(ThreadDefinitionTest, threadWithFixedFieldDeathTest) {
   ThreadTypeSpecifierFull* typeSpecifier = new ThreadTypeSpecifierFull(packageExpression,
                                                                        "TWorker");
   const PrimitiveTypeSpecifier* intType = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-  FixedFieldDeclaration* field = new FixedFieldDeclaration(intType, "field3");
+  FixedFieldDefinition* field = new FixedFieldDefinition(intType, "field3");
   mElementDeclarations.clear();
   mElementDeclarations.push_back(field);
   vector<IObjectDefinition*> innerObjectDefinitions;
@@ -217,7 +217,7 @@ TEST_F(ThreadDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
   ThreadTypeSpecifierFull* typeSpecifier = new ThreadTypeSpecifierFull(packageExpression,
                                                                        "TWorker");
   const PrimitiveTypeSpecifier* intType = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-  StateFieldDeclaration* field = new StateFieldDeclaration(intType, "field3");
+  StateFieldDefinition* field = new StateFieldDefinition(intType, "field3");
   mElementDeclarations.push_back(field);
   vector<IObjectDefinition*> innerObjectDefinitions;
   const PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
@@ -237,7 +237,7 @@ TEST_F(ThreadDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
 TEST_F(ThreadDefinitionTest, addThreadObjectElementsTest) {
   const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
   NiceMock<MockExpression>* mockExpression = new NiceMock<MockExpression>();
-  ConstantDeclaration* constantDeclaration = new ConstantDeclaration(PUBLIC_ACCESS,
+  ConstantDefinition* constantDeclaration = new ConstantDefinition(PUBLIC_ACCESS,
                                                                      intSpecifier,
                                                                      "MY_CONSTANT",
                                                                      mockExpression);

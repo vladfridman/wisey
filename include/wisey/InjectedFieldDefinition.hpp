@@ -1,13 +1,13 @@
 //
-//  InjectedFieldDeclaration.hpp
+//  InjectedFieldDefinition.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 3/9/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef InjectedFieldDeclaration_h
-#define InjectedFieldDeclaration_h
+#ifndef InjectedFieldDefinition_h
+#define InjectedFieldDefinition_h
 
 #include "wisey/IField.hpp"
 #include "wisey/IObjectElementDefinition.hpp"
@@ -21,18 +21,18 @@ namespace wisey {
   /**
    * Represents a field in controller definition
    */
-  class InjectedFieldDeclaration : public IObjectElementDefinition {
+  class InjectedFieldDefinition : public IObjectElementDefinition {
     const ITypeSpecifier* mTypeSpecifier;
     std::string mName;
     InjectionArgumentList mInjectionArgumentList;
     
   public:
     
-    InjectedFieldDeclaration(const ITypeSpecifier* typeSpecifier,
+    InjectedFieldDefinition(const ITypeSpecifier* typeSpecifier,
                              std::string name,
                              InjectionArgumentList injectionArguments);
     
-    ~InjectedFieldDeclaration();
+    ~InjectedFieldDefinition();
     
     IField* define(IRGenerationContext& context, const IObjectType* objectType) const override;
     
@@ -50,5 +50,5 @@ namespace wisey {
   
 } /* namespace wisey */
 
-#endif /* InjectedFieldDeclaration_h */
+#endif /* InjectedFieldDefinition_h */
 

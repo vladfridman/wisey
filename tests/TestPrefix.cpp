@@ -9,7 +9,7 @@
 #include "TestPrefix.hpp"
 #include "wisey/ControllerDefinition.hpp"
 #include "wisey/FakeExpressionWithCleanup.hpp"
-#include "wisey/FixedFieldDeclaration.hpp"
+#include "wisey/FixedFieldDefinition.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/MethodDefinition.hpp"
 #include "wisey/ModelDefinition.hpp"
@@ -27,14 +27,14 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   vector<IObjectElementDefinition*> modelElements;
   defineModel(context, Names::getNPEModelName(), modelElements);
   const PrimitiveTypeSpecifier* longTypeSpecifier = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
-  modelElements.push_back(new FixedFieldDeclaration(longTypeSpecifier, "mReferenceCount"));
+  modelElements.push_back(new FixedFieldDefinition(longTypeSpecifier, "mReferenceCount"));
   defineModel(context, Names::getReferenceCountExceptionName(), modelElements);
   modelElements.clear();
   
   longTypeSpecifier = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
-  modelElements.push_back(new FixedFieldDeclaration(longTypeSpecifier, "mArraySize"));
+  modelElements.push_back(new FixedFieldDefinition(longTypeSpecifier, "mArraySize"));
   longTypeSpecifier = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
-  modelElements.push_back(new FixedFieldDeclaration(longTypeSpecifier, "mIndex"));
+  modelElements.push_back(new FixedFieldDefinition(longTypeSpecifier, "mIndex"));
   defineModel(context, Names::getArrayIndexOutOfBoundsModelName(), modelElements);
   
   InterfaceDefinition* threadInterfaceDefinition = defineThreadInterface(context);

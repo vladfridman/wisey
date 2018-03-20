@@ -5,7 +5,7 @@
 //  Created by Vladimir Fridman on 10/19/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link InjectedFieldDeclaration}
+//  Tests {@link InjectedFieldDefinition}
 //
 
 #include <gtest/gtest.h>
@@ -13,7 +13,7 @@
 
 #include "MockExpression.hpp"
 #include "MockType.hpp"
-#include "wisey/InjectedFieldDeclaration.hpp"
+#include "wisey/InjectedFieldDefinition.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 
@@ -27,18 +27,18 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct InjectedFieldDeclarationTest : public Test {
+struct InjectedFieldDefinitionTest : public Test {
   IRGenerationContext mContext;
   NiceMock<MockType>* mType;
   NiceMock<MockExpression>* mExpression;
   string mName;
   InjectionArgumentList mArguments;
   InjectionArgument* mInjectionArgument;
-  InjectedFieldDeclaration* mFieldDeclaration;
+  InjectedFieldDefinition* mFieldDeclaration;
   
 public:
   
-  InjectedFieldDeclarationTest() :
+  InjectedFieldDefinitionTest() :
   mType(new NiceMock<MockType>()),
   mExpression(new NiceMock<MockExpression>()),
   mName("mField") {
@@ -46,15 +46,15 @@ public:
     mArguments.push_back(mInjectionArgument);
     
     const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-    mFieldDeclaration = new InjectedFieldDeclaration(intSpecifier, mName, mArguments);
+    mFieldDeclaration = new InjectedFieldDefinition(intSpecifier, mName, mArguments);
   }
   
-  ~InjectedFieldDeclarationTest() {
+  ~InjectedFieldDefinitionTest() {
     delete mFieldDeclaration;
   }
 };
 
-TEST_F(InjectedFieldDeclarationTest, declareTest) {
+TEST_F(InjectedFieldDefinitionTest, declareTest) {
   IField* field = mFieldDeclaration->define(mContext, NULL);
   
   EXPECT_FALSE(field->isConstant());

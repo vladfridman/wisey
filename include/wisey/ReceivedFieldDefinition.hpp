@@ -1,13 +1,13 @@
 //
-//  ReceivedFieldDeclaration.hpp
+//  ReceivedFieldDefinition.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 3/9/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef ReceivedFieldDeclaration_h
-#define ReceivedFieldDeclaration_h
+#ifndef ReceivedFieldDefinition_h
+#define ReceivedFieldDefinition_h
 
 #include "wisey/IField.hpp"
 #include "wisey/IObjectElementDefinition.hpp"
@@ -21,15 +21,15 @@ namespace wisey {
   /**
    * Represents a state field declaration in object definition
    */
-  class ReceivedFieldDeclaration : public IObjectElementDefinition {
+  class ReceivedFieldDefinition : public IObjectElementDefinition {
     const ITypeSpecifier* mTypeSpecifier;
     std::string mName;
     
   public:
     
-    ReceivedFieldDeclaration(const ITypeSpecifier* typeSpecifier, std::string name);
+    ReceivedFieldDefinition(const ITypeSpecifier* typeSpecifier, std::string name);
     
-    ~ReceivedFieldDeclaration();
+    ~ReceivedFieldDefinition();
     
     IField* define(IRGenerationContext& context, const IObjectType* objectType) const override;
     
@@ -47,5 +47,5 @@ namespace wisey {
   
 } /* namespace wisey */
 
-#endif /* ReceivedFieldDeclaration_h */
+#endif /* ReceivedFieldDefinition_h */
 

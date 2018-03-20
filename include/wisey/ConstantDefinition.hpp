@@ -20,7 +20,7 @@ namespace wisey {
   /**
    * Represents a constant declaration
    */
-  class ConstantDeclaration : public IObjectElementDefinition {
+  class ConstantDefinition : public IObjectElementDefinition {
     
     const AccessLevel mAccessLevel;
     const ITypeSpecifier* mTypeSpecifier;
@@ -29,12 +29,12 @@ namespace wisey {
     
   public:
     
-    ConstantDeclaration(const AccessLevel accessLevel,
+    ConstantDefinition(const AccessLevel accessLevel,
                         const ITypeSpecifier* typeSpecifier,
                         std::string name,
                         IExpression* expression);
     
-    ~ConstantDeclaration();
+    ~ConstantDefinition();
     
     Constant* define(IRGenerationContext& context, const IObjectType* objectType) const override;
     

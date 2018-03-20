@@ -1,13 +1,13 @@
 //
-//  FixedFieldDeclaration.hpp
+//  FixedFieldDefinition.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 3/9/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef FixedFieldDeclaration_h
-#define FixedFieldDeclaration_h
+#ifndef FixedFieldDefinition_h
+#define FixedFieldDefinition_h
 
 #include "wisey/IField.hpp"
 #include "wisey/IObjectElementDefinition.hpp"
@@ -21,15 +21,15 @@ namespace wisey {
   /**
    * Represents a fixed field declaration in object definition
    */
-  class FixedFieldDeclaration : public IObjectElementDefinition {
+  class FixedFieldDefinition : public IObjectElementDefinition {
     const ITypeSpecifier* mTypeSpecifier;
     std::string mName;
     
   public:
     
-    FixedFieldDeclaration(const ITypeSpecifier* typeSpecifier, std::string name);
+    FixedFieldDefinition(const ITypeSpecifier* typeSpecifier, std::string name);
     
-    ~FixedFieldDeclaration();
+    ~FixedFieldDefinition();
     
     IField* define(IRGenerationContext& context, const IObjectType* objectType) const override;
     
@@ -47,5 +47,5 @@ namespace wisey {
   
 } /* namespace wisey */
 
-#endif /* FixedFieldDeclaration_h */
+#endif /* FixedFieldDefinition_h */
 

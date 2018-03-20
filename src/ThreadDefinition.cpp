@@ -223,19 +223,19 @@ MethodDefinition* ThreadDefinition::createSendMethodDefinition(IRGenerationConte
                                0);
 }
 
-StateFieldDeclaration* ThreadDefinition::createNativeThreadHandleField(IRGenerationContext&
+StateFieldDefinition* ThreadDefinition::createNativeThreadHandleField(IRGenerationContext&
                                                                        context) {
   InjectionArgumentList arguments;
   
   NativeType* nativeType = ThreadInfrastructure::createNativeThreadType(context);
   NativeTypeSpecifier* nativeTypeSpecifier = new NativeTypeSpecifier(nativeType);
-  return new StateFieldDeclaration(nativeTypeSpecifier, "mNativeThread");
+  return new StateFieldDefinition(nativeTypeSpecifier, "mNativeThread");
 }
 
-StateFieldDeclaration* ThreadDefinition::createNativeThreadResultField(IRGenerationContext&
+StateFieldDefinition* ThreadDefinition::createNativeThreadResultField(IRGenerationContext&
                                                                        context) {
   const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-  return new StateFieldDeclaration(intTypeSpecifier, "mMessage");
+  return new StateFieldDefinition(intTypeSpecifier, "mMessage");
 }
 
 vector<IObjectElementDefinition*>

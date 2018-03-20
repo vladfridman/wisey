@@ -1,13 +1,13 @@
 //
-//  StateFieldDeclaration.hpp
+//  StateFieldDefinition.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 3/9/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef StateFieldDeclaration_h
-#define StateFieldDeclaration_h
+#ifndef StateFieldDefinition_h
+#define StateFieldDefinition_h
 
 #include "wisey/IField.hpp"
 #include "wisey/IObjectElementDefinition.hpp"
@@ -21,15 +21,15 @@ namespace wisey {
   /**
    * Represents a state field declaration in object definition
    */
-  class StateFieldDeclaration : public IObjectElementDefinition {
+  class StateFieldDefinition : public IObjectElementDefinition {
     const ITypeSpecifier* mTypeSpecifier;
     std::string mName;
     
   public:
     
-    StateFieldDeclaration(const ITypeSpecifier* typeSpecifier, std::string name);
+    StateFieldDefinition(const ITypeSpecifier* typeSpecifier, std::string name);
     
-    ~StateFieldDeclaration();
+    ~StateFieldDefinition();
     
     IField* define(IRGenerationContext& context, const IObjectType* objectType) const override;
     
@@ -47,5 +47,5 @@ namespace wisey {
   
 } /* namespace wisey */
 
-#endif /* StateFieldDeclaration_h */
+#endif /* StateFieldDefinition_h */
 

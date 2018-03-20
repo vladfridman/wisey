@@ -1,5 +1,5 @@
 //
-//  FixedFieldDeclaration.cpp
+//  FixedFieldDefinition.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 3/9/18.
@@ -7,43 +7,43 @@
 //
 
 #include "wisey/FixedField.hpp"
-#include "wisey/FixedFieldDeclaration.hpp"
+#include "wisey/FixedFieldDefinition.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-FixedFieldDeclaration::FixedFieldDeclaration(const ITypeSpecifier* typeSpecifier, string name) :
+FixedFieldDefinition::FixedFieldDefinition(const ITypeSpecifier* typeSpecifier, string name) :
 mTypeSpecifier(typeSpecifier), mName(name) { }
 
-FixedFieldDeclaration::~FixedFieldDeclaration() {
+FixedFieldDefinition::~FixedFieldDefinition() {
   delete mTypeSpecifier;
 }
 
-IField* FixedFieldDeclaration::define(IRGenerationContext& context,
+IField* FixedFieldDefinition::define(IRGenerationContext& context,
                                       const IObjectType* objectType) const {
   const IType* fieldType = mTypeSpecifier->getType(context);
   
   return new FixedField(fieldType, mName);
 }
 
-bool FixedFieldDeclaration::isConstant() const {
+bool FixedFieldDefinition::isConstant() const {
   return false;
 }
 
-bool FixedFieldDeclaration::isField() const {
+bool FixedFieldDefinition::isField() const {
   return true;
 }
 
-bool FixedFieldDeclaration::isMethod() const {
+bool FixedFieldDefinition::isMethod() const {
   return false;
 }
 
-bool FixedFieldDeclaration::isStaticMethod() const {
+bool FixedFieldDefinition::isStaticMethod() const {
   return false;
 }
 
-bool FixedFieldDeclaration::isMethodSignature() const {
+bool FixedFieldDefinition::isMethodSignature() const {
   return false;
 }
 

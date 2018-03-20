@@ -17,7 +17,7 @@
 #include "wisey/ExternalMethodDefinition.hpp"
 #include "wisey/ExternalModelDefinition.hpp"
 #include "wisey/FakeExpression.hpp"
-#include "wisey/FixedFieldDeclaration.hpp"
+#include "wisey/FixedFieldDefinition.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/Names.hpp"
@@ -60,8 +60,8 @@ TEST_F(ExternalModelDefinitionTest, prototypeObjectTest) {
   const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
   const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
   InjectionArgumentList arguments;
-  FixedFieldDeclaration* field1 = new FixedFieldDeclaration(longType, "field1");
-  FixedFieldDeclaration* field2 = new FixedFieldDeclaration(floatType, "field2");
+  FixedFieldDefinition* field1 = new FixedFieldDefinition(longType, "field1");
+  FixedFieldDefinition* field2 = new FixedFieldDefinition(floatType, "field2");
   mElementDeclarations.push_back(field1);
   mElementDeclarations.push_back(field2);
   mElementDeclarations.push_back(mMethodDefinition);
@@ -89,8 +89,8 @@ TEST_F(ExternalModelDefinitionTest, prototypeMethodsTest) {
   const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
   const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
   InjectionArgumentList arguments;
-  FixedFieldDeclaration* field1 = new FixedFieldDeclaration(longType, "field1");
-  FixedFieldDeclaration* field2 = new FixedFieldDeclaration(floatType, "field2");
+  FixedFieldDefinition* field1 = new FixedFieldDefinition(longType, "field1");
+  FixedFieldDefinition* field2 = new FixedFieldDefinition(floatType, "field2");
   mElementDeclarations.push_back(field1);
   mElementDeclarations.push_back(field2);
   mElementDeclarations.push_back(mMethodDefinition);

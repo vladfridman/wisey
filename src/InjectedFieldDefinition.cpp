@@ -1,5 +1,5 @@
 //
-//  InjectedFieldDeclaration.cpp
+//  InjectedFieldDefinition.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 3/9/18.
@@ -9,20 +9,20 @@
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/ArraySpecificOwnerType.hpp"
 #include "wisey/InjectedField.hpp"
-#include "wisey/InjectedFieldDeclaration.hpp"
+#include "wisey/InjectedFieldDefinition.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-InjectedFieldDeclaration::InjectedFieldDeclaration(const ITypeSpecifier* typeSpecifier,
+InjectedFieldDefinition::InjectedFieldDefinition(const ITypeSpecifier* typeSpecifier,
                                                    string name,
                                                    InjectionArgumentList injectionArguments) :
 mTypeSpecifier(typeSpecifier),
 mName(name),
 mInjectionArgumentList(injectionArguments) { }
 
-InjectedFieldDeclaration::~InjectedFieldDeclaration() {
+InjectedFieldDefinition::~InjectedFieldDefinition() {
   delete mTypeSpecifier;
   for (InjectionArgument* injectionArgument : mInjectionArgumentList) {
     delete injectionArgument;
@@ -30,7 +30,7 @@ InjectedFieldDeclaration::~InjectedFieldDeclaration() {
   mInjectionArgumentList.clear();
 }
 
-IField* InjectedFieldDeclaration::define(IRGenerationContext& context,
+IField* InjectedFieldDefinition::define(IRGenerationContext& context,
                                          const IObjectType* objectType) const {
   const IType* fieldType = mTypeSpecifier->getType(context);
   
@@ -49,22 +49,22 @@ IField* InjectedFieldDeclaration::define(IRGenerationContext& context,
   return new InjectedField(fieldType, injectedType, mName, mInjectionArgumentList);
 }
 
-bool InjectedFieldDeclaration::isConstant() const {
+bool InjectedFieldDefinition::isConstant() const {
   return false;
 }
 
-bool InjectedFieldDeclaration::isField() const {
+bool InjectedFieldDefinition::isField() const {
   return true;
 }
 
-bool InjectedFieldDeclaration::isMethod() const {
+bool InjectedFieldDefinition::isMethod() const {
   return false;
 }
 
-bool InjectedFieldDeclaration::isStaticMethod() const {
+bool InjectedFieldDefinition::isStaticMethod() const {
   return false;
 }
 
-bool InjectedFieldDeclaration::isMethodSignature() const {
+bool InjectedFieldDefinition::isMethodSignature() const {
   return false;
 }

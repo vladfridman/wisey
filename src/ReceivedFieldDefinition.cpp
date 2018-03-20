@@ -1,5 +1,5 @@
 //
-//  ReceivedFieldDeclaration.cpp
+//  ReceivedFieldDefinition.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 3/9/18.
@@ -7,44 +7,44 @@
 //
 
 #include "wisey/ReceivedField.hpp"
-#include "wisey/ReceivedFieldDeclaration.hpp"
+#include "wisey/ReceivedFieldDefinition.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ReceivedFieldDeclaration::ReceivedFieldDeclaration(const ITypeSpecifier* typeSpecifier,
+ReceivedFieldDefinition::ReceivedFieldDefinition(const ITypeSpecifier* typeSpecifier,
                                                    string name) :
 mTypeSpecifier(typeSpecifier), mName(name) { }
 
-ReceivedFieldDeclaration::~ReceivedFieldDeclaration() {
+ReceivedFieldDefinition::~ReceivedFieldDefinition() {
   delete mTypeSpecifier;
 }
 
-IField* ReceivedFieldDeclaration::define(IRGenerationContext& context,
+IField* ReceivedFieldDefinition::define(IRGenerationContext& context,
                                          const IObjectType* objectType) const {
   const IType* fieldType = mTypeSpecifier->getType(context);
   
   return new ReceivedField(fieldType, mName);
 }
 
-bool ReceivedFieldDeclaration::isConstant() const {
+bool ReceivedFieldDefinition::isConstant() const {
   return false;
 }
 
-bool ReceivedFieldDeclaration::isField() const {
+bool ReceivedFieldDefinition::isField() const {
   return true;
 }
 
-bool ReceivedFieldDeclaration::isMethod() const {
+bool ReceivedFieldDefinition::isMethod() const {
   return false;
 }
 
-bool ReceivedFieldDeclaration::isStaticMethod() const {
+bool ReceivedFieldDefinition::isStaticMethod() const {
   return false;
 }
 
-bool ReceivedFieldDeclaration::isMethodSignature() const {
+bool ReceivedFieldDefinition::isMethodSignature() const {
   return false;
 }
 

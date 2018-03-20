@@ -1,11 +1,11 @@
 //
-//  TestFixedFieldDeclaration.cpp
+//  TestFixedFieldDefinition.cpp
 //  runtests
 //
 //  Created by Vladimir Fridman on 3/9/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link FixedFieldDeclaration}
+//  Tests {@link FixedFieldDefinition}
 //
 
 #include <gtest/gtest.h>
@@ -13,7 +13,7 @@
 
 #include "MockExpression.hpp"
 #include "MockType.hpp"
-#include "wisey/FixedFieldDeclaration.hpp"
+#include "wisey/FixedFieldDefinition.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 
@@ -27,29 +27,29 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct FixedFieldDeclarationTest : public Test {
+struct FixedFieldDefinitionTest : public Test {
   IRGenerationContext mContext;
   NiceMock<MockType>* mType;
   NiceMock<MockExpression>* mExpression;
   string mName;
-  FixedFieldDeclaration* mFieldDeclaration;
+  FixedFieldDefinition* mFieldDeclaration;
   
 public:
   
-  FixedFieldDeclarationTest() :
+  FixedFieldDefinitionTest() :
   mType(new NiceMock<MockType>()),
   mExpression(new NiceMock<MockExpression>()),
   mName("mField") {
     const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-    mFieldDeclaration = new FixedFieldDeclaration(intSpecifier, mName);
+    mFieldDeclaration = new FixedFieldDefinition(intSpecifier, mName);
   }
   
-  ~FixedFieldDeclarationTest() {
+  ~FixedFieldDefinitionTest() {
     delete mFieldDeclaration;
   }
 };
 
-TEST_F(FixedFieldDeclarationTest, declareTest) {
+TEST_F(FixedFieldDefinitionTest, declareTest) {
   IField* field = mFieldDeclaration->define(mContext, NULL);
   
   EXPECT_FALSE(field->isConstant());
