@@ -165,6 +165,11 @@ namespace wisey {
      * Returns llvm function defined within this object
      */
     virtual std::vector<LLVMFunction*> getLLVMFunctions() const = 0;
+    
+    /**
+     * Finds a method with a given name.
+     */
+    virtual LLVMFunction* findLLVMFunction(std::string functionName) const = 0;
 
     /**
      * Generate global variable with the name of the given object

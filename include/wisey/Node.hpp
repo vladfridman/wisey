@@ -47,6 +47,7 @@ namespace wisey {
     std::map<std::string, Constant*> mNameToConstantMap;
     std::map<std::string, const IObjectType*> mInnerObjects;
     std::vector<LLVMFunction*> mLLVMFunctions;
+    std::map<std::string, LLVMFunction*> mLLVMFunctionMap;
     ImportProfile* mImportProfile;
     
   public:
@@ -86,6 +87,8 @@ namespace wisey {
     
     std::vector<LLVMFunction*> getLLVMFunctions() const override;
     
+    LLVMFunction* findLLVMFunction(std::string functionName) const override;
+
     llvm::Instruction* build(IRGenerationContext& context,
                              const ObjectBuilderArgumentList& objectBuilderArgumentList,
                              int line) const override;

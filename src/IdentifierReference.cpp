@@ -14,7 +14,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-IdentifierReference::IdentifierReference(const string& name) : mName(name) { }
+IdentifierReference::IdentifierReference(const string name) : mName(name) { }
 
 IdentifierReference::~IdentifierReference() { }
 
@@ -48,5 +48,5 @@ bool IdentifierReference::isConstant() const {
 }
 
 void IdentifierReference::printToStream(IRGenerationContext& context, std::iostream& stream) const {
-  stream << mName << "&";
+  stream << "::llvm::reference(" << mName << ")";
 }

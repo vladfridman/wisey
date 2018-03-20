@@ -17,7 +17,9 @@
 
 #include "MockConcreteObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/LLVMi8Type.hpp"
 #include "wisey/LLVMi64Type.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -72,6 +74,25 @@ TEST_F(LLVMi64TypeTest, isObjectTest) {
   EXPECT_FALSE(mLLVMi64Type.isModel());
   EXPECT_FALSE(mLLVMi64Type.isNode());
   EXPECT_FALSE(mLLVMi64Type.isThread());
+}
+
+TEST_F(LLVMi64TypeTest, canCastToTest) {
+  EXPECT_TRUE(mLLVMi64Type.canCastTo(mContext, &mLLVMi64Type));
+  LLVMi8Type i8Type;
+  EXPECT_FALSE(mLLVMi64Type.canCastTo(mContext, &i8Type));
+  EXPECT_TRUE(mLLVMi64Type.canCastTo(mContext, PrimitiveTypes::LONG_TYPE));
+}
+
+TEST_F(LLVMi64TypeTest, canAutoCastToTest) {
+  EXPECT_TRUE(mLLVMi64Type.canAutoCastTo(mContext, &mLLVMi64Type));
+  LLVMi8Type i8Type;
+  EXPECT_FALSE(mLLVMi64Type.canAutoCastTo(mContext, &i8Type));
+  EXPECT_TRUE(mLLVMi64Type.canAutoCastTo(mContext, PrimitiveTypes::LONG_TYPE));
+}
+
+TEST_F(LLVMi64TypeTest, castToTest) {
+  Value* value = ConstantInt::get(Type::getInt64Ty(mLLVMContext), 5);
+  EXPECT_EQ(value, mLLVMi64Type.castTo(mContext, value, PrimitiveTypes::LONG_TYPE, 0));
 }
 
 TEST_F(LLVMi64TypeTest, getPointerTypeTest) {

@@ -34,22 +34,21 @@ llvm::Type* LLVMi8Type::getLLVMType(IRGenerationContext& context) const {
 }
 
 bool LLVMi8Type::canCastTo(IRGenerationContext& context, const IType* toType) const {
-  return toType != this;
+  return toType == this || toType->getLLVMType(context) == getLLVMType(context);
 }
 
 bool LLVMi8Type::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
-  return toType != this;
+  return toType == this || toType->getLLVMType(context) == getLLVMType(context);
 }
 
 Value* LLVMi8Type::castTo(IRGenerationContext& context,
                           Value* fromValue,
                           const IType* toType,
                           int line) const {
-  if (toType == this) {
+  if (toType == this || toType->getLLVMType(context) == getLLVMType(context)) {
     return fromValue;
   }
   assert(false);
-  return NULL;
 }
 
 bool LLVMi8Type::isPrimitive() const {

@@ -18,6 +18,8 @@
 #include "MockConcreteObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMi1Type.hpp"
+#include "wisey/LLVMi8Type.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -72,6 +74,25 @@ TEST_F(LLVMi1TypeTest, isObjectTest) {
   EXPECT_FALSE(mLLVMi1Type.isModel());
   EXPECT_FALSE(mLLVMi1Type.isNode());
   EXPECT_FALSE(mLLVMi1Type.isThread());
+}
+
+TEST_F(LLVMi1TypeTest, canCastToTest) {
+  EXPECT_TRUE(mLLVMi1Type.canCastTo(mContext, &mLLVMi1Type));
+  LLVMi8Type i8Type;
+  EXPECT_FALSE(mLLVMi1Type.canCastTo(mContext, &i8Type));
+  EXPECT_TRUE(mLLVMi1Type.canCastTo(mContext, PrimitiveTypes::BOOLEAN_TYPE));
+}
+
+TEST_F(LLVMi1TypeTest, canAutoCastToTest) {
+  EXPECT_TRUE(mLLVMi1Type.canAutoCastTo(mContext, &mLLVMi1Type));
+  LLVMi8Type i8Type;
+  EXPECT_FALSE(mLLVMi1Type.canAutoCastTo(mContext, &i8Type));
+  EXPECT_TRUE(mLLVMi1Type.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN_TYPE));
+}
+
+TEST_F(LLVMi1TypeTest, castToTest) {
+  Value* value = ConstantInt::get(Type::getInt1Ty(mLLVMContext), 1);
+  EXPECT_EQ(value, mLLVMi1Type.castTo(mContext, value, PrimitiveTypes::BOOLEAN_TYPE, 0));
 }
 
 TEST_F(LLVMi1TypeTest, getPointerTypeTest) {

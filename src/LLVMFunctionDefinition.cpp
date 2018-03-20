@@ -39,8 +39,12 @@ LLVMFunction* LLVMFunctionDefinition::define(IRGenerationContext& context,
   const ILLVMType* returnType = mReturnSpecifier->getType(context);
   
   vector<const LLVMFunctionArgument*> arguments = createArgumnetList(context);
-  
-  return new LLVMFunction(mName, returnType, arguments, mCompoundStatement, mLine);
+  vector<const ILLVMType*> arugmentTypes;
+  for (const LLVMFunctionArgument* argument : arguments) {
+    arugmentTypes.push_back(argument->getType());
+  }
+  LLVMFunctionType* functionType = context.getLLVMFunctionType(returnType, arugmentTypes);
+  return new LLVMFunction(mName, functionType, returnType, arguments, mCompoundStatement, mLine);
 }
 
 bool LLVMFunctionDefinition::isConstant() const {

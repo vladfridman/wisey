@@ -327,6 +327,9 @@ void IConcreteObjectType::declareFieldVariables(IRGenerationContext& context,
   for (IField* field : object->getFields()) {
     field->getType()->createFieldVariable(context, field->getName(), object);
   }
+  for (LLVMFunction* function : object->getLLVMFunctions()) {
+    function->getType()->createFieldVariable(context, function->getName(), object);
+  }
 }
 
 void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,

@@ -149,10 +149,21 @@ wisey::Constant* Thread::findConstant(string constantName) const {
 
 void Thread::setLLVMFunctions(vector<LLVMFunction*> llvmFunctions) {
   mLLVMFunctions = llvmFunctions;
+  for (LLVMFunction* function : llvmFunctions) {
+    mLLVMFunctionMap[function->getName()] = function;
+  }
 }
 
 vector<LLVMFunction*> Thread::getLLVMFunctions() const {
   return mLLVMFunctions;
+}
+
+LLVMFunction* Thread::findLLVMFunction(string functionName) const {
+  if (!mLLVMFunctionMap.count(functionName)) {
+    Log::e("LLVM function " + functionName + " not found in object " + getTypeName());
+    exit(1);
+  }
+  return mLLVMFunctionMap.at(functionName);
 }
 
 Instruction* Thread::inject(IRGenerationContext& context,

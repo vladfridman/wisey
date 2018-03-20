@@ -16,12 +16,14 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-LLVMFunction::LLVMFunction(std::string name,
+LLVMFunction::LLVMFunction(string name,
+                           const LLVMFunctionType* llvmFunctionType,
                            const ILLVMType* returnType,
-                           std::vector<const LLVMFunctionArgument*> arguments,
+                           vector<const LLVMFunctionArgument*> arguments,
                            CompoundStatement* compoundStatement,
                            int line) :
 mName(name),
+mLLVMFunctionType(llvmFunctionType),
 mReturnType(returnType),
 mArguments(arguments),
 mCompoundStatement(compoundStatement),
@@ -45,7 +47,7 @@ Value* LLVMFunction::declareFunction(IRGenerationContext& context,
 }
 
 void LLVMFunction::generateBodyIR(IRGenerationContext& context,
-                                    const IObjectType* objectType) const {
+                                  const IObjectType* objectType) const {
   string name = IMethodCall::translateObjectMethodToLLVMFunctionName(objectType, mName);
   Function* function = context.getModule()->getFunction(name);
   assert(function != NULL);
@@ -63,6 +65,15 @@ void LLVMFunction::generateBodyIR(IRGenerationContext& context,
   maybeAddImpliedVoidReturn(context, mLine);
   
   scopes.popScope(context, mLine);
+}
+
+Function* LLVMFunction::getLLVMFunction(IRGenerationContext& context,
+                                        const IObjectType* objectType) const {
+  string name = IMethodCall::translateObjectMethodToLLVMFunctionName(objectType, mName);
+  Function* function = context.getModule()->getFunction(name);
+  assert(function != NULL);
+
+  return function;
 }
 
 bool LLVMFunction::isConstant() const {
@@ -120,4 +131,12 @@ void LLVMFunction::maybeAddImpliedVoidReturn(IRGenerationContext& context, int l
   
   context.getScopes().freeOwnedMemory(context, line);
   IRWriter::createReturnInst(context, NULL);
+}
+
+string LLVMFunction::getName() const {
+  return mName;
+}
+
+const LLVMFunctionType* LLVMFunction::getType() const {
+  return mLLVMFunctionType;
 }

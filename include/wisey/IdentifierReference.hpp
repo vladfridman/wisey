@@ -24,7 +24,7 @@ namespace wisey {
     
   public:
     
-    IdentifierReference(const std::string& name);
+    IdentifierReference(const std::string name);
     
     ~IdentifierReference();
     

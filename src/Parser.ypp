@@ -29,6 +29,7 @@
   #include "wisey/ControllerTypeSpecifier.hpp"
   #include "wisey/ControllerTypeSpecifierFull.hpp"
   #include "wisey/DefaultCaseStatement.hpp"
+  #include "wisey/DereferenceExpression.hpp"
   #include "wisey/DoStatement.hpp"
   #include "wisey/DoubleConstant.hpp"
   #include "wisey/EmptyExpression.hpp"
@@ -48,6 +49,7 @@
   #include "wisey/ForStatement.hpp"
   #include "wisey/Identifier.hpp"
   #include "wisey/IdentifierChain.hpp"
+  #include "wisey/IdentifierReference.hpp"
   #include "wisey/IfElseStatement.hpp"
   #include "wisey/IfStatement.hpp"
   #include "wisey/IGlobalStatement.hpp"
@@ -210,6 +212,7 @@
 %token <token> TEXTERNAL TDEFAULT TFALLTHROUGH TFALSE TFIXED TFOR TIF TIMPLEMENTS TIMPORT TINJECTOR 
 %token <token> TINJECT TINSTANCEOF TINTERFACE  
 %token <token> TLLVM TLLVMFUNCTION TLLVMI1 TLLVMI8 TLLVMI16 TLLVMI32 TLLVMI64 TLLVMSTRUCT TLLVMVOID
+%token <token> TLLVMREFERENCE TLLVMDEREFERENCE
 %token <token> TMODEL TNEW TNODE TNULL TOROP TPACKAGE 
 %token <token> TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN TSENDS TSTATE TSTATIC 
 %token <token> TSWITCH TTHREAD TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN 
@@ -227,7 +230,7 @@
 %type <expression> cast_expression primary_expression assignment unary_expression
 %type <expression> type_comparision_expression injection array_allocation static_array_allocation
 %type <expression> thread_expression constant_reference static_method_call field_identifier
-%type <expression> llvm_function_call
+%type <expression> llvm_function_call llvm_reference llvm_dereference
 %type <variable_vector> method_definition_arguments
 %type <expression_vector> call_arguments string_concatenation_list static_array_elements
 %type <block> block_item_list 
@@ -468,6 +471,18 @@ llvm_function_name
   : string_identifier { $$ = $1; }
   | llvm_function_name '.' string_identifier 
     { $$ = new std::string(*$1 + "." + *$3); delete $1; delete $3; }
+  ;
+
+llvm_reference
+  : TLLVM TLLVMREFERENCE '(' TIDENTIFIER ')' 
+    { $$ = new IdentifierReference(*$4); delete $4; }
+  | TLLVM TLLVMREFERENCE '(' TFIELDIDENTIFIER ')' 
+    { $$ = new IdentifierReference(*$4); delete $4; }
+  ;
+
+llvm_dereference
+  : TLLVM TLLVMDEREFERENCE '(' expression ')' 
+    { $$ = new DereferenceExpression($4); }
   ;
 
 string_identifier
@@ -1189,6 +1204,8 @@ primary_expression
   | injection
   | static_method_call
   | llvm_function_call
+  | llvm_reference
+  | llvm_dereference
   | thread_expression
   | '(' expression ')' { $$ = $2; }
   | TNULL { $$ = new NullExpression(); }

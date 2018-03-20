@@ -18,6 +18,7 @@
 #include "MockConcreteObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMi8Type.hpp"
+#include "wisey/LLVMi1Type.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -72,6 +73,16 @@ TEST_F(LLVMi8TypeTest, isObjectTest) {
   EXPECT_FALSE(mLLVMi8Type.isModel());
   EXPECT_FALSE(mLLVMi8Type.isNode());
   EXPECT_FALSE(mLLVMi8Type.isThread());
+}
+
+TEST_F(LLVMi8TypeTest, canCastToTest) {
+  EXPECT_TRUE(mLLVMi8Type.canCastTo(mContext, &mLLVMi8Type));
+  LLVMi1Type i1Type;
+  EXPECT_FALSE(mLLVMi8Type.canCastTo(mContext, &i1Type));
+}
+
+TEST_F(LLVMi8TypeTest, canAutoCastToTest) {
+  EXPECT_TRUE(mLLVMi8Type.canAutoCastTo(mContext, &mLLVMi8Type));
 }
 
 TEST_F(LLVMi8TypeTest, getPointerTypeTest) {

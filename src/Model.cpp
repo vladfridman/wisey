@@ -136,10 +136,21 @@ vector<wisey::Constant*> Model::getConstants() const {
 
 void Model::setLLVMFunctions(vector<LLVMFunction*> llvmFunctions) {
   mLLVMFunctions = llvmFunctions;
+  for (LLVMFunction* function : llvmFunctions) {
+    mLLVMFunctionMap[function->getName()] = function;
+  }
 }
 
 vector<LLVMFunction*> Model::getLLVMFunctions() const {
   return mLLVMFunctions;
+}
+
+LLVMFunction* Model::findLLVMFunction(string functionName) const {
+  if (!mLLVMFunctionMap.count(functionName)) {
+    Log::e("LLVM function " + functionName + " not found in object " + getTypeName());
+    exit(1);
+  }
+  return mLLVMFunctionMap.at(functionName);
 }
 
 IField* Model::findField(string fieldName) const {

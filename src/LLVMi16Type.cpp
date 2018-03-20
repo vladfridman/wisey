@@ -34,22 +34,21 @@ llvm::Type* LLVMi16Type::getLLVMType(IRGenerationContext& context) const {
 }
 
 bool LLVMi16Type::canCastTo(IRGenerationContext& context, const IType* toType) const {
-  return toType != this;
+  return toType == this || toType->getLLVMType(context) == getLLVMType(context);
 }
 
 bool LLVMi16Type::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
-  return toType != this;
+  return toType == this || toType->getLLVMType(context) == getLLVMType(context);
 }
 
 Value* LLVMi16Type::castTo(IRGenerationContext& context,
-                           Value* fromValue,
-                           const IType* toType,
-                           int line) const {
-  if (toType == this) {
+                          Value* fromValue,
+                          const IType* toType,
+                          int line) const {
+  if (toType == this || toType->getLLVMType(context) == getLLVMType(context)) {
     return fromValue;
   }
   assert(false);
-  return NULL;
 }
 
 bool LLVMi16Type::isPrimitive() const {

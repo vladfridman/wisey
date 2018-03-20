@@ -26,6 +26,8 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/IntConstant.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
+#include "wisey/LLVMFunction.hpp"
+#include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/MethodSignature.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
@@ -76,6 +78,7 @@ struct NodeTest : public Test {
   raw_string_ostream* mStringStream;
   string mPackage = "systems.vos.wisey.compiler.tests";
   ImportProfile* mImportProfile;
+  LLVMFunction* mLLVMFunction;
 
   NodeTest() :
   mLLVMContext(mContext.getLLVMContext()),
@@ -197,10 +200,26 @@ struct NodeTest : public Test {
     vector<wisey::Constant*> constants;
     constants.push_back(mConstant);
     
+    vector<const ILLVMType*> functionArgumentTypes;
+    LLVMFunctionType* llvmFunctionType = new LLVMFunctionType(LLVMPrimitiveTypes::I8,
+                                                              functionArgumentTypes);
+    vector<const LLVMFunctionArgument*> llvmFunctionArguments;
+    Block* functionBlock = new Block();
+    CompoundStatement* functionCompoundStatement = new CompoundStatement(functionBlock, 0);
+    mLLVMFunction = new LLVMFunction("myfunction",
+                                     llvmFunctionType,
+                                     LLVMPrimitiveTypes::I8,
+                                     llvmFunctionArguments,
+                                     functionCompoundStatement,
+                                     0);
+    vector<LLVMFunction*> functions;
+    functions.push_back(mLLVMFunction);
+    
     mComplicatedNode->setFields(fields, interfaces.size() + 1);
     mComplicatedNode->setMethods(methods);
     mComplicatedNode->setInterfaces(interfaces);
     mComplicatedNode->setConstants(constants);
+    mComplicatedNode->setLLVMFunctions(functions);
     
     vector<Type*> ownerTypes;
     ownerTypes.push_back(Type::getInt64Ty(mLLVMContext));
@@ -370,6 +389,20 @@ TEST_F(NodeTest, findConstantDeathTest) {
               ::testing::ExitedWithCode(1),
               "Error: Node systems.vos.wisey.compiler.tests.NComplicatedNode "
               "does not have constant named MYCONSTANT2");
+}
+
+TEST_F(NodeTest, findLLVMFunctionTest) {
+  EXPECT_EQ(mLLVMFunction, mComplicatedNode->findLLVMFunction("myfunction"));
+}
+
+TEST_F(NodeTest, findLLVMFunctionDeathTest) {
+  Mock::AllowLeak(mField1Expression);
+  Mock::AllowLeak(mField2Expression);
+  Mock::AllowLeak(mThreadVariable);
+  
+  EXPECT_EXIT(mComplicatedNode->findLLVMFunction("nonexistingfunction"),
+              ::testing::ExitedWithCode(1),
+              "LLVM function nonexistingfunction not found in object systems.vos.wisey.compiler.tests.NComplicatedNode");
 }
 
 TEST_F(NodeTest, getFieldIndexTest) {

@@ -28,6 +28,8 @@
 #include "wisey/FixedField.hpp"
 #include "wisey/IntConstant.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
+#include "wisey/LLVMFunction.hpp"
+#include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
@@ -75,7 +77,8 @@ struct ControllerTest : public Test {
   raw_string_ostream* mStringStream;
   string mPackage = "systems.vos.wisey.compiler.tests";
   ImportProfile* mImportProfile;
-  
+  LLVMFunction* mLLVMFunction;
+
   ControllerTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
@@ -199,10 +202,26 @@ struct ControllerTest : public Test {
     constants.push_back(mConstant);
     constants.push_back(privateConstant);
 
+    vector<const ILLVMType*> functionArgumentTypes;
+    LLVMFunctionType* llvmFunctionType = new LLVMFunctionType(LLVMPrimitiveTypes::I8,
+                                                              functionArgumentTypes);
+    vector<const LLVMFunctionArgument*> llvmFunctionArguments;
+    Block* functionBlock = new Block();
+    CompoundStatement* functionCompoundStatement = new CompoundStatement(functionBlock, 0);
+    mLLVMFunction = new LLVMFunction("myfunction",
+                                     llvmFunctionType,
+                                     LLVMPrimitiveTypes::I8,
+                                     llvmFunctionArguments,
+                                     functionCompoundStatement,
+                                     0);
+    vector<LLVMFunction*> functions;
+    functions.push_back(mLLVMFunction);
+
     mMultiplierController->setFields(fields, interfaces.size() + 1);
     mMultiplierController->setMethods(methods);
     mMultiplierController->setInterfaces(interfaces);
     mMultiplierController->setConstants(constants);
+    mMultiplierController->setLLVMFunctions(functions);
     
     vector<Type*> ownerTypes;
     ownerTypes.push_back(Type::getInt64Ty(mLLVMContext));
@@ -374,6 +393,18 @@ TEST_F(ControllerTest, findConstantDeathTest) {
               ::testing::ExitedWithCode(1),
               "Error: Controller systems.vos.wisey.compiler.tests.CMultiplier "
               "does not have constant named MYCONSTANT2");
+}
+
+TEST_F(ControllerTest, findLLVMFunctionTest) {
+  EXPECT_EQ(mLLVMFunction, mMultiplierController->findLLVMFunction("myfunction"));
+}
+
+TEST_F(ControllerTest, findLLVMFunctionDeathTest) {
+  Mock::AllowLeak(mThreadVariable);
+
+  EXPECT_EXIT(mMultiplierController->findLLVMFunction("nonexistingfunction"),
+              ::testing::ExitedWithCode(1),
+              "LLVM function nonexistingfunction not found in object systems.vos.wisey.compiler.tests.CMultiplier");
 }
 
 TEST_F(ControllerTest, getObjectNameGlobalVariableNameTest) {

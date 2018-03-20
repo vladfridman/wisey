@@ -141,10 +141,21 @@ vector<wisey::Constant*> Controller::getConstants() const {
 
 void Controller::setLLVMFunctions(vector<LLVMFunction*> llvmFunctions) {
   mLLVMFunctions = llvmFunctions;
+  for (LLVMFunction* function : llvmFunctions) {
+    mLLVMFunctionMap[function->getName()] = function;
+  }
 }
 
 vector<LLVMFunction*> Controller::getLLVMFunctions() const {
   return mLLVMFunctions;
+}
+
+LLVMFunction* Controller::findLLVMFunction(string functionName) const {
+  if (!mLLVMFunctionMap.count(functionName)) {
+    Log::e("LLVM function " + functionName + " not found in object " + getTypeName());
+    exit(1);
+  }
+  return mLLVMFunctionMap.at(functionName);
 }
 
 wisey::Constant* Controller::findConstant(string constantName) const {

@@ -44,5 +44,8 @@ bool DereferenceExpression::isConstant() const {
 
 void DereferenceExpression::printToStream(IRGenerationContext& context,
                                           std::iostream& stream) const {
+  stream << "::llvm::dereference(";
+  mExpression->printToStream(context, stream);
+  stream << ")";
 }
 

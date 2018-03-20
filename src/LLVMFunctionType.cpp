@@ -8,7 +8,9 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMFunctionType.hpp"
+#include "wisey/ObjectFunctionVariable.hpp"
 
 using namespace std;
 using namespace wisey;
@@ -129,9 +131,10 @@ void LLVMFunctionType::createLocalVariable(IRGenerationContext& context, string 
 }
 
 void LLVMFunctionType::createFieldVariable(IRGenerationContext& context,
-                                        string name,
-                                        const IConcreteObjectType* object) const {
-  assert(false);
+                                           string name,
+                                           const IConcreteObjectType* object) const {
+  IVariable* variable = new ObjectFunctionVariable(name, object);
+  context.getScopes().setVariable(variable);
 }
 
 void LLVMFunctionType::createParameterVariable(IRGenerationContext& context,

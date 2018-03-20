@@ -25,6 +25,7 @@ using namespace std;
 using namespace wisey;
 
 using ::testing::_;
+using ::testing::Invoke;
 using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
@@ -58,12 +59,17 @@ public:
     ON_CALL(*mExpression, generateIR(_, _)).WillByDefault(Return(value));
     ON_CALL(*mExpression, getType(_)).
     WillByDefault(Return(PrimitiveTypes::LONG_TYPE->getPointerType()));
-    
+    ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
+
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
   ~DereferenceExpressionTest() {
     delete mStringStream;
+  }
+  
+  static void printExpression(IRGenerationContext& context, iostream& stream) {
+    stream << "expression";
   }
 };
 
@@ -92,4 +98,13 @@ TEST_F(DereferenceExpressionTest, getTypeTest) {
   DereferenceExpression expression(mExpression);
 
   EXPECT_EQ(PrimitiveTypes::LONG_TYPE, expression.getType(mContext));
+}
+
+TEST_F(DereferenceExpressionTest, printToStreamTest) {
+  DereferenceExpression expression(mExpression);
+  
+  stringstream stringStream;
+  expression.printToStream(mContext, stringStream);
+  
+  EXPECT_STREQ("::llvm::dereference(expression)", stringStream.str().c_str());
 }

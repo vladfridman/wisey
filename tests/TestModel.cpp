@@ -29,6 +29,8 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/IntConstant.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
+#include "wisey/LLVMFunction.hpp"
+#include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/MethodSignature.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
@@ -77,6 +79,7 @@ struct ModelTest : public Test {
   raw_string_ostream* mStringStream;
   string mPackage = "systems.vos.wisey.compiler.tests";
   ImportProfile* mImportProfile;
+  LLVMFunction* mLLVMFunction;
 
   ModelTest() :
   mLLVMContext(mContext.getLLVMContext()),
@@ -207,6 +210,21 @@ struct ModelTest : public Test {
     vector<wisey::Constant*> constants;
     constants.push_back(mConstant);
 
+    vector<const ILLVMType*> functionArgumentTypes;
+    LLVMFunctionType* llvmFunctionType = new LLVMFunctionType(LLVMPrimitiveTypes::I8,
+                                                              functionArgumentTypes);
+    vector<const LLVMFunctionArgument*> llvmFunctionArguments;
+    Block* functionBlock = new Block();
+    CompoundStatement* functionCompoundStatement = new CompoundStatement(functionBlock, 0);
+    mLLVMFunction = new LLVMFunction("myfunction",
+                                     llvmFunctionType,
+                                     LLVMPrimitiveTypes::I8,
+                                     llvmFunctionArguments,
+                                     functionCompoundStatement,
+                                     0);
+    vector<LLVMFunction*> functions;
+    functions.push_back(mLLVMFunction);
+
     vector<Interface*> interfaces;
     interfaces.push_back(mShapeInterface);
     interfaces.push_back(mObjectInterface);
@@ -214,6 +232,7 @@ struct ModelTest : public Test {
     mModel->setMethods(methods);
     mModel->setInterfaces(interfaces);
     mModel->setConstants(constants);
+    mModel->setLLVMFunctions(functions);
 
     string cirlceFullName = "systems.vos.wisey.compiler.tests.MCircle";
     StructType* circleStructType = StructType::create(mLLVMContext, cirlceFullName);
@@ -386,6 +405,20 @@ TEST_F(ModelTest, findConstantDeathTest) {
               ::testing::ExitedWithCode(1),
               "Error: Model systems.vos.wisey.compiler.tests.MSquare "
               "does not have constant named MYCONSTANT2");
+}
+
+TEST_F(ModelTest, findLLVMFunctionTest) {
+  EXPECT_EQ(mLLVMFunction, mModel->findLLVMFunction("myfunction"));
+}
+
+TEST_F(ModelTest, findLLVMFunctionDeathTest) {
+  Mock::AllowLeak(mField1Expression);
+  Mock::AllowLeak(mField2Expression);
+  Mock::AllowLeak(mThreadVariable);
+  
+  EXPECT_EXIT(mModel->findLLVMFunction("nonexistingfunction"),
+              ::testing::ExitedWithCode(1),
+              "LLVM function nonexistingfunction not found in object systems.vos.wisey.compiler.tests.MSquare");
 }
 
 TEST_F(ModelTest, getMissingFieldsTest) {

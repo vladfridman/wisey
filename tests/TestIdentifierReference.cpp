@@ -100,6 +100,6 @@ TEST_F(IdentifierReferenceTest, printToStreamTest) {
   stringstream stringStream;
   identifierReference.printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("foo&", stringStream.str().c_str());
+  EXPECT_STREQ("::llvm::reference(foo)", stringStream.str().c_str());
 }
 

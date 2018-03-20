@@ -18,6 +18,8 @@
 #include "MockConcreteObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMi32Type.hpp"
+#include "wisey/LLVMi8Type.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -72,6 +74,25 @@ TEST_F(LLVMi32TypeTest, isObjectTest) {
   EXPECT_FALSE(mLLVMi32Type.isModel());
   EXPECT_FALSE(mLLVMi32Type.isNode());
   EXPECT_FALSE(mLLVMi32Type.isThread());
+}
+
+TEST_F(LLVMi32TypeTest, canCastToTest) {
+  EXPECT_TRUE(mLLVMi32Type.canCastTo(mContext, &mLLVMi32Type));
+  LLVMi8Type i8Type;
+  EXPECT_FALSE(mLLVMi32Type.canCastTo(mContext, &i8Type));
+  EXPECT_TRUE(mLLVMi32Type.canCastTo(mContext, PrimitiveTypes::INT_TYPE));
+}
+
+TEST_F(LLVMi32TypeTest, canAutoCastToTest) {
+  EXPECT_TRUE(mLLVMi32Type.canAutoCastTo(mContext, &mLLVMi32Type));
+  LLVMi8Type i8Type;
+  EXPECT_FALSE(mLLVMi32Type.canAutoCastTo(mContext, &i8Type));
+  EXPECT_TRUE(mLLVMi32Type.canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
+}
+
+TEST_F(LLVMi32TypeTest, castToTest) {
+  Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
+  EXPECT_EQ(value, mLLVMi32Type.castTo(mContext, value, PrimitiveTypes::INT_TYPE, 0));
 }
 
 TEST_F(LLVMi32TypeTest, getPointerTypeTest) {

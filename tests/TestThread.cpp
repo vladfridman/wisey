@@ -27,6 +27,8 @@
 #include "wisey/FixedField.hpp"
 #include "wisey/IntConstant.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
+#include "wisey/LLVMFunction.hpp"
+#include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
@@ -70,7 +72,8 @@ struct ThreadTest : public Test {
   raw_string_ostream* mStringStream;
   string mPackage = "systems.vos.wisey.compiler.tests";
   ImportProfile* mImportProfile;
-  
+  LLVMFunction* mLLVMFunction;
+
   ThreadTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
@@ -129,10 +132,26 @@ struct ThreadTest : public Test {
     constants.push_back(mConstant);
     constants.push_back(privateConstant);
     
+    vector<const ILLVMType*> functionArgumentTypes;
+    LLVMFunctionType* llvmFunctionType = new LLVMFunctionType(LLVMPrimitiveTypes::I8,
+                                                              functionArgumentTypes);
+    vector<const LLVMFunctionArgument*> llvmFunctionArguments;
+    Block* functionBlock = new Block();
+    CompoundStatement* functionCompoundStatement = new CompoundStatement(functionBlock, 0);
+    mLLVMFunction = new LLVMFunction("myfunction",
+                                     llvmFunctionType,
+                                     LLVMPrimitiveTypes::I8,
+                                     llvmFunctionArguments,
+                                     functionCompoundStatement,
+                                     0);
+    vector<LLVMFunction*> functions;
+    functions.push_back(mLLVMFunction);
+
     mThread->setFields(fields, interfaces.size() + 1);
     mThread->setMethods(methods);
     mThread->setInterfaces(interfaces);
     mThread->setConstants(constants);
+    mThread->setLLVMFunctions(functions);
     mContext.addThread(mThread);
     
     vector<Type*> nonInjectableFieldThreadTypes;
@@ -269,6 +288,18 @@ TEST_F(ThreadTest, findConstantDeathTest) {
               ::testing::ExitedWithCode(1),
               "Error: Thread systems.vos.wisey.compiler.tests.TWorker "
               "does not have constant named MYCONSTANT2");
+}
+
+TEST_F(ThreadTest, findLLVMFunctionTest) {
+  EXPECT_EQ(mLLVMFunction, mThread->findLLVMFunction("myfunction"));
+}
+
+TEST_F(ThreadTest, findLLVMFunctionDeathTest) {
+  Mock::AllowLeak(mThreadVariable);
+
+  EXPECT_EXIT(mThread->findLLVMFunction("nonexistingfunction"),
+              ::testing::ExitedWithCode(1),
+              "LLVM function nonexistingfunction not found in object systems.vos.wisey.compiler.tests.TWorker");
 }
 
 TEST_F(ThreadTest, getObjectNameGlobalVariableNameTest) {
