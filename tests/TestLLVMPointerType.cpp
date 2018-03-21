@@ -162,6 +162,6 @@ TEST_F(LLVMPointerTypeTest, printToStreamTest) {
 }
 
 TEST_F(LLVMPointerTypeTest, getPointerTypeTest) {
-  EXPECT_EQ(mLLVMPointerType->getLLVMType(mContext)->getPointerTo(), 
+  EXPECT_EQ(mLLVMPointerType->getLLVMType(mContext)->getPointerTo(),
             mLLVMPointerType->getPointerType()->getLLVMType(mContext));
 }
