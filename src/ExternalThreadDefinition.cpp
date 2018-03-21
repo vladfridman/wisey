@@ -7,7 +7,6 @@
 //
 
 #include "wisey/ExternalThreadDefinition.hpp"
-#include "wisey/ThreadDefinition.hpp"
 
 using namespace std;
 using namespace llvm;

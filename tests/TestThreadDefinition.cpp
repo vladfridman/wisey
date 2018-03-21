@@ -35,7 +35,6 @@
 #include "wisey/ReturnStatement.hpp"
 #include "wisey/StateFieldDefinition.hpp"
 #include "wisey/ThreadDefinition.hpp"
-#include "wisey/ThreadInfrastructure.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -229,43 +228,6 @@ TEST_F(ThreadDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
   EXPECT_EXIT(threadDefinition.prototypeMethods(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Fields should be declared before methods");
-}
-
-TEST_F(ThreadDefinitionTest, addThreadObjectElementsTest) {
-  const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-  NiceMock<MockExpression>* mockExpression = new NiceMock<MockExpression>();
-  ConstantDefinition* constantDeclaration = new ConstantDefinition(PUBLIC_ACCESS,
-                                                                     intSpecifier,
-                                                                     "MY_CONSTANT",
-                                                                     mockExpression);
-  const PrimitiveTypeSpecifier* voidSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
-  VariableList arguments;
-  vector<IModelTypeSpecifier*> exceptions;
-  Block* block = new Block();
-  CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
-  MethodDefinition* methodDeclaration = new MethodDefinition(PUBLIC_ACCESS,
-                                                               voidSpecifier,
-                                                               "work",
-                                                               arguments,
-                                                               exceptions,
-                                                               compoundStatement,
-                                                               0);
-
-  Thread* thread = Thread::newThread(PUBLIC_ACCESS, "TWorker", NULL);
-  vector<IObjectElementDefinition*> objectElements;
-  objectElements.push_back(constantDeclaration);
-  objectElements.push_back(methodDeclaration);
-  
-  vector<IObjectElementDefinition*> newElements =
-  ThreadDefinition::addThreadObjectElements(mContext, objectElements, thread);
-  
-  EXPECT_EQ(6u, newElements.size());
-  EXPECT_TRUE(newElements.at(0)->isConstant());
-  EXPECT_TRUE(newElements.at(1)->isField());
-  EXPECT_TRUE(newElements.at(2)->isField());
-  EXPECT_TRUE(newElements.at(3)->isMethod());
-  EXPECT_TRUE(newElements.at(4)->isMethod());
-  EXPECT_TRUE(newElements.at(5)->isMethod());
 }
 
 TEST_F(TestFileSampleRunner, threadDefinitionRunTest) {
