@@ -110,9 +110,3 @@ TEST_F(ArrayExactTypeTest, getArrayTypeTest) {
   EXPECT_EQ(mContext.getArrayType(PrimitiveTypes::LONG_TYPE, 2u),
             mMultiDimentionalArrayExactType->getArrayType(mContext));
 }
-
-TEST_F(ArrayExactTypeTest, getPointerTypeTest) {
-  const IType* pointerType = mArrayExactType->getPointerType();
-  EXPECT_EQ(mArrayExactType->getLLVMType(mContext)->getPointerTo(),
-            pointerType->getLLVMType(mContext));
-}

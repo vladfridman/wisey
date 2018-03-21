@@ -190,10 +190,3 @@ const wisey::ArrayType* ExternalMethod::getArrayType(IRGenerationContext& contex
   exit(1);
 }
 
-const IType* ExternalMethod::getPointerType() const {
-  assert(false);
-}
-
-const IType* ExternalMethod::getDereferenceType() const {
-  assert(false);
-}

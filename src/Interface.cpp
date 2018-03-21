@@ -51,14 +51,12 @@ mStructType(structType),
 mIsExternal(isExternal),
 mIsInner(false),
 mInterfaceOwner(new InterfaceOwner(this)),
-mPointerType(new PointerType(this)),
 mParentInterfaceSpecifiers(parentInterfaceSpecifiers),
 mElementDeclarations(elementDelcarations),
 mIsComplete(false) { }
 
 Interface::~Interface() {
   delete mInterfaceOwner;
-  delete mPointerType;
   mParentInterfaces.clear();
   for (MethodSignature* methodSignature : mMethodSignatures) {
     delete methodSignature;
@@ -980,10 +978,3 @@ const Interface* Interface::getObjectType() const {
   return this;
 }
 
-const IType* Interface::getPointerType() const {
-  return mPointerType;
-}
-
-const IType* Interface::getDereferenceType() const {
-  assert(false);
-}

@@ -21,6 +21,7 @@
 #include "MockVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IdentifierReference.hpp"
+#include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/UndefinedType.hpp"
 
@@ -72,12 +73,25 @@ TEST_F(IdentifierReferenceTest, undeclaredVariableDeathTest) {
 TEST_F(IdentifierReferenceTest, getTypeTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(LLVMPrimitiveTypes::I32));
+  mContext.getScopes().setVariable(&mockVariable);
+  
+  IdentifierReference identifierReference("foo");
+  
+  EXPECT_EQ(identifierReference.getType(mContext), LLVMPrimitiveTypes::I32->getPointerType());
+}
+
+TEST_F(IdentifierReferenceTest, getTypeNonNativeTypeTest) {
+  NiceMock<MockVariable> mockVariable;
+  ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
   ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   mContext.getScopes().setVariable(&mockVariable);
   
   IdentifierReference identifierReference("foo");
   
-  EXPECT_EQ(identifierReference.getType(mContext), PrimitiveTypes::INT_TYPE->getPointerType());
+  EXPECT_EXIT(identifierReference.getType(mContext),
+              ::testing::ExitedWithCode(1),
+              "Can not take a reference of a non-native type variable");
 }
 
 TEST_F(IdentifierReferenceTest, getTypeForUndefinedTypeTest) {
@@ -102,4 +116,3 @@ TEST_F(IdentifierReferenceTest, printToStreamTest) {
   
   EXPECT_STREQ("::llvm::reference(foo)", stringStream.str().c_str());
 }
-

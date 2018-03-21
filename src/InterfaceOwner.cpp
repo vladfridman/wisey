@@ -20,12 +20,10 @@ using namespace std;
 using namespace wisey;
 
 InterfaceOwner::InterfaceOwner(Interface* interface) :
-mInterface(interface),
-mPointerType(new PointerType(this)) {
+mInterface(interface) {
 }
 
 InterfaceOwner::~InterfaceOwner() {
-  delete mPointerType;
 }
 
 Interface* InterfaceOwner::getObjectType() const {
@@ -176,10 +174,3 @@ const wisey::ArrayType* InterfaceOwner::getArrayType(IRGenerationContext& contex
   exit(1);
 }
 
-const IType* InterfaceOwner::getPointerType() const {
-  return mPointerType;
-}
-
-const IType* InterfaceOwner::getDereferenceType() const {
-  assert(false);
-}

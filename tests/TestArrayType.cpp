@@ -162,9 +162,3 @@ TEST_F(ArrayTypeTest, createParameterVariableTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
-
-TEST_F(ArrayTypeTest, getPointerTypeTest) {
-  const IType* pointerType = mArrayType->getPointerType();
-  EXPECT_EQ(mArrayType->getLLVMType(mContext)->getPointerTo(),
-            pointerType->getLLVMType(mContext));
-}

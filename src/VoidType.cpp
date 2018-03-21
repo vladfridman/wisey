@@ -12,7 +12,6 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/PointerType.hpp"
 #include "wisey/VoidType.hpp"
 
 using namespace llvm;
@@ -125,14 +124,6 @@ const wisey::ArrayType* VoidType::getArrayType(IRGenerationContext& context) con
 
 const IObjectType* VoidType::getObjectType() const {
   return NULL;
-}
-
-const IType* VoidType::getPointerType() const {
-  assert(false);
-}
-
-const IType* VoidType::getDereferenceType() const {
-  assert(false);
 }
 
 const PrimitiveTypeSpecifier* VoidType::newTypeSpecifier() const {

@@ -11,7 +11,6 @@
 
 #include "wisey/ArrayType.hpp"
 #include "wisey/IOwnerType.hpp"
-#include "wisey/PointerType.hpp"
 
 namespace wisey {
   
@@ -21,7 +20,6 @@ namespace wisey {
   class ArrayOwnerType : public IOwnerType {
     
     const ArrayType* mArrayType;
-    const PointerType* mPointerType;
     
   public:
     
@@ -83,10 +81,6 @@ namespace wisey {
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
     
     const IObjectType* getObjectType() const override;
-    
-    const IType* getPointerType() const override;
-    
-    const IType* getDereferenceType() const override;
 
   };
   

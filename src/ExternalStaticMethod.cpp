@@ -189,11 +189,3 @@ const wisey::ArrayType* ExternalStaticMethod::getArrayType(IRGenerationContext& 
   ArrayType::reportNonArrayType();
   exit(1);
 }
-
-const IType* ExternalStaticMethod::getPointerType() const {
-  assert(false);
-}
-
-const IType* ExternalStaticMethod::getDereferenceType() const {
-  assert(false);
-}

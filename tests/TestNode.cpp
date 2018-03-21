@@ -807,12 +807,6 @@ TEST_F(NodeTest, createParameterVariableTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(NodeTest, getPointerTypeTest) {
-  const IType* pointerType = mComplicatedNode->getPointerType();
-  EXPECT_EQ(mComplicatedNode->getLLVMType(mContext)->getPointerTo(),
-            pointerType->getLLVMType(mContext));
-}
-
 TEST_F(TestFileSampleRunner, linkListRunTest) {
   runFile("tests/samples/test_linklist.yz", "9");
 }

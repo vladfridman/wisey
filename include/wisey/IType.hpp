@@ -151,16 +151,6 @@ namespace wisey {
     virtual const IObjectType* getObjectType() const = 0;
     
     /**
-     * Returns reference type which is the pointer to this type
-     */
-    virtual const IType* getPointerType() const = 0;
-    
-    /**
-     * Returns dereference type which is the type of the value the pointer type is pointing to
-     */
-    virtual const IType* getDereferenceType() const = 0;
-    
-    /**
      * Tells whether the given type is an object or an object owner type
      */
     static bool isObjectType(const IType* type);

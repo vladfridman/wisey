@@ -150,9 +150,3 @@ TEST_F(ArrayOwnerTypeTest, createParameterVariableTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
-
-TEST_F(ArrayOwnerTypeTest, getPointerTypeTest) {
-  const IType* pointerType = mArrayOwnerType->getPointerType();
-  EXPECT_EQ(mArrayOwnerType->getLLVMType(mContext)->getPointerTo(),
-            pointerType->getLLVMType(mContext));
-}

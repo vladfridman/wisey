@@ -70,11 +70,6 @@ TEST_F(DoubleTypeTest, doubleTypeTest) {
   EXPECT_EQ("%e", mDoubleType.getFormat());
 }
 
-TEST_F(DoubleTypeTest, getPointerTypeTest) {
-  const IType* pointerType = mDoubleType.getPointerType();
-  EXPECT_EQ(Type::getDoubleTy(mLLVMContext)->getPointerTo(), pointerType->getLLVMType(mContext));
-}
-
 TEST_F(DoubleTypeTest, canAutoCastToTest) {
   EXPECT_FALSE(mDoubleType.canAutoCastTo(mContext, PrimitiveTypes::VOID_TYPE));
   EXPECT_FALSE(mDoubleType.canAutoCastTo(mContext, PrimitiveTypes::STRING_TYPE));

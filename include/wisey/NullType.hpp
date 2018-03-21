@@ -78,10 +78,6 @@ namespace wisey {
     const IObjectType* getObjectType() const override;
     
     static NullType* NULL_TYPE;
-    
-    const IType* getPointerType() const override;
-    
-    const IType* getDereferenceType() const override;
 
   };
   

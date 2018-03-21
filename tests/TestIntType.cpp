@@ -69,11 +69,6 @@ TEST_F(IntTypeTest, intTypeTest) {
   EXPECT_EQ("%d", mIntType.getFormat());
 }
 
-TEST_F(IntTypeTest, getPointerTypeTest) {
-  const IType* pointerType = mIntType.getPointerType();
-  EXPECT_EQ(Type::getInt32Ty(mLLVMContext)->getPointerTo(), pointerType->getLLVMType(mContext));
-}
-
 TEST_F(IntTypeTest, canAutoCastToTest) {
   EXPECT_FALSE(mIntType.canAutoCastTo(mContext, PrimitiveTypes::VOID_TYPE));
   EXPECT_FALSE(mIntType.canAutoCastTo(mContext, PrimitiveTypes::STRING_TYPE));

@@ -22,11 +22,10 @@ using namespace std;
 using namespace wisey;
 
 ArrayOwnerType::ArrayOwnerType(const ArrayType* arrayType) :
-mArrayType(arrayType), mPointerType(new PointerType(this)) {
+mArrayType(arrayType) {
 }
 
 ArrayOwnerType::~ArrayOwnerType() {
-  delete mPointerType;
 }
 
 const ArrayType* ArrayOwnerType::getArrayType(IRGenerationContext& context) const {
@@ -170,10 +169,3 @@ const IObjectType* ArrayOwnerType::getObjectType() const {
   return NULL;
 }
 
-const IType* ArrayOwnerType::getPointerType() const {
-  return mPointerType;
-}
-
-const IType* ArrayOwnerType::getDereferenceType() const {
-  assert(false);
-}

@@ -19,7 +19,6 @@
 #include "wisey/IMethod.hpp"
 #include "wisey/InjectedField.hpp"
 #include "wisey/Interface.hpp"
-#include "wisey/PointerType.hpp"
 
 namespace wisey {
   
@@ -35,7 +34,6 @@ namespace wisey {
     bool mIsExternal;
     bool mIsInner;
     ControllerOwner* mControllerOwner;
-    const PointerType* mPointerType;
     std::vector<IField*> mReceivedFields;
     std::vector<InjectedField*> mInjectedFields;
     std::vector<IField*> mStateFields;
@@ -199,10 +197,6 @@ namespace wisey {
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
     
     const Controller* getObjectType() const override;
-    
-    const IType* getPointerType() const override;
-    
-    const IType* getDereferenceType() const override;
     
   private:
     

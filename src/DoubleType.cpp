@@ -25,11 +25,9 @@ using namespace std;
 using namespace wisey;
 
 DoubleType::DoubleType() {
-  mPointerType = new PointerType(this);
 }
 
 DoubleType::~DoubleType() {
-  delete mPointerType;
 }
 
 string DoubleType::getTypeName() const {
@@ -162,14 +160,6 @@ const wisey::ArrayType* DoubleType::getArrayType(IRGenerationContext& context) c
 
 const IObjectType* DoubleType::getObjectType() const {
   return NULL;
-}
-
-const IType* DoubleType::getPointerType() const {
-  return mPointerType;
-}
-
-const IType* DoubleType::getDereferenceType() const {
-  assert(false);
 }
 
 const PrimitiveTypeSpecifier* DoubleType::newTypeSpecifier() const {

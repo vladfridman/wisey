@@ -25,12 +25,10 @@ using namespace wisey;
 ArrayType::ArrayType(const IType* elementType, unsigned long numberOfDimensions) :
 mElementType(elementType), mNumberOfDimensions(numberOfDimensions) {
   mArrayOwnerType = new ArrayOwnerType(this);
-  mPointerType = new PointerType(this);
 }
 
 ArrayType::~ArrayType() {
   delete mArrayOwnerType;
-  delete mPointerType;
 }
 
 const unsigned int ArrayType::ARRAY_ELEMENTS_START_INDEX = 3u;
@@ -204,10 +202,3 @@ const IObjectType* ArrayType::getObjectType() const {
   return NULL;
 }
 
-const IType* ArrayType::getPointerType() const {
-  return mPointerType;
-}
-
-const IType* ArrayType::getDereferenceType() const {
-  assert(false);
-}

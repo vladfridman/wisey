@@ -34,12 +34,10 @@ mStructType(structType),
 mIsExternal(isExternal),
 mIsInner(false) {
   mModelOwner = new ModelOwner(this);
-  mPointerType = new PointerType(this);
 }
 
 Model::~Model() {
   delete mModelOwner;
-  delete mPointerType;
   for(IField* field : mFieldsOrdered) {
     delete field;
   }
@@ -522,12 +520,4 @@ const wisey::ArrayType* Model::getArrayType(IRGenerationContext& context) const 
 
 const Model* Model::getObjectType() const {
   return this;
-}
-
-const IType* Model::getPointerType() const {
-  return mPointerType;
-}
-
-const IType* Model::getDereferenceType() const {
-  assert(false);
 }

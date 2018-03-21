@@ -18,12 +18,9 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ThreadOwner::ThreadOwner(Thread* thread) :
-mThread(thread),
-mPointerType(new PointerType(this)) { }
+ThreadOwner::ThreadOwner(Thread* thread) : mThread(thread) { }
 
 ThreadOwner::~ThreadOwner() {
-  delete mPointerType;
 }
 
 Thread* ThreadOwner::getObjectType() const {
@@ -163,12 +160,4 @@ void ThreadOwner::createParameterVariable(IRGenerationContext& context,
 const wisey::ArrayType* ThreadOwner::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);
-}
-
-const IType* ThreadOwner::getPointerType() const {
-  return mPointerType;
-}
-
-const IType* ThreadOwner::getDereferenceType() const {
-  assert(false);
 }

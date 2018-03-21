@@ -22,12 +22,10 @@ ArraySpecificType::ArraySpecificType(const IType* elementType,
 mElementType(elementType), mDimensions(dimensions) {
   assert(dimensions.size());
   mArraySpecificOwnerType = new ArraySpecificOwnerType(this);
-  mPointerType = new PointerType(this);
 }
 
 ArraySpecificType::~ArraySpecificType() {
   delete mArraySpecificOwnerType;
-  delete mPointerType;
 }
 
 const ArraySpecificOwnerType* ArraySpecificType::getOwner() const {
@@ -202,10 +200,3 @@ const IObjectType* ArraySpecificType::getObjectType() const {
   return NULL;
 }
 
-const IType* ArraySpecificType::getPointerType() const {
-  return mPointerType;
-}
-
-const IType* ArraySpecificType::getDereferenceType() const {
-  assert(false);
-}

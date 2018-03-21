@@ -408,8 +408,3 @@ TEST_F(NodeOwnerTest, createParameterVariableTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(NodeOwnerTest, getPointerTypeTest) {
-  const IType* pointerType = mComplicatedNode->getOwner()->getPointerType();
-  EXPECT_EQ(mComplicatedNode->getOwner()->getLLVMType(mContext)->getPointerTo(),
-            pointerType->getLLVMType(mContext));
-}

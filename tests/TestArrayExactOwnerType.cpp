@@ -92,9 +92,3 @@ TEST_F(ArrayExactOwnerTypeTest, getArrayTypeTest) {
   EXPECT_EQ(mContext.getArrayType(PrimitiveTypes::LONG_TYPE, 1u),
             mArrayExactOwnerType->getArrayType(mContext));
 }
-
-TEST_F(ArrayExactOwnerTypeTest, getPointerTypeTest) {
-  const IType* pointerType = mArrayExactOwnerType->getPointerType();
-  EXPECT_EQ(mArrayExactOwnerType->getLLVMType(mContext)->getPointerTo(),
-            pointerType->getLLVMType(mContext));
-}

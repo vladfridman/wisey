@@ -8,6 +8,7 @@
 
 #include "wisey/IdentifierReference.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/Log.hpp"
 #include "wisey/UndefinedType.hpp"
 
 using namespace llvm;
@@ -35,12 +36,18 @@ Value* IdentifierReference::generateIR(IRGenerationContext& context,
 
 const IType* IdentifierReference::getType(IRGenerationContext& context) const {
   IVariable* variable = context.getScopes().getVariable(mName);
-
-  if (variable) {
-    return variable->getType()->getPointerType();
+  
+  if (!variable) {
+    return UndefinedType::UNDEFINED_TYPE;
   }
   
-  return UndefinedType::UNDEFINED_TYPE;
+  const IType* variableType = variable->getType();
+  if (!variableType->isNative()) {
+    Log::e("Can not take a reference of a non-native type variable");
+    exit(1);
+  }
+  
+  return ((const ILLVMType*) variableType)->getPointerType();
 }
 
 bool IdentifierReference::isConstant() const {

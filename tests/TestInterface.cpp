@@ -618,12 +618,6 @@ TEST_F(InterfaceTest, createParameterVariableTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(InterfaceTest, getPointerTypeTest) {
-  const IType* pointerType = mShapeInterface->getPointerType();
-  EXPECT_EQ(mShapeInterface->getLLVMType(mContext)->getPointerTo(),
-            pointerType->getLLVMType(mContext));
-}
-
 TEST_F(TestFileSampleRunner, interfaceMethodNotImplmentedDeathTest) {
   expectFailCompile("tests/samples/test_interface_method_not_implmented.yz",
                     1,

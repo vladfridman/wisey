@@ -257,10 +257,3 @@ const wisey::ArrayType* StaticMethod::getArrayType(IRGenerationContext& context)
   exit(1);
 }
 
-const IType* StaticMethod::getPointerType() const {
-  assert(false);
-}
-
-const IType* StaticMethod::getDereferenceType() const {
-  assert(false);
-}

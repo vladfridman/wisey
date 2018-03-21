@@ -18,10 +18,9 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-NodeOwner::NodeOwner(Node* node) : mNode(node), mPointerType(new PointerType(this)) { }
+NodeOwner::NodeOwner(Node* node) : mNode(node) { }
 
 NodeOwner::~NodeOwner() {
-  delete mPointerType;
 }
 
 Node* NodeOwner::getObjectType() const {
@@ -162,12 +161,4 @@ void NodeOwner::createParameterVariable(IRGenerationContext& context,
 const wisey::ArrayType* NodeOwner::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);
-}
-
-const IType* NodeOwner::getPointerType() const {
-  return mPointerType;
-}
-
-const IType* NodeOwner::getDereferenceType() const {
-  assert(false);
 }

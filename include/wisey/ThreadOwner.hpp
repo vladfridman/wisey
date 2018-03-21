@@ -20,7 +20,6 @@ namespace wisey {
   class ThreadOwner : public IObjectOwnerType {
     
     Thread* mThread;
-    const PointerType* mPointerType;
     
   public:
     
@@ -84,10 +83,6 @@ namespace wisey {
                                  llvm::Value* value) const override;
     
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
-    
-    const IType* getPointerType() const override;
-    
-    const IType* getDereferenceType() const override;
 
   };
   

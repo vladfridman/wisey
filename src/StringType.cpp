@@ -25,11 +25,9 @@ using namespace std;
 using namespace wisey;
 
 StringType::StringType() {
-  mPointerType = new PointerType(this);
 }
 
 StringType::~StringType() {
-  delete mPointerType;
 }
 
 string StringType::getTypeName() const {
@@ -157,14 +155,6 @@ const wisey::ArrayType* StringType::getArrayType(IRGenerationContext& context) c
 
 const IObjectType* StringType::getObjectType() const {
   return NULL;
-}
-
-const IType* StringType::getPointerType() const {
-  return mPointerType;
-}
-
-const IType* StringType::getDereferenceType() const {
-  assert(false);
 }
 
 const PrimitiveTypeSpecifier* StringType::newTypeSpecifier() const {

@@ -13,7 +13,6 @@
 
 #include "wisey/IReferenceType.hpp"
 #include "wisey/IType.hpp"
-#include "wisey/PointerType.hpp"
 
 namespace wisey {
   
@@ -36,7 +35,6 @@ namespace wisey {
     const IType* mElementType;
     unsigned long mNumberOfDimensions;
     const ArrayOwnerType* mArrayOwnerType;
-    const PointerType* mPointerType;
     
   public:
     
@@ -119,10 +117,6 @@ namespace wisey {
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
     
     const IObjectType* getObjectType() const override;
-    
-    const IType* getPointerType() const override;
-    
-    const IType* getDereferenceType() const override;
 
     /**
      * Returns generic type for arrays

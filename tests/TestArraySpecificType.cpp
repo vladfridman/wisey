@@ -126,9 +126,3 @@ TEST_F(ArraySpecificTypeTest, printToStreamTest) {
   
   EXPECT_STREQ("long[5][10]", stringStream.str().c_str());
 }
-
-TEST_F(ArraySpecificTypeTest, getPointerTypeTest) {
-  const IType* pointerType = mArraySpecificType->getPointerType();
-  EXPECT_EQ(mArraySpecificType->getLLVMType(mContext)->getPointerTo(),
-            pointerType->getLLVMType(mContext));
-}

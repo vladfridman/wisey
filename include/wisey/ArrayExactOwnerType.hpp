@@ -11,7 +11,6 @@
 
 #include "wisey/ArrayExactType.hpp"
 #include "wisey/IOwnerType.hpp"
-#include "wisey/PointerType.hpp"
 
 namespace wisey {
   
@@ -21,7 +20,6 @@ namespace wisey {
   class ArrayExactOwnerType : public IOwnerType {
     
     const ArrayExactType* mArrayExactType;
-    const PointerType* mPointerType;
     
   public:
     
@@ -89,10 +87,6 @@ namespace wisey {
 
     const IObjectType* getObjectType() const override;
     
-    const IType* getPointerType() const override;
-    
-    const IType* getDereferenceType() const override;
-
   };
   
 } /* namespace wisey */

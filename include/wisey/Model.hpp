@@ -16,7 +16,6 @@
 #include "wisey/IBuildableConcreteObjectType.hpp"
 #include "wisey/IMethod.hpp"
 #include "wisey/ObjectBuilderArgument.hpp"
-#include "wisey/PointerType.hpp"
 
 namespace wisey {
   
@@ -33,7 +32,6 @@ namespace wisey {
     bool mIsExternal;
     bool mIsInner;
     ModelOwner* mModelOwner;
-    const PointerType* mPointerType;
     std::map<std::string, IField*> mFields;
     std::vector<IField*> mFieldsOrdered;
     std::map<IField*, unsigned long> mFieldIndexes;
@@ -212,10 +210,6 @@ namespace wisey {
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
     
     const Model* getObjectType() const override;
-    
-    const IType* getPointerType() const override;
-    
-    const IType* getDereferenceType() const override;
     
   private:
     

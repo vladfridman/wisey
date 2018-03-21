@@ -19,12 +19,10 @@ using namespace std;
 using namespace wisey;
 
 ControllerOwner::ControllerOwner(Controller* controller) :
-mController(controller),
-mPointerType(new PointerType(this)) {
+mController(controller) {
 }
 
 ControllerOwner::~ControllerOwner() {
-  delete mPointerType;
 }
 
 Controller* ControllerOwner::getObjectType() const {
@@ -166,10 +164,3 @@ const wisey::ArrayType* ControllerOwner::getArrayType(IRGenerationContext& conte
   exit(1);
 }
 
-const IType* ControllerOwner::getPointerType() const {
-  return mPointerType;
-}
-
-const IType* ControllerOwner::getDereferenceType() const {
-  assert(false);
-}

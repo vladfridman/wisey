@@ -826,12 +826,6 @@ TEST_F(ModelTest, createParameterVariableTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(ModelTest, getPointerTypeTest) {
-  const IType* pointerType = mModel->getPointerType();
-  EXPECT_EQ(mModel->getLLVMType(mContext)->getPointerTo(),
-            pointerType->getLLVMType(mContext));
-}
-
 TEST_F(TestFileSampleRunner, modelBuilderObjectArgumentAutocastRunTest) {
   runFile("tests/samples/test_model_builder_object_argument_autocast.yz", "2017");
 }

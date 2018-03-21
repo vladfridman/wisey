@@ -25,11 +25,9 @@ using namespace std;
 using namespace wisey;
 
 BooleanType::BooleanType() {
-  mPointerType = new PointerType(this);
 }
 
 BooleanType::~BooleanType() {
-  delete mPointerType;
 }
 
 string BooleanType::getTypeName() const {
@@ -166,14 +164,6 @@ const wisey::ArrayType* BooleanType::getArrayType(IRGenerationContext& context) 
 
 const IObjectType* BooleanType::getObjectType() const {
   return NULL;
-}
-
-const IType* BooleanType::getPointerType() const {
-  return mPointerType;
-}
-
-const IType* BooleanType::getDereferenceType() const {
-  assert(false);
 }
 
 const PrimitiveTypeSpecifier* BooleanType::newTypeSpecifier() const {

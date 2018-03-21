@@ -883,12 +883,6 @@ TEST_F(ControllerTest, createParameterVariableTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(ControllerTest, getPointerTypeTest) {
-  const IType* pointerType = mMultiplierController->getPointerType();
-  EXPECT_EQ(mMultiplierController->getLLVMType(mContext)->getPointerTo(),
-            pointerType->getLLVMType(mContext));
-}
-
 TEST_F(TestFileSampleRunner, controllerInjectionChainRunTest) {
   runFile("tests/samples/test_controller_injection_chain.yz", "2");
 }

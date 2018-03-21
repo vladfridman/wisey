@@ -193,8 +193,3 @@ TEST_F(ThreadOwnerTest, createParameterVariableTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(ThreadOwnerTest, getPointerTypeTest) {
-  const IType* pointerType = mThread->getOwner()->getPointerType();
-  EXPECT_EQ(mThread->getOwner()->getLLVMType(mContext)->getPointerTo(),
-            pointerType->getLLVMType(mContext));
-}

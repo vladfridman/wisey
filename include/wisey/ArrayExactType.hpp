@@ -15,7 +15,6 @@
 
 #include "wisey/ArrayType.hpp"
 #include "wisey/IType.hpp"
-#include "wisey/PointerType.hpp"
 
 namespace wisey {
   
@@ -31,7 +30,6 @@ namespace wisey {
     const IType* mElementType;
     std::list<unsigned long> mDimensions;
     const ArrayExactOwnerType* mArrayExactOwnerType;
-    const PointerType* mPointerType;
     
   public:
     
@@ -112,10 +110,6 @@ namespace wisey {
     
     const IObjectType* getObjectType() const override;
     
-    const IType* getPointerType() const override;
-    
-    const IType* getDereferenceType() const override;
-
   };
   
 } /* namespace wisey */

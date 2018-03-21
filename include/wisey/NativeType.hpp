@@ -11,18 +11,18 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/IPrimitiveType.hpp"
-#include "wisey/PointerType.hpp"
+#include "wisey/ILLVMType.hpp"
+#include "wisey/LLVMPointerType.hpp"
 
 namespace wisey {
   
   /**
    * Represents type that can only be represented in terms of native LLVM type
    */
-  class NativeType : public IType {
+  class NativeType : public ILLVMType {
     
     llvm::Type* mType;
-    const PointerType* mPointerType;
+    const LLVMPointerType* mPointerType;
     
   public:
     
@@ -83,9 +83,9 @@ namespace wisey {
     
     const IObjectType* getObjectType() const override;
     
-    const IType* getPointerType() const override;
+    const ILLVMType* getPointerType() const override;
     
-    const IType* getDereferenceType() const override;
+    const ILLVMType* getDereferenceType() const override;
     
   };
   

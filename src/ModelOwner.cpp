@@ -18,10 +18,9 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ModelOwner::ModelOwner(Model* model) : mModel(model), mPointerType(new PointerType(this)) { }
+ModelOwner::ModelOwner(Model* model) : mModel(model) { }
 
 ModelOwner::~ModelOwner() {
-  delete mPointerType;
 }
 
 Model* ModelOwner::getObjectType() const {
@@ -161,12 +160,4 @@ void ModelOwner::createParameterVariable(IRGenerationContext& context,
 const wisey::ArrayType* ModelOwner::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);
-}
-
-const IType* ModelOwner::getPointerType() const {
-  return mPointerType;
-}
-
-const IType* ModelOwner::getDereferenceType() const {
-  assert(false);
 }

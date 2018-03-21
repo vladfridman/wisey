@@ -33,12 +33,10 @@ mStructType(structType),
 mIsExternal(isExternal),
 mIsInner(false) {
   mNodeOwner = new NodeOwner(this);
-  mPointerType = new PointerType(this);
 }
 
 Node::~Node() {
   delete mNodeOwner;
-  delete mPointerType;
   for(IField* field : mFieldsOrdered) {
     delete field;
   }
@@ -489,12 +487,4 @@ const wisey::ArrayType* Node::getArrayType(IRGenerationContext& context) const {
 
 const Node* Node::getObjectType() const {
   return this;
-}
-
-const IType* Node::getPointerType() const {
-  return mPointerType;
-}
-
-const IType* Node::getDereferenceType() const {
-  assert(false);
 }

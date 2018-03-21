@@ -18,11 +18,10 @@ using namespace std;
 using namespace wisey;
 
 ArraySpecificOwnerType::ArraySpecificOwnerType(const ArraySpecificType* arraySpecificType) :
-mArraySpecificType(arraySpecificType), mPointerType(new PointerType(this)) {
+mArraySpecificType(arraySpecificType) {
 }
 
 ArraySpecificOwnerType::~ArraySpecificOwnerType() {
-  delete mPointerType;
 }
 
 const ArraySpecificType* ArraySpecificOwnerType::getArraySpecificType() const {
@@ -149,10 +148,3 @@ const IObjectType* ArraySpecificOwnerType::getObjectType() const {
   return NULL;
 }
 
-const IType* ArraySpecificOwnerType::getPointerType() const {
-  return mPointerType;
-}
-
-const IType* ArraySpecificOwnerType::getDereferenceType() const {
-  assert(false);
-}

@@ -20,12 +20,10 @@ ArrayExactType::ArrayExactType(const IType* elementType, list<unsigned long> dim
 mElementType(elementType), mDimensions(dimensions) {
   assert(dimensions.size());
   mArrayExactOwnerType = new ArrayExactOwnerType(this);
-  mPointerType = new PointerType(this);
 }
 
 ArrayExactType::~ArrayExactType() {
   delete mArrayExactOwnerType;
-  delete mPointerType;
 }
 
 const ArrayExactOwnerType* ArrayExactType::getOwner() const {
@@ -166,10 +164,3 @@ const IObjectType* ArrayExactType::getObjectType() const {
   return NULL;
 }
 
-const IType* ArrayExactType::getPointerType() const {
-  return mPointerType;
-}
-
-const IType* ArrayExactType::getDereferenceType() const {
-  assert(false);
-}

@@ -15,7 +15,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-NativeType::NativeType(Type* type) : mType(type), mPointerType(new PointerType(this)) {
+NativeType::NativeType(Type* type) : mType(type), mPointerType(new LLVMPointerType(this)) {
 }
 
 NativeType::~NativeType() {
@@ -127,10 +127,10 @@ const IObjectType* NativeType::getObjectType() const {
   return NULL;
 }
 
-const IType* NativeType::getPointerType() const {
+const ILLVMType* NativeType::getPointerType() const {
   return mPointerType;
 }
 
-const IType* NativeType::getDereferenceType() const {
+const ILLVMType* NativeType::getDereferenceType() const {
   assert(false);
 }

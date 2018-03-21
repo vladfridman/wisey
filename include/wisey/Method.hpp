@@ -127,10 +127,6 @@ namespace wisey {
     
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
     
-    const IType* getPointerType() const override;
-    
-    const IType* getDereferenceType() const override;
-    
   private:
     
     void createArguments(IRGenerationContext& context, llvm::Function* function) const;

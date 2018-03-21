@@ -35,7 +35,11 @@ Value* DereferenceExpression::generateIR(IRGenerationContext& context,
 
 const IType* DereferenceExpression::getType(IRGenerationContext& context) const {
   const IType* expressionType = mExpression->getType(context);
-  return expressionType->getDereferenceType();
+  if (!expressionType->isNative()) {
+    Log::e("Can not dereference expression of a non-native type");
+    exit(1);
+  }
+  return ((ILLVMType*) expressionType)->getDereferenceType();
 }
 
 bool DereferenceExpression::isConstant() const {

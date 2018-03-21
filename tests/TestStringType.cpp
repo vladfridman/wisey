@@ -70,12 +70,6 @@ TEST_F(StringTypeTest, stringTypeTest) {
   EXPECT_EQ("%s", mStringType.getFormat());
 }
 
-TEST_F(StringTypeTest, getPointerTypeTest) {
-  const IType* pointerType = mStringType.getPointerType();
-  EXPECT_EQ(Type::getInt8Ty(mLLVMContext)->getPointerTo()->getPointerTo(),
-            pointerType->getLLVMType(mContext));
-}
-
 TEST_F(StringTypeTest, canAutoCastToTest) {
   EXPECT_FALSE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN_TYPE));
   EXPECT_FALSE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::CHAR_TYPE));

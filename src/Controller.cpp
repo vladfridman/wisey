@@ -41,12 +41,10 @@ mStructType(structType),
 mIsExternal(isExternal),
 mIsInner(false) {
   mControllerOwner = new ControllerOwner(this);
-  mPointerType = new PointerType(this);
 }
 
 Controller::~Controller() {
   delete mControllerOwner;
-  delete mPointerType;
   for(IField* field : mFieldsOrdered) {
     delete field;
   }
@@ -532,10 +530,3 @@ const Controller* Controller::getObjectType() const {
   return this;
 }
 
-const IType* Controller::getPointerType() const {
-  return mPointerType;
-}
-
-const IType* Controller::getDereferenceType() const {
-  assert(false);
-}

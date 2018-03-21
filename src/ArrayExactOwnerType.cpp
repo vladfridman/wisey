@@ -18,12 +18,10 @@ using namespace std;
 using namespace wisey;
 
 ArrayExactOwnerType::ArrayExactOwnerType(const ArrayExactType* arrayExactType) :
-mArrayExactType(arrayExactType),
-mPointerType(new PointerType(this)) {
+mArrayExactType(arrayExactType) {
 }
 
 ArrayExactOwnerType::~ArrayExactOwnerType() {
-  delete mPointerType;
 }
 
 const ArrayExactType* ArrayExactOwnerType::getArrayExactType() const {
@@ -149,10 +147,3 @@ const IObjectType* ArrayExactOwnerType::getObjectType() const {
   return NULL;
 }
 
-const IType* ArrayExactOwnerType::getPointerType() const {
-  return mPointerType;
-}
-
-const IType* ArrayExactOwnerType::getDereferenceType() const {
-  assert(false);
-}

@@ -69,11 +69,6 @@ TEST_F(BooleanTypeTest, booleanTypeTest) {
   EXPECT_EQ("%d", mBoleanType.getFormat());
 }
 
-TEST_F(BooleanTypeTest, getPointerTypeTest) {
-  const IType* pointerType = mBoleanType.getPointerType();
-  EXPECT_EQ(Type::getInt1Ty(mLLVMContext)->getPointerTo(), pointerType->getLLVMType(mContext));
-}
-
 TEST_F(BooleanTypeTest, canAutoCastToTest) {
   EXPECT_FALSE(mBoleanType.canAutoCastTo(mContext, PrimitiveTypes::VOID_TYPE));
   EXPECT_FALSE(mBoleanType.canAutoCastTo(mContext, PrimitiveTypes::STRING_TYPE));

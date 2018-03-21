@@ -194,12 +194,6 @@ TEST_F(InterfaceOwnerTest, createParameterVariableTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(InterfaceOwnerTest, getPointerTypeTest) {
-  const IType* pointerType = mObjectInterface->getOwner()->getPointerType();
-  EXPECT_EQ(mObjectInterface->getOwner()->getLLVMType(mContext)->getPointerTo(),
-            pointerType->getLLVMType(mContext));
-}
-
 TEST_F(TestFileSampleRunner, interfaceOwnerCastToModelOwnerRunTest) {
   runFile("tests/samples/test_interface_owner_cast_to_model_owner.yz", "5");
 }

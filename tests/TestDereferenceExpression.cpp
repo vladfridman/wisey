@@ -18,7 +18,7 @@
 #include "wisey/DereferenceExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "wisey/LLVMPrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -58,7 +58,7 @@ public:
     Value* value = IRWriter::newAllocaInst(mContext, int64Type, "variable");
     ON_CALL(*mExpression, generateIR(_, _)).WillByDefault(Return(value));
     ON_CALL(*mExpression, getType(_)).
-    WillByDefault(Return(PrimitiveTypes::LONG_TYPE->getPointerType()));
+    WillByDefault(Return(LLVMPrimitiveTypes::I64->getPointerType()));
     ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
 
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -87,7 +87,7 @@ TEST_F(DereferenceExpressionTest, getVariableTest) {
 
 TEST_F(DereferenceExpressionTest, generateIRTest) {
   DereferenceExpression expression(mExpression);
-  Value* result = expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  Value* result = expression.generateIR(mContext, LLVMPrimitiveTypes::VOID);
   
   *mStringStream << *result;
   EXPECT_STREQ("  %0 = load i64, i64* %variable", mStringStream->str().c_str());
@@ -97,7 +97,7 @@ TEST_F(DereferenceExpressionTest, generateIRTest) {
 TEST_F(DereferenceExpressionTest, getTypeTest) {
   DereferenceExpression expression(mExpression);
 
-  EXPECT_EQ(PrimitiveTypes::LONG_TYPE, expression.getType(mContext));
+  EXPECT_EQ(LLVMPrimitiveTypes::I64, expression.getType(mContext));
 }
 
 TEST_F(DereferenceExpressionTest, printToStreamTest) {

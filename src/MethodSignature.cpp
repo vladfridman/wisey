@@ -185,10 +185,3 @@ const wisey::ArrayType* MethodSignature::getArrayType(IRGenerationContext& conte
   exit(1);
 }
 
-const IType* MethodSignature::getPointerType() const {
-  assert(false);
-}
-
-const IType* MethodSignature::getDereferenceType() const {
-  assert(false);
-}

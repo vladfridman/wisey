@@ -10,7 +10,6 @@
 #define StringType_h
 
 #include "wisey/IPrimitiveType.hpp"
-#include "wisey/PointerType.hpp"
 
 namespace wisey {
   
@@ -18,8 +17,6 @@ namespace wisey {
    * Represents string expression type
    */
   class StringType : public IPrimitiveType {
-    
-    const PointerType* mPointerType;
     
   public:
     
@@ -81,10 +78,6 @@ namespace wisey {
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
     
     const IObjectType* getObjectType() const override;
-    
-    const IType* getPointerType() const override;
-    
-    const IType* getDereferenceType() const override;
     
     const PrimitiveTypeSpecifier* newTypeSpecifier() const override;
 

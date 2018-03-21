@@ -20,7 +20,6 @@ namespace wisey {
   class NodeOwner : public IObjectOwnerType {
     
     Node* mNode;
-    const PointerType* mPointerType;
     
   public:
     
@@ -84,10 +83,6 @@ namespace wisey {
                                  llvm::Value* value) const override;
     
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
-    
-    const IType* getPointerType() const override;
-    
-    const IType* getDereferenceType() const override;
     
   };
   

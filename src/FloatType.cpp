@@ -25,11 +25,9 @@ using namespace std;
 using namespace wisey;
 
 FloatType::FloatType() {
-  mPointerType = new PointerType(this);
 }
 
 FloatType::~FloatType() {
-  delete mPointerType;
 }
 
 string FloatType::getTypeName() const {
@@ -162,14 +160,6 @@ const wisey::ArrayType* FloatType::getArrayType(IRGenerationContext& context) co
 
 const IObjectType* FloatType::getObjectType() const {
   return NULL;
-}
-
-const IType* FloatType::getPointerType() const {
-  return mPointerType;
-}
-
-const IType* FloatType::getDereferenceType() const {
-  assert(false);
 }
 
 const PrimitiveTypeSpecifier* FloatType::newTypeSpecifier() const {

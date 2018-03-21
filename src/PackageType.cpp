@@ -120,10 +120,3 @@ const IObjectType* PackageType::getObjectType() const {
   return NULL;
 }
 
-const IType* PackageType::getPointerType() const {
-  assert(false);
-}
-
-const IType* PackageType::getDereferenceType() const {
-  assert(false);
-}

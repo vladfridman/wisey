@@ -306,12 +306,6 @@ TEST_F(ControllerOwnerTest, createParameterVariableTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(ControllerOwnerTest, getPointerTypeTest) {
-  const IType* pointerType = mMultiplierController->getOwner()->getPointerType();
-  EXPECT_EQ(mMultiplierController->getOwner()->getLLVMType(mContext)->getPointerTo(),
-            pointerType->getLLVMType(mContext));
-}
-
 TEST_F(TestFileSampleRunner, controllerPassModelReferenceRunTest) {
   runFile("tests/samples/test_controller_pass_model_reference.yz", "3");
 }

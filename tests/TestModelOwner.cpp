@@ -402,12 +402,6 @@ TEST_F(ModelOwnerTest, createParameterVariableTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(ModelOwnerTest, getPointerTypeTest) {
-  const IType* pointerType = mModel->getOwner()->getPointerType();
-  EXPECT_EQ(mModel->getOwner()->getLLVMType(mContext)->getPointerTo(),
-            pointerType->getLLVMType(mContext));
-}
-
 TEST_F(TestFileSampleRunner, ownerAssignToReferenceRunTest) {
   runFile("tests/samples/test_owner_assign_to_reference.yz", "3");
 }

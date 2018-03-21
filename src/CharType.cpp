@@ -25,11 +25,9 @@ using namespace std;
 using namespace wisey;
 
 CharType::CharType() {
-  mPointerType = new PointerType(this);
 }
 
 CharType::~CharType() {
-  delete mPointerType;
 }
 
 string CharType::getTypeName() const {
@@ -165,14 +163,6 @@ const wisey::ArrayType* CharType::getArrayType(IRGenerationContext& context) con
 
 const IObjectType* CharType::getObjectType() const {
   return NULL;
-}
-
-const IType* CharType::getPointerType() const {
-  return mPointerType;
-}
-
-const IType* CharType::getDereferenceType() const {
-  assert(false);
 }
 
 const PrimitiveTypeSpecifier* CharType::newTypeSpecifier() const {

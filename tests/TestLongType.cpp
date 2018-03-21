@@ -69,11 +69,6 @@ TEST_F(LongTypeTest, longTypeTest) {
   EXPECT_EQ("%d", mLongType.getFormat());
 }
 
-TEST_F(LongTypeTest, getPointerTypeTest) {
-  const IType* pointerType = mLongType.getPointerType();
-  EXPECT_EQ(Type::getInt64Ty(mLLVMContext)->getPointerTo(), pointerType->getLLVMType(mContext));
-}
-
 TEST_F(LongTypeTest, canAutoCastToTest) {
   EXPECT_FALSE(mLongType.canAutoCastTo(mContext, PrimitiveTypes::VOID_TYPE));
   EXPECT_FALSE(mLongType.canAutoCastTo(mContext, PrimitiveTypes::STRING_TYPE));

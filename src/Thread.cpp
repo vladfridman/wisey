@@ -41,12 +41,10 @@ mStructType(structType),
 mIsExternal(isExternal),
 mIsInner(false) {
   mThreadOwner = new ThreadOwner(this);
-  mPointerType = new PointerType(this);
 }
 
 Thread::~Thread() {
   delete mThreadOwner;
-  delete mPointerType;
   for(IField* field : mFieldsOrdered) {
     delete field;
   }
@@ -529,12 +527,4 @@ void Thread::initializeInjectedFields(IRGenerationContext& context,
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     IRWriter::newStoreInst(context, fieldValue, fieldPointer);
   }
-}
-
-const IType* Thread::getPointerType() const {
-  return mPointerType;
-}
-
-const IType* Thread::getDereferenceType() const {
-  assert(false);
 }
