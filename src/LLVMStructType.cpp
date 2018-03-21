@@ -14,8 +14,11 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-LLVMStructType::LLVMStructType(StructType* structType) :
+string LLVMStructType::LLVM_STRUCT_PREFIX = "::llvm::struct::";
+
+LLVMStructType::LLVMStructType(StructType* structType, bool isExternal) :
 mStructType(structType),
+mIsExternal(isExternal),
 mPointerType(new LLVMPointerType(this)) {
 }
 
@@ -23,8 +26,16 @@ LLVMStructType::~LLVMStructType() {
   delete mPointerType;
 }
 
+LLVMStructType* LLVMStructType::newLLVMStructType(llvm::StructType* structType) {
+  return new LLVMStructType(structType, false);
+}
+
+LLVMStructType* LLVMStructType::newExternalLLVMStructType(llvm::StructType* structType) {
+  return new LLVMStructType(structType, true);
+}
+
 string LLVMStructType::getTypeName() const {
-  return mStructType->getName().str();
+  return LLVM_STRUCT_PREFIX + mStructType->getName().str();
 }
 
 void LLVMStructType::setBodyTypes(IRGenerationContext& context,
@@ -35,6 +46,10 @@ void LLVMStructType::setBodyTypes(IRGenerationContext& context,
     types.push_back(llvmType->getLLVMType(context));
   }
   mStructType->setBody(types);
+}
+
+bool LLVMStructType::isExternal() const {
+  return mIsExternal;
 }
 
 llvm::StructType* LLVMStructType::getLLVMType(IRGenerationContext& context) const {
@@ -109,7 +124,7 @@ bool LLVMStructType::isNative() const {
 }
 
 void LLVMStructType::printToStream(IRGenerationContext &context, iostream& stream) const {
-  stream << "::llvm::struct " << mStructType->getName().str() << " {\n";
+  stream << "external ::llvm::struct " << mStructType->getName().str() << " {\n";
   for (const ILLVMType* llvmType : mBodyTypes) {
     stream << "  ";
     llvmType->printToStream(context, stream);

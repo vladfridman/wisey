@@ -8,6 +8,9 @@ model MMyModel implements IThread {
   public void run() {
   }
 
+  public void send(int message) {
+  }
+
   public CCallStack getCallStack() {
     return null;
   }

@@ -82,7 +82,7 @@ struct IRGenerationContextTest : public Test {
     mThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS, threadFullName, threadStructType);
     
     StructType* llvmStructType = StructType::create(mLLVMContext, "mystructtype");
-    mLLVMStructType = new LLVMStructType(llvmStructType);
+    mLLVMStructType = LLVMStructType::newLLVMStructType(llvmStructType);
   }
   
   ~IRGenerationContextTest() { }
@@ -218,7 +218,7 @@ TEST_F(IRGenerationContextTest, addLLVMStructTypeAlreadyDefinedDeathTest) {
 
   EXPECT_EXIT(mContext.addLLVMStructType(mLLVMStructType),
               ::testing::ExitedWithCode(1),
-              "Redefinition of llvm struct type mystructtype");
+              "Redefinition of llvm struct type ::llvm::struct::mystructtype");
 }
 
 TEST_F(IRGenerationContextTest, getLLVMStructTypeDoesNotExistDeathTest) {
@@ -342,7 +342,7 @@ TEST_F(IRGenerationContextTest, printToStreamTest) {
   
   EXPECT_STREQ("/* llvm Structs */\n"
                "\n"
-               "::llvm::struct mystructtype {\n"
+               "external ::llvm::struct mystructtype {\n"
                "}\n"
                "\n"
                "/* Interfaces */\n"

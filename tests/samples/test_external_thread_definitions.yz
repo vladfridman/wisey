@@ -3,6 +3,8 @@ external thread wisey.lang.TWorker
 
   void run();
 
+  void send(int message);
+
   wisey.lang.CCallStack getCallStack();
 }
 
@@ -15,6 +17,8 @@ external thread wisey.lang.TWorkerWithFieldsAndMethods
   int getValue();
 
   void run();
+
+  void send(int message);
 
   wisey.lang.CCallStack getCallStack();
 }
@@ -32,6 +36,8 @@ external thread wisey.lang.TWorkerWithFieldsAndMethodsAndInterface
   int getValue();
 
   void run();
+
+  void send(int message);
 
   wisey.lang.CCallStack getCallStack();
 }

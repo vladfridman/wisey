@@ -281,6 +281,9 @@
 		F531B65A1E0DE52F008304F3 /* CharConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6591E0DE52F008304F3 /* CharConstant.cpp */; };
 		F531B65B1E0DE52F008304F3 /* CharConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6591E0DE52F008304F3 /* CharConstant.cpp */; };
 		F531B65D1E0DEB26008304F3 /* TestCharConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B65C1E0DEB26008304F3 /* TestCharConstant.cpp */; };
+		F53227DC2062832800605E1B /* LLVMExternalStructDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53227DB2062832800605E1B /* LLVMExternalStructDefinition.cpp */; };
+		F53227DD2062832800605E1B /* LLVMExternalStructDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53227DB2062832800605E1B /* LLVMExternalStructDefinition.cpp */; };
+		F53227DF20628B6100605E1B /* TestLLVMExternalStructDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53227DE20628B6100605E1B /* TestLLVMExternalStructDefinition.cpp */; };
 		F5325065202A21D2007D8597 /* ArrayExactType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5325064202A21D2007D8597 /* ArrayExactType.cpp */; };
 		F5325066202A21D2007D8597 /* ArrayExactType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5325064202A21D2007D8597 /* ArrayExactType.cpp */; };
 		F5325069202A22B7007D8597 /* ArrayExactOwnerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5325068202A22B7007D8597 /* ArrayExactOwnerType.cpp */; };
@@ -1313,6 +1316,9 @@
 		F531B6561E0DE040008304F3 /* TestStringLiteral.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestStringLiteral.cpp; path = tests/TestStringLiteral.cpp; sourceTree = "<group>"; };
 		F531B6591E0DE52F008304F3 /* CharConstant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CharConstant.cpp; path = src/CharConstant.cpp; sourceTree = "<group>"; };
 		F531B65C1E0DEB26008304F3 /* TestCharConstant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCharConstant.cpp; path = tests/TestCharConstant.cpp; sourceTree = "<group>"; };
+		F53227DA206282EB00605E1B /* LLVMExternalStructDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMExternalStructDefinition.hpp; path = include/wisey/LLVMExternalStructDefinition.hpp; sourceTree = "<group>"; };
+		F53227DB2062832800605E1B /* LLVMExternalStructDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMExternalStructDefinition.cpp; path = src/LLVMExternalStructDefinition.cpp; sourceTree = "<group>"; };
+		F53227DE20628B6100605E1B /* TestLLVMExternalStructDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TestLLVMExternalStructDefinition.cpp; sourceTree = "<group>"; };
 		F5325063202A2129007D8597 /* ArrayExactType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ArrayExactType.hpp; path = include/wisey/ArrayExactType.hpp; sourceTree = "<group>"; };
 		F5325064202A21D2007D8597 /* ArrayExactType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ArrayExactType.cpp; path = src/ArrayExactType.cpp; sourceTree = "<group>"; };
 		F5325067202A226C007D8597 /* ArrayExactOwnerType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ArrayExactOwnerType.hpp; path = include/wisey/ArrayExactOwnerType.hpp; sourceTree = "<group>"; };
@@ -2985,6 +2991,7 @@
 			children = (
 				F582704A205F9D5400839EC7 /* LLVMArrayType.hpp */,
 				F582704B205F9F1A00839EC7 /* LLVMArrayTypeSpecifer.hpp */,
+				F53227DA206282EB00605E1B /* LLVMExternalStructDefinition.hpp */,
 				F5D465F62061078F00C1047A /* LLVMFunction.hpp */,
 				F5D465FA206108FE00C1047A /* LLVMFunctionArgument.hpp */,
 				F5D4660B20614C0A00C1047A /* LLVMFunctionCall.hpp */,
@@ -3019,6 +3026,7 @@
 			children = (
 				F582704F205FA27900839EC7 /* LLVMArrayType.cpp */,
 				F582704C205FA01600839EC7 /* LLVMArrayTypeSpecifer.cpp */,
+				F53227DB2062832800605E1B /* LLVMExternalStructDefinition.cpp */,
 				F5D465F72061086D00C1047A /* LLVMFunction.cpp */,
 				F5D4660C20614CAF00C1047A /* LLVMFunctionCall.cpp */,
 				F582707C20600ECD00839EC7 /* LLVMFunctionDeclaration.cpp */,
@@ -3240,6 +3248,7 @@
 			children = (
 				F5827052205FAB1600839EC7 /* TestLLVMArrayType.cpp */,
 				F5827055205FB10D00839EC7 /* TestLLVMArrayTypeSpecifer.cpp */,
+				F53227DE20628B6100605E1B /* TestLLVMExternalStructDefinition.cpp */,
 				F5D465FF20611A4B00C1047A /* TestLLVMFunction.cpp */,
 				F5D4660F2061606200C1047A /* TestLLVMFunctionCall.cpp */,
 				F582707F206013CA00839EC7 /* TestLLVMFunctionDeclaration.cpp */,
@@ -3906,6 +3915,7 @@
 				F58A834F1F7988D600369388 /* ExternalControllerDefinition.cpp in Sources */,
 				F53A2C161EF020B400E76A9E /* TestModelOwner.cpp in Sources */,
 				F5F61AA1201DDF2300EF9EB7 /* ArraySpecificTypeSpecifier.cpp in Sources */,
+				F53227DD2062832800605E1B /* LLVMExternalStructDefinition.cpp in Sources */,
 				F5C6FD681E48B16F0054209D /* TestCharType.cpp in Sources */,
 				F59D821E1E0F66E800057FB5 /* IfElseStatement.cpp in Sources */,
 				F57411611E01AC98009809FF /* IRGenerationContext.cpp in Sources */,
@@ -4103,6 +4113,7 @@
 				F582707E20600ECD00839EC7 /* LLVMFunctionDeclaration.cpp in Sources */,
 				F5D465FE2061121000C1047A /* LLVMVariableDeclaration.cpp in Sources */,
 				F517019A200DCCAA00A10B7C /* DestroyReferenceArrayFunction.cpp in Sources */,
+				F53227DF20628B6100605E1B /* TestLLVMExternalStructDefinition.cpp in Sources */,
 				F59D82081E0F102000057FB5 /* TestEmptyStatement.cpp in Sources */,
 				F5603B4A202121B000BBA05D /* ArraySpecificOwnerType.cpp in Sources */,
 				F5FCAE391ED5C68900C69899 /* CompilerArgumentParser.cpp in Sources */,
@@ -4456,6 +4467,7 @@
 				F57780A91EC7778A0049542D /* ProgramPrefix.cpp in Sources */,
 				F5C6FD851E48B7A00054209D /* LongType.cpp in Sources */,
 				F592A7C11F7D8D690026BD2F /* ExternalMethodDefinition.cpp in Sources */,
+				F53227DC2062832800605E1B /* LLVMExternalStructDefinition.cpp in Sources */,
 				F513DE0120186900001A075B /* ParameterArrayOwnerVariable.cpp in Sources */,
 				F5325069202A22B7007D8597 /* ArrayExactOwnerType.cpp in Sources */,
 				F53A2C1E1EF96C0200E76A9E /* IVariable.cpp in Sources */,

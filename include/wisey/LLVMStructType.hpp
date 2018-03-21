@@ -22,19 +22,40 @@ namespace wisey {
   class LLVMStructType : public ILLVMType {
     
     llvm::StructType* mStructType;
+    bool mIsExternal;
     std::vector<const ILLVMType*> mBodyTypes;
     const LLVMPointerType* mPointerType;
     
+    LLVMStructType(llvm::StructType* structType, bool isExternal);
+
   public:
-    
-    LLVMStructType(llvm::StructType* structType);
     
     ~LLVMStructType();
     
     /**
+     * ::llvm::struct:: prefix used in referencing struct types
+     */
+    static std::string LLVM_STRUCT_PREFIX;
+    
+    /**
+     * static method for thread instantiation
+     */
+    static LLVMStructType* newLLVMStructType(llvm::StructType* structType);
+    
+    /**
+     * static method for external thread instantiation
+     */
+    static LLVMStructType* newExternalLLVMStructType(llvm::StructType* structType);
+
+    /**
      * Sets body types of this struct type
      */
     void setBodyTypes(IRGenerationContext& context, std::vector<const ILLVMType*> bodyTypes);
+    
+    /**
+     * Tells whether this is an externally defined struct
+     */
+    bool isExternal() const;
     
     std::string getTypeName() const override;
     

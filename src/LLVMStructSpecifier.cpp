@@ -24,5 +24,5 @@ const ILLVMType* LLVMStructSpecifier::getType(IRGenerationContext& context) cons
 
 void LLVMStructSpecifier::printToStream(IRGenerationContext& context,
                                         iostream& stream) const {
-  stream << "::llvm::struct::" << context.getLLVMStructType(mName)->getTypeName();
+  stream << context.getLLVMStructType(mName)->getTypeName();
 }

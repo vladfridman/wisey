@@ -1,3 +1,22 @@
+/* llvm Structs */
+
+external ::llvm::struct __darwin_pthread_handler_rec {
+  ::llvm::void (::llvm::i8*)*,
+  ::llvm::i8*,
+  ::llvm::struct::__darwin_pthread_handler_rec*,
+}
+
+external ::llvm::struct _opaque_pthread_attr_t {
+  ::llvm::i64,
+  ::llvm::i8 [56],
+}
+
+external ::llvm::struct _opaque_pthread_t {
+  ::llvm::i64,
+  ::llvm::struct::__darwin_pthread_handler_rec*,
+  ::llvm::i8 [8176],
+}
+
 /* Interfaces */
 
 external interface wisey.lang.IException {
@@ -14,6 +33,8 @@ external interface wisey.lang.IThread {
 
   void run();
   wisey.lang.CCallStack getCallStack();
+  void send(
+    int message);
 }
 
 /* Models */
@@ -103,15 +124,16 @@ external thread wisey.lang.TMainThread
   implements
     wisey.lang.IThread {
 
-  state int mMessage;
   inject wisey.lang.CCallStack* mCallStack;
   inject wisey.lang.CProgramRunner* mProgramRunner;
   receive wisey.lang.IProgram* mProgram;
+  state ::llvm::struct::_opaque_pthread_t* mMyNativeThread;
+  state int mMyMessage;
 
+  void run();
   int start();
   void send(
     int message);
-  void run();
   wisey.lang.CCallStack getCallStack();
 }
 

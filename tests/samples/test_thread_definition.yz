@@ -7,7 +7,9 @@ import wisey.lang.IThread;
 thread TThread sends int implements IThread {
 
   public void run() {
-    
+  }
+
+  public void send(int message) {
   }
 
   public CCallStack getCallStack() {

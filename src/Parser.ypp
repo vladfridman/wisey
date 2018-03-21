@@ -72,6 +72,7 @@
   #include "wisey/IObjectTypeSpecifier.hpp"
   #include "wisey/ITypeSpecifier.hpp"
   #include "wisey/LLVMArrayTypeSpecifer.hpp"
+  #include "wisey/LLVMExternalStructDefinition.hpp"
   #include "wisey/LLVMFunctionCall.hpp"
   #include "wisey/LLVMFunctionDeclaration.hpp"
   #include "wisey/LLVMFunctionDefinition.hpp"
@@ -242,7 +243,8 @@
 %type <statement> throw_statement try_catch_statement
 %type <statement> llvm_function_argument_declaration
 %type <global_statement> bind_action import_statement global_statement llvm_statement 
-%type <global_statement> llvm_struct_definition llvm_function_declaration
+%type <global_statement> llvm_struct_definition llvm_function_declaration 
+%type <global_statement> llvm_external_struct_definition
 %type <object_definition> controller_definition interface_definition model_definition
 %type <object_definition> node_definition thread_definition external_thread_definition
 %type <object_definition> object_definition external_object_definition external_model_definition
@@ -354,6 +356,7 @@ global_statement
 llvm_statement
   : llvm_struct_definition
   | llvm_function_declaration
+  | llvm_external_struct_definition
   ;
 
 llvm_function_declaration
@@ -365,6 +368,11 @@ llvm_function_declaration
 llvm_struct_definition
   : TLLVM TLLVMSTRUCT TIDENTIFIER '{' llvm_type_specifier_list '}' 
     { $$ = new LLVMStructDefinition(*$3, *$5); delete $3; delete $5; }
+  ;
+
+llvm_external_struct_definition
+  : TEXTERNAL TLLVM TLLVMSTRUCT TIDENTIFIER '{' llvm_type_specifier_list '}' 
+    { $$ = new LLVMExternalStructDefinition(*$4, *$6); delete $4; delete $6; }
   ;
 
 llvm_type_specifier_list

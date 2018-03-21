@@ -43,7 +43,7 @@ struct LLVMStructTypeTest : public Test {
     vector<const ILLVMType*> structBodyTypes;
     structBodyTypes.push_back(LLVMPrimitiveTypes::I8);
     structBodyTypes.push_back(LLVMPrimitiveTypes::I64);
-    mLLVMStructType = new LLVMStructType(mStructType);
+    mLLVMStructType = LLVMStructType::newLLVMStructType(mStructType);
     mLLVMStructType->setBodyTypes(mContext, structBodyTypes);
     
     FunctionType* functionType =
@@ -59,7 +59,7 @@ struct LLVMStructTypeTest : public Test {
 };
 
 TEST_F(LLVMStructTypeTest, getTypeNameTest) {
-  ASSERT_STREQ("mystruct", mLLVMStructType->getTypeName().c_str());
+  ASSERT_STREQ("::llvm::struct::mystruct", mLLVMStructType->getTypeName().c_str());
 }
 
 TEST_F(LLVMStructTypeTest, getLLVMTypeTest) {
@@ -95,13 +95,13 @@ TEST_F(LLVMStructTypeTest, createFieldVariableTest) {
 }
 
 TEST_F(LLVMStructTypeTest, canCastToTest) {
-  LLVMStructType* anotherType = new LLVMStructType(mStructType);
+  LLVMStructType* anotherType = LLVMStructType::newLLVMStructType(mStructType);
   
   EXPECT_TRUE(mLLVMStructType->canCastTo(mContext, anotherType));
 }
 
 TEST_F(LLVMStructTypeTest, canAutoCastToTest) {
-  LLVMStructType* anotherType = new LLVMStructType(mStructType);
+  LLVMStructType* anotherType = LLVMStructType::newLLVMStructType(mStructType);
 
   EXPECT_TRUE(mLLVMStructType->canAutoCastTo(mContext, anotherType));
 }
@@ -115,7 +115,7 @@ TEST_F(LLVMStructTypeTest, printToStreamTest) {
   stringstream stringStream;
   mLLVMStructType->printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("::llvm::struct mystruct {\n"
+  EXPECT_STREQ("external ::llvm::struct mystruct {\n"
                "  ::llvm::i8,\n"
                "  ::llvm::i64,\n"
                "}\n",

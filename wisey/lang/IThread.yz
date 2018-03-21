@@ -17,4 +17,9 @@ interface IThread {
    */
   CCallStack getCallStack();
 
+  /**
+   * Snds a message to the calling thread
+   */
+  void send(int message);
+
 }

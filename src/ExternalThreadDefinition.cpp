@@ -65,9 +65,7 @@ void ExternalThreadDefinition::prototypeMethods(IRGenerationContext& context) co
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(thread);
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
-  vector<IObjectElementDefinition*> withThreadElements =
-  ThreadDefinition::addThreadObjectElements(context, mObjectElementDeclarations, thread);
-  configureObject(context, thread, withThreadElements, mInterfaceSpecifiers);
+  configureObject(context, thread, mObjectElementDeclarations, mInterfaceSpecifiers);
   context.setObjectType(lastObjectType);
 }
 

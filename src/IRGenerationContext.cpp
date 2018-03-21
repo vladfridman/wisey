@@ -298,9 +298,10 @@ void IRGenerationContext::addLLVMStructType(LLVMStructType* llvmStructType) {
   mLLVMStructTypes[name] = llvmStructType;
 }
 
-LLVMStructType* IRGenerationContext::getLLVMStructType(string fullName) {
+LLVMStructType* IRGenerationContext::getLLVMStructType(string name) {
+  string fullName = LLVMStructType::LLVM_STRUCT_PREFIX + name;
   if (!mLLVMStructTypes.count(fullName)) {
-    Log::e("llvm struct type " + fullName + " is not defined");
+    Log::e("llvm struct type " + name + " is not defined");
     exit(1);
   }
   
@@ -402,6 +403,9 @@ void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& 
        iterator != mLLVMStructTypes.end();
        iterator++) {
     LLVMStructType* structType = iterator->second;
+    if (structType->isExternal()) {
+      continue;
+    }
     structType->printToStream(context, stream);
     stream << endl;
   }

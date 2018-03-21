@@ -93,9 +93,7 @@ void ThreadDefinition::prototypeMethods(IRGenerationContext& context) const {
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(thread);
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
-  vector<IObjectElementDefinition*> withThreadElements =
-  addThreadObjectElements(context, mObjectElementDeclarations, thread);
-  configureObject(context, thread, withThreadElements, mInterfaceSpecifiers);
+  configureObject(context, thread, mObjectElementDeclarations, mInterfaceSpecifiers);
   context.setObjectType(lastObjectType);
 }
 
