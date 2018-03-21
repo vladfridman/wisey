@@ -60,18 +60,17 @@ thread TMainThread sends int implements IThread {
 
   public int start() {
     ::llvm::function::pthread_create(::llvm::reference(mMyNativeThread), 
-                                        (::llvm::struct::_opaque_pthread_attr_t*) null, 
-                                        runBridge, 
-                                        (::llvm::i8*) this);
-    ::llvm::i32* result;
-    ::llvm::function::pthread_join(mMyNativeThread, (::llvm::i8**) ::llvm::reference(result));
+                                     (::llvm::struct::_opaque_pthread_attr_t*) null, 
+                                     runBridge, 
+                                     (::llvm::i8*) this);
+    ::llvm::function::pthread_join(mMyNativeThread, (::llvm::i8**) null);
 
-    return ::llvm::dereference(result);
+    return mMyMessage;
   }
 
   public void send(int message) {
     mMyMessage = message;
-    ::llvm::function::pthread_exit((::llvm::i8*) ::llvm::reference(mMyMessage));
+    ::llvm::function::pthread_exit((::llvm::i8*) null);
   }
 
   public CCallStack getCallStack() {
