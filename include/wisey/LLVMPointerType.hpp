@@ -86,8 +86,6 @@ namespace wisey {
     
     const ILLVMType* getPointerType() const override;
     
-    const ILLVMType* getDereferenceType() const override;
-    
   };
   
 } /* namespace wisey */

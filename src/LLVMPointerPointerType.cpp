@@ -136,6 +136,3 @@ const ILLVMType* LLVMPointerPointerType::getPointerType() const {
   assert(false);
 }
 
-const ILLVMType* LLVMPointerPointerType::getDereferenceType() const {
-  return mBaseType;
-}

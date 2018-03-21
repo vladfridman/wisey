@@ -494,11 +494,8 @@
 		F5609F072057C07F00664ADD /* ParameterSystemReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F062057C07F00664ADD /* ParameterSystemReferenceVariable.cpp */; };
 		F5609F082057C07F00664ADD /* ParameterSystemReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F062057C07F00664ADD /* ParameterSystemReferenceVariable.cpp */; };
 		F5609F0C2057C54900664ADD /* TestParameterSystemReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F0B2057C54900664ADD /* TestParameterSystemReferenceVariable.cpp */; };
-		F5609F1320580BA300664ADD /* DereferenceExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F1220580BA300664ADD /* DereferenceExpression.cpp */; };
-		F5609F1420580BA300664ADD /* DereferenceExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F1220580BA300664ADD /* DereferenceExpression.cpp */; };
 		F5609F1720580DE000664ADD /* LocalNativeVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F1620580DE000664ADD /* LocalNativeVariable.cpp */; };
 		F5609F1820580DE000664ADD /* LocalNativeVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F1620580DE000664ADD /* LocalNativeVariable.cpp */; };
-		F5609F1A2058116000664ADD /* TestDereferenceExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F192058116000664ADD /* TestDereferenceExpression.cpp */; };
 		F5609F1C205815D900664ADD /* TestLocalNativeVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F1B205815D900664ADD /* TestLocalNativeVariable.cpp */; };
 		F569E9F01DF9CC9600BBB20E /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EB1DF9CC9600BBB20E /* Log.cpp */; };
 		F569E9F21DF9CC9600BBB20E /* Parser.ypp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9ED1DF9CC9600BBB20E /* Parser.ypp */; };
@@ -1518,11 +1515,8 @@
 		F5609F052057BF7300664ADD /* ParameterSystemReferenceVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ParameterSystemReferenceVariable.hpp; path = include/wisey/ParameterSystemReferenceVariable.hpp; sourceTree = "<group>"; };
 		F5609F062057C07F00664ADD /* ParameterSystemReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ParameterSystemReferenceVariable.cpp; path = src/ParameterSystemReferenceVariable.cpp; sourceTree = "<group>"; };
 		F5609F0B2057C54900664ADD /* TestParameterSystemReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestParameterSystemReferenceVariable.cpp; path = tests/TestParameterSystemReferenceVariable.cpp; sourceTree = "<group>"; };
-		F5609F1120580AD700664ADD /* DereferenceExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DereferenceExpression.hpp; path = include/wisey/DereferenceExpression.hpp; sourceTree = "<group>"; };
-		F5609F1220580BA300664ADD /* DereferenceExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DereferenceExpression.cpp; path = src/DereferenceExpression.cpp; sourceTree = "<group>"; };
 		F5609F1520580D9E00664ADD /* LocalNativeVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LocalNativeVariable.hpp; path = include/wisey/LocalNativeVariable.hpp; sourceTree = "<group>"; };
 		F5609F1620580DE000664ADD /* LocalNativeVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LocalNativeVariable.cpp; path = src/LocalNativeVariable.cpp; sourceTree = "<group>"; };
-		F5609F192058116000664ADD /* TestDereferenceExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestDereferenceExpression.cpp; path = tests/TestDereferenceExpression.cpp; sourceTree = "<group>"; };
 		F5609F1B205815D900664ADD /* TestLocalNativeVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLocalNativeVariable.cpp; path = tests/TestLocalNativeVariable.cpp; sourceTree = "<group>"; };
 		F569E9EB1DF9CC9600BBB20E /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Log.cpp; path = src/Log.cpp; sourceTree = "<group>"; };
 		F569E9ED1DF9CC9600BBB20E /* Parser.ypp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; name = Parser.ypp; path = src/Parser.ypp; sourceTree = "<group>"; };
@@ -2660,7 +2654,6 @@
 				F5089C551ECD01D9004A1223 /* Cast.hpp */,
 				F5089C561ECD01D9004A1223 /* CastExpression.hpp */,
 				F5089C5B1ECD01D9004A1223 /* ConditionalExpression.hpp */,
-				F5609F1120580AD700664ADD /* DereferenceExpression.hpp */,
 				F5089C651ECD01D9004A1223 /* EmptyExpression.hpp */,
 				F5E6BD081F190B7800D59444 /* FakeExpression.hpp */,
 				F5CB7F6E205152DC007628B5 /* FakeExpressionWithCleanup.hpp */,
@@ -2691,7 +2684,6 @@
 				F5ADB60F1E5DA08200FFC941 /* Cast.cpp */,
 				F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */,
 				F53401081DFF09230002BF7E /* ConditionalExpression.cpp */,
-				F5609F1220580BA300664ADD /* DereferenceExpression.cpp */,
 				F59D82181E0F4AB500057FB5 /* EmptyExpression.cpp */,
 				F5E6BD091F190B8500D59444 /* FakeExpression.cpp */,
 				F5CB7F6F2051532A007628B5 /* FakeExpressionWithCleanup.cpp */,
@@ -3124,7 +3116,6 @@
 				F5ADB6121E5DA13600FFC941 /* TestCast.cpp */,
 				F51797091E5C95BC009B16AA /* TestCastExpression.cpp */,
 				F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */,
-				F5609F192058116000664ADD /* TestDereferenceExpression.cpp */,
 				F59D82161E0F414F00057FB5 /* TestEmptyExpression.cpp */,
 				F5E6BD0B1F1B7B1600D59444 /* TestFakeExpression.cpp */,
 				F5CB7F83205181FC007628B5 /* TestFakeExpressionWithCleanup.cpp */,
@@ -3751,7 +3742,6 @@
 				F5CB7FCA20529DE3007628B5 /* ReceivedFieldDefinition.cpp in Sources */,
 				F54B148F205EC79D0030773F /* TestLLVMi32Type.cpp in Sources */,
 				F5CB7F712051532A007628B5 /* FakeExpressionWithCleanup.cpp in Sources */,
-				F5609F1420580BA300664ADD /* DereferenceExpression.cpp in Sources */,
 				F5ADB6221E66F9B400FFC941 /* Interface.cpp in Sources */,
 				F51764CC1ECCEAEB000AFBA7 /* ProgramFile.cpp in Sources */,
 				F5C6FD831E48B7260054209D /* TestIntType.cpp in Sources */,
@@ -4091,7 +4081,6 @@
 				F50FA2D81E2D324100435EEA /* CaseStatement.cpp in Sources */,
 				F52746C9201A3C0700503713 /* TestArrayAllocationStatic.cpp in Sources */,
 				F531B64B1E0A5329008304F3 /* TestAssignment.cpp in Sources */,
-				F5609F1A2058116000664ADD /* TestDereferenceExpression.cpp in Sources */,
 				F51942DE1FDFEDFF009C3158 /* ArrayElementExpression.cpp in Sources */,
 				F5C6FD811E48B6E80054209D /* IntType.cpp in Sources */,
 				F51701BC20105FE900A10B7C /* TestLocalArrayOwnerVariable.cpp in Sources */,
@@ -4243,7 +4232,6 @@
 				F531B63C1E089E59008304F3 /* ExpressionStatement.cpp in Sources */,
 				F58A83521F798A6C00369388 /* ExternalModelDefinition.cpp in Sources */,
 				F5D465F42060FA4F00C1047A /* LLVMFunctionDefinition.cpp in Sources */,
-				F5609F1320580BA300664ADD /* DereferenceExpression.cpp in Sources */,
 				F57780A51EC673EC0049542D /* EmptyStatement.cpp in Sources */,
 				F5CB7FE42052AEB1007628B5 /* StateField.cpp in Sources */,
 				F5E6BD071F190B4700D59444 /* Composer.cpp in Sources */,

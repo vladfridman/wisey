@@ -58,8 +58,6 @@ public:
                                                     std::string name,
                                                     llvm::Value* value));
   MOCK_CONST_METHOD1(getArrayType, wisey::ArrayType* (wisey::IRGenerationContext&));
-  MOCK_CONST_METHOD0(getPointerType, wisey::IType* ());
-  MOCK_CONST_METHOD0(getDereferenceType, wisey::IType* ());
 };
 
 #endif /* MockMethodDescriptor_h */

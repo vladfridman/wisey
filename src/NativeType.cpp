@@ -131,6 +131,3 @@ const ILLVMType* NativeType::getPointerType() const {
   return mPointerType;
 }
 
-const ILLVMType* NativeType::getDereferenceType() const {
-  assert(false);
-}

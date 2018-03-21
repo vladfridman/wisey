@@ -130,10 +130,6 @@ const LLVMPointerType* LLVMVoidType::getPointerType() const {
   assert(false);
 }
 
-const ILLVMType* LLVMVoidType::getDereferenceType() const {
-  assert(false);
-}
-
 const ILLVMTypeSpecifier* LLVMVoidType::newTypeSpecifier() const {
   return new LLVMPrimitiveTypeSpecifier(this);
 }

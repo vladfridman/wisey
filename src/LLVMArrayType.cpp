@@ -155,6 +155,3 @@ const LLVMPointerType* LLVMArrayType::getPointerType() const {
   return mPointerType;
 }
 
-const ILLVMType* LLVMArrayType::getDereferenceType() const {
-  assert(false);
-}

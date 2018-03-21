@@ -128,10 +128,6 @@ TEST_F(LLVMPointerTypeTest, isObjectTest) {
   EXPECT_FALSE(mLLVMPointerType->isThread());
 }
 
-TEST_F(LLVMPointerTypeTest, getDereferenceTypeTest) {
-  EXPECT_EQ(LLVMPrimitiveTypes::I8, mLLVMPointerType->getDereferenceType());
-}
-
 TEST_F(LLVMPointerTypeTest, createLocalVariableTest) {
   mLLVMPointerType->createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");
@@ -166,5 +162,6 @@ TEST_F(LLVMPointerTypeTest, printToStreamTest) {
 }
 
 TEST_F(LLVMPointerTypeTest, getPointerTypeTest) {
-  EXPECT_EQ(mLLVMPointerType, mLLVMPointerType->getPointerType()->getDereferenceType());
+  EXPECT_EQ(mLLVMPointerType->getLLVMType(mContext)->getPointerTo(), 
+            mLLVMPointerType->getPointerType()->getLLVMType(mContext));
 }
