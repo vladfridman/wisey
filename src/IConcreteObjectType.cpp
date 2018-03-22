@@ -384,9 +384,19 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   
   context.setBasicBlock(refCountNotZeroBlock);
   
+  if (context.isDestructorDebugOn()) {
+    ExpressionList printOutArguments;
+    printOutArguments.push_back(new StringLiteral("Throwing RCE " + object->getTypeName()));
+    printOutArguments.push_back(new StringLiteral(" count = "));
+    printOutArguments.push_back(new FakeExpression(referenceCount, PrimitiveTypes::LONG_TYPE));
+    printOutArguments.push_back(new StringLiteral("\n"));
+    PrintOutStatement printOutStatement(printOutArguments);
+    printOutStatement.generateIR(context);
+  }
+
   ThrowReferenceCountExceptionFunction::call(context, referenceCount);
   IRWriter::newUnreachableInst(context);
-  
+
   context.setBasicBlock(refCountZeroBlock);
   
   IRWriter::createFree(context, thisGeneric);

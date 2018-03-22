@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/Block.hpp"
+#include "wisey/CastExpression.hpp"
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/ControllerTypeSpecifier.hpp"
 #include "wisey/EmptyStatement.hpp"
@@ -29,6 +30,7 @@
 #include "wisey/NullType.hpp"
 #include "wisey/ObjectBuilder.hpp"
 #include "wisey/ObjectOwnerTypeSpecifier.hpp"
+#include "wisey/ParameterSystemReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramSuffix.hpp"
 #include "wisey/ReturnStatement.hpp"
@@ -91,20 +93,19 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   injectionArguments.push_back(new InjectionArgument("withProgram", new Identifier("program")));
   Value* injectedThread = mainThread->inject(context, injectionArguments, 0);
   Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName());
-  Value* threadStore = IRWriter::newAllocaInst(context,
-                                               threadInterface->getLLVMType(context),
-                                               "threadStore");
-  IRWriter::newStoreInst(context,
-                         ConstantPointerNull::get(threadInterface->getLLVMType(context)),
-                         threadStore);
-  IReferenceVariable* threadVariable = new LocalReferenceVariable(ThreadExpression::THREAD,
-                                                                  threadInterface,
-                                                                  threadStore);
+  packageType = context.getPackageType(Names::getLangPackageName());
+  packageExpression = new FakeExpression(NULL, packageType);
+  InterfaceTypeSpecifier* threadInterfaceSpecifier =
+    new InterfaceTypeSpecifier(packageExpression, Names::getThreadInterfaceName());
+  CastExpression* castExpression =
+  new CastExpression(threadInterfaceSpecifier, new FakeExpression(injectedThread, mainThread), 0);
+  IReferenceVariable* threadVariable =
+  new ParameterSystemReferenceVariable(ThreadExpression::THREAD,
+                                       threadInterface,
+                                       castExpression->generateIR(context, threadInterface));
   context.getScopes().setVariable(threadVariable);
-  FakeExpression threadExpression(injectedThread, mainThread->getOwner());
-  vector<const IExpression*> arrayIndices;
-  threadVariable->generateAssignmentIR(context, &threadExpression, arrayIndices, 0);
 
+  vector<const IExpression*> arrayIndices;
   Value* mainThreadStore = IRWriter::newAllocaInst(context,
                                                    mainThread->getOwner()->getLLVMType(context),
                                                    "mainThread");
@@ -117,18 +118,11 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   mainThreadVariable->generateAssignmentIR(context, &mainThreadExpression, arrayIndices, 0);
 
   Controller* callStack = context.getController(Names::getCallStackControllerFullName());
-  Value* callStackStore = IRWriter::newAllocaInst(context,
-                                                  callStack->getLLVMType(context),
-                                                  "callStackStore");
-  IRWriter::newStoreInst(context,
-                         ConstantPointerNull::get(callStack->getLLVMType(context)),
-                         callStackStore);
-  IReferenceVariable* callStackVariable = new LocalReferenceVariable(ThreadExpression::CALL_STACK,
-                                                                     callStack,
-                                                                     callStackStore);
+  IReferenceVariable* callStackVariable =
+  new ParameterSystemReferenceVariable(ThreadExpression::CALL_STACK,
+                                       callStack,
+                                       ConstantPointerNull::get(callStack->getLLVMType(context)));
   context.getScopes().setVariable(callStackVariable);
-  NullExpression* nullExpression = new NullExpression();
-  callStackVariable->generateAssignmentIR(context, nullExpression, arrayIndices, 0);
   
   IdentifierChain* startMethod = new IdentifierChain(new Identifier("mainThread"), "start");
   ExpressionList callArguments;

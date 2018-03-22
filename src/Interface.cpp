@@ -554,6 +554,10 @@ Value* Interface::castTo(IRGenerationContext& context,
                          Value* fromValue,
                          const IType* toType,
                          int line) const {
+  if (toType->isNative() && toType->isReference()) {
+    return IRWriter::newBitCastInst(context, fromValue, toType->getLLVMType(context));
+  }
+
   const IObjectType* toObjectType = (const IObjectType*) (toType);
   Function* castFunction =
     context.getModule()->getFunction(getCastFunctionName(toObjectType));

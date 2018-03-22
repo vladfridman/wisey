@@ -16,6 +16,7 @@
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Scopes.hpp"
+#include "wisey/ThreadExpression.hpp"
 
 using namespace std;
 using namespace llvm;
@@ -82,4 +83,11 @@ Value* LocalReferenceVariable::generateAssignmentIR(IRGenerationContext& context
 void LocalReferenceVariable::decrementReferenceCounter(IRGenerationContext& context) const {
   Value* value = IRWriter::newLoadInst(context, mValueStore, "");
   mType->decrementReferenceCount(context, value);
+}
+
+void LocalReferenceVariable::setToNull(IRGenerationContext& context) {
+  llvm::PointerType* type = getType()->getLLVMType(context);
+  Value* null = ConstantPointerNull::get(type);
+  IRWriter::newStoreInst(context, null, mValueStore);
+  mIsInitialized = true;
 }

@@ -1,13 +1,13 @@
 //
-//  LocalReferenceVariable.hpp
+//  LocalSystemReferenceVariable.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 2/10/17.
-//  Copyright © 2017 Vladimir Fridman. All rights reserved.
+//  Created by Vladimir Fridman on 3/22/18.
+//  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef LocalReferenceVariable_h
-#define LocalReferenceVariable_h
+#ifndef LocalSystemReferenceVariable_h
+#define LocalSystemReferenceVariable_h
 
 #include "wisey/IExpression.hpp"
 #include "wisey/IObjectType.hpp"
@@ -16,20 +16,20 @@
 namespace wisey {
   
   /**
-   * Represents a variable that is a reference to an object
+   * Represents a reference variable to a system object e.g. thread and callstack
    */
-  class LocalReferenceVariable : public IReferenceVariable {
+  class LocalSystemReferenceVariable : public IReferenceVariable {
     
     std::string mName;
     const IObjectType* mType;
     llvm::Value* mValueStore;
     bool mIsInitialized;
-    
+
   public:
     
-    LocalReferenceVariable(std::string name, const IObjectType* type, llvm::Value* valueStore);
+    LocalSystemReferenceVariable(std::string name, const IObjectType* type, llvm::Value* value);
     
-    ~LocalReferenceVariable();
+    ~LocalSystemReferenceVariable();
     
     std::string getName() const override;
     
@@ -49,12 +49,9 @@ namespace wisey {
                                       int line) override;
     
     void decrementReferenceCounter(IRGenerationContext& context) const override;
-    
-    void setToNull(IRGenerationContext& context);
 
   };
   
 } /* namespace wisey */
 
-#endif /* LocalReferenceVariable_h */
-
+#endif /* LocalSystemReferenceVariable_h */

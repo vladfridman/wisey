@@ -81,6 +81,8 @@ namespace wisey {
     
     void createArguments(IRGenerationContext& context, llvm::Function* function) const;
     
+    void createSystemVariables(IRGenerationContext& context, llvm::Function* function) const;
+    
     void maybeAddImpliedVoidReturn(IRGenerationContext& context, int line) const;
 
   };

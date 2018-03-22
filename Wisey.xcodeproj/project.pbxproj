@@ -284,6 +284,9 @@
 		F53227DC2062832800605E1B /* LLVMExternalStructDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53227DB2062832800605E1B /* LLVMExternalStructDefinition.cpp */; };
 		F53227DD2062832800605E1B /* LLVMExternalStructDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53227DB2062832800605E1B /* LLVMExternalStructDefinition.cpp */; };
 		F53227DF20628B6100605E1B /* TestLLVMExternalStructDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53227DE20628B6100605E1B /* TestLLVMExternalStructDefinition.cpp */; };
+		F53227E22063FB0900605E1B /* LocalSystemReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53227E12063FB0900605E1B /* LocalSystemReferenceVariable.cpp */; };
+		F53227E32063FB0900605E1B /* LocalSystemReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53227E12063FB0900605E1B /* LocalSystemReferenceVariable.cpp */; };
+		F53227E52063FFB300605E1B /* TestLocalSystemReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53227E42063FFB300605E1B /* TestLocalSystemReferenceVariable.cpp */; };
 		F5325065202A21D2007D8597 /* ArrayExactType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5325064202A21D2007D8597 /* ArrayExactType.cpp */; };
 		F5325066202A21D2007D8597 /* ArrayExactType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5325064202A21D2007D8597 /* ArrayExactType.cpp */; };
 		F5325069202A22B7007D8597 /* ArrayExactOwnerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5325068202A22B7007D8597 /* ArrayExactOwnerType.cpp */; };
@@ -1301,6 +1304,9 @@
 		F53227DA206282EB00605E1B /* LLVMExternalStructDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMExternalStructDefinition.hpp; path = include/wisey/LLVMExternalStructDefinition.hpp; sourceTree = "<group>"; };
 		F53227DB2062832800605E1B /* LLVMExternalStructDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMExternalStructDefinition.cpp; path = src/LLVMExternalStructDefinition.cpp; sourceTree = "<group>"; };
 		F53227DE20628B6100605E1B /* TestLLVMExternalStructDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TestLLVMExternalStructDefinition.cpp; sourceTree = "<group>"; };
+		F53227E02063FAA600605E1B /* LocalSystemReferenceVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LocalSystemReferenceVariable.hpp; path = include/wisey/LocalSystemReferenceVariable.hpp; sourceTree = "<group>"; };
+		F53227E12063FB0900605E1B /* LocalSystemReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LocalSystemReferenceVariable.cpp; path = src/LocalSystemReferenceVariable.cpp; sourceTree = "<group>"; };
+		F53227E42063FFB300605E1B /* TestLocalSystemReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLocalSystemReferenceVariable.cpp; path = tests/TestLocalSystemReferenceVariable.cpp; sourceTree = "<group>"; };
 		F5325063202A2129007D8597 /* ArrayExactType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ArrayExactType.hpp; path = include/wisey/ArrayExactType.hpp; sourceTree = "<group>"; };
 		F5325064202A21D2007D8597 /* ArrayExactType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ArrayExactType.cpp; path = src/ArrayExactType.cpp; sourceTree = "<group>"; };
 		F5325067202A226C007D8597 /* ArrayExactOwnerType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ArrayExactOwnerType.hpp; path = include/wisey/ArrayExactOwnerType.hpp; sourceTree = "<group>"; };
@@ -2718,6 +2724,7 @@
 				F5A3633F1F33C091005880B3 /* LocalOwnerVariable.hpp */,
 				F5089C861ECD01D9004A1223 /* LocalPrimitiveVariable.hpp */,
 				F5089C851ECD01D9004A1223 /* LocalReferenceVariable.hpp */,
+				F53227E02063FAA600605E1B /* LocalSystemReferenceVariable.hpp */,
 				F5D46611206173B600C1047A /* ObjectFunctionVariable.hpp */,
 				F513DDFF2018682E001A075B /* ParameterArrayOwnerVariable.hpp */,
 				F513DE052018A0A7001A075B /* ParameterArrayReferenceVariable.hpp */,
@@ -2746,6 +2753,7 @@
 				F5A363401F33C1A8005880B3 /* LocalOwnerVariable.cpp */,
 				F50427A71E4D226C001CB148 /* LocalPrimitiveVariable.cpp */,
 				F50427AB1E4D2747001CB148 /* LocalReferenceVariable.cpp */,
+				F53227E12063FB0900605E1B /* LocalSystemReferenceVariable.cpp */,
 				F5D466122061751000C1047A /* ObjectFunctionVariable.cpp */,
 				F513DE0020186900001A075B /* ParameterArrayOwnerVariable.cpp */,
 				F513DE062018A0F7001A075B /* ParameterArrayReferenceVariable.cpp */,
@@ -3307,6 +3315,7 @@
 				F5A363431F33D08F005880B3 /* TestLocalOwnerVariable.cpp */,
 				F50427AE1E4DD329001CB148 /* TestLocalPrimitiveVariable.cpp */,
 				F50427B01E4DD621001CB148 /* TestLocalReferenceVariable.cpp */,
+				F53227E42063FFB300605E1B /* TestLocalSystemReferenceVariable.cpp */,
 				F5D466152061876500C1047A /* TestObjectFunctionVariable.cpp */,
 				F513DE0320186CFC001A075B /* TestParameterArrayOwnerVariable.cpp */,
 				F513DE092018AA3E001A075B /* TestParameterArrayReferenceVariable.cpp */,
@@ -3756,6 +3765,7 @@
 				F59D820C1E0F157E00057FB5 /* WhileStatement.cpp in Sources */,
 				F50FA2F71E2E3B3500435EEA /* TestIntConstant.cpp in Sources */,
 				F53400FB1DFD999B0002BF7E /* TestRelationalExpression.cpp in Sources */,
+				F53227E32063FB0900605E1B /* LocalSystemReferenceVariable.cpp in Sources */,
 				F519ED7C1FD9910D00BE3FED /* TestThis.cpp in Sources */,
 				F54B148B205EC7090030773F /* TestLLVMi8Type.cpp in Sources */,
 				F53A2C461F0298E800E76A9E /* NullType.cpp in Sources */,
@@ -3869,6 +3879,7 @@
 				F5F396DC1E34BFE000F34296 /* ObjectBuilderArgument.cpp in Sources */,
 				F50427B51E4E3FA7001CB148 /* FieldReferenceVariable.cpp in Sources */,
 				F5CB7F84205181FC007628B5 /* TestFakeExpressionWithCleanup.cpp in Sources */,
+				F53227E52063FFB300605E1B /* TestLocalSystemReferenceVariable.cpp in Sources */,
 				F5FCAE3D1ED5F67F00C69899 /* TestCompiler.cpp in Sources */,
 				F519ED7A1FD8665400BE3FED /* TestInjectionArgument.cpp in Sources */,
 				F54B1477205D6BFD0030773F /* LLVMi64Type.cpp in Sources */,
@@ -4400,6 +4411,7 @@
 				F5325069202A22B7007D8597 /* ArrayExactOwnerType.cpp in Sources */,
 				F53A2C1E1EF96C0200E76A9E /* IVariable.cpp in Sources */,
 				F59D82111E0F311B00057FB5 /* ForStatement.cpp in Sources */,
+				F53227E22063FB0900605E1B /* LocalSystemReferenceVariable.cpp in Sources */,
 				F5378F6D2058F11500E5B5FD /* IdentifierReference.cpp in Sources */,
 				F5C6FD801E48B6E80054209D /* IntType.cpp in Sources */,
 				F52C66621FBF41C000E89B04 /* AdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp in Sources */,

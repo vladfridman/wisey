@@ -116,6 +116,16 @@ external controller wisey.lang.CProgramRunner {
     wisey.lang.IProgram* runnable);
 }
 
+external controller wisey.lang.CThreadRunner {
+
+  state ::llvm::struct::_opaque_pthread_t* mMyNativeThread;
+
+  void createThread(
+    wisey.lang.IThread workerThread);
+  void joinThread();
+  void exitThread();
+}
+
 /* Nodes */
 
 /* Threads */
@@ -124,10 +134,10 @@ external thread wisey.lang.TMainThread
   implements
     wisey.lang.IThread {
 
-  inject wisey.lang.CCallStack* mCallStack;
+  inject wisey.lang.CThreadRunner* mThreadRunner;
   inject wisey.lang.CProgramRunner* mProgramRunner;
+  inject wisey.lang.CCallStack* mCallStack;
   receive wisey.lang.IProgram* mProgram;
-  state ::llvm::struct::_opaque_pthread_t* mMyNativeThread;
   state int mMyMessage;
 
   void run();

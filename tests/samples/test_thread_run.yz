@@ -1,22 +1,13 @@
 package systems.vos.wisey.compiler.tests;
 
 import wisey.lang.CCallStack;
+import wisey.lang.CThreadRunner;
 import wisey.lang.IProgram;
 import wisey.lang.IThread;
 
-::llvm::function ::llvm::void pthread_create(::llvm::struct::_opaque_pthread_t**, 
-                                             ::llvm::struct::_opaque_pthread_attr_t*, 
-                                             ::llvm::i8* (::llvm::i8*)*, 
-                                             ::llvm::i8*);
-
-::llvm::function ::llvm::void pthread_join(::llvm::struct::_opaque_pthread_t*, ::llvm::i8**);
-
-::llvm::function ::llvm::void pthread_exit(::llvm::i8*);
-
 thread TWorker sends int implements IThread {
+  inject CThreadRunner* mThreadRunner;
   inject CCallStack* mCallStack;
-
-  state ::llvm::struct::_opaque_pthread_t* mMyNativeThread;
   state int mMyMessage;
 
   public void run() {
@@ -24,30 +15,16 @@ thread TWorker sends int implements IThread {
     thread.send(5);
   }
 
-  ::llvm::function ::llvm::i8* runBridge(::llvm::i8* argument) {
-    ::llvm::function::systems.vos.wisey.compiler.tests.TWorker.
-      run((TWorker) argument, 
-          (IThread) ((TWorker) argument), 
-          ::llvm::function::systems.vos.wisey.compiler.tests.TWorker.getCallStack((TWorker) argument, 
-                                                                                  (IThread) ((TWorker) argument), 
-                                                                                  (CCallStack) null));
-
-    return argument;
-  }
-
   public int start() {
-    ::llvm::function::pthread_create(::llvm::reference(mMyNativeThread), 
-                                        (::llvm::struct::_opaque_pthread_attr_t*) null, 
-                                        runBridge, 
-                                        (::llvm::i8*) this);
-    ::llvm::function::pthread_join(mMyNativeThread, (::llvm::i8**) null);
+    mThreadRunner.createThread(this);
+    mThreadRunner.joinThread();
 
     return mMyMessage;
   }
 
   public void send(int message) {
     mMyMessage = message;
-    ::llvm::function::pthread_exit((::llvm::i8*) null);
+    mThreadRunner.exitThread();
   }
 
   public CCallStack getCallStack() {
