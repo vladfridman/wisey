@@ -2,6 +2,8 @@ package wisey.lang;
 
 import wisey.lang.CCallStack;
 
+::llvm::function ::llvm::i32 sleep(::llvm::i32);
+
 /**
  * Represents a thread of execution. All thread objects must implement this interface.
  */
@@ -18,4 +20,11 @@ interface IThread {
    */
   void send(::llvm::i8* message);
 
+
+  /**
+   * Method for putting the current thread to sleep
+   */
+  static void sleep(int seconds) {
+    ::llvm::function::sleep(seconds);
+  }
 }
