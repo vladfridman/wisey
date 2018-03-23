@@ -23,7 +23,6 @@ namespace wisey {
   class ThreadDefinition : public IConcreteObjectDefinition {
     AccessLevel mAccessLevel;
     ThreadTypeSpecifierFull* mThreadTypeSpecifierFull;
-    const ITypeSpecifier* mSendsTypeSpecifier;
     std::vector<IObjectElementDefinition*> mObjectElementDeclarations;
     std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
     std::vector<IObjectDefinition*> mInnerObjectDefinitions;
@@ -32,7 +31,6 @@ namespace wisey {
     
     ThreadDefinition(AccessLevel accessLevel,
                      ThreadTypeSpecifierFull* threadTypeSpecifierFull,
-                     const ITypeSpecifier* sendsTypeSpecifier,
                      std::vector<IObjectElementDefinition*> objectElementDeclarations,
                      std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
                      std::vector<IObjectDefinition*> innerObjectDefinitions);

@@ -165,8 +165,6 @@ ThreadDefinition* TestPrefix::defineMainThread(IRGenerationContext& context) {
   elementDeclarations.push_back(getCallStackMethod);
   elementDeclarations.push_back(runMethod);
 
-  voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
-  
   vector<IObjectDefinition*> innerObjectDefinitions;
   vector<IInterfaceTypeSpecifier*> interfaceSpecifiers;
   packageType = new PackageType(Names::getLangPackageName());
@@ -177,7 +175,6 @@ ThreadDefinition* TestPrefix::defineMainThread(IRGenerationContext& context) {
   
   return new ThreadDefinition(AccessLevel::PUBLIC_ACCESS,
                               threadTypeSpecifier,
-                              voidTypeSpecifier,
                               elementDeclarations,
                               interfaceSpecifiers,
                               innerObjectDefinitions);

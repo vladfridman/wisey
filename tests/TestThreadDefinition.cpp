@@ -103,11 +103,9 @@ TEST_F(ThreadDefinitionTest, threadDefinitionPrototypeObjectTest) {
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ThreadTypeSpecifierFull* typeSpecifier = new ThreadTypeSpecifierFull(packageExpression,
                                                                        "TWorker");
-  const PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   vector<IObjectDefinition*> innerObjectDefinitions;
   ThreadDefinition threadDefinition(AccessLevel::PUBLIC_ACCESS,
                                     typeSpecifier,
-                                    voidTypeSpecifier,
                                     mElementDeclarations,
                                     mInterfaces,
                                     innerObjectDefinitions);
@@ -130,11 +128,9 @@ TEST_F(ThreadDefinitionTest, threadDefinitionPrototypeMethodsTest) {
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ThreadTypeSpecifierFull* typeSpecifier = new ThreadTypeSpecifierFull(packageExpression,
                                                                        "TWorker");
-  const PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   vector<IObjectDefinition*> innerObjectDefinitions;
   ThreadDefinition threadDefinition(AccessLevel::PUBLIC_ACCESS,
                                     typeSpecifier,
-                                    voidTypeSpecifier,
                                     mElementDeclarations,
                                     mInterfaces,
                                     innerObjectDefinitions);
@@ -153,11 +149,9 @@ TEST_F(ThreadDefinitionTest, threadDefinitionGenerateIRTest) {
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ThreadTypeSpecifierFull* typeSpecifier = new ThreadTypeSpecifierFull(packageExpression,
                                                                        "TWorker");
-  const PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   vector<IObjectDefinition*> innerObjectDefinitions;
   ThreadDefinition threadDefinition(AccessLevel::PUBLIC_ACCESS,
                                     typeSpecifier,
-                                    voidTypeSpecifier,
                                     mElementDeclarations,
                                     mInterfaces,
                                     innerObjectDefinitions);
@@ -193,10 +187,8 @@ TEST_F(ThreadDefinitionTest, threadWithFixedFieldDeathTest) {
   mElementDeclarations.clear();
   mElementDeclarations.push_back(field);
   vector<IObjectDefinition*> innerObjectDefinitions;
-  const PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   ThreadDefinition threadDefinition(AccessLevel::PUBLIC_ACCESS,
                                     typeSpecifier,
-                                    voidTypeSpecifier,
                                     mElementDeclarations,
                                     mInterfaces,
                                     innerObjectDefinitions);
@@ -216,10 +208,8 @@ TEST_F(ThreadDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
   StateFieldDefinition* field = new StateFieldDefinition(intType, "field3");
   mElementDeclarations.push_back(field);
   vector<IObjectDefinition*> innerObjectDefinitions;
-  const PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   ThreadDefinition threadDefinition(AccessLevel::PUBLIC_ACCESS,
                                     typeSpecifier,
-                                    voidTypeSpecifier,
                                     mElementDeclarations,
                                     mInterfaces,
                                     innerObjectDefinitions);

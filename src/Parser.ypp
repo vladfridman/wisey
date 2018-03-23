@@ -214,7 +214,7 @@
 %token <token> TLLVM TLLVMFUNCTION TLLVMI1 TLLVMI8 TLLVMI16 TLLVMI32 TLLVMI64 TLLVMSTRUCT TLLVMVOID
 %token <token> TLLVMREFERENCE
 %token <token> TMODEL TNEW TNODE TNULL TOROP TPACKAGE 
-%token <token> TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN TSENDS TSTATE TSTATIC 
+%token <token> TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN TSTATE TSTATIC 
 %token <token> TSWITCH TTHREAD TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN 
 %token <token> TTYPECHAR TTYPEDOUBLE TTYPEFLOAT TTYPEINT TTYPELONG TTYPESTRING TTYPEVOID TWHILE
 
@@ -269,7 +269,7 @@
 %type <object_element_list> external_interface_element_delcaration_list
 %type <type_specifier> type_specifier primitive_type_specifier object_owner_type_specifier 
 %type <type_specifier> non_array_type_specifier injectable_type_specifier 
-%type <type_specifier> array_specific_owner_type_specifier sends_object
+%type <type_specifier> array_specific_owner_type_specifier
 %type <array_type_specifier> array_type_specifier
 %type <array_owner_type_specifier> array_owner_type_specifier
 %type <array_specific_type_specifier> array_specific_type_specifier
@@ -805,7 +805,7 @@ external_model_definition
   ;
 
 thread_definition
-  : TTHREAD thread_type_specifier sends_object implmeneted_interfaces 
+  : TTHREAD thread_type_specifier implmeneted_interfaces 
       '{' object_element_declaration_list '}'
     {
       IExpression* package = $2->takePackage();
@@ -814,13 +814,12 @@ thread_definition
         new ThreadTypeSpecifierFull(package, $2->getShortName());
       $$ = new ThreadDefinition(AccessLevel::PUBLIC_ACCESS, 
                                 fullSpecifier, 
-                                $3,
-                                std::get<0>(*$6), 
-                                *$4, 
-                                std::get<1>(*$6));
+                                std::get<0>(*$5), 
+                                *$3, 
+                                std::get<1>(*$5));
       delete $2;
-      delete $4;
-      delete $6;
+      delete $3;
+      delete $5;
     }
   ;
 
@@ -865,11 +864,6 @@ external_static_method_definition
 implmeneted_interfaces
   : /* blank */ { $$ = new std::vector<IInterfaceTypeSpecifier*>(); }
   | TIMPLEMENTS interface_list { $$ = $2; }
-  ;
-
-sends_object
-  : /* blank */ { $$ = PrimitiveTypes::VOID_TYPE->newTypeSpecifier(); }
-  | TSENDS type_specifier { $$ = $2; }
   ;
 
 extends_interfaces

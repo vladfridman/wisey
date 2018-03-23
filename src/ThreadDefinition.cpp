@@ -18,20 +18,17 @@ using namespace wisey;
 
 ThreadDefinition::ThreadDefinition(AccessLevel accessLevel,
                                    ThreadTypeSpecifierFull* threadTypeSpecifierFull,
-                                   const ITypeSpecifier* sendsTypeSpecifier,
                                    vector<IObjectElementDefinition*> objectElementDeclarations,
                                    vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
                                    vector<IObjectDefinition*> innerObjectDefinitions) :
 mAccessLevel(accessLevel),
 mThreadTypeSpecifierFull(threadTypeSpecifierFull),
-mSendsTypeSpecifier(sendsTypeSpecifier),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers),
 mInnerObjectDefinitions(innerObjectDefinitions) { }
 
 ThreadDefinition::~ThreadDefinition() {
   delete mThreadTypeSpecifierFull;
-  delete mSendsTypeSpecifier;
   for (IObjectElementDefinition* objectElementDeclaration : mObjectElementDeclarations) {
     delete objectElementDeclaration;
   }
