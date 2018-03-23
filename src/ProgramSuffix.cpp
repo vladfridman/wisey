@@ -26,6 +26,7 @@
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/MethodCall.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
+#include "wisey/ModelTypeSpecifierFull.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/NullExpression.hpp"
 #include "wisey/NullType.hpp"
@@ -133,7 +134,14 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   
   IdentifierChain* waitMethod = new IdentifierChain(new Identifier("mainThread"), "waitForResult");
   MethodCall* waitMethodCall = new MethodCall(waitMethod, callArguments, 0);
-  ReturnStatement returnStatement(waitMethodCall, 0);
+  
+  packageExpression = new FakeExpression(NULL, packageType);
+  ModelTypeSpecifier* mainThreadMessageSpecifier =
+  new ModelTypeSpecifier(packageExpression, Names::getMainThreadMessageShortName());
+  CastExpression* castToMessage = new CastExpression(mainThreadMessageSpecifier, waitMethodCall, 0);
+  IdentifierChain* getContentMethod = new IdentifierChain(castToMessage, "getContent");
+  MethodCall* getContent = new MethodCall(getContentMethod, callArguments, 0);
+  ReturnStatement returnStatement(getContent, 0);
   returnStatement.generateIR(context);
 
   context.getScopes().popScope(context, 0);

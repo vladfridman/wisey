@@ -5,34 +5,37 @@ import wisey.lang.CThreadRunner;
 import wisey.lang.IProgram;
 import wisey.lang.IThread;
 
-thread TWorker sends int implements IThread {
+model MResult {
+  int mResult;
+
+  public int getResult() {
+    return mResult;
+  }
+}
+
+thread TWorker implements IThread {
   inject CThreadRunner* mThreadRunner;
   inject CCallStack* mCallStack;
-  state int mMyMessage;
+  state MResult* mResult;
 
   public void start() {
     mThreadRunner.createThread(this);
   }
 
-  public int waitForResult() {
+  public ::llvm::i8* waitForResult() {
     mThreadRunner.joinThread();
 
-    return mMyMessage;
+    return mResult;
   }
 
   public void work() {
     printout("This is worker thread!\n");
-    thread.send(5);
+    MResult* result = builder(MResult).withResult(5).build();
+    thread.send(result);
   }
 
-  public int waitForResult() {
-    mThreadRunner.joinThread();
-
-    return mMyMessage;
-  }
-
-  public void send(int message) {
-    mMyMessage = message;
+  public void send(::llvm::i8* message) {
+    mResult = message;
     mThreadRunner.exitThread();
   }
 
@@ -48,7 +51,7 @@ controller CProgram implements IProgram {
   public int run() {
     printout("Starting worker thread\n");
     mWorker.start();
-    int result = mWorker.waitForResult();
+    int result = ((MResult) mWorker.waitForResult()).getResult();
     printout("Worker thread started\n");
     printout("Worker thread result: " + result + "\n");
 

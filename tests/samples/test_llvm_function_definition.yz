@@ -8,14 +8,14 @@ model MMyModel implements IThread {
   public void start() {
   }
 
-  public int waitForResult() {
-    return 0;
+  public ::llvm::i8* waitForResult() {
+    return null;
   }
 
   public void work() {
   }
 
-  public void send(int message) {
+  public void send(::llvm::i8* message) {
   }
 
   public CCallStack getCallStack() {

@@ -15,7 +15,7 @@ interface IThread {
   /**
    * Waits for thread to finish and returns the result
    */
-  int waitForResult();
+  ::llvm::i8* waitForResult();
 
   /**
    * This method is called when thread is started
@@ -30,6 +30,6 @@ interface IThread {
   /**
    * Snds a message to the calling thread
    */
-  void send(int message);
+  void send(::llvm::i8* message);
 
 }

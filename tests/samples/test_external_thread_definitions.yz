@@ -3,11 +3,11 @@ external thread wisey.lang.TWorker
 
   void start();
 
-  int waitForResult();
+  ::llvm::i8* waitForResult();
 
   void work();
 
-  void send(int message);
+  void send(::llvm::i8* message);
 
   wisey.lang.CCallStack getCallStack();
 }
@@ -20,11 +20,11 @@ external thread wisey.lang.TWorkerWithFieldsAndMethods
 
   void start();
 
-  int waitForResult();
+  ::llvm::i8* waitForResult();
 
   void work();
 
-  void send(int message);
+  void send(::llvm::i8* message);
 
   wisey.lang.CCallStack getCallStack();
 }
@@ -41,11 +41,11 @@ external thread wisey.lang.TWorkerWithFieldsAndMethodsAndInterface
 
   void start();
 
-  int waitForResult();
+  ::llvm::i8* waitForResult();
 
   void work();
 
-  void send(int message);
+  void send(::llvm::i8* message);
 
   wisey.lang.CCallStack getCallStack();
 }

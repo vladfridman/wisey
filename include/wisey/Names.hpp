@@ -81,6 +81,16 @@ namespace wisey {
     static std::string getMainThreadFullName();
     
     /**
+     * Model representing main thread result message
+     */
+    static std::string getMainThreadMessageShortName();
+    
+    /**
+     * Model representing main thread result message
+     */
+    static std::string getMainThreadMessageFullName();
+    
+    /**
      * Get the method for setting call stack's current object and method
      */
     static std::string getThreadSetObjectAndMethod();

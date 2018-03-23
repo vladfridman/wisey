@@ -32,11 +32,11 @@ external interface wisey.lang.IProgram {
 external interface wisey.lang.IThread {
 
   void start();
-  int waitForResult();
+  ::llvm::i8* waitForResult();
   void work();
   wisey.lang.CCallStack getCallStack();
   void send(
-    int message);
+    ::llvm::i8* message);
 }
 
 /* Models */
@@ -63,6 +63,13 @@ external model wisey.lang.MCastException
   string getName();
   string getFromType();
   string getToType();
+}
+
+external model wisey.lang.MMainThreadMessage {
+
+  fixed int mContent;
+
+  int getContent();
 }
 
 external model wisey.lang.MNullPointerException
@@ -140,13 +147,13 @@ external thread wisey.lang.TMainThread
   inject wisey.lang.CProgramRunner* mProgramRunner;
   inject wisey.lang.CCallStack* mCallStack;
   receive wisey.lang.IProgram* mProgram;
-  state int mMyMessage;
+  state wisey.lang.MMainThreadMessage* mMessage;
 
   void start();
-  int waitForResult();
+  ::llvm::i8* waitForResult();
   void work();
   void send(
-    int message);
+    ::llvm::i8* message);
   wisey.lang.CCallStack getCallStack();
 }
 
