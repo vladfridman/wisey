@@ -2,10 +2,13 @@ package wisey.lang;
 
 import wisey.lang.CCallStack;
 import wisey.lang.CProgramRunner;
-import wisey.lang.CThreadRunner;
+import wisey.lang.CWorkerThreadRunner;
 import wisey.lang.IProgram;
-import wisey.lang.IThread;
+import wisey.lang.IWorkerThread;
 
+/**
+ * Represents main thread result container
+ */
 model MMainThreadMessage {
   int mContent;
 
@@ -17,19 +20,21 @@ model MMainThreadMessage {
 /**
  * Represents main thread where the program runs
  */
-thread TMainThread implements IThread {
-  inject CThreadRunner* mThreadRunner;
+thread TMainThread implements IWorkerThread {
+  inject CWorkerThreadRunner* mWorkerThreadRunner;
   inject CProgramRunner* mProgramRunner;
   inject CCallStack* mCallStack;
+  
   receive IProgram* mProgram;
+
   state MMainThreadMessage* mMessage;
 
   public void start() {
-    mThreadRunner.createThread(this);
+    mWorkerThreadRunner.createThread(this);
   }
 
   public ::llvm::i8* waitForResult() {
-    mThreadRunner.joinThread();
+    mWorkerThreadRunner.joinThread();
 
     return mMessage;
   }
@@ -42,7 +47,7 @@ thread TMainThread implements IThread {
 
   public void send(::llvm::i8* message) {
     mMessage = message;
-    mThreadRunner.exitThread();
+    mWorkerThreadRunner.exitThread();
   }
 
   public CCallStack getCallStack() {

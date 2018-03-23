@@ -5,16 +5,6 @@ import wisey.lang.IThread;
 
 model MMyModel implements IThread {
 
-  public void start() {
-  }
-
-  public ::llvm::i8* waitForResult() {
-    return null;
-  }
-
-  public void work() {
-  }
-
   public void send(::llvm::i8* message) {
   }
 

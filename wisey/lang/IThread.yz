@@ -7,20 +7,6 @@ import wisey.lang.CCallStack;
  */
 interface IThread {
 
-  /**
-   * Starts the thread
-   */
-  void start();
-
-  /**
-   * Waits for thread to finish and returns the result
-   */
-  ::llvm::i8* waitForResult();
-
-  /**
-   * This method is called when thread is started
-   */ 
-  void work();
 
   /**
    * Returns the call stack for this thread

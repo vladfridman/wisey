@@ -1,0 +1,25 @@
+package wisey.lang;
+
+import wisey.lang.IThread;
+
+/**
+ * Represents a thread of execution. All thread objects must implement this interface.
+ */
+interface IWorkerThread extends IThread {
+
+  /**
+   * Starts the thread
+   */
+  void start();
+
+  /**
+   * Waits for thread to finish and returns the result
+   */
+  ::llvm::i8* waitForResult();
+
+  /**
+   * This method is called when thread is started
+   */ 
+  void work();
+
+}

@@ -1,9 +1,9 @@
 package systems.vos.wisey.compiler.tests;
 
 import wisey.lang.CCallStack;
-import wisey.lang.CThreadRunner;
+import wisey.lang.CWorkerThreadRunner;
 import wisey.lang.IProgram;
-import wisey.lang.IThread;
+import wisey.lang.IWorkerThread;
 
 model MResult {
   int mResult;
@@ -13,17 +13,17 @@ model MResult {
   }
 }
 
-thread TWorker implements IThread {
-  inject CThreadRunner* mThreadRunner;
+thread TWorker implements IWorkerThread {
+  inject CWorkerThreadRunner* mWorkerThreadRunner;
   inject CCallStack* mCallStack;
   state MResult* mResult;
 
   public void start() {
-    mThreadRunner.createThread(this);
+    mWorkerThreadRunner.createThread(this);
   }
 
   public ::llvm::i8* waitForResult() {
-    mThreadRunner.joinThread();
+    mWorkerThreadRunner.joinThread();
 
     return mResult;
   }
@@ -36,7 +36,7 @@ thread TWorker implements IThread {
 
   public void send(::llvm::i8* message) {
     mResult = message;
-    mThreadRunner.exitThread();
+    mWorkerThreadRunner.exitThread();
   }
 
   public CCallStack getCallStack() {

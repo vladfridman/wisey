@@ -31,12 +31,18 @@ external interface wisey.lang.IProgram {
 
 external interface wisey.lang.IThread {
 
-  void start();
-  ::llvm::i8* waitForResult();
-  void work();
   wisey.lang.CCallStack getCallStack();
   void send(
     ::llvm::i8* message);
+}
+
+external interface wisey.lang.IWorkerThread
+  extends
+    wisey.lang.IThread {
+
+  void start();
+  ::llvm::i8* waitForResult();
+  void work();
 }
 
 /* Models */
@@ -125,12 +131,12 @@ external controller wisey.lang.CProgramRunner {
     wisey.lang.IProgram* runnable);
 }
 
-external controller wisey.lang.CThreadRunner {
+external controller wisey.lang.CWorkerThreadRunner {
 
   state ::llvm::struct::_opaque_pthread_t* mMyNativeThread;
 
   void createThread(
-    wisey.lang.IThread workerThread);
+    wisey.lang.IWorkerThread workerThread);
   void joinThread();
   void exitThread();
 }
@@ -141,9 +147,9 @@ external controller wisey.lang.CThreadRunner {
 
 external thread wisey.lang.TMainThread
   implements
-    wisey.lang.IThread {
+    wisey.lang.IWorkerThread {
 
-  inject wisey.lang.CThreadRunner* mThreadRunner;
+  inject wisey.lang.CWorkerThreadRunner* mWorkerThreadRunner;
   inject wisey.lang.CProgramRunner* mProgramRunner;
   inject wisey.lang.CCallStack* mCallStack;
   receive wisey.lang.IProgram* mProgram;
