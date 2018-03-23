@@ -5,7 +5,14 @@ import wisey.lang.IThread;
 
 model MMyModel implements IThread {
 
-  public void run() {
+  public void start() {
+  }
+
+  public int waitForResult() {
+    return 0;
+  }
+
+  public void work() {
   }
 
   public void send(int message) {

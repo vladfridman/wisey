@@ -1,7 +1,11 @@
 external thread wisey.lang.TWorker 
     implements wisey.lang.IThread {
 
-  void run();
+  void start();
+
+  int waitForResult();
+
+  void work();
 
   void send(int message);
 
@@ -14,9 +18,11 @@ external thread wisey.lang.TWorkerWithFieldsAndMethods
   inject wisey.lang.TWorker* mInjectedField;
   state int mStateField;
 
-  int getValue();
+  void start();
 
-  void run();
+  int waitForResult();
+
+  void work();
 
   void send(int message);
 
@@ -33,9 +39,11 @@ external thread wisey.lang.TWorkerWithFieldsAndMethodsAndInterface
   inject wisey.lang.TWorker* mInjectedField;
   state int mStateField;
 
-  int getValue();
+  void start();
 
-  void run();
+  int waitForResult();
+
+  void work();
 
   void send(int message);
 

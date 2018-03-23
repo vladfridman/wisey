@@ -13,6 +13,7 @@
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/ControllerTypeSpecifier.hpp"
 #include "wisey/EmptyStatement.hpp"
+#include "wisey/ExpressionStatement.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -127,7 +128,12 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   IdentifierChain* startMethod = new IdentifierChain(new Identifier("mainThread"), "start");
   ExpressionList callArguments;
   MethodCall* startMethodCall = new MethodCall(startMethod, callArguments, 0);
-  ReturnStatement returnStatement(startMethodCall, 0);
+  ExpressionStatement startMethodCallStatement(startMethodCall);
+  startMethodCallStatement.generateIR(context);
+  
+  IdentifierChain* waitMethod = new IdentifierChain(new Identifier("mainThread"), "waitForResult");
+  MethodCall* waitMethodCall = new MethodCall(waitMethod, callArguments, 0);
+  ReturnStatement returnStatement(waitMethodCall, 0);
   returnStatement.generateIR(context);
 
   context.getScopes().popScope(context, 0);

@@ -38,7 +38,7 @@ controller CThreadRunner {
     thread = (IThread) argument;
     callstack = null;
     callstack = thread.getCallStack();
-    ((IThread) argument).run();
+    ((IThread) argument).work();
 
     return argument;
   }

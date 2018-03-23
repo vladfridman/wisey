@@ -10,13 +10,22 @@ thread TWorker sends int implements IThread {
   inject CCallStack* mCallStack;
   state int mMyMessage;
 
-  public void run() {
+  public void start() {
+    mThreadRunner.createThread(this);
+  }
+
+  public int waitForResult() {
+    mThreadRunner.joinThread();
+
+    return mMyMessage;
+  }
+
+  public void work() {
     printout("This is worker thread!\n");
     thread.send(5);
   }
 
-  public int start() {
-    mThreadRunner.createThread(this);
+  public int waitForResult() {
     mThreadRunner.joinThread();
 
     return mMyMessage;
@@ -38,7 +47,8 @@ controller CProgram implements IProgram {
 
   public int run() {
     printout("Starting worker thread\n");
-    int result = mWorker.start();
+    mWorker.start();
+    int result = mWorker.waitForResult();
     printout("Worker thread started\n");
     printout("Worker thread result: " + result + "\n");
 

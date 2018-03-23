@@ -6,7 +6,14 @@ import wisey.lang.IThread;
 
 thread TThread sends int implements IThread {
 
-  public void run() {
+  public void start() {
+  }
+
+  public int waitForResult() {
+    return 0;
+  }
+
+  public void work() {
   }
 
   public void send(int message) {

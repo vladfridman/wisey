@@ -83,6 +83,7 @@ TEST_F(IdentifierReferenceTest, getTypeTest) {
 
 TEST_F(IdentifierReferenceTest, getTypeNonNativeTypeTest) {
   NiceMock<MockVariable> mockVariable;
+  ::Mock::AllowLeak(&mockVariable);
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
   ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   mContext.getScopes().setVariable(&mockVariable);

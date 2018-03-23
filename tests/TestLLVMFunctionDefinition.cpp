@@ -84,6 +84,6 @@ TEST_F(LLVMFunctionDefinitionTest, defineTest) {
   EXPECT_TRUE(llvmFunction->isLLVMFunction());
 }
 
-TEST_F(TestFileSampleRunner, LLVMFunctionDefinitionTest) {
+TEST_F(TestFileSampleRunner, llvmFunctionDefinitionTest) {
   compileFile("tests/samples/test_llvm_function_definition.yz");
 }

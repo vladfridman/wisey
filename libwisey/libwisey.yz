@@ -31,7 +31,9 @@ external interface wisey.lang.IProgram {
 
 external interface wisey.lang.IThread {
 
-  void run();
+  void start();
+  int waitForResult();
+  void work();
   wisey.lang.CCallStack getCallStack();
   void send(
     int message);
@@ -140,8 +142,9 @@ external thread wisey.lang.TMainThread
   receive wisey.lang.IProgram* mProgram;
   state int mMyMessage;
 
-  void run();
-  int start();
+  void start();
+  int waitForResult();
+  void work();
   void send(
     int message);
   wisey.lang.CCallStack getCallStack();

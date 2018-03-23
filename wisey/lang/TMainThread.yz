@@ -16,16 +16,19 @@ thread TMainThread sends int implements IThread {
   receive IProgram* mProgram;
   state int mMyMessage;
 
-  public void run() {
-    int result = mProgramRunner.run(mProgram);
-    send(result);
+  public void start() {
+    mThreadRunner.createThread(this);
   }
 
-  public int start() {
-    mThreadRunner.createThread(this);
+  public int waitForResult() {
     mThreadRunner.joinThread();
 
     return mMyMessage;
+  }
+
+  public void work() {
+    int result = mProgramRunner.run(mProgram);
+    send(result);
   }
 
   public void send(int message) {

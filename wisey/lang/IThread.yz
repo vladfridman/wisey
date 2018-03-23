@@ -8,9 +8,19 @@ import wisey.lang.CCallStack;
 interface IThread {
 
   /**
+   * Starts the thread
+   */
+  void start();
+
+  /**
+   * Waits for thread to finish and returns the result
+   */
+  int waitForResult();
+
+  /**
    * This method is called when thread is started
    */ 
-  void run();
+  void work();
 
   /**
    * Returns the call stack for this thread
