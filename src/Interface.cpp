@@ -773,12 +773,13 @@ void Interface::printToStream(IRGenerationContext& context, iostream& stream) co
 
 void Interface::defineInterfaceTypeName(IRGenerationContext& context) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  llvm::Constant* stringConstant = ConstantDataArray::getString(llvmContext, getTypeName());
+  string typeType = getTypeName();
+  llvm::Constant* stringConstant = ConstantDataArray::getString(llvmContext, typeType);
   new GlobalVariable(*context.getModule(),
-                     stringConstant->getType(),
+                     llvm::ArrayType::get(Type::getInt8Ty(llvmContext), typeType.length() + 1),
                      true,
-                     GlobalValue::LinkageTypes::LinkOnceODRLinkage,
-                     stringConstant,
+                     GlobalValue::LinkageTypes::ExternalLinkage,
+                     mIsExternal ? nullptr : stringConstant,
                      getObjectNameGlobalVariableName());
 }
 

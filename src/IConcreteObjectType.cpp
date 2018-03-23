@@ -45,12 +45,13 @@ using namespace wisey;
 void IConcreteObjectType::generateNameGlobal(IRGenerationContext& context,
                                              const IConcreteObjectType* object) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  llvm::Constant* stringConstant = ConstantDataArray::getString(llvmContext, object->getTypeName());
+  string typeType = object->getTypeName();
+  llvm::Constant* stringConstant = ConstantDataArray::getString(llvmContext, typeType);
   new GlobalVariable(*context.getModule(),
-                     stringConstant->getType(),
+                     llvm::ArrayType::get(Type::getInt8Ty(llvmContext), typeType.length() + 1),
                      true,
-                     GlobalValue::LinkageTypes::LinkOnceODRLinkage,
-                     stringConstant,
+                     GlobalValue::LinkageTypes::ExternalLinkage,
+                     object->isExternal() ? nullptr : stringConstant,
                      object->getObjectNameGlobalVariableName());
 }
 
