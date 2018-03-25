@@ -18,6 +18,11 @@ interface IWorkerThread extends IThread {
   boolean hasStarted();
   
   /**
+   * Tells whether the worker thread has result ready
+   */
+  boolean hasResult();
+  
+  /**
    * Waits for thread to finish and returns the result
    */
   ::llvm::i8* awaitResult();

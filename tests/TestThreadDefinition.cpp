@@ -226,13 +226,13 @@ TEST_F(TestFileSampleRunner, threadDefinitionRunTest) {
 
 TEST_F(TestFileSampleRunner, threadRunRunTest) {
   runFileCheckOutput("tests/samples/test_thread_run.yz",
-                     "Thread started = 0\n"
+                     "Thread started = 0, has result = 0\n"
                      "Starting worker thread\n"
                      "Worker thread started\n"
-                     "Thread started = 1\n"
+                     "Thread started = 1, has result = 0\n"
                      "Getting call stack!\n"
                      "This is worker thread!\n"
                      "Worker thread finished with result: 5\n"
-                     "Thread started = 1\n",
+                     "Thread started = 1, has result = 1\n",
                      "");
 }

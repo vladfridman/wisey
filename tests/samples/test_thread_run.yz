@@ -26,6 +26,10 @@ thread TWorker implements IWorkerThread {
     return mWorkerThreadRunner.hasStarted();
   }
 
+  public boolean hasResult() {
+    return mResult != null;
+  }
+
   public ::llvm::i8* awaitResult() {
     mWorkerThreadRunner.joinThread();
 
@@ -53,14 +57,14 @@ controller CProgram implements IProgram {
   inject TWorker* mWorker;
 
   public int run() {
-    printout("Thread started = " + mWorker.hasStarted() + "\n");
+    printout("Thread started = " + mWorker.hasStarted() + ", has result = " + mWorker.hasResult() + "\n");
     printout("Starting worker thread\n");
     mWorker.start();
     printout("Worker thread started\n");
-    printout("Thread started = " + mWorker.hasStarted() + "\n");
+    printout("Thread started = " + mWorker.hasStarted() + ", has result = " + mWorker.hasResult() + "\n");
     int result = ((MResult) mWorker.awaitResult()).getResult();
     printout("Worker thread finished with result: " + result + "\n");
-    printout("Thread started = " + mWorker.hasStarted() + "\n");
+    printout("Thread started = " + mWorker.hasStarted() + ", has result = " + mWorker.hasResult() + "\n");
 
     return result;
   }
