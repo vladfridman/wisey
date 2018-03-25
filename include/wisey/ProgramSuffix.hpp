@@ -24,8 +24,7 @@ namespace wisey {
     
   private:
     
-    llvm::Value* generateMain(IRGenerationContext& context,
-                              InterfaceTypeSpecifier* programInterfaceSpecifier) const;
+    llvm::Value* generateMain(IRGenerationContext& context) const;
   };
   
 } /* namespace wisey */

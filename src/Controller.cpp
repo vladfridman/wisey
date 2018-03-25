@@ -428,7 +428,7 @@ void Controller::initializeInjectedFields(IRGenerationContext& context,
       Thread* thread = (Thread*) fieldType->getObjectType();
       fieldValue = thread->inject(context, field->getInjectionArguments(), line);
     } else if (fieldType->isInterface()) {
-      Interface* inteface = (Interface*) fieldType;
+      Interface* inteface = (Interface*) fieldType->getObjectType();
       fieldValue = inteface->inject(context, field->getInjectionArguments(), line);
     } else {
       Log::e("Attempt to inject a variable that is not of injectable type");

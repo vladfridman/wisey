@@ -34,11 +34,6 @@ IField* InjectedFieldDefinition::define(IRGenerationContext& context,
                                          const IObjectType* objectType) const {
   const IType* fieldType = mTypeSpecifier->getType(context);
   
-  if (fieldType->isInterface() && fieldType->isOwner()) {
-    Interface* interface = (Interface*) fieldType->getObjectType();
-    fieldType = context.getBoundController(interface)->getOwner();
-  }
-  
   const IType* injectedType = NULL;
   if (fieldType->isArray() && fieldType->isOwner()) {
     injectedType = fieldType;

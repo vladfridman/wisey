@@ -24,8 +24,7 @@ thread TMainThread implements IWorkerThread {
   inject CWorkerThreadRunner* mWorkerThreadRunner;
   inject CProgramRunner* mProgramRunner;
   inject CCallStack* mCallStack;
-  
-  receive IProgram* mProgram;
+  inject IProgram* mProgram;
 
   state MMainThreadMessage* mMessage;
 

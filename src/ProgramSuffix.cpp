@@ -50,17 +50,16 @@ Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {
   PackageType* packageType = context.getPackageType(Names::getLangPackageName());
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   InterfaceTypeSpecifier* programInterfaceSpecifier =
-    new InterfaceTypeSpecifier(packageExpression, Names::getIProgramName());
+  new InterfaceTypeSpecifier(packageExpression, Names::getIProgramName());
   Interface* interface = (Interface*) programInterfaceSpecifier->getType(context);
   if (!context.hasBoundController(interface)) {
     return NULL;
   }
   
-  return generateMain(context, programInterfaceSpecifier);
+  return generateMain(context);
 }
 
-Value* ProgramSuffix::generateMain(IRGenerationContext& context,
-                                   InterfaceTypeSpecifier* programInterfaceSpecifier) const {
+Value* ProgramSuffix::generateMain(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
 
   FunctionType* mainFunctionType =
@@ -75,28 +74,11 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   context.getScopes().setReturnType(PrimitiveTypes::INT_TYPE);
   
   InjectionArgumentList injectionArguments;
-  Injector* injector = new Injector(programInterfaceSpecifier, injectionArguments, 0);
-  Identifier* programIdentifier = new Identifier("program");
-  PackageType* packageType = context.getPackageType(Names::getLangPackageName());
-  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  programInterfaceSpecifier = new InterfaceTypeSpecifier(packageExpression,
-                                                         Names::getIProgramName());
-  ObjectOwnerTypeSpecifier* programObjectOwnerTypeSpecifier =
-  new ObjectOwnerTypeSpecifier(programInterfaceSpecifier);
-  VariableDeclaration* programVariableDeclaration =
-  VariableDeclaration::createWithAssignment(programObjectOwnerTypeSpecifier,
-                                            programIdentifier,
-                                            injector,
-                                            0);
-  programVariableDeclaration->generateIR(context);
-  delete programVariableDeclaration;
-
   Thread* mainThread = context.getThread(Names::getMainThreadFullName());
-  injectionArguments.push_back(new InjectionArgument("withProgram", new Identifier("program")));
   Value* injectedThread = mainThread->inject(context, injectionArguments, 0);
   Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName());
-  packageType = context.getPackageType(Names::getLangPackageName());
-  packageExpression = new FakeExpression(NULL, packageType);
+  PackageType* packageType = context.getPackageType(Names::getLangPackageName());
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   InterfaceTypeSpecifier* threadInterfaceSpecifier =
     new InterfaceTypeSpecifier(packageExpression, Names::getThreadInterfaceName());
   CastExpression* castExpression =

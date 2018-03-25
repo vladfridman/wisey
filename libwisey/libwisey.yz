@@ -154,7 +154,7 @@ external thread wisey.lang.TMainThread
   inject wisey.lang.CWorkerThreadRunner* mWorkerThreadRunner;
   inject wisey.lang.CProgramRunner* mProgramRunner;
   inject wisey.lang.CCallStack* mCallStack;
-  receive wisey.lang.IProgram* mProgram;
+  inject wisey.lang.IProgram* mProgram;
   state wisey.lang.MMainThreadMessage* mMessage;
 
   void start();
