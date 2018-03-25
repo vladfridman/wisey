@@ -63,18 +63,3 @@ controller COrchestrator implements IOrchestrator {
     return mUIThread.getMessage();
   }
 }
-
-/*
-
-Threads have these methods:
-
-  hasStarted() - done
-  start() - done
-  stop()
-  hasMessage()
-  getMessage() - n/a
-  awaitMessage() - done
-  send(<message>) - done
-  sleep(int milliseconds) - done
-
-*/

@@ -45,7 +45,9 @@ external interface wisey.lang.IWorkerThread
   void start();
   boolean hasStarted();
   boolean hasResult();
+  boolean wasCancelled();
   ::llvm::i8* awaitResult();
+  void cancel();
   void work();
 }
 
@@ -139,12 +141,15 @@ external controller wisey.lang.CProgramRunner {
 external controller wisey.lang.CWorkerThreadRunner {
 
   state ::llvm::struct::_opaque_pthread_t* mMyNativeThread;
+  state boolean mIsCanceled;
 
   void createThread(
     wisey.lang.IWorkerThread workerThread);
   void joinThread();
   void exitThread();
+  void cancelThread();
   boolean hasStarted();
+  boolean wasCancelled();
 }
 
 /* Nodes */
@@ -163,7 +168,9 @@ external thread wisey.lang.TMainThread
   void start();
   boolean hasStarted();
   boolean hasResult();
+  boolean wasCancelled();
   ::llvm::i8* awaitResult();
+  void cancel();
   void work();
   void send(
     ::llvm::i8* programResult);

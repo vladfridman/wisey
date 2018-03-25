@@ -26,6 +26,8 @@ import wisey.lang.IWorkerThread;
 
 ::llvm::function ::llvm::void pthread_join(::llvm::struct::_opaque_pthread_t*, ::llvm::i8**);
 
+::llvm::function ::llvm::void pthread_cancel(::llvm::struct::_opaque_pthread_t*);
+
 ::llvm::function ::llvm::void pthread_exit(::llvm::i8*);
 
 /**
@@ -33,6 +35,7 @@ import wisey.lang.IWorkerThread;
  */
 controller CWorkerThreadRunner {
   state ::llvm::struct::_opaque_pthread_t* mMyNativeThread;
+  state boolean mIsCanceled;
 
   /**
    * This native function bridges work() method of the thread object with the i8* (i8*)* function 
@@ -61,7 +64,9 @@ controller CWorkerThreadRunner {
    * Waits for thread to finish its work
    */
   public void joinThread() {
-    ::llvm::function::pthread_join(mMyNativeThread, (::llvm::i8**) null);
+    if (!mIsCanceled) {
+      ::llvm::function::pthread_join(mMyNativeThread, (::llvm::i8**) null);
+    }
   }
 
   /**
@@ -72,9 +77,24 @@ controller CWorkerThreadRunner {
   }
 
   /**
+   * Cancel execution of the worker thread
+   */
+  public void cancelThread() {
+    ::llvm::function::pthread_cancel(mMyNativeThread);
+    mIsCanceled = true;
+  }
+
+  /**
    * Tells whether thread has started
    */
   public boolean hasStarted() {
     return mMyNativeThread != null;
+  }
+
+  /**
+   * Tells whether the worker thread has been cancelled
+   */
+  public boolean wasCancelled() {
+    return mIsCanceled;
   }
 }

@@ -3,6 +3,7 @@ package systems.vos.wisey.compiler.tests;
 import wisey.lang.CCallStack;
 import wisey.lang.CWorkerThreadRunner;
 import wisey.lang.IProgram;
+import wisey.lang.IThread;
 import wisey.lang.IWorkerThread;
 
 model MResult {
@@ -45,6 +46,7 @@ thread TWorker implements IWorkerThread {
   }
 
   public void work() {
+    IThread.sleep(5);
     printout("This is worker thread!\n");
     MResult* result = builder(MResult).withResult(5).build();
     thread.send(result);
@@ -65,16 +67,21 @@ controller CProgram implements IProgram {
   inject TWorker* mWorker;
 
   public int run() {
-    printout("Thread started = " + mWorker.hasStarted() + ", has result = " + mWorker.hasResult() + "\n");
+    printout("Thread started = " + mWorker.hasStarted() + ", has result = " + mWorker.hasResult() + 
+      ", was cancelled = " + mWorker.wasCancelled() + "\n");
     printout("Starting worker thread\n");
     mWorker.start();
     printout("Worker thread started\n");
-    printout("Thread started = " + mWorker.hasStarted() + ", has result = " + mWorker.hasResult() + "\n");
-    int result = ((MResult) mWorker.awaitResult()).getResult();
-    printout("Worker thread finished with result: " + result + "\n");
-    printout("Thread started = " + mWorker.hasStarted() + ", has result = " + mWorker.hasResult() + "\n");
-
-    return result;
+    printout("Thread started = " + mWorker.hasStarted() + ", has result = " + mWorker.hasResult() + 
+      ", was cancelled = " + mWorker.wasCancelled() + "\n");
+    mWorker.cancel();
+    printout("Worker thread cancelled\n");
+    printout("Thread started = " + mWorker.hasStarted() + ", has result = " + mWorker.hasResult() + 
+      ", was cancelled = " + mWorker.wasCancelled() + "\n");
+    if (mWorker.awaitResult() == null) {
+      printout("Thread result is null\n");
+    }
+    return 0;
   }
 }
 

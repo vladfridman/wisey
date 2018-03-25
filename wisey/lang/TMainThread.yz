@@ -29,10 +29,18 @@ thread TMainThread implements IWorkerThread {
     return mProgramResult != null;
   }
 
+  public boolean wasCancelled() {
+    return mWorkerThreadRunner.wasCancelled();
+  }
+
   public ::llvm::i8* awaitResult() {
     mWorkerThreadRunner.joinThread();
 
     return mProgramResult;
+  }
+
+  public void cancel() {
+    mWorkerThreadRunner.cancelThread();
   }
 
   public void work() {

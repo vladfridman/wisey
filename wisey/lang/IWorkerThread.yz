@@ -23,9 +23,19 @@ interface IWorkerThread extends IThread {
   boolean hasResult();
   
   /**
+   * Tells whether the worker thread was cancelled
+   */
+  boolean wasCancelled();
+  
+  /**
    * Waits for thread to finish and returns the result
    */
   ::llvm::i8* awaitResult();
+
+  /**
+   * Cancel expecution of the worker thread
+   */
+  void cancel();
 
   /**
    * This method is called when thread is started
