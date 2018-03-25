@@ -21,7 +21,7 @@ thread TMainThread implements IWorkerThread {
     mWorkerThreadRunner.createThread(this);
   }
 
-  public ::llvm::i8* waitForResult() {
+  public ::llvm::i8* awaitResult() {
     mWorkerThreadRunner.joinThread();
 
     return mProgramResult;

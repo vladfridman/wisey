@@ -43,7 +43,7 @@ external interface wisey.lang.IWorkerThread
     wisey.lang.IThread {
 
   void start();
-  ::llvm::i8* waitForResult();
+  ::llvm::i8* awaitResult();
   void work();
 }
 
@@ -158,7 +158,7 @@ external thread wisey.lang.TMainThread
   state wisey.lang.MProgramResult* mProgramResult;
 
   void start();
-  ::llvm::i8* waitForResult();
+  ::llvm::i8* awaitResult();
   void work();
   void send(
     ::llvm::i8* programResult);

@@ -15,7 +15,7 @@ interface IWorkerThread extends IThread {
   /**
    * Waits for thread to finish and returns the result
    */
-  ::llvm::i8* waitForResult();
+  ::llvm::i8* awaitResult();
 
   /**
    * This method is called when thread is started

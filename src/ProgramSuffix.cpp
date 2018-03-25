@@ -114,7 +114,7 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context) const {
   ExpressionStatement startMethodCallStatement(startMethodCall);
   startMethodCallStatement.generateIR(context);
   
-  IdentifierChain* waitMethod = new IdentifierChain(new Identifier("mainThread"), "waitForResult");
+  IdentifierChain* waitMethod = new IdentifierChain(new Identifier("mainThread"), "awaitResult");
   MethodCall* waitMethodCall = new MethodCall(waitMethod, callArguments, 0);
   
   packageExpression = new FakeExpression(NULL, packageType);

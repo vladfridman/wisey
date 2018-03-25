@@ -22,7 +22,7 @@ thread TWorker implements IWorkerThread {
     mWorkerThreadRunner.createThread(this);
   }
 
-  public ::llvm::i8* waitForResult() {
+  public ::llvm::i8* awaitResult() {
     mWorkerThreadRunner.joinThread();
 
     return mResult;
@@ -51,7 +51,7 @@ controller CProgram implements IProgram {
   public int run() {
     printout("Starting worker thread\n");
     mWorker.start();
-    int result = ((MResult) mWorker.waitForResult()).getResult();
+    int result = ((MResult) mWorker.awaitResult()).getResult();
     printout("Worker thread started\n");
     printout("Worker thread result: " + result + "\n");
 
