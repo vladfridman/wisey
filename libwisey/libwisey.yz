@@ -34,6 +34,8 @@ external interface wisey.lang.IThread {
   wisey.lang.CCallStack getCallStack();
   void send(
     ::llvm::i8* message);
+  static void sleep(
+    int seconds);
 }
 
 external interface wisey.lang.IWorkerThread

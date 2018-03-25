@@ -121,7 +121,7 @@ TEST_F(InjectorTest, getVariableTest) {
 TEST_F(InjectorTest, getTypeTest) {
   Injector injector(mInterfaceTypeSpecifier, mInjectionArgumentList, 0);
   
-  EXPECT_EQ(injector.getType(mContext), mController->getOwner());
+  EXPECT_EQ(injector.getType(mContext), mInterface->getOwner());
 }
 
 TEST_F(InjectorTest, isConstantTest) {

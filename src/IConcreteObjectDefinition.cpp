@@ -104,11 +104,6 @@ void IConcreteObjectDefinition::collectFieldTypes(IRGenerationContext& context,
   for (IField* field : fields) {
     const IType* fieldType = field->getType();
     
-    if (field->isInjected() && fieldType->isInterface() && fieldType->isOwner()) {
-      Interface* interface = (Interface*) fieldType->getObjectType();
-      fieldType = context.getBoundController(interface);
-    }
-    
     llvm::Type* llvmType = fieldType->getLLVMType(context);
     types.push_back(llvmType);
   }

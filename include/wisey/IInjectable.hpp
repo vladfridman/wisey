@@ -27,10 +27,10 @@ namespace wisey {
     /**
      * Inject an instance of this injectable object with given arguments
      */
-    virtual llvm::Instruction* inject(IRGenerationContext& context,
-                                      const InjectionArgumentList injectionArgumentList,
-                                      int line) const = 0;
-    
+    virtual llvm::Value* inject(IRGenerationContext& context,
+                                const InjectionArgumentList injectionArgumentList,
+                                int line) const = 0;
+
   };
   
 } /* namespace wisey */

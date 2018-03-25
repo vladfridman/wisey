@@ -164,10 +164,10 @@ namespace wisey {
     
     AccessLevel getAccessLevel() const override;
     
-    llvm::Instruction* inject(IRGenerationContext& context,
-                              const InjectionArgumentList injectionArgumentList,
-                              int line) const override;
-    
+    llvm::Value* inject(IRGenerationContext& context,
+                        const InjectionArgumentList injectionArgumentList,
+                        int line) const override;
+
     IMethodDescriptor* findMethod(std::string methodName) const override;
     
     Constant* findConstant(std::string constantName) const override;

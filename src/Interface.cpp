@@ -783,11 +783,12 @@ void Interface::defineInterfaceTypeName(IRGenerationContext& context) {
                      getObjectNameGlobalVariableName());
 }
 
-Instruction* Interface::inject(IRGenerationContext& context,
-                               InjectionArgumentList injectionArgumentList,
-                               int line) const {
+Value* Interface::inject(IRGenerationContext& context,
+                         InjectionArgumentList injectionArgumentList,
+                         int line) const {
   Controller* controller = context.getBoundController(context.getInterface(getTypeName()));
-  return controller->inject(context, injectionArgumentList, line);
+  Value* controllerValue = controller->inject(context, injectionArgumentList, line);
+  return controller->castTo(context, controllerValue, this, line);
 }
 
 tuple<vector<MethodSignature*>, vector<wisey::Constant*>, vector<StaticMethod*>>
