@@ -57,4 +57,8 @@ controller CWorkerThreadRunner {
   public void exitThread() {
     ::llvm::function::pthread_exit((::llvm::i8*) null);
   }
+
+  public boolean hasStarted() {
+    return mMyNativeThread != null;
+  }
 }

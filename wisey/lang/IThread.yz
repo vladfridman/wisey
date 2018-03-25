@@ -20,7 +20,6 @@ interface IThread {
    */
   void send(::llvm::i8* message);
 
-
   /**
    * Method for putting the current thread to sleep
    */

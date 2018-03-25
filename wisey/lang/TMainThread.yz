@@ -21,6 +21,10 @@ thread TMainThread implements IWorkerThread {
     mWorkerThreadRunner.createThread(this);
   }
 
+  public boolean hasStarted() {
+    return mWorkerThreadRunner.hasStarted();
+  }
+
   public ::llvm::i8* awaitResult() {
     mWorkerThreadRunner.joinThread();
 

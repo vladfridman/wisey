@@ -43,6 +43,7 @@ external interface wisey.lang.IWorkerThread
     wisey.lang.IThread {
 
   void start();
+  boolean hasStarted();
   ::llvm::i8* awaitResult();
   void work();
 }
@@ -142,6 +143,7 @@ external controller wisey.lang.CWorkerThreadRunner {
     wisey.lang.IWorkerThread workerThread);
   void joinThread();
   void exitThread();
+  boolean hasStarted();
 }
 
 /* Nodes */
@@ -158,6 +160,7 @@ external thread wisey.lang.TMainThread
   state wisey.lang.MProgramResult* mProgramResult;
 
   void start();
+  boolean hasStarted();
   ::llvm::i8* awaitResult();
   void work();
   void send(

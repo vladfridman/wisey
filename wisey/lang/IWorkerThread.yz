@@ -12,6 +12,12 @@ interface IWorkerThread extends IThread {
    */
   void start();
 
+
+  /**
+   * Tells whether the worker thread has started running
+   */
+  boolean hasStarted();
+  
   /**
    * Waits for thread to finish and returns the result
    */

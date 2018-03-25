@@ -68,13 +68,13 @@ controller COrchestrator implements IOrchestrator {
 
 Threads have these methods:
 
-  isStarted()
-  start()
+  hasStarted() - done
+  start() - done
   stop()
   hasMessage()
-  getMessage()
-  awaitMessage()
-  send(<message>)
-  sleep(int milliseconds)
+  getMessage() - n/a
+  awaitMessage() - done
+  send(<message>) - done
+  sleep(int milliseconds) - done
 
 */
