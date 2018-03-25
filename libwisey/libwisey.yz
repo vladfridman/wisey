@@ -73,18 +73,18 @@ external model wisey.lang.MCastException
   string getToType();
 }
 
-external model wisey.lang.MMainThreadMessage {
-
-  fixed int mContent;
-
-  int getContent();
-}
-
 external model wisey.lang.MNullPointerException
   implements
     wisey.lang.IException {
 
   string getName();
+}
+
+external model wisey.lang.MProgramResult {
+
+  fixed int mResult;
+
+  int getResult();
 }
 
 external model wisey.lang.MReferenceCountException
@@ -129,8 +129,9 @@ external controller wisey.lang.CCallStack {
 
 external controller wisey.lang.CProgramRunner {
 
-  static int run(
-    wisey.lang.IProgram* runnable);
+  inject wisey.lang.IProgram* mProgram;
+
+  wisey.lang.MProgramResult* run();
 }
 
 external controller wisey.lang.CWorkerThreadRunner {
@@ -154,14 +155,13 @@ external thread wisey.lang.TMainThread
   inject wisey.lang.CWorkerThreadRunner* mWorkerThreadRunner;
   inject wisey.lang.CProgramRunner* mProgramRunner;
   inject wisey.lang.CCallStack* mCallStack;
-  inject wisey.lang.IProgram* mProgram;
-  state wisey.lang.MMainThreadMessage* mMessage;
+  state wisey.lang.MProgramResult* mProgramResult;
 
   void start();
   ::llvm::i8* waitForResult();
   void work();
   void send(
-    ::llvm::i8* message);
+    ::llvm::i8* programResult);
   wisey.lang.CCallStack getCallStack();
 }
 

@@ -119,9 +119,9 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context) const {
   
   packageExpression = new FakeExpression(NULL, packageType);
   ModelTypeSpecifier* mainThreadMessageSpecifier =
-  new ModelTypeSpecifier(packageExpression, Names::getMainThreadMessageShortName());
+  new ModelTypeSpecifier(packageExpression, Names::getProgramResultShortName());
   CastExpression* castToMessage = new CastExpression(mainThreadMessageSpecifier, waitMethodCall, 0);
-  IdentifierChain* getContentMethod = new IdentifierChain(castToMessage, "getContent");
+  IdentifierChain* getContentMethod = new IdentifierChain(castToMessage, "getResult");
   MethodCall* getContent = new MethodCall(getContentMethod, callArguments, 0);
   ReturnStatement returnStatement(getContent, 0);
   returnStatement.generateIR(context);

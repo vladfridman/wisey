@@ -5,17 +5,7 @@ import wisey.lang.CProgramRunner;
 import wisey.lang.CWorkerThreadRunner;
 import wisey.lang.IProgram;
 import wisey.lang.IWorkerThread;
-
-/**
- * Represents main thread result container
- */
-model MMainThreadMessage {
-  int mContent;
-
-  public int getContent() {
-    return mContent;
-  }
-}
+import wisey.lang.MProgramResult;
 
 /**
  * Represents main thread where the program runs
@@ -24,9 +14,8 @@ thread TMainThread implements IWorkerThread {
   inject CWorkerThreadRunner* mWorkerThreadRunner;
   inject CProgramRunner* mProgramRunner;
   inject CCallStack* mCallStack;
-  inject IProgram* mProgram;
 
-  state MMainThreadMessage* mMessage;
+  state MProgramResult* mProgramResult;
 
   public void start() {
     mWorkerThreadRunner.createThread(this);
@@ -35,17 +24,16 @@ thread TMainThread implements IWorkerThread {
   public ::llvm::i8* waitForResult() {
     mWorkerThreadRunner.joinThread();
 
-    return mMessage;
+    return mProgramResult;
   }
 
   public void work() {
-    int result = mProgramRunner.run(mProgram);
-    MMainThreadMessage* message = builder(MMainThreadMessage).withContent(result).build();
-    thread.send((::llvm::i8*) message);
+    MProgramResult* programResult = mProgramRunner.run();
+    thread.send((::llvm::i8*) programResult);
   }
 
-  public void send(::llvm::i8* message) {
-    mMessage = message;
+  public void send(::llvm::i8* programResult) {
+    mProgramResult = programResult;
     mWorkerThreadRunner.exitThread();
   }
 

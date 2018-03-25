@@ -59,12 +59,8 @@ string Names::getMainThreadFullName() {
   return getLangPackageName() + "." + getMainThreadShortName();
 }
 
-string Names::getMainThreadMessageShortName() {
-  return "MMainThreadMessage";
-}
-
-string Names::getMainThreadMessageFullName() {
-  return getLangPackageName() + "." + getMainThreadMessageShortName();
+string Names::getProgramResultShortName() {
+  return "MProgramResult";
 }
 
 string Names::getThreadSetObjectAndMethod() {

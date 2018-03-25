@@ -8,13 +8,25 @@ import wisey.lang.MReferenceCountException;
 import wisey.lang.MStackOverflowException;
 
 /**
+ * Represents program result
+ */
+model MProgramResult {
+  int mResult;
+
+  public int getResult() {
+    return mResult;
+  }
+}
+
+/**
  * Injects program controller and runs it
  */
 controller CProgramRunner {
+  inject IProgram* mProgram;
 
-  public static int run(IProgram* runnable) {
+  public MProgramResult* run() {
     try {
-      return runnable.run();
+      return builder(MProgramResult).withResult(mProgram.run()).build();
     } catch (MNullPointerException* exception) {
       thread.getCallStack().reportException(exception);
       exit(1);
