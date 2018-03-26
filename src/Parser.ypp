@@ -309,7 +309,7 @@
 %type <list_of_ulongs> llvm_array_dimensions
 
 %left '+' '-'
-%left '*' '/'
+%left '*' '/' '%'
 
 /**
  * Expect one shift/reduce conflit: the dangling ELSE
@@ -1233,6 +1233,8 @@ multiplicative_expression
     { $$ = new AdditiveMultiplicativeExpression($1, '*', $3, yylineno); }
   | multiplicative_expression '/' cast_expression
     { $$ = new AdditiveMultiplicativeExpression($1, '/', $3, yylineno); }
+  | multiplicative_expression '%' cast_expression
+    { $$ = new AdditiveMultiplicativeExpression($1, '%', $3, yylineno); }
   ;
 
 additive_expression

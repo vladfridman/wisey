@@ -207,6 +207,10 @@ TEST_F(TestFileSampleRunner, divisionRunTest) {
   runFile("tests/samples/test_division.yz", "5");
 }
 
+TEST_F(TestFileSampleRunner, moduloRunTest) {
+  runFile("tests/samples/test_modulo.yz", "3");
+}
+
 TEST_F(TestFileSampleRunner, additionWithCastRunTest) {
   runFile("tests/samples/test_addition_with_cast.yz", "3");
 }

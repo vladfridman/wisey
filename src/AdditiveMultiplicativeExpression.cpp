@@ -56,6 +56,7 @@ Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context
     case '-': name = "sub"; instruction = isFloat ? Instruction::FSub : Instruction::Sub; break;
     case '*': name = "mul"; instruction = isFloat ? Instruction::FMul : Instruction::Mul; break;
     case '/': name = "div"; instruction = isFloat ? Instruction::FDiv : Instruction::SDiv; break;
+    case '%': name = "div"; instruction = isFloat ? Instruction::FRem : Instruction::SRem; break;
     default: return NULL;
   }
   
