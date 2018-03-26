@@ -59,7 +59,7 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   Value* result = IRWriter::newLoadInst(context, resultStore, "");
   
   if (assignToType->isOwner()) {
-    assert(elementType->isOwner());
+    assert(elementType->isOwner() || (elementType->isReference() && elementType->isNative()));
     Value* null = ConstantPointerNull::get((llvm::PointerType* ) resultLLVMType);
     IRWriter::newStoreInst(context, null, resultStore);
   }

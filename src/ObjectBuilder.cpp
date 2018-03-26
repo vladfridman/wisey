@@ -44,7 +44,7 @@ Value* ObjectBuilder::generateIR(IRGenerationContext& context, const IType* assi
   IBuildableConcreteObjectType* buildableType = (IBuildableConcreteObjectType*) objectType;
   Instruction* malloc = buildableType->build(context, mObjectBuilderArgumentList, mLine);
   
-  if (assignToType->isOwner()) {
+  if (assignToType->isOwner() || (assignToType->isNative() && assignToType->isReference())) {
     return malloc;
   }
   

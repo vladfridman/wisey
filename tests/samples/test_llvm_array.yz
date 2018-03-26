@@ -1,0 +1,27 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+model MElement {
+  int mContent;
+
+  public int getContent() {
+    return mContent;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    ::llvm::i8*[]* array = new ::llvm::i8*[5];
+    array[0] = builder(MElement).withContent(0).build();
+    array[1] = builder(MElement).withContent(1).build();
+    array[2] = builder(MElement).withContent(2).build();
+    array[3] = builder(MElement).withContent(3).build();
+    array[4] = builder(MElement).withContent(4).build();
+
+    return ((MElement*) array[4]).getContent();
+  }
+}
+
+bind(CProgram).to(IProgram);

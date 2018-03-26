@@ -1357,7 +1357,6 @@ type_specifier
   : non_array_type_specifier
   | array_type_specifier { $$ = (ITypeSpecifier*) $1; }
   | array_owner_type_specifier { $$ = (ITypeSpecifier*) $1; }
-  | llvm_type_specifier { $$ = (ITypeSpecifier*) $1; }
   ;
 
 injectable_type_specifier
@@ -1370,6 +1369,7 @@ non_array_type_specifier
   | top_level_object_type_specifier { $$ = (ITypeSpecifier*) $1; }
   | inner_object_type_specifier { $$ = (ITypeSpecifier*) $1; }
   | object_owner_type_specifier
+  | llvm_type_specifier { $$ = (ITypeSpecifier*) $1; }
   ;
 
 object_owner_type_specifier

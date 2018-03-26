@@ -15,6 +15,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "MockConcreteObjectType.hpp"
+#include "TestFileSampleRunner.hpp"
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/ArrayType.hpp"
 #include "wisey/FixedField.hpp"
@@ -161,4 +162,8 @@ TEST_F(ArrayTypeTest, createParameterVariableTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(TestFileSampleRunner, llvmArrayRunTest) {
+  runFile("tests/samples/test_llvm_array.yz", "4");
 }

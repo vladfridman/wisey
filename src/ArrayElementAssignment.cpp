@@ -19,7 +19,14 @@ llvm::Value* ArrayElementAssignment::generateElementAssignment(IRGenerationConte
                                                                const IExpression* assignToExpression,
                                                                llvm::Value* elementStore,
                                                                int line) {
-  if (elementType->isOwner()) {
+  if (elementType->isReference() && elementType->isNative()) {
+    return generateLLVMPointerElementAssignment(context,
+                                                elementType,
+                                                assignToExpression,
+                                                elementStore,
+                                                line);
+  }
+  if (elementType->isOwner() || (elementType->isReference() && elementType->isNative())) {
     return generateOwnerElementAssignment(context,
                                           elementType,
                                           assignToExpression,
@@ -42,6 +49,21 @@ llvm::Value* ArrayElementAssignment::generateElementAssignment(IRGenerationConte
                                             elementStore,
                                             line);
 
+}
+
+llvm::Value* ArrayElementAssignment::
+generateLLVMPointerElementAssignment(IRGenerationContext& context,
+                                     const IType* elementType,
+                                     const IExpression* assignToExpression,
+                                     llvm::Value* elementStore,
+                                     int line) {
+  Value* assignToValue = assignToExpression->generateIR(context, elementType);
+  const IType* assignToType = assignToExpression->getType(context);
+  Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, elementType, line);
+  
+  IRWriter::newStoreInst(context, newValue, elementStore);
+  
+  return newValue;
 }
 
 llvm::Value* ArrayElementAssignment::
@@ -76,7 +98,7 @@ generateReferenceElementAssignment(IRGenerationContext& context,
   const IReferenceType* referenceType = (const IReferenceType*) elementType;
   referenceType->decrementReferenceCount(context, elementLoaded);
   referenceType->incrementReferenceCount(context, newValue);
-  
+
   IRWriter::newStoreInst(context, newValue, elementStore);
   
   return newValue;
