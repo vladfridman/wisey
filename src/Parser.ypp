@@ -209,10 +209,10 @@
 
 %token <token> TANDOP TBIND TBREAK TBUILD TBUILDER TCASE TCATCH TCEQ TCGE TCLE TINCOP
 %token <token> TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDO TDOUBLECOLON TELSE TEXIT TEXTENDS 
-%token <token> TEXTERNAL TDEFAULT TFALLTHROUGH TFALSE TFIXED TFOR TIF TIMPLEMENTS TIMPORT TINJECTOR 
+%token <token> TEXTERNAL TDEFAULT TFALLTHROUGH TFALSE TFIXED TFOR TIF TIMPLEMENTS TIMPORT TINJECTOR
 %token <token> TINJECT TINSTANCEOF TINTERFACE  
-%token <token> TLLVM TLLVMFUNCTION TLLVMI1 TLLVMI8 TLLVMI16 TLLVMI32 TLLVMI64 TLLVMSTRUCT TLLVMVOID
-%token <token> TLLVMREFERENCE
+%token <token> TLLVM TLLVMARRAY TLLVMFUNCTION TLLVMI1 TLLVMI8 TLLVMI16 TLLVMI32 TLLVMI64
+%token <token> TLLVMSTRUCT TLLVMVOID TLLVMREFERENCE
 %token <token> TMODEL TNEW TNODE TNULL TOROP TPACKAGE 
 %token <token> TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN TSTATE TSTATIC 
 %token <token> TSWITCH TTHREAD TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN 
@@ -418,19 +418,19 @@ llvm_struct_specifier
   ;
 
 llvm_array_specifier
-  : llvm_non_array_type_specifier llvm_array_dimensions
-    { $$ = new LLVMArrayTypeSpecifer($1, *$2); delete $2; }
+  : TLLVM TLLVMARRAY '(' llvm_non_array_type_specifier ',' llvm_array_dimensions ')'
+    { $$ = new LLVMArrayTypeSpecifer($4, *$6); delete $6; }
   ;
 
 llvm_array_dimensions
-  : '[' TINTEGER ']' 
+  : TINTEGER
     { 
       $$ = new std::list<unsigned long>();
-      $$->push_back(atol($2->c_str()));
-      delete $2;
+      $$->push_back(atol($1->c_str()));
+      delete $1;
     }
-  | llvm_array_dimensions '[' TINTEGER ']' 
-    { $1->push_back(atol($3->c_str())); $$ = $1; }
+  | llvm_array_dimensions ',' TINTEGER 
+    { $1->push_back(atol($3->c_str())); delete $3; $$ = $1; }
   ;
 
 llvm_function_type_specifier

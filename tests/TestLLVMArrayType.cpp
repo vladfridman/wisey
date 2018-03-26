@@ -58,7 +58,7 @@ TEST_F(LLVMArrayTypeTest, getDimensionsTest) {
 }
 
 TEST_F(LLVMArrayTypeTest, getNameTest) {
-  EXPECT_STREQ("::llvm::i8 [5]", mLLVMArrayType->getTypeName().c_str());
+  EXPECT_STREQ("::llvm::array(::llvm::i8, 5)", mLLVMArrayType->getTypeName().c_str());
 }
 
 TEST_F(LLVMArrayTypeTest, getLLVMTypeTest) {
@@ -110,5 +110,5 @@ TEST_F(LLVMArrayTypeTest, printToStreamTest) {
   stringstream stringStream;
   mLLVMArrayType->printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("::llvm::i8 [5]", stringStream.str().c_str());
+  EXPECT_STREQ("::llvm::array(::llvm::i8, 5)", stringStream.str().c_str());
 }

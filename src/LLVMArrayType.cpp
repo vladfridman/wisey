@@ -33,11 +33,12 @@ const ILLVMType* LLVMArrayType::getElementType() const {
 }
 
 string LLVMArrayType::getTypeName() const {
-  string name = mElementType->getTypeName();
-  name = name + " ";
-  for (unsigned long dimension : mDimensions) {
-    name = name + "[" + to_string(dimension) + "]";
+  string name = "::llvm::array(" + mElementType->getTypeName();
+  for (long dimension : mDimensions) {
+    name = name + ", " + to_string(dimension);
   }
+  name = name + ")";
+
   return name;
 }
 

@@ -25,11 +25,11 @@ LLVMArrayType* LLVMArrayTypeSpecifer::getType(IRGenerationContext& context) cons
   return context.getLLVMArrayType(mElementTypeSpecifier->getType(context), mDimensions);
 }
 
-void LLVMArrayTypeSpecifer::printToStream(IRGenerationContext& context,
-                                               iostream &stream) const {
+void LLVMArrayTypeSpecifer::printToStream(IRGenerationContext& context, iostream &stream) const {
+  stream << "::llvm::array(";
   mElementTypeSpecifier->printToStream(context, stream);
-  stream << " ";
   for (long dimension : mDimensions) {
-    stream << "[" << dimension << "]";
+    stream << ", " << dimension;
   }
+  stream << ")";
 }

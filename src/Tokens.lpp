@@ -51,6 +51,7 @@ WS  [ \t\v\n\f]
 [ \t\n]                       ;
 "/*"                          { comment(); }
 "//".*                        { }
+"::array"                     return TOKEN(TLLVMARRAY);
 "::function"                  return TOKEN(TLLVMFUNCTION);
 "::i1"                        return TOKEN(TLLVMI1);
 "::i8"                        return TOKEN(TLLVMI8);

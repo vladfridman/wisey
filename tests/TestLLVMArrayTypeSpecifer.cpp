@@ -37,7 +37,7 @@ TEST_F(LLVMArrayTypeSpeciferTest, creationTest) {
   
   EXPECT_TRUE(arrayType->isArray());
   EXPECT_FALSE(arrayType->isReference());
-  EXPECT_STREQ("::llvm::i8 [5][2]", arrayType->getTypeName().c_str());
+  EXPECT_STREQ("::llvm::array(::llvm::i8, 5, 2)", arrayType->getTypeName().c_str());
   
   EXPECT_EQ(LLVMPrimitiveTypes::I8, arrayType->getElementType());
   EXPECT_EQ(2u, arrayType->getNumberOfDimensions());
@@ -56,6 +56,6 @@ TEST_F(LLVMArrayTypeSpeciferTest, printToStreamTest) {
   stringstream stringStream;
   mLLVMArrayTypeSpecifier->printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("::llvm::i8 [5][2]", stringStream.str().c_str());
+  EXPECT_STREQ("::llvm::array(::llvm::i8, 5, 2)", stringStream.str().c_str());
 }
 

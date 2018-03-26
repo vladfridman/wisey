@@ -8,13 +8,13 @@ external ::llvm::struct __darwin_pthread_handler_rec {
 
 external ::llvm::struct _opaque_pthread_attr_t {
   ::llvm::i64,
-  ::llvm::i8 [56],
+  ::llvm::array(::llvm::i8, 56),
 }
 
 external ::llvm::struct _opaque_pthread_t {
   ::llvm::i64,
   ::llvm::struct::__darwin_pthread_handler_rec*,
-  ::llvm::i8 [8176],
+  ::llvm::array(::llvm::i8, 8176),
 }
 
 /* Interfaces */
