@@ -1,9 +1,9 @@
 /* llvm Structs */
 
 external ::llvm::struct __darwin_pthread_handler_rec {
-  ::llvm::void (::llvm::i8*)*,
-  ::llvm::i8*,
-  ::llvm::struct::__darwin_pthread_handler_rec*,
+  ::llvm::void (::llvm::i8::pointer)::pointer,
+  ::llvm::i8::pointer,
+  ::llvm::struct::__darwin_pthread_handler_rec::pointer,
 }
 
 external ::llvm::struct _opaque_pthread_attr_t {
@@ -13,7 +13,7 @@ external ::llvm::struct _opaque_pthread_attr_t {
 
 external ::llvm::struct _opaque_pthread_t {
   ::llvm::i64,
-  ::llvm::struct::__darwin_pthread_handler_rec*,
+  ::llvm::struct::__darwin_pthread_handler_rec::pointer,
   ::llvm::array(::llvm::i8, 8176),
 }
 
@@ -33,7 +33,7 @@ external interface wisey.lang.IThread {
 
   wisey.lang.CCallStack getCallStack();
   void send(
-    ::llvm::i8* message);
+    ::llvm::i8::pointer message);
   static void sleep(
     int seconds);
 }
@@ -46,7 +46,7 @@ external interface wisey.lang.IWorkerThread
   boolean hasStarted();
   boolean hasResult();
   boolean wasCancelled();
-  ::llvm::i8* awaitResult();
+  ::llvm::i8::pointer awaitResult();
   void cancel();
   void work();
 }
@@ -140,7 +140,7 @@ external controller wisey.lang.CProgramRunner {
 
 external controller wisey.lang.CWorkerThreadRunner {
 
-  state ::llvm::struct::_opaque_pthread_t* mMyNativeThread;
+  state ::llvm::struct::_opaque_pthread_t::pointer mMyNativeThread;
   state boolean mIsCanceled;
 
   void createThread(
@@ -169,11 +169,11 @@ external thread wisey.lang.TMainThread
   boolean hasStarted();
   boolean hasResult();
   boolean wasCancelled();
-  ::llvm::i8* awaitResult();
+  ::llvm::i8::pointer awaitResult();
   void cancel();
   void work();
   void send(
-    ::llvm::i8* programResult);
+    ::llvm::i8::pointer programResult);
   wisey.lang.CCallStack getCallStack();
 }
 

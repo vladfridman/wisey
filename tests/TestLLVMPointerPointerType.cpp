@@ -67,7 +67,7 @@ public:
 TEST_F(LLVMPointerPointerTypeTest, pointerPointerTypeTest) {
   EXPECT_EQ(Type::getInt8Ty(mLLVMContext)->getPointerTo()->getPointerTo(),
             mLLVMPointerPointerType->getLLVMType(mContext));
-  EXPECT_STREQ("::llvm::i8**", mLLVMPointerPointerType->getTypeName().c_str());
+  EXPECT_STREQ("::llvm::i8::pointer::pointer", mLLVMPointerPointerType->getTypeName().c_str());
 }
 
 TEST_F(LLVMPointerPointerTypeTest, canAutoCastToTest) {
@@ -142,5 +142,5 @@ TEST_F(LLVMPointerPointerTypeTest, printToStreamTest) {
   stringstream stringStream;
   mLLVMPointerPointerType->printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("::llvm::i8**", stringStream.str().c_str());
+  EXPECT_STREQ("::llvm::i8::pointer::pointer", stringStream.str().c_str());
 }

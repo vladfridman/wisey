@@ -59,6 +59,7 @@ WS  [ \t\v\n\f]
 "::i32"                       return TOKEN(TLLVMI32);
 "::i64"                       return TOKEN(TLLVMI64);
 "::llvm"                      return TOKEN(TLLVM);
+"::pointer"                   return TOKEN(TLLVMPOINTER);
 "::reference"                 return TOKEN(TLLVMREFERENCE);
 "::struct"                    return TOKEN(TLLVMSTRUCT);
 "::void"                      return TOKEN(TLLVMVOID);

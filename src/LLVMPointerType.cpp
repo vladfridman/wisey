@@ -30,7 +30,7 @@ LLVMPointerType::~LLVMPointerType() {
 }
 
 string LLVMPointerType::getTypeName() const {
-  return mBaseType->getTypeName() + "*";
+  return mBaseType->getTypeName() + "::pointer";
 }
 
 llvm::PointerType* LLVMPointerType::getLLVMType(IRGenerationContext& context) const {

@@ -55,7 +55,8 @@ TEST_F(LLVMFunctionTypeTest, getArgumentTypesTest) {
 }
 
 TEST_F(LLVMFunctionTypeTest, getNameTest) {
-  EXPECT_STREQ("::llvm::i8 (::llvm::i16, ::llvm::i64*)", mLLVMFunctionType->getTypeName().c_str());
+  EXPECT_STREQ("::llvm::i8 (::llvm::i16, ::llvm::i64::pointer)",
+               mLLVMFunctionType->getTypeName().c_str());
 }
 
 TEST_F(LLVMFunctionTypeTest, getLLVMTypeTest) {
@@ -108,5 +109,5 @@ TEST_F(LLVMFunctionTypeTest, printToStreamTest) {
   stringstream stringStream;
   mLLVMFunctionType->printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("::llvm::i8 (::llvm::i16, ::llvm::i64*)", stringStream.str().c_str());
+  EXPECT_STREQ("::llvm::i8 (::llvm::i16, ::llvm::i64::pointer)", stringStream.str().c_str());
 }

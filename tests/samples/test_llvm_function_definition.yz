@@ -5,7 +5,7 @@ import wisey.lang.IThread;
 
 model MMyModel implements IThread {
 
-  public void send(::llvm::i8* message) {
+  public void send(::llvm::i8::pointer message) {
   }
 
   public CCallStack getCallStack() {
@@ -18,7 +18,7 @@ controller CService {
   public void run() {
   }
 
-  ::llvm::function ::llvm::i8* runBridge(::llvm::i8* argument) {
+  ::llvm::function ::llvm::i8::pointer runBridge(::llvm::i8::pointer argument) {
     MMyModel myModel = (MMyModel) argument;
     IThread myThread = (IThread) myModel;
     CCallStack callStack = ::llvm::function::systems.vos.wisey.compiler.tests.MMyModel.getCallStack(myModel, myThread, (CCallStack) null);

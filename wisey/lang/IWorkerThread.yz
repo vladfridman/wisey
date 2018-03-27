@@ -30,7 +30,7 @@ interface IWorkerThread extends IThread {
   /**
    * Waits for thread to finish and returns the result
    */
-  ::llvm::i8* awaitResult();
+  ::llvm::i8::pointer awaitResult();
 
   /**
    * Cancel expecution of the worker thread
