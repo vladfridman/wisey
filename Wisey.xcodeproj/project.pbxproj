@@ -1172,6 +1172,7 @@
 		F51DF6791FDAB2F800475F0B /* IObjectDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IObjectDefinition.cpp; path = src/IObjectDefinition.cpp; sourceTree = "<group>"; };
 		F51DF67C1FDB166800475F0B /* TestIObjectDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestIObjectDefinition.cpp; path = tests/TestIObjectDefinition.cpp; sourceTree = "<group>"; };
 		F52010301F9A4BB200D982B5 /* TestConstantReference.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestConstantReference.cpp; path = tests/TestConstantReference.cpp; sourceTree = "<group>"; };
+		F523D505206BBB0D0017D5B4 /* ILLVMPointerType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ILLVMPointerType.hpp; path = include/wisey/ILLVMPointerType.hpp; sourceTree = "<group>"; };
 		F526D8A61FEBA782008103B9 /* ArrayAllocation.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ArrayAllocation.hpp; path = include/wisey/ArrayAllocation.hpp; sourceTree = "<group>"; };
 		F526D8A71FEBA854008103B9 /* ArrayAllocation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ArrayAllocation.cpp; path = src/ArrayAllocation.cpp; sourceTree = "<group>"; };
 		F526D8AA1FEBB33A008103B9 /* TestArrayAllocation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestArrayAllocation.cpp; path = tests/TestArrayAllocation.cpp; sourceTree = "<group>"; };
@@ -2531,6 +2532,7 @@
 				F5089C721ECD01D9004A1223 /* IHasType.hpp */,
 				F587482D1F921CC60088F1E3 /* IInjectable.hpp */,
 				F5436DB91FCF7D4A003ABF6F /* IInterfaceTypeSpecifier.hpp */,
+				F523D505206BBB0D0017D5B4 /* ILLVMPointerType.hpp */,
 				F54B147C205D6ED40030773F /* ILLVMPrimitiveType.hpp */,
 				F5827054205FAB9700839EC7 /* ILLVMType.hpp */,
 				F54B1481205D71C60030773F /* ILLVMTypeSpecifier.hpp */,

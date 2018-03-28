@@ -151,6 +151,6 @@ const IObjectType* LLVMFunctionType::getObjectType() const {
   return NULL;
 }
 
-const LLVMPointerType* LLVMFunctionType::getPointerType() const {
+const ILLVMPointerType* LLVMFunctionType::getPointerType() const {
   return mPointerType;
 }

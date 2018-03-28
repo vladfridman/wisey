@@ -162,6 +162,10 @@ const IObjectType* FloatType::getObjectType() const {
   return NULL;
 }
 
+const ILLVMPointerType* FloatType::getPointerType() const {
+  assert(false);
+}
+
 const PrimitiveTypeSpecifier* FloatType::newTypeSpecifier() const {
   return new PrimitiveTypeSpecifier(this);
 }

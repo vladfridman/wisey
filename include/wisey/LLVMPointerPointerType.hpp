@@ -11,14 +11,14 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/LLVMPointerPointerType.hpp"
+#include "wisey/LLVMPointerType.hpp"
 
 namespace wisey {
   
   /**
    * Represents an llvm pointer type to a pointer type
    */
-  class LLVMPointerPointerType : public ILLVMType {
+  class LLVMPointerPointerType : public ILLVMPointerType {
     
     const LLVMPointerType* mBaseType;
     
@@ -81,7 +81,7 @@ namespace wisey {
     
     const IObjectType* getObjectType() const override;
     
-    const ILLVMType* getPointerType() const override;
+    const ILLVMPointerType* getPointerType() const override;
     
   };
   

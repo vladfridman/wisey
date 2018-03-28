@@ -162,6 +162,10 @@ const IObjectType* DoubleType::getObjectType() const {
   return NULL;
 }
 
+const ILLVMPointerType* DoubleType::getPointerType() const {
+  assert(false);
+}
+
 const PrimitiveTypeSpecifier* DoubleType::newTypeSpecifier() const {
   return new PrimitiveTypeSpecifier(this);
 }

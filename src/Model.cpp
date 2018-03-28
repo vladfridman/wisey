@@ -521,3 +521,7 @@ const wisey::ArrayType* Model::getArrayType(IRGenerationContext& context) const 
 const Model* Model::getObjectType() const {
   return this;
 }
+
+const ILLVMPointerType* Model::getPointerType() const {
+  assert(false);
+}

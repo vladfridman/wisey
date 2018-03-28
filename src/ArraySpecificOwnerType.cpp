@@ -148,3 +148,6 @@ const IObjectType* ArraySpecificOwnerType::getObjectType() const {
   return NULL;
 }
 
+const ILLVMPointerType* ArraySpecificOwnerType::getPointerType() const {
+  assert(false);
+}

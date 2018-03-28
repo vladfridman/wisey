@@ -984,3 +984,6 @@ const Interface* Interface::getObjectType() const {
   return this;
 }
 
+const ILLVMPointerType* Interface::getPointerType() const {
+  assert(false);
+}

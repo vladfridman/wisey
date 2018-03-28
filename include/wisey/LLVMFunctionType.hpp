@@ -94,7 +94,7 @@ namespace wisey {
     
     const IObjectType* getObjectType() const override;
     
-    const LLVMPointerType* getPointerType() const override;
+    const ILLVMPointerType* getPointerType() const override;
     
   };
   

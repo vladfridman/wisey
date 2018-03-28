@@ -200,3 +200,6 @@ const IObjectType* ArraySpecificType::getObjectType() const {
   return NULL;
 }
 
+const ILLVMPointerType* ArraySpecificType::getPointerType() const {
+  assert(false);
+}

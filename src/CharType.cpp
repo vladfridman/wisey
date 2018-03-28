@@ -165,6 +165,10 @@ const IObjectType* CharType::getObjectType() const {
   return NULL;
 }
 
+const ILLVMPointerType* CharType::getPointerType() const {
+  assert(false);
+}
+
 const PrimitiveTypeSpecifier* CharType::newTypeSpecifier() const {
   return new PrimitiveTypeSpecifier(this);
 }

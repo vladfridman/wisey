@@ -126,6 +126,10 @@ const IObjectType* VoidType::getObjectType() const {
   return NULL;
 }
 
+const ILLVMPointerType* VoidType::getPointerType() const {
+  assert(false);
+}
+
 const PrimitiveTypeSpecifier* VoidType::newTypeSpecifier() const {
   return new PrimitiveTypeSpecifier(this);
 }

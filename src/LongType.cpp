@@ -161,6 +161,10 @@ const IObjectType* LongType::getObjectType() const {
   return NULL;
 }
 
+const ILLVMPointerType* LongType::getPointerType() const {
+  assert(false);
+}
+
 const PrimitiveTypeSpecifier* LongType::newTypeSpecifier() const {
   return new PrimitiveTypeSpecifier(this);
 }

@@ -163,6 +163,10 @@ const IObjectType* IntType::getObjectType() const {
   return NULL;
 }
 
+const ILLVMPointerType* IntType::getPointerType() const {
+  assert(false);
+}
+
 const PrimitiveTypeSpecifier* IntType::newTypeSpecifier() const {
   return new PrimitiveTypeSpecifier(this);
 }

@@ -198,6 +198,8 @@ namespace wisey {
     
     const Node* getObjectType() const override;
     
+    const ILLVMPointerType* getPointerType() const override;
+
   private:
     
     Node(AccessLevel accessLevel, std::string name, llvm::StructType* structType, bool isExternal);

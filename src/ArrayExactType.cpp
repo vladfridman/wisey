@@ -164,3 +164,6 @@ const IObjectType* ArrayExactType::getObjectType() const {
   return NULL;
 }
 
+const ILLVMPointerType* ArrayExactType::getPointerType() const {
+  assert(false);
+}

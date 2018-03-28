@@ -120,4 +120,8 @@ const IObjectType* NullType::getObjectType() const {
   return NULL;
 }
 
+const ILLVMPointerType* NullType::getPointerType() const {
+  assert(false);
+}
+
 NullType* NullType::NULL_TYPE = new NullType();

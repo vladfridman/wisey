@@ -161,3 +161,7 @@ const wisey::ArrayType* ModelOwner::getArrayType(IRGenerationContext& context) c
   ArrayType::reportNonArrayType();
   exit(1);
 }
+
+const ILLVMPointerType* ModelOwner::getPointerType() const {
+  assert(false);
+}

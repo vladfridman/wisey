@@ -211,6 +211,8 @@ namespace wisey {
     
     const Model* getObjectType() const override;
     
+    const ILLVMPointerType* getPointerType() const override;
+
   private:
     
     Model(AccessLevel accessLevel, std::string name, llvm::StructType* structType, bool isExternal);

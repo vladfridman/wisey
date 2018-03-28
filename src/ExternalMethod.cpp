@@ -190,3 +190,6 @@ const wisey::ArrayType* ExternalMethod::getArrayType(IRGenerationContext& contex
   exit(1);
 }
 
+const ILLVMPointerType* ExternalMethod::getPointerType() const {
+  assert(false);
+}

@@ -198,6 +198,8 @@ namespace wisey {
     
     const Controller* getObjectType() const override;
     
+    const ILLVMPointerType* getPointerType() const override;
+
   private:
     
     Controller(AccessLevel accessLevel,

@@ -20,9 +20,9 @@ namespace wisey {
   
   class ArrayType;
   class IConcreteObjectType;
+  class ILLVMPointerType;
   class IObjectType;
   class IRGenerationContext;
-  class PointerType;
   
   /**
    * Interface representing expression type in wisey language
@@ -149,6 +149,11 @@ namespace wisey {
      * Returns IObjectType if this type has one associated with it otherwise returns NULL
      */
     virtual const IObjectType* getObjectType() const = 0;
+    
+    /**
+     * Returns pointer type to this type. Only works for llvm types.
+     */
+    virtual const ILLVMPointerType* getPointerType() const = 0;
     
     /**
      * Tells whether the given type is an object or an object owner type

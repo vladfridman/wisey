@@ -120,3 +120,6 @@ const IObjectType* PackageType::getObjectType() const {
   return NULL;
 }
 
+const ILLVMPointerType* PackageType::getPointerType() const {
+  assert(false);
+}

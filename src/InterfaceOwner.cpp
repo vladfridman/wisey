@@ -174,3 +174,6 @@ const wisey::ArrayType* InterfaceOwner::getArrayType(IRGenerationContext& contex
   exit(1);
 }
 
+const ILLVMPointerType* InterfaceOwner::getPointerType() const {
+  assert(false);
+}

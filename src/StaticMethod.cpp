@@ -257,3 +257,6 @@ const wisey::ArrayType* StaticMethod::getArrayType(IRGenerationContext& context)
   exit(1);
 }
 
+const ILLVMPointerType* StaticMethod::getPointerType() const {
+  assert(false);
+}

@@ -166,6 +166,11 @@ const IObjectType* BooleanType::getObjectType() const {
   return NULL;
 }
 
+const ILLVMPointerType* BooleanType::getPointerType() const {
+  assert(false);
+}
+
 const PrimitiveTypeSpecifier* BooleanType::newTypeSpecifier() const {
   return new PrimitiveTypeSpecifier(this);
 }
+

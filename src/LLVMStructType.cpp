@@ -159,7 +159,7 @@ const IObjectType* LLVMStructType::getObjectType() const {
   return NULL;
 }
 
-const LLVMPointerType* LLVMStructType::getPointerType() const {
+const ILLVMPointerType* LLVMStructType::getPointerType() const {
   return mPointerType;
 }
 

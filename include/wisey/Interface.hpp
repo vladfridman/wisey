@@ -255,6 +255,8 @@ namespace wisey {
     
     const Interface* getObjectType() const override;
     
+    const ILLVMPointerType* getPointerType() const override;
+
   private:
     
     Interface(AccessLevel accessLevel,

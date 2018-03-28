@@ -152,7 +152,7 @@ const IObjectType* LLVMArrayType::getObjectType() const {
   return NULL;
 }
 
-const LLVMPointerType* LLVMArrayType::getPointerType() const {
+const ILLVMPointerType* LLVMArrayType::getPointerType() const {
   return mPointerType;
 }
 

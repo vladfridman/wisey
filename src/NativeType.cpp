@@ -127,7 +127,6 @@ const IObjectType* NativeType::getObjectType() const {
   return NULL;
 }
 
-const ILLVMType* NativeType::getPointerType() const {
+const ILLVMPointerType* NativeType::getPointerType() const {
   return mPointerType;
 }
-

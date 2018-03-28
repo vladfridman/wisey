@@ -488,3 +488,7 @@ const wisey::ArrayType* Node::getArrayType(IRGenerationContext& context) const {
 const Node* Node::getObjectType() const {
   return this;
 }
+
+const ILLVMPointerType* Node::getPointerType() const {
+  assert(false);
+}

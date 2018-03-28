@@ -132,7 +132,6 @@ const IObjectType* LLVMPointerPointerType::getObjectType() const {
   return NULL;
 }
 
-const ILLVMType* LLVMPointerPointerType::getPointerType() const {
+const ILLVMPointerType* LLVMPointerPointerType::getPointerType() const {
   assert(false);
 }
-

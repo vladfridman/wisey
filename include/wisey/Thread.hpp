@@ -196,6 +196,8 @@ namespace wisey {
     
     const Thread* getObjectType() const override;
     
+    const ILLVMPointerType* getPointerType() const override;
+
   private:
     
     Thread(AccessLevel accessLevel,

@@ -533,3 +533,6 @@ const Controller* Controller::getObjectType() const {
   return this;
 }
 
+const ILLVMPointerType* Controller::getPointerType() const {
+  assert(false);
+}
