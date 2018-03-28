@@ -34,12 +34,6 @@ namespace wisey {
 
   private:
     
-    static llvm::Value* generateLLVMPointerElementAssignment(IRGenerationContext& context,
-                                                             const IType* elementType,
-                                                             const IExpression* assignToExpression,
-                                                             llvm::Value* elementStore,
-                                                             int line);
-
     static llvm::Value* generateOwnerElementAssignment(IRGenerationContext& context,
                                                        const IType* elementType,
                                                        const IExpression* assignToExpression,
