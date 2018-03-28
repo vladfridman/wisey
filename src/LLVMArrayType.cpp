@@ -14,9 +14,10 @@
 using namespace std;
 using namespace wisey;
 
-LLVMArrayType::LLVMArrayType(const ILLVMType* elementType, list<unsigned long> dimensions) :
+LLVMArrayType::LLVMArrayType(const IType* elementType, list<unsigned long> dimensions) :
 mElementType(elementType), mDimensions(dimensions) {
   assert(dimensions.size());
+  assert(elementType->isNative());
   mPointerType = new LLVMPointerType(this);
 }
 
@@ -28,7 +29,7 @@ list<unsigned long> LLVMArrayType::getDimensions() const {
   return mDimensions;
 }
 
-const ILLVMType* LLVMArrayType::getElementType() const {
+const IType* LLVMArrayType::getElementType() const {
   return mElementType;
 }
 

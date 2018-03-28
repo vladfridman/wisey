@@ -41,7 +41,7 @@ struct LLVMFunctionTest : public Test {
     arguments.push_back(llvmFunctionArgument);
     Block* block = new Block();
     CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
-    vector<const ILLVMType*> argumentTypes;
+    vector<const IType*> argumentTypes;
     argumentTypes.push_back(LLVMPrimitiveTypes::I64);
     mLLVMFunctionType = new LLVMFunctionType(LLVMPrimitiveTypes::I16, argumentTypes);
     mLLVMFunction = new LLVMFunction("myfunction",
@@ -54,7 +54,7 @@ struct LLVMFunctionTest : public Test {
     ON_CALL(*mObject, getTypeName()).WillByDefault(Return("MSomeObject"));
 
     vector<Type*> argumentLLVMTypes;
-    for (const ILLVMType* argumentType : argumentTypes) {
+    for (const IType* argumentType : argumentTypes) {
       argumentLLVMTypes.push_back(argumentType->getLLVMType(mContext));
     }
     Type* llvmReturnType = LLVMPrimitiveTypes::I16->getLLVMType(mContext);

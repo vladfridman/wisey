@@ -163,7 +163,7 @@ ArrayExactType* IRGenerationContext::getArrayExactType(const IType* elementType,
   return arrayExactType;
 }
 
-LLVMArrayType* IRGenerationContext::getLLVMArrayType(const ILLVMType* elementType,
+LLVMArrayType* IRGenerationContext::getLLVMArrayType(const IType* elementType,
                                                      list<unsigned long> dimensions) {
   string key = elementType->getTypeName();
   for (long dimension : dimensions) {
@@ -308,10 +308,10 @@ LLVMStructType* IRGenerationContext::getLLVMStructType(string name) {
   return mLLVMStructTypes.at(fullName);
 }
 
-LLVMFunctionType* IRGenerationContext::getLLVMFunctionType(const ILLVMType* returnType,
-                                                           vector<const ILLVMType*> argumentTypes) {
+LLVMFunctionType* IRGenerationContext::getLLVMFunctionType(const IType* returnType,
+                                                           vector<const IType*> argumentTypes) {
   string key = returnType->getTypeName() + " (";
-  for (const ILLVMType* argumentType : argumentTypes) {
+  for (const IType* argumentType : argumentTypes) {
     key = key + argumentType->getTypeName();
     if (argumentType != argumentTypes.back()) {
       key = key + ", ";

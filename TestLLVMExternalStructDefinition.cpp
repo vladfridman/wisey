@@ -37,7 +37,7 @@ struct LLVMExternalStructDefinitionTest : public Test {
   BasicBlock* mBasicBlock;
   
   LLVMExternalStructDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
-    vector<const ILLVMTypeSpecifier*> typeSpecifiers;
+    vector<const ITypeSpecifier*> typeSpecifiers;
     typeSpecifiers.push_back(LLVMPrimitiveTypes::I8->newTypeSpecifier());
     typeSpecifiers.push_back(LLVMPrimitiveTypes::I64->newTypeSpecifier());
     mLLVMExternalStructDefinition = new LLVMExternalStructDefinition("mystruct", typeSpecifiers);

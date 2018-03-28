@@ -37,10 +37,10 @@ struct LLVMFunctionDeclarationTest : public Test {
   BasicBlock* mBasicBlock;
   
   LLVMFunctionDeclarationTest() : mLLVMContext(mContext.getLLVMContext()) {
-    vector<const ILLVMTypeSpecifier*> argumentSpecifiers;
+    vector<const ITypeSpecifier*> argumentSpecifiers;
     argumentSpecifiers.push_back(LLVMPrimitiveTypes::I8->newTypeSpecifier());
     argumentSpecifiers.push_back(LLVMPrimitiveTypes::I64->newTypeSpecifier());
-    const ILLVMTypeSpecifier* returnSpecifier = LLVMPrimitiveTypes::VOID->newTypeSpecifier();
+    const ITypeSpecifier* returnSpecifier = LLVMPrimitiveTypes::VOID->newTypeSpecifier();
     mLLVMFunctionDeclaration = new LLVMFunctionDeclaration("myfunction",
                                                            returnSpecifier,
                                                            argumentSpecifiers);

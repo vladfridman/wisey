@@ -13,8 +13,8 @@ using namespace std;
 using namespace wisey;
 
 LLVMFunctionDeclaration::LLVMFunctionDeclaration(std::string name,
-                                                 const ILLVMTypeSpecifier* returnSpecifier,
-                                                 std::vector<const ILLVMTypeSpecifier*>
+                                                 const ITypeSpecifier* returnSpecifier,
+                                                 std::vector<const ITypeSpecifier*>
                                                  argumentSpecifiers) :
 mName(name),
 mReturnSpecifier(returnSpecifier),
@@ -23,7 +23,7 @@ mArgumentSpecifiers(argumentSpecifiers) {
 
 LLVMFunctionDeclaration::~LLVMFunctionDeclaration() {
   delete mReturnSpecifier;
-  for (const ILLVMTypeSpecifier* typeSpecifier : mArgumentSpecifiers) {
+  for (const ITypeSpecifier* typeSpecifier : mArgumentSpecifiers) {
     delete typeSpecifier;
   }
   mArgumentSpecifiers.clear();
@@ -35,7 +35,7 @@ IObjectType* LLVMFunctionDeclaration::prototypeObject(IRGenerationContext& conte
 
 void LLVMFunctionDeclaration::prototypeMethods(IRGenerationContext& context) const {
   vector<Type*> argumentTypes;
-  for (const ILLVMTypeSpecifier* argumentSpecifier : mArgumentSpecifiers) {
+  for (const ITypeSpecifier* argumentSpecifier : mArgumentSpecifiers) {
     argumentTypes.push_back(argumentSpecifier->getType(context)->getLLVMType(context));
   }
   Type* llvmReturnType = mReturnSpecifier->getType(context)->getLLVMType(context);

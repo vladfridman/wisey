@@ -11,24 +11,24 @@
 using namespace std;
 using namespace wisey;
 
-LLVMFunctionTypeSpecifier::LLVMFunctionTypeSpecifier(const ILLVMTypeSpecifier* returnTypeSpecifier,
-                                                     std::vector<const ILLVMTypeSpecifier*>
+LLVMFunctionTypeSpecifier::LLVMFunctionTypeSpecifier(const ITypeSpecifier* returnTypeSpecifier,
+                                                     std::vector<const ITypeSpecifier*>
                                                      argumentTypeSpecifiers) :
 mReturnTypeSpecifier(returnTypeSpecifier), mArgumentTypeSpecifiers(argumentTypeSpecifiers) {
 }
 
 LLVMFunctionTypeSpecifier::~LLVMFunctionTypeSpecifier() {
   delete mReturnTypeSpecifier;
-  for (const ILLVMTypeSpecifier* typeSpecifier : mArgumentTypeSpecifiers) {
+  for (const ITypeSpecifier* typeSpecifier : mArgumentTypeSpecifiers) {
     delete typeSpecifier;
   }
   mArgumentTypeSpecifiers.clear();
 }
 
 LLVMFunctionType* LLVMFunctionTypeSpecifier::getType(IRGenerationContext& context) const {
-  const ILLVMType* returnType = mReturnTypeSpecifier->getType(context);
-  vector<const ILLVMType*> argumentTypes;
-  for (const ILLVMTypeSpecifier* llvmTypeSpecifier : mArgumentTypeSpecifiers) {
+  const IType* returnType = mReturnTypeSpecifier->getType(context);
+  vector<const IType*> argumentTypes;
+  for (const ITypeSpecifier* llvmTypeSpecifier : mArgumentTypeSpecifiers) {
     argumentTypes.push_back(llvmTypeSpecifier->getType(context));
   }
 
@@ -39,7 +39,7 @@ void LLVMFunctionTypeSpecifier::printToStream(IRGenerationContext& context,
                                               iostream &stream) const {
   mReturnTypeSpecifier->printToStream(context, stream);
   stream << " (";
-  for (const ILLVMTypeSpecifier* typeSpecifier : mArgumentTypeSpecifiers) {
+  for (const ITypeSpecifier* typeSpecifier : mArgumentTypeSpecifiers) {
     typeSpecifier->printToStream(context, stream);
     if (typeSpecifier != mArgumentTypeSpecifiers.back()) {
       stream << ", ";

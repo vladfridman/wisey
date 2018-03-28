@@ -210,7 +210,7 @@ struct ModelTest : public Test {
     vector<wisey::Constant*> constants;
     constants.push_back(mConstant);
 
-    vector<const ILLVMType*> functionArgumentTypes;
+    vector<const IType*> functionArgumentTypes;
     LLVMFunctionType* llvmFunctionType = new LLVMFunctionType(LLVMPrimitiveTypes::I8,
                                                               functionArgumentTypes);
     vector<const LLVMFunctionArgument*> llvmFunctionArguments;

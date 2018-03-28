@@ -40,7 +40,7 @@ struct LLVMStructTypeTest : public Test {
   
   LLVMStructTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
     mStructType = StructType::create(mLLVMContext, "mystruct");
-    vector<const ILLVMType*> structBodyTypes;
+    vector<const IType*> structBodyTypes;
     structBodyTypes.push_back(LLVMPrimitiveTypes::I8);
     structBodyTypes.push_back(LLVMPrimitiveTypes::I64);
     mLLVMStructType = LLVMStructType::newLLVMStructType(mStructType);

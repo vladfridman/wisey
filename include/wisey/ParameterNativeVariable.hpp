@@ -10,7 +10,7 @@
 #define ParameterNativeVariable_h
 
 #include "wisey/IExpression.hpp"
-#include "wisey/ILLVMType.hpp"
+#include "wisey/ILLVMPointerType.hpp"
 #include "wisey/IReferenceVariable.hpp"
 
 namespace wisey {
@@ -21,18 +21,18 @@ namespace wisey {
   class ParameterNativeVariable : public IReferenceVariable {
     
     std::string mName;
-    const ILLVMType* mType;
+    const ILLVMPointerType* mType;
     llvm::Value* mValue;
     
   public:
     
-    ParameterNativeVariable(std::string name, const ILLVMType* type, llvm::Value* value);
+    ParameterNativeVariable(std::string name, const ILLVMPointerType* type, llvm::Value* value);
     
     ~ParameterNativeVariable();
     
     std::string getName() const override;
     
-    const ILLVMType* getType() const override;
+    const ILLVMPointerType* getType() const override;
     
     bool isField() const override;
     

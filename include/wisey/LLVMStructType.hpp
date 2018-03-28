@@ -11,7 +11,7 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/ILLVMType.hpp"
+#include "wisey/IType.hpp"
 #include "wisey/LLVMPointerType.hpp"
 
 namespace wisey {
@@ -23,7 +23,7 @@ namespace wisey {
     
     llvm::StructType* mStructType;
     bool mIsExternal;
-    std::vector<const ILLVMType*> mBodyTypes;
+    std::vector<const IType*> mBodyTypes;
     const LLVMPointerType* mPointerType;
     
     LLVMStructType(llvm::StructType* structType, bool isExternal);
@@ -50,7 +50,7 @@ namespace wisey {
     /**
      * Sets body types of this struct type
      */
-    void setBodyTypes(IRGenerationContext& context, std::vector<const ILLVMType*> bodyTypes);
+    void setBodyTypes(IRGenerationContext& context, std::vector<const IType*> bodyTypes);
     
     /**
      * Tells whether this is an externally defined struct

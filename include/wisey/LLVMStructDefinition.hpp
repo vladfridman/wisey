@@ -9,7 +9,7 @@
 #ifndef LLVMStructDefinition_h
 #define LLVMStructDefinition_h
 
-#include "wisey/ILLVMTypeSpecifier.hpp"
+#include "wisey/ITypeSpecifier.hpp"
 #include "wisey/IGlobalStatement.hpp"
 #include "wisey/LLVMStructType.hpp"
 
@@ -21,12 +21,12 @@ namespace wisey {
   class LLVMStructDefinition : public IGlobalStatement {
     
     std::string mName;
-    std::vector<const ILLVMTypeSpecifier*> mTypeSpecifiers;
+    std::vector<const ITypeSpecifier*> mTypeSpecifiers;
     
   public:
     
     LLVMStructDefinition(std::string name,
-                         std::vector<const ILLVMTypeSpecifier*> typesSpecifiers);
+                         std::vector<const ITypeSpecifier*> typesSpecifiers);
     
     ~LLVMStructDefinition();
     

@@ -25,7 +25,7 @@ struct LLVMFunctionTypeSpecifierTest : public Test {
   
   LLVMFunctionTypeSpecifierTest() {
     const ILLVMTypeSpecifier* i8Specifier = LLVMPrimitiveTypes::I8->newTypeSpecifier();
-    vector<const ILLVMTypeSpecifier*> argumentTypeSpecifiers;
+    vector<const ITypeSpecifier*> argumentTypeSpecifiers;
     argumentTypeSpecifiers.push_back(LLVMPrimitiveTypes::I16->newTypeSpecifier());
     argumentTypeSpecifiers.push_back(LLVMPrimitiveTypes::I64->newTypeSpecifier());
     mLLVMFunctionTypeSpecifier = new LLVMFunctionTypeSpecifier(i8Specifier, argumentTypeSpecifiers);

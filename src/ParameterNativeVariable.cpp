@@ -16,7 +16,9 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-ParameterNativeVariable::ParameterNativeVariable(string name, const ILLVMType* type, Value* value) :
+ParameterNativeVariable::ParameterNativeVariable(string name,
+                                                 const ILLVMPointerType* type,
+                                                 Value* value) :
 mName(name), mType(type), mValue(value) {
 }
 
@@ -27,7 +29,7 @@ string ParameterNativeVariable::getName() const {
   return mName;
 }
 
-const ILLVMType* ParameterNativeVariable::getType() const {
+const ILLVMPointerType* ParameterNativeVariable::getType() const {
   return mType;
 }
 

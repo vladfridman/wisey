@@ -9,8 +9,8 @@
 #ifndef LLVMFunctionDeclaration_h
 #define LLVMFunctionDeclaration_h
 
-#include "wisey/ILLVMTypeSpecifier.hpp"
 #include "wisey/IGlobalStatement.hpp"
+#include "wisey/ITypeSpecifier.hpp"
 #include "wisey/LLVMStructType.hpp"
 
 namespace wisey {
@@ -21,14 +21,14 @@ namespace wisey {
   class LLVMFunctionDeclaration : public IGlobalStatement {
     
     std::string mName;
-    const ILLVMTypeSpecifier* mReturnSpecifier;
-    std::vector<const ILLVMTypeSpecifier*> mArgumentSpecifiers;
+    const ITypeSpecifier* mReturnSpecifier;
+    std::vector<const ITypeSpecifier*> mArgumentSpecifiers;
     
   public:
     
     LLVMFunctionDeclaration(std::string name,
-                            const ILLVMTypeSpecifier* returnSpecifier,
-                            std::vector<const ILLVMTypeSpecifier*> argumentSpecifiers);
+                            const ITypeSpecifier* returnSpecifier,
+                            std::vector<const ITypeSpecifier*> argumentSpecifiers);
     
     ~LLVMFunctionDeclaration();
     

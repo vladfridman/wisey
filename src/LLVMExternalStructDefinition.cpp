@@ -13,14 +13,14 @@ using namespace std;
 using namespace wisey;
 
 LLVMExternalStructDefinition::LLVMExternalStructDefinition(string name,
-                                                           vector<const ILLVMTypeSpecifier*>
+                                                           vector<const ITypeSpecifier*>
                                                            typeSpecifiers) :
 mName(name),
 mTypeSpecifiers(typeSpecifiers) {
 }
 
 LLVMExternalStructDefinition::~LLVMExternalStructDefinition() {
-  for (const ILLVMTypeSpecifier* typeSpecifier : mTypeSpecifiers) {
+  for (const ITypeSpecifier* typeSpecifier : mTypeSpecifiers) {
     delete typeSpecifier;
   }
   mTypeSpecifiers.clear();
@@ -40,9 +40,9 @@ IObjectType* LLVMExternalStructDefinition::prototypeObject(IRGenerationContext& 
 void LLVMExternalStructDefinition::prototypeMethods(IRGenerationContext& context) const {
   LLVMStructType* llvmStructType = context.getLLVMStructType(mName);
   
-  vector<const ILLVMType*> structTypes;
-  for (const ILLVMTypeSpecifier* llvmTypeSpecifier : mTypeSpecifiers) {
-    const ILLVMType* type = llvmTypeSpecifier->getType(context);
+  vector<const IType*> structTypes;
+  for (const ITypeSpecifier* llvmTypeSpecifier : mTypeSpecifiers) {
+    const IType* type = llvmTypeSpecifier->getType(context);
     structTypes.push_back(type);
   }
   llvmStructType->setBodyTypes(context, structTypes);

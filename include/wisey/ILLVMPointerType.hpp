@@ -9,14 +9,14 @@
 #ifndef ILLVMPointerType_h
 #define ILLVMPointerType_h
 
-#include "wisey/ILLVMType.hpp"
+#include "wisey/IReferenceType.hpp"
 
 namespace wisey {
   
   /**
    * Represents a pointer type to an llvm type
    */
-  class ILLVMPointerType : public ILLVMType {
+  class ILLVMPointerType : public IReferenceType {
     
   };
   

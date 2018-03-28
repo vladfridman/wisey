@@ -9,8 +9,8 @@
 #ifndef LLVMExternalStructDefinition_h
 #define LLVMExternalStructDefinition_h
 
-#include "wisey/ILLVMTypeSpecifier.hpp"
 #include "wisey/IGlobalStatement.hpp"
+#include "wisey/ITypeSpecifier.hpp"
 #include "wisey/LLVMStructType.hpp"
 
 namespace wisey {
@@ -21,12 +21,12 @@ namespace wisey {
   class LLVMExternalStructDefinition : public IGlobalStatement {
     
     std::string mName;
-    std::vector<const ILLVMTypeSpecifier*> mTypeSpecifiers;
+    std::vector<const ITypeSpecifier*> mTypeSpecifiers;
     
   public:
     
     LLVMExternalStructDefinition(std::string name,
-                                 std::vector<const ILLVMTypeSpecifier*> typesSpecifiers);
+                                 std::vector<const ITypeSpecifier*> typesSpecifiers);
     
     ~LLVMExternalStructDefinition();
     

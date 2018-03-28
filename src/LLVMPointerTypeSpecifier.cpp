@@ -15,7 +15,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-LLVMPointerTypeSpecifier::LLVMPointerTypeSpecifier(const ILLVMTypeSpecifier* baseTypeSpecifier) {
+LLVMPointerTypeSpecifier::LLVMPointerTypeSpecifier(const ITypeSpecifier* baseTypeSpecifier) {
   mBaseTypeSpecifier = baseTypeSpecifier;
 }
 
@@ -23,7 +23,7 @@ LLVMPointerTypeSpecifier::~LLVMPointerTypeSpecifier() {
   delete mBaseTypeSpecifier;
 }
 
-const ILLVMType* LLVMPointerTypeSpecifier::getType(IRGenerationContext& context) const {
+const ILLVMPointerType* LLVMPointerTypeSpecifier::getType(IRGenerationContext& context) const {
   return mBaseTypeSpecifier->getType(context)->getPointerType();
 }
 

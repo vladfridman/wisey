@@ -9,7 +9,7 @@
 #ifndef LLVMVariableDeclaration_h
 #define LLVMVariableDeclaration_h
 
-#include "wisey/ILLVMTypeSpecifier.hpp"
+#include "wisey/ITypeSpecifier.hpp"
 #include "wisey/IStatement.hpp"
 #include "wisey/Identifier.hpp"
 
@@ -19,7 +19,7 @@ namespace wisey {
    * Represents a variable declaration
    */
   class LLVMVariableDeclaration : public IStatement {
-    const ILLVMTypeSpecifier* mTypeSpecifier;
+    const ITypeSpecifier* mTypeSpecifier;
     Identifier* mIdentifier;
     IExpression* mAssignmentExpression;
     int mLine;
@@ -31,19 +31,19 @@ namespace wisey {
     /**
      * Create and instance of LLVMVariableDeclaration
      */
-    static LLVMVariableDeclaration* create(const ILLVMTypeSpecifier* typeSpecifier,
+    static LLVMVariableDeclaration* create(const ITypeSpecifier* typeSpecifier,
                                            Identifier* identifier,
                                            int line);
 
     /**
      * Create and instance of LLVMVariableDeclaration with assignment to the given expression
      */
-    static LLVMVariableDeclaration* createWithAssignment(const ILLVMTypeSpecifier* typeSpecifier,
+    static LLVMVariableDeclaration* createWithAssignment(const ITypeSpecifier* typeSpecifier,
                                                          Identifier* identifier,
                                                          IExpression* assignmentExpression,
                                                          int line);
 
-    const ILLVMTypeSpecifier* getTypeSpecifier() const;
+    const ITypeSpecifier* getTypeSpecifier() const;
     
     const Identifier* getIdentifier() const;
     
@@ -51,7 +51,7 @@ namespace wisey {
     
   private:
     
-    LLVMVariableDeclaration(const ILLVMTypeSpecifier* typeSpecifier,
+    LLVMVariableDeclaration(const ITypeSpecifier* typeSpecifier,
                             Identifier* identifier,
                             IExpression* assignmentExpression,
                             int line);

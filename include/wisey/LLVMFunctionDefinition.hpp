@@ -13,7 +13,7 @@
 #include "wisey/LLVMFunction.hpp"
 #include "wisey/LLVMFunctionArgument.hpp"
 #include "wisey/LLVMVariableDeclaration.hpp"
-#include "wisey/ILLVMTypeSpecifier.hpp"
+#include "wisey/ITypeSpecifier.hpp"
 #include "wisey/IObjectElementDefinition.hpp"
 
 namespace wisey {
@@ -23,7 +23,7 @@ namespace wisey {
    */
   class LLVMFunctionDefinition : public IObjectElementDefinition {
     std::string mName;
-    const ILLVMTypeSpecifier* mReturnSpecifier;
+    const ITypeSpecifier* mReturnSpecifier;
     LLVMVariableList mArguments;
     CompoundStatement* mCompoundStatement;
     int mLine;
@@ -31,7 +31,7 @@ namespace wisey {
   public:
     
     LLVMFunctionDefinition(std::string name,
-                           const ILLVMTypeSpecifier* returnSpecifier,
+                           const ITypeSpecifier* returnSpecifier,
                            LLVMVariableList arguments,
                            CompoundStatement* compoundStatement,
                            int line);

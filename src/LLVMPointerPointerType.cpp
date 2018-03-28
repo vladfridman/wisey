@@ -135,3 +135,11 @@ const IObjectType* LLVMPointerPointerType::getObjectType() const {
 const ILLVMPointerType* LLVMPointerPointerType::getPointerType() const {
   assert(false);
 }
+
+void LLVMPointerPointerType::incrementReferenceCount(IRGenerationContext& context,
+                                                     llvm::Value* object) const {
+}
+
+void LLVMPointerPointerType::decrementReferenceCount(IRGenerationContext& context,
+                                                     llvm::Value* object) const {
+}

@@ -29,7 +29,7 @@ struct LLVMFunctionTypeTest : public Test {
   LLVMFunctionType* mLLVMFunctionType;
   
   LLVMFunctionTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
-    vector<const ILLVMType*> argumentTypes;
+    vector<const IType*> argumentTypes;
     argumentTypes.push_back(LLVMPrimitiveTypes::I16);
     argumentTypes.push_back(LLVMPrimitiveTypes::I64->getPointerType());
     mLLVMFunctionType = mContext.getLLVMFunctionType(LLVMPrimitiveTypes::I8, argumentTypes);

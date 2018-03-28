@@ -23,13 +23,13 @@ namespace wisey {
    */
   class LLVMArrayType : public ILLVMType {
     
-    const ILLVMType* mElementType;
+    const IType* mElementType;
     std::list<unsigned long> mDimensions;
     const LLVMPointerType* mPointerType;
     
   public:
     
-    LLVMArrayType(const ILLVMType* elementType, std::list<unsigned long> dimensions);
+    LLVMArrayType(const IType* elementType, std::list<unsigned long> dimensions);
     
     ~LLVMArrayType();
     
@@ -46,7 +46,7 @@ namespace wisey {
     /**
      * Returns single array element type
      */
-    const ILLVMType* getElementType() const;
+    const IType* getElementType() const;
     
     std::string getTypeName() const override;
     

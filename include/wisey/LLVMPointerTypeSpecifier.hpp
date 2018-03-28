@@ -9,7 +9,8 @@
 #ifndef LLVMPointerTypeSpecifier_h
 #define LLVMPointerTypeSpecifier_h
 
-#include "wisey/ILLVMTypeSpecifier.hpp"
+#include "wisey/ILLVMPointerType.hpp"
+#include "wisey/ITypeSpecifier.hpp"
 
 namespace wisey {
   
@@ -18,17 +19,17 @@ namespace wisey {
   /**
    * Represents a llvm pointer type specifier such as ::llvm::i8*
    */
-  class LLVMPointerTypeSpecifier : public ILLVMTypeSpecifier {
+  class LLVMPointerTypeSpecifier : public ITypeSpecifier {
     
-    const ILLVMTypeSpecifier* mBaseTypeSpecifier;
+    const ITypeSpecifier* mBaseTypeSpecifier;
     
   public:
     
-    LLVMPointerTypeSpecifier(const ILLVMTypeSpecifier* baseTypeSpecifier);
+    LLVMPointerTypeSpecifier(const ITypeSpecifier* baseTypeSpecifier);
     
     ~LLVMPointerTypeSpecifier();
     
-    const ILLVMType* getType(IRGenerationContext& context) const override;
+    const ILLVMPointerType* getType(IRGenerationContext& context) const override;
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 

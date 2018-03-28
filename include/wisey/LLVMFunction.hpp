@@ -10,7 +10,6 @@
 #define LLVMFunction_h
 
 #include "wisey/CompoundStatement.hpp"
-#include "wisey/ILLVMType.hpp"
 #include "wisey/IObjectElement.hpp"
 #include "wisey/LLVMFunctionArgument.hpp"
 #include "wisey/LLVMFunctionType.hpp"
@@ -23,7 +22,7 @@ namespace wisey {
   class LLVMFunction : public IObjectElement {
     std::string mName;
     const LLVMFunctionType* mLLVMFunctionType;
-    const ILLVMType* mReturnType;
+    const IType* mReturnType;
     std::vector<const LLVMFunctionArgument*> mArguments;
     CompoundStatement* mCompoundStatement;
     int mLine;
@@ -32,7 +31,7 @@ namespace wisey {
     
     LLVMFunction(std::string name,
                  const LLVMFunctionType* llvmFunctionType,
-                 const ILLVMType* returnType,
+                 const IType* returnType,
                  std::vector<const LLVMFunctionArgument*> arguments,
                  CompoundStatement* compoundStatement,
                  int line);

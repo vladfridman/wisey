@@ -140,3 +140,10 @@ const ILLVMPointerType* LLVMPointerType::getPointerType() const {
   return mPointerType;
 }
 
+void LLVMPointerType::incrementReferenceCount(IRGenerationContext& context,
+                                              llvm::Value* object) const {
+}
+
+void LLVMPointerType::decrementReferenceCount(IRGenerationContext& context,
+                                              llvm::Value* object) const {
+}

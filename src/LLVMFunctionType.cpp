@@ -15,9 +15,13 @@
 using namespace std;
 using namespace wisey;
 
-LLVMFunctionType::LLVMFunctionType(const ILLVMType* returnType,
-                                   std::vector<const ILLVMType*> argumentTypes) :
+LLVMFunctionType::LLVMFunctionType(const IType* returnType,
+                                   std::vector<const IType*> argumentTypes) :
 mReturnType(returnType), mArgumentTypes(argumentTypes) {
+  assert(returnType->isNative());
+  for (const IType* argumentType : argumentTypes) {
+    assert(argumentType->isNative());
+  }
   mPointerType = new LLVMPointerType(this);
 }
 
@@ -25,18 +29,18 @@ LLVMFunctionType::~LLVMFunctionType() {
   delete mPointerType;
 }
 
-vector<const ILLVMType*> LLVMFunctionType::getArgumentTypes() const {
+vector<const IType*> LLVMFunctionType::getArgumentTypes() const {
   return mArgumentTypes;
 }
 
-const ILLVMType* LLVMFunctionType::getReturnType() const {
+const IType* LLVMFunctionType::getReturnType() const {
   return mReturnType;
 }
 
 string LLVMFunctionType::getTypeName() const {
   string name = mReturnType->getTypeName();
   name = name + " (";
-  for (const ILLVMType* llvmType : mArgumentTypes) {
+  for (const IType* llvmType : mArgumentTypes) {
     name = name + llvmType->getTypeName();
     if (llvmType != mArgumentTypes.back()) {
       name = name + ", ";
@@ -49,7 +53,7 @@ string LLVMFunctionType::getTypeName() const {
 llvm::FunctionType* LLVMFunctionType::getLLVMType(IRGenerationContext& context) const {
   llvm::Type* llvmReturnType = mReturnType->getLLVMType(context);
   vector<llvm::Type*> argTypesArray;
-  for (const ILLVMType* argumentType : mArgumentTypes) {
+  for (const IType* argumentType : mArgumentTypes) {
     argTypesArray.push_back(argumentType->getLLVMType(context));
   }
   return llvm::FunctionType::get(llvmReturnType, argTypesArray, false);

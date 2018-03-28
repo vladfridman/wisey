@@ -11,7 +11,7 @@
 using namespace std;
 using namespace wisey;
 
-LLVMArrayTypeSpecifer::LLVMArrayTypeSpecifer(const ILLVMTypeSpecifier* elementTypeSpecifier,
+LLVMArrayTypeSpecifer::LLVMArrayTypeSpecifer(const ITypeSpecifier* elementTypeSpecifier,
                                              std::list<unsigned long> dimensions) :
 mElementTypeSpecifier(elementTypeSpecifier), mDimensions(dimensions) {
 }

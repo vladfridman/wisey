@@ -124,7 +124,7 @@ namespace wisey {
     /**
      * Get an llvm array type
      */
-    LLVMArrayType* getLLVMArrayType(const ILLVMType* elementType,
+    LLVMArrayType* getLLVMArrayType(const IType* elementType,
                                     std::list<unsigned long> dimensions);
 
     /**
@@ -190,8 +190,8 @@ namespace wisey {
     /**
      * Look up a llvm function type
      */
-    LLVMFunctionType* getLLVMFunctionType(const ILLVMType* returnType,
-                                          std::vector<const ILLVMType*> argumentTypes);
+    LLVMFunctionType* getLLVMFunctionType(const IType* returnType,
+                                          std::vector<const IType*> argumentTypes);
     
     /**
      * Lookup llvm native type and create one if neccessary

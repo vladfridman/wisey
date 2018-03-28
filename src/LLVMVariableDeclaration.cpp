@@ -12,7 +12,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-LLVMVariableDeclaration::LLVMVariableDeclaration(const ILLVMTypeSpecifier* typeSpecifier,
+LLVMVariableDeclaration::LLVMVariableDeclaration(const ITypeSpecifier* typeSpecifier,
                                                  Identifier* identifier,
                                                  IExpression* assignmentExpression,
                                                  int line) :
@@ -29,13 +29,13 @@ LLVMVariableDeclaration::~LLVMVariableDeclaration() {
   }
 }
 
-LLVMVariableDeclaration* LLVMVariableDeclaration::create(const ILLVMTypeSpecifier *typeSpecifier,
+LLVMVariableDeclaration* LLVMVariableDeclaration::create(const ITypeSpecifier *typeSpecifier,
                                                          Identifier* identifier,
                                                          int line) {
   return new LLVMVariableDeclaration(typeSpecifier, identifier, NULL, line);
 }
 
-LLVMVariableDeclaration* LLVMVariableDeclaration::createWithAssignment(const ILLVMTypeSpecifier*
+LLVMVariableDeclaration* LLVMVariableDeclaration::createWithAssignment(const ITypeSpecifier*
                                                                        typeSpecifier,
                                                                        Identifier* identifier,
                                                                        IExpression*
@@ -56,7 +56,7 @@ Value* LLVMVariableDeclaration::generateIR(IRGenerationContext& context) const {
   return variable->generateAssignmentIR(context, mAssignmentExpression, arrayIndices, mLine);
 }
 
-const ILLVMTypeSpecifier* LLVMVariableDeclaration::getTypeSpecifier() const {
+const ITypeSpecifier* LLVMVariableDeclaration::getTypeSpecifier() const {
   return mTypeSpecifier;
 }
 

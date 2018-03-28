@@ -21,25 +21,25 @@ namespace wisey {
    */
   class LLVMFunctionType : public ILLVMType {
     
-    const ILLVMType* mReturnType;
-    std::vector<const ILLVMType*> mArgumentTypes;
+    const IType* mReturnType;
+    std::vector<const IType*> mArgumentTypes;
     const LLVMPointerType* mPointerType;
     
   public:
     
-    LLVMFunctionType(const ILLVMType* returnType, std::vector<const ILLVMType*> argumentTypes);
+    LLVMFunctionType(const IType* returnType, std::vector<const IType*> argumentTypes);
     
     ~LLVMFunctionType();
     
     /**
      * Return function argument types
      */
-    std::vector<const ILLVMType*> getArgumentTypes() const;
+    std::vector<const IType*> getArgumentTypes() const;
     
     /**
      * Returns function return type
      */
-    const ILLVMType* getReturnType() const;
+    const IType* getReturnType() const;
     
     std::string getTypeName() const override;
     

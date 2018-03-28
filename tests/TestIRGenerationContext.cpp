@@ -450,7 +450,7 @@ TEST_F(IRGenerationContextTest, getLLVMArrayTypeTest) {
 }
 
 TEST_F(IRGenerationContextTest, getLLVMFunctionTypeTest) {
-  vector<const ILLVMType*> argumentTypes;
+  vector<const IType*> argumentTypes;
   argumentTypes.push_back(LLVMPrimitiveTypes::I16);
   argumentTypes.push_back(LLVMPrimitiveTypes::I64->getPointerType());
   LLVMFunctionType* llvmFunctionType = mContext.getLLVMFunctionType(LLVMPrimitiveTypes::I8,

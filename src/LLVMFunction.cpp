@@ -21,7 +21,7 @@ using namespace wisey;
 
 LLVMFunction::LLVMFunction(string name,
                            const LLVMFunctionType* llvmFunctionType,
-                           const ILLVMType* returnType,
+                           const IType* returnType,
                            vector<const LLVMFunctionArgument*> arguments,
                            CompoundStatement* compoundStatement,
                            int line) :
@@ -31,6 +31,7 @@ mReturnType(returnType),
 mArguments(arguments),
 mCompoundStatement(compoundStatement),
 mLine(line) {
+  assert(returnType->isNative());
 }
 
 LLVMFunction::~LLVMFunction() {

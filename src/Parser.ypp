@@ -180,7 +180,7 @@
   wisey::MethodSignatureDeclaration* method_signature;
   wisey::Catch* catch_clause;
   wisey::ProgramFile* program_file;
-  const wisey::ILLVMTypeSpecifier* llvm_type_specifier;
+  const wisey::ITypeSpecifier* llvm_type_specifier;
   std::vector<wisey::Catch*>* catch_vector;
   std::vector<wisey::VariableDeclaration*>* variable_vector;
   std::vector<const wisey::IExpression*>* expression_vector;
@@ -192,7 +192,7 @@
   std::vector<wisey::IInterfaceTypeSpecifier*>* interface_list;
   std::list<const wisey::IExpression*>* list_of_const_expressions;
   std::list<unsigned long>* list_of_ulongs;
-  std::vector<const wisey::ILLVMTypeSpecifier*>* llvm_type_specifier_list;
+  std::vector<const wisey::ITypeSpecifier*>* llvm_type_specifier_list;
   std::vector<wisey::LLVMVariableDeclaration*>* llvm_variable_vector;
   wisey::LLVMVariableDeclaration* llvm_variable_declaration;
   std::string* string;
@@ -376,7 +376,7 @@ llvm_external_struct_definition
 
 llvm_type_specifier_list
   : llvm_type_specifier
-    { $$ = new std::vector<const ILLVMTypeSpecifier*>(); $$->push_back($1); }
+    { $$ = new std::vector<const ITypeSpecifier*>(); $$->push_back($1); }
   | llvm_type_specifier_list ',' llvm_type_specifier
     { $1->push_back($3); $$ = $1; }
   | llvm_type_specifier_list ','
@@ -440,9 +440,9 @@ llvm_function_type_specifier
 
 llvm_function_argument_type_specifier_list
   : /* blank */ 
-    { $$ = new std::vector<const ILLVMTypeSpecifier*>(); }
+    { $$ = new std::vector<const ITypeSpecifier*>(); }
   | llvm_type_specifier
-    { $$ = new std::vector<const ILLVMTypeSpecifier*>(); $$->push_back($1); }
+    { $$ = new std::vector<const ITypeSpecifier*>(); $$->push_back($1); }
   | llvm_function_argument_type_specifier_list ',' llvm_type_specifier
     { $1->push_back($3); $$ = $1; }
   ;

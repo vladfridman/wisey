@@ -9,7 +9,7 @@
 #ifndef LLVMFunctionArgument_h
 #define LLVMFunctionArgument_h
 
-#include "wisey/ILLVMType.hpp"
+#include "wisey/IType.hpp"
 
 namespace wisey {
   
@@ -17,16 +17,18 @@ namespace wisey {
    * Contains information about a method argument including its type and name
    */
   class LLVMFunctionArgument {
-    const ILLVMType* mType;
+    const IType* mType;
     std::string mName;
     
   public:
     
-    LLVMFunctionArgument(const ILLVMType* type, std::string name) : mType(type), mName(name) { }
+    LLVMFunctionArgument(const IType* type, std::string name) : mType(type), mName(name) {
+      assert(type->isNative());
+    }
     
     ~LLVMFunctionArgument() { }
     
-    const ILLVMType* getType() const { return mType; }
+    const IType* getType() const { return mType; }
     
     std::string getName() const { return mName; }
   };

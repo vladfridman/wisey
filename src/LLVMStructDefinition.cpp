@@ -13,13 +13,13 @@ using namespace std;
 using namespace wisey;
 
 LLVMStructDefinition::LLVMStructDefinition(string name,
-                                           vector<const ILLVMTypeSpecifier*> typeSpecifiers) :
+                                           vector<const ITypeSpecifier*> typeSpecifiers) :
 mName(name),
 mTypeSpecifiers(typeSpecifiers) {
 }
 
 LLVMStructDefinition::~LLVMStructDefinition() {
-  for (const ILLVMTypeSpecifier* typeSpecifier : mTypeSpecifiers) {
+  for (const ITypeSpecifier* typeSpecifier : mTypeSpecifiers) {
     delete typeSpecifier;
   }
   mTypeSpecifiers.clear();
@@ -39,9 +39,9 @@ IObjectType* LLVMStructDefinition::prototypeObject(IRGenerationContext& context)
 void LLVMStructDefinition::prototypeMethods(IRGenerationContext& context) const {
   LLVMStructType* llvmStructType = context.getLLVMStructType(mName);
   
-  vector<const ILLVMType*> structTypes;
-  for (const ILLVMTypeSpecifier* llvmTypeSpecifier : mTypeSpecifiers) {
-    const ILLVMType* type = llvmTypeSpecifier->getType(context);
+  vector<const IType*> structTypes;
+  for (const ITypeSpecifier* llvmTypeSpecifier : mTypeSpecifiers) {
+    const IType* type = llvmTypeSpecifier->getType(context);
     structTypes.push_back(type);
   }
   llvmStructType->setBodyTypes(context, structTypes);

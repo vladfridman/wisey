@@ -132,7 +132,7 @@ struct ThreadTest : public Test {
     constants.push_back(mConstant);
     constants.push_back(privateConstant);
     
-    vector<const ILLVMType*> functionArgumentTypes;
+    vector<const IType*> functionArgumentTypes;
     LLVMFunctionType* llvmFunctionType = new LLVMFunctionType(LLVMPrimitiveTypes::I8,
                                                               functionArgumentTypes);
     vector<const LLVMFunctionArgument*> llvmFunctionArguments;

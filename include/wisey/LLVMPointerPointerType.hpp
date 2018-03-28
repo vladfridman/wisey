@@ -83,6 +83,10 @@ namespace wisey {
     
     const ILLVMPointerType* getPointerType() const override;
     
+    void incrementReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
+    
+    void decrementReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
+
   };
   
 } /* namespace wisey */

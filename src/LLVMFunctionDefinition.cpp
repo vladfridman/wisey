@@ -14,7 +14,7 @@ using namespace llvm;
 using namespace wisey;
 
 LLVMFunctionDefinition::LLVMFunctionDefinition(string name,
-                                               const ILLVMTypeSpecifier* returnSpecifier,
+                                               const ITypeSpecifier* returnSpecifier,
                                                LLVMVariableList arguments,
                                                CompoundStatement* compoundStatement,
                                                int line) :
@@ -36,10 +36,10 @@ LLVMFunctionDefinition::~LLVMFunctionDefinition() {
 
 LLVMFunction* LLVMFunctionDefinition::define(IRGenerationContext& context,
                                              const IObjectType* objectType) const {
-  const ILLVMType* returnType = mReturnSpecifier->getType(context);
+  const IType* returnType = mReturnSpecifier->getType(context);
   
   vector<const LLVMFunctionArgument*> arguments = createArgumnetList(context);
-  vector<const ILLVMType*> arugmentTypes;
+  vector<const IType*> arugmentTypes;
   for (const LLVMFunctionArgument* argument : arguments) {
     arugmentTypes.push_back(argument->getType());
   }
@@ -78,7 +78,7 @@ vector<const LLVMFunctionArgument*> LLVMFunctionDefinition::createArgumnetList(I
   for (LLVMVariableList::const_iterator iterator = mArguments.begin();
        iterator != mArguments.end();
        iterator++) {
-    const ILLVMType* type = (**iterator).getTypeSpecifier()->getType(context);
+    const IType* type = (**iterator).getTypeSpecifier()->getType(context);
     string name = (**iterator).getIdentifier()->getIdentifierName();
     LLVMFunctionArgument* methodArgument = new LLVMFunctionArgument(type, name);
     arguments.push_back(methodArgument);

@@ -56,9 +56,9 @@ struct ObjectFunctionVariableTest : Test {
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
-    const ILLVMType* returnType = LLVMPrimitiveTypes::I8->getPointerType();
-    const ILLVMType* argumentType = LLVMPrimitiveTypes::I64;
-    vector<const ILLVMType*> argumentTypes;
+    const IType* returnType = LLVMPrimitiveTypes::I8->getPointerType();
+    const IType* argumentType = LLVMPrimitiveTypes::I64;
+    vector<const IType*> argumentTypes;
     argumentTypes.push_back(argumentType);
     mLLVMFunctionType = new LLVMFunctionType(returnType, argumentTypes);
     LLVMFunctionArgument* functionArgument = new LLVMFunctionArgument(argumentType, "input");

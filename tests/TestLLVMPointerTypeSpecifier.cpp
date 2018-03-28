@@ -30,7 +30,7 @@ struct LLVMPointerTypeSpecifierTest : public Test {
 };
 
 TEST_F(LLVMPointerTypeSpecifierTest, getTypeTest) {
-  const ILLVMType* type = mLLVMPointerTypeSpecifier->getType(mContext);
+  const IType* type = mLLVMPointerTypeSpecifier->getType(mContext);
   
   EXPECT_TRUE(type->isNative());
   EXPECT_TRUE(type->isReference());
@@ -38,8 +38,8 @@ TEST_F(LLVMPointerTypeSpecifierTest, getTypeTest) {
 }
 
 TEST_F(LLVMPointerTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {
-  const ILLVMType* type1 = mLLVMPointerTypeSpecifier->getType(mContext);
-  const ILLVMType* type2 = mLLVMPointerTypeSpecifier->getType(mContext);
+  const IType* type1 = mLLVMPointerTypeSpecifier->getType(mContext);
+  const IType* type2 = mLLVMPointerTypeSpecifier->getType(mContext);
   
   EXPECT_EQ(type1, type2);
 }
