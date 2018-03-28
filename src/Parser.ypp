@@ -76,6 +76,7 @@
   #include "wisey/LLVMFunctionDeclaration.hpp"
   #include "wisey/LLVMFunctionDefinition.hpp"
   #include "wisey/LLVMFunctionTypeSpecifier.hpp"
+  #include "wisey/LLVMPointerOwnerTypeSpecifier.hpp"
   #include "wisey/LLVMPointerTypeSpecifier.hpp"
   #include "wisey/LLVMPrimitiveTypes.hpp"
   #include "wisey/LLVMStructDefinition.hpp"
@@ -181,6 +182,8 @@
   wisey::Catch* catch_clause;
   wisey::ProgramFile* program_file;
   const wisey::ITypeSpecifier* llvm_type_specifier;
+  wisey::LLVMPointerTypeSpecifier* llvm_pointer_type_specifier;
+  wisey::LLVMVariableDeclaration* llvm_variable_declaration;
   std::vector<wisey::Catch*>* catch_vector;
   std::vector<wisey::VariableDeclaration*>* variable_vector;
   std::vector<const wisey::IExpression*>* expression_vector;
@@ -194,7 +197,6 @@
   std::list<unsigned long>* list_of_ulongs;
   std::vector<const wisey::ITypeSpecifier*>* llvm_type_specifier_list;
   std::vector<wisey::LLVMVariableDeclaration*>* llvm_variable_vector;
-  wisey::LLVMVariableDeclaration* llvm_variable_declaration;
   std::string* string;
   unsigned long unsignedlong;
   int token;
@@ -301,8 +303,9 @@
 %type <unsignedlong> array_undefined_dimensions_list
 %type <llvm_type_specifier> llvm_type_specifier llvm_i_type_specifier llvm_struct_specifier
 %type <llvm_type_specifier> llvm_non_array_type_specifier llvm_array_specifier 
-%type <llvm_type_specifier> llvm_pointer_type_specifier llvm_function_type_specifier
-%type <llvm_type_specifier> llvm_void_type_specifier
+%type <llvm_type_specifier> llvm_function_type_specifier
+%type <llvm_type_specifier> llvm_void_type_specifier llvm_pointer_owner_type_specifier
+%type <llvm_pointer_type_specifier> llvm_pointer_type_specifier
 %type <llvm_type_specifier_list> llvm_type_specifier_list 
 %type <llvm_type_specifier_list> llvm_function_argument_type_specifier_list
 %type <llvm_variable_vector> llvm_function_definition_arguments
@@ -388,12 +391,18 @@ llvm_type_specifier
   | llvm_array_specifier
   | llvm_function_type_specifier
   | llvm_pointer_type_specifier
+  | llvm_pointer_owner_type_specifier
   ;
 
 llvm_non_array_type_specifier
   : llvm_i_type_specifier
   | llvm_void_type_specifier
   | llvm_struct_specifier
+  ;
+
+llvm_pointer_owner_type_specifier
+  : llvm_pointer_type_specifier '*'
+    { $$ = new LLVMPointerOwnerTypeSpecifier($1); }
   ;
 
 llvm_pointer_type_specifier

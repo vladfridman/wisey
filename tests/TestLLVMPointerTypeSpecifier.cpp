@@ -48,7 +48,5 @@ TEST_F(LLVMPointerTypeSpecifierTest, printToStreamTest) {
   stringstream stringStream;
   mLLVMPointerTypeSpecifier->printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("::llvm::i8*", stringStream.str().c_str());
+  EXPECT_STREQ("::llvm::i8::pointer", stringStream.str().c_str());
 }
-
-

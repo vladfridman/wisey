@@ -1,13 +1,7 @@
 external thread wisey.lang.TWorker 
     implements wisey.lang.IThread {
 
-  void start();
-
-  ::llvm::i8::pointer waitForResult();
-
-  void work();
-
-  void send(::llvm::i8::pointer message);
+  void send(::llvm::i8::pointer* message);
 
   wisey.lang.CCallStack getCallStack();
 }
@@ -18,13 +12,7 @@ external thread wisey.lang.TWorkerWithFieldsAndMethods
   inject wisey.lang.TWorker* mInjectedField;
   state int mStateField;
 
-  void start();
-
-  ::llvm::i8::pointer waitForResult();
-
-  void work();
-
-  void send(::llvm::i8::pointer message);
+  void send(::llvm::i8::pointer* message);
 
   wisey.lang.CCallStack getCallStack();
 }
@@ -39,13 +27,7 @@ external thread wisey.lang.TWorkerWithFieldsAndMethodsAndInterface
   inject wisey.lang.TWorker* mInjectedField;
   state int mStateField;
 
-  void start();
-
-  ::llvm::i8::pointer waitForResult();
-
-  void work();
-
-  void send(::llvm::i8::pointer message);
+  void send(::llvm::i8::pointer* message);
 
   wisey.lang.CCallStack getCallStack();
 }

@@ -33,7 +33,7 @@ external interface wisey.lang.IThread {
 
   wisey.lang.CCallStack getCallStack();
   void send(
-    ::llvm::i8::pointer message);
+    ::llvm::i8::pointer* message);
   static void sleep(
     int seconds);
 }
@@ -173,7 +173,7 @@ external thread wisey.lang.TMainThread
   void cancel();
   void work();
   void send(
-    ::llvm::i8::pointer programResult);
+    ::llvm::i8::pointer* programResult);
   wisey.lang.CCallStack getCallStack();
 }
 

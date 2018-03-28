@@ -1,33 +1,35 @@
 //
-//  LLVMPointerPointerType.hpp
+//  LLVMPointerOwnerType.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 3/19/18.
+//  Created by Vladimir Fridman on 3/28/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef LLVMPointerPointerType_h
-#define LLVMPointerPointerType_h
+#ifndef LLVMPointerOwnerType_h
+#define LLVMPointerOwnerType_h
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/LLVMPointerType.hpp"
+#include "wisey/ILLVMPointerType.hpp"
+#include "wisey/IOwnerType.hpp"
 
 namespace wisey {
   
+  class LLVMPointerPointerType;
+  
   /**
-   * Represents an llvm pointer type to a pointer type
+   * Represents an llvm pointer type that owns the object it references
    */
-  class LLVMPointerPointerType : public ILLVMPointerType {
+  class LLVMPointerOwnerType : public IOwnerType {
     
-    const LLVMPointerType* mBaseType;
-    const LLVMPointerOwnerType* mPointerOwnerType;
+    const ILLVMPointerType* mReferenceType;
     
   public:
     
-    LLVMPointerPointerType(const LLVMPointerType* baseType);
+    LLVMPointerOwnerType(const ILLVMPointerType* referenceType);
     
-    ~LLVMPointerPointerType();
+    ~LLVMPointerOwnerType();
     
     std::string getTypeName() const override;
     
@@ -80,18 +82,14 @@ namespace wisey {
     
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
     
-    const IReferenceType* getReferenceType() const override;
+    const ILLVMPointerType* getReferenceType() const override;
     
     const ILLVMPointerType* getPointerType() const override;
-    
-    void incrementReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
-    
-    void decrementReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
-    
-    const LLVMPointerOwnerType* getOwner() const override;
+
+    void free(IRGenerationContext& context, llvm::Value* value) const override;
 
   };
   
 } /* namespace wisey */
 
-#endif /* LLVMPointerPointerType_h */
+#endif /* LLVMPointerOwnerType_h */

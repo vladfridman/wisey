@@ -11,6 +11,7 @@
 #include "wisey/FieldOwnerVariable.hpp"
 #include "wisey/ModelOwner.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LLVMPointerOwnerType.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/ParameterOwnerVariable.hpp"
 

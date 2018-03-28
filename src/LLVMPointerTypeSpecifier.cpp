@@ -29,6 +29,5 @@ const ILLVMPointerType* LLVMPointerTypeSpecifier::getType(IRGenerationContext& c
 
 void LLVMPointerTypeSpecifier::printToStream(IRGenerationContext& context,
                                              std::iostream& stream) const {
-  stream << mBaseTypeSpecifier->getType(context)->getTypeName() << "*";
+  stream << mBaseTypeSpecifier->getType(context)->getTypeName() << "::pointer";
 }
-

@@ -18,7 +18,7 @@ interface IThread {
   /**
    * Snds a message to the calling thread
    */
-  void send(::llvm::i8::pointer message);
+  void send(::llvm::i8::pointer* message);
 
   /**
    * Method for putting the current thread to sleep

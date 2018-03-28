@@ -12,6 +12,7 @@
 #include "wisey/FieldNativeVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LLVMPointerOwnerType.hpp"
 #include "wisey/LLVMPointerPointerType.hpp"
 #include "wisey/LLVMPointerType.hpp"
 #include "wisey/LocalNativeVariable.hpp"
@@ -23,10 +24,12 @@ using namespace wisey;
 LLVMPointerType::LLVMPointerType(const ILLVMType* baseType) {
   mBaseType = baseType;
   mPointerType = new LLVMPointerPointerType(this);
+  mPointerOwnerType = new LLVMPointerOwnerType(this);
 }
 
 LLVMPointerType::~LLVMPointerType() {
   delete mPointerType;
+  delete mPointerOwnerType;
 }
 
 string LLVMPointerType::getTypeName() const {
@@ -38,18 +41,18 @@ llvm::PointerType* LLVMPointerType::getLLVMType(IRGenerationContext& context) co
 }
 
 bool LLVMPointerType::canCastTo(IRGenerationContext& context, const IType* toType) const {
-  return toType->isReference() || toType->isOwner();
+  return toType->isReference();
 }
 
 bool LLVMPointerType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
-  return toType->isReference() || toType->isOwner();
+  return toType->isReference();
 }
 
 llvm::Value* LLVMPointerType::castTo(IRGenerationContext& context,
                                  llvm::Value* fromValue,
                                  const IType* toType,
                                  int line) const {
-  if (toType->isReference() || toType->isOwner()) {
+  if (toType->isReference()) {
     return IRWriter::newBitCastInst(context, fromValue, toType->getLLVMType(context));
   }
   assert(false);
@@ -146,4 +149,8 @@ void LLVMPointerType::incrementReferenceCount(IRGenerationContext& context,
 
 void LLVMPointerType::decrementReferenceCount(IRGenerationContext& context,
                                               llvm::Value* object) const {
+}
+
+const LLVMPointerOwnerType* LLVMPointerType::getOwner() const {
+  return mPointerOwnerType;
 }

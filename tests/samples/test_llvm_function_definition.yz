@@ -5,7 +5,7 @@ import wisey.lang.IThread;
 
 model MMyModel implements IThread {
 
-  public void send(::llvm::i8::pointer message) {
+  public void send(::llvm::i8::pointer* message) {
   }
 
   public CCallStack getCallStack() {

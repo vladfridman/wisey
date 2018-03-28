@@ -9,6 +9,7 @@
 #include <llvm/IR/Instructions.h>
 
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/LLVMPointerType.hpp"
 #include "wisey/LLVMPrimitiveTypeSpecifier.hpp"
 #include "wisey/LLVMi32Type.hpp"
 

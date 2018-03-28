@@ -15,6 +15,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalArrayOwnerVariable.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
+#include "wisey/LocalPointerOwnerVariable.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/MethodArgument.hpp"
@@ -197,9 +198,19 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
   Value* pointer = IRWriter::newAllocaInst(context, result->getType(), "returnedObjectPointer");
   IRWriter::newStoreInst(context, result, pointer);
 
-  IVariable* tempVariable = returnType->isArray()
-  ? new LocalArrayOwnerVariable(variableName, (const ArrayOwnerType*) returnType, pointer)
-  : (IVariable*) new LocalOwnerVariable(variableName, (IObjectOwnerType*) returnType, pointer);
+  IVariable* tempVariable = NULL;
+  // TODO: Add createLocalOwnerVarible() method to IType
+  if (returnType->isArray()) {
+    tempVariable = new LocalArrayOwnerVariable(variableName,
+                                               (const ArrayOwnerType*) returnType,
+                                               pointer);
+  } else if (returnType->isNative()) {
+    tempVariable = new LocalPointerOwnerVariable(variableName,
+                                                 (const LLVMPointerOwnerType*) returnType,
+                                                 pointer);
+  } else {
+    tempVariable = new LocalOwnerVariable(variableName, (IObjectOwnerType*) returnType, pointer);
+  }
   context.getScopes().setVariable(tempVariable);
 
   return result;

@@ -13,6 +13,7 @@
   #include "wisey/IObjectDefinition.hpp"
   #include "wisey/Identifier.hpp"
   #include "wisey/InterfaceTypeSpecifier.hpp"
+  #include "wisey/LLVMPointerTypeSpecifier.hpp"
   #include "wisey/LLVMVariableDeclaration.hpp"
   #include "wisey/MethodDefinition.hpp"
   #include "wisey/MethodSignatureDeclaration.hpp"

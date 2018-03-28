@@ -52,7 +52,7 @@ thread TWorker implements IWorkerThread {
     thread.send(result);
   }
 
-  public void send(::llvm::i8::pointer message) {
+  public void send(::llvm::i8::pointer* message) {
     mResult = message;
     mWorkerThreadRunner.exitThread();
   }

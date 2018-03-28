@@ -68,7 +68,9 @@ void ArrayOwnerType::free(IRGenerationContext& context, llvm::Value* arrayPointe
   llvm::Type* genericPointer = llvm::Type::getInt64Ty(context.getLLVMContext())->getPointerTo();
   llvm::Value* arrayBitcast = IRWriter::newBitCastInst(context, arrayPointer, genericPointer);
   
-  if (elementType->isOwner()) {
+  if (elementType->isOwner() && elementType->isNative()) {
+    // TODO: Implement freeing objects pointed to by native pointers
+  } else if (elementType->isOwner()) {
     const IObjectOwnerType* objectOwnerType = (const IObjectOwnerType*) elementType;
     llvm::Value* destructor = objectOwnerType->getDestructorFunction(context);
     DestroyOwnerArrayFunction::call(context,
