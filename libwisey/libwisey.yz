@@ -24,6 +24,19 @@ external interface wisey.lang.IException {
   string getName();
 }
 
+external interface wisey.lang.IProducerThread
+  extends
+    wisey.lang.IThread {
+
+  void start();
+  boolean hasStarted();
+  boolean hasResult();
+  boolean wasCancelled();
+  void cancel();
+  void produce();
+  ::llvm::i8::pointer consume();
+}
+
 external interface wisey.lang.IProgram {
 
   int run() throws wisey.lang.MReferenceCountException, wisey.lang.MNullPointerException;
@@ -32,7 +45,7 @@ external interface wisey.lang.IProgram {
 external interface wisey.lang.IThread {
 
   wisey.lang.CCallStack getCallStack();
-  void send(
+  boolean send(
     ::llvm::i8::pointer* message);
   static void sleep(
     int seconds);
@@ -131,6 +144,29 @@ external controller wisey.lang.CCallStack {
     wisey.lang.IException exception);
 }
 
+external controller wisey.lang.CProducerThreadRunner {
+
+  state ::llvm::struct::_opaque_pthread_t::pointer mMyNativeThread;
+  state boolean mIsCanceled;
+  state ::llvm::i8::pointer*[]* mResults;
+  state int mSize;
+  state int mIndexStart;
+  state int mIndexEnd;
+
+  void createThread(
+    wisey.lang.IProducerThread workerThread,
+    int size);
+  void joinThread();
+  boolean addResult(
+    ::llvm::i8::pointer* result);
+  ::llvm::i8::pointer consumeResult();
+  boolean hasResult();
+  void exitThread();
+  void cancelThread();
+  boolean hasStarted();
+  boolean wasCancelled();
+}
+
 external controller wisey.lang.CProgramRunner {
 
   inject wisey.lang.IProgram* mProgram;
@@ -172,7 +208,7 @@ external thread wisey.lang.TMainThread
   ::llvm::i8::pointer awaitResult();
   void cancel();
   void work();
-  void send(
+  boolean send(
     ::llvm::i8::pointer* programResult);
   wisey.lang.CCallStack getCallStack();
 }

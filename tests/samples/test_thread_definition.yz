@@ -6,7 +6,8 @@ import wisey.lang.IThread;
 
 thread TThread implements IThread {
 
-  public void send(::llvm::i8::pointer* message) {
+  public boolean send(::llvm::i8::pointer* message) {
+    return true;
   }
 
   public CCallStack getCallStack() {

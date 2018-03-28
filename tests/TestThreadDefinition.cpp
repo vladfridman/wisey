@@ -237,6 +237,22 @@ TEST_F(TestFileSampleRunner, threadRunRunTest) {
                      "");
 }
 
+TEST_F(TestFileSampleRunner, threadProducerRunRunTest) {
+  runFileCheckOutput("tests/samples/test_thread_producer_run.yz",
+                     "Thread started = 0, has result = 0\n"
+                     "Starting producer thread\n"
+                     "Producer thread started\n"
+                     "Thread started = 1, has result = 0\n"
+                     "Getting call stack!\n"
+                     "This is producer thread!\n"
+                     "Adding result 1\n"
+                     "Adding result 2\n"
+                     "Adding result 3\n"
+                     "Producer thread finished with result: 1\n"
+                     "Thread started = 1, has result = 1\n",
+                     "");
+}
+
 TEST_F(TestFileSampleRunner, threadCancelRunTest) {
   runFileCheckOutput("tests/samples/test_thread_cancel.yz",
                      "Thread started = 0, has result = 0, was cancelled = 0\n"

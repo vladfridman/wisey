@@ -48,9 +48,10 @@ thread TMainThread implements IWorkerThread {
     thread.send((::llvm::i8::pointer*) programResult);
   }
 
-  public void send(::llvm::i8::pointer* programResult) {
+  public boolean send(::llvm::i8::pointer* programResult) {
     mProgramResult = programResult;
     mWorkerThreadRunner.exitThread();
+    return true;
   }
 
   public CCallStack getCallStack() {

@@ -1,0 +1,45 @@
+package wisey.lang;
+
+import wisey.lang.IThread;
+
+/**
+ * Represents a thread of execution. All thread objects must implement this interface.
+ */
+interface IProducerThread extends IThread {
+
+  /**
+   * Starts the thread
+   */
+  void start();
+
+  /**
+   * Tells whether the worker thread has started running
+   */
+  boolean hasStarted();
+  
+  /**
+   * Tells whether the worker thread has result ready
+   */
+  boolean hasResult();
+  
+  /**
+   * Tells whether the worker thread was cancelled
+   */
+  boolean wasCancelled();
+
+  /**
+   * Cancel expecution of the worker thread
+   */
+  void cancel();
+
+  /**
+   * This method is called when thread is started
+   */ 
+  void produce();
+
+  /**
+   * Consume one result and return it. If there are no results return null.
+   */
+  ::llvm::i8::pointer consume();
+
+}

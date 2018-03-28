@@ -1,0 +1,94 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.CCallStack;
+import wisey.lang.CProducerThreadRunner;
+import wisey.lang.IProgram;
+import wisey.lang.IProducerThread;
+import wisey.lang.IThread;
+
+model MProducerResult {
+  int mResult;
+
+  public int getResult() {
+    return mResult;
+  }
+}
+
+thread TProducer implements IProducerThread {
+  inject CProducerThreadRunner* mProducerThreadRunner;
+  inject CCallStack* mCallStack;
+  receive int mSize;
+
+  public void start() {
+    mProducerThreadRunner.createThread(this, mSize);
+  }
+
+  public boolean hasStarted() {
+    return mProducerThreadRunner.hasStarted();
+  }
+
+  public boolean hasResult() {
+    return mProducerThreadRunner.hasResult();
+  }
+
+  public boolean wasCancelled() {
+    return mProducerThreadRunner.wasCancelled();
+  }
+
+  public void cancel() {
+    mProducerThreadRunner.cancelThread();
+  }
+
+  public ::llvm::i8::pointer consume() {
+    return mProducerThreadRunner.consumeResult();
+  }
+
+  public void produce() {
+    printout("This is producer thread!\n");
+    int i = 0;
+    while (true) {
+      i++;
+      MProducerResult* result = builder(MProducerResult).withResult(i).build();
+      printout("Adding result " + i + "\n");
+      while (!thread.send(result)) {
+        printout("Could not add result, sleeping\n");
+        IThread.sleep(1);
+      }
+      IThread.sleep(1);
+    }
+  }
+
+  public boolean send(::llvm::i8::pointer* message) {
+    return mProducerThreadRunner.addResult(message);
+  }
+
+  public CCallStack getCallStack() {
+    printout("Getting call stack!\n");
+    return mCallStack;
+  }
+}
+
+controller CProgram implements IProgram {
+  inject TProducer* mProducer.withSize(5);
+
+  public int run() {
+    printout("Thread started = " + mProducer.hasStarted() + ", has result = " + mProducer.hasResult() + "\n");
+    printout("Starting producer thread\n");
+    mProducer.start();
+    printout("Producer thread started\n");
+    printout("Thread started = " + mProducer.hasStarted() + ", has result = " + mProducer.hasResult() + "\n");
+    IThread.sleep(3);
+    mProducer.cancel();
+    if (mProducer.hasResult()) {
+      int result = ((MProducerResult) mProducer.consume()).getResult();
+      printout("Producer thread finished with result: " + result + "\n");
+      printout("Thread started = " + mProducer.hasStarted() + ", has result = " + mProducer.hasResult() + "\n");
+      return result;
+    } else {
+      printout("No results\n");
+    }
+    return 0;
+  }
+}
+
+bind(CProgram).to(IProgram);

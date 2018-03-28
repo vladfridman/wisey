@@ -75,8 +75,8 @@ Value* FieldArrayReferenceVariable::generateAssignmentIR(IRGenerationContext& co
 }
 
 Value* FieldArrayReferenceVariable::generateWholeArrayAssignment(IRGenerationContext& context,
-                                                             IExpression* assignToExpression,
-                                                             int line) {
+                                                                 IExpression* assignToExpression,
+                                                                 int line) {
   IField* field = checkAndFindFieldForAssignment(context, mObject, mName);
   
   const IType* fieldType = field->getType();

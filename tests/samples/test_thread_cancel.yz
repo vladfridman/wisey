@@ -52,9 +52,10 @@ thread TWorker implements IWorkerThread {
     thread.send(result);
   }
 
-  public void send(::llvm::i8::pointer* message) {
+  public boolean send(::llvm::i8::pointer* message) {
     mResult = message;
     mWorkerThreadRunner.exitThread();
+    return true;
   }
 
   public CCallStack getCallStack() {
