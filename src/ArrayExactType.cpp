@@ -160,7 +160,7 @@ const wisey::ArrayType* ArrayExactType::getArrayType(IRGenerationContext& contex
   return context.getArrayType(mElementType, getNumberOfDimensions());
 }
 
-const IObjectType* ArrayExactType::getObjectType() const {
+const IReferenceType* ArrayExactType::getReferenceType() const {
   return NULL;
 }
 

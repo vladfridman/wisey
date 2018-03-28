@@ -80,7 +80,7 @@ struct ThreadOwnerTest : public Test {
 };
 
 TEST_F(ThreadOwnerTest, getObjectTest) {
-  EXPECT_EQ(mThread->getOwner()->getObjectType(), mThread);
+  EXPECT_EQ(mThread->getOwner()->getReferenceType(), mThread);
 }
 
 TEST_F(ThreadOwnerTest, getNameTest) {

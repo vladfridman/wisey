@@ -518,7 +518,7 @@ const wisey::ArrayType* Model::getArrayType(IRGenerationContext& context) const 
   exit(1);
 }
 
-const Model* Model::getObjectType() const {
+const Model* Model::getReferenceType() const {
   return this;
 }
 

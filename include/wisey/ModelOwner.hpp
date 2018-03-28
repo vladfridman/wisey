@@ -26,7 +26,7 @@ namespace wisey {
     
     ~ModelOwner();
     
-    Model* getObjectType() const override;
+    Model* getReferenceType() const override;
     
     std::string getTypeName() const override;
     

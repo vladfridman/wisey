@@ -198,7 +198,7 @@ const ArrayType* ArrayType::getArrayType(IRGenerationContext& context) const {
   return this;
 }
 
-const IObjectType* ArrayType::getObjectType() const {
+const IReferenceType* ArrayType::getReferenceType() const {
   return NULL;
 }
 

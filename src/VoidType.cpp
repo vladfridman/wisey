@@ -122,7 +122,7 @@ const wisey::ArrayType* VoidType::getArrayType(IRGenerationContext& context) con
   exit(1);
 }
 
-const IObjectType* VoidType::getObjectType() const {
+const IReferenceType* VoidType::getReferenceType() const {
   return NULL;
 }
 

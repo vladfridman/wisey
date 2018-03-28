@@ -123,7 +123,7 @@ const wisey::ArrayType* LLVMi1Type::getArrayType(IRGenerationContext& context) c
   exit(1);
 }
 
-const IObjectType* LLVMi1Type::getObjectType() const {
+const IReferenceType* LLVMi1Type::getReferenceType() const {
   return NULL;
 }
 

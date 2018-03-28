@@ -143,7 +143,7 @@ const ArrayType* ArrayExactOwnerType::getArrayType(IRGenerationContext& context)
   return mArrayExactType->getArrayType(context);
 }
 
-const IObjectType* ArrayExactOwnerType::getObjectType() const {
+const IReferenceType* ArrayExactOwnerType::getReferenceType() const {
   return NULL;
 }
 

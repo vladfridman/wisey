@@ -238,7 +238,7 @@ bool Method::isLLVMFunction() const {
   return false;
 }
 
-const IObjectType* Method::getObjectType() const {
+const IObjectType* Method::getReferenceType() const {
   return mObjectType;
 }
 

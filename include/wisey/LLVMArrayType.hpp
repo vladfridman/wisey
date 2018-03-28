@@ -99,7 +99,7 @@ namespace wisey {
     
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
     
-    const IObjectType* getObjectType() const override;
+    const IReferenceType* getReferenceType() const override;
     
     const ILLVMPointerType* getPointerType() const override;
     

@@ -162,7 +162,7 @@ const wisey::ArrayType* BooleanType::getArrayType(IRGenerationContext& context) 
   exit(1);
 }
 
-const IObjectType* BooleanType::getObjectType() const {
+const IReferenceType* BooleanType::getReferenceType() const {
   return NULL;
 }
 

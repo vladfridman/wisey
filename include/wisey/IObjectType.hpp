@@ -11,7 +11,7 @@
 
 #include <iostream>
 
-#include "wisey/IMethodDescriptor.hpp"
+#include "wisey/AccessLevel.hpp"
 #include "wisey/IObjectOwnerType.hpp"
 #include "wisey/IReferenceType.hpp"
 #include "wisey/ImportProfile.hpp"
@@ -19,6 +19,7 @@
 namespace wisey {
   
   class Constant;
+  class IMethodDescriptor;
   
   /**
    * Represents an IType that is either model, controller or interface

@@ -196,7 +196,7 @@ namespace wisey {
     
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
     
-    const Controller* getObjectType() const override;
+    const Controller* getReferenceType() const override;
     
     const ILLVMPointerType* getPointerType() const override;
 

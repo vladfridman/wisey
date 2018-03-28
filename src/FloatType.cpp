@@ -158,7 +158,7 @@ const wisey::ArrayType* FloatType::getArrayType(IRGenerationContext& context) co
   exit(1);
 }
 
-const IObjectType* FloatType::getObjectType() const {
+const IReferenceType* FloatType::getReferenceType() const {
   return NULL;
 }
 

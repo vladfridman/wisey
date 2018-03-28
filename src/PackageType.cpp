@@ -116,7 +116,7 @@ const wisey::ArrayType* PackageType::getArrayType(IRGenerationContext& context) 
   exit(1);
 }
 
-const IObjectType* PackageType::getObjectType() const {
+const IReferenceType* PackageType::getReferenceType() const {
   return NULL;
 }
 

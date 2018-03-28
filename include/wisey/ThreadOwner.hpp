@@ -27,7 +27,7 @@ namespace wisey {
     
     ~ThreadOwner();
     
-    Thread* getObjectType() const override;
+    Thread* getReferenceType() const override;
     
     std::string getTypeName() const override;
     

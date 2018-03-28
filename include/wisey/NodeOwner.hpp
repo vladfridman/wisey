@@ -27,7 +27,7 @@ namespace wisey {
     
     ~NodeOwner();
     
-    Node* getObjectType() const override;
+    Node* getReferenceType() const override;
     
     std::string getTypeName() const override;
     

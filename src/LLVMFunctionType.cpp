@@ -151,7 +151,7 @@ const wisey::ArrayType* LLVMFunctionType::getArrayType(IRGenerationContext& cont
   assert(false);
 }
 
-const IObjectType* LLVMFunctionType::getObjectType() const {
+const IReferenceType* LLVMFunctionType::getReferenceType() const {
   return NULL;
 }
 

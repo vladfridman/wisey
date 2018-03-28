@@ -254,11 +254,11 @@ TEST_F(ThreadTest, getFieldsTest) {
 
 TEST_F(ThreadTest, getOwnerTest) {
   ASSERT_NE(mThread->getOwner(), nullptr);
-  EXPECT_EQ(mThread->getOwner()->getObjectType(), mThread);
+  EXPECT_EQ(mThread->getOwner()->getReferenceType(), mThread);
 }
 
 TEST_F(ThreadTest, getObjectTypeTest) {
-  EXPECT_EQ(mThread, mThread->getObjectType());
+  EXPECT_EQ(mThread, mThread->getReferenceType());
 }
 
 TEST_F(ThreadTest, getFieldIndexTest) {

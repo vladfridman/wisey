@@ -119,7 +119,7 @@ const ILLVMPointerType* UndefinedType::getPointerType() const {
   assert(false);
 }
 
-const IObjectType* UndefinedType::getObjectType() const {
+const IReferenceType* UndefinedType::getReferenceType() const {
   return NULL;
 }
 

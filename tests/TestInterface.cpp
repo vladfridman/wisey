@@ -196,11 +196,11 @@ TEST_F(InterfaceTest, interfaceInstantiationTest) {
   EXPECT_STREQ(mShapeInterface->getShortName().c_str(), "IShape");
   EXPECT_EQ(mShapeInterface->getLLVMType(mContext), mShapeStructType->getPointerTo());
   ASSERT_NE(mShapeInterface->getOwner(), nullptr);
-  EXPECT_EQ(mShapeInterface->getOwner()->getObjectType(), mShapeInterface);
+  EXPECT_EQ(mShapeInterface->getOwner()->getReferenceType(), mShapeInterface);
 }
 
 TEST_F(InterfaceTest, getObjectTypeTest) {
-  EXPECT_EQ(mShapeInterface, mShapeInterface->getObjectType());
+  EXPECT_EQ(mShapeInterface, mShapeInterface->getReferenceType());
 }
 
 TEST_F(InterfaceTest, findMethodTest) {

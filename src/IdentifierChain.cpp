@@ -33,7 +33,7 @@ IVariable* IdentifierChain::getVariable(IRGenerationContext& context,
 
 Value* IdentifierChain::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
-  const IObjectType* objectWithMethodsType = methodDescriptor->getObjectType();
+  const IObjectType* objectWithMethodsType = methodDescriptor->getReferenceType();
   if (!checkAccess(context, methodDescriptor)) {
     Log::e("Method '" + mName + "' of object " + objectWithMethodsType->getTypeName() +
            " is private");
@@ -70,7 +70,7 @@ IMethodDescriptor* IdentifierChain::getMethodDescriptor(IRGenerationContext& con
     exit(1);
   }
   
-  const IObjectType* objectType = expressionType->getObjectType();
+  const IObjectType* objectType = (const IObjectType*) expressionType->getReferenceType();
   
   IMethodDescriptor* methodDescriptor = objectType->findMethod(mName);
   
@@ -79,7 +79,7 @@ IMethodDescriptor* IdentifierChain::getMethodDescriptor(IRGenerationContext& con
     exit(1);
   }
   
-  assert(objectType == methodDescriptor->getObjectType());
+  assert(objectType == methodDescriptor->getReferenceType());
 
   return methodDescriptor;
 }
@@ -92,8 +92,8 @@ bool IdentifierChain::checkAccess(IRGenerationContext& context,
   }
   IVariable* thisVariable = context.getThis();
   if (thisVariable == NULL) {
-    return context.getObjectType() == methodDescriptor->getObjectType();
+    return context.getObjectType() == methodDescriptor->getReferenceType();
   }
   
-  return thisVariable != NULL && thisVariable->getType() == methodDescriptor->getObjectType();
+  return thisVariable != NULL && thisVariable->getType() == methodDescriptor->getReferenceType();
 }

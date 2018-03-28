@@ -132,7 +132,7 @@ const wisey::ArrayType* LLVMPointerType::getArrayType(IRGenerationContext& conte
   exit(1);
 }
 
-const IObjectType* LLVMPointerType::getObjectType() const {
+const IReferenceType* LLVMPointerType::getReferenceType() const {
   return NULL;
 }
 

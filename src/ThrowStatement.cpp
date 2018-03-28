@@ -34,7 +34,7 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
     Log::e("Thrown object can only be a model");
     exit(1);
   }
-  Model* model = (Model*) expressionType->getObjectType();
+  Model* model = (Model*) expressionType->getReferenceType();
 
   LLVMContext& llvmContext = context.getLLVMContext();
   context.getScopes().getScope()->addException(model);

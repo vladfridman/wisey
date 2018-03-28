@@ -21,7 +21,7 @@ namespace wisey {
   class ArrayType;
   class IConcreteObjectType;
   class ILLVMPointerType;
-  class IObjectType;
+  class IReferenceType;
   class IRGenerationContext;
   
   /**
@@ -146,9 +146,9 @@ namespace wisey {
     virtual const ArrayType* getArrayType(IRGenerationContext& context) const = 0;
     
     /**
-     * Returns IObjectType if this type has one associated with it otherwise returns NULL
+     * Returns IReferenceType if this type is an owner type otherwise returns NULL
      */
-    virtual const IObjectType* getObjectType() const = 0;
+    virtual const IReferenceType* getReferenceType() const = 0;
     
     /**
      * Returns pointer type to this type. Only works for llvm types.

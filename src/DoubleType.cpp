@@ -158,7 +158,7 @@ const wisey::ArrayType* DoubleType::getArrayType(IRGenerationContext& context) c
   exit(1);
 }
 
-const IObjectType* DoubleType::getObjectType() const {
+const IReferenceType* DoubleType::getReferenceType() const {
   return NULL;
 }
 

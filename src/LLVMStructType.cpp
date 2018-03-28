@@ -156,7 +156,7 @@ const wisey::ArrayType* LLVMStructType::getArrayType(IRGenerationContext& contex
   exit(1);
 }
 
-const IObjectType* LLVMStructType::getObjectType() const {
+const IReferenceType* LLVMStructType::getReferenceType() const {
   return NULL;
 }
 

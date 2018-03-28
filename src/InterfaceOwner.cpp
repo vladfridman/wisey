@@ -26,7 +26,7 @@ mInterface(interface) {
 InterfaceOwner::~InterfaceOwner() {
 }
 
-Interface* InterfaceOwner::getObjectType() const {
+Interface* InterfaceOwner::getReferenceType() const {
   return mInterface;
 }
 
@@ -48,7 +48,7 @@ bool InterfaceOwner::canCastTo(IRGenerationContext& context, const IType* toType
   }
   
   if (toType->isOwner()) {
-    return mInterface->canCastTo(context, toType->getObjectType());
+    return mInterface->canCastTo(context, toType->getReferenceType());
   }
   
   return mInterface->canCastTo(context, toType);
@@ -67,7 +67,7 @@ Value* InterfaceOwner::castTo(IRGenerationContext& context,
   }
 
   if (toType->isOwner()) {
-    return mInterface->castTo(context, fromValue, toType->getObjectType(), line);
+    return mInterface->castTo(context, fromValue, toType->getReferenceType(), line);
   }
   
   return mInterface->castTo(context, fromValue, toType, line);

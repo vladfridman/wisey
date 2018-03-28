@@ -422,13 +422,13 @@ void Controller::initializeInjectedFields(IRGenerationContext& context,
       fieldValue = IRWriter::newBitCastInst(context, arrayPointer, arraySpecificType->
                                             getArrayType(context)->getLLVMType(context));
     } else if (fieldType->isController()) {
-      Controller* controller = (Controller*) fieldType->getObjectType();
+      Controller* controller = (Controller*) fieldType->getReferenceType();
       fieldValue = controller->inject(context, field->getInjectionArguments(), line);
     } else if (fieldType->isThread()) {
-      Thread* thread = (Thread*) fieldType->getObjectType();
+      Thread* thread = (Thread*) fieldType->getReferenceType();
       fieldValue = thread->inject(context, field->getInjectionArguments(), line);
     } else if (fieldType->isInterface()) {
-      Interface* inteface = (Interface*) fieldType->getObjectType();
+      Interface* inteface = (Interface*) fieldType->getReferenceType();
       fieldValue = inteface->inject(context, field->getInjectionArguments(), line);
     } else {
       Log::e("Attempt to inject a variable that is not of injectable type");
@@ -529,7 +529,7 @@ const wisey::ArrayType* Controller::getArrayType(IRGenerationContext& context) c
   exit(1);
 }
 
-const Controller* Controller::getObjectType() const {
+const Controller* Controller::getReferenceType() const {
   return this;
 }
 

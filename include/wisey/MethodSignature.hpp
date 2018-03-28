@@ -101,7 +101,7 @@ namespace wisey {
     
     bool isNative() const override;
     
-    const IObjectType* getObjectType() const override;
+    const IObjectType* getReferenceType() const override;
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     

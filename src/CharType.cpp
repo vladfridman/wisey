@@ -161,7 +161,7 @@ const wisey::ArrayType* CharType::getArrayType(IRGenerationContext& context) con
   exit(1);
 }
 
-const IObjectType* CharType::getObjectType() const {
+const IReferenceType* CharType::getReferenceType() const {
   return NULL;
 }
 

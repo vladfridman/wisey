@@ -980,7 +980,7 @@ const wisey::ArrayType* Interface::getArrayType(IRGenerationContext& context) co
   exit(1);
 }
 
-const Interface* Interface::getObjectType() const {
+const Interface* Interface::getReferenceType() const {
   return this;
 }
 

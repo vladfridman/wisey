@@ -139,7 +139,7 @@ struct ControllerOwnerTest : public Test {
 };
 
 TEST_F(ControllerOwnerTest, getObjectTest) {
-  EXPECT_EQ(mMultiplierController->getOwner()->getObjectType(), mMultiplierController);
+  EXPECT_EQ(mMultiplierController->getOwner()->getReferenceType(), mMultiplierController);
 }
 
 TEST_F(ControllerOwnerTest, getNameTest) {

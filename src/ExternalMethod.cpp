@@ -162,7 +162,7 @@ bool ExternalMethod::isNative() const {
   return false;
 }
 
-const IObjectType* ExternalMethod::getObjectType() const {
+const IObjectType* ExternalMethod::getReferenceType() const {
   return mObjectType;
 }
 
@@ -193,3 +193,4 @@ const wisey::ArrayType* ExternalMethod::getArrayType(IRGenerationContext& contex
 const ILLVMPointerType* ExternalMethod::getPointerType() const {
   assert(false);
 }
+

@@ -157,7 +157,7 @@ const wisey::ArrayType* LongType::getArrayType(IRGenerationContext& context) con
   exit(1);
 }
 
-const IObjectType* LongType::getObjectType() const {
+const IReferenceType* LongType::getReferenceType() const {
   return NULL;
 }
 

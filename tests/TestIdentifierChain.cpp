@@ -117,9 +117,9 @@ TEST_F(IdentifierChainTest, getTypeForObjectBaseTypeTest) {
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printObjectTypeExpression));
   ON_CALL(mockObjectType, isModel()).WillByDefault(Return(true));
   ON_CALL(mockObjectType, isReference()).WillByDefault(Return(true));
-  ON_CALL(mockObjectType, getObjectType()).WillByDefault(Return(&mockObjectType));
+  ON_CALL(mockObjectType, getReferenceType()).WillByDefault(Return(&mockObjectType));
   ON_CALL(mockObjectType, findMethod("foo")).WillByDefault(Return(&mockMethodDescriptor));
-  ON_CALL(mockMethodDescriptor, getObjectType()).WillByDefault(Return(&mockObjectType));
+  ON_CALL(mockMethodDescriptor, getReferenceType()).WillByDefault(Return(&mockObjectType));
 
   IdentifierChain identifierChain(mockExpression, "foo");
   const IType* type = identifierChain.getType(mContext);
@@ -151,7 +151,7 @@ TEST_F(IdentifierChainTest, getTypeForObjectBaseTypeMethodNotFoundDeathTest) {
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printObjectTypeExpression));
   ON_CALL(mockObjectType, isModel()).WillByDefault(Return(true));
   ON_CALL(mockObjectType, isReference()).WillByDefault(Return(true));
-  ON_CALL(mockObjectType, getObjectType()).WillByDefault(Return(&mockObjectType));
+  ON_CALL(mockObjectType, getReferenceType()).WillByDefault(Return(&mockObjectType));
   ON_CALL(mockObjectType, getTypeName()).WillByDefault(Return(modelFullName));
 
   IdentifierChain identifierChain(mockExpression, "foo");
@@ -174,10 +174,10 @@ TEST_F(IdentifierChainTest, generateIRTest) {
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printObjectTypeExpression));
   ON_CALL(mockObjectType, isModel()).WillByDefault(Return(true));
   ON_CALL(mockObjectType, isReference()).WillByDefault(Return(true));
-  ON_CALL(mockObjectType, getObjectType()).WillByDefault(Return(&mockObjectType));
+  ON_CALL(mockObjectType, getReferenceType()).WillByDefault(Return(&mockObjectType));
   ON_CALL(mockObjectType, findMethod("foo")).WillByDefault(Return(&mockMethodDescriptor));
   ON_CALL(mockObjectType, getTypeName()).WillByDefault(Return(modelFullName));
-  ON_CALL(mockMethodDescriptor, getObjectType()).WillByDefault(Return(&mockObjectType));
+  ON_CALL(mockMethodDescriptor, getReferenceType()).WillByDefault(Return(&mockObjectType));
   ON_CALL(mockMethodDescriptor, getAccessLevel()).WillByDefault(Return(AccessLevel::PUBLIC_ACCESS));
   ON_CALL(*mockExpression, generateIR(_, _)).WillByDefault(Return(objectPointer));
 
@@ -196,10 +196,10 @@ TEST_F(IdentifierChainTest, generateIRForPrivateMethodDeathTest) {
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printObjectTypeExpression));
   ON_CALL(mockObjectType, isModel()).WillByDefault(Return(true));
   ON_CALL(mockObjectType, isReference()).WillByDefault(Return(true));
-  ON_CALL(mockObjectType, getObjectType()).WillByDefault(Return(&mockObjectType));
+  ON_CALL(mockObjectType, getReferenceType()).WillByDefault(Return(&mockObjectType));
   ON_CALL(mockObjectType, findMethod("foo")).WillByDefault(Return(&mockMethodDescriptor));
   ON_CALL(mockObjectType, getTypeName()).WillByDefault(Return(modelFullName));
-  ON_CALL(mockMethodDescriptor, getObjectType()).WillByDefault(Return(&mockObjectType));
+  ON_CALL(mockMethodDescriptor, getReferenceType()).WillByDefault(Return(&mockObjectType));
   
   Mock::AllowLeak(mockExpression);
   Mock::AllowLeak(&mockObjectType);

@@ -165,7 +165,7 @@ void ArrayOwnerType::createParameterVariable(IRGenerationContext& context,
   context.getScopes().setVariable(variable);
 }
 
-const IObjectType* ArrayOwnerType::getObjectType() const {
+const IReferenceType* ArrayOwnerType::getReferenceType() const {
   return NULL;
 }
 

@@ -156,7 +156,7 @@ bool MethodSignature::isNative() const {
   return false;
 }
 
-const IObjectType* MethodSignature::getObjectType() const {
+const IObjectType* MethodSignature::getReferenceType() const {
   return mObjectType;
 }
 
