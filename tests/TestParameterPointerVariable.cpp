@@ -1,11 +1,11 @@
 //
-//  TestParameterNativeVariable.cpp
+//  TestParameterPointerVariable.cpp
 //  runtests
 //
 //  Created by Vladimir Fridman on 3/20/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link ParameterNativeVariable}
+//  Tests {@link ParameterPointerVariable}
 //
 
 #include <gtest/gtest.h>
@@ -19,7 +19,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/ParameterNativeVariable.hpp"
+#include "wisey/ParameterPointerVariable.hpp"
 #include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
@@ -32,18 +32,18 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct ParameterNativeVariableTest : public Test {
+struct ParameterPointerVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBasicBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
-  ParameterNativeVariable* mVariable;
+  ParameterPointerVariable* mVariable;
   Value* mVariableValue;
   
 public:
   
-  ParameterNativeVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+  ParameterPointerVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     
@@ -58,20 +58,20 @@ public:
 
     const LLVMPointerType* type = LLVMPrimitiveTypes::I8->getPointerType();
     mVariableValue = ConstantPointerNull::get(type->getLLVMType(mContext));
-    mVariable = new ParameterNativeVariable("foo", type, mVariableValue);
+    mVariable = new ParameterPointerVariable("foo", type, mVariableValue);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
 };
 
-TEST_F(ParameterNativeVariableTest, basicFieldsTest) {
+TEST_F(ParameterPointerVariableTest, basicFieldsTest) {
   EXPECT_STREQ("foo", mVariable->getName().c_str());
   EXPECT_EQ(LLVMPrimitiveTypes::I8->getPointerType(), mVariable->getType());
   EXPECT_FALSE(mVariable->isField());
   EXPECT_FALSE(mVariable->isSystem());
 }
 
-TEST_F(ParameterNativeVariableTest, assignmentDeathTest) {
+TEST_F(ParameterPointerVariableTest, assignmentDeathTest) {
   vector<const IExpression*> arrayIndices;
   
   EXPECT_EXIT(mVariable->generateAssignmentIR(mContext, NULL, arrayIndices, 0),
@@ -79,7 +79,7 @@ TEST_F(ParameterNativeVariableTest, assignmentDeathTest) {
               "Error: Assignment to function parameters is not allowed");
 }
 
-TEST_F(ParameterNativeVariableTest, generateIdentifierIRTest) {
+TEST_F(ParameterPointerVariableTest, generateIdentifierIRTest) {
   EXPECT_EQ(mVariableValue, mVariable->generateIdentifierIR(mContext));
 }
 

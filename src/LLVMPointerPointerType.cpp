@@ -14,7 +14,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMPointerOwnerType.hpp"
 #include "wisey/LLVMPointerPointerType.hpp"
-#include "wisey/LocalNativeVariable.hpp"
+#include "wisey/LocalPointerVariable.hpp"
 
 using namespace std;
 using namespace wisey;
@@ -109,7 +109,7 @@ void LLVMPointerPointerType::printToStream(IRGenerationContext &context, iostrea
 
 void LLVMPointerPointerType::createLocalVariable(IRGenerationContext& context, string name) const {
   llvm::Value* alloca = IRWriter::newAllocaInst(context, getLLVMType(context), name);
-  IVariable* variable = new LocalNativeVariable(name, this, alloca);
+  IVariable* variable = new LocalPointerVariable(name, this, alloca);
   context.getScopes().setVariable(variable);
 }
 

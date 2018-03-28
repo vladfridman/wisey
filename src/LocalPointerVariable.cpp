@@ -1,5 +1,5 @@
 //
-//  LocalNativeVariable.cpp
+//  LocalPointerVariable.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 3/13/18.
@@ -11,45 +11,45 @@
 
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/LocalNativeVariable.hpp"
+#include "wisey/LocalPointerVariable.hpp"
 
 using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-LocalNativeVariable::LocalNativeVariable(string name, const IType* type, Value* valueStore) :
+LocalPointerVariable::LocalPointerVariable(string name, const IType* type, Value* valueStore) :
 mName(name), mType(type), mValueStore(valueStore) {
   assert(valueStore->getType()->isPointerTy());
 }
 
-LocalNativeVariable::~LocalNativeVariable() {
+LocalPointerVariable::~LocalPointerVariable() {
 }
 
-string LocalNativeVariable::getName() const {
+string LocalPointerVariable::getName() const {
   return mName;
 }
 
-const IType* LocalNativeVariable::getType() const {
+const IType* LocalPointerVariable::getType() const {
   return mType;
 }
 
-bool LocalNativeVariable::isField() const {
+bool LocalPointerVariable::isField() const {
   return false;
 }
 
-bool LocalNativeVariable::isSystem() const {
+bool LocalPointerVariable::isSystem() const {
   return false;
 }
 
-Value* LocalNativeVariable::generateIdentifierIR(IRGenerationContext& context) const {
+Value* LocalPointerVariable::generateIdentifierIR(IRGenerationContext& context) const {
   return IRWriter::newLoadInst(context, mValueStore, "");
 }
 
-Value* LocalNativeVariable::generateIdentifierReferenceIR(IRGenerationContext& context) const {
+Value* LocalPointerVariable::generateIdentifierReferenceIR(IRGenerationContext& context) const {
   return mValueStore;
 }
 
-Value* LocalNativeVariable::generateAssignmentIR(IRGenerationContext& context,
+Value* LocalPointerVariable::generateAssignmentIR(IRGenerationContext& context,
                                                  IExpression* assignToExpression,
                                                  vector<const IExpression*> arrayIndices,
                                                  int line) {

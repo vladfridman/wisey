@@ -1,11 +1,11 @@
 //
-//  TestLocalNativeVariable.cpp
+//  TestLocalPointerVariable.cpp
 //  runtests
 //
 //  Created by Vladimir Fridman on 3/13/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link LocalNativeVariable}
+//  Tests {@link LocalPointerVariable}
 //
 
 #include <gtest/gtest.h>
@@ -15,7 +15,7 @@
 
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/LocalNativeVariable.hpp"
+#include "wisey/LocalPointerVariable.hpp"
 #include "wisey/NativeType.hpp"
 
 using namespace llvm;
@@ -24,7 +24,7 @@ using namespace wisey;
 
 using ::testing::Test;
 
-struct LocalNativeVariableTest : public Test {
+struct LocalPointerVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBasicBlock;
@@ -34,7 +34,7 @@ struct LocalNativeVariableTest : public Test {
 
 public:
   
-  LocalNativeVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+  LocalPointerVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     mStringStream = new raw_string_ostream(mStringBuffer);
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
@@ -48,15 +48,15 @@ public:
     mNativeType = new NativeType(Type::getInt64Ty(mLLVMContext)->getPointerTo());
   }
   
-  ~LocalNativeVariableTest() {
+  ~LocalPointerVariableTest() {
     delete mStringStream;
   }
 };
 
-TEST_F(LocalNativeVariableTest, basicFieldsTest) {
+TEST_F(LocalPointerVariableTest, basicFieldsTest) {
   Type* llvmType = mNativeType->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  IVariable* variable = new LocalNativeVariable("foo", mNativeType, fooValue);
+  IVariable* variable = new LocalPointerVariable("foo", mNativeType, fooValue);
   
   EXPECT_STREQ("foo", variable->getName().c_str());
   EXPECT_EQ(mNativeType, variable->getType());
@@ -64,10 +64,10 @@ TEST_F(LocalNativeVariableTest, basicFieldsTest) {
   EXPECT_FALSE(variable->isSystem());
 }
 
-TEST_F(LocalNativeVariableTest, generateIdentifierIRTest) {
+TEST_F(LocalPointerVariableTest, generateIdentifierIRTest) {
   Type* llvmType = mNativeType->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  IVariable* variable = new LocalNativeVariable("foo", mNativeType, fooValue);
+  IVariable* variable = new LocalPointerVariable("foo", mNativeType, fooValue);
   variable->generateIdentifierIR(mContext);
   
   *mStringStream << *mBasicBlock;
@@ -81,10 +81,10 @@ TEST_F(LocalNativeVariableTest, generateIdentifierIRTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(LocalNativeVariableTest, generateIdentifierReferenceIRTest) {
+TEST_F(LocalPointerVariableTest, generateIdentifierReferenceIRTest) {
   Type* llvmType = mNativeType->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  IVariable* variable = new LocalNativeVariable("foo", mNativeType, fooValue);
+  IVariable* variable = new LocalPointerVariable("foo", mNativeType, fooValue);
   
   EXPECT_EQ(fooValue, variable->generateIdentifierReferenceIR(mContext));
 }

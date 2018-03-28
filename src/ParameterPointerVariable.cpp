@@ -1,5 +1,5 @@
 //
-//  ParameterNativeVariable.cpp
+//  ParameterPointerVariable.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 3/20/18.
@@ -10,47 +10,47 @@
 #include <llvm/IR/Instructions.h>
 
 #include "wisey/Log.hpp"
-#include "wisey/ParameterNativeVariable.hpp"
+#include "wisey/ParameterPointerVariable.hpp"
 
 using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-ParameterNativeVariable::ParameterNativeVariable(string name,
+ParameterPointerVariable::ParameterPointerVariable(string name,
                                                  const ILLVMPointerType* type,
                                                  Value* value) :
 mName(name), mType(type), mValue(value) {
 }
 
-ParameterNativeVariable::~ParameterNativeVariable() {
+ParameterPointerVariable::~ParameterPointerVariable() {
 }
 
-string ParameterNativeVariable::getName() const {
+string ParameterPointerVariable::getName() const {
   return mName;
 }
 
-const ILLVMPointerType* ParameterNativeVariable::getType() const {
+const ILLVMPointerType* ParameterPointerVariable::getType() const {
   return mType;
 }
 
-bool ParameterNativeVariable::isField() const {
+bool ParameterPointerVariable::isField() const {
   return false;
 }
 
-bool ParameterNativeVariable::isSystem() const {
+bool ParameterPointerVariable::isSystem() const {
   return false;
 }
 
-Value* ParameterNativeVariable::generateIdentifierIR(IRGenerationContext& context) const {
+Value* ParameterPointerVariable::generateIdentifierIR(IRGenerationContext& context) const {
   return mValue;
 }
 
-Value* ParameterNativeVariable::generateIdentifierReferenceIR(IRGenerationContext&
+Value* ParameterPointerVariable::generateIdentifierReferenceIR(IRGenerationContext&
                                                                  context) const {
   assert(false);
 }
 
-Value* ParameterNativeVariable::generateAssignmentIR(IRGenerationContext& context,
+Value* ParameterPointerVariable::generateAssignmentIR(IRGenerationContext& context,
                                                      IExpression* assignToExpression,
                                                      vector<const IExpression*> arrayIndices,
                                                      int line) {
@@ -58,5 +58,5 @@ Value* ParameterNativeVariable::generateAssignmentIR(IRGenerationContext& contex
   exit(1);
 }
 
-void ParameterNativeVariable::decrementReferenceCounter(IRGenerationContext& context) const {
+void ParameterPointerVariable::decrementReferenceCounter(IRGenerationContext& context) const {
 }

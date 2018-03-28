@@ -8,7 +8,7 @@
 
 #include "wisey/FieldNativeVariable.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/LocalNativeVariable.hpp"
+#include "wisey/LocalPointerVariable.hpp"
 #include "wisey/NativeType.hpp"
 
 using namespace llvm;

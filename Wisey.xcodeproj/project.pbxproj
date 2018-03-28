@@ -509,9 +509,9 @@
 		F5609F072057C07F00664ADD /* ParameterSystemReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F062057C07F00664ADD /* ParameterSystemReferenceVariable.cpp */; };
 		F5609F082057C07F00664ADD /* ParameterSystemReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F062057C07F00664ADD /* ParameterSystemReferenceVariable.cpp */; };
 		F5609F0C2057C54900664ADD /* TestParameterSystemReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F0B2057C54900664ADD /* TestParameterSystemReferenceVariable.cpp */; };
-		F5609F1720580DE000664ADD /* LocalNativeVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F1620580DE000664ADD /* LocalNativeVariable.cpp */; };
-		F5609F1820580DE000664ADD /* LocalNativeVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F1620580DE000664ADD /* LocalNativeVariable.cpp */; };
-		F5609F1C205815D900664ADD /* TestLocalNativeVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F1B205815D900664ADD /* TestLocalNativeVariable.cpp */; };
+		F5609F1720580DE000664ADD /* LocalPointerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F1620580DE000664ADD /* LocalPointerVariable.cpp */; };
+		F5609F1820580DE000664ADD /* LocalPointerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F1620580DE000664ADD /* LocalPointerVariable.cpp */; };
+		F5609F1C205815D900664ADD /* TestLocalPointerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F1B205815D900664ADD /* TestLocalPointerVariable.cpp */; };
 		F569E9F01DF9CC9600BBB20E /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EB1DF9CC9600BBB20E /* Log.cpp */; };
 		F569E9F21DF9CC9600BBB20E /* Parser.ypp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9ED1DF9CC9600BBB20E /* Parser.ypp */; };
 		F569E9F31DF9CC9600BBB20E /* Tokens.lpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */; };
@@ -889,9 +889,9 @@
 		F5D4660020611A4B00C1047A /* TestLLVMFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D465FF20611A4B00C1047A /* TestLLVMFunction.cpp */; };
 		F5D4660220611BEF00C1047A /* TestLLVMFunctionDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D4660120611BEF00C1047A /* TestLLVMFunctionDefinition.cpp */; };
 		F5D4660420611DA000C1047A /* TestLLVMVariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D4660320611DA000C1047A /* TestLLVMVariableDeclaration.cpp */; };
-		F5D466072061318F00C1047A /* ParameterNativeVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D466062061318F00C1047A /* ParameterNativeVariable.cpp */; };
-		F5D466082061318F00C1047A /* ParameterNativeVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D466062061318F00C1047A /* ParameterNativeVariable.cpp */; };
-		F5D4660A2061330C00C1047A /* TestParameterNativeVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D466092061330C00C1047A /* TestParameterNativeVariable.cpp */; };
+		F5D466072061318F00C1047A /* ParameterPointerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D466062061318F00C1047A /* ParameterPointerVariable.cpp */; };
+		F5D466082061318F00C1047A /* ParameterPointerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D466062061318F00C1047A /* ParameterPointerVariable.cpp */; };
+		F5D4660A2061330C00C1047A /* TestParameterPointerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D466092061330C00C1047A /* TestParameterPointerVariable.cpp */; };
 		F5D4660D20614CAF00C1047A /* LLVMFunctionCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D4660C20614CAF00C1047A /* LLVMFunctionCall.cpp */; };
 		F5D4660E20614CAF00C1047A /* LLVMFunctionCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D4660C20614CAF00C1047A /* LLVMFunctionCall.cpp */; };
 		F5D466102061606200C1047A /* TestLLVMFunctionCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D4660F2061606200C1047A /* TestLLVMFunctionCall.cpp */; };
@@ -1546,9 +1546,9 @@
 		F5609F052057BF7300664ADD /* ParameterSystemReferenceVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ParameterSystemReferenceVariable.hpp; path = include/wisey/ParameterSystemReferenceVariable.hpp; sourceTree = "<group>"; };
 		F5609F062057C07F00664ADD /* ParameterSystemReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ParameterSystemReferenceVariable.cpp; path = src/ParameterSystemReferenceVariable.cpp; sourceTree = "<group>"; };
 		F5609F0B2057C54900664ADD /* TestParameterSystemReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestParameterSystemReferenceVariable.cpp; path = tests/TestParameterSystemReferenceVariable.cpp; sourceTree = "<group>"; };
-		F5609F1520580D9E00664ADD /* LocalNativeVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LocalNativeVariable.hpp; path = include/wisey/LocalNativeVariable.hpp; sourceTree = "<group>"; };
-		F5609F1620580DE000664ADD /* LocalNativeVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LocalNativeVariable.cpp; path = src/LocalNativeVariable.cpp; sourceTree = "<group>"; };
-		F5609F1B205815D900664ADD /* TestLocalNativeVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLocalNativeVariable.cpp; path = tests/TestLocalNativeVariable.cpp; sourceTree = "<group>"; };
+		F5609F1520580D9E00664ADD /* LocalPointerVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LocalPointerVariable.hpp; path = include/wisey/LocalPointerVariable.hpp; sourceTree = "<group>"; };
+		F5609F1620580DE000664ADD /* LocalPointerVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LocalPointerVariable.cpp; path = src/LocalPointerVariable.cpp; sourceTree = "<group>"; };
+		F5609F1B205815D900664ADD /* TestLocalPointerVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLocalPointerVariable.cpp; path = tests/TestLocalPointerVariable.cpp; sourceTree = "<group>"; };
 		F569E9EB1DF9CC9600BBB20E /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Log.cpp; path = src/Log.cpp; sourceTree = "<group>"; };
 		F569E9ED1DF9CC9600BBB20E /* Parser.ypp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; name = Parser.ypp; path = src/Parser.ypp; sourceTree = "<group>"; };
 		F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; name = Tokens.lpp; path = src/Tokens.lpp; sourceTree = "<group>"; };
@@ -1806,9 +1806,9 @@
 		F5D465FF20611A4B00C1047A /* TestLLVMFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMFunction.cpp; path = tests/TestLLVMFunction.cpp; sourceTree = "<group>"; };
 		F5D4660120611BEF00C1047A /* TestLLVMFunctionDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMFunctionDefinition.cpp; path = tests/TestLLVMFunctionDefinition.cpp; sourceTree = "<group>"; };
 		F5D4660320611DA000C1047A /* TestLLVMVariableDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMVariableDeclaration.cpp; path = tests/TestLLVMVariableDeclaration.cpp; sourceTree = "<group>"; };
-		F5D466052061316100C1047A /* ParameterNativeVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ParameterNativeVariable.hpp; path = include/wisey/ParameterNativeVariable.hpp; sourceTree = "<group>"; };
-		F5D466062061318F00C1047A /* ParameterNativeVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ParameterNativeVariable.cpp; path = src/ParameterNativeVariable.cpp; sourceTree = "<group>"; };
-		F5D466092061330C00C1047A /* TestParameterNativeVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestParameterNativeVariable.cpp; path = tests/TestParameterNativeVariable.cpp; sourceTree = "<group>"; };
+		F5D466052061316100C1047A /* ParameterPointerVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ParameterPointerVariable.hpp; path = include/wisey/ParameterPointerVariable.hpp; sourceTree = "<group>"; };
+		F5D466062061318F00C1047A /* ParameterPointerVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ParameterPointerVariable.cpp; path = src/ParameterPointerVariable.cpp; sourceTree = "<group>"; };
+		F5D466092061330C00C1047A /* TestParameterPointerVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestParameterPointerVariable.cpp; path = tests/TestParameterPointerVariable.cpp; sourceTree = "<group>"; };
 		F5D4660B20614C0A00C1047A /* LLVMFunctionCall.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMFunctionCall.hpp; path = include/wisey/LLVMFunctionCall.hpp; sourceTree = "<group>"; };
 		F5D4660C20614CAF00C1047A /* LLVMFunctionCall.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMFunctionCall.cpp; path = src/LLVMFunctionCall.cpp; sourceTree = "<group>"; };
 		F5D4660F2061606200C1047A /* TestLLVMFunctionCall.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMFunctionCall.cpp; path = tests/TestLLVMFunctionCall.cpp; sourceTree = "<group>"; };
@@ -2746,18 +2746,18 @@
 				F5089C991ECD01D9004A1223 /* FieldReferenceVariable.hpp */,
 				F51701B0200FDE1500A10B7C /* LocalArrayOwnerVariable.hpp */,
 				F5A67DA32012084D0018068F /* LocalArrayReferenceVariable.hpp */,
-				F5609F1520580D9E00664ADD /* LocalNativeVariable.hpp */,
 				F5A3633F1F33C091005880B3 /* LocalOwnerVariable.hpp */,
 				F523D512206BF11F0017D5B4 /* LocalPointerOwnerVariable.hpp */,
+				F5609F1520580D9E00664ADD /* LocalPointerVariable.hpp */,
 				F5089C861ECD01D9004A1223 /* LocalPrimitiveVariable.hpp */,
 				F5089C851ECD01D9004A1223 /* LocalReferenceVariable.hpp */,
 				F53227E02063FAA600605E1B /* LocalSystemReferenceVariable.hpp */,
 				F5D46611206173B600C1047A /* ObjectFunctionVariable.hpp */,
 				F513DDFF2018682E001A075B /* ParameterArrayOwnerVariable.hpp */,
 				F513DE052018A0A7001A075B /* ParameterArrayReferenceVariable.hpp */,
-				F5D466052061316100C1047A /* ParameterNativeVariable.hpp */,
 				F5A363451F3724EF005880B3 /* ParameterOwnerVariable.hpp */,
 				F523D50E206BEB840017D5B4 /* ParameterPointerOwnerVariable.hpp */,
+				F5D466052061316100C1047A /* ParameterPointerVariable.hpp */,
 				F5F435C71FACA10A0097E5D0 /* ParameterPrimitiveVariable.hpp */,
 				F53A2C171EF85D5B00E76A9E /* ParameterReferenceVariable.hpp */,
 				F5609F052057BF7300664ADD /* ParameterSystemReferenceVariable.hpp */,
@@ -2777,18 +2777,18 @@
 				F50427B31E4E3FA7001CB148 /* FieldReferenceVariable.cpp */,
 				F51701AE200FDE0300A10B7C /* LocalArrayOwnerVariable.cpp */,
 				F5A67DA420120A0A0018068F /* LocalArrayReferenceVariable.cpp */,
-				F5609F1620580DE000664ADD /* LocalNativeVariable.cpp */,
 				F5A363401F33C1A8005880B3 /* LocalOwnerVariable.cpp */,
 				F523D513206BF15D0017D5B4 /* LocalPointerOwnerVariable.cpp */,
+				F5609F1620580DE000664ADD /* LocalPointerVariable.cpp */,
 				F50427A71E4D226C001CB148 /* LocalPrimitiveVariable.cpp */,
 				F50427AB1E4D2747001CB148 /* LocalReferenceVariable.cpp */,
 				F53227E12063FB0900605E1B /* LocalSystemReferenceVariable.cpp */,
 				F5D466122061751000C1047A /* ObjectFunctionVariable.cpp */,
 				F513DE0020186900001A075B /* ParameterArrayOwnerVariable.cpp */,
 				F513DE062018A0F7001A075B /* ParameterArrayReferenceVariable.cpp */,
-				F5D466062061318F00C1047A /* ParameterNativeVariable.cpp */,
 				F5A363461F37257C005880B3 /* ParameterOwnerVariable.cpp */,
 				F523D50F206BEBB90017D5B4 /* ParameterPointerOwnerVariable.cpp */,
+				F5D466062061318F00C1047A /* ParameterPointerVariable.cpp */,
 				F5F435C81FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp */,
 				F53A2C181EF85DF000E76A9E /* ParameterReferenceVariable.cpp */,
 				F5609F062057C07F00664ADD /* ParameterSystemReferenceVariable.cpp */,
@@ -3347,18 +3347,18 @@
 				F57085F51E511BAC007D627E /* TestFieldReferenceVariable.cpp */,
 				F51701BB20105FE900A10B7C /* TestLocalArrayOwnerVariable.cpp */,
 				F5A67DAD201353300018068F /* TestLocalArrayReferenceVariable.cpp */,
-				F5609F1B205815D900664ADD /* TestLocalNativeVariable.cpp */,
 				F5A363431F33D08F005880B3 /* TestLocalOwnerVariable.cpp */,
 				F523D51A206C2A980017D5B4 /* TestLocalPointerOwnerVariable.cpp */,
+				F5609F1B205815D900664ADD /* TestLocalPointerVariable.cpp */,
 				F50427AE1E4DD329001CB148 /* TestLocalPrimitiveVariable.cpp */,
 				F50427B01E4DD621001CB148 /* TestLocalReferenceVariable.cpp */,
 				F53227E42063FFB300605E1B /* TestLocalSystemReferenceVariable.cpp */,
 				F5D466152061876500C1047A /* TestObjectFunctionVariable.cpp */,
 				F513DE0320186CFC001A075B /* TestParameterArrayOwnerVariable.cpp */,
 				F513DE092018AA3E001A075B /* TestParameterArrayReferenceVariable.cpp */,
-				F5D466092061330C00C1047A /* TestParameterNativeVariable.cpp */,
 				F5A363491F373FFE005880B3 /* TestParameterOwnerVariable.cpp */,
 				F523D51C206C301F0017D5B4 /* TestParameterPointerOwnerVariable.cpp */,
+				F5D466092061330C00C1047A /* TestParameterPointerVariable.cpp */,
 				F5F435CB1FACA32A0097E5D0 /* TestParameterPrimitiveVariable.cpp */,
 				F53A2C1B1EF92D8300E76A9E /* TestParameterReferenceVariable.cpp */,
 				F5609F0B2057C54900664ADD /* TestParameterSystemReferenceVariable.cpp */,
@@ -3938,7 +3938,7 @@
 				F54B147B205D6D340030773F /* LLVMPrimitiveTypes.cpp in Sources */,
 				F53A2C371EFFFCEE00E76A9E /* TestNode.cpp in Sources */,
 				F582705E205FCA6C00839EC7 /* LLVMPointerType.cpp in Sources */,
-				F5609F1820580DE000664ADD /* LocalNativeVariable.cpp in Sources */,
+				F5609F1820580DE000664ADD /* LocalPointerVariable.cpp in Sources */,
 				F58725631F70143100FA25E6 /* IPrintStatement.cpp in Sources */,
 				F5CB7F43204A1B4A007628B5 /* TestThreadTypeSpecifier.cpp in Sources */,
 				F507D26E1E46044700495E2D /* PrimitiveTypes.cpp in Sources */,
@@ -4032,7 +4032,7 @@
 				F57780AE1EC7CC7B0049542D /* BindAction.cpp in Sources */,
 				F54B14352059015F0030773F /* TestIdentifierReference.cpp in Sources */,
 				F5CB7F632050FBF4007628B5 /* NativeType.cpp in Sources */,
-				F5D466082061318F00C1047A /* ParameterNativeVariable.cpp in Sources */,
+				F5D466082061318F00C1047A /* ParameterPointerVariable.cpp in Sources */,
 				F5E270751F98FFA9008D2EB7 /* ConstantDefinition.cpp in Sources */,
 				F5A363441F33D08F005880B3 /* TestLocalOwnerVariable.cpp in Sources */,
 				F50FA3001E323AAD00435EEA /* Scopes.cpp in Sources */,
@@ -4099,7 +4099,7 @@
 				F59497011F546CED0002F14F /* TestInstanceOf.cpp in Sources */,
 				F52C66671FBF446400E89B04 /* AdjustReferenceCounterForInterfaceFunction.cpp in Sources */,
 				F5C6FD791E48B59C0054209D /* TestDoubleType.cpp in Sources */,
-				F5D4660A2061330C00C1047A /* TestParameterNativeVariable.cpp in Sources */,
+				F5D4660A2061330C00C1047A /* TestParameterPointerVariable.cpp in Sources */,
 				F53401061DFEDB620002BF7E /* TestFileSampleRunner.cpp in Sources */,
 				F582707E20600ECD00839EC7 /* LLVMFunctionDeclaration.cpp in Sources */,
 				F5D465FE2061121000C1047A /* LLVMVariableDeclaration.cpp in Sources */,
@@ -4167,7 +4167,7 @@
 				F5D465F52060FA4F00C1047A /* LLVMFunctionDefinition.cpp in Sources */,
 				F5827066205FD6A600839EC7 /* LLVMFunctionTypeSpecifier.cpp in Sources */,
 				F5EEDDA11E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp in Sources */,
-				F5609F1C205815D900664ADD /* TestLocalNativeVariable.cpp in Sources */,
+				F5609F1C205815D900664ADD /* TestLocalPointerVariable.cpp in Sources */,
 				F582707A206009F400839EC7 /* TestLLVMPointerPointerType.cpp in Sources */,
 				F592A7C21F7D8D690026BD2F /* ExternalMethodDefinition.cpp in Sources */,
 				F582706E205FE5CA00839EC7 /* TestLLVMFunctionTypeSpecifier.cpp in Sources */,
@@ -4342,7 +4342,7 @@
 				F5436DB61FCF72CE003ABF6F /* NodeTypeSpecifierFull.cpp in Sources */,
 				F582707D20600ECD00839EC7 /* LLVMFunctionDeclaration.cpp in Sources */,
 				F5A67DA92012DBEB0018068F /* ArrayElementAssignment.cpp in Sources */,
-				F5D466072061318F00C1047A /* ParameterNativeVariable.cpp in Sources */,
+				F5D466072061318F00C1047A /* ParameterPointerVariable.cpp in Sources */,
 				F5601F3A1EB39B4400C9E2D8 /* IRWriter.cpp in Sources */,
 				F57E2E281E82D6E300FE1DB9 /* BooleanNotExpression.cpp in Sources */,
 				F539147A1FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp in Sources */,
@@ -4384,7 +4384,7 @@
 				F50FA2D51E2D0AD600435EEA /* ModelTypeSpecifier.cpp in Sources */,
 				F5827065205FD6A600839EC7 /* LLVMFunctionTypeSpecifier.cpp in Sources */,
 				F52746C6201A232900503713 /* ArrayAllocationStatic.cpp in Sources */,
-				F5609F1720580DE000664ADD /* LocalNativeVariable.cpp in Sources */,
+				F5609F1720580DE000664ADD /* LocalPointerVariable.cpp in Sources */,
 				F5CB7FE02052AE32007628B5 /* ReceivedField.cpp in Sources */,
 				F51D2BB41F691C8100510784 /* IMethod.cpp in Sources */,
 				F5CE2D411EF6A43C002ABB85 /* IType.cpp in Sources */,

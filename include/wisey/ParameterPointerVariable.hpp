@@ -1,37 +1,38 @@
 //
-//  LocalNativeVariable.hpp
+//  ParameterPointerVariable.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 3/13/18.
+//  Created by Vladimir Fridman on 3/20/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef LocalNativeVariable_h
-#define LocalNativeVariable_h
+#ifndef ParameterPointerVariable_h
+#define ParameterPointerVariable_h
 
 #include "wisey/IExpression.hpp"
+#include "wisey/ILLVMPointerType.hpp"
 #include "wisey/IReferenceVariable.hpp"
 
 namespace wisey {
   
   /**
-   * Represents a local variable of native type
+   * Represents an llvm function parameter that is a native type
    */
-  class LocalNativeVariable : public IVariable {
+  class ParameterPointerVariable : public IReferenceVariable {
     
     std::string mName;
-    const IType* mType;
-    llvm::Value* mValueStore;
+    const ILLVMPointerType* mType;
+    llvm::Value* mValue;
     
   public:
     
-    LocalNativeVariable(std::string name, const IType* type, llvm::Value* valueStore);
+    ParameterPointerVariable(std::string name, const ILLVMPointerType* type, llvm::Value* value);
     
-    ~LocalNativeVariable();
+    ~ParameterPointerVariable();
     
     std::string getName() const override;
     
-    const IType* getType() const override;
+    const ILLVMPointerType* getType() const override;
     
     bool isField() const override;
     
@@ -46,9 +47,10 @@ namespace wisey {
                                       std::vector<const IExpression*> arrayIndices,
                                       int line) override;
     
+    void decrementReferenceCounter(IRGenerationContext& context) const override;
+    
   };
   
 } /* namespace wisey */
 
-#endif /* LocalNativeVariable_h */
-
+#endif /* ParameterPointerVariable_h */
