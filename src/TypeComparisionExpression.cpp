@@ -78,12 +78,12 @@ Value* TypeComparisionExpression::generateIRforPointerTypes(IRGenerationContext&
     return valueFalse;
   }
   if (IType::isConcreteObjectType(expressionType) && type->isInterface()) {
-    IConcreteObjectType* concreteObjectType = (IConcreteObjectType*) expressionType;
-    return IConcreteObjectType::getInterfaceIndex(concreteObjectType, (Interface*) type) >= 0
+    const IConcreteObjectType* concreteObjectType = (const IConcreteObjectType*) expressionType;
+    return IConcreteObjectType::getInterfaceIndex(concreteObjectType, (const Interface*) type) >= 0
     ? valueTrue : valueFalse;
   }
-  Interface* interface = (Interface*) expressionType;
-  if (type->isInterface() && interface->doesExtendInterface((Interface*) type)) {
+  const Interface* interface = (const Interface*) expressionType;
+  if (type->isInterface() && interface->doesExtendInterface((const Interface*) type)) {
     return valueTrue;
   }
   return checkInterfaceImplemented(context, expressionType, type);
@@ -93,7 +93,7 @@ Value* TypeComparisionExpression::checkInterfaceImplemented(IRGenerationContext&
                                                             const IType* expressionType,
                                                             const IObjectType* objectType) const {
   Value* expressionValue = mExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
-  Interface* interface = (Interface*) expressionType;
+  const Interface* interface = (const Interface*) expressionType;
   
   Value* interfaceIndex = InstanceOf::call(context, interface, expressionValue, objectType);
   ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);

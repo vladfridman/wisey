@@ -396,7 +396,7 @@ void Controller::initializeReceivedFields(IRGenerationContext& context,
     Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);
     IRWriter::newStoreInst(context, castValue, fieldPointer);
     if (fieldType->isReference()) {
-      ((IObjectType*) fieldType)->incrementReferenceCount(context, castValue);
+      ((const IReferenceType*) fieldType)->incrementReferenceCount(context, castValue);
     }
   }
 }
@@ -422,13 +422,13 @@ void Controller::initializeInjectedFields(IRGenerationContext& context,
       fieldValue = IRWriter::newBitCastInst(context, arrayPointer, arraySpecificType->
                                             getArrayType(context)->getLLVMType(context));
     } else if (fieldType->isController()) {
-      Controller* controller = (Controller*) fieldType->getReferenceType();
+      const Controller* controller = (const Controller*) fieldType->getReferenceType();
       fieldValue = controller->inject(context, field->getInjectionArguments(), line);
     } else if (fieldType->isThread()) {
-      Thread* thread = (Thread*) fieldType->getReferenceType();
+      const Thread* thread = (const Thread*) fieldType->getReferenceType();
       fieldValue = thread->inject(context, field->getInjectionArguments(), line);
     } else if (fieldType->isInterface()) {
-      Interface* inteface = (Interface*) fieldType->getReferenceType();
+      const Interface* inteface = (const Interface*) fieldType->getReferenceType();
       fieldValue = inteface->inject(context, field->getInjectionArguments(), line);
     } else {
       Log::e("Attempt to inject a variable that is not of injectable type");

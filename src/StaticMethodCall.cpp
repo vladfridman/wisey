@@ -136,7 +136,9 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
                                                  (const LLVMPointerOwnerType*) returnType,
                                                  pointer);
   } else {
-    tempVariable = new LocalOwnerVariable(variableName, (IObjectOwnerType*) returnType, pointer);
+    tempVariable = new LocalOwnerVariable(variableName,
+                                          (const IObjectOwnerType*) returnType,
+                                          pointer);
   }
   context.getScopes().setVariable(tempVariable);
 

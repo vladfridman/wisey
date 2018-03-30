@@ -149,7 +149,7 @@ void Interface::buildMethods(IRGenerationContext& context) {
     includeInterfaceMethods(parentInterface);
   }
   unsigned long index = 0;
-  for (MethodSignature* methodSignature : mAllMethodSignatures) {
+  for (const MethodSignature* methodSignature : mAllMethodSignatures) {
     mMethodIndexes[methodSignature] = index;
     index++;
   }
@@ -207,7 +207,7 @@ vector<Interface*> Interface::getParentInterfaces() const {
   return mParentInterfaces;
 }
 
-unsigned long Interface::getMethodIndex(IMethodDescriptor* methodDescriptor) const {
+unsigned long Interface::getMethodIndex(const IMethodDescriptor* methodDescriptor) const {
   if (!mMethodIndexes.count(methodDescriptor)) {
     Log::e("Method " + methodDescriptor->getName() + " not found in interface " +
            getTypeName());
@@ -539,7 +539,7 @@ bool Interface::canAutoCastTo(IRGenerationContext& context, const IType* toType)
     return false;
   }
 
-  if (toType->isInterface() && doesExtendInterface((Interface*) toType)) {
+  if (toType->isInterface() && doesExtendInterface((const Interface*) toType)) {
     return true;
   }
   
@@ -786,7 +786,7 @@ void Interface::defineInterfaceTypeName(IRGenerationContext& context) {
 Value* Interface::inject(IRGenerationContext& context,
                          InjectionArgumentList injectionArgumentList,
                          int line) const {
-  Controller* controller = context.getBoundController(context.getInterface(getTypeName()));
+  const Controller* controller = context.getBoundController(context.getInterface(getTypeName()));
   Value* controllerValue = controller->inject(context, injectionArgumentList, line);
   return controller->castTo(context, controllerValue, this, line);
 }

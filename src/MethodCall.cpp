@@ -49,7 +49,7 @@ IVariable* MethodCall::getVariable(IRGenerationContext& context,
 }
 
 Value* MethodCall::generateIR(IRGenerationContext& context, const IType* assignToType) const {
-  IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
+  const IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
   const IObjectType* objectWithMethodsType = methodDescriptor->getReferenceType();
   checkArgumentType(objectWithMethodsType, methodDescriptor, context);
   std::vector<const Model*> thrownExceptions = methodDescriptor->getThrownExceptions();
@@ -67,13 +67,13 @@ Value* MethodCall::generateIR(IRGenerationContext& context, const IType* assignT
   
   if (IType::isConcreteObjectType(objectWithMethodsType)) {
     return generateObjectMethodCallIR(context,
-                                      (IObjectType*) objectWithMethodsType,
+                                      (const IObjectType*) objectWithMethodsType,
                                       methodDescriptor,
                                       assignToType);
   }
   if (objectWithMethodsType->isInterface()) {
     return generateInterfaceMethodCallIR(context,
-                                         (Interface*) objectWithMethodsType,
+                                         (const Interface*) objectWithMethodsType,
                                          methodDescriptor,
                                          assignToType);
   }
@@ -84,7 +84,7 @@ Value* MethodCall::generateIR(IRGenerationContext& context, const IType* assignT
 
 Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
                                                  const Interface* interface,
-                                                 IMethodDescriptor* methodDescriptor,
+                                                 const IMethodDescriptor* methodDescriptor,
                                                  const IType* assignToType) const {
   Value* objectValue = mExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
 
@@ -117,7 +117,7 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
 
 Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
                                               const IObjectType* objectType,
-                                              IMethodDescriptor* methodDescriptor,
+                                              const IMethodDescriptor* methodDescriptor,
                                               const IType* assignToType) const {
   Value* objectValue = mExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
   Function* function = getMethodFunction(context, methodDescriptor);
@@ -139,7 +139,7 @@ Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
 
 Value* MethodCall::generateStaticMethodCallIR(IRGenerationContext& context,
                                               const IObjectType* objectType,
-                                              IMethodDescriptor* methodDescriptor,
+                                              const IMethodDescriptor* methodDescriptor,
                                               const IType* assignToType) const {
   Function* function = getMethodFunction(context, methodDescriptor);
   vector<Value*> arguments;
@@ -155,7 +155,7 @@ Value* MethodCall::generateStaticMethodCallIR(IRGenerationContext& context,
 Value* MethodCall::createFunctionCall(IRGenerationContext& context,
                                       const IObjectType* object,
                                       Function* function,
-                                      IMethodDescriptor* methodDescriptor,
+                                      const IMethodDescriptor* methodDescriptor,
                                       vector<Value*> arguments,
                                       const IType* assignToType) const {
 
@@ -209,7 +209,9 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
                                                  (const LLVMPointerOwnerType*) returnType,
                                                  pointer);
   } else {
-    tempVariable = new LocalOwnerVariable(variableName, (IObjectOwnerType*) returnType, pointer);
+    tempVariable = new LocalOwnerVariable(variableName,
+                                          (const IObjectOwnerType*) returnType,
+                                          pointer);
   }
   context.getScopes().setVariable(tempVariable);
 
@@ -220,17 +222,17 @@ const IType* MethodCall::getType(IRGenerationContext& context) const {
   return getMethodDescriptor(context)->getReturnType();
 }
 
-IMethodDescriptor* MethodCall::getMethodDescriptor(IRGenerationContext& context) const {
+const IMethodDescriptor* MethodCall::getMethodDescriptor(IRGenerationContext& context) const {
   const IType* expressionType = mExpression->getType(context);
   if (!expressionType->isFunction()) {
     Log::e("Can not call a method on expression of type " + expressionType->getTypeName());
     exit(1);
   }
-  return (IMethodDescriptor*) expressionType;
+  return (const IMethodDescriptor*) expressionType;
 }
 
 void MethodCall::checkArgumentType(const IObjectType* objectWithMethods,
-                                   IMethodDescriptor* methodDescriptor,
+                                   const IMethodDescriptor* methodDescriptor,
                                    IRGenerationContext& context) const {
   vector<MethodArgument*> methodArguments = methodDescriptor->getArguments();
   ExpressionList::const_iterator callArgumentsIterator = mArguments.begin();
@@ -282,7 +284,7 @@ void MethodCall::printToStream(IRGenerationContext& context, std::iostream& stre
 }
 
 Function* MethodCall::getMethodFunction(IRGenerationContext& context,
-                                        IMethodDescriptor* methodDescriptor) const {
+                                        const IMethodDescriptor* methodDescriptor) const {
   const IObjectType* objectType = methodDescriptor->getReferenceType();
   string methodName = methodDescriptor->getName();
   string llvmFunctionName = IMethodCall::translateObjectMethodToLLVMFunctionName(objectType,

@@ -53,34 +53,34 @@ namespace wisey {
     
     llvm::Value* generateStaticMethodCallIR(IRGenerationContext& context,
                                             const IObjectType* objectType,
-                                            IMethodDescriptor* methodDescriptor,
+                                            const IMethodDescriptor* methodDescriptor,
                                             const IType* assignToType) const;
     
     llvm::Value* generateObjectMethodCallIR(IRGenerationContext& context,
                                             const IObjectType* objectType,
-                                            IMethodDescriptor* methodDescriptor,
+                                            const IMethodDescriptor* methodDescriptor,
                                             const IType* assignToType) const;
     
     llvm::Value* generateInterfaceMethodCallIR(IRGenerationContext& context,
                                                const Interface* interface,
-                                               IMethodDescriptor* methodDescriptor,
+                                               const IMethodDescriptor* methodDescriptor,
                                                const IType* assignToType) const;
     
     void checkArgumentType(const IObjectType* objectWithMethods,
-                           IMethodDescriptor* methodDescriptor,
+                           const IMethodDescriptor* methodDescriptor,
                            IRGenerationContext& context) const;
     
     llvm::Value* createFunctionCall(IRGenerationContext& context,
                                     const IObjectType* object,
                                     llvm::Function* function,
-                                    IMethodDescriptor* methodDescriptor,
+                                    const IMethodDescriptor* methodDescriptor,
                                     std::vector<llvm::Value*> arguments,
                                     const IType* assignToType) const;
     
     llvm::Function* getMethodFunction(IRGenerationContext& context,
-                                      IMethodDescriptor* methodDescriptor) const;
+                                      const IMethodDescriptor* methodDescriptor) const;
     
-    IMethodDescriptor* getMethodDescriptor(IRGenerationContext& context) const;
+    const IMethodDescriptor* getMethodDescriptor(IRGenerationContext& context) const;
     
   };
   

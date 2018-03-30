@@ -38,13 +38,13 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
                                       returnType,
                                       mLine);
   if (returnType->isReference() && !returnType->isNative()) {
-    ((IReferenceType*) returnType)->incrementReferenceCount(context, result);
+    ((const IReferenceType*) returnType)->incrementReferenceCount(context, result);
   }
   
   context.getScopes().freeOwnedMemory(context, mLine);
   
   if (returnType->isReference() && !returnType->isNative()) {
-    ((IReferenceType*) returnType)->decrementReferenceCount(context, result);
+    ((const IReferenceType*) returnType)->decrementReferenceCount(context, result);
   }
   
   return IRWriter::createReturnInst(context, result);

@@ -1375,10 +1375,10 @@ injectable_type_specifier
 
 non_array_type_specifier
   : primitive_type_specifier
-  | top_level_object_type_specifier { $$ = (ITypeSpecifier*) $1; }
-  | inner_object_type_specifier { $$ = (ITypeSpecifier*) $1; }
+  | top_level_object_type_specifier { $$ = (const ITypeSpecifier*) $1; }
+  | inner_object_type_specifier { $$ = (const ITypeSpecifier*) $1; }
   | object_owner_type_specifier
-  | llvm_type_specifier { $$ = (ITypeSpecifier*) $1; }
+  | llvm_type_specifier { $$ = (const ITypeSpecifier*) $1; }
   ;
 
 object_owner_type_specifier

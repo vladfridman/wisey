@@ -62,7 +62,7 @@ namespace wisey {
     std::map<std::string, LLVMStructType*> mLLVMStructTypes;
     std::map<std::string, LLVMFunctionType*> mLLVMFunctionTypes;
     std::map<llvm::Type*, NativeType*> mNativeTypes;
-    std::map<Interface*, Controller*> mBindings;
+    std::map<const Interface*, const Controller*> mBindings;
     ImportProfile* mImportProfile;
     std::string mPackage;
     Scopes mScopes;
@@ -201,17 +201,17 @@ namespace wisey {
     /**
      * Bind an interface to a controller for injection
      */
-    void bindInterfaceToController(Interface* interface, Controller* controller);
+    void bindInterfaceToController(const Interface* interface, const Controller* controller);
     
     /**
      * Returns controller bound to the given interface
      */
-    Controller* getBoundController(Interface* interface);
+    const Controller* getBoundController(const Interface* interface);
     
     /**
      * Tells whether there is a controller bound to the given interface
      */
-    bool hasBoundController(Interface* interface);
+    bool hasBoundController(const Interface* interface);
     
     /**
      * Returns a PackageType or creates one if one does not exist yet

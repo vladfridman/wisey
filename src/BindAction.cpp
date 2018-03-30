@@ -28,8 +28,8 @@ IObjectType* BindAction::prototypeObject(IRGenerationContext& context) const {
 }
 
 void BindAction::prototypeMethods(IRGenerationContext& context) const {
-  Controller* controller = (Controller*) mContreollerTypeSpecifier->getType(context);
-  Interface* interface = (Interface*) mInterfaceTypeSpecifier->getType(context);
+  const Controller* controller = (const Controller*) mContreollerTypeSpecifier->getType(context);
+  const Interface* interface = (const Interface*) mInterfaceTypeSpecifier->getType(context);
   context.bindInterfaceToController(interface, controller);
 }
 

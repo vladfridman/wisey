@@ -11,20 +11,25 @@
 #include "wisey/CompilerArgumentParser.hpp"
 #include "wisey/Log.hpp"
 
+using namespace std;
 using namespace wisey;
 
 /**
  * Main for running the wisey compiler driver
  */
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
   Log::setLogLevel(DEBUGLEVEL);
   
+  vector<string> arguments;
+  for (int i = 1; i < argc; i++) {
+    arguments.push_back(argv[i]);
+  }
   CompilerArgumentParser compilerArgumentParser;
-  CompilerArguments compilerArguents = compilerArgumentParser.parse(argc, argv);
+  CompilerArguments compilerArguments = compilerArgumentParser.parse(arguments);
 
-  Compiler compiler(compilerArguents);
+  Compiler compiler(compilerArguments);
   compiler.compile();
-  if (!compilerArguents.getOutputFile().size()) {
+  if (!compilerArguments.getOutputFile().size()) {
     compiler.run();
   }
   

@@ -420,7 +420,7 @@ void Model::initializeFields(IRGenerationContext& context,
     Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);
     IRWriter::newStoreInst(context, castValue, fieldPointer);
     if (fieldType->isReference()) {
-      ((IObjectType*) fieldType)->incrementReferenceCount(context, castValue);
+      ((const IReferenceType*) fieldType)->incrementReferenceCount(context, castValue);
     }
   }
 }

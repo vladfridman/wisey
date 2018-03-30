@@ -41,7 +41,8 @@ IVariable* ObjectBuilder::getVariable(IRGenerationContext& context,
 Value* ObjectBuilder::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   const IObjectType* objectType = mTypeSpecifier->getType(context);
   assert(objectType->isModel() || objectType->isNode());
-  IBuildableConcreteObjectType* buildableType = (IBuildableConcreteObjectType*) objectType;
+  const IBuildableConcreteObjectType* buildableType =
+  (const IBuildableConcreteObjectType*) objectType;
   Instruction* malloc = buildableType->build(context, mObjectBuilderArgumentList, mLine);
   
   if (assignToType->isOwner()) {

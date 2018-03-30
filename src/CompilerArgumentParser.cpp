@@ -25,56 +25,61 @@ void CompilerArgumentParser::printSyntaxAndExit() const {
   exit(1);
 }
 
-CompilerArguments CompilerArgumentParser::parse(int argc, char **argv) const {
+CompilerArguments CompilerArgumentParser::parse(vector<string> argumnets) const {
   CompilerArguments compilerArguments;
 
-  if (argc <= 1) {
+  if (argumnets.size() == 0) {
     printSyntaxAndExit();
   }
   
-  for (int i = 1; i < argc; i++) {
-    if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-h")) {
+  for (vector<string>::iterator iterator = argumnets.begin();
+       iterator != argumnets.end();
+       iterator++) {
+    string argument = *iterator;
+    if (!argument.compare("--help") || !argument.compare("-h")) {
       printSyntaxAndExit();
     }
-    if (!strcmp(argv[i], "--emit-llvm") || !strcmp(argv[i], "-e")) {
+    if (!argument.compare("--emit-llvm") || !argument.compare("-e")) {
       compilerArguments.setShouldPrintAssembly(true);
       continue;
     }
-    if (!strcmp(argv[i], "--verbouse") || !strcmp(argv[i], "-v")) {
+    if (!argument.compare("--verbouse") || !argument.compare("-v")) {
       compilerArguments.setVerbouse(true);
       continue;
     }
-    if ((!strcmp(argv[i], "--output") || !strcmp(argv[i], "-o")) && i == argc - 1) {
-      Log::e("You need to specify the output file name after \"" + string(argv[i]) + "\"");
+    if ((!argument.compare("--output") || !argument.compare("-o")) &&
+        argument == argumnets.back()) {
+      Log::e("You need to specify the output file name after \"" + argument + "\"");
       exit(1);
     }
-    if (!strcmp(argv[i], "--output") || !strcmp(argv[i], "-o")) {
-      i++;
-      compilerArguments.setOutputFile(argv[i]);
+    if (!argument.compare("--output") || !argument.compare("-o")) {
+      iterator++;
+      compilerArguments.setOutputFile(*iterator);
       continue;
     }
-    if ((!strcmp(argv[i], "--headers") || !strcmp(argv[i], "-H")) && i == argc - 1) {
-      Log::e("You need to specify the header file name after \"" + string(argv[i]) + "\"");
+    if ((!argument.compare("--headers") || !argument.compare("-H")) &&
+        argument == argumnets.back()) {
+      Log::e("You need to specify the header file name after \"" + string(argument) + "\"");
       exit(1);
     }
-    if (!strcmp(argv[i], "--headers") || !strcmp(argv[i], "-H")) {
-      i++;
-      compilerArguments.setHeaderFile(argv[i]);
+    if (!argument.compare("--headers") || !argument.compare("-H")) {
+      iterator++;
+      compilerArguments.setHeaderFile(*iterator);
       continue;
     }
-    if (!strcmp(argv[i], "--no-output") || !strcmp(argv[i], "-n")) {
+    if (!argument.compare("--no-output") || !argument.compare("-n")) {
       compilerArguments.setShouldOutput(false);
       continue;
     }
-    if (!strcmp(argv[i], "--destructor-debug") || !strcmp(argv[i], "-d")) {
+    if (!argument.compare("--destructor-debug") || !argument.compare("-d")) {
       compilerArguments.setDestructorDebug(true);
       continue;
     }
-    if (strcmp(argv[i] + strlen(argv[i]) - 3, ".yz")) {
-      Log::e("Unknown argument " + string(argv[i]));
+    if (argument.substr(argument.length() - 3).compare(".yz")) {
+      Log::e("Unknown argument " + argument);
       exit(1);
     }
-    compilerArguments.addSourceFile(argv[i]);
+    compilerArguments.addSourceFile(argument);
   }
   
   return compilerArguments;

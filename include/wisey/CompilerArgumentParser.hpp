@@ -27,7 +27,7 @@ namespace wisey {
     /**
      * Parse given command line arguments
      */
-    CompilerArguments parse(int argc, char **argv) const;
+    CompilerArguments parse(std::vector<std::string> argumnets) const;
     
   private:
     

@@ -35,7 +35,7 @@ namespace wisey {
     /**
      * Returns the object type corresponding to the exception in this catch clause
      */
-    ModelOwner* getType(IRGenerationContext& context) const;
+    const ModelOwner* getType(IRGenerationContext& context) const;
     
     /**
      * Generate IR for this catch for a given exception and add it to the given basic block.

@@ -76,7 +76,7 @@ Value* FieldOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   Value* fieldPointerLoaded = IRWriter::newLoadInst(context, fieldPointer, "");
 
-  ((IObjectOwnerType*) field->getType())->free(context, fieldPointerLoaded);
+  ((const IOwnerType*) field->getType())->free(context, fieldPointerLoaded);
   
   Value* value = IRWriter::newStoreInst(context, cast, fieldPointer);
 

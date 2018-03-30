@@ -128,10 +128,10 @@ void ArrayAllocationStatic::initializeArray(IRGenerationContext &context,
     index[1] = ConstantInt::get(int64Type, arrayIndex);
     Value* elementStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
     if (dimensions.size()) {
-      ((ArrayAllocationStatic*) expression)->initializeArray(context,
-                                                             elementStore,
-                                                             elementType,
-                                                             dimensions);
+      ((const ArrayAllocationStatic*) expression)->initializeArray(context,
+                                                                   elementStore,
+                                                                   elementType,
+                                                                   dimensions);
     } else {
       ArrayElementAssignment::generateElementAssignment(context,
                                                         elementType,
@@ -160,7 +160,7 @@ ExpressionList ArrayAllocationStatic::flattenExpressionList(IRGenerationContext&
     stack.pop_back();
     if (expression->getType(context)->isArray()) {
       for (const IExpression* subExpression :
-           ((ArrayAllocationStatic*) expression)->getExpressionList()) {
+           ((const ArrayAllocationStatic*) expression)->getExpressionList()) {
         stack.push_back(subExpression);
       }
     } else {

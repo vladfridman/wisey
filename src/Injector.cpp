@@ -38,8 +38,8 @@ IVariable* Injector::getVariable(IRGenerationContext& context,
 Value* Injector::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   const IObjectType* type = mObjectTypeSpecifier->getType(context);
   Value* malloc = type->isInterface()
-    ? ((Interface*) type)->inject(context, mInjectionArgumentList, mLine)
-    : ((Controller*) type)->inject(context, mInjectionArgumentList, mLine);
+    ? ((const Interface*) type)->inject(context, mInjectionArgumentList, mLine)
+    : ((const Controller*) type)->inject(context, mInjectionArgumentList, mLine);
   
   if (assignToType->isOwner()) {
     return malloc;

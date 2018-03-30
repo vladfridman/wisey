@@ -339,7 +339,8 @@ NativeType* IRGenerationContext::getNativeType(Type* llvmType) {
   return nativeType;
 }
 
-void IRGenerationContext::bindInterfaceToController(Interface* interface, Controller* controller) {
+void IRGenerationContext::bindInterfaceToController(const Interface* interface,
+                                                    const Controller* controller) {
   if (mBindings.count(interface)) {
     Log::e("Interface " + interface->getTypeName() + " is already bound to " +
            mBindings[interface]->getTypeName() + " and can not be bound to " +
@@ -349,7 +350,7 @@ void IRGenerationContext::bindInterfaceToController(Interface* interface, Contro
   mBindings[interface] = controller;
 }
 
-Controller* IRGenerationContext::getBoundController(Interface* interface) {
+const Controller* IRGenerationContext::getBoundController(const Interface* interface) {
   if (!hasBoundController(interface)) {
     Log::e("No controller is bound to interface " + interface->getTypeName());
     exit(1);
@@ -357,7 +358,7 @@ Controller* IRGenerationContext::getBoundController(Interface* interface) {
   return mBindings[interface];
 }
 
-bool IRGenerationContext::hasBoundController(Interface* interface) {
+bool IRGenerationContext::hasBoundController(const Interface* interface) {
   return mBindings.count(interface);
 }
 
@@ -471,11 +472,11 @@ void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& 
   }
   
   stream << "/* Bindings */" << endl << endl;
-  for (map<Interface*, Controller*>::const_iterator iterator = mBindings.begin();
+  for (map<const Interface*, const Controller*>::const_iterator iterator = mBindings.begin();
        iterator != mBindings.end();
        iterator++) {
-    Interface* interface = iterator->first;
-    Controller* controller = iterator->second;
+    const Interface* interface = iterator->first;
+    const Controller* controller = iterator->second;
     stream << "bind(" << controller->getTypeName() << ").to(" << interface->getTypeName() << ");";
     stream << endl;
   }

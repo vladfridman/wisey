@@ -33,9 +33,9 @@ Catch::~Catch() {
   delete mCompoundStatement;
 }
 
-ModelOwner* Catch::getType(IRGenerationContext& context) const {
+const ModelOwner* Catch::getType(IRGenerationContext& context) const {
   Model* model = mModelTypeSpecifier->getType(context);
-  return (ModelOwner*) model->getOwner();
+  return (const ModelOwner*) model->getOwner();
 }
 
 bool Catch::generateIR(IRGenerationContext& context,
@@ -50,7 +50,7 @@ bool Catch::generateIR(IRGenerationContext& context,
   context.getScopes().pushScope();
   context.setBasicBlock(catchBlock);
   
-  IObjectOwnerType* exceptionType = getType(context);
+  const IObjectOwnerType* exceptionType = getType(context);
   llvm::PointerType* exceptionLLVMType = exceptionType->getLLVMType(context);
   Type* exceptionStructLLVMType = exceptionLLVMType->getPointerElementType();
   vector<Value*> arguments;

@@ -119,7 +119,7 @@ TryCatchInfo::generateLandingPad(IRGenerationContext& context,
                                                       landingPadBlock);
   
   for (Catch* catchClause : catchList) {
-    ModelOwner* exceptionType = catchClause->getType(context);
+    const ModelOwner* exceptionType = catchClause->getType(context);
     landingPad->addClause(context.getModule()->
                           getNamedGlobal(exceptionType->getReferenceType()->getRTTIVariableName()));
   }
@@ -180,7 +180,7 @@ TryCatchInfo::generateSelectCatchByExceptionType(IRGenerationContext& context,
   
   for (Catch* catchClause : catchList) {
     context.setBasicBlock(currentBlock);
-    ModelOwner* exceptionType = catchClause->getType(context);
+    const ModelOwner* exceptionType = catchClause->getType(context);
     Value* rtti = context.getModule()->
     getNamedGlobal(exceptionType->getReferenceType()->getRTTIVariableName());
     Value* rttiBitcast = IRWriter::newBitCastInst(context, rtti, int8PointerType);

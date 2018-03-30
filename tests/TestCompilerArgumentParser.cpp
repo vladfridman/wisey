@@ -23,8 +23,8 @@ struct CompilerArgumentParserTest : public ::testing::Test {
 };
 
 TEST_F(CompilerArgumentParserTest, noArgumentsTest) {
-  char const * argv[] = {"bin/wisey"};
-  EXPECT_EXIT(mParser.parse(1, (char**) argv),
+  vector<string> arguments;
+  EXPECT_EXIT(mParser.parse(arguments),
               ::testing::ExitedWithCode(1),
               "Syntax: wiseyc "
               "\\[-d|--destructor-debug\\] "
@@ -37,9 +37,10 @@ TEST_F(CompilerArgumentParserTest, noArgumentsTest) {
 }
 
 TEST_F(CompilerArgumentParserTest, helpTest) {
-  char const * argv[] = {"bin/wisey", "-h"};
-  
-  EXPECT_EXIT(mParser.parse(2, (char**) argv),
+  vector<string> arguments;
+  arguments.push_back("-h");
+
+  EXPECT_EXIT(mParser.parse(arguments),
               ::testing::ExitedWithCode(1),
               "Syntax: wiseyc "
               "\\[-d|--destructor-debug\\] "
@@ -52,49 +53,59 @@ TEST_F(CompilerArgumentParserTest, helpTest) {
 }
 
 TEST_F(CompilerArgumentParserTest, missingOutputFileTest) {
-  char const * argv[] = {"bin/wisey", "tests/samples/test_addition.yz", "-o"};
+  vector<string> arguments;
+  arguments.push_back("tests/samples/test_addition.yz");
+  arguments.push_back("-o");
   
-  EXPECT_EXIT(mParser.parse(3, (char**) argv),
+  EXPECT_EXIT(mParser.parse(arguments),
               ::testing::ExitedWithCode(1),
               "Error: You need to specify the output file name after \"-o\"\n");
 }
 
 TEST_F(CompilerArgumentParserTest, unknownArgumentTest) {
-  char const * argv[] = {"bin/wisey", "tests/samples/test_addition.yz", "-foo"};
+  vector<string> arguments;
+  arguments.push_back("tests/samples/test_addition.yz");
+  arguments.push_back("-foo");
   
-  EXPECT_EXIT(mParser.parse(3, (char**) argv),
+  EXPECT_EXIT(mParser.parse(arguments),
               ::testing::ExitedWithCode(1),
               "Error: Unknown argument -foo\n");
 }
 
 TEST_F(CompilerArgumentParserTest, normalRunTest) {
-  char const * argv[] = {"bin/wisey", "tests/samples/test_addition.yz"};
+  vector<string> arguments;
+  arguments.push_back("tests/samples/test_addition.yz");
   
-  CompilerArguments arguments = mParser.parse(2, (char**) argv);
-  EXPECT_EQ(arguments.getSourceFiles().size(), 1u);
-  EXPECT_STREQ(arguments.getSourceFiles().front().c_str(), "tests/samples/test_addition.yz");
-  EXPECT_STREQ(arguments.getOutputFile().c_str(), "");
-  EXPECT_FALSE(arguments.shouldPrintAssembly());
+  CompilerArguments parsedArguments = mParser.parse(arguments);
+  EXPECT_EQ(parsedArguments.getSourceFiles().size(), 1u);
+  EXPECT_STREQ(parsedArguments.getSourceFiles().front().c_str(), "tests/samples/test_addition.yz");
+  EXPECT_STREQ(parsedArguments.getOutputFile().c_str(), "");
+  EXPECT_FALSE(parsedArguments.shouldPrintAssembly());
 }
 
 TEST_F(CompilerArgumentParserTest, outputToFileTest) {
-  char const * argv[] = {"bin/wisey", "tests/samples/test_addition.yz", "-o", "build/test.bc"};
+  vector<string> arguments;
+  arguments.push_back("tests/samples/test_addition.yz");
+  arguments.push_back("-o");
+  arguments.push_back("build/test.bc");
   
-  CompilerArguments arguments = mParser.parse(4, (char**) argv);
-  EXPECT_EQ(arguments.getSourceFiles().size(), 1u);
-  EXPECT_STREQ(arguments.getSourceFiles().front().c_str(), "tests/samples/test_addition.yz");
-  EXPECT_STREQ(arguments.getOutputFile().c_str(), "build/test.bc");
-  EXPECT_FALSE(arguments.shouldPrintAssembly());
+  CompilerArguments parsedArguments = mParser.parse(arguments);
+  EXPECT_EQ(parsedArguments.getSourceFiles().size(), 1u);
+  EXPECT_STREQ(parsedArguments.getSourceFiles().front().c_str(), "tests/samples/test_addition.yz");
+  EXPECT_STREQ(parsedArguments.getOutputFile().c_str(), "build/test.bc");
+  EXPECT_FALSE(parsedArguments.shouldPrintAssembly());
 }
 
 
 TEST_F(CompilerArgumentParserTest, printAssemblyTest) {
-  char const * argv[] = {"bin/wisey", "tests/samples/test_addition.yz", "--emit-llvm"};
+  vector<string> arguments;
+  arguments.push_back("tests/samples/test_addition.yz");
+  arguments.push_back("--emit-llvm");
   
-  CompilerArguments arguments = mParser.parse(3, (char**) argv);
-  EXPECT_EQ(arguments.getSourceFiles().size(), 1u);
-  EXPECT_STREQ(arguments.getSourceFiles().front().c_str(), "tests/samples/test_addition.yz");
-  EXPECT_STREQ(arguments.getOutputFile().c_str(), "");
-  EXPECT_TRUE(arguments.shouldPrintAssembly());
+  CompilerArguments parsedArguments = mParser.parse(arguments);
+  EXPECT_EQ(parsedArguments.getSourceFiles().size(), 1u);
+  EXPECT_STREQ(parsedArguments.getSourceFiles().front().c_str(), "tests/samples/test_addition.yz");
+  EXPECT_STREQ(parsedArguments.getOutputFile().c_str(), "");
+  EXPECT_TRUE(parsedArguments.shouldPrintAssembly());
 }
 

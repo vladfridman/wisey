@@ -61,7 +61,7 @@ Value* FieldReferenceVariable::generateAssignmentIR(IRGenerationContext& context
 
   const IType* expressionType = assignToExpression->getType(context);
   assert(field->getType()->isReference());
-  const IObjectType* fieldType = (IObjectType*) field->getType();
+  const IObjectType* fieldType = (const IObjectType*) field->getType();
   if (!expressionType->canAutoCastTo(context, fieldType)) {
     Log::e("Can not assign to field '" + mName + "' of object '" + mObject->getTypeName() +
            "' because of incompatable types");

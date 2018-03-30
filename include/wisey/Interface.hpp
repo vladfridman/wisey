@@ -45,7 +45,7 @@ namespace wisey {
     std::vector<MethodSignature*> mMethodSignatures;
     std::vector<MethodSignature*> mAllMethodSignatures;
     std::vector<StaticMethod*> mStaticMethods;
-    std::map<IMethodDescriptor*, unsigned long> mMethodIndexes;
+    std::map<const IMethodDescriptor*, unsigned long> mMethodIndexes;
     std::map<std::string, MethodSignature*> mNameToMethodSignatureMap;
     std::map<std::string, StaticMethod*> mNameToStaticMethodMap;
     std::vector<wisey::Constant*> mConstants;
@@ -115,7 +115,7 @@ namespace wisey {
     /**
      * Returns method index in the list of all methods that this interface has or inherits
      */
-    unsigned long getMethodIndex(IMethodDescriptor* methodDescriptor) const;
+    unsigned long getMethodIndex(const IMethodDescriptor* methodDescriptor) const;
     
     /**
      * Tells whether building of this interface completed
