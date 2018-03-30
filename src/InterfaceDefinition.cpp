@@ -74,8 +74,6 @@ void InterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {
 
   interface->buildMethods(context);
   interface->generateConstantsIR(context);
-  interface->defineDestructorFunction(context);
-  interface->composeDestructorFunctionBody(context);
   interface->defineStaticMethodFunctions(context);
   context.setObjectType(lastObjectType);
 }

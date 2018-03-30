@@ -200,7 +200,7 @@ TEST_F(FieldOwnerVariableTest, generateAssignmentWithCastIRTest) {
   "\n  %4 = load %systems.vos.wisey.compiler.tests.IInterface*, "
   "%systems.vos.wisey.compiler.tests.IInterface** %3"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.IInterface* %4 to i8*"
-  "\n  call void @destructor.systems.vos.wisey.compiler.tests.IInterface(i8* %5)"
+  "\n  call void @__destroyOwnerObjectFunction(i8* %5)"
   "\n  store %systems.vos.wisey.compiler.tests.IInterface* %2, "
   "%systems.vos.wisey.compiler.tests.IInterface** %3\n";
   

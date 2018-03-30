@@ -369,7 +369,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFiel
   "\n  %3 = load %systems.vos.wisey.compiler.tests.ICanNavigate*, "
   "%systems.vos.wisey.compiler.tests.ICanNavigate** %2"
   "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.ICanNavigate* %3 to i8*"
-  "\n  call void @destructor.systems.vos.wisey.compiler.tests.ICanNavigate(i8* %4)"
+  "\n  call void @__destroyOwnerObjectFunction(i8* %4)"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.MCar* %1 to i64*"
   "\n  %refCounter = load i64, i64* %5"
   "\n  %6 = icmp eq i64 %refCounter, 0"
