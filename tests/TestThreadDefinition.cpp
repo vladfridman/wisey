@@ -245,11 +245,12 @@ TEST_F(TestFileSampleRunner, threadProducerRunRunTest) {
                      "Thread started = 1, has result = 0\n"
                      "Getting call stack!\n"
                      "This is producer thread!\n"
+                     "Adding result 0\n"
                      "Adding result 1\n"
-                     "Adding result 2\n"
-                     "Adding result 3\n"
+                     "Producer thread finished with result: 0\n"
+                     "Thread started = 1, has result = 1\n"
                      "Producer thread finished with result: 1\n"
-                     "Thread started = 1, has result = 1\n",
+                     "Thread started = 1, has result = 0\n",
                      "");
 }
 

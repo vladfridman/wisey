@@ -45,16 +45,14 @@ thread TProducer implements IProducerThread {
 
   public void produce() {
     printout("This is producer thread!\n");
-    int i = 0;
-    while (true) {
-      i++;
+    for (int i = 0; i < 2; i++) {
       MProducerResult* result = builder(MProducerResult).withResult(i).build();
-      printout("Adding result " + i + "\n");
-      while (!thread.send(result)) {
-        printout("Could not add result, sleeping\n");
+      while (!mProducerThreadRunner.hasRoom()) {
+        printout("Could not add result " + i + ", sleeping\n");
         IThread.sleep(1);
       }
-      IThread.sleep(1);
+      printout("Adding result " + i + "\n");
+      thread.send(result);
     }
   }
 
@@ -69,7 +67,7 @@ thread TProducer implements IProducerThread {
 }
 
 controller CProgram implements IProgram {
-  inject TProducer* mProducer.withSize(5);
+  inject TProducer* mProducer.withSize(3);
 
   public int run() {
     printout("Thread started = " + mProducer.hasStarted() + ", has result = " + mProducer.hasResult() + "\n");
@@ -77,16 +75,14 @@ controller CProgram implements IProgram {
     mProducer.start();
     printout("Producer thread started\n");
     printout("Thread started = " + mProducer.hasStarted() + ", has result = " + mProducer.hasResult() + "\n");
-    IThread.sleep(3);
-    mProducer.cancel();
-    if (mProducer.hasResult()) {
+    IThread.sleep(1);
+    while (mProducer.hasResult()) {
       int result = ((MProducerResult) mProducer.consume()).getResult();
       printout("Producer thread finished with result: " + result + "\n");
       printout("Thread started = " + mProducer.hasStarted() + ", has result = " + mProducer.hasResult() + "\n");
-      return result;
-    } else {
-      printout("No results\n");
+      IThread.sleep(1);
     }
+    mProducer.cancel();
     return 0;
   }
 }

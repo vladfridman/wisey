@@ -30,8 +30,8 @@ controller CProducerThreadRunner {
    * Creates a new posix thread that calls workBridge function that in turn calls work method
    */
   public void createThread(IProducerThread workerThread, int size) {
-    mResults = new ::llvm::i8::pointer*[size];
-    mSize = size;
+    mSize = size + 1;
+    mResults = new ::llvm::i8::pointer*[mSize];
     ::llvm::function::pthread_create(::llvm::reference(mMyNativeThread), 
                                      (::llvm::struct::_opaque_pthread_attr_t::pointer) null, 
                                      produceBridge, 
@@ -65,6 +65,10 @@ controller CProducerThreadRunner {
 
   public boolean hasResult() {
     return mIndexStart != mIndexEnd;
+  }
+
+  public boolean hasRoom() {
+    return (mIndexEnd + 1) % mSize != mIndexStart;
   }
 
   /**

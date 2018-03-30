@@ -161,6 +161,7 @@ external controller wisey.lang.CProducerThreadRunner {
     ::llvm::i8::pointer* result);
   ::llvm::i8::pointer consumeResult();
   boolean hasResult();
+  boolean hasRoom();
   void exitThread();
   void cancelThread();
   boolean hasStarted();
