@@ -170,6 +170,11 @@ namespace wisey {
      * Finds a method with a given name.
      */
     virtual LLVMFunction* findLLVMFunction(std::string functionName) const = 0;
+    
+    /**
+     * Returns name of the global variable containing short name of this concrete Object
+     */
+    virtual std::string getObjectShortNameGlobalVariableName() const = 0;
 
     /**
      * Generate global variable with the name of the given object
@@ -297,10 +302,10 @@ namespace wisey {
     static llvm::FunctionType* getDestructorFunctionType(IRGenerationContext& context);
     
     /**
-     * Returns name of the global variable containing short name of this concrete Object
+     * Returns the size of the VTable array for the given object
      */
-    virtual std::string getObjectShortNameGlobalVariableName() const = 0;
-    
+    static unsigned long getVTableSizeForObject(const IConcreteObjectType* object);
+
   private:
     
     static std::map<std::string, llvm::Function*>

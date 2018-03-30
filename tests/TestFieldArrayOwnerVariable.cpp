@@ -65,6 +65,8 @@ public:
 
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(mLLVMContext));
+    types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                    ->getPointerTo()->getPointerTo());
     types.push_back(mArrayType->getOwner()->getLLVMType(mContext));
     string objectFullName = "systems.vos.wisey.compiler.tests.CObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
@@ -74,7 +76,7 @@ public:
     mObject = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                         objectFullName,
                                         objectStructType);
-    mObject->setFields(fields, 1u);
+    mObject->setFields(fields, 2u);
     
     Value* thisPointer = ConstantPointerNull::get(mObject->getLLVMType(mContext));
     IVariable* thisVariable = new ParameterReferenceVariable(IObjectType::THIS,
@@ -102,7 +104,7 @@ TEST_F(FieldArrayOwnerVariableTest, generateIdentifierIRTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 2"
   "\n  %1 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -114,7 +116,7 @@ TEST_F(FieldArrayOwnerVariableTest, generateIdentifierReferenceIRTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1\n";
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 2\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -132,7 +134,7 @@ TEST_F(FieldArrayOwnerVariableTest, generateWholeArrayAssignmentTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 2"
   "\n  %1 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %0"
   "\n  %2 = bitcast { i64, i64, i64, [0 x i32] }* %1 to i64*"
   "\n  call void @__destroyPrimitiveArrayFunction(i64* %2, i64 1, i64 4, i1 true)"

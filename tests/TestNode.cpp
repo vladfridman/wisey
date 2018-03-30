@@ -152,6 +152,8 @@ struct NodeTest : public Test {
 
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(mLLVMContext));
+    types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                    ->getPointerTo()->getPointerTo());
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
     string complicatedNodeFullName = "systems.vos.wisey.compiler.tests.NComplicatedNode";
@@ -223,6 +225,8 @@ struct NodeTest : public Test {
     
     vector<Type*> ownerTypes;
     ownerTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    ownerTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                         ->getPointerTo()->getPointerTo());
     string ownerFullName = "systems.vos.wisey.compiler.tests.NOwner";
     StructType* ownerStructType = StructType::create(mLLVMContext, ownerFullName);
     ownerStructType->setBody(ownerTypes);
@@ -231,6 +235,8 @@ struct NodeTest : public Test {
     
     vector<Type*> referenceTypes;
     referenceTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    referenceTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                             ->getPointerTo()->getPointerTo());
     string referenceFullName = "systems.vos.wisey.compiler.tests.MReference";
     StructType* referenceStructType = StructType::create(mLLVMContext, referenceFullName);
     referenceStructType->setBody(referenceTypes);
@@ -241,6 +247,8 @@ struct NodeTest : public Test {
     
     vector<Type*> simpleNodeTypes;
     simpleNodeTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    simpleNodeTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                              ->getPointerTo()->getPointerTo());
     simpleNodeTypes.push_back(mOwnerNode->getLLVMType(mContext));
     simpleNodeTypes.push_back(mReferenceModel->getLLVMType(mContext));
     string simpleNodeFullName = "systems.vos.wisey.compiler.tests.NSimpleNode";
@@ -252,11 +260,13 @@ struct NodeTest : public Test {
     mSimpleNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                 simpleNodeFullName,
                                 simpleNodeStructType);
-    mSimpleNode->setFields(simpleNodeFields, 1u);
+    mSimpleNode->setFields(simpleNodeFields, 2u);
     mContext.addNode(mSimpleNode);
     
     vector<Type*> simplerNodeTypes;
     simplerNodeTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    simplerNodeTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                               ->getPointerTo()->getPointerTo());
     simplerNodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
     simplerNodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
     string simplerNodeFullName = "systems.vos.wisey.compiler.tests.NSimplerNode";
@@ -268,7 +278,7 @@ struct NodeTest : public Test {
     mSimplerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                  simplerNodeFullName,
                                  simplerNodeStructType);
-    mSimplerNode->setFields(simplerNodeFields, 1u);
+    mSimplerNode->setFields(simplerNodeFields, 2u);
     mContext.addNode(mSimplerNode);
     
     string vehicleFullName = "systems.vos.wisey.compiler.tests.IVehicle";
@@ -610,26 +620,23 @@ TEST_F(NodeTest, buildTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint ("
-  "%systems.vos.wisey.compiler.tests.NSimpleNode* getelementptr ("
-  "%systems.vos.wisey.compiler.tests.NSimpleNode, "
-  "%systems.vos.wisey.compiler.tests.NSimpleNode* null, i32 1) to i64))"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.NSimpleNode* getelementptr (%systems.vos.wisey.compiler.tests.NSimpleNode, %systems.vos.wisey.compiler.tests.NSimpleNode* null, i32 1) to i64))"
   "\n  %buildervar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.NSimpleNode*"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NSimpleNode* %buildervar to i8*"
-  "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint ("
-  "%systems.vos.wisey.compiler.tests.NSimpleNode* getelementptr ("
-  "%systems.vos.wisey.compiler.tests.NSimpleNode, "
-  "%systems.vos.wisey.compiler.tests.NSimpleNode* null, i32 1) to i64), i32 4, i1 false)"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.NSimpleNode, "
-  "%systems.vos.wisey.compiler.tests.NSimpleNode* %buildervar, i32 0, i32 1"
-  "\n  store %systems.vos.wisey.compiler.tests.NOwner* null, "
-  "%systems.vos.wisey.compiler.tests.NOwner** %1"
-  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.NSimpleNode, "
-  "%systems.vos.wisey.compiler.tests.NSimpleNode* %buildervar, i32 0, i32 2"
-  "\n  store %systems.vos.wisey.compiler.tests.MReference* null, "
-  "%systems.vos.wisey.compiler.tests.MReference** %2"
+  "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.NSimpleNode* getelementptr (%systems.vos.wisey.compiler.tests.NSimpleNode, %systems.vos.wisey.compiler.tests.NSimpleNode* null, i32 1) to i64), i32 4, i1 false)"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.NSimpleNode, %systems.vos.wisey.compiler.tests.NSimpleNode* %buildervar, i32 0, i32 2"
+  "\n  store %systems.vos.wisey.compiler.tests.NOwner* null, %systems.vos.wisey.compiler.tests.NOwner** %1"
+  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.NSimpleNode, %systems.vos.wisey.compiler.tests.NSimpleNode* %buildervar, i32 0, i32 3"
+  "\n  store %systems.vos.wisey.compiler.tests.MReference* null, %systems.vos.wisey.compiler.tests.MReference** %2"
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MReference* null to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %3, i64 1)\n";
+  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %3, i64 1)"
+  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.NSimpleNode* %buildervar to i8*"
+  "\n  %5 = getelementptr i8, i8* %4, i64 8"
+  "\n  %6 = bitcast i8* %5 to i32 (...)***"
+  "\n  %7 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.NSimpleNode.vtable, i32 0, i32 0, i32 0"
+  "\n  %8 = bitcast i8** %7 to i32 (...)**"
+  "\n  store i32 (...)** %8, i32 (...)*** %6"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

@@ -192,7 +192,7 @@ struct NodeOwnerTest : public Test {
     mSimpleNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                 simpleNodeFullName,
                                 simpleNodeStructType);
-    mSimpleNode->setFields(simpleNodeFields, 1u);
+    mSimpleNode->setFields(simpleNodeFields, 2u);
     mContext.addNode(mSimpleNode);
     
     vector<Type*> simplerNodeTypes;
@@ -208,7 +208,7 @@ struct NodeOwnerTest : public Test {
     mSimplerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                  simplerNodeFullName,
                                  simplerNodeStructType);
-    mSimplerNode->setFields(simplerNodeFields, 1u);
+    mSimplerNode->setFields(simplerNodeFields, 2u);
     mContext.addNode(mSimplerNode);
     IConcreteObjectType::generateNameGlobal(mContext, mSimplerNode);
     IConcreteObjectType::generateShortNameGlobal(mContext, mSimplerNode);

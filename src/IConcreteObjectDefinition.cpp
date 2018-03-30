@@ -20,10 +20,12 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
                                                   elementDeclarations,
                                                 vector<IInterfaceTypeSpecifier*>
                                                   interfaceSpecifiers) {
+  llvm::LLVMContext& llvmContext = context.getLLVMContext();
   vector<Interface*> interfaces = processInterfaces(context, interfaceSpecifiers);
   tuple<vector<Constant*>, vector<IField*>, vector<IMethod*>, vector<LLVMFunction*>> elements =
     createElements(context, object, elementDeclarations);
-  object->setFields(get<1>(elements), interfaces.size() + 1);
+  unsigned long numberOfVtables = interfaces.size() ? interfaces.size() : 1u;
+  object->setFields(get<1>(elements), numberOfVtables + 1u);
   object->setInterfaces(interfaces);
   object->setMethods(get<2>(elements));
   object->setConstants(get<0>(elements));
@@ -32,13 +34,19 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
   vector<llvm::Type*> types;
 
   // reference counter type
-  llvm::Type* referenceCounterType = llvm::Type::getInt64Ty(context.getLLVMContext());
+  llvm::Type* referenceCounterType = llvm::Type::getInt64Ty(llvmContext);
   types.push_back(referenceCounterType);
   
-  for (Interface* interface : object->getInterfaces()) {
+  interfaces = object->getInterfaces();
+  for (Interface* interface : interfaces) {
     types.push_back(interface->getLLVMType(context)->getPointerElementType());
   }
-  
+  if (interfaces.size() == 0) {
+    llvm::Type* functionType = llvm::FunctionType::get(llvm::Type::getInt32Ty(llvmContext), true);
+    llvm::Type* vtableType = functionType->getPointerTo()->getPointerTo();
+    types.push_back(vtableType);
+  }
+
   collectFieldTypes(context, types, get<1>(elements));
   object->setStructBodyTypes(types);
   

@@ -52,7 +52,7 @@ struct BindActionTest : public Test {
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             controllerFullName,
                                             controllerStructType);
-    mController->setFields(controllerFields, controllerInterfaces.size());
+    mController->setFields(controllerFields, controllerInterfaces.size() + 1);
     mController->setMethods(controllerMethods);
     mController->setInterfaces(controllerInterfaces);
     

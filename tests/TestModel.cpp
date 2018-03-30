@@ -94,6 +94,8 @@ struct ModelTest : public Test {
 
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(mLLVMContext));
+    types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                    ->getPointerTo()->getPointerTo());
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
     string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
@@ -238,6 +240,8 @@ struct ModelTest : public Test {
     StructType* circleStructType = StructType::create(mLLVMContext, cirlceFullName);
     vector<Type*> circleTypes;
     circleTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    circleTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                          ->getPointerTo()->getPointerTo());
     circleStructType->setBody(circleTypes);
     mCircleModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, cirlceFullName, circleStructType);
     llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
@@ -251,6 +255,8 @@ struct ModelTest : public Test {
 
     vector<Type*> galaxyTypes;
     galaxyTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    galaxyTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                          ->getPointerTo()->getPointerTo());
     string galaxyFullName = "systems.vos.wisey.compiler.tests.MGalaxy";
     StructType* galaxyStructType = StructType::create(mLLVMContext, galaxyFullName);
     galaxyStructType->setBody(galaxyTypes);
@@ -259,6 +265,8 @@ struct ModelTest : public Test {
 
     vector<Type*> birthdateTypes;
     birthdateTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    birthdateTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                             ->getPointerTo()->getPointerTo());
     string birthdateFullName = "systems.vos.wisey.compiler.tests.MBirthdate";
     StructType* birthdateStructType = StructType::create(mLLVMContext, birthdateFullName);
     birthdateStructType->setBody(birthdateTypes);
@@ -269,6 +277,10 @@ struct ModelTest : public Test {
     
     vector<Type*> starTypes;
     starTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    starTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                        ->getPointerTo()->getPointerTo());
+    types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                    ->getPointerTo()->getPointerTo());
     starTypes.push_back(mBirthdateModel->getLLVMType(mContext));
     starTypes.push_back(mGalaxyModel->getLLVMType(mContext));
     string starFullName = "systems.vos.wisey.compiler.tests.MStar";
@@ -278,7 +290,7 @@ struct ModelTest : public Test {
     starFields.push_back(new FixedField(mBirthdateModel->getOwner(), "mBirthdate"));
     starFields.push_back(new FixedField(mGalaxyModel, "mGalaxy"));
     mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, starFullName, starStructType);
-    mStarModel->setFields(starFields, 1u);
+    mStarModel->setFields(starFields, 2u);
     mContext.addModel(mStarModel);
     Value* field1Value = ConstantPointerNull::get(mBirthdateModel->getOwner()
                                                   ->getLLVMType(mContext));
@@ -635,26 +647,23 @@ TEST_F(ModelTest, buildTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint ("
-  "%systems.vos.wisey.compiler.tests.MStar* getelementptr ("
-  "%systems.vos.wisey.compiler.tests.MStar, %systems.vos.wisey.compiler.tests.MStar* null, i32 1) "
-  "to i64))"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.MStar* getelementptr (%systems.vos.wisey.compiler.tests.MStar, %systems.vos.wisey.compiler.tests.MStar* null, i32 1) to i64))"
   "\n  %buildervar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.MStar*"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MStar* %buildervar to i8*"
-  "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint "
-  "(%systems.vos.wisey.compiler.tests.MStar* getelementptr "
-  "(%systems.vos.wisey.compiler.tests.MStar, %systems.vos.wisey.compiler.tests.MStar* null, i32 1) "
-  "to i64), i32 4, i1 false)"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.MStar, "
-    "%systems.vos.wisey.compiler.tests.MStar* %buildervar, i32 0, i32 1"
-  "\n  store %systems.vos.wisey.compiler.tests.MBirthdate* null, "
-  "%systems.vos.wisey.compiler.tests.MBirthdate** %1"
-  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MStar, "
-  "%systems.vos.wisey.compiler.tests.MStar* %buildervar, i32 0, i32 2"
-  "\n  store %systems.vos.wisey.compiler.tests.MGalaxy* null, "
-  "%systems.vos.wisey.compiler.tests.MGalaxy** %2"
+  "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.MStar* getelementptr (%systems.vos.wisey.compiler.tests.MStar, %systems.vos.wisey.compiler.tests.MStar* null, i32 1) to i64), i32 4, i1 false)"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.MStar, %systems.vos.wisey.compiler.tests.MStar* %buildervar, i32 0, i32 2"
+  "\n  store %systems.vos.wisey.compiler.tests.MBirthdate* null, %systems.vos.wisey.compiler.tests.MBirthdate** %1"
+  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MStar, %systems.vos.wisey.compiler.tests.MStar* %buildervar, i32 0, i32 3"
+  "\n  store %systems.vos.wisey.compiler.tests.MGalaxy* null, %systems.vos.wisey.compiler.tests.MGalaxy** %2"
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MGalaxy* null to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %3, i64 1)\n";
+  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %3, i64 1)"
+  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MStar* %buildervar to i8*"
+  "\n  %5 = getelementptr i8, i8* %4, i64 8"
+  "\n  %6 = bitcast i8* %5 to i32 (...)***"
+  "\n  %7 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.MStar.vtable, i32 0, i32 0, i32 0"
+  "\n  %8 = bitcast i8** %7 to i32 (...)**"
+  "\n  store i32 (...)** %8, i32 (...)*** %6"
+  "\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

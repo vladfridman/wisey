@@ -70,7 +70,7 @@ struct InjectorTest : Test {
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             controllerFullName,
                                             controllerStructType);
-    mController->setFields(controllerFields, 1u);
+    mController->setFields(controllerFields, 2u);
     mContext.addController(mController);
 
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";

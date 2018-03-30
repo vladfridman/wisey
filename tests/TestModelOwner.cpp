@@ -217,7 +217,7 @@ struct ModelOwnerTest : public Test {
     starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mBrightness"));
     starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mWeight"));
     mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, starFullName, starStructType);
-    mStarModel->setFields(starFields, 1u);
+    mStarModel->setFields(starFields, 2u);
     mContext.addModel(mStarModel);
     Value* field1Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
     ON_CALL(*mField1Expression, generateIR(_, _)).WillByDefault(Return(field1Value));

@@ -150,6 +150,8 @@ struct ControllerTest : public Test {
 
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(mLLVMContext));
+    types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                    ->getPointerTo()->getPointerTo());
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
     string multiplierFullName = "systems.vos.wisey.compiler.tests.CMultiplier";
@@ -225,6 +227,8 @@ struct ControllerTest : public Test {
     
     vector<Type*> ownerTypes;
     ownerTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    ownerTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                         ->getPointerTo()->getPointerTo());
     string ownerFullName = "systems.vos.wisey.compiler.tests.NOwner";
     StructType* ownerStructType = StructType::create(mLLVMContext, ownerFullName);
     ownerStructType->setBody(ownerTypes);
@@ -233,6 +237,8 @@ struct ControllerTest : public Test {
     
     vector<Type*> referenceTypes;
     referenceTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    referenceTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                             ->getPointerTo()->getPointerTo());
     string referenceFullName = "systems.vos.wisey.compiler.tests.MReference";
     StructType* referenceStructType = StructType::create(mLLVMContext, referenceFullName);
     referenceStructType->setBody(referenceTypes);
@@ -243,6 +249,8 @@ struct ControllerTest : public Test {
     
     vector<Type*> additorTypes;
     additorTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    additorTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                             ->getPointerTo()->getPointerTo());
     additorTypes.push_back(mOwnerNode->getOwner()->getLLVMType(mContext));
     additorTypes.push_back(mReferenceModel->getLLVMType(mContext));
     string additorFullName = "systems.vos.wisey.compiler.tests.CAdditor";
@@ -254,11 +262,13 @@ struct ControllerTest : public Test {
     mAdditorController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                    additorFullName,
                                                    additorStructType);
-    mAdditorController->setFields(additorFields, 1u);
+    mAdditorController->setFields(additorFields, 2u);
     mContext.addController(mMultiplierController);
 
     vector<Type*> doublerTypes;
     doublerTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    doublerTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                           ->getPointerTo()->getPointerTo());
     doublerTypes.push_back(Type::getInt32Ty(mLLVMContext));
     doublerTypes.push_back(Type::getInt32Ty(mLLVMContext));
     string doublerFullName = "systems.vos.wisey.compiler.tests.CDoubler";
@@ -273,7 +283,7 @@ struct ControllerTest : public Test {
     mDoublerController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                    doublerFullName,
                                                    doublerStructType);
-    mDoublerController->setFields(doublerFields, 1u);
+    mDoublerController->setFields(doublerFields, 2u);
     mContext.addController(mDoublerController);
 
     string vehicleFullName = "systems.vos.wisey.compiler.tests.IVehicle";
@@ -600,26 +610,23 @@ TEST_F(ControllerTest, injectTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint ("
-  "%systems.vos.wisey.compiler.tests.CAdditor* getelementptr ("
-  "%systems.vos.wisey.compiler.tests.CAdditor, "
-  "%systems.vos.wisey.compiler.tests.CAdditor* null, i32 1) to i64))"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.CAdditor* getelementptr (%systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* null, i32 1) to i64))"
   "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.CAdditor*"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CAdditor* %injectvar to i8*"
-  "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint ("
-  "%systems.vos.wisey.compiler.tests.CAdditor* getelementptr ("
-  "%systems.vos.wisey.compiler.tests.CAdditor, "
-  "%systems.vos.wisey.compiler.tests.CAdditor* null, i32 1) to i64), i32 4, i1 false)"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, "
-  "%systems.vos.wisey.compiler.tests.CAdditor* %injectvar, i32 0, i32 1"
-  "\n  store %systems.vos.wisey.compiler.tests.NOwner* null, "
-  "%systems.vos.wisey.compiler.tests.NOwner** %1"
-  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, "
-  "%systems.vos.wisey.compiler.tests.CAdditor* %injectvar, i32 0, i32 2"
-  "\n  store %systems.vos.wisey.compiler.tests.MReference* null, "
-  "%systems.vos.wisey.compiler.tests.MReference** %2"
+  "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.CAdditor* getelementptr (%systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* null, i32 1) to i64), i32 4, i1 false)"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* %injectvar, i32 0, i32 2"
+  "\n  store %systems.vos.wisey.compiler.tests.NOwner* null, %systems.vos.wisey.compiler.tests.NOwner** %1"
+  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* %injectvar, i32 0, i32 3"
+  "\n  store %systems.vos.wisey.compiler.tests.MReference* null, %systems.vos.wisey.compiler.tests.MReference** %2"
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MReference* null to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %3, i64 1)\n";
+  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %3, i64 1)"
+  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.CAdditor* %injectvar to i8*"
+  "\n  %5 = getelementptr i8, i8* %4, i64 8"
+  "\n  %6 = bitcast i8* %5 to i32 (...)***"
+  "\n  %7 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CAdditor.vtable, i32 0, i32 0, i32 0"
+  "\n  %8 = bitcast i8** %7 to i32 (...)**"
+  "\n  store i32 (...)** %8, i32 (...)*** %6"
+  "\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -721,16 +728,23 @@ TEST_F(ControllerTest, injectFieldTest) {
   string childFullName = "systems.vos.wisey.compiler.tests.CChild";
   StructType* childStructType = StructType::create(mLLVMContext, childFullName);
   childTypes.push_back(Type::getInt64Ty(mLLVMContext));
+  childTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                       ->getPointerTo()->getPointerTo());
   childStructType->setBody(childTypes);
   vector<IField*> childFields;
   Controller* childController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                           childFullName,
                                                           childStructType);
-  childController->setFields(childFields, 1u);
+  childController->setFields(childFields, 2u);
   mContext.addController(childController);
+  IConcreteObjectType::generateNameGlobal(mContext, childController);
+  IConcreteObjectType::generateShortNameGlobal(mContext, childController);
+  IConcreteObjectType::generateVTable(mContext, childController);
 
   vector<Type*> parentTypes;
   parentTypes.push_back(Type::getInt64Ty(mLLVMContext));
+  parentTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                        ->getPointerTo()->getPointerTo());
   parentTypes.push_back(childController->getLLVMType(mContext));
   string parentFullName = "systems.vos.wisey.compiler.tests.CParent";
   StructType* parentStructType = StructType::create(mLLVMContext, parentFullName);
@@ -744,9 +758,12 @@ TEST_F(ControllerTest, injectFieldTest) {
   Controller* parentController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                            parentFullName,
                                                            parentStructType);
-  parentController->setFields(parentFields, 1u);
+  parentController->setFields(parentFields, 2u);
   mContext.addController(parentController);
-  
+  IConcreteObjectType::generateNameGlobal(mContext, parentController);
+  IConcreteObjectType::generateShortNameGlobal(mContext, parentController);
+  IConcreteObjectType::generateVTable(mContext, parentController);
+
   InjectionArgumentList injectionArguments;
   Value* result = parentController->inject(mContext, injectionArguments, 0);
   
@@ -756,26 +773,29 @@ TEST_F(ControllerTest, injectFieldTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint "
-  "(%systems.vos.wisey.compiler.tests.CParent* getelementptr "
-  "(%systems.vos.wisey.compiler.tests.CParent, "
-  "%systems.vos.wisey.compiler.tests.CParent* null, i32 1) to i64))"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.CParent* getelementptr (%systems.vos.wisey.compiler.tests.CParent, %systems.vos.wisey.compiler.tests.CParent* null, i32 1) to i64))"
   "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.CParent*"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CParent* %injectvar to i8*"
-  "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint ("
-  "%systems.vos.wisey.compiler.tests.CParent* getelementptr ("
-  "%systems.vos.wisey.compiler.tests.CParent, "
-  "%systems.vos.wisey.compiler.tests.CParent* null, i32 1) to i64), i32 4, i1 false)"
-  "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint (i64* getelementptr "
-  "(i64, i64* null, i32 1) to i64))"
+  "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.CParent* getelementptr (%systems.vos.wisey.compiler.tests.CParent, %systems.vos.wisey.compiler.tests.CParent* null, i32 1) to i64), i32 4, i1 false)"
+  "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.CChild* getelementptr (%systems.vos.wisey.compiler.tests.CChild, %systems.vos.wisey.compiler.tests.CChild* null, i32 1) to i64))"
   "\n  %injectvar2 = bitcast i8* %malloccall1 to %systems.vos.wisey.compiler.tests.CChild*"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CChild* %injectvar2 to i8*"
-  "\n  call void @llvm.memset.p0i8.i64(i8* %1, i8 0, i64 ptrtoint ("
-  "i64* getelementptr (i64, i64* null, i32 1) to i64), i32 4, i1 false)"
-  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.CParent, "
-    "%systems.vos.wisey.compiler.tests.CParent* %injectvar, i32 0, i32 1"
-  "\n  store %systems.vos.wisey.compiler.tests.CChild* "
-    "%injectvar2, %systems.vos.wisey.compiler.tests.CChild** %2\n";
+  "\n  call void @llvm.memset.p0i8.i64(i8* %1, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.CChild* getelementptr (%systems.vos.wisey.compiler.tests.CChild, %systems.vos.wisey.compiler.tests.CChild* null, i32 1) to i64), i32 4, i1 false)"
+  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.CChild* %injectvar2 to i8*"
+  "\n  %3 = getelementptr i8, i8* %2, i64 8"
+  "\n  %4 = bitcast i8* %3 to i32 (...)***"
+  "\n  %5 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CChild.vtable, i32 0, i32 0, i32 0"
+  "\n  %6 = bitcast i8** %5 to i32 (...)**"
+  "\n  store i32 (...)** %6, i32 (...)*** %4"
+  "\n  %7 = getelementptr %systems.vos.wisey.compiler.tests.CParent, %systems.vos.wisey.compiler.tests.CParent* %injectvar, i32 0, i32 2"
+  "\n  store %systems.vos.wisey.compiler.tests.CChild* %injectvar2, %systems.vos.wisey.compiler.tests.CChild** %7"
+  "\n  %8 = bitcast %systems.vos.wisey.compiler.tests.CParent* %injectvar to i8*"
+  "\n  %9 = getelementptr i8, i8* %8, i64 8"
+  "\n  %10 = bitcast i8* %9 to i32 (...)***"
+  "\n  %11 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CParent.vtable, i32 0, i32 0, i32 0"
+  "\n  %12 = bitcast i8** %11 to i32 (...)**"
+  "\n  store i32 (...)** %12, i32 (...)*** %10"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

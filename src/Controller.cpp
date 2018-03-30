@@ -248,7 +248,7 @@ string Controller::getVTableName() const {
 }
 
 unsigned long Controller::getVTableSize() const {
-  return mFlattenedInterfaceHierarchy.size();
+  return IConcreteObjectType::getVTableSizeForObject(this);
 }
 
 Instruction* Controller::createMalloc(IRGenerationContext& context) const {

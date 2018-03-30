@@ -85,6 +85,8 @@ public:
     
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(mLLVMContext));
+    types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                    ->getPointerTo()->getPointerTo());
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
     string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
@@ -123,7 +125,7 @@ public:
                             NULL,
                             0);
     methods.push_back(mBarMethod);
-    mModel->setFields(fields, 1u);
+    mModel->setFields(fields, 2u);
     mModel->setMethods(methods);
 
     FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);

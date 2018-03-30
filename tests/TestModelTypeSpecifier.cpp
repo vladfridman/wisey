@@ -35,6 +35,8 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
     
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(llvmContext));
+    types.push_back(FunctionType::get(Type::getInt32Ty(llvmContext), true)
+                    ->getPointerTo()->getPointerTo());
     types.push_back(Type::getInt32Ty(llvmContext));
     types.push_back(Type::getInt32Ty(llvmContext));
     string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
@@ -56,7 +58,7 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
                                     NULL,
                                     0);
     methods.push_back(fooMethod);
-    mModel->setFields(fields, 1u);
+    mModel->setFields(fields, 2u);
     mModel->setMethods(methods);
     mContext.addModel(mModel);
   }

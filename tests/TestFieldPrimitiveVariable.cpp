@@ -47,6 +47,8 @@ struct FieldPrimitiveVariableTest : Test {
   FieldPrimitiveVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(mLLVMContext));
+    types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                    ->getPointerTo()->getPointerTo());
     types.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mContext));
     string objectFullName = "systems.vos.wisey.compiler.tests.CController";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
@@ -56,7 +58,7 @@ struct FieldPrimitiveVariableTest : Test {
     mObject = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                         objectFullName,
                                         objectStructType);
-    mObject->setFields(fields, 1u);
+    mObject->setFields(fields, 2u);
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
@@ -98,7 +100,7 @@ TEST_F(FieldPrimitiveVariableTest, generateIdentifierIRTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 2"
   "\n  %1 = load i32, i32* %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -110,7 +112,7 @@ TEST_F(FieldPrimitiveVariableTest, generateIdentifierReferenceIRTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1\n";
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 2\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -128,7 +130,7 @@ TEST_F(FieldPrimitiveVariableTest, generateAssignmentIRTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 2"
   "\n  store i32 3, i32* %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -148,7 +150,7 @@ TEST_F(FieldPrimitiveVariableTest, generateAssignmentWithCastIRTest) {
   string expected = string() +
   "\nentry:" +
   "\n  %conv = zext i16 3 to i32"
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 2"
   "\n  store i32 %conv, i32* %0\n";
  
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

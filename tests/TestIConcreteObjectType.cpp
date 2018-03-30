@@ -90,6 +90,8 @@ struct IConcreteObjectTypeTest : public Test {
     
     vector<Type*> starTypes;
     starTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    starTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                        ->getPointerTo()->getPointerTo());
     starTypes.push_back(Type::getInt32Ty(mLLVMContext));
     starTypes.push_back(Type::getInt32Ty(mLLVMContext));
     string starFullName = "systems.vos.wisey.compiler.tests.MStar";
@@ -99,11 +101,13 @@ struct IConcreteObjectTypeTest : public Test {
     starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mBrightness"));
     starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mWeight"));
     mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, starFullName, starStructType);
-    mStarModel->setFields(starFields, 1u);
+    mStarModel->setFields(starFields, 2u);
     mContext.addModel(mStarModel);
     
     vector<Type*> galaxyTypes;
     galaxyTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    galaxyTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                          ->getPointerTo()->getPointerTo());
     galaxyTypes.push_back(mStarModel->getOwner()->getLLVMType(mContext));
     string galaxyFullName = "systems.vos.wisey.compiler.tests.MGalaxy";
     StructType* galaxyStructType = StructType::create(mLLVMContext, galaxyFullName);
@@ -111,11 +115,13 @@ struct IConcreteObjectTypeTest : public Test {
     vector<IField*> galaxyFields;
     galaxyFields.push_back(new FixedField(mStarModel->getOwner(), "mStar"));
     mGalaxyModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, galaxyFullName, galaxyStructType);
-    mGalaxyModel->setFields(galaxyFields, 1u);
+    mGalaxyModel->setFields(galaxyFields, 2u);
     mContext.addModel(mGalaxyModel);
 
     vector<Type*> constellationTypes;
     constellationTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    constellationTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                                 ->getPointerTo()->getPointerTo());
     constellationTypes.push_back(mStarModel->getLLVMType(mContext));
     string constellationFullName = "systems.vos.wisey.compiler.tests.MConstellation";
     StructType* constellationStructType = StructType::create(mLLVMContext, constellationFullName);
@@ -125,7 +131,7 @@ struct IConcreteObjectTypeTest : public Test {
     mConstellationModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                           constellationFullName,
                                           constellationStructType);
-    mConstellationModel->setFields(constellationFields, 1u);
+    mConstellationModel->setFields(constellationFields, 2u);
     mContext.addModel(mConstellationModel);
     
     vector<Type*> canNavigateTypes;
@@ -142,6 +148,8 @@ struct IConcreteObjectTypeTest : public Test {
 
     vector<Type*> carTypes;
     carTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    carTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                       ->getPointerTo()->getPointerTo());
     carTypes.push_back(mCanNavigate->getLLVMType(mContext));
     string carFullName = "systems.vos.wisey.compiler.tests.MCar";
     StructType* carStructType = StructType::create(mLLVMContext, carFullName);
@@ -149,7 +157,7 @@ struct IConcreteObjectTypeTest : public Test {
     vector<IField*> carFields;
     carFields.push_back(new FixedField(mCanNavigate->getOwner(), "mNavigator"));
     mCarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, carFullName, carStructType);
-    mCarModel->setFields(carFields, 1u);
+    mCarModel->setFields(carFields, 2u);
     mContext.addModel(mCarModel);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -254,10 +262,8 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldTe
   "\n"
   "\nif.this.notnull:                                  ; preds = %entry"
   "\n  %1 = bitcast i8* %this to %systems.vos.wisey.compiler.tests.MGalaxy*"
-  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MGalaxy, "
-  "%systems.vos.wisey.compiler.tests.MGalaxy* %1, i32 0, i32 1"
-  "\n  %3 = load %systems.vos.wisey.compiler.tests.MStar*, "
-  "%systems.vos.wisey.compiler.tests.MStar** %2"
+  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MGalaxy, %systems.vos.wisey.compiler.tests.MGalaxy* %1, i32 0, i32 2"
+  "\n  %3 = load %systems.vos.wisey.compiler.tests.MStar*, %systems.vos.wisey.compiler.tests.MStar** %2"
   "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MStar* %3 to i8*"
   "\n  call void @destructor.systems.vos.wisey.compiler.tests.MStar(i8* %4)"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.MGalaxy* %1 to i64*"
@@ -309,10 +315,8 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectReferenceFie
   "\n"
   "\nif.this.notnull:                                  ; preds = %entry"
   "\n  %1 = bitcast i8* %this to %systems.vos.wisey.compiler.tests.MConstellation*"
-  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MConstellation, "
-  "%systems.vos.wisey.compiler.tests.MConstellation* %1, i32 0, i32 1"
-  "\n  %3 = load %systems.vos.wisey.compiler.tests.MStar*, "
-  "%systems.vos.wisey.compiler.tests.MStar** %2"
+  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MConstellation, %systems.vos.wisey.compiler.tests.MConstellation* %1, i32 0, i32 2"
+  "\n  %3 = load %systems.vos.wisey.compiler.tests.MStar*, %systems.vos.wisey.compiler.tests.MStar** %2"
   "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MStar* %3 to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %4, i64 -1)"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.MConstellation* %1 to i64*"
@@ -364,10 +368,8 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFiel
   "\n"
   "\nif.this.notnull:                                  ; preds = %entry"
   "\n  %1 = bitcast i8* %this to %systems.vos.wisey.compiler.tests.MCar*"
-  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MCar, "
-  "%systems.vos.wisey.compiler.tests.MCar* %1, i32 0, i32 1"
-  "\n  %3 = load %systems.vos.wisey.compiler.tests.ICanNavigate*, "
-  "%systems.vos.wisey.compiler.tests.ICanNavigate** %2"
+  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MCar, %systems.vos.wisey.compiler.tests.MCar* %1, i32 0, i32 2"
+  "\n  %3 = load %systems.vos.wisey.compiler.tests.ICanNavigate*, %systems.vos.wisey.compiler.tests.ICanNavigate** %2"
   "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.ICanNavigate* %3 to i8*"
   "\n  call void @__destroyOwnerObjectFunction(i8* %4)"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.MCar* %1 to i64*"

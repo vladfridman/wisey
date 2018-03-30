@@ -247,7 +247,7 @@ string Thread::getVTableName() const {
 }
 
 unsigned long Thread::getVTableSize() const {
-  return mFlattenedInterfaceHierarchy.size();
+  return IConcreteObjectType::getVTableSizeForObject(this);
 }
 
 Instruction* Thread::createMalloc(IRGenerationContext& context) const {

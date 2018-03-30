@@ -40,6 +40,8 @@ struct ObjectBuilderArgumentTest : Test {
     LLVMContext& llvmContext = mContext.getLLVMContext();
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(llvmContext));
+    types.push_back(FunctionType::get(Type::getInt32Ty(llvmContext), true)
+                    ->getPointerTo()->getPointerTo());
     types.push_back(Type::getInt32Ty(llvmContext));
     string modelFullName = "systems.vos.wisey.compiler.tests.MModel";
     StructType *structType = StructType::create(llvmContext, modelFullName);
@@ -48,7 +50,7 @@ struct ObjectBuilderArgumentTest : Test {
     InjectionArgumentList arguments;
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mFieldA"));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
-    mModel->setFields(fields, 1u);
+    mModel->setFields(fields, 2u);
     
     mValue = ConstantFP::get(Type::getFloatTy(llvmContext), 2.5);
     ON_CALL(*mFieldExpression, generateIR(_, _)).WillByDefault(Return(mValue));

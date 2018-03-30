@@ -67,6 +67,8 @@ public:
     vector<Type*> types;
     LLVMContext& llvmContext = mContext.getLLVMContext();
     types.push_back(Type::getInt64Ty(mLLVMContext));
+    types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                    ->getPointerTo()->getPointerTo());
     types.push_back(Type::getInt32Ty(llvmContext));
     types.push_back(Type::getInt32Ty(llvmContext));
     string modelFullName = "systems.vos.wisey.compiler.tests.MShape";
@@ -76,7 +78,7 @@ public:
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width"));
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height"));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
-    mModel->setFields(fields, 1u);
+    mModel->setFields(fields, 2u);
     
     Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName());
     Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));

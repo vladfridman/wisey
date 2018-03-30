@@ -35,6 +35,8 @@ struct ThreadTypeSpecifierTest : public ::testing::Test {
     
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(llvmContext));
+    types.push_back(FunctionType::get(Type::getInt32Ty(llvmContext), true)
+                    ->getPointerTo()->getPointerTo());
     types.push_back(Type::getInt32Ty(llvmContext));
     types.push_back(Type::getInt32Ty(llvmContext));
     string threadFullName = "systems.vos.wisey.compiler.tests.TWorker";
@@ -56,7 +58,7 @@ struct ThreadTypeSpecifierTest : public ::testing::Test {
                                     NULL,
                                     0);
     methods.push_back(fooMethod);
-    mThread->setFields(fields, 1u);
+    mThread->setFields(fields, 2u);
     mThread->setMethods(methods);
     mContext.addThread(mThread);
   }

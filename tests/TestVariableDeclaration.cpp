@@ -121,6 +121,8 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   StructType* structType = StructType::create(mLLVMContext, modelFullName);
   vector<Type*> types;
   types.push_back(Type::getInt64Ty(mLLVMContext));
+  types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                  ->getPointerTo()->getPointerTo());
   types.push_back(Type::getInt32Ty(mLLVMContext));
   types.push_back(Type::getInt32Ty(mLLVMContext));
   structType->setBody(types);
@@ -128,7 +130,7 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "fieldA"));
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "fieldB"));
   Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
-  model->setFields(fields, 1u);
+  model->setFields(fields, 2u);
 
   mContext.addModel(model);
   VariableDeclaration* declaration = VariableDeclaration::create(typeSpecifier, mIdentifier, 0);

@@ -282,7 +282,7 @@ string Node::getVTableName() const {
 }
 
 unsigned long Node::getVTableSize() const {
-  return mFlattenedInterfaceHierarchy.size();
+  return IConcreteObjectType::getVTableSizeForObject(this);
 }
 
 vector<Interface*> Node::getInterfaces() const {

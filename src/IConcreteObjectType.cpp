@@ -119,7 +119,6 @@ void IConcreteObjectType::initializeVTable(IRGenerationContext& context,
   Type* functionType = FunctionType::get(Type::getInt32Ty(llvmContext), true);
   Type* vTableType = functionType->getPointerTo()->getPointerTo();
   
-  vector<Interface*> interfaces = object->getFlattenedInterfaceHierarchy();
   for (unsigned int vTableIndex = 0; vTableIndex < object->getVTableSize(); vTableIndex++) {
     Value* vTableStart;
     Value* vTableStartCalculation = IRWriter::newBitCastInst(context, malloc, genericPointerType);
@@ -646,3 +645,7 @@ llvm::Constant* IConcreteObjectType::getObjectShortNamePointer(const IConcreteOb
   return ConstantExpr::getGetElementPtr(elementType, nameGlobal, Idx);
 }
 
+unsigned long IConcreteObjectType::getVTableSizeForObject(const IConcreteObjectType* object) {
+  unsigned long size = object->getFlattenedInterfaceHierarchy().size();
+  return size ? size : 1;
+}

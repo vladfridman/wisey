@@ -199,7 +199,7 @@ string Model::getVTableName() const {
 }
 
 unsigned long Model::getVTableSize() const {
-  return mFlattenedInterfaceHierarchy.size();
+  return IConcreteObjectType::getVTableSizeForObject(this);
 }
 
 string Model::getObjectNameGlobalVariableName() const {

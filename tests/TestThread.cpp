@@ -84,6 +84,8 @@ struct ThreadTest : public Test {
     
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(mLLVMContext));
+    types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                    ->getPointerTo()->getPointerTo());
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
     string workerFullName = "systems.vos.wisey.compiler.tests.TWorker";
@@ -147,7 +149,7 @@ struct ThreadTest : public Test {
     vector<LLVMFunction*> functions;
     functions.push_back(mLLVMFunction);
 
-    mThread->setFields(fields, interfaces.size() + 1);
+    mThread->setFields(fields, 2u);
     mThread->setMethods(methods);
     mThread->setInterfaces(interfaces);
     mThread->setConstants(constants);
@@ -156,6 +158,8 @@ struct ThreadTest : public Test {
     
     vector<Type*> nonInjectableFieldThreadTypes;
     nonInjectableFieldThreadTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    nonInjectableFieldThreadTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                                            ->getPointerTo()->getPointerTo());
     nonInjectableFieldThreadTypes.push_back(Type::getInt32Ty(mLLVMContext));
     nonInjectableFieldThreadTypes.push_back(Type::getInt32Ty(mLLVMContext));
     string nonInjectableFieldThreadFullName =
@@ -171,11 +175,14 @@ struct ThreadTest : public Test {
     mNonInjectableFieldThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
                                                   nonInjectableFieldThreadFullName,
                                                   nonInjectableFieldThreadStructType);
-    mNonInjectableFieldThread->setFields(nonInjectableFieldThreadFields, 1u);
+    mNonInjectableFieldThread->setFields(nonInjectableFieldThreadFields, 2u);
     mContext.addThread(mNonInjectableFieldThread);
     
     vector<Type*> notWellFormedArgumentsThreadTypes;
     notWellFormedArgumentsThreadTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    notWellFormedArgumentsThreadTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext),
+                                                                  true)
+                                                ->getPointerTo()->getPointerTo());
     notWellFormedArgumentsThreadTypes.push_back(Type::getInt32Ty(mLLVMContext));
     string notWellFormedArgumentsThreadFullName =
     "systems.vos.wisey.compiler.tests.TNotWellFormedArgumentsThread";
@@ -188,7 +195,7 @@ struct ThreadTest : public Test {
     mNotWellFormedArgumentsThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
                                                       notWellFormedArgumentsThreadFullName,
                                                       notWellFormedArgumentsThreadStructType);
-    mNotWellFormedArgumentsThread->setFields(notWellFormedArgumentsThreadFields, 1u);
+    mNotWellFormedArgumentsThread->setFields(notWellFormedArgumentsThreadFields, 2u);
     mContext.addThread(mNotWellFormedArgumentsThread);
     
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);
@@ -201,6 +208,10 @@ struct ThreadTest : public Test {
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
+    IConcreteObjectType::generateNameGlobal(mContext, mThread);
+    IConcreteObjectType::generateShortNameGlobal(mContext, mThread);
+    IConcreteObjectType::generateVTable(mContext, mThread);
+
     Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName());
     Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));
     mThreadVariable = new NiceMock<MockVariable>();
@@ -245,7 +256,7 @@ TEST_F(ThreadTest, getInterfacesTest) {
 }
 
 TEST_F(ThreadTest, getVTableSizeTest) {
-  EXPECT_EQ(mThread->getVTableSize(), 0u);
+  EXPECT_EQ(mThread->getVTableSize(), 1u);
 }
 
 TEST_F(ThreadTest, getFieldsTest) {
@@ -262,8 +273,8 @@ TEST_F(ThreadTest, getObjectTypeTest) {
 }
 
 TEST_F(ThreadTest, getFieldIndexTest) {
-  EXPECT_EQ(mThread->getFieldIndex(mFromField), 1u);
-  EXPECT_EQ(mThread->getFieldIndex(mToField), 2u);
+  EXPECT_EQ(mThread->getFieldIndex(mFromField), 2u);
+  EXPECT_EQ(mThread->getFieldIndex(mToField), 3u);
 }
 
 TEST_F(ThreadTest, findFeildTest) {
@@ -451,10 +462,17 @@ TEST_F(ThreadTest, injectTest) {
   "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.TWorker*"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.TWorker* %injectvar to i8*"
   "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.TWorker* getelementptr (%systems.vos.wisey.compiler.tests.TWorker, %systems.vos.wisey.compiler.tests.TWorker* null, i32 1) to i64), i32 4, i1 false)"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.TWorker, %systems.vos.wisey.compiler.tests.TWorker* %injectvar, i32 0, i32 1"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.TWorker, %systems.vos.wisey.compiler.tests.TWorker* %injectvar, i32 0, i32 2"
   "\n  store i32 0, i32* %1"
-  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.TWorker, %systems.vos.wisey.compiler.tests.TWorker* %injectvar, i32 0, i32 2"
-  "\n  store i32 5, i32* %2\n";
+  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.TWorker, %systems.vos.wisey.compiler.tests.TWorker* %injectvar, i32 0, i32 3"
+  "\n  store i32 5, i32* %2"
+  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.TWorker* %injectvar to i8*"
+  "\n  %4 = getelementptr i8, i8* %3, i64 8"
+  "\n  %5 = bitcast i8* %4 to i32 (...)***"
+  "\n  %6 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.TWorker.vtable, i32 0, i32 0, i32 0"
+  "\n  %7 = bitcast i8** %6 to i32 (...)**"
+  "\n  store i32 (...)** %7, i32 (...)*** %5"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -546,16 +564,20 @@ TEST_F(ThreadTest, injectFieldTest) {
   string childFullName = "systems.vos.wisey.compiler.tests.TChild";
   StructType* childStructType = StructType::create(mLLVMContext, childFullName);
   childTypes.push_back(Type::getInt64Ty(mLLVMContext));
+  childTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                       ->getPointerTo()->getPointerTo());
   childStructType->setBody(childTypes);
   vector<IField*> childFields;
   Thread* childThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
                                           childFullName,
                                           childStructType);
-  childThread->setFields(childFields, 1u);
+  childThread->setFields(childFields, 2u);
   mContext.addThread(childThread);
   
   vector<Type*> parentTypes;
   parentTypes.push_back(Type::getInt64Ty(mLLVMContext));
+  parentTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                        ->getPointerTo()->getPointerTo());
   parentTypes.push_back(childThread->getLLVMType(mContext));
   string parentFullName = "systems.vos.wisey.compiler.tests.TParent";
   StructType* parentStructType = StructType::create(mLLVMContext, parentFullName);
@@ -569,9 +591,17 @@ TEST_F(ThreadTest, injectFieldTest) {
   Thread* parentThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
                                            parentFullName,
                                            parentStructType);
-  parentThread->setFields(parentFields, 1u);
+  parentThread->setFields(parentFields, 2u);
   mContext.addThread(parentThread);
   
+  IConcreteObjectType::generateNameGlobal(mContext, childThread);
+  IConcreteObjectType::generateShortNameGlobal(mContext, childThread);
+  IConcreteObjectType::generateVTable(mContext, childThread);
+
+  IConcreteObjectType::generateNameGlobal(mContext, parentThread);
+  IConcreteObjectType::generateShortNameGlobal(mContext, parentThread);
+  IConcreteObjectType::generateVTable(mContext, parentThread);
+
   InjectionArgumentList injectionArguments;
   Value* result = parentThread->inject(mContext, injectionArguments, 0);
   
@@ -581,26 +611,29 @@ TEST_F(ThreadTest, injectFieldTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint "
-  "(%systems.vos.wisey.compiler.tests.TParent* getelementptr "
-  "(%systems.vos.wisey.compiler.tests.TParent, "
-  "%systems.vos.wisey.compiler.tests.TParent* null, i32 1) to i64))"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.TParent* getelementptr (%systems.vos.wisey.compiler.tests.TParent, %systems.vos.wisey.compiler.tests.TParent* null, i32 1) to i64))"
   "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.TParent*"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.TParent* %injectvar to i8*"
-  "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint ("
-  "%systems.vos.wisey.compiler.tests.TParent* getelementptr ("
-  "%systems.vos.wisey.compiler.tests.TParent, "
-  "%systems.vos.wisey.compiler.tests.TParent* null, i32 1) to i64), i32 4, i1 false)"
-  "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint (i64* getelementptr "
-  "(i64, i64* null, i32 1) to i64))"
+  "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.TParent* getelementptr (%systems.vos.wisey.compiler.tests.TParent, %systems.vos.wisey.compiler.tests.TParent* null, i32 1) to i64), i32 4, i1 false)"
+  "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.TChild* getelementptr (%systems.vos.wisey.compiler.tests.TChild, %systems.vos.wisey.compiler.tests.TChild* null, i32 1) to i64))"
   "\n  %injectvar2 = bitcast i8* %malloccall1 to %systems.vos.wisey.compiler.tests.TChild*"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.TChild* %injectvar2 to i8*"
-  "\n  call void @llvm.memset.p0i8.i64(i8* %1, i8 0, i64 ptrtoint ("
-  "i64* getelementptr (i64, i64* null, i32 1) to i64), i32 4, i1 false)"
-  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.TParent, "
-  "%systems.vos.wisey.compiler.tests.TParent* %injectvar, i32 0, i32 1"
-  "\n  store %systems.vos.wisey.compiler.tests.TChild* "
-  "%injectvar2, %systems.vos.wisey.compiler.tests.TChild** %2\n";
+  "\n  call void @llvm.memset.p0i8.i64(i8* %1, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.TChild* getelementptr (%systems.vos.wisey.compiler.tests.TChild, %systems.vos.wisey.compiler.tests.TChild* null, i32 1) to i64), i32 4, i1 false)"
+  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.TChild* %injectvar2 to i8*"
+  "\n  %3 = getelementptr i8, i8* %2, i64 8"
+  "\n  %4 = bitcast i8* %3 to i32 (...)***"
+  "\n  %5 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.TChild.vtable, i32 0, i32 0, i32 0"
+  "\n  %6 = bitcast i8** %5 to i32 (...)**"
+  "\n  store i32 (...)** %6, i32 (...)*** %4"
+  "\n  %7 = getelementptr %systems.vos.wisey.compiler.tests.TParent, %systems.vos.wisey.compiler.tests.TParent* %injectvar, i32 0, i32 2"
+  "\n  store %systems.vos.wisey.compiler.tests.TChild* %injectvar2, %systems.vos.wisey.compiler.tests.TChild** %7"
+  "\n  %8 = bitcast %systems.vos.wisey.compiler.tests.TParent* %injectvar to i8*"
+  "\n  %9 = getelementptr i8, i8* %8, i64 8"
+  "\n  %10 = bitcast i8* %9 to i32 (...)***"
+  "\n  %11 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.TParent.vtable, i32 0, i32 0, i32 0"
+  "\n  %12 = bitcast i8** %11 to i32 (...)**"
+  "\n  store i32 (...)** %12, i32 (...)*** %10"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -612,7 +645,7 @@ TEST_F(ThreadTest, printToStreamTest) {
   vector<IField*> fields;
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1"));
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2"));
-  innerPublicModel->setFields(fields, 0);
+  innerPublicModel->setFields(fields, 2u);
   
   vector<MethodArgument*> methodArguments;
   vector<const Model*> thrownExceptions;

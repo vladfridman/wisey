@@ -73,6 +73,8 @@ struct FieldOwnerVariableTest : Test {
     
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(mLLVMContext));
+    types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                    ->getPointerTo()->getPointerTo());
     types.push_back(mNode->getOwner()->getLLVMType(mContext));
     types.push_back(mInterface->getOwner()->getLLVMType(mContext));
     string objectFullName = "systems.vos.wisey.compiler.tests.NObject";
@@ -82,7 +84,7 @@ struct FieldOwnerVariableTest : Test {
     fields.push_back(new StateField(mNode->getOwner(), "foo"));
     fields.push_back(new StateField(mInterface->getOwner(), "bar"));
     mObject = Node::newNode(AccessLevel::PUBLIC_ACCESS, objectFullName, objectStructType);
-    mObject->setFields(fields, 1u);
+    mObject->setFields(fields, 2u);
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
@@ -134,7 +136,7 @@ TEST_F(FieldOwnerVariableTest, generateIdentifierIRTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 2"
   "\n  %1 = load %systems.vos.wisey.compiler.tests.NNode*, %systems.vos.wisey.compiler.tests.NNode** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -146,7 +148,7 @@ TEST_F(FieldOwnerVariableTest, generateIdentifierReferenceIRTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1\n";
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 2\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -165,10 +167,8 @@ TEST_F(FieldOwnerVariableTest, generateAssignmentIRTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
-  "%systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
-  "\n  %1 = load %systems.vos.wisey.compiler.tests.NNode*, "
-  "%systems.vos.wisey.compiler.tests.NNode** %0"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 2"
+  "\n  %1 = load %systems.vos.wisey.compiler.tests.NNode*, %systems.vos.wisey.compiler.tests.NNode** %0"
   "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.NNode* %1 to i8*"
   "\n  call void @destructor.systems.vos.wisey.compiler.tests.NNode(i8* %2)"
   "\n  store %systems.vos.wisey.compiler.tests.NNode* null, "
@@ -195,10 +195,8 @@ TEST_F(FieldOwnerVariableTest, generateAssignmentWithCastIRTest) {
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NNode* null to i8*"
   "\n  %1 = getelementptr i8, i8* %0, i64 8"
   "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IInterface*"
-  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
-  "%systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 2"
-  "\n  %4 = load %systems.vos.wisey.compiler.tests.IInterface*, "
-  "%systems.vos.wisey.compiler.tests.IInterface** %3"
+  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 3"
+  "\n  %4 = load %systems.vos.wisey.compiler.tests.IInterface*, %systems.vos.wisey.compiler.tests.IInterface** %3"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.IInterface* %4 to i8*"
   "\n  call void @__destroyOwnerObjectFunction(i8* %5)"
   "\n  store %systems.vos.wisey.compiler.tests.IInterface* %2, "
@@ -213,10 +211,8 @@ TEST_F(FieldOwnerVariableTest, setToNullTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
-  "%systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
-  "\n  store %systems.vos.wisey.compiler.tests.NNode* null, "
-  "%systems.vos.wisey.compiler.tests.NNode** %0\n";
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 2"
+  "\n  store %systems.vos.wisey.compiler.tests.NNode* null, %systems.vos.wisey.compiler.tests.NNode** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
