@@ -527,38 +527,36 @@ void IRGenerationContext::runComposingCallbacks() {
   while(mComposingCallbacks0Objects.size() ||
         mComposingCallbacks1Objects.size() ||
         mComposingCallbacks2Objects.size()) {
-    unsigned long callbacks0ObjectsSize = mComposingCallbacks0Objects.size();
-    for (tuple<ComposingFunction0Objects, Function*> callback : mComposingCallbacks0Objects) {
+    auto callbacks0Objects = mComposingCallbacks0Objects;
+    for (auto callback : callbacks0Objects) {
       ComposingFunction0Objects composingFunction = get<0>(callback);
       Function* function = get<1>(callback);
       composingFunction(*this, function);
     }
-    for (unsigned i = 0; i < callbacks0ObjectsSize; i++) {
+    for (unsigned i = 0; i < callbacks0Objects.size(); i++) {
       mComposingCallbacks0Objects.pop_front();
     }
     
-    unsigned long callbacks1ObjectsSize = mComposingCallbacks1Objects.size();
-    for (tuple<ComposingFunction1Objects, Function*, const IObjectType*> callback :
-         mComposingCallbacks1Objects) {
+    auto callbacks1Objects = mComposingCallbacks1Objects;
+    for (auto callback : mComposingCallbacks1Objects) {
       ComposingFunction1Objects composingFunction = get<0>(callback);
       Function* function = get<1>(callback);
       const IObjectType* objectType = get<2>(callback);
       composingFunction(*this, function, objectType);
     }
-    for (unsigned i = 0; i < callbacks1ObjectsSize; i++) {
+    for (unsigned i = 0; i < callbacks1Objects.size(); i++) {
       mComposingCallbacks1Objects.pop_front();
     }
 
-    unsigned long callbacks2ObjectsSize = mComposingCallbacks2Objects.size();
-    for (tuple<ComposingFunction2Objects, Function*,
-         const IObjectType*, const IObjectType*> callback : mComposingCallbacks2Objects) {
+    auto callbacks2Objects = mComposingCallbacks2Objects;
+    for (auto callback : mComposingCallbacks2Objects) {
       ComposingFunction2Objects composingFunction = get<0>(callback);
       Function* function = get<1>(callback);
       const IObjectType* objectType1 = get<2>(callback);
       const IObjectType* objectType2 = get<3>(callback);
       composingFunction(*this, function, objectType1, objectType2);
     }
-    for (unsigned i = 0; i < callbacks2ObjectsSize; i++) {
+    for (unsigned i = 0; i < callbacks2Objects.size(); i++) {
       mComposingCallbacks2Objects.pop_front();
     }
   }
