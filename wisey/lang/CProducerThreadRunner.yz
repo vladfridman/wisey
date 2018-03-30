@@ -38,12 +38,18 @@ controller CProducerThreadRunner {
                                      (::llvm::i8::pointer) workerThread);
   }
 
+  /**
+   * Waits for the thread to finish and returns
+   */
   public void joinThread() {
     if (!mIsCanceled) {
       ::llvm::function::pthread_join(mMyNativeThread, (::llvm::i8::pointer::pointer) null);
     }
   }
 
+  /**
+   * Adds result to the list of results if there is space
+   */
   public boolean addResult(::llvm::i8::pointer* result) {
     int nextIndexEnd = (mIndexEnd + 1) % mSize;
     if (mIndexStart == nextIndexEnd) {
@@ -54,6 +60,9 @@ controller CProducerThreadRunner {
     return true;
   }
 
+  /**
+   * Returns one of the results from the list of results in FIFO order
+   */
   public ::llvm::i8::pointer consumeResult() {
     if (mIndexStart == mIndexEnd) {
       return null;
@@ -63,10 +72,16 @@ controller CProducerThreadRunner {
     return mResults[previousIndexStart];
   }
 
+  /**
+   * Tells whether there are any results available
+   */
   public boolean hasResult() {
     return mIndexStart != mIndexEnd;
   }
 
+  /**
+   * Tells whether there is any room available for results
+   */
   public boolean hasRoom() {
     return (mIndexEnd + 1) % mSize != mIndexStart;
   }
