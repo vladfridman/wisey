@@ -56,7 +56,6 @@ struct FieldNativeVariableTest : Test {
     mNativeType = new NativeType(Type::getInt8Ty(mLLVMContext)->getPointerTo());
     
     vector<Type*> types;
-    types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                     ->getPointerTo()->getPointerTo());
     types.push_back(mNativeType->getLLVMType(mContext));
@@ -68,7 +67,7 @@ struct FieldNativeVariableTest : Test {
     mObject = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
                                 objectFullName,
                                 objectStructType);
-    mObject->setFields(fields, 2u);
+    mObject->setFields(fields, 1u);
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
@@ -110,7 +109,7 @@ TEST_F(FieldNativeVariableTest, generateIdentifierIRTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.TObject, %systems.vos.wisey.compiler.tests.TObject* null, i32 0, i32 2"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.TObject, %systems.vos.wisey.compiler.tests.TObject* null, i32 0, i32 1"
   "\n  %1 = load i8*, i8** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -122,7 +121,7 @@ TEST_F(FieldNativeVariableTest, generateIdentifierReferenceIRTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.TObject, %systems.vos.wisey.compiler.tests.TObject* null, i32 0, i32 2\n";
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.TObject, %systems.vos.wisey.compiler.tests.TObject* null, i32 0, i32 1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

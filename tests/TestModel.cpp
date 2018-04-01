@@ -93,7 +93,6 @@ struct ModelTest : public Test {
     mContext.setImportProfile(mImportProfile);
 
     vector<Type*> types;
-    types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                     ->getPointerTo()->getPointerTo());
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -230,7 +229,7 @@ struct ModelTest : public Test {
     vector<Interface*> interfaces;
     interfaces.push_back(mShapeInterface);
     interfaces.push_back(mObjectInterface);
-    mModel->setFields(fields, interfaces.size() + 1);
+    mModel->setFields(fields, interfaces.size());
     mModel->setMethods(methods);
     mModel->setInterfaces(interfaces);
     mModel->setConstants(constants);
@@ -239,7 +238,6 @@ struct ModelTest : public Test {
     string cirlceFullName = "systems.vos.wisey.compiler.tests.MCircle";
     StructType* circleStructType = StructType::create(mLLVMContext, cirlceFullName);
     vector<Type*> circleTypes;
-    circleTypes.push_back(Type::getInt64Ty(mLLVMContext));
     circleTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                           ->getPointerTo()->getPointerTo());
     circleStructType->setBody(circleTypes);
@@ -254,7 +252,6 @@ struct ModelTest : public Test {
                        cirlceFullName + ".name");
 
     vector<Type*> galaxyTypes;
-    galaxyTypes.push_back(Type::getInt64Ty(mLLVMContext));
     galaxyTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                           ->getPointerTo()->getPointerTo());
     string galaxyFullName = "systems.vos.wisey.compiler.tests.MGalaxy";
@@ -264,7 +261,6 @@ struct ModelTest : public Test {
     mContext.addModel(mGalaxyModel);
 
     vector<Type*> birthdateTypes;
-    birthdateTypes.push_back(Type::getInt64Ty(mLLVMContext));
     birthdateTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                              ->getPointerTo()->getPointerTo());
     string birthdateFullName = "systems.vos.wisey.compiler.tests.MBirthdate";
@@ -276,7 +272,6 @@ struct ModelTest : public Test {
     mContext.addModel(mBirthdateModel);
     
     vector<Type*> starTypes;
-    starTypes.push_back(Type::getInt64Ty(mLLVMContext));
     starTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                         ->getPointerTo()->getPointerTo());
     types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
@@ -290,7 +285,7 @@ struct ModelTest : public Test {
     starFields.push_back(new FixedField(mBirthdateModel->getOwner(), "mBirthdate"));
     starFields.push_back(new FixedField(mGalaxyModel, "mGalaxy"));
     mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, starFullName, starStructType);
-    mStarModel->setFields(starFields, 2u);
+    mStarModel->setFields(starFields, 1u);
     mContext.addModel(mStarModel);
     Value* field1Value = ConstantPointerNull::get(mBirthdateModel->getOwner()
                                                   ->getLLVMType(mContext));
@@ -395,8 +390,8 @@ TEST_F(ModelTest, findFeildTest) {
 }
 
 TEST_F(ModelTest, getFieldIndexTest) {
-  EXPECT_EQ(mModel->getFieldIndex(mWidthField), 3u);
-  EXPECT_EQ(mModel->getFieldIndex(mHeightField), 4u);
+  EXPECT_EQ(mModel->getFieldIndex(mWidthField), 2u);
+  EXPECT_EQ(mModel->getFieldIndex(mHeightField), 3u);
 }
 
 TEST_F(ModelTest, findMethodTest) {
@@ -498,7 +493,7 @@ TEST_F(ModelTest, castToFirstInterfaceTest) {
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null to i8*"
-  "\n  %1 = getelementptr i8, i8* %0, i64 8"
+  "\n  %1 = getelementptr i8, i8* %0, i64 0"
   "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IShape*\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -513,7 +508,7 @@ TEST_F(ModelTest, castToSecondInterfaceTest) {
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null to i8*"
-  "\n  %1 = getelementptr i8, i8* %0, i64 16"
+  "\n  %1 = getelementptr i8, i8* %0, i64 8"
   "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.ISubShape*\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -652,14 +647,14 @@ TEST_F(ModelTest, buildTest) {
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MStar.refCounter* %buildervar to i8*"
   "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.MStar.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.MStar.refCounter, %systems.vos.wisey.compiler.tests.MStar.refCounter* null, i32 1) to i64), i32 4, i1 false)"
   "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.MStar.refCounter, %systems.vos.wisey.compiler.tests.MStar.refCounter* %buildervar, i32 0, i32 1"
-  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MStar, %systems.vos.wisey.compiler.tests.MStar* %1, i32 0, i32 2"
+  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MStar, %systems.vos.wisey.compiler.tests.MStar* %1, i32 0, i32 1"
   "\n  store %systems.vos.wisey.compiler.tests.MBirthdate* null, %systems.vos.wisey.compiler.tests.MBirthdate** %2"
-  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.MStar, %systems.vos.wisey.compiler.tests.MStar* %1, i32 0, i32 3"
+  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.MStar, %systems.vos.wisey.compiler.tests.MStar* %1, i32 0, i32 2"
   "\n  store %systems.vos.wisey.compiler.tests.MGalaxy* null, %systems.vos.wisey.compiler.tests.MGalaxy** %3"
   "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MGalaxy* null to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %4, i64 1)"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.MStar* %1 to i8*"
-  "\n  %6 = getelementptr i8, i8* %5, i64 8"
+  "\n  %6 = getelementptr i8, i8* %5, i64 0"
   "\n  %7 = bitcast i8* %6 to i32 (...)***"
   "\n  %8 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.MStar.vtable, i32 0, i32 0, i32 0"
   "\n  %9 = bitcast i8** %8 to i32 (...)**"

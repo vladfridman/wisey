@@ -121,7 +121,7 @@ BitCastInst* InstanceOf::composeEntryBlock(IRGenerationContext& context,
   
   Function::arg_iterator functionArguments = function->arg_begin();
   Argument* thisArgument = &*functionArguments;
-  Value* originalObjectVTable = GetOriginalObjectFunction::callGetVTable(context, thisArgument);
+  Value* originalObjectVTable = GetOriginalObjectFunction::call(context, thisArgument);
   
   Type* pointerToArrayOfStrings = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
   

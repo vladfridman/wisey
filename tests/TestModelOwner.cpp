@@ -73,7 +73,6 @@ struct ModelOwnerTest : public Test {
     mContext.setImportProfile(mImportProfile);
     
     vector<Type*> types;
-    types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
     string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
@@ -184,14 +183,13 @@ struct ModelOwnerTest : public Test {
     vector<Interface*> interfaces;
     interfaces.push_back(mShapeInterface);
     interfaces.push_back(mObjectInterface);
-    mModel->setFields(fields, interfaces.size() + 1);
+    mModel->setFields(fields, interfaces.size());
     mModel->setMethods(methods);
     mModel->setInterfaces(interfaces);
     
     string cirlceFullName = "systems.vos.wisey.compiler.tests.MCircle";
     StructType* circleStructType = StructType::create(mLLVMContext, cirlceFullName);
     vector<Type*> circleTypes;
-    circleTypes.push_back(Type::getInt64Ty(mLLVMContext));
     circleStructType->setBody(circleTypes);
     mCircleModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, cirlceFullName, circleStructType);
     llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
@@ -207,7 +205,6 @@ struct ModelOwnerTest : public Test {
     IConcreteObjectType::generateVTable(mContext, mCircleModel);
 
     vector<Type*> starTypes;
-    starTypes.push_back(Type::getInt64Ty(mLLVMContext));
     starTypes.push_back(Type::getInt32Ty(mLLVMContext));
     starTypes.push_back(Type::getInt32Ty(mLLVMContext));
     string starFullName = "systems.vos.wisey.compiler.tests.MStar";
@@ -217,7 +214,7 @@ struct ModelOwnerTest : public Test {
     starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mBrightness"));
     starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mWeight"));
     mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, starFullName, starStructType);
-    mStarModel->setFields(starFields, 2u);
+    mStarModel->setFields(starFields, 1u);
     mContext.addModel(mStarModel);
     Value* field1Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
     ON_CALL(*mField1Expression, generateIR(_, _)).WillByDefault(Return(field1Value));
@@ -316,7 +313,7 @@ TEST_F(ModelOwnerTest, castToFirstInterfaceTest) {
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null to i8*"
-  "\n  %1 = getelementptr i8, i8* %0, i64 8"
+  "\n  %1 = getelementptr i8, i8* %0, i64 0"
   "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IShape*\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -332,7 +329,7 @@ TEST_F(ModelOwnerTest, castToSecondInterfaceTest) {
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null to i8*"
-  "\n  %1 = getelementptr i8, i8* %0, i64 16"
+  "\n  %1 = getelementptr i8, i8* %0, i64 8"
   "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.ISubShape*\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

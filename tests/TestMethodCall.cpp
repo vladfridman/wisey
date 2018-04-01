@@ -75,7 +75,6 @@ public:
     programPrefix.generateIR(mContext);
     
     vector<Type*> returnedModelTypes;
-    returnedModelTypes.push_back(Type::getInt64Ty(mLLVMContext));
     string returnedModelFullName = "systems.vos.wisey.compiler.tests.MReturnedModel";
     StructType* returnedModelStructType = StructType::create(mLLVMContext, returnedModelFullName);
     mReturnedModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
@@ -84,7 +83,6 @@ public:
     mContext.addModel(mReturnedModel);
     
     vector<Type*> types;
-    types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                     ->getPointerTo()->getPointerTo());
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -125,7 +123,7 @@ public:
                             NULL,
                             0);
     methods.push_back(mBarMethod);
-    mModel->setFields(fields, 2u);
+    mModel->setFields(fields, 1u);
     mModel->setMethods(methods);
 
     FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);

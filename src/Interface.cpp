@@ -469,7 +469,7 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   Value* castedInterfaceThis = IRWriter::newBitCastInst(context, interfaceThis, pointerType);
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext),
-                              -(interfaceIndex + 1) * Environment::getAddressSizeInBytes());
+                              -interfaceIndex * Environment::getAddressSizeInBytes());
   Value* concreteOjbectThis =
     IRWriter::createGetElementPtrInst(context, castedInterfaceThis, index);
   Value* castedObjectThis = IRWriter::newBitCastInst(context,
@@ -662,7 +662,7 @@ void Interface::composeCastFunction(IRGenerationContext& context,
   context.setBasicBlock(entryBlock);
   const Interface* interface = (const Interface *) interfaceType;
   Value* instanceof = InstanceOf::call(context, interface, thisArgument, toObjectType);
-  Value* originalObject = GetOriginalObjectFunction::callGetObject(context, thisArgument);
+  Value* originalObject = GetOriginalObjectFunction::call(context, thisArgument);
   ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   ICmpInst* compareLessThanZero =
     IRWriter::newICmpInst(context, ICmpInst::ICMP_SLT, instanceof, zero, "cmp");
@@ -700,9 +700,11 @@ void Interface::composeCastFunction(IRGenerationContext& context,
   context.setBasicBlock(moreThanZero);
   ConstantInt* bytes = ConstantInt::get(Type::getInt32Ty(llvmContext),
                                         Environment::getAddressSizeInBytes());
+  ConstantInt* one = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
+  Value* offset = IRWriter::createBinaryOperator(context, Instruction::Sub, instanceof, one, "");
   BitCastInst* bitcast =
   IRWriter::newBitCastInst(context, originalObject, int8Type->getPointerTo());
-  Value* thunkBy = IRWriter::createBinaryOperator(context, Instruction::Mul, instanceof, bytes, "");
+  Value* thunkBy = IRWriter::createBinaryOperator(context, Instruction::Mul, offset, bytes, "");
   Value* index[1];
   index[0] = thunkBy;
   Value* thunk = IRWriter::createGetElementPtrInst(context, bitcast, index);
@@ -834,7 +836,7 @@ void Interface::decrementReferenceCount(IRGenerationContext& context, Value* obj
 }
 
 Value* Interface::getReferenceCount(IRGenerationContext& context, Value* object) const {
-  Value* originalObject = GetOriginalObjectFunction::callGetObject(context, object);
+  Value* originalObject = GetOriginalObjectFunction::call(context, object);
   return getReferenceCountForObject(context, originalObject);
 }
 

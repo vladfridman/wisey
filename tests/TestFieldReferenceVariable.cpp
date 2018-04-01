@@ -72,7 +72,6 @@ struct FieldReferenceVariableTest : Test {
     mNode->setInterfaces(interfaces);
   
     vector<Type*> types;
-    types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                     ->getPointerTo()->getPointerTo());
     types.push_back(mNode->getLLVMType(mContext));
@@ -86,7 +85,7 @@ struct FieldReferenceVariableTest : Test {
     mObject = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                         objectFullName,
                                         objectStructType);
-    mObject->setFields(fields, 2u);
+    mObject->setFields(fields, 1u);
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
@@ -128,7 +127,7 @@ TEST_F(FieldReferenceVariableTest, generateIdentifierIRTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 2"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
   "\n  %referenceFieldIdentifier = load %systems.vos.wisey.compiler.tests.NNode*, %systems.vos.wisey.compiler.tests.NNode** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -140,7 +139,7 @@ TEST_F(FieldReferenceVariableTest, generateIdentifierreferenceIRTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 2\n";
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -159,7 +158,7 @@ TEST_F(FieldReferenceVariableTest, generateAssignmentIRTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 2"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
   "\n  %1 = load %systems.vos.wisey.compiler.tests.NNode*, %systems.vos.wisey.compiler.tests.NNode** %0"
   "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.NNode* %1 to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %2, i64 -1)"
@@ -187,9 +186,9 @@ TEST_F(FieldReferenceVariableTest, generateAssignmentWithCastIRTest) {
   string expected = string() +
   "\nentry:" +
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NNode* null to i8*"
-  "\n  %1 = getelementptr i8, i8* %0, i64 8"
+  "\n  %1 = getelementptr i8, i8* %0, i64 0"
   "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IInterface*"
-  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 3"
+  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 2"
   "\n  %4 = load %systems.vos.wisey.compiler.tests.IInterface*, %systems.vos.wisey.compiler.tests.IInterface** %3"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.IInterface* %4 to i8*"
   "\n  call void @__adjustReferenceCounterForInterface(i8* %5, i64 -1)"

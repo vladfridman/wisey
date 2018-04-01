@@ -44,7 +44,6 @@ struct IFieldVariableTest : Test {
   
   IFieldVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     vector<Type*> types;
-    types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                     ->getPointerTo()->getPointerTo());
     types.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mContext));
@@ -57,7 +56,7 @@ struct IFieldVariableTest : Test {
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             controllerFullName,
                                             controllerStructType);
-    mController->setFields(controllerFields, 2u);
+    mController->setFields(controllerFields, 1u);
     
     string modelFullName = "systems.vos.wisey.compiler.tests.MModel";
     StructType* modelStructType = StructType::create(mLLVMContext, modelFullName);
@@ -65,7 +64,7 @@ struct IFieldVariableTest : Test {
     mFixedField = new FixedField(PrimitiveTypes::INT_TYPE, "foo");
     vector<IField*> modelFields;
     modelFields.push_back(mFixedField);
-    mModel->setFields(modelFields, 2u);
+    mModel->setFields(modelFields, 1u);
     
     FunctionType* functionType =
       FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
@@ -101,7 +100,7 @@ TEST_F(IFieldVariableTest, getFieldPointerTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 2\n";
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

@@ -62,7 +62,6 @@ public:
     mStringStream = new raw_string_ostream(mStringBuffer);
     
     vector<Type*> types;
-    types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                     ->getPointerTo()->getPointerTo());
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -74,7 +73,7 @@ public:
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width"));
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height"));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
-    mModel->setFields(fields, 2u);
+    mModel->setFields(fields, 1u);
 
     IConcreteObjectType::generateNameGlobal(mContext, mModel);
     IConcreteObjectType::generateShortNameGlobal(mContext, mModel);
@@ -202,7 +201,6 @@ TEST_F(ReturnStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
   
   StructType* structType = StructType::create(mLLVMContext, "MModel");
   vector<Type*> types;
-  types.push_back(Type::getInt64Ty(mLLVMContext));
   types.push_back(Type::getInt32Ty(mLLVMContext));
   structType->setBody(types);
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
@@ -227,13 +225,11 @@ TEST_F(ReturnStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
   *mStringStream << *basicBlock;
   string expected =
   "\nentry:"
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%MModel* "
-  "getelementptr (%MModel, %MModel* null, i32 1) to i64))"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (i32* getelementptr (i32, i32* null, i32 1) to i64))"
   "\n  %0 = bitcast i8* %malloccall to %MModel*"
   "\n  %1 = alloca %MModel*"
   "\n  store %MModel* %0, %MModel** %1"
-  "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint (%MModel* "
-  "getelementptr (%MModel, %MModel* null, i32 1) to i64))"
+  "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint (i32* getelementptr (i32, i32* null, i32 1) to i64))"
   "\n  %2 = bitcast i8* %malloccall1 to %MModel*"
   "\n  %3 = alloca %MModel*"
   "\n  store %MModel* %2, %MModel** %3"

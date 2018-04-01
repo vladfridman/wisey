@@ -86,13 +86,13 @@ Value* IConcreteObjectType::castTo(IRGenerationContext& context,
   }
   
   const Interface* interface = (const Interface*) toType;
-  llvm::Type* llvmType = (llvm::PointerType*) interface->getLLVMType(context);
+  llvm::PointerType* llvmType = interface->getLLVMType(context);
   int interfaceIndex = getInterfaceIndex(object, interface);
   
   Type* int8Type = Type::getInt8Ty(llvmContext);
   BitCastInst* bitcast = IRWriter::newBitCastInst(context, fromValue, int8Type->getPointerTo());
   Value* index[1];
-  unsigned long thunkBy = (interfaceIndex + 1) * Environment::getAddressSizeInBytes();
+  unsigned long thunkBy = interfaceIndex * Environment::getAddressSizeInBytes();
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
   Value* thunk = IRWriter::createGetElementPtrInst(context, bitcast, index);
   return IRWriter::newBitCastInst(context, thunk, llvmType);
@@ -124,7 +124,7 @@ void IConcreteObjectType::initializeVTable(IRGenerationContext& context,
     Value* vTableStart;
     Value* vTableStartCalculation = IRWriter::newBitCastInst(context, malloc, genericPointerType);
     Value* index[1];
-    unsigned int thunkBy = (vTableIndex + 1) * Environment::getAddressSizeInBytes();
+    unsigned int thunkBy = vTableIndex * Environment::getAddressSizeInBytes();
     index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
     vTableStart = IRWriter::createGetElementPtrInst(context, vTableStartCalculation, index);
     

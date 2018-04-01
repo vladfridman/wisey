@@ -60,7 +60,6 @@ public:
     thrownExceptions.push_back(mContext.getModel(rceFullName));
     string modelFullName = "systems.vos.wisey.compiler.tests.MObject";
     vector<Type*> types;
-    types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                     ->getPointerTo()->getPointerTo());
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -80,7 +79,7 @@ public:
     vector<IField*> fields;
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "foo"));
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "bar"));
-    mModel->setFields(fields, 2u);
+    mModel->setFields(fields, 1u);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }

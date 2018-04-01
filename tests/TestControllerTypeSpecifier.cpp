@@ -33,7 +33,6 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
     mContext.setImportProfile(mImportProfile);
     
     vector<Type*> types;
-    types.push_back(Type::getInt64Ty(llvmContext));
     types.push_back(FunctionType::get(Type::getInt32Ty(llvmContext), true)
                     ->getPointerTo()->getPointerTo());
     types.push_back(Type::getInt32Ty(llvmContext));
@@ -59,7 +58,7 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             controllerFullName,
                                             structType);
-    mController->setFields(fields, 2u);
+    mController->setFields(fields, 1u);
     mController->setMethods(methods);
     mContext.addController(mController);
   }

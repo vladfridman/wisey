@@ -204,7 +204,6 @@ TEST_F(ThrowStatementTest, ownerVariablesAreClearedTest) {
 TEST_F(ThrowStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
   StructType* structType = StructType::create(mLLVMContext, "MModel");
   vector<Type*> types;
-  types.push_back(Type::getInt64Ty(mLLVMContext));
   types.push_back(Type::getInt32Ty(mLLVMContext));
   structType->setBody(types);
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
@@ -235,11 +234,11 @@ TEST_F(ThrowStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
   string expected =
   "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%MModel* getelementptr (%MModel, %MModel* null, i32 1) to i64))"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (i32* getelementptr (i32, i32* null, i32 1) to i64))"
   "\n  %0 = bitcast i8* %malloccall to %MModel*"
   "\n  %1 = alloca %MModel*"
   "\n  store %MModel* %0, %MModel** %1"
-  "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint (%MModel* getelementptr (%MModel, %MModel* null, i32 1) to i64))"
+  "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint (i32* getelementptr (i32, i32* null, i32 1) to i64))"
   "\n  %2 = bitcast i8* %malloccall1 to %MModel*"
   "\n  %3 = alloca %MModel*"
   "\n  store %MModel* %2, %MModel** %3"

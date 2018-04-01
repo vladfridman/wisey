@@ -52,7 +52,6 @@ public:
     
     vector<Type*> types;
     LLVMContext& llvmContext = mContext.getLLVMContext();
-    types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                     ->getPointerTo()->getPointerTo());
     types.push_back(Type::getInt32Ty(llvmContext));
@@ -64,7 +63,7 @@ public:
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width"));
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height"));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
-    mModel->setFields(fields, 2u);
+    mModel->setFields(fields, 1u);
     
     IConcreteObjectType::generateNameGlobal(mContext, mModel);
     IConcreteObjectType::generateShortNameGlobal(mContext, mModel);

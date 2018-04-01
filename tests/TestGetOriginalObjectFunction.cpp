@@ -47,28 +47,15 @@ struct GetOriginalObjectFunctionTest : Test {
   }
 };
 
-TEST_F(GetOriginalObjectFunctionTest, callGetObjectTest) {
+TEST_F(GetOriginalObjectFunctionTest, callTest) {
   Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  GetOriginalObjectFunction::callGetObject(mContext, nullPointerValue);
+  GetOriginalObjectFunction::call(mContext, nullPointerValue);
   
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
   "\n  %0 = bitcast i8* null to i8*"
-  "\n  %1 = call i8* @__getOriginalObject(i8* %0, i64 -8)\n";
-  
-  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
-}
-
-TEST_F(GetOriginalObjectFunctionTest, callGetVTableTest) {
-  Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  GetOriginalObjectFunction::callGetVTable(mContext, nullPointerValue);
-  
-  *mStringStream << *mBasicBlock;
-  string expected =
-  "\nentry:"
-  "\n  %0 = bitcast i8* null to i8*"
-  "\n  %1 = call i8* @__getOriginalObject(i8* %0, i64 0)\n";
+  "\n  %1 = call i8* @__getOriginalObject(i8* %0)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -79,16 +66,15 @@ TEST_F(GetOriginalObjectFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine internal i8* @__getOriginalObject(i8* %pointer, i64 %adjustment) {"
+  "\ndefine internal i8* @__getOriginalObject(i8* %pointer) {"
   "\nentry:"
   "\n  %0 = bitcast i8* %pointer to i8***"
   "\n  %vtable = load i8**, i8*** %0"
   "\n  %1 = getelementptr i8*, i8** %vtable, i64 0"
   "\n  %unthunkbypointer = load i8*, i8** %1"
   "\n  %unthunkby = ptrtoint i8* %unthunkbypointer to i64"
-  "\n  %2 = add i64 %unthunkby, %adjustment"
-  "\n  %3 = getelementptr i8, i8* %pointer, i64 %2"
-  "\n  ret i8* %3"
+  "\n  %2 = getelementptr i8, i8* %pointer, i64 %unthunkby"
+  "\n  ret i8* %2"
   "\n}\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());

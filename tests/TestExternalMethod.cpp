@@ -49,7 +49,6 @@ public:
     vector<const Model*> thrownExceptions;
 
     vector<Type*> types;
-    types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                     ->getPointerTo()->getPointerTo());
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -61,7 +60,7 @@ public:
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "foo"));
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "bar"));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
-    mModel->setFields(fields, 2u);
+    mModel->setFields(fields, 1u);
     
     mMethod = new ExternalMethod(mModel,
                                  "mymethod",

@@ -87,19 +87,16 @@ void AdjustReferenceCounterForInterfaceFunction::compose(IRGenerationContext& co
   IRWriter::createReturnInst(context, NULL);
   
   context.setBasicBlock(ifNotNullBlock);
-  Value* original = GetOriginalObjectFunction::callGetObject(context, object);
-  Value* index[1];
-  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), -Environment::getAddressSizeInBytes());
-  Value* shellObject = IRWriter::createGetElementPtrInst(context, original, index);
+  Value* original = GetOriginalObjectFunction::call(context, object);
   Type* int64PointerType = Type::getInt64Ty(llvmContext)->getPointerTo();
-  Value* counter = IRWriter::newBitCastInst(context, shellObject, int64PointerType);
+  Value* objectStart = IRWriter::newBitCastInst(context, original, int64PointerType);
+  Value* index[1];
+  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), -1);
+  Value* counter = IRWriter::createGetElementPtrInst(context, objectStart, index);
 
-  Value* originalObjectVTablePointer = GetOriginalObjectFunction::callGetVTable(context, object);
   Type* int8DoublePointerType = Type::getInt8Ty(llvmContext)->getPointerTo()->getPointerTo();
   Type* int8TriplePointerType = int8DoublePointerType->getPointerTo();
-  Value* vTablePointer = IRWriter::newBitCastInst(context,
-                                                  originalObjectVTablePointer,
-                                                  int8TriplePointerType);
+  Value* vTablePointer = IRWriter::newBitCastInst(context, original, int8TriplePointerType);
   LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 1);
   GetElementPtrInst* typeArrayPointerI8 = IRWriter::createGetElementPtrInst(context, vTable, index);
@@ -107,11 +104,7 @@ void AdjustReferenceCounterForInterfaceFunction::compose(IRGenerationContext& co
   BitCastInst* arrayOfStrings = IRWriter::newBitCastInst(context,
                                                          typeArrayI8,
                                                          int8DoublePointerType);
-  index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 0);
-  Value* stringPointerPointer = IRWriter::createGetElementPtrInst(context, arrayOfStrings, index);
-  LoadInst* stringPointer = IRWriter::newLoadInst(context, stringPointerPointer, "stringPointer");
-
-  
+  LoadInst* stringPointer = IRWriter::newLoadInst(context, arrayOfStrings, "stringPointer");
   
   Value* firstLetter = IRWriter::newLoadInst(context, stringPointer, "firstLetter");
 

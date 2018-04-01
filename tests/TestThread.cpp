@@ -83,7 +83,6 @@ struct ThreadTest : public Test {
     mContext.setImportProfile(mImportProfile);
     
     vector<Type*> types;
-    types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                     ->getPointerTo()->getPointerTo());
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -149,7 +148,7 @@ struct ThreadTest : public Test {
     vector<LLVMFunction*> functions;
     functions.push_back(mLLVMFunction);
 
-    mThread->setFields(fields, 2u);
+    mThread->setFields(fields, 1u);
     mThread->setMethods(methods);
     mThread->setInterfaces(interfaces);
     mThread->setConstants(constants);
@@ -157,7 +156,6 @@ struct ThreadTest : public Test {
     mContext.addThread(mThread);
     
     vector<Type*> nonInjectableFieldThreadTypes;
-    nonInjectableFieldThreadTypes.push_back(Type::getInt64Ty(mLLVMContext));
     nonInjectableFieldThreadTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                                             ->getPointerTo()->getPointerTo());
     nonInjectableFieldThreadTypes.push_back(Type::getInt32Ty(mLLVMContext));
@@ -175,11 +173,10 @@ struct ThreadTest : public Test {
     mNonInjectableFieldThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
                                                   nonInjectableFieldThreadFullName,
                                                   nonInjectableFieldThreadStructType);
-    mNonInjectableFieldThread->setFields(nonInjectableFieldThreadFields, 2u);
+    mNonInjectableFieldThread->setFields(nonInjectableFieldThreadFields, 1u);
     mContext.addThread(mNonInjectableFieldThread);
     
     vector<Type*> notWellFormedArgumentsThreadTypes;
-    notWellFormedArgumentsThreadTypes.push_back(Type::getInt64Ty(mLLVMContext));
     notWellFormedArgumentsThreadTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext),
                                                                   true)
                                                 ->getPointerTo()->getPointerTo());
@@ -195,7 +192,7 @@ struct ThreadTest : public Test {
     mNotWellFormedArgumentsThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
                                                       notWellFormedArgumentsThreadFullName,
                                                       notWellFormedArgumentsThreadStructType);
-    mNotWellFormedArgumentsThread->setFields(notWellFormedArgumentsThreadFields, 2u);
+    mNotWellFormedArgumentsThread->setFields(notWellFormedArgumentsThreadFields, 1u);
     mContext.addThread(mNotWellFormedArgumentsThread);
     
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);
@@ -273,8 +270,8 @@ TEST_F(ThreadTest, getObjectTypeTest) {
 }
 
 TEST_F(ThreadTest, getFieldIndexTest) {
-  EXPECT_EQ(mThread->getFieldIndex(mFromField), 2u);
-  EXPECT_EQ(mThread->getFieldIndex(mToField), 3u);
+  EXPECT_EQ(mThread->getFieldIndex(mFromField), 1u);
+  EXPECT_EQ(mThread->getFieldIndex(mToField), 2u);
 }
 
 TEST_F(ThreadTest, findFeildTest) {
@@ -463,12 +460,12 @@ TEST_F(ThreadTest, injectTest) {
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.TWorker.refCounter* %injectvar to i8*"
   "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.TWorker.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.TWorker.refCounter, %systems.vos.wisey.compiler.tests.TWorker.refCounter* null, i32 1) to i64), i32 4, i1 false)"
   "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.TWorker.refCounter, %systems.vos.wisey.compiler.tests.TWorker.refCounter* %injectvar, i32 0, i32 1"
-  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.TWorker, %systems.vos.wisey.compiler.tests.TWorker* %1, i32 0, i32 2"
+  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.TWorker, %systems.vos.wisey.compiler.tests.TWorker* %1, i32 0, i32 1"
   "\n  store i32 0, i32* %2"
-  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.TWorker, %systems.vos.wisey.compiler.tests.TWorker* %1, i32 0, i32 3"
+  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.TWorker, %systems.vos.wisey.compiler.tests.TWorker* %1, i32 0, i32 2"
   "\n  store i32 5, i32* %3"
   "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.TWorker* %1 to i8*"
-  "\n  %5 = getelementptr i8, i8* %4, i64 8"
+  "\n  %5 = getelementptr i8, i8* %4, i64 0"
   "\n  %6 = bitcast i8* %5 to i32 (...)***"
   "\n  %7 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.TWorker.vtable, i32 0, i32 0, i32 0"
   "\n  %8 = bitcast i8** %7 to i32 (...)**"
@@ -564,7 +561,6 @@ TEST_F(ThreadTest, injectFieldTest) {
   vector<Type*> childTypes;
   string childFullName = "systems.vos.wisey.compiler.tests.TChild";
   StructType* childStructType = StructType::create(mLLVMContext, childFullName);
-  childTypes.push_back(Type::getInt64Ty(mLLVMContext));
   childTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                        ->getPointerTo()->getPointerTo());
   childStructType->setBody(childTypes);
@@ -572,11 +568,10 @@ TEST_F(ThreadTest, injectFieldTest) {
   Thread* childThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
                                           childFullName,
                                           childStructType);
-  childThread->setFields(childFields, 2u);
+  childThread->setFields(childFields, 1u);
   mContext.addThread(childThread);
   
   vector<Type*> parentTypes;
-  parentTypes.push_back(Type::getInt64Ty(mLLVMContext));
   parentTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                         ->getPointerTo()->getPointerTo());
   parentTypes.push_back(childThread->getLLVMType(mContext));
@@ -592,7 +587,7 @@ TEST_F(ThreadTest, injectFieldTest) {
   Thread* parentThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
                                            parentFullName,
                                            parentStructType);
-  parentThread->setFields(parentFields, 2u);
+  parentThread->setFields(parentFields, 1u);
   mContext.addThread(parentThread);
   
   IConcreteObjectType::generateNameGlobal(mContext, childThread);
@@ -622,15 +617,15 @@ TEST_F(ThreadTest, injectFieldTest) {
   "\n  call void @llvm.memset.p0i8.i64(i8* %2, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.TChild.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.TChild.refCounter, %systems.vos.wisey.compiler.tests.TChild.refCounter* null, i32 1) to i64), i32 4, i1 false)"
   "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.TChild.refCounter, %systems.vos.wisey.compiler.tests.TChild.refCounter* %injectvar2, i32 0, i32 1"
   "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.TChild* %3 to i8*"
-  "\n  %5 = getelementptr i8, i8* %4, i64 8"
+  "\n  %5 = getelementptr i8, i8* %4, i64 0"
   "\n  %6 = bitcast i8* %5 to i32 (...)***"
   "\n  %7 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.TChild.vtable, i32 0, i32 0, i32 0"
   "\n  %8 = bitcast i8** %7 to i32 (...)**"
   "\n  store i32 (...)** %8, i32 (...)*** %6"
-  "\n  %9 = getelementptr %systems.vos.wisey.compiler.tests.TParent, %systems.vos.wisey.compiler.tests.TParent* %1, i32 0, i32 2"
+  "\n  %9 = getelementptr %systems.vos.wisey.compiler.tests.TParent, %systems.vos.wisey.compiler.tests.TParent* %1, i32 0, i32 1"
   "\n  store %systems.vos.wisey.compiler.tests.TChild* %3, %systems.vos.wisey.compiler.tests.TChild** %9"
   "\n  %10 = bitcast %systems.vos.wisey.compiler.tests.TParent* %1 to i8*"
-  "\n  %11 = getelementptr i8, i8* %10, i64 8"
+  "\n  %11 = getelementptr i8, i8* %10, i64 0"
   "\n  %12 = bitcast i8* %11 to i32 (...)***"
   "\n  %13 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.TParent.vtable, i32 0, i32 0, i32 0"
   "\n  %14 = bitcast i8** %13 to i32 (...)**"
@@ -647,7 +642,7 @@ TEST_F(ThreadTest, printToStreamTest) {
   vector<IField*> fields;
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1"));
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2"));
-  innerPublicModel->setFields(fields, 2u);
+  innerPublicModel->setFields(fields, 1u);
   
   vector<MethodArgument*> methodArguments;
   vector<const Model*> thrownExceptions;

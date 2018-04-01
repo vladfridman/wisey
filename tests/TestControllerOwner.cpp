@@ -235,7 +235,7 @@ TEST_F(ControllerOwnerTest, castToFirstInterfaceTest) {
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i8*"
-  "\n  %1 = getelementptr i8, i8* %0, i64 8"
+  "\n  %1 = getelementptr i8, i8* %0, i64 0"
   "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IScienceCalculator*\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -254,7 +254,7 @@ TEST_F(ControllerOwnerTest, castToSecondInterfaceTest) {
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i8*"
-  "\n  %1 = getelementptr i8, i8* %0, i64 16"
+  "\n  %1 = getelementptr i8, i8* %0, i64 8"
   "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.ICalculator*\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

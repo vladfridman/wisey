@@ -39,7 +39,6 @@ struct ObjectBuilderArgumentTest : Test {
   ObjectBuilderArgumentTest() : mFieldExpression(new NiceMock<MockExpression>()) {
     LLVMContext& llvmContext = mContext.getLLVMContext();
     vector<Type*> types;
-    types.push_back(Type::getInt64Ty(llvmContext));
     types.push_back(FunctionType::get(Type::getInt32Ty(llvmContext), true)
                     ->getPointerTo()->getPointerTo());
     types.push_back(Type::getInt32Ty(llvmContext));
@@ -50,7 +49,7 @@ struct ObjectBuilderArgumentTest : Test {
     InjectionArgumentList arguments;
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mFieldA"));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
-    mModel->setFields(fields, 2u);
+    mModel->setFields(fields, 1u);
     
     mValue = ConstantFP::get(Type::getFloatTy(llvmContext), 2.5);
     ON_CALL(*mFieldExpression, generateIR(_, _)).WillByDefault(Return(mValue));

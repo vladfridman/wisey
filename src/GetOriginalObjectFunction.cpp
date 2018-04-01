@@ -30,24 +30,7 @@ Function* GetOriginalObjectFunction::get(IRGenerationContext& context) {
   return function;
 }
 
-Value* GetOriginalObjectFunction::callGetObject(IRGenerationContext& context,
-                                                Value* interfacePointer) {
-  ConstantInt* adjustment = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()),
-                                             -Environment::getAddressSizeInBytes());
-  
-  return call(context, interfacePointer, adjustment);
-}
-
-Value* GetOriginalObjectFunction::callGetVTable(IRGenerationContext& context,
-                                                Value* interfacePointer) {
-  ConstantInt* zero = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 0);
-  
-  return call(context, interfacePointer, zero);
-}
-
-Value* GetOriginalObjectFunction::call(IRGenerationContext& context,
-                                       Value* interfacePointer,
-                                       Value* adjustment) {
+Value* GetOriginalObjectFunction::call(IRGenerationContext& context, Value* interfacePointer) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
@@ -55,7 +38,6 @@ Value* GetOriginalObjectFunction::call(IRGenerationContext& context,
   Function* function = get(context);
   vector<Value*> arguments;
   arguments.push_back(bitcast);
-  arguments.push_back(adjustment);
   
   return IRWriter::createCallInst(context, function, arguments, "");
 }
@@ -69,9 +51,7 @@ Function* GetOriginalObjectFunction::define(IRGenerationContext& context) {
   vector<Type*> argumentTypes;
   Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
   argumentTypes.push_back(int8PointerType);
-  argumentTypes.push_back(Type::getInt64Ty(llvmContext));
-  Type* llvmReturnType = int8PointerType;
-  FunctionType* ftype = FunctionType::get(llvmReturnType, argumentTypes, false);
+  FunctionType* ftype = FunctionType::get(int8PointerType, argumentTypes, false);
   
   return Function::Create(ftype, GlobalValue::InternalLinkage, getName(), context.getModule());
 }
@@ -80,22 +60,14 @@ void GetOriginalObjectFunction::compose(IRGenerationContext& context, Function* 
   Function::arg_iterator llvmArguments = function->arg_begin();
   llvm::Argument* interfacePointer = &*llvmArguments;
   interfacePointer->setName("pointer");
-  llvmArguments++;
-  llvm::Argument* adjustment = &*llvmArguments;
-  adjustment->setName("adjustment");
   
   BasicBlock* basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry", function);
   context.setBasicBlock(basicBlock);
 
   Value* unthunkBy = getUnthunkBy(context, interfacePointer);
-  Value* offset = IRWriter::createBinaryOperator(context,
-                                                 Instruction::Add,
-                                                 unthunkBy,
-                                                 adjustment,
-                                                 "");
   
   Value* index[1];
-  index[0] = offset;
+  index[0] = unthunkBy;
   Value* originalObject = IRWriter::createGetElementPtrInst(context, interfacePointer, index);
   
   IRWriter::createReturnInst(context, originalObject);

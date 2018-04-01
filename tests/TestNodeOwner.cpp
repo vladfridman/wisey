@@ -132,7 +132,6 @@ struct NodeOwnerTest : public Test {
     mObjectInterface->buildMethods(mContext);
 
     vector<Type*> types;
-    types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
     string complicatedNodeFullName = "systems.vos.wisey.compiler.tests.NComplicatedNode";
@@ -172,12 +171,11 @@ struct NodeOwnerTest : public Test {
     mComplicatedNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                      complicatedNodeFullName,
                                      mStructType);
-    mComplicatedNode->setFields(fields, interfaces.size() + 1);
+    mComplicatedNode->setFields(fields, interfaces.size());
     mComplicatedNode->setMethods(methods);
     mComplicatedNode->setInterfaces(interfaces);
     
     vector<Type*> simpleNodeTypes;
-    simpleNodeTypes.push_back(Type::getInt64Ty(mLLVMContext));
     simpleNodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
     simpleNodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
     simpleNodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
@@ -192,11 +190,10 @@ struct NodeOwnerTest : public Test {
     mSimpleNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                 simpleNodeFullName,
                                 simpleNodeStructType);
-    mSimpleNode->setFields(simpleNodeFields, 2u);
+    mSimpleNode->setFields(simpleNodeFields, 1u);
     mContext.addNode(mSimpleNode);
     
     vector<Type*> simplerNodeTypes;
-    simplerNodeTypes.push_back(Type::getInt64Ty(mLLVMContext));
     simplerNodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
     simplerNodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
     string simplerNodeFullName = "systems.vos.wisey.compiler.tests.NSimplerNode";
@@ -208,7 +205,7 @@ struct NodeOwnerTest : public Test {
     mSimplerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                  simplerNodeFullName,
                                  simplerNodeStructType);
-    mSimplerNode->setFields(simplerNodeFields, 2u);
+    mSimplerNode->setFields(simplerNodeFields, 1u);
     mContext.addNode(mSimplerNode);
     IConcreteObjectType::generateNameGlobal(mContext, mSimplerNode);
     IConcreteObjectType::generateShortNameGlobal(mContext, mSimplerNode);
@@ -321,7 +318,7 @@ TEST_F(NodeOwnerTest, castToFirstInterfaceTest) {
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i8*"
-  "\n  %1 = getelementptr i8, i8* %0, i64 8"
+  "\n  %1 = getelementptr i8, i8* %0, i64 0"
   "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IComplicatedElement*\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -338,7 +335,7 @@ TEST_F(NodeOwnerTest, castToSecondInterfaceTest) {
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i8*"
-  "\n  %1 = getelementptr i8, i8* %0, i64 16"
+  "\n  %1 = getelementptr i8, i8* %0, i64 8"
   "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IElement*\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

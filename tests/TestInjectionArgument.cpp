@@ -39,7 +39,6 @@ struct InjectionArgumentTest : Test {
   InjectionArgumentTest() : mFieldExpression(new NiceMock<MockExpression>()) {
     LLVMContext& llvmContext = mContext.getLLVMContext();
     vector<Type*> types;
-    types.push_back(Type::getInt64Ty(llvmContext));
     types.push_back(FunctionType::get(Type::getInt32Ty(llvmContext), true)
                     ->getPointerTo()->getPointerTo());
     types.push_back(Type::getInt32Ty(llvmContext));
@@ -49,7 +48,7 @@ struct InjectionArgumentTest : Test {
     vector<IField*> fields;
     fields.push_back(new ReceivedField(PrimitiveTypes::INT_TYPE, "mFieldA"));
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
-    mController->setFields(fields, 2u);
+    mController->setFields(fields, 1u);
     
     mValue = ConstantFP::get(Type::getFloatTy(llvmContext), 2.5);
     ON_CALL(*mFieldExpression, generateIR(_, _)).WillByDefault(Return(mValue));

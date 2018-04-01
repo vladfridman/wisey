@@ -65,7 +65,7 @@ struct IRGenerationContextTest : public Test {
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             controllerFullName,
                                             controllerStructType);
-    mController->setFields(controllerFields, controllerInterfaces.size() + 1);
+    mController->setFields(controllerFields, 1u);
     mController->setMethods(controllerMethods);
     mController->setInterfaces(controllerInterfaces);
 

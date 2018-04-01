@@ -53,7 +53,6 @@ public:
     mStringStream = new raw_string_ostream(mStringBuffer);
     
     vector<Type*> modelTypes;
-    modelTypes.push_back(Type::getInt64Ty(mLLVMContext));
     string modelFullName = "systems.vos.wisey.compiler.tests.MModel";
     StructType* modelStructType = StructType::create(mLLVMContext, modelFullName);
     modelStructType->setBody(modelTypes);

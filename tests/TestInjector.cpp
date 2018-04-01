@@ -58,7 +58,6 @@ struct InjectorTest : Test {
 
     mInterfaceTypeSpecifier = new InterfaceTypeSpecifier(NULL, "IMyInterface");
     vector<Type*> types;
-    types.push_back(Type::getInt64Ty(llvmContext));
     types.push_back(Type::getInt32Ty(llvmContext));
     types.push_back(Type::getInt32Ty(llvmContext));
     string controllerFullName = "systems.vos.wisey.compiler.tests.CMultiplier";
@@ -70,7 +69,7 @@ struct InjectorTest : Test {
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             controllerFullName,
                                             controllerStructType);
-    mController->setFields(controllerFields, 2u);
+    mController->setFields(controllerFields, 1u);
     mContext.addController(mController);
 
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";

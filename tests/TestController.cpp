@@ -149,7 +149,6 @@ struct ControllerTest : public Test {
     mObjectInterface->buildMethods(mContext);
 
     vector<Type*> types;
-    types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                     ->getPointerTo()->getPointerTo());
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -219,14 +218,13 @@ struct ControllerTest : public Test {
     vector<LLVMFunction*> functions;
     functions.push_back(mLLVMFunction);
 
-    mMultiplierController->setFields(fields, interfaces.size() + 1);
+    mMultiplierController->setFields(fields, interfaces.size());
     mMultiplierController->setMethods(methods);
     mMultiplierController->setInterfaces(interfaces);
     mMultiplierController->setConstants(constants);
     mMultiplierController->setLLVMFunctions(functions);
     
     vector<Type*> ownerTypes;
-    ownerTypes.push_back(Type::getInt64Ty(mLLVMContext));
     ownerTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                          ->getPointerTo()->getPointerTo());
     string ownerFullName = "systems.vos.wisey.compiler.tests.NOwner";
@@ -236,7 +234,6 @@ struct ControllerTest : public Test {
     mContext.addNode(mOwnerNode);
     
     vector<Type*> referenceTypes;
-    referenceTypes.push_back(Type::getInt64Ty(mLLVMContext));
     referenceTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                              ->getPointerTo()->getPointerTo());
     string referenceFullName = "systems.vos.wisey.compiler.tests.MReference";
@@ -248,7 +245,6 @@ struct ControllerTest : public Test {
     mContext.addModel(mReferenceModel);
     
     vector<Type*> additorTypes;
-    additorTypes.push_back(Type::getInt64Ty(mLLVMContext));
     additorTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                              ->getPointerTo()->getPointerTo());
     additorTypes.push_back(mOwnerNode->getOwner()->getLLVMType(mContext));
@@ -262,11 +258,10 @@ struct ControllerTest : public Test {
     mAdditorController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                    additorFullName,
                                                    additorStructType);
-    mAdditorController->setFields(additorFields, 2u);
+    mAdditorController->setFields(additorFields, 1u);
     mContext.addController(mMultiplierController);
 
     vector<Type*> doublerTypes;
-    doublerTypes.push_back(Type::getInt64Ty(mLLVMContext));
     doublerTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                            ->getPointerTo()->getPointerTo());
     doublerTypes.push_back(Type::getInt32Ty(mLLVMContext));
@@ -283,7 +278,7 @@ struct ControllerTest : public Test {
     mDoublerController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                    doublerFullName,
                                                    doublerStructType);
-    mDoublerController->setFields(doublerFields, 2u);
+    mDoublerController->setFields(doublerFields, 1u);
     mContext.addController(mDoublerController);
 
     string vehicleFullName = "systems.vos.wisey.compiler.tests.IVehicle";
@@ -377,8 +372,8 @@ TEST_F(ControllerTest, getObjectTypeTest) {
 }
 
 TEST_F(ControllerTest, getFieldIndexTest) {
-  EXPECT_EQ(mMultiplierController->getFieldIndex(mLeftField), 3u);
-  EXPECT_EQ(mMultiplierController->getFieldIndex(mRightField), 4u);
+  EXPECT_EQ(mMultiplierController->getFieldIndex(mLeftField), 2u);
+  EXPECT_EQ(mMultiplierController->getFieldIndex(mRightField), 3u);
 }
 
 TEST_F(ControllerTest, findFeildTest) {
@@ -488,7 +483,7 @@ TEST_F(ControllerTest, castToFirstInterfaceTest) {
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i8*"
-  "\n  %1 = getelementptr i8, i8* %0, i64 8"
+  "\n  %1 = getelementptr i8, i8* %0, i64 0"
   "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IScienceCalculator*\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -504,7 +499,7 @@ TEST_F(ControllerTest, castToSecondInterfaceTest) {
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i8*"
-  "\n  %1 = getelementptr i8, i8* %0, i64 16"
+  "\n  %1 = getelementptr i8, i8* %0, i64 8"
   "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.ICalculator*\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -615,14 +610,14 @@ TEST_F(ControllerTest, injectTest) {
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CAdditor.refCounter* %injectvar to i8*"
   "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.CAdditor.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* null, i32 1) to i64), i32 4, i1 false)"
   "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* %injectvar, i32 0, i32 1"
-  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* %1, i32 0, i32 2"
+  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* %1, i32 0, i32 1"
   "\n  store %systems.vos.wisey.compiler.tests.NOwner* null, %systems.vos.wisey.compiler.tests.NOwner** %2"
-  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* %1, i32 0, i32 3"
+  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* %1, i32 0, i32 2"
   "\n  store %systems.vos.wisey.compiler.tests.MReference* null, %systems.vos.wisey.compiler.tests.MReference** %3"
   "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MReference* null to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %4, i64 1)"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.CAdditor* %1 to i8*"
-  "\n  %6 = getelementptr i8, i8* %5, i64 8"
+  "\n  %6 = getelementptr i8, i8* %5, i64 0"
   "\n  %7 = bitcast i8* %6 to i32 (...)***"
   "\n  %8 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CAdditor.vtable, i32 0, i32 0, i32 0"
   "\n  %9 = bitcast i8** %8 to i32 (...)**"
@@ -728,7 +723,6 @@ TEST_F(ControllerTest, injectFieldTest) {
   vector<Type*> childTypes;
   string childFullName = "systems.vos.wisey.compiler.tests.CChild";
   StructType* childStructType = StructType::create(mLLVMContext, childFullName);
-  childTypes.push_back(Type::getInt64Ty(mLLVMContext));
   childTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                        ->getPointerTo()->getPointerTo());
   childStructType->setBody(childTypes);
@@ -736,14 +730,13 @@ TEST_F(ControllerTest, injectFieldTest) {
   Controller* childController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                           childFullName,
                                                           childStructType);
-  childController->setFields(childFields, 2u);
+  childController->setFields(childFields, 1u);
   mContext.addController(childController);
   IConcreteObjectType::generateNameGlobal(mContext, childController);
   IConcreteObjectType::generateShortNameGlobal(mContext, childController);
   IConcreteObjectType::generateVTable(mContext, childController);
 
   vector<Type*> parentTypes;
-  parentTypes.push_back(Type::getInt64Ty(mLLVMContext));
   parentTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                         ->getPointerTo()->getPointerTo());
   parentTypes.push_back(childController->getLLVMType(mContext));
@@ -759,7 +752,7 @@ TEST_F(ControllerTest, injectFieldTest) {
   Controller* parentController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                            parentFullName,
                                                            parentStructType);
-  parentController->setFields(parentFields, 2u);
+  parentController->setFields(parentFields, 1u);
   mContext.addController(parentController);
   IConcreteObjectType::generateNameGlobal(mContext, parentController);
   IConcreteObjectType::generateShortNameGlobal(mContext, parentController);
@@ -784,15 +777,15 @@ TEST_F(ControllerTest, injectFieldTest) {
   "\n  call void @llvm.memset.p0i8.i64(i8* %2, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.CChild.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CChild.refCounter, %systems.vos.wisey.compiler.tests.CChild.refCounter* null, i32 1) to i64), i32 4, i1 false)"
   "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.CChild.refCounter, %systems.vos.wisey.compiler.tests.CChild.refCounter* %injectvar2, i32 0, i32 1"
   "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.CChild* %3 to i8*"
-  "\n  %5 = getelementptr i8, i8* %4, i64 8"
+  "\n  %5 = getelementptr i8, i8* %4, i64 0"
   "\n  %6 = bitcast i8* %5 to i32 (...)***"
   "\n  %7 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CChild.vtable, i32 0, i32 0, i32 0"
   "\n  %8 = bitcast i8** %7 to i32 (...)**"
   "\n  store i32 (...)** %8, i32 (...)*** %6"
-  "\n  %9 = getelementptr %systems.vos.wisey.compiler.tests.CParent, %systems.vos.wisey.compiler.tests.CParent* %1, i32 0, i32 2"
+  "\n  %9 = getelementptr %systems.vos.wisey.compiler.tests.CParent, %systems.vos.wisey.compiler.tests.CParent* %1, i32 0, i32 1"
   "\n  store %systems.vos.wisey.compiler.tests.CChild* %3, %systems.vos.wisey.compiler.tests.CChild** %9"
   "\n  %10 = bitcast %systems.vos.wisey.compiler.tests.CParent* %1 to i8*"
-  "\n  %11 = getelementptr i8, i8* %10, i64 8"
+  "\n  %11 = getelementptr i8, i8* %10, i64 0"
   "\n  %12 = bitcast i8* %11 to i32 (...)***"
   "\n  %13 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CParent.vtable, i32 0, i32 0, i32 0"
   "\n  %14 = bitcast i8** %13 to i32 (...)**"
