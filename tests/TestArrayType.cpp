@@ -167,3 +167,15 @@ TEST_F(ArrayTypeTest, createParameterVariableTest) {
 TEST_F(TestFileSampleRunner, llvmArrayRunTest) {
   runFile("tests/samples/test_llvm_array.yz", "4");
 }
+
+TEST_F(TestFileSampleRunner, llvmArrayDebugDestructorsRunTest) {
+  runFileCheckOutputWithDestructorDebug("tests/samples/test_llvm_array.yz",
+                                        "destructor object<8 bytes>*[5]\n"
+                                        "destructor systems.vos.wisey.compiler.tests.MElement\n"
+                                        "destructor systems.vos.wisey.compiler.tests.MElement\n"
+                                        "destructor systems.vos.wisey.compiler.tests.MElement\n"
+                                        "destructor systems.vos.wisey.compiler.tests.MElement\n"
+                                        "destructor systems.vos.wisey.compiler.tests.MElement\n"
+                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "");
+}
