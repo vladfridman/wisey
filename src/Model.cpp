@@ -306,8 +306,7 @@ Instruction* Model::build(IRGenerationContext& context,
                           const ObjectBuilderArgumentList& objectBuilderArgumentList,
                           int line) const {
   checkArguments(objectBuilderArgumentList);
-  Instruction* malloc = createMalloc(context);
-  IntrinsicFunctions::setMemoryToZero(context, malloc, ConstantExpr::getSizeOf(mStructType));
+  Instruction* malloc = IConcreteObjectType::createMallocForObject(context, this, "buildervar");
   initializeFields(context, objectBuilderArgumentList, malloc, line);
   initializeVTable(context, (IConcreteObjectType*) this, malloc);
   
@@ -384,15 +383,6 @@ void Model::checkAllFieldsAreSet(const ObjectBuilderArgumentList& objectBuilderA
   }
   Log::e("Some fields of the model " + mName + " are not initialized.");
   exit(1);
-}
-
-Instruction* Model::createMalloc(IRGenerationContext& context) const {
-  Type* structType = getLLVMType(context)->getPointerElementType();
-  llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
-  llvm::Constant* one = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 1);
-  Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, one, "buildervar");
-  
-  return malloc;
 }
 
 void Model::initializeFields(IRGenerationContext& context,

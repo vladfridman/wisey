@@ -9,7 +9,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/DerivedTypes.h>
 
-#include "wisey/AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp"
+#include "wisey/AdjustReferenceCounterForArrayFunction.hpp"
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/ArrayType.hpp"
 #include "wisey/DecrementReferencesInArrayFunction.hpp"
@@ -87,12 +87,12 @@ llvm::Value* ArrayType::castTo(IRGenerationContext &context,
 
 void ArrayType::incrementReferenceCount(IRGenerationContext& context,
                                         llvm::Value* arrayPointer) const {
-  AdjustReferenceCounterForConcreteObjectSafelyFunction::call(context, arrayPointer, 1);
+  AdjustReferenceCounterForArrayFunction::call(context, arrayPointer, 1);
 }
 
 void ArrayType::decrementReferenceCount(IRGenerationContext& context,
                                         llvm::Value* arrayPointer) const {
-  AdjustReferenceCounterForConcreteObjectSafelyFunction::call(context, arrayPointer, -1);
+  AdjustReferenceCounterForArrayFunction::call(context, arrayPointer, -1);
 }
 
 unsigned long ArrayType::getNumberOfDimensions() const {

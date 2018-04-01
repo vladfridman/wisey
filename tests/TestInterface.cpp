@@ -501,7 +501,8 @@ TEST_F(InterfaceTest, getReferenceCountTest) {
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
   "\n  %1 = call i8* @__getOriginalObject(i8* %0, i64 -8)"
   "\n  %2 = bitcast i8* %1 to i64*"
-  "\n  %refCounter = load i64, i64* %2\n";
+  "\n  %3 = getelementptr i64, i64* %2, i64 -1"
+  "\n  %refCounter = load i64, i64* %3\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

@@ -1,22 +1,21 @@
 //
-//  AdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp
+//  AdjustReferenceCounterForArrayFunction.cpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 11/17/17.
-//  Copyright © 2017 Vladimir Fridman. All rights reserved.
+//  Created by Vladimir Fridman on 3/31/18.
+//  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp"
-#include "wisey/Environment.hpp"
+#include "wisey/AdjustReferenceCounterForArrayFunction.hpp"
 #include "wisey/IRWriter.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Function* AdjustReferenceCounterForConcreteObjectUnsafelyFunction::get(IRGenerationContext& context) {
+Function* AdjustReferenceCounterForArrayFunction::get(IRGenerationContext& context) {
   Function* function = context.getModule()->getFunction(getName());
   
   if (function) {
@@ -29,17 +28,17 @@ Function* AdjustReferenceCounterForConcreteObjectUnsafelyFunction::get(IRGenerat
   return function;
 }
 
-void AdjustReferenceCounterForConcreteObjectUnsafelyFunction::call(IRGenerationContext& context,
-                                                                   Value* object,
-                                                                   int adjustment) {
+void AdjustReferenceCounterForArrayFunction::call(IRGenerationContext& context,
+                                                  Value* array,
+                                                  int adjustment) {
   Type* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
 
   Function* function = get(context);
   vector<Value*> arguments;
-  if (object->getType() == int8Pointer) {
-    arguments.push_back(object);
+  if (array->getType() == int8Pointer) {
+    arguments.push_back(array);
   } else {
-    arguments.push_back(IRWriter::newBitCastInst(context, object, int8Pointer));
+    arguments.push_back(IRWriter::newBitCastInst(context, array, int8Pointer));
   }
   llvm::Constant* value = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), adjustment);
   arguments.push_back(value);
@@ -47,12 +46,12 @@ void AdjustReferenceCounterForConcreteObjectUnsafelyFunction::call(IRGenerationC
   IRWriter::createCallInst(context, function, arguments, "");
 }
 
-string AdjustReferenceCounterForConcreteObjectUnsafelyFunction::getName() {
-  return "__adjustReferenceCounterForConcreteObjectUnsafely";
+string AdjustReferenceCounterForArrayFunction::getName() {
+  return "__adjustReferenceCounterForArrays";
 }
 
-Function* AdjustReferenceCounterForConcreteObjectUnsafelyFunction::define(IRGenerationContext&
-                                                                          context) {
+Function* AdjustReferenceCounterForArrayFunction::define(IRGenerationContext&
+                                                                        context) {
   LLVMContext& llvmContext = context.getLLVMContext();
   vector<Type*> argumentTypes;
   argumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
@@ -63,14 +62,14 @@ Function* AdjustReferenceCounterForConcreteObjectUnsafelyFunction::define(IRGene
   return Function::Create(ftype, GlobalValue::InternalLinkage, getName(), context.getModule());
 }
 
-void AdjustReferenceCounterForConcreteObjectUnsafelyFunction::compose(IRGenerationContext& context,
-                                                                      Function* function) {
+void AdjustReferenceCounterForArrayFunction::compose(IRGenerationContext& context,
+                                                                    Function* function) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Function::arg_iterator llvmArguments = function->arg_begin();
   llvm::Argument *llvmArgument = &*llvmArguments;
-  llvmArgument->setName("object");
-  Value* object = llvmArgument;
+  llvmArgument->setName("array");
+  Value* array = llvmArgument;
   llvmArguments++;
   llvmArgument = &*llvmArguments;
   llvmArgument->setName("adjustment");
@@ -82,7 +81,7 @@ void AdjustReferenceCounterForConcreteObjectUnsafelyFunction::compose(IRGenerati
   
   context.setBasicBlock(entryBlock);
   Value* null = ConstantPointerNull::get(Type::getInt8Ty(llvmContext)->getPointerTo());
-  Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, object, null, "");
+  Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, array, null, "");
   IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
   
   context.setBasicBlock(ifNullBlock);
@@ -90,12 +89,12 @@ void AdjustReferenceCounterForConcreteObjectUnsafelyFunction::compose(IRGenerati
   
   context.setBasicBlock(ifNotNullBlock);
   Type* int64Pointer = Type::getInt64Ty(llvmContext)->getPointerTo();
-  Value* objectStart = IRWriter::newBitCastInst(context, object, int64Pointer);
-  Value* index[1];
-  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), -1);
-  Value* counter = IRWriter::createGetElementPtrInst(context, objectStart, index);
-  Value* count = IRWriter::newLoadInst(context, counter, "count");
-  Value* sum = IRWriter::createBinaryOperator(context, Instruction::Add, count, adjustment, "");
-  IRWriter::newStoreInst(context, sum, counter);
+  Value* counter = IRWriter::newBitCastInst(context, array, int64Pointer);
+  new AtomicRMWInst(AtomicRMWInst::BinOp::Add,
+                    counter,
+                    adjustment,
+                    AtomicOrdering::Monotonic,
+                    SynchronizationScope::CrossThread,
+                    ifNotNullBlock);
   IRWriter::createReturnInst(context, NULL);
 }

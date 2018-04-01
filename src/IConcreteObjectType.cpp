@@ -25,6 +25,7 @@
 #include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/InterfaceOwner.hpp"
+#include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMFunction.hpp"
@@ -399,7 +400,11 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
 
   context.setBasicBlock(refCountZeroBlock);
   
-  IRWriter::createFree(context, thisGeneric);
+  Value* index[1];
+  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext),
+                              -Environment::getAddressSizeInBytes());
+  Value* refCounterObject = IRWriter::createGetElementPtrInst(context, thisGeneric, index);
+  IRWriter::createFree(context, refCounterObject);
   IRWriter::createReturnInst(context, NULL);
   
   context.getScopes().popScope(context, 0);
@@ -648,4 +653,37 @@ llvm::Constant* IConcreteObjectType::getObjectShortNamePointer(const IConcreteOb
 unsigned long IConcreteObjectType::getVTableSizeForObject(const IConcreteObjectType* object) {
   unsigned long size = object->getFlattenedInterfaceHierarchy().size();
   return size ? size : 1;
+}
+
+llvm::Instruction* IConcreteObjectType::createMallocForObject(IRGenerationContext& context,
+                                                              const IConcreteObjectType* object,
+                                                              string variableName) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Type* structType = getOrCreateRefCounterStruct(context, object);
+  llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
+  llvm::Constant* one = ConstantInt::get(Type::getInt64Ty(llvmContext), 1);
+  Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, one, variableName);
+  IntrinsicFunctions::setMemoryToZero(context, malloc, ConstantExpr::getSizeOf(structType));
+  Value* index[2];
+  index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
+  return IRWriter::createGetElementPtrInst(context, malloc, index);
+}
+
+llvm::StructType* IConcreteObjectType::
+getOrCreateRefCounterStruct(IRGenerationContext& context, const IConcreteObjectType* object) {
+  string structName = object->getTypeName() + ".refCounter";
+  StructType* structType = context.getModule()->getTypeByName(structName);
+  if (structType) {
+    return structType;
+  }
+  
+  LLVMContext& llvmContext = context.getLLVMContext();
+  structType = StructType::create(llvmContext, structName);
+  vector<Type*> types;
+  types.push_back(Type::getInt64Ty(llvmContext));
+  types.push_back(object->getLLVMType(context)->getPointerElementType());
+  structType->setBody(types);
+
+  return structType;
 }

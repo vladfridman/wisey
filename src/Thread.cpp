@@ -171,8 +171,7 @@ Instruction* Thread::inject(IRGenerationContext& context,
   context.setObjectType(this);
   
   checkArguments(injectionArgumentList);
-  Instruction* malloc = createMalloc(context);
-  IntrinsicFunctions::setMemoryToZero(context, malloc, ConstantExpr::getSizeOf(mStructType));
+  Instruction* malloc = IConcreteObjectType::createMallocForObject(context, this, "injectvar");
   initializeReceivedFields(context, injectionArgumentList, malloc, line);
   initializeInjectedFields(context, malloc, line);
   initializeVTable(context, (IConcreteObjectType*) this, malloc);
@@ -248,15 +247,6 @@ string Thread::getVTableName() const {
 
 unsigned long Thread::getVTableSize() const {
   return IConcreteObjectType::getVTableSizeForObject(this);
-}
-
-Instruction* Thread::createMalloc(IRGenerationContext& context) const {
-  Type* structType = getLLVMType(context)->getPointerElementType();
-  llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
-  llvm::Constant* one = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 1);
-  Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, one, "injectvar");
-  
-  return malloc;
 }
 
 IField* Thread::findField(string fieldName) const {

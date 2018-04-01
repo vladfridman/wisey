@@ -213,8 +213,6 @@ namespace wisey {
     
     std::vector<std::string> getMissingReceivedFields(std::set<std::string> givenFields) const;
     
-    llvm::Instruction* createMalloc(IRGenerationContext& context) const;
-    
     void initializeReceivedFields(IRGenerationContext& context,
                                   const InjectionArgumentList& controllerInjectorArguments,
                                   llvm::Instruction* malloc,

@@ -568,7 +568,8 @@ TEST_F(ControllerTest, getReferenceCountTest) {
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i64*"
-  "\n  %refCounter = load i64, i64* %0\n";
+  "\n  %1 = getelementptr i64, i64* %0, i64 -1"
+  "\n  %refCounter = load i64, i64* %1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -605,27 +606,27 @@ TEST_F(ControllerTest, injectTest) {
   Value* result = mAdditorController->inject(mContext, injectionArguments, 0);
   
   EXPECT_NE(result, nullptr);
-  EXPECT_TRUE(BitCastInst::classof(result));
 
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.CAdditor* getelementptr (%systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* null, i32 1) to i64))"
-  "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.CAdditor*"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CAdditor* %injectvar to i8*"
-  "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.CAdditor* getelementptr (%systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* null, i32 1) to i64), i32 4, i1 false)"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* %injectvar, i32 0, i32 2"
-  "\n  store %systems.vos.wisey.compiler.tests.NOwner* null, %systems.vos.wisey.compiler.tests.NOwner** %1"
-  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* %injectvar, i32 0, i32 3"
-  "\n  store %systems.vos.wisey.compiler.tests.MReference* null, %systems.vos.wisey.compiler.tests.MReference** %2"
-  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MReference* null to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %3, i64 1)"
-  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.CAdditor* %injectvar to i8*"
-  "\n  %5 = getelementptr i8, i8* %4, i64 8"
-  "\n  %6 = bitcast i8* %5 to i32 (...)***"
-  "\n  %7 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CAdditor.vtable, i32 0, i32 0, i32 0"
-  "\n  %8 = bitcast i8** %7 to i32 (...)**"
-  "\n  store i32 (...)** %8, i32 (...)*** %6"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.CAdditor.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* null, i32 1) to i64))"
+  "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.CAdditor.refCounter*"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CAdditor.refCounter* %injectvar to i8*"
+  "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.CAdditor.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* null, i32 1) to i64), i32 4, i1 false)"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* %injectvar, i32 0, i32 1"
+  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* %1, i32 0, i32 2"
+  "\n  store %systems.vos.wisey.compiler.tests.NOwner* null, %systems.vos.wisey.compiler.tests.NOwner** %2"
+  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* %1, i32 0, i32 3"
+  "\n  store %systems.vos.wisey.compiler.tests.MReference* null, %systems.vos.wisey.compiler.tests.MReference** %3"
+  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MReference* null to i8*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %4, i64 1)"
+  "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.CAdditor* %1 to i8*"
+  "\n  %6 = getelementptr i8, i8* %5, i64 8"
+  "\n  %7 = bitcast i8* %6 to i32 (...)***"
+  "\n  %8 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CAdditor.vtable, i32 0, i32 0, i32 0"
+  "\n  %9 = bitcast i8** %8 to i32 (...)**"
+  "\n  store i32 (...)** %9, i32 (...)*** %7"
   "\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -768,33 +769,34 @@ TEST_F(ControllerTest, injectFieldTest) {
   Value* result = parentController->inject(mContext, injectionArguments, 0);
   
   EXPECT_NE(result, nullptr);
-  EXPECT_TRUE(BitCastInst::classof(result));
   
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.CParent* getelementptr (%systems.vos.wisey.compiler.tests.CParent, %systems.vos.wisey.compiler.tests.CParent* null, i32 1) to i64))"
-  "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.CParent*"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CParent* %injectvar to i8*"
-  "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.CParent* getelementptr (%systems.vos.wisey.compiler.tests.CParent, %systems.vos.wisey.compiler.tests.CParent* null, i32 1) to i64), i32 4, i1 false)"
-  "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.CChild* getelementptr (%systems.vos.wisey.compiler.tests.CChild, %systems.vos.wisey.compiler.tests.CChild* null, i32 1) to i64))"
-  "\n  %injectvar2 = bitcast i8* %malloccall1 to %systems.vos.wisey.compiler.tests.CChild*"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CChild* %injectvar2 to i8*"
-  "\n  call void @llvm.memset.p0i8.i64(i8* %1, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.CChild* getelementptr (%systems.vos.wisey.compiler.tests.CChild, %systems.vos.wisey.compiler.tests.CChild* null, i32 1) to i64), i32 4, i1 false)"
-  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.CChild* %injectvar2 to i8*"
-  "\n  %3 = getelementptr i8, i8* %2, i64 8"
-  "\n  %4 = bitcast i8* %3 to i32 (...)***"
-  "\n  %5 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CChild.vtable, i32 0, i32 0, i32 0"
-  "\n  %6 = bitcast i8** %5 to i32 (...)**"
-  "\n  store i32 (...)** %6, i32 (...)*** %4"
-  "\n  %7 = getelementptr %systems.vos.wisey.compiler.tests.CParent, %systems.vos.wisey.compiler.tests.CParent* %injectvar, i32 0, i32 2"
-  "\n  store %systems.vos.wisey.compiler.tests.CChild* %injectvar2, %systems.vos.wisey.compiler.tests.CChild** %7"
-  "\n  %8 = bitcast %systems.vos.wisey.compiler.tests.CParent* %injectvar to i8*"
-  "\n  %9 = getelementptr i8, i8* %8, i64 8"
-  "\n  %10 = bitcast i8* %9 to i32 (...)***"
-  "\n  %11 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CParent.vtable, i32 0, i32 0, i32 0"
-  "\n  %12 = bitcast i8** %11 to i32 (...)**"
-  "\n  store i32 (...)** %12, i32 (...)*** %10"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.CParent.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CParent.refCounter, %systems.vos.wisey.compiler.tests.CParent.refCounter* null, i32 1) to i64))"
+  "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.CParent.refCounter*"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CParent.refCounter* %injectvar to i8*"
+  "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.CParent.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CParent.refCounter, %systems.vos.wisey.compiler.tests.CParent.refCounter* null, i32 1) to i64), i32 4, i1 false)"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CParent.refCounter, %systems.vos.wisey.compiler.tests.CParent.refCounter* %injectvar, i32 0, i32 1"
+  "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.CChild.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CChild.refCounter, %systems.vos.wisey.compiler.tests.CChild.refCounter* null, i32 1) to i64))"
+  "\n  %injectvar2 = bitcast i8* %malloccall1 to %systems.vos.wisey.compiler.tests.CChild.refCounter*"
+  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.CChild.refCounter* %injectvar2 to i8*"
+  "\n  call void @llvm.memset.p0i8.i64(i8* %2, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.CChild.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CChild.refCounter, %systems.vos.wisey.compiler.tests.CChild.refCounter* null, i32 1) to i64), i32 4, i1 false)"
+  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.CChild.refCounter, %systems.vos.wisey.compiler.tests.CChild.refCounter* %injectvar2, i32 0, i32 1"
+  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.CChild* %3 to i8*"
+  "\n  %5 = getelementptr i8, i8* %4, i64 8"
+  "\n  %6 = bitcast i8* %5 to i32 (...)***"
+  "\n  %7 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CChild.vtable, i32 0, i32 0, i32 0"
+  "\n  %8 = bitcast i8** %7 to i32 (...)**"
+  "\n  store i32 (...)** %8, i32 (...)*** %6"
+  "\n  %9 = getelementptr %systems.vos.wisey.compiler.tests.CParent, %systems.vos.wisey.compiler.tests.CParent* %1, i32 0, i32 2"
+  "\n  store %systems.vos.wisey.compiler.tests.CChild* %3, %systems.vos.wisey.compiler.tests.CChild** %9"
+  "\n  %10 = bitcast %systems.vos.wisey.compiler.tests.CParent* %1 to i8*"
+  "\n  %11 = getelementptr i8, i8* %10, i64 8"
+  "\n  %12 = bitcast i8* %11 to i32 (...)***"
+  "\n  %13 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CParent.vtable, i32 0, i32 0, i32 0"
+  "\n  %14 = bitcast i8** %13 to i32 (...)**"
+  "\n  store i32 (...)** %14, i32 (...)*** %12"
   "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

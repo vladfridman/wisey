@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/AdjustReferenceCounterForInterfaceFunction.hpp"
+#include "wisey/Environment.hpp"
 #include "wisey/GetOriginalObjectFunction.hpp"
 #include "wisey/IRWriter.hpp"
 
@@ -87,8 +88,11 @@ void AdjustReferenceCounterForInterfaceFunction::compose(IRGenerationContext& co
   
   context.setBasicBlock(ifNotNullBlock);
   Value* original = GetOriginalObjectFunction::callGetObject(context, object);
+  Value* index[1];
+  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), -Environment::getAddressSizeInBytes());
+  Value* shellObject = IRWriter::createGetElementPtrInst(context, original, index);
   Type* int64PointerType = Type::getInt64Ty(llvmContext)->getPointerTo();
-  Value* counter = IRWriter::newBitCastInst(context, original, int64PointerType);
+  Value* counter = IRWriter::newBitCastInst(context, shellObject, int64PointerType);
 
   Value* originalObjectVTablePointer = GetOriginalObjectFunction::callGetVTable(context, object);
   Type* int8DoublePointerType = Type::getInt8Ty(llvmContext)->getPointerTo()->getPointerTo();
@@ -97,7 +101,6 @@ void AdjustReferenceCounterForInterfaceFunction::compose(IRGenerationContext& co
                                                   originalObjectVTablePointer,
                                                   int8TriplePointerType);
   LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
-  Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 1);
   GetElementPtrInst* typeArrayPointerI8 = IRWriter::createGetElementPtrInst(context, vTable, index);
   LoadInst* typeArrayI8 = IRWriter::newLoadInst(context, typeArrayPointerI8, "typeArrayI8");

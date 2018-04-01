@@ -306,6 +306,13 @@ namespace wisey {
      */
     static unsigned long getVTableSizeForObject(const IConcreteObjectType* object);
 
+    /**
+     * Allocate memory for a new object of the given type
+     */
+    static llvm::Instruction* createMallocForObject(IRGenerationContext& context,
+                                                    const IConcreteObjectType* object,
+                                                    std::string variableName);
+    
   private:
     
     static std::map<std::string, llvm::Function*>
@@ -362,6 +369,9 @@ namespace wisey {
     
     static llvm::Constant* getObjectShortNamePointer(const IConcreteObjectType* object,
                                                      IRGenerationContext& context);
+    
+    static llvm::StructType* getOrCreateRefCounterStruct(IRGenerationContext& context,
+                                                         const IConcreteObjectType* object);
     
   };
   

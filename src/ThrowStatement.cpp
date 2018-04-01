@@ -43,14 +43,22 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
 
   llvm::PointerType* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
   Value* exceptionObject = mExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
-  
-  BitCastInst* expressionValueBitcast =
-    IRWriter::newBitCastInst(context, exceptionObject, int8PointerType);
   BitCastInst* rttiBitcast = IRWriter::newBitCastInst(context, rtti, int8PointerType);
 
-  Value* modelSize = ConstantExpr::getSizeOf(model->getLLVMType(context)->getPointerElementType());
+  BitCastInst* expressionValueBitcast =
+    IRWriter::newBitCastInst(context, exceptionObject, int8PointerType);
+  Value* index[1];
+  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), -Environment::getAddressSizeInBytes());
+  Value* excpetionShellStart =
+  IRWriter::createGetElementPtrInst(context, expressionValueBitcast, index);
+
+  llvm::Constant* modelSize = ConstantExpr::getSizeOf(model->getLLVMType(context)->
+                                                      getPointerElementType());
+  llvm::Constant* refCounterSize = ConstantExpr::getSizeOf(Type::getInt64Ty(llvmContext));
+  llvm::Constant* mallocSize = ConstantExpr::getAdd(modelSize, refCounterSize);
+  
   vector<Value*> allocateExceptionArguments;
-  allocateExceptionArguments.push_back(modelSize);
+  allocateExceptionArguments.push_back(mallocSize);
   Function* allocateExceptionFunction = IntrinsicFunctions::getAllocateExceptionFunction(context);
   Value* exceptionAlloca = IRWriter::createCallInst(context,
                                                     allocateExceptionFunction,
@@ -60,8 +68,8 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
   vector<Value*> memCopyArguments;
   unsigned int memoryAlignment = Environment::getDefaultMemoryAllignment();
   memCopyArguments.push_back(exceptionAlloca);
-  memCopyArguments.push_back(expressionValueBitcast);
-  memCopyArguments.push_back(modelSize);
+  memCopyArguments.push_back(excpetionShellStart);
+  memCopyArguments.push_back(mallocSize);
   memCopyArguments.push_back(ConstantInt::get(Type::getInt32Ty(llvmContext), memoryAlignment));
   memCopyArguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 0));
   Function* memCopyFunction = IntrinsicFunctions::getMemCopyFunction(context);

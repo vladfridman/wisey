@@ -132,12 +132,6 @@ namespace wisey {
                                                    llvm::Value* object);
     
     /**
-     * Checks type of the object value, casts it to int64* type and returns it
-     */
-    static llvm::Value* getReferenceCounterPointer(IRGenerationContext& context,
-                                                   llvm::Value* object);
-    
-    /**
      * Check that the private object is accessable
      */
     static bool checkAccess(const IObjectType* from, const IObjectType* to);

@@ -223,8 +223,6 @@ namespace wisey {
     
     void checkAllFieldsAreSet(const ObjectBuilderArgumentList& objectBuilderArgumentList) const;
     
-    llvm::Instruction* createMalloc(IRGenerationContext& context) const;
-    
     void initializeFields(IRGenerationContext& context,
                           const ObjectBuilderArgumentList& ObjectBuilderArgumentList,
                           llvm::Instruction* malloc,

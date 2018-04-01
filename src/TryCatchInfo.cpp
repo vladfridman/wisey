@@ -41,7 +41,7 @@ BasicBlock* TryCatchInfo::defineLandingPadBlock(IRGenerationContext& context,
   }
   
   for (Catch* catchClause : mCatchList) {
-    const Model* catchType = catchClause->getType(context)->getReferenceType();
+    const Model* catchType = (const Model*) catchClause->getType(context)->getReferenceType();
     context.getScopes().getScope()->removeException(catchType);
   }
 

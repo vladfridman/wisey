@@ -73,8 +73,7 @@ TEST_F(AdjustReferenceCounterForConcreteObjectUnsafelyFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine internal void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %object, "
-  "i64 %adjustment) {"
+  "\ndefine internal void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %object, i64 %adjustment) {"
   "\nentry:"
   "\n  %0 = icmp eq i8* %object, null"
   "\n  br i1 %0, label %if.null, label %if.notnull"
@@ -84,9 +83,10 @@ TEST_F(AdjustReferenceCounterForConcreteObjectUnsafelyFunctionTest, getTest) {
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
   "\n  %1 = bitcast i8* %object to i64*"
-  "\n  %count = load i64, i64* %1"
-  "\n  %2 = add i64 %count, %adjustment"
-  "\n  store i64 %2, i64* %1"
+  "\n  %2 = getelementptr i64, i64* %1, i64 -1"
+  "\n  %count = load i64, i64* %2"
+  "\n  %3 = add i64 %count, %adjustment"
+  "\n  store i64 %3, i64* %2"
   "\n  ret void"
   "\n}\n";
   

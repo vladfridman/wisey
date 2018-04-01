@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/Composer.hpp"
+#include "wisey/Environment.hpp"
 #include "wisey/IObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -35,19 +36,13 @@ llvm::Constant* IObjectType::getObjectNamePointer(const IObjectType* object,
   return ConstantExpr::getGetElementPtr(elementType, nameGlobal, Idx);
 }
 
-Value* IObjectType::getReferenceCounterPointer(IRGenerationContext& context, Value* object) {
-  assert(object->getType()->isPointerTy());
-  assert(!object->getType()->getPointerElementType()->isPointerTy());
-  
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Type* type = Type::getInt8Ty(llvmContext)->getPointerTo();
-  return object->getType() == type ? object : IRWriter::newBitCastInst(context, object, type);
-}
-
 Value* IObjectType::getReferenceCountForObject(IRGenerationContext& context, Value* object) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  Type* type = Type::getInt64Ty(llvmContext)->getPointerTo();
-  Value* counterPointer = IRWriter::newBitCastInst(context, object, type);
+  Type* int64Pointer = Type::getInt64Ty(llvmContext)->getPointerTo();
+  Value* genericPointer = IRWriter::newBitCastInst(context, object, int64Pointer);
+  Value* index[1];
+  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), -1);
+  Value* counterPointer = IRWriter::createGetElementPtrInst(context, genericPointer, index);
   return IRWriter::newLoadInst(context, counterPointer, "refCounter");
 }
 

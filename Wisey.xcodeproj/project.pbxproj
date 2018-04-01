@@ -720,6 +720,9 @@
 		F58FA2F9206E65C100C86D33 /* DestroyOwnerObjectFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA2F8206E65C100C86D33 /* DestroyOwnerObjectFunction.cpp */; };
 		F58FA2FA206E65C100C86D33 /* DestroyOwnerObjectFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA2F8206E65C100C86D33 /* DestroyOwnerObjectFunction.cpp */; };
 		F58FA2FD206E684B00C86D33 /* TestDestroyOwnerObjectFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA2FB206E684B00C86D33 /* TestDestroyOwnerObjectFunction.cpp */; };
+		F58FA300206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA2FF206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp */; };
+		F58FA301206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA2FF206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp */; };
+		F58FA30320710A4700C86D33 /* TestAdjustReferenceCounterForArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA30220710A4700C86D33 /* TestAdjustReferenceCounterForArrayFunction.cpp */; };
 		F592A7B91F7D62D10026BD2F /* IConcreteObjectDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592A7B81F7D62D10026BD2F /* IConcreteObjectDefinition.cpp */; };
 		F592A7BA1F7D62D10026BD2F /* IConcreteObjectDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592A7B81F7D62D10026BD2F /* IConcreteObjectDefinition.cpp */; };
 		F592A7C11F7D8D690026BD2F /* ExternalMethodDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592A7C01F7D8D690026BD2F /* ExternalMethodDefinition.cpp */; };
@@ -1656,6 +1659,9 @@
 		F58FA2F7206E653A00C86D33 /* DestroyOwnerObjectFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DestroyOwnerObjectFunction.hpp; path = include/wisey/DestroyOwnerObjectFunction.hpp; sourceTree = "<group>"; };
 		F58FA2F8206E65C100C86D33 /* DestroyOwnerObjectFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DestroyOwnerObjectFunction.cpp; path = src/DestroyOwnerObjectFunction.cpp; sourceTree = "<group>"; };
 		F58FA2FB206E684B00C86D33 /* TestDestroyOwnerObjectFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestDestroyOwnerObjectFunction.cpp; path = tests/TestDestroyOwnerObjectFunction.cpp; sourceTree = "<group>"; };
+		F58FA2FE206FC7CB00C86D33 /* AdjustReferenceCounterForArrayFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AdjustReferenceCounterForArrayFunction.hpp; path = include/wisey/AdjustReferenceCounterForArrayFunction.hpp; sourceTree = "<group>"; };
+		F58FA2FF206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = AdjustReferenceCounterForArrayFunction.cpp; path = src/AdjustReferenceCounterForArrayFunction.cpp; sourceTree = "<group>"; };
+		F58FA30220710A4700C86D33 /* TestAdjustReferenceCounterForArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestAdjustReferenceCounterForArrayFunction.cpp; path = tests/TestAdjustReferenceCounterForArrayFunction.cpp; sourceTree = "<group>"; };
 		F592A7B61F7D609D0026BD2F /* IObjectDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IObjectDefinition.hpp; path = include/wisey/IObjectDefinition.hpp; sourceTree = "<group>"; };
 		F592A7B71F7D61320026BD2F /* IConcreteObjectDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IConcreteObjectDefinition.hpp; path = include/wisey/IConcreteObjectDefinition.hpp; sourceTree = "<group>"; };
 		F592A7B81F7D62D10026BD2F /* IConcreteObjectDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IConcreteObjectDefinition.cpp; path = src/IConcreteObjectDefinition.cpp; sourceTree = "<group>"; };
@@ -2167,6 +2173,7 @@
 		F52C66541FBF320C00E89B04 /* composer */ = {
 			isa = PBXGroup;
 			children = (
+				F58FA2FF206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp */,
 				F53914791FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp */,
 				F52C66611FBF41C000E89B04 /* AdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp */,
 				F52C66651FBF446400E89B04 /* AdjustReferenceCounterForInterfaceFunction.cpp */,
@@ -2187,6 +2194,7 @@
 		F52C66551FBF322A00E89B04 /* composer */ = {
 			isa = PBXGroup;
 			children = (
+				F58FA2FE206FC7CB00C86D33 /* AdjustReferenceCounterForArrayFunction.hpp */,
 				F53914781FDE697100CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp */,
 				F52C66601FBF415700E89B04 /* AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp */,
 				F52C66641FBF441A00E89B04 /* AdjustReferenceCounterForInterfaceFunction.hpp */,
@@ -3123,6 +3131,7 @@
 		F5CB7F93205279A2007628B5 /* composer */ = {
 			isa = PBXGroup;
 			children = (
+				F58FA30220710A4700C86D33 /* TestAdjustReferenceCounterForArrayFunction.cpp */,
 				F539147C1FDE6BD900CD5174 /* TestAdjustReferenceCounterForConcreteObjectSafelyFunction.cpp */,
 				F5105FC01FD1AF7700ACF57B /* TestAdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp */,
 				F5105FC21FD1B18F00ACF57B /* TestAdjustReferenceCounterForInterfaceFunction.cpp */,
@@ -4069,6 +4078,7 @@
 				F57E2E2B1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp in Sources */,
 				F52C665B1FBF348D00E89B04 /* ThrowReferenceCountExceptionFunction.cpp in Sources */,
 				F50FA2DA1E2D328100435EEA /* ModelDefinition.cpp in Sources */,
+				F58FA30320710A4700C86D33 /* TestAdjustReferenceCounterForArrayFunction.cpp in Sources */,
 				F5827062205FD0D300839EC7 /* TestLLVMPointerTypeSpecifier.cpp in Sources */,
 				F5C6FD661E48AB3B0054209D /* CharType.cpp in Sources */,
 				F5F435CC1FACA32A0097E5D0 /* TestParameterPrimitiveVariable.cpp in Sources */,
@@ -4119,6 +4129,7 @@
 				F5603B4A202121B000BBA05D /* ArraySpecificOwnerType.cpp in Sources */,
 				F5FCAE391ED5C68900C69899 /* CompilerArgumentParser.cpp in Sources */,
 				F58725651F70178D00FA25E6 /* TestPrintErrStatement.cpp in Sources */,
+				F58FA301206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp in Sources */,
 				F55DB0601F7914CB0009942C /* IObjectTypeSpecifier.cpp in Sources */,
 				F51581341E8ABBB5009CE419 /* TestControllerTypeSpecifier.cpp in Sources */,
 				F5A67DAA2012DBEB0018068F /* ArrayElementAssignment.cpp in Sources */,
@@ -4291,6 +4302,7 @@
 				F58B32851E1635850001CC15 /* ContinueStatement.cpp in Sources */,
 				F53400EE1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp in Sources */,
 				F59D82231E0F6DAE00057FB5 /* IfStatement.cpp in Sources */,
+				F58FA300206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp in Sources */,
 				F5B9B1531E7A9DB000456CB4 /* TypeComparisionExpression.cpp in Sources */,
 				F5827059205FC88600839EC7 /* LLVMPointerTypeSpecifier.cpp in Sources */,
 				F56C214A1F5EA91A002510FC /* Cleanup.cpp in Sources */,

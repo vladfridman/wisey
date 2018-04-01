@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp"
+#include "wisey/Environment.hpp"
 #include "wisey/IRWriter.hpp"
 
 using namespace llvm;
@@ -31,11 +32,15 @@ Function* AdjustReferenceCounterForConcreteObjectSafelyFunction::get(IRGeneratio
 void AdjustReferenceCounterForConcreteObjectSafelyFunction::call(IRGenerationContext& context,
                                                                  Value* object,
                                                                  int adjustment) {
-  Value* counterPointer = IObjectType::getReferenceCounterPointer(context, object);
+  Type* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   
   Function* function = get(context);
   vector<Value*> arguments;
-  arguments.push_back(counterPointer);
+  if (object->getType() == int8Pointer) {
+    arguments.push_back(object);
+  } else {
+    arguments.push_back(IRWriter::newBitCastInst(context, object, int8Pointer));
+  }
   llvm::Constant* value = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), adjustment);
   arguments.push_back(value);
   
@@ -84,9 +89,11 @@ void AdjustReferenceCounterForConcreteObjectSafelyFunction::compose(IRGeneration
   IRWriter::createReturnInst(context, NULL);
   
   context.setBasicBlock(ifNotNullBlock);
-  Value* counter = IRWriter::newBitCastInst(context,
-                                            object,
-                                            Type::getInt64Ty(llvmContext)->getPointerTo());
+  Type* int64Pointer = Type::getInt64Ty(llvmContext)->getPointerTo();
+  Value* objectStart = IRWriter::newBitCastInst(context, object, int64Pointer);
+  Value* index[1];
+  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), -1);
+  Value* counter = IRWriter::createGetElementPtrInst(context, objectStart, index);
   new AtomicRMWInst(AtomicRMWInst::BinOp::Add,
                     counter,
                     adjustment,
