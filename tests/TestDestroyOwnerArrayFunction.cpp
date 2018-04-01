@@ -29,7 +29,6 @@ struct DestroyOwnerArrayFunctionTest : Test {
   LLVMContext& mLLVMContext;
   BasicBlock* mBasicBlock;
   Function* mFunction;
-  Function* mDestructor;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
@@ -39,17 +38,6 @@ struct DestroyOwnerArrayFunctionTest : Test {
     programPrefix.generateIR(mContext);
     TestPrefix::generateIR(mContext);
     
-    vector<Type*> destructorArgumentTypes;
-    destructorArgumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-    Type* detructorLlvmReturnType = Type::getVoidTy(mLLVMContext);
-    FunctionType* destructorFunctionType = FunctionType::get(detructorLlvmReturnType,
-                                                             destructorArgumentTypes,
-                                                             false);
-    mDestructor = Function::Create(destructorFunctionType,
-                                   GlobalValue::ExternalLinkage,
-                                   "destructor",
-                                   mContext.getModule());
-
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
     mFunction = Function::Create(functionType,
@@ -70,12 +58,12 @@ struct DestroyOwnerArrayFunctionTest : Test {
 TEST_F(DestroyOwnerArrayFunctionTest, callTest) {
   llvm::PointerType* genericPointer = llvm::Type::getInt64Ty(mLLVMContext)->getPointerTo();
   Value* nullPointerValue = ConstantPointerNull::get(genericPointer);
-  DestroyOwnerArrayFunction::call(mContext, nullPointerValue, 2u, mDestructor);
+  DestroyOwnerArrayFunction::call(mContext, nullPointerValue, 2u);
   
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  call void @__destroyOwnerArrayFunction(i64* null, i64 2, i1 true, void (i8*)* @destructor)\n";
+  "\n  call void @__destroyOwnerArrayFunction(i64* null, i64 2, i1 true)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -86,7 +74,7 @@ TEST_F(DestroyOwnerArrayFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine internal void @__destroyOwnerArrayFunction(i64* %arrayPointer, i64 %noOfDimensions, i1 %shouldFree, void (i8*)* %destructor) personality i32 (...)* @__gxx_personality_v0 {"
+  "\ndefine internal void @__destroyOwnerArrayFunction(i64* %arrayPointer, i64 %noOfDimensions, i1 %shouldFree) personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %isNull = icmp eq i64* %arrayPointer, null"
   "\n  br i1 %isNull, label %return.void, label %if.not.null"
@@ -134,13 +122,13 @@ TEST_F(DestroyOwnerArrayFunctionTest, getTest) {
   "\n"
   "\nmulti.dimensional:                                ; preds = %for.body"
   "\n  %5 = bitcast i8* %4 to i64*"
-  "\n  call void @__destroyOwnerArrayFunction(i64* %5, i64 %dimensionsMinusOne, i1 false, void (i8*)* %destructor)"
+  "\n  call void @__destroyOwnerArrayFunction(i64* %5, i64 %dimensionsMinusOne, i1 false)"
   "\n  br label %for.cond"
   "\n"
   "\none.dimensional:                                  ; preds = %for.body"
   "\n  %6 = bitcast i8* %4 to i8**"
   "\n  %7 = load i8*, i8** %6"
-  "\n  call void %destructor(i8* %7)"
+  "\n  call void @__destroyOwnerObjectFunction(i8* %7)"
   "\n  br label %for.cond"
   "\n"
   "\nmaybe.free.array:                                 ; preds = %for.cond"

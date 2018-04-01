@@ -15,6 +15,7 @@
 #include "wisey/Cleanup.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/DecrementReferencesInArrayFunction.hpp"
+#include "wisey/DestroyOwnerObjectFunction.hpp"
 #include "wisey/DestroyOwnerArrayFunction.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/FakeExpression.hpp"
@@ -472,12 +473,8 @@ void IConcreteObjectType::composeDestructorCall(IRGenerationContext& context,
                                                 Value* value) {
   Type* int8pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   Value* bitcast = IRWriter::newBitCastInst(context, value, int8pointer);
-
-  Function* function = getDestructorFunctionForObject(context, object);
-  vector<Value*> arguments;
-  arguments.push_back(bitcast);
   
-  IRWriter::createCallInst(context, function, arguments, "");
+  DestroyOwnerObjectFunction::call(context, bitcast);
 }
 
 Function* IConcreteObjectType::getDestructorFunctionForObject(IRGenerationContext &context,

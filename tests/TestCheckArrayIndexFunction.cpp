@@ -124,7 +124,7 @@ TEST_F(CheckArrayIndexFunctionTest, getTest) {
   "\n          cleanup"
   "\n  %16 = load %wisey.lang.MArrayIndexOutOfBoundsException*, %wisey.lang.MArrayIndexOutOfBoundsException** %10"
   "\n  %17 = bitcast %wisey.lang.MArrayIndexOutOfBoundsException* %16 to i8*"
-  "\n  call void @destructor.wisey.lang.MArrayIndexOutOfBoundsException(i8* %17)"
+  "\n  call void @__destroyOwnerObjectFunction(i8* %17)"
   "\n  resume { i8*, i32 } %15"
   "\n"
   "\ninvoke.continue:                                  ; preds = %if.then"

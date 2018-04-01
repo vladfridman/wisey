@@ -169,7 +169,7 @@ TEST_F(FieldOwnerVariableTest, generateAssignmentIRTest) {
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
   "\n  %1 = load %systems.vos.wisey.compiler.tests.NNode*, %systems.vos.wisey.compiler.tests.NNode** %0"
   "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.NNode* %1 to i8*"
-  "\n  call void @destructor.systems.vos.wisey.compiler.tests.NNode(i8* %2)"
+  "\n  call void @__destroyOwnerObjectFunction(i8* %2)"
   "\n  store %systems.vos.wisey.compiler.tests.NNode* null, "
   "%systems.vos.wisey.compiler.tests.NNode** %0\n";
   

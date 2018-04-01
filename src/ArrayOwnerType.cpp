@@ -71,12 +71,7 @@ void ArrayOwnerType::free(IRGenerationContext& context, llvm::Value* arrayPointe
   if (elementType->isOwner() && elementType->isNative()) {
     // TODO: Implement freeing objects pointed to by native pointers
   } else if (elementType->isOwner()) {
-    const IObjectOwnerType* objectOwnerType = (const IObjectOwnerType*) elementType;
-    llvm::Value* destructor = objectOwnerType->getDestructorFunction(context);
-    DestroyOwnerArrayFunction::call(context,
-                                    arrayBitcast,
-                                    mArrayType->getNumberOfDimensions(),
-                                    destructor);
+    DestroyOwnerArrayFunction::call(context, arrayBitcast, mArrayType->getNumberOfDimensions());
   } else if (elementType->isReference()) {
     DestroyReferenceArrayFunction::call(context, arrayBitcast, mArrayType->getNumberOfDimensions());
   } else {

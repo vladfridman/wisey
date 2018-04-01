@@ -167,23 +167,21 @@ TEST_F(ReturnStatementTest, ownerVariablesAreClearedTest) {
   *mStringStream << *basicBlock;
   string expected =
   "\nentry:"
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%MShape* getelementptr ("
-  "%MShape, %MShape* null, i32 1) to i64))"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%MShape* getelementptr (%MShape, %MShape* null, i32 1) to i64))"
   "\n  %0 = bitcast i8* %malloccall to %MShape*"
   "\n  %pointer = alloca %MShape*"
   "\n  store %MShape* %0, %MShape** %pointer"
-  "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint (%MShape* getelementptr "
-  "(%MShape, %MShape* null, i32 1) to i64))"
+  "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint (%MShape* getelementptr (%MShape, %MShape* null, i32 1) to i64))"
   "\n  %1 = bitcast i8* %malloccall1 to %MShape*"
   "\n  %pointer2 = alloca %MShape*"
   "\n  store %MShape* %1, %MShape** %pointer2"
   "\n  %conv = zext i32 3 to i64"
   "\n  %2 = load %MShape*, %MShape** %pointer2"
   "\n  %3 = bitcast %MShape* %2 to i8*"
-  "\n  call void @destructor.systems.vos.wisey.compiler.tests.MShape(i8* %3)"
+  "\n  call void @__destroyOwnerObjectFunction(i8* %3)"
   "\n  %4 = load %MShape*, %MShape** %pointer"
   "\n  %5 = bitcast %MShape* %4 to i8*"
-  "\n  call void @destructor.systems.vos.wisey.compiler.tests.MShape(i8* %5)"
+  "\n  call void @__destroyOwnerObjectFunction(i8* %5)"
   "\n  ret i64 %conv\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
