@@ -468,9 +468,7 @@ string IConcreteObjectType::getObjectDestructorFunctionName(const IConcreteObjec
   return "destructor." + object->getTypeName();
 }
 
-void IConcreteObjectType::composeDestructorCall(IRGenerationContext& context,
-                                                const IConcreteObjectType* object,
-                                                Value* value) {
+void IConcreteObjectType::composeDestructorCall(IRGenerationContext& context, Value* value) {
   Type* int8pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   Value* bitcast = IRWriter::newBitCastInst(context, value, int8pointer);
   

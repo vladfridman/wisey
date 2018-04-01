@@ -71,7 +71,7 @@ Value* ThreadOwner::castTo(IRGenerationContext& context,
 }
 
 void ThreadOwner::free(IRGenerationContext& context, Value* value) const {
-  IConcreteObjectType::composeDestructorCall(context, getReferenceType(), value);
+  IConcreteObjectType::composeDestructorCall(context, value);
 }
 
 Function* ThreadOwner::getDestructorFunction(IRGenerationContext& context) const {

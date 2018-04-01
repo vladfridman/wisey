@@ -63,4 +63,6 @@ void LocalPointerOwnerVariable::setToNull(IRGenerationContext& context) {
 }
 
 void LocalPointerOwnerVariable::free(IRGenerationContext& context) const {
+  Value* valueLoaded = IRWriter::newLoadInst(context, mValueStore, "");
+  mType->free(context, valueLoaded);
 }

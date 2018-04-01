@@ -88,3 +88,23 @@ TEST_F(LocalPointerOwnerVariableTest, generateIdentifierReferenceIRTest) {
   
   EXPECT_EQ(fooValue, variable->generateIdentifierReferenceIR(mContext));
 }
+
+TEST_F(LocalPointerOwnerVariableTest, freeTest) {
+  Type* llvmType = mPointerOwnerType->getLLVMType(mContext);
+  Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
+  IOwnerVariable* variable = new LocalPointerOwnerVariable("foo", mPointerOwnerType, fooValue);
+
+  variable->free(mContext);
+  
+  *mStringStream << *mBasicBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %0 = alloca i64*"
+  "\n  %1 = load i64*, i64** %0"
+  "\n  %2 = bitcast i64* %1 to i8*"
+  "\n  call void @__destroyOwnerObjectFunction(i8* %2)\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}

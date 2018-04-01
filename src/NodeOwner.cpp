@@ -72,7 +72,7 @@ Value* NodeOwner::castTo(IRGenerationContext& context,
 }
 
 void NodeOwner::free(IRGenerationContext &context, Value *value) const {
-  IConcreteObjectType::composeDestructorCall(context, getReferenceType(), value);
+  IConcreteObjectType::composeDestructorCall(context, value);
 }
 
 Function* NodeOwner::getDestructorFunction(IRGenerationContext& context) const {

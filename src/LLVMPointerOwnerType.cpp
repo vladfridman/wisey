@@ -139,5 +139,5 @@ const ILLVMPointerType* LLVMPointerOwnerType::getPointerType() const {
 }
 
 void LLVMPointerOwnerType::free(IRGenerationContext& context, Value *value) const {
-  
+  IConcreteObjectType::composeDestructorCall(context, value);
 }
