@@ -123,7 +123,10 @@ void LLVMPointerOwnerType::createFieldVariable(IRGenerationContext& context,
 void LLVMPointerOwnerType::createParameterVariable(IRGenerationContext& context,
                                                    string name,
                                                    llvm::Value* value) const {
-  IVariable* variable = new ParameterPointerOwnerVariable(name, this, value);
+  llvm::PointerType::Type* llvmType = getLLVMType(context);
+  Value* alloc = IRWriter::newAllocaInst(context, llvmType, name);
+  IRWriter::newStoreInst(context, value, alloc);
+  IVariable* variable = new ParameterPointerOwnerVariable(name, this, alloc);
   context.getScopes().setVariable(variable);
 }
 

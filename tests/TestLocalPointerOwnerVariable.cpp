@@ -189,8 +189,8 @@ TEST_F(LocalPointerOwnerVariableTest, setToNullTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(TestFileSampleRunner, llvmPointerOwnerVariableRunTest) {
-  runFileCheckOutputWithDestructorDebug("tests/samples/test_llvm_pointer_owner_variable.yz",
+TEST_F(TestFileSampleRunner, localPointerOwnerVariableRunTest) {
+  runFileCheckOutputWithDestructorDebug("tests/samples/test_local_pointer_owner_variable.yz",
                                         "destructor systems.vos.wisey.compiler.tests.MModel\n"
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");

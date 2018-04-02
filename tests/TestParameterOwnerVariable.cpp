@@ -80,7 +80,7 @@ public:
   }
 };
 
-TEST_F(ParameterOwnerVariableTest, basicFieldsTest) {
+TEST_F(ParameterOwnerVariableTest, basicTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValueStore = IRWriter::newAllocaInst(mContext, llvmType, "");
   ParameterOwnerVariable variable("foo", mModel->getOwner(), fooValueStore);

@@ -22,13 +22,13 @@ namespace wisey {
     
     std::string mName;
     const LLVMPointerOwnerType* mType;
-    llvm::Value* mValue;
+    llvm::Value* mValueStore;
     
   public:
     
     ParameterPointerOwnerVariable(std::string name,
                                   const LLVMPointerOwnerType* type,
-                                  llvm::Value* value);
+                                  llvm::Value* valueStore);
     
     ~ParameterPointerOwnerVariable();
     
