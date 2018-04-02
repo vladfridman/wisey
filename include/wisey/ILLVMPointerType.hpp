@@ -15,7 +15,7 @@
 
 namespace wisey {
   
-  class LLVMPointerOwnerType;
+  class LLVMObjectOwnerType;
   
   /**
    * Represents a pointer type to an llvm type
@@ -23,11 +23,6 @@ namespace wisey {
   class ILLVMPointerType : public IReferenceType {
     
   public:
-    
-    /**
-     * Returns owner type that represents a pointer that owns the object it references
-     */
-    virtual const LLVMPointerOwnerType* getOwner() const = 0;
     
     /**
      * Return corresponding LLVM type

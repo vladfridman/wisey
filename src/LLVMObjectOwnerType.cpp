@@ -1,5 +1,5 @@
 //
-//  LLVMPointerOwnerType.cpp
+//  LLVMObjectOwnerType.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 3/28/18.
@@ -12,7 +12,8 @@
 #include "wisey/FieldOwnerVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/LLVMPointerOwnerType.hpp"
+#include "wisey/LLVMObjectOwnerType.hpp"
+#include "wisey/LLVMObjectType.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/ParameterOwnerVariable.hpp"
 
@@ -20,30 +21,31 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-LLVMPointerOwnerType::LLVMPointerOwnerType(const ILLVMPointerType* referenceType) {
-  mReferenceType = referenceType;
+LLVMObjectOwnerType* LLVMObjectOwnerType::LLVM_OBJECT_OWNER_TYPE = new LLVMObjectOwnerType();
+
+LLVMObjectOwnerType::LLVMObjectOwnerType() {
 }
 
-LLVMPointerOwnerType::~LLVMPointerOwnerType() {
+LLVMObjectOwnerType::~LLVMObjectOwnerType() {
 }
 
-string LLVMPointerOwnerType::getTypeName() const {
-  return mReferenceType->getTypeName() + "*";
+string LLVMObjectOwnerType::getTypeName() const {
+  return LLVMObjectType::LLVM_OBJECT_TYPE->getTypeName() + "*";
 }
 
-llvm::PointerType* LLVMPointerOwnerType::getLLVMType(IRGenerationContext& context) const {
-  return mReferenceType->getLLVMType(context);
+llvm::PointerType* LLVMObjectOwnerType::getLLVMType(IRGenerationContext& context) const {
+  return LLVMObjectType::LLVM_OBJECT_TYPE->getLLVMType(context);
 }
 
-bool LLVMPointerOwnerType::canCastTo(IRGenerationContext& context, const IType* toType) const {
+bool LLVMObjectOwnerType::canCastTo(IRGenerationContext& context, const IType* toType) const {
   return toType->isReference() || toType->isOwner();
 }
 
-bool LLVMPointerOwnerType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
+bool LLVMObjectOwnerType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
   return toType->isReference() || toType->isOwner();
 }
 
-llvm::Value* LLVMPointerOwnerType::castTo(IRGenerationContext& context,
+llvm::Value* LLVMObjectOwnerType::castTo(IRGenerationContext& context,
                                           llvm::Value* fromValue,
                                           const IType* toType,
                                           int line) const {
@@ -53,59 +55,59 @@ llvm::Value* LLVMPointerOwnerType::castTo(IRGenerationContext& context,
   assert(false);
 }
 
-bool LLVMPointerOwnerType::isPrimitive() const {
+bool LLVMObjectOwnerType::isPrimitive() const {
   return false;
 }
 
-bool LLVMPointerOwnerType::isOwner() const {
+bool LLVMObjectOwnerType::isOwner() const {
   return true;
 }
 
-bool LLVMPointerOwnerType::isReference() const {
+bool LLVMObjectOwnerType::isReference() const {
   return false;
 }
 
-bool LLVMPointerOwnerType::isArray() const {
+bool LLVMObjectOwnerType::isArray() const {
   return false;
 }
 
-bool LLVMPointerOwnerType::isFunction() const {
+bool LLVMObjectOwnerType::isFunction() const {
   return false;
 }
 
-bool LLVMPointerOwnerType::isPackage() const {
+bool LLVMObjectOwnerType::isPackage() const {
   return false;
 }
 
-bool LLVMPointerOwnerType::isController() const {
+bool LLVMObjectOwnerType::isController() const {
   return false;
 }
 
-bool LLVMPointerOwnerType::isInterface() const {
+bool LLVMObjectOwnerType::isInterface() const {
   return false;
 }
 
-bool LLVMPointerOwnerType::isModel() const {
+bool LLVMObjectOwnerType::isModel() const {
   return false;
 }
 
-bool LLVMPointerOwnerType::isNode() const {
+bool LLVMObjectOwnerType::isNode() const {
   return false;
 }
 
-bool LLVMPointerOwnerType::isThread() const {
+bool LLVMObjectOwnerType::isThread() const {
   return false;
 }
 
-bool LLVMPointerOwnerType::isNative() const {
+bool LLVMObjectOwnerType::isNative() const {
   return true;
 }
 
-void LLVMPointerOwnerType::printToStream(IRGenerationContext &context, iostream& stream) const {
+void LLVMObjectOwnerType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }
 
-void LLVMPointerOwnerType::createLocalVariable(IRGenerationContext& context, string name) const {
+void LLVMObjectOwnerType::createLocalVariable(IRGenerationContext& context, string name) const {
   PointerType* llvmType = getLLVMType(context);
   llvm::Value* alloca = IRWriter::newAllocaInst(context, llvmType, name);
   IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloca);
@@ -113,14 +115,14 @@ void LLVMPointerOwnerType::createLocalVariable(IRGenerationContext& context, str
   context.getScopes().setVariable(variable);
 }
 
-void LLVMPointerOwnerType::createFieldVariable(IRGenerationContext& context,
+void LLVMObjectOwnerType::createFieldVariable(IRGenerationContext& context,
                                                string name,
                                                const IConcreteObjectType* object) const {
   IVariable* variable = new FieldOwnerVariable(name, object);
   context.getScopes().setVariable(variable);
 }
 
-void LLVMPointerOwnerType::createParameterVariable(IRGenerationContext& context,
+void LLVMObjectOwnerType::createParameterVariable(IRGenerationContext& context,
                                                    string name,
                                                    llvm::Value* value) const {
   llvm::PointerType::Type* llvmType = getLLVMType(context);
@@ -130,19 +132,19 @@ void LLVMPointerOwnerType::createParameterVariable(IRGenerationContext& context,
   context.getScopes().setVariable(variable);
 }
 
-const wisey::ArrayType* LLVMPointerOwnerType::getArrayType(IRGenerationContext& context) const {
+const wisey::ArrayType* LLVMObjectOwnerType::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);
 }
 
-const ILLVMPointerType* LLVMPointerOwnerType::getReferenceType() const {
-  return mReferenceType;
+const IReferenceType* LLVMObjectOwnerType::getReferenceType() const {
+  return LLVMObjectType::LLVM_OBJECT_TYPE;
 }
 
-const ILLVMPointerType* LLVMPointerOwnerType::getPointerType() const {
+const ILLVMPointerType* LLVMObjectOwnerType::getPointerType() const {
   assert(false);
 }
 
-void LLVMPointerOwnerType::free(IRGenerationContext& context, Value *value) const {
+void LLVMObjectOwnerType::free(IRGenerationContext& context, Value *value) const {
   IConcreteObjectType::composeDestructorCall(context, value);
 }

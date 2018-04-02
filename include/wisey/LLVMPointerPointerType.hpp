@@ -21,7 +21,6 @@ namespace wisey {
   class LLVMPointerPointerType : public ILLVMPointerType {
     
     const LLVMPointerType* mBaseType;
-    const LLVMPointerOwnerType* mPointerOwnerType;
     
   public:
     
@@ -87,8 +86,6 @@ namespace wisey {
     void incrementReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
     
     void decrementReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
-    
-    const LLVMPointerOwnerType* getOwner() const override;
 
   };
   

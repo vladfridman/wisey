@@ -39,7 +39,7 @@ thread TProducer implements IProducerThread {
     mProducerThreadRunner.cancelThread();
   }
 
-  public ::llvm::i8::pointer consume() {
+  public ::llvm::object consume() {
     return mProducerThreadRunner.consumeResult();
   }
 
@@ -57,7 +57,7 @@ thread TProducer implements IProducerThread {
     }
   }
 
-  public boolean send(::llvm::i8::pointer* message) {
+  public boolean send(::llvm::object* message) {
     return mProducerThreadRunner.addResult(message);
   }
 

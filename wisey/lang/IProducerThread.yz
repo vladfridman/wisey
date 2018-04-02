@@ -40,6 +40,6 @@ interface IProducerThread extends IThread {
   /**
    * Consume one result and return it. If there are no results return null.
    */
-  ::llvm::i8::pointer consume();
+  ::llvm::object consume();
 
 }

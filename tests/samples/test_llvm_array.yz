@@ -13,7 +13,7 @@ model MElement {
 controller CProgram implements IProgram {
 
   public int run() {
-    ::llvm::i8::pointer*[]* array = new ::llvm::i8::pointer*[5];
+    ::llvm::object*[]* array = new ::llvm::object*[5];
     array[0] = builder(MElement).withContent(0).build();
     array[1] = builder(MElement).withContent(1).build();
     array[2] = builder(MElement).withContent(2).build();

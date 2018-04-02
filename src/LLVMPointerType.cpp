@@ -12,7 +12,7 @@
 #include "wisey/FieldNativeVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/LLVMPointerOwnerType.hpp"
+#include "wisey/LLVMObjectOwnerType.hpp"
 #include "wisey/LLVMPointerPointerType.hpp"
 #include "wisey/LLVMPointerType.hpp"
 #include "wisey/LocalPointerVariable.hpp"
@@ -24,12 +24,10 @@ using namespace wisey;
 LLVMPointerType::LLVMPointerType(const ILLVMType* baseType) {
   mBaseType = baseType;
   mPointerType = new LLVMPointerPointerType(this);
-  mPointerOwnerType = new LLVMPointerOwnerType(this);
 }
 
 LLVMPointerType::~LLVMPointerType() {
   delete mPointerType;
-  delete mPointerOwnerType;
 }
 
 string LLVMPointerType::getTypeName() const {
@@ -149,8 +147,4 @@ void LLVMPointerType::incrementReferenceCount(IRGenerationContext& context,
 
 void LLVMPointerType::decrementReferenceCount(IRGenerationContext& context,
                                               llvm::Value* object) const {
-}
-
-const LLVMPointerOwnerType* LLVMPointerType::getOwner() const {
-  return mPointerOwnerType;
 }

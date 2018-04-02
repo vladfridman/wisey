@@ -33,7 +33,7 @@ thread TMainThread implements IWorkerThread {
     return mWorkerThreadRunner.wasCancelled();
   }
 
-  public ::llvm::i8::pointer awaitResult() {
+  public ::llvm::object awaitResult() {
     mWorkerThreadRunner.joinThread();
 
     return mProgramResult;
@@ -45,10 +45,10 @@ thread TMainThread implements IWorkerThread {
 
   public void work() {
     MProgramResult* programResult = mProgramRunner.run();
-    thread.send((::llvm::i8::pointer*) programResult);
+    thread.send((::llvm::object*) programResult);
   }
 
-  public boolean send(::llvm::i8::pointer* programResult) {
+  public boolean send(::llvm::object* programResult) {
     mProgramResult = programResult;
     mWorkerThreadRunner.exitThread();
     return true;

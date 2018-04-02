@@ -18,7 +18,7 @@ interface IThread {
   /**
    * Snds a message to the calling thread. Returns true if send was successful
    */
-  boolean send(::llvm::i8::pointer* message);
+  boolean send(::llvm::object* message);
 
   /**
    * Method for putting the current thread to sleep
