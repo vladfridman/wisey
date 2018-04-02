@@ -14,6 +14,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMObjectType.hpp"
+#include "wisey/LLVMObjectOwnerType.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
 
@@ -143,4 +144,8 @@ void LLVMObjectType::incrementReferenceCount(IRGenerationContext& context, Value
 
 void LLVMObjectType::decrementReferenceCount(IRGenerationContext& context, Value* object) const {
   AdjustReferenceCountFunction::call(context, object, -1);
+}
+
+const IOwnerType* LLVMObjectType::getOwner() const {
+  return LLVMObjectOwnerType::LLVM_OBJECT_OWNER_TYPE;
 }

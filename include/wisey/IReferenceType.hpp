@@ -9,7 +9,7 @@
 #ifndef IReferenceType_h
 #define IReferenceType_h
 
-#include "wisey/IType.hpp"
+#include "wisey/IOwnerType.hpp"
 
 namespace wisey {
   
@@ -37,6 +37,11 @@ namespace wisey {
     virtual void decrementReferenceCount(IRGenerationContext& context,
                                          llvm::Value* object) const = 0;
     
+    /**
+     * Returns the owner type for this object
+     */
+    virtual const IOwnerType* getOwner() const = 0;
+
   };
   
 } /* namespace wisey */

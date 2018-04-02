@@ -61,7 +61,7 @@ namespace wisey {
     /**
      * Returns the owner type for this object
      */
-    virtual const IObjectOwnerType* getOwner() const = 0;
+    virtual const IObjectOwnerType* getOwner() const override = 0;
     
     /**
      * Tells whether this object is externally implemented in a shared library

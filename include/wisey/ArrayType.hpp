@@ -11,12 +11,11 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "wisey/ArrayOwnerType.hpp"
 #include "wisey/IReferenceType.hpp"
 #include "wisey/IType.hpp"
 
 namespace wisey {
-  
-  class ArrayOwnerType;
   
   /**
    * Represents the array type
@@ -47,7 +46,7 @@ namespace wisey {
     /**
      * Returns the owner type for this array type
      */
-    const ArrayOwnerType* getOwner() const;
+    const ArrayOwnerType* getOwner() const override;
     
     /**
      * Returns the number of dimensions in this array

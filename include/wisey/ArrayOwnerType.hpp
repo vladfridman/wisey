@@ -9,7 +9,6 @@
 #ifndef ArrayOwnerType_h
 #define ArrayOwnerType_h
 
-#include "wisey/ArrayType.hpp"
 #include "wisey/IOwnerType.hpp"
 
 namespace wisey {

@@ -15,8 +15,6 @@
 
 namespace wisey {
   
-  class IObjectType;
-  
   /**
    * Represents an IType that is an owner of the model, controller or interface
    */

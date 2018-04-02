@@ -9,9 +9,13 @@
 #ifndef IOwnerType_h
 #define IOwnerType_h
 
+#include <llvm/IR/DerivedTypes.h>
+
 #include "wisey/IType.hpp"
 
 namespace wisey {
+  
+  class IReferenceType;
   
   /**
    * Represents an IType that is an owner reference

@@ -83,6 +83,8 @@ namespace wisey {
     
     void decrementReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
 
+    const IOwnerType* getOwner() const override;
+    
   };
   
 } /* namespace wisey */

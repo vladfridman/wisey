@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/ArrayType.hpp"
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/DestroyOwnerArrayFunction.hpp"
 #include "wisey/DestroyPrimitiveArrayFunction.hpp"

@@ -20,7 +20,6 @@ namespace wisey {
   
   class ArrayType;
   class IConcreteObjectType;
-  class IReferenceType;
   class IRGenerationContext;
   
   /**
