@@ -21,18 +21,18 @@ namespace wisey {
   class ParameterReferenceVariable : public IReferenceVariable {
     
     std::string mName;
-    const IObjectType* mType;
+    const IReferenceType* mType;
     llvm::Value* mValue;
     
   public:
     
-    ParameterReferenceVariable(std::string name, const IObjectType* type, llvm::Value* value);
+    ParameterReferenceVariable(std::string name, const IReferenceType* type, llvm::Value* value);
     
     ~ParameterReferenceVariable();
     
     std::string getName() const override;
     
-    const IObjectType* getType() const override;
+    const IReferenceType* getType() const override;
     
     bool isField() const override;
     

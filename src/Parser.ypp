@@ -76,6 +76,7 @@
   #include "wisey/LLVMFunctionDeclaration.hpp"
   #include "wisey/LLVMFunctionDefinition.hpp"
   #include "wisey/LLVMFunctionTypeSpecifier.hpp"
+  #include "wisey/LLVMObjectTypeSpecifier.hpp"
   #include "wisey/LLVMPointerOwnerTypeSpecifier.hpp"
   #include "wisey/LLVMPointerTypeSpecifier.hpp"
   #include "wisey/LLVMPrimitiveTypes.hpp"
@@ -214,7 +215,7 @@
 %token <token> TEXTERNAL TDEFAULT TFALLTHROUGH TFALSE TFIXED TFOR TIF TIMPLEMENTS TIMPORT TINJECTOR
 %token <token> TINJECT TINSTANCEOF TINTERFACE  
 %token <token> TLLVM TLLVMARRAY TLLVMFUNCTION TLLVMI1 TLLVMI8 TLLVMI16 TLLVMI32 TLLVMI64
-%token <token> TLLVMPOINTER TLLVMSTRUCT TLLVMVOID TLLVMREFERENCE
+%token <token> TLLVMOBJECT TLLVMPOINTER TLLVMSTRUCT TLLVMVOID TLLVMREFERENCE
 %token <token> TMODEL TNEW TNODE TNULL TOROP TPACKAGE 
 %token <token> TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN TSTATE TSTATIC 
 %token <token> TSWITCH TTHREAD TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN 
@@ -272,6 +273,7 @@
 %type <type_specifier> type_specifier primitive_type_specifier object_owner_type_specifier 
 %type <type_specifier> non_array_type_specifier injectable_type_specifier 
 %type <type_specifier> array_specific_owner_type_specifier
+%type <type_specifier> llvm_object_type_specifier
 %type <array_type_specifier> array_type_specifier
 %type <array_owner_type_specifier> array_owner_type_specifier
 %type <array_specific_type_specifier> array_specific_type_specifier
@@ -391,7 +393,12 @@ llvm_type_specifier
   | llvm_array_specifier
   | llvm_function_type_specifier
   | llvm_pointer_type_specifier
+  | llvm_object_type_specifier
   | llvm_pointer_owner_type_specifier
+  ;
+
+llvm_object_type_specifier
+  : TLLVM TLLVMOBJECT { $$ = new LLVMObjectTypeSpecifier(); }
   ;
 
 llvm_non_array_type_specifier

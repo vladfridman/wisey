@@ -32,7 +32,7 @@ namespace wisey {
     
     std::string getName() const override;
     
-    const IObjectType* getType() const override;
+    const IReferenceType* getType() const override;
     
     bool isField() const override;
     

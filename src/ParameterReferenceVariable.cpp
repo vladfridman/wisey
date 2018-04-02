@@ -17,11 +17,13 @@ using namespace llvm;
 using namespace wisey;
 
 ParameterReferenceVariable::ParameterReferenceVariable(string name,
-                                                       const IObjectType* type,
+                                                       const IReferenceType* type,
                                                        Value* value) :
 mName(name), mType(type), mValue(value) {
   assert(value->getType()->isPointerTy());
-  assert(value->getType()->getPointerElementType()->isStructTy());
+  if (!type->isNative()) {
+    assert(value->getType()->getPointerElementType()->isStructTy());
+  }
 }
 
 ParameterReferenceVariable::~ParameterReferenceVariable() {
@@ -31,7 +33,7 @@ string ParameterReferenceVariable::getName() const {
   return mName;
 }
 
-const IObjectType* ParameterReferenceVariable::getType() const {
+const IReferenceType* ParameterReferenceVariable::getType() const {
   return mType;
 }
 

@@ -21,19 +21,19 @@ namespace wisey {
   class LocalReferenceVariable : public IReferenceVariable {
     
     std::string mName;
-    const IObjectType* mType;
+    const IReferenceType* mType;
     llvm::Value* mValueStore;
     bool mIsInitialized;
     
   public:
     
-    LocalReferenceVariable(std::string name, const IObjectType* type, llvm::Value* valueStore);
+    LocalReferenceVariable(std::string name, const IReferenceType* type, llvm::Value* valueStore);
     
     ~LocalReferenceVariable();
     
     std::string getName() const override;
     
-    const IObjectType* getType() const override;
+    const IReferenceType* getType() const override;
     
     bool isField() const override;
     

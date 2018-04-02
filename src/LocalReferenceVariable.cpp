@@ -23,12 +23,14 @@ using namespace llvm;
 using namespace wisey;
 
 LocalReferenceVariable::LocalReferenceVariable(string name,
-                                               const IObjectType* type,
+                                               const IReferenceType* type,
                                                Value* valueStore) :
 mName(name), mType(type), mValueStore(valueStore), mIsInitialized(false) {
   assert(valueStore->getType()->isPointerTy());
   assert(valueStore->getType()->getPointerElementType()->isPointerTy());
-  assert(valueStore->getType()->getPointerElementType()->getPointerElementType()->isStructTy());
+  if (!type->isNative()) {
+    assert(valueStore->getType()->getPointerElementType()->getPointerElementType()->isStructTy());
+  }
 }
 
 LocalReferenceVariable::~LocalReferenceVariable() {
@@ -38,7 +40,7 @@ string LocalReferenceVariable::getName() const {
   return mName;
 }
 
-const IObjectType* LocalReferenceVariable::getType() const {
+const IReferenceType* LocalReferenceVariable::getType() const {
   return mType;
 }
 

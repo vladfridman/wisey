@@ -21,6 +21,11 @@ namespace wisey {
   public:
     
     /**
+     * Return corresponding LLVM type
+     */
+    virtual llvm::PointerType* getLLVMType(IRGenerationContext& context) const = 0;
+
+    /**
      * Increments reference counter for this object
      */
     virtual void incrementReferenceCount(IRGenerationContext& context,

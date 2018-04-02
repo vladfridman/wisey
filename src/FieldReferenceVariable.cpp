@@ -28,11 +28,11 @@ string FieldReferenceVariable::getName() const {
   return mName;
 }
 
-const IObjectType* FieldReferenceVariable::getType() const {
+const IReferenceType* FieldReferenceVariable::getType() const {
   const IType* type = mObject->findField(mName)->getType();
   assert(type->isReference());
   
-  return (const IObjectType*) type;
+  return (const IReferenceType*) type;
 }
 
 bool FieldReferenceVariable::isField() const {
@@ -61,7 +61,7 @@ Value* FieldReferenceVariable::generateAssignmentIR(IRGenerationContext& context
 
   const IType* expressionType = assignToExpression->getType(context);
   assert(field->getType()->isReference());
-  const IObjectType* fieldType = (const IObjectType*) field->getType();
+  const IReferenceType* fieldType = (const IReferenceType*) field->getType();
   if (!expressionType->canAutoCastTo(context, fieldType)) {
     Log::e("Can not assign to field '" + mName + "' of object '" + mObject->getTypeName() +
            "' because of incompatable types");
