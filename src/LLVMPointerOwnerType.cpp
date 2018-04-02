@@ -9,10 +9,9 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/ArrayType.hpp"
-#include "wisey/FieldNativeVariable.hpp"
+#include "wisey/FieldOwnerVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/LLVMPointerPointerType.hpp"
 #include "wisey/LLVMPointerOwnerType.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/ParameterOwnerVariable.hpp"
@@ -117,7 +116,8 @@ void LLVMPointerOwnerType::createLocalVariable(IRGenerationContext& context, str
 void LLVMPointerOwnerType::createFieldVariable(IRGenerationContext& context,
                                                string name,
                                                const IConcreteObjectType* object) const {
-  assert(false);
+  IVariable* variable = new FieldOwnerVariable(name, object);
+  context.getScopes().setVariable(variable);
 }
 
 void LLVMPointerOwnerType::createParameterVariable(IRGenerationContext& context,

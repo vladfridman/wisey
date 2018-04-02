@@ -31,11 +31,11 @@ string FieldOwnerVariable::getName() const {
   return mName;
 }
 
-const IObjectOwnerType* FieldOwnerVariable::getType() const {
+const IOwnerType* FieldOwnerVariable::getType() const {
   const IType* type = mObject->findField(mName)->getType();
   assert(type->isOwner());
   
-  return (const IObjectOwnerType*) type;
+  return (const IOwnerType*) type;
 }
 
 bool FieldOwnerVariable::isField() const {

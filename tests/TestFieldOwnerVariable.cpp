@@ -255,3 +255,10 @@ TEST_F(TestFileSampleRunner, destructorCalledOnAssignFieldOwnerVariableRunTest) 
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");
 }
+
+TEST_F(TestFileSampleRunner, fieldPointerOwnerVariableRunTest) {
+  runFileCheckOutputWithDestructorDebug("tests/samples/test_field_pointer_owner_variable.yz",
+                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n"
+                                        "destructor systems.vos.wisey.compiler.tests.MModel\n",
+                                        "");
+}

@@ -1,0 +1,20 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+model MModel {
+  int mValue;
+}
+
+controller CProgram implements IProgram {
+
+  state ::llvm::i32::pointer* mPointer;
+
+  public int run() {
+    mPointer = builder(MModel).withValue(5).build();
+
+    return 1;
+  }
+}
+
+bind(CProgram).to(IProgram);

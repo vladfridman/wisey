@@ -34,7 +34,7 @@ namespace wisey {
     
     bool isField() const override;
     
-    const IObjectOwnerType* getType() const override;
+    const IOwnerType* getType() const override;
     
     bool isSystem() const override;
     
