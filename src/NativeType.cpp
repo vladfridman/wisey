@@ -15,7 +15,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-NativeType::NativeType(Type* type) : mType(type), mPointerType(new LLVMPointerType(this)) {
+NativeType::NativeType(Type* type) : mType(type), mPointerType(LLVMPointerType::create(this)) {
 }
 
 NativeType::~NativeType() {
@@ -123,6 +123,6 @@ const wisey::ArrayType* NativeType::getArrayType(IRGenerationContext& context) c
   exit(1);
 }
 
-const ILLVMPointerType* NativeType::getPointerType() const {
+const LLVMPointerType* NativeType::getPointerType() const {
   return mPointerType;
 }

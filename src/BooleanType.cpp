@@ -162,10 +162,6 @@ const wisey::ArrayType* BooleanType::getArrayType(IRGenerationContext& context) 
   exit(1);
 }
 
-const ILLVMPointerType* BooleanType::getPointerType() const {
-  assert(false);
-}
-
 const PrimitiveTypeSpecifier* BooleanType::newTypeSpecifier() const {
   return new PrimitiveTypeSpecifier(this);
 }

@@ -182,7 +182,7 @@
   wisey::MethodSignatureDeclaration* method_signature;
   wisey::Catch* catch_clause;
   wisey::ProgramFile* program_file;
-  const wisey::ITypeSpecifier* llvm_type_specifier;
+  const wisey::ILLVMTypeSpecifier* llvm_type_specifier;
   wisey::LLVMPointerTypeSpecifier* llvm_pointer_type_specifier;
   wisey::LLVMVariableDeclaration* llvm_variable_declaration;
   std::vector<wisey::Catch*>* catch_vector;
@@ -270,10 +270,6 @@
 %type <object_element_list> external_object_element_declaration_list
 %type <object_element_list> interface_element_delcaration_list
 %type <object_element_list> external_interface_element_delcaration_list
-%type <type_specifier> type_specifier primitive_type_specifier object_owner_type_specifier 
-%type <type_specifier> non_array_type_specifier injectable_type_specifier 
-%type <type_specifier> array_specific_owner_type_specifier
-%type <type_specifier> llvm_object_type_specifier llvm_object_owner_type_specifier
 %type <array_type_specifier> array_type_specifier
 %type <array_owner_type_specifier> array_owner_type_specifier
 %type <array_specific_type_specifier> array_specific_type_specifier
@@ -303,10 +299,15 @@
 %type <interface_list> interface_list implmeneted_interfaces extends_interfaces
 %type <list_of_const_expressions> array_dimensions
 %type <unsignedlong> array_undefined_dimensions_list
-%type <llvm_type_specifier> llvm_type_specifier llvm_i_type_specifier llvm_struct_specifier
-%type <llvm_type_specifier> llvm_non_array_type_specifier llvm_array_specifier 
-%type <llvm_type_specifier> llvm_function_type_specifier
-%type <llvm_type_specifier> llvm_void_type_specifier llvm_pointer_base_type_specifier
+%type <type_specifier> type_specifier primitive_type_specifier object_owner_type_specifier 
+%type <type_specifier> non_array_type_specifier injectable_type_specifier 
+%type <type_specifier> array_specific_owner_type_specifier
+%type <type_specifier> llvm_object_type_specifier llvm_object_owner_type_specifier
+%type <type_specifier> llvm_type_specifier
+%type <type_specifier> llvm_non_array_type_specifier 
+%type <type_specifier> llvm_void_type_specifier 
+%type <llvm_type_specifier> llvm_i_type_specifier llvm_struct_specifier llvm_array_specifier
+%type <llvm_type_specifier> llvm_pointer_base_type_specifier llvm_function_type_specifier
 %type <llvm_pointer_type_specifier> llvm_pointer_type_specifier
 %type <llvm_type_specifier_list> llvm_type_specifier_list 
 %type <llvm_type_specifier_list> llvm_function_argument_type_specifier_list

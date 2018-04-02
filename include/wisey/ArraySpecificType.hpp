@@ -109,8 +109,6 @@ namespace wisey {
                                  llvm::Value* value) const override;
     
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
-    
-    const ILLVMPointerType* getPointerType() const override;
 
   private:
     

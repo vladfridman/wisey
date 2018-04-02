@@ -11,23 +11,25 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/ILLVMPointerType.hpp"
+#include "wisey/ILLVMType.hpp"
 
 namespace wisey {
-  
-  class LLVMPointerPointerType;
   
   /**
    * Represents an llvm pointer type
    */
-  class LLVMPointerType : public ILLVMPointerType {
+  class LLVMPointerType : public ILLVMType {
     
     const ILLVMType* mBaseType;
-    const LLVMPointerPointerType* mPointerType;
+    const LLVMPointerType* mPointerType;
     
+    LLVMPointerType(const ILLVMType* baseType, unsigned long degree);
+
   public:
     
-    LLVMPointerType(const ILLVMType* baseType);
+    static unsigned long LLVM_POINTER_MAX_DEGREE;
+
+    static LLVMPointerType* create(const ILLVMType* baseType);
     
     ~LLVMPointerType();
     
@@ -82,11 +84,7 @@ namespace wisey {
     
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
     
-    const ILLVMPointerType* getPointerType() const override;
-
-    void incrementReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
-
-    void decrementReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
+    const LLVMPointerType* getPointerType() const override;
 
   };
   

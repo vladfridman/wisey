@@ -22,7 +22,7 @@ mReturnType(returnType), mArgumentTypes(argumentTypes) {
   for (const IType* argumentType : argumentTypes) {
     assert(argumentType->isNative());
   }
-  mPointerType = new LLVMPointerType(this);
+  mPointerType = LLVMPointerType::create(this);
 }
 
 LLVMFunctionType::~LLVMFunctionType() {
@@ -151,6 +151,6 @@ const wisey::ArrayType* LLVMFunctionType::getArrayType(IRGenerationContext& cont
   assert(false);
 }
 
-const ILLVMPointerType* LLVMFunctionType::getPointerType() const {
+const LLVMPointerType* LLVMFunctionType::getPointerType() const {
   return mPointerType;
 }

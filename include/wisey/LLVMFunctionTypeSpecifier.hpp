@@ -9,7 +9,7 @@
 #ifndef LLVMFunctionTypeSpecifier_h
 #define LLVMFunctionTypeSpecifier_h
 
-#include "wisey/ITypeSpecifier.hpp"
+#include "wisey/ILLVMTypeSpecifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMFunctionType.hpp"
 
@@ -18,7 +18,7 @@ namespace wisey {
   /**
    * Represents an llvm array type with exact dimensions specified
    */
-  class LLVMFunctionTypeSpecifier : public ITypeSpecifier {
+  class LLVMFunctionTypeSpecifier : public ILLVMTypeSpecifier {
     const ITypeSpecifier* mReturnTypeSpecifier;
     std::vector<const ITypeSpecifier*> mArgumentTypeSpecifiers;
     

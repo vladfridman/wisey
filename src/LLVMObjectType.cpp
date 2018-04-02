@@ -137,10 +137,6 @@ const wisey::ArrayType* LLVMObjectType::getArrayType(IRGenerationContext& contex
   exit(1);
 }
 
-const ILLVMPointerType* LLVMObjectType::getPointerType() const {
-  assert(false);
-}
-
 void LLVMObjectType::incrementReferenceCount(IRGenerationContext& context, Value* object) const {
   AdjustReferenceCountFunction::call(context, object, 1);
 }

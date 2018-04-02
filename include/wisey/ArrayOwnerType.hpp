@@ -81,8 +81,6 @@ namespace wisey {
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
     
     const IReferenceType* getReference() const override;
-    
-    const ILLVMPointerType* getPointerType() const override;
 
   };
   

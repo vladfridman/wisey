@@ -147,7 +147,3 @@ const ArrayType* ArraySpecificOwnerType::getArrayType(IRGenerationContext& conte
 const IReferenceType* ArraySpecificOwnerType::getReference() const {
   return NULL;
 }
-
-const ILLVMPointerType* ArraySpecificOwnerType::getPointerType() const {
-  assert(false);
-}

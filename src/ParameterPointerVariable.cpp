@@ -17,8 +17,8 @@ using namespace llvm;
 using namespace wisey;
 
 ParameterPointerVariable::ParameterPointerVariable(string name,
-                                                 const ILLVMPointerType* type,
-                                                 Value* value) :
+                                                   const LLVMPointerType* type,
+                                                   Value* value) :
 mName(name), mType(type), mValue(value) {
 }
 
@@ -29,7 +29,7 @@ string ParameterPointerVariable::getName() const {
   return mName;
 }
 
-const ILLVMPointerType* ParameterPointerVariable::getType() const {
+const LLVMPointerType* ParameterPointerVariable::getType() const {
   return mType;
 }
 

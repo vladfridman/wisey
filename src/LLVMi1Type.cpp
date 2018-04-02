@@ -17,7 +17,7 @@ using namespace std;
 using namespace wisey;
 
 LLVMi1Type::LLVMi1Type() {
-  mPointerType = new LLVMPointerType(this);
+  mPointerType = LLVMPointerType::create(this);
 }
 
 LLVMi1Type::~LLVMi1Type() {

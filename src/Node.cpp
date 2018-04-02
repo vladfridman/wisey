@@ -474,7 +474,3 @@ const wisey::ArrayType* Node::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);
 }
-
-const ILLVMPointerType* Node::getPointerType() const {
-  assert(false);
-}

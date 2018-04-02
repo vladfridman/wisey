@@ -197,7 +197,3 @@ void ArrayType::reportNonArrayType() {
 const ArrayType* ArrayType::getArrayType(IRGenerationContext& context) const {
   return this;
 }
-
-const ILLVMPointerType* ArrayType::getPointerType() const {
-  assert(false);
-}

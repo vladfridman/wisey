@@ -60,7 +60,7 @@ public:
 
     mStringStream = new raw_string_ostream(mStringBuffer);
     
-    mLLVMPointerType = new LLVMPointerType(LLVMPrimitiveTypes::I8);
+    mLLVMPointerType = LLVMPointerType::create(LLVMPrimitiveTypes::I8);
   }
   
   ~LLVMPointerTypeTest() {
@@ -75,14 +75,14 @@ TEST_F(LLVMPointerTypeTest, pointerTypeTest) {
 
 TEST_F(LLVMPointerTypeTest, canAutoCastToTest) {
   EXPECT_FALSE(mLLVMPointerType->canAutoCastTo(mContext, LLVMPrimitiveTypes::I8));
-  LLVMPointerType* anotherPointerType = new LLVMPointerType(LLVMPrimitiveTypes::I32);
+  LLVMPointerType* anotherPointerType = LLVMPointerType::create(LLVMPrimitiveTypes::I32);
   EXPECT_TRUE(mLLVMPointerType->canAutoCastTo(mContext, anotherPointerType));
   EXPECT_TRUE(mLLVMPointerType->canAutoCastTo(mContext, &mConcreteObjectType));
 }
 
 TEST_F(LLVMPointerTypeTest, canCastTest) {
   EXPECT_FALSE(mLLVMPointerType->canCastTo(mContext, LLVMPrimitiveTypes::I8));
-  LLVMPointerType* anotherPointerType = new LLVMPointerType(LLVMPrimitiveTypes::I32);
+  LLVMPointerType* anotherPointerType = LLVMPointerType::create(LLVMPrimitiveTypes::I32);
   EXPECT_TRUE(mLLVMPointerType->canCastTo(mContext, anotherPointerType));
   EXPECT_TRUE(mLLVMPointerType->canCastTo(mContext, &mConcreteObjectType));
 }
@@ -90,7 +90,7 @@ TEST_F(LLVMPointerTypeTest, canCastTest) {
 TEST_F(LLVMPointerTypeTest, castToTest) {
   Mock::AllowLeak(&mConcreteObjectType);
   
-  LLVMPointerType* anotherPointerType = new LLVMPointerType(LLVMPrimitiveTypes::I32);
+  LLVMPointerType* anotherPointerType = LLVMPointerType::create(LLVMPrimitiveTypes::I32);
   Value* value = ConstantPointerNull::get(mLLVMPointerType->getLLVMType(mContext));
   Value* result = mLLVMPointerType->castTo(mContext, value, anotherPointerType, 0);
   *mStringStream << *result;

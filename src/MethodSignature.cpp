@@ -184,7 +184,3 @@ const wisey::ArrayType* MethodSignature::getArrayType(IRGenerationContext& conte
   ArrayType::reportNonArrayType();
   exit(1);
 }
-
-const ILLVMPointerType* MethodSignature::getPointerType() const {
-  assert(false);
-}

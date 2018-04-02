@@ -163,7 +163,3 @@ void ArrayOwnerType::createParameterVariable(IRGenerationContext& context,
 const IReferenceType* ArrayOwnerType::getReference() const {
   return NULL;
 }
-
-const ILLVMPointerType* ArrayOwnerType::getPointerType() const {
-  assert(false);
-}

@@ -140,10 +140,6 @@ const LLVMObjectType* LLVMObjectOwnerType::getReference() const {
   return LLVMObjectType::LLVM_OBJECT_TYPE;
 }
 
-const ILLVMPointerType* LLVMObjectOwnerType::getPointerType() const {
-  assert(false);
-}
-
 void LLVMObjectOwnerType::free(IRGenerationContext& context, Value *value) const {
   IConcreteObjectType::composeDestructorCall(context, value);
 }

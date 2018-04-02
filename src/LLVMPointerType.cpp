@@ -13,21 +13,27 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMObjectOwnerType.hpp"
-#include "wisey/LLVMPointerPointerType.hpp"
 #include "wisey/LLVMPointerType.hpp"
 #include "wisey/LocalPointerVariable.hpp"
+#include "wisey/Log.hpp"
 #include "wisey/ParameterPointerVariable.hpp"
 
 using namespace std;
 using namespace wisey;
 
-LLVMPointerType::LLVMPointerType(const ILLVMType* baseType) {
+unsigned long LLVMPointerType::LLVM_POINTER_MAX_DEGREE = 3;
+
+LLVMPointerType::LLVMPointerType(const ILLVMType* baseType, unsigned long degree) {
   mBaseType = baseType;
-  mPointerType = new LLVMPointerPointerType(this);
+  mPointerType = degree < LLVM_POINTER_MAX_DEGREE ? new LLVMPointerType(this, degree + 1u) : NULL;
 }
 
 LLVMPointerType::~LLVMPointerType() {
   delete mPointerType;
+}
+
+LLVMPointerType* LLVMPointerType::create(const ILLVMType* baseType) {
+  return new LLVMPointerType(baseType, 0);
 }
 
 string LLVMPointerType::getTypeName() const {
@@ -133,14 +139,10 @@ const wisey::ArrayType* LLVMPointerType::getArrayType(IRGenerationContext& conte
   exit(1);
 }
 
-const ILLVMPointerType* LLVMPointerType::getPointerType() const {
-  return mPointerType;
-}
-
-void LLVMPointerType::incrementReferenceCount(IRGenerationContext& context,
-                                              llvm::Value* object) const {
-}
-
-void LLVMPointerType::decrementReferenceCount(IRGenerationContext& context,
-                                              llvm::Value* object) const {
+const LLVMPointerType* LLVMPointerType::getPointerType() const {
+  if (mPointerType) {
+    return mPointerType;
+  }
+  Log::e("Three and more degree llvm pointers are not supported");
+  exit(1);
 }

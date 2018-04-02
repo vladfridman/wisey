@@ -19,7 +19,7 @@ string LLVMStructType::LLVM_STRUCT_PREFIX = "::llvm::struct::";
 LLVMStructType::LLVMStructType(StructType* structType, bool isExternal) :
 mStructType(structType),
 mIsExternal(isExternal),
-mPointerType(new LLVMPointerType(this)) {
+mPointerType(LLVMPointerType::create(this)) {
 }
 
 LLVMStructType::~LLVMStructType() {
@@ -156,7 +156,7 @@ const wisey::ArrayType* LLVMStructType::getArrayType(IRGenerationContext& contex
   exit(1);
 }
 
-const ILLVMPointerType* LLVMStructType::getPointerType() const {
+const LLVMPointerType* LLVMStructType::getPointerType() const {
   return mPointerType;
 }
 

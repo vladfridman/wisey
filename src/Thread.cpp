@@ -525,7 +525,3 @@ void Thread::initializeInjectedFields(IRGenerationContext& context,
     IRWriter::newStoreInst(context, fieldValue, fieldPointer);
   }
 }
-
-const ILLVMPointerType* Thread::getPointerType() const {
-  assert(false);
-}

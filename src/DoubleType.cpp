@@ -158,10 +158,6 @@ const wisey::ArrayType* DoubleType::getArrayType(IRGenerationContext& context) c
   exit(1);
 }
 
-const ILLVMPointerType* DoubleType::getPointerType() const {
-  assert(false);
-}
-
 const PrimitiveTypeSpecifier* DoubleType::newTypeSpecifier() const {
   return new PrimitiveTypeSpecifier(this);
 }

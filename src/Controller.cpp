@@ -526,7 +526,3 @@ const wisey::ArrayType* Controller::getArrayType(IRGenerationContext& context) c
   ArrayType::reportNonArrayType();
   exit(1);
 }
-
-const ILLVMPointerType* Controller::getPointerType() const {
-  assert(false);
-}

@@ -12,7 +12,7 @@
 #include <list>
 
 #include "wisey/LLVMArrayType.hpp"
-#include "wisey/ITypeSpecifier.hpp"
+#include "wisey/ILLVMTypeSpecifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
 namespace wisey {
@@ -20,7 +20,7 @@ namespace wisey {
   /**
    * Represents an llvm array type with exact dimensions specified
    */
-  class LLVMArrayTypeSpecifer : public ITypeSpecifier {
+  class LLVMArrayTypeSpecifer : public ILLVMTypeSpecifier {
     const ITypeSpecifier* mElementTypeSpecifier;
     std::list<unsigned long> mDimensions;
     

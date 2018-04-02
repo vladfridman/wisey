@@ -159,10 +159,6 @@ const wisey::ArrayType* IntType::getArrayType(IRGenerationContext& context) cons
   exit(1);
 }
 
-const ILLVMPointerType* IntType::getPointerType() const {
-  assert(false);
-}
-
 const PrimitiveTypeSpecifier* IntType::newTypeSpecifier() const {
   return new PrimitiveTypeSpecifier(this);
 }

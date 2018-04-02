@@ -122,10 +122,6 @@ const wisey::ArrayType* VoidType::getArrayType(IRGenerationContext& context) con
   exit(1);
 }
 
-const ILLVMPointerType* VoidType::getPointerType() const {
-  assert(false);
-}
-
 const PrimitiveTypeSpecifier* VoidType::newTypeSpecifier() const {
   return new PrimitiveTypeSpecifier(this);
 }

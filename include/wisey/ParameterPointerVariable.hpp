@@ -10,8 +10,8 @@
 #define ParameterPointerVariable_h
 
 #include "wisey/IExpression.hpp"
-#include "wisey/ILLVMPointerType.hpp"
 #include "wisey/IReferenceVariable.hpp"
+#include "wisey/LLVMPointerType.hpp"
 
 namespace wisey {
   
@@ -21,18 +21,18 @@ namespace wisey {
   class ParameterPointerVariable : public IReferenceVariable {
     
     std::string mName;
-    const ILLVMPointerType* mType;
+    const LLVMPointerType* mType;
     llvm::Value* mValue;
     
   public:
     
-    ParameterPointerVariable(std::string name, const ILLVMPointerType* type, llvm::Value* value);
+    ParameterPointerVariable(std::string name, const LLVMPointerType* type, llvm::Value* value);
     
     ~ParameterPointerVariable();
     
     std::string getName() const override;
     
-    const ILLVMPointerType* getType() const override;
+    const LLVMPointerType* getType() const override;
     
     bool isField() const override;
     

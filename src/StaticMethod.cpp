@@ -256,7 +256,3 @@ const wisey::ArrayType* StaticMethod::getArrayType(IRGenerationContext& context)
   ArrayType::reportNonArrayType();
   exit(1);
 }
-
-const ILLVMPointerType* StaticMethod::getPointerType() const {
-  assert(false);
-}

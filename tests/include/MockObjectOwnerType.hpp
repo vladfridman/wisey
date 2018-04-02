@@ -54,7 +54,6 @@ public:
                                                     llvm::Value* value));
   MOCK_CONST_METHOD1(getArrayType, wisey::ArrayType* (wisey::IRGenerationContext&));
   MOCK_CONST_METHOD0(getReference, const wisey::IReferenceType* ());
-  MOCK_CONST_METHOD0(getPointerType, wisey::ILLVMPointerType* ());
 };
 
 

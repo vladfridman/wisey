@@ -116,8 +116,4 @@ const wisey::ArrayType* NullType::getArrayType(IRGenerationContext& context) con
   exit(1);
 }
 
-const ILLVMPointerType* NullType::getPointerType() const {
-  assert(false);
-}
-
 NullType* NullType::NULL_TYPE = new NullType();

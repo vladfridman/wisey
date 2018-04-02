@@ -173,7 +173,3 @@ const wisey::ArrayType* InterfaceOwner::getArrayType(IRGenerationContext& contex
   ArrayType::reportNonArrayType();
   exit(1);
 }
-
-const ILLVMPointerType* InterfaceOwner::getPointerType() const {
-  assert(false);
-}

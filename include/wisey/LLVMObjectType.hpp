@@ -11,8 +11,6 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/ILLVMPointerType.hpp"
-
 namespace wisey {
   
   class LLVMPointerPointerType;
@@ -80,8 +78,6 @@ namespace wisey {
                                  llvm::Value* value) const override;
     
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
-    
-    const ILLVMPointerType* getPointerType() const override;
     
     void incrementReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
     

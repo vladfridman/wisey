@@ -17,7 +17,7 @@ using namespace std;
 using namespace wisey;
 
 LLVMi64Type::LLVMi64Type() {
-  mPointerType = new LLVMPointerType(this);
+  mPointerType = LLVMPointerType::create(this);
 }
 
 LLVMi64Type::~LLVMi64Type() {

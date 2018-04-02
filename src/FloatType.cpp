@@ -158,10 +158,6 @@ const wisey::ArrayType* FloatType::getArrayType(IRGenerationContext& context) co
   exit(1);
 }
 
-const ILLVMPointerType* FloatType::getPointerType() const {
-  assert(false);
-}
-
 const PrimitiveTypeSpecifier* FloatType::newTypeSpecifier() const {
   return new PrimitiveTypeSpecifier(this);
 }

@@ -115,9 +115,5 @@ const wisey::ArrayType* UndefinedType::getArrayType(IRGenerationContext& context
   exit(1);
 }
 
-const ILLVMPointerType* UndefinedType::getPointerType() const {
-  assert(false);
-}
-
 UndefinedType* UndefinedType::UNDEFINED_TYPE = new UndefinedType();
 

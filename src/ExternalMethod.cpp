@@ -189,8 +189,3 @@ const wisey::ArrayType* ExternalMethod::getArrayType(IRGenerationContext& contex
   ArrayType::reportNonArrayType();
   exit(1);
 }
-
-const ILLVMPointerType* ExternalMethod::getPointerType() const {
-  assert(false);
-}
-

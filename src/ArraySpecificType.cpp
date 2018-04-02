@@ -195,7 +195,3 @@ void ArraySpecificType::createParameterVariable(IRGenerationContext& context,
 const wisey::ArrayType* ArraySpecificType::getArrayType(IRGenerationContext& context) const {
   return context.getArrayType(mElementType, getNumberOfDimensions());
 }
-
-const ILLVMPointerType* ArraySpecificType::getPointerType() const {
-  assert(false);
-}

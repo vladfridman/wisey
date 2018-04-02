@@ -18,7 +18,7 @@ LLVMArrayType::LLVMArrayType(const IType* elementType, list<unsigned long> dimen
 mElementType(elementType), mDimensions(dimensions) {
   assert(dimensions.size());
   assert(elementType->isNative());
-  mPointerType = new LLVMPointerType(this);
+  mPointerType = LLVMPointerType::create(this);
 }
 
 LLVMArrayType::~LLVMArrayType() {
@@ -149,7 +149,6 @@ const wisey::ArrayType* LLVMArrayType::getArrayType(IRGenerationContext& context
   assert(false);
 }
 
-const ILLVMPointerType* LLVMArrayType::getPointerType() const {
+const LLVMPointerType* LLVMArrayType::getPointerType() const {
   return mPointerType;
 }
-
