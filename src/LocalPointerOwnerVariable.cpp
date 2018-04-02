@@ -9,6 +9,8 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
+#include "wisey/AutoCast.hpp"
+#include "wisey/Composer.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalPointerOwnerVariable.hpp"
@@ -56,10 +58,25 @@ Value* LocalPointerOwnerVariable::generateAssignmentIR(IRGenerationContext& cont
                                                        IExpression* assignToExpression,
                                                        vector<const IExpression*> arrayIndices,
                                                        int line) {
-  assert(false);
+  Composer::pushCallStack(context, line);
+  
+  Value* assignToValue = assignToExpression->generateIR(context, mType);
+  const IType* assignToType = assignToExpression->getType(context);
+  Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType, line);
+  
+  free(context);
+  
+  IRWriter::newStoreInst(context, newValue, mValueStore);
+  
+  Composer::popCallStack(context);
+  
+  return newValue;
 }
 
 void LocalPointerOwnerVariable::setToNull(IRGenerationContext& context) {
+  PointerType* type = getType()->getLLVMType(context);
+  Value* null = ConstantPointerNull::get(type);
+  IRWriter::newStoreInst(context, null, mValueStore);
 }
 
 void LocalPointerOwnerVariable::free(IRGenerationContext& context) const {

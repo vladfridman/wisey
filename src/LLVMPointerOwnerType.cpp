@@ -107,7 +107,9 @@ void LLVMPointerOwnerType::printToStream(IRGenerationContext &context, iostream&
 }
 
 void LLVMPointerOwnerType::createLocalVariable(IRGenerationContext& context, string name) const {
-  llvm::Value* alloca = IRWriter::newAllocaInst(context, getLLVMType(context), name);
+  PointerType* llvmType = getLLVMType(context);
+  llvm::Value* alloca = IRWriter::newAllocaInst(context, llvmType, name);
+  IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloca);
   IVariable* variable = new LocalPointerOwnerVariable(name, this, alloca);
   context.getScopes().setVariable(variable);
 }
