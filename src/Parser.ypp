@@ -306,7 +306,7 @@
 %type <llvm_type_specifier> llvm_type_specifier llvm_i_type_specifier llvm_struct_specifier
 %type <llvm_type_specifier> llvm_non_array_type_specifier llvm_array_specifier 
 %type <llvm_type_specifier> llvm_function_type_specifier
-%type <llvm_type_specifier> llvm_void_type_specifier 
+%type <llvm_type_specifier> llvm_void_type_specifier llvm_pointer_base_type_specifier
 %type <llvm_pointer_type_specifier> llvm_pointer_type_specifier
 %type <llvm_type_specifier_list> llvm_type_specifier_list 
 %type <llvm_type_specifier_list> llvm_function_argument_type_specifier_list
@@ -391,10 +391,9 @@ llvm_type_specifier_list
 llvm_type_specifier
   : llvm_non_array_type_specifier
   | llvm_array_specifier
-  | llvm_function_type_specifier
-  | llvm_pointer_type_specifier
-  | llvm_object_type_specifier
-  | llvm_object_owner_type_specifier
+  | llvm_pointer_type_specifier { $$ = (const ITypeSpecifier*) $1; }
+  | llvm_object_type_specifier { $$ = (const ITypeSpecifier*) $1; }
+  | llvm_object_owner_type_specifier { $$ = (const ITypeSpecifier*) $1; }
   ;
 
 llvm_object_type_specifier
@@ -408,13 +407,23 @@ llvm_object_owner_type_specifier
 
 llvm_non_array_type_specifier
   : llvm_i_type_specifier
-  | llvm_void_type_specifier
   | llvm_struct_specifier
+  | llvm_function_type_specifier
+  | llvm_void_type_specifier
   ;
 
 llvm_pointer_type_specifier
-  : llvm_type_specifier TLLVMPOINTER
+  : llvm_pointer_base_type_specifier TLLVMPOINTER
     { $$ = new LLVMPointerTypeSpecifier($1); }
+  | llvm_pointer_type_specifier TLLVMPOINTER
+    { $$ = new LLVMPointerTypeSpecifier($1); }
+  ;
+
+llvm_pointer_base_type_specifier
+  : llvm_i_type_specifier
+  | llvm_struct_specifier
+  | llvm_function_type_specifier
+  | llvm_array_specifier
   ;
 
 llvm_i_type_specifier
