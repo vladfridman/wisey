@@ -21,7 +21,7 @@
 #include "MockVariable.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/AdjustReferenceCounterForInterfaceFunction.hpp"
+#include "wisey/AdjustReferenceCountFunction.hpp"
 #include "wisey/ConstantDefinition.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/FixedFieldDefinition.hpp"
@@ -290,7 +290,7 @@ TEST_F(InterfaceTest, getReferenceAdjustmentFunctionTest) {
   Function* result = mObjectInterface->getReferenceAdjustmentFunction(mContext);
   
   ASSERT_NE(nullptr, result);
-  EXPECT_EQ(result, AdjustReferenceCounterForInterfaceFunction::get(mContext));
+  EXPECT_EQ(result, AdjustReferenceCountFunction::get(mContext));
 }
 
 TEST_F(InterfaceTest, canCastToTest) {
@@ -469,7 +469,7 @@ TEST_F(InterfaceTest, incrementReferenceCountTest) {
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
-  "\n  call void @__adjustReferenceCounterForInterface(i8* %0, i64 1)\n";
+  "\n  call void @__adjustReferenceCounter(i8* %0, i64 1)\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -484,7 +484,7 @@ TEST_F(InterfaceTest, decrementReferenceCountTest) {
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
-  "\n  call void @__adjustReferenceCounterForInterface(i8* %0, i64 -1)\n";
+  "\n  call void @__adjustReferenceCounter(i8* %0, i64 -1)\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -586,7 +586,7 @@ TEST_F(InterfaceTest, createParameterVariableTest) {
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
-  "\n  call void @__adjustReferenceCounterForInterface(i8* %0, i64 1)\n";
+  "\n  call void @__adjustReferenceCounter(i8* %0, i64 1)\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

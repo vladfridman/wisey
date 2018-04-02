@@ -1,13 +1,13 @@
 //
-//  AdjustReferenceCounterForInterfaceFunction.hpp
+//  AdjustReferenceCountFunction.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 11/17/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef AdjustReferenceCounterForInterfaceFunction_h
-#define AdjustReferenceCounterForInterfaceFunction_h
+#ifndef AdjustReferenceCountFunction_h
+#define AdjustReferenceCountFunction_h
 
 #include <llvm/IR/Instructions.h>
 
@@ -18,7 +18,7 @@ namespace wisey {
   /**
    * Global function that increments reference count for objects of type interface
    */
-  class AdjustReferenceCounterForInterfaceFunction {
+  class AdjustReferenceCountFunction {
     
   public:
     
@@ -44,5 +44,5 @@ namespace wisey {
   
 } /* namespace wisey */
 
-#endif /* AdjustReferenceCounterForInterfaceFunction_h */
+#endif /* AdjustReferenceCountFunction_h */
 

@@ -8,7 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/AdjustReferenceCounterForInterfaceFunction.hpp"
+#include "wisey/AdjustReferenceCountFunction.hpp"
 #include "wisey/GetOriginalObjectFunction.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/Composer.hpp"
@@ -828,11 +828,11 @@ Interface::createElements(IRGenerationContext& context,
 }
 
 void Interface::incrementReferenceCount(IRGenerationContext& context, Value* object) const {
-  AdjustReferenceCounterForInterfaceFunction::call(context, object, 1);
+  AdjustReferenceCountFunction::call(context, object, 1);
 }
 
 void Interface::decrementReferenceCount(IRGenerationContext& context, Value* object) const {
-  AdjustReferenceCounterForInterfaceFunction::call(context, object, -1);
+  AdjustReferenceCountFunction::call(context, object, -1);
 }
 
 Value* Interface::getReferenceCount(IRGenerationContext& context, Value* object) const {
@@ -872,7 +872,7 @@ bool Interface::isInner() const {
 }
 
 Function* Interface::getReferenceAdjustmentFunction(IRGenerationContext& context) const {
-  return AdjustReferenceCounterForInterfaceFunction::get(context);
+  return AdjustReferenceCountFunction::get(context);
 }
 
 void Interface::createLocalVariable(IRGenerationContext& context, string name) const {

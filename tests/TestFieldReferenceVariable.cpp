@@ -191,9 +191,9 @@ TEST_F(FieldReferenceVariableTest, generateAssignmentWithCastIRTest) {
   "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 2"
   "\n  %4 = load %systems.vos.wisey.compiler.tests.IInterface*, %systems.vos.wisey.compiler.tests.IInterface** %3"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.IInterface* %4 to i8*"
-  "\n  call void @__adjustReferenceCounterForInterface(i8* %5, i64 -1)"
+  "\n  call void @__adjustReferenceCounter(i8* %5, i64 -1)"
   "\n  %6 = bitcast %systems.vos.wisey.compiler.tests.IInterface* %2 to i8*"
-  "\n  call void @__adjustReferenceCounterForInterface(i8* %6, i64 1)"
+  "\n  call void @__adjustReferenceCounter(i8* %6, i64 1)"
   "\n  store %systems.vos.wisey.compiler.tests.IInterface* %2, "
   "%systems.vos.wisey.compiler.tests.IInterface** %3\n";
   

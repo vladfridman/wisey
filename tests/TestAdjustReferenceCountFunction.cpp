@@ -1,11 +1,11 @@
 //
-//  TestAdjustReferenceCounterForInterfaceFunction.cpp
+//  TestAdjustReferenceCountFunction.cpp
 //  runtests
 //
 //  Created by Vladimir Fridman on 12/1/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link AdjustReferenceCounterForInterfaceFunction}
+//  Tests {@link AdjustReferenceCountFunction}
 //
 
 #include <gtest/gtest.h>
@@ -14,7 +14,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/AdjustReferenceCounterForInterfaceFunction.hpp"
+#include "wisey/AdjustReferenceCountFunction.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/ProgramPrefix.hpp"
 
@@ -24,7 +24,7 @@ using namespace wisey;
 
 using ::testing::Test;
 
-struct AdjustReferenceCounterForInterfaceFunctionTest : Test {
+struct AdjustReferenceCountFunctionTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBasicBlock;
@@ -32,7 +32,7 @@ struct AdjustReferenceCounterForInterfaceFunctionTest : Test {
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  AdjustReferenceCounterForInterfaceFunctionTest() :
+  AdjustReferenceCountFunctionTest() :
   mLLVMContext(mContext.getLLVMContext()) {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
@@ -51,30 +51,30 @@ struct AdjustReferenceCounterForInterfaceFunctionTest : Test {
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
-  ~AdjustReferenceCounterForInterfaceFunctionTest() {
+  ~AdjustReferenceCountFunctionTest() {
   }
 };
 
-TEST_F(AdjustReferenceCounterForInterfaceFunctionTest, callTest) {
+TEST_F(AdjustReferenceCountFunctionTest, callTest) {
   Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  AdjustReferenceCounterForInterfaceFunction::call(mContext, nullPointerValue, 1);
+  AdjustReferenceCountFunction::call(mContext, nullPointerValue, 1);
   
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
   "\n  %0 = bitcast i8* null to i8*"
-  "\n  call void @__adjustReferenceCounterForInterface(i8* %0, i64 1)\n";
+  "\n  call void @__adjustReferenceCounter(i8* %0, i64 1)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(AdjustReferenceCounterForInterfaceFunctionTest, getTest) {
-  Function* function = AdjustReferenceCounterForInterfaceFunction::get(mContext);
+TEST_F(AdjustReferenceCountFunctionTest, getTest) {
+  Function* function = AdjustReferenceCountFunction::get(mContext);
   mContext.runComposingCallbacks();
   
   *mStringStream << *function;
   string expected =
-  "\ndefine internal void @__adjustReferenceCounterForInterface(i8* %object, i64 %adjustment) {"
+  "\ndefine internal void @__adjustReferenceCounter(i8* %object, i64 %adjustment) {"
   "\nentry:"
   "\n  %0 = icmp eq i8* %object, null"
   "\n  br i1 %0, label %if.null, label %if.notnull"

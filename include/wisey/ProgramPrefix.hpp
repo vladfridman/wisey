@@ -26,7 +26,7 @@ namespace wisey {
     
   private:
     
-    void defineAdjustReferenceCounterForInterfaceFunction(IRGenerationContext& context) const;
+    void defineAdjustReferenceCountFunction(IRGenerationContext& context) const;
     
     llvm::StructType* defineFileStruct(IRGenerationContext& context) const;
     

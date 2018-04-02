@@ -1,5 +1,5 @@
 //
-//  AdjustReferenceCounterForInterfaceFunction.cpp
+//  AdjustReferenceCountFunction.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 11/17/17.
@@ -8,7 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/AdjustReferenceCounterForInterfaceFunction.hpp"
+#include "wisey/AdjustReferenceCountFunction.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/GetOriginalObjectFunction.hpp"
 #include "wisey/IRWriter.hpp"
@@ -17,7 +17,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Function* AdjustReferenceCounterForInterfaceFunction::get(IRGenerationContext& context) {
+Function* AdjustReferenceCountFunction::get(IRGenerationContext& context) {
   Function* function = context.getModule()->getFunction(getName());
   if (function) {
     return function;
@@ -29,7 +29,7 @@ Function* AdjustReferenceCounterForInterfaceFunction::get(IRGenerationContext& c
   return function;
 }
 
-void AdjustReferenceCounterForInterfaceFunction::call(IRGenerationContext& context,
+void AdjustReferenceCountFunction::call(IRGenerationContext& context,
                                                       Value* object,
                                                       int adjustment) {
   LLVMContext& llvmContext = context.getLLVMContext();
@@ -46,11 +46,11 @@ void AdjustReferenceCounterForInterfaceFunction::call(IRGenerationContext& conte
   IRWriter::createCallInst(context, function, arguments, "");
 }
 
-string AdjustReferenceCounterForInterfaceFunction::getName() {
-  return "__adjustReferenceCounterForInterface";
+string AdjustReferenceCountFunction::getName() {
+  return "__adjustReferenceCounter";
 }
 
-Function* AdjustReferenceCounterForInterfaceFunction::define(IRGenerationContext& context) {
+Function* AdjustReferenceCountFunction::define(IRGenerationContext& context) {
   LLVMContext& llvmContext = context.getLLVMContext();
   vector<Type*> argumentTypes;
   argumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
@@ -61,7 +61,7 @@ Function* AdjustReferenceCounterForInterfaceFunction::define(IRGenerationContext
   return Function::Create(ftype, GlobalValue::InternalLinkage, getName(), context.getModule());
 }
 
-void AdjustReferenceCounterForInterfaceFunction::compose(IRGenerationContext& context,
+void AdjustReferenceCountFunction::compose(IRGenerationContext& context,
                                                          llvm::Function* function) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
