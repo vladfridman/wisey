@@ -253,7 +253,7 @@ struct ModelOwnerTest : public Test {
 };
 
 TEST_F(ModelOwnerTest, getObjectTest) {
-  EXPECT_EQ(mModel->getOwner()->getReferenceType(), mModel);
+  EXPECT_EQ(mModel, mModel->getOwner()->getReference());
 }
 
 TEST_F(ModelOwnerTest, getNameTest) {

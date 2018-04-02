@@ -25,7 +25,7 @@ mController(controller) {
 ControllerOwner::~ControllerOwner() {
 }
 
-Controller* ControllerOwner::getReferenceType() const {
+Controller* ControllerOwner::getReference() const {
   return mController;
 }
 
@@ -47,7 +47,7 @@ bool ControllerOwner::canCastTo(IRGenerationContext& context, const IType* toTyp
   }
   
   if (toType->isOwner()) {
-    return mController->canCastTo(context, toType->getReferenceType());
+    return mController->canCastTo(context, ((const IOwnerType*) toType)->getReference());
   }
   
   return mController->canCastTo(context, toType);
@@ -66,7 +66,8 @@ Value* ControllerOwner::castTo(IRGenerationContext& context,
   }
 
   if (toType->isOwner()) {
-    return mController->castTo(context, fromValue, toType->getReferenceType(), line);
+    const IReferenceType* toReferenceType = ((const IOwnerType*) toType)->getReference();
+    return mController->castTo(context, fromValue, toReferenceType, line);
   }
   
   return mController->castTo(context, fromValue, toType, line);
@@ -77,7 +78,7 @@ void ControllerOwner::free(IRGenerationContext& context, Value* value) const {
 }
 
 Function* ControllerOwner::getDestructorFunction(IRGenerationContext& context) const {
-  return IConcreteObjectType::getDestructorFunctionForObject(context, getReferenceType());
+  return IConcreteObjectType::getDestructorFunctionForObject(context, getReference());
 }
 
 bool ControllerOwner::isPrimitive() const {

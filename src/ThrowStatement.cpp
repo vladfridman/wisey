@@ -14,6 +14,7 @@
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/ModelOwner.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ThrowStatement.hpp"
 
@@ -30,11 +31,11 @@ ThrowStatement::~ThrowStatement() {
 
 Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
   const IType* expressionType = mExpression->getType(context);
-  if (!expressionType->isModel()) {
-    Log::e("Thrown object can only be a model");
+  if (!expressionType->isModel() || !expressionType->isOwner()) {
+    Log::e("Thrown object can only be a model owner");
     exit(1);
   }
-  const Model* model = (const Model*) expressionType->getReferenceType();
+  const Model* model = ((const ModelOwner*) expressionType)->getReference();
 
   LLVMContext& llvmContext = context.getLLVMContext();
   context.getScopes().getScope()->addException(model);

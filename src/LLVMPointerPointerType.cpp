@@ -15,6 +15,7 @@
 #include "wisey/LLVMObjectOwnerType.hpp"
 #include "wisey/LLVMPointerPointerType.hpp"
 #include "wisey/LocalPointerVariable.hpp"
+#include "wisey/Log.hpp"
 
 using namespace std;
 using namespace wisey;
@@ -129,12 +130,9 @@ const wisey::ArrayType* LLVMPointerPointerType::getArrayType(IRGenerationContext
   exit(1);
 }
 
-const IReferenceType* LLVMPointerPointerType::getReferenceType() const {
-  return NULL;
-}
-
 const ILLVMPointerType* LLVMPointerPointerType::getPointerType() const {
-  assert(false);
+  Log::e("Three and more degree llvm pointers are not supported");
+  exit(1);
 }
 
 void LLVMPointerPointerType::incrementReferenceCount(IRGenerationContext& context,

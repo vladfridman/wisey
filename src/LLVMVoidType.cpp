@@ -122,10 +122,6 @@ const wisey::ArrayType* LLVMVoidType::getArrayType(IRGenerationContext& context)
   exit(1);
 }
 
-const IReferenceType* LLVMVoidType::getReferenceType() const {
-  return NULL;
-}
-
 const LLVMPointerType* LLVMVoidType::getPointerType() const {
   assert(false);
 }

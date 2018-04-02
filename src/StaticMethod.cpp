@@ -228,7 +228,7 @@ bool StaticMethod::isLLVMFunction() const {
   return false;
 }
 
-const IObjectType* StaticMethod::getReferenceType() const {
+const IObjectType* StaticMethod::getParentObject() const {
   return mObjectType;
 }
 

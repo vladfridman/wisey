@@ -123,10 +123,6 @@ const wisey::ArrayType* LLVMi8Type::getArrayType(IRGenerationContext& context) c
   exit(1);
 }
 
-const IReferenceType* LLVMi8Type::getReferenceType() const {
-  return NULL;
-}
-
 const LLVMPointerType* LLVMi8Type::getPointerType() const {
   return mPointerType;
 }

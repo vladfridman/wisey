@@ -29,7 +29,7 @@ public:
   MOCK_CONST_METHOD0(getThrownExceptions, std::vector<const wisey::Model*> ());
   MOCK_CONST_METHOD0(isStatic, bool ());
   MOCK_CONST_METHOD1(getLLVMType, llvm::FunctionType* (wisey::IRGenerationContext&));
-  MOCK_CONST_METHOD0(getReferenceType, const wisey::IObjectType* ());
+  MOCK_CONST_METHOD0(getParentObject, const wisey::IObjectType* ());
   MOCK_CONST_METHOD0(getTypeName, std::string ());
   MOCK_CONST_METHOD2(canCastTo, bool (wisey::IRGenerationContext&, const wisey::IType*));
   MOCK_CONST_METHOD2(canAutoCastTo, bool (wisey::IRGenerationContext&, const wisey::IType*));

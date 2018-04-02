@@ -23,7 +23,7 @@ ThreadOwner::ThreadOwner(Thread* thread) : mThread(thread) { }
 ThreadOwner::~ThreadOwner() {
 }
 
-Thread* ThreadOwner::getReferenceType() const {
+Thread* ThreadOwner::getReference() const {
   return mThread;
 }
 
@@ -45,7 +45,7 @@ bool ThreadOwner::canCastTo(IRGenerationContext& context, const IType* toType) c
   }
   
   if (toType->isOwner()) {
-    return mThread->canCastTo(context, toType->getReferenceType());
+    return mThread->canCastTo(context, ((const IOwnerType*) toType)->getReference());
   }
   
   return mThread->canCastTo(context, toType);
@@ -64,7 +64,8 @@ Value* ThreadOwner::castTo(IRGenerationContext& context,
   }
   
   if (toType->isOwner()) {
-    return mThread->castTo(context, fromValue, toType->getReferenceType(), line);
+    const IReferenceType* toReferenceType = ((const IOwnerType*) toType)->getReference();
+    return mThread->castTo(context, fromValue, toReferenceType, line);
   }
   
   return mThread->castTo(context, fromValue, toType, line);
@@ -75,7 +76,7 @@ void ThreadOwner::free(IRGenerationContext& context, Value* value) const {
 }
 
 Function* ThreadOwner::getDestructorFunction(IRGenerationContext& context) const {
-  return IConcreteObjectType::getDestructorFunctionForObject(context, getReferenceType());
+  return IConcreteObjectType::getDestructorFunctionForObject(context, getReference());
 }
 
 bool ThreadOwner::isPrimitive() const {

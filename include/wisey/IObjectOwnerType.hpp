@@ -33,7 +33,7 @@ namespace wisey {
      * Returns detructor function for this object
      */
     virtual llvm::Function* getDestructorFunction(IRGenerationContext& context) const = 0;
-    
+
   };
   
 } /* namespace wisey */

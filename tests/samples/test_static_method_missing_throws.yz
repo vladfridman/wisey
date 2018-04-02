@@ -8,7 +8,7 @@ model MException {
 
 controller CThrower {
   public static int doThrow() {
-    MException exception = builder(MException).withValue(3).build();
+    MException* exception = builder(MException).withValue(3).build();
     throw exception;
   }
 }

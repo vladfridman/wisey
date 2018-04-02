@@ -198,10 +198,6 @@ const ArrayType* ArrayType::getArrayType(IRGenerationContext& context) const {
   return this;
 }
 
-const IReferenceType* ArrayType::getReferenceType() const {
-  return NULL;
-}
-
 const ILLVMPointerType* ArrayType::getPointerType() const {
   assert(false);
 }

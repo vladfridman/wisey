@@ -162,7 +162,7 @@ bool ExternalStaticMethod::isNative() const {
   return false;
 }
 
-const IObjectType* ExternalStaticMethod::getReferenceType() const {
+const IObjectType* ExternalStaticMethod::getParentObject() const {
   return mObjectType;
 }
 

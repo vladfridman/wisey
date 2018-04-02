@@ -905,10 +905,6 @@ const wisey::ArrayType* Interface::getArrayType(IRGenerationContext& context) co
   exit(1);
 }
 
-const Interface* Interface::getReferenceType() const {
-  return this;
-}
-
 const ILLVMPointerType* Interface::getPointerType() const {
   assert(false);
 }

@@ -163,6 +163,6 @@ TEST_F(LLVMObjectOwnerTypeTest, printToStreamTest) {
   EXPECT_STREQ("::llvm::object*", stringStream.str().c_str());
 }
 
-TEST_F(LLVMObjectOwnerTypeTest, getReferenceTypeTest) {
-  EXPECT_EQ(LLVMObjectType::LLVM_OBJECT_TYPE, mLLVMObjectOwnerType->getReferenceType());
+TEST_F(LLVMObjectOwnerTypeTest, getReferenceTest) {
+  EXPECT_EQ(LLVMObjectType::LLVM_OBJECT_TYPE, mLLVMObjectOwnerType->getReference());
 }

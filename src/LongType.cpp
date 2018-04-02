@@ -157,10 +157,6 @@ const wisey::ArrayType* LongType::getArrayType(IRGenerationContext& context) con
   exit(1);
 }
 
-const IReferenceType* LongType::getReferenceType() const {
-  return NULL;
-}
-
 const ILLVMPointerType* LongType::getPointerType() const {
   assert(false);
 }

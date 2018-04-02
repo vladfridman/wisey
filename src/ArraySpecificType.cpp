@@ -196,10 +196,6 @@ const wisey::ArrayType* ArraySpecificType::getArrayType(IRGenerationContext& con
   return context.getArrayType(mElementType, getNumberOfDimensions());
 }
 
-const IReferenceType* ArraySpecificType::getReferenceType() const {
-  return NULL;
-}
-
 const ILLVMPointerType* ArraySpecificType::getPointerType() const {
   assert(false);
 }

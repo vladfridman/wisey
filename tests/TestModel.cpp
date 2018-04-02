@@ -366,12 +366,8 @@ TEST_F(ModelTest, getFieldsTest) {
 }
 
 TEST_F(ModelTest, getOwnerTest) {
-  ASSERT_NE(mModel->getOwner(), nullptr);
-  EXPECT_EQ(mModel->getOwner()->getReferenceType(), mModel);
-}
-
-TEST_F(ModelTest, getObjectTypeTest) {
-  EXPECT_EQ(mModel, mModel->getReferenceType());
+  ASSERT_NE(nullptr, mModel->getOwner());
+  EXPECT_EQ(mModel, mModel->getOwner()->getReference());
 }
 
 TEST_F(ModelTest, createRTTITest) {

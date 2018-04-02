@@ -508,10 +508,6 @@ const wisey::ArrayType* Model::getArrayType(IRGenerationContext& context) const 
   exit(1);
 }
 
-const Model* Model::getReferenceType() const {
-  return this;
-}
-
 const ILLVMPointerType* Model::getPointerType() const {
   assert(false);
 }

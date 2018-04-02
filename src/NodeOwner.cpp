@@ -23,7 +23,7 @@ NodeOwner::NodeOwner(Node* node) : mNode(node) { }
 NodeOwner::~NodeOwner() {
 }
 
-Node* NodeOwner::getReferenceType() const {
+Node* NodeOwner::getReference() const {
   return mNode;
 }
 
@@ -45,7 +45,7 @@ bool NodeOwner::canCastTo(IRGenerationContext& context, const IType* toType) con
   }
   
   if (toType->isOwner()) {
-    return mNode->canCastTo(context, toType->getReferenceType());
+    return mNode->canCastTo(context, ((const IOwnerType*) toType)->getReference());
   }
   
   return mNode->canCastTo(context, toType);
@@ -65,7 +65,8 @@ Value* NodeOwner::castTo(IRGenerationContext& context,
   
   
   if (toType->isOwner()) {
-    return mNode->castTo(context, fromValue, toType->getReferenceType(), line);
+    const IReferenceType* toReferenceType = ((const IOwnerType*) toType)->getReference();
+    return mNode->castTo(context, fromValue, toReferenceType, line);
   }
   
   return mNode->castTo(context, fromValue, toType, line);
@@ -76,7 +77,7 @@ void NodeOwner::free(IRGenerationContext &context, Value *value) const {
 }
 
 Function* NodeOwner::getDestructorFunction(IRGenerationContext& context) const {
-  return IConcreteObjectType::getDestructorFunctionForObject(context, getReferenceType());
+  return IConcreteObjectType::getDestructorFunctionForObject(context, getReference());
 }
 
 bool NodeOwner::isPrimitive() const {

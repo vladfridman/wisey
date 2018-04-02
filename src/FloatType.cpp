@@ -158,10 +158,6 @@ const wisey::ArrayType* FloatType::getArrayType(IRGenerationContext& context) co
   exit(1);
 }
 
-const IReferenceType* FloatType::getReferenceType() const {
-  return NULL;
-}
-
 const ILLVMPointerType* FloatType::getPointerType() const {
   assert(false);
 }

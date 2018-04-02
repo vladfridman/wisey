@@ -24,7 +24,7 @@ ModelOwner::ModelOwner(Model* model) : mModel(model) { }
 ModelOwner::~ModelOwner() {
 }
 
-Model* ModelOwner::getReferenceType() const {
+Model* ModelOwner::getReference() const {
   return mModel;
 }
 
@@ -46,7 +46,7 @@ bool ModelOwner::canCastTo(IRGenerationContext& context, const IType* toType) co
   }
   
   if (toType->isOwner()) {
-    return mModel->canCastTo(context, toType->getReferenceType());
+    return mModel->canCastTo(context, ((const IOwnerType*) toType)->getReference());
   }
   
   return mModel->canCastTo(context, toType);
@@ -65,7 +65,8 @@ Value* ModelOwner::castTo(IRGenerationContext& context,
   }
 
   if (toType->isOwner()) {
-    return mModel->castTo(context, fromValue, toType->getReferenceType(), line);
+    const IReferenceType* toReferenceType = ((const IOwnerType*) toType)->getReference();
+    return mModel->castTo(context, fromValue, toReferenceType, line);
   }
 
   return mModel->castTo(context, fromValue, toType, line);
@@ -76,7 +77,7 @@ void ModelOwner::free(IRGenerationContext &context, Value* value) const {
 }
 
 Function* ModelOwner::getDestructorFunction(IRGenerationContext& context) const {
-  return IConcreteObjectType::getDestructorFunctionForObject(context, getReferenceType());
+  return IConcreteObjectType::getDestructorFunctionForObject(context, getReference());
 }
 
 bool ModelOwner::isPrimitive() const {

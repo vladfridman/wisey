@@ -158,10 +158,6 @@ const wisey::ArrayType* DoubleType::getArrayType(IRGenerationContext& context) c
   exit(1);
 }
 
-const IReferenceType* DoubleType::getReferenceType() const {
-  return NULL;
-}
-
 const ILLVMPointerType* DoubleType::getPointerType() const {
   assert(false);
 }

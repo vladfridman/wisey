@@ -30,6 +30,11 @@ namespace wisey {
      */
     virtual void free(IRGenerationContext& context, llvm::Value* value) const = 0;
     
+    /**
+     * Returns IReferenceType for this owner type
+     */
+    virtual const IReferenceType* getReference() const = 0;
+
   };
   
 } /* namespace wisey */

@@ -144,7 +144,7 @@ const ArrayType* ArraySpecificOwnerType::getArrayType(IRGenerationContext& conte
   return mArraySpecificType->getArrayType(context);
 }
 
-const IReferenceType* ArraySpecificOwnerType::getReferenceType() const {
+const IReferenceType* ArraySpecificOwnerType::getReference() const {
   return NULL;
 }
 

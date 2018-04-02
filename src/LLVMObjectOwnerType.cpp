@@ -13,7 +13,6 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMObjectOwnerType.hpp"
-#include "wisey/LLVMObjectType.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/ParameterOwnerVariable.hpp"
 
@@ -137,7 +136,7 @@ const wisey::ArrayType* LLVMObjectOwnerType::getArrayType(IRGenerationContext& c
   exit(1);
 }
 
-const IReferenceType* LLVMObjectOwnerType::getReferenceType() const {
+const LLVMObjectType* LLVMObjectOwnerType::getReference() const {
   return LLVMObjectType::LLVM_OBJECT_TYPE;
 }
 

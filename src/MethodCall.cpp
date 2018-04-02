@@ -49,7 +49,7 @@ IVariable* MethodCall::getVariable(IRGenerationContext& context,
 
 Value* MethodCall::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   const IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
-  const IObjectType* objectWithMethodsType = methodDescriptor->getReferenceType();
+  const IObjectType* objectWithMethodsType = methodDescriptor->getParentObject();
   checkArgumentType(objectWithMethodsType, methodDescriptor, context);
   std::vector<const Model*> thrownExceptions = methodDescriptor->getThrownExceptions();
   context.getScopes().getScope()->addExceptions(thrownExceptions);
@@ -280,7 +280,7 @@ void MethodCall::printToStream(IRGenerationContext& context, std::iostream& stre
 
 Function* MethodCall::getMethodFunction(IRGenerationContext& context,
                                         const IMethodDescriptor* methodDescriptor) const {
-  const IObjectType* objectType = methodDescriptor->getReferenceType();
+  const IObjectType* objectType = methodDescriptor->getParentObject();
   string methodName = methodDescriptor->getName();
   string llvmFunctionName = IMethodCall::translateObjectMethodToLLVMFunctionName(objectType,
                                                                                  methodName);

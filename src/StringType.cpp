@@ -153,10 +153,6 @@ const wisey::ArrayType* StringType::getArrayType(IRGenerationContext& context) c
   exit(1);
 }
 
-const IReferenceType* StringType::getReferenceType() const {
-  return NULL;
-}
-
 const ILLVMPointerType* StringType::getPointerType() const {
   assert(false);
 }

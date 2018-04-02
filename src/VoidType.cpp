@@ -122,10 +122,6 @@ const wisey::ArrayType* VoidType::getArrayType(IRGenerationContext& context) con
   exit(1);
 }
 
-const IReferenceType* VoidType::getReferenceType() const {
-  return NULL;
-}
-
 const ILLVMPointerType* VoidType::getPointerType() const {
   assert(false);
 }

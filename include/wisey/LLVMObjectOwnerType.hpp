@@ -11,8 +11,8 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/ILLVMPointerType.hpp"
 #include "wisey/IOwnerType.hpp"
+#include "wisey/LLVMObjectType.hpp"
 
 namespace wisey {
   
@@ -82,7 +82,7 @@ namespace wisey {
     
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
     
-    const IReferenceType* getReferenceType() const override;
+    const LLVMObjectType* getReference() const override;
     
     const ILLVMPointerType* getPointerType() const override;
 

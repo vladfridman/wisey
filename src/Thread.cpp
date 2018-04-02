@@ -13,11 +13,13 @@
 #include "wisey/ArraySpecificOwnerType.hpp"
 #include "wisey/AutoCast.hpp"
 #include "wisey/Cast.hpp"
+#include "wisey/ControllerOwner.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/InterfaceOwner.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/LLVMFunction.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
@@ -449,10 +451,6 @@ const wisey::ArrayType* Thread::getArrayType(IRGenerationContext& context) const
   exit(1);
 }
 
-const Thread* Thread::getReferenceType() const {
-  return this;
-}
-
 void Thread::initializeReceivedFields(IRGenerationContext& context,
                                       const InjectionArgumentList& controllerInjectorArguments,
                                       Instruction* malloc,
@@ -504,14 +502,20 @@ void Thread::initializeInjectedFields(IRGenerationContext& context,
       fieldValue = IRWriter::newBitCastInst(context, arrayPointer, arraySpecificType->
                                             getArrayType(context)->getLLVMType(context));
     } else if (fieldType->isController()) {
-      const Controller* controller = (const Controller*) fieldType->getReferenceType();
-      fieldValue = controller->inject(context, field->getInjectionArguments(), line);
+      const ControllerOwner* controllerOwner = (const ControllerOwner*) fieldType;
+      fieldValue = controllerOwner->getReference()->inject(context,
+                                                           field->getInjectionArguments(),
+                                                           line);
     } else if (fieldType->isThread()) {
-      const Thread* thread = (const Thread*) fieldType->getReferenceType();
-      fieldValue = thread->inject(context, field->getInjectionArguments(), line);
+      const ThreadOwner* threadOwner = (const ThreadOwner*) fieldType;
+      fieldValue = threadOwner->getReference()->inject(context,
+                                                       field->getInjectionArguments(),
+                                                       line);
     } else if (fieldType->isInterface()) {
-      const Interface* inteface = (const Interface*) fieldType->getReferenceType();
-      fieldValue = inteface->inject(context, field->getInjectionArguments(), line);
+      const InterfaceOwner* interfaceOwner = (const InterfaceOwner*) fieldType;
+      fieldValue = interfaceOwner->getReference()->inject(context,
+                                                          field->getInjectionArguments(),
+                                                          line);
     } else {
       Log::e("Attempt to inject a variable that is not of injectable type");
       exit(1);

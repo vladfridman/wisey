@@ -26,7 +26,7 @@ namespace wisey {
     
     ~InterfaceOwner();
     
-    Interface* getReferenceType() const override;
+    Interface* getReference() const override;
     
     std::string getTypeName() const override;
     

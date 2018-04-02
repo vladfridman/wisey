@@ -161,10 +161,6 @@ const wisey::ArrayType* CharType::getArrayType(IRGenerationContext& context) con
   exit(1);
 }
 
-const IReferenceType* CharType::getReferenceType() const {
-  return NULL;
-}
-
 const ILLVMPointerType* CharType::getPointerType() const {
   assert(false);
 }

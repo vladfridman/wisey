@@ -191,16 +191,12 @@ struct InterfaceTest : public Test {
 };
 
 TEST_F(InterfaceTest, interfaceInstantiationTest) {
-  EXPECT_EQ(mShapeInterface->getAccessLevel(), AccessLevel::PUBLIC_ACCESS);
-  EXPECT_STREQ(mShapeInterface->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.IShape");
-  EXPECT_STREQ(mShapeInterface->getShortName().c_str(), "IShape");
-  EXPECT_EQ(mShapeInterface->getLLVMType(mContext), mShapeStructType->getPointerTo());
-  ASSERT_NE(mShapeInterface->getOwner(), nullptr);
-  EXPECT_EQ(mShapeInterface->getOwner()->getReferenceType(), mShapeInterface);
-}
-
-TEST_F(InterfaceTest, getObjectTypeTest) {
-  EXPECT_EQ(mShapeInterface, mShapeInterface->getReferenceType());
+  EXPECT_EQ(AccessLevel::PUBLIC_ACCESS, mShapeInterface->getAccessLevel());
+  EXPECT_STREQ("systems.vos.wisey.compiler.tests.IShape", mShapeInterface->getTypeName().c_str());
+  EXPECT_STREQ("IShape", mShapeInterface->getShortName().c_str());
+  EXPECT_EQ(mShapeStructType->getPointerTo(), mShapeInterface->getLLVMType(mContext));
+  ASSERT_NE(nullptr, mShapeInterface->getOwner());
+  EXPECT_EQ(mShapeInterface, mShapeInterface->getOwner()->getReference());
 }
 
 TEST_F(InterfaceTest, findMethodTest) {

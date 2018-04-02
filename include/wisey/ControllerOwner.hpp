@@ -27,7 +27,7 @@ namespace wisey {
     
     ~ControllerOwner();
     
-    Controller* getReferenceType() const override;
+    Controller* getReference() const override;
     
     std::string getTypeName() const override;
     

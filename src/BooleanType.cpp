@@ -162,10 +162,6 @@ const wisey::ArrayType* BooleanType::getArrayType(IRGenerationContext& context) 
   exit(1);
 }
 
-const IReferenceType* BooleanType::getReferenceType() const {
-  return NULL;
-}
-
 const ILLVMPointerType* BooleanType::getPointerType() const {
   assert(false);
 }

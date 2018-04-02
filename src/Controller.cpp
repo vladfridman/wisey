@@ -20,12 +20,14 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/InterfaceOwner.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/LLVMFunction.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
+#include "wisey/ThreadOwner.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -412,14 +414,20 @@ void Controller::initializeInjectedFields(IRGenerationContext& context,
       fieldValue = IRWriter::newBitCastInst(context, arrayPointer, arraySpecificType->
                                             getArrayType(context)->getLLVMType(context));
     } else if (fieldType->isController()) {
-      const Controller* controller = (const Controller*) fieldType->getReferenceType();
-      fieldValue = controller->inject(context, field->getInjectionArguments(), line);
+      const ControllerOwner* controllerOwner = (const ControllerOwner*) fieldType;
+      fieldValue = controllerOwner->getReference()->inject(context,
+                                                           field->getInjectionArguments(),
+                                                           line);
     } else if (fieldType->isThread()) {
-      const Thread* thread = (const Thread*) fieldType->getReferenceType();
-      fieldValue = thread->inject(context, field->getInjectionArguments(), line);
+      const ThreadOwner* threadOwner = (const ThreadOwner*) fieldType;
+      fieldValue = threadOwner->getReference()->inject(context,
+                                                       field->getInjectionArguments(),
+                                                       line);
     } else if (fieldType->isInterface()) {
-      const Interface* inteface = (const Interface*) fieldType->getReferenceType();
-      fieldValue = inteface->inject(context, field->getInjectionArguments(), line);
+      const InterfaceOwner* interfaceOwner = (const InterfaceOwner*) fieldType;
+      fieldValue = interfaceOwner->getReference()->inject(context,
+                                                          field->getInjectionArguments(),
+                                                          line);
     } else {
       Log::e("Attempt to inject a variable that is not of injectable type");
       exit(1);
@@ -517,10 +525,6 @@ void Controller::createParameterVariable(IRGenerationContext& context,
 const wisey::ArrayType* Controller::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);
-}
-
-const Controller* Controller::getReferenceType() const {
-  return this;
 }
 
 const ILLVMPointerType* Controller::getPointerType() const {

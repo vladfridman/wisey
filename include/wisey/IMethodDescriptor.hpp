@@ -73,9 +73,9 @@ namespace wisey {
     virtual llvm::FunctionType* getLLVMType(IRGenerationContext& context) const = 0;
     
     /**
-     * Returns IReferenceType if this type is an owner type otherwise returns NULL
+     * Returns the object this method belongs to
      */
-    virtual const IObjectType* getReferenceType() const = 0;
+    virtual const IObjectType* getParentObject() const = 0;
 
     /**
      * Returns two if two method descriptors are the same in terms of their name, return type

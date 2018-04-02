@@ -146,11 +146,6 @@ namespace wisey {
     virtual const ArrayType* getArrayType(IRGenerationContext& context) const = 0;
     
     /**
-     * Returns IReferenceType if this type is an owner type otherwise returns NULL
-     */
-    virtual const IReferenceType* getReferenceType() const = 0;
-    
-    /**
      * Returns pointer type to this type. Only works for llvm types.
      */
     virtual const ILLVMPointerType* getPointerType() const = 0;

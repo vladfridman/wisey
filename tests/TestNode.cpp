@@ -337,12 +337,8 @@ TEST_F(NodeTest, getAccessLevelTest) {
 }
 
 TEST_F(NodeTest, getOwnerTest) {
-  ASSERT_NE(mComplicatedNode->getOwner(), nullptr);
-  EXPECT_EQ(mComplicatedNode->getOwner()->getReferenceType(), mComplicatedNode);
-}
-
-TEST_F(NodeTest, getReferenceTypeTest) {
-  EXPECT_EQ(mComplicatedNode, mComplicatedNode->getReferenceType());
+  ASSERT_NE(nullptr, mComplicatedNode->getOwner());
+  EXPECT_EQ(mComplicatedNode, mComplicatedNode->getOwner()->getReference());
 }
 
 TEST_F(NodeTest, getNameTest) {

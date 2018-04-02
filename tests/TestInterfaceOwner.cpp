@@ -87,7 +87,7 @@ struct InterfaceOwnerTest : public Test {
 };
 
 TEST_F(InterfaceOwnerTest, getObjectTest) {
-  EXPECT_EQ(mShapeInterface->getOwner()->getReferenceType(), mShapeInterface);
+  EXPECT_EQ(mShapeInterface, mShapeInterface->getOwner()->getReference());
 }
 
 TEST_F(InterfaceOwnerTest, getNameTest) {

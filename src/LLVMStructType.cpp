@@ -156,10 +156,6 @@ const wisey::ArrayType* LLVMStructType::getArrayType(IRGenerationContext& contex
   exit(1);
 }
 
-const IReferenceType* LLVMStructType::getReferenceType() const {
-  return NULL;
-}
-
 const ILLVMPointerType* LLVMStructType::getPointerType() const {
   return mPointerType;
 }

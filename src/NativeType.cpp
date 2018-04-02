@@ -123,10 +123,6 @@ const wisey::ArrayType* NativeType::getArrayType(IRGenerationContext& context) c
   exit(1);
 }
 
-const IReferenceType* NativeType::getReferenceType() const {
-  return NULL;
-}
-
 const ILLVMPointerType* NativeType::getPointerType() const {
   return mPointerType;
 }
