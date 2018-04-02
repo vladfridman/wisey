@@ -22,12 +22,14 @@ using namespace llvm;
 using namespace wisey;
 
 ParameterOwnerVariable::ParameterOwnerVariable(string name,
-                                               const IObjectOwnerType* type,
+                                               const IOwnerType* type,
                                                Value* valueStore) :
 mName(name), mType(type), mValueStore(valueStore) {
   assert(valueStore->getType()->isPointerTy());
   assert(valueStore->getType()->getPointerElementType()->isPointerTy());
-  assert(valueStore->getType()->getPointerElementType()->getPointerElementType()->isStructTy());
+  if (!type->isNative()) {
+    assert(valueStore->getType()->getPointerElementType()->getPointerElementType()->isStructTy());
+  }
 }
 
 ParameterOwnerVariable::~ParameterOwnerVariable() {
@@ -37,7 +39,7 @@ string ParameterOwnerVariable::getName() const {
   return mName;
 }
 
-const IType* ParameterOwnerVariable::getType() const {
+const IOwnerType* ParameterOwnerVariable::getType() const {
   return mType;
 }
 

@@ -151,14 +151,8 @@
 		F523D50A206BD1E70017D5B4 /* LLVMPointerOwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F523D508206BD1E70017D5B4 /* LLVMPointerOwnerTypeSpecifier.cpp */; };
 		F523D50C206BD4670017D5B4 /* LLVMPointerOwnerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F523D50B206BD4670017D5B4 /* LLVMPointerOwnerType.cpp */; };
 		F523D50D206BD4670017D5B4 /* LLVMPointerOwnerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F523D50B206BD4670017D5B4 /* LLVMPointerOwnerType.cpp */; };
-		F523D510206BEBB90017D5B4 /* ParameterPointerOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F523D50F206BEBB90017D5B4 /* ParameterPointerOwnerVariable.cpp */; };
-		F523D511206BEBB90017D5B4 /* ParameterPointerOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F523D50F206BEBB90017D5B4 /* ParameterPointerOwnerVariable.cpp */; };
-		F523D514206BF15D0017D5B4 /* LocalPointerOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F523D513206BF15D0017D5B4 /* LocalPointerOwnerVariable.cpp */; };
-		F523D515206BF15D0017D5B4 /* LocalPointerOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F523D513206BF15D0017D5B4 /* LocalPointerOwnerVariable.cpp */; };
 		F523D517206C28060017D5B4 /* TestLLVMPointerOwnerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F523D516206C28060017D5B4 /* TestLLVMPointerOwnerType.cpp */; };
 		F523D519206C28AE0017D5B4 /* TestLLVMPointerOwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F523D518206C28AE0017D5B4 /* TestLLVMPointerOwnerTypeSpecifier.cpp */; };
-		F523D51B206C2A980017D5B4 /* TestLocalPointerOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F523D51A206C2A980017D5B4 /* TestLocalPointerOwnerVariable.cpp */; };
-		F523D51D206C301F0017D5B4 /* TestParameterPointerOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F523D51C206C301F0017D5B4 /* TestParameterPointerOwnerVariable.cpp */; };
 		F526D8A81FEBA854008103B9 /* ArrayAllocation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F526D8A71FEBA854008103B9 /* ArrayAllocation.cpp */; };
 		F526D8A91FEBA854008103B9 /* ArrayAllocation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F526D8A71FEBA854008103B9 /* ArrayAllocation.cpp */; };
 		F526D8AB1FEBB33A008103B9 /* TestArrayAllocation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F526D8AA1FEBB33A008103B9 /* TestArrayAllocation.cpp */; };
@@ -723,6 +717,7 @@
 		F58FA300206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA2FF206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp */; };
 		F58FA301206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA2FF206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp */; };
 		F58FA30320710A4700C86D33 /* TestAdjustReferenceCounterForArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA30220710A4700C86D33 /* TestAdjustReferenceCounterForArrayFunction.cpp */; };
+		F58FA3062072776500C86D33 /* TestLocalOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA3052072776500C86D33 /* TestLocalOwnerVariable.cpp */; };
 		F592A7B91F7D62D10026BD2F /* IConcreteObjectDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592A7B81F7D62D10026BD2F /* IConcreteObjectDefinition.cpp */; };
 		F592A7BA1F7D62D10026BD2F /* IConcreteObjectDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592A7B81F7D62D10026BD2F /* IConcreteObjectDefinition.cpp */; };
 		F592A7C11F7D8D690026BD2F /* ExternalMethodDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592A7C01F7D8D690026BD2F /* ExternalMethodDefinition.cpp */; };
@@ -753,7 +748,6 @@
 		F59D822A1E1089E700057FB5 /* BreakStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82281E1089E700057FB5 /* BreakStatement.cpp */; };
 		F5A363411F33C1A8005880B3 /* LocalOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A363401F33C1A8005880B3 /* LocalOwnerVariable.cpp */; };
 		F5A363421F33C1A8005880B3 /* LocalOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A363401F33C1A8005880B3 /* LocalOwnerVariable.cpp */; };
-		F5A363441F33D08F005880B3 /* TestLocalOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A363431F33D08F005880B3 /* TestLocalOwnerVariable.cpp */; };
 		F5A363471F37257C005880B3 /* ParameterOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A363461F37257C005880B3 /* ParameterOwnerVariable.cpp */; };
 		F5A363481F37257C005880B3 /* ParameterOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A363461F37257C005880B3 /* ParameterOwnerVariable.cpp */; };
 		F5A3634A1F373FFE005880B3 /* TestParameterOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A363491F373FFE005880B3 /* TestParameterOwnerVariable.cpp */; };
@@ -1195,14 +1189,8 @@
 		F523D507206BD1000017D5B4 /* LLVMPointerOwnerType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMPointerOwnerType.hpp; path = include/wisey/LLVMPointerOwnerType.hpp; sourceTree = "<group>"; };
 		F523D508206BD1E70017D5B4 /* LLVMPointerOwnerTypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMPointerOwnerTypeSpecifier.cpp; path = src/LLVMPointerOwnerTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F523D50B206BD4670017D5B4 /* LLVMPointerOwnerType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMPointerOwnerType.cpp; path = src/LLVMPointerOwnerType.cpp; sourceTree = "<group>"; };
-		F523D50E206BEB840017D5B4 /* ParameterPointerOwnerVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ParameterPointerOwnerVariable.hpp; path = include/wisey/ParameterPointerOwnerVariable.hpp; sourceTree = "<group>"; };
-		F523D50F206BEBB90017D5B4 /* ParameterPointerOwnerVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ParameterPointerOwnerVariable.cpp; path = src/ParameterPointerOwnerVariable.cpp; sourceTree = "<group>"; };
-		F523D512206BF11F0017D5B4 /* LocalPointerOwnerVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LocalPointerOwnerVariable.hpp; path = include/wisey/LocalPointerOwnerVariable.hpp; sourceTree = "<group>"; };
-		F523D513206BF15D0017D5B4 /* LocalPointerOwnerVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LocalPointerOwnerVariable.cpp; path = src/LocalPointerOwnerVariable.cpp; sourceTree = "<group>"; };
 		F523D516206C28060017D5B4 /* TestLLVMPointerOwnerType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMPointerOwnerType.cpp; path = tests/TestLLVMPointerOwnerType.cpp; sourceTree = "<group>"; };
 		F523D518206C28AE0017D5B4 /* TestLLVMPointerOwnerTypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMPointerOwnerTypeSpecifier.cpp; path = tests/TestLLVMPointerOwnerTypeSpecifier.cpp; sourceTree = "<group>"; };
-		F523D51A206C2A980017D5B4 /* TestLocalPointerOwnerVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLocalPointerOwnerVariable.cpp; path = tests/TestLocalPointerOwnerVariable.cpp; sourceTree = "<group>"; };
-		F523D51C206C301F0017D5B4 /* TestParameterPointerOwnerVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestParameterPointerOwnerVariable.cpp; path = tests/TestParameterPointerOwnerVariable.cpp; sourceTree = "<group>"; };
 		F526D8A61FEBA782008103B9 /* ArrayAllocation.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ArrayAllocation.hpp; path = include/wisey/ArrayAllocation.hpp; sourceTree = "<group>"; };
 		F526D8A71FEBA854008103B9 /* ArrayAllocation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ArrayAllocation.cpp; path = src/ArrayAllocation.cpp; sourceTree = "<group>"; };
 		F526D8AA1FEBB33A008103B9 /* TestArrayAllocation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestArrayAllocation.cpp; path = tests/TestArrayAllocation.cpp; sourceTree = "<group>"; };
@@ -1662,6 +1650,7 @@
 		F58FA2FE206FC7CB00C86D33 /* AdjustReferenceCounterForArrayFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AdjustReferenceCounterForArrayFunction.hpp; path = include/wisey/AdjustReferenceCounterForArrayFunction.hpp; sourceTree = "<group>"; };
 		F58FA2FF206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = AdjustReferenceCounterForArrayFunction.cpp; path = src/AdjustReferenceCounterForArrayFunction.cpp; sourceTree = "<group>"; };
 		F58FA30220710A4700C86D33 /* TestAdjustReferenceCounterForArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestAdjustReferenceCounterForArrayFunction.cpp; path = tests/TestAdjustReferenceCounterForArrayFunction.cpp; sourceTree = "<group>"; };
+		F58FA3052072776500C86D33 /* TestLocalOwnerVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestLocalOwnerVariable.cpp; path = tests/TestLocalOwnerVariable.cpp; sourceTree = "<group>"; };
 		F592A7B61F7D609D0026BD2F /* IObjectDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IObjectDefinition.hpp; path = include/wisey/IObjectDefinition.hpp; sourceTree = "<group>"; };
 		F592A7B71F7D61320026BD2F /* IConcreteObjectDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IConcreteObjectDefinition.hpp; path = include/wisey/IConcreteObjectDefinition.hpp; sourceTree = "<group>"; };
 		F592A7B81F7D62D10026BD2F /* IConcreteObjectDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IConcreteObjectDefinition.cpp; path = src/IConcreteObjectDefinition.cpp; sourceTree = "<group>"; };
@@ -1686,7 +1675,6 @@
 		F59D82281E1089E700057FB5 /* BreakStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BreakStatement.cpp; path = src/BreakStatement.cpp; sourceTree = "<group>"; };
 		F5A3633F1F33C091005880B3 /* LocalOwnerVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LocalOwnerVariable.hpp; path = include/wisey/LocalOwnerVariable.hpp; sourceTree = "<group>"; };
 		F5A363401F33C1A8005880B3 /* LocalOwnerVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LocalOwnerVariable.cpp; path = src/LocalOwnerVariable.cpp; sourceTree = "<group>"; };
-		F5A363431F33D08F005880B3 /* TestLocalOwnerVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestLocalOwnerVariable.cpp; path = tests/TestLocalOwnerVariable.cpp; sourceTree = "<group>"; };
 		F5A363451F3724EF005880B3 /* ParameterOwnerVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ParameterOwnerVariable.hpp; path = include/wisey/ParameterOwnerVariable.hpp; sourceTree = "<group>"; };
 		F5A363461F37257C005880B3 /* ParameterOwnerVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ParameterOwnerVariable.cpp; path = src/ParameterOwnerVariable.cpp; sourceTree = "<group>"; };
 		F5A363491F373FFE005880B3 /* TestParameterOwnerVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestParameterOwnerVariable.cpp; path = tests/TestParameterOwnerVariable.cpp; sourceTree = "<group>"; };
@@ -2763,7 +2751,6 @@
 				F51701B0200FDE1500A10B7C /* LocalArrayOwnerVariable.hpp */,
 				F5A67DA32012084D0018068F /* LocalArrayReferenceVariable.hpp */,
 				F5A3633F1F33C091005880B3 /* LocalOwnerVariable.hpp */,
-				F523D512206BF11F0017D5B4 /* LocalPointerOwnerVariable.hpp */,
 				F5609F1520580D9E00664ADD /* LocalPointerVariable.hpp */,
 				F5089C861ECD01D9004A1223 /* LocalPrimitiveVariable.hpp */,
 				F5089C851ECD01D9004A1223 /* LocalReferenceVariable.hpp */,
@@ -2772,7 +2759,6 @@
 				F513DDFF2018682E001A075B /* ParameterArrayOwnerVariable.hpp */,
 				F513DE052018A0A7001A075B /* ParameterArrayReferenceVariable.hpp */,
 				F5A363451F3724EF005880B3 /* ParameterOwnerVariable.hpp */,
-				F523D50E206BEB840017D5B4 /* ParameterPointerOwnerVariable.hpp */,
 				F5D466052061316100C1047A /* ParameterPointerVariable.hpp */,
 				F5F435C71FACA10A0097E5D0 /* ParameterPrimitiveVariable.hpp */,
 				F53A2C171EF85D5B00E76A9E /* ParameterReferenceVariable.hpp */,
@@ -2794,7 +2780,6 @@
 				F51701AE200FDE0300A10B7C /* LocalArrayOwnerVariable.cpp */,
 				F5A67DA420120A0A0018068F /* LocalArrayReferenceVariable.cpp */,
 				F5A363401F33C1A8005880B3 /* LocalOwnerVariable.cpp */,
-				F523D513206BF15D0017D5B4 /* LocalPointerOwnerVariable.cpp */,
 				F5609F1620580DE000664ADD /* LocalPointerVariable.cpp */,
 				F50427A71E4D226C001CB148 /* LocalPrimitiveVariable.cpp */,
 				F50427AB1E4D2747001CB148 /* LocalReferenceVariable.cpp */,
@@ -2803,7 +2788,6 @@
 				F513DE0020186900001A075B /* ParameterArrayOwnerVariable.cpp */,
 				F513DE062018A0F7001A075B /* ParameterArrayReferenceVariable.cpp */,
 				F5A363461F37257C005880B3 /* ParameterOwnerVariable.cpp */,
-				F523D50F206BEBB90017D5B4 /* ParameterPointerOwnerVariable.cpp */,
 				F5D466062061318F00C1047A /* ParameterPointerVariable.cpp */,
 				F5F435C81FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp */,
 				F53A2C181EF85DF000E76A9E /* ParameterReferenceVariable.cpp */,
@@ -3365,8 +3349,7 @@
 				F57085F51E511BAC007D627E /* TestFieldReferenceVariable.cpp */,
 				F51701BB20105FE900A10B7C /* TestLocalArrayOwnerVariable.cpp */,
 				F5A67DAD201353300018068F /* TestLocalArrayReferenceVariable.cpp */,
-				F5A363431F33D08F005880B3 /* TestLocalOwnerVariable.cpp */,
-				F523D51A206C2A980017D5B4 /* TestLocalPointerOwnerVariable.cpp */,
+				F58FA3052072776500C86D33 /* TestLocalOwnerVariable.cpp */,
 				F5609F1B205815D900664ADD /* TestLocalPointerVariable.cpp */,
 				F50427AE1E4DD329001CB148 /* TestLocalPrimitiveVariable.cpp */,
 				F50427B01E4DD621001CB148 /* TestLocalReferenceVariable.cpp */,
@@ -3375,7 +3358,6 @@
 				F513DE0320186CFC001A075B /* TestParameterArrayOwnerVariable.cpp */,
 				F513DE092018AA3E001A075B /* TestParameterArrayReferenceVariable.cpp */,
 				F5A363491F373FFE005880B3 /* TestParameterOwnerVariable.cpp */,
-				F523D51C206C301F0017D5B4 /* TestParameterPointerOwnerVariable.cpp */,
 				F5D466092061330C00C1047A /* TestParameterPointerVariable.cpp */,
 				F5F435CB1FACA32A0097E5D0 /* TestParameterPrimitiveVariable.cpp */,
 				F53A2C1B1EF92D8300E76A9E /* TestParameterReferenceVariable.cpp */,
@@ -3806,7 +3788,6 @@
 				F532506E202A286B007D8597 /* TestArrayExactOwnerType.cpp in Sources */,
 				F5CB7FCA20529DE3007628B5 /* ReceivedFieldDefinition.cpp in Sources */,
 				F54B148F205EC79D0030773F /* TestLLVMi32Type.cpp in Sources */,
-				F523D51D206C301F0017D5B4 /* TestParameterPointerOwnerVariable.cpp in Sources */,
 				F5CB7F712051532A007628B5 /* FakeExpressionWithCleanup.cpp in Sources */,
 				F5ADB6221E66F9B400FFC941 /* Interface.cpp in Sources */,
 				F51764CC1ECCEAEB000AFBA7 /* ProgramFile.cpp in Sources */,
@@ -3989,7 +3970,6 @@
 				F53A2C1A1EF85DF000E76A9E /* ParameterReferenceVariable.cpp in Sources */,
 				F517970F1E6600BA009B16AA /* InterfaceDefinition.cpp in Sources */,
 				F53A2C501F02D55A00E76A9E /* TestPrimitiveTypes.cpp in Sources */,
-				F523D51B206C2A980017D5B4 /* TestLocalPointerOwnerVariable.cpp in Sources */,
 				F59D820E1E0F25DF00057FB5 /* TestWhileStatement.cpp in Sources */,
 				F5F3F8DD1FDEEA71001BA5B9 /* TestArrayTypeSpecifier.cpp in Sources */,
 				F5CB7F362049F5ED007628B5 /* ThreadTypeSpecifierFull.cpp in Sources */,
@@ -4042,7 +4022,6 @@
 				F5E39A3E1F7C1F2000B2ABD5 /* TestExternalControllerDefinition.cpp in Sources */,
 				F534011C1E000DBC0002BF7E /* TestMethodDefinition.cpp in Sources */,
 				F5CB7F8A20519130007628B5 /* TestFieldNativeVariable.cpp in Sources */,
-				F523D515206BF15D0017D5B4 /* LocalPointerOwnerVariable.cpp in Sources */,
 				F5A3634A1F373FFE005880B3 /* TestParameterOwnerVariable.cpp in Sources */,
 				F5F61AA3201DE99300EF9EB7 /* TestArraySpecificType.cpp in Sources */,
 				F5D4660420611DA000C1047A /* TestLLVMVariableDeclaration.cpp in Sources */,
@@ -4052,13 +4031,12 @@
 				F5CB7F632050FBF4007628B5 /* NativeType.cpp in Sources */,
 				F5D466082061318F00C1047A /* ParameterPointerVariable.cpp in Sources */,
 				F5E270751F98FFA9008D2EB7 /* ConstantDefinition.cpp in Sources */,
-				F5A363441F33D08F005880B3 /* TestLocalOwnerVariable.cpp in Sources */,
 				F50FA3001E323AAD00435EEA /* Scopes.cpp in Sources */,
 				F5609F082057C07F00664ADD /* ParameterSystemReferenceVariable.cpp in Sources */,
-				F523D511206BEBB90017D5B4 /* ParameterPointerOwnerVariable.cpp in Sources */,
 				F51942FE1FE3F3CF009C3158 /* TestUndefinedType.cpp in Sources */,
 				F5C6FD7C1E48B64C0054209D /* FloatType.cpp in Sources */,
 				F51581321E8AB1A9009CE419 /* TestController.cpp in Sources */,
+				F58FA3062072776500C86D33 /* TestLocalOwnerVariable.cpp in Sources */,
 				F57780BA1ECA81750049542D /* ProgramSuffix.cpp in Sources */,
 				F59D82241E0F6DAE00057FB5 /* IfStatement.cpp in Sources */,
 				F5325072202B8E29007D8597 /* ArraySpecificOwnerTypeSpecifier.cpp in Sources */,
@@ -4257,7 +4235,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F59D820B1E0F157E00057FB5 /* WhileStatement.cpp in Sources */,
-				F523D514206BF15D0017D5B4 /* LocalPointerOwnerVariable.cpp in Sources */,
 				F513DE072018A0F7001A075B /* ParameterArrayReferenceVariable.cpp in Sources */,
 				F5CB7F702051532A007628B5 /* FakeExpressionWithCleanup.cpp in Sources */,
 				F515812F1E8AAB12009CE419 /* Controller.cpp in Sources */,
@@ -4465,7 +4442,6 @@
 				F508E0661E72CB0E005D6115 /* MethodSignature.cpp in Sources */,
 				F508E0691E72D954005D6115 /* IMethodDescriptor.cpp in Sources */,
 				F5B3DCE51F9116AF00FC76D3 /* IMethodCall.cpp in Sources */,
-				F523D510206BEBB90017D5B4 /* ParameterPointerOwnerVariable.cpp in Sources */,
 				F5827077206006C700839EC7 /* LLVMPointerPointerType.cpp in Sources */,
 				F5CB7F4A204B6A89007628B5 /* Thread.cpp in Sources */,
 				F58A83561F798B6300369388 /* ExternalNodeDefinition.cpp in Sources */,

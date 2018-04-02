@@ -162,3 +162,11 @@ TEST_F(TestFileSampleRunner, assignParameterOwnerToLocalOwnerCompileTest) {
 TEST_F(TestFileSampleRunner, assignParameterOwnerToNullCompileTest) {
   compileFile("tests/samples/test_assign_parameter_owner_to_null.yz");
 }
+
+TEST_F(TestFileSampleRunner, parameterPointerOwnerVariableRunTest) {
+  runFileCheckOutputWithDestructorDebug("tests/samples/test_parameter_pointer_owner_variable.yz",
+                                        "destructor systems.vos.wisey.compiler.tests.MModel\n"
+                                        "free completed\n"
+                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "");
+}

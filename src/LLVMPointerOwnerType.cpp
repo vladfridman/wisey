@@ -14,8 +14,8 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMPointerPointerType.hpp"
 #include "wisey/LLVMPointerOwnerType.hpp"
-#include "wisey/LocalPointerOwnerVariable.hpp"
-#include "wisey/ParameterPointerOwnerVariable.hpp"
+#include "wisey/LocalOwnerVariable.hpp"
+#include "wisey/ParameterOwnerVariable.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -110,7 +110,7 @@ void LLVMPointerOwnerType::createLocalVariable(IRGenerationContext& context, str
   PointerType* llvmType = getLLVMType(context);
   llvm::Value* alloca = IRWriter::newAllocaInst(context, llvmType, name);
   IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloca);
-  IVariable* variable = new LocalPointerOwnerVariable(name, this, alloca);
+  IVariable* variable = new LocalOwnerVariable(name, this, alloca);
   context.getScopes().setVariable(variable);
 }
 
@@ -126,7 +126,7 @@ void LLVMPointerOwnerType::createParameterVariable(IRGenerationContext& context,
   llvm::PointerType::Type* llvmType = getLLVMType(context);
   Value* alloc = IRWriter::newAllocaInst(context, llvmType, name);
   IRWriter::newStoreInst(context, value, alloc);
-  IVariable* variable = new ParameterPointerOwnerVariable(name, this, alloc);
+  IVariable* variable = new ParameterOwnerVariable(name, this, alloc);
   context.getScopes().setVariable(variable);
 }
 

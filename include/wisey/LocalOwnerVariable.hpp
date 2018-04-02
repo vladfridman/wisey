@@ -10,7 +10,7 @@
 #define LocalOwnerVariable_h
 
 #include "wisey/IExpression.hpp"
-#include "wisey/IObjectOwnerType.hpp"
+#include "wisey/IOwnerType.hpp"
 #include "wisey/IOwnerVariable.hpp"
 
 namespace wisey {
@@ -21,19 +21,19 @@ namespace wisey {
   class LocalOwnerVariable : public IOwnerVariable {
     
     std::string mName;
-    const IObjectOwnerType* mType;
+    const IOwnerType* mType;
     llvm::Value* mValueStore;
     bool mIsInitialized;
     
   public:
     
-    LocalOwnerVariable(std::string name, const IObjectOwnerType* type, llvm::Value* valueStore);
+    LocalOwnerVariable(std::string name, const IOwnerType* type, llvm::Value* valueStore);
     
     ~LocalOwnerVariable();
     
     std::string getName() const override;
     
-    const IObjectOwnerType* getType() const override;
+    const IOwnerType* getType() const override;
     
     bool isField() const override;
     

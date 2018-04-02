@@ -20,18 +20,18 @@ namespace wisey {
   class ParameterOwnerVariable : public IOwnerVariable {
     
     std::string mName;
-    const IObjectOwnerType* mType;
+    const IOwnerType* mType;
     llvm::Value* mValueStore;
     
   public:
     
-    ParameterOwnerVariable(std::string name, const IObjectOwnerType* type, llvm::Value* valueStore);
+    ParameterOwnerVariable(std::string name, const IOwnerType* type, llvm::Value* valueStore);
     
     ~ParameterOwnerVariable();
     
     std::string getName() const override;
     
-    const IType* getType() const override;
+    const IOwnerType* getType() const override;
     
     bool isField() const override;
     

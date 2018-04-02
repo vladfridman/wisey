@@ -22,12 +22,14 @@ using namespace llvm;
 using namespace wisey;
 
 LocalOwnerVariable::LocalOwnerVariable(string name,
-                                       const IObjectOwnerType* type,
+                                       const IOwnerType* type,
                                        Value* valueStore) :
 mName(name), mType(type), mValueStore(valueStore), mIsInitialized(false) {
   assert(valueStore->getType()->isPointerTy());
   assert(valueStore->getType()->getPointerElementType()->isPointerTy());
-  assert(valueStore->getType()->getPointerElementType()->getPointerElementType()->isStructTy());
+  if (!type->isNative()) {
+    assert(valueStore->getType()->getPointerElementType()->getPointerElementType()->isStructTy());
+  }
 }
 
 LocalOwnerVariable::~LocalOwnerVariable() {
@@ -37,7 +39,7 @@ string LocalOwnerVariable::getName() const {
   return mName;
 }
 
-const IObjectOwnerType* LocalOwnerVariable::getType() const {
+const IOwnerType* LocalOwnerVariable::getType() const {
   return mType;
 }
 

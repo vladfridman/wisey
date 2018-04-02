@@ -13,7 +13,6 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalArrayOwnerVariable.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
-#include "wisey/LocalPointerOwnerVariable.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/MethodArgument.hpp"
@@ -131,13 +130,9 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
     tempVariable = new LocalArrayOwnerVariable(variableName,
                                                (const ArrayOwnerType*) returnType,
                                                pointer);
-  } else if (returnType->isNative()) {
-    tempVariable = new LocalPointerOwnerVariable(variableName,
-                                                 (const LLVMPointerOwnerType*) returnType,
-                                                 pointer);
   } else {
     tempVariable = new LocalOwnerVariable(variableName,
-                                          (const IObjectOwnerType*) returnType,
+                                          (const IOwnerType*) returnType,
                                           pointer);
   }
   context.getScopes().setVariable(tempVariable);
