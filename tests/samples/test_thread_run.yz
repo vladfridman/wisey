@@ -3,6 +3,7 @@ package systems.vos.wisey.compiler.tests;
 import wisey.lang.CCallStack;
 import wisey.lang.CWorkerThreadRunner;
 import wisey.lang.IProgram;
+import wisey.lang.IThread;
 import wisey.lang.IWorkerThread;
 
 model MResult {
@@ -45,6 +46,7 @@ thread TWorker implements IWorkerThread {
   }
 
   public void work() {
+    IThread.sleep(1);
     printout("This is worker thread!\n");
     MResult* result = builder(MResult).withResult(5).build();
     thread.send(result);

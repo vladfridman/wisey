@@ -262,7 +262,6 @@ TEST_F(TestFileSampleRunner, threadCancelRunTest) {
                      "Starting worker thread\n"
                      "Worker thread started\n"
                      "Thread started = 1, has result = 0, was cancelled = 0\n"
-                     "Getting call stack!\n"
                      "Worker thread cancelled\n"
                      "Thread started = 1, has result = 0, was cancelled = 1\n"
                      "Thread result is null\n",

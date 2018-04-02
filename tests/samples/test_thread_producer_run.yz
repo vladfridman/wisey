@@ -44,6 +44,7 @@ thread TProducer implements IProducerThread {
   }
 
   public void produce() {
+    IThread.sleep(1);
     printout("This is producer thread!\n");
     for (int i = 0; i < 2; i++) {
       MProducerResult* result = builder(MProducerResult).withResult(i).build();
@@ -75,7 +76,7 @@ controller CProgram implements IProgram {
     mProducer.start();
     printout("Producer thread started\n");
     printout("Thread started = " + mProducer.hasStarted() + ", has result = " + mProducer.hasResult() + "\n");
-    IThread.sleep(1);
+    IThread.sleep(2);
     while (mProducer.hasResult()) {
       int result = ((MProducerResult) mProducer.consume()).getResult();
       printout("Producer thread finished with result: " + result + "\n");
