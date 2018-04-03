@@ -63,7 +63,7 @@ controller CProducerThreadRunner {
   /**
    * Returns one of the results from the list of results in FIFO order
    */
-  public ::llvm::object consumeResult() {
+  public ::llvm::object* consumeResult() {
     if (mIndexStart == mIndexEnd) {
       return null;
     }

@@ -34,7 +34,7 @@ external interface wisey.lang.IProducerThread
   boolean wasCancelled();
   void cancel();
   void produce();
-  ::llvm::object consume();
+  ::llvm::object* consume();
 }
 
 external interface wisey.lang.IProgram {
@@ -159,7 +159,7 @@ external controller wisey.lang.CProducerThreadRunner {
   void joinThread();
   boolean addResult(
     ::llvm::object* result);
-  ::llvm::object consumeResult();
+  ::llvm::object* consumeResult();
   boolean hasResult();
   boolean hasRoom();
   void exitThread();
