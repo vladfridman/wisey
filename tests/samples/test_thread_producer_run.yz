@@ -62,7 +62,6 @@ thread TProducer implements IProducerThread {
   }
 
   public CCallStack getCallStack() {
-    printout("Getting call stack!\n");
     return mCallStack;
   }
 }

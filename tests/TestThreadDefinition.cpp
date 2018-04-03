@@ -232,8 +232,7 @@ TEST_F(TestFileRunner, threadRunRunTest) {
                      "Starting worker thread\n"
                      "Worker thread started\n"
                      "Thread started = 1, has result = 0\n"
-                     "Getting call stack!\n"
-                     "This is worker thread!\n"
+                      "This is worker thread!\n"
                      "Worker thread finished with result: 5\n"
                      "Thread started = 1, has result = 1\n",
                      "");
@@ -245,7 +244,6 @@ TEST_F(TestFileRunner, threadProducerRunRunTest) {
                      "Starting producer thread\n"
                      "Producer thread started\n"
                      "Thread started = 1, has result = 0\n"
-                     "Getting call stack!\n"
                      "This is producer thread!\n"
                      "Adding result 0\n"
                      "Adding result 1\n"

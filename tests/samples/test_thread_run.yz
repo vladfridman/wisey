@@ -59,7 +59,6 @@ thread TWorker implements IWorkerThread {
   }
 
   public CCallStack getCallStack() {
-    printout("Getting call stack!\n");
     return mCallStack;
   }
 }
