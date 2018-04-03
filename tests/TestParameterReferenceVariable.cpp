@@ -95,10 +95,10 @@ TEST_F(ParameterReferenceVariableTest, parameterReferenceVariableAssignmentDeath
 }
 
 TEST_F(ParameterReferenceVariableTest, generateIdentifierIRTest) {
-  Value* fooValueStore = ConstantPointerNull::get(mModel->getLLVMType(mContext));
-  ParameterReferenceVariable parameterReferenceVariable("foo", mModel, fooValueStore);
+  Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mContext));
+  ParameterReferenceVariable parameterReferenceVariable("foo", mModel, fooValue);
   
-  EXPECT_EQ(fooValueStore, parameterReferenceVariable.generateIdentifierIR(mContext));
+  EXPECT_EQ(fooValue, parameterReferenceVariable.generateIdentifierIR(mContext));
 }
 
 TEST_F(ParameterReferenceVariableTest, decrementReferenceCounterTest) {

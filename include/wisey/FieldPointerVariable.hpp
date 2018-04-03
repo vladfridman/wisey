@@ -1,33 +1,35 @@
 //
-//  LocalPointerVariable.hpp
+//  FieldPointerVariable.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 3/13/18.
+//  Created by Vladimir Fridman on 4/3/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef LocalPointerVariable_h
-#define LocalPointerVariable_h
+#ifndef FieldPointerVariable_h
+#define FieldPointerVariable_h
 
-#include "wisey/IExpression.hpp"
-#include "wisey/IReferenceVariable.hpp"
+#include "wisey/IConcreteObjectType.hpp"
+#include "wisey/IFieldVariable.hpp"
+#include "wisey/IObjectType.hpp"
+#include "wisey/IVariable.hpp"
+#include "wisey/LLVMPointerType.hpp"
 
 namespace wisey {
   
   /**
-   * Represents a local variable of native type
+   * Represents an object field that is of llvm pointer type
    */
-  class LocalPointerVariable : public IVariable {
+  class FieldPointerVariable : public IFieldVariable, public IVariable {
     
     std::string mName;
-    const LLVMPointerType* mType;
-    llvm::Value* mValueStore;
+    const IConcreteObjectType* mObject;
     
   public:
     
-    LocalPointerVariable(std::string name, const LLVMPointerType* type, llvm::Value* valueStore);
+    FieldPointerVariable(std::string name, const IConcreteObjectType* object);
     
-    ~LocalPointerVariable();
+    ~FieldPointerVariable();
     
     std::string getName() const override;
     
@@ -50,5 +52,4 @@ namespace wisey {
   
 } /* namespace wisey */
 
-#endif /* LocalPointerVariable_h */
-
+#endif /* FieldPointerVariable_h */

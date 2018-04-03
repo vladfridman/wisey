@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
+#include "wisey/AutoCast.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalPointerVariable.hpp"
@@ -17,7 +18,9 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-LocalPointerVariable::LocalPointerVariable(string name, const IType* type, Value* valueStore) :
+LocalPointerVariable::LocalPointerVariable(string name,
+                                           const LLVMPointerType* type,
+                                           Value* valueStore) :
 mName(name), mType(type), mValueStore(valueStore) {
   assert(valueStore->getType()->isPointerTy());
 }
@@ -29,7 +32,7 @@ string LocalPointerVariable::getName() const {
   return mName;
 }
 
-const IType* LocalPointerVariable::getType() const {
+const LLVMPointerType* LocalPointerVariable::getType() const {
   return mType;
 }
 
@@ -50,9 +53,15 @@ Value* LocalPointerVariable::generateIdentifierReferenceIR(IRGenerationContext& 
 }
 
 Value* LocalPointerVariable::generateAssignmentIR(IRGenerationContext& context,
-                                                 IExpression* assignToExpression,
-                                                 vector<const IExpression*> arrayIndices,
-                                                 int line) {
-  assert(false);
+                                                  IExpression* assignToExpression,
+                                                  vector<const IExpression*> arrayIndices,
+                                                  int line) {
+  Value* assignToValue = assignToExpression->generateIR(context, mType);
+  const IType* assignToType = assignToExpression->getType(context);
+  Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType, line);
+  
+  IRWriter::newStoreInst(context, newValue, mValueStore);
+  
+  return newValue;
 }
 

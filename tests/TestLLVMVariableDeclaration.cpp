@@ -79,7 +79,8 @@ TEST_F(LLVMVariableDeclarationTest, stackLLVMVariableDeclarationWithoutAssignmen
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %foo = alloca i8*\n";
+  "\n  %foo = alloca i8*"
+  "\n  store i8* null, i8** %foo\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

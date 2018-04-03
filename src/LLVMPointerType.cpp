@@ -9,7 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/ArrayType.hpp"
-#include "wisey/FieldNativeVariable.hpp"
+#include "wisey/FieldPointerVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMObjectOwnerType.hpp"
@@ -115,7 +115,11 @@ void LLVMPointerType::printToStream(IRGenerationContext &context, iostream& stre
 }
 
 void LLVMPointerType::createLocalVariable(IRGenerationContext& context, string name) const {
-  llvm::Value* alloca = IRWriter::newAllocaInst(context, getLLVMType(context), name);
+  llvm::PointerType* llvmType = getLLVMType(context);
+  
+  llvm::Value* alloca = IRWriter::newAllocaInst(context, llvmType, name);
+  IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloca);
+  
   IVariable* variable = new LocalPointerVariable(name, this, alloca);
   context.getScopes().setVariable(variable);
 }
@@ -123,7 +127,7 @@ void LLVMPointerType::createLocalVariable(IRGenerationContext& context, string n
 void LLVMPointerType::createFieldVariable(IRGenerationContext& context,
                                           string name,
                                           const IConcreteObjectType* object) const {
-  IVariable* variable = new FieldNativeVariable(name, object);
+  IVariable* variable = new FieldPointerVariable(name, object);
   context.getScopes().setVariable(variable);
 }
 

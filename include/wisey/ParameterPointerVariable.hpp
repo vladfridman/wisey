@@ -18,7 +18,7 @@ namespace wisey {
   /**
    * Represents an llvm function parameter that is a native type
    */
-  class ParameterPointerVariable : public IReferenceVariable {
+  class ParameterPointerVariable : public IVariable {
     
     std::string mName;
     const LLVMPointerType* mType;
@@ -46,8 +46,6 @@ namespace wisey {
                                       IExpression* assignToExpression,
                                       std::vector<const IExpression*> arrayIndices,
                                       int line) override;
-    
-    void decrementReferenceCounter(IRGenerationContext& context) const override;
     
   };
   

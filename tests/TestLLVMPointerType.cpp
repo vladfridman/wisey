@@ -138,7 +138,8 @@ TEST_F(LLVMPointerTypeTest, createLocalVariableTest) {
   
   string expected =
   "\nentry:"
-  "\n  %temp = alloca i8*\n";
+  "\n  %temp = alloca i8*"
+  "\n  store i8* null, i8** %temp\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -150,6 +151,14 @@ TEST_F(LLVMPointerTypeTest, createFieldVariableTest) {
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mLLVMPointerType->createFieldVariable(mContext, "mField", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("mField");
+  
+  EXPECT_NE(variable, nullptr);
+}
+
+TEST_F(LLVMPointerTypeTest, createParameterVariableTest) {
+  llvm::Constant* null = ConstantPointerNull::get(mLLVMPointerType->getLLVMType(mContext));
+  mLLVMPointerType->createParameterVariable(mContext, "foo", null);
+  IVariable* variable = mContext.getScopes().getVariable("foo");
   
   EXPECT_NE(variable, nullptr);
 }

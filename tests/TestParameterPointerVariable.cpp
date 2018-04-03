@@ -40,6 +40,7 @@ struct ParameterPointerVariableTest : public Test {
   raw_string_ostream* mStringStream;
   ParameterPointerVariable* mVariable;
   Value* mVariableValue;
+  const LLVMPointerType* mPointerType;
   
 public:
   
@@ -56,9 +57,9 @@ public:
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
 
-    const LLVMPointerType* type = LLVMPrimitiveTypes::I8->getPointerType();
-    mVariableValue = ConstantPointerNull::get(type->getLLVMType(mContext));
-    mVariable = new ParameterPointerVariable("foo", type, mVariableValue);
+    mPointerType = LLVMPrimitiveTypes::I64->getPointerType();
+    mVariableValue = ConstantPointerNull::get(mPointerType->getLLVMType(mContext));
+    mVariable = new ParameterPointerVariable("foo", mPointerType, mVariableValue);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -66,7 +67,7 @@ public:
 
 TEST_F(ParameterPointerVariableTest, basicFieldsTest) {
   EXPECT_STREQ("foo", mVariable->getName().c_str());
-  EXPECT_EQ(LLVMPrimitiveTypes::I8->getPointerType(), mVariable->getType());
+  EXPECT_EQ(mPointerType, mVariable->getType());
   EXPECT_FALSE(mVariable->isField());
   EXPECT_FALSE(mVariable->isSystem());
 }
@@ -76,10 +77,13 @@ TEST_F(ParameterPointerVariableTest, assignmentDeathTest) {
   
   EXPECT_EXIT(mVariable->generateAssignmentIR(mContext, NULL, arrayIndices, 0),
               ::testing::ExitedWithCode(1),
-              "Error: Assignment to function parameters is not allowed");
+              "Error: Assignment to method parameters is not allowed");
 }
 
 TEST_F(ParameterPointerVariableTest, generateIdentifierIRTest) {
   EXPECT_EQ(mVariableValue, mVariable->generateIdentifierIR(mContext));
 }
 
+TEST_F(TestFileSampleRunner, parameterPointerVariableRunTest) {
+  runFile("tests/samples/test_parameter_pointer_variable.yz", "3");
+}
