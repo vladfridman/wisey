@@ -7,7 +7,7 @@
 //
 
 #include "wisey/FieldNativeVariable.hpp"
-#include "wisey/IRWriter.hpp"
+#include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMStructType.hpp"
 
 using namespace llvm;
@@ -135,7 +135,7 @@ void LLVMStructType::printToStream(IRGenerationContext &context, iostream& strea
 }
 
 void LLVMStructType::createLocalVariable(IRGenerationContext& context, string name) const {
-  assert(false);
+  ILLVMType::createLocalVariable(context, this, name);
 }
 
 void LLVMStructType::createFieldVariable(IRGenerationContext& context,

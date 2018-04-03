@@ -39,6 +39,9 @@ llvm::Type* CharType::getLLVMType(IRGenerationContext& context) const {
 }
 
 bool CharType::canCastTo(IRGenerationContext& context, const IType* toType) const {
+  if (toType->isNative() && toType->getLLVMType(context) == getLLVMType(context)) {
+    return true;
+  }
   if (!toType->isPrimitive()) {
     return false;
   }
@@ -47,6 +50,9 @@ bool CharType::canCastTo(IRGenerationContext& context, const IType* toType) cons
 }
 
 bool CharType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
+  if (toType->isNative() && toType->getLLVMType(context) == getLLVMType(context)) {
+    return true;
+  }
   if (!toType->isPrimitive()) {
     return false;
   }
@@ -62,7 +68,9 @@ Value* CharType::castTo(IRGenerationContext& context,
                         Value* fromValue,
                         const IType* toType,
                         int line) const {
-  if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
+  if (toType->isNative() && toType->getLLVMType(context) == getLLVMType(context)) {
+    return fromValue;
+  } else if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
     return Cast::truncIntCast(context, fromValue, toType);
   } else if (toType == PrimitiveTypes::CHAR_TYPE) {
     return fromValue;

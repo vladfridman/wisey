@@ -564,6 +564,11 @@
 		F581A00C207374EF00EA0156 /* FieldPointerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F581A00A207374EF00EA0156 /* FieldPointerVariable.cpp */; };
 		F581A00F207380E800EA0156 /* TestFieldPointerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F581A00D207380E800EA0156 /* TestFieldPointerVariable.cpp */; };
 		F581A0102073A65500EA0156 /* FieldNativeVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB7F64205116D4007628B5 /* FieldNativeVariable.cpp */; };
+		F581A0132073B11700EA0156 /* LocalLLVMVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F581A0122073B11700EA0156 /* LocalLLVMVariable.cpp */; };
+		F581A0142073B11700EA0156 /* LocalLLVMVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F581A0122073B11700EA0156 /* LocalLLVMVariable.cpp */; };
+		F581A0162073B1BC00EA0156 /* TestLocalLLVMVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F581A0152073B1BC00EA0156 /* TestLocalLLVMVariable.cpp */; };
+		F581A0182073B3CB00EA0156 /* ILLVMType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F581A0172073B3CB00EA0156 /* ILLVMType.cpp */; };
+		F581A0192073B3CB00EA0156 /* ILLVMType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F581A0172073B3CB00EA0156 /* ILLVMType.cpp */; };
 		F5827040205EE95500839EC7 /* LLVMStructSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F582703F205EE95500839EC7 /* LLVMStructSpecifier.cpp */; };
 		F5827041205EE95500839EC7 /* LLVMStructSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F582703F205EE95500839EC7 /* LLVMStructSpecifier.cpp */; };
 		F5827044205EECAB00839EC7 /* LLVMStructType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5827043205EECAB00839EC7 /* LLVMStructType.cpp */; };
@@ -1585,6 +1590,10 @@
 		F581A0092073748500EA0156 /* FieldPointerVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = FieldPointerVariable.hpp; path = include/wisey/FieldPointerVariable.hpp; sourceTree = "<group>"; };
 		F581A00A207374EF00EA0156 /* FieldPointerVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FieldPointerVariable.cpp; path = src/FieldPointerVariable.cpp; sourceTree = "<group>"; };
 		F581A00D207380E800EA0156 /* TestFieldPointerVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestFieldPointerVariable.cpp; path = tests/TestFieldPointerVariable.cpp; sourceTree = "<group>"; };
+		F581A0112073B0D100EA0156 /* LocalLLVMVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LocalLLVMVariable.hpp; path = include/wisey/LocalLLVMVariable.hpp; sourceTree = "<group>"; };
+		F581A0122073B11700EA0156 /* LocalLLVMVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LocalLLVMVariable.cpp; path = src/LocalLLVMVariable.cpp; sourceTree = "<group>"; };
+		F581A0152073B1BC00EA0156 /* TestLocalLLVMVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLocalLLVMVariable.cpp; path = tests/TestLocalLLVMVariable.cpp; sourceTree = "<group>"; };
+		F581A0172073B3CB00EA0156 /* ILLVMType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ILLVMType.cpp; path = src/ILLVMType.cpp; sourceTree = "<group>"; };
 		F582703F205EE95500839EC7 /* LLVMStructSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMStructSpecifier.cpp; path = src/LLVMStructSpecifier.cpp; sourceTree = "<group>"; };
 		F5827042205EEC4200839EC7 /* LLVMStructType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMStructType.hpp; path = include/wisey/LLVMStructType.hpp; sourceTree = "<group>"; };
 		F5827043205EECAB00839EC7 /* LLVMStructType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMStructType.cpp; path = src/LLVMStructType.cpp; sourceTree = "<group>"; };
@@ -2602,6 +2611,7 @@
 				F592A7B81F7D62D10026BD2F /* IConcreteObjectDefinition.cpp */,
 				F556E6531EDDD2F900CCC3D7 /* IConcreteObjectType.cpp */,
 				F5A363561F376C90005880B3 /* IFieldVariable.cpp */,
+				F581A0172073B3CB00EA0156 /* ILLVMType.cpp */,
 				F51D2BB31F691C8100510784 /* IMethod.cpp */,
 				F5B3DCE41F9116AF00FC76D3 /* IMethodCall.cpp */,
 				F592A7C31F7D8EAE0026BD2F /* IMethodDefinition.cpp */,
@@ -2755,6 +2765,7 @@
 				F5089C991ECD01D9004A1223 /* FieldReferenceVariable.hpp */,
 				F51701B0200FDE1500A10B7C /* LocalArrayOwnerVariable.hpp */,
 				F5A67DA32012084D0018068F /* LocalArrayReferenceVariable.hpp */,
+				F581A0112073B0D100EA0156 /* LocalLLVMVariable.hpp */,
 				F5A3633F1F33C091005880B3 /* LocalOwnerVariable.hpp */,
 				F5609F1520580D9E00664ADD /* LocalPointerVariable.hpp */,
 				F5089C861ECD01D9004A1223 /* LocalPrimitiveVariable.hpp */,
@@ -2785,6 +2796,7 @@
 				F50427B31E4E3FA7001CB148 /* FieldReferenceVariable.cpp */,
 				F51701AE200FDE0300A10B7C /* LocalArrayOwnerVariable.cpp */,
 				F5A67DA420120A0A0018068F /* LocalArrayReferenceVariable.cpp */,
+				F581A0122073B11700EA0156 /* LocalLLVMVariable.cpp */,
 				F5A363401F33C1A8005880B3 /* LocalOwnerVariable.cpp */,
 				F5609F1620580DE000664ADD /* LocalPointerVariable.cpp */,
 				F50427A71E4D226C001CB148 /* LocalPrimitiveVariable.cpp */,
@@ -3356,6 +3368,7 @@
 				F57085F51E511BAC007D627E /* TestFieldReferenceVariable.cpp */,
 				F51701BB20105FE900A10B7C /* TestLocalArrayOwnerVariable.cpp */,
 				F5A67DAD201353300018068F /* TestLocalArrayReferenceVariable.cpp */,
+				F581A0152073B1BC00EA0156 /* TestLocalLLVMVariable.cpp */,
 				F58FA3052072776500C86D33 /* TestLocalOwnerVariable.cpp */,
 				F5609F1B205815D900664ADD /* TestLocalPointerVariable.cpp */,
 				F50427AE1E4DD329001CB148 /* TestLocalPrimitiveVariable.cpp */,
@@ -3831,6 +3844,7 @@
 				F54B1491205EC82B0030773F /* TestLLVMi64Type.cpp in Sources */,
 				F5105FBF1FD1ABC900ACF57B /* TestThrowReferenceCountExceptionFunction.cpp in Sources */,
 				F50FA2F61E2E3B3200435EEA /* TestFloatConstant.cpp in Sources */,
+				F581A0142073B11700EA0156 /* LocalLLVMVariable.cpp in Sources */,
 				F5D465F92061086D00C1047A /* LLVMFunction.cpp in Sources */,
 				F5ADB6291E69831A00FFC941 /* Method.cpp in Sources */,
 				F5ADB6261E67075400FFC941 /* TestInterface.cpp in Sources */,
@@ -3846,6 +3860,7 @@
 				F55CF17C1F7DA54900A11426 /* TestExternalStaticMethod.cpp in Sources */,
 				F558057E1F96A6E8004F62F2 /* TestExitStatement.cpp in Sources */,
 				F523D50D206BD4670017D5B4 /* LLVMObjectOwnerType.cpp in Sources */,
+				F581A0192073B3CB00EA0156 /* ILLVMType.cpp in Sources */,
 				F5CE2D421EF6A43C002ABB85 /* IType.cpp in Sources */,
 				F53400DD1DFBE6F30002BF7E /* Parser.ypp in Sources */,
 				F5EEDDA31E6EF50100215278 /* TestInterfaceTypeSpecifier.cpp in Sources */,
@@ -4183,6 +4198,7 @@
 				F54B1489205EC5CD0030773F /* TestLLVMi1Type.cpp in Sources */,
 				F50427AF1E4DD329001CB148 /* TestLocalPrimitiveVariable.cpp in Sources */,
 				F59D822A1E1089E700057FB5 /* BreakStatement.cpp in Sources */,
+				F581A0162073B1BC00EA0156 /* TestLocalLLVMVariable.cpp in Sources */,
 				F56AD49F1E9F50FD0020868C /* TestThrowStatement.cpp in Sources */,
 				F57780B41ECA384B0049542D /* TestBindAction.cpp in Sources */,
 				F52C66631FBF41C000E89B04 /* AdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp in Sources */,
@@ -4337,6 +4353,7 @@
 				F59D821D1E0F66E800057FB5 /* IfElseStatement.cpp in Sources */,
 				F5296AC01E564B9B00FB1E1D /* CastExpression.cpp in Sources */,
 				F57411731E043EE4009809FF /* Identifier.cpp in Sources */,
+				F581A0132073B11700EA0156 /* LocalLLVMVariable.cpp in Sources */,
 				F52C66661FBF446400E89B04 /* AdjustReferenceCountFunction.cpp in Sources */,
 				F53A2C241EFFD0BC00E76A9E /* NodeDefinition.cpp in Sources */,
 				F5603B4820211E7B00BBA05D /* ArraySpecificOwnerType.cpp in Sources */,
@@ -4470,6 +4487,7 @@
 				F5325069202A22B7007D8597 /* ArrayExactOwnerType.cpp in Sources */,
 				F53A2C1E1EF96C0200E76A9E /* IVariable.cpp in Sources */,
 				F59D82111E0F311B00057FB5 /* ForStatement.cpp in Sources */,
+				F581A0182073B3CB00EA0156 /* ILLVMType.cpp in Sources */,
 				F58FA2F9206E65C100C86D33 /* DestroyOwnerObjectFunction.cpp in Sources */,
 				F53227E22063FB0900605E1B /* LocalSystemReferenceVariable.cpp in Sources */,
 				F5378F6D2058F11500E5B5FD /* IdentifierReference.cpp in Sources */,

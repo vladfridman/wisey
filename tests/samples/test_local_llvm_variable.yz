@@ -1,0 +1,13 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    ::llvm::i32 local = (::llvm::i32) 5;
+    return local;
+  }
+}
+
+bind(CProgram).to(IProgram);

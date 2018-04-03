@@ -103,7 +103,7 @@ void LLVMi1Type::printToStream(IRGenerationContext &context, iostream& stream) c
 }
 
 void LLVMi1Type::createLocalVariable(IRGenerationContext& context, string name) const {
-  assert(false);
+  ILLVMType::createLocalVariable(context, this, name);
 }
 
 void LLVMi1Type::createFieldVariable(IRGenerationContext& context,
