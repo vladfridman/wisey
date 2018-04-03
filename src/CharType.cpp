@@ -131,6 +131,10 @@ bool CharType::isNative() const {
   return false;
 }
 
+bool CharType::isPointer() const {
+  return false;
+}
+
 string CharType::getFormat() const {
   return "%c";
 }

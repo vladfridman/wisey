@@ -113,6 +113,7 @@ TEST_F(NullTypeTest, isTypeKindTest) {
   EXPECT_FALSE(NullType::NULL_TYPE->isFunction());
   EXPECT_FALSE(NullType::NULL_TYPE->isPackage());
   EXPECT_FALSE(NullType::NULL_TYPE->isNative());
+  EXPECT_FALSE(NullType::NULL_TYPE->isPointer());
 }
 
 TEST_F(NullTypeTest, isObjectTest) {

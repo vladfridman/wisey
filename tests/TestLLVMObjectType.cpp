@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockConcreteObjectType.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMObjectType.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
@@ -118,6 +119,7 @@ TEST_F(LLVMObjectTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mLLVMObjectType->isFunction());
   EXPECT_FALSE(mLLVMObjectType->isPackage());
   EXPECT_TRUE(mLLVMObjectType->isNative());
+  EXPECT_FALSE(mLLVMObjectType->isPointer());
 }
 
 TEST_F(LLVMObjectTypeTest, isObjectTest) {
@@ -168,4 +170,8 @@ TEST_F(LLVMObjectTypeTest, printToStreamTest) {
   mLLVMObjectType->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("::llvm::object", stringStream.str().c_str());
+}
+
+TEST_F(TestFileRunner, referenceCountDecrementedForLLVMObjectTypeVariableTest) {
+  runFile("tests/samples/test_reference_count_decremented_for_llvm_object_type_variable.yz", "1");
 }

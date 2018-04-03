@@ -144,6 +144,8 @@ namespace wisey {
     
     bool isNative() const override;
     
+    bool isPointer() const override;
+
     std::string getVTableName() const override;
     
     unsigned long getVTableSize() const override;

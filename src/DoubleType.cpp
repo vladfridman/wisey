@@ -128,6 +128,10 @@ bool DoubleType::isNative() const {
   return false;
 }
 
+bool DoubleType::isPointer() const {
+  return false;
+}
+
 string DoubleType::getFormat() const {
   return "%e";
 }

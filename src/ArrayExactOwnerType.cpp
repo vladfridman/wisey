@@ -119,6 +119,10 @@ bool ArrayExactOwnerType::isNative() const {
   return false;
 }
 
+bool ArrayExactOwnerType::isPointer() const {
+  return false;
+}
+
 void ArrayExactOwnerType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

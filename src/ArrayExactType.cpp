@@ -136,6 +136,10 @@ bool ArrayExactType::isNative() const {
   return false;
 }
 
+bool ArrayExactType::isPointer() const {
+  return false;
+}
+
 void ArrayExactType::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << getTypeName();
 }

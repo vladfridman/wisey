@@ -86,6 +86,7 @@ TEST_F(LLVMFunctionTypeTest, isTypeKindTest) {
   EXPECT_TRUE(mLLVMFunctionType->isFunction());
   EXPECT_FALSE(mLLVMFunctionType->isPackage());
   EXPECT_TRUE(mLLVMFunctionType->isNative());
+  EXPECT_FALSE(mLLVMFunctionType->isPointer());
 }
 
 TEST_F(LLVMFunctionTypeTest, isObjectTest) {

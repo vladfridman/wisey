@@ -158,6 +158,10 @@ bool ArraySpecificType::isNative() const {
   return false;
 }
 
+bool ArraySpecificType::isPointer() const {
+  return false;
+}
+
 void ArraySpecificType::checkDimensionType(IRGenerationContext& context, const IType* type) const {
   if (type->canAutoCastTo(context, PrimitiveTypes::LONG_TYPE)) {
     return;

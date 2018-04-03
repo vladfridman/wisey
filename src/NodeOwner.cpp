@@ -128,6 +128,10 @@ bool NodeOwner::isNative() const {
   return false;
 }
 
+bool NodeOwner::isPointer() const {
+  return false;
+}
+
 void NodeOwner::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

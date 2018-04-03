@@ -50,6 +50,7 @@ TEST_F(PackageTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mPackageType->isFunction());
   EXPECT_TRUE(mPackageType->isPackage());
   EXPECT_FALSE(mPackageType->isNative());
+  EXPECT_FALSE(mPackageType->isPointer());
 }
 
 TEST_F(PackageTypeTest, isObjectTest) {

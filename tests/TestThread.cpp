@@ -370,6 +370,7 @@ TEST_F(ThreadTest, isTypeKindTest) {
   EXPECT_FALSE(mThread->isFunction());
   EXPECT_FALSE(mThread->isPackage());
   EXPECT_FALSE(mThread->isNative());
+  EXPECT_FALSE(mThread->isPointer());
 }
 
 TEST_F(ThreadTest, isObjectTest) {

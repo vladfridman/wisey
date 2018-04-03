@@ -48,7 +48,7 @@ IVariable* Scope::findVariable(string name) {
 void Scope::setVariable(string name, IVariable* variable) {
   mVariables[name] = variable;
   const IType* variableType = variable->getType();
-  if (variableType->isReference() && !variable->isSystem() && !variableType->isNative()) {
+  if (variableType->isReference() && !variable->isSystem()) {
     mReferenceVariables.push_front((IReferenceVariable*) variable);
   } else if (variableType->isOwner() && !variable->isField()) {
     mOwnerVariables.push_front((IOwnerVariable*) variable);

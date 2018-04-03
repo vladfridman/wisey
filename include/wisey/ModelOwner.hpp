@@ -67,6 +67,8 @@ namespace wisey {
     
     bool isNative() const override;
     
+    bool isPointer() const override;
+
     llvm::Function* getDestructorFunction(IRGenerationContext& context) const override;
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;

@@ -93,6 +93,7 @@ TEST_F(ArraySpecificOwnerTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mArraySpecificOwnerType->isFunction());
   EXPECT_FALSE(mArraySpecificOwnerType->isPackage());
   EXPECT_FALSE(mArraySpecificOwnerType->isNative());
+  EXPECT_FALSE(mArraySpecificOwnerType->isPointer());
 }
 
 TEST_F(ArraySpecificOwnerTypeTest, isObjectTest) {

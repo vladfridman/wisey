@@ -65,6 +65,7 @@ TEST_F(LLVMi8TypeTest, isTypeKindTest) {
   EXPECT_FALSE(mLLVMi8Type.isFunction());
   EXPECT_FALSE(mLLVMi8Type.isPackage());
   EXPECT_TRUE(mLLVMi8Type.isNative());
+  EXPECT_FALSE(mLLVMi8Type.isPointer());
 }
 
 TEST_F(LLVMi8TypeTest, isObjectTest) {

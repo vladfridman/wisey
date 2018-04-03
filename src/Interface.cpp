@@ -534,7 +534,11 @@ bool Interface::canAutoCastTo(IRGenerationContext& context, const IType* toType)
   if (toType == this) {
     return true;
   }
-  
+
+  if (toType->isNative() && (toType->isReference() || toType->isPointer())) {
+    return true;
+  }
+
   if (!IType::isObjectType(toType)) {
     return false;
   }
@@ -554,7 +558,7 @@ Value* Interface::castTo(IRGenerationContext& context,
                          Value* fromValue,
                          const IType* toType,
                          int line) const {
-  if (toType->isNative() && toType->isReference()) {
+  if (toType->isNative() && (toType->isReference() || toType->isPointer())) {
     return IRWriter::newBitCastInst(context, fromValue, toType->getLLVMType(context));
   }
 
@@ -624,6 +628,10 @@ bool Interface::isThread() const {
 }
 
 bool Interface::isNative() const {
+  return false;
+}
+
+bool Interface::isPointer() const {
   return false;
 }
 

@@ -110,6 +110,10 @@ bool StringType::isNative() const {
   return false;
 }
 
+bool StringType::isPointer() const {
+  return false;
+}
+
 void StringType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

@@ -129,6 +129,10 @@ bool IntType::isNative() const {
   return false;
 }
 
+bool IntType::isPointer() const {
+  return false;
+}
+
 string IntType::getFormat() const {
   return "%d";
 }

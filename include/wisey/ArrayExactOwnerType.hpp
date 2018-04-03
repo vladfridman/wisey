@@ -70,6 +70,8 @@ namespace wisey {
     bool isThread() const override;
     
     bool isNative() const override;
+    
+    bool isPointer() const override;
 
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     

@@ -97,6 +97,10 @@ bool LLVMVoidType::isNative() const {
   return true;
 }
 
+bool LLVMVoidType::isPointer() const {
+  return false;
+}
+
 void LLVMVoidType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

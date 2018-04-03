@@ -96,6 +96,7 @@ TEST_F(ArrayExactTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mArrayExactType->isFunction());
   EXPECT_FALSE(mArrayExactType->isPackage());
   EXPECT_FALSE(mArrayExactType->isNative());
+  EXPECT_FALSE(mArrayExactType->isPointer());
 }
 
 TEST_F(ArrayExactTypeTest, isObjectTest) {

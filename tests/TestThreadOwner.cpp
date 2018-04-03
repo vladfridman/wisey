@@ -125,6 +125,7 @@ TEST_F(ThreadOwnerTest, isTypeKindTest) {
   EXPECT_FALSE(mThread->getOwner()->isFunction());
   EXPECT_FALSE(mThread->getOwner()->isPackage());
   EXPECT_FALSE(mThread->getOwner()->isNative());
+  EXPECT_FALSE(mThread->getOwner()->isPointer());
 }
 
 TEST_F(ThreadOwnerTest, isObjectTest) {

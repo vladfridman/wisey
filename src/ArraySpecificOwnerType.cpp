@@ -119,6 +119,10 @@ bool ArraySpecificOwnerType::isNative() const {
   return false;
 }
 
+bool ArraySpecificOwnerType::isPointer() const {
+  return false;
+}
+
 void ArraySpecificOwnerType::printToStream(IRGenerationContext &context, iostream& stream) const {
   mArraySpecificType->printToStream(context, stream);
   stream << "*";

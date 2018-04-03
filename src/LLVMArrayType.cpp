@@ -125,6 +125,10 @@ bool LLVMArrayType::isNative() const {
   return true;
 }
 
+bool LLVMArrayType::isPointer() const {
+  return false;
+}
+
 void LLVMArrayType::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << getTypeName();
 }

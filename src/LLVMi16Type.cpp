@@ -100,6 +100,10 @@ bool LLVMi16Type::isNative() const {
   return true;
 }
 
+bool LLVMi16Type::isPointer() const {
+  return false;
+}
+
 void LLVMi16Type::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

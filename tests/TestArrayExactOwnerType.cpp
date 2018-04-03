@@ -78,6 +78,7 @@ TEST_F(ArrayExactOwnerTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mArrayExactOwnerType->isFunction());
   EXPECT_FALSE(mArrayExactOwnerType->isPackage());
   EXPECT_FALSE(mArrayExactOwnerType->isNative());
+  EXPECT_FALSE(mArrayExactOwnerType->isPointer());
 }
 
 TEST_F(ArrayExactOwnerTypeTest, isObjectTest) {

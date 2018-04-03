@@ -93,6 +93,10 @@ bool VoidType::isNative() const {
   return false;
 }
 
+bool VoidType::isPointer() const {
+  return false;
+}
+
 string VoidType::getFormat() const {
   return "";
 }

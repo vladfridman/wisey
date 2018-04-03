@@ -162,6 +162,10 @@ bool ExternalMethod::isNative() const {
   return false;
 }
 
+bool ExternalMethod::isPointer() const {
+  return false;
+}
+
 const IObjectType* ExternalMethod::getParentObject() const {
   return mObjectType;
 }

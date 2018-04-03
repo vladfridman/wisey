@@ -198,6 +198,8 @@ namespace wisey {
     
     bool isNative() const override;
     
+    bool isPointer() const override;
+
     const IObjectOwnerType* getOwner() const override;
     
     bool isExternal() const override;

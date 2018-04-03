@@ -90,6 +90,7 @@ TEST_F(LLVMArrayTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mLLVMArrayType->isFunction());
   EXPECT_FALSE(mLLVMArrayType->isPackage());
   EXPECT_TRUE(mLLVMArrayType->isNative());
+  EXPECT_FALSE(mLLVMArrayType->isPointer());
 }
 
 TEST_F(LLVMArrayTypeTest, isObjectTest) {

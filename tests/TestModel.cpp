@@ -519,6 +519,7 @@ TEST_F(ModelTest, isTypeKindTest) {
   EXPECT_FALSE(mModel->isFunction());
   EXPECT_FALSE(mModel->isPackage());
   EXPECT_FALSE(mModel->isNative());
+  EXPECT_FALSE(mModel->isPointer());
 }
 
 TEST_F(ModelTest, isObjectTest) {

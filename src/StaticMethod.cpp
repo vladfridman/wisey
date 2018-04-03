@@ -143,6 +143,10 @@ bool StaticMethod::isNative() const {
   return false;
 }
 
+bool StaticMethod::isPointer() const {
+  return false;
+}
+
 Function* StaticMethod::defineFunction(IRGenerationContext& context) const {
   return IMethod::defineFunction(context, mObjectType, this);
 }

@@ -344,6 +344,7 @@ TEST_F(ModelOwnerTest, isTypeKindTest) {
   EXPECT_FALSE(mModel->getOwner()->isFunction());
   EXPECT_FALSE(mModel->getOwner()->isPackage());
   EXPECT_FALSE(mModel->getOwner()->isNative());
+  EXPECT_FALSE(mModel->getOwner()->isPointer());
 }
 
 TEST_F(ModelOwnerTest, isObjectTest) {

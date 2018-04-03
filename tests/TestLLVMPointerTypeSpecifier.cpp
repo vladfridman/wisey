@@ -33,7 +33,8 @@ TEST_F(LLVMPointerTypeSpecifierTest, getTypeTest) {
   const IType* type = mLLVMPointerTypeSpecifier->getType(mContext);
   
   EXPECT_TRUE(type->isNative());
-  EXPECT_TRUE(type->isReference());
+  EXPECT_FALSE(type->isReference());
+  EXPECT_TRUE(type->isPointer());
   EXPECT_STREQ("::llvm::i8::pointer", type->getTypeName().c_str());
 }
 

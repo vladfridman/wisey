@@ -120,6 +120,7 @@ TEST_F(LLVMObjectOwnerTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mLLVMObjectOwnerType->isFunction());
   EXPECT_FALSE(mLLVMObjectOwnerType->isPackage());
   EXPECT_TRUE(mLLVMObjectOwnerType->isNative());
+  EXPECT_FALSE(mLLVMObjectOwnerType->isPointer());
 }
 
 TEST_F(LLVMObjectOwnerTypeTest, isObjectTest) {

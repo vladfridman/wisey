@@ -31,7 +31,7 @@ string FieldPointerVariable::getName() const {
 const LLVMPointerType* FieldPointerVariable::getType() const {
   const IType* type = mObject->findField(mName)->getType();
   assert(type->isNative());
-  assert(type->isReference());
+  assert(type->isPointer());
 
   return (const LLVMPointerType*) type;
 }
@@ -61,7 +61,7 @@ Value* FieldPointerVariable::generateAssignmentIR(IRGenerationContext& context,
   IField* field = checkAndFindFieldForAssignment(context, mObject, mName);
   
   const IType* expressionType = assignToExpression->getType(context);
-  assert(field->getType()->isReference());
+  assert(field->getType()->isPointer());
   const IReferenceType* fieldType = (const IReferenceType*) field->getType();
   if (!expressionType->canAutoCastTo(context, fieldType)) {
     Log::e("Can not assign to field '" + mName + "' of object '" + mObject->getTypeName() +

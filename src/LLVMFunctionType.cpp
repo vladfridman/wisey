@@ -126,6 +126,10 @@ bool LLVMFunctionType::isNative() const {
   return true;
 }
 
+bool LLVMFunctionType::isPointer() const {
+  return false;
+}
+
 void LLVMFunctionType::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << getTypeName();
 }

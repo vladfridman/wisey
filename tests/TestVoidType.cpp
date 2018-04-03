@@ -120,6 +120,7 @@ TEST_F(VoidTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mVoidType.isFunction());
   EXPECT_FALSE(mVoidType.isPackage());
   EXPECT_FALSE(mVoidType.isNative());
+  EXPECT_FALSE(mVoidType.isPointer());
 }
 
 TEST_F(VoidTypeTest, isObjectTest) {

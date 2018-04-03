@@ -39,18 +39,18 @@ PointerType* LLVMObjectType::getLLVMType(IRGenerationContext& context) const {
 }
 
 bool LLVMObjectType::canCastTo(IRGenerationContext& context, const IType* toType) const {
-  return toType->isReference();
+  return toType->isReference() || toType->isPointer();
 }
 
 bool LLVMObjectType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
-  return toType->isReference();
+  return toType->isReference() || toType->isPointer();
 }
 
 Value* LLVMObjectType::castTo(IRGenerationContext& context,
                               Value* fromValue,
                               const IType* toType,
                               int line) const {
-  if (toType->isReference()) {
+  if (toType->isReference() || toType->isPointer()) {
     return IRWriter::newBitCastInst(context, fromValue, toType->getLLVMType(context));
   }
   assert(false);
@@ -102,6 +102,10 @@ bool LLVMObjectType::isThread() const {
 
 bool LLVMObjectType::isNative() const {
   return true;
+}
+
+bool LLVMObjectType::isPointer() const {
+  return false;
 }
 
 void LLVMObjectType::printToStream(IRGenerationContext &context, iostream& stream) const {

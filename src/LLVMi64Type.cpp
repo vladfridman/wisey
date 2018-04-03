@@ -100,6 +100,10 @@ bool LLVMi64Type::isNative() const {
   return true;
 }
 
+bool LLVMi64Type::isPointer() const {
+  return false;
+}
+
 void LLVMi64Type::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

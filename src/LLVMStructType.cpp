@@ -125,6 +125,10 @@ bool LLVMStructType::isNative() const {
   return true;
 }
 
+bool LLVMStructType::isPointer() const {
+  return false;
+}
+
 void LLVMStructType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << "external ::llvm::struct " << mStructType->getName().str() << " {\n";
   for (const IType* llvmType : mBodyTypes) {

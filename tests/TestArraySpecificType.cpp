@@ -110,6 +110,7 @@ TEST_F(ArraySpecificTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mArraySpecificType->isFunction());
   EXPECT_FALSE(mArraySpecificType->isPackage());
   EXPECT_FALSE(mArraySpecificType->isNative());
+  EXPECT_FALSE(mArraySpecificType->isPointer());
 }
 
 TEST_F(ArraySpecificTypeTest, isObjectTest) {

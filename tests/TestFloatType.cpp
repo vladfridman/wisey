@@ -138,6 +138,7 @@ TEST_F(FloatTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mFloatType.isFunction());
   EXPECT_FALSE(mFloatType.isPackage());
   EXPECT_FALSE(mFloatType.isNative());
+  EXPECT_FALSE(mFloatType.isPointer());
 }
 
 TEST_F(FloatTypeTest, isObjectTest) {

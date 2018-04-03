@@ -65,12 +65,12 @@ namespace wisey {
     virtual bool isPrimitive() const = 0;
     
     /**
-     * Tells whether this type is an owner pointer type
+     * Tells whether this type is an owner reference to object type
      */
     virtual bool isOwner() const = 0;
     
     /**
-     * Tells whether this type is a reference pointer type
+     * Tells whether this type is a reference to object type
      */
     virtual bool isReference() const = 0;
     
@@ -119,6 +119,11 @@ namespace wisey {
      */
     virtual bool isNative() const = 0;
     
+    /**
+     * Tells whether this type is an llvm pointer type
+     */
+    virtual bool isPointer() const = 0;
+
     /**
      * Allocates local variable of the type and stores it in the scope
      */

@@ -37,18 +37,18 @@ llvm::PointerType* LLVMObjectOwnerType::getLLVMType(IRGenerationContext& context
 }
 
 bool LLVMObjectOwnerType::canCastTo(IRGenerationContext& context, const IType* toType) const {
-  return toType->isReference() || toType->isOwner();
+  return toType->isReference() || toType->isOwner() || toType->isPointer();
 }
 
 bool LLVMObjectOwnerType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
-  return toType->isReference() || toType->isOwner();
+  return toType->isReference() || toType->isOwner() || toType->isPointer();
 }
 
 llvm::Value* LLVMObjectOwnerType::castTo(IRGenerationContext& context,
                                           llvm::Value* fromValue,
                                           const IType* toType,
                                           int line) const {
-  if (toType->isReference() || toType->isOwner()) {
+  if (toType->isReference() || toType->isOwner() || toType->isPointer()) {
     return IRWriter::newBitCastInst(context, fromValue, toType->getLLVMType(context));
   }
   assert(false);
@@ -100,6 +100,10 @@ bool LLVMObjectOwnerType::isThread() const {
 
 bool LLVMObjectOwnerType::isNative() const {
   return true;
+}
+
+bool LLVMObjectOwnerType::isPointer() const {
+  return false;
 }
 
 void LLVMObjectOwnerType::printToStream(IRGenerationContext &context, iostream& stream) const {

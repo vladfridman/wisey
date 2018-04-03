@@ -145,6 +145,10 @@ bool Method::isNative() const {
   return false;
 }
 
+bool Method::isPointer() const {
+  return false;
+}
+
 Function* Method::defineFunction(IRGenerationContext& context) const {
   return IMethod::defineFunction(context, mObjectType, this);
 }

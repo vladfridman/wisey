@@ -66,6 +66,7 @@ TEST_F(LLVMi64TypeTest, isTypeKindTest) {
   EXPECT_FALSE(mLLVMi64Type.isFunction());
   EXPECT_FALSE(mLLVMi64Type.isPackage());
   EXPECT_TRUE(mLLVMi64Type.isNative());
+  EXPECT_FALSE(mLLVMi64Type.isPointer());
 }
 
 TEST_F(LLVMi64TypeTest, isObjectTest) {

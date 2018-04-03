@@ -132,6 +132,10 @@ bool BooleanType::isNative() const {
   return false;
 }
 
+bool BooleanType::isPointer() const {
+  return false;
+}
+
 string BooleanType::getFormat() const {
   return "%d";
 }

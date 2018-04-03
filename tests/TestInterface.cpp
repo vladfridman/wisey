@@ -315,6 +315,7 @@ TEST_F(InterfaceTest, isTypeKindTest) {
   EXPECT_FALSE(mObjectInterface->isFunction());
   EXPECT_FALSE(mObjectInterface->isPackage());
   EXPECT_FALSE(mObjectInterface->isNative());
+  EXPECT_FALSE(mObjectInterface->isPointer());
 }
 
 TEST_F(InterfaceTest, isObjectTest) {

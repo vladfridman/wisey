@@ -90,6 +90,10 @@ bool UndefinedType::isNative() const {
   return false;
 }
 
+bool UndefinedType::isPointer() const {
+  return false;
+}
+
 void UndefinedType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

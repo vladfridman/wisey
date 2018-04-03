@@ -138,6 +138,7 @@ TEST_F(BooleanTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mBoleanType.isFunction());
   EXPECT_FALSE(mBoleanType.isPackage());
   EXPECT_FALSE(mBoleanType.isNative());
+  EXPECT_FALSE(mBoleanType.isPointer());
 }
 
 TEST_F(BooleanTypeTest, isObjectTest) {

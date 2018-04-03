@@ -128,6 +128,10 @@ bool FloatType::isNative() const {
   return false;
 }
 
+bool FloatType::isPointer() const {
+  return false;
+}
+
 string FloatType::getFormat() const {
   return "%f";
 }

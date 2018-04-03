@@ -137,6 +137,7 @@ TEST_F(StringTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mStringType.isFunction());
   EXPECT_FALSE(mStringType.isPackage());
   EXPECT_FALSE(mStringType.isNative());
+  EXPECT_FALSE(mStringType.isPointer());
 }
 
 TEST_F(StringTypeTest, isObjectTest) {

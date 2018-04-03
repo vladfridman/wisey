@@ -126,7 +126,6 @@ TEST_F(ScopeTest, addExceptionsTest) {
   delete mOwnerVariable;
 }
 
-TEST_F(TestFileRunner, destroyDependencyRunDeathTest) {
+TEST_F(TestFileRunner, destroyDependencyRunTest) {
   runFile("tests/samples/test_destroy_dependency.yz", "5");
 }
-

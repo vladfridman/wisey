@@ -113,11 +113,12 @@ TEST_F(LLVMPointerTypeTest, castToObjectTest) {
 TEST_F(LLVMPointerTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mLLVMPointerType->isPrimitive());
   EXPECT_FALSE(mLLVMPointerType->isOwner());
-  EXPECT_TRUE(mLLVMPointerType->isReference());
+  EXPECT_FALSE(mLLVMPointerType->isReference());
   EXPECT_FALSE(mLLVMPointerType->isArray());
   EXPECT_FALSE(mLLVMPointerType->isFunction());
   EXPECT_FALSE(mLLVMPointerType->isPackage());
   EXPECT_TRUE(mLLVMPointerType->isNative());
+  EXPECT_TRUE(mLLVMPointerType->isPointer());
 }
 
 TEST_F(LLVMPointerTypeTest, isObjectTest) {

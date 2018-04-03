@@ -91,6 +91,10 @@ bool NullType::isNative() const {
   return false;
 }
 
+bool NullType::isPointer() const {
+  return false;
+}
+
 void NullType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

@@ -67,6 +67,8 @@ namespace wisey {
     bool isThread() const override;
     
     bool isNative() const override;
+    
+    bool isPointer() const override;
 
     llvm::Function* getDestructorFunction(IRGenerationContext& context) const override;
     

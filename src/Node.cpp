@@ -277,6 +277,10 @@ bool Node::isPackage() const {
   return false;
 }
 
+bool Node::isPointer() const {
+  return false;
+}
+
 string Node::getVTableName() const {
   return mName + ".vtable";
 }

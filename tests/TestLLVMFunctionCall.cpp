@@ -85,7 +85,7 @@ TEST_F(LLVMFunctionCallTest, getTypeTest) {
   const IType* returnType = mLLVMFunctionCall->getType(mContext);
   
   EXPECT_TRUE(returnType->isNative());
-  EXPECT_TRUE(returnType->isReference());
+  EXPECT_TRUE(returnType->isPointer());
   
   EXPECT_EQ(Type::getInt16Ty(mLLVMContext)->getPointerTo(), returnType->getLLVMType(mContext));
 }
