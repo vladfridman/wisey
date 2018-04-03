@@ -17,7 +17,7 @@
 
 #include "MockExpression.hpp"
 #include "MockTypeSpecifier.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -319,26 +319,26 @@ TEST_F(TypeComparisionExpressionTest, printToStreamTest) {
   EXPECT_STREQ("object instanceof type", stringStream.str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, instanceOfTrivialMatchRunTest) {
+TEST_F(TestFileRunner, instanceOfTrivialMatchRunTest) {
   runFile("tests/samples/test_instanceof_trivial_match.yz", "2");
 }
 
-TEST_F(TestFileSampleRunner, interfaceInstanceOfModelMatchRunTest) {
+TEST_F(TestFileRunner, interfaceInstanceOfModelMatchRunTest) {
   runFile("tests/samples/test_interface_instanceof_model_match.yz", "1");
 }
 
-TEST_F(TestFileSampleRunner, interfaceInstanceOfInterfaceMatchRunTest) {
+TEST_F(TestFileRunner, interfaceInstanceOfInterfaceMatchRunTest) {
   runFile("tests/samples/test_interface_instanceof_interface_match.yz", "1");
 }
 
-TEST_F(TestFileSampleRunner, interfaceInstanceOfInterfaceNotMatchRunTest) {
+TEST_F(TestFileRunner, interfaceInstanceOfInterfaceNotMatchRunTest) {
   runFile("tests/samples/test_interface_instanceof_interface_notmatch.yz", "0");
 }
 
-TEST_F(TestFileSampleRunner, interfaceInstanceControllersRunTest) {
+TEST_F(TestFileRunner, interfaceInstanceControllersRunTest) {
   runFile("tests/samples/test_instanceof_controllers.yz", "1");
 }
 
-TEST_F(TestFileSampleRunner, interfaceInstanceNodesRunTest) {
+TEST_F(TestFileRunner, interfaceInstanceNodesRunTest) {
   runFile("tests/samples/test_instanceof_nodes.yz", "1");
 }

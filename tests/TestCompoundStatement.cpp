@@ -12,7 +12,7 @@
 #include <gmock/gmock.h>
 
 #include "MockStatement.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/CompoundStatement.hpp"
 
 using namespace llvm;
@@ -46,7 +46,7 @@ TEST_F(TestCompoundStatement, generateIRTest) {
   compoundStatement.generateIR(mContext);
 }
 
-TEST_F(TestFileSampleRunner, compoundStatementOutOfScopeVariableRunDeathTest) {
+TEST_F(TestFileRunner, compoundStatementOutOfScopeVariableRunDeathTest) {
   expectFailCompile("tests/samples/test_compound_statement_fail.yz",
                     1,
                     "Error: Undeclared variable 'j'");

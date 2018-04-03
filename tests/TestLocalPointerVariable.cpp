@@ -14,7 +14,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -133,6 +133,6 @@ TEST_F(LocalPointerVariableTest, assignmentTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(TestFileSampleRunner, localPointerVariableRunTest) {
+TEST_F(TestFileRunner, localPointerVariableRunTest) {
   runFile("tests/samples/test_local_pointer_variable.yz", "5");
 }

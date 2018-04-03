@@ -15,7 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LogicalOrExpression.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -163,10 +163,10 @@ TEST_F(LogicalOrExpressionTest, printToStreamTest) {
   EXPECT_STREQ("a || b", stringStream.str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, LogicalOrExpressionResultFalseRunTest) {
+TEST_F(TestFileRunner, LogicalOrExpressionResultFalseRunTest) {
   runFile("tests/samples/test_logical_or_result_false.yz", "0");
 }
 
-TEST_F(TestFileSampleRunner, LogicalOrExpressionResultTrueRunTest) {
+TEST_F(TestFileRunner, LogicalOrExpressionResultTrueRunTest) {
   runFile("tests/samples/test_logical_or_result_true.yz", "1");
 }

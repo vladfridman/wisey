@@ -19,7 +19,7 @@
 
 #include "MockExpression.hpp"
 #include "MockVariable.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/ConditionalExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -250,18 +250,18 @@ TEST_F(ConditionalExpressionTest, conditionIsNotBooleanDeathTest) {
               "Condition in a conditional expression is not of type BOOLEAN");
 }
 
-TEST_F(TestFileSampleRunner, conditionalExpressionRunTrueConditionRunTest) {
+TEST_F(TestFileRunner, conditionalExpressionRunTrueConditionRunTest) {
   runFile("tests/samples/test_conditional_with_true.yz", "3");
 }
 
-TEST_F(TestFileSampleRunner, conditionalExpressionRunFlaseConditionRunTest) {
+TEST_F(TestFileRunner, conditionalExpressionRunFlaseConditionRunTest) {
   runFile("tests/samples/test_conditional_with_false.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, conditionalExpressionReleaseOwnershipRunTest) {
+TEST_F(TestFileRunner, conditionalExpressionReleaseOwnershipRunTest) {
   runFile("tests/samples/test_conditional_expression_release_ownership.yz", "1");
 }
 
-TEST_F(TestFileSampleRunner, conditionalExpressionAddReferenceToOwnerRunTest) {
+TEST_F(TestFileRunner, conditionalExpressionAddReferenceToOwnerRunTest) {
   runFile("tests/samples/test_conditional_expression_add_reference_to_owner.yz", "3");
 }

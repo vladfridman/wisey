@@ -1353,7 +1353,7 @@
 		F53400F41DFC6BA60002BF7E /* test_subtraction.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_subtraction.yz; path = tests/samples/test_subtraction.yz; sourceTree = "<group>"; };
 		F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RelationalExpression.cpp; path = src/RelationalExpression.cpp; sourceTree = "<group>"; };
 		F53400FA1DFD999B0002BF7E /* TestRelationalExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestRelationalExpression.cpp; path = tests/TestRelationalExpression.cpp; sourceTree = "<group>"; };
-		F53401041DFEDA3C0002BF7E /* TestFileSampleRunner.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TestFileSampleRunner.hpp; path = tests/include/TestFileSampleRunner.hpp; sourceTree = "<group>"; };
+		F53401041DFEDA3C0002BF7E /* TestFileRunner.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TestFileRunner.hpp; path = tests/include/TestFileRunner.hpp; sourceTree = "<group>"; };
 		F53401051DFEDB620002BF7E /* TestFileSampleRunner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestFileSampleRunner.cpp; path = tests/TestFileSampleRunner.cpp; sourceTree = "<group>"; };
 		F53401081DFF09230002BF7E /* ConditionalExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConditionalExpression.cpp; path = src/ConditionalExpression.cpp; sourceTree = "<group>"; };
 		F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestConditionalExpression.cpp; path = tests/TestConditionalExpression.cpp; sourceTree = "<group>"; };
@@ -2393,6 +2393,7 @@
 				F556E65B1EDEE45B00CCC3D7 /* MockConcreteObjectType.hpp */,
 				F5E48B8E1E870E150087CC70 /* MockExpression.hpp */,
 				F50EF2A01EDC7A97002E68A8 /* MockGlobalStatement.hpp */,
+				F51942FC1FE3DF0E009C3158 /* MockMethodDescriptor.hpp */,
 				F53A2C101EEE9EFD00E76A9E /* MockObjectOwnerType.hpp */,
 				F51BA8FD1EA689440038C98B /* MockObjectType.hpp */,
 				F53A2C011EEC174800E76A9E /* MockObjectTypeSpecifier.hpp */,
@@ -2402,9 +2403,8 @@
 				F5E48B921E8713F00087CC70 /* MockType.hpp */,
 				F5E48B911E8713630087CC70 /* MockTypeSpecifier.hpp */,
 				F5E48B8F1E8710DB0087CC70 /* MockVariable.hpp */,
-				F53401041DFEDA3C0002BF7E /* TestFileSampleRunner.hpp */,
+				F53401041DFEDA3C0002BF7E /* TestFileRunner.hpp */,
 				F55CF1861F850E5900A11426 /* TestPrefix.hpp */,
-				F51942FC1FE3DF0E009C3158 /* MockMethodDescriptor.hpp */,
 			);
 			name = include;
 			sourceTree = "<group>";

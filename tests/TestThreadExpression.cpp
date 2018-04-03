@@ -17,7 +17,7 @@
 
 #include "MockVariable.hpp"
 #include "TestPrefix.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -109,10 +109,10 @@ TEST_F(ThreadExpressionTest, printToStreamTest) {
   EXPECT_STREQ("thread", stringStream.str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, threadExpressionTypeRunTest) {
+TEST_F(TestFileRunner, threadExpressionTypeRunTest) {
   runFile("tests/samples/test_thread_expression_type.yz", "1");
 }
 
-TEST_F(TestFileSampleRunner, threadExpressionNotNullRunTest) {
+TEST_F(TestFileRunner, threadExpressionNotNullRunTest) {
   runFile("tests/samples/test_thread_expression_not_null.yz", "1");
 }

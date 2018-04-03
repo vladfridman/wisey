@@ -15,7 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockConcreteObjectType.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/FixedField.hpp"
@@ -501,11 +501,11 @@ TEST_F(IConcreteObjectTypeTest, getDestructorFunctionTypeTest) {
   EXPECT_EQ(expextedType, actualType);
 }
 
-TEST_F(TestFileSampleRunner, freeingFieldVariablesRunTest) {
+TEST_F(TestFileRunner, freeingFieldVariablesRunTest) {
   runFile("tests/samples/test_freeing_field_variables.yz", "3");
 }
 
-TEST_F(TestFileSampleRunner, freeingFieldInterfaceOwnersRunTest) {
+TEST_F(TestFileRunner, freeingFieldInterfaceOwnersRunTest) {
   runFile("tests/samples/test_freeing_field_interface_owners.yz", "3");
 }
 

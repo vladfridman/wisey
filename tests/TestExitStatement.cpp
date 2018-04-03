@@ -15,7 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/ExitStatement.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -88,6 +88,6 @@ TEST_F(ExitStatementTest, exitStatementDeathTest) {
               "Error: Can not auto cast exit statement parameter to int");
 }
 
-TEST_F(TestFileSampleRunner, exitStatementRunTest) {
+TEST_F(TestFileRunner, exitStatementRunTest) {
   compileAndRunFile("tests/samples/test_exit_statement.yz", 3);
 }

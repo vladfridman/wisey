@@ -15,7 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/AdditiveMultiplicativeExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -191,30 +191,30 @@ TEST_F(AdditiveMultiplicativeExpressionTest, explicitCastNeededOnGetTypeDeathTes
               "Error: Incompatible types in '\\+' operation that require an explicit cast");
 }
 
-TEST_F(TestFileSampleRunner, additionRunTest) {
+TEST_F(TestFileRunner, additionRunTest) {
   runFile("tests/samples/test_addition.yz", "7");
 }
 
-TEST_F(TestFileSampleRunner, subtractionRunTest) {
+TEST_F(TestFileRunner, subtractionRunTest) {
   runFile("tests/samples/test_subtraction.yz", "14");
 }
 
-TEST_F(TestFileSampleRunner, multiplicationRunTest) {
+TEST_F(TestFileRunner, multiplicationRunTest) {
   runFile("tests/samples/test_multiplication.yz", "50");
 }
 
-TEST_F(TestFileSampleRunner, divisionRunTest) {
+TEST_F(TestFileRunner, divisionRunTest) {
   runFile("tests/samples/test_division.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, moduloRunTest) {
+TEST_F(TestFileRunner, moduloRunTest) {
   runFile("tests/samples/test_modulo.yz", "3");
 }
 
-TEST_F(TestFileSampleRunner, additionWithCastRunTest) {
+TEST_F(TestFileRunner, additionWithCastRunTest) {
   runFile("tests/samples/test_addition_with_cast.yz", "3");
 }
 
-TEST_F(TestFileSampleRunner, subtractionOfDoubleRunTest) {
+TEST_F(TestFileRunner, subtractionOfDoubleRunTest) {
   runFile("tests/samples/test_subtraction_of_doubles.yz", "-2");
 }

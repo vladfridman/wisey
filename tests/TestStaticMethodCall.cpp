@@ -17,7 +17,7 @@
 
 #include "MockExpression.hpp"
 #include "MockType.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/FakeExpression.hpp"
@@ -362,59 +362,59 @@ TEST_F(StaticMethodCallTest, incorrectArgumentTypesDeathTest) {
               "of the object type systems.vos.wisey.compiler.tests.MSquare");
 }
 
-TEST_F(TestFileSampleRunner, modelStaticMethodCallRunTest) {
+TEST_F(TestFileRunner, modelStaticMethodCallRunTest) {
   runFile("tests/samples/test_model_static_method_call.yz", "2018");
 }
 
-TEST_F(TestFileSampleRunner, nodeStaticMethodCallRunTest) {
+TEST_F(TestFileRunner, nodeStaticMethodCallRunTest) {
   runFile("tests/samples/test_node_static_method_call.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, controllerStaticMethodCallRunTest) {
+TEST_F(TestFileRunner, controllerStaticMethodCallRunTest) {
   runFile("tests/samples/test_controller_static_method_call.yz", "7");
 }
 
-TEST_F(TestFileSampleRunner, modelStaticMethodCallMultipleArgumentsRunTest) {
+TEST_F(TestFileRunner, modelStaticMethodCallMultipleArgumentsRunTest) {
   runFile("tests/samples/test_model_static_method_call_multiple_parameters.yz", "6");
 }
 
-TEST_F(TestFileSampleRunner, modelStaticMethodCallToSubModelRunTest) {
+TEST_F(TestFileRunner, modelStaticMethodCallToSubModelRunTest) {
   runFile("tests/samples/test_model_static_method_call_to_submodel.yz", "3");
 }
 
-TEST_F(TestFileSampleRunner, modelStaticMethodCallAutoCastArgumentRunTest) {
+TEST_F(TestFileRunner, modelStaticMethodCallAutoCastArgumentRunTest) {
   runFile("tests/samples/test_static_method_argument_autocast.yz", "1");
 }
 
-TEST_F(TestFileSampleRunner, modelStaticMethodCallInExpressionRunTest) {
+TEST_F(TestFileRunner, modelStaticMethodCallInExpressionRunTest) {
   runFile("tests/samples/test_static_method_call_in_expression.yz", "8");
 }
 
-TEST_F(TestFileSampleRunner, staticMethodCallToMethodCallRunTest) {
+TEST_F(TestFileRunner, staticMethodCallToMethodCallRunTest) {
   runFile("tests/samples/test_static_method_call_to_method_call.yz", "10");
 }
 
-TEST_F(TestFileSampleRunner, staticMethodCallToPrivateMethodViaPublicMethodRunTest) {
+TEST_F(TestFileRunner, staticMethodCallToPrivateMethodViaPublicMethodRunTest) {
   runFile("tests/samples/test_call_to_private_static_method_via_public_static_method.yz", "10");
 }
 
-TEST_F(TestFileSampleRunner, staticMethodReturnOwnerAndAssignToReferenceRunTest) {
+TEST_F(TestFileRunner, staticMethodReturnOwnerAndAssignToReferenceRunTest) {
   runFile("tests/samples/test_static_method_call_return_owner_and_assign_to_reference.yz", "3");
 }
 
-TEST_F(TestFileSampleRunner, passOwnerAsParameterToStaticMethodRunTest) {
+TEST_F(TestFileRunner, passOwnerAsParameterToStaticMethodRunTest) {
   runFile("tests/samples/test_pass_owner_as_parameter_to_static_method.yz", "3");
 }
 
-TEST_F(TestFileSampleRunner, staticReturnArrayReferenceRunTest) {
+TEST_F(TestFileRunner, staticReturnArrayReferenceRunTest) {
   runFile("tests/samples/test_static_return_array_reference.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, staticReturnArrayOwnerRunTest) {
+TEST_F(TestFileRunner, staticReturnArrayOwnerRunTest) {
   runFile("tests/samples/test_static_return_array_owner.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, staticReturnArrayOwnerDestructorsAreCalledRunTest) {
+TEST_F(TestFileRunner, staticReturnArrayOwnerDestructorsAreCalledRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_static_return_array_owner.yz",
                                         "destructor primitive<36 bytes>[5]\n"
                                         "destructor primitive<4 bytes>[3]\n"
@@ -426,21 +426,21 @@ TEST_F(TestFileSampleRunner, staticReturnArrayOwnerDestructorsAreCalledRunTest) 
                                         "");
 }
 
-TEST_F(TestFileSampleRunner, staticMethodCallToPrivateMethodRunDeathTest) {
+TEST_F(TestFileRunner, staticMethodCallToPrivateMethodRunDeathTest) {
   expectFailCompile("tests/samples/test_private_static_method_call.yz",
                     1,
                     "Error: Static method 'getDouble' of object "
                     "systems.vos.wisey.compiler.tests.CService is private");
 }
 
-TEST_F(TestFileSampleRunner, staticMethodExceptionNotHandledDeathTest) {
+TEST_F(TestFileRunner, staticMethodExceptionNotHandledDeathTest) {
   expectFailCompile("tests/samples/test_static_method_exception_not_handled.yz",
                     1,
                     "Error: Static method doSomething neither handles the exception "
                     "systems.vos.wisey.compiler.tests.MException nor throws it");
 }
 
-TEST_F(TestFileSampleRunner, passOwnerAsParameterToStaticMethodAndThenUseItRunDeathTest) {
+TEST_F(TestFileRunner, passOwnerAsParameterToStaticMethodAndThenUseItRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_pass_owner_as_parameter_to_static_method_and_then_use_it.yz",
                                1,
                                "",
@@ -448,7 +448,7 @@ TEST_F(TestFileSampleRunner, passOwnerAsParameterToStaticMethodAndThenUseItRunDe
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_pass_owner_as_parameter_to_static_method_and_then_use_it.yz:22)\n");
 }
 
-TEST_F(TestFileSampleRunner, staticReturnArrayReferenceRceRunDeathTest) {
+TEST_F(TestFileRunner, staticReturnArrayReferenceRceRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_static_return_array_reference_rce.yz",
                                1,
                                "",

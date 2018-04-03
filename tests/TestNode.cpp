@@ -18,7 +18,7 @@
 #include "MockExpression.hpp"
 #include "MockObjectType.hpp"
 #include "MockVariable.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp"
 #include "wisey/Constant.hpp"
@@ -806,31 +806,31 @@ TEST_F(NodeTest, createParameterVariableTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(TestFileSampleRunner, linkListRunTest) {
+TEST_F(TestFileRunner, linkListRunTest) {
   runFile("tests/samples/test_linklist.yz", "9");
 }
 
-TEST_F(TestFileSampleRunner, linkListReverseRunTest) {
+TEST_F(TestFileRunner, linkListReverseRunTest) {
   runFile("tests/samples/test_linklist_reverse.yz", "7");
 }
 
-TEST_F(TestFileSampleRunner, nodeBuilderObjectArgumentAutocast) {
+TEST_F(TestFileRunner, nodeBuilderObjectArgumentAutocast) {
   runFile("tests/samples/test_node_builder_object_argument_autocast.yz", "2018");
 }
 
-TEST_F(TestFileSampleRunner, nodeBuilderPrimitiveArgumentAutocast) {
+TEST_F(TestFileRunner, nodeBuilderPrimitiveArgumentAutocast) {
   runFile("tests/samples/test_node_builder_primitive_argument_autocast.yz", "0");
 }
 
-TEST_F(TestFileSampleRunner, nodeBuilderSetStateFieldsRunTest) {
+TEST_F(TestFileRunner, nodeBuilderSetStateFieldsRunTest) {
   runFile("tests/samples/test_node_builder_set_state_fields.yz", "2018");
 }
 
-TEST_F(TestFileSampleRunner, nodeWithModelFieldCompileTest) {
+TEST_F(TestFileRunner, nodeWithModelFieldCompileTest) {
   compileFile("tests/samples/test_node_with_model_field.yz");
 }
 
-TEST_F(TestFileSampleRunner, nodeWithControllerFieldDeathRunTest) {
+TEST_F(TestFileRunner, nodeWithControllerFieldDeathRunTest) {
   expectFailCompile("tests/samples/test_node_with_controller_field.yz",
                     1,
                     "Error: Nodes can only have fields of primitive or model or node type");

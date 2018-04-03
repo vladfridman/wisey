@@ -19,7 +19,7 @@
 #include "MockExpression.hpp"
 #include "MockObjectType.hpp"
 #include "MockVariable.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp"
 #include "wisey/Constant.hpp"
@@ -894,27 +894,27 @@ TEST_F(ControllerTest, createParameterVariableTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(TestFileSampleRunner, controllerInjectionChainRunTest) {
+TEST_F(TestFileRunner, controllerInjectionChainRunTest) {
   runFile("tests/samples/test_controller_injection_chain.yz", "2");
 }
 
-TEST_F(TestFileSampleRunner, controllerWithUninitializedStateFieldRunTest) {
+TEST_F(TestFileRunner, controllerWithUninitializedStateFieldRunTest) {
   runFile("tests/samples/test_controller_with_unitilized_state_field.yz", "0");
 }
 
-TEST_F(TestFileSampleRunner, controllerInjectionWithRecievedOwnerRunTest) {
+TEST_F(TestFileRunner, controllerInjectionWithRecievedOwnerRunTest) {
   runFile("tests/samples/test_controller_injection_with_recieved_owner.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, controllerInjectionWithRecievedReferenceRunTest) {
+TEST_F(TestFileRunner, controllerInjectionWithRecievedReferenceRunTest) {
   runFile("tests/samples/test_controller_injection_with_recieved_reference.yz", "7");
 }
 
-TEST_F(TestFileSampleRunner, injectArrayFieldRunTest) {
+TEST_F(TestFileRunner, injectArrayFieldRunTest) {
   runFile("tests/samples/test_inject_array_field.yz", "2018");
 }
 
-TEST_F(TestFileSampleRunner, injectNonOwnerRunDeathTest) {
+TEST_F(TestFileRunner, injectNonOwnerRunDeathTest) {
   expectFailCompile("tests/samples/test_inject_non_owner_run_death_test.yz",
                     1,
                     "Error: Injected fields must have owner type denoted by '\\*'");

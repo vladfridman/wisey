@@ -19,7 +19,7 @@
 
 #include "MockExpression.hpp"
 #include "MockStatement.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/Block.hpp"
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/IfElseStatement.hpp"
@@ -112,14 +112,14 @@ TEST_F(IfElseStatementTest, generateIRTest) {
   EXPECT_STREQ("if.end", iterator->getName().str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, ifThenElseStatementRunTest) {
+TEST_F(TestFileRunner, ifThenElseStatementRunTest) {
   runFile("tests/samples/test_if_then_else_statement.yz", "7");
 }
 
-TEST_F(TestFileSampleRunner, ifThenElseStatementWithClearedObjectsRunTest) {
+TEST_F(TestFileRunner, ifThenElseStatementWithClearedObjectsRunTest) {
   runFile("tests/samples/test_if_then_else_statement_with_cleared_objects.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, ifElseIfElseRunTest) {
+TEST_F(TestFileRunner, ifElseIfElseRunTest) {
   runFile("tests/samples/test_if_else_if_else.yz", "5");
 }

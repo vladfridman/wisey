@@ -11,7 +11,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
@@ -23,6 +23,6 @@ TEST(TestEmptyStatement, simpleEmptyStatementTest) {
   EXPECT_EQ(EmptyStatement::EMPTY_STATEMENT.generateIR(context), nullptr);
 }
 
-TEST_F(TestFileSampleRunner, emptyStatementRunTest) {
+TEST_F(TestFileRunner, emptyStatementRunTest) {
   runFile("tests/samples/test_empty_statement.yz", "5");
 }

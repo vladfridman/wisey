@@ -15,7 +15,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/ParameterLLVMVariable.hpp"
@@ -92,6 +92,6 @@ TEST_F(ParameterLLVMVariableTest, parameterReferenceVariableIdentifierTest) {
   EXPECT_EQ(variable.generateIdentifierIR(mContext), fooValue);
 }
 
-TEST_F(TestFileSampleRunner, parameterLLVMVariableRunTest) {
+TEST_F(TestFileRunner, parameterLLVMVariableRunTest) {
   runFile("tests/samples/test_parameter_llvm_variable.yz", "3");
 }

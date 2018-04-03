@@ -19,7 +19,7 @@
 #include "MockExpression.hpp"
 #include "MockObjectType.hpp"
 #include "MockVariable.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp"
 #include "wisey/Constant.hpp"

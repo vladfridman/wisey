@@ -12,7 +12,7 @@
 
 #include <llvm/ExecutionEngine/GenericValue.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/Compiler.hpp"
 
 using namespace std;
@@ -132,16 +132,16 @@ TEST_F(CompilerTest, runNonExistingDirectoryDeathTest) {
               "Error: Could not open directory tests/foo");
 }
 
-TEST_F(TestFileSampleRunner, commentsRunTest) {
+TEST_F(TestFileRunner, commentsRunTest) {
   runFile("tests/samples/test_comments.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, noPackageDeclarationRunTest) {
+TEST_F(TestFileRunner, noPackageDeclarationRunTest) {
   runFile("tests/samples/test_no_package_declaration.yz", "7");
 }
 
 TEST_F(CompilerTest, unterminatedCommentRunDeathTest) {
-  string result = TestFileSampleRunner::exec("bin/wiseyc "
+  string result = TestFileRunner::exec("bin/wiseyc "
                                              "tests/samples/test_unterminated_comment.yz");
   
   EXPECT_STREQ(result.c_str(), "tests/samples/test_unterminated_comment.yz(2): "

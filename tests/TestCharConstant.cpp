@@ -15,7 +15,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/CharConstant.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -61,6 +61,6 @@ TEST_F(CharConstantTest, isConstantTest) {
   EXPECT_TRUE(mCharConstant.isConstant());
 }
 
-TEST_F(TestFileSampleRunner, charVariableRunTest) {
+TEST_F(TestFileRunner, charVariableRunTest) {
   runFile("tests/samples/test_char_variable.yz", "7");
 }

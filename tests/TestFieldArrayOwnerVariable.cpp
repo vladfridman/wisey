@@ -16,7 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/ArrayType.hpp"
 #include "wisey/FieldArrayOwnerVariable.hpp"
 #include "wisey/IExpression.hpp"
@@ -157,23 +157,23 @@ TEST_F(FieldArrayOwnerVariableTest, generateWholeArrayAssignmentDeathTest) {
               "Error: Incompatible types: can not cast from type 'int\\[\\]' to 'int\\[\\]\\*'");
 }
 
-TEST_F(TestFileSampleRunner, fieldArrayOwnerOfIntsRunTest) {
+TEST_F(TestFileRunner, fieldArrayOwnerOfIntsRunTest) {
   runFile("tests/samples/test_field_array_owner_of_ints.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, fieldArrayOwnerOfIntsAutocastRunTest) {
+TEST_F(TestFileRunner, fieldArrayOwnerOfIntsAutocastRunTest) {
   runFile("tests/samples/test_field_array_owner_of_ints_autocast.yz", "1");
 }
 
-TEST_F(TestFileSampleRunner, fieldArrayOwnerOfIntsIncrementElementRunTest) {
+TEST_F(TestFileRunner, fieldArrayOwnerOfIntsIncrementElementRunTest) {
   runFile("tests/samples/test_field_array_owner_of_ints_increment_element.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, fieldArrayOwnerOfModelOwnersRunTest) {
+TEST_F(TestFileRunner, fieldArrayOwnerOfModelOwnersRunTest) {
   runFile("tests/samples/test_field_array_owner_of_model_owners.yz", "2018");
 }
 
-TEST_F(TestFileSampleRunner, fieldArrayOwnerOfModelOwnersDestructorsAreCalledRunTest) {
+TEST_F(TestFileRunner, fieldArrayOwnerOfModelOwnersDestructorsAreCalledRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_field_array_owner_of_model_owners.yz",
                                         "destructor systems.vos.wisey.compiler.tests.CController\n"
                                         "destructor object<8 bytes>*[5]\n"
@@ -182,7 +182,7 @@ TEST_F(TestFileSampleRunner, fieldArrayOwnerOfModelOwnersDestructorsAreCalledRun
                                         "");
 }
 
-TEST_F(TestFileSampleRunner, fieldArrayOwnerElementIsNulledOnOwnerTranserRunDeathTest) {
+TEST_F(TestFileRunner, fieldArrayOwnerElementIsNulledOnOwnerTranserRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_field_array_owner_element_is_nulled_on_owner_transfer.yz",
                                1,
                                "",
@@ -191,7 +191,7 @@ TEST_F(TestFileSampleRunner, fieldArrayOwnerElementIsNulledOnOwnerTranserRunDeat
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_field_array_owner_element_is_nulled_on_owner_transfer.yz:35)\n");
 }
 
-TEST_F(TestFileSampleRunner,
+TEST_F(TestFileRunner,
        ownerVariableIsNulledOnOwnershipTransferToFieldArrayOwnerElementRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_owner_variable_is_nulled_on_ownership_transfer_to_field_array_owner_element.yz",
                                1,
@@ -201,7 +201,7 @@ TEST_F(TestFileSampleRunner,
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_variable_is_nulled_on_ownership_transfer_to_field_array_owner_element.yz:27)\n");
 }
 
-TEST_F(TestFileSampleRunner, ownerFieldArrayOwnerElementsInitializedToNullRunDeathTest) {
+TEST_F(TestFileRunner, ownerFieldArrayOwnerElementsInitializedToNullRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_owner_field_array_owner_elements_initialized_to_null.yz",
                                1,
                                "",
@@ -210,15 +210,15 @@ TEST_F(TestFileSampleRunner, ownerFieldArrayOwnerElementsInitializedToNullRunDea
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_field_array_owner_elements_initialized_to_null.yz:25)\n");
 }
 
-TEST_F(TestFileSampleRunner, fieldArrayOwnerOfModelReferencesRunTest) {
+TEST_F(TestFileRunner, fieldArrayOwnerOfModelReferencesRunTest) {
   runFile("tests/samples/test_field_array_owner_of_model_references.yz", "2018");
 }
 
-TEST_F(TestFileSampleRunner, referenceCountDecrementsOnFieldArrayOwnerElementUnassignRunTest) {
+TEST_F(TestFileRunner, referenceCountDecrementsOnFieldArrayOwnerElementUnassignRunTest) {
   runFile("tests/samples/test_reference_count_decrements_on_field_array_owner_element_unassign.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, referenceCountIncrementsOnAssignToFieldArrayOwnerElementRunDeathTest) {
+TEST_F(TestFileRunner, referenceCountIncrementsOnAssignToFieldArrayOwnerElementRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_reference_count_increments_on_assign_to_field_array_owner_element.yz",
                                1,
                                "",
@@ -227,7 +227,7 @@ TEST_F(TestFileSampleRunner, referenceCountIncrementsOnAssignToFieldArrayOwnerEl
                                "Details: Object referenced by expression still has 1 active reference\n");
 }
 
-TEST_F(TestFileSampleRunner, referenceFieldArrayOwnerInitializedToNullRunDeathTest) {
+TEST_F(TestFileRunner, referenceFieldArrayOwnerInitializedToNullRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_reference_field_array_owner_initialized_to_null.yz",
                                1,
                                "",
@@ -236,7 +236,7 @@ TEST_F(TestFileSampleRunner, referenceFieldArrayOwnerInitializedToNullRunDeathTe
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_field_array_owner_initialized_to_null.yz:24)\n");
 }
 
-TEST_F(TestFileSampleRunner, fieldArrayOfIntsRceRunDeathTest) {
+TEST_F(TestFileRunner, fieldArrayOfIntsRceRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_field_array_of_ints_rce.yz",
                                1,
                                "",
@@ -246,7 +246,7 @@ TEST_F(TestFileSampleRunner, fieldArrayOfIntsRceRunDeathTest) {
                                "Details: Object referenced by expression still has 1 active reference\n");
 }
 
-TEST_F(TestFileSampleRunner, fieldArrayOfOwnersRceRunDeathTest) {
+TEST_F(TestFileRunner, fieldArrayOfOwnersRceRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_field_array_of_owners_rce.yz",
                                1,
                                "",
@@ -256,7 +256,7 @@ TEST_F(TestFileSampleRunner, fieldArrayOfOwnersRceRunDeathTest) {
                                "Details: Object referenced by expression still has 1 active reference\n");
 }
 
-TEST_F(TestFileSampleRunner, fieldArrayOfReferencesRceRunDeathTest) {
+TEST_F(TestFileRunner, fieldArrayOfReferencesRceRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_field_array_of_references_rce.yz",
                                1,
                                "",

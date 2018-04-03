@@ -14,7 +14,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "MockStatement.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/FixedFieldDefinition.hpp"
@@ -307,25 +307,25 @@ TEST_F(ModelDefinitionTest, modelWithInjectedFieldDeathTest) {
               "Error: Models can only have fixed fields");
 }
 
-TEST_F(TestFileSampleRunner, modelDefinitionRunTest) {
+TEST_F(TestFileRunner, modelDefinitionRunTest) {
   runFile("tests/samples/test_model_definition.yz", "0");
 }
 
-TEST_F(TestFileSampleRunner, modelDefinitionExplicitFixedFieldsRunTest) {
+TEST_F(TestFileRunner, modelDefinitionExplicitFixedFieldsRunTest) {
   runFile("tests/samples/test_model_definition_explicit_fixed_fields.yz", "3");
 }
 
-TEST_F(TestFileSampleRunner, modelDefinitionWithMethodRunTest) {
+TEST_F(TestFileRunner, modelDefinitionWithMethodRunTest) {
   runFile("tests/samples/test_model_method.yz", "7");
 }
 
-TEST_F(TestFileSampleRunner, setterInModelDeathRunTest) {
+TEST_F(TestFileRunner, setterInModelDeathRunTest) {
   expectFailCompile("tests/samples/test_setter_in_model.yz",
                     1,
                     "Error: Can not assign to field mValue");
 }
 
-TEST_F(TestFileSampleRunner, modelWithStateFieldDeathRunTest) {
+TEST_F(TestFileRunner, modelWithStateFieldDeathRunTest) {
   expectFailCompile("tests/samples/test_model_with_state_field.yz",
                     1,
                     "Error: Models can only have fixed fields");

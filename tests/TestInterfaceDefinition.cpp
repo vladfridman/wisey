@@ -13,7 +13,7 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/AccessLevel.hpp"
 #include "wisey/FakeExpression.hpp"
@@ -125,6 +125,6 @@ TEST_F(InterfaceDefinitionTest, generateIRTest) {
   EXPECT_NE(interface->findMethod("foo"), nullptr);
 }
 
-TEST_F(TestFileSampleRunner, interfaceDefinitionRunTest) {
+TEST_F(TestFileRunner, interfaceDefinitionRunTest) {
   runFile("tests/samples/test_interface_definition.yz", "0");
 }

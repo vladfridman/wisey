@@ -15,7 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IExpression.hpp"
@@ -203,25 +203,25 @@ TEST_F(LocalOwnerVariableTest, freeTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(TestFileSampleRunner, assignLocalOwnerToFieldOwnerCompileTest) {
+TEST_F(TestFileRunner, assignLocalOwnerToFieldOwnerCompileTest) {
   compileFile("tests/samples/test_assign_local_owner_to_field_owner.yz");
 }
 
-TEST_F(TestFileSampleRunner, assignLocalOwnerToLocalOwnerCompileTest) {
+TEST_F(TestFileRunner, assignLocalOwnerToLocalOwnerCompileTest) {
   compileFile("tests/samples/test_assign_local_owner_to_local_owner.yz");
 }
 
-TEST_F(TestFileSampleRunner, assignLocalOwnerToNullCompileTest) {
+TEST_F(TestFileRunner, assignLocalOwnerToNullCompileTest) {
   compileFile("tests/samples/test_assign_local_owner_to_null.yz");
 }
 
-TEST_F(TestFileSampleRunner, usingUninitializedLocalOwnerVariableRunDeathTest) {
+TEST_F(TestFileRunner, usingUninitializedLocalOwnerVariableRunDeathTest) {
   expectFailCompile("tests/samples/test_heap_owner_variable_not_initialized.yz",
                     1,
                     "Error: Variable 'color' is used before it is initialized");
 }
 
-TEST_F(TestFileSampleRunner, destructorCalledOnAssignLocalOwnerVariableRunTest) {
+TEST_F(TestFileRunner, destructorCalledOnAssignLocalOwnerVariableRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_destructor_called_on_assign_heap_owner_variable.yz",
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
                                         "car is destoyed\n"
@@ -229,7 +229,7 @@ TEST_F(TestFileSampleRunner, destructorCalledOnAssignLocalOwnerVariableRunTest) 
                                         "");
 }
 
-TEST_F(TestFileSampleRunner, stringArrayRunTest) {
+TEST_F(TestFileRunner, stringArrayRunTest) {
   runFileCheckOutput("tests/samples/test_string_array.yz",
                      "element 0: zero\n"
                      "element 1: one\n"
@@ -239,7 +239,7 @@ TEST_F(TestFileSampleRunner, stringArrayRunTest) {
                      "");
 }
 
-TEST_F(TestFileSampleRunner, localPointerOwnerVariableRunTest) {
+TEST_F(TestFileRunner, localPointerOwnerVariableRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_local_pointer_owner_variable.yz",
                                         "destructor systems.vos.wisey.compiler.tests.MModel\n"
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n",

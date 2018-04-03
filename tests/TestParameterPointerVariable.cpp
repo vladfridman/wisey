@@ -15,7 +15,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
@@ -84,6 +84,6 @@ TEST_F(ParameterPointerVariableTest, generateIdentifierIRTest) {
   EXPECT_EQ(mVariableValue, mVariable->generateIdentifierIR(mContext));
 }
 
-TEST_F(TestFileSampleRunner, parameterPointerVariableRunTest) {
+TEST_F(TestFileRunner, parameterPointerVariableRunTest) {
   runFile("tests/samples/test_parameter_pointer_variable.yz", "3");
 }

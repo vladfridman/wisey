@@ -12,7 +12,7 @@
 #include <gmock/gmock.h>
 
 #include "MockObjectType.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/IObjectTypeSpecifier.hpp"
 #include "wisey/Model.hpp"
@@ -78,7 +78,7 @@ TEST_F(IObjectTypeSpecifierTest, getFullNameInnerObjectInnerOfCurrentObjectTest)
                IObjectTypeSpecifier::getFullName(mContext, "MInnerObject", NULL).c_str());
 }
 
-TEST_F(TestFileSampleRunner, longObjectTypeSpecifiersRunTest) {
+TEST_F(TestFileRunner, longObjectTypeSpecifiersRunTest) {
   runFile("tests/samples/test_long_object_type_specifiers.yz", "5");
 }
 

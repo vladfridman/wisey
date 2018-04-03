@@ -16,7 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMPointerTypeSpecifier.hpp"

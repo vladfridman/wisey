@@ -16,7 +16,7 @@
 
 #include "MockExpression.hpp"
 #include "MockVariable.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/ArrayAllocation.hpp"
 #include "wisey/ArraySpecificOwnerType.hpp"
 #include "wisey/ArrayOwnerType.hpp"
@@ -128,19 +128,19 @@ TEST_F(ArrayAllocationTest, printToStreamTest) {
   EXPECT_STREQ("new int[5]", stringStream.str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, localPrimitiveArrayAllocationRunTest) {
+TEST_F(TestFileRunner, localPrimitiveArrayAllocationRunTest) {
   runFile("tests/samples/test_local_primitive_array_allocation.yz", "0");
 }
 
-TEST_F(TestFileSampleRunner, localOwnerArrayOfIntsCreatedDynamicallyRunTest) {
+TEST_F(TestFileRunner, localOwnerArrayOfIntsCreatedDynamicallyRunTest) {
   runFile("tests/samples/test_local_owner_array_of_ints_created_dynamically.yz", "1");
 }
 
-TEST_F(TestFileSampleRunner, assignSubArrayRunTest) {
+TEST_F(TestFileRunner, assignSubArrayRunTest) {
   runFile("tests/samples/test_assign_sub_array.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, localOwnerArrayOfIntsFloatDimensionDeathRunTest) {
+TEST_F(TestFileRunner, localOwnerArrayOfIntsFloatDimensionDeathRunTest) {
   expectFailCompile("tests/samples/test_local_owner_array_of_ints_float_dimension.yz",
                     1,
                     "Error: Dimension in array allocation should be castable to long, "

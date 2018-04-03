@@ -18,7 +18,7 @@
 
 #include "MockExpression.hpp"
 #include "MockVariable.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Injector.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -142,10 +142,10 @@ TEST_F(InjectorTest, printToStreamTest) {
                stringStream.str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, inlineControllerInjectionRunTest) {
+TEST_F(TestFileRunner, inlineControllerInjectionRunTest) {
   runFile("tests/samples/test_inline_controller_injection.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, inlineInterfaceInjectionRunTest) {
+TEST_F(TestFileRunner, inlineInterfaceInjectionRunTest) {
   runFile("tests/samples/test_inline_interface_injection.yz", "7");
 }

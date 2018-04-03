@@ -21,7 +21,7 @@
 #include "MockExpression.hpp"
 #include "MockObjectType.hpp"
 #include "MockVariable.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp"
 #include "wisey/Constant.hpp"
@@ -827,54 +827,54 @@ TEST_F(ModelTest, createParameterVariableTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(TestFileSampleRunner, modelBuilderObjectArgumentAutocastRunTest) {
+TEST_F(TestFileRunner, modelBuilderObjectArgumentAutocastRunTest) {
   runFile("tests/samples/test_model_builder_object_argument_autocast.yz", "2017");
 }
 
-TEST_F(TestFileSampleRunner, modelBuilderPrimitiveArgumentAutocastRunTest) {
+TEST_F(TestFileRunner, modelBuilderPrimitiveArgumentAutocastRunTest) {
   runFile("tests/samples/test_model_builder_primitive_argument_autocast.yz", "1");
 }
 
-TEST_F(TestFileSampleRunner, controllerWithInnerModelRunTest) {
+TEST_F(TestFileRunner, controllerWithInnerModelRunTest) {
   runFile("tests/samples/test_controller_with_inner_model.yz", "3");
 }
 
-TEST_F(TestFileSampleRunner, controllerWithInnerModelShortSpecifiersRunTest) {
+TEST_F(TestFileRunner, controllerWithInnerModelShortSpecifiersRunTest) {
   runFile("tests/samples/test_controller_with_inner_model_short_specifiers.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, controllerWithInnerModelMediumSpecifiersRunTest) {
+TEST_F(TestFileRunner, controllerWithInnerModelMediumSpecifiersRunTest) {
   runFile("tests/samples/test_controller_with_inner_model_medium_specifiers.yz", "7");
 }
 
-TEST_F(TestFileSampleRunner, innerObjectDefinedInDifferentObjectRunTest) {
+TEST_F(TestFileRunner, innerObjectDefinedInDifferentObjectRunTest) {
   runFile("tests/samples/test_inner_object_defined_in_different_object.yz", "7");
 }
 
-TEST_F(TestFileSampleRunner, innerObjectPrivateAccessableRunTest) {
+TEST_F(TestFileRunner, innerObjectPrivateAccessableRunTest) {
   runFile("tests/samples/test_inner_object_private_accessable.yz", "3");
 }
 
-TEST_F(TestFileSampleRunner, innerObjectWrongTypeSpecifierDeathRunTest) {
+TEST_F(TestFileRunner, innerObjectWrongTypeSpecifierDeathRunTest) {
   expectFailCompile("tests/samples/test_inner_object_wrong_type_specifier.yz",
                     1,
                     "Error: Model systems.vos.wisey.compiler.tests.MMyModel is not defined");
 }
 
-TEST_F(TestFileSampleRunner, innerObjectPrivateInaccessableDeathRunTest) {
+TEST_F(TestFileRunner, innerObjectPrivateInaccessableDeathRunTest) {
   expectFailCompile("tests/samples/test_inner_object_private_inaccessable.yz",
                     1,
                     "Error: Object systems.vos.wisey.compiler.tests.MOuterModel.MMyModel "
                     "is not accessable from object systems.vos.wisey.compiler.tests.CProgram");
 }
 
-TEST_F(TestFileSampleRunner, modelWithNodeFieldDeathRunTest) {
+TEST_F(TestFileRunner, modelWithNodeFieldDeathRunTest) {
   expectFailCompile("tests/samples/test_model_with_node_field.yz",
                     1,
                     "Error: Models can only have fields of primitive or model type");
 }
 
-TEST_F(TestFileSampleRunner, modelWithControllerFieldDeathRunTest) {
+TEST_F(TestFileRunner, modelWithControllerFieldDeathRunTest) {
   expectFailCompile("tests/samples/test_model_with_controller_field.yz",
                     1,
                     "Error: Models can only have fields of primitive or model type");

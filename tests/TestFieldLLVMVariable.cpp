@@ -16,7 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/FieldLLVMVariable.hpp"
 #include "wisey/IExpression.hpp"
@@ -143,6 +143,6 @@ TEST_F(FieldLLVMVariableTest, generateAssignmentIRTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, fieldLLVMVariableRunTest) {
+TEST_F(TestFileRunner, fieldLLVMVariableRunTest) {
   runFile("tests/samples/test_field_llvm_variable.yz", "7");
 }

@@ -16,7 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -120,6 +120,6 @@ TEST_F(LocalLLVMVariableTest, generateIdentifierReferenceIRTest) {
   EXPECT_EQ(alloc, variable.generateIdentifierReferenceIR(mContext));
 }
 
-TEST_F(TestFileSampleRunner, localLLVMVariableRunTest) {
+TEST_F(TestFileRunner, localLLVMVariableRunTest) {
   runFile("tests/samples/test_local_llvm_variable.yz", "5");
 }

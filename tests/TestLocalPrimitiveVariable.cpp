@@ -16,7 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -148,6 +148,6 @@ TEST_F(LocalPrimitiveVariableTest, generateIdentifierReferenceIRTest) {
   EXPECT_EQ(alloc, variable.generateIdentifierReferenceIR(mContext));
 }
 
-TEST_F(TestFileSampleRunner, assignmentWithAutocastRunTest) {
+TEST_F(TestFileRunner, assignmentWithAutocastRunTest) {
   runFile("tests/samples/test_assignment_with_autocast.yz", "1");
 }

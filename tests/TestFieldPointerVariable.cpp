@@ -16,7 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/FieldPointerVariable.hpp"
 #include "wisey/IExpression.hpp"
@@ -168,6 +168,6 @@ TEST_F(FieldPointerVariableTest, generateAssignmentIRTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, fieldPointerVariableRunTest) {
+TEST_F(TestFileRunner, fieldPointerVariableRunTest) {
   runFile("tests/samples/test_field_pointer_variable.yz", "1");
 }

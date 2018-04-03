@@ -13,7 +13,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/AccessLevel.hpp"
 #include "wisey/FakeExpression.hpp"
@@ -115,6 +115,6 @@ TEST_F(ExternalThreadDefinitionTest, prototypeMethodsTest) {
   EXPECT_NE(thread->findMethod("foo"), nullptr);
 }
 
-TEST_F(TestFileSampleRunner, ExternalThreadDefinitionsRunTest) {
+TEST_F(TestFileRunner, ExternalThreadDefinitionsRunTest) {
   compileFile("tests/samples/test_external_thread_definitions.yz");
 }

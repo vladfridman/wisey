@@ -15,7 +15,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/LLVMExternalStructDefinition.hpp"

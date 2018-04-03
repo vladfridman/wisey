@@ -17,7 +17,7 @@
 #include "MockExpression.hpp"
 #include "MockOwnerVariable.hpp"
 #include "MockVariable.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/Assignment.hpp"
 #include "wisey/FakeExpression.hpp"
@@ -192,11 +192,11 @@ TEST_F(AssignmentTest, printToStreamTest) {
   EXPECT_STREQ("foo = 5", stringStream.str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, assignToAssignmentPrimitiveRunTest) {
+TEST_F(TestFileRunner, assignToAssignmentPrimitiveRunTest) {
   runFile("tests/samples/test_assignment_to_assignment_primitive.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, assignToAssignmentObjectRunTest) {
+TEST_F(TestFileRunner, assignToAssignmentObjectRunTest) {
   runFile("tests/samples/test_assingment_to_assignment_object.yz", "3");
 }
 

@@ -16,7 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/IExpression.hpp"
@@ -206,22 +206,22 @@ TEST_F(FieldReferenceVariableTest, decrementReferenceCounterTest) {
   EXPECT_EQ(mBasicBlock->getInstList().size(), 0u);
 }
 
-TEST_F(TestFileSampleRunner, compareTwoNullsRunTest) {
+TEST_F(TestFileRunner, compareTwoNullsRunTest) {
   runFile("tests/samples/test_compare_two_nulls.yz", "1");
 }
 
-TEST_F(TestFileSampleRunner, compareToNullRunTest) {
+TEST_F(TestFileRunner, compareToNullRunTest) {
   runFile("tests/samples/test_compare_to_null.yz", "1");
 }
 
-TEST_F(TestFileSampleRunner, assignFieldReferenceToParameterOwnerCompileTest) {
+TEST_F(TestFileRunner, assignFieldReferenceToParameterOwnerCompileTest) {
   compileFile("tests/samples/test_assign_field_reference_to_parameter_owner.yz");
 }
 
-TEST_F(TestFileSampleRunner, assignFieldReferenceToNullCompileTest) {
+TEST_F(TestFileRunner, assignFieldReferenceToNullCompileTest) {
   compileFile("tests/samples/test_assign_field_reference_to_null.yz");
 }
 
-TEST_F(TestFileSampleRunner, assignFieldReferenceToParameterReferenceCompileTest) {
+TEST_F(TestFileRunner, assignFieldReferenceToParameterReferenceCompileTest) {
   compileFile("tests/samples/test_assign_field_reference_to_parameter_reference.yz");
 }

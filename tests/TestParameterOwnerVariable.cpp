@@ -15,7 +15,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -155,15 +155,15 @@ TEST_F(ParameterOwnerVariableTest, setToNullTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(TestFileSampleRunner, assignParameterOwnerToLocalOwnerCompileTest) {
+TEST_F(TestFileRunner, assignParameterOwnerToLocalOwnerCompileTest) {
   compileFile("tests/samples/test_assign_parameter_owner_to_local_owner.yz");
 }
 
-TEST_F(TestFileSampleRunner, assignParameterOwnerToNullCompileTest) {
+TEST_F(TestFileRunner, assignParameterOwnerToNullCompileTest) {
   compileFile("tests/samples/test_assign_parameter_owner_to_null.yz");
 }
 
-TEST_F(TestFileSampleRunner, parameterPointerOwnerVariableRunTest) {
+TEST_F(TestFileRunner, parameterPointerOwnerVariableRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_parameter_pointer_owner_variable.yz",
                                         "destructor systems.vos.wisey.compiler.tests.MModel\n"
                                         "free completed\n"

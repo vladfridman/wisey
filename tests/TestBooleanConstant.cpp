@@ -15,7 +15,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/BooleanConstant.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -87,10 +87,10 @@ TEST_F(BooleanConstantTest, printToStreamTest) {
   EXPECT_STREQ("false", stringStreamFalse.str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, booleanConstantRunTest) {
+TEST_F(TestFileRunner, booleanConstantRunTest) {
   runFile("tests/samples/test_boolean_constant.yz", "7");
 }
 
-TEST_F(TestFileSampleRunner, booleanVariableRunTest) {
+TEST_F(TestFileRunner, booleanVariableRunTest) {
   runFile("tests/samples/test_boolean_variable.yz", "5");
 }

@@ -10,7 +10,7 @@
 
 #include <gtest/gtest.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "MockType.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -81,7 +81,7 @@ TEST_F(FixedFieldTest, fieldPrintToStreamTest) {
   EXPECT_STREQ("  fixed MObject* mField;\n", stringStream.str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, nodeWithFixedFieldSetterDeathRunTest) {
+TEST_F(TestFileRunner, nodeWithFixedFieldSetterDeathRunTest) {
   expectFailCompile("tests/samples/test_node_with_fixed_field_setter.yz",
                     1,
                     "Error: Can not assign to field mYear");

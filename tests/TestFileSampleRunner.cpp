@@ -1,5 +1,5 @@
 //
-//  TestFileSampleRunner.cpp
+//  TestFileRunner.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 12/12/16.
@@ -13,7 +13,7 @@
 #include <llvm/Support/TargetSelect.h>
 #include <llvm-c/Target.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Compiler.hpp"
@@ -26,28 +26,28 @@ extern int yyparse();
 extern FILE* yyin;
 extern ProgramFile* programFile;
 
-const string TestFileSampleRunner::LIBWISEY = "libwisey/libwisey.yz";
-const char TestFileSampleRunner::STDOUT_FILE[] = "build/wisey.out";
-const char TestFileSampleRunner::STDERR_FILE[] = "build/wisey.err";
+const string TestFileRunner::LIBWISEY = "libwisey/libwisey.yz";
+const char TestFileRunner::STDOUT_FILE[] = "build/wisey.out";
+const char TestFileRunner::STDERR_FILE[] = "build/wisey.err";
 
-TestFileSampleRunner::TestFileSampleRunner() : mCompiler(mCompilerArguments) {
+TestFileRunner::TestFileRunner() : mCompiler(mCompilerArguments) {
   InitializeNativeTarget();
   LLVMInitializeNativeAsmPrinter();
   
   Log::setLogLevel(ERRORLEVEL);
 }
 
-TestFileSampleRunner::~TestFileSampleRunner() {
+TestFileRunner::~TestFileRunner() {
   fclose(yyin);
 }
 
-void TestFileSampleRunner::compileFile(string fileName) {
+void TestFileRunner::compileFile(string fileName) {
   mCompilerArguments.addSourceFile(fileName);
   mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
 }
 
-void TestFileSampleRunner::runFile(string fileName, string expectedResult) {
+void TestFileRunner::runFile(string fileName, string expectedResult) {
   mCompilerArguments.addSourceFile(fileName);
   mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
@@ -57,7 +57,7 @@ void TestFileSampleRunner::runFile(string fileName, string expectedResult) {
   ASSERT_STREQ(expectedResult.c_str(), resultString.c_str());
 }
 
-void TestFileSampleRunner::runFilesCheckOutput(vector<string> fileNames,
+void TestFileRunner::runFilesCheckOutput(vector<string> fileNames,
                                                string expectedOut,
                                                string expectedErr) {
   exec("mkdir -p build");
@@ -87,14 +87,14 @@ void TestFileSampleRunner::runFilesCheckOutput(vector<string> fileNames,
   checkOutput(STDERR_FILE, expectedErr);
 }
 
-void TestFileSampleRunner::runFilesCheckOutputWithDestructorDebug(vector<string> fileNames,
+void TestFileRunner::runFilesCheckOutputWithDestructorDebug(vector<string> fileNames,
                                                                   string expectedOut,
                                                                   string expectedErr) {
   mCompilerArguments.setDestructorDebug(true);
   runFilesCheckOutput(fileNames, expectedOut, expectedErr);
 }
 
-void TestFileSampleRunner::runFileCheckOutput(string fileName,
+void TestFileRunner::runFileCheckOutput(string fileName,
                                               string expectedOut,
                                               string expectedErr) {
   vector<string> fileNames;
@@ -102,7 +102,7 @@ void TestFileSampleRunner::runFileCheckOutput(string fileName,
   runFilesCheckOutput(fileNames, expectedOut, expectedErr);
 }
 
-void TestFileSampleRunner::runFileCheckOutputWithDestructorDebug(string fileName,
+void TestFileRunner::runFileCheckOutputWithDestructorDebug(string fileName,
                                                                  string expectedOut,
                                                                  string expectedErr) {
   vector<string> fileNames;
@@ -110,7 +110,7 @@ void TestFileSampleRunner::runFileCheckOutputWithDestructorDebug(string fileName
   runFilesCheckOutputWithDestructorDebug(fileNames, expectedOut, expectedErr);
 }
 
-void TestFileSampleRunner::expectFailCompile(string fileName,
+void TestFileRunner::expectFailCompile(string fileName,
                                              int expectedErrorCode,
                                              string expectedErrorMessage) {
   mCompilerArguments.addSourceFile(fileName);
@@ -121,7 +121,7 @@ void TestFileSampleRunner::expectFailCompile(string fileName,
               expectedErrorMessage);
 }
 
-void TestFileSampleRunner::compileAndRunFile(string fileName, int expectedResult) {
+void TestFileRunner::compileAndRunFile(string fileName, int expectedResult) {
   exec("mkdir -p build");
   
   string wiseyCompileCommand = "bin/wiseyc " + fileName + " " + LIBWISEY + " -o build/test.o";
@@ -133,7 +133,7 @@ void TestFileSampleRunner::compileAndRunFile(string fileName, int expectedResult
   EXPECT_EQ(returnValue, expectedResult);
 }
 
-void TestFileSampleRunner::compileAndRunFileCheckOutput(string fileName,
+void TestFileRunner::compileAndRunFileCheckOutput(string fileName,
                                                         int expectedResult,
                                                         string expectedOut,
                                                         string expectedErr) {
@@ -151,7 +151,7 @@ void TestFileSampleRunner::compileAndRunFileCheckOutput(string fileName,
   EXPECT_EQ(returnValue, expectedResult);
 }
 
-string TestFileSampleRunner::exec(const char* cmd) {
+string TestFileRunner::exec(const char* cmd) {
   array<char, 128> buffer;
   string result;
   shared_ptr<FILE> pipe(popen(cmd, "r"), pclose);
@@ -163,7 +163,7 @@ string TestFileSampleRunner::exec(const char* cmd) {
   return result;
 }
 
-void TestFileSampleRunner::checkOutput(const char fileName[], string expectedOut) {
+void TestFileRunner::checkOutput(const char fileName[], string expectedOut) {
   char* contents;
   long fileSize;
   FILE* file = fopen(fileName, "rb");

@@ -11,7 +11,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
 using namespace wisey;
@@ -22,19 +22,19 @@ TEST(ContinueStatementTest, noScopesTest) {
   EXPECT_EQ(context.getScopes().getContinueToBlock(), nullptr);
 }
 
-TEST_F(TestFileSampleRunner, continueForLoopRunTest) {
+TEST_F(TestFileRunner, continueForLoopRunTest) {
   runFile("tests/samples/test_continue_for_loop.yz", "9");
 }
 
-TEST_F(TestFileSampleRunner, continueNestedForLoopsRunTest) {
+TEST_F(TestFileRunner, continueNestedForLoopsRunTest) {
   runFile("tests/samples/test_continue_nested_for_loop.yz", "51");
 }
 
-TEST_F(TestFileSampleRunner, continueWhileLoopRunTest) {
+TEST_F(TestFileRunner, continueWhileLoopRunTest) {
   runFile("tests/samples/test_continue_while_loop.yz", "20");
 }
 
-TEST_F(TestFileSampleRunner, continueInIfStatementRunDeathTest) {
+TEST_F(TestFileRunner, continueInIfStatementRunDeathTest) {
   expectFailCompile("tests/samples/test_continue_in_if_statement.yz",
                     1,
                     "Error: continue statement not inside a loop");

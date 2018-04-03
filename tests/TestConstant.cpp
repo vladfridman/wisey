@@ -15,7 +15,7 @@
 
 #include "MockExpression.hpp"
 #include "MockObjectType.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/Constant.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -116,7 +116,7 @@ TEST_F(ConstantTest, printPrivateConstantToStreamTest) {
   EXPECT_EQ(stringStream.str().size(), 0u);
 }
 
-TEST_F(TestFileSampleRunner, constantInitializedWithNonConstantDeathRunTest) {
+TEST_F(TestFileRunner, constantInitializedWithNonConstantDeathRunTest) {
   expectFailCompile("tests/samples/test_constant_initialized_with_non_constant.yz",
                     1,
                     "Error: Constant is initialized with a non-constant expression");

@@ -14,7 +14,7 @@
 #include <fstream>
 #include <iostream>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 
 using namespace std;
 
@@ -28,7 +28,7 @@ struct MainTest : public ::testing::Test {
 };
 
 TEST_F(MainTest, noArgumentsTest) {
-  EXPECT_STREQ(TestFileSampleRunner::exec("bin/wiseyc 2>&1").c_str(),
+  EXPECT_STREQ(TestFileRunner::exec("bin/wiseyc 2>&1").c_str(),
                "Syntax: wiseyc "
                "[-d|--destructor-debug] "
                "[-e|--emit-llvm] "
@@ -40,23 +40,23 @@ TEST_F(MainTest, noArgumentsTest) {
 }
 
 TEST_F(MainTest, missingFileTest) {
-  EXPECT_STREQ(TestFileSampleRunner::exec("bin/wiseyc -v "
+  EXPECT_STREQ(TestFileRunner::exec("bin/wiseyc -v "
                                           "tests/samples/missingFile.yz 2>&1").c_str(),
                "Info: Parsing file tests/samples/missingFile.yz\n"
                "Error: File tests/samples/missingFile.yz not found!\n");
 }
 
 TEST_F(MainTest, missingOutputFileTest) {
-  EXPECT_STREQ(TestFileSampleRunner::exec("bin/wiseyc tests/samples/test_addition.yz -o "
+  EXPECT_STREQ(TestFileRunner::exec("bin/wiseyc tests/samples/test_addition.yz -o "
                                           "2>&1").c_str(),
                "Error: You need to specify the output file name after \"-o\"\n");
-  EXPECT_STREQ(TestFileSampleRunner::exec("bin/wiseyc tests/samples/test_addition.yz --output "
+  EXPECT_STREQ(TestFileRunner::exec("bin/wiseyc tests/samples/test_addition.yz --output "
                                           "2>&1").c_str(),
                "Error: You need to specify the output file name after \"--output\"\n");
 }
 
 TEST_F(MainTest, helpTest) {
-  EXPECT_STREQ(TestFileSampleRunner::exec("bin/wiseyc -h 2>&1").c_str(),
+  EXPECT_STREQ(TestFileRunner::exec("bin/wiseyc -h 2>&1").c_str(),
                "Syntax: wiseyc "
                "[-d|--destructor-debug] "
                "[-e|--emit-llvm] "
@@ -65,7 +65,7 @@ TEST_F(MainTest, helpTest) {
                "[-H|--headers <header_file.yzh>] "
                "[-o|--output <object_file.o>] "
                "[-n|--no-output] <source_file.yz>...\n");
-  EXPECT_STREQ(TestFileSampleRunner::exec("bin/wiseyc --help 2>&1").c_str(),
+  EXPECT_STREQ(TestFileRunner::exec("bin/wiseyc --help 2>&1").c_str(),
                "Syntax: wiseyc "
                "[-d|--destructor-debug] "
                "[-e|--emit-llvm] "
@@ -127,22 +127,22 @@ TEST_F(MainTest, emitLLVMTest) {
   system("mkdir -p build");
 
   string resultWithoutEmitLLVM =
-  TestFileSampleRunner::exec("bin/wiseyc -o build/test.bc tests/samples/test_addition.yz "
+  TestFileRunner::exec("bin/wiseyc -o build/test.bc tests/samples/test_addition.yz "
                              "libwisey/libwisey.yz");
   EXPECT_EQ(resultWithoutEmitLLVM.find("define i32 @main()"), string::npos);
   
-  string resultWithEmitLLVM = TestFileSampleRunner::exec("bin/wiseyc --emit-llvm -o build/test.bc "
+  string resultWithEmitLLVM = TestFileRunner::exec("bin/wiseyc --emit-llvm -o build/test.bc "
                                                          "tests/samples/test_addition.yz "
                                                          "libwisey/libwisey.yz");
   EXPECT_NE(resultWithEmitLLVM.find("define i32 @main()"), string::npos);
   
-  resultWithEmitLLVM = TestFileSampleRunner::exec("bin/wiseyc -e -o build/test.bc "
+  resultWithEmitLLVM = TestFileRunner::exec("bin/wiseyc -e -o build/test.bc "
                                                   "tests/samples/test_addition.yz "
                                                   "libwisey/libwisey.yz");
   EXPECT_NE(resultWithEmitLLVM.find("define i32 @main()"), string::npos);
 }
 
-TEST_F(TestFileSampleRunner, debugDestructorsRunTest) {
+TEST_F(TestFileRunner, debugDestructorsRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_controller_injection_chain.yz",
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n"
                                         "destructor systems.vos.wisey.compiler.tests.CTopController\n"

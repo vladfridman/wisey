@@ -15,7 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockStatement.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/AccessLevel.hpp"
 #include "wisey/ControllerDefinition.hpp"
@@ -221,25 +221,25 @@ TEST_F(ControllerDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
               "Error: Fields should be declared before methods");
 }
 
-TEST_F(TestFileSampleRunner, controllerDefinitionSyntaxRunTest) {
+TEST_F(TestFileRunner, controllerDefinitionSyntaxRunTest) {
   runFile("tests/samples/test_controller_definition.yz", "8");
 }
 
-TEST_F(TestFileSampleRunner, controllerDefinitionWithModelStateSyntaxRunTest) {
+TEST_F(TestFileRunner, controllerDefinitionWithModelStateSyntaxRunTest) {
   runFile("tests/samples/test_controller_definition_with_model_state.yz", "21");
 }
 
-TEST_F(TestFileSampleRunner, controllerDefinitionWithInjectedInterfaceFieldRunTest) {
+TEST_F(TestFileRunner, controllerDefinitionWithInjectedInterfaceFieldRunTest) {
   runFile("tests/samples/test_controller_definition_with_injected_interface_field.yz", "8");
 }
 
-TEST_F(TestFileSampleRunner, controllerWithFixedFieldDeathRunTest) {
+TEST_F(TestFileRunner, controllerWithFixedFieldDeathRunTest) {
   expectFailCompile("tests/samples/test_controller_with_fixed_field.yz",
                     1,
                     "Error: Controllers can only have received, injected or state fields");
 }
 
-TEST_F(TestFileSampleRunner, objectFieldsAfterMethodsDeathRunTest) {
+TEST_F(TestFileRunner, objectFieldsAfterMethodsDeathRunTest) {
   expectFailCompile("tests/samples/test_object_fields_after_methods.yz",
                     1,
                     "Error: Fields should be declared before methods");

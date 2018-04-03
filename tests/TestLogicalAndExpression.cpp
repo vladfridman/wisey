@@ -15,7 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LogicalAndExpression.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -163,10 +163,10 @@ TEST_F(LogicalAndExpressionTest, printToStreamTest) {
   EXPECT_STREQ("a && b", stringStream.str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, logicalAndExpressionResultFalseRunTest) {
+TEST_F(TestFileRunner, logicalAndExpressionResultFalseRunTest) {
   runFile("tests/samples/test_logical_and_result_false.yz", "0");
 }
 
-TEST_F(TestFileSampleRunner, logicalAndExpressionResultTrueRunTest) {
+TEST_F(TestFileRunner, logicalAndExpressionResultTrueRunTest) {
   runFile("tests/samples/test_logical_and_result_true.yz", "1");
 }

@@ -15,7 +15,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMFunctionDefinition.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
@@ -84,6 +84,6 @@ TEST_F(LLVMFunctionDefinitionTest, defineTest) {
   EXPECT_TRUE(llvmFunction->isLLVMFunction());
 }
 
-TEST_F(TestFileSampleRunner, llvmFunctionDefinitionTest) {
+TEST_F(TestFileRunner, llvmFunctionDefinitionTest) {
   compileFile("tests/samples/test_llvm_function_definition.yz");
 }

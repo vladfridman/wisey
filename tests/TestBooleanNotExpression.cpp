@@ -16,7 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/BooleanNotExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -110,6 +110,6 @@ TEST_F(BooleanNotExpressionTest, negateIncompatibleTypeDeathTest) {
               "Error: Boolean NOT operator '!' can only be applied to boolean types");
 }
 
-TEST_F(TestFileSampleRunner, booleanNotRunTest) {
+TEST_F(TestFileRunner, booleanNotRunTest) {
   runFile("tests/samples/test_boolean_not.yz", "1");
 }

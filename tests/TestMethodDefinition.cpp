@@ -12,7 +12,7 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/AccessLevel.hpp"
 #include "wisey/IModelTypeSpecifier.hpp"
@@ -85,15 +85,15 @@ TEST_F(MethodDefinitionTest, methodDescriptorExtractTest) {
   EXPECT_EQ(arguments.at(1)->getType(), PrimitiveTypes::FLOAT_TYPE);
 }
 
-TEST_F(TestFileSampleRunner, methodDecalarationIntFunctionRunTest) {
+TEST_F(TestFileRunner, methodDecalarationIntFunctionRunTest) {
   runFile("tests/samples/test_int_method.yz", "10");
 }
 
-TEST_F(TestFileSampleRunner, methodDecalarationImpliedReturnRunTest) {
+TEST_F(TestFileRunner, methodDecalarationImpliedReturnRunTest) {
   runFile("tests/samples/test_implied_return.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, methodDecalarationMultipleParametersRunTest) {
+TEST_F(TestFileRunner, methodDecalarationMultipleParametersRunTest) {
   runFile("tests/samples/test_method_multiple_arguments.yz", "6");
 }
 

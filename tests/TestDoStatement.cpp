@@ -19,7 +19,7 @@
 
 #include "MockExpression.hpp"
 #include "MockStatement.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/DoStatement.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
@@ -95,6 +95,6 @@ TEST_F(DoStatementTest, doStatementSimpleTest) {
   EXPECT_STREQ("do.end", iterator->getName().str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, doStatementRunTest) {
+TEST_F(TestFileRunner, doStatementRunTest) {
   runFile("tests/samples/test_do_statement.yz", "5");
 }

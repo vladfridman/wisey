@@ -14,7 +14,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "MockExpression.hpp"
 #include "MockObjectType.hpp"
 #include "MockObjectTypeSpecifier.hpp"
@@ -122,15 +122,15 @@ TEST_F(ConstantReferenceTest, printToStreamConstantReferenceWihtoutObjectTest) {
   EXPECT_STREQ("MYCONSTANT", stringStream.str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, constantReferenceInObjectRunTest) {
+TEST_F(TestFileRunner, constantReferenceInObjectRunTest) {
   runFile("tests/samples/test_constant_reference_in_object.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, constantReferenceInInterfaceRunTest) {
+TEST_F(TestFileRunner, constantReferenceInInterfaceRunTest) {
   runFile("tests/samples/test_constant_reference_in_interface.yz", "2");
 }
 
-TEST_F(TestFileSampleRunner, constantReferencePrivateDeathRunTest) {
+TEST_F(TestFileRunner, constantReferencePrivateDeathRunTest) {
   expectFailCompile("tests/samples/test_constant_reference_private.yz",
                     1,
                     "Error: Trying to reference private constant not visible "

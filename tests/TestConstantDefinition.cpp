@@ -11,7 +11,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "MockExpression.hpp"
 #include "wisey/ConstantDefinition.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -63,10 +63,10 @@ TEST_F(ConstantDefinitionTest, declareTest) {
   EXPECT_NE(mConstantDefinition->define(mContext, NULL), nullptr);
 }
 
-TEST_F(TestFileSampleRunner, constantDeclarationInObjectRunTest) {
+TEST_F(TestFileRunner, constantDeclarationInObjectRunTest) {
   runFile("tests/samples/test_constant_declaration_in_object.yz", "1");
 }
 
-TEST_F(TestFileSampleRunner, constantDeclarationInInterfaceRunTest) {
+TEST_F(TestFileRunner, constantDeclarationInInterfaceRunTest) {
   runFile("tests/samples/test_constant_declaration_in_interface.yz", "1");
 }

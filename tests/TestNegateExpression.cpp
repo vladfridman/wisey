@@ -16,7 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/NegateExpression.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -123,6 +123,6 @@ TEST_F(NegateExpressionTest, negateIncompatibleTypeDeathTest) {
               "Can not apply negate operation to type 'void'");
 }
 
-TEST_F(TestFileSampleRunner, negateIntRunTest) {
+TEST_F(TestFileRunner, negateIntRunTest) {
   runFile("tests/samples/test_unary_minus.yz", "-5");
 }

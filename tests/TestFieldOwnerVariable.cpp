@@ -16,7 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/FieldOwnerVariable.hpp"
 #include "wisey/IExpression.hpp"
@@ -215,7 +215,7 @@ TEST_F(FieldOwnerVariableTest, setToNullTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, variableSetToNullRunDeathTest) {
+TEST_F(TestFileRunner, variableSetToNullRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_object_field_variable_set_to_null.yz",
                                1,
                                "",
@@ -223,23 +223,23 @@ TEST_F(TestFileSampleRunner, variableSetToNullRunDeathTest) {
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_object_field_variable_set_to_null.yz:20)\n");
 }
 
-TEST_F(TestFileSampleRunner, stateOwnerFieldSetToNullTest) {
+TEST_F(TestFileRunner, stateOwnerFieldSetToNullTest) {
   runFile("tests/samples/test_state_owner_field_set_to_null.yz", "1");
 }
 
-TEST_F(TestFileSampleRunner, objectFieldVariableSetToAnotherTest) {
+TEST_F(TestFileRunner, objectFieldVariableSetToAnotherTest) {
   runFile("tests/samples/test_object_field_variable_set_to_another.yz", "7");
 }
 
-TEST_F(TestFileSampleRunner, assignFieldOwnerToParameterOwnerCompileTest) {
+TEST_F(TestFileRunner, assignFieldOwnerToParameterOwnerCompileTest) {
   compileFile("tests/samples/test_assign_field_owner_to_parameter_owner.yz");
 }
 
-TEST_F(TestFileSampleRunner, assignFieldOwnerToNullCompileTest) {
+TEST_F(TestFileRunner, assignFieldOwnerToNullCompileTest) {
   compileFile("tests/samples/test_assign_field_owner_to_null.yz");
 }
 
-TEST_F(TestFileSampleRunner, objectFieldVariableNullComplicatedTest) {
+TEST_F(TestFileRunner, objectFieldVariableNullComplicatedTest) {
   compileAndRunFileCheckOutput("tests/samples/test_object_field_variable_null_complicated.yz",
                                1,
                                "",
@@ -248,7 +248,7 @@ TEST_F(TestFileSampleRunner, objectFieldVariableNullComplicatedTest) {
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_object_field_variable_null_complicated.yz:36)\n");
 }
 
-TEST_F(TestFileSampleRunner, destructorCalledOnAssignFieldOwnerVariableRunTest) {
+TEST_F(TestFileRunner, destructorCalledOnAssignFieldOwnerVariableRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_destructor_called_on_assign_field_owner_variable.yz",
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
                                         "car is destoyed\n"
@@ -256,7 +256,7 @@ TEST_F(TestFileSampleRunner, destructorCalledOnAssignFieldOwnerVariableRunTest) 
                                         "");
 }
 
-TEST_F(TestFileSampleRunner, fieldPointerOwnerVariableRunTest) {
+TEST_F(TestFileRunner, fieldPointerOwnerVariableRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_field_pointer_owner_variable.yz",
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n"
                                         "destructor systems.vos.wisey.compiler.tests.MModel\n",

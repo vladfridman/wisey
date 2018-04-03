@@ -14,7 +14,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockConcreteObjectType.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"

@@ -12,7 +12,7 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/AccessLevel.hpp"
 #include "wisey/IRGenerationContext.hpp"

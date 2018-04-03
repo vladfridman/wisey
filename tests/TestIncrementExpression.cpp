@@ -15,7 +15,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/IncrementExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -144,19 +144,19 @@ TEST_F(IncrementExpressionTest, printToStreamTest) {
   EXPECT_STREQ("foo--", stringStreamDecrement.str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, incrementByOneRunTest) {
+TEST_F(TestFileRunner, incrementByOneRunTest) {
   runFile("tests/samples/test_increment_by_one.yz", "3");
 }
 
-TEST_F(TestFileSampleRunner, decrementByOneRunTest) {
+TEST_F(TestFileRunner, decrementByOneRunTest) {
   runFile("tests/samples/test_decrement_by_one.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, incrementByOneWrappedIdentifierRunTest) {
+TEST_F(TestFileRunner, incrementByOneWrappedIdentifierRunTest) {
   runFile("tests/samples/test_increment_by_one_wrapped_identifier.yz", "7");
 }
 
-TEST_F(TestFileSampleRunner, illigalIncrementRunDeathTest) {
+TEST_F(TestFileRunner, illigalIncrementRunDeathTest) {
   expectFailCompile("tests/samples/test_illegal_increment.yz",
                     1,
                     "Error: Increment/decrement operation may only be applied to variables");

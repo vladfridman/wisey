@@ -10,7 +10,7 @@
 
 #include <gtest/gtest.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/ExternalStaticMethodDefinition.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -73,6 +73,6 @@ TEST_F(ExternalStaticMethodDefinitionTest, methodDescriptorExtractTest) {
   EXPECT_EQ(arguments.at(1)->getType(), PrimitiveTypes::FLOAT_TYPE);
 }
 
-TEST_F(TestFileSampleRunner, externalStaticMethodDefinitionsRunTest) {
+TEST_F(TestFileRunner, externalStaticMethodDefinitionsRunTest) {
   compileFile("tests/samples/test_extenal_static_method_declarations.yz");
 }

@@ -12,7 +12,7 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/FixedFieldDefinition.hpp"
@@ -119,7 +119,7 @@ TEST_F(ExternalNodeDefinitionTest, prototypeMethodsTest) {
   EXPECT_NE(node->findMethod("foo"), nullptr);
 }
 
-TEST_F(TestFileSampleRunner, externalNodeDefinitionsRunTest) {
+TEST_F(TestFileRunner, externalNodeDefinitionsRunTest) {
   compileFile("tests/samples/test_external_node_definitions.yz");
 }
 

@@ -1,13 +1,13 @@
 //
-//  TestFileSampleRunner.hpp
+//  TestFileRunner.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 12/12/16.
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef TestFileSampleRunner_h
-#define TestFileSampleRunner_h
+#ifndef TestFileRunner_h
+#define TestFileRunner_h
 
 #include <gtest/gtest.h>
 
@@ -17,7 +17,7 @@
  * Runs a sample wisey file through compiler and checks whether the expected result matched 
  * the actual one.
  */
-class TestFileSampleRunner : public ::testing::Test {
+class TestFileRunner : public ::testing::Test {
   static const std::string LIBWISEY;
   static const char STDOUT_FILE[];
   static const char STDERR_FILE[];
@@ -27,9 +27,9 @@ class TestFileSampleRunner : public ::testing::Test {
   
 public:
   
-  TestFileSampleRunner();
+  TestFileRunner();
   
-  ~TestFileSampleRunner();
+  ~TestFileRunner();
   
   /**
    * Compiles a file without running it
@@ -100,4 +100,4 @@ private:
   
 };
 
-#endif /* TestFileSampleRunner_h */
+#endif /* TestFileRunner_h */

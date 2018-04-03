@@ -16,7 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/FieldPrimitiveVariable.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -155,10 +155,10 @@ TEST_F(FieldPrimitiveVariableTest, generateAssignmentWithCastIRTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, objectFieldSetRunTest) {
+TEST_F(TestFileRunner, objectFieldSetRunTest) {
   runFile("tests/samples/test_object_field_set.yz", "7");
 }
 
-TEST_F(TestFileSampleRunner, objectFieldSetWithAutocastRunTest) {
+TEST_F(TestFileRunner, objectFieldSetWithAutocastRunTest) {
   runFile("tests/samples/test_object_field_set_with_autocast.yz", "1");
 }

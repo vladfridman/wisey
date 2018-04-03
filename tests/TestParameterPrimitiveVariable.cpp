@@ -15,7 +15,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/ParameterPrimitiveVariable.hpp"
@@ -107,7 +107,7 @@ TEST_F(ParameterPrimitiveVariableTest, parameterReferenceVariableIdentifierTest)
   EXPECT_EQ(variable.generateIdentifierIR(mContext), fooValue);
 }
 
-TEST_F(TestFileSampleRunner, methodAssignToPrimitiveArgumentDeathRunTest) {
+TEST_F(TestFileRunner, methodAssignToPrimitiveArgumentDeathRunTest) {
   expectFailCompile("tests/samples/test_method_assign_to_primitive_argument.yz",
                     1,
                     "Error: Assignment to method parameters is not allowed");

@@ -12,7 +12,7 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/ExternalMethodDefinition.hpp"
 #include "wisey/ExternalModelDefinition.hpp"
@@ -113,6 +113,6 @@ TEST_F(ExternalModelDefinitionTest, prototypeMethodsTest) {
   EXPECT_NE(model->findMethod("foo"), nullptr);
 }
 
-TEST_F(TestFileSampleRunner, externalModelDefinitionsRunTest) {
+TEST_F(TestFileRunner, externalModelDefinitionsRunTest) {
   compileFile("tests/samples/test_external_model_definitions.yz");
 }

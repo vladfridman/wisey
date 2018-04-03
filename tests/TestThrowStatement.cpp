@@ -16,7 +16,7 @@
 
 #include "MockExpression.hpp"
 #include "MockType.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/Block.hpp"
 #include "wisey/IRWriter.hpp"

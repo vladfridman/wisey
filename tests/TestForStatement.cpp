@@ -19,7 +19,7 @@
 
 #include "MockExpression.hpp"
 #include "MockStatement.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/ForStatement.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
@@ -113,23 +113,23 @@ TEST_F(ForStatementTest, forStatementSimpleTest) {
   EXPECT_STREQ("for.end", iterator->getName().str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, forStatementRunTest) {
+TEST_F(TestFileRunner, forStatementRunTest) {
   runFile("tests/samples/test_for_statement.yz", "90");
 }
 
-TEST_F(TestFileSampleRunner, forStatementWithNoIncrementRunTest) {
+TEST_F(TestFileRunner, forStatementWithNoIncrementRunTest) {
   runFile("tests/samples/test_for_statement_with_no_increment.yz", "100");
 }
 
-TEST_F(TestFileSampleRunner, forStatementWithNoDeclarationRunTest) {
+TEST_F(TestFileRunner, forStatementWithNoDeclarationRunTest) {
   runFile("tests/samples/test_for_statement_with_no_declaration.yz", "10");
 }
 
-TEST_F(TestFileSampleRunner, forStatementWithNoDeclarationNoIncrementRunTest) {
+TEST_F(TestFileRunner, forStatementWithNoDeclarationNoIncrementRunTest) {
   runFile("tests/samples/test_for_statement_with_no_declaration_no_increment.yz", "11");
 }
 
-TEST_F(TestFileSampleRunner, forStatementLocalVariableScopeRunDeathTest) {
+TEST_F(TestFileRunner, forStatementLocalVariableScopeRunDeathTest) {
   expectFailCompile("tests/samples/test_for_statement_scope.yz",
                     1,
                     "Error: Undeclared variable 'i'");

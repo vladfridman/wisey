@@ -16,7 +16,7 @@
 
 #include "MockOwnerVariable.hpp"
 #include "MockReferenceVariable.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/Scope.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -126,7 +126,7 @@ TEST_F(ScopeTest, addExceptionsTest) {
   delete mOwnerVariable;
 }
 
-TEST_F(TestFileSampleRunner, destroyDependencyRunDeathTest) {
+TEST_F(TestFileRunner, destroyDependencyRunDeathTest) {
   runFile("tests/samples/test_destroy_dependency.yz", "5");
 }
 

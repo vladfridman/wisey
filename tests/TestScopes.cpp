@@ -19,7 +19,7 @@
 #include "MockOwnerVariable.hpp"
 #include "MockType.hpp"
 #include "MockVariable.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/Catch.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -235,14 +235,14 @@ TEST_F(ScopesTest, variableHidingDeathTest) {
               "Error: Already declared variable named 'foo'. Variable hiding is not allowed.");
 }
 
-TEST_F(TestFileSampleRunner, variableHidingRunDeathTest) {
+TEST_F(TestFileRunner, variableHidingRunDeathTest) {
   expectFailCompile("tests/samples/test_variable_hiding.yz",
                     1,
                     "Error: Already declared variable named 'var'. "
                     "Variable hiding is not allowed.");
 }
 
-TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedByPassingOwnerRunDeathTest) {
+TEST_F(TestFileRunner, referenceMemoryDeallocatedByPassingOwnerRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_reference_memory_deallocated_by_passing_owner.yz",
                                1,
                                "",
@@ -252,7 +252,7 @@ TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedByPassingOwnerRunDeathTes
                                "Details: Object referenced by expression still has 2 active references\n");
 }
 
-TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedBySettingNullOutsideObjectRunDeathTest) {
+TEST_F(TestFileRunner, referenceMemoryDeallocatedBySettingNullOutsideObjectRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_reference_memory_deallocated_by_setting_null_outside_object.yz",
                                1,
                                "",
@@ -261,7 +261,7 @@ TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedBySettingNullOutsideObjec
                                "Details: Object referenced by expression still has 1 active reference\n");
 }
 
-TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedByPassingOwnerInsideIfThenElseRunDeathTest) {
+TEST_F(TestFileRunner, referenceMemoryDeallocatedByPassingOwnerInsideIfThenElseRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_reference_memory_deallocated_by_passing_owner_inside_if_then_else.yz",
                                1,
                                "",
@@ -271,13 +271,13 @@ TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedByPassingOwnerInsideIfThe
                                "Details: Object referenced by expression still has 2 active references\n");
 }
 
-TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedByPassingOwnerReuseReferenceRunTest) {
+TEST_F(TestFileRunner, referenceMemoryDeallocatedByPassingOwnerReuseReferenceRunTest) {
   runFile("tests/samples/"
           "test_reference_memory_deallocated_by_passing_owner_reuse_reference.yz",
           "5");
 }
 
-TEST_F(TestFileSampleRunner, referenceCountExceptionRunDeathTest) {
+TEST_F(TestFileRunner, referenceCountExceptionRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_reference_count_exception.yz",
                                1,
                                "",
@@ -287,7 +287,7 @@ TEST_F(TestFileSampleRunner, referenceCountExceptionRunDeathTest) {
                                "Details: Object referenced by expression still has 1 active reference\n");
 }
 
-TEST_F(TestFileSampleRunner, throwDosiuFromCleanupRunDeathTest) {
+TEST_F(TestFileRunner, throwDosiuFromCleanupRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_throw_dosiu_from_cleanup.yz",
                                1,
                                "",
@@ -297,7 +297,7 @@ TEST_F(TestFileSampleRunner, throwDosiuFromCleanupRunDeathTest) {
                                "Details: Object referenced by expression still has 2 active references\n");
 }
 
-TEST_F(TestFileSampleRunner, throwDosiuFromFreeOwnedMemoryRunDeathTest) {
+TEST_F(TestFileRunner, throwDosiuFromFreeOwnedMemoryRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_throw_dosiu_from_free_owned_memory.yz",
                                1,
                                "",
@@ -307,7 +307,7 @@ TEST_F(TestFileSampleRunner, throwDosiuFromFreeOwnedMemoryRunDeathTest) {
                                "Details: Object referenced by expression still has 2 active references\n");
 }
 
-TEST_F(TestFileSampleRunner, nullPointerExceptionRunDeathTest) {
+TEST_F(TestFileRunner, nullPointerExceptionRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_null_pointer_exception.yz",
                                1,
                                "",

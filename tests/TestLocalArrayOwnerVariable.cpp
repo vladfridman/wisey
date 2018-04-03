@@ -16,7 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/ArrayType.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -139,27 +139,27 @@ TEST_F(LocalArrayOwnerVariableTest, generateAssignmentDeathTest) {
               "Error: Incompatible types: can not cast from type 'int\\[\\]' to 'int\\[\\]\\*'");
 }
 
-TEST_F(TestFileSampleRunner, arrayOwnerOfIntsRunTest) {
+TEST_F(TestFileRunner, arrayOwnerOfIntsRunTest) {
   runFile("tests/samples/test_array_owner_of_ints.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, arrayOwnerOfIntsAutocastRunTest) {
+TEST_F(TestFileRunner, arrayOwnerOfIntsAutocastRunTest) {
   runFile("tests/samples/test_array_owner_of_ints_autocast.yz", "1");
 }
 
-TEST_F(TestFileSampleRunner, arrayOwnerOfIntsIncrementElementRunTest) {
+TEST_F(TestFileRunner, arrayOwnerOfIntsIncrementElementRunTest) {
   runFile("tests/samples/test_array_owner_of_ints_increment_element.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, localArrayOwner3dOfIntsStaticAllocationRunTest) {
+TEST_F(TestFileRunner, localArrayOwner3dOfIntsStaticAllocationRunTest) {
   runFile("tests/samples/test_local_array_owner_3d_of_ints_static_allocation.yz", "12");
 }
 
-TEST_F(TestFileSampleRunner, arrayOwnerOfModelOwnersRunTest) {
+TEST_F(TestFileRunner, arrayOwnerOfModelOwnersRunTest) {
   runFile("tests/samples/test_array_owner_of_model_owners.yz", "2018");
 }
 
-TEST_F(TestFileSampleRunner, arrayOwnerOfModelOwnersDestructorsAreCalledRunTest) {
+TEST_F(TestFileRunner, arrayOwnerOfModelOwnersDestructorsAreCalledRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_array_owner_of_model_owners.yz",
                                         "destructor object<8 bytes>*[5]\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
@@ -167,7 +167,7 @@ TEST_F(TestFileSampleRunner, arrayOwnerOfModelOwnersDestructorsAreCalledRunTest)
                                         "");
 }
 
-TEST_F(TestFileSampleRunner, arrayOwnerElementIsNulledOnOwnerTranserRunDeathTest) {
+TEST_F(TestFileRunner, arrayOwnerElementIsNulledOnOwnerTranserRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_array_owner_element_is_nulled_on_owner_transfer.yz",
                                1,
                                "",
@@ -175,7 +175,7 @@ TEST_F(TestFileSampleRunner, arrayOwnerElementIsNulledOnOwnerTranserRunDeathTest
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_array_owner_element_is_nulled_on_owner_transfer.yz:19)\n");
 }
 
-TEST_F(TestFileSampleRunner,
+TEST_F(TestFileRunner,
        ownerVariableIsNulledOnOwnershipTransferToArrayOwnerElementRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_owner_variable_is_nulled_on_ownership_transfer_to_array_owner_element.yz",
                                1,
@@ -184,7 +184,7 @@ TEST_F(TestFileSampleRunner,
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_variable_is_nulled_on_ownership_transfer_to_array_owner_element.yz:18)\n");
 }
 
-TEST_F(TestFileSampleRunner, ownerArrayOwnerElementsInitializedToNullRunDeathTest) {
+TEST_F(TestFileRunner, ownerArrayOwnerElementsInitializedToNullRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_owner_array_owner_elements_initialized_to_null.yz",
                                1,
                                "",
@@ -192,15 +192,15 @@ TEST_F(TestFileSampleRunner, ownerArrayOwnerElementsInitializedToNullRunDeathTes
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_array_owner_elements_initialized_to_null.yz:16)\n");
 }
 
-TEST_F(TestFileSampleRunner, arrayOwnerOfModelReferencesRunTest) {
+TEST_F(TestFileRunner, arrayOwnerOfModelReferencesRunTest) {
   runFile("tests/samples/test_array_owner_of_model_references.yz", "2018");
 }
 
-TEST_F(TestFileSampleRunner, referenceCountDecrementsOnArrayOwnerElementUnassignRunTest) {
+TEST_F(TestFileRunner, referenceCountDecrementsOnArrayOwnerElementUnassignRunTest) {
   runFile("tests/samples/test_reference_count_decrements_on_array_owner_element_unassign.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, referenceCountIncrementsOnAssignToArrayOwnerElementRunDeathTest) {
+TEST_F(TestFileRunner, referenceCountIncrementsOnAssignToArrayOwnerElementRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_reference_count_increments_on_assign_to_array_owner_element.yz",
                                1,
                                "",
@@ -209,7 +209,7 @@ TEST_F(TestFileSampleRunner, referenceCountIncrementsOnAssignToArrayOwnerElement
                                "Details: Object referenced by expression still has 1 active reference\n");
 }
 
-TEST_F(TestFileSampleRunner, referenceArrayOwnerInitializedToNullRunDeathTest) {
+TEST_F(TestFileRunner, referenceArrayOwnerInitializedToNullRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_reference_array_owner_initialized_to_null.yz",
                                1,
                                "",
@@ -217,7 +217,7 @@ TEST_F(TestFileSampleRunner, referenceArrayOwnerInitializedToNullRunDeathTest) {
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_array_owner_initialized_to_null.yz:16)\n");
 }
 
-TEST_F(TestFileSampleRunner, localArrayOfIntsRceRunDeathTest) {
+TEST_F(TestFileRunner, localArrayOfIntsRceRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_local_array_of_ints_rce.yz",
                                1,
                                "",
@@ -226,7 +226,7 @@ TEST_F(TestFileSampleRunner, localArrayOfIntsRceRunDeathTest) {
                                "Details: Object referenced by expression still has 1 active reference\n");
 }
 
-TEST_F(TestFileSampleRunner, localArrayOfOwnersRceRunDeathTest) {
+TEST_F(TestFileRunner, localArrayOfOwnersRceRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_local_array_of_owners_rce.yz",
                                1,
                                "",
@@ -235,7 +235,7 @@ TEST_F(TestFileSampleRunner, localArrayOfOwnersRceRunDeathTest) {
                                "Details: Object referenced by expression still has 1 active reference\n");
 }
 
-TEST_F(TestFileSampleRunner, localArrayOfReferencesRceRunDeathTest) {
+TEST_F(TestFileRunner, localArrayOfReferencesRceRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_local_array_of_references_rce.yz",
                                1,
                                "",
@@ -244,7 +244,7 @@ TEST_F(TestFileSampleRunner, localArrayOfReferencesRceRunDeathTest) {
                                "Details: Object referenced by expression still has 1 active reference\n");
 }
 
-TEST_F(TestFileSampleRunner, localArrayOwnerOfIntsOutOfBoundsRunDeathTest) {
+TEST_F(TestFileRunner, localArrayOwnerOfIntsOutOfBoundsRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_local_array_owner_of_ints_out_of_bounds.yz",
                                1,
                                "",
@@ -253,7 +253,7 @@ TEST_F(TestFileSampleRunner, localArrayOwnerOfIntsOutOfBoundsRunDeathTest) {
                                "Details: Index 2 is used on array of size 2\n");
 }
 
-TEST_F(TestFileSampleRunner, localArrayOwnerOfInts2dOutOfBoundsRunDeathTest) {
+TEST_F(TestFileRunner, localArrayOwnerOfInts2dOutOfBoundsRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_local_array_owner_of_ints_2d_out_of_bounds.yz",
                                1,
                                "",
@@ -262,7 +262,7 @@ TEST_F(TestFileSampleRunner, localArrayOwnerOfInts2dOutOfBoundsRunDeathTest) {
                                "Details: Index 6 is used on array of size 5\n");
 }
 
-TEST_F(TestFileSampleRunner, localArrayOwnerOfModelOwnersOutOfBoundsRunDeathTest) {
+TEST_F(TestFileRunner, localArrayOwnerOfModelOwnersOutOfBoundsRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_local_array_owner_of_model_owners_out_of_bounds.yz",
                                1,
                                "",

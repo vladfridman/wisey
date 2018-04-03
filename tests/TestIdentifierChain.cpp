@@ -21,7 +21,7 @@
 #include "MockMethodDescriptor.hpp"
 #include "MockType.hpp"
 #include "MockVariable.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IdentifierChain.hpp"

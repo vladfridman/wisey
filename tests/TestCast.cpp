@@ -14,7 +14,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -119,6 +119,6 @@ TEST_F(CastTest, widenFloatCastTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(TestFileSampleRunner, castFloatToIntRunTest) {
+TEST_F(TestFileRunner, castFloatToIntRunTest) {
   runFile("tests/samples/test_cast_float_to_int.yz", "3");
 }

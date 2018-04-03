@@ -18,7 +18,7 @@
 #include "MockExpression.hpp"
 #include "MockTypeSpecifier.hpp"
 #include "MockVariable.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/CastExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -138,6 +138,6 @@ TEST_F(CastExpressionTest, printToStreamTest) {
   EXPECT_STREQ("(int) true", stringStream.str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, CastOrExpressionGrammarRunTest) {
+TEST_F(TestFileRunner, CastOrExpressionGrammarRunTest) {
   runFile("tests/samples/test_cast_or_expression.yz", "10");
 }

@@ -15,7 +15,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "MockConcreteObjectType.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/ArrayType.hpp"
 #include "wisey/FixedField.hpp"
@@ -164,11 +164,11 @@ TEST_F(ArrayTypeTest, createParameterVariableTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(TestFileSampleRunner, llvmArrayRunTest) {
+TEST_F(TestFileRunner, llvmArrayRunTest) {
   runFile("tests/samples/test_llvm_array.yz", "4");
 }
 
-TEST_F(TestFileSampleRunner, llvmArrayDebugDestructorsRunTest) {
+TEST_F(TestFileRunner, llvmArrayDebugDestructorsRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_llvm_array.yz",
                                         "destructor object<8 bytes>*[5]\n"
                                         "destructor systems.vos.wisey.compiler.tests.MElement\n"

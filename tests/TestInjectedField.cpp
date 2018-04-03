@@ -10,7 +10,7 @@
 
 #include <gtest/gtest.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "MockExpression.hpp"
 #include "MockType.hpp"
 #include "wisey/InjectedField.hpp"

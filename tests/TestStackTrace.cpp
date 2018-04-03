@@ -8,11 +8,11 @@
 //  Tests reporting stack trace by TMainThread
 //
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 
 using namespace std;
 
-TEST_F(TestFileSampleRunner, stackTraceRunTest) {
+TEST_F(TestFileRunner, stackTraceRunTest) {
   string expected =
   "Stack trace 1:\n"
   "systems.vos.wisey.compiler.tests.MEngine.getVolume(tests/samples/test_stack_trace.yz:10)\n"
@@ -26,7 +26,7 @@ TEST_F(TestFileSampleRunner, stackTraceRunTest) {
                      "");
 }
 
-TEST_F(TestFileSampleRunner, stackTraceMultipleFilesRunTest) {
+TEST_F(TestFileRunner, stackTraceMultipleFilesRunTest) {
   string expected =
   "systems.vos.wisey.compiler.tests.multifile.MAdder.add(tests/samples/test_multifile_stack_trace/MAdder.yz:5)\n"
   "systems.vos.wisey.compiler.tests.multifile.CProgram.run(tests/samples/test_multifile_stack_trace/CProgram.yz:10)\n";
@@ -37,7 +37,7 @@ TEST_F(TestFileSampleRunner, stackTraceMultipleFilesRunTest) {
   runFilesCheckOutput(files, expected.c_str(), "");
 }
 
-TEST_F(TestFileSampleRunner, stackOverflowRunDeathTest) {
+TEST_F(TestFileRunner, stackOverflowRunDeathTest) {
   string expected = "Unhandled exception wisey.lang.MStackOverflowException\n";
   for (int i = 0; i < 1023; i++) {
     expected += "  at systems.vos.wisey.compiler.tests.CProgram.callRecursive(tests/samples/test_stack_overflow.yz:10)\n";

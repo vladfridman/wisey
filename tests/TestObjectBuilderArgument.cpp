@@ -15,7 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/ObjectBuilderArgument.hpp"
 #include "wisey/PrimitiveTypes.hpp"

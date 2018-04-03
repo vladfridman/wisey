@@ -15,7 +15,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMFunctionDeclaration.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
@@ -72,6 +72,6 @@ TEST_F(LLVMFunctionDeclarationTest, prototypeMethodsTest) {
   EXPECT_EQ(expected, function->getFunctionType());
 }
 
-TEST_F(TestFileSampleRunner, LLVMFunctionDeclarationTest) {
+TEST_F(TestFileRunner, LLVMFunctionDeclarationTest) {
   compileFile("tests/samples/test_llvm_function_declaration.yz");
 }

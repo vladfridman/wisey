@@ -19,7 +19,7 @@
 
 #include "MockExpression.hpp"
 #include "MockStatement.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/WhileStatement.hpp"
 
@@ -95,7 +95,7 @@ TEST_F(WhileStatementTest, whileStatementSimpleTest) {
   EXPECT_STREQ("while.end", iterator->getName().str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, whileStatementRunTest) {
+TEST_F(TestFileRunner, whileStatementRunTest) {
   runFile("tests/samples/test_while_statement.yz", "10");
 }
 

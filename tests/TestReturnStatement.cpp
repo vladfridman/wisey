@@ -15,7 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -242,19 +242,19 @@ TEST_F(ReturnStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, returnStatementRunTest) {
+TEST_F(TestFileRunner, returnStatementRunTest) {
   runFile("tests/samples/test_return_int.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, returnStatementCastRunTest) {
+TEST_F(TestFileRunner, returnStatementCastRunTest) {
   runFile("tests/samples/test_return_boolean_cast.yz", "1");
 }
 
-TEST_F(TestFileSampleRunner, earlyReturnRunTest) {
+TEST_F(TestFileRunner, earlyReturnRunTest) {
   runFile("tests/samples/test_early_return.yz", "1");
 }
 
-TEST_F(TestFileSampleRunner, returnReferenceToFreedObjectRunDeathTest) {
+TEST_F(TestFileRunner, returnReferenceToFreedObjectRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_return_reference_to_freed_object.yz",
                                1,
                                "",

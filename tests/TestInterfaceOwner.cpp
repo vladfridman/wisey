@@ -15,7 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockConcreteObjectType.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/InstanceOf.hpp"
 #include "wisey/InterfaceOwner.hpp"
@@ -194,23 +194,23 @@ TEST_F(InterfaceOwnerTest, createParameterVariableTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(TestFileSampleRunner, interfaceOwnerCastToModelOwnerRunTest) {
+TEST_F(TestFileRunner, interfaceOwnerCastToModelOwnerRunTest) {
   runFile("tests/samples/test_interface_owner_cast_to_model_owner.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, interfaceOwnerCastToInterfaceOwnerRunTest) {
+TEST_F(TestFileRunner, interfaceOwnerCastToInterfaceOwnerRunTest) {
   runFile("tests/samples/test_interface_owner_cast_to_interface_owner.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, interfaceOwnerCastToAnotherInterfaceOwnerRunTest) {
+TEST_F(TestFileRunner, interfaceOwnerCastToAnotherInterfaceOwnerRunTest) {
   runFile("tests/samples/test_interface_owner_cast_to_another_interface_owner.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, interfaceOnwerAutoCastRunTest) {
+TEST_F(TestFileRunner, interfaceOnwerAutoCastRunTest) {
   runFile("tests/samples/test_interface_owner_autocast.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, interfaceOwnerCearedAndThrowsNpeDeathRunTest) {
+TEST_F(TestFileRunner, interfaceOwnerCearedAndThrowsNpeDeathRunTest) {
   compileAndRunFileCheckOutput("tests/samples/test_interface_owner_cleared_and_throws_npe.yz",
                                1,
                                "",

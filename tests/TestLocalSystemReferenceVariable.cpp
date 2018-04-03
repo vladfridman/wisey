@@ -17,7 +17,7 @@
 #include "MockExpression.hpp"
 #include "MockVariable.hpp"
 #include "TestPrefix.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IExpression.hpp"

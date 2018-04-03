@@ -15,7 +15,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/ParameterArrayOwnerVariable.hpp"
@@ -128,11 +128,11 @@ TEST_F(ParameterArrayOwnerVariableTest, generateAssignmentDathTest) {
               "Error: Assignment to method parameters is not allowed");
 }
 
-TEST_F(TestFileSampleRunner, parameterArrayOwnerOfIntsRunTest) {
+TEST_F(TestFileRunner, parameterArrayOwnerOfIntsRunTest) {
   runFile("tests/samples/test_parameter_array_owner_of_ints.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, parameterArrayOwnerOfIntsIsNulledOnAssignmentRunDeathTest) {
+TEST_F(TestFileRunner, parameterArrayOwnerOfIntsIsNulledOnAssignmentRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_parameter_array_owner_of_ints_is_nulled_on_assignment.yz",
                                1,
                                "",
@@ -141,7 +141,7 @@ TEST_F(TestFileSampleRunner, parameterArrayOwnerOfIntsIsNulledOnAssignmentRunDea
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_parameter_array_owner_of_ints_is_nulled_on_assignment.yz:19)\n");
 }
 
-TEST_F(TestFileSampleRunner, parameterArrayOwnerOfIntsIsFreedRunDeathTest) {
+TEST_F(TestFileRunner, parameterArrayOwnerOfIntsIsFreedRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_parameter_array_owner_of_ints_is_freed.yz",
                                1,
                                "",

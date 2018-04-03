@@ -14,7 +14,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "MockStatement.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/FixedFieldDefinition.hpp"
@@ -311,21 +311,21 @@ TEST_F(NodeDefinitionTest, nodeWithInjectedFieldDeathTest) {
               "Error: Nodes can only have fixed or state fields");
 }
 
-TEST_F(TestFileSampleRunner, nodeDefinitionRunTest) {
+TEST_F(TestFileRunner, nodeDefinitionRunTest) {
   runFile("tests/samples/test_node_definition.yz", "0");
 }
 
-TEST_F(TestFileSampleRunner, nodeDefinitionWithMethodRunTest) {
+TEST_F(TestFileRunner, nodeDefinitionWithMethodRunTest) {
   runFile("tests/samples/test_node_method.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, nodeStateFieldsNonNodeOwnerTypeDeathRunTest) {
+TEST_F(TestFileRunner, nodeStateFieldsNonNodeOwnerTypeDeathRunTest) {
   expectFailCompile("tests/samples/test_node_state_fields_non_node_owner_type.yz",
                     1,
                     "Error: Node state fields can only be node owner or interface owner type");
 }
 
-TEST_F(TestFileSampleRunner, nodeWithInjectedFieldDeathRunTest) {
+TEST_F(TestFileRunner, nodeWithInjectedFieldDeathRunTest) {
   expectFailCompile("tests/samples/test_node_with_injected_field.yz",
                     1,
                     "Error: Nodes can only have fixed or state fields");

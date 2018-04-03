@@ -15,7 +15,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/ParameterArrayReferenceVariable.hpp"
@@ -97,15 +97,15 @@ TEST_F(ParameterArrayReferenceVariableTest, generateAssignmentDathTest) {
               "Error: Assignment to method parameters is not allowed");
 }
 
-TEST_F(TestFileSampleRunner, parameterArrayReferenceOfIntsRunTest) {
+TEST_F(TestFileRunner, parameterArrayReferenceOfIntsRunTest) {
   runFile("tests/samples/test_parameter_array_reference_of_ints.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, assignToParameterArrayReferenceVariableElementRunTest) {
+TEST_F(TestFileRunner, assignToParameterArrayReferenceVariableElementRunTest) {
   runFile("tests/samples/test_assign_to_parameter_array_reference_variable_element.yz", "7");
 }
 
-TEST_F(TestFileSampleRunner, parameterArrayReferenceOfIntsIncrementsReferenceCountRunDeathTest) {
+TEST_F(TestFileRunner, parameterArrayReferenceOfIntsIncrementsReferenceCountRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_parameter_array_reference_of_ints_increments_reference_count.yz",
                                1,
                                "",

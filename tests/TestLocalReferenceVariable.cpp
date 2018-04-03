@@ -17,7 +17,7 @@
 #include "MockExpression.hpp"
 #include "MockVariable.hpp"
 #include "TestPrefix.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IExpression.hpp"
@@ -211,41 +211,41 @@ TEST_F(LocalReferenceVariableTest, setToNullTest) {
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, headReferenceVariableAssignmentRunTest) {
+TEST_F(TestFileRunner, headReferenceVariableAssignmentRunTest) {
   runFile("tests/samples/test_assignment_model_variable.yz", "0");
 }
 
-TEST_F(TestFileSampleRunner, interfaceVariableAssignmentRunTest) {
+TEST_F(TestFileRunner, interfaceVariableAssignmentRunTest) {
   runFile("tests/samples/test_interface_variable_assignment.yz", "25");
 }
 
-TEST_F(TestFileSampleRunner, assignLocalReferenceToFieldOwnerCompileTest) {
+TEST_F(TestFileRunner, assignLocalReferenceToFieldOwnerCompileTest) {
   compileFile("tests/samples/test_assign_local_reference_to_field_owner.yz");
 }
 
-TEST_F(TestFileSampleRunner, assignLocalReferenceToFieldReferenceCompileTest) {
+TEST_F(TestFileRunner, assignLocalReferenceToFieldReferenceCompileTest) {
   compileFile("tests/samples/test_assign_local_reference_to_field_reference.yz");
 }
 
-TEST_F(TestFileSampleRunner, assignLocalReferenceToLocalOwnerCompileTest) {
+TEST_F(TestFileRunner, assignLocalReferenceToLocalOwnerCompileTest) {
   compileFile("tests/samples/test_assign_local_reference_to_local_owner.yz");
 }
 
-TEST_F(TestFileSampleRunner, assignLocalReferenceToLocalReferenceCompileTest) {
+TEST_F(TestFileRunner, assignLocalReferenceToLocalReferenceCompileTest) {
   compileFile("tests/samples/test_assign_local_reference_to_local_reference.yz");
 }
 
-TEST_F(TestFileSampleRunner, assignLocalReferenceToNullCompileTest) {
+TEST_F(TestFileRunner, assignLocalReferenceToNullCompileTest) {
   compileFile("tests/samples/test_assign_local_reference_to_null.yz");
 }
 
-TEST_F(TestFileSampleRunner, usingUninitializedLocalReferenceVariableRunDeathTest) {
+TEST_F(TestFileRunner, usingUninitializedLocalReferenceVariableRunDeathTest) {
   expectFailCompile("tests/samples/test_heap_reference_variable_not_initialized.yz",
                     1,
                     "Error: Variable 'color' is used before it is initialized");
 }
 
-TEST_F(TestFileSampleRunner, incompatableHeapVariableTypesInAssignmentRunDeathTest) {
+TEST_F(TestFileRunner, incompatableHeapVariableTypesInAssignmentRunDeathTest) {
   expectFailCompile("tests/samples/test_incompatible_heap_variable_types_in_assignment.yz",
                     1,
                     "Error: Incompatible types: can not cast from type "

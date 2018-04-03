@@ -16,7 +16,7 @@
 
 #include "MockExpression.hpp"
 #include "MockVariable.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/ArrayElementExpression.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -199,7 +199,7 @@ TEST_F(ArrayElementExpressionTest, generateIRDeathTest) {
               "Error: Expression does not reference an array element");
 }
 
-TEST_F(TestFileSampleRunner, arrayElementGetOnNullArrayRunDeathTest) {
+TEST_F(TestFileRunner, arrayElementGetOnNullArrayRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_array_element_get_on_null_array.yz",
                                1,
                                "",
@@ -207,7 +207,7 @@ TEST_F(TestFileSampleRunner, arrayElementGetOnNullArrayRunDeathTest) {
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_array_element_get_on_null_array.yz:10)\n");
 }
 
-TEST_F(TestFileSampleRunner, arrayElementSetOnNullArrayRunDeathTest) {
+TEST_F(TestFileRunner, arrayElementSetOnNullArrayRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_array_element_set_on_null_array.yz",
                                1,
                                "",
@@ -215,7 +215,7 @@ TEST_F(TestFileSampleRunner, arrayElementSetOnNullArrayRunDeathTest) {
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_array_element_set_on_null_array.yz:9)\n");
 }
 
-TEST_F(TestFileSampleRunner, fieldArrayReferenceOfModelReferenceIsNullRunDeathTest) {
+TEST_F(TestFileRunner, fieldArrayReferenceOfModelReferenceIsNullRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_field_array_reference_of_model_references_is_null.yz",
                                1,
                                "",

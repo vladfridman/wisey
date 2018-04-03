@@ -16,7 +16,7 @@
 
 #include "MockExpression.hpp"
 #include "MockStatement.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/AccessLevel.hpp"
 #include "wisey/ConstantDefinition.hpp"
@@ -222,11 +222,11 @@ TEST_F(ThreadDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
               "Error: Fields should be declared before methods");
 }
 
-TEST_F(TestFileSampleRunner, threadDefinitionRunTest) {
+TEST_F(TestFileRunner, threadDefinitionRunTest) {
   compileFile("tests/samples/test_thread_definition.yz");
 }
 
-TEST_F(TestFileSampleRunner, threadRunRunTest) {
+TEST_F(TestFileRunner, threadRunRunTest) {
   runFileCheckOutput("tests/samples/test_thread_run.yz",
                      "Thread started = 0, has result = 0\n"
                      "Starting worker thread\n"
@@ -239,7 +239,7 @@ TEST_F(TestFileSampleRunner, threadRunRunTest) {
                      "");
 }
 
-TEST_F(TestFileSampleRunner, threadProducerRunRunTest) {
+TEST_F(TestFileRunner, threadProducerRunRunTest) {
   runFileCheckOutput("tests/samples/test_thread_producer_run.yz",
                      "Thread started = 0, has result = 0\n"
                      "Starting producer thread\n"
@@ -256,7 +256,7 @@ TEST_F(TestFileSampleRunner, threadProducerRunRunTest) {
                      "");
 }
 
-TEST_F(TestFileSampleRunner, threadCancelRunTest) {
+TEST_F(TestFileRunner, threadCancelRunTest) {
   runFileCheckOutput("tests/samples/test_thread_cancel.yz",
                      "Thread started = 0, has result = 0, was cancelled = 0\n"
                      "Starting worker thread\n"

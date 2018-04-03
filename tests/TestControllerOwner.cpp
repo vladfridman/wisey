@@ -14,7 +14,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockConcreteObjectType.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/ControllerOwner.hpp"
 #include "wisey/FixedField.hpp"
@@ -306,7 +306,7 @@ TEST_F(ControllerOwnerTest, createParameterVariableTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(TestFileSampleRunner, controllerPassModelReferenceRunTest) {
+TEST_F(TestFileRunner, controllerPassModelReferenceRunTest) {
   runFile("tests/samples/test_controller_pass_model_reference.yz", "3");
 }
 

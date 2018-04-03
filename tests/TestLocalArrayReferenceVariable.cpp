@@ -16,7 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/ArrayType.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -144,23 +144,23 @@ TEST_F(LocalArrayReferenceVariableTest, generateWholeArrayAssignmentDeathTest) {
               "Error: Incompatible types: can not cast from type 'float\\[\\]' to 'int\\[\\]'");
 }
 
-TEST_F(TestFileSampleRunner, arrayReferenceOfIntsRunTest) {
+TEST_F(TestFileRunner, arrayReferenceOfIntsRunTest) {
   runFile("tests/samples/test_array_reference_of_ints.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, arrayReferenceOfIntsAutocastRunTest) {
+TEST_F(TestFileRunner, arrayReferenceOfIntsAutocastRunTest) {
   runFile("tests/samples/test_array_reference_of_ints_autocast.yz", "1");
 }
 
-TEST_F(TestFileSampleRunner, arrayReferenceOfIntsIncrementElementRunTest) {
+TEST_F(TestFileRunner, arrayReferenceOfIntsIncrementElementRunTest) {
   runFile("tests/samples/test_array_reference_of_ints_increment_element.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, arrayReferenceOfModelOwnersRunTest) {
+TEST_F(TestFileRunner, arrayReferenceOfModelOwnersRunTest) {
   runFile("tests/samples/test_array_reference_of_model_owners.yz", "2018");
 }
 
-TEST_F(TestFileSampleRunner, arrayReferenceOfModelOwnersDestructorsAreCalledRunTest) {
+TEST_F(TestFileRunner, arrayReferenceOfModelOwnersDestructorsAreCalledRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_array_reference_of_model_owners.yz",
                                         "destructor object<8 bytes>*[5]\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
@@ -168,7 +168,7 @@ TEST_F(TestFileSampleRunner, arrayReferenceOfModelOwnersDestructorsAreCalledRunT
                                         "");
 }
 
-TEST_F(TestFileSampleRunner, arrayReferenceElementIsNulledOnOwnerTranserRunDeathTest) {
+TEST_F(TestFileRunner, arrayReferenceElementIsNulledOnOwnerTranserRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_array_reference_element_is_nulled_on_owner_transfer.yz",
                                1,
                                "",
@@ -176,7 +176,7 @@ TEST_F(TestFileSampleRunner, arrayReferenceElementIsNulledOnOwnerTranserRunDeath
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_array_reference_element_is_nulled_on_owner_transfer.yz:19)\n");
 }
 
-TEST_F(TestFileSampleRunner,
+TEST_F(TestFileRunner,
        ownerVariableIsNulledOnOwnershipTransferToArrayReferenceElementRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_owner_variable_is_nulled_on_ownership_transfer_to_array_reference_element.yz",
                                1,
@@ -185,7 +185,7 @@ TEST_F(TestFileSampleRunner,
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_variable_is_nulled_on_ownership_transfer_to_array_reference_element.yz:18)\n");
 }
 
-TEST_F(TestFileSampleRunner, ownerArrayReferenceElementsInitializedToNullRunDeathTest) {
+TEST_F(TestFileRunner, ownerArrayReferenceElementsInitializedToNullRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_owner_array_reference_elements_initialized_to_null.yz",
                                1,
                                "",
@@ -193,15 +193,15 @@ TEST_F(TestFileSampleRunner, ownerArrayReferenceElementsInitializedToNullRunDeat
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_array_reference_elements_initialized_to_null.yz:16)\n");
 }
 
-TEST_F(TestFileSampleRunner, arrayReferenceOfModelReferencesRunTest) {
+TEST_F(TestFileRunner, arrayReferenceOfModelReferencesRunTest) {
   runFile("tests/samples/test_array_reference_of_model_references.yz", "2018");
 }
 
-TEST_F(TestFileSampleRunner, referenceCountDecrementsOnArrayReferenceElementUnassignRunTest) {
+TEST_F(TestFileRunner, referenceCountDecrementsOnArrayReferenceElementUnassignRunTest) {
   runFile("tests/samples/test_reference_count_decrements_on_array_reference_element_unassign.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, referenceCountIncrementsOnAssignToArrayReferenceElementRunDeathTest) {
+TEST_F(TestFileRunner, referenceCountIncrementsOnAssignToArrayReferenceElementRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_reference_count_increments_on_assign_to_array_reference_element.yz",
                                1,
                                "",
@@ -210,7 +210,7 @@ TEST_F(TestFileSampleRunner, referenceCountIncrementsOnAssignToArrayReferenceEle
                                "Details: Object referenced by expression still has 1 active reference\n");
 }
 
-TEST_F(TestFileSampleRunner, referenceArrayReferenceInitializedToNullRunDeathTest) {
+TEST_F(TestFileRunner, referenceArrayReferenceInitializedToNullRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_reference_array_reference_initialized_to_null.yz",
                                1,
                                "",
@@ -218,7 +218,7 @@ TEST_F(TestFileSampleRunner, referenceArrayReferenceInitializedToNullRunDeathTes
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_array_reference_initialized_to_null.yz:16)\n");
 }
 
-TEST_F(TestFileSampleRunner, localArrayReferenceOfModelReferencesOutOfBoundsRunDeathTest) {
+TEST_F(TestFileRunner, localArrayReferenceOfModelReferencesOutOfBoundsRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_local_array_reference_of_model_references_out_of_bounds.yz",
                                1,
                                "",

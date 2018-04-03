@@ -16,7 +16,7 @@
 
 #include "MockExpression.hpp"
 #include "MockVariable.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/ArrayAllocationStatic.hpp"
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/IRWriter.hpp"
@@ -140,11 +140,11 @@ TEST_F(ArrayAllocationStaticTest, printToStreamTest) {
   EXPECT_STREQ("{ 50, 60 }", stringStream.str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, localArrayOwnerOfIntsStaticAllocationRunTest) {
+TEST_F(TestFileRunner, localArrayOwnerOfIntsStaticAllocationRunTest) {
   runFile("tests/samples/test_local_array_owner_of_ints_static_allocation.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, localArrayOwnerOfIntsStaticAllocationTrailingCommaRunTest) {
+TEST_F(TestFileRunner, localArrayOwnerOfIntsStaticAllocationTrailingCommaRunTest) {
   runFile("tests/samples/test_local_array_owner_of_ints_static_allocation_trailing_comma.yz", "5");
 }
 

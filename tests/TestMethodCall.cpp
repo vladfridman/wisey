@@ -17,7 +17,7 @@
 
 #include "MockExpression.hpp"
 #include "MockType.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/FakeExpression.hpp"
@@ -388,63 +388,63 @@ TEST_F(MethodCallTest, incorrectArgumentTypesDeathTest) {
               "of the object type 'systems.vos.wisey.compiler.tests.MSquare");
 }
 
-TEST_F(TestFileSampleRunner, modelMethodCallRunTest) {
+TEST_F(TestFileRunner, modelMethodCallRunTest) {
   runFile("tests/samples/test_model_method_call.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, modelMethodCallMultipleArgumentsRunTest) {
+TEST_F(TestFileRunner, modelMethodCallMultipleArgumentsRunTest) {
   runFile("tests/samples/test_model_method_call_multiple_parameters.yz", "8");
 }
 
-TEST_F(TestFileSampleRunner, modelMethodCallToSubModelRunTest) {
+TEST_F(TestFileRunner, modelMethodCallToSubModelRunTest) {
   runFile("tests/samples/test_model_method_call_to_submodel.yz", "7");
 }
 
-TEST_F(TestFileSampleRunner, modelMethodCallAutoCastArgumentRunTest) {
+TEST_F(TestFileRunner, modelMethodCallAutoCastArgumentRunTest) {
   runFile("tests/samples/test_method_argument_autocast.yz", "1");
 }
 
-TEST_F(TestFileSampleRunner, modelMethodCallInExpressionRunTest) {
+TEST_F(TestFileRunner, modelMethodCallInExpressionRunTest) {
   runFile("tests/samples/test_method_call_in_expression.yz", "30");
 }
 
-TEST_F(TestFileSampleRunner, modelMethodCallInExpressionWrappedIdentifierRunTest) {
+TEST_F(TestFileRunner, modelMethodCallInExpressionWrappedIdentifierRunTest) {
   runFile("tests/samples/test_model_method_call_wrapped_identifier.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, methodCallToMethodCallRunTest) {
+TEST_F(TestFileRunner, methodCallToMethodCallRunTest) {
   runFile("tests/samples/test_method_call_to_method_call.yz", "10");
 }
 
-TEST_F(TestFileSampleRunner, methodCallToPrivateMethodViaPublicMethodRunTest) {
+TEST_F(TestFileRunner, methodCallToPrivateMethodViaPublicMethodRunTest) {
   runFile("tests/samples/test_call_to_private_method_via_public_method.yz", "20");
 }
 
-TEST_F(TestFileSampleRunner, returnOwnerAndAssignToReferenceRunTest) {
+TEST_F(TestFileRunner, returnOwnerAndAssignToReferenceRunTest) {
   runFile("tests/samples/test_method_call_return_owner_and_assign_to_reference.yz", "3");
 }
 
-TEST_F(TestFileSampleRunner, passOwnerAsParameterToMethodRunTest) {
+TEST_F(TestFileRunner, passOwnerAsParameterToMethodRunTest) {
   runFile("tests/samples/test_pass_owner_as_parameter_to_method.yz", "3");
 }
 
-TEST_F(TestFileSampleRunner, callToPrivateStaticMethodFromAnotherMethodRunTest) {
+TEST_F(TestFileRunner, callToPrivateStaticMethodFromAnotherMethodRunTest) {
   runFile("tests/samples/test_call_to_private_static_method_from_another_method.yz", "10");
 }
 
-TEST_F(TestFileSampleRunner, callToPrivateMethodOnExpressionRunTest) {
+TEST_F(TestFileRunner, callToPrivateMethodOnExpressionRunTest) {
   runFile("tests/samples/test_call_to_private_method_on_expression.yz", "2017");
 }
 
-TEST_F(TestFileSampleRunner, returnArrayReferenceRunTest) {
+TEST_F(TestFileRunner, returnArrayReferenceRunTest) {
   runFile("tests/samples/test_return_array_reference.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, returnArrayOwnerRunTest) {
+TEST_F(TestFileRunner, returnArrayOwnerRunTest) {
   runFile("tests/samples/test_return_array_owner.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, returnArrayOwnerDestructorsAreCalledRunTest) {
+TEST_F(TestFileRunner, returnArrayOwnerDestructorsAreCalledRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_return_array_owner.yz",
                                         "destructor primitive<36 bytes>[5]\n"
                                         "destructor primitive<4 bytes>[3]\n"
@@ -456,28 +456,28 @@ TEST_F(TestFileSampleRunner, returnArrayOwnerDestructorsAreCalledRunTest) {
                                         "");
 }
 
-TEST_F(TestFileSampleRunner, methodCallToPrivateMethodRunDeathTest) {
+TEST_F(TestFileRunner, methodCallToPrivateMethodRunDeathTest) {
   expectFailCompile("tests/samples/test_private_method_call.yz",
                     1,
                     "Error: Method 'getDouble' of object "
                     "systems.vos.wisey.compiler.tests.CService is private");
 }
 
-TEST_F(TestFileSampleRunner, methodExceptionNotHandledDeathTest) {
+TEST_F(TestFileRunner, methodExceptionNotHandledDeathTest) {
   expectFailCompile("tests/samples/test_method_exception_not_handled.yz",
                     1,
                     "Error: Method doSomething neither handles the exception "
                     "systems.vos.wisey.compiler.tests.MException nor throws it");
 }
 
-TEST_F(TestFileSampleRunner, methodIdentifierChainDeathTest) {
+TEST_F(TestFileRunner, methodIdentifierChainDeathTest) {
   expectFailCompile("tests/samples/test_identifier_chain.yz",
                     1,
                     "Error: Method 'vos' is not found in object "
                     "systems.vos.wisey.compiler.tests.MSystem");
 }
 
-TEST_F(TestFileSampleRunner, passOwnerAsParameterToMethodAndThenUseItRunDeathTest) {
+TEST_F(TestFileRunner, passOwnerAsParameterToMethodAndThenUseItRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_pass_owner_as_parameter_to_method_and_then_use_it.yz",
                                1,
                                "",
@@ -485,7 +485,7 @@ TEST_F(TestFileSampleRunner, passOwnerAsParameterToMethodAndThenUseItRunDeathTes
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_pass_owner_as_parameter_to_method_and_then_use_it.yz:24)\n");
 }
 
-TEST_F(TestFileSampleRunner, returnArrayReferenceRceRunDeathTest) {
+TEST_F(TestFileRunner, returnArrayReferenceRceRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_return_array_reference_rce.yz",
                                1,
                                "",

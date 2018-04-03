@@ -17,7 +17,7 @@
 #include "MockConcreteObjectType.hpp"
 #include "MockExpression.hpp"
 #include "TestPrefix.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -399,6 +399,6 @@ TEST_F(ModelOwnerTest, createParameterVariableTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(TestFileSampleRunner, ownerAssignToReferenceRunTest) {
+TEST_F(TestFileRunner, ownerAssignToReferenceRunTest) {
   runFile("tests/samples/test_owner_assign_to_reference.yz", "3");
 }

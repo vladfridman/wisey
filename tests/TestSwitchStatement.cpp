@@ -11,20 +11,20 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 
-TEST_F(TestFileSampleRunner, switchStatementRunTest) {
+TEST_F(TestFileRunner, switchStatementRunTest) {
   runFile("tests/samples/test_switch_statement.yz", "2");
 }
 
-TEST_F(TestFileSampleRunner, switchStatementWithBreaksRunTest) {
+TEST_F(TestFileRunner, switchStatementWithBreaksRunTest) {
   runFile("tests/samples/test_switch_statement_with_breaks.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, switchStatementWithDefaultRunTest) {
+TEST_F(TestFileRunner, switchStatementWithDefaultRunTest) {
   runFile("tests/samples/test_switch_statement_with_default.yz", "7");
 }
 
-TEST_F(TestFileSampleRunner, switchStatementWithFallThroughRunTest) {
+TEST_F(TestFileRunner, switchStatementWithFallThroughRunTest) {
   runFile("tests/samples/test_switch_statement_with_fallthrough.yz", "7");
 }

@@ -15,7 +15,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/LLVMStructDefinition.hpp"
@@ -82,6 +82,6 @@ TEST_F(LLVMStructDefinitionTest, prototypeMethodsTest) {
             llvmStructType->getLLVMType(mContext)->getElementType(1));
 }
 
-TEST_F(TestFileSampleRunner, llvmStructDefinitionTest) {
+TEST_F(TestFileRunner, llvmStructDefinitionTest) {
   compileFile("tests/samples/test_llvm_struct_definition.yz");
 }

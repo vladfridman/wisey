@@ -15,7 +15,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -115,14 +115,14 @@ TEST_F(ParameterReferenceVariableTest, decrementReferenceCounterTest) {
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, assignParameterReferenceToLocalOwnerCompileTest) {
+TEST_F(TestFileRunner, assignParameterReferenceToLocalOwnerCompileTest) {
   compileFile("tests/samples/test_assign_parameter_reference_local_owner.yz");
 }
 
-TEST_F(TestFileSampleRunner, assignParameterReferenceToLocalReferenceCompileTest) {
+TEST_F(TestFileRunner, assignParameterReferenceToLocalReferenceCompileTest) {
   compileFile("tests/samples/test_assign_parameter_reference_to_local_reference.yz");
 }
 
-TEST_F(TestFileSampleRunner, assignParameterReferenceToNullCompileTest) {
+TEST_F(TestFileRunner, assignParameterReferenceToNullCompileTest) {
   compileFile("tests/samples/test_assign_parameter_reference_to_null.yz");
 }

@@ -19,7 +19,7 @@
 
 #include "MockExpression.hpp"
 #include "MockStatement.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/Block.hpp"
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/IfStatement.hpp"
@@ -96,10 +96,10 @@ TEST_F(IfStatementTest, generateIRTest) {
   EXPECT_STREQ("if.end", iterator->getName().str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, ifThenStatementRunTest) {
+TEST_F(TestFileRunner, ifThenStatementRunTest) {
   runFile("tests/samples/test_if_then_statement.yz", "9");
 }
 
-TEST_F(TestFileSampleRunner, ifStatemenScopeRunTest) {
+TEST_F(TestFileRunner, ifStatemenScopeRunTest) {
   runFile("tests/samples/test_fibonacci_model_calculator.yz", "21");
 }

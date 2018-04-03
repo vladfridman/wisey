@@ -19,7 +19,7 @@
 #include "MockObjectType.hpp"
 #include "MockReferenceVariable.hpp"
 #include "MockVariable.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/AdjustReferenceCountFunction.hpp"
 #include "wisey/ConstantDefinition.hpp"
@@ -588,7 +588,7 @@ TEST_F(InterfaceTest, createParameterVariableTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(TestFileSampleRunner, interfaceMethodNotImplmentedDeathTest) {
+TEST_F(TestFileRunner, interfaceMethodNotImplmentedDeathTest) {
   expectFailCompile("tests/samples/test_interface_method_not_implmented.yz",
                     1,
                     "Error: Method getArea "
@@ -596,7 +596,7 @@ TEST_F(TestFileSampleRunner, interfaceMethodNotImplmentedDeathTest) {
                     "implemented by object systems.vos.wisey.compiler.tests.MSquare");
 }
 
-TEST_F(TestFileSampleRunner, interfaceMethodDifferentReturnTypeDeathTest) {
+TEST_F(TestFileRunner, interfaceMethodDifferentReturnTypeDeathTest) {
   expectFailCompile("tests/samples/test_interface_method_return_type_doesnot_match.yz",
                     1,
                     "Error: Method getArea "
@@ -605,7 +605,7 @@ TEST_F(TestFileSampleRunner, interfaceMethodDifferentReturnTypeDeathTest) {
                     "object systems.vos.wisey.compiler.tests.MSquare");
 }
 
-TEST_F(TestFileSampleRunner, interfaceMethodDifferentArgumentTypesDeathTest) {
+TEST_F(TestFileRunner, interfaceMethodDifferentArgumentTypesDeathTest) {
   expectFailCompile("tests/samples/test_interface_method_arguments_dont_match.yz",
                     1,
                     "Error: Method getArea "
@@ -614,7 +614,7 @@ TEST_F(TestFileSampleRunner, interfaceMethodDifferentArgumentTypesDeathTest) {
                     "object systems.vos.wisey.compiler.tests.MSquare");
 }
 
-TEST_F(TestFileSampleRunner, interfaceExceptionsDoNotReconcileDeathTest) {
+TEST_F(TestFileRunner, interfaceExceptionsDoNotReconcileDeathTest) {
   expectFailCompile("tests/samples/test_interface_method_exceptions_dont_reconcile.yz",
                     1,
                     "Error: Method getArea of "
@@ -626,55 +626,55 @@ TEST_F(TestFileSampleRunner, interfaceExceptionsDoNotReconcileDeathTest) {
                     "in object systems.vos.wisey.compiler.tests.MSquare");
 }
 
-TEST_F(TestFileSampleRunner, modelImplmenetingInterfaceDefinitionRunTest) {
+TEST_F(TestFileRunner, modelImplmenetingInterfaceDefinitionRunTest) {
   runFile("tests/samples/test_interface_implementation.yz", "90");
 }
 
-TEST_F(TestFileSampleRunner, interfaceInheritanceRunTest) {
+TEST_F(TestFileRunner, interfaceInheritanceRunTest) {
   runFile("tests/samples/test_level2_inheritance.yz", "235");
 }
 
-TEST_F(TestFileSampleRunner, modelWithMultipleInterfaceInheritanceRunTest) {
+TEST_F(TestFileRunner, modelWithMultipleInterfaceInheritanceRunTest) {
   runFile("tests/samples/test_model_multiple_interface_inheritance.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, interfaceWithMultipleInterfaceInheritanceRunTest) {
+TEST_F(TestFileRunner, interfaceWithMultipleInterfaceInheritanceRunTest) {
   runFile("tests/samples/test_interface_multiple_interface_inheritance.yz", "15");
 }
 
-TEST_F(TestFileSampleRunner, interfaceCastToModelRunTest) {
+TEST_F(TestFileRunner, interfaceCastToModelRunTest) {
   runFile("tests/samples/test_interface_cast_to_model.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, interfaceCastToInterfaceRunTest) {
+TEST_F(TestFileRunner, interfaceCastToInterfaceRunTest) {
   runFile("tests/samples/test_interface_cast_to_interface.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, interfaceCastToAnotherInterfaceRunTest) {
+TEST_F(TestFileRunner, interfaceCastToAnotherInterfaceRunTest) {
   runFile("tests/samples/test_interface_cast_to_another_interface.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, interfaceAutoCastRunTest) {
+TEST_F(TestFileRunner, interfaceAutoCastRunTest) {
   runFile("tests/samples/test_interface_autocast.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, interfaceStaticMethodRunTest) {
+TEST_F(TestFileRunner, interfaceStaticMethodRunTest) {
   runFile("tests/samples/test_interface_static_method.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, interfaceStaticMethodComplicatedRunTest) {
+TEST_F(TestFileRunner, interfaceStaticMethodComplicatedRunTest) {
   runFile("tests/samples/test_interface_static_method_complicated.yz", "7");
 }
 
-TEST_F(TestFileSampleRunner, interfaceObjectAddReferenceForModelRunTest) {
+TEST_F(TestFileRunner, interfaceObjectAddReferenceForModelRunTest) {
   runFile("tests/samples/test_interface_object_add_reference_for_model.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, interfaceObjectAddReferenceForNodeRunTest) {
+TEST_F(TestFileRunner, interfaceObjectAddReferenceForNodeRunTest) {
   runFile("tests/samples/test_interface_object_add_reference_for_node.yz", "7");
 }
 
-TEST_F(TestFileSampleRunner, interfaceStaticMethodThrowsNpeDeathRunTest) {
+TEST_F(TestFileRunner, interfaceStaticMethodThrowsNpeDeathRunTest) {
   compileAndRunFileCheckOutput("tests/samples/test_interface_static_method_throws_npe.yz",
                                1,
                                "",
@@ -683,7 +683,7 @@ TEST_F(TestFileSampleRunner, interfaceStaticMethodThrowsNpeDeathRunTest) {
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_interface_static_method_throws_npe.yz:24)\n");
 }
 
-TEST_F(TestFileSampleRunner, interfaceCastToModelCastExceptionRunDeathTest) {
+TEST_F(TestFileRunner, interfaceCastToModelCastExceptionRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_interface_cast_to_model_cast_exception.yz",
                                1,
                                "",
@@ -692,7 +692,7 @@ TEST_F(TestFileSampleRunner, interfaceCastToModelCastExceptionRunDeathTest) {
                                "Details: Can not cast from systems.vos.wisey.compiler.tests.IObject to systems.vos.wisey.compiler.tests.MFoo\n");
 }
 
-TEST_F(TestFileSampleRunner, interfaceCastToInterfaceCastExceptionRunDeathTest) {
+TEST_F(TestFileRunner, interfaceCastToInterfaceCastExceptionRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_interface_cast_to_interface_cast_exception.yz",
                                1,
                                "",
@@ -701,7 +701,7 @@ TEST_F(TestFileSampleRunner, interfaceCastToInterfaceCastExceptionRunDeathTest) 
                                "Details: Can not cast from systems.vos.wisey.compiler.tests.IObject to systems.vos.wisey.compiler.tests.IDevice\n");
 }
 
-TEST_F(TestFileSampleRunner, interfaceCircularDependencyRunDeathTest) {
+TEST_F(TestFileRunner, interfaceCircularDependencyRunDeathTest) {
   expectFailCompile("tests/samples/test_circular_dependency_loop.yz",
                     1,
                     "Error: Circular interface dependency between interfaces "

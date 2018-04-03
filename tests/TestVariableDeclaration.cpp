@@ -16,7 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/ControllerTypeSpecifier.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/Identifier.hpp"
@@ -151,22 +151,22 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   delete declaration;
 }
 
-TEST_F(TestFileSampleRunner, variableDeclarationRunTest) {
+TEST_F(TestFileRunner, variableDeclarationRunTest) {
   runFile("tests/samples/test_variable_declaration.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, variableDeclarationAssignToZeroRunTest) {
+TEST_F(TestFileRunner, variableDeclarationAssignToZeroRunTest) {
   runFile("tests/samples/test_variable_declaration_assign_to_zero.yz", "0");
 }
 
-TEST_F(TestFileSampleRunner, uninitializedIntRunTest) {
+TEST_F(TestFileRunner, uninitializedIntRunTest) {
   runFile("tests/samples/test_uninitialized_int.yz", "2");
 }
 
-TEST_F(TestFileSampleRunner, stringRunTest) {
+TEST_F(TestFileRunner, stringRunTest) {
   runFileCheckOutput("tests/samples/test_string.yz", "hello\n", "");
 }
 
-TEST_F(TestFileSampleRunner, stringUninitialzedRunTest) {
+TEST_F(TestFileRunner, stringUninitialzedRunTest) {
   runFileCheckOutput("tests/samples/test_string_uninitialized.yz", "1\n", "");
 }

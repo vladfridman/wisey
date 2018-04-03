@@ -13,7 +13,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "TestFileSampleRunner.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/FixedField.hpp"
@@ -238,14 +238,14 @@ TEST_F(MethodTest, printToStreamTest) {
                stringStream.str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, methodMissingThrowsDeathRunTest) {
+TEST_F(TestFileRunner, methodMissingThrowsDeathRunTest) {
   expectFailCompile("tests/samples/test_method_missing_throws.yz",
                     1,
                     "Error: Method doThrow neither handles the exception "
                     "systems.vos.wisey.compiler.tests.MException nor throws it");
 }
 
-TEST_F(TestFileSampleRunner, methodReturnTypeIsNotVoidDeathRunTest) {
+TEST_F(TestFileRunner, methodReturnTypeIsNotVoidDeathRunTest) {
   expectFailCompile("tests/samples/test_method_return_type_is_not_void.yz",
                     1,
                     "Error: Method run must return a value of type int");
