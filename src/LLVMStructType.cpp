@@ -9,6 +9,7 @@
 #include "wisey/FieldLLVMVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMStructType.hpp"
+#include "wisey/ParameterLLVMVariable.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -135,7 +136,7 @@ void LLVMStructType::printToStream(IRGenerationContext &context, iostream& strea
 }
 
 void LLVMStructType::createLocalVariable(IRGenerationContext& context, string name) const {
-  ILLVMType::createLocalVariable(context, this, name);
+  ILLVMType::createLocalLLVMVariable(context, this, name);
 }
 
 void LLVMStructType::createFieldVariable(IRGenerationContext& context,
@@ -148,7 +149,8 @@ void LLVMStructType::createFieldVariable(IRGenerationContext& context,
 void LLVMStructType::createParameterVariable(IRGenerationContext& context,
                                              string name,
                                              Value* value) const {
-  ILLVMType::createParameterVariable(context, this, value, name);
+  ParameterLLVMVariable* variable = new ParameterLLVMVariable(name, this, value);
+  context.getScopes().setVariable(variable);
 }
 
 const wisey::ArrayType* LLVMStructType::getArrayType(IRGenerationContext& context) const {

@@ -289,7 +289,6 @@
 		F531B65D1E0DEB26008304F3 /* TestCharConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B65C1E0DEB26008304F3 /* TestCharConstant.cpp */; };
 		F53227DC2062832800605E1B /* LLVMExternalStructDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53227DB2062832800605E1B /* LLVMExternalStructDefinition.cpp */; };
 		F53227DD2062832800605E1B /* LLVMExternalStructDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53227DB2062832800605E1B /* LLVMExternalStructDefinition.cpp */; };
-		F53227DF20628B6100605E1B /* TestLLVMExternalStructDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53227DE20628B6100605E1B /* TestLLVMExternalStructDefinition.cpp */; };
 		F53227E22063FB0900605E1B /* LocalSystemReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53227E12063FB0900605E1B /* LocalSystemReferenceVariable.cpp */; };
 		F53227E32063FB0900605E1B /* LocalSystemReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53227E12063FB0900605E1B /* LocalSystemReferenceVariable.cpp */; };
 		F53227E52063FFB300605E1B /* TestLocalSystemReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53227E42063FFB300605E1B /* TestLocalSystemReferenceVariable.cpp */; };
@@ -470,6 +469,7 @@
 		F54DC5C12073B9B700841E0F /* ParameterLLVMVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54DC5C02073B9B700841E0F /* ParameterLLVMVariable.cpp */; };
 		F54DC5C22073B9B700841E0F /* ParameterLLVMVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54DC5C02073B9B700841E0F /* ParameterLLVMVariable.cpp */; };
 		F54DC5C42073BB2500841E0F /* TestParameterLLVMVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54DC5C32073BB2500841E0F /* TestParameterLLVMVariable.cpp */; };
+		F54DC5C62073C43E00841E0F /* TestLLVMExternalStructDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54DC5C52073C43E00841E0F /* TestLLVMExternalStructDefinition.cpp */; };
 		F54ED95F1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54ED95E1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp */; };
 		F54ED9601FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54ED95E1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp */; };
 		F55173D61F99025400613993 /* TestConstantDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55173D51F99025400613993 /* TestConstantDefinition.cpp */; };
@@ -1332,7 +1332,6 @@
 		F531B65C1E0DEB26008304F3 /* TestCharConstant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCharConstant.cpp; path = tests/TestCharConstant.cpp; sourceTree = "<group>"; };
 		F53227DA206282EB00605E1B /* LLVMExternalStructDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMExternalStructDefinition.hpp; path = include/wisey/LLVMExternalStructDefinition.hpp; sourceTree = "<group>"; };
 		F53227DB2062832800605E1B /* LLVMExternalStructDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMExternalStructDefinition.cpp; path = src/LLVMExternalStructDefinition.cpp; sourceTree = "<group>"; };
-		F53227DE20628B6100605E1B /* TestLLVMExternalStructDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TestLLVMExternalStructDefinition.cpp; sourceTree = "<group>"; };
 		F53227E02063FAA600605E1B /* LocalSystemReferenceVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LocalSystemReferenceVariable.hpp; path = include/wisey/LocalSystemReferenceVariable.hpp; sourceTree = "<group>"; };
 		F53227E12063FB0900605E1B /* LocalSystemReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LocalSystemReferenceVariable.cpp; path = src/LocalSystemReferenceVariable.cpp; sourceTree = "<group>"; };
 		F53227E42063FFB300605E1B /* TestLocalSystemReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLocalSystemReferenceVariable.cpp; path = tests/TestLocalSystemReferenceVariable.cpp; sourceTree = "<group>"; };
@@ -1517,6 +1516,7 @@
 		F54DC5BF2073B97500841E0F /* ParameterLLVMVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ParameterLLVMVariable.hpp; path = include/wisey/ParameterLLVMVariable.hpp; sourceTree = "<group>"; };
 		F54DC5C02073B9B700841E0F /* ParameterLLVMVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ParameterLLVMVariable.cpp; path = src/ParameterLLVMVariable.cpp; sourceTree = "<group>"; };
 		F54DC5C32073BB2500841E0F /* TestParameterLLVMVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestParameterLLVMVariable.cpp; path = tests/TestParameterLLVMVariable.cpp; sourceTree = "<group>"; };
+		F54DC5C52073C43E00841E0F /* TestLLVMExternalStructDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMExternalStructDefinition.cpp; path = tests/TestLLVMExternalStructDefinition.cpp; sourceTree = "<group>"; };
 		F54ED95D1FE84C9400847A2B /* DestroyOwnerArrayFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DestroyOwnerArrayFunction.hpp; path = include/wisey/DestroyOwnerArrayFunction.hpp; sourceTree = "<group>"; };
 		F54ED95E1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DestroyOwnerArrayFunction.cpp; path = src/DestroyOwnerArrayFunction.cpp; sourceTree = "<group>"; };
 		F55173D51F99025400613993 /* TestConstantDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestConstantDefinition.cpp; path = tests/TestConstantDefinition.cpp; sourceTree = "<group>"; };
@@ -3271,7 +3271,7 @@
 			children = (
 				F5827052205FAB1600839EC7 /* TestLLVMArrayType.cpp */,
 				F5827055205FB10D00839EC7 /* TestLLVMArrayTypeSpecifer.cpp */,
-				F53227DE20628B6100605E1B /* TestLLVMExternalStructDefinition.cpp */,
+				F54DC5C52073C43E00841E0F /* TestLLVMExternalStructDefinition.cpp */,
 				F5D465FF20611A4B00C1047A /* TestLLVMFunction.cpp */,
 				F5D4660F2061606200C1047A /* TestLLVMFunctionCall.cpp */,
 				F582707F206013CA00839EC7 /* TestLLVMFunctionDeclaration.cpp */,
@@ -3925,6 +3925,7 @@
 				F53A2C051EEC31CC00E76A9E /* ControllerOwner.cpp in Sources */,
 				F51764CE1ECCEDAE000AFBA7 /* TestProgramFile.cpp in Sources */,
 				F5D466162061876500C1047A /* TestObjectFunctionVariable.cpp in Sources */,
+				F54DC5C62073C43E00841E0F /* TestLLVMExternalStructDefinition.cpp in Sources */,
 				F50FA29F1E2693F400435EEA /* CompoundStatement.cpp in Sources */,
 				F53A2C311EFFD91200E76A9E /* NodeOwner.cpp in Sources */,
 				F508E06A1E72D954005D6115 /* IMethodDescriptor.cpp in Sources */,
@@ -4138,7 +4139,6 @@
 				F582707E20600ECD00839EC7 /* LLVMFunctionDeclaration.cpp in Sources */,
 				F5D465FE2061121000C1047A /* LLVMVariableDeclaration.cpp in Sources */,
 				F517019A200DCCAA00A10B7C /* DestroyReferenceArrayFunction.cpp in Sources */,
-				F53227DF20628B6100605E1B /* TestLLVMExternalStructDefinition.cpp in Sources */,
 				F59D82081E0F102000057FB5 /* TestEmptyStatement.cpp in Sources */,
 				F5603B4A202121B000BBA05D /* ArraySpecificOwnerType.cpp in Sources */,
 				F5FCAE391ED5C68900C69899 /* CompilerArgumentParser.cpp in Sources */,

@@ -12,6 +12,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMPrimitiveTypeSpecifier.hpp"
 #include "wisey/LLVMi16Type.hpp"
+#include "wisey/ParameterLLVMVariable.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -104,7 +105,7 @@ void LLVMi16Type::printToStream(IRGenerationContext &context, iostream& stream) 
 }
 
 void LLVMi16Type::createLocalVariable(IRGenerationContext& context, string name) const {
-  ILLVMType::createLocalVariable(context, this, name);
+  ILLVMType::createLocalLLVMVariable(context, this, name);
 }
 
 void LLVMi16Type::createFieldVariable(IRGenerationContext& context,
@@ -117,7 +118,8 @@ void LLVMi16Type::createFieldVariable(IRGenerationContext& context,
 void LLVMi16Type::createParameterVariable(IRGenerationContext& context,
                                           string name,
                                           Value* value) const {
-  ILLVMType::createParameterVariable(context, this, value, name);
+  ParameterLLVMVariable* variable = new ParameterLLVMVariable(name, this, value);
+  context.getScopes().setVariable(variable);
 }
 
 const wisey::ArrayType* LLVMi16Type::getArrayType(IRGenerationContext& context) const {

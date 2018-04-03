@@ -32,17 +32,9 @@ namespace wisey {
     /**
      * Creates local llvm variable
      */
-    static LocalLLVMVariable* createLocalVariable(IRGenerationContext& context,
-                                                  const ILLVMType* type,
-                                                  std::string name);
-
-    /**
-     * Creates parameter llvm variable
-     */
-    static ParameterLLVMVariable* createParameterVariable(IRGenerationContext& context,
-                                                          const ILLVMType* type,
-                                                          llvm::Value* value,
-                                                          std::string name);
+    static LocalLLVMVariable* createLocalLLVMVariable(IRGenerationContext& context,
+                                                      const ILLVMType* type,
+                                                      std::string name);
     
   };
   

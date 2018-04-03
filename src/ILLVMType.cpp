@@ -15,9 +15,9 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-LocalLLVMVariable* ILLVMType::createLocalVariable(IRGenerationContext& context,
-                                                  const ILLVMType* type,
-                                                  std::string name) {
+LocalLLVMVariable* ILLVMType::createLocalLLVMVariable(IRGenerationContext& context,
+                                                      const ILLVMType* type,
+                                                      std::string name) {
   Type* llvmType = type->getLLVMType(context);
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
   
@@ -27,15 +27,5 @@ LocalLLVMVariable* ILLVMType::createLocalVariable(IRGenerationContext& context,
   Value* value = ConstantInt::get(llvmType, 0);
   IRWriter::newStoreInst(context, value, alloc);
   
-  return variable;
-}
-
-ParameterLLVMVariable* ILLVMType::createParameterVariable(IRGenerationContext &context,
-                                                          const ILLVMType* type,
-                                                          Value* value,
-                                                          string name) {
-  ParameterLLVMVariable* variable = new ParameterLLVMVariable(name, type, value);
-  context.getScopes().setVariable(variable);
-
   return variable;
 }

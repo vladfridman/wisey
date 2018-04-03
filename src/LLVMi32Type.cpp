@@ -13,6 +13,7 @@
 #include "wisey/LLVMPointerType.hpp"
 #include "wisey/LLVMPrimitiveTypeSpecifier.hpp"
 #include "wisey/LLVMi32Type.hpp"
+#include "wisey/ParameterLLVMVariable.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -105,7 +106,7 @@ void LLVMi32Type::printToStream(IRGenerationContext &context, iostream& stream) 
 }
 
 void LLVMi32Type::createLocalVariable(IRGenerationContext& context, string name) const {
-  ILLVMType::createLocalVariable(context, this, name);
+  ILLVMType::createLocalLLVMVariable(context, this, name);
 }
 
 void LLVMi32Type::createFieldVariable(IRGenerationContext& context,
@@ -118,7 +119,8 @@ void LLVMi32Type::createFieldVariable(IRGenerationContext& context,
 void LLVMi32Type::createParameterVariable(IRGenerationContext& context,
                                           string name,
                                           Value* value) const {
-  ILLVMType::createParameterVariable(context, this, value, name);
+  ParameterLLVMVariable* variable = new ParameterLLVMVariable(name, this, value);
+  context.getScopes().setVariable(variable);
 }
 
 const wisey::ArrayType* LLVMi32Type::getArrayType(IRGenerationContext& context) const {
