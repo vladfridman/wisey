@@ -1,0 +1,23 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+model MElement {
+  int mContent;
+
+  public int getContent() {
+    return mContent;
+  }
+}
+
+controller CProgram implements IProgram {
+  public int run() {
+    MElement*[]* array = new MElement*[1];
+    array[0] = builder(MElement).withContent(0).build();
+    MElement* object = array[0];
+
+    return array != null;
+  }
+}
+
+bind(CProgram).to(IProgram);

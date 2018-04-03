@@ -41,7 +41,7 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
     exit(1);
   }
   const ArrayType* arrayType = expressionType->getArrayType(context);
-  Value* arrayStructPointer = mArrayExpression->generateIR(context, assignToType);
+  Value* arrayStructPointer = mArrayExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
   
   Composer::pushCallStack(context, mLine);
   CheckForNullAndThrowFunction::call(context, arrayStructPointer);
