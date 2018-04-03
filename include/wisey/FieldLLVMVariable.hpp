@@ -1,13 +1,13 @@
 //
-//  FieldNativeVariable.hpp
+//  FieldLLVMVariable.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 3/8/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef FieldNativeVariable_h
-#define FieldNativeVariable_h
+#ifndef FieldLLVMVariable_h
+#define FieldLLVMVariable_h
 
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IFieldVariable.hpp"
@@ -19,16 +19,16 @@ namespace wisey {
   /**
    * Represents an object field that is of native type
    */
-  class FieldNativeVariable : public IFieldVariable, public IVariable {
+  class FieldLLVMVariable : public IFieldVariable, public IVariable {
     
     std::string mName;
     const IConcreteObjectType* mObject;
     
   public:
     
-    FieldNativeVariable(std::string name, const IConcreteObjectType* object);
+    FieldLLVMVariable(std::string name, const IConcreteObjectType* object);
     
-    ~FieldNativeVariable();
+    ~FieldLLVMVariable();
     
     std::string getName() const override;
     
@@ -51,5 +51,5 @@ namespace wisey {
   
 } /* namespace wisey */
 
-#endif /* FieldNativeVariable_h */
+#endif /* FieldLLVMVariable_h */
 

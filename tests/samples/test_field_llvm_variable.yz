@@ -1,0 +1,15 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+
+  state ::llvm::i32 mField;
+
+  public int run() {
+    mField = 7;
+    return mField;
+  }
+}
+
+bind(CProgram).to(IProgram);

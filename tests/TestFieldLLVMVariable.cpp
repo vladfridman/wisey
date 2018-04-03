@@ -1,11 +1,11 @@
 //
-//  TestFieldNativeVariable.cpp
+//  TestFieldLLVMVariable.cpp
 //  runtests
 //
 //  Created by Vladimir Fridman on 3/8/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link FieldNativeVariable}
+//  Tests {@link FieldLLVMVariable}
 //
 
 #include <gtest/gtest.h>
@@ -18,14 +18,11 @@
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/FieldNativeVariable.hpp"
+#include "wisey/FieldLLVMVariable.hpp"
 #include "wisey/IExpression.hpp"
-#include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
-#include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramPrefix.hpp"
 #include "wisey/StateField.hpp"
 
@@ -39,32 +36,32 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct FieldNativeVariableTest : Test {
+struct FieldLLVMVariableTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   Thread* mObject;
-  const LLVMPointerType* mPointerType;
+  const ILLVMType* mType;
   BasicBlock* mBasicBlock;
-  FieldNativeVariable* mFieldNativeVariable;
+  FieldLLVMVariable* mFieldLLVMVariable;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  FieldNativeVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+  FieldLLVMVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     
-    mPointerType = LLVMPrimitiveTypes::I8->getPointerType();
+    mType = LLVMPrimitiveTypes::I16;
     
     vector<Type*> types;
     types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                     ->getPointerTo()->getPointerTo());
-    types.push_back(mPointerType->getLLVMType(mContext));
+    types.push_back(mType->getLLVMType(mContext));
     string objectFullName = "systems.vos.wisey.compiler.tests.TObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
     vector<IField*> fields;
-    fields.push_back(new StateField(mPointerType, "mFoo"));
+    fields.push_back(new StateField(mType, "mFoo"));
     mObject = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
                                 objectFullName,
                                 objectStructType);
@@ -86,38 +83,38 @@ struct FieldNativeVariableTest : Test {
                                                              thisPointer);
     mContext.getScopes().setVariable(thisVariable);
     
-    mFieldNativeVariable = new FieldNativeVariable("mFoo", mObject);
+    mFieldLLVMVariable = new FieldLLVMVariable("mFoo", mObject);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
-  ~FieldNativeVariableTest() {
+  ~FieldLLVMVariableTest() {
     delete mStringStream;
     delete mObject;
   }
 };
 
-TEST_F(FieldNativeVariableTest, basicFieldsTest) {
-  EXPECT_STREQ("mFoo", mFieldNativeVariable->getName().c_str());
-  EXPECT_EQ(mPointerType, mFieldNativeVariable->getType());
-  EXPECT_TRUE(mFieldNativeVariable->isField());
-  EXPECT_FALSE(mFieldNativeVariable->isSystem());
+TEST_F(FieldLLVMVariableTest, basicFieldsTest) {
+  EXPECT_STREQ("mFoo", mFieldLLVMVariable->getName().c_str());
+  EXPECT_EQ(mType, mFieldLLVMVariable->getType());
+  EXPECT_TRUE(mFieldLLVMVariable->isField());
+  EXPECT_FALSE(mFieldLLVMVariable->isSystem());
 }
 
-TEST_F(FieldNativeVariableTest, generateIdentifierIRTest) {
-  mFieldNativeVariable->generateIdentifierIR(mContext);
+TEST_F(FieldLLVMVariableTest, generateIdentifierIRTest) {
+  mFieldLLVMVariable->generateIdentifierIR(mContext);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.TObject, %systems.vos.wisey.compiler.tests.TObject* null, i32 0, i32 1"
-  "\n  %1 = load i8*, i8** %0\n";
+  "\n  %1 = load i16, i16* %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(FieldNativeVariableTest, generateIdentifierReferenceIRTest) {
-  mFieldNativeVariable->generateIdentifierReferenceIR(mContext);
+TEST_F(FieldLLVMVariableTest, generateIdentifierReferenceIRTest) {
+  mFieldLLVMVariable->generateIdentifierReferenceIR(mContext);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
@@ -125,4 +122,27 @@ TEST_F(FieldNativeVariableTest, generateIdentifierReferenceIRTest) {
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.TObject, %systems.vos.wisey.compiler.tests.TObject* null, i32 0, i32 1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+}
+
+TEST_F(FieldLLVMVariableTest, generateAssignmentIRTest) {
+  NiceMock<MockExpression> assignToExpression;
+  
+  Value* assignToValue = ConstantInt::get(Type::getInt16Ty(mLLVMContext), 3);
+  ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(LLVMPrimitiveTypes::I16));
+  ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
+  vector<const IExpression*> arrayIndices;
+  
+  mFieldLLVMVariable->generateAssignmentIR(mContext, &assignToExpression, arrayIndices, 0);
+  
+  *mStringStream << *mBasicBlock;
+  string expected = string() +
+  "\nentry:" +
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.TObject, %systems.vos.wisey.compiler.tests.TObject* null, i32 0, i32 1"
+  "\n  store i16 3, i16* %0\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+}
+
+TEST_F(TestFileSampleRunner, fieldLLVMVariableRunTest) {
+  runFile("tests/samples/test_field_llvm_variable.yz", "7");
 }

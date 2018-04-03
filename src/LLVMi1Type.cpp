@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "wisey/FieldLLVMVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMPrimitiveTypeSpecifier.hpp"
 #include "wisey/LLVMi1Type.hpp"
@@ -109,7 +110,8 @@ void LLVMi1Type::createLocalVariable(IRGenerationContext& context, string name) 
 void LLVMi1Type::createFieldVariable(IRGenerationContext& context,
                                       string name,
                                       const IConcreteObjectType* object) const {
-  assert(false);
+  IVariable* variable = new FieldLLVMVariable(name, object);
+  context.getScopes().setVariable(variable);
 }
 
 void LLVMi1Type::createParameterVariable(IRGenerationContext& context,

@@ -6,7 +6,7 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/FieldNativeVariable.hpp"
+#include "wisey/FieldLLVMVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMStructType.hpp"
 
@@ -141,7 +141,7 @@ void LLVMStructType::createLocalVariable(IRGenerationContext& context, string na
 void LLVMStructType::createFieldVariable(IRGenerationContext& context,
                                          string name,
                                          const IConcreteObjectType* object) const {
-  IVariable* variable = new FieldNativeVariable(name, object);
+  IVariable* variable = new FieldLLVMVariable(name, object);
   context.getScopes().setVariable(variable);
 }
 
