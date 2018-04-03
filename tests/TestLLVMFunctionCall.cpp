@@ -34,6 +34,7 @@ struct LLVMFunctionCallTest : public Test {
   NiceMock<MockExpression>* mMockExpression = new NiceMock<MockExpression>();
   BasicBlock* mBasicBlock;
   Function* mFunction;
+  LLVMFunctionType* mLLVMFunctionType;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
 
@@ -49,12 +50,20 @@ struct LLVMFunctionCallTest : public Test {
     mContext.getScopes().pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
 
-    vector<Type*> argumentTypes;
-    argumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-    Type* llvmReturnType = Type::getInt16Ty(mLLVMContext)->getPointerTo();
-    FunctionType* ftype = FunctionType::get(llvmReturnType, argumentTypes, false);
+    vector<const IType*> argumentTypes;
+    vector<Type*> llvmArgumentTypes;
+    argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType());
+    llvmArgumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType()->getLLVMType(mContext));
+    const IType* returnType = LLVMPrimitiveTypes::I16->getPointerType();
+    Type* llvmReturnType = returnType->getLLVMType(mContext);
+    FunctionType* llvmFunctionType = FunctionType::get(llvmReturnType, llvmArgumentTypes, false);
+    mLLVMFunctionType = mContext.getLLVMFunctionType(returnType, argumentTypes);
+    mContext.registerLLVMFunction("myfunction", mLLVMFunctionType);
     
-    Function::Create(ftype, GlobalValue::ExternalLinkage, "myfunction", mContext.getModule());
+    Function::Create(llvmFunctionType,
+                     GlobalValue::ExternalLinkage,
+                     "myfunction",
+                     mContext.getModule());
 
     ON_CALL(*mMockExpression, getType(_)).
     WillByDefault(Return(LLVMPrimitiveTypes::I8->getPointerType()));
@@ -73,12 +82,12 @@ struct LLVMFunctionCallTest : public Test {
 };
 
 TEST_F(LLVMFunctionCallTest, getTypeTest) {
-  const NativeType* nativeType = mLLVMFunctionCall->getType(mContext);
+  const IType* returnType = mLLVMFunctionCall->getType(mContext);
   
-  EXPECT_TRUE(nativeType->isNative());
-  EXPECT_TRUE(nativeType->isReference());
+  EXPECT_TRUE(returnType->isNative());
+  EXPECT_TRUE(returnType->isReference());
   
-  EXPECT_EQ(Type::getInt16Ty(mLLVMContext)->getPointerTo(), nativeType->getLLVMType(mContext));
+  EXPECT_EQ(Type::getInt16Ty(mLLVMContext)->getPointerTo(), returnType->getLLVMType(mContext));
 }
 
 TEST_F(LLVMFunctionCallTest, generateIRTest) {

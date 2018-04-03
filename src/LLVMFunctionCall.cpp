@@ -43,14 +43,14 @@ IVariable* LLVMFunctionCall::getVariable(IRGenerationContext& context,
   return NULL;
 }
 
-const NativeType* LLVMFunctionCall::getType(IRGenerationContext& context) const {
+const IType* LLVMFunctionCall::getType(IRGenerationContext& context) const {
   Function* function = context.getModule()->getFunction(mFunctionName);
   if (function == NULL) {
     Log::e("LLVM function " + mFunctionName + " is not defined");
     exit(1);
   }
   
-  return context.getNativeType(function->getReturnType());
+  return context.lookupLLVMFunction(mFunctionName)->getReturnType();
 }
 
 bool LLVMFunctionCall::isConstant() const {

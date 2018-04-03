@@ -11,8 +11,8 @@
 
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IFieldVariable.hpp"
+#include "wisey/ILLVMType.hpp"
 #include "wisey/IReferenceVariable.hpp"
-#include "wisey/NativeType.hpp"
 
 namespace wisey {
   
@@ -32,7 +32,7 @@ namespace wisey {
     
     std::string getName() const override;
     
-    const NativeType* getType() const override;
+    const ILLVMType* getType() const override;
     
     bool isField() const override;
     

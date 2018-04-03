@@ -34,14 +34,20 @@ IObjectType* LLVMFunctionDeclaration::prototypeObject(IRGenerationContext& conte
 }
 
 void LLVMFunctionDeclaration::prototypeMethods(IRGenerationContext& context) const {
-  vector<Type*> argumentTypes;
+  vector<const IType*> argumentTypes;
+  vector<Type*> llvmArgumentTypes;
   for (const ITypeSpecifier* argumentSpecifier : mArgumentSpecifiers) {
-    argumentTypes.push_back(argumentSpecifier->getType(context)->getLLVMType(context));
+    const IType* argumentType = argumentSpecifier->getType(context);
+    argumentTypes.push_back(argumentType);
+    llvmArgumentTypes.push_back(argumentType->getLLVMType(context));
   }
-  Type* llvmReturnType = mReturnSpecifier->getType(context)->getLLVMType(context);
-  FunctionType* ftype = FunctionType::get(llvmReturnType, argumentTypes, false);
+  const IType* returnType = mReturnSpecifier->getType(context);
+  LLVMFunctionType* functionType = context.getLLVMFunctionType(returnType, argumentTypes);
+  context.registerLLVMFunction(mName, functionType);
+  Type* llvmReturnType = returnType->getLLVMType(context);
+  FunctionType* llvmFunctionType = FunctionType::get(llvmReturnType, llvmArgumentTypes, false);
   
-  Function::Create(ftype, GlobalValue::ExternalLinkage, mName, context.getModule());
+  Function::Create(llvmFunctionType, GlobalValue::ExternalLinkage, mName, context.getModule());
 }
 
 Value* LLVMFunctionDeclaration::generateIR(IRGenerationContext& context) const {

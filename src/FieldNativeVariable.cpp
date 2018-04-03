@@ -28,11 +28,11 @@ string FieldNativeVariable::getName() const {
   return mName;
 }
 
-const NativeType* FieldNativeVariable::getType() const {
+const ILLVMType* FieldNativeVariable::getType() const {
   const IType* type = mObject->findField(mName)->getType();
   assert(type->isNative());
   
-  return (const NativeType*) type;
+  return (const ILLVMType*) type;
 }
 
 bool FieldNativeVariable::isField() const {

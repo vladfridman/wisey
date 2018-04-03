@@ -89,11 +89,7 @@ IRGenerationContext::~IRGenerationContext() {
        iterator++) {
     delete iterator->second;
   }
-  for (map<Type*, NativeType*>::iterator iterator = mNativeTypes.begin();
-       iterator != mNativeTypes.end();
-       iterator++) {
-    delete iterator->second;
-  }
+  mLLVMFunctions.clear();
   mBindings.clear();
 }
 
@@ -328,15 +324,20 @@ LLVMFunctionType* IRGenerationContext::getLLVMFunctionType(const IType* returnTy
   return llvmFunctionType;
 }
 
-NativeType* IRGenerationContext::getNativeType(Type* llvmType) {
-  if (mNativeTypes.count(llvmType)) {
-    return mNativeTypes.at(llvmType);
+void IRGenerationContext::registerLLVMFunction(string name, const LLVMFunctionType* functionType) {
+  if (mLLVMFunctions.count(name)) {
+    Log::e("Can not register llvm function named " + name + " because it is already registered");
+    exit(1);
   }
-  
-  NativeType* nativeType = new NativeType(llvmType);
-  mNativeTypes[llvmType] = nativeType;
+  mLLVMFunctions[name] = functionType;
+}
 
-  return nativeType;
+const LLVMFunctionType* IRGenerationContext::lookupLLVMFunction(string name) {
+  if (!mLLVMFunctions.count(name)) {
+    Log::e("Can not find llvm function named " + name);
+    exit(1);
+  }
+  return mLLVMFunctions.at(name);
 }
 
 void IRGenerationContext::bindInterfaceToController(const Interface* interface,
@@ -569,4 +570,3 @@ void IRGenerationContext::setObjectType(const IObjectType* objectType) {
 const IObjectType* IRGenerationContext::getObjectType() const {
   return mObjectType;
 }
-

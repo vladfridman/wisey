@@ -10,7 +10,6 @@
 #define LLVMFunctionCall_h
 
 #include "wisey/IExpression.hpp"
-#include "wisey/NativeType.hpp"
 
 namespace wisey {
   
@@ -33,7 +32,7 @@ namespace wisey {
     
     llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
     
-    const NativeType* getType(IRGenerationContext& context) const override;
+    const IType* getType(IRGenerationContext& context) const override;
     
     bool isConstant() const override;
     

@@ -20,7 +20,6 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/LocalPointerVariable.hpp"
-#include "wisey/NativeType.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 

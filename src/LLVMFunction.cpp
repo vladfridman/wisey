@@ -39,15 +39,23 @@ LLVMFunction::~LLVMFunction() {
 
 Value* LLVMFunction::declareFunction(IRGenerationContext& context,
                                      const IObjectType* objectType) const {
-  vector<Type*> argumentTypes;
+  vector<const IType*> argumentTypes;
+  vector<Type*> llvmArgumentTypes;
   for (const LLVMFunctionArgument* argument : mArguments) {
-    argumentTypes.push_back(argument->getType()->getLLVMType(context));
+    const IType* argumentType = argument->getType();
+    argumentTypes.push_back(argumentType);
+    llvmArgumentTypes.push_back(argumentType->getLLVMType(context));
   }
+  LLVMFunctionType* functionType = context.getLLVMFunctionType(mReturnType, argumentTypes);
+  context.registerLLVMFunction(mName, functionType);
   Type* llvmReturnType = mReturnType->getLLVMType(context);
-  FunctionType* ftype = FunctionType::get(llvmReturnType, argumentTypes, false);
+  FunctionType* llvmFunctionType = FunctionType::get(llvmReturnType, llvmArgumentTypes, false);
   string name = IMethodCall::translateObjectMethodToLLVMFunctionName(objectType, mName);
   
-  return Function::Create(ftype, GlobalValue::InternalLinkage, name, context.getModule());
+  return Function::Create(llvmFunctionType,
+                          GlobalValue::InternalLinkage,
+                          name,
+                          context.getModule());
 }
 
 void LLVMFunction::generateBodyIR(IRGenerationContext& context,

@@ -1,28 +1,10 @@
 package systems.vos.wisey.compiler.tests;
 
 import wisey.lang.CCallStack;
-import wisey.lang.IThread;
-
-model MMyModel implements IThread {
-
-  public boolean send(::llvm::object* message) {
-    return true;
-  }
-
-  public CCallStack getCallStack() {
-    return null;
-  }
-}
 
 controller CService {
 
-  public void run() {
-  }
-
   ::llvm::function ::llvm::object runBridge(::llvm::i8::pointer argument) {
-    MMyModel myModel = (MMyModel) argument;
-    IThread myThread = (IThread) myModel;
-    CCallStack callStack = ::llvm::function::systems.vos.wisey.compiler.tests.MMyModel.getCallStack(myModel, myThread, (CCallStack) null);
 
     return argument;
   }

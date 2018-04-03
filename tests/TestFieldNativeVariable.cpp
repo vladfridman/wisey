@@ -23,6 +23,7 @@
 #include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramPrefix.hpp"
@@ -42,7 +43,7 @@ struct FieldNativeVariableTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   Thread* mObject;
-  NativeType* mNativeType;
+  const LLVMPointerType* mPointerType;
   BasicBlock* mBasicBlock;
   FieldNativeVariable* mFieldNativeVariable;
   string mStringBuffer;
@@ -53,17 +54,17 @@ struct FieldNativeVariableTest : Test {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     
-    mNativeType = new NativeType(Type::getInt8Ty(mLLVMContext)->getPointerTo());
+    mPointerType = LLVMPrimitiveTypes::I8->getPointerType();
     
     vector<Type*> types;
     types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                     ->getPointerTo()->getPointerTo());
-    types.push_back(mNativeType->getLLVMType(mContext));
+    types.push_back(mPointerType->getLLVMType(mContext));
     string objectFullName = "systems.vos.wisey.compiler.tests.TObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
     vector<IField*> fields;
-    fields.push_back(new StateField(mNativeType, "mFoo"));
+    fields.push_back(new StateField(mPointerType, "mFoo"));
     mObject = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
                                 objectFullName,
                                 objectStructType);
@@ -98,7 +99,7 @@ struct FieldNativeVariableTest : Test {
 
 TEST_F(FieldNativeVariableTest, basicFieldsTest) {
   EXPECT_STREQ("mFoo", mFieldNativeVariable->getName().c_str());
-  EXPECT_EQ(mNativeType, mFieldNativeVariable->getType());
+  EXPECT_EQ(mPointerType, mFieldNativeVariable->getType());
   EXPECT_TRUE(mFieldNativeVariable->isField());
   EXPECT_FALSE(mFieldNativeVariable->isSystem());
 }
