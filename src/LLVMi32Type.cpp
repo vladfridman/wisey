@@ -116,7 +116,7 @@ void LLVMi32Type::createFieldVariable(IRGenerationContext& context,
 void LLVMi32Type::createParameterVariable(IRGenerationContext& context,
                                           string name,
                                           Value* value) const {
-  assert(false);
+  ILLVMType::createParameterVariable(context, this, value, name);
 }
 
 const wisey::ArrayType* LLVMi32Type::getArrayType(IRGenerationContext& context) const {

@@ -148,7 +148,7 @@ void LLVMStructType::createFieldVariable(IRGenerationContext& context,
 void LLVMStructType::createParameterVariable(IRGenerationContext& context,
                                              string name,
                                              Value* value) const {
-  assert(false);
+  ILLVMType::createParameterVariable(context, this, value, name);
 }
 
 const wisey::ArrayType* LLVMStructType::getArrayType(IRGenerationContext& context) const {

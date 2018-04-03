@@ -467,6 +467,9 @@
 		F54B148F205EC79D0030773F /* TestLLVMi32Type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B148E205EC79D0030773F /* TestLLVMi32Type.cpp */; };
 		F54B1491205EC82B0030773F /* TestLLVMi64Type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B1490205EC82B0030773F /* TestLLVMi64Type.cpp */; };
 		F54B1493205EC8C50030773F /* TestLLVMPrimitiveTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B1492205EC8C50030773F /* TestLLVMPrimitiveTypeSpecifier.cpp */; };
+		F54DC5C12073B9B700841E0F /* ParameterLLVMVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54DC5C02073B9B700841E0F /* ParameterLLVMVariable.cpp */; };
+		F54DC5C22073B9B700841E0F /* ParameterLLVMVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54DC5C02073B9B700841E0F /* ParameterLLVMVariable.cpp */; };
+		F54DC5C42073BB2500841E0F /* TestParameterLLVMVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54DC5C32073BB2500841E0F /* TestParameterLLVMVariable.cpp */; };
 		F54ED95F1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54ED95E1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp */; };
 		F54ED9601FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54ED95E1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp */; };
 		F55173D61F99025400613993 /* TestConstantDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55173D51F99025400613993 /* TestConstantDefinition.cpp */; };
@@ -1511,6 +1514,9 @@
 		F54B1490205EC82B0030773F /* TestLLVMi64Type.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMi64Type.cpp; path = tests/TestLLVMi64Type.cpp; sourceTree = "<group>"; };
 		F54B1492205EC8C50030773F /* TestLLVMPrimitiveTypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMPrimitiveTypeSpecifier.cpp; path = tests/TestLLVMPrimitiveTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F54B1494205EE3DE0030773F /* LLVMStructSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMStructSpecifier.hpp; path = include/wisey/LLVMStructSpecifier.hpp; sourceTree = "<group>"; };
+		F54DC5BF2073B97500841E0F /* ParameterLLVMVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ParameterLLVMVariable.hpp; path = include/wisey/ParameterLLVMVariable.hpp; sourceTree = "<group>"; };
+		F54DC5C02073B9B700841E0F /* ParameterLLVMVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ParameterLLVMVariable.cpp; path = src/ParameterLLVMVariable.cpp; sourceTree = "<group>"; };
+		F54DC5C32073BB2500841E0F /* TestParameterLLVMVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestParameterLLVMVariable.cpp; path = tests/TestParameterLLVMVariable.cpp; sourceTree = "<group>"; };
 		F54ED95D1FE84C9400847A2B /* DestroyOwnerArrayFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DestroyOwnerArrayFunction.hpp; path = include/wisey/DestroyOwnerArrayFunction.hpp; sourceTree = "<group>"; };
 		F54ED95E1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DestroyOwnerArrayFunction.cpp; path = src/DestroyOwnerArrayFunction.cpp; sourceTree = "<group>"; };
 		F55173D51F99025400613993 /* TestConstantDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestConstantDefinition.cpp; path = tests/TestConstantDefinition.cpp; sourceTree = "<group>"; };
@@ -2774,6 +2780,7 @@
 				F5D46611206173B600C1047A /* ObjectFunctionVariable.hpp */,
 				F513DDFF2018682E001A075B /* ParameterArrayOwnerVariable.hpp */,
 				F513DE052018A0A7001A075B /* ParameterArrayReferenceVariable.hpp */,
+				F54DC5BF2073B97500841E0F /* ParameterLLVMVariable.hpp */,
 				F5A363451F3724EF005880B3 /* ParameterOwnerVariable.hpp */,
 				F5D466052061316100C1047A /* ParameterPointerVariable.hpp */,
 				F5F435C71FACA10A0097E5D0 /* ParameterPrimitiveVariable.hpp */,
@@ -2805,6 +2812,7 @@
 				F5D466122061751000C1047A /* ObjectFunctionVariable.cpp */,
 				F513DE0020186900001A075B /* ParameterArrayOwnerVariable.cpp */,
 				F513DE062018A0F7001A075B /* ParameterArrayReferenceVariable.cpp */,
+				F54DC5C02073B9B700841E0F /* ParameterLLVMVariable.cpp */,
 				F5A363461F37257C005880B3 /* ParameterOwnerVariable.cpp */,
 				F5D466062061318F00C1047A /* ParameterPointerVariable.cpp */,
 				F5F435C81FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp */,
@@ -3377,6 +3385,7 @@
 				F5D466152061876500C1047A /* TestObjectFunctionVariable.cpp */,
 				F513DE0320186CFC001A075B /* TestParameterArrayOwnerVariable.cpp */,
 				F513DE092018AA3E001A075B /* TestParameterArrayReferenceVariable.cpp */,
+				F54DC5C32073BB2500841E0F /* TestParameterLLVMVariable.cpp */,
 				F5A363491F373FFE005880B3 /* TestParameterOwnerVariable.cpp */,
 				F5D466092061330C00C1047A /* TestParameterPointerVariable.cpp */,
 				F5F435CB1FACA32A0097E5D0 /* TestParameterPrimitiveVariable.cpp */,
@@ -3803,6 +3812,7 @@
 				F58FA30A20728D2200C86D33 /* LLVMObjectTypeSpecifier.cpp in Sources */,
 				F582706C205FE32700839EC7 /* TestLLVMFunctionType.cpp in Sources */,
 				F5C6FD6B1E48B33A0054209D /* VoidType.cpp in Sources */,
+				F54DC5C22073B9B700841E0F /* ParameterLLVMVariable.cpp in Sources */,
 				F51DF67B1FDAB2F800475F0B /* IObjectDefinition.cpp in Sources */,
 				F5F396E01E3F8C5700F34296 /* TestObjectBuilder.cpp in Sources */,
 				F5A3635C1F377F84005880B3 /* TestIFieldVariable.cpp in Sources */,
@@ -3997,6 +4007,7 @@
 				F53A2C501F02D55A00E76A9E /* TestPrimitiveTypes.cpp in Sources */,
 				F59D820E1E0F25DF00057FB5 /* TestWhileStatement.cpp in Sources */,
 				F5F3F8DD1FDEEA71001BA5B9 /* TestArrayTypeSpecifier.cpp in Sources */,
+				F54DC5C42073BB2500841E0F /* TestParameterLLVMVariable.cpp in Sources */,
 				F5CB7F362049F5ED007628B5 /* ThreadTypeSpecifierFull.cpp in Sources */,
 				F5105FAC1FD02F6900ACF57B /* ImportProfile.cpp in Sources */,
 				F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */,
@@ -4343,6 +4354,7 @@
 				F50FA2E71E2E3B0900435EEA /* IntConstant.cpp in Sources */,
 				F50FA2E61E2E3B0900435EEA /* FloatConstant.cpp in Sources */,
 				F5F396DB1E34BFE000F34296 /* ObjectBuilderArgument.cpp in Sources */,
+				F54DC5C12073B9B700841E0F /* ParameterLLVMVariable.cpp in Sources */,
 				F5CB180C1EB0C16D007E2E43 /* IntrinsicFunctions.cpp in Sources */,
 				F57411491E0194E5009809FF /* ReturnVoidStatement.cpp in Sources */,
 				F54B147A205D6D340030773F /* LLVMPrimitiveTypes.cpp in Sources */,

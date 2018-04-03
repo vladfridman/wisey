@@ -9,6 +9,7 @@
 #include "wisey/ILLVMType.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalLLVMVariable.hpp"
+#include "wisey/ParameterLLVMVariable.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -26,5 +27,15 @@ LocalLLVMVariable* ILLVMType::createLocalVariable(IRGenerationContext& context,
   Value* value = ConstantInt::get(llvmType, 0);
   IRWriter::newStoreInst(context, value, alloc);
   
+  return variable;
+}
+
+ParameterLLVMVariable* ILLVMType::createParameterVariable(IRGenerationContext &context,
+                                                          const ILLVMType* type,
+                                                          Value* value,
+                                                          string name) {
+  ParameterLLVMVariable* variable = new ParameterLLVMVariable(name, type, value);
+  context.getScopes().setVariable(variable);
+
   return variable;
 }

@@ -15,6 +15,7 @@ namespace wisey {
   
   class LLVMPointerType;
   class LocalLLVMVariable;
+  class ParameterLLVMVariable;
   
   /**
    * Represents an LLVM native type such as i8, i32, or llvm struct or llvm array
@@ -35,6 +36,14 @@ namespace wisey {
                                                   const ILLVMType* type,
                                                   std::string name);
 
+    /**
+     * Creates parameter llvm variable
+     */
+    static ParameterLLVMVariable* createParameterVariable(IRGenerationContext& context,
+                                                          const ILLVMType* type,
+                                                          llvm::Value* value,
+                                                          std::string name);
+    
   };
   
 } /* namespace wisey */
