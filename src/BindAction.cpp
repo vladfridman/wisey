@@ -14,25 +14,29 @@ using namespace std;
 using namespace wisey;
 
 BindAction::BindAction(IInterfaceTypeSpecifier* interfaceTypeSpecifier,
-                       IControllerTypeSpecifier* controllerTypeSpecifier) :
+                       IControllerTypeSpecifier* controllerTypeSpecifier,
+                       InjectionArgumentList injectionArguments) :
 mInterfaceTypeSpecifier(interfaceTypeSpecifier),
-mContreollerTypeSpecifier(controllerTypeSpecifier) { }
+mContreollerTypeSpecifier(controllerTypeSpecifier),
+mInjectionArguments(injectionArguments) { }
 
 BindAction::~BindAction() {
   delete mInterfaceTypeSpecifier;
   delete mContreollerTypeSpecifier;
+  for (InjectionArgument* argument : mInjectionArguments) {
+    delete argument;
+  }
+  mInjectionArguments.clear();
 }
 
-IObjectType* BindAction::prototypeObject(IRGenerationContext& context) const {
-  return NULL;
+const Interface* BindAction::getInterface(IRGenerationContext& context) const {
+  return mInterfaceTypeSpecifier->getType(context);
 }
 
-void BindAction::prototypeMethods(IRGenerationContext& context) const {
-  const Interface* interface = (const Interface*) mInterfaceTypeSpecifier->getType(context);
-  const Controller* controller = (const Controller*) mContreollerTypeSpecifier->getType(context);
-  context.bindInterfaceToController(interface, controller);
+const Controller* BindAction::getController(IRGenerationContext& context) const {
+  return mContreollerTypeSpecifier->getType(context);
 }
 
-Value* BindAction::generateIR(IRGenerationContext& context) const {
-  return NULL;
+InjectionArgumentList BindAction::getInjectionArguments(IRGenerationContext& context) const {
+  return mInjectionArguments;
 }

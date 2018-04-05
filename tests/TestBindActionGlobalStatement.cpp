@@ -1,16 +1,16 @@
 //
-//  TestBindAction.cpp
-//  runtests
+//  TestBindActionGlobalStatement.cpp
+//  Wisey
 //
-//  Created by Vladimir Fridman on 4/5/18.
-//  Copyright © 2018 Vladimir Fridman. All rights reserved.
+//  Created by Vladimir Fridman on 5/15/17.
+//  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link BindAction}
+//  Tests {@link BindActionGlobalStatement}
 //
 
 #include <gtest/gtest.h>
 
-#include "wisey/BindAction.hpp"
+#include "wisey/BindActionGlobalStatement.hpp"
 #include "wisey/ControllerTypeSpecifier.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -21,20 +21,19 @@ using namespace wisey;
 
 using ::testing::Test;
 
-struct BindActionTest : public Test {
+struct BindActionGlobalStatementTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   Interface* mInterface;
   Controller* mController;
-  BindAction* mBindAction;
+  BindActionGlobalStatement* mBindActionGlobalStatement;
   ImportProfile* mImportProfile;
-  InjectionArgument* mInjectionArgument;
   string mPackage = "systems.vos.wisey.compiler.tests";
   
-  BindActionTest() : mLLVMContext(mContext.getLLVMContext()) {
+  BindActionGlobalStatementTest() : mLLVMContext(mContext.getLLVMContext()) {
     mImportProfile = new ImportProfile(mPackage);
     mContext.setImportProfile(mImportProfile);
-    
+
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
     vector<IObjectElementDefinition*> interfaceElements;
@@ -56,36 +55,43 @@ struct BindActionTest : public Test {
     mController->setFields(controllerFields, 1u);
     mController->setMethods(controllerMethods);
     mController->setInterfaces(controllerInterfaces);
- 
-    mContext.addInterface(mInterface);
-    mContext.addController(mController);
-
+    
     InterfaceTypeSpecifier* interfaceTypeSpecifier =
       new InterfaceTypeSpecifier(NULL, "IMyInterface");
     ControllerTypeSpecifier* controllerTypeSpecifier =
       new ControllerTypeSpecifier(NULL, "CMyController");
     InjectionArgumentList injectionArgumentList;
-    mInjectionArgument = new InjectionArgument("withField", NULL);
-    injectionArgumentList.push_back(mInjectionArgument);
-    mBindAction = new BindAction(interfaceTypeSpecifier,
-                                 controllerTypeSpecifier,
-                                 injectionArgumentList);
-  }
+    BindAction* bindAction = new BindAction(interfaceTypeSpecifier,
+                                            controllerTypeSpecifier,
+                                            injectionArgumentList);
+    mBindActionGlobalStatement = new BindActionGlobalStatement(bindAction);
+}
   
-  ~BindActionTest() { }
+  ~BindActionGlobalStatementTest() { }
 };
 
-TEST_F(BindActionTest, getInterfaceTest) {
-  EXPECT_EQ(mInterface, mBindAction->getInterface(mContext));
-}
-
-TEST_F(BindActionTest, getControllerTest) {
-  EXPECT_EQ(mController, mBindAction->getController(mContext));
-}
-
-TEST_F(BindActionTest, getInjectionArgumentsTest) {
-  InjectionArgumentList list = mBindAction->getInjectionArguments(mContext);
+TEST_F(BindActionGlobalStatementTest, bindInterfaceToControllerMissingControllerDeathTest) {
+  mContext.addInterface(mInterface);
   
-  EXPECT_EQ(1u, list.size());
-  EXPECT_EQ(mInjectionArgument, list.front());
+  EXPECT_EXIT(mBindActionGlobalStatement->prototypeMethods(mContext),
+              ::testing::ExitedWithCode(1),
+              "Controller systems.vos.wisey.compiler.tests.CMyController is not defined");
 }
+
+TEST_F(BindActionGlobalStatementTest, bindControllerToInterfaceMissingInterfaceDeathTest) {
+  mContext.addController(mController);
+  
+  EXPECT_EXIT(mBindActionGlobalStatement->prototypeMethods(mContext),
+              ::testing::ExitedWithCode(1),
+              "Interface systems.vos.wisey.compiler.tests.IMyInterface is not defined");
+}
+
+TEST_F(BindActionGlobalStatementTest, generateIRTest) {
+  mContext.addController(mController);
+  mContext.addInterface(mInterface);
+
+  mBindActionGlobalStatement->prototypeMethods(mContext);
+  
+  EXPECT_EQ(mContext.getBoundController(mInterface), mController);
+}
+

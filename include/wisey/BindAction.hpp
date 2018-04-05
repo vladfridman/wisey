@@ -9,33 +9,33 @@
 #ifndef BindAction_h
 #define BindAction_h
 
-#include <string>
-
 #include "wisey/IControllerTypeSpecifier.hpp"
-#include "wisey/IGlobalStatement.hpp"
+#include "wisey/InjectionArgument.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 
 namespace wisey {
   
   /**
-   * Represents a bind action binding a controller to an interface
+   * Represents a bind action binding a controller to an interface with given injection arguments
    */
-  class BindAction : public IGlobalStatement {
+  class BindAction {
     IInterfaceTypeSpecifier* mInterfaceTypeSpecifier;
     IControllerTypeSpecifier* mContreollerTypeSpecifier;
+    InjectionArgumentList mInjectionArguments;
     
   public:
     
     BindAction(IInterfaceTypeSpecifier* interfaceTypeSpecifier,
-               IControllerTypeSpecifier* controllerTypeSpecifier);
+               IControllerTypeSpecifier* controllerTypeSpecifier,
+               InjectionArgumentList injectionArguments);
     
     ~BindAction();
     
-    IObjectType* prototypeObject(IRGenerationContext& context) const override;
+    const Interface* getInterface(IRGenerationContext& context) const;
     
-    void prototypeMethods(IRGenerationContext& context) const override;
+    const Controller* getController(IRGenerationContext& context) const;
     
-    llvm::Value* generateIR(IRGenerationContext& context) const override;
+    InjectionArgumentList getInjectionArguments(IRGenerationContext& context) const;
     
   };
   

@@ -12,6 +12,7 @@
   #include "wisey/ArrayTypeSpecifier.hpp"
   #include "wisey/Assignment.hpp"
   #include "wisey/BindAction.hpp"
+  #include "wisey/BindActionGlobalStatement.hpp"
   #include "wisey/Block.hpp"
   #include "wisey/BooleanConstant.hpp"
   #include "wisey/BooleanNotExpression.hpp"
@@ -156,6 +157,7 @@
   wisey::IGlobalStatement* global_statement;
   wisey::GlobalStatementList* global_statement_list;
   wisey::Block* block;
+  wisey::BindAction* bind_action;
   wisey::CompoundStatement* compound_statement;
   wisey::CaseStatement* case_statement;
   wisey::DefaultCaseStatement* default_case_statement;
@@ -244,7 +246,7 @@
 %type <statement> print_statement selection_statement 
 %type <statement> throw_statement try_catch_statement
 %type <statement> llvm_function_argument_declaration
-%type <global_statement> bind_action import_statement global_statement llvm_statement 
+%type <global_statement> bind_action_statement import_statement global_statement llvm_statement 
 %type <global_statement> llvm_struct_definition llvm_function_declaration 
 %type <global_statement> llvm_external_struct_definition
 %type <object_definition> controller_definition interface_definition model_definition
@@ -285,6 +287,7 @@
 %type <object_builder_argument> object_builder_argument
 %type <injection_argument_list> injection_argument_list
 %type <injection_argument> injection_argument
+%type <bind_action> bind_action
 %type <model_type_specifier> model_type_specifier
 %type <model_type_specifier> model_type_specifier_top_level
 %type <model_type_specifier> model_type_specifier_short
@@ -387,7 +390,7 @@ global_statement_list
 global_statement
   : object_definition { $$ = (IGlobalStatement*) $1; }
   | external_object_definition { $$ = (IGlobalStatement*) $1; }
-  | bind_action
+  | bind_action_statement
   | import_statement
   | llvm_statement
   ;
@@ -589,9 +592,19 @@ import_statement
   | TIMPORT thread_type_specifier_full ';' { $$ = new ImportStatement($2); }
   ;
 
+bind_action_statement
+  : bind_action ';' { $$ = new BindActionGlobalStatement($1); }
+  ;
+
 bind_action
-  : TBIND '(' interface_type_specifier ')' '.' TTO '(' controller_type_specifier ')' ';'
-    { $$ = new BindAction($3, $8); }
+  : TBIND '(' interface_type_specifier ')' '.' TTO '(' controller_type_specifier ')'
+    { 
+      InjectionArgumentList injectionArgumentList;
+      $$ = new BindAction($3, $8, injectionArgumentList); 
+    }
+  | TBIND '(' interface_type_specifier ')' '.' TTO '(' controller_type_specifier ')' 
+      injection_argument_list
+    { $$ = new BindAction($3, $8, *$10); delete $10; }
   ;
 
 interface_definition

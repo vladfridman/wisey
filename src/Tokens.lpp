@@ -4,6 +4,7 @@
   #include "wisey/ArrayOwnerTypeSpecifier.hpp"
   #include "wisey/ArraySpecificTypeSpecifier.hpp"
   #include "wisey/ArrayTypeSpecifier.hpp"
+  #include "wisey/BindAction.hpp"
   #include "wisey/Catch.hpp"
   #include "wisey/CompoundStatement.hpp"
   #include "wisey/ControllerTypeSpecifier.hpp"
