@@ -1,10 +1,10 @@
 package systems.vos.wisey.compiler.tests;
 
 import wisey.lang.CCallStack;
-import wisey.lang.CProducerThreadRunner;
 import wisey.lang.IProgram;
 import wisey.lang.IProducerThread;
 import wisey.lang.IThread;
+import wisey.lang.TDefaultProducer;
 
 model MProducerResult {
   int mResult;
@@ -15,54 +15,54 @@ model MProducerResult {
 }
 
 thread TProducer implements IProducerThread {
-  inject CProducerThreadRunner* mProducerThreadRunner;
-  inject CCallStack* mCallStack;
+  inject TDefaultProducer* mDefaultProducer;
   receive int mSize;
-
-  public void start() {
-    mProducerThreadRunner.createThread(this, mSize);
-  }
-
-  public boolean hasStarted() {
-    return mProducerThreadRunner.hasStarted();
-  }
-
-  public boolean hasResult() {
-    return mProducerThreadRunner.hasResult();
-  }
-
-  public boolean wasCancelled() {
-    return mProducerThreadRunner.wasCancelled();
-  }
-
-  public void cancel() {
-    mProducerThreadRunner.cancelThread();
-  }
-
-  public ::llvm::object* consume() {
-    return mProducerThreadRunner.consumeResult();
-  }
 
   public void produce() {
     IThread.sleep(1);
     printout("This is producer thread!\n");
     for (int i = 0; i < 2; i++) {
       MProducerResult* result = builder(MProducerResult).withResult(i).build();
-      while (!mProducerThreadRunner.hasRoom()) {
+      printout("Adding result " + i + "\n");
+      result = thread.send(result);
+      while (result != null) {
         printout("Could not add result " + i + ", sleeping\n");
         IThread.sleep(1);
+        result = thread.send(result);
       }
-      printout("Adding result " + i + "\n");
-      thread.send(result);
     }
   }
 
-  public boolean send(::llvm::object* message) {
-    return mProducerThreadRunner.addResult(message);
+  public void start() {
+    mDefaultProducer.startProducer(this, mSize);
+  }
+
+  public boolean hasStarted() {
+    return mDefaultProducer.hasStarted();
+  }
+
+  public boolean hasResult() {
+    return mDefaultProducer.hasResult();
+  }
+
+  public boolean wasCancelled() {
+    return mDefaultProducer.wasCancelled();
+  }
+
+  public void cancel() {
+    mDefaultProducer.cancel();
+  }
+
+  public ::llvm::object* consume() {
+    return mDefaultProducer.consume();
+  }
+
+  public ::llvm::object* send(::llvm::object* message) {
+    return mDefaultProducer.send(message);
   }
 
   public CCallStack getCallStack() {
-    return mCallStack;
+    return mDefaultProducer.getCallStack();
   }
 }
 

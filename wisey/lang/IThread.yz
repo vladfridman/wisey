@@ -16,9 +16,12 @@ interface IThread {
   CCallStack getCallStack();
 
   /**
-   * Snds a message to the calling thread. Returns true if send was successful
+   * Snds a message to the calling thread. 
+   *
+   * Returns null if the message was sent successfully
+   * Returns the sent message if it could not be sent
    */
-  boolean send(::llvm::object* message);
+  ::llvm::object* send(::llvm::object* message);
 
   /**
    * Method for putting the current thread to sleep

@@ -49,7 +49,7 @@ thread TWorker implements IWorkerThread {
     mDefaultWorker.cancel();
   }
 
-  public boolean send(::llvm::object* message) {
+  public ::llvm::object* send(::llvm::object* message) {
     return mDefaultWorker.send(message);
   }
 

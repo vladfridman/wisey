@@ -4,6 +4,12 @@ import wisey.lang.CCallStack;
 import wisey.lang.CWorkerThreadRunner;
 import wisey.lang.IWorkerThread;
 
+/**
+ * Default implementation of the worker thread.
+ *
+ * When implementing your worker thread inject and instance of this class
+ * and delegate IWorkerThread method calls to it
+ */
 thread TDefaultWorker implements IWorkerThread {
   inject CWorkerThreadRunner* mWorkerThreadRunner;
   inject CCallStack* mCallStack;
@@ -40,9 +46,9 @@ thread TDefaultWorker implements IWorkerThread {
   public void work() {
   }
 
-  public boolean send(::llvm::object* message) {
+  public ::llvm::object* send(::llvm::object* message) {
     mWorkerThreadRunner.setResult(message);
-    return true;
+    return null;
   }
 
   public CCallStack getCallStack() {

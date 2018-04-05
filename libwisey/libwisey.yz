@@ -45,7 +45,7 @@ external interface wisey.lang.IProgram {
 external interface wisey.lang.IThread {
 
   wisey.lang.CCallStack getCallStack();
-  boolean send(
+  ::llvm::object* send(
     ::llvm::object* message);
   static void sleep(
     int seconds);
@@ -157,7 +157,7 @@ external controller wisey.lang.CProducerThreadRunner {
     wisey.lang.IProducerThread workerThread,
     int size);
   void joinThread();
-  boolean addResult(
+  ::llvm::object* addResult(
     ::llvm::object* result);
   ::llvm::object* consumeResult();
   boolean hasResult();
@@ -198,6 +198,28 @@ external controller wisey.lang.CWorkerThreadRunner {
 
 /* Threads */
 
+external thread wisey.lang.TDefaultProducer
+  implements
+    wisey.lang.IProducerThread {
+
+  inject wisey.lang.CProducerThreadRunner* mProducerThreadRunner;
+  inject wisey.lang.CCallStack* mCallStack;
+
+  void startProducer(
+    wisey.lang.IProducerThread producerThread,
+    int size);
+  void start();
+  boolean hasStarted();
+  boolean hasResult();
+  boolean wasCancelled();
+  void cancel();
+  ::llvm::object* consume();
+  void produce();
+  ::llvm::object* send(
+    ::llvm::object* message);
+  wisey.lang.CCallStack getCallStack();
+}
+
 external thread wisey.lang.TDefaultWorker
   implements
     wisey.lang.IWorkerThread {
@@ -214,7 +236,7 @@ external thread wisey.lang.TDefaultWorker
   ::llvm::object* awaitResult();
   void cancel();
   void work();
-  boolean send(
+  ::llvm::object* send(
     ::llvm::object* message);
   wisey.lang.CCallStack getCallStack();
 }
@@ -234,7 +256,7 @@ external thread wisey.lang.TMainThread
   boolean wasCancelled();
   ::llvm::object* awaitResult();
   void cancel();
-  boolean send(
+  ::llvm::object* send(
     ::llvm::object* message);
   wisey.lang.CCallStack getCallStack();
 }

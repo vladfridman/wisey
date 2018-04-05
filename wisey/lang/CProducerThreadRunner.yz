@@ -19,7 +19,7 @@ controller CProducerThreadRunner {
    */
   ::llvm::function ::llvm::i8::pointer produceBridge(::llvm::i8::pointer argument) {
     thread = (IThread) ((IProducerThread) argument);
-    callstack = null;
+    callstack = injector(CCallStack).inject();
     callstack = thread.getCallStack();
     ((IProducerThread) argument).produce();
 
@@ -50,14 +50,14 @@ controller CProducerThreadRunner {
   /**
    * Adds result to the list of results if there is space
    */
-  public boolean addResult(::llvm::object* result) {
+  public ::llvm::object* addResult(::llvm::object* result) {
     int nextIndexEnd = (mIndexEnd + 1) % mSize;
     if (mIndexStart == nextIndexEnd) {
-      return false;
+      return result;
     }
     mResults[mIndexEnd] = result;
     mIndexEnd = nextIndexEnd;
-    return true;
+    return null;
   }
 
   /**

@@ -1,0 +1,57 @@
+package wisey.lang;
+
+import wisey.lang.CCallStack;
+import wisey.lang.CProducerThreadRunner;
+import wisey.lang.IProgram;
+import wisey.lang.IProducerThread;
+import wisey.lang.IThread;
+
+/**
+ * Default implementation of the producer thread.
+ *
+ * When implementing your producer thread inject and instance of this class
+ * and delegate IProducerThread method calls to it
+ */
+thread TDefaultProducer implements IProducerThread {
+  inject CProducerThreadRunner* mProducerThreadRunner;
+  inject CCallStack* mCallStack;
+
+  public void startProducer(IProducerThread producerThread,
+                            int size) {
+    mProducerThreadRunner.createThread(producerThread, size);
+  }
+
+  public void start() {
+  }
+
+  public boolean hasStarted() {
+    return mProducerThreadRunner.hasStarted();
+  }
+
+  public boolean hasResult() {
+    return mProducerThreadRunner.hasResult();
+  }
+
+  public boolean wasCancelled() {
+    return mProducerThreadRunner.wasCancelled();
+  }
+
+  public void cancel() {
+    mProducerThreadRunner.cancelThread();
+  }
+
+  public ::llvm::object* consume() {
+    return mProducerThreadRunner.consumeResult();
+  }
+
+  public void produce() {
+  }
+
+  public ::llvm::object* send(::llvm::object* message) {
+    return mProducerThreadRunner.addResult(message);
+  }
+
+  public CCallStack getCallStack() {
+    return mCallStack;
+  }
+}

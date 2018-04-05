@@ -1,7 +1,7 @@
 external thread wisey.lang.TWorker 
     implements wisey.lang.IThread {
 
-  boolean send(::llvm::object* message);
+  ::llvm::object* send(::llvm::object* message);
 
   wisey.lang.CCallStack getCallStack();
 }
@@ -12,7 +12,7 @@ external thread wisey.lang.TWorkerWithFieldsAndMethods
   inject wisey.lang.TWorker* mInjectedField;
   state int mStateField;
 
-  boolean send(::llvm::object* message);
+  ::llvm::object* send(::llvm::object* message);
 
   wisey.lang.CCallStack getCallStack();
 }
@@ -27,7 +27,7 @@ external thread wisey.lang.TWorkerWithFieldsAndMethodsAndInterface
   inject wisey.lang.TWorker* mInjectedField;
   state int mStateField;
 
-  boolean send(::llvm::object* message);
+  ::llvm::object* send(::llvm::object* message);
 
   wisey.lang.CCallStack getCallStack();
 }
