@@ -11,50 +11,45 @@ import wisey.lang.MProgramResult;
  * Represents main thread where the program runs
  */
 thread TMainThread implements IWorkerThread {
-  inject CWorkerThreadRunner* mWorkerThreadRunner;
+  inject TDefaultWorker* mDefaultWorker;
   inject CProgramRunner* mProgramRunner;
-  inject CCallStack* mCallStack;
 
   state MProgramResult* mProgramResult;
 
+  public void work() {
+    MProgramResult* programResult = mProgramRunner.run();
+    thread.send(programResult);
+  }
+
   public void start() {
-    mWorkerThreadRunner.createThread(this);
+    mDefaultWorker.startWorker(this);
   }
 
   public boolean hasStarted() {
-    return mWorkerThreadRunner.hasStarted();
+    return mDefaultWorker.hasStarted();
   }
 
   public boolean hasResult() {
-    return mProgramResult != null;
+    return mDefaultWorker.hasResult();
   }
 
   public boolean wasCancelled() {
-    return mWorkerThreadRunner.wasCancelled();
+    return mDefaultWorker.wasCancelled();
   }
 
-  public ::llvm::object awaitResult() {
-    mWorkerThreadRunner.joinThread();
-
-    return mProgramResult;
+  public ::llvm::object* awaitResult() {
+    return mDefaultWorker.awaitResult();
   }
 
   public void cancel() {
-    mWorkerThreadRunner.cancelThread();
+    mDefaultWorker.cancel();
   }
 
-  public void work() {
-    MProgramResult* programResult = mProgramRunner.run();
-    thread.send((::llvm::object*) programResult);
-  }
-
-  public boolean send(::llvm::object* programResult) {
-    mProgramResult = programResult;
-    mWorkerThreadRunner.exitThread();
-    return true;
+  public boolean send(::llvm::object* message) {
+    return mDefaultWorker.send(message);
   }
 
   public CCallStack getCallStack() {
-    return mCallStack;
+    return mDefaultWorker.getCallStack();
   }
 }

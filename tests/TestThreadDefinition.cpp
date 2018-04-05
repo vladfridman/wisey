@@ -232,9 +232,9 @@ TEST_F(TestFileRunner, threadRunRunTest) {
                      "Starting worker thread\n"
                      "Worker thread started\n"
                      "Thread started = 1, has result = 0\n"
-                      "This is worker thread!\n"
+                     "This is worker thread!\n"
                      "Worker thread finished with result: 5\n"
-                     "Thread started = 1, has result = 1\n",
+                     "Thread started = 1, has result = 0\n",
                      "");
 }
 

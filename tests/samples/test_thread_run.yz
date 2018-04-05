@@ -1,10 +1,10 @@
 package systems.vos.wisey.compiler.tests;
 
 import wisey.lang.CCallStack;
-import wisey.lang.CWorkerThreadRunner;
 import wisey.lang.IProgram;
 import wisey.lang.IThread;
 import wisey.lang.IWorkerThread;
+import wisey.lang.TDefaultWorker;
 
 model MResult {
   int mResult;
@@ -15,35 +15,8 @@ model MResult {
 }
 
 thread TWorker implements IWorkerThread {
-  inject CWorkerThreadRunner* mWorkerThreadRunner;
-  inject CCallStack* mCallStack;
+  inject TDefaultWorker* mDefaultWorker;
   state MResult* mResult;
-
-  public void start() {
-    mWorkerThreadRunner.createThread(this);
-  }
-
-  public boolean hasStarted() {
-    return mWorkerThreadRunner.hasStarted();
-  }
-
-  public boolean hasResult() {
-    return mResult != null;
-  }
-
-  public boolean wasCancelled() {
-    return mWorkerThreadRunner.wasCancelled();
-  }
-
-  public ::llvm::object awaitResult() {
-    mWorkerThreadRunner.joinThread();
-
-    return mResult;
-  }
-
-  public void cancel() {
-    mWorkerThreadRunner.cancelThread();
-  }
 
   public void work() {
     IThread.sleep(1);
@@ -52,14 +25,36 @@ thread TWorker implements IWorkerThread {
     thread.send(result);
   }
 
+  public void start() {
+    mDefaultWorker.startWorker(this);
+  }
+
+  public boolean hasStarted() {
+    return mDefaultWorker.hasStarted();
+  }
+
+  public boolean hasResult() {
+    return mDefaultWorker.hasResult();
+  }
+
+  public boolean wasCancelled() {
+    return mDefaultWorker.wasCancelled();
+  }
+
+  public ::llvm::object* awaitResult() {
+    return mDefaultWorker.awaitResult();
+  }
+
+  public void cancel() {
+    mDefaultWorker.cancel();
+  }
+
   public boolean send(::llvm::object* message) {
-    mResult = message;
-    mWorkerThreadRunner.exitThread();
-    return true;
+    return mDefaultWorker.send(message);
   }
 
   public CCallStack getCallStack() {
-    return mCallStack;
+    return mDefaultWorker.getCallStack();
   }
 }
 

@@ -36,6 +36,7 @@ import wisey.lang.IWorkerThread;
 controller CWorkerThreadRunner {
   state ::llvm::struct::_opaque_pthread_t::pointer mMyNativeThread;
   state boolean mIsCanceled;
+  state ::llvm::object* mResult;
 
   /**
    * This native function bridges work() method of the thread object with the i8* (i8*)* function 
@@ -43,7 +44,7 @@ controller CWorkerThreadRunner {
    */
   ::llvm::function ::llvm::i8::pointer workBridge(::llvm::i8::pointer argument) {
     thread = (IThread) ((IWorkerThread) argument);
-    callstack = null;
+    callstack = injector(CCallStack).inject();
     callstack = thread.getCallStack();
     ((IWorkerThread) argument).work();
 
@@ -96,5 +97,26 @@ controller CWorkerThreadRunner {
    */
   public boolean wasCancelled() {
     return mIsCanceled;
+  }
+
+  /**
+   * Set result of the thread
+   */
+  public void setResult(::llvm::object* result) {
+    mResult = result;
+  }
+
+  /**
+   * Return the result
+   */
+  public ::llvm::object* getResult() {
+    return mResult;
+  }
+
+  /**
+   * Tells whether the thread has prepared the result
+   */
+  public boolean hasResult() {
+    return mResult != null;
   }
 }

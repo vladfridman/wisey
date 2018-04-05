@@ -59,7 +59,7 @@ external interface wisey.lang.IWorkerThread
   boolean hasStarted();
   boolean hasResult();
   boolean wasCancelled();
-  ::llvm::object awaitResult();
+  ::llvm::object* awaitResult();
   void cancel();
   void work();
 }
@@ -179,6 +179,7 @@ external controller wisey.lang.CWorkerThreadRunner {
 
   state ::llvm::struct::_opaque_pthread_t::pointer mMyNativeThread;
   state boolean mIsCanceled;
+  state ::llvm::object* mResult;
 
   void createThread(
     wisey.lang.IWorkerThread workerThread);
@@ -187,30 +188,54 @@ external controller wisey.lang.CWorkerThreadRunner {
   void cancelThread();
   boolean hasStarted();
   boolean wasCancelled();
+  void setResult(
+    ::llvm::object* result);
+  ::llvm::object* getResult();
+  boolean hasResult();
 }
 
 /* Nodes */
 
 /* Threads */
 
-external thread wisey.lang.TMainThread
+external thread wisey.lang.TDefaultWorker
   implements
     wisey.lang.IWorkerThread {
 
   inject wisey.lang.CWorkerThreadRunner* mWorkerThreadRunner;
-  inject wisey.lang.CProgramRunner* mProgramRunner;
   inject wisey.lang.CCallStack* mCallStack;
-  state wisey.lang.MProgramResult* mProgramResult;
 
+  void startWorker(
+    wisey.lang.IWorkerThread workerThread);
   void start();
   boolean hasStarted();
   boolean hasResult();
   boolean wasCancelled();
-  ::llvm::object awaitResult();
+  ::llvm::object* awaitResult();
   void cancel();
   void work();
   boolean send(
-    ::llvm::object* programResult);
+    ::llvm::object* message);
+  wisey.lang.CCallStack getCallStack();
+}
+
+external thread wisey.lang.TMainThread
+  implements
+    wisey.lang.IWorkerThread {
+
+  inject wisey.lang.TDefaultWorker* mDefaultWorker;
+  inject wisey.lang.CProgramRunner* mProgramRunner;
+  state wisey.lang.MProgramResult* mProgramResult;
+
+  void work();
+  void start();
+  boolean hasStarted();
+  boolean hasResult();
+  boolean wasCancelled();
+  ::llvm::object* awaitResult();
+  void cancel();
+  boolean send(
+    ::llvm::object* message);
   wisey.lang.CCallStack getCallStack();
 }
 

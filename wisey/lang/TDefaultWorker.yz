@@ -1,0 +1,51 @@
+package wisey.lang;
+
+import wisey.lang.CCallStack;
+import wisey.lang.CWorkerThreadRunner;
+import wisey.lang.IWorkerThread;
+
+thread TDefaultWorker implements IWorkerThread {
+  inject CWorkerThreadRunner* mWorkerThreadRunner;
+  inject CCallStack* mCallStack;
+
+  public void startWorker(IWorkerThread workerThread) {
+    mWorkerThreadRunner.createThread(workerThread);    
+  }
+
+  public void start() {
+  }
+
+  public boolean hasStarted() {
+    return mWorkerThreadRunner.hasStarted();
+  }
+
+  public boolean hasResult() {
+    return mWorkerThreadRunner.hasResult();
+  }
+
+  public boolean wasCancelled() {
+    return mWorkerThreadRunner.wasCancelled();
+  }
+
+  public ::llvm::object* awaitResult() {
+    mWorkerThreadRunner.joinThread();
+
+    return mWorkerThreadRunner.getResult();
+  }
+
+  public void cancel() {
+    mWorkerThreadRunner.cancelThread();
+  }
+
+  public void work() {
+  }
+
+  public boolean send(::llvm::object* message) {
+    mWorkerThreadRunner.setResult(message);
+    return true;
+  }
+
+  public CCallStack getCallStack() {
+    return mCallStack;
+  }
+}
