@@ -7,4 +7,4 @@ controller systems.vos.wisey.compiler.tests.CProgram implements IProgram {
   }
 }
 
-bind(systems.vos.wisey.compiler.tests.CProgram).to(IProgram);
+bind(IProgram).to(systems.vos.wisey.compiler.tests.CProgram);

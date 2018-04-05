@@ -590,7 +590,7 @@ import_statement
   ;
 
 bind_action
-  : TBIND '(' controller_type_specifier ')' '.' TTO '(' interface_type_specifier ')' ';'
+  : TBIND '(' interface_type_specifier ')' '.' TTO '(' controller_type_specifier ')' ';'
     { $$ = new BindAction($3, $8); }
   ;
 

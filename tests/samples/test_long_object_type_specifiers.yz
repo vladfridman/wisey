@@ -25,4 +25,4 @@ controller systems.vos.wisey.compiler.tests.CController implements IProgram {
   }
 }
 
-bind(systems.vos.wisey.compiler.tests.CController).to(IProgram);
+bind(IProgram).to(systems.vos.wisey.compiler.tests.CController);

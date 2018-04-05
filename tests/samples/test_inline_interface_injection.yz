@@ -13,7 +13,7 @@ controller CService implements IHasValue {
   }
 }
 
-bind(CService).to(IHasValue);
+bind(IHasValue).to(CService);
 
 controller CProgram implements IProgram {
 
@@ -23,4 +23,4 @@ controller CProgram implements IProgram {
   }
 }
 
-bind(CProgram).to(IProgram);
+bind(IProgram).to(CProgram);

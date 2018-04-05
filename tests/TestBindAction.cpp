@@ -56,11 +56,11 @@ struct BindActionTest : public Test {
     mController->setMethods(controllerMethods);
     mController->setInterfaces(controllerInterfaces);
     
+    InterfaceTypeSpecifier* interfaceTypeSpecifier =
+    new InterfaceTypeSpecifier(NULL, "IMyInterface");
     ControllerTypeSpecifier* controllerTypeSpecifier =
       new ControllerTypeSpecifier(NULL, "CMyController");
-    InterfaceTypeSpecifier* interfaceTypeSpecifier =
-      new InterfaceTypeSpecifier(NULL, "IMyInterface");
-    mBindAction = new BindAction(controllerTypeSpecifier, interfaceTypeSpecifier);
+    mBindAction = new BindAction(interfaceTypeSpecifier, controllerTypeSpecifier);
 }
   
   ~BindActionTest() { }

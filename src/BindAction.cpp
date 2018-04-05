@@ -13,14 +13,14 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-BindAction::BindAction(IControllerTypeSpecifier* controllerTypeSpecifier,
-                       IInterfaceTypeSpecifier* interfaceTypeSpecifier) :
-mContreollerTypeSpecifier(controllerTypeSpecifier),
-mInterfaceTypeSpecifier(interfaceTypeSpecifier) { }
+BindAction::BindAction(IInterfaceTypeSpecifier* interfaceTypeSpecifier,
+                       IControllerTypeSpecifier* controllerTypeSpecifier) :
+mInterfaceTypeSpecifier(interfaceTypeSpecifier),
+mContreollerTypeSpecifier(controllerTypeSpecifier) { }
 
 BindAction::~BindAction() {
-  delete mContreollerTypeSpecifier;
   delete mInterfaceTypeSpecifier;
+  delete mContreollerTypeSpecifier;
 }
 
 IObjectType* BindAction::prototypeObject(IRGenerationContext& context) const {
@@ -28,8 +28,8 @@ IObjectType* BindAction::prototypeObject(IRGenerationContext& context) const {
 }
 
 void BindAction::prototypeMethods(IRGenerationContext& context) const {
-  const Controller* controller = (const Controller*) mContreollerTypeSpecifier->getType(context);
   const Interface* interface = (const Interface*) mInterfaceTypeSpecifier->getType(context);
+  const Controller* controller = (const Controller*) mContreollerTypeSpecifier->getType(context);
   context.bindInterfaceToController(interface, controller);
 }
 

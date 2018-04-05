@@ -21,13 +21,13 @@ namespace wisey {
    * Represents a bind action binding a controller to an interface
    */
   class BindAction : public IGlobalStatement {
-    IControllerTypeSpecifier* mContreollerTypeSpecifier;
     IInterfaceTypeSpecifier* mInterfaceTypeSpecifier;
+    IControllerTypeSpecifier* mContreollerTypeSpecifier;
     
   public:
     
-    BindAction(IControllerTypeSpecifier* controllerTypeSpecifier,
-               IInterfaceTypeSpecifier* interfaceTypeSpecifier);
+    BindAction(IInterfaceTypeSpecifier* interfaceTypeSpecifier,
+               IControllerTypeSpecifier* controllerTypeSpecifier);
     
     ~BindAction();
     

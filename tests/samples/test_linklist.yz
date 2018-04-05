@@ -79,4 +79,4 @@ controller CProgram implements IProgram {
   }
 }
 
-bind(CProgram).to(IProgram);
+bind(IProgram).to(CProgram);
