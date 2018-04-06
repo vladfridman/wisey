@@ -20,7 +20,7 @@ namespace wisey {
     
   public:
     
-    virtual Model* getType(IRGenerationContext& context) const = 0;
+    virtual Model* getType(IRGenerationContext& context) const override = 0;
     
   };
   

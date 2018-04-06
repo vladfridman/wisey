@@ -43,7 +43,7 @@ const IType* IdentifierReference::getType(IRGenerationContext& context) const {
   
   const IType* variableType = variable->getType();
   if (!variableType->isNative()) {
-    Log::e("Can not take a reference of a non-native type variable");
+    Log::e_deprecated("Can not take a reference of a non-native type variable");
     exit(1);
   }
   

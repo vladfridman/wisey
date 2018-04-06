@@ -73,7 +73,7 @@ struct LLVMFunctionCallTest : public Test {
     ExpressionList expressionList;
     expressionList.push_back(mMockExpression);
 
-    mLLVMFunctionCall = new LLVMFunctionCall("myfunction", expressionList, 0);
+    mLLVMFunctionCall = new LLVMFunctionCall("myfunction", expressionList);
   }
   
   ~LLVMFunctionCallTest() {

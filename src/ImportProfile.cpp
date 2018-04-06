@@ -37,7 +37,7 @@ string ImportProfile::getFullName(string shortName) const {
     return mPackage + "." + shortName;
   }
   
-  Log::e("Could not identify packge for object " + shortName);
+  Log::e_deprecated("Could not identify packge for object " + shortName);
   exit(1);
 }
 
@@ -48,6 +48,10 @@ void ImportProfile::setSourceFileName(IRGenerationContext& context, string sourc
   } else {
     mSourceFileConstantPointer = NULL;
   }
+}
+
+string ImportProfile::getSourceFileName() const {
+  return mSourceFileName;
 }
 
 Value* ImportProfile::getSourceFileNamePointer() const {

@@ -21,7 +21,7 @@ Value* BreakStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* breackToBlock = context.getScopes().getBreakToBlock();
   
   if (breackToBlock == NULL) {
-    Log::e("break statement not inside a loop or a switch");
+    Log::e_deprecated("break statement not inside a loop or a switch");
     exit(1);
   }
   return IRWriter::createBranch(context, breackToBlock);

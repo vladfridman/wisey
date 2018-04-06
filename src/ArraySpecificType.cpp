@@ -166,7 +166,7 @@ void ArraySpecificType::checkDimensionType(IRGenerationContext& context, const I
   if (type->canAutoCastTo(context, PrimitiveTypes::LONG_TYPE)) {
     return;
   }
-  Log::e("Dimension in array allocation should be castable to long, but it is of " +
+  Log::e_deprecated("Dimension in array allocation should be castable to long, but it is of " +
          type->getTypeName() + " type");
   exit(1);
 }

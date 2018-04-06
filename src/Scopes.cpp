@@ -40,7 +40,7 @@ IVariable* Scopes::getVariable(string name) {
 
 void Scopes::setVariable(IVariable* variable) {
   if (getVariable(variable->getName())) {
-    Log::e("Already declared variable named '" + variable->getName() +
+    Log::e_deprecated("Already declared variable named '" + variable->getName() +
            "'. Variable hiding is not allowed.");
     exit(1);
   }
@@ -83,7 +83,7 @@ void Scopes::popScope(IRGenerationContext& context, int line) {
 
 Scope* Scopes::getScope() {
   if (mScopes.size() == 0) {
-    Log::e("Can not get scope. Scope list is empty.");
+    Log::e_deprecated("Can not get scope. Scope list is empty.");
     exit(1);
   }
   return mScopes.front();
@@ -189,7 +189,7 @@ void Scopes::reportUnhandledExceptions(map<string, const Model*> exceptions) {
     if (!iterator->first.find(Names::getLangPackageName())) {
       continue;
     }
-    Log::e("Exception " + iterator->first + " is not handled");
+    Log::e_deprecated("Exception " + iterator->first + " is not handled");
     exit(1);
   }
 }

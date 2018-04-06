@@ -98,7 +98,7 @@ llvm::Value* LocalArrayOwnerVariable::generateWholeArrayAssignment(IRGenerationC
   Value* assignToValue = assignToExpression->generateIR(context, mArrayOwnerType);
   Value* cast = AutoCast::maybeCast(context, assignToType, assignToValue, mArrayOwnerType, line);
   
-  free(context);
+  free(context, line);
   
   IRWriter::newStoreInst(context, cast, mValueStore);
 
@@ -110,7 +110,7 @@ void LocalArrayOwnerVariable::setToNull(IRGenerationContext& context) {
   IRWriter::newStoreInst(context, null, mValueStore);
 }
 
-void LocalArrayOwnerVariable::free(IRGenerationContext& context) const {
+void LocalArrayOwnerVariable::free(IRGenerationContext& context, int line) const {
   Value* value = IRWriter::newLoadInst(context, mValueStore, "");
-  mArrayOwnerType->free(context, value);
+  mArrayOwnerType->free(context, value, line);
 }

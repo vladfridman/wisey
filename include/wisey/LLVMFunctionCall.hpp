@@ -19,11 +19,10 @@ namespace wisey {
   class LLVMFunctionCall : public IExpression {
     std::string mFunctionName;
     ExpressionList mArguments;
-    int mLine;
     
   public:
     
-    LLVMFunctionCall(std::string functionName, ExpressionList arguments, int line);
+    LLVMFunctionCall(std::string functionName, ExpressionList arguments);
     
     ~LLVMFunctionCall();
     

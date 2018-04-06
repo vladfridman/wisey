@@ -20,12 +20,14 @@ ThreadDefinition::ThreadDefinition(AccessLevel accessLevel,
                                    ThreadTypeSpecifierFull* threadTypeSpecifierFull,
                                    vector<IObjectElementDefinition*> objectElementDeclarations,
                                    vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
-                                   vector<IObjectDefinition*> innerObjectDefinitions) :
+                                   vector<IObjectDefinition*> innerObjectDefinitions,
+                                   int line) :
 mAccessLevel(accessLevel),
 mThreadTypeSpecifierFull(threadTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers),
-mInnerObjectDefinitions(innerObjectDefinitions) { }
+mInnerObjectDefinitions(innerObjectDefinitions),
+mLine(line) { }
 
 ThreadDefinition::~ThreadDefinition() {
   delete mThreadTypeSpecifierFull;
@@ -61,7 +63,7 @@ Thread* ThreadDefinition::prototypeObject(IRGenerationContext& context) const {
 
 void ThreadDefinition::prototypeMethods(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mThreadTypeSpecifierFull);
-  Thread* thread = context.getThread(fullName);
+  Thread* thread = context.getThread(fullName, mLine);
   
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(thread);
@@ -72,7 +74,7 @@ void ThreadDefinition::prototypeMethods(IRGenerationContext& context) const {
 
 Value* ThreadDefinition::generateIR(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mThreadTypeSpecifierFull);
-  Thread* thread = context.getThread(fullName);
+  Thread* thread = context.getThread(fullName, mLine);
   
   context.getScopes().pushScope();
   const IObjectType* lastObjectType = context.getObjectType();

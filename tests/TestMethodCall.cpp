@@ -145,7 +145,7 @@ public:
     ON_CALL(*mExpression, getType(_)).WillByDefault(Return(mFooMethod));
     ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
     
-    mThreadInterface = mContext.getInterface(Names::getThreadInterfaceFullName());
+    mThreadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
     llvm::PointerType* llvmType = mThreadInterface->getLLVMType(mContext);
     Value* threadStore = IRWriter::newAllocaInst(mContext, llvmType, "threadStore");
     llvm::Constant* null = ConstantPointerNull::get(llvmType);
@@ -158,7 +158,7 @@ public:
     threadVariable->generateAssignmentIR(mContext, fakeExpression, arrayIndices, 0);
     mContext.getScopes().setVariable(threadVariable);
     
-    mCallStack = mContext.getController(Names::getCallStackControllerFullName());
+    mCallStack = mContext.getController(Names::getCallStackControllerFullName(), 0);
     llvm::PointerType* callStackLLVMType = mCallStack->getLLVMType(mContext);
     Value* callStackStore = IRWriter::newAllocaInst(mContext, callStackLLVMType, "");
     null = ConstantPointerNull::get(callStackLLVMType);

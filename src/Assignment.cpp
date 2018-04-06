@@ -35,7 +35,7 @@ Value* Assignment::generateIR(IRGenerationContext& context, const IType* assignT
   if (variable == NULL) {
     std::stringstream stringStream;
     mIdentifier->printToStream(context, stringStream);
-    Log::e("Undeclared variable '" + stringStream.str() + "'");
+    Log::e_deprecated("Undeclared variable '" + stringStream.str() + "'");
     exit(1);
   }
   

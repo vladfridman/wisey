@@ -105,7 +105,7 @@ void ArrayAllocationStatic::checkArrayElements(IRGenerationContext &context) con
       continue;
     }
     
-    Log::e("All elements in static array allocation should be of the same type");
+    Log::e_deprecated("All elements in static array allocation should be of the same type");
     exit(1);
   }
 }

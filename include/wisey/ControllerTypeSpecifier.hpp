@@ -19,10 +19,11 @@ namespace wisey {
   class ControllerTypeSpecifier : public IControllerTypeSpecifier {
     IExpression* mPackageExpression;
     const std::string mShortName;
+    int mLine;
     
   public:
     
-    ControllerTypeSpecifier(IExpression* packageExpression, std::string shortName);
+    ControllerTypeSpecifier(IExpression* packageExpression, std::string shortName, int line);
     
     ~ControllerTypeSpecifier();
     

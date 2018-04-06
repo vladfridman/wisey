@@ -22,8 +22,7 @@ LLVMObjectOwnerTypeSpecifier::LLVMObjectOwnerTypeSpecifier() {
 LLVMObjectOwnerTypeSpecifier::~LLVMObjectOwnerTypeSpecifier() {
 }
 
-const LLVMObjectOwnerType* LLVMObjectOwnerTypeSpecifier::getType(IRGenerationContext&
-                                                                  context) const {
+const LLVMObjectOwnerType* LLVMObjectOwnerTypeSpecifier::getType(IRGenerationContext& context) const {
   return LLVMObjectOwnerType::LLVM_OBJECT_OWNER_TYPE;
 }
 

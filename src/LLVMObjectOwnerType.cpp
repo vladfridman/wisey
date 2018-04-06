@@ -144,6 +144,6 @@ const LLVMObjectType* LLVMObjectOwnerType::getReference() const {
   return LLVMObjectType::LLVM_OBJECT_TYPE;
 }
 
-void LLVMObjectOwnerType::free(IRGenerationContext& context, Value *value) const {
+void LLVMObjectOwnerType::free(IRGenerationContext& context, Value* value, int line) const {
   IConcreteObjectType::composeDestructorCall(context, value);
 }

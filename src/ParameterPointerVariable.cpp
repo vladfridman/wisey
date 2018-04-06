@@ -54,6 +54,6 @@ Value* ParameterPointerVariable::generateAssignmentIR(IRGenerationContext& conte
                                                      IExpression* assignToExpression,
                                                      vector<const IExpression*> arrayIndices,
                                                      int line) {
-  Log::e("Assignment to method parameters is not allowed");
+  Log::e_deprecated("Assignment to method parameters is not allowed");
   exit(1);
 }

@@ -65,7 +65,7 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
 
 TEST_F(ModelTypeSpecifierTest, modelTypeSpecifierCreateTest) {
   vector<string> package;
-  ModelTypeSpecifier modelTypeSpecifier(NULL, "MSquare");
+  ModelTypeSpecifier modelTypeSpecifier(NULL, "MSquare", 0);
   
   EXPECT_EQ(modelTypeSpecifier.getType(mContext), mModel);
 }
@@ -73,7 +73,7 @@ TEST_F(ModelTypeSpecifierTest, modelTypeSpecifierCreateTest) {
 TEST_F(ModelTypeSpecifierTest, modelTypeSpecifierCreateWithPackageTest) {
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ModelTypeSpecifier modelTypeSpecifier(packageExpression, "MSquare");
+  ModelTypeSpecifier modelTypeSpecifier(packageExpression, "MSquare", 0);
   
   EXPECT_EQ(modelTypeSpecifier.getType(mContext), mModel);
 }
@@ -81,7 +81,7 @@ TEST_F(ModelTypeSpecifierTest, modelTypeSpecifierCreateWithPackageTest) {
 TEST_F(ModelTypeSpecifierTest, printToStreamTest) {
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ModelTypeSpecifier modelTypeSpecifier(packageExpression, "MSquare");
+  ModelTypeSpecifier modelTypeSpecifier(packageExpression, "MSquare", 0);
 
   stringstream stringStream;
   modelTypeSpecifier.printToStream(mContext, stringStream);
@@ -90,7 +90,7 @@ TEST_F(ModelTypeSpecifierTest, printToStreamTest) {
 }
 
 TEST_F(ModelTypeSpecifierTest, modelTypeSpecifierSamePackageDeathTest) {
-  ModelTypeSpecifier modelTypeSpecifier(NULL, "MCircle");
+  ModelTypeSpecifier modelTypeSpecifier(NULL, "MCircle", 10);
   
   EXPECT_EXIT(modelTypeSpecifier.getType(mContext),
               ::testing::ExitedWithCode(1),
@@ -100,7 +100,7 @@ TEST_F(ModelTypeSpecifierTest, modelTypeSpecifierSamePackageDeathTest) {
 TEST_F(ModelTypeSpecifierTest, modelTypeSpecifierNotDefinedDeathTest) {
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ModelTypeSpecifier modelTypeSpecifier(packageExpression, "MCircle");
+  ModelTypeSpecifier modelTypeSpecifier(packageExpression, "MCircle", 15);
   
   EXPECT_EXIT(modelTypeSpecifier.getType(mContext),
               ::testing::ExitedWithCode(1),

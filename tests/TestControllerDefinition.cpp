@@ -99,22 +99,24 @@ struct ControllerDefinitionTest : public Test {
 TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeObjectTest) {
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(packageExpression,
-                                                                               "CMyController");
+  ControllerTypeSpecifierFull* typeSpecifier =
+  new ControllerTypeSpecifierFull(packageExpression, "CMyController", 0);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ControllerDefinition controllerDefinition(AccessLevel::PUBLIC_ACCESS,
                                             typeSpecifier,
                                             mElementDeclarations,
                                             mInterfaces,
-                                            innerObjectDefinitions);
+                                            innerObjectDefinitions,
+                                            0);
 
   EXPECT_CALL(*mMockStatement, generateIR(_)).Times(0);
 
   controllerDefinition.prototypeObject(mContext);
   
-  ASSERT_NE(mContext.getController("systems.vos.wisey.compiler.tests.CMyController"), nullptr);
+  ASSERT_NE(mContext.getController("systems.vos.wisey.compiler.tests.CMyController", 0), nullptr);
 
-  Controller* controller = mContext.getController("systems.vos.wisey.compiler.tests.CMyController");
+  Controller* controller =
+  mContext.getController("systems.vos.wisey.compiler.tests.CMyController", 0);
   
   EXPECT_STREQ(controller->getShortName().c_str(), "CMyController");
   EXPECT_STREQ(controller->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.CMyController");
@@ -124,35 +126,38 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeObjectTest) {
 TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeMethodsTest) {
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(packageExpression,
-                                                                               "CMyController");
+  ControllerTypeSpecifierFull* typeSpecifier =
+  new ControllerTypeSpecifierFull(packageExpression, "CMyController", 0);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ControllerDefinition controllerDefinition(AccessLevel::PUBLIC_ACCESS,
                                             typeSpecifier,
                                             mElementDeclarations,
                                             mInterfaces,
-                                            innerObjectDefinitions);
+                                            innerObjectDefinitions,
+                                            0);
 
   EXPECT_CALL(*mMockStatement, generateIR(_)).Times(0);
   
   controllerDefinition.prototypeObject(mContext);
   controllerDefinition.prototypeMethods(mContext);
   
-  Controller* controller = mContext.getController("systems.vos.wisey.compiler.tests.CMyController");
+  Controller* controller =
+  mContext.getController("systems.vos.wisey.compiler.tests.CMyController", 0);
   EXPECT_NE(controller->findMethod("foo"), nullptr);
 }
 
 TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(packageExpression,
-                                                                               "CMyController");
+  ControllerTypeSpecifierFull* typeSpecifier =
+  new ControllerTypeSpecifierFull(packageExpression, "CMyController", 0);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ControllerDefinition controllerDefinition(AccessLevel::PUBLIC_ACCESS,
                                             typeSpecifier,
                                             mElementDeclarations,
                                             mInterfaces,
-                                            innerObjectDefinitions);
+                                            innerObjectDefinitions,
+                                            0);
 
   EXPECT_CALL(*mMockStatement, generateIR(_));
   
@@ -160,9 +165,10 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
   controllerDefinition.prototypeMethods(mContext);
   controllerDefinition.generateIR(mContext);
   
-  ASSERT_NE(mContext.getController("systems.vos.wisey.compiler.tests.CMyController"), nullptr);
+  ASSERT_NE(mContext.getController("systems.vos.wisey.compiler.tests.CMyController", 0), nullptr);
   
-  Controller* controller = mContext.getController("systems.vos.wisey.compiler.tests.CMyController");
+  Controller* controller =
+  mContext.getController("systems.vos.wisey.compiler.tests.CMyController", 0);
   StructType* structType = (StructType*) controller->getLLVMType(mContext)->getPointerElementType();
 
   ASSERT_NE(structType, nullptr);
@@ -180,8 +186,8 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
 TEST_F(ControllerDefinitionTest, controllerWithFixedFieldDeathTest) {
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(packageExpression,
-                                                                               "CMyController");
+  ControllerTypeSpecifierFull* typeSpecifier =
+  new ControllerTypeSpecifierFull(packageExpression, "CMyController", 0);
   const PrimitiveTypeSpecifier* intType = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
   FixedFieldDefinition* field = new FixedFieldDefinition(intType, "field3");
   mElementDeclarations.clear();
@@ -191,7 +197,8 @@ TEST_F(ControllerDefinitionTest, controllerWithFixedFieldDeathTest) {
                                             typeSpecifier,
                                             mElementDeclarations,
                                             mInterfaces,
-                                            innerObjectDefinitions);
+                                            innerObjectDefinitions,
+                                            0);
   controllerDefinition.prototypeObject(mContext);
   
   EXPECT_EXIT(controllerDefinition.prototypeMethods(mContext),
@@ -202,8 +209,8 @@ TEST_F(ControllerDefinitionTest, controllerWithFixedFieldDeathTest) {
 TEST_F(ControllerDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(packageExpression,
-                                                                               "CMyController");
+  ControllerTypeSpecifierFull* typeSpecifier =
+  new ControllerTypeSpecifierFull(packageExpression, "CMyController", 0);
   InjectionArgumentList arguments;
   const PrimitiveTypeSpecifier* intType = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
   FixedFieldDefinition* field = new FixedFieldDefinition(intType, "field3");
@@ -213,7 +220,8 @@ TEST_F(ControllerDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
                                             typeSpecifier,
                                             mElementDeclarations,
                                             mInterfaces,
-                                            innerObjectDefinitions);
+                                            innerObjectDefinitions,
+                                            0);
   controllerDefinition.prototypeObject(mContext);
   
   EXPECT_EXIT(controllerDefinition.prototypeMethods(mContext),

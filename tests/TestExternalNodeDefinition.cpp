@@ -57,7 +57,8 @@ struct ExternalNodeDefinitionTest : public Test {
     mMethodDefinition = new ExternalMethodDefinition(floatTypeSpecifier,
                                                        "foo",
                                                        methodArguments,
-                                                       thrownExceptions);
+                                                       thrownExceptions,
+                                                     0);
   }
   
   ~ExternalNodeDefinitionTest() {
@@ -76,16 +77,19 @@ TEST_F(ExternalNodeDefinitionTest, prototypeObjectTest) {
   vector<IInterfaceTypeSpecifier*> interfaces;
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(packageExpression, "NMyNode");
+  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(packageExpression,
+                                                                   "NMyNode",
+                                                                   0);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ExternalNodeDefinition nodeDefinition(typeSpecifier,
                                         mObjectElements,
                                         interfaces,
-                                        innerObjectDefinitions);
+                                        innerObjectDefinitions,
+                                        0);
   
   nodeDefinition.prototypeObject(mContext);
   
-  Node* node = mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode");
+  Node* node = mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode", 0);
   
   EXPECT_STREQ(node->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.NMyNode");
   EXPECT_STREQ(node->getShortName().c_str(), "NMyNode");
@@ -104,17 +108,18 @@ TEST_F(ExternalNodeDefinitionTest, prototypeMethodsTest) {
   vector<IInterfaceTypeSpecifier*> interfaces;
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(packageExpression, "NMyNode");
+  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(packageExpression, "NMyNode", 0);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ExternalNodeDefinition nodeDefinition(typeSpecifier,
                                         mObjectElements,
                                         interfaces,
-                                        innerObjectDefinitions);
+                                        innerObjectDefinitions,
+                                        0);
   
   nodeDefinition.prototypeObject(mContext);
   nodeDefinition.prototypeMethods(mContext);
   
-  Node* node = mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode");
+  Node* node = mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode", 0);
   
   EXPECT_NE(node->findMethod("foo"), nullptr);
 }

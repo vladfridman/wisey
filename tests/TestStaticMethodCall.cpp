@@ -132,7 +132,7 @@ public:
     mModel->setFields(fields, 1u);
     mModel->setMethods(methods);
     mContext.addModel(mModel);
-    mModelSpecifier = new ModelTypeSpecifier(NULL, "MSquare");
+    mModelSpecifier = new ModelTypeSpecifier(NULL, "MSquare", 0);
     
     FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
     Function* mainFunction = Function::Create(functionType,
@@ -145,7 +145,7 @@ public:
     mContext.getScopes().pushScope();
     mContext.setMainFunction(mainFunction);
     
-    mThreadInterface = mContext.getInterface(Names::getThreadInterfaceFullName());
+    mThreadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
     llvm::PointerType* llvmType = mThreadInterface->getLLVMType(mContext);
     Value* threadStore = IRWriter::newAllocaInst(mContext, llvmType, "threadStore");
     llvm::Constant* null = ConstantPointerNull::get(llvmType);
@@ -158,7 +158,7 @@ public:
     threadVariable->generateAssignmentIR(mContext, fakeExpression, arrayIndices, 0);
     mContext.getScopes().setVariable(threadVariable);
 
-    mCallStack = mContext.getController(Names::getCallStackControllerFullName());
+    mCallStack = mContext.getController(Names::getCallStackControllerFullName(), 0);
     llvm::PointerType* callStackLLVMType = mCallStack->getLLVMType(mContext);
     Value* callStackStore = IRWriter::newAllocaInst(mContext, callStackLLVMType, "");
     null = ConstantPointerNull::get(callStackLLVMType);

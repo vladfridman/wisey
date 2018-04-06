@@ -25,7 +25,7 @@ IField* IFieldVariable::checkAndFindFieldForAssignment(IRGenerationContext& cont
     return field;
   }
   
-  Log::e("Can not assign to field " + field->getName());
+  Log::e_deprecated("Can not assign to field " + field->getName());
   exit(1);
 }
 
@@ -38,7 +38,7 @@ IField* IFieldVariable::checkAndFindField(IRGenerationContext& context,
     return field;
   }
   
-  Log::e("Field " + fieldName + " is not found in object " + object->getTypeName());
+  Log::e_deprecated("Field " + fieldName + " is not found in object " + object->getTypeName());
   exit(1);
 }
 

@@ -24,7 +24,7 @@ public:
   MOCK_CONST_METHOD1(findMethod, wisey::IMethodDescriptor* (std::string));
   MOCK_CONST_METHOD0(getTypeName, std::string ());
   MOCK_CONST_METHOD1(getLLVMType, llvm::PointerType* (wisey::IRGenerationContext&));
-  MOCK_CONST_METHOD2(free, void (wisey::IRGenerationContext&, llvm::Value*));
+  MOCK_CONST_METHOD3(free, void (wisey::IRGenerationContext&, llvm::Value*, int));
   MOCK_CONST_METHOD2(canCastTo, bool (wisey::IRGenerationContext&, const wisey::IType*));
   MOCK_CONST_METHOD2(canAutoCastTo, bool (wisey::IRGenerationContext&, const wisey::IType*));
   MOCK_CONST_METHOD4(castTo, llvm::Value* (wisey::IRGenerationContext&,
@@ -44,7 +44,7 @@ public:
   MOCK_CONST_METHOD0(isThread, bool ());
   MOCK_CONST_METHOD0(isNative, bool ());
   MOCK_CONST_METHOD0(isPointer, bool ());
-  MOCK_CONST_METHOD1(getDestructorFunction, llvm::Function* (wisey::IRGenerationContext&));
+  MOCK_CONST_METHOD2(getDestructorFunction, llvm::Function* (wisey::IRGenerationContext&, int));
   MOCK_CONST_METHOD2(printToStream, void (wisey::IRGenerationContext&, std::iostream& stream));
   MOCK_CONST_METHOD2(createLocalVariable, void (wisey::IRGenerationContext&, std::string name));
   MOCK_CONST_METHOD3(createFieldVariable, void (wisey::IRGenerationContext&,

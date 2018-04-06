@@ -20,7 +20,7 @@ namespace wisey {
     
   public:
     
-    virtual Interface* getType(IRGenerationContext& context) const = 0;
+    virtual Interface* getType(IRGenerationContext& context) const override = 0;
     
   };
   

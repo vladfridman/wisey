@@ -53,7 +53,7 @@ struct InterfaceDefinitionTest : public Test {
     methodArguments.push_back(intArgument);
     vector<IModelTypeSpecifier*> thrownExceptions;
     IObjectElementDefinition* methodSignatureDeclaration =
-      new MethodSignatureDeclaration(floatTypeSpecifier, "foo", methodArguments, thrownExceptions);
+    new MethodSignatureDeclaration(floatTypeSpecifier, "foo", methodArguments, thrownExceptions, 0);
     vector<IObjectElementDefinition *> objectElements;
     objectElements.push_back(methodSignatureDeclaration);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
@@ -61,13 +61,15 @@ struct InterfaceDefinitionTest : public Test {
     PackageType* packageType = new PackageType("systems.vos.wisey.compiler.tests");
     FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
     mInterfaceTypeSpecifier = new InterfaceTypeSpecifierFull(packageExpression,
-                                                             "IMyInterface");
+                                                             "IMyInterface",
+                                                             0);
     vector<IObjectDefinition*> innerObjectDefinitions;
     mInterfaceDefinition = new InterfaceDefinition(AccessLevel::PUBLIC_ACCESS,
                                                    mInterfaceTypeSpecifier,
                                                    parentInterfaces,
                                                    objectElements,
-                                                   innerObjectDefinitions);
+                                                   innerObjectDefinitions,
+                                                   0);
   }
   
   ~InterfaceDefinitionTest() {
@@ -78,9 +80,9 @@ struct InterfaceDefinitionTest : public Test {
 TEST_F(InterfaceDefinitionTest, prototypeObjectTest) {
   mInterfaceDefinition->prototypeObject(mContext);
   
-  ASSERT_NE(mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface"), nullptr);
+  ASSERT_NE(mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface", 0), nullptr);
   
-  Interface* interface = mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface");
+  Interface* interface = mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface", 0);
   
   EXPECT_STREQ(interface->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.IMyInterface");
   EXPECT_STREQ(interface->getShortName().c_str(), "IMyInterface");
@@ -91,7 +93,7 @@ TEST_F(InterfaceDefinitionTest, prototypeMethodsTest) {
   mInterfaceDefinition->prototypeObject(mContext);
   mInterfaceDefinition->prototypeMethods(mContext);
   
-  Interface* interface = mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface");
+  Interface* interface = mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface", 0);
   
   EXPECT_NE(interface->findMethod("foo"), nullptr);
 }
@@ -101,9 +103,9 @@ TEST_F(InterfaceDefinitionTest, generateIRTest) {
   mInterfaceDefinition->prototypeMethods(mContext);
   mInterfaceDefinition->generateIR(mContext);
 
-  ASSERT_NE(mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface"), nullptr);
+  ASSERT_NE(mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface", 0), nullptr);
 
-  Interface* interface = mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface");
+  Interface* interface = mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface", 0);
   Type* type = interface->getLLVMType(mContext);
   
   ASSERT_NE(type, nullptr);

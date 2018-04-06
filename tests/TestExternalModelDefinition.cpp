@@ -50,9 +50,10 @@ struct ExternalModelDefinitionTest : public Test {
     methodArguments.push_back(intArgument);
     vector<IModelTypeSpecifier*> thrownExceptions;
     mMethodDefinition = new ExternalMethodDefinition(floatTypeSpecifier,
-                                                       "foo",
-                                                       methodArguments,
-                                                       thrownExceptions);
+                                                     "foo",
+                                                     methodArguments,
+                                                     thrownExceptions,
+                                                     0);
   }
 };
 
@@ -69,16 +70,18 @@ TEST_F(ExternalModelDefinitionTest, prototypeObjectTest) {
   vector<IInterfaceTypeSpecifier*> interfaces;
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(packageExpression, "MMyModel");
+  ModelTypeSpecifierFull* typeSpecifier =
+  new ModelTypeSpecifierFull(packageExpression, "MMyModel", 0);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ExternalModelDefinition modelDefinition(typeSpecifier,
                                           mElementDeclarations,
                                           interfaces,
-                                          innerObjectDefinitions);
+                                          innerObjectDefinitions,
+                                          0);
   
   modelDefinition.prototypeObject(mContext);
   
-  Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel");
+  Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel", 0);
   
   EXPECT_STREQ(model->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.MMyModel");
   EXPECT_STREQ(model->getShortName().c_str(), "MMyModel");
@@ -98,17 +101,19 @@ TEST_F(ExternalModelDefinitionTest, prototypeMethodsTest) {
   vector<IInterfaceTypeSpecifier*> interfaces;
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(packageExpression, "MMyModel");
+  ModelTypeSpecifierFull* typeSpecifier =
+  new ModelTypeSpecifierFull(packageExpression, "MMyModel", 0);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ExternalModelDefinition modelDefinition(typeSpecifier,
                                           mElementDeclarations,
                                           interfaces,
-                                          innerObjectDefinitions);
+                                          innerObjectDefinitions,
+                                          0);
 
   modelDefinition.prototypeObject(mContext);
   modelDefinition.prototypeMethods(mContext);
   
-  Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel");
+  Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel", 0);
   
   EXPECT_NE(model->findMethod("foo"), nullptr);
 }

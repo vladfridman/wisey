@@ -66,7 +66,8 @@ public:
                                  "mymethod",
                                  PrimitiveTypes::BOOLEAN_TYPE,
                                  arguments,
-                                 thrownExceptions);
+                                 thrownExceptions,
+                                 0);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -98,14 +99,14 @@ TEST_F(ExternalMethodTest, getLLVMTypeTest) {
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
-  ExternalMethod method(mModel, "foo", PrimitiveTypes::FLOAT_TYPE, arguments, thrownExceptions);
+  ExternalMethod method(mModel, "foo", PrimitiveTypes::FLOAT_TYPE, arguments, thrownExceptions, 0);
 
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mModel->getLLVMType(mContext));
 
-  Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName());
+  Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
   argumentTypes.push_back(threadInterface->getLLVMType(mContext));
-  Controller* callStack = mContext.getController(Names::getCallStackControllerFullName());
+  Controller* callStack = mContext.getController(Names::getCallStackControllerFullName(), 0);
   argumentTypes.push_back(callStack->getLLVMType(mContext));
   argumentTypes.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mContext));
   Type* llvmReturnType = PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext);
@@ -121,7 +122,7 @@ TEST_F(ExternalMethodTest, defineFunctionTest) {
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
-  ExternalMethod method(mModel, "foo", PrimitiveTypes::FLOAT_TYPE, arguments, thrownExceptions);
+  ExternalMethod method(mModel, "foo", PrimitiveTypes::FLOAT_TYPE, arguments, thrownExceptions, 0);
   Function* function = method.defineFunction(mContext);
   
   *mStringStream << *function;

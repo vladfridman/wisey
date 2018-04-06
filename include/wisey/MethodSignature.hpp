@@ -24,6 +24,7 @@ namespace wisey {
     const IType* mReturnType;
     std::vector<MethodArgument*> mArguments;
     std::vector<const Model*> mThrownExceptions;
+    int mLine;
     
   public:
     
@@ -31,7 +32,8 @@ namespace wisey {
                     std::string name,
                     const IType* returnType,
                     std::vector<MethodArgument*> arguments,
-                    std::vector<const Model*> thrownExceptions);
+                    std::vector<const Model*> thrownExceptions,
+                    int line);
     
     ~MethodSignature();
     

@@ -57,9 +57,9 @@ struct BindActionGlobalStatementTest : public Test {
     mController->setInterfaces(controllerInterfaces);
     
     InterfaceTypeSpecifier* interfaceTypeSpecifier =
-      new InterfaceTypeSpecifier(NULL, "IMyInterface");
+      new InterfaceTypeSpecifier(NULL, "IMyInterface", 0);
     ControllerTypeSpecifier* controllerTypeSpecifier =
-      new ControllerTypeSpecifier(NULL, "CMyController");
+      new ControllerTypeSpecifier(NULL, "CMyController", 0);
     InjectionArgumentList injectionArgumentList;
     BindAction* bindAction = new BindAction(interfaceTypeSpecifier,
                                             controllerTypeSpecifier,

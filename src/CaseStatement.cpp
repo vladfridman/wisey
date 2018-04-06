@@ -32,7 +32,7 @@ bool CaseStatement::isFallThrough() const {
 ConstantInt* CaseStatement::getExpressionValue(IRGenerationContext& context) const {
   Value* value = mExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
   if (!ConstantInt::classof(value)) {
-    Log::e("Case expression should be an integer constant");
+    Log::e_deprecated("Case expression should be an integer constant");
     exit(1);
   }
   

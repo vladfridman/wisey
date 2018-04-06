@@ -60,7 +60,7 @@ Value* ParameterArrayOwnerVariable::generateAssignmentIR(IRGenerationContext& co
                                                          IExpression* assignToExpression,
                                                          vector<const IExpression*> arrayIndices,
                                                          int line) {
-  Log::e("Assignment to method parameters is not allowed");
+  Log::e_deprecated("Assignment to method parameters is not allowed");
   exit(1);
 }
 
@@ -69,7 +69,7 @@ void ParameterArrayOwnerVariable::setToNull(IRGenerationContext& context) {
   IRWriter::newStoreInst(context, null, mValueStore);
 }
 
-void ParameterArrayOwnerVariable::free(IRGenerationContext& context) const {
+void ParameterArrayOwnerVariable::free(IRGenerationContext& context, int line) const {
   Value* valueLoaded = IRWriter::newLoadInst(context, mValueStore, "");
-  mArrayOwnerType->free(context, valueLoaded);
+  mArrayOwnerType->free(context, valueLoaded, line);
 }

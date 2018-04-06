@@ -13,9 +13,11 @@ using namespace std;
 using namespace wisey;
 
 ControllerTypeSpecifierFull::ControllerTypeSpecifierFull(IExpression* packageExpression,
-                                                         string shortName) :
+                                                         string shortName,
+                                                         int line) :
 mPackageExpression(packageExpression),
-mShortName(shortName) {
+mShortName(shortName),
+mLine(line) {
 }
 
 ControllerTypeSpecifierFull::~ControllerTypeSpecifierFull() {
@@ -39,7 +41,7 @@ string ControllerTypeSpecifierFull::getName(IRGenerationContext& context) const 
 }
 
 const Controller* ControllerTypeSpecifierFull::getType(IRGenerationContext& context) const {
-  return context.getController(getName(context));
+  return context.getController(getName(context), mLine);
 }
 
 void ControllerTypeSpecifierFull::printToStream(IRGenerationContext& context,

@@ -21,12 +21,14 @@ InterfaceDefinition::InterfaceDefinition(AccessLevel accessLevel,
                                          vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
                                          vector<IObjectElementDefinition *>
                                          elementDeclarations,
-                                         vector<IObjectDefinition*> innerObjectDefinitions) :
+                                         vector<IObjectDefinition*> innerObjectDefinitions,
+                                         int line) :
 mAccessLevel(accessLevel),
 mInterfaceTypeSpecifierFull(interfaceTypeSpecifierFull),
 mParentInterfaceSpecifiers(parentInterfaceSpecifiers),
 mElementDeclarations(elementDeclarations),
-mInnerObjectDefinitions(innerObjectDefinitions) { }
+mInnerObjectDefinitions(innerObjectDefinitions),
+mLine(line) { }
 
 InterfaceDefinition::~InterfaceDefinition() {
   delete mInterfaceTypeSpecifierFull;
@@ -66,7 +68,7 @@ Interface* InterfaceDefinition::prototypeObject(IRGenerationContext& context) co
 
 void InterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mInterfaceTypeSpecifierFull);
-  Interface* interface = context.getInterface(fullName);
+  Interface* interface = context.getInterface(fullName, mLine);
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(interface);
 
@@ -80,7 +82,7 @@ void InterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {
 
 Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mInterfaceTypeSpecifierFull);
-  Interface* interface = context.getInterface(fullName);
+  Interface* interface = context.getInterface(fullName, mLine);
 
   context.getScopes().pushScope();
   const IObjectType* lastObjectType = context.getObjectType();

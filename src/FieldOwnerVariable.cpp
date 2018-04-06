@@ -67,7 +67,7 @@ Value* FieldOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
   const IType* expressionType = assignToExpression->getType(context);
   const IType* fieldType = field->getType();
   if (!expressionType->canAutoCastTo(context, fieldType)) {
-    Log::e("Can not assign to field '" + mName + "' of object '" + mObject->getTypeName() +
+    Log::e_deprecated("Can not assign to field '" + mName + "' of object '" + mObject->getTypeName() +
            "' because of incompatable types");
     exit(1);
   }
@@ -76,7 +76,7 @@ Value* FieldOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   Value* fieldPointerLoaded = IRWriter::newLoadInst(context, fieldPointer, "");
 
-  ((const IOwnerType*) field->getType())->free(context, fieldPointerLoaded);
+  ((const IOwnerType*) field->getType())->free(context, fieldPointerLoaded, line);
   
   Value* value = IRWriter::newStoreInst(context, cast, fieldPointer);
 
@@ -92,7 +92,7 @@ void FieldOwnerVariable::setToNull(IRGenerationContext& context) {
   IRWriter::newStoreInst(context, null, fieldPointer);
 }
 
-void FieldOwnerVariable::free(IRGenerationContext& context) const {
+void FieldOwnerVariable::free(IRGenerationContext& context, int line) const {
   /** Freed using object destructor */
 }
 

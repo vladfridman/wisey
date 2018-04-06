@@ -21,10 +21,11 @@ namespace wisey {
   class NodeTypeSpecifier : public INodeTypeSpecifier {
     IExpression* mPackageExpression;
     const std::string mShortName;
+    int mLine;
     
   public:
     
-    NodeTypeSpecifier(IExpression* packageExpression, std::string shortName);
+    NodeTypeSpecifier(IExpression* packageExpression, std::string shortName, int line);
     
     ~NodeTypeSpecifier();
     

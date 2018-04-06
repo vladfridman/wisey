@@ -57,7 +57,7 @@ public:
     vector<const Model*> thrownExceptions;
     string rceFullName = Names::getLangPackageName() + "." +
     Names::getReferenceCountExceptionName();
-    thrownExceptions.push_back(mContext.getModel(rceFullName));
+    thrownExceptions.push_back(mContext.getModel(rceFullName, 0));
     string modelFullName = "systems.vos.wisey.compiler.tests.MObject";
     vector<Type*> types;
     types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
@@ -122,9 +122,9 @@ TEST_F(StaticMethodTest, getLLVMTypeTest) {
                             0);
 
   vector<Type*> argumentTypes;
-  Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName());
+  Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
   argumentTypes.push_back(threadInterface->getLLVMType(mContext));
-  Controller* callStack = mContext.getController(Names::getCallStackControllerFullName());
+  Controller* callStack = mContext.getController(Names::getCallStackControllerFullName(), 0);
   argumentTypes.push_back(callStack->getLLVMType(mContext));
   argumentTypes.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mContext));
   Type* llvmReturnType = PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext);

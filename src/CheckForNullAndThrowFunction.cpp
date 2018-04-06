@@ -81,7 +81,8 @@ void CheckForNullAndThrowFunction::compose(IRGenerationContext& context, Functio
   PackageType* packageType = context.getPackageType(Names::getLangPackageName());
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(packageExpression,
-                                                                  Names::getNPEModelName());
+                                                                  Names::getNPEModelName(),
+                                                                  0);
   ObjectBuilderArgumentList objectBuilderArgumnetList;
   ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier,
                                                    objectBuilderArgumnetList,

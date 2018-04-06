@@ -22,12 +22,14 @@ ControllerDefinition::ControllerDefinition(AccessLevel accessLevel,
                                            vector<IObjectElementDefinition*>
                                              objectElementDeclarations,
                                            vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
-                                           vector<IObjectDefinition*> innerObjectDefinitions) :
+                                           vector<IObjectDefinition*> innerObjectDefinitions,
+                                           int line) :
 mAccessLevel(accessLevel),
 mControllerTypeSpecifierFull(controllerTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers),
-mInnerObjectDefinitions(innerObjectDefinitions) { }
+mInnerObjectDefinitions(innerObjectDefinitions),
+mLine(line) { }
 
 ControllerDefinition::~ControllerDefinition() {
   delete mControllerTypeSpecifierFull;
@@ -63,7 +65,7 @@ Controller* ControllerDefinition::prototypeObject(IRGenerationContext& context) 
 
 void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mControllerTypeSpecifierFull);
-  Controller* controller = context.getController(fullName);
+  Controller* controller = context.getController(fullName, mLine);
 
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(controller);
@@ -74,7 +76,7 @@ void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const 
 
 Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mControllerTypeSpecifierFull);
-  Controller* controller = context.getController(fullName);
+  Controller* controller = context.getController(fullName, mLine);
   
   context.getScopes().pushScope();
   const IObjectType* lastObjectType = context.getObjectType();

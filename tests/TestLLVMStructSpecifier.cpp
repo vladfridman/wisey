@@ -28,13 +28,13 @@ struct LLVMStructSpecifierTest : public ::testing::Test {
 };
 
 TEST_F(LLVMStructSpecifierTest, createTest) {
-  LLVMStructSpecifier llvmStructSpecifier("mystruct");
+  LLVMStructSpecifier llvmStructSpecifier("mystruct", 0 );
   
   EXPECT_EQ(llvmStructSpecifier.getType(mContext), mLLVMStructType);
 }
 
 TEST_F(LLVMStructSpecifierTest, printToStreamTest) {
-  LLVMStructSpecifier llvmStructSpecifier("mystruct");
+  LLVMStructSpecifier llvmStructSpecifier("mystruct", 0);
 
   stringstream stringStream;
   llvmStructSpecifier.printToStream(mContext, stringStream);

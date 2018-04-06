@@ -84,7 +84,7 @@ void Compiler::printAssembly() {
 
 GenericValue Compiler::run() {
   if (!mHasCompiled) {
-    Log::e("Need to compile before running code");
+    Log::e_deprecated("Need to compile before running code");
     exit(1);
   }
   return mContext.runCode();
@@ -157,7 +157,7 @@ vector<ProgramFile*> Compiler::parseFiles(vector<string> sourcePatterns) {
     yylineno = 1;
     SourceFile = sourceFile;
     if (yyin == NULL) {
-      Log::e(string("File ") + sourceFile + " not found!");
+      Log::e_deprecated(string("File ") + sourceFile + " not found!");
       exit(1);
     }
     yyparse();
@@ -203,7 +203,7 @@ vector<string> Compiler::expandPatterns(vector<string> sourcePatterns) {
       continue;
     }
     if (sourcePattern.find_last_of("/") > sourcePattern.find("*")) {
-      Log::e("Directory wildcard matching is not supported");
+      Log::e_deprecated("Directory wildcard matching is not supported");
       exit(1);
     }
     string directory = sourcePattern.find("/") != string::npos
@@ -238,7 +238,7 @@ vector<string> Compiler::listFilesInDirectory(string directory) {
     }
     closedir (dir);
   } else {
-    Log::e("Could not open directory " + directory);
+    Log::e_deprecated("Could not open directory " + directory);
     exit(1);
   }
   

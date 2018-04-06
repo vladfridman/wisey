@@ -20,11 +20,13 @@ ExternalControllerDefinition::ExternalControllerDefinition(ControllerTypeSpecifi
                                                            vector<IInterfaceTypeSpecifier*>
                                                            interfaceSpecifiers,
                                                            vector<IObjectDefinition*>
-                                                           innerObjectDefinitions) :
+                                                           innerObjectDefinitions,
+                                                           int line) :
 mControllerTypeSpecifierFull(controllerTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers),
-mInnerObjectDefinitions(innerObjectDefinitions) { }
+mInnerObjectDefinitions(innerObjectDefinitions),
+mLine(line) { }
 
 ExternalControllerDefinition::~ExternalControllerDefinition() {
   delete mControllerTypeSpecifierFull;
@@ -61,7 +63,7 @@ Controller* ExternalControllerDefinition::prototypeObject(IRGenerationContext&
 
 void ExternalControllerDefinition::prototypeMethods(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mControllerTypeSpecifierFull);
-  Controller* controller = context.getController(fullName);
+  Controller* controller = context.getController(fullName, mLine);
   
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(controller);

@@ -11,7 +11,8 @@
 using namespace std;
 using namespace wisey;
 
-ObjectOwnerTypeSpecifier::ObjectOwnerTypeSpecifier(const IObjectTypeSpecifier* objectTypeSpecifier) :
+ObjectOwnerTypeSpecifier::ObjectOwnerTypeSpecifier(const IObjectTypeSpecifier*
+                                                   objectTypeSpecifier) :
 mObjectTypeSpecifier(objectTypeSpecifier) { }
 
 ObjectOwnerTypeSpecifier::~ObjectOwnerTypeSpecifier() {

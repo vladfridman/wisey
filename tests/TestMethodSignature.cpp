@@ -48,7 +48,8 @@ struct MethodSignatureTest : Test {
                                            "foo",
                                            PrimitiveTypes::LONG_TYPE,
                                            arguments,
-                                           thrownExceptions);
+                                           thrownExceptions,
+                                           0);
 }
 };
 
@@ -87,9 +88,9 @@ TEST_F(MethodSignatureTest, createCopyTest) {
 TEST_F(MethodSignatureTest, getLLVMTypeTest) {
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mInterface->getLLVMType(mContext));
-  Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName());
+  Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
   argumentTypes.push_back(threadInterface->getLLVMType(mContext));
-  Controller* callStack = mContext.getController(Names::getCallStackControllerFullName());
+  Controller* callStack = mContext.getController(Names::getCallStackControllerFullName(), 0);
   argumentTypes.push_back(callStack->getLLVMType(mContext));
   Type* llvmReturnType = PrimitiveTypes::LONG_TYPE->getLLVMType(mContext);
   FunctionType* expectedType = FunctionType::get(llvmReturnType, argumentTypes, false);

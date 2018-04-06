@@ -235,7 +235,8 @@ namespace wisey {
      * Returns destructor function
      */
     static llvm::Function* getDestructorFunctionForObject(IRGenerationContext& context,
-                                                          const IConcreteObjectType* object);
+                                                          const IConcreteObjectType* object,
+                                                          int line);
     
     /**
      * Generates IR for static methods of a given object
@@ -347,7 +348,8 @@ namespace wisey {
     
     static void freeOwnerFields(IRGenerationContext& context,
                                 llvm::Value* thisValue,
-                                const IConcreteObjectType* object);
+                                const IConcreteObjectType* object,
+                                int line);
     
     static llvm::Value* getFieldValuePointer(IRGenerationContext& context,
                                              llvm::Value* thisValue,

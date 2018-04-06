@@ -79,7 +79,7 @@ public:
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
     mModel->setFields(fields, 1u);
     
-    Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName());
+    Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
     Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));
     mThreadVariable = new NiceMock<MockVariable>();
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));

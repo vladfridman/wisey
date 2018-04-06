@@ -15,14 +15,16 @@ using namespace std;
 using namespace wisey;
 
 ExternalMethodDefinition::ExternalMethodDefinition(const ITypeSpecifier* returnTypeSpecifier,
-                                                     string name,
-                                                     const VariableList& arguments,
-                                                     vector<IModelTypeSpecifier*>
-                                                     thrownExceptions) :
+                                                   string name,
+                                                   const VariableList& arguments,
+                                                   vector<IModelTypeSpecifier*>
+                                                   thrownExceptions,
+                                                   int line) :
 mReturnTypeSpecifier(returnTypeSpecifier),
 mName(name),
 mArguments(arguments),
-mThrownExceptions(thrownExceptions) { }
+mThrownExceptions(thrownExceptions),
+mLine(line) { }
 
 ExternalMethodDefinition::~ExternalMethodDefinition() {
   delete mReturnTypeSpecifier;
@@ -43,7 +45,7 @@ ExternalMethod* ExternalMethodDefinition::define(IRGenerationContext& context,
   vector<const Model*> exceptions = IMethodDefinition::createExceptionList(context,
                                                                             mThrownExceptions);
 
-  return new ExternalMethod(objectType, mName, returnType, arguments, exceptions);
+  return new ExternalMethod(objectType, mName, returnType, arguments, exceptions, mLine);
 }
 
 bool ExternalMethodDefinition::isConstant() const {

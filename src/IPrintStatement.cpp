@@ -25,11 +25,11 @@ Value* IPrintStatement::getFormatString(IRGenerationContext& context,
   for (const IExpression* expression : expressionList) {
     const IType* type = expression->getType(context);
     if (!type->isPrimitive()) {
-      Log::e("Can not print non primitive types");
+      Log::e_deprecated("Can not print non primitive types");
       exit(1);
     }
     if (type == PrimitiveTypes::VOID_TYPE) {
-      Log::e("Can not print a void type expression");
+      Log::e_deprecated("Can not print a void type expression");
       exit(1);
     }
     const IPrimitiveType* primitiveType = (const IPrimitiveType*) type;

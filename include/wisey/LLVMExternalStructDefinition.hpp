@@ -22,11 +22,13 @@ namespace wisey {
     
     std::string mName;
     std::vector<const ITypeSpecifier*> mTypeSpecifiers;
+    int mLine;
     
   public:
     
     LLVMExternalStructDefinition(std::string name,
-                                 std::vector<const ITypeSpecifier*> typesSpecifiers);
+                                 std::vector<const ITypeSpecifier*> typesSpecifiers,
+                                 int line);
     
     ~LLVMExternalStructDefinition();
     

@@ -83,6 +83,11 @@ struct IRGenerationContextTest : public Test {
     
     StructType* llvmStructType = StructType::create(mLLVMContext, "mystructtype");
     mLLVMStructType = LLVMStructType::newLLVMStructType(llvmStructType);
+    
+    ImportProfile* importProfile = new ImportProfile("systems.vos.wisey.compiler.tests");
+    importProfile->setSourceFileName(mContext, "/sources/sourcefile.yz");
+    
+    mContext.setImportProfile(importProfile);
   }
   
   ~IRGenerationContextTest() { }
@@ -121,7 +126,7 @@ TEST_F(IRGenerationContextTest, runCodeFailsWhenMainIsNullDeathTest) {
 TEST_F(IRGenerationContextTest, addNodeTest) {
   mContext.addNode(mNode);
   
-  Node* resultNode = mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode");
+  Node* resultNode = mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode", 0);
   
   EXPECT_EQ(resultNode, mNode);
 }
@@ -135,15 +140,15 @@ TEST_F(IRGenerationContextTest, addNodeAlreadyDefinedDeathTest) {
 }
 
 TEST_F(IRGenerationContextTest, getNodeDoesNotExistDeathTest) {
-  EXPECT_EXIT(mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode"),
+  EXPECT_EXIT(mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode", 10),
               ::testing::ExitedWithCode(1),
-              "Node systems.vos.wisey.compiler.tests.NMyNode is not defined");
+              "/sources/sourcefile.yz\\(10\\): Error: Node systems.vos.wisey.compiler.tests.NMyNode is not defined");
 }
 
 TEST_F(IRGenerationContextTest, addModelTest) {
   mContext.addModel(mModel);
   
-  Model* resultModel = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel");
+  Model* resultModel = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel", 0);
   
   EXPECT_EQ(resultModel, mModel);
 }
@@ -157,15 +162,15 @@ TEST_F(IRGenerationContextTest, addModelAlreadyDefinedDeathTest) {
 }
 
 TEST_F(IRGenerationContextTest, getModelDoesNotExistDeathTest) {
-  EXPECT_EXIT(mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel"),
+  EXPECT_EXIT(mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel", 10),
               ::testing::ExitedWithCode(1),
-              "Model systems.vos.wisey.compiler.tests.MMyModel is not defined");
+              "/sources/sourcefile.yz\\(10\\): Error: Model systems.vos.wisey.compiler.tests.MMyModel is not defined");
 }
 
 TEST_F(IRGenerationContextTest, addControllerTest) {
   mContext.addController(mController);
   Controller* resultController =
-    mContext.getController("systems.vos.wisey.compiler.tests.CMyController");
+    mContext.getController("systems.vos.wisey.compiler.tests.CMyController", 0);
   
   EXPECT_EQ(resultController, mController);
 }
@@ -179,15 +184,15 @@ TEST_F(IRGenerationContextTest, addControllerAlreadyDefinedDeathTest) {
 }
 
 TEST_F(IRGenerationContextTest, getControllerDoesNotExistDeathTest) {
-  EXPECT_EXIT(mContext.getController("systems.vos.wisey.compiler.tests.CMyController"),
+  EXPECT_EXIT(mContext.getController("systems.vos.wisey.compiler.tests.CMyController", 10),
               ::testing::ExitedWithCode(1),
-              "Controller systems.vos.wisey.compiler.tests.CMyController is not defined");
+              "/sources/sourcefile.yz\\(10\\): Error: Controller systems.vos.wisey.compiler.tests.CMyController is not defined");
 }
 
 TEST_F(IRGenerationContextTest, addThreadTest) {
   mContext.addThread(mThread);
 
-  Thread* resultThread = mContext.getThread("systems.vos.wisey.compiler.tests.TMyThread");
+  Thread* resultThread = mContext.getThread("systems.vos.wisey.compiler.tests.TMyThread", 0);
   
   EXPECT_EQ(mThread, resultThread);
 }
@@ -201,14 +206,14 @@ TEST_F(IRGenerationContextTest, addThreadAlreadyDefinedDeathTest) {
 }
 
 TEST_F(IRGenerationContextTest, getThreadDoesNotExistDeathTest) {
-  EXPECT_EXIT(mContext.getThread("systems.vos.wisey.compiler.tests.TMyThread"),
+  EXPECT_EXIT(mContext.getThread("systems.vos.wisey.compiler.tests.TMyThread", 10),
               ::testing::ExitedWithCode(1),
-              "Thread systems.vos.wisey.compiler.tests.TMyThread is not defined");
+              "/sources/sourcefile.yz\\(10\\): Error: Thread systems.vos.wisey.compiler.tests.TMyThread is not defined");
 }
 
 TEST_F(IRGenerationContextTest, addLLVMStructTypeTest) {
   mContext.addLLVMStructType(mLLVMStructType);
-  LLVMStructType* resultLLVMStructType = mContext.getLLVMStructType("mystructtype");
+  LLVMStructType* resultLLVMStructType = mContext.getLLVMStructType("mystructtype", 0);
   
   EXPECT_EQ(mLLVMStructType, resultLLVMStructType);
 }
@@ -222,9 +227,9 @@ TEST_F(IRGenerationContextTest, addLLVMStructTypeAlreadyDefinedDeathTest) {
 }
 
 TEST_F(IRGenerationContextTest, getLLVMStructTypeDoesNotExistDeathTest) {
-  EXPECT_EXIT(mContext.getLLVMStructType("mystructtype"),
+  EXPECT_EXIT(mContext.getLLVMStructType("mystructtype", 10),
               ::testing::ExitedWithCode(1),
-              "llvm struct type mystructtype is not defined");
+              "/sources/sourcefile.yz\\(10\\): Error: llvm struct type ::llvm::struct::mystructtype is not defined");
 }
 
 TEST_F(IRGenerationContextTest, addInterfaceTest) {
@@ -239,7 +244,7 @@ TEST_F(IRGenerationContextTest, addInterfaceTest) {
                                                  interfaceElements);
   mContext.addInterface(interface);
   Interface* resultInterface =
-    mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface");
+    mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface", 0);
   
   ASSERT_NE(resultInterface, nullptr);
   EXPECT_EQ(resultInterface->getLLVMType(mContext)->getPointerElementType(),
@@ -272,9 +277,9 @@ TEST_F(IRGenerationContextTest, setObjectTypeTest) {
 }
 
 TEST_F(IRGenerationContextTest, getInterfaceDoesNotExistDeathTest) {
-  EXPECT_EXIT(mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface"),
+  EXPECT_EXIT(mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface", 10),
               ::testing::ExitedWithCode(1),
-              "Interface systems.vos.wisey.compiler.tests.IMyInterface is not defined");
+              "/sources/sourcefile.yz\\(10\\): Error: Interface systems.vos.wisey.compiler.tests.IMyInterface is not defined");
 }
 
 TEST_F(IRGenerationContextTest, getBoundControllerDeathTest) {

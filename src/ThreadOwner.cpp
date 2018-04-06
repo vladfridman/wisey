@@ -71,12 +71,12 @@ Value* ThreadOwner::castTo(IRGenerationContext& context,
   return mThread->castTo(context, fromValue, toType, line);
 }
 
-void ThreadOwner::free(IRGenerationContext& context, Value* value) const {
+void ThreadOwner::free(IRGenerationContext& context, Value* value, int line) const {
   IConcreteObjectType::composeDestructorCall(context, value);
 }
 
-Function* ThreadOwner::getDestructorFunction(IRGenerationContext& context) const {
-  return IConcreteObjectType::getDestructorFunctionForObject(context, getReference());
+Function* ThreadOwner::getDestructorFunction(IRGenerationContext& context, int line) const {
+  return IConcreteObjectType::getDestructorFunctionForObject(context, getReference(), line);
 }
 
 bool ThreadOwner::isPrimitive() const {

@@ -82,12 +82,12 @@ void Model::setFields(vector<IField*> fields, unsigned long startIndex) {
     mFields[field->getName()] = field;
     mFieldIndexes[field] = index;
     if (!field->isFixed()) {
-      Log::e("Models can only have fixed fields");
+      Log::e_deprecated("Models can only have fixed fields");
       exit(1);
     }
     const IType* fieldType = field->getType();
     if (!fieldType->isPrimitive() && !fieldType->isModel() && !fieldType->isInterface()) {
-      Log::e("Models can only have fields of primitive or model type");
+      Log::e_deprecated("Models can only have fields of primitive or model type");
       exit(1);
     }
 
@@ -122,7 +122,7 @@ void Model::setConstants(vector<Constant*> constants) {
 
 wisey::Constant* Model::findConstant(string constantName) const {
   if (!mNameToConstantMap.count(constantName)) {
-    Log::e("Model " + mName + " does not have constant named " + constantName);
+    Log::e_deprecated("Model " + mName + " does not have constant named " + constantName);
     exit(1);
   }
   return mNameToConstantMap.at(constantName);
@@ -145,7 +145,7 @@ vector<LLVMFunction*> Model::getLLVMFunctions() const {
 
 LLVMFunction* Model::findLLVMFunction(string functionName) const {
   if (!mLLVMFunctionMap.count(functionName)) {
-    Log::e("LLVM function " + functionName + " not found in object " + getTypeName());
+    Log::e_deprecated("LLVM function " + functionName + " not found in object " + getTypeName());
     exit(1);
   }
   return mLLVMFunctionMap.at(functionName);
@@ -366,7 +366,7 @@ void Model::checkArgumentsAreWellFormed(const ObjectBuilderArgumentList&
   }
   
   if (!areArgumentsWellFormed) {
-    Log::e("Some arguments for the model " + mName + " builder are not well formed");
+    Log::e_deprecated("Some arguments for the model " + mName + " builder are not well formed");
     exit(1);
   }
 }
@@ -383,9 +383,9 @@ void Model::checkAllFieldsAreSet(const ObjectBuilderArgumentList& objectBuilderA
   }
   
   for (string missingField : missingFields) {
-    Log::e("Field " + missingField + " is not initialized");
+    Log::e_deprecated("Field " + missingField + " is not initialized");
   }
-  Log::e("Some fields of the model " + mName + " are not initialized.");
+  Log::e_deprecated("Some fields of the model " + mName + " are not initialized.");
   exit(1);
 }
 
@@ -407,7 +407,7 @@ void Model::initializeFields(IRGenerationContext& context,
     Value* argumentValue = argument->getValue(context, fieldType);
     const IType* argumentType = argument->getType(context);
     if (!argumentType->canAutoCastTo(context, fieldType)) {
-      Log::e("Model builder argument value for field " + argumentName +
+      Log::e_deprecated("Model builder argument value for field " + argumentName +
              " does not match its type");
       exit(1);
     }

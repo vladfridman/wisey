@@ -14,9 +14,11 @@ using namespace wisey;
 
 LLVMExternalStructDefinition::LLVMExternalStructDefinition(string name,
                                                            vector<const ITypeSpecifier*>
-                                                           typeSpecifiers) :
+                                                           typeSpecifiers,
+                                                           int line) :
 mName(name),
-mTypeSpecifiers(typeSpecifiers) {
+mTypeSpecifiers(typeSpecifiers),
+mLine(line) {
 }
 
 LLVMExternalStructDefinition::~LLVMExternalStructDefinition() {
@@ -38,7 +40,7 @@ IObjectType* LLVMExternalStructDefinition::prototypeObject(IRGenerationContext& 
 }
 
 void LLVMExternalStructDefinition::prototypeMethods(IRGenerationContext& context) const {
-  LLVMStructType* llvmStructType = context.getLLVMStructType(mName);
+  LLVMStructType* llvmStructType = context.getLLVMStructType(mName, mLine);
   
   vector<const IType*> structTypes;
   for (const ITypeSpecifier* llvmTypeSpecifier : mTypeSpecifiers) {

@@ -65,7 +65,7 @@ struct ThreadTypeSpecifierTest : public ::testing::Test {
 
 TEST_F(ThreadTypeSpecifierTest, threadTypeSpecifierCreateTest) {
   vector<string> package;
-  ThreadTypeSpecifier threadTypeSpecifier(NULL, "TWorker");
+  ThreadTypeSpecifier threadTypeSpecifier(NULL, "TWorker", 0);
   
   EXPECT_EQ(threadTypeSpecifier.getType(mContext), mThread);
 }
@@ -73,7 +73,7 @@ TEST_F(ThreadTypeSpecifierTest, threadTypeSpecifierCreateTest) {
 TEST_F(ThreadTypeSpecifierTest, threadTypeSpecifierCreateWithPackageTest) {
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ThreadTypeSpecifier threadTypeSpecifier(packageExpression, "TWorker");
+  ThreadTypeSpecifier threadTypeSpecifier(packageExpression, "TWorker", 0);
   
   EXPECT_EQ(threadTypeSpecifier.getType(mContext), mThread);
 }
@@ -81,7 +81,7 @@ TEST_F(ThreadTypeSpecifierTest, threadTypeSpecifierCreateWithPackageTest) {
 TEST_F(ThreadTypeSpecifierTest, printToStreamTest) {
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ThreadTypeSpecifier threadTypeSpecifier(packageExpression, "TWorker");
+  ThreadTypeSpecifier threadTypeSpecifier(packageExpression, "TWorker", 0);
   
   stringstream stringStream;
   threadTypeSpecifier.printToStream(mContext, stringStream);
@@ -90,7 +90,7 @@ TEST_F(ThreadTypeSpecifierTest, printToStreamTest) {
 }
 
 TEST_F(ThreadTypeSpecifierTest, threadTypeSpecifierSamePackageDeathTest) {
-  ThreadTypeSpecifier threadTypeSpecifier(NULL, "TThread");
+  ThreadTypeSpecifier threadTypeSpecifier(NULL, "TThread", 0);
   
   EXPECT_EXIT(threadTypeSpecifier.getType(mContext),
               ::testing::ExitedWithCode(1),
@@ -100,7 +100,7 @@ TEST_F(ThreadTypeSpecifierTest, threadTypeSpecifierSamePackageDeathTest) {
 TEST_F(ThreadTypeSpecifierTest, threadTypeSpecifierNotDefinedDeathTest) {
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ThreadTypeSpecifier threadTypeSpecifier(packageExpression, "TThread");
+  ThreadTypeSpecifier threadTypeSpecifier(packageExpression, "TThread", 0);
   
   EXPECT_EXIT(threadTypeSpecifier.getType(mContext),
               ::testing::ExitedWithCode(1),

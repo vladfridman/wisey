@@ -74,7 +74,7 @@ Value* ArrayElementExpression::getArrayElement(IRGenerationContext &context,
   const IType* arrayIndexExpressionType = indexExpression->getType(context);
   if (arrayIndexExpressionType != PrimitiveTypes::INT_TYPE &&
       arrayIndexExpressionType != PrimitiveTypes::LONG_TYPE) {
-    Log::e("Array index should be integer type, but it is " +
+    Log::e_deprecated("Array index should be integer type, but it is " +
            arrayIndexExpressionType->getTypeName());
     exit(1);
   }
@@ -119,7 +119,7 @@ Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
   LLVMContext& llvmContext = context.getLLVMContext();
 
   if (arrayType->getNumberOfDimensions() != arrayIndices.size()) {
-    Log::e("Expression does not reference an array element");
+    Log::e_deprecated("Expression does not reference an array element");
     exit(1);
   }
   
@@ -176,5 +176,5 @@ void ArrayElementExpression::printToStream(IRGenerationContext& context, iostrea
 }
 
 void ArrayElementExpression::reportErrorArrayType(string typeName) {
-  Log::e("Expecting array type expression before [] but expression type is " + typeName);
+  Log::e_deprecated("Expecting array type expression before [] but expression type is " + typeName);
 }

@@ -26,13 +26,13 @@ InjectionArgument::~InjectionArgument() {
 
 bool InjectionArgument::checkArgument(const IConcreteObjectType* object) {
   if (mFieldSpecifier.substr(0, 4).compare("with")) {
-    Log::e("Injection argument should start with 'with'. e.g. .withField(value).");
+    Log::e_deprecated("Injection argument should start with 'with'. e.g. .withField(value).");
     return false;
   }
   
   string fieldName = deriveFieldName();
   if (object->findField(fieldName) == NULL) {
-    Log::e("Injector could not find field " + fieldName + " in object " + object->getTypeName());
+    Log::e_deprecated("Injector could not find field " + fieldName + " in object " + object->getTypeName());
     return false;
   }
   

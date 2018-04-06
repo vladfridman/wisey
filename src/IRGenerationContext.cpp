@@ -97,7 +97,7 @@ GenericValue IRGenerationContext::runCode() {
   ExecutionEngine *executionEngine = EngineBuilder(move(mModuleOwner)).create();
   vector<GenericValue> noargs;
   if (mMainFunction == NULL) {
-    Log::e("Function main is not defined. Exiting.");
+    Log::e_deprecated("Function main is not defined. Exiting.");
     delete executionEngine;
     exit(1);
   }
@@ -177,16 +177,16 @@ LLVMArrayType* IRGenerationContext::getLLVMArrayType(const IType* elementType,
 void IRGenerationContext::addModel(Model* model) {
   string name = model->getTypeName();
   if (mModels.count(name)) {
-    Log::e("Redefinition of model " + name);
+    Log::e_deprecated("Redefinition of model " + name);
     exit(1);
   }
   
   mModels[name] = model;
 }
 
-Model* IRGenerationContext::getModel(string fullName) {
+Model* IRGenerationContext::getModel(string fullName, int line) {
   if (!mModels.count(fullName)) {
-    Log::e("Model " + fullName + " is not defined");
+    Log::e(getImportProfile(), line, "Model " + fullName + " is not defined");
     exit(1);
   }
   
@@ -199,16 +199,16 @@ Model* IRGenerationContext::getModel(string fullName) {
 void IRGenerationContext::addController(Controller* controller) {
   string name = controller->getTypeName();
   if (mControllers.count(name)) {
-    Log::e("Redefinition of controller " + name);
+    Log::e_deprecated("Redefinition of controller " + name);
     exit(1);
   }
   
   mControllers[name] = controller;
 }
 
-Controller* IRGenerationContext::getController(string fullName) {
+Controller* IRGenerationContext::getController(string fullName, int line) {
   if (!mControllers.count(fullName)) {
-    Log::e("Controller " + fullName + " is not defined");
+    Log::e(getImportProfile(), line, "Controller " + fullName + " is not defined");
     exit(1);
   }
   
@@ -221,16 +221,16 @@ Controller* IRGenerationContext::getController(string fullName) {
 void IRGenerationContext::addNode(Node* node) {
   string name = node->getTypeName();
   if (mNodes.count(name)) {
-    Log::e("Redefinition of node " + name);
+    Log::e_deprecated("Redefinition of node " + name);
     exit(1);
   }
   
   mNodes[name] = node;
 }
 
-Node* IRGenerationContext::getNode(string fullName) {
+Node* IRGenerationContext::getNode(string fullName, int line) {
   if (!mNodes.count(fullName)) {
-    Log::e("Node " + fullName + " is not defined");
+    Log::e(getImportProfile(), line, "Node " + fullName + " is not defined");
     exit(1);
   }
   
@@ -243,16 +243,16 @@ Node* IRGenerationContext::getNode(string fullName) {
 void IRGenerationContext::addThread(Thread* thread) {
   string name = thread->getTypeName();
   if (mThreads.count(name)) {
-    Log::e("Redefinition of thread " + name);
+    Log::e_deprecated("Redefinition of thread " + name);
     exit(1);
   }
   
   mThreads[name] = thread;
 }
 
-Thread* IRGenerationContext::getThread(string fullName) {
+Thread* IRGenerationContext::getThread(string fullName, int line) {
   if (!mThreads.count(fullName)) {
-    Log::e("Thread " + fullName + " is not defined");
+    Log::e(getImportProfile(), line, "Thread " + fullName + " is not defined");
     exit(1);
   }
   
@@ -265,16 +265,16 @@ Thread* IRGenerationContext::getThread(string fullName) {
 void IRGenerationContext::addInterface(Interface* interface) {
   string name = interface->getTypeName();
   if (mInterfaces.count(name)) {
-    Log::e("Redefinition of interface " + name);
+    Log::e_deprecated("Redefinition of interface " + name);
     exit(1);
   }
   
   mInterfaces[name] = interface;
 }
 
-Interface* IRGenerationContext::getInterface(string fullName) {
+Interface* IRGenerationContext::getInterface(string fullName, int line) {
   if (!mInterfaces.count(fullName)) {
-    Log::e("Interface " + fullName + " is not defined");
+    Log::e(getImportProfile(), line, "Interface " + fullName + " is not defined");
     exit(1);
   }
   
@@ -287,17 +287,17 @@ Interface* IRGenerationContext::getInterface(string fullName) {
 void IRGenerationContext::addLLVMStructType(LLVMStructType* llvmStructType) {
   string name = llvmStructType->getTypeName();
   if (mLLVMStructTypes.count(name)) {
-    Log::e("Redefinition of llvm struct type " + name);
+    Log::e_deprecated("Redefinition of llvm struct type " + name);
     exit(1);
   }
   
   mLLVMStructTypes[name] = llvmStructType;
 }
 
-LLVMStructType* IRGenerationContext::getLLVMStructType(string name) {
+LLVMStructType* IRGenerationContext::getLLVMStructType(string name, int line) {
   string fullName = LLVMStructType::LLVM_STRUCT_PREFIX + name;
   if (!mLLVMStructTypes.count(fullName)) {
-    Log::e("llvm struct type " + name + " is not defined");
+    Log::e(getImportProfile(), line, "llvm struct type " + fullName + " is not defined");
     exit(1);
   }
   
@@ -326,7 +326,7 @@ LLVMFunctionType* IRGenerationContext::getLLVMFunctionType(const IType* returnTy
 
 void IRGenerationContext::registerLLVMFunction(string name, const LLVMFunctionType* functionType) {
   if (mLLVMFunctions.count(name)) {
-    Log::e("Can not register llvm function named " + name + " because it is already registered");
+    Log::e_deprecated("Can not register llvm function named " + name + " because it is already registered");
     exit(1);
   }
   mLLVMFunctions[name] = functionType;
@@ -334,7 +334,7 @@ void IRGenerationContext::registerLLVMFunction(string name, const LLVMFunctionTy
 
 const LLVMFunctionType* IRGenerationContext::lookupLLVMFunction(string name) {
   if (!mLLVMFunctions.count(name)) {
-    Log::e("Can not find llvm function named " + name);
+    Log::e_deprecated("Can not find llvm function named " + name);
     exit(1);
   }
   return mLLVMFunctions.at(name);
@@ -343,7 +343,7 @@ const LLVMFunctionType* IRGenerationContext::lookupLLVMFunction(string name) {
 void IRGenerationContext::bindInterfaceToController(const Interface* interface,
                                                     const Controller* controller) {
   if (mBindings.count(interface)) {
-    Log::e("Interface " + interface->getTypeName() + " is already bound to " +
+    Log::e_deprecated("Interface " + interface->getTypeName() + " is already bound to " +
            mBindings[interface]->getTypeName() + " and can not be bound to " +
            controller->getTypeName());
     exit(1);
@@ -353,7 +353,7 @@ void IRGenerationContext::bindInterfaceToController(const Interface* interface,
 
 const Controller* IRGenerationContext::getBoundController(const Interface* interface) {
   if (!hasBoundController(interface)) {
-    Log::e("No controller is bound to interface " + interface->getTypeName());
+    Log::e_deprecated("No controller is bound to interface " + interface->getTypeName());
     exit(1);
   }
   return mBindings[interface];

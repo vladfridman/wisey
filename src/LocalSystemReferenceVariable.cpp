@@ -52,7 +52,7 @@ bool LocalSystemReferenceVariable::isSystem() const {
 
 Value* LocalSystemReferenceVariable::generateIdentifierIR(IRGenerationContext& context) const {
   if (!mIsInitialized) {
-    Log::e("System variable '" + mName + "' is not initialized");
+    Log::e_deprecated("System variable '" + mName + "' is not initialized");
     exit(1);
   }
   

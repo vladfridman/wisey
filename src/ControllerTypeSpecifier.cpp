@@ -12,9 +12,12 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ControllerTypeSpecifier::ControllerTypeSpecifier(IExpression* packageExpression, string shortName) :
+ControllerTypeSpecifier::ControllerTypeSpecifier(IExpression* packageExpression,
+                                                 string shortName,
+                                                 int line) :
 mPackageExpression(packageExpression),
-mShortName(shortName) {
+mShortName(shortName),
+mLine(line) {
 }
 
 ControllerTypeSpecifier::~ControllerTypeSpecifier() {
@@ -38,7 +41,7 @@ string ControllerTypeSpecifier::getName(IRGenerationContext& context) const {
 }
 
 const Controller* ControllerTypeSpecifier::getType(IRGenerationContext& context) const {
-  return context.getController(getName(context));
+  return context.getController(getName(context), mLine);
 }
 
 void ControllerTypeSpecifier::printToStream(IRGenerationContext& context, iostream& stream) const {

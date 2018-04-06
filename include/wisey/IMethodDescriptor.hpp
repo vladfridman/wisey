@@ -88,7 +88,8 @@ namespace wisey {
      */
     static llvm::FunctionType* getLLVMFunctionType(IRGenerationContext& context,
                                                    const IMethodDescriptor* method,
-                                                   const IObjectType* object);
+                                                   const IObjectType* object,
+                                                   int line);
     
     /**
      * Print the given method descriptor to the given stream

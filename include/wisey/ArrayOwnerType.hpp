@@ -26,7 +26,7 @@ namespace wisey {
     
     ~ArrayOwnerType();
     
-    void free(IRGenerationContext& context, llvm::Value* arrayPointer) const override;
+    void free(IRGenerationContext& context, llvm::Value* arrayPointer, int line) const override;
     
     std::string getTypeName() const override;
     

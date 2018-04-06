@@ -77,7 +77,8 @@ TEST_F(MethodSignatureDeclarationTest, methodDescriptorExtractTest) {
   MethodSignatureDeclaration methodSignatureDeclaration(floatTypeSpecifier,
                                                         "foo",
                                                         mArguments,
-                                                        thrownExceptions);
+                                                        thrownExceptions,
+                                                        0);
   MethodSignature* methodSignature = methodSignatureDeclaration.define(mContext, NULL);
   vector<MethodArgument*> arguments = methodSignature->getArguments();
   

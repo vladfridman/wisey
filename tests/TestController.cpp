@@ -98,7 +98,8 @@ struct ControllerTest : public Test {
       new MethodSignatureDeclaration(intSpecifier,
                                      "calculate",
                                      calculatorInterfaceMethodArguments,
-                                     calculatorThrownExceptions);
+                                     calculatorThrownExceptions,
+                                     0);
     calculatorInterfaceElements.push_back(calculateSignature);
     vector<IInterfaceTypeSpecifier*> calculatorParentInterfaces;
     mCalculatorInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
@@ -118,7 +119,8 @@ struct ControllerTest : public Test {
     PackageType* packageType = new PackageType(mPackage);
     FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
     InterfaceTypeSpecifier* calculatorSpecifier = new InterfaceTypeSpecifier(packageExpression,
-                                                                             "ICalculator");
+                                                                             "ICalculator",
+                                                                             0);
     scienceCalculatorParentInterfaces.push_back(calculatorSpecifier);
     mScienceCalculatorInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                                           scienceCalculatorFullName,
@@ -137,7 +139,8 @@ struct ControllerTest : public Test {
       new MethodSignatureDeclaration(intSpecifier,
                                      "foo",
                                      objectInterfaceMethodArguments,
-                                     objectThrownExceptions);
+                                     objectThrownExceptions,
+                                     0);
     objectInterfaceElements.push_back(methodBarSignature);
     vector<IInterfaceTypeSpecifier*> objectParentInterfaces;
     mObjectInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
@@ -310,7 +313,7 @@ struct ControllerTest : public Test {
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
-    Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName());
+    Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
     Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));
     mThreadVariable = new NiceMock<MockVariable>();
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));

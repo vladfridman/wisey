@@ -22,10 +22,11 @@ namespace wisey {
   class InterfaceTypeSpecifier : public IInterfaceTypeSpecifier {
     IExpression* mPackageExpression;
     const std::string mShortName;
+    int mLine;
     
   public:
     
-    InterfaceTypeSpecifier(IExpression* packageExpression, std::string shortName);
+    InterfaceTypeSpecifier(IExpression* packageExpression, std::string shortName, int line);
     
     ~InterfaceTypeSpecifier();
     

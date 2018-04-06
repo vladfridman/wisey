@@ -89,7 +89,11 @@ struct InterfaceTest : public Test {
     
     const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
     VariableList methodArguments;
-    mBarMethod = new MethodSignatureDeclaration(intSpecifier, "bar", methodArguments, exceptions);
+    mBarMethod = new MethodSignatureDeclaration(intSpecifier,
+                                                "bar",
+                                                methodArguments,
+                                                exceptions,
+                                                0);
     vector<IObjectElementDefinition*> objectElementDeclarations;
     objectElementDeclarations.push_back(mBarMethod);
     vector<IInterfaceTypeSpecifier*> objectParentInterfaces;
@@ -102,10 +106,14 @@ struct InterfaceTest : public Test {
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
 
-    mObjectInterfaceSpecifier = new InterfaceTypeSpecifier(NULL, "IObject");
+    mObjectInterfaceSpecifier = new InterfaceTypeSpecifier(NULL, "IObject", 0);
     string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
     mShapeStructType = StructType::create(mLLVMContext, shapeFullName);
-    mFooMethod = new MethodSignatureDeclaration(intSpecifier, "foo", methodArguments, exceptions);
+    mFooMethod = new MethodSignatureDeclaration(intSpecifier,
+                                                "foo",
+                                                methodArguments,
+                                                exceptions,
+                                                0);
     vector<IObjectElementDefinition*> shapeElements;
 
     intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
@@ -168,7 +176,7 @@ struct InterfaceTest : public Test {
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
 
-    Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName());
+    Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
     Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));
     mThreadVariable = new NiceMock<MockReferenceVariable>();
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
@@ -509,8 +517,8 @@ TEST_F(InterfaceTest, circularDependencyDeathTest) {
   Mock::AllowLeak(mThreadVariable);
   Mock::AllowLeak(mMockExpression);
   
-  InterfaceTypeSpecifier* parentInterfaceSpecifier = new InterfaceTypeSpecifier(NULL, "IParent");
-  InterfaceTypeSpecifier* childInterfaceSpecifier = new InterfaceTypeSpecifier(NULL, "IChild");
+  InterfaceTypeSpecifier* parentInterfaceSpecifier = new InterfaceTypeSpecifier(NULL, "IParent", 0);
+  InterfaceTypeSpecifier* childInterfaceSpecifier = new InterfaceTypeSpecifier(NULL, "IChild", 0);
 
   string childFullName = "systems.vos.wisey.compiler.tests.IChild";
   StructType* childStructType = StructType::create(mLLVMContext, childFullName);

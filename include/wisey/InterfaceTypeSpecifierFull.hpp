@@ -19,10 +19,13 @@ namespace wisey {
   class InterfaceTypeSpecifierFull : public IInterfaceTypeSpecifier {
     IExpression* mPackageExpression;
     const std::string mShortName;
+    int mLine;
     
   public:
     
-    InterfaceTypeSpecifierFull(IExpression* packageExpression, std::string shortName);
+    InterfaceTypeSpecifierFull(IExpression* packageExpression,
+                               std::string shortName,
+                               int line);
     
     ~InterfaceTypeSpecifierFull();
     

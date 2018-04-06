@@ -21,7 +21,8 @@ ArraySpecificOwnerTypeSpecifier::~ArraySpecificOwnerTypeSpecifier() {
   delete mArraySpecificTypeSpecifier;
 }
 
-const ArraySpecificOwnerType* ArraySpecificOwnerTypeSpecifier::getType(IRGenerationContext& context) const {
+const ArraySpecificOwnerType* ArraySpecificOwnerTypeSpecifier::getType(IRGenerationContext&
+                                                                       context) const {
   return mArraySpecificTypeSpecifier->getType(context)->getOwner();
 }
 

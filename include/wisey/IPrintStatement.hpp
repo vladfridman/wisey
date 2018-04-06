@@ -24,7 +24,8 @@ namespace wisey {
     /**
      * Returns a printf type format string corresponding to expression types in the given list
      */
-    static llvm::Value* getFormatString(IRGenerationContext& context, ExpressionList expressionList);
+    static llvm::Value* getFormatString(IRGenerationContext& context,
+                                        ExpressionList expressionList);
     
   };
   

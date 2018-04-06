@@ -73,12 +73,12 @@ Value* ControllerOwner::castTo(IRGenerationContext& context,
   return mController->castTo(context, fromValue, toType, line);
 }
 
-void ControllerOwner::free(IRGenerationContext& context, Value* value) const {
+void ControllerOwner::free(IRGenerationContext& context, Value* value, int line) const {
   IConcreteObjectType::composeDestructorCall(context, value);
 }
 
-Function* ControllerOwner::getDestructorFunction(IRGenerationContext& context) const {
-  return IConcreteObjectType::getDestructorFunctionForObject(context, getReference());
+Function* ControllerOwner::getDestructorFunction(IRGenerationContext& context, int line) const {
+  return IConcreteObjectType::getDestructorFunctionForObject(context, getReference(), line);
 }
 
 bool ControllerOwner::isPrimitive() const {

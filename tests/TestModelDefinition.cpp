@@ -98,17 +98,19 @@ TEST_F(ModelDefinitionTest, prototypeObjectTest) {
   vector<IInterfaceTypeSpecifier*> interfaces;
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(packageExpression, "MMyModel");
+  ModelTypeSpecifierFull* typeSpecifier =
+  new ModelTypeSpecifierFull(packageExpression, "MMyModel", 0);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ModelDefinition modelDefinition(AccessLevel::PUBLIC_ACCESS,
                                   typeSpecifier,
                                   mObjectElements,
                                   interfaces,
-                                  innerObjectDefinitions);
+                                  innerObjectDefinitions,
+                                  0);
   
   modelDefinition.prototypeObject(mContext);
 
-  Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel");
+  Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel", 0);
   
   EXPECT_STREQ(model->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.MMyModel");
   EXPECT_STREQ(model->getShortName().c_str(), "MMyModel");
@@ -127,18 +129,20 @@ TEST_F(ModelDefinitionTest, prototypeMethodsTest) {
   vector<IInterfaceTypeSpecifier*> interfaces;
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(packageExpression, "MMyModel");
+  ModelTypeSpecifierFull* typeSpecifier =
+  new ModelTypeSpecifierFull(packageExpression, "MMyModel", 0);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ModelDefinition modelDefinition(AccessLevel::PUBLIC_ACCESS,
                                   typeSpecifier,
                                   mObjectElements,
                                   interfaces,
-                                  innerObjectDefinitions);
+                                  innerObjectDefinitions,
+                                  0);
   
   modelDefinition.prototypeObject(mContext);
   modelDefinition.prototypeMethods(mContext);
 
-  Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel");
+  Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel", 0);
 
   EXPECT_NE(model->findMethod("foo"), nullptr);
 }
@@ -155,20 +159,22 @@ TEST_F(ModelDefinitionTest, generateIRTest) {
   vector<IInterfaceTypeSpecifier*> interfaces;
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(packageExpression, "MMyModel");
+  ModelTypeSpecifierFull* typeSpecifier =
+  new ModelTypeSpecifierFull(packageExpression, "MMyModel", 0);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ModelDefinition modelDefinition(AccessLevel::PUBLIC_ACCESS,
                                   typeSpecifier,
                                   mObjectElements,
                                   interfaces,
-                                  innerObjectDefinitions);
+                                  innerObjectDefinitions,
+                                  0);
 
   EXPECT_CALL(*mMockStatement, generateIR(_));
   
   modelDefinition.prototypeObject(mContext);
   modelDefinition.prototypeMethods(mContext);
   modelDefinition.generateIR(mContext);
-  Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel");
+  Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel", 0);
   StructType* structType = (StructType*) model->getLLVMType(mContext)->getPointerElementType();
   
   ASSERT_NE(structType, nullptr);
@@ -192,7 +198,7 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   PackageType* packageType = new PackageType(Names::getLangPackageName());
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ModelTypeSpecifierFull* modelTypeSpecifier =
-    new ModelTypeSpecifierFull(packageExpression, Names::getNPEModelName());
+    new ModelTypeSpecifierFull(packageExpression, Names::getNPEModelName(), 0);
   methodThrownExceptions.push_back(modelTypeSpecifier);
   const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
   VariableDeclaration* methodArgument =
@@ -203,7 +209,8 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
     new MethodSignatureDeclaration(floatSpecifier,
                                    "foo",
                                    methodArguments,
-                                   methodThrownExceptions);
+                                   methodThrownExceptions,
+                                   0);
   interfaceElements.push_back(methodSignature);
   vector<IInterfaceTypeSpecifier*> parentInterfaces;
   Interface* interface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
@@ -223,19 +230,21 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
                      interface->getObjectNameGlobalVariableName());
 
   vector<IInterfaceTypeSpecifier*> interfaces;
-  interfaces.push_back(new InterfaceTypeSpecifier(NULL, "IMyInterface"));
+  interfaces.push_back(new InterfaceTypeSpecifier(NULL, "IMyInterface", 0));
 
   mObjectElements.push_back(mMethodDefinition);
 
   packageType = new PackageType(mPackage);
   packageExpression = new FakeExpression(NULL, packageType);
-  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(packageExpression, "MModel");
+  ModelTypeSpecifierFull* typeSpecifier =
+  new ModelTypeSpecifierFull(packageExpression, "MModel", 0);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ModelDefinition modelDefinition(AccessLevel::PUBLIC_ACCESS,
                                   typeSpecifier,
                                   mObjectElements,
                                   interfaces,
-                                  innerObjectDefinitions);
+                                  innerObjectDefinitions,
+                                  0);
   modelDefinition.prototypeObject(mContext);
   modelDefinition.prototypeMethods(mContext);
   modelDefinition.generateIR(mContext);
@@ -262,19 +271,21 @@ TEST_F(ModelDefinitionTest, interfaceNotDefinedDeathTest) {
   string package = "systems.vos.wisey.compiler.tests";
   PackageType* packageType = new PackageType(package);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  interfaces.push_back(new InterfaceTypeSpecifier(packageExpression, "IMyInterface"));
+  interfaces.push_back(new InterfaceTypeSpecifier(packageExpression, "IMyInterface", 0));
   
   mObjectElements.push_back(mMethodDefinition);
 
   packageType = new PackageType(mPackage);
   packageExpression = new FakeExpression(NULL, packageType);
-  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(packageExpression, "MModel");
+  ModelTypeSpecifierFull* typeSpecifier =
+  new ModelTypeSpecifierFull(packageExpression, "MModel", 0);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ModelDefinition modelDefinition(AccessLevel::PUBLIC_ACCESS,
                                   typeSpecifier,
                                   mObjectElements,
                                   interfaces,
-                                  innerObjectDefinitions);
+                                  innerObjectDefinitions,
+                                  0);
   modelDefinition.prototypeObject(mContext);
   
   EXPECT_EXIT(modelDefinition.prototypeMethods(mContext),
@@ -293,13 +304,15 @@ TEST_F(ModelDefinitionTest, modelWithInjectedFieldDeathTest) {
   vector<IInterfaceTypeSpecifier*> interfaces;
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(packageExpression, "MMyModel");
+  ModelTypeSpecifierFull* typeSpecifier =
+  new ModelTypeSpecifierFull(packageExpression, "MMyModel", 0);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ModelDefinition modelDefinition(AccessLevel::PUBLIC_ACCESS,
                                   typeSpecifier,
                                   mObjectElements,
                                   interfaces,
-                                  innerObjectDefinitions);
+                                  innerObjectDefinitions,
+                                  0);
   modelDefinition.prototypeObject(mContext);
   
   EXPECT_EXIT(modelDefinition.prototypeMethods(mContext),

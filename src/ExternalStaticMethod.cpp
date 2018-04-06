@@ -22,12 +22,14 @@ ExternalStaticMethod::ExternalStaticMethod(const IObjectType* objectType,
                                            string name,
                                            const IType* returnType,
                                            vector<MethodArgument*> arguments,
-                                           vector<const Model*> thrownExceptions) :
+                                           vector<const Model*> thrownExceptions,
+                                           int line) :
 mObjectType(objectType),
 mName(name),
 mReturnType(returnType),
 mArguments(arguments),
-mThrownExceptions(thrownExceptions) { }
+mThrownExceptions(thrownExceptions),
+mLine(line) { }
 
 ExternalStaticMethod::~ExternalStaticMethod() {
   for (MethodArgument* argument : mArguments) {
@@ -96,7 +98,7 @@ string ExternalStaticMethod::getTypeName() const {
 }
 
 FunctionType* ExternalStaticMethod::getLLVMType(IRGenerationContext& context) const {
-  return IMethodDescriptor::getLLVMFunctionType(context, this, mObjectType);
+  return IMethodDescriptor::getLLVMFunctionType(context, this, mObjectType, mLine);
 }
 
 bool ExternalStaticMethod::canCastTo(IRGenerationContext& context, const IType* toType) const {

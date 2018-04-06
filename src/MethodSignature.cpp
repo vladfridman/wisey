@@ -19,12 +19,14 @@ MethodSignature::MethodSignature(const IObjectType* objectType,
                                  std::string name,
                                  const IType* returnType,
                                  vector<MethodArgument*> arguments,
-                                 vector<const Model*> thrownExceptions) :
+                                 vector<const Model*> thrownExceptions,
+                                 int line) :
 mObjectType(objectType),
 mName(name),
 mReturnType(returnType),
 mArguments(arguments),
-mThrownExceptions(thrownExceptions) { }
+mThrownExceptions(thrownExceptions),
+mLine(line) { }
 
 MethodSignature::~MethodSignature() {
   for (MethodArgument* argument : mArguments) {
@@ -58,7 +60,7 @@ vector<const Model*> MethodSignature::getThrownExceptions() const {
 }
 
 MethodSignature* MethodSignature::createCopy(const Interface* interface) const {
-  return new MethodSignature(interface, mName, mReturnType, mArguments, mThrownExceptions);
+  return new MethodSignature(interface, mName, mReturnType, mArguments, mThrownExceptions, mLine);
 }
 
 bool MethodSignature::isConstant() const {
@@ -90,7 +92,7 @@ string MethodSignature::getTypeName() const {
 }
 
 FunctionType* MethodSignature::getLLVMType(IRGenerationContext& context) const {
-  return IMethodDescriptor::getLLVMFunctionType(context, this, mObjectType);
+  return IMethodDescriptor::getLLVMFunctionType(context, this, mObjectType, mLine);
 }
 
 bool MethodSignature::canCastTo(IRGenerationContext& context, const IType* toType) const {

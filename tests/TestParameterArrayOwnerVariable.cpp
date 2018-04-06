@@ -90,7 +90,7 @@ TEST_F(ParameterArrayOwnerVariableTest, generateIdentifierReferenceIRTest) {
 }
 
 TEST_F(ParameterArrayOwnerVariableTest, freeTest) {
-  mVariable->free(mContext);
+  mVariable->free(mContext, 0);
   
   *mStringStream << *mBasicBlock;
   

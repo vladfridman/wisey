@@ -6,6 +6,7 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/ImportProfile.hpp"
 #include "wisey/Log.hpp"
 
 using namespace std;
@@ -17,9 +18,15 @@ void Log::setLogLevel(LogLevel logLevel) {
   Log::sLogLevel = logLevel;
 }
 
-void Log::e(std::string message) {
+void Log::e_deprecated(std::string message) {
   if (Log::sLogLevel >= ERRORLEVEL) {
     cerr << "Error: " << message << endl;
+  }
+}
+
+void Log::e(ImportProfile* importProfile, int line, std::string message) {
+  if (Log::sLogLevel >= ERRORLEVEL) {
+    cerr << importProfile->getSourceFileName() << "(" << line << "): Error: " << message << endl;
   }
 }
 

@@ -19,10 +19,11 @@ namespace wisey {
   class ModelTypeSpecifierFull : public IModelTypeSpecifier {
     IExpression* mPackageExpression;
     const std::string mShortName;
+    int mLine;
     
   public:
     
-    ModelTypeSpecifierFull(IExpression* packageExpression, std::string shortName);
+    ModelTypeSpecifierFull(IExpression* packageExpression, std::string shortName, int line);
     
     ~ModelTypeSpecifierFull();
     

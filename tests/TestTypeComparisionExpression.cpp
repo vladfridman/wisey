@@ -126,7 +126,8 @@ struct TypeComparisionExpressionTest : public Test {
       new MethodSignatureDeclaration(intSpecifier,
                                      "foo",
                                      subShapeInterfaceMethodArguments,
-                                     subShapeThrownExceptions);
+                                     subShapeThrownExceptions,
+                                     0);
     subShapeInterfaceElements.push_back(methodFooSignature);
     vector<IInterfaceTypeSpecifier*> subShapeParentInterfaces;
     mSubShapeInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
@@ -145,10 +146,12 @@ struct TypeComparisionExpressionTest : public Test {
     methodFooSignature = new MethodSignatureDeclaration(intSpecifier,
                                                         "foo",
                                                         shapeInterfaceMethodArguments,
-                                                        shapeThrownExceptions);
+                                                        shapeThrownExceptions,
+                                                        0);
     shapeInterfaceElements.push_back(methodFooSignature);
     vector<IInterfaceTypeSpecifier*> shapeParentInterfaces;
-    InterfaceTypeSpecifier* subShapeTypeSpecifier = new InterfaceTypeSpecifier(NULL, "ISubShape");
+    InterfaceTypeSpecifier* subShapeTypeSpecifier =
+    new InterfaceTypeSpecifier(NULL, "ISubShape", 0);
     shapeParentInterfaces.push_back(subShapeTypeSpecifier);
     mShapeInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS, 
                                               shapeFullName,
@@ -167,7 +170,8 @@ struct TypeComparisionExpressionTest : public Test {
       new MethodSignatureDeclaration(intSpecifier,
                                      "bar",
                                      objectInterfaceMethodArguments,
-                                     objectThrownExceptions);
+                                     objectThrownExceptions,
+                                     0);
     objectInterfaceElements.push_back(methodBarSignature);
     vector<IInterfaceTypeSpecifier*> objectParentInterfaces;
     mObjectInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,

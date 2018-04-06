@@ -24,7 +24,7 @@ namespace wisey {
     /**
      * Returns llvm type
      */
-    virtual const ILLVMType* getType(IRGenerationContext& context) const = 0;
+    virtual const ILLVMType* getType(IRGenerationContext& context) const override = 0;
 
   };
   

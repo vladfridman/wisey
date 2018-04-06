@@ -102,8 +102,8 @@ struct ControllerOwnerTest : public Test {
     StructType::create(mLLVMContext, scienceCalculatorFullName);
     vector<IInterfaceTypeSpecifier*> scienceCalculatorParentInterfaces;
     vector<IObjectElementDefinition*> scienceCalculatorInterfaceElements;
-    InterfaceTypeSpecifier* calculatorTypeSpecifier = new InterfaceTypeSpecifier(NULL,
-                                                                                 "ICalculator");
+    InterfaceTypeSpecifier* calculatorTypeSpecifier =
+    new InterfaceTypeSpecifier(NULL, "ICalculator", 0);
     scienceCalculatorParentInterfaces.push_back(calculatorTypeSpecifier);
     mScienceCalculatorInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                                           scienceCalculatorFullName,
@@ -213,7 +213,7 @@ TEST_F(ControllerOwnerTest, isObjectTest) {
 }
 
 TEST_F(ControllerOwnerTest, getDestructorFunctionTest) {
-  Function* result = mAdditorController->getOwner()->getDestructorFunction(mContext);
+  Function* result = mAdditorController->getOwner()->getDestructorFunction(mContext, 0);
   
   ASSERT_NE(nullptr, result);
   

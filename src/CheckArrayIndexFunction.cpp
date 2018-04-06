@@ -87,7 +87,7 @@ void CheckArrayIndexFunction::compose(IRGenerationContext& context, Function* fu
   PackageType* packageType = context.getPackageType(Names::getLangPackageName());
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ModelTypeSpecifier* modelTypeSpecifier =
-  new ModelTypeSpecifier(packageExpression, Names::getArrayIndexOutOfBoundsModelName());
+  new ModelTypeSpecifier(packageExpression, Names::getArrayIndexOutOfBoundsModelName(), 0);
   ObjectBuilderArgumentList objectBuilderArgumnetList;
   FakeExpression* sizeExpression = new FakeExpression(size, PrimitiveTypes::LONG_TYPE);
   ObjectBuilderArgument* argument = new ObjectBuilderArgument("withArraySize", sizeExpression);

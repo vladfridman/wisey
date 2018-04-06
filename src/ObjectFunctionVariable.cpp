@@ -60,7 +60,7 @@ LLVMFunction* ObjectFunctionVariable::findFunction() const {
   LLVMFunction* function = mObjectType->findLLVMFunction(mName);
   
   if (function == NULL) {
-    Log::e("LLVM function " + mName + " is not found in object " + mObjectType->getTypeName());
+    Log::e_deprecated("LLVM function " + mName + " is not found in object " + mObjectType->getTypeName());
     exit(1);
   }
 

@@ -27,13 +27,15 @@ namespace wisey {
     std::string mMethodName;
     VariableList mArguments;
     std::vector<IModelTypeSpecifier*> mThrownExceptions;
+    int mLine;
     
   public:
     
     MethodSignatureDeclaration(const ITypeSpecifier* returnTypeSpecifier,
                                std::string methodName,
                                const VariableList& arguments,
-                               std::vector<IModelTypeSpecifier*> thrownExceptions);
+                               std::vector<IModelTypeSpecifier*> thrownExceptions,
+                               int line);
     
     ~MethodSignatureDeclaration();
     

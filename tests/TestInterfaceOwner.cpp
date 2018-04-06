@@ -61,7 +61,8 @@ struct InterfaceOwnerTest : public Test {
     mShapeStructType->setBody(shapeTypes);
     vector<IObjectElementDefinition*> shapeMethodElements;
     vector<IInterfaceTypeSpecifier*> shapeParentInterfaces;
-    InterfaceTypeSpecifier* objectInterfaceSpecifier = new InterfaceTypeSpecifier(NULL, "IObject");
+    InterfaceTypeSpecifier* objectInterfaceSpecifier =
+    new InterfaceTypeSpecifier(NULL, "IObject", 0);
     shapeParentInterfaces.push_back(objectInterfaceSpecifier);
     mShapeInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                               shapeFullName,
@@ -101,7 +102,7 @@ TEST_F(InterfaceOwnerTest, getLLVMTypeTest) {
 }
 
 TEST_F(InterfaceOwnerTest, getDestructorFunctionTest) {
-  Function* result = mObjectInterface->getOwner()->getDestructorFunction(mContext);
+  Function* result = mObjectInterface->getOwner()->getDestructorFunction(mContext, 0);
   
   ASSERT_NE(nullptr, result);
   

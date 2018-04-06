@@ -32,7 +32,7 @@ public:
                                                    std::vector<const wisey::IExpression*>
                                                    arrayIndices,
                                                    int));
-  MOCK_CONST_METHOD1(free, void (wisey::IRGenerationContext&));
+  MOCK_CONST_METHOD2(free, void (wisey::IRGenerationContext&, int));
   MOCK_METHOD1(setToNull, void (wisey::IRGenerationContext&));
 };
 

@@ -115,7 +115,8 @@ struct ModelOwnerTest : public Test {
       new MethodSignatureDeclaration(intSpecifier,
                                      "foo",
                                      subShapeInterfaceMethodArguments,
-                                     subShapeInterfaceThrownExceptions);
+                                     subShapeInterfaceThrownExceptions,
+                                     0);
     subShapeInterfaceElements.push_back(methodFooSignature);
     vector<IInterfaceTypeSpecifier*> subShapeParentInterfaces;
     mSubShapeInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
@@ -134,11 +135,12 @@ struct ModelOwnerTest : public Test {
     methodFooSignature = new MethodSignatureDeclaration(intSpecifier,
                                                         "foo",
                                                         shapeInterfaceMethodArguments,
-                                                        shapeInterfaceThrownExceptions);
+                                                        shapeInterfaceThrownExceptions,
+                                                        0);
     shapeInterfaceElements.push_back(methodFooSignature);
     vector<IInterfaceTypeSpecifier*> shapeParentInterfaces;
     InterfaceTypeSpecifier* subShapeInterfaceTypeSpecifier =
-      new InterfaceTypeSpecifier(NULL, "ISubShape");
+      new InterfaceTypeSpecifier(NULL, "ISubShape", 0);
     shapeParentInterfaces.push_back(subShapeInterfaceTypeSpecifier);
     mShapeInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                               shapeFullName,
@@ -157,7 +159,8 @@ struct ModelOwnerTest : public Test {
       new MethodSignatureDeclaration(intSpecifier,
                                      "bar",
                                      objectInterfaceMethodArguments,
-                                     objectInterfaceThrownExceptions);
+                                     objectInterfaceThrownExceptions,
+                                     0);
     objectInterfaceElements.push_back(methodBarSignature);
     vector<IInterfaceTypeSpecifier*> objectParentInterfaces;
     mObjectInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
@@ -266,7 +269,7 @@ TEST_F(ModelOwnerTest, getLLVMTypeTest) {
 }
 
 TEST_F(ModelOwnerTest, getDestructorFunctionTest) {
-  Function* result = mCircleModel->getOwner()->getDestructorFunction(mContext);
+  Function* result = mCircleModel->getOwner()->getDestructorFunction(mContext, 0);
   
   ASSERT_NE(nullptr, result);
   

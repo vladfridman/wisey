@@ -102,7 +102,7 @@ void Controller::setFields(vector<IField*> fields, unsigned long startIndex) {
     } else if (field->isInjected()) {
       mInjectedFields.push_back((InjectedField*) field);
     } else {
-      Log::e("Controllers can only have received, injected or state fields");
+      Log::e_deprecated("Controllers can only have received, injected or state fields");
       exit(1);
     }
     index++;
@@ -152,7 +152,7 @@ vector<LLVMFunction*> Controller::getLLVMFunctions() const {
 
 LLVMFunction* Controller::findLLVMFunction(string functionName) const {
   if (!mLLVMFunctionMap.count(functionName)) {
-    Log::e("LLVM function " + functionName + " not found in object " + getTypeName());
+    Log::e_deprecated("LLVM function " + functionName + " not found in object " + getTypeName());
     exit(1);
   }
   return mLLVMFunctionMap.at(functionName);
@@ -160,7 +160,7 @@ LLVMFunction* Controller::findLLVMFunction(string functionName) const {
 
 wisey::Constant* Controller::findConstant(string constantName) const {
   if (!mNameToConstantMap.count(constantName)) {
-    Log::e("Controller " + mName + " does not have constant named " + constantName);
+    Log::e_deprecated("Controller " + mName + " does not have constant named " + constantName);
     exit(1);
   }
   return mNameToConstantMap.at(constantName);
@@ -197,7 +197,7 @@ void Controller::checkArgumentsAreWellFormed(const InjectionArgumentList&
   }
   
   if (!areArgumentsWellFormed) {
-    Log::e("Some injection arguments for controller " + mName + " are not well formed");
+    Log::e_deprecated("Some injection arguments for controller " + mName + " are not well formed");
     exit(1);
   }
 }
@@ -214,9 +214,9 @@ void Controller::checkAllFieldsAreSet(const InjectionArgumentList& injectionArgu
   }
   
   for (string missingField : missingFields) {
-    Log::e("Received field " + missingField + " is not initialized");
+    Log::e_deprecated("Received field " + missingField + " is not initialized");
   }
-  Log::e("Some received fields of the controller " + mName + " are not initialized.");
+  Log::e_deprecated("Some received fields of the controller " + mName + " are not initialized.");
   exit(1);
 }
 
@@ -385,7 +385,7 @@ void Controller::initializeReceivedFields(IRGenerationContext& context,
     Value* argumentValue = argument->getValue(context, fieldType);
     const IType* argumentType = argument->getType(context);
     if (!argumentType->canAutoCastTo(context, fieldType)) {
-      Log::e("Controller injector argumet value for field '" + field->getName() +
+      Log::e_deprecated("Controller injector argumet value for field '" + field->getName() +
              "' does not match its type");
       exit(1);
     }
@@ -408,7 +408,7 @@ void Controller::initializeInjectedFields(IRGenerationContext& context,
     const IType* fieldType = field->getType();
     Value* fieldValue = NULL;
     if (fieldType->isReference()) {
-      Log::e("Injected fields must have owner type denoted by '*'");
+      Log::e_deprecated("Injected fields must have owner type denoted by '*'");
       exit(1);
     } else if (fieldType->isArray()) {
       const ArraySpecificOwnerType* arraySpecificOwnerType =
@@ -433,7 +433,7 @@ void Controller::initializeInjectedFields(IRGenerationContext& context,
                                                           field->getInjectionArguments(),
                                                           line);
     } else {
-      Log::e("Attempt to inject a variable that is not of injectable type");
+      Log::e_deprecated("Attempt to inject a variable that is not of injectable type");
       exit(1);
     }
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));

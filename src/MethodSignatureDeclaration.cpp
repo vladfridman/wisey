@@ -19,11 +19,13 @@ MethodSignatureDeclaration::
 MethodSignatureDeclaration(const ITypeSpecifier* returnTypeSpecifier,
                            string methodName,
                            const VariableList& arguments,
-                           vector<IModelTypeSpecifier*> thrownExceptions) :
+                           vector<IModelTypeSpecifier*> thrownExceptions,
+                           int line) :
 mReturnTypeSpecifier(returnTypeSpecifier),
 mMethodName(methodName),
 mArguments(arguments),
-mThrownExceptions(thrownExceptions) { }
+mThrownExceptions(thrownExceptions),
+mLine(line) { }
 
 MethodSignatureDeclaration::~MethodSignatureDeclaration() {
   delete mReturnTypeSpecifier;
@@ -44,7 +46,7 @@ MethodSignature* MethodSignatureDeclaration::define(IRGenerationContext& context
   vector<const Model*> exceptions = IMethodDefinition::createExceptionList(context,
                                                                             mThrownExceptions);
 
-  return new MethodSignature(objectType, mMethodName, returnType, arguments, exceptions);
+  return new MethodSignature(objectType, mMethodName, returnType, arguments, exceptions, mLine);
 }
 
 bool MethodSignatureDeclaration::isConstant() const {

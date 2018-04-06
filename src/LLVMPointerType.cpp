@@ -151,6 +151,6 @@ const LLVMPointerType* LLVMPointerType::getPointerType() const {
   if (mPointerType) {
     return mPointerType;
   }
-  Log::e("Three and more degree llvm pointers are not supported");
+  Log::e_deprecated("Three and more degree llvm pointers are not supported");
   exit(1);
 }

@@ -16,13 +16,15 @@ using namespace wisey;
 
 ExternalStaticMethodDefinition::
 ExternalStaticMethodDefinition(const ITypeSpecifier* returnTypeSpecifier,
-                                string name,
-                                const VariableList& arguments,
-                                vector<IModelTypeSpecifier*> thrownExceptions) :
+                               string name,
+                               const VariableList& arguments,
+                               vector<IModelTypeSpecifier*> thrownExceptions,
+                               int line) :
 mReturnTypeSpecifier(returnTypeSpecifier),
 mName(name),
 mArguments(arguments),
-mThrownExceptions(thrownExceptions) { }
+mThrownExceptions(thrownExceptions),
+mLine(line) { }
 
 ExternalStaticMethodDefinition::~ExternalStaticMethodDefinition() {
   delete mReturnTypeSpecifier;
@@ -43,7 +45,7 @@ ExternalStaticMethod* ExternalStaticMethodDefinition::define(IRGenerationContext
   vector<const Model*> exceptions = IMethodDefinition::createExceptionList(context,
                                                                             mThrownExceptions);
   
-  return new ExternalStaticMethod(objectType, mName, returnType, arguments, exceptions);
+  return new ExternalStaticMethod(objectType, mName, returnType, arguments, exceptions, mLine);
 }
 
 bool ExternalStaticMethodDefinition::isConstant() const {

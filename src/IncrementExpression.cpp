@@ -54,13 +54,13 @@ Value* IncrementExpression::generateIR(IRGenerationContext& context,
   vector<const IExpression*> arrayIndices;
   IVariable* variable = mExpression->getVariable(context, arrayIndices);
   if (!variable) {
-    Log::e("Increment/decrement operation may only be applied to variables");
+    Log::e_deprecated("Increment/decrement operation may only be applied to variables");
     exit(1);
   }
   if (expressionType != PrimitiveTypes::INT_TYPE &&
       expressionType != PrimitiveTypes::CHAR_TYPE &&
       expressionType != PrimitiveTypes::LONG_TYPE) {
-    Log::e("Expression is of a type that is incompatible with increment/decrement operation");
+    Log::e_deprecated("Expression is of a type that is incompatible with increment/decrement operation");
     exit(1);
   }
   

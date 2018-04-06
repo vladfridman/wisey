@@ -27,7 +27,7 @@ Value* AutoCast::maybeCast(IRGenerationContext& context,
   }
   if (!fromType->canAutoCastTo(context, toType)) {
     fromType->canAutoCastTo(context, toType);
-    Log::e("Incompatible types: need explicit cast from type '" + fromType->getTypeName() +
+    Log::e_deprecated("Incompatible types: need explicit cast from type '" + fromType->getTypeName() +
            "' to '" + toType->getTypeName() + "'");
     exit(1);
   }

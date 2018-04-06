@@ -375,7 +375,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   }
   
   decrementReferenceFields(context, thisValue, object);
-  freeOwnerFields(context, thisValue, object);
+  freeOwnerFields(context, thisValue, object, 0);
   
   Value* referenceCount = object->getReferenceCount(context, thisValue);
   BasicBlock* refCountZeroBlock = BasicBlock::Create(llvmContext, "ref.count.zero", function);
@@ -429,7 +429,8 @@ void IConcreteObjectType::decrementReferenceFields(IRGenerationContext& context,
 
 void IConcreteObjectType::freeOwnerFields(IRGenerationContext& context,
                                           Value* thisValue,
-                                          const IConcreteObjectType* object) {
+                                          const IConcreteObjectType* object,
+                                          int line) {
   for (IField* field : object->getFields()) {
     const IType* fieldType = field->getType();
     
@@ -439,7 +440,7 @@ void IConcreteObjectType::freeOwnerFields(IRGenerationContext& context,
     
     Value* fieldValuePointer = getFieldValuePointer(context, thisValue, object, field);
     const IOwnerType* ownerType = (const IOwnerType*) fieldType;
-    ownerType->free(context, fieldValuePointer);
+    ownerType->free(context, fieldValuePointer, line);
   }
 }
 
@@ -476,9 +477,10 @@ void IConcreteObjectType::composeDestructorCall(IRGenerationContext& context, Va
 }
 
 Function* IConcreteObjectType::getDestructorFunctionForObject(IRGenerationContext &context,
-                                                              const IConcreteObjectType *object) {
+                                                              const IConcreteObjectType *object,
+                                                              int line) {
   string rceFullName = Names::getLangPackageName() + "." + Names::getReferenceCountExceptionName();
-  context.getScopes().getScope()->addException(context.getModel(rceFullName));
+  context.getScopes().getScope()->addException(context.getModel(rceFullName, line));
   string destructorFunctionName = getObjectDestructorFunctionName(object);
   
   return context.getModule()->getFunction(destructorFunctionName);

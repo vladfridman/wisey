@@ -134,7 +134,7 @@ namespace wisey {
     /**
      * Look up a model type
      */
-    Model* getModel(std::string name);
+    Model* getModel(std::string name, int line);
     
     /**
      * Add a controller type
@@ -144,7 +144,7 @@ namespace wisey {
     /**
      * Look up a controller type
      */
-    Controller* getController(std::string name);
+    Controller* getController(std::string name, int line);
     
     /**
      * Add a node type
@@ -154,7 +154,7 @@ namespace wisey {
     /**
      * Look up a node type
      */
-    Node* getNode(std::string name);
+    Node* getNode(std::string name, int line);
     
     /**
      * Add a thread type
@@ -164,7 +164,7 @@ namespace wisey {
     /**
      * Look up a thread type
      */
-    Thread* getThread(std::string name);
+    Thread* getThread(std::string name, int line);
     
     /**
      * Add an interface type
@@ -174,7 +174,7 @@ namespace wisey {
     /**
      * Look up an interface type
      */
-    Interface* getInterface(std::string name);
+    Interface* getInterface(std::string name, int line);
     
     /**
      * Add an llvm struct type
@@ -184,7 +184,7 @@ namespace wisey {
     /**
      * Look up a llvm struct type
      */
-    LLVMStructType* getLLVMStructType(std::string name);
+    LLVMStructType* getLLVMStructType(std::string name, int line);
     
     /**
      * Look up a llvm function type

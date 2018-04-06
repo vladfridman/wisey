@@ -35,7 +35,7 @@ TryCatchStatement::~TryCatchStatement() {
 
 Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
   if (context.getScopes().getTryCatchInfo()) {
-    Log::e("Nested try blocks are not allowed. Extract inner try/catch into a method.");
+    Log::e_deprecated("Nested try blocks are not allowed. Extract inner try/catch into a method.");
     exit(1);
   }
   

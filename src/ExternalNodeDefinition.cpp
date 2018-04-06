@@ -18,11 +18,13 @@ ExternalNodeDefinition::ExternalNodeDefinition(NodeTypeSpecifierFull* nodeTypeSp
                                                objectElementDeclarations,
                                                vector<IInterfaceTypeSpecifier*>
                                                interfaceSpecifiers,
-                                               vector<IObjectDefinition*> innerObjectDefinitions) :
+                                               vector<IObjectDefinition*> innerObjectDefinitions,
+                                               int line) :
 mNodeTypeSpecifierFull(nodeTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers),
-mInnerObjectDefinitions(innerObjectDefinitions) { }
+mInnerObjectDefinitions(innerObjectDefinitions),
+mLine(line) { }
 
 ExternalNodeDefinition::~ExternalNodeDefinition() {
   delete mNodeTypeSpecifierFull;
@@ -58,7 +60,7 @@ Node* ExternalNodeDefinition::prototypeObject(IRGenerationContext& context) cons
 
 void ExternalNodeDefinition::prototypeMethods(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mNodeTypeSpecifierFull);
-  Node* node = context.getNode(fullName);
+  Node* node = context.getNode(fullName, mLine);
   
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(node);

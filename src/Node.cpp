@@ -89,7 +89,7 @@ void Node::setFields(vector<IField*> fields, unsigned long startIndex) {
     }
     
     if (type->isController()) {
-      Log::e("Nodes can only have fields of primitive or model or node type");
+      Log::e_deprecated("Nodes can only have fields of primitive or model or node type");
       exit(1);
     }
     
@@ -97,12 +97,12 @@ void Node::setFields(vector<IField*> fields, unsigned long startIndex) {
         mFixedFields.push_back(field);
     } else if (field->isState()) {
       if (type->isReference() || (!type->isNode() && !type->isInterface())) {
-        Log::e("Node state fields can only be node owner or interface owner type");
+        Log::e_deprecated("Node state fields can only be node owner or interface owner type");
         exit(1);
       }
       mStateFields.push_back(field);
     } else {
-      Log::e("Nodes can only have fixed or state fields");
+      Log::e_deprecated("Nodes can only have fixed or state fields");
       exit(1);
     }
     index++;
@@ -137,7 +137,7 @@ void Node::setConstants(vector<Constant*> constants) {
 
 wisey::Constant* Node::findConstant(string constantName) const {
   if (!mNameToConstantMap.count(constantName)) {
-    Log::e("Node " + mName + " does not have constant named " + constantName);
+    Log::e_deprecated("Node " + mName + " does not have constant named " + constantName);
     exit(1);
   }
   return mNameToConstantMap.at(constantName);
@@ -160,7 +160,7 @@ vector<LLVMFunction*> Node::getLLVMFunctions() const {
 
 LLVMFunction* Node::findLLVMFunction(string functionName) const {
   if (!mLLVMFunctionMap.count(functionName)) {
-    Log::e("LLVM function " + functionName + " not found in object " + getTypeName());
+    Log::e_deprecated("LLVM function " + functionName + " not found in object " + getTypeName());
     exit(1);
   }
   return mLLVMFunctionMap.at(functionName);
@@ -341,7 +341,7 @@ void Node::checkArgumentsAreWellFormed(const ObjectBuilderArgumentList& ObjectBu
   }
   
   if (!areArgumentsWellFormed) {
-    Log::e("Some arguments for the node " + mName + " builder are not well formed");
+    Log::e_deprecated("Some arguments for the node " + mName + " builder are not well formed");
     exit(1);
   }
 }
@@ -358,9 +358,9 @@ void Node::checkAllFieldsAreSet(const ObjectBuilderArgumentList& objectBuilderAr
   }
   
   for (string missingField : missingFields) {
-    Log::e("Field " + missingField + " of the node " + mName + " is not initialized.");
+    Log::e_deprecated("Field " + missingField + " of the node " + mName + " is not initialized.");
   }
-  Log::e("Some fields of the node " + mName + " are not initialized.");
+  Log::e_deprecated("Some fields of the node " + mName + " are not initialized.");
   exit(1);
 }
 
@@ -382,7 +382,7 @@ void Node::initializePresetFields(IRGenerationContext& context,
     Value* argumentValue = argument->getValue(context, fieldType);
     const IType* argumentType = argument->getType(context);
     if (!argumentType->canAutoCastTo(context, fieldType)) {
-      Log::e("Node builder argument value for field " + argumentName +
+      Log::e_deprecated("Node builder argument value for field " + argumentName +
              " does not match its type");
       exit(1);
     }

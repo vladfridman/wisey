@@ -12,17 +12,17 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-LLVMStructSpecifier::LLVMStructSpecifier(string name) : mName(name) {
+LLVMStructSpecifier::LLVMStructSpecifier(string name, int line) : mName(name), mLine(line) {
 }
 
 LLVMStructSpecifier::~LLVMStructSpecifier() {
 }
 
 const ILLVMType* LLVMStructSpecifier::getType(IRGenerationContext& context) const {
-  return context.getLLVMStructType(mName);
+  return context.getLLVMStructType(mName, mLine);
 }
 
 void LLVMStructSpecifier::printToStream(IRGenerationContext& context,
                                         iostream& stream) const {
-  stream << context.getLLVMStructType(mName)->getTypeName();
+  stream << context.getLLVMStructType(mName, mLine)->getTypeName();
 }

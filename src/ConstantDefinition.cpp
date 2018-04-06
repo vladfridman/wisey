@@ -12,9 +12,9 @@ using namespace std;
 using namespace wisey;
 
 ConstantDefinition::ConstantDefinition(const AccessLevel accessLevel,
-                                         const ITypeSpecifier* typeSpecifier,
-                                         std::string name,
-                                         IExpression* expression) :
+                                       const ITypeSpecifier* typeSpecifier,
+                                       std::string name,
+                                       IExpression* expression) :
 mAccessLevel(accessLevel),
 mTypeSpecifier(typeSpecifier),
 mName(name),
@@ -53,4 +53,3 @@ bool ConstantDefinition::isMethodSignature() const {
 bool ConstantDefinition::isLLVMFunction() const {
   return false;
 }
-

@@ -63,7 +63,7 @@ Value* ParameterArrayReferenceVariable::generateAssignmentIR(IRGenerationContext
                                                              vector<const IExpression*> arrayIndices,
                                                              int line) {
   if (!arrayIndices.size()) {
-    Log::e("Assignment to method parameters is not allowed");
+    Log::e_deprecated("Assignment to method parameters is not allowed");
     exit(1);
   }
   

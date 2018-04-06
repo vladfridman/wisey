@@ -55,7 +55,7 @@ generateOwnerElementAssignment(IRGenerationContext& context,
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, elementType, line);
   
   Value* elementLoaded = IRWriter::newLoadInst(context, elementStore, "");
-  ((const IOwnerType*) elementType)->free(context, elementLoaded);
+  ((const IOwnerType*) elementType)->free(context, elementLoaded, line);
   
   IRWriter::newStoreInst(context, newValue, elementStore);
   

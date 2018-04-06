@@ -63,7 +63,7 @@ Value* FieldReferenceVariable::generateAssignmentIR(IRGenerationContext& context
   assert(field->getType()->isReference());
   const IReferenceType* fieldType = (const IReferenceType*) field->getType();
   if (!expressionType->canAutoCastTo(context, fieldType)) {
-    Log::e("Can not assign to field '" + mName + "' of object '" + mObject->getTypeName() +
+    Log::e_deprecated("Can not assign to field '" + mName + "' of object '" + mObject->getTypeName() +
            "' because of incompatable types");
     exit(1);
   }

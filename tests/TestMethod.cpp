@@ -71,7 +71,7 @@ public:
     vector<const Model*> thrownExceptions;
     string rceFullName = Names::getLangPackageName() + "." +
     Names::getReferenceCountExceptionName();
-    thrownExceptions.push_back(mContext.getModel(rceFullName));
+    thrownExceptions.push_back(mContext.getModel(rceFullName, 0));
     mMethod = new Method(mModel,
                          "mymethod",
                          AccessLevel::PUBLIC_ACCESS,
@@ -122,9 +122,9 @@ TEST_F(MethodTest, getLLVMTypeTest) {
   
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mModel->getLLVMType(mContext));
-  Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName());
+  Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
   argumentTypes.push_back(threadInterface->getLLVMType(mContext));
-  Controller* callStack = mContext.getController(Names::getCallStackControllerFullName());
+  Controller* callStack = mContext.getController(Names::getCallStackControllerFullName(), 0);
   argumentTypes.push_back(callStack->getLLVMType(mContext));
   argumentTypes.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mContext));
   Type* llvmReturnType = PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext);

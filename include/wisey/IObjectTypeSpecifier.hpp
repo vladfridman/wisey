@@ -38,7 +38,7 @@ namespace wisey {
      */
     virtual std::string getName(IRGenerationContext& context) const = 0;
     
-    virtual const IObjectType* getType(IRGenerationContext& context) const = 0;
+    virtual const IObjectType* getType(IRGenerationContext& context) const override = 0;
     
     /**
      * Given the package and the short name return the full name

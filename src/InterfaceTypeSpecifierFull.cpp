@@ -13,9 +13,11 @@ using namespace std;
 using namespace wisey;
 
 InterfaceTypeSpecifierFull::InterfaceTypeSpecifierFull(IExpression* packageExpression,
-                                                       string shortName) :
+                                                       string shortName,
+                                                       int line) :
 mPackageExpression(packageExpression),
-mShortName(shortName) {
+mShortName(shortName),
+mLine(line) {
 }
 
 InterfaceTypeSpecifierFull::~InterfaceTypeSpecifierFull() {
@@ -39,7 +41,7 @@ string InterfaceTypeSpecifierFull::getName(IRGenerationContext& context) const {
 }
 
 Interface* InterfaceTypeSpecifierFull::getType(IRGenerationContext& context) const {
-  return context.getInterface(getName(context));
+  return context.getInterface(getName(context), mLine);
 }
 
 void InterfaceTypeSpecifierFull::printToStream(IRGenerationContext& context, iostream& stream) const {

@@ -21,7 +21,7 @@ namespace wisey {
     
   public:
     
-    virtual Thread* getType(IRGenerationContext& context) const = 0;
+    virtual Thread* getType(IRGenerationContext& context) const override = 0;
     
   };
   

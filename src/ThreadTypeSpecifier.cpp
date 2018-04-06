@@ -12,9 +12,12 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ThreadTypeSpecifier::ThreadTypeSpecifier(IExpression* packageExpression, string shortName) :
+ThreadTypeSpecifier::ThreadTypeSpecifier(IExpression* packageExpression,
+                                         string shortName,
+                                         int line) :
 mPackageExpression(packageExpression),
-mShortName(shortName) {
+mShortName(shortName),
+mLine(line) {
 }
 
 ThreadTypeSpecifier::~ThreadTypeSpecifier() {
@@ -38,7 +41,7 @@ string ThreadTypeSpecifier::getName(IRGenerationContext& context) const {
 }
 
 Thread* ThreadTypeSpecifier::getType(IRGenerationContext& context) const {
-  return context.getThread(getName(context));
+  return context.getThread(getName(context), mLine);
 }
 
 void ThreadTypeSpecifier::printToStream(IRGenerationContext& context, iostream& stream) const {

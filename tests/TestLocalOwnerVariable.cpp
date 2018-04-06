@@ -188,7 +188,7 @@ TEST_F(LocalOwnerVariableTest, freeTest) {
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
   
-  heapOwnerVariable.free(mContext);
+  heapOwnerVariable.free(mContext, 0);
   
   *mStringStream << *mBasicBlock;
   

@@ -17,8 +17,8 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-LLVMFunctionCall::LLVMFunctionCall(string functionName, ExpressionList arguments, int line) :
-mFunctionName(functionName), mArguments(arguments), mLine(line) {
+LLVMFunctionCall::LLVMFunctionCall(string functionName, ExpressionList arguments) :
+mFunctionName(functionName), mArguments(arguments) {
 }
 
 LLVMFunctionCall::~LLVMFunctionCall() {
@@ -27,7 +27,7 @@ LLVMFunctionCall::~LLVMFunctionCall() {
 Value* LLVMFunctionCall::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   Function* function = context.getModule()->getFunction(mFunctionName);
   if (function == NULL) {
-    Log::e("LLVM function " + mFunctionName + " is not defined");
+    Log::e_deprecated("LLVM function " + mFunctionName + " is not defined");
     exit(1);
   }
   
@@ -46,7 +46,7 @@ IVariable* LLVMFunctionCall::getVariable(IRGenerationContext& context,
 const IType* LLVMFunctionCall::getType(IRGenerationContext& context) const {
   Function* function = context.getModule()->getFunction(mFunctionName);
   if (function == NULL) {
-    Log::e("LLVM function " + mFunctionName + " is not defined");
+    Log::e_deprecated("LLVM function " + mFunctionName + " is not defined");
     exit(1);
   }
   

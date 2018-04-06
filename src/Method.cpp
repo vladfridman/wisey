@@ -79,7 +79,7 @@ string Method::getTypeName() const {
 }
 
 FunctionType* Method::getLLVMType(IRGenerationContext& context) const {
-  return IMethodDescriptor::getLLVMFunctionType(context, this, mObjectType);
+  return IMethodDescriptor::getLLVMFunctionType(context, this, mObjectType, mLine);
 }
 
 bool Method::canCastTo(IRGenerationContext& context, const IType* toType) const {
@@ -201,12 +201,14 @@ void Method::createArguments(IRGenerationContext& context, Function* function) c
   llvmFunctionArguments++;
   IMethod::storeSystemArgumentValue(context,
                                     ThreadExpression::THREAD,
-                                    context.getInterface(Names::getThreadInterfaceFullName()),
+                                    context.getInterface(Names::getThreadInterfaceFullName(),
+                                                         mLine),
                                     &*llvmFunctionArguments);
   llvmFunctionArguments++;
   IMethod::storeSystemArgumentValue(context,
                                     ThreadExpression::CALL_STACK,
-                                    context.getController(Names::getCallStackControllerFullName()),
+                                    context.getController(Names::getCallStackControllerFullName(),
+                                                          mLine),
                                     &*llvmFunctionArguments);
   llvmFunctionArguments++;
   for (MethodArgument* methodArgument : mArguments) {

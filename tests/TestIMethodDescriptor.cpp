@@ -70,8 +70,8 @@ public:
                          NULL,
                          0);
 
-    mThreadInterface = mContext.getInterface(Names::getThreadInterfaceFullName());
-    mCallStack = mContext.getController(Names::getCallStackControllerFullName());
+    mThreadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
+    mCallStack = mContext.getController(Names::getCallStackControllerFullName(), 0);
   }
 };
 
@@ -158,8 +158,9 @@ TEST_F(IMethodDescriptorTest, getLLVMFunctionTypeTest) {
                          "foo",
                          PrimitiveTypes::FLOAT_TYPE,
                          arguments,
-                         thrownExceptions);
-  FunctionType* functionType = IMethodDescriptor::getLLVMFunctionType(mContext, &method, mModel);
+                         thrownExceptions,
+                         0);
+  FunctionType* functionType = IMethodDescriptor::getLLVMFunctionType(mContext, &method, mModel, 0);
   
   EXPECT_EQ(functionType->getReturnType(), Type::getFloatTy(mLLVMContext));
   EXPECT_EQ(functionType->getNumParams(), 4u);

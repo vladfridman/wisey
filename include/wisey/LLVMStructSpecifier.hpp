@@ -21,10 +21,11 @@ namespace wisey {
   class LLVMStructSpecifier : public ILLVMTypeSpecifier {
     
     const std::string mName;
+    int mLine;
     
   public:
     
-    LLVMStructSpecifier(const std::string name);
+    LLVMStructSpecifier(const std::string name, int line);
     
     ~LLVMStructSpecifier();
     

@@ -138,7 +138,8 @@ struct ModelTest : public Test {
       new MethodSignatureDeclaration(intSpecifier,
                                      "foo",
                                      subShapeInterfaceMethodArguments,
-                                     subShapeInterfaceThrownExceptions);
+                                     subShapeInterfaceThrownExceptions,
+                                     0);
     subShapeInterfaceElements.push_back(methodFooSignature);
     vector<IInterfaceTypeSpecifier*> subShapeParentInterfaces;
     mSubShapeInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
@@ -157,10 +158,11 @@ struct ModelTest : public Test {
     methodFooSignature = new MethodSignatureDeclaration(intSpecifier,
                                                         "foo",
                                                         shapeInterfaceMethodArguments,
-                                                        shapeInterfaceThrownExceptions);
+                                                        shapeInterfaceThrownExceptions,
+                                                        0);
     shapeInterfaceElements.push_back(methodFooSignature);
     InterfaceTypeSpecifier* subShapeInterfaceSpecifier =
-      new InterfaceTypeSpecifier(NULL, "ISubShape");
+      new InterfaceTypeSpecifier(NULL, "ISubShape", 0);
     vector<IInterfaceTypeSpecifier*> shapeParentInterfaces;
     shapeParentInterfaces.push_back(subShapeInterfaceSpecifier);
     mShapeInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
@@ -180,7 +182,8 @@ struct ModelTest : public Test {
       new MethodSignatureDeclaration(intSpecifier,
                                      "bar",
                                      objectInterfaceMethodArguments,
-                                     objectInterfaceThrownExceptions);
+                                     objectInterfaceThrownExceptions,
+                                     0);
     objectInterfaceElements.push_back(methodBarSignature);
     vector<IInterfaceTypeSpecifier*> objectParentInterfaces;
     mObjectInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
@@ -314,7 +317,7 @@ struct ModelTest : public Test {
     mContext.getScopes().pushScope();
     mContext.setMainFunction(function);
  
-    Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName());
+    Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
     Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));
     mThreadVariable = new NiceMock<MockVariable>();
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));

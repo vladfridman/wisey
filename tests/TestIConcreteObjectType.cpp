@@ -447,7 +447,9 @@ TEST_F(IConcreteObjectTypeTest, addInterfaceAndItsParentsTest) {
 
   PackageType* packageType = new PackageType(package);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  interfaceTypeSpecifiers.push_back(new InterfaceTypeSpecifier(packageExpression, "IGrandChild"));
+  interfaceTypeSpecifiers.push_back(new InterfaceTypeSpecifier(packageExpression,
+                                                               "IGrandChild",
+                                                               0));
   StructType* child1StructType = StructType::create(mLLVMContext, "some.package.IChild1");
   Interface* child1 = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                               "some.package.IChild1",
@@ -463,9 +465,9 @@ TEST_F(IConcreteObjectTypeTest, addInterfaceAndItsParentsTest) {
                                               objectElements);
 
   packageExpression = new FakeExpression(NULL, packageType);
-  interfaceTypeSpecifiers.push_back(new InterfaceTypeSpecifier(packageExpression, "IChild1"));
+  interfaceTypeSpecifiers.push_back(new InterfaceTypeSpecifier(packageExpression, "IChild1", 0));
   packageExpression = new FakeExpression(NULL, packageType);
-  interfaceTypeSpecifiers.push_back(new InterfaceTypeSpecifier(packageExpression, "IChild2"));
+  interfaceTypeSpecifiers.push_back(new InterfaceTypeSpecifier(packageExpression, "IChild2", 0));
   StructType* parentStructType = StructType::create(mLLVMContext, "some.package.IParent");
   Interface* parent = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                               "some.package.IParent",

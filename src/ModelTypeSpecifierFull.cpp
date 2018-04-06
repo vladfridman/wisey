@@ -12,9 +12,12 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ModelTypeSpecifierFull::ModelTypeSpecifierFull(IExpression* packageExpression, string shortName) :
+ModelTypeSpecifierFull::ModelTypeSpecifierFull(IExpression* packageExpression,
+                                               string shortName,
+                                               int line) :
 mPackageExpression(packageExpression),
-mShortName(shortName) {
+mShortName(shortName),
+mLine(line) {
 }
 
 ModelTypeSpecifierFull::~ModelTypeSpecifierFull() {
@@ -38,7 +41,7 @@ string ModelTypeSpecifierFull::getName(IRGenerationContext& context) const {
 }
 
 Model* ModelTypeSpecifierFull::getType(IRGenerationContext& context) const {
-  return context.getModel(getName(context));
+  return context.getModel(getName(context), mLine);
 }
 
 void ModelTypeSpecifierFull::printToStream(IRGenerationContext& context, iostream& stream) const {

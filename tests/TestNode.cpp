@@ -102,7 +102,8 @@ struct NodeTest : public Test {
       new MethodSignatureDeclaration(intSpecifier,
                                      "getElement",
                                      elementInterfaceMethodArguments,
-                                     elementThrownExceptions);
+                                     elementThrownExceptions,
+                                     0);
     elementInterfaceElements.push_back(getElementSignature);
     vector<IInterfaceTypeSpecifier*> elementParentInterfaces;
     mElementInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
@@ -119,8 +120,8 @@ struct NodeTest : public Test {
     vector<IObjectElementDefinition*> complicatedElementInterfaceElements;
     complicatedElementInterfaceElements.push_back(getElementSignature);
     vector<IInterfaceTypeSpecifier*> complicatedElementParentInterfaces;
-    InterfaceTypeSpecifier* elementInterfaceSpecifier = new InterfaceTypeSpecifier(NULL,
-                                                                                   "IElement");
+    InterfaceTypeSpecifier* elementInterfaceSpecifier =
+    new InterfaceTypeSpecifier(NULL, "IElement", 0);
     complicatedElementParentInterfaces.push_back(elementInterfaceSpecifier);
     mComplicatedElementInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                                            complicatedElementFullName,
@@ -139,7 +140,8 @@ struct NodeTest : public Test {
       new MethodSignatureDeclaration(intSpecifier,
                                      "foo",
                                      objectInterfaceMethodArguments,
-                                     objectThrownExceptions);
+                                     objectThrownExceptions,
+                                     0);
     objectInterfaceElements.push_back(methodBarSignature);
     vector<IInterfaceTypeSpecifier*> objectParentInterfaces;
     mObjectInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
@@ -313,7 +315,7 @@ struct NodeTest : public Test {
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
-    Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName());
+    Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
     Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));
     mThreadVariable = new NiceMock<MockVariable>();
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));

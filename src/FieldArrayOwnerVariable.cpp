@@ -86,7 +86,7 @@ Value* FieldArrayOwnerVariable::generateWholeArrayAssignment(IRGenerationContext
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   Value* fieldPointerLoaded = IRWriter::newLoadInst(context, fieldPointer, "");
   
-  ((const IOwnerType*) field->getType())->free(context, fieldPointerLoaded);
+  ((const IOwnerType*) field->getType())->free(context, fieldPointerLoaded, line);
 
   return IRWriter::newStoreInst(context, cast, fieldPointer);
 }
@@ -124,6 +124,6 @@ void FieldArrayOwnerVariable::setToNull(IRGenerationContext& context) {
   IRWriter::newStoreInst(context, null, fieldPointer);
 }
 
-void FieldArrayOwnerVariable::free(IRGenerationContext& context) const {
+void FieldArrayOwnerVariable::free(IRGenerationContext& context, int line) const {
   /** Freed using object destructor */
 }

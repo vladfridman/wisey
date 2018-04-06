@@ -22,12 +22,14 @@ ModelDefinition::ModelDefinition(AccessLevel accessLevel,
                                  ModelTypeSpecifierFull* modelTypeSpecifierFull,
                                  vector<IObjectElementDefinition*> objectElementDeclarations,
                                  vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
-                                 vector<IObjectDefinition*> innerObjectDefinitions) :
+                                 vector<IObjectDefinition*> innerObjectDefinitions,
+                                 int line) :
 mAccessLevel(accessLevel),
 mModelTypeSpecifierFull(modelTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers),
-mInnerObjectDefinitions(innerObjectDefinitions) { }
+mInnerObjectDefinitions(innerObjectDefinitions),
+mLine(line) { }
 
 ModelDefinition::~ModelDefinition() {
   delete mModelTypeSpecifierFull;
@@ -63,7 +65,7 @@ Model* ModelDefinition::prototypeObject(IRGenerationContext& context) const {
 
 void ModelDefinition::prototypeMethods(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mModelTypeSpecifierFull);
-  Model* model = context.getModel(fullName);
+  Model* model = context.getModel(fullName, mLine);
 
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(model);
@@ -75,7 +77,7 @@ void ModelDefinition::prototypeMethods(IRGenerationContext& context) const {
 
 Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mModelTypeSpecifierFull);
-  Model* model = context.getModel(fullName);
+  Model* model = context.getModel(fullName, mLine);
  
   context.getScopes().pushScope();
   const IObjectType* lastObjectType = context.getObjectType();

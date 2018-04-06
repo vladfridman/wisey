@@ -52,7 +52,8 @@ TEST_F(ExternalStaticMethodDefinitionTest, methodDescriptorExtractTest) {
   ExternalStaticMethodDefinition methodDefinition(floatTypeSpecifier,
                                                   "foo",
                                                   mArguments,
-                                                  thrownExceptions);
+                                                  thrownExceptions,
+                                                  0);
   IMethod* method = methodDefinition.define(mContext, NULL);
   vector<MethodArgument*> arguments = method->getArguments();
   

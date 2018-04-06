@@ -39,14 +39,15 @@ bool IMethodDescriptor::compare(IMethodDescriptor* method1, IMethodDescriptor* m
 
 FunctionType* IMethodDescriptor::getLLVMFunctionType(IRGenerationContext& context,
                                                      const IMethodDescriptor* method,
-                                                     const IObjectType* object) {
+                                                     const IObjectType* object,
+                                                     int line) {
   vector<Type*> argumentTypes;
   if (!method->isStatic()) {
     argumentTypes.push_back(object->getLLVMType(context));
   }
-  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName());
+  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), line);
   argumentTypes.push_back(threadInterface->getLLVMType(context));
-  Controller* callStack = context.getController(Names::getCallStackControllerFullName());
+  Controller* callStack = context.getController(Names::getCallStackControllerFullName(), line);
   argumentTypes.push_back(callStack->getLLVMType(context));
   
   for (MethodArgument* methodArgument : method->getArguments()) {

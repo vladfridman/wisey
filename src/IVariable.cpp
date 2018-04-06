@@ -27,7 +27,7 @@ IVariable* IVariable::getVariable(IRGenerationContext& context, std::string name
     return variable;
   }
   
-  Log::e("Undeclared variable '" + name + "'");
+  Log::e_deprecated("Undeclared variable '" + name + "'");
   exit(1);
 
 }

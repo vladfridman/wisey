@@ -66,7 +66,9 @@ llvm::Value* ArrayExactOwnerType::castTo(IRGenerationContext &context,
   return IRWriter::newBitCastInst(context, fromValue, toType->getLLVMType(context));
 }
 
-void ArrayExactOwnerType::free(IRGenerationContext& context, llvm::Value* arrayPointer) const {
+void ArrayExactOwnerType::free(IRGenerationContext& context,
+                               llvm::Value* arrayPointer,
+                               int line) const {
   // This should never be called
   assert(false);
 }

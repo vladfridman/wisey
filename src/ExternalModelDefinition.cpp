@@ -19,11 +19,13 @@ ExternalModelDefinition::ExternalModelDefinition(ModelTypeSpecifierFull* modelTy
                                                  vector<IInterfaceTypeSpecifier*>
                                                  interfaceSpecifiers,
                                                  vector<IObjectDefinition*>
-                                                 innerObjectDefinitions) :
+                                                 innerObjectDefinitions,
+                                                 int line) :
 mModelTypeSpecifierFull(modelTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers),
-mInnerObjectDefinitions(innerObjectDefinitions) { }
+mInnerObjectDefinitions(innerObjectDefinitions),
+mLine(line) { }
 
 ExternalModelDefinition::~ExternalModelDefinition() {
   delete mModelTypeSpecifierFull;
@@ -59,7 +61,7 @@ Model* ExternalModelDefinition::prototypeObject(IRGenerationContext& context) co
 
 void ExternalModelDefinition::prototypeMethods(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mModelTypeSpecifierFull);
-  Model* model = context.getModel(fullName);
+  Model* model = context.getModel(fullName, mLine);
   
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(model);
@@ -69,7 +71,7 @@ void ExternalModelDefinition::prototypeMethods(IRGenerationContext& context) con
 }
 
 Value* ExternalModelDefinition::generateIR(IRGenerationContext& context) const {
-  Model* model = context.getModel(mModelTypeSpecifierFull->getName(context));
+  Model* model = context.getModel(mModelTypeSpecifierFull->getName(context), mLine);
   model->createRTTI(context);
   
   return NULL;

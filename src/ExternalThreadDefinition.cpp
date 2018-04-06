@@ -19,11 +19,13 @@ ExternalThreadDefinition::ExternalThreadDefinition(ThreadTypeSpecifierFull*
                                                    vector<IInterfaceTypeSpecifier*>
                                                    interfaceSpecifiers,
                                                    vector<IObjectDefinition*>
-                                                   innerObjectDefinitions) :
+                                                   innerObjectDefinitions,
+                                                   int line) :
 mThreadTypeSpecifierFull(threadTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers),
-mInnerObjectDefinitions(innerObjectDefinitions) { }
+mInnerObjectDefinitions(innerObjectDefinitions),
+mLine(line) { }
 
 ExternalThreadDefinition::~ExternalThreadDefinition() {
   delete mThreadTypeSpecifierFull;
@@ -59,7 +61,7 @@ Thread* ExternalThreadDefinition::prototypeObject(IRGenerationContext& context) 
 
 void ExternalThreadDefinition::prototypeMethods(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mThreadTypeSpecifierFull);
-  Thread* thread = context.getThread(fullName);
+  Thread* thread = context.getThread(fullName, mLine);
   
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(thread);

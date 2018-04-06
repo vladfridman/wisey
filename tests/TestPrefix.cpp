@@ -56,16 +56,17 @@ void TestPrefix::defineModel(IRGenerationContext& context,
   PackageType* packageType = new PackageType(Names::getLangPackageName());
   FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
   ModelTypeSpecifierFull* modelTypeSpecifier =
-    new ModelTypeSpecifierFull(packageExpression, modelName);
+    new ModelTypeSpecifierFull(packageExpression, modelName, 0);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ModelDefinition modelDefinition(AccessLevel::PUBLIC_ACCESS,
                                   modelTypeSpecifier,
                                   modelElements,
                                   modelParentInterfaces,
-                                  innerObjectDefinitions);
+                                  innerObjectDefinitions,
+                                  0);
   modelDefinition.prototypeObject(context);
   modelDefinition.prototypeMethods(context);
-  Model* model = context.getModel(Names::getLangPackageName() + "." + modelName);
+  Model* model = context.getModel(Names::getLangPackageName() + "." + modelName, 0);
   model->createRTTI(context);
 }
 
@@ -112,7 +113,7 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
   PackageType* packageType = new PackageType(Names::getLangPackageName());
   FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
   ControllerTypeSpecifierFull* controllerTypeSpecifier =
-  new ControllerTypeSpecifierFull(packageExpression, Names::getCallStackControllerName());
+  new ControllerTypeSpecifierFull(packageExpression, Names::getCallStackControllerName(), 0);
   vector<IObjectElementDefinition*> elementDeclarations;
   elementDeclarations.push_back(pushStackMethod);
   elementDeclarations.push_back(popStackMethod);
@@ -124,20 +125,21 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
                                   controllerTypeSpecifier,
                                   elementDeclarations,
                                   interfaceSpecifiers,
-                                  innerObjectDefinitions);
+                                  innerObjectDefinitions,
+                                  0);
 }
 
 ThreadDefinition* TestPrefix::defineMainThread(IRGenerationContext& context) {
   PackageType* packageType = new PackageType(Names::getLangPackageName());
   FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
   ThreadTypeSpecifierFull* threadTypeSpecifier =
-    new ThreadTypeSpecifierFull(packageExpression, Names::getMainThreadShortName());
+    new ThreadTypeSpecifierFull(packageExpression, Names::getMainThreadShortName(), 0);
   vector<IObjectElementDefinition*> elementDeclarations;
   
   packageType = new PackageType(Names::getLangPackageName());
   packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
   ControllerTypeSpecifierFull* callStackTypeSpecifier =
-  new ControllerTypeSpecifierFull(packageExpression, Names::getCallStackControllerName());
+  new ControllerTypeSpecifierFull(packageExpression, Names::getCallStackControllerName(), 0);
   VariableList arguments;
   vector<IModelTypeSpecifier*> exceptions;
   Block* block = new Block();
@@ -170,21 +172,22 @@ ThreadDefinition* TestPrefix::defineMainThread(IRGenerationContext& context) {
   packageType = new PackageType(Names::getLangPackageName());
   packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
   InterfaceTypeSpecifierFull* interfaceTypeSpecifer =
-  new InterfaceTypeSpecifierFull(packageExpression, Names::getThreadInterfaceName());
+  new InterfaceTypeSpecifierFull(packageExpression, Names::getThreadInterfaceName(), 0);
   interfaceSpecifiers.push_back(interfaceTypeSpecifer);
   
   return new ThreadDefinition(AccessLevel::PUBLIC_ACCESS,
                               threadTypeSpecifier,
                               elementDeclarations,
                               interfaceSpecifiers,
-                              innerObjectDefinitions);
+                              innerObjectDefinitions,
+                              0);
 }
 
 InterfaceDefinition* TestPrefix::defineThreadInterface(IRGenerationContext& context) {
   PackageType* packageType = new PackageType(Names::getLangPackageName());
   FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
   InterfaceTypeSpecifierFull* interfaceTypeSpecifier =
-    new InterfaceTypeSpecifierFull(packageExpression, Names::getThreadInterfaceName());
+    new InterfaceTypeSpecifierFull(packageExpression, Names::getThreadInterfaceName(), 0);
   vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers;
   vector<IObjectElementDefinition *> elementDeclarations;
   vector<IObjectDefinition*> innerObjectDefinitions;
@@ -193,5 +196,6 @@ InterfaceDefinition* TestPrefix::defineThreadInterface(IRGenerationContext& cont
                                  interfaceTypeSpecifier,
                                  parentInterfaceSpecifiers,
                                  elementDeclarations,
-                                 innerObjectDefinitions);
+                                 innerObjectDefinitions,
+                                 0);
 }

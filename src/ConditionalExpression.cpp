@@ -61,7 +61,7 @@ Value* ConditionalExpression::generateIR(IRGenerationContext& context,
   IRWriter::createBranch(context, blockEnd);
 
   if (ifTrueResultType != ifFalseResultType) {
-    Log::e("Results of different type in a conditional expresion!");
+    Log::e_deprecated("Results of different type in a conditional expresion!");
   }
 
   context.setBasicBlock(blockEnd);
@@ -86,17 +86,17 @@ void ConditionalExpression::checkTypes(IRGenerationContext& context) const {
   const IType* ifFalseExpressionType = mIfFalseExpression->getType(context);
   
   if (mConditionExpression->getType(context) != PrimitiveTypes::BOOLEAN_TYPE) {
-    Log::e("Condition in a conditional expression is not of type BOOLEAN");
+    Log::e_deprecated("Condition in a conditional expression is not of type BOOLEAN");
     exit(1);
   }
   
   if (ifTrueExpressionType != ifFalseExpressionType) {
-    Log::e("Incompatible types in conditional expression operation");
+    Log::e_deprecated("Incompatible types in conditional expression operation");
     exit(1);
   }
   
   if (ifTrueExpressionType == PrimitiveTypes::VOID_TYPE) {
-    Log::e("Can not use expressions of type VOID in a conditional expression");
+    Log::e_deprecated("Can not use expressions of type VOID in a conditional expression");
     exit(1);
   }
 }

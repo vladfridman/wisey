@@ -102,21 +102,23 @@ TEST_F(ThreadDefinitionTest, threadDefinitionPrototypeObjectTest) {
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ThreadTypeSpecifierFull* typeSpecifier = new ThreadTypeSpecifierFull(packageExpression,
-                                                                       "TWorker");
+                                                                       "TWorker",
+                                                                       0);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ThreadDefinition threadDefinition(AccessLevel::PUBLIC_ACCESS,
                                     typeSpecifier,
                                     mElementDeclarations,
                                     mInterfaces,
-                                    innerObjectDefinitions);
+                                    innerObjectDefinitions,
+                                    0);
   
   EXPECT_CALL(*mMockStatement, generateIR(_)).Times(0);
   
   threadDefinition.prototypeObject(mContext);
   
-  ASSERT_NE(mContext.getThread("systems.vos.wisey.compiler.tests.TWorker"), nullptr);
+  ASSERT_NE(mContext.getThread("systems.vos.wisey.compiler.tests.TWorker", 0), nullptr);
   
-  Thread* thread = mContext.getThread("systems.vos.wisey.compiler.tests.TWorker");
+  Thread* thread = mContext.getThread("systems.vos.wisey.compiler.tests.TWorker", 0);
   
   EXPECT_STREQ(thread->getShortName().c_str(), "TWorker");
   EXPECT_STREQ(thread->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.TWorker");
@@ -126,35 +128,37 @@ TEST_F(ThreadDefinitionTest, threadDefinitionPrototypeObjectTest) {
 TEST_F(ThreadDefinitionTest, threadDefinitionPrototypeMethodsTest) {
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ThreadTypeSpecifierFull* typeSpecifier = new ThreadTypeSpecifierFull(packageExpression,
-                                                                       "TWorker");
+  ThreadTypeSpecifierFull* typeSpecifier =
+  new ThreadTypeSpecifierFull(packageExpression, "TWorker", 0);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ThreadDefinition threadDefinition(AccessLevel::PUBLIC_ACCESS,
                                     typeSpecifier,
                                     mElementDeclarations,
                                     mInterfaces,
-                                    innerObjectDefinitions);
+                                    innerObjectDefinitions,
+                                    0);
   
   EXPECT_CALL(*mMockStatement, generateIR(_)).Times(0);
   
   threadDefinition.prototypeObject(mContext);
   threadDefinition.prototypeMethods(mContext);
   
-  Thread* thread = mContext.getThread("systems.vos.wisey.compiler.tests.TWorker");
+  Thread* thread = mContext.getThread("systems.vos.wisey.compiler.tests.TWorker", 0);
   EXPECT_NE(thread->findMethod("foo"), nullptr);
 }
 
 TEST_F(ThreadDefinitionTest, threadDefinitionGenerateIRTest) {
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ThreadTypeSpecifierFull* typeSpecifier = new ThreadTypeSpecifierFull(packageExpression,
-                                                                       "TWorker");
+  ThreadTypeSpecifierFull* typeSpecifier =
+  new ThreadTypeSpecifierFull(packageExpression, "TWorker", 0);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ThreadDefinition threadDefinition(AccessLevel::PUBLIC_ACCESS,
                                     typeSpecifier,
                                     mElementDeclarations,
                                     mInterfaces,
-                                    innerObjectDefinitions);
+                                    innerObjectDefinitions,
+                                    0);
   
   EXPECT_CALL(*mMockStatement, generateIR(_));
   
@@ -162,9 +166,9 @@ TEST_F(ThreadDefinitionTest, threadDefinitionGenerateIRTest) {
   threadDefinition.prototypeMethods(mContext);
   threadDefinition.generateIR(mContext);
   
-  ASSERT_NE(mContext.getThread("systems.vos.wisey.compiler.tests.TWorker"), nullptr);
+  ASSERT_NE(mContext.getThread("systems.vos.wisey.compiler.tests.TWorker", 0), nullptr);
   
-  Thread* thread = mContext.getThread("systems.vos.wisey.compiler.tests.TWorker");
+  Thread* thread = mContext.getThread("systems.vos.wisey.compiler.tests.TWorker", 0);
   StructType* structType = (StructType*) thread->getLLVMType(mContext)->getPointerElementType();
   
   ASSERT_NE(structType, nullptr);
@@ -182,8 +186,8 @@ TEST_F(ThreadDefinitionTest, threadDefinitionGenerateIRTest) {
 TEST_F(ThreadDefinitionTest, threadWithFixedFieldDeathTest) {
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ThreadTypeSpecifierFull* typeSpecifier = new ThreadTypeSpecifierFull(packageExpression,
-                                                                       "TWorker");
+  ThreadTypeSpecifierFull* typeSpecifier =
+  new ThreadTypeSpecifierFull(packageExpression, "TWorker", 0);
   const PrimitiveTypeSpecifier* intType = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
   FixedFieldDefinition* field = new FixedFieldDefinition(intType, "field3");
   mElementDeclarations.clear();
@@ -193,7 +197,8 @@ TEST_F(ThreadDefinitionTest, threadWithFixedFieldDeathTest) {
                                     typeSpecifier,
                                     mElementDeclarations,
                                     mInterfaces,
-                                    innerObjectDefinitions);
+                                    innerObjectDefinitions,
+                                    0);
   threadDefinition.prototypeObject(mContext);
   
   EXPECT_EXIT(threadDefinition.prototypeMethods(mContext),
@@ -204,8 +209,8 @@ TEST_F(ThreadDefinitionTest, threadWithFixedFieldDeathTest) {
 TEST_F(ThreadDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ThreadTypeSpecifierFull* typeSpecifier = new ThreadTypeSpecifierFull(packageExpression,
-                                                                       "TWorker");
+  ThreadTypeSpecifierFull* typeSpecifier =
+  new ThreadTypeSpecifierFull(packageExpression, "TWorker", 0);
   const PrimitiveTypeSpecifier* intType = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
   StateFieldDefinition* field = new StateFieldDefinition(intType, "field3");
   mElementDeclarations.push_back(field);
@@ -214,7 +219,8 @@ TEST_F(ThreadDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
                                     typeSpecifier,
                                     mElementDeclarations,
                                     mInterfaces,
-                                    innerObjectDefinitions);
+                                    innerObjectDefinitions,
+                                    0);
   threadDefinition.prototypeObject(mContext);
   
   EXPECT_EXIT(threadDefinition.prototypeMethods(mContext),

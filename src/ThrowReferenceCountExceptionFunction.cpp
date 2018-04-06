@@ -72,7 +72,7 @@ void ThrowReferenceCountExceptionFunction::compose(IRGenerationContext& context,
   PackageType* packageType = context.getPackageType(Names::getLangPackageName());
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ModelTypeSpecifier* modelTypeSpecifier =
-  new ModelTypeSpecifier(packageExpression, Names::getReferenceCountExceptionName());
+  new ModelTypeSpecifier(packageExpression, Names::getReferenceCountExceptionName(), 0);
   ObjectBuilderArgumentList objectBuilderArgumnetList;
   FakeExpression* fakeExpression = new FakeExpression(referenceCount, PrimitiveTypes::LONG_TYPE);
   ObjectBuilderArgument* argument = new ObjectBuilderArgument("withReferenceCount", fakeExpression);

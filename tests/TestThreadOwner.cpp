@@ -137,7 +137,7 @@ TEST_F(ThreadOwnerTest, isObjectTest) {
 }
 
 TEST_F(ThreadOwnerTest, getDestructorFunctionTest) {
-  Function* result = mThread->getOwner()->getDestructorFunction(mContext);
+  Function* result = mThread->getOwner()->getDestructorFunction(mContext, 0);
   
   ASSERT_NE(nullptr, result);
   

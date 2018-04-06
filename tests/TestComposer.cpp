@@ -96,7 +96,7 @@ public:
 
     mContext.getScopes().pushScope();
 
-    Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName());
+    Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
     Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));
     mThreadVariable = new NiceMock<MockReferenceVariable>();
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
@@ -104,7 +104,7 @@ public:
     ON_CALL(*mThreadVariable, generateIdentifierIR(_)).WillByDefault(Return(threadObject));
     mContext.getScopes().setVariable(mThreadVariable);
 
-    Controller* callStack = mContext.getController(Names::getCallStackControllerFullName());
+    Controller* callStack = mContext.getController(Names::getCallStackControllerFullName(), 0);
     Value* callStackValue = ConstantPointerNull::get(callStack->getLLVMType(mContext));
     mCallStackVariable = new NiceMock<MockReferenceVariable>();
     ON_CALL(*mCallStackVariable, getName()).WillByDefault(Return(ThreadExpression::CALL_STACK));

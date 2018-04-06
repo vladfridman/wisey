@@ -195,7 +195,7 @@ void ArrayType::createParameterVariable(IRGenerationContext& context,
 }
 
 void ArrayType::reportNonArrayType() {
-  Log::e("Trying to perform array operation on a non-array type expression");
+  Log::e_deprecated("Trying to perform array operation on a non-array type expression");
 }
 
 const ArrayType* ArrayType::getArrayType(IRGenerationContext& context) const {

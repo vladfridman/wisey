@@ -83,7 +83,8 @@ struct NodeOwnerTest : public Test {
     new MethodSignatureDeclaration(intSpecifier,
                                    "getElement",
                                    elementInterfaceMethodArguments,
-                                   elementThrownExceptions);
+                                   elementThrownExceptions,
+                                   0);
     elementObjectElements.push_back(getElementSignature);
     vector<IInterfaceTypeSpecifier*> elementParentInterfaces;
     mElementInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
@@ -101,7 +102,8 @@ struct NodeOwnerTest : public Test {
     complicatedElementObjectElements.push_back(getElementSignature);
     vector<IInterfaceTypeSpecifier*> complicatedElementParentInterfaces;
     InterfaceTypeSpecifier* elementInterfaceTypeSpecifier = new InterfaceTypeSpecifier(NULL,
-                                                                                       "IElement");
+                                                                                       "IElement",
+                                                                                       0);
     complicatedElementParentInterfaces.push_back(elementInterfaceTypeSpecifier);
     mComplicatedElementInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                                            complicatedElementFullName,
@@ -120,7 +122,8 @@ struct NodeOwnerTest : public Test {
       new MethodSignatureDeclaration(intSpecifier,
                                      "foo",
                                      objectInterfaceMethodArguments,
-                                     objectThrownExceptions);
+                                     objectThrownExceptions,
+                                     0);
     objectElements.push_back(methodBarSignature);
     vector<IInterfaceTypeSpecifier*> objectParentInterfaces;
     mObjectInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
@@ -268,7 +271,7 @@ TEST_F(NodeOwnerTest, getLLVMTypeTest) {
 }
 
 TEST_F(NodeOwnerTest, getDestructorFunctionTest) {
-  Function* result = mSimplerNode->getOwner()->getDestructorFunction(mContext);
+  Function* result = mSimplerNode->getOwner()->getDestructorFunction(mContext, 0);
   
   ASSERT_NE(nullptr, result);
   

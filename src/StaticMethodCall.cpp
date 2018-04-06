@@ -49,7 +49,7 @@ Value* StaticMethodCall::generateIR(IRGenerationContext& context, const IType* a
   IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
   const IObjectType* objectType = mObjectTypeSpecifier->getType(context);
   if (!checkAccess(context, methodDescriptor)) {
-    Log::e("Static method '" + mMethodName + "' of object " + objectType->getTypeName() +
+    Log::e_deprecated("Static method '" + mMethodName + "' of object " + objectType->getTypeName() +
            " is private");
     exit(1);
   }
@@ -79,7 +79,7 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
   
   Function *function = context.getModule()->getFunction(llvmFunctionName.c_str());
   if (function == NULL) {
-    Log::e("LLVM function implementing object " + objectType->getTypeName() + " method '" +
+    Log::e_deprecated("LLVM function implementing object " + objectType->getTypeName() + " method '" +
            mMethodName + "' was not found");
     exit(1);
   }
@@ -148,12 +148,12 @@ IMethodDescriptor* StaticMethodCall::getMethodDescriptor(IRGenerationContext& co
   const IObjectType* objectType = mObjectTypeSpecifier->getType(context);
   IMethodDescriptor* methodDescriptor = objectType->findMethod(mMethodName);
   if (methodDescriptor == NULL) {
-    Log::e("Static method '" + mMethodName + "' is not found in object " +
+    Log::e_deprecated("Static method '" + mMethodName + "' is not found in object " +
            objectType->getTypeName());
     exit(1);
   }
   if (!methodDescriptor->isStatic()) {
-    Log::e("Method '" + mMethodName + "' of object type " +
+    Log::e_deprecated("Method '" + mMethodName + "' of object type " +
            objectType->getTypeName() + " is not static");
     exit(1);
   }
@@ -167,7 +167,7 @@ void StaticMethodCall::checkArgumentType(IMethodDescriptor* methodDescriptor,
   ExpressionList::const_iterator callArgumentsIterator = mArguments.begin();
   
   if (mArguments.size() != methodDescriptor->getArguments().size()) {
-    Log::e("Number of arguments for static method call '" + methodDescriptor->getName() +
+    Log::e_deprecated("Number of arguments for static method call '" + methodDescriptor->getName() +
            "' of the object type " + mObjectTypeSpecifier->getType(context)->getTypeName() +
            " is not correct");
     exit(1);
@@ -178,7 +178,7 @@ void StaticMethodCall::checkArgumentType(IMethodDescriptor* methodDescriptor,
     const IType* callArgumentType = (*callArgumentsIterator)->getType(context);
     
     if (!callArgumentType->canAutoCastTo(context, methodArgumentType)) {
-      Log::e("Call argument types do not match for a call to method '" +
+      Log::e_deprecated("Call argument types do not match for a call to method '" +
              methodDescriptor->getName() +
              "' of the object type " + mObjectTypeSpecifier->getType(context)->getTypeName());
       exit(1);

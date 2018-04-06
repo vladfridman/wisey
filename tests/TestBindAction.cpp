@@ -61,9 +61,9 @@ struct BindActionTest : public Test {
     mContext.addController(mController);
 
     InterfaceTypeSpecifier* interfaceTypeSpecifier =
-      new InterfaceTypeSpecifier(NULL, "IMyInterface");
+      new InterfaceTypeSpecifier(NULL, "IMyInterface", 0);
     ControllerTypeSpecifier* controllerTypeSpecifier =
-      new ControllerTypeSpecifier(NULL, "CMyController");
+      new ControllerTypeSpecifier(NULL, "CMyController", 0);
     InjectionArgumentList injectionArgumentList;
     mInjectionArgument = new InjectionArgument("withField", NULL);
     injectionArgumentList.push_back(mInjectionArgument);

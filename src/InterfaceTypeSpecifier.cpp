@@ -12,9 +12,12 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-InterfaceTypeSpecifier::InterfaceTypeSpecifier(IExpression* packageExpression, string shortName) :
+InterfaceTypeSpecifier::InterfaceTypeSpecifier(IExpression* packageExpression,
+                                               string shortName,
+                                               int line) :
 mPackageExpression(packageExpression),
-mShortName(shortName) {
+mShortName(shortName),
+mLine(line) {
 }
 
 InterfaceTypeSpecifier::~InterfaceTypeSpecifier() {
@@ -38,7 +41,7 @@ string InterfaceTypeSpecifier::getName(IRGenerationContext& context) const {
 }
 
 Interface* InterfaceTypeSpecifier::getType(IRGenerationContext& context) const {
-  return context.getInterface(getName(context));
+  return context.getInterface(getName(context), mLine);
 }
 
 void InterfaceTypeSpecifier::printToStream(IRGenerationContext& context, iostream& stream) const {

@@ -49,7 +49,7 @@ CompilerArguments CompilerArgumentParser::parse(vector<string> argumnets) const 
     }
     if ((!argument.compare("--output") || !argument.compare("-o")) &&
         argument == argumnets.back()) {
-      Log::e("You need to specify the output file name after \"" + argument + "\"");
+      Log::e_deprecated("You need to specify the output file name after \"" + argument + "\"");
       exit(1);
     }
     if (!argument.compare("--output") || !argument.compare("-o")) {
@@ -59,7 +59,7 @@ CompilerArguments CompilerArgumentParser::parse(vector<string> argumnets) const 
     }
     if ((!argument.compare("--headers") || !argument.compare("-H")) &&
         argument == argumnets.back()) {
-      Log::e("You need to specify the header file name after \"" + string(argument) + "\"");
+      Log::e_deprecated("You need to specify the header file name after \"" + string(argument) + "\"");
       exit(1);
     }
     if (!argument.compare("--headers") || !argument.compare("-H")) {
@@ -76,7 +76,7 @@ CompilerArguments CompilerArgumentParser::parse(vector<string> argumnets) const 
       continue;
     }
     if (argument.substr(argument.length() - 3).compare(".yz")) {
-      Log::e("Unknown argument " + argument);
+      Log::e_deprecated("Unknown argument " + argument);
       exit(1);
     }
     compilerArguments.addSourceFile(argument);

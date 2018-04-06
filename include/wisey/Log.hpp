@@ -13,6 +13,8 @@
 
 namespace wisey {
   
+  class ImportProfile;
+  
   typedef enum LogLevelEnum { ERRORLEVEL, INFOLEVEL, DEBUGLEVEL } LogLevel;
   
   /**
@@ -35,7 +37,12 @@ namespace wisey {
     /**
      * Log an error message
      */
-    static void e(std::string message);
+    static void e_deprecated(std::string message);
+    
+    /**
+     * Log an error message with filename and line number
+     */
+    static void e(ImportProfile* importProfile, int line, std::string message);
     
     /**
      * Log an information message

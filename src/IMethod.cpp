@@ -55,7 +55,7 @@ void IMethod::checkForUnhandledExceptions(IRGenerationContext& context, const IM
     if (!iterator->first.find(Names::getLangPackageName())) {
       continue;
     }
-    Log::e((method->isStatic() ? "Static method " : "Method ") + method->getName() +
+    Log::e_deprecated((method->isStatic() ? "Static method " : "Method ") + method->getName() +
            " neither handles the exception " + iterator->first + " nor throws it");
     hasUnhandledExceptions = true;
   }
@@ -74,7 +74,7 @@ void IMethod::maybeAddImpliedVoidReturn(IRGenerationContext& context,
   
   const IType* returnType = method->getReturnType();
   if (returnType != PrimitiveTypes::VOID_TYPE) {
-    Log::e((method->isStatic() ? "Static method " : "Method ") + method->getName() +
+    Log::e_deprecated((method->isStatic() ? "Static method " : "Method ") + method->getName() +
            " must return a value of type " + returnType->getTypeName());
     exit(1);
   }

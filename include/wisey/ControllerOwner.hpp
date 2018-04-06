@@ -33,7 +33,7 @@ namespace wisey {
     
     llvm::PointerType* getLLVMType(IRGenerationContext& context) const override;
     
-    void free(IRGenerationContext& context, llvm::Value* value) const override;
+    void free(IRGenerationContext& context, llvm::Value* value, int line) const override;
     
     bool canCastTo(IRGenerationContext& context, const IType* toType) const override;
     
@@ -70,7 +70,7 @@ namespace wisey {
     
     bool isPointer() const override;
 
-    llvm::Function* getDestructorFunction(IRGenerationContext& context) const override;
+    llvm::Function* getDestructorFunction(IRGenerationContext& context, int line) const override;
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     

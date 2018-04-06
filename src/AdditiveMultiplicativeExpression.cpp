@@ -88,22 +88,22 @@ void AdditiveMultiplicativeExpression::checkTypes(IRGenerationContext& context,
                                                   const IType* leftType,
                                                   const IType* rightType) const {
   if (leftType == PrimitiveTypes::VOID_TYPE || rightType == PrimitiveTypes::VOID_TYPE) {
-    Log::e("Can not use expressions of type VOID in a '" + string(1, mOperation) + "' operation");
+    Log::e_deprecated("Can not use expressions of type VOID in a '" + string(1, mOperation) + "' operation");
     exit(1);
   }
   
   if (!leftType->isPrimitive() || !rightType->isPrimitive()) {
-    Log::e("Can not do operation '" + string(1, mOperation) + "' on non-primitive types");
+    Log::e_deprecated("Can not do operation '" + string(1, mOperation) + "' on non-primitive types");
     exit(1);
   }
 
   if (!leftType->canCastTo(context, rightType) && !rightType->canCastTo(context, leftType)) {
-    Log::e("Incompatible types in '" + string(1, mOperation) + "' operation");
+    Log::e_deprecated("Incompatible types in '" + string(1, mOperation) + "' operation");
     exit(1);
   }
   
   if (!leftType->canAutoCastTo(context, rightType) && !rightType->canAutoCastTo(context, leftType)) {
-    Log::e("Incompatible types in '" + string(1, mOperation) +
+    Log::e_deprecated("Incompatible types in '" + string(1, mOperation) +
            "' operation that require an explicit cast");
     exit(1);
   }

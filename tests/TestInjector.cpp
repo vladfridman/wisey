@@ -56,7 +56,7 @@ struct InjectorTest : Test {
     mImportProfile = new ImportProfile(mPackage);
     mContext.setImportProfile(mImportProfile);
 
-    mInterfaceTypeSpecifier = new InterfaceTypeSpecifier(NULL, "IMyInterface");
+    mInterfaceTypeSpecifier = new InterfaceTypeSpecifier(NULL, "IMyInterface", 0);
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(llvmContext));
     types.push_back(Type::getInt32Ty(llvmContext));

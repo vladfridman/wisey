@@ -32,7 +32,7 @@ ThrowStatement::~ThrowStatement() {
 Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
   const IType* expressionType = mExpression->getType(context);
   if (!expressionType->isModel() || !expressionType->isOwner()) {
-    Log::e("Thrown object can only be a model owner");
+    Log::e_deprecated("Thrown object can only be a model owner");
     exit(1);
   }
   const Model* model = ((const ModelOwner*) expressionType)->getReference();

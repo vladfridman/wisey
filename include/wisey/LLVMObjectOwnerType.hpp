@@ -86,7 +86,7 @@ namespace wisey {
     
     const LLVMObjectType* getReference() const override;
 
-    void free(IRGenerationContext& context, llvm::Value* value) const override;
+    void free(IRGenerationContext& context, llvm::Value* value, int line) const override;
 
   };
   

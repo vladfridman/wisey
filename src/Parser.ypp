@@ -409,12 +409,12 @@ llvm_function_declaration
 
 llvm_struct_definition
   : TLLVM TLLVMSTRUCT TIDENTIFIER '{' llvm_type_specifier_list '}' 
-    { $$ = new LLVMStructDefinition(*$3, *$5); delete $3; delete $5; }
+    { $$ = new LLVMStructDefinition(*$3, *$5, yylineno); delete $3; delete $5; }
   ;
 
 llvm_external_struct_definition
   : TEXTERNAL TLLVM TLLVMSTRUCT TIDENTIFIER '{' llvm_type_specifier_list '}' 
-    { $$ = new LLVMExternalStructDefinition(*$4, *$6); delete $4; delete $6; }
+    { $$ = new LLVMExternalStructDefinition(*$4, *$6, yylineno); delete $4; delete $6; }
   ;
 
 llvm_type_specifier_list
@@ -477,7 +477,7 @@ llvm_void_type_specifier
 
 llvm_struct_specifier
   : TLLVM TLLVMSTRUCT TDOUBLECOLON TIDENTIFIER
-    { $$ = new LLVMStructSpecifier(*$4); delete $4; }
+    { $$ = new LLVMStructSpecifier(*$4, yylineno); delete $4; }
   ;
 
 llvm_array_specifier
@@ -531,7 +531,7 @@ llvm_function_argument_declaration
 llvm_function_call
   : TLLVM TLLVMFUNCTION TDOUBLECOLON llvm_function_name '(' call_arguments ')'
     {
-      $$ = new LLVMFunctionCall(*$4, *$6, yylineno);
+      $$ = new LLVMFunctionCall(*$4, *$6);
       delete $4;
       delete $6;
     }
@@ -614,12 +614,13 @@ interface_definition
       IExpression* package = $2->takePackage();
       package = package ? package : new FakeExpression(NULL, filePackageType);
       InterfaceTypeSpecifierFull* fullSpecifier = 
-        new InterfaceTypeSpecifierFull(package, $2->getShortName());
+        new InterfaceTypeSpecifierFull(package, $2->getShortName(), yylineno);
       $$ = new InterfaceDefinition(AccessLevel::PUBLIC_ACCESS,
                                    fullSpecifier, 
                                    *$3, 
                                    std::get<0>(*$5), 
-                                   std::get<1>(*$5));
+                                   std::get<1>(*$5),
+                                   yylineno);
       delete $2;
       delete $3;
       delete $5;
@@ -633,12 +634,13 @@ inner_interface_definition
       IExpression* package = $3->takePackage();
       package = package ? package : new FakeExpression(NULL, filePackageType);
       InterfaceTypeSpecifierFull* fullSpecifier =
-        new InterfaceTypeSpecifierFull(package, $3->getShortName());
+        new InterfaceTypeSpecifierFull(package, $3->getShortName(), yylineno);
       $$ = new InterfaceDefinition($1,
                                    fullSpecifier, 
                                    *$4, 
                                    std::get<0>(*$6), 
-                                   std::get<1>(*$6));
+                                   std::get<1>(*$6),
+                                   yylineno);
       delete $3;
       delete $4;
       delete $6;
@@ -652,8 +654,12 @@ external_interface_definition
       IExpression* package = $3->takePackage();
       package = package ? package : new FakeExpression(NULL, filePackageType);
       InterfaceTypeSpecifierFull* fullSpecifier =
-        new InterfaceTypeSpecifierFull(package, $3->getShortName());
-      $$ = new ExternalInterfaceDefinition(fullSpecifier, *$4, std::get<0>(*$6), std::get<1>(*$6));
+        new InterfaceTypeSpecifierFull(package, $3->getShortName(), yylineno);
+      $$ = new ExternalInterfaceDefinition(fullSpecifier,
+                                           *$4,
+                                           std::get<0>(*$6),
+                                           std::get<1>(*$6),
+                                           yylineno);
       delete $3;
       delete $4;
       delete $6;
@@ -699,7 +705,7 @@ interface_element_declaration
 method_signature
   : type_specifier TIDENTIFIER '(' method_definition_arguments ')' method_exceptions ';'
       {
-        $$ = new MethodSignatureDeclaration($1, *$2, *$4, *$6);
+        $$ = new MethodSignatureDeclaration($1, *$2, *$4, *$6, yylineno);
         delete $2;
         delete $4;
         delete $6;
@@ -713,12 +719,13 @@ controller_definition
       IExpression* package = $2->takePackage();
       package = package ? package : new FakeExpression(NULL, filePackageType);
       ControllerTypeSpecifierFull* fullSpecifier =
-        new ControllerTypeSpecifierFull(package, $2->getShortName());
+        new ControllerTypeSpecifierFull(package, $2->getShortName(), yylineno);
       $$ = new ControllerDefinition(AccessLevel::PUBLIC_ACCESS, 
                                     fullSpecifier, 
                                     std::get<0>(*$5), 
                                     *$3, 
-                                    std::get<1>(*$5));
+                                    std::get<1>(*$5),
+                                    yylineno);
       delete $2;
       delete $5;
       delete $3;
@@ -732,12 +739,13 @@ inner_controller_definition
       IExpression* package = $3->takePackage();
       package = package ? package : new FakeExpression(NULL, filePackageType);
       ControllerTypeSpecifierFull* fullSpecifier =
-        new ControllerTypeSpecifierFull(package, $3->getShortName());
+        new ControllerTypeSpecifierFull(package, $3->getShortName(), yylineno);
       $$ = new ControllerDefinition($1, 
                                     fullSpecifier, 
                                     std::get<0>(*$6), 
                                     *$4, 
-                                    std::get<1>(*$6));
+                                    std::get<1>(*$6),
+                                    yylineno);
       delete $3;
       delete $6;
       delete $4;
@@ -751,11 +759,12 @@ external_controller_definition
       IExpression* package = $3->takePackage();
       package = package ? package : new FakeExpression(NULL, filePackageType);
       ControllerTypeSpecifierFull* fullSpecifier =
-        new ControllerTypeSpecifierFull(package, $3->getShortName());
+        new ControllerTypeSpecifierFull(package, $3->getShortName(), yylineno);
       $$ = new ExternalControllerDefinition(fullSpecifier, 
                                             std::get<0>(*$6), 
                                             *$4,
-                                            std::get<1>(*$6));
+                                            std::get<1>(*$6),
+                                            yylineno);
       delete $3;
       delete $6;
       delete $4;
@@ -769,12 +778,13 @@ node_definition
       IExpression* package = $2->takePackage();
       package = package ? package : new FakeExpression(NULL, filePackageType);
       NodeTypeSpecifierFull* fullSpecifier = 
-        new NodeTypeSpecifierFull(package, $2->getShortName());
+        new NodeTypeSpecifierFull(package, $2->getShortName(), yylineno);
       $$ = new NodeDefinition(AccessLevel::PUBLIC_ACCESS, 
                               fullSpecifier, 
                               std::get<0>(*$5), 
                               *$3, 
-                              std::get<1>(*$5));
+                              std::get<1>(*$5),
+                              yylineno);
       delete $2;
       delete $5;
       delete $3;
@@ -788,12 +798,13 @@ inner_node_definition
       IExpression* package = $3->takePackage();
       package = package ? package : new FakeExpression(NULL, filePackageType);
       NodeTypeSpecifierFull* fullSpecifier =
-        new NodeTypeSpecifierFull(package, $3->getShortName());
+        new NodeTypeSpecifierFull(package, $3->getShortName(), yylineno);
       $$ = new NodeDefinition($1, 
                               fullSpecifier, 
                               std::get<0>(*$6), 
                               *$4, 
-                              std::get<1>(*$6));
+                              std::get<1>(*$6),
+                              yylineno);
       delete $3;
       delete $6;
       delete $4;
@@ -807,8 +818,12 @@ external_node_definition
       IExpression* package = $3->takePackage();
       package = package ? package : new FakeExpression(NULL, filePackageType);
       NodeTypeSpecifierFull* fullSpecifier =
-        new NodeTypeSpecifierFull(package, $3->getShortName());
-      $$ = new ExternalNodeDefinition(fullSpecifier, std::get<0>(*$6), *$4, std::get<1>(*$6));
+        new NodeTypeSpecifierFull(package, $3->getShortName(), yylineno);
+      $$ = new ExternalNodeDefinition(fullSpecifier,
+                                      std::get<0>(*$6),
+                                      *$4,
+                                      std::get<1>(*$6),
+                                      yylineno);
       delete $3;
       delete $6;
       delete $4;
@@ -822,12 +837,13 @@ model_definition
       IExpression* package = $2->takePackage();
       package = package ? package : new FakeExpression(NULL, filePackageType);
       ModelTypeSpecifierFull* fullSpecifier =
-        new ModelTypeSpecifierFull(package, $2->getShortName());
+        new ModelTypeSpecifierFull(package, $2->getShortName(), yylineno);
       $$ = new ModelDefinition(AccessLevel::PUBLIC_ACCESS,
                                fullSpecifier, 
                                std::get<0>(*$5), 
                                *$3, 
-                               std::get<1>(*$5));
+                               std::get<1>(*$5),
+                               yylineno);
       delete $2;
       delete $5;
       delete $3;
@@ -841,12 +857,13 @@ inner_model_definition
       IExpression* package = $3->takePackage();
       package = package ? package : new FakeExpression(NULL, filePackageType);
       ModelTypeSpecifierFull* fullSpecifier =
-        new ModelTypeSpecifierFull(package, $3->getShortName());
+        new ModelTypeSpecifierFull(package, $3->getShortName(), yylineno);
       $$ = new ModelDefinition($1,
                                fullSpecifier, 
                                std::get<0>(*$6), 
                                *$4, 
-                               std::get<1>(*$6));
+                               std::get<1>(*$6),
+                               yylineno);
       delete $3;
       delete $6;
       delete $4;
@@ -860,8 +877,12 @@ external_model_definition
       IExpression* package = $3->takePackage();
       package = package ? package : new FakeExpression(NULL, filePackageType);
       ModelTypeSpecifierFull* fullSpecifier =
-        new ModelTypeSpecifierFull(package, $3->getShortName());
-      $$ = new ExternalModelDefinition(fullSpecifier, std::get<0>(*$6), *$4, std::get<1>(*$6));
+        new ModelTypeSpecifierFull(package, $3->getShortName(), yylineno);
+      $$ = new ExternalModelDefinition(fullSpecifier,
+                                       std::get<0>(*$6),
+                                       *$4,
+                                       std::get<1>(*$6),
+                                       yylineno);
       delete $3;
       delete $6;
       delete $4;
@@ -875,12 +896,13 @@ thread_definition
       IExpression* package = $2->takePackage();
       package = package ? package : new FakeExpression(NULL, filePackageType);
       ThreadTypeSpecifierFull* fullSpecifier =
-        new ThreadTypeSpecifierFull(package, $2->getShortName());
+        new ThreadTypeSpecifierFull(package, $2->getShortName(), yylineno);
       $$ = new ThreadDefinition(AccessLevel::PUBLIC_ACCESS, 
                                 fullSpecifier, 
                                 std::get<0>(*$5), 
                                 *$3, 
-                                std::get<1>(*$5));
+                                std::get<1>(*$5),
+                                yylineno);
       delete $2;
       delete $3;
       delete $5;
@@ -894,12 +916,13 @@ inner_thread_definition
       IExpression* package = $3->takePackage();
       package = package ? package : new FakeExpression(NULL, filePackageType);
       ThreadTypeSpecifierFull* fullSpecifier =
-        new ThreadTypeSpecifierFull(package, $3->getShortName());
+        new ThreadTypeSpecifierFull(package, $3->getShortName(), yylineno);
       $$ = new ThreadDefinition($1, 
                                 fullSpecifier, 
                                 std::get<0>(*$6), 
                                 *$4, 
-                                std::get<1>(*$6));
+                                std::get<1>(*$6),
+                                yylineno);
       delete $3;
       delete $6;
       delete $4;
@@ -913,11 +936,12 @@ external_thread_definition
       IExpression* package = $3->takePackage();
       package = package ? package : new FakeExpression(NULL, filePackageType);
       ThreadTypeSpecifierFull* fullSpecifier =
-        new ThreadTypeSpecifierFull(package, $3->getShortName());
+        new ThreadTypeSpecifierFull(package, $3->getShortName(), yylineno);
       $$ = new ExternalThreadDefinition(fullSpecifier, 
                                         std::get<0>(*$6), 
                                         *$4,
-                                        std::get<1>(*$6));
+                                        std::get<1>(*$6),
+                                        yylineno);
       delete $3;
       delete $6;
       delete $4;
@@ -927,7 +951,7 @@ external_thread_definition
 external_method_definition
   : type_specifier TIDENTIFIER '(' method_definition_arguments ')' method_exceptions ';'
       {
-        $$ = new ExternalMethodDefinition($1, *$2, *$4, *$6);
+        $$ = new ExternalMethodDefinition($1, *$2, *$4, *$6, yylineno);
         delete $2;
         delete $4;
         delete $6;
@@ -937,7 +961,7 @@ external_method_definition
 external_static_method_definition
   : TSTATIC type_specifier TIDENTIFIER '(' method_definition_arguments ')' method_exceptions ';'
       {
-        $$ = new ExternalStaticMethodDefinition($2, *$3, *$5, *$7);
+        $$ = new ExternalStaticMethodDefinition($2, *$3, *$5, *$7, yylineno);
         delete $3;
         delete $5;
         delete $7;
@@ -1561,12 +1585,12 @@ model_type_specifier_top_level
 
 model_type_specifier_short
   : TMODELIDENTIFIER
-    { $$ = new ModelTypeSpecifier(NULL, *$1); delete $1; }
+    { $$ = new ModelTypeSpecifier(NULL, *$1, yylineno); delete $1; }
   ;
 
 model_type_specifier_top_level_full
   : postfix_expression '.' TMODELIDENTIFIER 
-    { $$ = new ModelTypeSpecifierFull($1, *$3); delete $3; }
+    { $$ = new ModelTypeSpecifierFull($1, *$3, yylineno); delete $3; }
   ;
 
 model_type_specifier_inner
@@ -1577,7 +1601,7 @@ model_type_specifier_inner
 model_type_specifier_inner_short
   : object_type_specifier_short '.' TMODELIDENTIFIER 
     { 
-      $$ = new ModelTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3);
+      $$ = new ModelTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3, yylineno);
       delete $1; 
       delete $3; 
     }
@@ -1586,7 +1610,7 @@ model_type_specifier_inner_short
 model_type_specifier_inner_full
   : object_type_specifier_top_level_full '.' TMODELIDENTIFIER 
     { 
-      $$ = new ModelTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3);
+      $$ = new ModelTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3, yylineno);
       delete $1; 
       delete $3; 
     }
@@ -1609,12 +1633,12 @@ controller_type_specifier_top_level
 
 controller_type_specifier_short
   : TCONTROLLERIDENTIFIER 
-    { $$ = new ControllerTypeSpecifier(NULL, *$1); delete $1; }
+    { $$ = new ControllerTypeSpecifier(NULL, *$1, yylineno); delete $1; }
   ;  
 
 controller_type_specifier_top_level_full
   : postfix_expression '.' TCONTROLLERIDENTIFIER 
-    { $$ = new ControllerTypeSpecifierFull($1, *$3); delete $3; }
+    { $$ = new ControllerTypeSpecifierFull($1, *$3, yylineno); delete $3; }
   ;
 
 controller_type_specifier_inner
@@ -1625,7 +1649,7 @@ controller_type_specifier_inner
 controller_type_specifier_inner_short
   : object_type_specifier_short '.' TCONTROLLERIDENTIFIER 
     { 
-      $$ = new ControllerTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3);
+      $$ = new ControllerTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3, yylineno);
       delete $1; 
       delete $3; 
     }
@@ -1634,7 +1658,7 @@ controller_type_specifier_inner_short
 controller_type_specifier_inner_full
   : object_type_specifier_top_level_full '.' TCONTROLLERIDENTIFIER 
     { 
-      $$ = new ControllerTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3);
+      $$ = new ControllerTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3, yylineno);
       delete $1; 
       delete $3; 
     }
@@ -1657,12 +1681,12 @@ interface_type_specifier_top_level
 
 interface_type_specifier_short
   : TINTERFACEIDENTIFIER 
-    { $$ = new InterfaceTypeSpecifier(NULL, *$1); delete $1; }
+    { $$ = new InterfaceTypeSpecifier(NULL, *$1, yylineno); delete $1; }
   ;
 
 interface_type_specifier_top_level_full
   : postfix_expression '.' TINTERFACEIDENTIFIER 
-    { $$ = new InterfaceTypeSpecifierFull($1, *$3); delete $3; }
+    { $$ = new InterfaceTypeSpecifierFull($1, *$3, yylineno); delete $3; }
   ;
 
 interface_type_specifier_inner
@@ -1673,7 +1697,7 @@ interface_type_specifier_inner
 interface_type_specifier_inner_short
   : object_type_specifier_short '.' TINTERFACEIDENTIFIER 
     { 
-      $$ = new InterfaceTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3);
+      $$ = new InterfaceTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3, yylineno);
       delete $1; 
       delete $3; 
     }
@@ -1682,7 +1706,7 @@ interface_type_specifier_inner_short
 interface_type_specifier_inner_full
   : object_type_specifier_top_level_full '.' TINTERFACEIDENTIFIER 
     { 
-      $$ = new InterfaceTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3);
+      $$ = new InterfaceTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3, yylineno);
       delete $1; 
       delete $3; 
     }
@@ -1705,12 +1729,12 @@ node_type_specifier_top_level
 
 node_type_specifier_short
   : TNODEIDENTIFIER
-    { $$ = new NodeTypeSpecifier(NULL, *$1); delete $1; }
+    { $$ = new NodeTypeSpecifier(NULL, *$1, yylineno); delete $1; }
   ;  
 
 node_type_specifier_top_level_full
   : postfix_expression '.' TNODEIDENTIFIER 
-    { $$ = new NodeTypeSpecifierFull($1, *$3); delete $3; }
+    { $$ = new NodeTypeSpecifierFull($1, *$3, yylineno); delete $3; }
   ;
 
 node_type_specifier_inner
@@ -1721,7 +1745,7 @@ node_type_specifier_inner
 node_type_specifier_inner_short
   : object_type_specifier_short '.' TNODEIDENTIFIER 
     { 
-      $$ = new NodeTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3);
+      $$ = new NodeTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3, yylineno);
       delete $1; 
       delete $3; 
     }
@@ -1730,7 +1754,7 @@ node_type_specifier_inner_short
 node_type_specifier_inner_full
   : object_type_specifier_top_level_full '.' TNODEIDENTIFIER 
     { 
-      $$ = new NodeTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3);
+      $$ = new NodeTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3, yylineno);
       delete $1; 
       delete $3; 
     }
@@ -1753,12 +1777,12 @@ thread_type_specifier_top_level
 
 thread_type_specifier_short
   : TTHREADIDENTIFIER
-    { $$ = new ThreadTypeSpecifier(NULL, *$1); delete $1; }
+    { $$ = new ThreadTypeSpecifier(NULL, *$1, yylineno); delete $1; }
   ;
 
 thread_type_specifier_top_level_full
   : postfix_expression '.' TTHREADIDENTIFIER 
-    { $$ = new ThreadTypeSpecifierFull($1, *$3); delete $3; }
+    { $$ = new ThreadTypeSpecifierFull($1, *$3, yylineno); delete $3; }
   ;
 
 thread_type_specifier_inner
@@ -1769,7 +1793,7 @@ thread_type_specifier_inner
 thread_type_specifier_inner_short
   : object_type_specifier_short '.' TTHREADIDENTIFIER 
     { 
-      $$ = new ThreadTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3);
+      $$ = new ThreadTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3, yylineno);
       delete $1; 
       delete $3; 
     }
@@ -1778,7 +1802,7 @@ thread_type_specifier_inner_short
 thread_type_specifier_inner_full
   : object_type_specifier_top_level_full '.' TTHREADIDENTIFIER 
     { 
-      $$ = new ThreadTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3);
+      $$ = new ThreadTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3, yylineno);
       delete $1; 
       delete $3; 
     }

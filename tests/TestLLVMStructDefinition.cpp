@@ -40,7 +40,7 @@ struct LLVMStructDefinitionTest : public Test {
     vector<const ITypeSpecifier*> typeSpecifiers;
     typeSpecifiers.push_back(LLVMPrimitiveTypes::I8->newTypeSpecifier());
     typeSpecifiers.push_back(LLVMPrimitiveTypes::I64->newTypeSpecifier());
-    mLLVMStructDefinition = new LLVMStructDefinition("mystruct", typeSpecifiers);
+    mLLVMStructDefinition = new LLVMStructDefinition("mystruct", typeSpecifiers, 0);
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
@@ -57,7 +57,7 @@ struct LLVMStructDefinitionTest : public Test {
 TEST_F(LLVMStructDefinitionTest, prototypeObjectTest) {
   mLLVMStructDefinition->prototypeObject(mContext);
   
-  LLVMStructType* llvmStructType = mContext.getLLVMStructType("mystruct");
+  LLVMStructType* llvmStructType = mContext.getLLVMStructType("mystruct", 0);
   
   ASSERT_NE(nullptr, llvmStructType);
   EXPECT_FALSE(llvmStructType->isExternal());
@@ -70,7 +70,7 @@ TEST_F(LLVMStructDefinitionTest, prototypeMethodsTest) {
   mLLVMStructDefinition->prototypeObject(mContext);
   mLLVMStructDefinition->prototypeMethods(mContext);
 
-  LLVMStructType* llvmStructType = mContext.getLLVMStructType("mystruct");
+  LLVMStructType* llvmStructType = mContext.getLLVMStructType("mystruct", 0);
   
   ASSERT_NE(nullptr, llvmStructType);
   EXPECT_FALSE(llvmStructType->isExternal());

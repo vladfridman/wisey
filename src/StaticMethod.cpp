@@ -77,7 +77,7 @@ string StaticMethod::getTypeName() const {
 }
 
 FunctionType* StaticMethod::getLLVMType(IRGenerationContext& context) const {
-  return IMethodDescriptor::getLLVMFunctionType(context, this, mObjectType);
+  return IMethodDescriptor::getLLVMFunctionType(context, this, mObjectType, mLine);
 }
 
 bool StaticMethod::canCastTo(IRGenerationContext& context, const IType* toType) const {
@@ -191,12 +191,14 @@ void StaticMethod::createArguments(IRGenerationContext& context, Function* funct
   llvmFunctionArguments = function->arg_begin();
   IMethod::storeSystemArgumentValue(context,
                                     ThreadExpression::THREAD,
-                                    context.getInterface(Names::getThreadInterfaceFullName()),
+                                    context.getInterface(Names::getThreadInterfaceFullName(),
+                                                         mLine),
                                     &*llvmFunctionArguments);
   llvmFunctionArguments++;
   IMethod::storeSystemArgumentValue(context,
                                     ThreadExpression::CALL_STACK,
-                                    context.getController(Names::getCallStackControllerFullName()),
+                                    context.getController(Names::getCallStackControllerFullName(),
+                                                          mLine),
                                     &*llvmFunctionArguments);
   llvmFunctionArguments++;
   for (MethodArgument* methodArgument : mArguments) {

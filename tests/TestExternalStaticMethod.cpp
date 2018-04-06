@@ -65,7 +65,8 @@ public:
                                              "mymethod",
                                              PrimitiveTypes::BOOLEAN_TYPE,
                                              arguments,
-                                             thrownExceptions);
+                                             thrownExceptions,
+                                             0);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -102,12 +103,14 @@ TEST_F(ExternalStaticMethodTest, getLLVMTypeTest) {
                                     "foo",
                                     PrimitiveTypes::FLOAT_TYPE,
                                     arguments,
-                                    thrownExceptions);
+                                    thrownExceptions,
+                                    0);
 
   vector<Type*> argumentTypes;
-  Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName());
+  Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
   argumentTypes.push_back(threadInterface->getLLVMType(mContext));
-  Controller* callStackController = mContext.getController(Names::getCallStackControllerFullName());
+  Controller* callStackController = mContext.getController(Names::getCallStackControllerFullName(),
+                                                           0);
   argumentTypes.push_back(callStackController->getLLVMType(mContext));
   argumentTypes.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mContext));
   Type* llvmReturnType = PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext);
@@ -127,7 +130,8 @@ TEST_F(ExternalStaticMethodTest, definePublicFunctionTest) {
                                     "foo",
                                     PrimitiveTypes::FLOAT_TYPE,
                                     arguments,
-                                    thrownExceptions);
+                                    thrownExceptions,
+                                    0);
   Function* function = staticMethod.defineFunction(mContext);
   
   *mStringStream << *function;

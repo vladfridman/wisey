@@ -53,7 +53,7 @@ bool LocalOwnerVariable::isSystem() const {
 
 Value* LocalOwnerVariable::generateIdentifierIR(IRGenerationContext& context) const {
   if (!mIsInitialized) {
-    Log::e("Variable '" + mName + "' is used before it is initialized");
+    Log::e_deprecated("Variable '" + mName + "' is used before it is initialized");
     exit(1);
   }
   
@@ -74,7 +74,7 @@ Value* LocalOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
   const IType* assignToType = assignToExpression->getType(context);
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType, line);
   
-  free(context);
+  free(context, line);
   
   IRWriter::newStoreInst(context, newValue, mValueStore);
   
@@ -92,8 +92,8 @@ void LocalOwnerVariable::setToNull(IRGenerationContext& context) {
   mIsInitialized = true;
 }
 
-void LocalOwnerVariable::free(IRGenerationContext& context) const {
+void LocalOwnerVariable::free(IRGenerationContext& context, int line) const {
   Value* valueLoaded = IRWriter::newLoadInst(context, mValueStore, "");
-  mType->free(context, valueLoaded);
+  mType->free(context, valueLoaded, line);
 }
 

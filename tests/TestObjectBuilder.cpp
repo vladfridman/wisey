@@ -56,7 +56,7 @@ struct ObjectBuilderTest : Test {
     mImportProfile = new ImportProfile(mPackage);
     mContext.setImportProfile(mImportProfile);
 
-    mModelTypeSpecifier = new ModelTypeSpecifier(NULL, "MShape");
+    mModelTypeSpecifier = new ModelTypeSpecifier(NULL, "MShape", 0);
     vector<Type*> types;
     types.push_back(FunctionType::get(Type::getInt32Ty(llvmContext), true)
                     ->getPointerTo()->getPointerTo());

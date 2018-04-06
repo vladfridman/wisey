@@ -34,7 +34,7 @@ Value* BooleanNotExpression::generateIR(IRGenerationContext& context,
                                         const IType* assignToType) const {
   const IType* expressionType = mExpression->getType(context);
   if (expressionType != PrimitiveTypes::BOOLEAN_TYPE) {
-    Log::e("Boolean NOT operator '!' can only be applied to boolean types");
+    Log::e_deprecated("Boolean NOT operator '!' can only be applied to boolean types");
     exit(1);
   }
   

@@ -28,13 +28,15 @@ namespace wisey {
     std::string mName;
     VariableList mArguments;
     std::vector<IModelTypeSpecifier*> mThrownExceptions;
+    int mLine;
     
   public:
     
     ExternalStaticMethodDefinition(const ITypeSpecifier* returnTypeSpecifier,
-                                    std::string name,
-                                    const VariableList& arguments,
-                                    std::vector<IModelTypeSpecifier*> thrownExceptions);
+                                   std::string name,
+                                   const VariableList& arguments,
+                                   std::vector<IModelTypeSpecifier*> thrownExceptions,
+                                   int line);
     
     ~ExternalStaticMethodDefinition();
     

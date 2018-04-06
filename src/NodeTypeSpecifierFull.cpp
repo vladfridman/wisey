@@ -12,9 +12,12 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-NodeTypeSpecifierFull::NodeTypeSpecifierFull(IExpression* packageExpression, string shortName) :
+NodeTypeSpecifierFull::NodeTypeSpecifierFull(IExpression* packageExpression,
+                                             string shortName,
+                                             int line) :
 mPackageExpression(packageExpression),
-mShortName(shortName) { }
+mShortName(shortName),
+mLine(line) { }
 
 NodeTypeSpecifierFull::~NodeTypeSpecifierFull() {
   if (mPackageExpression) {
@@ -37,7 +40,7 @@ string NodeTypeSpecifierFull::getName(IRGenerationContext& context) const {
 }
 
 Node* NodeTypeSpecifierFull::getType(IRGenerationContext& context) const {
-  return context.getNode(getName(context));
+  return context.getNode(getName(context), mLine);
 }
 
 void NodeTypeSpecifierFull::printToStream(IRGenerationContext& context, iostream& stream) const {

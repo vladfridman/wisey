@@ -212,8 +212,8 @@ TEST_F(ScopesTest, freeOwnedMemoryTest) {
   mScopes.pushScope();
   mScopes.setVariable(&bar);
   
-  EXPECT_CALL(foo, free(_));
-  EXPECT_CALL(bar, free(_));
+  EXPECT_CALL(foo, free(_, _));
+  EXPECT_CALL(bar, free(_, _));
   
   mScopes.freeOwnedMemory(mContext, 0);
 }

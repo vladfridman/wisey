@@ -10,6 +10,9 @@
 #define ImportProfile_h
 
 #include <map>
+#include <string>
+
+#include <llvm/IR/Value.h>
 
 namespace wisey {
   
@@ -45,6 +48,11 @@ namespace wisey {
      * Sets the current source file being processed
      */
     void setSourceFileName(IRGenerationContext& context, std::string sourceFileName);
+    
+    /**
+     * Returns current source file name
+     */
+    std::string getSourceFileName() const;
     
     /**
      * Returns the current source file being processed

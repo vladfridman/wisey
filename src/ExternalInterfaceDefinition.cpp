@@ -24,11 +24,13 @@ ExternalInterfaceDefinition::ExternalInterfaceDefinition(InterfaceTypeSpecifierF
                                                          vector<IObjectElementDefinition *>
                                                          elementDeclarations,
                                                          vector<IObjectDefinition*>
-                                                         innerObjectDefinitions) :
+                                                         innerObjectDefinitions,
+                                                         int line) :
 mInterfaceTypeSpecifierFull(interfaceTypeSpecifierFull),
 mParentInterfaceSpecifiers(parentInterfaceSpecifiers),
 mElementDeclarations(elementDeclarations),
-mInnerObjectDefinitions(innerObjectDefinitions) { }
+mInnerObjectDefinitions(innerObjectDefinitions),
+mLine(line) { }
 
 ExternalInterfaceDefinition::~ExternalInterfaceDefinition() {
   delete mInterfaceTypeSpecifierFull;
@@ -67,7 +69,7 @@ Interface* ExternalInterfaceDefinition::prototypeObject(IRGenerationContext& con
 
 void ExternalInterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mInterfaceTypeSpecifierFull);
-  Interface* interface = context.getInterface(fullName);
+  Interface* interface = context.getInterface(fullName, mLine);
 
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(interface);

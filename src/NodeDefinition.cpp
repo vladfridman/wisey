@@ -17,12 +17,14 @@ NodeDefinition::NodeDefinition(AccessLevel accessLevel,
                                NodeTypeSpecifierFull* nodeTypeSpecifierFull,
                                vector<IObjectElementDefinition*> objectElementDeclarations,
                                vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
-                               vector<IObjectDefinition*> innerObjectDefinitions) :
+                               vector<IObjectDefinition*> innerObjectDefinitions,
+                               int line) :
 mAccessLevel(accessLevel),
 mNodeTypeSpecifierFull(nodeTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers),
-mInnerObjectDefinitions(innerObjectDefinitions) { }
+mInnerObjectDefinitions(innerObjectDefinitions),
+mLine(line) { }
 
 NodeDefinition::~NodeDefinition() {
   delete mNodeTypeSpecifierFull;
@@ -58,7 +60,7 @@ Node* NodeDefinition::prototypeObject(IRGenerationContext& context) const {
 
 void NodeDefinition::prototypeMethods(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mNodeTypeSpecifierFull);
-  Node* node = context.getNode(fullName);
+  Node* node = context.getNode(fullName, mLine);
 
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(node);
@@ -69,7 +71,7 @@ void NodeDefinition::prototypeMethods(IRGenerationContext& context) const {
 
 Value* NodeDefinition::generateIR(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mNodeTypeSpecifierFull);
-  Node* node = context.getNode(fullName);
+  Node* node = context.getNode(fullName, mLine);
   
   context.getScopes().pushScope();
   const IObjectType* lastObjectType = context.getObjectType();

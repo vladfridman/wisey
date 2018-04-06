@@ -57,10 +57,11 @@ struct ExternalControllerDefinitionTest : public Test {
     methodArguments.push_back(intArgument);
     vector<IModelTypeSpecifier*> thrownExceptions;
     methodDeclaration = new ExternalMethodDefinition(floatTypeSpecifier,
-                                                      "foo",
-                                                      methodArguments,
-                                                      thrownExceptions);
-    
+                                                     "foo",
+                                                     methodArguments,
+                                                     thrownExceptions,
+                                                     0);
+
     const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
     const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
     InjectionArgumentList arguments;
@@ -79,18 +80,21 @@ TEST_F(ExternalControllerDefinitionTest, prototypeObjectTest) {
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(packageExpression,
-                                                                               "CMyController");
+                                                                               "CMyController",
+                                                                               0);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ExternalControllerDefinition controllerDefinition(typeSpecifier,
                                                     mElementDeclarations,
                                                     mInterfaces,
-                                                    innerObjectDefinitions);
+                                                    innerObjectDefinitions,
+                                                    0);
 
   controllerDefinition.prototypeObject(mContext);
   
-  ASSERT_NE(mContext.getController("systems.vos.wisey.compiler.tests.CMyController"), nullptr);
+  ASSERT_NE(mContext.getController("systems.vos.wisey.compiler.tests.CMyController", 0), nullptr);
   
-  Controller* controller = mContext.getController("systems.vos.wisey.compiler.tests.CMyController");
+  Controller* controller =
+  mContext.getController("systems.vos.wisey.compiler.tests.CMyController", 0);
   
   EXPECT_STREQ(controller->getShortName().c_str(), "CMyController");
   EXPECT_STREQ(controller->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.CMyController");
@@ -101,17 +105,20 @@ TEST_F(ExternalControllerDefinitionTest, prototypeMethodsTest) {
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(packageExpression,
-                                                                               "CMyController");
+                                                                               "CMyController",
+                                                                               0);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ExternalControllerDefinition controllerDefinition(typeSpecifier,
                                                     mElementDeclarations,
                                                     mInterfaces,
-                                                    innerObjectDefinitions);
+                                                    innerObjectDefinitions,
+                                                    0);
 
   controllerDefinition.prototypeObject(mContext);
   controllerDefinition.prototypeMethods(mContext);
   
-  Controller* controller = mContext.getController("systems.vos.wisey.compiler.tests.CMyController");
+  Controller* controller =
+  mContext.getController("systems.vos.wisey.compiler.tests.CMyController", 0);
   EXPECT_NE(controller->findMethod("foo"), nullptr);
 }
 

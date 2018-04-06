@@ -137,7 +137,7 @@ void LLVMFunction::maybeAddImpliedVoidReturn(IRGenerationContext& context, int l
   }
   
   if (mReturnType != LLVMPrimitiveTypes::VOID) {
-    Log::e("LLVM function " + mName +
+    Log::e_deprecated("LLVM function " + mName +
            " must return a value of type " + mReturnType->getTypeName());
     exit(1);
   }
@@ -147,7 +147,7 @@ void LLVMFunction::maybeAddImpliedVoidReturn(IRGenerationContext& context, int l
 }
 
 void LLVMFunction::createSystemVariables(IRGenerationContext& context, Function* function) const {
-  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName());
+  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), mLine);
   Value* thredStore = IRWriter::newAllocaInst(context,
                                               threadInterface->getLLVMType(context),
                                               "thread");
@@ -155,7 +155,8 @@ void LLVMFunction::createSystemVariables(IRGenerationContext& context, Function*
   new LocalSystemReferenceVariable(ThreadExpression::THREAD, threadInterface, thredStore);
   context.getScopes().setVariable(threadVariable);
   
-  Controller* callStackController = context.getController(Names::getCallStackControllerFullName());
+  Controller* callStackController = context.getController(Names::getCallStackControllerFullName(),
+                                                          mLine);
   llvm::PointerType* callStackLLVMType =
   (llvm::PointerType*) callStackController->getLLVMType(context);
   Value* callStackStore = IRWriter::newAllocaInst(context, callStackLLVMType, "callstack");

@@ -113,7 +113,7 @@ void Scope::freeOwnedMemory(IRGenerationContext& context, int line) {
     Composer::pushCallStack(context, line);
   }
   for (IOwnerVariable* ownerVariable : mOwnerVariables) {
-    ownerVariable->free(context);
+    ownerVariable->free(context, line);
   }
   if (line && mOwnerVariables.size()) {
     Composer::popCallStack(context);

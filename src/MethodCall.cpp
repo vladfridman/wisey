@@ -62,7 +62,7 @@ Value* MethodCall::generateIR(IRGenerationContext& context, const IType* assignT
   }
   
   string npeFullName = Names::getLangPackageName() + "." + Names::getNPEModelName();
-  context.getScopes().getScope()->addException(context.getModel(npeFullName));
+  context.getScopes().getScope()->addException(context.getModel(npeFullName, mLine));
   
   if (IType::isConcreteObjectType(objectWithMethodsType)) {
     return generateObjectMethodCallIR(context,
@@ -76,7 +76,7 @@ Value* MethodCall::generateIR(IRGenerationContext& context, const IType* assignT
                                          methodDescriptor,
                                          assignToType);
   }
-  Log::e("Method call " + methodDescriptor->getTypeName() + " on an unknown object type '" +
+  Log::e_deprecated("Method call " + methodDescriptor->getTypeName() + " on an unknown object type '" +
          objectWithMethodsType->getTypeName() + "'");
   exit(1);
 }
@@ -92,7 +92,7 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
   Composer::popCallStack(context);
 
   FunctionType* functionType =
-    IMethod::getLLVMFunctionType(context, methodDescriptor, interface);
+    IMethod::getLLVMFunctionType(context, methodDescriptor, interface, mLine);
   Type* pointerToVTablePointer = functionType->getPointerTo()->getPointerTo()->getPointerTo();
   BitCastInst* vTablePointer =
   IRWriter::newBitCastInst(context, objectValue, pointerToVTablePointer);
@@ -220,7 +220,7 @@ const IType* MethodCall::getType(IRGenerationContext& context) const {
 const IMethodDescriptor* MethodCall::getMethodDescriptor(IRGenerationContext& context) const {
   const IType* expressionType = mExpression->getType(context);
   if (!expressionType->isFunction()) {
-    Log::e("Can not call a method on expression of type " + expressionType->getTypeName());
+    Log::e_deprecated("Can not call a method on expression of type " + expressionType->getTypeName());
     exit(1);
   }
   return (const IMethodDescriptor*) expressionType;
@@ -233,7 +233,7 @@ void MethodCall::checkArgumentType(const IObjectType* objectWithMethods,
   ExpressionList::const_iterator callArgumentsIterator = mArguments.begin();
   
   if (mArguments.size() != methodDescriptor->getArguments().size()) {
-    Log::e("Number of arguments for method call '" + methodDescriptor->getName() +
+    Log::e_deprecated("Number of arguments for method call '" + methodDescriptor->getName() +
            "' of the object type '" + objectWithMethods->getTypeName() + "' is not correct");
     exit(1);
   }
@@ -243,7 +243,7 @@ void MethodCall::checkArgumentType(const IObjectType* objectWithMethods,
     const IType* callArgumentType = (*callArgumentsIterator)->getType(context);
     
     if (!callArgumentType->canAutoCastTo(context, methodArgumentType)) {
-      Log::e("Call argument types do not match for a call to method '" +
+      Log::e_deprecated("Call argument types do not match for a call to method '" +
              methodDescriptor->getName() +
              "' of the object type '" + objectWithMethods->getTypeName() + "'");
       exit(1);
@@ -287,7 +287,7 @@ Function* MethodCall::getMethodFunction(IRGenerationContext& context,
   
   Function *function = context.getModule()->getFunction(llvmFunctionName.c_str());
   if (function == NULL) {
-    Log::e("LLVM function implementing object '" + objectType->getTypeName() + "' method '" +
+    Log::e_deprecated("LLVM function implementing object '" + objectType->getTypeName() + "' method '" +
            methodName + "' was not found");
     exit(1);
   }

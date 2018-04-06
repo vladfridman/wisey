@@ -43,7 +43,8 @@ struct InterfaceTypeSpecifierTest : public ::testing::Test {
     IObjectElementDefinition* methodSignature = new MethodSignatureDeclaration(intSpecifier,
                                                                                 "foo",
                                                                                 methodArguments,
-                                                                                methodExceptions);
+                                                                                methodExceptions,
+                                                                               0);
     objectElements.push_back(methodSignature);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
@@ -57,7 +58,7 @@ struct InterfaceTypeSpecifierTest : public ::testing::Test {
 };
 
 TEST_F(InterfaceTypeSpecifierTest, interfaceTypeSpecifierCreateTest) {
-  InterfaceTypeSpecifier interfaceTypeSpecifier(NULL, "IShape");
+  InterfaceTypeSpecifier interfaceTypeSpecifier(NULL, "IShape", 0);
   
   EXPECT_EQ(interfaceTypeSpecifier.getType(mContext), mInterface);
 }
@@ -65,7 +66,7 @@ TEST_F(InterfaceTypeSpecifierTest, interfaceTypeSpecifierCreateTest) {
 TEST_F(InterfaceTypeSpecifierTest, interfaceTypeSpecifierCreateWithPackageTest) {
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  InterfaceTypeSpecifier interfaceTypeSpecifier(packageExpression, "IShape");
+  InterfaceTypeSpecifier interfaceTypeSpecifier(packageExpression, "IShape", 0);
   
   EXPECT_EQ(interfaceTypeSpecifier.getType(mContext), mInterface);
 }
@@ -73,7 +74,7 @@ TEST_F(InterfaceTypeSpecifierTest, interfaceTypeSpecifierCreateWithPackageTest) 
 TEST_F(InterfaceTypeSpecifierTest, printToStreamTest) {
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  InterfaceTypeSpecifier interfaceTypeSpecifier(packageExpression, "IShape");
+  InterfaceTypeSpecifier interfaceTypeSpecifier(packageExpression, "IShape", 0);
 
   stringstream stringStream;
   interfaceTypeSpecifier.printToStream(mContext, stringStream);
@@ -82,7 +83,7 @@ TEST_F(InterfaceTypeSpecifierTest, printToStreamTest) {
 }
 
 TEST_F(InterfaceTypeSpecifierTest, interfaceTypeSpecifierSamePackageDeathTest) {
-  InterfaceTypeSpecifier interfaceTypeSpecifier(NULL, "IObject");
+  InterfaceTypeSpecifier interfaceTypeSpecifier(NULL, "IObject", 0);
   
   EXPECT_EXIT(interfaceTypeSpecifier.getType(mContext),
               ::testing::ExitedWithCode(1),
@@ -92,7 +93,7 @@ TEST_F(InterfaceTypeSpecifierTest, interfaceTypeSpecifierSamePackageDeathTest) {
 TEST_F(InterfaceTypeSpecifierTest, interfaceTypeSpecifierNotDefinedDeathTest) {
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  InterfaceTypeSpecifier interfaceTypeSpecifier(packageExpression, "IObject");
+  InterfaceTypeSpecifier interfaceTypeSpecifier(packageExpression, "IObject", 0);
   
   EXPECT_EXIT(interfaceTypeSpecifier.getType(mContext),
               ::testing::ExitedWithCode(1),

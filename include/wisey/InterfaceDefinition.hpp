@@ -25,6 +25,7 @@ namespace wisey {
     std::vector<IInterfaceTypeSpecifier*> mParentInterfaceSpecifiers;
     std::vector<IObjectElementDefinition *> mElementDeclarations;
     std::vector<IObjectDefinition*> mInnerObjectDefinitions;
+    int mLine;
     
   public:
     
@@ -32,7 +33,8 @@ namespace wisey {
                         InterfaceTypeSpecifierFull* interfaceTypeSpecifierFull,
                         std::vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
                         std::vector<IObjectElementDefinition *> elementDeclarations,
-                        std::vector<IObjectDefinition*> innerObjectDefinitions);
+                        std::vector<IObjectDefinition*> innerObjectDefinitions,
+                        int line);
     
     ~InterfaceDefinition();
     

@@ -46,7 +46,8 @@ void Composer::pushCallStack(IRGenerationContext& context, int line) {
   
   vector<Value*> arguments;
 
-  Controller* callStackController = context.getController(Names::getCallStackControllerFullName());
+  Controller* callStackController = context.getController(Names::getCallStackControllerFullName(),
+                                                          line);
   arguments.clear();
   arguments.push_back(callStackObject);
   arguments.push_back(threadObject);
@@ -82,7 +83,8 @@ void Composer::popCallStack(IRGenerationContext& context) {
 
   vector<Value*> arguments;
 
-  Controller* callStackController = context.getController(Names::getCallStackControllerFullName());
+  Controller* callStackController = context.getController(Names::getCallStackControllerFullName(),
+                                                          0);
   arguments.clear();
   arguments.push_back(callStackObject);
   arguments.push_back(threadObject);

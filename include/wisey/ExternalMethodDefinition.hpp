@@ -28,14 +28,16 @@ namespace wisey {
     std::string mName;
     VariableList mArguments;
     std::vector<IModelTypeSpecifier*> mThrownExceptions;
+    int mLine;
     
   public:
     
     ExternalMethodDefinition(const ITypeSpecifier* returnTypeSpecifier,
-                              std::string name,
-                              const VariableList& arguments,
-                              std::vector<IModelTypeSpecifier*> thrownExceptions);
-    
+                             std::string name,
+                             const VariableList& arguments,
+                             std::vector<IModelTypeSpecifier*> thrownExceptions,
+                             int line);
+
     ~ExternalMethodDefinition();
     
     ExternalMethod* define(IRGenerationContext& context,

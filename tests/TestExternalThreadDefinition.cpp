@@ -57,9 +57,10 @@ struct ExternalThreadDefinitionTest : public Test {
     methodArguments.push_back(intArgument);
     vector<IModelTypeSpecifier*> thrownExceptions;
     methodDeclaration = new ExternalMethodDefinition(floatTypeSpecifier,
-                                                      "foo",
-                                                      methodArguments,
-                                                      thrownExceptions);
+                                                     "foo",
+                                                     methodArguments,
+                                                     thrownExceptions,
+                                                     0);
     
     const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
     const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
@@ -78,19 +79,20 @@ struct ExternalThreadDefinitionTest : public Test {
 TEST_F(ExternalThreadDefinitionTest, prototypeObjectTest) {
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ThreadTypeSpecifierFull* typeSpecifier = new ThreadTypeSpecifierFull(packageExpression,
-                                                                       "TWorker");
+  ThreadTypeSpecifierFull* typeSpecifier =
+  new ThreadTypeSpecifierFull(packageExpression, "TWorker", 0);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ExternalThreadDefinition threadDefinition(typeSpecifier,
                                             mElementDeclarations,
                                             mInterfaces,
-                                            innerObjectDefinitions);
+                                            innerObjectDefinitions,
+                                            0);
   
   threadDefinition.prototypeObject(mContext);
   
-  ASSERT_NE(mContext.getThread("systems.vos.wisey.compiler.tests.TWorker"), nullptr);
+  ASSERT_NE(mContext.getThread("systems.vos.wisey.compiler.tests.TWorker", 0), nullptr);
   
-  Thread* thread = mContext.getThread("systems.vos.wisey.compiler.tests.TWorker");
+  Thread* thread = mContext.getThread("systems.vos.wisey.compiler.tests.TWorker", 0);
   
   EXPECT_STREQ(thread->getShortName().c_str(), "TWorker");
   EXPECT_STREQ(thread->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.TWorker");
@@ -100,18 +102,19 @@ TEST_F(ExternalThreadDefinitionTest, prototypeObjectTest) {
 TEST_F(ExternalThreadDefinitionTest, prototypeMethodsTest) {
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ThreadTypeSpecifierFull* typeSpecifier = new ThreadTypeSpecifierFull(packageExpression,
-                                                                       "TWorker");
+  ThreadTypeSpecifierFull* typeSpecifier =
+  new ThreadTypeSpecifierFull(packageExpression, "TWorker", 0);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ExternalThreadDefinition threadDefinition(typeSpecifier,
                                             mElementDeclarations,
                                             mInterfaces,
-                                            innerObjectDefinitions);
+                                            innerObjectDefinitions,
+                                            0);
   
   threadDefinition.prototypeObject(mContext);
   threadDefinition.prototypeMethods(mContext);
   
-  Thread* thread = mContext.getThread("systems.vos.wisey.compiler.tests.TWorker");
+  Thread* thread = mContext.getThread("systems.vos.wisey.compiler.tests.TWorker", 0);
   EXPECT_NE(thread->findMethod("foo"), nullptr);
 }
 

@@ -30,10 +30,10 @@ namespace wisey {
   public:
     
     ConstantDefinition(const AccessLevel accessLevel,
-                        const ITypeSpecifier* typeSpecifier,
-                        std::string name,
-                        IExpression* expression);
-    
+                       const ITypeSpecifier* typeSpecifier,
+                       std::string name,
+                       IExpression* expression);
+
     ~ConstantDefinition();
     
     Constant* define(IRGenerationContext& context, const IObjectType* objectType) const override;

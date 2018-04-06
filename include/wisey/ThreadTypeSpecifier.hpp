@@ -21,10 +21,11 @@ namespace wisey {
   class ThreadTypeSpecifier : public IThreadTypeSpecifier {
     IExpression* mPackageExpression;
     const std::string mShortName;
+    int mLine;
     
   public:
     
-    ThreadTypeSpecifier(IExpression* packageExpression, std::string shortName);
+    ThreadTypeSpecifier(IExpression* packageExpression, std::string shortName, int line);
     
     ~ThreadTypeSpecifier();
     
