@@ -13,6 +13,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "TestPrefix.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/ProgramPrefix.hpp"
@@ -36,6 +37,7 @@ public:
   IntrinsicFunctionsTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mModule(mContext.getModule()) {
+    TestPrefix::generateIR(mContext);
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
                                           GlobalValue::InternalLinkage,

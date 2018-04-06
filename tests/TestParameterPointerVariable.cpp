@@ -16,6 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
@@ -45,6 +46,7 @@ struct ParameterPointerVariableTest : public Test {
 public:
   
   ParameterPointerVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     

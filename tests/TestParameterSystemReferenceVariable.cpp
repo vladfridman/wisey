@@ -16,6 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -44,6 +45,7 @@ struct ParameterSystemReferenceVariableTest : public Test {
 public:
   
   ParameterSystemReferenceVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     

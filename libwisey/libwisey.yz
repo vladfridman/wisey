@@ -251,6 +251,34 @@ external ::llvm::struct __darwin_pthread_handler_rec {
   ::llvm::struct::__darwin_pthread_handler_rec::pointer,
 }
 
+external ::llvm::struct __sFILE {
+  ::llvm::i8::pointer,
+  ::llvm::i32,
+  ::llvm::i32,
+  ::llvm::i16,
+  ::llvm::i16,
+  ::llvm::struct::__sbuf,
+  ::llvm::i32,
+  ::llvm::i8::pointer,
+  ::llvm::i32 (::llvm::i8::pointer)::pointer,
+  ::llvm::i32 (::llvm::i8::pointer, ::llvm::i8::pointer, ::llvm::i32)::pointer,
+  ::llvm::i64 (::llvm::i8::pointer, ::llvm::i64, ::llvm::i32)::pointer,
+  ::llvm::i32 (::llvm::i8::pointer, ::llvm::i8::pointer, ::llvm::i32)::pointer,
+  ::llvm::struct::__sbuf,
+  ::llvm::i8::pointer,
+  ::llvm::i32,
+  ::llvm::array(::llvm::i8, 3),
+  ::llvm::array(::llvm::i8, 1),
+  ::llvm::struct::__sbuf,
+  ::llvm::i32,
+  ::llvm::i64,
+}
+
+external ::llvm::struct __sbuf {
+  ::llvm::i8::pointer,
+  ::llvm::i32,
+}
+
 external ::llvm::struct _opaque_pthread_attr_t {
   ::llvm::i64,
   ::llvm::array(::llvm::i8, 56),

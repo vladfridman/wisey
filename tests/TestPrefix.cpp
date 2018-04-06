@@ -24,6 +24,8 @@ using namespace std;
 using namespace wisey;
 
 void TestPrefix::generateIR(IRGenerationContext& context) {
+  defineFileStruct(context);
+  
   vector<IObjectElementDefinition*> modelElements;
   defineModel(context, Names::getNPEModelName(), modelElements);
   const PrimitiveTypeSpecifier* longTypeSpecifier = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
@@ -47,6 +49,10 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   mainThreadDefinition->prototypeObject(context);
   callStackDefinition->prototypeMethods(context);
   mainThreadDefinition->prototypeMethods(context);
+}
+
+void TestPrefix::defineFileStruct(IRGenerationContext& context) {
+  StructType::create(context.getLLVMContext(), "__sFILE");
 }
 
 void TestPrefix::defineModel(IRGenerationContext& context,

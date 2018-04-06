@@ -45,9 +45,9 @@ struct ThreadOwnerTest : public Test {
   ImportProfile* mImportProfile;
   
   ThreadOwnerTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
-    TestPrefix::generateIR(mContext);
     
     mImportProfile = new ImportProfile(mPackage);
     mContext.setImportProfile(mImportProfile);

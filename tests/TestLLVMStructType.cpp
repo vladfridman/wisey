@@ -36,13 +36,18 @@ struct LLVMStructTypeTest : public Test {
   LLVMContext& mLLVMContext;
   StructType* mStructType;
   LLVMStructType* mLLVMStructType;
+  LLVMStructType* mAnotherLLVMStructType;
   BasicBlock* mBasicBlock;
   
   LLVMStructTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
+    StructType* anotherStructType = StructType::create(mLLVMContext, "anotherstruct");
+    mAnotherLLVMStructType = LLVMStructType::newLLVMStructType(anotherStructType);
+    
     mStructType = StructType::create(mLLVMContext, "mystruct");
     vector<const IType*> structBodyTypes;
     structBodyTypes.push_back(LLVMPrimitiveTypes::I8);
     structBodyTypes.push_back(LLVMPrimitiveTypes::I64);
+    structBodyTypes.push_back(mAnotherLLVMStructType);
     mLLVMStructType = LLVMStructType::newLLVMStructType(mStructType);
     mLLVMStructType->setBodyTypes(mContext, structBodyTypes);
     
@@ -119,6 +124,7 @@ TEST_F(LLVMStructTypeTest, printToStreamTest) {
   EXPECT_STREQ("external ::llvm::struct mystruct {\n"
                "  ::llvm::i8,\n"
                "  ::llvm::i64,\n"
+               "  ::llvm::struct::anotherstruct,\n"
                "}\n",
                stringStream.str().c_str());
 }

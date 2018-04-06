@@ -1,0 +1,31 @@
+/**
+ * Definitions of structs for working with standard streams
+ */
+
+::llvm::struct __sFILE {
+  ::llvm::i8::pointer,
+  ::llvm::i32,
+  ::llvm::i32,
+  ::llvm::i16,
+  ::llvm::i16,
+  ::llvm::struct::__sbuf,
+  ::llvm::i32,
+  ::llvm::i8::pointer,
+  ::llvm::i32 (::llvm::i8::pointer)::pointer,
+  ::llvm::i32 (::llvm::i8::pointer, ::llvm::i8::pointer, ::llvm::i32)::pointer,
+  ::llvm::i64 (::llvm::i8::pointer, ::llvm::i64, ::llvm::i32)::pointer,
+  ::llvm::i32 (::llvm::i8::pointer, ::llvm::i8::pointer, ::llvm::i32)::pointer,
+  ::llvm::struct::__sbuf,
+  ::llvm::i8::pointer,
+  ::llvm::i32,
+  ::llvm::array(::llvm::i8, 3),
+  ::llvm::array(::llvm::i8, 1),
+  ::llvm::struct::__sbuf,
+  ::llvm::i32,
+  ::llvm::i64,
+}
+
+::llvm::struct __sbuf {
+  ::llvm::i8::pointer,  
+  ::llvm::i32,
+}

@@ -51,9 +51,9 @@ struct ComposerTest : public Test {
 public:
   
   ComposerTest() : mLLVMContext(mContext.getLLVMContext()), mMethodName("foo") {
+    TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
-    TestPrefix::generateIR(mContext);
     
     mImportProfile = new ImportProfile(mPackage);
     mContext.setImportProfile(mImportProfile);

@@ -37,9 +37,9 @@ struct DecrementReferencesInArrayFunctionTest : Test {
   DecrementReferencesInArrayFunctionTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mInt8Pointer(Type::getInt8Ty(mLLVMContext)->getPointerTo()) {
+    TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
-    TestPrefix::generateIR(mContext);
     
     vector<Type*> decrementorArgumentTypes;
     decrementorArgumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());

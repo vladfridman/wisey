@@ -33,9 +33,9 @@ struct CheckArrayIndexFunctionTest : Test {
   raw_string_ostream* mStringStream;
   
   CheckArrayIndexFunctionTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
-    TestPrefix::generateIR(mContext);
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);

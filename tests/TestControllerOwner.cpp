@@ -50,9 +50,9 @@ struct ControllerOwnerTest : public Test {
   ImportProfile* mImportProfile;
   
   ControllerOwnerTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
-    TestPrefix::generateIR(mContext);
     
     mImportProfile = new ImportProfile(mPackage);
     mContext.setImportProfile(mImportProfile);

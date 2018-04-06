@@ -132,9 +132,7 @@ bool LLVMStructType::isPointer() const {
 void LLVMStructType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << "external ::llvm::struct " << mStructType->getName().str() << " {\n";
   for (const IType* llvmType : mBodyTypes) {
-    stream << "  ";
-    llvmType->printToStream(context, stream);
-    stream << ",\n";
+    stream << "  " << llvmType->getTypeName() << ",\n";
   }
   stream << "}\n";
 }

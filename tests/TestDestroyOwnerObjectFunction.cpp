@@ -35,9 +35,9 @@ struct DestroyOwnerObjectFunctionTest : Test {
   
   DestroyOwnerObjectFunctionTest() :
   mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
-    TestPrefix::generateIR(mContext);
     
     vector<Type*> destructorArgumentTypes;
     destructorArgumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());

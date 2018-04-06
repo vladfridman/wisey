@@ -34,6 +34,8 @@ public:
   
 private:
   
+  static void defineFileStruct(wisey::IRGenerationContext& context);
+  
   static void defineModel(wisey::IRGenerationContext& context,
                           std::string modelName,
                           std::vector<wisey::IObjectElementDefinition*> modelElements);
