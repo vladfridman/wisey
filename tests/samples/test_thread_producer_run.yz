@@ -6,14 +6,6 @@ import wisey.lang.IProducerThread;
 import wisey.lang.IThread;
 import wisey.lang.TDefaultProducer;
 
-model MProducerResult {
-  int mResult;
-
-  public int getResult() {
-    return mResult;
-  }
-}
-
 thread TProducer implements IProducerThread {
   inject TDefaultProducer* mDefaultProducer;
   receive int mSize;
@@ -64,6 +56,14 @@ thread TProducer implements IProducerThread {
   public CCallStack getCallStack() {
     return mDefaultProducer.getCallStack();
   }
+
+  public model MProducerResult {
+    int mResult;
+
+    public int getResult() {
+      return mResult;
+    }
+  }
 }
 
 controller CProgram implements IProgram {
@@ -77,7 +77,7 @@ controller CProgram implements IProgram {
     printout("Thread started = " + mProducer.hasStarted() + ", has result = " + mProducer.hasResult() + "\n");
     IThread.sleep(2);
     while (mProducer.hasResult()) {
-      int result = ((MProducerResult) mProducer.consume()).getResult();
+      int result = ((TProducer.MProducerResult) mProducer.consume()).getResult();
       printout("Producer thread finished with result: " + result + "\n");
       printout("Thread started = " + mProducer.hasStarted() + ", has result = " + mProducer.hasResult() + "\n");
       IThread.sleep(1);
