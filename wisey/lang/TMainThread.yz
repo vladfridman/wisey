@@ -1,11 +1,7 @@
 package wisey.lang;
 
-import wisey.lang.CCallStack;
-import wisey.lang.CProgramRunner;
-import wisey.lang.CWorkerThreadRunner;
-import wisey.lang.IProgram;
-import wisey.lang.IWorkerThread;
-import wisey.lang.MProgramResult;
+import wisey.lang.threads.IWorkerThread;
+import wisey.lang.threads.TDefaultWorker;
 
 /**
  * Represents main thread where the program runs
@@ -13,8 +9,6 @@ import wisey.lang.MProgramResult;
 thread TMainThread implements IWorkerThread {
   inject TDefaultWorker* mDefaultWorker;
   inject CProgramRunner* mProgramRunner;
-
-  state MProgramResult* mProgramResult;
 
   public void work() {
     MProgramResult* programResult = mProgramRunner.run();

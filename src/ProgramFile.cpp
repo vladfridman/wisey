@@ -30,7 +30,8 @@ ProgramFile::~ProgramFile() {
 
 void ProgramFile::prototypeObjects(IRGenerationContext& context) const {
   context.setImportProfile(mImportProfile);
-  
+  mImportProfile->setSourceFileName(context, mSourceFile);
+
   for (IGlobalStatement* statement : mGlobalStatementList) {
     statement->prototypeObject(context);
     context.setObjectType(NULL);
@@ -39,7 +40,8 @@ void ProgramFile::prototypeObjects(IRGenerationContext& context) const {
 
 void ProgramFile::prototypeMethods(IRGenerationContext& context) const {
   context.setImportProfile(mImportProfile);
-  
+  mImportProfile->setSourceFileName(context, mSourceFile);
+
   for (IGlobalStatement* statement : mGlobalStatementList) {
     statement->prototypeMethods(context);
     context.setObjectType(NULL);

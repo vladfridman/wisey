@@ -118,6 +118,6 @@ TEST_F(ExternalThreadDefinitionTest, prototypeMethodsTest) {
   EXPECT_NE(thread->findMethod("foo"), nullptr);
 }
 
-TEST_F(TestFileRunner, ExternalThreadDefinitionsRunTest) {
+TEST_F(TestFileRunner, externalThreadDefinitionsRunTest) {
   compileFile("tests/samples/test_external_thread_definitions.yz");
 }

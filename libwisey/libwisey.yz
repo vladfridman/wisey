@@ -24,9 +24,14 @@ external interface wisey.lang.IException {
   string getName();
 }
 
-external interface wisey.lang.IProducerThread
+external interface wisey.lang.IProgram {
+
+  int run() throws wisey.lang.MReferenceCountException, wisey.lang.MNullPointerException;
+}
+
+external interface wisey.lang.threads.IProducerThread
   extends
-    wisey.lang.IThread {
+    wisey.lang.threads.IThread {
 
   void start();
   boolean hasStarted();
@@ -37,12 +42,7 @@ external interface wisey.lang.IProducerThread
   ::llvm::object* consume();
 }
 
-external interface wisey.lang.IProgram {
-
-  int run() throws wisey.lang.MReferenceCountException, wisey.lang.MNullPointerException;
-}
-
-external interface wisey.lang.IThread {
+external interface wisey.lang.threads.IThread {
 
   wisey.lang.CCallStack getCallStack();
   ::llvm::object* send(
@@ -51,9 +51,9 @@ external interface wisey.lang.IThread {
     int seconds);
 }
 
-external interface wisey.lang.IWorkerThread
+external interface wisey.lang.threads.IWorkerThread
   extends
-    wisey.lang.IThread {
+    wisey.lang.threads.IThread {
 
   void start();
   boolean hasStarted();
@@ -144,7 +144,14 @@ external controller wisey.lang.CCallStack {
     wisey.lang.IException exception);
 }
 
-external controller wisey.lang.CProducerThreadRunner {
+external controller wisey.lang.CProgramRunner {
+
+  inject wisey.lang.IProgram* mProgram;
+
+  wisey.lang.MProgramResult* run();
+}
+
+external controller wisey.lang.threads.CProducerThreadRunner {
 
   state ::llvm::struct::_opaque_pthread_t::pointer mMyNativeThread;
   state boolean mIsCanceled;
@@ -154,7 +161,7 @@ external controller wisey.lang.CProducerThreadRunner {
   state int mIndexEnd;
 
   void createThread(
-    wisey.lang.IProducerThread workerThread,
+    wisey.lang.threads.IProducerThread workerThread,
     int size);
   void joinThread();
   ::llvm::object* addResult(
@@ -168,21 +175,14 @@ external controller wisey.lang.CProducerThreadRunner {
   boolean wasCancelled();
 }
 
-external controller wisey.lang.CProgramRunner {
-
-  inject wisey.lang.IProgram* mProgram;
-
-  wisey.lang.MProgramResult* run();
-}
-
-external controller wisey.lang.CWorkerThreadRunner {
+external controller wisey.lang.threads.CWorkerThreadRunner {
 
   state ::llvm::struct::_opaque_pthread_t::pointer mMyNativeThread;
   state boolean mIsCanceled;
   state ::llvm::object* mResult;
 
   void createThread(
-    wisey.lang.IWorkerThread workerThread);
+    wisey.lang.threads.IWorkerThread workerThread);
   void joinThread();
   void exitThread();
   void cancelThread();
@@ -198,15 +198,34 @@ external controller wisey.lang.CWorkerThreadRunner {
 
 /* Threads */
 
-external thread wisey.lang.TDefaultProducer
+external thread wisey.lang.TMainThread
   implements
-    wisey.lang.IProducerThread {
+    wisey.lang.threads.IWorkerThread {
 
-  inject wisey.lang.CProducerThreadRunner* mProducerThreadRunner;
+  inject wisey.lang.threads.TDefaultWorker* mDefaultWorker;
+  inject wisey.lang.CProgramRunner* mProgramRunner;
+
+  void work();
+  void start();
+  boolean hasStarted();
+  boolean hasResult();
+  boolean wasCancelled();
+  ::llvm::object* awaitResult();
+  void cancel();
+  ::llvm::object* send(
+    ::llvm::object* message);
+  wisey.lang.CCallStack getCallStack();
+}
+
+external thread wisey.lang.threads.TDefaultProducer
+  implements
+    wisey.lang.threads.IProducerThread {
+
+  inject wisey.lang.threads.CProducerThreadRunner* mProducerThreadRunner;
   inject wisey.lang.CCallStack* mCallStack;
 
   void startProducer(
-    wisey.lang.IProducerThread producerThread,
+    wisey.lang.threads.IProducerThread producerThread,
     int size);
   void start();
   boolean hasStarted();
@@ -220,15 +239,15 @@ external thread wisey.lang.TDefaultProducer
   wisey.lang.CCallStack getCallStack();
 }
 
-external thread wisey.lang.TDefaultWorker
+external thread wisey.lang.threads.TDefaultWorker
   implements
-    wisey.lang.IWorkerThread {
+    wisey.lang.threads.IWorkerThread {
 
-  inject wisey.lang.CWorkerThreadRunner* mWorkerThreadRunner;
+  inject wisey.lang.threads.CWorkerThreadRunner* mWorkerThreadRunner;
   inject wisey.lang.CCallStack* mCallStack;
 
   void startWorker(
-    wisey.lang.IWorkerThread workerThread);
+    wisey.lang.threads.IWorkerThread workerThread);
   void start();
   boolean hasStarted();
   boolean hasResult();
@@ -236,26 +255,6 @@ external thread wisey.lang.TDefaultWorker
   ::llvm::object* awaitResult();
   void cancel();
   void work();
-  ::llvm::object* send(
-    ::llvm::object* message);
-  wisey.lang.CCallStack getCallStack();
-}
-
-external thread wisey.lang.TMainThread
-  implements
-    wisey.lang.IWorkerThread {
-
-  inject wisey.lang.TDefaultWorker* mDefaultWorker;
-  inject wisey.lang.CProgramRunner* mProgramRunner;
-  state wisey.lang.MProgramResult* mProgramResult;
-
-  void work();
-  void start();
-  boolean hasStarted();
-  boolean hasResult();
-  boolean wasCancelled();
-  ::llvm::object* awaitResult();
-  void cancel();
   ::llvm::object* send(
     ::llvm::object* message);
   wisey.lang.CCallStack getCallStack();

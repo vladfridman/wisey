@@ -1,8 +1,8 @@
 package systems.vos.wisey.compiler.tests;
 
-import wisey.lang.CCallStack;
 import wisey.lang.IProgram;
-import wisey.lang.IThread;
+import wisey.lang.CCallStack;
+import wisey.lang.threads.IThread;
 
 thread TThread implements IThread {
 

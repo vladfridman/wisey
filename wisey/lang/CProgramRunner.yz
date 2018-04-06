@@ -1,12 +1,5 @@
 package wisey.lang;
 
-import wisey.lang.IProgram;
-import wisey.lang.MArrayIndexOutOfBoundsException;
-import wisey.lang.MCastException;
-import wisey.lang.MNullPointerException;
-import wisey.lang.MReferenceCountException;
-import wisey.lang.MStackOverflowException;
-
 /**
  * Represents program result
  */

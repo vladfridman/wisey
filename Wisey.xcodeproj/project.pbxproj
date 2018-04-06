@@ -345,7 +345,7 @@
 		F53400F81DFC775A0002BF7E /* RelationalExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */; };
 		F53400F91DFC775A0002BF7E /* RelationalExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */; };
 		F53400FB1DFD999B0002BF7E /* TestRelationalExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53400FA1DFD999B0002BF7E /* TestRelationalExpression.cpp */; };
-		F53401061DFEDB620002BF7E /* TestFileSampleRunner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53401051DFEDB620002BF7E /* TestFileSampleRunner.cpp */; };
+		F53401061DFEDB620002BF7E /* TestFileRunner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53401051DFEDB620002BF7E /* TestFileRunner.cpp */; };
 		F53401091DFF09230002BF7E /* ConditionalExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53401081DFF09230002BF7E /* ConditionalExpression.cpp */; };
 		F534010A1DFF09230002BF7E /* ConditionalExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53401081DFF09230002BF7E /* ConditionalExpression.cpp */; };
 		F534010C1DFF09D30002BF7E /* TestConditionalExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */; };
@@ -1357,7 +1357,7 @@
 		F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RelationalExpression.cpp; path = src/RelationalExpression.cpp; sourceTree = "<group>"; };
 		F53400FA1DFD999B0002BF7E /* TestRelationalExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestRelationalExpression.cpp; path = tests/TestRelationalExpression.cpp; sourceTree = "<group>"; };
 		F53401041DFEDA3C0002BF7E /* TestFileRunner.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TestFileRunner.hpp; path = tests/include/TestFileRunner.hpp; sourceTree = "<group>"; };
-		F53401051DFEDB620002BF7E /* TestFileSampleRunner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestFileSampleRunner.cpp; path = tests/TestFileSampleRunner.cpp; sourceTree = "<group>"; };
+		F53401051DFEDB620002BF7E /* TestFileRunner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestFileRunner.cpp; path = tests/TestFileRunner.cpp; sourceTree = "<group>"; };
 		F53401081DFF09230002BF7E /* ConditionalExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConditionalExpression.cpp; path = src/ConditionalExpression.cpp; sourceTree = "<group>"; };
 		F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestConditionalExpression.cpp; path = tests/TestConditionalExpression.cpp; sourceTree = "<group>"; };
 		F53401101DFF333E0002BF7E /* MethodDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MethodDefinition.cpp; path = src/MethodDefinition.cpp; sourceTree = "<group>"; };
@@ -3419,7 +3419,7 @@
 		F5CB7FA22052800F007628B5 /* infrastructure */ = {
 			isa = PBXGroup;
 			children = (
-				F53401051DFEDB620002BF7E /* TestFileSampleRunner.cpp */,
+				F53401051DFEDB620002BF7E /* TestFileRunner.cpp */,
 				F55CF1871F850EEB00A11426 /* TestPrefix.cpp */,
 				F530B45E1DFA031A00477384 /* TestsRun.cpp */,
 			);
@@ -4145,7 +4145,7 @@
 				F52C66671FBF446400E89B04 /* AdjustReferenceCountFunction.cpp in Sources */,
 				F5C6FD791E48B59C0054209D /* TestDoubleType.cpp in Sources */,
 				F5D4660A2061330C00C1047A /* TestParameterPointerVariable.cpp in Sources */,
-				F53401061DFEDB620002BF7E /* TestFileSampleRunner.cpp in Sources */,
+				F53401061DFEDB620002BF7E /* TestFileRunner.cpp in Sources */,
 				F582707E20600ECD00839EC7 /* LLVMFunctionDeclaration.cpp in Sources */,
 				F5D465FE2061121000C1047A /* LLVMVariableDeclaration.cpp in Sources */,
 				F517019A200DCCAA00A10B7C /* DestroyReferenceArrayFunction.cpp in Sources */,

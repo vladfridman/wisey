@@ -1,34 +1,6 @@
-package wisey.lang;
+package wisey.lang.threads;
 
-import wisey.lang.IWorkerThread;
-
-::llvm::struct _opaque_pthread_t {
-  ::llvm::i64,
-  ::llvm::struct::__darwin_pthread_handler_rec::pointer,
-  ::llvm::array(::llvm::i8, 8176),
-}
-
-::llvm::struct __darwin_pthread_handler_rec {
-  ::llvm::void (::llvm::i8::pointer)::pointer, 
-  ::llvm::i8::pointer, 
-  ::llvm::struct::__darwin_pthread_handler_rec::pointer
-}
-
-::llvm::struct _opaque_pthread_attr_t {
-  ::llvm::i64,
-  ::llvm::array(::llvm::i8, 56),
-}
-
-::llvm::function ::llvm::void pthread_create(::llvm::struct::_opaque_pthread_t::pointer::pointer, 
-                                             ::llvm::struct::_opaque_pthread_attr_t::pointer, 
-                                             ::llvm::i8::pointer (::llvm::i8::pointer)::pointer, 
-                                             ::llvm::i8::pointer);
-
-::llvm::function ::llvm::void pthread_join(::llvm::struct::_opaque_pthread_t::pointer, ::llvm::i8::pointer::pointer);
-
-::llvm::function ::llvm::void pthread_cancel(::llvm::struct::_opaque_pthread_t::pointer);
-
-::llvm::function ::llvm::void pthread_exit(::llvm::i8::pointer);
+import wisey.lang.CCallStack;
 
 /**
  * Uses pthread library to enable thread functionality

@@ -1,10 +1,10 @@
 package systems.vos.wisey.compiler.tests;
 
-import wisey.lang.CCallStack;
 import wisey.lang.IProgram;
-import wisey.lang.IProducerThread;
-import wisey.lang.IThread;
-import wisey.lang.TDefaultProducer;
+import wisey.lang.CCallStack;
+import wisey.lang.threads.IProducerThread;
+import wisey.lang.threads.IThread;
+import wisey.lang.threads.TDefaultProducer;
 
 thread TProducer implements IProducerThread {
   inject TDefaultProducer* mDefaultProducer;

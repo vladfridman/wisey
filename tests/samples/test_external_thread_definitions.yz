@@ -1,15 +1,15 @@
-external thread wisey.lang.TWorker 
-    implements wisey.lang.IThread {
+external thread wisey.lang.threads.TWorker 
+    implements wisey.lang.threads.IThread {
 
   ::llvm::object* send(::llvm::object* message);
 
   wisey.lang.CCallStack getCallStack();
 }
 
-external thread wisey.lang.TWorkerWithFieldsAndMethods 
-    implements wisey.lang.IThread {
+external thread wisey.lang.threads.TWorkerWithFieldsAndMethods 
+    implements wisey.lang.threads.IThread {
   receive int mReceivedField;
-  inject wisey.lang.TWorker* mInjectedField;
+  inject wisey.lang.threads.TWorker* mInjectedField;
   state int mStateField;
 
   ::llvm::object* send(::llvm::object* message);
@@ -21,10 +21,10 @@ interface wisey.lang.IInterface {
 
 }
 
-external thread wisey.lang.TWorkerWithFieldsAndMethodsAndInterface 
-    implements wisey.lang.IThread, wisey.lang.IInterface {
+external thread wisey.lang.threads.TWorkerWithFieldsAndMethodsAndInterface 
+    implements wisey.lang.threads.IThread, wisey.lang.IInterface {
   receive int mReceivedField;
-  inject wisey.lang.TWorker* mInjectedField;
+  inject wisey.lang.threads.TWorker* mInjectedField;
   state int mStateField;
 
   ::llvm::object* send(::llvm::object* message);

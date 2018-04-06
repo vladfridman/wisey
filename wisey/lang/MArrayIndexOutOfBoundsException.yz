@@ -1,7 +1,5 @@
 package wisey.lang;
 
-import wisey.lang.IException;
-
 model MArrayIndexOutOfBoundsException implements IException {
   long mArraySize;
   long mIndex;

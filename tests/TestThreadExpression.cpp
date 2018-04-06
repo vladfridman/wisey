@@ -94,7 +94,7 @@ TEST_F(ThreadExpressionTest, generateIRTest) {
   Value* instruction = mThreadExpression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
 
   *mStringStream << *instruction;
-  string expected = "  %3 = load %wisey.lang.IThread*, %wisey.lang.IThread** %threadStore";
+  string expected = "  %3 = load %wisey.lang.threads.IThread*, %wisey.lang.threads.IThread** %threadStore";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 

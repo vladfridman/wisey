@@ -1,7 +1,5 @@
 package wisey.lang;
 
-import wisey.lang.IException;
-
 model MCastException implements IException {
   string mFromType;
   string mToType;

@@ -47,10 +47,10 @@ using namespace std;
 using namespace wisey;
 
 Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {
-  PackageType* packageType = context.getPackageType(Names::getLangPackageName());
-  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  PackageType* langPackageType = context.getPackageType(Names::getLangPackageName());
+  FakeExpression* langPackageExpression = new FakeExpression(NULL, langPackageType);
   InterfaceTypeSpecifier* programInterfaceSpecifier =
-  new InterfaceTypeSpecifier(packageExpression, Names::getIProgramName(), 0);
+  new InterfaceTypeSpecifier(langPackageExpression, Names::getIProgramName(), 0);
   Interface* interface = (Interface*) programInterfaceSpecifier->getType(context);
   if (!context.hasBoundController(interface)) {
     return NULL;
@@ -77,10 +77,12 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context) const {
   Thread* mainThread = context.getThread(Names::getMainThreadFullName(), 0);
   Value* injectedThread = mainThread->inject(context, injectionArguments, 0);
   Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
-  PackageType* packageType = context.getPackageType(Names::getLangPackageName());
-  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  PackageType* langPackageType = context.getPackageType(Names::getLangPackageName());
+  FakeExpression* langPackageExpression = new FakeExpression(NULL, langPackageType);
+  PackageType* threadsPackageType = context.getPackageType(Names::getThreadsPackageName());
+  FakeExpression* threadsPackageExpression = new FakeExpression(NULL, threadsPackageType);
   InterfaceTypeSpecifier* threadInterfaceSpecifier =
-    new InterfaceTypeSpecifier(packageExpression, Names::getThreadInterfaceName(), 0);
+    new InterfaceTypeSpecifier(threadsPackageExpression, Names::getThreadInterfaceName(), 0);
   CastExpression* castExpression =
   new CastExpression(threadInterfaceSpecifier, new FakeExpression(injectedThread, mainThread), 0);
   IReferenceVariable* threadVariable =
@@ -117,9 +119,9 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context) const {
   IdentifierChain* waitMethod = new IdentifierChain(new Identifier("mainThread"), "awaitResult");
   MethodCall* waitMethodCall = new MethodCall(waitMethod, callArguments, 0);
   
-  packageExpression = new FakeExpression(NULL, packageType);
+  langPackageExpression = new FakeExpression(NULL, langPackageType);
   ModelTypeSpecifier* mainThreadMessageSpecifier =
-  new ModelTypeSpecifier(packageExpression, Names::getProgramResultShortName(), 0);
+  new ModelTypeSpecifier(langPackageExpression, Names::getProgramResultShortName(), 0);
   CastExpression* castToMessage = new CastExpression(mainThreadMessageSpecifier, waitMethodCall, 0);
   IdentifierChain* getContentMethod = new IdentifierChain(castToMessage, "getResult");
   MethodCall* getContent = new MethodCall(getContentMethod, callArguments, 0);

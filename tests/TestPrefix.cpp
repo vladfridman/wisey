@@ -169,7 +169,7 @@ ThreadDefinition* TestPrefix::defineMainThread(IRGenerationContext& context) {
 
   vector<IObjectDefinition*> innerObjectDefinitions;
   vector<IInterfaceTypeSpecifier*> interfaceSpecifiers;
-  packageType = new PackageType(Names::getLangPackageName());
+  packageType = new PackageType(Names::getThreadsPackageName());
   packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
   InterfaceTypeSpecifierFull* interfaceTypeSpecifer =
   new InterfaceTypeSpecifierFull(packageExpression, Names::getThreadInterfaceName(), 0);
@@ -184,7 +184,7 @@ ThreadDefinition* TestPrefix::defineMainThread(IRGenerationContext& context) {
 }
 
 InterfaceDefinition* TestPrefix::defineThreadInterface(IRGenerationContext& context) {
-  PackageType* packageType = new PackageType(Names::getLangPackageName());
+  PackageType* packageType = new PackageType(Names::getThreadsPackageName());
   FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
   InterfaceTypeSpecifierFull* interfaceTypeSpecifier =
     new InterfaceTypeSpecifierFull(packageExpression, Names::getThreadInterfaceName(), 0);

@@ -1,10 +1,6 @@
-package wisey.lang;
+package wisey.lang.threads;
 
 import wisey.lang.CCallStack;
-import wisey.lang.CProducerThreadRunner;
-import wisey.lang.IProgram;
-import wisey.lang.IProducerThread;
-import wisey.lang.IThread;
 
 /**
  * Default implementation of the producer thread.

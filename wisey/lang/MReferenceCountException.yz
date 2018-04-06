@@ -1,7 +1,5 @@
 package wisey.lang;
 
-import wisey.lang.IException;
-
 model MReferenceCountException implements IException {
   long mReferenceCount;
 

@@ -1,6 +1,6 @@
-package wisey.lang;
+package wisey.lang.threads;
 
-import wisey.lang.IThread;
+import wisey.lang.CCallStack;
 
 /**
  * Represents a thread of execution. All thread objects must implement this interface.

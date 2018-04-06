@@ -1,10 +1,10 @@
 package systems.vos.wisey.compiler.tests;
 
-import wisey.lang.CCallStack;
 import wisey.lang.IProgram;
-import wisey.lang.IThread;
-import wisey.lang.IWorkerThread;
-import wisey.lang.TDefaultWorker;
+import wisey.lang.CCallStack;
+import wisey.lang.threads.IThread;
+import wisey.lang.threads.IWorkerThread;
+import wisey.lang.threads.TDefaultWorker;
 
 thread TWorker implements IWorkerThread {
   inject TDefaultWorker* mDefaultWorker;

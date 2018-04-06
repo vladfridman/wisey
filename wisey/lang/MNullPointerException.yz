@@ -1,7 +1,5 @@
 package wisey.lang;
 
-import wisey.lang.IException;
-
 model MNullPointerException implements IException {
 
   public string getName() {

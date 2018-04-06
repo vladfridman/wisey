@@ -35,6 +35,10 @@ string Names::getLangPackageName() {
   return "wisey.lang";
 }
 
+string Names::getThreadsPackageName() {
+  return "wisey.lang.threads";
+}
+
 string Names::getStdErrName() {
   return "__stderrp";
 }
@@ -48,7 +52,7 @@ string Names::getThreadInterfaceName() {
 }
 
 string Names::getThreadInterfaceFullName() {
-  return getLangPackageName() + "." + getThreadInterfaceName();
+  return getThreadsPackageName() + "." + getThreadInterfaceName();
 }
 
 string Names::getMainThreadShortName() {
