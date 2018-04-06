@@ -73,23 +73,10 @@ public:
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
 
-    string sourceFile = "test.yz";
-    llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, sourceFile);
-    GlobalVariable* global = new GlobalVariable(*mContext.getModule(),
-                                                stringConstant->getType(),
-                                                true,
-                                                GlobalValue::InternalLinkage,
-                                                stringConstant,
-                                                ProgramFile::getSourceFileConstantName(sourceFile));
-    ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 0);
-    Value* Idx[2];
-    Idx[0] = zeroInt32;
-    Idx[1] = zeroInt32;
-    Type* elementType = global->getType()->getPointerElementType();
-    mContext.getImportProfile()->
-    setSourceFileNamePointer(ConstantExpr::getGetElementPtr(elementType, global, Idx));
+    mContext.getImportProfile()->setSourceFileName(mContext, "test.yz");
 
-    stringConstant = ConstantDataArray::getString(mLLVMContext, mModel->getTypeName());
+    llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
+                                                                  mModel->getTypeName());
     new GlobalVariable(*mContext.getModule(),
                        stringConstant->getType(),
                        true,

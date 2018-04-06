@@ -57,10 +57,6 @@ namespace wisey {
      */
     static std::string getSourceFileConstantName(std::string sourceFile);
     
-  private:
-    
-    llvm::Value* defineSourceFileConstant(IRGenerationContext& context, std::string sourceFile) const;
-    
   };
   
 } /* namespace wisey */

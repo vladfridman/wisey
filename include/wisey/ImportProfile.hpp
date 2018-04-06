@@ -14,6 +14,7 @@
 namespace wisey {
   
   class IObjectType;
+  class IRGenerationContext;
   
   /**
    * Contains information about file imports that is stored together with every object defined in file
@@ -21,6 +22,7 @@ namespace wisey {
   class ImportProfile {
     std::string mPackage;
     std::map<std::string, std::string> mImports;
+    std::string mSourceFileName;
     llvm::Value* mSourceFileConstantPointer;
     
   public:
@@ -42,12 +44,17 @@ namespace wisey {
     /**
      * Sets the current source file being processed
      */
-    void setSourceFileNamePointer(llvm::Value* sourceFileConstantPointer);
+    void setSourceFileName(IRGenerationContext& context, std::string sourceFileName);
     
     /**
      * Returns the current source file being processed
      */
     llvm::Value* getSourceFileNamePointer() const;
+    
+  private:
+    
+    llvm::Value* defineSourceFileConstant(IRGenerationContext& context,
+                                          std::string sourceFile) const;
     
   };
   

@@ -7,14 +7,19 @@
 //
 
 #include "wisey/IObjectType.hpp"
+#include "wisey/IRGenerationContext.hpp"
 #include "wisey/ImportProfile.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/ProgramFile.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ImportProfile::ImportProfile(string package) : mPackage(package), mSourceFileConstantPointer(NULL) {
+ImportProfile::ImportProfile(string package) :
+mPackage(package),
+mSourceFileName(""),
+mSourceFileConstantPointer(NULL) {
 }
 
 ImportProfile::~ImportProfile() {
@@ -36,11 +41,37 @@ string ImportProfile::getFullName(string shortName) const {
   exit(1);
 }
 
-void ImportProfile::setSourceFileNamePointer(Value* sourceFileConstantPointer) {
-  mSourceFileConstantPointer = sourceFileConstantPointer;
+void ImportProfile::setSourceFileName(IRGenerationContext& context, string sourceFileName) {
+  mSourceFileName = sourceFileName;
+  if (mSourceFileName.size()) {
+    mSourceFileConstantPointer = defineSourceFileConstant(context, sourceFileName);
+  } else {
+    mSourceFileConstantPointer = NULL;
+  }
 }
 
 Value* ImportProfile::getSourceFileNamePointer() const {
   return mSourceFileConstantPointer;
 }
 
+Value* ImportProfile::defineSourceFileConstant(IRGenerationContext& context,
+                                               string sourceFileName) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
+  llvm::Constant* stringConstant = ConstantDataArray::getString(llvmContext, sourceFileName);
+  string constantName = ProgramFile::getSourceFileConstantName(sourceFileName);
+  GlobalVariable* global = new GlobalVariable(*context.getModule(),
+                                              stringConstant->getType(),
+                                              true,
+                                              GlobalValue::InternalLinkage,
+                                              stringConstant,
+                                              constantName);
+  
+  ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+  Value* Idx[2];
+  Idx[0] = zeroInt32;
+  Idx[1] = zeroInt32;
+  Type* elementType = global->getType()->getPointerElementType();
+  
+  return ConstantExpr::getGetElementPtr(elementType, global, Idx);
+}

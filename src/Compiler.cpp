@@ -56,7 +56,7 @@ void Compiler::compile() {
   programPrefix.generateIR(mContext);
   prototypeMethods(programFiles, mContext);
   generateIR(programFiles, mContext);
-  mContext.getImportProfile()->setSourceFileNamePointer(NULL);
+  mContext.getImportProfile()->setSourceFileName(mContext, "");
   programSuffix.generateIR(mContext);
   mContext.runComposingCallbacks();
   
