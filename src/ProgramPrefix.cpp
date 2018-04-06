@@ -30,21 +30,9 @@ using namespace std;
 using namespace wisey;
 
 Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
-  StructType* fileStructType = context.getModule()->getTypeByName("__sFILE");
-  defineStderr(context, fileStructType);
   defineEmptyString(context);
   
   return NULL;
-}
-
-void ProgramPrefix::defineStderr(IRGenerationContext& context, StructType* fileStructType) const {
-  GlobalVariable* global = new GlobalVariable(*context.getModule(),
-                                              fileStructType->getPointerTo(),
-                                              false,
-                                              GlobalValue::ExternalLinkage,
-                                              nullptr,
-                                              Names::getStdErrName());
-  global->setAlignment(8);
 }
 
 void ProgramPrefix::defineEmptyString(IRGenerationContext& context) const {

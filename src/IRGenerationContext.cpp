@@ -324,6 +324,10 @@ LLVMFunctionType* IRGenerationContext::getLLVMFunctionType(const IType* returnTy
   return llvmFunctionType;
 }
 
+void IRGenerationContext::setLLVMGlobalVariable(const IType* type, string name) {
+  mGlobalVariables[name] = type;
+}
+
 void IRGenerationContext::registerLLVMFunction(string name, const LLVMFunctionType* functionType) {
   if (mLLVMFunctions.count(name)) {
     Log::e_deprecated("Can not register llvm function named " + name + " because it is already registered");
@@ -483,6 +487,16 @@ void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& 
       continue;
     }
     structType->printToStream(context, stream);
+    stream << endl;
+  }
+  
+  stream << "/* llvm Globals */" << endl << endl;
+  for (map<string, const IType*>::const_iterator iterator = mGlobalVariables.begin();
+       iterator != mGlobalVariables.end();
+       iterator++) {
+    string name = iterator->first;
+    const IType* type = iterator->second;
+    stream << type->getTypeName() << " " << name << ";";
     stream << endl;
   }
 }

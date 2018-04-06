@@ -61,6 +61,7 @@ namespace wisey {
     std::map<std::string, LLVMStructType*> mLLVMStructTypes;
     std::map<std::string, LLVMFunctionType*> mLLVMFunctionTypes;
     std::map<std::string, const LLVMFunctionType*> mLLVMFunctions;
+    std::map<std::string, const IType*> mGlobalVariables;
     std::map<const Interface*, const Controller*> mBindings;
     ImportProfile* mImportProfile;
     std::string mPackage;
@@ -191,6 +192,11 @@ namespace wisey {
      */
     LLVMFunctionType* getLLVMFunctionType(const IType* returnType,
                                           std::vector<const IType*> argumentTypes);
+    
+    /**
+     * Set global llvm variable
+     */
+    void setLLVMGlobalVariable(const IType* type, std::string name);
     
     /**
      * Registers an llvm function with the given type and name

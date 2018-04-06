@@ -290,3 +290,6 @@ external ::llvm::struct _opaque_pthread_t {
   ::llvm::array(::llvm::i8, 8176),
 }
 
+/* llvm Globals */
+
+::llvm::struct::__sFILE::pointer __stderrp;

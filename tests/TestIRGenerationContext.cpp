@@ -336,6 +336,7 @@ TEST_F(IRGenerationContextTest, getThisTest) {
 
 TEST_F(IRGenerationContextTest, printToStreamTest) {
   mContext.addLLVMStructType(mLLVMStructType);
+  mContext.setLLVMGlobalVariable(mLLVMStructType->getPointerType(), "myglobal");
   mContext.addInterface(mInterface);
   mContext.addNode(mNode);
   mContext.addController(mController);
@@ -376,6 +377,10 @@ TEST_F(IRGenerationContextTest, printToStreamTest) {
                "\n"
                "external ::llvm::struct mystructtype {\n"
                "}\n"
+               "\n"
+               "/* llvm Globals */\n"
+               "\n"
+               "::llvm::struct::mystructtype::pointer myglobal;"
                "\n",
                stringStream.str().c_str());
 }

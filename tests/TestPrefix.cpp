@@ -24,7 +24,7 @@ using namespace std;
 using namespace wisey;
 
 void TestPrefix::generateIR(IRGenerationContext& context) {
-  defineFileStruct(context);
+  defineStdErrGlobal(context);
   
   vector<IObjectElementDefinition*> modelElements;
   defineModel(context, Names::getNPEModelName(), modelElements);
@@ -51,8 +51,14 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   mainThreadDefinition->prototypeMethods(context);
 }
 
-void TestPrefix::defineFileStruct(IRGenerationContext& context) {
-  StructType::create(context.getLLVMContext(), "__sFILE");
+void TestPrefix::defineStdErrGlobal(IRGenerationContext& context) {
+  StructType* structType = StructType::create(context.getLLVMContext(), "__sFILE");
+  new GlobalVariable(*context.getModule(),
+                     structType,
+                     false,
+                     GlobalValue::ExternalLinkage,
+                     nullptr,
+                     "__stderrp");
 }
 
 void TestPrefix::defineModel(IRGenerationContext& context,

@@ -26,10 +26,6 @@ namespace wisey {
     
   private:
     
-    void defineAdjustReferenceCountFunction(IRGenerationContext& context) const;
-    
-    void defineStderr(IRGenerationContext& context, llvm::StructType* fileStructType) const;
-    
     void defineEmptyString(IRGenerationContext& context) const;
     
   };

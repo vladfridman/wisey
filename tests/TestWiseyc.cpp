@@ -118,7 +118,10 @@ TEST_F(MainTest, extractHeadersTest) {
                "bind(systems.vos.wisey.compiler.tests.CProgram).to(wisey.lang.IProgram);\n"
                "\n"
                "/* llvm Structs */\n"
-               "\n",
+               "\n"
+               "/* llvm Globals */\n"
+               "\n"
+               "::llvm::struct::__sFILE::pointer __stderrp;\n",
                output.c_str());
   stream.close();
 }
