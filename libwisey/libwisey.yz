@@ -1,22 +1,3 @@
-/* llvm Structs */
-
-external ::llvm::struct __darwin_pthread_handler_rec {
-  ::llvm::void (::llvm::i8::pointer)::pointer,
-  ::llvm::i8::pointer,
-  ::llvm::struct::__darwin_pthread_handler_rec::pointer,
-}
-
-external ::llvm::struct _opaque_pthread_attr_t {
-  ::llvm::i64,
-  ::llvm::array(::llvm::i8, 56),
-}
-
-external ::llvm::struct _opaque_pthread_t {
-  ::llvm::i64,
-  ::llvm::struct::__darwin_pthread_handler_rec::pointer,
-  ::llvm::array(::llvm::i8, 8176),
-}
-
 /* Interfaces */
 
 external interface wisey.lang.IException {
@@ -261,4 +242,23 @@ external thread wisey.lang.threads.TDefaultWorker
 }
 
 /* Bindings */
+
+/* llvm Structs */
+
+external ::llvm::struct __darwin_pthread_handler_rec {
+  ::llvm::void (::llvm::i8::pointer)::pointer,
+  ::llvm::i8::pointer,
+  ::llvm::struct::__darwin_pthread_handler_rec::pointer,
+}
+
+external ::llvm::struct _opaque_pthread_attr_t {
+  ::llvm::i64,
+  ::llvm::array(::llvm::i8, 56),
+}
+
+external ::llvm::struct _opaque_pthread_t {
+  ::llvm::i64,
+  ::llvm::struct::__darwin_pthread_handler_rec::pointer,
+  ::llvm::array(::llvm::i8, 8176),
+}
 

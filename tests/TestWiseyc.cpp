@@ -96,9 +96,7 @@ TEST_F(MainTest, extractHeadersTest) {
   stream.open("build/test.yzh");
   string output((istreambuf_iterator<char>(stream)), istreambuf_iterator<char>());
   
-  EXPECT_STREQ("/* llvm Structs */\n"
-               "\n"
-               "/* Interfaces */\n"
+  EXPECT_STREQ("/* Interfaces */\n"
                "\n"
                "/* Models */\n"
                "\n"
@@ -118,6 +116,8 @@ TEST_F(MainTest, extractHeadersTest) {
               "/* Bindings */\n"
                "\n"
                "bind(systems.vos.wisey.compiler.tests.CProgram).to(wisey.lang.IProgram);\n"
+               "\n"
+               "/* llvm Structs */\n"
                "\n",
                output.c_str());
   stream.close();

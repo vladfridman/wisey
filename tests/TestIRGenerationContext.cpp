@@ -345,12 +345,7 @@ TEST_F(IRGenerationContextTest, printToStreamTest) {
   stringstream stringStream;
   mContext.printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("/* llvm Structs */\n"
-               "\n"
-               "external ::llvm::struct mystructtype {\n"
-               "}\n"
-               "\n"
-               "/* Interfaces */\n"
+  EXPECT_STREQ("/* Interfaces */\n"
                "\n"
                "external interface systems.vos.wisey.compiler.tests.IMyInterface {\n"
                "}\n"
@@ -376,6 +371,11 @@ TEST_F(IRGenerationContextTest, printToStreamTest) {
                "}\n"
                "\n"
                "/* Bindings */\n"
+               "\n"
+               "/* llvm Structs */\n"
+               "\n"
+               "external ::llvm::struct mystructtype {\n"
+               "}\n"
                "\n",
                stringStream.str().c_str());
 }
