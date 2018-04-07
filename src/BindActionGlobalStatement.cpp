@@ -30,6 +30,5 @@ void BindActionGlobalStatement::prototypeMethods(IRGenerationContext& context) c
   context.bindInterfaceToController(interface, controller);
 }
 
-Value* BindActionGlobalStatement::generateIR(IRGenerationContext& context) const {
-  return NULL;
+void BindActionGlobalStatement::generateIR(IRGenerationContext& context) const {
 }

@@ -74,7 +74,7 @@ void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const 
   context.setObjectType(lastObjectType);
 }
 
-Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
+void ControllerDefinition::generateIR(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mControllerTypeSpecifierFull);
   Controller* controller = context.getController(fullName, mLine);
   
@@ -93,7 +93,5 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
 
   context.setObjectType(lastObjectType);
   context.getScopes().popScope(context, 0);
-  
-  return NULL;
 }
 

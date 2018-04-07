@@ -70,6 +70,5 @@ void ExternalThreadDefinition::prototypeMethods(IRGenerationContext& context) co
   context.setObjectType(lastObjectType);
 }
 
-Value* ExternalThreadDefinition::generateIR(IRGenerationContext& context) const {
-  return NULL;
+void ExternalThreadDefinition::generateIR(IRGenerationContext& context) const {
 }

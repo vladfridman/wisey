@@ -58,16 +58,16 @@ VariableDeclaration* VariableDeclaration::createWithAssignment(const ITypeSpecif
   return new VariableDeclaration(typeSpecifier, identifier, assignmentExpression, line);
 }
 
-Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
+void VariableDeclaration::generateIR(IRGenerationContext& context) const {
   mTypeSpecifier->getType(context)->createLocalVariable(context, mIdentifier->getIdentifierName());
   
   if (mAssignmentExpression == NULL) {
-    return NULL;
+    return;
   }
   
   vector<const IExpression*> arrayIndices;
   IVariable* variable = mIdentifier->getVariable(context, arrayIndices);
-  return variable->generateAssignmentIR(context, mAssignmentExpression, arrayIndices, mLine);
+  variable->generateAssignmentIR(context, mAssignmentExpression, arrayIndices, mLine);
 }
 
 const ITypeSpecifier* VariableDeclaration::getTypeSpecifier() const {

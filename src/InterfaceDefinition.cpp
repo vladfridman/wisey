@@ -80,7 +80,7 @@ void InterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {
   context.setObjectType(lastObjectType);
 }
 
-Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {
+void InterfaceDefinition::generateIR(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mInterfaceTypeSpecifierFull);
   Interface* interface = context.getInterface(fullName, mLine);
 
@@ -94,7 +94,5 @@ Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {
 
   context.setObjectType(lastObjectType);
   context.getScopes().popScope(context, 0);
-  
-  return NULL;
 }
 

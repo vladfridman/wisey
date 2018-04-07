@@ -1151,14 +1151,14 @@ selection_statement
 iteration_statement
   : TWHILE '(' expression ')' statement { $$ = new WhileStatement($3, $5); }
   | TDO statement TWHILE '(' expression ')' ';' { $$ = new DoStatement($2, $5); }
-  | TFOR '(' expression_statement expression_statement ')' statement
-    { $$ = ForStatement::newWithNoIncrement($3, $4, $6, yylineno); }
-  | TFOR '(' expression_statement expression_statement expression ')' statement
-    { $$ = new ForStatement($3, $4, $5, $7, yylineno); }
-  | TFOR '(' declaration expression_statement ')' statement
-    { $$ = ForStatement::newWithNoIncrement($3, $4, $6, yylineno); }
-  | TFOR '(' declaration expression_statement expression ')' statement
-    { $$ = new ForStatement($3, $4, $5, $7, yylineno); }
+  | TFOR '(' expression_statement expression ';' ')' statement
+    { $$ = ForStatement::newWithNoIncrement($3, $4, $7, yylineno); }
+  | TFOR '(' expression_statement expression ';' expression ')' statement
+    { $$ = new ForStatement($3, $4, $6, $8, yylineno); }
+  | TFOR '(' declaration expression ';' ')' statement
+    { $$ = ForStatement::newWithNoIncrement($3, $4, $7, yylineno); }
+  | TFOR '(' declaration expression ';' expression ')' statement
+    { $$ = new ForStatement($3, $4, $6, $8, yylineno); }
   ;
 
 jump_statement

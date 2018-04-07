@@ -50,7 +50,7 @@ namespace wisey {
      */
     std::string getSourceFile() const;
     
-    llvm::Value* generateIR(IRGenerationContext& context) const override;
+    void generateIR(IRGenerationContext& context) const override;
     
     /**
      * Returns the name of the constant containing the given source file name

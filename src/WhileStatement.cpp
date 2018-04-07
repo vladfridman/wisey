@@ -21,7 +21,7 @@ WhileStatement::~WhileStatement() {
   delete mStatement;
 }
 
-Value* WhileStatement::generateIR(IRGenerationContext& context) const {
+void WhileStatement::generateIR(IRGenerationContext& context) const {
   
   Function* function = context.getBasicBlock()->getParent();
   Scopes& scopes = context.getScopes();
@@ -45,6 +45,4 @@ Value* WhileStatement::generateIR(IRGenerationContext& context) const {
   IRWriter::createBranch(context, whileCond);
 
   context.setBasicBlock(whileEnd);
-
-  return conditionValue;
 }

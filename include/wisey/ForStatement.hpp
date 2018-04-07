@@ -23,7 +23,7 @@ namespace wisey {
    */
   class ForStatement : public IStatement {
     IStatement* mStartStatement;
-    IStatement* mConditionStatement;
+    IExpression* mConditionExpression;
     IExpression* mIncrementExpression;
     IStatement* mBodyStatement;
     int mLine;
@@ -35,7 +35,7 @@ namespace wisey {
      * for (int i = 0; i < 10; i ++) { }
      */
     ForStatement(IStatement* startStatement,
-                 IStatement* conditionStatement,
+                 IExpression* conditionExpression,
                  IExpression* incrementExpression,
                  IStatement* bodyStatement,
                  int line);
@@ -47,11 +47,12 @@ namespace wisey {
      * for (int i = 0; i < 10;) { i ++ }
      */
     static ForStatement* newWithNoIncrement(IStatement* startStatement,
-                                            IStatement* conditionStatement,
+                                            IExpression* conditionExpression,
                                             IStatement* bodyStatement,
                                             int line);
     
-    llvm::Value* generateIR(IRGenerationContext& context) const override;
+    void generateIR(IRGenerationContext& context) const override;
+    
   };
   
 } /* namespace wisey */

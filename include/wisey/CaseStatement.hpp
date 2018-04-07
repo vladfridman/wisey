@@ -39,7 +39,7 @@ namespace wisey {
     
     bool isFallThrough() const;
     
-    llvm::Value* generateIR(IRGenerationContext& context) const override;
+    void generateIR(IRGenerationContext& context) const override;
     
     /**
      * Create a CASE statement

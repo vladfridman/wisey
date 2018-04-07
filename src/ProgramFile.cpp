@@ -48,7 +48,7 @@ void ProgramFile::prototypeMethods(IRGenerationContext& context) const {
   }
 }
 
-Value* ProgramFile::generateIR(IRGenerationContext& context) const {
+void ProgramFile::generateIR(IRGenerationContext& context) const {
   context.setImportProfile(mImportProfile);
   mImportProfile->setSourceFileName(context, mSourceFile);
 
@@ -56,8 +56,6 @@ Value* ProgramFile::generateIR(IRGenerationContext& context) const {
     statement->generateIR(context);
     context.setObjectType(NULL);
   }
-  
-  return NULL;
 }
 
 void ProgramFile::setSourceFile(string sourceFile) {

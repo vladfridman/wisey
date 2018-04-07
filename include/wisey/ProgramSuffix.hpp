@@ -20,11 +20,11 @@ namespace wisey {
     
   public:
     
-    llvm::Value* generateIR(IRGenerationContext& context) const override;
+    void generateIR(IRGenerationContext& context) const override;
     
   private:
     
-    llvm::Value* generateMain(IRGenerationContext& context) const;
+    void generateMain(IRGenerationContext& context) const;
   };
   
 } /* namespace wisey */

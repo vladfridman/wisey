@@ -20,7 +20,7 @@
  */
 class MockStatement : public wisey::IStatement {
 public:
-  MOCK_CONST_METHOD1(generateIR, llvm::Value* (wisey::IRGenerationContext&));
+  MOCK_CONST_METHOD1(generateIR, void (wisey::IRGenerationContext&));
 };
 
 #endif /* MockStatement_h */

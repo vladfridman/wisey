@@ -21,7 +21,7 @@ IfStatement::~IfStatement() {
   delete mThenStatement;
 }
 
-Value* IfStatement::generateIR(IRGenerationContext& context) const {
+void IfStatement::generateIR(IRGenerationContext& context) const {
   Function* function = context.getBasicBlock()->getParent();
   
   BasicBlock* ifThen = BasicBlock::Create(context.getLLVMContext(), "if.then", function);
@@ -35,7 +35,5 @@ Value* IfStatement::generateIR(IRGenerationContext& context) const {
   IRWriter::createBranch(context, ifEnd);
   
   context.setBasicBlock(ifEnd);
-  
-  return conditionValue;
 }
 

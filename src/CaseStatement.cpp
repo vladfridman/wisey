@@ -21,8 +21,8 @@ CaseStatement::~CaseStatement() {
   delete mBlock;
 }
 
-Value* CaseStatement::generateIR(IRGenerationContext& context) const {
-  return mBlock->generateIR(context);
+void CaseStatement::generateIR(IRGenerationContext& context) const {
+  mBlock->generateIR(context);
 }
 
 bool CaseStatement::isFallThrough() const {

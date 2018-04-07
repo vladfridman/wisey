@@ -44,16 +44,16 @@ LLVMVariableDeclaration* LLVMVariableDeclaration::createWithAssignment(const ITy
   return new LLVMVariableDeclaration(typeSpecifier, identifier, assignmentExpression, line);
 }
 
-Value* LLVMVariableDeclaration::generateIR(IRGenerationContext& context) const {
+void LLVMVariableDeclaration::generateIR(IRGenerationContext& context) const {
   mTypeSpecifier->getType(context)->createLocalVariable(context, mIdentifier->getIdentifierName());
   
   if (mAssignmentExpression == NULL) {
-    return NULL;
+    return;
   }
   
   vector<const IExpression*> arrayIndices;
   IVariable* variable = mIdentifier->getVariable(context, arrayIndices);
-  return variable->generateAssignmentIR(context, mAssignmentExpression, arrayIndices, mLine);
+  variable->generateAssignmentIR(context, mAssignmentExpression, arrayIndices, mLine);
 }
 
 const ITypeSpecifier* LLVMVariableDeclaration::getTypeSpecifier() const {

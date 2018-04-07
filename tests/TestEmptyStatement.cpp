@@ -17,12 +17,6 @@
 
 using namespace wisey;
 
-TEST(TestEmptyStatement, simpleEmptyStatementTest) {
-  IRGenerationContext context;
-  
-  EXPECT_EQ(EmptyStatement::EMPTY_STATEMENT.generateIR(context), nullptr);
-}
-
 TEST_F(TestFileRunner, emptyStatementRunTest) {
   runFile("tests/samples/test_empty_statement.yz", "5");
 }

@@ -27,7 +27,7 @@ namespace wisey {
     /**
      * Generate LLVM Intermediate Reprentation code
      */
-    virtual llvm::Value* generateIR(IRGenerationContext& context) const = 0;
+    virtual void generateIR(IRGenerationContext& context) const = 0;
     
   };
   

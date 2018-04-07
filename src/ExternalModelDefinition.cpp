@@ -70,10 +70,8 @@ void ExternalModelDefinition::prototypeMethods(IRGenerationContext& context) con
   context.setObjectType(lastObjectType);
 }
 
-Value* ExternalModelDefinition::generateIR(IRGenerationContext& context) const {
+void ExternalModelDefinition::generateIR(IRGenerationContext& context) const {
   Model* model = context.getModel(mModelTypeSpecifierFull->getName(context), mLine);
   model->createRTTI(context);
-  
-  return NULL;
 }
 

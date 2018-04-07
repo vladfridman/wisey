@@ -46,20 +46,20 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {
+void ProgramSuffix::generateIR(IRGenerationContext& context) const {
   PackageType* langPackageType = context.getPackageType(Names::getLangPackageName());
   FakeExpression* langPackageExpression = new FakeExpression(NULL, langPackageType);
   InterfaceTypeSpecifier* programInterfaceSpecifier =
   new InterfaceTypeSpecifier(langPackageExpression, Names::getIProgramName(), 0);
   Interface* interface = (Interface*) programInterfaceSpecifier->getType(context);
   if (!context.hasBoundController(interface)) {
-    return NULL;
+    return;
   }
   
-  return generateMain(context);
+  generateMain(context);
 }
 
-Value* ProgramSuffix::generateMain(IRGenerationContext& context) const {
+void ProgramSuffix::generateMain(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
 
   FunctionType* mainFunctionType =
@@ -130,7 +130,5 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context) const {
 
   context.getScopes().popScope(context, 0);
   context.setMainFunction(mainFunction);
-  
-  return mainFunction;
 }
 

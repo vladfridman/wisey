@@ -75,7 +75,7 @@ void ModelDefinition::prototypeMethods(IRGenerationContext& context) const {
   context.setObjectType(lastObjectType);
 }
 
-Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
+void ModelDefinition::generateIR(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mModelTypeSpecifierFull);
   Model* model = context.getModel(fullName, mLine);
  
@@ -94,7 +94,5 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
 
   context.setObjectType(lastObjectType);
   context.getScopes().popScope(context, 0);
-  
-  return NULL;
 }
 

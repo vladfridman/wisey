@@ -17,12 +17,10 @@ CompoundStatement::~CompoundStatement() {
   delete mBlock;
 }
 
-Value* CompoundStatement::generateIR(IRGenerationContext& context) const {
+void CompoundStatement::generateIR(IRGenerationContext& context) const {
   Scopes& scopes = context.getScopes();
   
   scopes.pushScope();
   mBlock->generateIR(context);
   scopes.popScope(context, mLine);
-  
-  return NULL;
 }

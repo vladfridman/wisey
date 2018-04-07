@@ -72,6 +72,5 @@ void ExternalControllerDefinition::prototypeMethods(IRGenerationContext& context
   context.setObjectType(lastObjectType);
 }
 
-Value* ExternalControllerDefinition::generateIR(IRGenerationContext& context) const {
-  return NULL;
+void ExternalControllerDefinition::generateIR(IRGenerationContext& context) const {
 }

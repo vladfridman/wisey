@@ -29,6 +29,5 @@ IObjectType* ImportStatement::prototypeObject(IRGenerationContext& context) cons
 void ImportStatement::prototypeMethods(IRGenerationContext& context) const {
 }
 
-Value* ImportStatement::generateIR(IRGenerationContext& context) const {
-  return NULL;
+void ImportStatement::generateIR(IRGenerationContext& context) const {
 }

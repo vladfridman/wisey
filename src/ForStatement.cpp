@@ -14,24 +14,24 @@ using namespace llvm;
 using namespace wisey;
 
 ForStatement::ForStatement(IStatement* startStatement,
-                           IStatement* conditionStatement,
+                           IExpression* conditionExpression,
                            IExpression* incrementExpression,
                            IStatement* bodyStatement,
                            int line) :
 mStartStatement(startStatement),
-mConditionStatement(conditionStatement),
+mConditionExpression(conditionExpression),
 mIncrementExpression(incrementExpression),
 mBodyStatement(bodyStatement),
 mLine(line) { }
 
 ForStatement::~ForStatement() {
   delete mStartStatement;
-  delete mConditionStatement;
+  delete mConditionExpression;
   delete mIncrementExpression;
   delete mBodyStatement;
 }
 
-Value* ForStatement::generateIR(IRGenerationContext& context) const {
+void ForStatement::generateIR(IRGenerationContext& context) const {
   
   Function* function = context.getBasicBlock()->getParent();
   Scopes& scopes = context.getScopes();
@@ -47,7 +47,7 @@ Value* ForStatement::generateIR(IRGenerationContext& context) const {
   IRWriter::createBranch(context, forCond);
   
   context.setBasicBlock(forCond);
-  Value* conditionValue = mConditionStatement->generateIR(context);
+  Value* conditionValue = mConditionExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
   IRWriter::createConditionalBranch(context, forBody, forEnd, conditionValue);
   
   scopes.setBreakToBlock(forEnd);
@@ -65,16 +65,14 @@ Value* ForStatement::generateIR(IRGenerationContext& context) const {
   context.setBasicBlock(forEnd);
   
   scopes.popScope(context, mLine);
-  
-  return conditionValue;
 }
 
 ForStatement* ForStatement::newWithNoIncrement(IStatement* startStatement,
-                                               IStatement* conditionStatement,
+                                               IExpression* conditionExpression,
                                                IStatement* bodyStatement,
                                                int line) {
   return new ForStatement(startStatement,
-                          conditionStatement,
+                          conditionExpression,
                           new EmptyExpression(),
                           bodyStatement,
                           line);

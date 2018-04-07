@@ -17,12 +17,12 @@ BreakStatement::BreakStatement() { }
 
 BreakStatement::~BreakStatement() { }
 
-Value* BreakStatement::generateIR(IRGenerationContext& context) const {
+void BreakStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* breackToBlock = context.getScopes().getBreakToBlock();
   
   if (breackToBlock == NULL) {
     Log::e_deprecated("break statement not inside a loop or a switch");
     exit(1);
   }
-  return IRWriter::createBranch(context, breackToBlock);
+  IRWriter::createBranch(context, breackToBlock);
 }

@@ -29,7 +29,7 @@ PrintOutStatement::~PrintOutStatement() {
   mExpressionList.clear();
 }
 
-Value* PrintOutStatement::generateIR(IRGenerationContext& context) const {
+void PrintOutStatement::generateIR(IRGenerationContext& context) const {
   Value* formatPointer = IPrintStatement::getFormatString(context, mExpressionList);
 
   Function* printf = IntrinsicFunctions::getPrintfFunction(context);
@@ -38,5 +38,5 @@ Value* PrintOutStatement::generateIR(IRGenerationContext& context) const {
   for (const IExpression* expression : mExpressionList) {
     arguments.push_back(expression->generateIR(context, PrimitiveTypes::VOID_TYPE));
   }
-  return IRWriter::createCallInst(context, printf, arguments, "");
+  IRWriter::createCallInst(context, printf, arguments, "");
 }

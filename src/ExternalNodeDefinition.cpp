@@ -69,7 +69,6 @@ void ExternalNodeDefinition::prototypeMethods(IRGenerationContext& context) cons
   context.setObjectType(lastObjectType);
 }
 
-Value* ExternalNodeDefinition::generateIR(IRGenerationContext& context) const {
-  return NULL;
+void ExternalNodeDefinition::generateIR(IRGenerationContext& context) const {
 }
 

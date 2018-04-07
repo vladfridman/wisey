@@ -72,7 +72,7 @@ void ThreadDefinition::prototypeMethods(IRGenerationContext& context) const {
   context.setObjectType(lastObjectType);
 }
 
-Value* ThreadDefinition::generateIR(IRGenerationContext& context) const {
+void ThreadDefinition::generateIR(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mThreadTypeSpecifierFull);
   Thread* thread = context.getThread(fullName, mLine);
   
@@ -91,6 +91,4 @@ Value* ThreadDefinition::generateIR(IRGenerationContext& context) const {
   
   context.setObjectType(lastObjectType);
   context.getScopes().popScope(context, 0);
-  
-  return NULL;
 }

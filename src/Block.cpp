@@ -22,11 +22,10 @@ Block::~Block() {
   mStatements.clear();
 }
 
-Value* Block::generateIR(IRGenerationContext& context) const {
+void Block::generateIR(IRGenerationContext& context) const {
   for (IStatement* statement : mStatements) {
     statement->generateIR(context);
   }
-  return NULL;
 }
 
 StatementList& Block::getStatements() {

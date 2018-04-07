@@ -17,6 +17,5 @@ EmptyStatement::EmptyStatement() { }
 
 EmptyStatement::~EmptyStatement() { }
 
-Value* EmptyStatement::generateIR(IRGenerationContext& context) const {
-  return NULL;
+void EmptyStatement::generateIR(IRGenerationContext& context) const {
 }

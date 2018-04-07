@@ -27,7 +27,7 @@ SwitchStatement::~SwitchStatement() {
   delete mSwitchCases;
 }
 
-Value* SwitchStatement::generateIR(IRGenerationContext& context) const {
+void SwitchStatement::generateIR(IRGenerationContext& context) const {
   Function* function = context.getBasicBlock()->getParent();
   LLVMContext& llvmContext = context.getLLVMContext();
   
@@ -48,8 +48,6 @@ Value* SwitchStatement::generateIR(IRGenerationContext& context) const {
   
   context.getScopes().setBreakToBlock(NULL);
   context.setBasicBlock(switchEpilog);
-  
-  return conditionValue;
 }
 
 void SwitchStatement::generateCasesIR(IRGenerationContext& context,

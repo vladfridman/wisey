@@ -69,7 +69,7 @@ void NodeDefinition::prototypeMethods(IRGenerationContext& context) const {
   context.setObjectType(lastObjectType);
 }
 
-Value* NodeDefinition::generateIR(IRGenerationContext& context) const {
+void NodeDefinition::generateIR(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mNodeTypeSpecifierFull);
   Node* node = context.getNode(fullName, mLine);
   
@@ -88,7 +88,5 @@ Value* NodeDefinition::generateIR(IRGenerationContext& context) const {
 
   context.setObjectType(lastObjectType);
   context.getScopes().popScope(context, 0);
-  
-  return NULL;
 }
 

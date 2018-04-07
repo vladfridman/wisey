@@ -44,7 +44,7 @@ namespace wisey {
     
     void prototypeMethods(IRGenerationContext& context) const override;
     
-    llvm::Value* generateIR(IRGenerationContext& context) const override;
+    void generateIR(IRGenerationContext& context) const override;
     
   };
   

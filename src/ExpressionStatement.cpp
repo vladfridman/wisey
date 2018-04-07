@@ -18,6 +18,6 @@ ExpressionStatement::~ExpressionStatement() {
   delete mExpression;
 }
 
-Value* ExpressionStatement::generateIR(IRGenerationContext& context) const {
-  return mExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
+void ExpressionStatement::generateIR(IRGenerationContext& context) const {
+  mExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
 }

@@ -54,8 +54,6 @@ struct IfStatementTest : Test {
     Value* conditionValue = ConstantInt::get(Type::getInt1Ty(llvmContext), 1);
     ON_CALL(*mCondition, generateIR(_, _)).WillByDefault(Return(conditionValue));
     ON_CALL(*mCondition, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
-    Value* thenStatementValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 2);
-    ON_CALL(*mThenStatement, generateIR(_)).WillByDefault(Return(thenStatementValue));
     mThenBlock->getStatements().push_back(mThenStatement);
     
     FunctionType* functionType =

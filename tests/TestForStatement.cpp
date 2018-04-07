@@ -35,7 +35,7 @@ using namespace wisey;
 struct ForStatementTest : Test {
   IRGenerationContext mContext;
   NiceMock<MockStatement>* mStartStatement;
-  NiceMock<MockStatement>* mConditionStatement;
+  NiceMock<MockExpression>* mConditionExpression;
   NiceMock<MockExpression>* mIncrementExpression;
   NiceMock<MockStatement>* mBodyStatement;
   string mStringBuffer;
@@ -44,18 +44,15 @@ struct ForStatementTest : Test {
   
   ForStatementTest() :
   mStartStatement(new NiceMock<MockStatement>()),
-  mConditionStatement(new NiceMock<MockStatement>()),
+  mConditionExpression(new NiceMock<MockExpression>()),
   mIncrementExpression(new NiceMock<MockExpression>()),
   mBodyStatement(new NiceMock<MockStatement>()) {
     LLVMContext &llvmContext = mContext.getLLVMContext();
-    Value* startStatementValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
-    ON_CALL(*mStartStatement, generateIR(_)).WillByDefault(Return(startStatementValue));
     Value* conditionStatementValue = ConstantInt::get(Type::getInt1Ty(llvmContext), 1);
-    ON_CALL(*mConditionStatement, generateIR(_)).WillByDefault(Return(conditionStatementValue));
+    ON_CALL(*mConditionExpression, generateIR(_, _)).WillByDefault(Return(conditionStatementValue));
     Value* incrementExpressionValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 2);
-    ON_CALL(*mIncrementExpression, generateIR(_, _)).WillByDefault(Return(incrementExpressionValue));
-    Value* bodyStatementValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
-    ON_CALL(*mBodyStatement, generateIR(_)).WillByDefault(Return(bodyStatementValue));
+    ON_CALL(*mIncrementExpression, generateIR(_, _))
+    .WillByDefault(Return(incrementExpressionValue));
     
     FunctionType* functionType =
       FunctionType::get(Type::getInt32Ty(llvmContext), false);
@@ -73,7 +70,7 @@ struct ForStatementTest : Test {
 
 TEST_F(ForStatementTest, forStatementSimpleTest) {
   ForStatement forStatement(mStartStatement,
-                            mConditionStatement,
+                            mConditionExpression,
                             mIncrementExpression,
                             mBodyStatement,
                             0);

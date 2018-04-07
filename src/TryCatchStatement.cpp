@@ -33,7 +33,7 @@ TryCatchStatement::~TryCatchStatement() {
   mCatchList.clear();
 }
 
-Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
+void TryCatchStatement::generateIR(IRGenerationContext& context) const {
   if (context.getScopes().getTryCatchInfo()) {
     Log::e_deprecated("Nested try blocks are not allowed. Extract inner try/catch into a method.");
     exit(1);
@@ -55,6 +55,4 @@ Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
   if (doesTryBlockTerminate && doAllCatchesTerminate) {
     IRWriter::newUnreachableInst(context);
   }
-  
-  return NULL;
 }

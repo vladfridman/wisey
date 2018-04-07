@@ -41,6 +41,5 @@ void LLVMGlobalDeclaration::prototypeMethods(IRGenerationContext& context) const
   context.setLLVMGlobalVariable(variableType, mName);
 }
 
-llvm::Value* LLVMGlobalDeclaration::generateIR(IRGenerationContext& context) const {
-  return NULL;
+void LLVMGlobalDeclaration::generateIR(IRGenerationContext& context) const {
 }

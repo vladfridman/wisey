@@ -108,8 +108,7 @@ TEST_F(ThrowStatementTest, modelExpressionTypeTest) {
   ON_CALL(*mMockExpression, generateIR(_, _)).WillByDefault(Return(exceptionObject));
   ThrowStatement throwStatement(mMockExpression, 0);
   
-  Value* result = throwStatement.generateIR(mContext);
-  EXPECT_NE(result, nullptr);
+  throwStatement.generateIR(mContext);
   EXPECT_EQ(mContext.getScopes().getScope()->getExceptions().size(), 1u);
 
   *mStringStream << *mFunction;
@@ -157,8 +156,7 @@ TEST_F(ThrowStatementTest, ownerVariablesAreClearedTest) {
   ON_CALL(*mMockExpression, generateIR(_, _)).WillByDefault(Return(exceptionObject));
   ThrowStatement throwStatement(mMockExpression, 0);
   
-  Value* result = throwStatement.generateIR(mContext);
-  EXPECT_NE(result, nullptr);
+  throwStatement.generateIR(mContext);
   
   *mStringStream << *mFunction;
   string expected =
@@ -223,8 +221,7 @@ TEST_F(ThrowStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
   ON_CALL(*mMockExpression, generateIR(_, _)).WillByDefault(Return(exceptionObject));
   ThrowStatement throwStatement(mMockExpression, 0);
   
-  Value* result = throwStatement.generateIR(mContext);
-  EXPECT_NE(result, nullptr);
+  throwStatement.generateIR(mContext);
   EXPECT_EQ(mContext.getScopes().getScope()->getExceptions().size(), 1u);
   
   *mStringStream << *mFunction;

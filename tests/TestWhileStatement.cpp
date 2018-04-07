@@ -44,8 +44,6 @@ struct WhileStatementTest : Test {
   mConditionExpression(new NiceMock<MockExpression>()),
   mStatement(new NiceMock<MockStatement>()) {
     LLVMContext &llvmContext = mContext.getLLVMContext();
-    Value* statementValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
-    ON_CALL(*mStatement, generateIR(_)).WillByDefault(Return(statementValue));
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(llvmContext), false);

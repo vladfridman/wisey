@@ -30,7 +30,7 @@ PrintErrStatement::~PrintErrStatement() {
   mExpressionList.clear();
 }
 
-Value* PrintErrStatement::generateIR(IRGenerationContext& context) const {
+void PrintErrStatement::generateIR(IRGenerationContext& context) const {
   Value* formatPointer = IPrintStatement::getFormatString(context, mExpressionList);
 
   GlobalVariable* stderrPointer = context.getModule()->getNamedGlobal(Names::getStdErrName());
@@ -47,5 +47,5 @@ Value* PrintErrStatement::generateIR(IRGenerationContext& context) const {
   Value* pointer = IRWriter::newAllocaInst(context, stderrLoaded->getType(), "");
   IRWriter::newStoreInst(context, stderrLoaded, pointer);
   
-  return IRWriter::createCallInst(context, fprintf, arguments, "");
+  IRWriter::createCallInst(context, fprintf, arguments, "");
 }

@@ -17,12 +17,12 @@ ContinueStatement::ContinueStatement() { }
 
 ContinueStatement::~ContinueStatement() { }
 
-Value* ContinueStatement::generateIR(IRGenerationContext& context) const {
+void ContinueStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* continueToBlock = context.getScopes().getContinueToBlock();
   
   if (continueToBlock == NULL) {
     Log::e_deprecated("continue statement not inside a loop");
     exit(1);
   }
-  return IRWriter::createBranch(context, continueToBlock);
+  IRWriter::createBranch(context, continueToBlock);
 }

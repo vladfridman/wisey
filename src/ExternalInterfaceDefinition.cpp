@@ -79,7 +79,6 @@ void ExternalInterfaceDefinition::prototypeMethods(IRGenerationContext& context)
   context.setObjectType(lastObjectType);
 }
 
-Value* ExternalInterfaceDefinition::generateIR(IRGenerationContext& context) const {
-  return NULL;
+void ExternalInterfaceDefinition::generateIR(IRGenerationContext& context) const {
 }
 

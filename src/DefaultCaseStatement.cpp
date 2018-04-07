@@ -17,7 +17,7 @@ DefaultCaseStatement::~DefaultCaseStatement() {
   delete mBlock;
 }
 
-Value* DefaultCaseStatement::generateIR(IRGenerationContext& context) const {
-  return mBlock->generateIR(context);
+void DefaultCaseStatement::generateIR(IRGenerationContext& context) const {
+  mBlock->generateIR(context);
 }
 

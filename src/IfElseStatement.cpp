@@ -27,7 +27,7 @@ IfElseStatement::~IfElseStatement() {
   delete mElseStatement;
 }
 
-Value* IfElseStatement::generateIR(IRGenerationContext& context) const {
+void IfElseStatement::generateIR(IRGenerationContext& context) const {
   Function* function = context.getBasicBlock()->getParent();
   
   BasicBlock* ifThen = BasicBlock::Create(context.getLLVMContext(), "if.then", function);
@@ -46,7 +46,5 @@ Value* IfElseStatement::generateIR(IRGenerationContext& context) const {
   IRWriter::createBranch(context, ifEnd);
   
   context.setBasicBlock(ifEnd);
-
-  return conditionValue;
 }
 

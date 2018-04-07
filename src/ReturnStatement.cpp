@@ -25,7 +25,7 @@ ReturnStatement::~ReturnStatement() {
   delete mExpression;
 }
 
-Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
+void ReturnStatement::generateIR(IRGenerationContext& context) const {
   const IType* returnType = context.getScopes().getReturnType();
   if (returnType == NULL) {
     Log::e_deprecated("No corresponding method found for RETURN");
@@ -47,6 +47,6 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
     ((const IReferenceType*) returnType)->decrementReferenceCount(context, result);
   }
   
-  return IRWriter::createReturnInst(context, result);
+  IRWriter::createReturnInst(context, result);
 }
 

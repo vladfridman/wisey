@@ -49,6 +49,5 @@ void LLVMStructDefinition::prototypeMethods(IRGenerationContext& context) const 
   llvmStructType->setBodyTypes(context, structTypes);
 }
 
-Value* LLVMStructDefinition::generateIR(IRGenerationContext& context) const {
-  return NULL;
+void LLVMStructDefinition::generateIR(IRGenerationContext& context) const {
 }

@@ -21,7 +21,7 @@ DoStatement::~DoStatement() {
   delete mConditionExpression;
 }
 
-Value* DoStatement::generateIR(IRGenerationContext& context) const {
+void DoStatement::generateIR(IRGenerationContext& context) const {
   Function* function = context.getBasicBlock()->getParent();
   Scopes& scopes = context.getScopes();
   
@@ -45,6 +45,4 @@ Value* DoStatement::generateIR(IRGenerationContext& context) const {
   scopes.setContinueToBlock(NULL);
   
   context.setBasicBlock(doEnd);
-  
-  return conditionValue;
 }

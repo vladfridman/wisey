@@ -50,7 +50,5 @@ void LLVMExternalStructDefinition::prototypeMethods(IRGenerationContext& context
   llvmStructType->setBodyTypes(context, structTypes);
 }
 
-Value* LLVMExternalStructDefinition::generateIR(IRGenerationContext& context) const {
-  return NULL;
+void LLVMExternalStructDefinition::generateIR(IRGenerationContext& context) const {
 }
-

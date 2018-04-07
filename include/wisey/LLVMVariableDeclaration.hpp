@@ -47,7 +47,7 @@ namespace wisey {
     
     const Identifier* getIdentifier() const;
     
-    llvm::Value* generateIR(IRGenerationContext& context) const override;
+    void generateIR(IRGenerationContext& context) const override;
     
   private:
     

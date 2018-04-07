@@ -50,7 +50,6 @@ void LLVMFunctionDeclaration::prototypeMethods(IRGenerationContext& context) con
   Function::Create(llvmFunctionType, GlobalValue::ExternalLinkage, mName, context.getModule());
 }
 
-Value* LLVMFunctionDeclaration::generateIR(IRGenerationContext& context) const {
-  return NULL;
+void LLVMFunctionDeclaration::generateIR(IRGenerationContext& context) const {
 }
 

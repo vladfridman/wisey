@@ -29,7 +29,7 @@ ThrowStatement::~ThrowStatement() {
   delete mExpression;
 }
 
-Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
+void ThrowStatement::generateIR(IRGenerationContext& context) const {
   const IType* expressionType = mExpression->getType(context);
   if (!expressionType->isModel() || !expressionType->isOwner()) {
     Log::e_deprecated("Thrown object can only be a model owner");
@@ -83,9 +83,7 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
 
   Function* throwFunction = IntrinsicFunctions::getThrowFunction(context);
   
-  Value* result = IRWriter::createInvokeInst(context, throwFunction, throwArguments, "", mLine);
+  IRWriter::createInvokeInst(context, throwFunction, throwArguments, "", mLine);
 
   IRWriter::newUnreachableInst(context);
-  
-  return result;
 }
