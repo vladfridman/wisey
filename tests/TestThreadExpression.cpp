@@ -24,7 +24,6 @@
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ProgramPrefix.hpp"
 #include "wisey/ThreadExpression.hpp"
 
 using namespace llvm;
@@ -49,8 +48,6 @@ struct ThreadExpressionTest : public Test {
 
   ThreadExpressionTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
     
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,

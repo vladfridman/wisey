@@ -20,7 +20,6 @@
 #include "wisey/MethodArgument.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ProgramPrefix.hpp"
 #include "wisey/StaticMethod.hpp"
 
 using namespace llvm;
@@ -46,8 +45,6 @@ public:
   mBlock(new Block()),
   mCompoundStatement(CompoundStatement(mBlock, 0)) {
     TestPrefix::generateIR(mContext);
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
     
     MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
     MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar");

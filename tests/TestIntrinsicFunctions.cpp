@@ -16,7 +16,6 @@
 #include "TestPrefix.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
-#include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -127,8 +126,6 @@ TEST_F(IntrinsicFunctionsTest, getPrintfFunctionTest) {
 }
 
 TEST_F(IntrinsicFunctionsTest, getFprintfFunctionTest) {
-  ProgramPrefix programPrefix;
-  programPrefix.generateIR(mContext);
   EXPECT_EQ(mModule->getFunction("fprintf"), nullptr);
   EXPECT_NE(IntrinsicFunctions::getFprintfFunction(mContext), nullptr);
   EXPECT_NE(mModule->getFunction("fprintf"), nullptr);

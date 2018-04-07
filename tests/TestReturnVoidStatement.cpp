@@ -21,7 +21,6 @@
 #include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ProgramPrefix.hpp"
 #include "wisey/ReturnVoidStatement.hpp"
 
 using namespace llvm;
@@ -43,8 +42,6 @@ struct ReturnVoidStatementTest : public Test {
   ReturnVoidStatementTest() :
   mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
     

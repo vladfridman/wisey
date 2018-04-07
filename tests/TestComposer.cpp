@@ -22,7 +22,6 @@
 #include "wisey/IMethodCall.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/ProgramFile.hpp"
-#include "wisey/ProgramPrefix.hpp"
 #include "wisey/ThreadExpression.hpp"
 
 using namespace llvm;
@@ -52,8 +51,6 @@ public:
   
   ComposerTest() : mLLVMContext(mContext.getLLVMContext()), mMethodName("foo") {
     TestPrefix::generateIR(mContext);
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
     
     mImportProfile = new ImportProfile(mPackage);
     mContext.setImportProfile(mImportProfile);

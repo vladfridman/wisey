@@ -16,7 +16,6 @@
 #include "TestPrefix.hpp"
 #include "wisey/DestroyReferenceArrayFunction.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -36,8 +35,6 @@ struct DestroyReferenceArrayFunctionTest : Test {
   DestroyReferenceArrayFunctionTest() :
   mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
     
     vector<Type*> destructorArgumentTypes;
     destructorArgumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());

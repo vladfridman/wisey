@@ -61,11 +61,6 @@ namespace wisey {
     static std::string getStdErrName();
     
     /**
-     * Empty string literal
-     */
-    static std::string getEmptyStringName();
-    
-    /**
      * Main thread short name
      */
     static std::string getMainThreadShortName();

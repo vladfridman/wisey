@@ -31,7 +31,6 @@
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ProgramPrefix.hpp"
 #include "wisey/StaticMethod.hpp"
 #include "wisey/StaticMethodCall.hpp"
 #include "wisey/ThreadExpression.hpp"
@@ -70,9 +69,6 @@ public:
   mLLVMContext(mContext.getLLVMContext()),
   mIntType(Type::getInt32Ty(mContext.getLLVMContext())) {
     TestPrefix::generateIR(mContext);
-    
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
     
     mImportProfile = new ImportProfile(mPackage);
     mContext.setImportProfile(mImportProfile);

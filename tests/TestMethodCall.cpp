@@ -32,7 +32,6 @@
 #include "wisey/MethodCall.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ProgramPrefix.hpp"
 #include "wisey/ThreadExpression.hpp"
 
 using namespace llvm;
@@ -71,8 +70,6 @@ public:
   mExpression(new NiceMock<MockExpression>()),
   mIntType(Type::getInt32Ty(mContext.getLLVMContext())) {
     TestPrefix::generateIR(mContext);
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
     
     vector<Type*> returnedModelTypes;
     string returnedModelFullName = "systems.vos.wisey.compiler.tests.MReturnedModel";

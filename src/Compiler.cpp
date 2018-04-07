@@ -22,7 +22,6 @@
 
 #include "wisey/Compiler.hpp"
 #include "wisey/Log.hpp"
-#include "wisey/ProgramPrefix.hpp"
 #include "wisey/ProgramSuffix.hpp"
 
 using namespace std;
@@ -40,7 +39,6 @@ Compiler::~Compiler() {
 
 void Compiler::compile() {
   vector<ProgramFile*> programFiles;
-  ProgramPrefix programPrefix;
   ProgramSuffix programSuffix;
   
   InitializeNativeTarget();
@@ -53,7 +51,6 @@ void Compiler::compile() {
   }
   
   prototypeObjects(programFiles, mContext);
-  programPrefix.generateIR(mContext);
   prototypeMethods(programFiles, mContext);
   generateIR(programFiles, mContext);
   mContext.getImportProfile()->setSourceFileName(mContext, "");

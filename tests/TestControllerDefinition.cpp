@@ -30,7 +30,6 @@
 #include "wisey/MethodDefinition.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/ProgramPrefix.hpp"
 #include "wisey/ReceivedFieldDefinition.hpp"
 #include "wisey/ReturnStatement.hpp"
 
@@ -57,9 +56,6 @@ struct ControllerDefinitionTest : public Test {
   mMockStatement(new NiceMock<MockStatement>()) {
     TestPrefix::generateIR(mContext);
     
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
-
     MethodDefinition *methodDeclaration;
     Block* block = new Block();
 

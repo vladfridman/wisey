@@ -38,7 +38,6 @@
 #include "wisey/NullType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/ProgramPrefix.hpp"
 #include "wisey/ReceivedField.hpp"
 #include "wisey/ThreadExpression.hpp"
 #include "wisey/VariableDeclaration.hpp"
@@ -81,8 +80,6 @@ struct ControllerTest : public Test {
 
   ControllerTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
 
     mImportProfile = new ImportProfile(mPackage);
     mContext.setImportProfile(mImportProfile);

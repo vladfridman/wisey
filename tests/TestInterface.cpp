@@ -37,7 +37,6 @@
 #include "wisey/NullType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/ProgramPrefix.hpp"
 #include "wisey/StaticMethodDefinition.hpp"
 #include "wisey/ThreadExpression.hpp"
 
@@ -77,8 +76,6 @@ struct InterfaceTest : public Test {
   mLLVMContext(mContext.getLLVMContext()),
   mMockExpression(new NiceMock<MockExpression>()) {
     TestPrefix::generateIR(mContext);
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
 
     mImportProfile = new ImportProfile(mPackage);
     mContext.setImportProfile(mImportProfile);

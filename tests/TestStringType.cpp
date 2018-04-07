@@ -19,7 +19,6 @@
 #include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ProgramPrefix.hpp"
 #include "wisey/StringType.hpp"
 
 using namespace llvm;
@@ -152,8 +151,6 @@ TEST_F(StringTypeTest, isObjectTest) {
 }
 
 TEST_F(StringTypeTest, createLocalVariableTest) {
-  ProgramPrefix programPrefix;
-  programPrefix.generateIR(mContext);
   mStringType.createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");
   

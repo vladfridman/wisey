@@ -30,7 +30,6 @@
 #include "wisey/PackageType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/ProgramPrefix.hpp"
 #include "wisey/ReturnStatement.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
@@ -58,8 +57,6 @@ struct ModelDefinitionTest : public Test {
   mBlock(new Block()),
   mMockStatement(new NiceMock<MockStatement>()) {
     TestPrefix::generateIR(mContext);
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
 
     mImportProfile = new ImportProfile(mPackage);
     mContext.setImportProfile(mImportProfile);

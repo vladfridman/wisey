@@ -23,7 +23,6 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -50,8 +49,6 @@ struct IConcreteObjectTypeTest : public Test {
   
   IConcreteObjectTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
 
     mContext.getScopes().pushScope();
     ON_CALL(mMockObject, getTypeName()).WillByDefault(Return("Object"));

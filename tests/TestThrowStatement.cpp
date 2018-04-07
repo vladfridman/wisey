@@ -22,7 +22,6 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
-#include "wisey/ProgramPrefix.hpp"
 #include "wisey/ThrowStatement.hpp"
 
 using namespace llvm;
@@ -50,8 +49,6 @@ struct ThrowStatementTest : public Test {
   mLLVMContext(mContext.getLLVMContext()),
   mMockExpression(new NiceMock<MockExpression>()) {
     TestPrefix::generateIR(mContext);
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
 

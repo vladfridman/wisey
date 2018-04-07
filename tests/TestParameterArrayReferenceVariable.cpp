@@ -20,7 +20,6 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/ParameterArrayReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -16,7 +16,6 @@
 #include "TestPrefix.hpp"
 #include "wisey/DestroyOwnerArrayFunction.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -35,9 +34,7 @@ struct DestroyOwnerArrayFunctionTest : Test {
   DestroyOwnerArrayFunctionTest() :
   mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
-    
+     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
     mFunction = Function::Create(functionType,

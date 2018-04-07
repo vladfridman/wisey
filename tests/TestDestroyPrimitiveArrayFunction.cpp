@@ -16,7 +16,6 @@
 #include "TestPrefix.hpp"
 #include "wisey/DestroyPrimitiveArrayFunction.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/ProgramPrefix.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -37,8 +36,6 @@ struct DestroyPrimitiveArrayFunctionTest : Test {
   DestroyPrimitiveArrayFunctionTest() :
   mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
     
     vector<Type*> destructorArgumentTypes;
     destructorArgumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());

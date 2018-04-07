@@ -26,7 +26,6 @@
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ProgramPrefix.hpp"
 #include "wisey/StateField.hpp"
 
 using namespace llvm;
@@ -53,8 +52,6 @@ struct FieldPointerVariableTest : Test {
   
   FieldPointerVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
     
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IInterface";
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);

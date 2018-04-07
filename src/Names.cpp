@@ -43,10 +43,6 @@ string Names::getStdErrName() {
   return "__stderrp";
 }
 
-string Names::getEmptyStringName() {
-  return "__empty.str";
-}
-
 string Names::getThreadInterfaceName() {
   return "IThread";
 }

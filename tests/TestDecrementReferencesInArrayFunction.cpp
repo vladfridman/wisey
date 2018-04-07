@@ -16,7 +16,6 @@
 #include "TestPrefix.hpp"
 #include "wisey/DecrementReferencesInArrayFunction.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -38,8 +37,6 @@ struct DecrementReferencesInArrayFunctionTest : Test {
   mLLVMContext(mContext.getLLVMContext()),
   mInt8Pointer(Type::getInt8Ty(mLLVMContext)->getPointerTo()) {
     TestPrefix::generateIR(mContext);
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
     
     vector<Type*> decrementorArgumentTypes;
     decrementorArgumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());

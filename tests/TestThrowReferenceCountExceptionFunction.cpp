@@ -15,7 +15,6 @@
 
 #include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/ProgramPrefix.hpp"
 #include "wisey/ThrowReferenceCountExceptionFunction.hpp"
 
 using namespace llvm;
@@ -34,8 +33,6 @@ struct ThrowReferenceCountExceptionFunctionTest : Test {
   
   ThrowReferenceCountExceptionFunctionTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);

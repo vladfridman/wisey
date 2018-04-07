@@ -23,7 +23,6 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
-#include "wisey/ProgramPrefix.hpp"
 #include "wisey/StateField.hpp"
 
 using namespace llvm;
@@ -48,8 +47,6 @@ struct FieldLLVMVariableTest : Test {
   
   FieldLLVMVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
     
     mType = LLVMPrimitiveTypes::I16;
     

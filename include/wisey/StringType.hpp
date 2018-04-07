@@ -18,6 +18,8 @@ namespace wisey {
    */
   class StringType : public IPrimitiveType {
     
+    const static std::string EMPTY_STRING_CONSTANT_NAME;
+    
   public:
     
     StringType();

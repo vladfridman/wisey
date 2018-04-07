@@ -24,7 +24,6 @@
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/MethodDefinition.hpp"
 #include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ProgramPrefix.hpp"
 #include "wisey/ReturnStatement.hpp"
 
 using namespace llvm;
@@ -52,8 +51,6 @@ public:
   mLLVMContext(mContext.getLLVMContext()),
   mExpression(new NiceMock<MockExpression>()) {
     TestPrefix::generateIR(mContext);
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
 
     Value * value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
     ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));

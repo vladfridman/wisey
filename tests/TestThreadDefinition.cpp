@@ -31,7 +31,6 @@
 #include "wisey/MethodDefinition.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/ProgramPrefix.hpp"
 #include "wisey/ReturnStatement.hpp"
 #include "wisey/StateFieldDefinition.hpp"
 #include "wisey/ThreadDefinition.hpp"
@@ -58,9 +57,6 @@ struct ThreadDefinitionTest : public Test {
   mLLVMContext(mContext.getLLVMContext()),
   mMockStatement(new NiceMock<MockStatement>()) {
     TestPrefix::generateIR(mContext);
-    
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
     
     MethodDefinition *methodDeclaration;
     Block* block = new Block();
