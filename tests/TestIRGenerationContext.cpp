@@ -469,28 +469,28 @@ TEST_F(IRGenerationContextTest, getLLVMFunctionTypeTest) {
   EXPECT_EQ(llvmFunctionType, mContext.getLLVMFunctionType(LLVMPrimitiveTypes::I8, argumentTypes));
 }
 
-TEST_F(IRGenerationContextTest, registerLLVMFunctionTest) {
+TEST_F(IRGenerationContextTest, registerLLVMFunctionNamedTypeTest) {
   vector<const IType*> arguments;
   arguments.push_back(LLVMPrimitiveTypes::I16);
   LLVMFunctionType* functionType = new LLVMFunctionType(LLVMPrimitiveTypes::I8, arguments);
-  mContext.registerLLVMFunction("myfunction", functionType);
+  mContext.registerLLVMFunctionNamedType("myfunction", functionType);
   
-  EXPECT_EQ(functionType, mContext.lookupLLVMFunction("myfunction"));
+  EXPECT_EQ(functionType, mContext.lookupLLVMFunctionNamedType("myfunction"));
 }
 
-TEST_F(IRGenerationContextTest, registerLLVMFunctionDeathTest) {
+TEST_F(IRGenerationContextTest, registerLLVMFunctionNamedTypeDeathTest) {
   vector<const IType*> arguments;
   arguments.push_back(LLVMPrimitiveTypes::I16);
   LLVMFunctionType* functionType = new LLVMFunctionType(LLVMPrimitiveTypes::I8, arguments);
-  mContext.registerLLVMFunction("myfunction", functionType);
+  mContext.registerLLVMFunctionNamedType("myfunction", functionType);
   
-  EXPECT_EXIT(mContext.registerLLVMFunction("myfunction", functionType),
+  EXPECT_EXIT(mContext.registerLLVMFunctionNamedType("myfunction", functionType),
               ::testing::ExitedWithCode(1),
               "Can not register llvm function named myfunction because it is already registered");
 }
 
-TEST_F(IRGenerationContextTest, lookupLLVMFunctionDeathTest) {
-  EXPECT_EXIT(mContext.lookupLLVMFunction("myfunction"),
+TEST_F(IRGenerationContextTest, lookupLLVMFunctionNamedTypeDeathTest) {
+  EXPECT_EXIT(mContext.lookupLLVMFunctionNamedType("myfunction"),
               ::testing::ExitedWithCode(1),
               "Can not find llvm function named myfunction");
 }

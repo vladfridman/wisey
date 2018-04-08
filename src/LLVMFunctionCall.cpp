@@ -50,7 +50,7 @@ const IType* LLVMFunctionCall::getType(IRGenerationContext& context) const {
     exit(1);
   }
   
-  return context.lookupLLVMFunction(mFunctionName)->getReturnType();
+  return context.lookupLLVMFunctionNamedType(mFunctionName)->getReturnType();
 }
 
 bool LLVMFunctionCall::isConstant() const {

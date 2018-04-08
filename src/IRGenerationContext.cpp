@@ -89,7 +89,7 @@ IRGenerationContext::~IRGenerationContext() {
        iterator++) {
     delete iterator->second;
   }
-  mLLVMFunctions.clear();
+  mLLVMFunctionNamedTypes.clear();
   mBindings.clear();
 }
 
@@ -328,20 +328,22 @@ void IRGenerationContext::setLLVMGlobalVariable(const IType* type, string name) 
   mGlobalVariables[name] = type;
 }
 
-void IRGenerationContext::registerLLVMFunction(string name, const LLVMFunctionType* functionType) {
-  if (mLLVMFunctions.count(name)) {
-    Log::e_deprecated("Can not register llvm function named " + name + " because it is already registered");
+void IRGenerationContext::registerLLVMFunctionNamedType(string name,
+                                                        const LLVMFunctionType* functionType) {
+  if (mLLVMFunctionNamedTypes.count(name)) {
+    Log::e_deprecated("Can not register llvm function named " + name +
+                      " because it is already registered");
     exit(1);
   }
-  mLLVMFunctions[name] = functionType;
+  mLLVMFunctionNamedTypes[name] = functionType;
 }
 
-const LLVMFunctionType* IRGenerationContext::lookupLLVMFunction(string name) {
-  if (!mLLVMFunctions.count(name)) {
+const LLVMFunctionType* IRGenerationContext::lookupLLVMFunctionNamedType(string name) {
+  if (!mLLVMFunctionNamedTypes.count(name)) {
     Log::e_deprecated("Can not find llvm function named " + name);
     exit(1);
   }
-  return mLLVMFunctions.at(name);
+  return mLLVMFunctionNamedTypes.at(name);
 }
 
 void IRGenerationContext::bindInterfaceToController(const Interface* interface,

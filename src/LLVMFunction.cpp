@@ -47,7 +47,7 @@ Value* LLVMFunction::declareFunction(IRGenerationContext& context,
     llvmArgumentTypes.push_back(argumentType->getLLVMType(context));
   }
   LLVMFunctionType* functionType = context.getLLVMFunctionType(mReturnType, argumentTypes);
-  context.registerLLVMFunction(mName, functionType);
+  context.registerLLVMFunctionNamedType(mName, functionType);
   Type* llvmReturnType = mReturnType->getLLVMType(context);
   FunctionType* llvmFunctionType = FunctionType::get(llvmReturnType, llvmArgumentTypes, false);
   string name = IMethodCall::translateObjectMethodToLLVMFunctionName(objectType, mName);
