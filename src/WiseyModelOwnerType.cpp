@@ -37,11 +37,17 @@ llvm::PointerType* WiseyModelOwnerType::getLLVMType(IRGenerationContext& context
 }
 
 bool WiseyModelOwnerType::canCastTo(IRGenerationContext& context, const IType* toType) const {
-  return toType->isReference() || toType->isOwner() || toType->isPointer();
+  if (toType->isPointer()) {
+    return true;
+  }
+  if (toType->isReference() || toType->isOwner()) {
+    return !toType->isController() && !toType->isNode() && !toType->isThread();
+  }
+  return false;
 }
 
 bool WiseyModelOwnerType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
-  return toType->isReference() || toType->isOwner() || toType->isPointer();
+  return canCastTo(context, toType);
 }
 
 llvm::Value* WiseyModelOwnerType::castTo(IRGenerationContext& context,
@@ -87,7 +93,7 @@ bool WiseyModelOwnerType::isInterface() const {
 }
 
 bool WiseyModelOwnerType::isModel() const {
-  return false;
+  return true;
 }
 
 bool WiseyModelOwnerType::isNode() const {

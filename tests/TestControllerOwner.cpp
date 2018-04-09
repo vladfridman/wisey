@@ -21,6 +21,10 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/WiseyModelOwnerType.hpp"
+#include "wisey/WiseyModelType.hpp"
+#include "wisey/WiseyObjectOwnerType.hpp"
+#include "wisey/WiseyObjectType.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -162,6 +166,12 @@ TEST_F(ControllerOwnerTest, canCastTest) {
   EXPECT_FALSE(controllerOwner->canCastTo(mContext, mVehicleInterface->getOwner()));
   EXPECT_TRUE(controllerOwner->canCastTo(mContext, mMultiplierController->getOwner()));
   EXPECT_TRUE(controllerOwner->canCastTo(mContext, mCalculatorInterface->getOwner()));
+  EXPECT_FALSE(controllerOwner->canCastTo(mContext, WiseyModelType::WISEY_MODEL_TYPE));
+  EXPECT_FALSE(controllerOwner->
+               canCastTo(mContext, WiseyModelOwnerType::WISEY_MODEL_OWNER_TYPE));
+  EXPECT_TRUE(controllerOwner->canCastTo(mContext, WiseyObjectType::LLVM_OBJECT_TYPE));
+  EXPECT_TRUE(controllerOwner->
+               canCastTo(mContext, WiseyObjectOwnerType::LLVM_OBJECT_OWNER_TYPE));
 }
 
 TEST_F(ControllerOwnerTest, canAutoCastTest) {
@@ -177,6 +187,12 @@ TEST_F(ControllerOwnerTest, canAutoCastTest) {
   EXPECT_FALSE(controllerOwner->canAutoCastTo(mContext, mVehicleInterface->getOwner()));
   EXPECT_TRUE(controllerOwner->canAutoCastTo(mContext, mMultiplierController->getOwner()));
   EXPECT_TRUE(controllerOwner->canAutoCastTo(mContext, mCalculatorInterface->getOwner()));
+  EXPECT_FALSE(controllerOwner->canAutoCastTo(mContext, WiseyModelType::WISEY_MODEL_TYPE));
+  EXPECT_FALSE(controllerOwner->
+               canAutoCastTo(mContext, WiseyModelOwnerType::WISEY_MODEL_OWNER_TYPE));
+  EXPECT_TRUE(controllerOwner->canAutoCastTo(mContext, WiseyObjectType::LLVM_OBJECT_TYPE));
+  EXPECT_TRUE(controllerOwner->
+              canAutoCastTo(mContext, WiseyObjectOwnerType::LLVM_OBJECT_OWNER_TYPE));
 }
 
 TEST_F(ControllerOwnerTest, castToItselfTest) {

@@ -42,6 +42,10 @@
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ThreadExpression.hpp"
 #include "wisey/VariableDeclaration.hpp"
+#include "wisey/WiseyModelOwnerType.hpp"
+#include "wisey/WiseyModelType.hpp"
+#include "wisey/WiseyObjectOwnerType.hpp"
+#include "wisey/WiseyObjectType.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -470,6 +474,10 @@ TEST_F(ModelTest, canCastToTest) {
   EXPECT_TRUE(mModel->canCastTo(mContext, mShapeInterface));
   EXPECT_FALSE(mModel->canCastTo(mContext, NullType::NULL_TYPE));
   EXPECT_TRUE(mModel->canCastTo(mContext, mModel));
+  EXPECT_TRUE(mModel->canCastTo(mContext, WiseyModelType::WISEY_MODEL_TYPE));
+  EXPECT_FALSE(mModel->canCastTo(mContext, WiseyModelOwnerType::WISEY_MODEL_OWNER_TYPE));
+  EXPECT_TRUE(mModel->canCastTo(mContext, WiseyObjectType::LLVM_OBJECT_TYPE));
+  EXPECT_FALSE(mModel->canCastTo(mContext, WiseyObjectOwnerType::LLVM_OBJECT_OWNER_TYPE));
 }
 
 TEST_F(ModelTest, canAutoCastToTest) {
@@ -480,6 +488,10 @@ TEST_F(ModelTest, canAutoCastToTest) {
   EXPECT_TRUE(mModel->canAutoCastTo(mContext, mShapeInterface));
   EXPECT_FALSE(mModel->canAutoCastTo(mContext, NullType::NULL_TYPE));
   EXPECT_TRUE(mModel->canAutoCastTo(mContext, mModel));
+  EXPECT_TRUE(mModel->canAutoCastTo(mContext, WiseyModelType::WISEY_MODEL_TYPE));
+  EXPECT_FALSE(mModel->canAutoCastTo(mContext, WiseyModelOwnerType::WISEY_MODEL_OWNER_TYPE));
+  EXPECT_TRUE(mModel->canAutoCastTo(mContext, WiseyObjectType::LLVM_OBJECT_TYPE));
+  EXPECT_FALSE(mModel->canAutoCastTo(mContext, WiseyObjectOwnerType::LLVM_OBJECT_OWNER_TYPE));
 }
 
 TEST_F(ModelTest, castToFirstInterfaceTest) {

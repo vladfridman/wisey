@@ -20,6 +20,8 @@
 #include "wisey/WiseyObjectType.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/StateField.hpp"
+#include "wisey/WiseyModelType.hpp"
+#include "wisey/WiseyModelOwnerType.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -75,18 +77,24 @@ TEST_F(WiseyObjectOwnerTypeTest, pointerTypeTest) {
   EXPECT_STREQ("::wisey::object*", mWiseyObjectOwnerType->getTypeName().c_str());
 }
 
-TEST_F(WiseyObjectOwnerTypeTest, canAutoCastToTest) {
-  EXPECT_FALSE(mWiseyObjectOwnerType->canAutoCastTo(mContext, LLVMPrimitiveTypes::I8));
-  LLVMPointerType* pointerType = LLVMPointerType::create(LLVMPrimitiveTypes::I32);
-  EXPECT_TRUE(mWiseyObjectOwnerType->canAutoCastTo(mContext, pointerType));
-  EXPECT_TRUE(mWiseyObjectOwnerType->canAutoCastTo(mContext, &mConcreteObjectType));
-}
-
 TEST_F(WiseyObjectOwnerTypeTest, canCastTest) {
   EXPECT_FALSE(mWiseyObjectOwnerType->canCastTo(mContext, LLVMPrimitiveTypes::I8));
   LLVMPointerType* pointerType = LLVMPointerType::create(LLVMPrimitiveTypes::I32);
   EXPECT_TRUE(mWiseyObjectOwnerType->canCastTo(mContext, pointerType));
   EXPECT_TRUE(mWiseyObjectOwnerType->canCastTo(mContext, &mConcreteObjectType));
+  EXPECT_FALSE(mWiseyObjectOwnerType->canCastTo(mContext, WiseyModelType::WISEY_MODEL_TYPE));
+  EXPECT_FALSE(mWiseyObjectOwnerType->
+               canCastTo(mContext, WiseyModelOwnerType::WISEY_MODEL_OWNER_TYPE));
+}
+
+TEST_F(WiseyObjectOwnerTypeTest, canAutoCastToTest) {
+  EXPECT_FALSE(mWiseyObjectOwnerType->canAutoCastTo(mContext, LLVMPrimitiveTypes::I8));
+  LLVMPointerType* pointerType = LLVMPointerType::create(LLVMPrimitiveTypes::I32);
+  EXPECT_TRUE(mWiseyObjectOwnerType->canAutoCastTo(mContext, pointerType));
+  EXPECT_TRUE(mWiseyObjectOwnerType->canAutoCastTo(mContext, &mConcreteObjectType));
+  EXPECT_FALSE(mWiseyObjectOwnerType->canAutoCastTo(mContext, WiseyModelType::WISEY_MODEL_TYPE));
+  EXPECT_FALSE(mWiseyObjectOwnerType->
+               canAutoCastTo(mContext, WiseyModelOwnerType::WISEY_MODEL_OWNER_TYPE));
 }
 
 TEST_F(WiseyObjectOwnerTypeTest, castToTest) {

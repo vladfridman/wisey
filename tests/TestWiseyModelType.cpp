@@ -19,6 +19,8 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/StateField.hpp"
+#include "wisey/WiseyObjectOwnerType.hpp"
+#include "wisey/WiseyObjectType.hpp"
 #include "wisey/WiseyModelType.hpp"
 #include "wisey/WiseyModelOwnerType.hpp"
 
@@ -75,18 +77,23 @@ TEST_F(WiseyModelTypeTest, pointerTypeTest) {
   EXPECT_STREQ("::wisey::model", mWiseyModelType->getTypeName().c_str());
 }
 
-TEST_F(WiseyModelTypeTest, canAutoCastToTest) {
-  EXPECT_FALSE(mWiseyModelType->canAutoCastTo(mContext, LLVMPrimitiveTypes::I8));
-  LLVMPointerType* pointerType = LLVMPointerType::create(LLVMPrimitiveTypes::I32);
-  EXPECT_TRUE(mWiseyModelType->canAutoCastTo(mContext, pointerType));
-  EXPECT_TRUE(mWiseyModelType->canAutoCastTo(mContext, &mConcreteObjectType));
-}
-
 TEST_F(WiseyModelTypeTest, canCastTest) {
   EXPECT_FALSE(mWiseyModelType->canCastTo(mContext, LLVMPrimitiveTypes::I8));
   LLVMPointerType* pointerType = LLVMPointerType::create(LLVMPrimitiveTypes::I32);
   EXPECT_TRUE(mWiseyModelType->canCastTo(mContext, pointerType));
   EXPECT_TRUE(mWiseyModelType->canCastTo(mContext, &mConcreteObjectType));
+  EXPECT_TRUE(mWiseyModelType->canCastTo(mContext, WiseyObjectType::LLVM_OBJECT_TYPE));
+  EXPECT_FALSE(mWiseyModelType->canCastTo(mContext, WiseyObjectOwnerType::LLVM_OBJECT_OWNER_TYPE));
+}
+
+TEST_F(WiseyModelTypeTest, canAutoCastToTest) {
+  EXPECT_FALSE(mWiseyModelType->canAutoCastTo(mContext, LLVMPrimitiveTypes::I8));
+  LLVMPointerType* pointerType = LLVMPointerType::create(LLVMPrimitiveTypes::I32);
+  EXPECT_TRUE(mWiseyModelType->canAutoCastTo(mContext, pointerType));
+  EXPECT_TRUE(mWiseyModelType->canAutoCastTo(mContext, &mConcreteObjectType));
+  EXPECT_TRUE(mWiseyModelType->canAutoCastTo(mContext, WiseyObjectType::LLVM_OBJECT_TYPE));
+  EXPECT_FALSE(mWiseyModelType->
+               canAutoCastTo(mContext, WiseyObjectOwnerType::LLVM_OBJECT_OWNER_TYPE));
 }
 
 TEST_F(WiseyModelTypeTest, castToTest) {
@@ -126,7 +133,7 @@ TEST_F(WiseyModelTypeTest, isTypeKindTest) {
 TEST_F(WiseyModelTypeTest, isObjectTest) {
   EXPECT_FALSE(mWiseyModelType->isController());
   EXPECT_FALSE(mWiseyModelType->isInterface());
-  EXPECT_FALSE(mWiseyModelType->isModel());
+  EXPECT_TRUE(mWiseyModelType->isModel());
   EXPECT_FALSE(mWiseyModelType->isNode());
   EXPECT_FALSE(mWiseyModelType->isThread());
 }

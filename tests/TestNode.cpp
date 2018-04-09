@@ -40,6 +40,10 @@
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ThreadExpression.hpp"
 #include "wisey/VariableDeclaration.hpp"
+#include "wisey/WiseyModelOwnerType.hpp"
+#include "wisey/WiseyModelType.hpp"
+#include "wisey/WiseyObjectOwnerType.hpp"
+#include "wisey/WiseyObjectType.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -466,6 +470,12 @@ TEST_F(NodeTest, canCastToTest) {
   EXPECT_TRUE(mComplicatedNode->canCastTo(mContext, mElementInterface));
   EXPECT_FALSE(mComplicatedNode->canCastTo(mContext, NullType::NULL_TYPE));
   EXPECT_TRUE(mComplicatedNode->canCastTo(mContext, mComplicatedNode));
+  EXPECT_FALSE(mComplicatedNode->canCastTo(mContext, WiseyModelType::WISEY_MODEL_TYPE));
+  EXPECT_FALSE(mComplicatedNode->
+               canCastTo(mContext, WiseyModelOwnerType::WISEY_MODEL_OWNER_TYPE));
+  EXPECT_TRUE(mComplicatedNode->canCastTo(mContext, WiseyObjectType::LLVM_OBJECT_TYPE));
+  EXPECT_FALSE(mComplicatedNode->
+               canCastTo(mContext, WiseyObjectOwnerType::LLVM_OBJECT_OWNER_TYPE));
 }
 
 TEST_F(NodeTest, canAutoCastToTest) {
@@ -476,6 +486,12 @@ TEST_F(NodeTest, canAutoCastToTest) {
   EXPECT_TRUE(mComplicatedNode->canAutoCastTo(mContext, mElementInterface));
   EXPECT_FALSE(mComplicatedNode->canAutoCastTo(mContext, NullType::NULL_TYPE));
   EXPECT_TRUE(mComplicatedNode->canAutoCastTo(mContext, mComplicatedNode));
+  EXPECT_FALSE(mComplicatedNode->canAutoCastTo(mContext, WiseyModelType::WISEY_MODEL_TYPE));
+  EXPECT_FALSE(mComplicatedNode->
+               canAutoCastTo(mContext, WiseyModelOwnerType::WISEY_MODEL_OWNER_TYPE));
+  EXPECT_TRUE(mComplicatedNode->canAutoCastTo(mContext, WiseyObjectType::LLVM_OBJECT_TYPE));
+  EXPECT_FALSE(mComplicatedNode->
+               canAutoCastTo(mContext, WiseyObjectOwnerType::LLVM_OBJECT_OWNER_TYPE));
 }
 
 TEST_F(NodeTest, castToFirstInterfaceTest) {

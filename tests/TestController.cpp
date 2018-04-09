@@ -41,6 +41,10 @@
 #include "wisey/ReceivedField.hpp"
 #include "wisey/ThreadExpression.hpp"
 #include "wisey/VariableDeclaration.hpp"
+#include "wisey/WiseyModelOwnerType.hpp"
+#include "wisey/WiseyModelType.hpp"
+#include "wisey/WiseyObjectOwnerType.hpp"
+#include "wisey/WiseyObjectType.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -459,6 +463,12 @@ TEST_F(ControllerTest, canCastToTest) {
   EXPECT_TRUE(mMultiplierController->canCastTo(mContext, mCalculatorInterface));
   EXPECT_FALSE(mMultiplierController->canCastTo(mContext, NullType::NULL_TYPE));
   EXPECT_TRUE(mMultiplierController->canCastTo(mContext, mMultiplierController));
+  EXPECT_FALSE(mMultiplierController->canCastTo(mContext, WiseyModelType::WISEY_MODEL_TYPE));
+  EXPECT_FALSE(mMultiplierController->
+               canCastTo(mContext, WiseyModelOwnerType::WISEY_MODEL_OWNER_TYPE));
+  EXPECT_TRUE(mMultiplierController->canCastTo(mContext, WiseyObjectType::LLVM_OBJECT_TYPE));
+  EXPECT_FALSE(mMultiplierController->
+               canCastTo(mContext, WiseyObjectOwnerType::LLVM_OBJECT_OWNER_TYPE));
 }
 
 TEST_F(ControllerTest, canAutoCastToTest) {
@@ -469,6 +479,12 @@ TEST_F(ControllerTest, canAutoCastToTest) {
   EXPECT_TRUE(mMultiplierController->canAutoCastTo(mContext, mCalculatorInterface));
   EXPECT_FALSE(mMultiplierController->canAutoCastTo(mContext, NullType::NULL_TYPE));
   EXPECT_TRUE(mMultiplierController->canAutoCastTo(mContext, mMultiplierController));
+  EXPECT_FALSE(mMultiplierController->canAutoCastTo(mContext, WiseyModelType::WISEY_MODEL_TYPE));
+  EXPECT_FALSE(mMultiplierController->
+               canAutoCastTo(mContext, WiseyModelOwnerType::WISEY_MODEL_OWNER_TYPE));
+  EXPECT_TRUE(mMultiplierController->canAutoCastTo(mContext, WiseyObjectType::LLVM_OBJECT_TYPE));
+  EXPECT_FALSE(mMultiplierController->
+               canAutoCastTo(mContext, WiseyObjectOwnerType::LLVM_OBJECT_OWNER_TYPE));
 }
 
 TEST_F(ControllerTest, castToFirstInterfaceTest) {

@@ -300,6 +300,9 @@ llvm::PointerType* Thread::getLLVMType(IRGenerationContext& context) const {
 }
 
 bool Thread::canCastTo(IRGenerationContext& context, const IType* toType) const {
+  if (toType->isNative() && toType->isReference()) {
+    return !toType->isController() && !toType->isModel() && !toType->isNode();
+  }
   return IConcreteObjectType::canCast(this, toType);
 }
 

@@ -29,6 +29,10 @@
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/VariableDeclaration.hpp"
+#include "wisey/WiseyModelOwnerType.hpp"
+#include "wisey/WiseyModelType.hpp"
+#include "wisey/WiseyObjectOwnerType.hpp"
+#include "wisey/WiseyObjectType.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -294,6 +298,12 @@ TEST_F(NodeOwnerTest, canCastToTest) {
   EXPECT_FALSE(mComplicatedNode->getOwner()->canCastTo(mContext, mVehicleInterface));
   EXPECT_TRUE(mComplicatedNode->getOwner()->canCastTo(mContext, mComplicatedNode));
   EXPECT_TRUE(mComplicatedNode->getOwner()->canCastTo(mContext, mElementInterface));
+  EXPECT_FALSE(mComplicatedNode->getOwner()->canCastTo(mContext, WiseyModelType::WISEY_MODEL_TYPE));
+  EXPECT_FALSE(mComplicatedNode->getOwner()->
+               canCastTo(mContext, WiseyModelOwnerType::WISEY_MODEL_OWNER_TYPE));
+  EXPECT_TRUE(mComplicatedNode->getOwner()->canCastTo(mContext, WiseyObjectType::LLVM_OBJECT_TYPE));
+  EXPECT_TRUE(mComplicatedNode->getOwner()->
+              canCastTo(mContext, WiseyObjectOwnerType::LLVM_OBJECT_OWNER_TYPE));
 }
 
 TEST_F(NodeOwnerTest, canAutoCastToTest) {
@@ -307,6 +317,14 @@ TEST_F(NodeOwnerTest, canAutoCastToTest) {
   EXPECT_FALSE(mComplicatedNode->getOwner()->canCastTo(mContext, mVehicleInterface));
   EXPECT_TRUE(mComplicatedNode->getOwner()->canAutoCastTo(mContext, mComplicatedNode));
   EXPECT_TRUE(mComplicatedNode->getOwner()->canAutoCastTo(mContext, mElementInterface));
+  EXPECT_FALSE(mComplicatedNode->getOwner()->
+               canAutoCastTo(mContext, WiseyModelType::WISEY_MODEL_TYPE));
+  EXPECT_FALSE(mComplicatedNode->getOwner()->
+               canAutoCastTo(mContext, WiseyModelOwnerType::WISEY_MODEL_OWNER_TYPE));
+  EXPECT_TRUE(mComplicatedNode->getOwner()->
+              canAutoCastTo(mContext, WiseyObjectType::LLVM_OBJECT_TYPE));
+  EXPECT_TRUE(mComplicatedNode->getOwner()->
+              canAutoCastTo(mContext, WiseyObjectOwnerType::LLVM_OBJECT_OWNER_TYPE));
 }
 
 TEST_F(NodeOwnerTest, castToFirstInterfaceTest) {

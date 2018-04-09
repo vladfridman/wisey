@@ -21,6 +21,10 @@
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ThreadOwner.hpp"
+#include "wisey/WiseyModelOwnerType.hpp"
+#include "wisey/WiseyModelType.hpp"
+#include "wisey/WiseyObjectOwnerType.hpp"
+#include "wisey/WiseyObjectType.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -96,6 +100,10 @@ TEST_F(ThreadOwnerTest, canCastTest) {
   EXPECT_FALSE(threadOwner->canCastTo(mContext, PrimitiveTypes::INT_TYPE));
   EXPECT_TRUE(threadOwner->canCastTo(mContext, mThread));
   EXPECT_TRUE(threadOwner->canCastTo(mContext, mThread->getOwner()));
+  EXPECT_FALSE(threadOwner->canCastTo(mContext, WiseyModelType::WISEY_MODEL_TYPE));
+  EXPECT_FALSE(threadOwner->canCastTo(mContext, WiseyModelOwnerType::WISEY_MODEL_OWNER_TYPE));
+  EXPECT_TRUE(threadOwner->canCastTo(mContext, WiseyObjectType::LLVM_OBJECT_TYPE));
+  EXPECT_TRUE(threadOwner->canCastTo(mContext, WiseyObjectOwnerType::LLVM_OBJECT_OWNER_TYPE));
 }
 
 TEST_F(ThreadOwnerTest, canAutoCastTest) {
@@ -104,6 +112,10 @@ TEST_F(ThreadOwnerTest, canAutoCastTest) {
   EXPECT_FALSE(threadOwner->canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
   EXPECT_TRUE(threadOwner->canAutoCastTo(mContext, mThread));
   EXPECT_TRUE(threadOwner->canAutoCastTo(mContext, mThread->getOwner()));
+  EXPECT_FALSE(threadOwner->canAutoCastTo(mContext, WiseyModelType::WISEY_MODEL_TYPE));
+  EXPECT_FALSE(threadOwner->canAutoCastTo(mContext, WiseyModelOwnerType::WISEY_MODEL_OWNER_TYPE));
+  EXPECT_TRUE(threadOwner->canAutoCastTo(mContext, WiseyObjectType::LLVM_OBJECT_TYPE));
+  EXPECT_TRUE(threadOwner->canAutoCastTo(mContext, WiseyObjectOwnerType::LLVM_OBJECT_OWNER_TYPE));
 }
 
 TEST_F(ThreadOwnerTest, castToItselfTest) {

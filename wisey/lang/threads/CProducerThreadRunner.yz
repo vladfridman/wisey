@@ -50,7 +50,7 @@ controller CProducerThreadRunner {
   /**
    * Adds result to the list of results if there is space
    */
-  public ::wisey::object* addResult(::wisey::model* result) {
+  public ::wisey::model* addResult(::wisey::model* result) {
     int nextIndexEnd = (mIndexEnd + 1) % mSize;
     if (mIndexStart == nextIndexEnd) {
       return result;

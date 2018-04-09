@@ -627,7 +627,7 @@ bool IConcreteObjectType::canCast(const IType* fromType, const IType* toType) {
       getInterfaceIndex((const IConcreteObjectType*) fromType, (const Interface*) toType) >= 0) {
     return true;
   }
-  if (toType->isNative() && (toType->isReference() || toType->isPointer())) {
+  if (toType->isNative() && toType->isPointer()) {
     return true;
   }
   return false;

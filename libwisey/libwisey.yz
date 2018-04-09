@@ -145,7 +145,7 @@ external controller wisey.lang.threads.CProducerThreadRunner {
     wisey.lang.threads.IProducerThread workerThread,
     int size);
   void joinThread();
-  ::wisey::object* addResult(
+  ::wisey::model* addResult(
     ::wisey::model* result);
   ::wisey::model* consumeResult();
   boolean hasResult();

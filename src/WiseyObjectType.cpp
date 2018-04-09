@@ -39,11 +39,18 @@ PointerType* WiseyObjectType::getLLVMType(IRGenerationContext& context) const {
 }
 
 bool WiseyObjectType::canCastTo(IRGenerationContext& context, const IType* toType) const {
-  return toType->isReference() || toType->isPointer();
+  if (toType->isPointer()) {
+    return true;
+  }
+  if (toType->isReference()) {
+    return !toType->isController() && !toType->isModel() && !toType->isNode() &&
+    !toType->isThread();
+  }
+  return false;
 }
 
 bool WiseyObjectType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
-  return toType->isReference() || toType->isPointer();
+  return canCastTo(context, toType);
 }
 
 Value* WiseyObjectType::castTo(IRGenerationContext& context,

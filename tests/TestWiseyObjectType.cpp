@@ -21,6 +21,8 @@
 #include "wisey/WiseyObjectType.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/StateField.hpp"
+#include "wisey/WiseyModelType.hpp"
+#include "wisey/WiseyModelOwnerType.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -75,18 +77,24 @@ TEST_F(WiseyObjectTypeTest, pointerTypeTest) {
   EXPECT_STREQ("::wisey::object", mWiseyObjectType->getTypeName().c_str());
 }
 
-TEST_F(WiseyObjectTypeTest, canAutoCastToTest) {
-  EXPECT_FALSE(mWiseyObjectType->canAutoCastTo(mContext, LLVMPrimitiveTypes::I8));
-  LLVMPointerType* pointerType = LLVMPointerType::create(LLVMPrimitiveTypes::I32);
-  EXPECT_TRUE(mWiseyObjectType->canAutoCastTo(mContext, pointerType));
-  EXPECT_TRUE(mWiseyObjectType->canAutoCastTo(mContext, &mConcreteObjectType));
-}
-
 TEST_F(WiseyObjectTypeTest, canCastTest) {
   EXPECT_FALSE(mWiseyObjectType->canCastTo(mContext, LLVMPrimitiveTypes::I8));
   LLVMPointerType* pointerType = LLVMPointerType::create(LLVMPrimitiveTypes::I32);
   EXPECT_TRUE(mWiseyObjectType->canCastTo(mContext, pointerType));
   EXPECT_TRUE(mWiseyObjectType->canCastTo(mContext, &mConcreteObjectType));
+  EXPECT_FALSE(mWiseyObjectType->canCastTo(mContext, WiseyModelType::WISEY_MODEL_TYPE));
+  EXPECT_FALSE(mWiseyObjectType->
+               canCastTo(mContext, WiseyModelOwnerType::WISEY_MODEL_OWNER_TYPE));
+}
+
+TEST_F(WiseyObjectTypeTest, canAutoCastToTest) {
+  EXPECT_FALSE(mWiseyObjectType->canAutoCastTo(mContext, LLVMPrimitiveTypes::I8));
+  LLVMPointerType* pointerType = LLVMPointerType::create(LLVMPrimitiveTypes::I32);
+  EXPECT_TRUE(mWiseyObjectType->canAutoCastTo(mContext, pointerType));
+  EXPECT_TRUE(mWiseyObjectType->canAutoCastTo(mContext, &mConcreteObjectType));
+  EXPECT_FALSE(mWiseyObjectType->canAutoCastTo(mContext, WiseyModelType::WISEY_MODEL_TYPE));
+  EXPECT_FALSE(mWiseyObjectType->
+               canAutoCastTo(mContext, WiseyModelOwnerType::WISEY_MODEL_OWNER_TYPE));
 }
 
 TEST_F(WiseyObjectTypeTest, castToTest) {
