@@ -42,23 +42,18 @@ LLVMFunction::~LLVMFunction() {
 Value* LLVMFunction::declareFunction(IRGenerationContext& context,
                                      const IObjectType* objectType) const {
   vector<const IType*> argumentTypes;
-  vector<Type*> llvmArgumentTypes;
   for (const LLVMFunctionArgument* argument : mArguments) {
-    const IType* argumentType = argument->getType();
-    argumentTypes.push_back(argumentType);
-    llvmArgumentTypes.push_back(argumentType->getLLVMType(context));
+    argumentTypes.push_back(argument->getType());
   }
   LLVMFunctionType* functionType = context.getLLVMFunctionType(mReturnType, argumentTypes);
   context.registerLLVMFunctionNamedType(mName, mAccessLevel, functionType);
-  Type* llvmReturnType = mReturnType->getLLVMType(context);
-  FunctionType* llvmFunctionType = FunctionType::get(llvmReturnType, llvmArgumentTypes, false);
   string name = IMethodCall::translateObjectMethodToLLVMFunctionName(objectType, mName);
   
   GlobalValue::LinkageTypes linkageType = mAccessLevel == PUBLIC_ACCESS
   ? GlobalValue::ExternalLinkage
   : GlobalValue::InternalLinkage;
 
-  return Function::Create(llvmFunctionType,
+  return Function::Create(functionType->getLLVMType(context),
                           linkageType,
                           name,
                           context.getModule());
