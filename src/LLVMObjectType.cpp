@@ -31,7 +31,7 @@ LLVMObjectType::~LLVMObjectType() {
 }
 
 string LLVMObjectType::getTypeName() const {
-  return "::llvm::object";
+  return "::wisey::object";
 }
 
 PointerType* LLVMObjectType::getLLVMType(IRGenerationContext& context) const {

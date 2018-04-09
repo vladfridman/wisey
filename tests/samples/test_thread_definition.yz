@@ -6,7 +6,7 @@ import wisey.lang.threads.IThread;
 
 thread TThread implements IThread {
 
-  public ::llvm::object* send(::llvm::object* message) {
+  public ::wisey::object* send(::wisey::object* message) {
     return null;
   }
 

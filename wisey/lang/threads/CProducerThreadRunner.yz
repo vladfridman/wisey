@@ -8,7 +8,7 @@ import wisey.lang.CCallStack;
 controller CProducerThreadRunner {
   state ::llvm::struct::_opaque_pthread_t::pointer mMyNativeThread;
   state boolean mIsCanceled;
-  state ::llvm::object*[]* mResults;
+  state ::wisey::object*[]* mResults;
   state int mSize;
   state int mIndexStart;
   state int mIndexEnd;
@@ -31,7 +31,7 @@ controller CProducerThreadRunner {
    */
   public void createThread(IProducerThread workerThread, int size) {
     mSize = size + 1;
-    mResults = new ::llvm::object*[mSize];
+    mResults = new ::wisey::object*[mSize];
     ::llvm::function::pthread_create(::llvm::reference(mMyNativeThread), 
                                      (::llvm::struct::_opaque_pthread_attr_t::pointer) null, 
                                      produceBridge, 
@@ -50,7 +50,7 @@ controller CProducerThreadRunner {
   /**
    * Adds result to the list of results if there is space
    */
-  public ::llvm::object* addResult(::llvm::object* result) {
+  public ::wisey::object* addResult(::wisey::object* result) {
     int nextIndexEnd = (mIndexEnd + 1) % mSize;
     if (mIndexStart == nextIndexEnd) {
       return result;
@@ -63,7 +63,7 @@ controller CProducerThreadRunner {
   /**
    * Returns one of the results from the list of results in FIFO order
    */
-  public ::llvm::object* consumeResult() {
+  public ::wisey::object* consumeResult() {
     if (mIndexStart == mIndexEnd) {
       return null;
     }

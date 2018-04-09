@@ -36,14 +36,14 @@ thread TDefaultProducer implements IProducerThread {
     mProducerThreadRunner.cancelThread();
   }
 
-  public ::llvm::object* consume() {
+  public ::wisey::object* consume() {
     return mProducerThreadRunner.consumeResult();
   }
 
   public void produce() {
   }
 
-  public ::llvm::object* send(::llvm::object* message) {
+  public ::wisey::object* send(::wisey::object* message) {
     return mProducerThreadRunner.addResult(message);
   }
 

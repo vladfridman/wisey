@@ -9,7 +9,7 @@ model MModel {
 controller CProgram implements IProgram {
 
   public int run() {
-    ::llvm::object* pointer = builder(MModel).withValue(5).build();
+    ::wisey::object* pointer = builder(MModel).withValue(5).build();
     return 1;
   }
 }

@@ -72,7 +72,7 @@ public:
 TEST_F(LLVMObjectOwnerTypeTest, pointerTypeTest) {
   EXPECT_EQ(Type::getInt8Ty(mLLVMContext)->getPointerTo(),
             mLLVMObjectOwnerType->getLLVMType(mContext));
-  EXPECT_STREQ("::llvm::object*", mLLVMObjectOwnerType->getTypeName().c_str());
+  EXPECT_STREQ("::wisey::object*", mLLVMObjectOwnerType->getTypeName().c_str());
 }
 
 TEST_F(LLVMObjectOwnerTypeTest, canAutoCastToTest) {
@@ -161,7 +161,7 @@ TEST_F(LLVMObjectOwnerTypeTest, printToStreamTest) {
   stringstream stringStream;
   mLLVMObjectOwnerType->printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("::llvm::object*", stringStream.str().c_str());
+  EXPECT_STREQ("::wisey::object*", stringStream.str().c_str());
 }
 
 TEST_F(LLVMObjectOwnerTypeTest, getReferenceTest) {

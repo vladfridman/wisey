@@ -28,5 +28,5 @@ const LLVMObjectOwnerType* LLVMObjectOwnerTypeSpecifier::getType(IRGenerationCon
 
 void LLVMObjectOwnerTypeSpecifier::printToStream(IRGenerationContext& context,
                                                  std::iostream& stream) const {
-  stream << "::llvm::object*";
+  stream << "::wisey::object*";
 }

@@ -31,7 +31,7 @@ thread TDefaultWorker implements IWorkerThread {
     return mWorkerThreadRunner.wasCancelled();
   }
 
-  public ::llvm::object* awaitResult() {
+  public ::wisey::object* awaitResult() {
     mWorkerThreadRunner.joinThread();
 
     return mWorkerThreadRunner.getResult();
@@ -44,7 +44,7 @@ thread TDefaultWorker implements IWorkerThread {
   public void work() {
   }
 
-  public ::llvm::object* send(::llvm::object* message) {
+  public ::wisey::object* send(::wisey::object* message) {
     mWorkerThreadRunner.setResult(message);
     return null;
   }

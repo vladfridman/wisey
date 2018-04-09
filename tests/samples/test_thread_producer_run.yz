@@ -45,11 +45,11 @@ thread TProducer implements IProducerThread {
     mDefaultProducer.cancel();
   }
 
-  public ::llvm::object* consume() {
+  public ::wisey::object* consume() {
     return mDefaultProducer.consume();
   }
 
-  public ::llvm::object* send(::llvm::object* message) {
+  public ::wisey::object* send(::wisey::object* message) {
     return mDefaultProducer.send(message);
   }
 

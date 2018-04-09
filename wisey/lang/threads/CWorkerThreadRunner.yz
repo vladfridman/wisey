@@ -8,7 +8,7 @@ import wisey.lang.CCallStack;
 controller CWorkerThreadRunner {
   state ::llvm::struct::_opaque_pthread_t::pointer mMyNativeThread;
   state boolean mIsCanceled;
-  state ::llvm::object* mResult;
+  state ::wisey::object* mResult;
 
   /**
    * This native function bridges work() method of the thread object with the i8* (i8*)* function 
@@ -74,14 +74,14 @@ controller CWorkerThreadRunner {
   /**
    * Set result of the thread
    */
-  public void setResult(::llvm::object* result) {
+  public void setResult(::wisey::object* result) {
     mResult = result;
   }
 
   /**
    * Return the result
    */
-  public ::llvm::object* getResult() {
+  public ::wisey::object* getResult() {
     return mResult;
   }
 

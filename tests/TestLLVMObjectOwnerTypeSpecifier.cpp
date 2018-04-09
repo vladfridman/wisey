@@ -32,7 +32,7 @@ TEST_F(LLVMObjectOwnerTypeSpecifierTest, getTypeTest) {
   EXPECT_TRUE(type->isNative());
   EXPECT_FALSE(type->isReference());
   EXPECT_TRUE(type->isOwner());
-  EXPECT_STREQ("::llvm::object*", type->getTypeName().c_str());
+  EXPECT_STREQ("::wisey::object*", type->getTypeName().c_str());
 }
 
 TEST_F(LLVMObjectOwnerTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {
@@ -46,5 +46,5 @@ TEST_F(LLVMObjectOwnerTypeSpecifierTest, printToStreamTest) {
   stringstream stringStream;
   mLLVMObjectOwnerTypeSpecifier->printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("::llvm::object*", stringStream.str().c_str());
+  EXPECT_STREQ("::wisey::object*", stringStream.str().c_str());
 }

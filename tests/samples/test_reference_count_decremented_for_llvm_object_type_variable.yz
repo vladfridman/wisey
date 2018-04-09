@@ -10,7 +10,7 @@ controller CProgram implements IProgram {
 
   public int run() {
     MModel* mymodel = builder(MModel).withValue(5).build();
-    ::llvm::object object = mymodel;
+    ::wisey::object object = mymodel;
     return 1;
   }
 }

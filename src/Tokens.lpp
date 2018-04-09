@@ -61,11 +61,12 @@ WS  [ \t\v\n\f]
 "::i32"                       return TOKEN(TLLVMI32);
 "::i64"                       return TOKEN(TLLVMI64);
 "::llvm"                      return TOKEN(TLLVM);
-"::object"                    return TOKEN(TLLVMOBJECT);
+"::object"                    return TOKEN(TWISEYOBJECT);
 "::pointer"                   return TOKEN(TLLVMPOINTER);
 "::reference"                 return TOKEN(TLLVMREFERENCE);
 "::struct"                    return TOKEN(TLLVMSTRUCT);
 "::void"                      return TOKEN(TLLVMVOID);
+"::wisey"                     return TOKEN(TWISEY);
 "bind"                        return TOKEN(TBIND);
 "boolean"                     return TOKEN(TTYPEBOOLEAN);
 "break"                       return TOKEN(TBREAK);

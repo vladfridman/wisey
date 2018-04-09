@@ -8,7 +8,7 @@ model MModel {
 
 controller CProgram implements IProgram {
 
-  public void free(::llvm::object* pointer) {
+  public void free(::wisey::object* pointer) {
 
   }
 
