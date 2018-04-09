@@ -33,7 +33,7 @@ thread TWorker implements IWorkerThread {
     return mDefaultWorker.wasCancelled();
   }
 
-  public ::wisey::object* awaitResult() {
+  public ::wisey::model* awaitResult() {
     return mDefaultWorker.awaitResult();
   }
 
@@ -41,7 +41,7 @@ thread TWorker implements IWorkerThread {
     mDefaultWorker.cancel();
   }
 
-  public ::wisey::object* send(::wisey::object* message) {
+  public ::wisey::model* send(::wisey::model* message) {
     return mDefaultWorker.send(message);
   }
 

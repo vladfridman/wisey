@@ -20,14 +20,14 @@ external interface wisey.lang.threads.IProducerThread
   boolean wasCancelled();
   void cancel();
   void produce();
-  ::wisey::object* consume();
+  ::wisey::model* consume();
 }
 
 external interface wisey.lang.threads.IThread {
 
   wisey.lang.CCallStack getCallStack();
-  ::wisey::object* send(
-    ::wisey::object* message);
+  ::wisey::model* send(
+    ::wisey::model* message);
   static void sleep(
     int seconds);
 }
@@ -40,7 +40,7 @@ external interface wisey.lang.threads.IWorkerThread
   boolean hasStarted();
   boolean hasResult();
   boolean wasCancelled();
-  ::wisey::object* awaitResult();
+  ::wisey::model* awaitResult();
   void cancel();
   void work();
 }
@@ -136,7 +136,7 @@ external controller wisey.lang.threads.CProducerThreadRunner {
 
   state ::llvm::struct::_opaque_pthread_t::pointer mMyNativeThread;
   state boolean mIsCanceled;
-  state ::wisey::object*[]* mResults;
+  state ::wisey::model*[]* mResults;
   state int mSize;
   state int mIndexStart;
   state int mIndexEnd;
@@ -146,8 +146,8 @@ external controller wisey.lang.threads.CProducerThreadRunner {
     int size);
   void joinThread();
   ::wisey::object* addResult(
-    ::wisey::object* result);
-  ::wisey::object* consumeResult();
+    ::wisey::model* result);
+  ::wisey::model* consumeResult();
   boolean hasResult();
   boolean hasRoom();
   void exitThread();
@@ -160,7 +160,7 @@ external controller wisey.lang.threads.CWorkerThreadRunner {
 
   state ::llvm::struct::_opaque_pthread_t::pointer mMyNativeThread;
   state boolean mIsCanceled;
-  state ::wisey::object* mResult;
+  state ::wisey::model* mResult;
 
   void createThread(
     wisey.lang.threads.IWorkerThread workerThread);
@@ -170,8 +170,8 @@ external controller wisey.lang.threads.CWorkerThreadRunner {
   boolean hasStarted();
   boolean wasCancelled();
   void setResult(
-    ::wisey::object* result);
-  ::wisey::object* getResult();
+    ::wisey::model* result);
+  ::wisey::model* getResult();
   boolean hasResult();
 }
 
@@ -191,10 +191,10 @@ external thread wisey.lang.TMainThread
   boolean hasStarted();
   boolean hasResult();
   boolean wasCancelled();
-  ::wisey::object* awaitResult();
+  ::wisey::model* awaitResult();
   void cancel();
-  ::wisey::object* send(
-    ::wisey::object* message);
+  ::wisey::model* send(
+    ::wisey::model* message);
   wisey.lang.CCallStack getCallStack();
 }
 
@@ -213,10 +213,10 @@ external thread wisey.lang.threads.TDefaultProducer
   boolean hasResult();
   boolean wasCancelled();
   void cancel();
-  ::wisey::object* consume();
+  ::wisey::model* consume();
   void produce();
-  ::wisey::object* send(
-    ::wisey::object* message);
+  ::wisey::model* send(
+    ::wisey::model* message);
   wisey.lang.CCallStack getCallStack();
 }
 
@@ -233,11 +233,11 @@ external thread wisey.lang.threads.TDefaultWorker
   boolean hasStarted();
   boolean hasResult();
   boolean wasCancelled();
-  ::wisey::object* awaitResult();
+  ::wisey::model* awaitResult();
   void cancel();
   void work();
-  ::wisey::object* send(
-    ::wisey::object* message);
+  ::wisey::model* send(
+    ::wisey::model* message);
   wisey.lang.CCallStack getCallStack();
 }
 

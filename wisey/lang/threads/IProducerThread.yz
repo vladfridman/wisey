@@ -40,6 +40,6 @@ interface IProducerThread extends IThread {
   /**
    * Consume one result and return it. If there are no results return null.
    */
-  ::wisey::object* consume();
+  ::wisey::model* consume();
 
 }

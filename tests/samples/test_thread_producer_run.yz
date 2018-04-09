@@ -45,11 +45,11 @@ thread TProducer implements IProducerThread {
     mDefaultProducer.cancel();
   }
 
-  public ::wisey::object* consume() {
+  public ::wisey::model* consume() {
     return mDefaultProducer.consume();
   }
 
-  public ::wisey::object* send(::wisey::object* message) {
+  public ::wisey::model* send(::wisey::model* message) {
     return mDefaultProducer.send(message);
   }
 

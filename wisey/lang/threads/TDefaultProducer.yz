@@ -36,14 +36,14 @@ thread TDefaultProducer implements IProducerThread {
     mProducerThreadRunner.cancelThread();
   }
 
-  public ::wisey::object* consume() {
+  public ::wisey::model* consume() {
     return mProducerThreadRunner.consumeResult();
   }
 
   public void produce() {
   }
 
-  public ::wisey::object* send(::wisey::object* message) {
+  public ::wisey::model* send(::wisey::model* message) {
     return mProducerThreadRunner.addResult(message);
   }
 

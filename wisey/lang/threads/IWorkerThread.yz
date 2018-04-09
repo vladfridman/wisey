@@ -30,7 +30,7 @@ interface IWorkerThread extends IThread {
   /**
    * Waits for thread to finish and returns the result
    */
-  ::wisey::object* awaitResult();
+  ::wisey::model* awaitResult();
 
   /**
    * Cancel expecution of the worker thread
