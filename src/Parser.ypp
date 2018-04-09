@@ -409,9 +409,9 @@ llvm_global_declaration
   ;
 
 llvm_function_declaration
-  : TLLVM TLLVMFUNCTION llvm_type_specifier TIDENTIFIER
+  : access_specifier TLLVM TLLVMFUNCTION llvm_type_specifier TIDENTIFIER
     '(' llvm_function_argument_type_specifier_list ')' ';'
-      { $$ = new LLVMFunctionDeclaration(*$4, $3, *$6); delete $4; delete $6; }
+      { $$ = new LLVMFunctionDeclaration(*$5, $1, $4, *$7); delete $5; delete $7; }
   ;
 
 llvm_struct_definition

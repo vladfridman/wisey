@@ -21,12 +21,14 @@ namespace wisey {
   class LLVMFunctionDeclaration : public IGlobalStatement {
     
     std::string mName;
+    AccessLevel mAccessLevel;
     const ITypeSpecifier* mReturnSpecifier;
     std::vector<const ITypeSpecifier*> mArgumentSpecifiers;
     
   public:
     
     LLVMFunctionDeclaration(std::string name,
+                            AccessLevel accessLevel,
                             const ITypeSpecifier* returnSpecifier,
                             std::vector<const ITypeSpecifier*> argumentSpecifiers);
     

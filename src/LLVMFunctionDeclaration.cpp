@@ -13,10 +13,12 @@ using namespace std;
 using namespace wisey;
 
 LLVMFunctionDeclaration::LLVMFunctionDeclaration(std::string name,
+                                                 AccessLevel accessLevel,
                                                  const ITypeSpecifier* returnSpecifier,
                                                  std::vector<const ITypeSpecifier*>
                                                  argumentSpecifiers) :
 mName(name),
+mAccessLevel(accessLevel),
 mReturnSpecifier(returnSpecifier),
 mArgumentSpecifiers(argumentSpecifiers) {
 }
@@ -35,21 +37,18 @@ IObjectType* LLVMFunctionDeclaration::prototypeObject(IRGenerationContext& conte
 
 void LLVMFunctionDeclaration::prototypeMethods(IRGenerationContext& context) const {
   vector<const IType*> argumentTypes;
-  vector<Type*> llvmArgumentTypes;
   for (const ITypeSpecifier* argumentSpecifier : mArgumentSpecifiers) {
-    const IType* argumentType = argumentSpecifier->getType(context);
-    argumentTypes.push_back(argumentType);
-    llvmArgumentTypes.push_back(argumentType->getLLVMType(context));
+    argumentTypes.push_back(argumentSpecifier->getType(context));
   }
   const IType* returnType = mReturnSpecifier->getType(context);
   LLVMFunctionType* functionType = context.getLLVMFunctionType(returnType, argumentTypes);
-  context.registerLLVMFunctionNamedType(mName, PUBLIC_ACCESS, functionType);
-  Type* llvmReturnType = returnType->getLLVMType(context);
-  FunctionType* llvmFunctionType = FunctionType::get(llvmReturnType, llvmArgumentTypes, false);
+  context.registerLLVMFunctionNamedType(mName, mAccessLevel, functionType);
   
-  Function::Create(llvmFunctionType, GlobalValue::ExternalLinkage, mName, context.getModule());
+  Function::Create(functionType->getLLVMType(context),
+                   GlobalValue::ExternalLinkage,
+                   mName,
+                   context.getModule());
 }
 
 void LLVMFunctionDeclaration::generateIR(IRGenerationContext& context) const {
 }
-

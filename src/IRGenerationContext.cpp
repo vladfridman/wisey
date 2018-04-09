@@ -494,6 +494,7 @@ void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& 
   }
   
   stream << "/* llvm Functions */" << endl << endl;
+  bool hasPrintedFunctions = false;
   for (map<string, tuple<AccessLevel, const LLVMFunctionType*>>::const_iterator iterator =
        mLLVMFunctionNamedTypes.begin();
        iterator != mLLVMFunctionNamedTypes.end();
@@ -503,8 +504,9 @@ void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& 
     if (accessLevel == AccessLevel::PRIVATE_ACCESS) {
       continue;
     }
+    hasPrintedFunctions = true;
     const LLVMFunctionType* functionType = get<1>(iterator->second);
-    stream << "::llvm::function " << functionType->getReturnType()->getTypeName() << " ";
+    stream << "private ::llvm::function " << functionType->getReturnType()->getTypeName() << " ";
     stream << name << "(";
     vector<const IType*> argumentTypes = functionType->getArgumentTypes();
     for (vector<const IType*>::iterator iterator = argumentTypes.begin();
@@ -518,7 +520,7 @@ void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& 
     stream << ");";
     stream << endl;
   }
-  if (mLLVMFunctionNamedTypes.size()) {
+  if (hasPrintedFunctions) {
     stream << endl;
   }
 
