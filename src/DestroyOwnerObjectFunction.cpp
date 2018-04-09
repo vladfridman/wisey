@@ -105,5 +105,5 @@ void DestroyOwnerObjectFunction::compose(IRGenerationContext& context, Function*
   
   context.getScopes().popScope(context, 0);
 
-  context.registerLLVMFunctionNamedType(getName(), PUBLIC_ACCESS, getLLVMFunctionType(context));
+  context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context));
 }

@@ -135,5 +135,5 @@ void AdjustReferenceCountFunction::compose(IRGenerationContext& context,
   IRWriter::newStoreInst(context, sum, counter);
   IRWriter::createReturnInst(context, NULL);
 
-  context.registerLLVMFunctionNamedType(getName(), PUBLIC_ACCESS, getLLVMFunctionType(context));
+  context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context));
 }

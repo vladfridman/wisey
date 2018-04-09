@@ -409,9 +409,12 @@ llvm_global_declaration
   ;
 
 llvm_function_declaration
-  : access_specifier TLLVM TLLVMFUNCTION llvm_type_specifier TIDENTIFIER
+  : TLLVM TLLVMFUNCTION llvm_type_specifier TIDENTIFIER
     '(' llvm_function_argument_type_specifier_list ')' ';'
-      { $$ = new LLVMFunctionDeclaration(*$5, $1, $4, *$7); delete $5; delete $7; }
+      { $$ = LLVMFunctionDeclaration::createInternal(*$4, $3, *$6); delete $4; delete $6; }
+  | TEXTERNAL TLLVM TLLVMFUNCTION llvm_type_specifier TIDENTIFIER
+    '(' llvm_function_argument_type_specifier_list ')' ';'
+      { $$ = LLVMFunctionDeclaration::createExternal(*$5, $4, *$7); delete $5; delete $7; }
   ;
 
 llvm_struct_definition

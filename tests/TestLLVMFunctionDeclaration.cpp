@@ -41,11 +41,10 @@ struct LLVMFunctionDeclarationTest : public Test {
     argumentSpecifiers.push_back(LLVMPrimitiveTypes::I8->newTypeSpecifier());
     argumentSpecifiers.push_back(LLVMPrimitiveTypes::I64->newTypeSpecifier());
     const ITypeSpecifier* returnSpecifier = LLVMPrimitiveTypes::VOID->newTypeSpecifier();
-    mLLVMFunctionDeclaration = new LLVMFunctionDeclaration("myfunction",
-                                                           PUBLIC_ACCESS,
-                                                           returnSpecifier,
-                                                           argumentSpecifiers);
-    
+    mLLVMFunctionDeclaration = LLVMFunctionDeclaration::createInternal("myfunction",
+                                                                       returnSpecifier,
+                                                                       argumentSpecifiers);
+
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
     Function* function = Function::Create(functionType,

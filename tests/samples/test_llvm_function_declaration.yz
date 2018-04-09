@@ -1,3 +1,3 @@
 
-public ::llvm::function ::llvm::i8::pointer external_function (::llvm::i64::pointer, 
-                                                               ::llvm::i8::pointer::pointer);
+external ::llvm::function ::llvm::i8::pointer external_function (::llvm::i64::pointer, 
+                                                                 ::llvm::i8::pointer::pointer);

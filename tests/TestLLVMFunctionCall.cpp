@@ -58,7 +58,7 @@ struct LLVMFunctionCallTest : public Test {
     Type* llvmReturnType = returnType->getLLVMType(mContext);
     FunctionType* llvmFunctionType = FunctionType::get(llvmReturnType, llvmArgumentTypes, false);
     mLLVMFunctionType = mContext.getLLVMFunctionType(returnType, argumentTypes);
-    mContext.registerLLVMFunctionNamedType("myfunction", PUBLIC_ACCESS, mLLVMFunctionType);
+    mContext.registerLLVMInternalFunctionNamedType("myfunction", mLLVMFunctionType);
     
     Function::Create(llvmFunctionType,
                      GlobalValue::ExternalLinkage,

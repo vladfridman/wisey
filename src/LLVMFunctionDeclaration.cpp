@@ -13,12 +13,12 @@ using namespace std;
 using namespace wisey;
 
 LLVMFunctionDeclaration::LLVMFunctionDeclaration(std::string name,
-                                                 AccessLevel accessLevel,
+                                                 bool isExternal,
                                                  const ITypeSpecifier* returnSpecifier,
                                                  std::vector<const ITypeSpecifier*>
                                                  argumentSpecifiers) :
 mName(name),
-mAccessLevel(accessLevel),
+mIsExternal(isExternal),
 mReturnSpecifier(returnSpecifier),
 mArgumentSpecifiers(argumentSpecifiers) {
 }
@@ -29,6 +29,20 @@ LLVMFunctionDeclaration::~LLVMFunctionDeclaration() {
     delete typeSpecifier;
   }
   mArgumentSpecifiers.clear();
+}
+
+LLVMFunctionDeclaration* LLVMFunctionDeclaration::
+createInternal(std::string name,
+               const ITypeSpecifier* returnSpecifier,
+               std::vector<const ITypeSpecifier*> argumentSpecifiers) {
+  return new LLVMFunctionDeclaration(name, false, returnSpecifier, argumentSpecifiers);
+}
+
+LLVMFunctionDeclaration* LLVMFunctionDeclaration::
+createExternal(std::string name,
+               const ITypeSpecifier* returnSpecifier,
+               std::vector<const ITypeSpecifier*> argumentSpecifiers) {
+  return new LLVMFunctionDeclaration(name, true, returnSpecifier, argumentSpecifiers);
 }
 
 IObjectType* LLVMFunctionDeclaration::prototypeObject(IRGenerationContext& context) const {
@@ -42,7 +56,11 @@ void LLVMFunctionDeclaration::prototypeMethods(IRGenerationContext& context) con
   }
   const IType* returnType = mReturnSpecifier->getType(context);
   LLVMFunctionType* functionType = context.getLLVMFunctionType(returnType, argumentTypes);
-  context.registerLLVMFunctionNamedType(mName, mAccessLevel, functionType);
+  if (mIsExternal) {
+    context.registerLLVMExternalFunctionNamedType(mName, functionType);
+  } else {
+    context.registerLLVMInternalFunctionNamedType(mName, functionType);
+  }
   
   Function::Create(functionType->getLLVMType(context),
                    GlobalValue::ExternalLinkage,

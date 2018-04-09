@@ -19,17 +19,17 @@
   ::llvm::array(::llvm::i8, 56),
 }
 
-private ::llvm::function ::llvm::void 
+external ::llvm::function ::llvm::void 
   pthread_create(::llvm::struct::_opaque_pthread_t::pointer::pointer,
                  ::llvm::struct::_opaque_pthread_attr_t::pointer, 
                  ::llvm::i8::pointer (::llvm::i8::pointer)::pointer, 
                  ::llvm::i8::pointer);
 
-private ::llvm::function ::llvm::void pthread_join(::llvm::struct::_opaque_pthread_t::pointer,
+external ::llvm::function ::llvm::void pthread_join(::llvm::struct::_opaque_pthread_t::pointer,
                                                    ::llvm::i8::pointer::pointer);
 
-private ::llvm::function ::llvm::void pthread_cancel(::llvm::struct::_opaque_pthread_t::pointer);
+external ::llvm::function ::llvm::void pthread_cancel(::llvm::struct::_opaque_pthread_t::pointer);
 
-private ::llvm::function ::llvm::void pthread_exit(::llvm::i8::pointer);
+external ::llvm::function ::llvm::void pthread_exit(::llvm::i8::pointer);
 
-private ::llvm::function ::llvm::i32 sleep(::llvm::i32);
+external ::llvm::function ::llvm::i32 sleep(::llvm::i32);

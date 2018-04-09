@@ -77,7 +77,7 @@ void GetOriginalObjectFunction::compose(IRGenerationContext& context, Function* 
   
   IRWriter::createReturnInst(context, originalObject);
 
-  context.registerLLVMFunctionNamedType(getName(), PUBLIC_ACCESS, getLLVMFunctionType(context));
+  context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context));
 }
 
 Value* GetOriginalObjectFunction::getUnthunkBy(IRGenerationContext& context, Value* value) {

@@ -292,18 +292,18 @@ external ::llvm::struct _opaque_pthread_t {
 
 /* llvm Functions */
 
-private ::llvm::function ::llvm::void __adjustReferenceCounter(::llvm::i8::pointer, ::llvm::i64);
-private ::llvm::function ::llvm::void __adjustReferenceCounterForArrays(::llvm::i8::pointer, ::llvm::i64);
-private ::llvm::function ::llvm::void __adjustReferenceCounterForConcreteObjectSafely(::llvm::i8::pointer, ::llvm::i64);
-private ::llvm::function ::llvm::void __adjustReferenceCounterForConcreteObjectUnsafely(::llvm::i8::pointer, ::llvm::i64);
-private ::llvm::function ::llvm::void __checkArrayIndexFunction(::llvm::i64, ::llvm::i64);
-private ::llvm::function ::llvm::void __checkForNullAndThrow(::llvm::i8::pointer);
-private ::llvm::function ::llvm::void __destroyOwnerArrayFunction(::llvm::i64::pointer, ::llvm::i64, ::llvm::i1);
-private ::llvm::function ::llvm::void __destroyOwnerObjectFunction(::llvm::i8::pointer);
-private ::llvm::function ::llvm::void __destroyPrimitiveArrayFunction(::llvm::i64::pointer, ::llvm::i64, ::llvm::i64, ::llvm::i1);
-private ::llvm::function ::llvm::void __destroyReferenceArrayFunction(::llvm::i64::pointer, ::llvm::i64, ::llvm::i1);
-private ::llvm::function ::llvm::i8::pointer __getOriginalObject(::llvm::i8::pointer);
-private ::llvm::function ::llvm::void __throwReferenceCountException(::llvm::i64);
+external ::llvm::function ::llvm::void __adjustReferenceCounter(::llvm::i8::pointer, ::llvm::i64);
+external ::llvm::function ::llvm::void __adjustReferenceCounterForArrays(::llvm::i8::pointer, ::llvm::i64);
+external ::llvm::function ::llvm::void __adjustReferenceCounterForConcreteObjectSafely(::llvm::i8::pointer, ::llvm::i64);
+external ::llvm::function ::llvm::void __adjustReferenceCounterForConcreteObjectUnsafely(::llvm::i8::pointer, ::llvm::i64);
+external ::llvm::function ::llvm::void __checkArrayIndexFunction(::llvm::i64, ::llvm::i64);
+external ::llvm::function ::llvm::void __checkForNullAndThrow(::llvm::i8::pointer);
+external ::llvm::function ::llvm::void __destroyOwnerArrayFunction(::llvm::i64::pointer, ::llvm::i64, ::llvm::i1);
+external ::llvm::function ::llvm::void __destroyOwnerObjectFunction(::llvm::i8::pointer);
+external ::llvm::function ::llvm::void __destroyPrimitiveArrayFunction(::llvm::i64::pointer, ::llvm::i64, ::llvm::i64, ::llvm::i1);
+external ::llvm::function ::llvm::void __destroyReferenceArrayFunction(::llvm::i64::pointer, ::llvm::i64, ::llvm::i1);
+external ::llvm::function ::llvm::i8::pointer __getOriginalObject(::llvm::i8::pointer);
+external ::llvm::function ::llvm::void __throwReferenceCountException(::llvm::i64);
 
 /* llvm Globals */
 

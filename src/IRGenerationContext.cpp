@@ -89,7 +89,8 @@ IRGenerationContext::~IRGenerationContext() {
        iterator++) {
     delete iterator->second;
   }
-  mLLVMFunctionNamedTypes.clear();
+  mLLVMInternalFunctionNamedTypes.clear();
+  mLLVMExternalFunctionNamedTypes.clear();
   mBindings.clear();
 }
 
@@ -328,23 +329,38 @@ void IRGenerationContext::setLLVMGlobalVariable(const IType* type, string name) 
   mGlobalVariables[name] = type;
 }
 
-void IRGenerationContext::registerLLVMFunctionNamedType(string name,
-                                                        AccessLevel accessLevel,
-                                                        const LLVMFunctionType* functionType) {
-  if (mLLVMFunctionNamedTypes.count(name)) {
+void IRGenerationContext::registerLLVMInternalFunctionNamedType(string name,
+                                                                const LLVMFunctionType*
+                                                                functionType) {
+  if (mLLVMInternalFunctionNamedTypes.count(name) || mLLVMExternalFunctionNamedTypes.count(name)) {
     Log::e_deprecated("Can not register llvm function named " + name +
                       " because it is already registered");
     exit(1);
   }
-  mLLVMFunctionNamedTypes[name] = make_tuple(accessLevel, functionType);
+  mLLVMInternalFunctionNamedTypes[name] = functionType;
+}
+
+void IRGenerationContext::registerLLVMExternalFunctionNamedType(string name,
+                                                                const LLVMFunctionType*
+                                                                functionType) {
+  if (mLLVMInternalFunctionNamedTypes.count(name) || mLLVMExternalFunctionNamedTypes.count(name)) {
+    Log::e_deprecated("Can not register llvm function named " + name +
+                      " because it is already registered");
+    exit(1);
+  }
+  mLLVMExternalFunctionNamedTypes[name] = functionType;
 }
 
 const LLVMFunctionType* IRGenerationContext::lookupLLVMFunctionNamedType(string name) {
-  if (!mLLVMFunctionNamedTypes.count(name)) {
-    Log::e_deprecated("Can not find llvm function named " + name);
-    exit(1);
+  if (mLLVMInternalFunctionNamedTypes.count(name)) {
+    return mLLVMInternalFunctionNamedTypes.at(name);
   }
-  return get<1>(mLLVMFunctionNamedTypes.at(name));
+  if (mLLVMExternalFunctionNamedTypes.count(name)) {
+    return mLLVMExternalFunctionNamedTypes.at(name);
+  }
+
+  Log::e_deprecated("Can not find llvm function named " + name);
+  exit(1);
 }
 
 void IRGenerationContext::bindInterfaceToController(const Interface* interface,
@@ -495,18 +511,14 @@ void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& 
   
   stream << "/* llvm Functions */" << endl << endl;
   bool hasPrintedFunctions = false;
-  for (map<string, tuple<AccessLevel, const LLVMFunctionType*>>::const_iterator iterator =
-       mLLVMFunctionNamedTypes.begin();
-       iterator != mLLVMFunctionNamedTypes.end();
+  for (map<string, const LLVMFunctionType*>::const_iterator iterator =
+       mLLVMInternalFunctionNamedTypes.begin();
+       iterator != mLLVMInternalFunctionNamedTypes.end();
        iterator++) {
     string name = iterator->first;
-    AccessLevel accessLevel = get<0>(iterator->second);
-    if (accessLevel == AccessLevel::PRIVATE_ACCESS) {
-      continue;
-    }
     hasPrintedFunctions = true;
-    const LLVMFunctionType* functionType = get<1>(iterator->second);
-    stream << "private ::llvm::function " << functionType->getReturnType()->getTypeName() << " ";
+    const LLVMFunctionType* functionType = iterator->second;
+    stream << "external ::llvm::function " << functionType->getReturnType()->getTypeName() << " ";
     stream << name << "(";
     vector<const IType*> argumentTypes = functionType->getArgumentTypes();
     for (vector<const IType*>::iterator iterator = argumentTypes.begin();

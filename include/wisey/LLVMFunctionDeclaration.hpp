@@ -21,17 +21,33 @@ namespace wisey {
   class LLVMFunctionDeclaration : public IGlobalStatement {
     
     std::string mName;
-    AccessLevel mAccessLevel;
+    bool mIsExternal;
     const ITypeSpecifier* mReturnSpecifier;
     std::vector<const ITypeSpecifier*> mArgumentSpecifiers;
     
-  public:
-    
     LLVMFunctionDeclaration(std::string name,
-                            AccessLevel accessLevel,
+                            bool isExternal,
                             const ITypeSpecifier* returnSpecifier,
                             std::vector<const ITypeSpecifier*> argumentSpecifiers);
     
+  public:
+    
+    /**
+     * Creates an instance of LLVMFunctionDeclaration that represents an internal llvm function
+     */
+    static LLVMFunctionDeclaration* createInternal(std::string name,
+                                                   const ITypeSpecifier* returnSpecifier,
+                                                   std::vector<const ITypeSpecifier*>
+                                                   argumentSpecifiers);
+
+    /**
+     * Creates an instance of LLVMFunctionDeclaration that represents an external llvm function
+     */
+    static LLVMFunctionDeclaration* createExternal(std::string name,
+                                                   const ITypeSpecifier* returnSpecifier,
+                                                   std::vector<const ITypeSpecifier*>
+                                                   argumentSpecifiers);
+
     ~LLVMFunctionDeclaration();
     
     IObjectType* prototypeObject(IRGenerationContext& context) const override;

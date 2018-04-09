@@ -46,7 +46,11 @@ Value* LLVMFunction::declareFunction(IRGenerationContext& context,
     argumentTypes.push_back(argument->getType());
   }
   LLVMFunctionType* functionType = context.getLLVMFunctionType(mReturnType, argumentTypes);
-  context.registerLLVMFunctionNamedType(mName, mAccessLevel, functionType);
+  if (mAccessLevel == PUBLIC_ACCESS) {
+    context.registerLLVMInternalFunctionNamedType(mName, functionType);
+  } else {
+    context.registerLLVMExternalFunctionNamedType(mName, functionType);
+  }
   string name = IMethodCall::translateObjectMethodToLLVMFunctionName(objectType, mName);
   
   GlobalValue::LinkageTypes linkageType = mAccessLevel == PUBLIC_ACCESS

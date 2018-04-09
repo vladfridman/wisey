@@ -7,7 +7,6 @@ import wisey.lang.CCallStack;
  */
 interface IThread {
 
-
   /**
    * Returns the call stack for this thread
    */

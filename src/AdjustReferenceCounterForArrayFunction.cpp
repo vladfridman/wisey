@@ -104,5 +104,5 @@ void AdjustReferenceCounterForArrayFunction::compose(IRGenerationContext& contex
                     ifNotNullBlock);
   IRWriter::createReturnInst(context, NULL);
 
-  context.registerLLVMFunctionNamedType(getName(), PUBLIC_ACCESS, getLLVMFunctionType(context));
+  context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context));
 }

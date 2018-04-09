@@ -103,5 +103,5 @@ void CheckForNullAndThrowFunction::compose(IRGenerationContext& context, Functio
   
   IRWriter::createReturnInst(context, NULL);
 
-  context.registerLLVMFunctionNamedType(getName(), PUBLIC_ACCESS, getLLVMFunctionType(context));
+  context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context));
 }
