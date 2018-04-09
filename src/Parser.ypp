@@ -201,7 +201,7 @@
   std::vector<wisey::IInterfaceTypeSpecifier*>* interface_list;
   std::list<const wisey::IExpression*>* list_of_const_expressions;
   std::list<unsigned long>* list_of_ulongs;
-  std::vector<const wisey::ITypeSpecifier*>* llvm_type_specifier_list;
+  std::vector<const wisey::ITypeSpecifier*>* const_type_specifier_list;
   std::vector<wisey::LLVMVariableDeclaration*>* llvm_variable_vector;
   std::string* string;
   unsigned long unsignedlong;
@@ -343,16 +343,16 @@
 %type <type_specifier> type_specifier primitive_type_specifier object_owner_type_specifier 
 %type <type_specifier> non_array_type_specifier injectable_type_specifier 
 %type <type_specifier> array_specific_owner_type_specifier
-%type <type_specifier> llvm_object_type_specifier llvm_object_owner_type_specifier
-%type <type_specifier> llvm_model_type_specifier llvm_model_owner_type_specifier
-%type <type_specifier> llvm_type_specifier
+%type <type_specifier> wisey_object_type_specifier wisey_object_owner_type_specifier
+%type <type_specifier> wisey_model_type_specifier wisey_model_owner_type_specifier
+%type <type_specifier> native_type_specifier llvm_type_specifier wisey_type_specifier
 %type <type_specifier> llvm_non_array_type_specifier 
 %type <type_specifier> llvm_void_type_specifier
 %type <llvm_type_specifier> llvm_i_type_specifier llvm_struct_specifier llvm_array_specifier
 %type <llvm_type_specifier> llvm_pointer_base_type_specifier llvm_function_type_specifier
 %type <llvm_pointer_type_specifier> llvm_pointer_type_specifier
-%type <llvm_type_specifier_list> llvm_type_specifier_list 
-%type <llvm_type_specifier_list> llvm_function_argument_type_specifier_list
+%type <const_type_specifier_list> native_type_specifier_list 
+%type <const_type_specifier_list> llvm_function_argument_type_specifier_list
 %type <llvm_variable_vector> llvm_function_definition_arguments
 %type <list_of_ulongs> llvm_array_dimensions
 
@@ -422,49 +422,57 @@ llvm_function_declaration
   ;
 
 llvm_struct_definition
-  : TLLVM TLLVMSTRUCT TIDENTIFIER '{' llvm_type_specifier_list '}' 
+  : TLLVM TLLVMSTRUCT TIDENTIFIER '{' native_type_specifier_list '}' 
     { $$ = new LLVMStructDefinition(*$3, *$5, yylineno); delete $3; delete $5; }
   ;
 
 llvm_external_struct_definition
-  : TEXTERNAL TLLVM TLLVMSTRUCT TIDENTIFIER '{' llvm_type_specifier_list '}' 
+  : TEXTERNAL TLLVM TLLVMSTRUCT TIDENTIFIER '{' native_type_specifier_list '}' 
     { $$ = new LLVMExternalStructDefinition(*$4, *$6, yylineno); delete $4; delete $6; }
   ;
 
-llvm_type_specifier_list
-  : llvm_type_specifier
+native_type_specifier_list
+  : native_type_specifier
     { $$ = new std::vector<const ITypeSpecifier*>(); $$->push_back($1); }
-  | llvm_type_specifier_list ',' llvm_type_specifier
+  | native_type_specifier_list ',' native_type_specifier
     { $1->push_back($3); $$ = $1; }
-  | llvm_type_specifier_list ','
+  | native_type_specifier_list ','
     { $$ = $1; }
+  ;
+
+native_type_specifier
+  : llvm_type_specifier
+  | wisey_type_specifier
   ;
 
 llvm_type_specifier
   : llvm_non_array_type_specifier
   | llvm_array_specifier { $$ = (const ITypeSpecifier*) $1; }
   | llvm_pointer_type_specifier { $$ = (const ITypeSpecifier*) $1; }
-  | llvm_object_type_specifier { $$ = (const ITypeSpecifier*) $1; }
-  | llvm_object_owner_type_specifier { $$ = (const ITypeSpecifier*) $1; }
-  | llvm_model_type_specifier { $$ = (const ITypeSpecifier*) $1; }
-  | llvm_model_owner_type_specifier { $$ = (const ITypeSpecifier*) $1; }
   ;
 
-llvm_object_type_specifier
+wisey_type_specifier
+  : wisey_object_type_specifier { $$ = (const ITypeSpecifier*) $1; }
+  | wisey_object_owner_type_specifier { $$ = (const ITypeSpecifier*) $1; }
+  | wisey_model_type_specifier { $$ = (const ITypeSpecifier*) $1; }
+  | wisey_model_owner_type_specifier { $$ = (const ITypeSpecifier*) $1; }
+  ; 
+
+wisey_object_type_specifier
   : TWISEY TWISEYOBJECT { $$ = new WiseyObjectTypeSpecifier(); }
   ;
 
-llvm_object_owner_type_specifier
-  : llvm_object_type_specifier '*'
+wisey_object_owner_type_specifier
+  : wisey_object_type_specifier '*'
     { $$ = new WiseyObjectOwnerTypeSpecifier(); }
   ;
 
-llvm_model_type_specifier
+wisey_model_type_specifier
   : TWISEY TWISEYMODEL { $$ = new WiseyModelTypeSpecifier(); }
   ;
 
-llvm_model_owner_type_specifier
-  : llvm_model_type_specifier '*'
+wisey_model_owner_type_specifier
+  : wisey_model_type_specifier '*'
     { $$ = new WiseyModelOwnerTypeSpecifier(); }
   ;
 
@@ -522,21 +530,21 @@ llvm_array_dimensions
   ;
 
 llvm_function_type_specifier
-  : llvm_type_specifier '(' llvm_function_argument_type_specifier_list ')'
+  : native_type_specifier '(' llvm_function_argument_type_specifier_list ')'
     { $$ = new LLVMFunctionTypeSpecifier($1, *$3); delete $3; }
   ;
 
 llvm_function_argument_type_specifier_list
   : /* blank */ 
     { $$ = new std::vector<const ITypeSpecifier*>(); }
-  | llvm_type_specifier
+  | native_type_specifier
     { $$ = new std::vector<const ITypeSpecifier*>(); $$->push_back($1); }
-  | llvm_function_argument_type_specifier_list ',' llvm_type_specifier
+  | llvm_function_argument_type_specifier_list ',' native_type_specifier
     { $1->push_back($3); $$ = $1; }
   ;
 
 llvm_function_definition
-  : access_specifier TLLVM TLLVMFUNCTION llvm_type_specifier TIDENTIFIER
+  : access_specifier TLLVM TLLVMFUNCTION native_type_specifier TIDENTIFIER
     '(' llvm_function_definition_arguments ')' compound_statement
       { $$ = new LLVMFunctionDefinition(*$5, $1, $4, *$7, $9, yylineno); delete $5; delete $7; }
   ;
@@ -550,7 +558,7 @@ llvm_function_definition_arguments
   ;
 
 llvm_function_argument_declaration
-  : llvm_type_specifier identifier { $$ = LLVMVariableDeclaration::create($1, $2, yylineno); }
+  : native_type_specifier identifier { $$ = LLVMVariableDeclaration::create($1, $2, yylineno); }
   ;
 
 llvm_function_call
@@ -1495,7 +1503,7 @@ non_array_type_specifier
   : primitive_type_specifier
   | object_type_specifier { $$ = (const ITypeSpecifier*) $1; }
   | object_owner_type_specifier
-  | llvm_type_specifier { $$ = (const ITypeSpecifier*) $1; }
+  | native_type_specifier { $$ = (const ITypeSpecifier*) $1; }
   ;
 
 primitive_type_specifier
