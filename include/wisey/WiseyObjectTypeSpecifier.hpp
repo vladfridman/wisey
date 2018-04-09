@@ -1,16 +1,16 @@
 //
-//  LLVMObjectTypeSpecifier.hpp
+//  WiseyObjectTypeSpecifier.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 4/2/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef LLVMObjectTypeSpecifier_h
-#define LLVMObjectTypeSpecifier_h
+#ifndef WiseyObjectTypeSpecifier_h
+#define WiseyObjectTypeSpecifier_h
 
 #include "wisey/ITypeSpecifier.hpp"
-#include "wisey/LLVMObjectType.hpp"
+#include "wisey/WiseyObjectType.hpp"
 
 namespace wisey {
   
@@ -19,15 +19,15 @@ namespace wisey {
   /**
    * Represents a llvm pointer that points to a wisey object type specifier
    */
-  class LLVMObjectTypeSpecifier : public ITypeSpecifier {
+  class WiseyObjectTypeSpecifier : public ITypeSpecifier {
     
   public:
     
-    LLVMObjectTypeSpecifier();
+    WiseyObjectTypeSpecifier();
     
-    ~LLVMObjectTypeSpecifier();
+    ~WiseyObjectTypeSpecifier();
     
-    const LLVMObjectType* getType(IRGenerationContext& context) const override;
+    const WiseyObjectType* getType(IRGenerationContext& context) const override;
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
@@ -35,4 +35,4 @@ namespace wisey {
   
 } /* namespace wisey */
 
-#endif /* LLVMObjectTypeSpecifier_h */
+#endif /* WiseyObjectTypeSpecifier_h */

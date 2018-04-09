@@ -1,33 +1,33 @@
 //
-//  LLVMObjectOwnerType.hpp
+//  WiseyObjectOwnerType.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 3/28/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef LLVMObjectOwnerType_h
-#define LLVMObjectOwnerType_h
+#ifndef WiseyObjectOwnerType_h
+#define WiseyObjectOwnerType_h
 
 #include <llvm/IR/Instructions.h>
 
 #include "wisey/IOwnerType.hpp"
-#include "wisey/LLVMObjectType.hpp"
+#include "wisey/WiseyObjectType.hpp"
 
 namespace wisey {
   
   /**
    * Represents an llvm pointer type that points to a wisey object that it owns
    */
-  class LLVMObjectOwnerType : public IOwnerType {
+  class WiseyObjectOwnerType : public IOwnerType {
     
   public:
     
-    static LLVMObjectOwnerType* LLVM_OBJECT_OWNER_TYPE;
+    static WiseyObjectOwnerType* LLVM_OBJECT_OWNER_TYPE;
     
-    LLVMObjectOwnerType();
+    WiseyObjectOwnerType();
     
-    ~LLVMObjectOwnerType();
+    ~WiseyObjectOwnerType();
     
     std::string getTypeName() const override;
     
@@ -82,7 +82,7 @@ namespace wisey {
     
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
     
-    const LLVMObjectType* getReference() const override;
+    const WiseyObjectType* getReference() const override;
 
     void free(IRGenerationContext& context, llvm::Value* value, int line) const override;
 
@@ -90,4 +90,4 @@ namespace wisey {
   
 } /* namespace wisey */
 
-#endif /* LLVMObjectOwnerType_h */
+#endif /* WiseyObjectOwnerType_h */

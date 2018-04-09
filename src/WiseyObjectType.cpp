@@ -1,5 +1,5 @@
 //
-//  LLVMObjectType.cpp
+//  WiseyObjectType.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 4/2/18.
@@ -13,40 +13,40 @@
 #include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/LLVMObjectType.hpp"
-#include "wisey/LLVMObjectOwnerType.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
+#include "wisey/WiseyObjectType.hpp"
+#include "wisey/WiseyObjectOwnerType.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-LLVMObjectType* LLVMObjectType::LLVM_OBJECT_TYPE = new LLVMObjectType();
+WiseyObjectType* WiseyObjectType::LLVM_OBJECT_TYPE = new WiseyObjectType();
 
-LLVMObjectType::LLVMObjectType() {
+WiseyObjectType::WiseyObjectType() {
 }
 
-LLVMObjectType::~LLVMObjectType() {
+WiseyObjectType::~WiseyObjectType() {
 }
 
-string LLVMObjectType::getTypeName() const {
+string WiseyObjectType::getTypeName() const {
   return "::wisey::object";
 }
 
-PointerType* LLVMObjectType::getLLVMType(IRGenerationContext& context) const {
+PointerType* WiseyObjectType::getLLVMType(IRGenerationContext& context) const {
   return Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
 }
 
-bool LLVMObjectType::canCastTo(IRGenerationContext& context, const IType* toType) const {
+bool WiseyObjectType::canCastTo(IRGenerationContext& context, const IType* toType) const {
   return toType->isReference() || toType->isPointer();
 }
 
-bool LLVMObjectType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
+bool WiseyObjectType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
   return toType->isReference() || toType->isPointer();
 }
 
-Value* LLVMObjectType::castTo(IRGenerationContext& context,
+Value* WiseyObjectType::castTo(IRGenerationContext& context,
                               Value* fromValue,
                               const IType* toType,
                               int line) const {
@@ -56,63 +56,63 @@ Value* LLVMObjectType::castTo(IRGenerationContext& context,
   assert(false);
 }
 
-bool LLVMObjectType::isPrimitive() const {
+bool WiseyObjectType::isPrimitive() const {
   return false;
 }
 
-bool LLVMObjectType::isOwner() const {
+bool WiseyObjectType::isOwner() const {
   return false;
 }
 
-bool LLVMObjectType::isReference() const {
+bool WiseyObjectType::isReference() const {
   return true;
 }
 
-bool LLVMObjectType::isArray() const {
+bool WiseyObjectType::isArray() const {
   return false;
 }
 
-bool LLVMObjectType::isFunction() const {
+bool WiseyObjectType::isFunction() const {
   return false;
 }
 
-bool LLVMObjectType::isPackage() const {
+bool WiseyObjectType::isPackage() const {
   return false;
 }
 
-bool LLVMObjectType::isController() const {
+bool WiseyObjectType::isController() const {
   return false;
 }
 
-bool LLVMObjectType::isInterface() const {
+bool WiseyObjectType::isInterface() const {
   return false;
 }
 
-bool LLVMObjectType::isModel() const {
+bool WiseyObjectType::isModel() const {
   return false;
 }
 
-bool LLVMObjectType::isNode() const {
+bool WiseyObjectType::isNode() const {
   return false;
 }
 
-bool LLVMObjectType::isThread() const {
+bool WiseyObjectType::isThread() const {
   return false;
 }
 
-bool LLVMObjectType::isNative() const {
+bool WiseyObjectType::isNative() const {
   return true;
 }
 
-bool LLVMObjectType::isPointer() const {
+bool WiseyObjectType::isPointer() const {
   return false;
 }
 
-void LLVMObjectType::printToStream(IRGenerationContext &context, iostream& stream) const {
+void WiseyObjectType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }
 
-void LLVMObjectType::createLocalVariable(IRGenerationContext& context, string name) const {
+void WiseyObjectType::createLocalVariable(IRGenerationContext& context, string name) const {
   PointerType* llvmType = getLLVMType(context);
   
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, name);
@@ -122,14 +122,14 @@ void LLVMObjectType::createLocalVariable(IRGenerationContext& context, string na
   context.getScopes().setVariable(uninitializedVariable);
 }
 
-void LLVMObjectType::createFieldVariable(IRGenerationContext& context,
+void WiseyObjectType::createFieldVariable(IRGenerationContext& context,
                                          string name,
                                          const IConcreteObjectType* object) const {
   IVariable* variable = new FieldReferenceVariable(name, object);
   context.getScopes().setVariable(variable);
 }
 
-void LLVMObjectType::createParameterVariable(IRGenerationContext& context,
+void WiseyObjectType::createParameterVariable(IRGenerationContext& context,
                                              string name,
                                              Value* value) const {
   IVariable* variable = new ParameterReferenceVariable(name, this, value);
@@ -137,19 +137,19 @@ void LLVMObjectType::createParameterVariable(IRGenerationContext& context,
   context.getScopes().setVariable(variable);
 }
 
-const wisey::ArrayType* LLVMObjectType::getArrayType(IRGenerationContext& context) const {
+const wisey::ArrayType* WiseyObjectType::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);
 }
 
-void LLVMObjectType::incrementReferenceCount(IRGenerationContext& context, Value* object) const {
+void WiseyObjectType::incrementReferenceCount(IRGenerationContext& context, Value* object) const {
   AdjustReferenceCountFunction::call(context, object, 1);
 }
 
-void LLVMObjectType::decrementReferenceCount(IRGenerationContext& context, Value* object) const {
+void WiseyObjectType::decrementReferenceCount(IRGenerationContext& context, Value* object) const {
   AdjustReferenceCountFunction::call(context, object, -1);
 }
 
-const IOwnerType* LLVMObjectType::getOwner() const {
-  return LLVMObjectOwnerType::LLVM_OBJECT_OWNER_TYPE;
+const IOwnerType* WiseyObjectType::getOwner() const {
+  return WiseyObjectOwnerType::LLVM_OBJECT_OWNER_TYPE;
 }

@@ -12,7 +12,6 @@
 #include "wisey/FieldPointerVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/LLVMObjectOwnerType.hpp"
 #include "wisey/LLVMPointerType.hpp"
 #include "wisey/LocalPointerVariable.hpp"
 #include "wisey/Log.hpp"

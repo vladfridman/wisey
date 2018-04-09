@@ -78,8 +78,6 @@
   #include "wisey/LLVMFunctionDeclaration.hpp"
   #include "wisey/LLVMFunctionDefinition.hpp"
   #include "wisey/LLVMFunctionTypeSpecifier.hpp"
-  #include "wisey/LLVMObjectOwnerTypeSpecifier.hpp"
-  #include "wisey/LLVMObjectTypeSpecifier.hpp"
   #include "wisey/LLVMPointerTypeSpecifier.hpp"
   #include "wisey/LLVMPrimitiveTypes.hpp"
   #include "wisey/LLVMStructDefinition.hpp"
@@ -128,6 +126,8 @@
   #include "wisey/VariableDeclaration.hpp"
   #include "wisey/WiseyModelOwnerTypeSpecifier.hpp"
   #include "wisey/WiseyModelTypeSpecifier.hpp"
+  #include "wisey/WiseyObjectOwnerTypeSpecifier.hpp"
+  #include "wisey/WiseyObjectTypeSpecifier.hpp"
   #include "wisey/WhileStatement.hpp"
   
   using namespace std;
@@ -347,7 +347,7 @@
 %type <type_specifier> llvm_model_type_specifier llvm_model_owner_type_specifier
 %type <type_specifier> llvm_type_specifier
 %type <type_specifier> llvm_non_array_type_specifier 
-%type <type_specifier> llvm_void_type_specifier 
+%type <type_specifier> llvm_void_type_specifier
 %type <llvm_type_specifier> llvm_i_type_specifier llvm_struct_specifier llvm_array_specifier
 %type <llvm_type_specifier> llvm_pointer_base_type_specifier llvm_function_type_specifier
 %type <llvm_pointer_type_specifier> llvm_pointer_type_specifier
@@ -451,12 +451,12 @@ llvm_type_specifier
   ;
 
 llvm_object_type_specifier
-  : TWISEY TWISEYOBJECT { $$ = new LLVMObjectTypeSpecifier(); }
+  : TWISEY TWISEYOBJECT { $$ = new WiseyObjectTypeSpecifier(); }
   ;
 
 llvm_object_owner_type_specifier
   : llvm_object_type_specifier '*'
-    { $$ = new LLVMObjectOwnerTypeSpecifier(); }
+    { $$ = new WiseyObjectOwnerTypeSpecifier(); }
   ;
 
 llvm_model_type_specifier

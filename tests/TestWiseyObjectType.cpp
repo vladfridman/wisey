@@ -1,11 +1,11 @@
 //
-//  TestLLVMObjectType.cpp
+//  TestWiseyObjectType.cpp
 //  runtests
 //
 //  Created by Vladimir Fridman on 4/2/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link LLVMObjectType}
+//  Tests {@link WiseyObjectType}
 //
 
 #include <gtest/gtest.h>
@@ -17,8 +17,8 @@
 #include "MockConcreteObjectType.hpp"
 #include "TestFileRunner.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/LLVMObjectOwnerType.hpp"
-#include "wisey/LLVMObjectType.hpp"
+#include "wisey/WiseyObjectOwnerType.hpp"
+#include "wisey/WiseyObjectType.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/StateField.hpp"
 
@@ -32,18 +32,18 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct LLVMObjectTypeTest : public Test {
+struct WiseyObjectTypeTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBasicBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
-  LLVMObjectType* mLLVMObjectType;
+  WiseyObjectType* mWiseyObjectType;
   NiceMock<MockConcreteObjectType> mConcreteObjectType;
   
 public:
   
-  LLVMObjectTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
+  WiseyObjectTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
     Function* function = Function::Create(functionType,
@@ -62,77 +62,77 @@ public:
     
     mStringStream = new raw_string_ostream(mStringBuffer);
     
-    mLLVMObjectType = new LLVMObjectType();
+    mWiseyObjectType = new WiseyObjectType();
   }
   
-  ~LLVMObjectTypeTest() {
+  ~WiseyObjectTypeTest() {
     delete mStringStream;
   }
 };
 
-TEST_F(LLVMObjectTypeTest, pointerTypeTest) {
-  EXPECT_EQ(Type::getInt8Ty(mLLVMContext)->getPointerTo(), mLLVMObjectType->getLLVMType(mContext));
-  EXPECT_STREQ("::wisey::object", mLLVMObjectType->getTypeName().c_str());
+TEST_F(WiseyObjectTypeTest, pointerTypeTest) {
+  EXPECT_EQ(Type::getInt8Ty(mLLVMContext)->getPointerTo(), mWiseyObjectType->getLLVMType(mContext));
+  EXPECT_STREQ("::wisey::object", mWiseyObjectType->getTypeName().c_str());
 }
 
-TEST_F(LLVMObjectTypeTest, canAutoCastToTest) {
-  EXPECT_FALSE(mLLVMObjectType->canAutoCastTo(mContext, LLVMPrimitiveTypes::I8));
+TEST_F(WiseyObjectTypeTest, canAutoCastToTest) {
+  EXPECT_FALSE(mWiseyObjectType->canAutoCastTo(mContext, LLVMPrimitiveTypes::I8));
   LLVMPointerType* pointerType = LLVMPointerType::create(LLVMPrimitiveTypes::I32);
-  EXPECT_TRUE(mLLVMObjectType->canAutoCastTo(mContext, pointerType));
-  EXPECT_TRUE(mLLVMObjectType->canAutoCastTo(mContext, &mConcreteObjectType));
+  EXPECT_TRUE(mWiseyObjectType->canAutoCastTo(mContext, pointerType));
+  EXPECT_TRUE(mWiseyObjectType->canAutoCastTo(mContext, &mConcreteObjectType));
 }
 
-TEST_F(LLVMObjectTypeTest, canCastTest) {
-  EXPECT_FALSE(mLLVMObjectType->canCastTo(mContext, LLVMPrimitiveTypes::I8));
+TEST_F(WiseyObjectTypeTest, canCastTest) {
+  EXPECT_FALSE(mWiseyObjectType->canCastTo(mContext, LLVMPrimitiveTypes::I8));
   LLVMPointerType* pointerType = LLVMPointerType::create(LLVMPrimitiveTypes::I32);
-  EXPECT_TRUE(mLLVMObjectType->canCastTo(mContext, pointerType));
-  EXPECT_TRUE(mLLVMObjectType->canCastTo(mContext, &mConcreteObjectType));
+  EXPECT_TRUE(mWiseyObjectType->canCastTo(mContext, pointerType));
+  EXPECT_TRUE(mWiseyObjectType->canCastTo(mContext, &mConcreteObjectType));
 }
 
-TEST_F(LLVMObjectTypeTest, castToTest) {
+TEST_F(WiseyObjectTypeTest, castToTest) {
   Mock::AllowLeak(&mConcreteObjectType);
   
   LLVMPointerType* pointerType = LLVMPointerType::create(LLVMPrimitiveTypes::I32);
-  Value* value = ConstantPointerNull::get(mLLVMObjectType->getLLVMType(mContext));
-  Value* result = mLLVMObjectType->castTo(mContext, value, pointerType, 0);
+  Value* value = ConstantPointerNull::get(mWiseyObjectType->getLLVMType(mContext));
+  Value* result = mWiseyObjectType->castTo(mContext, value, pointerType, 0);
   *mStringStream << *result;
   
   EXPECT_STREQ("  %0 = bitcast i8* null to i32*", mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
-TEST_F(LLVMObjectTypeTest, castToObjectTest) {
+TEST_F(WiseyObjectTypeTest, castToObjectTest) {
   Mock::AllowLeak(&mConcreteObjectType);
   
-  Value* value = ConstantPointerNull::get(mLLVMObjectType->getLLVMType(mContext));
-  Value* result = mLLVMObjectType->castTo(mContext, value, &mConcreteObjectType, 0);
+  Value* value = ConstantPointerNull::get(mWiseyObjectType->getLLVMType(mContext));
+  Value* result = mWiseyObjectType->castTo(mContext, value, &mConcreteObjectType, 0);
   *mStringStream << *result;
   
   EXPECT_STREQ("  %0 = bitcast i8* null to %mystruct*", mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
-TEST_F(LLVMObjectTypeTest, isTypeKindTest) {
-  EXPECT_FALSE(mLLVMObjectType->isPrimitive());
-  EXPECT_FALSE(mLLVMObjectType->isOwner());
-  EXPECT_TRUE(mLLVMObjectType->isReference());
-  EXPECT_FALSE(mLLVMObjectType->isArray());
-  EXPECT_FALSE(mLLVMObjectType->isFunction());
-  EXPECT_FALSE(mLLVMObjectType->isPackage());
-  EXPECT_TRUE(mLLVMObjectType->isNative());
-  EXPECT_FALSE(mLLVMObjectType->isPointer());
+TEST_F(WiseyObjectTypeTest, isTypeKindTest) {
+  EXPECT_FALSE(mWiseyObjectType->isPrimitive());
+  EXPECT_FALSE(mWiseyObjectType->isOwner());
+  EXPECT_TRUE(mWiseyObjectType->isReference());
+  EXPECT_FALSE(mWiseyObjectType->isArray());
+  EXPECT_FALSE(mWiseyObjectType->isFunction());
+  EXPECT_FALSE(mWiseyObjectType->isPackage());
+  EXPECT_TRUE(mWiseyObjectType->isNative());
+  EXPECT_FALSE(mWiseyObjectType->isPointer());
 }
 
-TEST_F(LLVMObjectTypeTest, isObjectTest) {
-  EXPECT_FALSE(mLLVMObjectType->isController());
-  EXPECT_FALSE(mLLVMObjectType->isInterface());
-  EXPECT_FALSE(mLLVMObjectType->isModel());
-  EXPECT_FALSE(mLLVMObjectType->isNode());
-  EXPECT_FALSE(mLLVMObjectType->isThread());
+TEST_F(WiseyObjectTypeTest, isObjectTest) {
+  EXPECT_FALSE(mWiseyObjectType->isController());
+  EXPECT_FALSE(mWiseyObjectType->isInterface());
+  EXPECT_FALSE(mWiseyObjectType->isModel());
+  EXPECT_FALSE(mWiseyObjectType->isNode());
+  EXPECT_FALSE(mWiseyObjectType->isThread());
 }
 
-TEST_F(LLVMObjectTypeTest, createLocalVariableTest) {
-  mLLVMObjectType->createLocalVariable(mContext, "temp");
+TEST_F(WiseyObjectTypeTest, createLocalVariableTest) {
+  mWiseyObjectType->createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);
@@ -148,35 +148,35 @@ TEST_F(LLVMObjectTypeTest, createLocalVariableTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(LLVMObjectTypeTest, createFieldVariableTest) {
+TEST_F(WiseyObjectTypeTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  IField* field = new StateField(mLLVMObjectType, "mField");
+  IField* field = new StateField(mWiseyObjectType, "mField");
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
-  mLLVMObjectType->createFieldVariable(mContext, "mField", &concreteObjectType);
+  mWiseyObjectType->createFieldVariable(mContext, "mField", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("mField");
   
   EXPECT_NE(variable, nullptr);
 }
 
-TEST_F(LLVMObjectTypeTest, createParameterVariableTest) {
-  llvm::Constant* null = ConstantPointerNull::get(mLLVMObjectType->getLLVMType(mContext));
-  mLLVMObjectType->createParameterVariable(mContext, "foo", null);
+TEST_F(WiseyObjectTypeTest, createParameterVariableTest) {
+  llvm::Constant* null = ConstantPointerNull::get(mWiseyObjectType->getLLVMType(mContext));
+  mWiseyObjectType->createParameterVariable(mContext, "foo", null);
   IVariable* variable = mContext.getScopes().getVariable("foo");
   
   EXPECT_NE(variable, nullptr);
 }
 
-TEST_F(LLVMObjectTypeTest, printToStreamTest) {
+TEST_F(WiseyObjectTypeTest, printToStreamTest) {
   stringstream stringStream;
-  mLLVMObjectType->printToStream(mContext, stringStream);
+  mWiseyObjectType->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("::wisey::object", stringStream.str().c_str());
 }
 
-TEST_F(LLVMObjectTypeTest, getOwnerTest) {
-  EXPECT_EQ(LLVMObjectOwnerType::LLVM_OBJECT_OWNER_TYPE, mLLVMObjectType->getOwner());
+TEST_F(WiseyObjectTypeTest, getOwnerTest) {
+  EXPECT_EQ(WiseyObjectOwnerType::LLVM_OBJECT_OWNER_TYPE, mWiseyObjectType->getOwner());
 }
 
-TEST_F(TestFileRunner, referenceCountDecrementedForLLVMObjectTypeVariableTest) {
+TEST_F(TestFileRunner, referenceCountDecrementedForWiseyObjectTypeVariableTest) {
   runFile("tests/samples/test_reference_count_decremented_for_llvm_object_type_variable.yz", "1");
 }

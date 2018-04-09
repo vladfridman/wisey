@@ -1,13 +1,13 @@
 //
-//  LLVMObjectType.hpp
+//  WiseyObjectType.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 4/2/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef LLVMObjectType_h
-#define LLVMObjectType_h
+#ifndef WiseyObjectType_h
+#define WiseyObjectType_h
 
 #include <llvm/IR/Instructions.h>
 
@@ -16,15 +16,15 @@ namespace wisey {
   /**
    * Represents an llvm pointer type that points to a wisey object
    */
-  class LLVMObjectType : public IReferenceType {
+  class WiseyObjectType : public IReferenceType {
     
   public:
     
-    static LLVMObjectType* LLVM_OBJECT_TYPE;
+    static WiseyObjectType* LLVM_OBJECT_TYPE;
     
-    LLVMObjectType();
+    WiseyObjectType();
     
-    ~LLVMObjectType();
+    ~WiseyObjectType();
     
     std::string getTypeName() const override;
     
@@ -89,4 +89,4 @@ namespace wisey {
   
 } /* namespace wisey */
 
-#endif /* LLVMObjectType_h */
+#endif /* WiseyObjectType_h */
