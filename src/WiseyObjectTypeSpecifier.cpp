@@ -23,7 +23,7 @@ WiseyObjectTypeSpecifier::~WiseyObjectTypeSpecifier() {
 }
 
 const WiseyObjectType* WiseyObjectTypeSpecifier::getType(IRGenerationContext& context) const {
-  return WiseyObjectType::LLVM_OBJECT_TYPE;
+  return WiseyObjectType::WISEY_OBJECT_TYPE;
 }
 
 void WiseyObjectTypeSpecifier::printToStream(IRGenerationContext& context,

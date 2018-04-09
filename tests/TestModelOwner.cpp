@@ -299,9 +299,9 @@ TEST_F(ModelOwnerTest, canCastToTest) {
   EXPECT_TRUE(mModel->getOwner()->canCastTo(mContext, WiseyModelType::WISEY_MODEL_TYPE));
   EXPECT_TRUE(mModel->getOwner()->
                canCastTo(mContext, WiseyModelOwnerType::WISEY_MODEL_OWNER_TYPE));
-  EXPECT_TRUE(mModel->getOwner()->canCastTo(mContext, WiseyObjectType::LLVM_OBJECT_TYPE));
+  EXPECT_TRUE(mModel->getOwner()->canCastTo(mContext, WiseyObjectType::WISEY_OBJECT_TYPE));
   EXPECT_TRUE(mModel->getOwner()->
-              canCastTo(mContext, WiseyObjectOwnerType::LLVM_OBJECT_OWNER_TYPE));
+              canCastTo(mContext, WiseyObjectOwnerType::WISEY_OBJECT_OWNER_TYPE));
 }
 
 TEST_F(ModelOwnerTest, canAutoCastToTest) {
@@ -318,9 +318,9 @@ TEST_F(ModelOwnerTest, canAutoCastToTest) {
   EXPECT_TRUE(mModel->getOwner()->canAutoCastTo(mContext, WiseyModelType::WISEY_MODEL_TYPE));
   EXPECT_TRUE(mModel->getOwner()->
               canAutoCastTo(mContext, WiseyModelOwnerType::WISEY_MODEL_OWNER_TYPE));
-  EXPECT_TRUE(mModel->getOwner()->canAutoCastTo(mContext, WiseyObjectType::LLVM_OBJECT_TYPE));
+  EXPECT_TRUE(mModel->getOwner()->canAutoCastTo(mContext, WiseyObjectType::WISEY_OBJECT_TYPE));
   EXPECT_TRUE(mModel->getOwner()->
-              canAutoCastTo(mContext, WiseyObjectOwnerType::LLVM_OBJECT_OWNER_TYPE));
+              canAutoCastTo(mContext, WiseyObjectOwnerType::WISEY_OBJECT_OWNER_TYPE));
 }
 
 TEST_F(ModelOwnerTest, castToFirstInterfaceTest) {

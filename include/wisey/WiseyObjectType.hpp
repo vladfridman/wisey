@@ -20,7 +20,7 @@ namespace wisey {
     
   public:
     
-    static WiseyObjectType* LLVM_OBJECT_TYPE;
+    static WiseyObjectType* WISEY_OBJECT_TYPE;
     
     WiseyObjectType();
     

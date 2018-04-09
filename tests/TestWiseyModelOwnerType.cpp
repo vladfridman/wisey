@@ -82,9 +82,9 @@ TEST_F(WiseyModelOwnerTypeTest, canCastTest) {
   LLVMPointerType* pointerType = LLVMPointerType::create(LLVMPrimitiveTypes::I32);
   EXPECT_TRUE(mWiseyModelOwnerType->canCastTo(mContext, pointerType));
   EXPECT_TRUE(mWiseyModelOwnerType->canCastTo(mContext, &mConcreteObjectType));
-  EXPECT_TRUE(mWiseyModelOwnerType->canCastTo(mContext, WiseyObjectType::LLVM_OBJECT_TYPE));
+  EXPECT_TRUE(mWiseyModelOwnerType->canCastTo(mContext, WiseyObjectType::WISEY_OBJECT_TYPE));
   EXPECT_TRUE(mWiseyModelOwnerType->
-               canCastTo(mContext, WiseyObjectOwnerType::LLVM_OBJECT_OWNER_TYPE));
+               canCastTo(mContext, WiseyObjectOwnerType::WISEY_OBJECT_OWNER_TYPE));
 }
 
 TEST_F(WiseyModelOwnerTypeTest, canAutoCastToTest) {
@@ -92,9 +92,9 @@ TEST_F(WiseyModelOwnerTypeTest, canAutoCastToTest) {
   LLVMPointerType* pointerType = LLVMPointerType::create(LLVMPrimitiveTypes::I32);
   EXPECT_TRUE(mWiseyModelOwnerType->canAutoCastTo(mContext, pointerType));
   EXPECT_TRUE(mWiseyModelOwnerType->canAutoCastTo(mContext, &mConcreteObjectType));
-  EXPECT_TRUE(mWiseyModelOwnerType->canAutoCastTo(mContext, WiseyObjectType::LLVM_OBJECT_TYPE));
+  EXPECT_TRUE(mWiseyModelOwnerType->canAutoCastTo(mContext, WiseyObjectType::WISEY_OBJECT_TYPE));
   EXPECT_TRUE(mWiseyModelOwnerType->
-               canAutoCastTo(mContext, WiseyObjectOwnerType::LLVM_OBJECT_OWNER_TYPE));
+               canAutoCastTo(mContext, WiseyObjectOwnerType::WISEY_OBJECT_OWNER_TYPE));
 }
 
 TEST_F(WiseyModelOwnerTypeTest, castToTest) {

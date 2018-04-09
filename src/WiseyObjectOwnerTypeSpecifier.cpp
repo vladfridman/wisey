@@ -23,7 +23,7 @@ WiseyObjectOwnerTypeSpecifier::~WiseyObjectOwnerTypeSpecifier() {
 }
 
 const WiseyObjectOwnerType* WiseyObjectOwnerTypeSpecifier::getType(IRGenerationContext& context) const {
-  return WiseyObjectOwnerType::LLVM_OBJECT_OWNER_TYPE;
+  return WiseyObjectOwnerType::WISEY_OBJECT_OWNER_TYPE;
 }
 
 void WiseyObjectOwnerTypeSpecifier::printToStream(IRGenerationContext& context,

@@ -22,7 +22,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-WiseyObjectType* WiseyObjectType::LLVM_OBJECT_TYPE = new WiseyObjectType();
+WiseyObjectType* WiseyObjectType::WISEY_OBJECT_TYPE = new WiseyObjectType();
 
 WiseyObjectType::WiseyObjectType() {
 }
@@ -158,5 +158,5 @@ void WiseyObjectType::decrementReferenceCount(IRGenerationContext& context, Valu
 }
 
 const IOwnerType* WiseyObjectType::getOwner() const {
-  return WiseyObjectOwnerType::LLVM_OBJECT_OWNER_TYPE;
+  return WiseyObjectOwnerType::WISEY_OBJECT_OWNER_TYPE;
 }

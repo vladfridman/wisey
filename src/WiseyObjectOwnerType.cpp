@@ -20,7 +20,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-WiseyObjectOwnerType* WiseyObjectOwnerType::LLVM_OBJECT_OWNER_TYPE = new WiseyObjectOwnerType();
+WiseyObjectOwnerType* WiseyObjectOwnerType::WISEY_OBJECT_OWNER_TYPE = new WiseyObjectOwnerType();
 
 WiseyObjectOwnerType::WiseyObjectOwnerType() {
 }
@@ -148,7 +148,7 @@ const wisey::ArrayType* WiseyObjectOwnerType::getArrayType(IRGenerationContext& 
 }
 
 const WiseyObjectType* WiseyObjectOwnerType::getReference() const {
-  return WiseyObjectType::LLVM_OBJECT_TYPE;
+  return WiseyObjectType::WISEY_OBJECT_TYPE;
 }
 
 void WiseyObjectOwnerType::free(IRGenerationContext& context, Value* value, int line) const {

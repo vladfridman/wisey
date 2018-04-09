@@ -173,5 +173,5 @@ TEST_F(WiseyObjectOwnerTypeTest, printToStreamTest) {
 }
 
 TEST_F(WiseyObjectOwnerTypeTest, getReferenceTest) {
-  EXPECT_EQ(WiseyObjectType::LLVM_OBJECT_TYPE, mWiseyObjectOwnerType->getReference());
+  EXPECT_EQ(WiseyObjectType::WISEY_OBJECT_TYPE, mWiseyObjectOwnerType->getReference());
 }

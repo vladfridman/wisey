@@ -23,7 +23,7 @@ namespace wisey {
     
   public:
     
-    static WiseyObjectOwnerType* LLVM_OBJECT_OWNER_TYPE;
+    static WiseyObjectOwnerType* WISEY_OBJECT_OWNER_TYPE;
     
     WiseyObjectOwnerType();
     

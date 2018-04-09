@@ -182,7 +182,7 @@ TEST_F(WiseyObjectTypeTest, printToStreamTest) {
 }
 
 TEST_F(WiseyObjectTypeTest, getOwnerTest) {
-  EXPECT_EQ(WiseyObjectOwnerType::LLVM_OBJECT_OWNER_TYPE, mWiseyObjectType->getOwner());
+  EXPECT_EQ(WiseyObjectOwnerType::WISEY_OBJECT_OWNER_TYPE, mWiseyObjectType->getOwner());
 }
 
 TEST_F(TestFileRunner, referenceCountDecrementedForWiseyObjectTypeVariableTest) {

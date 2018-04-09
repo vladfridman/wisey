@@ -357,8 +357,8 @@ TEST_F(ThreadTest, canCastToTest) {
   EXPECT_TRUE(mThread->canCastTo(mContext, mThread));
   EXPECT_FALSE(mThread->canCastTo(mContext, WiseyModelType::WISEY_MODEL_TYPE));
   EXPECT_FALSE(mThread->canCastTo(mContext, WiseyModelOwnerType::WISEY_MODEL_OWNER_TYPE));
-  EXPECT_TRUE(mThread->canCastTo(mContext, WiseyObjectType::LLVM_OBJECT_TYPE));
-  EXPECT_FALSE(mThread->canCastTo(mContext, WiseyObjectOwnerType::LLVM_OBJECT_OWNER_TYPE));
+  EXPECT_TRUE(mThread->canCastTo(mContext, WiseyObjectType::WISEY_OBJECT_TYPE));
+  EXPECT_FALSE(mThread->canCastTo(mContext, WiseyObjectOwnerType::WISEY_OBJECT_OWNER_TYPE));
 }
 
 TEST_F(ThreadTest, canAutoCastToTest) {
@@ -368,8 +368,8 @@ TEST_F(ThreadTest, canAutoCastToTest) {
   EXPECT_TRUE(mThread->canAutoCastTo(mContext, mThread));
   EXPECT_FALSE(mThread->canAutoCastTo(mContext, WiseyModelType::WISEY_MODEL_TYPE));
   EXPECT_FALSE(mThread->canAutoCastTo(mContext, WiseyModelOwnerType::WISEY_MODEL_OWNER_TYPE));
-  EXPECT_TRUE(mThread->canAutoCastTo(mContext, WiseyObjectType::LLVM_OBJECT_TYPE));
-  EXPECT_FALSE(mThread->canAutoCastTo(mContext, WiseyObjectOwnerType::LLVM_OBJECT_OWNER_TYPE));
+  EXPECT_TRUE(mThread->canAutoCastTo(mContext, WiseyObjectType::WISEY_OBJECT_TYPE));
+  EXPECT_FALSE(mThread->canAutoCastTo(mContext, WiseyObjectOwnerType::WISEY_OBJECT_OWNER_TYPE));
 }
 
 TEST_F(ThreadTest, isTypeKindTest) {
