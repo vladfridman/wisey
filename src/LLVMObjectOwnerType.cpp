@@ -29,11 +29,11 @@ LLVMObjectOwnerType::~LLVMObjectOwnerType() {
 }
 
 string LLVMObjectOwnerType::getTypeName() const {
-  return LLVMObjectType::LLVM_OBJECT_TYPE->getTypeName() + "*";
+  return getReference()->getTypeName() + "*";
 }
 
 llvm::PointerType* LLVMObjectOwnerType::getLLVMType(IRGenerationContext& context) const {
-  return LLVMObjectType::LLVM_OBJECT_TYPE->getLLVMType(context);
+  return getReference()->getLLVMType(context);
 }
 
 bool LLVMObjectOwnerType::canCastTo(IRGenerationContext& context, const IType* toType) const {

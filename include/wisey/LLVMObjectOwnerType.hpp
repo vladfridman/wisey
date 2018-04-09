@@ -16,8 +16,6 @@
 
 namespace wisey {
   
-  class LLVMPointerPointerType;
-  
   /**
    * Represents an llvm pointer type that points to a wisey object that it owns
    */

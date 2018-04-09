@@ -11,7 +11,6 @@
 
 #include "wisey/ITypeSpecifier.hpp"
 #include "wisey/LLVMObjectOwnerType.hpp"
-#include "wisey/LLVMPointerTypeSpecifier.hpp"
 
 namespace wisey {
   

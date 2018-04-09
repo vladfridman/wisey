@@ -17,6 +17,7 @@
 #include "MockConcreteObjectType.hpp"
 #include "TestFileRunner.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/LLVMObjectOwnerType.hpp"
 #include "wisey/LLVMObjectType.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/StateField.hpp"
@@ -170,6 +171,10 @@ TEST_F(LLVMObjectTypeTest, printToStreamTest) {
   mLLVMObjectType->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("::wisey::object", stringStream.str().c_str());
+}
+
+TEST_F(LLVMObjectTypeTest, getOwnerTest) {
+  EXPECT_EQ(LLVMObjectOwnerType::LLVM_OBJECT_OWNER_TYPE, mLLVMObjectType->getOwner());
 }
 
 TEST_F(TestFileRunner, referenceCountDecrementedForLLVMObjectTypeVariableTest) {

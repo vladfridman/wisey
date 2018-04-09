@@ -126,6 +126,8 @@
   #include "wisey/ThrowStatement.hpp"
   #include "wisey/TypeComparisionExpression.hpp"
   #include "wisey/VariableDeclaration.hpp"
+  #include "wisey/WiseyModelOwnerTypeSpecifier.hpp"
+  #include "wisey/WiseyModelTypeSpecifier.hpp"
   #include "wisey/WhileStatement.hpp"
   
   using namespace std;
@@ -223,7 +225,7 @@
 %token <token> TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN TSTATE TSTATIC 
 %token <token> TSWITCH TTHREAD TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN 
 %token <token> TTYPECHAR TTYPEDOUBLE TTYPEFLOAT TTYPEINT TTYPELONG TTYPESTRING TTYPEVOID TWHILE
-%token <token> TWISEY TWISEYOBJECT 
+%token <token> TWISEY TWISEYMODEL TWISEYOBJECT 
 
 /**
  * Parsing tree node types
@@ -342,6 +344,7 @@
 %type <type_specifier> non_array_type_specifier injectable_type_specifier 
 %type <type_specifier> array_specific_owner_type_specifier
 %type <type_specifier> llvm_object_type_specifier llvm_object_owner_type_specifier
+%type <type_specifier> llvm_model_type_specifier llvm_model_owner_type_specifier
 %type <type_specifier> llvm_type_specifier
 %type <type_specifier> llvm_non_array_type_specifier 
 %type <type_specifier> llvm_void_type_specifier 
@@ -443,6 +446,8 @@ llvm_type_specifier
   | llvm_pointer_type_specifier { $$ = (const ITypeSpecifier*) $1; }
   | llvm_object_type_specifier { $$ = (const ITypeSpecifier*) $1; }
   | llvm_object_owner_type_specifier { $$ = (const ITypeSpecifier*) $1; }
+  | llvm_model_type_specifier { $$ = (const ITypeSpecifier*) $1; }
+  | llvm_model_owner_type_specifier { $$ = (const ITypeSpecifier*) $1; }
   ;
 
 llvm_object_type_specifier
@@ -452,6 +457,15 @@ llvm_object_type_specifier
 llvm_object_owner_type_specifier
   : llvm_object_type_specifier '*'
     { $$ = new LLVMObjectOwnerTypeSpecifier(); }
+  ;
+
+llvm_model_type_specifier
+  : TWISEY TWISEYMODEL { $$ = new WiseyModelTypeSpecifier(); }
+  ;
+
+llvm_model_owner_type_specifier
+  : llvm_model_type_specifier '*'
+    { $$ = new WiseyModelOwnerTypeSpecifier(); }
   ;
 
 llvm_non_array_type_specifier

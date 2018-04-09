@@ -1,30 +1,33 @@
 //
-//  LLVMObjectType.hpp
+//  WiseyModelOwnerType.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 4/2/18.
+//  Created by Vladimir Fridman on 4/9/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef LLVMObjectType_h
-#define LLVMObjectType_h
+#ifndef WiseyModelOwnerType_h
+#define WiseyModelOwnerType_h
 
 #include <llvm/IR/Instructions.h>
+
+#include "wisey/IOwnerType.hpp"
+#include "wisey/WiseyModelType.hpp"
 
 namespace wisey {
   
   /**
-   * Represents an llvm pointer type that points to a wisey object
+   * Represents an llvm pointer type that points to a wisey model that it owns
    */
-  class LLVMObjectType : public IReferenceType {
+  class WiseyModelOwnerType : public IOwnerType {
     
   public:
     
-    static LLVMObjectType* LLVM_OBJECT_TYPE;
+    static WiseyModelOwnerType* WISEY_MODEL_OWNER_TYPE;
     
-    LLVMObjectType();
+    WiseyModelOwnerType();
     
-    ~LLVMObjectType();
+    ~WiseyModelOwnerType();
     
     std::string getTypeName() const override;
     
@@ -64,7 +67,7 @@ namespace wisey {
     bool isNative() const override;
     
     bool isPointer() const override;
-
+    
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
     void createLocalVariable(IRGenerationContext& context, std::string name) const override;
@@ -79,14 +82,12 @@ namespace wisey {
     
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
     
-    void incrementReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
+    const WiseyModelType* getReference() const override;
     
-    void decrementReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
-
-    const IOwnerType* getOwner() const override;
+    void free(IRGenerationContext& context, llvm::Value* value, int line) const override;
     
   };
   
 } /* namespace wisey */
 
-#endif /* LLVMObjectType_h */
+#endif /* WiseyModelOwnerType_h */

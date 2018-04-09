@@ -758,6 +758,18 @@
 		F59D822A1E1089E700057FB5 /* BreakStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82281E1089E700057FB5 /* BreakStatement.cpp */; };
 		F5A0DADF2078082300B0E479 /* LLVMGlobalDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A0DADE2078082300B0E479 /* LLVMGlobalDeclaration.cpp */; };
 		F5A0DAE02078082300B0E479 /* LLVMGlobalDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A0DADE2078082300B0E479 /* LLVMGlobalDeclaration.cpp */; };
+		F5A0DAE8207BE39300B0E479 /* WiseyModelTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A0DAE7207BE39300B0E479 /* WiseyModelTypeSpecifier.cpp */; };
+		F5A0DAE9207BE39300B0E479 /* WiseyModelTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A0DAE7207BE39300B0E479 /* WiseyModelTypeSpecifier.cpp */; };
+		F5A0DAEC207BE43000B0E479 /* WiseyModelType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A0DAEB207BE43000B0E479 /* WiseyModelType.cpp */; };
+		F5A0DAED207BE43000B0E479 /* WiseyModelType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A0DAEB207BE43000B0E479 /* WiseyModelType.cpp */; };
+		F5A0DAF0207BE5A500B0E479 /* WiseyModelOwnerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A0DAEF207BE5A500B0E479 /* WiseyModelOwnerType.cpp */; };
+		F5A0DAF1207BE5A500B0E479 /* WiseyModelOwnerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A0DAEF207BE5A500B0E479 /* WiseyModelOwnerType.cpp */; };
+		F5A0DAF4207BE68600B0E479 /* WiseyModelOwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A0DAF3207BE68600B0E479 /* WiseyModelOwnerTypeSpecifier.cpp */; };
+		F5A0DAF5207BE68600B0E479 /* WiseyModelOwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A0DAF3207BE68600B0E479 /* WiseyModelOwnerTypeSpecifier.cpp */; };
+		F5A0DAF7207BE7BD00B0E479 /* TestWiseyModelOwnerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A0DAF6207BE7BD00B0E479 /* TestWiseyModelOwnerType.cpp */; };
+		F5A0DAF9207BE83500B0E479 /* TestWiseyModelOwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A0DAF8207BE83500B0E479 /* TestWiseyModelOwnerTypeSpecifier.cpp */; };
+		F5A0DAFB207BE87700B0E479 /* TestWiseyModelType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A0DAFA207BE87700B0E479 /* TestWiseyModelType.cpp */; };
+		F5A0DAFD207BE8D600B0E479 /* TestWiseyModelTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A0DAFC207BE8D600B0E479 /* TestWiseyModelTypeSpecifier.cpp */; };
 		F5A363411F33C1A8005880B3 /* LocalOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A363401F33C1A8005880B3 /* LocalOwnerVariable.cpp */; };
 		F5A363421F33C1A8005880B3 /* LocalOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A363401F33C1A8005880B3 /* LocalOwnerVariable.cpp */; };
 		F5A363471F37257C005880B3 /* ParameterOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A363461F37257C005880B3 /* ParameterOwnerVariable.cpp */; };
@@ -1693,6 +1705,18 @@
 		F59D82281E1089E700057FB5 /* BreakStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BreakStatement.cpp; path = src/BreakStatement.cpp; sourceTree = "<group>"; };
 		F5A0DADD2078074900B0E479 /* LLVMGlobalDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMGlobalDeclaration.hpp; path = include/wisey/LLVMGlobalDeclaration.hpp; sourceTree = "<group>"; };
 		F5A0DADE2078082300B0E479 /* LLVMGlobalDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMGlobalDeclaration.cpp; path = src/LLVMGlobalDeclaration.cpp; sourceTree = "<group>"; };
+		F5A0DAE6207BE34200B0E479 /* WiseyModelTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = WiseyModelTypeSpecifier.hpp; path = include/wisey/WiseyModelTypeSpecifier.hpp; sourceTree = "<group>"; };
+		F5A0DAE7207BE39300B0E479 /* WiseyModelTypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = WiseyModelTypeSpecifier.cpp; path = src/WiseyModelTypeSpecifier.cpp; sourceTree = "<group>"; };
+		F5A0DAEA207BE3D800B0E479 /* WiseyModelType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = WiseyModelType.hpp; path = include/wisey/WiseyModelType.hpp; sourceTree = "<group>"; };
+		F5A0DAEB207BE43000B0E479 /* WiseyModelType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = WiseyModelType.cpp; path = src/WiseyModelType.cpp; sourceTree = "<group>"; };
+		F5A0DAEE207BE54400B0E479 /* WiseyModelOwnerType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = WiseyModelOwnerType.hpp; path = include/wisey/WiseyModelOwnerType.hpp; sourceTree = "<group>"; };
+		F5A0DAEF207BE5A500B0E479 /* WiseyModelOwnerType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = WiseyModelOwnerType.cpp; path = src/WiseyModelOwnerType.cpp; sourceTree = "<group>"; };
+		F5A0DAF2207BE63500B0E479 /* WiseyModelOwnerTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = WiseyModelOwnerTypeSpecifier.hpp; path = include/wisey/WiseyModelOwnerTypeSpecifier.hpp; sourceTree = "<group>"; };
+		F5A0DAF3207BE68600B0E479 /* WiseyModelOwnerTypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = WiseyModelOwnerTypeSpecifier.cpp; path = src/WiseyModelOwnerTypeSpecifier.cpp; sourceTree = "<group>"; };
+		F5A0DAF6207BE7BD00B0E479 /* TestWiseyModelOwnerType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestWiseyModelOwnerType.cpp; path = tests/TestWiseyModelOwnerType.cpp; sourceTree = "<group>"; };
+		F5A0DAF8207BE83500B0E479 /* TestWiseyModelOwnerTypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestWiseyModelOwnerTypeSpecifier.cpp; path = tests/TestWiseyModelOwnerTypeSpecifier.cpp; sourceTree = "<group>"; };
+		F5A0DAFA207BE87700B0E479 /* TestWiseyModelType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestWiseyModelType.cpp; path = tests/TestWiseyModelType.cpp; sourceTree = "<group>"; };
+		F5A0DAFC207BE8D600B0E479 /* TestWiseyModelTypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestWiseyModelTypeSpecifier.cpp; path = tests/TestWiseyModelTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F5A3633F1F33C091005880B3 /* LocalOwnerVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LocalOwnerVariable.hpp; path = include/wisey/LocalOwnerVariable.hpp; sourceTree = "<group>"; };
 		F5A363401F33C1A8005880B3 /* LocalOwnerVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LocalOwnerVariable.cpp; path = src/LocalOwnerVariable.cpp; sourceTree = "<group>"; };
 		F5A363451F3724EF005880B3 /* ParameterOwnerVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ParameterOwnerVariable.hpp; path = include/wisey/ParameterOwnerVariable.hpp; sourceTree = "<group>"; };
@@ -3038,6 +3062,10 @@
 				F5827042205EEC4200839EC7 /* LLVMStructType.hpp */,
 				F5D465FB2061119500C1047A /* LLVMVariableDeclaration.hpp */,
 				F582706F205FF90500839EC7 /* LLVMVoidType.hpp */,
+				F5A0DAEE207BE54400B0E479 /* WiseyModelOwnerType.hpp */,
+				F5A0DAF2207BE63500B0E479 /* WiseyModelOwnerTypeSpecifier.hpp */,
+				F5A0DAEA207BE3D800B0E479 /* WiseyModelType.hpp */,
+				F5A0DAE6207BE34200B0E479 /* WiseyModelTypeSpecifier.hpp */,
 			);
 			name = native;
 			sourceTree = "<group>";
@@ -3073,6 +3101,10 @@
 				F5827043205EECAB00839EC7 /* LLVMStructType.cpp */,
 				F5D465FC2061121000C1047A /* LLVMVariableDeclaration.cpp */,
 				F5827070205FF91B00839EC7 /* LLVMVoidType.cpp */,
+				F5A0DAEF207BE5A500B0E479 /* WiseyModelOwnerType.cpp */,
+				F5A0DAF3207BE68600B0E479 /* WiseyModelOwnerTypeSpecifier.cpp */,
+				F5A0DAEB207BE43000B0E479 /* WiseyModelType.cpp */,
+				F5A0DAE7207BE39300B0E479 /* WiseyModelTypeSpecifier.cpp */,
 			);
 			name = native;
 			sourceTree = "<group>";
@@ -3294,6 +3326,10 @@
 				F5827048205EFAB800839EC7 /* TestLLVMStructType.cpp */,
 				F5D4660320611DA000C1047A /* TestLLVMVariableDeclaration.cpp */,
 				F5827073205FFB6B00839EC7 /* TestLLVMVoidType.cpp */,
+				F5A0DAF6207BE7BD00B0E479 /* TestWiseyModelOwnerType.cpp */,
+				F5A0DAF8207BE83500B0E479 /* TestWiseyModelOwnerTypeSpecifier.cpp */,
+				F5A0DAFA207BE87700B0E479 /* TestWiseyModelType.cpp */,
+				F5A0DAFC207BE8D600B0E479 /* TestWiseyModelTypeSpecifier.cpp */,
 			);
 			name = native;
 			sourceTree = "<group>";
@@ -3847,6 +3883,7 @@
 				F574116C1E042390009809FF /* IncrementExpression.cpp in Sources */,
 				F51797141E660779009B16AA /* TestInterfaceDefinition.cpp in Sources */,
 				F50FA3021E3240D800435EEA /* TestScopes.cpp in Sources */,
+				F5A0DAF9207BE83500B0E479 /* TestWiseyModelOwnerTypeSpecifier.cpp in Sources */,
 				F51D2BAF1F68453500510784 /* StaticMethod.cpp in Sources */,
 				F59D82261E0F6E8800057FB5 /* TestIfStatement.cpp in Sources */,
 				F50FA2AE1E27AFA500435EEA /* TestCaseStatement.cpp in Sources */,
@@ -3871,6 +3908,7 @@
 				F558057E1F96A6E8004F62F2 /* TestExitStatement.cpp in Sources */,
 				F523D50D206BD4670017D5B4 /* LLVMObjectOwnerType.cpp in Sources */,
 				F581A0192073B3CB00EA0156 /* ILLVMType.cpp in Sources */,
+				F5A0DAF7207BE7BD00B0E479 /* TestWiseyModelOwnerType.cpp in Sources */,
 				F5CE2D421EF6A43C002ABB85 /* IType.cpp in Sources */,
 				F53400DD1DFBE6F30002BF7E /* Parser.ypp in Sources */,
 				F5EEDDA31E6EF50100215278 /* TestInterfaceTypeSpecifier.cpp in Sources */,
@@ -3897,7 +3935,9 @@
 				F57411701E042607009809FF /* TestIncrementExpression.cpp in Sources */,
 				F50427AD1E4D2747001CB148 /* LocalReferenceVariable.cpp in Sources */,
 				F5325074202B9EE6007D8597 /* TestArraySpecificOwnerTypeSpecifier.cpp in Sources */,
+				F5A0DAFB207BE87700B0E479 /* TestWiseyModelType.cpp in Sources */,
 				F5F3F8D11FDEC637001BA5B9 /* ArrayTypeSpecifier.cpp in Sources */,
+				F5A0DAE9207BE39300B0E479 /* WiseyModelTypeSpecifier.cpp in Sources */,
 				F581A00F207380E800EA0156 /* TestFieldPointerVariable.cpp in Sources */,
 				F5C6FD741E48B4920054209D /* TestBooleanType.cpp in Sources */,
 				F52FF1861F1C570C003F4D37 /* Names.cpp in Sources */,
@@ -3919,6 +3959,7 @@
 				F5A67DAC20134C920018068F /* TestArrayElementAssignment.cpp in Sources */,
 				F531B65D1E0DEB26008304F3 /* TestCharConstant.cpp in Sources */,
 				F5CB7FDD2052ABFE007628B5 /* FixedField.cpp in Sources */,
+				F5A0DAF5207BE68600B0E479 /* WiseyModelOwnerTypeSpecifier.cpp in Sources */,
 				F57780B61ECA6B460049542D /* TestInjector.cpp in Sources */,
 				F531B6571E0DE040008304F3 /* TestStringLiteral.cpp in Sources */,
 				F57411661E01BF18009809FF /* TestScope.cpp in Sources */,
@@ -3952,6 +3993,7 @@
 				F5105FC31FD1B18F00ACF57B /* TestAdjustReferenceCountFunction.cpp in Sources */,
 				F5F396DC1E34BFE000F34296 /* ObjectBuilderArgument.cpp in Sources */,
 				F50427B51E4E3FA7001CB148 /* FieldReferenceVariable.cpp in Sources */,
+				F5A0DAF1207BE5A500B0E479 /* WiseyModelOwnerType.cpp in Sources */,
 				F5CB7F84205181FC007628B5 /* TestFakeExpressionWithCleanup.cpp in Sources */,
 				F53227E52063FFB300605E1B /* TestLocalSystemReferenceVariable.cpp in Sources */,
 				F5FCAE3D1ED5F67F00C69899 /* TestCompiler.cpp in Sources */,
@@ -4146,6 +4188,7 @@
 				F58FA301206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp in Sources */,
 				F55DB0601F7914CB0009942C /* IObjectTypeSpecifier.cpp in Sources */,
 				F51581341E8ABBB5009CE419 /* TestControllerTypeSpecifier.cpp in Sources */,
+				F5A0DAFD207BE8D600B0E479 /* TestWiseyModelTypeSpecifier.cpp in Sources */,
 				F5A67DAA2012DBEB0018068F /* ArrayElementAssignment.cpp in Sources */,
 				F57086031E5317E8007D627E /* AutoCast.cpp in Sources */,
 				F574115C1E01A13B009809FF /* TestLogicalOrExpression.cpp in Sources */,
@@ -4188,6 +4231,7 @@
 				F53400DC1DFBE6F00002BF7E /* Log.cpp in Sources */,
 				F53A2C3F1F0005B800E76A9E /* TestNodeTypeSpecifier.cpp in Sources */,
 				F513DE0220186900001A075B /* ParameterArrayOwnerVariable.cpp in Sources */,
+				F5A0DAED207BE43000B0E479 /* WiseyModelType.cpp in Sources */,
 				F51D2BAB1F68436C00510784 /* StaticMethodDefinition.cpp in Sources */,
 				F51DF67D1FDB166800475F0B /* TestIObjectDefinition.cpp in Sources */,
 				F5A3634E1F374680005880B3 /* FieldOwnerVariable.cpp in Sources */,
@@ -4421,6 +4465,7 @@
 				F51D2BAE1F68453500510784 /* StaticMethod.cpp in Sources */,
 				F5CB7FF02052FCFA007628B5 /* ExternalThreadDefinition.cpp in Sources */,
 				F50FA2D51E2D0AD600435EEA /* ModelTypeSpecifier.cpp in Sources */,
+				F5A0DAF4207BE68600B0E479 /* WiseyModelOwnerTypeSpecifier.cpp in Sources */,
 				F5827065205FD6A600839EC7 /* LLVMFunctionTypeSpecifier.cpp in Sources */,
 				F52746C6201A232900503713 /* ArrayAllocationStatic.cpp in Sources */,
 				F5609F1720580DE000664ADD /* LocalPointerVariable.cpp in Sources */,
@@ -4453,6 +4498,7 @@
 				F50FA29E1E2693F400435EEA /* CompoundStatement.cpp in Sources */,
 				F52C665E1FBF38CC00E89B04 /* CheckForNullAndThrowFunction.cpp in Sources */,
 				F55CF1751F7DA11C00A11426 /* ExternalStaticMethod.cpp in Sources */,
+				F5A0DAF0207BE5A500B0E479 /* WiseyModelOwnerType.cpp in Sources */,
 				F52C665A1FBF348D00E89B04 /* ThrowReferenceCountExceptionFunction.cpp in Sources */,
 				F57085FC1E51E2ED007D627E /* MethodCall.cpp in Sources */,
 				F54B146E205D6ACB0030773F /* LLVMi16Type.cpp in Sources */,
@@ -4466,6 +4512,7 @@
 				F53401091DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
 				F5F61A9C201DDCCE00EF9EB7 /* ArraySpecificType.cpp in Sources */,
 				F5E270731F98F6A4008D2EB7 /* Constant.cpp in Sources */,
+				F5A0DAE8207BE39300B0E479 /* WiseyModelTypeSpecifier.cpp in Sources */,
 				F5170197200DCB5700A10B7C /* DestroyReferenceArrayFunction.cpp in Sources */,
 				F50FA2B31E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */,
 				F574116B1E042390009809FF /* IncrementExpression.cpp in Sources */,
@@ -4481,6 +4528,7 @@
 				F508E0661E72CB0E005D6115 /* MethodSignature.cpp in Sources */,
 				F508E0691E72D954005D6115 /* IMethodDescriptor.cpp in Sources */,
 				F5B3DCE51F9116AF00FC76D3 /* IMethodCall.cpp in Sources */,
+				F5A0DAEC207BE43000B0E479 /* WiseyModelType.cpp in Sources */,
 				F5CB7F4A204B6A89007628B5 /* Thread.cpp in Sources */,
 				F58A83561F798B6300369388 /* ExternalNodeDefinition.cpp in Sources */,
 				F54B1466205D66AB0030773F /* LLVMi1Type.cpp in Sources */,

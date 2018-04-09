@@ -60,6 +60,7 @@ WS  [ \t\v\n\f]
 "::i16"                       return TOKEN(TLLVMI16);
 "::i32"                       return TOKEN(TLLVMI32);
 "::i64"                       return TOKEN(TLLVMI64);
+"::model"                     return TOKEN(TWISEYMODEL);
 "::llvm"                      return TOKEN(TLLVM);
 "::object"                    return TOKEN(TWISEYOBJECT);
 "::pointer"                   return TOKEN(TLLVMPOINTER);

@@ -1,30 +1,30 @@
 //
-//  LLVMObjectType.hpp
+//  WiseyModelType.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 4/2/18.
+//  Created by Vladimir Fridman on 4/9/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef LLVMObjectType_h
-#define LLVMObjectType_h
+#ifndef WiseyModelType_h
+#define WiseyModelType_h
 
 #include <llvm/IR/Instructions.h>
 
 namespace wisey {
   
   /**
-   * Represents an llvm pointer type that points to a wisey object
+   * Represents an llvm pointer type that points to a wisey model
    */
-  class LLVMObjectType : public IReferenceType {
+  class WiseyModelType : public IReferenceType {
     
   public:
     
-    static LLVMObjectType* LLVM_OBJECT_TYPE;
+    static WiseyModelType* WISEY_MODEL_TYPE;
     
-    LLVMObjectType();
+    WiseyModelType();
     
-    ~LLVMObjectType();
+    ~WiseyModelType();
     
     std::string getTypeName() const override;
     
@@ -64,7 +64,7 @@ namespace wisey {
     bool isNative() const override;
     
     bool isPointer() const override;
-
+    
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
     void createLocalVariable(IRGenerationContext& context, std::string name) const override;
@@ -82,11 +82,11 @@ namespace wisey {
     void incrementReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
     
     void decrementReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
-
+    
     const IOwnerType* getOwner() const override;
     
   };
   
 } /* namespace wisey */
 
-#endif /* LLVMObjectType_h */
+#endif /* WiseyModelType_h */
