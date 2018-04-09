@@ -60,7 +60,7 @@ namespace wisey {
     std::map<std::string, PackageType*> mPackageTypes;
     std::map<std::string, LLVMStructType*> mLLVMStructTypes;
     std::map<std::string, LLVMFunctionType*> mLLVMFunctionTypes;
-    std::map<std::string, const LLVMFunctionType*> mLLVMFunctionNamedTypes;
+    std::map<std::string, std::tuple<AccessLevel, const LLVMFunctionType*>> mLLVMFunctionNamedTypes;
     std::map<std::string, const IType*> mGlobalVariables;
     std::map<const Interface*, const Controller*> mBindings;
     ImportProfile* mImportProfile;
@@ -201,7 +201,9 @@ namespace wisey {
     /**
      * Registers an llvm function with the given type and name
      */
-    void registerLLVMFunctionNamedType(std::string name, const LLVMFunctionType* functionType);
+    void registerLLVMFunctionNamedType(std::string name,
+                                       AccessLevel accessLevel,
+                                       const LLVMFunctionType* functionType);
     
     /**
      * Looks up llvm function type or throws an error if it is not registered

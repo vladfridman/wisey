@@ -17,7 +17,7 @@ controller CProducerThreadRunner {
    * This native function bridges produce() method of the thread object with the i8* (i8*)* function 
    * parameter of the posix threads interface.
    */
-  ::llvm::function ::llvm::i8::pointer produceBridge(::llvm::i8::pointer argument) {
+  private ::llvm::function ::llvm::i8::pointer produceBridge(::llvm::i8::pointer argument) {
     thread = (IThread) ((IProducerThread) argument);
     callstack = injector(CCallStack).inject();
     callstack = thread.getCallStack();

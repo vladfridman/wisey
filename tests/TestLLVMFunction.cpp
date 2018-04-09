@@ -45,6 +45,7 @@ struct LLVMFunctionTest : public Test {
     argumentTypes.push_back(LLVMPrimitiveTypes::I64);
     mLLVMFunctionType = new LLVMFunctionType(LLVMPrimitiveTypes::I16, argumentTypes);
     mLLVMFunction = new LLVMFunction("myfunction",
+                                     PUBLIC_ACCESS,
                                      mLLVMFunctionType,
                                      LLVMPrimitiveTypes::I16,
                                      arguments,

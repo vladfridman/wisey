@@ -6,6 +6,7 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/AccessLevel.hpp"
 #include "wisey/LLVMFunction.hpp"
 #include "wisey/LLVMFunctionDefinition.hpp"
 
@@ -14,11 +15,13 @@ using namespace llvm;
 using namespace wisey;
 
 LLVMFunctionDefinition::LLVMFunctionDefinition(string name,
+                                               AccessLevel accessLevel,
                                                const ITypeSpecifier* returnSpecifier,
                                                LLVMVariableList arguments,
                                                CompoundStatement* compoundStatement,
                                                int line) :
 mName(name),
+mAccessLevel(accessLevel),
 mReturnSpecifier(returnSpecifier),
 mArguments(arguments),
 mCompoundStatement(compoundStatement),
@@ -44,7 +47,13 @@ LLVMFunction* LLVMFunctionDefinition::define(IRGenerationContext& context,
     arugmentTypes.push_back(argument->getType());
   }
   LLVMFunctionType* functionType = context.getLLVMFunctionType(returnType, arugmentTypes);
-  return new LLVMFunction(mName, functionType, returnType, arguments, mCompoundStatement, mLine);
+  return new LLVMFunction(mName,
+                          mAccessLevel,
+                          functionType,
+                          returnType,
+                          arguments,
+                          mCompoundStatement,
+                          mLine);
 }
 
 bool LLVMFunctionDefinition::isConstant() const {

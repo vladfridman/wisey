@@ -23,6 +23,7 @@ namespace wisey {
    */
   class LLVMFunctionDefinition : public IObjectElementDefinition {
     std::string mName;
+    AccessLevel mAccessLevel;
     const ITypeSpecifier* mReturnSpecifier;
     LLVMVariableList mArguments;
     CompoundStatement* mCompoundStatement;
@@ -31,6 +32,7 @@ namespace wisey {
   public:
     
     LLVMFunctionDefinition(std::string name,
+                           AccessLevel accessLevel,
                            const ITypeSpecifier* returnSpecifier,
                            LLVMVariableList arguments,
                            CompoundStatement* compoundStatement,

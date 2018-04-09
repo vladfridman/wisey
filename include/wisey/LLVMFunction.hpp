@@ -9,6 +9,7 @@
 #ifndef LLVMFunction_h
 #define LLVMFunction_h
 
+#include "wisey/AccessLevel.hpp"
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/IObjectElement.hpp"
 #include "wisey/LLVMFunctionArgument.hpp"
@@ -21,6 +22,7 @@ namespace wisey {
    */
   class LLVMFunction : public IObjectElement {
     std::string mName;
+    AccessLevel mAccessLevel;
     const LLVMFunctionType* mLLVMFunctionType;
     const IType* mReturnType;
     std::vector<const LLVMFunctionArgument*> mArguments;
@@ -30,7 +32,8 @@ namespace wisey {
   public:
     
     LLVMFunction(std::string name,
-                 const LLVMFunctionType* llvmFunctionType,
+                 AccessLevel accessLevel,
+                  const LLVMFunctionType* llvmFunctionType,
                  const IType* returnType,
                  std::vector<const LLVMFunctionArgument*> arguments,
                  CompoundStatement* compoundStatement,

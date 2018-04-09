@@ -225,6 +225,6 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
 
   context.getScopes().popScope(context, 0);
 
-  context.registerLLVMFunctionNamedType(getName(), getLLVMFunctionType(context));
+  context.registerLLVMFunctionNamedType(getName(), PUBLIC_ACCESS, getLLVMFunctionType(context));
 }
 

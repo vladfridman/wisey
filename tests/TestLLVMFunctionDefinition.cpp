@@ -47,6 +47,7 @@ struct LLVMFunctionDefinitionTest : public Test {
     Block* block = new Block();
     CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
     mLLVMFunctionDefinition = new LLVMFunctionDefinition("myfunction",
+                                                         PUBLIC_ACCESS,
                                                          returnSpecifier,
                                                          arguments,
                                                          compoundStatement,

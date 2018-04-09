@@ -518,9 +518,9 @@ llvm_function_argument_type_specifier_list
   ;
 
 llvm_function_definition
-  : TLLVM TLLVMFUNCTION llvm_type_specifier TIDENTIFIER
+  : access_specifier TLLVM TLLVMFUNCTION llvm_type_specifier TIDENTIFIER
     '(' llvm_function_definition_arguments ')' compound_statement
-      { $$ = new LLVMFunctionDefinition(*$4, $3, *$6, $8, yylineno); delete $4; delete $6; }
+      { $$ = new LLVMFunctionDefinition(*$5, $1, $4, *$7, $9, yylineno); delete $5; delete $7; }
   ;
 
 llvm_function_definition_arguments

@@ -67,6 +67,7 @@ struct ObjectFunctionVariableTest : Test {
     Block* block = new Block();
     CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
     mLLVMFunction = new LLVMFunction("myfunction",
+                                     PUBLIC_ACCESS,
                                      mLLVMFunctionType,
                                      returnType,
                                      functionArguments,

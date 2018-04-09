@@ -329,13 +329,14 @@ void IRGenerationContext::setLLVMGlobalVariable(const IType* type, string name) 
 }
 
 void IRGenerationContext::registerLLVMFunctionNamedType(string name,
+                                                        AccessLevel accessLevel,
                                                         const LLVMFunctionType* functionType) {
   if (mLLVMFunctionNamedTypes.count(name)) {
     Log::e_deprecated("Can not register llvm function named " + name +
                       " because it is already registered");
     exit(1);
   }
-  mLLVMFunctionNamedTypes[name] = functionType;
+  mLLVMFunctionNamedTypes[name] = make_tuple(accessLevel, functionType);
 }
 
 const LLVMFunctionType* IRGenerationContext::lookupLLVMFunctionNamedType(string name) {
@@ -343,7 +344,7 @@ const LLVMFunctionType* IRGenerationContext::lookupLLVMFunctionNamedType(string 
     Log::e_deprecated("Can not find llvm function named " + name);
     exit(1);
   }
-  return mLLVMFunctionNamedTypes.at(name);
+  return get<1>(mLLVMFunctionNamedTypes.at(name));
 }
 
 void IRGenerationContext::bindInterfaceToController(const Interface* interface,
@@ -493,12 +494,16 @@ void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& 
   }
   
   stream << "/* llvm Functions */" << endl << endl;
-  for (map<string, const LLVMFunctionType*>::const_iterator iterator =
+  for (map<string, tuple<AccessLevel, const LLVMFunctionType*>>::const_iterator iterator =
        mLLVMFunctionNamedTypes.begin();
        iterator != mLLVMFunctionNamedTypes.end();
        iterator++) {
     string name = iterator->first;
-    const LLVMFunctionType* functionType = iterator->second;
+    AccessLevel accessLevel = get<0>(iterator->second);
+    if (accessLevel == AccessLevel::PRIVATE_ACCESS) {
+      continue;
+    }
+    const LLVMFunctionType* functionType = get<1>(iterator->second);
     stream << "::llvm::function " << functionType->getReturnType()->getTypeName() << " ";
     stream << name << "(";
     vector<const IType*> argumentTypes = functionType->getArgumentTypes();

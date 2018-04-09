@@ -14,7 +14,7 @@ controller CWorkerThreadRunner {
    * This native function bridges work() method of the thread object with the i8* (i8*)* function 
    * parameter of the posix threads interface.
    */
-  ::llvm::function ::llvm::i8::pointer workBridge(::llvm::i8::pointer argument) {
+  private ::llvm::function ::llvm::i8::pointer workBridge(::llvm::i8::pointer argument) {
     thread = (IThread) ((IWorkerThread) argument);
     callstack = injector(CCallStack).inject();
     callstack = thread.getCallStack();

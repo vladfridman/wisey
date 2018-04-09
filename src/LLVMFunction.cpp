@@ -20,12 +20,14 @@ using namespace llvm;
 using namespace wisey;
 
 LLVMFunction::LLVMFunction(string name,
+                           AccessLevel accessLevel,
                            const LLVMFunctionType* llvmFunctionType,
                            const IType* returnType,
                            vector<const LLVMFunctionArgument*> arguments,
                            CompoundStatement* compoundStatement,
                            int line) :
 mName(name),
+mAccessLevel(accessLevel),
 mLLVMFunctionType(llvmFunctionType),
 mReturnType(returnType),
 mArguments(arguments),
@@ -47,13 +49,17 @@ Value* LLVMFunction::declareFunction(IRGenerationContext& context,
     llvmArgumentTypes.push_back(argumentType->getLLVMType(context));
   }
   LLVMFunctionType* functionType = context.getLLVMFunctionType(mReturnType, argumentTypes);
-  context.registerLLVMFunctionNamedType(mName, functionType);
+  context.registerLLVMFunctionNamedType(mName, mAccessLevel, functionType);
   Type* llvmReturnType = mReturnType->getLLVMType(context);
   FunctionType* llvmFunctionType = FunctionType::get(llvmReturnType, llvmArgumentTypes, false);
   string name = IMethodCall::translateObjectMethodToLLVMFunctionName(objectType, mName);
   
+  GlobalValue::LinkageTypes linkageType = mAccessLevel == PUBLIC_ACCESS
+  ? GlobalValue::ExternalLinkage
+  : GlobalValue::InternalLinkage;
+
   return Function::Create(llvmFunctionType,
-                          GlobalValue::InternalLinkage,
+                          linkageType,
                           name,
                           context.getModule());
 }

@@ -43,7 +43,7 @@ void LLVMFunctionDeclaration::prototypeMethods(IRGenerationContext& context) con
   }
   const IType* returnType = mReturnSpecifier->getType(context);
   LLVMFunctionType* functionType = context.getLLVMFunctionType(returnType, argumentTypes);
-  context.registerLLVMFunctionNamedType(mName, functionType);
+  context.registerLLVMFunctionNamedType(mName, PUBLIC_ACCESS, functionType);
   Type* llvmReturnType = returnType->getLLVMType(context);
   FunctionType* llvmFunctionType = FunctionType::get(llvmReturnType, llvmArgumentTypes, false);
   

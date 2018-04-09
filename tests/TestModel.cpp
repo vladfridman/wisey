@@ -218,6 +218,7 @@ struct ModelTest : public Test {
     Block* functionBlock = new Block();
     CompoundStatement* functionCompoundStatement = new CompoundStatement(functionBlock, 0);
     mLLVMFunction = new LLVMFunction("myfunction",
+                                     PUBLIC_ACCESS,
                                      llvmFunctionType,
                                      LLVMPrimitiveTypes::I8,
                                      llvmFunctionArguments,
