@@ -118,11 +118,6 @@ namespace wisey {
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
 
     /**
-     * Returns generic type for arrays
-     */
-    static llvm::PointerType* getGenericArrayType(IRGenerationContext& context);
-    
-    /**
      * Prints an error that type is not an array type
      */
     static void reportNonArrayType();

@@ -99,15 +99,6 @@ unsigned long ArrayType::getNumberOfDimensions() const {
   return mNumberOfDimensions;
 }
 
-llvm::PointerType* ArrayType::getGenericArrayType(IRGenerationContext& context) {
-  llvm::LLVMContext& llvmContext = context.getLLVMContext();
-  
-  llvm::Type* genericPointer = llvm::Type::getInt8Ty(llvmContext)->getPointerTo();
-  llvm::Type* genericArray = llvm::ArrayType::get(genericPointer, 0);
-  
-  return genericArray->getPointerTo();
-}
-
 llvm::Value* ArrayType::bitcastToGenericPointer(IRGenerationContext& context,
                                                 llvm::Value* arrayPointer) const {
   llvm::Type* genericPointer = llvm::Type::getInt64Ty(context.getLLVMContext())->getPointerTo();
