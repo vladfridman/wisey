@@ -6,11 +6,7 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ArrayOwnerType.hpp"
 #include "wisey/ArraySpecificOwnerType.hpp"
-#include "wisey/DestroyOwnerArrayFunction.hpp"
-#include "wisey/DestroyPrimitiveArrayFunction.hpp"
-#include "wisey/DestroyReferenceArrayFunction.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 

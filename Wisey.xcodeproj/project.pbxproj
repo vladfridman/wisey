@@ -439,9 +439,6 @@
 		F54626011DE5ED1B00074D66 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F54626001DE5ED1B00074D66 /* libz.dylib */; };
 		F54626031DE5ED3500074D66 /* libm.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F54626021DE5ED3500074D66 /* libm.dylib */; };
 		F54985791FE95FFE004C204C /* TestDestroyOwnerArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54985781FE95FFE004C204C /* TestDestroyOwnerArrayFunction.cpp */; };
-		F54985821FE983C8004C204C /* DecrementReferencesInArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54985811FE983C8004C204C /* DecrementReferencesInArrayFunction.cpp */; };
-		F54985831FE983C8004C204C /* DecrementReferencesInArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54985811FE983C8004C204C /* DecrementReferencesInArrayFunction.cpp */; };
-		F54985851FE98F95004C204C /* TestDecrementReferencesInArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54985841FE98F95004C204C /* TestDecrementReferencesInArrayFunction.cpp */; };
 		F54B14352059015F0030773F /* TestIdentifierReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B14342059015F0030773F /* TestIdentifierReference.cpp */; };
 		F54B1466205D66AB0030773F /* LLVMi1Type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B1465205D66AB0030773F /* LLVMi1Type.cpp */; };
 		F54B1467205D66AB0030773F /* LLVMi1Type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B1465205D66AB0030773F /* LLVMi1Type.cpp */; };
@@ -1485,9 +1482,6 @@
 		F54626001DE5ED1B00074D66 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
 		F54626021DE5ED3500074D66 /* libm.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libm.dylib; path = /usr/lib/libm.dylib; sourceTree = "<absolute>"; };
 		F54985781FE95FFE004C204C /* TestDestroyOwnerArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestDestroyOwnerArrayFunction.cpp; path = tests/TestDestroyOwnerArrayFunction.cpp; sourceTree = "<group>"; };
-		F54985801FE98341004C204C /* DecrementReferencesInArrayFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DecrementReferencesInArrayFunction.hpp; path = include/wisey/DecrementReferencesInArrayFunction.hpp; sourceTree = "<group>"; };
-		F54985811FE983C8004C204C /* DecrementReferencesInArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DecrementReferencesInArrayFunction.cpp; path = src/DecrementReferencesInArrayFunction.cpp; sourceTree = "<group>"; };
-		F54985841FE98F95004C204C /* TestDecrementReferencesInArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestDecrementReferencesInArrayFunction.cpp; path = tests/TestDecrementReferencesInArrayFunction.cpp; sourceTree = "<group>"; };
 		F54B14342059015F0030773F /* TestIdentifierReference.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestIdentifierReference.cpp; path = tests/TestIdentifierReference.cpp; sourceTree = "<group>"; };
 		F54B1464205D61100030773F /* LLVMi1Type.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMi1Type.hpp; path = include/wisey/LLVMi1Type.hpp; sourceTree = "<group>"; };
 		F54B1465205D66AB0030773F /* LLVMi1Type.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMi1Type.cpp; path = src/LLVMi1Type.cpp; sourceTree = "<group>"; };
@@ -2194,7 +2188,6 @@
 				F5603B4C2021316E00BBA05D /* CheckArrayIndexFunction.cpp */,
 				F52C665D1FBF38CC00E89B04 /* CheckForNullAndThrowFunction.cpp */,
 				F5E6BD061F190B4700D59444 /* Composer.cpp */,
-				F54985811FE983C8004C204C /* DecrementReferencesInArrayFunction.cpp */,
 				F54ED95E1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp */,
 				F58FA2F8206E65C100C86D33 /* DestroyOwnerObjectFunction.cpp */,
 				F5170193200DC7A900A10B7C /* DestroyPrimitiveArrayFunction.cpp */,
@@ -2215,7 +2208,6 @@
 				F5603B4B2021310800BBA05D /* CheckArrayIndexFunction.hpp */,
 				F52C665C1FBF387900E89B04 /* CheckForNullAndThrowFunction.hpp */,
 				F5E6BD051F190B3900D59444 /* Composer.hpp */,
-				F54985801FE98341004C204C /* DecrementReferencesInArrayFunction.hpp */,
 				F54ED95D1FE84C9400847A2B /* DestroyOwnerArrayFunction.hpp */,
 				F58FA2F7206E653A00C86D33 /* DestroyOwnerObjectFunction.hpp */,
 				F5170192200DC78500A10B7C /* DestroyPrimitiveArrayFunction.hpp */,
@@ -3156,7 +3148,6 @@
 				F5603B4F2021562800BBA05D /* TestCheckArrayIndexFunction.cpp */,
 				F5105FBC1FD1A65E00ACF57B /* TestCheckForNullAndThrowFunction.cpp */,
 				F5E6BD0D1F1B7DCD00D59444 /* TestComposer.cpp */,
-				F54985841FE98F95004C204C /* TestDecrementReferencesInArrayFunction.cpp */,
 				F54985781FE95FFE004C204C /* TestDestroyOwnerArrayFunction.cpp */,
 				F58FA2FB206E684B00C86D33 /* TestDestroyOwnerObjectFunction.cpp */,
 				F5170190200DC64500A10B7C /* TestDestroyPrimitiveArrayFunction.cpp */,
@@ -4000,7 +3991,6 @@
 				F55496FC1E06430500DDA2AF /* TestIdentifier.cpp in Sources */,
 				F5CB7F66205116D4007628B5 /* FieldLLVMVariable.cpp in Sources */,
 				F5CB18151EB0F1BA007E2E43 /* TryCatchStatement.cpp in Sources */,
-				F54985851FE98F95004C204C /* TestDecrementReferencesInArrayFunction.cpp in Sources */,
 				F58748351F95143A0088F1E3 /* ThreadExpression.cpp in Sources */,
 				F5827049205EFAB800839EC7 /* TestLLVMStructType.cpp in Sources */,
 				F59D82121E0F311B00057FB5 /* ForStatement.cpp in Sources */,
@@ -4116,7 +4106,6 @@
 				F55DB0621F793D8C0009942C /* TestIObjectTypeSpecifier.cpp in Sources */,
 				F5F435CA1FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp in Sources */,
 				F5CB7F53204B9C7D007628B5 /* TestThreadOwner.cpp in Sources */,
-				F54985831FE983C8004C204C /* DecrementReferencesInArrayFunction.cpp in Sources */,
 				F5CB7F41204A1AE0007628B5 /* TestThreadDefinition.cpp in Sources */,
 				F50FA2EC1E2E3B1700435EEA /* LongConstant.cpp in Sources */,
 				F523D517206C28060017D5B4 /* TestLLVMObjectOwnerType.cpp in Sources */,
@@ -4463,7 +4452,6 @@
 				F53A2C2C1EFFD5E800E76A9E /* Node.cpp in Sources */,
 				F50FA29E1E2693F400435EEA /* CompoundStatement.cpp in Sources */,
 				F52C665E1FBF38CC00E89B04 /* CheckForNullAndThrowFunction.cpp in Sources */,
-				F54985821FE983C8004C204C /* DecrementReferencesInArrayFunction.cpp in Sources */,
 				F55CF1751F7DA11C00A11426 /* ExternalStaticMethod.cpp in Sources */,
 				F52C665A1FBF348D00E89B04 /* ThrowReferenceCountExceptionFunction.cpp in Sources */,
 				F57085FC1E51E2ED007D627E /* MethodCall.cpp in Sources */,

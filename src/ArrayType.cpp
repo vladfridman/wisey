@@ -12,7 +12,6 @@
 #include "wisey/AdjustReferenceCounterForArrayFunction.hpp"
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/ArrayType.hpp"
-#include "wisey/DecrementReferencesInArrayFunction.hpp"
 #include "wisey/FieldArrayReferenceVariable.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalArrayReferenceVariable.hpp"

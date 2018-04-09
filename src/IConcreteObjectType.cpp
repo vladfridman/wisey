@@ -14,7 +14,6 @@
 #include "wisey/Cast.hpp"
 #include "wisey/Cleanup.hpp"
 #include "wisey/Composer.hpp"
-#include "wisey/DecrementReferencesInArrayFunction.hpp"
 #include "wisey/DestroyOwnerObjectFunction.hpp"
 #include "wisey/DestroyOwnerArrayFunction.hpp"
 #include "wisey/Environment.hpp"
