@@ -12,6 +12,7 @@
 namespace wisey {
   
   class IRGenerationContext;
+  class LLVMFunctionType;
   
   /**
    * Function for destroying owner objects of any kind except arrays
@@ -38,6 +39,8 @@ namespace wisey {
     
     static void compose(IRGenerationContext& context, llvm::Function* function);
     
+    static LLVMFunctionType* getLLVMFunctionType(IRGenerationContext& context);
+
   };
   
 } /* namespace wisey */

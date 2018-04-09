@@ -441,18 +441,6 @@ TEST_F(TestFileRunner, returnArrayOwnerRunTest) {
   runFile("tests/samples/test_return_array_owner.yz", "5");
 }
 
-TEST_F(TestFileRunner, returnArrayOwnerDestructorsAreCalledRunTest) {
-  runFileCheckOutputWithDestructorDebug("tests/samples/test_return_array_owner.yz",
-                                        "destructor primitive<36 bytes>[5]\n"
-                                        "destructor primitive<4 bytes>[3]\n"
-                                        "destructor primitive<4 bytes>[3]\n"
-                                        "destructor primitive<4 bytes>[3]\n"
-                                        "destructor primitive<4 bytes>[3]\n"
-                                        "destructor primitive<4 bytes>[3]\n"
-                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n",
-                                        "");
-}
-
 TEST_F(TestFileRunner, methodCallToPrivateMethodRunDeathTest) {
   expectFailCompile("tests/samples/test_private_method_call.yz",
                     1,

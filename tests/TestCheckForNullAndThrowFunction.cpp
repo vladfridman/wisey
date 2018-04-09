@@ -80,7 +80,7 @@ TEST_F(CheckForNullAndThrowFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine internal void @__checkForNullAndThrow(i8* %pointer) personality i32 (...)* @__gxx_personality_v0 {"
+  "\ndefine void @__checkForNullAndThrow(i8* %pointer) personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %cmp = icmp eq i8* %pointer, null"
   "\n  br i1 %cmp, label %if.then, label %if.end"

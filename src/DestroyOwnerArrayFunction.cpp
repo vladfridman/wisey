@@ -12,6 +12,7 @@
 #include "wisey/DestroyOwnerObjectFunction.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrintOutStatement.hpp"
 #include "wisey/StringLiteral.hpp"
@@ -53,17 +54,19 @@ string DestroyOwnerArrayFunction::getName() {
 }
 
 Function* DestroyOwnerArrayFunction::define(IRGenerationContext& context) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  llvm::PointerType* genericPointer = Type::getInt64Ty(llvmContext)->getPointerTo();
+  return Function::Create(getLLVMFunctionType(context)->getLLVMType(context),
+                          GlobalValue::ExternalLinkage,
+                          getName(),
+                          context.getModule());
+}
 
-  vector<Type*> argumentTypes;
-  argumentTypes.push_back(genericPointer);
-  argumentTypes.push_back(Type::getInt64Ty(llvmContext));
-  argumentTypes.push_back(Type::getInt1Ty(llvmContext));
-  Type* llvmReturnType = Type::getVoidTy(llvmContext);
-  FunctionType* ftype = FunctionType::get(llvmReturnType, argumentTypes, false);
-  
-  return Function::Create(ftype, GlobalValue::InternalLinkage, getName(), context.getModule());
+LLVMFunctionType* DestroyOwnerArrayFunction::getLLVMFunctionType(IRGenerationContext& context) {
+  vector<const IType*> argumentTypes;
+  argumentTypes.push_back(LLVMPrimitiveTypes::I64->getPointerType());
+  argumentTypes.push_back(LLVMPrimitiveTypes::I64);
+  argumentTypes.push_back(LLVMPrimitiveTypes::I1);
+
+  return context.getLLVMFunctionType(LLVMPrimitiveTypes::VOID, argumentTypes);
 }
 
 void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* function) {
@@ -221,5 +224,7 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   IRWriter::createReturnInst(context, NULL);
 
   context.getScopes().popScope(context, 0);
+
+  context.registerLLVMFunctionNamedType(getName(), getLLVMFunctionType(context));
 }
 

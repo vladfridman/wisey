@@ -15,6 +15,7 @@
 #include "wisey/FakeExpression.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IfStatement.hpp"
+#include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/ObjectBuilder.hpp"
@@ -52,14 +53,18 @@ string CheckArrayIndexFunction::getName() {
 }
 
 Function* CheckArrayIndexFunction::define(IRGenerationContext& context) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  vector<Type*> argumentTypes;
-  argumentTypes.push_back(Type::getInt64Ty(llvmContext));
-  argumentTypes.push_back(Type::getInt64Ty(llvmContext));
-  Type* llvmReturnType = Type::getVoidTy(llvmContext);
-  FunctionType* ftype = FunctionType::get(llvmReturnType, argumentTypes, false);
+  return Function::Create(getLLVMFunctionType(context)->getLLVMType(context),
+                          GlobalValue::ExternalLinkage,
+                          getName(),
+                          context.getModule());
+}
+
+LLVMFunctionType* CheckArrayIndexFunction::getLLVMFunctionType(IRGenerationContext& context) {
+  vector<const IType*> argumentTypes;
+  argumentTypes.push_back(LLVMPrimitiveTypes::I64);
+  argumentTypes.push_back(LLVMPrimitiveTypes::I64);
   
-  return Function::Create(ftype, GlobalValue::InternalLinkage, getName(), context.getModule());
+  return context.getLLVMFunctionType(LLVMPrimitiveTypes::VOID, argumentTypes);
 }
 
 void CheckArrayIndexFunction::compose(IRGenerationContext& context, Function* function) {
@@ -108,5 +113,7 @@ void CheckArrayIndexFunction::compose(IRGenerationContext& context, Function* fu
   context.getScopes().popScope(context, 0);
   
   IRWriter::createReturnInst(context, NULL);
+
+  context.registerLLVMFunctionNamedType(getName(), getLLVMFunctionType(context));
 }
 

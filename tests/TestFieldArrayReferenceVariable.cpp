@@ -181,7 +181,6 @@ TEST_F(TestFileRunner, fieldArrayReferenceOfModelOwnersRunTest) {
 TEST_F(TestFileRunner, fieldArrayReferenceOfModelOwnersDestructorsAreCalledRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_field_array_reference_of_model_owners.yz",
                                         "destructor systems.vos.wisey.compiler.tests.CController\n"
-                                        "destructor object<8 bytes>*[5]\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");

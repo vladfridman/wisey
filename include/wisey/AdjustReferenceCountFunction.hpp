@@ -16,7 +16,7 @@
 namespace wisey {
   
   /**
-   * Global function that increments reference count for objects of type interface
+   * Global function that modifies reference count for any types of objects including interfaces
    */
   class AdjustReferenceCountFunction {
     
@@ -40,6 +40,8 @@ namespace wisey {
     
     static void compose(IRGenerationContext& context, llvm::Function* function);
     
+    static LLVMFunctionType* getLLVMFunctionType(IRGenerationContext& context);
+
   };
   
 } /* namespace wisey */

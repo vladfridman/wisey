@@ -71,7 +71,7 @@ TEST_F(DestroyOwnerArrayFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine internal void @__destroyOwnerArrayFunction(i64* %arrayPointer, i64 %noOfDimensions, i1 %shouldFree) personality i32 (...)* @__gxx_personality_v0 {"
+  "\ndefine void @__destroyOwnerArrayFunction(i64* %arrayPointer, i64 %noOfDimensions, i1 %shouldFree) personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %isNull = icmp eq i64* %arrayPointer, null"
   "\n  br i1 %isNull, label %return.void, label %if.not.null"

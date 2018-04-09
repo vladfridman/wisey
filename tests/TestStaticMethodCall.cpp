@@ -410,18 +410,6 @@ TEST_F(TestFileRunner, staticReturnArrayOwnerRunTest) {
   runFile("tests/samples/test_static_return_array_owner.yz", "5");
 }
 
-TEST_F(TestFileRunner, staticReturnArrayOwnerDestructorsAreCalledRunTest) {
-  runFileCheckOutputWithDestructorDebug("tests/samples/test_static_return_array_owner.yz",
-                                        "destructor primitive<36 bytes>[5]\n"
-                                        "destructor primitive<4 bytes>[3]\n"
-                                        "destructor primitive<4 bytes>[3]\n"
-                                        "destructor primitive<4 bytes>[3]\n"
-                                        "destructor primitive<4 bytes>[3]\n"
-                                        "destructor primitive<4 bytes>[3]\n"
-                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n",
-                                        "");
-}
-
 TEST_F(TestFileRunner, staticMethodCallToPrivateMethodRunDeathTest) {
   expectFailCompile("tests/samples/test_private_static_method_call.yz",
                     1,

@@ -66,7 +66,7 @@ TEST_F(GetOriginalObjectFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine internal i8* @__getOriginalObject(i8* %pointer) {"
+  "\ndefine i8* @__getOriginalObject(i8* %pointer) {"
   "\nentry:"
   "\n  %0 = bitcast i8* %pointer to i8***"
   "\n  %vtable = load i8**, i8*** %0"

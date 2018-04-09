@@ -8,45 +8,59 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/Block.hpp"
+#include "wisey/AdjustReferenceCounterForArrayFunction.hpp"
+#include "wisey/AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp"
+#include "wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp"
+#include "wisey/AdjustReferenceCountFunction.hpp"
 #include "wisey/CastExpression.hpp"
-#include "wisey/CompoundStatement.hpp"
-#include "wisey/ControllerTypeSpecifier.hpp"
-#include "wisey/EmptyStatement.hpp"
+#include "wisey/CheckArrayIndexFunction.hpp"
+#include "wisey/CheckForNullAndThrowFunction.hpp"
+#include "wisey/DestroyOwnerArrayFunction.hpp"
+#include "wisey/DestroyOwnerObjectFunction.hpp"
+#include "wisey/DestroyPrimitiveArrayFunction.hpp"
+#include "wisey/DestroyReferenceArrayFunction.hpp"
 #include "wisey/ExpressionStatement.hpp"
 #include "wisey/FakeExpression.hpp"
+#include "wisey/GetOriginalObjectFunction.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/IdentifierChain.hpp"
-#include "wisey/IfStatement.hpp"
-#include "wisey/Injector.hpp"
-#include "wisey/IntConstant.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
-#include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/MethodCall.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
-#include "wisey/ModelTypeSpecifierFull.hpp"
 #include "wisey/Names.hpp"
-#include "wisey/NullExpression.hpp"
-#include "wisey/NullType.hpp"
-#include "wisey/ObjectBuilder.hpp"
-#include "wisey/ObjectOwnerTypeSpecifier.hpp"
 #include "wisey/ParameterSystemReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramSuffix.hpp"
 #include "wisey/ReturnStatement.hpp"
-#include "wisey/StaticMethodCall.hpp"
 #include "wisey/ThreadExpression.hpp"
-#include "wisey/ThrowStatement.hpp"
-#include "wisey/TryCatchStatement.hpp"
-#include "wisey/VariableDeclaration.hpp"
+#include "wisey/ThrowReferenceCountExceptionFunction.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
 void ProgramSuffix::generateIR(IRGenerationContext& context) const {
+  defineEssentialFunctions(context);
+  maybeGenerateMain(context);
+}
+
+void ProgramSuffix::defineEssentialFunctions(IRGenerationContext& context) const {
+  AdjustReferenceCounterForArrayFunction::get(context);
+  AdjustReferenceCounterForConcreteObjectSafelyFunction::get(context);
+  AdjustReferenceCounterForConcreteObjectUnsafelyFunction::get(context);
+  AdjustReferenceCountFunction::get(context);
+  CheckArrayIndexFunction::get(context);
+  DestroyOwnerArrayFunction::get(context);
+  DestroyOwnerObjectFunction::get(context);
+  DestroyPrimitiveArrayFunction::get(context);
+  DestroyReferenceArrayFunction::get(context);
+  GetOriginalObjectFunction::get(context);
+  ThrowReferenceCountExceptionFunction::get(context);
+}
+
+void ProgramSuffix::maybeGenerateMain(IRGenerationContext& context) const {
   PackageType* langPackageType = context.getPackageType(Names::getLangPackageName());
   FakeExpression* langPackageExpression = new FakeExpression(NULL, langPackageType);
   InterfaceTypeSpecifier* programInterfaceSpecifier =

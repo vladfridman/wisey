@@ -492,6 +492,31 @@ void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& 
     stream << endl;
   }
   
+  stream << "/* llvm Functions */" << endl << endl;
+  for (map<string, const LLVMFunctionType*>::const_iterator iterator =
+       mLLVMFunctionNamedTypes.begin();
+       iterator != mLLVMFunctionNamedTypes.end();
+       iterator++) {
+    string name = iterator->first;
+    const LLVMFunctionType* functionType = iterator->second;
+    stream << "::llvm::function " << functionType->getReturnType()->getTypeName() << " ";
+    stream << name << "(";
+    vector<const IType*> argumentTypes = functionType->getArgumentTypes();
+    for (vector<const IType*>::iterator iterator = argumentTypes.begin();
+         iterator != argumentTypes.end();
+         iterator++) {
+      stream << (*iterator)->getTypeName();
+      if (iterator + 1 != argumentTypes.end()) {
+        stream << ", ";
+      }
+    }
+    stream << ");";
+    stream << endl;
+  }
+  if (mLLVMFunctionNamedTypes.size()) {
+    stream << endl;
+  }
+
   stream << "/* llvm Globals */" << endl << endl;
   for (map<string, const IType*>::const_iterator iterator = mGlobalVariables.begin();
        iterator != mGlobalVariables.end();

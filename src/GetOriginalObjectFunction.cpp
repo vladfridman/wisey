@@ -12,6 +12,7 @@
 #include "wisey/GetOriginalObjectFunction.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LLVMPrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -47,13 +48,17 @@ string GetOriginalObjectFunction::getName() {
 }
 
 Function* GetOriginalObjectFunction::define(IRGenerationContext& context) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  vector<Type*> argumentTypes;
-  Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
-  argumentTypes.push_back(int8PointerType);
-  FunctionType* ftype = FunctionType::get(int8PointerType, argumentTypes, false);
+  return Function::Create(getLLVMFunctionType(context)->getLLVMType(context),
+                          GlobalValue::ExternalLinkage,
+                          getName(),
+                          context.getModule());
+}
+
+LLVMFunctionType* GetOriginalObjectFunction::getLLVMFunctionType(IRGenerationContext& context) {
+  vector<const IType*> argumentTypes;
+  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType());
   
-  return Function::Create(ftype, GlobalValue::InternalLinkage, getName(), context.getModule());
+  return context.getLLVMFunctionType(LLVMPrimitiveTypes::I8->getPointerType(), argumentTypes);
 }
 
 void GetOriginalObjectFunction::compose(IRGenerationContext& context, Function* function) {
@@ -71,6 +76,8 @@ void GetOriginalObjectFunction::compose(IRGenerationContext& context, Function* 
   Value* originalObject = IRWriter::createGetElementPtrInst(context, interfacePointer, index);
   
   IRWriter::createReturnInst(context, originalObject);
+
+  context.registerLLVMFunctionNamedType(getName(), getLLVMFunctionType(context));
 }
 
 Value* GetOriginalObjectFunction::getUnthunkBy(IRGenerationContext& context, Value* value) {

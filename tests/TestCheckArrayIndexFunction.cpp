@@ -80,7 +80,7 @@ TEST_F(CheckArrayIndexFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine internal void @__checkArrayIndexFunction(i64 %index, i64 %size) personality i32 (...)* @__gxx_personality_v0 {"
+  "\ndefine void @__checkArrayIndexFunction(i64 %index, i64 %size) personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %cmp = icmp sge i64 %index, %size"
   "\n  %cmp1 = icmp slt i64 %index, 0"

@@ -11,6 +11,7 @@
 #include "wisey/AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LLVMPrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -53,14 +54,19 @@ string AdjustReferenceCounterForConcreteObjectSafelyFunction::getName() {
 
 Function* AdjustReferenceCounterForConcreteObjectSafelyFunction::define(IRGenerationContext&
                                                                         context) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  vector<Type*> argumentTypes;
-  argumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
-  argumentTypes.push_back(Type::getInt64Ty(llvmContext));
-  Type* llvmReturnType = Type::getVoidTy(llvmContext);
-  FunctionType* ftype = FunctionType::get(llvmReturnType, argumentTypes, false);
+  return Function::Create(getLLVMFunctionType(context)->getLLVMType(context),
+                          GlobalValue::ExternalLinkage,
+                          getName(),
+                          context.getModule());
+}
+
+LLVMFunctionType* AdjustReferenceCounterForConcreteObjectSafelyFunction::
+getLLVMFunctionType(IRGenerationContext& context) {
+  vector<const IType*> argumentTypes;
+  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType());
+  argumentTypes.push_back(LLVMPrimitiveTypes::I64);
   
-  return Function::Create(ftype, GlobalValue::InternalLinkage, getName(), context.getModule());
+  return context.getLLVMFunctionType(LLVMPrimitiveTypes::VOID, argumentTypes);
 }
 
 void AdjustReferenceCounterForConcreteObjectSafelyFunction::compose(IRGenerationContext& context,
@@ -101,5 +107,7 @@ void AdjustReferenceCounterForConcreteObjectSafelyFunction::compose(IRGeneration
                     SynchronizationScope::CrossThread,
                     ifNotNullBlock);
   IRWriter::createReturnInst(context, NULL);
+
+  context.registerLLVMFunctionNamedType(getName(), getLLVMFunctionType(context));
 }
 

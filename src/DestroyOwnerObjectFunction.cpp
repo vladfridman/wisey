@@ -13,6 +13,8 @@
 #include "wisey/GetOriginalObjectFunction.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LLVMFunctionType.hpp"
+#include "wisey/LLVMPrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -44,17 +46,17 @@ string DestroyOwnerObjectFunction::getName() {
 }
 
 Function* DestroyOwnerObjectFunction::define(IRGenerationContext& context) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Type* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
-  
-  vector<Type*> argumentTypes;
-  argumentTypes.push_back(int8Pointer);
-  Type* voidType = Type::getVoidTy(llvmContext);
-  FunctionType* functionType = FunctionType::get(voidType, argumentTypes, false);
-  return Function::Create(functionType,
+  return Function::Create(getLLVMFunctionType(context)->getLLVMType(context),
                           GlobalValue::ExternalLinkage,
                           getName(),
                           context.getModule());
+}
+
+LLVMFunctionType* DestroyOwnerObjectFunction::getLLVMFunctionType(IRGenerationContext& context) {
+  vector<const IType*> argumentTypes;
+  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType());
+  
+  return context.getLLVMFunctionType(LLVMPrimitiveTypes::VOID, argumentTypes);
 }
 
 void DestroyOwnerObjectFunction::compose(IRGenerationContext& context, Function* function) {
@@ -102,4 +104,6 @@ void DestroyOwnerObjectFunction::compose(IRGenerationContext& context, Function*
   IRWriter::createReturnInst(context, NULL);
   
   context.getScopes().popScope(context, 0);
+
+  context.registerLLVMFunctionNamedType(getName(), getLLVMFunctionType(context));
 }

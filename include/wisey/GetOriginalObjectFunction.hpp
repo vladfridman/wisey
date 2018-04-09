@@ -41,6 +41,9 @@ namespace wisey {
     static void compose(IRGenerationContext& context, llvm::Function* function);
     
     static llvm::Value* getUnthunkBy(IRGenerationContext& context, llvm::Value* value);
+    
+    static LLVMFunctionType* getLLVMFunctionType(IRGenerationContext& context);
+
   };
   
 } /* namespace wisey */

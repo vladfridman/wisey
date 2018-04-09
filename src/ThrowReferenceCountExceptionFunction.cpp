@@ -8,6 +8,7 @@
 
 #include "wisey/FakeExpression.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/ObjectBuilder.hpp"
@@ -47,16 +48,17 @@ string ThrowReferenceCountExceptionFunction::getName() {
 }
 
 Function* ThrowReferenceCountExceptionFunction::define(IRGenerationContext& context) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  vector<Type*> argumentTypes;
-  argumentTypes.push_back(Type::getInt64Ty(llvmContext));
-  Type* llvmReturnType = Type::getVoidTy(llvmContext);
-  FunctionType* functionType = FunctionType::get(llvmReturnType, argumentTypes, false);
-  
-  return Function::Create(functionType,
-                          GlobalValue::InternalLinkage,
+  return Function::Create(getLLVMFunctionType(context)->getLLVMType(context),
+                          GlobalValue::ExternalLinkage,
                           getName(),
                           context.getModule());
+}
+
+LLVMFunctionType* ThrowReferenceCountExceptionFunction::getLLVMFunctionType(IRGenerationContext& context) {
+  vector<const IType*> argumentTypes;
+  argumentTypes.push_back(LLVMPrimitiveTypes::I64);
+  
+  return context.getLLVMFunctionType(LLVMPrimitiveTypes::VOID, argumentTypes);
 }
 
 void ThrowReferenceCountExceptionFunction::compose(IRGenerationContext& context,
@@ -87,4 +89,6 @@ void ThrowReferenceCountExceptionFunction::compose(IRGenerationContext& context,
   context.getScopes().popScope(context, 0);
   
   IRWriter::createReturnInst(context, NULL);
+
+  context.registerLLVMFunctionNamedType(getName(), getLLVMFunctionType(context));
 }

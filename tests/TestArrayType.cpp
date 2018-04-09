@@ -171,7 +171,6 @@ TEST_F(TestFileRunner, llvmArrayRunTest) {
 
 TEST_F(TestFileRunner, llvmArrayDebugDestructorsRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_llvm_array.yz",
-                                        "destructor object<8 bytes>*[5]\n"
                                         "destructor systems.vos.wisey.compiler.tests.MElement\n"
                                         "destructor systems.vos.wisey.compiler.tests.MElement\n"
                                         "destructor systems.vos.wisey.compiler.tests.MElement\n"

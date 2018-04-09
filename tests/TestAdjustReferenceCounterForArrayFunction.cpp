@@ -70,7 +70,7 @@ TEST_F(AdjustReferenceCounterForArrayFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine internal void @__adjustReferenceCounterForArrays(i8* %array, i64 %adjustment) {"
+  "\ndefine void @__adjustReferenceCounterForArrays(i8* %array, i64 %adjustment) {"
   "\nentry:"
   "\n  %0 = icmp eq i8* %array, null"
   "\n  br i1 %0, label %if.null, label %if.notnull"

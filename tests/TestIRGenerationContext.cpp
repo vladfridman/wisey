@@ -378,6 +378,8 @@ TEST_F(IRGenerationContextTest, printToStreamTest) {
                "external ::llvm::struct mystructtype {\n"
                "}\n"
                "\n"
+               "/* llvm Functions */\n"
+               "\n"
                "/* llvm Globals */\n"
                "\n"
                "::llvm::struct::mystructtype::pointer myglobal;"

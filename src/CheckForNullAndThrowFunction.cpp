@@ -15,6 +15,7 @@
 #include "wisey/FakeExpression.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IfStatement.hpp"
+#include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/ObjectBuilder.hpp"
@@ -54,13 +55,17 @@ string CheckForNullAndThrowFunction::getName() {
 }
 
 Function* CheckForNullAndThrowFunction::define(IRGenerationContext& context) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  vector<Type*> argumentTypes;
-  argumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
-  Type* llvmReturnType = Type::getVoidTy(llvmContext);
-  FunctionType* ftype = FunctionType::get(llvmReturnType, argumentTypes, false);
+  return Function::Create(getLLVMFunctionType(context)->getLLVMType(context),
+                          GlobalValue::ExternalLinkage,
+                          getName(),
+                          context.getModule());
+}
+
+LLVMFunctionType* CheckForNullAndThrowFunction::getLLVMFunctionType(IRGenerationContext& context) {
+  vector<const IType*> argumentTypes;
+  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType());
   
-  return Function::Create(ftype, GlobalValue::InternalLinkage, getName(), context.getModule());
+  return context.getLLVMFunctionType(LLVMPrimitiveTypes::VOID, argumentTypes);
 }
 
 void CheckForNullAndThrowFunction::compose(IRGenerationContext& context, Function* function) {
@@ -97,4 +102,6 @@ void CheckForNullAndThrowFunction::compose(IRGenerationContext& context, Functio
   context.getScopes().popScope(context, 0);
   
   IRWriter::createReturnInst(context, NULL);
+
+  context.registerLLVMFunctionNamedType(getName(), getLLVMFunctionType(context));
 }

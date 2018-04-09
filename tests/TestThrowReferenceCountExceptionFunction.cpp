@@ -79,7 +79,7 @@ TEST_F(ThrowReferenceCountExceptionFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine internal void @__throwReferenceCountException(i64 %referenceCount) "
+  "\ndefine void @__throwReferenceCountException(i64 %referenceCount) "
   "personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%wisey.lang.MReferenceCountException.refCounter* getelementptr (%wisey.lang.MReferenceCountException.refCounter, %wisey.lang.MReferenceCountException.refCounter* null, i32 1) to i64))"
