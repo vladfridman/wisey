@@ -125,6 +125,16 @@ namespace wisey {
      */
     static std::string getCurrentMethodVariableName();
     
+    /**
+     * llvm function that checks that the current object and the current thread are the same thing
+     */
+    static std::string getCheckConcealedMethodCallFunctionName();
+    
+    /**
+     * llvm function that checks that the current object and the current thread are different
+     */
+    static std::string getCheckRevealedMethodCallFunctionName();
+
   };
   
 } /* namespace wisey */

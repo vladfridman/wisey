@@ -29,6 +29,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodDefinition.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ReturnStatement.hpp"
@@ -145,8 +146,13 @@ TEST_F(ThreadDefinitionTest, threadDefinitionPrototypeMethodsTest) {
 }
 
 TEST_F(ThreadDefinitionTest, threadDefinitionGenerateIRTest) {
-  PackageType* packageType = new PackageType(mPackage);
+  PackageType* packageType = new PackageType(Names::getThreadsPackageName());
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  InterfaceTypeSpecifierFull* interfaceSpecifier =
+  new InterfaceTypeSpecifierFull(packageExpression, Names::getThreadInterfaceName(), 0);
+  mInterfaces.push_back(interfaceSpecifier);
+  packageType = new PackageType(mPackage);
+  packageExpression = new FakeExpression(NULL, packageType);
   ThreadTypeSpecifierFull* typeSpecifier =
   new ThreadTypeSpecifierFull(packageExpression, "TWorker", 0);
   vector<IObjectDefinition*> innerObjectDefinitions;
@@ -168,13 +174,14 @@ TEST_F(ThreadDefinitionTest, threadDefinitionGenerateIRTest) {
   Thread* thread = mContext.getThread("systems.vos.wisey.compiler.tests.TWorker", 0);
   StructType* structType = (StructType*) thread->getLLVMType(mContext)->getPointerElementType();
   
+  Type* threadInterfaceType =
+  mContext.getInterface(Names::getThreadInterfaceFullName(), 0)->getLLVMType(mContext)
+  ->getPointerElementType();
   ASSERT_NE(structType, nullptr);
   EXPECT_EQ(structType->getNumElements(), 3u);
-  EXPECT_EQ(structType->getElementType(0),
-            FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
-            ->getPointerTo()->getPointerTo());
-  EXPECT_EQ(structType->getElementType(1), Type::getInt64Ty(mLLVMContext));
-  EXPECT_EQ(structType->getElementType(2), Type::getFloatTy(mLLVMContext));
+  EXPECT_EQ(threadInterfaceType, structType->getElementType(0));
+  EXPECT_EQ(Type::getInt64Ty(mLLVMContext), structType->getElementType(1));
+  EXPECT_EQ(Type::getFloatTy(mLLVMContext), structType->getElementType(2));
   EXPECT_STREQ(thread->getShortName().c_str(), "TWorker");
   EXPECT_STREQ(thread->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.TWorker");
   EXPECT_NE(thread->findMethod("foo"), nullptr);
@@ -267,4 +274,12 @@ TEST_F(TestFileRunner, threadCancelRunTest) {
                      "Thread started = 1, has result = 0, was cancelled = 1\n"
                      "Thread result is null\n",
                      "");
+}
+
+TEST_F(TestFileRunner, threadThrowConcealedCallExceptionDeathRunTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_thread_throw_concealed_call_exception.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.threads.MThreadConcealedMethodException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_thread_throw_concealed_call_exception.yz:47)\n");
 }

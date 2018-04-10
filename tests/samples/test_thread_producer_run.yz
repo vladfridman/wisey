@@ -2,12 +2,12 @@ package systems.vos.wisey.compiler.tests;
 
 import wisey.lang.IProgram;
 import wisey.lang.CCallStack;
+import wisey.lang.threads.CDefaultProducer;
 import wisey.lang.threads.IProducerThread;
 import wisey.lang.threads.IThread;
-import wisey.lang.threads.TDefaultProducer;
 
 thread TProducer implements IProducerThread {
-  inject TDefaultProducer* mDefaultProducer;
+  inject CDefaultProducer* mDefaultProducer;
   receive int mSize;
 
   public void produce() {

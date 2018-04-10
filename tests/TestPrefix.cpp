@@ -42,13 +42,40 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   InterfaceDefinition* threadInterfaceDefinition = defineThreadInterface(context);
   ControllerDefinition* callStackDefinition = defineCallStackController(context);
   ThreadDefinition* mainThreadDefinition = defineMainThread(context);
-
+  
   threadInterfaceDefinition->prototypeObject(context);
   threadInterfaceDefinition->prototypeMethods(context);
   callStackDefinition->prototypeObject(context);
   mainThreadDefinition->prototypeObject(context);
   callStackDefinition->prototypeMethods(context);
   mainThreadDefinition->prototypeMethods(context);
+  
+  defineThreadGuardFunctions(context);
+}
+
+void TestPrefix::defineThreadGuardFunctions(IRGenerationContext& context) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Controller* callStackController =
+  context.getController(Names::getCallStackControllerFullName(), 0);
+  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
+  
+  vector<Type*> argumentTypes;
+  argumentTypes.push_back(threadInterface->getLLVMType(context));
+  argumentTypes.push_back(callStackController->getLLVMType(context));
+  argumentTypes.push_back(threadInterface->getLLVMType(context));
+  FunctionType* functionType = FunctionType::get(Type::getVoidTy(llvmContext),
+                                                 argumentTypes,
+                                                 false);
+  
+  Function::Create(functionType,
+                   GlobalValue::ExternalLinkage,
+                   Names::getCheckConcealedMethodCallFunctionName(),
+                   context.getModule());
+  
+  Function::Create(functionType,
+                   GlobalValue::ExternalLinkage,
+                   Names::getCheckRevealedMethodCallFunctionName(),
+                   context.getModule());
 }
 
 void TestPrefix::defineStdErrGlobal(IRGenerationContext& context) {
@@ -68,7 +95,7 @@ void TestPrefix::defineModel(IRGenerationContext& context,
   PackageType* packageType = new PackageType(Names::getLangPackageName());
   FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
   ModelTypeSpecifierFull* modelTypeSpecifier =
-    new ModelTypeSpecifierFull(packageExpression, modelName, 0);
+  new ModelTypeSpecifierFull(packageExpression, modelName, 0);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ModelDefinition modelDefinition(AccessLevel::PUBLIC_ACCESS,
                                   modelTypeSpecifier,
@@ -110,7 +137,7 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
                                                            new MethodQualifiers(0),
                                                            compoundStatement,
                                                            0);
-
+  
   arguments.clear();
   voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   block = new Block();
@@ -123,7 +150,7 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
                                                           new MethodQualifiers(0),
                                                           compoundStatement,
                                                           0);
-
+  
   PackageType* packageType = new PackageType(Names::getLangPackageName());
   FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
   ControllerTypeSpecifierFull* controllerTypeSpecifier =
@@ -131,7 +158,7 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
   vector<IObjectElementDefinition*> elementDeclarations;
   elementDeclarations.push_back(pushStackMethod);
   elementDeclarations.push_back(popStackMethod);
-
+  
   vector<IInterfaceTypeSpecifier*> interfaceSpecifiers;
   vector<IObjectDefinition*> innerObjectDefinitions;
   
@@ -147,7 +174,7 @@ ThreadDefinition* TestPrefix::defineMainThread(IRGenerationContext& context) {
   PackageType* packageType = new PackageType(Names::getLangPackageName());
   FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
   ThreadTypeSpecifierFull* threadTypeSpecifier =
-    new ThreadTypeSpecifierFull(packageExpression, Names::getMainThreadShortName(), 0);
+  new ThreadTypeSpecifierFull(packageExpression, Names::getMainThreadShortName(), 0);
   vector<IObjectElementDefinition*> elementDeclarations;
   
   packageType = new PackageType(Names::getLangPackageName());
@@ -179,10 +206,10 @@ ThreadDefinition* TestPrefix::defineMainThread(IRGenerationContext& context) {
                                                      new MethodQualifiers(0),
                                                      compoundStatement,
                                                      0);
-
+  
   elementDeclarations.push_back(getCallStackMethod);
   elementDeclarations.push_back(runMethod);
-
+  
   vector<IObjectDefinition*> innerObjectDefinitions;
   vector<IInterfaceTypeSpecifier*> interfaceSpecifiers;
   packageType = new PackageType(Names::getThreadsPackageName());
@@ -203,11 +230,11 @@ InterfaceDefinition* TestPrefix::defineThreadInterface(IRGenerationContext& cont
   PackageType* packageType = new PackageType(Names::getThreadsPackageName());
   FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
   InterfaceTypeSpecifierFull* interfaceTypeSpecifier =
-    new InterfaceTypeSpecifierFull(packageExpression, Names::getThreadInterfaceName(), 0);
+  new InterfaceTypeSpecifierFull(packageExpression, Names::getThreadInterfaceName(), 0);
   vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers;
   vector<IObjectElementDefinition *> elementDeclarations;
   vector<IObjectDefinition*> innerObjectDefinitions;
-
+  
   return new InterfaceDefinition(AccessLevel::PUBLIC_ACCESS,
                                  interfaceTypeSpecifier,
                                  parentInterfaceSpecifiers,
@@ -215,3 +242,4 @@ InterfaceDefinition* TestPrefix::defineThreadInterface(IRGenerationContext& cont
                                  innerObjectDefinitions,
                                  0);
 }
+

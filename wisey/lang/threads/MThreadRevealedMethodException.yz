@@ -1,0 +1,13 @@
+package wisey.lang.threads;
+
+import wisey.lang.IException;
+
+/**
+ * This is thrown when a revealed method is called from inside the thread where it is defined
+ */
+model MThreadRevealedMethodException implements IException {
+
+  public string getName() {
+    return "wisey.lang.threads.MThreadRevealedMethodException";
+  }
+}

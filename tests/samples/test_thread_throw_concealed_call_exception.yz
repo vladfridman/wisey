@@ -1,0 +1,52 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+import wisey.lang.CCallStack;
+import wisey.lang.threads.IWorkerThread;
+
+thread TWorker implements IWorkerThread {
+
+  public void work() {
+  }
+
+  public void start() exposed {
+  }
+
+  public boolean hasStarted() exposed {
+    return false;
+  }
+
+  public boolean hasResult() exposed {
+    return false;
+  }
+
+  public boolean wasCancelled() exposed {
+    return false;
+  }
+
+  public ::wisey::model* awaitResult() exposed {
+    return null;
+  }
+
+  public void cancel() exposed {
+  }
+
+  public ::wisey::model* send(::wisey::model* message) {
+    return null;
+  }
+
+  public CCallStack getCallStack() {
+    return null;
+  }
+}
+
+controller CProgram implements IProgram {
+  inject TWorker* mWorker;
+
+  public int run() {
+    mWorker.work();
+    return 0;
+  }
+}
+
+bind(IProgram).to(CProgram);

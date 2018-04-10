@@ -30,6 +30,10 @@ external interface wisey.lang.threads.IThread {
     ::wisey::model* message);
   static void sleep(
     int seconds);
+  static void checkConcealedMethodCall(
+    wisey.lang.threads.IThread object) throws wisey.lang.threads.MThreadConcealedMethodException;
+  static void checkRevealedMethodCall(
+    wisey.lang.threads.IThread object) throws wisey.lang.threads.MThreadRevealedMethodException;
 }
 
 external interface wisey.lang.threads.IWorkerThread
@@ -102,6 +106,20 @@ external model wisey.lang.MStackOverflowException
   string getName();
 }
 
+external model wisey.lang.threads.MThreadConcealedMethodException
+  implements
+    wisey.lang.IException {
+
+  string getName();
+}
+
+external model wisey.lang.threads.MThreadRevealedMethodException
+  implements
+    wisey.lang.IException {
+
+  string getName();
+}
+
 /* Controllers */
 
 external controller wisey.lang.CCallStack {
@@ -130,6 +148,42 @@ external controller wisey.lang.CProgramRunner {
   inject wisey.lang.IProgram* mProgram;
 
   wisey.lang.MProgramResult* run();
+}
+
+external controller wisey.lang.threads.CDefaultProducer {
+
+  inject wisey.lang.threads.CProducerThreadRunner* mProducerThreadRunner;
+  inject wisey.lang.CCallStack* mCallStack;
+
+  void startProducer(
+    wisey.lang.threads.IProducerThread producerThread,
+    int size);
+  boolean hasStarted();
+  boolean hasResult();
+  boolean wasCancelled();
+  void cancel();
+  ::wisey::model* consume();
+  void produce();
+  ::wisey::model* send(
+    ::wisey::model* message);
+  wisey.lang.CCallStack getCallStack();
+}
+
+external controller wisey.lang.threads.CDefaultWorker {
+
+  inject wisey.lang.threads.CWorkerThreadRunner* mWorkerThreadRunner;
+  inject wisey.lang.CCallStack* mCallStack;
+
+  void startWorker(
+    wisey.lang.threads.IWorkerThread workerThread);
+  boolean hasStarted();
+  boolean hasResult();
+  boolean wasCancelled();
+  ::wisey::model* awaitResult();
+  void cancel();
+  ::wisey::model* send(
+    ::wisey::model* message);
+  wisey.lang.CCallStack getCallStack();
 }
 
 external controller wisey.lang.threads.CProducerThreadRunner {
@@ -183,7 +237,7 @@ external thread wisey.lang.TMainThread
   implements
     wisey.lang.threads.IWorkerThread {
 
-  inject wisey.lang.threads.TDefaultWorker* mDefaultWorker;
+  inject wisey.lang.threads.CDefaultWorker* mDefaultWorker;
   inject wisey.lang.CProgramRunner* mProgramRunner;
 
   void work();
@@ -193,49 +247,6 @@ external thread wisey.lang.TMainThread
   boolean wasCancelled() exposed;
   ::wisey::model* awaitResult() exposed;
   void cancel() exposed;
-  ::wisey::model* send(
-    ::wisey::model* message);
-  wisey.lang.CCallStack getCallStack();
-}
-
-external thread wisey.lang.threads.TDefaultProducer
-  implements
-    wisey.lang.threads.IProducerThread {
-
-  inject wisey.lang.threads.CProducerThreadRunner* mProducerThreadRunner;
-  inject wisey.lang.CCallStack* mCallStack;
-
-  void startProducer(
-    wisey.lang.threads.IProducerThread producerThread,
-    int size);
-  void start() exposed;
-  boolean hasStarted() exposed;
-  boolean hasResult() exposed;
-  boolean wasCancelled() exposed;
-  void cancel() exposed;
-  ::wisey::model* consume() exposed;
-  void produce();
-  ::wisey::model* send(
-    ::wisey::model* message);
-  wisey.lang.CCallStack getCallStack();
-}
-
-external thread wisey.lang.threads.TDefaultWorker
-  implements
-    wisey.lang.threads.IWorkerThread {
-
-  inject wisey.lang.threads.CWorkerThreadRunner* mWorkerThreadRunner;
-  inject wisey.lang.CCallStack* mCallStack;
-
-  void startWorker(
-    wisey.lang.threads.IWorkerThread workerThread);
-  void start() exposed;
-  boolean hasStarted() exposed;
-  boolean hasResult() exposed;
-  boolean wasCancelled() exposed;
-  ::wisey::model* awaitResult() exposed;
-  void cancel() exposed;
-  void work();
   ::wisey::model* send(
     ::wisey::model* message);
   wisey.lang.CCallStack getCallStack();

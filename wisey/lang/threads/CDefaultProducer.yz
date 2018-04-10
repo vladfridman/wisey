@@ -8,7 +8,7 @@ import wisey.lang.CCallStack;
  * When implementing your producer thread inject and instance of this class
  * and delegate IProducerThread method calls to it
  */
-thread TDefaultProducer implements IProducerThread {
+controller CDefaultProducer {
   inject CProducerThreadRunner* mProducerThreadRunner;
   inject CCallStack* mCallStack;
 
@@ -17,26 +17,23 @@ thread TDefaultProducer implements IProducerThread {
     mProducerThreadRunner.createThread(producerThread, size);
   }
 
-  public void start() exposed {
-  }
-
-  public boolean hasStarted() exposed {
+  public boolean hasStarted() {
     return mProducerThreadRunner.hasStarted();
   }
 
-  public boolean hasResult() exposed {
+  public boolean hasResult() {
     return mProducerThreadRunner.hasResult();
   }
 
-  public boolean wasCancelled() exposed {
+  public boolean wasCancelled() {
     return mProducerThreadRunner.wasCancelled();
   }
 
-  public void cancel() exposed {
+  public void cancel() {
     mProducerThreadRunner.cancelThread();
   }
 
-  public ::wisey::model* consume() exposed {
+  public ::wisey::model* consume() {
     return mProducerThreadRunner.consumeResult();
   }
 

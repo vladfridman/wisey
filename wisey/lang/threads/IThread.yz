@@ -13,7 +13,7 @@ interface IThread {
   CCallStack getCallStack();
 
   /**
-   * Snds a message to the calling thread. 
+   * Sends a message to the calling thread. 
    *
    * Returns null if the message was sent successfully
    * Returns the sent message if it could not be sent
@@ -25,5 +25,23 @@ interface IThread {
    */
   static void sleep(int seconds) {
     ::llvm::function::sleep(seconds);
+  }
+
+  /**
+   * Throws an exception when passed object is not the current thread
+   */
+  static void checkConcealedMethodCall(IThread object) throws MThreadConcealedMethodException {
+    if (object != thread) {
+      throw builder(MThreadConcealedMethodException).build();
+    }
+  }
+
+  /**
+   * Throws an exception when passed object is the same as the current thread
+   */
+  static void checkRevealedMethodCall(IThread object) throws MThreadRevealedMethodException {
+    if (object == thread) {
+      throw builder(MThreadRevealedMethodException).build();
+    }
   }
 }

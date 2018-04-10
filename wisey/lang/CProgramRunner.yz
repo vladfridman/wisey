@@ -1,5 +1,8 @@
 package wisey.lang;
 
+import wisey.lang.threads.MThreadConcealedMethodException;
+import wisey.lang.threads.MThreadRevealedMethodException;
+
 /**
  * Represents program result
  */
@@ -40,6 +43,12 @@ controller CProgramRunner {
         exception.getArraySize() + "\n");
       exit(1);
     } catch (MStackOverflowException* exception) {
+      thread.getCallStack().reportException(exception);
+      exit(1);
+    } catch (MThreadConcealedMethodException* exception) {
+      thread.getCallStack().reportException(exception);
+      exit(1);
+    } catch (MThreadRevealedMethodException* exception) {
       thread.getCallStack().reportException(exception);
       exit(1);
     }

@@ -8,7 +8,7 @@ import wisey.lang.CCallStack;
  * When implementing your worker thread inject and instance of this class
  * and delegate IWorkerThread method calls to it
  */
-thread TDefaultWorker implements IWorkerThread {
+controller CDefaultWorker {
   inject CWorkerThreadRunner* mWorkerThreadRunner;
   inject CCallStack* mCallStack;
 
@@ -16,32 +16,26 @@ thread TDefaultWorker implements IWorkerThread {
     mWorkerThreadRunner.createThread(workerThread);    
   }
 
-  public void start() exposed {
-  }
-
-  public boolean hasStarted() exposed {
+  public boolean hasStarted() {
     return mWorkerThreadRunner.hasStarted();
   }
 
-  public boolean hasResult() exposed {
+  public boolean hasResult() {
     return mWorkerThreadRunner.hasResult();
   }
 
-  public boolean wasCancelled() exposed {
+  public boolean wasCancelled() {
     return mWorkerThreadRunner.wasCancelled();
   }
 
-  public ::wisey::model* awaitResult() exposed {
+  public ::wisey::model* awaitResult() {
     mWorkerThreadRunner.joinThread();
 
     return mWorkerThreadRunner.getResult();
   }
 
-  public void cancel() exposed {
+  public void cancel() {
     mWorkerThreadRunner.cancelThread();
-  }
-
-  public void work() {
   }
 
   public ::wisey::model* send(::wisey::model* message) {

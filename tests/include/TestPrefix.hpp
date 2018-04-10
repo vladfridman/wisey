@@ -46,6 +46,8 @@ private:
                                                                 context);
   
   static wisey::ThreadDefinition* defineMainThread(wisey::IRGenerationContext& context);
+  
+  static void defineThreadGuardFunctions(wisey::IRGenerationContext& context);
 
 };
 

@@ -91,18 +91,9 @@ void ProgramSuffix::generateMain(IRGenerationContext& context) const {
   Thread* mainThread = context.getThread(Names::getMainThreadFullName(), 0);
   Value* injectedThread = mainThread->inject(context, injectionArguments, 0);
   Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
-  PackageType* langPackageType = context.getPackageType(Names::getLangPackageName());
-  FakeExpression* langPackageExpression = new FakeExpression(NULL, langPackageType);
-  PackageType* threadsPackageType = context.getPackageType(Names::getThreadsPackageName());
-  FakeExpression* threadsPackageExpression = new FakeExpression(NULL, threadsPackageType);
-  InterfaceTypeSpecifier* threadInterfaceSpecifier =
-    new InterfaceTypeSpecifier(threadsPackageExpression, Names::getThreadInterfaceName(), 0);
-  CastExpression* castExpression =
-  new CastExpression(threadInterfaceSpecifier, new FakeExpression(injectedThread, mainThread), 0);
+  Value* threadNullValue = ConstantPointerNull::get(threadInterface->getLLVMType(context));
   IReferenceVariable* threadVariable =
-  new ParameterSystemReferenceVariable(ThreadExpression::THREAD,
-                                       threadInterface,
-                                       castExpression->generateIR(context, threadInterface));
+  new ParameterSystemReferenceVariable(ThreadExpression::THREAD, threadInterface, threadNullValue);
   context.getScopes().setVariable(threadVariable);
 
   vector<const IExpression*> arrayIndices;
@@ -133,7 +124,8 @@ void ProgramSuffix::generateMain(IRGenerationContext& context) const {
   IdentifierChain* waitMethod = new IdentifierChain(new Identifier("mainThread"), "awaitResult");
   MethodCall* waitMethodCall = new MethodCall(waitMethod, callArguments, 0);
   
-  langPackageExpression = new FakeExpression(NULL, langPackageType);
+  PackageType* langPackageType = context.getPackageType(Names::getLangPackageName());
+  FakeExpression* langPackageExpression = new FakeExpression(NULL, langPackageType);
   ModelTypeSpecifier* mainThreadMessageSpecifier =
   new ModelTypeSpecifier(langPackageExpression, Names::getProgramResultShortName(), 0);
   CastExpression* castToMessage = new CastExpression(mainThreadMessageSpecifier, waitMethodCall, 0);

@@ -2,12 +2,12 @@ package systems.vos.wisey.compiler.tests;
 
 import wisey.lang.IProgram;
 import wisey.lang.CCallStack;
+import wisey.lang.threads.CDefaultWorker;
 import wisey.lang.threads.IThread;
 import wisey.lang.threads.IWorkerThread;
-import wisey.lang.threads.TDefaultWorker;
 
 thread TWorker implements IWorkerThread {
-  inject TDefaultWorker* mDefaultWorker;
+  inject CDefaultWorker* mDefaultWorker;
 
   public void work() {
     IThread.sleep(1);

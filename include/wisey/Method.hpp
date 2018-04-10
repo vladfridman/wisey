@@ -142,6 +142,8 @@ namespace wisey {
     
     void createArguments(IRGenerationContext& context, llvm::Function* function) const;
     
+    void addThreadGuard(IRGenerationContext& context, llvm::Function* function) const;
+    
   };
   
 } /* namespace wisey */

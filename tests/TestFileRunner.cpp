@@ -134,9 +134,9 @@ void TestFileRunner::compileAndRunFile(string fileName, int expectedResult) {
 }
 
 void TestFileRunner::compileAndRunFileCheckOutput(string fileName,
-                                                        int expectedResult,
-                                                        string expectedOut,
-                                                        string expectedErr) {
+                                                  int expectedResult,
+                                                  string expectedOut,
+                                                  string expectedErr) {
   exec("mkdir -p build");
   
   string wiseyCompileCommand = "bin/wiseyc " + fileName + " " + LIBWISEY + " -o build/test.o";
