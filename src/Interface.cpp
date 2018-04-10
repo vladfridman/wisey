@@ -186,8 +186,8 @@ void Interface::includeInterfaceMethods(Interface* parentInterface) {
   for (MethodSignature* methodSignature : inheritedMethods) {
     IMethodDescriptor* existingMethod = findMethod(methodSignature->getName());
     if (existingMethod && !IMethodDescriptor::compare(existingMethod, methodSignature)) {
-      Log::e_deprecated("Interface " + mName + " overrides method " + existingMethod->getName()
-             + " of parent interface with a wrong signature.");
+      Log::e_deprecated("Interface " + mName + " overrides method '" + existingMethod->getName()
+             + "' of parent interface with a wrong signature");
       exit(1);
     }
     if (existingMethod) {
@@ -353,12 +353,26 @@ Function* Interface::defineMapFunctionForMethod(IRGenerationContext& context,
     exit(1);
   }
   
+  if (objectMethodDescriptor->isExposed() && !interfaceMethodSignature->isExposed()) {
+    Log::e_deprecated("Object " + object->getTypeName() + " attempts to expose method '" +
+                      interfaceMethodSignature->getName() + "' that is not exposed in "
+                      "the parent interface " + getTypeName());
+    exit(1);
+  }
+  
+  if (!objectMethodDescriptor->isExposed() && interfaceMethodSignature->isExposed()) {
+    Log::e_deprecated("Object " + object->getTypeName() + " should mark method '" +
+                      interfaceMethodSignature->getName() + "' exposed as it is defined in "
+                      "the parent interface " + getTypeName());
+    exit(1);
+  }
+
   if (!IMethodDescriptor::compare(objectMethodDescriptor, interfaceMethodSignature)) {
     Log::e_deprecated("Method " + interfaceMethodSignature->getName() + " of interface " + mName +
            " has different argument types when implmeneted by object " + object->getTypeName());
     exit(1);
   }
-  
+
   string functionName =
     MethodCall::translateInterfaceMethodToLLVMFunctionName(object,
                                                            this,

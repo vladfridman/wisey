@@ -17,6 +17,7 @@
   #include "wisey/LLVMPointerTypeSpecifier.hpp"
   #include "wisey/LLVMVariableDeclaration.hpp"
   #include "wisey/MethodDefinition.hpp"
+  #include "wisey/MethodQualifier.hpp"
   #include "wisey/MethodSignatureDeclaration.hpp"
   #include "wisey/ModelTypeSpecifier.hpp"
   #include "wisey/NodeTypeSpecifier.hpp"
@@ -83,6 +84,7 @@ WS  [ \t\v\n\f]
 "double"                      return TOKEN(TTYPEDOUBLE);
 "else"                        return TOKEN(TELSE);
 "exit"                        return TOKEN(TEXIT);
+"exposed"                     return TOKEN(TEXPOSED);
 "extends"                     return TOKEN(TEXTENDS);
 "external"                    return TOKEN(TEXTERNAL);
 "default"                     return TOKEN(TDEFAULT);
@@ -104,6 +106,7 @@ WS  [ \t\v\n\f]
 "new"                         return TOKEN(TNEW);
 "node"                        return TOKEN(TNODE);
 "null"                        return TOKEN(TNULL);
+"override"                    return TOKEN(TOVERRIDE);
 "package"                     return TOKEN(TPACKAGE);
 "printerr"                    return TOKEN(TPRINTERR);
 "printout"                    return TOKEN(TPRINTOUT);

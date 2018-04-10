@@ -67,6 +67,10 @@ namespace wisey {
     bool isMethodSignature() const override;
     
     bool isLLVMFunction() const override;
+    
+    bool isExposed() const override;
+    
+    bool isOverride() const override;
 
     std::string getTypeName() const override;
     

@@ -102,25 +102,28 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
   const PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   Block* block = new Block();
   CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
+  MethodQualifierSet methodQualifiers;
   MethodDefinition* pushStackMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
-                                                             voidTypeSpecifier,
-                                                             Names::getThreadPushStack(),
-                                                             arguments,
-                                                             exceptions,
-                                                             compoundStatement,
-                                                             0);
+                                                           voidTypeSpecifier,
+                                                           Names::getThreadPushStack(),
+                                                           arguments,
+                                                           exceptions,
+                                                           methodQualifiers,
+                                                           compoundStatement,
+                                                           0);
 
   arguments.clear();
   voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   block = new Block();
   compoundStatement = new CompoundStatement(block, 0);
   MethodDefinition* popStackMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
-                                                            voidTypeSpecifier,
-                                                            Names::getThreadPopStack(),
-                                                            arguments,
-                                                            exceptions,
-                                                            compoundStatement,
-                                                            0);
+                                                          voidTypeSpecifier,
+                                                          Names::getThreadPopStack(),
+                                                          arguments,
+                                                          exceptions,
+                                                          methodQualifiers,
+                                                          compoundStatement,
+                                                          0);
 
   PackageType* packageType = new PackageType(Names::getLangPackageName());
   FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
@@ -156,25 +159,28 @@ ThreadDefinition* TestPrefix::defineMainThread(IRGenerationContext& context) {
   vector<IModelTypeSpecifier*> exceptions;
   Block* block = new Block();
   CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
+  MethodQualifierSet methodQualifiers;
   MethodDefinition* getCallStackMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
-                                                                callStackTypeSpecifier,
-                                                                Names::getCallStackMethodName(),
-                                                                arguments,
-                                                                exceptions,
-                                                                compoundStatement,
-                                                                0);
-
+                                                              callStackTypeSpecifier,
+                                                              Names::getCallStackMethodName(),
+                                                              arguments,
+                                                              exceptions,
+                                                              methodQualifiers,
+                                                              compoundStatement,
+                                                              0);
+  
   arguments.clear();
   const PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   block = new Block();
   compoundStatement = new CompoundStatement(block, 0);
   MethodDefinition* runMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
-                                                       voidTypeSpecifier,
-                                                       "run",
-                                                       arguments,
-                                                       exceptions,
-                                                       compoundStatement,
-                                                       0);
+                                                     voidTypeSpecifier,
+                                                     "run",
+                                                     arguments,
+                                                     exceptions,
+                                                     methodQualifiers,
+                                                     compoundStatement,
+                                                     0);
 
   elementDeclarations.push_back(getCallStackMethod);
   elementDeclarations.push_back(runMethod);

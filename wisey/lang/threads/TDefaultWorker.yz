@@ -16,28 +16,28 @@ thread TDefaultWorker implements IWorkerThread {
     mWorkerThreadRunner.createThread(workerThread);    
   }
 
-  public void start() {
+  public void start() exposed {
   }
 
-  public boolean hasStarted() {
+  public boolean hasStarted() exposed {
     return mWorkerThreadRunner.hasStarted();
   }
 
-  public boolean hasResult() {
+  public boolean hasResult() exposed {
     return mWorkerThreadRunner.hasResult();
   }
 
-  public boolean wasCancelled() {
+  public boolean wasCancelled() exposed {
     return mWorkerThreadRunner.wasCancelled();
   }
 
-  public ::wisey::model* awaitResult() {
+  public ::wisey::model* awaitResult() exposed {
     mWorkerThreadRunner.joinThread();
 
     return mWorkerThreadRunner.getResult();
   }
 
-  public void cancel() {
+  public void cancel() exposed {
     mWorkerThreadRunner.cancelThread();
   }
 

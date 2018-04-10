@@ -14,6 +14,7 @@
 #include "wisey/IMethodDefinition.hpp"
 #include "wisey/IModelTypeSpecifier.hpp"
 #include "wisey/ITypeSpecifier.hpp"
+#include "wisey/MethodQualifier.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
 namespace wisey {
@@ -29,6 +30,7 @@ namespace wisey {
     std::string mName;
     VariableList mArguments;
     std::vector<IModelTypeSpecifier*> mExceptions;
+    MethodQualifierSet mMethodQualifiers;
     CompoundStatement* mCompoundStatement;
     int mLine;
     
@@ -39,6 +41,7 @@ namespace wisey {
                       std::string name,
                       VariableList arguments,
                       std::vector<IModelTypeSpecifier*> exceptions,
+                      MethodQualifierSet methodQualifiers,
                       CompoundStatement* compoundStatement,
                       int line);
     

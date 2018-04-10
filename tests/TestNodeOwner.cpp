@@ -83,11 +83,13 @@ struct NodeOwnerTest : public Test {
     vector<IObjectElementDefinition*> elementObjectElements;
     vector<IModelTypeSpecifier*> elementThrownExceptions;
     const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
+    MethodQualifierSet methodQualifiers;
     IObjectElementDefinition* getElementSignature =
     new MethodSignatureDeclaration(intSpecifier,
                                    "getElement",
                                    elementInterfaceMethodArguments,
                                    elementThrownExceptions,
+                                   methodQualifiers,
                                    0);
     elementObjectElements.push_back(getElementSignature);
     vector<IInterfaceTypeSpecifier*> elementParentInterfaces;
@@ -127,6 +129,7 @@ struct NodeOwnerTest : public Test {
                                      "foo",
                                      objectInterfaceMethodArguments,
                                      objectThrownExceptions,
+                                     methodQualifiers,
                                      0);
     objectElements.push_back(methodBarSignature);
     vector<IInterfaceTypeSpecifier*> objectParentInterfaces;
@@ -157,6 +160,7 @@ struct NodeOwnerTest : public Test {
                                  PrimitiveTypes::INT_TYPE,
                                  methodArguments,
                                  thrownExceptions,
+                                 methodQualifiers,
                                  NULL,
                                  0);
     vector<IMethod*> methods;
@@ -167,6 +171,7 @@ struct NodeOwnerTest : public Test {
                                     PrimitiveTypes::INT_TYPE,
                                     methodArguments,
                                     thrownExceptions,
+                                    methodQualifiers,
                                     NULL,
                                     0);
     methods.push_back(fooMethod);

@@ -97,12 +97,14 @@ struct TypeComparisionExpressionTest : public Test {
     vector<MethodArgument*> methodArguments;
     vector<IMethod*> squareMethods;
     vector<const Model*> thrownExceptions;
+    MethodQualifierSet methodQualifiers;
     IMethod* fooMethod = new Method(mSquareModel,
                                     "foo",
                                     AccessLevel::PUBLIC_ACCESS,
                                     PrimitiveTypes::INT_TYPE,
                                     methodArguments,
                                     thrownExceptions,
+                                    methodQualifiers,
                                     NULL,
                                     0);
     IMethod* barMethod = new Method(mSquareModel,
@@ -111,6 +113,7 @@ struct TypeComparisionExpressionTest : public Test {
                                     PrimitiveTypes::INT_TYPE,
                                     methodArguments,
                                     thrownExceptions,
+                                    methodQualifiers,
                                     NULL,
                                     0);
     squareMethods.push_back(fooMethod);
@@ -127,6 +130,7 @@ struct TypeComparisionExpressionTest : public Test {
                                      "foo",
                                      subShapeInterfaceMethodArguments,
                                      subShapeThrownExceptions,
+                                     methodQualifiers,
                                      0);
     subShapeInterfaceElements.push_back(methodFooSignature);
     vector<IInterfaceTypeSpecifier*> subShapeParentInterfaces;
@@ -147,6 +151,7 @@ struct TypeComparisionExpressionTest : public Test {
                                                         "foo",
                                                         shapeInterfaceMethodArguments,
                                                         shapeThrownExceptions,
+                                                        methodQualifiers,
                                                         0);
     shapeInterfaceElements.push_back(methodFooSignature);
     vector<IInterfaceTypeSpecifier*> shapeParentInterfaces;
@@ -171,6 +176,7 @@ struct TypeComparisionExpressionTest : public Test {
                                      "bar",
                                      objectInterfaceMethodArguments,
                                      objectThrownExceptions,
+                                     methodQualifiers,
                                      0);
     objectInterfaceElements.push_back(methodBarSignature);
     vector<IInterfaceTypeSpecifier*> objectParentInterfaces;

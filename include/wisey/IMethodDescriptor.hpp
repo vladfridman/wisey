@@ -66,7 +66,17 @@ namespace wisey {
      * Tells whether this method is static
      */
     virtual bool isStatic() const = 0;
-    
+
+    /**
+     * Tells whether this method is marked with exposed qualifier
+     */
+    virtual bool isExposed() const = 0;
+
+    /**
+     * Tells whether this method is marked with override qualifier
+     */
+    virtual bool isOverride() const = 0;
+
     /**
      * Return corresponding LLVM type
      */

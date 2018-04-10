@@ -15,6 +15,7 @@
 #include "wisey/IStatement.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 #include "wisey/IModelTypeSpecifier.hpp"
+#include "wisey/MethodQualifier.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
 namespace wisey {
@@ -27,6 +28,7 @@ namespace wisey {
     std::string mMethodName;
     VariableList mArguments;
     std::vector<IModelTypeSpecifier*> mThrownExceptions;
+    MethodQualifierSet mMethodQualifiers;
     int mLine;
     
   public:
@@ -35,6 +37,7 @@ namespace wisey {
                                std::string methodName,
                                const VariableList& arguments,
                                std::vector<IModelTypeSpecifier*> thrownExceptions,
+                               MethodQualifierSet methodQualifiers,
                                int line);
     
     ~MethodSignatureDeclaration();

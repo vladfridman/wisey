@@ -34,7 +34,8 @@ bool IMethodDescriptor::compare(IMethodDescriptor* method1, IMethodDescriptor* m
   }
   
   return !method1->getName().compare(method2->getName()) &&
-    method1->getReturnType() == method2->getReturnType();
+    method1->getReturnType() == method2->getReturnType() &&
+    method1->isExposed() == method2->isExposed();
 }
 
 FunctionType* IMethodDescriptor::getLLVMFunctionType(IRGenerationContext& context,
@@ -84,6 +85,13 @@ void IMethodDescriptor::printDescriptorToStream(const IMethodDescriptor* method,
       stream << ", ";
     }
     stream << exception->getTypeName();
+  }
+
+  if (method->isExposed()) {
+    stream << " exposed";
+  }
+  if (method->isOverride()) {
+    stream << " override";
   }
 
   stream << ";" << endl;

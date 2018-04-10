@@ -234,6 +234,14 @@ bool StaticMethod::isLLVMFunction() const {
   return false;
 }
 
+bool StaticMethod::isExposed() const {
+  return false;
+}
+
+bool StaticMethod::isOverride() const {
+  return false;
+}
+
 const IObjectType* StaticMethod::getParentObject() const {
   return mObjectType;
 }

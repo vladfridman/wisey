@@ -54,10 +54,12 @@ struct ExternalNodeDefinitionTest : public Test {
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
     vector<IModelTypeSpecifier*> thrownExceptions;
+    MethodQualifierSet methodQualifiers;
     mMethodDefinition = new ExternalMethodDefinition(floatTypeSpecifier,
-                                                       "foo",
-                                                       methodArguments,
-                                                       thrownExceptions,
+                                                     "foo",
+                                                     methodArguments,
+                                                     thrownExceptions,
+                                                     methodQualifiers,
                                                      0);
   }
   

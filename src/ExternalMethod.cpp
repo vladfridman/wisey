@@ -23,12 +23,14 @@ ExternalMethod::ExternalMethod(const IObjectType* objectType,
                                const IType* returnType,
                                vector<MethodArgument*> arguments,
                                vector<const Model*> thrownExceptions,
+                               MethodQualifierSet methodQualifiers,
                                int line) :
 mObjectType(objectType),
 mName(name),
 mReturnType(returnType),
 mArguments(arguments),
 mThrownExceptions(thrownExceptions),
+mMethodQualifiers(methodQualifiers),
 mLine(line) { }
 
 ExternalMethod::~ExternalMethod() {
@@ -91,6 +93,14 @@ bool ExternalMethod::isMethodSignature() const {
 
 bool ExternalMethod::isLLVMFunction() const {
   return false;
+}
+
+bool ExternalMethod::isExposed() const {
+  return mMethodQualifiers.count(MethodQualifier::EXPOSED);
+}
+
+bool ExternalMethod::isOverride() const {
+  return mMethodQualifiers.count(MethodQualifier::OVERRIDE);
 }
 
 string ExternalMethod::getTypeName() const {

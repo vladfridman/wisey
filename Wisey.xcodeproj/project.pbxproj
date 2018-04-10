@@ -1876,6 +1876,7 @@
 		F5E48B901E87122E0087CC70 /* MockStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockStatement.hpp; path = tests/include/MockStatement.hpp; sourceTree = "<group>"; };
 		F5E48B911E8713630087CC70 /* MockTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockTypeSpecifier.hpp; path = tests/include/MockTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F5E48B921E8713F00087CC70 /* MockType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockType.hpp; path = tests/include/MockType.hpp; sourceTree = "<group>"; };
+		F5E49797207CAB3600FA7079 /* MethodQualifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MethodQualifier.hpp; path = include/wisey/MethodQualifier.hpp; sourceTree = "<group>"; };
 		F5E6BD051F190B3900D59444 /* Composer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Composer.hpp; path = include/wisey/Composer.hpp; sourceTree = "<group>"; };
 		F5E6BD061F190B4700D59444 /* Composer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Composer.cpp; path = src/Composer.cpp; sourceTree = "<group>"; };
 		F5E6BD081F190B7800D59444 /* FakeExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FakeExpression.hpp; path = include/wisey/FakeExpression.hpp; sourceTree = "<group>"; };
@@ -2942,6 +2943,7 @@
 				F5089C8D1ECD01D9004A1223 /* MethodArgument.hpp */,
 				F5089C8E1ECD01D9004A1223 /* MethodCall.hpp */,
 				F5089C8F1ECD01D9004A1223 /* MethodDefinition.hpp */,
+				F5E49797207CAB3600FA7079 /* MethodQualifier.hpp */,
 				F5089C901ECD01D9004A1223 /* MethodSignature.hpp */,
 				F5089C911ECD01D9004A1223 /* MethodSignatureDeclaration.hpp */,
 				F51D2BAC1F6844AA00510784 /* StaticMethod.hpp */,

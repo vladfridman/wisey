@@ -95,12 +95,14 @@ public:
     vector<MethodArgument*> methodArguments;
     methodArguments.push_back(methodArgument);
     vector<const Model*> fooThrownExceptions;
+    MethodQualifierSet methodQualifiers;
     mFooMethod = new Method(mModel,
                             "foo",
                             AccessLevel::PUBLIC_ACCESS,
                             mReturnedModel,
                             methodArguments,
                             fooThrownExceptions,
+                            methodQualifiers,
                             NULL,
                             0);
     vector<IMethod*> methods;
@@ -117,6 +119,7 @@ public:
                             PrimitiveTypes::INT_TYPE,
                             methodArguments,
                             barThrownExceptions,
+                            methodQualifiers,
                             NULL,
                             0);
     methods.push_back(mBarMethod);

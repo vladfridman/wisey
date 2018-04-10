@@ -20,12 +20,14 @@ MethodSignature::MethodSignature(const IObjectType* objectType,
                                  const IType* returnType,
                                  vector<MethodArgument*> arguments,
                                  vector<const Model*> thrownExceptions,
+                                 MethodQualifierSet methodQualifiers,
                                  int line) :
 mObjectType(objectType),
 mName(name),
 mReturnType(returnType),
 mArguments(arguments),
 mThrownExceptions(thrownExceptions),
+mMethodQualifiers(methodQualifiers),
 mLine(line) { }
 
 MethodSignature::~MethodSignature() {
@@ -60,7 +62,13 @@ vector<const Model*> MethodSignature::getThrownExceptions() const {
 }
 
 MethodSignature* MethodSignature::createCopy(const Interface* interface) const {
-  return new MethodSignature(interface, mName, mReturnType, mArguments, mThrownExceptions, mLine);
+  return new MethodSignature(interface,
+                             mName,
+                             mReturnType,
+                             mArguments,
+                             mThrownExceptions,
+                             mMethodQualifiers,
+                             mLine);
 }
 
 bool MethodSignature::isConstant() const {
@@ -85,6 +93,14 @@ bool MethodSignature::isMethodSignature() const {
 
 bool MethodSignature::isLLVMFunction() const {
   return false;
+}
+
+bool MethodSignature::isExposed() const {
+  return mMethodQualifiers.count(MethodQualifier::EXPOSED);
+}
+
+bool MethodSignature::isOverride() const {
+  return mMethodQualifiers.count(MethodQualifier::OVERRIDE);
 }
 
 string MethodSignature::getTypeName() const {

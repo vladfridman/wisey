@@ -22,6 +22,7 @@ MethodDefinition::MethodDefinition(const AccessLevel AccessLevel,
                                      string name,
                                      VariableList arguments,
                                      vector<IModelTypeSpecifier*> exceptions,
+                                     MethodQualifierSet methodQualifiers,
                                      CompoundStatement* compoundStatement,
                                      int line) :
 mAccessLevel(AccessLevel),
@@ -29,6 +30,7 @@ mReturnTypeSpecifier(returnTypeSpecifier),
 mName(name),
 mArguments(arguments),
 mExceptions(exceptions),
+mMethodQualifiers(methodQualifiers),
 mCompoundStatement(compoundStatement),
 mLine(line) { }
 
@@ -58,6 +60,7 @@ IMethod* MethodDefinition::define(IRGenerationContext& context,
                     returnType,
                     arguments,
                     exceptions,
+                    mMethodQualifiers,
                     mCompoundStatement,
                     mLine);
 }

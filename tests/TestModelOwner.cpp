@@ -89,12 +89,14 @@ struct ModelOwnerTest : public Test {
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height"));
     vector<MethodArgument*> methodArguments;
     vector<const Model*> thrownExceptions;
+    MethodQualifierSet methodQualifiers;
     IMethod* method = new Method(mModel,
                                  "foo",
                                  AccessLevel::PUBLIC_ACCESS,
                                  PrimitiveTypes::INT_TYPE,
                                  methodArguments,
                                  thrownExceptions,
+                                 methodQualifiers,
                                  NULL,
                                  0);
     vector<IMethod*> methods;
@@ -105,6 +107,7 @@ struct ModelOwnerTest : public Test {
                                     PrimitiveTypes::INT_TYPE,
                                     methodArguments,
                                     thrownExceptions,
+                                    methodQualifiers,
                                     NULL,
                                     0);
     methods.push_back(barMethod);
@@ -120,6 +123,7 @@ struct ModelOwnerTest : public Test {
                                      "foo",
                                      subShapeInterfaceMethodArguments,
                                      subShapeInterfaceThrownExceptions,
+                                     methodQualifiers,
                                      0);
     subShapeInterfaceElements.push_back(methodFooSignature);
     vector<IInterfaceTypeSpecifier*> subShapeParentInterfaces;
@@ -140,6 +144,7 @@ struct ModelOwnerTest : public Test {
                                                         "foo",
                                                         shapeInterfaceMethodArguments,
                                                         shapeInterfaceThrownExceptions,
+                                                        methodQualifiers,
                                                         0);
     shapeInterfaceElements.push_back(methodFooSignature);
     vector<IInterfaceTypeSpecifier*> shapeParentInterfaces;
@@ -164,6 +169,7 @@ struct ModelOwnerTest : public Test {
                                      "bar",
                                      objectInterfaceMethodArguments,
                                      objectInterfaceThrownExceptions,
+                                     methodQualifiers,
                                      0);
     objectInterfaceElements.push_back(methodBarSignature);
     vector<IInterfaceTypeSpecifier*> objectParentInterfaces;

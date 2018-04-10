@@ -61,12 +61,14 @@ public:
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "bar"));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
     mModel->setFields(fields, 1u);
-    
+    MethodQualifierSet methodQualifiers;
+
     mMethod = new ExternalMethod(mModel,
                                  "mymethod",
                                  PrimitiveTypes::BOOLEAN_TYPE,
                                  arguments,
                                  thrownExceptions,
+                                 methodQualifiers,
                                  0);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -99,7 +101,14 @@ TEST_F(ExternalMethodTest, getLLVMTypeTest) {
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
-  ExternalMethod method(mModel, "foo", PrimitiveTypes::FLOAT_TYPE, arguments, thrownExceptions, 0);
+  MethodQualifierSet methodQualifiers;
+  ExternalMethod method(mModel,
+                        "foo",
+                        PrimitiveTypes::FLOAT_TYPE,
+                        arguments,
+                        thrownExceptions,
+                        methodQualifiers,
+                        0);
 
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mModel->getLLVMType(mContext));
@@ -122,7 +131,14 @@ TEST_F(ExternalMethodTest, defineFunctionTest) {
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
-  ExternalMethod method(mModel, "foo", PrimitiveTypes::FLOAT_TYPE, arguments, thrownExceptions, 0);
+  MethodQualifierSet methodQualifiers;
+  ExternalMethod method(mModel,
+                        "foo",
+                        PrimitiveTypes::FLOAT_TYPE,
+                        arguments,
+                        thrownExceptions,
+                        methodQualifiers,
+                        0);
   Function* function = method.defineFunction(mContext);
   
   *mStringStream << *function;

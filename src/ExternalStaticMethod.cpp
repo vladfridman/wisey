@@ -93,6 +93,14 @@ bool ExternalStaticMethod::isLLVMFunction() const {
   return false;
 }
 
+bool ExternalStaticMethod::isExposed() const {
+  return false;
+}
+
+bool ExternalStaticMethod::isOverride() const {
+  return false;
+}
+
 string ExternalStaticMethod::getTypeName() const {
   return mObjectType->getTypeName() + "." + getName();
 }

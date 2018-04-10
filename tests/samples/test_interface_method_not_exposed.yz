@@ -1,0 +1,13 @@
+package systems.vos.wisey.compiler.tests;
+
+interface IShape {
+  int getArea(int a) exposed;
+}
+
+model MSquare implements IShape {
+  int mWidth;
+
+  public int getArea(int a) {
+    return 5;
+  }
+}

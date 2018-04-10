@@ -56,10 +56,12 @@ struct ExternalThreadDefinitionTest : public Test {
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
     vector<IModelTypeSpecifier*> thrownExceptions;
+    MethodQualifierSet methodQualifiers;
     methodDeclaration = new ExternalMethodDefinition(floatTypeSpecifier,
                                                      "foo",
                                                      methodArguments,
                                                      thrownExceptions,
+                                                     methodQualifiers,
                                                      0);
     
     const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();

@@ -14,16 +14,18 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ExternalMethodDefinition::ExternalMethodDefinition(const ITypeSpecifier* returnTypeSpecifier,
-                                                   string name,
-                                                   const VariableList& arguments,
-                                                   vector<IModelTypeSpecifier*>
-                                                   thrownExceptions,
-                                                   int line) :
+ExternalMethodDefinition::
+ExternalMethodDefinition(const ITypeSpecifier* returnTypeSpecifier,
+                         string name,
+                         const VariableList& arguments,
+                         vector<IModelTypeSpecifier*> thrownExceptions,
+                         MethodQualifierSet methodQualifiers,
+                         int line) :
 mReturnTypeSpecifier(returnTypeSpecifier),
 mName(name),
 mArguments(arguments),
 mThrownExceptions(thrownExceptions),
+mMethodQualifiers(methodQualifiers),
 mLine(line) { }
 
 ExternalMethodDefinition::~ExternalMethodDefinition() {
@@ -45,7 +47,13 @@ ExternalMethod* ExternalMethodDefinition::define(IRGenerationContext& context,
   vector<const Model*> exceptions = IMethodDefinition::createExceptionList(context,
                                                                             mThrownExceptions);
 
-  return new ExternalMethod(objectType, mName, returnType, arguments, exceptions, mLine);
+  return new ExternalMethod(objectType,
+                            mName,
+                            returnType,
+                            arguments,
+                            exceptions,
+                            mMethodQualifiers,
+                            mLine);
 }
 
 bool ExternalMethodDefinition::isConstant() const {

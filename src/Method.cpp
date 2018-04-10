@@ -31,6 +31,7 @@ Method::Method(const IObjectType* objectType,
                const IType* returnType,
                vector<MethodArgument*> arguments,
                vector<const Model*> thrownExceptions,
+               MethodQualifierSet methodQualifiers,
                CompoundStatement* compoundStatement,
                int line) :
 mObjectType(objectType),
@@ -39,6 +40,7 @@ mAccessLevel(accessLevel),
 mReturnType(returnType),
 mArguments(arguments),
 mThrownExceptions(thrownExceptions),
+mMethodQualifiers(methodQualifiers),
 mCompoundStatement(compoundStatement),
 mLine(line) { }
 
@@ -242,6 +244,14 @@ bool Method::isMethodSignature() const {
 
 bool Method::isLLVMFunction() const {
   return false;
+}
+
+bool Method::isExposed() const {
+  return mMethodQualifiers.count(MethodQualifier::EXPOSED);
+}
+
+bool Method::isOverride() const {
+  return mMethodQualifiers.count(MethodQualifier::OVERRIDE);
 }
 
 const IObjectType* Method::getParentObject() const {

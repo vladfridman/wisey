@@ -1,0 +1,9 @@
+package systems.vos.wisey.compiler.tests;
+
+interface IShape {
+  int getArea(int a) exposed;
+}
+
+interface IRecrangle extends IShape {
+  int getArea(int a);
+}

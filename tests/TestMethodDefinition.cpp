@@ -58,11 +58,13 @@ TEST_F(MethodDefinitionTest, methodDescriptorExtractTest) {
   mArguments.push_back(mIntArgument);
   mArguments.push_back(mFloatArgument);
   vector<IModelTypeSpecifier*> thrownExceptions;
+  MethodQualifierSet methodQualifiers;
   MethodDefinition methodDefinition(AccessLevel::PUBLIC_ACCESS,
                                     PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(),
                                     "foo",
                                     mArguments,
                                     thrownExceptions,
+                                    methodQualifiers,
                                     mCompoundStatement,
                                     0);
   IMethod* method = methodDefinition.define(mContext, NULL);

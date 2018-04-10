@@ -48,12 +48,14 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
     vector<MethodArgument*> methodArguments;
     vector<IMethod*> methods;
     vector<const Model*> thrownExceptions;
+    MethodQualifierSet methodQualifiers;
     IMethod* fooMethod = new Method(mModel,
                                     "foo",
                                     AccessLevel::PUBLIC_ACCESS,
                                     PrimitiveTypes::INT_TYPE,
                                     methodArguments,
                                     thrownExceptions,
+                                    methodQualifiers,
                                     NULL,
                                     0);
     methods.push_back(fooMethod);

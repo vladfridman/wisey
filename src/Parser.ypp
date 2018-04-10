@@ -89,6 +89,7 @@
   #include "wisey/LongConstant.hpp"
   #include "wisey/MethodCall.hpp"
   #include "wisey/MethodDefinition.hpp"
+  #include "wisey/MethodQualifier.hpp"
   #include "wisey/MethodSignatureDeclaration.hpp"
   #include "wisey/ModelDefinition.hpp"
   #include "wisey/ModelTypeSpecifier.hpp"
@@ -190,6 +191,7 @@
   const wisey::ILLVMTypeSpecifier* llvm_type_specifier;
   wisey::LLVMPointerTypeSpecifier* llvm_pointer_type_specifier;
   wisey::LLVMVariableDeclaration* llvm_variable_declaration;
+  wisey::MethodQualifier method_qualifier;
   std::vector<wisey::Catch*>* catch_vector;
   std::vector<wisey::VariableDeclaration*>* variable_vector;
   std::vector<const wisey::IExpression*>* expression_vector;
@@ -203,6 +205,7 @@
   std::list<unsigned long>* list_of_ulongs;
   std::vector<const wisey::ITypeSpecifier*>* const_type_specifier_list;
   std::vector<wisey::LLVMVariableDeclaration*>* llvm_variable_vector;
+  wisey::MethodQualifierSet* method_qualifiers;
   std::string* string;
   unsigned long unsignedlong;
   int token;
@@ -217,11 +220,11 @@
 
 %token <token> TANDOP TBIND TBREAK TBUILD TBUILDER TCASE TCATCH TCEQ TCGE TCLE TINCOP
 %token <token> TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDO TDOUBLECOLON TELSE TEXIT TEXTENDS 
-%token <token> TEXTERNAL TDEFAULT TFALLTHROUGH TFALSE TFIXED TFOR TIF TIMPLEMENTS TIMPORT TINJECTOR
-%token <token> TINJECT TINSTANCEOF TINTERFACE  
+%token <token> TEXTERNAL TDEFAULT TEXPOSED TFALLTHROUGH TFALSE TFIXED TFOR TIF TIMPLEMENTS TIMPORT
+%token <token> TINJECTOR TINJECT TINSTANCEOF TINTERFACE  
 %token <token> TLLVM TLLVMARRAY TLLVMFUNCTION TLLVMI1 TLLVMI8 TLLVMI16 TLLVMI32 TLLVMI64
 %token <token> TLLVMPOINTER TLLVMSTRUCT TLLVMVOID TLLVMREFERENCE
-%token <token> TMODEL TNEW TNODE TNULL TOROP TPACKAGE 
+%token <token> TMODEL TNEW TNODE TNULL TOROP TOVERRIDE TPACKAGE 
 %token <token> TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN TSTATE TSTATIC 
 %token <token> TSWITCH TTHREAD TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN 
 %token <token> TTYPECHAR TTYPEDOUBLE TTYPEFLOAT TTYPEINT TTYPELONG TTYPESTRING TTYPEVOID TWHILE
@@ -355,6 +358,8 @@
 %type <const_type_specifier_list> llvm_function_argument_type_specifier_list
 %type <llvm_variable_vector> llvm_function_definition_arguments
 %type <list_of_ulongs> llvm_array_dimensions
+%type <method_qualifier> method_qualifier
+%type <method_qualifiers> method_qualifiers method_qualifier_set
 
 %left '+' '-'
 %left '*' '/' '%'
@@ -736,12 +741,14 @@ interface_element_declaration
   ;
 
 method_signature
-  : type_specifier TIDENTIFIER '(' method_definition_arguments ')' method_exceptions ';'
+  : type_specifier TIDENTIFIER '(' method_definition_arguments ')' method_exceptions 
+    method_qualifiers ';'
       {
-        $$ = new MethodSignatureDeclaration($1, *$2, *$4, *$6, yylineno);
+        $$ = new MethodSignatureDeclaration($1, *$2, *$4, *$6, *$7, yylineno);
         delete $2;
         delete $4;
         delete $6;
+        delete $7;
       }
   ;
 
@@ -982,12 +989,14 @@ external_thread_definition
   ;
 
 external_method_definition
-  : type_specifier TIDENTIFIER '(' method_definition_arguments ')' method_exceptions ';'
+  : type_specifier TIDENTIFIER '(' method_definition_arguments ')' method_exceptions 
+    method_qualifiers ';'
       {
-        $$ = new ExternalMethodDefinition($1, *$2, *$4, *$6, yylineno);
+        $$ = new ExternalMethodDefinition($1, *$2, *$4, *$6, *$7, yylineno);
         delete $2;
         delete $4;
         delete $6;
+        delete $7;
       }
   ;
 
@@ -1226,12 +1235,13 @@ variable_declaration
 
 method_definition
   : access_specifier type_specifier TIDENTIFIER '(' method_definition_arguments ')'
-      method_exceptions compound_statement
+      method_exceptions method_qualifiers compound_statement
     {
-      $$ = new MethodDefinition($1, $2, *$3, *$5, *$7, $8, yylineno);
+      $$ = new MethodDefinition($1, $2, *$3, *$5, *$7, *$8, $9, yylineno);
       delete $3;
       delete $5;
       delete $7;
+      delete $8;
     }
   ;
 
@@ -1256,6 +1266,21 @@ interface_static_method_definition
       delete $5;
       delete $7;
     }
+  ;
+
+method_qualifiers
+  : /* blank */ { $$ = new MethodQualifierSet(); }
+  | method_qualifier_set { $$ = $1; }
+  ;
+
+method_qualifier_set
+  : method_qualifier { $$ = new MethodQualifierSet(); $$->insert($1); }
+  | method_qualifier_set method_qualifier { $$ = $1; $$->insert($2); }
+  ;
+
+method_qualifier
+  : TOVERRIDE { $$ = MethodQualifier::OVERRIDE; }
+  | TEXPOSED { $$ = MethodQualifier::EXPOSED; }
   ;
 
 method_exceptions

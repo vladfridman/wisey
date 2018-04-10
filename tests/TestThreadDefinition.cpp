@@ -73,14 +73,16 @@ struct ThreadDefinitionTest : public Test {
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
     vector<IModelTypeSpecifier*> thrownExceptions;
+    MethodQualifierSet methodQualifiers;
     methodDeclaration = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
-                                              floatTypeSpecifier,
-                                              "foo",
-                                              methodArguments,
-                                              thrownExceptions,
-                                              compoundStatement,
-                                              0);
-    
+                                             floatTypeSpecifier,
+                                             "foo",
+                                             methodArguments,
+                                             thrownExceptions,
+                                             methodQualifiers,
+                                             compoundStatement,
+                                             0);
+
     const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
     const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
     StateFieldDefinition* field1 = new StateFieldDefinition(longType, "field1");

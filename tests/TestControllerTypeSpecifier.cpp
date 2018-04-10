@@ -46,12 +46,14 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
     vector<MethodArgument*> methodArguments;
     vector<IMethod*> methods;
     vector<const Model*> thrownExceptions;
+    MethodQualifierSet methodQualifiers;
     IMethod* multiplyMethod = new Method(mController,
                                          "multiply",
                                          AccessLevel::PUBLIC_ACCESS,
                                          PrimitiveTypes::INT_TYPE,
                                          methodArguments,
                                          thrownExceptions,
+                                         methodQualifiers,
                                          NULL,
                                          0);
     methods.push_back(multiplyMethod);

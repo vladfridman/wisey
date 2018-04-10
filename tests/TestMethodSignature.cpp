@@ -44,11 +44,13 @@ struct MethodSignatureTest : Test {
 
     vector<MethodArgument*> arguments;
     vector<const Model*> thrownExceptions;
+    MethodQualifierSet methodQualifiers;
     mMethodSignature = new MethodSignature(mInterface,
                                            "foo",
                                            PrimitiveTypes::LONG_TYPE,
                                            arguments,
                                            thrownExceptions,
+                                           methodQualifiers,
                                            0);
 }
 };

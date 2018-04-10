@@ -16,27 +16,27 @@ thread TWorker implements IWorkerThread {
     thread.send(result);
   }
 
-  public void start() {
+  public void start() exposed {
     mDefaultWorker.startWorker(this);
   }
 
-  public boolean hasStarted() {
+  public boolean hasStarted() exposed {
     return mDefaultWorker.hasStarted();
   }
 
-  public boolean hasResult() {
+  public boolean hasResult() exposed {
     return mDefaultWorker.hasResult();
   }
 
-  public boolean wasCancelled() {
+  public boolean wasCancelled() exposed {
     return mDefaultWorker.wasCancelled();
   }
 
-  public ::wisey::model* awaitResult() {
+  public ::wisey::model* awaitResult() exposed {
     return mDefaultWorker.awaitResult();
   }
 
-  public void cancel() {
+  public void cancel() exposed {
     mDefaultWorker.cancel();
   }
 

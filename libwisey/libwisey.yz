@@ -14,13 +14,13 @@ external interface wisey.lang.threads.IProducerThread
   extends
     wisey.lang.threads.IThread {
 
-  void start();
-  boolean hasStarted();
-  boolean hasResult();
-  boolean wasCancelled();
-  void cancel();
+  void start() exposed;
+  boolean hasStarted() exposed;
+  boolean hasResult() exposed;
+  boolean wasCancelled() exposed;
+  void cancel() exposed;
+  ::wisey::model* consume() exposed;
   void produce();
-  ::wisey::model* consume();
 }
 
 external interface wisey.lang.threads.IThread {
@@ -36,12 +36,12 @@ external interface wisey.lang.threads.IWorkerThread
   extends
     wisey.lang.threads.IThread {
 
-  void start();
-  boolean hasStarted();
-  boolean hasResult();
-  boolean wasCancelled();
-  ::wisey::model* awaitResult();
-  void cancel();
+  void start() exposed;
+  boolean hasStarted() exposed;
+  boolean hasResult() exposed;
+  boolean wasCancelled() exposed;
+  ::wisey::model* awaitResult() exposed;
+  void cancel() exposed;
   void work();
 }
 
@@ -187,12 +187,12 @@ external thread wisey.lang.TMainThread
   inject wisey.lang.CProgramRunner* mProgramRunner;
 
   void work();
-  void start();
-  boolean hasStarted();
-  boolean hasResult();
-  boolean wasCancelled();
-  ::wisey::model* awaitResult();
-  void cancel();
+  void start() exposed;
+  boolean hasStarted() exposed;
+  boolean hasResult() exposed;
+  boolean wasCancelled() exposed;
+  ::wisey::model* awaitResult() exposed;
+  void cancel() exposed;
   ::wisey::model* send(
     ::wisey::model* message);
   wisey.lang.CCallStack getCallStack();
@@ -208,12 +208,12 @@ external thread wisey.lang.threads.TDefaultProducer
   void startProducer(
     wisey.lang.threads.IProducerThread producerThread,
     int size);
-  void start();
-  boolean hasStarted();
-  boolean hasResult();
-  boolean wasCancelled();
-  void cancel();
-  ::wisey::model* consume();
+  void start() exposed;
+  boolean hasStarted() exposed;
+  boolean hasResult() exposed;
+  boolean wasCancelled() exposed;
+  void cancel() exposed;
+  ::wisey::model* consume() exposed;
   void produce();
   ::wisey::model* send(
     ::wisey::model* message);
@@ -229,12 +229,12 @@ external thread wisey.lang.threads.TDefaultWorker
 
   void startWorker(
     wisey.lang.threads.IWorkerThread workerThread);
-  void start();
-  boolean hasStarted();
-  boolean hasResult();
-  boolean wasCancelled();
-  ::wisey::model* awaitResult();
-  void cancel();
+  void start() exposed;
+  boolean hasStarted() exposed;
+  boolean hasResult() exposed;
+  boolean wasCancelled() exposed;
+  ::wisey::model* awaitResult() exposed;
+  void cancel() exposed;
   void work();
   ::wisey::model* send(
     ::wisey::model* message);

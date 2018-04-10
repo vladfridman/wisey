@@ -69,12 +69,14 @@ public:
     string rceFullName = Names::getLangPackageName() + "." +
     Names::getReferenceCountExceptionName();
     thrownExceptions.push_back(mContext.getModel(rceFullName, 0));
+    MethodQualifierSet methodQualifiers;
     mMethod = new Method(mModel,
                          "mymethod",
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::BOOLEAN_TYPE,
                          arguments,
                          thrownExceptions,
+                         methodQualifiers,
                          NULL,
                          0);
     
@@ -108,12 +110,14 @@ TEST_F(MethodTest, getLLVMTypeTest) {
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
+  MethodQualifierSet methodQualifiers;
   Method method(mModel,
                 "foo",
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::FLOAT_TYPE,
                 arguments,
                 thrownExceptions,
+                methodQualifiers,
                 &mCompoundStatement,
                 0);
   
@@ -137,12 +141,14 @@ TEST_F(MethodTest, definePublicFunctionTest) {
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
+  MethodQualifierSet methodQualifiers;
   Method method(mModel,
                 "foo",
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::FLOAT_TYPE,
                 arguments,
                 thrownExceptions,
+                methodQualifiers,
                 &mCompoundStatement,
                 0);
   Function* function = method.defineFunction(mContext);
@@ -158,12 +164,14 @@ TEST_F(MethodTest, definePrivateFunctionTest) {
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
+  MethodQualifierSet methodQualifiers;
   Method method(mModel,
                 "foo",
                 AccessLevel::PRIVATE_ACCESS,
                 PrimitiveTypes::FLOAT_TYPE,
                 arguments,
                 thrownExceptions,
+                methodQualifiers,
                 &mCompoundStatement,
                 0);
   Function* function = method.defineFunction(mContext);
@@ -179,12 +187,14 @@ TEST_F(MethodTest, generateIRTest) {
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
+  MethodQualifierSet methodQualifiers;
   Method method(mModel,
                 "foo",
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::VOID_TYPE,
                 arguments,
                 thrownExceptions,
+                methodQualifiers,
                 &mCompoundStatement,
                 0);
   Function* function = method.defineFunction(mContext);

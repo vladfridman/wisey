@@ -74,10 +74,12 @@ TEST_F(MethodSignatureDeclarationTest, methodDescriptorExtractTest) {
   mArguments.push_back(mFloatArgument);
   vector<IModelTypeSpecifier*> thrownExceptions;
   const PrimitiveTypeSpecifier* floatTypeSpecifier = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
+  MethodQualifierSet methodQualifiers;
   MethodSignatureDeclaration methodSignatureDeclaration(floatTypeSpecifier,
                                                         "foo",
                                                         mArguments,
                                                         thrownExceptions,
+                                                        methodQualifiers,
                                                         0);
   MethodSignature* methodSignature = methodSignatureDeclaration.define(mContext, NULL);
   vector<MethodArgument*> arguments = methodSignature->getArguments();
