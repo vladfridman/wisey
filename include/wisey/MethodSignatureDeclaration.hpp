@@ -28,7 +28,7 @@ namespace wisey {
     std::string mMethodName;
     VariableList mArguments;
     std::vector<IModelTypeSpecifier*> mThrownExceptions;
-    MethodQualifierSet mMethodQualifiers;
+    MethodQualifiers* mMethodQualifiers;
     int mLine;
     
   public:
@@ -37,7 +37,7 @@ namespace wisey {
                                std::string methodName,
                                const VariableList& arguments,
                                std::vector<IModelTypeSpecifier*> thrownExceptions,
-                               MethodQualifierSet methodQualifiers,
+                               MethodQualifiers* methodQualifiers,
                                int line);
     
     ~MethodSignatureDeclaration();

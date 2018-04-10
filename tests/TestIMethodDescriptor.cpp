@@ -60,7 +60,6 @@ public:
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "bar"));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
     mModel->setFields(fields, 1u);
-    MethodQualifierSet methodQualifiers;
 
     mMethod = new Method(mModel,
                          "mymethod",
@@ -68,7 +67,7 @@ public:
                          PrimitiveTypes::BOOLEAN_TYPE,
                          arguments,
                          thrownExceptions,
-                         methodQualifiers,
+                         new MethodQualifiers(0),
                          NULL,
                          0);
 
@@ -84,14 +83,13 @@ TEST_F(IMethodDescriptorTest, compareTest) {
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
   vector<const Model*> thrownExceptions;
-  MethodQualifierSet methodQualifiers;
   Method method(mModel,
                 "mymethod",
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
                 thrownExceptions,
-                methodQualifiers,
+                new MethodQualifiers(0),
                 NULL,
                 0);
   
@@ -105,14 +103,13 @@ TEST_F(IMethodDescriptorTest, nameNotEqualsTest) {
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
   vector<const Model*> thrownExceptions;
-  MethodQualifierSet methodQualifiers;
   Method method(mModel,
                 "differentname",
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
                 thrownExceptions,
-                methodQualifiers,
+                new MethodQualifiers(0),
                 NULL,
                 0);
   
@@ -124,14 +121,13 @@ TEST_F(IMethodDescriptorTest, numberOfArgumentsNotEqualsTest) {
   vector<MethodArgument*> arguments;
   arguments.push_back(doubleArgument);
   vector<const Model*> thrownExceptions;
-  MethodQualifierSet methodQualifiers;
   Method method(mModel,
                 "mymethod",
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
                 thrownExceptions,
-                methodQualifiers,
+                new MethodQualifiers(0),
                 NULL,
                 0);
   
@@ -145,14 +141,13 @@ TEST_F(IMethodDescriptorTest, typeOfArgumentsNotEqualsTest) {
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
   vector<const Model*> thrownExceptions;
-  MethodQualifierSet methodQualifiers;
   Method method(mModel,
                 "mymethod",
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
                 thrownExceptions,
-                methodQualifiers,
+                new MethodQualifiers(0),
                 NULL,
                 0);
   
@@ -164,13 +159,12 @@ TEST_F(IMethodDescriptorTest, getLLVMFunctionTypeTest) {
   vector<MethodArgument*> arguments;
   vector<const Model*> thrownExceptions;
   arguments.push_back(intArgument);
-  MethodQualifierSet methodQualifiers;
   MethodSignature method(mModel,
                          "foo",
                          PrimitiveTypes::FLOAT_TYPE,
                          arguments,
                          thrownExceptions,
-                         methodQualifiers,
+                         new MethodQualifiers(0),
                          0);
   FunctionType* functionType = IMethodDescriptor::getLLVMFunctionType(mContext, &method, mModel, 0);
   

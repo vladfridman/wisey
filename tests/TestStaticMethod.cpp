@@ -70,6 +70,7 @@ public:
                                      PrimitiveTypes::BOOLEAN_TYPE,
                                      arguments,
                                      thrownExceptions,
+                                     new MethodQualifiers(0),
                                      NULL,
                                      0);
     
@@ -115,6 +116,7 @@ TEST_F(StaticMethodTest, getLLVMTypeTest) {
                             PrimitiveTypes::FLOAT_TYPE,
                             arguments,
                             thrownExceptions,
+                            new MethodQualifiers(0),
                             &mCompoundStatement,
                             0);
 
@@ -143,6 +145,7 @@ TEST_F(StaticMethodTest, definePublicFunctionTest) {
                             PrimitiveTypes::FLOAT_TYPE,
                             arguments,
                             thrownExceptions,
+                            new MethodQualifiers(0),
                             &mCompoundStatement,
                             0);
   Function* function = staticMethod.defineFunction(mContext);
@@ -164,6 +167,7 @@ TEST_F(StaticMethodTest, definePrivateFunctionTest) {
                             PrimitiveTypes::FLOAT_TYPE,
                             arguments,
                             thrownExceptions,
+                            new MethodQualifiers(0),
                             &mCompoundStatement,
                             0);
   Function* function = staticMethod.defineFunction(mContext);
@@ -185,6 +189,7 @@ TEST_F(StaticMethodTest, generateIRTest) {
                             PrimitiveTypes::VOID_TYPE,
                             arguments,
                             thrownExceptions,
+                            new MethodQualifiers(0),
                             &mCompoundStatement,
                             0);
   Function* function = staticMethod.defineFunction(mContext);

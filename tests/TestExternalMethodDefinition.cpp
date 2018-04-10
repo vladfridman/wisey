@@ -49,12 +49,11 @@ TEST_F(ExternalMethodDefinitionTest, methodDescriptorExtractTest) {
   mArguments.push_back(mFloatArgument);
   vector<IModelTypeSpecifier*> thrownExceptions;
   const PrimitiveTypeSpecifier* floatTypeSpecifier = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
-  MethodQualifierSet methodQualifiers;
   ExternalMethodDefinition methodDefinition(floatTypeSpecifier,
                                             "foo",
                                             mArguments,
                                             thrownExceptions,
-                                            methodQualifiers,
+                                            new MethodQualifiers(0),
                                             0);
   IMethod* method = methodDefinition.define(mContext, NULL);
   vector<MethodArgument*> arguments = method->getArguments();

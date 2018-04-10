@@ -95,13 +95,12 @@ struct ControllerTest : public Test {
     vector<IObjectElementDefinition*> calculatorInterfaceElements;
     vector<IModelTypeSpecifier*> calculatorThrownExceptions;
     const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-    MethodQualifierSet methodQualifiers;
     IObjectElementDefinition* calculateSignature =
       new MethodSignatureDeclaration(intSpecifier,
                                      "calculate",
                                      calculatorInterfaceMethodArguments,
                                      calculatorThrownExceptions,
-                                     methodQualifiers,
+                                     new MethodQualifiers(0),
                                      0);
     calculatorInterfaceElements.push_back(calculateSignature);
     vector<IInterfaceTypeSpecifier*> calculatorParentInterfaces;
@@ -143,7 +142,7 @@ struct ControllerTest : public Test {
                                      "foo",
                                      objectInterfaceMethodArguments,
                                      objectThrownExceptions,
-                                     methodQualifiers,
+                                     new MethodQualifiers(0),
                                      0);
     objectInterfaceElements.push_back(methodBarSignature);
     vector<IInterfaceTypeSpecifier*> objectParentInterfaces;
@@ -179,7 +178,7 @@ struct ControllerTest : public Test {
                          PrimitiveTypes::INT_TYPE,
                          methodArguments,
                          thrownExceptions,
-                         methodQualifiers,
+                         new MethodQualifiers(0),
                          NULL,
                          0);
     vector<IMethod*> methods;
@@ -190,7 +189,7 @@ struct ControllerTest : public Test {
                                     PrimitiveTypes::INT_TYPE,
                                     methodArguments,
                                     thrownExceptions,
-                                    methodQualifiers,
+                                    new MethodQualifiers(0),
                                     NULL,
                                     0);
     methods.push_back(fooMethod);
@@ -825,14 +824,13 @@ TEST_F(ControllerTest, printToStreamTest) {
   
   vector<MethodArgument*> methodArguments;
   vector<const Model*> thrownExceptions;
-  MethodQualifierSet methodQualifiers;
   Method* method = new Method(innerPublicModel,
                               "bar",
                               AccessLevel::PUBLIC_ACCESS,
                               PrimitiveTypes::INT_TYPE,
                               methodArguments,
                               thrownExceptions,
-                              methodQualifiers,
+                              new MethodQualifiers(0),
                               NULL,
                               0);
   vector<IMethod*> methods;

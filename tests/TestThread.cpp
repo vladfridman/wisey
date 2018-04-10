@@ -99,14 +99,13 @@ struct ThreadTest : public Test {
     fields.push_back(mToField);
     vector<MethodArgument*> methodArguments;
     vector<const Model*> thrownExceptions;
-    MethodQualifierSet methodQualifiers;
     mMethod = new Method(mThread,
                          "work",
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::INT_TYPE,
                          methodArguments,
                          thrownExceptions,
-                         methodQualifiers,
+                         new MethodQualifiers(0),
                          NULL,
                          0);
     vector<IMethod*> methods;
@@ -117,7 +116,7 @@ struct ThreadTest : public Test {
                                     PrimitiveTypes::INT_TYPE,
                                     methodArguments,
                                     thrownExceptions,
-                                    methodQualifiers,
+                                    new MethodQualifiers(0),
                                     NULL,
                                     0);
     methods.push_back(fooMethod);
@@ -656,14 +655,13 @@ TEST_F(ThreadTest, printToStreamTest) {
   
   vector<MethodArgument*> methodArguments;
   vector<const Model*> thrownExceptions;
-  MethodQualifierSet methodQualifiers;
   Method* method = new Method(innerPublicModel,
                               "bar",
                               AccessLevel::PUBLIC_ACCESS,
                               PrimitiveTypes::INT_TYPE,
                               methodArguments,
                               thrownExceptions,
-                              methodQualifiers,
+                              new MethodQualifiers(0),
                               NULL,
                               0);
   vector<IMethod*> methods;

@@ -102,13 +102,12 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
   const PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   Block* block = new Block();
   CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
-  MethodQualifierSet methodQualifiers;
   MethodDefinition* pushStackMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                                            voidTypeSpecifier,
                                                            Names::getThreadPushStack(),
                                                            arguments,
                                                            exceptions,
-                                                           methodQualifiers,
+                                                           new MethodQualifiers(0),
                                                            compoundStatement,
                                                            0);
 
@@ -121,7 +120,7 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
                                                           Names::getThreadPopStack(),
                                                           arguments,
                                                           exceptions,
-                                                          methodQualifiers,
+                                                          new MethodQualifiers(0),
                                                           compoundStatement,
                                                           0);
 
@@ -159,13 +158,12 @@ ThreadDefinition* TestPrefix::defineMainThread(IRGenerationContext& context) {
   vector<IModelTypeSpecifier*> exceptions;
   Block* block = new Block();
   CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
-  MethodQualifierSet methodQualifiers;
   MethodDefinition* getCallStackMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                                               callStackTypeSpecifier,
                                                               Names::getCallStackMethodName(),
                                                               arguments,
                                                               exceptions,
-                                                              methodQualifiers,
+                                                              new MethodQualifiers(0),
                                                               compoundStatement,
                                                               0);
   
@@ -178,7 +176,7 @@ ThreadDefinition* TestPrefix::defineMainThread(IRGenerationContext& context) {
                                                      "run",
                                                      arguments,
                                                      exceptions,
-                                                     methodQualifiers,
+                                                     new MethodQualifiers(0),
                                                      compoundStatement,
                                                      0);
 

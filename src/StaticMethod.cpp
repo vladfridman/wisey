@@ -29,6 +29,7 @@ StaticMethod::StaticMethod(const IObjectType* objectType,
                            const IType* returnType,
                            vector<MethodArgument*> arguments,
                            vector<const Model*> thrownExceptions,
+                           MethodQualifiers* methodQualifiers,
                            CompoundStatement* compoundStatement,
                            int line) :
 mObjectType(objectType),
@@ -37,6 +38,7 @@ mAccessLevel(accessLevel),
 mReturnType(returnType),
 mArguments(arguments),
 mThrownExceptions(thrownExceptions),
+mMethodQualifiers(methodQualifiers),
 mCompoundStatement(compoundStatement),
 mLine(line) { }
 
@@ -240,6 +242,10 @@ bool StaticMethod::isExposed() const {
 
 bool StaticMethod::isOverride() const {
   return false;
+}
+
+MethodQualifiers* StaticMethod::getMethodQualifiers() const {
+  return mMethodQualifiers;
 }
 
 const IObjectType* StaticMethod::getParentObject() const {

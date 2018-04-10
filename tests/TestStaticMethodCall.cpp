@@ -103,6 +103,7 @@ public:
                                           mReturnedModel,
                                           fooMethodArguments,
                                           fooThrownExceptions,
+                                          new MethodQualifiers(0),
                                           NULL,
                                           0);
     vector<IMethod*> methods;
@@ -122,6 +123,7 @@ public:
                                           PrimitiveTypes::INT_TYPE,
                                           barMethodArguments,
                                           barThrownExceptions,
+                                          new MethodQualifiers(0),
                                           NULL,
                                           0);
     methods.push_back(barMethod);

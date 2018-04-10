@@ -24,6 +24,7 @@ mReturnTypeSpecifier(returnTypeSpecifier),
 mName(name),
 mArguments(arguments),
 mThrownExceptions(thrownExceptions),
+mMethodQualifiers(new MethodQualifiers(line)),
 mLine(line) { }
 
 ExternalStaticMethodDefinition::~ExternalStaticMethodDefinition() {
@@ -36,6 +37,7 @@ ExternalStaticMethodDefinition::~ExternalStaticMethodDefinition() {
     delete exception;
   }
   mThrownExceptions.clear();
+  delete mMethodQualifiers;
 }
 
 ExternalStaticMethod* ExternalStaticMethodDefinition::define(IRGenerationContext& context,
@@ -45,7 +47,13 @@ ExternalStaticMethod* ExternalStaticMethodDefinition::define(IRGenerationContext
   vector<const Model*> exceptions = IMethodDefinition::createExceptionList(context,
                                                                             mThrownExceptions);
   
-  return new ExternalStaticMethod(objectType, mName, returnType, arguments, exceptions, mLine);
+  return new ExternalStaticMethod(objectType,
+                                  mName,
+                                  returnType,
+                                  arguments,
+                                  exceptions,
+                                  mMethodQualifiers,
+                                  mLine);
 }
 
 bool ExternalStaticMethodDefinition::isConstant() const {

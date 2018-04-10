@@ -31,7 +31,7 @@ Method::Method(const IObjectType* objectType,
                const IType* returnType,
                vector<MethodArgument*> arguments,
                vector<const Model*> thrownExceptions,
-               MethodQualifierSet methodQualifiers,
+               MethodQualifiers* methodQualifiers,
                CompoundStatement* compoundStatement,
                int line) :
 mObjectType(objectType),
@@ -247,11 +247,15 @@ bool Method::isLLVMFunction() const {
 }
 
 bool Method::isExposed() const {
-  return mMethodQualifiers.count(MethodQualifier::EXPOSED);
+  return mMethodQualifiers->getMethodQualifierSet().count(MethodQualifier::EXPOSED);
 }
 
 bool Method::isOverride() const {
-  return mMethodQualifiers.count(MethodQualifier::OVERRIDE);
+  return mMethodQualifiers->getMethodQualifierSet().count(MethodQualifier::OVERRIDE);
+}
+
+MethodQualifiers* Method::getMethodQualifiers() const {
+  return mMethodQualifiers;
 }
 
 const IObjectType* Method::getParentObject() const {

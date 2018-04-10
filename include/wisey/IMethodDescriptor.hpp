@@ -19,6 +19,7 @@
 #include "wisey/IType.hpp"
 #include "wisey/IObjectType.hpp"
 #include "wisey/IPrintable.hpp"
+#include "wisey/MethodQualifier.hpp"
 
 namespace wisey {
   
@@ -86,6 +87,11 @@ namespace wisey {
      * Returns the object this method belongs to
      */
     virtual const IObjectType* getParentObject() const = 0;
+    
+    /**
+     * Returns the method qualifiers
+     */
+    virtual MethodQualifiers* getMethodQualifiers() const = 0;
 
     /**
      * Returns two if two method descriptors are the same in terms of their name, return type

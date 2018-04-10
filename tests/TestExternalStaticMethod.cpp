@@ -66,6 +66,7 @@ public:
                                              PrimitiveTypes::BOOLEAN_TYPE,
                                              arguments,
                                              thrownExceptions,
+                                             new MethodQualifiers(0),
                                              0);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -104,6 +105,7 @@ TEST_F(ExternalStaticMethodTest, getLLVMTypeTest) {
                                     PrimitiveTypes::FLOAT_TYPE,
                                     arguments,
                                     thrownExceptions,
+                                    new MethodQualifiers(0),
                                     0);
 
   vector<Type*> argumentTypes;
@@ -131,6 +133,7 @@ TEST_F(ExternalStaticMethodTest, definePublicFunctionTest) {
                                     PrimitiveTypes::FLOAT_TYPE,
                                     arguments,
                                     thrownExceptions,
+                                    new MethodQualifiers(0),
                                     0);
   Function* function = staticMethod.defineFunction(mContext);
   

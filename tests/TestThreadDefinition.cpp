@@ -73,13 +73,12 @@ struct ThreadDefinitionTest : public Test {
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
     vector<IModelTypeSpecifier*> thrownExceptions;
-    MethodQualifierSet methodQualifiers;
     methodDeclaration = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                              floatTypeSpecifier,
                                              "foo",
                                              methodArguments,
                                              thrownExceptions,
-                                             methodQualifiers,
+                                             new MethodQualifiers(0),
                                              compoundStatement,
                                              0);
 

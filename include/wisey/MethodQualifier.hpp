@@ -24,7 +24,28 @@ namespace wisey {
   /**
    * Represents a set of method qualifiers
    */
-  typedef std::set<MethodQualifier> MethodQualifierSet;
+  class MethodQualifiers {
+    
+    std::set<MethodQualifier> mMethodQualifierSet;
+    int mLine;
+    
+  public:
+    
+    MethodQualifiers(int line) :
+    mLine(line) {
+    }
+    
+    ~MethodQualifiers() {
+    }
+    
+    std::set<MethodQualifier>& getMethodQualifierSet() {
+      return mMethodQualifierSet;
+    }
+    
+    int getLine() {
+      return mLine;
+    }
+  };
   
 } /* namespace wisey */
 

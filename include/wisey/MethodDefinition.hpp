@@ -30,7 +30,7 @@ namespace wisey {
     std::string mName;
     VariableList mArguments;
     std::vector<IModelTypeSpecifier*> mExceptions;
-    MethodQualifierSet mMethodQualifiers;
+    MethodQualifiers* mMethodQualifiers;
     CompoundStatement* mCompoundStatement;
     int mLine;
     
@@ -41,7 +41,7 @@ namespace wisey {
                       std::string name,
                       VariableList arguments,
                       std::vector<IModelTypeSpecifier*> exceptions,
-                      MethodQualifierSet methodQualifiers,
+                      MethodQualifiers* methodQualifiers,
                       CompoundStatement* compoundStatement,
                       int line);
     

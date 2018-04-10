@@ -40,13 +40,13 @@ struct InterfaceTypeSpecifierTest : public ::testing::Test {
     vector<IObjectElementDefinition*> objectElements;
     vector<IModelTypeSpecifier*> methodExceptions;
     const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-    MethodQualifierSet methodQualifiers;
-    IObjectElementDefinition* methodSignature = new MethodSignatureDeclaration(intSpecifier,
-                                                                               "foo",
-                                                                               methodArguments,
-                                                                               methodExceptions,
-                                                                               methodQualifiers,
-                                                                               0);
+    IObjectElementDefinition* methodSignature =
+    new MethodSignatureDeclaration(intSpecifier,
+                                   "foo",
+                                   methodArguments,
+                                   methodExceptions,
+                                   new MethodQualifiers(0),
+                                   0);
     objectElements.push_back(methodSignature);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,

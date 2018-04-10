@@ -86,12 +86,11 @@ struct InterfaceTest : public Test {
     
     const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
     VariableList methodArguments;
-    MethodQualifierSet methodQualifiers;
     mBarMethod = new MethodSignatureDeclaration(intSpecifier,
                                                 "bar",
                                                 methodArguments,
                                                 exceptions,
-                                                methodQualifiers,
+                                                new MethodQualifiers(0),
                                                 0);
     vector<IObjectElementDefinition*> objectElementDeclarations;
     objectElementDeclarations.push_back(mBarMethod);
@@ -112,7 +111,7 @@ struct InterfaceTest : public Test {
                                                 "foo",
                                                 methodArguments,
                                                 exceptions,
-                                                methodQualifiers,
+                                                new MethodQualifiers(0),
                                                 0);
     vector<IObjectElementDefinition*> shapeElements;
 
@@ -344,14 +343,13 @@ TEST_F(InterfaceTest, printToStreamTest) {
   
   vector<MethodArgument*> methodArguments;
   vector<const Model*> thrownExceptions;
-  MethodQualifierSet methodQualifiers;
   Method* method = new Method(innerPublicModel,
                               "bar",
                               AccessLevel::PUBLIC_ACCESS,
                               PrimitiveTypes::INT_TYPE,
                               methodArguments,
                               thrownExceptions,
-                              methodQualifiers,
+                              new MethodQualifiers(0),
                               NULL,
                               0);
   vector<IMethod*> methods;
@@ -421,13 +419,12 @@ TEST_F(InterfaceTest, methodDeclarationDeathTest) {
   vector<IModelTypeSpecifier*> thrownExceptions;
   Block* block = new Block();
   CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
-  MethodQualifierSet methodQualifiers;
   MethodDefinition* methodDeclaration = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                                              intSpecifier,
                                                              "foo",
                                                              arguments,
                                                              thrownExceptions,
-                                                             methodQualifiers,
+                                                             new MethodQualifiers(0),
                                                              compoundStatement,
                                                              0);
 
@@ -629,6 +626,7 @@ TEST_F(TestFileRunner, interfaceMethodDifferentArgumentTypesDeathTest) {
 TEST_F(TestFileRunner, interfaceMethodNotExposedDeathTest) {
   expectFailCompile("tests/samples/test_interface_method_not_exposed.yz",
                     1,
+                    "tests/samples/test_interface_method_not_exposed.yz\\(10\\): "
                     "Error: Object systems.vos.wisey.compiler.tests.MSquare should mark "
                     "method 'getArea' exposed as it is defined in the parent "
                     "interface systems.vos.wisey.compiler.tests.IShape");
@@ -637,6 +635,7 @@ TEST_F(TestFileRunner, interfaceMethodNotExposedDeathTest) {
 TEST_F(TestFileRunner, interfaceMethodExposedButShouldNotBeDeathTest) {
   expectFailCompile("tests/samples/test_interface_method_exposed_but_should_not_be.yz",
                     1,
+                    "tests/samples/test_interface_method_exposed_but_should_not_be.yz\\(10\\): "
                     "Error: Object systems.vos.wisey.compiler.tests.MSquare "
                     "attempts to expose method 'getArea' that is not exposed in the parent "
                     "interface systems.vos.wisey.compiler.tests.IShape");

@@ -20,7 +20,7 @@ MethodSignatureDeclaration(const ITypeSpecifier* returnTypeSpecifier,
                            string methodName,
                            const VariableList& arguments,
                            vector<IModelTypeSpecifier*> thrownExceptions,
-                           MethodQualifierSet methodQualifiers,
+                           MethodQualifiers* methodQualifiers,
                            int line) :
 mReturnTypeSpecifier(returnTypeSpecifier),
 mMethodName(methodName),
@@ -39,6 +39,7 @@ MethodSignatureDeclaration::~MethodSignatureDeclaration() {
     delete exception;
   }
   mThrownExceptions.clear();
+  delete mMethodQualifiers;
 }
 
 MethodSignature* MethodSignatureDeclaration::define(IRGenerationContext& context,

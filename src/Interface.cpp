@@ -354,16 +354,20 @@ Function* Interface::defineMapFunctionForMethod(IRGenerationContext& context,
   }
   
   if (objectMethodDescriptor->isExposed() && !interfaceMethodSignature->isExposed()) {
-    Log::e_deprecated("Object " + object->getTypeName() + " attempts to expose method '" +
-                      interfaceMethodSignature->getName() + "' that is not exposed in "
-                      "the parent interface " + getTypeName());
+    Log::e(context.getImportProfile(),
+           objectMethodDescriptor->getMethodQualifiers()->getLine(),
+           "Object " + object->getTypeName() + " attempts to expose method '" +
+           interfaceMethodSignature->getName() + "' that is not exposed in "
+           "the parent interface " + getTypeName());
     exit(1);
   }
   
   if (!objectMethodDescriptor->isExposed() && interfaceMethodSignature->isExposed()) {
-    Log::e_deprecated("Object " + object->getTypeName() + " should mark method '" +
-                      interfaceMethodSignature->getName() + "' exposed as it is defined in "
-                      "the parent interface " + getTypeName());
+    Log::e(context.getImportProfile(),
+           objectMethodDescriptor->getMethodQualifiers()->getLine(),
+           "Object " + object->getTypeName() + " should mark method '" +
+           interfaceMethodSignature->getName() + "' exposed as it is defined in "
+           "the parent interface " + getTypeName());
     exit(1);
   }
 

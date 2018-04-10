@@ -14,6 +14,7 @@
 #include "wisey/IMethodDefinition.hpp"
 #include "wisey/IModelTypeSpecifier.hpp"
 #include "wisey/ITypeSpecifier.hpp"
+#include "wisey/MethodQualifier.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
 namespace wisey {
@@ -29,19 +30,20 @@ namespace wisey {
     std::string mName;
     VariableList mArguments;
     std::vector<IModelTypeSpecifier*> mExceptions;
+    MethodQualifiers* mMethodQualifiers;
     CompoundStatement* mCompoundStatement;
     int mLine;
     
   public:
     
     StaticMethodDefinition(const AccessLevel AccessLevel,
-                            const ITypeSpecifier* returnTypeSpecifier,
-                            std::string name,
-                            VariableList arguments,
-                            std::vector<IModelTypeSpecifier*> exceptions,
-                            CompoundStatement* compoundStatement,
-                            int line);
-    
+                           const ITypeSpecifier* returnTypeSpecifier,
+                           std::string name,
+                           VariableList arguments,
+                           std::vector<IModelTypeSpecifier*> exceptions,
+                           CompoundStatement* compoundStatement,
+                           int line);
+
     ~StaticMethodDefinition();
     
     IMethod* define(IRGenerationContext& context, const IObjectType* objectType) const override;

@@ -109,14 +109,13 @@ struct ModelTest : public Test {
     vector<MethodArgument*> methodArguments;
     vector<const Model*> thrownExceptions;
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, mStructType);
-    MethodQualifierSet methodQualifiers;
     mMethod = new Method(mModel,
                          "foo",
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::INT_TYPE,
                          methodArguments,
                          thrownExceptions,
-                         methodQualifiers,
+                         new MethodQualifiers(0),
                          NULL,
                          0);
     vector<IMethod*> methods;
@@ -127,7 +126,7 @@ struct ModelTest : public Test {
                                     PrimitiveTypes::INT_TYPE,
                                     methodArguments,
                                     thrownExceptions,
-                                    methodQualifiers,
+                                    new MethodQualifiers(0),
                                     NULL,
                                     0);
     methods.push_back(barMethod);
@@ -143,7 +142,7 @@ struct ModelTest : public Test {
                                      "foo",
                                      subShapeInterfaceMethodArguments,
                                      subShapeInterfaceThrownExceptions,
-                                     methodQualifiers,
+                                     new MethodQualifiers(0),
                                      0);
     subShapeInterfaceElements.push_back(methodFooSignature);
     vector<IInterfaceTypeSpecifier*> subShapeParentInterfaces;
@@ -164,7 +163,7 @@ struct ModelTest : public Test {
                                                         "foo",
                                                         shapeInterfaceMethodArguments,
                                                         shapeInterfaceThrownExceptions,
-                                                        methodQualifiers,
+                                                        new MethodQualifiers(0),
                                                         0);
     shapeInterfaceElements.push_back(methodFooSignature);
     InterfaceTypeSpecifier* subShapeInterfaceSpecifier =
@@ -189,7 +188,7 @@ struct ModelTest : public Test {
                                      "bar",
                                      objectInterfaceMethodArguments,
                                      objectInterfaceThrownExceptions,
-                                     methodQualifiers,
+                                     new MethodQualifiers(0),
                                      0);
     objectInterfaceElements.push_back(methodBarSignature);
     vector<IInterfaceTypeSpecifier*> objectParentInterfaces;
@@ -756,14 +755,13 @@ TEST_F(ModelTest, printToStreamTest) {
 
   vector<MethodArgument*> methodArguments;
   vector<const Model*> thrownExceptions;
-  MethodQualifierSet methodQualifiers;
   Method* method = new Method(innerPublicModel,
                               "bar",
                               AccessLevel::PUBLIC_ACCESS,
                               PrimitiveTypes::INT_TYPE,
                               methodArguments,
                               thrownExceptions,
-                              methodQualifiers,
+                              new MethodQualifiers(0),
                               NULL,
                               0);
   vector<IMethod*> methods;

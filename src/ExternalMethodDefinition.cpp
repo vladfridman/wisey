@@ -19,7 +19,7 @@ ExternalMethodDefinition(const ITypeSpecifier* returnTypeSpecifier,
                          string name,
                          const VariableList& arguments,
                          vector<IModelTypeSpecifier*> thrownExceptions,
-                         MethodQualifierSet methodQualifiers,
+                         MethodQualifiers* methodQualifiers,
                          int line) :
 mReturnTypeSpecifier(returnTypeSpecifier),
 mName(name),
@@ -38,6 +38,7 @@ ExternalMethodDefinition::~ExternalMethodDefinition() {
     delete exception;
   }
   mThrownExceptions.clear();
+  delete mMethodQualifiers;
 }
 
 ExternalMethod* ExternalMethodDefinition::define(IRGenerationContext& context,

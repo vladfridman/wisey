@@ -23,12 +23,14 @@ ExternalStaticMethod::ExternalStaticMethod(const IObjectType* objectType,
                                            const IType* returnType,
                                            vector<MethodArgument*> arguments,
                                            vector<const Model*> thrownExceptions,
+                                           MethodQualifiers* methodQualifiers,
                                            int line) :
 mObjectType(objectType),
 mName(name),
 mReturnType(returnType),
 mArguments(arguments),
 mThrownExceptions(thrownExceptions),
+mMethodQualifiers(methodQualifiers),
 mLine(line) { }
 
 ExternalStaticMethod::~ExternalStaticMethod() {
@@ -99,6 +101,10 @@ bool ExternalStaticMethod::isExposed() const {
 
 bool ExternalStaticMethod::isOverride() const {
   return false;
+}
+
+MethodQualifiers* ExternalStaticMethod::getMethodQualifiers() const {
+  return mMethodQualifiers;
 }
 
 string ExternalStaticMethod::getTypeName() const {

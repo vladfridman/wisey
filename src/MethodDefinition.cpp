@@ -22,7 +22,7 @@ MethodDefinition::MethodDefinition(const AccessLevel AccessLevel,
                                      string name,
                                      VariableList arguments,
                                      vector<IModelTypeSpecifier*> exceptions,
-                                     MethodQualifierSet methodQualifiers,
+                                     MethodQualifiers* methodQualifiers,
                                      CompoundStatement* compoundStatement,
                                      int line) :
 mAccessLevel(AccessLevel),
@@ -44,6 +44,7 @@ MethodDefinition::~MethodDefinition() {
     delete exception;
   }
   mExceptions.clear();
+  delete mMethodQualifiers;
   delete mCompoundStatement;
 }
 

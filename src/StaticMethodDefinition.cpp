@@ -19,17 +19,18 @@ using namespace wisey;
 
 StaticMethodDefinition::
 StaticMethodDefinition(const AccessLevel AccessLevel,
-                        const ITypeSpecifier* returnTypeSpecifier,
-                        string name,
-                        VariableList arguments,
-                        vector<IModelTypeSpecifier*> exceptions,
-                        CompoundStatement* compoundStatement,
-                        int line) :
+                       const ITypeSpecifier* returnTypeSpecifier,
+                       string name,
+                       VariableList arguments,
+                       vector<IModelTypeSpecifier*> exceptions,
+                       CompoundStatement* compoundStatement,
+                       int line) :
 mAccessLevel(AccessLevel),
 mReturnTypeSpecifier(returnTypeSpecifier),
 mName(name),
 mArguments(arguments),
 mExceptions(exceptions),
+mMethodQualifiers(new MethodQualifiers(line)),
 mCompoundStatement(compoundStatement),
 mLine(line) { }
 
@@ -43,6 +44,7 @@ StaticMethodDefinition::~StaticMethodDefinition() {
     delete exception;
   }
   mExceptions.clear();
+  delete mMethodQualifiers;
   delete mCompoundStatement;
 }
 
@@ -58,6 +60,7 @@ IMethod* StaticMethodDefinition::define(IRGenerationContext& context,
                           returnType,
                           arguments,
                           exceptions,
+                          mMethodQualifiers,
                           mCompoundStatement,
                           mLine);
 }

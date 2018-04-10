@@ -28,7 +28,7 @@ namespace wisey {
     const IType* mReturnType;
     std::vector<MethodArgument*> mArguments;
     std::vector<const Model*> mThrownExceptions;
-    MethodQualifierSet mMethodQualifiers;
+    MethodQualifiers* mMethodQualifiers;
     int mLine;
     
   public:
@@ -38,7 +38,7 @@ namespace wisey {
                    const IType* returnType,
                    std::vector<MethodArgument*> arguments,
                    std::vector<const Model*> thrownExceptions,
-                   MethodQualifierSet methodQualifiers,
+                   MethodQualifiers* methodQualifiers,
                    int line);
     
     ~ExternalMethod();
@@ -74,6 +74,8 @@ namespace wisey {
     bool isExposed() const override;
     
     bool isOverride() const override;
+    
+    MethodQualifiers* getMethodQualifiers() const override;
 
     std::string getTypeName() const override;
     

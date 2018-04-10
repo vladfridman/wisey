@@ -23,7 +23,7 @@ ExternalMethod::ExternalMethod(const IObjectType* objectType,
                                const IType* returnType,
                                vector<MethodArgument*> arguments,
                                vector<const Model*> thrownExceptions,
-                               MethodQualifierSet methodQualifiers,
+                               MethodQualifiers* methodQualifiers,
                                int line) :
 mObjectType(objectType),
 mName(name),
@@ -96,11 +96,15 @@ bool ExternalMethod::isLLVMFunction() const {
 }
 
 bool ExternalMethod::isExposed() const {
-  return mMethodQualifiers.count(MethodQualifier::EXPOSED);
+  return mMethodQualifiers->getMethodQualifierSet().count(MethodQualifier::EXPOSED);
 }
 
 bool ExternalMethod::isOverride() const {
-  return mMethodQualifiers.count(MethodQualifier::OVERRIDE);
+  return mMethodQualifiers->getMethodQualifierSet().count(MethodQualifier::OVERRIDE);
+}
+
+MethodQualifiers* ExternalMethod::getMethodQualifiers() const {
+  return mMethodQualifiers;
 }
 
 string ExternalMethod::getTypeName() const {

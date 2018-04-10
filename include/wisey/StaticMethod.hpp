@@ -14,6 +14,7 @@
 #include "wisey/AccessLevel.hpp"
 #include "wisey/IMethod.hpp"
 #include "wisey/IObjectType.hpp"
+#include "wisey/MethodQualifier.hpp"
 
 namespace wisey {
   
@@ -30,6 +31,7 @@ namespace wisey {
     const IType* mReturnType;
     std::vector<MethodArgument*> mArguments;
     std::vector<const Model*> mThrownExceptions;
+    MethodQualifiers* mMethodQualifiers;
     CompoundStatement* mCompoundStatement;
     int mLine;
     
@@ -41,6 +43,7 @@ namespace wisey {
                  const IType* returnType,
                  std::vector<MethodArgument*> arguments,
                  std::vector<const Model*> thrownExceptions,
+                 MethodQualifiers* methodQualifiers,
                  CompoundStatement* compoundStatement,
                  int line);
     
@@ -77,6 +80,8 @@ namespace wisey {
     bool isExposed() const override;
     
     bool isOverride() const override;
+    
+    MethodQualifiers* getMethodQualifiers() const override;
 
     std::string getTypeName() const override;
     

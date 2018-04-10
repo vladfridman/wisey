@@ -29,7 +29,7 @@ namespace wisey {
     std::string mName;
     VariableList mArguments;
     std::vector<IModelTypeSpecifier*> mThrownExceptions;
-    MethodQualifierSet mMethodQualifiers;
+    MethodQualifiers* mMethodQualifiers;
     int mLine;
     
   public:
@@ -38,7 +38,7 @@ namespace wisey {
                              std::string name,
                              const VariableList& arguments,
                              std::vector<IModelTypeSpecifier*> thrownExceptions,
-                             MethodQualifierSet methodQualifiers,
+                             MethodQualifiers* methodQualifiers,
                              int line);
 
     ~ExternalMethodDefinition();

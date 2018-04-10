@@ -52,13 +52,12 @@ struct InterfaceDefinitionTest : public Test {
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
     vector<IModelTypeSpecifier*> thrownExceptions;
-    MethodQualifierSet methodQualifiers;
     IObjectElementDefinition* methodSignatureDeclaration =
     new MethodSignatureDeclaration(floatTypeSpecifier,
                                    "foo",
                                    methodArguments,
                                    thrownExceptions,
-                                   methodQualifiers,
+                                   new MethodQualifiers(0),
                                    0);
     vector<IObjectElementDefinition *> objectElements;
     objectElements.push_back(methodSignatureDeclaration);
