@@ -69,9 +69,9 @@ namespace wisey {
     virtual bool isStatic() const = 0;
 
     /**
-     * Tells whether this method is marked with exposed qualifier
+     * Tells whether this method is marked with reveal qualifier
      */
-    virtual bool isExposed() const = 0;
+    virtual bool isReveal() const = 0;
 
     /**
      * Tells whether this method is marked with override qualifier

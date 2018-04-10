@@ -14,11 +14,11 @@
 namespace wisey {
   
   /**
-   * Represents method qualifiers such as override and exposed
+   * Represents method qualifiers such as override and reveal
    */
   typedef enum MethodQualifierEnum {
     OVERRIDE,
-    EXPOSED,
+    REVEAL,
   } MethodQualifier;
 
   /**

@@ -236,7 +236,7 @@ bool StaticMethod::isLLVMFunction() const {
   return false;
 }
 
-bool StaticMethod::isExposed() const {
+bool StaticMethod::isReveal() const {
   return false;
 }
 

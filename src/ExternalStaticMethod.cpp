@@ -95,7 +95,7 @@ bool ExternalStaticMethod::isLLVMFunction() const {
   return false;
 }
 
-bool ExternalStaticMethod::isExposed() const {
+bool ExternalStaticMethod::isReveal() const {
   return false;
 }
 

@@ -95,8 +95,8 @@ bool MethodSignature::isLLVMFunction() const {
   return false;
 }
 
-bool MethodSignature::isExposed() const {
-  return mMethodQualifiers->getMethodQualifierSet().count(MethodQualifier::EXPOSED);
+bool MethodSignature::isReveal() const {
+  return mMethodQualifiers->getMethodQualifierSet().count(MethodQualifier::REVEAL);
 }
 
 bool MethodSignature::isOverride() const {

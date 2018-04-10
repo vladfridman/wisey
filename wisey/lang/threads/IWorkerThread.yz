@@ -10,32 +10,32 @@ interface IWorkerThread extends IThread {
   /**
    * Starts the thread
    */
-  void start() exposed;
+  void start() reveal;
 
   /**
    * Tells whether the worker thread has started running
    */
-  boolean hasStarted() exposed;
+  boolean hasStarted() reveal;
   
   /**
    * Tells whether the worker thread has result ready
    */
-  boolean hasResult() exposed;
+  boolean hasResult() reveal;
   
   /**
    * Tells whether the worker thread was cancelled
    */
-  boolean wasCancelled() exposed;
+  boolean wasCancelled() reveal;
   
   /**
    * Waits for thread to finish and returns the result
    */
-  ::wisey::model* awaitResult() exposed;
+  ::wisey::model* awaitResult() reveal;
 
   /**
    * Cancel expecution of the worker thread
    */
-  void cancel() exposed;
+  void cancel() reveal;
 
   /**
    * This method is called when thread is started

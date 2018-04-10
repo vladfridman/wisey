@@ -28,7 +28,7 @@ public:
   MOCK_CONST_METHOD0(getArguments, std::vector<wisey::MethodArgument*> ());
   MOCK_CONST_METHOD0(getThrownExceptions, std::vector<const wisey::Model*> ());
   MOCK_CONST_METHOD0(isStatic, bool ());
-  MOCK_CONST_METHOD0(isExposed, bool ());
+  MOCK_CONST_METHOD0(isReveal, bool ());
   MOCK_CONST_METHOD0(isOverride, bool ());
   MOCK_CONST_METHOD0(getMethodQualifiers, wisey::MethodQualifiers* ());
   MOCK_CONST_METHOD1(getLLVMType, llvm::FunctionType* (wisey::IRGenerationContext&));

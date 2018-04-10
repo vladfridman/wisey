@@ -9,26 +9,26 @@ thread TWorker implements IWorkerThread {
   public void work() {
   }
 
-  public void start() exposed {
+  public void start() reveal {
   }
 
-  public boolean hasStarted() exposed {
+  public boolean hasStarted() reveal {
     return false;
   }
 
-  public boolean hasResult() exposed {
+  public boolean hasResult() reveal {
     return false;
   }
 
-  public boolean wasCancelled() exposed {
+  public boolean wasCancelled() reveal {
     return false;
   }
 
-  public ::wisey::model* awaitResult() exposed {
+  public ::wisey::model* awaitResult() reveal {
     return null;
   }
 
-  public void cancel() exposed {
+  public void cancel() reveal {
   }
 
   public ::wisey::model* send(::wisey::model* message) {

@@ -623,26 +623,26 @@ TEST_F(TestFileRunner, interfaceMethodDifferentArgumentTypesDeathTest) {
                     "object systems.vos.wisey.compiler.tests.MSquare");
 }
 
-TEST_F(TestFileRunner, interfaceMethodNotExposedDeathTest) {
-  expectFailCompile("tests/samples/test_interface_method_not_exposed.yz",
+TEST_F(TestFileRunner, interfaceMethodNotRevealDeathTest) {
+  expectFailCompile("tests/samples/test_interface_method_not_revealed.yz",
                     1,
-                    "tests/samples/test_interface_method_not_exposed.yz\\(10\\): "
+                    "tests/samples/test_interface_method_not_revealed.yz\\(10\\): "
                     "Error: Object systems.vos.wisey.compiler.tests.MSquare should mark "
-                    "method 'getArea' exposed as it is defined in the parent "
+                    "method 'getArea' with 'reveal' qualifier as it is defined in the parent "
                     "interface systems.vos.wisey.compiler.tests.IShape");
 }
 
-TEST_F(TestFileRunner, interfaceMethodExposedButShouldNotBeDeathTest) {
-  expectFailCompile("tests/samples/test_interface_method_exposed_but_should_not_be.yz",
+TEST_F(TestFileRunner, interfaceMethodRevealButShouldNotBeDeathTest) {
+  expectFailCompile("tests/samples/test_interface_method_revealed_but_should_not_be.yz",
                     1,
-                    "tests/samples/test_interface_method_exposed_but_should_not_be.yz\\(10\\): "
+                    "tests/samples/test_interface_method_revealed_but_should_not_be.yz\\(10\\): "
                     "Error: Object systems.vos.wisey.compiler.tests.MSquare "
-                    "attempts to expose method 'getArea' that is not exposed in the parent "
-                    "interface systems.vos.wisey.compiler.tests.IShape");
+                    "attempts to reveal method 'getArea' that is not marked with 'reveal' qualifier"
+                    " in the parent interface systems.vos.wisey.compiler.tests.IShape");
 }
 
-TEST_F(TestFileRunner, interfaceInheretedMethodNotExposedDeathTest) {
-  expectFailCompile("tests/samples/test_interface_inhereted_method_not_exposed.yz",
+TEST_F(TestFileRunner, interfaceInheretedMethodNotRevealDeathTest) {
+  expectFailCompile("tests/samples/test_interface_inhereted_method_not_revealed.yz",
                     1,
                     "Error: Interface systems.vos.wisey.compiler.tests.IRecrangle overrides "
                     "method 'getArea' of parent interface with a wrong signature");

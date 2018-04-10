@@ -25,27 +25,27 @@ thread TProducer implements IProducerThread {
     }
   }
 
-  public void start() exposed {
+  public void start() reveal {
     mDefaultProducer.startProducer(this, mSize);
   }
 
-  public boolean hasStarted() exposed {
+  public boolean hasStarted() reveal {
     return mDefaultProducer.hasStarted();
   }
 
-  public boolean hasResult() exposed {
+  public boolean hasResult() reveal {
     return mDefaultProducer.hasResult();
   }
 
-  public boolean wasCancelled() exposed {
+  public boolean wasCancelled() reveal {
     return mDefaultProducer.wasCancelled();
   }
 
-  public void cancel() exposed {
+  public void cancel() reveal {
     mDefaultProducer.cancel();
   }
 
-  public ::wisey::model* consume() exposed {
+  public ::wisey::model* consume() reveal {
     return mDefaultProducer.consume();
   }
 

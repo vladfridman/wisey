@@ -353,20 +353,20 @@ Function* Interface::defineMapFunctionForMethod(IRGenerationContext& context,
     exit(1);
   }
   
-  if (objectMethodDescriptor->isExposed() && !interfaceMethodSignature->isExposed()) {
+  if (objectMethodDescriptor->isReveal() && !interfaceMethodSignature->isReveal()) {
     Log::e(context.getImportProfile(),
            objectMethodDescriptor->getMethodQualifiers()->getLine(),
-           "Object " + object->getTypeName() + " attempts to expose method '" +
-           interfaceMethodSignature->getName() + "' that is not exposed in "
+           "Object " + object->getTypeName() + " attempts to reveal method '" +
+           interfaceMethodSignature->getName() + "' that is not marked with 'reveal' qualifier in "
            "the parent interface " + getTypeName());
     exit(1);
   }
   
-  if (!objectMethodDescriptor->isExposed() && interfaceMethodSignature->isExposed()) {
+  if (!objectMethodDescriptor->isReveal() && interfaceMethodSignature->isReveal()) {
     Log::e(context.getImportProfile(),
            objectMethodDescriptor->getMethodQualifiers()->getLine(),
            "Object " + object->getTypeName() + " should mark method '" +
-           interfaceMethodSignature->getName() + "' exposed as it is defined in "
+           interfaceMethodSignature->getName() + "' with 'reveal' qualifier as it is defined in "
            "the parent interface " + getTypeName());
     exit(1);
   }

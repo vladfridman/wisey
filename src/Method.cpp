@@ -192,7 +192,7 @@ void Method::addThreadGuard(IRGenerationContext& context, Function* function) co
   llvmFunctionArguments++;
   Value* callstackValue = &*llvmFunctionArguments;
 
-  std::string guardFunctionName = isExposed()
+  std::string guardFunctionName = isReveal()
   ? Names::getCheckRevealedMethodCallFunctionName()
   : Names::getCheckConcealedMethodCallFunctionName();
   Function* threadGuardFunction = context.getModule()->getFunction(guardFunctionName);
@@ -274,8 +274,8 @@ bool Method::isLLVMFunction() const {
   return false;
 }
 
-bool Method::isExposed() const {
-  return mMethodQualifiers->getMethodQualifierSet().count(MethodQualifier::EXPOSED);
+bool Method::isReveal() const {
+  return mMethodQualifiers->getMethodQualifierSet().count(MethodQualifier::REVEAL);
 }
 
 bool Method::isOverride() const {

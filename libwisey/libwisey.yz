@@ -14,12 +14,12 @@ external interface wisey.lang.threads.IProducerThread
   extends
     wisey.lang.threads.IThread {
 
-  void start() exposed;
-  boolean hasStarted() exposed;
-  boolean hasResult() exposed;
-  boolean wasCancelled() exposed;
-  void cancel() exposed;
-  ::wisey::model* consume() exposed;
+  void start() reveal;
+  boolean hasStarted() reveal;
+  boolean hasResult() reveal;
+  boolean wasCancelled() reveal;
+  void cancel() reveal;
+  ::wisey::model* consume() reveal;
   void produce();
 }
 
@@ -40,12 +40,12 @@ external interface wisey.lang.threads.IWorkerThread
   extends
     wisey.lang.threads.IThread {
 
-  void start() exposed;
-  boolean hasStarted() exposed;
-  boolean hasResult() exposed;
-  boolean wasCancelled() exposed;
-  ::wisey::model* awaitResult() exposed;
-  void cancel() exposed;
+  void start() reveal;
+  boolean hasStarted() reveal;
+  boolean hasResult() reveal;
+  boolean wasCancelled() reveal;
+  ::wisey::model* awaitResult() reveal;
+  void cancel() reveal;
   void work();
 }
 
@@ -241,12 +241,12 @@ external thread wisey.lang.TMainThread
   inject wisey.lang.CProgramRunner* mProgramRunner;
 
   void work();
-  void start() exposed;
-  boolean hasStarted() exposed;
-  boolean hasResult() exposed;
-  boolean wasCancelled() exposed;
-  ::wisey::model* awaitResult() exposed;
-  void cancel() exposed;
+  void start() reveal;
+  boolean hasStarted() reveal;
+  boolean hasResult() reveal;
+  boolean wasCancelled() reveal;
+  ::wisey::model* awaitResult() reveal;
+  void cancel() reveal;
   ::wisey::model* send(
     ::wisey::model* message);
   wisey.lang.CCallStack getCallStack();

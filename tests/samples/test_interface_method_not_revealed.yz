@@ -1,7 +1,7 @@
 package systems.vos.wisey.compiler.tests;
 
 interface IShape {
-  int getArea(int a) exposed;
+  int getArea(int a) reveal;
 }
 
 model MSquare implements IShape {
