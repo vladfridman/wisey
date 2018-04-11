@@ -10,7 +10,7 @@ thread TProducer implements IProducerThread {
   inject CDefaultProducer* mDefaultProducer;
   receive int mSize;
 
-  public void produce() {
+  public void run() {
     IThread.sleep(1);
     printout("This is producer thread!\n");
     for (int i = 0; i < 2; i++) {

@@ -6,6 +6,9 @@ import wisey.lang.threads.IThread;
 
 thread TThread implements IThread {
 
+  public void run() {
+  }
+
   public ::wisey::model* send(::wisey::model* message) {
     return null;
   }

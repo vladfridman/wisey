@@ -77,6 +77,7 @@
   #include "wisey/LLVMFunctionCall.hpp"
   #include "wisey/LLVMFunctionDeclaration.hpp"
   #include "wisey/LLVMFunctionDefinition.hpp"
+  #include "wisey/LLVMFunctionIdentifier.hpp"
   #include "wisey/LLVMFunctionTypeSpecifier.hpp"
   #include "wisey/LLVMPointerTypeSpecifier.hpp"
   #include "wisey/LLVMPrimitiveTypes.hpp"
@@ -242,7 +243,7 @@
 %type <expression> cast_expression primary_expression assignment unary_expression
 %type <expression> type_comparision_expression injection array_allocation static_array_allocation
 %type <expression> thread_expression constant_reference static_method_call field_identifier
-%type <expression> llvm_function_call llvm_reference
+%type <expression> llvm_function_call llvm_reference call_argument
 %type <variable_vector> method_definition_arguments
 %type <expression_vector> call_arguments string_concatenation_list static_array_elements
 %type <block> block_item_list 
@@ -274,7 +275,7 @@
 %type <object_element> external_method_definition interface_static_method_definition
 %type <object_element> constant_definition interface_element_declaration method_signature
 %type <object_element> external_interface_element_declaration external_static_method_definition
-%type <object_element> llvm_function_definition
+%type <object_element> llvm_function_definition interface_llvm_function_definition
 %type <object_element_list> object_element_declaration_list 
 %type <object_element_list> external_object_element_declaration_list
 %type <object_element_list> interface_element_delcaration_list
@@ -554,6 +555,16 @@ llvm_function_definition
       { $$ = new LLVMFunctionDefinition(*$5, $1, $4, *$7, $9, yylineno); delete $5; delete $7; }
   ;
 
+interface_llvm_function_definition
+  : TLLVM TLLVMFUNCTION native_type_specifier TIDENTIFIER
+    '(' llvm_function_definition_arguments ')' compound_statement
+      { 
+        $$ = new LLVMFunctionDefinition(*$4, AccessLevel::PUBLIC_ACCESS, $3, *$6, $8, yylineno); 
+        delete $4; 
+        delete $6; 
+      }
+  ;
+
 llvm_function_definition_arguments
   : /* blank */  { $$ = new LLVMVariableList(); }
   | llvm_function_argument_declaration
@@ -738,6 +749,7 @@ interface_element_declaration
   : method_signature
   | constant_definition
   | interface_static_method_definition
+  | interface_llvm_function_definition
   ;
 
 method_signature
@@ -1506,8 +1518,14 @@ object_builder_argument
 
 call_arguments
   : /* blank */  { $$ = new ExpressionList(); }
-  | expression { $$ = new ExpressionList(); $$->push_back($1); }
-  | call_arguments ',' expression  { $1->push_back($3); }
+  | call_argument { $$ = new ExpressionList(); $$->push_back($1); }
+  | call_arguments ',' call_argument  { $1->push_back($3); }
+  ;
+
+call_argument
+  : expression
+  | object_type_specifier_dot TIDENTIFIER
+    { $$ = new LLVMFunctionIdentifier($1, *$2, yylineno); delete $2; } 
   ;
 
 type_specifier

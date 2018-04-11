@@ -37,9 +37,4 @@ interface IProducerThread extends IThread {
    */
   ::wisey::model* consume() reveal;
 
-  /**
-   * This method is called when thread is started
-   */ 
-  void produce();
-
 }

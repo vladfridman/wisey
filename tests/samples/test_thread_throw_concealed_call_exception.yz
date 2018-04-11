@@ -6,7 +6,7 @@ import wisey.lang.threads.IWorkerThread;
 
 thread TWorker implements IWorkerThread {
 
-  public void work() {
+  public void run() {
   }
 
   public void start() reveal {
@@ -44,7 +44,7 @@ controller CProgram implements IProgram {
   inject TWorker* mWorker;
 
   public int run() {
-    mWorker.work();
+    mWorker.run();
     return 0;
   }
 }

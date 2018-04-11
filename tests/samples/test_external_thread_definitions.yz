@@ -1,6 +1,8 @@
 external thread wisey.lang.threads.TWorker 
     implements wisey.lang.threads.IThread {
 
+  void run();
+
   ::wisey::model* send(::wisey::model* message);
 
   wisey.lang.CCallStack getCallStack();
@@ -11,6 +13,8 @@ external thread wisey.lang.threads.TWorkerWithFieldsAndMethods
   receive int mReceivedField;
   inject wisey.lang.threads.TWorker* mInjectedField;
   state int mStateField;
+
+  void run();
 
   ::wisey::model* send(::wisey::model* message);
 
@@ -26,6 +30,8 @@ external thread wisey.lang.threads.TWorkerWithFieldsAndMethodsAndInterface
   receive int mReceivedField;
   inject wisey.lang.threads.TWorker* mInjectedField;
   state int mStateField;
+
+  void run();
 
   ::wisey::model* send(::wisey::model* message);
 

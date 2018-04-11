@@ -20,20 +20,23 @@ external interface wisey.lang.threads.IProducerThread
   boolean wasCancelled() reveal;
   void cancel() reveal;
   ::wisey::model* consume() reveal;
-  void produce();
 }
 
 external interface wisey.lang.threads.IThread {
 
-  wisey.lang.CCallStack getCallStack();
+  void run();
   ::wisey::model* send(
     ::wisey::model* message);
+  wisey.lang.CCallStack getCallStack();
   static void sleep(
     int seconds);
   static void checkConcealedMethodCall(
     wisey.lang.threads.IThread object) throws wisey.lang.threads.MThreadConcealedMethodException;
   static void checkRevealedMethodCall(
     wisey.lang.threads.IThread object) throws wisey.lang.threads.MThreadRevealedMethodException;
+}
+
+external interface wisey.lang.threads.IThreadRunner {
 }
 
 external interface wisey.lang.threads.IWorkerThread
@@ -46,7 +49,6 @@ external interface wisey.lang.threads.IWorkerThread
   boolean wasCancelled() reveal;
   ::wisey::model* awaitResult() reveal;
   void cancel() reveal;
-  void work();
 }
 
 /* Models */
@@ -186,7 +188,9 @@ external controller wisey.lang.threads.CDefaultWorker {
   wisey.lang.CCallStack getCallStack();
 }
 
-external controller wisey.lang.threads.CProducerThreadRunner {
+external controller wisey.lang.threads.CProducerThreadRunner
+  implements
+    wisey.lang.threads.IThreadRunner {
 
   state ::llvm::struct::_opaque_pthread_t::pointer mMyNativeThread;
   state boolean mIsCanceled;
@@ -210,7 +214,9 @@ external controller wisey.lang.threads.CProducerThreadRunner {
   boolean wasCancelled();
 }
 
-external controller wisey.lang.threads.CWorkerThreadRunner {
+external controller wisey.lang.threads.CWorkerThreadRunner
+  implements
+    wisey.lang.threads.IThreadRunner {
 
   state ::llvm::struct::_opaque_pthread_t::pointer mMyNativeThread;
   state boolean mIsCanceled;
@@ -240,7 +246,7 @@ external thread wisey.lang.TMainThread
   inject wisey.lang.threads.CDefaultWorker* mDefaultWorker;
   inject wisey.lang.CProgramRunner* mProgramRunner;
 
-  void work();
+  void run();
   void start() reveal;
   boolean hasStarted() reveal;
   boolean hasResult() reveal;

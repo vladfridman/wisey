@@ -20,6 +20,7 @@ namespace wisey {
   
   class Constant;
   class IMethodDescriptor;
+  class LLVMFunction;
   
   /**
    * Represents an IType that is either model, controller or interface
@@ -53,6 +54,11 @@ namespace wisey {
      */
     virtual Constant* findConstant(std::string constantName) const = 0;
     
+    /**
+     * Finds a llvm function with a given name.
+     */
+    virtual LLVMFunction* findLLVMFunction(std::string functionName) const = 0;
+
     /**
      * Returns name of the global variable containing name of this Callable Object in string format
      */

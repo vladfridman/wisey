@@ -33,7 +33,7 @@ namespace wisey {
     
     LLVMFunction(std::string name,
                  AccessLevel accessLevel,
-                  const LLVMFunctionType* llvmFunctionType,
+                 const LLVMFunctionType* llvmFunctionType,
                  const IType* returnType,
                  std::vector<const LLVMFunctionArgument*> arguments,
                  CompoundStatement* compoundStatement,

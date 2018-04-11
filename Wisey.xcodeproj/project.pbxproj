@@ -809,6 +809,9 @@
 		F5ADB6281E69831A00FFC941 /* Method.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB6271E69831A00FFC941 /* Method.cpp */; };
 		F5ADB6291E69831A00FFC941 /* Method.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB6271E69831A00FFC941 /* Method.cpp */; };
 		F5ADB62B1E69860F00FFC941 /* TestMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB62A1E69860F00FFC941 /* TestMethod.cpp */; };
+		F5B12E76207E4BC600677C63 /* LLVMFunctionIdentifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5B12E75207E4BC600677C63 /* LLVMFunctionIdentifier.cpp */; };
+		F5B12E77207E4BC600677C63 /* LLVMFunctionIdentifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5B12E75207E4BC600677C63 /* LLVMFunctionIdentifier.cpp */; };
+		F5B12E79207E6C2A00677C63 /* TestLLVMFunctionIdentifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5B12E78207E6C2A00677C63 /* TestLLVMFunctionIdentifier.cpp */; };
 		F5B3DCE51F9116AF00FC76D3 /* IMethodCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5B3DCE41F9116AF00FC76D3 /* IMethodCall.cpp */; };
 		F5B3DCE61F9116AF00FC76D3 /* IMethodCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5B3DCE41F9116AF00FC76D3 /* IMethodCall.cpp */; };
 		F5B9B1501E797B4800456CB4 /* TestMethodSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5B9B14F1E797B4800456CB4 /* TestMethodSignature.cpp */; };
@@ -1754,6 +1757,9 @@
 		F5ADB6251E67075400FFC941 /* TestInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInterface.cpp; path = tests/TestInterface.cpp; sourceTree = "<group>"; };
 		F5ADB6271E69831A00FFC941 /* Method.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Method.cpp; path = src/Method.cpp; sourceTree = "<group>"; };
 		F5ADB62A1E69860F00FFC941 /* TestMethod.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethod.cpp; path = tests/TestMethod.cpp; sourceTree = "<group>"; };
+		F5B12E74207E4AB500677C63 /* LLVMFunctionIdentifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMFunctionIdentifier.hpp; path = include/wisey/LLVMFunctionIdentifier.hpp; sourceTree = "<group>"; };
+		F5B12E75207E4BC600677C63 /* LLVMFunctionIdentifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMFunctionIdentifier.cpp; path = src/LLVMFunctionIdentifier.cpp; sourceTree = "<group>"; };
+		F5B12E78207E6C2A00677C63 /* TestLLVMFunctionIdentifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMFunctionIdentifier.cpp; path = tests/TestLLVMFunctionIdentifier.cpp; sourceTree = "<group>"; };
 		F5B3DCE31F91156C00FC76D3 /* IMethodCall.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IMethodCall.hpp; path = include/wisey/IMethodCall.hpp; sourceTree = "<group>"; };
 		F5B3DCE41F9116AF00FC76D3 /* IMethodCall.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IMethodCall.cpp; path = src/IMethodCall.cpp; sourceTree = "<group>"; };
 		F5B9B14F1E797B4800456CB4 /* TestMethodSignature.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethodSignature.cpp; path = tests/TestMethodSignature.cpp; sourceTree = "<group>"; };
@@ -2741,6 +2747,7 @@
 				F5378F6B2058F0B500E5B5FD /* IdentifierReference.hpp */,
 				F5089C741ECD01D9004A1223 /* IncrementExpression.hpp */,
 				F59496FC1F5467540002F14F /* InstanceOf.hpp */,
+				F5B12E74207E4AB500677C63 /* LLVMFunctionIdentifier.hpp */,
 				F5089C881ECD01D9004A1223 /* LogicalAndExpression.hpp */,
 				F5089C891ECD01D9004A1223 /* LogicalOrExpression.hpp */,
 				F5089C981ECD01D9004A1223 /* NegateExpression.hpp */,
@@ -2771,6 +2778,7 @@
 				F5378F6C2058F11500E5B5FD /* IdentifierReference.cpp */,
 				F574116A1E042390009809FF /* IncrementExpression.cpp */,
 				F59496FD1F5469900002F14F /* InstanceOf.cpp */,
+				F5B12E75207E4BC600677C63 /* LLVMFunctionIdentifier.cpp */,
 				F57411511E019A46009809FF /* LogicalAndExpression.cpp */,
 				F57411581E01A09B009809FF /* LogicalOrExpression.cpp */,
 				F5ADB61A1E5F568400FFC941 /* NegateExpression.cpp */,
@@ -3227,6 +3235,7 @@
 				F54B14342059015F0030773F /* TestIdentifierReference.cpp */,
 				F574116F1E042607009809FF /* TestIncrementExpression.cpp */,
 				F59497001F546CED0002F14F /* TestInstanceOf.cpp */,
+				F5B12E78207E6C2A00677C63 /* TestLLVMFunctionIdentifier.cpp */,
 				F57411541E019B32009809FF /* TestLogicalAndExpression.cpp */,
 				F574115B1E01A13B009809FF /* TestLogicalOrExpression.cpp */,
 				F5ADB61C1E5F587300FFC941 /* TestNegateExpression.cpp */,
@@ -3871,6 +3880,7 @@
 				F53A2C2D1EFFD5E800E76A9E /* Node.cpp in Sources */,
 				F59D820C1E0F157E00057FB5 /* WhileStatement.cpp in Sources */,
 				F50FA2F71E2E3B3500435EEA /* TestIntConstant.cpp in Sources */,
+				F5B12E77207E4BC600677C63 /* LLVMFunctionIdentifier.cpp in Sources */,
 				F53400FB1DFD999B0002BF7E /* TestRelationalExpression.cpp in Sources */,
 				F53227E32063FB0900605E1B /* LocalSystemReferenceVariable.cpp in Sources */,
 				F519ED7C1FD9910D00BE3FED /* TestThis.cpp in Sources */,
@@ -4266,6 +4276,7 @@
 				F5827041205EE95500839EC7 /* LLVMStructSpecifier.cpp in Sources */,
 				F582706A205FD8B600839EC7 /* LLVMFunctionType.cpp in Sources */,
 				F5170194200DC7A900A10B7C /* DestroyPrimitiveArrayFunction.cpp in Sources */,
+				F5B12E79207E6C2A00677C63 /* TestLLVMFunctionIdentifier.cpp in Sources */,
 				F58FA2FA206E65C100C86D33 /* DestroyOwnerObjectFunction.cpp in Sources */,
 				F51701AA200FCE8400A10B7C /* ArrayOwnerTypeSpecifier.cpp in Sources */,
 				F5A67DBA20171F0B0018068F /* FieldArrayOwnerVariable.cpp in Sources */,
@@ -4387,6 +4398,7 @@
 				F5F3F8D01FDEC637001BA5B9 /* ArrayTypeSpecifier.cpp in Sources */,
 				F5436DA51FCF6551003ABF6F /* ControllerTypeSpecifierFull.cpp in Sources */,
 				F5A363411F33C1A8005880B3 /* LocalOwnerVariable.cpp in Sources */,
+				F5B12E76207E4BC600677C63 /* LLVMFunctionIdentifier.cpp in Sources */,
 				F531B6541E0DDD96008304F3 /* StringLiteral.cpp in Sources */,
 				F5C6FD761E48B50A0054209D /* DoubleType.cpp in Sources */,
 				F50FA2A81E269E5700435EEA /* CaseStatement.cpp in Sources */,

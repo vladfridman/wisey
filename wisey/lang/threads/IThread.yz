@@ -8,9 +8,9 @@ import wisey.lang.CCallStack;
 interface IThread {
 
   /**
-   * Returns the call stack for this thread
+   * The work of this thread is done in this method
    */
-  CCallStack getCallStack();
+  void run();
 
   /**
    * Sends a message to the calling thread. 
@@ -19,6 +19,11 @@ interface IThread {
    * Returns the sent message if it could not be sent
    */
   ::wisey::model* send(::wisey::model* message);
+
+  /**
+   * Returns the call stack for this thread
+   */
+  CCallStack getCallStack();
 
   /**
    * Method for putting the current thread to sleep

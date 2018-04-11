@@ -46,19 +46,11 @@ Value* LLVMFunction::declareFunction(IRGenerationContext& context,
     argumentTypes.push_back(argument->getType());
   }
   LLVMFunctionType* functionType = context.getLLVMFunctionType(mReturnType, argumentTypes);
-  if (mAccessLevel == PUBLIC_ACCESS) {
-    context.registerLLVMInternalFunctionNamedType(mName, functionType);
-  } else {
-    context.registerLLVMExternalFunctionNamedType(mName, functionType);
-  }
   string name = IMethodCall::translateObjectMethodToLLVMFunctionName(objectType, mName);
-  
-  GlobalValue::LinkageTypes linkageType = mAccessLevel == PUBLIC_ACCESS
-  ? GlobalValue::ExternalLinkage
-  : GlobalValue::InternalLinkage;
+  context.registerLLVMExternalFunctionNamedType(name, functionType);
 
   return Function::Create(functionType->getLLVMType(context),
-                          linkageType,
+                          GlobalValue::InternalLinkage,
                           name,
                           context.getModule());
 }

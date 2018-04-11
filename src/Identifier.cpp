@@ -53,7 +53,6 @@ const IType* Identifier::getType(IRGenerationContext& context) const {
     return variable->getType();
   }
   
-  
   return UndefinedType::UNDEFINED_TYPE;
 }
 

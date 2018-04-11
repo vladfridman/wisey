@@ -21,6 +21,7 @@
 #include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LLVMFunction.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/MethodArgument.hpp"
@@ -73,6 +74,11 @@ Interface::~Interface() {
   mNameToConstantMap.clear();
   mInnerObjects.clear();
   mParentInterfacesMap.clear();
+  for (LLVMFunction* llvmFunction : mLLVMFunctions) {
+    delete llvmFunction;
+  }
+  mLLVMFunctions.clear();
+  mLLVMFunctionMap.clear();
 }
 
 Interface* Interface::newInterface(AccessLevel accessLevel,
@@ -114,8 +120,8 @@ void Interface::buildMethods(IRGenerationContext& context) {
 
   LLVMContext& llvmContext = context.getLLVMContext();
 
-  tuple<vector<MethodSignature*>, vector<wisey::Constant*>, vector<StaticMethod*>> elements =
-  createElements(context, mElementDeclarations);
+  tuple<vector<MethodSignature*>, vector<wisey::Constant*>, vector<StaticMethod*>,
+  vector<LLVMFunction*>> elements = createElements(context, mElementDeclarations);
 
   mMethodSignatures = get<0>(elements);
   mConstants = get<1>(elements);
@@ -126,7 +132,11 @@ void Interface::buildMethods(IRGenerationContext& context) {
   for (StaticMethod* staticMethod : mStaticMethods) {
     mNameToStaticMethodMap[staticMethod->getName()] = staticMethod;
   }
-  
+  mLLVMFunctions = get<3>(elements);
+  for (LLVMFunction* llvmFunction : mLLVMFunctions) {
+    mLLVMFunctionMap[llvmFunction->getName()] = llvmFunction;
+  }
+
   for (IInterfaceTypeSpecifier* parentInterfaceSpecifier : mParentInterfaceSpecifiers) {
     Interface* parentInterface = (Interface*) parentInterfaceSpecifier->getType(context);
     if (mParentInterfacesMap.count(parentInterface->getTypeName())) {
@@ -253,6 +263,20 @@ void Interface::defineStaticMethodFunctions(IRGenerationContext& context) const 
   }
 }
 
+void Interface::defineLLVMFunctions(IRGenerationContext& context) const {
+  for (LLVMFunction* function : mLLVMFunctions) {
+    function->declareFunction(context, this);
+  }
+}
+
+LLVMFunction* Interface::findLLVMFunction(string functionName) const {
+  if (!mLLVMFunctionMap.count(functionName)) {
+    Log::e_deprecated("LLVM function " + functionName + " not found in object " + getTypeName());
+    exit(1);
+  }
+  return mLLVMFunctionMap.at(functionName);
+}
+
 void Interface::defineCurrentObjectNameVariable(IRGenerationContext& context) const {
   Value* objectName = IObjectType::getObjectNamePointer(this, context);
   ParameterPrimitiveVariable* objectNameVariable =
@@ -265,6 +289,12 @@ void Interface::defineCurrentObjectNameVariable(IRGenerationContext& context) co
 void Interface::generateStaticMethodsIR(IRGenerationContext& context) const {
   for (IMethod* method : mStaticMethods) {
     method->generateIR(context);
+  }
+}
+
+void Interface::generateLLVMFunctionsIR(IRGenerationContext& context) const {
+  for (LLVMFunction* function : mLLVMFunctions) {
+    function->generateBodyIR(context, this);
   }
 }
 
@@ -821,12 +851,14 @@ Value* Interface::inject(IRGenerationContext& context,
   return controller->castTo(context, controllerValue, this, line);
 }
 
-tuple<vector<MethodSignature*>, vector<wisey::Constant*>, vector<StaticMethod*>>
+tuple<vector<MethodSignature*>, vector<wisey::Constant*>, vector<StaticMethod*>,
+vector<LLVMFunction*>>
 Interface::createElements(IRGenerationContext& context,
                           vector<IObjectElementDefinition*> elementDeclarations) {
   vector<MethodSignature*> methodSignatures;
   vector<wisey::Constant*> constants;
   vector<StaticMethod*> staticMethods;
+  vector<LLVMFunction*> functions;
   for (IObjectElementDefinition* elementDeclaration : elementDeclarations) {
     IObjectElement* objectElement = elementDeclaration->define(context, this);
     if (objectElement->isField()) {
@@ -847,12 +879,14 @@ Interface::createElements(IRGenerationContext& context,
       methodSignatures.push_back((MethodSignature*) objectElement);
     } else if (objectElement->isStaticMethod()) {
       staticMethods.push_back((StaticMethod*) objectElement);
+    } else if (objectElement->isLLVMFunction()) {
+      functions.push_back((LLVMFunction*) objectElement);
     } else {
       Log::e_deprecated("Unexpected element in interface definition");
       exit(1);
     }
   }
-  return make_tuple(methodSignatures, constants, staticMethods);
+  return make_tuple(methodSignatures, constants, staticMethods, functions);
 }
 
 void Interface::incrementReferenceCount(IRGenerationContext& context, Value* object) const {

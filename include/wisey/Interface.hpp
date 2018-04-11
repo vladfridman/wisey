@@ -25,6 +25,7 @@ namespace wisey {
   
   class IInterfaceTypeSpecifier;
   class InterfaceOwner;
+  class LLVMFunction;
   class MethodSignatureDeclaration;
   class Model;
   
@@ -51,6 +52,8 @@ namespace wisey {
     std::vector<wisey::Constant*> mConstants;
     std::map<std::string, Constant*> mNameToConstantMap;
     std::map<std::string, const IObjectType*> mInnerObjects;
+    std::vector<LLVMFunction*> mLLVMFunctions;
+    std::map<std::string, LLVMFunction*> mLLVMFunctionMap;
     ImportProfile* mImportProfile;
     bool mIsComplete;
     
@@ -133,6 +136,11 @@ namespace wisey {
     void defineStaticMethodFunctions(IRGenerationContext& context) const;
     
     /**
+     * Defines llvm functions corresponding for llvm functions defined in the interface
+     */
+    void defineLLVMFunctions(IRGenerationContext& context) const;
+
+    /**
      * Generate IR for constants defined in this interface
      */
     void generateConstantsIR(IRGenerationContext& context) const;
@@ -147,6 +155,11 @@ namespace wisey {
      */
     void generateStaticMethodsIR(IRGenerationContext& context) const;
     
+    /**
+     * Generates code for llvm functions defined in this interface
+     */
+    void generateLLVMFunctionsIR(IRGenerationContext& context) const;
+
     AccessLevel getAccessLevel() const override;
     
     llvm::Value* inject(IRGenerationContext& context,
@@ -239,6 +252,8 @@ namespace wisey {
                                  llvm::Value* value) const override;
     
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
+    
+    LLVMFunction* findLLVMFunction(std::string functionName) const override;
 
   private:
     
@@ -288,10 +303,11 @@ namespace wisey {
                                             std::string objectName) const;
     
     std::tuple<std::vector<MethodSignature*>, std::vector<wisey::Constant*>,
-    std::vector<StaticMethod*>> createElements(IRGenerationContext& context,
-                                               std::vector<IObjectElementDefinition*>
-                                               elementDeclarations);
-    
+    std::vector<StaticMethod*>, std::vector<LLVMFunction*>>
+    createElements(IRGenerationContext& context,
+                   std::vector<IObjectElementDefinition*>
+                   elementDeclarations);
+
     static void composeCastFunction(IRGenerationContext& context,
                                     llvm::Function* function,
                                     const IObjectType* interfaceType,

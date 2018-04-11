@@ -10,7 +10,7 @@ thread TMainThread implements IWorkerThread {
   inject CDefaultWorker* mDefaultWorker;
   inject CProgramRunner* mProgramRunner;
 
-  public void work() {
+  public void run() {
     MProgramResult* programResult = mProgramRunner.run();
     thread.send(programResult);
   }

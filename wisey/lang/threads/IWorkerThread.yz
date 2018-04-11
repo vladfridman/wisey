@@ -37,9 +37,4 @@ interface IWorkerThread extends IThread {
    */
   void cancel() reveal;
 
-  /**
-   * This method is called when thread is started
-   */ 
-  void work();
-
 }

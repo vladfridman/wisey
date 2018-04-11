@@ -76,6 +76,7 @@ void InterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {
 
   interface->buildMethods(context);
   interface->generateConstantsIR(context);
+  interface->defineLLVMFunctions(context);
   interface->defineStaticMethodFunctions(context);
   context.setObjectType(lastObjectType);
 }
@@ -90,6 +91,7 @@ void InterfaceDefinition::generateIR(IRGenerationContext& context) const {
 
   IObjectDefinition::generateInnerObjectIR(context, mInnerObjectDefinitions);
   interface->defineCurrentObjectNameVariable(context);
+  interface->generateLLVMFunctionsIR(context);
   interface->generateStaticMethodsIR(context);
 
   context.setObjectType(lastObjectType);

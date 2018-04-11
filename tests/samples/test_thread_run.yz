@@ -9,7 +9,7 @@ import wisey.lang.threads.IWorkerThread;
 thread TWorker implements IWorkerThread {
   inject CDefaultWorker* mDefaultWorker;
 
-  public void work() {
+  public void run() {
     IThread.sleep(1);
     printout("This is worker thread!\n");
     MResult* result = builder(MResult).withResult(5).build();
