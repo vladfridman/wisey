@@ -12,8 +12,7 @@ controller CDefaultProducer {
   inject CProducerThreadRunner* mProducerThreadRunner;
   inject CCallStack* mCallStack;
 
-  public void startProducer(IProducerThread producerThread,
-                            int size) {
+  public void start(IProducerThread producerThread, int size) {
     mProducerThreadRunner.createThread(producerThread, size);
   }
 

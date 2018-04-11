@@ -17,7 +17,7 @@ thread TWorker implements IWorkerThread {
   }
 
   public void start() reveal {
-    mDefaultWorker.startWorker(this);
+    mDefaultWorker.start(this);
   }
 
   public boolean hasStarted() reveal {

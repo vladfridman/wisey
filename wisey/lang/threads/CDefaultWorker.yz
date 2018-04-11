@@ -12,7 +12,7 @@ controller CDefaultWorker {
   inject CWorkerThreadRunner* mWorkerThreadRunner;
   inject CCallStack* mCallStack;
 
-  public void startWorker(IWorkerThread workerThread) {
+  public void start(IWorkerThread workerThread) {
     mWorkerThreadRunner.createThread(workerThread);    
   }
 

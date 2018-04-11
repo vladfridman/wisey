@@ -26,7 +26,7 @@ thread TProducer implements IProducerThread {
   }
 
   public void start() reveal {
-    mDefaultProducer.startProducer(this, mSize);
+    mDefaultProducer.start(this, mSize);
   }
 
   public boolean hasStarted() reveal {

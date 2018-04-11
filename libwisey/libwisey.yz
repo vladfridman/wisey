@@ -155,7 +155,7 @@ external controller wisey.lang.threads.CDefaultProducer {
   inject wisey.lang.threads.CProducerThreadRunner* mProducerThreadRunner;
   inject wisey.lang.CCallStack* mCallStack;
 
-  void startProducer(
+  void start(
     wisey.lang.threads.IProducerThread producerThread,
     int size);
   boolean hasStarted();
@@ -174,7 +174,7 @@ external controller wisey.lang.threads.CDefaultWorker {
   inject wisey.lang.threads.CWorkerThreadRunner* mWorkerThreadRunner;
   inject wisey.lang.CCallStack* mCallStack;
 
-  void startWorker(
+  void start(
     wisey.lang.threads.IWorkerThread workerThread);
   boolean hasStarted();
   boolean hasResult();
