@@ -84,13 +84,6 @@ external model wisey.lang.MNullPointerException
   string getName();
 }
 
-external model wisey.lang.MProgramResult {
-
-  fixed int mResult;
-
-  int getResult();
-}
-
 external model wisey.lang.MReferenceCountException
   implements
     wisey.lang.IException {
@@ -143,13 +136,6 @@ external controller wisey.lang.CCallStack {
   void dumpStack();
   void reportException(
     wisey.lang.IException exception);
-}
-
-external controller wisey.lang.CProgramRunner {
-
-  inject wisey.lang.IProgram* mProgram;
-
-  wisey.lang.MProgramResult* run();
 }
 
 external controller wisey.lang.threads.CDefaultProducer {
@@ -244,7 +230,7 @@ external thread wisey.lang.TMainThread
     wisey.lang.threads.IWorkerThread {
 
   inject wisey.lang.threads.CDefaultWorker* mDefaultWorker;
-  inject wisey.lang.CProgramRunner* mProgramRunner;
+  inject wisey.lang.IProgram* mProgram;
 
   void run();
   void start() reveal;
@@ -256,6 +242,13 @@ external thread wisey.lang.TMainThread
   ::wisey::model* send(
     ::wisey::model* message);
   wisey.lang.CCallStack getCallStack();
+}
+
+external model wisey.lang.TMainThread.MProgramResult {
+
+  fixed int mResult;
+
+  int getResult();
 }
 
 /* Bindings */

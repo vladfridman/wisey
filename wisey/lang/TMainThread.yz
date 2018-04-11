@@ -8,10 +8,10 @@ import wisey.lang.threads.IWorkerThread;
  */
 thread TMainThread implements IWorkerThread {
   inject CDefaultWorker* mDefaultWorker;
-  inject CProgramRunner* mProgramRunner;
+  inject IProgram* mProgram;
 
   public void run() {
-    MProgramResult* programResult = mProgramRunner.run();
+    MProgramResult* programResult = builder(MProgramResult).withResult(mProgram.run()).build();
     thread.send(programResult);
   }
 
@@ -45,5 +45,16 @@ thread TMainThread implements IWorkerThread {
 
   public CCallStack getCallStack() {
     return mDefaultWorker.getCallStack();
+  }
+
+  /**
+   * Represents program result
+   */
+  public model MProgramResult {
+    int mResult;
+
+    public int getResult() {
+      return mResult;
+    }
   }
 }

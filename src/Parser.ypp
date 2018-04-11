@@ -697,7 +697,7 @@ inner_interface_definition
   ;
 
 external_interface_definition
-  : TEXTERNAL TINTERFACE interface_type_specifier_top_level extends_interfaces 
+  : TEXTERNAL TINTERFACE interface_type_specifier_full extends_interfaces 
       '{' external_interface_element_delcaration_list '}'
     {
       IExpression* package = $3->takePackage();
@@ -804,7 +804,7 @@ inner_controller_definition
   ;
 
 external_controller_definition
-  : TEXTERNAL TCONTROLLER controller_type_specifier_top_level_full implmeneted_interfaces
+  : TEXTERNAL TCONTROLLER controller_type_specifier_full implmeneted_interfaces
       '{' external_object_element_declaration_list '}'
     {
       IExpression* package = $3->takePackage();
@@ -863,7 +863,7 @@ inner_node_definition
   ;
 
 external_node_definition
-  : TEXTERNAL TNODE node_type_specifier_top_level implmeneted_interfaces
+  : TEXTERNAL TNODE node_type_specifier_full implmeneted_interfaces
       '{' external_object_element_declaration_list '}'
     {
       IExpression* package = $3->takePackage();
@@ -922,7 +922,7 @@ inner_model_definition
   ;
 
 external_model_definition
-  : TEXTERNAL TMODEL model_type_specifier_top_level_full implmeneted_interfaces
+  : TEXTERNAL TMODEL model_type_specifier_full implmeneted_interfaces
       '{' external_object_element_declaration_list '}'
     {
       IExpression* package = $3->takePackage();
@@ -981,7 +981,7 @@ inner_thread_definition
   ;
 
 external_thread_definition
-  : TEXTERNAL TTHREAD thread_type_specifier_top_level implmeneted_interfaces
+  : TEXTERNAL TTHREAD thread_type_specifier_full implmeneted_interfaces
       '{' external_object_element_declaration_list '}'
     {
       IExpression* package = $3->takePackage();

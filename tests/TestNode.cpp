@@ -766,6 +766,7 @@ TEST_F(NodeTest, printToStreamTest) {
                "  fixed int mRight;\n"
                "\n"
                "  int getElement();\n"
+               "}\n"
                "\n"
                "external model MInnerPrivateModel {\n"
                "}\n"
@@ -776,8 +777,6 @@ TEST_F(NodeTest, printToStreamTest) {
                "  fixed int mField2;\n"
                "\n"
                "  int bar();\n"
-               "}\n"
-               "\n"
                "}\n",
                stringStream.str().c_str());
 }

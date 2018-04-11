@@ -60,7 +60,7 @@ string Names::getMainThreadFullName() {
 }
 
 string Names::getProgramResultShortName() {
-  return "MProgramResult";
+  return "TMainThread.MProgramResult";
 }
 
 string Names::getThreadSetObjectAndMethod() {

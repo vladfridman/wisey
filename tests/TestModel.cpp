@@ -786,6 +786,7 @@ TEST_F(ModelTest, printToStreamTest) {
                "  fixed int mHeight;\n"
                "\n"
                "  int foo();\n"
+               "}\n"
                "\n"
                "external model MInnerPrivateModel {\n"
                "}\n"
@@ -796,9 +797,7 @@ TEST_F(ModelTest, printToStreamTest) {
                "  fixed int mField2;\n"
                "\n"
                "  int bar();\n"
-               "}\n"
-               "\n"
-                "}\n",
+               "}\n",
                stringStream.str().c_str());
 }
 

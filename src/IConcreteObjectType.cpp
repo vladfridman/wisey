@@ -530,7 +530,7 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
   stream << "external ";
   printTypeKind(object, stream);
   stream << " ";
-  stream << (object->isInner() ? object->getShortName() : object->getTypeName());
+  stream << object->getTypeName();
   if (object->getAccessLevel() == PRIVATE_ACCESS) {
     stream << " {" << endl << "}" << endl;
     return;
@@ -572,18 +572,15 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
     }
   }
   
+  stream << "}" << endl;
+
   map<string, const IObjectType*> innerObjects = object->getInnerObjects();
-  if (innerObjects.size()) {
-    stream << endl;
-  }
   for (map<string, const IObjectType*>::iterator iterator = innerObjects.begin();
        iterator != innerObjects.end();
        iterator++) {
-    iterator->second->printToStream(context, stream);
     stream << endl;
+    iterator->second->printToStream(context, stream);
   }
-  
-  stream << "}" << endl;
 }
 
 void IConcreteObjectType::printTypeKind(const IConcreteObjectType* type, iostream& stream) {
