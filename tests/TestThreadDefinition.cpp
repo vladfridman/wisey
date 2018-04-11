@@ -283,3 +283,11 @@ TEST_F(TestFileRunner, threadThrowConcealedCallExceptionDeathRunTest) {
                                "Unhandled exception wisey.lang.threads.MThreadConcealedMethodException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_thread_throw_concealed_call_exception.yz:47)\n");
 }
+
+TEST_F(TestFileRunner, threadThrowRevealedCallExceptionDeathRunTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_thread_throw_revealed_call_exception.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.threads.MThreadRevealedMethodException\n"
+                               "  at systems.vos.wisey.compiler.tests.TWorker.run(tests/samples/test_thread_throw_revealed_call_exception.yz:13)\n");
+}
