@@ -74,12 +74,14 @@ struct ThreadDefinitionTest : public Test {
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
     vector<IModelTypeSpecifier*> thrownExceptions;
+    MethodQualifiers* methodQualifiers = new MethodQualifiers(0);
+    methodQualifiers->getMethodQualifierSet().insert(MethodQualifier::CONCEAL);
     methodDeclaration = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                              floatTypeSpecifier,
                                              "foo",
                                              methodArguments,
                                              thrownExceptions,
-                                             new MethodQualifiers(0),
+                                             methodQualifiers,
                                              compoundStatement,
                                              0);
 
@@ -234,6 +236,20 @@ TEST_F(ThreadDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
 
 TEST_F(TestFileRunner, threadDefinitionRunTest) {
   compileFile("tests/samples/test_thread_definition.yz");
+}
+
+TEST_F(TestFileRunner, threadMethodNotConcealedOrRevealedDeathTest) {
+  expectFailCompile("tests/samples/test_thread_method_not_concealed_or_revealed.yz",
+                    1,
+                    "Error: Method 'foo' in object systems.vos.wisey.compiler.tests.TThread must "
+                    "either have have conceal or reveal qualifier because the object is a thread");
+}
+
+TEST_F(TestFileRunner, threadMethodBothConcealedAndRevealedDeathTest) {
+  expectFailCompile("tests/samples/test_thread_method_both_concealed_and_revealed.yz",
+                    1,
+                    "Error: Method 'exit' in object systems.vos.wisey.compiler.tests.TThread can "
+                    "either be marked with a conceal or reveal qualifier but not both");
 }
 
 TEST_F(TestFileRunner, threadRunRunTest) {

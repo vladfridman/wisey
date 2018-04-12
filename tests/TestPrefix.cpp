@@ -185,12 +185,14 @@ ThreadDefinition* TestPrefix::defineMainThread(IRGenerationContext& context) {
   vector<IModelTypeSpecifier*> exceptions;
   Block* block = new Block();
   CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
+  MethodQualifiers* methodQualifiers = new MethodQualifiers(0);
+  methodQualifiers->getMethodQualifierSet().insert(MethodQualifier::CONCEAL);
   MethodDefinition* getCallStackMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                                               callStackTypeSpecifier,
                                                               Names::getCallStackMethodName(),
                                                               arguments,
                                                               exceptions,
-                                                              new MethodQualifiers(0),
+                                                              methodQualifiers,
                                                               compoundStatement,
                                                               0);
   
@@ -198,12 +200,14 @@ ThreadDefinition* TestPrefix::defineMainThread(IRGenerationContext& context) {
   const PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   block = new Block();
   compoundStatement = new CompoundStatement(block, 0);
+  methodQualifiers = new MethodQualifiers(0);
+  methodQualifiers->getMethodQualifierSet().insert(MethodQualifier::CONCEAL);
   MethodDefinition* runMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                                      voidTypeSpecifier,
                                                      "run",
                                                      arguments,
                                                      exceptions,
-                                                     new MethodQualifiers(0),
+                                                     methodQualifiers,
                                                      compoundStatement,
                                                      0);
   

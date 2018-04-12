@@ -12,6 +12,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "MockObjectType.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/AccessLevel.hpp"
@@ -27,6 +28,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+using ::testing::NiceMock;
 using ::testing::Test;
 
 struct MethodDefinitionTest : Test {
@@ -40,6 +42,7 @@ struct MethodDefinitionTest : Test {
   VariableList mArguments;
   Block* mBlock;
   CompoundStatement* mCompoundStatement;
+  NiceMock<MockObjectType>* mObject;
   
   MethodDefinitionTest() :
   mFloatTypeSpecifier(PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier()),
@@ -49,7 +52,8 @@ struct MethodDefinitionTest : Test {
   mIntArgument(VariableDeclaration::create(mIntTypeSpecifier, mIntArgumentIdentifier, 0)),
   mFloatArgument(VariableDeclaration::create(mFloatTypeSpecifier, mFloatArgumentIdentifier, 0)),
   mBlock(new Block()),
-  mCompoundStatement(new CompoundStatement(mBlock, 0)) {
+  mCompoundStatement(new CompoundStatement(mBlock, 0)),
+  mObject(new NiceMock<MockObjectType>()) {
     TestPrefix::generateIR(mContext);
   }
 };
@@ -66,7 +70,7 @@ TEST_F(MethodDefinitionTest, methodDescriptorExtractTest) {
                                     new MethodQualifiers(0),
                                     mCompoundStatement,
                                     0);
-  IMethod* method = methodDefinition.define(mContext, NULL);
+  IMethod* method = methodDefinition.define(mContext, mObject);
   vector<MethodArgument*> arguments = method->getArguments();
   
   EXPECT_FALSE(methodDefinition.isConstant());

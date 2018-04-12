@@ -51,7 +51,7 @@ public:
   mLLVMContext(mContext.getLLVMContext()),
   mExpression(new NiceMock<MockExpression>()) {
     TestPrefix::generateIR(mContext);
-
+    
     Value * value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
     ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
     ON_CALL(*mExpression, generateIR(_, _)).WillByDefault(Return(value));

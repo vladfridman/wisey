@@ -12,6 +12,7 @@
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodDefinition.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/Log.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -55,15 +56,32 @@ IMethod* MethodDefinition::define(IRGenerationContext& context,
   vector<MethodArgument*> arguments = IMethodDefinition::createArgumnetList(context, mArguments);
   vector<const Model*> exceptions = IMethodDefinition::createExceptionList(context, mExceptions);
 
-  return new Method(objectType,
-                    mName,
-                    mAccessLevel,
-                    returnType,
-                    arguments,
-                    exceptions,
-                    mMethodQualifiers,
-                    mCompoundStatement,
-                    mLine);
+  IMethod* method = new Method(objectType,
+                               mName,
+                               mAccessLevel,
+                               returnType,
+                               arguments,
+                               exceptions,
+                               mMethodQualifiers,
+                               mCompoundStatement,
+                               mLine);
+
+  if (objectType->isThread() && !method->isConceal() && !method->isReveal()) {
+    Log::e(context.getImportProfile(),
+           mMethodQualifiers->getLine(),
+           "Method '" + method->getName() + "' in object " + objectType->getTypeName() +
+           " must either have have conceal or reveal qualifier because the object is a thread");
+    exit(1);
+  }
+  if (method->isConceal() && method->isReveal()) {
+    Log::e(context.getImportProfile(),
+           mMethodQualifiers->getLine(),
+           "Method '" + method->getName() + "' in object " + objectType->getTypeName() +
+           " can either be marked with a conceal or reveal qualifier but not both");
+    exit(1);
+  }
+
+  return method;
 }
 
 bool MethodDefinition::isConstant() const {

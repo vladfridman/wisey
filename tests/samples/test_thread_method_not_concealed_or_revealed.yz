@@ -1,0 +1,25 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+import wisey.lang.CCallStack;
+import wisey.lang.threads.IThread;
+
+thread TThread implements IThread {
+
+  public void run() conceal {
+  }
+
+  public ::wisey::model* send(::wisey::model* message) conceal {
+    return null;
+  }
+
+  public CCallStack getCallStack() conceal {
+    return null;
+  }
+
+  public void exit() conceal {
+  }
+
+  public void foo() {
+  }
+}
