@@ -67,11 +67,10 @@ void ExternalModelDefinition::prototypeMethods(IRGenerationContext& context) con
   context.setObjectType(model);
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
   configureObject(context, model, mObjectElementDeclarations, mInterfaceSpecifiers);
+  model->createRTTI(context);
   context.setObjectType(lastObjectType);
 }
 
 void ExternalModelDefinition::generateIR(IRGenerationContext& context) const {
-  Model* model = context.getModel(mModelTypeSpecifierFull->getName(context), mLine);
-  model->createRTTI(context);
 }
 
