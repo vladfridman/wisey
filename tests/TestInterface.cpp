@@ -656,7 +656,7 @@ TEST_F(TestFileRunner, interfaceMethodConcealedButShouldNotBeDeathTest) {
                     "Error: Object systems.vos.wisey.compiler.tests.MSquare "
                     "attempts to conceal method 'getArea' that is not marked with "
                     "'conceal' qualifier in the parent interface "
-                    systems.vos.wisey.compiler.tests.IShape");
+                    "systems.vos.wisey.compiler.tests.IShape");
 }
 
 TEST_F(TestFileRunner, interfaceInheretedMethodNotRevealDeathTest) {
