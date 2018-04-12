@@ -1107,7 +1107,7 @@ field_definition
     }
   | TRECEIVE type_specifier TFIELDIDENTIFIER ';'
     {
-      $$ = new ReceivedFieldDefinition($2, *$3);
+      $$ = new ReceivedFieldDefinition($2, *$3, yylineno);
       delete $3;
     }
   | TSTATE type_specifier TFIELDIDENTIFIER ';'

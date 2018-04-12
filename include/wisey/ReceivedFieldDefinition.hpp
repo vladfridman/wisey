@@ -24,10 +24,11 @@ namespace wisey {
   class ReceivedFieldDefinition : public IObjectElementDefinition {
     const ITypeSpecifier* mTypeSpecifier;
     std::string mName;
+    int mLine;
     
   public:
     
-    ReceivedFieldDefinition(const ITypeSpecifier* typeSpecifier, std::string name);
+    ReceivedFieldDefinition(const ITypeSpecifier* typeSpecifier, std::string name, int line);
     
     ~ReceivedFieldDefinition();
     

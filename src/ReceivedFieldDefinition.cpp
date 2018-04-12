@@ -8,14 +8,16 @@
 
 #include "wisey/ReceivedField.hpp"
 #include "wisey/ReceivedFieldDefinition.hpp"
+#include "wisey/Log.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
 ReceivedFieldDefinition::ReceivedFieldDefinition(const ITypeSpecifier* typeSpecifier,
-                                                   string name) :
-mTypeSpecifier(typeSpecifier), mName(name) { }
+                                                 string name,
+                                                 int line) :
+mTypeSpecifier(typeSpecifier), mName(name), mLine(line) { }
 
 ReceivedFieldDefinition::~ReceivedFieldDefinition() {
   delete mTypeSpecifier;
@@ -25,6 +27,12 @@ IField* ReceivedFieldDefinition::define(IRGenerationContext& context,
                                          const IObjectType* objectType) const {
   const IType* fieldType = mTypeSpecifier->getType(context);
   
+  if (objectType->isThread() && !fieldType->isModel() && !fieldType->isPrimitive()) {
+    Log::e(context.getImportProfile(),
+           mLine,
+           "Threads are only allowed to receive models or primitives");
+    exit(1);
+  }
   return new ReceivedField(fieldType, mName);
 }
 

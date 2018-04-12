@@ -24,6 +24,10 @@ using namespace std;
 using namespace wisey;
 
 void TestPrefix::generateIR(IRGenerationContext& context) {
+  ImportProfile* importProfile = new ImportProfile("systems.vos.wisey.compiler.tests");
+  context.setImportProfile(importProfile);
+  importProfile->setSourceFileName(context, "/tmp/source.yz");
+  
   defineStdErrGlobal(context);
   
   vector<IObjectElementDefinition*> modelElements;

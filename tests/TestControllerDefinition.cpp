@@ -82,8 +82,8 @@ struct ControllerDefinitionTest : public Test {
 
     const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
     const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
-    ReceivedFieldDefinition* field1 = new ReceivedFieldDefinition(longType, "field1");
-    ReceivedFieldDefinition* field2 = new ReceivedFieldDefinition(floatType, "field2");
+    ReceivedFieldDefinition* field1 = new ReceivedFieldDefinition(longType, "field1", 0);
+    ReceivedFieldDefinition* field2 = new ReceivedFieldDefinition(floatType, "field2", 0);
     mElementDeclarations.push_back(field1);
     mElementDeclarations.push_back(field2);
     mElementDeclarations.push_back(methodDeclaration);
