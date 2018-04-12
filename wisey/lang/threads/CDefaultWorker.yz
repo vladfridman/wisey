@@ -38,6 +38,10 @@ controller CDefaultWorker {
     mWorkerThreadRunner.cancelThread();
   }
 
+  public void exit() {
+    mWorkerThreadRunner.cancelThread();
+  }
+
   public ::wisey::model* send(::wisey::model* message) {
     mWorkerThreadRunner.setResult(message);
     return null;

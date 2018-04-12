@@ -217,5 +217,6 @@ TEST_F(TestFileRunner, interfaceOwnerCearedAndThrowsNpeDeathRunTest) {
                                1,
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_interface_owner_cleared_and_throws_npe.yz:43)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_interface_owner_cleared_and_throws_npe.yz:43)\n"
+                               "Main thread ended without a result\n");
 }

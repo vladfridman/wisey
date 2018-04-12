@@ -24,32 +24,32 @@ interface IThreadRunner {
       thread.run();
     } catch (MNullPointerException* exception) {
       thread.getCallStack().reportException(exception);
-      exit(1);
+      thread.exit();
     } catch (MReferenceCountException* exception) {
       thread.getCallStack().reportException(exception);
       string ending = exception.getReferenceCount() > 1 ? "s" : "";
       printerr("Details: Object referenced by expression still has " + 
         exception.getReferenceCount() + " active reference" + ending + "\n");
-      exit(1);
+      thread.exit();
     } catch (MCastException* exception) {
       thread.getCallStack().reportException(exception);
       printerr("Details: Can not cast from " + exception.getFromType() + " to " + 
         exception.getToType() + "\n");
-      exit(1);
+      thread.exit();
     } catch (MArrayIndexOutOfBoundsException* exception) {
       thread.getCallStack().reportException(exception);
       printerr("Details: Index " + exception.getIndex() + " is used on array of size " + 
         exception.getArraySize() + "\n");
-      exit(1);
+      thread.exit();
     } catch (MStackOverflowException* exception) {
       thread.getCallStack().reportException(exception);
-      exit(1);
+      thread.exit();
     } catch (MThreadConcealedMethodException* exception) {
       thread.getCallStack().reportException(exception);
-      exit(1);
+      thread.exit();
     } catch (MThreadRevealedMethodException* exception) {
       thread.getCallStack().reportException(exception);
-      exit(1);
+      thread.exit();
     }
 
     return argument;

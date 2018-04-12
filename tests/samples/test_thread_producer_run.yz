@@ -57,6 +57,10 @@ thread TProducer implements IProducerThread {
     return mDefaultProducer.getCallStack();
   }
 
+  public void exit() {
+    mDefaultProducer.exit();
+  }
+
   public model MProducerResult {
     int mResult;
 

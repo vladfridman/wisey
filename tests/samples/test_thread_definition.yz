@@ -16,4 +16,8 @@ thread TThread implements IThread {
   public CCallStack getCallStack() {
     return null;
   }
+
+  public void exit() {
+    
+  }
 }

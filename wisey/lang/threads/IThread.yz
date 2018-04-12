@@ -21,6 +21,11 @@ interface IThread {
   ::wisey::model* send(::wisey::model* message);
 
   /**
+   * Exit the thread
+   */
+  void exit();
+
+  /**
    * Returns the call stack for this thread
    */
   CCallStack getCallStack();

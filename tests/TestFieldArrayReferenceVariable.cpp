@@ -192,7 +192,8 @@ TEST_F(TestFileRunner, fieldArrayReferenceElementIsNulledOnOwnerTranserRunDeathT
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
                                "  at systems.vos.wisey.compiler.tests.CController.getCarYear(tests/samples/test_field_array_reference_element_is_nulled_on_owner_transfer.yz:24)\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_field_array_reference_element_is_nulled_on_owner_transfer.yz:36)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_field_array_reference_element_is_nulled_on_owner_transfer.yz:36)\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner,
@@ -202,7 +203,8 @@ TEST_F(TestFileRunner,
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
                                "  at systems.vos.wisey.compiler.tests.CController.getCarYear(tests/samples/test_owner_variable_is_nulled_on_ownership_transfer_to_field_array_reference_element.yz:18)\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_variable_is_nulled_on_ownership_transfer_to_field_array_reference_element.yz:28)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_variable_is_nulled_on_ownership_transfer_to_field_array_reference_element.yz:28)\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, ownerFieldArrayReferenceElementsInitializedToNullRunDeathTest) {
@@ -211,7 +213,8 @@ TEST_F(TestFileRunner, ownerFieldArrayReferenceElementsInitializedToNullRunDeath
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
                                "  at systems.vos.wisey.compiler.tests.CController.getCarYear(tests/samples/test_owner_field_array_reference_elements_initialized_to_null.yz:16)\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_field_array_reference_elements_initialized_to_null.yz:26)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_field_array_reference_elements_initialized_to_null.yz:26)\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, fieldArrayReferenceOfModelReferencesRunTest) {
@@ -228,7 +231,8 @@ TEST_F(TestFileRunner, referenceCountIncrementsOnAssignToFieldArrayReferenceElem
                                "",
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_count_increments_on_assign_to_field_array_reference_element.yz:29)\n"
-                               "Details: Object referenced by expression still has 1 active reference\n");
+                               "Details: Object referenced by expression still has 1 active reference\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, referenceFieldArrayReferenceInitializedToNullRunDeathTest) {
@@ -237,6 +241,7 @@ TEST_F(TestFileRunner, referenceFieldArrayReferenceInitializedToNullRunDeathTest
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
                                "  at systems.vos.wisey.compiler.tests.CController.getCarYear(tests/samples/test_reference_field_array_reference_initialized_to_null.yz:15)\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_field_array_reference_initialized_to_null.yz:25)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_field_array_reference_initialized_to_null.yz:25)\n"
+                               "Main thread ended without a result\n");
 }
 

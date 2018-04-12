@@ -47,6 +47,10 @@ thread TMainThread implements IWorkerThread {
     return mDefaultWorker.getCallStack();
   }
 
+  public void exit() {
+    mDefaultWorker.exit();
+  }
+
   /**
    * Represents program result
    */

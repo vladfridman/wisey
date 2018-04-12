@@ -13,6 +13,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
@@ -131,9 +132,6 @@ TEST_F(IntrinsicFunctionsTest, getFprintfFunctionTest) {
   EXPECT_NE(mModule->getFunction("fprintf"), nullptr);
 }
 
-TEST_F(IntrinsicFunctionsTest, getExitFunctionTest) {
-  EXPECT_EQ(mModule->getFunction("exit"), nullptr);
-  EXPECT_NE(IntrinsicFunctions::getExitFunction(mContext), nullptr);
-  EXPECT_NE(mModule->getFunction("exit"), nullptr);
+TEST_F(TestFileRunner, terminateRunTest) {
+  compileAndRunFile("tests/samples/test_terminate.yz", 3);
 }
-

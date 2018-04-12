@@ -90,5 +90,6 @@ TEST_F(TestFileRunner, tryCatchWithNpeDeathRunTest) {
                                "Unhandled exception wisey.lang.MNullPointerException\n"
                                "  at systems.vos.wisey.compiler.tests.CThrower.doThrow(tests/samples/test_try_catch_with_npe.yz:17)\n"
                                "  at systems.vos.wisey.compiler.tests.CCatcher.doTryCatch(tests/samples/test_try_catch_with_npe.yz:27)\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_try_catch_with_npe.yz:39)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_try_catch_with_npe.yz:39)\n"
+                               "Main thread ended without a result\n");
 }

@@ -137,7 +137,8 @@ TEST_F(TestFileRunner, parameterArrayOwnerOfIntsIsNulledOnAssignmentRunDeathTest
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
                                "  at systems.vos.wisey.compiler.tests.CController.init(tests/samples/test_parameter_array_owner_of_ints_is_nulled_on_assignment.yz:10)\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_parameter_array_owner_of_ints_is_nulled_on_assignment.yz:19)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_parameter_array_owner_of_ints_is_nulled_on_assignment.yz:19)\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, parameterArrayOwnerOfIntsIsFreedRunDeathTest) {
@@ -147,5 +148,6 @@ TEST_F(TestFileRunner, parameterArrayOwnerOfIntsIsFreedRunDeathTest) {
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CController.init(tests/samples/test_parameter_array_owner_of_ints_is_freed.yz:10)\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_parameter_array_owner_of_ints_is_freed.yz:18)\n"
-                               "Details: Object referenced by expression still has 1 active reference\n");
+                               "Details: Object referenced by expression still has 1 active reference\n"
+                               "Main thread ended without a result\n");
 }

@@ -38,6 +38,9 @@ thread TWorker implements IWorkerThread {
   public CCallStack getCallStack() {
     return null;
   }
+
+  public void exit() {
+  }
 }
 
 controller CProgram implements IProgram {

@@ -44,6 +44,10 @@ thread TWorker implements IWorkerThread {
   public CCallStack getCallStack() {
     return mDefaultWorker.getCallStack();
   }
+
+  public void exit() {
+    mDefaultWorker.cancel();
+  }
 }
 
 controller CProgram implements IProgram {

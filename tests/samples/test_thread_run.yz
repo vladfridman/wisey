@@ -48,6 +48,10 @@ thread TWorker implements IWorkerThread {
     return mDefaultWorker.getCallStack();
   }
 
+  public void exit() {
+    mDefaultWorker.exit();
+  }
+
   public model MResult {
     int mResult;
 

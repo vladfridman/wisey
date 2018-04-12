@@ -713,7 +713,8 @@ TEST_F(TestFileRunner, interfaceStaticMethodThrowsNpeDeathRunTest) {
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
                                "  at systems.vos.wisey.compiler.tests.IShape.getValue(tests/samples/test_interface_static_method_throws_npe.yz:7)\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_interface_static_method_throws_npe.yz:24)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_interface_static_method_throws_npe.yz:24)\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, interfaceCastToModelCastExceptionRunDeathTest) {
@@ -722,7 +723,8 @@ TEST_F(TestFileRunner, interfaceCastToModelCastExceptionRunDeathTest) {
                                "",
                                "Unhandled exception wisey.lang.MCastException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_interface_cast_to_model_cast_exception.yz:47)\n"
-                               "Details: Can not cast from systems.vos.wisey.compiler.tests.IObject to systems.vos.wisey.compiler.tests.MFoo\n");
+                               "Details: Can not cast from systems.vos.wisey.compiler.tests.IObject to systems.vos.wisey.compiler.tests.MFoo\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, interfaceCastToInterfaceCastExceptionRunDeathTest) {
@@ -731,7 +733,8 @@ TEST_F(TestFileRunner, interfaceCastToInterfaceCastExceptionRunDeathTest) {
                                "",
                                "Unhandled exception wisey.lang.MCastException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_interface_cast_to_interface_cast_exception.yz:47)\n"
-                               "Details: Can not cast from systems.vos.wisey.compiler.tests.IObject to systems.vos.wisey.compiler.tests.IDevice\n");
+                               "Details: Can not cast from systems.vos.wisey.compiler.tests.IObject to systems.vos.wisey.compiler.tests.IDevice\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, interfaceCircularDependencyRunDeathTest) {

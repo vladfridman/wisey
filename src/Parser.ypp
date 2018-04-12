@@ -34,7 +34,6 @@
   #include "wisey/DoubleConstant.hpp"
   #include "wisey/EmptyExpression.hpp"
   #include "wisey/EmptyStatement.hpp"
-  #include "wisey/ExitStatement.hpp"
   #include "wisey/ExpressionStatement.hpp"
   #include "wisey/ExternalControllerDefinition.hpp"
   #include "wisey/ExternalInterfaceDefinition.hpp"
@@ -220,7 +219,7 @@
 %token <string> TCONSTANTIDENTIFIER TTHREADIDENTIFIER
 
 %token <token> TANDOP TBIND TBREAK TBUILD TBUILDER TCASE TCATCH TCEQ TCGE TCLE TINCOP
-%token <token> TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDO TDOUBLECOLON TELSE TEXIT TEXTENDS 
+%token <token> TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDO TDOUBLECOLON TELSE TEXTENDS 
 %token <token> TEXTERNAL TDEFAULT TREVEAL TFALLTHROUGH TFALSE TFIXED TFOR TIF TIMPLEMENTS TIMPORT
 %token <token> TINJECTOR TINJECT TINSTANCEOF TINTERFACE  
 %token <token> TLLVM TLLVMARRAY TLLVMFUNCTION TLLVMI1 TLLVMI8 TLLVMI16 TLLVMI32 TLLVMI64
@@ -248,7 +247,7 @@
 %type <expression_vector> call_arguments string_concatenation_list static_array_elements
 %type <block> block_item_list 
 %type <program_file> program
-%type <statement> exit_statement statement variable_declaration
+%type <statement> statement variable_declaration
 %type <statement> method_argument_declaration jump_statement block_item
 %type <statement> declaration expression_statement iteration_statement
 %type <statement> print_statement selection_statement 
@@ -1146,7 +1145,6 @@ statement
   | jump_statement
   | throw_statement
   | try_catch_statement
-  | exit_statement
   ;
 
 print_statement
@@ -1215,10 +1213,6 @@ jump_statement
 
 throw_statement
   : TTHROW expression ';' { $$ = new ThrowStatement($2, yylineno); }
-  ;
-
-exit_statement
-  : TEXIT '(' expression ')' ';' { $$ = new ExitStatement($3, yylineno); }
   ;
 
 try_catch_statement

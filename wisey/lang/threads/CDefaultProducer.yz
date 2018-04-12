@@ -32,11 +32,12 @@ controller CDefaultProducer {
     mProducerThreadRunner.cancelThread();
   }
 
-  public ::wisey::model* consume() {
-    return mProducerThreadRunner.consumeResult();
+  public void exit() {
+    mProducerThreadRunner.cancelThread();
   }
 
-  public void produce() {
+  public ::wisey::model* consume() {
+    return mProducerThreadRunner.consumeResult();
   }
 
   public ::wisey::model* send(::wisey::model* message) {

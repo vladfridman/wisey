@@ -8,6 +8,8 @@ external interface wisey.lang.IException {
 external interface wisey.lang.IProgram {
 
   int run() throws wisey.lang.MReferenceCountException, wisey.lang.MNullPointerException;
+  static void terminate(
+    int exitCode);
 }
 
 external interface wisey.lang.threads.IProducerThread
@@ -27,6 +29,7 @@ external interface wisey.lang.threads.IThread {
   void run();
   ::wisey::model* send(
     ::wisey::model* message);
+  void exit();
   wisey.lang.CCallStack getCallStack();
   static void sleep(
     int seconds);
@@ -150,8 +153,8 @@ external controller wisey.lang.threads.CDefaultProducer {
   boolean hasResult();
   boolean wasCancelled();
   void cancel();
+  void exit();
   ::wisey::model* consume();
-  void produce();
   ::wisey::model* send(
     ::wisey::model* message);
   wisey.lang.CCallStack getCallStack();
@@ -169,6 +172,7 @@ external controller wisey.lang.threads.CDefaultWorker {
   boolean wasCancelled();
   ::wisey::model* awaitResult();
   void cancel();
+  void exit();
   ::wisey::model* send(
     ::wisey::model* message);
   wisey.lang.CCallStack getCallStack();
@@ -242,6 +246,7 @@ external thread wisey.lang.TMainThread
   ::wisey::model* send(
     ::wisey::model* message);
   wisey.lang.CCallStack getCallStack();
+  void exit();
 }
 
 external model wisey.lang.TMainThread.MProgramResult {

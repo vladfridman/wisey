@@ -172,7 +172,8 @@ TEST_F(TestFileRunner, arrayReferenceElementIsNulledOnOwnerTranserRunDeathTest) 
                                1,
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_array_reference_element_is_nulled_on_owner_transfer.yz:19)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_array_reference_element_is_nulled_on_owner_transfer.yz:19)\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner,
@@ -181,7 +182,8 @@ TEST_F(TestFileRunner,
                                1,
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_variable_is_nulled_on_ownership_transfer_to_array_reference_element.yz:18)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_variable_is_nulled_on_ownership_transfer_to_array_reference_element.yz:18)\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, ownerArrayReferenceElementsInitializedToNullRunDeathTest) {
@@ -189,7 +191,8 @@ TEST_F(TestFileRunner, ownerArrayReferenceElementsInitializedToNullRunDeathTest)
                                1,
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_array_reference_elements_initialized_to_null.yz:16)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_array_reference_elements_initialized_to_null.yz:16)\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, arrayReferenceOfModelReferencesRunTest) {
@@ -206,7 +209,8 @@ TEST_F(TestFileRunner, referenceCountIncrementsOnAssignToArrayReferenceElementRu
                                "",
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_count_increments_on_assign_to_array_reference_element.yz:17)\n"
-                               "Details: Object referenced by expression still has 1 active reference\n");
+                               "Details: Object referenced by expression still has 1 active reference\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, referenceArrayReferenceInitializedToNullRunDeathTest) {
@@ -214,7 +218,8 @@ TEST_F(TestFileRunner, referenceArrayReferenceInitializedToNullRunDeathTest) {
                                1,
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_array_reference_initialized_to_null.yz:16)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_array_reference_initialized_to_null.yz:16)\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, localArrayReferenceOfModelReferencesOutOfBoundsRunDeathTest) {
@@ -223,6 +228,7 @@ TEST_F(TestFileRunner, localArrayReferenceOfModelReferencesOutOfBoundsRunDeathTe
                                "",
                                "Unhandled exception wisey.lang.MArrayIndexOutOfBoundsException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_local_array_reference_of_model_references_out_of_bounds.yz:14)\n"
-                               "Details: Index -1 is used on array of size 5\n");
+                               "Details: Index -1 is used on array of size 5\n"
+                               "Main thread ended without a result\n");
 }
 

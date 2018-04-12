@@ -431,7 +431,8 @@ TEST_F(TestFileRunner, passOwnerAsParameterToStaticMethodAndThenUseItRunDeathTes
                                1,
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_pass_owner_as_parameter_to_static_method_and_then_use_it.yz:22)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_pass_owner_as_parameter_to_static_method_and_then_use_it.yz:22)\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, staticReturnArrayReferenceRceRunDeathTest) {
@@ -441,5 +442,6 @@ TEST_F(TestFileRunner, staticReturnArrayReferenceRceRunDeathTest) {
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.getArray(tests/samples/test_static_return_array_reference_rce.yz:8)\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_static_return_array_reference_rce.yz:14)\n"
-                               "Details: Object referenced by expression still has 1 active reference\n");
+                               "Details: Object referenced by expression still has 1 active reference\n"
+                               "Main thread ended without a result\n");
 }

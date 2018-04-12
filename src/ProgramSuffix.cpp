@@ -15,6 +15,7 @@
 #include "wisey/CastExpression.hpp"
 #include "wisey/CheckArrayIndexFunction.hpp"
 #include "wisey/CheckForNullAndThrowFunction.hpp"
+#include "wisey/IntConstant.hpp"
 #include "wisey/DestroyOwnerArrayFunction.hpp"
 #include "wisey/DestroyOwnerObjectFunction.hpp"
 #include "wisey/DestroyPrimitiveArrayFunction.hpp"
@@ -26,16 +27,22 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/IdentifierChain.hpp"
+#include "wisey/IfStatement.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/MethodCall.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
+#include "wisey/NullExpression.hpp"
 #include "wisey/ParameterSystemReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/PrintErrStatement.hpp"
 #include "wisey/ProgramSuffix.hpp"
+#include "wisey/RelationalExpression.hpp"
 #include "wisey/ReturnStatement.hpp"
+#include "wisey/StringLiteral.hpp"
 #include "wisey/ThreadExpression.hpp"
 #include "wisey/ThrowReferenceCountExceptionFunction.hpp"
+#include "wisey/VariableDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -129,12 +136,45 @@ void ProgramSuffix::generateMain(IRGenerationContext& context) const {
   ModelTypeSpecifier* mainThreadMessageSpecifier =
   new ModelTypeSpecifier(langPackageExpression, Names::getProgramResultShortName(), 0);
   CastExpression* castToMessage = new CastExpression(mainThreadMessageSpecifier, waitMethodCall, 0);
-  IdentifierChain* getContentMethod = new IdentifierChain(castToMessage, "getResult");
+  
+  langPackageType = context.getPackageType(Names::getLangPackageName());
+  langPackageExpression = new FakeExpression(NULL, langPackageType);
+  mainThreadMessageSpecifier =
+  new ModelTypeSpecifier(langPackageExpression, Names::getProgramResultShortName(), 0);
+  VariableDeclaration* resultDeclaration =
+  VariableDeclaration::createWithAssignment(mainThreadMessageSpecifier,
+                                            new Identifier("resultObject"),
+                                            castToMessage,
+                                            0);
+  resultDeclaration->generateIR(context);
+  
+  NullExpression* nullExpression = new NullExpression();
+  RelationalExpression* condition = new RelationalExpression(new Identifier("resultObject"),
+                                                             RELATIONAL_OPERATION_EQ,
+                                                             nullExpression,
+                                                             0);
+  ExpressionList expressionsToPrint;
+  expressionsToPrint.push_back(new StringLiteral("Main thread ended without a result\n"));
+  PrintErrStatement* printerr = new PrintErrStatement(expressionsToPrint);
+  Block* block = new Block();
+  block->getStatements().push_back(printerr);
+  IntConstant* intConstant = new IntConstant(1);
+  ReturnStatement* returnErrorStatement = new ReturnStatement(intConstant, 0);
+  block->getStatements().push_back(returnErrorStatement);
+  CompoundStatement* thenStatement = new CompoundStatement(block, 0);
+  
+  IfStatement ifStatement(condition, thenStatement);
+  ifStatement.generateIR(context);
+  
+  IdentifierChain* getContentMethod = new IdentifierChain(new Identifier("resultObject"),
+                                                          "getResult");
   MethodCall* getContent = new MethodCall(getContentMethod, callArguments, 0);
-  ReturnStatement returnStatement(getContent, 0);
-  returnStatement.generateIR(context);
+  ReturnStatement returnResultStatement(getContent, 0);
+  returnResultStatement.generateIR(context);
 
   context.getScopes().popScope(context, 0);
   context.setMainFunction(mainFunction);
+
+  delete resultDeclaration;
 }
 

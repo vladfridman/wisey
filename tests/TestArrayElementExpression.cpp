@@ -212,7 +212,8 @@ TEST_F(TestFileRunner, arrayElementGetOnNullArrayRunDeathTest) {
                                1,
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_array_element_get_on_null_array.yz:10)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_array_element_get_on_null_array.yz:10)\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, arrayElementSetOnNullArrayRunDeathTest) {
@@ -220,7 +221,8 @@ TEST_F(TestFileRunner, arrayElementSetOnNullArrayRunDeathTest) {
                                1,
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_array_element_set_on_null_array.yz:9)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_array_element_set_on_null_array.yz:9)\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, fieldArrayReferenceOfModelReferenceIsNullRunDeathTest) {
@@ -229,6 +231,7 @@ TEST_F(TestFileRunner, fieldArrayReferenceOfModelReferenceIsNullRunDeathTest) {
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
                                "  at systems.vos.wisey.compiler.tests.CController.init(tests/samples/test_field_array_reference_of_model_references_is_null.yz:16)\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_field_array_reference_of_model_references_is_null.yz:29)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_field_array_reference_of_model_references_is_null.yz:29)\n"
+                               "Main thread ended without a result\n");
 }
 

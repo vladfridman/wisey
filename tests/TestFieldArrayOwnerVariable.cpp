@@ -187,7 +187,8 @@ TEST_F(TestFileRunner, fieldArrayOwnerElementIsNulledOnOwnerTranserRunDeathTest)
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
                                "  at systems.vos.wisey.compiler.tests.CController.getCarYear(tests/samples/test_field_array_owner_element_is_nulled_on_owner_transfer.yz:24)\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_field_array_owner_element_is_nulled_on_owner_transfer.yz:35)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_field_array_owner_element_is_nulled_on_owner_transfer.yz:35)\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner,
@@ -197,7 +198,8 @@ TEST_F(TestFileRunner,
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
                                "  at systems.vos.wisey.compiler.tests.CController.getCarYear(tests/samples/test_owner_variable_is_nulled_on_ownership_transfer_to_field_array_owner_element.yz:18)\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_variable_is_nulled_on_ownership_transfer_to_field_array_owner_element.yz:27)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_variable_is_nulled_on_ownership_transfer_to_field_array_owner_element.yz:27)\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, ownerFieldArrayOwnerElementsInitializedToNullRunDeathTest) {
@@ -206,7 +208,8 @@ TEST_F(TestFileRunner, ownerFieldArrayOwnerElementsInitializedToNullRunDeathTest
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
                                "  at systems.vos.wisey.compiler.tests.CController.getCarYear(tests/samples/test_owner_field_array_owner_elements_initialized_to_null.yz:16)\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_field_array_owner_elements_initialized_to_null.yz:25)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_field_array_owner_elements_initialized_to_null.yz:25)\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, fieldArrayOwnerOfModelReferencesRunTest) {
@@ -223,7 +226,8 @@ TEST_F(TestFileRunner, referenceCountIncrementsOnAssignToFieldArrayOwnerElementR
                                "",
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_count_increments_on_assign_to_field_array_owner_element.yz:29)\n"
-                               "Details: Object referenced by expression still has 1 active reference\n");
+                               "Details: Object referenced by expression still has 1 active reference\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, referenceFieldArrayOwnerInitializedToNullRunDeathTest) {
@@ -232,7 +236,8 @@ TEST_F(TestFileRunner, referenceFieldArrayOwnerInitializedToNullRunDeathTest) {
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
                                "  at systems.vos.wisey.compiler.tests.CController.getCarYear(tests/samples/test_reference_field_array_owner_initialized_to_null.yz:15)\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_field_array_owner_initialized_to_null.yz:24)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_field_array_owner_initialized_to_null.yz:24)\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, fieldArrayOfIntsRceRunDeathTest) {
@@ -242,7 +247,8 @@ TEST_F(TestFileRunner, fieldArrayOfIntsRceRunDeathTest) {
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CController.getRce(tests/samples/test_field_array_of_ints_rce.yz:10)\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_field_array_of_ints_rce.yz:19)\n"
-                               "Details: Object referenced by expression still has 1 active reference\n");
+                               "Details: Object referenced by expression still has 1 active reference\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, fieldArrayOfOwnersRceRunDeathTest) {
@@ -252,7 +258,8 @@ TEST_F(TestFileRunner, fieldArrayOfOwnersRceRunDeathTest) {
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CController.getRce(tests/samples/test_field_array_of_owners_rce.yz:16)\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_field_array_of_owners_rce.yz:25)\n"
-                               "Details: Object referenced by expression still has 1 active reference\n");
+                               "Details: Object referenced by expression still has 1 active reference\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, fieldArrayOfReferencesRceRunDeathTest) {
@@ -262,5 +269,6 @@ TEST_F(TestFileRunner, fieldArrayOfReferencesRceRunDeathTest) {
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CController.getRce(tests/samples/test_field_array_of_references_rce.yz:16)\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_field_array_of_references_rce.yz:25)\n"
-                               "Details: Object referenced by expression still has 1 active reference\n");
+                               "Details: Object referenced by expression still has 1 active reference\n"
+                               "Main thread ended without a result\n");
 }

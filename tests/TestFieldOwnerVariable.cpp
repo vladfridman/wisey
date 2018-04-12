@@ -217,7 +217,8 @@ TEST_F(TestFileRunner, variableSetToNullRunDeathTest) {
                                1,
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_object_field_variable_set_to_null.yz:20)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_object_field_variable_set_to_null.yz:20)\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, stateOwnerFieldSetToNullTest) {
@@ -242,7 +243,8 @@ TEST_F(TestFileRunner, objectFieldVariableNullComplicatedTest) {
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
                                "  at systems.vos.wisey.compiler.tests.CService.getValue(tests/samples/test_object_field_variable_null_complicated.yz:26)\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_object_field_variable_null_complicated.yz:36)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_object_field_variable_null_complicated.yz:36)\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, destructorCalledOnAssignFieldOwnerVariableRunTest) {

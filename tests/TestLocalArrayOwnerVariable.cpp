@@ -171,7 +171,8 @@ TEST_F(TestFileRunner, arrayOwnerElementIsNulledOnOwnerTranserRunDeathTest) {
                                1,
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_array_owner_element_is_nulled_on_owner_transfer.yz:19)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_array_owner_element_is_nulled_on_owner_transfer.yz:19)\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner,
@@ -180,7 +181,8 @@ TEST_F(TestFileRunner,
                                1,
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_variable_is_nulled_on_ownership_transfer_to_array_owner_element.yz:18)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_variable_is_nulled_on_ownership_transfer_to_array_owner_element.yz:18)\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, ownerArrayOwnerElementsInitializedToNullRunDeathTest) {
@@ -188,7 +190,8 @@ TEST_F(TestFileRunner, ownerArrayOwnerElementsInitializedToNullRunDeathTest) {
                                1,
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_array_owner_elements_initialized_to_null.yz:16)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_array_owner_elements_initialized_to_null.yz:16)\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, arrayOwnerOfModelReferencesRunTest) {
@@ -205,7 +208,8 @@ TEST_F(TestFileRunner, referenceCountIncrementsOnAssignToArrayOwnerElementRunDea
                                "",
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_count_increments_on_assign_to_array_owner_element.yz:17)\n"
-                               "Details: Object referenced by expression still has 1 active reference\n");
+                               "Details: Object referenced by expression still has 1 active reference\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, referenceArrayOwnerInitializedToNullRunDeathTest) {
@@ -213,7 +217,8 @@ TEST_F(TestFileRunner, referenceArrayOwnerInitializedToNullRunDeathTest) {
                                1,
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_array_owner_initialized_to_null.yz:16)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_array_owner_initialized_to_null.yz:16)\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, localArrayOfIntsRceRunDeathTest) {
@@ -222,7 +227,8 @@ TEST_F(TestFileRunner, localArrayOfIntsRceRunDeathTest) {
                                "",
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_local_array_of_ints_rce.yz:10)\n"
-                               "Details: Object referenced by expression still has 1 active reference\n");
+                               "Details: Object referenced by expression still has 1 active reference\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, localArrayOfOwnersRceRunDeathTest) {
@@ -231,7 +237,8 @@ TEST_F(TestFileRunner, localArrayOfOwnersRceRunDeathTest) {
                                "",
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_local_array_of_owners_rce.yz:14)\n"
-                               "Details: Object referenced by expression still has 1 active reference\n");
+                               "Details: Object referenced by expression still has 1 active reference\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, localArrayOfReferencesRceRunDeathTest) {
@@ -240,7 +247,8 @@ TEST_F(TestFileRunner, localArrayOfReferencesRceRunDeathTest) {
                                "",
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_local_array_of_references_rce.yz:14)\n"
-                               "Details: Object referenced by expression still has 1 active reference\n");
+                               "Details: Object referenced by expression still has 1 active reference\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, localArrayOwnerOfIntsOutOfBoundsRunDeathTest) {
@@ -249,7 +257,8 @@ TEST_F(TestFileRunner, localArrayOwnerOfIntsOutOfBoundsRunDeathTest) {
                                "",
                                "Unhandled exception wisey.lang.MArrayIndexOutOfBoundsException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_local_array_owner_of_ints_out_of_bounds.yz:10)\n"
-                               "Details: Index 2 is used on array of size 2\n");
+                               "Details: Index 2 is used on array of size 2\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, localArrayOwnerOfInts2dOutOfBoundsRunDeathTest) {
@@ -258,7 +267,8 @@ TEST_F(TestFileRunner, localArrayOwnerOfInts2dOutOfBoundsRunDeathTest) {
                                "",
                                "Unhandled exception wisey.lang.MArrayIndexOutOfBoundsException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_local_array_owner_of_ints_2d_out_of_bounds.yz:10)\n"
-                               "Details: Index 6 is used on array of size 5\n");
+                               "Details: Index 6 is used on array of size 5\n"
+                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, localArrayOwnerOfModelOwnersOutOfBoundsRunDeathTest) {
@@ -267,5 +277,6 @@ TEST_F(TestFileRunner, localArrayOwnerOfModelOwnersOutOfBoundsRunDeathTest) {
                                "",
                                "Unhandled exception wisey.lang.MArrayIndexOutOfBoundsException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_local_array_owner_of_model_owners_out_of_bounds.yz:13)\n"
-                               "Details: Index 5 is used on array of size 5\n");
+                               "Details: Index 5 is used on array of size 5\n"
+                               "Main thread ended without a result\n");
 }

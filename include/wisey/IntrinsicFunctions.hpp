@@ -86,11 +86,6 @@ namespace wisey {
      */
     static llvm::Function* getFprintfFunction(IRGenerationContext& context);
     
-    /**
-     * Declares exit function that is used to exit the program
-     */
-    static llvm::Function* getExitFunction(IRGenerationContext& context);
-    
   };
   
 } /* namespace wisey */

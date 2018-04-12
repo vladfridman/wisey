@@ -142,11 +142,3 @@ Function* IntrinsicFunctions::getFprintfFunction(IRGenerationContext& context) {
   return cast<Function>(context.getModule()->
                         getOrInsertFunction("fprintf", printfType, attributeSet));
 }
-
-Function* IntrinsicFunctions::getExitFunction(IRGenerationContext& context) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  FunctionType *typeIdType = TypeBuilder<void (int), false>::get(llvmContext);
-  
-  return cast<Function>(context.getModule()->
-                        getOrInsertFunction("exit", typeIdType));
-}

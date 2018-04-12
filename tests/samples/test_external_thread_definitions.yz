@@ -5,6 +5,8 @@ external thread wisey.lang.threads.TWorker
 
   ::wisey::model* send(::wisey::model* message);
 
+  void exit();
+
   wisey.lang.CCallStack getCallStack();
 }
 
@@ -17,6 +19,8 @@ external thread wisey.lang.threads.TWorkerWithFieldsAndMethods
   void run();
 
   ::wisey::model* send(::wisey::model* message);
+
+  void exit();
 
   wisey.lang.CCallStack getCallStack();
 }
@@ -34,6 +38,8 @@ external thread wisey.lang.threads.TWorkerWithFieldsAndMethodsAndInterface
   void run();
 
   ::wisey::model* send(::wisey::model* message);
+
+  void exit();
 
   wisey.lang.CCallStack getCallStack();
 }
