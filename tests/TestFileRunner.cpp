@@ -53,21 +53,21 @@ void TestFileRunner::runFile(string fileName, string expectedResult) {
   mCompiler.compile();
   GenericValue result = mCompiler.run();
   string resultString = result.IntVal.toString(10, true);
-
+  
   ASSERT_STREQ(expectedResult.c_str(), resultString.c_str());
 }
 
 void TestFileRunner::runFilesCheckOutput(vector<string> fileNames,
-                                               string expectedOut,
-                                               string expectedErr) {
+                                         string expectedOut,
+                                         string expectedErr) {
   exec("mkdir -p build");
-
+  
   for (string fileName : fileNames) {
     mCompilerArguments.addSourceFile(fileName);
   }
   mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
-
+  
   FILE* wiseyStdOut = fopen(STDOUT_FILE, "w");
   FILE* wiseyStdErr = fopen(STDERR_FILE, "w");
   int oldStdOut = dup(STDOUT_FILENO);
@@ -79,7 +79,7 @@ void TestFileRunner::runFilesCheckOutput(vector<string> fileNames,
   
   GenericValue result = mCompiler.run();
   string resultString = result.IntVal.toString(10, true);
-
+  
   dup2(oldStdOut, STDOUT_FILENO);
   dup2(oldStdErr, STDERR_FILENO);
   
@@ -88,34 +88,34 @@ void TestFileRunner::runFilesCheckOutput(vector<string> fileNames,
 }
 
 void TestFileRunner::runFilesCheckOutputWithDestructorDebug(vector<string> fileNames,
-                                                                  string expectedOut,
-                                                                  string expectedErr) {
+                                                            string expectedOut,
+                                                            string expectedErr) {
   mCompilerArguments.setDestructorDebug(true);
   runFilesCheckOutput(fileNames, expectedOut, expectedErr);
 }
 
 void TestFileRunner::runFileCheckOutput(string fileName,
-                                              string expectedOut,
-                                              string expectedErr) {
+                                        string expectedOut,
+                                        string expectedErr) {
   vector<string> fileNames;
   fileNames.push_back(fileName);
   runFilesCheckOutput(fileNames, expectedOut, expectedErr);
 }
 
 void TestFileRunner::runFileCheckOutputWithDestructorDebug(string fileName,
-                                                                 string expectedOut,
-                                                                 string expectedErr) {
+                                                           string expectedOut,
+                                                           string expectedErr) {
   vector<string> fileNames;
   fileNames.push_back(fileName);
   runFilesCheckOutputWithDestructorDebug(fileNames, expectedOut, expectedErr);
 }
 
 void TestFileRunner::expectFailCompile(string fileName,
-                                             int expectedErrorCode,
-                                             string expectedErrorMessage) {
+                                       int expectedErrorCode,
+                                       string expectedErrorMessage) {
   mCompilerArguments.addSourceFile(fileName);
   mCompilerArguments.addSourceFile(LIBWISEY);
-
+  
   EXPECT_EXIT(mCompiler.compile(),
               ::testing::ExitedWithCode(expectedErrorCode),
               expectedErrorMessage);
@@ -144,7 +144,7 @@ void TestFileRunner::compileAndRunFileCheckOutput(string fileName,
   exec("g++ -o build/test build/test.o -Llibwisey -lwisey");
   int result = system("build/test > build/wisey.out 2> build/wisey.err");
   int returnValue = WEXITSTATUS(result);
-
+  
   checkOutput(STDOUT_FILE, expectedOut);
   checkOutput(STDERR_FILE, expectedErr);
   
@@ -177,4 +177,5 @@ void TestFileRunner::checkOutput(const char fileName[], string expectedOut) {
   
   ASSERT_STREQ(expectedOut.c_str(), contents);
 }
+
 
