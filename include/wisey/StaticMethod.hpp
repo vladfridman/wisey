@@ -77,6 +77,8 @@ namespace wisey {
     
     bool isLLVMFunction() const override;
     
+    bool isConceal() const override;
+
     bool isReveal() const override;
     
     bool isOverride() const override;

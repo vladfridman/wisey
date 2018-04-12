@@ -1,13 +1,13 @@
 external thread wisey.lang.threads.TWorker 
     implements wisey.lang.threads.IThread {
 
-  void run();
+  void run() conceal;
 
-  ::wisey::model* send(::wisey::model* message);
+  ::wisey::model* send(::wisey::model* message) conceal;
 
-  void exit();
+  void exit() conceal;
 
-  wisey.lang.CCallStack getCallStack();
+  wisey.lang.CCallStack getCallStack() conceal;
 }
 
 external thread wisey.lang.threads.TWorkerWithFieldsAndMethods 
@@ -16,13 +16,13 @@ external thread wisey.lang.threads.TWorkerWithFieldsAndMethods
   inject wisey.lang.threads.TWorker* mInjectedField;
   state int mStateField;
 
-  void run();
+  void run() conceal;
 
-  ::wisey::model* send(::wisey::model* message);
+  ::wisey::model* send(::wisey::model* message) conceal;
 
-  void exit();
+  void exit() conceal;
 
-  wisey.lang.CCallStack getCallStack();
+  wisey.lang.CCallStack getCallStack() conceal;
 }
 
 interface wisey.lang.IInterface {
@@ -35,11 +35,11 @@ external thread wisey.lang.threads.TWorkerWithFieldsAndMethodsAndInterface
   inject wisey.lang.threads.TWorker* mInjectedField;
   state int mStateField;
 
-  void run();
+  void run() conceal;
 
-  ::wisey::model* send(::wisey::model* message);
+  ::wisey::model* send(::wisey::model* message) conceal;
 
-  void exit();
+  void exit() conceal;
 
-  wisey.lang.CCallStack getCallStack();
+  wisey.lang.CCallStack getCallStack() conceal;
 }

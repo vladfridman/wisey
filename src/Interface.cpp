@@ -401,6 +401,24 @@ Function* Interface::defineMapFunctionForMethod(IRGenerationContext& context,
     exit(1);
   }
 
+  if (objectMethodDescriptor->isConceal() && !interfaceMethodSignature->isConceal()) {
+    Log::e(context.getImportProfile(),
+           objectMethodDescriptor->getMethodQualifiers()->getLine(),
+           "Object " + object->getTypeName() + " attempts to conceal method '" +
+           interfaceMethodSignature->getName() + "' that is not marked with 'conceal' qualifier in "
+           "the parent interface " + getTypeName());
+    exit(1);
+  }
+  
+  if (!objectMethodDescriptor->isConceal() && interfaceMethodSignature->isConceal()) {
+    Log::e(context.getImportProfile(),
+           objectMethodDescriptor->getMethodQualifiers()->getLine(),
+           "Object " + object->getTypeName() + " should mark method '" +
+           interfaceMethodSignature->getName() + "' with 'conceal' qualifier as it is defined in "
+           "the parent interface " + getTypeName());
+    exit(1);
+  }
+  
   if (!IMethodDescriptor::compare(objectMethodDescriptor, interfaceMethodSignature)) {
     Log::e_deprecated("Method " + interfaceMethodSignature->getName() + " of interface " + mName +
            " has different argument types when implmeneted by object " + object->getTypeName());

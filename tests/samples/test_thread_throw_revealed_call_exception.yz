@@ -9,7 +9,7 @@ import wisey.lang.threads.IWorkerThread;
 thread TWorker implements IWorkerThread {
   inject CDefaultWorker* mDefaultWorker;
 
-  public void run() {
+  public void run() conceal {
     start();
   }
 
@@ -37,15 +37,15 @@ thread TWorker implements IWorkerThread {
     mDefaultWorker.cancel();
   }
 
-  public ::wisey::model* send(::wisey::model* message) {
+  public ::wisey::model* send(::wisey::model* message) conceal {
     return mDefaultWorker.send(message);
   }
 
-  public CCallStack getCallStack() {
+  public CCallStack getCallStack() conceal {
     return mDefaultWorker.getCallStack();
   }
 
-  public void exit() {
+  public void exit() conceal {
     mDefaultWorker.cancel();
   }
 }

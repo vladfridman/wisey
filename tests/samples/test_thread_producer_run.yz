@@ -10,7 +10,7 @@ thread TProducer implements IProducerThread {
   inject CDefaultProducer* mDefaultProducer;
   receive int mSize;
 
-  public void run() {
+  public void run() conceal {
     IThread.sleep(1);
     printout("This is producer thread!\n");
     for (int i = 0; i < 2; i++) {
@@ -49,15 +49,15 @@ thread TProducer implements IProducerThread {
     return mDefaultProducer.consume();
   }
 
-  public ::wisey::model* send(::wisey::model* message) {
+  public ::wisey::model* send(::wisey::model* message) conceal {
     return mDefaultProducer.send(message);
   }
 
-  public CCallStack getCallStack() {
+  public CCallStack getCallStack() conceal {
     return mDefaultProducer.getCallStack();
   }
 
-  public void exit() {
+  public void exit() conceal {
     mDefaultProducer.exit();
   }
 

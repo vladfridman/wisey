@@ -69,6 +69,11 @@ namespace wisey {
     virtual bool isStatic() const = 0;
 
     /**
+     * Tells whether this method is marked with conceal qualifier
+     */
+    virtual bool isConceal() const = 0;
+
+    /**
      * Tells whether this method is marked with reveal qualifier
      */
     virtual bool isReveal() const = 0;

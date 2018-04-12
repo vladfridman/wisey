@@ -35,7 +35,8 @@ bool IMethodDescriptor::compare(IMethodDescriptor* method1, IMethodDescriptor* m
   
   return !method1->getName().compare(method2->getName()) &&
     method1->getReturnType() == method2->getReturnType() &&
-    method1->isReveal() == method2->isReveal();
+    method1->isReveal() == method2->isReveal() &&
+    method1->isConceal() == method2->isConceal();
 }
 
 FunctionType* IMethodDescriptor::getLLVMFunctionType(IRGenerationContext& context,
@@ -89,6 +90,9 @@ void IMethodDescriptor::printDescriptorToStream(const IMethodDescriptor* method,
 
   if (method->isReveal()) {
     stream << " reveal";
+  }
+  if (method->isConceal()) {
+    stream << " conceal";
   }
   if (method->isOverride()) {
     stream << " override";

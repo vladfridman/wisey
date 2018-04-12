@@ -10,7 +10,7 @@ thread TMainThread implements IWorkerThread {
   inject CDefaultWorker* mDefaultWorker;
   inject IProgram* mProgram;
 
-  public void run() {
+  public void run() conceal {
     MProgramResult* programResult = builder(MProgramResult).withResult(mProgram.run()).build();
     thread.send(programResult);
   }
@@ -39,15 +39,15 @@ thread TMainThread implements IWorkerThread {
     mDefaultWorker.cancel();
   }
 
-  public ::wisey::model* send(::wisey::model* message) {
+  public ::wisey::model* send(::wisey::model* message) conceal {
     return mDefaultWorker.send(message);
   }
 
-  public CCallStack getCallStack() {
+  public CCallStack getCallStack() conceal {
     return mDefaultWorker.getCallStack();
   }
 
-  public void exit() {
+  public void exit() conceal {
     mDefaultWorker.exit();
   }
 

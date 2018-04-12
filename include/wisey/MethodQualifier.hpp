@@ -17,6 +17,7 @@ namespace wisey {
    * Represents method qualifiers such as override and reveal
    */
   typedef enum MethodQualifierEnum {
+    CONCEAL,
     OVERRIDE,
     REVEAL,
   } MethodQualifier;

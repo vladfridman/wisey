@@ -95,6 +95,10 @@ bool MethodSignature::isLLVMFunction() const {
   return false;
 }
 
+bool MethodSignature::isConceal() const {
+  return mMethodQualifiers->getMethodQualifierSet().count(MethodQualifier::CONCEAL);
+}
+
 bool MethodSignature::isReveal() const {
   return mMethodQualifiers->getMethodQualifierSet().count(MethodQualifier::REVEAL);
 }

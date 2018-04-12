@@ -274,6 +274,10 @@ bool Method::isLLVMFunction() const {
   return false;
 }
 
+bool Method::isConceal() const {
+  return mMethodQualifiers->getMethodQualifierSet().count(MethodQualifier::CONCEAL);
+}
+
 bool Method::isReveal() const {
   return mMethodQualifiers->getMethodQualifierSet().count(MethodQualifier::REVEAL);
 }

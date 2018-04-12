@@ -6,18 +6,17 @@ import wisey.lang.threads.IThread;
 
 thread TThread implements IThread {
 
-  public void run() {
+  public void run() conceal {
   }
 
-  public ::wisey::model* send(::wisey::model* message) {
+  public ::wisey::model* send(::wisey::model* message) conceal {
     return null;
   }
 
-  public CCallStack getCallStack() {
+  public CCallStack getCallStack() conceal {
     return null;
   }
 
-  public void exit() {
-    
+  public void exit() conceal {
   }
 }

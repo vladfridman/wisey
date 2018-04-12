@@ -10,7 +10,7 @@ interface IThread {
   /**
    * The work of this thread is done in this method
    */
-  void run();
+  void run() conceal;
 
   /**
    * Sends a message to the calling thread. 
@@ -18,17 +18,17 @@ interface IThread {
    * Returns null if the message was sent successfully
    * Returns the sent message if it could not be sent
    */
-  ::wisey::model* send(::wisey::model* message);
+  ::wisey::model* send(::wisey::model* message) conceal;
 
   /**
    * Exit the thread
    */
-  void exit();
+  void exit() conceal;
 
   /**
    * Returns the call stack for this thread
    */
-  CCallStack getCallStack();
+  CCallStack getCallStack() conceal;
 
   /**
    * Method for putting the current thread to sleep

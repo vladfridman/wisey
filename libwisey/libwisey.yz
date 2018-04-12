@@ -26,11 +26,11 @@ external interface wisey.lang.threads.IProducerThread
 
 external interface wisey.lang.threads.IThread {
 
-  void run();
+  void run() conceal;
   ::wisey::model* send(
-    ::wisey::model* message);
-  void exit();
-  wisey.lang.CCallStack getCallStack();
+    ::wisey::model* message) conceal;
+  void exit() conceal;
+  wisey.lang.CCallStack getCallStack() conceal;
   static void sleep(
     int seconds);
   static void checkConcealedMethodCall(
@@ -236,7 +236,7 @@ external thread wisey.lang.TMainThread
   inject wisey.lang.threads.CDefaultWorker* mDefaultWorker;
   inject wisey.lang.IProgram* mProgram;
 
-  void run();
+  void run() conceal;
   void start() reveal;
   boolean hasStarted() reveal;
   boolean hasResult() reveal;
@@ -244,9 +244,9 @@ external thread wisey.lang.TMainThread
   ::wisey::model* awaitResult() reveal;
   void cancel() reveal;
   ::wisey::model* send(
-    ::wisey::model* message);
-  wisey.lang.CCallStack getCallStack();
-  void exit();
+    ::wisey::model* message) conceal;
+  wisey.lang.CCallStack getCallStack() conceal;
+  void exit() conceal;
 }
 
 external model wisey.lang.TMainThread.MProgramResult {
