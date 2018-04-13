@@ -23,7 +23,7 @@ LLVMPointerTypeSpecifier::~LLVMPointerTypeSpecifier() {
   delete mBaseTypeSpecifier;
 }
 
-const ILLVMType* LLVMPointerTypeSpecifier::getType(IRGenerationContext& context) const {
+const LLVMPointerType* LLVMPointerTypeSpecifier::getType(IRGenerationContext& context) const {
   return mBaseTypeSpecifier->getType(context)->getPointerType();
 }
 

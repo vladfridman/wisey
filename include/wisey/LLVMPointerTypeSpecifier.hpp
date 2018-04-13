@@ -29,7 +29,7 @@ namespace wisey {
     
     ~LLVMPointerTypeSpecifier();
     
-    const ILLVMType* getType(IRGenerationContext& context) const override;
+    const LLVMPointerType* getType(IRGenerationContext& context) const override;
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 

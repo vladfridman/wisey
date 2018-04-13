@@ -78,6 +78,7 @@
   #include "wisey/LLVMFunctionDefinition.hpp"
   #include "wisey/LLVMFunctionIdentifier.hpp"
   #include "wisey/LLVMFunctionTypeSpecifier.hpp"
+  #include "wisey/LLVMPointerOwnerTypeSpecifier.hpp"
   #include "wisey/LLVMPointerTypeSpecifier.hpp"
   #include "wisey/LLVMPrimitiveTypes.hpp"
   #include "wisey/LLVMStructDefinition.hpp"
@@ -190,6 +191,7 @@
   wisey::ProgramFile* program_file;
   const wisey::ILLVMTypeSpecifier* llvm_type_specifier;
   wisey::LLVMPointerTypeSpecifier* llvm_pointer_type_specifier;
+  wisey::LLVMPointerOwnerTypeSpecifier* llvm_pointer_owner_type_specifier;
   wisey::LLVMVariableDeclaration* llvm_variable_declaration;
   wisey::MethodQualifier method_qualifier;
   std::vector<wisey::Catch*>* catch_vector;
@@ -354,6 +356,7 @@
 %type <llvm_type_specifier> llvm_i_type_specifier llvm_struct_specifier llvm_array_specifier
 %type <llvm_type_specifier> llvm_pointer_base_type_specifier llvm_function_type_specifier
 %type <llvm_pointer_type_specifier> llvm_pointer_type_specifier
+%type <llvm_pointer_owner_type_specifier> llvm_pointer_owner_type_specifier
 %type <const_type_specifier_list> native_type_specifier_list 
 %type <const_type_specifier_list> llvm_function_argument_type_specifier_list
 %type <llvm_variable_vector> llvm_function_definition_arguments
@@ -454,6 +457,7 @@ llvm_type_specifier
   : llvm_non_array_type_specifier
   | llvm_array_specifier { $$ = (const ITypeSpecifier*) $1; }
   | llvm_pointer_type_specifier { $$ = (const ITypeSpecifier*) $1; }
+  | llvm_pointer_owner_type_specifier { $$ = (const ITypeSpecifier*) $1; }
   ;
 
 wisey_type_specifier
@@ -486,6 +490,11 @@ llvm_non_array_type_specifier
   | llvm_struct_specifier { $$ = (const ITypeSpecifier*) $1; }
   | llvm_function_type_specifier { $$ = (const ITypeSpecifier*) $1; }
   | llvm_void_type_specifier
+  ;
+
+llvm_pointer_owner_type_specifier
+  : llvm_pointer_type_specifier '*'
+    { $$ = new LLVMPointerOwnerTypeSpecifier($1); }
   ;
 
 llvm_pointer_type_specifier

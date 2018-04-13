@@ -16,6 +16,7 @@
 
 #include "MockConcreteObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/LLVMPointerOwnerType.hpp"
 #include "wisey/LLVMPointerType.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/StateField.hpp"
@@ -88,8 +89,6 @@ TEST_F(LLVMPointerTypeTest, canCastTest) {
 }
 
 TEST_F(LLVMPointerTypeTest, castToTest) {
-  Mock::AllowLeak(&mConcreteObjectType);
-  
   LLVMPointerType* anotherPointerType = LLVMPointerType::create(LLVMPrimitiveTypes::I32);
   Value* value = ConstantPointerNull::get(mLLVMPointerType->getLLVMType(mContext));
   Value* result = mLLVMPointerType->castTo(mContext, value, anotherPointerType, 0);
@@ -100,8 +99,6 @@ TEST_F(LLVMPointerTypeTest, castToTest) {
 }
 
 TEST_F(LLVMPointerTypeTest, castToObjectTest) {
-  Mock::AllowLeak(&mConcreteObjectType);
-  
   Value* value = ConstantPointerNull::get(mLLVMPointerType->getLLVMType(mContext));
   Value* result = mLLVMPointerType->castTo(mContext, value, &mConcreteObjectType, 0);
   *mStringStream << *result;
@@ -174,4 +171,9 @@ TEST_F(LLVMPointerTypeTest, printToStreamTest) {
 TEST_F(LLVMPointerTypeTest, getPointerTypeTest) {
   EXPECT_EQ(mLLVMPointerType->getLLVMType(mContext)->getPointerTo(),
             mLLVMPointerType->getPointerType()->getLLVMType(mContext));
+}
+
+TEST_F(LLVMPointerTypeTest, getOwnerTest) {
+  EXPECT_NE(nullptr, mLLVMPointerType->getOwner());
+  EXPECT_STREQ("::llvm::i8::pointer*", mLLVMPointerType->getOwner()->getTypeName().c_str());
 }

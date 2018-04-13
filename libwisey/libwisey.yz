@@ -318,6 +318,7 @@ external ::llvm::function ::llvm::void __adjustReferenceCounterForConcreteObject
 external ::llvm::function ::llvm::void __adjustReferenceCounterForConcreteObjectUnsafely(::llvm::i8::pointer, ::llvm::i64);
 external ::llvm::function ::llvm::void __checkArrayIndexFunction(::llvm::i64, ::llvm::i64);
 external ::llvm::function ::llvm::void __checkForNullAndThrow(::llvm::i8::pointer);
+external ::llvm::function ::llvm::void __destroyNativeObjectFunction(::llvm::i8::pointer);
 external ::llvm::function ::llvm::void __destroyOwnerArrayFunction(::llvm::i64::pointer, ::llvm::i64, ::llvm::i1);
 external ::llvm::function ::llvm::void __destroyOwnerObjectFunction(::llvm::i8::pointer);
 external ::llvm::function ::llvm::void __destroyPrimitiveArrayFunction(::llvm::i64::pointer, ::llvm::i64, ::llvm::i64, ::llvm::i1);

@@ -1,11 +1,11 @@
 //
-//  TestDestroyOwnerObjectFunction.cpp
-//  Wisey
+//  TestDestroyNativeObjectFunction.cpp
+//  runtests
 //
-//  Created by Vladimir Fridman on 3/30/18.
+//  Created by Vladimir Fridman on 4/13/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link DestroyOwnerObjectFunction}
+//  Tests {@link DestroyNativeObjectFunction}
 //
 
 #include <gtest/gtest.h>
@@ -14,7 +14,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/DestroyOwnerObjectFunction.hpp"
+#include "wisey/DestroyNativeObjectFunction.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
 using namespace llvm;
@@ -23,7 +23,7 @@ using namespace wisey;
 
 using ::testing::Test;
 
-struct DestroyOwnerObjectFunctionTest : Test {
+struct DestroyNativeObjectFunctionTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBasicBlock;
@@ -31,7 +31,7 @@ struct DestroyOwnerObjectFunctionTest : Test {
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  DestroyOwnerObjectFunctionTest() :
+  DestroyNativeObjectFunctionTest() :
   mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     
@@ -48,30 +48,30 @@ struct DestroyOwnerObjectFunctionTest : Test {
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
-  ~DestroyOwnerObjectFunctionTest() {
+  ~DestroyNativeObjectFunctionTest() {
   }
 };
 
-TEST_F(DestroyOwnerObjectFunctionTest, callTest) {
+TEST_F(DestroyNativeObjectFunctionTest, callTest) {
   PointerType* genericPointer = Type::getInt8Ty(mLLVMContext)->getPointerTo();
   Value* nullPointerValue = ConstantPointerNull::get(genericPointer);
-  DestroyOwnerObjectFunction::call(mContext, nullPointerValue);
+  DestroyNativeObjectFunction::call(mContext, nullPointerValue);
   
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  call void @__destroyOwnerObjectFunction(i8* null)\n";
+  "\n  call void @__destroyNativeObjectFunction(i8* null)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(DestroyOwnerObjectFunctionTest, getTest) {
-  Function* function = DestroyOwnerObjectFunction::get(mContext);
+TEST_F(DestroyNativeObjectFunctionTest, getTest) {
+  Function* function = DestroyNativeObjectFunction::get(mContext);
   mContext.runComposingCallbacks();
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @__destroyOwnerObjectFunction(i8* %thisGeneric) personality i32 (...)* @__gxx_personality_v0 {"
+  "\ndefine void @__destroyNativeObjectFunction(i8* %thisGeneric) {"
   "\nentry:"
   "\n  %0 = icmp eq i8* %thisGeneric, null"
   "\n  br i1 %0, label %if.null, label %if.notnull"
@@ -80,23 +80,9 @@ TEST_F(DestroyOwnerObjectFunctionTest, getTest) {
   "\n  ret void"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
-  "\n  %1 = bitcast i8* %thisGeneric to i8*"
-  "\n  %2 = call i8* @__getOriginalObject(i8* %1)"
-  "\n  %3 = bitcast i8* %2 to void (i8*)***"
-  "\n  %vtable = load void (i8*)**, void (i8*)*** %3"
-  "\n  %4 = getelementptr void (i8*)*, void (i8*)** %vtable, i64 2"
-  "\n  %5 = load void (i8*)*, void (i8*)** %4"
-  "\n  invoke void %5(i8* %2)"
-  "\n          to label %invoke.continue unwind label %cleanup"
-  "\n"
-  "\ncleanup:                                          ; preds = %if.notnull"
-  "\n  %6 = landingpad { i8*, i32 }"
-  "\n          cleanup"
-  "\n  resume { i8*, i32 } %6"
-  "\n"
-  "\ninvoke.continue:                                  ; preds = %if.notnull"
+  "\n  tail call void @free(i8* %thisGeneric)"
   "\n  ret void"
   "\n}\n";
-
+  
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

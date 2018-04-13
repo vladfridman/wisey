@@ -12,6 +12,7 @@
 #include "wisey/FieldPointerVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LLVMPointerOwnerType.hpp"
 #include "wisey/LLVMPointerType.hpp"
 #include "wisey/LocalPointerVariable.hpp"
 #include "wisey/Log.hpp"
@@ -25,10 +26,15 @@ unsigned long LLVMPointerType::LLVM_POINTER_MAX_DEGREE = 3;
 LLVMPointerType::LLVMPointerType(const ILLVMType* baseType, unsigned long degree) {
   mBaseType = baseType;
   mPointerType = degree < LLVM_POINTER_MAX_DEGREE ? new LLVMPointerType(this, degree + 1u) : NULL;
+  mPointerOwnerType = new LLVMPointerOwnerType(this);
 }
 
 LLVMPointerType::~LLVMPointerType() {
   delete mPointerType;
+}
+
+const LLVMPointerOwnerType* LLVMPointerType::getOwner() const {
+  return mPointerOwnerType;
 }
 
 LLVMPointerType* LLVMPointerType::create(const ILLVMType* baseType) {

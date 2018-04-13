@@ -16,6 +16,7 @@
 #include "wisey/CheckArrayIndexFunction.hpp"
 #include "wisey/CheckForNullAndThrowFunction.hpp"
 #include "wisey/IntConstant.hpp"
+#include "wisey/DestroyNativeObjectFunction.hpp"
 #include "wisey/DestroyOwnerArrayFunction.hpp"
 #include "wisey/DestroyOwnerObjectFunction.hpp"
 #include "wisey/DestroyPrimitiveArrayFunction.hpp"
@@ -59,6 +60,7 @@ void ProgramSuffix::defineEssentialFunctions(IRGenerationContext& context) const
   AdjustReferenceCounterForConcreteObjectUnsafelyFunction::get(context);
   AdjustReferenceCountFunction::get(context);
   CheckArrayIndexFunction::get(context);
+  DestroyNativeObjectFunction::get(context);
   DestroyOwnerArrayFunction::get(context);
   DestroyOwnerObjectFunction::get(context);
   DestroyPrimitiveArrayFunction::get(context);

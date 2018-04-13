@@ -1,45 +1,33 @@
 //
-//  LLVMPointerType.hpp
+//  LLVMPointerOwnerType.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 3/19/18.
+//  Created by Vladimir Fridman on 4/13/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef LLVMPointerType_h
-#define LLVMPointerType_h
+#ifndef LLVMPointerOwnerType_h
+#define LLVMPointerOwnerType_h
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/ILLVMType.hpp"
+#include "wisey/IOwnerType.hpp"
+#include "wisey/WiseyObjectType.hpp"
 
 namespace wisey {
   
-  class LLVMPointerOwnerType;
-  
   /**
-   * Represents an llvm pointer type
+   * Represents an llvm pointer type that points to a native object that it owns
    */
-  class LLVMPointerType : public ILLVMType {
+  class LLVMPointerOwnerType : public IOwnerType {
     
-    const ILLVMType* mBaseType;
     const LLVMPointerType* mPointerType;
-    const LLVMPointerOwnerType* mPointerOwnerType;
     
-    LLVMPointerType(const ILLVMType* baseType, unsigned long degree);
-
   public:
     
-    static unsigned long LLVM_POINTER_MAX_DEGREE;
-
-    static LLVMPointerType* create(const ILLVMType* baseType);
+    LLVMPointerOwnerType(const LLVMPointerType* pointerType);
     
-    ~LLVMPointerType();
-    
-    /**
-     * Returns corresponding pointer owner type
-     */
-    const LLVMPointerOwnerType* getOwner() const;
+    ~LLVMPointerOwnerType();
     
     std::string getTypeName() const override;
     
@@ -79,7 +67,7 @@ namespace wisey {
     bool isNative() const override;
     
     bool isPointer() const override;
-
+    
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
     void createLocalVariable(IRGenerationContext& context, std::string name) const override;
@@ -94,10 +82,12 @@ namespace wisey {
     
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
     
-    const LLVMPointerType* getPointerType() const override;
-
+    const IReferenceType* getReference() const override;
+    
+    void free(IRGenerationContext& context, llvm::Value* value, int line) const override;
+    
   };
   
 } /* namespace wisey */
 
-#endif /* LLVMPointerType_h */
+#endif /* LLVMPointerOwnerType_h */
