@@ -254,18 +254,64 @@ TEST_F(TestFileRunner, threadMethodBothConcealedAndRevealedDeathTest) {
 
 TEST_F(TestFileRunner, threadRunRunTest) {
   runFileCheckOutput("tests/samples/test_thread_run.yz",
-                     "Thread started = 0, has result = 0\n"
+                     "Thread started = 0, has finished = 0\n"
                      "Starting worker thread\n"
                      "Worker thread started\n"
-                     "Thread started = 1, has result = 0\n"
+                     "Thread started = 1, has finished = 0\n"
                      "This is worker thread!\n"
                      "Worker thread finished with result: 5\n"
-                     "Thread started = 1, has result = 0\n",
+                     "Thread started = 1, has finished = 1\n",
+                     "");
+}
+
+TEST_F(TestFileRunner, threadResetRunTest) {
+  runFileCheckOutput("tests/samples/test_thread_reset.yz",
+                     "Thread started = 0, has finished = 0\n"
+                     "Starting worker thread\n"
+                     "Worker thread started\n"
+                     "Thread started = 1, has finished = 0\n"
+                     "This is worker thread!\n"
+                     "Worker thread finished with result: 5\n"
+                     "Thread started = 1, has finished = 1\n"
+                     "Thread started = 0, has finished = 0\n"
+                     "Starting worker thread\n"
+                     "Worker thread started\n"
+                     "Thread started = 1, has finished = 0\n"
+                     "This is worker thread!\n"
+                     "Worker thread finished with result: 5\n"
+                     "Thread started = 1, has finished = 1\n",
                      "");
 }
 
 TEST_F(TestFileRunner, threadProducerRunRunTest) {
   runFileCheckOutput("tests/samples/test_thread_producer_run.yz",
+                     "Thread started = 0, has result = 0\n"
+                     "Starting producer thread\n"
+                     "Producer thread started\n"
+                     "Thread started = 1, has result = 0\n"
+                     "This is producer thread!\n"
+                     "Adding result 0\n"
+                     "Adding result 1\n"
+                     "Producer thread finished with result: 0\n"
+                     "Thread started = 1, has result = 1\n"
+                     "Producer thread finished with result: 1\n"
+                     "Thread started = 1, has result = 0\n",
+                     "");
+}
+
+TEST_F(TestFileRunner, threadProducerResetRunTest) {
+  runFileCheckOutput("tests/samples/test_thread_producer_reset.yz",
+                     "Thread started = 0, has result = 0\n"
+                     "Starting producer thread\n"
+                     "Producer thread started\n"
+                     "Thread started = 1, has result = 0\n"
+                     "This is producer thread!\n"
+                     "Adding result 0\n"
+                     "Adding result 1\n"
+                     "Producer thread finished with result: 0\n"
+                     "Thread started = 1, has result = 1\n"
+                     "Producer thread finished with result: 1\n"
+                     "Thread started = 1, has result = 0\n"
                      "Thread started = 0, has result = 0\n"
                      "Starting producer thread\n"
                      "Producer thread started\n"
@@ -297,7 +343,7 @@ TEST_F(TestFileRunner, threadThrowConcealedCallExceptionDeathRunTest) {
                                1,
                                "",
                                "Unhandled exception wisey.lang.threads.MThreadConcealedMethodException\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_thread_throw_concealed_call_exception.yz:50)\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_thread_throw_concealed_call_exception.yz:53)\n"
                                "Main thread ended without a result\n");
 }
 

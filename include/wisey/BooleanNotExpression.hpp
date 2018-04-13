@@ -19,10 +19,11 @@ namespace wisey {
    */
   class BooleanNotExpression : public IExpression {
     IExpression* mExpression;
+    int mLine;
     
   public:
     
-    BooleanNotExpression(IExpression* expression);
+    BooleanNotExpression(IExpression* expression, int line);
     
     ~BooleanNotExpression();
     

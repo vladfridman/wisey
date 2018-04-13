@@ -19,4 +19,25 @@ thread TThread implements IThread {
 
   public void exit() conceal {
   }
+
+  public void start() reveal {
+  }
+
+  public boolean isStarted() reveal {
+    return false;
+  }
+
+  public boolean isFinished() reveal {
+    return false;
+  }
+
+  public boolean isCancelled() reveal {
+    return false;
+  }
+
+  public void cancel() reveal {
+  }
+
+  public void reset() reveal {
+  }
 }

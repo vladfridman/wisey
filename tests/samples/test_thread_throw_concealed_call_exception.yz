@@ -12,15 +12,15 @@ thread TWorker implements IWorkerThread {
   public void start() reveal {
   }
 
-  public boolean hasStarted() reveal {
+  public boolean isStarted() reveal {
     return false;
   }
 
-  public boolean hasResult() reveal {
+  public boolean isFinished() reveal {
     return false;
   }
 
-  public boolean wasCancelled() reveal {
+  public boolean isCancelled() reveal {
     return false;
   }
 
@@ -29,6 +29,9 @@ thread TWorker implements IWorkerThread {
   }
 
   public void cancel() reveal {
+  }
+
+  public void reset() reveal {
   }
 
   public ::wisey::model* send(::wisey::model* message) conceal {

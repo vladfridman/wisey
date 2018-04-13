@@ -17,6 +17,7 @@
 
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/BooleanNotExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -42,6 +43,7 @@ struct BooleanNotExpressionTest : Test {
   
   BooleanNotExpressionTest() : mExpression(new NiceMock<MockExpression>()) {
     LLVMContext& llvmContext = mContext.getLLVMContext();
+    TestPrefix::generateIR(mContext);
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(llvmContext), false);
@@ -65,13 +67,13 @@ struct BooleanNotExpressionTest : Test {
 };
 
 TEST_F(BooleanNotExpressionTest, isConstantTest) {
-  BooleanNotExpression booleanNotExpression(mExpression);
+  BooleanNotExpression booleanNotExpression(mExpression, 0);
 
   EXPECT_FALSE(booleanNotExpression.isConstant());
 }
 
 TEST_F(BooleanNotExpressionTest, getVariableTest) {
-  BooleanNotExpression booleanNotExpression(mExpression);
+  BooleanNotExpression booleanNotExpression(mExpression, 0);
   vector<const IExpression*> arrayIndices;
 
   EXPECT_EQ(booleanNotExpression.getVariable(mContext, arrayIndices), nullptr);
@@ -81,7 +83,7 @@ TEST_F(BooleanNotExpressionTest, negateIntExpressionTest) {
   Value* one = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 1);
   ON_CALL(*mExpression, generateIR(_, _)).WillByDefault(Return(one));
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
-  BooleanNotExpression booleanNotExpression(mExpression);
+  BooleanNotExpression booleanNotExpression(mExpression, 0);
   
   Value* result = booleanNotExpression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
@@ -91,7 +93,7 @@ TEST_F(BooleanNotExpressionTest, negateIntExpressionTest) {
 }
 
 TEST_F(BooleanNotExpressionTest, printToStreamTest) {
-  BooleanNotExpression booleanNotExpression(mExpression);
+  BooleanNotExpression booleanNotExpression(mExpression, 0);
   ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
   
   stringstream stringStream;
@@ -102,12 +104,13 @@ TEST_F(BooleanNotExpressionTest, printToStreamTest) {
 
 TEST_F(BooleanNotExpressionTest, negateIncompatibleTypeDeathTest) {
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
-  BooleanNotExpression booleanNotExpression(mExpression);
+  BooleanNotExpression booleanNotExpression(mExpression, 3);
   Mock::AllowLeak(mExpression);
   
   EXPECT_EXIT(booleanNotExpression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
-              "Error: Boolean NOT operator '!' can only be applied to boolean types");
+              "/tmp/source.yz\\(3\\): Error: Boolean NOT operator '!' can only be applied "
+              "to boolean types");
 }
 
 TEST_F(TestFileRunner, booleanNotRunTest) {

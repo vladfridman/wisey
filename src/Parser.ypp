@@ -1383,7 +1383,7 @@ postfix_expression
 unary_expression
   : postfix_expression
   | '-' cast_expression { $$ = new NegateExpression($2); }
-  | '!' cast_expression { $$ = new BooleanNotExpression($2); }
+  | '!' cast_expression { $$ = new BooleanNotExpression($2, yylineno); }
   ;
 
 cast_expression

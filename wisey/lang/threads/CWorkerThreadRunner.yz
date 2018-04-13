@@ -7,13 +7,17 @@ import wisey.lang.CCallStack;
  */
 controller CWorkerThreadRunner implements IThreadRunner {
   state ::llvm::struct::_opaque_pthread_t::pointer mMyNativeThread;
-  state boolean mIsCanceled;
+  state boolean mIsCancelled;
+  state boolean mIsFinished;
   state ::wisey::model* mResult;
 
   /**
-   * Creates a new posix thread that calls workBridge function that in turn calls work method
+   * Creates new posix thread that calls runBridge function that in turn calls thread's run method
    */
   public void createThread(IWorkerThread workerThread) {
+    if (mMyNativeThread != null) {
+      return;
+    }
     ::llvm::function::pthread_create(::llvm::reference(mMyNativeThread), 
                                      (::llvm::struct::_opaque_pthread_attr_t::pointer) null, 
                                      IThreadRunner.runBridge, 
@@ -21,12 +25,59 @@ controller CWorkerThreadRunner implements IThreadRunner {
   }
 
   /**
+   * Tells whether thread has started
+   */
+  public boolean isStarted() {
+    return mMyNativeThread != null;
+  }
+
+  /**
+   * Tells whether the thread has finished working and has the result
+   */
+  public boolean isFinished() {
+    return mIsFinished;
+  }
+
+  /**
+   * Tells whether the worker thread has been cancelled
+   */
+  public boolean isCancelled() {
+    return mIsCancelled;
+  }
+
+  /**
    * Waits for thread to finish its work
    */
   public void joinThread() {
-    if (!mIsCanceled) {
-      ::llvm::function::pthread_join(mMyNativeThread, (::llvm::i8::pointer::pointer) null);
+    if (mMyNativeThread == null || mIsCancelled || mIsFinished) {
+      return;
     }
+    ::llvm::function::pthread_join(mMyNativeThread, (::llvm::i8::pointer::pointer) null);
+    mIsFinished = true;
+  }
+
+  /**
+   * Cancel execution of the worker thread
+   */
+  public void cancelThread() {
+    if (mMyNativeThread == null || mIsCancelled || mIsFinished) {
+      return;
+    }
+    ::llvm::function::pthread_cancel(mMyNativeThread);
+    mIsCancelled = true;
+  }
+
+  /**
+   * Reset the thread so it can be restarted
+   */
+  public void resetThread() {
+    if (!mIsCancelled && !mIsFinished) {
+      return;
+    }
+    mIsFinished = false;
+    mIsCancelled = false;
+    mResult = null;
+    mMyNativeThread = null;
   }
 
   /**
@@ -34,28 +85,6 @@ controller CWorkerThreadRunner implements IThreadRunner {
    */
   public void exitThread() {
     ::llvm::function::pthread_exit((::llvm::i8::pointer) null);
-  }
-
-  /**
-   * Cancel execution of the worker thread
-   */
-  public void cancelThread() {
-    ::llvm::function::pthread_cancel(mMyNativeThread);
-    mIsCanceled = true;
-  }
-
-  /**
-   * Tells whether thread has started
-   */
-  public boolean hasStarted() {
-    return mMyNativeThread != null;
-  }
-
-  /**
-   * Tells whether the worker thread has been cancelled
-   */
-  public boolean wasCancelled() {
-    return mIsCanceled;
   }
 
   /**
@@ -70,12 +99,5 @@ controller CWorkerThreadRunner implements IThreadRunner {
    */
   public ::wisey::model* getResult() {
     return mResult;
-  }
-
-  /**
-   * Tells whether the thread has prepared the result
-   */
-  public boolean hasResult() {
-    return mResult != null;
   }
 }

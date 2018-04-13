@@ -16,11 +16,7 @@ external interface wisey.lang.threads.IProducerThread
   extends
     wisey.lang.threads.IThread {
 
-  void start() reveal;
-  boolean hasStarted() reveal;
   boolean hasResult() reveal;
-  boolean wasCancelled() reveal;
-  void cancel() reveal;
   ::wisey::model* consume() reveal;
 }
 
@@ -31,6 +27,12 @@ external interface wisey.lang.threads.IThread {
     ::wisey::model* message) conceal;
   void exit() conceal;
   wisey.lang.CCallStack getCallStack() conceal;
+  void start() reveal;
+  boolean isStarted() reveal;
+  boolean isFinished() reveal;
+  boolean isCancelled() reveal;
+  void cancel() reveal;
+  void reset() reveal;
   static void sleep(
     int seconds);
   static void checkConcealedMethodCall(
@@ -46,12 +48,7 @@ external interface wisey.lang.threads.IWorkerThread
   extends
     wisey.lang.threads.IThread {
 
-  void start() reveal;
-  boolean hasStarted() reveal;
-  boolean hasResult() reveal;
-  boolean wasCancelled() reveal;
   ::wisey::model* awaitResult() reveal;
-  void cancel() reveal;
 }
 
 /* Models */
@@ -149,12 +146,14 @@ external controller wisey.lang.threads.CDefaultProducer {
   void start(
     wisey.lang.threads.IProducerThread producerThread,
     int size);
-  boolean hasStarted();
-  boolean hasResult();
-  boolean wasCancelled();
+  boolean isStarted();
+  boolean isFinished();
+  boolean isCancelled();
   void cancel();
-  void exit();
+  void reset();
+  boolean hasResult();
   ::wisey::model* consume();
+  void exit();
   ::wisey::model* send(
     ::wisey::model* message);
   wisey.lang.CCallStack getCallStack();
@@ -167,11 +166,12 @@ external controller wisey.lang.threads.CDefaultWorker {
 
   void start(
     wisey.lang.threads.IWorkerThread workerThread);
-  boolean hasStarted();
-  boolean hasResult();
-  boolean wasCancelled();
+  boolean isStarted();
+  boolean isFinished();
+  boolean isCancelled();
   ::wisey::model* awaitResult();
   void cancel();
+  void reset();
   void exit();
   ::wisey::model* send(
     ::wisey::model* message);
@@ -183,25 +183,27 @@ external controller wisey.lang.threads.CProducerThreadRunner
     wisey.lang.threads.IThreadRunner {
 
   state ::llvm::struct::_opaque_pthread_t::pointer mMyNativeThread;
-  state boolean mIsCanceled;
+  state boolean mIsCancelled;
+  state boolean mIsFinished;
   state ::wisey::model*[]* mResults;
   state int mSize;
   state int mIndexStart;
   state int mIndexEnd;
 
   void createThread(
-    wisey.lang.threads.IProducerThread workerThread,
+    wisey.lang.threads.IProducerThread producerThread,
     int size);
-  void joinThread();
+  boolean isStarted();
+  boolean isFinished();
+  boolean isCancelled();
+  void cancelThread();
+  void resetThread();
+  boolean hasResult();
+  ::wisey::model* consumeResult();
   ::wisey::model* addResult(
     ::wisey::model* result);
-  ::wisey::model* consumeResult();
-  boolean hasResult();
-  boolean hasRoom();
   void exitThread();
-  void cancelThread();
-  boolean hasStarted();
-  boolean wasCancelled();
+  boolean hasRoom();
 }
 
 external controller wisey.lang.threads.CWorkerThreadRunner
@@ -209,20 +211,22 @@ external controller wisey.lang.threads.CWorkerThreadRunner
     wisey.lang.threads.IThreadRunner {
 
   state ::llvm::struct::_opaque_pthread_t::pointer mMyNativeThread;
-  state boolean mIsCanceled;
+  state boolean mIsCancelled;
+  state boolean mIsFinished;
   state ::wisey::model* mResult;
 
   void createThread(
     wisey.lang.threads.IWorkerThread workerThread);
+  boolean isStarted();
+  boolean isFinished();
+  boolean isCancelled();
   void joinThread();
-  void exitThread();
   void cancelThread();
-  boolean hasStarted();
-  boolean wasCancelled();
+  void resetThread();
+  void exitThread();
   void setResult(
     ::wisey::model* result);
   ::wisey::model* getResult();
-  boolean hasResult();
 }
 
 /* Nodes */
@@ -238,11 +242,12 @@ external thread wisey.lang.TMainThread
 
   void run() conceal;
   void start() reveal;
-  boolean hasStarted() reveal;
-  boolean hasResult() reveal;
-  boolean wasCancelled() reveal;
+  boolean isStarted() reveal;
+  boolean isFinished() reveal;
+  boolean isCancelled() reveal;
   ::wisey::model* awaitResult() reveal;
   void cancel() reveal;
+  void reset() reveal;
   ::wisey::model* send(
     ::wisey::model* message) conceal;
   wisey.lang.CCallStack getCallStack() conceal;

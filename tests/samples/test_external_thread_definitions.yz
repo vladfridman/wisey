@@ -8,6 +8,18 @@ external thread wisey.lang.threads.TWorker
   void exit() conceal;
 
   wisey.lang.CCallStack getCallStack() conceal;
+
+  void start() reveal;
+
+  boolean isStarted() reveal;
+  
+  boolean isFinished() reveal;
+  
+  boolean isCancelled() reveal;
+
+  void cancel() reveal;
+
+  void reset() reveal;
 }
 
 external thread wisey.lang.threads.TWorkerWithFieldsAndMethods 
@@ -23,6 +35,18 @@ external thread wisey.lang.threads.TWorkerWithFieldsAndMethods
   void exit() conceal;
 
   wisey.lang.CCallStack getCallStack() conceal;
+
+  void start() reveal;
+
+  boolean isStarted() reveal;
+  
+  boolean isFinished() reveal;
+  
+  boolean isCancelled() reveal;
+
+  void cancel() reveal;
+
+  void reset() reveal;
 }
 
 interface wisey.lang.IInterface {
@@ -42,4 +66,16 @@ external thread wisey.lang.threads.TWorkerWithFieldsAndMethodsAndInterface
   void exit() conceal;
 
   wisey.lang.CCallStack getCallStack() conceal;
+
+  void start() reveal;
+
+  boolean isStarted() reveal;
+  
+  boolean isFinished() reveal;
+  
+  boolean isCancelled() reveal;
+
+  void cancel() reveal;
+
+  void reset() reveal;
 }

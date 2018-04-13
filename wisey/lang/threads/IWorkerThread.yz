@@ -6,35 +6,10 @@ import wisey.lang.CCallStack;
  * Represents a thread of execution. All thread objects must implement this interface.
  */
 interface IWorkerThread extends IThread {
-
-  /**
-   * Starts the thread
-   */
-  void start() reveal;
-
-  /**
-   * Tells whether the worker thread has started running
-   */
-  boolean hasStarted() reveal;
-  
-  /**
-   * Tells whether the worker thread has result ready
-   */
-  boolean hasResult() reveal;
-  
-  /**
-   * Tells whether the worker thread was cancelled
-   */
-  boolean wasCancelled() reveal;
   
   /**
    * Waits for thread to finish and returns the result
    */
   ::wisey::model* awaitResult() reveal;
-
-  /**
-   * Cancel expecution of the worker thread
-   */
-  void cancel() reveal;
 
 }

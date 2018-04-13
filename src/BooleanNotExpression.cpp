@@ -19,7 +19,8 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-BooleanNotExpression::BooleanNotExpression(IExpression* expression) : mExpression(expression) { }
+BooleanNotExpression::BooleanNotExpression(IExpression* expression, int line) :
+mExpression(expression), mLine(line) { }
 
 BooleanNotExpression::~BooleanNotExpression() {
   delete mExpression;
@@ -34,7 +35,9 @@ Value* BooleanNotExpression::generateIR(IRGenerationContext& context,
                                         const IType* assignToType) const {
   const IType* expressionType = mExpression->getType(context);
   if (expressionType != PrimitiveTypes::BOOLEAN_TYPE) {
-    Log::e_deprecated("Boolean NOT operator '!' can only be applied to boolean types");
+    Log::e(context.getImportProfile(),
+           mLine,
+           "Boolean NOT operator '!' can only be applied to boolean types");
     exit(1);
   }
   

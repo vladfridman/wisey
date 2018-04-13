@@ -20,16 +20,16 @@ thread TWorker implements IWorkerThread {
     mDefaultWorker.start(this);
   }
 
-  public boolean hasStarted() reveal {
-    return mDefaultWorker.hasStarted();
+  public boolean isStarted() reveal {
+    return mDefaultWorker.isStarted();
   }
 
-  public boolean hasResult() reveal {
-    return mDefaultWorker.hasResult();
+  public boolean isFinished() reveal {
+    return mDefaultWorker.isFinished();
   }
 
-  public boolean wasCancelled() reveal {
-    return mDefaultWorker.wasCancelled();
+  public boolean isCancelled() reveal {
+    return mDefaultWorker.isCancelled();
   }
 
   public ::wisey::model* awaitResult() reveal {
@@ -38,6 +38,10 @@ thread TWorker implements IWorkerThread {
 
   public void cancel() reveal {
     mDefaultWorker.cancel();
+  }
+
+  public void reset() reveal {
+    mDefaultWorker.reset();
   }
 
   public ::wisey::model* send(::wisey::model* message) conceal {
@@ -65,17 +69,17 @@ controller CProgram implements IProgram {
   inject TWorker* mWorker;
 
   public int run() {
-    printout("Thread started = " + mWorker.hasStarted() + ", has result = " + mWorker.hasResult() + 
-      ", was cancelled = " + mWorker.wasCancelled() + "\n");
+    printout("Thread started = " + mWorker.isStarted() + ", has result = " + mWorker.isFinished() + 
+      ", was cancelled = " + mWorker.isCancelled() + "\n");
     printout("Starting worker thread\n");
     mWorker.start();
     printout("Worker thread started\n");
-    printout("Thread started = " + mWorker.hasStarted() + ", has result = " + mWorker.hasResult() + 
-      ", was cancelled = " + mWorker.wasCancelled() + "\n");
+    printout("Thread started = " + mWorker.isStarted() + ", has result = " + mWorker.isFinished() + 
+      ", was cancelled = " + mWorker.isCancelled() + "\n");
     mWorker.cancel();
     printout("Worker thread cancelled\n");
-    printout("Thread started = " + mWorker.hasStarted() + ", has result = " + mWorker.hasResult() + 
-      ", was cancelled = " + mWorker.wasCancelled() + "\n");
+    printout("Thread started = " + mWorker.isStarted() + ", has result = " + mWorker.isFinished() + 
+      ", was cancelled = " + mWorker.isCancelled() + "\n");
     if (mWorker.awaitResult() == null) {
       printout("Thread result is null\n");
     }

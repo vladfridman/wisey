@@ -95,6 +95,21 @@ controller CProgram implements IProgram {
       IThread.sleep(1);
     }
     mProducer.cancel();
+
+    mProducer.reset();
+    printout("Thread started = " + mProducer.isStarted() + ", has result = " + mProducer.hasResult() + "\n");
+    printout("Starting producer thread\n");
+    mProducer.start();
+    printout("Producer thread started\n");
+    printout("Thread started = " + mProducer.isStarted() + ", has result = " + mProducer.hasResult() + "\n");
+    IThread.sleep(2);
+    while (mProducer.hasResult()) {
+      int result = ((TProducer.MProducerResult) mProducer.consume()).getResult();
+      printout("Producer thread finished with result: " + result + "\n");
+      printout("Thread started = " + mProducer.isStarted() + ", has result = " + mProducer.hasResult() + "\n");
+      IThread.sleep(1);
+    }
+    mProducer.cancel();
     return 0;
   }
 }

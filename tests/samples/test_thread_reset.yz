@@ -78,6 +78,16 @@ controller CProgram implements IProgram {
     printout("Worker thread finished with result: " + result + "\n");
     printout("Thread started = " + mWorker.isStarted() + ", has finished = " + mWorker.isFinished() + "\n");
 
+    mWorker.reset();
+    printout("Thread started = " + mWorker.isStarted() + ", has finished = " + mWorker.isFinished() + "\n");
+    printout("Starting worker thread\n");
+    mWorker.start();
+    printout("Worker thread started\n");
+    printout("Thread started = " + mWorker.isStarted() + ", has finished = " + mWorker.isFinished() + "\n");
+    result = ((TWorker.MResult) mWorker.awaitResult()).getResult();
+    printout("Worker thread finished with result: " + result + "\n");
+    printout("Thread started = " + mWorker.isStarted() + ", has finished = " + mWorker.isFinished() + "\n");
+
     return result;
   }
 }
