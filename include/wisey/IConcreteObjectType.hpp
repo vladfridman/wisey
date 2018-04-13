@@ -23,13 +23,11 @@ namespace wisey {
   class LLVMFunction;
   
   /**
-   * Interface representing a object that has a vTable: controller, node or a model
+   * This represents a concrete object which every type of object except interface
    *
-   * Only objects implementing at least one interface have a vTable. Objects that do not implement
-   * any interfaces do not use a vTable, methods are called directly.
-   *
-   * vTable is placed at 8th byte of the object
-   * 0th byte is reserved for reference counter which is a 64 bit integer number
+   * All objects have vTables. The pointer pointing to an object points to its vTable.
+   * The object's reference counter is stored 8 bytes before the address of the object.
+   * Reference counter is 64 bit integer and it occupies the whole 8 bytes.
    *
    * vTable is an array of arrays of i8* pointers:
    * [
@@ -51,7 +49,7 @@ namespace wisey {
    *
    * vTable portion for an implemented interface consists of
    * [
-   *   i8* <number of bytes needed to add to the interface object pointer to get the concrete object>
+   *   i8* <number of bytes needed to add to the interface object pointer to get to concrete object>
    *   i8* null,
    *   i8* null,
    *   i8* <pointer to first interface method that maps to concrete object method>,
