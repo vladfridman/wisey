@@ -112,6 +112,7 @@ controller CProducerThreadRunner implements IThreadRunner {
    * Exits thread
    */
   public void exitThread() {
+    mIsFinished = true;
     ::llvm::function::pthread_exit((::llvm::i8::pointer) null);
   }
 
