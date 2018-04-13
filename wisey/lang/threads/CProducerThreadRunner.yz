@@ -68,6 +68,9 @@ controller CProducerThreadRunner implements IThreadRunner {
     if (!mIsCancelled && !mIsFinished) {
       return;
     }
+    if (mMyNativeThread != null) {
+      ::llvm::function::pthread_cancel(mMyNativeThread);
+    }
     mIsFinished = false;
     mIsCancelled = false;
     mResults = null;
