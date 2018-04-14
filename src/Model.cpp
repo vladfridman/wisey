@@ -183,15 +183,15 @@ vector<string> Model::getMissingFields(set<string> givenFields) const {
 }
 
 IMethod* Model::findMethod(std::string methodName) const {
-  if (!mNameToMethodMap.count(methodName)) {
-    return NULL;
-  }
-  
-  return mNameToMethodMap.at(methodName);
+  return IConcreteObjectType::findMethodInObject(methodName, this);
 }
 
 vector<IMethod*> Model::getMethods() const {
   return mMethods;
+}
+
+map<string, IMethod*> Model::getNameToMethodMap() const {
+  return mNameToMethodMap;
 }
 
 string Model::getVTableName() const {

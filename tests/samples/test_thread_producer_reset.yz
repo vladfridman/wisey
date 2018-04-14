@@ -11,7 +11,7 @@ thread TProducer implements IProducerThread {
   receive int mSize;
 
   public void run() conceal {
-    IThread.sleep(1);
+    sleep(1);
     printout("This is producer thread!\n");
     for (int i = 0; i < 2; i++) {
       MProducerResult* result = builder(MProducerResult).withResult(i).build();
@@ -19,7 +19,7 @@ thread TProducer implements IProducerThread {
       result = thread.send(result);
       while (result != null) {
         printout("Could not add result " + i + ", sleeping\n");
-        IThread.sleep(1);
+        sleep(1);
         result = thread.send(result);
       }
     }

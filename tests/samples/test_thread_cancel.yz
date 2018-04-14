@@ -10,7 +10,7 @@ thread TWorker implements IWorkerThread {
   inject CDefaultWorker* mDefaultWorker;
 
   public void run() conceal {
-    IThread.sleep(5);
+    sleep(5);
     printout("This is worker thread!\n");
     MResult* result = builder(MResult).withResult(5).build();
     thread.send(result);

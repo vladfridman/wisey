@@ -269,15 +269,15 @@ vector<IField*> Controller::getFields() const {
 }
 
 IMethod* Controller::findMethod(std::string methodName) const {
-  if (!mNameToMethodMap.count(methodName)) {
-    return NULL;
-  }
-  
-  return mNameToMethodMap.at(methodName);
+  return IConcreteObjectType::findMethodInObject(methodName, this);
 }
 
 vector<IMethod*> Controller::getMethods() const {
   return mMethods;
+}
+
+map<string, IMethod*> Controller::getNameToMethodMap() const {
+  return mNameToMethodMap;
 }
 
 string Controller::getObjectNameGlobalVariableName() const {

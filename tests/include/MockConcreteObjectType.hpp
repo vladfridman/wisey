@@ -33,6 +33,7 @@ public:
   MOCK_CONST_METHOD0(getTypeTableName, std::string ());
   MOCK_CONST_METHOD1(findMethod, wisey::IMethod* (std::string));
   MOCK_CONST_METHOD0(getMethods, std::vector<wisey::IMethod*> ());
+  MOCK_CONST_METHOD0(getNameToMethodMap, std::map<std::string, wisey::IMethod*> ());
   MOCK_CONST_METHOD0(getConstants, std::vector<wisey::Constant*> ());
   MOCK_CONST_METHOD0(getLLVMFunctions, std::vector<wisey::LLVMFunction*> ());
   MOCK_CONST_METHOD1(findLLVMFunction, wisey::LLVMFunction* (std::string));

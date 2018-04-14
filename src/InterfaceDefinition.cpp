@@ -97,4 +97,3 @@ void InterfaceDefinition::generateIR(IRGenerationContext& context) const {
   context.setObjectType(lastObjectType);
   context.getScopes().popScope(context, 0);
 }
-

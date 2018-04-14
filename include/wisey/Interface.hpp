@@ -160,6 +160,11 @@ namespace wisey {
      */
     void generateLLVMFunctionsIR(IRGenerationContext& context) const;
 
+    /**
+     * Looks up a static method defined in this interface
+     */
+    IMethod* findStaticMethod(std::string name) const;
+    
     AccessLevel getAccessLevel() const override;
     
     llvm::Value* inject(IRGenerationContext& context,

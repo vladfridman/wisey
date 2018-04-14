@@ -183,15 +183,15 @@ vector<IField*> Node::getFields() const {
 }
 
 IMethod* Node::findMethod(string methodName) const {
-  if (!mNameToMethodMap.count(methodName)) {
-    return NULL;
-  }
-  
-  return mNameToMethodMap.at(methodName);
+  return IConcreteObjectType::findMethodInObject(methodName, this);
 }
 
 vector<IMethod*> Node::getMethods() const {
   return mMethods;
+}
+
+map<string, IMethod*> Node::getNameToMethodMap() const {
+  return mNameToMethodMap;
 }
 
 string Node::getObjectNameGlobalVariableName() const {

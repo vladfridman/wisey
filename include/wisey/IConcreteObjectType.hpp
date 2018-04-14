@@ -120,6 +120,11 @@ namespace wisey {
     virtual IMethodDescriptor* findMethod(std::string methodName) const = 0;
     
     /**
+     * Returns the map of method names to methods
+     */
+    virtual std::map<std::string, IMethod*> getNameToMethodMap() const = 0;
+    
+    /**
      * Get list of all methods
      */
     virtual std::vector<IMethod*> getMethods() const = 0;
@@ -304,6 +309,11 @@ namespace wisey {
     static llvm::Instruction* createMallocForObject(IRGenerationContext& context,
                                                     const IConcreteObjectType* object,
                                                     std::string variableName);
+    
+    /**
+     * Searches list of methods in the given objects and in its inherented interfaces
+     */
+    static IMethod* findMethodInObject(std::string methodName, const IConcreteObjectType* object);
     
   private:
     

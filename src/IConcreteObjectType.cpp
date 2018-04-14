@@ -680,3 +680,20 @@ getOrCreateRefCounterStruct(IRGenerationContext& context, const IConcreteObjectT
 
   return structType;
 }
+
+IMethod* IConcreteObjectType::findMethodInObject(string methodName,
+                                                 const IConcreteObjectType* object) {
+  std::map<std::string, IMethod*> nameToMethodMap = object->getNameToMethodMap();
+  if (nameToMethodMap.count(methodName)) {
+    return nameToMethodMap.at(methodName);
+  }
+  
+  for (Interface* interface : object->getFlattenedInterfaceHierarchy()) {
+    IMethod* method = interface->findStaticMethod(methodName);
+    if (method) {
+      return method;
+    }
+  }
+  
+  return NULL;
+}

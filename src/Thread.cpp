@@ -268,11 +268,11 @@ vector<IField*> Thread::getFields() const {
 }
 
 IMethod* Thread::findMethod(std::string methodName) const {
-  if (!mNameToMethodMap.count(methodName)) {
-    return NULL;
-  }
-  
-  return mNameToMethodMap.at(methodName);
+  return IConcreteObjectType::findMethodInObject(methodName, this);
+}
+
+map<string, IMethod*> Thread::getNameToMethodMap() const {
+  return mNameToMethodMap;
 }
 
 vector<IMethod*> Thread::getMethods() const {

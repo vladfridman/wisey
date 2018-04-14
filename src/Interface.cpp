@@ -239,11 +239,19 @@ string Interface::getObjectNameGlobalVariableName() const {
   return mName + ".name";
 }
 
-IMethodDescriptor* Interface::findMethod(std::string methodName) const {
+IMethodDescriptor* Interface::findMethod(string methodName) const {
   if (mNameToMethodSignatureMap.count(methodName)) {
     return mNameToMethodSignatureMap.at(methodName);
   }
   
+  if (mNameToStaticMethodMap.count(methodName)) {
+    return mNameToStaticMethodMap.at(methodName);
+  }
+  
+  return NULL;
+}
+
+IMethod* Interface::findStaticMethod(string methodName) const {
   if (mNameToStaticMethodMap.count(methodName)) {
     return mNameToStaticMethodMap.at(methodName);
   }
