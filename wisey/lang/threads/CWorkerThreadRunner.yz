@@ -15,7 +15,7 @@ controller CWorkerThreadRunner implements IThreadRunner {
    * Creates new posix thread that calls runBridge function that in turn calls thread's run method
    */
   public void createThread(IWorkerThread workerThread) {
-    if (mMyNativeThread != null) {
+    if (mMyNativeThread) {
       return;
     }
     ::llvm::function::pthread_create(::llvm::reference(mMyNativeThread), 
@@ -28,7 +28,7 @@ controller CWorkerThreadRunner implements IThreadRunner {
    * Tells whether thread has started
    */
   public boolean isStarted() {
-    return mMyNativeThread != null;
+    return mMyNativeThread;
   }
 
   /**
@@ -49,7 +49,7 @@ controller CWorkerThreadRunner implements IThreadRunner {
    * Waits for thread to finish its work
    */
   public void joinThread() {
-    if (mMyNativeThread == null || mIsCancelled || mIsFinished) {
+    if (!mMyNativeThread || mIsCancelled || mIsFinished) {
       return;
     }
     ::llvm::function::pthread_join(mMyNativeThread, (::llvm::i8::pointer::pointer) null);
@@ -60,7 +60,7 @@ controller CWorkerThreadRunner implements IThreadRunner {
    * Cancel execution of the worker thread
    */
   public void cancelThread() {
-    if (mMyNativeThread == null || mIsCancelled || mIsFinished) {
+    if (!mMyNativeThread || mIsCancelled || mIsFinished) {
       return;
     }
     ::llvm::function::pthread_cancel(mMyNativeThread);
