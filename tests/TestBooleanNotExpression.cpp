@@ -88,7 +88,7 @@ TEST_F(BooleanNotExpressionTest, negateIntExpressionTest) {
   Value* result = booleanNotExpression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   *mStringStream << *result;
-  EXPECT_STREQ("  %lnot = xor i1 true, true", mStringStream->str().c_str());
+  EXPECT_STREQ("  %0 = xor i1 true, true", mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
@@ -104,13 +104,14 @@ TEST_F(BooleanNotExpressionTest, printToStreamTest) {
 
 TEST_F(BooleanNotExpressionTest, negateIncompatibleTypeDeathTest) {
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
+  ON_CALL(*mExpression, getLine()).WillByDefault(Return(3));
   BooleanNotExpression booleanNotExpression(mExpression, 3);
   Mock::AllowLeak(mExpression);
   
   EXPECT_EXIT(booleanNotExpression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: Boolean NOT operator '!' can only be applied "
-              "to boolean types");
+              "/tmp/source.yz\\(3\\): Error: Incompatible types: "
+              "can not cast from type 'void' to 'boolean'");
 }
 
 TEST_F(TestFileRunner, booleanNotRunTest) {

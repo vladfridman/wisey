@@ -1,0 +1,27 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+interface IMyInterface {
+
+}
+
+model MMyModel implements IMyInterface {
+
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    MMyModel* mymodel = builder(MMyModel).build();
+    MMyModel mymodelref = null;
+    IMyInterface* myinterfaceowner = null;
+    IMyInterface myinterfacereference = null;
+    if ((mymodel && mymodelref && myinterfaceowner && myinterfacereference) || mymodel) {
+      return !myinterfacereference;
+    }
+    return 0;
+  }
+}
+
+bind(IProgram).to(CProgram);

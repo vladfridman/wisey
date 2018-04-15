@@ -10,6 +10,7 @@
 #include <llvm/IR/InstrTypes.h>
 #include <llvm/IR/Instructions.h>
 
+#include "wisey/AutoCast.hpp"
 #include "wisey/BooleanNotExpression.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
@@ -37,17 +38,15 @@ IVariable* BooleanNotExpression::getVariable(IRGenerationContext& context,
 
 Value* BooleanNotExpression::generateIR(IRGenerationContext& context,
                                         const IType* assignToType) const {
-  const IType* expressionType = mExpression->getType(context);
-  if (expressionType != PrimitiveTypes::BOOLEAN_TYPE) {
-    Log::e(context.getImportProfile(),
-           mLine,
-           "Boolean NOT operator '!' can only be applied to boolean types");
-    exit(1);
-  }
+  Value* expressionValue = mExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
+  Value* expressionValueCast = AutoCast::maybeCast(context,
+                                                   mExpression->getType(context),
+                                                   expressionValue,
+                                                   PrimitiveTypes::BOOLEAN_TYPE,
+                                                   mExpression->getLine());
   
   Value* one = ConstantInt::get(Type::getInt1Ty(context.getLLVMContext()), 1);
-  Value* expressionValue = mExpression->generateIR(context, assignToType);
-  return IRWriter::createBinaryOperator(context, Instruction::Xor, expressionValue, one, "lnot");
+  return IRWriter::createBinaryOperator(context, Instruction::Xor, expressionValueCast, one, "");
 }
 
 const IType* BooleanNotExpression::getType(IRGenerationContext& context) const {

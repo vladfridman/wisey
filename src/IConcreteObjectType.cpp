@@ -85,6 +85,13 @@ Value* IConcreteObjectType::castTo(IRGenerationContext& context,
   if (toType->isNative() && (toType->isReference() || toType->isPointer())) {
     return IRWriter::newBitCastInst(context, fromValue, toType->getLLVMType(context));
   }
+  if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
+    return IRWriter::newICmpInst(context,
+                                 ICmpInst::ICMP_NE,
+                                 fromValue,
+                                 ConstantPointerNull::get(object->getLLVMType(context)),
+                                 "");
+  }
   
   const Interface* interface = (const Interface*) toType;
   llvm::PointerType* llvmType = interface->getLLVMType(context);
@@ -626,6 +633,9 @@ bool IConcreteObjectType::canCast(const IType* fromType, const IType* toType) {
     return true;
   }
   if (toType->isNative() && toType->isPointer()) {
+    return true;
+  }
+  if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
     return true;
   }
   return false;

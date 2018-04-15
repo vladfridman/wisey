@@ -596,6 +596,9 @@ llvm::PointerType* Interface::getLLVMType(IRGenerationContext& context) const {
 }
 
 bool Interface::canCastTo(IRGenerationContext& context, const IType* toType) const {
+  if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
+    return true;
+  }
   if (!IType::isObjectType(toType)) {
     return false;
   }
@@ -610,6 +613,10 @@ bool Interface::canAutoCastTo(IRGenerationContext& context, const IType* toType)
   }
 
   if (toType->isNative() && (toType->isReference() || toType->isPointer())) {
+    return true;
+  }
+
+  if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
     return true;
   }
 
@@ -634,6 +641,13 @@ Value* Interface::castTo(IRGenerationContext& context,
                          int line) const {
   if (toType->isNative() && (toType->isReference() || toType->isPointer())) {
     return IRWriter::newBitCastInst(context, fromValue, toType->getLLVMType(context));
+  }
+  if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
+    return IRWriter::newICmpInst(context,
+                                 ICmpInst::ICMP_NE,
+                                 fromValue,
+                                 ConstantPointerNull::get(getLLVMType(context)),
+                                 "");
   }
 
   const IObjectType* toObjectType = (const IObjectType*) (toType);

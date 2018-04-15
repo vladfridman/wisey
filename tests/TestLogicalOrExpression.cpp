@@ -16,6 +16,7 @@
 
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LogicalOrExpression.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -45,6 +46,8 @@ struct LogicalOrExpressionTest : Test {
   LogicalOrExpressionTest() :
   mLeftExpression(new NiceMock<MockExpression>()),
   mRightExpression(new NiceMock<MockExpression>()) {
+    TestPrefix::generateIR(mContext);
+    
     LLVMContext &llvmContext = mContext.getLLVMContext();
     mFalseValue = ConstantInt::get(Type::getInt1Ty(llvmContext), 0);
     mTrueValue = ConstantInt::get(Type::getInt1Ty(llvmContext), 1);
@@ -80,8 +83,10 @@ TEST_F(LogicalOrExpressionTest, getVariableTest) {
 
 TEST_F(LogicalOrExpressionTest, logicalAndTrueValueTest) {
   ON_CALL(*mLeftExpression, generateIR(_, _)).WillByDefault(Return(mTrueValue));
+  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
   ON_CALL(*mRightExpression, generateIR(_, _)).WillByDefault(Return(mFalseValue));
-  
+  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
+
   LogicalOrExpression expression(mLeftExpression, mRightExpression, 0);
   expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
@@ -111,8 +116,10 @@ TEST_F(LogicalOrExpressionTest, logicalAndTrueValueTest) {
 
 TEST_F(LogicalOrExpressionTest, logicalAndFalseValueTest) {
   ON_CALL(*mLeftExpression, generateIR(_, _)).WillByDefault(Return(mFalseValue));
+  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
   ON_CALL(*mRightExpression, generateIR(_, _)).WillByDefault(Return(mFalseValue));
-  
+  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
+
   LogicalOrExpression expression(mLeftExpression, mRightExpression, 0);
   expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   

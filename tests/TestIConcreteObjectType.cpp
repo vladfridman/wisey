@@ -508,3 +508,6 @@ TEST_F(TestFileRunner, freeingFieldInterfaceOwnersRunTest) {
   runFile("tests/samples/test_freeing_field_interface_owners.yz", "3");
 }
 
+TEST_F(TestFileRunner, compareObjectToNullRunTest) {
+  runFile("tests/samples/test_compare_object_to_null.yz", "1");
+}

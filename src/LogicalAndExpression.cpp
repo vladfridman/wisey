@@ -9,6 +9,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/IR/Constants.h>
 
+#include "wisey/AutoCast.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
@@ -43,16 +44,26 @@ IVariable* LogicalAndExpression::getVariable(IRGenerationContext& context,
 Value* LogicalAndExpression::generateIR(IRGenerationContext& context,
                                         const IType* assignToType) const {
   Value* leftValue = mLeftExpression->generateIR(context, assignToType);
+  Value* leftValueCast = AutoCast::maybeCast(context,
+                                             mLeftExpression->getType(context),
+                                             leftValue,
+                                             PrimitiveTypes::BOOLEAN_TYPE,
+                                             mLeftExpression->getLine());
   BasicBlock* entryBlock = context.getBasicBlock();
   
   Function* function = context.getBasicBlock()->getParent();
   
   BasicBlock* basicBlockRight = BasicBlock::Create(context.getLLVMContext(), "land.rhs", function);
   BasicBlock* basicBlockEnd = BasicBlock::Create(context.getLLVMContext(), "land.end", function);
-  IRWriter::createConditionalBranch(context, basicBlockRight, basicBlockEnd, leftValue);
+  IRWriter::createConditionalBranch(context, basicBlockRight, basicBlockEnd, leftValueCast);
   
   context.setBasicBlock(basicBlockRight);
   Value* rightValue = mRightExpression->generateIR(context, assignToType);
+  Value* rightValueCast = AutoCast::maybeCast(context,
+                                             mRightExpression->getType(context),
+                                             rightValue,
+                                             PrimitiveTypes::BOOLEAN_TYPE,
+                                             mRightExpression->getLine());
   BasicBlock* lastRightBlock = context.getBasicBlock();
   IRWriter::createBranch(context, basicBlockEnd);
   
@@ -63,7 +74,7 @@ Value* LogicalAndExpression::generateIR(IRGenerationContext& context,
                                              "land",
                                              ConstantInt::getFalse(context.getLLVMContext()),
                                              entryBlock,
-                                             rightValue,
+                                             rightValueCast,
                                              lastRightBlock);
   
   return phiNode;
