@@ -93,8 +93,8 @@ struct ThreadTest : public Test {
     mStructType->setBody(types);
     mThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS, workerFullName, mStructType);
     vector<IField*> fields;
-    mFromField = new StateField(PrimitiveTypes::INT_TYPE, "mFrom");
-    mToField = new StateField(PrimitiveTypes::INT_TYPE, "mTo");
+    mFromField = new StateField(PrimitiveTypes::INT_TYPE, "mFrom", 0);
+    mToField = new StateField(PrimitiveTypes::INT_TYPE, "mTo", 0);
     fields.push_back(mFromField);
     fields.push_back(mToField);
     vector<MethodArgument*> methodArguments;
@@ -172,7 +172,7 @@ struct ThreadTest : public Test {
     vector<IField*> nonInjectableFieldThreadFields;
     InjectionArgumentList fieldArguments;
     InjectedField* injectedField =
-    new InjectedField(PrimitiveTypes::INT_TYPE, NULL, "left", fieldArguments);
+    new InjectedField(PrimitiveTypes::INT_TYPE, NULL, "left", fieldArguments, 0);
     nonInjectableFieldThreadFields.push_back(injectedField);
     mNonInjectableFieldThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
                                                   nonInjectableFieldThreadFullName,
@@ -192,7 +192,7 @@ struct ThreadTest : public Test {
     notWellFormedArgumentsThreadStructType->setBody(notWellFormedArgumentsThreadTypes);
     vector<IField*> notWellFormedArgumentsThreadFields;
     notWellFormedArgumentsThreadFields.
-    push_back(new ReceivedField(PrimitiveTypes::INT_TYPE, "mValue"));
+    push_back(new ReceivedField(PrimitiveTypes::INT_TYPE, "mValue", 0));
     mNotWellFormedArgumentsThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
                                                       notWellFormedArgumentsThreadFullName,
                                                       notWellFormedArgumentsThreadStructType);
@@ -592,7 +592,8 @@ TEST_F(ThreadTest, injectFieldTest) {
   parentFields.push_back(new InjectedField(childThread->getOwner(),
                                            NULL,
                                            "mChild",
-                                           fieldArguments));
+                                           fieldArguments,
+                                           0));
   Thread* parentThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
                                            parentFullName,
                                            parentStructType);
@@ -649,8 +650,8 @@ TEST_F(ThreadTest, printToStreamTest) {
   stringstream stringStream;
   Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL);
   vector<IField*> fields;
-  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1"));
-  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2"));
+  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1", 0));
+  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
   innerPublicModel->setFields(fields, 1u);
   
   vector<MethodArgument*> methodArguments;
@@ -718,7 +719,7 @@ TEST_F(ThreadTest, createLocalVariableTest) {
 
 TEST_F(ThreadTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  IField* field = new StateField(mThread, "mField");
+  IField* field = new StateField(mThread, "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mThread->createFieldVariable(mContext, "mField", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("mField");

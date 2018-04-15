@@ -46,7 +46,7 @@ struct InjectionArgumentTest : Test {
     StructType *structType = StructType::create(llvmContext, modelFullName);
     structType->setBody(types);
     vector<IField*> fields;
-    fields.push_back(new ReceivedField(PrimitiveTypes::INT_TYPE, "mFieldA"));
+    fields.push_back(new ReceivedField(PrimitiveTypes::INT_TYPE, "mFieldA", 0));
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
     mController->setFields(fields, 1u);
     

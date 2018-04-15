@@ -337,8 +337,8 @@ TEST_F(InterfaceTest, printToStreamTest) {
   stringstream stringStream;
   Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL);
   vector<IField*> fields;
-  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1"));
-  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2"));
+  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1", 0));
+  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
   innerPublicModel->setFields(fields, 0);
   
   vector<MethodArgument*> methodArguments;
@@ -391,7 +391,7 @@ TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
   Mock::AllowLeak(mThreadVariable);
 
   const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-  FixedFieldDefinition* fieldDeclaration = new FixedFieldDefinition(intSpecifier, "mField");
+  FixedFieldDefinition* fieldDeclaration = new FixedFieldDefinition(intSpecifier, "mField", 0);
   
   string name = "systems.vos.wisey.compiler.tests.IInterface";
   StructType* structType = StructType::create(mLLVMContext, name);
@@ -570,7 +570,7 @@ TEST_F(InterfaceTest, createLocalVariableTest) {
 TEST_F(InterfaceTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
   InjectionArgumentList injectionArgumentList;
-  IField* field = new FixedField(mShapeInterface, "mField");
+  IField* field = new FixedField(mShapeInterface, "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mShapeInterface->createFieldVariable(mContext, "mField", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("mField");

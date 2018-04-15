@@ -92,8 +92,8 @@ struct TypeComparisionExpressionTest : public Test {
     mSquareModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, squareFullName, squareStructType);
 
     vector<IField*> squareFields;
-    squareFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width"));
-    squareFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height"));
+    squareFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width", 0));
+    squareFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height", 0));
     vector<MethodArgument*> methodArguments;
     vector<IMethod*> squareMethods;
     vector<const Model*> thrownExceptions;

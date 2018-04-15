@@ -41,7 +41,7 @@ public:
   mExpression(new NiceMock<MockExpression>()),
   mName("mField") {
     const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-    mFieldDeclaration = new StateFieldDefinition(intSpecifier, mName);
+    mFieldDeclaration = new StateFieldDefinition(intSpecifier, mName, 0);
   }
   
   ~StateFieldDefinitionTest() {

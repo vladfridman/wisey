@@ -49,7 +49,7 @@ public:
 };
 
 TEST_F(FixedFieldTest, fieldCreationTest) {
-  FixedField field(mType, mName);
+  FixedField field(mType, mName, 0);
   
   EXPECT_EQ(field.getType(), mType);
   EXPECT_STREQ(field.getName().c_str(), "mField");
@@ -62,7 +62,7 @@ TEST_F(FixedFieldTest, fieldCreationTest) {
 }
 
 TEST_F(FixedFieldTest, elementTypeTest) {
-  FixedField field(mType, mName);
+  FixedField field(mType, mName, 0);
 
   EXPECT_FALSE(field.isConstant());
   EXPECT_TRUE(field.isField());
@@ -73,7 +73,7 @@ TEST_F(FixedFieldTest, elementTypeTest) {
 }
 
 TEST_F(FixedFieldTest, fieldPrintToStreamTest) {
-  FixedField field(mType, mName);
+  FixedField field(mType, mName, 0);
 
   stringstream stringStream;
   field.printToStream(mContext, stringStream);

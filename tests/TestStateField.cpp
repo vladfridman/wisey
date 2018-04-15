@@ -49,7 +49,7 @@ public:
 };
 
 TEST_F(StateFieldTest, fieldCreationTest) {
-  StateField field(mType, mName);
+  StateField field(mType, mName, 0);
   
   EXPECT_EQ(field.getType(), mType);
   EXPECT_STREQ(field.getName().c_str(), "mField");
@@ -62,7 +62,7 @@ TEST_F(StateFieldTest, fieldCreationTest) {
 }
 
 TEST_F(StateFieldTest, elementTypeTest) {
-  StateField field(mType, mName);
+  StateField field(mType, mName, 0);
   
   EXPECT_FALSE(field.isConstant());
   EXPECT_TRUE(field.isField());
@@ -73,7 +73,7 @@ TEST_F(StateFieldTest, elementTypeTest) {
 }
 
 TEST_F(StateFieldTest, fieldPrintToStreamTest) {
-  StateField field(mType, mName);
+  StateField field(mType, mName, 0);
 
   stringstream stringStream;
   field.printToStream(mContext, stringStream);

@@ -19,16 +19,19 @@ namespace wisey {
   class FixedField : public IField {
     const IType* mType;
     std::string mName;
+    int mLine;
     
   public:
     
-    FixedField(const IType* type, std::string name);
+    FixedField(const IType* type, std::string name, int line);
     
     ~FixedField();
     
     std::string getName() const override;
     
     const IType* getType() const override;
+    
+    int getLine() const override;
     
     bool isAssignable() const override;
     

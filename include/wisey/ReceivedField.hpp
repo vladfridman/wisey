@@ -19,16 +19,19 @@ namespace wisey {
   class ReceivedField : public IField {
     const IType* mType;
     std::string mName;
+    int mLine;
     
   public:
     
-    ReceivedField(const IType* type, std::string name);
+    ReceivedField(const IType* type, std::string name, int line);
     
     ~ReceivedField();
     
     std::string getName() const override;
     
     const IType* getType() const override;
+    
+    int getLine() const override;
     
     bool isAssignable() const override;
     

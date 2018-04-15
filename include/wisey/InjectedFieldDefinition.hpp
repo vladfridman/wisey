@@ -25,12 +25,14 @@ namespace wisey {
     const ITypeSpecifier* mTypeSpecifier;
     std::string mName;
     InjectionArgumentList mInjectionArgumentList;
+    int mLine;
     
   public:
     
     InjectedFieldDefinition(const ITypeSpecifier* typeSpecifier,
-                             std::string name,
-                             InjectionArgumentList injectionArguments);
+                            std::string name,
+                            InjectionArgumentList injectionArguments,
+                            int line);
     
     ~InjectedFieldDefinition();
     

@@ -147,8 +147,8 @@ struct NodeOwnerTest : public Test {
     mStructType = StructType::create(mLLVMContext, complicatedNodeFullName);
     mStructType->setBody(types);
     vector<IField*> fields;
-    mLeftField = new FixedField(PrimitiveTypes::INT_TYPE, "mLeft");
-    mRightField = new FixedField(PrimitiveTypes::INT_TYPE, "mRight");
+    mLeftField = new FixedField(PrimitiveTypes::INT_TYPE, "mLeft", 0);
+    mRightField = new FixedField(PrimitiveTypes::INT_TYPE, "mRight", 0);
     fields.push_back(mLeftField);
     fields.push_back(mRightField);
     vector<MethodArgument*> methodArguments;
@@ -194,9 +194,9 @@ struct NodeOwnerTest : public Test {
     StructType* simpleNodeStructType = StructType::create(mLLVMContext, simpleNodeFullName);
     simpleNodeStructType->setBody(simpleNodeTypes);
     vector<IField*> simpleNodeFields;
-    simpleNodeFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mLeft"));
-    simpleNodeFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mRight"));
-    mAreaField = new FixedField(PrimitiveTypes::INT_TYPE, "mArea");
+    simpleNodeFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mLeft", 0));
+    simpleNodeFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mRight", 0));
+    mAreaField = new FixedField(PrimitiveTypes::INT_TYPE, "mArea", 0);
     simpleNodeFields.push_back(mAreaField);
     mSimpleNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                 simpleNodeFullName,
@@ -211,8 +211,8 @@ struct NodeOwnerTest : public Test {
     StructType* simplerNodeStructType = StructType::create(mLLVMContext, simplerNodeFullName);
     simplerNodeStructType->setBody(simplerNodeTypes);
     vector<IField*> simplerNodeFields;
-    simplerNodeFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mLeft"));
-    simplerNodeFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mRight"));
+    simplerNodeFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mLeft", 0));
+    simplerNodeFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mRight", 0));
     mSimplerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                  simplerNodeFullName,
                                  simplerNodeStructType);
@@ -405,7 +405,7 @@ TEST_F(NodeOwnerTest, createLocalVariableTest) {
 
 TEST_F(NodeOwnerTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  IField* field = new FixedField(mComplicatedNode->getOwner(), "mField");
+  IField* field = new FixedField(mComplicatedNode->getOwner(), "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mComplicatedNode->getOwner()->createFieldVariable(mContext, "mField", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("mField");

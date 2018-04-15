@@ -41,8 +41,8 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
     StructType* structType = StructType::create(llvmContext, "CMultiplier");
     structType->setBody(types);
     vector<IField*> fields;
-    fields.push_back(new ReceivedField(PrimitiveTypes::INT_TYPE, "left"));
-    fields.push_back(new ReceivedField(PrimitiveTypes::INT_TYPE, "right"));
+    fields.push_back(new ReceivedField(PrimitiveTypes::INT_TYPE, "left", 0));
+    fields.push_back(new ReceivedField(PrimitiveTypes::INT_TYPE, "right", 0));
     vector<MethodArgument*> methodArguments;
     vector<IMethod*> methods;
     vector<const Model*> thrownExceptions;

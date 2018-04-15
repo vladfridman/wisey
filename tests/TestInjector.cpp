@@ -64,8 +64,8 @@ struct InjectorTest : Test {
     StructType *controllerStructType = StructType::create(llvmContext, controllerFullName);
     controllerStructType->setBody(types);
     vector<IField*> controllerFields;
-    controllerFields.push_back(new StateField(PrimitiveTypes::INT_TYPE, "left"));
-    controllerFields.push_back(new StateField(PrimitiveTypes::INT_TYPE, "right"));
+    controllerFields.push_back(new StateField(PrimitiveTypes::INT_TYPE, "left", 0));
+    controllerFields.push_back(new StateField(PrimitiveTypes::INT_TYPE, "right", 0));
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             controllerFullName,
                                             controllerStructType);

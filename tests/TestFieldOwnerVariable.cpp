@@ -77,8 +77,8 @@ struct FieldOwnerVariableTest : Test {
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
     vector<IField*> fields;
-    fields.push_back(new StateField(mNode->getOwner(), "foo"));
-    fields.push_back(new StateField(mInterface->getOwner(), "bar"));
+    fields.push_back(new StateField(mNode->getOwner(), "foo", 0));
+    fields.push_back(new StateField(mInterface->getOwner(), "bar", 0));
     mObject = Node::newNode(AccessLevel::PUBLIC_ACCESS, objectFullName, objectStructType);
     mObject->setFields(fields, 1u);
     

@@ -94,8 +94,8 @@ struct IConcreteObjectTypeTest : public Test {
     StructType* starStructType = StructType::create(mLLVMContext, starFullName);
     starStructType->setBody(starTypes);
     vector<IField*> starFields;
-    starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mBrightness"));
-    starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mWeight"));
+    starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mBrightness", 0));
+    starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mWeight", 0));
     mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, starFullName, starStructType);
     mStarModel->setFields(starFields, 1u);
     mContext.addModel(mStarModel);
@@ -108,7 +108,7 @@ struct IConcreteObjectTypeTest : public Test {
     StructType* galaxyStructType = StructType::create(mLLVMContext, galaxyFullName);
     galaxyStructType->setBody(galaxyTypes);
     vector<IField*> galaxyFields;
-    galaxyFields.push_back(new FixedField(mStarModel->getOwner(), "mStar"));
+    galaxyFields.push_back(new FixedField(mStarModel->getOwner(), "mStar", 0));
     mGalaxyModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, galaxyFullName, galaxyStructType);
     mGalaxyModel->setFields(galaxyFields, 1u);
     mContext.addModel(mGalaxyModel);
@@ -121,7 +121,7 @@ struct IConcreteObjectTypeTest : public Test {
     StructType* constellationStructType = StructType::create(mLLVMContext, constellationFullName);
     constellationStructType->setBody(constellationTypes);
     vector<IField*> constellationFields;
-    constellationFields.push_back(new FixedField(mStarModel, "mStar"));
+    constellationFields.push_back(new FixedField(mStarModel, "mStar", 0));
     mConstellationModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                           constellationFullName,
                                           constellationStructType);
@@ -148,7 +148,7 @@ struct IConcreteObjectTypeTest : public Test {
     StructType* carStructType = StructType::create(mLLVMContext, carFullName);
     carStructType->setBody(carTypes);
     vector<IField*> carFields;
-    carFields.push_back(new FixedField(mCanNavigate->getOwner(), "mNavigator"));
+    carFields.push_back(new FixedField(mCanNavigate->getOwner(), "mNavigator", 0));
     mCarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, carFullName, carStructType);
     mCarModel->setFields(carFields, 1u);
     mContext.addModel(mCarModel);

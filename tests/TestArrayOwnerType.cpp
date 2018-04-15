@@ -126,7 +126,7 @@ TEST_F(ArrayOwnerTypeTest, createLocalVariableTest) {
 
 TEST_F(ArrayOwnerTypeTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  IField* field = new FixedField(mArrayOwnerType, "mField");
+  IField* field = new FixedField(mArrayOwnerType, "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mArrayOwnerType->createFieldVariable(mContext, "mField", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("mField");

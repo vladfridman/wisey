@@ -51,7 +51,7 @@ struct IFieldVariableTest : Test {
     StructType* controllerStructType = StructType::create(mLLVMContext, controllerFullName);
     controllerStructType->setBody(types);
     vector<IField*> controllerFields;
-    mStateField = new StateField(PrimitiveTypes::INT_TYPE, "bar");
+    mStateField = new StateField(PrimitiveTypes::INT_TYPE, "bar", 0);
     controllerFields.push_back(mStateField);
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             controllerFullName,
@@ -61,7 +61,7 @@ struct IFieldVariableTest : Test {
     string modelFullName = "systems.vos.wisey.compiler.tests.MModel";
     StructType* modelStructType = StructType::create(mLLVMContext, modelFullName);
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, modelStructType);
-    mFixedField = new FixedField(PrimitiveTypes::INT_TYPE, "foo");
+    mFixedField = new FixedField(PrimitiveTypes::INT_TYPE, "foo", 0);
     vector<IField*> modelFields;
     modelFields.push_back(mFixedField);
     mModel->setFields(modelFields, 1u);

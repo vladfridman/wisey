@@ -87,8 +87,8 @@ struct ThreadDefinitionTest : public Test {
 
     const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
     const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
-    StateFieldDefinition* field1 = new StateFieldDefinition(longType, "field1");
-    StateFieldDefinition* field2 = new StateFieldDefinition(floatType, "field2");
+    StateFieldDefinition* field1 = new StateFieldDefinition(longType, "field1", 0);
+    StateFieldDefinition* field2 = new StateFieldDefinition(floatType, "field2", 0);
     mElementDeclarations.push_back(field1);
     mElementDeclarations.push_back(field2);
     mElementDeclarations.push_back(methodDeclaration);
@@ -195,7 +195,7 @@ TEST_F(ThreadDefinitionTest, threadWithFixedFieldDeathTest) {
   ThreadTypeSpecifierFull* typeSpecifier =
   new ThreadTypeSpecifierFull(packageExpression, "TWorker", 0);
   const PrimitiveTypeSpecifier* intType = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-  FixedFieldDefinition* field = new FixedFieldDefinition(intType, "field3");
+  FixedFieldDefinition* field = new FixedFieldDefinition(intType, "field3", 0);
   mElementDeclarations.clear();
   mElementDeclarations.push_back(field);
   vector<IObjectDefinition*> innerObjectDefinitions;
@@ -218,7 +218,7 @@ TEST_F(ThreadDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
   ThreadTypeSpecifierFull* typeSpecifier =
   new ThreadTypeSpecifierFull(packageExpression, "TWorker", 0);
   const PrimitiveTypeSpecifier* intType = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-  StateFieldDefinition* field = new StateFieldDefinition(intType, "field3");
+  StateFieldDefinition* field = new StateFieldDefinition(intType, "field3", 0);
   mElementDeclarations.push_back(field);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ThreadDefinition threadDefinition(AccessLevel::PUBLIC_ACCESS,

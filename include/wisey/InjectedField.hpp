@@ -22,13 +22,15 @@ namespace wisey {
     const IType* mInjectedType;
     std::string mName;
     InjectionArgumentList mInjectionArgumentList;
+    int mLine;
     
   public:
     
     InjectedField(const IType* type,
                   const IType* injectedType,
                   std::string name,
-                  InjectionArgumentList injectionArgumentList);
+                  InjectionArgumentList injectionArgumentList,
+                  int line);
     
     ~InjectedField();
     
@@ -45,6 +47,8 @@ namespace wisey {
     std::string getName() const override;
     
     const IType* getType() const override;
+    
+    int getLine() const override;
     
     bool isAssignable() const override;
     

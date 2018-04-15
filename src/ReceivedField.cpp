@@ -12,8 +12,8 @@
 using namespace std;
 using namespace wisey;
 
-ReceivedField::ReceivedField(const IType* type, string name) :
-mType(type), mName(name) { }
+ReceivedField::ReceivedField(const IType* type, string name, int line) :
+mType(type), mName(name), mLine(line) { }
 
 ReceivedField::~ReceivedField() {
 }
@@ -24,6 +24,10 @@ const IType* ReceivedField::getType() const {
 
 string ReceivedField::getName() const {
   return mName;
+}
+
+int ReceivedField::getLine() const {
+  return mLine;
 }
 
 bool ReceivedField::isAssignable() const {

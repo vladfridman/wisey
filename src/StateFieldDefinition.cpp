@@ -13,8 +13,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-StateFieldDefinition::StateFieldDefinition(const ITypeSpecifier* typeSpecifier, string name) :
-mTypeSpecifier(typeSpecifier), mName(name) { }
+StateFieldDefinition::StateFieldDefinition(const ITypeSpecifier* typeSpecifier,
+                                           string name,
+                                           int line) :
+mTypeSpecifier(typeSpecifier), mName(name), mLine(line) { }
 
 StateFieldDefinition::~StateFieldDefinition() {
   delete mTypeSpecifier;
@@ -24,7 +26,7 @@ IField* StateFieldDefinition::define(IRGenerationContext& context,
                                       const IObjectType* objectType) const {
   const IType* fieldType = mTypeSpecifier->getType(context);
   
-  return new StateField(fieldType, mName);
+  return new StateField(fieldType, mName, mLine);
 }
 
 bool StateFieldDefinition::isConstant() const {

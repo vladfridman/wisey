@@ -74,7 +74,7 @@ public:
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
     vector<IField*> fields;
-    fields.push_back(new StateField(mArrayType->getOwner(), "foo"));
+    fields.push_back(new StateField(mArrayType->getOwner(), "foo", 0));
     mObject = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                         objectFullName,
                                         objectStructType);

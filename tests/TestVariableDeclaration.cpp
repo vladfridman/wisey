@@ -126,8 +126,8 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   types.push_back(Type::getInt32Ty(mLLVMContext));
   structType->setBody(types);
   vector<IField*> fields;
-  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "fieldA"));
-  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "fieldB"));
+  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "fieldA", 0));
+  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "fieldB", 0));
   Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
   model->setFields(fields, 1u);
 

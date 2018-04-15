@@ -56,7 +56,7 @@ struct ArrayTypeTest : public Test {
     mContext.getScopes().pushScope();
     
     InjectionArgumentList injectionArgumentList;
-    IField* field = new FixedField(mArrayType, "mField");
+    IField* field = new FixedField(mArrayType, "mField", 0);
     ON_CALL(mConcreteObjectType, findField(_)).WillByDefault(Return(field));
 
     mStringStream = new llvm::raw_string_ostream(mStringBuffer);

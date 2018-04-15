@@ -166,8 +166,8 @@ struct ControllerTest : public Test {
                                                       multiplierFullName,
                                                       mStructType);
     vector<IField*> fields;
-    mLeftField = new ReceivedField(PrimitiveTypes::INT_TYPE, "left");
-    mRightField = new ReceivedField(PrimitiveTypes::INT_TYPE, "right");
+    mLeftField = new ReceivedField(PrimitiveTypes::INT_TYPE, "left", 0);
+    mRightField = new ReceivedField(PrimitiveTypes::INT_TYPE, "right", 0);
     fields.push_back(mLeftField);
     fields.push_back(mRightField);
     vector<MethodArgument*> methodArguments;
@@ -262,8 +262,8 @@ struct ControllerTest : public Test {
     StructType* additorStructType = StructType::create(mLLVMContext, additorFullName);
     additorStructType->setBody(additorTypes);
     vector<IField*> additorFields;
-    additorFields.push_back(new ReceivedField(mOwnerNode->getOwner(), "mOwner"));
-    additorFields.push_back(new ReceivedField(mReferenceModel, "mReference"));
+    additorFields.push_back(new ReceivedField(mOwnerNode->getOwner(), "mOwner", 0));
+    additorFields.push_back(new ReceivedField(mReferenceModel, "mReference", 0));
     mAdditorController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                    additorFullName,
                                                    additorStructType);
@@ -283,7 +283,8 @@ struct ControllerTest : public Test {
     doublerFields.push_back(new InjectedField(PrimitiveTypes::INT_TYPE,
                                               NULL,
                                               "left",
-                                              fieldArguments));
+                                              fieldArguments,
+                                              0));
     mDoublerController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                    doublerFullName,
                                                    doublerStructType);
@@ -766,7 +767,8 @@ TEST_F(ControllerTest, injectFieldTest) {
   parentFields.push_back(new InjectedField(childController->getOwner(),
                                            NULL,
                                            "mChild", 
-                                           fieldArguments));
+                                           fieldArguments,
+                                           0));
   Controller* parentController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                            parentFullName,
                                                            parentStructType);
@@ -818,8 +820,8 @@ TEST_F(ControllerTest, printToStreamTest) {
   stringstream stringStream;
   Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL);
   vector<IField*> fields;
-  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1"));
-  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2"));
+  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1", 0));
+  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
   innerPublicModel->setFields(fields, 0);
   
   vector<MethodArgument*> methodArguments;
@@ -890,7 +892,7 @@ TEST_F(ControllerTest, createLocalVariableTest) {
 
 TEST_F(ControllerTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  IField* field = new FixedField(mMultiplierController, "mField");
+  IField* field = new FixedField(mMultiplierController, "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mMultiplierController->createFieldVariable(mContext, "mField", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("mField");

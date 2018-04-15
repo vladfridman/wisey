@@ -43,8 +43,8 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
     structType->setBody(types);
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
     vector<IField*> fields;
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width"));
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height"));
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width", 0));
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height", 0));
     vector<MethodArgument*> methodArguments;
     vector<IMethod*> methods;
     vector<const Model*> thrownExceptions;

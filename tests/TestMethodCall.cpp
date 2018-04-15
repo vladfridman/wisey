@@ -89,8 +89,8 @@ public:
     mStructType->setBody(types);
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, mStructType);
     vector<IField*> fields;
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width"));
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height"));
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width", 0));
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height", 0));
     MethodArgument* methodArgument = new MethodArgument(PrimitiveTypes::FLOAT_TYPE, "argument");
     vector<MethodArgument*> methodArguments;
     methodArguments.push_back(methodArgument);

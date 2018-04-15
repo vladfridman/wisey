@@ -1094,23 +1094,23 @@ constant_definition
 field_definition
   : type_specifier TFIELDIDENTIFIER ';'
     {
-      $$ = new FixedFieldDefinition($1, *$2);
+      $$ = new FixedFieldDefinition($1, *$2, yylineno);
       delete $2;
     }
   | TFIXED type_specifier TFIELDIDENTIFIER ';'
     {
-      $$ = new FixedFieldDefinition($2, *$3);
+      $$ = new FixedFieldDefinition($2, *$3, yylineno);
       delete $3;
     }
   | TINJECT injectable_type_specifier TFIELDIDENTIFIER ';'
     {
       InjectionArgumentList arguments;
-      $$ = new InjectedFieldDefinition($2, *$3, arguments);
+      $$ = new InjectedFieldDefinition($2, *$3, arguments, yylineno);
       delete $3;
     }
   | TINJECT injectable_type_specifier TFIELDIDENTIFIER injection_argument_list ';'
     {
-      $$ = new InjectedFieldDefinition($2, *$3, *$4);
+      $$ = new InjectedFieldDefinition($2, *$3, *$4, yylineno);
       delete $3;
       delete $4;
     }
@@ -1121,7 +1121,7 @@ field_definition
     }
   | TSTATE type_specifier TFIELDIDENTIFIER ';'
     {
-      $$ = new StateFieldDefinition($2, *$3);
+      $$ = new StateFieldDefinition($2, *$3, yylineno);
       delete $3;
     }
   ;

@@ -13,8 +13,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-FixedFieldDefinition::FixedFieldDefinition(const ITypeSpecifier* typeSpecifier, string name) :
-mTypeSpecifier(typeSpecifier), mName(name) { }
+FixedFieldDefinition::FixedFieldDefinition(const ITypeSpecifier* typeSpecifier,
+                                           string name,
+                                           int line) :
+mTypeSpecifier(typeSpecifier), mName(name), mLine(line) { }
 
 FixedFieldDefinition::~FixedFieldDefinition() {
   delete mTypeSpecifier;
@@ -24,7 +26,7 @@ IField* FixedFieldDefinition::define(IRGenerationContext& context,
                                       const IObjectType* objectType) const {
   const IType* fieldType = mTypeSpecifier->getType(context);
   
-  return new FixedField(fieldType, mName);
+  return new FixedField(fieldType, mName, mLine);
 }
 
 bool FixedFieldDefinition::isConstant() const {

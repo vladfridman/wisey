@@ -19,16 +19,19 @@ namespace wisey {
   class StateField : public IField {
     const IType* mType;
     std::string mName;
+    int mLine;
     
   public:
     
-    StateField(const IType* type, std::string name);
+    StateField(const IType* type, std::string name, int line);
     
     ~StateField();
     
     std::string getName() const override;
     
     const IType* getType() const override;
+    
+    int getLine() const override;
     
     bool isAssignable() const override;
     

@@ -99,8 +99,8 @@ struct ModelTest : public Test {
     mStructType = StructType::create(mLLVMContext, modelFullName);
     mStructType->setBody(types);
     vector<IField*> fields;
-    mWidthField = new FixedField(PrimitiveTypes::INT_TYPE, "mWidth");
-    mHeightField = new FixedField(PrimitiveTypes::INT_TYPE, "mHeight");
+    mWidthField = new FixedField(PrimitiveTypes::INT_TYPE, "mWidth", 0);
+    mHeightField = new FixedField(PrimitiveTypes::INT_TYPE, "mHeight", 0);
     fields.push_back(mWidthField);
     fields.push_back(mHeightField);
     vector<MethodArgument*> methodArguments;
@@ -289,8 +289,8 @@ struct ModelTest : public Test {
     StructType *starStructType = StructType::create(mLLVMContext, starFullName);
     starStructType->setBody(starTypes);
     vector<IField*> starFields;
-    starFields.push_back(new FixedField(mBirthdateModel->getOwner(), "mBirthdate"));
-    starFields.push_back(new FixedField(mGalaxyModel, "mGalaxy"));
+    starFields.push_back(new FixedField(mBirthdateModel->getOwner(), "mBirthdate", 0));
+    starFields.push_back(new FixedField(mGalaxyModel, "mGalaxy", 0));
     mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, starFullName, starStructType);
     mStarModel->setFields(starFields, 1u);
     mContext.addModel(mStarModel);
@@ -746,8 +746,8 @@ TEST_F(ModelTest, printToStreamTest) {
   stringstream stringStream;
   Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL);
   vector<IField*> fields;
-  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1"));
-  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2"));
+  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1", 0));
+  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
   innerPublicModel->setFields(fields, 0);
 
   vector<MethodArgument*> methodArguments;
@@ -817,7 +817,7 @@ TEST_F(ModelTest, createLocalVariableTest) {
 
 TEST_F(ModelTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  FixedField* field = new FixedField(mModel, "mField");
+  FixedField* field = new FixedField(mModel, "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mModel->createFieldVariable(mContext, "temp", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("temp");

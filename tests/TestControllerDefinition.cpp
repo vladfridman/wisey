@@ -186,7 +186,7 @@ TEST_F(ControllerDefinitionTest, controllerWithFixedFieldDeathTest) {
   ControllerTypeSpecifierFull* typeSpecifier =
   new ControllerTypeSpecifierFull(packageExpression, "CMyController", 0);
   const PrimitiveTypeSpecifier* intType = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-  FixedFieldDefinition* field = new FixedFieldDefinition(intType, "field3");
+  FixedFieldDefinition* field = new FixedFieldDefinition(intType, "field3", 0);
   mElementDeclarations.clear();
   mElementDeclarations.push_back(field);
   vector<IObjectDefinition*> innerObjectDefinitions;
@@ -210,7 +210,7 @@ TEST_F(ControllerDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
   new ControllerTypeSpecifierFull(packageExpression, "CMyController", 0);
   InjectionArgumentList arguments;
   const PrimitiveTypeSpecifier* intType = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-  FixedFieldDefinition* field = new FixedFieldDefinition(intType, "field3");
+  FixedFieldDefinition* field = new FixedFieldDefinition(intType, "field3", 0);
   mElementDeclarations.push_back(field);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ControllerDefinition controllerDefinition(AccessLevel::PUBLIC_ACCESS,

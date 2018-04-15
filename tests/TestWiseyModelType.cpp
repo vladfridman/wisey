@@ -157,7 +157,7 @@ TEST_F(WiseyModelTypeTest, createLocalVariableTest) {
 
 TEST_F(WiseyModelTypeTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  IField* field = new StateField(mWiseyModelType, "mField");
+  IField* field = new StateField(mWiseyModelType, "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mWiseyModelType->createFieldVariable(mContext, "mField", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("mField");

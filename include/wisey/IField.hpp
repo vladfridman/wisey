@@ -33,6 +33,11 @@ namespace wisey {
     virtual const IType* getType() const = 0;
     
     /**
+     * Returns the line where the field is defined
+     */
+    virtual int getLine() const = 0;
+    
+    /**
      * Tells whether this field is assignable
      */
     virtual bool isAssignable() const = 0;

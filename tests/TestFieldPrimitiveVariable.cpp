@@ -53,7 +53,7 @@ struct FieldPrimitiveVariableTest : Test {
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
     vector<IField*> fields;
-    fields.push_back(new StateField(PrimitiveTypes::INT_TYPE, "foo"));
+    fields.push_back(new StateField(PrimitiveTypes::INT_TYPE, "foo", 0));
     mObject = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                         objectFullName,
                                         objectStructType);

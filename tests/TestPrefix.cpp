@@ -33,14 +33,14 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   vector<IObjectElementDefinition*> modelElements;
   defineModel(context, Names::getNPEModelName(), modelElements);
   const PrimitiveTypeSpecifier* longTypeSpecifier = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
-  modelElements.push_back(new FixedFieldDefinition(longTypeSpecifier, "mReferenceCount"));
+  modelElements.push_back(new FixedFieldDefinition(longTypeSpecifier, "mReferenceCount", 0));
   defineModel(context, Names::getReferenceCountExceptionName(), modelElements);
   modelElements.clear();
   
   longTypeSpecifier = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
-  modelElements.push_back(new FixedFieldDefinition(longTypeSpecifier, "mArraySize"));
+  modelElements.push_back(new FixedFieldDefinition(longTypeSpecifier, "mArraySize", 0));
   longTypeSpecifier = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
-  modelElements.push_back(new FixedFieldDefinition(longTypeSpecifier, "mIndex"));
+  modelElements.push_back(new FixedFieldDefinition(longTypeSpecifier, "mIndex", 0));
   defineModel(context, Names::getArrayIndexOutOfBoundsModelName(), modelElements);
   
   InterfaceDefinition* threadInterfaceDefinition = defineThreadInterface(context);

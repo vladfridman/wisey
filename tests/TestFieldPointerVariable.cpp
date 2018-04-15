@@ -81,8 +81,8 @@ struct FieldPointerVariableTest : Test {
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
     vector<IField*> fields;
-    fields.push_back(new StateField(mPointerType, "foo"));
-    fields.push_back(new StateField(mInterface, "bar"));
+    fields.push_back(new StateField(mPointerType, "foo", 0));
+    fields.push_back(new StateField(mInterface, "bar", 0));
     mObject = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                         objectFullName,
                                         objectStructType);

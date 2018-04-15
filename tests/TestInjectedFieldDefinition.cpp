@@ -46,7 +46,7 @@ public:
     mArguments.push_back(mInjectionArgument);
     
     const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-    mFieldDeclaration = new InjectedFieldDefinition(intSpecifier, mName, mArguments);
+    mFieldDeclaration = new InjectedFieldDefinition(intSpecifier, mName, mArguments, 0);
   }
   
   ~InjectedFieldDefinitionTest() {

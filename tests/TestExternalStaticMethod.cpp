@@ -56,8 +56,8 @@ public:
     StructType* structType = StructType::create(mLLVMContext, modelFullName);
     structType->setBody(types);
     vector<IField*> fields;
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "foo"));
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "bar"));
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "foo", 0));
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "bar", 0));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
     mModel->setFields(fields, 0u);
     

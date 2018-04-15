@@ -71,7 +71,7 @@ public:
 };
 
 TEST_F(InjectedFieldTest, fieldCreationTest) {
-  InjectedField field(mType, mInjectedType, mName, mInjectionArgumentList);
+  InjectedField field(mType, mInjectedType, mName, mInjectionArgumentList, 0);
   
   EXPECT_EQ(field.getType(), mType);
   EXPECT_EQ(field.getInjectedType(), mInjectedType);
@@ -87,7 +87,7 @@ TEST_F(InjectedFieldTest, fieldCreationTest) {
 }
 
 TEST_F(InjectedFieldTest, elementTypeTest) {
-  InjectedField field(mType, mInjectedType, mName, mInjectionArgumentList);
+  InjectedField field(mType, mInjectedType, mName, mInjectionArgumentList, 0);
 
   EXPECT_FALSE(field.isConstant());
   EXPECT_TRUE(field.isField());
@@ -98,7 +98,7 @@ TEST_F(InjectedFieldTest, elementTypeTest) {
 }
 
 TEST_F(InjectedFieldTest, fieldPrintToStreamTest) {
-  InjectedField field(mType, mInjectedType, mName, mInjectionArgumentList);
+  InjectedField field(mType, mInjectedType, mName, mInjectionArgumentList, 0);
 
   stringstream stringStream;
   field.printToStream(mContext, stringStream);

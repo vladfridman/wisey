@@ -33,7 +33,7 @@ IField* ReceivedFieldDefinition::define(IRGenerationContext& context,
            "Threads are only allowed to receive models or primitives");
     exit(1);
   }
-  return new ReceivedField(fieldType, mName);
+  return new ReceivedField(fieldType, mName, mLine);
 }
 
 bool ReceivedFieldDefinition::isConstant() const {

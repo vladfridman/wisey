@@ -12,8 +12,8 @@
 using namespace std;
 using namespace wisey;
 
-FixedField::FixedField(const IType* type, string name) :
-mType(type), mName(name) { }
+FixedField::FixedField(const IType* type, string name, int line) :
+mType(type), mName(name), mLine(line) { }
 
 FixedField::~FixedField() {
 }
@@ -24,6 +24,10 @@ const IType* FixedField::getType() const {
 
 string FixedField::getName() const {
   return mName;
+}
+
+int FixedField::getLine() const {
+  return mLine;
 }
 
 bool FixedField::isAssignable() const {

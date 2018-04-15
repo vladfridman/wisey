@@ -62,8 +62,8 @@ TEST_F(ExternalModelDefinitionTest, prototypeObjectTest) {
   const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
   const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
   InjectionArgumentList arguments;
-  FixedFieldDefinition* field1 = new FixedFieldDefinition(longType, "field1");
-  FixedFieldDefinition* field2 = new FixedFieldDefinition(floatType, "field2");
+  FixedFieldDefinition* field1 = new FixedFieldDefinition(longType, "field1", 0);
+  FixedFieldDefinition* field2 = new FixedFieldDefinition(floatType, "field2", 0);
   mElementDeclarations.push_back(field1);
   mElementDeclarations.push_back(field2);
   mElementDeclarations.push_back(mMethodDefinition);
@@ -93,8 +93,8 @@ TEST_F(ExternalModelDefinitionTest, prototypeMethodsTest) {
   const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
   const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
   InjectionArgumentList arguments;
-  FixedFieldDefinition* field1 = new FixedFieldDefinition(longType, "field1");
-  FixedFieldDefinition* field2 = new FixedFieldDefinition(floatType, "field2");
+  FixedFieldDefinition* field1 = new FixedFieldDefinition(longType, "field1", 0);
+  FixedFieldDefinition* field2 = new FixedFieldDefinition(floatType, "field2", 0);
   mElementDeclarations.push_back(field1);
   mElementDeclarations.push_back(field2);
   mElementDeclarations.push_back(mMethodDefinition);

@@ -15,11 +15,13 @@ using namespace wisey;
 InjectedField::InjectedField(const IType* type,
                              const IType* injectedType,
                              std::string name,
-                             InjectionArgumentList injectionArgumentList) :
+                             InjectionArgumentList injectionArgumentList,
+                             int line) :
 mType(type),
 mInjectedType(injectedType),
 mName(name),
-mInjectionArgumentList(injectionArgumentList) { }
+mInjectionArgumentList(injectionArgumentList),
+mLine(line) { }
 
 InjectedField::~InjectedField() {
   // Injection arguments are deleted with field delcarations
@@ -27,6 +29,10 @@ InjectedField::~InjectedField() {
   if (mInjectedType && mInjectedType->isArray()) {
     delete ((const ArraySpecificOwnerType*) mInjectedType)->getArraySpecificType();
   }
+}
+
+int InjectedField::getLine() const {
+  return mLine;
 }
 
 const IType* InjectedField::getType() const {

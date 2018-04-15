@@ -148,7 +148,7 @@ TEST_F(LLVMPointerOwnerTypeTest, createLocalVariableTest) {
 
 TEST_F(LLVMPointerOwnerTypeTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  IField* field = new StateField(mLLVMPointerOwnerType, "mField");
+  IField* field = new StateField(mLLVMPointerOwnerType, "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mLLVMPointerOwnerType->createFieldVariable(mContext, "mField", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("mField");

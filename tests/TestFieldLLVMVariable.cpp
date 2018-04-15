@@ -58,7 +58,7 @@ struct FieldLLVMVariableTest : Test {
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
     vector<IField*> fields;
-    fields.push_back(new StateField(mType, "mFoo"));
+    fields.push_back(new StateField(mType, "mFoo", 0));
     mObject = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
                                 objectFullName,
                                 objectStructType);

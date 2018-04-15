@@ -294,7 +294,7 @@ TEST_F(ControllerOwnerTest, createLocalVariableTest) {
 
 TEST_F(ControllerOwnerTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  IField* field = new FixedField(mMultiplierController->getOwner(), "mField");
+  IField* field = new FixedField(mMultiplierController->getOwner(), "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mMultiplierController->getOwner()->createFieldVariable(mContext, "mField", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("mField");

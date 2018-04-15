@@ -49,7 +49,7 @@ public:
 };
 
 TEST_F(ReceivedFieldTest, fieldCreationTest) {
-  ReceivedField field(mType, mName);
+  ReceivedField field(mType, mName, 0);
   
   EXPECT_EQ(field.getType(), mType);
   EXPECT_STREQ(field.getName().c_str(), "mField");
@@ -62,7 +62,7 @@ TEST_F(ReceivedFieldTest, fieldCreationTest) {
 }
 
 TEST_F(ReceivedFieldTest, elementTypeTest) {
-  ReceivedField field(mType, mName);
+  ReceivedField field(mType, mName, 0);
   
   EXPECT_FALSE(field.isConstant());
   EXPECT_TRUE(field.isField());
@@ -73,7 +73,7 @@ TEST_F(ReceivedFieldTest, elementTypeTest) {
 }
 
 TEST_F(ReceivedFieldTest, fieldPrintToStreamTest) {
-  ReceivedField field(mType, mName);
+  ReceivedField field(mType, mName, 0);
   
   stringstream stringStream;
   field.printToStream(mContext, stringStream);

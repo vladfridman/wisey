@@ -12,8 +12,8 @@
 using namespace std;
 using namespace wisey;
 
-StateField::StateField(const IType* type, string name) :
-mType(type), mName(name) { }
+StateField::StateField(const IType* type, string name, int line) :
+mType(type), mName(name), mLine(line) { }
 
 StateField::~StateField() {
 }
@@ -24,6 +24,10 @@ const IType* StateField::getType() const {
 
 string StateField::getName() const {
   return mName;
+}
+
+int StateField::getLine() const {
+  return mLine;
 }
 
 bool StateField::isAssignable() const {

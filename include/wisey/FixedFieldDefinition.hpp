@@ -24,10 +24,11 @@ namespace wisey {
   class FixedFieldDefinition : public IObjectElementDefinition {
     const ITypeSpecifier* mTypeSpecifier;
     std::string mName;
+    int mLine;
     
   public:
     
-    FixedFieldDefinition(const ITypeSpecifier* typeSpecifier, std::string name);
+    FixedFieldDefinition(const ITypeSpecifier* typeSpecifier, std::string name, int line);
     
     ~FixedFieldDefinition();
     

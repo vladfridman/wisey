@@ -16,11 +16,13 @@ using namespace std;
 using namespace wisey;
 
 InjectedFieldDefinition::InjectedFieldDefinition(const ITypeSpecifier* typeSpecifier,
-                                                   string name,
-                                                   InjectionArgumentList injectionArguments) :
+                                                 string name,
+                                                 InjectionArgumentList injectionArguments,
+                                                 int line) :
 mTypeSpecifier(typeSpecifier),
 mName(name),
-mInjectionArgumentList(injectionArguments) { }
+mInjectionArgumentList(injectionArguments),
+mLine(line) { }
 
 InjectedFieldDefinition::~InjectedFieldDefinition() {
   delete mTypeSpecifier;
@@ -41,7 +43,7 @@ IField* InjectedFieldDefinition::define(IRGenerationContext& context,
     ->getArrayType(context)->getOwner();
   }
   
-  return new InjectedField(fieldType, injectedType, mName, mInjectionArgumentList);
+  return new InjectedField(fieldType, injectedType, mName, mInjectionArgumentList, mLine);
 }
 
 bool InjectedFieldDefinition::isConstant() const {

@@ -170,7 +170,7 @@ TEST_F(InterfaceOwnerTest, createLocalVariableTest) {
 
 TEST_F(InterfaceOwnerTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  IField* field = new FixedField(mObjectInterface->getOwner(), "mField");
+  IField* field = new FixedField(mObjectInterface->getOwner(), "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mObjectInterface->getOwner()->createFieldVariable(mContext, "mField", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("mField");

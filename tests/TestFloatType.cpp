@@ -55,7 +55,7 @@ public:
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
 
-    IField* field = new FixedField(&mFloatType, "mField");
+    IField* field = new FixedField(&mFloatType, "mField", 0);
     ON_CALL(mConcreteObjectType, findField(_)).WillByDefault(Return(field));
     
     mStringStream = new raw_string_ostream(mStringBuffer);

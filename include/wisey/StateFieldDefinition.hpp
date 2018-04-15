@@ -24,10 +24,11 @@ namespace wisey {
   class StateFieldDefinition : public IObjectElementDefinition {
     const ITypeSpecifier* mTypeSpecifier;
     std::string mName;
+    int mLine;
     
   public:
     
-    StateFieldDefinition(const ITypeSpecifier* typeSpecifier, std::string name);
+    StateFieldDefinition(const ITypeSpecifier* typeSpecifier, std::string name, int line);
     
     ~StateFieldDefinition();
     

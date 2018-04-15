@@ -177,7 +177,7 @@ TEST_F(ThreadOwnerTest, createLocalVariableTest) {
 
 TEST_F(ThreadOwnerTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  IField* field = new FixedField(mThread->getOwner(), "mField");
+  IField* field = new FixedField(mThread->getOwner(), "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mThread->getOwner()->createFieldVariable(mContext, "mField", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("mField");

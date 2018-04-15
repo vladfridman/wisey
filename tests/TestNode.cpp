@@ -168,8 +168,8 @@ struct NodeTest : public Test {
                                      complicatedNodeFullName,
                                      mStructType);
    InjectionArgumentList arguments;
-    mLeftField = new FixedField(PrimitiveTypes::INT_TYPE, "mLeft");
-    mRightField = new FixedField(PrimitiveTypes::INT_TYPE, "mRight");
+    mLeftField = new FixedField(PrimitiveTypes::INT_TYPE, "mLeft", 0);
+    mRightField = new FixedField(PrimitiveTypes::INT_TYPE, "mRight", 0);
     fields.push_back(mLeftField);
     fields.push_back(mRightField);
     vector<MethodArgument*> methodArguments;
@@ -259,8 +259,8 @@ struct NodeTest : public Test {
     StructType* simpleNodeStructType = StructType::create(mLLVMContext, simpleNodeFullName);
     simpleNodeStructType->setBody(simpleNodeTypes);
     vector<IField*> simpleNodeFields;
-    simpleNodeFields.push_back(new FixedField(mOwnerNode->getOwner(), "mOwner"));
-    simpleNodeFields.push_back(new FixedField(mReferenceModel, "mReference"));
+    simpleNodeFields.push_back(new FixedField(mOwnerNode->getOwner(), "mOwner", 0));
+    simpleNodeFields.push_back(new FixedField(mReferenceModel, "mReference", 0));
     mSimpleNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                 simpleNodeFullName,
                                 simpleNodeStructType);
@@ -276,8 +276,8 @@ struct NodeTest : public Test {
     StructType* simplerNodeStructType = StructType::create(mLLVMContext, simplerNodeFullName);
     simplerNodeStructType->setBody(simplerNodeTypes);
     vector<IField*> simplerNodeFields;
-    simplerNodeFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mLeft"));
-    simplerNodeFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mRight"));
+    simplerNodeFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mLeft", 0));
+    simplerNodeFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mRight", 0));
     mSimplerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                  simplerNodeFullName,
                                  simplerNodeStructType);
@@ -729,8 +729,8 @@ TEST_F(NodeTest, printToStreamTest) {
   stringstream stringStream;
   Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL);
   vector<IField*> fields;
-  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1"));
-  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2"));
+  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1", 0));
+  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
   innerPublicModel->setFields(fields, 0);
   
   vector<MethodArgument*> methodArguments;
@@ -801,7 +801,7 @@ TEST_F(NodeTest, createLocalVariableTest) {
 TEST_F(NodeTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
   InjectionArgumentList injectionArgumentList;
-  IField* field = new FixedField(mComplicatedNode, "mField");
+  IField* field = new FixedField(mComplicatedNode, "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mComplicatedNode->createFieldVariable(mContext, "mField", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("mField");

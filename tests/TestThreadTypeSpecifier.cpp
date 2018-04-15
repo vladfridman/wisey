@@ -43,8 +43,8 @@ struct ThreadTypeSpecifierTest : public ::testing::Test {
     structType->setBody(types);
     mThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS, threadFullName, structType);
     vector<IField*> fields;
-    fields.push_back(new StateField(PrimitiveTypes::INT_TYPE, "mFrom"));
-    fields.push_back(new StateField(PrimitiveTypes::INT_TYPE, "mTo"));
+    fields.push_back(new StateField(PrimitiveTypes::INT_TYPE, "mFrom", 0));
+    fields.push_back(new StateField(PrimitiveTypes::INT_TYPE, "mTo", 0));
     vector<MethodArgument*> methodArguments;
     vector<IMethod*> methods;
     vector<const Model*> thrownExceptions;

@@ -85,8 +85,8 @@ struct ModelOwnerTest : public Test {
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, mStructType);
 
     vector<IField*> fields;
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width"));
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height"));
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width", 0));
+    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height", 0));
     vector<MethodArgument*> methodArguments;
     vector<const Model*> thrownExceptions;
     IMethod* method = new Method(mModel,
@@ -223,8 +223,8 @@ struct ModelOwnerTest : public Test {
     StructType *starStructType = StructType::create(mLLVMContext, starFullName);
     starStructType->setBody(starTypes);
     vector<IField*> starFields;
-    starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mBrightness"));
-    starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mWeight"));
+    starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mBrightness", 0));
+    starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mWeight", 0));
     mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, starFullName, starStructType);
     mStarModel->setFields(starFields, 1u);
     mContext.addModel(mStarModel);
@@ -398,7 +398,7 @@ TEST_F(ModelOwnerTest, createLocalVariableTest) {
 
 TEST_F(ModelOwnerTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  IField* field = new FixedField(mModel->getOwner(), "mField");
+  IField* field = new FixedField(mModel->getOwner(), "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mModel->getOwner()->createFieldVariable(mContext, "mField", &concreteObjectType);
   IVariable* variable = mContext.getScopes().getVariable("mField");
