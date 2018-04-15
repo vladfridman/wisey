@@ -188,3 +188,7 @@ TEST_F(WiseyObjectTypeTest, getOwnerTest) {
 TEST_F(TestFileRunner, referenceCountDecrementedForWiseyObjectTypeVariableTest) {
   runFile("tests/samples/test_reference_count_decremented_for_llvm_object_type_variable.yz", "1");
 }
+
+TEST_F(TestFileRunner, compareLLVMObjectsToNullTest) {
+  runFile("tests/samples/test_compare_llvm_objects_to_null.yz", "1");
+}

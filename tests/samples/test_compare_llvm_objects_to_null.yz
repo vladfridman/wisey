@@ -1,0 +1,23 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+model MMyModel {
+
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    ::wisey::model* modelOwner = builder(MMyModel).build();
+    ::wisey::model modelReference = null;
+    ::wisey::object* objectOwner = null;
+    ::wisey::object objectReference = null;
+    if ((modelOwner && modelReference && objectOwner && !objectReference) || modelOwner) {
+      return !objectOwner;
+    }
+    return 0;
+  }
+}
+
+bind(IProgram).to(CProgram);

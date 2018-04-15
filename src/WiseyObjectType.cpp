@@ -15,6 +15,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 #include "wisey/WiseyObjectType.hpp"
 #include "wisey/WiseyObjectOwnerType.hpp"
 
@@ -46,6 +47,9 @@ bool WiseyObjectType::canCastTo(IRGenerationContext& context, const IType* toTyp
     return !toType->isController() && !toType->isModel() && !toType->isNode() &&
     !toType->isThread();
   }
+  if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
+    return true;
+  }
   return false;
 }
 
@@ -59,6 +63,13 @@ Value* WiseyObjectType::castTo(IRGenerationContext& context,
                               int line) const {
   if (toType->isReference() || toType->isPointer()) {
     return IRWriter::newBitCastInst(context, fromValue, toType->getLLVMType(context));
+  }
+  if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
+    return IRWriter::newICmpInst(context,
+                                 ICmpInst::ICMP_NE,
+                                 fromValue,
+                                 ConstantPointerNull::get(getLLVMType(context)),
+                                 "");
   }
   assert(false);
 }

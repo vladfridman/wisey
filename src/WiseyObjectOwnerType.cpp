@@ -14,6 +14,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/ParameterOwnerVariable.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 #include "wisey/WiseyObjectOwnerType.hpp"
 
 using namespace llvm;
@@ -44,6 +45,9 @@ bool WiseyObjectOwnerType::canCastTo(IRGenerationContext& context, const IType* 
     return !toType->isController() && !toType->isModel() && !toType->isNode() &&
     !toType->isThread();
   }
+  if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
+    return true;
+  }
   return false;
 }
 
@@ -57,6 +61,13 @@ llvm::Value* WiseyObjectOwnerType::castTo(IRGenerationContext& context,
                                           int line) const {
   if (toType->isReference() || toType->isOwner() || toType->isPointer()) {
     return IRWriter::newBitCastInst(context, fromValue, toType->getLLVMType(context));
+  }
+  if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
+    return IRWriter::newICmpInst(context,
+                                 ICmpInst::ICMP_NE,
+                                 fromValue,
+                                 ConstantPointerNull::get(getLLVMType(context)),
+                                 "");
   }
   assert(false);
 }
