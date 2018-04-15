@@ -17,9 +17,13 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-NullExpression::NullExpression() { }
+NullExpression::NullExpression(int line) : mLine(line) { }
 
 NullExpression::~NullExpression() { }
+
+int NullExpression::getLine() const {
+  return mLine;
+}
 
 IVariable* NullExpression::getVariable(IRGenerationContext& context,
                                        vector<const IExpression*>& arrayIndices) const {

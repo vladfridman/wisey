@@ -19,12 +19,17 @@ using namespace std;
 using namespace wisey;
 
 TypeComparisionExpression::TypeComparisionExpression(IExpression* expression,
-                                                     const ITypeSpecifier* typeSpecifier) :
-mExpression(expression), mTypeSpecifier(typeSpecifier) { }
+                                                     const ITypeSpecifier* typeSpecifier,
+                                                     int line) :
+mExpression(expression), mTypeSpecifier(typeSpecifier), mLine(line) { }
 
 TypeComparisionExpression::~TypeComparisionExpression() {
   delete mExpression;
   delete mTypeSpecifier;
+}
+
+int TypeComparisionExpression::getLine() const {
+  return mLine;
 }
 
 IVariable* TypeComparisionExpression::getVariable(IRGenerationContext& context,

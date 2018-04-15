@@ -34,6 +34,8 @@ namespace wisey {
      */
     ExpressionList getExpressionList() const;
     
+    int getLine() const override;
+
     llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
     
     IVariable* getVariable(IRGenerationContext& context,

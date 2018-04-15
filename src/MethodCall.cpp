@@ -42,6 +42,10 @@ MethodCall::~MethodCall() {
   delete mExpression;
 }
 
+int MethodCall::getLine() const {
+  return mLine;
+}
+
 IVariable* MethodCall::getVariable(IRGenerationContext& context,
                                    vector<const IExpression*>& arrayIndices) const {
   return NULL;

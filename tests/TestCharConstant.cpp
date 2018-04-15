@@ -28,7 +28,7 @@ struct CharConstantTest : public ::testing::Test {
   IRGenerationContext mContext;
   CharConstant mCharConstant;
 
-  CharConstantTest() : mCharConstant('y') { }
+  CharConstantTest() : mCharConstant('y', 0) { }
 };
 
 TEST_F(CharConstantTest, getVariableTest) {

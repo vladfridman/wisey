@@ -124,13 +124,15 @@ void ProgramSuffix::generateMain(IRGenerationContext& context) const {
                                        ConstantPointerNull::get(callStack->getLLVMType(context)));
   context.getScopes().setVariable(callStackVariable);
   
-  IdentifierChain* startMethod = new IdentifierChain(new Identifier("mainThread"), "start");
+  IdentifierChain* startMethod = new IdentifierChain(new Identifier("mainThread", 0), "start", 0);
   ExpressionList callArguments;
   MethodCall* startMethodCall = new MethodCall(startMethod, callArguments, 0);
   ExpressionStatement startMethodCallStatement(startMethodCall);
   startMethodCallStatement.generateIR(context);
   
-  IdentifierChain* waitMethod = new IdentifierChain(new Identifier("mainThread"), "awaitResult");
+  IdentifierChain* waitMethod = new IdentifierChain(new Identifier("mainThread", 0),
+                                                    "awaitResult",
+                                                    0);
   MethodCall* waitMethodCall = new MethodCall(waitMethod, callArguments, 0);
   
   PackageType* langPackageType = context.getPackageType(Names::getLangPackageName());
@@ -145,22 +147,22 @@ void ProgramSuffix::generateMain(IRGenerationContext& context) const {
   new ModelTypeSpecifier(langPackageExpression, Names::getProgramResultShortName(), 0);
   VariableDeclaration* resultDeclaration =
   VariableDeclaration::createWithAssignment(mainThreadMessageSpecifier,
-                                            new Identifier("resultObject"),
+                                            new Identifier("resultObject", 0),
                                             castToMessage,
                                             0);
   resultDeclaration->generateIR(context);
   
-  NullExpression* nullExpression = new NullExpression();
-  RelationalExpression* condition = new RelationalExpression(new Identifier("resultObject"),
+  NullExpression* nullExpression = new NullExpression(0);
+  RelationalExpression* condition = new RelationalExpression(new Identifier("resultObject", 0),
                                                              RELATIONAL_OPERATION_EQ,
                                                              nullExpression,
                                                              0);
   ExpressionList expressionsToPrint;
-  expressionsToPrint.push_back(new StringLiteral("Main thread ended without a result\n"));
+  expressionsToPrint.push_back(new StringLiteral("Main thread ended without a result\n", 0));
   PrintErrStatement* printerr = new PrintErrStatement(expressionsToPrint);
   Block* block = new Block();
   block->getStatements().push_back(printerr);
-  IntConstant* intConstant = new IntConstant(1);
+  IntConstant* intConstant = new IntConstant(1, 0);
   ReturnStatement* returnErrorStatement = new ReturnStatement(intConstant, 0);
   block->getStatements().push_back(returnErrorStatement);
   CompoundStatement* thenStatement = new CompoundStatement(block, 0);
@@ -168,8 +170,9 @@ void ProgramSuffix::generateMain(IRGenerationContext& context) const {
   IfStatement ifStatement(condition, thenStatement);
   ifStatement.generateIR(context);
   
-  IdentifierChain* getContentMethod = new IdentifierChain(new Identifier("resultObject"),
-                                                          "getResult");
+  IdentifierChain* getContentMethod = new IdentifierChain(new Identifier("resultObject", 0),
+                                                          "getResult",
+                                                          0);
   MethodCall* getContent = new MethodCall(getContentMethod, callArguments, 0);
   ReturnStatement returnResultStatement(getContent, 0);
   returnResultStatement.generateIR(context);

@@ -15,9 +15,13 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-IdentifierReference::IdentifierReference(const string name) : mName(name) { }
+IdentifierReference::IdentifierReference(string name, int line) : mName(name), mLine(line) { }
 
 IdentifierReference::~IdentifierReference() { }
+
+int IdentifierReference::getLine() const {
+  return mLine;
+}
 
 IVariable* IdentifierReference::getVariable(IRGenerationContext& context,
                                    vector<const IExpression*>& arrayIndices) const {

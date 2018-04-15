@@ -66,7 +66,7 @@ struct IdentifierChainTest : public Test {
 TEST_F(IdentifierChainTest, isConstantTest) {
   NiceMock<MockExpression>* mockExpression = new NiceMock<MockExpression>();
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printPackageTypeExpression));
-  IdentifierChain identifierChain(mockExpression, "test");
+  IdentifierChain identifierChain(mockExpression, "test", 0);
   
   EXPECT_FALSE(identifierChain.isConstant());
 }
@@ -74,7 +74,7 @@ TEST_F(IdentifierChainTest, isConstantTest) {
 TEST_F(IdentifierChainTest, printToStreamTest) {
   NiceMock<MockExpression>* mockExpression = new NiceMock<MockExpression>();
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printPackageTypeExpression));
-  IdentifierChain identifierChain(mockExpression, "test");
+  IdentifierChain identifierChain(mockExpression, "test", 0);
   
   stringstream stringStream;
   identifierChain.printToStream(mContext, stringStream);
@@ -87,7 +87,7 @@ TEST_F(IdentifierChainTest, getTypeForUndefinedBaseTypeTest) {
   ON_CALL(*mockExpression, getType(_)).WillByDefault(Return(UndefinedType::UNDEFINED_TYPE));
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printUndefinedTypeExpression));
   
-  IdentifierChain identifierChain(mockExpression, "lang");
+  IdentifierChain identifierChain(mockExpression, "lang", 0);
   const IType* type = identifierChain.getType(mContext);
   
   EXPECT_TRUE(type->isPackage());
@@ -102,7 +102,7 @@ TEST_F(IdentifierChainTest, getTypeForPackageBaseTypeTest) {
   ON_CALL(mockType, isPackage()).WillByDefault(Return(true));
   EXPECT_CALL(mockType, die());
   
-  IdentifierChain identifierChain(mockExpression, "tests");
+  IdentifierChain identifierChain(mockExpression, "tests", 0);
   const IType* type = identifierChain.getType(mContext);
   
   EXPECT_TRUE(type->isPackage());
@@ -120,7 +120,7 @@ TEST_F(IdentifierChainTest, getTypeForObjectBaseTypeTest) {
   ON_CALL(mockObjectType, findMethod("foo")).WillByDefault(Return(&mockMethodDescriptor));
   ON_CALL(mockMethodDescriptor, getParentObject()).WillByDefault(Return(&mockObjectType));
 
-  IdentifierChain identifierChain(mockExpression, "foo");
+  IdentifierChain identifierChain(mockExpression, "foo", 0);
   const IType* type = identifierChain.getType(mContext);
   
   EXPECT_EQ(&mockMethodDescriptor, type);
@@ -133,7 +133,7 @@ TEST_F(IdentifierChainTest, getTypeForPrimitiveBaseTypeDeathTest) {
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printObjectTypeExpression));
   ON_CALL(mockObjectType, isPrimitive()).WillByDefault(Return(true));
   
-  IdentifierChain identifierChain(mockExpression, "foo");
+  IdentifierChain identifierChain(mockExpression, "foo", 0);
   
   Mock::AllowLeak(mockExpression);
   Mock::AllowLeak(&mockObjectType);
@@ -152,7 +152,7 @@ TEST_F(IdentifierChainTest, getTypeForObjectBaseTypeMethodNotFoundDeathTest) {
   ON_CALL(mockObjectType, isReference()).WillByDefault(Return(true));
   ON_CALL(mockObjectType, getTypeName()).WillByDefault(Return(modelFullName));
 
-  IdentifierChain identifierChain(mockExpression, "foo");
+  IdentifierChain identifierChain(mockExpression, "foo", 0);
 
   Mock::AllowLeak(mockExpression);
   Mock::AllowLeak(&mockObjectType);
@@ -178,7 +178,7 @@ TEST_F(IdentifierChainTest, generateIRTest) {
   ON_CALL(mockMethodDescriptor, getAccessLevel()).WillByDefault(Return(AccessLevel::PUBLIC_ACCESS));
   ON_CALL(*mockExpression, generateIR(_, _)).WillByDefault(Return(objectPointer));
 
-  IdentifierChain identifierChain(mockExpression, "foo");
+  IdentifierChain identifierChain(mockExpression, "foo", 0);
   Value* result = identifierChain.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   EXPECT_EQ(objectPointer, result);
@@ -200,7 +200,7 @@ TEST_F(IdentifierChainTest, generateIRForPrivateMethodDeathTest) {
   Mock::AllowLeak(mockExpression);
   Mock::AllowLeak(&mockObjectType);
   Mock::AllowLeak(&mockMethodDescriptor);
-  IdentifierChain identifierChain(mockExpression, "foo");
+  IdentifierChain identifierChain(mockExpression, "foo", 0);
   EXPECT_EXIT(identifierChain.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
               "Error: Method 'foo' of object systems.vos.wisey.compiler.tests.MObject is private");

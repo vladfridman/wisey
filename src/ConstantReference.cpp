@@ -16,14 +16,20 @@ using namespace std;
 using namespace wisey;
 
 ConstantReference::ConstantReference(const IObjectTypeSpecifier* objectTypeSpecifier,
-                                     string constantName) :
+                                     string constantName,
+                                     int line) :
 mObjectTypeSpecifier(objectTypeSpecifier),
-mConstantName(constantName) { }
+mConstantName(constantName),
+mLine(line) { }
 
 ConstantReference::~ConstantReference() {
   if (mObjectTypeSpecifier != NULL) {
     delete mObjectTypeSpecifier;
   }
+}
+
+int ConstantReference::getLine() const {
+  return mLine;
 }
 
 IVariable* ConstantReference::getVariable(IRGenerationContext& context,

@@ -71,7 +71,7 @@ struct ArrayAllocationTest : Test {
     const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
     mArraySpecificTypeSpecifier = new ArraySpecificTypeSpecifier(intSpecifier, dimensions);
     
-    mArrayAllocation = new ArrayAllocation(mArraySpecificTypeSpecifier);
+    mArrayAllocation = new ArrayAllocation(mArraySpecificTypeSpecifier, 0);
   }
   
   ~ArrayAllocationTest() {

@@ -41,13 +41,13 @@ struct BooleanConstantTest : public Test {
 };
 
 TEST_F(BooleanConstantTest, getVariableTest) {
-  BooleanConstant booleanTrue(true);
+  BooleanConstant booleanTrue(true, 0);
   vector<const IExpression*> arrayIndices;
   EXPECT_EQ(booleanTrue.getVariable(mContext, arrayIndices), nullptr);
 }
 
 TEST_F(BooleanConstantTest, booleanTrueConstantTest) {
-  BooleanConstant booleanTrue(true);
+  BooleanConstant booleanTrue(true, 0);
   Value* irValue = booleanTrue.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   *mStringStream << *irValue;
@@ -55,7 +55,7 @@ TEST_F(BooleanConstantTest, booleanTrueConstantTest) {
 }
 
 TEST_F(BooleanConstantTest, booleanFalseConstantTest) {
-  BooleanConstant booleanFalse(false);
+  BooleanConstant booleanFalse(false, 0);
   Value* irValue = booleanFalse.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   *mStringStream << *irValue;
@@ -63,20 +63,20 @@ TEST_F(BooleanConstantTest, booleanFalseConstantTest) {
 }
 
 TEST_F(BooleanConstantTest, booleanConstantTypeTest) {
-  BooleanConstant booleanConstant(true);
+  BooleanConstant booleanConstant(true, 0);
   
   EXPECT_EQ(booleanConstant.getType(mContext), PrimitiveTypes::BOOLEAN_TYPE);
 }
 
 TEST_F(BooleanConstantTest, isConstantTest) {
-  BooleanConstant trueConstant(true);
+  BooleanConstant trueConstant(true, 0);
 
   EXPECT_TRUE(trueConstant.isConstant());
 }
 
 TEST_F(BooleanConstantTest, printToStreamTest) {
-  BooleanConstant trueConstant(true);
-  BooleanConstant falseConstant(false);
+  BooleanConstant trueConstant(true, 0);
+  BooleanConstant falseConstant(false, 0);
 
   stringstream stringStreamTrue;
   trueConstant.printToStream(mContext, stringStreamTrue);

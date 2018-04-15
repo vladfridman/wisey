@@ -20,15 +20,21 @@ using namespace wisey;
 
 ConditionalExpression::ConditionalExpression(IExpression* conditionExpression,
                                              IExpression* ifTrueExpression,
-                                             IExpression* ifFalseExpression) :
+                                             IExpression* ifFalseExpression,
+                                             int line) :
 mConditionExpression(conditionExpression),
 mIfTrueExpression(ifTrueExpression),
-mIfFalseExpression(ifFalseExpression) {  }
+mIfFalseExpression(ifFalseExpression),
+mLine(line) {  }
 
 ConditionalExpression::~ConditionalExpression() {
   delete mConditionExpression;
   delete mIfTrueExpression;
   delete mIfFalseExpression;
+}
+
+int ConditionalExpression::getLine() const {
+  return mLine;
 }
 
 IVariable* ConditionalExpression::getVariable(IRGenerationContext& context,

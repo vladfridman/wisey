@@ -34,6 +34,10 @@ AdditiveMultiplicativeExpression::~AdditiveMultiplicativeExpression() {
   delete mRightExpression;
 }
 
+int AdditiveMultiplicativeExpression::getLine() const {
+  return mLine;
+}
+
 IVariable* AdditiveMultiplicativeExpression::getVariable(IRGenerationContext& context,
                                                          vector<const IExpression*>& arrayIndices) const {
   return NULL;

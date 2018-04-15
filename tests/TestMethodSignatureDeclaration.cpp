@@ -43,8 +43,8 @@ struct MethodSignatureDeclarationTest : Test {
   MethodSignatureDeclarationTest() :
   mFloatTypeSpecifier(PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier()),
   mIntTypeSpecifier(PrimitiveTypes::INT_TYPE->newTypeSpecifier()),
-  mIntArgumentIdentifier(new Identifier("intargument")),
-  mFloatArgumentIdentifier(new Identifier("floatargument")),
+  mIntArgumentIdentifier(new Identifier("intargument", 0)),
+  mFloatArgumentIdentifier(new Identifier("floatargument", 0)),
   mIntArgument(VariableDeclaration::create(mIntTypeSpecifier, mIntArgumentIdentifier, 0)),
   mFloatArgument(VariableDeclaration::create(mFloatTypeSpecifier, mFloatArgumentIdentifier, 0)) {
     TestPrefix::generateIR(mContext);

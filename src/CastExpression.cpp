@@ -27,6 +27,10 @@ CastExpression::~CastExpression() {
   delete mExpression;
 }
 
+int CastExpression::getLine() const {
+  return mLine;
+}
+
 IVariable* CastExpression::getVariable(IRGenerationContext& context,
                                        vector<const IExpression*>& arrayIndices) const {
   return NULL;

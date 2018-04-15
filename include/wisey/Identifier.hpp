@@ -29,13 +29,16 @@ namespace wisey {
   class Identifier : public IExpression {
     
     const std::string mName;
+    int mLine;
     
   public:
     
-    Identifier(const std::string& name);
+    Identifier(const std::string& name, int line);
     
     ~Identifier();
     
+    int getLine() const override;
+
     const std::string& getIdentifierName() const;
     
     IVariable* getVariable(IRGenerationContext& context,

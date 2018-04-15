@@ -19,13 +19,16 @@ namespace wisey {
    */
   class BooleanConstant : public IExpression {
     bool mValue;
+    int mLine;
     
   public:
     
-    BooleanConstant(bool value) : mValue(value) { }
+    BooleanConstant(bool value, int line);
     
-    ~BooleanConstant() {}
+    ~BooleanConstant();
     
+    int getLine() const override;
+
     IVariable* getVariable(IRGenerationContext& context,
                            std::vector<const IExpression*>& arrayIndices) const override;
     

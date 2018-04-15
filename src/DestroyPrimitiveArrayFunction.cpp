@@ -135,11 +135,11 @@ void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Functi
 
   if (context.isDestructorDebugOn()) {
     ExpressionList printOutArguments;
-    printOutArguments.push_back(new StringLiteral("destructor primitive<"));
+    printOutArguments.push_back(new StringLiteral("destructor primitive<", 0));
     printOutArguments.push_back(new FakeExpression(elementSize, PrimitiveTypes::INT_TYPE));
-    printOutArguments.push_back(new StringLiteral(" bytes>["));
+    printOutArguments.push_back(new StringLiteral(" bytes>[", 0));
     printOutArguments.push_back(new FakeExpression(size, PrimitiveTypes::INT_TYPE));
-    printOutArguments.push_back(new StringLiteral("]\n"));
+    printOutArguments.push_back(new StringLiteral("]\n", 0));
     PrintOutStatement printOutStatement(printOutArguments);
     printOutStatement.generateIR(context);
   }

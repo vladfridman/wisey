@@ -21,10 +21,11 @@ namespace wisey {
   class ArrayAllocation : public IExpression {
     
     const ArraySpecificTypeSpecifier* mArraySpecificTypeSpecifier;
+    int mLine;
     
   public:
     
-    ArrayAllocation(const ArraySpecificTypeSpecifier* arraySpecificTypeSpecifier);
+    ArrayAllocation(const ArraySpecificTypeSpecifier* arraySpecificTypeSpecifier, int line);
     
     ~ArrayAllocation();
     
@@ -44,6 +45,8 @@ namespace wisey {
     const IType* getType(IRGenerationContext& context) const override;
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
+    
+    int getLine() const override;
     
   private:
     

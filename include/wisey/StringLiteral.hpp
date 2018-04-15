@@ -18,13 +18,16 @@ namespace wisey {
    */
   class StringLiteral : public IExpression {
     std::string mValue;
+    int mLine;
     
   public:
     
-    StringLiteral(std::string input);
+    StringLiteral(std::string input, int line);
     
     ~StringLiteral();
     
+    int getLine() const override;
+
     IVariable* getVariable(IRGenerationContext& context,
                            std::vector<const IExpression*>& arrayIndices) const override;
     

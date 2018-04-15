@@ -19,13 +19,16 @@ namespace wisey {
    */
   class NegateExpression : public IExpression {
     IExpression* mExpression;
+    int mLine;
     
   public:
     
-    NegateExpression(IExpression* expression);
+    NegateExpression(IExpression* expression, int line);
     
     ~NegateExpression();
     
+    int getLine() const override;
+
     IVariable* getVariable(IRGenerationContext& context,
                            std::vector<const IExpression*>& arrayIndices) const override;
     

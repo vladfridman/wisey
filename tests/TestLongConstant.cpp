@@ -27,7 +27,7 @@ struct LongConstantTest : public ::testing::Test {
   IRGenerationContext mContext;
   LongConstant mLongConstant;
 
-  LongConstantTest() : mLongConstant(5) { }
+  LongConstantTest() : mLongConstant(5, 0) { }
 };
 
 TEST_F(LongConstantTest, getVariableTest) {

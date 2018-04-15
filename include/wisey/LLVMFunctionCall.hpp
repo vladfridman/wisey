@@ -19,13 +19,16 @@ namespace wisey {
   class LLVMFunctionCall : public IExpression {
     std::string mFunctionName;
     ExpressionList mArguments;
+    int mLine;
     
   public:
     
-    LLVMFunctionCall(std::string functionName, ExpressionList arguments);
+    LLVMFunctionCall(std::string functionName, ExpressionList arguments, int line);
     
     ~LLVMFunctionCall();
     
+    int getLine() const override;
+
     IVariable* getVariable(IRGenerationContext& context,
                            std::vector<const IExpression*>& arrayIndices) const override;
     

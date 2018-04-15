@@ -27,13 +27,16 @@ namespace wisey {
     
     IExpression* mObjectExpression;
     const std::string mName;
+    int mLine;
     
   public:
     
-    IdentifierChain(IExpression* objectExpression, const std::string name);
+    IdentifierChain(IExpression* objectExpression, std::string name, int line);
     
     ~IdentifierChain();
     
+    int getLine() const override;
+
     IVariable* getVariable(IRGenerationContext& context,
                            std::vector<const IExpression*>& arrayIndices) const override;
     

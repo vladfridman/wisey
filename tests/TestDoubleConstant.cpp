@@ -27,7 +27,7 @@ struct DoubleConstantTest : public ::testing::Test {
   IRGenerationContext mContext;
   DoubleConstant mDoubleConstant;
   
-  DoubleConstantTest() : mDoubleConstant(5.7) { }
+  DoubleConstantTest() : mDoubleConstant(5.7, 0) { }
 };
 
 TEST_F(DoubleConstantTest, getVariableTest) {

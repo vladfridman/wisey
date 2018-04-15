@@ -27,7 +27,7 @@ struct IntConstantTest : public ::testing::Test {
   IRGenerationContext mContext;
   IntConstant mIntConstant;
 
-  IntConstantTest() : mIntConstant(5) { }
+  IntConstantTest() : mIntConstant(5, 0) { }
 };
 
 TEST_F(IntConstantTest, getVariableTest) {

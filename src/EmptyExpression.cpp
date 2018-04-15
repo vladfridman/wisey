@@ -22,6 +22,10 @@ EmptyExpression::EmptyExpression() { }
 
 EmptyExpression::~EmptyExpression() { }
 
+int EmptyExpression::getLine() const {
+  return 0;
+}
+
 IVariable* EmptyExpression::getVariable(IRGenerationContext& context,
                                         vector<const IExpression*>& arrayIndices) const {
   return NULL;

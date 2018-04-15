@@ -43,7 +43,7 @@ struct ExternalModelDefinitionTest : public Test {
     const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
     const PrimitiveTypeSpecifier* floatTypeSpecifier =
     PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
-    Identifier* intArgumentIdentifier = new Identifier("intargument");
+    Identifier* intArgumentIdentifier = new Identifier("intargument", 0);
     VariableDeclaration* intArgument =
     VariableDeclaration::create(intTypeSpecifier, intArgumentIdentifier, 0);
     VariableList methodArguments;

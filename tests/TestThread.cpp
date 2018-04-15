@@ -123,7 +123,7 @@ struct ThreadTest : public Test {
     
     vector<Interface*> interfaces;
     
-    IntConstant* intConstant = new IntConstant(5);
+    IntConstant* intConstant = new IntConstant(5, 0);
     mConstant = new wisey::Constant(PUBLIC_ACCESS,
                                     PrimitiveTypes::INT_TYPE,
                                     "MYCONSTANT",

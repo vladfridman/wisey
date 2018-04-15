@@ -42,7 +42,7 @@ public:
   
   IncrementExpressionTest() :
   mLLVMContext(mContext.getLLVMContext()),
-  mIdentifier(new Identifier(mName)) {
+  mIdentifier(new Identifier(mName, 0)) {
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
                                           GlobalValue::InternalLinkage,
@@ -105,7 +105,7 @@ TEST_F(IncrementExpressionTest, decrementByOneExpressionTest) {
 }
 
 TEST_F(IncrementExpressionTest, incorrectIdentifierTypeDeathTest) {
-  Identifier* identifier = new Identifier("bar");
+  Identifier* identifier = new Identifier("bar", 0);
   
   IncrementExpression* expression = IncrementExpression::newIncrementByOne(identifier, 0);
   LocalPrimitiveVariable* variable = new LocalPrimitiveVariable("bar",

@@ -22,6 +22,10 @@ mValue(value), mType(type) {
 
 FakeExpression::~FakeExpression() { }
 
+int FakeExpression::getLine() const {
+  return 0;
+}
+
 IVariable* FakeExpression::getVariable(IRGenerationContext& context,
                                        vector<const IExpression*>& arrayIndices) const {
   return NULL;

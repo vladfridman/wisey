@@ -65,7 +65,7 @@ struct NegateExpressionTest : Test {
 };
 
 TEST_F(NegateExpressionTest, getVariableTest) {
-  NegateExpression negateExpression(mExpression);
+  NegateExpression negateExpression(mExpression, 0);
   vector<const IExpression*> arrayIndices;
 
   EXPECT_EQ(negateExpression.getVariable(mContext, arrayIndices), nullptr);
@@ -75,7 +75,7 @@ TEST_F(NegateExpressionTest, negateIntExpressionTest) {
   Value* value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
   ON_CALL(*mExpression, generateIR(_, _)).WillByDefault(Return(value));
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-  NegateExpression negateExpression(mExpression);
+  NegateExpression negateExpression(mExpression, 0);
   
   Value* result = negateExpression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
 
@@ -88,7 +88,7 @@ TEST_F(NegateExpressionTest, negateFloatExpressionTest) {
   Value* value = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 2.5);
   ON_CALL(*mExpression, generateIR(_, _)).WillByDefault(Return(value));
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
-  NegateExpression negateExpression(mExpression);
+  NegateExpression negateExpression(mExpression, 0);
   
   Value* result = negateExpression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
@@ -98,13 +98,13 @@ TEST_F(NegateExpressionTest, negateFloatExpressionTest) {
 }
 
 TEST_F(NegateExpressionTest, isConstantTest) {
-  NegateExpression negateExpression(mExpression);
+  NegateExpression negateExpression(mExpression, 0);
 
   EXPECT_FALSE(negateExpression.isConstant());
 }
 
 TEST_F(NegateExpressionTest, printToStreamTest) {
-  NegateExpression negateExpression(mExpression);
+  NegateExpression negateExpression(mExpression, 0);
 
   stringstream stringStream;
   ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
@@ -115,7 +115,7 @@ TEST_F(NegateExpressionTest, printToStreamTest) {
 
 TEST_F(NegateExpressionTest, negateIncompatibleTypeDeathTest) {
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
-  NegateExpression negateExpression(mExpression);
+  NegateExpression negateExpression(mExpression, 0);
   Mock::AllowLeak(mExpression);
 
   EXPECT_EXIT(negateExpression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),

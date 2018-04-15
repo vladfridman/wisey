@@ -39,6 +39,8 @@ namespace wisey {
                                           llvm::Value* arrayStructPointer,
                                           std::vector<const IExpression*> arrayIndices);
     
+    int getLine() const override;
+
     llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
     
     IVariable* getVariable(IRGenerationContext& context,

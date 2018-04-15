@@ -20,13 +20,19 @@ using namespace std;
 using namespace wisey;
 
 LogicalAndExpression::LogicalAndExpression(IExpression* leftExpression,
-                                           IExpression* rightExpression) :
+                                           IExpression* rightExpression,
+                                           int line) :
 mLeftExpression(leftExpression),
-mRightExpression(rightExpression) { }
+mRightExpression(rightExpression),
+mLine(line) { }
 
 LogicalAndExpression::~LogicalAndExpression() {
   delete mLeftExpression;
   delete mRightExpression;
+}
+
+int LogicalAndExpression::getLine() const {
+  return mLine;
 }
 
 IVariable* LogicalAndExpression::getVariable(IRGenerationContext& context,

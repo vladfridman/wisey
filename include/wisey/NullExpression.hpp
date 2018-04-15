@@ -17,13 +17,16 @@ namespace wisey {
    * Represents the null
    */
   class NullExpression : public IExpression {
+    int mLine;
     
   public:
     
-    NullExpression();
+    NullExpression(int line);
     
     ~NullExpression();
     
+    int getLine() const override;
+
     IVariable* getVariable(IRGenerationContext& context,
                            std::vector<const IExpression*>& arrayIndices) const override;
     

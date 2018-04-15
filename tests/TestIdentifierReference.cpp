@@ -53,7 +53,7 @@ TEST_F(IdentifierReferenceTest, generateIRTest) {
   ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   mContext.getScopes().setVariable(&mockVariable);
   
-  IdentifierReference identifierReference("foo");
+  IdentifierReference identifierReference("foo", 0);
   
   EXPECT_CALL(mockVariable, generateIdentifierReferenceIR(_)).Times(1);
   EXPECT_CALL(mockVariable, generateIdentifierIR(_)).Times(0);
@@ -63,7 +63,7 @@ TEST_F(IdentifierReferenceTest, generateIRTest) {
 }
 
 TEST_F(IdentifierReferenceTest, undeclaredVariableDeathTest) {
-  IdentifierReference identifierReference("foo");
+  IdentifierReference identifierReference("foo", 0);
   
   EXPECT_EXIT(identifierReference.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
@@ -76,7 +76,7 @@ TEST_F(IdentifierReferenceTest, getTypeTest) {
   ON_CALL(mockVariable, getType()).WillByDefault(Return(LLVMPrimitiveTypes::I32));
   mContext.getScopes().setVariable(&mockVariable);
   
-  IdentifierReference identifierReference("foo");
+  IdentifierReference identifierReference("foo", 0);
   
   EXPECT_EQ(identifierReference.getType(mContext), LLVMPrimitiveTypes::I32->getPointerType());
 }
@@ -88,7 +88,7 @@ TEST_F(IdentifierReferenceTest, getTypeNonNativeTypeTest) {
   ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   mContext.getScopes().setVariable(&mockVariable);
   
-  IdentifierReference identifierReference("foo");
+  IdentifierReference identifierReference("foo", 0);
   
   EXPECT_EXIT(identifierReference.getType(mContext),
               ::testing::ExitedWithCode(1),
@@ -96,7 +96,7 @@ TEST_F(IdentifierReferenceTest, getTypeNonNativeTypeTest) {
 }
 
 TEST_F(IdentifierReferenceTest, getTypeForUndefinedTypeTest) {
-  IdentifierReference identifierReference("wisey");
+  IdentifierReference identifierReference("wisey", 0);
   
   const IType* type = identifierReference.getType(mContext);
   
@@ -104,13 +104,13 @@ TEST_F(IdentifierReferenceTest, getTypeForUndefinedTypeTest) {
 }
 
 TEST_F(IdentifierReferenceTest, isConstantTest) {
-  IdentifierReference identifierReference("foo");
+  IdentifierReference identifierReference("foo", 0);
 
   EXPECT_FALSE(identifierReference.isConstant());
 }
 
 TEST_F(IdentifierReferenceTest, printToStreamTest) {
-  IdentifierReference identifierReference("foo");
+  IdentifierReference identifierReference("foo", 0);
   
   stringstream stringStream;
   identifierReference.printToStream(mContext, stringStream);

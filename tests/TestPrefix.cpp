@@ -119,16 +119,20 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
   vector<IModelTypeSpecifier*> exceptions;
   stringTypeSpecifier = PrimitiveTypes::STRING_TYPE->newTypeSpecifier();
   VariableDeclaration* declaration;
-  declaration = VariableDeclaration::create(stringTypeSpecifier, new Identifier("objectName"), 0);
+  declaration = VariableDeclaration::create(stringTypeSpecifier,
+                                            new Identifier("objectName", 0),
+                                            0);
   arguments.push_back(declaration);
   stringTypeSpecifier = PrimitiveTypes::STRING_TYPE->newTypeSpecifier();
-  declaration = VariableDeclaration::create(stringTypeSpecifier, new Identifier("methodName"), 0);
+  declaration = VariableDeclaration::create(stringTypeSpecifier,
+                                            new Identifier("methodName", 0),
+                                            0);
   arguments.push_back(declaration);
   stringTypeSpecifier = PrimitiveTypes::STRING_TYPE->newTypeSpecifier();
-  declaration = VariableDeclaration::create(stringTypeSpecifier, new Identifier("fileName"), 0);
+  declaration = VariableDeclaration::create(stringTypeSpecifier, new Identifier("fileName", 0), 0);
   arguments.push_back(declaration);
   const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-  declaration = VariableDeclaration::create(intTypeSpecifier, new Identifier("lineNumber"), 0);
+  declaration = VariableDeclaration::create(intTypeSpecifier, new Identifier("lineNumber", 0), 0);
   arguments.push_back(declaration);
   const PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier();
   Block* block = new Block();

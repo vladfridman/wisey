@@ -18,10 +18,11 @@ namespace wisey {
    * Represents the current thread in a wisey program.
    */
   class ThreadExpression : public IExpression {
-    
+    int mLine;
+
   public:
     
-    ThreadExpression();
+    ThreadExpression(int line);
     
     ~ThreadExpression();
     
@@ -35,6 +36,8 @@ namespace wisey {
      */
     static std::string CALL_STACK;
     
+    int getLine() const override;
+
     IVariable* getVariable(IRGenerationContext& context,
                            std::vector<const IExpression*>& arrayIndices) const override;
     

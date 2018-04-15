@@ -41,12 +41,14 @@ struct ThreadExpressionTest : public Test {
   LLVMContext& mLLVMContext;
   Interface* mThreadInterface;
   LocalReferenceVariable* mThreadVariable;
-  ThreadExpression mThreadExpression;
+  ThreadExpression* mThreadExpression;
   BasicBlock* mBasicBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
 
-  ThreadExpressionTest() : mLLVMContext(mContext.getLLVMContext()) {
+  ThreadExpressionTest() :
+  mLLVMContext(mContext.getLLVMContext()),
+  mThreadExpression(new ThreadExpression(0)) {
     TestPrefix::generateIR(mContext);
     
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
@@ -80,15 +82,15 @@ struct ThreadExpressionTest : public Test {
 
 TEST_F(ThreadExpressionTest, getVariableTest) {
   vector<const IExpression*> arrayIndices;
-  EXPECT_EQ(mThreadExpression.getVariable(mContext, arrayIndices), mThreadVariable);
+  EXPECT_EQ(mThreadExpression->getVariable(mContext, arrayIndices), mThreadVariable);
 }
 
 TEST_F(ThreadExpressionTest, getTypeTest) {
-  EXPECT_EQ(mThreadExpression.getType(mContext), mThreadInterface);
+  EXPECT_EQ(mThreadExpression->getType(mContext), mThreadInterface);
 }
 
 TEST_F(ThreadExpressionTest, generateIRTest) {
-  Value* instruction = mThreadExpression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  Value* instruction = mThreadExpression->generateIR(mContext, PrimitiveTypes::VOID_TYPE);
 
   *mStringStream << *instruction;
   string expected = "  %3 = load %wisey.lang.threads.IThread*, %wisey.lang.threads.IThread** %threadStore";
@@ -96,12 +98,12 @@ TEST_F(ThreadExpressionTest, generateIRTest) {
 }
 
 TEST_F(ThreadExpressionTest, isConstantTest) {
-  EXPECT_FALSE(mThreadExpression.isConstant());
+  EXPECT_FALSE(mThreadExpression->isConstant());
 }
 
 TEST_F(ThreadExpressionTest, printToStreamTest) {
   stringstream stringStream;
-  mThreadExpression.printToStream(mContext, stringStream);
+  mThreadExpression->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("thread", stringStream.str().c_str());
 }

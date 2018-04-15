@@ -19,13 +19,16 @@ namespace wisey {
    */
   class CharConstant : public IExpression {
     char mValue;
+    int mLine;
     
   public:
     
-    CharConstant(char value) : mValue(value) { }
+    CharConstant(char value, int line);
     
-    ~CharConstant() {}
+    ~CharConstant();
     
+    int getLine() const override;
+
     IVariable* getVariable(IRGenerationContext& context,
                            std::vector<const IExpression*>& arrayIndices) const override;
     

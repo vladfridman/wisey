@@ -33,6 +33,10 @@ ArrayElementExpression::~ArrayElementExpression() {
   delete mArrayIndexExpresion;
 }
 
+int ArrayElementExpression::getLine() const {
+  return mLine;
+}
+
 Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
                                           const IType* assignToType) const {
   const IType* expressionType = mArrayExpression->getType(context);

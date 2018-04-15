@@ -227,7 +227,7 @@ struct TypeComparisionExpressionTest : public Test {
 };
 
 TEST_F(TypeComparisionExpressionTest, getVariableTest) {
-  TypeComparisionExpression typeComparision(mExpression, NULL);
+  TypeComparisionExpression typeComparision(mExpression, NULL, 0);
   vector<const IExpression*> arrayIndices;
 
   EXPECT_EQ(typeComparision.getVariable(mContext, arrayIndices), nullptr);
@@ -238,7 +238,7 @@ TEST_F(TypeComparisionExpressionTest, compareIdenticalPrimiteveTypesTest) {
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR_TYPE));
   
-  TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
+  TypeComparisionExpression typeComparision(mExpression, typeSpecifier, 0);
   Value* value = typeComparision.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   EXPECT_EQ(value, mTrueValue);
@@ -249,7 +249,7 @@ TEST_F(TypeComparisionExpressionTest, compareDifferntPrimiteveTypesTest) {
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR_TYPE));
   
-  TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
+  TypeComparisionExpression typeComparision(mExpression, typeSpecifier, 0);
   Value* value = typeComparision.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   EXPECT_EQ(value, mFalseValue);
@@ -260,7 +260,7 @@ TEST_F(TypeComparisionExpressionTest, compareIdenticalModelTypesTest) {
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(mCircleModel));
   
-  TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
+  TypeComparisionExpression typeComparision(mExpression, typeSpecifier, 0);
   Value* value = typeComparision.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   EXPECT_EQ(value, mTrueValue);
@@ -271,7 +271,7 @@ TEST_F(TypeComparisionExpressionTest, compareDifferentModelTypesTest) {
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(mSquareModel));
   
-  TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
+  TypeComparisionExpression typeComparision(mExpression, typeSpecifier, 0);
   Value* value = typeComparision.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   EXPECT_EQ(value, mFalseValue);
@@ -282,7 +282,7 @@ TEST_F(TypeComparisionExpressionTest, compareModelAndInterfaceTypesTest) {
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(mSubShapeInterface));
   
-  TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
+  TypeComparisionExpression typeComparision(mExpression, typeSpecifier, 0);
   Value* value = typeComparision.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   EXPECT_EQ(value, mTrueValue);
@@ -293,7 +293,7 @@ TEST_F(TypeComparisionExpressionTest, compareModelAndInterfaceTypesNotMatchTest)
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(mCarInterface));
   
-  TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
+  TypeComparisionExpression typeComparision(mExpression, typeSpecifier, 0);
   Value* value = typeComparision.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   EXPECT_EQ(value, mFalseValue);
@@ -304,7 +304,7 @@ TEST_F(TypeComparisionExpressionTest, compareInterfaceAndInterfaceTypesTest) {
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(mSubShapeInterface));
   
-  TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
+  TypeComparisionExpression typeComparision(mExpression, typeSpecifier, 0);
   Value* value = typeComparision.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   EXPECT_EQ(value, mTrueValue);
@@ -312,14 +312,14 @@ TEST_F(TypeComparisionExpressionTest, compareInterfaceAndInterfaceTypesTest) {
 
 TEST_F(TypeComparisionExpressionTest, isConstantTest) {
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
-  TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
+  TypeComparisionExpression typeComparision(mExpression, typeSpecifier, 0);
 
   EXPECT_FALSE(typeComparision.isConstant());
 }
 
 TEST_F(TypeComparisionExpressionTest, printToStreamTest) {
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
-  TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
+  TypeComparisionExpression typeComparision(mExpression, typeSpecifier, 0);
   ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
   ON_CALL(*typeSpecifier, printToStream(_, _)).WillByDefault(Invoke(printTypeSpecifier));
 

@@ -45,6 +45,10 @@ IVariable* StaticMethodCall::getVariable(IRGenerationContext& context,
   return NULL;
 }
 
+int StaticMethodCall::getLine() const {
+  return mLine;
+}
+
 Value* StaticMethodCall::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
   const IObjectType* objectType = mObjectTypeSpecifier->getType(context);

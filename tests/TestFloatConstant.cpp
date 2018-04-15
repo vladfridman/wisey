@@ -27,7 +27,7 @@ struct FloatConstantTest : public ::testing::Test {
   IRGenerationContext mContext;
   FloatConstant mFloatConstant;
 
-  FloatConstantTest() : mFloatConstant(3.5) { }
+  FloatConstantTest() : mFloatConstant(3.5, 0) { }
 };
 
 TEST_F(FloatConstantTest, getVariableTest) {

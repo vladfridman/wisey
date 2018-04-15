@@ -25,6 +25,10 @@ LLVMFunctionIdentifier::~LLVMFunctionIdentifier() {
   delete mObjectTypeSpecifier;
 }
 
+int LLVMFunctionIdentifier::getLine() const {
+  return mLine;
+}
+
 IVariable* LLVMFunctionIdentifier::getVariable(IRGenerationContext& context,
                                                vector<const IExpression*>&
                                                arrayIndices) const {

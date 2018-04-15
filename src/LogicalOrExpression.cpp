@@ -20,13 +20,19 @@ using namespace std;
 using namespace wisey;
 
 LogicalOrExpression::LogicalOrExpression(IExpression* leftExpression,
-                                         IExpression* rightExpression) :
+                                         IExpression* rightExpression,
+                                         int line) :
 mLeftExpression(leftExpression),
-mRightExpression(rightExpression) { }
+mRightExpression(rightExpression),
+mLine(line) { }
 
 LogicalOrExpression::~LogicalOrExpression() {
   delete mLeftExpression;
   delete mRightExpression;
+}
+
+int LogicalOrExpression::getLine() const {
+  return mLine;
 }
 
 IVariable* LogicalOrExpression::getVariable(IRGenerationContext& context,

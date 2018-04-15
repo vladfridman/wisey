@@ -588,7 +588,7 @@ llvm_function_argument_declaration
 llvm_function_call
   : TLLVM TLLVMFUNCTION TDOUBLECOLON llvm_function_name '(' call_arguments ')'
     {
-      $$ = new LLVMFunctionCall(*$4, *$6);
+      $$ = new LLVMFunctionCall(*$4, *$6, yylineno);
       delete $4;
       delete $6;
     }
@@ -602,9 +602,9 @@ llvm_function_name
 
 llvm_reference
   : TLLVM TLLVMREFERENCE '(' TIDENTIFIER ')' 
-    { $$ = new IdentifierReference(*$4); delete $4; }
+    { $$ = new IdentifierReference(*$4, yylineno); delete $4; }
   | TLLVM TLLVMREFERENCE '(' TFIELDIDENTIFIER ')' 
-    { $$ = new IdentifierReference(*$4); delete $4; }
+    { $$ = new IdentifierReference(*$4, yylineno); delete $4; }
   ;
 
 string_identifier
@@ -1325,24 +1325,24 @@ access_specifier
   ;
 
 constant_value
-  : TCHAR { $$ = new CharConstant($1->c_str()[1]); delete $1; }
-  | TINTEGER { $$ = new IntConstant(atol($1->c_str())); delete $1; }
-  | TLONG { $$ = new LongConstant(atoll($1->c_str())); delete $1; }
-  | TFLOAT { $$ = new FloatConstant(atof($1->c_str())); delete $1; }
-  | TDOUBLE { $$ = new DoubleConstant(strtod($1->c_str(), NULL)); delete $1; }
-  | TTRUE { $$ = new BooleanConstant(true); }
-  | TFALSE { $$ = new BooleanConstant(false); }
+  : TCHAR { $$ = new CharConstant($1->c_str()[1], yylineno); delete $1; }
+  | TINTEGER { $$ = new IntConstant(atol($1->c_str()), yylineno); delete $1; }
+  | TLONG { $$ = new LongConstant(atoll($1->c_str()), yylineno); delete $1; }
+  | TFLOAT { $$ = new FloatConstant(atof($1->c_str()), yylineno); delete $1; }
+  | TDOUBLE { $$ = new DoubleConstant(strtod($1->c_str(), NULL), yylineno); delete $1; }
+  | TTRUE { $$ = new BooleanConstant(true, yylineno); }
+  | TFALSE { $$ = new BooleanConstant(false, yylineno); }
   ;
     
 string_literal
-  : STRING_LITERAL { $$ = new StringLiteral($1->substr(1, $1->length() - 2)); delete $1; }
+  : STRING_LITERAL { $$ = new StringLiteral($1->substr(1, $1->length() - 2), yylineno); delete $1; }
   ;
 
 constant_reference
   : object_type_specifier_dot TCONSTANTIDENTIFIER
-    { $$ = new ConstantReference($1, *$2); delete $2; }
+    { $$ = new ConstantReference($1, *$2, yylineno); delete $2; }
   | TCONSTANTIDENTIFIER
-    { $$ = new ConstantReference(NULL, *$1); delete $1; }
+    { $$ = new ConstantReference(NULL, *$1, yylineno); delete $1; }
   ;
 
 static_method_call
@@ -1355,11 +1355,11 @@ static_method_call
   ;
 
 identifier
-  : TIDENTIFIER { $$ = new Identifier(*$1); delete $1; }
+  : TIDENTIFIER { $$ = new Identifier(*$1, yylineno); delete $1; }
   ;
 
 field_identifier
-  : TFIELDIDENTIFIER { $$ = new Identifier(*$1); delete $1; }
+  : TFIELDIDENTIFIER { $$ = new Identifier(*$1, yylineno); delete $1; }
   ;
 
 primary_expression
@@ -1376,12 +1376,12 @@ primary_expression
   | llvm_reference
   | thread_expression
   | '(' expression ')' { $$ = $2; }
-  | TNULL { $$ = new NullExpression(); }
+  | TNULL { $$ = new NullExpression(yylineno); }
   ;
 
 postfix_expression
   : primary_expression
-  | postfix_expression '.' TIDENTIFIER { $$ = new IdentifierChain($1, *$3); delete $3; }
+  | postfix_expression '.' TIDENTIFIER { $$ = new IdentifierChain($1, *$3, yylineno); delete $3; }
   | postfix_expression '[' expression ']' { $$ = new ArrayElementExpression($1, $3, yylineno); }
   | postfix_expression '(' call_arguments ')'
     { $$ = new MethodCall($1, *$3, yylineno); delete $3; }
@@ -1391,7 +1391,7 @@ postfix_expression
 
 unary_expression
   : postfix_expression
-  | '-' cast_expression { $$ = new NegateExpression($2); }
+  | '-' cast_expression { $$ = new NegateExpression($2, yylineno); }
   | '!' cast_expression { $$ = new BooleanNotExpression($2, yylineno); }
   ;
 
@@ -1433,7 +1433,7 @@ relational_expression
 type_comparision_expression
   : relational_expression
   | type_comparision_expression TINSTANCEOF type_specifier
-    { $$ = new TypeComparisionExpression($1, $3); }
+    { $$ = new TypeComparisionExpression($1, $3, yylineno); }
   ;
 
 equality_expression
@@ -1446,18 +1446,20 @@ equality_expression
 
 logical_and_expression
   : equality_expression
-  | logical_and_expression TANDOP equality_expression { $$ = new LogicalAndExpression($1, $3); }
+  | logical_and_expression TANDOP equality_expression
+    { $$ = new LogicalAndExpression($1, $3, yylineno); }
   ;
 
 logical_or_expression
   : logical_and_expression
-  | logical_or_expression TOROP logical_and_expression { $$ = new LogicalOrExpression($1, $3); }
+  | logical_or_expression TOROP logical_and_expression
+    { $$ = new LogicalOrExpression($1, $3, yylineno); }
   ;
 
 conditional_expression
   : logical_or_expression
   | logical_or_expression '?' expression ':' conditional_expression
-    { $$ = new ConditionalExpression($1, $3, $5); }
+    { $$ = new ConditionalExpression($1, $3, $5, yylineno); }
   ;
 
 expression
@@ -1471,10 +1473,10 @@ assignment
   ;
 
 thread_expression
-  : TTHREAD { $$ = new ThreadExpression(); }
+  : TTHREAD { $$ = new ThreadExpression(yylineno); }
 
 array_allocation
-  : TNEW array_specific_type_specifier { $$ = new ArrayAllocation($2); }
+  : TNEW array_specific_type_specifier { $$ = new ArrayAllocation($2, yylineno); }
   ;
 
 static_array_allocation

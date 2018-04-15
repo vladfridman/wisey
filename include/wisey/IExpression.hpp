@@ -47,6 +47,11 @@ namespace wisey {
      */
     virtual bool isConstant() const = 0;
     
+    /**
+     * Tells the line number where this expression is
+     */
+    virtual int getLine() const = 0;
+    
   };
   
   /**

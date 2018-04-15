@@ -40,7 +40,7 @@ struct LLVMFunctionDefinitionTest : public Test {
     LLVMVariableList arguments;
     LLVMVariableDeclaration* argument =
     LLVMVariableDeclaration::create(LLVMPrimitiveTypes::I8->newTypeSpecifier(),
-                                    new Identifier("input"),
+                                    new Identifier("input", 0),
                                     0);
     arguments.push_back(argument);
     const ILLVMTypeSpecifier* returnSpecifier = LLVMPrimitiveTypes::VOID->newTypeSpecifier();

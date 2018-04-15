@@ -24,6 +24,10 @@ Assignment::~Assignment() {
   delete mExpression;
 }
 
+int Assignment::getLine() const {
+  return mLine;
+}
+
 IVariable* Assignment::getVariable(IRGenerationContext& context,
                                    std::vector<const IExpression*>& arrayIndices) const {
   return mIdentifier->getVariable(context, arrayIndices);

@@ -24,15 +24,19 @@ namespace wisey {
     IExpression* mConditionExpression;
     IExpression* mIfTrueExpression;
     IExpression* mIfFalseExpression;
+    int mLine;
     
   public:
     
     ConditionalExpression(IExpression* conditionExpression,
                           IExpression* ifTrueExpression,
-                          IExpression* ifFalseExpression);
+                          IExpression* ifFalseExpression,
+                          int line);
     
     ~ConditionalExpression();
     
+    int getLine() const override;
+
     IVariable* getVariable(IRGenerationContext& context,
                            std::vector<const IExpression*>& arrayIndices) const override;
     

@@ -28,33 +28,35 @@ struct NullExpressionTest : public Test {
   
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  NullExpression mNullExpression;
+  NullExpression* mNullExpression;
   
-  NullExpressionTest() : mLLVMContext(mContext.getLLVMContext()) { }
+  NullExpressionTest() :
+  mLLVMContext(mContext.getLLVMContext()),
+  mNullExpression(new NullExpression(0)) { }
   
 };
 
 TEST_F(NullExpressionTest, getVariableTest) {
   vector<const IExpression*> arrayIndices;
-  EXPECT_EQ(mNullExpression.getVariable(mContext, arrayIndices), nullptr);
+  EXPECT_EQ(mNullExpression->getVariable(mContext, arrayIndices), nullptr);
 }
 
 TEST_F(NullExpressionTest, generateIRTest) {
   Value* expexted = ConstantExpr::getNullValue(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  ASSERT_EQ(expexted, mNullExpression.generateIR(mContext, PrimitiveTypes::VOID_TYPE));
+  ASSERT_EQ(expexted, mNullExpression->generateIR(mContext, PrimitiveTypes::VOID_TYPE));
 }
 
 TEST_F(NullExpressionTest, getTypeTest) {
-  ASSERT_EQ(mNullExpression.getType(mContext), NullType::NULL_TYPE);
+  ASSERT_EQ(mNullExpression->getType(mContext), NullType::NULL_TYPE);
 }
 
 TEST_F(NullExpressionTest, isConstantTest) {
-  EXPECT_TRUE(mNullExpression.isConstant());
+  EXPECT_TRUE(mNullExpression->isConstant());
 }
 
 TEST_F(NullExpressionTest, printToStreamTest) {
   stringstream stringStream;
-  mNullExpression.printToStream(mContext, stringStream);
+  mNullExpression->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("null", stringStream.str().c_str());
 }

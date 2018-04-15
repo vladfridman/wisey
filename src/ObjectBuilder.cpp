@@ -33,6 +33,10 @@ ObjectBuilder::~ObjectBuilder() {
   mObjectBuilderArgumentList.clear();
 }
 
+int ObjectBuilder::getLine() const {
+  return mLine;
+}
+
 IVariable* ObjectBuilder::getVariable(IRGenerationContext& context,
                                       vector<const IExpression*>& arrayIndices) const {
   return NULL;

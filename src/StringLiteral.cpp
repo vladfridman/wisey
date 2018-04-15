@@ -17,10 +17,14 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-wisey::StringLiteral::StringLiteral(string input) : mValue(unescape(input)) {
+wisey::StringLiteral::StringLiteral(string input, int line) : mValue(unescape(input)), mLine(line) {
 }
 
 wisey::StringLiteral::~StringLiteral() {
+}
+
+int wisey::StringLiteral::getLine() const {
+  return mLine;
 }
 
 IVariable* wisey::StringLiteral::getVariable(IRGenerationContext& context,

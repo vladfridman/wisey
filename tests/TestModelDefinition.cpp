@@ -62,12 +62,12 @@ struct ModelDefinitionTest : public Test {
     mContext.setImportProfile(mImportProfile);
     
     mBlock->getStatements().push_back(mMockStatement);
-    mBlock->getStatements().push_back(new ReturnStatement(new FloatConstant(0.5), 0));
+    mBlock->getStatements().push_back(new ReturnStatement(new FloatConstant(0.5, 0), 0));
     CompoundStatement* compoundStatement = new CompoundStatement(mBlock, 0);
     const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
     const PrimitiveTypeSpecifier* floatTypeSpecifier =
     PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
-    Identifier* intArgumentIdentifier = new Identifier("intargument");
+    Identifier* intArgumentIdentifier = new Identifier("intargument", 0);
     VariableDeclaration* intArgument =
     VariableDeclaration::create(intTypeSpecifier, intArgumentIdentifier, 0);
     VariableList methodArguments;
@@ -200,7 +200,7 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   methodThrownExceptions.push_back(modelTypeSpecifier);
   const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
   VariableDeclaration* methodArgument =
-  VariableDeclaration::create(intSpecifier, new Identifier("intargument"), 0);
+  VariableDeclaration::create(intSpecifier, new Identifier("intargument", 0), 0);
   methodArguments.push_back(methodArgument);
   const PrimitiveTypeSpecifier* floatSpecifier = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
   IObjectElementDefinition* methodSignature =

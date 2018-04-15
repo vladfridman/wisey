@@ -35,6 +35,10 @@ IncrementExpression::~IncrementExpression() {
   delete mExpression;
 }
 
+int IncrementExpression::getLine() const {
+  return mLine;
+}
+
 IncrementExpression* IncrementExpression::newIncrementByOne(IExpression* expression, int line) {
   return new IncrementExpression(expression, 1, "inc", false, line);
 }

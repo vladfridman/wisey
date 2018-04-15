@@ -17,6 +17,16 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+BooleanConstant::BooleanConstant(bool value, int line) : mValue(value), mLine(line) {
+}
+
+BooleanConstant::~BooleanConstant() {
+}
+
+int BooleanConstant::getLine() const {
+  return mLine;
+}
+
 IVariable* BooleanConstant::getVariable(IRGenerationContext& context,
                                         vector<const IExpression*>& arrayIndices) const {
   return NULL;

@@ -18,12 +18,16 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-IdentifierChain::IdentifierChain(IExpression* objectExpression, const std::string name) :
-mObjectExpression(objectExpression), mName(name) {
+IdentifierChain::IdentifierChain(IExpression* objectExpression, std::string name, int line) :
+mObjectExpression(objectExpression), mName(name), mLine(line) {
 }
 
 IdentifierChain::~IdentifierChain() {
   delete mObjectExpression;
+}
+
+int IdentifierChain::getLine() const {
+  return mLine;
 }
 
 IVariable* IdentifierChain::getVariable(IRGenerationContext& context,

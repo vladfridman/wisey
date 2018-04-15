@@ -52,7 +52,7 @@ TEST_F(IdentifierTest, generateIRForPrimitiveVariableTest) {
   ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   mContext.getScopes().setVariable(&mockVariable);
   
-  Identifier identifier("foo");
+  Identifier identifier("foo", 0);
   
   EXPECT_CALL(mockVariable, generateIdentifierIR(_)).Times(1);
   EXPECT_CALL(mockVariable, generateAssignmentIR(_, _, _, _)).Times(0);
@@ -61,7 +61,7 @@ TEST_F(IdentifierTest, generateIRForPrimitiveVariableTest) {
 }
 
 TEST_F(IdentifierTest, undeclaredVariableDeathTest) {
-  Identifier identifier("foo");
+  Identifier identifier("foo", 0);
 
   EXPECT_EXIT(identifier.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
@@ -84,7 +84,7 @@ TEST_F(IdentifierTest, generateIRForObjectOwnerVariableSetToNullTest) {
   mContext.getScopes().setVariable(&mockVariable);
   Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, modelStructType);
 
-  Identifier identifier("foo");
+  Identifier identifier("foo", 0);
   Value* result = identifier.generateIR(mContext, model->getOwner());
 
   EXPECT_EQ(objectPointer, result);
@@ -104,7 +104,7 @@ TEST_F(IdentifierTest, generateIRForMethodTest) {
   mContext.setObjectType(&mockObjecType);
   mContext.getScopes().setVariable(&mockVariable);
 
-  Identifier identifier("foo");
+  Identifier identifier("foo", 0);
   Value* result = identifier.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   EXPECT_EQ(objectPointer, result);
@@ -120,7 +120,7 @@ TEST_F(IdentifierTest, getTypeForMethodTest) {
   mContext.setObjectType(&mockObjecType);
   mContext.getScopes().setVariable(&mockVariable);
   
-  Identifier identifier("foo");
+  Identifier identifier("foo", 0);
   const IType* type = identifier.getType(mContext);
   
   EXPECT_EQ(&mockMethodDescriptor, type);
@@ -132,13 +132,13 @@ TEST_F(IdentifierTest, getTypeForPrimitiveVariableTest) {
   ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   mContext.getScopes().setVariable(&mockVariable);
   
-  Identifier identifier("foo");
+  Identifier identifier("foo", 0);
 
   EXPECT_EQ(identifier.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
 
 TEST_F(IdentifierTest, getTypeForUndefinedTypeTest) {
-  Identifier identifier("wisey");
+  Identifier identifier("wisey", 0);
   
   const IType* type = identifier.getType(mContext);
   
@@ -146,13 +146,13 @@ TEST_F(IdentifierTest, getTypeForUndefinedTypeTest) {
 }
 
 TEST_F(IdentifierTest, isConstantTest) {
-  Identifier* identifier = new Identifier("foo");
+  Identifier* identifier = new Identifier("foo", 0);
 
   EXPECT_FALSE(identifier->isConstant());
 }
 
 TEST_F(IdentifierTest, printToStreamTest) {
-  Identifier identifier("foo");
+  Identifier identifier("foo", 0);
 
   stringstream stringStream;
   identifier.printToStream(mContext, stringStream);

@@ -17,6 +17,16 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+FloatConstant::FloatConstant(double value, int line) : mValue(value), mLine(line) {
+}
+
+FloatConstant::~FloatConstant() {
+}
+
+int FloatConstant::getLine() const {
+  return mLine;
+}
+
 IVariable* FloatConstant::getVariable(IRGenerationContext& context,
                                       vector<const IExpression*>& arrayIndices) const {
   return NULL;

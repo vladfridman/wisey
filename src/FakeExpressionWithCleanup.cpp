@@ -24,6 +24,10 @@ FakeExpressionWithCleanup::~FakeExpressionWithCleanup() {
   delete mType;
 }
 
+int FakeExpressionWithCleanup::getLine() const {
+  return 0;
+}
+
 IVariable* FakeExpressionWithCleanup::getVariable(IRGenerationContext& context,
                                        vector<const IExpression*>& arrayIndices) const {
   return NULL;

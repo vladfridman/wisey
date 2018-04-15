@@ -20,14 +20,17 @@ namespace wisey {
    */
   class IdentifierReference : public IExpression {
     
-    const std::string mName;
+    std::string mName;
+    int mLine;
     
   public:
     
-    IdentifierReference(const std::string name);
+    IdentifierReference(std::string name, int line);
     
     ~IdentifierReference();
     
+    int getLine() const override;
+
     const std::string& getIdentifierName() const;
     
     IVariable* getVariable(IRGenerationContext& context,

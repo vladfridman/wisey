@@ -72,7 +72,7 @@ struct LogicalOrExpressionTest : Test {
 };
 
 TEST_F(LogicalOrExpressionTest, getVariableTest) {
-  LogicalOrExpression expression(mLeftExpression, mRightExpression);
+  LogicalOrExpression expression(mLeftExpression, mRightExpression, 0);
   vector<const IExpression*> arrayIndices;
 
   EXPECT_EQ(expression.getVariable(mContext, arrayIndices), nullptr);
@@ -82,7 +82,7 @@ TEST_F(LogicalOrExpressionTest, logicalAndTrueValueTest) {
   ON_CALL(*mLeftExpression, generateIR(_, _)).WillByDefault(Return(mTrueValue));
   ON_CALL(*mRightExpression, generateIR(_, _)).WillByDefault(Return(mFalseValue));
   
-  LogicalOrExpression expression(mLeftExpression, mRightExpression);
+  LogicalOrExpression expression(mLeftExpression, mRightExpression, 0);
   expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   ASSERT_EQ(3ul, mFunction->size());
@@ -113,7 +113,7 @@ TEST_F(LogicalOrExpressionTest, logicalAndFalseValueTest) {
   ON_CALL(*mLeftExpression, generateIR(_, _)).WillByDefault(Return(mFalseValue));
   ON_CALL(*mRightExpression, generateIR(_, _)).WillByDefault(Return(mFalseValue));
   
-  LogicalOrExpression expression(mLeftExpression, mRightExpression);
+  LogicalOrExpression expression(mLeftExpression, mRightExpression, 0);
   expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   ASSERT_EQ(3ul, mFunction->size());
@@ -141,19 +141,19 @@ TEST_F(LogicalOrExpressionTest, logicalAndFalseValueTest) {
 }
 
 TEST_F(LogicalOrExpressionTest, logicalOrExpressionTypeTest) {
-  LogicalOrExpression expression(mLeftExpression, mRightExpression);
+  LogicalOrExpression expression(mLeftExpression, mRightExpression, 0);
   
   EXPECT_EQ(expression.getType(mContext), PrimitiveTypes::BOOLEAN_TYPE);
 }
 
 TEST_F(LogicalOrExpressionTest, isConstantTest) {
-  LogicalOrExpression expression(mLeftExpression, mRightExpression);
+  LogicalOrExpression expression(mLeftExpression, mRightExpression, 0);
 
   EXPECT_FALSE(expression.isConstant());
 }
 
 TEST_F(LogicalOrExpressionTest, printToStreamTest) {
-  LogicalOrExpression expression(mLeftExpression, mRightExpression);
+  LogicalOrExpression expression(mLeftExpression, mRightExpression, 0);
   
   stringstream stringStream;
   ON_CALL(*mLeftExpression, printToStream(_, _)).WillByDefault(Invoke(printLeftExpression));

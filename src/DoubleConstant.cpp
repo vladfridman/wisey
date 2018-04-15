@@ -17,6 +17,16 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+DoubleConstant::DoubleConstant(long double value, int line) : mValue(value), mLine(line) {
+}
+
+DoubleConstant::~DoubleConstant() {
+}
+
+int DoubleConstant::getLine() const {
+  return mLine;
+}
+
 IVariable* DoubleConstant::getVariable(IRGenerationContext& context,
                                        vector<const IExpression*>& arrayIndices) const {
   return NULL;

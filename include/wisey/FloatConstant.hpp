@@ -19,13 +19,16 @@ namespace wisey {
    */
   class FloatConstant: public IExpression {
     double mValue;
+    int mLine;
     
   public:
     
-    FloatConstant(double value) : mValue(value) { }
+    FloatConstant(double value, int line);
     
-    ~FloatConstant() {}
+    ~FloatConstant();
     
+    int getLine() const override;
+
     IVariable* getVariable(IRGenerationContext& context,
                            std::vector<const IExpression*>& arrayIndices) const override;
     

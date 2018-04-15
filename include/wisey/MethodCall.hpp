@@ -30,7 +30,9 @@ namespace wisey {
     MethodCall(IExpression* expression, ExpressionList arguments, int line);
     
     ~MethodCall();
-    
+
+    int getLine() const override;
+
     IVariable* getVariable(IRGenerationContext& context,
                            std::vector<const IExpression*>& arrayIndices) const override;
     

@@ -19,13 +19,16 @@ namespace wisey {
    */
   class DoubleConstant : public IExpression {
     long double mValue;
+    int mLine;
     
   public:
     
-    DoubleConstant(long double value) : mValue(value) { }
+    DoubleConstant(long double value, int line);
     
-    ~DoubleConstant() {}
+    ~DoubleConstant();
     
+    int getLine() const override;
+
     IVariable* getVariable(IRGenerationContext& context,
                            std::vector<const IExpression*>& arrayIndices) const override;
     

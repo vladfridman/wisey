@@ -17,6 +17,16 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+CharConstant::CharConstant(char value, int line) : mValue(value), mLine(line) {
+}
+
+CharConstant::~CharConstant() {
+}
+
+int CharConstant::getLine() const {
+  return mLine;
+}
+
 IVariable* CharConstant::getVariable(IRGenerationContext& context,
                                      vector<const IExpression*>& arrayIndices) const {
   return NULL;

@@ -39,14 +39,14 @@ struct StringLiteralTest : public Test {
 };
 
 TEST_F(StringLiteralTest, getVariableTest) {
-  StringLiteral stringLiteral("test");
+  StringLiteral stringLiteral("test", 0);
   vector<const IExpression*> arrayIndices;
 
   EXPECT_EQ(stringLiteral.getVariable(mContext, arrayIndices), nullptr);
 }
 
 TEST_F(StringLiteralTest, stringLiteralTest) {
-  StringLiteral stringLiteral("test");
+  StringLiteral stringLiteral("test", 0);
   
   llvm::Value* irValue = stringLiteral.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
 
@@ -60,7 +60,7 @@ TEST_F(StringLiteralTest, stringLiteralTest) {
 }
 
 TEST_F(StringLiteralTest, stringLiteralEscapeNewlineTest) {
-  StringLiteral stringLiteral("test\ntest");
+  StringLiteral stringLiteral("test\ntest", 0);
   
   stringLiteral.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
@@ -72,13 +72,13 @@ TEST_F(StringLiteralTest, stringLiteralEscapeNewlineTest) {
 }
 
 TEST_F(StringLiteralTest, isConstantTest) {
-  StringLiteral stringLiteral("test");
+  StringLiteral stringLiteral("test", 0);
 
   EXPECT_TRUE(stringLiteral.isConstant());
 }
 
 TEST_F(StringLiteralTest, printToStreamTest) {
-  StringLiteral stringLiteral("test");
+  StringLiteral stringLiteral("test", 0);
 
   stringstream stringStream;
   stringLiteral.printToStream(mContext, stringStream);

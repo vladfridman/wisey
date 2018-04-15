@@ -33,6 +33,8 @@ namespace wisey {
     
     ~RelationalExpression();
     
+    int getLine() const override;
+
     IVariable* getVariable(IRGenerationContext& context,
                            std::vector<const IExpression*>& arrayIndices) const override;
     

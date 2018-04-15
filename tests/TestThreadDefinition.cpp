@@ -63,12 +63,12 @@ struct ThreadDefinitionTest : public Test {
     Block* block = new Block();
     
     block->getStatements().push_back(mMockStatement);
-    block->getStatements().push_back(new ReturnStatement(new FloatConstant(0.5), 0));
+    block->getStatements().push_back(new ReturnStatement(new FloatConstant(0.5, 0), 0));
     CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
     const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
     const PrimitiveTypeSpecifier* floatTypeSpecifier =
     PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
-    Identifier* intArgumentIdentifier = new Identifier("intargument");
+    Identifier* intArgumentIdentifier = new Identifier("intargument", 0);
     VariableDeclaration* intArgument =
     VariableDeclaration::create(intTypeSpecifier, intArgumentIdentifier, 0);
     VariableList methodArguments;

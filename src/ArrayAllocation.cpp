@@ -19,12 +19,18 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ArrayAllocation::ArrayAllocation(const ArraySpecificTypeSpecifier* arraySpecificTypeSpecifier) :
-mArraySpecificTypeSpecifier(arraySpecificTypeSpecifier) {
+ArrayAllocation::ArrayAllocation(const ArraySpecificTypeSpecifier* arraySpecificTypeSpecifier,
+                                 int line) :
+mArraySpecificTypeSpecifier(arraySpecificTypeSpecifier),
+mLine(line) {
 }
 
 ArrayAllocation::~ArrayAllocation() {
   delete mArraySpecificTypeSpecifier;
+}
+
+int ArrayAllocation::getLine() const {
+  return mLine;
 }
 
 Value* ArrayAllocation::generateIR(IRGenerationContext &context, const IType* assignToType) const {

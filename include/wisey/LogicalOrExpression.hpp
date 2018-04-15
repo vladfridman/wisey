@@ -20,13 +20,16 @@ namespace wisey {
   class LogicalOrExpression : public IExpression {
     IExpression* mLeftExpression;
     IExpression* mRightExpression;
+    int mLine;
     
   public:
     
-    LogicalOrExpression(IExpression* leftExpression, IExpression* rightExpression);
+    LogicalOrExpression(IExpression* leftExpression, IExpression* rightExpression, int line);
     
     ~LogicalOrExpression();
     
+    int getLine() const override;
+
     IVariable* getVariable(IRGenerationContext& context,
                            std::vector<const IExpression*>& arrayIndices) const override;
     

@@ -52,7 +52,7 @@ public:
   mMockObject(new NiceMock<MockObjectType>()),
   mMockObjectTypeSpecifier(new NiceMock<MockObjectTypeSpecifier>()),
   mName("MYCONSTANT") {
-    mConstantReference = new ConstantReference(mMockObjectTypeSpecifier, mName);
+    mConstantReference = new ConstantReference(mMockObjectTypeSpecifier, mName, 0);
     ON_CALL(*mMockObjectTypeSpecifier, getType(_)).WillByDefault(Return(mMockObject));
     Constant* constant = new Constant(PUBLIC_ACCESS,
                                       PrimitiveTypes::INT_TYPE,
@@ -116,7 +116,7 @@ TEST_F(ConstantReferenceTest, printToStreamTest) {
 
 TEST_F(ConstantReferenceTest, printToStreamConstantReferenceWihtoutObjectTest) {
   stringstream stringStream;
-  ConstantReference constantReference(NULL, mName);
+  ConstantReference constantReference(NULL, mName, 0);
   constantReference.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("MYCONSTANT", stringStream.str().c_str());

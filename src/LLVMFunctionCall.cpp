@@ -17,11 +17,15 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-LLVMFunctionCall::LLVMFunctionCall(string functionName, ExpressionList arguments) :
-mFunctionName(functionName), mArguments(arguments) {
+LLVMFunctionCall::LLVMFunctionCall(string functionName, ExpressionList arguments, int line) :
+mFunctionName(functionName), mArguments(arguments), mLine(line) {
 }
 
 LLVMFunctionCall::~LLVMFunctionCall() {
+}
+
+int LLVMFunctionCall::getLine() const {
+  return mLine;
 }
 
 Value* LLVMFunctionCall::generateIR(IRGenerationContext& context, const IType* assignToType) const {

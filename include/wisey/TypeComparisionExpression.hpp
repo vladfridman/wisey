@@ -21,13 +21,18 @@ namespace wisey {
   class TypeComparisionExpression : public IExpression {
     IExpression* mExpression;
     const ITypeSpecifier* mTypeSpecifier;
+    int mLine;
     
   public:
     
-    TypeComparisionExpression(IExpression* expression, const ITypeSpecifier* typeSpecifier);
+    TypeComparisionExpression(IExpression* expression,
+                              const ITypeSpecifier* typeSpecifier,
+                              int line);
     
     ~TypeComparisionExpression();
     
+    int getLine() const override;
+
     IVariable* getVariable(IRGenerationContext& context,
                            std::vector<const IExpression*>& arrayIndices) const override;
     

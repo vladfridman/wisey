@@ -26,6 +26,10 @@ BooleanNotExpression::~BooleanNotExpression() {
   delete mExpression;
 }
 
+int BooleanNotExpression::getLine() const {
+  return mLine;
+}
+
 IVariable* BooleanNotExpression::getVariable(IRGenerationContext& context,
                                              vector<const IExpression*>& arrayIndices) const {
   return NULL;

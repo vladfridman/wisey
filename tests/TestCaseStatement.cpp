@@ -56,7 +56,7 @@ TEST_F(CaseStatementTest, statementsGetGeneratedTest) {
 }
 
 TEST_F(CaseStatementTest, constantIntExpressionWorksTest) {
-  IntConstant* expression = new IntConstant(5l);
+  IntConstant* expression = new IntConstant(5l, 0);
   CaseStatement* caseStatement = CaseStatement::newCaseStatement(expression, mStatementBlock);
   
   Value* expected = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
@@ -66,7 +66,7 @@ TEST_F(CaseStatementTest, constantIntExpressionWorksTest) {
 }
 
 TEST_F(CaseStatementTest, nonIntExpressionDeathTest) {
-  FloatConstant* expression = new FloatConstant(5.2f);
+  FloatConstant* expression = new FloatConstant(5.2f, 0);
   CaseStatement* caseStatement = CaseStatement::newCaseStatement(expression, mStatementBlock);
   
   Mock::AllowLeak(expression);

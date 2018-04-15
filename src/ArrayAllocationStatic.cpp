@@ -34,6 +34,10 @@ ArrayAllocationStatic::~ArrayAllocationStatic() {
   mExpressionList.clear();
 }
 
+int ArrayAllocationStatic::getLine() const {
+  return mLine;
+}
+
 Value* ArrayAllocationStatic::generateIR(IRGenerationContext& context,
                                          const IType* assignToType) const {
   const ArrayExactType* arrayExactType = getExactType(context);

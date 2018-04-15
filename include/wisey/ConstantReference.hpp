@@ -21,13 +21,17 @@ namespace wisey {
     
     const IObjectTypeSpecifier* mObjectTypeSpecifier;
     std::string mConstantName;
+    int mLine;
     
   public:
     ConstantReference(const IObjectTypeSpecifier* objectTypeSpecifier,
-                      std::string constantName);
+                      std::string constantName,
+                      int line);
     
     ~ConstantReference();
     
+    int getLine() const override;
+
     IVariable* getVariable(IRGenerationContext& context,
                            std::vector<const IExpression*>& arrayIndices) const override;
     

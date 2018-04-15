@@ -104,7 +104,7 @@ struct ConditionalExpressionTest : Test {
 };
 
 TEST_F(ConditionalExpressionTest, getVariableTest) {
-  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
+  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression, 0);
   vector<const IExpression*> arrayIndices;
   EXPECT_EQ(expression.getVariable(mContext, arrayIndices), nullptr);
 }
@@ -113,7 +113,7 @@ TEST_F(ConditionalExpressionTest, conditionalExpressionRunWithFalse) {
   Value * conditionValue = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 0);
   ON_CALL(*mConditionExpression, generateIR(_, _)).WillByDefault(testing::Return(conditionValue));
 
-  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
+  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression, 0);
   expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
 
   ASSERT_EQ(4ul, mFunction->size());
@@ -150,7 +150,7 @@ TEST_F(ConditionalExpressionTest, conditionalExpressionRunWithTrue) {
   Value * conditionValue = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 1);
   ON_CALL(*mConditionExpression, generateIR(_, _)).WillByDefault(testing::Return(conditionValue));
  
-  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
+  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression, 0);
   expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   ASSERT_EQ(4ul, mFunction->size());
@@ -184,13 +184,13 @@ TEST_F(ConditionalExpressionTest, conditionalExpressionRunWithTrue) {
 }
 
 TEST_F(ConditionalExpressionTest, isConstantTest) {
-  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
+  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression, 0);
 
   EXPECT_FALSE(expression.isConstant());
 }
 
 TEST_F(ConditionalExpressionTest, printToStreamTest) {
-  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
+  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression, 0);
 
   stringstream stringStream;
   ON_CALL(*mConditionExpression, printToStream(_, _))
@@ -212,7 +212,7 @@ TEST_F(ConditionalExpressionTest, incompatibleTypesDeathTest) {
   ON_CALL(*mIfTrueExpression, generateIR(_, _)).WillByDefault(Return(trueValue));
   ON_CALL(*mIfTrueExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   
-  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
+  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression, 0);
   
   EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
@@ -228,7 +228,7 @@ TEST_F(ConditionalExpressionTest, voidTypesDeathTest) {
   ON_CALL(*mIfTrueExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
   ON_CALL(*mIfFalseExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
   
-  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
+  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression, 0);
   
   EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
@@ -243,7 +243,7 @@ TEST_F(ConditionalExpressionTest, conditionIsNotBooleanDeathTest) {
  
   ON_CALL(*mConditionExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
   
-  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
+  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression, 0);
   
   EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),

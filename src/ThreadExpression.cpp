@@ -18,9 +18,13 @@ string ThreadExpression::THREAD = "thread";
 
 string ThreadExpression::CALL_STACK = "callstack";
 
-ThreadExpression::ThreadExpression() { }
+ThreadExpression::ThreadExpression(int line) : mLine(line) { }
 
 ThreadExpression::~ThreadExpression() { }
+
+int ThreadExpression::getLine() const {
+  return mLine;
+}
 
 IVariable* ThreadExpression::getVariable(IRGenerationContext& context,
                                          vector<const IExpression*>& arrayIndices) const {

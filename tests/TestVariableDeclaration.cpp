@@ -48,7 +48,7 @@ struct VariableDeclarationTest : public Test {
 
   VariableDeclarationTest() :
   mLLVMContext(mContext.getLLVMContext()),
-  mIdentifier(new Identifier("foo")) {
+  mIdentifier(new Identifier("foo", 0)) {
     mImportProfile = new ImportProfile(mPackage);
     mContext.setImportProfile(mImportProfile);
 

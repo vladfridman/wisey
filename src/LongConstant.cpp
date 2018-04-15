@@ -17,6 +17,16 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+LongConstant::LongConstant(long long value, int line) : mValue(value), mLine(line) {
+}
+
+LongConstant::~LongConstant() {
+}
+
+int LongConstant::getLine() const {
+  return mLine;
+}
+
 IVariable* LongConstant::getVariable(IRGenerationContext& context,
                                      vector<const IExpression*>& arrayIndices) const {
   return NULL;

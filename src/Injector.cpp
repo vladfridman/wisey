@@ -30,6 +30,10 @@ Injector::~Injector() {
   mInjectionArgumentList.clear();
 }
 
+int Injector::getLine() const {
+  return mLine;
+}
+
 IVariable* Injector::getVariable(IRGenerationContext& context,
                                  vector<const IExpression*>& arrayIndices) const {
   return NULL;

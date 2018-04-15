@@ -20,6 +20,7 @@
  */
 class MockExpression : public wisey::IExpression {
 public:
+  MOCK_CONST_METHOD0(getLine, int ());
   MOCK_CONST_METHOD2(getVariable, wisey::IVariable* (wisey::IRGenerationContext&,
                                                      std::vector<const wisey::IExpression*>&));
   MOCK_CONST_METHOD2(generateIR, llvm::Value* (wisey::IRGenerationContext&,
