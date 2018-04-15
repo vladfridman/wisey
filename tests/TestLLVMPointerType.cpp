@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockConcreteObjectType.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMPointerOwnerType.hpp"
 #include "wisey/LLVMPointerType.hpp"
@@ -176,4 +177,8 @@ TEST_F(LLVMPointerTypeTest, getPointerTypeTest) {
 TEST_F(LLVMPointerTypeTest, getOwnerTest) {
   EXPECT_NE(nullptr, mLLVMPointerType->getOwner());
   EXPECT_STREQ("::llvm::i8::pointer*", mLLVMPointerType->getOwner()->getTypeName().c_str());
+}
+
+TEST_F(TestFileRunner, compareLLVMPointerToNullTest) {
+  runFile("tests/samples/test_compare_llvm_pointer_to_null.yz", "1");
 }

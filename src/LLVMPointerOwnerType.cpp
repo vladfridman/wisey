@@ -16,6 +16,7 @@
 #include "wisey/LLVMPointerOwnerType.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/ParameterOwnerVariable.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -37,6 +38,9 @@ llvm::PointerType* LLVMPointerOwnerType::getLLVMType(IRGenerationContext& contex
 }
 
 bool LLVMPointerOwnerType::canCastTo(IRGenerationContext& context, const IType* toType) const {
+  if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
+    return true;
+  }
   if (toType->isPointer()) {
     return true;
   }
@@ -57,6 +61,13 @@ llvm::Value* LLVMPointerOwnerType::castTo(IRGenerationContext& context,
                                           int line) const {
   if (toType->isReference() || toType->isOwner() || toType->isPointer()) {
     return IRWriter::newBitCastInst(context, fromValue, toType->getLLVMType(context));
+  }
+  if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
+    return IRWriter::newICmpInst(context,
+                                 ICmpInst::ICMP_NE,
+                                 fromValue,
+                                 ConstantPointerNull::get(getLLVMType(context)),
+                                 "");
   }
   assert(false);
 }

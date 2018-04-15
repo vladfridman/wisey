@@ -1,0 +1,25 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+::llvm::struct mystruct {
+  ::llvm::i32,
+}
+
+model MMyModel {
+
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    ::llvm::struct::mystruct::pointer* structOwner = null;
+    ::llvm::struct::mystruct::pointer* structReference = null;
+    if (structOwner || !structReference) {
+      return !structReference;
+    }
+    return 0;
+  }
+}
+
+bind(IProgram).to(CProgram);

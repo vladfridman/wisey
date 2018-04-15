@@ -17,6 +17,7 @@
 #include "wisey/LocalPointerVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/ParameterPointerVariable.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace std;
 using namespace wisey;
@@ -50,11 +51,14 @@ llvm::PointerType* LLVMPointerType::getLLVMType(IRGenerationContext& context) co
 }
 
 bool LLVMPointerType::canCastTo(IRGenerationContext& context, const IType* toType) const {
+  if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
+    return true;
+  }
   return toType->isReference() || toType->isPointer();
 }
 
 bool LLVMPointerType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
-  return toType->isReference() || toType->isPointer();
+  return canCastTo(context, toType);
 }
 
 llvm::Value* LLVMPointerType::castTo(IRGenerationContext& context,
@@ -63,6 +67,13 @@ llvm::Value* LLVMPointerType::castTo(IRGenerationContext& context,
                                  int line) const {
   if (toType->isReference() || toType->isPointer()) {
     return IRWriter::newBitCastInst(context, fromValue, toType->getLLVMType(context));
+  }
+  if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
+    return IRWriter::newICmpInst(context,
+                                 llvm::ICmpInst::ICMP_NE,
+                                 fromValue,
+                                 llvm::ConstantPointerNull::get(getLLVMType(context)),
+                                 "");
   }
   assert(false);
 }
