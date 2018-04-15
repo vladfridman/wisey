@@ -187,11 +187,11 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorBodyTest) {
   IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mStarModel);
   mContext.runComposingCallbacks();
   
-  Function* function = mContext.getModule()->getFunction("destructor." + mStarModel->getTypeName());
+  Function* function = mContext.getModule()->getFunction(mStarModel->getTypeName() + ".destructor");
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @destructor.systems.vos.wisey.compiler.tests.MStar(i8* %this) "
+  "\ndefine void @systems.vos.wisey.compiler.tests.MStar.destructor(i8* %this) "
   "personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = icmp eq i8* %this, null"
@@ -241,12 +241,12 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldTe
   IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mGalaxyModel);
   mContext.runComposingCallbacks();
 
-  Function* function = mContext.getModule()->getFunction("destructor." +
-                                                         mGalaxyModel->getTypeName());
+  Function* function = mContext.getModule()->getFunction(mGalaxyModel->getTypeName() +
+                                                         ".destructor");
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @destructor.systems.vos.wisey.compiler.tests.MGalaxy(i8* %this) "
+  "\ndefine void @systems.vos.wisey.compiler.tests.MGalaxy.destructor(i8* %this) "
   "personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = icmp eq i8* %this, null"
@@ -296,12 +296,12 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectReferenceFie
   IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mConstellationModel);
   mContext.runComposingCallbacks();
 
-  Function* function = mContext.getModule()->getFunction("destructor." +
-                                                         mConstellationModel->getTypeName());
+  Function* function = mContext.getModule()->getFunction(mConstellationModel->getTypeName() +
+                                                         ".destructor");
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @destructor.systems.vos.wisey.compiler.tests.MConstellation(i8* %this) "
+  "\ndefine void @systems.vos.wisey.compiler.tests.MConstellation.destructor(i8* %this) "
   "personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = icmp eq i8* %this, null"
@@ -352,11 +352,12 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFiel
   IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mCarModel);
   mContext.runComposingCallbacks();
 
-  Function* function = mContext.getModule()->getFunction("destructor." + mCarModel->getTypeName());
+  Function* function = mContext.getModule()->getFunction(mCarModel->getTypeName() +
+                                                         ".destructor");
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @destructor.systems.vos.wisey.compiler.tests.MCar(i8* %this) "
+  "\ndefine void @systems.vos.wisey.compiler.tests.MCar.destructor(i8* %this) "
   "personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = icmp eq i8* %this, null"

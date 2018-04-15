@@ -473,7 +473,7 @@ Value* IConcreteObjectType::getFieldPointer(IRGenerationContext& context,
 }
 
 string IConcreteObjectType::getObjectDestructorFunctionName(const IConcreteObjectType* object) {
-  return "destructor." + object->getTypeName();
+  return object->getTypeName() + ".destructor";
 }
 
 void IConcreteObjectType::composeDestructorCall(IRGenerationContext& context, Value* value) {
