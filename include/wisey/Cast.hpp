@@ -27,7 +27,10 @@ namespace wisey {
     /**
      * Print an error message when types are incompatable
      */
-    static void exitIncompatibleTypes(const IType* fromType, const IType* toType);
+    static void exitIncompatibleTypes(IRGenerationContext& context,
+                                      const IType* fromType,
+                                      const IType* toType,
+                                      int line);
     
     /**
      * Widen cast a given value to a given type

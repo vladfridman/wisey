@@ -76,7 +76,7 @@ Value* FloatType::castTo(IRGenerationContext& context,
   } else if (toType == PrimitiveTypes::DOUBLE_TYPE) {
     return Cast::widenFloatCast(context, fromValue, toType);
   }
-  Cast::exitIncompatibleTypes(this, toType);
+  Cast::exitIncompatibleTypes(context, this, toType, line);
   return NULL;
 }
 

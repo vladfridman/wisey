@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -35,6 +36,8 @@ struct CastTest : public Test {
 public:
   
   CastTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
     Function* function = Function::Create(functionType,
@@ -54,9 +57,13 @@ public:
 };
 
 TEST_F(CastTest, exitIncompatobleTypesTest) {
-  EXPECT_EXIT(Cast::exitIncompatibleTypes(PrimitiveTypes::CHAR_TYPE, PrimitiveTypes::INT_TYPE),
+  EXPECT_EXIT(Cast::exitIncompatibleTypes(mContext,
+                                          PrimitiveTypes::CHAR_TYPE,
+                                          PrimitiveTypes::INT_TYPE,
+                                          11),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: can not cast from type 'char' to 'int'");
+              "/tmp/source.yz\\(11\\): Error: Incompatible types: "
+              "can not cast from type 'char' to 'int'");
 }
 
 TEST_F(CastTest, widenIntCastTest) {

@@ -191,7 +191,8 @@ namespace wisey {
     static llvm::Value* castTo(IRGenerationContext& context,
                                const IConcreteObjectType* object,
                                llvm::Value* fromValue,
-                               const IType* toType);
+                               const IType* toType,
+                               int line);
     
     /**
      * Returns the interface index in the list of flattened interface hierarchy

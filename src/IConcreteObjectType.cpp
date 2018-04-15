@@ -72,12 +72,13 @@ void IConcreteObjectType::generateShortNameGlobal(IRGenerationContext& context,
 Value* IConcreteObjectType::castTo(IRGenerationContext& context,
                                    const IConcreteObjectType* object,
                                    Value* fromValue,
-                                   const IType* toType) {
+                                   const IType* toType,
+                                   int line) {
   if (toType == object) {
     return fromValue;
   }
   if (!object->canCastTo(context, toType)) {
-    Cast::exitIncompatibleTypes(object, toType);
+    Cast::exitIncompatibleTypes(context, object, toType, line);
     return NULL;
   }
   LLVMContext& llvmContext = context.getLLVMContext();

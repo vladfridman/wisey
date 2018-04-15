@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockConcreteObjectType.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/LongType.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -42,6 +43,8 @@ struct LongTypeTest : public Test {
 public:
   
   LongTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
     Function* function = Function::Create(functionType,
@@ -97,9 +100,10 @@ TEST_F(LongTypeTest, castToTest) {
   Value* result;
   Value* expressionValue = ConstantInt::get(Type::getInt64Ty(mLLVMContext), 5l);
   
-  EXPECT_EXIT(mLongType.castTo(mContext, expressionValue, PrimitiveTypes::VOID_TYPE, 0),
+  EXPECT_EXIT(mLongType.castTo(mContext, expressionValue, PrimitiveTypes::VOID_TYPE, 5),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: can not cast from type 'long' to 'void'");
+              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
+              "can not cast from type 'long' to 'void'");
   
   result = mLongType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN_TYPE, 0);
   *mStringStream << *result;

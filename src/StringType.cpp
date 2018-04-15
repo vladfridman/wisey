@@ -56,7 +56,7 @@ Value* StringType::castTo(IRGenerationContext& context,
     return fromValue;
   }
 
-  Cast::exitIncompatibleTypes(this, toType);
+  Cast::exitIncompatibleTypes(context, this, toType, line);
   return NULL;
 }
 

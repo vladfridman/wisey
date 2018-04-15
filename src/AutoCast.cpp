@@ -23,11 +23,13 @@ Value* AutoCast::maybeCast(IRGenerationContext& context,
     return fromValue;
   }
   if (!fromType->canCastTo(context, toType)) {
-    Cast::exitIncompatibleTypes(fromType, toType);
+    Cast::exitIncompatibleTypes(context, fromType, toType, line);
   }
   if (!fromType->canAutoCastTo(context, toType)) {
     fromType->canAutoCastTo(context, toType);
-    Log::e_deprecated("Incompatible types: need explicit cast from type '" + fromType->getTypeName() +
+    Log::e(context.getImportProfile(),
+           line,
+           "Incompatible types: need explicit cast from type '" + fromType->getTypeName() +
            "' to '" + toType->getTypeName() + "'");
     exit(1);
   }

@@ -80,7 +80,7 @@ Value* BooleanType::castTo(IRGenerationContext& context,
   } else if (toType == PrimitiveTypes::FLOAT_TYPE || toType == PrimitiveTypes::DOUBLE_TYPE) {
     return Cast::intToFloatCast(context, fromValue, toType);
   }
-  Cast::exitIncompatibleTypes(this, toType);
+  Cast::exitIncompatibleTypes(context, this, toType, line);
   return NULL;
 }
 

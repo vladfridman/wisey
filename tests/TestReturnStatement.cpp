@@ -100,12 +100,13 @@ TEST_F(ReturnStatementTest, parentFunctionIsIncopatableTypeDeathTest) {
   mContext.setBasicBlock(BasicBlock::Create(mLLVMContext, "entry", function));
   mContext.getScopes().pushScope();
   mContext.getScopes().setReturnType(PrimitiveTypes::VOID_TYPE);
-  ReturnStatement returnStatement(mExpression, 0);
+  ReturnStatement returnStatement(mExpression, 5);
   
   Mock::AllowLeak(mExpression);
   EXPECT_EXIT(returnStatement.generateIR(mContext),
               ExitedWithCode(1),
-              "Error: Incompatible types: can not cast from type 'int' to 'void'");
+              "/tmp/source.yz\\(5\\): Error: "
+              "Incompatible types: can not cast from type 'int' to 'void'");
 }
 
 TEST_F(ReturnStatementTest, parentFunctionIntTest) {

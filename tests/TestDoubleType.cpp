@@ -16,6 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockConcreteObjectType.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/DoubleType.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -43,6 +44,8 @@ struct DoubleTypeTest : public Test {
 public:
   
   DoubleTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
     Function* function = Function::Create(functionType,
@@ -98,9 +101,10 @@ TEST_F(DoubleTypeTest, castToTest) {
   Value* result;
   Value* expressionValue = ConstantFP::get(Type::getDoubleTy(mLLVMContext), 2.5);
   
-  EXPECT_EXIT(mDoubleType.castTo(mContext, expressionValue, PrimitiveTypes::VOID_TYPE, 0),
+  EXPECT_EXIT(mDoubleType.castTo(mContext, expressionValue, PrimitiveTypes::VOID_TYPE, 5),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: can not cast from type 'double' to 'void'");
+              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
+              "can not cast from type 'double' to 'void'");
   
   result = mDoubleType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN_TYPE, 0);
   *mStringStream << *result;

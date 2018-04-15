@@ -41,7 +41,7 @@ Value* VoidType::castTo(IRGenerationContext& context,
   if (toType == PrimitiveTypes::VOID_TYPE) {
     return fromValue;
   }
-  Cast::exitIncompatibleTypes(this, toType);
+  Cast::exitIncompatibleTypes(context, this, toType, line);
   return NULL;
 }
 

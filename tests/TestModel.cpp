@@ -90,9 +90,6 @@ struct ModelTest : public Test {
   mField2Expression(new NiceMock<MockExpression>()) {
     TestPrefix::generateIR(mContext);
 
-    mImportProfile = new ImportProfile(mPackage);
-    mContext.setImportProfile(mImportProfile);
-
     vector<Type*> types;
     types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                     ->getPointerTo()->getPointerTo());
@@ -617,9 +614,9 @@ TEST_F(ModelTest, castToDeathTest) {
   Mock::AllowLeak(mThreadVariable);
   Value* expressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
 
-  EXPECT_EXIT(mModel->castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE, 0),
+  EXPECT_EXIT(mModel->castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE, 5),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: can not cast from "
+              "/tmp/source.yz\\(5\\): Error: Incompatible types: can not cast from "
               "type 'systems.vos.wisey.compiler.tests.MSquare' to 'int'");
 }
 

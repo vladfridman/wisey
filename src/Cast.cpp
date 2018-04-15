@@ -62,8 +62,13 @@ Value* Cast::floatToIntCast(IRGenerationContext& context,
   return IRWriter::newFPToSIInst(context, fromValue, toLLVMType);
 }
 
-void Cast::exitIncompatibleTypes(const IType* fromType, const IType* toType) {
-  Log::e_deprecated("Incompatible types: can not cast from type '" + fromType->getTypeName() +
+void Cast::exitIncompatibleTypes(IRGenerationContext& context,
+                                 const IType* fromType,
+                                 const IType* toType,
+                                 int line) {
+  Log::e(context.getImportProfile(),
+         line,
+         "Incompatible types: can not cast from type '" + fromType->getTypeName() +
          "' to '" + toType->getTypeName() + "'");
   exit(1);
 }

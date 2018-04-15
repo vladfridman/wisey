@@ -17,6 +17,7 @@
 
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/ArrayType.hpp"
 #include "wisey/FieldArrayOwnerVariable.hpp"
 #include "wisey/IExpression.hpp"
@@ -50,6 +51,8 @@ struct FieldArrayOwnerVariableTest : public Test {
 public:
   
   FieldArrayOwnerVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     mStringStream = new raw_string_ostream(mStringBuffer);
     
     mArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 1u);
@@ -152,9 +155,10 @@ TEST_F(FieldArrayOwnerVariableTest, generateWholeArrayAssignmentDeathTest) {
   EXPECT_EXIT(mFieldArrayOwnerVariable->generateAssignmentIR(mContext,
                                                              &mockExpression,
                                                              arrayIndices,
-                                                             0),
+                                                             5),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: can not cast from type 'int\\[\\]' to 'int\\[\\]\\*'");
+              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
+              "can not cast from type 'int\\[\\]' to 'int\\[\\]\\*'");
 }
 
 TEST_F(TestFileRunner, fieldArrayOwnerOfIntsRunTest) {

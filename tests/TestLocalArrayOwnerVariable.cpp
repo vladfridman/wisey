@@ -17,6 +17,7 @@
 
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/ArrayType.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -46,6 +47,8 @@ struct LocalArrayOwnerVariableTest : public Test {
 public:
   
   LocalArrayOwnerVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     mStringStream = new raw_string_ostream(mStringBuffer);
     
     mArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 1u);
@@ -134,9 +137,10 @@ TEST_F(LocalArrayOwnerVariableTest, generateAssignmentDeathTest) {
   
   Mock::AllowLeak(&mockExpression);
   
-  EXPECT_EXIT(variable.generateAssignmentIR(mContext, &mockExpression, arrayIndices, 0),
+  EXPECT_EXIT(variable.generateAssignmentIR(mContext, &mockExpression, arrayIndices, 11),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: can not cast from type 'int\\[\\]' to 'int\\[\\]\\*'");
+              "/tmp/source.yz\\(11\\): Error: Incompatible types: "
+              "can not cast from type 'int\\[\\]' to 'int\\[\\]\\*'");
 }
 
 TEST_F(TestFileRunner, arrayOwnerOfIntsRunTest) {

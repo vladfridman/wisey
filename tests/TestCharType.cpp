@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockConcreteObjectType.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/CharType.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -42,6 +43,8 @@ struct CharTypeTest : public Test {
 public:
   
   CharTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
     Function* function = Function::Create(functionType,
@@ -97,9 +100,10 @@ TEST_F(CharTypeTest, castToTest) {
   Value* result;
   Value* expressionValue = ConstantInt::get(Type::getInt16Ty(mLLVMContext), 'a');
   
-  EXPECT_EXIT(mCharType.castTo(mContext, expressionValue, PrimitiveTypes::VOID_TYPE, 0),
+  EXPECT_EXIT(mCharType.castTo(mContext, expressionValue, PrimitiveTypes::VOID_TYPE, 5),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: can not cast from type 'char' to 'void'");
+              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
+              "can not cast from type 'char' to 'void'");
   
   result = mCharType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN_TYPE, 0);
   *mStringStream << *result;

@@ -17,6 +17,7 @@
 
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/ArrayType.hpp"
 #include "wisey/FieldArrayReferenceVariable.hpp"
 #include "wisey/IExpression.hpp"
@@ -51,6 +52,8 @@ struct FieldArrayReferenceVariableTest : public Test {
 public:
   
   FieldArrayReferenceVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     mStringStream = new raw_string_ostream(mStringBuffer);
     
     vector<unsigned long> dimensions;
@@ -157,9 +160,10 @@ TEST_F(FieldArrayReferenceVariableTest, generateWholeArrayAssignmentDeathTest) {
   EXPECT_EXIT(mFieldArrayReferenceVariable->generateAssignmentIR(mContext,
                                                                  &mockExpression,
                                                                  arrayIndices,
-                                                                 0),
+                                                                 5),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: can not cast from type 'int\\[\\]\\[\\]' to 'int\\[\\]\\'");
+              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
+              "can not cast from type 'int\\[\\]\\[\\]' to 'int\\[\\]\\'");
 }
 
 TEST_F(TestFileRunner, fieldArrayReferenceOfIntsRunTest) {

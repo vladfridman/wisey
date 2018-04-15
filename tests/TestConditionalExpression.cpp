@@ -212,7 +212,7 @@ TEST_F(ConditionalExpressionTest, incompatibleTypesDeathTest) {
   ON_CALL(*mIfTrueExpression, generateIR(_, _)).WillByDefault(Return(trueValue));
   ON_CALL(*mIfTrueExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   
-  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression, 0);
+  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression, 5);
   
   EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),

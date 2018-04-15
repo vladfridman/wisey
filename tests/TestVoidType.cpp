@@ -14,6 +14,7 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/VoidType.hpp"
@@ -35,6 +36,8 @@ struct VoidTypeTest : public Test {
 public:
   
   VoidTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
     Function* function = Function::Create(functionType,
@@ -86,29 +89,35 @@ TEST_F(VoidTypeTest, castToTest) {
   result = mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::VOID_TYPE, 0);
   EXPECT_EQ(result, expressionValue);
 
-  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN_TYPE, 0),
+  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN_TYPE, 5),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: can not cast from type 'void' to 'boolean'");
+              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
+              "can not cast from type 'void' to 'boolean'");
   
-  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR_TYPE, 0),
+  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR_TYPE, 5),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: can not cast from type 'void' to 'char'");
+              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
+              "can not cast from type 'void' to 'char'");
   
-  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE, 0),
+  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE, 5),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: can not cast from type 'void' to 'int'");
+              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
+              "can not cast from type 'void' to 'int'");
   
-  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::LONG_TYPE, 0),
+  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::LONG_TYPE, 5),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: can not cast from type 'void' to 'long'");
+              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
+              "can not cast from type 'void' to 'long'");
   
-  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT_TYPE, 0),
+  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT_TYPE, 5),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: can not cast from type 'void' to 'float'");
+              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
+              "can not cast from type 'void' to 'float'");
   
-  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE_TYPE, 0),
+  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE_TYPE, 5),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: can not cast from type 'void' to 'double'");
+              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
+              "can not cast from type 'void' to 'double'");
   
 }
 

@@ -315,7 +315,7 @@ Value* Controller::castTo(IRGenerationContext& context,
                           Value* fromValue,
                           const IType* toType,
                           int line) const {
-  return IConcreteObjectType::castTo(context, (IConcreteObjectType*) this, fromValue, toType);
+  return IConcreteObjectType::castTo(context, (IConcreteObjectType*) this, fromValue, toType, line);
 }
 
 bool Controller::isPrimitive() const {

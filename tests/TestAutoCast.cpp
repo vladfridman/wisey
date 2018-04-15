@@ -14,6 +14,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "TestPrefix.hpp"
 #include "wisey/AutoCast.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -34,6 +35,8 @@ struct AutoCastTest : public Test {
 public:
   
   AutoCastTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
     Function* function = Function::Create(functionType,
@@ -60,9 +63,10 @@ TEST_F(AutoCastTest, castBooleanTest) {
                                   PrimitiveTypes::BOOLEAN_TYPE,
                                   expressionValue,
                                   PrimitiveTypes::VOID_TYPE,
-                                  0),
+                                  11),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: can not cast from type 'boolean' to 'void'");
+              "/tmp/source.yz\\(11\\): Error: Incompatible types: "
+              "can not cast from type 'boolean' to 'void'");
   
   result = AutoCast::maybeCast(mContext,
                                PrimitiveTypes::BOOLEAN_TYPE,
@@ -125,17 +129,19 @@ TEST_F(AutoCastTest, castCharTest) {
                                   PrimitiveTypes::CHAR_TYPE,
                                   expressionValue,
                                   PrimitiveTypes::VOID_TYPE,
-                                  0),
+                                  11),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: can not cast from type 'char' to 'void'");
+              "/tmp/source.yz\\(11\\): Error: Incompatible types: "
+              "can not cast from type 'char' to 'void'");
 
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::CHAR_TYPE,
                                   expressionValue,
                                   PrimitiveTypes::BOOLEAN_TYPE,
-                                  0),
+                                  11),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: need explicit cast from type 'char' to 'boolean'");
+              "/tmp/source.yz\\(11\\): Error: Incompatible types: "
+              "need explicit cast from type 'char' to 'boolean'");
 
   result = AutoCast::maybeCast(mContext,
                                PrimitiveTypes::CHAR_TYPE,
@@ -189,25 +195,28 @@ TEST_F(AutoCastTest, castIntTest) {
                                   PrimitiveTypes::INT_TYPE,
                                   expressionValue,
                                   PrimitiveTypes::VOID_TYPE,
-                                  0),
+                                  11),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: can not cast from type 'int' to 'void'");
+              "/tmp/source.yz\\(11\\): Error: Incompatible types: "
+              "can not cast from type 'int' to 'void'");
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::INT_TYPE,
                                   expressionValue,
                                   PrimitiveTypes::BOOLEAN_TYPE,
-                                  0),
+                                  11),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: need explicit cast from type 'int' to 'boolean'");
+              "/tmp/source.yz\\(11\\): Error: Incompatible types: "
+              "need explicit cast from type 'int' to 'boolean'");
 
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::INT_TYPE,
                                   expressionValue,
                                   PrimitiveTypes::CHAR_TYPE,
-                                  0),
+                                  11),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: need explicit cast from type 'int' to 'char'");
+              "/tmp/source.yz\\(11\\): Error: Incompatible types: "
+              "need explicit cast from type 'int' to 'char'");
   
   result = AutoCast::maybeCast(mContext,
                                PrimitiveTypes::INT_TYPE,
@@ -229,9 +238,10 @@ TEST_F(AutoCastTest, castIntTest) {
                                   PrimitiveTypes::INT_TYPE,
                                   expressionValue,
                                   PrimitiveTypes::FLOAT_TYPE,
-                                  0),
+                                  11),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: need explicit cast from type 'int' to 'float'");
+              "/tmp/source.yz\\(11\\): Error: Incompatible types: "
+              "need explicit cast from type 'int' to 'float'");
   
   result = AutoCast::maybeCast(mContext,
                                PrimitiveTypes::INT_TYPE,
@@ -251,33 +261,37 @@ TEST_F(AutoCastTest, castLongTest) {
                                   PrimitiveTypes::LONG_TYPE,
                                   expressionValue,
                                   PrimitiveTypes::VOID_TYPE,
-                                  0),
+                                  11),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: can not cast from type 'long' to 'void'");
+              "/tmp/source.yz\\(11\\): Error: Incompatible types: "
+              "can not cast from type 'long' to 'void'");
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::LONG_TYPE,
                                   expressionValue,
                                   PrimitiveTypes::BOOLEAN_TYPE,
-                                  0),
+                                  11),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: need explicit cast from type 'long' to 'boolean'");
+              "/tmp/source.yz\\(11\\): Error: Incompatible types: "
+              "need explicit cast from type 'long' to 'boolean'");
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::LONG_TYPE,
                                   expressionValue,
                                   PrimitiveTypes::CHAR_TYPE,
-                                  0),
+                                  11),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: need explicit cast from type 'long' to 'char'");
+              "/tmp/source.yz\\(11\\): Error: Incompatible types: "
+              "need explicit cast from type 'long' to 'char'");
 
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::LONG_TYPE,
                                   expressionValue,
                                   PrimitiveTypes::INT_TYPE,
-                                  0),
+                                  11),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: need explicit cast from type 'long' to 'int'");
+              "/tmp/source.yz\\(11\\): Error: Incompatible types: "
+              "need explicit cast from type 'long' to 'int'");
   
   result = AutoCast::maybeCast(mContext,
                                PrimitiveTypes::LONG_TYPE,
@@ -290,17 +304,19 @@ TEST_F(AutoCastTest, castLongTest) {
                                   PrimitiveTypes::LONG_TYPE,
                                   expressionValue,
                                   PrimitiveTypes::FLOAT_TYPE,
-                                  0),
+                                  11),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: need explicit cast from type 'long' to 'float'");
+              "/tmp/source.yz\\(11\\): Error: Incompatible types: "
+              "need explicit cast from type 'long' to 'float'");
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::LONG_TYPE,
                                   expressionValue,
                                   PrimitiveTypes::DOUBLE_TYPE,
-                                  0),
+                                  11),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: need explicit cast from type 'long' to 'double'");
+              "/tmp/source.yz\\(11\\): Error: Incompatible types: "
+              "need explicit cast from type 'long' to 'double'");
 }
 
 TEST_F(AutoCastTest, castFloatTest) {
@@ -311,41 +327,46 @@ TEST_F(AutoCastTest, castFloatTest) {
                                   PrimitiveTypes::FLOAT_TYPE,
                                   expressionValue,
                                   PrimitiveTypes::VOID_TYPE,
-                                  0),
+                                  11),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: can not cast from type 'float' to 'void'");
+              "/tmp/source.yz\\(11\\): Error: Incompatible types: "
+              "can not cast from type 'float' to 'void'");
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::FLOAT_TYPE,
                                   expressionValue,
                                   PrimitiveTypes::BOOLEAN_TYPE,
-                                  0),
+                                  11),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: need explicit cast from type 'float' to 'boolean'");
+              "/tmp/source.yz\\(11\\): Error: Incompatible types: "
+              "need explicit cast from type 'float' to 'boolean'");
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::FLOAT_TYPE,
                                   expressionValue,
                                   PrimitiveTypes::CHAR_TYPE,
-                                  0),
+                                  11),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: need explicit cast from type 'float' to 'char'");
+              "/tmp/source.yz\\(11\\): Error: Incompatible types: "
+              "need explicit cast from type 'float' to 'char'");
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::FLOAT_TYPE,
                                   expressionValue,
                                   PrimitiveTypes::INT_TYPE,
-                                  0),
+                                  11),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: need explicit cast from type 'float' to 'int'");
+              "/tmp/source.yz\\(11\\): Error: Incompatible types: "
+              "need explicit cast from type 'float' to 'int'");
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::FLOAT_TYPE,
                                   expressionValue,
                                   PrimitiveTypes::LONG_TYPE,
-                                  0),
+                                  11),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: need explicit cast from type 'float' to 'long'");
+              "/tmp/source.yz\\(11\\): Error: Incompatible types: "
+              "need explicit cast from type 'float' to 'long'");
   
   result = AutoCast::maybeCast(mContext,
                                PrimitiveTypes::FLOAT_TYPE,
@@ -372,49 +393,55 @@ TEST_F(AutoCastTest, castDoubleTest) {
                                   PrimitiveTypes::DOUBLE_TYPE,
                                   expressionValue,
                                   PrimitiveTypes::VOID_TYPE,
-                                  0),
+                                  11),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: can not cast from type 'double' to 'void'");
+              "/tmp/source.yz\\(11\\): Error: Incompatible types: "
+              "can not cast from type 'double' to 'void'");
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::DOUBLE_TYPE,
                                   expressionValue,
                                   PrimitiveTypes::BOOLEAN_TYPE,
-                                  0),
+                                  11),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: need explicit cast from type 'double' to 'boolean'");
+              "/tmp/source.yz\\(11\\): Error: Incompatible types: "
+              "need explicit cast from type 'double' to 'boolean'");
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::DOUBLE_TYPE,
                                   expressionValue,
                                   PrimitiveTypes::CHAR_TYPE,
-                                  0),
+                                  11),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: need explicit cast from type 'double' to 'char'");
+              "/tmp/source.yz\\(11\\): Error: Incompatible types: "
+              "need explicit cast from type 'double' to 'char'");
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::DOUBLE_TYPE,
                                   expressionValue,
                                   PrimitiveTypes::INT_TYPE,
-                                  0),
+                                  11),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: need explicit cast from type 'double' to 'int'");
+              "/tmp/source.yz\\(11\\): Error: Incompatible types: "
+              "need explicit cast from type 'double' to 'int'");
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::DOUBLE_TYPE,
                                   expressionValue,
                                   PrimitiveTypes::LONG_TYPE,
-                                  0),
+                                  11),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: need explicit cast from type 'double' to 'long'");
+              "/tmp/source.yz\\(11\\): Error: Incompatible types: "
+              "need explicit cast from type 'double' to 'long'");
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::DOUBLE_TYPE,
                                   expressionValue,
                                   PrimitiveTypes::FLOAT_TYPE,
-                                  0),
+                                  11),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatible types: need explicit cast from type 'double' to 'float'");
+              "/tmp/source.yz\\(11\\): Error: Incompatible types: "
+              "need explicit cast from type 'double' to 'float'");
   
   result = AutoCast::maybeCast(mContext,
                                PrimitiveTypes::DOUBLE_TYPE,
