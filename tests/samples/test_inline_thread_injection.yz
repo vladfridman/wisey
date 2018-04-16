@@ -1,0 +1,57 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+import wisey.lang.CCallStack;
+import wisey.lang.threads.IThread;
+
+thread TThread implements IThread {
+
+  public void run() conceal {
+  }
+
+  public ::wisey::model* send(::wisey::model* message) conceal {
+    return null;
+  }
+
+  public CCallStack getCallStack() conceal {
+    return null;
+  }
+
+  public void exit() conceal {
+  }
+
+  public void start() reveal {
+  }
+
+  public boolean isStarted() reveal {
+    return false;
+  }
+
+  public boolean isFinished() reveal {
+    return false;
+  }
+
+  public boolean isCancelled() reveal {
+    return false;
+  }
+
+  public void cancel() reveal {
+  }
+
+  public void reset() reveal {
+  }
+
+  public int getValue() reveal {
+    return 3;
+  }
+}
+
+controller CProgram implements IProgram {
+  public int run() {
+    TThread* mythread = injector(TThread).inject();
+
+    return mythread.getValue();
+  }
+}
+
+bind(IProgram).to(CProgram);
