@@ -66,9 +66,8 @@ void Cast::exitIncompatibleTypes(IRGenerationContext& context,
                                  const IType* fromType,
                                  const IType* toType,
                                  int line) {
-  Log::e(context.getImportProfile(),
-         line,
-         "Incompatible types: can not cast from type '" + fromType->getTypeName() +
-         "' to '" + toType->getTypeName() + "'");
+  context.reportError(line,
+                      "Incompatible types: can not cast from type '" + fromType->getTypeName() +
+                      "' to '" + toType->getTypeName() + "'");
   exit(1);
 }

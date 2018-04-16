@@ -27,10 +27,9 @@ Value* AutoCast::maybeCast(IRGenerationContext& context,
   }
   if (!fromType->canAutoCastTo(context, toType)) {
     fromType->canAutoCastTo(context, toType);
-    Log::e(context.getImportProfile(),
-           line,
-           "Incompatible types: need explicit cast from type '" + fromType->getTypeName() +
-           "' to '" + toType->getTypeName() + "'");
+    context.reportError(line,
+                        "Incompatible types: need explicit cast from type '" +
+                        fromType->getTypeName() + "' to '" + toType->getTypeName() + "'");
     exit(1);
   }
   

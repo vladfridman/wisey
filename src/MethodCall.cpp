@@ -224,9 +224,9 @@ const IType* MethodCall::getType(IRGenerationContext& context) const {
 const IMethodDescriptor* MethodCall::getMethodDescriptor(IRGenerationContext& context) const {
   const IType* expressionType = mExpression->getType(context);
   if (!expressionType->isFunction()) {
-    Log::e(context.getImportProfile(),
-           mLine,
-           "Can not call a method on expression of type " + expressionType->getTypeName());
+    context.reportError(mLine,
+                        "Can not call a method on expression of type " +
+                        expressionType->getTypeName());
     exit(1);
   }
   return (const IMethodDescriptor*) expressionType;

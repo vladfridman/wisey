@@ -62,9 +62,8 @@ LLVMFunction* LLVMFunctionIdentifier::getLLVFunction(IRGenerationContext& contex
     return llvmFunction;
   }
   
-  Log::e(context.getImportProfile(),
-         mLine,
-         "LLVMFunction '" + mLLVMFunctionName + "' not found in object " +
-         objectType->getTypeName());
+  context.reportError(mLine,
+                      "LLVMFunction '" + mLLVMFunctionName + "' not found in object " +
+                      objectType->getTypeName());
   exit(1);
 }

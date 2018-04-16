@@ -28,9 +28,7 @@ IField* ReceivedFieldDefinition::define(IRGenerationContext& context,
   const IType* fieldType = mTypeSpecifier->getType(context);
   
   if (objectType->isThread() && !fieldType->isModel() && !fieldType->isPrimitive()) {
-    Log::e(context.getImportProfile(),
-           mLine,
-           "Threads are only allowed to receive models or primitives");
+    context.reportError(mLine, "Threads are only allowed to receive models or primitives");
     exit(1);
   }
   return new ReceivedField(fieldType, mName, mLine);

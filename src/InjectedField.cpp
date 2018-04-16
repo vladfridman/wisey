@@ -59,10 +59,7 @@ string InjectedField::getName() const {
 
 Value* InjectedField::inject(IRGenerationContext& context) const {
   if (mInjectedType->isReference()) {
-    context.getImportProfile()->setSourceFileName(context, mSourceFileName);
-    Log::e(context.getImportProfile(),
-           mLine,
-           "Injected fields must have owner type denoted by '*'");
+    Log::e(mSourceFileName, mLine, "Injected fields must have owner type denoted by '*'");
     exit(1);
   }
   

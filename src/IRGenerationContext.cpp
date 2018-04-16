@@ -187,7 +187,9 @@ void IRGenerationContext::addModel(Model* model) {
 
 Model* IRGenerationContext::getModel(string fullName, int line) {
   if (!mModels.count(fullName)) {
-    Log::e(getImportProfile(), line, "Model " + fullName + " is not defined");
+    Log::e(getImportProfile()->getSourceFileName(),
+           line,
+           "Model " + fullName + " is not defined");
     exit(1);
   }
   
@@ -209,7 +211,9 @@ void IRGenerationContext::addController(Controller* controller) {
 
 Controller* IRGenerationContext::getController(string fullName, int line) {
   if (!mControllers.count(fullName)) {
-    Log::e(getImportProfile(), line, "Controller " + fullName + " is not defined");
+    Log::e(getImportProfile()->getSourceFileName(),
+           line,
+           "Controller " + fullName + " is not defined");
     exit(1);
   }
   
@@ -231,7 +235,9 @@ void IRGenerationContext::addNode(Node* node) {
 
 Node* IRGenerationContext::getNode(string fullName, int line) {
   if (!mNodes.count(fullName)) {
-    Log::e(getImportProfile(), line, "Node " + fullName + " is not defined");
+    Log::e(getImportProfile()->getSourceFileName(),
+           line,
+           "Node " + fullName + " is not defined");
     exit(1);
   }
   
@@ -253,7 +259,9 @@ void IRGenerationContext::addThread(Thread* thread) {
 
 Thread* IRGenerationContext::getThread(string fullName, int line) {
   if (!mThreads.count(fullName)) {
-    Log::e(getImportProfile(), line, "Thread " + fullName + " is not defined");
+    Log::e(getImportProfile()->getSourceFileName(),
+           line,
+           "Thread " + fullName + " is not defined");
     exit(1);
   }
   
@@ -275,7 +283,9 @@ void IRGenerationContext::addInterface(Interface* interface) {
 
 Interface* IRGenerationContext::getInterface(string fullName, int line) {
   if (!mInterfaces.count(fullName)) {
-    Log::e(getImportProfile(), line, "Interface " + fullName + " is not defined");
+    Log::e(getImportProfile()->getSourceFileName(),
+           line,
+           "Interface " + fullName + " is not defined");
     exit(1);
   }
   
@@ -298,7 +308,9 @@ void IRGenerationContext::addLLVMStructType(LLVMStructType* llvmStructType) {
 LLVMStructType* IRGenerationContext::getLLVMStructType(string name, int line) {
   string fullName = LLVMStructType::LLVM_STRUCT_PREFIX + name;
   if (!mLLVMStructTypes.count(fullName)) {
-    Log::e(getImportProfile(), line, "llvm struct type " + fullName + " is not defined");
+    Log::e(getImportProfile()->getSourceFileName(),
+           line,
+           "llvm struct type " + fullName + " is not defined");
     exit(1);
   }
   
@@ -630,4 +642,8 @@ void IRGenerationContext::setObjectType(const IObjectType* objectType) {
 
 const IObjectType* IRGenerationContext::getObjectType() const {
   return mObjectType;
+}
+
+void IRGenerationContext::reportError(int line, string message) const {
+  Log::e(mImportProfile->getSourceFileName(), line, message);
 }

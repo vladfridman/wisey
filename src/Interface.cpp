@@ -392,38 +392,38 @@ Function* Interface::defineMapFunctionForMethod(IRGenerationContext& context,
   }
   
   if (objectMethodDescriptor->isReveal() && !interfaceMethodSignature->isReveal()) {
-    Log::e(context.getImportProfile(),
-           objectMethodDescriptor->getMethodQualifiers()->getLine(),
-           "Object " + object->getTypeName() + " attempts to reveal method '" +
-           interfaceMethodSignature->getName() + "' that is not marked with 'reveal' qualifier in "
-           "the parent interface " + getTypeName());
+    context.reportError(objectMethodDescriptor->getMethodQualifiers()->getLine(),
+                        "Object " + object->getTypeName() + " attempts to reveal method '" +
+                        interfaceMethodSignature->getName() +
+                        "' that is not marked with 'reveal' qualifier in "
+                        "the parent interface " + getTypeName());
     exit(1);
   }
   
   if (!objectMethodDescriptor->isReveal() && interfaceMethodSignature->isReveal()) {
-    Log::e(context.getImportProfile(),
-           objectMethodDescriptor->getMethodQualifiers()->getLine(),
-           "Object " + object->getTypeName() + " should mark method '" +
-           interfaceMethodSignature->getName() + "' with 'reveal' qualifier as it is defined in "
-           "the parent interface " + getTypeName());
+    context.reportError(objectMethodDescriptor->getMethodQualifiers()->getLine(),
+                        "Object " + object->getTypeName() + " should mark method '" +
+                        interfaceMethodSignature->getName() +
+                        "' with 'reveal' qualifier as it is defined in "
+                        "the parent interface " + getTypeName());
     exit(1);
   }
 
   if (objectMethodDescriptor->isConceal() && !interfaceMethodSignature->isConceal()) {
-    Log::e(context.getImportProfile(),
-           objectMethodDescriptor->getMethodQualifiers()->getLine(),
-           "Object " + object->getTypeName() + " attempts to conceal method '" +
-           interfaceMethodSignature->getName() + "' that is not marked with 'conceal' qualifier in "
-           "the parent interface " + getTypeName());
+    context.reportError(objectMethodDescriptor->getMethodQualifiers()->getLine(),
+                        "Object " + object->getTypeName() + " attempts to conceal method '" +
+                        interfaceMethodSignature->getName() +
+                        "' that is not marked with 'conceal' qualifier in "
+                        "the parent interface " + getTypeName());
     exit(1);
   }
   
   if (!objectMethodDescriptor->isConceal() && interfaceMethodSignature->isConceal()) {
-    Log::e(context.getImportProfile(),
-           objectMethodDescriptor->getMethodQualifiers()->getLine(),
-           "Object " + object->getTypeName() + " should mark method '" +
-           interfaceMethodSignature->getName() + "' with 'conceal' qualifier as it is defined in "
-           "the parent interface " + getTypeName());
+    context.reportError(objectMethodDescriptor->getMethodQualifiers()->getLine(),
+                        "Object " + object->getTypeName() + " should mark method '" +
+                        interfaceMethodSignature->getName() +
+                        "' with 'conceal' qualifier as it is defined in "
+                        "the parent interface " + getTypeName());
     exit(1);
   }
   

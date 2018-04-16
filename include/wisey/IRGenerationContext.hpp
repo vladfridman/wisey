@@ -318,6 +318,11 @@ namespace wisey {
      */
     const IObjectType* getObjectType() const;
     
+    /**
+     * Print a compile error message
+     */
+    void reportError(int line, std::string message) const;
+    
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
   };

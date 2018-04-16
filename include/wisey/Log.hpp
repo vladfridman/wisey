@@ -42,7 +42,7 @@ namespace wisey {
     /**
      * Log an error message with filename and line number
      */
-    static void e(ImportProfile* importProfile, int line, std::string message);
+    static void e(std::string sourceFile, int line, std::string message);
     
     /**
      * Log an information message

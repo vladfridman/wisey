@@ -22,5 +22,5 @@ bool IType::isConcreteObjectType(const IType* type) {
 }
 
 void IType::repotNonInjectableType(IRGenerationContext& context, const IType* type, int line) {
-  Log::e(context.getImportProfile(), line, "type " + type->getTypeName() + " is not injectable");
+  context.reportError(line, "type " + type->getTypeName() + " is not injectable");
 }

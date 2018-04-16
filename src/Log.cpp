@@ -24,9 +24,9 @@ void Log::e_deprecated(std::string message) {
   }
 }
 
-void Log::e(ImportProfile* importProfile, int line, std::string message) {
+void Log::e(std::string sourceFile, int line, std::string message) {
   if (Log::sLogLevel >= ERRORLEVEL) {
-    cerr << importProfile->getSourceFileName() << "(" << line << "): Error: " << message << endl;
+    cerr << sourceFile << "(" << line << "): Error: " << message << endl;
   }
 }
 
