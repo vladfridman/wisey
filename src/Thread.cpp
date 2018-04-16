@@ -175,7 +175,7 @@ Instruction* Thread::inject(IRGenerationContext& context,
   checkArguments(injectionArgumentList);
   Instruction* malloc = IConcreteObjectType::createMallocForObject(context, this, "injectvar");
   initializeReceivedFields(context, injectionArgumentList, malloc, line);
-  initializeInjectedFields(context, malloc, line);
+  initializeInjectedFields(context, malloc);
   initializeVTable(context, (IConcreteObjectType*) this, malloc);
   
   context.setObjectType(lastObjectType);
@@ -488,9 +488,7 @@ void Thread::initializeReceivedFields(IRGenerationContext& context,
   }
 }
 
-void Thread::initializeInjectedFields(IRGenerationContext& context,
-                                      Instruction* malloc,
-                                      int line) const {
+void Thread::initializeInjectedFields(IRGenerationContext& context, Instruction* malloc) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Value *index[2];
@@ -512,17 +510,17 @@ void Thread::initializeInjectedFields(IRGenerationContext& context,
       const ControllerOwner* controllerOwner = (const ControllerOwner*) fieldType;
       fieldValue = controllerOwner->getReference()->inject(context,
                                                            field->getInjectionArguments(),
-                                                           line);
+                                                           field->getLine());
     } else if (fieldType->isThread()) {
       const ThreadOwner* threadOwner = (const ThreadOwner*) fieldType;
       fieldValue = threadOwner->getReference()->inject(context,
                                                        field->getInjectionArguments(),
-                                                       line);
+                                                       field->getLine());
     } else if (fieldType->isInterface()) {
       const InterfaceOwner* interfaceOwner = (const InterfaceOwner*) fieldType;
       fieldValue = interfaceOwner->getReference()->inject(context,
                                                           field->getInjectionArguments(),
-                                                          line);
+                                                          field->getLine());
     } else {
       Log::e_deprecated("Attempt to inject a variable that is not of injectable type");
       exit(1);

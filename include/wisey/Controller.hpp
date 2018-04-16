@@ -221,8 +221,7 @@ namespace wisey {
                                   int line) const;
     
     void initializeInjectedFields(IRGenerationContext& context,
-                                  llvm::Instruction* malloc,
-                                  int line) const;
+                                  llvm::Instruction* malloc) const;
     
   };
   

@@ -218,9 +218,7 @@ namespace wisey {
                                   llvm::Instruction* malloc,
                                   int line) const;
     
-    void initializeInjectedFields(IRGenerationContext& context,
-                                  llvm::Instruction* malloc,
-                                  int line) const;
+    void initializeInjectedFields(IRGenerationContext& context, llvm::Instruction* malloc) const;
     
   };
   
