@@ -16,8 +16,8 @@
 #include <llvm/IR/Instructions.h>
 
 #include "wisey/Constant.hpp"
-#include "wisey/IInjectable.hpp"
 #include "wisey/IObjectElementDefinition.hpp"
+#include "wisey/InjectionArgument.hpp"
 #include "wisey/MethodSignature.hpp"
 #include "wisey/StaticMethod.hpp"
 
@@ -32,7 +32,7 @@ namespace wisey {
   /**
    * Contains information about an Interface including the llvm::StructType and method information
    */
-  class Interface : public IObjectType, public IInjectable {
+  class Interface : public IObjectType {
     AccessLevel mAccessLevel;
     std::string mName;
     llvm::StructType* mStructType;
@@ -165,11 +165,14 @@ namespace wisey {
      */
     IMethod* findStaticMethod(std::string name) const;
     
-    AccessLevel getAccessLevel() const override;
-    
+    /**
+     * Inject the object this interface is bound to
+     */
     llvm::Value* inject(IRGenerationContext& context,
                         const InjectionArgumentList injectionArgumentList,
-                        int line) const override;
+                        int line) const;
+
+    AccessLevel getAccessLevel() const override;
 
     IMethodDescriptor* findMethod(std::string methodName) const override;
     

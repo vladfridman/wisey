@@ -10,7 +10,6 @@
 #ifndef InterfaceTypeSpecifier_h
 #define InterfaceTypeSpecifier_h
 
-#include "wisey/IInjectable.hpp"
 #include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/Interface.hpp"
 

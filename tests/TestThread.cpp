@@ -508,7 +508,7 @@ TEST_F(ThreadTest, injectWrongTypeOfArgumentDeathTest) {
   
   EXPECT_EXIT(mThread->inject(mContext, injectionArguments, 0),
               ::testing::ExitedWithCode(1),
-              "Error: Thread injector argumet value for field 'mTo' "
+              "Error: Injector argumet value for field 'mTo' "
               "does not match its type");
 }
 
@@ -533,7 +533,7 @@ TEST_F(ThreadTest, notWellFormedInjectionArgumentsDeathTest) {
   EXPECT_EXIT(mNotWellFormedArgumentsThread->inject(mContext, injectionArguments, 0),
               ::testing::ExitedWithCode(1),
               "Error: Injection argument should start with 'with'. e.g. .withField\\(value\\).\n"
-              "Error: Some injection arguments for thread "
+              "Error: Some injection arguments for injected object "
               "systems.vos.wisey.compiler.tests.TNotWellFormedArgumentsThread are not well formed");
 }
 

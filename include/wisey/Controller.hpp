@@ -13,9 +13,8 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IExpression.hpp"
-#include "wisey/IInjectable.hpp"
+#include "wisey/IInjectableConcreteObjectType.hpp"
 #include "wisey/IMethod.hpp"
 #include "wisey/InjectedField.hpp"
 #include "wisey/Interface.hpp"
@@ -27,7 +26,7 @@ namespace wisey {
   /**
    * Contains information about a Controller including its fields and methods
    */
-  class Controller : public IConcreteObjectType, public IInjectable {
+  class Controller : public IInjectableConcreteObjectType {
     AccessLevel mAccessLevel;
     std::string mName;
     llvm::StructType* mStructType;
@@ -96,6 +95,8 @@ namespace wisey {
     unsigned long getFieldIndex(IField* field) const override;
     
     std::vector<IField*> getFields() const override;
+    
+    std::vector<InjectedField*> getInjectedFields() const override;
     
     IMethod* findMethod(std::string methodName) const override;
     
@@ -200,28 +201,15 @@ namespace wisey {
     
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
 
+    std::vector<std::string> getMissingReceivedFields(std::set<std::string>
+                                                      givenFields) const override;
+    
   private:
     
     Controller(AccessLevel accessLevel,
                std::string name,
                llvm::StructType* structType,
                bool isExternal);
-    
-    void checkArguments(const InjectionArgumentList& injectionArgumentList) const;
-    
-    void checkArgumentsAreWellFormed(const InjectionArgumentList& injectionArgumentList) const;
-    
-    void checkAllFieldsAreSet(const InjectionArgumentList& injectionArgumentList) const;
-    
-    std::vector<std::string> getMissingReceivedFields(std::set<std::string> givenFields) const;
-    
-    void initializeReceivedFields(IRGenerationContext& context,
-                                  const InjectionArgumentList& controllerInjectorArguments,
-                                  llvm::Instruction* malloc,
-                                  int line) const;
-    
-    void initializeInjectedFields(IRGenerationContext& context,
-                                  llvm::Instruction* malloc) const;
     
   };
   
