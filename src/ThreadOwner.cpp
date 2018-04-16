@@ -138,7 +138,7 @@ void ThreadOwner::printToStream(IRGenerationContext &context, iostream& stream) 
 void ThreadOwner::createLocalVariable(IRGenerationContext& context, string name) const {
   llvm::PointerType* llvmType = getLLVMType(context);
   
-  Value* alloca = IRWriter::newAllocaInst(context, llvmType, "ownerDeclaration");
+  Value* alloca = IRWriter::newAllocaInst(context, llvmType, name);
   IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloca);
   
   IVariable* uninitializedVariable = new LocalOwnerVariable(name, this, alloca);
@@ -156,7 +156,7 @@ void ThreadOwner::createParameterVariable(IRGenerationContext& context,
                                               string name,
                                               Value* value) const {
   Type* llvmType = getLLVMType(context);
-  Value* alloc = IRWriter::newAllocaInst(context, llvmType, "parameterObjectPointer");
+  Value* alloc = IRWriter::newAllocaInst(context, llvmType, name);
   IRWriter::newStoreInst(context, value, alloc);
   IVariable* variable = new ParameterOwnerVariable(name, this, alloc);
   context.getScopes().setVariable(variable);

@@ -168,8 +168,8 @@ TEST_F(ThreadOwnerTest, createLocalVariableTest) {
   
   string expected =
   "\nentry:"
-  "\n  %ownerDeclaration = alloca %systems.vos.wisey.compiler.tests.TWorker*"
-  "\n  store %systems.vos.wisey.compiler.tests.TWorker* null, %systems.vos.wisey.compiler.tests.TWorker** %ownerDeclaration\n";
+  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.TWorker*"
+  "\n  store %systems.vos.wisey.compiler.tests.TWorker* null, %systems.vos.wisey.compiler.tests.TWorker** %temp\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -196,8 +196,8 @@ TEST_F(ThreadOwnerTest, createParameterVariableTest) {
   
   string expected =
   "\nentry:"
-  "\n  %parameterObjectPointer = alloca %systems.vos.wisey.compiler.tests.TWorker*"
-  "\n  store %systems.vos.wisey.compiler.tests.TWorker* null, %systems.vos.wisey.compiler.tests.TWorker** %parameterObjectPointer\n";
+  "\n  %var = alloca %systems.vos.wisey.compiler.tests.TWorker*"
+  "\n  store %systems.vos.wisey.compiler.tests.TWorker* null, %systems.vos.wisey.compiler.tests.TWorker** %var\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

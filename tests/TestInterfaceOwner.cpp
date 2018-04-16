@@ -161,8 +161,8 @@ TEST_F(InterfaceOwnerTest, createLocalVariableTest) {
   
   string expected =
   "\nentry:"
-  "\n  %ownerDeclaration = alloca %systems.vos.wisey.compiler.tests.IObject*"
-  "\n  store %systems.vos.wisey.compiler.tests.IObject* null, %systems.vos.wisey.compiler.tests.IObject** %ownerDeclaration\n";
+  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.IObject*"
+  "\n  store %systems.vos.wisey.compiler.tests.IObject* null, %systems.vos.wisey.compiler.tests.IObject** %temp\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -189,8 +189,8 @@ TEST_F(InterfaceOwnerTest, createParameterVariableTest) {
   
   string expected =
   "\nentry:"
-  "\n  %parameterObjectPointer = alloca %systems.vos.wisey.compiler.tests.IObject*"
-  "\n  store %systems.vos.wisey.compiler.tests.IObject* null, %systems.vos.wisey.compiler.tests.IObject** %parameterObjectPointer\n";
+  "\n  %var = alloca %systems.vos.wisey.compiler.tests.IObject*"
+  "\n  store %systems.vos.wisey.compiler.tests.IObject* null, %systems.vos.wisey.compiler.tests.IObject** %var\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

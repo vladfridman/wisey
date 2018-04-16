@@ -396,8 +396,8 @@ TEST_F(NodeOwnerTest, createLocalVariableTest) {
   
   string expected =
   "\nentry:"
-  "\n  %ownerDeclaration = alloca %systems.vos.wisey.compiler.tests.NComplicatedNode*"
-  "\n  store %systems.vos.wisey.compiler.tests.NComplicatedNode* null, %systems.vos.wisey.compiler.tests.NComplicatedNode** %ownerDeclaration\n";
+  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.NComplicatedNode*"
+  "\n  store %systems.vos.wisey.compiler.tests.NComplicatedNode* null, %systems.vos.wisey.compiler.tests.NComplicatedNode** %temp\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -424,8 +424,8 @@ TEST_F(NodeOwnerTest, createParameterVariableTest) {
   
   string expected =
   "\nentry:"
-  "\n  %parameterObjectPointer = alloca %systems.vos.wisey.compiler.tests.NComplicatedNode*"
-  "\n  store %systems.vos.wisey.compiler.tests.NComplicatedNode* null, %systems.vos.wisey.compiler.tests.NComplicatedNode** %parameterObjectPointer\n";
+  "\n  %var = alloca %systems.vos.wisey.compiler.tests.NComplicatedNode*"
+  "\n  store %systems.vos.wisey.compiler.tests.NComplicatedNode* null, %systems.vos.wisey.compiler.tests.NComplicatedNode** %var\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

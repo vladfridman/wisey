@@ -285,8 +285,8 @@ TEST_F(ControllerOwnerTest, createLocalVariableTest) {
   
   string expected =
   "\nentry:"
-  "\n  %ownerDeclaration = alloca %systems.vos.wisey.compiler.tests.CMultiplier*"
-  "\n  store %systems.vos.wisey.compiler.tests.CMultiplier* null, %systems.vos.wisey.compiler.tests.CMultiplier** %ownerDeclaration\n";
+  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.CMultiplier*"
+  "\n  store %systems.vos.wisey.compiler.tests.CMultiplier* null, %systems.vos.wisey.compiler.tests.CMultiplier** %temp\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -313,8 +313,8 @@ TEST_F(ControllerOwnerTest, createParameterVariableTest) {
   
   string expected =
   "\nentry:"
-  "\n  %parameterObjectPointer = alloca %systems.vos.wisey.compiler.tests.CMultiplier*"
-  "\n  store %systems.vos.wisey.compiler.tests.CMultiplier* null, %systems.vos.wisey.compiler.tests.CMultiplier** %parameterObjectPointer\n";
+  "\n  %var = alloca %systems.vos.wisey.compiler.tests.CMultiplier*"
+  "\n  store %systems.vos.wisey.compiler.tests.CMultiplier* null, %systems.vos.wisey.compiler.tests.CMultiplier** %var\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
