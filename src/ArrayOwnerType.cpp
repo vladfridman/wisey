@@ -17,6 +17,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalArrayOwnerVariable.hpp"
+#include "wisey/Log.hpp"
 #include "wisey/ParameterArrayOwnerVariable.hpp"
 
 using namespace std;
@@ -167,4 +168,11 @@ void ArrayOwnerType::createParameterVariable(IRGenerationContext& context,
 
 const IReferenceType* ArrayOwnerType::getReference() const {
   return NULL;
+}
+
+llvm::Instruction* ArrayOwnerType::inject(IRGenerationContext& context,
+                                          const InjectionArgumentList injectionArgumentList,
+                                          int line) const {
+  repotNonInjectableType(context, this, line);
+  exit(1);
 }

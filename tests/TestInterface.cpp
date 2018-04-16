@@ -596,6 +596,77 @@ TEST_F(InterfaceTest, createParameterVariableTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(InterfaceTest, injectTest) {
+  string interfaceFullName = "systems.vos.wisey.compiler.tests.ITest";
+  StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
+  vector<Type*> interfaceTypes;
+  interfaceTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                           ->getPointerTo()->getPointerTo());
+  interfaceStructType->setBody(interfaceTypes);
+  vector<IInterfaceTypeSpecifier*> interfaceParentInterfaces;
+  vector<IObjectElementDefinition*> interafaceElements;
+  Interface* interface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                 interfaceFullName,
+                                                 interfaceStructType,
+                                                 interfaceParentInterfaces,
+                                                 interafaceElements);
+  mContext.addInterface(interface);
+  llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
+                                                                interface->getTypeName());
+  new GlobalVariable(*mContext.getModule(),
+                     stringConstant->getType(),
+                     true,
+                     GlobalValue::LinkageTypes::LinkOnceODRLinkage,
+                     stringConstant,
+                     interface->getObjectNameGlobalVariableName());
+
+  string controllerFullName = "systems.vos.wisey.compiler.tests.CController";
+  StructType* controllerStructType = StructType::create(mLLVMContext, controllerFullName);
+  vector<Type*> controllerTypes;
+  controllerTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                  ->getPointerTo()->getPointerTo());
+  controllerStructType->setBody(controllerTypes);
+  Controller* controller = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                                     controllerFullName,
+                                                     controllerStructType);
+  vector<Interface*> controllerParentInterfaces;
+  controllerParentInterfaces.push_back(interface);
+  controller->setInterfaces(controllerParentInterfaces);
+  
+  mContext.addController(controller);
+  mContext.bindInterfaceToController(interface, controller);
+
+  IConcreteObjectType::generateNameGlobal(mContext, controller);
+  IConcreteObjectType::generateShortNameGlobal(mContext, controller);
+  IConcreteObjectType::generateVTable(mContext, controller);
+
+  InjectionArgumentList arguments;
+  interface->inject(mContext, arguments, 0);
+
+  *mStringStream << *mBasicBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.CController.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CController.refCounter, %systems.vos.wisey.compiler.tests.CController.refCounter* null, i32 1) to i64))"
+  "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.CController.refCounter*"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CController.refCounter* %injectvar to i8*"
+  "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.CController.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CController.refCounter, %systems.vos.wisey.compiler.tests.CController.refCounter* null, i32 1) to i64), i32 4, i1 false)"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CController.refCounter, %systems.vos.wisey.compiler.tests.CController.refCounter* %injectvar, i32 0, i32 1"
+  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.CController* %1 to i8*"
+  "\n  %3 = getelementptr i8, i8* %2, i64 0"
+  "\n  %4 = bitcast i8* %3 to i32 (...)***"
+  "\n  %5 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CController.vtable, i32 0, i32 0, i32 0"
+  "\n  %6 = bitcast i8** %5 to i32 (...)**"
+  "\n  store i32 (...)** %6, i32 (...)*** %4"
+  "\n  %7 = bitcast %systems.vos.wisey.compiler.tests.CController* %1 to i8*"
+  "\n  %8 = getelementptr i8, i8* %7, i64 0"
+  "\n  %9 = bitcast i8* %8 to %systems.vos.wisey.compiler.tests.ITest*"
+  "\n";
+
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
 TEST_F(TestFileRunner, interfaceMethodNotImplmentedDeathTest) {
   expectFailCompile("tests/samples/test_interface_method_not_implmented.yz",
                     1,

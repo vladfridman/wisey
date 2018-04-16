@@ -199,3 +199,10 @@ void ArraySpecificType::createParameterVariable(IRGenerationContext& context,
 const wisey::ArrayType* ArraySpecificType::getArrayType(IRGenerationContext& context) const {
   return context.getArrayType(mElementType, getNumberOfDimensions());
 }
+
+llvm::Instruction* ArraySpecificType::inject(IRGenerationContext& context,
+                                             const InjectionArgumentList injectionArgumentList,
+                                             int line) const {
+  repotNonInjectableType(context, this, line);
+  exit(1);
+}

@@ -178,3 +178,9 @@ const PrimitiveTypeSpecifier* BooleanType::newTypeSpecifier() const {
   return new PrimitiveTypeSpecifier(this);
 }
 
+Instruction* BooleanType::inject(IRGenerationContext& context,
+                              const InjectionArgumentList injectionArgumentList,
+                              int line) const {
+  repotNonInjectableType(context, this, line);
+  exit(1);
+}

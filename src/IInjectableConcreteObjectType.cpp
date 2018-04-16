@@ -6,16 +6,11 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ArrayAllocation.hpp"
-#include "wisey/ArraySpecificOwnerType.hpp"
 #include "wisey/AutoCast.hpp"
-#include "wisey/ControllerOwner.hpp"
 #include "wisey/IInjectableConcreteObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/InterfaceOwner.hpp"
 #include "wisey/Log.hpp"
-#include "wisey/ThreadOwner.hpp"
 
 using namespace std;
 using namespace llvm;
@@ -124,37 +119,7 @@ initializeInjectedFields(IRGenerationContext& context,
   Value *index[2];
   index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
   for (InjectedField* field : object->getInjectedFields()) {
-    const IType* fieldType = field->getType();
-    Value* fieldValue = NULL;
-    if (fieldType->isReference()) {
-      Log::e_deprecated("Injected fields must have owner type denoted by '*'");
-      exit(1);
-    } else if (fieldType->isArray()) {
-      const ArraySpecificOwnerType* arraySpecificOwnerType =
-      (const ArraySpecificOwnerType*) field->getInjectedType();
-      const ArraySpecificType* arraySpecificType = arraySpecificOwnerType->getArraySpecificType();
-      Value* arrayPointer = ArrayAllocation::allocateArray(context, arraySpecificType);
-      fieldValue = IRWriter::newBitCastInst(context, arrayPointer, arraySpecificType->
-                                            getArrayType(context)->getLLVMType(context));
-    } else if (fieldType->isController()) {
-      const ControllerOwner* controllerOwner = (const ControllerOwner*) fieldType;
-      fieldValue = controllerOwner->getReference()->inject(context,
-                                                           field->getInjectionArguments(),
-                                                           field->getLine());
-    } else if (fieldType->isThread()) {
-      const ThreadOwner* threadOwner = (const ThreadOwner*) fieldType;
-      fieldValue = threadOwner->getReference()->inject(context,
-                                                       field->getInjectionArguments(),
-                                                       field->getLine());
-    } else if (fieldType->isInterface()) {
-      const InterfaceOwner* interfaceOwner = (const InterfaceOwner*) fieldType;
-      fieldValue = interfaceOwner->getReference()->inject(context,
-                                                          field->getInjectionArguments(),
-                                                          field->getLine());
-    } else {
-      Log::e_deprecated("Attempt to inject a variable that is not of injectable type");
-      exit(1);
-    }
+    Value* fieldValue = field->inject(context);
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), object->getFieldIndex(field));
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     IRWriter::newStoreInst(context, fieldValue, fieldPointer);

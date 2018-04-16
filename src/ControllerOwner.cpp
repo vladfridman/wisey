@@ -168,3 +168,9 @@ const wisey::ArrayType* ControllerOwner::getArrayType(IRGenerationContext& conte
   ArrayType::reportNonArrayType();
   exit(1);
 }
+
+Instruction* ControllerOwner::inject(IRGenerationContext &context,
+                                     const InjectionArgumentList injectionArgumentList,
+                                     int line) const {
+  return mController->inject(context, injectionArgumentList, line);
+}

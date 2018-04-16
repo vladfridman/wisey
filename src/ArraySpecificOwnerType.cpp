@@ -6,6 +6,7 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/ArrayAllocation.hpp"
 #include "wisey/ArraySpecificOwnerType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -148,4 +149,12 @@ const ArrayType* ArraySpecificOwnerType::getArrayType(IRGenerationContext& conte
 
 const IReferenceType* ArraySpecificOwnerType::getReference() const {
   return NULL;
+}
+
+llvm::Instruction* ArraySpecificOwnerType::inject(IRGenerationContext& context,
+                                                  const InjectionArgumentList injectionArgumentList,
+                                                  int line) const {
+  llvm::Value* arrayPointer = ArrayAllocation::allocateArray(context, mArraySpecificType);
+  llvm::Type* arrayLLVMType = mArraySpecificType->getArrayType(context)->getLLVMType(context);
+  return IRWriter::newBitCastInst(context, arrayPointer, arrayLLVMType);
 }

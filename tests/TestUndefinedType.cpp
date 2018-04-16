@@ -10,6 +10,7 @@
 
 #include <gtest/gtest.h>
 
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/UndefinedType.hpp"
 
@@ -24,6 +25,7 @@ struct UndefinedTypeTest : public Test {
   IRGenerationContext mContext;
   
   UndefinedTypeTest() {
+    TestPrefix::generateIR(mContext);
   }
 };
 
@@ -52,4 +54,11 @@ TEST_F(UndefinedTypeTest, isObjectTest) {
   EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isModel());
   EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isNode());
   EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isThread());
+}
+
+TEST_F(UndefinedTypeTest, injectDeathTest) {
+  InjectionArgumentList arguments;
+  EXPECT_EXIT(UndefinedType::UNDEFINED_TYPE->inject(mContext, arguments, 3),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(3\\): Error: type undefined is not injectable");
 }

@@ -50,13 +50,14 @@ struct ThreadOwnerTest : public Test {
   ThreadOwnerTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     
-    mImportProfile = new ImportProfile(mPackage);
-    mContext.setImportProfile(mImportProfile);
-    
     vector<Interface*> interfaces;
     
     string threadFullName = "systems.vos.wisey.compiler.tests.TWorker";
     StructType* structType = StructType::create(mLLVMContext, threadFullName);
+    vector<Type*> types;
+    types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                    ->getPointerTo()->getPointerTo());
+    structType->setBody(types);
     mThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
                                 threadFullName,
                                 structType);
@@ -203,3 +204,28 @@ TEST_F(ThreadOwnerTest, createParameterVariableTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(ThreadOwnerTest, injectTest) {
+  InjectionArgumentList injectionArguments;
+  Value* result = mThread->inject(mContext, injectionArguments, 0);
+  
+  EXPECT_NE(result, nullptr);
+  
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.TWorker.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.TWorker.refCounter, %systems.vos.wisey.compiler.tests.TWorker.refCounter* null, i32 1) to i64))"
+  "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.TWorker.refCounter*"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.TWorker.refCounter* %injectvar to i8*"
+  "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.TWorker.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.TWorker.refCounter, %systems.vos.wisey.compiler.tests.TWorker.refCounter* null, i32 1) to i64), i32 4, i1 false)"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.TWorker.refCounter, %systems.vos.wisey.compiler.tests.TWorker.refCounter* %injectvar, i32 0, i32 1"
+  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.TWorker* %1 to i8*"
+  "\n  %3 = getelementptr i8, i8* %2, i64 0"
+  "\n  %4 = bitcast i8* %3 to i32 (...)***"
+  "\n  %5 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.TWorker.vtable, i32 0, i32 0, i32 0"
+  "\n  %6 = bitcast i8** %5 to i32 (...)**"
+  "\n  store i32 (...)** %6, i32 (...)*** %4"
+  "\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}

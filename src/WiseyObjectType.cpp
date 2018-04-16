@@ -171,3 +171,10 @@ void WiseyObjectType::decrementReferenceCount(IRGenerationContext& context, Valu
 const IOwnerType* WiseyObjectType::getOwner() const {
   return WiseyObjectOwnerType::WISEY_OBJECT_OWNER_TYPE;
 }
+
+Instruction* WiseyObjectType::inject(IRGenerationContext& context,
+                                     const InjectionArgumentList injectionArgumentList,
+                                     int line) const {
+  repotNonInjectableType(context, this, line);
+  exit(1);
+}

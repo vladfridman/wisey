@@ -13,6 +13,7 @@
 
 #include "MockExpression.hpp"
 #include "MockType.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/InjectedFieldDefinition.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
@@ -42,6 +43,8 @@ public:
   mType(new NiceMock<MockType>()),
   mExpression(new NiceMock<MockExpression>()),
   mName("mField") {
+    TestPrefix::generateIR(mContext);
+    
     mInjectionArgument = new InjectionArgument("withFoo", mExpression);
     mArguments.push_back(mInjectionArgument);
     
@@ -72,9 +75,5 @@ TEST_F(InjectedFieldDefinitionTest, declareTest) {
   EXPECT_TRUE(field->isInjected());
   EXPECT_FALSE(field->isReceived());
   EXPECT_FALSE(field->isState());
-
-  InjectedField* injetedField = (InjectedField*) field;
-  EXPECT_EQ(injetedField->getInjectionArguments().size(), 1u);
-  EXPECT_EQ(injetedField->getInjectionArguments().at(0), mInjectionArgument);
 }
 

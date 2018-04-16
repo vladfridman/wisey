@@ -183,3 +183,12 @@ TEST_F(CharTypeTest, createParameterVariableTest) {
   
   EXPECT_NE(variable, nullptr);
 }
+
+TEST_F(CharTypeTest, injectDeathTest) {
+  Mock::AllowLeak(&mConcreteObjectType);
+  
+  InjectionArgumentList arguments;
+  EXPECT_EXIT(mCharType.inject(mContext, arguments, 3),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(3\\): Error: type char is not injectable");
+}

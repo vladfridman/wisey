@@ -164,3 +164,10 @@ const WiseyModelType* WiseyModelOwnerType::getReference() const {
 void WiseyModelOwnerType::free(IRGenerationContext& context, Value* value, int line) const {
   IConcreteObjectType::composeDestructorCall(context, value);
 }
+
+Instruction* WiseyModelOwnerType::inject(IRGenerationContext& context,
+                                         const InjectionArgumentList injectionArgumentList,
+                                         int line) const {
+  repotNonInjectableType(context, this, line);
+  exit(1);
+}

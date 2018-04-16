@@ -183,3 +183,12 @@ TEST_F(FloatTypeTest, createParameterVariableTest) {
   
   EXPECT_NE(variable, nullptr);
 }
+
+TEST_F(FloatTypeTest, injectDeathTest) {
+  Mock::AllowLeak(&mConcreteObjectType);
+  
+  InjectionArgumentList arguments;
+  EXPECT_EXIT(mFloatType.inject(mContext, arguments, 3),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(3\\): Error: type float is not injectable");
+}

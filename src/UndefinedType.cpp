@@ -119,5 +119,12 @@ const wisey::ArrayType* UndefinedType::getArrayType(IRGenerationContext& context
   exit(1);
 }
 
+Instruction* UndefinedType::inject(IRGenerationContext& context,
+                                   const InjectionArgumentList injectionArgumentList,
+                                   int line) const {
+  repotNonInjectableType(context, this, line);
+  exit(1);
+}
+
 UndefinedType* UndefinedType::UNDEFINED_TYPE = new UndefinedType();
 

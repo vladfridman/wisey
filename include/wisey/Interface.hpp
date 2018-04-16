@@ -170,7 +170,7 @@ namespace wisey {
      */
     llvm::Value* inject(IRGenerationContext& context,
                         const InjectionArgumentList injectionArgumentList,
-                        int line) const;
+                        int line) const override;
 
     AccessLevel getAccessLevel() const override;
 

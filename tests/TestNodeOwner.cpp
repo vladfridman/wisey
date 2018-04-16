@@ -73,9 +73,6 @@ struct NodeOwnerTest : public Test {
   mField2Expression(new NiceMock<MockExpression>()) {
     TestPrefix::generateIR(mContext);
 
-    mImportProfile = new ImportProfile(mPackage);
-    mContext.setImportProfile(mImportProfile);
-
     string elementInterfaceFullName = "systems.vos.wisey.compiler.tests.IElement";
     StructType* elementInterfaceStructType = StructType::create(mLLVMContext,
                                                                 elementInterfaceFullName);
@@ -431,3 +428,12 @@ TEST_F(NodeOwnerTest, createParameterVariableTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(NodeOwnerTest, injectDeathTest) {
+  ::Mock::AllowLeak(mField1Expression);
+  ::Mock::AllowLeak(mField2Expression);
+  InjectionArgumentList arguments;
+  EXPECT_EXIT(mComplicatedNode->getOwner()->inject(mContext, arguments, 3),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(3\\): Error: type "
+              "systems.vos.wisey.compiler.tests.NComplicatedNode\\* is not injectable");
+}

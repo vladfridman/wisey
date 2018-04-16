@@ -9,6 +9,7 @@
 #include "wisey/ArrayExactOwnerType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/Log.hpp"
 
 using namespace std;
 using namespace wisey;
@@ -147,4 +148,11 @@ const ArrayType* ArrayExactOwnerType::getArrayType(IRGenerationContext& context)
 
 const IReferenceType* ArrayExactOwnerType::getReference() const {
   return NULL;
+}
+
+llvm::Instruction* ArrayExactOwnerType::inject(IRGenerationContext& context,
+                                               const InjectionArgumentList injectionArgumentList,
+                                               int line) const {
+  repotNonInjectableType(context, this, line);
+  exit(1);
 }

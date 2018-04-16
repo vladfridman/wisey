@@ -12,6 +12,7 @@
 #include <gmock/gmock.h>
 
 #include <llvm/IR/Constants.h>
+#include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
 #include "wisey/ArraySpecificOwnerType.hpp"
@@ -35,6 +36,9 @@ struct ArraySpecificOwnerTypeTest : public Test {
   ArraySpecificOwnerType* mArraySpecificOwnerType;
   NiceMock<MockExpression> mFiveExpression;
   NiceMock<MockExpression> mTenExpression;
+  llvm::BasicBlock *mBasicBlock;
+  string mStringBuffer;
+  llvm::raw_string_ostream* mStringStream;
 
   ArraySpecificOwnerTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
     llvm::Constant* five = llvm::ConstantInt::get(llvm::Type::getInt64Ty(mLLVMContext), 5);
@@ -46,6 +50,19 @@ struct ArraySpecificOwnerTypeTest : public Test {
     mArraySpecificType = new ArraySpecificType(PrimitiveTypes::LONG_TYPE, dimensions);
     mArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, 1u);
     mArraySpecificOwnerType = new ArraySpecificOwnerType(mArraySpecificType);
+
+    llvm::FunctionType* functionType = llvm::FunctionType::get(llvm::Type::getVoidTy(mLLVMContext),
+                                                               false);
+    llvm::Function* function = llvm::Function::Create(functionType,
+                                                      llvm::GlobalValue::InternalLinkage,
+                                                      "test",
+                                                      mContext.getModule());
+
+    mBasicBlock = llvm::BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setBasicBlock(mBasicBlock);
+    mContext.getScopes().pushScope();
+    
+    mStringStream = new llvm::raw_string_ostream(mStringBuffer);
   }
   
   static void printFive(IRGenerationContext& context, iostream& stream) {
@@ -114,4 +131,33 @@ TEST_F(ArraySpecificOwnerTypeTest, printToStreamTest) {
 TEST_F(ArraySpecificOwnerTypeTest, getArrayTypeTest) {
   EXPECT_EQ(mContext.getArrayType(PrimitiveTypes::LONG_TYPE, 1u),
             mArraySpecificOwnerType->getArrayType(mContext));
+}
+
+TEST_F(ArraySpecificOwnerTypeTest, injectTest) {
+  InjectionArgumentList arguments;
+  mArraySpecificOwnerType->inject(mContext, arguments, 0);
+
+  *mStringStream << *mBasicBlock;
+
+  string expected =
+  "\nentry:"
+  "\n  %arraySize = alloca i64"
+  "\n  store i64 ptrtoint (i64* getelementptr (i64, i64* null, i32 1) to i64), i64* %arraySize"
+  "\n  %conv = bitcast i64 5 to i64"
+  "\n  %size = load i64, i64* %arraySize"
+  "\n  %0 = mul i64 %conv, %size"
+  "\n  %1 = add i64 %0, 24"
+  "\n  store i64 %1, i64* %arraySize"
+  "\n  %2 = load i64, i64* %arraySize"
+  "\n  %malloccall = tail call i8* @malloc(i64 %2)"
+  "\n  %3 = bitcast i8* %malloccall to i8*"
+  "\n  call void @llvm.memset.p0i8.i64(i8* %3, i8 0, i64 %2, i32 4, i1 false)"
+  "\n  %4 = bitcast i8* %malloccall to [0 x i64]*"
+  "\n  %5 = getelementptr [0 x i64], [0 x i64]* %4, i64 0, i64 1"
+  "\n  store i64 %conv, i64* %5"
+  "\n  %6 = getelementptr [0 x i64], [0 x i64]* %4, i64 0, i64 2"
+  "\n  store i64 %size, i64* %6"
+  "\n  %7 = bitcast i8* %malloccall to { i64, i64, i64, [0 x i64] }*\n";
+
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

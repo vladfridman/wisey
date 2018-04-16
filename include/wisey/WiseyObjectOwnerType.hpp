@@ -86,6 +86,10 @@ namespace wisey {
 
     void free(IRGenerationContext& context, llvm::Value* value, int line) const override;
 
+    llvm::Instruction* inject(IRGenerationContext& context,
+                              const InjectionArgumentList injectionArgumentList,
+                              int line) const override;
+
   };
   
 } /* namespace wisey */

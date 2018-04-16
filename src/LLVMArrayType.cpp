@@ -156,3 +156,10 @@ const wisey::ArrayType* LLVMArrayType::getArrayType(IRGenerationContext& context
 const LLVMPointerType* LLVMArrayType::getPointerType() const {
   return mPointerType;
 }
+
+llvm::Instruction* LLVMArrayType::inject(IRGenerationContext& context,
+                                         const InjectionArgumentList injectionArgumentList,
+                                         int line) const {
+  repotNonInjectableType(context, this, line);
+  exit(1);
+}

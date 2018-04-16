@@ -11,6 +11,7 @@
 #include <gtest/gtest.h>
 
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "MockExpression.hpp"
 #include "MockType.hpp"
 #include "wisey/InjectedField.hpp"
@@ -22,6 +23,7 @@ using namespace wisey;
 
 using ::testing::_;
 using ::testing::Invoke;
+using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
@@ -42,6 +44,8 @@ public:
   mInjectedType(new NiceMock<MockType>()),
   mExpression(new NiceMock<MockExpression>()),
   mName("mField") {
+    TestPrefix::generateIR(mContext);
+    
     mInjectionArgument = new InjectionArgument("withFoo", mExpression);
     mInjectionArgumentList.push_back(mInjectionArgument);
     ON_CALL(*mType, printToStream(_, _)).WillByDefault(Invoke(printType));
@@ -71,13 +75,10 @@ public:
 };
 
 TEST_F(InjectedFieldTest, fieldCreationTest) {
-  InjectedField field(mType, mInjectedType, mName, mInjectionArgumentList, 0);
+  InjectedField field(mType, mInjectedType, mName, mInjectionArgumentList, "", 0);
   
   EXPECT_EQ(field.getType(), mType);
-  EXPECT_EQ(field.getInjectedType(), mInjectedType);
   EXPECT_STREQ(field.getName().c_str(), "mField");
-  EXPECT_EQ(field.getInjectionArguments().size(), 1u);
-  EXPECT_EQ(field.getInjectionArguments().at(0), mInjectionArgument);
   EXPECT_TRUE(field.isAssignable());
 
   EXPECT_FALSE(field.isFixed());
@@ -87,7 +88,7 @@ TEST_F(InjectedFieldTest, fieldCreationTest) {
 }
 
 TEST_F(InjectedFieldTest, elementTypeTest) {
-  InjectedField field(mType, mInjectedType, mName, mInjectionArgumentList, 0);
+  InjectedField field(mType, mInjectedType, mName, mInjectionArgumentList, "", 0);
 
   EXPECT_FALSE(field.isConstant());
   EXPECT_TRUE(field.isField());
@@ -98,11 +99,31 @@ TEST_F(InjectedFieldTest, elementTypeTest) {
 }
 
 TEST_F(InjectedFieldTest, fieldPrintToStreamTest) {
-  InjectedField field(mType, mInjectedType, mName, mInjectionArgumentList, 0);
+  InjectedField field(mType, mInjectedType, mName, mInjectionArgumentList, "", 0);
 
   stringstream stringStream;
   field.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("  inject MInjectedObject* mField.withFoo(expression);\n",
                stringStream.str().c_str());
+}
+
+TEST_F(InjectedFieldTest, injectTest) {
+  InjectedField field(mType, mInjectedType, mName, mInjectionArgumentList, "", 0);
+  EXPECT_CALL(*mInjectedType, inject(_, _, _));
+
+  field.inject(mContext);
+}
+
+TEST_F(InjectedFieldTest, injectDeathTest) {
+  Mock::AllowLeak(mType);
+  Mock::AllowLeak(mInjectedType);
+  Mock::AllowLeak(mExpression);
+
+  InjectedField field(mType, mInjectedType, mName, mInjectionArgumentList, "/tmp/source.yz", 5);
+  ON_CALL(*mInjectedType, isReference()).WillByDefault(Return(true));
+  
+  EXPECT_EXIT(field.inject(mContext),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(5\\): Error: Injected fields must have owner type denoted by '*'");
 }

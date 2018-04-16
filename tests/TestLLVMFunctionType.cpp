@@ -13,6 +13,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMFunctionType.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
@@ -29,6 +30,8 @@ struct LLVMFunctionTypeTest : public Test {
   LLVMFunctionType* mLLVMFunctionType;
   
   LLVMFunctionTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     vector<const IType*> argumentTypes;
     argumentTypes.push_back(LLVMPrimitiveTypes::I16);
     argumentTypes.push_back(LLVMPrimitiveTypes::I64->getPointerType());
@@ -111,4 +114,12 @@ TEST_F(LLVMFunctionTypeTest, printToStreamTest) {
   mLLVMFunctionType->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("::llvm::i8 (::llvm::i16, ::llvm::i64::pointer)", stringStream.str().c_str());
+}
+
+TEST_F(LLVMFunctionTypeTest, injectDeathTest) {
+  InjectionArgumentList arguments;
+  EXPECT_EXIT(mLLVMFunctionType->inject(mContext, arguments, 3),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(3\\): Error: type "
+              "::llvm::i8 \\(::llvm::i16, ::llvm::i64::pointer\\) is not injectable");
 }

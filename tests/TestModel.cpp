@@ -843,6 +843,17 @@ TEST_F(ModelTest, createParameterVariableTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(ModelTest, injectDeathTest) {
+  ::Mock::AllowLeak(mField1Expression);
+  ::Mock::AllowLeak(mField2Expression);
+  ::Mock::AllowLeak(mThreadVariable);
+  InjectionArgumentList arguments;
+  EXPECT_EXIT(mModel->inject(mContext, arguments, 3),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(3\\): Error: type systems.vos.wisey.compiler.tests.MSquare "
+              "is not injectable");
+}
+
 TEST_F(TestFileRunner, modelBuilderObjectArgumentAutocastRunTest) {
   runFile("tests/samples/test_model_builder_object_argument_autocast.yz", "2017");
 }

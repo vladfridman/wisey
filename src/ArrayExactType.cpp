@@ -12,6 +12,7 @@
 #include "wisey/ArrayExactOwnerType.hpp"
 #include "wisey/ArrayExactType.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/Log.hpp"
 
 using namespace std;
 using namespace wisey;
@@ -162,4 +163,11 @@ void ArrayExactType::createParameterVariable(IRGenerationContext& context,
 
 const wisey::ArrayType* ArrayExactType::getArrayType(IRGenerationContext& context) const {
   return context.getArrayType(mElementType, getNumberOfDimensions());
+}
+
+llvm::Instruction* ArrayExactType::inject(IRGenerationContext& context,
+                                          const InjectionArgumentList injectionArgumentList,
+                                          int line) const {
+  repotNonInjectableType(context, this, line);
+  exit(1);
 }

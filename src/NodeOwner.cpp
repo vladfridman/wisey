@@ -167,3 +167,10 @@ const wisey::ArrayType* NodeOwner::getArrayType(IRGenerationContext& context) co
   ArrayType::reportNonArrayType();
   exit(1);
 }
+
+Instruction* NodeOwner::inject(IRGenerationContext& context,
+                               const InjectionArgumentList injectionArgumentList,
+                               int line) const {
+  repotNonInjectableType(context, this, line);
+  exit(1);
+}

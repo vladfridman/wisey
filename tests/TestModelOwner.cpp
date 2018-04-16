@@ -73,9 +73,6 @@ struct ModelOwnerTest : public Test {
   mField3Expression(new NiceMock<MockExpression>()) {
     TestPrefix::generateIR(mContext);
     
-    mImportProfile = new ImportProfile(mPackage);
-    mContext.setImportProfile(mImportProfile);
-    
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -422,6 +419,17 @@ TEST_F(ModelOwnerTest, createParameterVariableTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(ModelOwnerTest, injectDeathTest) {
+  ::Mock::AllowLeak(mField1Expression);
+  ::Mock::AllowLeak(mField2Expression);
+  ::Mock::AllowLeak(mField3Expression);
+  InjectionArgumentList arguments;
+  EXPECT_EXIT(mModel->getOwner()->inject(mContext, arguments, 3),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(3\\): Error: type "
+              "systems.vos.wisey.compiler.tests.MSquare\\* is not injectable");
 }
 
 TEST_F(TestFileRunner, ownerAssignToReferenceRunTest) {

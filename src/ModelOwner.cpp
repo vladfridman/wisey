@@ -166,3 +166,10 @@ const wisey::ArrayType* ModelOwner::getArrayType(IRGenerationContext& context) c
   ArrayType::reportNonArrayType();
   exit(1);
 }
+
+Instruction* ModelOwner::inject(IRGenerationContext& context,
+                                const InjectionArgumentList injectionArgumentList,
+                                int line) const {
+  repotNonInjectableType(context, this, line);
+  exit(1);
+}

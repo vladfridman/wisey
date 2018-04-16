@@ -117,6 +117,10 @@ namespace wisey {
     
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
 
+    llvm::Instruction* inject(IRGenerationContext& context,
+                              const InjectionArgumentList injectionArgumentList,
+                              int line) const override;
+
     /**
      * Prints an error that type is not an array type
      */

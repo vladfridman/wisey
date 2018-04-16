@@ -13,6 +13,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "TestPrefix.hpp"
 #include "wisey/ArrayExactType.hpp"
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -30,6 +31,8 @@ struct ArrayExactTypeTest : public Test {
   ArrayExactType* mMultiDimentionalArrayExactType;
   
   ArrayExactTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     list<unsigned long> dimensions;
     dimensions.push_back(5u);
     mArrayExactType = new ArrayExactType(PrimitiveTypes::LONG_TYPE, dimensions);
@@ -110,4 +113,11 @@ TEST_F(ArrayExactTypeTest, isObjectTest) {
 TEST_F(ArrayExactTypeTest, getArrayTypeTest) {
   EXPECT_EQ(mContext.getArrayType(PrimitiveTypes::LONG_TYPE, 2u),
             mMultiDimentionalArrayExactType->getArrayType(mContext));
+}
+
+TEST_F(ArrayExactTypeTest, injectDeathTest) {
+  InjectionArgumentList arguments;
+  EXPECT_EXIT(mArrayExactType->inject(mContext, arguments, 3),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(3\\): Error: type long\\[5\\] is not injectable");
 }

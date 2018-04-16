@@ -139,3 +139,10 @@ const LLVMPointerType* LLVMi32Type::getPointerType() const {
 const ILLVMTypeSpecifier* LLVMi32Type::newTypeSpecifier() const {
   return new LLVMPrimitiveTypeSpecifier(this);
 }
+
+Instruction* LLVMi32Type::inject(IRGenerationContext& context,
+                                 const InjectionArgumentList injectionArgumentList,
+                                 int line) const {
+  repotNonInjectableType(context, this, line);
+  exit(1);
+}

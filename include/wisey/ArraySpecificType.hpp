@@ -112,6 +112,10 @@ namespace wisey {
     
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
 
+    llvm::Instruction* inject(IRGenerationContext& context,
+                              const InjectionArgumentList injectionArgumentList,
+                              int line) const override;
+
   private:
     
     void checkDimensionType(IRGenerationContext& context, const IType* type) const;

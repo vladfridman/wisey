@@ -20,8 +20,10 @@ namespace wisey {
   class InjectedField : public IField {
     const IType* mType;
     const IType* mInjectedType;
+    bool mIsArrayType;
     std::string mName;
     InjectionArgumentList mInjectionArgumentList;
+    std::string mSourceFileName;
     int mLine;
     
   public:
@@ -30,19 +32,15 @@ namespace wisey {
                   const IType* injectedType,
                   std::string name,
                   InjectionArgumentList injectionArgumentList,
+                  std::string sourceFileName,
                   int line);
     
     ~InjectedField();
     
     /**
-     * Returns type that should be injected and assigned to the field when injecting an object
+     * Injects the field type and returns the injected value
      */
-    const IType* getInjectedType() const;
-    
-    /**
-     * Returns field injection arguments for injected fields
-     */
-    InjectionArgumentList getInjectionArguments() const;
+    llvm::Value* inject(IRGenerationContext& context) const;
     
     std::string getName() const override;
     

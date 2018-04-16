@@ -172,3 +172,10 @@ const wisey::ArrayType* LongType::getArrayType(IRGenerationContext& context) con
 const PrimitiveTypeSpecifier* LongType::newTypeSpecifier() const {
   return new PrimitiveTypeSpecifier(this);
 }
+
+Instruction* LongType::inject(IRGenerationContext& context,
+                              const InjectionArgumentList injectionArgumentList,
+                              int line) const {
+  repotNonInjectableType(context, this, line);
+  exit(1);
+}

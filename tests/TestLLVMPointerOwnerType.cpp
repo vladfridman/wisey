@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockConcreteObjectType.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMPointerOwnerType.hpp"
 #include "wisey/LLVMPointerType.hpp"
@@ -43,6 +44,8 @@ struct LLVMPointerOwnerTypeTest : public Test {
 public:
   
   LLVMPointerOwnerTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
     Function* function = Function::Create(functionType,
@@ -169,4 +172,13 @@ TEST_F(LLVMPointerOwnerTypeTest, printToStreamTest) {
   mLLVMPointerOwnerType->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("::llvm::i8::pointer*", stringStream.str().c_str());
+}
+
+TEST_F(LLVMPointerOwnerTypeTest, injectDeathTest) {
+  ::Mock::AllowLeak(&mConcreteObjectType);
+  
+  InjectionArgumentList arguments;
+  EXPECT_EXIT(mLLVMPointerOwnerType->inject(mContext, arguments, 3),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(3\\): Error: type ::llvm::i8::pointer\\* is not injectable");
 }

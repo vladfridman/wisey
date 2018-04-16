@@ -15,6 +15,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "MockConcreteObjectType.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -39,6 +40,8 @@ struct ArrayOwnerTypeTest : public Test {
   llvm::raw_string_ostream* mStringStream;
 
   ArrayOwnerTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     mArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, 1u);
     mArrayOwnerType = new ArrayOwnerType(mArrayType);
 
@@ -150,4 +153,11 @@ TEST_F(ArrayOwnerTypeTest, createParameterVariableTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(ArrayOwnerTypeTest, injectDeathTest) {
+  InjectionArgumentList arguments;
+  EXPECT_EXIT(mArrayOwnerType->inject(mContext, arguments, 3),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(3\\): Error: type long\\[\\]\\* is not injectable");
 }

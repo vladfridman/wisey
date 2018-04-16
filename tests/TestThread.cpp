@@ -80,9 +80,6 @@ struct ThreadTest : public Test {
   ThreadTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     
-    mImportProfile = new ImportProfile(mPackage);
-    mContext.setImportProfile(mImportProfile);
-    
     vector<Type*> types;
     types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                     ->getPointerTo()->getPointerTo());
@@ -172,7 +169,12 @@ struct ThreadTest : public Test {
     vector<IField*> nonInjectableFieldThreadFields;
     InjectionArgumentList fieldArguments;
     InjectedField* injectedField =
-    new InjectedField(PrimitiveTypes::INT_TYPE, NULL, "left", fieldArguments, 0);
+    new InjectedField(PrimitiveTypes::INT_TYPE,
+                      PrimitiveTypes::INT_TYPE,
+                      "left",
+                      fieldArguments,
+                      mContext.getImportProfile()->getSourceFileName(),
+                      3);
     nonInjectableFieldThreadFields.push_back(injectedField);
     mNonInjectableFieldThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
                                                   nonInjectableFieldThreadFullName,
@@ -516,9 +518,9 @@ TEST_F(ThreadTest, injectNonInjectableTypeDeathTest) {
   InjectionArgumentList injectionArguments;
   Mock::AllowLeak(mThreadVariable);
   
-  EXPECT_EXIT(mNonInjectableFieldThread->inject(mContext, injectionArguments, 0),
+  EXPECT_EXIT(mNonInjectableFieldThread->inject(mContext, injectionArguments, 3),
               ::testing::ExitedWithCode(1),
-              "Error: Attempt to inject a variable that is not of injectable type");
+              "/tmp/source.yz\\(3\\): Error: type int is not injectable");
 }
 
 TEST_F(ThreadTest, notWellFormedInjectionArgumentsDeathTest) {
@@ -590,10 +592,11 @@ TEST_F(ThreadTest, injectFieldTest) {
   vector<IField*> parentFields;
   InjectionArgumentList fieldArguments;
   parentFields.push_back(new InjectedField(childThread->getOwner(),
-                                           NULL,
+                                           childThread->getOwner(),
                                            "mChild",
                                            fieldArguments,
-                                           0));
+                                           mContext.getImportProfile()->getSourceFileName(),
+                                           3));
   Thread* parentThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
                                            parentFullName,
                                            parentStructType);

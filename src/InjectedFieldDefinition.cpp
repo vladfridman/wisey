@@ -41,9 +41,17 @@ IField* InjectedFieldDefinition::define(IRGenerationContext& context,
     injectedType = fieldType;
     fieldType = ((const ArraySpecificOwnerType*) fieldType)->getArraySpecificType()
     ->getArrayType(context)->getOwner();
+  } else {
+    injectedType = fieldType;
   }
   
-  return new InjectedField(fieldType, injectedType, mName, mInjectionArgumentList, mLine);
+  string sourceFile = context.getImportProfile()->getSourceFileName();
+  return new InjectedField(fieldType,
+                           injectedType,
+                           mName,
+                           mInjectionArgumentList,
+                           sourceFile,
+                           mLine);
 }
 
 bool InjectedFieldDefinition::isConstant() const {

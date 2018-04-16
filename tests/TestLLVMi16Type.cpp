@@ -16,6 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockConcreteObjectType.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMi16Type.hpp"
 #include "wisey/LLVMi8Type.hpp"
@@ -38,6 +39,8 @@ struct LLVMi16TypeTest : public Test {
   LLVMi16Type mLLVMi16Type;
   
   LLVMi16TypeTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
     Function* function = Function::Create(functionType,
@@ -101,3 +104,9 @@ TEST_F(LLVMi16TypeTest, getPointerTypeTest) {
   EXPECT_EQ(Type::getInt16Ty(mLLVMContext)->getPointerTo(), pointerType->getLLVMType(mContext));
 }
 
+TEST_F(LLVMi16TypeTest, injectDeathTest) {
+  InjectionArgumentList arguments;
+  EXPECT_EXIT(mLLVMi16Type.inject(mContext, arguments, 3),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(3\\): Error: type ::llvm::i16 is not injectable");
+}

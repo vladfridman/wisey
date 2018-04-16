@@ -176,3 +176,10 @@ const wisey::ArrayType* CharType::getArrayType(IRGenerationContext& context) con
 const PrimitiveTypeSpecifier* CharType::newTypeSpecifier() const {
   return new PrimitiveTypeSpecifier(this);
 }
+
+Instruction* CharType::inject(IRGenerationContext& context,
+                              const InjectionArgumentList injectionArgumentList,
+                              int line) const {
+  repotNonInjectableType(context, this, line);
+  exit(1);
+}

@@ -280,3 +280,10 @@ const wisey::ArrayType* StaticMethod::getArrayType(IRGenerationContext& context)
   ArrayType::reportNonArrayType();
   exit(1);
 }
+
+Instruction* StaticMethod::inject(IRGenerationContext& context,
+                                  const InjectionArgumentList injectionArgumentList,
+                                  int line) const {
+  repotNonInjectableType(context, this, line);
+  exit(1);
+}

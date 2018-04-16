@@ -16,6 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockConcreteObjectType.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
@@ -40,6 +41,8 @@ struct LLVMStructTypeTest : public Test {
   BasicBlock* mBasicBlock;
   
   LLVMStructTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     StructType* anotherStructType = StructType::create(mLLVMContext, "anotherstruct");
     mAnotherLLVMStructType = LLVMStructType::newLLVMStructType(anotherStructType);
     
@@ -127,4 +130,11 @@ TEST_F(LLVMStructTypeTest, printToStreamTest) {
                "  ::llvm::struct::anotherstruct,\n"
                "}\n",
                stringStream.str().c_str());
+}
+
+TEST_F(LLVMStructTypeTest, injectDeathTest) {
+  InjectionArgumentList arguments;
+  EXPECT_EXIT(mLLVMStructType->inject(mContext, arguments, 3),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(3\\): Error: type ::llvm::struct::mystruct is not injectable");
 }

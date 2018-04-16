@@ -139,3 +139,10 @@ TEST_F(VoidTypeTest, isObjectTest) {
   EXPECT_FALSE(mVoidType.isNode());
   EXPECT_FALSE(mVoidType.isThread());
 }
+
+TEST_F(VoidTypeTest, injectDeathTest) {
+  InjectionArgumentList arguments;
+  EXPECT_EXIT(mVoidType.inject(mContext, arguments, 3),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(3\\): Error: type void is not injectable");
+}

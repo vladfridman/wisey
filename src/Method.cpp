@@ -318,3 +318,11 @@ const wisey::ArrayType* Method::getArrayType(IRGenerationContext& context) const
   ArrayType::reportNonArrayType();
   exit(1);
 }
+
+Instruction* Method::inject(IRGenerationContext& context,
+                            const InjectionArgumentList injectionArgumentList,
+                            int line) const {
+  repotNonInjectableType(context, this, line);
+  exit(1);
+}
+

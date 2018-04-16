@@ -85,9 +85,6 @@ struct ControllerTest : public Test {
   ControllerTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
 
-    mImportProfile = new ImportProfile(mPackage);
-    mContext.setImportProfile(mImportProfile);
-
     string calculatorFullName = "systems.vos.wisey.compiler.tests.ICalculator";
     StructType* calculatorIinterfaceStructType = StructType::create(mLLVMContext,
                                                                     calculatorFullName);
@@ -281,10 +278,11 @@ struct ControllerTest : public Test {
     vector<IField*> doublerFields;
     InjectionArgumentList fieldArguments;
     doublerFields.push_back(new InjectedField(PrimitiveTypes::INT_TYPE,
-                                              NULL,
+                                              PrimitiveTypes::INT_TYPE,
                                               "left",
                                               fieldArguments,
-                                              0));
+                                              mContext.getImportProfile()->getSourceFileName(),
+                                              3));
     mDoublerController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                    doublerFullName,
                                                    doublerStructType);
@@ -678,9 +676,9 @@ TEST_F(ControllerTest, injectNonInjectableTypeDeathTest) {
   InjectionArgumentList injectionArguments;
   Mock::AllowLeak(mThreadVariable);
 
-  EXPECT_EXIT(mDoublerController->inject(mContext, injectionArguments, 0),
+  EXPECT_EXIT(mDoublerController->inject(mContext, injectionArguments, 3),
               ::testing::ExitedWithCode(1),
-              "Error: Attempt to inject a variable that is not of injectable type");
+              "/tmp/source.yz\\(3\\): Error: type int is not injectable");
 }
 
 TEST_F(ControllerTest, notWellFormedInjectionArgumentsDeathTest) {
@@ -765,10 +763,11 @@ TEST_F(ControllerTest, injectFieldTest) {
   vector<IField*> parentFields;
   InjectionArgumentList fieldArguments;
   parentFields.push_back(new InjectedField(childController->getOwner(),
-                                           NULL,
+                                           childController->getOwner(),
                                            "mChild", 
                                            fieldArguments,
-                                           0));
+                                           mContext.getImportProfile()->getSourceFileName(),
+                                           3));
   Controller* parentController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                            parentFullName,
                                                            parentStructType);
@@ -941,6 +940,6 @@ TEST_F(TestFileRunner, injectArrayFieldRunTest) {
 TEST_F(TestFileRunner, injectNonOwnerRunDeathTest) {
   expectFailCompile("tests/samples/test_inject_non_owner_run_death_test.yz",
                     1,
-                    "Error: Injected fields must have owner type denoted by '\\*'");
+                    "tests/samples/test_inject_non_owner_run_death_test.yz\\(9\\): Error: Injected fields must have owner type denoted by '\\*'");
 }
 

@@ -16,6 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockConcreteObjectType.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMVoidType.hpp"
 
@@ -36,6 +37,8 @@ struct LLVMVoidTypeTest : public Test {
   LLVMVoidType mLLVMVoidType;
   
   LLVMVoidTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
     Function* function = Function::Create(functionType,
@@ -82,3 +85,9 @@ TEST_F(LLVMVoidTypeTest, printToStreamTest) {
   EXPECT_STREQ("::llvm::void", stringStream.str().c_str());
 }
 
+TEST_F(LLVMVoidTypeTest, injectDeathTest) {
+  InjectionArgumentList arguments;
+  EXPECT_EXIT(mLLVMVoidType.inject(mContext, arguments, 3),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(3\\): Error: type ::llvm::void is not injectable");
+}

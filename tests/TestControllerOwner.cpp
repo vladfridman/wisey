@@ -55,9 +55,6 @@ struct ControllerOwnerTest : public Test {
   ControllerOwnerTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     
-    mImportProfile = new ImportProfile(mPackage);
-    mContext.setImportProfile(mImportProfile);
-    
     string vehicleFullName = "systems.vos.wisey.compiler.tests.IVehicle";
     StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, vehicleFullName);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
@@ -69,7 +66,11 @@ struct ControllerOwnerTest : public Test {
                                                 interfaceElements);
 
     string additorFullName = "systems.vos.wisey.compiler.tests.CAdditor";
-    StructType *additorStructType = StructType::create(mLLVMContext, additorFullName);
+    StructType* additorStructType = StructType::create(mLLVMContext, additorFullName);
+    vector<Type*> additorTypes;
+    additorTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                           ->getPointerTo()->getPointerTo());
+    additorStructType->setBody(additorTypes);
     mAdditorController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                    additorFullName,
                                                    additorStructType);
@@ -315,6 +316,32 @@ TEST_F(ControllerOwnerTest, createParameterVariableTest) {
   "\nentry:"
   "\n  %var = alloca %systems.vos.wisey.compiler.tests.CMultiplier*"
   "\n  store %systems.vos.wisey.compiler.tests.CMultiplier* null, %systems.vos.wisey.compiler.tests.CMultiplier** %var\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
+TEST_F(ControllerOwnerTest, injectTest) {
+  InjectionArgumentList injectionArguments;
+  Value* result = mAdditorController->getOwner()->inject(mContext, injectionArguments, 0);
+  
+  EXPECT_NE(result, nullptr);
+  
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.CAdditor.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* null, i32 1) to i64))"
+  "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.CAdditor.refCounter*"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CAdditor.refCounter* %injectvar to i8*"
+  "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.CAdditor.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* null, i32 1) to i64), i32 4, i1 false)"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* %injectvar, i32 0, i32 1"
+  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.CAdditor* %1 to i8*"
+  "\n  %3 = getelementptr i8, i8* %2, i64 0"
+  "\n  %4 = bitcast i8* %3 to i32 (...)***"
+  "\n  %5 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CAdditor.vtable, i32 0, i32 0, i32 0"
+  "\n  %6 = bitcast i8** %5 to i32 (...)**"
+  "\n  store i32 (...)** %6, i32 (...)*** %4"
+  "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

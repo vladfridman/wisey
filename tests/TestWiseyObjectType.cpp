@@ -16,6 +16,7 @@
 
 #include "MockConcreteObjectType.hpp"
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/WiseyObjectOwnerType.hpp"
 #include "wisey/WiseyObjectType.hpp"
@@ -46,6 +47,8 @@ struct WiseyObjectTypeTest : public Test {
 public:
   
   WiseyObjectTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
     Function* function = Function::Create(functionType,
@@ -183,6 +186,15 @@ TEST_F(WiseyObjectTypeTest, printToStreamTest) {
 
 TEST_F(WiseyObjectTypeTest, getOwnerTest) {
   EXPECT_EQ(WiseyObjectOwnerType::WISEY_OBJECT_OWNER_TYPE, mWiseyObjectType->getOwner());
+}
+
+TEST_F(WiseyObjectTypeTest, injectDeathTest) {
+  ::Mock::AllowLeak(&mConcreteObjectType);
+  
+  InjectionArgumentList arguments;
+  EXPECT_EXIT(mWiseyObjectType->inject(mContext, arguments, 3),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(3\\): Error: type ::wisey::object is not injectable");
 }
 
 TEST_F(TestFileRunner, referenceCountDecrementedForWiseyObjectTypeVariableTest) {

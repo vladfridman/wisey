@@ -183,3 +183,12 @@ TEST_F(IntTypeTest, createParameterVariableTest) {
   
   EXPECT_NE(variable, nullptr);
 }
+
+TEST_F(IntTypeTest, injectDeathTest) {
+  Mock::AllowLeak(&mConcreteObjectType);
+  
+  InjectionArgumentList arguments;
+  EXPECT_EXIT(mIntType.inject(mContext, arguments, 3),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(3\\): Error: type int is not injectable");
+}

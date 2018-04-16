@@ -166,3 +166,9 @@ const wisey::ArrayType* ThreadOwner::getArrayType(IRGenerationContext& context) 
   ArrayType::reportNonArrayType();
   exit(1);
 }
+
+Instruction* ThreadOwner::inject(IRGenerationContext &context,
+                                 const InjectionArgumentList injectionArgumentList,
+                                 int line) const {
+  return mThread->inject(context, injectionArgumentList, line);
+}

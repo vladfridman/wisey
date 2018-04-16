@@ -15,6 +15,7 @@
 #include <llvm/IR/Value.h>
 
 #include "wisey/IPrintable.hpp"
+#include "wisey/InjectionArgument.hpp"
 
 namespace wisey {
   
@@ -144,6 +145,13 @@ namespace wisey {
                                          llvm::Value* value) const = 0;
     
     /**
+     * Inject instance of this injectable type with given arguments, gives error if not injectable
+     */
+    virtual llvm::Value* inject(IRGenerationContext& context,
+                                const InjectionArgumentList injectionArgumentList,
+                                int line) const = 0;
+
+    /**
      * Returns ArrayType if this type has one associated with it otherwise reports an error
      */
     virtual const ArrayType* getArrayType(IRGenerationContext& context) const = 0;
@@ -157,6 +165,11 @@ namespace wisey {
      * Tells whether the given type is a concrete object type such as model, node or controller
      */
     static bool isConcreteObjectType(const IType* type);
+    
+    /**
+     * Print an error that this type is not injectable
+     */
+    static void repotNonInjectableType(IRGenerationContext& context, const IType* type, int line);
     
   };
   

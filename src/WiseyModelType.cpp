@@ -170,3 +170,10 @@ void WiseyModelType::decrementReferenceCount(IRGenerationContext& context, Value
 const IOwnerType* WiseyModelType::getOwner() const {
   return WiseyModelOwnerType::WISEY_MODEL_OWNER_TYPE;
 }
+
+Instruction* WiseyModelType::inject(IRGenerationContext& context,
+                                    const InjectionArgumentList injectionArgumentList,
+                                    int line) const {
+  repotNonInjectableType(context, this, line);
+  exit(1);
+}

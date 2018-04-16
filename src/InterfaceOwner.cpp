@@ -177,3 +177,9 @@ const wisey::ArrayType* InterfaceOwner::getArrayType(IRGenerationContext& contex
   ArrayType::reportNonArrayType();
   exit(1);
 }
+
+Value* InterfaceOwner::inject(IRGenerationContext &context,
+                              const InjectionArgumentList injectionArgumentList,
+                              int line) const {
+  return mInterface->inject(context, injectionArgumentList, line);
+}

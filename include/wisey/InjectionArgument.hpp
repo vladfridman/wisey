@@ -13,14 +13,14 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/IType.hpp"
 #include "wisey/IPrintable.hpp"
 
 namespace wisey {
   
-  class IExpression;
   class IRGenerationContext;
   class IConcreteObjectType;
+  class IExpression;
+  class IType;
   
   /**
    * Represents one argument for controller injection.

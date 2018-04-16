@@ -31,7 +31,7 @@ namespace wisey {
      * Return exact array type that this type is owner of
      */
     const ArrayExactType* getArrayExactType() const;
-    
+
     void free(IRGenerationContext& context, llvm::Value* arrayPointer, int line) const override;
     
     std::string getTypeName() const override;
@@ -88,6 +88,10 @@ namespace wisey {
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
 
     const IReferenceType* getReference() const override;
+    
+    llvm::Instruction* inject(IRGenerationContext& context,
+                              const std::vector<InjectionArgument*> injectionArgumentList,
+                              int line) const override;
 
   };
   

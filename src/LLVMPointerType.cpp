@@ -170,3 +170,10 @@ const LLVMPointerType* LLVMPointerType::getPointerType() const {
   Log::e_deprecated("Three and more degree llvm pointers are not supported");
   exit(1);
 }
+
+llvm::Instruction* LLVMPointerType::inject(IRGenerationContext& context,
+                                           const InjectionArgumentList injectionArgumentList,
+                                           int line) const {
+  repotNonInjectableType(context, this, line);
+  exit(1);
+}

@@ -14,6 +14,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/NullType.hpp"
@@ -34,6 +35,8 @@ struct NullTypeTest : public Test {
   raw_string_ostream* mStringStream;
   
   NullTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);
     mFunction = Function::Create(functionType,
                                  GlobalValue::InternalLinkage,
@@ -122,4 +125,11 @@ TEST_F(NullTypeTest, isObjectTest) {
   EXPECT_FALSE(NullType::NULL_TYPE->isModel());
   EXPECT_FALSE(NullType::NULL_TYPE->isNode());
   EXPECT_FALSE(NullType::NULL_TYPE->isThread());
+}
+
+TEST_F(NullTypeTest, injectDeathTest) {
+  InjectionArgumentList arguments;
+  EXPECT_EXIT(NullType::NULL_TYPE->inject(mContext, arguments, 3),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(3\\): Error: type null is not injectable");
 }

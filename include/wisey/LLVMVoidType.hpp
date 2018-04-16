@@ -84,6 +84,10 @@ namespace wisey {
 
     const ILLVMTypeSpecifier* newTypeSpecifier() const override;
     
+    llvm::Instruction* inject(IRGenerationContext& context,
+                              const InjectionArgumentList injectionArgumentList,
+                              int line) const override;
+
   };
   
 } /* namespace wisey */

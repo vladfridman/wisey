@@ -6,7 +6,9 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/IRGenerationContext.hpp"
 #include "wisey/IType.hpp"
+#include "wisey/Log.hpp"
 
 using namespace wisey;
 
@@ -17,4 +19,8 @@ bool IType::isObjectType(const IType* type) {
 
 bool IType::isConcreteObjectType(const IType* type) {
   return isObjectType(type) && !type->isInterface();
+}
+
+void IType::repotNonInjectableType(IRGenerationContext& context, const IType* type, int line) {
+  Log::e(context.getImportProfile(), line, "type " + type->getTypeName() + " is not injectable");
 }

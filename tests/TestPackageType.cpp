@@ -14,6 +14,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PackageType.hpp"
 
@@ -30,6 +31,8 @@ struct PackageTypeTest : public Test {
   PackageType* mPackageType;
   
   PackageTypeTest() {
+    TestPrefix::generateIR(mContext);
+    
     mPackageType = new PackageType(mPackage);
   }
 };
@@ -58,4 +61,12 @@ TEST_F(PackageTypeTest, isObjectTest) {
   EXPECT_FALSE(mPackageType->isInterface());
   EXPECT_FALSE(mPackageType->isModel());
   EXPECT_FALSE(mPackageType->isNode());
+}
+
+TEST_F(PackageTypeTest, injectDeathTest) {
+  InjectionArgumentList arguments;
+  EXPECT_EXIT(mPackageType->inject(mContext, arguments, 3),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(3\\): Error: type systems.vos.wisey.compiler.tests "
+              "is not injectable");
 }

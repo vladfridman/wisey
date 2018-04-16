@@ -138,3 +138,10 @@ const LLVMPointerType* LLVMi16Type::getPointerType() const {
 const ILLVMTypeSpecifier* LLVMi16Type::newTypeSpecifier() const {
   return new LLVMPrimitiveTypeSpecifier(this);
 }
+
+Instruction* LLVMi16Type::inject(IRGenerationContext& context,
+                                 const InjectionArgumentList injectionArgumentList,
+                                 int line) const {
+  repotNonInjectableType(context, this, line);
+  exit(1);
+}

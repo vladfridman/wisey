@@ -187,3 +187,12 @@ TEST_F(StringTypeTest, createParameterVariableTest) {
   
   EXPECT_NE(variable, nullptr);
 }
+
+TEST_F(StringTypeTest, injectDeathTest) {
+  Mock::AllowLeak(&mConcreteObjectType);
+  
+  InjectionArgumentList arguments;
+  EXPECT_EXIT(mStringType.inject(mContext, arguments, 3),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(3\\): Error: type string is not injectable");
+}

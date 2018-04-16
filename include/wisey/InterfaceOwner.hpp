@@ -85,6 +85,10 @@ namespace wisey {
     
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
 
+    llvm::Value* inject(IRGenerationContext& context,
+                        const InjectionArgumentList injectionArgumentList,
+                        int line) const override;
+
   };
   
 } /* namespace wisey */

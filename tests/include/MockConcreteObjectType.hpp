@@ -16,6 +16,7 @@
 
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/InjectionArgument.hpp"
 
 /**
  * Defines a mock object for IExpression
@@ -91,6 +92,9 @@ public:
                                                     std::string name,
                                                     llvm::Value* value));
   MOCK_CONST_METHOD1(getArrayType, wisey::ArrayType* (wisey::IRGenerationContext&));
+  MOCK_CONST_METHOD3(inject, llvm::Instruction* (wisey::IRGenerationContext&,
+                                                 const wisey::InjectionArgumentList,
+                                                 int));
 };
 
 #endif /* MockConcreteObjectType_h */

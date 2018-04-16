@@ -16,6 +16,7 @@
 
 #include "MockConcreteObjectType.hpp"
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/ArrayType.hpp"
 #include "wisey/FixedField.hpp"
@@ -26,6 +27,7 @@ using namespace std;
 using namespace wisey;
 
 using ::testing::_;
+using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
@@ -41,6 +43,8 @@ struct ArrayTypeTest : public Test {
   NiceMock<MockConcreteObjectType> mConcreteObjectType;
 
   ArrayTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     vector<unsigned long> dimensions;
     mArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, 1u);
     mMultiDimentionalArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, 2u);
@@ -163,6 +167,14 @@ TEST_F(ArrayTypeTest, createParameterVariableTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(ArrayTypeTest, injectDeathTest) {
+  Mock::AllowLeak(&mConcreteObjectType);
+  InjectionArgumentList arguments;
+  EXPECT_EXIT(mArrayType->inject(mContext, arguments, 3),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(3\\): Error: type long\\[\\] is not injectable");
 }
 
 TEST_F(TestFileRunner, llvmArrayRunTest) {

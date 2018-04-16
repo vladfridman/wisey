@@ -13,6 +13,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMArrayType.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
@@ -29,6 +30,8 @@ struct LLVMArrayTypeTest : public Test {
   LLVMArrayType* mMultiDimentionalLLVMArrayType;
   
   LLVMArrayTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     list<unsigned long> dimensions;
     dimensions.push_back(5u);
     mLLVMArrayType = mContext.getLLVMArrayType(LLVMPrimitiveTypes::I8, dimensions);
@@ -112,4 +115,12 @@ TEST_F(LLVMArrayTypeTest, printToStreamTest) {
   mLLVMArrayType->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("::llvm::array(::llvm::i8, 5)", stringStream.str().c_str());
+}
+
+TEST_F(LLVMArrayTypeTest, injectDeathTest) {
+  InjectionArgumentList arguments;
+  EXPECT_EXIT(mLLVMArrayType->inject(mContext, arguments, 3),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(3\\): Error: type ::llvm::array\\(::llvm::i8, 5\\) "
+              "is not injectable");
 }

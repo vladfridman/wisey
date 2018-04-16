@@ -129,3 +129,10 @@ const wisey::ArrayType* VoidType::getArrayType(IRGenerationContext& context) con
 const PrimitiveTypeSpecifier* VoidType::newTypeSpecifier() const {
   return new PrimitiveTypeSpecifier(this);
 }
+
+Instruction* VoidType::inject(IRGenerationContext& context,
+                              const InjectionArgumentList injectionArgumentList,
+                              int line) const {
+  repotNonInjectableType(context, this, line);
+  exit(1);
+}

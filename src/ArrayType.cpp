@@ -191,3 +191,10 @@ void ArrayType::reportNonArrayType() {
 const ArrayType* ArrayType::getArrayType(IRGenerationContext& context) const {
   return this;
 }
+
+llvm::Instruction* ArrayType::inject(IRGenerationContext& context,
+                                     const InjectionArgumentList injectionArgumentList,
+                                     int line) const {
+  repotNonInjectableType(context, this, line);
+  exit(1);
+}

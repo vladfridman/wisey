@@ -214,3 +214,10 @@ const wisey::ArrayType* MethodSignature::getArrayType(IRGenerationContext& conte
   ArrayType::reportNonArrayType();
   exit(1);
 }
+
+Instruction* MethodSignature::inject(IRGenerationContext& context,
+                                     const InjectionArgumentList injectionArgumentList,
+                                     int line) const {
+  repotNonInjectableType(context, this, line);
+  exit(1);
+}

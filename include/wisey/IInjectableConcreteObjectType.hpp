@@ -21,14 +21,7 @@ namespace wisey {
   class IInjectableConcreteObjectType : public IConcreteObjectType {
     
   public:
-    
-    /**
-     * Inject an instance of this injectable object with given arguments
-     */
-    virtual llvm::Value* inject(IRGenerationContext& context,
-                                const InjectionArgumentList injectionArgumentList,
-                                int line) const = 0;
-    
+        
     /**
      * Returns the list of recieved fields that is not in the list of given fields
      */

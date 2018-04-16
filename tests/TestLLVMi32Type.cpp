@@ -16,6 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockConcreteObjectType.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMi32Type.hpp"
 #include "wisey/LLVMi8Type.hpp"
@@ -38,6 +39,8 @@ struct LLVMi32TypeTest : public Test {
   LLVMi32Type mLLVMi32Type;
   
   LLVMi32TypeTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
     Function* function = Function::Create(functionType,
@@ -106,4 +109,11 @@ TEST_F(LLVMi32TypeTest, printToStreamTest) {
   mLLVMi32Type.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("::llvm::i32", stringStream.str().c_str());
+}
+
+TEST_F(LLVMi32TypeTest, injectDeathTest) {
+  InjectionArgumentList arguments;
+  EXPECT_EXIT(mLLVMi32Type.inject(mContext, arguments, 3),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(3\\): Error: type ::llvm::i32 is not injectable");
 }
