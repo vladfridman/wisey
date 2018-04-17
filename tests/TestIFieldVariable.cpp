@@ -55,12 +55,13 @@ struct IFieldVariableTest : Test {
     controllerFields.push_back(mStateField);
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             controllerFullName,
-                                            controllerStructType);
+                                            controllerStructType,
+                                            0);
     mController->setFields(controllerFields, 1u);
     
     string modelFullName = "systems.vos.wisey.compiler.tests.MModel";
     StructType* modelStructType = StructType::create(mLLVMContext, modelFullName);
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, modelStructType);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, modelStructType, 0);
     mFixedField = new FixedField(PrimitiveTypes::INT_TYPE, "foo", 0);
     vector<IField*> modelFields;
     modelFields.push_back(mFixedField);

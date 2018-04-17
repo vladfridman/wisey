@@ -68,7 +68,7 @@ struct ObjectBuilderTest : Test {
     vector<IField*> fields;
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mWidth", 0));
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mHeight", 0));
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType, 0);
     mModel->setFields(fields, 1u);
     mContext.addModel(mModel);
     Value* fieldValue1 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);

@@ -58,7 +58,7 @@ public:
     vector<IField*> fields;
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "foo", 0));
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "bar", 0));
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType, 0);
     mModel->setFields(fields, 0u);
     
     mStaticMethod = new ExternalStaticMethod(mModel,

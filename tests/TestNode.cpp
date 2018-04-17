@@ -109,7 +109,8 @@ struct NodeTest : public Test {
                                                 elementInterfaceFullName,
                                                 elementInterfaceStructType,
                                                 elementParentInterfaces,
-                                                elementInterfaceElements);
+                                                elementInterfaceElements,
+                                                0);
     mContext.addInterface(mElementInterface);
     mElementInterface->buildMethods(mContext);
     
@@ -126,7 +127,8 @@ struct NodeTest : public Test {
                                                            complicatedElementFullName,
                                                            complicatedElementIinterfaceStructType,
                                                            complicatedElementParentInterfaces,
-                                                           complicatedElementInterfaceElements);
+                                                           complicatedElementInterfaceElements,
+                                                           0);
     mContext.addInterface(mComplicatedElementInterface);
     mComplicatedElementInterface->buildMethods(mContext);
 
@@ -148,7 +150,8 @@ struct NodeTest : public Test {
                                                objectFullName,
                                                objectInterfaceStructType,
                                                objectParentInterfaces,
-                                               objectInterfaceElements);
+                                               objectInterfaceElements,
+                                               0);
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
 
@@ -163,7 +166,8 @@ struct NodeTest : public Test {
     vector<IField*> fields;
     mComplicatedNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                      complicatedNodeFullName,
-                                     mStructType);
+                                     mStructType,
+                                     7);
    InjectionArgumentList arguments;
     mLeftField = new FixedField(PrimitiveTypes::INT_TYPE, "mLeft", 0);
     mRightField = new FixedField(PrimitiveTypes::INT_TYPE, "mRight", 0);
@@ -233,7 +237,7 @@ struct NodeTest : public Test {
     string ownerFullName = "systems.vos.wisey.compiler.tests.NOwner";
     StructType* ownerStructType = StructType::create(mLLVMContext, ownerFullName);
     ownerStructType->setBody(ownerTypes);
-    mOwnerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS, ownerFullName, ownerStructType);
+    mOwnerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS, ownerFullName, ownerStructType, 0);
     mContext.addNode(mOwnerNode);
     
     vector<Type*> referenceTypes;
@@ -244,7 +248,8 @@ struct NodeTest : public Test {
     referenceStructType->setBody(referenceTypes);
     mReferenceModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                       referenceFullName,
-                                      referenceStructType);
+                                      referenceStructType,
+                                      0);
     mContext.addModel(mReferenceModel);
     
     vector<Type*> simpleNodeTypes;
@@ -260,7 +265,8 @@ struct NodeTest : public Test {
     simpleNodeFields.push_back(new FixedField(mReferenceModel, "mReference", 0));
     mSimpleNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                 simpleNodeFullName,
-                                simpleNodeStructType);
+                                simpleNodeStructType,
+                                0);
     mSimpleNode->setFields(simpleNodeFields, 1u);
     mContext.addNode(mSimpleNode);
     
@@ -277,7 +283,8 @@ struct NodeTest : public Test {
     simplerNodeFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mRight", 0));
     mSimplerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                  simplerNodeFullName,
-                                 simplerNodeStructType);
+                                 simplerNodeStructType,
+                                 0);
     mSimplerNode->setFields(simplerNodeFields, 1u);
     mContext.addNode(mSimplerNode);
     
@@ -289,7 +296,8 @@ struct NodeTest : public Test {
                                                 vehicleFullName,
                                                 vehicleInterfaceStructType,
                                                 vehicleParentInterfaces,
-                                                vehicleElements);
+                                                vehicleElements,
+                                                0);
     mContext.addInterface(mVehicleInterface);
     mVehicleInterface->buildMethods(mContext);
 
@@ -338,7 +346,11 @@ struct NodeTest : public Test {
 };
 
 TEST_F(NodeTest, getAccessLevelTest) {
-  EXPECT_EQ(mComplicatedNode->getAccessLevel(), AccessLevel::PUBLIC_ACCESS);
+  EXPECT_EQ(AccessLevel::PUBLIC_ACCESS, mComplicatedNode->getAccessLevel());
+}
+
+TEST_F(NodeTest, getLineTest) {
+  EXPECT_EQ(7, mComplicatedNode->getLine());
 }
 
 TEST_F(NodeTest, getOwnerTest) {
@@ -347,43 +359,43 @@ TEST_F(NodeTest, getOwnerTest) {
 }
 
 TEST_F(NodeTest, getNameTest) {
-  EXPECT_STREQ(mComplicatedNode->getTypeName().c_str(),
-               "systems.vos.wisey.compiler.tests.NComplicatedNode");
+  EXPECT_STREQ("systems.vos.wisey.compiler.tests.NComplicatedNode",
+               mComplicatedNode->getTypeName().c_str());
 }
 
 TEST_F(NodeTest, getShortNameTest) {
-  EXPECT_STREQ(mComplicatedNode->getShortName().c_str(), "NComplicatedNode");
+  EXPECT_STREQ("NComplicatedNode", mComplicatedNode->getShortName().c_str());
 }
 
 TEST_F(NodeTest, getVTableNameTest) {
-  EXPECT_STREQ(mComplicatedNode->getVTableName().c_str(),
-               "systems.vos.wisey.compiler.tests.NComplicatedNode.vtable");
+  EXPECT_STREQ("systems.vos.wisey.compiler.tests.NComplicatedNode.vtable",
+               mComplicatedNode->getVTableName().c_str());
 }
 
 TEST_F(NodeTest, getLLVMTypeTest) {
-  EXPECT_EQ(mComplicatedNode->getLLVMType(mContext), mStructType->getPointerTo());
+  EXPECT_EQ(mStructType->getPointerTo(), mComplicatedNode->getLLVMType(mContext));
 }
 
 TEST_F(NodeTest, getInterfacesTest) {
-  EXPECT_EQ(mComplicatedNode->getInterfaces().size(), 2u);
+  EXPECT_EQ(2u, mComplicatedNode->getInterfaces().size());
 }
 
 TEST_F(NodeTest, getVTableSizeTest) {
-  EXPECT_EQ(mComplicatedNode->getVTableSize(), 3u);
+  EXPECT_EQ(3u, mComplicatedNode->getVTableSize());
 }
 
 TEST_F(NodeTest, getFieldsTest) {
-  EXPECT_EQ(mComplicatedNode->getFields().size(), 2u);
+  EXPECT_EQ(2u, mComplicatedNode->getFields().size());
 }
 
 TEST_F(NodeTest, findFeildTest) {
-  EXPECT_EQ(mComplicatedNode->findField("mLeft"), mLeftField);
-  EXPECT_EQ(mComplicatedNode->findField("mRight"), mRightField);
-  EXPECT_EQ(mComplicatedNode->findField("mDepth"), nullptr);
+  EXPECT_EQ(mLeftField, mComplicatedNode->findField("mLeft"));
+  EXPECT_EQ(mRightField, mComplicatedNode->findField("mRight"));
+  EXPECT_EQ(nullptr, mComplicatedNode->findField("mDepth"));
 }
 
 TEST_F(NodeTest, findConstantTest) {
-  EXPECT_EQ(mComplicatedNode->findConstant("MYCONSTANT"), mConstant);
+  EXPECT_EQ(mConstant, mComplicatedNode->findConstant("MYCONSTANT"));
 }
 
 TEST_F(NodeTest, findConstantDeathTest) {
@@ -724,7 +736,7 @@ TEST_F(NodeTest, buildNotAllFieldsAreSetDeathTest) {
 
 TEST_F(NodeTest, printToStreamTest) {
   stringstream stringStream;
-  Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL);
+  Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL, 0);
   vector<IField*> fields;
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1", 0));
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
@@ -745,7 +757,7 @@ TEST_F(NodeTest, printToStreamTest) {
   methods.push_back(method);
   innerPublicModel->setMethods(methods);
   
-  Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS, "MInnerPrivateModel", NULL);
+  Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS, "MInnerPrivateModel", NULL, 0);
   innerPrivateModel->setFields(fields, 0);
   
   mComplicatedNode->addInnerObject(innerPublicModel);

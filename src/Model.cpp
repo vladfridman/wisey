@@ -27,12 +27,17 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Model::Model(AccessLevel accessLevel, string name, StructType* structType, bool isExternal) :
+Model::Model(AccessLevel accessLevel,
+             string name,
+             StructType* structType,
+             bool isExternal,
+             int line) :
 mAccessLevel(accessLevel),
 mName(name),
 mStructType(structType),
 mIsExternal(isExternal),
-mIsInner(false) {
+mIsInner(false),
+mLine(line) {
   mModelOwner = new ModelOwner(this);
 }
 
@@ -63,12 +68,12 @@ Model::~Model() {
   mLLVMFunctions.clear();
 }
 
-Model* Model::newModel(AccessLevel accessLevel, string name, StructType* structType) {
-  return new Model(accessLevel, name, structType, false);
+Model* Model::newModel(AccessLevel accessLevel, string name, StructType* structType, int line) {
+  return new Model(accessLevel, name, structType, false, line);
 }
 
-Model* Model::newExternalModel(string name, StructType* structType) {
-  return new Model(AccessLevel::PUBLIC_ACCESS, name, structType, true);
+Model* Model::newExternalModel(string name, StructType* structType, int line) {
+  return new Model(AccessLevel::PUBLIC_ACCESS, name, structType, true, line);
 }
 
 AccessLevel Model::getAccessLevel() const {
@@ -520,4 +525,8 @@ Instruction* Model::inject(IRGenerationContext& context,
                            int line) const {
   repotNonInjectableType(context, this, line);
   exit(1);
+}
+
+int Model::getLine() const {
+  return mLine;
 }

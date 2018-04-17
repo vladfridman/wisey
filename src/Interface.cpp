@@ -45,7 +45,8 @@ Interface::Interface(AccessLevel accessLevel,
                      StructType* structType,
                      bool isExternal,
                      vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
-                     vector<IObjectElementDefinition *> elementDelcarations) :
+                     vector<IObjectElementDefinition *> elementDelcarations,
+                     int line) :
 mAccessLevel(accessLevel),
 mName(name),
 mStructType(structType),
@@ -54,7 +55,8 @@ mIsInner(false),
 mInterfaceOwner(new InterfaceOwner(this)),
 mParentInterfaceSpecifiers(parentInterfaceSpecifiers),
 mElementDeclarations(elementDelcarations),
-mIsComplete(false) { }
+mIsComplete(false),
+mLine(line) { }
 
 Interface::~Interface() {
   delete mInterfaceOwner;
@@ -86,13 +88,15 @@ Interface* Interface::newInterface(AccessLevel accessLevel,
                                    StructType *structType,
                                    vector<IInterfaceTypeSpecifier *> parentInterfaceSpecifiers,
                                    vector<IObjectElementDefinition *>
-                                   elementDeclarations) {
+                                   elementDeclarations,
+                                   int line) {
   return new Interface(accessLevel,
                        name,
                        structType,
                        false,
                        parentInterfaceSpecifiers,
-                       elementDeclarations);
+                       elementDeclarations,
+                       line);
 }
 
 Interface* Interface::newExternalInterface(string name,
@@ -100,13 +104,15 @@ Interface* Interface::newExternalInterface(string name,
                                            vector<IInterfaceTypeSpecifier *>
                                            parentInterfaceSpecifiers,
                                            vector<IObjectElementDefinition *>
-                                           elementDeclarations) {
+                                           elementDeclarations,
+                                           int line) {
   return new Interface(AccessLevel::PUBLIC_ACCESS,
                        name,
                        structType,
                        true,
                        parentInterfaceSpecifiers,
-                       elementDeclarations);
+                       elementDeclarations,
+                       line);
 }
 
 AccessLevel Interface::getAccessLevel() const {
@@ -1002,4 +1008,8 @@ void Interface::createParameterVariable(IRGenerationContext& context,
 const wisey::ArrayType* Interface::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);
+}
+
+int Interface::getLine() const {
+  return mLine;
 }

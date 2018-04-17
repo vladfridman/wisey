@@ -51,7 +51,7 @@ Controller* ControllerDefinition::prototypeObject(IRGenerationContext& context) 
   string fullName = IObjectDefinition::getFullName(context, mControllerTypeSpecifierFull);
 
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
-  Controller* controller = Controller::newController(mAccessLevel, fullName, structType);
+  Controller* controller = Controller::newController(mAccessLevel, fullName, structType, mLine);
   context.addController(controller);
   controller->setImportProfile(context.getImportProfile());
   

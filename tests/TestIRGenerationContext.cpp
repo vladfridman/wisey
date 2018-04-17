@@ -55,7 +55,8 @@ struct IRGenerationContextTest : public Test {
                                          interfaceFullName,
                                          interfaceStructType,
                                          parentInterfaces,
-                                         interfaceElements);
+                                         interfaceElements,
+                                         0);
     
     string controllerFullName = "systems.vos.wisey.compiler.tests.CMyController";
     StructType* controllerStructType = StructType::create(mLLVMContext, controllerFullName);
@@ -64,22 +65,23 @@ struct IRGenerationContextTest : public Test {
     vector<Interface*> controllerInterfaces;
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             controllerFullName,
-                                            controllerStructType);
+                                            controllerStructType,
+                                            0);
     mController->setFields(controllerFields, 1u);
     mController->setMethods(controllerMethods);
     mController->setInterfaces(controllerInterfaces);
 
     string modelFullName = "systems.vos.wisey.compiler.tests.MMyModel";
     StructType* modelStructType = StructType::create(mLLVMContext, "MMyModel");
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, modelStructType);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, modelStructType, 0);
 
     string nodeFullName = "systems.vos.wisey.compiler.tests.NMyNode";
     StructType* nodeStructType = StructType::create(mLLVMContext, "NMyNode");
-    mNode = Node::newNode(AccessLevel::PUBLIC_ACCESS, nodeFullName, nodeStructType);
+    mNode = Node::newNode(AccessLevel::PUBLIC_ACCESS, nodeFullName, nodeStructType, 0);
 
     string threadFullName = "systems.vos.wisey.compiler.tests.TMyThread";
     StructType* threadStructType = StructType::create(mLLVMContext, "TMyThread");
-    mThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS, threadFullName, threadStructType);
+    mThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS, threadFullName, threadStructType, 0);
     
     StructType* llvmStructType = StructType::create(mLLVMContext, "mystructtype");
     mLLVMStructType = LLVMStructType::newLLVMStructType(llvmStructType);
@@ -241,7 +243,8 @@ TEST_F(IRGenerationContextTest, addInterfaceTest) {
                                                  interfaceFullName,
                                                  structType,
                                                  parentInterfaces,
-                                                 interfaceElements);
+                                                 interfaceElements,
+                                                 0);
   mContext.addInterface(interface);
   Interface* resultInterface =
     mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface", 0);
@@ -260,7 +263,8 @@ TEST_F(IRGenerationContextTest, addInterfaceAlreadyDefinedDeathTest) {
                                                  interfaceFullName,
                                                  structType,
                                                  parentInterfaces,
-                                                 interfaceElements);
+                                                 interfaceElements,
+                                                 0);
   mContext.addInterface(interface);
   
   EXPECT_EXIT(mContext.addInterface(interface),
@@ -269,7 +273,7 @@ TEST_F(IRGenerationContextTest, addInterfaceAlreadyDefinedDeathTest) {
 }
 
 TEST_F(IRGenerationContextTest, setObjectTypeTest) {
-  Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS, "MModel", NULL);
+  Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS, "MModel", NULL, 0);
   
   mContext.setObjectType(model);
   

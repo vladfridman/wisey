@@ -53,7 +53,8 @@ Interface* InterfaceDefinition::prototypeObject(IRGenerationContext& context) co
                                                  fullName,
                                                  structType,
                                                  mParentInterfaceSpecifiers,
-                                                 mElementDeclarations);
+                                                 mElementDeclarations,
+                                                 mLine);
   context.addInterface(interface);
   interface->setImportProfile(context.getImportProfile());
   interface->defineInterfaceTypeName(context);

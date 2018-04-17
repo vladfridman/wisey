@@ -100,7 +100,8 @@ struct InterfaceTest : public Test {
                                                objectFullName,
                                                objectStructType,
                                                objectParentInterfaces,
-                                               objectElementDeclarations);
+                                               objectElementDeclarations,
+                                               0);
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
 
@@ -145,7 +146,8 @@ struct InterfaceTest : public Test {
                                               shapeFullName,
                                               mShapeStructType,
                                               shapeParentInterfaces,
-                                              shapeElements);
+                                              shapeElements,
+                                              5);
     mContext.addInterface(mShapeInterface);
     mShapeInterface->buildMethods(mContext);
 
@@ -154,7 +156,8 @@ struct InterfaceTest : public Test {
                                                    shapeFullName,
                                                    mIncompleteInterfaceStructType,
                                                    shapeParentInterfaces,
-                                                   shapeElements);
+                                                   shapeElements,
+                                                   0);
     
     llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
                                                                   mShapeInterface->getTypeName());
@@ -204,17 +207,18 @@ TEST_F(InterfaceTest, interfaceInstantiationTest) {
   EXPECT_EQ(mShapeStructType->getPointerTo(), mShapeInterface->getLLVMType(mContext));
   ASSERT_NE(nullptr, mShapeInterface->getOwner());
   EXPECT_EQ(mShapeInterface, mShapeInterface->getOwner()->getReference());
+  EXPECT_EQ(5, mShapeInterface->getLine());
 }
 
 TEST_F(InterfaceTest, findMethodTest) {
-  EXPECT_NE(mShapeInterface->findMethod("foo"), nullptr);
-  EXPECT_STREQ(mShapeInterface->findMethod("foo")->getName().c_str(), "foo");
-  EXPECT_NE(mShapeInterface->findMethod("bar"), nullptr);
-  EXPECT_EQ(mShapeInterface->findMethod("zzz"), nullptr);
+  EXPECT_NE(nullptr, mShapeInterface->findMethod("foo"));
+  EXPECT_STREQ("foo", mShapeInterface->findMethod("foo")->getName().c_str());
+  EXPECT_NE(nullptr, mShapeInterface->findMethod("bar"));
+  EXPECT_EQ(nullptr, mShapeInterface->findMethod("zzz"));
 }
 
 TEST_F(InterfaceTest, findConstantTest) {
-  ASSERT_NE(mShapeInterface->findConstant("MYCONSTANT"), nullptr);
+  ASSERT_NE(nullptr, mShapeInterface->findConstant("MYCONSTANT"));
 }
 
 TEST_F(InterfaceTest, findConstantDeathTest) {
@@ -335,7 +339,7 @@ TEST_F(InterfaceTest, isObjectTest) {
 
 TEST_F(InterfaceTest, printToStreamTest) {
   stringstream stringStream;
-  Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL);
+  Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL, 0);
   vector<IField*> fields;
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1", 0));
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
@@ -356,7 +360,7 @@ TEST_F(InterfaceTest, printToStreamTest) {
   methods.push_back(method);
   innerPublicModel->setMethods(methods);
   
-  Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS, "MInnerPrivateModel", NULL);
+  Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS, "MInnerPrivateModel", NULL, 0);
   innerPrivateModel->setFields(fields, 0);
   
   mShapeInterface->addInnerObject(innerPublicModel);
@@ -402,7 +406,8 @@ TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
                                                  name,
                                                  structType,
                                                  parentInterfaces,
-                                                 elements);
+                                                 elements,
+                                                 0);
   
   EXPECT_EXIT(interface->buildMethods(mContext),
               ::testing::ExitedWithCode(1),
@@ -436,7 +441,8 @@ TEST_F(InterfaceTest, methodDeclarationDeathTest) {
                                                  name,
                                                  structType,
                                                  parentInterfaces,
-                                                 elements);
+                                                 elements,
+                                                 0);
   
   EXPECT_EXIT(interface->buildMethods(mContext),
               ::testing::ExitedWithCode(1),
@@ -457,7 +463,8 @@ TEST_F(InterfaceTest, constantsAfterMethodSignaturesDeathTest) {
                                                  name,
                                                  structType,
                                                  parentInterfaces,
-                                                 elements);
+                                                 elements,
+                                                 0);
   
   EXPECT_EXIT(interface->buildMethods(mContext),
               ::testing::ExitedWithCode(1),
@@ -528,7 +535,8 @@ TEST_F(InterfaceTest, circularDependencyDeathTest) {
                                              childFullName,
                                              childStructType,
                                              childParentInterfaces,
-                                             childElements);
+                                             childElements,
+                                             0);
   mContext.addInterface(child);
   
   string parentFullName = "systems.vos.wisey.compiler.tests.IParent";
@@ -540,7 +548,8 @@ TEST_F(InterfaceTest, circularDependencyDeathTest) {
                                               parentFullName,
                                               parentStructType,
                                               parentParentInterfaces,
-                                              parentElements);
+                                              parentElements,
+                                              0);
   mContext.addInterface(parent);
 
   EXPECT_EXIT(child->buildMethods(mContext),
@@ -609,7 +618,8 @@ TEST_F(InterfaceTest, injectTest) {
                                                  interfaceFullName,
                                                  interfaceStructType,
                                                  interfaceParentInterfaces,
-                                                 interafaceElements);
+                                                 interafaceElements,
+                                                 0);
   mContext.addInterface(interface);
   llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
                                                                 interface->getTypeName());
@@ -628,7 +638,8 @@ TEST_F(InterfaceTest, injectTest) {
   controllerStructType->setBody(controllerTypes);
   Controller* controller = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                      controllerFullName,
-                                                     controllerStructType);
+                                                     controllerStructType,
+                                                     0);
   vector<Interface*> controllerParentInterfaces;
   controllerParentInterfaces.push_back(interface);
   controller->setInterfaces(controllerParentInterfaces);

@@ -53,7 +53,8 @@ struct InterfaceOwnerTest : public Test {
                                                objectFullName,
                                                objectStructType,
                                                parentInterfaces,
-                                               interfaceElements);
+                                               interfaceElements,
+                                               0);
     
     vector<Type*> shapeTypes;
     string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
@@ -68,7 +69,8 @@ struct InterfaceOwnerTest : public Test {
                                               shapeFullName,
                                               mShapeStructType,
                                               shapeParentInterfaces,
-                                              shapeMethodElements);
+                                              shapeMethodElements,
+                                              0);
     
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
@@ -205,7 +207,8 @@ TEST_F(InterfaceOwnerTest, injectTest) {
                                                  interfaceFullName,
                                                  interfaceStructType,
                                                  interfaceParentInterfaces,
-                                                 interafaceElements);
+                                                 interafaceElements,
+                                                 0);
   mContext.addInterface(interface);
   llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
                                                                 interface->getTypeName());
@@ -224,7 +227,8 @@ TEST_F(InterfaceOwnerTest, injectTest) {
   controllerStructType->setBody(controllerTypes);
   Controller* controller = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                      controllerFullName,
-                                                     controllerStructType);
+                                                     controllerStructType,
+                                                     0);
   vector<Interface*> controllerParentInterfaces;
   controllerParentInterfaces.push_back(interface);
   controller->setInterfaces(controllerParentInterfaces);

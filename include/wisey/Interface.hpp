@@ -56,6 +56,15 @@ namespace wisey {
     std::map<std::string, LLVMFunction*> mLLVMFunctionMap;
     ImportProfile* mImportProfile;
     bool mIsComplete;
+    int mLine;
+    
+    Interface(AccessLevel accessLevel,
+              std::string name,
+              llvm::StructType* structType,
+              bool isExternal,
+              std::vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
+              std::vector<IObjectElementDefinition *> elementDelcarations,
+              int line);
     
   public:
     
@@ -68,7 +77,8 @@ namespace wisey {
                                    std::string name,
                                    llvm::StructType* structType,
                                    std::vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
-                                   std::vector<IObjectElementDefinition *> elementDeclarations);
+                                   std::vector<IObjectElementDefinition *> elementDeclarations,
+                                   int line);
     
     /**
      * static method for external interface instantiation
@@ -78,7 +88,8 @@ namespace wisey {
                                            std::vector<IInterfaceTypeSpecifier*>
                                            parentInterfaceSpecifiers,
                                            std::vector<IObjectElementDefinition *>
-                                           elementDeclarations);
+                                           elementDeclarations,
+                                           int line);
     
     /**
      * Build methods for this interface
@@ -262,15 +273,10 @@ namespace wisey {
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
     
     LLVMFunction* findLLVMFunction(std::string functionName) const override;
+    
+    int getLine() const override;
 
   private:
-    
-    Interface(AccessLevel accessLevel,
-              std::string name,
-              llvm::StructType* structType,
-              bool isExternal,
-              std::vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
-              std::vector<IObjectElementDefinition *> elementDelcarations);
     
     void includeInterfaceMethods(Interface* parentInterface);
     

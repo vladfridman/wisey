@@ -105,7 +105,8 @@ struct ControllerTest : public Test {
                                                    calculatorFullName,
                                                    calculatorIinterfaceStructType,
                                                    calculatorParentInterfaces,
-                                                   calculatorInterfaceElements);
+                                                   calculatorInterfaceElements,
+                                                   0);
     mContext.addInterface(mCalculatorInterface);
     mCalculatorInterface->buildMethods(mContext);
     
@@ -125,7 +126,8 @@ struct ControllerTest : public Test {
                                                           scienceCalculatorFullName,
                                                           scienceCalculatorIinterfaceStructType,
                                                           scienceCalculatorParentInterfaces,
-                                                          scienceCalculatorInterfaceElements);
+                                                          scienceCalculatorInterfaceElements,
+                                                          0);
     mContext.addInterface(mScienceCalculatorInterface);
     mScienceCalculatorInterface->buildMethods(mContext);
 
@@ -147,7 +149,8 @@ struct ControllerTest : public Test {
                                                objectFullName,
                                                objectInterfaceStructType,
                                                objectParentInterfaces,
-                                               objectInterfaceElements);
+                                               objectInterfaceElements,
+                                               0);
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
 
@@ -161,7 +164,8 @@ struct ControllerTest : public Test {
     mStructType->setBody(types);
     mMultiplierController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                       multiplierFullName,
-                                                      mStructType);
+                                                      mStructType,
+                                                      5);
     vector<IField*> fields;
     mLeftField = new ReceivedField(PrimitiveTypes::INT_TYPE, "left", 0);
     mRightField = new ReceivedField(PrimitiveTypes::INT_TYPE, "right", 0);
@@ -236,7 +240,7 @@ struct ControllerTest : public Test {
     string ownerFullName = "systems.vos.wisey.compiler.tests.NOwner";
     StructType* ownerStructType = StructType::create(mLLVMContext, ownerFullName);
     ownerStructType->setBody(ownerTypes);
-    mOwnerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS, ownerFullName, ownerStructType);
+    mOwnerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS, ownerFullName, ownerStructType, 0);
     mContext.addNode(mOwnerNode);
     
     vector<Type*> referenceTypes;
@@ -247,7 +251,8 @@ struct ControllerTest : public Test {
     referenceStructType->setBody(referenceTypes);
     mReferenceModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                       referenceFullName,
-                                      referenceStructType);
+                                      referenceStructType,
+                                      0);
     mContext.addModel(mReferenceModel);
     
     vector<Type*> additorTypes;
@@ -263,7 +268,8 @@ struct ControllerTest : public Test {
     additorFields.push_back(new ReceivedField(mReferenceModel, "mReference", 0));
     mAdditorController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                    additorFullName,
-                                                   additorStructType);
+                                                   additorStructType,
+                                                   0);
     mAdditorController->setFields(additorFields, 1u);
     mContext.addController(mMultiplierController);
 
@@ -285,7 +291,8 @@ struct ControllerTest : public Test {
                                               3));
     mDoublerController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                    doublerFullName,
-                                                   doublerStructType);
+                                                   doublerStructType,
+                                                   0);
     mDoublerController->setFields(doublerFields, 1u);
     mContext.addController(mDoublerController);
 
@@ -297,7 +304,8 @@ struct ControllerTest : public Test {
                                                 vehicleFullName,
                                                 vehicleInterfaceStructType,
                                                 vehicleParentInterfaces,
-                                                vehicleElements);
+                                                vehicleElements,
+                                                0);
     mContext.addInterface(mVehicleInterface);
     mVehicleInterface->buildMethods(mContext);
 
@@ -336,38 +344,42 @@ struct ControllerTest : public Test {
 };
 
 TEST_F(ControllerTest, getAccessLevelTest) {
-  EXPECT_EQ(mMultiplierController->getAccessLevel(), AccessLevel::PUBLIC_ACCESS);
+  EXPECT_EQ(AccessLevel::PUBLIC_ACCESS, mMultiplierController->getAccessLevel());
+}
+
+TEST_F(ControllerTest, getLineTest) {
+  EXPECT_EQ(5, mMultiplierController->getLine());
 }
 
 TEST_F(ControllerTest, getNameTest) {
-  EXPECT_STREQ(mMultiplierController->getTypeName().c_str(),
-               "systems.vos.wisey.compiler.tests.CMultiplier");
+  EXPECT_STREQ("systems.vos.wisey.compiler.tests.CMultiplier",
+               mMultiplierController->getTypeName().c_str());
 }
 
 TEST_F(ControllerTest, getShortNameTest) {
-  EXPECT_STREQ(mMultiplierController->getShortName().c_str(),
-               "CMultiplier");
+  EXPECT_STREQ("CMultiplier",
+               mMultiplierController->getShortName().c_str());
 }
 
 TEST_F(ControllerTest, getVTableNameTest) {
-  EXPECT_STREQ(mMultiplierController->getVTableName().c_str(),
-               "systems.vos.wisey.compiler.tests.CMultiplier.vtable");
+  EXPECT_STREQ("systems.vos.wisey.compiler.tests.CMultiplier.vtable",
+               mMultiplierController->getVTableName().c_str());
 }
 
 TEST_F(ControllerTest, getLLVMTypeTest) {
-  EXPECT_EQ(mMultiplierController->getLLVMType(mContext), mStructType->getPointerTo());
+  EXPECT_EQ(mStructType->getPointerTo(), mMultiplierController->getLLVMType(mContext));
 }
 
 TEST_F(ControllerTest, getInterfacesTest) {
-  EXPECT_EQ(mMultiplierController->getInterfaces().size(), 2u);
+  EXPECT_EQ(2u, mMultiplierController->getInterfaces().size());
 }
 
 TEST_F(ControllerTest, getVTableSizeTest) {
-  EXPECT_EQ(mMultiplierController->getVTableSize(), 3u);
+  EXPECT_EQ(3u, mMultiplierController->getVTableSize());
 }
 
 TEST_F(ControllerTest, getFieldsTest) {
-  EXPECT_EQ(mMultiplierController->getFields().size(), 2u);
+  EXPECT_EQ(2u, mMultiplierController->getFields().size());
 }
 
 TEST_F(ControllerTest, getOwnerTest) {
@@ -376,23 +388,23 @@ TEST_F(ControllerTest, getOwnerTest) {
 }
 
 TEST_F(ControllerTest, getFieldIndexTest) {
-  EXPECT_EQ(mMultiplierController->getFieldIndex(mLeftField), 2u);
-  EXPECT_EQ(mMultiplierController->getFieldIndex(mRightField), 3u);
+  EXPECT_EQ(2u, mMultiplierController->getFieldIndex(mLeftField));
+  EXPECT_EQ(3u, mMultiplierController->getFieldIndex(mRightField));
 }
 
 TEST_F(ControllerTest, findFeildTest) {
-  EXPECT_EQ(mMultiplierController->findField("left"), mLeftField);
-  EXPECT_EQ(mMultiplierController->findField("right"), mRightField);
-  EXPECT_EQ(mMultiplierController->findField("depth"), nullptr);
+  EXPECT_EQ(mLeftField, mMultiplierController->findField("left"));
+  EXPECT_EQ(mRightField, mMultiplierController->findField("right"));
+  EXPECT_EQ(nullptr, mMultiplierController->findField("depth"));
 }
 
 TEST_F(ControllerTest, findMethodTest) {
-  EXPECT_EQ(mMultiplierController->findMethod("calculate"), mMethod);
-  EXPECT_EQ(mMultiplierController->findMethod("bar"), nullptr);
+  EXPECT_EQ(mMethod, mMultiplierController->findMethod("calculate"));
+  EXPECT_EQ(nullptr, mMultiplierController->findMethod("bar"));
 }
 
 TEST_F(ControllerTest, findConstantTest) {
-  EXPECT_EQ(mMultiplierController->findConstant("MYCONSTANT"), mConstant);
+  EXPECT_EQ(mConstant, mMultiplierController->findConstant("MYCONSTANT"));
 }
 
 TEST_F(ControllerTest, findConstantDeathTest) {
@@ -417,18 +429,18 @@ TEST_F(ControllerTest, findLLVMFunctionDeathTest) {
 }
 
 TEST_F(ControllerTest, getObjectNameGlobalVariableNameTest) {
-  ASSERT_STREQ(mMultiplierController->getObjectNameGlobalVariableName().c_str(),
-               "systems.vos.wisey.compiler.tests.CMultiplier.name");
+  ASSERT_STREQ("systems.vos.wisey.compiler.tests.CMultiplier.name",
+               mMultiplierController->getObjectNameGlobalVariableName().c_str());
 }
 
 TEST_F(ControllerTest, getObjectShortNameGlobalVariableNameTest) {
-  ASSERT_STREQ(mMultiplierController->getObjectShortNameGlobalVariableName().c_str(),
-               "systems.vos.wisey.compiler.tests.CMultiplier.shortname");
+  ASSERT_STREQ("systems.vos.wisey.compiler.tests.CMultiplier.shortname",
+               mMultiplierController->getObjectShortNameGlobalVariableName().c_str());
 }
 
 TEST_F(ControllerTest, getTypeTableNameTest) {
-  ASSERT_STREQ(mMultiplierController->getTypeTableName().c_str(),
-               "systems.vos.wisey.compiler.tests.CMultiplier.typetable");
+  ASSERT_STREQ("systems.vos.wisey.compiler.tests.CMultiplier.typetable",
+               mMultiplierController->getTypeTableName().c_str());
 }
 
 TEST_F(ControllerTest, innerObjectsTest) {
@@ -440,9 +452,9 @@ TEST_F(ControllerTest, innerObjectsTest) {
   mMultiplierController->addInnerObject(&innerObject1);
   mMultiplierController->addInnerObject(&innerObject2);
   
-  EXPECT_EQ(mMultiplierController->getInnerObject("MObject1"), &innerObject1);
-  EXPECT_EQ(mMultiplierController->getInnerObject("MObject2"), &innerObject2);
-  EXPECT_EQ(mMultiplierController->getInnerObjects().size(), 2u);
+  EXPECT_EQ(&innerObject1, mMultiplierController->getInnerObject("MObject1"));
+  EXPECT_EQ(&innerObject2, mMultiplierController->getInnerObject("MObject2"));
+  EXPECT_EQ(2u, mMultiplierController->getInnerObjects().size());
 }
 
 TEST_F(ControllerTest, markAsInnerTest) {
@@ -746,7 +758,8 @@ TEST_F(ControllerTest, injectFieldTest) {
   vector<IField*> childFields;
   Controller* childController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                           childFullName,
-                                                          childStructType);
+                                                          childStructType,
+                                                          0);
   childController->setFields(childFields, 1u);
   mContext.addController(childController);
   IConcreteObjectType::generateNameGlobal(mContext, childController);
@@ -770,7 +783,8 @@ TEST_F(ControllerTest, injectFieldTest) {
                                            3));
   Controller* parentController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                            parentFullName,
-                                                           parentStructType);
+                                                           parentStructType,
+                                                           0);
   parentController->setFields(parentFields, 1u);
   mContext.addController(parentController);
   IConcreteObjectType::generateNameGlobal(mContext, parentController);
@@ -817,7 +831,7 @@ TEST_F(ControllerTest, injectFieldTest) {
 
 TEST_F(ControllerTest, printToStreamTest) {
   stringstream stringStream;
-  Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL);
+  Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL, 0);
   vector<IField*> fields;
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1", 0));
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
@@ -838,7 +852,7 @@ TEST_F(ControllerTest, printToStreamTest) {
   methods.push_back(method);
   innerPublicModel->setMethods(methods);
   
-  Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS, "MInnerPrivateModel", NULL);
+  Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS, "MInnerPrivateModel", NULL, 0);
   innerPrivateModel->setFields(fields, 0);
   
   mMultiplierController->addInnerObject(innerPublicModel);

@@ -41,7 +41,7 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
     string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
     StructType* structType = StructType::create(llvmContext, modelFullName);
     structType->setBody(types);
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType, 0);
     vector<IField*> fields;
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width", 0));
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height", 0));

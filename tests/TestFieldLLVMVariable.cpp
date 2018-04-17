@@ -61,7 +61,8 @@ struct FieldLLVMVariableTest : Test {
     fields.push_back(new StateField(mType, "mFoo", 0));
     mObject = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
                                 objectFullName,
-                                objectStructType);
+                                objectStructType,
+                                0);
     mObject->setFields(fields, 1u);
     
     FunctionType* functionType =

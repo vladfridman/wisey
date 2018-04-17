@@ -60,7 +60,8 @@ struct ThreadOwnerTest : public Test {
     structType->setBody(types);
     mThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
                                 threadFullName,
-                                structType);
+                                structType,
+                                0);
     mThread->setInterfaces(interfaces);
  
     IConcreteObjectType::generateNameGlobal(mContext, mThread);

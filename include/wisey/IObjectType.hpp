@@ -126,6 +126,11 @@ namespace wisey {
     virtual llvm::Function* getReferenceAdjustmentFunction(IRGenerationContext& context) const = 0;
     
     /**
+     * Returns the line number where this object is defined
+     */
+    virtual int getLine() const = 0;
+
+    /**
      * Returns an i8* constant pointer to the name of the collable object
      */
     static llvm::Constant* getObjectNamePointer(const IObjectType* object,
@@ -141,7 +146,7 @@ namespace wisey {
      * Check that the private object is accessable
      */
     static bool checkAccess(const IObjectType* from, const IObjectType* to);
-    
+
   };
   
 } /* namespace wisey */

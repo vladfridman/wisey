@@ -45,7 +45,14 @@ namespace wisey {
     std::vector<LLVMFunction*> mLLVMFunctions;
     std::map<std::string, LLVMFunction*> mLLVMFunctionMap;
     ImportProfile* mImportProfile;
+    int mLine;
     
+    Model(AccessLevel accessLevel,
+          std::string name,
+          llvm::StructType* structType,
+          bool isExternal,
+          int line);
+
   public:
     
     ~Model();
@@ -53,12 +60,17 @@ namespace wisey {
     /**
      * static method for model instantiation
      */
-    static Model* newModel(AccessLevel accessLevel, std::string name, llvm::StructType* structType);
+    static Model* newModel(AccessLevel accessLevel,
+                           std::string name,
+                           llvm::StructType* structType,
+                           int line);
     
     /**
      * static method for external model instantiation
      */
-    static Model* newExternalModel(std::string name, llvm::StructType* structType);
+    static Model* newExternalModel(std::string name,
+                                   llvm::StructType* structType,
+                                   int line);
     
     /**
      * Gets a set of field names and returns the ones that are missing
@@ -217,9 +229,9 @@ namespace wisey {
                               const InjectionArgumentList injectionArgumentList,
                               int line) const override;
 
-  private:
+    int getLine() const override;
     
-    Model(AccessLevel accessLevel, std::string name, llvm::StructType* structType, bool isExternal);
+  private:
     
     void checkArguments(const ObjectBuilderArgumentList& objectBuilderArgumentList) const;
     

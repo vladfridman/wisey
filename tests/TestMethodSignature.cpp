@@ -40,7 +40,8 @@ struct MethodSignatureTest : Test {
                                          "systems.vos.wisey.compiler.tests.IInterface",
                                          structType,
                                          parentInterfaces,
-                                         interfaceElements);
+                                         interfaceElements,
+                                         0);
 
     vector<MethodArgument*> arguments;
     vector<const Model*> thrownExceptions;
@@ -78,7 +79,8 @@ TEST_F(MethodSignatureTest, createCopyTest) {
                                                  "systems.vos.wisey.compiler.tests.IAnother",
                                                  NULL,
                                                  parentInterfaces,
-                                                 interfaceElements);
+                                                 interfaceElements,
+                                                 0);
   MethodSignature* copy = mMethodSignature->createCopy(interface);
   
   EXPECT_STREQ(copy->getName().c_str(), "foo");

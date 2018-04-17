@@ -56,7 +56,8 @@ struct FieldPrimitiveVariableTest : Test {
     fields.push_back(new StateField(PrimitiveTypes::INT_TYPE, "foo", 0));
     mObject = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                         objectFullName,
-                                        objectStructType);
+                                        objectStructType,
+                                        0);
     mObject->setFields(fields, 1u);
     
     FunctionType* functionType =

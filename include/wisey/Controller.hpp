@@ -49,6 +49,13 @@ namespace wisey {
     std::vector<LLVMFunction*> mLLVMFunctions;
     std::map<std::string, LLVMFunction*> mLLVMFunctionMap;
     ImportProfile* mImportProfile;
+    int mLine;
+    
+    Controller(AccessLevel accessLevel,
+               std::string name,
+               llvm::StructType* structType,
+               bool isExternal,
+               int line);
     
   public:
     
@@ -59,12 +66,15 @@ namespace wisey {
      */
     static Controller* newController(AccessLevel accessLevel,
                                      std::string name,
-                                     llvm::StructType* structType);
+                                     llvm::StructType* structType,
+                                     int line);
     
     /**
      * static method for external controller instantiation
      */
-    static Controller* newExternalController(std::string name, llvm::StructType* structType);
+    static Controller* newExternalController(std::string name,
+                                             llvm::StructType* structType,
+                                             int line);
     
     AccessLevel getAccessLevel() const override;
     
@@ -204,12 +214,7 @@ namespace wisey {
     std::vector<std::string> getMissingReceivedFields(std::set<std::string>
                                                       givenFields) const override;
     
-  private:
-    
-    Controller(AccessLevel accessLevel,
-               std::string name,
-               llvm::StructType* structType,
-               bool isExternal);
+    int getLine() const override;
     
   };
   

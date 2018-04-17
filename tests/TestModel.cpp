@@ -105,7 +105,7 @@ struct ModelTest : public Test {
     fields.push_back(mHeightField);
     vector<MethodArgument*> methodArguments;
     vector<const Model*> thrownExceptions;
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, mStructType);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, mStructType, 3);
     mMethod = new Method(mModel,
                          "foo",
                          AccessLevel::PUBLIC_ACCESS,
@@ -147,7 +147,8 @@ struct ModelTest : public Test {
                                                  subShapeFullName,
                                                  subShapeIinterfaceStructType,
                                                  subShapeParentInterfaces,
-                                                 subShapeInterfaceElements);
+                                                 subShapeInterfaceElements,
+                                                 0);
     mContext.addInterface(mSubShapeInterface);
     mSubShapeInterface->buildMethods(mContext);
     
@@ -171,7 +172,8 @@ struct ModelTest : public Test {
                                               shapeFullName,
                                               shapeIinterfaceStructType,
                                               shapeParentInterfaces,
-                                              shapeInterfaceElements);
+                                              shapeInterfaceElements,
+                                              0);
     mContext.addInterface(mShapeInterface);
     mShapeInterface->buildMethods(mContext);
 
@@ -193,7 +195,8 @@ struct ModelTest : public Test {
                                                objectFullName,
                                                objectInterfaceStructType,
                                                objectParentInterfaces,
-                                               objectInterfaceElements);
+                                               objectInterfaceElements,
+                                               0);
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
 
@@ -205,7 +208,8 @@ struct ModelTest : public Test {
                                             carFullName,
                                             carInterfaceStructType,
                                             carParentInterfaces,
-                                            carInterfaceElements);
+                                            carInterfaceElements,
+                                            0);
     mContext.addInterface(mCarInterface);
     mCarInterface->buildMethods(mContext);
 
@@ -248,7 +252,7 @@ struct ModelTest : public Test {
     circleTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                           ->getPointerTo()->getPointerTo());
     circleStructType->setBody(circleTypes);
-    mCircleModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, cirlceFullName, circleStructType);
+    mCircleModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, cirlceFullName, circleStructType, 0);
     llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
                                                                   cirlceFullName + ".name");
     new GlobalVariable(*mContext.getModule(),
@@ -264,7 +268,7 @@ struct ModelTest : public Test {
     string galaxyFullName = "systems.vos.wisey.compiler.tests.MGalaxy";
     StructType* galaxyStructType = StructType::create(mLLVMContext, galaxyFullName);
     galaxyStructType->setBody(galaxyTypes);
-    mGalaxyModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, galaxyFullName, galaxyStructType);
+    mGalaxyModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, galaxyFullName, galaxyStructType, 0);
     mContext.addModel(mGalaxyModel);
 
     vector<Type*> birthdateTypes;
@@ -275,7 +279,8 @@ struct ModelTest : public Test {
     birthdateStructType->setBody(birthdateTypes);
     mBirthdateModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                       birthdateFullName,
-                                      birthdateStructType);
+                                      birthdateStructType,
+                                      0);
     mContext.addModel(mBirthdateModel);
     
     vector<Type*> starTypes;
@@ -291,7 +296,7 @@ struct ModelTest : public Test {
     vector<IField*> starFields;
     starFields.push_back(new FixedField(mBirthdateModel->getOwner(), "mBirthdate", 0));
     starFields.push_back(new FixedField(mGalaxyModel, "mGalaxy", 0));
-    mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, starFullName, starStructType);
+    mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, starFullName, starStructType, 0);
     mStarModel->setFields(starFields, 1u);
     mContext.addModel(mStarModel);
     Value* field1Value = ConstantPointerNull::get(mBirthdateModel->getOwner()
@@ -341,35 +346,39 @@ struct ModelTest : public Test {
 };
 
 TEST_F(ModelTest, getAccessLevelTest) {
-  EXPECT_EQ(mModel->getAccessLevel(), AccessLevel::PUBLIC_ACCESS);
+  EXPECT_EQ(AccessLevel::PUBLIC_ACCESS, mModel->getAccessLevel());
+}
+
+TEST_F(ModelTest, getLineTest) {
+  EXPECT_EQ(3, mModel->getLine());
 }
 
 TEST_F(ModelTest, getNameTest) {
-  EXPECT_STREQ(mModel->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.MSquare");
+  EXPECT_STREQ("systems.vos.wisey.compiler.tests.MSquare", mModel->getTypeName().c_str());
 }
 
 TEST_F(ModelTest, getShortNameTest) {
-  EXPECT_STREQ(mModel->getShortName().c_str(), "MSquare");
+  EXPECT_STREQ("MSquare", mModel->getShortName().c_str());
 }
 
 TEST_F(ModelTest, getVTableNameTest) {
-  EXPECT_STREQ(mModel->getVTableName().c_str(), "systems.vos.wisey.compiler.tests.MSquare.vtable");
+  EXPECT_STREQ("systems.vos.wisey.compiler.tests.MSquare.vtable", mModel->getVTableName().c_str());
 }
 
 TEST_F(ModelTest, getLLVMTypeTest) {
-  EXPECT_EQ(mModel->getLLVMType(mContext), mStructType->getPointerTo());
+  EXPECT_EQ(mStructType->getPointerTo(), mModel->getLLVMType(mContext));
 }
 
 TEST_F(ModelTest, getInterfacesTest) {
-  EXPECT_EQ(mModel->getInterfaces().size(), 2u);
+  EXPECT_EQ(2u, mModel->getInterfaces().size());
 }
 
 TEST_F(ModelTest, getVTableSizeTest) {
-  EXPECT_EQ(mModel->getVTableSize(), 3u);
+  EXPECT_EQ(3u, mModel->getVTableSize());
 }
 
 TEST_F(ModelTest, getFieldsTest) {
-  EXPECT_EQ(mModel->getFields().size(), 2u);
+  EXPECT_EQ(2u, mModel->getFields().size());
 }
 
 TEST_F(ModelTest, getOwnerTest) {
@@ -387,23 +396,23 @@ TEST_F(ModelTest, createRTTITest) {
 }
 
 TEST_F(ModelTest, findFeildTest) {
-  EXPECT_EQ(mModel->findField("mWidth"), mWidthField);
-  EXPECT_EQ(mModel->findField("mHeight"), mHeightField);
-  EXPECT_EQ(mModel->findField("mDepth"), nullptr);
+  EXPECT_EQ(mWidthField, mModel->findField("mWidth"));
+  EXPECT_EQ(mHeightField, mModel->findField("mHeight"));
+  EXPECT_EQ(nullptr, mModel->findField("mDepth"));
 }
 
 TEST_F(ModelTest, getFieldIndexTest) {
-  EXPECT_EQ(mModel->getFieldIndex(mWidthField), 2u);
-  EXPECT_EQ(mModel->getFieldIndex(mHeightField), 3u);
+  EXPECT_EQ(2u, mModel->getFieldIndex(mWidthField));
+  EXPECT_EQ(3u, mModel->getFieldIndex(mHeightField));
 }
 
 TEST_F(ModelTest, findMethodTest) {
-  EXPECT_EQ(mModel->findMethod("foo"), mMethod);
-  EXPECT_EQ(mModel->findMethod("get"), nullptr);
+  EXPECT_EQ(mMethod, mModel->findMethod("foo"));
+  EXPECT_EQ(nullptr, mModel->findMethod("get"));
 }
 
 TEST_F(ModelTest, findConstantTest) {
-  EXPECT_EQ(mModel->findConstant("MYCONSTANT"), mConstant);
+  EXPECT_EQ(mConstant, mModel->findConstant("MYCONSTANT"));
 }
 
 TEST_F(ModelTest, findConstantDeathTest) {
@@ -744,7 +753,7 @@ TEST_F(ModelTest, buildNotAllFieldsAreSetDeathTest) {
 
 TEST_F(ModelTest, printToStreamTest) {
   stringstream stringStream;
-  Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL);
+  Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL, 0);
   vector<IField*> fields;
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1", 0));
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
@@ -765,7 +774,7 @@ TEST_F(ModelTest, printToStreamTest) {
   methods.push_back(method);
   innerPublicModel->setMethods(methods);
 
-  Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS, "MInnerPrivateModel", NULL);
+  Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS, "MInnerPrivateModel", NULL, 0);
   innerPrivateModel->setFields(fields, 0);
 
   mModel->addInnerObject(innerPublicModel);

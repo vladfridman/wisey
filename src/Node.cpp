@@ -26,12 +26,17 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Node::Node(AccessLevel accessLevel, string name, StructType* structType, bool isExternal) :
+Node::Node(AccessLevel accessLevel,
+           string name,
+           StructType* structType,
+           bool isExternal,
+           int line) :
 mAccessLevel(accessLevel),
 mName(name),
 mStructType(structType),
 mIsExternal(isExternal),
-mIsInner(false) {
+mIsInner(false),
+mLine(line) {
   mNodeOwner = new NodeOwner(this);
 }
 
@@ -64,12 +69,12 @@ Node::~Node() {
   mLLVMFunctions.clear();
 }
 
-Node* Node::newNode(AccessLevel accessLevel, string name, StructType* structType) {
-  return new Node(accessLevel, name, structType, false);
+Node* Node::newNode(AccessLevel accessLevel, string name, StructType* structType, int line) {
+  return new Node(accessLevel, name, structType, false, line);
 }
 
-Node* Node::newExternalNode(string name, StructType* structType) {
-  return new Node(AccessLevel::PUBLIC_ACCESS, name, structType, true);
+Node* Node::newExternalNode(string name, StructType* structType, int line) {
+  return new Node(AccessLevel::PUBLIC_ACCESS, name, structType, true, line);
 }
 
 AccessLevel Node::getAccessLevel() const {
@@ -487,4 +492,8 @@ Instruction* Node::inject(IRGenerationContext& context,
                           int line) const {
   repotNonInjectableType(context, this, line);
   exit(1);
+}
+
+int Node::getLine() const {
+  return mLine;
 }

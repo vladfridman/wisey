@@ -43,7 +43,8 @@ struct InstanceOfTest : public Test {
                                               shapeFullName,
                                               shapeStructType,
                                               parentInterfaces,
-                                              interfaceElements);
+                                              interfaceElements,
+                                              0);
 
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
@@ -51,7 +52,8 @@ struct InstanceOfTest : public Test {
                                                objectFullName,
                                                objectStructType,
                                                parentInterfaces,
-                                               interfaceElements);
+                                               interfaceElements,
+                                               0);
 
     llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
                                                                   mShapeInterface->getTypeName());

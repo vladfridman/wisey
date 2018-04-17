@@ -54,7 +54,8 @@ Interface* ExternalInterfaceDefinition::prototypeObject(IRGenerationContext& con
   Interface* interface = Interface::newExternalInterface(fullName,
                                                          structType,
                                                          mParentInterfaceSpecifiers,
-                                                         mElementDeclarations);
+                                                         mElementDeclarations,
+                                                         mLine);
   context.addInterface(interface);
   interface->setImportProfile(context.getImportProfile());
   interface->defineInterfaceTypeName(context);

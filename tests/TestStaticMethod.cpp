@@ -63,7 +63,7 @@ public:
     types.push_back(Type::getInt32Ty(mLLVMContext));
     StructType* structType = StructType::create(mLLVMContext, modelFullName);
     structType->setBody(types);
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType, 0);
     mStaticMethod = new StaticMethod(mModel,
                                      "mymethod",
                                      AccessLevel::PUBLIC_ACCESS,

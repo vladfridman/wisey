@@ -93,7 +93,8 @@ struct NodeOwnerTest : public Test {
                                                 elementInterfaceFullName,
                                                 elementInterfaceStructType,
                                                 elementParentInterfaces,
-                                                elementObjectElements);
+                                                elementObjectElements,
+                                                0);
     mContext.addInterface(mElementInterface);
     mElementInterface->buildMethods(mContext);
     
@@ -111,7 +112,8 @@ struct NodeOwnerTest : public Test {
                                                            complicatedElementFullName,
                                                            complicatedElementIinterfaceStructType,
                                                            complicatedElementParentInterfaces,
-                                                           complicatedElementObjectElements);
+                                                           complicatedElementObjectElements,
+                                                           0);
     mContext.addInterface(mComplicatedElementInterface);
     mComplicatedElementInterface->buildMethods(mContext);
 
@@ -133,7 +135,8 @@ struct NodeOwnerTest : public Test {
                                                objectFullName,
                                                objectInterfaceStructType,
                                                objectParentInterfaces,
-                                               objectElements);
+                                               objectElements,
+                                               0);
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
 
@@ -178,7 +181,8 @@ struct NodeOwnerTest : public Test {
     
     mComplicatedNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                      complicatedNodeFullName,
-                                     mStructType);
+                                     mStructType,
+                                     0);
     mComplicatedNode->setFields(fields, interfaces.size());
     mComplicatedNode->setMethods(methods);
     mComplicatedNode->setInterfaces(interfaces);
@@ -197,7 +201,8 @@ struct NodeOwnerTest : public Test {
     simpleNodeFields.push_back(mAreaField);
     mSimpleNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                 simpleNodeFullName,
-                                simpleNodeStructType);
+                                simpleNodeStructType,
+                                0);
     mSimpleNode->setFields(simpleNodeFields, 1u);
     mContext.addNode(mSimpleNode);
     
@@ -212,7 +217,8 @@ struct NodeOwnerTest : public Test {
     simplerNodeFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mRight", 0));
     mSimplerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                  simplerNodeFullName,
-                                 simplerNodeStructType);
+                                 simplerNodeStructType,
+                                 0);
     mSimplerNode->setFields(simplerNodeFields, 1u);
     mContext.addNode(mSimplerNode);
     IConcreteObjectType::generateNameGlobal(mContext, mSimplerNode);
@@ -227,7 +233,8 @@ struct NodeOwnerTest : public Test {
                                                 vehicleFullName,
                                                 vehicleInterfaceStructType,
                                                 vehicleParentInterfaces,
-                                                vehicleObjectElements);
+                                                vehicleObjectElements,
+                                                0);
     
     IConcreteObjectType::generateNameGlobal(mContext, mSimpleNode);
     IConcreteObjectType::generateShortNameGlobal(mContext, mSimpleNode);

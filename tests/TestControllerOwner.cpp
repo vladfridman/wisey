@@ -63,7 +63,8 @@ struct ControllerOwnerTest : public Test {
                                                 vehicleFullName,
                                                 vehicleInterfaceStructType,
                                                 parentInterfaces,
-                                                interfaceElements);
+                                                interfaceElements,
+                                                0);
 
     string additorFullName = "systems.vos.wisey.compiler.tests.CAdditor";
     StructType* additorStructType = StructType::create(mLLVMContext, additorFullName);
@@ -73,7 +74,8 @@ struct ControllerOwnerTest : public Test {
     additorStructType->setBody(additorTypes);
     mAdditorController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                    additorFullName,
-                                                   additorStructType);
+                                                   additorStructType,
+                                                   0);
     IConcreteObjectType::generateNameGlobal(mContext, mAdditorController);
     IConcreteObjectType::generateShortNameGlobal(mContext, mAdditorController);
     IConcreteObjectType::generateVTable(mContext, mAdditorController);
@@ -85,7 +87,8 @@ struct ControllerOwnerTest : public Test {
                                                    calculatorFullName,
                                                    calculatorIinterfaceStructType,
                                                    parentInterfaces,
-                                                   interfaceElements);
+                                                   interfaceElements,
+                                                   0);
     mContext.addInterface(mCalculatorInterface);
     mCalculatorInterface->buildMethods(mContext);
 
@@ -95,7 +98,8 @@ struct ControllerOwnerTest : public Test {
                                                objectFullName,
                                                objectInterfaceStructType,
                                                parentInterfaces,
-                                               interfaceElements);
+                                               interfaceElements,
+                                               0);
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
 
@@ -111,7 +115,8 @@ struct ControllerOwnerTest : public Test {
                                                           scienceCalculatorFullName,
                                                           scienceCalculatorIinterfaceStructType,
                                                           scienceCalculatorParentInterfaces,
-                                                          scienceCalculatorInterfaceElements);
+                                                          scienceCalculatorInterfaceElements,
+                                                          0);
     mContext.addInterface(mScienceCalculatorInterface);
     mScienceCalculatorInterface->buildMethods(mContext);
 
@@ -123,7 +128,8 @@ struct ControllerOwnerTest : public Test {
     StructType* structType = StructType::create(mLLVMContext, multiplierFullName);
     mMultiplierController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                       multiplierFullName,
-                                                      structType);
+                                                      structType,
+                                                      0);
     mMultiplierController->setInterfaces(interfaces);
 
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);

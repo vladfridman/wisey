@@ -88,7 +88,7 @@ struct ThreadTest : public Test {
     string workerFullName = "systems.vos.wisey.compiler.tests.TWorker";
     mStructType = StructType::create(mLLVMContext, workerFullName);
     mStructType->setBody(types);
-    mThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS, workerFullName, mStructType);
+    mThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS, workerFullName, mStructType, 9);
     vector<IField*> fields;
     mFromField = new StateField(PrimitiveTypes::INT_TYPE, "mFrom", 0);
     mToField = new StateField(PrimitiveTypes::INT_TYPE, "mTo", 0);
@@ -178,7 +178,8 @@ struct ThreadTest : public Test {
     nonInjectableFieldThreadFields.push_back(injectedField);
     mNonInjectableFieldThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
                                                   nonInjectableFieldThreadFullName,
-                                                  nonInjectableFieldThreadStructType);
+                                                  nonInjectableFieldThreadStructType,
+                                                  0);
     mNonInjectableFieldThread->setFields(nonInjectableFieldThreadFields, 1u);
     mContext.addThread(mNonInjectableFieldThread);
     
@@ -197,7 +198,8 @@ struct ThreadTest : public Test {
     push_back(new ReceivedField(PrimitiveTypes::INT_TYPE, "mValue", 0));
     mNotWellFormedArgumentsThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
                                                       notWellFormedArgumentsThreadFullName,
-                                                      notWellFormedArgumentsThreadStructType);
+                                                      notWellFormedArgumentsThreadStructType,
+                                                      0);
     mNotWellFormedArgumentsThread->setFields(notWellFormedArgumentsThreadFields, 1u);
     mContext.addThread(mNotWellFormedArgumentsThread);
     
@@ -233,37 +235,41 @@ struct ThreadTest : public Test {
 };
 
 TEST_F(ThreadTest, getAccessLevelTest) {
-  EXPECT_EQ(mThread->getAccessLevel(), AccessLevel::PUBLIC_ACCESS);
+  EXPECT_EQ(AccessLevel::PUBLIC_ACCESS, mThread->getAccessLevel());
+}
+
+TEST_F(ThreadTest, getLineTest) {
+  EXPECT_EQ(9, mThread->getLine());
 }
 
 TEST_F(ThreadTest, getNameTest) {
-  EXPECT_STREQ(mThread->getTypeName().c_str(),
-               "systems.vos.wisey.compiler.tests.TWorker");
+  EXPECT_STREQ("systems.vos.wisey.compiler.tests.TWorker",
+               mThread->getTypeName().c_str());
 }
 
 TEST_F(ThreadTest, getShortNameTest) {
-  EXPECT_STREQ(mThread->getShortName().c_str(), "TWorker");
+  EXPECT_STREQ("TWorker", mThread->getShortName().c_str());
 }
 
 TEST_F(ThreadTest, getVTableNameTest) {
-  EXPECT_STREQ(mThread->getVTableName().c_str(),
-               "systems.vos.wisey.compiler.tests.TWorker.vtable");
+  EXPECT_STREQ("systems.vos.wisey.compiler.tests.TWorker.vtable",
+               mThread->getVTableName().c_str());
 }
 
 TEST_F(ThreadTest, getLLVMTypeTest) {
-  EXPECT_EQ(mThread->getLLVMType(mContext), mStructType->getPointerTo());
+  EXPECT_EQ(mStructType->getPointerTo(), mThread->getLLVMType(mContext));
 }
 
 TEST_F(ThreadTest, getInterfacesTest) {
-  EXPECT_EQ(mThread->getInterfaces().size(), 0u);
+  EXPECT_EQ(0u, mThread->getInterfaces().size());
 }
 
 TEST_F(ThreadTest, getVTableSizeTest) {
-  EXPECT_EQ(mThread->getVTableSize(), 1u);
+  EXPECT_EQ(1u, mThread->getVTableSize());
 }
 
 TEST_F(ThreadTest, getFieldsTest) {
-  EXPECT_EQ(mThread->getFields().size(), 2u);
+  EXPECT_EQ(2u, mThread->getFields().size());
 }
 
 TEST_F(ThreadTest, getOwnerTest) {
@@ -272,23 +278,23 @@ TEST_F(ThreadTest, getOwnerTest) {
 }
 
 TEST_F(ThreadTest, getFieldIndexTest) {
-  EXPECT_EQ(mThread->getFieldIndex(mFromField), 1u);
-  EXPECT_EQ(mThread->getFieldIndex(mToField), 2u);
+  EXPECT_EQ(1u, mThread->getFieldIndex(mFromField));
+  EXPECT_EQ(2u, mThread->getFieldIndex(mToField));
 }
 
 TEST_F(ThreadTest, findFeildTest) {
-  EXPECT_EQ(mThread->findField("mFrom"), mFromField);
-  EXPECT_EQ(mThread->findField("mTo"), mToField);
-  EXPECT_EQ(mThread->findField("mFoo"), nullptr);
+  EXPECT_EQ(mFromField, mThread->findField("mFrom"));
+  EXPECT_EQ(mToField, mThread->findField("mTo"));
+  EXPECT_EQ(nullptr, mThread->findField("mFoo"));
 }
 
 TEST_F(ThreadTest, findMethodTest) {
-  EXPECT_EQ(mThread->findMethod("work"), mMethod);
-  EXPECT_EQ(mThread->findMethod("bar"), nullptr);
+  EXPECT_EQ(mMethod, mThread->findMethod("work"));
+  EXPECT_EQ(nullptr, mThread->findMethod("bar"));
 }
 
 TEST_F(ThreadTest, findConstantTest) {
-  EXPECT_EQ(mThread->findConstant("MYCONSTANT"), mConstant);
+  EXPECT_EQ(mConstant, mThread->findConstant("MYCONSTANT"));
 }
 
 TEST_F(ThreadTest, findConstantDeathTest) {
@@ -578,7 +584,8 @@ TEST_F(ThreadTest, injectFieldTest) {
   vector<IField*> childFields;
   Thread* childThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
                                           childFullName,
-                                          childStructType);
+                                          childStructType,
+                                          0);
   childThread->setFields(childFields, 1u);
   mContext.addThread(childThread);
   
@@ -599,7 +606,8 @@ TEST_F(ThreadTest, injectFieldTest) {
                                            3));
   Thread* parentThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
                                            parentFullName,
-                                           parentStructType);
+                                           parentStructType,
+                                           0);
   parentThread->setFields(parentFields, 1u);
   mContext.addThread(parentThread);
   
@@ -651,7 +659,7 @@ TEST_F(ThreadTest, injectFieldTest) {
 
 TEST_F(ThreadTest, printToStreamTest) {
   stringstream stringStream;
-  Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL);
+  Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL, 0);
   vector<IField*> fields;
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1", 0));
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
@@ -672,7 +680,7 @@ TEST_F(ThreadTest, printToStreamTest) {
   methods.push_back(method);
   innerPublicModel->setMethods(methods);
   
-  Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS, "MInnerPrivateModel", NULL);
+  Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS, "MInnerPrivateModel", NULL, 0);
   innerPrivateModel->setFields(fields, 0);
   
   mThread->addInnerObject(innerPublicModel);

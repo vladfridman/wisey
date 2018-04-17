@@ -70,7 +70,8 @@ public:
                                             carFullName,
                                             carInterfaceStructType,
                                             parentInterfaces,
-                                            interfaceElements);
+                                            interfaceElements,
+                                            0);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
   }

@@ -41,7 +41,7 @@ struct ThreadTypeSpecifierTest : public ::testing::Test {
     string threadFullName = "systems.vos.wisey.compiler.tests.TWorker";
     StructType* structType = StructType::create(llvmContext, threadFullName);
     structType->setBody(types);
-    mThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS, threadFullName, structType);
+    mThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS, threadFullName, structType, 0);
     vector<IField*> fields;
     fields.push_back(new StateField(PrimitiveTypes::INT_TYPE, "mFrom", 0));
     fields.push_back(new StateField(PrimitiveTypes::INT_TYPE, "mTo", 0));

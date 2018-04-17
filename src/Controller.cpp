@@ -27,12 +27,14 @@ using namespace wisey;
 Controller::Controller(AccessLevel accessLevel,
                        string name,
                        StructType* structType,
-                       bool isExternal) :
+                       bool isExternal,
+                       int line) :
 mAccessLevel(accessLevel),
 mName(name),
 mStructType(structType),
 mIsExternal(isExternal),
-mIsInner(false) {
+mIsInner(false),
+mLine(line) {
   mControllerOwner = new ControllerOwner(this);
 }
 
@@ -68,12 +70,13 @@ Controller::~Controller() {
 
 Controller* Controller::newController(AccessLevel accessLevel,
                                       string name,
-                                      StructType* structType) {
-  return new Controller(accessLevel , name, structType, false);
+                                      StructType* structType,
+                                      int line) {
+  return new Controller(accessLevel , name, structType, false, line);
 }
 
-Controller* Controller::newExternalController(string name, StructType* structType) {
-  return new Controller(AccessLevel::PUBLIC_ACCESS, name, structType, true);
+Controller* Controller::newExternalController(string name, StructType* structType, int line) {
+  return new Controller(AccessLevel::PUBLIC_ACCESS, name, structType, true, line);
 }
 
 AccessLevel Controller::getAccessLevel() const {
@@ -404,4 +407,8 @@ void Controller::createParameterVariable(IRGenerationContext& context,
 const wisey::ArrayType* Controller::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);
+}
+
+int Controller::getLine() const {
+  return mLine;
 }

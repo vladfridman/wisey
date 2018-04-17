@@ -62,7 +62,8 @@ struct MethodSignatureDeclarationTest : Test {
                                          interfaceFullName,
                                          structType,
                                          parentInterfaces,
-                                         interfaceElements);
+                                         interfaceElements,
+                                         0);
   }
   
   ~MethodSignatureDeclarationTest() {

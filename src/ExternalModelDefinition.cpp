@@ -47,7 +47,7 @@ Model* ExternalModelDefinition::prototypeObject(IRGenerationContext& context) co
   string fullName = IObjectDefinition::getFullName(context, mModelTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
-  Model* model = Model::newExternalModel(fullName, structType);
+  Model* model = Model::newExternalModel(fullName, structType, mLine);
   context.addModel(model);
   model->setImportProfile(context.getImportProfile());
 

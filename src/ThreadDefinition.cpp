@@ -49,7 +49,7 @@ Thread* ThreadDefinition::prototypeObject(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mThreadTypeSpecifierFull);
   
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
-  Thread* thread = Thread::newThread(mAccessLevel, fullName, structType);
+  Thread* thread = Thread::newThread(mAccessLevel, fullName, structType, mLine);
   context.addThread(thread);
   thread->setImportProfile(context.getImportProfile());
   

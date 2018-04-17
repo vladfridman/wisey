@@ -216,7 +216,8 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
                                                  interfaceFullName,
                                                  structType,
                                                  parentInterfaces,
-                                                 interfaceElements);
+                                                 interfaceElements,
+                                                 0);
   mContext.addInterface(interface);
   interface->buildMethods(mContext);
   llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,

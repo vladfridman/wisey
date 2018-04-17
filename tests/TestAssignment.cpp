@@ -71,10 +71,12 @@ public:
                                          "systems.vos.wisey.compiler.tests.IInterface",
                                          NULL,
                                          parentInterfaces,
-                                         interfaceElements);
+                                         interfaceElements,
+                                         0);
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             "systems.vos.wisey.compiler.tests.CController",
-                                            NULL);
+                                            NULL,
+                                            0);
 
     Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
     Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));

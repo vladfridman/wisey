@@ -59,13 +59,14 @@ struct FieldOwnerVariableTest : Test {
                                          interfaceFullName,
                                          interfaceStructType,
                                          parentInterfaces,
-                                         interfaceElements);
+                                         interfaceElements,
+                                         0);
     vector<Interface*> interfaces;
     interfaces.push_back(mInterface);
 
     string modelFullName = "systems.vos.wisey.compiler.tests.NNode";
     StructType* modelStructType = StructType::create(mLLVMContext, modelFullName);
-    mNode = Node::newNode(AccessLevel::PUBLIC_ACCESS, modelFullName, modelStructType);
+    mNode = Node::newNode(AccessLevel::PUBLIC_ACCESS, modelFullName, modelStructType, 0);
     mNode->setInterfaces(interfaces);
     
     vector<Type*> types;
@@ -79,7 +80,7 @@ struct FieldOwnerVariableTest : Test {
     vector<IField*> fields;
     fields.push_back(new StateField(mNode->getOwner(), "foo", 0));
     fields.push_back(new StateField(mInterface->getOwner(), "bar", 0));
-    mObject = Node::newNode(AccessLevel::PUBLIC_ACCESS, objectFullName, objectStructType);
+    mObject = Node::newNode(AccessLevel::PUBLIC_ACCESS, objectFullName, objectStructType, 0);
     mObject->setFields(fields, 1u);
     
     FunctionType* functionType =

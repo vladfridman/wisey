@@ -46,7 +46,7 @@ Node* ExternalNodeDefinition::prototypeObject(IRGenerationContext& context) cons
   string fullName = IObjectDefinition::getFullName(context, mNodeTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
-  Node* node = Node::newExternalNode(fullName, structType);
+  Node* node = Node::newExternalNode(fullName, structType, mLine);
   context.addNode(node);
   node->setImportProfile(context.getImportProfile());
 

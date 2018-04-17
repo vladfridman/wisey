@@ -68,7 +68,8 @@ struct InjectorTest : Test {
     controllerFields.push_back(new StateField(PrimitiveTypes::INT_TYPE, "right", 0));
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             controllerFullName,
-                                            controllerStructType);
+                                            controllerStructType,
+                                            0);
     mController->setFields(controllerFields, 1u);
     mContext.addController(mController);
 
@@ -80,7 +81,8 @@ struct InjectorTest : Test {
                                          interfaceFullName,
                                          interfaceStructType,
                                          parentInterfaces,
-                                         interfaceElements);
+                                         interfaceElements,
+                                         0);
     mContext.addInterface(mInterface);
     mContext.bindInterfaceToController(mInterface, mController);
    

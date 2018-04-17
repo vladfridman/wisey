@@ -26,12 +26,14 @@ using namespace wisey;
 Thread::Thread(AccessLevel accessLevel,
                string name,
                StructType* structType,
-               bool isExternal) :
+               bool isExternal,
+               int line) :
 mAccessLevel(accessLevel),
 mName(name),
 mStructType(structType),
 mIsExternal(isExternal),
-mIsInner(false) {
+mIsInner(false),
+mLine(line) {
   mThreadOwner = new ThreadOwner(this);
 }
 
@@ -67,12 +69,13 @@ Thread::~Thread() {
 
 Thread* Thread::newThread(AccessLevel accessLevel,
                           string name,
-                          StructType* structType) {
-  return new Thread(accessLevel , name, structType, false);
+                          StructType* structType,
+                          int line) {
+  return new Thread(accessLevel , name, structType, false, line);
 }
 
-Thread* Thread::newExternalThread(string name, StructType* structType) {
-  return new Thread(AccessLevel::PUBLIC_ACCESS, name, structType, true);
+Thread* Thread::newExternalThread(string name, StructType* structType, int line) {
+  return new Thread(AccessLevel::PUBLIC_ACCESS, name, structType, true, line);
 }
 
 AccessLevel Thread::getAccessLevel() const {
@@ -403,4 +406,8 @@ void Thread::createParameterVariable(IRGenerationContext& context,
 const wisey::ArrayType* Thread::getArrayType(IRGenerationContext& context) const {
   ArrayType::reportNonArrayType();
   exit(1);
+}
+
+int Thread::getLine() const {
+  return mLine;
 }

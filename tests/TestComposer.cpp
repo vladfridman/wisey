@@ -57,7 +57,7 @@ public:
 
     string modelFullName = "systems.vos.wisey.compiler.tests.MMyModel";
     StructType* modelStructType = StructType::create(mLLVMContext, modelFullName);
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, modelStructType);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, modelStructType, 0);
     mModel->setImportProfile(mImportProfile);
 
     FunctionType* functionType =

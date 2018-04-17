@@ -47,7 +47,7 @@ Thread* ExternalThreadDefinition::prototypeObject(IRGenerationContext& context) 
   string fullName = IObjectDefinition::getFullName(context, mThreadTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
-  Thread* thread = Thread::newExternalThread(fullName, structType);
+  Thread* thread = Thread::newExternalThread(fullName, structType, mLine);
   context.addThread(thread);
   thread->setImportProfile(context.getImportProfile());
   

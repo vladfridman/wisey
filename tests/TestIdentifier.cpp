@@ -82,7 +82,7 @@ TEST_F(IdentifierTest, generateIRForObjectOwnerVariableSetToNullTest) {
   EXPECT_CALL(mockVariable, setToNull(_));
   EXPECT_CALL(mockType, die());
   mContext.getScopes().setVariable(&mockVariable);
-  Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, modelStructType);
+  Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, modelStructType, 0);
 
   Identifier identifier("foo", 0);
   Value* result = identifier.generateIR(mContext, model->getOwner());

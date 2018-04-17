@@ -52,12 +52,14 @@ public:
                                          "systems.vos.wisey.compiler.tests.IInterface",
                                          NULL,
                                          parentInterfaces,
-                                         interfaceElements);
+                                         interfaceElements,
+                                         0);
 
     StructType* exceptionModelStructType = StructType::create(mLLVMContext, "MExceptionA");
     mExceptionModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                       "MExceptionA",
-                                      exceptionModelStructType);
+                                      exceptionModelStructType,
+                                      0);
     
     ON_CALL(*mReferenceVariable, getType()).WillByDefault(Return(mInterface));
     ON_CALL(*mOwnerVariable, getType()).WillByDefault(Return(mInterface->getOwner()));
@@ -105,7 +107,8 @@ TEST_F(ScopeTest, addExceptionsTest) {
   StructType* exceptionModelStructType = StructType::create(mLLVMContext, "MExceptionB");
   Model* exceptionModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                           "MExceptionB",
-                                          exceptionModelStructType);
+                                          exceptionModelStructType,
+                                          0);
 
   ASSERT_EQ(mScope.getExceptions().size(), 0u);
   

@@ -47,7 +47,14 @@ namespace wisey {
     std::vector<LLVMFunction*> mLLVMFunctions;
     std::map<std::string, LLVMFunction*> mLLVMFunctionMap;
     ImportProfile* mImportProfile;
+    int mLine;
     
+    Node(AccessLevel accessLevel,
+         std::string name,
+         llvm::StructType* structType,
+         bool isExternal,
+         int line);
+
   public:
     
     ~Node();
@@ -55,12 +62,17 @@ namespace wisey {
     /**
      * static method for node instantiation
      */
-    static Node* newNode(AccessLevel accessLevel, std::string name, llvm::StructType* structType);
+    static Node* newNode(AccessLevel accessLevel,
+                         std::string name,
+                         llvm::StructType* structType,
+                         int line);
     
     /**
      * static method for external node instantiation
      */
-    static Node* newExternalNode(std::string name, llvm::StructType* structType);
+    static Node* newExternalNode(std::string name,
+                                 llvm::StructType* structType,
+                                 int line);
     
     /**
      * Returns the difference beteween the set of fixed fields and the fields given as argument
@@ -204,9 +216,9 @@ namespace wisey {
                               const InjectionArgumentList injectionArgumentList,
                               int line) const override;
 
+    int getLine() const override;
+
   private:
-    
-    Node(AccessLevel accessLevel, std::string name, llvm::StructType* structType, bool isExternal);
     
     void checkArguments(const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const;
     

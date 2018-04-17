@@ -61,22 +61,26 @@ struct IConcreteObjectTypeTest : public Test {
                                                     "Interface1",
                                                     NULL,
                                                     parentInterfaces,
-                                                    interfaceElements);
+                                                    interfaceElements,
+                                                    0);
     Interface* interface2 = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                                     "Interface2",
                                                     NULL,
                                                     parentInterfaces,
-                                                    interfaceElements);
+                                                    interfaceElements,
+                                                    0);
     mInterface3 = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                           "Interface3",
                                           NULL,
                                           parentInterfaces,
-                                          interfaceElements);
+                                          interfaceElements,
+                                          0);
     Interface* interface4 = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                                     "Interface4",
                                                     NULL,
                                                     parentInterfaces,
-                                                    interfaceElements);
+                                                    interfaceElements,
+                                                    0);
     interfaces.push_back(interface1);
     interfaces.push_back(interface2);
     interfaces.push_back(mInterface3);
@@ -96,7 +100,7 @@ struct IConcreteObjectTypeTest : public Test {
     vector<IField*> starFields;
     starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mBrightness", 0));
     starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mWeight", 0));
-    mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, starFullName, starStructType);
+    mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, starFullName, starStructType, 0);
     mStarModel->setFields(starFields, 1u);
     mContext.addModel(mStarModel);
     
@@ -109,7 +113,7 @@ struct IConcreteObjectTypeTest : public Test {
     galaxyStructType->setBody(galaxyTypes);
     vector<IField*> galaxyFields;
     galaxyFields.push_back(new FixedField(mStarModel->getOwner(), "mStar", 0));
-    mGalaxyModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, galaxyFullName, galaxyStructType);
+    mGalaxyModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, galaxyFullName, galaxyStructType, 0);
     mGalaxyModel->setFields(galaxyFields, 1u);
     mContext.addModel(mGalaxyModel);
 
@@ -124,7 +128,8 @@ struct IConcreteObjectTypeTest : public Test {
     constellationFields.push_back(new FixedField(mStarModel, "mStar", 0));
     mConstellationModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                           constellationFullName,
-                                          constellationStructType);
+                                          constellationStructType,
+                                          0);
     mConstellationModel->setFields(constellationFields, 1u);
     mContext.addModel(mConstellationModel);
     
@@ -138,7 +143,8 @@ struct IConcreteObjectTypeTest : public Test {
                                            canNavigateFullName,
                                            canNavigateStructType,
                                            canNavigateParentInterfaces,
-                                           canNavigateElements);
+                                           canNavigateElements,
+                                           0);
 
     vector<Type*> carTypes;
     carTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
@@ -149,7 +155,7 @@ struct IConcreteObjectTypeTest : public Test {
     carStructType->setBody(carTypes);
     vector<IField*> carFields;
     carFields.push_back(new FixedField(mCanNavigate->getOwner(), "mNavigator", 0));
-    mCarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, carFullName, carStructType);
+    mCarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, carFullName, carStructType, 0);
     mCarModel->setFields(carFields, 1u);
     mContext.addModel(mCarModel);
 
@@ -441,7 +447,8 @@ TEST_F(IConcreteObjectTypeTest, addInterfaceAndItsParentsTest) {
                                                   "some.package.IGrandChild",
                                                   grandChildStructType,
                                                   interfaceTypeSpecifiers,
-                                                  objectElements);
+                                                  objectElements,
+                                                  0);
 
   PackageType* packageType = new PackageType(package);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
@@ -453,14 +460,16 @@ TEST_F(IConcreteObjectTypeTest, addInterfaceAndItsParentsTest) {
                                               "some.package.IChild1",
                                               child1StructType,
                                               interfaceTypeSpecifiers,
-                                              objectElements);
+                                              objectElements,
+                                              0);
   interfaceTypeSpecifiers.clear();
   StructType* child2StructType = StructType::create(mLLVMContext, "some.package.IChild2");
   Interface* child2 = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                               "some.package.IChild2",
                                               child2StructType,
                                               interfaceTypeSpecifiers,
-                                              objectElements);
+                                              objectElements,
+                                              0);
 
   packageExpression = new FakeExpression(NULL, packageType);
   interfaceTypeSpecifiers.push_back(new InterfaceTypeSpecifier(packageExpression, "IChild1", 0));
@@ -471,7 +480,8 @@ TEST_F(IConcreteObjectTypeTest, addInterfaceAndItsParentsTest) {
                                               "some.package.IParent",
                                               parentStructType,
                                               interfaceTypeSpecifiers,
-                                              objectElements);
+                                              objectElements,
+                                              0);
   mContext.addInterface(parent);
   mContext.addInterface(child1);
   mContext.addInterface(child2);

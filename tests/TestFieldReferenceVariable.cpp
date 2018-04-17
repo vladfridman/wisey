@@ -59,13 +59,14 @@ struct FieldReferenceVariableTest : Test {
                                          interfaceFullName,
                                          interfaceStructType,
                                          parentInterfaces,
-                                         interfaceElements);
+                                         interfaceElements,
+                                         0);
     vector<Interface*> interfaces;
     interfaces.push_back(mInterface);
 
     string nodeFullName = "systems.vos.wisey.compiler.tests.NNode";
     StructType* nodeStructType = StructType::create(mLLVMContext, nodeFullName);
-    mNode = Node::newNode(AccessLevel::PUBLIC_ACCESS, nodeFullName, nodeStructType);
+    mNode = Node::newNode(AccessLevel::PUBLIC_ACCESS, nodeFullName, nodeStructType, 0);
     mNode->setInterfaces(interfaces);
   
     vector<Type*> types;
@@ -81,7 +82,8 @@ struct FieldReferenceVariableTest : Test {
     fields.push_back(new StateField(mInterface, "bar", 0));
     mObject = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                         objectFullName,
-                                        objectStructType);
+                                        objectStructType,
+                                        0);
     mObject->setFields(fields, 1u);
     
     FunctionType* functionType =

@@ -77,7 +77,8 @@ public:
     fields.push_back(new StateField(mArrayType->getOwner(), "foo", 0));
     mObject = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                         objectFullName,
-                                        objectStructType);
+                                        objectStructType,
+                                        0);
     mObject->setFields(fields, 1u);
     
     Value* thisPointer = ConstantPointerNull::get(mObject->getLLVMType(mContext));

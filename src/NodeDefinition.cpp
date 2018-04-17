@@ -46,7 +46,7 @@ Node* NodeDefinition::prototypeObject(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mNodeTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
-  Node* node = Node::newNode(mAccessLevel, fullName, structType);
+  Node* node = Node::newNode(mAccessLevel, fullName, structType, mLine);
   context.addNode(node);
   node->setImportProfile(context.getImportProfile());
 

@@ -76,7 +76,8 @@ public:
     StructType* returnedModelStructType = StructType::create(mLLVMContext, returnedModelFullName);
     mReturnedModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                      returnedModelFullName,
-                                     returnedModelStructType);
+                                     returnedModelStructType,
+                                     0);
     mContext.addModel(mReturnedModel);
     
     vector<Type*> types;
@@ -87,7 +88,7 @@ public:
     string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
     mStructType = StructType::create(mLLVMContext, modelFullName);
     mStructType->setBody(types);
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, mStructType);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, mStructType, 0);
     vector<IField*> fields;
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width", 0));
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height", 0));
@@ -110,7 +111,8 @@ public:
     StructType* exceptionModelStructType = StructType::create(mLLVMContext, "MException");
     Model* exceptionModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                             "MException",
-                                            exceptionModelStructType);
+                                            exceptionModelStructType,
+                                            0);
     barThrownExceptions.push_back(exceptionModel);
     mBarMethod = new Method(mModel,
                             "bar",
@@ -231,7 +233,8 @@ TEST_F(MethodCallTest, translateInterfaceMethodToLLVMFunctionNameTest) {
                                                  interfaceFullName,
                                                  structType,
                                                  parentInterfaces,
-                                                 interfaceElements);
+                                                 interfaceElements,
+                                                 0);
   string functionName =
     MethodCall::translateInterfaceMethodToLLVMFunctionName(mModel, interface, "foo");
   

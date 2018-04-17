@@ -217,7 +217,8 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
                                                  interfaceFullName,
                                                  structType,
                                                  parentInterfaces,
-                                                 interfaceElements);
+                                                 interfaceElements,
+                                                 0);
   mContext.addInterface(interface);
   interface->buildMethods(mContext);
   

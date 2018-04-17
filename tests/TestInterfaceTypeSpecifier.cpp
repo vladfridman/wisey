@@ -53,7 +53,8 @@ struct InterfaceTypeSpecifierTest : public ::testing::Test {
                                          interfaceFullName,
                                          structType,
                                          parentInterfaces,
-                                         objectElements);
+                                         objectElements,
+                                         0);
    
     mContext.addInterface(mInterface);
   }

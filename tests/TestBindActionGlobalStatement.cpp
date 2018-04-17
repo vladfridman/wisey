@@ -42,7 +42,8 @@ struct BindActionGlobalStatementTest : public Test {
                                          interfaceFullName,
                                          interfaceStructType,
                                          parentInterfaces,
-                                         interfaceElements);
+                                         interfaceElements,
+                                         0);
     
     string controllerFullName = "systems.vos.wisey.compiler.tests.CMyController";
     StructType* controllerStructType = StructType::create(mLLVMContext, controllerFullName);
@@ -51,7 +52,8 @@ struct BindActionGlobalStatementTest : public Test {
     vector<Interface*> controllerInterfaces;
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             controllerFullName,
-                                            controllerStructType);
+                                            controllerStructType,
+                                            0);
     mController->setFields(controllerFields, 1u);
     mController->setMethods(controllerMethods);
     mController->setInterfaces(controllerInterfaces);
