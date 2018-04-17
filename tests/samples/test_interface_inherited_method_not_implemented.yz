@@ -1,0 +1,19 @@
+package systems.vos.wisey.compiler.tests;
+
+
+
+interface IShape {
+  int getArea();
+}
+
+interface IRectangle extends IShape {
+
+}
+
+model MSquare implements IRectangle {
+  int mWidth;
+
+  public int getColor() {
+    return 5;
+  }
+}

@@ -51,6 +51,7 @@ struct MethodSignatureTest : Test {
                                            arguments,
                                            thrownExceptions,
                                            new MethodQualifiers(0),
+                                           interfaceFullName,
                                            0);
   }
 };
@@ -61,6 +62,8 @@ TEST_F(MethodSignatureTest, methodSignatureTest) {
   EXPECT_EQ(0u, mMethodSignature->getArguments().size());
   EXPECT_STREQ("systems.vos.wisey.compiler.tests.IInterface.foo",
                mMethodSignature->getTypeName().c_str());
+  EXPECT_STREQ("systems.vos.wisey.compiler.tests.IInterface",
+               mMethodSignature->getOriginalParentName().c_str());
 }
 
 TEST_F(MethodSignatureTest, elementTypeTest) {

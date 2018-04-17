@@ -55,6 +55,7 @@ MethodSignature* MethodSignatureDeclaration::define(IRGenerationContext& context
                              arguments,
                              exceptions,
                              mMethodQualifiers,
+                             objectType->getTypeName(),
                              mLine);
 }
 

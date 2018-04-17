@@ -165,6 +165,7 @@ TEST_F(IMethodDescriptorTest, getLLVMFunctionTypeTest) {
                          arguments,
                          thrownExceptions,
                          new MethodQualifiers(0),
+                         "systems.vos.wisey.compiler.tests.MObject",
                          0);
   FunctionType* functionType = IMethodDescriptor::getLLVMFunctionType(mContext, &method, mModel, 0);
   

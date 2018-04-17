@@ -26,6 +26,7 @@ namespace wisey {
     std::vector<MethodArgument*> mArguments;
     std::vector<const Model*> mThrownExceptions;
     MethodQualifiers* mMethodQualifiers;
+    std::string mOriginalParentName;
     int mLine;
     
   public:
@@ -36,6 +37,7 @@ namespace wisey {
                     std::vector<MethodArgument*> arguments,
                     std::vector<const Model*> thrownExceptions,
                     MethodQualifiers* methodQualifiers,
+                    std::string originalParentName,
                     int line);
     
     ~MethodSignature();
@@ -44,6 +46,11 @@ namespace wisey {
      * Creates a copy of the object with a different index
      */
     MethodSignature* createCopy(const Interface* interface) const;
+    
+    /**
+     * Get name of the interface that declared this method signature
+     */
+    std::string getOriginalParentName() const;
     
     bool isStatic() const override;
     

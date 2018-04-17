@@ -686,6 +686,15 @@ TEST_F(TestFileRunner, interfaceMethodNotImplmentedDeathTest) {
                     "implemented by object systems.vos.wisey.compiler.tests.MSquare");
 }
 
+TEST_F(TestFileRunner, interfaceInheritedMethodNotImplmentedDeathTest) {
+  expectFailCompile("tests/samples/test_interface_inherited_method_not_implemented.yz",
+                    1,
+                    "tests/samples/test_interface_inherited_method_not_implemented.yz\\(19\\): "
+                    "Error: Method getArea "
+                    "of interface systems.vos.wisey.compiler.tests.IShape is not "
+                    "implemented by object systems.vos.wisey.compiler.tests.MSquare");
+}
+
 TEST_F(TestFileRunner, interfaceMethodDifferentReturnTypeDeathTest) {
   expectFailCompile("tests/samples/test_interface_method_return_type_doesnot_match.yz",
                     1,

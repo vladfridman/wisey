@@ -27,6 +27,8 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
 
 struct MethodSignatureDeclarationTest : Test {
@@ -81,7 +83,7 @@ TEST_F(MethodSignatureDeclarationTest, methodDescriptorExtractTest) {
                                                         thrownExceptions,
                                                         new MethodQualifiers(0),
                                                         0);
-  MethodSignature* methodSignature = methodSignatureDeclaration.define(mContext, NULL);
+  MethodSignature* methodSignature = methodSignatureDeclaration.define(mContext, mInterface);
   vector<MethodArgument*> arguments = methodSignature->getArguments();
   
   EXPECT_FALSE(methodSignatureDeclaration.isConstant());

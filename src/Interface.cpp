@@ -377,8 +377,10 @@ Function* Interface::defineMapFunctionForMethod(IRGenerationContext& context,
   IMethodDescriptor* objectMethodDescriptor =
     object->findMethod(interfaceMethodSignature->getName());
   if (objectMethodDescriptor == NULL) {
-    Log::e_deprecated("Method " + interfaceMethodSignature->getName() + " of interface " + mName +
-           " is not implemented by object " + object->getTypeName());
+    context.reportError(object->getLine(),
+                        "Method " + interfaceMethodSignature->getName() + " of interface " +
+                        interfaceMethodSignature->getOriginalParentName() +
+                        " is not implemented by object " + object->getTypeName());
     exit(1);
   }
   

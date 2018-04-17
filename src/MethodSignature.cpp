@@ -21,6 +21,7 @@ MethodSignature::MethodSignature(const IObjectType* objectType,
                                  vector<MethodArgument*> arguments,
                                  vector<const Model*> thrownExceptions,
                                  MethodQualifiers* methodQualifiers,
+                                 string originalParentName,
                                  int line) :
 mObjectType(objectType),
 mName(name),
@@ -28,6 +29,7 @@ mReturnType(returnType),
 mArguments(arguments),
 mThrownExceptions(thrownExceptions),
 mMethodQualifiers(methodQualifiers),
+mOriginalParentName(originalParentName),
 mLine(line) { }
 
 MethodSignature::~MethodSignature() {
@@ -68,7 +70,12 @@ MethodSignature* MethodSignature::createCopy(const Interface* interface) const {
                              mArguments,
                              mThrownExceptions,
                              mMethodQualifiers,
+                             mOriginalParentName,
                              mLine);
+}
+
+string MethodSignature::getOriginalParentName() const {
+  return mOriginalParentName;
 }
 
 bool MethodSignature::isConstant() const {
