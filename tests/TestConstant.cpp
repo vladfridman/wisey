@@ -51,7 +51,7 @@ public:
     ON_CALL(*mExpression, generateIR(_, _)).WillByDefault(Return(constantInt));
     ON_CALL(*mObject, getTypeName()).WillByDefault(Return("MObject"));
 
-    mConstant = Constant::newPublicConstant(PrimitiveTypes::INT_TYPE, mName, mExpression);
+    mConstant = new Constant(PUBLIC_ACCESS, PrimitiveTypes::INT_TYPE, mName, mExpression);
   }
   
   ~ConstantTest() {
@@ -110,7 +110,7 @@ TEST_F(ConstantTest, printPublicConstantToStreamTest) {
 
 TEST_F(ConstantTest, printPrivateConstantToStreamTest) {
   stringstream stringStream;
-  Constant* constant = Constant::newPrivateConstant(PrimitiveTypes::INT_TYPE, mName, mExpression);
+  Constant* constant = new Constant(PRIVATE_ACCESS, PrimitiveTypes::INT_TYPE, mName, mExpression);
   constant->printToStream(mContext, stringStream);
 
   EXPECT_EQ(stringStream.str().size(), 0u);

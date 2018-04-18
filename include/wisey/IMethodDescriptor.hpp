@@ -15,6 +15,7 @@
 
 #include <llvm/IR/DerivedTypes.h>
 
+#include "wisey/AccessLevel.hpp"
 #include "wisey/IType.hpp"
 #include "wisey/IObjectType.hpp"
 #include "wisey/IPrintable.hpp"

@@ -13,7 +13,6 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/AccessLevel.hpp"
 #include "wisey/IBuildableConcreteObjectType.hpp"
 #include "wisey/IMethod.hpp"
 #include "wisey/ObjectBuilderArgument.hpp"

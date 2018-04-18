@@ -214,9 +214,10 @@ struct ModelTest : public Test {
     mCarInterface->buildMethods(mContext);
 
     IntConstant* intConstant = new IntConstant(5, 0);
-    mConstant = wisey::Constant::newPublicConstant(PrimitiveTypes::INT_TYPE,
-                                                   "MYCONSTANT",
-                                                   intConstant);
+    mConstant = new wisey::Constant(PUBLIC_ACCESS,
+                                    PrimitiveTypes::INT_TYPE,
+                                    "MYCONSTANT",
+                                    intConstant);
     vector<wisey::Constant*> constants;
     constants.push_back(mConstant);
 

@@ -11,6 +11,7 @@
 
 #include <iostream>
 
+#include "wisey/AccessLevel.hpp"
 #include "wisey/IObjectOwnerType.hpp"
 #include "wisey/IReferenceType.hpp"
 #include "wisey/ImportProfile.hpp"
