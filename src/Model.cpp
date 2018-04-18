@@ -32,7 +32,7 @@ Model::Model(AccessLevel accessLevel,
              StructType* structType,
              bool isExternal,
              int line) :
-mAccessLevel(accessLevel),
+mIsPublic(accessLevel == PUBLIC_ACCESS),
 mName(name),
 mStructType(structType),
 mIsExternal(isExternal),
@@ -77,7 +77,7 @@ Model* Model::newExternalModel(string name, StructType* structType, int line) {
 }
 
 bool Model::isPublic() const {
-  return mAccessLevel == PUBLIC_ACCESS;
+  return mIsPublic;
 }
 
 void Model::setFields(vector<IField*> fields, unsigned long startIndex) {

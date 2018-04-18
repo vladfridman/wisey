@@ -33,7 +33,7 @@ namespace wisey {
    * Contains information about an Interface including the llvm::StructType and method information
    */
   class Interface : public IObjectType {
-    AccessLevel mAccessLevel;
+    bool mIsPublic;
     std::string mName;
     llvm::StructType* mStructType;
     bool mIsExternal;

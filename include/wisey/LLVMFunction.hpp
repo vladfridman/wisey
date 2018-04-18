@@ -9,7 +9,6 @@
 #ifndef LLVMFunction_h
 #define LLVMFunction_h
 
-#include "wisey/AccessLevel.hpp"
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/IObjectElement.hpp"
 #include "wisey/LLVMFunctionArgument.hpp"
@@ -22,7 +21,7 @@ namespace wisey {
    */
   class LLVMFunction : public IObjectElement {
     std::string mName;
-    AccessLevel mAccessLevel;
+    bool mIsPublic;
     const LLVMFunctionType* mLLVMFunctionType;
     const IType* mReturnType;
     std::vector<const LLVMFunctionArgument*> mArguments;

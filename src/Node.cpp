@@ -31,7 +31,7 @@ Node::Node(AccessLevel accessLevel,
            StructType* structType,
            bool isExternal,
            int line) :
-mAccessLevel(accessLevel),
+mIsPublic(accessLevel == PUBLIC_ACCESS),
 mName(name),
 mStructType(structType),
 mIsExternal(isExternal),
@@ -78,7 +78,7 @@ Node* Node::newExternalNode(string name, StructType* structType, int line) {
 }
 
 bool Node::isPublic() const {
-  return mAccessLevel == PUBLIC_ACCESS;
+  return mIsPublic;
 }
 
 void Node::setFields(vector<IField*> fields, unsigned long startIndex) {

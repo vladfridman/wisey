@@ -29,7 +29,7 @@ Controller::Controller(AccessLevel accessLevel,
                        StructType* structType,
                        bool isExternal,
                        int line) :
-mAccessLevel(accessLevel),
+mIsPublic(accessLevel == PUBLIC_ACCESS),
 mName(name),
 mStructType(structType),
 mIsExternal(isExternal),
@@ -80,7 +80,7 @@ Controller* Controller::newExternalController(string name, StructType* structTyp
 }
 
 bool Controller::isPublic() const {
-  return mAccessLevel == PUBLIC_ACCESS;
+  return mIsPublic;
 }
 
 void Controller::setFields(vector<IField*> fields, unsigned long startIndex) {

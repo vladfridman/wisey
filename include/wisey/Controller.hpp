@@ -27,7 +27,7 @@ namespace wisey {
    * Contains information about a Controller including its fields and methods
    */
   class Controller : public IInjectableConcreteObjectType {
-    AccessLevel mAccessLevel;
+    bool mIsPublic;
     std::string mName;
     llvm::StructType* mStructType;
     bool mIsExternal;

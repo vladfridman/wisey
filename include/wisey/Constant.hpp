@@ -21,7 +21,7 @@ namespace wisey {
    * Represents a constant defined within an object
    */
   class Constant : public IPrintable, public IObjectElement {
-    const AccessLevel mAccessLevel;
+    bool mIsPublic;
     const IType* mType;
     std::string mName;
     IExpression* mExpression;

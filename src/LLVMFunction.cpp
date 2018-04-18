@@ -27,7 +27,7 @@ LLVMFunction::LLVMFunction(string name,
                            CompoundStatement* compoundStatement,
                            int line) :
 mName(name),
-mAccessLevel(accessLevel),
+mIsPublic(accessLevel == PUBLIC_ACCESS),
 mLLVMFunctionType(llvmFunctionType),
 mReturnType(returnType),
 mArguments(arguments),
@@ -87,7 +87,7 @@ Function* LLVMFunction::getLLVMFunction(IRGenerationContext& context,
 }
 
 bool LLVMFunction::isPublic() const {
-  return mAccessLevel == PUBLIC_ACCESS;
+  return mIsPublic;
 }
 
 bool LLVMFunction::isConstant() const {

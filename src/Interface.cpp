@@ -47,7 +47,7 @@ Interface::Interface(AccessLevel accessLevel,
                      vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
                      vector<IObjectElementDefinition *> elementDelcarations,
                      int line) :
-mAccessLevel(accessLevel),
+mIsPublic(accessLevel == PUBLIC_ACCESS),
 mName(name),
 mStructType(structType),
 mIsExternal(isExternal),
@@ -116,7 +116,7 @@ Interface* Interface::newExternalInterface(string name,
 }
 
 bool Interface::isPublic() const {
-  return mAccessLevel == PUBLIC_ACCESS;
+  return mIsPublic;
 }
 
 void Interface::buildMethods(IRGenerationContext& context) {

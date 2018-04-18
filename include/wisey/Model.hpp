@@ -26,7 +26,7 @@ namespace wisey {
    * Contains information about a model including the llvm::StructType and field information
    */
   class Model : public IBuildableConcreteObjectType {
-    AccessLevel mAccessLevel;
+    bool mIsPublic;
     std::string mName;
     llvm::StructType* mStructType;
     bool mIsExternal;

@@ -27,7 +27,7 @@ namespace wisey {
   class StaticMethod : public IMethod {
     const IObjectType* mObjectType;
     std::string mName;
-    AccessLevel mAccessLevel;
+    bool mIsPublic;
     const IType* mReturnType;
     std::vector<MethodArgument*> mArguments;
     std::vector<const Model*> mThrownExceptions;

@@ -20,7 +20,7 @@ Constant::Constant(const AccessLevel accessLevel,
                    const IType* type,
                    std::string name,
                    IExpression* expression) :
-mAccessLevel(accessLevel),
+mIsPublic(accessLevel == PUBLIC_ACCESS),
 mType(type),
 mName(name),
 mExpression(expression) { }
@@ -28,7 +28,7 @@ mExpression(expression) { }
 Constant::~Constant() { }
 
 bool Constant::isPublic() const {
-  return mAccessLevel == PUBLIC_ACCESS;
+  return mIsPublic;
 }
 
 string Constant::getName() const {
@@ -40,7 +40,7 @@ const IType* Constant::getType() const {
 }
 
 void Constant::printToStream(IRGenerationContext& context, iostream& stream) const {
-  if (mAccessLevel == PRIVATE_ACCESS) {
+  if (!mIsPublic) {
     return;
   }
   
@@ -58,7 +58,7 @@ llvm::Value* Constant::generateIR(IRGenerationContext& context,
   
   const IType* type = mExpression->getType(context);
   llvm::Type* llvmType = type->getLLVMType(context);
-  llvm::GlobalValue::LinkageTypes linkageType = mAccessLevel == PUBLIC_ACCESS
+  llvm::GlobalValue::LinkageTypes linkageType = mIsPublic
     ? llvm::GlobalValue::ExternalLinkage
     : llvm::GlobalValue::InternalLinkage;
   

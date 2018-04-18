@@ -26,7 +26,7 @@ namespace wisey {
    * Contains information about a Thread object including its fields and methods
    */
   class Thread : public IInjectableConcreteObjectType {
-    AccessLevel mAccessLevel;
+    bool mIsPublic;
     std::string mName;
     llvm::StructType* mStructType;
     bool mIsExternal;

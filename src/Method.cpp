@@ -37,7 +37,7 @@ Method::Method(const IObjectType* objectType,
                int line) :
 mObjectType(objectType),
 mName(name),
-mAccessLevel(accessLevel),
+mIsPublic(accessLevel == PUBLIC_ACCESS),
 mReturnType(returnType),
 mArguments(arguments),
 mThrownExceptions(thrownExceptions),
@@ -62,7 +62,7 @@ string Method::getName() const {
 }
 
 bool Method::isPublic() const {
-  return mAccessLevel == PUBLIC_ACCESS;
+  return mIsPublic;
 }
 
 const IType* Method::getReturnType() const {

@@ -34,7 +34,7 @@ StaticMethod::StaticMethod(const IObjectType* objectType,
                            int line) :
 mObjectType(objectType),
 mName(name),
-mAccessLevel(accessLevel),
+mIsPublic(accessLevel == PUBLIC_ACCESS),
 mReturnType(returnType),
 mArguments(arguments),
 mThrownExceptions(thrownExceptions),
@@ -59,7 +59,7 @@ string StaticMethod::getName() const {
 }
 
 bool StaticMethod::isPublic() const {
-  return mAccessLevel == PUBLIC_ACCESS;
+  return mIsPublic;
 }
 
 const IType* StaticMethod::getReturnType() const {
