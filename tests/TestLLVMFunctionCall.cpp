@@ -103,6 +103,21 @@ TEST_F(LLVMFunctionCallTest, generateIRTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(TestFileRunner, llvmFunctionCallTest) {
+TEST_F(TestFileRunner, llvmFunctionCallRunTest) {
   runFile("tests/samples/test_llvm_function_call.yz", "3");
+}
+
+TEST_F(TestFileRunner, llvmFunctionCallFullPathRunTest) {
+  runFile("tests/samples/test_llvm_function_call_full_path.yz", "3");
+}
+
+TEST_F(TestFileRunner, llvmFunctionCallInInterfaceRunTest) {
+  runFile("tests/samples/test_llvm_function_call_in_interface.yz", "8");
+}
+
+TEST_F(TestFileRunner, llvmFunctionCallPrivateFailDeathRunTest) {
+  expectFailCompile("tests/samples/test_llvm_function_call_private_fail.yz",
+                    1,
+                    "Error: Static method 'getValue' of object "
+                    "systems.vos.wisey.compiler.tests.IMyInterface is private");
 }

@@ -1,0 +1,18 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+interface IMyInterface {
+  private ::llvm::function ::llvm::i32 getValue(int addTo) {
+    return 3 + addTo;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    return IMyInterface.getValue(5);
+  }
+}
+
+bind(IProgram).to(CProgram);

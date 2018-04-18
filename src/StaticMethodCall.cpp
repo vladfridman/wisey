@@ -12,6 +12,7 @@
 #include "wisey/AutoCast.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LLVMFunction.hpp"
 #include "wisey/LocalArrayOwnerVariable.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
@@ -89,12 +90,15 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
   }
   
   vector<Value*> arguments;
-  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
-  Value* threadObject = threadVariable->generateIdentifierIR(context);
-  IVariable* callStackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
-  Value* callStackObject = callStackVariable->generateIdentifierIR(context);
-  arguments.push_back(threadObject);
-  arguments.push_back(callStackObject);
+  
+  if (!methodDescriptor->isNative()) {
+    IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
+    Value* threadObject = threadVariable->generateIdentifierIR(context);
+    IVariable* callStackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
+    Value* callStackObject = callStackVariable->generateIdentifierIR(context);
+    arguments.push_back(threadObject);
+    arguments.push_back(callStackObject);
+  }
 
   vector<const Argument*> methodArguments = methodDescriptor->getArguments();
   vector<const Argument*>::iterator methodArgumentIterator = methodArguments.begin();
@@ -150,12 +154,14 @@ const IType* StaticMethodCall::getType(IRGenerationContext& context) const {
 
 IMethodDescriptor* StaticMethodCall::getMethodDescriptor(IRGenerationContext& context) const {
   const IObjectType* objectType = mObjectTypeSpecifier->getType(context);
-  IMethodDescriptor* methodDescriptor = objectType->findMethod(mMethodName);
-  if (methodDescriptor == NULL) {
+  IMethodDescriptor* staticMethod = objectType->findMethod(mMethodName);
+  IMethodDescriptor* llvmFunction = objectType->findLLVMFunction(mMethodName);
+  if (staticMethod == NULL && llvmFunction == NULL) {
     Log::e_deprecated("Static method '" + mMethodName + "' is not found in object " +
            objectType->getTypeName());
     exit(1);
   }
+  IMethodDescriptor* methodDescriptor = staticMethod == NULL ? llvmFunction : staticMethod;
   if (!methodDescriptor->isStatic()) {
     Log::e_deprecated("Method '" + mMethodName + "' of object type " +
            objectType->getTypeName() + " is not static");
