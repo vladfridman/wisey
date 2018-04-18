@@ -75,10 +75,7 @@ public:
     objectStructType->setBody(types);
     vector<IField*> fields;
     fields.push_back(new StateField(mArrayType->getOwner(), "foo", 0));
-    mObject = Controller::newController(AccessLevel::PUBLIC_ACCESS,
-                                        objectFullName,
-                                        objectStructType,
-                                        0);
+    mObject = Controller::newPublicController(objectFullName, objectStructType, 0);
     mObject->setFields(fields, 1u);
     
     Value* thisPointer = ConstantPointerNull::get(mObject->getLLVMType(mContext));

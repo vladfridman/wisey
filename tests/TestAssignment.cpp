@@ -73,11 +73,10 @@ public:
                                          parentInterfaces,
                                          interfaceElements,
                                          0);
-    mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
-                                            "systems.vos.wisey.compiler.tests.CController",
-                                            NULL,
-                                            0);
-
+    mController = Controller::newPublicController("systems.vos.wisey.compiler.tests.CController",
+                                                  NULL,
+                                                  0);
+    
     Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
     Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));
     mThreadVariable = new NiceMock<MockVariable>();

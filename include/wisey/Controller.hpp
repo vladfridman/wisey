@@ -27,7 +27,7 @@ namespace wisey {
    * Contains information about a Controller including its fields and methods
    */
   class Controller : public IInjectableConcreteObjectType {
-    AccessLevel mAccessLevel;
+    bool mIsPublic;
     std::string mName;
     llvm::StructType* mStructType;
     bool mIsExternal;
@@ -51,7 +51,7 @@ namespace wisey {
     ImportProfile* mImportProfile;
     int mLine;
     
-    Controller(AccessLevel accessLevel,
+    Controller(bool isPublic,
                std::string name,
                llvm::StructType* structType,
                bool isExternal,
@@ -62,13 +62,19 @@ namespace wisey {
     ~Controller();
     
     /**
-     * static method for controller instantiation
+     * static method for public controller instantiation
      */
-    static Controller* newController(AccessLevel accessLevel,
-                                     std::string name,
-                                     llvm::StructType* structType,
-                                     int line);
-    
+    static Controller* newPublicController(std::string name,
+                                           llvm::StructType* structType,
+                                           int line);
+
+    /**
+     * static method for private controller instantiation
+     */
+    static Controller* newPrivateController(std::string name,
+                                            llvm::StructType* structType,
+                                            int line);
+
     /**
      * static method for external controller instantiation
      */

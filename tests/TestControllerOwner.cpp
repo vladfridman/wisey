@@ -72,10 +72,7 @@ struct ControllerOwnerTest : public Test {
     additorTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                            ->getPointerTo()->getPointerTo());
     additorStructType->setBody(additorTypes);
-    mAdditorController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
-                                                   additorFullName,
-                                                   additorStructType,
-                                                   0);
+    mAdditorController = Controller::newPublicController(additorFullName, additorStructType, 0);
     IConcreteObjectType::generateNameGlobal(mContext, mAdditorController);
     IConcreteObjectType::generateShortNameGlobal(mContext, mAdditorController);
     IConcreteObjectType::generateVTable(mContext, mAdditorController);
@@ -126,10 +123,7 @@ struct ControllerOwnerTest : public Test {
 
     string multiplierFullName = "systems.vos.wisey.compiler.tests.CMultiplier";
     StructType* structType = StructType::create(mLLVMContext, multiplierFullName);
-    mMultiplierController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
-                                                      multiplierFullName,
-                                                      structType,
-                                                      0);
+    mMultiplierController = Controller::newPublicController(multiplierFullName, structType, 0);
     mMultiplierController->setInterfaces(interfaces);
 
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);

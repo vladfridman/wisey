@@ -53,10 +53,7 @@ struct IFieldVariableTest : Test {
     vector<IField*> controllerFields;
     mStateField = new StateField(PrimitiveTypes::INT_TYPE, "bar", 0);
     controllerFields.push_back(mStateField);
-    mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
-                                            controllerFullName,
-                                            controllerStructType,
-                                            0);
+    mController = Controller::newPublicController(controllerFullName, controllerStructType, 0);
     mController->setFields(controllerFields, 1u);
     
     string modelFullName = "systems.vos.wisey.compiler.tests.MModel";
