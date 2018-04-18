@@ -66,13 +66,12 @@ struct ObjectFunctionVariableTest : Test {
     functionArguments.push_back(functionArgument);
     Block* block = new Block();
     CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
-    mLLVMFunction = new LLVMFunction("myfunction",
-                                     PUBLIC_ACCESS,
-                                     mLLVMFunctionType,
-                                     returnType,
-                                     functionArguments,
-                                     compoundStatement,
-                                     0);
+    mLLVMFunction = LLVMFunction::newPublicLLVMFunction("myfunction",
+                                                        mLLVMFunctionType,
+                                                        LLVMPrimitiveTypes::I8,
+                                                        functionArguments,
+                                                        compoundStatement,
+                                                        0);
     ON_CALL(*mObject, findLLVMFunction(_)).WillByDefault(Return(mLLVMFunction));
     ON_CALL(*mObject, getTypeName()).WillByDefault(Return("MSomeObject"));
 

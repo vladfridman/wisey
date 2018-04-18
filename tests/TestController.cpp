@@ -216,13 +216,12 @@ struct ControllerTest : public Test {
     vector<const LLVMFunctionArgument*> llvmFunctionArguments;
     Block* functionBlock = new Block();
     CompoundStatement* functionCompoundStatement = new CompoundStatement(functionBlock, 0);
-    mLLVMFunction = new LLVMFunction("myfunction",
-                                     PUBLIC_ACCESS,
-                                     llvmFunctionType,
-                                     LLVMPrimitiveTypes::I8,
-                                     llvmFunctionArguments,
-                                     functionCompoundStatement,
-                                     0);
+    mLLVMFunction = LLVMFunction::newPublicLLVMFunction("myfunction",
+                                                        llvmFunctionType,
+                                                        LLVMPrimitiveTypes::I8,
+                                                        llvmFunctionArguments,
+                                                        functionCompoundStatement,
+                                                        0);
     vector<LLVMFunction*> functions;
     functions.push_back(mLLVMFunction);
 

@@ -47,13 +47,20 @@ LLVMFunction* LLVMFunctionDefinition::define(IRGenerationContext& context,
     arugmentTypes.push_back(argument->getType());
   }
   LLVMFunctionType* functionType = context.getLLVMFunctionType(returnType, arugmentTypes);
-  return new LLVMFunction(mName,
-                          mAccessLevel,
-                          functionType,
-                          returnType,
-                          arguments,
-                          mCompoundStatement,
-                          mLine);
+  if (mAccessLevel == PRIVATE_ACCESS) {
+    return LLVMFunction::newPrivateLLVMFunction(mName,
+                                                functionType,
+                                                returnType,
+                                                arguments,
+                                                mCompoundStatement,
+                                                mLine);
+  }
+  return LLVMFunction::newPublicLLVMFunction(mName,
+                                             functionType,
+                                             returnType,
+                                             arguments,
+                                             mCompoundStatement,
+                                             mLine);
 }
 
 bool LLVMFunctionDefinition::isConstant() const {

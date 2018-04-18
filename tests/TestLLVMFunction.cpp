@@ -44,13 +44,12 @@ struct LLVMFunctionTest : public Test {
     vector<const IType*> argumentTypes;
     argumentTypes.push_back(LLVMPrimitiveTypes::I64);
     mLLVMFunctionType = new LLVMFunctionType(LLVMPrimitiveTypes::I16, argumentTypes);
-    mLLVMFunction = new LLVMFunction("myfunction",
-                                     PUBLIC_ACCESS,
-                                     mLLVMFunctionType,
-                                     LLVMPrimitiveTypes::I16,
-                                     arguments,
-                                     compoundStatement,
-                                     0);
+    mLLVMFunction = LLVMFunction::newPublicLLVMFunction("myfunction",
+                                                        mLLVMFunctionType,
+                                                        LLVMPrimitiveTypes::I16,
+                                                        arguments,
+                                                        compoundStatement,
+                                                        0);
 
     ON_CALL(*mObject, getTypeName()).WillByDefault(Return("MSomeObject"));
 

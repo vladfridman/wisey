@@ -60,20 +60,18 @@ struct LLVMFunctionIdentifierTest : public Test {
     vector<const IType*> argumentTypes;
     argumentTypes.push_back(LLVMPrimitiveTypes::I64);
     mLLVMFunctionType = new LLVMFunctionType(LLVMPrimitiveTypes::I16, argumentTypes);
-    mPublicLLVMFunction = new LLVMFunction("publicFunction",
-                                           PUBLIC_ACCESS,
-                                           mLLVMFunctionType,
-                                           LLVMPrimitiveTypes::I16,
-                                           arguments,
-                                           compoundStatement,
-                                           0);
-    mPrivateLLVMFunction = new LLVMFunction("privateFunction",
-                                            PRIVATE_ACCESS,
-                                            mLLVMFunctionType,
-                                            LLVMPrimitiveTypes::I16,
-                                            arguments,
-                                            compoundStatement,
-                                            0);
+    mPublicLLVMFunction = LLVMFunction::newPublicLLVMFunction("publicFunction",
+                                                              mLLVMFunctionType,
+                                                              LLVMPrimitiveTypes::I16,
+                                                              arguments,
+                                                              compoundStatement,
+                                                              0);
+    mPrivateLLVMFunction = LLVMFunction::newPrivateLLVMFunction("privateFunction",
+                                                                mLLVMFunctionType,
+                                                                LLVMPrimitiveTypes::I16,
+                                                                arguments,
+                                                                compoundStatement,
+                                                                0);
     vector<Type*> functionArgumentTypes;
     llvm::FunctionType* functionType = llvm::FunctionType::get(Type::getVoidTy(mLLVMContext),
                                                                functionArgumentTypes,
