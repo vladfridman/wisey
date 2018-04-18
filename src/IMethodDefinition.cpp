@@ -13,16 +13,16 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-vector<const MethodArgument*> IMethodDefinition::
+vector<const wisey::Argument*> IMethodDefinition::
 createArgumnetList(IRGenerationContext& context, VariableList argumentDefinitions) {
-  vector<const MethodArgument*> arguments;
+  vector<const Argument*> arguments;
   
   for (VariableList::const_iterator iterator = argumentDefinitions.begin();
        iterator != argumentDefinitions.end();
        iterator++) {
     const IType* type = (**iterator).getTypeSpecifier()->getType(context);
     string name = (**iterator).getIdentifier()->getIdentifierName();
-    MethodArgument* methodArgument = new MethodArgument(type, name);
+    Argument* methodArgument = new Argument(type, name);
     arguments.push_back(methodArgument);
   }
   

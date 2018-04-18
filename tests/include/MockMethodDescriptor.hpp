@@ -25,7 +25,7 @@ public:
   MOCK_CONST_METHOD0(getName, std::string ());
   MOCK_CONST_METHOD0(isPublic, bool ());
   MOCK_CONST_METHOD0(getReturnType, const wisey::IType* ());
-  MOCK_CONST_METHOD0(getArguments, std::vector<const wisey::MethodArgument*> ());
+  MOCK_CONST_METHOD0(getArguments, std::vector<const wisey::Argument*> ());
   MOCK_CONST_METHOD0(getThrownExceptions, std::vector<const wisey::Model*> ());
   MOCK_CONST_METHOD0(isStatic, bool ());
   MOCK_CONST_METHOD0(isConceal, bool ());

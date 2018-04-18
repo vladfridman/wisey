@@ -15,10 +15,10 @@
 
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
+#include "wisey/Argument.hpp"
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/Method.hpp"
-#include "wisey/MethodArgument.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -60,9 +60,9 @@ public:
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType, 0);
     mModel->setFields(fields, 1u);
 
-    MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
-    MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar");
-    std::vector<const MethodArgument*> arguments;
+    wisey::Argument* doubleArgument = new wisey::Argument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
+    wisey::Argument* charArgument = new wisey::Argument(PrimitiveTypes::CHAR_TYPE, "argChar");
+    std::vector<const wisey::Argument*> arguments;
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
     vector<const Model*> thrownExceptions;
@@ -105,8 +105,8 @@ TEST_F(MethodTest, elementTypeTest) {
 }
 
 TEST_F(MethodTest, getLLVMTypeTest) {
-  MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
-  std::vector<const MethodArgument*> arguments;
+  wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT_TYPE, "intargument");
+  std::vector<const wisey::Argument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
   Method method(mModel,
@@ -135,8 +135,8 @@ TEST_F(MethodTest, getLLVMTypeTest) {
 }
 
 TEST_F(MethodTest, definePublicFunctionTest) {
-  MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
-  std::vector<const MethodArgument*> arguments;
+  wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT_TYPE, "intargument");
+  std::vector<const wisey::Argument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
   Method method(mModel,
@@ -157,8 +157,8 @@ TEST_F(MethodTest, definePublicFunctionTest) {
 }
 
 TEST_F(MethodTest, definePrivateFunctionTest) {
-  MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
-  std::vector<const MethodArgument*> arguments;
+  wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT_TYPE, "intargument");
+  std::vector<const wisey::Argument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
   Method method(mModel,
@@ -179,8 +179,8 @@ TEST_F(MethodTest, definePrivateFunctionTest) {
 }
 
 TEST_F(MethodTest, generateIRTest) {
-  MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
-  std::vector<const MethodArgument*> arguments;
+  wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT_TYPE, "intargument");
+  std::vector<const wisey::Argument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
   Method method(mModel,

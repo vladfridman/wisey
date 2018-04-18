@@ -103,7 +103,7 @@ struct ModelTest : public Test {
     mHeightField = new FixedField(PrimitiveTypes::INT_TYPE, "mHeight", 0);
     fields.push_back(mWidthField);
     fields.push_back(mHeightField);
-    vector<const MethodArgument*> methodArguments;
+    vector<const wisey::Argument*> methodArguments;
     vector<const Model*> thrownExceptions;
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, mStructType, 3);
     mMethod = new Method(mModel,
@@ -130,14 +130,14 @@ struct ModelTest : public Test {
     
     string subShapeFullName = "systems.vos.wisey.compiler.tests.ISubShape";
     StructType* subShapeIinterfaceStructType = StructType::create(mLLVMContext, subShapeFullName);
-    VariableList subShapeInterfaceMethodArguments;
+    VariableList subShapeInterfaceArguments;
     vector<IObjectElementDefinition*> subShapeInterfaceElements;
     vector<IModelTypeSpecifier*> subShapeInterfaceThrownExceptions;
     const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
     IObjectElementDefinition* methodFooSignature =
       new MethodSignatureDeclaration(intSpecifier,
                                      "foo",
-                                     subShapeInterfaceMethodArguments,
+                                     subShapeInterfaceArguments,
                                      subShapeInterfaceThrownExceptions,
                                      new MethodQualifiers(0),
                                      0);
@@ -154,12 +154,12 @@ struct ModelTest : public Test {
     
     string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
     StructType* shapeIinterfaceStructType = StructType::create(mLLVMContext, shapeFullName);
-    VariableList shapeInterfaceMethodArguments;
+    VariableList shapeInterfaceArguments;
     vector<IObjectElementDefinition*> shapeInterfaceElements;
     vector<IModelTypeSpecifier*> shapeInterfaceThrownExceptions;
     methodFooSignature = new MethodSignatureDeclaration(intSpecifier,
                                                         "foo",
-                                                        shapeInterfaceMethodArguments,
+                                                        shapeInterfaceArguments,
                                                         shapeInterfaceThrownExceptions,
                                                         new MethodQualifiers(0),
                                                         0);
@@ -179,13 +179,13 @@ struct ModelTest : public Test {
 
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectInterfaceStructType = StructType::create(mLLVMContext, objectFullName);
-    VariableList objectInterfaceMethodArguments;
+    VariableList objectInterfaceArguments;
     vector<IObjectElementDefinition*> objectInterfaceElements;
     vector<IModelTypeSpecifier*> objectInterfaceThrownExceptions;
     IObjectElementDefinition* methodBarSignature =
       new MethodSignatureDeclaration(intSpecifier,
                                      "bar",
-                                     objectInterfaceMethodArguments,
+                                     objectInterfaceArguments,
                                      objectInterfaceThrownExceptions,
                                      new MethodQualifiers(0),
                                      0);
@@ -760,7 +760,7 @@ TEST_F(ModelTest, printToStreamTest) {
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
   innerPublicModel->setFields(fields, 0);
 
-  vector<const MethodArgument*> methodArguments;
+  vector<const wisey::Argument*> methodArguments;
   vector<const Model*> thrownExceptions;
   Method* method = new Method(innerPublicModel,
                               "bar",

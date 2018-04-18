@@ -6,9 +6,9 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/Argument.hpp"
 #include "wisey/IMethodDescriptor.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/MethodArgument.hpp"
 #include "wisey/Names.hpp"
 
 using namespace std;
@@ -16,18 +16,18 @@ using namespace llvm;
 using namespace wisey;
 
 bool IMethodDescriptor::compare(IMethodDescriptor* method1, IMethodDescriptor* method2) {
-  vector<const MethodArgument*> thisArguments = method1->getArguments();
-  vector<const MethodArgument*> thatArugments = method2->getArguments();
+  vector<const Argument*> thisArguments = method1->getArguments();
+  vector<const Argument*> thatArugments = method2->getArguments();
   if (thisArguments.size() != thatArugments.size()) {
     return false;
   }
   
-  vector<const MethodArgument*>::const_iterator thatArgumentIterator = thatArugments.begin();
-  for (vector<const MethodArgument*>::const_iterator thisArgumentIterator = thisArguments.begin();
+  vector<const Argument*>::const_iterator thatArgumentIterator = thatArugments.begin();
+  for (vector<const Argument*>::const_iterator thisArgumentIterator = thisArguments.begin();
        thisArgumentIterator != thisArguments.end();
        thisArgumentIterator++, thatArgumentIterator++) {
-    const MethodArgument* thisArgument = *thisArgumentIterator;
-    const MethodArgument* thatArgument = *thatArgumentIterator;
+    const Argument* thisArgument = *thisArgumentIterator;
+    const Argument* thatArgument = *thatArgumentIterator;
     if (thisArgument->getType() != thatArgument->getType()) {
       return false;
     }
@@ -52,7 +52,7 @@ FunctionType* IMethodDescriptor::getLLVMFunctionType(IRGenerationContext& contex
   Controller* callStack = context.getController(Names::getCallStackControllerFullName(), line);
   argumentTypes.push_back(callStack->getLLVMType(context));
   
-  for (const MethodArgument* methodArgument : method->getArguments()) {
+  for (const Argument* methodArgument : method->getArguments()) {
     const IType* type = methodArgument->getType();
     argumentTypes.push_back(type->getLLVMType(context));
   }
@@ -67,8 +67,8 @@ void IMethodDescriptor::printDescriptorToStream(const IMethodDescriptor* method,
     stream << "static ";
   }
   stream << method->getReturnType()->getTypeName() << " " << method->getName() << "(";
-  vector<const MethodArgument*> arguments = method->getArguments();
-  for (const MethodArgument* argument : arguments) {
+  vector<const Argument*> arguments = method->getArguments();
+  for (const Argument* argument : arguments) {
     stream << endl << "    " << argument->getType()->getTypeName() << " " << argument->getName();
     if (argument != arguments.at(arguments.size() - 1)) {
       stream << ",";

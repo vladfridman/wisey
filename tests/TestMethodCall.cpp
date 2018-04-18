@@ -19,6 +19,7 @@
 #include "MockType.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
+#include "wisey/Argument.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/FixedField.hpp"
@@ -28,7 +29,6 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Method.hpp"
-#include "wisey/MethodArgument.hpp"
 #include "wisey/MethodCall.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -92,8 +92,8 @@ public:
     vector<IField*> fields;
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width", 0));
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height", 0));
-    MethodArgument* methodArgument = new MethodArgument(PrimitiveTypes::FLOAT_TYPE, "argument");
-    vector<const MethodArgument*> methodArguments;
+    wisey::Argument* methodArgument = new wisey::Argument(PrimitiveTypes::FLOAT_TYPE, "argument");
+    vector<const wisey::Argument*> methodArguments;
     methodArguments.push_back(methodArgument);
     vector<const Model*> fooThrownExceptions;
     mFooMethod = new Method(mModel,

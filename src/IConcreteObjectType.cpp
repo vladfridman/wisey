@@ -351,7 +351,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   context.setBasicBlock(basicBlock);
   
   Function::arg_iterator functionArguments = function->arg_begin();
-  Argument* thisGeneric = &*functionArguments;
+  Value* thisGeneric = &*functionArguments;
   thisGeneric->setName(IObjectType::THIS);
   
   Value* nullValue = ConstantPointerNull::get((llvm::PointerType*) thisGeneric->getType());

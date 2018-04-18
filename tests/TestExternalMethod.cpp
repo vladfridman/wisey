@@ -14,10 +14,10 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestPrefix.hpp"
+#include "wisey/Argument.hpp"
 #include "wisey/ExternalMethod.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/MethodArgument.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -41,9 +41,9 @@ public:
   mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     
-    MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
-    MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar");
-    std::vector<const MethodArgument*> arguments;
+    wisey::Argument* doubleArgument = new wisey::Argument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
+    wisey::Argument* charArgument = new wisey::Argument(PrimitiveTypes::CHAR_TYPE, "argChar");
+    std::vector<const wisey::Argument*> arguments;
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
     vector<const Model*> thrownExceptions;
@@ -96,8 +96,8 @@ TEST_F(ExternalMethodTest, elementTypeTest) {
 }
 
 TEST_F(ExternalMethodTest, getLLVMTypeTest) {
-  MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
-  std::vector<const MethodArgument*> arguments;
+  wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT_TYPE, "intargument");
+  std::vector<const wisey::Argument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
   ExternalMethod method(mModel,
@@ -125,8 +125,8 @@ TEST_F(ExternalMethodTest, getLLVMTypeTest) {
 }
 
 TEST_F(ExternalMethodTest, defineFunctionTest) {
-  MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
-  std::vector<const MethodArgument*> arguments;
+  wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT_TYPE, "intargument");
+  std::vector<const wisey::Argument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
   ExternalMethod method(mModel,

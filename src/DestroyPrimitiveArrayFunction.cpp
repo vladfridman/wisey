@@ -86,7 +86,7 @@ void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Functi
   context.getScopes().pushScope();
   
   Function::arg_iterator llvmArguments = function->arg_begin();
-  Argument *llvmArgument = &*llvmArguments;
+  Value *llvmArgument = &*llvmArguments;
   llvmArgument->setName("arrayPointer");
   Value* arrayPointer = llvmArgument;
   llvmArguments++;

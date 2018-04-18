@@ -15,8 +15,8 @@
 
 #include "TestPrefix.hpp"
 #include "wisey/AccessLevel.hpp"
+#include "wisey/Argument.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/MethodArgument.hpp"
 #include "wisey/MethodSignature.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -84,7 +84,7 @@ TEST_F(MethodSignatureDeclarationTest, methodDescriptorExtractTest) {
                                                         new MethodQualifiers(0),
                                                         0);
   MethodSignature* methodSignature = methodSignatureDeclaration.define(mContext, mInterface);
-  vector<const MethodArgument*> arguments = methodSignature->getArguments();
+  vector<const wisey::Argument*> arguments = methodSignature->getArguments();
   
   EXPECT_FALSE(methodSignatureDeclaration.isConstant());
   EXPECT_FALSE(methodSignatureDeclaration.isField());

@@ -9,9 +9,9 @@
 #include <llvm/IR/TypeBuilder.h>
 
 #include "wisey/AccessLevel.hpp"
+#include "wisey/Argument.hpp"
 #include "wisey/ExternalMethod.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/MethodArgument.hpp"
 #include "wisey/MethodCall.hpp"
 
 using namespace llvm;
@@ -21,7 +21,7 @@ using namespace wisey;
 ExternalMethod::ExternalMethod(const IObjectType* objectType,
                                string name,
                                const IType* returnType,
-                               vector<const MethodArgument*> arguments,
+                               vector<const Argument*> arguments,
                                vector<const Model*> thrownExceptions,
                                MethodQualifiers* methodQualifiers,
                                int line) :
@@ -34,7 +34,7 @@ mMethodQualifiers(methodQualifiers),
 mLine(line) { }
 
 ExternalMethod::~ExternalMethod() {
-  for (const MethodArgument* argument : mArguments) {
+  for (const Argument* argument : mArguments) {
     delete argument;
   }
   mArguments.clear();
@@ -63,7 +63,7 @@ const IType* ExternalMethod::getReturnType() const {
   return mReturnType;
 }
 
-vector<const MethodArgument*> ExternalMethod::getArguments() const {
+vector<const wisey::Argument*> ExternalMethod::getArguments() const {
   return mArguments;
 }
 

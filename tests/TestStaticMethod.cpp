@@ -15,9 +15,9 @@
 
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
+#include "wisey/Argument.hpp"
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/FixedField.hpp"
-#include "wisey/MethodArgument.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/StaticMethod.hpp"
@@ -46,9 +46,9 @@ public:
   mCompoundStatement(CompoundStatement(mBlock, 0)) {
     TestPrefix::generateIR(mContext);
     
-    MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
-    MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar");
-    std::vector<const MethodArgument*> arguments;
+    wisey::Argument* doubleArgument = new wisey::Argument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
+    wisey::Argument* charArgument = new wisey::Argument(PrimitiveTypes::CHAR_TYPE, "argChar");
+    std::vector<const wisey::Argument*> arguments;
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
     vector<const Model*> thrownExceptions;
@@ -106,8 +106,8 @@ TEST_F(StaticMethodTest, elementTypeTest) {
 }
 
 TEST_F(StaticMethodTest, getLLVMTypeTest) {
-  MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
-  std::vector<const MethodArgument*> arguments;
+  wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT_TYPE, "intargument");
+  std::vector<const wisey::Argument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
   StaticMethod staticMethod(mModel,
@@ -135,8 +135,8 @@ TEST_F(StaticMethodTest, getLLVMTypeTest) {
 }
 
 TEST_F(StaticMethodTest, definePublicFunctionTest) {
-  MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
-  std::vector<const MethodArgument*> arguments;
+  wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT_TYPE, "intargument");
+  std::vector<const wisey::Argument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
   StaticMethod staticMethod(mModel,
@@ -157,8 +157,8 @@ TEST_F(StaticMethodTest, definePublicFunctionTest) {
 }
 
 TEST_F(StaticMethodTest, definePrivateFunctionTest) {
-  MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
-  std::vector<const MethodArgument*> arguments;
+  wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT_TYPE, "intargument");
+  std::vector<const wisey::Argument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
   StaticMethod staticMethod(mModel,
@@ -179,8 +179,8 @@ TEST_F(StaticMethodTest, definePrivateFunctionTest) {
 }
 
 TEST_F(StaticMethodTest, generateIRTest) {
-  MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
-  std::vector<const MethodArgument*> arguments;
+  wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT_TYPE, "intargument");
+  std::vector<const wisey::Argument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
   StaticMethod staticMethod(mModel,

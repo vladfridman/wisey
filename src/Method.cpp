@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/Argument.hpp"
 #include "wisey/CastExpression.hpp"
 #include "wisey/Cleanup.hpp"
 #include "wisey/CompoundStatement.hpp"
@@ -16,7 +17,6 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Method.hpp"
-#include "wisey/MethodArgument.hpp"
 #include "wisey/MethodCall.hpp"
 #include "wisey/Model.hpp"
 #include "wisey/Names.hpp"
@@ -30,7 +30,7 @@ Method::Method(const IObjectType* objectType,
                string name,
                AccessLevel accessLevel,
                const IType* returnType,
-               vector<const MethodArgument*> arguments,
+               vector<const Argument*> arguments,
                vector<const Model*> thrownExceptions,
                MethodQualifiers* methodQualifiers,
                CompoundStatement* compoundStatement,
@@ -46,7 +46,7 @@ mCompoundStatement(compoundStatement),
 mLine(line) { }
 
 Method::~Method() {
-  for (const MethodArgument* argument : mArguments) {
+  for (const Argument* argument : mArguments) {
     delete argument;
   }
   mArguments.clear();
@@ -69,7 +69,7 @@ const IType* Method::getReturnType() const {
   return mReturnType;
 }
 
-vector<const MethodArgument*> Method::getArguments() const {
+vector<const wisey::Argument*> Method::getArguments() const {
   return mArguments;
 }
 
@@ -217,7 +217,7 @@ void Method::createArguments(IRGenerationContext& context, Function* function) c
   llvmFunctionArgument = &*llvmFunctionArguments;
   llvmFunctionArgument->setName(ThreadExpression::CALL_STACK);
   llvmFunctionArguments++;
-  for (const MethodArgument* methodArgument : mArguments) {
+  for (const Argument* methodArgument : mArguments) {
     llvmFunctionArgument = &*llvmFunctionArguments;
     llvmFunctionArgument->setName(methodArgument->getName());
     llvmFunctionArguments++;
@@ -241,7 +241,7 @@ void Method::createArguments(IRGenerationContext& context, Function* function) c
                                                           mLine),
                                     &*llvmFunctionArguments);
   llvmFunctionArguments++;
-  for (const MethodArgument* methodArgument : mArguments) {
+  for (const Argument* methodArgument : mArguments) {
     IMethod::storeArgumentValue(context,
                                 methodArgument->getName(),
                                 methodArgument->getType(),

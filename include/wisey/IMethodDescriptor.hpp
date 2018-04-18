@@ -23,7 +23,7 @@
 namespace wisey {
   
   class IRGenerationContext;
-  class MethodArgument;
+  class Argument;
   class Model;
   
   /**
@@ -55,7 +55,7 @@ namespace wisey {
     /**
      * Returns an array of method arguments
      */
-    virtual std::vector<const MethodArgument*> getArguments() const = 0;
+    virtual std::vector<const Argument*> getArguments() const = 0;
     
     /**
      * Returns a list of exceptions this method throws

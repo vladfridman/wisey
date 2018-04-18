@@ -117,14 +117,14 @@ struct InterfaceTest : public Test {
     vector<IObjectElementDefinition*> shapeElements;
 
     intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-    VariableList staticMethodArguments;
+    VariableList staticArguments;
     vector<IModelTypeSpecifier*> staticMethodExceptions;
     Block* staticMethodBlock = new Block();
     CompoundStatement* staticMethodCompoundStatement = new CompoundStatement(staticMethodBlock, 0);
     mStaticMethod = new StaticMethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                                 intSpecifier,
                                                 "foostatic",
-                                                staticMethodArguments,
+                                                staticArguments,
                                                 staticMethodExceptions,
                                                 staticMethodCompoundStatement,
                                                 0);
@@ -345,7 +345,7 @@ TEST_F(InterfaceTest, printToStreamTest) {
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
   innerPublicModel->setFields(fields, 0);
   
-  vector<const MethodArgument*> methodArguments;
+  vector<const wisey::Argument*> methodArguments;
   vector<const Model*> thrownExceptions;
   Method* method = new Method(innerPublicModel,
                               "bar",

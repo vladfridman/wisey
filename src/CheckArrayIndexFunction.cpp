@@ -69,10 +69,10 @@ LLVMFunctionType* CheckArrayIndexFunction::getLLVMFunctionType(IRGenerationConte
 
 void CheckArrayIndexFunction::compose(IRGenerationContext& context, Function* function) {
   Function::arg_iterator llvmArguments = function->arg_begin();
-  Argument* index = &*llvmArguments;
+  Value* index = &*llvmArguments;
   index->setName("index");
   llvmArguments++;
-  Argument* size = &*llvmArguments;
+  Value* size = &*llvmArguments;
   size->setName("size");
 
   BasicBlock* basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry", function);

@@ -25,7 +25,7 @@ namespace wisey {
     const IObjectType* mObjectType;
     std::string mName;
     const IType* mReturnType;
-    std::vector<const MethodArgument*> mArguments;
+    std::vector<const Argument*> mArguments;
     std::vector<const Model*> mThrownExceptions;
     MethodQualifiers* mMethodQualifiers;
     int mLine;
@@ -35,7 +35,7 @@ namespace wisey {
     ExternalStaticMethod(const IObjectType* objectType,
                          std::string name,
                          const IType* returnType,
-                         std::vector<const MethodArgument*> arguments,
+                         std::vector<const Argument*> arguments,
                          std::vector<const Model*> thrownExceptions,
                          MethodQualifiers* methodQualifiers,
                          int line);
@@ -54,7 +54,7 @@ namespace wisey {
 
     const IType* getReturnType() const override;
     
-    std::vector<const MethodArgument*> getArguments() const override;
+    std::vector<const Argument*> getArguments() const override;
     
     std::vector<const Model*> getThrownExceptions() const override;
     

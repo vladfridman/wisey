@@ -22,6 +22,7 @@
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp"
+#include "wisey/Argument.hpp"
 #include "wisey/Constant.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/FixedField.hpp"
@@ -30,7 +31,6 @@
 #include "wisey/LLVMFunction.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/Method.hpp"
-#include "wisey/MethodArgument.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
@@ -94,7 +94,7 @@ struct ThreadTest : public Test {
     mToField = new StateField(PrimitiveTypes::INT_TYPE, "mTo", 0);
     fields.push_back(mFromField);
     fields.push_back(mToField);
-    vector<const MethodArgument*> methodArguments;
+    vector<const wisey::Argument*> methodArguments;
     vector<const Model*> thrownExceptions;
     mMethod = new Method(mThread,
                          "work",
@@ -666,7 +666,7 @@ TEST_F(ThreadTest, printToStreamTest) {
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
   innerPublicModel->setFields(fields, 1u);
   
-  vector<const MethodArgument*> methodArguments;
+  vector<const wisey::Argument*> methodArguments;
   vector<const Model*> thrownExceptions;
   Method* method = new Method(innerPublicModel,
                               "bar",

@@ -94,7 +94,7 @@ struct TypeComparisionExpressionTest : public Test {
     vector<IField*> squareFields;
     squareFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width", 0));
     squareFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height", 0));
-    vector<const MethodArgument*> methodArguments;
+    vector<const wisey::Argument*> methodArguments;
     vector<IMethod*> squareMethods;
     vector<const Model*> thrownExceptions;
     IMethod* fooMethod = new Method(mSquareModel,
@@ -120,14 +120,14 @@ struct TypeComparisionExpressionTest : public Test {
     
     string subShapeFullName = "systems.vos.wisey.compiler.tests.ISubShape";
     StructType* subShapeIinterfaceStructType = StructType::create(mLLVMContext, subShapeFullName);
-    VariableList subShapeInterfaceMethodArguments;
+    VariableList subShapeInterfaceArguments;
     vector<IObjectElementDefinition*> subShapeInterfaceElements;
     vector<IModelTypeSpecifier*> subShapeThrownExceptions;
     const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
     IObjectElementDefinition* methodFooSignature =
       new MethodSignatureDeclaration(intSpecifier,
                                      "foo",
-                                     subShapeInterfaceMethodArguments,
+                                     subShapeInterfaceArguments,
                                      subShapeThrownExceptions,
                                      new MethodQualifiers(0),
                                      0);
@@ -144,12 +144,12 @@ struct TypeComparisionExpressionTest : public Test {
     
     string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
     StructType* shapeIinterfaceStructType = StructType::create(mLLVMContext, shapeFullName);
-    VariableList shapeInterfaceMethodArguments;
+    VariableList shapeInterfaceArguments;
     vector<IObjectElementDefinition*> shapeInterfaceElements;
     vector<IModelTypeSpecifier*> shapeThrownExceptions;
     methodFooSignature = new MethodSignatureDeclaration(intSpecifier,
                                                         "foo",
-                                                        shapeInterfaceMethodArguments,
+                                                        shapeInterfaceArguments,
                                                         shapeThrownExceptions,
                                                         new MethodQualifiers(0),
                                                         0);
@@ -169,13 +169,13 @@ struct TypeComparisionExpressionTest : public Test {
 
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectInterfaceStructType = StructType::create(mLLVMContext, objectFullName);
-    VariableList objectInterfaceMethodArguments;
+    VariableList objectInterfaceArguments;
     vector<IObjectElementDefinition*> objectInterfaceElements;
     vector<IModelTypeSpecifier*> objectThrownExceptions;
     MethodSignatureDeclaration* methodBarSignature =
       new MethodSignatureDeclaration(intSpecifier,
                                      "bar",
-                                     objectInterfaceMethodArguments,
+                                     objectInterfaceArguments,
                                      objectThrownExceptions,
                                      new MethodQualifiers(0),
                                      0);

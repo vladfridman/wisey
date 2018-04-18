@@ -22,6 +22,7 @@
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp"
+#include "wisey/Argument.hpp"
 #include "wisey/Constant.hpp"
 #include "wisey/Controller.hpp"
 #include "wisey/FakeExpression.hpp"
@@ -31,7 +32,6 @@
 #include "wisey/LLVMFunction.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/Method.hpp"
-#include "wisey/MethodArgument.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
@@ -88,14 +88,14 @@ struct ControllerTest : public Test {
     string calculatorFullName = "systems.vos.wisey.compiler.tests.ICalculator";
     StructType* calculatorIinterfaceStructType = StructType::create(mLLVMContext,
                                                                     calculatorFullName);
-    VariableList calculatorInterfaceMethodArguments;
+    VariableList calculatorInterfaceArguments;
     vector<IObjectElementDefinition*> calculatorInterfaceElements;
     vector<IModelTypeSpecifier*> calculatorThrownExceptions;
     const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
     IObjectElementDefinition* calculateSignature =
       new MethodSignatureDeclaration(intSpecifier,
                                      "calculate",
-                                     calculatorInterfaceMethodArguments,
+                                     calculatorInterfaceArguments,
                                      calculatorThrownExceptions,
                                      new MethodQualifiers(0),
                                      0);
@@ -133,13 +133,13 @@ struct ControllerTest : public Test {
 
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectInterfaceStructType = StructType::create(mLLVMContext, objectFullName);
-    VariableList objectInterfaceMethodArguments;
+    VariableList objectInterfaceArguments;
     vector<IObjectElementDefinition*> objectInterfaceElements;
     vector<IModelTypeSpecifier*> objectThrownExceptions;
     IObjectElementDefinition* methodBarSignature =
       new MethodSignatureDeclaration(intSpecifier,
                                      "foo",
-                                     objectInterfaceMethodArguments,
+                                     objectInterfaceArguments,
                                      objectThrownExceptions,
                                      new MethodQualifiers(0),
                                      0);
@@ -171,7 +171,7 @@ struct ControllerTest : public Test {
     mRightField = new ReceivedField(PrimitiveTypes::INT_TYPE, "right", 0);
     fields.push_back(mLeftField);
     fields.push_back(mRightField);
-    vector<const MethodArgument*> methodArguments;
+    vector<const wisey::Argument*> methodArguments;
     vector<const Model*> thrownExceptions;
     mMethod = new Method(mMultiplierController,
                          "calculate",
@@ -838,7 +838,7 @@ TEST_F(ControllerTest, printToStreamTest) {
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
   innerPublicModel->setFields(fields, 0);
   
-  vector<const MethodArgument*> methodArguments;
+  vector<const wisey::Argument*> methodArguments;
   vector<const Model*> thrownExceptions;
   Method* method = new Method(innerPublicModel,
                               "bar",

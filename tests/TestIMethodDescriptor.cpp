@@ -16,8 +16,8 @@
 #include "TestPrefix.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/Argument.hpp"
 #include "wisey/Method.hpp"
-#include "wisey/MethodArgument.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -40,9 +40,9 @@ public:
   IMethodDescriptorTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     
-    MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
-    MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar");
-    std::vector<const MethodArgument*> arguments;
+    wisey::Argument* doubleArgument = new wisey::Argument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
+    wisey::Argument* charArgument = new wisey::Argument(PrimitiveTypes::CHAR_TYPE, "argChar");
+    std::vector<const wisey::Argument*> arguments;
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
     vector<const Model*> thrownExceptions;
@@ -77,9 +77,9 @@ public:
 };
 
 TEST_F(IMethodDescriptorTest, compareTest) {
-  MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
-  MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar2");
-  vector<const MethodArgument*> arguments;
+  wisey::Argument* doubleArgument = new wisey::Argument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
+  wisey::Argument* charArgument = new wisey::Argument(PrimitiveTypes::CHAR_TYPE, "argChar2");
+  vector<const wisey::Argument*> arguments;
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
   vector<const Model*> thrownExceptions;
@@ -97,9 +97,9 @@ TEST_F(IMethodDescriptorTest, compareTest) {
 }
 
 TEST_F(IMethodDescriptorTest, nameNotEqualsTest) {
-  MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
-  MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar2");
-  vector<const MethodArgument*> arguments;
+  wisey::Argument* doubleArgument = new wisey::Argument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
+  wisey::Argument* charArgument = new wisey::Argument(PrimitiveTypes::CHAR_TYPE, "argChar2");
+  vector<const wisey::Argument*> arguments;
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
   vector<const Model*> thrownExceptions;
@@ -117,8 +117,8 @@ TEST_F(IMethodDescriptorTest, nameNotEqualsTest) {
 }
 
 TEST_F(IMethodDescriptorTest, numberOfArgumentsNotEqualsTest) {
-  MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
-  vector<const MethodArgument*> arguments;
+  wisey::Argument* doubleArgument = new wisey::Argument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
+  vector<const wisey::Argument*> arguments;
   arguments.push_back(doubleArgument);
   vector<const Model*> thrownExceptions;
   Method method(mModel,
@@ -135,9 +135,9 @@ TEST_F(IMethodDescriptorTest, numberOfArgumentsNotEqualsTest) {
 }
 
 TEST_F(IMethodDescriptorTest, typeOfArgumentsNotEqualsTest) {
-  MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
-  MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "argChar2");
-  vector<const MethodArgument*> arguments;
+  wisey::Argument* doubleArgument = new wisey::Argument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
+  wisey::Argument* charArgument = new wisey::Argument(PrimitiveTypes::INT_TYPE, "argChar2");
+  vector<const wisey::Argument*> arguments;
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
   vector<const Model*> thrownExceptions;
@@ -155,8 +155,8 @@ TEST_F(IMethodDescriptorTest, typeOfArgumentsNotEqualsTest) {
 }
 
 TEST_F(IMethodDescriptorTest, getLLVMFunctionTypeTest) {
-  MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
-  vector<const MethodArgument*> arguments;
+  wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT_TYPE, "intargument");
+  vector<const wisey::Argument*> arguments;
   vector<const Model*> thrownExceptions;
   arguments.push_back(intArgument);
   MethodSignature method(mModel,

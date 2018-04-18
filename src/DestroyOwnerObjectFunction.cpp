@@ -66,7 +66,7 @@ void DestroyOwnerObjectFunction::compose(IRGenerationContext& context, Function*
   context.getScopes().pushScope();
   
   Function::arg_iterator functionArguments = function->arg_begin();
-  Argument* thisGeneric = &*functionArguments;
+  Value* thisGeneric = &*functionArguments;
   thisGeneric->setName("thisGeneric");
   functionArguments++;
   

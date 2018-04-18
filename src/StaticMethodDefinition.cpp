@@ -8,7 +8,7 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/MethodArgument.hpp"
+#include "wisey/Argument.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/StaticMethod.hpp"
 #include "wisey/StaticMethodDefinition.hpp"
@@ -52,7 +52,7 @@ IMethod* StaticMethodDefinition::define(IRGenerationContext& context,
                                         const IObjectType* objectType) const {
   const IType* returnType = mReturnTypeSpecifier->getType(context);
   
-  vector<const MethodArgument*> arguments =
+  vector<const Argument*> arguments =
   IMethodDefinition::createArgumnetList(context, mArguments);
   vector<const Model*> exceptions = IMethodDefinition::createExceptionList(context, mExceptions);
   return new StaticMethod(objectType,

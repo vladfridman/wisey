@@ -15,8 +15,8 @@
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/AccessLevel.hpp"
+#include "wisey/Argument.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/MethodArgument.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/StaticMethodDefinition.hpp"
@@ -65,7 +65,7 @@ TEST_F(StaticMethodDefinitionTest, methodDescriptorExtractTest) {
                                           mCompoundStatement,
                                           0);
   IMethod* method = methodDefinition.define(mContext, NULL);
-  vector<const MethodArgument*> arguments = method->getArguments();
+  vector<const wisey::Argument*> arguments = method->getArguments();
   
   EXPECT_FALSE(methodDefinition.isConstant());
   EXPECT_FALSE(methodDefinition.isField());

@@ -92,14 +92,14 @@ struct NodeTest : public Test {
     string elementInterfaceFullName = "systems.vos.wisey.compiler.tests.IElement";
     StructType* elementInterfaceStructType = StructType::create(mLLVMContext,
                                                                 elementInterfaceFullName);
-    VariableList elementInterfaceMethodArguments;
+    VariableList elementInterfaceArguments;
     vector<IObjectElementDefinition*> elementInterfaceElements;
     vector<IModelTypeSpecifier*> elementThrownExceptions;
     const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
     IObjectElementDefinition* getElementSignature =
       new MethodSignatureDeclaration(intSpecifier,
                                      "getElement",
-                                     elementInterfaceMethodArguments,
+                                     elementInterfaceArguments,
                                      elementThrownExceptions,
                                      new MethodQualifiers(0),
                                      0);
@@ -134,13 +134,13 @@ struct NodeTest : public Test {
 
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectInterfaceStructType = StructType::create(mLLVMContext, objectFullName);
-    VariableList objectInterfaceMethodArguments;
+    VariableList objectInterfaceArguments;
     vector<IObjectElementDefinition*> objectInterfaceElements;
     vector<IModelTypeSpecifier*> objectThrownExceptions;
     IObjectElementDefinition* methodBarSignature =
       new MethodSignatureDeclaration(intSpecifier,
                                      "foo",
-                                     objectInterfaceMethodArguments,
+                                     objectInterfaceArguments,
                                      objectThrownExceptions,
                                      new MethodQualifiers(0),
                                      0);
@@ -173,7 +173,7 @@ struct NodeTest : public Test {
     mRightField = new FixedField(PrimitiveTypes::INT_TYPE, "mRight", 0);
     fields.push_back(mLeftField);
     fields.push_back(mRightField);
-    vector<const MethodArgument*> methodArguments;
+    vector<const wisey::Argument*> methodArguments;
     vector<const Model*> thrownExceptions;
     mMethod = new Method(mComplicatedNode,
                          "getElement",
@@ -743,7 +743,7 @@ TEST_F(NodeTest, printToStreamTest) {
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
   innerPublicModel->setFields(fields, 0);
   
-  vector<const MethodArgument*> methodArguments;
+  vector<const wisey::Argument*> methodArguments;
   vector<const Model*> thrownExceptions;
   Method* method = new Method(innerPublicModel,
                               "bar",

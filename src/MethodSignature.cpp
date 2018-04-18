@@ -6,9 +6,9 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/Argument.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Interface.hpp"
-#include "wisey/MethodArgument.hpp"
 #include "wisey/MethodSignature.hpp"
 
 using namespace llvm;
@@ -18,7 +18,7 @@ using namespace wisey;
 MethodSignature::MethodSignature(const IObjectType* objectType,
                                  std::string name,
                                  const IType* returnType,
-                                 vector<const MethodArgument*> arguments,
+                                 vector<const Argument*> arguments,
                                  vector<const Model*> thrownExceptions,
                                  MethodQualifiers* methodQualifiers,
                                  string originalParentName,
@@ -33,7 +33,7 @@ mOriginalParentName(originalParentName),
 mLine(line) { }
 
 MethodSignature::~MethodSignature() {
-  for (const MethodArgument* argument : mArguments) {
+  for (const Argument* argument : mArguments) {
     delete argument;
   }
   mArguments.clear();
@@ -55,7 +55,7 @@ const IType* MethodSignature::getReturnType() const {
   return mReturnType;
 }
 
-vector<const MethodArgument*> MethodSignature::getArguments() const {
+vector<const wisey::Argument*> MethodSignature::getArguments() const {
   return mArguments;
 }
 

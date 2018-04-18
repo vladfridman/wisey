@@ -50,7 +50,7 @@ public:
     vector<IField*> fields;
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width", 0));
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height", 0));
-    vector<const MethodArgument*> methodArguments;
+    vector<const wisey::Argument*> methodArguments;
     vector<IMethod*> methods;
     vector<const Model*> thrownExceptions;
     IMethod* fooMethod = new Method(mModel,

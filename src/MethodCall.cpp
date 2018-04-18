@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/Argument.hpp"
 #include "wisey/AutoCast.hpp"
 #include "wisey/CheckForNullAndThrowFunction.hpp"
 #include "wisey/Composer.hpp"
@@ -17,7 +18,6 @@
 #include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Log.hpp"
-#include "wisey/MethodArgument.hpp"
 #include "wisey/MethodCall.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -170,10 +170,10 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
   arguments.push_back(threadObject);
   arguments.push_back(callStackObject);
 
-  vector<const MethodArgument*> methodArguments = methodDescriptor->getArguments();
-  vector<const MethodArgument*>::iterator methodArgumentIterator = methodArguments.begin();
+  vector<const Argument*> methodArguments = methodDescriptor->getArguments();
+  vector<const Argument*>::iterator methodArgumentIterator = methodArguments.begin();
   for (const IExpression* callArgument : mArguments) {
-    const MethodArgument* methodArgument = *methodArgumentIterator;
+    const Argument* methodArgument = *methodArgumentIterator;
     Value* callArgumentValue = callArgument->generateIR(context, methodArgument->getType());
     const IType* callArgumentType = callArgument->getType(context);
     const IType* methodArgumentType = methodArgument->getType();
@@ -235,7 +235,7 @@ const IMethodDescriptor* MethodCall::getMethodDescriptor(IRGenerationContext& co
 void MethodCall::checkArgumentType(const IObjectType* objectWithMethods,
                                    const IMethodDescriptor* methodDescriptor,
                                    IRGenerationContext& context) const {
-  vector<const MethodArgument*> methodArguments = methodDescriptor->getArguments();
+  vector<const Argument*> methodArguments = methodDescriptor->getArguments();
   ExpressionList::const_iterator callArgumentsIterator = mArguments.begin();
   
   if (mArguments.size() != methodDescriptor->getArguments().size()) {
@@ -244,7 +244,7 @@ void MethodCall::checkArgumentType(const IObjectType* objectWithMethods,
     exit(1);
   }
   
-  for (const MethodArgument* methodArgument : methodArguments) {
+  for (const Argument* methodArgument : methodArguments) {
     const IType* methodArgumentType = methodArgument->getType();
     const IType* callArgumentType = (*callArgumentsIterator)->getType(context);
     

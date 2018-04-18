@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/AdjustReferenceCountFunction.hpp"
+#include "wisey/Argument.hpp"
 #include "wisey/GetOriginalObjectFunction.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/Composer.hpp"
@@ -24,7 +25,6 @@
 #include "wisey/LLVMFunction.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Log.hpp"
-#include "wisey/MethodArgument.hpp"
 #include "wisey/MethodCall.hpp"
 #include "wisey/Model.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
@@ -481,8 +481,8 @@ void Interface::composeMapFunctionBody(IRGenerationContext& context,
   argument = &*arguments;
   argument->setName(ThreadExpression::THREAD);
   arguments++;
-  vector<const MethodArgument*> methodArguments = interfaceMethodSignature->getArguments();
-  for (const MethodArgument* methodArgument : interfaceMethodSignature->getArguments()) {
+  vector<const Argument*> methodArguments = interfaceMethodSignature->getArguments();
+  for (const Argument* methodArgument : interfaceMethodSignature->getArguments()) {
     llvm::Argument *argument = &*arguments;
     argument->setName(methodArgument->getName());
     arguments++;
@@ -536,7 +536,7 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   Value* callStackReference = &*arguments;
   arguments++;
   vector<Value*> argumentPointers;
-  for (const  MethodArgument* methodArgument : methodSignature->getArguments()) {
+  for (const  Argument* methodArgument : methodSignature->getArguments()) {
     Value* argumentPointer = storeArgumentValue(context,
                                                 basicBlock,
                                                 methodArgument->getName(),
@@ -753,7 +753,7 @@ void Interface::composeCastFunction(IRGenerationContext& context,
   context.getScopes().pushScope();
 
   Function::arg_iterator functionArguments = function->arg_begin();
-  Argument* thisArgument = &*functionArguments;
+  Value* thisArgument = &*functionArguments;
   thisArgument->setName(IObjectType::THIS);
   functionArguments++;
   

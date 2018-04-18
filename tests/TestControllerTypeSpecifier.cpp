@@ -43,7 +43,7 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
     vector<IField*> fields;
     fields.push_back(new ReceivedField(PrimitiveTypes::INT_TYPE, "left", 0));
     fields.push_back(new ReceivedField(PrimitiveTypes::INT_TYPE, "right", 0));
-    vector<const MethodArgument*> methodArguments;
+    vector<const wisey::Argument*> methodArguments;
     vector<IMethod*> methods;
     vector<const Model*> thrownExceptions;
     IMethod* multiplyMethod = new Method(mController,

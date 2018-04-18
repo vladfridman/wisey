@@ -9,11 +9,11 @@
 #ifndef IMethodDefinition_h
 #define IMethodDefinition_h
 
+#include "wisey/Argument.hpp"
 #include "wisey/IMethod.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IModelTypeSpecifier.hpp"
 #include "wisey/IObjectElementDefinition.hpp"
-#include "wisey/MethodArgument.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
 namespace wisey {
@@ -30,7 +30,7 @@ namespace wisey {
     /**
      * Helper function for creating method argument list for different types of methods
      */
-    static std::vector<const MethodArgument*> createArgumnetList(IRGenerationContext& context,
+    static std::vector<const Argument*> createArgumnetList(IRGenerationContext& context,
                                                                  VariableList argumentDefinitions);
     
     /**

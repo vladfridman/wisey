@@ -101,10 +101,10 @@ Function* InstanceOf::createFunction(IRGenerationContext& context, const Interfa
                                         context.getModule());
   
   Function::arg_iterator functionArguments = function->arg_begin();
-  Argument* thisArgument = &*functionArguments;
+  Value* thisArgument = &*functionArguments;
   thisArgument->setName(IObjectType::THIS);
   functionArguments++;
-  Argument* compareToArgument = &*functionArguments;
+  Value* compareToArgument = &*functionArguments;
   compareToArgument->setName("compareto");
   
   return function;
@@ -120,7 +120,7 @@ BitCastInst* InstanceOf::composeEntryBlock(IRGenerationContext& context,
   context.setBasicBlock(entryBlock);
   
   Function::arg_iterator functionArguments = function->arg_begin();
-  Argument* thisArgument = &*functionArguments;
+  Value* thisArgument = &*functionArguments;
   Value* originalObjectVTable = GetOriginalObjectFunction::call(context, thisArgument);
   
   Type* pointerToArrayOfStrings = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
@@ -188,7 +188,7 @@ void InstanceOf::composeWhileBodyBlock(IRGenerationContext& context,
   
   Function::arg_iterator functionArguments = function->arg_begin();
   functionArguments++;
-  Argument* compareToArgument = &*functionArguments;
+  Value* compareToArgument = &*functionArguments;
   
   Value* doesTypeMatch =
   IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, stringPointer, compareToArgument, "cmp");

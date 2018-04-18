@@ -19,6 +19,7 @@
 #include "MockType.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
+#include "wisey/Argument.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/FixedField.hpp"
@@ -27,7 +28,6 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
-#include "wisey/MethodArgument.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -94,15 +94,15 @@ public:
     vector<IField*> fields;
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width", 0));
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height", 0));
-    MethodArgument* fooMethodArgument = new MethodArgument(PrimitiveTypes::FLOAT_TYPE, "argument");
-    vector<const MethodArgument*> fooMethodArguments;
-    fooMethodArguments.push_back(fooMethodArgument);
+    wisey::Argument* fooArgument = new wisey::Argument(PrimitiveTypes::FLOAT_TYPE, "argument");
+    vector<const wisey::Argument*> fooArguments;
+    fooArguments.push_back(fooArgument);
     vector<const Model*> fooThrownExceptions;
     IMethod* fooMethod = new StaticMethod(mModel,
                                           "foo",
                                           AccessLevel::PUBLIC_ACCESS,
                                           mReturnedModel,
-                                          fooMethodArguments,
+                                          fooArguments,
                                           fooThrownExceptions,
                                           new MethodQualifiers(0),
                                           NULL,
@@ -111,9 +111,9 @@ public:
     methods.push_back(fooMethod);
     vector<const Model*> barThrownExceptions;
     StructType* exceptionModelStructType = StructType::create(mLLVMContext, "MException");
-    MethodArgument* barMethodArgument = new MethodArgument(PrimitiveTypes::FLOAT_TYPE, "argument");
-    vector<const MethodArgument*> barMethodArguments;
-    barMethodArguments.push_back(barMethodArgument);
+    wisey::Argument* barArgument = new wisey::Argument(PrimitiveTypes::FLOAT_TYPE, "argument");
+    vector<const wisey::Argument*> barArguments;
+    barArguments.push_back(barArgument);
     Model* exceptionModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                             "MException",
                                             exceptionModelStructType,
@@ -123,7 +123,7 @@ public:
                                           "bar",
                                           AccessLevel::PUBLIC_ACCESS,
                                           PrimitiveTypes::INT_TYPE,
-                                          barMethodArguments,
+                                          barArguments,
                                           barThrownExceptions,
                                           new MethodQualifiers(0),
                                           NULL,

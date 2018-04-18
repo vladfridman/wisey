@@ -1076,7 +1076,7 @@
 		F5089C8A1ECD01D9004A1223 /* LongConstant.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LongConstant.hpp; path = include/wisey/LongConstant.hpp; sourceTree = "<group>"; };
 		F5089C8B1ECD01D9004A1223 /* LongType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LongType.hpp; path = include/wisey/LongType.hpp; sourceTree = "<group>"; };
 		F5089C8C1ECD01D9004A1223 /* Method.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Method.hpp; path = include/wisey/Method.hpp; sourceTree = "<group>"; };
-		F5089C8D1ECD01D9004A1223 /* MethodArgument.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MethodArgument.hpp; path = include/wisey/MethodArgument.hpp; sourceTree = "<group>"; };
+		F5089C8D1ECD01D9004A1223 /* Argument.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Argument.hpp; path = include/wisey/Argument.hpp; sourceTree = "<group>"; };
 		F5089C8E1ECD01D9004A1223 /* MethodCall.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MethodCall.hpp; path = include/wisey/MethodCall.hpp; sourceTree = "<group>"; };
 		F5089C8F1ECD01D9004A1223 /* MethodDefinition.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MethodDefinition.hpp; path = include/wisey/MethodDefinition.hpp; sourceTree = "<group>"; };
 		F5089C901ECD01D9004A1223 /* MethodSignature.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MethodSignature.hpp; path = include/wisey/MethodSignature.hpp; sourceTree = "<group>"; };
@@ -2951,12 +2951,12 @@
 		F58725471F6D6E3B00FA25E6 /* methods */ = {
 			isa = PBXGroup;
 			children = (
+				F5089C8D1ECD01D9004A1223 /* Argument.hpp */,
 				F5C7D15B1F7CEF6200D65584 /* ExternalMethod.hpp */,
 				F592A7BF1F7D8CEF0026BD2F /* ExternalMethodDefinition.hpp */,
 				F55CF1731F7DA0CC00A11426 /* ExternalStaticMethod.hpp */,
 				F5FE0A211F7D9F90000621CA /* ExternalStaticMethodDefinition.hpp */,
 				F5089C8C1ECD01D9004A1223 /* Method.hpp */,
-				F5089C8D1ECD01D9004A1223 /* MethodArgument.hpp */,
 				F5089C8E1ECD01D9004A1223 /* MethodCall.hpp */,
 				F5089C8F1ECD01D9004A1223 /* MethodDefinition.hpp */,
 				F5E49797207CAB3600FA7079 /* MethodQualifier.hpp */,
