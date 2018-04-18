@@ -76,10 +76,10 @@ struct InterfaceTest : public Test {
   mLLVMContext(mContext.getLLVMContext()),
   mMockExpression(new NiceMock<MockExpression>()) {
     TestPrefix::generateIR(mContext);
-
+    
     mImportProfile = new ImportProfile(mPackage);
     mContext.setImportProfile(mImportProfile);
-
+    
     vector<IModelTypeSpecifier*> exceptions;
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
@@ -96,15 +96,14 @@ struct InterfaceTest : public Test {
     objectElementDeclarations.push_back(mBarMethod);
     vector<IInterfaceTypeSpecifier*> objectParentInterfaces;
     vector<MethodSignatureDeclaration*> methodDeclarations;
-    mObjectInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                               objectFullName,
-                                               objectStructType,
-                                               objectParentInterfaces,
-                                               objectElementDeclarations,
-                                               0);
+    mObjectInterface = Interface::newPublicInterface(objectFullName,
+                                                     objectStructType,
+                                                     objectParentInterfaces,
+                                                     objectElementDeclarations,
+                                                     0);
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
-
+    
     mObjectInterfaceSpecifier = new InterfaceTypeSpecifier(NULL, "IObject", 0);
     string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
     mShapeStructType = StructType::create(mLLVMContext, shapeFullName);
@@ -115,49 +114,47 @@ struct InterfaceTest : public Test {
                                                 new MethodQualifiers(0),
                                                 0);
     vector<IObjectElementDefinition*> shapeElements;
-
+    
     intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
     VariableList staticMethodArguments;
     vector<IModelTypeSpecifier*> staticMethodExceptions;
     Block* staticMethodBlock = new Block();
     CompoundStatement* staticMethodCompoundStatement = new CompoundStatement(staticMethodBlock, 0);
     mStaticMethod = new StaticMethodDefinition(AccessLevel::PUBLIC_ACCESS,
-                                                intSpecifier,
-                                                "foostatic",
-                                                staticMethodArguments,
-                                                staticMethodExceptions,
-                                                staticMethodCompoundStatement,
-                                                0);
+                                               intSpecifier,
+                                               "foostatic",
+                                               staticMethodArguments,
+                                               staticMethodExceptions,
+                                               staticMethodCompoundStatement,
+                                               0);
     
     mMockExpression = new NiceMock<MockExpression>();
     ON_CALL(*mMockExpression, printToStream(_,_)).WillByDefault(Invoke(printExpression));
     intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
     mConstantDefinition = new ConstantDefinition(PUBLIC_ACCESS,
-                                                   intSpecifier,
-                                                   "MYCONSTANT",
-                                                   mMockExpression);
+                                                 intSpecifier,
+                                                 "MYCONSTANT",
+                                                 mMockExpression);
     shapeElements.push_back(mConstantDefinition);
     shapeElements.push_back(mFooMethod);
     shapeElements.push_back(mStaticMethod);
-
+    
     vector<IInterfaceTypeSpecifier*> shapeParentInterfaces;
     shapeParentInterfaces.push_back(mObjectInterfaceSpecifier);
-    mShapeInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                              shapeFullName,
-                                              mShapeStructType,
-                                              shapeParentInterfaces,
-                                              shapeElements,
-                                              5);
+    mShapeInterface = Interface::newPublicInterface(shapeFullName,
+                                                    mShapeStructType,
+                                                    shapeParentInterfaces,
+                                                    shapeElements,
+                                                    5);
     mContext.addInterface(mShapeInterface);
     mShapeInterface->buildMethods(mContext);
-
+    
     mIncompleteInterfaceStructType = StructType::create(mLLVMContext, shapeFullName);
-    mIncompleteInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                                   shapeFullName,
-                                                   mIncompleteInterfaceStructType,
-                                                   shapeParentInterfaces,
-                                                   shapeElements,
-                                                   0);
+    mIncompleteInterface = Interface::newPublicInterface(shapeFullName,
+                                                         mIncompleteInterfaceStructType,
+                                                         shapeParentInterfaces,
+                                                         shapeElements,
+                                                         0);
     
     llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
                                                                   mShapeInterface->getTypeName());
@@ -167,7 +164,7 @@ struct InterfaceTest : public Test {
                        GlobalValue::LinkageTypes::LinkOnceODRLinkage,
                        stringConstant,
                        mShapeInterface->getObjectNameGlobalVariableName());
-
+    
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
                                           GlobalValue::InternalLinkage,
@@ -177,7 +174,7 @@ struct InterfaceTest : public Test {
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
-
+    
     Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
     Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));
     mThreadVariable = new NiceMock<MockReferenceVariable>();
@@ -185,7 +182,7 @@ struct InterfaceTest : public Test {
     ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadInterface));
     ON_CALL(*mThreadVariable, generateIdentifierIR(_)).WillByDefault(Return(threadObject));
     mContext.getScopes().setVariable(mThreadVariable);
-
+    
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
@@ -194,7 +191,7 @@ struct InterfaceTest : public Test {
     delete mThreadVariable;
     delete mStringStream;
   }
-
+  
   static void printExpression(IRGenerationContext& context, iostream& stream) {
     stream << "5";
   }
@@ -224,7 +221,7 @@ TEST_F(InterfaceTest, findConstantTest) {
 TEST_F(InterfaceTest, findConstantDeathTest) {
   Mock::AllowLeak(mMockExpression);
   Mock::AllowLeak(mThreadVariable);
-
+  
   EXPECT_EXIT(mShapeInterface->findConstant("MYCONSTANT2"),
               ::testing::ExitedWithCode(1),
               "Error: Interface systems.vos.wisey.compiler.tests.IShape "
@@ -239,7 +236,7 @@ TEST_F(InterfaceTest, getMethodIndexTest) {
 TEST_F(InterfaceTest, getMethodIndexDeathTest) {
   Mock::AllowLeak(mMockExpression);
   Mock::AllowLeak(mThreadVariable);
-
+  
   EXPECT_EXIT(mObjectInterface->getMethodIndex(mShapeInterface->findMethod("foo")),
               ::testing::ExitedWithCode(1),
               "Error: Method foo not found in interface systems.vos.wisey.compiler.tests.IObject");
@@ -393,7 +390,7 @@ TEST_F(InterfaceTest, printToStreamTest) {
 TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
   Mock::AllowLeak(mMockExpression);
   Mock::AllowLeak(mThreadVariable);
-
+  
   const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
   FixedFieldDefinition* fieldDeclaration = new FixedFieldDefinition(intSpecifier, "mField", 0);
   
@@ -402,12 +399,11 @@ TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
   vector<IObjectElementDefinition*> elements;
   elements.push_back(fieldDeclaration);
   vector<IInterfaceTypeSpecifier*> parentInterfaces;
-  Interface* interface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                                 name,
-                                                 structType,
-                                                 parentInterfaces,
-                                                 elements,
-                                                 0);
+  Interface* interface = Interface::newPublicInterface(name,
+                                                       structType,
+                                                       parentInterfaces,
+                                                       elements,
+                                                       0);
   
   EXPECT_EXIT(interface->buildMethods(mContext),
               ::testing::ExitedWithCode(1),
@@ -417,7 +413,7 @@ TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
 TEST_F(InterfaceTest, methodDeclarationDeathTest) {
   Mock::AllowLeak(mMockExpression);
   Mock::AllowLeak(mThreadVariable);
-
+  
   const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
   VariableList arguments;
   vector<IModelTypeSpecifier*> thrownExceptions;
@@ -431,18 +427,17 @@ TEST_F(InterfaceTest, methodDeclarationDeathTest) {
                                                              new MethodQualifiers(0),
                                                              compoundStatement,
                                                              0);
-
+  
   string name = "systems.vos.wisey.compiler.tests.IInterface";
   StructType* structType = StructType::create(mLLVMContext, name);
   vector<IObjectElementDefinition*> elements;
   elements.push_back(methodDeclaration);
   vector<IInterfaceTypeSpecifier*> parentInterfaces;
-  Interface* interface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                                 name,
-                                                 structType,
-                                                 parentInterfaces,
-                                                 elements,
-                                                 0);
+  Interface* interface = Interface::newPublicInterface(name,
+                                                       structType,
+                                                       parentInterfaces,
+                                                       elements,
+                                                       0);
   
   EXPECT_EXIT(interface->buildMethods(mContext),
               ::testing::ExitedWithCode(1),
@@ -452,19 +447,18 @@ TEST_F(InterfaceTest, methodDeclarationDeathTest) {
 TEST_F(InterfaceTest, constantsAfterMethodSignaturesDeathTest) {
   Mock::AllowLeak(mMockExpression);
   Mock::AllowLeak(mThreadVariable);
-
+  
   string name = "systems.vos.wisey.compiler.tests.IInterface";
   StructType* structType = StructType::create(mLLVMContext, name);
   vector<IObjectElementDefinition*> elements;
   elements.push_back(mBarMethod);
   elements.push_back(mConstantDefinition);
   vector<IInterfaceTypeSpecifier*> parentInterfaces;
-  Interface* interface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                                 name,
-                                                 structType,
-                                                 parentInterfaces,
-                                                 elements,
-                                                 0);
+  Interface* interface = Interface::newPublicInterface(name,
+                                                       structType,
+                                                       parentInterfaces,
+                                                       elements,
+                                                       0);
   
   EXPECT_EXIT(interface->buildMethods(mContext),
               ::testing::ExitedWithCode(1),
@@ -481,7 +475,7 @@ TEST_F(InterfaceTest, incrementReferenceCountTest) {
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
   "\n  call void @__adjustReferenceCounter(i8* %0, i64 1)\n";
-
+  
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
@@ -496,7 +490,7 @@ TEST_F(InterfaceTest, decrementReferenceCountTest) {
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
   "\n  call void @__adjustReferenceCounter(i8* %0, i64 -1)\n";
-
+  
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
@@ -514,7 +508,7 @@ TEST_F(InterfaceTest, getReferenceCountTest) {
   "\n  %2 = bitcast i8* %1 to i64*"
   "\n  %3 = getelementptr i64, i64* %2, i64 -1"
   "\n  %refCounter = load i64, i64* %3\n";
-
+  
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
@@ -525,18 +519,17 @@ TEST_F(InterfaceTest, circularDependencyDeathTest) {
   
   InterfaceTypeSpecifier* parentInterfaceSpecifier = new InterfaceTypeSpecifier(NULL, "IParent", 0);
   InterfaceTypeSpecifier* childInterfaceSpecifier = new InterfaceTypeSpecifier(NULL, "IChild", 0);
-
+  
   string childFullName = "systems.vos.wisey.compiler.tests.IChild";
   StructType* childStructType = StructType::create(mLLVMContext, childFullName);
   vector<IInterfaceTypeSpecifier*> childParentInterfaces;
   childParentInterfaces.push_back(parentInterfaceSpecifier);
   vector<IObjectElementDefinition*> childElements;
-  Interface* child = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                             childFullName,
-                                             childStructType,
-                                             childParentInterfaces,
-                                             childElements,
-                                             0);
+  Interface* child = Interface::newPublicInterface(childFullName,
+                                                   childStructType,
+                                                   childParentInterfaces,
+                                                   childElements,
+                                                   0);
   mContext.addInterface(child);
   
   string parentFullName = "systems.vos.wisey.compiler.tests.IParent";
@@ -544,14 +537,13 @@ TEST_F(InterfaceTest, circularDependencyDeathTest) {
   vector<IInterfaceTypeSpecifier*> parentParentInterfaces;
   parentParentInterfaces.push_back(childInterfaceSpecifier);
   vector<IObjectElementDefinition*> parentElements;
-  Interface* parent = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                              parentFullName,
-                                              parentStructType,
-                                              parentParentInterfaces,
-                                              parentElements,
-                                              0);
+  Interface* parent = Interface::newPublicInterface(parentFullName,
+                                                    parentStructType,
+                                                    parentParentInterfaces,
+                                                    parentElements,
+                                                    0);
   mContext.addInterface(parent);
-
+  
   EXPECT_EXIT(child->buildMethods(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Circular interface dependency between interfaces "
@@ -614,12 +606,11 @@ TEST_F(InterfaceTest, injectTest) {
   interfaceStructType->setBody(interfaceTypes);
   vector<IInterfaceTypeSpecifier*> interfaceParentInterfaces;
   vector<IObjectElementDefinition*> interafaceElements;
-  Interface* interface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                                 interfaceFullName,
-                                                 interfaceStructType,
-                                                 interfaceParentInterfaces,
-                                                 interafaceElements,
-                                                 0);
+  Interface* interface = Interface::newPublicInterface(interfaceFullName,
+                                                       interfaceStructType,
+                                                       interfaceParentInterfaces,
+                                                       interafaceElements,
+                                                       0);
   mContext.addInterface(interface);
   llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
                                                                 interface->getTypeName());
@@ -629,12 +620,12 @@ TEST_F(InterfaceTest, injectTest) {
                      GlobalValue::LinkageTypes::LinkOnceODRLinkage,
                      stringConstant,
                      interface->getObjectNameGlobalVariableName());
-
+  
   string controllerFullName = "systems.vos.wisey.compiler.tests.CController";
   StructType* controllerStructType = StructType::create(mLLVMContext, controllerFullName);
   vector<Type*> controllerTypes;
   controllerTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
-                  ->getPointerTo()->getPointerTo());
+                            ->getPointerTo()->getPointerTo());
   controllerStructType->setBody(controllerTypes);
   Controller* controller = Controller::newPublicController(controllerFullName,
                                                            controllerStructType,
@@ -645,14 +636,14 @@ TEST_F(InterfaceTest, injectTest) {
   
   mContext.addController(controller);
   mContext.bindInterfaceToController(interface, controller);
-
+  
   IConcreteObjectType::generateNameGlobal(mContext, controller);
   IConcreteObjectType::generateShortNameGlobal(mContext, controller);
   IConcreteObjectType::generateVTable(mContext, controller);
-
+  
   InjectionArgumentList arguments;
   interface->inject(mContext, arguments, 0);
-
+  
   *mStringStream << *mBasicBlock;
   
   string expected =
@@ -672,7 +663,7 @@ TEST_F(InterfaceTest, injectTest) {
   "\n  %8 = getelementptr i8, i8* %7, i64 0"
   "\n  %9 = bitcast i8* %8 to %systems.vos.wisey.compiler.tests.ITest*"
   "\n";
-
+  
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
@@ -853,3 +844,4 @@ TEST_F(TestFileRunner, interfaceCircularDependencyRunDeathTest) {
                     "systems.vos.wisey.compiler.tests.IParent and "
                     "systems.vos.wisey.compiler.tests.IChild");
 }
+

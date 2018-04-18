@@ -101,12 +101,11 @@ struct ControllerTest : public Test {
                                      0);
     calculatorInterfaceElements.push_back(calculateSignature);
     vector<IInterfaceTypeSpecifier*> calculatorParentInterfaces;
-    mCalculatorInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                                   calculatorFullName,
-                                                   calculatorIinterfaceStructType,
-                                                   calculatorParentInterfaces,
-                                                   calculatorInterfaceElements,
-                                                   0);
+    mCalculatorInterface = Interface::newPublicInterface(calculatorFullName,
+                                                         calculatorIinterfaceStructType,
+                                                         calculatorParentInterfaces,
+                                                         calculatorInterfaceElements,
+                                                         0);
     mContext.addInterface(mCalculatorInterface);
     mCalculatorInterface->buildMethods(mContext);
     
@@ -122,12 +121,12 @@ struct ControllerTest : public Test {
                                                                              "ICalculator",
                                                                              0);
     scienceCalculatorParentInterfaces.push_back(calculatorSpecifier);
-    mScienceCalculatorInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                                          scienceCalculatorFullName,
-                                                          scienceCalculatorIinterfaceStructType,
-                                                          scienceCalculatorParentInterfaces,
-                                                          scienceCalculatorInterfaceElements,
-                                                          0);
+    mScienceCalculatorInterface =
+    Interface::newPublicInterface(scienceCalculatorFullName,
+                                  scienceCalculatorIinterfaceStructType,
+                                  scienceCalculatorParentInterfaces,
+                                  scienceCalculatorInterfaceElements,
+                                  0);
     mContext.addInterface(mScienceCalculatorInterface);
     mScienceCalculatorInterface->buildMethods(mContext);
 
@@ -145,12 +144,11 @@ struct ControllerTest : public Test {
                                      0);
     objectInterfaceElements.push_back(methodBarSignature);
     vector<IInterfaceTypeSpecifier*> objectParentInterfaces;
-    mObjectInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                               objectFullName,
-                                               objectInterfaceStructType,
-                                               objectParentInterfaces,
-                                               objectInterfaceElements,
-                                               0);
+    mObjectInterface = Interface::newPublicInterface(objectFullName,
+                                                     objectInterfaceStructType,
+                                                     objectParentInterfaces,
+                                                     objectInterfaceElements,
+                                                     0);
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
 
@@ -288,12 +286,11 @@ struct ControllerTest : public Test {
     StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, vehicleFullName);
     vector<IInterfaceTypeSpecifier*> vehicleParentInterfaces;
     vector<IObjectElementDefinition*> vehicleElements;
-    mVehicleInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                                vehicleFullName,
-                                                vehicleInterfaceStructType,
-                                                vehicleParentInterfaces,
-                                                vehicleElements,
-                                                0);
+    mVehicleInterface = Interface::newPublicInterface(vehicleFullName,
+                                                      vehicleInterfaceStructType,
+                                                      vehicleParentInterfaces,
+                                                      vehicleElements,
+                                                      0);
     mContext.addInterface(mVehicleInterface);
     mVehicleInterface->buildMethods(mContext);
 

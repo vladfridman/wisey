@@ -36,12 +36,11 @@ struct MethodSignatureTest : Test {
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IInterface";
     StructType* structType = StructType::create(mContext.getLLVMContext(), "IInterface");
     structType->setBody(types);
-    mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                         "systems.vos.wisey.compiler.tests.IInterface",
-                                         structType,
-                                         parentInterfaces,
-                                         interfaceElements,
-                                         0);
+    mInterface = Interface::newPublicInterface("systems.vos.wisey.compiler.tests.IInterface",
+                                               structType,
+                                               parentInterfaces,
+                                               interfaceElements,
+                                               0);
 
     vector<MethodArgument*> arguments;
     vector<const Model*> thrownExceptions;
@@ -78,12 +77,11 @@ TEST_F(MethodSignatureTest, elementTypeTest) {
 TEST_F(MethodSignatureTest, createCopyTest) {
   vector<IInterfaceTypeSpecifier*> parentInterfaces;
   vector<IObjectElementDefinition*> interfaceElements;
-  Interface* interface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                                 "systems.vos.wisey.compiler.tests.IAnother",
-                                                 NULL,
-                                                 parentInterfaces,
-                                                 interfaceElements,
-                                                 0);
+  Interface* interface = Interface::newPublicInterface("systems.vos.wisey.compiler.tests.IAnother",
+                                                       NULL,
+                                                       parentInterfaces,
+                                                       interfaceElements,
+                                                       0);
   MethodSignature* copy = mMethodSignature->createCopy(interface);
   
   EXPECT_STREQ(copy->getName().c_str(), "foo");

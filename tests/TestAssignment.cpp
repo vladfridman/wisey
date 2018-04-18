@@ -67,12 +67,11 @@ public:
 
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDefinition*> interfaceElements;
-    mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                         "systems.vos.wisey.compiler.tests.IInterface",
-                                         NULL,
-                                         parentInterfaces,
-                                         interfaceElements,
-                                         0);
+    mInterface = Interface::newPublicInterface("systems.vos.wisey.compiler.tests.IInterface",
+                                               NULL,
+                                               parentInterfaces,
+                                               interfaceElements,
+                                               0);
     mController = Controller::newPublicController("systems.vos.wisey.compiler.tests.CController",
                                                   NULL,
                                                   0);

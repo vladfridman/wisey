@@ -66,12 +66,11 @@ public:
     carInterfaceStructType->setBody(carInterfaceTypes);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDefinition*> interfaceElements;
-    mCarInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                            carFullName,
-                                            carInterfaceStructType,
-                                            parentInterfaces,
-                                            interfaceElements,
-                                            0);
+    mCarInterface = Interface::newPublicInterface(carFullName,
+                                                  carInterfaceStructType,
+                                                  parentInterfaces,
+                                                  interfaceElements,
+                                                  0);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
   }

@@ -48,12 +48,11 @@ public:
   mOwnerVariable(new NiceMock<MockOwnerVariable>()) {
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDefinition*> interfaceElements;
-    mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                         "systems.vos.wisey.compiler.tests.IInterface",
-                                         NULL,
-                                         parentInterfaces,
-                                         interfaceElements,
-                                         0);
+    mInterface = Interface::newPublicInterface("systems.vos.wisey.compiler.tests.IInterface",
+                                               NULL,
+                                               parentInterfaces,
+                                               interfaceElements,
+                                               0);
 
     StructType* exceptionModelStructType = StructType::create(mLLVMContext, "MExceptionA");
     mExceptionModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,

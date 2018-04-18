@@ -40,14 +40,14 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Interface::Interface(AccessLevel accessLevel,
+Interface::Interface(bool isPublic,
                      string name,
                      StructType* structType,
                      bool isExternal,
                      vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
                      vector<IObjectElementDefinition *> elementDelcarations,
                      int line) :
-mAccessLevel(accessLevel),
+mIsPublic(isPublic),
 mName(name),
 mStructType(structType),
 mIsExternal(isExternal),
@@ -83,14 +83,30 @@ Interface::~Interface() {
   mLLVMFunctionMap.clear();
 }
 
-Interface* Interface::newInterface(AccessLevel accessLevel,
-                                   string name,
-                                   StructType *structType,
-                                   vector<IInterfaceTypeSpecifier *> parentInterfaceSpecifiers,
-                                   vector<IObjectElementDefinition *>
-                                   elementDeclarations,
-                                   int line) {
-  return new Interface(accessLevel,
+Interface* Interface::newPublicInterface(string name,
+                                         StructType *structType,
+                                         vector<IInterfaceTypeSpecifier *>
+                                         parentInterfaceSpecifiers,
+                                         vector<IObjectElementDefinition *>
+                                         elementDeclarations,
+                                         int line) {
+  return new Interface(true,
+                       name,
+                       structType,
+                       false,
+                       parentInterfaceSpecifiers,
+                       elementDeclarations,
+                       line);
+}
+
+Interface* Interface::newPrivateInterface(string name,
+                                          StructType *structType,
+                                          vector<IInterfaceTypeSpecifier *>
+                                          parentInterfaceSpecifiers,
+                                          vector<IObjectElementDefinition *>
+                                          elementDeclarations,
+                                          int line) {
+  return new Interface(false,
                        name,
                        structType,
                        false,
@@ -106,7 +122,7 @@ Interface* Interface::newExternalInterface(string name,
                                            vector<IObjectElementDefinition *>
                                            elementDeclarations,
                                            int line) {
-  return new Interface(AccessLevel::PUBLIC_ACCESS,
+  return new Interface(true,
                        name,
                        structType,
                        true,
@@ -116,7 +132,7 @@ Interface* Interface::newExternalInterface(string name,
 }
 
 bool Interface::isPublic() const {
-  return mAccessLevel == PUBLIC_ACCESS;
+  return mIsPublic;
 }
 
 void Interface::buildMethods(IRGenerationContext& context) {

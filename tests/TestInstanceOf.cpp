@@ -39,21 +39,19 @@ struct InstanceOfTest : public Test {
     StructType* shapeStructType = StructType::create(mLLVMContext, shapeFullName);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDefinition*> interfaceElements;
-    mShapeInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                              shapeFullName,
-                                              shapeStructType,
-                                              parentInterfaces,
-                                              interfaceElements,
-                                              0);
+    mShapeInterface = Interface::newPublicInterface(shapeFullName,
+                                                    shapeStructType,
+                                                    parentInterfaces,
+                                                    interfaceElements,
+                                                    0);
 
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
-    mObjectInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                               objectFullName,
-                                               objectStructType,
-                                               parentInterfaces,
-                                               interfaceElements,
-                                               0);
+    mObjectInterface = Interface::newPublicInterface(objectFullName,
+                                                     objectStructType,
+                                                     parentInterfaces,
+                                                     interfaceElements,
+                                                     0);
 
     llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
                                                                   mShapeInterface->getTypeName());

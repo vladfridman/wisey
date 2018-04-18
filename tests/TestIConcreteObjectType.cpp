@@ -49,44 +49,40 @@ struct IConcreteObjectTypeTest : public Test {
   
   IConcreteObjectTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
-
+    
     mContext.getScopes().pushScope();
     ON_CALL(mMockObject, getTypeName()).WillByDefault(Return("Object"));
     ON_CALL(mMockObject, getObjectNameGlobalVariableName()).WillByDefault(Return("Object.name"));
-
+    
     vector<Interface*> interfaces;
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDefinition*> interfaceElements;
-    Interface* interface1 = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                                    "Interface1",
-                                                    NULL,
-                                                    parentInterfaces,
-                                                    interfaceElements,
-                                                    0);
-    Interface* interface2 = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                                    "Interface2",
-                                                    NULL,
-                                                    parentInterfaces,
-                                                    interfaceElements,
-                                                    0);
-    mInterface3 = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                          "Interface3",
-                                          NULL,
-                                          parentInterfaces,
-                                          interfaceElements,
-                                          0);
-    Interface* interface4 = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                                    "Interface4",
-                                                    NULL,
-                                                    parentInterfaces,
-                                                    interfaceElements,
-                                                    0);
+    Interface* interface1 = Interface::newPublicInterface("Interface1",
+                                                          NULL,
+                                                          parentInterfaces,
+                                                          interfaceElements,
+                                                          0);
+    Interface* interface2 = Interface::newPublicInterface("Interface2",
+                                                          NULL,
+                                                          parentInterfaces,
+                                                          interfaceElements,
+                                                          0);
+    mInterface3 = Interface::newPublicInterface("Interface3",
+                                                NULL,
+                                                parentInterfaces,
+                                                interfaceElements,
+                                                0);
+    Interface* interface4 = Interface::newPublicInterface("Interface4",
+                                                          NULL,
+                                                          parentInterfaces,
+                                                          interfaceElements,
+                                                          0);
     interfaces.push_back(interface1);
     interfaces.push_back(interface2);
     interfaces.push_back(mInterface3);
     interfaces.push_back(interface4);
     ON_CALL(mMockObject, getFlattenedInterfaceHierarchy()).WillByDefault(Return(interfaces));
-
+    
     InjectionArgumentList fieldArguments;
     
     vector<Type*> starTypes;
@@ -116,7 +112,7 @@ struct IConcreteObjectTypeTest : public Test {
     mGalaxyModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, galaxyFullName, galaxyStructType, 0);
     mGalaxyModel->setFields(galaxyFields, 1u);
     mContext.addModel(mGalaxyModel);
-
+    
     vector<Type*> constellationTypes;
     constellationTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                                  ->getPointerTo()->getPointerTo());
@@ -139,13 +135,12 @@ struct IConcreteObjectTypeTest : public Test {
     StructType* canNavigateStructType = StructType::create(mLLVMContext, canNavigateFullName);
     vector<IInterfaceTypeSpecifier*> canNavigateParentInterfaces;
     vector<IObjectElementDefinition*> canNavigateElements;
-    mCanNavigate = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                           canNavigateFullName,
-                                           canNavigateStructType,
-                                           canNavigateParentInterfaces,
-                                           canNavigateElements,
-                                           0);
-
+    mCanNavigate = Interface::newPublicInterface(canNavigateFullName,
+                                                 canNavigateStructType,
+                                                 canNavigateParentInterfaces,
+                                                 canNavigateElements,
+                                                 0);
+    
     vector<Type*> carTypes;
     carTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                        ->getPointerTo()->getPointerTo());
@@ -158,19 +153,19 @@ struct IConcreteObjectTypeTest : public Test {
     mCarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, carFullName, carStructType, 0);
     mCarModel->setFields(carFields, 1u);
     mContext.addModel(mCarModel);
-
+    
     mStringStream = new raw_string_ostream(mStringBuffer);
-}
+  }
   
   ~IConcreteObjectTypeTest() { }
 };
 
 TEST_F(IConcreteObjectTypeTest, generateNameGlobalTest) {
   ASSERT_EQ(mContext.getModule()->getNamedGlobal("Object.name"), nullptr);
-
+  
   IConcreteObjectType::generateNameGlobal(mContext, &mMockObject);
   IConcreteObjectType::generateShortNameGlobal(mContext, &mMockObject);
-
+  
   ASSERT_NE(mContext.getModule()->getNamedGlobal("Object.name"), nullptr);
 }
 
@@ -180,9 +175,9 @@ TEST_F(IConcreteObjectTypeTest, getInterfaceIndexTest) {
 
 TEST_F(IConcreteObjectTypeTest, declareFieldVariablesTest) {
   EXPECT_EQ(mContext.getScopes().getVariable("mBrightness"), nullptr);
-
+  
   IConcreteObjectType::declareFieldVariables(mContext, mStarModel);
-
+  
   EXPECT_NE(mContext.getScopes().getVariable("mBrightness"), nullptr);
 }
 
@@ -246,7 +241,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldTe
   IConcreteObjectType::generateVTable(mContext, mGalaxyModel);
   IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mGalaxyModel);
   mContext.runComposingCallbacks();
-
+  
   Function* function = mContext.getModule()->getFunction(mGalaxyModel->getTypeName() +
                                                          ".destructor");
   
@@ -290,7 +285,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldTe
   "\ninvoke.continue:                                  ; preds = %ref.count.notzero"
   "\n  unreachable"
   "\n}\n";
-
+  
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
@@ -301,7 +296,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectReferenceFie
   IConcreteObjectType::generateVTable(mContext, mConstellationModel);
   IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mConstellationModel);
   mContext.runComposingCallbacks();
-
+  
   Function* function = mContext.getModule()->getFunction(mConstellationModel->getTypeName() +
                                                          ".destructor");
   
@@ -345,7 +340,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectReferenceFie
   "\ninvoke.continue:                                  ; preds = %ref.count.notzero"
   "\n  unreachable"
   "\n}\n";
-
+  
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
@@ -357,7 +352,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFiel
   IConcreteObjectType::generateVTable(mContext, mCarModel);
   IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mCarModel);
   mContext.runComposingCallbacks();
-
+  
   Function* function = mContext.getModule()->getFunction(mCarModel->getTypeName() +
                                                          ".destructor");
   
@@ -401,7 +396,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFiel
   "\ninvoke.continue:                                  ; preds = %ref.count.notzero"
   "\n  unreachable"
   "\n}\n";
-
+  
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
@@ -410,7 +405,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorCallTest) {
   IConcreteObjectType::generateNameGlobal(mContext, mStarModel);
   IConcreteObjectType::generateShortNameGlobal(mContext, mStarModel);
   IConcreteObjectType::generateVTable(mContext, mStarModel);
-
+  
   FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
   Function* function = Function::Create(functionType,
                                         GlobalValue::InternalLinkage,
@@ -421,7 +416,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorCallTest) {
   mContext.setBasicBlock(basicBlock);
   mContext.getScopes().pushScope();
   mContext.setMainFunction(function);
-
+  
   ConstantPointerNull* pointer = ConstantPointerNull::get(mCarModel->getLLVMType(mContext));
   IConcreteObjectType::composeDestructorCall(mContext, pointer);
   
@@ -438,57 +433,53 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorCallTest) {
 TEST_F(IConcreteObjectTypeTest, addInterfaceAndItsParentsTest) {
   vector<IInterfaceTypeSpecifier*> interfaceTypeSpecifiers;
   vector<IObjectElementDefinition *> objectElements;
-
+  
   vector<Interface*> flattenedInterfaces;
-
+  
   string package = "some.package";
   StructType* grandChildStructType = StructType::create(mLLVMContext, "some.package.IGrandChild");
-  Interface* grandChild = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                                  "some.package.IGrandChild",
-                                                  grandChildStructType,
-                                                  interfaceTypeSpecifiers,
-                                                  objectElements,
-                                                  0);
-
+  Interface* grandChild = Interface::newPublicInterface("some.package.IGrandChild",
+                                                        grandChildStructType,
+                                                        interfaceTypeSpecifiers,
+                                                        objectElements,
+                                                        0);
+  
   PackageType* packageType = new PackageType(package);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   interfaceTypeSpecifiers.push_back(new InterfaceTypeSpecifier(packageExpression,
                                                                "IGrandChild",
                                                                0));
   StructType* child1StructType = StructType::create(mLLVMContext, "some.package.IChild1");
-  Interface* child1 = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                              "some.package.IChild1",
-                                              child1StructType,
-                                              interfaceTypeSpecifiers,
-                                              objectElements,
-                                              0);
+  Interface* child1 = Interface::newPublicInterface("some.package.IChild1",
+                                                    child1StructType,
+                                                    interfaceTypeSpecifiers,
+                                                    objectElements,
+                                                    0);
   interfaceTypeSpecifiers.clear();
   StructType* child2StructType = StructType::create(mLLVMContext, "some.package.IChild2");
-  Interface* child2 = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                              "some.package.IChild2",
-                                              child2StructType,
-                                              interfaceTypeSpecifiers,
-                                              objectElements,
-                                              0);
-
+  Interface* child2 = Interface::newPublicInterface("some.package.IChild2",
+                                                    child2StructType,
+                                                    interfaceTypeSpecifiers,
+                                                    objectElements,
+                                                    0);
+  
   packageExpression = new FakeExpression(NULL, packageType);
   interfaceTypeSpecifiers.push_back(new InterfaceTypeSpecifier(packageExpression, "IChild1", 0));
   packageExpression = new FakeExpression(NULL, packageType);
   interfaceTypeSpecifiers.push_back(new InterfaceTypeSpecifier(packageExpression, "IChild2", 0));
   StructType* parentStructType = StructType::create(mLLVMContext, "some.package.IParent");
-  Interface* parent = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                              "some.package.IParent",
-                                              parentStructType,
-                                              interfaceTypeSpecifiers,
-                                              objectElements,
-                                              0);
+  Interface* parent = Interface::newPublicInterface("some.package.IParent",
+                                                    parentStructType,
+                                                    interfaceTypeSpecifiers,
+                                                    objectElements,
+                                                    0);
   mContext.addInterface(parent);
   mContext.addInterface(child1);
   mContext.addInterface(child2);
   mContext.addInterface(grandChild);
-
+  
   parent->buildMethods(mContext);
-
+  
   IConcreteObjectType::addInterfaceAndItsParents(parent, flattenedInterfaces);
   
   EXPECT_EQ(flattenedInterfaces.size(), 4u);
@@ -522,3 +513,4 @@ TEST_F(TestFileRunner, freeingFieldInterfaceOwnersRunTest) {
 TEST_F(TestFileRunner, compareObjectToNullRunTest) {
   runFile("tests/samples/test_compare_object_to_null.yz", "1");
 }
+

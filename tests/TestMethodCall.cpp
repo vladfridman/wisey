@@ -229,12 +229,11 @@ TEST_F(MethodCallTest, translateInterfaceMethodToLLVMFunctionNameTest) {
   StructType* structType = StructType::create(mLLVMContext, interfaceFullName);
   vector<IInterfaceTypeSpecifier*> parentInterfaces;
   vector<IObjectElementDefinition*> interfaceElements;
-  Interface* interface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                                 interfaceFullName,
-                                                 structType,
-                                                 parentInterfaces,
-                                                 interfaceElements,
-                                                 0);
+  Interface* interface = Interface::newPublicInterface(interfaceFullName,
+                                                       structType,
+                                                       parentInterfaces,
+                                                       interfaceElements,
+                                                       0);
   string functionName =
     MethodCall::translateInterfaceMethodToLLVMFunctionName(mModel, interface, "foo");
   

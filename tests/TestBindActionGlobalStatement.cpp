@@ -38,13 +38,12 @@ struct BindActionGlobalStatementTest : public Test {
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
     vector<IObjectElementDefinition*> interfaceElements;
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
-    mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                         interfaceFullName,
-                                         interfaceStructType,
-                                         parentInterfaces,
-                                         interfaceElements,
-                                         0);
-    
+    mInterface = Interface::newPublicInterface(interfaceFullName,
+                                               interfaceStructType,
+                                               parentInterfaces,
+                                               interfaceElements,
+                                               0);
+
     string controllerFullName = "systems.vos.wisey.compiler.tests.CMyController";
     StructType* controllerStructType = StructType::create(mLLVMContext, controllerFullName);
     vector<IField*> controllerFields;

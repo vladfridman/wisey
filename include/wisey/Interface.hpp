@@ -33,7 +33,7 @@ namespace wisey {
    * Contains information about an Interface including the llvm::StructType and method information
    */
   class Interface : public IObjectType {
-    AccessLevel mAccessLevel;
+    bool mIsPublic;
     std::string mName;
     llvm::StructType* mStructType;
     bool mIsExternal;
@@ -58,7 +58,7 @@ namespace wisey {
     bool mIsComplete;
     int mLine;
     
-    Interface(AccessLevel accessLevel,
+    Interface(bool isPublic,
               std::string name,
               llvm::StructType* structType,
               bool isExternal,
@@ -71,15 +71,27 @@ namespace wisey {
     ~Interface();
     
     /**
-     * static method for interface instantiation
+     * static method for public interface instantiation
      */
-    static Interface* newInterface(AccessLevel accessLevel,
-                                   std::string name,
-                                   llvm::StructType* structType,
-                                   std::vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
-                                   std::vector<IObjectElementDefinition *> elementDeclarations,
-                                   int line);
+    static Interface* newPublicInterface(std::string name,
+                                         llvm::StructType* structType,
+                                         std::vector<IInterfaceTypeSpecifier*>
+                                         parentInterfaceSpecifiers,
+                                         std::vector<IObjectElementDefinition *>
+                                         elementDeclarations,
+                                         int line);
     
+    /**
+     * static method for private interface instantiation
+     */
+    static Interface* newPrivateInterface(std::string name,
+                                          llvm::StructType* structType,
+                                          std::vector<IInterfaceTypeSpecifier*>
+                                          parentInterfaceSpecifiers,
+                                          std::vector<IObjectElementDefinition *>
+                                          elementDeclarations,
+                                          int line);
+
     /**
      * static method for external interface instantiation
      */
