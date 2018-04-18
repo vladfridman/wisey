@@ -66,6 +66,11 @@ namespace wisey {
      * Returns function type
      */
     const LLVMFunctionType* getType() const;
+    
+    /**
+     * Tells whether the function is publicly accessable
+     */
+    bool isPublic() const;
 
     bool isConstant() const override;
     

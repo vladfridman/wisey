@@ -276,7 +276,7 @@
 %type <object_element> external_method_definition interface_static_method_definition
 %type <object_element> constant_definition interface_element_declaration method_signature
 %type <object_element> external_interface_element_declaration external_static_method_definition
-%type <object_element> llvm_function_definition interface_llvm_function_definition
+%type <object_element> llvm_function_definition
 %type <object_element_list> object_element_declaration_list 
 %type <object_element_list> external_object_element_declaration_list
 %type <object_element_list> interface_element_delcaration_list
@@ -563,16 +563,6 @@ llvm_function_definition
       { $$ = new LLVMFunctionDefinition(*$5, $1, $4, *$7, $9, yylineno); delete $5; delete $7; }
   ;
 
-interface_llvm_function_definition
-  : TLLVM TLLVMFUNCTION native_type_specifier TIDENTIFIER
-    '(' llvm_function_definition_arguments ')' compound_statement
-      { 
-        $$ = new LLVMFunctionDefinition(*$4, AccessLevel::PUBLIC_ACCESS, $3, *$6, $8, yylineno); 
-        delete $4; 
-        delete $6; 
-      }
-  ;
-
 llvm_function_definition_arguments
   : /* blank */  { $$ = new LLVMVariableList(); }
   | llvm_function_argument_declaration
@@ -757,7 +747,7 @@ interface_element_declaration
   : method_signature
   | constant_definition
   | interface_static_method_definition
-  | interface_llvm_function_definition
+  | llvm_function_definition
   ;
 
 method_signature

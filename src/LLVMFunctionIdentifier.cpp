@@ -58,12 +58,20 @@ void LLVMFunctionIdentifier::printToStream(IRGenerationContext& context,
 LLVMFunction* LLVMFunctionIdentifier::getLLVFunction(IRGenerationContext& context) const {
   const IObjectType* objectType = mObjectTypeSpecifier->getType(context);
   LLVMFunction* llvmFunction = objectType->findLLVMFunction(mLLVMFunctionName);
-  if (llvmFunction) {
+  if (!llvmFunction) {
+    context.reportError(mLine,
+                        "LLVMFunction '" + mLLVMFunctionName + "' not found in object " +
+                        objectType->getTypeName());
+    exit(1);
+  }
+  
+  if (llvmFunction->isPublic() || objectType == context.getObjectType()) {
     return llvmFunction;
   }
   
   context.reportError(mLine,
-                      "LLVMFunction '" + mLLVMFunctionName + "' not found in object " +
-                      objectType->getTypeName());
+                      "LLVMFunction '" + mLLVMFunctionName + "' in " +
+                      objectType->getTypeName() + " is private and can not be accessed from " +
+                      context.getObjectType()->getTypeName());
   exit(1);
 }

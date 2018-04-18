@@ -86,6 +86,10 @@ Function* LLVMFunction::getLLVMFunction(IRGenerationContext& context,
   return function;
 }
 
+bool LLVMFunction::isPublic() const {
+  return mAccessLevel == PUBLIC_ACCESS;
+}
+
 bool LLVMFunction::isConstant() const {
   return false;
 }
