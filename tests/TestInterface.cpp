@@ -636,9 +636,10 @@ TEST_F(InterfaceTest, injectTest) {
   controllerTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                   ->getPointerTo()->getPointerTo());
   controllerStructType->setBody(controllerTypes);
-  Controller* controller = Controller::newPublicController(controllerFullName,
-                                                           controllerStructType,
-                                                           0);
+  Controller* controller = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                                     controllerFullName,
+                                                     controllerStructType,
+                                                     0);
   vector<Interface*> controllerParentInterfaces;
   controllerParentInterfaces.push_back(interface);
   controller->setInterfaces(controllerParentInterfaces);

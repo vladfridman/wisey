@@ -50,7 +50,10 @@ struct BindActionGlobalStatementTest : public Test {
     vector<IField*> controllerFields;
     vector<IMethod*> controllerMethods;
     vector<Interface*> controllerInterfaces;
-    mController = Controller::newPublicController(controllerFullName, controllerStructType, 0);
+    mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                            controllerFullName,
+                                            controllerStructType,
+                                            0);
     mController->setFields(controllerFields, 1u);
     mController->setMethods(controllerMethods);
     mController->setInterfaces(controllerInterfaces);

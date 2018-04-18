@@ -162,7 +162,10 @@ struct ControllerTest : public Test {
     string multiplierFullName = "systems.vos.wisey.compiler.tests.CMultiplier";
     mStructType = StructType::create(mLLVMContext, multiplierFullName);
     mStructType->setBody(types);
-    mMultiplierController = Controller::newPublicController(multiplierFullName, mStructType, 5);
+    mMultiplierController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                                      multiplierFullName,
+                                                      mStructType,
+                                                      5);
     vector<IField*> fields;
     mLeftField = new ReceivedField(PrimitiveTypes::INT_TYPE, "left", 0);
     mRightField = new ReceivedField(PrimitiveTypes::INT_TYPE, "right", 0);
@@ -260,7 +263,10 @@ struct ControllerTest : public Test {
     vector<IField*> additorFields;
     additorFields.push_back(new ReceivedField(mOwnerNode->getOwner(), "mOwner", 0));
     additorFields.push_back(new ReceivedField(mReferenceModel, "mReference", 0));
-    mAdditorController = Controller::newPublicController(additorFullName, additorStructType, 0);
+    mAdditorController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                                   additorFullName,
+                                                   additorStructType,
+                                                   0);
     mAdditorController->setFields(additorFields, 1u);
     mContext.addController(mMultiplierController);
 
@@ -280,7 +286,10 @@ struct ControllerTest : public Test {
                                               fieldArguments,
                                               mContext.getImportProfile()->getSourceFileName(),
                                               3));
-    mDoublerController = Controller::newPublicController(doublerFullName, doublerStructType, 0);
+    mDoublerController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                                   doublerFullName,
+                                                   doublerStructType,
+                                                   0);
     mDoublerController->setFields(doublerFields, 1u);
     mContext.addController(mDoublerController);
 
@@ -744,7 +753,10 @@ TEST_F(ControllerTest, injectFieldTest) {
                        ->getPointerTo()->getPointerTo());
   childStructType->setBody(childTypes);
   vector<IField*> childFields;
-  Controller* childController = Controller::newPublicController(childFullName, childStructType, 0);
+  Controller* childController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                                          childFullName,
+                                                          childStructType,
+                                                          0);
   childController->setFields(childFields, 1u);
   mContext.addController(childController);
   IConcreteObjectType::generateNameGlobal(mContext, childController);
@@ -766,9 +778,10 @@ TEST_F(ControllerTest, injectFieldTest) {
                                            fieldArguments,
                                            mContext.getImportProfile()->getSourceFileName(),
                                            3));
-  Controller* parentController = Controller::newPublicController(parentFullName,
-                                                                 parentStructType,
-                                                                 0);
+  Controller* parentController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                                           parentFullName,
+                                                           parentStructType,
+                                                           0);
   parentController->setFields(parentFields, 1u);
   mContext.addController(parentController);
   IConcreteObjectType::generateNameGlobal(mContext, parentController);

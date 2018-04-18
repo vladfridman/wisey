@@ -80,7 +80,10 @@ struct FieldReferenceVariableTest : Test {
     vector<IField*> fields;
     fields.push_back(new StateField(mNode, "foo", 0));
     fields.push_back(new StateField(mInterface, "bar", 0));
-    mObject = Controller::newPublicController(objectFullName, objectStructType, 0);
+    mObject = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                        objectFullName,
+                                        objectStructType,
+                                        0);
     mObject->setFields(fields, 1u);
     
     FunctionType* functionType =

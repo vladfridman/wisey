@@ -66,7 +66,10 @@ struct InjectorTest : Test {
     vector<IField*> controllerFields;
     controllerFields.push_back(new StateField(PrimitiveTypes::INT_TYPE, "left", 0));
     controllerFields.push_back(new StateField(PrimitiveTypes::INT_TYPE, "right", 0));
-    mController = Controller::newPublicController(controllerFullName, controllerStructType, 0);
+    mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                            controllerFullName,
+                                            controllerStructType,
+                                            0);
     mController->setFields(controllerFields, 1u);
     mContext.addController(mController);
 

@@ -56,7 +56,10 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
                                          NULL,
                                          0);
     methods.push_back(multiplyMethod);
-    mController = Controller::newPublicController(controllerFullName, structType, 0);
+    mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                            controllerFullName,
+                                            structType,
+                                            0);
     mController->setFields(fields, 1u);
     mController->setMethods(methods);
     mContext.addController(mController);

@@ -24,12 +24,12 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Controller::Controller(bool isPublic,
+Controller::Controller(AccessLevel accessLevel,
                        string name,
                        StructType* structType,
                        bool isExternal,
                        int line) :
-mIsPublic(isPublic),
+mAccessLevel(accessLevel),
 mName(name),
 mStructType(structType),
 mIsExternal(isExternal),
@@ -68,20 +68,19 @@ Controller::~Controller() {
   mLLVMFunctions.clear();
 }
 
-Controller* Controller::newPublicController(string name, StructType* structType, int line) {
-  return new Controller(true , name, structType, false, line);
-}
-
-Controller* Controller::newPrivateController(string name, StructType* structType, int line) {
-  return new Controller(false , name, structType, false, line);
+Controller* Controller::newController(AccessLevel accessLevel,
+                                      string name,
+                                      StructType* structType,
+                                      int line) {
+  return new Controller(accessLevel , name, structType, false, line);
 }
 
 Controller* Controller::newExternalController(string name, StructType* structType, int line) {
-  return new Controller(true, name, structType, true, line);
+  return new Controller(AccessLevel::PUBLIC_ACCESS, name, structType, true, line);
 }
 
 bool Controller::isPublic() const {
-  return mIsPublic;
+  return mAccessLevel == PUBLIC_ACCESS;
 }
 
 void Controller::setFields(vector<IField*> fields, unsigned long startIndex) {
