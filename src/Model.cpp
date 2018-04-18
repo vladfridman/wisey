@@ -149,11 +149,10 @@ vector<LLVMFunction*> Model::getLLVMFunctions() const {
 }
 
 LLVMFunction* Model::findLLVMFunction(string functionName) const {
-  if (!mLLVMFunctionMap.count(functionName)) {
-    Log::e_deprecated("LLVM function " + functionName + " not found in object " + getTypeName());
-    exit(1);
+  if (mLLVMFunctionMap.count(functionName)) {
+    return mLLVMFunctionMap.at(functionName);
   }
-  return mLLVMFunctionMap.at(functionName);
+  return NULL;
 }
 
 IField* Model::findField(string fieldName) const {

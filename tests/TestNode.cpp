@@ -414,16 +414,6 @@ TEST_F(NodeTest, findLLVMFunctionTest) {
   EXPECT_EQ(mLLVMFunction, mComplicatedNode->findLLVMFunction("myfunction"));
 }
 
-TEST_F(NodeTest, findLLVMFunctionDeathTest) {
-  Mock::AllowLeak(mField1Expression);
-  Mock::AllowLeak(mField2Expression);
-  Mock::AllowLeak(mThreadVariable);
-  
-  EXPECT_EXIT(mComplicatedNode->findLLVMFunction("nonexistingfunction"),
-              ::testing::ExitedWithCode(1),
-              "LLVM function nonexistingfunction not found in object systems.vos.wisey.compiler.tests.NComplicatedNode");
-}
-
 TEST_F(NodeTest, getFieldIndexTest) {
   EXPECT_EQ(mComplicatedNode->getFieldIndex(mLeftField), 2u);
   EXPECT_EQ(mComplicatedNode->getFieldIndex(mRightField), 3u);

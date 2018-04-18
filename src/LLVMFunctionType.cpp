@@ -18,9 +18,6 @@ LLVMFunctionType::LLVMFunctionType(const IType* returnType,
                                    std::vector<const IType*> argumentTypes) :
 mReturnType(returnType), mArgumentTypes(argumentTypes) {
   assert(returnType->isNative());
-  for (const IType* argumentType : argumentTypes) {
-    assert(argumentType->isNative());
-  }
   mPointerType = LLVMPointerType::create(this);
 }
 

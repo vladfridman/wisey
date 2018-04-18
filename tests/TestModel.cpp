@@ -431,16 +431,6 @@ TEST_F(ModelTest, findLLVMFunctionTest) {
   EXPECT_EQ(mLLVMFunction, mModel->findLLVMFunction("myfunction"));
 }
 
-TEST_F(ModelTest, findLLVMFunctionDeathTest) {
-  Mock::AllowLeak(mField1Expression);
-  Mock::AllowLeak(mField2Expression);
-  Mock::AllowLeak(mThreadVariable);
-  
-  EXPECT_EXIT(mModel->findLLVMFunction("nonexistingfunction"),
-              ::testing::ExitedWithCode(1),
-              "LLVM function nonexistingfunction not found in object systems.vos.wisey.compiler.tests.MSquare");
-}
-
 TEST_F(ModelTest, getMissingFieldsTest) {
   set<string> givenFields;
   givenFields.insert("mWidth");

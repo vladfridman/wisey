@@ -8,6 +8,7 @@
 
 #include "wisey/Identifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/LLVMFunction.hpp"
 #include "wisey/UndefinedType.hpp"
 
 using namespace llvm;
@@ -36,7 +37,12 @@ Value* Identifier::generateIR(IRGenerationContext& context, const IType* assignT
   if (method) {
     return context.getThis()->generateIdentifierIR(context);
   }
-  
+
+  LLVMFunction* function = getLLVMFunction(context);
+  if (function) {
+    assert(false);
+  }
+
   IVariable* variable = IVariable::getVariable(context, mName);
   Value* value = variable->generateIdentifierIR(context);
   if (assignToType->isOwner() && variable->getType()->isOwner()) {
@@ -47,9 +53,13 @@ Value* Identifier::generateIR(IRGenerationContext& context, const IType* assignT
 
 const IType* Identifier::getType(IRGenerationContext& context) const {
   IMethodDescriptor* method = getMethod(context);
-
   if (method) {
     return method;
+  }
+  
+  LLVMFunction* function = getLLVMFunction(context);
+  if (function) {
+    return function;
   }
   
   IVariable* variable = context.getScopes().getVariable(mName);
@@ -71,4 +81,9 @@ void Identifier::printToStream(IRGenerationContext& context, std::iostream& stre
 IMethodDescriptor* Identifier::getMethod(IRGenerationContext& context) const {
   const IObjectType* objectType = context.getObjectType();
   return objectType ? objectType->findMethod(mName) : NULL;
+}
+
+LLVMFunction* Identifier::getLLVMFunction(IRGenerationContext &context) const {
+  const IObjectType* objectType = context.getObjectType();
+  return objectType ? objectType->findLLVMFunction(mName) : NULL;
 }

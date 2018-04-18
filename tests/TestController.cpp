@@ -421,14 +421,6 @@ TEST_F(ControllerTest, findLLVMFunctionTest) {
   EXPECT_EQ(mLLVMFunction, mMultiplierController->findLLVMFunction("myfunction"));
 }
 
-TEST_F(ControllerTest, findLLVMFunctionDeathTest) {
-  Mock::AllowLeak(mThreadVariable);
-
-  EXPECT_EXIT(mMultiplierController->findLLVMFunction("nonexistingfunction"),
-              ::testing::ExitedWithCode(1),
-              "LLVM function nonexistingfunction not found in object systems.vos.wisey.compiler.tests.CMultiplier");
-}
-
 TEST_F(ControllerTest, getObjectNameGlobalVariableNameTest) {
   ASSERT_STREQ("systems.vos.wisey.compiler.tests.CMultiplier.name",
                mMultiplierController->getObjectNameGlobalVariableName().c_str());

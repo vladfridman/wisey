@@ -54,12 +54,12 @@ namespace wisey {
   private:
     
     llvm::Value* generateStaticMethodCallIR(IRGenerationContext& context,
-                                            const IObjectType* objectType,
+                                            const IObjectType* object,
                                             const IMethodDescriptor* methodDescriptor,
                                             const IType* assignToType) const;
     
     llvm::Value* generateObjectMethodCallIR(IRGenerationContext& context,
-                                            const IObjectType* objectType,
+                                            const IObjectType* object,
                                             const IMethodDescriptor* methodDescriptor,
                                             const IType* assignToType) const;
     
@@ -67,6 +67,11 @@ namespace wisey {
                                                const Interface* interface,
                                                const IMethodDescriptor* methodDescriptor,
                                                const IType* assignToType) const;
+    
+    llvm::Value* generateLLVMFunctionCallIR(IRGenerationContext& context,
+                                            const IObjectType* object,
+                                            const IMethodDescriptor* methodDescriptor,
+                                            const IType* assignToType) const;
     
     void checkArgumentType(const IObjectType* objectWithMethods,
                            const IMethodDescriptor* methodDescriptor,

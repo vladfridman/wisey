@@ -14,6 +14,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMFunctionCall.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
@@ -100,4 +101,8 @@ TEST_F(LLVMFunctionCallTest, generateIRTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(TestFileRunner, llvmFunctionCallTest) {
+  runFile("tests/samples/test_llvm_function_call.yz", "3");
 }

@@ -161,6 +161,10 @@ bool LLVMFunction::isLLVMFunction() const {
 }
 
 void LLVMFunction::createArguments(IRGenerationContext& context, Function* function) const {
+  if (!function->getArgumentList().size()) {
+    return;
+  }
+
   Function::arg_iterator llvmFunctionArguments = function->arg_begin();
   llvm::Argument *llvmFunctionArgument = &*llvmFunctionArguments;
   for (const Argument* argument : mArguments) {

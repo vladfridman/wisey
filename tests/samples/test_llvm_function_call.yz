@@ -1,0 +1,16 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+
+  private ::llvm::function ::llvm::i32 getValue() {
+    return 3;
+  }
+
+  public int run() {
+    return getValue();
+  }
+}
+
+bind(IProgram).to(CProgram);

@@ -311,14 +311,6 @@ TEST_F(ThreadTest, findLLVMFunctionTest) {
   EXPECT_EQ(mLLVMFunction, mThread->findLLVMFunction("myfunction"));
 }
 
-TEST_F(ThreadTest, findLLVMFunctionDeathTest) {
-  Mock::AllowLeak(mThreadVariable);
-
-  EXPECT_EXIT(mThread->findLLVMFunction("nonexistingfunction"),
-              ::testing::ExitedWithCode(1),
-              "LLVM function nonexistingfunction not found in object systems.vos.wisey.compiler.tests.TWorker");
-}
-
 TEST_F(ThreadTest, getObjectNameGlobalVariableNameTest) {
   ASSERT_STREQ(mThread->getObjectNameGlobalVariableName().c_str(),
                "systems.vos.wisey.compiler.tests.TWorker.name");

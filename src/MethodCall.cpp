@@ -53,35 +53,36 @@ IVariable* MethodCall::getVariable(IRGenerationContext& context,
 
 Value* MethodCall::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   const IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
-  const IObjectType* objectWithMethodsType = methodDescriptor->getParentObject();
-  checkArgumentType(objectWithMethodsType, methodDescriptor, context);
+  const IObjectType* object = methodDescriptor->getParentObject();
+  checkArgumentType(object, methodDescriptor, context);
   std::vector<const Model*> thrownExceptions = methodDescriptor->getThrownExceptions();
   context.getScopes().getScope()->addExceptions(thrownExceptions);
   
+  if (methodDescriptor->isNative()) {
+    return generateLLVMFunctionCallIR(context, object, methodDescriptor, assignToType);
+  }
+  
   if (methodDescriptor->isStatic()) {
-    return generateStaticMethodCallIR(context,
-                                      objectWithMethodsType,
-                                      methodDescriptor,
-                                      assignToType);
+    return generateStaticMethodCallIR(context, object, methodDescriptor, assignToType);
   }
   
   string npeFullName = Names::getLangPackageName() + "." + Names::getNPEModelName();
   context.getScopes().getScope()->addException(context.getModel(npeFullName, mLine));
   
-  if (IType::isConcreteObjectType(objectWithMethodsType)) {
+  if (IType::isConcreteObjectType(object)) {
     return generateObjectMethodCallIR(context,
-                                      (const IObjectType*) objectWithMethodsType,
+                                      (const IObjectType*) object,
                                       methodDescriptor,
                                       assignToType);
   }
-  if (objectWithMethodsType->isInterface()) {
+  if (object->isInterface()) {
     return generateInterfaceMethodCallIR(context,
-                                         (const Interface*) objectWithMethodsType,
+                                         (const Interface*) object,
                                          methodDescriptor,
                                          assignToType);
   }
-  Log::e_deprecated("Method call " + methodDescriptor->getTypeName() + " on an unknown object type '" +
-         objectWithMethodsType->getTypeName() + "'");
+  Log::e_deprecated("Method call " + methodDescriptor->getTypeName() +
+                    " on an unknown object type '" + object->getTypeName() + "'");
   exit(1);
 }
 
@@ -107,8 +108,15 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
   GetElementPtrInst* virtualFunction = IRWriter::createGetElementPtrInst(context, vTable, index);
   Function* function = (Function*) IRWriter::newLoadInst(context, virtualFunction, "");
   
+  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
+  Value* threadObject = threadVariable->generateIdentifierIR(context);
+  IVariable* callStackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
+  Value* callStackObject = callStackVariable->generateIdentifierIR(context);
+  
   vector<Value*> arguments;
   arguments.push_back(objectValue);
+  arguments.push_back(threadObject);
+  arguments.push_back(callStackObject);
 
   return createFunctionCall(context,
                             interface,
@@ -129,9 +137,16 @@ Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
   CheckForNullAndThrowFunction::call(context, objectValue);
   Composer::popCallStack(context);
 
+  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
+  Value* threadObject = threadVariable->generateIdentifierIR(context);
+  IVariable* callStackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
+  Value* callStackObject = callStackVariable->generateIdentifierIR(context);
+
   vector<Value*> arguments;
   arguments.push_back(objectValue);
-  
+  arguments.push_back(threadObject);
+  arguments.push_back(callStackObject);
+
   return createFunctionCall(context,
                             objectType,
                             function,
@@ -140,19 +155,32 @@ Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
                             assignToType);
 }
 
-Value* MethodCall::generateStaticMethodCallIR(IRGenerationContext& context,
-                                              const IObjectType* objectType,
+Value* MethodCall::generateLLVMFunctionCallIR(IRGenerationContext& context,
+                                              const IObjectType* object,
                                               const IMethodDescriptor* methodDescriptor,
                                               const IType* assignToType) const {
   Function* function = getMethodFunction(context, methodDescriptor);
   vector<Value*> arguments;
   
-  return createFunctionCall(context,
-                            objectType,
-                            function,
-                            methodDescriptor,
-                            arguments,
-                            assignToType);
+  return createFunctionCall(context, object, function, methodDescriptor, arguments, assignToType);
+}
+
+Value* MethodCall::generateStaticMethodCallIR(IRGenerationContext& context,
+                                              const IObjectType* object,
+                                              const IMethodDescriptor* methodDescriptor,
+                                              const IType* assignToType) const {
+  Function* function = getMethodFunction(context, methodDescriptor);
+
+  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
+  Value* threadObject = threadVariable->generateIdentifierIR(context);
+  IVariable* callStackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
+  Value* callStackObject = callStackVariable->generateIdentifierIR(context);
+  
+  vector<Value*> arguments;
+  arguments.push_back(threadObject);
+  arguments.push_back(callStackObject);
+
+  return createFunctionCall(context, object, function, methodDescriptor, arguments, assignToType);
 }
 
 Value* MethodCall::createFunctionCall(IRGenerationContext& context,
@@ -161,15 +189,6 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
                                       const IMethodDescriptor* methodDescriptor,
                                       vector<Value*> arguments,
                                       const IType* assignToType) const {
-
-  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
-  Value* threadObject = threadVariable->generateIdentifierIR(context);
-  IVariable* callStackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
-  Value* callStackObject = callStackVariable->generateIdentifierIR(context);
-
-  arguments.push_back(threadObject);
-  arguments.push_back(callStackObject);
-
   vector<const Argument*> methodArguments = methodDescriptor->getArguments();
   vector<const Argument*>::iterator methodArgumentIterator = methodArguments.begin();
   for (const IExpression* callArgument : mArguments) {

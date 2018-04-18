@@ -145,11 +145,10 @@ vector<LLVMFunction*> Controller::getLLVMFunctions() const {
 }
 
 LLVMFunction* Controller::findLLVMFunction(string functionName) const {
-  if (!mLLVMFunctionMap.count(functionName)) {
-    Log::e_deprecated("LLVM function " + functionName + " not found in object " + getTypeName());
-    exit(1);
+  if (mLLVMFunctionMap.count(functionName)) {
+    return mLLVMFunctionMap.at(functionName);
   }
-  return mLLVMFunctionMap.at(functionName);
+  return NULL;
 }
 
 wisey::Constant* Controller::findConstant(string constantName) const {

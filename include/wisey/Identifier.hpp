@@ -56,6 +56,8 @@ namespace wisey {
     
     IMethodDescriptor* getMethod(IRGenerationContext& context) const;
     
+    LLVMFunction* getLLVMFunction(IRGenerationContext& context) const;
+    
   };
   
 } /* namespace wisey */

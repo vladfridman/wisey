@@ -572,7 +572,7 @@ llvm_function_definition_arguments
   ;
 
 llvm_function_argument_declaration
-  : native_type_specifier identifier { $$ = LLVMVariableDeclaration::create($1, $2, yylineno); }
+  : type_specifier identifier { $$ = LLVMVariableDeclaration::create($1, $2, yylineno); }
   ;
 
 llvm_function_call
