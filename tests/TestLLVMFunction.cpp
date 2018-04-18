@@ -53,7 +53,8 @@ struct LLVMFunctionTest : public Test {
                                      compoundStatement,
                                      0);
 
-    ON_CALL(*mObject, getTypeName()).WillByDefault(Return("MSomeObject"));
+    ON_CALL(*mObject, getTypeName()).
+    WillByDefault(Return("systems.vos.wisey.compiler.tests.MSomeObject"));
 
     vector<Type*> argumentLLVMTypes;
     for (const IType* argumentType : argumentTypes) {
@@ -83,6 +84,17 @@ TEST_F(LLVMFunctionTest, objectElementTypeTest) {
   EXPECT_TRUE(mLLVMFunction->isLLVMFunction());
 }
 
+TEST_F(LLVMFunctionTest, isTypeKindTest) {
+  EXPECT_FALSE(mLLVMFunction->isOwner());
+  EXPECT_FALSE(mLLVMFunction->isReference());
+  EXPECT_FALSE(mLLVMFunction->isPrimitive());
+  EXPECT_FALSE(mLLVMFunction->isArray());
+  EXPECT_TRUE(mLLVMFunction->isFunction());
+  EXPECT_FALSE(mLLVMFunction->isPackage());
+  EXPECT_TRUE(mLLVMFunction->isNative());
+  EXPECT_FALSE(mLLVMFunction->isPointer());
+}
+
 TEST_F(LLVMFunctionTest, getNameTest) {
   EXPECT_STREQ("myfunction", mLLVMFunction->getName().c_str());
 }
@@ -92,5 +104,19 @@ TEST_F(LLVMFunctionTest, getTypeTest) {
 }
 
 TEST_F(LLVMFunctionTest, getLLVMFunctionTest) {
-  EXPECT_EQ(mFunctionInLLVM, mLLVMFunction->getLLVMType(mContext));
+  EXPECT_EQ(mFunctionInLLVM, mLLVMFunction->getLLVMFunction(mContext));
+}
+
+TEST_F(LLVMFunctionTest, getTypeNameTest) {
+  EXPECT_STREQ("systems.vos.wisey.compiler.tests.MSomeObject.myfunction",
+               mLLVMFunction->getTypeName().c_str());
+}
+
+TEST_F(LLVMFunctionTest, printToStreamTest) {
+  stringstream stringStream;
+  mLLVMFunction->printToStream(mContext, stringStream);
+  
+  EXPECT_STREQ("  ::llvm::function ::llvm::i16 myfunction(\n"
+               "    ::llvm::i64 input);\n",
+               stringStream.str().c_str());
 }

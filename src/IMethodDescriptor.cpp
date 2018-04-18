@@ -64,7 +64,11 @@ void IMethodDescriptor::printDescriptorToStream(const IMethodDescriptor* method,
                                                 iostream& stream) {
   stream << "  ";
   if (method->isStatic()) {
-    stream << "static ";
+    if (method->isNative()) {
+      stream << "::llvm::function ";
+    } else {
+      stream << "static ";
+    }
   }
   stream << method->getReturnType()->getTypeName() << " " << method->getName() << "(";
   vector<const Argument*> arguments = method->getArguments();

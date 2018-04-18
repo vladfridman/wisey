@@ -13,6 +13,7 @@
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/LocalSystemReferenceVariable.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/MethodQualifier.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/ThreadExpression.hpp"
 
@@ -35,11 +36,13 @@ mLLVMFunctionType(llvmFunctionType),
 mReturnType(returnType),
 mArguments(arguments),
 mCompoundStatement(compoundStatement),
+mMethodQualifiers(new MethodQualifiers(line)),
 mLine(line) {
   assert(returnType->isNative());
 }
 
 LLVMFunction::~LLVMFunction() {
+  delete mMethodQualifiers;
 }
 
 Value* LLVMFunction::declareFunction(IRGenerationContext& context,
@@ -80,12 +83,53 @@ void LLVMFunction::generateBodyIR(IRGenerationContext& context,
   scopes.popScope(context, mLine);
 }
 
-Function* LLVMFunction::getLLVMType(IRGenerationContext& context) const {
+Function* LLVMFunction::getLLVMFunction(IRGenerationContext& context) const {
   string name = IMethodCall::translateObjectMethodToLLVMFunctionName(mObjectType, mName);
   Function* function = context.getModule()->getFunction(name);
   assert(function != NULL);
 
   return function;
+}
+
+const IType* LLVMFunction::getReturnType() const {
+  return mLLVMFunctionType->getReturnType();
+}
+
+vector<const wisey::Argument*> LLVMFunction::getArguments() const {
+  return mArguments;
+}
+
+vector<const Model*> LLVMFunction::getThrownExceptions() const {
+  vector<const Model*> emptyList;
+  return emptyList;
+}
+
+bool LLVMFunction::isStatic() const {
+  return true;
+}
+
+bool LLVMFunction::isConceal() const {
+  return false;
+}
+
+bool LLVMFunction::isReveal() const {
+  return false;
+}
+
+bool LLVMFunction::isOverride() const {
+  return false;
+}
+
+FunctionType* LLVMFunction::getLLVMType(IRGenerationContext& context) const {
+  return mLLVMFunctionType->getLLVMType(context);
+}
+
+const IObjectType* LLVMFunction::getParentObject() const {
+  return mObjectType;
+}
+
+MethodQualifiers* LLVMFunction::getMethodQualifiers() const {
+  return mMethodQualifiers;
 }
 
 bool LLVMFunction::isPublic() const {
@@ -176,4 +220,107 @@ string LLVMFunction::getName() const {
 
 const LLVMFunctionType* LLVMFunction::getType() const {
   return mLLVMFunctionType;
+}
+
+string LLVMFunction::getTypeName() const {
+  return mObjectType->getTypeName() + "." + getName();
+}
+
+bool LLVMFunction::canCastTo(IRGenerationContext& context, const IType* toType) const {
+  return false;
+}
+
+bool LLVMFunction::canAutoCastTo(IRGenerationContext& context, const IType *toType) const {
+  return false;
+}
+
+Value* LLVMFunction::castTo(IRGenerationContext& context,
+                            Value* fromValue,
+                            const IType* toType,
+                            int line) const {
+  assert(false);
+}
+
+bool LLVMFunction::isPrimitive() const {
+  return false;
+}
+
+bool LLVMFunction::isOwner() const {
+  return false;
+}
+
+bool LLVMFunction::isReference() const {
+  return false;
+}
+
+bool LLVMFunction::isArray() const {
+  return false;
+}
+
+bool LLVMFunction::isFunction() const {
+  return true;
+}
+
+bool LLVMFunction::isPackage() const {
+  return false;
+}
+
+bool LLVMFunction::isController() const {
+  return false;
+}
+
+bool LLVMFunction::isInterface() const {
+  return false;
+}
+
+bool LLVMFunction::isModel() const {
+  return false;
+}
+
+bool LLVMFunction::isNode() const {
+  return false;
+}
+
+bool LLVMFunction::isThread() const {
+  return false;
+}
+
+bool LLVMFunction::isNative() const {
+  return true;
+}
+
+bool LLVMFunction::isPointer() const {
+  return false;
+}
+
+void LLVMFunction::printToStream(IRGenerationContext& context, iostream& stream) const {
+  IMethodDescriptor::printDescriptorToStream(this, stream);
+}
+
+void LLVMFunction::createLocalVariable(IRGenerationContext& context, string name) const {
+  assert(false);
+}
+
+void LLVMFunction::createFieldVariable(IRGenerationContext& context,
+                                       string name,
+                                       const IConcreteObjectType* object) const {
+  assert(false);
+}
+
+void LLVMFunction::createParameterVariable(IRGenerationContext& context,
+                                           string name,
+                                           Value* value) const {
+  assert(false);
+}
+
+const wisey::ArrayType* LLVMFunction::getArrayType(IRGenerationContext& context) const {
+  ArrayType::reportNonArrayType();
+  exit(1);
+}
+
+Instruction* LLVMFunction::inject(IRGenerationContext& context,
+                                  const InjectionArgumentList injectionArgumentList,
+                                  int line) const {
+  repotNonInjectableType(context, this, line);
+  exit(1);
 }

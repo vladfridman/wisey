@@ -206,28 +206,15 @@ TEST_F(MethodTest, generateIRTest) {
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
 
-TEST_F(MethodTest, isOwnerTest) {
+TEST_F(MethodTest, isTypeKindTest) {
   EXPECT_FALSE(mMethod->isOwner());
-}
-
-TEST_F(MethodTest, isReferenceTest) {
   EXPECT_FALSE(mMethod->isReference());
-}
-
-TEST_F(MethodTest, isPrimitiveTest) {
   EXPECT_FALSE(mMethod->isPrimitive());
-}
-
-TEST_F(MethodTest, isArrayTest) {
   EXPECT_FALSE(mMethod->isArray());
-}
-
-TEST_F(MethodTest, isFunctionTest) {
   EXPECT_TRUE(mMethod->isFunction());
-}
-
-TEST_F(MethodTest, isPackageTest) {
   EXPECT_FALSE(mMethod->isPackage());
+  EXPECT_FALSE(mMethod->isNative());
+  EXPECT_FALSE(mMethod->isPointer());
 }
 
 TEST_F(MethodTest, printToStreamTest) {

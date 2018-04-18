@@ -37,11 +37,11 @@ IVariable* LLVMFunctionIdentifier::getVariable(IRGenerationContext& context,
 
 Value* LLVMFunctionIdentifier::generateIR(IRGenerationContext& context,
                                           const IType* assignToType) const {
-  return getLLVFunction(context)->getLLVMType(context);
+  return getLLVMFunctionObject(context)->getLLVMFunction(context);
 }
 
 const IType* LLVMFunctionIdentifier::getType(IRGenerationContext& context) const {
-  return getLLVFunction(context)->getType();
+  return getLLVMFunctionObject(context)->getType();
 }
 
 bool LLVMFunctionIdentifier::isConstant() const {
@@ -54,7 +54,7 @@ void LLVMFunctionIdentifier::printToStream(IRGenerationContext& context,
   stream << "." << mLLVMFunctionName;
 }
 
-LLVMFunction* LLVMFunctionIdentifier::getLLVFunction(IRGenerationContext& context) const {
+LLVMFunction* LLVMFunctionIdentifier::getLLVMFunctionObject(IRGenerationContext& context) const {
   const IObjectType* objectType = mObjectTypeSpecifier->getType(context);
   LLVMFunction* llvmFunction = objectType->findLLVMFunction(mLLVMFunctionName);
   if (!llvmFunction) {

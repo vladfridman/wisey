@@ -47,7 +47,7 @@ namespace wisey {
     
   private:
     
-    LLVMFunction* getLLVFunction(IRGenerationContext&  context) const;
+    LLVMFunction* getLLVMFunctionObject(IRGenerationContext&  context) const;
     
   };
   

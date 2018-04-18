@@ -7,6 +7,7 @@
 //
 
 #include "wisey/AccessLevel.hpp"
+#include "wisey/Argument.hpp"
 #include "wisey/LLVMFunction.hpp"
 #include "wisey/LLVMFunctionDefinition.hpp"
 
