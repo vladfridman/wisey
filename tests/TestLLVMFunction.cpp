@@ -12,6 +12,7 @@
 #include <gmock/gmock.h>
 
 #include "MockConcreteObjectType.hpp"
+#include "wisey/Argument.hpp"
 #include "wisey/IMethodCall.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMFunction.hpp"
@@ -35,10 +36,9 @@ struct LLVMFunctionTest : public Test {
   llvm::Function* mFunctionInLLVM;
 
   LLVMFunctionTest() : mLLVMContext(mContext.getLLVMContext()) {
-    LLVMFunctionArgument* llvmFunctionArgument =
-    new LLVMFunctionArgument(LLVMPrimitiveTypes::I64, "input");
-    vector<const LLVMFunctionArgument*> arguments;
-    arguments.push_back(llvmFunctionArgument);
+    wisey::Argument* argument = new wisey::Argument(LLVMPrimitiveTypes::I64, "input");
+    vector<const wisey::Argument*> arguments;
+    arguments.push_back(argument);
     Block* block = new Block();
     CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
     vector<const IType*> argumentTypes;

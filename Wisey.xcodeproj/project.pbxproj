@@ -1862,7 +1862,6 @@
 		F5D465F32060FA4F00C1047A /* LLVMFunctionDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMFunctionDefinition.cpp; path = src/LLVMFunctionDefinition.cpp; sourceTree = "<group>"; };
 		F5D465F62061078F00C1047A /* LLVMFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMFunction.hpp; path = include/wisey/LLVMFunction.hpp; sourceTree = "<group>"; };
 		F5D465F72061086D00C1047A /* LLVMFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMFunction.cpp; path = src/LLVMFunction.cpp; sourceTree = "<group>"; };
-		F5D465FA206108FE00C1047A /* LLVMFunctionArgument.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMFunctionArgument.hpp; path = include/wisey/LLVMFunctionArgument.hpp; sourceTree = "<group>"; };
 		F5D465FB2061119500C1047A /* LLVMVariableDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMVariableDeclaration.hpp; path = include/wisey/LLVMVariableDeclaration.hpp; sourceTree = "<group>"; };
 		F5D465FC2061121000C1047A /* LLVMVariableDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMVariableDeclaration.cpp; path = src/LLVMVariableDeclaration.cpp; sourceTree = "<group>"; };
 		F5D465FF20611A4B00C1047A /* TestLLVMFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMFunction.cpp; path = tests/TestLLVMFunction.cpp; sourceTree = "<group>"; };
@@ -3055,7 +3054,6 @@
 				F582704B205F9F1A00839EC7 /* LLVMArrayTypeSpecifer.hpp */,
 				F53227DA206282EB00605E1B /* LLVMExternalStructDefinition.hpp */,
 				F5D465F62061078F00C1047A /* LLVMFunction.hpp */,
-				F5D465FA206108FE00C1047A /* LLVMFunctionArgument.hpp */,
 				F5D4660B20614C0A00C1047A /* LLVMFunctionCall.hpp */,
 				F582707B20600E6100839EC7 /* LLVMFunctionDeclaration.hpp */,
 				F5D465F22060F96100C1047A /* LLVMFunctionDefinition.hpp */,

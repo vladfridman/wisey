@@ -11,7 +11,6 @@
 
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/IObjectElement.hpp"
-#include "wisey/LLVMFunctionArgument.hpp"
 #include "wisey/LLVMFunctionType.hpp"
 
 namespace wisey {
@@ -25,7 +24,7 @@ namespace wisey {
     bool mIsPublic;
     const LLVMFunctionType* mLLVMFunctionType;
     const IType* mReturnType;
-    std::vector<const LLVMFunctionArgument*> mArguments;
+    std::vector<const Argument*> mArguments;
     CompoundStatement* mCompoundStatement;
     int mLine;
     
@@ -36,7 +35,7 @@ namespace wisey {
                  AccessLevel accessLevel,
                  const LLVMFunctionType* llvmFunctionType,
                  const IType* returnType,
-                 std::vector<const LLVMFunctionArgument*> arguments,
+                 std::vector<const Argument*> arguments,
                  CompoundStatement* compoundStatement,
                  int line);
 

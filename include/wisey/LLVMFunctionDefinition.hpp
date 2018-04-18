@@ -9,9 +9,9 @@
 #ifndef LLVMFunctionDefinition_h
 #define LLVMFunctionDefinition_h
 
+#include "wisey/Argument.hpp"
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/LLVMFunction.hpp"
-#include "wisey/LLVMFunctionArgument.hpp"
 #include "wisey/LLVMVariableDeclaration.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 #include "wisey/IObjectElementDefinition.hpp"
@@ -57,7 +57,7 @@ namespace wisey {
 
   private:
     
-    std::vector<const LLVMFunctionArgument*> createArgumnetList(IRGenerationContext& context) const;
+    std::vector<const Argument*> createArgumnetList(IRGenerationContext& context) const;
 
   };
   

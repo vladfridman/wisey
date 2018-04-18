@@ -41,9 +41,9 @@ LLVMFunction* LLVMFunctionDefinition::define(IRGenerationContext& context,
                                              const IObjectType* objectType) const {
   const IType* returnType = mReturnSpecifier->getType(context);
   
-  vector<const LLVMFunctionArgument*> arguments = createArgumnetList(context);
+  vector<const Argument*> arguments = createArgumnetList(context);
   vector<const IType*> arugmentTypes;
-  for (const LLVMFunctionArgument* argument : arguments) {
+  for (const Argument* argument : arguments) {
     arugmentTypes.push_back(argument->getType());
   }
   LLVMFunctionType* functionType = context.getLLVMFunctionType(returnType, arugmentTypes);
@@ -81,16 +81,16 @@ bool LLVMFunctionDefinition::isLLVMFunction() const {
   return true;
 }
 
-vector<const LLVMFunctionArgument*> LLVMFunctionDefinition::createArgumnetList(IRGenerationContext&
-                                                                               context) const {
-  vector<const LLVMFunctionArgument*> arguments;
+vector<const wisey::Argument*> LLVMFunctionDefinition::
+createArgumnetList(IRGenerationContext& context) const {
+  vector<const Argument*> arguments;
   
   for (LLVMVariableList::const_iterator iterator = mArguments.begin();
        iterator != mArguments.end();
        iterator++) {
     const IType* type = (**iterator).getTypeSpecifier()->getType(context);
     string name = (**iterator).getIdentifier()->getIdentifierName();
-    LLVMFunctionArgument* methodArgument = new LLVMFunctionArgument(type, name);
+    Argument* methodArgument = new Argument(type, name);
     arguments.push_back(methodArgument);
   }
   

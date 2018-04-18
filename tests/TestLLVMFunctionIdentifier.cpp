@@ -15,9 +15,9 @@
 #include "MockObjectTypeSpecifier.hpp"
 #include "wisey/Block.hpp"
 #include "TestPrefix.hpp"
+#include "wisey/Argument.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMFunction.hpp"
-#include "wisey/LLVMFunctionArgument.hpp"
 #include "wisey/LLVMFunctionIdentifier.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -51,9 +51,8 @@ struct LLVMFunctionIdentifierTest : public Test {
     mObject = new NiceMock<MockObjectType>();
     mAnotherObject = new NiceMock<MockObjectType>();
     mObjectSpecifier = new NiceMock<MockObjectTypeSpecifier>();
-    LLVMFunctionArgument* llvmFunctionArgument =
-    new LLVMFunctionArgument(LLVMPrimitiveTypes::I64, "input");
-    vector<const LLVMFunctionArgument*> arguments;
+    wisey::Argument* llvmFunctionArgument = new wisey::Argument(LLVMPrimitiveTypes::I64, "input");
+    vector<const wisey::Argument*> arguments;
     arguments.push_back(llvmFunctionArgument);
     Block* block = new Block();
     CompoundStatement* compoundStatement = new CompoundStatement(block, 0);

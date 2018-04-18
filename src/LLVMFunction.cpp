@@ -6,6 +6,7 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/Argument.hpp"
 #include "wisey/IMethodCall.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMFunction.hpp"
@@ -24,7 +25,7 @@ LLVMFunction::LLVMFunction(const IObjectType* objectType,
                            AccessLevel accessLevel,
                            const LLVMFunctionType* llvmFunctionType,
                            const IType* returnType,
-                           vector<const LLVMFunctionArgument*> arguments,
+                           vector<const Argument*> arguments,
                            CompoundStatement* compoundStatement,
                            int line) :
 mObjectType(objectType),
@@ -44,7 +45,7 @@ LLVMFunction::~LLVMFunction() {
 Value* LLVMFunction::declareFunction(IRGenerationContext& context,
                                      const IObjectType* objectType) const {
   vector<const IType*> argumentTypes;
-  for (const LLVMFunctionArgument* argument : mArguments) {
+  for (const Argument* argument : mArguments) {
     argumentTypes.push_back(argument->getType());
   }
   LLVMFunctionType* functionType = context.getLLVMFunctionType(mReturnType, argumentTypes);
@@ -118,14 +119,14 @@ bool LLVMFunction::isLLVMFunction() const {
 void LLVMFunction::createArguments(IRGenerationContext& context, Function* function) const {
   Function::arg_iterator llvmFunctionArguments = function->arg_begin();
   llvm::Argument *llvmFunctionArgument = &*llvmFunctionArguments;
-  for (const LLVMFunctionArgument* argument : mArguments) {
+  for (const Argument* argument : mArguments) {
     llvmFunctionArgument = &*llvmFunctionArguments;
     llvmFunctionArgument->setName(argument->getName());
     llvmFunctionArguments++;
   }
   
   llvmFunctionArguments = function->arg_begin();
-  for (const LLVMFunctionArgument* methodArgument : mArguments) {
+  for (const Argument* methodArgument : mArguments) {
     methodArgument->getType()->createParameterVariable(context,
                                                        methodArgument->getName(),
                                                        &*llvmFunctionArguments);
