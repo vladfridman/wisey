@@ -49,11 +49,12 @@ struct InterfaceOwnerTest : public Test {
     objectStructType->setBody(objectTypes);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDefinition*> interfaceElements;
-    mObjectInterface = Interface::newPublicInterface(objectFullName,
-                                                     objectStructType,
-                                                     parentInterfaces,
-                                                     interfaceElements,
-                                                     0);
+    mObjectInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                               objectFullName,
+                                               objectStructType,
+                                               parentInterfaces,
+                                               interfaceElements,
+                                               0);
     
     vector<Type*> shapeTypes;
     string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
@@ -64,11 +65,12 @@ struct InterfaceOwnerTest : public Test {
     InterfaceTypeSpecifier* objectInterfaceSpecifier =
     new InterfaceTypeSpecifier(NULL, "IObject", 0);
     shapeParentInterfaces.push_back(objectInterfaceSpecifier);
-    mShapeInterface = Interface::newPublicInterface(shapeFullName,
-                                                    mShapeStructType,
-                                                    shapeParentInterfaces,
-                                                    shapeMethodElements,
-                                                    0);
+    mShapeInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                              shapeFullName,
+                                              mShapeStructType,
+                                              shapeParentInterfaces,
+                                              shapeMethodElements,
+                                              0);
     
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
@@ -118,7 +120,7 @@ TEST_F(InterfaceOwnerTest, canCastToTest) {
   EXPECT_FALSE(mObjectInterface->getOwner()->canCastTo(mContext, PrimitiveTypes::INT_TYPE));
   EXPECT_TRUE(mObjectInterface->getOwner()->canCastTo(mContext, mShapeInterface));
   EXPECT_TRUE(mShapeInterface->getOwner()->canCastTo(mContext, mObjectInterface));
-  
+
   EXPECT_TRUE(mObjectInterface->getOwner()->canCastTo(mContext, mShapeInterface->getOwner()));
   EXPECT_TRUE(mShapeInterface->getOwner()->canCastTo(mContext, mObjectInterface->getOwner()));
 }
@@ -201,11 +203,12 @@ TEST_F(InterfaceOwnerTest, injectTest) {
   StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
   vector<IInterfaceTypeSpecifier*> interfaceParentInterfaces;
   vector<IObjectElementDefinition*> interafaceElements;
-  Interface* interface = Interface::newPublicInterface(interfaceFullName,
-                                                       interfaceStructType,
-                                                       interfaceParentInterfaces,
-                                                       interafaceElements,
-                                                       0);
+  Interface* interface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                 interfaceFullName,
+                                                 interfaceStructType,
+                                                 interfaceParentInterfaces,
+                                                 interafaceElements,
+                                                 0);
   mContext.addInterface(interface);
   llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
                                                                 interface->getTypeName());
@@ -287,4 +290,3 @@ TEST_F(TestFileRunner, interfaceOwnerCearedAndThrowsNpeDeathRunTest) {
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_interface_owner_cleared_and_throws_npe.yz:43)\n"
                                "Main thread ended without a result\n");
 }
-

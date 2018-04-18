@@ -74,11 +74,12 @@ struct InjectorTest : Test {
     StructType* interfaceStructType = StructType::create(llvmContext, interfaceFullName);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDefinition*> interfaceElements;
-    mInterface = Interface::newPublicInterface(interfaceFullName,
-                                               interfaceStructType,
-                                               parentInterfaces,
-                                               interfaceElements,
-                                               0);
+    mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                         interfaceFullName,
+                                         interfaceStructType,
+                                         parentInterfaces,
+                                         interfaceElements,
+                                         0);
     mContext.addInterface(mInterface);
     mContext.bindInterfaceToController(mInterface, mController);
    

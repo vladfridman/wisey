@@ -49,18 +49,12 @@ InterfaceDefinition::~InterfaceDefinition() {
 Interface* InterfaceDefinition::prototypeObject(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mInterfaceTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
-  Interface* interface = mAccessLevel == PUBLIC_ACCESS
-  ? Interface::newPublicInterface(fullName,
-                                  structType,
-                                  mParentInterfaceSpecifiers,
-                                  mElementDeclarations,
-                                  mLine)
-  : Interface::newPrivateInterface(fullName,
-                                   structType,
-                                   mParentInterfaceSpecifiers,
-                                   mElementDeclarations,
-                                   mLine);
-
+  Interface* interface = Interface::newInterface(mAccessLevel,
+                                                 fullName,
+                                                 structType,
+                                                 mParentInterfaceSpecifiers,
+                                                 mElementDeclarations,
+                                                 mLine);
   context.addInterface(interface);
   interface->setImportProfile(context.getImportProfile());
   interface->defineInterfaceTypeName(context);

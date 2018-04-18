@@ -89,11 +89,12 @@ struct NodeOwnerTest : public Test {
                                    0);
     elementObjectElements.push_back(getElementSignature);
     vector<IInterfaceTypeSpecifier*> elementParentInterfaces;
-    mElementInterface = Interface::newPublicInterface(elementInterfaceFullName,
-                                                      elementInterfaceStructType,
-                                                      elementParentInterfaces,
-                                                      elementObjectElements,
-                                                      0);
+    mElementInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                elementInterfaceFullName,
+                                                elementInterfaceStructType,
+                                                elementParentInterfaces,
+                                                elementObjectElements,
+                                                0);
     mContext.addInterface(mElementInterface);
     mElementInterface->buildMethods(mContext);
     
@@ -107,12 +108,12 @@ struct NodeOwnerTest : public Test {
                                                                                        "IElement",
                                                                                        0);
     complicatedElementParentInterfaces.push_back(elementInterfaceTypeSpecifier);
-    mComplicatedElementInterface =
-    Interface::newPublicInterface(complicatedElementFullName,
-                                  complicatedElementIinterfaceStructType,
-                                  complicatedElementParentInterfaces,
-                                  complicatedElementObjectElements,
-                                  0);
+    mComplicatedElementInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                           complicatedElementFullName,
+                                                           complicatedElementIinterfaceStructType,
+                                                           complicatedElementParentInterfaces,
+                                                           complicatedElementObjectElements,
+                                                           0);
     mContext.addInterface(mComplicatedElementInterface);
     mComplicatedElementInterface->buildMethods(mContext);
 
@@ -130,11 +131,12 @@ struct NodeOwnerTest : public Test {
                                      0);
     objectElements.push_back(methodBarSignature);
     vector<IInterfaceTypeSpecifier*> objectParentInterfaces;
-    mObjectInterface = Interface::newPublicInterface(objectFullName,
-                                                     objectInterfaceStructType,
-                                                     objectParentInterfaces,
-                                                     objectElements,
-                                                     0);
+    mObjectInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                               objectFullName,
+                                               objectInterfaceStructType,
+                                               objectParentInterfaces,
+                                               objectElements,
+                                               0);
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
 
@@ -227,12 +229,13 @@ struct NodeOwnerTest : public Test {
     StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, vehicleFullName);
     vector<IInterfaceTypeSpecifier*> vehicleParentInterfaces;
     vector<IObjectElementDefinition*> vehicleObjectElements;
-    mVehicleInterface = Interface::newPublicInterface(vehicleFullName,
-                                                      vehicleInterfaceStructType,
-                                                      vehicleParentInterfaces,
-                                                      vehicleObjectElements,
-                                                      0);
-
+    mVehicleInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                vehicleFullName,
+                                                vehicleInterfaceStructType,
+                                                vehicleParentInterfaces,
+                                                vehicleObjectElements,
+                                                0);
+    
     IConcreteObjectType::generateNameGlobal(mContext, mSimpleNode);
     IConcreteObjectType::generateShortNameGlobal(mContext, mSimpleNode);
     IConcreteObjectType::generateVTable(mContext, mSimpleNode);

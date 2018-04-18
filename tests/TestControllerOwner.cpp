@@ -59,11 +59,12 @@ struct ControllerOwnerTest : public Test {
     StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, vehicleFullName);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDefinition*> interfaceElements;
-    mVehicleInterface = Interface::newPublicInterface(vehicleFullName,
-                                                      vehicleInterfaceStructType,
-                                                      parentInterfaces,
-                                                      interfaceElements,
-                                                      0);
+    mVehicleInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                vehicleFullName,
+                                                vehicleInterfaceStructType,
+                                                parentInterfaces,
+                                                interfaceElements,
+                                                0);
 
     string additorFullName = "systems.vos.wisey.compiler.tests.CAdditor";
     StructType* additorStructType = StructType::create(mLLVMContext, additorFullName);
@@ -79,21 +80,23 @@ struct ControllerOwnerTest : public Test {
     string calculatorFullName = "systems.vos.wisey.compiler.tests.ICalculator";
     StructType* calculatorIinterfaceStructType = StructType::create(mLLVMContext,
                                                                     calculatorFullName);
-    mCalculatorInterface = Interface::newPublicInterface(calculatorFullName,
-                                                         calculatorIinterfaceStructType,
-                                                         parentInterfaces,
-                                                         interfaceElements,
-                                                         0);
+    mCalculatorInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                   calculatorFullName,
+                                                   calculatorIinterfaceStructType,
+                                                   parentInterfaces,
+                                                   interfaceElements,
+                                                   0);
     mContext.addInterface(mCalculatorInterface);
     mCalculatorInterface->buildMethods(mContext);
 
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectInterfaceStructType = StructType::create(mLLVMContext, objectFullName);
-    mObjectInterface = Interface::newPublicInterface(objectFullName,
-                                                     objectInterfaceStructType,
-                                                     parentInterfaces,
-                                                     interfaceElements,
-                                                     0);
+    mObjectInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                               objectFullName,
+                                               objectInterfaceStructType,
+                                               parentInterfaces,
+                                               interfaceElements,
+                                               0);
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
 
@@ -105,12 +108,12 @@ struct ControllerOwnerTest : public Test {
     InterfaceTypeSpecifier* calculatorTypeSpecifier =
     new InterfaceTypeSpecifier(NULL, "ICalculator", 0);
     scienceCalculatorParentInterfaces.push_back(calculatorTypeSpecifier);
-    mScienceCalculatorInterface =
-    Interface::newPublicInterface(scienceCalculatorFullName,
-                                  scienceCalculatorIinterfaceStructType,
-                                  scienceCalculatorParentInterfaces,
-                                  scienceCalculatorInterfaceElements,
-                                  0);
+    mScienceCalculatorInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                          scienceCalculatorFullName,
+                                                          scienceCalculatorIinterfaceStructType,
+                                                          scienceCalculatorParentInterfaces,
+                                                          scienceCalculatorInterfaceElements,
+                                                          0);
     mContext.addInterface(mScienceCalculatorInterface);
     mScienceCalculatorInterface->buildMethods(mContext);
 

@@ -213,11 +213,12 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
                                    0);
   interfaceElements.push_back(methodSignature);
   vector<IInterfaceTypeSpecifier*> parentInterfaces;
-  Interface* interface = Interface::newPublicInterface(interfaceFullName,
-                                                       structType,
-                                                       parentInterfaces,
-                                                       interfaceElements,
-                                                       0);
+  Interface* interface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                 interfaceFullName,
+                                                 structType,
+                                                 parentInterfaces,
+                                                 interfaceElements,
+                                                 0);
   mContext.addInterface(interface);
   interface->buildMethods(mContext);
   

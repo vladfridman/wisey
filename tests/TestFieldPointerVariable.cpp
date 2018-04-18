@@ -57,11 +57,12 @@ struct FieldPointerVariableTest : Test {
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDefinition*> interfaceElements;
-    mInterface = Interface::newPublicInterface(interfaceFullName,
-                                               interfaceStructType,
-                                               parentInterfaces,
-                                               interfaceElements,
-                                               0);
+    mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                         interfaceFullName,
+                                         interfaceStructType,
+                                         parentInterfaces,
+                                         interfaceElements,
+                                         0);
     vector<Interface*> interfaces;
     interfaces.push_back(mInterface);
     

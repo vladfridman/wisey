@@ -60,11 +60,12 @@ struct MethodSignatureDeclarationTest : Test {
     structType->setBody(types);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDefinition*> interfaceElements;
-    mInterface = Interface::newPublicInterface(interfaceFullName,
-                                               structType,
-                                               parentInterfaces,
-                                               interfaceElements,
-                                               0);
+    mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                         interfaceFullName,
+                                         structType,
+                                         parentInterfaces,
+                                         interfaceElements,
+                                         0);
   }
   
   ~MethodSignatureDeclarationTest() {

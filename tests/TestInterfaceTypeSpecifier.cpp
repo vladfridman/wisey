@@ -49,12 +49,13 @@ struct InterfaceTypeSpecifierTest : public ::testing::Test {
                                    0);
     objectElements.push_back(methodSignature);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
-    mInterface = Interface::newPublicInterface(interfaceFullName,
-                                               structType,
-                                               parentInterfaces,
-                                               objectElements,
-                                               0);
-
+    mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                         interfaceFullName,
+                                         structType,
+                                         parentInterfaces,
+                                         objectElements,
+                                         0);
+   
     mContext.addInterface(mInterface);
   }
 };

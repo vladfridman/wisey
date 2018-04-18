@@ -105,11 +105,12 @@ struct NodeTest : public Test {
                                      0);
     elementInterfaceElements.push_back(getElementSignature);
     vector<IInterfaceTypeSpecifier*> elementParentInterfaces;
-    mElementInterface = Interface::newPublicInterface(elementInterfaceFullName,
-                                                      elementInterfaceStructType,
-                                                      elementParentInterfaces,
-                                                      elementInterfaceElements,
-                                                      0);
+    mElementInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                elementInterfaceFullName,
+                                                elementInterfaceStructType,
+                                                elementParentInterfaces,
+                                                elementInterfaceElements,
+                                                0);
     mContext.addInterface(mElementInterface);
     mElementInterface->buildMethods(mContext);
     
@@ -122,12 +123,12 @@ struct NodeTest : public Test {
     InterfaceTypeSpecifier* elementInterfaceSpecifier =
     new InterfaceTypeSpecifier(NULL, "IElement", 0);
     complicatedElementParentInterfaces.push_back(elementInterfaceSpecifier);
-    mComplicatedElementInterface =
-    Interface::newPublicInterface(complicatedElementFullName,
-                                  complicatedElementIinterfaceStructType,
-                                  complicatedElementParentInterfaces,
-                                  complicatedElementInterfaceElements,
-                                  0);
+    mComplicatedElementInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                           complicatedElementFullName,
+                                                           complicatedElementIinterfaceStructType,
+                                                           complicatedElementParentInterfaces,
+                                                           complicatedElementInterfaceElements,
+                                                           0);
     mContext.addInterface(mComplicatedElementInterface);
     mComplicatedElementInterface->buildMethods(mContext);
 
@@ -145,11 +146,12 @@ struct NodeTest : public Test {
                                      0);
     objectInterfaceElements.push_back(methodBarSignature);
     vector<IInterfaceTypeSpecifier*> objectParentInterfaces;
-    mObjectInterface = Interface::newPublicInterface(objectFullName,
-                                                     objectInterfaceStructType,
-                                                     objectParentInterfaces,
-                                                     objectInterfaceElements,
-                                                     0);
+    mObjectInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                               objectFullName,
+                                               objectInterfaceStructType,
+                                               objectParentInterfaces,
+                                               objectInterfaceElements,
+                                               0);
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
 
@@ -288,11 +290,12 @@ struct NodeTest : public Test {
     StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, vehicleFullName);
     vector<IInterfaceTypeSpecifier*> vehicleParentInterfaces;
     vector<IObjectElementDefinition*> vehicleElements;
-    mVehicleInterface = Interface::newPublicInterface(vehicleFullName,
-                                                      vehicleInterfaceStructType,
-                                                      vehicleParentInterfaces,
-                                                      vehicleElements,
-                                                      0);
+    mVehicleInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                vehicleFullName,
+                                                vehicleInterfaceStructType,
+                                                vehicleParentInterfaces,
+                                                vehicleElements,
+                                                0);
     mContext.addInterface(mVehicleInterface);
     mVehicleInterface->buildMethods(mContext);
 

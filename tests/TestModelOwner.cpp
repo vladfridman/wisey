@@ -123,11 +123,12 @@ struct ModelOwnerTest : public Test {
                                      0);
     subShapeInterfaceElements.push_back(methodFooSignature);
     vector<IInterfaceTypeSpecifier*> subShapeParentInterfaces;
-    mSubShapeInterface = Interface::newPublicInterface(subShapeFullName,
-                                                       subShapeIinterfaceStructType,
-                                                       subShapeParentInterfaces,
-                                                       subShapeInterfaceElements,
-                                                       0);
+    mSubShapeInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                 subShapeFullName,
+                                                 subShapeIinterfaceStructType,
+                                                 subShapeParentInterfaces,
+                                                 subShapeInterfaceElements,
+                                                 0);
     mSubShapeInterface->buildMethods(mContext);
     mContext.addInterface(mSubShapeInterface);
 
@@ -147,11 +148,12 @@ struct ModelOwnerTest : public Test {
     InterfaceTypeSpecifier* subShapeInterfaceTypeSpecifier =
       new InterfaceTypeSpecifier(NULL, "ISubShape", 0);
     shapeParentInterfaces.push_back(subShapeInterfaceTypeSpecifier);
-    mShapeInterface = Interface::newPublicInterface(shapeFullName,
-                                                    shapeIinterfaceStructType,
-                                                    shapeParentInterfaces,
-                                                    shapeInterfaceElements,
-                                                    0);
+    mShapeInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                              shapeFullName,
+                                              shapeIinterfaceStructType,
+                                              shapeParentInterfaces,
+                                              shapeInterfaceElements,
+                                              0);
     mShapeInterface->buildMethods(mContext);
     mContext.addInterface(mShapeInterface);
 
@@ -169,11 +171,12 @@ struct ModelOwnerTest : public Test {
                                      0);
     objectInterfaceElements.push_back(methodBarSignature);
     vector<IInterfaceTypeSpecifier*> objectParentInterfaces;
-    mObjectInterface = Interface::newPublicInterface(objectFullName,
-                                                     objectInterfaceStructType,
-                                                     objectParentInterfaces,
-                                                     objectInterfaceElements,
-                                                     0);
+    mObjectInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                               objectFullName,
+                                               objectInterfaceStructType,
+                                               objectParentInterfaces,
+                                               objectInterfaceElements,
+                                               0);
     mObjectInterface->buildMethods(mContext);
     mContext.addInterface(mObjectInterface);
 
@@ -181,11 +184,12 @@ struct ModelOwnerTest : public Test {
     StructType* carInterfaceStructType = StructType::create(mLLVMContext, carFullName);
     vector<IInterfaceTypeSpecifier*> carParentInterfaces;
     vector<IObjectElementDefinition*> carInterfaceElements;
-    mCarInterface = Interface::newPublicInterface(carFullName,
-                                                  carInterfaceStructType,
-                                                  carParentInterfaces,
-                                                  carInterfaceElements,
-                                                  0);
+    mCarInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                            carFullName,
+                                            carInterfaceStructType,
+                                            carParentInterfaces,
+                                            carInterfaceElements,
+                                            0);
     mCarInterface->buildMethods(mContext);
     mContext.addInterface(mCarInterface);
 
