@@ -227,7 +227,8 @@ struct ModelTest : public Test {
     vector<const LLVMFunctionArgument*> llvmFunctionArguments;
     Block* functionBlock = new Block();
     CompoundStatement* functionCompoundStatement = new CompoundStatement(functionBlock, 0);
-    mLLVMFunction = new LLVMFunction("myfunction",
+    mLLVMFunction = new LLVMFunction(mModel,
+                                     "myfunction",
                                      PUBLIC_ACCESS,
                                      llvmFunctionType,
                                      LLVMPrimitiveTypes::I8,

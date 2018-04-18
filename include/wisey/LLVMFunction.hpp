@@ -20,6 +20,7 @@ namespace wisey {
    * Represents an llvm function defined within an object
    */
   class LLVMFunction : public IObjectElement {
+    const IObjectType* mObjectType;
     std::string mName;
     bool mIsPublic;
     const LLVMFunctionType* mLLVMFunctionType;
@@ -30,7 +31,8 @@ namespace wisey {
     
   public:
     
-    LLVMFunction(std::string name,
+    LLVMFunction(const IObjectType* objectType,
+                 std::string name,
                  AccessLevel accessLevel,
                  const LLVMFunctionType* llvmFunctionType,
                  const IType* returnType,
@@ -58,8 +60,7 @@ namespace wisey {
     /**
      * Returns the actual llvm function
      */
-    llvm::Function* getLLVMFunction(IRGenerationContext& context,
-                                    const IObjectType* objectType) const;
+    llvm::Function* getLLVMType(IRGenerationContext& context) const;
     
     /**
      * Returns function type

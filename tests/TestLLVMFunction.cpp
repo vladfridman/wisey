@@ -44,7 +44,8 @@ struct LLVMFunctionTest : public Test {
     vector<const IType*> argumentTypes;
     argumentTypes.push_back(LLVMPrimitiveTypes::I64);
     mLLVMFunctionType = new LLVMFunctionType(LLVMPrimitiveTypes::I16, argumentTypes);
-    mLLVMFunction = new LLVMFunction("myfunction",
+    mLLVMFunction = new LLVMFunction(mObject,
+                                     "myfunction",
                                      PUBLIC_ACCESS,
                                      mLLVMFunctionType,
                                      LLVMPrimitiveTypes::I16,
@@ -91,5 +92,5 @@ TEST_F(LLVMFunctionTest, getTypeTest) {
 }
 
 TEST_F(LLVMFunctionTest, getLLVMFunctionTest) {
-  EXPECT_EQ(mFunctionInLLVM, mLLVMFunction->getLLVMFunction(mContext, mObject));
+  EXPECT_EQ(mFunctionInLLVM, mLLVMFunction->getLLVMType(mContext));
 }

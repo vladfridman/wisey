@@ -60,14 +60,16 @@ struct LLVMFunctionIdentifierTest : public Test {
     vector<const IType*> argumentTypes;
     argumentTypes.push_back(LLVMPrimitiveTypes::I64);
     mLLVMFunctionType = new LLVMFunctionType(LLVMPrimitiveTypes::I16, argumentTypes);
-    mPublicLLVMFunction = new LLVMFunction("publicFunction",
+    mPublicLLVMFunction = new LLVMFunction(mObject,
+                                           "publicFunction",
                                            PUBLIC_ACCESS,
                                            mLLVMFunctionType,
                                            LLVMPrimitiveTypes::I16,
                                            arguments,
                                            compoundStatement,
                                            0);
-    mPrivateLLVMFunction = new LLVMFunction("privateFunction",
+    mPrivateLLVMFunction = new LLVMFunction(mObject,
+                                            "privateFunction",
                                             PRIVATE_ACCESS,
                                             mLLVMFunctionType,
                                             LLVMPrimitiveTypes::I16,

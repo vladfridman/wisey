@@ -19,13 +19,15 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-LLVMFunction::LLVMFunction(string name,
+LLVMFunction::LLVMFunction(const IObjectType* objectType,
+                           string name,
                            AccessLevel accessLevel,
                            const LLVMFunctionType* llvmFunctionType,
                            const IType* returnType,
                            vector<const LLVMFunctionArgument*> arguments,
                            CompoundStatement* compoundStatement,
                            int line) :
+mObjectType(objectType),
 mName(name),
 mIsPublic(accessLevel == PUBLIC_ACCESS),
 mLLVMFunctionType(llvmFunctionType),
@@ -77,9 +79,8 @@ void LLVMFunction::generateBodyIR(IRGenerationContext& context,
   scopes.popScope(context, mLine);
 }
 
-Function* LLVMFunction::getLLVMFunction(IRGenerationContext& context,
-                                        const IObjectType* objectType) const {
-  string name = IMethodCall::translateObjectMethodToLLVMFunctionName(objectType, mName);
+Function* LLVMFunction::getLLVMType(IRGenerationContext& context) const {
+  string name = IMethodCall::translateObjectMethodToLLVMFunctionName(mObjectType, mName);
   Function* function = context.getModule()->getFunction(name);
   assert(function != NULL);
 

@@ -47,7 +47,8 @@ LLVMFunction* LLVMFunctionDefinition::define(IRGenerationContext& context,
     arugmentTypes.push_back(argument->getType());
   }
   LLVMFunctionType* functionType = context.getLLVMFunctionType(returnType, arugmentTypes);
-  return new LLVMFunction(mName,
+  return new LLVMFunction(objectType,
+                          mName,
                           mAccessLevel,
                           functionType,
                           returnType,

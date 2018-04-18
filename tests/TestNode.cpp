@@ -215,7 +215,8 @@ struct NodeTest : public Test {
     vector<const LLVMFunctionArgument*> llvmFunctionArguments;
     Block* functionBlock = new Block();
     CompoundStatement* functionCompoundStatement = new CompoundStatement(functionBlock, 0);
-    mLLVMFunction = new LLVMFunction("myfunction",
+    mLLVMFunction = new LLVMFunction(mComplicatedNode,
+                                     "myfunction",
                                      PUBLIC_ACCESS,
                                      llvmFunctionType,
                                      LLVMPrimitiveTypes::I8,

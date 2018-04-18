@@ -37,8 +37,7 @@ IVariable* LLVMFunctionIdentifier::getVariable(IRGenerationContext& context,
 
 Value* LLVMFunctionIdentifier::generateIR(IRGenerationContext& context,
                                           const IType* assignToType) const {
-  const IObjectType* objectType = mObjectTypeSpecifier->getType(context);
-  return getLLVFunction(context)->getLLVMFunction(context, objectType);
+  return getLLVFunction(context)->getLLVMType(context);
 }
 
 const IType* LLVMFunctionIdentifier::getType(IRGenerationContext& context) const {
