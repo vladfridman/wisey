@@ -9,6 +9,7 @@
 #ifndef LLVMFunction_h
 #define LLVMFunction_h
 
+#include "wisey/AccessLevel.hpp"
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/IObjectElement.hpp"
 #include "wisey/LLVMFunctionArgument.hpp"
@@ -21,45 +22,25 @@ namespace wisey {
    */
   class LLVMFunction : public IObjectElement {
     std::string mName;
-    bool mIsPublic;
+    AccessLevel mAccessLevel;
     const LLVMFunctionType* mLLVMFunctionType;
     const IType* mReturnType;
     std::vector<const LLVMFunctionArgument*> mArguments;
     CompoundStatement* mCompoundStatement;
     int mLine;
     
+  public:
+    
     LLVMFunction(std::string name,
-                 bool isPublic,
+                 AccessLevel accessLevel,
                  const LLVMFunctionType* llvmFunctionType,
                  const IType* returnType,
                  std::vector<const LLVMFunctionArgument*> arguments,
                  CompoundStatement* compoundStatement,
                  int line);
-    
-  public:
-    
+
     ~LLVMFunction();
     
-    /**
-     * Instantiates a public LLVMFunction
-     */
-    static LLVMFunction* newPublicLLVMFunction(std::string name,
-                                               const LLVMFunctionType* llvmFunctionType,
-                                               const IType* returnType,
-                                               std::vector<const LLVMFunctionArgument*> arguments,
-                                               CompoundStatement* compoundStatement,
-                                               int line);
-    
-    /**
-     * Instantiates a private LLVMFunction
-     */
-    static LLVMFunction* newPrivateLLVMFunction(std::string name,
-                                                const LLVMFunctionType* llvmFunctionType,
-                                                const IType* returnType,
-                                                std::vector<const LLVMFunctionArgument*> arguments,
-                                                CompoundStatement* compoundStatement,
-                                                int line);
-
     /**
      * Declares llvm function
      */

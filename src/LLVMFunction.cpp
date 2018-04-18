@@ -20,14 +20,14 @@ using namespace llvm;
 using namespace wisey;
 
 LLVMFunction::LLVMFunction(string name,
-                           bool isPublic,
+                           AccessLevel accessLevel,
                            const LLVMFunctionType* llvmFunctionType,
                            const IType* returnType,
                            vector<const LLVMFunctionArgument*> arguments,
                            CompoundStatement* compoundStatement,
                            int line) :
 mName(name),
-mIsPublic(isPublic),
+mAccessLevel(accessLevel),
 mLLVMFunctionType(llvmFunctionType),
 mReturnType(returnType),
 mArguments(arguments),
@@ -37,36 +37,6 @@ mLine(line) {
 }
 
 LLVMFunction::~LLVMFunction() {
-}
-
-LLVMFunction* LLVMFunction::newPublicLLVMFunction(string name,
-                                                  const LLVMFunctionType* llvmFunctionType,
-                                                  const IType* returnType,
-                                                  vector<const LLVMFunctionArgument*> arguments,
-                                                  CompoundStatement* compoundStatement,
-                                                  int line) {
-  return new LLVMFunction(name,
-                          true,
-                          llvmFunctionType,
-                          returnType,
-                          arguments,
-                          compoundStatement,
-                          line);
-}
-
-LLVMFunction* LLVMFunction::newPrivateLLVMFunction(string name,
-                                                   const LLVMFunctionType* llvmFunctionType,
-                                                   const IType* returnType,
-                                                   vector<const LLVMFunctionArgument*> arguments,
-                                                   CompoundStatement* compoundStatement,
-                                                   int line) {
-  return new LLVMFunction(name,
-                          false,
-                          llvmFunctionType,
-                          returnType,
-                          arguments,
-                          compoundStatement,
-                          line);
 }
 
 Value* LLVMFunction::declareFunction(IRGenerationContext& context,
@@ -117,7 +87,7 @@ Function* LLVMFunction::getLLVMFunction(IRGenerationContext& context,
 }
 
 bool LLVMFunction::isPublic() const {
-  return mIsPublic;
+  return mAccessLevel == PUBLIC_ACCESS;
 }
 
 bool LLVMFunction::isConstant() const {
