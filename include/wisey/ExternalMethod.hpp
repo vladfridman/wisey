@@ -11,7 +11,6 @@
 
 #include <llvm/IR/DerivedTypes.h>
 
-#include "wisey/AccessLevel.hpp"
 #include "wisey/IMethod.hpp"
 #include "wisey/MethodQualifier.hpp"
 

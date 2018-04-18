@@ -9,10 +9,6 @@
 #ifndef MethodSignatureDeclaration_h
 #define MethodSignatureDeclaration_h
 
-#include "wisey/AccessLevel.hpp"
-#include "wisey/ExternalMethod.hpp"
-#include "wisey/Identifier.hpp"
-#include "wisey/IStatement.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 #include "wisey/IModelTypeSpecifier.hpp"
 #include "wisey/MethodQualifier.hpp"

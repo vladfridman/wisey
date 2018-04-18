@@ -9,15 +9,11 @@
 #ifndef ExternalStaticMethodDefinition_h
 #define ExternalStaticMethodDefinition_h
 
-#include "wisey/AccessLevel.hpp"
 #include "wisey/ExternalStaticMethod.hpp"
 #include "wisey/IMethodDefinition.hpp"
 #include "wisey/IModelTypeSpecifier.hpp"
-#include "wisey/IStatement.hpp"
 #include "wisey/ITypeSpecifier.hpp"
-#include "wisey/Identifier.hpp"
 #include "wisey/MethodQualifier.hpp"
-#include "wisey/VariableDeclaration.hpp"
 
 namespace wisey {
   

@@ -9,7 +9,6 @@
 #ifndef MethodSignature_h
 #define MethodSignature_h
 
-#include "wisey/AccessLevel.hpp"
 #include "wisey/IMethodDescriptor.hpp"
 #include "wisey/IObjectElement.hpp"
 #include "wisey/MethodQualifier.hpp"
