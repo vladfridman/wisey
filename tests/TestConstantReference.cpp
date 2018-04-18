@@ -54,10 +54,9 @@ public:
   mName("MYCONSTANT") {
     mConstantReference = new ConstantReference(mMockObjectTypeSpecifier, mName, 0);
     ON_CALL(*mMockObjectTypeSpecifier, getType(_)).WillByDefault(Return(mMockObject));
-    Constant* constant = new Constant(PUBLIC_ACCESS,
-                                      PrimitiveTypes::INT_TYPE,
-                                      mName,
-                                      mMockExpression);
+    Constant* constant = Constant::newPublicConstant(PrimitiveTypes::INT_TYPE,
+                                                     mName,
+                                                     mMockExpression);
     ON_CALL(*mMockObject, findConstant(_)).WillByDefault(Return(constant));
     ON_CALL(*mMockObject, getTypeName()).WillByDefault(Return("MMyObject"));
     ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));

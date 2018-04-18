@@ -9,7 +9,6 @@
 #ifndef Constant_h
 #define Constant_h
 
-#include "wisey/AccessLevel.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IObjectElement.hpp"
 #include "wisey/IObjectType.hpp"
@@ -21,20 +20,34 @@ namespace wisey {
    * Represents a constant defined within an object
    */
   class Constant : public IPrintable, public IObjectElement {
-    const AccessLevel mAccessLevel;
+    bool mIsPublic;
     const IType* mType;
     std::string mName;
     IExpression* mExpression;
-    
-  public:
-    
-    Constant(const AccessLevel accessLevel,
+
+    Constant(bool isPublic,
              const IType* type,
              std::string name,
              IExpression* expression);
+
+  public:
     
     ~Constant();
     
+    /**
+     * Instantiates a public constant object
+     */
+    static Constant* newPublicConstant(const IType* type,
+                                       std::string name,
+                                       IExpression* expression);
+    
+    /**
+     * Instantiates a private constant object
+     */
+    static Constant* newPrivateConstant(const IType* type,
+                                        std::string name,
+                                        IExpression* expression);
+
     /**
      * Generates IR defining a global llvm constant for this constant
      */

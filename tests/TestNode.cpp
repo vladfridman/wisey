@@ -202,10 +202,9 @@ struct NodeTest : public Test {
     interfaces.push_back(mObjectInterface);
     
     IntConstant* intConstant = new IntConstant(5, 0);
-    mConstant = new wisey::Constant(PUBLIC_ACCESS,
-                                    PrimitiveTypes::INT_TYPE,
-                                    "MYCONSTANT",
-                                    intConstant);
+    mConstant = wisey::Constant::newPublicConstant(PrimitiveTypes::INT_TYPE,
+                                                   "MYCONSTANT",
+                                                   intConstant);
     vector<wisey::Constant*> constants;
     constants.push_back(mConstant);
     

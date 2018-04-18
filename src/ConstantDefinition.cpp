@@ -27,7 +27,10 @@ ConstantDefinition::~ConstantDefinition() {
 
 wisey::Constant* ConstantDefinition::define(IRGenerationContext& context,
                                              const IObjectType* objectType) const {
-  return new Constant(mAccessLevel, mTypeSpecifier->getType(context), mName, mExpression);
+  if (mAccessLevel == PUBLIC_ACCESS) {
+    return Constant::newPublicConstant(mTypeSpecifier->getType(context), mName, mExpression);
+  }
+  return Constant::newPrivateConstant(mTypeSpecifier->getType(context), mName, mExpression);
 }
 
 bool ConstantDefinition::isConstant() const {

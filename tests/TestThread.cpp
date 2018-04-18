@@ -121,14 +121,12 @@ struct ThreadTest : public Test {
     vector<Interface*> interfaces;
     
     IntConstant* intConstant = new IntConstant(5, 0);
-    mConstant = new wisey::Constant(PUBLIC_ACCESS,
-                                    PrimitiveTypes::INT_TYPE,
-                                    "MYCONSTANT",
-                                    intConstant);
-    wisey::Constant* privateConstant = new wisey::Constant(PRIVATE_ACCESS,
-                                                           PrimitiveTypes::INT_TYPE,
-                                                           "MYCONSTANT3",
-                                                           intConstant);
+    mConstant = wisey::Constant::newPublicConstant(PrimitiveTypes::INT_TYPE,
+                                                   "MYCONSTANT",
+                                                   intConstant);
+    wisey::Constant* privateConstant = wisey::Constant::newPrivateConstant(PrimitiveTypes::INT_TYPE,
+                                                                           "MYCONSTANT3",
+                                                                           intConstant);
     vector<wisey::Constant*> constants;
     constants.push_back(mConstant);
     constants.push_back(privateConstant);

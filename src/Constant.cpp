@@ -16,11 +16,11 @@
 using namespace std;
 using namespace wisey;
 
-Constant::Constant(const AccessLevel accessLevel,
+Constant::Constant(bool isPublic,
                    const IType* type,
                    std::string name,
                    IExpression* expression) :
-mAccessLevel(accessLevel),
+mIsPublic(isPublic),
 mType(type),
 mName(name),
 mExpression(expression) { }
@@ -28,7 +28,19 @@ mExpression(expression) { }
 Constant::~Constant() { }
 
 bool Constant::isPublic() const {
-  return mAccessLevel == PUBLIC_ACCESS;
+  return mIsPublic;
+}
+
+Constant* Constant::newPublicConstant(const IType* type,
+                                      string name,
+                                      IExpression* expression) {
+  return new Constant(true, type, name, expression);
+}
+
+Constant* Constant::newPrivateConstant(const IType* type,
+                                       string name,
+                                       IExpression* expression) {
+  return new Constant(false, type, name, expression);
 }
 
 string Constant::getName() const {
@@ -40,7 +52,7 @@ const IType* Constant::getType() const {
 }
 
 void Constant::printToStream(IRGenerationContext& context, iostream& stream) const {
-  if (mAccessLevel == PRIVATE_ACCESS) {
+  if (!mIsPublic) {
     return;
   }
   
@@ -58,7 +70,7 @@ llvm::Value* Constant::generateIR(IRGenerationContext& context,
   
   const IType* type = mExpression->getType(context);
   llvm::Type* llvmType = type->getLLVMType(context);
-  llvm::GlobalValue::LinkageTypes linkageType = mAccessLevel == PUBLIC_ACCESS
+  llvm::GlobalValue::LinkageTypes linkageType = mIsPublic
     ? llvm::GlobalValue::ExternalLinkage
     : llvm::GlobalValue::InternalLinkage;
   
