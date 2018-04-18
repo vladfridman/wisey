@@ -84,7 +84,7 @@ TEST_F(MethodSignatureDeclarationTest, methodDescriptorExtractTest) {
                                                         new MethodQualifiers(0),
                                                         0);
   MethodSignature* methodSignature = methodSignatureDeclaration.define(mContext, mInterface);
-  vector<MethodArgument*> arguments = methodSignature->getArguments();
+  vector<const MethodArgument*> arguments = methodSignature->getArguments();
   
   EXPECT_FALSE(methodSignatureDeclaration.isConstant());
   EXPECT_FALSE(methodSignatureDeclaration.isField());

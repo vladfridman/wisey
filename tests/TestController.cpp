@@ -171,7 +171,7 @@ struct ControllerTest : public Test {
     mRightField = new ReceivedField(PrimitiveTypes::INT_TYPE, "right", 0);
     fields.push_back(mLeftField);
     fields.push_back(mRightField);
-    vector<MethodArgument*> methodArguments;
+    vector<const MethodArgument*> methodArguments;
     vector<const Model*> thrownExceptions;
     mMethod = new Method(mMultiplierController,
                          "calculate",
@@ -838,7 +838,7 @@ TEST_F(ControllerTest, printToStreamTest) {
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
   innerPublicModel->setFields(fields, 0);
   
-  vector<MethodArgument*> methodArguments;
+  vector<const MethodArgument*> methodArguments;
   vector<const Model*> thrownExceptions;
   Method* method = new Method(innerPublicModel,
                               "bar",

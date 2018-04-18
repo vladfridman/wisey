@@ -44,7 +44,7 @@ public:
     
     MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
     MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar");
-    std::vector<MethodArgument*> arguments;
+    std::vector<const MethodArgument*> arguments;
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
     vector<const Model*> thrownExceptions;
@@ -97,7 +97,7 @@ TEST_F(ExternalStaticMethodTest, elementTypeTest) {
 
 TEST_F(ExternalStaticMethodTest, getLLVMTypeTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
-  std::vector<MethodArgument*> arguments;
+  std::vector<const MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
   ExternalStaticMethod staticMethod(mModel,
@@ -125,7 +125,7 @@ TEST_F(ExternalStaticMethodTest, getLLVMTypeTest) {
 
 TEST_F(ExternalStaticMethodTest, definePublicFunctionTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
-  std::vector<MethodArgument*> arguments;
+  std::vector<const MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
   ExternalStaticMethod staticMethod(mModel,

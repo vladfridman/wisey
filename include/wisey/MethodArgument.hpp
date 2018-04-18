@@ -26,9 +26,9 @@ namespace wisey {
     
     ~MethodArgument() { }
     
-    const IType* getType() { return mType; }
+    const IType* getType() const { return mType; }
     
-    std::string getName() { return mName; }
+    std::string getName() const { return mName; }
   };
   
 } /* namespace wisey */

@@ -103,7 +103,7 @@ struct ModelTest : public Test {
     mHeightField = new FixedField(PrimitiveTypes::INT_TYPE, "mHeight", 0);
     fields.push_back(mWidthField);
     fields.push_back(mHeightField);
-    vector<MethodArgument*> methodArguments;
+    vector<const MethodArgument*> methodArguments;
     vector<const Model*> thrownExceptions;
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, mStructType, 3);
     mMethod = new Method(mModel,
@@ -760,7 +760,7 @@ TEST_F(ModelTest, printToStreamTest) {
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
   innerPublicModel->setFields(fields, 0);
 
-  vector<MethodArgument*> methodArguments;
+  vector<const MethodArgument*> methodArguments;
   vector<const Model*> thrownExceptions;
   Method* method = new Method(innerPublicModel,
                               "bar",

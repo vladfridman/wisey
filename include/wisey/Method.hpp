@@ -29,7 +29,7 @@ namespace wisey {
     std::string mName;
     bool mIsPublic;
     const IType* mReturnType;
-    std::vector<MethodArgument*> mArguments;
+    std::vector<const MethodArgument*> mArguments;
     std::vector<const Model*> mThrownExceptions;
     MethodQualifiers* mMethodQualifiers;
     CompoundStatement* mCompoundStatement;
@@ -41,7 +41,7 @@ namespace wisey {
            std::string name,
            AccessLevel accessLevel,
            const IType* returnType,
-           std::vector<MethodArgument*> arguments,
+           std::vector<const MethodArgument*> arguments,
            std::vector<const Model*> thrownExceptions,
            MethodQualifiers* methodQualifiers,
            CompoundStatement* compoundStatement,
@@ -61,7 +61,7 @@ namespace wisey {
 
     const IType* getReturnType() const override;
     
-    std::vector<MethodArgument*> getArguments() const override;
+    std::vector<const MethodArgument*> getArguments() const override;
     
     std::vector<const Model*> getThrownExceptions() const override;
     

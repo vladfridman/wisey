@@ -151,7 +151,7 @@ struct NodeOwnerTest : public Test {
     mRightField = new FixedField(PrimitiveTypes::INT_TYPE, "mRight", 0);
     fields.push_back(mLeftField);
     fields.push_back(mRightField);
-    vector<MethodArgument*> methodArguments;
+    vector<const MethodArgument*> methodArguments;
     vector<const Model*> thrownExceptions;
     IMethod* method = new Method(mComplicatedNode,
                                  "getElement",

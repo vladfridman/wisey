@@ -45,7 +45,7 @@ struct ThreadTypeSpecifierTest : public ::testing::Test {
     vector<IField*> fields;
     fields.push_back(new StateField(PrimitiveTypes::INT_TYPE, "mFrom", 0));
     fields.push_back(new StateField(PrimitiveTypes::INT_TYPE, "mTo", 0));
-    vector<MethodArgument*> methodArguments;
+    vector<const MethodArgument*> methodArguments;
     vector<IMethod*> methods;
     vector<const Model*> thrownExceptions;
     IMethod* fooMethod = new Method(mThread,

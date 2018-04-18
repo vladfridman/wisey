@@ -27,7 +27,7 @@ StaticMethod::StaticMethod(const IObjectType* objectType,
                            string name,
                            AccessLevel accessLevel,
                            const IType* returnType,
-                           vector<MethodArgument*> arguments,
+                           vector<const MethodArgument*> arguments,
                            vector<const Model*> thrownExceptions,
                            MethodQualifiers* methodQualifiers,
                            CompoundStatement* compoundStatement,
@@ -43,7 +43,7 @@ mCompoundStatement(compoundStatement),
 mLine(line) { }
 
 StaticMethod::~StaticMethod() {
-  for (MethodArgument* argument : mArguments) {
+  for (const MethodArgument* argument : mArguments) {
     delete argument;
   }
   mArguments.clear();
@@ -66,7 +66,7 @@ const IType* StaticMethod::getReturnType() const {
   return mReturnType;
 }
 
-vector<MethodArgument*> StaticMethod::getArguments() const {
+vector<const MethodArgument*> StaticMethod::getArguments() const {
   return mArguments;
 }
 
@@ -184,7 +184,7 @@ void StaticMethod::createArguments(IRGenerationContext& context, Function* funct
   llvmFunctionArgument = &*llvmFunctionArguments;
   llvmFunctionArgument->setName(ThreadExpression::CALL_STACK);
   llvmFunctionArguments++;
-  for (MethodArgument* methodArgument : mArguments) {
+  for (const MethodArgument* methodArgument : mArguments) {
     llvmFunctionArgument = &*llvmFunctionArguments;
     llvmFunctionArgument->setName(methodArgument->getName());
     llvmFunctionArguments++;
@@ -203,7 +203,7 @@ void StaticMethod::createArguments(IRGenerationContext& context, Function* funct
                                                           mLine),
                                     &*llvmFunctionArguments);
   llvmFunctionArguments++;
-  for (MethodArgument* methodArgument : mArguments) {
+  for (const MethodArgument* methodArgument : mArguments) {
     IMethod::storeArgumentValue(context,
                                 methodArgument->getName(),
                                 methodArgument->getType(),

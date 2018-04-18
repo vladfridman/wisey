@@ -96,10 +96,10 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
   arguments.push_back(threadObject);
   arguments.push_back(callStackObject);
 
-  vector<MethodArgument*> methodArguments = methodDescriptor->getArguments();
-  vector<MethodArgument*>::iterator methodArgumentIterator = methodArguments.begin();
+  vector<const MethodArgument*> methodArguments = methodDescriptor->getArguments();
+  vector<const MethodArgument*>::iterator methodArgumentIterator = methodArguments.begin();
   for (const IExpression* callArgument : mArguments) {
-    MethodArgument* methodArgument = *methodArgumentIterator;
+    const MethodArgument* methodArgument = *methodArgumentIterator;
     Value* callArgumentValue = callArgument->generateIR(context, methodArgument->getType());
     const IType* callArgumentType = callArgument->getType(context);
     const IType* methodArgumentType = methodArgument->getType();
@@ -167,7 +167,7 @@ IMethodDescriptor* StaticMethodCall::getMethodDescriptor(IRGenerationContext& co
 
 void StaticMethodCall::checkArgumentType(IMethodDescriptor* methodDescriptor,
                                          IRGenerationContext& context) const {
-  vector<MethodArgument*> methodArguments = methodDescriptor->getArguments();
+  vector<const MethodArgument*> methodArguments = methodDescriptor->getArguments();
   ExpressionList::const_iterator callArgumentsIterator = mArguments.begin();
   
   if (mArguments.size() != methodDescriptor->getArguments().size()) {
@@ -177,7 +177,7 @@ void StaticMethodCall::checkArgumentType(IMethodDescriptor* methodDescriptor,
     exit(1);
   }
   
-  for (MethodArgument* methodArgument : methodArguments) {
+  for (const MethodArgument* methodArgument : methodArguments) {
     const IType* methodArgumentType = methodArgument->getType();
     const IType* callArgumentType = (*callArgumentsIterator)->getType(context);
     

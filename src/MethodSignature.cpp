@@ -18,7 +18,7 @@ using namespace wisey;
 MethodSignature::MethodSignature(const IObjectType* objectType,
                                  std::string name,
                                  const IType* returnType,
-                                 vector<MethodArgument*> arguments,
+                                 vector<const MethodArgument*> arguments,
                                  vector<const Model*> thrownExceptions,
                                  MethodQualifiers* methodQualifiers,
                                  string originalParentName,
@@ -33,7 +33,7 @@ mOriginalParentName(originalParentName),
 mLine(line) { }
 
 MethodSignature::~MethodSignature() {
-  for (MethodArgument* argument : mArguments) {
+  for (const MethodArgument* argument : mArguments) {
     delete argument;
   }
   mArguments.clear();
@@ -55,7 +55,7 @@ const IType* MethodSignature::getReturnType() const {
   return mReturnType;
 }
 
-vector<MethodArgument*> MethodSignature::getArguments() const {
+vector<const MethodArgument*> MethodSignature::getArguments() const {
   return mArguments;
 }
 

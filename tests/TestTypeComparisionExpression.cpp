@@ -94,7 +94,7 @@ struct TypeComparisionExpressionTest : public Test {
     vector<IField*> squareFields;
     squareFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width", 0));
     squareFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height", 0));
-    vector<MethodArgument*> methodArguments;
+    vector<const MethodArgument*> methodArguments;
     vector<IMethod*> squareMethods;
     vector<const Model*> thrownExceptions;
     IMethod* fooMethod = new Method(mSquareModel,

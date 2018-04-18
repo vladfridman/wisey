@@ -481,8 +481,8 @@ void Interface::composeMapFunctionBody(IRGenerationContext& context,
   argument = &*arguments;
   argument->setName(ThreadExpression::THREAD);
   arguments++;
-  vector<MethodArgument*> methodArguments = interfaceMethodSignature->getArguments();
-  for (MethodArgument* methodArgument : interfaceMethodSignature->getArguments()) {
+  vector<const MethodArgument*> methodArguments = interfaceMethodSignature->getArguments();
+  for (const MethodArgument* methodArgument : interfaceMethodSignature->getArguments()) {
     llvm::Argument *argument = &*arguments;
     argument->setName(methodArgument->getName());
     arguments++;
@@ -536,7 +536,7 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   Value* callStackReference = &*arguments;
   arguments++;
   vector<Value*> argumentPointers;
-  for (MethodArgument* methodArgument : methodSignature->getArguments()) {
+  for (const  MethodArgument* methodArgument : methodSignature->getArguments()) {
     Value* argumentPointer = storeArgumentValue(context,
                                                 basicBlock,
                                                 methodArgument->getName(),

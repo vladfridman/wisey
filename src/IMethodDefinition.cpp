@@ -13,9 +13,9 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-vector<MethodArgument*> IMethodDefinition::createArgumnetList(IRGenerationContext& context,
-                                                               VariableList argumentDefinitions) {
-  vector<MethodArgument*> arguments;
+vector<const MethodArgument*> IMethodDefinition::
+createArgumnetList(IRGenerationContext& context, VariableList argumentDefinitions) {
+  vector<const MethodArgument*> arguments;
   
   for (VariableList::const_iterator iterator = argumentDefinitions.begin();
        iterator != argumentDefinitions.end();

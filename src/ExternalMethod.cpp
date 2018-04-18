@@ -21,7 +21,7 @@ using namespace wisey;
 ExternalMethod::ExternalMethod(const IObjectType* objectType,
                                string name,
                                const IType* returnType,
-                               vector<MethodArgument*> arguments,
+                               vector<const MethodArgument*> arguments,
                                vector<const Model*> thrownExceptions,
                                MethodQualifiers* methodQualifiers,
                                int line) :
@@ -34,7 +34,7 @@ mMethodQualifiers(methodQualifiers),
 mLine(line) { }
 
 ExternalMethod::~ExternalMethod() {
-  for (MethodArgument* argument : mArguments) {
+  for (const MethodArgument* argument : mArguments) {
     delete argument;
   }
   mArguments.clear();
@@ -63,7 +63,7 @@ const IType* ExternalMethod::getReturnType() const {
   return mReturnType;
 }
 
-vector<MethodArgument*> ExternalMethod::getArguments() const {
+vector<const MethodArgument*> ExternalMethod::getArguments() const {
   return mArguments;
 }
 

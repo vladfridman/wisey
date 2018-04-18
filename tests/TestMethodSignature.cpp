@@ -43,7 +43,7 @@ struct MethodSignatureTest : Test {
                                          interfaceElements,
                                          0);
 
-    vector<MethodArgument*> arguments;
+    vector<const MethodArgument*> arguments;
     vector<const Model*> thrownExceptions;
     mMethodSignature = new MethodSignature(mInterface,
                                            "foo",

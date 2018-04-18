@@ -173,7 +173,7 @@ struct NodeTest : public Test {
     mRightField = new FixedField(PrimitiveTypes::INT_TYPE, "mRight", 0);
     fields.push_back(mLeftField);
     fields.push_back(mRightField);
-    vector<MethodArgument*> methodArguments;
+    vector<const MethodArgument*> methodArguments;
     vector<const Model*> thrownExceptions;
     mMethod = new Method(mComplicatedNode,
                          "getElement",
@@ -743,7 +743,7 @@ TEST_F(NodeTest, printToStreamTest) {
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
   innerPublicModel->setFields(fields, 0);
   
-  vector<MethodArgument*> methodArguments;
+  vector<const MethodArgument*> methodArguments;
   vector<const Model*> thrownExceptions;
   Method* method = new Method(innerPublicModel,
                               "bar",

@@ -94,7 +94,7 @@ struct ThreadTest : public Test {
     mToField = new StateField(PrimitiveTypes::INT_TYPE, "mTo", 0);
     fields.push_back(mFromField);
     fields.push_back(mToField);
-    vector<MethodArgument*> methodArguments;
+    vector<const MethodArgument*> methodArguments;
     vector<const Model*> thrownExceptions;
     mMethod = new Method(mThread,
                          "work",
@@ -666,7 +666,7 @@ TEST_F(ThreadTest, printToStreamTest) {
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
   innerPublicModel->setFields(fields, 1u);
   
-  vector<MethodArgument*> methodArguments;
+  vector<const MethodArgument*> methodArguments;
   vector<const Model*> thrownExceptions;
   Method* method = new Method(innerPublicModel,
                               "bar",

@@ -30,8 +30,8 @@ namespace wisey {
     /**
      * Helper function for creating method argument list for different types of methods
      */
-    static std::vector<MethodArgument*> createArgumnetList(IRGenerationContext& context,
-                                                           VariableList argumentDefinitions);
+    static std::vector<const MethodArgument*> createArgumnetList(IRGenerationContext& context,
+                                                                 VariableList argumentDefinitions);
     
     /**
      * Helper function for creating exception type list for different types of methods

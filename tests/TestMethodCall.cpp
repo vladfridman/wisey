@@ -93,7 +93,7 @@ public:
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width", 0));
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height", 0));
     MethodArgument* methodArgument = new MethodArgument(PrimitiveTypes::FLOAT_TYPE, "argument");
-    vector<MethodArgument*> methodArguments;
+    vector<const MethodArgument*> methodArguments;
     methodArguments.push_back(methodArgument);
     vector<const Model*> fooThrownExceptions;
     mFooMethod = new Method(mModel,

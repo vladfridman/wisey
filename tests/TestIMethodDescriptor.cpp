@@ -42,7 +42,7 @@ public:
     
     MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
     MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar");
-    std::vector<MethodArgument*> arguments;
+    std::vector<const MethodArgument*> arguments;
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
     vector<const Model*> thrownExceptions;
@@ -79,7 +79,7 @@ public:
 TEST_F(IMethodDescriptorTest, compareTest) {
   MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
   MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar2");
-  vector<MethodArgument*> arguments;
+  vector<const MethodArgument*> arguments;
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
   vector<const Model*> thrownExceptions;
@@ -99,7 +99,7 @@ TEST_F(IMethodDescriptorTest, compareTest) {
 TEST_F(IMethodDescriptorTest, nameNotEqualsTest) {
   MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
   MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar2");
-  vector<MethodArgument*> arguments;
+  vector<const MethodArgument*> arguments;
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
   vector<const Model*> thrownExceptions;
@@ -118,7 +118,7 @@ TEST_F(IMethodDescriptorTest, nameNotEqualsTest) {
 
 TEST_F(IMethodDescriptorTest, numberOfArgumentsNotEqualsTest) {
   MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
-  vector<MethodArgument*> arguments;
+  vector<const MethodArgument*> arguments;
   arguments.push_back(doubleArgument);
   vector<const Model*> thrownExceptions;
   Method method(mModel,
@@ -137,7 +137,7 @@ TEST_F(IMethodDescriptorTest, numberOfArgumentsNotEqualsTest) {
 TEST_F(IMethodDescriptorTest, typeOfArgumentsNotEqualsTest) {
   MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
   MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "argChar2");
-  vector<MethodArgument*> arguments;
+  vector<const MethodArgument*> arguments;
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
   vector<const Model*> thrownExceptions;
@@ -156,7 +156,7 @@ TEST_F(IMethodDescriptorTest, typeOfArgumentsNotEqualsTest) {
 
 TEST_F(IMethodDescriptorTest, getLLVMFunctionTypeTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
-  vector<MethodArgument*> arguments;
+  vector<const MethodArgument*> arguments;
   vector<const Model*> thrownExceptions;
   arguments.push_back(intArgument);
   MethodSignature method(mModel,

@@ -43,7 +43,7 @@ public:
     
     MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
     MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar");
-    std::vector<MethodArgument*> arguments;
+    std::vector<const MethodArgument*> arguments;
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
     vector<const Model*> thrownExceptions;
@@ -97,7 +97,7 @@ TEST_F(ExternalMethodTest, elementTypeTest) {
 
 TEST_F(ExternalMethodTest, getLLVMTypeTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
-  std::vector<MethodArgument*> arguments;
+  std::vector<const MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
   ExternalMethod method(mModel,
@@ -126,7 +126,7 @@ TEST_F(ExternalMethodTest, getLLVMTypeTest) {
 
 TEST_F(ExternalMethodTest, defineFunctionTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
-  std::vector<MethodArgument*> arguments;
+  std::vector<const MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
   ExternalMethod method(mModel,

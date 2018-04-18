@@ -48,7 +48,7 @@ public:
     
     MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
     MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar");
-    std::vector<MethodArgument*> arguments;
+    std::vector<const MethodArgument*> arguments;
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
     vector<const Model*> thrownExceptions;
@@ -107,7 +107,7 @@ TEST_F(StaticMethodTest, elementTypeTest) {
 
 TEST_F(StaticMethodTest, getLLVMTypeTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
-  std::vector<MethodArgument*> arguments;
+  std::vector<const MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
   StaticMethod staticMethod(mModel,
@@ -136,7 +136,7 @@ TEST_F(StaticMethodTest, getLLVMTypeTest) {
 
 TEST_F(StaticMethodTest, definePublicFunctionTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
-  std::vector<MethodArgument*> arguments;
+  std::vector<const MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
   StaticMethod staticMethod(mModel,
@@ -158,7 +158,7 @@ TEST_F(StaticMethodTest, definePublicFunctionTest) {
 
 TEST_F(StaticMethodTest, definePrivateFunctionTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
-  std::vector<MethodArgument*> arguments;
+  std::vector<const MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
   StaticMethod staticMethod(mModel,
@@ -180,7 +180,7 @@ TEST_F(StaticMethodTest, definePrivateFunctionTest) {
 
 TEST_F(StaticMethodTest, generateIRTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
-  std::vector<MethodArgument*> arguments;
+  std::vector<const MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
   StaticMethod staticMethod(mModel,

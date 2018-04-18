@@ -56,7 +56,7 @@ TEST_F(ExternalMethodDefinitionTest, methodDescriptorExtractTest) {
                                             new MethodQualifiers(0),
                                             0);
   IMethod* method = methodDefinition.define(mContext, NULL);
-  vector<MethodArgument*> arguments = method->getArguments();
+  vector<const MethodArgument*> arguments = method->getArguments();
 
   EXPECT_FALSE(methodDefinition.isConstant());
   EXPECT_FALSE(methodDefinition.isField());

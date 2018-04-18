@@ -95,7 +95,7 @@ public:
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width", 0));
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height", 0));
     MethodArgument* fooMethodArgument = new MethodArgument(PrimitiveTypes::FLOAT_TYPE, "argument");
-    vector<MethodArgument*> fooMethodArguments;
+    vector<const MethodArgument*> fooMethodArguments;
     fooMethodArguments.push_back(fooMethodArgument);
     vector<const Model*> fooThrownExceptions;
     IMethod* fooMethod = new StaticMethod(mModel,
@@ -112,7 +112,7 @@ public:
     vector<const Model*> barThrownExceptions;
     StructType* exceptionModelStructType = StructType::create(mLLVMContext, "MException");
     MethodArgument* barMethodArgument = new MethodArgument(PrimitiveTypes::FLOAT_TYPE, "argument");
-    vector<MethodArgument*> barMethodArguments;
+    vector<const MethodArgument*> barMethodArguments;
     barMethodArguments.push_back(barMethodArgument);
     Model* exceptionModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                             "MException",

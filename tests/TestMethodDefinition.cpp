@@ -71,7 +71,7 @@ TEST_F(MethodDefinitionTest, methodDescriptorExtractTest) {
                                     mCompoundStatement,
                                     0);
   IMethod* method = methodDefinition.define(mContext, mObject);
-  vector<MethodArgument*> arguments = method->getArguments();
+  vector<const MethodArgument*> arguments = method->getArguments();
   
   EXPECT_FALSE(methodDefinition.isConstant());
   EXPECT_FALSE(methodDefinition.isField());

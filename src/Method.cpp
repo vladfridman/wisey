@@ -30,7 +30,7 @@ Method::Method(const IObjectType* objectType,
                string name,
                AccessLevel accessLevel,
                const IType* returnType,
-               vector<MethodArgument*> arguments,
+               vector<const MethodArgument*> arguments,
                vector<const Model*> thrownExceptions,
                MethodQualifiers* methodQualifiers,
                CompoundStatement* compoundStatement,
@@ -46,7 +46,7 @@ mCompoundStatement(compoundStatement),
 mLine(line) { }
 
 Method::~Method() {
-  for (MethodArgument* argument : mArguments) {
+  for (const MethodArgument* argument : mArguments) {
     delete argument;
   }
   mArguments.clear();
@@ -69,7 +69,7 @@ const IType* Method::getReturnType() const {
   return mReturnType;
 }
 
-vector<MethodArgument*> Method::getArguments() const {
+vector<const MethodArgument*> Method::getArguments() const {
   return mArguments;
 }
 
@@ -217,7 +217,7 @@ void Method::createArguments(IRGenerationContext& context, Function* function) c
   llvmFunctionArgument = &*llvmFunctionArguments;
   llvmFunctionArgument->setName(ThreadExpression::CALL_STACK);
   llvmFunctionArguments++;
-  for (MethodArgument* methodArgument : mArguments) {
+  for (const MethodArgument* methodArgument : mArguments) {
     llvmFunctionArgument = &*llvmFunctionArguments;
     llvmFunctionArgument->setName(methodArgument->getName());
     llvmFunctionArguments++;
@@ -241,7 +241,7 @@ void Method::createArguments(IRGenerationContext& context, Function* function) c
                                                           mLine),
                                     &*llvmFunctionArguments);
   llvmFunctionArguments++;
-  for (MethodArgument* methodArgument : mArguments) {
+  for (const MethodArgument* methodArgument : mArguments) {
     IMethod::storeArgumentValue(context,
                                 methodArgument->getName(),
                                 methodArgument->getType(),
