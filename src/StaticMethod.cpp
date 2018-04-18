@@ -58,8 +58,8 @@ string StaticMethod::getName() const {
   return mName;
 }
 
-AccessLevel StaticMethod::getAccessLevel() const {
-  return mAccessLevel;
+bool StaticMethod::isPublic() const {
+  return mAccessLevel == PUBLIC_ACCESS;
 }
 
 const IType* StaticMethod::getReturnType() const {

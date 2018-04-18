@@ -61,8 +61,8 @@ string Method::getName() const {
   return mName;
 }
 
-AccessLevel Method::getAccessLevel() const {
-  return mAccessLevel;
+bool Method::isPublic() const {
+  return mAccessLevel == PUBLIC_ACCESS;
 }
 
 const IType* Method::getReturnType() const {

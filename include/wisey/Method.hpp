@@ -57,8 +57,8 @@ namespace wisey {
     
     std::string getName() const override;
     
-    AccessLevel getAccessLevel() const override;
-    
+    bool isPublic() const override;
+
     const IType* getReturnType() const override;
     
     std::vector<MethodArgument*> getArguments() const override;

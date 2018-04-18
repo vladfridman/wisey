@@ -41,7 +41,7 @@ Value* ConstantReference::generateIR(IRGenerationContext& context,
                                      const IType* assignToType) const {
   const IObjectType* objectType = getObjectType(context);
   Constant* constant = objectType->findConstant(mConstantName);
-  if (constant->getAccessLevel() == PRIVATE_ACCESS && objectType != context.getObjectType()) {
+  if (!constant->isPublic() && objectType != context.getObjectType()) {
     Log::e_deprecated("Trying to reference private constant not visible from the current object");
     exit(1);
   }

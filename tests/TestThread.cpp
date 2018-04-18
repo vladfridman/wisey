@@ -234,8 +234,8 @@ struct ThreadTest : public Test {
   }
 };
 
-TEST_F(ThreadTest, getAccessLevelTest) {
-  EXPECT_EQ(AccessLevel::PUBLIC_ACCESS, mThread->getAccessLevel());
+TEST_F(ThreadTest, isPublicTest) {
+  EXPECT_TRUE(mThread->isPublic());
 }
 
 TEST_F(ThreadTest, getLineTest) {

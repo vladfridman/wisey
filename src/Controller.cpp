@@ -79,8 +79,8 @@ Controller* Controller::newExternalController(string name, StructType* structTyp
   return new Controller(AccessLevel::PUBLIC_ACCESS, name, structType, true, line);
 }
 
-AccessLevel Controller::getAccessLevel() const {
-  return mAccessLevel;
+bool Controller::isPublic() const {
+  return mAccessLevel == PUBLIC_ACCESS;
 }
 
 void Controller::setFields(vector<IField*> fields, unsigned long startIndex) {

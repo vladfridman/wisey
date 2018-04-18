@@ -79,8 +79,8 @@ namespace wisey {
      */
     std::vector<std::string> getMissingFields(std::set<std::string> givenFields) const;
     
-    AccessLevel getAccessLevel() const override;
-    
+    bool isPublic() const override;
+
     void setFields(std::vector<IField*> fields, unsigned long startIndex) override;
     
     void setInterfaces(std::vector<Interface*> interfaces) override;

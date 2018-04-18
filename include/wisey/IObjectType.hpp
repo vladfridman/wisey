@@ -35,9 +35,9 @@ namespace wisey {
     static std::string THIS;
     
     /**
-     * Returns access level for this object
+     * Tells whether the object is publicly accessable
      */
-    virtual AccessLevel getAccessLevel() const = 0;
+    virtual bool isPublic() const = 0;
     
     /**
      * Returns short name of the object without the package name.

@@ -65,7 +65,7 @@ public:
 };
 
 TEST_F(ConstantTest, gettersTest) {
-  EXPECT_EQ(mConstant->getAccessLevel(), PUBLIC_ACCESS);
+  EXPECT_TRUE(mConstant->isPublic());
   EXPECT_EQ(mConstant->getName(), mName);
   EXPECT_EQ(mConstant->getType(), PrimitiveTypes::INT_TYPE);
 }

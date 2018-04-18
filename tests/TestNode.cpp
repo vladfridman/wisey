@@ -345,8 +345,8 @@ struct NodeTest : public Test {
   }
 };
 
-TEST_F(NodeTest, getAccessLevelTest) {
-  EXPECT_EQ(AccessLevel::PUBLIC_ACCESS, mComplicatedNode->getAccessLevel());
+TEST_F(NodeTest, isPublicTest) {
+  EXPECT_TRUE(mComplicatedNode->isPublic());
 }
 
 TEST_F(NodeTest, getLineTest) {

@@ -27,8 +27,8 @@ mExpression(expression) { }
 
 Constant::~Constant() { }
 
-AccessLevel Constant::getAccessLevel() const {
-  return mAccessLevel;
+bool Constant::isPublic() const {
+  return mAccessLevel == PUBLIC_ACCESS;
 }
 
 string Constant::getName() const {

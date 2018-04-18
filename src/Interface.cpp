@@ -115,8 +115,8 @@ Interface* Interface::newExternalInterface(string name,
                        line);
 }
 
-AccessLevel Interface::getAccessLevel() const {
-  return mAccessLevel;
+bool Interface::isPublic() const {
+  return mAccessLevel == PUBLIC_ACCESS;
 }
 
 void Interface::buildMethods(IRGenerationContext& context) {
@@ -834,7 +834,7 @@ bool Interface::isExternal() const {
 void Interface::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << "external interface ";
   stream << (isInner() ? getShortName() : getTypeName());
-  if (getAccessLevel() == PRIVATE_ACCESS) {
+  if (!isPublic()) {
     stream << " {" << endl << "}" << endl;
     return;
   }

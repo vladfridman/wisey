@@ -343,8 +343,8 @@ struct ControllerTest : public Test {
   }
 };
 
-TEST_F(ControllerTest, getAccessLevelTest) {
-  EXPECT_EQ(AccessLevel::PUBLIC_ACCESS, mMultiplierController->getAccessLevel());
+TEST_F(ControllerTest, isPublicTest) {
+  EXPECT_TRUE(mMultiplierController->isPublic());
 }
 
 TEST_F(ControllerTest, getLineTest) {

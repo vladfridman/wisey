@@ -62,23 +62,23 @@ TEST_F(IObjectTypeTest, getObjectNamePointerTest) {
 TEST_F(IObjectTypeTest, checkAccessToObjectIsPublicTest) {
   NiceMock<MockObjectType> fromObject;
   NiceMock<MockObjectType> toObject;
-  ON_CALL(toObject, getAccessLevel()).WillByDefault(Return(AccessLevel::PUBLIC_ACCESS));
+  ON_CALL(toObject, isPublic()).WillByDefault(Return(true));
 
   EXPECT_TRUE(IObjectType::checkAccess(&fromObject, &toObject));
 }
 
 TEST_F(IObjectTypeTest, checkAccessFromAndToAreSameObjectTest) {
   NiceMock<MockObjectType> object;
-  ON_CALL(object, getAccessLevel()).WillByDefault(Return(AccessLevel::PRIVATE_ACCESS));
+  ON_CALL(object, isPublic()).WillByDefault(Return(false));
 
   EXPECT_TRUE(IObjectType::checkAccess(&object, &object));
 }
 
 TEST_F(IObjectTypeTest, checkAccessToIsInnerOfFromTest) {
   NiceMock<MockObjectType> toObject;
-  ON_CALL(toObject, getAccessLevel()).WillByDefault(Return(AccessLevel::PRIVATE_ACCESS));
+  ON_CALL(toObject, isPublic()).WillByDefault(Return(false));
   NiceMock<MockObjectType> fromObject;
-  ON_CALL(fromObject, getAccessLevel()).WillByDefault(Return(AccessLevel::PUBLIC_ACCESS));
+  ON_CALL(fromObject, isPublic()).WillByDefault(Return(true));
   ON_CALL(fromObject, getInnerObject(_)).WillByDefault(Return(&toObject));
   
   EXPECT_TRUE(IObjectType::checkAccess(&fromObject, &toObject));
@@ -87,11 +87,11 @@ TEST_F(IObjectTypeTest, checkAccessToIsInnerOfFromTest) {
 TEST_F(IObjectTypeTest, checkAccessToIsNotAccessableDeathTest) {
   NiceMock<MockObjectType> toObject;
   Mock::AllowLeak(&toObject);
-  ON_CALL(toObject, getAccessLevel()).WillByDefault(Return(AccessLevel::PRIVATE_ACCESS));
+  ON_CALL(toObject, isPublic()).WillByDefault(Return(false));
   ON_CALL(toObject, getTypeName()).WillByDefault(Return("MToObject"));
   NiceMock<MockObjectType> fromObject;
   Mock::AllowLeak(&fromObject);
-  ON_CALL(fromObject, getAccessLevel()).WillByDefault(Return(AccessLevel::PUBLIC_ACCESS));
+  ON_CALL(fromObject, isPublic()).WillByDefault(Return(true));
   ON_CALL(fromObject, getTypeName()).WillByDefault(Return("MFromObject"));
   
   EXPECT_EXIT(IObjectType::checkAccess(&fromObject, &toObject),

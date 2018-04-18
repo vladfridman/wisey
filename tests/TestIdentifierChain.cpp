@@ -175,7 +175,7 @@ TEST_F(IdentifierChainTest, generateIRTest) {
   ON_CALL(mockObjectType, findMethod("foo")).WillByDefault(Return(&mockMethodDescriptor));
   ON_CALL(mockObjectType, getTypeName()).WillByDefault(Return(modelFullName));
   ON_CALL(mockMethodDescriptor, getParentObject()).WillByDefault(Return(&mockObjectType));
-  ON_CALL(mockMethodDescriptor, getAccessLevel()).WillByDefault(Return(AccessLevel::PUBLIC_ACCESS));
+  ON_CALL(mockMethodDescriptor, isPublic()).WillByDefault(Return(true));
   ON_CALL(*mockExpression, generateIR(_, _)).WillByDefault(Return(objectPointer));
 
   IdentifierChain identifierChain(mockExpression, "foo", 0);

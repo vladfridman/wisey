@@ -77,8 +77,8 @@ Node* Node::newExternalNode(string name, StructType* structType, int line) {
   return new Node(AccessLevel::PUBLIC_ACCESS, name, structType, true, line);
 }
 
-AccessLevel Node::getAccessLevel() const {
-  return mAccessLevel;
+bool Node::isPublic() const {
+  return mAccessLevel == PUBLIC_ACCESS;
 }
 
 void Node::setFields(vector<IField*> fields, unsigned long startIndex) {

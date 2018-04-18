@@ -201,7 +201,7 @@ struct InterfaceTest : public Test {
 };
 
 TEST_F(InterfaceTest, interfaceInstantiationTest) {
-  EXPECT_EQ(AccessLevel::PUBLIC_ACCESS, mShapeInterface->getAccessLevel());
+  EXPECT_TRUE(mShapeInterface->isPublic());
   EXPECT_STREQ("systems.vos.wisey.compiler.tests.IShape", mShapeInterface->getTypeName().c_str());
   EXPECT_STREQ("IShape", mShapeInterface->getShortName().c_str());
   EXPECT_EQ(mShapeStructType->getPointerTo(), mShapeInterface->getLLVMType(mContext));

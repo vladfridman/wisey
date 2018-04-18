@@ -67,7 +67,7 @@ Value* StaticMethodCall::generateIR(IRGenerationContext& context, const IType* a
 bool StaticMethodCall::checkAccess(IRGenerationContext& context,
                                    IMethodDescriptor* methodDescriptor) const {
   
-  if (methodDescriptor->getAccessLevel() == AccessLevel::PUBLIC_ACCESS) {
+  if (methodDescriptor->isPublic()) {
     return true;
   }
   const IObjectType* currentObjectType = context.getObjectType();

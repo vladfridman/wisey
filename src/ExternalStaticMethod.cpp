@@ -55,8 +55,8 @@ string ExternalStaticMethod::getName() const {
   return mName;
 }
 
-AccessLevel ExternalStaticMethod::getAccessLevel() const {
-  return AccessLevel::PUBLIC_ACCESS;
+bool ExternalStaticMethod::isPublic() const {
+  return true;
 }
 
 const IType* ExternalStaticMethod::getReturnType() const {

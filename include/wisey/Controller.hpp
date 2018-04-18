@@ -76,7 +76,7 @@ namespace wisey {
                                              llvm::StructType* structType,
                                              int line);
     
-    AccessLevel getAccessLevel() const override;
+    bool isPublic() const override;
     
     llvm::Instruction* inject(IRGenerationContext& context,
                               const InjectionArgumentList injectionArgumentList,

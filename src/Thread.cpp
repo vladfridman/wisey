@@ -78,8 +78,8 @@ Thread* Thread::newExternalThread(string name, StructType* structType, int line)
   return new Thread(AccessLevel::PUBLIC_ACCESS, name, structType, true, line);
 }
 
-AccessLevel Thread::getAccessLevel() const {
-  return mAccessLevel;
+bool Thread::isPublic() const {
+  return mAccessLevel == PUBLIC_ACCESS;
 }
 
 void Thread::setFields(vector<IField*> fields, unsigned long startIndex) {

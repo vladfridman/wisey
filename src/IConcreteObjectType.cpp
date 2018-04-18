@@ -536,7 +536,7 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
   printTypeKind(object, stream);
   stream << " ";
   stream << object->getTypeName();
-  if (object->getAccessLevel() == PRIVATE_ACCESS) {
+  if (!object->isPublic()) {
     stream << " {" << endl << "}" << endl;
     return;
   }
@@ -572,7 +572,7 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
     stream << endl;
   }
   for (IMethod* method : object->getMethods()) {
-    if (method->getAccessLevel() == AccessLevel::PUBLIC_ACCESS) {
+    if (method->isPublic()) {
       method->printToStream(context, stream);
     }
   }

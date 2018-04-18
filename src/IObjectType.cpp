@@ -47,7 +47,7 @@ Value* IObjectType::getReferenceCountForObject(IRGenerationContext& context, Val
 }
 
 bool IObjectType::checkAccess(const IObjectType* from, const IObjectType* to) {
-  if (to->getAccessLevel() == AccessLevel::PUBLIC_ACCESS) {
+  if (to->isPublic()) {
     return true;
   }
   

@@ -23,7 +23,7 @@
 class MockMethodDescriptor : public wisey::IMethodDescriptor {
 public:
   MOCK_CONST_METHOD0(getName, std::string ());
-  MOCK_CONST_METHOD0(getAccessLevel, wisey::AccessLevel ());
+  MOCK_CONST_METHOD0(isPublic, bool ());
   MOCK_CONST_METHOD0(getReturnType, const wisey::IType* ());
   MOCK_CONST_METHOD0(getArguments, std::vector<wisey::MethodArgument*> ());
   MOCK_CONST_METHOD0(getThrownExceptions, std::vector<const wisey::Model*> ());

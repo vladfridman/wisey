@@ -55,8 +55,8 @@ string ExternalMethod::getName() const {
   return mName;
 }
 
-AccessLevel ExternalMethod::getAccessLevel() const {
-  return AccessLevel::PUBLIC_ACCESS;
+bool ExternalMethod::isPublic() const {
+  return true;
 }
 
 const IType* ExternalMethod::getReturnType() const {

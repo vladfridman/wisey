@@ -47,8 +47,8 @@ string MethodSignature::getName() const {
   return mName;
 }
 
-AccessLevel MethodSignature::getAccessLevel() const {
-  return AccessLevel::PUBLIC_ACCESS;
+bool MethodSignature::isPublic() const {
+  return true;
 }
 
 const IType* MethodSignature::getReturnType() const {

@@ -76,8 +76,8 @@ Model* Model::newExternalModel(string name, StructType* structType, int line) {
   return new Model(AccessLevel::PUBLIC_ACCESS, name, structType, true, line);
 }
 
-AccessLevel Model::getAccessLevel() const {
-  return mAccessLevel;
+bool Model::isPublic() const {
+  return mAccessLevel == PUBLIC_ACCESS;
 }
 
 void Model::setFields(vector<IField*> fields, unsigned long startIndex) {

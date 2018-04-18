@@ -91,9 +91,9 @@ Function* IMethod::defineFunction(IRGenerationContext& context,
   string functionName = IMethodCall::translateObjectMethodToLLVMFunctionName(objectType,
                                                                              methodName);
   
-  GlobalValue::LinkageTypes linkageType = method->getAccessLevel() == PRIVATE_ACCESS
-    ? GlobalValue::InternalLinkage
-    : GlobalValue::ExternalLinkage;
+  GlobalValue::LinkageTypes linkageType = method->isPublic()
+    ? GlobalValue::ExternalLinkage
+    : GlobalValue::InternalLinkage;
   Function* function = Function::Create(ftype, linkageType, functionName, context.getModule());
   
   string functionNameConstantName = MethodCall::getMethodNameConstantName(methodName);

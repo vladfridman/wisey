@@ -44,9 +44,9 @@ namespace wisey {
     virtual std::string getName() const = 0;
     
     /**
-     * Return whether this method has a PRIVATE or PUBLIC access
+     * Tells whether the method is publicly accessable
      */
-    virtual AccessLevel getAccessLevel() const = 0;
+    virtual bool isPublic() const = 0;
     
     /**
      * Returns method's return type

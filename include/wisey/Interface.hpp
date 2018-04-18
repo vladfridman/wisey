@@ -182,8 +182,8 @@ namespace wisey {
     llvm::Value* inject(IRGenerationContext& context,
                         const InjectionArgumentList injectionArgumentList,
                         int line) const override;
-
-    AccessLevel getAccessLevel() const override;
+    
+    bool isPublic() const override;
 
     IMethodDescriptor* findMethod(std::string methodName) const override;
     

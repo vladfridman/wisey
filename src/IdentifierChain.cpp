@@ -93,7 +93,7 @@ IMethodDescriptor* IdentifierChain::getMethodDescriptor(IRGenerationContext& con
 bool IdentifierChain::checkAccess(IRGenerationContext& context,
                                   IMethodDescriptor* methodDescriptor) const {
 
-  if (methodDescriptor->getAccessLevel() == AccessLevel::PUBLIC_ACCESS) {
+  if (methodDescriptor->isPublic()) {
     return true;
   }
   IVariable* thisVariable = context.getThis();

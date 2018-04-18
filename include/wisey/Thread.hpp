@@ -73,8 +73,8 @@ namespace wisey {
      */
     static Thread* newExternalThread(std::string name, llvm::StructType* structType, int line);
     
-    AccessLevel getAccessLevel() const override;
-    
+    bool isPublic() const override;
+
     llvm::Instruction* inject(IRGenerationContext& context,
                               const InjectionArgumentList injectionArgumentList,
                               int line) const override;

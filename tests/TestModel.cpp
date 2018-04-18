@@ -345,8 +345,8 @@ struct ModelTest : public Test {
   }
 };
 
-TEST_F(ModelTest, getAccessLevelTest) {
-  EXPECT_EQ(AccessLevel::PUBLIC_ACCESS, mModel->getAccessLevel());
+TEST_F(ModelTest, isPublicTest) {
+  EXPECT_TRUE(mModel->isPublic());
 }
 
 TEST_F(ModelTest, getLineTest) {

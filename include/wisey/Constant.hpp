@@ -44,7 +44,7 @@ namespace wisey {
     
     const IType* getType() const;
     
-    AccessLevel getAccessLevel() const;
+    bool isPublic() const;
     
     /**
      * Returns global llvm constant name for this constant
