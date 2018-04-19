@@ -118,6 +118,6 @@ TEST_F(TestFileRunner, llvmFunctionCallInInterfaceRunTest) {
 TEST_F(TestFileRunner, llvmFunctionCallPrivateFailDeathRunTest) {
   expectFailCompile("tests/samples/test_llvm_function_call_private_fail.yz",
                     1,
-                    "Error: Static method 'getValue' of object "
+                    "Error: LLVM function 'getValue' of object "
                     "systems.vos.wisey.compiler.tests.IMyInterface is private");
 }
