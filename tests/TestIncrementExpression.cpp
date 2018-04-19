@@ -16,6 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/IncrementExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -43,6 +44,8 @@ public:
   IncrementExpressionTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mIdentifier(new Identifier(mName, 0)) {
+    TestPrefix::generateIR(mContext);
+    
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
                                           GlobalValue::InternalLinkage,
@@ -107,13 +110,13 @@ TEST_F(IncrementExpressionTest, decrementByOneExpressionTest) {
 TEST_F(IncrementExpressionTest, incorrectIdentifierTypeDeathTest) {
   Identifier* identifier = new Identifier("bar", 0);
   
-  IncrementExpression* expression = IncrementExpression::newIncrementByOne(identifier, 0);
+  IncrementExpression* expression = IncrementExpression::newIncrementByOne(identifier, 5);
   LocalPrimitiveVariable* variable = new LocalPrimitiveVariable("bar",
                                                                 PrimitiveTypes::FLOAT_TYPE,
                                                                 NULL);
   mContext.getScopes().setVariable(variable);
-  string expected = "Error: Expression is of a type that is incompatible with "
-    "increment/decrement operation";
+  string expected = "/tmp/source.yz\\(5\\): Error: Expression is of a type that is "
+  "incompatible with increment/decrement operation";
   
   EXPECT_EXIT(expression->generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
@@ -130,6 +133,12 @@ TEST_F(IncrementExpressionTest, isConstantTest) {
   IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier, 0);
 
   EXPECT_FALSE(expression->isConstant());
+}
+
+TEST_F(IncrementExpressionTest, isAssignableTest) {
+  IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier, 0);
+  
+  EXPECT_TRUE(expression->isAssignable());
 }
 
 TEST_F(IncrementExpressionTest, printToStreamTest) {
@@ -159,5 +168,6 @@ TEST_F(TestFileRunner, incrementByOneWrappedIdentifierRunTest) {
 TEST_F(TestFileRunner, illigalIncrementRunDeathTest) {
   expectFailCompile("tests/samples/test_illegal_increment.yz",
                     1,
+                    "tests/samples/test_illegal_increment.yz\\(14\\): "
                     "Error: Increment/decrement operation may only be applied to variables");
 }

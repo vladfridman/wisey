@@ -43,6 +43,10 @@ bool ThreadExpression::isConstant() const {
   return false;
 }
 
+bool ThreadExpression::isAssignable() const {
+  return true;
+}
+
 void ThreadExpression::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   stream << THREAD;
 }

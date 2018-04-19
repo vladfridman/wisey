@@ -105,8 +105,14 @@ TEST_F(IdentifierReferenceTest, getTypeForUndefinedTypeTest) {
 
 TEST_F(IdentifierReferenceTest, isConstantTest) {
   IdentifierReference identifierReference("foo", 0);
-
+  
   EXPECT_FALSE(identifierReference.isConstant());
+}
+
+TEST_F(IdentifierReferenceTest, isAssignableTest) {
+  IdentifierReference identifierReference("foo", 0);
+  
+  EXPECT_FALSE(identifierReference.isAssignable());
 }
 
 TEST_F(IdentifierReferenceTest, printToStreamTest) {

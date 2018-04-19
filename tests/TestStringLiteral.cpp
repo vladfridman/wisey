@@ -38,13 +38,6 @@ struct StringLiteralTest : public Test {
   }
 };
 
-TEST_F(StringLiteralTest, getVariableTest) {
-  StringLiteral stringLiteral("test", 0);
-  vector<const IExpression*> arrayIndices;
-
-  EXPECT_EQ(stringLiteral.getVariable(mContext, arrayIndices), nullptr);
-}
-
 TEST_F(StringLiteralTest, stringLiteralTest) {
   StringLiteral stringLiteral("test", 0);
   
@@ -75,6 +68,12 @@ TEST_F(StringLiteralTest, isConstantTest) {
   StringLiteral stringLiteral("test", 0);
 
   EXPECT_TRUE(stringLiteral.isConstant());
+}
+
+TEST_F(StringLiteralTest, isAssignableTest) {
+  StringLiteral stringLiteral("test", 0);
+  
+  EXPECT_FALSE(stringLiteral.isAssignable());
 }
 
 TEST_F(StringLiteralTest, printToStreamTest) {

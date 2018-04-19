@@ -112,13 +112,6 @@ struct InjectorTest : Test {
   }
 };
 
-TEST_F(InjectorTest, getVariableTest) {
-  Injector injector(mInterfaceTypeSpecifier, mInjectionArgumentList, 0);
-  vector<const IExpression*> arrayIndices;
-
-  EXPECT_EQ(injector.getVariable(mContext, arrayIndices), nullptr);
-}
-
 TEST_F(InjectorTest, getTypeTest) {
   Injector injector(mInterfaceTypeSpecifier, mInjectionArgumentList, 0);
   
@@ -129,6 +122,12 @@ TEST_F(InjectorTest, isConstantTest) {
   Injector injector(mInterfaceTypeSpecifier, mInjectionArgumentList, 0);
 
   EXPECT_FALSE(injector.isConstant());
+}
+
+TEST_F(InjectorTest, isAssignableTest) {
+  Injector injector(mInterfaceTypeSpecifier, mInjectionArgumentList, 0);
+
+  EXPECT_FALSE(injector.isAssignable());
 }
 
 TEST_F(InjectorTest, printToStreamTest) {

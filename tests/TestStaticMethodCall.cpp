@@ -277,17 +277,16 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallWithTryCatchTest) {
   EXPECT_EQ(staticMethodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
 
-TEST_F(StaticMethodCallTest, getVariableTest) {
-  StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList, 0);
-  vector<const IExpression*> arrayIndices;
-
-  EXPECT_EQ(staticMethodCall.getVariable(mContext, arrayIndices), nullptr);
-}
-
 TEST_F(StaticMethodCallTest, isConstantTest) {
   StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList, 0);
 
   EXPECT_FALSE(staticMethodCall.isConstant());
+}
+
+TEST_F(StaticMethodCallTest, isAssignableTest) {
+  StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList, 0);
+  
+  EXPECT_FALSE(staticMethodCall.isAssignable());
 }
 
 TEST_F(StaticMethodCallTest, printToStreamTest) {

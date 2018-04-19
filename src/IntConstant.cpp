@@ -27,11 +27,6 @@ int IntConstant::getLine() const {
   return mLine;
 }
 
-IVariable* IntConstant::getVariable(IRGenerationContext& context,
-                                    vector<const IExpression*>& arrayIndices) const {
-  return NULL;
-}
-
 llvm::Constant* IntConstant::generateIR(IRGenerationContext& context,
                                         const IType* assignToType) const {
   return ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), mValue, true);
@@ -43,6 +38,10 @@ const IType* IntConstant::getType(IRGenerationContext& context) const {
 
 bool IntConstant::isConstant() const {
   return true;
+}
+
+bool IntConstant::isAssignable() const {
+  return false;
 }
 
 void IntConstant::printToStream(IRGenerationContext& context, std::iostream& stream) const {

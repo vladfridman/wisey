@@ -148,12 +148,20 @@ Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
 
 IVariable* ArrayElementExpression::getVariable(IRGenerationContext& context,
                                                vector<const IExpression*>& arrayIndices) const {
+  if (!mArrayExpression->isAssignable()) {
+    context.reportError(mLine, "Expression is not assignable");
+    exit(1);
+  }
   arrayIndices.push_back(mArrayIndexExpresion);
-  return mArrayExpression->getVariable(context, arrayIndices);
+  return ((const IExpressionAssignable*) mArrayExpression)->getVariable(context, arrayIndices);
 }
 
 bool ArrayElementExpression::isConstant() const {
   return false;
+}
+
+bool ArrayElementExpression::isAssignable() const {
+  return true;
 }
 
 const IType* ArrayElementExpression::getType(IRGenerationContext& context) const {

@@ -27,11 +27,6 @@ int BooleanConstant::getLine() const {
   return mLine;
 }
 
-IVariable* BooleanConstant::getVariable(IRGenerationContext& context,
-                                        vector<const IExpression*>& arrayIndices) const {
-  return NULL;
-}
-
 llvm::Constant* BooleanConstant::generateIR(IRGenerationContext& context,
                                             const IType* assignToType) const {
   return ConstantInt::get(Type::getInt1Ty(context.getLLVMContext()), mValue);
@@ -43,6 +38,10 @@ IType* BooleanConstant::getType(IRGenerationContext& context) const {
 
 bool BooleanConstant::isConstant() const {
   return true;
+}
+
+bool BooleanConstant::isAssignable() const {
+  return false;
 }
 
 void BooleanConstant::printToStream(IRGenerationContext& context, std::iostream& stream) const {

@@ -96,6 +96,10 @@ TEST_F(ConstantReferenceTest, isConstantTest) {
   EXPECT_TRUE(mConstantReference->isConstant());
 }
 
+TEST_F(ConstantReferenceTest, isAssignableTest) {
+  EXPECT_FALSE(mConstantReference->isAssignable());
+}
+
 TEST_F(ConstantReferenceTest, generateIRTest) {
   mConstantReference->generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   

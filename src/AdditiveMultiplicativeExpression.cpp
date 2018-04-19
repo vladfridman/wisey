@@ -38,11 +38,6 @@ int AdditiveMultiplicativeExpression::getLine() const {
   return mLine;
 }
 
-IVariable* AdditiveMultiplicativeExpression::getVariable(IRGenerationContext& context,
-                                                         vector<const IExpression*>& arrayIndices) const {
-  return NULL;
-}
-
 Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context,
                                                     const IType* assignToType) const {
   const IType* leftType = mLeftExpression->getType(context);
@@ -114,6 +109,10 @@ void AdditiveMultiplicativeExpression::checkTypes(IRGenerationContext& context,
 }
 
 bool AdditiveMultiplicativeExpression::isConstant() const {
+  return false;
+}
+
+bool AdditiveMultiplicativeExpression::isAssignable() const {
   return false;
 }
 

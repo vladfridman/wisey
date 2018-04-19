@@ -16,8 +16,8 @@
 using namespace llvm;
 using namespace wisey;
 
-Assignment::Assignment(IExpression* identifier, IExpression* expression, int line)
-: mIdentifier(identifier), mExpression(expression), mLine(line) { }
+Assignment::Assignment(IExpression* identifier, IExpression* expression, int line) :
+mIdentifier(identifier), mExpression(expression), mLine(line) { }
 
 Assignment::~Assignment() {
   delete mIdentifier;
@@ -30,12 +30,16 @@ int Assignment::getLine() const {
 
 IVariable* Assignment::getVariable(IRGenerationContext& context,
                                    std::vector<const IExpression*>& arrayIndices) const {
-  return mIdentifier->getVariable(context, arrayIndices);
+  if (!mIdentifier->isAssignable()) {
+    context.reportError(mLine, "Expression is not assignable");
+    exit(1);
+  }
+  return ((IExpressionAssignable*) mIdentifier)->getVariable(context, arrayIndices);
 }
 
 Value* Assignment::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   std::vector<const IExpression*> arrayIndices;
-  IVariable* variable = mIdentifier->getVariable(context, arrayIndices);
+  IVariable* variable = getVariable(context, arrayIndices);
   if (variable == NULL) {
     std::stringstream stringStream;
     mIdentifier->printToStream(context, stringStream);
@@ -59,6 +63,10 @@ const IType* Assignment::getType(IRGenerationContext& context) const {
 
 bool Assignment::isConstant() const {
   return false;
+}
+
+bool Assignment::isAssignable() const {
+  return true;
 }
 
 void Assignment::printToStream(IRGenerationContext& context, std::iostream& stream) const {

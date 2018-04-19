@@ -30,9 +30,6 @@ namespace wisey {
     
     int getLine() const override;
 
-    IVariable* getVariable(IRGenerationContext& context,
-                           std::vector<const IExpression*>& arrayIndices) const override;
-    
     llvm::Constant* generateIR(IRGenerationContext& context,
                                const IType* assignToType) const override;
     
@@ -40,6 +37,8 @@ namespace wisey {
     
     bool isConstant() const override;
     
+    bool isAssignable() const override;
+
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
   };

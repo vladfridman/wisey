@@ -9,7 +9,7 @@
 #ifndef Identifier_h
 #define Identifier_h
 
-#include "wisey/IExpression.hpp"
+#include "wisey/IExpressionAssignable.hpp"
 #include "wisey/IMethodDescriptor.hpp"
 #include "wisey/IVariable.hpp"
 
@@ -26,7 +26,7 @@ namespace wisey {
    *
    * See {@link IdentifierChain} for explanation on how identifier chains are interpreted as packages
    */
-  class Identifier : public IExpression {
+  class Identifier : public IExpressionAssignable {
     
     const std::string mName;
     int mLine;
@@ -50,6 +50,8 @@ namespace wisey {
     
     bool isConstant() const override;
     
+    bool isAssignable() const override;
+
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
   private:

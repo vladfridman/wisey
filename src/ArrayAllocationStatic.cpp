@@ -61,12 +61,11 @@ Value* ArrayAllocationStatic::generateIR(IRGenerationContext& context,
   return arrayStructPointer;
 }
 
-IVariable* ArrayAllocationStatic::getVariable(IRGenerationContext &context,
-                                        vector<const IExpression *> &arrayIndices) const {
-  return NULL;
+bool ArrayAllocationStatic::isConstant() const {
+  return false;
 }
 
-bool ArrayAllocationStatic::isConstant() const {
+bool ArrayAllocationStatic::isAssignable() const {
   return false;
 }
 

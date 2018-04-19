@@ -27,11 +27,6 @@ int wisey::StringLiteral::getLine() const {
   return mLine;
 }
 
-IVariable* wisey::StringLiteral::getVariable(IRGenerationContext& context,
-                                             vector<const IExpression*>& arrayIndices) const {
-  return NULL;
-}
-
 llvm::Constant* wisey::StringLiteral::generateIR(IRGenerationContext& context,
                                                  const IType* assignToType) const {
   LLVMContext& llvmContext = context.getLLVMContext();
@@ -80,6 +75,10 @@ const IType* wisey::StringLiteral::getType(IRGenerationContext& context) const {
 
 bool wisey::StringLiteral::isConstant() const {
   return true;
+}
+
+bool wisey::StringLiteral::isAssignable() const {
+  return false;
 }
 
 void wisey::StringLiteral::printToStream(IRGenerationContext& context,

@@ -37,11 +37,6 @@ int ObjectBuilder::getLine() const {
   return mLine;
 }
 
-IVariable* ObjectBuilder::getVariable(IRGenerationContext& context,
-                                      vector<const IExpression*>& arrayIndices) const {
-  return NULL;
-}
-
 Value* ObjectBuilder::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   const IObjectType* objectType = mTypeSpecifier->getType(context);
   assert(objectType->isModel() || objectType->isNode());
@@ -69,6 +64,10 @@ const IType* ObjectBuilder::getType(IRGenerationContext& context) const {
 }
 
 bool ObjectBuilder::isConstant() const {
+  return false;
+}
+
+bool ObjectBuilder::isAssignable() const {
   return false;
 }
 

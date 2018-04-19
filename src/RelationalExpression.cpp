@@ -36,11 +36,6 @@ int RelationalExpression::getLine() const {
   return mLine;
 }
 
-IVariable* RelationalExpression::getVariable(IRGenerationContext& context,
-                                             vector<const IExpression*>& arrayIndices) const {
-  return NULL;
-}
-
 Value* RelationalExpression::generateIR(IRGenerationContext& context,
                                         const IType* assignToType) const {
   const IType* leftType = mLeftExpression->getType(context);
@@ -179,6 +174,10 @@ void RelationalExpression::reportIncompatableTypes(const IType* leftType,
 }
 
 bool RelationalExpression::isConstant() const {
+  return false;
+}
+
+bool RelationalExpression::isAssignable() const {
   return false;
 }
 

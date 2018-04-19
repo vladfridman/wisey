@@ -42,11 +42,6 @@ Value* LLVMFunctionCall::generateIR(IRGenerationContext& context, const IType* a
   return IRWriter::createCallInst(context, function, arguments, "");
 }
 
-IVariable* LLVMFunctionCall::getVariable(IRGenerationContext& context,
-                                         vector<const IExpression *> &arrayIndices) const {
-  return NULL;
-}
-
 const IType* LLVMFunctionCall::getType(IRGenerationContext& context) const {
   Function* function = context.getModule()->getFunction(mFunctionName);
   if (function == NULL) {
@@ -58,6 +53,10 @@ const IType* LLVMFunctionCall::getType(IRGenerationContext& context) const {
 }
 
 bool LLVMFunctionCall::isConstant() const {
+  return false;
+}
+
+bool LLVMFunctionCall::isAssignable() const {
   return false;
 }
 

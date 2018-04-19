@@ -123,11 +123,6 @@ struct ObjectBuilderTest : Test {
   }
 };
 
-TEST_F(ObjectBuilderTest, getVariableTest) {
-  vector<const IExpression*> arrayIndices;
-  EXPECT_EQ(mObjectBuilder->getVariable(mContext, arrayIndices), nullptr);
-}
-
 TEST_F(ObjectBuilderTest, testGetType) {
   ObjectBuilderArgumentList argumentList;
   ObjectBuilder objectBuilder(mModelTypeSpecifier, argumentList, 0);
@@ -137,6 +132,10 @@ TEST_F(ObjectBuilderTest, testGetType) {
 
 TEST_F(ObjectBuilderTest, isConstantTest) {
   EXPECT_FALSE(mObjectBuilder->isConstant());
+}
+
+TEST_F(ObjectBuilderTest, isAssignableTest) {
+  EXPECT_FALSE(mObjectBuilder->isAssignable());
 }
 
 TEST_F(ObjectBuilderTest, printToStreamTest) {

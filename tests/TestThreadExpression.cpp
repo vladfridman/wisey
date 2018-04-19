@@ -101,6 +101,10 @@ TEST_F(ThreadExpressionTest, isConstantTest) {
   EXPECT_FALSE(mThreadExpression->isConstant());
 }
 
+TEST_F(ThreadExpressionTest, isAssignableTest) {
+  EXPECT_TRUE(mThreadExpression->isAssignable());
+}
+
 TEST_F(ThreadExpressionTest, printToStreamTest) {
   stringstream stringStream;
   mThreadExpression->printToStream(mContext, stringStream);

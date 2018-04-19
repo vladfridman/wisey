@@ -103,12 +103,6 @@ struct ConditionalExpressionTest : Test {
   }
 };
 
-TEST_F(ConditionalExpressionTest, getVariableTest) {
-  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression, 0);
-  vector<const IExpression*> arrayIndices;
-  EXPECT_EQ(expression.getVariable(mContext, arrayIndices), nullptr);
-}
-
 TEST_F(ConditionalExpressionTest, conditionalExpressionRunWithFalse) {
   Value * conditionValue = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 0);
   ON_CALL(*mConditionExpression, generateIR(_, _)).WillByDefault(testing::Return(conditionValue));
@@ -187,6 +181,12 @@ TEST_F(ConditionalExpressionTest, isConstantTest) {
   ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression, 0);
 
   EXPECT_FALSE(expression.isConstant());
+}
+
+TEST_F(ConditionalExpressionTest, isAssignableTest) {
+  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression, 0);
+  
+  EXPECT_FALSE(expression.isAssignable());
 }
 
 TEST_F(ConditionalExpressionTest, printToStreamTest) {

@@ -40,12 +40,6 @@ struct BooleanConstantTest : public Test {
   }
 };
 
-TEST_F(BooleanConstantTest, getVariableTest) {
-  BooleanConstant booleanTrue(true, 0);
-  vector<const IExpression*> arrayIndices;
-  EXPECT_EQ(booleanTrue.getVariable(mContext, arrayIndices), nullptr);
-}
-
 TEST_F(BooleanConstantTest, booleanTrueConstantTest) {
   BooleanConstant booleanTrue(true, 0);
   Value* irValue = booleanTrue.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
@@ -70,8 +64,14 @@ TEST_F(BooleanConstantTest, booleanConstantTypeTest) {
 
 TEST_F(BooleanConstantTest, isConstantTest) {
   BooleanConstant trueConstant(true, 0);
-
+  
   EXPECT_TRUE(trueConstant.isConstant());
+}
+
+TEST_F(BooleanConstantTest, isAssignableTest) {
+  BooleanConstant trueConstant(true, 0);
+  
+  EXPECT_FALSE(trueConstant.isAssignable());
 }
 
 TEST_F(BooleanConstantTest, printToStreamTest) {

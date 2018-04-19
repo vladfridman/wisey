@@ -30,11 +30,6 @@ int IdentifierChain::getLine() const {
   return mLine;
 }
 
-IVariable* IdentifierChain::getVariable(IRGenerationContext& context,
-                                        vector<const IExpression*>& arrayIndices) const {
-  return NULL;
-}
-
 Value* IdentifierChain::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
   const IObjectType* objectWithMethodsType = methodDescriptor->getParentObject();
@@ -59,6 +54,10 @@ const IType* IdentifierChain::getType(IRGenerationContext& context) const {
 }
 
 bool IdentifierChain::isConstant() const {
+  return false;
+}
+
+bool IdentifierChain::isAssignable() const {
   return false;
 }
 

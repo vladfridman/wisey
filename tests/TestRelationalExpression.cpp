@@ -84,12 +84,6 @@ struct RelationalExpressionTest : public Test {
   }
 };
 
-TEST_F(RelationalExpressionTest, getVariableTest) {
-  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LT, mRightExpression, 0);
-  vector<const IExpression*> arrayIndices;
-  EXPECT_EQ(expression.getVariable(mContext, arrayIndices), nullptr);
-}
-
 TEST_F(RelationalExpressionTest, intLessThanTest) {
   RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LT, mRightExpression, 0);
   expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
@@ -151,8 +145,14 @@ TEST_F(RelationalExpressionTest, floatLessThanTest) {
 
 TEST_F(RelationalExpressionTest, isConstantTest) {
   RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LE, mRightExpression, 0);
-
+  
   EXPECT_FALSE(expression.isConstant());
+}
+
+TEST_F(RelationalExpressionTest, isAssignableTest) {
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LE, mRightExpression, 0);
+  
+  EXPECT_FALSE(expression.isAssignable());
 }
 
 TEST_F(RelationalExpressionTest, printToStreamTest) {

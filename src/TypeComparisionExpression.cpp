@@ -32,11 +32,6 @@ int TypeComparisionExpression::getLine() const {
   return mLine;
 }
 
-IVariable* TypeComparisionExpression::getVariable(IRGenerationContext& context,
-                                                  vector<const IExpression*>& arrayIndices) const {
-  return NULL;
-}
-
 Value* TypeComparisionExpression::generateIR(IRGenerationContext& context,
                                              const IType* assignToType) const {
   const IType* expressionType = mExpression->getType(context);
@@ -111,6 +106,10 @@ const IType* TypeComparisionExpression::getType(IRGenerationContext& context) co
 }
 
 bool TypeComparisionExpression::isConstant() const {
+  return false;
+}
+
+bool TypeComparisionExpression::isAssignable() const {
   return false;
 }
 

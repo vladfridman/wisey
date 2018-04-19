@@ -26,11 +26,6 @@ int FakeExpression::getLine() const {
   return 0;
 }
 
-IVariable* FakeExpression::getVariable(IRGenerationContext& context,
-                                       vector<const IExpression*>& arrayIndices) const {
-  return NULL;
-}
-
 Value* FakeExpression::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   return mValue;
 }
@@ -40,6 +35,10 @@ const IType* FakeExpression::getType(IRGenerationContext& context) const {
 }
 
 bool FakeExpression::isConstant() const {
+  return false;
+}
+
+bool FakeExpression::isAssignable() const {
   return false;
 }
 

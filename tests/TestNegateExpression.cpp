@@ -64,13 +64,6 @@ struct NegateExpressionTest : Test {
   }
 };
 
-TEST_F(NegateExpressionTest, getVariableTest) {
-  NegateExpression negateExpression(mExpression, 0);
-  vector<const IExpression*> arrayIndices;
-
-  EXPECT_EQ(negateExpression.getVariable(mContext, arrayIndices), nullptr);
-}
-
 TEST_F(NegateExpressionTest, negateIntExpressionTest) {
   Value* value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
   ON_CALL(*mExpression, generateIR(_, _)).WillByDefault(Return(value));
@@ -101,6 +94,12 @@ TEST_F(NegateExpressionTest, isConstantTest) {
   NegateExpression negateExpression(mExpression, 0);
 
   EXPECT_FALSE(negateExpression.isConstant());
+}
+
+TEST_F(NegateExpressionTest, isAssignableTest) {
+  NegateExpression negateExpression(mExpression, 0);
+  
+  EXPECT_FALSE(negateExpression.isAssignable());
 }
 
 TEST_F(NegateExpressionTest, printToStreamTest) {

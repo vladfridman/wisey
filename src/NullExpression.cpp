@@ -25,11 +25,6 @@ int NullExpression::getLine() const {
   return mLine;
 }
 
-IVariable* NullExpression::getVariable(IRGenerationContext& context,
-                                       vector<const IExpression*>& arrayIndices) const {
-  return NULL;
-}
-
 llvm::Constant* NullExpression::generateIR(IRGenerationContext& context,
                                            const IType* assignToType) const {
   return ConstantExpr::getNullValue(getType(context)->getLLVMType(context));
@@ -41,6 +36,10 @@ const IType* NullExpression::getType(IRGenerationContext& context) const {
 
 bool NullExpression::isConstant() const {
   return true;
+}
+
+bool NullExpression::isAssignable() const {
+  return false;
 }
 
 void NullExpression::printToStream(IRGenerationContext& context, std::iostream& stream) const {

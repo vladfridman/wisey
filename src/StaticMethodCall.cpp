@@ -41,11 +41,6 @@ StaticMethodCall::~StaticMethodCall() {
   delete mObjectTypeSpecifier;
 }
 
-IVariable* StaticMethodCall::getVariable(IRGenerationContext& context,
-                                         vector<const IExpression*>& arrayIndices) const {
-  return NULL;
-}
-
 int StaticMethodCall::getLine() const {
   return mLine;
 }
@@ -203,6 +198,10 @@ void StaticMethodCall::checkArgumentType(IMethodDescriptor* methodDescriptor,
 }
 
 bool StaticMethodCall::isConstant() const {
+  return false;
+}
+
+bool StaticMethodCall::isAssignable() const {
   return false;
 }
 

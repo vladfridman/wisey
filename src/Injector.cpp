@@ -34,11 +34,6 @@ int Injector::getLine() const {
   return mLine;
 }
 
-IVariable* Injector::getVariable(IRGenerationContext& context,
-                                 vector<const IExpression*>& arrayIndices) const {
-  return NULL;
-}
-
 Value* Injector::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   const IObjectType* type = mObjectTypeSpecifier->getType(context);
   Value* malloc = type->isInterface()
@@ -65,6 +60,10 @@ const IObjectOwnerType* Injector::getType(IRGenerationContext& context) const {
 }
 
 bool Injector::isConstant() const {
+  return false;
+}
+
+bool Injector::isAssignable() const {
   return false;
 }
 

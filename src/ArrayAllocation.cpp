@@ -142,12 +142,11 @@ void ArrayAllocation::initializeEmptyArray(IRGenerationContext& context,
   context.setBasicBlock(forEnd);
 }
 
-IVariable* ArrayAllocation::getVariable(IRGenerationContext &context,
-                                        vector<const IExpression *> &arrayIndices) const {
-  return NULL;
+bool ArrayAllocation::isConstant() const {
+  return false;
 }
 
-bool ArrayAllocation::isConstant() const {
+bool ArrayAllocation::isAssignable() const {
   return false;
 }
 

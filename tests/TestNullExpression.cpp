@@ -36,11 +36,6 @@ struct NullExpressionTest : public Test {
   
 };
 
-TEST_F(NullExpressionTest, getVariableTest) {
-  vector<const IExpression*> arrayIndices;
-  EXPECT_EQ(mNullExpression->getVariable(mContext, arrayIndices), nullptr);
-}
-
 TEST_F(NullExpressionTest, generateIRTest) {
   Value* expexted = ConstantExpr::getNullValue(Type::getInt8Ty(mLLVMContext)->getPointerTo());
   ASSERT_EQ(expexted, mNullExpression->generateIR(mContext, PrimitiveTypes::VOID_TYPE));
@@ -52,6 +47,10 @@ TEST_F(NullExpressionTest, getTypeTest) {
 
 TEST_F(NullExpressionTest, isConstantTest) {
   EXPECT_TRUE(mNullExpression->isConstant());
+}
+
+TEST_F(NullExpressionTest, isAssignableTest) {
+  EXPECT_FALSE(mNullExpression->isAssignable());
 }
 
 TEST_F(NullExpressionTest, printToStreamTest) {

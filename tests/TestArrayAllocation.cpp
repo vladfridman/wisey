@@ -116,6 +116,10 @@ TEST_F(ArrayAllocationTest, isConstantTest) {
   EXPECT_FALSE(mArrayAllocation->isConstant());
 }
 
+TEST_F(ArrayAllocationTest, isAssignableTest) {
+  EXPECT_FALSE(mArrayAllocation->isAssignable());
+}
+
 TEST_F(ArrayAllocationTest, getTypeTest) {
   const IType* expected = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 1u)->getOwner();
   EXPECT_EQ(expected, mArrayAllocation->getType(mContext));

@@ -29,12 +29,6 @@ int LLVMFunctionIdentifier::getLine() const {
   return mLine;
 }
 
-IVariable* LLVMFunctionIdentifier::getVariable(IRGenerationContext& context,
-                                               vector<const IExpression*>&
-                                               arrayIndices) const {
-  return NULL;
-}
-
 Value* LLVMFunctionIdentifier::generateIR(IRGenerationContext& context,
                                           const IType* assignToType) const {
   return getLLVMFunctionObject(context)->getLLVMFunction(context);
@@ -45,6 +39,10 @@ const IType* LLVMFunctionIdentifier::getType(IRGenerationContext& context) const
 }
 
 bool LLVMFunctionIdentifier::isConstant() const {
+  return false;
+}
+
+bool LLVMFunctionIdentifier::isAssignable() const {
   return false;
 }
 

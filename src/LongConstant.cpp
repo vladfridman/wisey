@@ -27,11 +27,6 @@ int LongConstant::getLine() const {
   return mLine;
 }
 
-IVariable* LongConstant::getVariable(IRGenerationContext& context,
-                                     vector<const IExpression*>& arrayIndices) const {
-  return NULL;
-}
-
 llvm::Constant* LongConstant::generateIR(IRGenerationContext& context,
                                          const IType* assignToType) const {
   return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), mValue, true);
@@ -43,6 +38,10 @@ const IType* LongConstant::getType(IRGenerationContext& context) const {
 
 bool LongConstant::isConstant() const {
   return true;
+}
+
+bool LongConstant::isAssignable() const {
+  return false;
 }
 
 void LongConstant::printToStream(IRGenerationContext& context, std::iostream& stream) const {

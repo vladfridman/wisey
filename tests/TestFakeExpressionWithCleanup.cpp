@@ -40,13 +40,12 @@ public:
   }
 };
 
-TEST_F(FakeExpressionWithCleanupTest, getVariableTest) {
-  vector<const IExpression*> arrayIndices;
-  EXPECT_EQ(mFakeExpressionWithCleanup->getVariable(mContext, arrayIndices), nullptr);
-}
-
 TEST_F(FakeExpressionWithCleanupTest, isConstantTest) {
   EXPECT_FALSE(mFakeExpressionWithCleanup->isConstant());
+}
+
+TEST_F(FakeExpressionWithCleanupTest, isAssignableTest) {
+  EXPECT_FALSE(mFakeExpressionWithCleanup->isAssignable());
 }
 
 TEST_F(FakeExpressionWithCleanupTest, printToStreamTest) {

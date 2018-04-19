@@ -35,17 +35,14 @@ namespace wisey {
                                     const IType* assignToType) const = 0;
     
     /**
-     * If this expression resolves to a vairable returns the variable otherwise returns NULL
-     *
-     * This is needed for checking wheather an increment operation can by applied to an expression
-     */
-    virtual IVariable* getVariable(IRGenerationContext& context,
-                                   std::vector<const IExpression*>& arrayIndices) const = 0;
-    
-    /**
      * Tells whether this expression returns a constant
      */
     virtual bool isConstant() const = 0;
+    
+    /**
+     * Tells whether one can assign to this expression, e.g. variable identifier or array element
+     */
+    virtual bool isAssignable() const = 0;
     
     /**
      * Tells the line number where this expression is

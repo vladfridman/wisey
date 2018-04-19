@@ -28,11 +28,6 @@ int FakeExpressionWithCleanup::getLine() const {
   return 0;
 }
 
-IVariable* FakeExpressionWithCleanup::getVariable(IRGenerationContext& context,
-                                       vector<const IExpression*>& arrayIndices) const {
-  return NULL;
-}
-
 Value* FakeExpressionWithCleanup::generateIR(IRGenerationContext& context,
                                              const IType* assignToType) const {
   return mValue;
@@ -43,6 +38,10 @@ const IType* FakeExpressionWithCleanup::getType(IRGenerationContext& context) co
 }
 
 bool FakeExpressionWithCleanup::isConstant() const {
+  return false;
+}
+
+bool FakeExpressionWithCleanup::isAssignable() const {
   return false;
 }
 

@@ -31,11 +31,6 @@ int BooleanNotExpression::getLine() const {
   return mLine;
 }
 
-IVariable* BooleanNotExpression::getVariable(IRGenerationContext& context,
-                                             vector<const IExpression*>& arrayIndices) const {
-  return NULL;
-}
-
 Value* BooleanNotExpression::generateIR(IRGenerationContext& context,
                                         const IType* assignToType) const {
   Value* expressionValue = mExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
@@ -54,6 +49,10 @@ const IType* BooleanNotExpression::getType(IRGenerationContext& context) const {
 }
 
 bool BooleanNotExpression::isConstant() const {
+  return false;
+}
+
+bool BooleanNotExpression::isAssignable() const {
   return false;
 }
 

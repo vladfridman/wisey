@@ -230,13 +230,6 @@ struct TypeComparisionExpressionTest : public Test {
   }
 };
 
-TEST_F(TypeComparisionExpressionTest, getVariableTest) {
-  TypeComparisionExpression typeComparision(mExpression, NULL, 0);
-  vector<const IExpression*> arrayIndices;
-
-  EXPECT_EQ(typeComparision.getVariable(mContext, arrayIndices), nullptr);
-}
-
 TEST_F(TypeComparisionExpressionTest, compareIdenticalPrimiteveTypesTest) {
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR_TYPE));
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
@@ -317,8 +310,15 @@ TEST_F(TypeComparisionExpressionTest, compareInterfaceAndInterfaceTypesTest) {
 TEST_F(TypeComparisionExpressionTest, isConstantTest) {
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
   TypeComparisionExpression typeComparision(mExpression, typeSpecifier, 0);
-
+  
   EXPECT_FALSE(typeComparision.isConstant());
+}
+
+TEST_F(TypeComparisionExpressionTest, isAssignableTest) {
+  NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
+  TypeComparisionExpression typeComparision(mExpression, typeSpecifier, 0);
+  
+  EXPECT_FALSE(typeComparision.isAssignable());
 }
 
 TEST_F(TypeComparisionExpressionTest, printToStreamTest) {

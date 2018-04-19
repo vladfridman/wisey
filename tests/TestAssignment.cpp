@@ -104,6 +104,13 @@ TEST_F(AssignmentTest, isConstantTest) {
   EXPECT_FALSE(assignment.isConstant());
 }
 
+TEST_F(AssignmentTest, isAssignableTest) {
+  Identifier* identifier = new Identifier("foo", 0);
+  Assignment assignment(identifier, mExpression, 0);
+  
+  EXPECT_TRUE(assignment.isAssignable());
+}
+
 TEST_F(AssignmentTest, getVariableTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));

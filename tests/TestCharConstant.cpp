@@ -31,11 +31,6 @@ struct CharConstantTest : public ::testing::Test {
   CharConstantTest() : mCharConstant('y', 0) { }
 };
 
-TEST_F(CharConstantTest, getVariableTest) {
-  vector<const IExpression*> arrayIndices;
-  EXPECT_EQ(mCharConstant.getVariable(mContext, arrayIndices), nullptr);
-}
-
 TEST_F(CharConstantTest, charConstantTest) {
   string stringBuffer;
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);
@@ -59,6 +54,10 @@ TEST_F(CharConstantTest, printToStreamTest) {
 
 TEST_F(CharConstantTest, isConstantTest) {
   EXPECT_TRUE(mCharConstant.isConstant());
+}
+
+TEST_F(CharConstantTest, isAssignableTest) {
+  EXPECT_FALSE(mCharConstant.isAssignable());
 }
 
 TEST_F(TestFileRunner, charVariableRunTest) {

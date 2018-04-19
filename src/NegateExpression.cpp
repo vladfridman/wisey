@@ -30,11 +30,6 @@ int NegateExpression::getLine() const {
   return mLine;
 }
 
-IVariable* NegateExpression::getVariable(IRGenerationContext& context,
-                                         vector<const IExpression*>& arrayIndices) const {
-  return NULL;
-}
-
 Value* NegateExpression::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   const IType* type = getType(context);
   if (!type->isPrimitive() || type == PrimitiveTypes::VOID_TYPE) {
@@ -64,6 +59,10 @@ const IType* NegateExpression::getType(IRGenerationContext& context) const {
 }
 
 bool NegateExpression::isConstant() const {
+  return false;
+}
+
+bool NegateExpression::isAssignable() const {
   return false;
 }
 

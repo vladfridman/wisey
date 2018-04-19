@@ -1600,6 +1600,8 @@
 		F57411721E043EE4009809FF /* Identifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Identifier.cpp; path = src/Identifier.cpp; sourceTree = "<group>"; };
 		F5752ABA2084B98F00C00DE1 /* IInjectableConcreteObjectType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IInjectableConcreteObjectType.hpp; path = include/wisey/IInjectableConcreteObjectType.hpp; sourceTree = "<group>"; };
 		F5752ABB2084BB3D00C00DE1 /* IInjectableConcreteObjectType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IInjectableConcreteObjectType.cpp; path = src/IInjectableConcreteObjectType.cpp; sourceTree = "<group>"; };
+		F5752ABE208893BB00C00DE1 /* IExpressionAssignable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IExpressionAssignable.hpp; path = include/wisey/IExpressionAssignable.hpp; sourceTree = "<group>"; };
+		F5752ABF2088A19700C00DE1 /* MockExpressionAssignable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockExpressionAssignable.hpp; path = tests/include/MockExpressionAssignable.hpp; sourceTree = "<group>"; };
 		F57780A41EC673EC0049542D /* EmptyStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmptyStatement.cpp; path = src/EmptyStatement.cpp; sourceTree = "<group>"; };
 		F57780AC1EC7CC7B0049542D /* BindAction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BindAction.cpp; path = src/BindAction.cpp; sourceTree = "<group>"; };
 		F57780B31ECA384B0049542D /* TestBindActionGlobalStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBindActionGlobalStatement.cpp; path = tests/TestBindActionGlobalStatement.cpp; sourceTree = "<group>"; };
@@ -2431,6 +2433,7 @@
 			children = (
 				F556E65B1EDEE45B00CCC3D7 /* MockConcreteObjectType.hpp */,
 				F5E48B8E1E870E150087CC70 /* MockExpression.hpp */,
+				F5752ABF2088A19700C00DE1 /* MockExpressionAssignable.hpp */,
 				F50EF2A01EDC7A97002E68A8 /* MockGlobalStatement.hpp */,
 				F51942FC1FE3DF0E009C3158 /* MockMethodDescriptor.hpp */,
 				F53A2C101EEE9EFD00E76A9E /* MockObjectOwnerType.hpp */,
@@ -2613,6 +2616,7 @@
 				F556E6521EDDC80000CCC3D7 /* IConcreteObjectType.hpp */,
 				F5436DB81FCF7D37003ABF6F /* IControllerTypeSpecifier.hpp */,
 				F5089C6F1ECD01D9004A1223 /* IExpression.hpp */,
+				F5752ABE208893BB00C00DE1 /* IExpressionAssignable.hpp */,
 				F5CB7FD52052A94E007628B5 /* IField.hpp */,
 				F5A363551F376AE8005880B3 /* IFieldVariable.hpp */,
 				F50EF29B1EDB4599002E68A8 /* IGlobalStatement.hpp */,

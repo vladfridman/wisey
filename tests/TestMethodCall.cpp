@@ -311,17 +311,16 @@ TEST_F(MethodCallTest, modelMethodCallWithTryCatchTest) {
   EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
 
-TEST_F(MethodCallTest, getVariableTest) {
-  MethodCall methodCall(mExpression, mArgumentList, 0);
-  vector<const IExpression*> arrayIndices;
-
-  EXPECT_EQ(methodCall.getVariable(mContext, arrayIndices), nullptr);
-}
-
 TEST_F(MethodCallTest, isConstantTest) {
   MethodCall methodCall(mExpression, mArgumentList, 0);
 
   EXPECT_FALSE(methodCall.isConstant());
+}
+
+TEST_F(MethodCallTest, isAssignableTest) {
+  MethodCall methodCall(mExpression, mArgumentList, 0);
+  
+  EXPECT_FALSE(methodCall.isAssignable());
 }
 
 TEST_F(MethodCallTest, printToStreamTest) {

@@ -32,11 +32,6 @@ int ConstantReference::getLine() const {
   return mLine;
 }
 
-IVariable* ConstantReference::getVariable(IRGenerationContext& context,
-                                          vector<const IExpression*>& arrayIndices) const {
-  return NULL;
-}
-
 Value* ConstantReference::generateIR(IRGenerationContext& context,
                                      const IType* assignToType) const {
   const IObjectType* objectType = getObjectType(context);
@@ -57,6 +52,10 @@ const IType* ConstantReference::getType(IRGenerationContext& context) const {
 
 bool ConstantReference::isConstant() const {
   return true;
+}
+
+bool ConstantReference::isAssignable() const {
+  return false;
 }
 
 void ConstantReference::printToStream(IRGenerationContext& context, std::iostream& stream) const {

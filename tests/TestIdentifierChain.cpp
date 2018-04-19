@@ -71,6 +71,14 @@ TEST_F(IdentifierChainTest, isConstantTest) {
   EXPECT_FALSE(identifierChain.isConstant());
 }
 
+TEST_F(IdentifierChainTest, isAssignableTest) {
+  NiceMock<MockExpression>* mockExpression = new NiceMock<MockExpression>();
+  ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printPackageTypeExpression));
+  IdentifierChain identifierChain(mockExpression, "test", 0);
+  
+  EXPECT_FALSE(identifierChain.isAssignable());
+}
+
 TEST_F(IdentifierChainTest, printToStreamTest) {
   NiceMock<MockExpression>* mockExpression = new NiceMock<MockExpression>();
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printPackageTypeExpression));

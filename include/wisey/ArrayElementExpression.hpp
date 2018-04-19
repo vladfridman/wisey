@@ -10,14 +10,14 @@
 #define ArrayElementExpression_h
 
 #include "wisey/ArrayType.hpp"
-#include "wisey/IExpression.hpp"
+#include "wisey/IExpressionAssignable.hpp"
 
 namespace wisey {
   
   /**
    * Represents expression for referencing array element
    */
-  class ArrayElementExpression : public IExpression {
+  class ArrayElementExpression : public IExpressionAssignable {
     
     const IExpression* mArrayExpression;
     const IExpression* mArrayIndexExpresion;
@@ -47,6 +47,8 @@ namespace wisey {
                            std::vector<const IExpression*>& arrayIndices) const override;
     
     bool isConstant() const override;
+    
+    bool isAssignable() const override;
     
     const IType* getType(IRGenerationContext& context) const override;
     

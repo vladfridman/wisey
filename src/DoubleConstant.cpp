@@ -27,11 +27,6 @@ int DoubleConstant::getLine() const {
   return mLine;
 }
 
-IVariable* DoubleConstant::getVariable(IRGenerationContext& context,
-                                       vector<const IExpression*>& arrayIndices) const {
-  return NULL;
-}
-
 llvm::Constant* DoubleConstant::generateIR(IRGenerationContext& context,
                                            const IType* assignToType) const {
   return ConstantFP::get(Type::getDoubleTy(context.getLLVMContext()), mValue);
@@ -43,6 +38,10 @@ const IType* DoubleConstant::getType(IRGenerationContext& context) const {
 
 bool DoubleConstant::isConstant() const {
   return true;
+}
+
+bool DoubleConstant::isAssignable() const {
+  return false;
 }
 
 void DoubleConstant::printToStream(IRGenerationContext& context, std::iostream& stream) const {

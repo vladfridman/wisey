@@ -36,11 +36,6 @@ int LogicalOrExpression::getLine() const {
   return mLine;
 }
 
-IVariable* LogicalOrExpression::getVariable(IRGenerationContext& context,
-                                            vector<const IExpression*>& arrayIndices) const {
-  return NULL;
-}
-
 Value* LogicalOrExpression::generateIR(IRGenerationContext& context,
                                        const IType* assignToType) const {
   Value* leftValue = mLeftExpression->generateIR(context, assignToType);
@@ -85,6 +80,10 @@ const IType* LogicalOrExpression::getType(IRGenerationContext& context) const {
 }
 
 bool LogicalOrExpression::isConstant() const {
+  return false;
+}
+
+bool LogicalOrExpression::isAssignable() const {
   return false;
 }
 

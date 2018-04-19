@@ -147,8 +147,14 @@ TEST_F(IdentifierTest, getTypeForUndefinedTypeTest) {
 
 TEST_F(IdentifierTest, isConstantTest) {
   Identifier* identifier = new Identifier("foo", 0);
-
+  
   EXPECT_FALSE(identifier->isConstant());
+}
+
+TEST_F(IdentifierTest, isAssignableTest) {
+  Identifier* identifier = new Identifier("foo", 0);
+  
+  EXPECT_TRUE(identifier->isAssignable());
 }
 
 TEST_F(IdentifierTest, printToStreamTest) {

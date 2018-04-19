@@ -31,11 +31,6 @@ int CastExpression::getLine() const {
   return mLine;
 }
 
-IVariable* CastExpression::getVariable(IRGenerationContext& context,
-                                       vector<const IExpression*>& arrayIndices) const {
-  return NULL;
-}
-
 Value* CastExpression::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   const IType* fromType = mExpression->getType(context);
   Value* fromValue = mExpression->generateIR(context, assignToType);
@@ -49,6 +44,10 @@ const IType* CastExpression::getType(IRGenerationContext& context) const {
 }
 
 bool CastExpression::isConstant() const {
+  return false;
+}
+
+bool CastExpression::isAssignable() const {
   return false;
 }
 

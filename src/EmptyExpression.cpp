@@ -26,11 +26,6 @@ int EmptyExpression::getLine() const {
   return 0;
 }
 
-IVariable* EmptyExpression::getVariable(IRGenerationContext& context,
-                                        vector<const IExpression*>& arrayIndices) const {
-  return NULL;
-}
-
 Value* EmptyExpression::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   return NULL;
 }
@@ -40,6 +35,10 @@ const IType* EmptyExpression::getType(IRGenerationContext& context) const {
 }
 
 bool EmptyExpression::isConstant() const {
+  return false;
+}
+
+bool EmptyExpression::isAssignable() const {
   return false;
 }
 

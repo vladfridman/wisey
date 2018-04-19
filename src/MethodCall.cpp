@@ -46,11 +46,6 @@ int MethodCall::getLine() const {
   return mLine;
 }
 
-IVariable* MethodCall::getVariable(IRGenerationContext& context,
-                                   vector<const IExpression*>& arrayIndices) const {
-  return NULL;
-}
-
 Value* MethodCall::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   const IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
   const IObjectType* object = methodDescriptor->getParentObject();
@@ -288,6 +283,10 @@ string MethodCall::translateInterfaceMethodToLLVMFunctionName(const IObjectType*
 }
 
 bool MethodCall::isConstant() const {
+  return false;
+}
+
+bool MethodCall::isAssignable() const {
   return false;
 }
 

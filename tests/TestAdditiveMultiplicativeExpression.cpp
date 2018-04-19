@@ -78,11 +78,10 @@ TEST_F(AdditiveMultiplicativeExpressionTest, isConstantTest) {
   EXPECT_FALSE(expression.isConstant());
 }
 
-TEST_F(AdditiveMultiplicativeExpressionTest, getVariableTest) {
+TEST_F(AdditiveMultiplicativeExpressionTest, isAssignableTest) {
   AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
-  vector<const IExpression*> arrayIndices;
-
-  EXPECT_EQ(expression.getVariable(mContext, arrayIndices), nullptr);
+  
+  EXPECT_FALSE(expression.isAssignable());
 }
 
 TEST_F(AdditiveMultiplicativeExpressionTest, additionTest) {

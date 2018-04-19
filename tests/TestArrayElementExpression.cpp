@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
+#include "MockExpressionAssignable.hpp"
 #include "MockVariable.hpp"
 #include "TestFileRunner.hpp"
 #include "wisey/ArrayElementExpression.hpp"
@@ -35,7 +36,7 @@ using namespace wisey;
 struct ArrayElementExpressionTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  NiceMock<MockExpression>* mArrayExpression;
+  NiceMock<MockExpressionAssignable>* mArrayExpression;
   NiceMock<MockExpression>* mArrayIndexExpression;
   NiceMock<MockVariable>* mArrayVariable;
   string mStringBuffer;
@@ -47,7 +48,7 @@ struct ArrayElementExpressionTest : Test {
   
   ArrayElementExpressionTest() :
   mLLVMContext(mContext.getLLVMContext()),
-  mArrayExpression(new NiceMock<MockExpression>()),
+  mArrayExpression(new NiceMock<MockExpressionAssignable>()),
   mArrayIndexExpression(new NiceMock<MockExpression>()),
   mArrayVariable(new NiceMock<MockVariable>()) {
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
@@ -134,6 +135,10 @@ TEST_F(ArrayElementExpressionTest, generateIRTest) {
 
 TEST_F(ArrayElementExpressionTest, isConstantTest) {
   EXPECT_FALSE(mArrayElementExpression->isConstant());
+}
+
+TEST_F(ArrayElementExpressionTest, isAssignableTest) {
+  EXPECT_TRUE(mArrayElementExpression->isAssignable());
 }
 
 TEST_F(ArrayElementExpressionTest, getTypeTest) {

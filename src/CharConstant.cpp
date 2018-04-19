@@ -27,11 +27,6 @@ int CharConstant::getLine() const {
   return mLine;
 }
 
-IVariable* CharConstant::getVariable(IRGenerationContext& context,
-                                     vector<const IExpression*>& arrayIndices) const {
-  return NULL;
-}
-
 llvm::Constant* CharConstant::generateIR(IRGenerationContext& context,
                                          const IType* assignToType) const {
   return ConstantInt::get(Type::getInt16Ty(context.getLLVMContext()), mValue);
@@ -43,6 +38,10 @@ const IType* CharConstant::getType(IRGenerationContext& context) const {
 
 bool CharConstant::isConstant() const {
   return true;
+}
+
+bool CharConstant::isAssignable() const {
+  return false;
 }
 
 void CharConstant::printToStream(IRGenerationContext& context, std::iostream& stream) const {

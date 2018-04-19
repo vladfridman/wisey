@@ -151,8 +151,14 @@ TEST_F(LLVMFunctionIdentifierTest, getTypeTest) {
 
 TEST_F(LLVMFunctionIdentifierTest, isConstantTest) {
   LLVMFunctionIdentifier llvmFunctionIdentifier(mObjectSpecifier, "publicFunction", 0);
-
+  
   EXPECT_FALSE(llvmFunctionIdentifier.isConstant());
+}
+
+TEST_F(LLVMFunctionIdentifierTest, isAssignableTest) {
+  LLVMFunctionIdentifier llvmFunctionIdentifier(mObjectSpecifier, "publicFunction", 0);
+  
+  EXPECT_FALSE(llvmFunctionIdentifier.isAssignable());
 }
 
 TEST_F(LLVMFunctionIdentifierTest, printToStreamTest) {

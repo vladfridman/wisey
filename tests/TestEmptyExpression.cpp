@@ -24,11 +24,6 @@ struct EmptyExpressionTest : public ::testing::Test {
   EmptyExpressionTest() { }
 };
 
-TEST_F(EmptyExpressionTest, getVariableTest) {
-  std::vector<const IExpression*> arrayIndices;
-  EXPECT_EQ(mEmptyExpression.getVariable(mContext, arrayIndices), nullptr);
-}
-
 TEST_F(EmptyExpressionTest, simpleEmptyExpressionTest) {
   EXPECT_EQ(mEmptyExpression.generateIR(mContext, PrimitiveTypes::VOID_TYPE), nullptr);
 }
@@ -39,6 +34,10 @@ TEST_F(EmptyExpressionTest, emptyExpressionTypeTest) {
 
 TEST_F(EmptyExpressionTest, isConstantTest) {
   EXPECT_FALSE(mEmptyExpression.isConstant());
+}
+
+TEST_F(EmptyExpressionTest, isAssignableTest) {
+  EXPECT_FALSE(mEmptyExpression.isAssignable());
 }
 
 TEST_F(EmptyExpressionTest, printToStreamTest) {

@@ -23,11 +23,6 @@ int IdentifierReference::getLine() const {
   return mLine;
 }
 
-IVariable* IdentifierReference::getVariable(IRGenerationContext& context,
-                                   vector<const IExpression*>& arrayIndices) const {
-  return context.getScopes().getVariable(mName);
-}
-
 const string& IdentifierReference::getIdentifierName() const {
   return mName;
 }
@@ -55,6 +50,10 @@ const IType* IdentifierReference::getType(IRGenerationContext& context) const {
 }
 
 bool IdentifierReference::isConstant() const {
+  return false;
+}
+
+bool IdentifierReference::isAssignable() const {
   return false;
 }
 

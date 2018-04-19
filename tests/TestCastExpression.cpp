@@ -95,10 +95,10 @@ TEST_F(CastExpressionTest, isConstantTest) {
   EXPECT_FALSE(castExpression.isConstant());
 }
 
-TEST_F(CastExpressionTest, getVariableTest) {
+TEST_F(CastExpressionTest, isAssignableTest) {
   CastExpression castExpression(mTypeSpecifier, mExpression, 0);
-  vector<const IExpression*> arrayIndices;
-  EXPECT_EQ(castExpression.getVariable(mContext, arrayIndices), nullptr);
+  
+  EXPECT_FALSE(castExpression.isAssignable());
 }
 
 TEST_F(CastExpressionTest, castExpressionAutoCastTest) {

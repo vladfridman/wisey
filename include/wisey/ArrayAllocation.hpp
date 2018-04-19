@@ -37,10 +37,9 @@ namespace wisey {
 
     llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
     
-    IVariable* getVariable(IRGenerationContext& context,
-                           std::vector<const IExpression*>& arrayIndices) const override;
-    
     bool isConstant() const override;
+    
+    bool isAssignable() const override;
     
     const IType* getType(IRGenerationContext& context) const override;
     

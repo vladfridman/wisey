@@ -74,13 +74,6 @@ struct LogicalOrExpressionTest : Test {
   }
 };
 
-TEST_F(LogicalOrExpressionTest, getVariableTest) {
-  LogicalOrExpression expression(mLeftExpression, mRightExpression, 0);
-  vector<const IExpression*> arrayIndices;
-
-  EXPECT_EQ(expression.getVariable(mContext, arrayIndices), nullptr);
-}
-
 TEST_F(LogicalOrExpressionTest, logicalAndTrueValueTest) {
   ON_CALL(*mLeftExpression, generateIR(_, _)).WillByDefault(Return(mTrueValue));
   ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
@@ -157,6 +150,12 @@ TEST_F(LogicalOrExpressionTest, isConstantTest) {
   LogicalOrExpression expression(mLeftExpression, mRightExpression, 0);
 
   EXPECT_FALSE(expression.isConstant());
+}
+
+TEST_F(LogicalOrExpressionTest, isAssignableTest) {
+  LogicalOrExpression expression(mLeftExpression, mRightExpression, 0);
+  
+  EXPECT_FALSE(expression.isAssignable());
 }
 
 TEST_F(LogicalOrExpressionTest, printToStreamTest) {

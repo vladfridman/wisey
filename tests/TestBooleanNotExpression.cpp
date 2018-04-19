@@ -72,11 +72,10 @@ TEST_F(BooleanNotExpressionTest, isConstantTest) {
   EXPECT_FALSE(booleanNotExpression.isConstant());
 }
 
-TEST_F(BooleanNotExpressionTest, getVariableTest) {
+TEST_F(BooleanNotExpressionTest, isAssignableTest) {
   BooleanNotExpression booleanNotExpression(mExpression, 0);
-  vector<const IExpression*> arrayIndices;
-
-  EXPECT_EQ(booleanNotExpression.getVariable(mContext, arrayIndices), nullptr);
+  
+  EXPECT_FALSE(booleanNotExpression.isAssignable());
 }
 
 TEST_F(BooleanNotExpressionTest, negateIntExpressionTest) {

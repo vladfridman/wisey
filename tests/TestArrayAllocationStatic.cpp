@@ -125,6 +125,10 @@ TEST_F(ArrayAllocationStaticTest, isConstantTest) {
   EXPECT_FALSE(mArrayAllocationStatic->isConstant());
 }
 
+TEST_F(ArrayAllocationStaticTest, isAssignableTest) {
+  EXPECT_FALSE(mArrayAllocationStatic->isAssignable());
+}
+
 TEST_F(ArrayAllocationStaticTest, getTypeTest) {
   list<unsigned long> dimensions;
   dimensions.push_back(2u);

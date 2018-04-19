@@ -10,7 +10,7 @@
 #define Assignment_h
 
 #include "wisey/Identifier.hpp"
-#include "wisey/IExpression.hpp"
+#include "wisey/IExpressionAssignable.hpp"
 #include "wisey/IHasType.hpp"
 
 namespace wisey {
@@ -18,7 +18,7 @@ namespace wisey {
   /**
    * Represents an assignment expression
    */
-  class Assignment : public IExpression {
+  class Assignment : public IExpressionAssignable {
     IExpression* mIdentifier;
     IExpression* mExpression;
     int mLine;
@@ -40,6 +40,8 @@ namespace wisey {
     
     bool isConstant() const override;
     
+    bool isAssignable() const override;
+
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
   private:

@@ -49,22 +49,26 @@ IncrementExpression* IncrementExpression::newDecrementByOne(IExpression* express
 
 IVariable* IncrementExpression::getVariable(IRGenerationContext& context,
                                             vector<const IExpression*>& arrayIndices) const {
-  return mExpression->getVariable(context, arrayIndices);
+  if (!mExpression->isAssignable()) {
+    context.reportError(mLine, "Expression is not assignable");
+    exit(1);
+  }
+  return ((IExpressionAssignable*) mExpression)->getVariable(context, arrayIndices);
 }
 
 Value* IncrementExpression::generateIR(IRGenerationContext& context,
                                        const IType* assignToType) const {
   const IType* expressionType = mExpression->getType(context);
-  vector<const IExpression*> arrayIndices;
-  IVariable* variable = mExpression->getVariable(context, arrayIndices);
-  if (!variable) {
-    Log::e_deprecated("Increment/decrement operation may only be applied to variables");
+  if (!mExpression->isAssignable()) {
+    context.reportError(mLine, "Increment/decrement operation may only be applied to variables");
     exit(1);
   }
   if (expressionType != PrimitiveTypes::INT_TYPE &&
       expressionType != PrimitiveTypes::CHAR_TYPE &&
       expressionType != PrimitiveTypes::LONG_TYPE) {
-    Log::e_deprecated("Expression is of a type that is incompatible with increment/decrement operation");
+    context.reportError(mLine,
+                        "Expression is of a type that is incompatible with "
+                        "increment/decrement operation");
     exit(1);
   }
   
@@ -79,7 +83,9 @@ Value* IncrementExpression::generateIR(IRGenerationContext& context,
                                                           increment,
                                                           mVariableName);
 
-  
+  vector<const IExpression*> arrayIndices;
+  IVariable* variable = ((IExpressionAssignable*) mExpression)->getVariable(context, arrayIndices);
+
   FakeExpression fakeExpression(incrementResult, expressionType);
   variable->generateAssignmentIR(context, &fakeExpression, arrayIndices, mLine);
 
@@ -92,6 +98,10 @@ const IType* IncrementExpression::getType(IRGenerationContext& context) const {
 
 bool IncrementExpression::isConstant() const {
   return false;
+}
+
+bool IncrementExpression::isAssignable() const {
+  return true;
 }
 
 void IncrementExpression::printToStream(IRGenerationContext& context, std::iostream& stream) const {

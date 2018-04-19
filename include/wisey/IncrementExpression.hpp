@@ -9,7 +9,7 @@
 #ifndef IncrementExpression_h
 #define IncrementExpression_h
 
-#include "wisey/IExpression.hpp"
+#include "wisey/IExpressionAssignable.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/IHasType.hpp"
 
@@ -18,7 +18,7 @@ namespace wisey {
   /**
    * Represents an increment or decrement expresssion such as i++ or i--
    */
-  class IncrementExpression : public IExpression {
+  class IncrementExpression : public IExpressionAssignable {
     IExpression* mExpression;
     long long mIncrementBy;
     std::string mVariableName;
@@ -46,6 +46,8 @@ namespace wisey {
     
     bool isConstant() const override;
     
+    bool isAssignable() const override;
+
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
     /**

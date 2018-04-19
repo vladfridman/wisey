@@ -30,11 +30,6 @@ struct LongConstantTest : public ::testing::Test {
   LongConstantTest() : mLongConstant(5, 0) { }
 };
 
-TEST_F(LongConstantTest, getVariableTest) {
-  vector<const IExpression*> arrayIndices;
-  EXPECT_EQ(mLongConstant.getVariable(mContext, arrayIndices), nullptr);
-}
-
 TEST_F(LongConstantTest, longConstantTest) {
   string stringBuffer;
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);
@@ -51,6 +46,10 @@ TEST_F(LongConstantTest, longConstantTypeTest) {
 
 TEST_F(LongConstantTest, isConstantTest) {
   EXPECT_TRUE(mLongConstant.isConstant());
+}
+
+TEST_F(LongConstantTest, isAssignableTest) {
+  EXPECT_FALSE(mLongConstant.isAssignable());
 }
 
 TEST_F(LongConstantTest, printToStreamTest) {

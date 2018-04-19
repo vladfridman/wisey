@@ -74,6 +74,10 @@ bool Identifier::isConstant() const {
   return false;
 }
 
+bool Identifier::isAssignable() const {
+  return true;
+}
+
 void Identifier::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   stream << mName;
 }

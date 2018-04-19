@@ -30,11 +30,6 @@ struct IntConstantTest : public ::testing::Test {
   IntConstantTest() : mIntConstant(5, 0) { }
 };
 
-TEST_F(IntConstantTest, getVariableTest) {
-  vector<const IExpression*> arrayIndices;
-  EXPECT_EQ(mIntConstant.getVariable(mContext, arrayIndices), nullptr);
-}
-
 TEST_F(IntConstantTest, intConstantTest) {
   string stringBuffer;
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);
@@ -53,6 +48,10 @@ TEST_F(IntConstantTest, intConstantTypeTest) {
 
 TEST_F(IntConstantTest, isConstantTest) {
   EXPECT_TRUE(mIntConstant.isConstant());
+}
+
+TEST_F(IntConstantTest, isAssignableTest) {
+  EXPECT_FALSE(mIntConstant.isAssignable());
 }
 
 TEST_F(IntConstantTest, printToStreamTest) {
