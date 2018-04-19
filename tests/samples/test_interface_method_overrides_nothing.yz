@@ -1,0 +1,20 @@
+package systems.vos.wisey.compiler.tests;
+
+interface IChild {
+  int getValue();
+}
+
+interface IParent extends IChild {
+  int getSomething() override;
+}
+
+model MMyModel implements IParent {
+
+  public int getValue() override {
+    return 0;
+  }
+
+  public int getSomething() override {
+    return 1;
+  }
+}

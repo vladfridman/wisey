@@ -278,7 +278,12 @@ namespace wisey {
 
   private:
     
-    void includeInterfaceMethods(Interface* parentInterface);
+    void processParentInterfaces(IRGenerationContext& context);
+    
+    void processMethodSignatures(IRGenerationContext& context);
+    
+    void includeInterfaceMethods(Interface* parentInterface,
+                                 std::set<std::string>& methodOverrides);
     
     /**
      * Get all method signatures including the ones inherited from parent interfaces

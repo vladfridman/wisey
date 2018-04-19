@@ -871,3 +871,11 @@ TEST_F(TestFileRunner, interfaceMethodOverridesAnotherMethodRunDeathTest) {
                     " must be marked override because it overrides a method of the same name from "
                     "systems.vos.wisey.compiler.tests.IChild");
 }
+
+TEST_F(TestFileRunner, interfaceMethodOverridesNothingRunDeathTest) {
+  expectFailCompile("tests/samples/test_interface_method_overrides_nothing.yz",
+                    1,
+                    "tests/samples/test_interface_method_overrides_nothing.yz\\(8\\): Error: "
+                    "Method signature 'getSomething' is marked override but it does not override "
+                    "any signatures from parent interfaces");
+}

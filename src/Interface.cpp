@@ -144,33 +144,9 @@ void Interface::buildMethods(IRGenerationContext& context) {
     mLLVMFunctionMap[llvmFunction->getName()] = llvmFunction;
   }
 
-  for (IInterfaceTypeSpecifier* parentInterfaceSpecifier : mParentInterfaceSpecifiers) {
-    Interface* parentInterface = (Interface*) parentInterfaceSpecifier->getType(context);
-    if (mParentInterfacesMap.count(parentInterface->getTypeName())) {
-      Log::e_deprecated("Circular interface dependency between interfaces " +
-             getTypeName() + " and " + parentInterface->getTypeName());
-      exit(1);
-    }
-    mParentInterfacesMap[parentInterface->getTypeName()] = parentInterface;
-    if (!parentInterface->isComplete()) {
-      parentInterface->buildMethods(context);
-    }
-    mParentInterfaces.push_back(parentInterface);
-  }
+  processParentInterfaces(context);
+  processMethodSignatures(context);
   
-  for (MethodSignature* methodSignature : mMethodSignatures) {
-    mNameToMethodSignatureMap[methodSignature->getName()] = methodSignature;
-    mAllMethodSignatures.push_back(methodSignature);
-  }
-  for (Interface* parentInterface : mParentInterfaces) {
-    includeInterfaceMethods(parentInterface);
-  }
-  unsigned long index = 0;
-  for (const MethodSignature* methodSignature : mAllMethodSignatures) {
-    mMethodIndexes[methodSignature] = index;
-    index++;
-  }
-
   Type* functionType = FunctionType::get(Type::getInt32Ty(llvmContext), true);
   Type* vtableType = functionType->getPointerTo()->getPointerTo();
   vector<Type*> types;
@@ -186,6 +162,50 @@ void Interface::buildMethods(IRGenerationContext& context) {
   mIsComplete = true;
 }
 
+void Interface::processParentInterfaces(IRGenerationContext& context) {
+  for (IInterfaceTypeSpecifier* parentInterfaceSpecifier : mParentInterfaceSpecifiers) {
+    Interface* parentInterface = (Interface*) parentInterfaceSpecifier->getType(context);
+    if (mParentInterfacesMap.count(parentInterface->getTypeName())) {
+      Log::e_deprecated("Circular interface dependency between interfaces " +
+                        getTypeName() + " and " + parentInterface->getTypeName());
+      exit(1);
+    }
+    mParentInterfacesMap[parentInterface->getTypeName()] = parentInterface;
+    if (!parentInterface->isComplete()) {
+      parentInterface->buildMethods(context);
+    }
+    mParentInterfaces.push_back(parentInterface);
+  }
+}
+
+void Interface::processMethodSignatures(IRGenerationContext& context) {
+  for (MethodSignature* methodSignature : mMethodSignatures) {
+    mNameToMethodSignatureMap[methodSignature->getName()] = methodSignature;
+    mAllMethodSignatures.push_back(methodSignature);
+  }
+  set<string> methodOverrides;
+  for (MethodSignature* methodSignature : mMethodSignatures) {
+    if (methodSignature->isOverride()) {
+      methodOverrides.insert(methodSignature->getName());
+    }
+  }
+  for (Interface* parentInterface : mParentInterfaces) {
+    includeInterfaceMethods(parentInterface, methodOverrides);
+  }
+  for (string methodName : methodOverrides) {
+    MethodSignature* methodSignature = mNameToMethodSignatureMap[methodName];
+    context.reportError(methodSignature->getMethodQualifiers()->getLine(),
+                        "Method signature '" + methodName + "' is marked override but it does not "
+                        "override any signatures from parent interfaces");
+    exit(1);
+  }
+  unsigned long index = 0;
+  for (const MethodSignature* methodSignature : mAllMethodSignatures) {
+    mMethodIndexes[methodSignature] = index;
+    index++;
+  }
+}
+
 wisey::Constant* Interface::findConstant(string constantName) const {
   if (!mNameToConstantMap.count(constantName)) {
     Log::e_deprecated("Interface " + mName + " does not have constant named " + constantName);
@@ -198,9 +218,10 @@ bool Interface::isComplete() const {
   return mIsComplete;
 }
 
-void Interface::includeInterfaceMethods(Interface* parentInterface) {
+void Interface::includeInterfaceMethods(Interface* parentInterface, set<string>& methodOverrides) {
   vector<MethodSignature*> inheritedMethods = parentInterface->getAllMethodSignatures();
   for (MethodSignature* methodSignature : inheritedMethods) {
+    methodOverrides.erase(methodSignature->getName());
     IMethodDescriptor* existingMethod = findMethod(methodSignature->getName());
     if (existingMethod && !IMethodDescriptor::compare(existingMethod, methodSignature)) {
       Log::e_deprecated("Interface " + mName + " overrides method '" + existingMethod->getName()
