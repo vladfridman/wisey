@@ -435,6 +435,16 @@ Function* Interface::defineMapFunctionForMethod(IRGenerationContext& context,
     exit(1);
   }
   
+  if (!objectMethodDescriptor->isOverride()) {
+    context.reportError(objectMethodDescriptor->getMethodQualifiers()->getLine(),
+                        "Object " + object->getTypeName() + " should mark method '" +
+                        interfaceMethodSignature->getName() +
+                        "' with 'override' qualifier because it overrides the method defined in "
+                        "the parent interface " +
+                        interfaceMethodSignature->getOriginalParentName());
+    exit(1);
+  }
+  
   if (!IMethodDescriptor::compare(objectMethodDescriptor, interfaceMethodSignature)) {
     Log::e_deprecated("Method " + interfaceMethodSignature->getName() + " of interface " + mName +
            " has different argument types when implmeneted by object " + object->getTypeName());

@@ -25,17 +25,17 @@ interface IDevice extends IHasDoor, IHasElectricSupply, IHasFreezer {
 model MFridge implements IDevice {
   int mSize;
 
-  public void open() {
+  public void open() override {
   }
 
-  public int getSize() {
+  public int getSize() override {
     return mSize;
   }
 }
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     MFridge* fridge = builder(MFridge).withSize(5).build();
 
     int result1 = fridge instanceof IObject*;

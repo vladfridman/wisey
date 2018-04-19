@@ -10,7 +10,7 @@ interface IShape {
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     return 0;
   }
 } 

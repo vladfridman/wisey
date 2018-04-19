@@ -1,25 +1,25 @@
 external thread wisey.lang.threads.TWorker 
     implements wisey.lang.threads.IThread {
 
-  void run() conceal;
+  void run() override conceal;
 
-  ::wisey::model* send(::wisey::model* message) conceal;
+  ::wisey::model* send(::wisey::model* message) override conceal;
 
-  void exit() conceal;
+  void exit() override conceal;
 
-  wisey.lang.CCallStack getCallStack() conceal;
+  wisey.lang.CCallStack getCallStack() override conceal;
 
-  void start() reveal;
+  void start() override reveal;
 
-  boolean isStarted() reveal;
+  boolean isStarted() override reveal;
   
-  boolean isFinished() reveal;
+  boolean isFinished() override reveal;
   
-  boolean isCancelled() reveal;
+  boolean isCancelled() override reveal;
 
-  void cancel() reveal;
+  void cancel() override reveal;
 
-  void reset() reveal;
+  void reset() override reveal;
 }
 
 external thread wisey.lang.threads.TWorkerWithFieldsAndMethods 
@@ -28,25 +28,25 @@ external thread wisey.lang.threads.TWorkerWithFieldsAndMethods
   inject wisey.lang.threads.TWorker* mInjectedField;
   state int mStateField;
 
-  void run() conceal;
+  void run() override conceal;
 
-  ::wisey::model* send(::wisey::model* message) conceal;
+  ::wisey::model* send(::wisey::model* message) override conceal;
 
-  void exit() conceal;
+  void exit() override conceal;
 
-  wisey.lang.CCallStack getCallStack() conceal;
+  wisey.lang.CCallStack getCallStack() override conceal;
 
-  void start() reveal;
+  void start() override reveal;
 
-  boolean isStarted() reveal;
+  boolean isStarted() override reveal;
   
-  boolean isFinished() reveal;
+  boolean isFinished() override reveal;
   
-  boolean isCancelled() reveal;
+  boolean isCancelled() override reveal;
 
-  void cancel() reveal;
+  void cancel() override reveal;
 
-  void reset() reveal;
+  void reset() override reveal;
 }
 
 interface wisey.lang.IInterface {
@@ -59,23 +59,23 @@ external thread wisey.lang.threads.TWorkerWithFieldsAndMethodsAndInterface
   inject wisey.lang.threads.TWorker* mInjectedField;
   state int mStateField;
 
-  void run() conceal;
+  void run() override conceal;
 
-  ::wisey::model* send(::wisey::model* message) conceal;
+  ::wisey::model* send(::wisey::model* message) override conceal;
 
-  void exit() conceal;
+  void exit() override conceal;
 
-  wisey.lang.CCallStack getCallStack() conceal;
+  wisey.lang.CCallStack getCallStack() override conceal;
 
-  void start() reveal;
+  void start() override reveal;
 
-  boolean isStarted() reveal;
+  boolean isStarted() override reveal;
   
-  boolean isFinished() reveal;
+  boolean isFinished() override reveal;
   
-  boolean isCancelled() reveal;
+  boolean isCancelled() override reveal;
 
-  void cancel() reveal;
+  void cancel() override reveal;
 
-  void reset() reveal;
+  void reset() override reveal;
 }

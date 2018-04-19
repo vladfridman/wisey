@@ -768,6 +768,16 @@ TEST_F(TestFileRunner, interfaceExceptionsDoNotReconcileDeathTest) {
                     "in object systems.vos.wisey.compiler.tests.MSquare");
 }
 
+TEST_F(TestFileRunner, objectMethodNotMarkedOverrideDeathTest) {
+  expectFailCompile("tests/samples/test_object_method_not_marked_override.yz",
+                    1,
+                    "tests/samples/test_object_method_not_marked_override.yz\\(9\\): "
+                    "Error: Object systems.vos.wisey.compiler.tests.MMyModel "
+                    "should mark method 'getValue' with 'override' qualifier "
+                    "because it overrides the method defined in the parent interface "
+                    "systems.vos.wisey.compiler.tests.IMyInterface");
+}
+
 TEST_F(TestFileRunner, modelImplmenetingInterfaceDefinitionRunTest) {
   runFile("tests/samples/test_interface_implementation.yz", "90");
 }

@@ -7,7 +7,7 @@ import wisey.lang.IProgram;
  */
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     // test two dash comments
     return 5;
   }

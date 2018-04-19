@@ -16,7 +16,7 @@ controller CController {
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     CController* mycontroller = injector(CController).withArray(new int[5][3]).inject();
     mycontroller.setValue(true);
 

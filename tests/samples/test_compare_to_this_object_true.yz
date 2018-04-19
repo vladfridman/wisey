@@ -10,7 +10,7 @@ model MComparator {
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     MComparator* comparator1 = builder(MComparator).build();
     MComparator* comparator2 = builder(MComparator).build();
 

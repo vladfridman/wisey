@@ -9,50 +9,50 @@ import wisey.lang.threads.IWorkerThread;
 thread TWorker implements IWorkerThread {
   inject CDefaultWorker* mDefaultWorker;
 
-  public void run() conceal {
+  public void run() override conceal {
     sleep(1);
     printout("This is worker thread!\n");
     MResult* result = builder(MResult).withResult(5).build();
     thread.send(result);
   }
 
-  public void start() reveal {
+  public void start() override reveal {
     mDefaultWorker.start(this);
   }
 
-  public boolean isStarted() reveal {
+  public boolean isStarted() override reveal {
     return mDefaultWorker.isStarted();
   }
 
-  public boolean isFinished() reveal {
+  public boolean isFinished() override reveal {
     return mDefaultWorker.isFinished();
   }
 
-  public boolean isCancelled() reveal {
+  public boolean isCancelled() override reveal {
     return mDefaultWorker.isCancelled();
   }
 
-  public ::wisey::model* awaitResult() reveal {
+  public ::wisey::model* awaitResult() override reveal {
     return mDefaultWorker.awaitResult();
   }
 
-  public void cancel() reveal {
+  public void cancel() override reveal {
     mDefaultWorker.cancel();
   }
 
-  public void reset() reveal {
+  public void reset() override reveal {
     mDefaultWorker.reset();
   }
 
-  public ::wisey::model* send(::wisey::model* message) conceal {
+  public ::wisey::model* send(::wisey::model* message) override conceal {
     return mDefaultWorker.send(message);
   }
 
-  public CCallStack getCallStack() conceal {
+  public CCallStack getCallStack() override conceal {
     return mDefaultWorker.getCallStack();
   }
 
-  public void exit() conceal {
+  public void exit() override conceal {
     mDefaultWorker.exit();
   }
 
@@ -68,7 +68,7 @@ thread TWorker implements IWorkerThread {
 controller CProgram implements IProgram {
   inject TWorker* mWorker;
 
-  public int run() {
+  public int run() override {
     printout("Thread started = " + mWorker.isStarted() + ", has finished = " + mWorker.isFinished() + "\n");
     printout("Starting worker thread\n");
     mWorker.start();

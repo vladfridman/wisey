@@ -12,7 +12,7 @@ model MMyModel {
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     ::llvm::struct::mystruct::pointer* structOwner = null;
     ::llvm::struct::mystruct::pointer* structReference = null;
     if (structOwner || !structReference) {

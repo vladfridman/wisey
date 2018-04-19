@@ -23,7 +23,7 @@ controller CProgram implements IProgram {
   inject CService* mService.withIntNumber(
     builder(MIntNumber).withNumber(7).build());
 
-  public int run() {
+  public int run() override {
     return mService.getIntNumber().getNumber();
   }
 }

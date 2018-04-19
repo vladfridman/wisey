@@ -10,7 +10,7 @@ model MCar {
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     MCar*[] array = new MCar*[5];
 
     return array[1].getYear();

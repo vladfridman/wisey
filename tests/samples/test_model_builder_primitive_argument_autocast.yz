@@ -12,7 +12,7 @@ model MCar {
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     MCar* car = builder(MCar).withYear(true).build();
     
     return car.getYear();

@@ -11,7 +11,7 @@ node NNode {
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     return NNode.getValue();
   }
 }

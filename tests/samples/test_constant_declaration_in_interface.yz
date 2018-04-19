@@ -9,7 +9,7 @@ interface IInterface {
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     return 1;
   }
 }

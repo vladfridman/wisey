@@ -2,7 +2,7 @@ package wisey.lang;
 
 model MNullPointerException implements IException {
 
-  public string getName() {
+  public string getName() override {
     return "wisey.lang.MNullPointerException";
   }
 }

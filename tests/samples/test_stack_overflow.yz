@@ -11,7 +11,7 @@ controller CProgram implements IProgram {
     }
   }
 
-  public int run() {
+  public int run() override {
     callRecursive(wisey.lang.CCallStack.CALL_STACK_SIZE);
     return 1;
   }

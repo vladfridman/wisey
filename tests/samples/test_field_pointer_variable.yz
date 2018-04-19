@@ -19,7 +19,7 @@ controller CProgram implements IProgram {
     return reference.getValue();
   }
 
-  public int run() {
+  public int run() override {
     MModel* mymodel = builder(MModel).withValue(1).build();
     mPointer = mymodel;
     return method();

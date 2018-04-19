@@ -24,7 +24,7 @@ controller CCatcher {
 controller CProgram implements IProgram {
   inject CCatcher* mCatcher;
   
-  public int run() {
+  public int run() override {
     return mCatcher.doSomething();
   }
 }

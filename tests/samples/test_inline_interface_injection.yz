@@ -8,7 +8,7 @@ interface IHasValue {
 
 controller CService implements IHasValue {
 
-  public int getValue() {
+  public int getValue() override {
     return 7;
   }
 }
@@ -17,7 +17,7 @@ bind(IHasValue).to(CService);
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     IHasValue* hasValue = injector(IHasValue).inject();
     return hasValue.getValue();
   }

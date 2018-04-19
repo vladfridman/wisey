@@ -18,7 +18,7 @@ model MValueContainer {
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     MValueContainer* valueContainer = builder(MValueContainer).withValue(7).build();
     MValueContainer* anotherContainer = valueContainer;
     return IShape.getValue(valueContainer);

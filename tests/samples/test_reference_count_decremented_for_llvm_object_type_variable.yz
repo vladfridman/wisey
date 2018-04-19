@@ -8,7 +8,7 @@ model MModel {
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     MModel* mymodel = builder(MModel).withValue(5).build();
     ::wisey::object object = mymodel;
     return 1;

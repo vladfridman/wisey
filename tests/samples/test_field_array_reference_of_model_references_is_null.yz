@@ -23,7 +23,7 @@ controller CController {
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     MCar* car = builder(MCar).build();
     CController* mycontroller = injector(CController).withArray(null).inject();
     mycontroller.init(car);

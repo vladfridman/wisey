@@ -7,7 +7,7 @@ interface IShape {
 model MSquare implements IShape {
   int mWidth;
 
-  public int getArea(int a) {
+  public int getArea(int a) override {
     return 5;
   }
 }

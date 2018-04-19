@@ -10,7 +10,7 @@ thread TProducer implements IProducerThread {
   inject CDefaultProducer* mDefaultProducer;
   receive int mSize;
 
-  public void run() conceal {
+  public void run() override conceal {
     sleep(1);
     printout("This is producer thread!\n");
     for (int i = 0; i < 2; i++) {
@@ -25,47 +25,47 @@ thread TProducer implements IProducerThread {
     }
   }
 
-  public void start() reveal {
+  public void start() override reveal {
     mDefaultProducer.start(this, mSize);
   }
 
-  public boolean isStarted() reveal {
+  public boolean isStarted() override reveal {
     return mDefaultProducer.isStarted();
   }
 
-  public boolean isFinished() reveal {
+  public boolean isFinished() override reveal {
     return mDefaultProducer.isFinished();
   }
 
-  public boolean isCancelled() reveal {
+  public boolean isCancelled() override reveal {
     return mDefaultProducer.isCancelled();
   }
 
-  public boolean hasResult() reveal {
+  public boolean hasResult() override reveal {
     return mDefaultProducer.hasResult();
   }
 
-  public void cancel() reveal {
+  public void cancel() override reveal {
     mDefaultProducer.cancel();
   }
 
-  public void reset() reveal {
+  public void reset() override reveal {
     mDefaultProducer.reset();
   }
 
-  public ::wisey::model* consume() reveal {
+  public ::wisey::model* consume() override reveal {
     return mDefaultProducer.consume();
   }
 
-  public ::wisey::model* send(::wisey::model* message) conceal {
+  public ::wisey::model* send(::wisey::model* message) override conceal {
     return mDefaultProducer.send(message);
   }
 
-  public CCallStack getCallStack() conceal {
+  public CCallStack getCallStack() override conceal {
     return mDefaultProducer.getCallStack();
   }
 
-  public void exit() conceal {
+  public void exit() override conceal {
     mDefaultProducer.exit();
   }
 
@@ -81,7 +81,7 @@ thread TProducer implements IProducerThread {
 controller CProgram implements IProgram {
   inject TProducer* mProducer.withSize(3);
 
-  public int run() {
+  public int run() override {
     printout("Thread started = " + mProducer.isStarted() + ", has result = " + mProducer.hasResult() + "\n");
     printout("Starting producer thread\n");
     mProducer.start();

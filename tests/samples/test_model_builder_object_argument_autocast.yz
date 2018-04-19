@@ -13,7 +13,7 @@ interface IHasValue {
 model MYear implements IHasDirection, IHasValue {
   int mValue;
 
-  public int getValue() {
+  public int getValue() override {
     return mValue;
   }
 }
@@ -28,7 +28,7 @@ model MCar {
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     MCar* car = builder(MCar).withYear(builder(MYear).withValue(2017).build()).build();
     
     return car.getYear();

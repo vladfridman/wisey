@@ -8,7 +8,7 @@ model MMyModel {
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     ::wisey::model* modelOwner = builder(MMyModel).build();
     ::wisey::model modelReference = null;
     ::wisey::object* objectOwner = null;

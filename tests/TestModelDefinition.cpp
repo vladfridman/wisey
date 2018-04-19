@@ -73,12 +73,14 @@ struct ModelDefinitionTest : public Test {
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
     vector<IModelTypeSpecifier*> thrownExceptions;
+    MethodQualifiers* methodQualifiers = new MethodQualifiers(0);
+    methodQualifiers->getMethodQualifierSet().insert(MethodQualifier::OVERRIDE);
     mMethodDefinition = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                              floatTypeSpecifier,
                                              "foo",
                                              methodArguments,
                                              thrownExceptions,
-                                             new MethodQualifiers(0),
+                                             methodQualifiers,
                                              compoundStatement,
                                              0);
   }

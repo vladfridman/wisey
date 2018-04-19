@@ -17,7 +17,7 @@ node NCar {
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     NCar* car2018 = builder(NCar).withYear(2018).withNextCar(null).build();
     NCar* car2017 = builder(NCar).withYear(2017).withNextCar(car2018).build();
     

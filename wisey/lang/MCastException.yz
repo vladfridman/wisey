@@ -4,7 +4,7 @@ model MCastException implements IException {
   string mFromType;
   string mToType;
 
-  public string getName() {
+  public string getName() override {
     return "wisey.lang.MCastException";
   }
 

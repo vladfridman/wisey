@@ -8,7 +8,7 @@ model MShape {
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     MShape* shape = builder(MShape).withValue(3).build();
 
     return shape.mValue;

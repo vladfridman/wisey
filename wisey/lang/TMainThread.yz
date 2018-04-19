@@ -10,48 +10,48 @@ thread TMainThread implements IWorkerThread {
   inject CDefaultWorker* mDefaultWorker;
   inject IProgram* mProgram;
 
-  public void run() conceal {
+  public void run() override conceal {
     MProgramResult* programResult = builder(MProgramResult).withResult(mProgram.run()).build();
     thread.send(programResult);
   }
 
-  public void start() reveal {
+  public void start() override reveal {
     mDefaultWorker.start(this);
   }
 
-  public boolean isStarted() reveal {
+  public boolean isStarted() override reveal {
     return mDefaultWorker.isStarted();
   }
 
-  public boolean isFinished() reveal {
+  public boolean isFinished() override reveal {
     return mDefaultWorker.isFinished();
   }
 
-  public boolean isCancelled() reveal {
+  public boolean isCancelled() override reveal {
     return mDefaultWorker.isCancelled();
   }
 
-  public ::wisey::model* awaitResult() reveal {
+  public ::wisey::model* awaitResult() override reveal {
     return mDefaultWorker.awaitResult();
   }
 
-  public void cancel() reveal {
+  public void cancel() override reveal {
     mDefaultWorker.cancel();
   }
 
-  public void reset() reveal {
+  public void reset() override reveal {
     mDefaultWorker.reset();
   }
 
-  public ::wisey::model* send(::wisey::model* message) conceal {
+  public ::wisey::model* send(::wisey::model* message) override conceal {
     return mDefaultWorker.send(message);
   }
 
-  public CCallStack getCallStack() conceal {
+  public CCallStack getCallStack() override conceal {
     return mDefaultWorker.getCallStack();
   }
 
-  public void exit() conceal {
+  public void exit() override conceal {
     mDefaultWorker.exit();
   }
 

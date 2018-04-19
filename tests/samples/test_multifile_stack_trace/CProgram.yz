@@ -5,7 +5,7 @@ import wisey.lang.IProgram;
 controller CProgram implements IProgram {
   state MAdder* mAdder;
 
-  public int run() {
+  public int run() override {
     mAdder = builder(MAdder).build();
     return mAdder.add(3, 4);
   }

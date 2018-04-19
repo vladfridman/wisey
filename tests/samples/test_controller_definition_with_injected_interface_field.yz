@@ -10,7 +10,7 @@ controller CFibonacciCalculator implements ICalculator {
 
   receive int mIndex;
 
-  public int calculate() {
+  public int calculate() override {
     int previous = 0;
     int current = 1;
     if (mIndex <= 0) {
@@ -30,7 +30,7 @@ bind(ICalculator).to(CFibonacciCalculator);
 controller CProgram implements IProgram {
   inject ICalculator* mCalculator.withIndex(6);
 
-  public int run() {
+  public int run() override {
     return mCalculator.calculate();
   }
 }

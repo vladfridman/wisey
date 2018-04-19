@@ -3,7 +3,7 @@ package wisey.lang;
 model MReferenceCountException implements IException {
   long mReferenceCount;
 
-  public string getName() {
+  public string getName() override {
     return "wisey.lang.MReferenceCountException";
   }
 

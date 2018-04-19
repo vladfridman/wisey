@@ -9,7 +9,7 @@ model MCar {
 }
 
 controller CProgram implements IProgram {
-  public int run() {
+  public int run() override {
     MCar* car = builder(MCar).build();
     return car.getValue()++;
   }

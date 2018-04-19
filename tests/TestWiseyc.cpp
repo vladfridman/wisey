@@ -106,7 +106,7 @@ TEST_F(MainTest, extractHeadersTest) {
                "  implements\n"
                "    wisey.lang.IProgram {\n"
                "\n"
-              "  int run();\n"
+              "  int run() override;\n"
                "}\n"
                "\n"
                "/* Nodes */\n"

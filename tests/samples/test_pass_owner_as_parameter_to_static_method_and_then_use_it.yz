@@ -16,7 +16,7 @@ controller CService {
 }
 
 controller CProgram implements IProgram {
-  public int run() {
+  public int run() override {
     MData* data = builder(MData).build();
     int result = CService.getResultFromData(data);
     data.getResult();

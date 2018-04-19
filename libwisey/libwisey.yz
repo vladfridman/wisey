@@ -60,7 +60,7 @@ external model wisey.lang.MArrayIndexOutOfBoundsException
   fixed long mArraySize;
   fixed long mIndex;
 
-  string getName();
+  string getName() override;
   long getArraySize();
   long getIndex();
 }
@@ -72,7 +72,7 @@ external model wisey.lang.MCastException
   fixed string mFromType;
   fixed string mToType;
 
-  string getName();
+  string getName() override;
   string getFromType();
   string getToType();
 }
@@ -81,7 +81,7 @@ external model wisey.lang.MNullPointerException
   implements
     wisey.lang.IException {
 
-  string getName();
+  string getName() override;
 }
 
 external model wisey.lang.MReferenceCountException
@@ -90,7 +90,7 @@ external model wisey.lang.MReferenceCountException
 
   fixed long mReferenceCount;
 
-  string getName();
+  string getName() override;
   long getReferenceCount();
 }
 
@@ -98,21 +98,21 @@ external model wisey.lang.MStackOverflowException
   implements
     wisey.lang.IException {
 
-  string getName();
+  string getName() override;
 }
 
 external model wisey.lang.threads.MThreadConcealedMethodException
   implements
     wisey.lang.IException {
 
-  string getName();
+  string getName() override;
 }
 
 external model wisey.lang.threads.MThreadRevealedMethodException
   implements
     wisey.lang.IException {
 
-  string getName();
+  string getName() override;
 }
 
 /* Controllers */
@@ -240,18 +240,18 @@ external thread wisey.lang.TMainThread
   inject wisey.lang.threads.CDefaultWorker* mDefaultWorker;
   inject wisey.lang.IProgram* mProgram;
 
-  void run() conceal;
-  void start() reveal;
-  boolean isStarted() reveal;
-  boolean isFinished() reveal;
-  boolean isCancelled() reveal;
-  ::wisey::model* awaitResult() reveal;
-  void cancel() reveal;
-  void reset() reveal;
+  void run() conceal override;
+  void start() reveal override;
+  boolean isStarted() reveal override;
+  boolean isFinished() reveal override;
+  boolean isCancelled() reveal override;
+  ::wisey::model* awaitResult() reveal override;
+  void cancel() reveal override;
+  void reset() reveal override;
   ::wisey::model* send(
-    ::wisey::model* message) conceal;
-  wisey.lang.CCallStack getCallStack() conceal;
-  void exit() conceal;
+    ::wisey::model* message) conceal override;
+  wisey.lang.CCallStack getCallStack() conceal override;
+  void exit() conceal override;
 }
 
 external model wisey.lang.TMainThread.MProgramResult {

@@ -4,7 +4,7 @@ import wisey.lang.IProgram;
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     ::llvm::i32 local = (::llvm::i32) 5;
     return local;
   }

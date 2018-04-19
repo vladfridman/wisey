@@ -8,7 +8,7 @@ controller CProgram implements IProgram {
     return new int[size];
   }
 
-  public int run() {
+  public int run() override {
 
     int[]* array = createIntArray(5);
     array[4] = 1;

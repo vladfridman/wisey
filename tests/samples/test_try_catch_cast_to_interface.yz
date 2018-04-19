@@ -13,11 +13,11 @@ interface IObject {
 model MException implements IException, IObject {
   int mValue;
 
-  public int getValue() {
+  public int getValue() override {
     return mValue;
   }
 
-  public int getSomething() {
+  public int getSomething() override {
     return 2;
   }
 }
@@ -46,7 +46,7 @@ controller CCatcher {
 controller CProgram implements IProgram {
   inject CCatcher* mCatcher;
 
-  public int run() {
+  public int run() override {
     return mCatcher.doTryCatch();
   }
 }

@@ -7,7 +7,7 @@ import wisey.lang.IException;
  */
 model MThreadRevealedMethodException implements IException {
 
-  public string getName() {
+  public string getName() override {
     return "wisey.lang.threads.MThreadRevealedMethodException";
   }
 }

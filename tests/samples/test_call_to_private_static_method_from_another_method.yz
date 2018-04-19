@@ -13,7 +13,7 @@ controller CService {
 }
 
 controller CProgram implements IProgram {
-  public int run() {
+  public int run() override {
     return CService.getNumber();
   }
 }

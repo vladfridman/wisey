@@ -7,14 +7,14 @@ interface IObject {
 }
 
 node NMyNode implements IObject {
-  public int getValue() {
+  public int getValue() override {
     return 7;
   }
 }
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     IObject* object = builder(NMyNode).build();
     IObject ref = object;
     return object.getValue();

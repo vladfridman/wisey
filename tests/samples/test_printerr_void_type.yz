@@ -15,7 +15,7 @@ model MCar {
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     MCar* car = builder(MCar).withYear(2018).build();
 
     printerr("Car year: " + car.getNothing() + "\n");

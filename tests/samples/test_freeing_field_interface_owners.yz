@@ -13,7 +13,7 @@ interface IHasValue {
 model MSubModel implements IHasValue {
   int mValue;
 
-  public int getValue() {
+  public int getValue() override {
     return mValue;
   }
 }
@@ -21,14 +21,14 @@ model MSubModel implements IHasValue {
 model MModel implements IHasSubModule {
   IHasValue* mSubModel;
 
-  public IHasValue getSubModel() {
+  public IHasValue getSubModel() override {
     return mSubModel;
   }
 }
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     IHasSubModule* myObject = builder(MModel).withSubModel((IHasValue*) builder(MSubModel).withValue(3).build()).build();
     
     return myObject.getSubModel().getValue();

@@ -19,28 +19,28 @@ interface IClickable {
 model MSquare implements IClickable, IShape {
   int mWidth;
 
-  public int getPerimeter() {
+  public int getPerimeter() override {
     return mWidth + mWidth;
   }
 
-  public int getArea() {
+  public int getArea() override {
     return mWidth * mWidth;
   }
 
-  public int getColor(int a) {
+  public int getColor(int a) override {
     return a;
   }
 
-  public void click() {
+  public void click() override {
   }
 
-  public void tap() {
+  public void tap() override {
   }
 }
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     MSquare* square = builder(MSquare).withWidth(5).build();
 
     return square.getPerimeter() + square.getArea() + square.getColor(55) + 

@@ -22,7 +22,7 @@ model MFibonacciCalculator {
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     MFibonacciCalculator* calculator = 
       builder(MFibonacciCalculator).withIndex(8).build();
     return calculator.calculate();

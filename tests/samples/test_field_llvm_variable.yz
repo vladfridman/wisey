@@ -6,7 +6,7 @@ controller CProgram implements IProgram {
 
   state ::llvm::i32 mField;
 
-  public int run() {
+  public int run() override {
     mField = 7;
     return mField;
   }

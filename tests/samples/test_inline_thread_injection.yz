@@ -6,48 +6,48 @@ import wisey.lang.threads.IThread;
 
 thread TThread implements IThread {
 
-  public void run() conceal {
+  public void run() override conceal {
   }
 
-  public ::wisey::model* send(::wisey::model* message) conceal {
+  public ::wisey::model* send(::wisey::model* message) override conceal {
     return null;
   }
 
-  public CCallStack getCallStack() conceal {
+  public CCallStack getCallStack() override conceal {
     return null;
   }
 
-  public void exit() conceal {
+  public void exit() override conceal {
   }
 
-  public void start() reveal {
+  public void start() override reveal {
   }
 
-  public boolean isStarted() reveal {
+  public boolean isStarted() override reveal {
     return false;
   }
 
-  public boolean isFinished() reveal {
+  public boolean isFinished() override reveal {
     return false;
   }
 
-  public boolean isCancelled() reveal {
+  public boolean isCancelled() override reveal {
     return false;
   }
 
-  public void cancel() reveal {
+  public void cancel() override reveal {
   }
 
-  public void reset() reveal {
+  public void reset() override reveal {
   }
 
-  public int getValue() reveal {
+  public int getValue() override reveal {
     return 3;
   }
 }
 
 controller CProgram implements IProgram {
-  public int run() {
+  public int run() override {
     TThread* mythread = injector(TThread).inject();
 
     return mythread.getValue();

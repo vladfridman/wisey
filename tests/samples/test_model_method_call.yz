@@ -11,7 +11,7 @@ model MColor {
 }
 
 controller CProgram implements IProgram {
-  public int run() {
+  public int run() override {
     MColor* color = builder(MColor).withValue(5).build();
 
     return color.getValue();

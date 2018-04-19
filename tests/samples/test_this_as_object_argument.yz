@@ -10,7 +10,7 @@ model MCaller {
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     MCaller* caller = builder(MCaller).build();
 
     return caller.makeCall(this);

@@ -8,7 +8,7 @@ controller CService {
 controller CProgram implements IProgram {
   inject CService mService;
 
-  public int run() {
+  public int run() override {
     return 1;
   }
 }

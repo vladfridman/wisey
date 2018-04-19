@@ -7,14 +7,14 @@ interface ICompareThis {
 }
 
 model MComparator implements ICompareThis {
-  public boolean isTheSame(ICompareThis object) {
+  public boolean isTheSame(ICompareThis object) override {
     return this == object;
   }
 }
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     ICompareThis* comparator1 = builder(MComparator).build();
     ICompareThis* comparator2 = builder(MComparator).build();
 

@@ -7,14 +7,14 @@ interface IObject {
 }
 
 model MMyModel implements IObject {
-  public int getValue() {
+  public int getValue() override {
     return 5;
   }
 }
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     IObject* object = builder(MMyModel).build();
     IObject ref = object;
     return object.getValue();

@@ -72,12 +72,14 @@ struct NodeDefinitionTest : public Test {
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
     vector<IModelTypeSpecifier*> thrownExceptions;
+    MethodQualifiers* methodQualifiers = new MethodQualifiers(0);
+    methodQualifiers->getMethodQualifierSet().insert(MethodQualifier::OVERRIDE);
     mMethodDefinition = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                              floatTypeSpecifier,
                                              "foo",
                                              methodArguments,
                                              thrownExceptions,
-                                             new MethodQualifiers(0),
+                                             methodQualifiers,
                                              compoundStatement,
                                              0);
   }
@@ -204,12 +206,14 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
   VariableDeclaration* methodArgument =
   VariableDeclaration::create(intSpecifier, new Identifier("intargument", 0), 0);
   methodArguments.push_back(methodArgument);
+  MethodQualifiers* methodQualifiers = new MethodQualifiers(0);
+  methodQualifiers->getMethodQualifierSet().insert(MethodQualifier::OVERRIDE);
   IObjectElementDefinition* methodSignature =
     new MethodSignatureDeclaration(floatSpecifier,
                                    "foo",
                                    methodArguments,
                                    methodThrownExceptions,
-                                   new MethodQualifiers(0),
+                                   methodQualifiers,
                                    0);
   interfaceElements.push_back(methodSignature);
   vector<IInterfaceTypeSpecifier*> parentInterfaces;

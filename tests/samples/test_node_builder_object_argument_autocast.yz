@@ -13,7 +13,7 @@ interface IHasValue {
 node NYear implements IHasDirection, IHasValue {
   int mValue;
 
-  public int getValue() {
+  public int getValue() override {
     return mValue;
   }
 }
@@ -28,7 +28,7 @@ node NCar {
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     NCar* car = builder(NCar).withYear(builder(NYear).withValue(2018).build()).build();
     
     return car.getYear();

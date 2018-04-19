@@ -1,0 +1,12 @@
+package systems.vos.wisey.compiler.tests;
+
+interface IMyInterface {
+  int getValue();
+}
+
+model MMyModel implements IMyInterface {
+
+  public int getValue() {
+    return 0;
+  }
+}

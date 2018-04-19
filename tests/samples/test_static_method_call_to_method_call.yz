@@ -15,7 +15,7 @@ model MCircle {
 
 controller CProgram implements IProgram {
 
-  public int run() {
+  public int run() override {
     return MCircle.getDiameter();
   }
 }

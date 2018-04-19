@@ -67,7 +67,7 @@ controller CLinkList {
 controller CProgram implements IProgram {
   inject CLinkList* mLinkList;
 
-  public int run() {
+  public int run() override {
     mLinkList.appendToHead(builder(MData).withValue(2).build());
     mLinkList.appendToHead(builder(MData).withValue(1).build());
     mLinkList.appendToTail(builder(MData).withValue(3).build());
