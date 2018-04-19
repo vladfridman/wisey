@@ -118,11 +118,13 @@ struct NodeTest : public Test {
     StructType* complicatedElementIinterfaceStructType =
     StructType::create(mLLVMContext, complicatedElementFullName);
     vector<IObjectElementDefinition*> complicatedElementInterfaceElements;
+    MethodQualifiers* methodQualifiers = new MethodQualifiers(0);
+    methodQualifiers->getMethodQualifierSet().insert(MethodQualifier::OVERRIDE);
     getElementSignature = new MethodSignatureDeclaration(intSpecifier,
                                                          "getElement",
                                                          elementInterfaceArguments,
                                                          elementThrownExceptions,
-                                                         new MethodQualifiers(0),
+                                                         methodQualifiers,
                                                          0);
     complicatedElementInterfaceElements.push_back(getElementSignature);
     vector<IInterfaceTypeSpecifier*> complicatedElementParentInterfaces;

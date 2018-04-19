@@ -863,3 +863,11 @@ TEST_F(TestFileRunner, interfaceCircularDependencyRunDeathTest) {
                     "systems.vos.wisey.compiler.tests.IParent and "
                     "systems.vos.wisey.compiler.tests.IChild");
 }
+
+TEST_F(TestFileRunner, interfaceMethodOverridesAnotherMethodRunDeathTest) {
+  expectFailCompile("tests/samples/test_interface_method_overrides_another_method.yz",
+                    1,
+                    "Error: Method 'getValue' in interface systems.vos.wisey.compiler.tests.IParent"
+                    " must be marked override because it overrides a method of the same name from "
+                    "systems.vos.wisey.compiler.tests.IChild");
+}

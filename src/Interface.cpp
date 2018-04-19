@@ -207,6 +207,12 @@ void Interface::includeInterfaceMethods(Interface* parentInterface) {
              + "' of parent interface with a wrong signature");
       exit(1);
     }
+    if (existingMethod && !existingMethod->isOverride()) {
+      Log::e_deprecated("Method '" + existingMethod->getName() + "' in interface " + mName
+                        + " must be marked override because it overrides a method of the same "
+                        "name from " + methodSignature->getOriginalParentName());
+      exit(1);
+    }
     if (existingMethod) {
       continue;
     }

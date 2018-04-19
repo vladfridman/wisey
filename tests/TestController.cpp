@@ -114,11 +114,13 @@ struct ControllerTest : public Test {
     StructType* scienceCalculatorIinterfaceStructType =
       StructType::create(mLLVMContext, scienceCalculatorFullName);
     vector<IObjectElementDefinition*> scienceCalculatorInterfaceElements;
+    MethodQualifiers* methodQualifiers = new MethodQualifiers(0);
+    methodQualifiers->getMethodQualifierSet().insert(MethodQualifier::OVERRIDE);
     calculateSignature = new MethodSignatureDeclaration(intSpecifier,
                                                         "calculate",
                                                         calculatorInterfaceArguments,
                                                         calculatorThrownExceptions,
-                                                        new MethodQualifiers(0),
+                                                        methodQualifiers,
                                                         0);
     scienceCalculatorInterfaceElements.push_back(calculateSignature);
     vector<IInterfaceTypeSpecifier*> scienceCalculatorParentInterfaces;

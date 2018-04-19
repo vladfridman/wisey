@@ -147,11 +147,13 @@ struct TypeComparisionExpressionTest : public Test {
     VariableList shapeInterfaceArguments;
     vector<IObjectElementDefinition*> shapeInterfaceElements;
     vector<IModelTypeSpecifier*> shapeThrownExceptions;
+    MethodQualifiers* methodQualifiers = new MethodQualifiers(0);
+    methodQualifiers->getMethodQualifierSet().insert(MethodQualifier::OVERRIDE);
     methodFooSignature = new MethodSignatureDeclaration(intSpecifier,
                                                         "foo",
                                                         shapeInterfaceArguments,
                                                         shapeThrownExceptions,
-                                                        new MethodQualifiers(0),
+                                                        methodQualifiers,
                                                         0);
     shapeInterfaceElements.push_back(methodFooSignature);
     vector<IInterfaceTypeSpecifier*> shapeParentInterfaces;
