@@ -377,6 +377,9 @@ namespace wisey {
     static llvm::StructType* getOrCreateRefCounterStruct(IRGenerationContext& context,
                                                          const IConcreteObjectType* object);
     
+    static void checkMethodOverride(IRGenerationContext& context,
+                                    const IConcreteObjectType* object,
+                                    IMethod* method);
   };
   
 } /* namespace wisey */

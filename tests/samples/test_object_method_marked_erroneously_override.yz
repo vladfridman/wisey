@@ -1,0 +1,8 @@
+package systems.vos.wisey.compiler.tests;
+
+model MMyModel {
+
+  public int getValue() override {
+    return 0;
+  }
+}

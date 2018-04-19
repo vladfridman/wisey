@@ -493,6 +493,11 @@ Function* IConcreteObjectType::getDestructorFunctionForObject(IRGenerationContex
 void IConcreteObjectType::generateStaticMethodsIR(IRGenerationContext& context,
                                                   const IConcreteObjectType* object) {
   for (IMethod* method : object->getMethods()) {
+    if (method->isStatic() && method->isOverride()) {
+      context.reportError(method->getMethodQualifiers()->getLine(),
+                          "Static methods can not be marked with override qualifier");
+      exit(1);
+    }
     if (method->isStatic()) {
       method->generateIR(context);
     }
@@ -502,10 +507,29 @@ void IConcreteObjectType::generateStaticMethodsIR(IRGenerationContext& context,
 void IConcreteObjectType::generateMethodsIR(IRGenerationContext& context,
                                             const IConcreteObjectType* object) {
   for (IMethod* method : object->getMethods()) {
+    if (method->isOverride()) {
+      checkMethodOverride(context, object, method);
+    }
     if (!method->isStatic()) {
       method->generateIR(context);
     }
   }
+}
+
+void IConcreteObjectType::checkMethodOverride(IRGenerationContext& context,
+                                              const IConcreteObjectType* object,
+                                              IMethod* method) {
+  vector<Interface*> interfaces = object->getFlattenedInterfaceHierarchy();
+  for (Interface* interface : interfaces) {
+    if (interface->findMethod(method->getName())) {
+      return;
+    }
+  }
+  
+  context.reportError(method->getMethodQualifiers()->getLine(),
+                      "Method '" + method->getName() + "' of object " + object->getTypeName()
+                      + " is marked override but does not override any interface methods");
+  exit(1);
 }
 
 void IConcreteObjectType::generateConstantsIR(IRGenerationContext& context,

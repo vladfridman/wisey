@@ -72,14 +72,12 @@ struct NodeDefinitionTest : public Test {
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
     vector<IModelTypeSpecifier*> thrownExceptions;
-    MethodQualifiers* methodQualifiers = new MethodQualifiers(0);
-    methodQualifiers->getMethodQualifierSet().insert(MethodQualifier::OVERRIDE);
     mMethodDefinition = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                              floatTypeSpecifier,
                                              "foo",
                                              methodArguments,
                                              thrownExceptions,
-                                             methodQualifiers,
+                                             new MethodQualifiers(0),
                                              compoundStatement,
                                              0);
   }
@@ -191,10 +189,31 @@ TEST_F(NodeDefinitionTest, generateIRTest) {
 }
 
 TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
+  CompoundStatement* compoundStatement = new CompoundStatement(mBlock, 0);
+  const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* floatTypeSpecifier =
+  PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
+  Identifier* intArgumentIdentifier = new Identifier("intargument", 0);
+  VariableDeclaration* intArgument =
+  VariableDeclaration::create(intTypeSpecifier, intArgumentIdentifier, 0);
+  VariableList methodArguments;
+  methodArguments.push_back(intArgument);
+  vector<IModelTypeSpecifier*> thrownExceptions;
+  MethodQualifiers* methodQualifiers = new MethodQualifiers(0);
+  methodQualifiers->getMethodQualifierSet().insert(MethodQualifier::OVERRIDE);
+  mMethodDefinition = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
+                                           floatTypeSpecifier,
+                                           "foo",
+                                           methodArguments,
+                                           thrownExceptions,
+                                           methodQualifiers,
+                                           compoundStatement,
+                                           0);
+
   string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
   StructType* structType = StructType::create(mLLVMContext, interfaceFullName);
   vector<IObjectElementDefinition*> interfaceElements;
-  VariableList methodArguments;
+  methodArguments.clear();
   vector<IModelTypeSpecifier*> methodThrownExceptions;
   PackageType* packageType = new PackageType(Names::getLangPackageName());
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
@@ -206,14 +225,12 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
   VariableDeclaration* methodArgument =
   VariableDeclaration::create(intSpecifier, new Identifier("intargument", 0), 0);
   methodArguments.push_back(methodArgument);
-  MethodQualifiers* methodQualifiers = new MethodQualifiers(0);
-  methodQualifiers->getMethodQualifierSet().insert(MethodQualifier::OVERRIDE);
   IObjectElementDefinition* methodSignature =
     new MethodSignatureDeclaration(floatSpecifier,
                                    "foo",
                                    methodArguments,
                                    methodThrownExceptions,
-                                   methodQualifiers,
+                                   new MethodQualifiers(0),
                                    0);
   interfaceElements.push_back(methodSignature);
   vector<IInterfaceTypeSpecifier*> parentInterfaces;

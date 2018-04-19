@@ -522,3 +522,11 @@ TEST_F(TestFileRunner, freeingFieldInterfaceOwnersRunTest) {
 TEST_F(TestFileRunner, compareObjectToNullRunTest) {
   runFile("tests/samples/test_compare_object_to_null.yz", "1");
 }
+
+TEST_F(TestFileRunner, objectMethodMarkedErroneouslyOverrideRunDeathTest) {
+  expectFailCompile("tests/samples/test_object_method_marked_erroneously_override.yz",
+                    1,
+                    "tests/samples/test_object_method_marked_erroneously_override.yz\\(5\\): "
+                    "Error: Method 'getValue' of object systems.vos.wisey.compiler.tests.MMyModel "
+                    "is marked override but does not override any interface methods");
+}
