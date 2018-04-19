@@ -8,7 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/InstanceOf.hpp"
+#include "wisey/InstanceOfFunction.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -86,16 +86,14 @@ Value* TypeComparisionExpression::generateIRforPointerTypes(IRGenerationContext&
   if (type->isInterface() && interface->doesExtendInterface((const Interface*) type)) {
     return valueTrue;
   }
-  return checkInterfaceImplemented(context, expressionType, type);
+  return checkInterfaceImplemented(context, type);
 }
 
 Value* TypeComparisionExpression::checkInterfaceImplemented(IRGenerationContext& context,
-                                                            const IType* expressionType,
                                                             const IObjectType* objectType) const {
   Value* expressionValue = mExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
-  const Interface* interface = (const Interface*) expressionType;
   
-  Value* interfaceIndex = InstanceOf::call(context, interface, expressionValue, objectType);
+  Value* interfaceIndex = InstanceOfFunction::call(context, expressionValue, objectType);
   ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);
   
   return IRWriter::newICmpInst(context, ICmpInst::ICMP_SGE, interfaceIndex, zero, "instanceof");

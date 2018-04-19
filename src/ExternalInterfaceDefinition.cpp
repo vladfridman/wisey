@@ -9,7 +9,6 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/ExternalInterfaceDefinition.hpp"
-#include "wisey/InstanceOf.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
 

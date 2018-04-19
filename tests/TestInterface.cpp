@@ -26,7 +26,6 @@
 #include "wisey/FixedField.hpp"
 #include "wisey/FixedFieldDefinition.hpp"
 #include "wisey/GetOriginalObjectFunction.hpp"
-#include "wisey/InstanceOf.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/Method.hpp"

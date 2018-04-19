@@ -1,59 +1,75 @@
 //
-//  InstanceOf.cpp
+//  InstanceOfFunction.cpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 8/28/17.
-//  Copyright © 2017 Vladimir Fridman. All rights reserved.
+//  Created by Vladimir Fridman on 4/19/18.
+//  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/Environment.hpp"
 #include "wisey/GetOriginalObjectFunction.hpp"
-#include "wisey/InstanceOf.hpp"
+#include "wisey/InstanceOfFunction.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/PrimitiveTypes.hpp"
+#include "wisey/LLVMPrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Value* InstanceOf::call(IRGenerationContext& context,
-                        const Interface* interface,
-                        Value* interfaceObject,
-                        const IObjectType* callableObjectType) {
-  Function* function = getOrCreateFunction(context, interface);
+Function* InstanceOfFunction::get(IRGenerationContext& context) {
+  Function* function = context.getModule()->getFunction(getName());
   
-  llvm::Constant* namePointer = IObjectType::getObjectNamePointer(callableObjectType, context);
-  
-  vector<Value*> arguments;
-  arguments.push_back(interfaceObject);
-  arguments.push_back(namePointer);
-  
-  return IRWriter::createInvokeInst(context, function, arguments, "instanceof", 0);
-}
-
-Function* InstanceOf::getOrCreateFunction(IRGenerationContext& context,
-                                          const Interface* interface) {
-  Function* function = context.getModule()->getFunction(InstanceOf::getFunctionName(interface));
-  
-  if (function != NULL) {
+  if (function) {
     return function;
   }
   
-  function = createFunction(context, interface);
+  function = define(context);
   context.addComposingCallback0Objects(compose, function);
-
+  
   return function;
 }
 
-string InstanceOf::getFunctionName(const Interface* interface) {
-  return interface->getTypeName() + ".instanceof";
+Value* InstanceOfFunction::call(IRGenerationContext& context,
+                                llvm::Value* haystack,
+                                const IObjectType* needle) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
+  llvm::Constant* namePointer = IObjectType::getObjectNamePointer(needle, context);
+  
+  Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
+  Value* bitcast = IRWriter::newBitCastInst(context, haystack, int8PointerType);
+  Function* function = get(context);
+  vector<Value*> arguments;
+  arguments.push_back(bitcast);
+  arguments.push_back(namePointer);
+  
+  return IRWriter::createCallInst(context, function, arguments, "");
 }
 
-Function* InstanceOf::compose(IRGenerationContext& context, Function* function) {
+string InstanceOfFunction::getName() {
+  return "__instanceOf";
+}
+
+Function* InstanceOfFunction::define(IRGenerationContext& context) {
+  return Function::Create(getLLVMFunctionType(context)->getLLVMType(context),
+                          GlobalValue::ExternalLinkage,
+                          getName(),
+                          context.getModule());
+}
+
+LLVMFunctionType* InstanceOfFunction::getLLVMFunctionType(IRGenerationContext& context) {
+  vector<const IType*> argumentTypes;
+  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType());
+  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType());
+  
+  return context.getLLVMFunctionType(LLVMPrimitiveTypes::I32, argumentTypes);
+}
+
+void InstanceOfFunction::compose(IRGenerationContext& context, Function* function) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  BasicBlock* lastBasicBlock = context.getBasicBlock();
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function, 0);
   BasicBlock* whileCond = BasicBlock::Create(llvmContext, "while.cond", function);
   BasicBlock* whileBody = BasicBlock::Create(llvmContext, "while.body", function);
@@ -82,46 +98,23 @@ Function* InstanceOf::compose(IRGenerationContext& context, Function* function) 
                         function);
   composeReturnFound(context, returnFound, iterator);
   composeReturnNotFound(context, returnNotFound);
-  context.setBasicBlock(lastBasicBlock);
   
-  return function;
+  context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context));
 }
 
-Function* InstanceOf::createFunction(IRGenerationContext& context, const Interface* interface) {
-  Type* int8Type = Type::getInt8Ty(context.getLLVMContext());
-  
-  vector<Type*> argumentTypes;
-  argumentTypes.push_back(interface->getLLVMType(context));
-  argumentTypes.push_back(int8Type->getPointerTo());
-  Type* llvmReturnType = PrimitiveTypes::INT_TYPE->getLLVMType(context);
-  FunctionType* functionType = FunctionType::get(llvmReturnType, argumentTypes, false);
-  Function* function = Function::Create(functionType,
-                                        GlobalValue::ExternalLinkage,
-                                        getFunctionName(interface),
-                                        context.getModule());
-  
-  Function::arg_iterator functionArguments = function->arg_begin();
-  Value* thisArgument = &*functionArguments;
-  thisArgument->setName(IObjectType::THIS);
-  functionArguments++;
-  Value* compareToArgument = &*functionArguments;
-  compareToArgument->setName("compareto");
-  
-  return function;
-}
-
-BitCastInst* InstanceOf::composeEntryBlock(IRGenerationContext& context,
-                                           BasicBlock* entryBlock,
-                                           BasicBlock* whileCond,
-                                           Function* function) {
+BitCastInst* InstanceOfFunction::composeEntryBlock(IRGenerationContext& context,
+                                                   BasicBlock* entryBlock,
+                                                   BasicBlock* whileCond,
+                                                   Function* function) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int8Type = Type::getInt8Ty(llvmContext);
   
   context.setBasicBlock(entryBlock);
   
   Function::arg_iterator functionArguments = function->arg_begin();
-  Value* thisArgument = &*functionArguments;
-  Value* originalObjectVTable = GetOriginalObjectFunction::call(context, thisArgument);
+  Value* haystackArgument = &*functionArguments;
+  haystackArgument->setName("haystack");
+  Value* originalObjectVTable = GetOriginalObjectFunction::call(context, haystackArgument);
   
   Type* pointerToArrayOfStrings = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
   
@@ -140,12 +133,12 @@ BitCastInst* InstanceOf::composeEntryBlock(IRGenerationContext& context,
   return arrayOfStrings;
 }
 
-LoadInst* InstanceOf::composeWhileConditionBlock(IRGenerationContext& context,
-                                                 BasicBlock* whileCond,
-                                                 BasicBlock* whileBody,
-                                                 BasicBlock* returnFalse,
-                                                 Value* iterator,
-                                                 Value* arrayOfStrings) {
+LoadInst* InstanceOfFunction::composeWhileConditionBlock(IRGenerationContext& context,
+                                                         BasicBlock* whileCond,
+                                                         BasicBlock* whileBody,
+                                                         BasicBlock* returnFalse,
+                                                         Value* iterator,
+                                                         Value* arrayOfStrings) {
   Type* int8Type = Type::getInt8Ty(context.getLLVMContext());
   
   context.setBasicBlock(whileCond);
@@ -166,13 +159,13 @@ LoadInst* InstanceOf::composeWhileConditionBlock(IRGenerationContext& context,
   return stringPointer;
 }
 
-void InstanceOf::composeWhileBodyBlock(IRGenerationContext& context,
-                                       BasicBlock* whileBody,
-                                       BasicBlock* whileCond,
-                                       BasicBlock* returnTrue,
-                                       Value* iterator,
-                                       Value* stringPointer,
-                                       Function* function) {
+void InstanceOfFunction::composeWhileBodyBlock(IRGenerationContext& context,
+                                               BasicBlock* whileBody,
+                                               BasicBlock* whileCond,
+                                               BasicBlock* returnTrue,
+                                               Value* iterator,
+                                               Value* stringPointer,
+                                               Function* function) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   context.setBasicBlock(whileBody);
@@ -188,16 +181,17 @@ void InstanceOf::composeWhileBodyBlock(IRGenerationContext& context,
   
   Function::arg_iterator functionArguments = function->arg_begin();
   functionArguments++;
-  Value* compareToArgument = &*functionArguments;
+  Value* needleArgument = &*functionArguments;
+  needleArgument->setName("needle");
   
   Value* doesTypeMatch =
-  IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, stringPointer, compareToArgument, "cmp");
+  IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, stringPointer, needleArgument, "cmp");
   IRWriter::createConditionalBranch(context, returnTrue, whileCond, doesTypeMatch);
 }
 
-void InstanceOf::composeReturnFound(IRGenerationContext& context,
-                                    BasicBlock* returnFound,
-                                    Value* iterator) {
+void InstanceOfFunction::composeReturnFound(IRGenerationContext& context,
+                                            BasicBlock* returnFound,
+                                            Value* iterator) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   context.setBasicBlock(returnFound);
@@ -209,7 +203,8 @@ void InstanceOf::composeReturnFound(IRGenerationContext& context,
   IRWriter::createReturnInst(context, decrement);
 }
 
-void InstanceOf::composeReturnNotFound(IRGenerationContext& context, BasicBlock* returnNotFound) {
+void InstanceOfFunction::composeReturnNotFound(IRGenerationContext& context,
+                                               BasicBlock* returnNotFound) {
   LLVMContext& llvmContext = context.getLLVMContext();
   ConstantInt* negativeOne = ConstantInt::get(Type::getInt32Ty(llvmContext), -1);
   

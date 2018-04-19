@@ -8,7 +8,6 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/InstanceOf.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceDefinition.hpp"
 

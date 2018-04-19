@@ -1,52 +1,52 @@
 //
-//  InstanceOf.hpp
+//  InstanceOfFunction.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 8/28/17.
-//  Copyright © 2017 Vladimir Fridman. All rights reserved.
+//  Created by Vladimir Fridman on 4/19/18.
+//  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef InstanceOf_h
-#define InstanceOf_h
+#ifndef InstanceOfFunction_h
+#define InstanceOfFunction_h
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/Interface.hpp"
+#include "wisey/IRGenerationContext.hpp"
 
 namespace wisey {
   
   /**
-   * Class for creating instanceof function.
+   * A global function for determining whether an object is an instance of some other object type
    *
    * The function is used to determine whether an interface reference is castable to another
    * interface or a concrete object. The function returns -1 if the interface is not castable
    * otherwise returns an index of the interface in concrete object's flattened interface list
    */
-  class InstanceOf {
+  class InstanceOfFunction {
     
   public:
     
     /**
-     * Call instanceof function and check whether interfaceObject is of type callableObjectType
+     * Returns the instanceOf function
      */
-    static llvm::Value* call(IRGenerationContext& context,
-                             const Interface* interface,
-                             llvm::Value* interfaceObject,
-                             const IObjectType* object);
+    static llvm::Function* get(IRGenerationContext& context);
     
     /**
-     * Creates instanceof function for the given interface
+     * Calls instanceOf function to get the index of the given interface in a given object
      */
-    static llvm::Function* getOrCreateFunction(IRGenerationContext& context,
-                                               const Interface* interface);
+    static llvm::Value* call(IRGenerationContext& context,
+                             llvm::Value* haystack,
+                             const IObjectType* needle);
     
   private:
     
-    static std::string getFunctionName(const Interface* interface);
+    static std::string getName();
     
-    static llvm::Function* compose(IRGenerationContext& context, llvm::Function* function);
+    static llvm::Function* define(IRGenerationContext& context);
     
-    static llvm::Function* createFunction(IRGenerationContext& context, const Interface* interface);
+    static void compose(IRGenerationContext& context, llvm::Function* function);
+    
+    static LLVMFunctionType* getLLVMFunctionType(IRGenerationContext& context);
     
     static llvm::BitCastInst* composeEntryBlock(IRGenerationContext& context,
                                                 llvm::BasicBlock* entryBlock,
@@ -74,10 +74,9 @@ namespace wisey {
     
     static void composeReturnNotFound(IRGenerationContext& context,
                                       llvm::BasicBlock* returnNotFound);
-    
+
   };
   
 } /* namespace wisey */
 
-#endif /* InstanceOf_h */
-
+#endif /* InstanceOfFunction_h */

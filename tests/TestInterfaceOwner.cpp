@@ -17,7 +17,6 @@
 #include "MockConcreteObjectType.hpp"
 #include "TestFileRunner.hpp"
 #include "wisey/FixedField.hpp"
-#include "wisey/InstanceOf.hpp"
 #include "wisey/InterfaceOwner.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"

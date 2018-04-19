@@ -16,7 +16,7 @@
 #include "wisey/Environment.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/FieldReferenceVariable.hpp"
-#include "wisey/InstanceOf.hpp"
+#include "wisey/InstanceOfFunction.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceOwner.hpp"
 #include "wisey/IInterfaceTypeSpecifier.hpp"
@@ -662,8 +662,6 @@ Value* Interface::castTo(IRGenerationContext& context,
     context.getModule()->getFunction(getCastFunctionName(toObjectType));
   
   if (castFunction == NULL) {
-    InstanceOf::getOrCreateFunction(context, this);
-
     castFunction = defineCastFunction(context, toObjectType);
     context.addComposingCallback2Objects(composeCastFunction, castFunction, this, toObjectType);
   }
@@ -763,8 +761,7 @@ void Interface::composeCastFunction(IRGenerationContext& context,
   BasicBlock* zeroExactly = BasicBlock::Create(llvmContext, "zero.exactly", function);
   
   context.setBasicBlock(entryBlock);
-  const Interface* interface = (const Interface *) interfaceType;
-  Value* instanceof = InstanceOf::call(context, interface, thisArgument, toObjectType);
+  Value* instanceof = InstanceOfFunction::call(context, thisArgument, toObjectType);
   Value* originalObject = GetOriginalObjectFunction::call(context, thisArgument);
   ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   ICmpInst* compareLessThanZero =

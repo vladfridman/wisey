@@ -46,7 +46,6 @@ namespace wisey {
   private:
     
     llvm::Value* checkInterfaceImplemented(IRGenerationContext& context,
-                                           const IType* expressionType,
                                            const IObjectType* objectType) const;
     
     llvm::Value* generateIRforOwnerTypes(IRGenerationContext& context,

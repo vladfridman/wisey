@@ -28,6 +28,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/IdentifierChain.hpp"
+#include "wisey/InstanceOfFunction.hpp"
 #include "wisey/IfStatement.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/MethodCall.hpp"
@@ -67,6 +68,7 @@ void ProgramSuffix::defineEssentialFunctions(IRGenerationContext& context) const
   DestroyReferenceArrayFunction::get(context);
   GetOriginalObjectFunction::get(context);
   ThrowReferenceCountExceptionFunction::get(context);
+  InstanceOfFunction::get(context);
 }
 
 void ProgramSuffix::maybeGenerateMain(IRGenerationContext& context) const {
