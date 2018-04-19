@@ -39,7 +39,6 @@ MethodSignatureDeclaration::~MethodSignatureDeclaration() {
     delete exception;
   }
   mThrownExceptions.clear();
-  delete mMethodQualifiers;
 }
 
 MethodSignature* MethodSignatureDeclaration::define(IRGenerationContext& context,

@@ -37,6 +37,7 @@ MethodSignature::~MethodSignature() {
     delete argument;
   }
   mArguments.clear();
+  delete mMethodQualifiers;
 }
 
 bool MethodSignature::isStatic() const {
@@ -64,12 +65,19 @@ vector<const Model*> MethodSignature::getThrownExceptions() const {
 }
 
 MethodSignature* MethodSignature::createCopy(const Interface* interface) const {
+  MethodQualifiers* methodQualifiers = new MethodQualifiers(mLine);
+  for (MethodQualifier methodQualifier : mMethodQualifiers->getMethodQualifierSet()) {
+    methodQualifiers->getMethodQualifierSet().insert(methodQualifier);
+  }
+  if (!methodQualifiers->getMethodQualifierSet().count(MethodQualifier::OVERRIDE)) {
+    methodQualifiers->getMethodQualifierSet().insert(MethodQualifier::OVERRIDE);
+  }
   return new MethodSignature(interface,
                              mName,
                              mReturnType,
                              mArguments,
                              mThrownExceptions,
-                             mMethodQualifiers,
+                             methodQualifiers,
                              mOriginalParentName,
                              mLine);
 }
