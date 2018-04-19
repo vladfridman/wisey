@@ -127,10 +127,10 @@ void IConcreteObjectType::initializeVTable(IRGenerationContext& context,
   Type* genericPointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
   Type* functionType = FunctionType::get(Type::getInt32Ty(llvmContext), true);
   Type* vTableType = functionType->getPointerTo()->getPointerTo();
-  
+  Value* vTableStartCalculation = IRWriter::newBitCastInst(context, malloc, genericPointerType);
+
   for (unsigned int vTableIndex = 0; vTableIndex < object->getVTableSize(); vTableIndex++) {
     Value* vTableStart;
-    Value* vTableStartCalculation = IRWriter::newBitCastInst(context, malloc, genericPointerType);
     Value* index[1];
     unsigned int thunkBy = vTableIndex * Environment::getAddressSizeInBytes();
     index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
