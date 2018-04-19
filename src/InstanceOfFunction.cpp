@@ -34,17 +34,16 @@ Function* InstanceOfFunction::get(IRGenerationContext& context) {
 
 Value* InstanceOfFunction::call(IRGenerationContext& context,
                                 llvm::Value* haystack,
-                                const IObjectType* needle) {
+                                llvm::Constant* needle) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
-  llvm::Constant* namePointer = IObjectType::getObjectNamePointer(needle, context);
-  
   Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
-  Value* bitcast = IRWriter::newBitCastInst(context, haystack, int8PointerType);
+  Value* bitcast = haystack->getType() != int8PointerType
+  ? IRWriter::newBitCastInst(context, haystack, int8PointerType) : haystack;
   Function* function = get(context);
   vector<Value*> arguments;
   arguments.push_back(bitcast);
-  arguments.push_back(namePointer);
+  arguments.push_back(needle);
   
   return IRWriter::createCallInst(context, function, arguments, "");
 }

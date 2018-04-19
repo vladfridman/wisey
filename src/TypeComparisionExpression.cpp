@@ -93,7 +93,8 @@ Value* TypeComparisionExpression::checkInterfaceImplemented(IRGenerationContext&
                                                             const IObjectType* objectType) const {
   Value* expressionValue = mExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
   
-  Value* interfaceIndex = InstanceOfFunction::call(context, expressionValue, objectType);
+  llvm::Constant* namePointer = IObjectType::getObjectNamePointer(objectType, context);
+  Value* interfaceIndex = InstanceOfFunction::call(context, expressionValue, namePointer);
   ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);
   
   return IRWriter::newICmpInst(context, ICmpInst::ICMP_SGE, interfaceIndex, zero, "instanceof");

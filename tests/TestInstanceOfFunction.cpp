@@ -64,14 +64,14 @@ struct InstanceOfFunctionTest : Test {
 };
 
 TEST_F(InstanceOfFunctionTest, callTest) {
-  Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  InstanceOfFunction::call(mContext, nullPointerValue, &mObjectType);
+  llvm::Constant* nullPointerValue =
+  ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
+  InstanceOfFunction::call(mContext, nullPointerValue, nullPointerValue);
   
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = bitcast i8* null to i8*"
-  "\n  %1 = call i32 @__instanceOf(i8* %0, i8* getelementptr inbounds ([44 x i8], [44 x i8]* @systems.vos.wisey.compiler.tests.IInterface.name, i32 0, i32 0))\n";
+  "\n  %0 = call i32 @__instanceOf(i8* null, i8* null)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

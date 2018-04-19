@@ -36,7 +36,7 @@ namespace wisey {
      */
     static llvm::Value* call(IRGenerationContext& context,
                              llvm::Value* haystack,
-                             const IObjectType* needle);
+                             llvm::Constant* needle);
     
   private:
     

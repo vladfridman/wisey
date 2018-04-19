@@ -761,7 +761,8 @@ void Interface::composeCastFunction(IRGenerationContext& context,
   BasicBlock* zeroExactly = BasicBlock::Create(llvmContext, "zero.exactly", function);
   
   context.setBasicBlock(entryBlock);
-  Value* instanceof = InstanceOfFunction::call(context, thisArgument, toObjectType);
+  llvm::Constant* namePointer = IObjectType::getObjectNamePointer(toObjectType, context);
+  Value* instanceof = InstanceOfFunction::call(context, thisArgument, namePointer);
   Value* originalObject = GetOriginalObjectFunction::call(context, thisArgument);
   ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   ICmpInst* compareLessThanZero =
