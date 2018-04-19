@@ -15,8 +15,8 @@
 namespace wisey {
   
   /**
-   * Represents a method identifier in a wisey program of the form wisey.lang.CController.method
-   * or CController.method
+   * Represents a function identifier in a wisey program of the form wisey.lang.CController.function
+   * or CController.function when it is used as an identifier, e.g. an argument to some method
    */
   class LLVMFunctionIdentifier : public IExpression {
     
