@@ -37,6 +37,14 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   defineModel(context, Names::getReferenceCountExceptionName(), modelElements);
   modelElements.clear();
   
+  const PrimitiveTypeSpecifier* stringTypeSpecifier =
+  PrimitiveTypes::STRING_TYPE->newTypeSpecifier();
+  modelElements.push_back(new FixedFieldDefinition(stringTypeSpecifier, "mFromType", 0));
+  stringTypeSpecifier = PrimitiveTypes::STRING_TYPE->newTypeSpecifier();
+  modelElements.push_back(new FixedFieldDefinition(stringTypeSpecifier, "mToType", 0));
+  defineModel(context, Names::getCastExceptionName(), modelElements);
+  modelElements.clear();
+
   longTypeSpecifier = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
   modelElements.push_back(new FixedFieldDefinition(longTypeSpecifier, "mArraySize", 0));
   longTypeSpecifier = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();

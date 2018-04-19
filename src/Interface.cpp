@@ -12,6 +12,7 @@
 #include "wisey/Argument.hpp"
 #include "wisey/GetOriginalObjectFunction.hpp"
 #include "wisey/Cast.hpp"
+#include "wisey/CastObjectFunction.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/FakeExpression.hpp"
@@ -602,6 +603,9 @@ llvm::PointerType* Interface::getLLVMType(IRGenerationContext& context) const {
   return mStructType->getPointerTo();
 }
 
+/**
+ * If object type assume we can perform cast and check at run time
+ */
 bool Interface::canCastTo(IRGenerationContext& context, const IType* toType) const {
   if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
     return true;
@@ -610,7 +614,6 @@ bool Interface::canCastTo(IRGenerationContext& context, const IType* toType) con
     return false;
   }
   
-  // Assume can perform cast and check at run time
   return true;
 }
 
@@ -657,20 +660,14 @@ Value* Interface::castTo(IRGenerationContext& context,
                                  "");
   }
 
+  
+  assert(toType->isReference());
+  assert(IObjectType::isObjectType(toType));
+
   const IObjectType* toObjectType = (const IObjectType*) (toType);
-  Function* castFunction =
-    context.getModule()->getFunction(getCastFunctionName(toObjectType));
-  
-  if (castFunction == NULL) {
-    castFunction = defineCastFunction(context, toObjectType);
-    context.addComposingCallback2Objects(composeCastFunction, castFunction, this, toObjectType);
-  }
-  
-  vector<Value*> arguments;
-  arguments.push_back(fromValue);
   
   Composer::pushCallStack(context, line);
-  Value* result = IRWriter::createInvokeInst(context, castFunction, arguments, "castTo", line);
+  Value* result = CastObjectFunction::call(context, fromValue, this, toObjectType, line);
   Composer::popCallStack(context);
   
   return result;
@@ -726,98 +723,6 @@ bool Interface::isNative() const {
 
 bool Interface::isPointer() const {
   return false;
-}
-
-Function* Interface::defineCastFunction(IRGenerationContext& context,
-                                        const IObjectType* toType) const {
-  vector<Type*> argumentTypes;
-  argumentTypes.push_back(getLLVMType(context));
-  llvm::PointerType* llvmReturnType = (llvm::PointerType*) toType->getLLVMType(context);
-  FunctionType* functionType = FunctionType::get(llvmReturnType, argumentTypes, false);
-  return Function::Create(functionType,
-                          GlobalValue::ExternalLinkage,
-                          getCastFunctionName(toType),
-                          context.getModule());
-}
-
-void Interface::composeCastFunction(IRGenerationContext& context,
-                                    llvm::Function* function,
-                                    const IObjectType* interfaceType,
-                                    const IObjectType* toObjectType) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Type* int8Type = Type::getInt8Ty(llvmContext);
-  Type* llvmReturnType = function->getReturnType();
-  context.getScopes().pushScope();
-
-  Function::arg_iterator functionArguments = function->arg_begin();
-  Value* thisArgument = &*functionArguments;
-  thisArgument->setName(IObjectType::THIS);
-  functionArguments++;
-  
-  BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function);
-  BasicBlock* lessThanZero = BasicBlock::Create(llvmContext, "less.than.zero", function);
-  BasicBlock* notLessThanZero = BasicBlock::Create(llvmContext, "not.less.than.zero", function);
-  BasicBlock* moreThanZero = BasicBlock::Create(llvmContext, "more.than.zero", function);
-  BasicBlock* zeroExactly = BasicBlock::Create(llvmContext, "zero.exactly", function);
-  
-  context.setBasicBlock(entryBlock);
-  llvm::Constant* namePointer = IObjectType::getObjectNamePointer(toObjectType, context);
-  Value* instanceof = InstanceOfFunction::call(context, thisArgument, namePointer);
-  Value* originalObject = GetOriginalObjectFunction::call(context, thisArgument);
-  ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
-  ICmpInst* compareLessThanZero =
-    IRWriter::newICmpInst(context, ICmpInst::ICMP_SLT, instanceof, zero, "cmp");
-  IRWriter::createConditionalBranch(context, lessThanZero, notLessThanZero, compareLessThanZero);
-  
-  context.setBasicBlock(lessThanZero);
-  PackageType* packageType = context.getPackageType(Names::getLangPackageName());
-  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(packageExpression,
-                                                                  Names::getCastExceptionName(),
-                                                                  0);
-  ObjectBuilderArgumentList objectBuilderArgumnetList;
-  llvm::Constant* fromTypeName = IObjectType::getObjectNamePointer(interfaceType, context);
-  FakeExpression* fromTypeValue = new FakeExpression(fromTypeName, PrimitiveTypes::STRING_TYPE);
-  ObjectBuilderArgument* fromTypeArgument = new ObjectBuilderArgument("withFromType",
-                                                                      fromTypeValue);
-  llvm::Constant* toTypeName = IObjectType::getObjectNamePointer(toObjectType, context);
-  FakeExpression* toTypeValue = new FakeExpression(toTypeName, PrimitiveTypes::STRING_TYPE);
-  ObjectBuilderArgument* toTypeArgument = new ObjectBuilderArgument("withToType", toTypeValue);
-  objectBuilderArgumnetList.push_back(fromTypeArgument);
-  objectBuilderArgumnetList.push_back(toTypeArgument);
-
-  ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier,
-                                                   objectBuilderArgumnetList,
-                                                   0);
-  ThrowStatement throwStatement(objectBuilder, 0);
-  context.getScopes().pushScope();
-  throwStatement.generateIR(context);
-  context.getScopes().popScope(context, 0);
-
-  context.setBasicBlock(notLessThanZero);
-  ICmpInst* compareGreaterThanZero =
-    IRWriter::newICmpInst(context, ICmpInst::ICMP_SGT, instanceof, zero, "cmp");
-  IRWriter::createConditionalBranch(context, moreThanZero, zeroExactly, compareGreaterThanZero);
-
-  context.setBasicBlock(moreThanZero);
-  ConstantInt* bytes = ConstantInt::get(Type::getInt32Ty(llvmContext),
-                                        Environment::getAddressSizeInBytes());
-  ConstantInt* one = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
-  Value* offset = IRWriter::createBinaryOperator(context, Instruction::Sub, instanceof, one, "");
-  BitCastInst* bitcast =
-  IRWriter::newBitCastInst(context, originalObject, int8Type->getPointerTo());
-  Value* thunkBy = IRWriter::createBinaryOperator(context, Instruction::Mul, offset, bytes, "");
-  Value* index[1];
-  index[0] = thunkBy;
-  Value* thunk = IRWriter::createGetElementPtrInst(context, bitcast, index);
-  Value* castValue = IRWriter::newBitCastInst(context, thunk, llvmReturnType);
-  IRWriter::createReturnInst(context, castValue);
-
-  context.setBasicBlock(zeroExactly);
-  castValue = IRWriter::newBitCastInst(context, originalObject, llvmReturnType);
-  IRWriter::createReturnInst(context, castValue);
-  
-  context.getScopes().popScope(context, 0);
 }
 
 const IObjectOwnerType* Interface::getOwner() const {

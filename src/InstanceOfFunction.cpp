@@ -34,7 +34,7 @@ Function* InstanceOfFunction::get(IRGenerationContext& context) {
 
 Value* InstanceOfFunction::call(IRGenerationContext& context,
                                 llvm::Value* haystack,
-                                llvm::Constant* needle) {
+                                llvm::Value* needle) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();

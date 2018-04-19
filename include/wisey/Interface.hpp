@@ -310,8 +310,6 @@ namespace wisey {
                                     const IType* variableType,
                                     llvm::Value* variableValue) const;
     
-    llvm::Function* defineCastFunction(IRGenerationContext& context, const IObjectType* toType) const;
-    
     bool doesMethodHaveUnexpectedExceptions(MethodSignature* interfaceMethodSignature,
                                             IMethodDescriptor* objectMethodDescriptor,
                                             std::string objectName) const;
@@ -321,11 +319,6 @@ namespace wisey {
     createElements(IRGenerationContext& context,
                    std::vector<IObjectElementDefinition*>
                    elementDeclarations);
-
-    static void composeCastFunction(IRGenerationContext& context,
-                                    llvm::Function* function,
-                                    const IObjectType* interfaceType,
-                                    const IObjectType* toObjectType);
     
   };
   
