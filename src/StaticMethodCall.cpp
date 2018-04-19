@@ -124,23 +124,12 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
     return result;
   }
   
-  string variableName = IVariable::getTemporaryVariableName(this);
   Value* pointer = IRWriter::newAllocaInst(context, result->getType(), "returnedObjectPointer");
   IRWriter::newStoreInst(context, result, pointer);
   
-  IVariable* tempVariable = NULL;
-  // TODO: Add createLocalOwnerVarible() method to IType
-  if (returnType->isArray()) {
-    tempVariable = new LocalArrayOwnerVariable(variableName,
-                                               (const ArrayOwnerType*) returnType,
-                                               pointer);
-  } else {
-    tempVariable = new LocalOwnerVariable(variableName,
-                                          (const IOwnerType*) returnType,
-                                          pointer);
-  }
-  context.getScopes().setVariable(tempVariable);
-  
+  string variableName = IVariable::getTemporaryVariableName(this);
+  returnType->createLocalVariable(context, variableName);
+
   return result;
 }
 
