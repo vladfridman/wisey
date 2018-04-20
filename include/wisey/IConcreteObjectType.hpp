@@ -132,7 +132,9 @@ namespace wisey {
     /**
      * Set fields to the given map of fields
      */
-    virtual void setFields(std::vector<IField*> fields, unsigned long startIndex) = 0;
+    virtual void setFields(IRGenerationContext& context,
+                           std::vector<IField*> fields,
+                           unsigned long startIndex) = 0;
     
     /**
      * Set interfaces for this object

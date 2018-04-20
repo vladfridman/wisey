@@ -129,7 +129,7 @@ public:
                                           NULL,
                                           0);
     methods.push_back(barMethod);
-    mModel->setFields(fields, 1u);
+    mModel->setFields(mContext, fields, 1u);
     mModel->setMethods(methods);
     mContext.addModel(mModel);
     mModelSpecifier = new ModelTypeSpecifier(NULL, "MSquare", 0);

@@ -58,7 +58,7 @@ struct FieldPrimitiveVariableTest : Test {
                                         objectFullName,
                                         objectStructType,
                                         0);
-    mObject->setFields(fields, 1u);
+    mObject->setFields(mContext, fields, 1u);
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);

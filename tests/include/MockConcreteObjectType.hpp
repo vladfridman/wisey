@@ -65,7 +65,9 @@ public:
   MOCK_CONST_METHOD0(isNative, bool ());
   MOCK_CONST_METHOD0(isPointer, bool ());
   MOCK_CONST_METHOD2(printToStream, void (wisey::IRGenerationContext&, std::iostream& stream));
-  MOCK_METHOD2(setFields, void (std::vector<wisey::IField*>, unsigned long));
+  MOCK_METHOD3(setFields, void (wisey::IRGenerationContext&,
+                                std::vector<wisey::IField*>,
+                                unsigned long));
   MOCK_METHOD1(setInterfaces, void (std::vector<wisey::Interface*>));
   MOCK_METHOD1(setMethods, void (std::vector<wisey::IMethod*>));
   MOCK_METHOD1(setStructBodyTypes, void (std::vector<llvm::Type*>));

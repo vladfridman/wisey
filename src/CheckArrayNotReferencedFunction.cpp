@@ -31,11 +31,15 @@ Function* CheckArrayNotReferencedFunction::get(IRGenerationContext& context) {
 }
 
 void CheckArrayNotReferencedFunction::call(IRGenerationContext& context,
-                                   Value* array,
-                                   Value* numberOfDimensions) {
+                                           Value* array,
+                                           Value* numberOfDimensions) {
+  Type* int64PointerType = Type::getInt64Ty(context.getLLVMContext())->getPointerTo();
+  Value* arrayBitcast = array->getType() != int64PointerType
+  ? IRWriter::newBitCastInst(context, array, int64PointerType)
+  : array;
   Function* function = get(context);
   vector<Value*> arguments;
-  arguments.push_back(array);
+  arguments.push_back(arrayBitcast);
   arguments.push_back(numberOfDimensions);
   
   IRWriter::createCallInst(context, function, arguments, "");

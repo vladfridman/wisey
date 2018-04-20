@@ -57,7 +57,7 @@ struct IFieldVariableTest : Test {
                                             controllerFullName,
                                             controllerStructType,
                                             0);
-    mController->setFields(controllerFields, 1u);
+    mController->setFields(mContext, controllerFields, 1u);
     
     string modelFullName = "systems.vos.wisey.compiler.tests.MModel";
     StructType* modelStructType = StructType::create(mLLVMContext, modelFullName);
@@ -65,7 +65,7 @@ struct IFieldVariableTest : Test {
     mFixedField = new FixedField(PrimitiveTypes::INT_TYPE, "foo", 0);
     vector<IField*> modelFields;
     modelFields.push_back(mFixedField);
-    mModel->setFields(modelFields, 1u);
+    mModel->setFields(mContext, modelFields, 1u);
     
     FunctionType* functionType =
       FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);

@@ -129,7 +129,7 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "fieldA", 0));
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "fieldB", 0));
   Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType, 0);
-  model->setFields(fields, 1u);
+  model->setFields(mContext, fields, 1u);
 
   mContext.addModel(model);
   VariableDeclaration* declaration = VariableDeclaration::create(typeSpecifier, mIdentifier, 0);

@@ -94,7 +94,9 @@ namespace wisey {
     
     bool isPublic() const override;
 
-    void setFields(std::vector<IField*> fields, unsigned long startIndex) override;
+    void setFields(IRGenerationContext& context,
+                   std::vector<IField*> fields,
+                   unsigned long startIndex) override;
     
     void setInterfaces(std::vector<Interface*> interfaces) override;
     

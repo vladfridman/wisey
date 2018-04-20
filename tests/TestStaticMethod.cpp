@@ -77,7 +77,7 @@ public:
     vector<IField*> fields;
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "foo", 0));
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "bar", 0));
-    mModel->setFields(fields, 1u);
+    mModel->setFields(mContext, fields, 1u);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }

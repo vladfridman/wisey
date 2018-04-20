@@ -82,7 +82,9 @@ bool Thread::isPublic() const {
   return mIsPublic;
 }
 
-void Thread::setFields(vector<IField*> fields, unsigned long startIndex) {
+void Thread::setFields(IRGenerationContext& context,
+                       vector<IField*> fields,
+                       unsigned long startIndex) {
   unsigned long index = startIndex;
   for (IField* field : fields) {
     mFields[field->getName()] = field;

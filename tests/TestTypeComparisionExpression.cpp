@@ -208,7 +208,7 @@ struct TypeComparisionExpressionTest : public Test {
     vector<Interface*> sqaureInterfaces;
     sqaureInterfaces.push_back(mShapeInterface);
     sqaureInterfaces.push_back(mObjectInterface);
-    mSquareModel->setFields(squareFields, sqaureInterfaces.size());
+    mSquareModel->setFields(mContext, squareFields, sqaureInterfaces.size());
     mSquareModel->setMethods(squareMethods);
     mSquareModel->setInterfaces(sqaureInterfaces);
     

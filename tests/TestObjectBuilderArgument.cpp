@@ -49,7 +49,7 @@ struct ObjectBuilderArgumentTest : Test {
     InjectionArgumentList arguments;
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mFieldA", 0));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType, 0);
-    mModel->setFields(fields, 1u);
+    mModel->setFields(mContext, fields, 1u);
     
     mValue = ConstantFP::get(Type::getFloatTy(llvmContext), 2.5);
     ON_CALL(*mFieldExpression, generateIR(_, _)).WillByDefault(Return(mValue));

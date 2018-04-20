@@ -70,7 +70,7 @@ struct InjectorTest : Test {
                                             controllerFullName,
                                             controllerStructType,
                                             0);
-    mController->setFields(controllerFields, 1u);
+    mController->setFields(mContext, controllerFields, 1u);
     mContext.addController(mController);
 
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";

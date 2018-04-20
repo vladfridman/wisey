@@ -65,7 +65,7 @@ public:
     methods.push_back(fooMethod);
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType, 0);
     mModel->setMethods(methods);
-    mModel->setFields(fields, 0u);
+    mModel->setFields(mContext, fields, 0u);
     mContext.addModel(mModel);
 
     ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(NULL, "MSquare", 0);

@@ -83,7 +83,9 @@ bool Controller::isPublic() const {
   return mIsPublic;
 }
 
-void Controller::setFields(vector<IField*> fields, unsigned long startIndex) {
+void Controller::setFields(IRGenerationContext& context,
+                           vector<IField*> fields,
+                           unsigned long startIndex) {
   unsigned long index = startIndex;
   for (IField* field : fields) {
     mFields[field->getName()] = field;

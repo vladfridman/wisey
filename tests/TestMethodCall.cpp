@@ -124,7 +124,7 @@ public:
                             NULL,
                             0);
     methods.push_back(mBarMethod);
-    mModel->setFields(fields, 1u);
+    mModel->setFields(mContext, fields, 1u);
     mModel->setMethods(methods);
 
     FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);

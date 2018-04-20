@@ -198,7 +198,7 @@ struct ModelOwnerTest : public Test {
     vector<Interface*> interfaces;
     interfaces.push_back(mShapeInterface);
     interfaces.push_back(mObjectInterface);
-    mModel->setFields(fields, interfaces.size());
+    mModel->setFields(mContext, fields, interfaces.size());
     mModel->setMethods(methods);
     mModel->setInterfaces(interfaces);
     
@@ -229,7 +229,7 @@ struct ModelOwnerTest : public Test {
     starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mBrightness", 0));
     starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mWeight", 0));
     mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, starFullName, starStructType, 0);
-    mStarModel->setFields(starFields, 1u);
+    mStarModel->setFields(mContext, starFields, 1u);
     mContext.addModel(mStarModel);
     Value* field1Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
     ON_CALL(*mField1Expression, generateIR(_, _)).WillByDefault(Return(field1Value));

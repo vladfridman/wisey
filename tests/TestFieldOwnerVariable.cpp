@@ -81,7 +81,7 @@ struct FieldOwnerVariableTest : Test {
     fields.push_back(new StateField(mNode->getOwner(), "foo", 0));
     fields.push_back(new StateField(mInterface->getOwner(), "bar", 0));
     mObject = Node::newNode(AccessLevel::PUBLIC_ACCESS, objectFullName, objectStructType, 0);
-    mObject->setFields(fields, 1u);
+    mObject->setFields(mContext, fields, 1u);
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);

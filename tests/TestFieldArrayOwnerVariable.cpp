@@ -79,7 +79,7 @@ public:
                                         objectFullName,
                                         objectStructType,
                                         0);
-    mObject->setFields(fields, 1u);
+    mObject->setFields(mContext, fields, 1u);
     
     Value* thisPointer = ConstantPointerNull::get(mObject->getLLVMType(mContext));
     IVariable* thisVariable = new ParameterReferenceVariable(IObjectType::THIS,

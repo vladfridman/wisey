@@ -9,8 +9,10 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp"
+#include "wisey/ArrayOwnerType.hpp"
 #include "wisey/AutoCast.hpp"
 #include "wisey/Cast.hpp"
+#include "wisey/CheckArrayNotReferencedFunction.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
@@ -80,23 +82,35 @@ bool Model::isPublic() const {
   return mIsPublic;
 }
 
-void Model::setFields(vector<IField*> fields, unsigned long startIndex) {
+void Model::setFields(IRGenerationContext& context,
+                      vector<IField*> fields,
+                      unsigned long startIndex) {
   mFieldsOrdered = fields;
   unsigned long index = startIndex;
   for (IField* field : fields) {
     mFields[field->getName()] = field;
     mFieldIndexes[field] = index;
+    index++;
     if (!field->isFixed()) {
-      Log::e_deprecated("Models can only have fixed fields");
+      context.reportError(field->getLine(), "Models can only have fixed fields");
       exit(1);
     }
     const IType* fieldType = field->getType();
-    if (!fieldType->isPrimitive() && !fieldType->isModel() && !fieldType->isInterface()) {
-      Log::e_deprecated("Models can only have fields of primitive or model type");
+    if (!fieldType->isPrimitive() && !fieldType->isModel() && !fieldType->isInterface() &&
+        !(fieldType->isArray() && fieldType->isOwner())) {
+      context.reportError(field->getLine(),
+                          "Model fields can only be of primitive, model or array owner type");
       exit(1);
     }
-
-    index++;
+    if (!fieldType->isArray()) {
+      continue;
+    }
+    const IType* elementType = fieldType->getArrayType(context)->getElementType();
+    if (!elementType->isPrimitive() && !elementType->isModel()) {
+      context.reportError(field->getLine(),
+                          "Array fields in models can only be of primitive or model base type");
+      exit(1);
+    }
   }
 }
 
@@ -422,6 +436,12 @@ void Model::initializeFields(IRGenerationContext& context,
     IRWriter::newStoreInst(context, castValue, fieldPointer);
     if (fieldType->isReference()) {
       ((const IReferenceType*) fieldType)->incrementReferenceCount(context, castValue);
+    }
+    if (fieldType->isArray()) {
+      const ArrayType* arrayType = fieldType->getArrayType(context);
+      ConstantInt* numberOfDimentions = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()),
+                                                         arrayType->getNumberOfDimensions());
+      CheckArrayNotReferencedFunction::call(context, castValue, numberOfDimentions);
     }
   }
 }

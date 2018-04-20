@@ -54,7 +54,7 @@ struct BindActionGlobalStatementTest : public Test {
                                             controllerFullName,
                                             controllerStructType,
                                             0);
-    mController->setFields(controllerFields, 1u);
+    mController->setFields(mContext, controllerFields, 1u);
     mController->setMethods(controllerMethods);
     mController->setInterfaces(controllerInterfaces);
     

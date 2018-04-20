@@ -58,7 +58,7 @@ public:
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "foo", 0));
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "bar", 0));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType, 0);
-    mModel->setFields(fields, 1u);
+    mModel->setFields(mContext, fields, 1u);
 
     wisey::Argument* doubleArgument = new wisey::Argument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
     wisey::Argument* charArgument = new wisey::Argument(PrimitiveTypes::CHAR_TYPE, "argChar");

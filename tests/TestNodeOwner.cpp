@@ -191,7 +191,7 @@ struct NodeOwnerTest : public Test {
                                      complicatedNodeFullName,
                                      mStructType,
                                      0);
-    mComplicatedNode->setFields(fields, interfaces.size());
+    mComplicatedNode->setFields(mContext, fields, interfaces.size());
     mComplicatedNode->setMethods(methods);
     mComplicatedNode->setInterfaces(interfaces);
     
@@ -211,7 +211,7 @@ struct NodeOwnerTest : public Test {
                                 simpleNodeFullName,
                                 simpleNodeStructType,
                                 0);
-    mSimpleNode->setFields(simpleNodeFields, 1u);
+    mSimpleNode->setFields(mContext, simpleNodeFields, 1u);
     mContext.addNode(mSimpleNode);
     
     vector<Type*> simplerNodeTypes;
@@ -227,7 +227,7 @@ struct NodeOwnerTest : public Test {
                                  simplerNodeFullName,
                                  simplerNodeStructType,
                                  0);
-    mSimplerNode->setFields(simplerNodeFields, 1u);
+    mSimplerNode->setFields(mContext, simplerNodeFields, 1u);
     mContext.addNode(mSimplerNode);
     IConcreteObjectType::generateNameGlobal(mContext, mSimplerNode);
     IConcreteObjectType::generateShortNameGlobal(mContext, mSimplerNode);

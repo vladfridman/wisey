@@ -234,7 +234,7 @@ struct NodeTest : public Test {
     vector<LLVMFunction*> functions;
     functions.push_back(mLLVMFunction);
     
-    mComplicatedNode->setFields(fields, interfaces.size());
+    mComplicatedNode->setFields(mContext, fields, interfaces.size());
     mComplicatedNode->setMethods(methods);
     mComplicatedNode->setInterfaces(interfaces);
     mComplicatedNode->setConstants(constants);
@@ -276,7 +276,7 @@ struct NodeTest : public Test {
                                 simpleNodeFullName,
                                 simpleNodeStructType,
                                 0);
-    mSimpleNode->setFields(simpleNodeFields, 1u);
+    mSimpleNode->setFields(mContext, simpleNodeFields, 1u);
     mContext.addNode(mSimpleNode);
     
     vector<Type*> simplerNodeTypes;
@@ -294,7 +294,7 @@ struct NodeTest : public Test {
                                  simplerNodeFullName,
                                  simplerNodeStructType,
                                  0);
-    mSimplerNode->setFields(simplerNodeFields, 1u);
+    mSimplerNode->setFields(mContext, simplerNodeFields, 1u);
     mContext.addNode(mSimplerNode);
     
     string vehicleFullName = "systems.vos.wisey.compiler.tests.IVehicle";
@@ -739,7 +739,7 @@ TEST_F(NodeTest, printToStreamTest) {
   vector<IField*> fields;
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1", 0));
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
-  innerPublicModel->setFields(fields, 0);
+  innerPublicModel->setFields(mContext, fields, 0);
   
   vector<const wisey::Argument*> methodArguments;
   vector<const Model*> thrownExceptions;
@@ -757,7 +757,7 @@ TEST_F(NodeTest, printToStreamTest) {
   innerPublicModel->setMethods(methods);
   
   Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS, "MInnerPrivateModel", NULL, 0);
-  innerPrivateModel->setFields(fields, 0);
+  innerPrivateModel->setFields(mContext, fields, 0);
   
   mComplicatedNode->addInnerObject(innerPublicModel);
   mComplicatedNode->addInnerObject(innerPrivateModel);

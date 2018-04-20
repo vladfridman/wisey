@@ -79,7 +79,9 @@ namespace wisey {
                               const InjectionArgumentList injectionArgumentList,
                               int line) const override;
     
-    void setFields(std::vector<IField*> fields, unsigned long startIndex) override;
+    void setFields(IRGenerationContext& context,
+                   std::vector<IField*> fields,
+                   unsigned long startIndex) override;
     
     void setInterfaces(std::vector<Interface*> interfaces) override;
     

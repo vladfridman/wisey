@@ -25,7 +25,7 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
   tuple<vector<Constant*>, vector<IField*>, vector<IMethod*>, vector<LLVMFunction*>> elements =
     createElements(context, object, elementDeclarations);
   unsigned long numberOfVtables = interfaces.size() ? interfaces.size() : 1u;
-  object->setFields(get<1>(elements), numberOfVtables);
+  object->setFields(context, get<1>(elements), numberOfVtables);
   object->setInterfaces(interfaces);
   object->setMethods(get<2>(elements));
   object->setConstants(get<0>(elements));

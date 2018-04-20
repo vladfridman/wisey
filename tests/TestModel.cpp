@@ -243,7 +243,7 @@ struct ModelTest : public Test {
     vector<Interface*> interfaces;
     interfaces.push_back(mShapeInterface);
     interfaces.push_back(mObjectInterface);
-    mModel->setFields(fields, interfaces.size());
+    mModel->setFields(mContext, fields, interfaces.size());
     mModel->setMethods(methods);
     mModel->setInterfaces(interfaces);
     mModel->setConstants(constants);
@@ -300,7 +300,7 @@ struct ModelTest : public Test {
     starFields.push_back(new FixedField(mBirthdateModel->getOwner(), "mBirthdate", 0));
     starFields.push_back(new FixedField(mGalaxyModel, "mGalaxy", 0));
     mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, starFullName, starStructType, 0);
-    mStarModel->setFields(starFields, 1u);
+    mStarModel->setFields(mContext, starFields, 1u);
     mContext.addModel(mStarModel);
     Value* field1Value = ConstantPointerNull::get(mBirthdateModel->getOwner()
                                                   ->getLLVMType(mContext));
@@ -750,7 +750,7 @@ TEST_F(ModelTest, printToStreamTest) {
   vector<IField*> fields;
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1", 0));
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
-  innerPublicModel->setFields(fields, 0);
+  innerPublicModel->setFields(mContext, fields, 0);
 
   vector<const wisey::Argument*> methodArguments;
   vector<const Model*> thrownExceptions;
@@ -768,7 +768,7 @@ TEST_F(ModelTest, printToStreamTest) {
   innerPublicModel->setMethods(methods);
 
   Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS, "MInnerPrivateModel", NULL, 0);
-  innerPrivateModel->setFields(fields, 0);
+  innerPrivateModel->setFields(mContext, fields, 0);
 
   mModel->addInnerObject(innerPublicModel);
   mModel->addInnerObject(innerPrivateModel);
@@ -884,6 +884,14 @@ TEST_F(TestFileRunner, innerObjectPrivateAccessableRunTest) {
   runFile("tests/samples/test_inner_object_private_accessable.yz", "3");
 }
 
+TEST_F(TestFileRunner, modelWithPrimitiveArrayRunTest) {
+  runFile("tests/samples/test_model_with_primitive_array.yz", "5");
+}
+
+TEST_F(TestFileRunner, modelWithModelArrayRunTest) {
+  runFile("tests/samples/test_model_with_model_array.yz", "3");
+}
+
 TEST_F(TestFileRunner, innerObjectWrongTypeSpecifierDeathRunTest) {
   expectFailCompile("tests/samples/test_inner_object_wrong_type_specifier.yz",
                     1,
@@ -900,11 +908,40 @@ TEST_F(TestFileRunner, innerObjectPrivateInaccessableDeathRunTest) {
 TEST_F(TestFileRunner, modelWithNodeFieldDeathRunTest) {
   expectFailCompile("tests/samples/test_model_with_node_field.yz",
                     1,
-                    "Error: Models can only have fields of primitive or model type");
+                    "tests/samples/test_model_with_node_field.yz\\(7\\): Error: "
+                    "Model fields can only be of primitive, model or array owner type");
 }
 
 TEST_F(TestFileRunner, modelWithControllerFieldDeathRunTest) {
   expectFailCompile("tests/samples/test_model_with_controller_field.yz",
                     1,
-                    "Error: Models can only have fields of primitive or model type");
+                    "tests/samples/test_model_with_controller_field.yz\\(7\\): Error: "
+                    "Model fields can only be of primitive, model or array owner type");
+}
+
+TEST_F(TestFileRunner, modelWithNodeArrayDeathRunTest) {
+  expectFailCompile("tests/samples/test_model_with_node_array.yz",
+                    1,
+                    "tests/samples/test_model_with_node_array.yz\\(14\\): Error: "
+                    "Array fields in models can only be of primitive or model base type");
+}
+
+TEST_F(TestFileRunner, modelWithPrimitiveArrayRceDeathRunTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_model_with_primitive_array_rce.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MReferenceCountException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_model_with_primitive_array_rce.yz:19)\n"
+                               "Details: Object referenced by expression still has 1 active reference\n"
+                               "Main thread ended without a result\n");
+}
+
+TEST_F(TestFileRunner, modelWithModelArrayRceDeathRunTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_model_with_model_array_rce.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MReferenceCountException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_model_with_model_array_rce.yz:27)\n"
+                               "Details: Object referenced by expression still has 1 active reference\n"
+                               "Main thread ended without a result\n");
 }

@@ -51,7 +51,7 @@ struct InjectionArgumentTest : Test {
                                             modelFullName,
                                             structType,
                                             0);
-    mController->setFields(fields, 1u);
+    mController->setFields(mContext, fields, 1u);
     
     mValue = ConstantFP::get(Type::getFloatTy(llvmContext), 2.5);
     ON_CALL(*mFieldExpression, generateIR(_, _)).WillByDefault(Return(mValue));

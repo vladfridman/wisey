@@ -12,7 +12,8 @@
 #include "wisey/DestroyPrimitiveArrayFunction.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
-#include "wisey/ThrowReferenceCountExceptionFunction.hpp"
+#include "wisey/PrintOutStatement.hpp"
+#include "wisey/StringLiteral.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -91,6 +92,12 @@ void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Functi
   
   context.setBasicBlock(ifNotNull);
   CheckArrayNotReferencedFunction::call(context, arrayPointer, numberOfDimensions);
+  if (context.isDestructorDebugOn()) {
+    ExpressionList printOutArguments;
+    printOutArguments.push_back(new StringLiteral("destructor primitive[]\n", 0));
+    PrintOutStatement printOutStatement(printOutArguments);
+    printOutStatement.generateIR(context);
+  }
   IRWriter::createFree(context, arrayPointer);
   IRWriter::createReturnInst(context, NULL);
 

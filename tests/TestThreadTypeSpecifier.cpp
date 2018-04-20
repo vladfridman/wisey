@@ -58,7 +58,7 @@ struct ThreadTypeSpecifierTest : public ::testing::Test {
                                     NULL,
                                     0);
     methods.push_back(fooMethod);
-    mThread->setFields(fields, 1u);
+    mThread->setFields(mContext, fields, 1u);
     mThread->setMethods(methods);
     mContext.addThread(mThread);
   }

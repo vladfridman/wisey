@@ -150,7 +150,7 @@ struct ThreadTest : public Test {
     vector<LLVMFunction*> functions;
     functions.push_back(mLLVMFunction);
 
-    mThread->setFields(fields, 1u);
+    mThread->setFields(mContext, fields, 1u);
     mThread->setMethods(methods);
     mThread->setInterfaces(interfaces);
     mThread->setConstants(constants);
@@ -181,7 +181,7 @@ struct ThreadTest : public Test {
                                                   nonInjectableFieldThreadFullName,
                                                   nonInjectableFieldThreadStructType,
                                                   0);
-    mNonInjectableFieldThread->setFields(nonInjectableFieldThreadFields, 1u);
+    mNonInjectableFieldThread->setFields(mContext, nonInjectableFieldThreadFields, 1u);
     mContext.addThread(mNonInjectableFieldThread);
     
     vector<Type*> notWellFormedArgumentsThreadTypes;
@@ -201,7 +201,7 @@ struct ThreadTest : public Test {
                                                       notWellFormedArgumentsThreadFullName,
                                                       notWellFormedArgumentsThreadStructType,
                                                       0);
-    mNotWellFormedArgumentsThread->setFields(notWellFormedArgumentsThreadFields, 1u);
+    mNotWellFormedArgumentsThread->setFields(mContext, notWellFormedArgumentsThreadFields, 1u);
     mContext.addThread(mNotWellFormedArgumentsThread);
     
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);
@@ -579,7 +579,7 @@ TEST_F(ThreadTest, injectFieldTest) {
                                           childFullName,
                                           childStructType,
                                           0);
-  childThread->setFields(childFields, 1u);
+  childThread->setFields(mContext, childFields, 1u);
   mContext.addThread(childThread);
   
   vector<Type*> parentTypes;
@@ -601,7 +601,7 @@ TEST_F(ThreadTest, injectFieldTest) {
                                            parentFullName,
                                            parentStructType,
                                            0);
-  parentThread->setFields(parentFields, 1u);
+  parentThread->setFields(mContext, parentFields, 1u);
   mContext.addThread(parentThread);
   
   IConcreteObjectType::generateNameGlobal(mContext, childThread);
@@ -656,7 +656,7 @@ TEST_F(ThreadTest, printToStreamTest) {
   vector<IField*> fields;
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1", 0));
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
-  innerPublicModel->setFields(fields, 1u);
+  innerPublicModel->setFields(mContext, fields, 1u);
   
   vector<const wisey::Argument*> methodArguments;
   vector<const Model*> thrownExceptions;
@@ -674,7 +674,7 @@ TEST_F(ThreadTest, printToStreamTest) {
   innerPublicModel->setMethods(methods);
   
   Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS, "MInnerPrivateModel", NULL, 0);
-  innerPrivateModel->setFields(fields, 0);
+  innerPrivateModel->setFields(mContext, fields, 0);
   
   mThread->addInnerObject(innerPublicModel);
   mThread->addInnerObject(innerPrivateModel);

@@ -237,7 +237,7 @@ struct ControllerTest : public Test {
     vector<LLVMFunction*> functions;
     functions.push_back(mLLVMFunction);
 
-    mMultiplierController->setFields(fields, interfaces.size());
+    mMultiplierController->setFields(mContext, fields, interfaces.size());
     mMultiplierController->setMethods(methods);
     mMultiplierController->setInterfaces(interfaces);
     mMultiplierController->setConstants(constants);
@@ -279,7 +279,7 @@ struct ControllerTest : public Test {
                                                    additorFullName,
                                                    additorStructType,
                                                    0);
-    mAdditorController->setFields(additorFields, 1u);
+    mAdditorController->setFields(mContext, additorFields, 1u);
     mContext.addController(mMultiplierController);
 
     vector<Type*> doublerTypes;
@@ -302,7 +302,7 @@ struct ControllerTest : public Test {
                                                    doublerFullName,
                                                    doublerStructType,
                                                    0);
-    mDoublerController->setFields(doublerFields, 1u);
+    mDoublerController->setFields(mContext, doublerFields, 1u);
     mContext.addController(mDoublerController);
 
     string vehicleFullName = "systems.vos.wisey.compiler.tests.IVehicle";
@@ -761,7 +761,7 @@ TEST_F(ControllerTest, injectFieldTest) {
                                                           childFullName,
                                                           childStructType,
                                                           0);
-  childController->setFields(childFields, 1u);
+  childController->setFields(mContext, childFields, 1u);
   mContext.addController(childController);
   IConcreteObjectType::generateNameGlobal(mContext, childController);
   IConcreteObjectType::generateShortNameGlobal(mContext, childController);
@@ -786,7 +786,7 @@ TEST_F(ControllerTest, injectFieldTest) {
                                                            parentFullName,
                                                            parentStructType,
                                                            0);
-  parentController->setFields(parentFields, 1u);
+  parentController->setFields(mContext, parentFields, 1u);
   mContext.addController(parentController);
   IConcreteObjectType::generateNameGlobal(mContext, parentController);
   IConcreteObjectType::generateShortNameGlobal(mContext, parentController);
@@ -836,7 +836,7 @@ TEST_F(ControllerTest, printToStreamTest) {
   vector<IField*> fields;
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1", 0));
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
-  innerPublicModel->setFields(fields, 0);
+  innerPublicModel->setFields(mContext, fields, 0);
   
   vector<const wisey::Argument*> methodArguments;
   vector<const Model*> thrownExceptions;
@@ -854,7 +854,7 @@ TEST_F(ControllerTest, printToStreamTest) {
   innerPublicModel->setMethods(methods);
   
   Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS, "MInnerPrivateModel", NULL, 0);
-  innerPrivateModel->setFields(fields, 0);
+  innerPrivateModel->setFields(mContext, fields, 0);
   
   mMultiplierController->addInnerObject(innerPublicModel);
   mMultiplierController->addInnerObject(innerPrivateModel);

@@ -1,0 +1,28 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+node NContainer {
+  int mContent;
+
+  public int getContent() {
+    return mContent;
+  }
+}
+
+model MMyModel {
+  NContainer[][]* mArray;
+
+  public int getValue() {
+    return mArray[3][3].getContent();
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() override {
+    return 0;
+  }
+}
+
+bind(IProgram).to(CProgram);

@@ -81,7 +81,9 @@ bool Node::isPublic() const {
   return mIsPublic;
 }
 
-void Node::setFields(vector<IField*> fields, unsigned long startIndex) {
+void Node::setFields(IRGenerationContext& context,
+                     vector<IField*> fields,
+                     unsigned long startIndex) {
   mFieldsOrdered = fields;
   unsigned long index = startIndex;
   for (IField* field : fields) {

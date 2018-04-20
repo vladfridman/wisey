@@ -342,7 +342,7 @@ TEST_F(InterfaceTest, printToStreamTest) {
   vector<IField*> fields;
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1", 0));
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
-  innerPublicModel->setFields(fields, 0);
+  innerPublicModel->setFields(mContext, fields, 0);
   
   vector<const wisey::Argument*> methodArguments;
   vector<const Model*> thrownExceptions;
@@ -360,7 +360,7 @@ TEST_F(InterfaceTest, printToStreamTest) {
   innerPublicModel->setMethods(methods);
   
   Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS, "MInnerPrivateModel", NULL, 0);
-  innerPrivateModel->setFields(fields, 0);
+  innerPrivateModel->setFields(mContext, fields, 0);
   
   mShapeInterface->addInnerObject(innerPublicModel);
   mShapeInterface->addInnerObject(innerPrivateModel);

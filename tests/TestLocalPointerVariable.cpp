@@ -70,7 +70,7 @@ public:
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width", 0));
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height", 0));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType, 0);
-    mModel->setFields(fields, 1u);
+    mModel->setFields(mContext, fields, 1u);
 
     mPointerType = LLVMPrimitiveTypes::I64->getPointerType();
     llvm::PointerType* llvmType = mPointerType->getLLVMType(mContext);

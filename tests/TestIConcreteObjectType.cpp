@@ -101,7 +101,7 @@ struct IConcreteObjectTypeTest : public Test {
     starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mBrightness", 0));
     starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mWeight", 0));
     mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, starFullName, starStructType, 0);
-    mStarModel->setFields(starFields, 1u);
+    mStarModel->setFields(mContext, starFields, 1u);
     mContext.addModel(mStarModel);
     
     vector<Type*> galaxyTypes;
@@ -114,7 +114,7 @@ struct IConcreteObjectTypeTest : public Test {
     vector<IField*> galaxyFields;
     galaxyFields.push_back(new FixedField(mStarModel->getOwner(), "mStar", 0));
     mGalaxyModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, galaxyFullName, galaxyStructType, 0);
-    mGalaxyModel->setFields(galaxyFields, 1u);
+    mGalaxyModel->setFields(mContext, galaxyFields, 1u);
     mContext.addModel(mGalaxyModel);
 
     vector<Type*> constellationTypes;
@@ -130,7 +130,7 @@ struct IConcreteObjectTypeTest : public Test {
                                           constellationFullName,
                                           constellationStructType,
                                           0);
-    mConstellationModel->setFields(constellationFields, 1u);
+    mConstellationModel->setFields(mContext, constellationFields, 1u);
     mContext.addModel(mConstellationModel);
     
     vector<Type*> canNavigateTypes;
@@ -156,7 +156,7 @@ struct IConcreteObjectTypeTest : public Test {
     vector<IField*> carFields;
     carFields.push_back(new FixedField(mCanNavigate->getOwner(), "mNavigator", 0));
     mCarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, carFullName, carStructType, 0);
-    mCarModel->setFields(carFields, 1u);
+    mCarModel->setFields(mContext, carFields, 1u);
     mContext.addModel(mCarModel);
 
     mStringStream = new raw_string_ostream(mStringBuffer);

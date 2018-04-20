@@ -69,7 +69,7 @@ struct ObjectBuilderTest : Test {
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mWidth", 0));
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mHeight", 0));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType, 0);
-    mModel->setFields(fields, 1u);
+    mModel->setFields(mContext, fields, 1u);
     mContext.addModel(mModel);
     Value* fieldValue1 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
     ON_CALL(*mField1Expression, generateIR(_, _)).WillByDefault(Return(fieldValue1));
