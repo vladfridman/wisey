@@ -115,7 +115,7 @@ TEST_F(CheckForNullAndThrowFunctionTest, getTest) {
   "\n          cleanup"
   "\n  %13 = load %wisey.lang.MNullPointerException*, %wisey.lang.MNullPointerException** %7"
   "\n  %14 = bitcast %wisey.lang.MNullPointerException* %13 to i8*"
-  "\n  call void @__destroyOwnerObjectFunction(i8* %14)"
+  "\n  call void @__destroyObjectOwnerFunction(i8* %14)"
   "\n  resume { i8*, i32 } %12"
   "\n"
   "\ninvoke.continue:                                  ; preds = %if.then"

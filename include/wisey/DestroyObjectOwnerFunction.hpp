@@ -1,13 +1,13 @@
 //
-//  DestroyOwnerObjectFunction.hpp
+//  DestroyObjectOwnerFunction.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 3/30/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef DestroyOwnerObjectFunction_h
-#define DestroyOwnerObjectFunction_h
+#ifndef DestroyObjectOwnerFunction_h
+#define DestroyObjectOwnerFunction_h
 
 namespace wisey {
   
@@ -15,9 +15,9 @@ namespace wisey {
   class LLVMFunctionType;
   
   /**
-   * Function for destroying owner objects of any kind except arrays
+   * Function for destroying owner references of any kind except arrays
    */
-  class DestroyOwnerObjectFunction {
+  class DestroyObjectOwnerFunction {
     
   public:
     
@@ -45,4 +45,4 @@ namespace wisey {
   
 } /* namespace wisey */
 
-#endif /* DestroyOwnerObjectFunction_h */
+#endif /* DestroyObjectOwnerFunction_h */

@@ -110,7 +110,7 @@ TEST_F(ThrowReferenceCountExceptionFunctionTest, getTest) {
   "\n          cleanup"
   "\n  %14 = load %wisey.lang.MReferenceCountException*, %wisey.lang.MReferenceCountException** %8"
   "\n  %15 = bitcast %wisey.lang.MReferenceCountException* %14 to i8*"
-  "\n  call void @__destroyOwnerObjectFunction(i8* %15)"
+  "\n  call void @__destroyObjectOwnerFunction(i8* %15)"
   "\n  resume { i8*, i32 } %13"
   "\n"
   "\ninvoke.continue:                                  ; preds = %entry"

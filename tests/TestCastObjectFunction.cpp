@@ -166,7 +166,7 @@ TEST_F(CastObjectFunctionTest, getTest) {
   "\n          cleanup"
   "\n  %22 = load %wisey.lang.MCastException*, %wisey.lang.MCastException** %12"
   "\n  %23 = bitcast %wisey.lang.MCastException* %22 to i8*"
-  "\n  call void @__destroyOwnerObjectFunction(i8* %23)"
+  "\n  call void @__destroyObjectOwnerFunction(i8* %23)"
   "\n  resume { i8*, i32 } %21"
   "\n"
   "\ninvoke.continue:                                  ; preds = %less.than.zero"

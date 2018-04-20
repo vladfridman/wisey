@@ -14,7 +14,7 @@
 #include "wisey/Cast.hpp"
 #include "wisey/Cleanup.hpp"
 #include "wisey/Composer.hpp"
-#include "wisey/DestroyOwnerObjectFunction.hpp"
+#include "wisey/DestroyObjectOwnerFunction.hpp"
 #include "wisey/DestroyOwnerArrayFunction.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/FakeExpression.hpp"
@@ -477,7 +477,7 @@ void IConcreteObjectType::composeDestructorCall(IRGenerationContext& context, Va
   Type* int8pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   Value* bitcast = IRWriter::newBitCastInst(context, value, int8pointer);
   
-  DestroyOwnerObjectFunction::call(context, bitcast);
+  DestroyObjectOwnerFunction::call(context, bitcast);
 }
 
 Function* IConcreteObjectType::getDestructorFunctionForObject(IRGenerationContext &context,

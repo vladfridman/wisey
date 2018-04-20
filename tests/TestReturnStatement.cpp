@@ -176,10 +176,10 @@ TEST_F(ReturnStatementTest, ownerVariablesAreClearedTest) {
   "\n  %conv = zext i32 3 to i64"
   "\n  %2 = load %MShape*, %MShape** %pointer2"
   "\n  %3 = bitcast %MShape* %2 to i8*"
-  "\n  call void @__destroyOwnerObjectFunction(i8* %3)"
+  "\n  call void @__destroyObjectOwnerFunction(i8* %3)"
   "\n  %4 = load %MShape*, %MShape** %pointer"
   "\n  %5 = bitcast %MShape* %4 to i8*"
-  "\n  call void @__destroyOwnerObjectFunction(i8* %5)"
+  "\n  call void @__destroyObjectOwnerFunction(i8* %5)"
   "\n  ret i64 %conv\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

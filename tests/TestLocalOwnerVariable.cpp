@@ -115,7 +115,7 @@ TEST_F(LocalOwnerVariableTest, generateAssignmentIRTest) {
   "\n  %1 = alloca %systems.vos.wisey.compiler.tests.MShape*"
   "\n  %2 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0"
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MShape* %2 to i8*"
-  "\n  call void @__destroyOwnerObjectFunction(i8* %3)"
+  "\n  call void @__destroyObjectOwnerFunction(i8* %3)"
   "\n  store %systems.vos.wisey.compiler.tests.MShape* null, %systems.vos.wisey.compiler.tests.MShape** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -194,7 +194,7 @@ TEST_F(LocalOwnerVariableTest, freeTest) {
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
   "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0"
   "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.MShape* %1 to i8*"
-  "\n  call void @__destroyOwnerObjectFunction(i8* %2)\n";
+  "\n  call void @__destroyObjectOwnerFunction(i8* %2)\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

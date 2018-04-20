@@ -125,7 +125,7 @@ TEST_F(DestroyOwnerArrayFunctionTest, getTest) {
   "\none.dimensional:                                  ; preds = %for.body"
   "\n  %6 = bitcast i8* %4 to i8**"
   "\n  %7 = load i8*, i8** %6"
-  "\n  call void @__destroyOwnerObjectFunction(i8* %7)"
+  "\n  call void @__destroyObjectOwnerFunction(i8* %7)"
   "\n  br label %for.cond"
   "\n"
   "\nmaybe.free.array:                                 ; preds = %for.cond"

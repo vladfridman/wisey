@@ -19,7 +19,7 @@
 #include "wisey/IntConstant.hpp"
 #include "wisey/DestroyNativeObjectFunction.hpp"
 #include "wisey/DestroyOwnerArrayFunction.hpp"
-#include "wisey/DestroyOwnerObjectFunction.hpp"
+#include "wisey/DestroyObjectOwnerFunction.hpp"
 #include "wisey/DestroyPrimitiveArrayFunction.hpp"
 #include "wisey/DestroyReferenceArrayFunction.hpp"
 #include "wisey/ExpressionStatement.hpp"
@@ -65,7 +65,7 @@ void ProgramSuffix::defineEssentialFunctions(IRGenerationContext& context) const
   CheckArrayIndexFunction::get(context);
   DestroyNativeObjectFunction::get(context);
   DestroyOwnerArrayFunction::get(context);
-  DestroyOwnerObjectFunction::get(context);
+  DestroyObjectOwnerFunction::get(context);
   DestroyPrimitiveArrayFunction::get(context);
   DestroyReferenceArrayFunction::get(context);
   GetOriginalObjectFunction::get(context);

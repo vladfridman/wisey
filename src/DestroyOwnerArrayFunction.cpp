@@ -9,7 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/DestroyOwnerArrayFunction.hpp"
-#include "wisey/DestroyOwnerObjectFunction.hpp"
+#include "wisey/DestroyObjectOwnerFunction.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
@@ -210,7 +210,7 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   Value* elementPointer = IRWriter::newLoadInst(context, objectStore, "");
   vector<Value*> destructorArguments;
   destructorArguments.push_back(elementPointer);
-  Function* destructor = DestroyOwnerObjectFunction::get(context);
+  Function* destructor = DestroyObjectOwnerFunction::get(context);
   IRWriter::createCallInst(context, destructor, destructorArguments, "");
   IRWriter::createBranch(context, forCond);
 

@@ -266,7 +266,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldTe
   "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MGalaxy, %systems.vos.wisey.compiler.tests.MGalaxy* %1, i32 0, i32 1"
   "\n  %3 = load %systems.vos.wisey.compiler.tests.MStar*, %systems.vos.wisey.compiler.tests.MStar** %2"
   "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MStar* %3 to i8*"
-  "\n  call void @__destroyOwnerObjectFunction(i8* %4)"
+  "\n  call void @__destroyObjectOwnerFunction(i8* %4)"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.MGalaxy* %1 to i64*"
   "\n  %6 = getelementptr i64, i64* %5, i64 -1"
   "\n  %refCounter = load i64, i64* %6"
@@ -377,7 +377,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFiel
   "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MCar, %systems.vos.wisey.compiler.tests.MCar* %1, i32 0, i32 1"
   "\n  %3 = load %systems.vos.wisey.compiler.tests.ICanNavigate*, %systems.vos.wisey.compiler.tests.ICanNavigate** %2"
   "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.ICanNavigate* %3 to i8*"
-  "\n  call void @__destroyOwnerObjectFunction(i8* %4)"
+  "\n  call void @__destroyObjectOwnerFunction(i8* %4)"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.MCar* %1 to i64*"
   "\n  %6 = getelementptr i64, i64* %5, i64 -1"
   "\n  %refCounter = load i64, i64* %6"
@@ -429,7 +429,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorCallTest) {
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MCar* null to i8*"
-  "\n  call void @__destroyOwnerObjectFunction(i8* %0)\n";
+  "\n  call void @__destroyObjectOwnerFunction(i8* %0)\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

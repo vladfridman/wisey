@@ -720,9 +720,9 @@
 		F58B32861E1635850001CC15 /* ContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32841E1635850001CC15 /* ContinueStatement.cpp */; };
 		F58B32881E1637F50001CC15 /* TestContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */; };
 		F58D07F21F697027001A7544 /* TestStaticMethodCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58D07F11F697027001A7544 /* TestStaticMethodCall.cpp */; };
-		F58FA2F9206E65C100C86D33 /* DestroyOwnerObjectFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA2F8206E65C100C86D33 /* DestroyOwnerObjectFunction.cpp */; };
-		F58FA2FA206E65C100C86D33 /* DestroyOwnerObjectFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA2F8206E65C100C86D33 /* DestroyOwnerObjectFunction.cpp */; };
-		F58FA2FD206E684B00C86D33 /* TestDestroyOwnerObjectFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA2FB206E684B00C86D33 /* TestDestroyOwnerObjectFunction.cpp */; };
+		F58FA2F9206E65C100C86D33 /* DestroyObjectOwnerFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA2F8206E65C100C86D33 /* DestroyObjectOwnerFunction.cpp */; };
+		F58FA2FA206E65C100C86D33 /* DestroyObjectOwnerFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA2F8206E65C100C86D33 /* DestroyObjectOwnerFunction.cpp */; };
+		F58FA2FD206E684B00C86D33 /* TestDestroyObjectOwnerFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA2FB206E684B00C86D33 /* TestDestroyObjectOwnerFunction.cpp */; };
 		F58FA300206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA2FF206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp */; };
 		F58FA301206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA2FF206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp */; };
 		F58FA30320710A4700C86D33 /* TestAdjustReferenceCounterForArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58FA30220710A4700C86D33 /* TestAdjustReferenceCounterForArrayFunction.cpp */; };
@@ -1685,9 +1685,9 @@
 		F58B32841E1635850001CC15 /* ContinueStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContinueStatement.cpp; path = src/ContinueStatement.cpp; sourceTree = "<group>"; };
 		F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestContinueStatement.cpp; path = tests/TestContinueStatement.cpp; sourceTree = "<group>"; };
 		F58D07F11F697027001A7544 /* TestStaticMethodCall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestStaticMethodCall.cpp; path = tests/TestStaticMethodCall.cpp; sourceTree = "<group>"; };
-		F58FA2F7206E653A00C86D33 /* DestroyOwnerObjectFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DestroyOwnerObjectFunction.hpp; path = include/wisey/DestroyOwnerObjectFunction.hpp; sourceTree = "<group>"; };
-		F58FA2F8206E65C100C86D33 /* DestroyOwnerObjectFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DestroyOwnerObjectFunction.cpp; path = src/DestroyOwnerObjectFunction.cpp; sourceTree = "<group>"; };
-		F58FA2FB206E684B00C86D33 /* TestDestroyOwnerObjectFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestDestroyOwnerObjectFunction.cpp; path = tests/TestDestroyOwnerObjectFunction.cpp; sourceTree = "<group>"; };
+		F58FA2F7206E653A00C86D33 /* DestroyObjectOwnerFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DestroyObjectOwnerFunction.hpp; path = include/wisey/DestroyObjectOwnerFunction.hpp; sourceTree = "<group>"; };
+		F58FA2F8206E65C100C86D33 /* DestroyObjectOwnerFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DestroyObjectOwnerFunction.cpp; path = src/DestroyObjectOwnerFunction.cpp; sourceTree = "<group>"; };
+		F58FA2FB206E684B00C86D33 /* TestDestroyObjectOwnerFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestDestroyObjectOwnerFunction.cpp; path = tests/TestDestroyObjectOwnerFunction.cpp; sourceTree = "<group>"; };
 		F58FA2FE206FC7CB00C86D33 /* AdjustReferenceCounterForArrayFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AdjustReferenceCounterForArrayFunction.hpp; path = include/wisey/AdjustReferenceCounterForArrayFunction.hpp; sourceTree = "<group>"; };
 		F58FA2FF206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = AdjustReferenceCounterForArrayFunction.cpp; path = src/AdjustReferenceCounterForArrayFunction.cpp; sourceTree = "<group>"; };
 		F58FA30220710A4700C86D33 /* TestAdjustReferenceCounterForArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestAdjustReferenceCounterForArrayFunction.cpp; path = tests/TestAdjustReferenceCounterForArrayFunction.cpp; sourceTree = "<group>"; };
@@ -2237,8 +2237,8 @@
 				F52C665D1FBF38CC00E89B04 /* CheckForNullAndThrowFunction.cpp */,
 				F5E6BD061F190B4700D59444 /* Composer.cpp */,
 				F5BF0C882080FBBB005AF4E5 /* DestroyNativeObjectFunction.cpp */,
+				F58FA2F8206E65C100C86D33 /* DestroyObjectOwnerFunction.cpp */,
 				F54ED95E1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp */,
-				F58FA2F8206E65C100C86D33 /* DestroyOwnerObjectFunction.cpp */,
 				F5170193200DC7A900A10B7C /* DestroyPrimitiveArrayFunction.cpp */,
 				F5170196200DCB5700A10B7C /* DestroyReferenceArrayFunction.cpp */,
 				F5105FB21FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp */,
@@ -2260,8 +2260,8 @@
 				F52C665C1FBF387900E89B04 /* CheckForNullAndThrowFunction.hpp */,
 				F5E6BD051F190B3900D59444 /* Composer.hpp */,
 				F5BF0C872080FB3C005AF4E5 /* DestroyNativeObjectFunction.hpp */,
+				F58FA2F7206E653A00C86D33 /* DestroyObjectOwnerFunction.hpp */,
 				F54ED95D1FE84C9400847A2B /* DestroyOwnerArrayFunction.hpp */,
-				F58FA2F7206E653A00C86D33 /* DestroyOwnerObjectFunction.hpp */,
 				F5170192200DC78500A10B7C /* DestroyPrimitiveArrayFunction.hpp */,
 				F5170195200DCB3D00A10B7C /* DestroyReferenceArrayFunction.hpp */,
 				F5105FB11FD16CE700ACF57B /* GetOriginalObjectFunction.hpp */,
@@ -3214,8 +3214,8 @@
 				F5105FBC1FD1A65E00ACF57B /* TestCheckForNullAndThrowFunction.cpp */,
 				F5E6BD0D1F1B7DCD00D59444 /* TestComposer.cpp */,
 				F5BF0C8B2081014B005AF4E5 /* TestDestroyNativeObjectFunction.cpp */,
+				F58FA2FB206E684B00C86D33 /* TestDestroyObjectOwnerFunction.cpp */,
 				F54985781FE95FFE004C204C /* TestDestroyOwnerArrayFunction.cpp */,
-				F58FA2FB206E684B00C86D33 /* TestDestroyOwnerObjectFunction.cpp */,
 				F5170190200DC64500A10B7C /* TestDestroyPrimitiveArrayFunction.cpp */,
 				F5170198200DCB9100A10B7C /* TestDestroyReferenceArrayFunction.cpp */,
 				F5105FB51FD1767400ACF57B /* TestGetOriginalObjectFunction.cpp */,
@@ -4168,7 +4168,7 @@
 				F53A2C141EF018EE00E76A9E /* TestInterfaceOwner.cpp in Sources */,
 				F532506A202A22B7007D8597 /* ArrayExactOwnerType.cpp in Sources */,
 				F56C214B1F5EA91A002510FC /* Cleanup.cpp in Sources */,
-				F58FA2FD206E684B00C86D33 /* TestDestroyOwnerObjectFunction.cpp in Sources */,
+				F58FA2FD206E684B00C86D33 /* TestDestroyObjectOwnerFunction.cpp in Sources */,
 				F5105FBD1FD1A65E00ACF57B /* TestCheckForNullAndThrowFunction.cpp in Sources */,
 				F56AD4A41E9F6D5B0020868C /* TestIObjectType.cpp in Sources */,
 				F57E2E2B1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp in Sources */,
@@ -4303,7 +4303,7 @@
 				F582706A205FD8B600839EC7 /* LLVMFunctionType.cpp in Sources */,
 				F5170194200DC7A900A10B7C /* DestroyPrimitiveArrayFunction.cpp in Sources */,
 				F5B12E79207E6C2A00677C63 /* TestLLVMFunctionIdentifier.cpp in Sources */,
-				F58FA2FA206E65C100C86D33 /* DestroyOwnerObjectFunction.cpp in Sources */,
+				F58FA2FA206E65C100C86D33 /* DestroyObjectOwnerFunction.cpp in Sources */,
 				F51701AA200FCE8400A10B7C /* ArrayOwnerTypeSpecifier.cpp in Sources */,
 				F5A67DBA20171F0B0018068F /* FieldArrayOwnerVariable.cpp in Sources */,
 				F5CB7FCE20529E77007628B5 /* InjectedFieldDefinition.cpp in Sources */,
@@ -4592,7 +4592,7 @@
 				F53A2C1E1EF96C0200E76A9E /* IVariable.cpp in Sources */,
 				F59D82111E0F311B00057FB5 /* ForStatement.cpp in Sources */,
 				F581A0182073B3CB00EA0156 /* ILLVMType.cpp in Sources */,
-				F58FA2F9206E65C100C86D33 /* DestroyOwnerObjectFunction.cpp in Sources */,
+				F58FA2F9206E65C100C86D33 /* DestroyObjectOwnerFunction.cpp in Sources */,
 				F5190A4A2088DA3400BC2D93 /* CastObjectFunction.cpp in Sources */,
 				F53227E22063FB0900605E1B /* LocalSystemReferenceVariable.cpp in Sources */,
 				F5BF0C892080FBBB005AF4E5 /* DestroyNativeObjectFunction.cpp in Sources */,

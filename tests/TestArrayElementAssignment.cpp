@@ -95,7 +95,7 @@ TEST_F(ArrayElementAssignmentTest, generateOwnerArrayAssignmentTest) {
   "\nentry:"
   "\n  %0 = load %systems.vos.wisey.compiler.tests.MModel*, %systems.vos.wisey.compiler.tests.MModel** null"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MModel* %0 to i8*"
-  "\n  call void @__destroyOwnerObjectFunction(i8* %1)"
+  "\n  call void @__destroyObjectOwnerFunction(i8* %1)"
   "\n  store %systems.vos.wisey.compiler.tests.MModel* null, %systems.vos.wisey.compiler.tests.MModel** null"
   "\n";
   

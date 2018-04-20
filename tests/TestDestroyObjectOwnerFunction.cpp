@@ -1,11 +1,11 @@
 //
-//  TestDestroyOwnerObjectFunction.cpp
+//  TestDestroyObjectOwnerFunction.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 3/30/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link DestroyOwnerObjectFunction}
+//  Tests {@link DestroyObjectOwnerFunction}
 //
 
 #include <gtest/gtest.h>
@@ -14,7 +14,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/DestroyOwnerObjectFunction.hpp"
+#include "wisey/DestroyObjectOwnerFunction.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
 using namespace llvm;
@@ -23,7 +23,7 @@ using namespace wisey;
 
 using ::testing::Test;
 
-struct DestroyOwnerObjectFunctionTest : Test {
+struct DestroyObjectOwnerFunctionTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBasicBlock;
@@ -31,7 +31,7 @@ struct DestroyOwnerObjectFunctionTest : Test {
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  DestroyOwnerObjectFunctionTest() :
+  DestroyObjectOwnerFunctionTest() :
   mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     
@@ -48,30 +48,30 @@ struct DestroyOwnerObjectFunctionTest : Test {
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
-  ~DestroyOwnerObjectFunctionTest() {
+  ~DestroyObjectOwnerFunctionTest() {
   }
 };
 
-TEST_F(DestroyOwnerObjectFunctionTest, callTest) {
+TEST_F(DestroyObjectOwnerFunctionTest, callTest) {
   PointerType* genericPointer = Type::getInt8Ty(mLLVMContext)->getPointerTo();
   Value* nullPointerValue = ConstantPointerNull::get(genericPointer);
-  DestroyOwnerObjectFunction::call(mContext, nullPointerValue);
+  DestroyObjectOwnerFunction::call(mContext, nullPointerValue);
   
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  call void @__destroyOwnerObjectFunction(i8* null)\n";
+  "\n  call void @__destroyObjectOwnerFunction(i8* null)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(DestroyOwnerObjectFunctionTest, getTest) {
-  Function* function = DestroyOwnerObjectFunction::get(mContext);
+TEST_F(DestroyObjectOwnerFunctionTest, getTest) {
+  Function* function = DestroyObjectOwnerFunction::get(mContext);
   mContext.runComposingCallbacks();
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @__destroyOwnerObjectFunction(i8* %thisGeneric) personality i32 (...)* @__gxx_personality_v0 {"
+  "\ndefine void @__destroyObjectOwnerFunction(i8* %thisGeneric) personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = icmp eq i8* %thisGeneric, null"
   "\n  br i1 %0, label %if.null, label %if.notnull"

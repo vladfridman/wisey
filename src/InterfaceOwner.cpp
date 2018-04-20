@@ -8,7 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/DestroyOwnerObjectFunction.hpp"
+#include "wisey/DestroyObjectOwnerFunction.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/FieldOwnerVariable.hpp"
 #include "wisey/InterfaceOwner.hpp"
@@ -87,7 +87,7 @@ void InterfaceOwner::free(IRGenerationContext& context, Value* value, int line) 
 }
 
 Function* InterfaceOwner::getDestructorFunction(IRGenerationContext& context, int line) const {
-  return DestroyOwnerObjectFunction::get(context);
+  return DestroyObjectOwnerFunction::get(context);
 }
 
 bool InterfaceOwner::isPrimitive() const {
