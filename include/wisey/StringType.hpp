@@ -81,7 +81,7 @@ namespace wisey {
     
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
 
-    const PrimitiveTypeSpecifier* newTypeSpecifier() const override;
+    const PrimitiveTypeSpecifier* newTypeSpecifier(int line) const override;
 
     llvm::Instruction* inject(IRGenerationContext& context,
                               const InjectionArgumentList injectionArgumentList,

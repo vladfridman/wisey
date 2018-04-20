@@ -468,21 +468,21 @@ wisey_type_specifier
   ; 
 
 wisey_object_type_specifier
-  : TWISEY TWISEYOBJECT { $$ = new WiseyObjectTypeSpecifier(); }
+  : TWISEY TWISEYOBJECT { $$ = new WiseyObjectTypeSpecifier(yylineno); }
   ;
 
 wisey_object_owner_type_specifier
   : wisey_object_type_specifier '*'
-    { $$ = new WiseyObjectOwnerTypeSpecifier(); }
+    { $$ = new WiseyObjectOwnerTypeSpecifier(yylineno); }
   ;
 
 wisey_model_type_specifier
-  : TWISEY TWISEYMODEL { $$ = new WiseyModelTypeSpecifier(); }
+  : TWISEY TWISEYMODEL { $$ = new WiseyModelTypeSpecifier(yylineno); }
   ;
 
 wisey_model_owner_type_specifier
   : wisey_model_type_specifier '*'
-    { $$ = new WiseyModelOwnerTypeSpecifier(); }
+    { $$ = new WiseyModelOwnerTypeSpecifier(yylineno); }
   ;
 
 llvm_non_array_type_specifier
@@ -512,15 +512,15 @@ llvm_pointer_base_type_specifier
   ;
 
 llvm_i_type_specifier
-  : TLLVM TLLVMI1 { $$ = LLVMPrimitiveTypes::I1->newTypeSpecifier(); }
-  | TLLVM TLLVMI8 { $$ = LLVMPrimitiveTypes::I8->newTypeSpecifier(); }
-  | TLLVM TLLVMI16 { $$ = LLVMPrimitiveTypes::I16->newTypeSpecifier(); }
-  | TLLVM TLLVMI32 { $$ = LLVMPrimitiveTypes::I32->newTypeSpecifier(); }
-  | TLLVM TLLVMI64 { $$ = LLVMPrimitiveTypes::I64->newTypeSpecifier(); }
+  : TLLVM TLLVMI1 { $$ = LLVMPrimitiveTypes::I1->newTypeSpecifier(yylineno); }
+  | TLLVM TLLVMI8 { $$ = LLVMPrimitiveTypes::I8->newTypeSpecifier(yylineno); }
+  | TLLVM TLLVMI16 { $$ = LLVMPrimitiveTypes::I16->newTypeSpecifier(yylineno); }
+  | TLLVM TLLVMI32 { $$ = LLVMPrimitiveTypes::I32->newTypeSpecifier(yylineno); }
+  | TLLVM TLLVMI64 { $$ = LLVMPrimitiveTypes::I64->newTypeSpecifier(yylineno); }
   ;
 
 llvm_void_type_specifier
-  : TLLVM TLLVMVOID { $$ = LLVMPrimitiveTypes::VOID->newTypeSpecifier(); }
+  : TLLVM TLLVMVOID { $$ = LLVMPrimitiveTypes::VOID->newTypeSpecifier(yylineno); }
 
 llvm_struct_specifier
   : TLLVM TLLVMSTRUCT TDOUBLECOLON TIDENTIFIER
@@ -529,7 +529,7 @@ llvm_struct_specifier
 
 llvm_array_specifier
   : TLLVM TLLVMARRAY '(' llvm_non_array_type_specifier ',' llvm_array_dimensions ')'
-    { $$ = new LLVMArrayTypeSpecifer($4, *$6); delete $6; }
+    { $$ = new LLVMArrayTypeSpecifer($4, *$6, yylineno); delete $6; }
   ;
 
 llvm_array_dimensions
@@ -545,7 +545,7 @@ llvm_array_dimensions
 
 llvm_function_type_specifier
   : native_type_specifier '(' llvm_function_argument_type_specifier_list ')'
-    { $$ = new LLVMFunctionTypeSpecifier($1, *$3); delete $3; }
+    { $$ = new LLVMFunctionTypeSpecifier($1, *$3, yylineno); delete $3; }
   ;
 
 llvm_function_argument_type_specifier_list
@@ -1544,14 +1544,14 @@ non_array_type_specifier
   ;
 
 primitive_type_specifier
-  : TTYPEBOOLEAN { $$ = PrimitiveTypes::BOOLEAN_TYPE->newTypeSpecifier(); }
-  | TTYPECHAR { $$ = PrimitiveTypes::CHAR_TYPE->newTypeSpecifier(); }
-  | TTYPEDOUBLE { $$ = PrimitiveTypes::DOUBLE_TYPE->newTypeSpecifier(); }
-  | TTYPEFLOAT { $$ = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(); }
-  | TTYPEINT { $$ = PrimitiveTypes::INT_TYPE->newTypeSpecifier(); }
-  | TTYPELONG { $$ = PrimitiveTypes::LONG_TYPE->newTypeSpecifier(); }
-  | TTYPESTRING { $$ = PrimitiveTypes::STRING_TYPE->newTypeSpecifier(); }
-  | TTYPEVOID { $$ = PrimitiveTypes::VOID_TYPE->newTypeSpecifier(); }
+  : TTYPEBOOLEAN { $$ = PrimitiveTypes::BOOLEAN_TYPE->newTypeSpecifier(yylineno); }
+  | TTYPECHAR { $$ = PrimitiveTypes::CHAR_TYPE->newTypeSpecifier(yylineno); }
+  | TTYPEDOUBLE { $$ = PrimitiveTypes::DOUBLE_TYPE->newTypeSpecifier(yylineno); }
+  | TTYPEFLOAT { $$ = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(yylineno); }
+  | TTYPEINT { $$ = PrimitiveTypes::INT_TYPE->newTypeSpecifier(yylineno); }
+  | TTYPELONG { $$ = PrimitiveTypes::LONG_TYPE->newTypeSpecifier(yylineno); }
+  | TTYPESTRING { $$ = PrimitiveTypes::STRING_TYPE->newTypeSpecifier(yylineno); }
+  | TTYPEVOID { $$ = PrimitiveTypes::VOID_TYPE->newTypeSpecifier(yylineno); }
   ;
 
 array_owner_type_specifier
@@ -1561,7 +1561,7 @@ array_owner_type_specifier
 
 array_type_specifier
   : non_array_type_specifier array_undefined_dimensions_list
-    { $$ = new ArrayTypeSpecifier($1, $2); }
+    { $$ = new ArrayTypeSpecifier($1, $2, yylineno); }
   ;
 
 array_specific_owner_type_specifier
@@ -1571,7 +1571,7 @@ array_specific_owner_type_specifier
 
 array_specific_type_specifier
   : non_array_type_specifier array_dimensions
-    { $$ = new ArraySpecificTypeSpecifier($1, *$2); delete $2; }
+    { $$ = new ArraySpecificTypeSpecifier($1, *$2, yylineno); delete $2; }
   ;
 
 array_dimensions

@@ -47,3 +47,7 @@ Interface* InterfaceTypeSpecifier::getType(IRGenerationContext& context) const {
 void InterfaceTypeSpecifier::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << getName(context);
 }
+
+int InterfaceTypeSpecifier::getLine() const {
+  return mLine;
+}

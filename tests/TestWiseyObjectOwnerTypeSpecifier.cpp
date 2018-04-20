@@ -22,7 +22,7 @@ struct WiseyObjectOwnerTypeSpecifierTest : public Test {
   WiseyObjectOwnerTypeSpecifier* mWiseyObjectOwnerTypeSpecifier;
   
   WiseyObjectOwnerTypeSpecifierTest() {
-    mWiseyObjectOwnerTypeSpecifier = new WiseyObjectOwnerTypeSpecifier();
+    mWiseyObjectOwnerTypeSpecifier = new WiseyObjectOwnerTypeSpecifier(9);
   }
 };
 
@@ -33,6 +33,7 @@ TEST_F(WiseyObjectOwnerTypeSpecifierTest, getTypeTest) {
   EXPECT_FALSE(type->isReference());
   EXPECT_TRUE(type->isOwner());
   EXPECT_STREQ("::wisey::object*", type->getTypeName().c_str());
+  EXPECT_EQ(9, mWiseyObjectOwnerTypeSpecifier->getLine());
 }
 
 TEST_F(WiseyObjectOwnerTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {

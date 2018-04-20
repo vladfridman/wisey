@@ -38,8 +38,8 @@ struct LLVMStructDefinitionTest : public Test {
   
   LLVMStructDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
     vector<const ITypeSpecifier*> typeSpecifiers;
-    typeSpecifiers.push_back(LLVMPrimitiveTypes::I8->newTypeSpecifier());
-    typeSpecifiers.push_back(LLVMPrimitiveTypes::I64->newTypeSpecifier());
+    typeSpecifiers.push_back(LLVMPrimitiveTypes::I8->newTypeSpecifier(0));
+    typeSpecifiers.push_back(LLVMPrimitiveTypes::I64->newTypeSpecifier(0));
     mLLVMStructDefinition = new LLVMStructDefinition("mystruct", typeSpecifiers, 0);
     
     FunctionType* functionType =

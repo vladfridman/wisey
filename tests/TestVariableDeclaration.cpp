@@ -70,7 +70,7 @@ struct VariableDeclarationTest : public Test {
 };
 
 TEST_F(VariableDeclarationTest, stackVariableDeclarationWithoutAssignmentTest) {
-  const PrimitiveTypeSpecifier* typeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* typeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
   VariableDeclaration* declaration = VariableDeclaration::create(typeSpecifier, mIdentifier, 0);
 
   declaration->generateIR(mContext);
@@ -89,7 +89,7 @@ TEST_F(VariableDeclarationTest, stackVariableDeclarationWithoutAssignmentTest) {
 }
 
 TEST_F(VariableDeclarationTest, stackVariableDeclarationWithAssignmentTest) {
-  const PrimitiveTypeSpecifier* typeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* typeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
   NiceMock<MockExpression>* expression = new NiceMock<MockExpression>();
   Value * value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
   ON_CALL(*expression, generateIR(_, _)).WillByDefault(Return(value));

@@ -24,11 +24,11 @@ struct LLVMArrayTypeSpeciferTest : public Test {
   LLVMArrayTypeSpecifer* mLLVMArrayTypeSpecifier;
   
   LLVMArrayTypeSpeciferTest() {
-    const ILLVMTypeSpecifier* i8Specifier = LLVMPrimitiveTypes::I8->newTypeSpecifier();
+    const ILLVMTypeSpecifier* i8Specifier = LLVMPrimitiveTypes::I8->newTypeSpecifier(3);
     list<unsigned long> dimensions;
     dimensions.push_back(5u);
     dimensions.push_back(2u);
-    mLLVMArrayTypeSpecifier = new LLVMArrayTypeSpecifer(i8Specifier, dimensions);
+    mLLVMArrayTypeSpecifier = new LLVMArrayTypeSpecifer(i8Specifier, dimensions, 3);
   }
 };
 
@@ -43,6 +43,7 @@ TEST_F(LLVMArrayTypeSpeciferTest, creationTest) {
   EXPECT_EQ(2u, arrayType->getNumberOfDimensions());
   EXPECT_EQ(2u, arrayType->getDimensions().back());
   EXPECT_EQ(5u, arrayType->getDimensions().front());
+  EXPECT_EQ(3, mLLVMArrayTypeSpecifier->getLine());
 }
 
 TEST_F(LLVMArrayTypeSpeciferTest, twoGetsReturnSameTypeObjectTest) {

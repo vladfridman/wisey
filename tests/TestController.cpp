@@ -91,7 +91,7 @@ struct ControllerTest : public Test {
     VariableList calculatorInterfaceArguments;
     vector<IObjectElementDefinition*> calculatorInterfaceElements;
     vector<IModelTypeSpecifier*> calculatorThrownExceptions;
-    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
+    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
     IObjectElementDefinition* calculateSignature =
       new MethodSignatureDeclaration(intSpecifier,
                                      "calculate",

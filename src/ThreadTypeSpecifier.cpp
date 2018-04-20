@@ -48,3 +48,6 @@ void ThreadTypeSpecifier::printToStream(IRGenerationContext& context, iostream& 
   stream << getName(context);
 }
 
+int ThreadTypeSpecifier::getLine() const {
+  return mLine;
+}

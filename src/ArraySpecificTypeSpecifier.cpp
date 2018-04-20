@@ -13,8 +13,9 @@ using namespace std;
 using namespace wisey;
 
 ArraySpecificTypeSpecifier::ArraySpecificTypeSpecifier(const ITypeSpecifier* elementTypeSpecifier,
-                                                       std::list<const IExpression*> dimensions) :
-mElementTypeSpecifier(elementTypeSpecifier), mDimensions(dimensions) {
+                                                       std::list<const IExpression*> dimensions,
+                                                       int line) :
+mElementTypeSpecifier(elementTypeSpecifier), mDimensions(dimensions), mLine(line) {
 }
 
 ArraySpecificTypeSpecifier::~ArraySpecificTypeSpecifier() {
@@ -38,3 +39,6 @@ void ArraySpecificTypeSpecifier::printToStream(IRGenerationContext& context,
   }
 }
 
+int ArraySpecificTypeSpecifier::getLine() const {
+  return mLine;
+}

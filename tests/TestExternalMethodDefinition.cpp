@@ -34,8 +34,8 @@ struct ExternalMethodDefinitionTest : Test {
   VariableList mArguments;
   
   ExternalMethodDefinitionTest() :
-  mFloatTypeSpecifier(PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier()),
-  mIntTypeSpecifier(PrimitiveTypes::INT_TYPE->newTypeSpecifier()),
+  mFloatTypeSpecifier(PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0)),
+  mIntTypeSpecifier(PrimitiveTypes::INT_TYPE->newTypeSpecifier(0)),
   mIntArgumentIdentifier(new Identifier("intargument", 0)),
   mFloatArgumentIdentifier(new Identifier("floatargument", 0)),
   mIntArgument(VariableDeclaration::create(mIntTypeSpecifier, mIntArgumentIdentifier, 0)),
@@ -48,7 +48,8 @@ TEST_F(ExternalMethodDefinitionTest, methodDescriptorExtractTest) {
   mArguments.push_back(mIntArgument);
   mArguments.push_back(mFloatArgument);
   vector<IModelTypeSpecifier*> thrownExceptions;
-  const PrimitiveTypeSpecifier* floatTypeSpecifier = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* floatTypeSpecifier =
+  PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0);
   ExternalMethodDefinition methodDefinition(floatTypeSpecifier,
                                             "foo",
                                             mArguments,

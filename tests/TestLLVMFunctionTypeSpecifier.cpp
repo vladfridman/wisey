@@ -24,11 +24,12 @@ struct LLVMFunctionTypeSpecifierTest : public Test {
   LLVMFunctionTypeSpecifier* mLLVMFunctionTypeSpecifier;
   
   LLVMFunctionTypeSpecifierTest() {
-    const ILLVMTypeSpecifier* i8Specifier = LLVMPrimitiveTypes::I8->newTypeSpecifier();
+    const ILLVMTypeSpecifier* i8Specifier = LLVMPrimitiveTypes::I8->newTypeSpecifier(0);
     vector<const ITypeSpecifier*> argumentTypeSpecifiers;
-    argumentTypeSpecifiers.push_back(LLVMPrimitiveTypes::I16->newTypeSpecifier());
-    argumentTypeSpecifiers.push_back(LLVMPrimitiveTypes::I64->newTypeSpecifier());
-    mLLVMFunctionTypeSpecifier = new LLVMFunctionTypeSpecifier(i8Specifier, argumentTypeSpecifiers);
+    argumentTypeSpecifiers.push_back(LLVMPrimitiveTypes::I16->newTypeSpecifier(0));
+    argumentTypeSpecifiers.push_back(LLVMPrimitiveTypes::I64->newTypeSpecifier(0));
+    mLLVMFunctionTypeSpecifier =
+    new LLVMFunctionTypeSpecifier(i8Specifier, argumentTypeSpecifiers, 5);
   }
 };
 
@@ -44,6 +45,7 @@ TEST_F(LLVMFunctionTypeSpecifierTest, creationTest) {
   EXPECT_EQ(2u, functionType->getArgumentTypes().size());
   EXPECT_EQ(LLVMPrimitiveTypes::I16, functionType->getArgumentTypes().front());
   EXPECT_EQ(LLVMPrimitiveTypes::I64, functionType->getArgumentTypes().back());
+  EXPECT_EQ(5, mLLVMFunctionTypeSpecifier->getLine());
 }
 
 TEST_F(LLVMFunctionTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {

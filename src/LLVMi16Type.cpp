@@ -135,8 +135,8 @@ const LLVMPointerType* LLVMi16Type::getPointerType() const {
   return mPointerType;
 }
 
-const ILLVMTypeSpecifier* LLVMi16Type::newTypeSpecifier() const {
-  return new LLVMPrimitiveTypeSpecifier(this);
+const ILLVMTypeSpecifier* LLVMi16Type::newTypeSpecifier(int line) const {
+  return new LLVMPrimitiveTypeSpecifier(this, line);
 }
 
 Instruction* LLVMi16Type::inject(IRGenerationContext& context,

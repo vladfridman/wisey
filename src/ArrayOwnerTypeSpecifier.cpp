@@ -27,3 +27,7 @@ void ArrayOwnerTypeSpecifier::printToStream(IRGenerationContext &context, iostre
   mArrayTypeSpecifier->printToStream(context, stream);
   stream << "*";
 }
+
+int ArrayOwnerTypeSpecifier::getLine() const {
+  return mArrayTypeSpecifier->getLine();
+}

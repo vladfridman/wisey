@@ -123,7 +123,7 @@ struct TypeComparisionExpressionTest : public Test {
     VariableList subShapeInterfaceArguments;
     vector<IObjectElementDefinition*> subShapeInterfaceElements;
     vector<IModelTypeSpecifier*> subShapeThrownExceptions;
-    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
+    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
     IObjectElementDefinition* methodFooSignature =
       new MethodSignatureDeclaration(intSpecifier,
                                      "foo",

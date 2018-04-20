@@ -24,7 +24,7 @@ namespace wisey {
     /**
      * Creates a type specifier for this type
      */
-    virtual const ILLVMTypeSpecifier* newTypeSpecifier() const = 0;
+    virtual const ILLVMTypeSpecifier* newTypeSpecifier(int line) const = 0;
     
   };
   

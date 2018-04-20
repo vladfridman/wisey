@@ -49,3 +49,6 @@ void ControllerTypeSpecifierFull::printToStream(IRGenerationContext& context,
   stream << getName(context);
 }
 
+int ControllerTypeSpecifierFull::getLine() const {
+  return mLine;
+}

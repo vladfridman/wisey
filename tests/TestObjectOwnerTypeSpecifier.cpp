@@ -24,6 +24,7 @@ using ::testing::_;
 using ::testing::Invoke;
 using ::testing::Mock;
 using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
 
 struct ObjectOwnerTypeSpecifierTest : public Test {
@@ -43,10 +44,12 @@ TEST_F(ObjectOwnerTypeSpecifierTest, getTypeTest) {
   NiceMock<MockObjectOwnerType> mockOwnerObjectType;
   ON_CALL(mockObjectType, getOwner()).WillByDefault(Return(&mockOwnerObjectType));
   ON_CALL(*mObjectTypeSpecifier, getType(_)).WillByDefault(Return(&mockObjectType));
-  
+  ON_CALL(*mObjectTypeSpecifier, getLine()).WillByDefault(Return(7));
+
   ObjectOwnerTypeSpecifier ownerTypeSpecifier(mObjectTypeSpecifier);
   
-  EXPECT_EQ(ownerTypeSpecifier.getType(mContext), &mockOwnerObjectType);
+  EXPECT_EQ(&mockOwnerObjectType, ownerTypeSpecifier.getType(mContext));
+  EXPECT_EQ(7, ownerTypeSpecifier.getLine());
 }
 
 TEST_F(ObjectOwnerTypeSpecifierTest, printToStreamTest) {

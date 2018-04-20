@@ -32,6 +32,8 @@ namespace wisey {
     const LLVMPointerType* getType(IRGenerationContext& context) const override;
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
+    
+    int getLine() const override;
 
   };
   

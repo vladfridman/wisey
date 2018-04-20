@@ -21,17 +21,20 @@ namespace wisey {
   class LLVMPrimitiveTypeSpecifier : public ILLVMTypeSpecifier {
     
     const ILLVMPrimitiveType* mType;
+    int mLine;
     
   public:
     
-    LLVMPrimitiveTypeSpecifier(const ILLVMPrimitiveType* type) : mType(type) { }
+    LLVMPrimitiveTypeSpecifier(const ILLVMPrimitiveType* type, int line);
     
-    ~LLVMPrimitiveTypeSpecifier() { }
+    ~LLVMPrimitiveTypeSpecifier();
     
     const ILLVMPrimitiveType* getType(IRGenerationContext& context) const override;
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
+    int getLine() const override;
+
   };
   
 } /* namespace wisey */

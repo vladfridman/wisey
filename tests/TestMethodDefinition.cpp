@@ -45,8 +45,8 @@ struct MethodDefinitionTest : Test {
   NiceMock<MockObjectType>* mObject;
   
   MethodDefinitionTest() :
-  mFloatTypeSpecifier(PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier()),
-  mIntTypeSpecifier(PrimitiveTypes::INT_TYPE->newTypeSpecifier()),
+  mFloatTypeSpecifier(PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0)),
+  mIntTypeSpecifier(PrimitiveTypes::INT_TYPE->newTypeSpecifier(0)),
   mIntArgumentIdentifier(new Identifier("intargument", 0)),
   mFloatArgumentIdentifier(new Identifier("floatargument", 0)),
   mIntArgument(VariableDeclaration::create(mIntTypeSpecifier, mIntArgumentIdentifier, 0)),
@@ -63,7 +63,7 @@ TEST_F(MethodDefinitionTest, methodDescriptorExtractTest) {
   mArguments.push_back(mFloatArgument);
   vector<IModelTypeSpecifier*> thrownExceptions;
   MethodDefinition methodDefinition(AccessLevel::PUBLIC_ACCESS,
-                                    PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(),
+                                    PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0),
                                     "foo",
                                     mArguments,
                                     thrownExceptions,

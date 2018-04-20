@@ -48,3 +48,6 @@ void InterfaceTypeSpecifierFull::printToStream(IRGenerationContext& context, ios
   stream << getName(context);
 }
 
+int InterfaceTypeSpecifierFull::getLine() const {
+  return mLine;
+}

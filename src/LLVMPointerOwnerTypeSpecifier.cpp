@@ -35,3 +35,7 @@ void LLVMPointerOwnerTypeSpecifier::printToStream(IRGenerationContext& context,
   mPointerTypeSpecifier->printToStream(context, stream);
   stream << "*";
 }
+
+int LLVMPointerOwnerTypeSpecifier::getLine() const {
+  return mPointerTypeSpecifier->getLine();
+}

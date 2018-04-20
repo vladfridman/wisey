@@ -49,7 +49,7 @@ public:
   mName("mField") {
     TestPrefix::generateIR(mContext);
     
-    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
+    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
     mFieldDeclaration = new ReceivedFieldDefinition(intSpecifier, mName, 0);
   }
   

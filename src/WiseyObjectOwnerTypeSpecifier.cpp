@@ -16,7 +16,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-WiseyObjectOwnerTypeSpecifier::WiseyObjectOwnerTypeSpecifier() {
+WiseyObjectOwnerTypeSpecifier::WiseyObjectOwnerTypeSpecifier(int line) : mLine(line) {
 }
 
 WiseyObjectOwnerTypeSpecifier::~WiseyObjectOwnerTypeSpecifier() {
@@ -29,4 +29,8 @@ const WiseyObjectOwnerType* WiseyObjectOwnerTypeSpecifier::getType(IRGenerationC
 void WiseyObjectOwnerTypeSpecifier::printToStream(IRGenerationContext& context,
                                                  std::iostream& stream) const {
   stream << "::wisey::object*";
+}
+
+int WiseyObjectOwnerTypeSpecifier::getLine() const {
+  return mLine;
 }

@@ -48,7 +48,7 @@ public:
     mInjectionArgument = new InjectionArgument("withFoo", mExpression);
     mArguments.push_back(mInjectionArgument);
     
-    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
+    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
     mFieldDeclaration = new InjectedFieldDefinition(intSpecifier, mName, mArguments, 0);
   }
   

@@ -23,7 +23,7 @@ namespace wisey {
   class LLVMPointerOwnerTypeSpecifier : public ITypeSpecifier {
     
     const LLVMPointerTypeSpecifier* mPointerTypeSpecifier;
-
+    
   public:
     
     LLVMPointerOwnerTypeSpecifier(const LLVMPointerTypeSpecifier* pointerTypeSpecifier);
@@ -34,6 +34,8 @@ namespace wisey {
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
+    int getLine() const override;
+
   };
   
 } /* namespace wisey */

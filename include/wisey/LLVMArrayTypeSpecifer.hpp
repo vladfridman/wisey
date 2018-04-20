@@ -23,11 +23,13 @@ namespace wisey {
   class LLVMArrayTypeSpecifer : public ILLVMTypeSpecifier {
     const ITypeSpecifier* mElementTypeSpecifier;
     std::list<unsigned long> mDimensions;
+    int mLine;
     
   public:
     
     LLVMArrayTypeSpecifer(const ITypeSpecifier* elementTypeSpecifier,
-                          std::list<unsigned long> dimensions);
+                          std::list<unsigned long> dimensions,
+                          int line);
     
     ~LLVMArrayTypeSpecifer();
     
@@ -35,6 +37,8 @@ namespace wisey {
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
+    int getLine() const override;
+
   };
   
 } /* namespace wisey */

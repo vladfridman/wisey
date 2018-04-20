@@ -12,8 +12,8 @@
 using namespace std;
 using namespace wisey;
 
-ArraySpecificOwnerTypeSpecifier::ArraySpecificOwnerTypeSpecifier(ArraySpecificTypeSpecifier*
-                                                                 arraySpecificTypeSpecifier) :
+ArraySpecificOwnerTypeSpecifier::
+ArraySpecificOwnerTypeSpecifier(ArraySpecificTypeSpecifier* arraySpecificTypeSpecifier) :
 mArraySpecificTypeSpecifier(arraySpecificTypeSpecifier) {
 }
 
@@ -29,4 +29,8 @@ const ArraySpecificOwnerType* ArraySpecificOwnerTypeSpecifier::getType(IRGenerat
 void ArraySpecificOwnerTypeSpecifier::printToStream(IRGenerationContext &context, iostream &stream) const {
   mArraySpecificTypeSpecifier->printToStream(context, stream);
   stream << "*";
+}
+
+int ArraySpecificOwnerTypeSpecifier::getLine() const {
+  return mArraySpecificTypeSpecifier->getLine();
 }

@@ -170,8 +170,8 @@ const wisey::ArrayType* FloatType::getArrayType(IRGenerationContext& context) co
   exit(1);
 }
 
-const PrimitiveTypeSpecifier* FloatType::newTypeSpecifier() const {
-  return new PrimitiveTypeSpecifier(this);
+const PrimitiveTypeSpecifier* FloatType::newTypeSpecifier(int line) const {
+  return new PrimitiveTypeSpecifier(this, line);
 }
 
 Instruction* FloatType::inject(IRGenerationContext& context,

@@ -47,3 +47,7 @@ const Controller* ControllerTypeSpecifier::getType(IRGenerationContext& context)
 void ControllerTypeSpecifier::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << getName(context);
 }
+
+int ControllerTypeSpecifier::getLine() const {
+  return mLine;
+}

@@ -126,8 +126,8 @@ const wisey::ArrayType* VoidType::getArrayType(IRGenerationContext& context) con
   exit(1);
 }
 
-const PrimitiveTypeSpecifier* VoidType::newTypeSpecifier() const {
-  return new PrimitiveTypeSpecifier(this);
+const PrimitiveTypeSpecifier* VoidType::newTypeSpecifier(int line) const {
+  return new PrimitiveTypeSpecifier(this, line);
 }
 
 Instruction* VoidType::inject(IRGenerationContext& context,

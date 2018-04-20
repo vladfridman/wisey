@@ -12,8 +12,9 @@ using namespace std;
 using namespace wisey;
 
 LLVMArrayTypeSpecifer::LLVMArrayTypeSpecifer(const ITypeSpecifier* elementTypeSpecifier,
-                                             std::list<unsigned long> dimensions) :
-mElementTypeSpecifier(elementTypeSpecifier), mDimensions(dimensions) {
+                                             std::list<unsigned long> dimensions,
+                                             int line) :
+mElementTypeSpecifier(elementTypeSpecifier), mDimensions(dimensions), mLine(line) {
 }
 
 LLVMArrayTypeSpecifer::~LLVMArrayTypeSpecifer() {
@@ -32,4 +33,8 @@ void LLVMArrayTypeSpecifer::printToStream(IRGenerationContext& context, iostream
     stream << ", " << dimension;
   }
   stream << ")";
+}
+
+int LLVMArrayTypeSpecifer::getLine() const {
+  return mLine;
 }

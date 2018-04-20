@@ -26,8 +26,8 @@ struct ArrayOwnerTypeSpecifierTest : public Test {
 };
 
 TEST_F(ArrayOwnerTypeSpecifierTest, creationTest) {
-  const PrimitiveTypeSpecifier* intSpecifer = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-  ArrayTypeSpecifier* arraySpecifier = new ArrayTypeSpecifier(intSpecifer, 1u);
+  const PrimitiveTypeSpecifier* intSpecifer = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+  ArrayTypeSpecifier* arraySpecifier = new ArrayTypeSpecifier(intSpecifer, 1u, 9);
   ArrayOwnerTypeSpecifier* specifier = new ArrayOwnerTypeSpecifier(arraySpecifier);
   const IType* type = specifier->getType(mContext);
   
@@ -38,11 +38,12 @@ TEST_F(ArrayOwnerTypeSpecifierTest, creationTest) {
   const ArrayOwnerType* arrayType = (const ArrayOwnerType*) type;
   EXPECT_EQ(PrimitiveTypes::INT_TYPE, arrayType->getArrayType(mContext)->getElementType());
   EXPECT_EQ(1u, arrayType->getArrayType(mContext)->getNumberOfDimensions());
+  EXPECT_EQ(9, specifier->getLine());
 }
 
 TEST_F(ArrayOwnerTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {
-  const PrimitiveTypeSpecifier* floatSpecifer = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
-  ArrayTypeSpecifier* arraySpecifier = new ArrayTypeSpecifier(floatSpecifer, 1u);
+  const PrimitiveTypeSpecifier* floatSpecifer = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0);
+  ArrayTypeSpecifier* arraySpecifier = new ArrayTypeSpecifier(floatSpecifer, 1u, 0);
   ArrayOwnerTypeSpecifier* specifier = new ArrayOwnerTypeSpecifier(arraySpecifier);
   const IType* type1 = specifier->getType(mContext);
   const IType* type2 = specifier->getType(mContext);
@@ -51,8 +52,8 @@ TEST_F(ArrayOwnerTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {
 }
 
 TEST_F(ArrayOwnerTypeSpecifierTest, printToStreamTest) {
-  const PrimitiveTypeSpecifier* stringSpecifer = PrimitiveTypes::STRING_TYPE->newTypeSpecifier();
-  ArrayTypeSpecifier* arraySpecifier = new ArrayTypeSpecifier(stringSpecifer, 1u);
+  const PrimitiveTypeSpecifier* stringSpecifer = PrimitiveTypes::STRING_TYPE->newTypeSpecifier(0);
+  ArrayTypeSpecifier* arraySpecifier = new ArrayTypeSpecifier(stringSpecifer, 1u, 0);
   ArrayOwnerTypeSpecifier* specifier = new ArrayOwnerTypeSpecifier(arraySpecifier);
 
   stringstream stringStream;

@@ -19,18 +19,22 @@ namespace wisey {
    * Represents a wisey primitive type
    */
   class PrimitiveTypeSpecifier : public ITypeSpecifier {
+
     const IType* mType;
-    
+    int mLine;
+
   public:
     
-    PrimitiveTypeSpecifier(const IType* type) : mType(type) { }
+    PrimitiveTypeSpecifier(const IType* type, int line);
     
-    ~PrimitiveTypeSpecifier() { }
+    ~PrimitiveTypeSpecifier();
     
     const IType* getType(IRGenerationContext& context) const override;
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
-    
+  
+    int getLine() const override;
+
   };
   
 } /* namespace wisey */

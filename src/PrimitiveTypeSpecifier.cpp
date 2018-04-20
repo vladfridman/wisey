@@ -12,6 +12,13 @@
 using namespace llvm;
 using namespace wisey;
 
+PrimitiveTypeSpecifier::PrimitiveTypeSpecifier(const IType* type, int line) :
+mType(type), mLine(line) {
+}
+
+PrimitiveTypeSpecifier::~PrimitiveTypeSpecifier() {
+}
+
 const IType* PrimitiveTypeSpecifier::getType(IRGenerationContext& context) const {
   return mType;
 }
@@ -19,4 +26,8 @@ const IType* PrimitiveTypeSpecifier::getType(IRGenerationContext& context) const
 void PrimitiveTypeSpecifier::printToStream(IRGenerationContext& context,
                                            std::iostream& stream) const {
   stream << mType->getTypeName();
+}
+
+int PrimitiveTypeSpecifier::getLine() const {
+  return mLine;
 }

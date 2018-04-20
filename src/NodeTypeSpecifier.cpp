@@ -45,3 +45,7 @@ const Node* NodeTypeSpecifier::getType(IRGenerationContext& context) const {
 void NodeTypeSpecifier::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << getName(context);
 }
+
+int NodeTypeSpecifier::getLine() const {
+  return mLine;
+}

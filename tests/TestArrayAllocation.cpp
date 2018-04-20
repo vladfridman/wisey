@@ -68,8 +68,8 @@ struct ArrayAllocationTest : Test {
     list<const IExpression*> dimensions;
     dimensions.push_back(&mFiveExpression);
     mArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 1u);
-    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-    mArraySpecificTypeSpecifier = new ArraySpecificTypeSpecifier(intSpecifier, dimensions);
+    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+    mArraySpecificTypeSpecifier = new ArraySpecificTypeSpecifier(intSpecifier, dimensions, 0);
     
     mArrayAllocation = new ArrayAllocation(mArraySpecificTypeSpecifier, 0);
   }

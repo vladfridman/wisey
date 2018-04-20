@@ -26,3 +26,7 @@ void LLVMStructSpecifier::printToStream(IRGenerationContext& context,
                                         iostream& stream) const {
   stream << context.getLLVMStructType(mName, mLine)->getTypeName();
 }
+
+int LLVMStructSpecifier::getLine() const {
+  return mLine;
+}

@@ -48,8 +48,9 @@ struct ArraySpecificOwnerTypeSpecifierTest : public Test {
 };
 
 TEST_F(ArraySpecificOwnerTypeSpecifierTest, creationTest) {
-  const PrimitiveTypeSpecifier* intSpecifer = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-  ArraySpecificTypeSpecifier* specifier = new ArraySpecificTypeSpecifier(intSpecifer, mDimensions);
+  const PrimitiveTypeSpecifier* intSpecifer = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+  ArraySpecificTypeSpecifier* specifier =
+  new ArraySpecificTypeSpecifier(intSpecifer, mDimensions, 9);
   ArraySpecificOwnerTypeSpecifier* ownerSpecifier = new ArraySpecificOwnerTypeSpecifier(specifier);
   const IType* type = ownerSpecifier->getType(mContext);
   
@@ -61,12 +62,13 @@ TEST_F(ArraySpecificOwnerTypeSpecifierTest, creationTest) {
   const ArraySpecificType* arraySpecificType = arraySpecificOwnerType->getArraySpecificType();
   EXPECT_EQ(PrimitiveTypes::INT_TYPE, arraySpecificType->getElementType());
   EXPECT_EQ(1u, arraySpecificType->getNumberOfDimensions());
+  EXPECT_EQ(9, ownerSpecifier->getLine());
 }
 
 TEST_F(ArraySpecificOwnerTypeSpecifierTest, twoGetsReturnNotSameTypeObjectTest) {
-  const PrimitiveTypeSpecifier* floatSpecifer = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
-  ArraySpecificTypeSpecifier* specifier = new ArraySpecificTypeSpecifier(floatSpecifer,
-                                                                         mDimensions);
+  const PrimitiveTypeSpecifier* floatSpecifer = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0);
+  ArraySpecificTypeSpecifier* specifier =
+  new ArraySpecificTypeSpecifier(floatSpecifer, mDimensions, 0);
   ArraySpecificOwnerTypeSpecifier* ownerSpecifier = new ArraySpecificOwnerTypeSpecifier(specifier);
   const IType* type1 = ownerSpecifier->getType(mContext);
   const IType* type2 = ownerSpecifier->getType(mContext);
@@ -75,9 +77,9 @@ TEST_F(ArraySpecificOwnerTypeSpecifierTest, twoGetsReturnNotSameTypeObjectTest) 
 }
 
 TEST_F(ArraySpecificOwnerTypeSpecifierTest, printToStreamTest) {
-  const PrimitiveTypeSpecifier* stringSpecifer = PrimitiveTypes::STRING_TYPE->newTypeSpecifier();
-  ArraySpecificTypeSpecifier* specifier = new ArraySpecificTypeSpecifier(stringSpecifer,
-                                                                         mDimensions);
+  const PrimitiveTypeSpecifier* stringSpecifer = PrimitiveTypes::STRING_TYPE->newTypeSpecifier(0);
+  ArraySpecificTypeSpecifier* specifier =
+  new ArraySpecificTypeSpecifier(stringSpecifer, mDimensions, 0);
   ArraySpecificOwnerTypeSpecifier* ownerSpecifier = new ArraySpecificOwnerTypeSpecifier(specifier);
 
   stringstream stringStream;

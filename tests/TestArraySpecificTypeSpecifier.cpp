@@ -46,8 +46,9 @@ struct ArraySpecificTypeSpecifierTest : public Test {
 };
 
 TEST_F(ArraySpecificTypeSpecifierTest, creationTest) {
-  const PrimitiveTypeSpecifier* intSpecifer = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
-  ArraySpecificTypeSpecifier* specifier = new ArraySpecificTypeSpecifier(intSpecifer, mDimensions);
+  const PrimitiveTypeSpecifier* intSpecifer = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+  ArraySpecificTypeSpecifier* specifier =
+  new ArraySpecificTypeSpecifier(intSpecifer, mDimensions, 11);
   const IType* type = specifier->getType(mContext);
   
   EXPECT_TRUE(type->isArray());
@@ -57,12 +58,13 @@ TEST_F(ArraySpecificTypeSpecifierTest, creationTest) {
   const ArraySpecificType* arrayType = (const ArraySpecificType*) type;
   EXPECT_EQ(PrimitiveTypes::INT_TYPE, arrayType->getElementType());
   EXPECT_EQ(1u, arrayType->getNumberOfDimensions());
+  EXPECT_EQ(11, specifier->getLine());
 }
 
 TEST_F(ArraySpecificTypeSpecifierTest, printToStreamTest) {
-  const PrimitiveTypeSpecifier* stringSpecifer = PrimitiveTypes::STRING_TYPE->newTypeSpecifier();
-  ArraySpecificTypeSpecifier* specifier = new ArraySpecificTypeSpecifier(stringSpecifer,
-                                                                         mDimensions);
+  const PrimitiveTypeSpecifier* stringSpecifer = PrimitiveTypes::STRING_TYPE->newTypeSpecifier(0);
+  ArraySpecificTypeSpecifier* specifier =
+  new ArraySpecificTypeSpecifier(stringSpecifer, mDimensions, 0);
   
   stringstream stringStream;
   specifier->printToStream(mContext, stringStream);

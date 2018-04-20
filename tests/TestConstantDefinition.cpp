@@ -38,7 +38,7 @@ public:
   mName("MYCONSTANT") {
     ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
     
-    const PrimitiveTypeSpecifier* typeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
+    const PrimitiveTypeSpecifier* typeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
     mConstantDefinition = new ConstantDefinition(PUBLIC_ACCESS, typeSpecifier, mName, mExpression);
 
   }

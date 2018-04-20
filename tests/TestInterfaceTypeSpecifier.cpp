@@ -39,7 +39,7 @@ struct InterfaceTypeSpecifierTest : public ::testing::Test {
     VariableList methodArguments;
     vector<IObjectElementDefinition*> objectElements;
     vector<IModelTypeSpecifier*> methodExceptions;
-    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
+    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
     IObjectElementDefinition* methodSignature =
     new MethodSignatureDeclaration(intSpecifier,
                                    "foo",
@@ -61,9 +61,10 @@ struct InterfaceTypeSpecifierTest : public ::testing::Test {
 };
 
 TEST_F(InterfaceTypeSpecifierTest, interfaceTypeSpecifierCreateTest) {
-  InterfaceTypeSpecifier interfaceTypeSpecifier(NULL, "IShape", 0);
+  InterfaceTypeSpecifier interfaceTypeSpecifier(NULL, "IShape", 7);
   
-  EXPECT_EQ(interfaceTypeSpecifier.getType(mContext), mInterface);
+  EXPECT_EQ(mInterface, interfaceTypeSpecifier.getType(mContext));
+  EXPECT_EQ(7, interfaceTypeSpecifier.getLine());
 }
 
 TEST_F(InterfaceTypeSpecifierTest, interfaceTypeSpecifierCreateWithPackageTest) {
@@ -71,7 +72,7 @@ TEST_F(InterfaceTypeSpecifierTest, interfaceTypeSpecifierCreateWithPackageTest) 
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   InterfaceTypeSpecifier interfaceTypeSpecifier(packageExpression, "IShape", 0);
   
-  EXPECT_EQ(interfaceTypeSpecifier.getType(mContext), mInterface);
+  EXPECT_EQ(mInterface, interfaceTypeSpecifier.getType(mContext));
 }
 
 TEST_F(InterfaceTypeSpecifierTest, printToStreamTest) {

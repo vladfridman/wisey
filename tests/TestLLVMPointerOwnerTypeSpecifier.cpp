@@ -25,7 +25,7 @@ struct LLVMPointerOwnerTypeSpecifierTest : public Test {
   LLVMPointerOwnerTypeSpecifier* mLLVMPointerOwnerTypeSpecifier;
   
   LLVMPointerOwnerTypeSpecifierTest() {
-    const ILLVMTypeSpecifier* i8Specifier = LLVMPrimitiveTypes::I8->newTypeSpecifier();
+    const ILLVMTypeSpecifier* i8Specifier = LLVMPrimitiveTypes::I8->newTypeSpecifier(5);
     const LLVMPointerTypeSpecifier* pointerSpecifier = new LLVMPointerTypeSpecifier(i8Specifier);
     mLLVMPointerOwnerTypeSpecifier = new LLVMPointerOwnerTypeSpecifier(pointerSpecifier);
   }
@@ -39,6 +39,7 @@ TEST_F(LLVMPointerOwnerTypeSpecifierTest, getTypeTest) {
   EXPECT_TRUE(type->isPointer());
   EXPECT_TRUE(type->isOwner());
   EXPECT_STREQ("::llvm::i8::pointer*", type->getTypeName().c_str());
+  EXPECT_EQ(5, mLLVMPointerOwnerTypeSpecifier->getLine());
 }
 
 TEST_F(LLVMPointerOwnerTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {

@@ -11,10 +11,13 @@
 using namespace std;
 using namespace wisey;
 
-LLVMFunctionTypeSpecifier::LLVMFunctionTypeSpecifier(const ITypeSpecifier* returnTypeSpecifier,
-                                                     std::vector<const ITypeSpecifier*>
-                                                     argumentTypeSpecifiers) :
-mReturnTypeSpecifier(returnTypeSpecifier), mArgumentTypeSpecifiers(argumentTypeSpecifiers) {
+LLVMFunctionTypeSpecifier::
+LLVMFunctionTypeSpecifier(const ITypeSpecifier* returnTypeSpecifier,
+                          std::vector<const ITypeSpecifier*> argumentTypeSpecifiers,
+                          int line) :
+mReturnTypeSpecifier(returnTypeSpecifier),
+mArgumentTypeSpecifiers(argumentTypeSpecifiers),
+mLine(line) {
 }
 
 LLVMFunctionTypeSpecifier::~LLVMFunctionTypeSpecifier() {
@@ -48,3 +51,6 @@ void LLVMFunctionTypeSpecifier::printToStream(IRGenerationContext& context,
   stream << ")";
 }
 
+int LLVMFunctionTypeSpecifier::getLine() const {
+  return mLine;
+}

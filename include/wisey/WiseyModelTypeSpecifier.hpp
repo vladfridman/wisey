@@ -21,9 +21,11 @@ namespace wisey {
    */
   class WiseyModelTypeSpecifier : public ITypeSpecifier {
     
+    int mLine;
+    
   public:
     
-    WiseyModelTypeSpecifier();
+    WiseyModelTypeSpecifier(int line);
     
     ~WiseyModelTypeSpecifier();
     
@@ -31,6 +33,8 @@ namespace wisey {
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
+    int getLine() const override;
+
   };
   
 } /* namespace wisey */

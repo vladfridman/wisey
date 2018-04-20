@@ -38,9 +38,9 @@ struct LLVMFunctionDeclarationTest : public Test {
   
   LLVMFunctionDeclarationTest() : mLLVMContext(mContext.getLLVMContext()) {
     vector<const ITypeSpecifier*> argumentSpecifiers;
-    argumentSpecifiers.push_back(LLVMPrimitiveTypes::I8->newTypeSpecifier());
-    argumentSpecifiers.push_back(LLVMPrimitiveTypes::I64->newTypeSpecifier());
-    const ITypeSpecifier* returnSpecifier = LLVMPrimitiveTypes::VOID->newTypeSpecifier();
+    argumentSpecifiers.push_back(LLVMPrimitiveTypes::I8->newTypeSpecifier(0));
+    argumentSpecifiers.push_back(LLVMPrimitiveTypes::I64->newTypeSpecifier(0));
+    const ITypeSpecifier* returnSpecifier = LLVMPrimitiveTypes::VOID->newTypeSpecifier(0);
     mLLVMFunctionDeclaration = LLVMFunctionDeclaration::createInternal("myfunction",
                                                                        returnSpecifier,
                                                                        argumentSpecifiers);

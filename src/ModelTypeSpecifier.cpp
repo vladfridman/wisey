@@ -45,3 +45,7 @@ Model* ModelTypeSpecifier::getType(IRGenerationContext& context) const {
 void ModelTypeSpecifier::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << getName(context);
 }
+
+int ModelTypeSpecifier::getLine() const {
+  return mLine;
+}

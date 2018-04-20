@@ -47,3 +47,6 @@ void NodeTypeSpecifierFull::printToStream(IRGenerationContext& context, iostream
   stream << getName(context);
 }
 
+int NodeTypeSpecifierFull::getLine() const {
+  return mLine;
+}

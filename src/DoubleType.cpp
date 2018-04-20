@@ -170,8 +170,8 @@ const wisey::ArrayType* DoubleType::getArrayType(IRGenerationContext& context) c
   exit(1);
 }
 
-const PrimitiveTypeSpecifier* DoubleType::newTypeSpecifier() const {
-  return new PrimitiveTypeSpecifier(this);
+const PrimitiveTypeSpecifier* DoubleType::newTypeSpecifier(int line) const {
+  return new PrimitiveTypeSpecifier(this, line);
 }
 
 Instruction* DoubleType::inject(IRGenerationContext& context,

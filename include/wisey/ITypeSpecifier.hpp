@@ -18,7 +18,16 @@ namespace wisey {
   /**
    * Represents a type specifier that could either be a primitive or an object type
    */
-  class ITypeSpecifier : public IHasType, public IPrintable { };
+  class ITypeSpecifier : public IHasType, public IPrintable {
+    
+  public:
+
+    /**
+     * Returns the line number where this type specifier is defined
+     */
+    virtual int getLine() const = 0;
+    
+  };
   
 } /* namespace wisey */
 

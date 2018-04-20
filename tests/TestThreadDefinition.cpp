@@ -65,9 +65,9 @@ struct ThreadDefinitionTest : public Test {
     block->getStatements().push_back(mMockStatement);
     block->getStatements().push_back(new ReturnStatement(new FloatConstant(0.5, 0), 0));
     CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
-    const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
+    const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
     const PrimitiveTypeSpecifier* floatTypeSpecifier =
-    PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
+    PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0);
     Identifier* intArgumentIdentifier = new Identifier("intargument", 0);
     VariableDeclaration* intArgument =
     VariableDeclaration::create(intTypeSpecifier, intArgumentIdentifier, 0);
@@ -85,8 +85,8 @@ struct ThreadDefinitionTest : public Test {
                                              compoundStatement,
                                              0);
 
-    const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier();
-    const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier();
+    const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier(0);
+    const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0);
     StateFieldDefinition* field1 = new StateFieldDefinition(longType, "field1", 0);
     StateFieldDefinition* field2 = new StateFieldDefinition(floatType, "field2", 0);
     mElementDeclarations.push_back(field1);
@@ -194,7 +194,7 @@ TEST_F(ThreadDefinitionTest, threadWithFixedFieldDeathTest) {
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ThreadTypeSpecifierFull* typeSpecifier =
   new ThreadTypeSpecifierFull(packageExpression, "TWorker", 0);
-  const PrimitiveTypeSpecifier* intType = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* intType = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
   FixedFieldDefinition* field = new FixedFieldDefinition(intType, "field3", 0);
   mElementDeclarations.clear();
   mElementDeclarations.push_back(field);
@@ -217,7 +217,7 @@ TEST_F(ThreadDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ThreadTypeSpecifierFull* typeSpecifier =
   new ThreadTypeSpecifierFull(packageExpression, "TWorker", 0);
-  const PrimitiveTypeSpecifier* intType = PrimitiveTypes::INT_TYPE->newTypeSpecifier();
+  const PrimitiveTypeSpecifier* intType = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
   StateFieldDefinition* field = new StateFieldDefinition(intType, "field3", 0);
   mElementDeclarations.push_back(field);
   vector<IObjectDefinition*> innerObjectDefinitions;

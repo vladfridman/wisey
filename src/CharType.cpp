@@ -173,8 +173,8 @@ const wisey::ArrayType* CharType::getArrayType(IRGenerationContext& context) con
   exit(1);
 }
 
-const PrimitiveTypeSpecifier* CharType::newTypeSpecifier() const {
-  return new PrimitiveTypeSpecifier(this);
+const PrimitiveTypeSpecifier* CharType::newTypeSpecifier(int line) const {
+  return new PrimitiveTypeSpecifier(this, line);
 }
 
 Instruction* CharType::inject(IRGenerationContext& context,

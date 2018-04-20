@@ -130,8 +130,8 @@ const LLVMPointerType* LLVMVoidType::getPointerType() const {
   assert(false);
 }
 
-const ILLVMTypeSpecifier* LLVMVoidType::newTypeSpecifier() const {
-  return new LLVMPrimitiveTypeSpecifier(this);
+const ILLVMTypeSpecifier* LLVMVoidType::newTypeSpecifier(int line) const {
+  return new LLVMPrimitiveTypeSpecifier(this, line);
 }
 
 Instruction* LLVMVoidType::inject(IRGenerationContext& context,

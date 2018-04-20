@@ -13,8 +13,9 @@ using namespace std;
 using namespace wisey;
 
 ArrayTypeSpecifier::ArrayTypeSpecifier(const ITypeSpecifier* elementTypeSpecifier,
-                                       unsigned long numberOfDimentions) :
-mElementTypeSpecifier(elementTypeSpecifier), mNumberOfDimensions(numberOfDimentions) {
+                                       unsigned long numberOfDimentions,
+                                       int line) :
+mElementTypeSpecifier(elementTypeSpecifier), mNumberOfDimensions(numberOfDimentions), mLine(line) {
 }
 
 ArrayTypeSpecifier::~ArrayTypeSpecifier() {
@@ -30,4 +31,8 @@ void ArrayTypeSpecifier::printToStream(IRGenerationContext& context, iostream& s
   for (unsigned long i = 0; i < mNumberOfDimensions; i++) {
     stream << "[]";
   }
+}
+
+int ArrayTypeSpecifier::getLine() const {
+  return mLine;
 }

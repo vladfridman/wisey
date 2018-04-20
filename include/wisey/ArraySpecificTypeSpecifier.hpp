@@ -25,11 +25,13 @@ namespace wisey {
   class ArraySpecificTypeSpecifier : public ITypeSpecifier {
     const ITypeSpecifier* mElementTypeSpecifier;
     std::list<const IExpression*> mDimensions;
+    int mLine;
     
   public:
     
     ArraySpecificTypeSpecifier(const ITypeSpecifier* elementTypeSpecifier,
-                               std::list<const IExpression*> dimensions);
+                               std::list<const IExpression*> dimensions,
+                               int line);
     
     ~ArraySpecificTypeSpecifier();
     
@@ -37,6 +39,8 @@ namespace wisey {
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
+    int getLine() const override;
+
   };
   
 } /* namespace wisey */

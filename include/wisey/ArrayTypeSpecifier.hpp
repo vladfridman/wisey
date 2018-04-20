@@ -21,11 +21,13 @@ namespace wisey {
   class ArrayTypeSpecifier : public ITypeSpecifier {
     const ITypeSpecifier* mElementTypeSpecifier;
     unsigned long mNumberOfDimensions;
+    int mLine;
     
   public:
     
     ArrayTypeSpecifier(const ITypeSpecifier* elementTypeSpecifier,
-                       unsigned long numberOfDimentions);
+                       unsigned long numberOfDimentions,
+                       int line);
     
     ~ArrayTypeSpecifier();
     
@@ -33,6 +35,8 @@ namespace wisey {
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
+    int getLine() const override;
+
   };
   
 } /* namespace wisey */

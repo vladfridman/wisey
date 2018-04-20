@@ -21,11 +21,13 @@ namespace wisey {
   class LLVMFunctionTypeSpecifier : public ILLVMTypeSpecifier {
     const ITypeSpecifier* mReturnTypeSpecifier;
     std::vector<const ITypeSpecifier*> mArgumentTypeSpecifiers;
+    int mLine;
     
   public:
     
     LLVMFunctionTypeSpecifier(const ITypeSpecifier* returnTypeSpecifier,
-                              std::vector<const ITypeSpecifier*> argumentTypeSpecifiers);
+                              std::vector<const ITypeSpecifier*> argumentTypeSpecifiers,
+                              int line);
     
     ~LLVMFunctionTypeSpecifier();
     
@@ -33,6 +35,8 @@ namespace wisey {
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
+    int getLine() const override;
+
   private:
     
     std::string toString(IRGenerationContext& context) const;

@@ -39,11 +39,11 @@ struct LLVMFunctionDefinitionTest : public Test {
   LLVMFunctionDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
     LLVMVariableList arguments;
     LLVMVariableDeclaration* argument =
-    LLVMVariableDeclaration::create(LLVMPrimitiveTypes::I8->newTypeSpecifier(),
+    LLVMVariableDeclaration::create(LLVMPrimitiveTypes::I8->newTypeSpecifier(0),
                                     new Identifier("input", 0),
                                     0);
     arguments.push_back(argument);
-    const ILLVMTypeSpecifier* returnSpecifier = LLVMPrimitiveTypes::VOID->newTypeSpecifier();
+    const ILLVMTypeSpecifier* returnSpecifier = LLVMPrimitiveTypes::VOID->newTypeSpecifier(0);
     Block* block = new Block();
     CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
     mLLVMFunctionDefinition = new LLVMFunctionDefinition("myfunction",

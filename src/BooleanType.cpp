@@ -174,8 +174,8 @@ const wisey::ArrayType* BooleanType::getArrayType(IRGenerationContext& context) 
   exit(1);
 }
 
-const PrimitiveTypeSpecifier* BooleanType::newTypeSpecifier() const {
-  return new PrimitiveTypeSpecifier(this);
+const PrimitiveTypeSpecifier* BooleanType::newTypeSpecifier(int line) const {
+  return new PrimitiveTypeSpecifier(this, line);
 }
 
 Instruction* BooleanType::inject(IRGenerationContext& context,

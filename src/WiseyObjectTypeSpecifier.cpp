@@ -16,7 +16,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-WiseyObjectTypeSpecifier::WiseyObjectTypeSpecifier() {
+WiseyObjectTypeSpecifier::WiseyObjectTypeSpecifier(int line) : mLine(line) {
 }
 
 WiseyObjectTypeSpecifier::~WiseyObjectTypeSpecifier() {
@@ -29,4 +29,8 @@ const WiseyObjectType* WiseyObjectTypeSpecifier::getType(IRGenerationContext& co
 void WiseyObjectTypeSpecifier::printToStream(IRGenerationContext& context,
                                             std::iostream& stream) const {
   stream << "::wisey::object";
+}
+
+int WiseyObjectTypeSpecifier::getLine() const {
+  return mLine;
 }

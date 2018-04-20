@@ -169,8 +169,8 @@ const wisey::ArrayType* LongType::getArrayType(IRGenerationContext& context) con
   exit(1);
 }
 
-const PrimitiveTypeSpecifier* LongType::newTypeSpecifier() const {
-  return new PrimitiveTypeSpecifier(this);
+const PrimitiveTypeSpecifier* LongType::newTypeSpecifier(int line) const {
+  return new PrimitiveTypeSpecifier(this, line);
 }
 
 Instruction* LongType::inject(IRGenerationContext& context,

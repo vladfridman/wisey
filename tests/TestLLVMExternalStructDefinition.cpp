@@ -38,8 +38,8 @@ struct LLVMExternalStructDefinitionTest : public Test {
   
   LLVMExternalStructDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
     vector<const ITypeSpecifier*> typeSpecifiers;
-    typeSpecifiers.push_back(LLVMPrimitiveTypes::I8->newTypeSpecifier());
-    typeSpecifiers.push_back(LLVMPrimitiveTypes::I64->newTypeSpecifier());
+    typeSpecifiers.push_back(LLVMPrimitiveTypes::I8->newTypeSpecifier(0));
+    typeSpecifiers.push_back(LLVMPrimitiveTypes::I64->newTypeSpecifier(0));
     mLLVMExternalStructDefinition = new LLVMExternalStructDefinition("mystruct", typeSpecifiers, 0);
     
     FunctionType* functionType =
