@@ -65,6 +65,9 @@
 		F50FA3051E325E5400435EEA /* BooleanConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA3041E325E5400435EEA /* BooleanConstant.cpp */; };
 		F50FA3061E325E5400435EEA /* BooleanConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA3041E325E5400435EEA /* BooleanConstant.cpp */; };
 		F50FA3081E32640B00435EEA /* TestBooleanConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA3071E32640B00435EEA /* TestBooleanConstant.cpp */; };
+		F50FF85F208A2D04008EDC40 /* CheckArrayNotReferencedFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FF85E208A2D04008EDC40 /* CheckArrayNotReferencedFunction.cpp */; };
+		F50FF860208A2D04008EDC40 /* CheckArrayNotReferencedFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FF85E208A2D04008EDC40 /* CheckArrayNotReferencedFunction.cpp */; };
+		F50FF862208A39CB008EDC40 /* TestCheckArrayNotReferencedFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FF861208A39CB008EDC40 /* TestCheckArrayNotReferencedFunction.cpp */; };
 		F5105FAA1FD02B6200ACF57B /* ImportProfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FA91FD02B6200ACF57B /* ImportProfile.cpp */; };
 		F5105FAC1FD02F6900ACF57B /* ImportProfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FA91FD02B6200ACF57B /* ImportProfile.cpp */; };
 		F5105FAE1FD0553900ACF57B /* TestImportProfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FAD1FD0553900ACF57B /* TestImportProfile.cpp */; };
@@ -1140,6 +1143,9 @@
 		F50FA3011E3240D800435EEA /* TestScopes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestScopes.cpp; path = tests/TestScopes.cpp; sourceTree = "<group>"; };
 		F50FA3041E325E5400435EEA /* BooleanConstant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BooleanConstant.cpp; path = src/BooleanConstant.cpp; sourceTree = "<group>"; };
 		F50FA3071E32640B00435EEA /* TestBooleanConstant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBooleanConstant.cpp; path = tests/TestBooleanConstant.cpp; sourceTree = "<group>"; };
+		F50FF85D208A2C73008EDC40 /* CheckArrayNotReferencedFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CheckArrayNotReferencedFunction.hpp; path = include/wisey/CheckArrayNotReferencedFunction.hpp; sourceTree = "<group>"; };
+		F50FF85E208A2D04008EDC40 /* CheckArrayNotReferencedFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CheckArrayNotReferencedFunction.cpp; path = src/CheckArrayNotReferencedFunction.cpp; sourceTree = "<group>"; };
+		F50FF861208A39CB008EDC40 /* TestCheckArrayNotReferencedFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCheckArrayNotReferencedFunction.cpp; path = tests/TestCheckArrayNotReferencedFunction.cpp; sourceTree = "<group>"; };
 		F5105FA91FD02B6200ACF57B /* ImportProfile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ImportProfile.cpp; path = src/ImportProfile.cpp; sourceTree = "<group>"; };
 		F5105FAB1FD02B7100ACF57B /* ImportProfile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ImportProfile.hpp; path = include/wisey/ImportProfile.hpp; sourceTree = "<group>"; };
 		F5105FAD1FD0553900ACF57B /* TestImportProfile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestImportProfile.cpp; path = tests/TestImportProfile.cpp; sourceTree = "<group>"; };
@@ -2234,6 +2240,7 @@
 				F52C66651FBF446400E89B04 /* AdjustReferenceCountFunction.cpp */,
 				F5190A492088DA3400BC2D93 /* CastObjectFunction.cpp */,
 				F5603B4C2021316E00BBA05D /* CheckArrayIndexFunction.cpp */,
+				F50FF85E208A2D04008EDC40 /* CheckArrayNotReferencedFunction.cpp */,
 				F52C665D1FBF38CC00E89B04 /* CheckForNullAndThrowFunction.cpp */,
 				F5E6BD061F190B4700D59444 /* Composer.cpp */,
 				F5BF0C882080FBBB005AF4E5 /* DestroyNativeObjectFunction.cpp */,
@@ -2257,6 +2264,7 @@
 				F52C66641FBF441A00E89B04 /* AdjustReferenceCountFunction.hpp */,
 				F5190A482088D93300BC2D93 /* CastObjectFunction.hpp */,
 				F5603B4B2021310800BBA05D /* CheckArrayIndexFunction.hpp */,
+				F50FF85D208A2C73008EDC40 /* CheckArrayNotReferencedFunction.hpp */,
 				F52C665C1FBF387900E89B04 /* CheckForNullAndThrowFunction.hpp */,
 				F5E6BD051F190B3900D59444 /* Composer.hpp */,
 				F5BF0C872080FB3C005AF4E5 /* DestroyNativeObjectFunction.hpp */,
@@ -3211,6 +3219,7 @@
 				F5105FC21FD1B18F00ACF57B /* TestAdjustReferenceCountFunction.cpp */,
 				F5190A4C2088E0A000BC2D93 /* TestCastObjectFunction.cpp */,
 				F5603B4F2021562800BBA05D /* TestCheckArrayIndexFunction.cpp */,
+				F50FF861208A39CB008EDC40 /* TestCheckArrayNotReferencedFunction.cpp */,
 				F5105FBC1FD1A65E00ACF57B /* TestCheckForNullAndThrowFunction.cpp */,
 				F5E6BD0D1F1B7DCD00D59444 /* TestComposer.cpp */,
 				F5BF0C8B2081014B005AF4E5 /* TestDestroyNativeObjectFunction.cpp */,
@@ -3952,11 +3961,13 @@
 				F5C7D15A1F7C270800D65584 /* TestExternalNodeDefinition.cpp in Sources */,
 				F50FA2B81E28BA5600435EEA /* DoStatement.cpp in Sources */,
 				F52F2C991EA95C7B0081DE38 /* TestTryCatch.cpp in Sources */,
+				F50FF862208A39CB008EDC40 /* TestCheckArrayNotReferencedFunction.cpp in Sources */,
 				F50FA2F51E2E3B2E00435EEA /* TestDoubleConstant.cpp in Sources */,
 				F5170199200DCB9100A10B7C /* TestDestroyReferenceArrayFunction.cpp in Sources */,
 				F530B4601DFA032100477384 /* TestsRun.cpp in Sources */,
 				F5CB180D1EB0C16D007E2E43 /* IntrinsicFunctions.cpp in Sources */,
 				F50427B11E4DD621001CB148 /* TestLocalReferenceVariable.cpp in Sources */,
+				F50FF860208A2D04008EDC40 /* CheckArrayNotReferencedFunction.cpp in Sources */,
 				F518B5E81EB2240C00577EEB /* TestCatch.cpp in Sources */,
 				F5170191200DC64500A10B7C /* TestDestroyPrimitiveArrayFunction.cpp in Sources */,
 				F58FA3122072962100C86D33 /* TestWiseyObjectType.cpp in Sources */,
@@ -4557,6 +4568,7 @@
 				F5F61A9C201DDCCE00EF9EB7 /* ArraySpecificType.cpp in Sources */,
 				F5E270731F98F6A4008D2EB7 /* Constant.cpp in Sources */,
 				F5A0DAE8207BE39300B0E479 /* WiseyModelTypeSpecifier.cpp in Sources */,
+				F50FF85F208A2D04008EDC40 /* CheckArrayNotReferencedFunction.cpp in Sources */,
 				F5170197200DCB5700A10B7C /* DestroyReferenceArrayFunction.cpp in Sources */,
 				F50FA2B31E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */,
 				F574116B1E042390009809FF /* IncrementExpression.cpp in Sources */,

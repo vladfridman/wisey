@@ -1,23 +1,24 @@
 //
-//  DestroyPrimitiveArrayFunction.hpp
+//  CheckArrayNotReferencedFunction.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 1/15/18.
+//  Created by Vladimir Fridman on 4/20/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef DestroyPrimitiveArrayFunction_h
-#define DestroyPrimitiveArrayFunction_h
+#ifndef CheckArrayNotReferencedFunction_h
+#define CheckArrayNotReferencedFunction_h
 
-#include "wisey/IPrimitiveType.hpp"
+#include <llvm/IR/Instructions.h>
+
 #include "wisey/IRGenerationContext.hpp"
 
 namespace wisey {
   
   /**
-   * Global function used for destroying elements in an array where elements are of primitive type
+   * Checkes that neither array nor any of its sub arrays are referenced, throws RCE otherwise
    */
-  class DestroyPrimitiveArrayFunction {
+  class CheckArrayNotReferencedFunction {
     
   public:
     
@@ -31,7 +32,7 @@ namespace wisey {
      */
     static void call(IRGenerationContext& context,
                      llvm::Value* array,
-                     unsigned long numberOfDimensions);
+                     llvm::Value* numberOfDimensions);
     
   private:
     
@@ -42,11 +43,9 @@ namespace wisey {
     static void compose(IRGenerationContext& context, llvm::Function* function);
     
     static LLVMFunctionType* getLLVMFunctionType(IRGenerationContext& context);
-
+    
   };
   
 } /* namespace wisey */
 
-
-#endif /* DestroyPrimitiveArrayFunction_h */
-
+#endif /* CheckArrayNotReferencedFunction_h */

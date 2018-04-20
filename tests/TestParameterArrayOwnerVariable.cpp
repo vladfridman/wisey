@@ -98,7 +98,7 @@ TEST_F(ParameterArrayOwnerVariableTest, freeTest) {
   "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*"
   "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo"
   "\n  %1 = bitcast { i64, i64, i64, [0 x i32] }* %0 to i64*"
-  "\n  call void @__destroyPrimitiveArrayFunction(i64* %1, i64 1, i64 4, i1 true)"
+  "\n  call void @__destroyPrimitiveArrayFunction(i64* %1, i64 1)"
   "\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

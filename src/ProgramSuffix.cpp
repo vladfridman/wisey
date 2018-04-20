@@ -14,6 +14,7 @@
 #include "wisey/AdjustReferenceCountFunction.hpp"
 #include "wisey/CastExpression.hpp"
 #include "wisey/CastObjectFunction.hpp"
+#include "wisey/CheckArrayNotReferencedFunction.hpp"
 #include "wisey/CheckArrayIndexFunction.hpp"
 #include "wisey/CheckForNullAndThrowFunction.hpp"
 #include "wisey/IntConstant.hpp"
@@ -62,6 +63,7 @@ void ProgramSuffix::defineEssentialFunctions(IRGenerationContext& context) const
   AdjustReferenceCounterForConcreteObjectUnsafelyFunction::get(context);
   AdjustReferenceCountFunction::get(context);
   CastObjectFunction::get(context);
+  CheckArrayNotReferencedFunction::get(context);
   CheckArrayIndexFunction::get(context);
   DestroyNativeObjectFunction::get(context);
   DestroyOwnerArrayFunction::get(context);
