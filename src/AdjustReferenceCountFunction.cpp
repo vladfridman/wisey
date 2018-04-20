@@ -31,8 +31,8 @@ Function* AdjustReferenceCountFunction::get(IRGenerationContext& context) {
 }
 
 void AdjustReferenceCountFunction::call(IRGenerationContext& context,
-                                                      Value* object,
-                                                      int adjustment) {
+                                        Value* object,
+                                        int adjustment) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
@@ -66,18 +66,15 @@ LLVMFunctionType* AdjustReferenceCountFunction::getLLVMFunctionType(IRGeneration
   return context.getLLVMFunctionType(LLVMPrimitiveTypes::VOID, argumentTypes);
 }
 
-void AdjustReferenceCountFunction::compose(IRGenerationContext& context,
-                                                         llvm::Function* function) {
+void AdjustReferenceCountFunction::compose(IRGenerationContext& context, llvm::Function* function) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Function::arg_iterator llvmArguments = function->arg_begin();
-  llvm::Argument* llvmArgument = &*llvmArguments;
-  llvmArgument->setName("object");
-  Value* object = llvmArgument;
+  Value* object = &*llvmArguments;
+  object->setName("object");
   llvmArguments++;
-  llvmArgument = &*llvmArguments;
-  llvmArgument->setName("adjustment");
-  Value* adjustment = llvmArgument;
+  Value* adjustment = &*llvmArguments;
+  adjustment->setName("adjustment");
   
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function);
   BasicBlock* ifNullBlock = BasicBlock::Create(llvmContext, "if.null", function);
@@ -113,23 +110,29 @@ void AdjustReferenceCountFunction::compose(IRGenerationContext& context,
   
   Value* firstLetter = IRWriter::newLoadInst(context, stringPointer, "firstLetter");
 
-  BasicBlock* ifModelBlock = BasicBlock::Create(llvmContext, "if.model", function);
-  BasicBlock* ifNotModelBlock = BasicBlock::Create(llvmContext, "if.not.model", function);
+  BasicBlock* safeBlock = BasicBlock::Create(llvmContext, "safe", function);
+  BasicBlock* unsafeBlock = BasicBlock::Create(llvmContext, "unsafe", function);
+  BasicBlock* notModelBlock = BasicBlock::Create(llvmContext, "not.model", function);
 
   Value* letterM = ConstantInt::get(Type::getInt8Ty(llvmContext), 77);
   condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, firstLetter, letterM, "");
-  IRWriter::createConditionalBranch(context, ifModelBlock, ifNotModelBlock, condition);
+  IRWriter::createConditionalBranch(context, safeBlock, notModelBlock, condition);
 
-  context.setBasicBlock(ifModelBlock);
+  context.setBasicBlock(notModelBlock);
+  Value* letterT = ConstantInt::get(Type::getInt8Ty(llvmContext), 84);
+  condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, firstLetter, letterT, "");
+  IRWriter::createConditionalBranch(context, safeBlock, unsafeBlock, condition);
+  
+  context.setBasicBlock(safeBlock);
   new AtomicRMWInst(AtomicRMWInst::BinOp::Add,
                     counter,
                     adjustment,
                     AtomicOrdering::Monotonic,
                     SynchronizationScope::CrossThread,
-                    ifModelBlock);
+                    safeBlock);
   IRWriter::createReturnInst(context, NULL);
 
-  context.setBasicBlock(ifNotModelBlock);
+  context.setBasicBlock(unsafeBlock);
   Value* count = IRWriter::newLoadInst(context, counter, "count");
   Value* sum = IRWriter::createBinaryOperator(context, Instruction::Add, count, adjustment, "");
   IRWriter::newStoreInst(context, sum, counter);
