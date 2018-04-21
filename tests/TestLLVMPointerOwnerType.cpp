@@ -122,6 +122,7 @@ TEST_F(LLVMPointerOwnerTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mLLVMPointerOwnerType->isPackage());
   EXPECT_TRUE(mLLVMPointerOwnerType->isNative());
   EXPECT_TRUE(mLLVMPointerOwnerType->isPointer());
+  EXPECT_FALSE(mLLVMPointerOwnerType->isImmutable());
 }
 
 TEST_F(LLVMPointerOwnerTypeTest, isObjectTest) {

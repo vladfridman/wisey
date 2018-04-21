@@ -133,6 +133,10 @@ bool IntType::isPointer() const {
   return false;
 }
 
+bool IntType::isImmutable() const {
+  return false;
+}
+
 string IntType::getFormat() const {
   return "%d";
 }

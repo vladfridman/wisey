@@ -105,6 +105,7 @@ TEST_F(ImmutableArrayOwnerTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mImmutableArrayOwnerType->isPackage());
   EXPECT_FALSE(mImmutableArrayOwnerType->isNative());
   EXPECT_FALSE(mImmutableArrayOwnerType->isPointer());
+  EXPECT_TRUE(mImmutableArrayOwnerType->isImmutable());
 }
 
 TEST_F(ImmutableArrayOwnerTypeTest, isObjectTest) {

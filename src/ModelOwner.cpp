@@ -131,6 +131,10 @@ bool ModelOwner::isPointer() const {
   return false;
 }
 
+bool ModelOwner::isImmutable() const {
+  return false;
+}
+
 void ModelOwner::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

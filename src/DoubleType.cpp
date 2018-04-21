@@ -132,6 +132,10 @@ bool DoubleType::isPointer() const {
   return false;
 }
 
+bool DoubleType::isImmutable() const {
+  return false;
+}
+
 string DoubleType::getFormat() const {
   return "%e";
 }

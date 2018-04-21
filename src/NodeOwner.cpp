@@ -132,6 +132,10 @@ bool NodeOwner::isPointer() const {
   return false;
 }
 
+bool NodeOwner::isImmutable() const {
+  return false;
+}
+
 void NodeOwner::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

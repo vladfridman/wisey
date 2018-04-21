@@ -94,6 +94,10 @@ bool UndefinedType::isPointer() const {
   return false;
 }
 
+bool UndefinedType::isImmutable() const {
+  return false;
+}
+
 void UndefinedType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

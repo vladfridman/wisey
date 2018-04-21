@@ -80,7 +80,7 @@ Value* FieldArrayReferenceVariable::generateWholeArrayAssignment(IRGenerationCon
   IField* field = checkAndFindFieldForAssignment(context, mObject, mName);
   
   const IType* fieldType = field->getType();
-  assert(fieldType->isArray() && fieldType->isReference());
+  assert(fieldType->isArray() && fieldType->isReference() && !fieldType->isImmutable());
   const ArrayType* arrayType = (const wisey::ArrayType*) fieldType;
   const IType* assignToType = assignToExpression->getType(context);
   Value* assignToValue = assignToExpression->generateIR(context, field->getType());

@@ -326,6 +326,7 @@ TEST_F(InterfaceTest, isTypeKindTest) {
   EXPECT_FALSE(mObjectInterface->isPackage());
   EXPECT_FALSE(mObjectInterface->isNative());
   EXPECT_FALSE(mObjectInterface->isPointer());
+  EXPECT_FALSE(mObjectInterface->isImmutable());
 }
 
 TEST_F(InterfaceTest, isObjectTest) {

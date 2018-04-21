@@ -143,26 +143,14 @@ TEST_F(ExternalStaticMethodTest, definePublicFunctionTest) {
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
 
-TEST_F(ExternalStaticMethodTest, isOwnerTest) {
-  EXPECT_FALSE(mStaticMethod->isOwner());
-}
-
-TEST_F(ExternalStaticMethodTest, isReferenceTest) {
-  EXPECT_FALSE(mStaticMethod->isReference());
-}
-
-TEST_F(ExternalStaticMethodTest, isPrimitiveTest) {
+TEST_F(ExternalStaticMethodTest, isTypeKindTest) {
   EXPECT_FALSE(mStaticMethod->isPrimitive());
-}
-
-TEST_F(ExternalStaticMethodTest, isArrayTest) {
+  EXPECT_FALSE(mStaticMethod->isOwner());
+  EXPECT_FALSE(mStaticMethod->isReference());
   EXPECT_FALSE(mStaticMethod->isArray());
-}
-
-TEST_F(ExternalStaticMethodTest, isFunctionTest) {
   EXPECT_TRUE(mStaticMethod->isFunction());
-}
-
-TEST_F(ExternalStaticMethodTest, isPackageTest) {
   EXPECT_FALSE(mStaticMethod->isPackage());
+  EXPECT_FALSE(mStaticMethod->isNative());
+  EXPECT_FALSE(mStaticMethod->isPointer());
+  EXPECT_FALSE(mStaticMethod->isImmutable());
 }

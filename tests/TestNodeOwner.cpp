@@ -388,6 +388,7 @@ TEST_F(NodeOwnerTest, isTypeKindTest) {
   EXPECT_FALSE(mSimpleNode->getOwner()->isPackage());
   EXPECT_FALSE(mSimpleNode->getOwner()->isNative());
   EXPECT_FALSE(mSimpleNode->getOwner()->isPointer());
+  EXPECT_FALSE(mSimpleNode->getOwner()->isImmutable());
 }
 
 TEST_F(NodeOwnerTest, isObjectTest) {

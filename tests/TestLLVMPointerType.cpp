@@ -120,6 +120,7 @@ TEST_F(LLVMPointerTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mLLVMPointerType->isPackage());
   EXPECT_TRUE(mLLVMPointerType->isNative());
   EXPECT_TRUE(mLLVMPointerType->isPointer());
+  EXPECT_FALSE(mLLVMPointerType->isImmutable());
 }
 
 TEST_F(LLVMPointerTypeTest, isObjectTest) {

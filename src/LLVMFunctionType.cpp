@@ -126,6 +126,10 @@ bool LLVMFunctionType::isPointer() const {
   return false;
 }
 
+bool LLVMFunctionType::isImmutable() const {
+  return false;
+}
+
 void LLVMFunctionType::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << getTypeName();
 }

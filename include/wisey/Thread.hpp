@@ -160,6 +160,8 @@ namespace wisey {
     
     bool isPointer() const override;
 
+    bool isImmutable() const override;
+
     std::string getVTableName() const override;
     
     unsigned long getVTableSize() const override;

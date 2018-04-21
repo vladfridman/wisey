@@ -122,6 +122,10 @@ bool ArraySpecificOwnerType::isPointer() const {
   return false;
 }
 
+bool ArraySpecificOwnerType::isImmutable() const {
+  return false;
+}
+
 void ArraySpecificOwnerType::printToStream(IRGenerationContext &context, iostream& stream) const {
   mArraySpecificType->printToStream(context, stream);
   stream << "*";

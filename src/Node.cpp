@@ -290,6 +290,10 @@ bool Node::isPointer() const {
   return false;
 }
 
+bool Node::isImmutable() const {
+  return false;
+}
+
 string Node::getVTableName() const {
   return mName + ".vtable";
 }

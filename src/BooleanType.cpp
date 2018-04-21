@@ -136,6 +136,10 @@ bool BooleanType::isPointer() const {
   return false;
 }
 
+bool BooleanType::isImmutable() const {
+  return false;
+}
+
 string BooleanType::getFormat() const {
   return "%d";
 }

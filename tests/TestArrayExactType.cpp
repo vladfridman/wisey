@@ -100,6 +100,7 @@ TEST_F(ArrayExactTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mArrayExactType->isPackage());
   EXPECT_FALSE(mArrayExactType->isNative());
   EXPECT_FALSE(mArrayExactType->isPointer());
+  EXPECT_FALSE(mArrayExactType->isImmutable());
 }
 
 TEST_F(ArrayExactTypeTest, isObjectTest) {

@@ -132,6 +132,7 @@ TEST_F(WiseyObjectOwnerTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mWiseyObjectOwnerType->isPackage());
   EXPECT_TRUE(mWiseyObjectOwnerType->isNative());
   EXPECT_FALSE(mWiseyObjectOwnerType->isPointer());
+  EXPECT_FALSE(mWiseyObjectOwnerType->isImmutable());
 }
 
 TEST_F(WiseyObjectOwnerTypeTest, isObjectTest) {

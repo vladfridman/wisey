@@ -143,6 +143,7 @@ TEST_F(LongTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mLongType.isPackage());
   EXPECT_FALSE(mLongType.isNative());
   EXPECT_FALSE(mLongType.isPointer());
+  EXPECT_FALSE(mLongType.isPointer());
 }
 
 TEST_F(LongTypeTest, isObjectTest) {

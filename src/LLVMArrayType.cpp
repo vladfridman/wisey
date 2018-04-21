@@ -129,6 +129,10 @@ bool LLVMArrayType::isPointer() const {
   return false;
 }
 
+bool LLVMArrayType::isImmutable() const {
+  return false;
+}
+
 void LLVMArrayType::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << getTypeName();
 }

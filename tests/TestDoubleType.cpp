@@ -144,6 +144,7 @@ TEST_F(DoubleTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mDoubleType.isPackage());
   EXPECT_FALSE(mDoubleType.isNative());
   EXPECT_FALSE(mDoubleType.isPointer());
+  EXPECT_FALSE(mDoubleType.isPointer());
 }
 
 TEST_F(DoubleTypeTest, isObjectTest) {

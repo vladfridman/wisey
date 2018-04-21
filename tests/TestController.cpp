@@ -544,6 +544,7 @@ TEST_F(ControllerTest, isTypeKindTest) {
   EXPECT_FALSE(mMultiplierController->isPackage());
   EXPECT_FALSE(mMultiplierController->isNative());
   EXPECT_FALSE(mMultiplierController->isPointer());
+  EXPECT_FALSE(mMultiplierController->isImmutable());
 }
 
 TEST_F(ControllerTest, isObjectTest) {

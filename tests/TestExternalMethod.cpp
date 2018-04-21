@@ -144,26 +144,14 @@ TEST_F(ExternalMethodTest, defineFunctionTest) {
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
 
-TEST_F(ExternalMethodTest, isOwnerTest) {
-  EXPECT_FALSE(mMethod->isOwner());
-}
-
-TEST_F(ExternalMethodTest, isReferenceTest) {
-  EXPECT_FALSE(mMethod->isReference());
-}
-
-TEST_F(ExternalMethodTest, isPrimitiveTest) {
+TEST_F(ExternalMethodTest, isTypeKindTest) {
   EXPECT_FALSE(mMethod->isPrimitive());
-}
-
-TEST_F(ExternalMethodTest, isArrayTest) {
+  EXPECT_FALSE(mMethod->isOwner());
+  EXPECT_FALSE(mMethod->isReference());
   EXPECT_FALSE(mMethod->isArray());
-}
-
-TEST_F(ExternalMethodTest, isFunctionTest) {
   EXPECT_TRUE(mMethod->isFunction());
-}
-
-TEST_F(ExternalMethodTest, isPackageTest) {
   EXPECT_FALSE(mMethod->isPackage());
+  EXPECT_FALSE(mMethod->isNative());
+  EXPECT_FALSE(mMethod->isPointer());
+  EXPECT_FALSE(mMethod->isImmutable());
 }

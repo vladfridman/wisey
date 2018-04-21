@@ -215,6 +215,7 @@ TEST_F(MethodTest, isTypeKindTest) {
   EXPECT_FALSE(mMethod->isPackage());
   EXPECT_FALSE(mMethod->isNative());
   EXPECT_FALSE(mMethod->isPointer());
+  EXPECT_FALSE(mMethod->isImmutable());
 }
 
 TEST_F(MethodTest, printToStreamTest) {

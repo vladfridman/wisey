@@ -321,6 +321,10 @@ bool Controller::isPointer() const {
   return false;
 }
 
+bool Controller::isImmutable() const {
+  return false;
+}
+
 const IObjectOwnerType* Controller::getOwner() const {
   return mControllerOwner;
 }

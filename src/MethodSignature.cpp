@@ -201,6 +201,10 @@ bool MethodSignature::isPointer() const {
   return false;
 }
 
+bool MethodSignature::isImmutable() const {
+  return false;
+}
+
 const IObjectType* MethodSignature::getParentObject() const {
   return mObjectType;
 }

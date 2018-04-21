@@ -143,6 +143,7 @@ TEST_F(CharTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mCharType.isPackage());
   EXPECT_FALSE(mCharType.isNative());
   EXPECT_FALSE(mCharType.isPointer());
+  EXPECT_FALSE(mCharType.isPointer());
 }
 
 TEST_F(CharTypeTest, isObjectTest) {

@@ -762,6 +762,10 @@ bool Interface::isPointer() const {
   return false;
 }
 
+bool Interface::isImmutable() const {
+  return false;
+}
+
 const IObjectOwnerType* Interface::getOwner() const {
   return mInterfaceOwner;
 }

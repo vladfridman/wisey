@@ -95,6 +95,10 @@ bool PackageType::isPointer() const {
   return false;
 }
 
+bool PackageType::isImmutable() const {
+  return false;
+}
+
 void PackageType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

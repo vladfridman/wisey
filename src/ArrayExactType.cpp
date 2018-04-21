@@ -141,6 +141,10 @@ bool ArrayExactType::isPointer() const {
   return false;
 }
 
+bool ArrayExactType::isImmutable() const {
+  return false;
+}
+
 void ArrayExactType::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << getTypeName();
 }

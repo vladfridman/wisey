@@ -124,6 +124,10 @@ bool WiseyObjectOwnerType::isPointer() const {
   return false;
 }
 
+bool WiseyObjectOwnerType::isImmutable() const {
+  return false;
+}
+
 void WiseyObjectOwnerType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

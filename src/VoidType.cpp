@@ -97,6 +97,10 @@ bool VoidType::isPointer() const {
   return false;
 }
 
+bool VoidType::isImmutable() const {
+  return false;
+}
+
 string VoidType::getFormat() const {
   return "";
 }

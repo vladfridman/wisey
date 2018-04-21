@@ -547,6 +547,7 @@ TEST_F(NodeTest, isTypeKindTest) {
   EXPECT_FALSE(mSimpleNode->isPackage());
   EXPECT_FALSE(mSimpleNode->isNative());
   EXPECT_FALSE(mSimpleNode->isPointer());
+  EXPECT_FALSE(mSimpleNode->isImmutable());
 }
 
 TEST_F(NodeTest, isObjectTest) {

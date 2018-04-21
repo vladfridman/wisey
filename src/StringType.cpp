@@ -116,6 +116,10 @@ bool StringType::isPointer() const {
   return false;
 }
 
+bool StringType::isImmutable() const {
+  return false;
+}
+
 void StringType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

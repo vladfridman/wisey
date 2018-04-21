@@ -130,6 +130,10 @@ bool LLVMPointerType::isPointer() const {
   return true;
 }
 
+bool LLVMPointerType::isImmutable() const {
+  return false;
+}
+
 void LLVMPointerType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

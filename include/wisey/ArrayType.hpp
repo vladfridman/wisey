@@ -111,6 +111,8 @@ namespace wisey {
     
     bool isPointer() const override;
 
+    bool isImmutable() const override;
+
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
     void createLocalVariable(IRGenerationContext& context, std::string name) const override;

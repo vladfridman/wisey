@@ -111,6 +111,7 @@ TEST_F(ArraySpecificOwnerTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mArraySpecificOwnerType->isPackage());
   EXPECT_FALSE(mArraySpecificOwnerType->isNative());
   EXPECT_FALSE(mArraySpecificOwnerType->isPointer());
+  EXPECT_FALSE(mArraySpecificOwnerType->isImmutable());
 }
 
 TEST_F(ArraySpecificOwnerTypeTest, isObjectTest) {

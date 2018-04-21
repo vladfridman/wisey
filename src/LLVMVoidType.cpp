@@ -101,6 +101,10 @@ bool LLVMVoidType::isPointer() const {
   return false;
 }
 
+bool LLVMVoidType::isImmutable() const {
+  return false;
+}
+
 void LLVMVoidType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

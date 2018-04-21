@@ -62,6 +62,8 @@ namespace wisey {
     bool isNative() const override;
     
     bool isPointer() const override;
+
+    bool isImmutable() const override;
     
     std::string getFormat() const override;
     

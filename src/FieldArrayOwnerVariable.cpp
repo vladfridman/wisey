@@ -101,7 +101,7 @@ Value* FieldArrayOwnerVariable::generateArrayElementAssignment(IRGenerationConte
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   Value* arrayPointer = IRWriter::newLoadInst(context, fieldPointer, "");
   const IType* fieldType = field->getType();
-  assert(fieldType->isArray() && fieldType->isOwner());
+  assert(fieldType->isArray() && fieldType->isOwner() && !fieldType->isImmutable());
   const ArrayOwnerType* arrayOwnerType = (const ArrayOwnerType*) fieldType;
   const ArrayType* arrayType = arrayOwnerType->getArrayType(context);
   const IType* elementType = arrayType->getElementType();

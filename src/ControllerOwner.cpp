@@ -133,6 +133,10 @@ bool ControllerOwner::isPointer() const {
   return false;
 }
 
+bool ControllerOwner::isImmutable() const {
+  return false;
+}
+
 void ControllerOwner::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

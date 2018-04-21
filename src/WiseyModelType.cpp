@@ -125,6 +125,10 @@ bool WiseyModelType::isPointer() const {
   return false;
 }
 
+bool WiseyModelType::isImmutable() const {
+  return false;
+}
+
 void WiseyModelType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

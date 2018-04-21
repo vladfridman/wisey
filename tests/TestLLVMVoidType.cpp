@@ -68,6 +68,7 @@ TEST_F(LLVMVoidTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mLLVMVoidType.isPackage());
   EXPECT_TRUE(mLLVMVoidType.isNative());
   EXPECT_FALSE(mLLVMVoidType.isPointer());
+  EXPECT_FALSE(mLLVMVoidType.isImmutable());
 }
 
 TEST_F(LLVMVoidTypeTest, isObjectTest) {

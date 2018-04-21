@@ -104,6 +104,10 @@ bool LLVMi16Type::isPointer() const {
   return false;
 }
 
+bool LLVMi16Type::isImmutable() const {
+  return false;
+}
+
 void LLVMi16Type::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

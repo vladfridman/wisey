@@ -46,6 +46,7 @@ TEST_F(UndefinedTypeTest, isTypeKindTest) {
   EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isPackage());
   EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isNative());
   EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isPointer());
+  EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isPointer());
 }
 
 TEST_F(UndefinedTypeTest, isObjectTest) {

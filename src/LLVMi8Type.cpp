@@ -104,6 +104,10 @@ bool LLVMi8Type::isPointer() const {
   return false;
 }
 
+bool LLVMi8Type::isImmutable() const {
+  return false;
+}
+
 void LLVMi8Type::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

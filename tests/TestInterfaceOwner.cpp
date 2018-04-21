@@ -142,6 +142,7 @@ TEST_F(InterfaceOwnerTest, isTypeKindTest) {
   EXPECT_FALSE(mObjectInterface->getOwner()->isPackage());
   EXPECT_FALSE(mObjectInterface->getOwner()->isNative());
   EXPECT_FALSE(mObjectInterface->getOwner()->isPointer());
+  EXPECT_FALSE(mObjectInterface->getOwner()->isImmutable());
 }
 
 TEST_F(InterfaceOwnerTest, isObjectTest) {

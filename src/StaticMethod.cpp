@@ -149,6 +149,10 @@ bool StaticMethod::isPointer() const {
   return false;
 }
 
+bool StaticMethod::isImmutable() const {
+  return false;
+}
+
 Function* StaticMethod::defineFunction(IRGenerationContext& context) const {
   return IMethod::defineFunction(context, mObjectType, this);
 }

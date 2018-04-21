@@ -135,6 +135,10 @@ bool CharType::isPointer() const {
   return false;
 }
 
+bool CharType::isImmutable() const {
+  return false;
+}
+
 string CharType::getFormat() const {
   return "%c";
 }

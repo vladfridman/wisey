@@ -216,28 +216,16 @@ TEST_F(StaticMethodTest, printToStreamTest) {
                stringStream.str().c_str());
 }
 
-TEST_F(StaticMethodTest, isOwnerTest) {
+TEST_F(StaticMethodTest, isTypeKindTest) {
   EXPECT_FALSE(mStaticMethod->isOwner());
-}
-
-TEST_F(StaticMethodTest, isReferenceTest) {
   EXPECT_FALSE(mStaticMethod->isReference());
-}
-
-TEST_F(StaticMethodTest, isPrimitiveTest) {
   EXPECT_FALSE(mStaticMethod->isPrimitive());
-}
-
-TEST_F(StaticMethodTest, isArrayTest) {
   EXPECT_FALSE(mStaticMethod->isArray());
-}
-
-TEST_F(StaticMethodTest, isFunctionTest) {
   EXPECT_TRUE(mStaticMethod->isFunction());
-}
-
-TEST_F(StaticMethodTest, isPackageTest) {
   EXPECT_FALSE(mStaticMethod->isPackage());
+  EXPECT_FALSE(mStaticMethod->isNative());
+  EXPECT_FALSE(mStaticMethod->isPointer());
+  EXPECT_FALSE(mStaticMethod->isImmutable());
 }
 
 TEST_F(TestFileRunner, staticMethodDefinitionRunTest) {

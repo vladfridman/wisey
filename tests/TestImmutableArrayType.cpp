@@ -125,6 +125,7 @@ TEST_F(ImmutableArrayTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mImmutableArrayType->isPackage());
   EXPECT_FALSE(mImmutableArrayType->isNative());
   EXPECT_FALSE(mImmutableArrayType->isPointer());
+  EXPECT_TRUE(mImmutableArrayType->isImmutable());
 }
 
 TEST_F(ImmutableArrayTypeTest, isObjectTest) {

@@ -131,6 +131,10 @@ bool ThreadOwner::isPointer() const {
   return false;
 }
 
+bool ThreadOwner::isImmutable() const {
+  return false;
+}
+
 void ThreadOwner::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

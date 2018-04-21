@@ -124,7 +124,12 @@ namespace wisey {
      * Tells whether this type is an llvm pointer type
      */
     virtual bool isPointer() const = 0;
-
+    
+    /**
+     * Tells whether this type is immutable
+     */
+    virtual bool isImmutable() const = 0;
+    
     /**
      * Allocates local variable of the type and stores it in the scope
      */

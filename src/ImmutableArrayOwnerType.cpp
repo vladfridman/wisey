@@ -118,6 +118,10 @@ bool ImmutableArrayOwnerType::isPointer() const {
   return false;
 }
 
+bool ImmutableArrayOwnerType::isImmutable() const {
+  return true;
+}
+
 void ImmutableArrayOwnerType::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << getTypeName();
 }

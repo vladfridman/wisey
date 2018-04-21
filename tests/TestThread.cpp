@@ -384,6 +384,7 @@ TEST_F(ThreadTest, isTypeKindTest) {
   EXPECT_FALSE(mThread->isPackage());
   EXPECT_FALSE(mThread->isNative());
   EXPECT_FALSE(mThread->isPointer());
+  EXPECT_FALSE(mThread->isImmutable());
 }
 
 TEST_F(ThreadTest, isObjectTest) {

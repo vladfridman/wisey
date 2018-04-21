@@ -106,28 +106,16 @@ TEST_F(MethodSignatureTest, getLLVMTypeTest) {
   EXPECT_EQ(expectedType, actualType);
 }
 
-TEST_F(MethodSignatureTest, isOwnerTest) {
+TEST_F(MethodSignatureTest, isTypeKindTest) {
   EXPECT_FALSE(mMethodSignature->isOwner());
-}
-
-TEST_F(MethodSignatureTest, isReferenceTest) {
   EXPECT_FALSE(mMethodSignature->isReference());
-}
-
-TEST_F(MethodSignatureTest, isPrimitiveTest) {
   EXPECT_FALSE(mMethodSignature->isPrimitive());
-}
-
-TEST_F(MethodSignatureTest, isArrayTest) {
   EXPECT_FALSE(mMethodSignature->isArray());
-}
-
-TEST_F(MethodSignatureTest, isFunctionTest) {
   EXPECT_TRUE(mMethodSignature->isFunction());
-}
-
-TEST_F(MethodSignatureTest, isPackageTest) {
   EXPECT_FALSE(mMethodSignature->isPackage());
+  EXPECT_FALSE(mMethodSignature->isNative());
+  EXPECT_FALSE(mMethodSignature->isPointer());
+  EXPECT_FALSE(mMethodSignature->isImmutable());
 }
 
 TEST_F(MethodSignatureTest, printToStreamTest) {

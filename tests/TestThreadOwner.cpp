@@ -137,6 +137,7 @@ TEST_F(ThreadOwnerTest, isTypeKindTest) {
   EXPECT_FALSE(mThread->getOwner()->isPackage());
   EXPECT_FALSE(mThread->getOwner()->isNative());
   EXPECT_FALSE(mThread->getOwner()->isPointer());
+  EXPECT_FALSE(mThread->getOwner()->isImmutable());
 }
 
 TEST_F(ThreadOwnerTest, isObjectTest) {

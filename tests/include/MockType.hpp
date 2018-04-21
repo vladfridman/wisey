@@ -41,6 +41,7 @@ public:
   MOCK_CONST_METHOD0(isThread, bool ());
   MOCK_CONST_METHOD0(isNative, bool ());
   MOCK_CONST_METHOD0(isPointer, bool ());
+  MOCK_CONST_METHOD0(isImmutable, bool ());
   MOCK_CONST_METHOD2(printToStream, void (wisey::IRGenerationContext&, std::iostream& stream));
   MOCK_CONST_METHOD2(createLocalVariable, void (wisey::IRGenerationContext&, std::string name));
   MOCK_CONST_METHOD3(createFieldVariable, void (wisey::IRGenerationContext&,

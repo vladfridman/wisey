@@ -297,6 +297,10 @@ bool LLVMFunction::isPointer() const {
   return false;
 }
 
+bool LLVMFunction::isImmutable() const {
+  return false;
+}
+
 void LLVMFunction::printToStream(IRGenerationContext& context, iostream& stream) const {
   IMethodDescriptor::printDescriptorToStream(this, stream);
 }

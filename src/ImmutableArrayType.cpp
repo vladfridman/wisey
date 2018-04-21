@@ -126,6 +126,10 @@ bool ImmutableArrayType::isPointer() const {
   return false;
 }
 
+bool ImmutableArrayType::isImmutable() const {
+  return true;
+}
+
 void ImmutableArrayType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

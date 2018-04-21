@@ -222,6 +222,7 @@ TEST_F(ControllerOwnerTest, isTypeKindTest) {
   EXPECT_FALSE(mMultiplierController->getOwner()->isPackage());
   EXPECT_FALSE(mMultiplierController->getOwner()->isNative());
   EXPECT_FALSE(mMultiplierController->getOwner()->isPointer());
+  EXPECT_FALSE(mMultiplierController->getOwner()->isImmutable());
 }
 
 TEST_F(ControllerOwnerTest, isObjectTest) {

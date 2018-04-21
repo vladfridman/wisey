@@ -70,6 +70,7 @@ TEST_F(LLVMi32TypeTest, isTypeKindTest) {
   EXPECT_FALSE(mLLVMi32Type.isPackage());
   EXPECT_TRUE(mLLVMi32Type.isNative());
   EXPECT_FALSE(mLLVMi32Type.isPointer());
+  EXPECT_FALSE(mLLVMi32Type.isImmutable());
 }
 
 TEST_F(LLVMi32TypeTest, isObjectTest) {

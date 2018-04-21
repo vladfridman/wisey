@@ -320,6 +320,10 @@ bool Thread::isPointer() const {
   return false;
 }
 
+bool Thread::isImmutable() const {
+  return false;
+}
+
 const IObjectOwnerType* Thread::getOwner() const {
   return mThreadOwner;
 }

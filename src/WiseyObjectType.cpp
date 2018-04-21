@@ -126,6 +126,10 @@ bool WiseyObjectType::isPointer() const {
   return false;
 }
 
+bool WiseyObjectType::isImmutable() const {
+  return false;
+}
+
 void WiseyObjectType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

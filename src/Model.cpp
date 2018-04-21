@@ -327,6 +327,10 @@ bool Model::isPointer() const {
   return false;
 }
 
+bool Model::isImmutable() const {
+  return false;
+}
+
 Instruction* Model::build(IRGenerationContext& context,
                           const ObjectBuilderArgumentList& objectBuilderArgumentList,
                           int line) const {

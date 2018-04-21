@@ -163,6 +163,10 @@ bool ArrayType::isPointer() const {
   return false;
 }
 
+bool ArrayType::isImmutable() const {
+  return false;
+}
+
 void ArrayType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

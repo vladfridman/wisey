@@ -124,6 +124,8 @@ namespace wisey {
     
     bool isPointer() const override;
 
+    bool isImmutable() const override;
+
     const IObjectType* getParentObject() const override;
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;

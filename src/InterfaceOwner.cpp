@@ -142,6 +142,10 @@ bool InterfaceOwner::isPointer() const {
   return false;
 }
 
+bool InterfaceOwner::isImmutable() const {
+  return false;
+}
+
 void InterfaceOwner::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }

@@ -186,6 +186,10 @@ bool ExternalMethod::isPointer() const {
   return false;
 }
 
+bool ExternalMethod::isImmutable() const {
+  return false;
+}
+
 const IObjectType* ExternalMethod::getParentObject() const {
   return mObjectType;
 }

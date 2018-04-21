@@ -140,6 +140,10 @@ bool ArrayOwnerType::isPointer() const {
   return false;
 }
 
+bool ArrayOwnerType::isImmutable() const {
+  return false;
+}
+
 void ArrayOwnerType::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << getTypeName();
 }

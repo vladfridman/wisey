@@ -70,6 +70,8 @@ namespace wisey {
     
     bool isPointer() const override;
 
+    bool isImmutable() const override;
+
     llvm::Function* getDestructorFunction(IRGenerationContext& context, int line) const override;
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;

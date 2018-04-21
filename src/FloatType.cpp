@@ -132,6 +132,10 @@ bool FloatType::isPointer() const {
   return false;
 }
 
+bool FloatType::isImmutable() const {
+  return false;
+}
+
 string FloatType::getFormat() const {
   return "%f";
 }
