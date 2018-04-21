@@ -131,7 +131,6 @@ TEST_F(LocalArrayReferenceVariableTest, generateWholeArrayAssignmentTest) {
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-
 TEST_F(LocalArrayReferenceVariableTest, generateWholeArrayAssignmentDeathTest) {
   llvm::PointerType* arrayPointerType = mArrayType->getLLVMType(mContext);
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");

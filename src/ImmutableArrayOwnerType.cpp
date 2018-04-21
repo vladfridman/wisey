@@ -9,8 +9,10 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/IRWriter.hpp"
 #include "wisey/ImmutableArrayOwnerType.hpp"
 #include "wisey/ImmutableArrayType.hpp"
+#include "wisey/LocalImmutableArrayOwnerVariable.hpp"
 
 using namespace std;
 using namespace wisey;
@@ -121,18 +123,23 @@ void ImmutableArrayOwnerType::printToStream(IRGenerationContext& context, iostre
 }
 
 void ImmutableArrayOwnerType::createLocalVariable(IRGenerationContext& context, string name) const {
-  assert(false);
+  llvm::PointerType* llvmType = getLLVMType(context);
+  llvm::AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
+  IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloc);
+  
+  IVariable* variable = new LocalImmutableArrayOwnerVariable(name, this, alloc);
+  context.getScopes().setVariable(variable);
 }
 
 void ImmutableArrayOwnerType::createFieldVariable(IRGenerationContext& context,
-                                         string name,
-                                         const IConcreteObjectType* object) const {
+                                                  string name,
+                                                  const IConcreteObjectType* object) const {
   assert(false);
 }
 
 void ImmutableArrayOwnerType::createParameterVariable(IRGenerationContext& context,
-                                             string name,
-                                             llvm::Value* value) const {
+                                                      string name,
+                                                      llvm::Value* value) const {
   assert(false);
 }
 

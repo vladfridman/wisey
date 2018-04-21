@@ -10,7 +10,9 @@
 #include <llvm/IR/DerivedTypes.h>
 
 #include "wisey/AdjustReferenceCounterForArrayFunction.hpp"
+#include "wisey/IRWriter.hpp"
 #include "wisey/ImmutableArrayType.hpp"
+#include "wisey/LocalImmutableArrayReferenceVariable.hpp"
 
 using namespace std;
 using namespace wisey;
@@ -129,7 +131,12 @@ void ImmutableArrayType::printToStream(IRGenerationContext &context, iostream& s
 }
 
 void ImmutableArrayType::createLocalVariable(IRGenerationContext &context, string name) const {
-  assert(false);
+  llvm::PointerType* llvmType = getLLVMType(context);
+  llvm::AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
+  IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloc);
+  
+  IVariable* variable = new LocalImmutableArrayReferenceVariable(name, this, alloc);
+  context.getScopes().setVariable(variable);
 }
 
 void ImmutableArrayType::createFieldVariable(IRGenerationContext& context,

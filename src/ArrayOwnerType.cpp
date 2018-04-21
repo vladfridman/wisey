@@ -10,12 +10,14 @@
 
 #include "wisey/ArrayType.hpp"
 #include "wisey/ArrayOwnerType.hpp"
+#include "wisey/CheckArrayNotReferencedFunction.hpp"
 #include "wisey/DestroyOwnerArrayFunction.hpp"
 #include "wisey/DestroyPrimitiveArrayFunction.hpp"
 #include "wisey/DestroyReferenceArrayFunction.hpp"
 #include "wisey/FieldArrayOwnerVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/ImmutableArrayType.hpp"
 #include "wisey/LocalArrayOwnerVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/ParameterArrayOwnerVariable.hpp"
@@ -43,10 +45,10 @@ llvm::PointerType* ArrayOwnerType::getLLVMType(IRGenerationContext& context) con
 }
 
 bool ArrayOwnerType::canCastTo(IRGenerationContext& context, const IType* toType) const {
-  if (toType == this || toType == mArrayType) {
+  if (toType == this || toType == mArrayType || toType == mArrayType->getImmutable()->getOwner()) {
     return true;
   }
-  
+
   return false;
 }
 
@@ -61,7 +63,11 @@ llvm::Value* ArrayOwnerType::castTo(IRGenerationContext &context,
   if (toType == this || toType == mArrayType) {
     return fromValue;
   }
-  
+  if (toType == mArrayType->getImmutable()->getOwner()) {
+    CheckArrayNotReferencedFunction::callWithArrayType(context, fromValue, mArrayType);
+    return fromValue;
+  }
+
   return NULL;
 }
 

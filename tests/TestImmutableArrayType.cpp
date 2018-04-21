@@ -135,6 +135,23 @@ TEST_F(ImmutableArrayTypeTest, isObjectTest) {
   EXPECT_FALSE(mImmutableArrayType->isThread());
 }
 
+TEST_F(ImmutableArrayTypeTest, createLocalVariableTest) {
+  mArrayType->createLocalVariable(mContext, "temp");
+  IVariable* variable = mContext.getScopes().getVariable("temp");
+  
+  ASSERT_NE(variable, nullptr);
+  
+  *mStringStream << *mBasicBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %0 = alloca { i64, i64, i64, [0 x i64] }*"
+  "\n  store { i64, i64, i64, [0 x i64] }* null, { i64, i64, i64, [0 x i64] }** %0\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
 TEST_F(ImmutableArrayTypeTest, injectDeathTest) {
   Mock::AllowLeak(&mConcreteObjectType);
   InjectionArgumentList arguments;

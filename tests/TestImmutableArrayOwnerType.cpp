@@ -115,6 +115,23 @@ TEST_F(ImmutableArrayOwnerTypeTest, isObjectTest) {
   EXPECT_FALSE(mImmutableArrayOwnerType->isThread());
 }
 
+TEST_F(ImmutableArrayOwnerTypeTest, createLocalVariableTest) {
+  mImmutableArrayOwnerType->createLocalVariable(mContext, "temp");
+  IVariable* variable = mContext.getScopes().getVariable("temp");
+  
+  ASSERT_NE(variable, nullptr);
+  
+  *mStringStream << *mBasicBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %0 = alloca { i64, i64, i64, [0 x i64] }*"
+  "\n  store { i64, i64, i64, [0 x i64] }* null, { i64, i64, i64, [0 x i64] }** %0\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
 TEST_F(ImmutableArrayOwnerTypeTest, injectDeathTest) {
   InjectionArgumentList arguments;
   EXPECT_EXIT(mImmutableArrayOwnerType->inject(mContext, arguments, 3),
