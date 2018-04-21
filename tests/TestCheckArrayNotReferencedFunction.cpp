@@ -14,13 +14,19 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestPrefix.hpp"
+#include "MockType.hpp"
+#include "wisey/ArrayType.hpp"
 #include "wisey/CheckArrayNotReferencedFunction.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+using ::testing::_;
+using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
 
 struct CheckArrayNotReferencedFunctionTest : Test {
@@ -30,6 +36,8 @@ struct CheckArrayNotReferencedFunctionTest : Test {
   Function* mFunction;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
+  NiceMock<MockType> mWithArrayType;
+  wisey::ArrayType* mArrayType;
   
   CheckArrayNotReferencedFunctionTest() :
   mLLVMContext(mContext.getLLVMContext()) {
@@ -46,6 +54,9 @@ struct CheckArrayNotReferencedFunctionTest : Test {
     mContext.getScopes().pushScope();
     
     mStringStream = new raw_string_ostream(mStringBuffer);
+    
+    mArrayType = new wisey::ArrayType(PrimitiveTypes::INT_TYPE, 3);
+    ON_CALL(mWithArrayType, getArrayType(_)).WillByDefault(Return(mArrayType));
   }
   
   ~CheckArrayNotReferencedFunctionTest() {
@@ -62,6 +73,19 @@ TEST_F(CheckArrayNotReferencedFunctionTest, callTest) {
   string expected =
   "\nentry:"
   "\n  call void @__checkArrayNotReferenced(i64* null, i64 2)\n";
+  
+  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
+}
+
+TEST_F(CheckArrayNotReferencedFunctionTest, callWithArrayTypeTest) {
+  llvm::PointerType* genericPointer = llvm::Type::getInt64Ty(mLLVMContext)->getPointerTo();
+  Value* nullPointerValue = ConstantPointerNull::get(genericPointer);
+  CheckArrayNotReferencedFunction::callWithArrayType(mContext, nullPointerValue, &mWithArrayType);
+  
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  call void @__checkArrayNotReferenced(i64* null, i64 3)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

@@ -67,6 +67,13 @@ IMethod* MethodDefinition::define(IRGenerationContext& context,
                                mCompoundStatement,
                                mLine);
 
+  if (objectType->isModel() && returnType->isArray() && returnType->isReference()) {
+    context.reportError(mReturnTypeSpecifier->getLine(),
+                        "Not allowed to return array reference from a model, "
+                        "only returning array owner type is allowed");
+    exit(1);
+  }
+  
   if (objectType->isThread() && !method->isConceal() && !method->isReveal()) {
     context.reportError(mMethodQualifiers->getLine(),
                         "Method '" + method->getName() + "' in object " +

@@ -438,10 +438,7 @@ void Model::initializeFields(IRGenerationContext& context,
       ((const IReferenceType*) fieldType)->incrementReferenceCount(context, castValue);
     }
     if (fieldType->isArray()) {
-      const ArrayType* arrayType = fieldType->getArrayType(context);
-      ConstantInt* numberOfDimentions = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()),
-                                                         arrayType->getNumberOfDimensions());
-      CheckArrayNotReferencedFunction::call(context, castValue, numberOfDimentions);
+      CheckArrayNotReferencedFunction::callWithArrayType(context, castValue, fieldType);
     }
   }
 }

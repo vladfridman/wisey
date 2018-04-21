@@ -892,6 +892,10 @@ TEST_F(TestFileRunner, modelWithModelArrayRunTest) {
   runFile("tests/samples/test_model_with_model_array.yz", "3");
 }
 
+TEST_F(TestFileRunner, modelWithArrayReturnArrayOwnerRunTest) {
+  runFile("tests/samples/test_model_with_array_return_array_owner.yz", "5");
+}
+
 TEST_F(TestFileRunner, innerObjectWrongTypeSpecifierDeathRunTest) {
   expectFailCompile("tests/samples/test_inner_object_wrong_type_specifier.yz",
                     1,
@@ -926,6 +930,14 @@ TEST_F(TestFileRunner, modelWithNodeArrayDeathRunTest) {
                     "Array fields in models can only be of primitive or model base type");
 }
 
+TEST_F(TestFileRunner, modelWithArrayReturnArrayReferenceDeathRunTest) {
+  expectFailCompile("tests/samples/test_model_with_array_return_array_reference.yz",
+                    1,
+                    "tests/samples/test_model_with_array_return_array_reference.yz\\(8\\): Error: "
+                    "Not allowed to return array reference from a model, "
+                    "only returning array owner type is allowed");
+}
+
 TEST_F(TestFileRunner, modelWithPrimitiveArrayRceDeathRunTest) {
   compileAndRunFileCheckOutput("tests/samples/test_model_with_primitive_array_rce.yz",
                                1,
@@ -942,6 +954,16 @@ TEST_F(TestFileRunner, modelWithModelArrayRceDeathRunTest) {
                                "",
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_model_with_model_array_rce.yz:27)\n"
+                               "Details: Object referenced by expression still has 1 active reference\n"
+                               "Main thread ended without a result\n");
+}
+
+TEST_F(TestFileRunner, modelWithArrayReturnArrayOwnerRceDeathRunTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_model_with_array_return_array_owner_rce.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MReferenceCountException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_model_with_array_return_array_owner_rce.yz:34)\n"
                                "Details: Object referenced by expression still has 1 active reference\n"
                                "Main thread ended without a result\n");
 }

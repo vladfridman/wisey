@@ -101,4 +101,3 @@ TEST_F(TestFileRunner, methodDecalarationImpliedReturnRunTest) {
 TEST_F(TestFileRunner, methodDecalarationMultipleParametersRunTest) {
   runFile("tests/samples/test_method_multiple_arguments.yz", "6");
 }
-

@@ -45,6 +45,15 @@ void CheckArrayNotReferencedFunction::call(IRGenerationContext& context,
   IRWriter::createCallInst(context, function, arguments, "");
 }
 
+void CheckArrayNotReferencedFunction::callWithArrayType(IRGenerationContext& context,
+                                                        Value* array,
+                                                        const IType* withArrayType) {
+  const ArrayType* arrayType = withArrayType->getArrayType(context);
+  ConstantInt* numberOfDimentions = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()),
+                                                     arrayType->getNumberOfDimensions());
+  call(context, array, numberOfDimentions);
+}
+
 string CheckArrayNotReferencedFunction::getName() {
   return "__checkArrayNotReferenced";
 }
