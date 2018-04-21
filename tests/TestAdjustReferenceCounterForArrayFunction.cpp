@@ -80,7 +80,9 @@ TEST_F(AdjustReferenceCounterForArrayFunctionTest, getTest) {
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
   "\n  %1 = bitcast i8* %array to i64*"
-  "\n  %2 = atomicrmw add i64* %1, i64 %adjustment monotonic"
+  "\n  %count = load i64, i64* %1"
+  "\n  %2 = add i64 %count, %adjustment"
+  "\n  store i64 %2, i64* %1"
   "\n  ret void"
   "\n}\n";
   

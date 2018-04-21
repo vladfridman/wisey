@@ -96,12 +96,9 @@ void AdjustReferenceCounterForArrayFunction::compose(IRGenerationContext& contex
   context.setBasicBlock(ifNotNullBlock);
   Type* int64Pointer = Type::getInt64Ty(llvmContext)->getPointerTo();
   Value* counter = IRWriter::newBitCastInst(context, array, int64Pointer);
-  new AtomicRMWInst(AtomicRMWInst::BinOp::Add,
-                    counter,
-                    adjustment,
-                    AtomicOrdering::Monotonic,
-                    SynchronizationScope::CrossThread,
-                    ifNotNullBlock);
+  Value* count = IRWriter::newLoadInst(context, counter, "count");
+  Value* sum = IRWriter::createBinaryOperator(context, Instruction::Add, count, adjustment, "");
+  IRWriter::newStoreInst(context, sum, counter);
   IRWriter::createReturnInst(context, NULL);
 
   context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context));
