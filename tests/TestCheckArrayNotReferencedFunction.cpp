@@ -54,9 +54,8 @@ struct CheckArrayNotReferencedFunctionTest : Test {
     mContext.getScopes().pushScope();
     
     mStringStream = new raw_string_ostream(mStringBuffer);
-    
-    mArrayType = new wisey::ArrayType(PrimitiveTypes::INT_TYPE, 3);
-    ON_CALL(mWithArrayType, getArrayType(_)).WillByDefault(Return(mArrayType));
+
+    EXPECT_CALL(mWithArrayType, die());
   }
   
   ~CheckArrayNotReferencedFunctionTest() {
@@ -78,6 +77,8 @@ TEST_F(CheckArrayNotReferencedFunctionTest, callTest) {
 }
 
 TEST_F(CheckArrayNotReferencedFunctionTest, callWithArrayTypeTest) {
+  wisey::ArrayType* arrayType = new wisey::ArrayType(PrimitiveTypes::INT_TYPE, 3);
+  ON_CALL(mWithArrayType, getArrayType(_)).WillByDefault(Return(arrayType));
   llvm::PointerType* genericPointer = llvm::Type::getInt64Ty(mLLVMContext)->getPointerTo();
   Value* nullPointerValue = ConstantPointerNull::get(genericPointer);
   CheckArrayNotReferencedFunction::callWithArrayType(mContext, nullPointerValue, &mWithArrayType);

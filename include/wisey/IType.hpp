@@ -154,7 +154,7 @@ namespace wisey {
     /**
      * Returns ArrayType if this type has one associated with it otherwise reports an error
      */
-    virtual const ArrayType* getArrayType(IRGenerationContext& context) const = 0;
+    virtual const wisey::ArrayType* getArrayType(IRGenerationContext& context) const = 0;
     
     /**
      * Tells whether the given type is an object or an object owner type
