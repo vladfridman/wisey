@@ -70,6 +70,8 @@
   #include "wisey/IObjectDefinition.hpp"
   #include "wisey/IObjectTypeSpecifier.hpp"
   #include "wisey/ITypeSpecifier.hpp"
+  #include "wisey/ImmutableArrayOwnerTypeSpecifier.hpp"
+  #include "wisey/ImmutableArrayTypeSpecifier.hpp"
   #include "wisey/LLVMArrayTypeSpecifer.hpp"
   #include "wisey/LLVMExternalStructDefinition.hpp"
   #include "wisey/LLVMGlobalDeclaration.hpp"
@@ -171,6 +173,8 @@
   wisey::ArrayTypeSpecifier* array_type_specifier;
   wisey::ArrayOwnerTypeSpecifier* array_owner_type_specifier;
   wisey::ArraySpecificTypeSpecifier* array_specific_type_specifier;
+  wisey::ImmutableArrayTypeSpecifier* immutable_array_type_specifier;
+  wisey::ImmutableArrayOwnerTypeSpecifier* immutable_array_owner_type_specifier;
   wisey::IObjectDefinition* object_definition;
   wisey::IObjectTypeSpecifier* object_type_specifier;
   wisey::Identifier* identifier;
@@ -222,15 +226,15 @@
 
 %token <token> TANDOP TBIND TBREAK TBUILD TBUILDER TCASE TCATCH TCEQ TCGE TCLE TINCOP
 %token <token> TCONCEAL TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDO TDOUBLECOLON TELSE TEXTENDS 
-%token <token> TEXTERNAL TDEFAULT TREVEAL TFALLTHROUGH TFALSE TFIXED TFOR TIF TIMPLEMENTS TIMPORT
-%token <token> TINJECTOR TINJECT TINSTANCEOF TINTERFACE  
+%token <token> TEXTERNAL TDEFAULT TREVEAL TFALLTHROUGH TFALSE TFIXED TFOR TIF TIMMUTABLE
+%token <token> TIMPLEMENTS TIMPORT TINJECTOR TINJECT TINSTANCEOF TINTERFACE  
 %token <token> TLLVM TLLVMARRAY TLLVMFUNCTION TLLVMI1 TLLVMI8 TLLVMI16 TLLVMI32 TLLVMI64
 %token <token> TLLVMPOINTER TLLVMSTRUCT TLLVMVOID TLLVMREFERENCE
 %token <token> TMODEL TNEW TNODE TNULL TOROP TOVERRIDE TPACKAGE 
 %token <token> TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN TSTATE TSTATIC 
 %token <token> TSWITCH TTHREAD TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN 
 %token <token> TTYPECHAR TTYPEDOUBLE TTYPEFLOAT TTYPEINT TTYPELONG TTYPESTRING TTYPEVOID TWHILE
-%token <token> TWISEY TWISEYMODEL TWISEYOBJECT 
+%token <token> TWISEY TWISEYMODEL TWISEYOBJECT
 
 /**
  * Parsing tree node types
@@ -283,6 +287,8 @@
 %type <object_element_list> external_interface_element_delcaration_list
 %type <array_type_specifier> array_type_specifier
 %type <array_owner_type_specifier> array_owner_type_specifier
+%type <immutable_array_type_specifier> immutable_array_type_specifier
+%type <immutable_array_owner_type_specifier> immutable_array_owner_type_specifier
 %type <array_specific_type_specifier> array_specific_type_specifier
 %type <object_type_specifier> object_type_specifier
 %type <object_type_specifier> object_type_specifier_dot
@@ -1528,6 +1534,8 @@ type_specifier
   : non_array_type_specifier
   | array_type_specifier { $$ = (ITypeSpecifier*) $1; }
   | array_owner_type_specifier { $$ = (ITypeSpecifier*) $1; }
+  | immutable_array_type_specifier { $$ = (ITypeSpecifier*) $1; }
+  | immutable_array_owner_type_specifier { $$ = (ITypeSpecifier*) $1; }
   ;
 
 // Compiler checks that injected type is not a primitive or a reference
@@ -1552,6 +1560,14 @@ primitive_type_specifier
   | TTYPELONG { $$ = PrimitiveTypes::LONG_TYPE->newTypeSpecifier(yylineno); }
   | TTYPESTRING { $$ = PrimitiveTypes::STRING_TYPE->newTypeSpecifier(yylineno); }
   | TTYPEVOID { $$ = PrimitiveTypes::VOID_TYPE->newTypeSpecifier(yylineno); }
+  ;
+
+immutable_array_type_specifier
+  : TIMMUTABLE array_type_specifier { $$ = new ImmutableArrayTypeSpecifier($2); }
+  ;
+
+immutable_array_owner_type_specifier
+  : immutable_array_type_specifier '*' { $$ = new ImmutableArrayOwnerTypeSpecifier($1); }
   ;
 
 array_owner_type_specifier

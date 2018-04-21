@@ -13,6 +13,8 @@
   #include "wisey/ILLVMTypeSpecifier.hpp"
   #include "wisey/IObjectDefinition.hpp"
   #include "wisey/Identifier.hpp"
+  #include "wisey/ImmutableArrayOwnerTypeSpecifier.hpp"
+  #include "wisey/ImmutableArrayTypeSpecifier.hpp"
   #include "wisey/InterfaceTypeSpecifier.hpp"
   #include "wisey/LLVMPointerOwnerTypeSpecifier.hpp"
   #include "wisey/LLVMPointerTypeSpecifier.hpp"
@@ -94,6 +96,7 @@ WS  [ \t\v\n\f]
 "float"                       return TOKEN(TTYPEFLOAT);
 "for"                         return TOKEN(TFOR);
 "if"                          return TOKEN(TIF);
+"immutable"                   return TOKEN(TIMMUTABLE);
 "implements"                  return TOKEN(TIMPLEMENTS);
 "import"                      return TOKEN(TIMPORT);
 "inject"                      return TOKEN(TINJECT);

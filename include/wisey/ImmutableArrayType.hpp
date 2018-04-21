@@ -1,55 +1,40 @@
 //
-//  ArrayType.hpp
+//  ImmutableArrayType.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 12/11/17.
-//  Copyright © 2017 Vladimir Fridman. All rights reserved.
+//  Created by Vladimir Fridman on 4/21/18.
+//  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef ArrayType_h
-#define ArrayType_h
+#ifndef ImmutableArrayType_h
+#define ImmutableArrayType_h
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/ArrayOwnerType.hpp"
+#include "wisey/ArrayType.hpp"
 #include "wisey/IReferenceType.hpp"
-#include "wisey/IType.hpp"
+#include "wisey/ImmutableArrayOwnerType.hpp"
 
 namespace wisey {
   
-  class ImmutableArrayType;
-  
   /**
-   * Represents the array type
-   *
-   * Arrays are wrapped in a Struct in order to keep track of reference count and array size
-   * The Struct looks as follows:
-   * {
-   *   int_64 ref_count
-   *   int_64 array_size
-   *   int_64 element_size_in_bytes
-   *   [ array ]
-   * }
+   * Represents the immutable array type: an immutable array can not be modified
    */
-  class ArrayType : public IReferenceType {
+  class ImmutableArrayType : public IReferenceType {
     
-    const IType* mElementType;
-    unsigned long mNumberOfDimensions;
-    const ArrayOwnerType* mArrayOwnerType;
-    const ImmutableArrayType* mImmutableArrayType;
+    const ArrayType* mArrayType;
+    const ImmutableArrayOwnerType* mImmutableArrayOwnerType;
     
   public:
     
-    ArrayType(const IType* elementType, unsigned long numberOfDimensions);
+    ImmutableArrayType(const ArrayType* arrayType);
     
-    ~ArrayType();
-    
-    static const unsigned int ARRAY_ELEMENTS_START_INDEX;
+    ~ImmutableArrayType();
     
     /**
-     * Returns the owner type for this array type
+     * Returns the owner type for this immutable array type
      */
-    const ArrayOwnerType* getOwner() const override;
+    const ImmutableArrayOwnerType* getOwner() const override;
     
     /**
      * Returns the number of dimensions in this array
@@ -60,11 +45,6 @@ namespace wisey {
      * Returns single array element type
      */
     const IType* getElementType() const;
-    
-    /**
-     * Returns an immutable array type for this array type
-     */
-    const ImmutableArrayType* getImmutable() const;
     
     void incrementReferenceCount(IRGenerationContext& context,
                                  llvm::Value* arrayPointer) const override;
@@ -110,7 +90,7 @@ namespace wisey {
     bool isNative() const override;
     
     bool isPointer() const override;
-
+    
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
     void createLocalVariable(IRGenerationContext& context, std::string name) const override;
@@ -124,24 +104,13 @@ namespace wisey {
                                  llvm::Value* value) const override;
     
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
-
+    
     llvm::Instruction* inject(IRGenerationContext& context,
                               const InjectionArgumentList injectionArgumentList,
                               int line) const override;
-
-    /**
-     * Prints an error that type is not an array type
-     */
-    static void reportNonArrayType();
-    
-  private:
-    
-    llvm::Value* bitcastToGenericPointer(IRGenerationContext& context,
-                                         llvm::Value* arrayPointer) const;
     
   };
   
 } /* namespace wisey */
 
-#endif /* ArrayType_h */
-
+#endif /* ImmutableArrayType_h */

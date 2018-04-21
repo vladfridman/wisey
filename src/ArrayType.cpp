@@ -14,6 +14,7 @@
 #include "wisey/ArrayType.hpp"
 #include "wisey/FieldArrayReferenceVariable.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/ImmutableArrayType.hpp"
 #include "wisey/LocalArrayReferenceVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/ParameterArrayReferenceVariable.hpp"
@@ -24,16 +25,22 @@ using namespace wisey;
 ArrayType::ArrayType(const IType* elementType, unsigned long numberOfDimensions) :
 mElementType(elementType), mNumberOfDimensions(numberOfDimensions) {
   mArrayOwnerType = new ArrayOwnerType(this);
+  mImmutableArrayType = new ImmutableArrayType(this);
 }
 
 ArrayType::~ArrayType() {
   delete mArrayOwnerType;
+  delete mImmutableArrayType;
 }
 
 const unsigned int ArrayType::ARRAY_ELEMENTS_START_INDEX = 3u;
 
 const ArrayOwnerType* ArrayType::getOwner() const {
   return mArrayOwnerType;
+}
+
+const ImmutableArrayType* ArrayType::getImmutable() const {
+  return mImmutableArrayType;
 }
 
 const IType* ArrayType::getElementType() const {

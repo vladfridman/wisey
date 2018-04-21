@@ -1,0 +1,156 @@
+//
+//  ImmutableArrayType.cpp
+//  Wisey
+//
+//  Created by Vladimir Fridman on 4/21/18.
+//  Copyright © 2018 Vladimir Fridman. All rights reserved.
+//
+
+#include <llvm/IR/Constants.h>
+#include <llvm/IR/DerivedTypes.h>
+
+#include "wisey/AdjustReferenceCounterForArrayFunction.hpp"
+#include "wisey/ImmutableArrayType.hpp"
+
+using namespace std;
+using namespace wisey;
+
+ImmutableArrayType::ImmutableArrayType(const ArrayType* arrayType) : mArrayType(arrayType) {
+  mImmutableArrayOwnerType = new ImmutableArrayOwnerType(this);
+}
+
+ImmutableArrayType::~ImmutableArrayType() {
+  delete mImmutableArrayOwnerType;
+}
+
+const ImmutableArrayOwnerType* ImmutableArrayType::getOwner() const {
+  return mImmutableArrayOwnerType;
+}
+
+const IType* ImmutableArrayType::getElementType() const {
+  return mArrayType->getElementType();
+}
+
+string ImmutableArrayType::getTypeName() const {
+  return "immutable " + mArrayType->getTypeName();
+}
+
+llvm::PointerType* ImmutableArrayType::getLLVMType(IRGenerationContext& context) const {
+  return mArrayType->getLLVMType(context);
+}
+
+bool ImmutableArrayType::canCastTo(IRGenerationContext& context, const IType *toType) const {
+  return toType == this;
+}
+
+bool ImmutableArrayType::canAutoCastTo(IRGenerationContext& context, const IType *toType) const {
+  return toType == this;
+}
+
+llvm::Value* ImmutableArrayType::castTo(IRGenerationContext &context,
+                                        llvm::Value* fromValue,
+                                        const IType* toType,
+                                        int line) const {
+  if (toType == this) {
+    return fromValue;
+  }
+  
+  return NULL;
+}
+
+void ImmutableArrayType::incrementReferenceCount(IRGenerationContext& context,
+                                        llvm::Value* arrayPointer) const {
+  AdjustReferenceCounterForArrayFunction::call(context, arrayPointer, 1);
+}
+
+void ImmutableArrayType::decrementReferenceCount(IRGenerationContext& context,
+                                        llvm::Value* arrayPointer) const {
+  AdjustReferenceCounterForArrayFunction::call(context, arrayPointer, -1);
+}
+
+unsigned long ImmutableArrayType::getNumberOfDimensions() const {
+  return mArrayType->getNumberOfDimensions();
+}
+
+bool ImmutableArrayType::isPrimitive() const {
+  return false;
+}
+
+bool ImmutableArrayType::isOwner() const {
+  return false;
+}
+
+bool ImmutableArrayType::isReference() const {
+  return true;
+}
+
+bool ImmutableArrayType::isArray() const {
+  return true;
+}
+
+bool ImmutableArrayType::isFunction() const {
+  return false;
+}
+
+bool ImmutableArrayType::isPackage() const {
+  return false;
+}
+
+bool ImmutableArrayType::isController() const {
+  return false;
+}
+
+bool ImmutableArrayType::isInterface() const {
+  return false;
+}
+
+bool ImmutableArrayType::isModel() const {
+  return false;
+}
+
+bool ImmutableArrayType::isNode() const {
+  return false;
+}
+
+bool ImmutableArrayType::isThread() const {
+  return false;
+}
+
+bool ImmutableArrayType::isNative() const {
+  return false;
+}
+
+bool ImmutableArrayType::isPointer() const {
+  return false;
+}
+
+void ImmutableArrayType::printToStream(IRGenerationContext &context, iostream& stream) const {
+  stream << getTypeName();
+}
+
+void ImmutableArrayType::createLocalVariable(IRGenerationContext &context, string name) const {
+  assert(false);
+}
+
+void ImmutableArrayType::createFieldVariable(IRGenerationContext& context,
+                                    string name,
+                                    const IConcreteObjectType* object) const {
+  assert(false);
+}
+
+void ImmutableArrayType::createParameterVariable(IRGenerationContext& context,
+                                                 string name,
+                                                 llvm::Value* value) const {
+  assert(false);
+}
+
+const ArrayType* ImmutableArrayType::getArrayType(IRGenerationContext& context) const {
+  return mArrayType;
+}
+
+llvm::Instruction* ImmutableArrayType::inject(IRGenerationContext& context,
+                                              const InjectionArgumentList injectionArgumentList,
+                                              int line) const {
+  repotNonInjectableType(context, this, line);
+  exit(1);
+}
