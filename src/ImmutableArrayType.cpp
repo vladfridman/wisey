@@ -10,6 +10,7 @@
 #include <llvm/IR/DerivedTypes.h>
 
 #include "wisey/AdjustReferenceCounterForArrayFunction.hpp"
+#include "wisey/FieldImmutableArrayReferenceVariable.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/ImmutableArrayType.hpp"
 #include "wisey/LocalImmutableArrayReferenceVariable.hpp"
@@ -144,9 +145,10 @@ void ImmutableArrayType::createLocalVariable(IRGenerationContext &context, strin
 }
 
 void ImmutableArrayType::createFieldVariable(IRGenerationContext& context,
-                                    string name,
-                                    const IConcreteObjectType* object) const {
-  assert(false);
+                                             string name,
+                                             const IConcreteObjectType* object) const {
+  IVariable* variable = new FieldImmutableArrayReferenceVariable(name, object);
+  context.getScopes().setVariable(variable);
 }
 
 void ImmutableArrayType::createParameterVariable(IRGenerationContext& context,

@@ -133,6 +133,17 @@ TEST_F(ImmutableArrayOwnerTypeTest, createLocalVariableTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(ImmutableArrayOwnerTypeTest, createFieldVariableTest) {
+  NiceMock<MockConcreteObjectType> concreteObjectType;
+  IField* field = new FixedField(mImmutableArrayOwnerType, "mField", 0);
+  ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
+  mImmutableArrayOwnerType->createFieldVariable(mContext, "mField", &concreteObjectType);
+  IVariable* variable = mContext.getScopes().getVariable("mField");
+  
+  EXPECT_NE(nullptr, variable);
+  EXPECT_EQ(mImmutableArrayOwnerType, variable->getType());
+}
+
 TEST_F(ImmutableArrayOwnerTypeTest, injectDeathTest) {
   InjectionArgumentList arguments;
   EXPECT_EXIT(mImmutableArrayOwnerType->inject(mContext, arguments, 3),

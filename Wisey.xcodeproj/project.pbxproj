@@ -86,6 +86,12 @@
 		F50FF883208B8A43008EDC40 /* LocalImmutableArrayReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FF881208B8A43008EDC40 /* LocalImmutableArrayReferenceVariable.cpp */; };
 		F50FF885208B8BC5008EDC40 /* TestLocalImmutableArrayOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FF884208B8BC5008EDC40 /* TestLocalImmutableArrayOwnerVariable.cpp */; };
 		F50FF887208B8F09008EDC40 /* TestLocalImmutableArrayReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FF886208B8F09008EDC40 /* TestLocalImmutableArrayReferenceVariable.cpp */; };
+		F50FF88A208BA029008EDC40 /* FieldImmutableArrayOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FF889208BA029008EDC40 /* FieldImmutableArrayOwnerVariable.cpp */; };
+		F50FF88B208BA029008EDC40 /* FieldImmutableArrayOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FF889208BA029008EDC40 /* FieldImmutableArrayOwnerVariable.cpp */; };
+		F50FF88E208BAF21008EDC40 /* FieldImmutableArrayReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FF88D208BAF21008EDC40 /* FieldImmutableArrayReferenceVariable.cpp */; };
+		F50FF88F208BAF21008EDC40 /* FieldImmutableArrayReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FF88D208BAF21008EDC40 /* FieldImmutableArrayReferenceVariable.cpp */; };
+		F50FF891208BB0BC008EDC40 /* TestFieldImmutableArrayOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FF890208BB0BC008EDC40 /* TestFieldImmutableArrayOwnerVariable.cpp */; };
+		F50FF893208BB263008EDC40 /* TestFieldImmutableArrayReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FF892208BB263008EDC40 /* TestFieldImmutableArrayReferenceVariable.cpp */; };
 		F5105FAA1FD02B6200ACF57B /* ImportProfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FA91FD02B6200ACF57B /* ImportProfile.cpp */; };
 		F5105FAC1FD02F6900ACF57B /* ImportProfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FA91FD02B6200ACF57B /* ImportProfile.cpp */; };
 		F5105FAE1FD0553900ACF57B /* TestImportProfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FAD1FD0553900ACF57B /* TestImportProfile.cpp */; };
@@ -1182,6 +1188,12 @@
 		F50FF881208B8A43008EDC40 /* LocalImmutableArrayReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LocalImmutableArrayReferenceVariable.cpp; path = src/LocalImmutableArrayReferenceVariable.cpp; sourceTree = "<group>"; };
 		F50FF884208B8BC5008EDC40 /* TestLocalImmutableArrayOwnerVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLocalImmutableArrayOwnerVariable.cpp; path = tests/TestLocalImmutableArrayOwnerVariable.cpp; sourceTree = "<group>"; };
 		F50FF886208B8F09008EDC40 /* TestLocalImmutableArrayReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLocalImmutableArrayReferenceVariable.cpp; path = tests/TestLocalImmutableArrayReferenceVariable.cpp; sourceTree = "<group>"; };
+		F50FF888208B9FF1008EDC40 /* FieldImmutableArrayOwnerVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = FieldImmutableArrayOwnerVariable.hpp; path = include/wisey/FieldImmutableArrayOwnerVariable.hpp; sourceTree = "<group>"; };
+		F50FF889208BA029008EDC40 /* FieldImmutableArrayOwnerVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FieldImmutableArrayOwnerVariable.cpp; path = src/FieldImmutableArrayOwnerVariable.cpp; sourceTree = "<group>"; };
+		F50FF88C208BAEDB008EDC40 /* FieldImmutableArrayReferenceVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = FieldImmutableArrayReferenceVariable.hpp; path = include/wisey/FieldImmutableArrayReferenceVariable.hpp; sourceTree = "<group>"; };
+		F50FF88D208BAF21008EDC40 /* FieldImmutableArrayReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FieldImmutableArrayReferenceVariable.cpp; path = src/FieldImmutableArrayReferenceVariable.cpp; sourceTree = "<group>"; };
+		F50FF890208BB0BC008EDC40 /* TestFieldImmutableArrayOwnerVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestFieldImmutableArrayOwnerVariable.cpp; path = tests/TestFieldImmutableArrayOwnerVariable.cpp; sourceTree = "<group>"; };
+		F50FF892208BB263008EDC40 /* TestFieldImmutableArrayReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestFieldImmutableArrayReferenceVariable.cpp; path = tests/TestFieldImmutableArrayReferenceVariable.cpp; sourceTree = "<group>"; };
 		F5105FA91FD02B6200ACF57B /* ImportProfile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ImportProfile.cpp; path = src/ImportProfile.cpp; sourceTree = "<group>"; };
 		F5105FAB1FD02B7100ACF57B /* ImportProfile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ImportProfile.hpp; path = include/wisey/ImportProfile.hpp; sourceTree = "<group>"; };
 		F5105FAD1FD0553900ACF57B /* TestImportProfile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestImportProfile.cpp; path = tests/TestImportProfile.cpp; sourceTree = "<group>"; };
@@ -2862,6 +2874,8 @@
 			children = (
 				F5A67DB5201702230018068F /* FieldArrayOwnerVariable.hpp */,
 				F513DDF920178FE1001A075B /* FieldArrayReferenceVariable.hpp */,
+				F50FF888208B9FF1008EDC40 /* FieldImmutableArrayOwnerVariable.hpp */,
+				F50FF88C208BAEDB008EDC40 /* FieldImmutableArrayReferenceVariable.hpp */,
 				F5CB7F67205116F9007628B5 /* FieldLLVMVariable.hpp */,
 				F5A3634B1F374586005880B3 /* FieldOwnerVariable.hpp */,
 				F581A0092073748500EA0156 /* FieldPointerVariable.hpp */,
@@ -2895,6 +2909,8 @@
 			children = (
 				F5A67DB62017023D0018068F /* FieldArrayOwnerVariable.cpp */,
 				F513DDFA201790A1001A075B /* FieldArrayReferenceVariable.cpp */,
+				F50FF889208BA029008EDC40 /* FieldImmutableArrayOwnerVariable.cpp */,
+				F50FF88D208BAF21008EDC40 /* FieldImmutableArrayReferenceVariable.cpp */,
 				F5CB7F64205116D4007628B5 /* FieldLLVMVariable.cpp */,
 				F5A3634C1F374680005880B3 /* FieldOwnerVariable.cpp */,
 				F581A00A207374EF00EA0156 /* FieldPointerVariable.cpp */,
@@ -3494,6 +3510,8 @@
 			children = (
 				F5A67DB820171D060018068F /* TestFieldArrayOwnerVariable.cpp */,
 				F513DDFD20179374001A075B /* TestFieldArrayReferenceVariable.cpp */,
+				F50FF890208BB0BC008EDC40 /* TestFieldImmutableArrayOwnerVariable.cpp */,
+				F50FF892208BB263008EDC40 /* TestFieldImmutableArrayReferenceVariable.cpp */,
 				F5CB7F8920519130007628B5 /* TestFieldLLVMVariable.cpp */,
 				F5A3634F1F374DCB005880B3 /* TestFieldOwnerVariable.cpp */,
 				F581A00D207380E800EA0156 /* TestFieldPointerVariable.cpp */,
@@ -4137,6 +4155,7 @@
 				F53401121DFF333E0002BF7E /* MethodDefinition.cpp in Sources */,
 				F55496FC1E06430500DDA2AF /* TestIdentifier.cpp in Sources */,
 				F5CB7F66205116D4007628B5 /* FieldLLVMVariable.cpp in Sources */,
+				F50FF88F208BAF21008EDC40 /* FieldImmutableArrayReferenceVariable.cpp in Sources */,
 				F5CB18151EB0F1BA007E2E43 /* TryCatchStatement.cpp in Sources */,
 				F58748351F95143A0088F1E3 /* ThreadExpression.cpp in Sources */,
 				F5827049205EFAB800839EC7 /* TestLLVMStructType.cpp in Sources */,
@@ -4261,10 +4280,12 @@
 				F5CB7F53204B9C7D007628B5 /* TestThreadOwner.cpp in Sources */,
 				F5CB7F41204A1AE0007628B5 /* TestThreadDefinition.cpp in Sources */,
 				F50FA2EC1E2E3B1700435EEA /* LongConstant.cpp in Sources */,
+				F50FF891208BB0BC008EDC40 /* TestFieldImmutableArrayOwnerVariable.cpp in Sources */,
 				F523D517206C28060017D5B4 /* TestWiseyObjectOwnerType.cpp in Sources */,
 				F51942EF1FE2D7C7009C3158 /* PackageType.cpp in Sources */,
 				F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */,
 				F53A2C1C1EF92D8300E76A9E /* TestParameterReferenceVariable.cpp in Sources */,
+				F50FF893208BB263008EDC40 /* TestFieldImmutableArrayReferenceVariable.cpp in Sources */,
 				F517970A1E5C95BC009B16AA /* TestCastExpression.cpp in Sources */,
 				F5CB7FBE20529B65007628B5 /* FixedFieldDefinition.cpp in Sources */,
 				F5827060205FCF1200839EC7 /* TestLLVMPointerType.cpp in Sources */,
@@ -4379,6 +4400,7 @@
 				F5827041205EE95500839EC7 /* LLVMStructSpecifier.cpp in Sources */,
 				F582706A205FD8B600839EC7 /* LLVMFunctionType.cpp in Sources */,
 				F5170194200DC7A900A10B7C /* DestroyPrimitiveArrayFunction.cpp in Sources */,
+				F50FF88B208BA029008EDC40 /* FieldImmutableArrayOwnerVariable.cpp in Sources */,
 				F5B12E79207E6C2A00677C63 /* TestLLVMFunctionIdentifier.cpp in Sources */,
 				F58FA2FA206E65C100C86D33 /* DestroyObjectOwnerFunction.cpp in Sources */,
 				F51701AA200FCE8400A10B7C /* ArrayOwnerTypeSpecifier.cpp in Sources */,
@@ -4615,6 +4637,7 @@
 				F55DB05F1F7914CB0009942C /* IObjectTypeSpecifier.cpp in Sources */,
 				F5C6FD7B1E48B64C0054209D /* FloatType.cpp in Sources */,
 				F5A98A361F9A37910063D626 /* ConstantReference.cpp in Sources */,
+				F50FF88A208BA029008EDC40 /* FieldImmutableArrayOwnerVariable.cpp in Sources */,
 				F56AD4A11E9F66C40020868C /* IObjectType.cpp in Sources */,
 				F5FCAE381ED5C68900C69899 /* CompilerArgumentParser.cpp in Sources */,
 				F5827044205EECAB00839EC7 /* LLVMStructType.cpp in Sources */,
@@ -4645,6 +4668,7 @@
 				F5FE0A231F7DA00B000621CA /* ExternalStaticMethodDefinition.cpp in Sources */,
 				F5609F072057C07F00664ADD /* ParameterSystemReferenceVariable.cpp in Sources */,
 				F5C7D1611F7D02FD00D65584 /* ExternalMethod.cpp in Sources */,
+				F50FF88E208BAF21008EDC40 /* FieldImmutableArrayReferenceVariable.cpp in Sources */,
 				F51942F41FE302DD009C3158 /* IdentifierChain.cpp in Sources */,
 				F587255E1F6FFB2D00FA25E6 /* PrintErrStatement.cpp in Sources */,
 				F5B9B8B020764B37009C5650 /* BindActionGlobalStatement.cpp in Sources */,

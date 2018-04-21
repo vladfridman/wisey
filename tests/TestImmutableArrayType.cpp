@@ -137,7 +137,7 @@ TEST_F(ImmutableArrayTypeTest, isObjectTest) {
 }
 
 TEST_F(ImmutableArrayTypeTest, createLocalVariableTest) {
-  mArrayType->createLocalVariable(mContext, "temp");
+  mImmutableArrayType->createLocalVariable(mContext, "temp");
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);
@@ -151,6 +151,14 @@ TEST_F(ImmutableArrayTypeTest, createLocalVariableTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(ImmutableArrayTypeTest, createFieldVariableTest) {
+  mImmutableArrayType->createFieldVariable(mContext, "mField", &mConcreteObjectType);
+  IVariable* variable = mContext.getScopes().getVariable("mField");
+  
+  EXPECT_NE(nullptr, variable);
+  EXPECT_EQ(mImmutableArrayType, variable->getType());
 }
 
 TEST_F(ImmutableArrayTypeTest, injectDeathTest) {

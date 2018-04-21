@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/FieldImmutableArrayOwnerVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/ImmutableArrayOwnerType.hpp"
@@ -138,7 +139,8 @@ void ImmutableArrayOwnerType::createLocalVariable(IRGenerationContext& context, 
 void ImmutableArrayOwnerType::createFieldVariable(IRGenerationContext& context,
                                                   string name,
                                                   const IConcreteObjectType* object) const {
-  assert(false);
+  IVariable* variable = new FieldImmutableArrayOwnerVariable(name, object);
+  context.getScopes().setVariable(variable);
 }
 
 void ImmutableArrayOwnerType::createParameterVariable(IRGenerationContext& context,

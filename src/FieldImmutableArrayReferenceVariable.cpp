@@ -1,0 +1,111 @@
+//
+//  FieldImmutableArrayReferenceVariable.cpp
+//  Wisey
+//
+//  Created by Vladimir Fridman on 4/21/18.
+//  Copyright © 2018 Vladimir Fridman. All rights reserved.
+//
+
+#include <llvm/IR/Constants.h>
+#include <llvm/IR/Instructions.h>
+
+#include "wisey/AutoCast.hpp"
+#include "wisey/ArrayElementAssignment.hpp"
+#include "wisey/ArrayElementExpression.hpp"
+#include "wisey/Composer.hpp"
+#include "wisey/FieldImmutableArrayReferenceVariable.hpp"
+#include "wisey/IExpression.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/IRWriter.hpp"
+
+using namespace std;
+using namespace llvm;
+using namespace wisey;
+
+FieldImmutableArrayReferenceVariable::
+FieldImmutableArrayReferenceVariable(string name, const IConcreteObjectType* object) :
+mName(name), mObject(object) { }
+
+FieldImmutableArrayReferenceVariable::~FieldImmutableArrayReferenceVariable() {}
+
+string FieldImmutableArrayReferenceVariable::getName() const {
+  return mName;
+}
+
+bool FieldImmutableArrayReferenceVariable::isField() const {
+  return true;
+}
+
+bool FieldImmutableArrayReferenceVariable::isSystem() const {
+  return false;
+}
+
+const ImmutableArrayType* FieldImmutableArrayReferenceVariable::getType() const {
+  const IType* type = mObject->findField(mName)->getType();
+  assert(type->isArray() && type->isReference() && type->isImmutable());
+  
+  return (const ImmutableArrayType*) type;
+}
+
+Value* FieldImmutableArrayReferenceVariable::
+generateIdentifierIR(IRGenerationContext& context) const {
+  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
+  
+  return IRWriter::newLoadInst(context, fieldPointer, "");
+}
+
+Value* FieldImmutableArrayReferenceVariable::
+generateIdentifierReferenceIR(IRGenerationContext& context) const {
+  return getFieldPointer(context, mObject, mName);
+}
+
+Value* FieldImmutableArrayReferenceVariable::
+generateAssignmentIR(IRGenerationContext& context,
+                     IExpression* assignToExpression,
+                     vector<const IExpression*> arrayIndices,
+                     int line) {
+  Composer::pushCallStack(context, line);
+  
+  Value* result = arrayIndices.size()
+  ? generateArrayElementAssignment(context, assignToExpression, arrayIndices, line)
+  : generateWholeArrayAssignment(context, assignToExpression, line);
+  
+  Composer::popCallStack(context);
+  
+  return result;
+}
+
+Value* FieldImmutableArrayReferenceVariable::
+generateWholeArrayAssignment(IRGenerationContext& context,
+                             IExpression* assignToExpression,
+                             int line) {
+  IField* field = checkAndFindFieldForAssignment(context, mObject, mName);
+
+  const IType* fieldType = field->getType();
+  assert(fieldType->isArray() && fieldType->isReference() && fieldType->isImmutable());
+  const ArrayType* arrayType = (const wisey::ArrayType*) fieldType;
+  const IType* assignToType = assignToExpression->getType(context);
+  Value* assignToValue = assignToExpression->generateIR(context, field->getType());
+  Value* cast = AutoCast::maybeCast(context, assignToType, assignToValue, fieldType, line);
+  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
+  
+  Value* previousValue = IRWriter::newLoadInst(context, fieldPointer, "");
+  arrayType->decrementReferenceCount(context, previousValue);
+  arrayType->incrementReferenceCount(context, cast);
+  
+  return IRWriter::newStoreInst(context, cast, fieldPointer);
+}
+
+Value* FieldImmutableArrayReferenceVariable::
+generateArrayElementAssignment(IRGenerationContext& context,
+                               IExpression* assignToExpression,
+                               vector<const IExpression*> arrayIndices,
+                               int line) {
+  context.reportError(line, "Attempting to change a value in an immutable array");
+  exit(1);
+}
+
+void FieldImmutableArrayReferenceVariable::
+decrementReferenceCounter(IRGenerationContext &context) const {
+  /** Decremented using object destructor */
+}

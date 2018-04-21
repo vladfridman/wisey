@@ -1,0 +1,20 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+
+  state immutable int[][]* mImmutableArray;
+  state immutable int[][] mImmutableArrayReference;
+
+  public int run() override {
+    int[][]* array = new int[3][3];
+    array[2][2] = 7;
+    mImmutableArray = array;
+    mImmutableArrayReference = mImmutableArray;
+    mImmutableArrayReference[2][2] = 5;
+    return mImmutableArrayReference[2][2];
+  }
+}
+
+bind(IProgram).to(CProgram);
