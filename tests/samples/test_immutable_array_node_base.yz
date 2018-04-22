@@ -1,0 +1,17 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+node NMyNode {
+
+}
+
+controller CProgram implements IProgram {
+
+  public int run() override {
+    immutable NMyNode[][]* array = new NMyNode[3][3];
+    return 1;
+  }
+}
+
+bind(IProgram).to(CProgram);

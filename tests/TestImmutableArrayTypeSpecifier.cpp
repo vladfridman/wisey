@@ -9,7 +9,12 @@
 //
 
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 
+#include "MockType.hpp"
+#include "MockTypeSpecifier.hpp"
+#include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/ImmutableArrayTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
@@ -17,12 +22,18 @@
 using namespace std;
 using namespace wisey;
 
+using ::testing::_;
+using ::testing::Mock;
+using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
 
 struct ImmutableArrayTypeSpecifierTest : public Test {
   IRGenerationContext mContext;
   
-  ImmutableArrayTypeSpecifierTest() { }
+  ImmutableArrayTypeSpecifierTest() {
+    TestPrefix::generateIR(mContext);
+  }
 };
 
 TEST_F(ImmutableArrayTypeSpecifierTest, creationTest) {
@@ -38,6 +49,22 @@ TEST_F(ImmutableArrayTypeSpecifierTest, creationTest) {
   EXPECT_EQ(PrimitiveTypes::INT_TYPE, type->getElementType());
   EXPECT_EQ(1u, type->getNumberOfDimensions());
   EXPECT_EQ(3, specifier->getLine());
+}
+
+TEST_F(ImmutableArrayTypeSpecifierTest, getTypeDeathTest) {
+  NiceMock<MockTypeSpecifier> mockTypeSpecifier;
+  NiceMock<MockType> mockType;
+  Mock::AllowLeak(&mockTypeSpecifier);
+  Mock::AllowLeak(&mockType);
+
+  ON_CALL(mockTypeSpecifier, getType(_)).WillByDefault(Return(&mockType));
+  EXPECT_CALL(mockType, die());
+  ArrayTypeSpecifier* arrayTypeSpecifier = new ArrayTypeSpecifier(&mockTypeSpecifier, 1u, 3);
+  ImmutableArrayTypeSpecifier* specifier = new ImmutableArrayTypeSpecifier(arrayTypeSpecifier);
+  
+  EXPECT_EXIT(specifier->getType(mContext),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(3\\): Error: Immutable array base type can only be of primitive or immutable type");
 }
 
 TEST_F(ImmutableArrayTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {
@@ -59,4 +86,11 @@ TEST_F(ImmutableArrayTypeSpecifierTest, printToStreamTest) {
   specifier->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("immutable string[]", stringStream.str().c_str());
+}
+
+TEST_F(TestFileRunner, immutableArrayNodeBaseRunDeathTest) {
+  expectFailCompile("tests/samples/test_immutable_array_node_base.yz",
+                    1,
+                    "tests/samples/test_immutable_array_node_base.yz\\(12\\): "
+                    "Error: Immutable array base type can only be of primitive or immutable type");
 }

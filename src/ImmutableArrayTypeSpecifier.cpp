@@ -22,7 +22,14 @@ ImmutableArrayTypeSpecifier::~ImmutableArrayTypeSpecifier() {
 }
 
 const ImmutableArrayType* ImmutableArrayTypeSpecifier::getType(IRGenerationContext& context) const {
-  return mArrayTypeSpecifier->getType(context)->getImmutable();
+  wisey::ArrayType* arrayType = mArrayTypeSpecifier->getType(context);
+  const IType* elementType = arrayType->getElementType();
+  if (!elementType->isImmutable() && !elementType->isPrimitive()) {
+    context.reportError(mArrayTypeSpecifier->getLine(),
+                        "Immutable array base type can only be of primitive or immutable type");
+    exit(1);
+  }
+  return arrayType->getImmutable();
 }
 
 void ImmutableArrayTypeSpecifier::printToStream(IRGenerationContext& context,
