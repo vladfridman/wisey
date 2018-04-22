@@ -537,7 +537,7 @@ TEST_F(ModelTest, isTypeKindTest) {
   EXPECT_FALSE(mModel->isPackage());
   EXPECT_FALSE(mModel->isNative());
   EXPECT_FALSE(mModel->isPointer());
-  EXPECT_FALSE(mModel->isImmutable());
+  EXPECT_TRUE(mModel->isImmutable());
 }
 
 TEST_F(ModelTest, isObjectTest) {

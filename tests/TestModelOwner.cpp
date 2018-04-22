@@ -372,7 +372,7 @@ TEST_F(ModelOwnerTest, isTypeKindTest) {
   EXPECT_FALSE(mModel->getOwner()->isPackage());
   EXPECT_FALSE(mModel->getOwner()->isNative());
   EXPECT_FALSE(mModel->getOwner()->isPointer());
-  EXPECT_FALSE(mModel->getOwner()->isImmutable());
+  EXPECT_TRUE(mModel->getOwner()->isImmutable());
 }
 
 TEST_F(ModelOwnerTest, isObjectTest) {

@@ -132,7 +132,7 @@ bool ModelOwner::isPointer() const {
 }
 
 bool ModelOwner::isImmutable() const {
-  return false;
+  return true;
 }
 
 void ModelOwner::printToStream(IRGenerationContext &context, iostream& stream) const {

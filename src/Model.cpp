@@ -328,7 +328,7 @@ bool Model::isPointer() const {
 }
 
 bool Model::isImmutable() const {
-  return false;
+  return true;
 }
 
 Instruction* Model::build(IRGenerationContext& context,
