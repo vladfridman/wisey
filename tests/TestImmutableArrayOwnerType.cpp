@@ -22,6 +22,7 @@
 #include "wisey/ImmutableArrayType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
+using namespace llvm;
 using namespace std;
 using namespace wisey;
 
@@ -33,32 +34,32 @@ using ::testing::Test;
 
 struct ImmutableArrayOwnerTypeTest : public Test {
   IRGenerationContext mContext;
-  llvm::LLVMContext& mLLVMContext;
-  ArrayType* mArrayType;
+  LLVMContext& mLLVMContext;
+  wisey::ArrayType* mArrayType;
   ImmutableArrayType* mImmutableArrayType;
   ImmutableArrayOwnerType* mImmutableArrayOwnerType;
-  llvm::BasicBlock* mBasicBlock;
+  BasicBlock* mBasicBlock;
   string mStringBuffer;
-  llvm::raw_string_ostream* mStringStream;
+  raw_string_ostream* mStringStream;
   
   ImmutableArrayOwnerTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     
-    mArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, 1u);
+    mArrayType = new wisey::ArrayType(PrimitiveTypes::LONG_TYPE, 1u);
     mImmutableArrayType = new ImmutableArrayType(mArrayType);
     mImmutableArrayOwnerType = new ImmutableArrayOwnerType(mImmutableArrayType);
     
-    llvm::FunctionType* functionType =
-    llvm::FunctionType::get(llvm::Type::getInt32Ty(mContext.getLLVMContext()), false);
-    llvm::Function* function = llvm::Function::Create(functionType,
-                                                      llvm::GlobalValue::InternalLinkage,
-                                                      "main",
-                                                      mContext.getModule());
-    mBasicBlock = llvm::BasicBlock::Create(mLLVMContext, "entry", function);
+    FunctionType* functionType =
+    FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
+    Function* function = Function::Create(functionType,
+                                          GlobalValue::InternalLinkage,
+                                          "main",
+                                          mContext.getModule());
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
-    mStringStream = new llvm::raw_string_ostream(mStringBuffer);
+    mStringStream = new raw_string_ostream(mStringBuffer);
   }
 };
 
@@ -71,15 +72,15 @@ TEST_F(ImmutableArrayOwnerTypeTest, getNameTest) {
 }
 
 TEST_F(ImmutableArrayOwnerTypeTest, getLLVMTypeTest) {
-  llvm::PointerType* arrayLLVMType = mImmutableArrayOwnerType->getLLVMType(mContext);
+  PointerType* arrayLLVMType = mImmutableArrayOwnerType->getLLVMType(mContext);
   ASSERT_TRUE(arrayLLVMType->getPointerElementType()->isStructTy());
-  llvm::StructType* arrayStruct = (llvm::StructType*) arrayLLVMType->getPointerElementType();
+  StructType* arrayStruct = (StructType*) arrayLLVMType->getPointerElementType();
   
-  EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(0));
-  EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(1));
-  EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(2));
-  EXPECT_EQ(llvm::ArrayType::get(llvm::Type::getInt64Ty(mLLVMContext), 0u),
-            arrayStruct->getElementType(ArrayType::ARRAY_ELEMENTS_START_INDEX));
+  EXPECT_EQ(Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(0));
+  EXPECT_EQ(Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(1));
+  EXPECT_EQ(Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(2));
+  EXPECT_EQ(llvm::ArrayType::get(Type::getInt64Ty(mLLVMContext), 0u),
+            arrayStruct->getElementType(wisey:: ArrayType::ARRAY_ELEMENTS_START_INDEX));
 }
 
 TEST_F(ImmutableArrayOwnerTypeTest, canCastToTest) {
@@ -142,6 +143,24 @@ TEST_F(ImmutableArrayOwnerTypeTest, createFieldVariableTest) {
   
   EXPECT_NE(nullptr, variable);
   EXPECT_EQ(mImmutableArrayOwnerType, variable->getType());
+}
+
+TEST_F(ImmutableArrayOwnerTypeTest, createParameterVariableTest) {
+  Value* value = ConstantPointerNull::get(mImmutableArrayOwnerType->getLLVMType(mContext));
+  mImmutableArrayOwnerType->createParameterVariable(mContext, "var", value);
+  IVariable* variable = mContext.getScopes().getVariable("var");
+  
+  EXPECT_NE(variable, nullptr);
+  
+  *mStringStream << *mBasicBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %var = alloca { i64, i64, i64, [0 x i64] }*"
+  "\n  store { i64, i64, i64, [0 x i64] }* null, { i64, i64, i64, [0 x i64] }** %var\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
 }
 
 TEST_F(ImmutableArrayOwnerTypeTest, injectDeathTest) {

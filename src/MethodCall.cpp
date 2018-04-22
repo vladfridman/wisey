@@ -184,6 +184,8 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
                                       const IMethodDescriptor* methodDescriptor,
                                       vector<Value*> arguments,
                                       const IType* assignToType) const {
+  Composer::pushCallStack(context, mLine);
+  
   vector<const Argument*> methodArguments = methodDescriptor->getArguments();
   vector<const Argument*>::iterator methodArgumentIterator = methodArguments.begin();
   for (const IExpression* callArgument : mArguments) {
@@ -200,8 +202,6 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
     methodArgumentIterator++;
   }
   
-  Composer::pushCallStack(context, mLine);
-
   Value* result = IRWriter::createInvokeInst(context, function, arguments, "", mLine);
   
   Composer::popCallStack(context);

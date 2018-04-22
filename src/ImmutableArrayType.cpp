@@ -14,6 +14,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/ImmutableArrayType.hpp"
 #include "wisey/LocalImmutableArrayReferenceVariable.hpp"
+#include "wisey/ParameterImmutableArrayReferenceVariable.hpp"
 
 using namespace std;
 using namespace wisey;
@@ -154,7 +155,9 @@ void ImmutableArrayType::createFieldVariable(IRGenerationContext& context,
 void ImmutableArrayType::createParameterVariable(IRGenerationContext& context,
                                                  string name,
                                                  llvm::Value* value) const {
-  assert(false);
+  IVariable* variable = new ParameterImmutableArrayReferenceVariable(name, this,  value);
+  incrementReferenceCount(context, value);
+  context.getScopes().setVariable(variable);
 }
 
 const ArrayType* ImmutableArrayType::getArrayType(IRGenerationContext& context) const {

@@ -88,7 +88,7 @@ TEST_F(ParameterArrayReferenceVariableTest, decrementReferenceCounterTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(ParameterArrayReferenceVariableTest, generateAssignmentDathTest) {
+TEST_F(ParameterArrayReferenceVariableTest, generateAssignmentDeathTest) {
   vector<const IExpression*> indices;
   
   EXPECT_EXIT(mVariable->generateAssignmentIR(mContext, NULL, indices, 0),

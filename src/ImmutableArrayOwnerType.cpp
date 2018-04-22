@@ -14,6 +14,7 @@
 #include "wisey/ImmutableArrayOwnerType.hpp"
 #include "wisey/ImmutableArrayType.hpp"
 #include "wisey/LocalImmutableArrayOwnerVariable.hpp"
+#include "wisey/ParameterImmutableArrayOwnerVariable.hpp"
 
 using namespace std;
 using namespace wisey;
@@ -146,7 +147,11 @@ void ImmutableArrayOwnerType::createFieldVariable(IRGenerationContext& context,
 void ImmutableArrayOwnerType::createParameterVariable(IRGenerationContext& context,
                                                       string name,
                                                       llvm::Value* value) const {
-  assert(false);
+  llvm::Type* llvmType = getLLVMType(context);
+  llvm::Value* alloc = IRWriter::newAllocaInst(context, llvmType, name);
+  IRWriter::newStoreInst(context, value, alloc);
+  IVariable* variable = new ParameterImmutableArrayOwnerVariable(name, this, alloc);
+  context.getScopes().setVariable(variable);
 }
 
 const IReferenceType* ImmutableArrayOwnerType::getReference() const {
