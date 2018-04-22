@@ -313,7 +313,7 @@ external ::llvm::struct _opaque_pthread_t {
 /* llvm Functions */
 
 external ::llvm::function ::llvm::void __adjustReferenceCounter(::llvm::i8::pointer, ::llvm::i64);
-external ::llvm::function ::llvm::void __adjustReferenceCounterForArrays(::llvm::i8::pointer, ::llvm::i64);
+external ::llvm::function ::llvm::void __adjustReferenceCounterForArray(::llvm::i8::pointer, ::llvm::i64);
 external ::llvm::function ::llvm::void __adjustReferenceCounterForConcreteObjectSafely(::llvm::i8::pointer, ::llvm::i64);
 external ::llvm::function ::llvm::void __adjustReferenceCounterForConcreteObjectUnsafely(::llvm::i8::pointer, ::llvm::i64);
 external ::llvm::function ::llvm::void __adjustReferenceCounterForImmutableArray(::llvm::i8::pointer, ::llvm::i64);

@@ -143,9 +143,9 @@ TEST_F(FieldArrayReferenceVariableTest, generateWholeArrayAssignmentTest) {
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1"
   "\n  %1 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %0"
   "\n  %2 = bitcast { i64, i64, i64, [0 x i32] }* %1 to i8*"
-  "\n  call void @__adjustReferenceCounterForArrays(i8* %2, i64 -1)"
+  "\n  call void @__adjustReferenceCounterForArray(i8* %2, i64 -1)"
   "\n  %3 = bitcast { i64, i64, i64, [0 x i32] }* null to i8*"
-  "\n  call void @__adjustReferenceCounterForArrays(i8* %3, i64 1)"
+  "\n  call void @__adjustReferenceCounterForArray(i8* %3, i64 1)"
   "\n  store { i64, i64, i64, [0 x i32] }* null, { i64, i64, i64, [0 x i32] }** %0\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());

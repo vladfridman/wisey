@@ -59,7 +59,7 @@ TEST_F(AdjustReferenceCounterForArrayFunctionTest, callTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  call void @__adjustReferenceCounterForArrays(i8* null, i64 1)\n";
+  "\n  call void @__adjustReferenceCounterForArray(i8* null, i64 1)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -70,7 +70,7 @@ TEST_F(AdjustReferenceCounterForArrayFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @__adjustReferenceCounterForArrays(i8* %array, i64 %adjustment) {"
+  "\ndefine void @__adjustReferenceCounterForArray(i8* %array, i64 %adjustment) {"
   "\nentry:"
   "\n  %0 = icmp eq i8* %array, null"
   "\n  br i1 %0, label %if.null, label %if.notnull"

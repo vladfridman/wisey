@@ -48,7 +48,7 @@ void AdjustReferenceCounterForArrayFunction::call(IRGenerationContext& context,
 }
 
 string AdjustReferenceCounterForArrayFunction::getName() {
-  return "__adjustReferenceCounterForArrays";
+  return "__adjustReferenceCounterForArray";
 }
 
 Function* AdjustReferenceCounterForArrayFunction::define(IRGenerationContext&
