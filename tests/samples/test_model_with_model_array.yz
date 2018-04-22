@@ -11,7 +11,7 @@ model MContainer {
 }
 
 model MMyModel {
-  MContainer[][]* mArray;
+  immutable MContainer[][]* mArray;
 
   public int getValue() {
     return mArray[3][3].getContent();

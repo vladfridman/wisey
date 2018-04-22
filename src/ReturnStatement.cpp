@@ -7,7 +7,6 @@
 //
 
 #include "wisey/AutoCast.hpp"
-#include "wisey/CheckArrayNotReferencedFunction.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IVariable.hpp"
@@ -38,9 +37,6 @@ void ReturnStatement::generateIR(IRGenerationContext& context) const {
                                       mExpression->generateIR(context, returnType),
                                       returnType,
                                       mLine);
-  if (context.getObjectType() && context.getObjectType()->isModel() && returnType->isArray()) {
-    CheckArrayNotReferencedFunction::callWithArrayType(context, result, returnType);
-  }
   if (returnType->isReference() && !returnType->isNative()) {
     ((const IReferenceType*) returnType)->incrementReferenceCount(context, result);
   }

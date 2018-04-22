@@ -12,7 +12,6 @@
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/AutoCast.hpp"
 #include "wisey/Cast.hpp"
-#include "wisey/CheckArrayNotReferencedFunction.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
@@ -97,18 +96,17 @@ void Model::setFields(IRGenerationContext& context,
     }
     const IType* fieldType = field->getType();
     if (!fieldType->isPrimitive() && !fieldType->isModel() && !fieldType->isInterface() &&
-        !(fieldType->isArray() && fieldType->isOwner())) {
+        !fieldType->isArray()) {
       context.reportError(field->getLine(),
-                          "Model fields can only be of primitive, model or array owner type");
+                          "Model fields can only be of primitive, model or array type");
       exit(1);
     }
     if (!fieldType->isArray()) {
       continue;
     }
-    const IType* elementType = fieldType->getArrayType(context)->getElementType();
-    if (!elementType->isPrimitive() && !elementType->isModel()) {
+    if (!fieldType->isImmutable() || !fieldType->isOwner()) {
       context.reportError(field->getLine(),
-                          "Array fields in models can only be of primitive or model base type");
+                          "Array fields in models can only be of immutable array owner type");
       exit(1);
     }
   }
@@ -440,9 +438,6 @@ void Model::initializeFields(IRGenerationContext& context,
     IRWriter::newStoreInst(context, castValue, fieldPointer);
     if (fieldType->isReference()) {
       ((const IReferenceType*) fieldType)->incrementReferenceCount(context, castValue);
-    }
-    if (fieldType->isArray()) {
-      CheckArrayNotReferencedFunction::callWithArrayType(context, castValue, fieldType);
     }
   }
 }

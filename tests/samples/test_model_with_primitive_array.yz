@@ -3,7 +3,7 @@ package systems.vos.wisey.compiler.tests;
 import wisey.lang.IProgram;
 
 model MMyModel {
-  int[][]* mArray;
+  immutable int[][]* mArray;
 
   public int getValue() {
     return mArray[3][3];

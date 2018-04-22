@@ -2,7 +2,6 @@ package systems.vos.wisey.compiler.tests;
 
 import wisey.lang.IProgram;
 
-
 controller CReferenceHolder {
   state int[] mArrayReference;
 
@@ -12,9 +11,9 @@ controller CReferenceHolder {
 }
 
 model MMyModel {
-  int[][]* mArray;
+  immutable int[][]* mArray;
 
-  public int[][]* getArray() {
+  public immutable int[][]* getArray() {
     return mArray;
   }
 

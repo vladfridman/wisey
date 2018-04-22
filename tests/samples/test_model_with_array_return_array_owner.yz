@@ -3,9 +3,9 @@ package systems.vos.wisey.compiler.tests;
 import wisey.lang.IProgram;
 
 model MMyModel {
-  int[][]* mArray;
+  immutable int[][]* mArray;
 
-  public int[][]* getArray() {
+  public immutable int[][]* getArray() {
     return mArray;
   }
 }
