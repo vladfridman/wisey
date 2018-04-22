@@ -11,6 +11,7 @@
 #include "wisey/AdjustReferenceCounterForArrayFunction.hpp"
 #include "wisey/AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp"
 #include "wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp"
+#include "wisey/AdjustReferenceCounterForImmutableArrayFunction.hpp"
 #include "wisey/AdjustReferenceCountFunction.hpp"
 #include "wisey/CastExpression.hpp"
 #include "wisey/CastObjectFunction.hpp"
@@ -61,6 +62,7 @@ void ProgramSuffix::defineEssentialFunctions(IRGenerationContext& context) const
   AdjustReferenceCounterForArrayFunction::get(context);
   AdjustReferenceCounterForConcreteObjectSafelyFunction::get(context);
   AdjustReferenceCounterForConcreteObjectUnsafelyFunction::get(context);
+  AdjustReferenceCounterForImmutableArrayFunction::get(context);
   AdjustReferenceCountFunction::get(context);
   CastObjectFunction::get(context);
   CheckArrayNotReferencedFunction::get(context);
