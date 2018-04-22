@@ -149,8 +149,8 @@ TEST_F(ArrayOwnerTypeTest, createParameterVariableTest) {
   
   string expected =
   "\nentry:"
-  "\n  %parameterArrayPointer = alloca { i64, i64, i64, [0 x i64] }*"
-  "\n  store { i64, i64, i64, [0 x i64] }* null, { i64, i64, i64, [0 x i64] }** %parameterArrayPointer\n";
+  "\n  %var = alloca { i64, i64, i64, [0 x i64] }*"
+  "\n  store { i64, i64, i64, [0 x i64] }* null, { i64, i64, i64, [0 x i64] }** %var\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

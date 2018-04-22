@@ -168,7 +168,7 @@ void ArrayOwnerType::createParameterVariable(IRGenerationContext& context,
                                              string name,
                                              llvm::Value* value) const {
   llvm::Type* llvmType = getLLVMType(context);
-  llvm::Value* alloc = IRWriter::newAllocaInst(context, llvmType, "parameterArrayPointer");
+  llvm::Value* alloc = IRWriter::newAllocaInst(context, llvmType, name);
   IRWriter::newStoreInst(context, value, alloc);
   IVariable* variable = new ParameterArrayOwnerVariable(name, this, alloc);
   context.getScopes().setVariable(variable);
