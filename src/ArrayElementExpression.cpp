@@ -15,6 +15,7 @@
 #include "wisey/CheckArrayIndexFunction.hpp"
 #include "wisey/CheckForNullAndThrowFunction.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/ImmutableArrayType.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -175,9 +176,17 @@ const IType* ArrayElementExpression::getType(IRGenerationContext& context) const
   const ArrayType* arrayType = arrayExpressionType->getArrayType(context);
   const IType* elementType = arrayType->getElementType();
 
-  return arrayType->getNumberOfDimensions() - 1
-  ? context.getArrayType(elementType, arrayType->getNumberOfDimensions() - 1)
-  : elementType;
+  unsigned long numberOfDimensions = arrayType->getNumberOfDimensions();
+  if (numberOfDimensions == 1u) {
+    return elementType;
+  }
+  
+  wisey::ArrayType* subArrayType = context.getArrayType(elementType, numberOfDimensions - 1);
+  if (arrayExpressionType->isImmutable()) {
+    return subArrayType->getImmutable();
+  }
+  
+  return subArrayType;
 }
 
 void ArrayElementExpression::printToStream(IRGenerationContext& context, iostream& stream) const {

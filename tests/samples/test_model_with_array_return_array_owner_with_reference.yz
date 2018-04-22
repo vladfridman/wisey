@@ -3,9 +3,9 @@ package systems.vos.wisey.compiler.tests;
 import wisey.lang.IProgram;
 
 controller CReferenceHolder {
-  state int[] mArrayReference;
+  state immutable int[] mArrayReference;
 
-  public void setReference(int[] array) {
+  public void setReference(immutable int[] array) {
     mArrayReference = array;
   }
 }

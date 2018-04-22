@@ -186,3 +186,7 @@ TEST_F(ImmutableArrayTypeTest, injectDeathTest) {
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(3\\): Error: type immutable long\\[\\] is not injectable");
 }
+
+TEST_F(TestFileRunner, immutableSubarrayRunTest) {
+  runFile("tests/samples/test_immutable_subarray.yz", "7");
+}
