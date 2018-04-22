@@ -131,7 +131,7 @@ TEST_F(WiseyModelTypeTest, isTypeKindTest) {
   EXPECT_FALSE(mWiseyModelType->isPackage());
   EXPECT_TRUE(mWiseyModelType->isNative());
   EXPECT_FALSE(mWiseyModelType->isPointer());
-  EXPECT_FALSE(mWiseyModelType->isImmutable());
+  EXPECT_TRUE(mWiseyModelType->isImmutable());
 }
 
 TEST_F(WiseyModelTypeTest, isObjectTest) {

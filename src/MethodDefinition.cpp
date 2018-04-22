@@ -81,6 +81,11 @@ IMethod* MethodDefinition::define(IRGenerationContext& context,
                         " can either be marked with a conceal or reveal qualifier but not both");
     exit(1);
   }
+  if (method->isReveal() && !returnType->isImmutable() && !returnType->isPrimitive()) {
+    context.reportError(mReturnTypeSpecifier->getLine(),
+                        "Revealed methods can only return primitive or immutable types");
+    exit(1);
+  }
 
   return method;
 }

@@ -124,7 +124,7 @@ bool WiseyModelOwnerType::isPointer() const {
 }
 
 bool WiseyModelOwnerType::isImmutable() const {
-  return false;
+  return true;
 }
 
 void WiseyModelOwnerType::printToStream(IRGenerationContext &context, iostream& stream) const {

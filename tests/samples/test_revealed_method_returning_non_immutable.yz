@@ -1,0 +1,12 @@
+package systems.vos.wisey.compiler.tests;
+
+node NMyNode {
+
+}
+
+thread TMyThread {
+
+  public NMyNode getNode() reveal {
+    return null;
+  }
+}
