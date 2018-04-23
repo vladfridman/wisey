@@ -234,21 +234,10 @@ TEST_F(ThreadDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
               "Error: Fields should be declared before methods");
 }
 
-TEST_F(TestFileRunner, threadDefinitionRunTest) {
-  compileFile("tests/samples/test_thread_definition.yz");
-}
-
-TEST_F(TestFileRunner, threadMethodNotConcealedOrRevealedDeathTest) {
-  expectFailCompile("tests/samples/test_thread_method_not_concealed_or_revealed.yz",
-                    1,
-                    "Error: Method 'foo' in object systems.vos.wisey.compiler.tests.TThread must "
-                    "either have have conceal or reveal qualifier because the object is a thread");
-}
-
 TEST_F(TestFileRunner, threadMethodBothConcealedAndRevealedDeathTest) {
   expectFailCompile("tests/samples/test_thread_method_both_concealed_and_revealed.yz",
                     1,
-                    "Error: Method 'exit' in object systems.vos.wisey.compiler.tests.TThread can "
+                    "Error: Method 'exit' in object systems.vos.wisey.compiler.tests.CThread can "
                     "either be marked with a conceal or reveal qualifier but not both");
 }
 

@@ -1,6 +1,5 @@
 package systems.vos.wisey.compiler.tests;
 
-import wisey.lang.TMainThread;
 import wisey.lang.IProgram;
 
 controller CProgram implements IProgram {

@@ -40,7 +40,6 @@
   #include "wisey/ExternalMethodDefinition.hpp"
   #include "wisey/ExternalModelDefinition.hpp"
   #include "wisey/ExternalNodeDefinition.hpp"
-  #include "wisey/ExternalThreadDefinition.hpp"
   #include "wisey/ExternalStaticMethodDefinition.hpp"
   #include "wisey/FakeExpression.hpp"
   #include "wisey/FixedFieldDefinition.hpp"
@@ -121,9 +120,6 @@
   #include "wisey/StaticMethodDefinition.hpp"
   #include "wisey/SwitchStatement.hpp"
   #include "wisey/ThreadExpression.hpp"
-  #include "wisey/ThreadDefinition.hpp"
-  #include "wisey/ThreadTypeSpecifier.hpp"
-  #include "wisey/ThreadTypeSpecifierFull.hpp"
   #include "wisey/TryCatchStatement.hpp"
   #include "wisey/ThrowStatement.hpp"
   #include "wisey/TypeComparisionExpression.hpp"
@@ -188,7 +184,6 @@
   wisey::IInterfaceTypeSpecifier* interface_type_specifier;
   wisey::IObjectElementDefinition* object_element;
   wisey::INodeTypeSpecifier* node_type_specifier;
-  wisey::IThreadTypeSpecifier* thread_type_specifier;
   wisey::AccessLevel access_specifier;
   wisey::MethodSignatureDeclaration* method_signature;
   wisey::Catch* catch_clause;
@@ -222,7 +217,7 @@
  */
 %token <string> TIDENTIFIER TCHAR TINTEGER TLONG TFLOAT TDOUBLE STRING_LITERAL TMODELIDENTIFIER
 %token <string> TFIELDIDENTIFIER TINTERFACEIDENTIFIER TCONTROLLERIDENTIFIER TNODEIDENTIFIER
-%token <string> TCONSTANTIDENTIFIER TTHREADIDENTIFIER
+%token <string> TCONSTANTIDENTIFIER
 
 %token <token> TANDOP TBIND TBREAK TBUILD TBUILDER TCASE TCATCH TCEQ TCGE TCLE TINCOP
 %token <token> TCONCEAL TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDO TDOUBLECOLON TELSE TEXTENDS 
@@ -263,13 +258,13 @@
 %type <global_statement> llvm_struct_definition llvm_function_declaration 
 %type <global_statement> llvm_external_struct_definition llvm_global_declaration
 %type <object_definition> controller_definition interface_definition model_definition
-%type <object_definition> node_definition thread_definition external_thread_definition
+%type <object_definition> node_definition
 %type <object_definition> object_definition external_object_definition external_model_definition
 %type <object_definition> external_node_definition external_controller_definition
 %type <object_definition> external_interface_definition
 %type <object_definition> inner_controller_definition inner_interface_definition 
 %type <object_definition> inner_model_definition inner_node_definition
-%type <object_definition> inner_object_definition inner_thread_definition
+%type <object_definition> inner_object_definition
 %type <global_statement_list> global_statement_list
 %type <compound_statement> compound_statement
 %type <case_statement> case_statement
@@ -312,14 +307,6 @@
 %type <model_type_specifier> model_type_specifier_inner_short
 %type <model_type_specifier> model_type_specifier_inner_full
 %type <model_type_specifier> model_type_specifier_full
-%type <thread_type_specifier> thread_type_specifier
-%type <thread_type_specifier> thread_type_specifier_top_level
-%type <thread_type_specifier> thread_type_specifier_short
-%type <thread_type_specifier> thread_type_specifier_top_level_full 
-%type <thread_type_specifier> thread_type_specifier_inner 
-%type <thread_type_specifier> thread_type_specifier_inner_short
-%type <thread_type_specifier> thread_type_specifier_inner_full
-%type <thread_type_specifier> thread_type_specifier_full
 %type <controller_type_specifier> controller_type_specifier 
 %type <controller_type_specifier> controller_type_specifier_top_level 
 %type <controller_type_specifier> controller_type_specifier_short 
@@ -609,7 +596,6 @@ string_identifier
   | TINTERFACEIDENTIFIER
   | TCONTROLLERIDENTIFIER
   | TNODEIDENTIFIER
-  | TTHREADIDENTIFIER
   | TFIELDIDENTIFIER
   ;  
 
@@ -618,7 +604,6 @@ inner_object_definition
   | inner_interface_definition
   | inner_model_definition
   | inner_node_definition
-  | inner_thread_definition
   ;
 
 object_definition
@@ -626,7 +611,6 @@ object_definition
   | interface_definition
   | model_definition
   | node_definition
-  | thread_definition
   ;
 
 external_object_definition
@@ -634,7 +618,6 @@ external_object_definition
   | external_interface_definition
   | external_model_definition
   | external_node_definition
-  | external_thread_definition
   ;
 
 import_statement
@@ -642,7 +625,6 @@ import_statement
   | TIMPORT model_type_specifier_full ';' { $$ = new ImportStatement($2); }
   | TIMPORT controller_type_specifier_full ';' { $$ = new ImportStatement($2); }
   | TIMPORT node_type_specifier_full ';' { $$ = new ImportStatement($2); }
-  | TIMPORT thread_type_specifier_full ';' { $$ = new ImportStatement($2); }
   ;
 
 bind_action_statement
@@ -938,65 +920,6 @@ external_model_definition
                                        *$4,
                                        std::get<1>(*$6),
                                        yylineno);
-      delete $3;
-      delete $6;
-      delete $4;
-    }
-  ;
-
-thread_definition
-  : TTHREAD thread_type_specifier_top_level implmeneted_interfaces 
-      '{' object_element_declaration_list '}'
-    {
-      IExpression* package = $2->takePackage();
-      package = package ? package : new FakeExpression(NULL, filePackageType);
-      ThreadTypeSpecifierFull* fullSpecifier =
-        new ThreadTypeSpecifierFull(package, $2->getShortName(), yylineno);
-      $$ = new ThreadDefinition(AccessLevel::PUBLIC_ACCESS, 
-                                fullSpecifier, 
-                                std::get<0>(*$5), 
-                                *$3, 
-                                std::get<1>(*$5),
-                                yylineno);
-      delete $2;
-      delete $3;
-      delete $5;
-    }
-  ;
-
-inner_thread_definition
-  : access_specifier TTHREAD thread_type_specifier_short implmeneted_interfaces 
-      '{' object_element_declaration_list '}'
-    {
-      IExpression* package = $3->takePackage();
-      package = package ? package : new FakeExpression(NULL, filePackageType);
-      ThreadTypeSpecifierFull* fullSpecifier =
-        new ThreadTypeSpecifierFull(package, $3->getShortName(), yylineno);
-      $$ = new ThreadDefinition($1, 
-                                fullSpecifier, 
-                                std::get<0>(*$6), 
-                                *$4, 
-                                std::get<1>(*$6),
-                                yylineno);
-      delete $3;
-      delete $6;
-      delete $4;
-    }
-  ;
-
-external_thread_definition
-  : TEXTERNAL TTHREAD thread_type_specifier_full implmeneted_interfaces
-      '{' external_object_element_declaration_list '}'
-    {
-      IExpression* package = $3->takePackage();
-      package = package ? package : new FakeExpression(NULL, filePackageType);
-      ThreadTypeSpecifierFull* fullSpecifier =
-        new ThreadTypeSpecifierFull(package, $3->getShortName(), yylineno);
-      $$ = new ExternalThreadDefinition(fullSpecifier, 
-                                        std::get<0>(*$6), 
-                                        *$4,
-                                        std::get<1>(*$6),
-                                        yylineno);
       delete $3;
       delete $6;
       delete $4;
@@ -1627,7 +1550,6 @@ object_type_specifier_inner_short
   | controller_type_specifier_inner_short { $$ = (IObjectTypeSpecifier*) $1; }
   | interface_type_specifier_inner_short { $$ = (IObjectTypeSpecifier*) $1; }
   | node_type_specifier_inner_short { $$ = (IObjectTypeSpecifier*) $1; }
-  | thread_type_specifier_inner_short { $$ = (IObjectTypeSpecifier*) $1; }
   ;
 
 object_type_specifier_inner_full
@@ -1635,7 +1557,6 @@ object_type_specifier_inner_full
   | controller_type_specifier_inner_full { $$ = (IObjectTypeSpecifier*) $1; }
   | interface_type_specifier_inner_full { $$ = (IObjectTypeSpecifier*) $1; }
   | node_type_specifier_inner_full { $$ = (IObjectTypeSpecifier*) $1; }
-  | thread_type_specifier_inner_full { $$ = (IObjectTypeSpecifier*) $1; }
   ;
 
 object_type_specifier_short
@@ -1643,7 +1564,6 @@ object_type_specifier_short
   | controller_type_specifier_short { $$ = $1; }
   | interface_type_specifier_short { $$ = $1; }
   | node_type_specifier_short { $$ = $1; }
-  | thread_type_specifier_short { $$ = $1; }
   ;
 
 object_type_specifier_top_level_full
@@ -1651,7 +1571,6 @@ object_type_specifier_top_level_full
   | controller_type_specifier_top_level_full { $$ = $1; }
   | interface_type_specifier_top_level_full { $$ = $1; }
   | node_type_specifier_top_level_full { $$ = $1; }
-  | thread_type_specifier_top_level_full { $$ = $1; }
   ;
 
 model_type_specifier
@@ -1846,54 +1765,6 @@ node_type_specifier_inner_full
     }
   ;
 
-thread_type_specifier
-  : thread_type_specifier_top_level
-  | thread_type_specifier_inner
-  ;
-
-thread_type_specifier_full
-  : thread_type_specifier_top_level_full
-  | thread_type_specifier_inner_full
-  ;
-
-thread_type_specifier_top_level
-  : thread_type_specifier_short
-  | thread_type_specifier_top_level_full
-  ;
-
-thread_type_specifier_short
-  : TTHREADIDENTIFIER
-    { $$ = new ThreadTypeSpecifier(NULL, *$1, yylineno); delete $1; }
-  ;
-
-thread_type_specifier_top_level_full
-  : postfix_expression '.' TTHREADIDENTIFIER 
-    { $$ = new ThreadTypeSpecifierFull($1, *$3, yylineno); delete $3; }
-  ;
-
-thread_type_specifier_inner
-  : thread_type_specifier_inner_short
-  | thread_type_specifier_inner_full
-  ;
-
-thread_type_specifier_inner_short
-  : object_type_specifier_short '.' TTHREADIDENTIFIER 
-    { 
-      $$ = new ThreadTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3, yylineno);
-      delete $1; 
-      delete $3; 
-    }
-  ;
-
-thread_type_specifier_inner_full
-  : object_type_specifier_top_level_full '.' TTHREADIDENTIFIER 
-    { 
-      $$ = new ThreadTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3, yylineno);
-      delete $1; 
-      delete $3; 
-    }
-  ;
-
 exception_type_specifier
   : model_type_specifier { $$ = (ModelTypeSpecifier*) $1; }
   ;
@@ -1906,7 +1777,6 @@ object_type_specifier_buildable
 object_type_specifier_injectable
   : interface_type_specifier { $$ = (IObjectTypeSpecifier*) $1; }
   | controller_type_specifier { $$ = (IObjectTypeSpecifier*) $1; }
-  | thread_type_specifier { $$ = (IObjectTypeSpecifier*) $1; }
   ;
 
 %%

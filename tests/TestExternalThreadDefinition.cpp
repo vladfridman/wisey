@@ -118,7 +118,3 @@ TEST_F(ExternalThreadDefinitionTest, prototypeMethodsTest) {
   Thread* thread = mContext.getThread("systems.vos.wisey.compiler.tests.TWorker", 0);
   EXPECT_NE(thread->findMethod("foo"), nullptr);
 }
-
-TEST_F(TestFileRunner, externalThreadDefinitionsRunTest) {
-  compileFile("tests/samples/test_external_thread_definitions.yz");
-}

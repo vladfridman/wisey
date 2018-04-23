@@ -40,9 +40,9 @@ TEST_F(TestFileRunner, stackTraceMultipleFilesRunTest) {
 TEST_F(TestFileRunner, stackOverflowRunDeathTest) {
   string expected = "Unhandled exception wisey.lang.MStackOverflowException\n";
   for (int i = 0; i < 1023; i++) {
-    expected += "  at systems.vos.wisey.compiler.tests.CProgram.callRecursive(tests/samples/test_stack_overflow.yz:10)\n";
+    expected += "  at systems.vos.wisey.compiler.tests.CProgram.callRecursive(tests/samples/test_stack_overflow.yz:9)\n";
   }
-  expected += "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_stack_overflow.yz:15)\n";
+  expected += "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_stack_overflow.yz:14)\n";
   expected += "Main thread ended without a result\n";
   
   compileAndRunFileCheckOutput("tests/samples/test_stack_overflow.yz", 1, "", expected.c_str());

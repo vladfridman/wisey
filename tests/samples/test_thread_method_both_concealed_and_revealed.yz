@@ -4,7 +4,7 @@ import wisey.lang.IProgram;
 import wisey.lang.CCallStack;
 import wisey.lang.threads.IThread;
 
-thread TThread implements IThread {
+controller CThread implements IThread {
 
   public void run() conceal {
   }
