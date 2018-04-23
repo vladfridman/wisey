@@ -1,0 +1,28 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+interface IHasSomething {
+  int getSomething();
+}
+
+interface IHasValue {
+  int getValue();
+}
+
+model MObject implements IHasValue {
+  public int getValue() override {
+    return 1;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() override {
+    ::wisey::model object = builder(MObject).build();
+    IHasSomething hasSomething = object;
+    return hasSomething.getSomething();
+  }
+}
+
+bind(IProgram).to(CProgram);

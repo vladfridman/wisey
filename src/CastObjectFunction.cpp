@@ -93,12 +93,23 @@ void CastObjectFunction::compose(IRGenerationContext& context, llvm::Function* f
   toTypeName->setName("toTypeName");
   
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function);
+  BasicBlock* ifNullBlock = BasicBlock::Create(llvmContext, "if.null", function);
+  BasicBlock* ifNotNullBlock = BasicBlock::Create(llvmContext, "if.notnull", function);
   BasicBlock* lessThanZero = BasicBlock::Create(llvmContext, "less.than.zero", function);
   BasicBlock* notLessThanZero = BasicBlock::Create(llvmContext, "not.less.than.zero", function);
   BasicBlock* moreThanZero = BasicBlock::Create(llvmContext, "more.than.zero", function);
   BasicBlock* zeroExactly = BasicBlock::Create(llvmContext, "zero.exactly", function);
   
   context.setBasicBlock(entryBlock);
+  Value* null = ConstantPointerNull::get(Type::getInt8Ty(llvmContext)->getPointerTo());
+  Value* condition =
+  IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, fromObjectValue, null, "isNull");
+  IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
+  
+  context.setBasicBlock(ifNullBlock);
+  IRWriter::createReturnInst(context, null);
+  
+  context.setBasicBlock(ifNotNullBlock);
   Value* instanceof = InstanceOfFunction::call(context, fromObjectValue, toTypeName);
   Value* originalObject = GetOriginalObjectFunction::call(context, fromObjectValue);
   ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);

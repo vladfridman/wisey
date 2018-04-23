@@ -27,6 +27,7 @@ llvm::Constant* IObjectType::getObjectNamePointer(const IObjectType* object,
                                                   IRGenerationContext& context) {
   GlobalVariable* nameGlobal =
     context.getModule()->getNamedGlobal(object->getObjectNameGlobalVariableName());
+  assert(nameGlobal && "Object name global constant not found");
   ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);
   Value* Idx[2];
   Idx[0] = zeroInt32;

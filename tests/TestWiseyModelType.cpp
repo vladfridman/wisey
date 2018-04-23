@@ -64,7 +64,20 @@ public:
     ON_CALL(mConcreteObjectType, isReference()).WillByDefault(Return(true));
     ON_CALL(mConcreteObjectType, isNative()).WillByDefault(Return(false));
     ON_CALL(mConcreteObjectType, getLLVMType(_)).WillByDefault(Return(structType->getPointerTo()));
+    ON_CALL(mConcreteObjectType, isInterface()).WillByDefault(Return(true));
+    string typeName = "systems.vos.wisey.compiler.tests.IInterface";
+    string nameGlobal = "systems.vos.wisey.compiler.tests.IInterface.name";
     
+    ON_CALL(mConcreteObjectType, getObjectNameGlobalVariableName())
+    .WillByDefault(Return(nameGlobal));
+    
+    new GlobalVariable(*mContext.getModule(),
+                       llvm::ArrayType::get(Type::getInt8Ty(mLLVMContext), typeName.length() + 1),
+                       true,
+                       GlobalValue::LinkageTypes::ExternalLinkage,
+                       nullptr,
+                       nameGlobal);
+
     mStringStream = new raw_string_ostream(mStringBuffer);
     
     mWiseyModelType = new WiseyModelType();
@@ -115,10 +128,14 @@ TEST_F(WiseyModelTypeTest, castToObjectTest) {
   Mock::AllowLeak(&mConcreteObjectType);
   
   Value* value = ConstantPointerNull::get(mWiseyModelType->getLLVMType(mContext));
-  Value* result = mWiseyModelType->castTo(mContext, value, &mConcreteObjectType, 0);
-  *mStringStream << *result;
+  mWiseyModelType->castTo(mContext, value, &mConcreteObjectType, 0);
+  *mStringStream << *mBasicBlock;
   
-  EXPECT_STREQ("  %0 = bitcast i8* null to %mystruct*", mStringStream->str().c_str());
+  EXPECT_STREQ("\nentry:"
+               "\n  %0 = invoke i8* @__castObject(i8* null, i8* getelementptr inbounds ([44 x i8], [44 x i8]* @systems.vos.wisey.compiler.tests.IInterface.name, i32 0, i32 0))"
+               "\n          to label %invoke.continue unwind label %cleanup"
+               "\n",
+               mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
@@ -195,4 +212,14 @@ TEST_F(WiseyModelTypeTest, injectDeathTest) {
   EXPECT_EXIT(mWiseyModelType->inject(mContext, arguments, 3),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(3\\): Error: type ::wisey::model is not injectable");
+}
+
+TEST_F(TestFileRunner, castWiseyModelReferenceToInterfaceReferenceRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_cast_wisey_model_reference_to_interface_reference.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MCastException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_cast_wisey_model_reference_to_interface_reference.yz:23)\n"
+                               "Details: Can not cast from systems.vos.wisey.compiler.tests.MObject to systems.vos.wisey.compiler.tests.IHasSomething\n"
+                               "Main thread ended without a result\n");
 }

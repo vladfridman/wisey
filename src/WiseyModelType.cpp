@@ -10,6 +10,8 @@
 
 #include "wisey/AdjustReferenceCountFunction.hpp"
 #include "wisey/ArrayType.hpp"
+#include "wisey/CastObjectFunction.hpp"
+#include "wisey/Composer.hpp"
 #include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -60,7 +62,7 @@ Value* WiseyModelType::castTo(IRGenerationContext& context,
                               Value* fromValue,
                               const IType* toType,
                               int line) const {
-  if (toType->isReference() || toType->isPointer()) {
+  if (toType->isNative() && (toType->isReference() || toType->isPointer())) {
     return IRWriter::newBitCastInst(context, fromValue, toType->getLLVMType(context));
   }
   if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
@@ -70,7 +72,10 @@ Value* WiseyModelType::castTo(IRGenerationContext& context,
                                  ConstantPointerNull::get(getLLVMType(context)),
                                  "");
   }
-  assert(false);
+  assert(IObjectType::isObjectType(toType));
+
+  const IObjectType* toObjectType = (const IObjectType*) toType;
+  return CastObjectFunction::call(context, fromValue, toObjectType, line);
 }
 
 bool WiseyModelType::isPrimitive() const {
