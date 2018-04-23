@@ -43,7 +43,6 @@ struct IRGenerationContextTest : public Test {
   Controller* mController;
   Model* mModel;
   Node* mNode;
-  Thread* mThread;
   LLVMStructType* mLLVMStructType;
 
   IRGenerationContextTest() : mLLVMContext(mContext.getLLVMContext()) {
@@ -79,10 +78,6 @@ struct IRGenerationContextTest : public Test {
     StructType* nodeStructType = StructType::create(mLLVMContext, "NMyNode");
     mNode = Node::newNode(AccessLevel::PUBLIC_ACCESS, nodeFullName, nodeStructType, 0);
 
-    string threadFullName = "systems.vos.wisey.compiler.tests.TMyThread";
-    StructType* threadStructType = StructType::create(mLLVMContext, "TMyThread");
-    mThread = Thread::newThread(AccessLevel::PUBLIC_ACCESS, threadFullName, threadStructType, 0);
-    
     StructType* llvmStructType = StructType::create(mLLVMContext, "mystructtype");
     mLLVMStructType = LLVMStructType::newLLVMStructType(llvmStructType);
     
@@ -189,28 +184,6 @@ TEST_F(IRGenerationContextTest, getControllerDoesNotExistDeathTest) {
   EXPECT_EXIT(mContext.getController("systems.vos.wisey.compiler.tests.CMyController", 10),
               ::testing::ExitedWithCode(1),
               "/sources/sourcefile.yz\\(10\\): Error: Controller systems.vos.wisey.compiler.tests.CMyController is not defined");
-}
-
-TEST_F(IRGenerationContextTest, addThreadTest) {
-  mContext.addThread(mThread);
-
-  Thread* resultThread = mContext.getThread("systems.vos.wisey.compiler.tests.TMyThread", 0);
-  
-  EXPECT_EQ(mThread, resultThread);
-}
-
-TEST_F(IRGenerationContextTest, addThreadAlreadyDefinedDeathTest) {
-  mContext.addThread(mThread);
-  
-  EXPECT_EXIT(mContext.addThread(mThread),
-              ::testing::ExitedWithCode(1),
-              "Redefinition of thread systems.vos.wisey.compiler.tests.TMyThread");
-}
-
-TEST_F(IRGenerationContextTest, getThreadDoesNotExistDeathTest) {
-  EXPECT_EXIT(mContext.getThread("systems.vos.wisey.compiler.tests.TMyThread", 10),
-              ::testing::ExitedWithCode(1),
-              "/sources/sourcefile.yz\\(10\\): Error: Thread systems.vos.wisey.compiler.tests.TMyThread is not defined");
 }
 
 TEST_F(IRGenerationContextTest, addLLVMStructTypeTest) {
@@ -345,7 +318,6 @@ TEST_F(IRGenerationContextTest, printToStreamTest) {
   mContext.addNode(mNode);
   mContext.addController(mController);
   mContext.addModel(mModel);
-  mContext.addThread(mThread);
   
   stringstream stringStream;
   mContext.printToStream(mContext, stringStream);
@@ -368,11 +340,6 @@ TEST_F(IRGenerationContextTest, printToStreamTest) {
                "/* Nodes */\n"
                "\n"
                "external node systems.vos.wisey.compiler.tests.NMyNode {\n"
-               "}\n"
-               "\n"
-               "/* Threads */\n"
-               "\n"
-               "external thread systems.vos.wisey.compiler.tests.TMyThread {\n"
                "}\n"
                "\n"
                "/* Bindings */\n"

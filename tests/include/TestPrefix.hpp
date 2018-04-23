@@ -12,7 +12,6 @@
 #include "wisey/ControllerDefinition.hpp"
 #include "wisey/InterfaceDefinition.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/ThreadDefinition.hpp"
 
 namespace wisey {
   class IObjectElementDefinition;

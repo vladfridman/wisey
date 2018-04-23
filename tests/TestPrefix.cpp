@@ -16,8 +16,6 @@
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ThreadDefinition.hpp"
-#include "wisey/ThreadTypeSpecifierFull.hpp"
 
 using namespace llvm;
 using namespace std;

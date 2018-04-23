@@ -38,7 +38,7 @@ using ::testing::Test;
 struct FieldLLVMVariableTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  Thread* mObject;
+  Controller* mObject;
   const ILLVMType* mType;
   BasicBlock* mBasicBlock;
   FieldLLVMVariable* mFieldLLVMVariable;
@@ -54,15 +54,15 @@ struct FieldLLVMVariableTest : Test {
     types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                     ->getPointerTo()->getPointerTo());
     types.push_back(mType->getLLVMType(mContext));
-    string objectFullName = "systems.vos.wisey.compiler.tests.TObject";
+    string objectFullName = "systems.vos.wisey.compiler.tests.CObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
     vector<IField*> fields;
     fields.push_back(new StateField(mType, "mFoo", 0));
-    mObject = Thread::newThread(AccessLevel::PUBLIC_ACCESS,
-                                objectFullName,
-                                objectStructType,
-                                0);
+    mObject = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                        objectFullName,
+                                        objectStructType,
+                                        0);
     mObject->setFields(mContext, fields, 1u);
     
     FunctionType* functionType =
@@ -105,7 +105,7 @@ TEST_F(FieldLLVMVariableTest, generateIdentifierIRTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.TObject, %systems.vos.wisey.compiler.tests.TObject* null, i32 0, i32 1"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1"
   "\n  %1 = load i16, i16* %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -117,7 +117,7 @@ TEST_F(FieldLLVMVariableTest, generateIdentifierReferenceIRTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.TObject, %systems.vos.wisey.compiler.tests.TObject* null, i32 0, i32 1\n";
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -135,7 +135,7 @@ TEST_F(FieldLLVMVariableTest, generateAssignmentIRTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.TObject, %systems.vos.wisey.compiler.tests.TObject* null, i32 0, i32 1"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1"
   "\n  store i16 3, i16* %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

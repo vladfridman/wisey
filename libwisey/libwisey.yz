@@ -266,8 +266,6 @@ external controller wisey.lang.threads.CWorkerThreadRunner
 
 /* Nodes */
 
-/* Threads */
-
 /* Bindings */
 
 /* llvm Structs */

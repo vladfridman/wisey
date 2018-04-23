@@ -30,7 +30,6 @@
 #include "wisey/Node.hpp"
 #include "wisey/PackageType.hpp"
 #include "wisey/Scopes.hpp"
-#include "wisey/Thread.hpp"
 
 namespace wisey {
   
@@ -55,7 +54,6 @@ namespace wisey {
     std::map<std::string, Model*> mModels;
     std::map<std::string, Controller*> mControllers;
     std::map<std::string, Node*> mNodes;
-    std::map<std::string, Thread*> mThreads;
     std::map<std::string, Interface*> mInterfaces;
     std::map<std::string, PackageType*> mPackageTypes;
     std::map<std::string, LLVMStructType*> mLLVMStructTypes;
@@ -157,16 +155,6 @@ namespace wisey {
      * Look up a node type
      */
     Node* getNode(std::string name, int line);
-    
-    /**
-     * Add a thread type
-     */
-    void addThread(Thread* thread);
-    
-    /**
-     * Look up a thread type
-     */
-    Thread* getThread(std::string name, int line);
     
     /**
      * Add an interface type

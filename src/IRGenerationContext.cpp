@@ -69,11 +69,6 @@ IRGenerationContext::~IRGenerationContext() {
        iterator++) {
     delete iterator->second;
   }
-  for (map<string, Thread*>::iterator iterator = mThreads.begin();
-       iterator != mThreads.end();
-       iterator++) {
-    delete iterator->second;
-  }
   for (map<string, PackageType*>::iterator iterator = mPackageTypes.begin();
        iterator != mPackageTypes.end();
        iterator++) {
@@ -245,30 +240,6 @@ Node* IRGenerationContext::getNode(string fullName, int line) {
   IObjectType::checkAccess(mObjectType, node);
   
   return node;
-}
-
-void IRGenerationContext::addThread(Thread* thread) {
-  string name = thread->getTypeName();
-  if (mThreads.count(name)) {
-    Log::e_deprecated("Redefinition of thread " + name);
-    exit(1);
-  }
-  
-  mThreads[name] = thread;
-}
-
-Thread* IRGenerationContext::getThread(string fullName, int line) {
-  if (!mThreads.count(fullName)) {
-    Log::e(getImportProfile()->getSourceFileName(),
-           line,
-           "Thread " + fullName + " is not defined");
-    exit(1);
-  }
-  
-  Thread* thread = mThreads.at(fullName);
-  IObjectType::checkAccess(mObjectType, thread);
-  
-  return thread;
 }
 
 void IRGenerationContext::addInterface(Interface* interface) {
@@ -481,18 +452,6 @@ void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& 
       continue;
     }
     node->printToStream(context, stream);
-    stream << endl;
-  }
-  
-  stream << "/* Threads */" << endl << endl;
-  for (map<string, Thread*>::const_iterator iterator = mThreads.begin();
-       iterator != mThreads.end();
-       iterator++) {
-    Thread* thread = iterator->second;
-    if (thread->isExternal() || thread->isInner()) {
-      continue;
-    }
-    thread->printToStream(context, stream);
     stream << endl;
   }
   

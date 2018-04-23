@@ -15,7 +15,6 @@
 #include "wisey/InterfaceOwner.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
-#include "wisey/ThreadOwner.hpp"
 
 using namespace std;
 using namespace llvm;
