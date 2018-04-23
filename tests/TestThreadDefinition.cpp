@@ -343,7 +343,7 @@ TEST_F(TestFileRunner, threadThrowConcealedCallExceptionDeathRunTest) {
                                1,
                                "",
                                "Unhandled exception wisey.lang.threads.MThreadConcealedMethodException\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_thread_throw_concealed_call_exception.yz:53)\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_thread_throw_concealed_call_exception.yz:19)\n"
                                "Main thread ended without a result\n");
 }
 
@@ -352,5 +352,5 @@ TEST_F(TestFileRunner, threadThrowRevealedCallExceptionDeathRunTest) {
                                0,
                                "",
                                "Unhandled exception wisey.lang.threads.MThreadRevealedMethodException\n"
-                               "  at systems.vos.wisey.compiler.tests.TWorker.run(tests/samples/test_thread_throw_revealed_call_exception.yz:13)\n");
+                               "  at systems.vos.wisey.compiler.tests.MWorker.work(tests/samples/test_thread_throw_revealed_call_exception.yz:10)\n");
 }

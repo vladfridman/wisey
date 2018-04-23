@@ -1,56 +1,23 @@
 package systems.vos.wisey.compiler.tests;
 
 import wisey.lang.IProgram;
-import wisey.lang.CCallStack;
-import wisey.lang.threads.IWorkerThread;
+import wisey.lang.threads.CWorkerThread;
+import wisey.lang.threads.IWorker;
 
-thread TWorker implements IWorkerThread {
+model MWorker implements IWorker {
 
-  public void run() override conceal {
-  }
-
-  public void start() override reveal {
-  }
-
-  public boolean isStarted() override reveal {
-    return false;
-  }
-
-  public boolean isFinished() override reveal {
-    return false;
-  }
-
-  public boolean isCancelled() override reveal {
-    return false;
-  }
-
-  public ::wisey::model* awaitResult() override reveal {
-    return null;
-  }
-
-  public void cancel() override reveal {
-  }
-
-  public void reset() override reveal {
-  }
-
-  public ::wisey::model* send(::wisey::model* message) override conceal {
-    return null;
-  }
-
-  public CCallStack getCallStack() override conceal {
-    return null;
-  }
-
-  public void exit() override conceal {
+  public void work() override {
+    thread.sleep(1);
   }
 }
 
 controller CProgram implements IProgram {
-  inject TWorker* mWorker;
+  inject CWorkerThread* mWorkerThread;
 
   public int run() override {
-    mWorker.run();
+    mWorkerThread.startWorker(builder(MWorker).build());
+    mWorkerThread.exit();
+
     return 0;
   }
 }

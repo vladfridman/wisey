@@ -166,25 +166,6 @@ external controller wisey.lang.CCallStack {
     wisey.lang.IException exception);
 }
 
-external controller wisey.lang.threads.CDefaultWorker {
-
-  inject wisey.lang.threads.CWorkerThreadRunner* mWorkerThreadRunner;
-  inject wisey.lang.CCallStack* mCallStack;
-
-  void start(
-    wisey.lang.threads.IWorkerThread workerThread);
-  boolean isStarted();
-  boolean isFinished();
-  boolean isCancelled();
-  ::wisey::model* awaitResult();
-  void cancel();
-  void reset();
-  void exit();
-  ::wisey::model* send(
-    ::wisey::model* message);
-  wisey.lang.CCallStack getCallStack();
-}
-
 external controller wisey.lang.threads.CProducerThread
   implements
     wisey.lang.threads.IProducerThread {
