@@ -1,17 +1,17 @@
 package wisey.lang.threads;
 
 /**
- * Represents a model object that worker thread implementation runs by calling work() method
+ * Represents a model object that producer thread implementation runs by calling produce() method
  *
  * One has to implement this interface in a model and pass the model to one of the thread 
  * implementations' start methods to start a new thread.
  */
-interface IWorker {
+interface IProducer {
 
   /**
    * Method where thread work happens. 
    *
    * Results should be sent back to the calling thread through thread.send() method.
    */
-  void work();
+  void produce();
 }

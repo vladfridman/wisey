@@ -12,6 +12,11 @@ external interface wisey.lang.IProgram {
     int exitCode);
 }
 
+external interface wisey.lang.threads.IProducer {
+
+  void produce();
+}
+
 external interface wisey.lang.threads.IProducerThread
   extends
     wisey.lang.threads.IThread {
@@ -161,27 +166,6 @@ external controller wisey.lang.CCallStack {
     wisey.lang.IException exception);
 }
 
-external controller wisey.lang.threads.CDefaultProducer {
-
-  inject wisey.lang.threads.CProducerThreadRunner* mProducerThreadRunner;
-  inject wisey.lang.CCallStack* mCallStack;
-
-  void start(
-    wisey.lang.threads.IProducerThread producerThread,
-    int size);
-  boolean isStarted();
-  boolean isFinished();
-  boolean isCancelled();
-  void cancel();
-  void reset();
-  boolean hasResult();
-  ::wisey::model* consume();
-  void exit();
-  ::wisey::model* send(
-    ::wisey::model* message);
-  wisey.lang.CCallStack getCallStack();
-}
-
 external controller wisey.lang.threads.CDefaultWorker {
 
   inject wisey.lang.threads.CWorkerThreadRunner* mWorkerThreadRunner;
@@ -199,6 +183,32 @@ external controller wisey.lang.threads.CDefaultWorker {
   ::wisey::model* send(
     ::wisey::model* message);
   wisey.lang.CCallStack getCallStack();
+}
+
+external controller wisey.lang.threads.CProducerThread
+  implements
+    wisey.lang.threads.IProducerThread {
+
+  inject wisey.lang.threads.CProducerThreadRunner* mProducerThreadRunner;
+  inject wisey.lang.CCallStack* mCallStack;
+  state wisey.lang.threads.IProducer* mProducer;
+
+  void run() conceal override;
+  void start() reveal override;
+  void startProducer(
+    ::wisey::model* producer,
+    int size) reveal;
+  boolean isStarted() reveal override;
+  boolean isFinished() reveal override;
+  boolean isCancelled() reveal override;
+  void cancel() reveal override;
+  void reset() reveal override;
+  boolean hasResult() reveal override;
+  ::wisey::model* consume() reveal override;
+  void exit() conceal override;
+  ::wisey::model* send(
+    ::wisey::model* message) conceal override;
+  wisey.lang.CCallStack getCallStack() conceal override;
 }
 
 external controller wisey.lang.threads.CProducerThreadRunner
