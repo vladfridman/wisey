@@ -584,8 +584,6 @@
 		F57411701E042607009809FF /* TestIncrementExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F574116F1E042607009809FF /* TestIncrementExpression.cpp */; };
 		F57411731E043EE4009809FF /* Identifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411721E043EE4009809FF /* Identifier.cpp */; };
 		F57411741E043EE4009809FF /* Identifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411721E043EE4009809FF /* Identifier.cpp */; };
-		F5752ABC2084BB3D00C00DE1 /* IInjectableConcreteObjectType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5752ABB2084BB3D00C00DE1 /* IInjectableConcreteObjectType.cpp */; };
-		F5752ABD2084BB3D00C00DE1 /* IInjectableConcreteObjectType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5752ABB2084BB3D00C00DE1 /* IInjectableConcreteObjectType.cpp */; };
 		F5752AC22088C52F00C00DE1 /* InstanceOfFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5752AC12088C52F00C00DE1 /* InstanceOfFunction.cpp */; };
 		F5752AC32088C52F00C00DE1 /* InstanceOfFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5752AC12088C52F00C00DE1 /* InstanceOfFunction.cpp */; };
 		F57780A51EC673EC0049542D /* EmptyStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57780A41EC673EC0049542D /* EmptyStatement.cpp */; };
@@ -1660,8 +1658,6 @@
 		F574116A1E042390009809FF /* IncrementExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IncrementExpression.cpp; path = src/IncrementExpression.cpp; sourceTree = "<group>"; };
 		F574116F1E042607009809FF /* TestIncrementExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIncrementExpression.cpp; path = tests/TestIncrementExpression.cpp; sourceTree = "<group>"; };
 		F57411721E043EE4009809FF /* Identifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Identifier.cpp; path = src/Identifier.cpp; sourceTree = "<group>"; };
-		F5752ABA2084B98F00C00DE1 /* IInjectableConcreteObjectType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IInjectableConcreteObjectType.hpp; path = include/wisey/IInjectableConcreteObjectType.hpp; sourceTree = "<group>"; };
-		F5752ABB2084BB3D00C00DE1 /* IInjectableConcreteObjectType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IInjectableConcreteObjectType.cpp; path = src/IInjectableConcreteObjectType.cpp; sourceTree = "<group>"; };
 		F5752ABE208893BB00C00DE1 /* IExpressionAssignable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IExpressionAssignable.hpp; path = include/wisey/IExpressionAssignable.hpp; sourceTree = "<group>"; };
 		F5752ABF2088A19700C00DE1 /* MockExpressionAssignable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockExpressionAssignable.hpp; path = tests/include/MockExpressionAssignable.hpp; sourceTree = "<group>"; };
 		F5752AC02088C44800C00DE1 /* InstanceOfFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InstanceOfFunction.hpp; path = include/wisey/InstanceOfFunction.hpp; sourceTree = "<group>"; };
@@ -2673,7 +2669,6 @@
 				F5A363551F376AE8005880B3 /* IFieldVariable.hpp */,
 				F50EF29B1EDB4599002E68A8 /* IGlobalStatement.hpp */,
 				F5089C721ECD01D9004A1223 /* IHasType.hpp */,
-				F5752ABA2084B98F00C00DE1 /* IInjectableConcreteObjectType.hpp */,
 				F5436DB91FCF7D4A003ABF6F /* IInterfaceTypeSpecifier.hpp */,
 				F54B147C205D6ED40030773F /* ILLVMPrimitiveType.hpp */,
 				F5827054205FAB9700839EC7 /* ILLVMType.hpp */,
@@ -2712,7 +2707,6 @@
 				F592A7B81F7D62D10026BD2F /* IConcreteObjectDefinition.cpp */,
 				F556E6531EDDD2F900CCC3D7 /* IConcreteObjectType.cpp */,
 				F5A363561F376C90005880B3 /* IFieldVariable.cpp */,
-				F5752ABB2084BB3D00C00DE1 /* IInjectableConcreteObjectType.cpp */,
 				F581A0172073B3CB00EA0156 /* ILLVMType.cpp */,
 				F51D2BB31F691C8100510784 /* IMethod.cpp */,
 				F5B3DCE41F9116AF00FC76D3 /* IMethodCall.cpp */,
@@ -3946,7 +3940,6 @@
 				F54B148B205EC7090030773F /* TestLLVMi8Type.cpp in Sources */,
 				F53A2C461F0298E800E76A9E /* NullType.cpp in Sources */,
 				F5CB7FE12052AE32007628B5 /* ReceivedField.cpp in Sources */,
-				F5752ABD2084BB3D00C00DE1 /* IInjectableConcreteObjectType.cpp in Sources */,
 				F58FA30E20728E4000C86D33 /* WiseyObjectType.cpp in Sources */,
 				F5190A4B2088DA3400BC2D93 /* CastObjectFunction.cpp in Sources */,
 				F57085FD1E51E2ED007D627E /* MethodCall.cpp in Sources */,
@@ -4585,7 +4578,6 @@
 				F56AD4A11E9F66C40020868C /* IObjectType.cpp in Sources */,
 				F5FCAE381ED5C68900C69899 /* CompilerArgumentParser.cpp in Sources */,
 				F5827044205EECAB00839EC7 /* LLVMStructType.cpp in Sources */,
-				F5752ABC2084BB3D00C00DE1 /* IInjectableConcreteObjectType.cpp in Sources */,
 				F53A2C2C1EFFD5E800E76A9E /* Node.cpp in Sources */,
 				F50FA29E1E2693F400435EEA /* CompoundStatement.cpp in Sources */,
 				F52C665E1FBF38CC00E89B04 /* CheckForNullAndThrowFunction.cpp in Sources */,

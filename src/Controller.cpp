@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp"
+#include "wisey/AutoCast.hpp"
 #include "wisey/Controller.hpp"
 #include "wisey/ControllerOwner.hpp"
 #include "wisey/Environment.hpp"
@@ -164,7 +165,18 @@ wisey::Constant* Controller::findConstant(string constantName) const {
 Instruction* Controller::inject(IRGenerationContext& context,
                                 InjectionArgumentList injectionArgumentList,
                                 int line) const {
-  return IInjectableConcreteObjectType::injectObject(context, this, injectionArgumentList, line);
+  const IObjectType* lastObjectType = context.getObjectType();
+  context.setObjectType(this);
+  
+  checkArguments(injectionArgumentList);
+  Instruction* malloc = createMallocForObject(context, this, "injectvar");
+  initializeReceivedFields(context, injectionArgumentList, malloc, line);
+  initializeInjectedFields(context, malloc);
+  initializeVTable(context, this, malloc);
+  
+  context.setObjectType(lastObjectType);
+  
+  return malloc;
 }
 
 vector<string> Controller::getMissingReceivedFields(set<string> givenFields) const {
@@ -416,4 +428,88 @@ const wisey::ArrayType* Controller::getArrayType(IRGenerationContext& context) c
 
 int Controller::getLine() const {
   return mLine;
+}
+
+void Controller::checkArguments(const InjectionArgumentList& received) const {
+  checkArgumentsAreWellFormed(received);
+  checkAllFieldsAreSet(received);
+}
+
+void Controller::checkArgumentsAreWellFormed(const InjectionArgumentList&
+                                             injectionArgumentList) const {
+  bool areArgumentsWellFormed = true;
+  
+  for (InjectionArgument* argument : injectionArgumentList) {
+    areArgumentsWellFormed &= argument->checkArgument(this);
+  }
+  
+  if (!areArgumentsWellFormed) {
+    Log::e_deprecated("Some injection arguments for injected object " + getTypeName() +
+                      " are not well formed");
+    exit(1);
+  }
+}
+
+void Controller::
+checkAllFieldsAreSet(const InjectionArgumentList& injectionArgumentList) const {
+  set<string> allFieldsThatAreSet;
+  for (InjectionArgument* argument : injectionArgumentList) {
+    allFieldsThatAreSet.insert(argument->deriveFieldName());
+  }
+  
+  vector<string> missingFields = getMissingReceivedFields(allFieldsThatAreSet);
+  if (missingFields.size() == 0) {
+    return;
+  }
+  
+  for (string missingField : missingFields) {
+    Log::e_deprecated("Received field " + missingField + " is not initialized");
+  }
+  Log::e_deprecated("Some received fields of the controller " + getTypeName() +
+                    " are not initialized.");
+  exit(1);
+}
+
+void Controller::initializeReceivedFields(IRGenerationContext& context,
+                                          const InjectionArgumentList& controllerInjectorArguments,
+                                          Instruction* malloc,
+                                          int line) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
+  Value* index[2];
+  index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  for (InjectionArgument* argument : controllerInjectorArguments) {
+    string argumentName = argument->deriveFieldName();
+    IField* field = findField(argumentName);
+    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
+    GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
+    const IType* fieldType = field->getType();
+    
+    Value* argumentValue = argument->getValue(context, fieldType);
+    const IType* argumentType = argument->getType(context);
+    if (!argumentType->canAutoCastTo(context, fieldType)) {
+      Log::e_deprecated("Injector argumet value for field '" + field->getName() +
+                        "' does not match its type");
+      exit(1);
+    }
+    Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);
+    IRWriter::newStoreInst(context, castValue, fieldPointer);
+    if (fieldType->isReference()) {
+      ((const IReferenceType*) fieldType)->incrementReferenceCount(context, castValue);
+    }
+  }
+}
+
+void Controller::initializeInjectedFields(IRGenerationContext& context,
+                                          Instruction* malloc) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
+  Value *index[2];
+  index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  for (InjectedField* field : getInjectedFields()) {
+    Value* fieldValue = field->inject(context);
+    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
+    GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
+    IRWriter::newStoreInst(context, fieldValue, fieldPointer);
+  }
 }

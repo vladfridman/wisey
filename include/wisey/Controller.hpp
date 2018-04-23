@@ -13,8 +13,8 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IExpression.hpp"
-#include "wisey/IInjectableConcreteObjectType.hpp"
 #include "wisey/IMethod.hpp"
 #include "wisey/InjectedField.hpp"
 #include "wisey/Interface.hpp"
@@ -26,7 +26,7 @@ namespace wisey {
   /**
    * Contains information about a Controller including its fields and methods
    */
-  class Controller : public IInjectableConcreteObjectType {
+  class Controller : public IConcreteObjectType {
     bool mIsPublic;
     std::string mName;
     llvm::StructType* mStructType;
@@ -107,8 +107,6 @@ namespace wisey {
     unsigned long getFieldIndex(IField* field) const override;
     
     std::vector<IField*> getFields() const override;
-    
-    std::vector<InjectedField*> getInjectedFields() const override;
     
     IMethod* findMethod(std::string methodName) const override;
     
@@ -214,12 +212,29 @@ namespace wisey {
                                  llvm::Value* value) const override;
     
     const ArrayType* getArrayType(IRGenerationContext& context) const override;
-
-    std::vector<std::string> getMissingReceivedFields(std::set<std::string>
-                                                      givenFields) const override;
     
     int getLine() const override;
     
+  private:
+    
+    std::vector<std::string> getMissingReceivedFields(std::set<std::string> givenFields) const;
+    
+    std::vector<InjectedField*> getInjectedFields() const;
+
+    void checkArguments(const InjectionArgumentList& injectionArgumentList) const ;
+    
+    void checkArgumentsAreWellFormed(const InjectionArgumentList& injectionArgumentList) const;
+    
+    void checkAllFieldsAreSet(const InjectionArgumentList& injectionArgumentList) const;
+    
+    void initializeReceivedFields(IRGenerationContext& context,
+                                  const InjectionArgumentList& controllerInjectorArguments,
+                                  llvm::Instruction* malloc,
+                                  int line) const;
+    
+    void initializeInjectedFields(IRGenerationContext& context,
+                                  llvm::Instruction* malloc) const;
+
   };
   
 } /* namespace wisey */
