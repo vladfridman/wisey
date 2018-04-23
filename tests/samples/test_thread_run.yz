@@ -28,7 +28,7 @@ controller CProgram implements IProgram {
   public int run() override {
     printout("Thread started = " + mWorkerThread.isStarted() + ", has finished = " + mWorkerThread.isFinished() + "\n");
     printout("Starting worker thread\n");
-    mWorkerThread.startWorker(builder(MWorker).build());
+    mWorkerThread.start(builder(MWorker).build());
     printout("Worker thread started\n");
     printout("Thread started = " + mWorkerThread.isStarted() + ", has finished = " + mWorkerThread.isFinished() + "\n");
     int result = ((MWorker.MResult) mWorkerThread.awaitResult()).getResult();

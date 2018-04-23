@@ -17,16 +17,13 @@ controller CWorkerThread implements IWorkerThread {
     mWorker.work();
   }
 
-  public void start() override reveal {
-  }
-
   /**
    * Starts the given thread with the given worker implementation
    *
    * Calling this method after the thread has already been started has no effect
    * This is called from an outside thread through a reveal method
    */
-  public void startWorker(::wisey::model* worker) reveal {
+  public void start(::wisey::model* worker) reveal {
     mWorker = worker;
     mWorkerThreadRunner.createThread(this);
   }

@@ -17,16 +17,13 @@ controller CProducerThread implements IProducerThread {
     mProducer.produce();
   }
 
-  public void start() override reveal {
-  }
-
   /**
    * Starts the given thread with the results buffer of the given size and producer implementation
    *
    * Calling this method after the thread has already been started has no effect
    * This is called from an outside thread through a reveal method
    */
-  public void startProducer(::wisey::model* producer, int size) reveal {
+  public void start(::wisey::model* producer, int size) reveal {
     mProducer = producer;
     mProducerThreadRunner.createThread(this, size);
   }

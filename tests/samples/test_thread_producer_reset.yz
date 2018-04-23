@@ -37,7 +37,7 @@ controller CProgram implements IProgram {
     printout("Thread started = " + mProducerThread.isStarted() + ", has result = " +
       mProducerThread.hasResult() + "\n");
     printout("Starting producer thread\n");
-    mProducerThread.startProducer(builder(MProducer).build(), 3);
+    mProducerThread.start(builder(MProducer).build(), 3);
     printout("Producer thread started\n");
     printout("Thread started = " + mProducerThread.isStarted() + ", has result = " + 
       mProducerThread.hasResult() + "\n");
@@ -54,7 +54,7 @@ controller CProgram implements IProgram {
     printout("Thread started = " + mProducerThread.isStarted() + ", has result = " + 
       mProducerThread.hasResult() + "\n");
     printout("Starting producer thread\n");
-    mProducerThread.startProducer(builder(MProducer).build(), 3);
+    mProducerThread.start(builder(MProducer).build(), 3);
     printout("Producer thread started\n");
     printout("Thread started = " + mProducerThread.isStarted() + ", has result = " + 
       mProducerThread.hasResult() + "\n");

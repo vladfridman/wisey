@@ -8,7 +8,7 @@ model MMainThreadWorker implements IWorker {
 
   public static int startMainThread(IProgram* program) {
     CWorkerThread* workerThread = injector(CWorkerThread).inject();
-    workerThread.startWorker(builder(MMainThreadWorker).withProgram(program).build());
+    workerThread.start(builder(MMainThreadWorker).withProgram(program).build());
     MProgramResult* result = workerThread.awaitResult();
     if (result == null) {
       printerr("Main thread ended without a result\n");

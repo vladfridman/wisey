@@ -31,11 +31,6 @@ interface IThread {
   CCallStack getCallStack() conceal;
 
   /**
-   * Starts the thread
-   */
-  void start() reveal;
-
-  /**
    * Tells whether the thread has started running
    */
   boolean isStarted() reveal;

@@ -32,7 +32,6 @@ external interface wisey.lang.threads.IThread {
     ::wisey::model* message) conceal;
   void exit() conceal;
   wisey.lang.CCallStack getCallStack() conceal;
-  void start() reveal;
   boolean isStarted() reveal;
   boolean isFinished() reveal;
   boolean isCancelled() reveal;
@@ -175,8 +174,7 @@ external controller wisey.lang.threads.CProducerThread
   state wisey.lang.threads.IProducer* mProducer;
 
   void run() conceal override;
-  void start() reveal override;
-  void startProducer(
+  void start(
     ::wisey::model* producer,
     int size) reveal;
   boolean isStarted() reveal override;
@@ -229,8 +227,7 @@ external controller wisey.lang.threads.CWorkerThread
   state wisey.lang.threads.IWorker* mWorker;
 
   void run() conceal override;
-  void start() reveal override;
-  void startWorker(
+  void start(
     ::wisey::model* worker) reveal;
   boolean isStarted() reveal override;
   boolean isFinished() reveal override;

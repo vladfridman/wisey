@@ -147,10 +147,6 @@ TEST_F(TestFileRunner, inlineControllerInjectionRunTest) {
   runFile("tests/samples/test_inline_controller_injection.yz", "5");
 }
 
-TEST_F(TestFileRunner, inlineThreadInjectionRunTest) {
-  runFile("tests/samples/test_inline_thread_injection.yz", "3");
-}
-
 TEST_F(TestFileRunner, inlineInterfaceInjectionRunTest) {
   runFile("tests/samples/test_inline_interface_injection.yz", "7");
 }

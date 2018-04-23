@@ -20,9 +20,6 @@ thread TThread implements IThread {
   public void exit() override conceal {
   }
 
-  public void start() override reveal {
-  }
-
   public boolean isStarted() override reveal {
     return false;
   }
