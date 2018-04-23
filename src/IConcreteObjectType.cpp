@@ -308,13 +308,11 @@ GlobalVariable* IConcreteObjectType::createTypeListGlobal(IRGenerationContext& c
   vector<Interface*> interfaces = object->getFlattenedInterfaceHierarchy();
   Type* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
   
-  llvm::Constant* objectShortNamePointer = getObjectShortNamePointer(object, context);
   llvm::Constant* objectNamePointer = IObjectType::getObjectNamePointer(object, context);
   
   vector<llvm::Constant*> typeNames;
-  typeNames.push_back(objectShortNamePointer);
   typeNames.push_back(objectNamePointer);
-  
+
   for (Interface* interface : interfaces) {
     llvm::Constant* interfaceNamePointer = IObjectType::getObjectNamePointer(interface, context);
     typeNames.push_back(interfaceNamePointer);

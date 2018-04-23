@@ -85,7 +85,7 @@ TEST_F(InstanceOfFunctionTest, getTest) {
   "\ndefine i32 @__instanceOf(i8* %haystack, i8* %needle) {"
   "\nentry:"
   "\n  %iterator = alloca i32"
-  "\n  store i32 1, i32* %iterator"
+  "\n  store i32 0, i32* %iterator"
   "\n  %0 = bitcast i8* %haystack to i8*"
   "\n  %1 = call i8* @__getOriginalObject(i8* %0)"
   "\n  %2 = bitcast i8* %1 to i8***"
@@ -114,7 +114,7 @@ TEST_F(InstanceOfFunctionTest, getTest) {
   "\n"
   "\nreturn.found:                                     ; preds = %while.body"
   "\n  %8 = load i32, i32* %iterator"
-  "\n  %dec = sub i32 %8, 2"
+  "\n  %dec = sub i32 %8, 1"
   "\n  ret i32 %dec"
   "\n}\n";
   
