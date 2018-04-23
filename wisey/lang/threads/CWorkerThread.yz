@@ -1,0 +1,120 @@
+package wisey.lang.threads;
+
+import wisey.lang.CCallStack;
+
+/**
+ * Default implementation of the worker thread.
+ *
+ * A worker thread can be in one of 4 states: Not started, Started, Cancelled, Finished
+ * Before thread can be started again after it has been cancelled or finished it has to be reset
+ */
+controller CWorkerThread implements IWorkerThread {
+  inject CWorkerThreadRunner* mWorkerThreadRunner;
+  inject CCallStack* mCallStack;
+  state IWorker* mWorker;
+
+  public void run() override conceal {
+    mWorker.work();
+  }
+
+  public void start() override reveal {
+  }
+
+  /**
+   * Starts the given thread
+   *
+   * Calling this method after the thread has already been started has no effect
+   * This is called from an outside thread through a reveal method
+   */
+  public void startWorker(::wisey::model* worker) reveal {
+    mWorker = worker;
+    mWorkerThreadRunner.createThread(this);
+  }
+
+  /**
+   * Tells whether the thread has been started
+   *
+   * This is called from an outside thread through a reveal method
+   */
+  public boolean isStarted() override reveal {
+    return mWorkerThreadRunner.isStarted();
+  }
+
+  /**
+   * Tells whether the thread has finished execution and has the result
+   *
+   * This is called from an outside thread through a reveal method
+   */
+  public boolean isFinished() override reveal {
+    return mWorkerThreadRunner.isFinished();
+  }
+
+  /**
+   * Tells whether the thread execution has been cancelled
+   *
+   * This is called from an outside thread through a reveal method
+   */
+  public boolean isCancelled() override reveal {
+    return mWorkerThreadRunner.isCancelled();
+  }
+
+  /**
+   * Waits for the thread to finish and returns back the result
+   * If the thread has been canceled or finished or not started then returns result immediately
+   *
+   * This is called from an outside thread through a reveal method
+   */
+  public ::wisey::model* awaitResult() override reveal {
+    mWorkerThreadRunner.joinThread();
+
+    return mWorkerThreadRunner.getResult();
+  }
+
+  /**
+   * Cancel thread execution from antoher thread
+   * If the thread has been already canceled or finished or not started then this has no effect
+   *
+   * This is called from an outside thread through a reveal method
+   */
+  public void cancel() override reveal {
+    mWorkerThreadRunner.cancelThread();
+  }
+
+  /**
+   * Reset the thread to its initial state so it can be started again
+   * Calling this when the thread is in Started or Not Started state has no effect
+   *
+   * This is called from an outside thread through a reveal method
+   */
+  public void reset() override reveal {
+    mWorkerThreadRunner.resetThread();
+  }
+
+  /**
+   * Exits thread with null as a result. This is called from within the thread
+   *
+   * This is called from within the thread through a conceal method
+   */
+  public void exit() override conceal {
+    mWorkerThreadRunner.exitThread();
+  }
+
+  /**
+   * Sets thread result to the given model object
+   *
+   * This is called from within the thread through a conceal method
+   */
+  public ::wisey::model* send(::wisey::model* message) override conceal {
+    mWorkerThreadRunner.setResult(message);
+    return null;
+  }
+
+  /**
+   * Returns the callstack controller for the worker thread
+   *
+   * This is called from within the thread through a conceal method
+   */
+  public CCallStack getCallStack() override conceal {
+    return mCallStack;
+  }
+}

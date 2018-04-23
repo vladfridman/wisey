@@ -176,10 +176,10 @@ void Method::generateIR(IRGenerationContext& context) const {
 
   createArguments(context, function);
 
-  if (mObjectType->isThread()) {
+  if (isReveal() || isConceal()) {
     addThreadGuard(context, function);
   }
-  
+
   mCompoundStatement->generateIR(context);
   
   IMethod::maybeAddImpliedVoidReturn(context, this, mLine);

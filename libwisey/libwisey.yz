@@ -44,6 +44,11 @@ external interface wisey.lang.threads.IThread {
 external interface wisey.lang.threads.IThreadRunner {
 }
 
+external interface wisey.lang.threads.IWorker {
+
+  void work();
+}
+
 external interface wisey.lang.threads.IWorkerThread
   extends
     wisey.lang.threads.IThread {
@@ -204,6 +209,30 @@ external controller wisey.lang.threads.CProducerThreadRunner
     ::wisey::model* result);
   void exitThread();
   boolean hasRoom();
+}
+
+external controller wisey.lang.threads.CWorkerThread
+  implements
+    wisey.lang.threads.IWorkerThread {
+
+  inject wisey.lang.threads.CWorkerThreadRunner* mWorkerThreadRunner;
+  inject wisey.lang.CCallStack* mCallStack;
+  state wisey.lang.threads.IWorker* mWorker;
+
+  void run() conceal override;
+  void start() reveal override;
+  void startWorker(
+    ::wisey::model* worker) reveal;
+  boolean isStarted() reveal override;
+  boolean isFinished() reveal override;
+  boolean isCancelled() reveal override;
+  ::wisey::model* awaitResult() reveal override;
+  void cancel() reveal override;
+  void reset() reveal override;
+  void exit() conceal override;
+  ::wisey::model* send(
+    ::wisey::model* message) conceal override;
+  wisey.lang.CCallStack getCallStack() conceal override;
 }
 
 external controller wisey.lang.threads.CWorkerThreadRunner
