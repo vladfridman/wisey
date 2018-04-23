@@ -53,14 +53,11 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   
   InterfaceDefinition* threadInterfaceDefinition = defineThreadInterface(context);
   ControllerDefinition* callStackDefinition = defineCallStackController(context);
-  ThreadDefinition* mainThreadDefinition = defineMainThread(context);
   
   threadInterfaceDefinition->prototypeObject(context);
   threadInterfaceDefinition->prototypeMethods(context);
   callStackDefinition->prototypeObject(context);
-  mainThreadDefinition->prototypeObject(context);
   callStackDefinition->prototypeMethods(context);
-  mainThreadDefinition->prototypeMethods(context);
   
   defineThreadGuardFunctions(context);
 }
@@ -184,66 +181,6 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
                                   interfaceSpecifiers,
                                   innerObjectDefinitions,
                                   0);
-}
-
-ThreadDefinition* TestPrefix::defineMainThread(IRGenerationContext& context) {
-  PackageType* packageType = new PackageType(Names::getLangPackageName());
-  FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
-  ThreadTypeSpecifierFull* threadTypeSpecifier =
-  new ThreadTypeSpecifierFull(packageExpression, Names::getMainThreadShortName(), 0);
-  vector<IObjectElementDefinition*> elementDeclarations;
-  
-  packageType = new PackageType(Names::getLangPackageName());
-  packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
-  ControllerTypeSpecifierFull* callStackTypeSpecifier =
-  new ControllerTypeSpecifierFull(packageExpression, Names::getCallStackControllerName(), 0);
-  VariableList arguments;
-  vector<IModelTypeSpecifier*> exceptions;
-  Block* block = new Block();
-  CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
-  MethodQualifiers* methodQualifiers = new MethodQualifiers(0);
-  methodQualifiers->getMethodQualifierSet().insert(MethodQualifier::CONCEAL);
-  MethodDefinition* getCallStackMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
-                                                              callStackTypeSpecifier,
-                                                              Names::getCallStackMethodName(),
-                                                              arguments,
-                                                              exceptions,
-                                                              methodQualifiers,
-                                                              compoundStatement,
-                                                              0);
-  
-  arguments.clear();
-  const PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier(0);
-  block = new Block();
-  compoundStatement = new CompoundStatement(block, 0);
-  methodQualifiers = new MethodQualifiers(0);
-  methodQualifiers->getMethodQualifierSet().insert(MethodQualifier::CONCEAL);
-  MethodDefinition* runMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
-                                                     voidTypeSpecifier,
-                                                     "run",
-                                                     arguments,
-                                                     exceptions,
-                                                     methodQualifiers,
-                                                     compoundStatement,
-                                                     0);
-  
-  elementDeclarations.push_back(getCallStackMethod);
-  elementDeclarations.push_back(runMethod);
-  
-  vector<IObjectDefinition*> innerObjectDefinitions;
-  vector<IInterfaceTypeSpecifier*> interfaceSpecifiers;
-  packageType = new PackageType(Names::getThreadsPackageName());
-  packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
-  InterfaceTypeSpecifierFull* interfaceTypeSpecifer =
-  new InterfaceTypeSpecifierFull(packageExpression, Names::getThreadInterfaceName(), 0);
-  interfaceSpecifiers.push_back(interfaceTypeSpecifer);
-  
-  return new ThreadDefinition(AccessLevel::PUBLIC_ACCESS,
-                              threadTypeSpecifier,
-                              elementDeclarations,
-                              interfaceSpecifiers,
-                              innerObjectDefinitions,
-                              0);
 }
 
 InterfaceDefinition* TestPrefix::defineThreadInterface(IRGenerationContext& context) {

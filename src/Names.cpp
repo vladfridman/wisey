@@ -51,32 +51,12 @@ string Names::getThreadInterfaceFullName() {
   return getThreadsPackageName() + "." + getThreadInterfaceName();
 }
 
-string Names::getMainThreadShortName() {
-  return "TMainThread";
-}
-
-string Names::getMainThreadFullName() {
-  return getLangPackageName() + "." + getMainThreadShortName();
-}
-
-string Names::getProgramResultShortName() {
-  return "TMainThread.MProgramResult";
-}
-
-string Names::getThreadSetObjectAndMethod() {
-  return "setObjectAndMethod";
-}
-
 string Names::getCallStackControllerName() {
   return "CCallStack";
 }
 
 string Names::getCallStackControllerFullName() {
   return getLangPackageName() + "." + getCallStackControllerName();
-}
-
-string Names::getCallStackMethodName() {
-  return "getCallStack";
 }
 
 string Names::getThreadPushStack() {

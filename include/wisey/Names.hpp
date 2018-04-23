@@ -61,11 +61,6 @@ namespace wisey {
     static std::string getStdErrName();
     
     /**
-     * Main thread short name
-     */
-    static std::string getMainThreadShortName();
-    
-    /**
      * Retuns IThread inteface name
      */
     static std::string getThreadInterfaceName();
@@ -76,21 +71,6 @@ namespace wisey {
     static std::string getThreadInterfaceFullName();
     
     /**
-     * Main thread full name
-     */
-    static std::string getMainThreadFullName();
-    
-    /**
-     * Model representing program result
-     */
-    static std::string getProgramResultShortName();
-    
-    /**
-     * Get the method for setting call stack's current object and method
-     */
-    static std::string getThreadSetObjectAndMethod();
-    
-    /**
      * Get the name of the CCallStack controller
      */
     static std::string getCallStackControllerName();
@@ -99,11 +79,6 @@ namespace wisey {
      * Get the full name of the CCallStack controller
      */
     static std::string getCallStackControllerFullName();
-    
-    /**
-     * Get method name for getting the call stack object from the thread
-     */
-    static std::string getCallStackMethodName();
     
     /**
      * Get the method for pushing the call stack

@@ -35,7 +35,7 @@
 #include "wisey/IfStatement.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/MethodCall.hpp"
-#include "wisey/ModelTypeSpecifier.hpp"
+#include "wisey/ModelTypeSpecifierFull.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/NullExpression.hpp"
 #include "wisey/ParameterSystemReferenceVariable.hpp"
@@ -44,6 +44,7 @@
 #include "wisey/ProgramSuffix.hpp"
 #include "wisey/RelationalExpression.hpp"
 #include "wisey/ReturnStatement.hpp"
+#include "wisey/StaticMethodCall.hpp"
 #include "wisey/StringLiteral.hpp"
 #include "wisey/ThreadExpression.hpp"
 #include "wisey/ThrowReferenceCountExceptionFunction.hpp"
@@ -82,15 +83,15 @@ void ProgramSuffix::maybeGenerateMain(IRGenerationContext& context) const {
   FakeExpression* langPackageExpression = new FakeExpression(NULL, langPackageType);
   InterfaceTypeSpecifier* programInterfaceSpecifier =
   new InterfaceTypeSpecifier(langPackageExpression, Names::getIProgramName(), 0);
-  Interface* interface = (Interface*) programInterfaceSpecifier->getType(context);
-  if (!context.hasBoundController(interface)) {
+  Interface* programInterface = (Interface*) programInterfaceSpecifier->getType(context);
+  if (!context.hasBoundController(programInterface)) {
     return;
   }
   
-  generateMain(context);
+  generateMain(context, programInterface);
 }
 
-void ProgramSuffix::generateMain(IRGenerationContext& context) const {
+void ProgramSuffix::generateMain(IRGenerationContext& context, Interface* programInterface) const {
   LLVMContext& llvmContext = context.getLLVMContext();
 
   FunctionType* mainFunctionType =
@@ -103,91 +104,37 @@ void ProgramSuffix::generateMain(IRGenerationContext& context) const {
   context.setBasicBlock(entryBlock);
   context.getScopes().pushScope();
   context.getScopes().setReturnType(PrimitiveTypes::INT_TYPE);
-  
-  InjectionArgumentList injectionArguments;
-  Thread* mainThread = context.getThread(Names::getMainThreadFullName(), 0);
-  Value* injectedThread = mainThread->inject(context, injectionArguments, 0);
+
   Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
   Value* threadNullValue = ConstantPointerNull::get(threadInterface->getLLVMType(context));
   IReferenceVariable* threadVariable =
   new ParameterSystemReferenceVariable(ThreadExpression::THREAD, threadInterface, threadNullValue);
   context.getScopes().setVariable(threadVariable);
 
-  vector<const IExpression*> arrayIndices;
-  Value* mainThreadStore = IRWriter::newAllocaInst(context,
-                                                   mainThread->getOwner()->getLLVMType(context),
-                                                   "mainThread");
-  IOwnerVariable* mainThreadVariable = new LocalOwnerVariable("mainThread",
-                                                              mainThread->getOwner(),
-                                                              mainThreadStore);
-  context.getScopes().setVariable(mainThreadVariable);
-  mainThreadVariable->setToNull(context);
-  FakeExpression mainThreadExpression(injectedThread, mainThread->getOwner());
-  mainThreadVariable->generateAssignmentIR(context, &mainThreadExpression, arrayIndices, 0);
+  Controller* callstack = context.getController(Names::getCallStackControllerFullName(), 0);
+  Value* callstackValue = ConstantPointerNull::get(callstack->getLLVMType(context));
+  IReferenceVariable* callstackVariable =
+  new ParameterSystemReferenceVariable(ThreadExpression::CALL_STACK, callstack, callstackValue);
+  context.getScopes().setVariable(callstackVariable);
 
-  Controller* callStack = context.getController(Names::getCallStackControllerFullName(), 0);
-  IReferenceVariable* callStackVariable =
-  new ParameterSystemReferenceVariable(ThreadExpression::CALL_STACK,
-                                       callStack,
-                                       ConstantPointerNull::get(callStack->getLLVMType(context)));
-  context.getScopes().setVariable(callStackVariable);
+  InjectionArgumentList injectionArguments;
+  Value* injectedProgram = programInterface->inject(context, injectionArguments, 0);
   
-  IdentifierChain* startMethod = new IdentifierChain(new Identifier("mainThread", 0), "start", 0);
+  PackageType* packageType = new PackageType("wisey.lang");
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  ModelTypeSpecifierFull* mainThreadWorker =
+  new ModelTypeSpecifierFull(packageExpression, "MMainThreadWorker", 0);
+
   ExpressionList callArguments;
-  MethodCall* startMethodCall = new MethodCall(startMethod, callArguments, 0);
-  ExpressionStatement startMethodCallStatement(startMethodCall);
-  startMethodCallStatement.generateIR(context);
-  
-  IdentifierChain* waitMethod = new IdentifierChain(new Identifier("mainThread", 0),
-                                                    "awaitResult",
-                                                    0);
-  MethodCall* waitMethodCall = new MethodCall(waitMethod, callArguments, 0);
-  
-  PackageType* langPackageType = context.getPackageType(Names::getLangPackageName());
-  FakeExpression* langPackageExpression = new FakeExpression(NULL, langPackageType);
-  ModelTypeSpecifier* mainThreadMessageSpecifier =
-  new ModelTypeSpecifier(langPackageExpression, Names::getProgramResultShortName(), 0);
-  CastExpression* castToMessage = new CastExpression(mainThreadMessageSpecifier, waitMethodCall, 0);
-  
-  langPackageType = context.getPackageType(Names::getLangPackageName());
-  langPackageExpression = new FakeExpression(NULL, langPackageType);
-  mainThreadMessageSpecifier =
-  new ModelTypeSpecifier(langPackageExpression, Names::getProgramResultShortName(), 0);
-  VariableDeclaration* resultDeclaration =
-  VariableDeclaration::createWithAssignment(mainThreadMessageSpecifier,
-                                            new Identifier("resultObject", 0),
-                                            castToMessage,
-                                            0);
-  resultDeclaration->generateIR(context);
-  
-  NullExpression* nullExpression = new NullExpression(0);
-  RelationalExpression* condition = new RelationalExpression(new Identifier("resultObject", 0),
-                                                             RELATIONAL_OPERATION_EQ,
-                                                             nullExpression,
-                                                             0);
-  ExpressionList expressionsToPrint;
-  expressionsToPrint.push_back(new StringLiteral("Main thread ended without a result\n", 0));
-  PrintErrStatement* printerr = new PrintErrStatement(expressionsToPrint);
-  Block* block = new Block();
-  block->getStatements().push_back(printerr);
-  IntConstant* intConstant = new IntConstant(1, 0);
-  ReturnStatement* returnErrorStatement = new ReturnStatement(intConstant, 0);
-  block->getStatements().push_back(returnErrorStatement);
-  CompoundStatement* thenStatement = new CompoundStatement(block, 0);
-  
-  IfStatement ifStatement(condition, thenStatement);
-  ifStatement.generateIR(context);
-  
-  IdentifierChain* getContentMethod = new IdentifierChain(new Identifier("resultObject", 0),
-                                                          "getResult",
-                                                          0);
-  MethodCall* getContent = new MethodCall(getContentMethod, callArguments, 0);
-  ReturnStatement returnResultStatement(getContent, 0);
+  FakeExpression* argumentExpression = new FakeExpression(injectedProgram,
+                                                          programInterface->getOwner());
+  callArguments.push_back(argumentExpression);
+  StaticMethodCall* startMethodCall =
+  new StaticMethodCall(mainThreadWorker, "startMainThread", callArguments, 0);
+  ReturnStatement returnResultStatement(startMethodCall, 0);
   returnResultStatement.generateIR(context);
 
   context.getScopes().popScope(context, 0);
   context.setMainFunction(mainFunction);
-
-  delete resultDeclaration;
 }
 

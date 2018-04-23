@@ -82,6 +82,24 @@ external model wisey.lang.MCastException
   string getToType();
 }
 
+external model wisey.lang.MMainThreadWorker
+  implements
+    wisey.lang.threads.IWorker {
+
+  fixed wisey.lang.IProgram* mProgram;
+
+  static int startMainThread(
+    wisey.lang.IProgram* program);
+  void work() override;
+}
+
+external model wisey.lang.MMainThreadWorker.MProgramResult {
+
+  fixed int mResult;
+
+  int getResult();
+}
+
 external model wisey.lang.MNullPointerException
   implements
     wisey.lang.IException {
@@ -261,34 +279,6 @@ external controller wisey.lang.threads.CWorkerThreadRunner
 /* Nodes */
 
 /* Threads */
-
-external thread wisey.lang.TMainThread
-  implements
-    wisey.lang.threads.IWorkerThread {
-
-  inject wisey.lang.threads.CDefaultWorker* mDefaultWorker;
-  inject wisey.lang.IProgram* mProgram;
-
-  void run() conceal override;
-  void start() reveal override;
-  boolean isStarted() reveal override;
-  boolean isFinished() reveal override;
-  boolean isCancelled() reveal override;
-  ::wisey::model* awaitResult() reveal override;
-  void cancel() reveal override;
-  void reset() reveal override;
-  ::wisey::model* send(
-    ::wisey::model* message) conceal override;
-  wisey.lang.CCallStack getCallStack() conceal override;
-  void exit() conceal override;
-}
-
-external model wisey.lang.TMainThread.MProgramResult {
-
-  fixed int mResult;
-
-  int getResult();
-}
 
 /* Bindings */
 
