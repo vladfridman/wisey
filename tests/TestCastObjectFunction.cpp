@@ -33,7 +33,6 @@ struct CastObjectFunctionTest : Test {
   BasicBlock* mBasicBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
-  NiceMock<MockObjectType> mFromObjectType;
   NiceMock<MockObjectType> mToObjectType;
   Function* mFunction;
 
@@ -52,25 +51,14 @@ struct CastObjectFunctionTest : Test {
     
     mStringStream = new raw_string_ostream(mStringBuffer);
     
-    string fromTypeName = "systems.vos.wisey.compiler.tests.IFromInterface";
-    string fromNameGlobal = "systems.vos.wisey.compiler.tests.IFromInterface.name";
     string toTypeName = "systems.vos.wisey.compiler.tests.IToInterface";
     string toNameGlobal = "systems.vos.wisey.compiler.tests.IToInterface.name";
 
-    ON_CALL(mFromObjectType, getObjectNameGlobalVariableName())
-    .WillByDefault(Return(fromNameGlobal));
     ON_CALL(mToObjectType, getObjectNameGlobalVariableName())
     .WillByDefault(Return(toNameGlobal));
     ON_CALL(mToObjectType, getLLVMType(_))
     .WillByDefault(Return(Type::getInt64Ty(mLLVMContext)->getPointerTo()));
 
-    new GlobalVariable(*mContext.getModule(),
-                       llvm::ArrayType::get(Type::getInt8Ty(mLLVMContext),
-                                            fromTypeName.length() + 1),
-                       true,
-                       GlobalValue::LinkageTypes::ExternalLinkage,
-                       nullptr,
-                       fromNameGlobal);
     new GlobalVariable(*mContext.getModule(),
                        llvm::ArrayType::get(Type::getInt8Ty(mLLVMContext), toTypeName.length() + 1),
                        true,
@@ -86,13 +74,13 @@ struct CastObjectFunctionTest : Test {
 TEST_F(CastObjectFunctionTest, callTest) {
   llvm::Constant* nullPointerValue =
   ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  CastObjectFunction::call(mContext, nullPointerValue, &mFromObjectType, &mToObjectType, 5);
+  CastObjectFunction::call(mContext, nullPointerValue, &mToObjectType, 5);
   
   *mStringStream << *mFunction;
   string expected =
   "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
-  "\n  %0 = invoke i8* @__castObject(i8* null, i8* getelementptr inbounds ([48 x i8], [48 x i8]* @systems.vos.wisey.compiler.tests.IFromInterface.name, i32 0, i32 0), i8* getelementptr inbounds ([46 x i8], [46 x i8]* @systems.vos.wisey.compiler.tests.IToInterface.name, i32 0, i32 0))"
+  "\n  %0 = invoke i8* @__castObject(i8* null, i8* getelementptr inbounds ([46 x i8], [46 x i8]* @systems.vos.wisey.compiler.tests.IToInterface.name, i32 0, i32 0))"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\ncleanup:                                          ; preds = %entry"
@@ -113,7 +101,7 @@ TEST_F(CastObjectFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine i8* @__castObject(i8* %fromObjectValue, i8* %fromTypeName, i8* %toTypeName) personality i32 (...)* @__gxx_personality_v0 {"
+  "\ndefine i8* @__castObject(i8* %fromObjectValue, i8* %toTypeName) personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = call i32 @__instanceOf(i8* %fromObjectValue, i8* %toTypeName)"
   "\n  %1 = bitcast i8* %fromObjectValue to i8*"
@@ -122,29 +110,38 @@ TEST_F(CastObjectFunctionTest, getTest) {
   "\n  br i1 %cmp, label %less.than.zero, label %not.less.than.zero"
   "\n"
   "\nless.than.zero:                                   ; preds = %entry"
+  "\n  %3 = bitcast i8* %fromObjectValue to i8*"
+  "\n  %4 = call i8* @__getOriginalObject(i8* %3)"
+  "\n  %5 = bitcast i8* %4 to i8***"
+  "\n  %vtable = load i8**, i8*** %5"
+  "\n  %6 = getelementptr i8*, i8** %vtable, i64 1"
+  "\n  %typeArrayI8 = load i8*, i8** %6"
+  "\n  %7 = bitcast i8* %typeArrayI8 to i8**"
+  "\n  %8 = getelementptr i8*, i8** %7, i64 0"
+  "\n  %fromTypeName = load i8*, i8** %8"
   "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%wisey.lang.MCastException.refCounter* getelementptr (%wisey.lang.MCastException.refCounter, %wisey.lang.MCastException.refCounter* null, i32 1) to i64))"
   "\n  %buildervar = bitcast i8* %malloccall to %wisey.lang.MCastException.refCounter*"
-  "\n  %3 = bitcast %wisey.lang.MCastException.refCounter* %buildervar to i8*"
-  "\n  call void @llvm.memset.p0i8.i64(i8* %3, i8 0, i64 ptrtoint (%wisey.lang.MCastException.refCounter* getelementptr (%wisey.lang.MCastException.refCounter, %wisey.lang.MCastException.refCounter* null, i32 1) to i64), i32 4, i1 false)"
-  "\n  %4 = getelementptr %wisey.lang.MCastException.refCounter, %wisey.lang.MCastException.refCounter* %buildervar, i32 0, i32 1"
-  "\n  %5 = getelementptr %wisey.lang.MCastException, %wisey.lang.MCastException* %4, i32 0, i32 1"
-  "\n  store i8* %fromTypeName, i8** %5"
-  "\n  %6 = getelementptr %wisey.lang.MCastException, %wisey.lang.MCastException* %4, i32 0, i32 2"
-  "\n  store i8* %toTypeName, i8** %6"
-  "\n  %7 = bitcast %wisey.lang.MCastException* %4 to i8*"
-  "\n  %8 = getelementptr i8, i8* %7, i64 0"
-  "\n  %9 = bitcast i8* %8 to i32 (...)***"
-  "\n  %10 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @wisey.lang.MCastException.vtable, i32 0, i32 0, i32 0"
-  "\n  %11 = bitcast i8** %10 to i32 (...)**"
-  "\n  store i32 (...)** %11, i32 (...)*** %9"
-  "\n  %12 = alloca %wisey.lang.MCastException*"
-  "\n  store %wisey.lang.MCastException* %4, %wisey.lang.MCastException** %12"
-  "\n  %13 = bitcast { i8*, i8* }* @wisey.lang.MCastException.rtti to i8*"
-  "\n  %14 = bitcast %wisey.lang.MCastException* %4 to i8*"
-  "\n  %15 = getelementptr i8, i8* %14, i64 -8"
-  "\n  %16 = call i8* @__cxa_allocate_exception(i64 add (i64 mul nuw (i64 ptrtoint (i1** getelementptr (i1*, i1** null, i32 1) to i64), i64 3), i64 ptrtoint (i64* getelementptr (i64, i64* null, i32 1) to i64)))"
-  "\n  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %16, i8* %15, i64 add (i64 mul nuw (i64 ptrtoint (i1** getelementptr (i1*, i1** null, i32 1) to i64), i64 3), i64 ptrtoint (i64* getelementptr (i64, i64* null, i32 1) to i64)), i32 4, i1 false)"
-  "\n  invoke void @__cxa_throw(i8* %16, i8* %13, i8* null)"
+  "\n  %9 = bitcast %wisey.lang.MCastException.refCounter* %buildervar to i8*"
+  "\n  call void @llvm.memset.p0i8.i64(i8* %9, i8 0, i64 ptrtoint (%wisey.lang.MCastException.refCounter* getelementptr (%wisey.lang.MCastException.refCounter, %wisey.lang.MCastException.refCounter* null, i32 1) to i64), i32 4, i1 false)"
+  "\n  %10 = getelementptr %wisey.lang.MCastException.refCounter, %wisey.lang.MCastException.refCounter* %buildervar, i32 0, i32 1"
+  "\n  %11 = getelementptr %wisey.lang.MCastException, %wisey.lang.MCastException* %10, i32 0, i32 1"
+  "\n  store i8* %fromTypeName, i8** %11"
+  "\n  %12 = getelementptr %wisey.lang.MCastException, %wisey.lang.MCastException* %10, i32 0, i32 2"
+  "\n  store i8* %toTypeName, i8** %12"
+  "\n  %13 = bitcast %wisey.lang.MCastException* %10 to i8*"
+  "\n  %14 = getelementptr i8, i8* %13, i64 0"
+  "\n  %15 = bitcast i8* %14 to i32 (...)***"
+  "\n  %16 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @wisey.lang.MCastException.vtable, i32 0, i32 0, i32 0"
+  "\n  %17 = bitcast i8** %16 to i32 (...)**"
+  "\n  store i32 (...)** %17, i32 (...)*** %15"
+  "\n  %18 = alloca %wisey.lang.MCastException*"
+  "\n  store %wisey.lang.MCastException* %10, %wisey.lang.MCastException** %18"
+  "\n  %19 = bitcast { i8*, i8* }* @wisey.lang.MCastException.rtti to i8*"
+  "\n  %20 = bitcast %wisey.lang.MCastException* %10 to i8*"
+  "\n  %21 = getelementptr i8, i8* %20, i64 -8"
+  "\n  %22 = call i8* @__cxa_allocate_exception(i64 add (i64 mul nuw (i64 ptrtoint (i1** getelementptr (i1*, i1** null, i32 1) to i64), i64 3), i64 ptrtoint (i64* getelementptr (i64, i64* null, i32 1) to i64)))"
+  "\n  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %22, i8* %21, i64 add (i64 mul nuw (i64 ptrtoint (i1** getelementptr (i1*, i1** null, i32 1) to i64), i64 3), i64 ptrtoint (i64* getelementptr (i64, i64* null, i32 1) to i64)), i32 4, i1 false)"
+  "\n  invoke void @__cxa_throw(i8* %22, i8* %19, i8* null)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\nnot.less.than.zero:                               ; preds = %entry"
@@ -152,22 +149,22 @@ TEST_F(CastObjectFunctionTest, getTest) {
   "\n  br i1 %cmp1, label %more.than.zero, label %zero.exactly"
   "\n"
   "\nmore.than.zero:                                   ; preds = %not.less.than.zero"
-  "\n  %17 = sub i32 %0, 1"
-  "\n  %18 = bitcast i8* %2 to i8*"
-  "\n  %19 = mul i32 %17, 8"
-  "\n  %20 = getelementptr i8, i8* %18, i32 %19"
-  "\n  ret i8* %20"
+  "\n  %23 = sub i32 %0, 1"
+  "\n  %24 = bitcast i8* %2 to i8*"
+  "\n  %25 = mul i32 %23, 8"
+  "\n  %26 = getelementptr i8, i8* %24, i32 %25"
+  "\n  ret i8* %26"
   "\n"
   "\nzero.exactly:                                     ; preds = %not.less.than.zero"
   "\n  ret i8* %2"
   "\n"
   "\ncleanup:                                          ; preds = %less.than.zero"
-  "\n  %21 = landingpad { i8*, i32 }"
+  "\n  %27 = landingpad { i8*, i32 }"
   "\n          cleanup"
-  "\n  %22 = load %wisey.lang.MCastException*, %wisey.lang.MCastException** %12"
-  "\n  %23 = bitcast %wisey.lang.MCastException* %22 to i8*"
-  "\n  call void @__destroyObjectOwnerFunction(i8* %23)"
-  "\n  resume { i8*, i32 } %21"
+  "\n  %28 = load %wisey.lang.MCastException*, %wisey.lang.MCastException** %18"
+  "\n  %29 = bitcast %wisey.lang.MCastException* %28 to i8*"
+  "\n  call void @__destroyObjectOwnerFunction(i8* %29)"
+  "\n  resume { i8*, i32 } %27"
   "\n"
   "\ninvoke.continue:                                  ; preds = %less.than.zero"
   "\n  unreachable"

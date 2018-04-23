@@ -704,7 +704,7 @@ Value* Interface::castTo(IRGenerationContext& context,
   const IObjectType* toObjectType = (const IObjectType*) (toType);
   
   Composer::pushCallStack(context, line);
-  Value* result = CastObjectFunction::call(context, fromValue, this, toObjectType, line);
+  Value* result = CastObjectFunction::call(context, fromValue, toObjectType, line);
   Composer::popCallStack(context);
   
   return result;

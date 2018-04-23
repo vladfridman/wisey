@@ -38,7 +38,6 @@ namespace wisey {
      */
     static llvm::Value* call(IRGenerationContext& context,
                              llvm::Value* fromValue,
-                             const IObjectType* fromObjectType,
                              const IObjectType* toObjectType,
                              int line);
     

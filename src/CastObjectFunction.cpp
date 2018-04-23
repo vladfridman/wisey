@@ -42,11 +42,9 @@ Function* CastObjectFunction::get(IRGenerationContext& context) {
 
 Value* CastObjectFunction::call(IRGenerationContext& context,
                                 Value* fromValue,
-                                const IObjectType* fromObjectType,
                                 const IObjectType* toObjectType,
                                 int line) {
   
-  llvm::Constant* fromTypeName = IObjectType::getObjectNamePointer(fromObjectType, context);
   llvm::Constant* toTypeName = IObjectType::getObjectNamePointer(toObjectType, context);
   Type* int8PointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   Value* fromValueBitcast = fromValue->getType() != int8PointerType
@@ -55,7 +53,6 @@ Value* CastObjectFunction::call(IRGenerationContext& context,
 
   vector<Value*> arguments;
   arguments.push_back(fromValueBitcast);
-  arguments.push_back(fromTypeName);
   arguments.push_back(toTypeName);
  
   Function* function = get(context);
@@ -79,7 +76,6 @@ LLVMFunctionType* CastObjectFunction::getLLVMFunctionType(IRGenerationContext& c
   vector<const IType*> argumentTypes;
   argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType());
   argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType());
-  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType());
 
   return context.getLLVMFunctionType(LLVMPrimitiveTypes::I8->getPointerType(), argumentTypes);
 }
@@ -92,9 +88,6 @@ void CastObjectFunction::compose(IRGenerationContext& context, llvm::Function* f
   Function::arg_iterator functionArguments = function->arg_begin();
   Value* fromObjectValue = &*functionArguments;
   fromObjectValue->setName("fromObjectValue");
-  functionArguments++;
-  Value* fromTypeName = &*functionArguments;
-  fromTypeName->setName("fromTypeName");
   functionArguments++;
   Value* toTypeName = &*functionArguments;
   toTypeName->setName("toTypeName");
@@ -114,6 +107,21 @@ void CastObjectFunction::compose(IRGenerationContext& context, llvm::Function* f
   IRWriter::createConditionalBranch(context, lessThanZero, notLessThanZero, compareLessThanZero);
   
   context.setBasicBlock(lessThanZero);
+  Value* originalObjectVTable = GetOriginalObjectFunction::call(context, fromObjectValue);
+  Type* pointerToArrayOfStrings = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
+  BitCastInst* vTablePointer =
+  IRWriter::newBitCastInst(context, originalObjectVTable, pointerToArrayOfStrings);
+  LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
+  Value* index[1];
+  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 1);
+  GetElementPtrInst* typeArrayPointerI8 = IRWriter::createGetElementPtrInst(context, vTable, index);
+  LoadInst* typeArrayI8 = IRWriter::newLoadInst(context, typeArrayPointerI8, "typeArrayI8");
+  BitCastInst* arrayOfStrings =
+  IRWriter::newBitCastInst(context, typeArrayI8, int8Type->getPointerTo()->getPointerTo());
+  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
+  Value* stringPointerPointer = IRWriter::createGetElementPtrInst(context, arrayOfStrings, index);
+  LoadInst* fromTypeName = IRWriter::newLoadInst(context, stringPointerPointer, "fromTypeName");
+
   PackageType* packageType = context.getPackageType(Names::getLangPackageName());
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(packageExpression,
@@ -149,7 +157,6 @@ void CastObjectFunction::compose(IRGenerationContext& context, llvm::Function* f
   BitCastInst* bitcast =
   IRWriter::newBitCastInst(context, originalObject, int8Type->getPointerTo());
   Value* thunkBy = IRWriter::createBinaryOperator(context, Instruction::Mul, offset, bytes, "");
-  Value* index[1];
   index[0] = thunkBy;
   Value* thunk = IRWriter::createGetElementPtrInst(context, bitcast, index);
   IRWriter::createReturnInst(context, thunk);
