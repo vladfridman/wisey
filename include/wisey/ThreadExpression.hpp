@@ -17,14 +17,9 @@ namespace wisey {
   /**
    * Represents the current thread in a wisey program.
    */
-  class ThreadExpression : public IExpressionAssignable {
-    int mLine;
+  class ThreadExpression {
 
   public:
-    
-    ThreadExpression(int line);
-    
-    ~ThreadExpression();
     
     /**
      * Variable name referencing the current thread
@@ -35,21 +30,6 @@ namespace wisey {
      * Variable name referencing current thread's call stack
      */
     static std::string CALL_STACK;
-    
-    int getLine() const override;
-
-    IVariable* getVariable(IRGenerationContext& context,
-                           std::vector<const IExpression*>& arrayIndices) const override;
-    
-   llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
-    
-    const IType* getType(IRGenerationContext& context) const override;
-    
-    bool isConstant() const override;
-    
-    bool isAssignable() const override;
-
-    void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
   };
   

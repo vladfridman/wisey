@@ -119,7 +119,6 @@
   #include "wisey/StaticMethodCall.hpp"
   #include "wisey/StaticMethodDefinition.hpp"
   #include "wisey/SwitchStatement.hpp"
-  #include "wisey/ThreadExpression.hpp"
   #include "wisey/TryCatchStatement.hpp"
   #include "wisey/ThrowStatement.hpp"
   #include "wisey/TypeComparisionExpression.hpp"
@@ -227,7 +226,7 @@
 %token <token> TLLVMPOINTER TLLVMSTRUCT TLLVMVOID TLLVMREFERENCE
 %token <token> TMODEL TNEW TNODE TNULL TOROP TOVERRIDE TPACKAGE 
 %token <token> TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN TSTATE TSTATIC 
-%token <token> TSWITCH TTHREAD TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN 
+%token <token> TSWITCH TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN 
 %token <token> TTYPECHAR TTYPEDOUBLE TTYPEFLOAT TTYPEINT TTYPELONG TTYPESTRING TTYPEVOID TWHILE
 %token <token> TWISEY TWISEYMODEL TWISEYOBJECT
 
@@ -242,7 +241,7 @@
 %type <expression> conditional_expression postfix_expression object_builder
 %type <expression> cast_expression primary_expression assignment unary_expression
 %type <expression> type_comparision_expression injection array_allocation static_array_allocation
-%type <expression> thread_expression constant_reference static_method_call field_identifier
+%type <expression> constant_reference static_method_call field_identifier
 %type <expression> llvm_function_call llvm_reference call_argument
 %type <variable_vector> method_definition_arguments
 %type <expression_vector> call_arguments string_concatenation_list static_array_elements
@@ -1291,7 +1290,6 @@ primary_expression
   | static_method_call
   | llvm_function_call
   | llvm_reference
-  | thread_expression
   | '(' expression ')' { $$ = $2; }
   | TNULL { $$ = new NullExpression(yylineno); }
   ;
@@ -1388,9 +1386,6 @@ expression
 assignment
   : postfix_expression '=' expression { $$ = new Assignment($1, $3, yylineno); }
   ;
-
-thread_expression
-  : TTHREAD { $$ = new ThreadExpression(yylineno); }
 
 array_allocation
   : TNEW array_specific_type_specifier { $$ = new ArrayAllocation($2, yylineno); }

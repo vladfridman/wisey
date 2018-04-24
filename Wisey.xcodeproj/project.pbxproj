@@ -648,7 +648,6 @@
 		F58748311F921F6B0088F1E3 /* Injector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F587482F1F921F6B0088F1E3 /* Injector.cpp */; };
 		F58748341F95143A0088F1E3 /* ThreadExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58748331F95143A0088F1E3 /* ThreadExpression.cpp */; };
 		F58748351F95143A0088F1E3 /* ThreadExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58748331F95143A0088F1E3 /* ThreadExpression.cpp */; };
-		F58748371F951E580088F1E3 /* TestThreadExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58748361F951E580088F1E3 /* TestThreadExpression.cpp */; };
 		F58A82EC1F79657300369388 /* libLLVMAArch64AsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F53061671F794C280098D637 /* libLLVMAArch64AsmParser.a */; };
 		F58A82ED1F79657300369388 /* libLLVMAArch64AsmPrinter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F530616A1F794C280098D637 /* libLLVMAArch64AsmPrinter.a */; };
 		F58A82EE1F79657300369388 /* libLLVMAArch64CodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F53061661F794C280098D637 /* libLLVMAArch64CodeGen.a */; };
@@ -1722,7 +1721,6 @@
 		F587482F1F921F6B0088F1E3 /* Injector.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Injector.cpp; path = src/Injector.cpp; sourceTree = "<group>"; };
 		F58748321F9513B00088F1E3 /* ThreadExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ThreadExpression.hpp; path = include/wisey/ThreadExpression.hpp; sourceTree = "<group>"; };
 		F58748331F95143A0088F1E3 /* ThreadExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ThreadExpression.cpp; path = src/ThreadExpression.cpp; sourceTree = "<group>"; };
-		F58748361F951E580088F1E3 /* TestThreadExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestThreadExpression.cpp; path = tests/TestThreadExpression.cpp; sourceTree = "<group>"; };
 		F5885F621FB4DB4A00E69D17 /* IOwnerVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IOwnerVariable.hpp; path = include/wisey/IOwnerVariable.hpp; sourceTree = "<group>"; };
 		F5885F631FB4E4F400E69D17 /* MockOwnerVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockOwnerVariable.hpp; path = tests/include/MockOwnerVariable.hpp; sourceTree = "<group>"; };
 		F5885F641FB4F52A00E69D17 /* IReferenceVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IReferenceVariable.hpp; path = include/wisey/IReferenceVariable.hpp; sourceTree = "<group>"; };
@@ -3315,7 +3313,6 @@
 				F5ADB61C1E5F587300FFC941 /* TestNegateExpression.cpp */,
 				F53A2C4D1F02A4EC00E76A9E /* TestNullExpression.cpp */,
 				F53400FA1DFD999B0002BF7E /* TestRelationalExpression.cpp */,
-				F58748361F951E580088F1E3 /* TestThreadExpression.cpp */,
 				F5B9B1571E7AC0F200456CB4 /* TestTypeComparisionExpression.cpp */,
 			);
 			name = expressions;
@@ -4021,7 +4018,6 @@
 				F5F61A9D201DDCCE00EF9EB7 /* ArraySpecificType.cpp in Sources */,
 				F50FA2EB1E2E3B1500435EEA /* IntConstant.cpp in Sources */,
 				F50FF8A3208C9F14008EDC40 /* AdjustReferenceCounterForImmutableArrayFunction.cpp in Sources */,
-				F58748371F951E580088F1E3 /* TestThreadExpression.cpp in Sources */,
 				F53A2C0D1EEC37E900E76A9E /* InterfaceOwner.cpp in Sources */,
 				F5A67DAC20134C920018068F /* TestArrayElementAssignment.cpp in Sources */,
 				F531B65D1E0DEB26008304F3 /* TestCharConstant.cpp in Sources */,
