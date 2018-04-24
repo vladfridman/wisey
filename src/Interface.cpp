@@ -25,6 +25,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMFunction.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
+#include "wisey/LocalSystemReferenceVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/MethodCall.hpp"
 #include "wisey/Model.hpp"
@@ -891,7 +892,9 @@ void Interface::createLocalVariable(IRGenerationContext& context, string name) c
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "referenceDeclaration");
   IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloca);
   
-  IVariable* uninitializedVariable = new LocalReferenceVariable(name, this, alloca);
+  IVariable* uninitializedVariable = name == ThreadExpression::THREAD
+    ? (IVariable*) new LocalSystemReferenceVariable(name, this, alloca)
+    : (IVariable*) new LocalReferenceVariable(name, this, alloca);
   context.getScopes().setVariable(uninitializedVariable);
 }
 

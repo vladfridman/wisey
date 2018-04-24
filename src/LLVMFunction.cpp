@@ -75,7 +75,6 @@ void LLVMFunction::generateBodyIR(IRGenerationContext& context,
   context.setBasicBlock(basicBlock);
   
   createArguments(context, function);
-  createSystemVariables(context, function);
   mCompoundStatement->generateIR(context);
   
   maybeAddImpliedVoidReturn(context, mLine);
@@ -187,27 +186,6 @@ void LLVMFunction::maybeAddImpliedVoidReturn(IRGenerationContext& context, int l
   
   context.getScopes().freeOwnedMemory(context, line);
   IRWriter::createReturnInst(context, NULL);
-}
-
-void LLVMFunction::createSystemVariables(IRGenerationContext& context, Function* function) const {
-  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), mLine);
-  Value* thredStore = IRWriter::newAllocaInst(context,
-                                              threadInterface->getLLVMType(context),
-                                              "thread");
-  LocalSystemReferenceVariable* threadVariable =
-  new LocalSystemReferenceVariable(ThreadExpression::THREAD, threadInterface, thredStore);
-  context.getScopes().setVariable(threadVariable);
-  
-  Controller* callStackController = context.getController(Names::getCallStackControllerFullName(),
-                                                          mLine);
-  llvm::PointerType* callStackLLVMType =
-  (llvm::PointerType*) callStackController->getLLVMType(context);
-  Value* callStackStore = IRWriter::newAllocaInst(context, callStackLLVMType, "callstack");
-  LocalSystemReferenceVariable* callStackVariable =
-  new LocalSystemReferenceVariable(ThreadExpression::CALL_STACK,
-                                   callStackController,
-                                   callStackStore);
-  context.getScopes().setVariable(callStackVariable);
 }
 
 string LLVMFunction::getName() const {

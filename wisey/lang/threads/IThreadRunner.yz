@@ -17,8 +17,8 @@ interface IThreadRunner {
    * parameter of the posix threads interface.
    */
   public ::llvm::function ::llvm::i8::pointer runBridge(::llvm::i8::pointer argument) {
-    thread = (IThread) argument;
-    callstack = injector(CCallStack).inject();
+    IThread thread = (IThread) argument;
+    CCallStack callstack = null;
     callstack = thread.getCallStack();
 
     try {
