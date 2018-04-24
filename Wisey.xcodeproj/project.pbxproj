@@ -865,6 +865,9 @@
 		F5BF0C8C2081014B005AF4E5 /* TestDestroyNativeObjectFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5BF0C8B2081014B005AF4E5 /* TestDestroyNativeObjectFunction.cpp */; };
 		F5BF0C8E208101E7005AF4E5 /* TestLLVMPointerOwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5BF0C8D208101E7005AF4E5 /* TestLLVMPointerOwnerTypeSpecifier.cpp */; };
 		F5BF0C902081028F005AF4E5 /* TestLLVMPointerOwnerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5BF0C8F2081028E005AF4E5 /* TestLLVMPointerOwnerType.cpp */; };
+		F5C0E7C2208FB6DD0028BBD0 /* GetOriginalObjectNameFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C0E7C1208FB6DD0028BBD0 /* GetOriginalObjectNameFunction.cpp */; };
+		F5C0E7C3208FB6DD0028BBD0 /* GetOriginalObjectNameFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C0E7C1208FB6DD0028BBD0 /* GetOriginalObjectNameFunction.cpp */; };
+		F5C0E7C5208FB91C0028BBD0 /* TestGetOriginalObjectNameFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C0E7C4208FB91C0028BBD0 /* TestGetOriginalObjectNameFunction.cpp */; };
 		F5C2B80C20764DA3008CB77F /* TestBindAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C2B80B20764DA3008CB77F /* TestBindAction.cpp */; };
 		F5C6FD651E48AB3B0054209D /* CharType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD641E48AB3B0054209D /* CharType.cpp */; };
 		F5C6FD661E48AB3B0054209D /* CharType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD641E48AB3B0054209D /* CharType.cpp */; };
@@ -1837,6 +1840,9 @@
 		F5BF0C8B2081014B005AF4E5 /* TestDestroyNativeObjectFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestDestroyNativeObjectFunction.cpp; path = tests/TestDestroyNativeObjectFunction.cpp; sourceTree = "<group>"; };
 		F5BF0C8D208101E7005AF4E5 /* TestLLVMPointerOwnerTypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMPointerOwnerTypeSpecifier.cpp; path = tests/TestLLVMPointerOwnerTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F5BF0C8F2081028E005AF4E5 /* TestLLVMPointerOwnerType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMPointerOwnerType.cpp; path = tests/TestLLVMPointerOwnerType.cpp; sourceTree = "<group>"; };
+		F5C0E7C0208FB64E0028BBD0 /* GetOriginalObjectNameFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = GetOriginalObjectNameFunction.hpp; path = include/wisey/GetOriginalObjectNameFunction.hpp; sourceTree = "<group>"; };
+		F5C0E7C1208FB6DD0028BBD0 /* GetOriginalObjectNameFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = GetOriginalObjectNameFunction.cpp; path = src/GetOriginalObjectNameFunction.cpp; sourceTree = "<group>"; };
+		F5C0E7C4208FB91C0028BBD0 /* TestGetOriginalObjectNameFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestGetOriginalObjectNameFunction.cpp; path = tests/TestGetOriginalObjectNameFunction.cpp; sourceTree = "<group>"; };
 		F5C2B80B20764DA3008CB77F /* TestBindAction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestBindAction.cpp; path = tests/TestBindAction.cpp; sourceTree = "<group>"; };
 		F5C6FD641E48AB3B0054209D /* CharType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CharType.cpp; path = src/CharType.cpp; sourceTree = "<group>"; };
 		F5C6FD671E48B16F0054209D /* TestCharType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCharType.cpp; path = tests/TestCharType.cpp; sourceTree = "<group>"; };
@@ -2274,6 +2280,7 @@
 				F54ED95E1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp */,
 				F5170193200DC7A900A10B7C /* DestroyPrimitiveArrayFunction.cpp */,
 				F5170196200DCB5700A10B7C /* DestroyReferenceArrayFunction.cpp */,
+				F5C0E7C1208FB6DD0028BBD0 /* GetOriginalObjectNameFunction.cpp */,
 				F5105FB21FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp */,
 				F5752AC12088C52F00C00DE1 /* InstanceOfFunction.cpp */,
 				F52C66591FBF348D00E89B04 /* ThrowReferenceCountExceptionFunction.cpp */,
@@ -2299,6 +2306,7 @@
 				F54ED95D1FE84C9400847A2B /* DestroyOwnerArrayFunction.hpp */,
 				F5170192200DC78500A10B7C /* DestroyPrimitiveArrayFunction.hpp */,
 				F5170195200DCB3D00A10B7C /* DestroyReferenceArrayFunction.hpp */,
+				F5C0E7C0208FB64E0028BBD0 /* GetOriginalObjectNameFunction.hpp */,
 				F5105FB11FD16CE700ACF57B /* GetOriginalObjectFunction.hpp */,
 				F5752AC02088C44800C00DE1 /* InstanceOfFunction.hpp */,
 				F52C66581FBF33C000E89B04 /* ThrowReferenceCountExceptionFunction.hpp */,
@@ -3267,6 +3275,7 @@
 				F5170190200DC64500A10B7C /* TestDestroyPrimitiveArrayFunction.cpp */,
 				F5170198200DCB9100A10B7C /* TestDestroyReferenceArrayFunction.cpp */,
 				F5105FB51FD1767400ACF57B /* TestGetOriginalObjectFunction.cpp */,
+				F5C0E7C4208FB91C0028BBD0 /* TestGetOriginalObjectNameFunction.cpp */,
 				F5190A462088CA3A00BC2D93 /* TestInstanceOfFunction.cpp */,
 				F5105FBE1FD1ABC900ACF57B /* TestThrowReferenceCountExceptionFunction.cpp */,
 			);
@@ -3906,6 +3915,7 @@
 				F582706C205FE32700839EC7 /* TestLLVMFunctionType.cpp in Sources */,
 				F5C6FD6B1E48B33A0054209D /* VoidType.cpp in Sources */,
 				F54DC5C22073B9B700841E0F /* ParameterLLVMVariable.cpp in Sources */,
+				F5C0E7C5208FB91C0028BBD0 /* TestGetOriginalObjectNameFunction.cpp in Sources */,
 				F51DF67B1FDAB2F800475F0B /* IObjectDefinition.cpp in Sources */,
 				F5F396E01E3F8C5700F34296 /* TestObjectBuilder.cpp in Sources */,
 				F5A3635C1F377F84005880B3 /* TestIFieldVariable.cpp in Sources */,
@@ -4121,6 +4131,7 @@
 				F50FF87E208B87EE008EDC40 /* LocalImmutableArrayOwnerVariable.cpp in Sources */,
 				F5609F0C2057C54900664ADD /* TestParameterSystemReferenceVariable.cpp in Sources */,
 				F5D4660020611A4B00C1047A /* TestLLVMFunction.cpp in Sources */,
+				F5C0E7C3208FB6DD0028BBD0 /* GetOriginalObjectNameFunction.cpp in Sources */,
 				F52FF1811F1B8729003F4D37 /* Composer.cpp in Sources */,
 				F54B1467205D66AB0030773F /* LLVMi1Type.cpp in Sources */,
 				F5A67DAE201353300018068F /* TestLocalArrayReferenceVariable.cpp in Sources */,
@@ -4565,6 +4576,7 @@
 				F523D50C206BD4670017D5B4 /* WiseyObjectOwnerType.cpp in Sources */,
 				F507D2651E43551900495E2D /* Model.cpp in Sources */,
 				F53A2C081EEC34E900E76A9E /* ModelOwner.cpp in Sources */,
+				F5C0E7C2208FB6DD0028BBD0 /* GetOriginalObjectNameFunction.cpp in Sources */,
 				F55DB05F1F7914CB0009942C /* IObjectTypeSpecifier.cpp in Sources */,
 				F5C6FD7B1E48B64C0054209D /* FloatType.cpp in Sources */,
 				F5A98A361F9A37910063D626 /* ConstantReference.cpp in Sources */,

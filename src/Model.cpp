@@ -426,8 +426,13 @@ void Model::initializeFields(IRGenerationContext& context,
     Value* argumentValue = argument->getValue(context, fieldType);
     const IType* argumentType = argument->getType(context);
     if (!argumentType->canAutoCastTo(context, fieldType)) {
-      Log::e_deprecated("Model builder argument value for field " + argumentName +
-             " does not match its type");
+      context.reportError(line, "Model builder argument value for field " + argumentName +
+                          " does not match its type");
+      exit(1);
+    }
+    if (argumentType->isController() || argumentType->isNode()) {
+      context.reportError(line, "Attempting to initialize a model with a mutable type. "
+                          "Models can only contain primitives, other models or immutable arrays");
       exit(1);
     }
     Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);

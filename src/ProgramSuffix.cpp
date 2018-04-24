@@ -27,6 +27,7 @@
 #include "wisey/ExpressionStatement.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/GetOriginalObjectFunction.hpp"
+#include "wisey/GetOriginalObjectNameFunction.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Identifier.hpp"

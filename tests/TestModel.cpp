@@ -719,9 +719,10 @@ TEST_F(ModelTest, buildIncorrectArgumentTypeDeathTest) {
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
   
-  EXPECT_EXIT(mStarModel->build(mContext, argumentList, 0),
+  EXPECT_EXIT(mStarModel->build(mContext, argumentList, 3),
               ::testing::ExitedWithCode(1),
-              "Error: Model builder argument value for field mBirthdate does not match its type");
+              "/tmp/source.yz\\(3\\): Error: "
+              "Model builder argument value for field mBirthdate does not match its type");
 }
 
 TEST_F(ModelTest, buildNotAllFieldsAreSetDeathTest) {
@@ -936,6 +937,13 @@ TEST_F(TestFileRunner, modelWithNodeArrayDeathRunTest) {
                     1,
                     "tests/samples/test_model_with_node_array.yz\\(14\\): Error: "
                     "Array fields in models can only be of immutable array owner type");
+}
+
+TEST_F(TestFileRunner, modelWithInterfaceFieldInitWithControllerDeathRunTest) {
+  expectFailCompile("tests/samples/test_model_with_interface_field_init_with_controller.yz",
+                    1,
+                    "tests/samples/test_model_with_interface_field_init_with_controller.yz\\(27\\): Error: "
+                    "Attempting to initialize a model with a mutable type. Models can only contain primitives, other models or immutable arrays");
 }
 
 TEST_F(TestFileRunner, modelWithPrimitiveArrayRceDeathRunTest) {

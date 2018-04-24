@@ -1,0 +1,32 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+interface IWheel {
+  int getWidth();
+}
+
+controller CWheel implements IWheel {
+  public int getWidth() override {
+    return 18;
+  }
+}
+
+model MCar {
+  IWheel* mWheel;
+
+  public int getWheelWidth() {
+    return mWheel.getWidth();
+  }
+}
+
+controller CProgram implements IProgram {
+  inject CWheel* mWheelController;
+
+  public int run() override {
+    MCar* car = builder(MCar).withWheel(mWheelController).build();
+    return car.getWheelWidth();
+  }
+}
+
+bind(IProgram).to(CProgram);
