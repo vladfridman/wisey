@@ -70,11 +70,13 @@ void AdjustReferenceCountFunction::compose(IRGenerationContext& context, llvm::F
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Function::arg_iterator llvmArguments = function->arg_begin();
-  Value* object = &*llvmArguments;
-  object->setName("object");
+  llvm::Argument* llvmArgument = &*llvmArguments;
+  llvmArgument->setName("object");
+  Value* object = llvmArgument;
   llvmArguments++;
-  Value* adjustment = &*llvmArguments;
-  adjustment->setName("adjustment");
+  llvmArgument = &*llvmArguments;
+  llvmArgument->setName("adjustment");
+  Value* adjustment = llvmArgument;
   
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function);
   BasicBlock* ifNullBlock = BasicBlock::Create(llvmContext, "if.null", function);
@@ -110,29 +112,23 @@ void AdjustReferenceCountFunction::compose(IRGenerationContext& context, llvm::F
   
   Value* firstLetter = IRWriter::newLoadInst(context, stringPointer, "firstLetter");
 
-  BasicBlock* safeBlock = BasicBlock::Create(llvmContext, "safe", function);
-  BasicBlock* unsafeBlock = BasicBlock::Create(llvmContext, "unsafe", function);
-  BasicBlock* notModelBlock = BasicBlock::Create(llvmContext, "not.model", function);
+  BasicBlock* ifModelBlock = BasicBlock::Create(llvmContext, "if.model", function);
+  BasicBlock* ifNotModelBlock = BasicBlock::Create(llvmContext, "if.not.model", function);
 
   Value* letterM = ConstantInt::get(Type::getInt8Ty(llvmContext), 77);
   condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, firstLetter, letterM, "");
-  IRWriter::createConditionalBranch(context, safeBlock, notModelBlock, condition);
+  IRWriter::createConditionalBranch(context, ifModelBlock, ifNotModelBlock, condition);
 
-  context.setBasicBlock(notModelBlock);
-  Value* letterT = ConstantInt::get(Type::getInt8Ty(llvmContext), 84);
-  condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, firstLetter, letterT, "");
-  IRWriter::createConditionalBranch(context, safeBlock, unsafeBlock, condition);
-  
-  context.setBasicBlock(safeBlock);
+  context.setBasicBlock(ifModelBlock);
   new AtomicRMWInst(AtomicRMWInst::BinOp::Add,
                     counter,
                     adjustment,
                     AtomicOrdering::Monotonic,
                     SynchronizationScope::CrossThread,
-                    safeBlock);
+                    ifModelBlock);
   IRWriter::createReturnInst(context, NULL);
 
-  context.setBasicBlock(unsafeBlock);
+  context.setBasicBlock(ifNotModelBlock);
   Value* count = IRWriter::newLoadInst(context, counter, "count");
   Value* sum = IRWriter::createBinaryOperator(context, Instruction::Add, count, adjustment, "");
   IRWriter::newStoreInst(context, sum, counter);
