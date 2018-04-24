@@ -8,7 +8,7 @@ import wisey.lang.CCallStack;
  * A producer thread can be in one of 4 states: Not started, Started, Cancelled, Finished
  * Before thread can be started again after it has been cancelled or finished it has to be reset
  */
-controller CProducerThread implements IProducerThread {
+controller CProducerThread implements IThread {
   inject CProducerThreadRunner* mProducerThreadRunner;
   inject CCallStack* mCallStack;
   state IProducer* mProducer;
@@ -33,7 +33,7 @@ controller CProducerThread implements IProducerThread {
    *
    * This is called from an outside thread through a reveal method
    */
-  public boolean isStarted() override reveal {
+  public boolean isStarted() reveal {
     return mProducerThreadRunner.isStarted();
   }
 
@@ -42,7 +42,7 @@ controller CProducerThread implements IProducerThread {
    *
    * This is called from an outside thread through a reveal method
    */
-  public boolean isFinished() override reveal {
+  public boolean isFinished() reveal {
     return mProducerThreadRunner.isFinished();
   }
 
@@ -51,7 +51,7 @@ controller CProducerThread implements IProducerThread {
    *
    * This is called from an outside thread through a reveal method
    */
-  public boolean isCancelled() override reveal {
+  public boolean isCancelled() reveal {
     return mProducerThreadRunner.isCancelled();
   }
 
@@ -61,7 +61,7 @@ controller CProducerThread implements IProducerThread {
    *
    * This is called from an outside thread through a reveal method
    */
-  public void cancel() override reveal {
+  public void cancel() reveal {
     mProducerThreadRunner.cancelThread();
   }
 
@@ -71,7 +71,7 @@ controller CProducerThread implements IProducerThread {
    *
    * This is called from an outside thread through a reveal method
    */
-  public void reset() override reveal {
+  public void reset() reveal {
     mProducerThreadRunner.resetThread();
   }
 
@@ -81,7 +81,7 @@ controller CProducerThread implements IProducerThread {
    *
    * This is called from an outside thread through a reveal method
    */
-  public boolean hasResult() override reveal {
+  public boolean hasResult() reveal {
     return mProducerThreadRunner.hasResult();
   }
 
@@ -91,7 +91,7 @@ controller CProducerThread implements IProducerThread {
    *
    * This is called from an outside thread through a reveal method
    */
-  public ::wisey::model* consume() override reveal {
+  public ::wisey::model* consume() reveal {
     return mProducerThreadRunner.consumeResult();
   }
 

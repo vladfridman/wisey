@@ -7,7 +7,7 @@ import wisey.lang.threads.IWorker;
 model MWorker implements IWorker {
 
   public void work() override {
-    thread.isStarted();
+    ((CWorkerThread) thread).isStarted();
   }
 }
 

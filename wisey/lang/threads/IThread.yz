@@ -31,31 +31,6 @@ interface IThread {
   CCallStack getCallStack() conceal;
 
   /**
-   * Tells whether the thread has started running
-   */
-  boolean isStarted() reveal;
-  
-  /**
-   * Tells whether the thread has finished execution
-   */
-  boolean isFinished() reveal;
-  
-  /**
-   * Tells whether the thread was cancelled
-   */
-  boolean isCancelled() reveal;
-
-  /**
-   * Cancel expecution of the thread
-   */
-  void cancel() reveal;
-
-  /**
-   * Resets the thread to its pre-start state
-   */
-  void reset() reveal;
-
-  /**
    * Method for putting the current thread to sleep
    */
   static void sleep(int seconds) {

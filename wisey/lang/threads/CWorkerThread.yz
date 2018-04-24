@@ -8,7 +8,7 @@ import wisey.lang.CCallStack;
  * A worker thread can be in one of 4 states: Not started, Started, Cancelled, Finished
  * Before thread can be started again after it has been cancelled or finished it has to be reset
  */
-controller CWorkerThread implements IWorkerThread {
+controller CWorkerThread implements IThread {
   inject CWorkerThreadRunner* mWorkerThreadRunner;
   inject CCallStack* mCallStack;
   state IWorker* mWorker;
@@ -33,7 +33,7 @@ controller CWorkerThread implements IWorkerThread {
    *
    * This is called from an outside thread through a reveal method
    */
-  public boolean isStarted() override reveal {
+  public boolean isStarted() reveal {
     return mWorkerThreadRunner.isStarted();
   }
 
@@ -42,7 +42,7 @@ controller CWorkerThread implements IWorkerThread {
    *
    * This is called from an outside thread through a reveal method
    */
-  public boolean isFinished() override reveal {
+  public boolean isFinished() reveal {
     return mWorkerThreadRunner.isFinished();
   }
 
@@ -51,7 +51,7 @@ controller CWorkerThread implements IWorkerThread {
    *
    * This is called from an outside thread through a reveal method
    */
-  public boolean isCancelled() override reveal {
+  public boolean isCancelled() reveal {
     return mWorkerThreadRunner.isCancelled();
   }
 
@@ -61,7 +61,7 @@ controller CWorkerThread implements IWorkerThread {
    *
    * This is called from an outside thread through a reveal method
    */
-  public ::wisey::model* awaitResult() override reveal {
+  public ::wisey::model* awaitResult() reveal {
     mWorkerThreadRunner.joinThread();
 
     return mWorkerThreadRunner.getResult();
@@ -73,7 +73,7 @@ controller CWorkerThread implements IWorkerThread {
    *
    * This is called from an outside thread through a reveal method
    */
-  public void cancel() override reveal {
+  public void cancel() reveal {
     mWorkerThreadRunner.cancelThread();
   }
 
@@ -83,7 +83,7 @@ controller CWorkerThread implements IWorkerThread {
    *
    * This is called from an outside thread through a reveal method
    */
-  public void reset() override reveal {
+  public void reset() reveal {
     mWorkerThreadRunner.resetThread();
   }
 

@@ -17,7 +17,7 @@ controller CProducerThreadRunner implements IThreadRunner {
   /**
    * Creates new posix thread that calls runBridge function that in turn calls thread's run method
    */
-  public void createThread(IProducerThread producerThread, int size) {
+  public void createThread(IThread producerThread, int size) {
     if (mMyNativeThread) {
       return;
     }

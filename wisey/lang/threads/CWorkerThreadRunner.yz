@@ -14,7 +14,7 @@ controller CWorkerThreadRunner implements IThreadRunner {
   /**
    * Creates new posix thread that calls runBridge function that in turn calls thread's run method
    */
-  public void createThread(IWorkerThread workerThread) {
+  public void createThread(IThread workerThread) {
     if (mMyNativeThread) {
       return;
     }
