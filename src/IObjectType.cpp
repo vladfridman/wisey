@@ -15,7 +15,6 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Names.hpp"
-#include "wisey/ThreadExpression.hpp"
 
 using namespace std;
 using namespace llvm;

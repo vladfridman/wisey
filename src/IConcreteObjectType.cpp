@@ -617,10 +617,8 @@ void IConcreteObjectType::printTypeKind(const IConcreteObjectType* type, iostrea
     stream << "node";
   } else if (type->isInterface()) {
     stream << "interface";
-  } else if (type->isController()) {
-    stream << "controller";
   } else {
-    stream << "thread";
+    stream << "controller";
   }
 }
 

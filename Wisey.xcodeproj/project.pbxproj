@@ -1863,7 +1863,6 @@
 		F5CB180E1EB0C24D007E2E43 /* TestIntrinsicFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIntrinsicFunctions.cpp; path = tests/TestIntrinsicFunctions.cpp; sourceTree = "<group>"; };
 		F5CB18101EB0C615007E2E43 /* TryCatchStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TryCatchStatement.cpp; path = src/TryCatchStatement.cpp; sourceTree = "<group>"; };
 		F5CB18121EB0D96A007E2E43 /* Catch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Catch.cpp; path = src/Catch.cpp; sourceTree = "<group>"; };
-		F5CB7F3B2049FBE4007628B5 /* IThreadTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IThreadTypeSpecifier.hpp; path = include/wisey/IThreadTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F5CB7F4E204B7D89007628B5 /* TestStackTrace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestStackTrace.cpp; path = tests/TestStackTrace.cpp; sourceTree = "<group>"; };
 		F5CB7F64205116D4007628B5 /* FieldLLVMVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FieldLLVMVariable.cpp; path = src/FieldLLVMVariable.cpp; sourceTree = "<group>"; };
 		F5CB7F67205116F9007628B5 /* FieldLLVMVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = FieldLLVMVariable.hpp; path = include/wisey/FieldLLVMVariable.hpp; sourceTree = "<group>"; };
@@ -2693,7 +2692,6 @@
 				F5A67DB420163A460018068F /* IReferenceType.hpp */,
 				F5885F641FB4F52A00E69D17 /* IReferenceVariable.hpp */,
 				F5089C811ECD01D9004A1223 /* IStatement.hpp */,
-				F5CB7F3B2049FBE4007628B5 /* IThreadTypeSpecifier.hpp */,
 				F5089C821ECD01D9004A1223 /* IType.hpp */,
 				F5089C831ECD01D9004A1223 /* ITypeSpecifier.hpp */,
 				F5089C841ECD01D9004A1223 /* IVariable.hpp */,

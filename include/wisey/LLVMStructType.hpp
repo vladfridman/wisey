@@ -38,12 +38,12 @@ namespace wisey {
     static std::string LLVM_STRUCT_PREFIX;
     
     /**
-     * static method for thread instantiation
+     * static method for llvm struct instantiation
      */
     static LLVMStructType* newLLVMStructType(llvm::StructType* structType);
     
     /**
-     * static method for external thread instantiation
+     * static method for external llvm struct instantiation
      */
     static LLVMStructType* newExternalLLVMStructType(llvm::StructType* structType);
 

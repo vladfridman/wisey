@@ -16,7 +16,6 @@
 #include "wisey/LocalSystemReferenceVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Scopes.hpp"
-#include "wisey/ThreadExpression.hpp"
 
 using namespace std;
 using namespace llvm;
