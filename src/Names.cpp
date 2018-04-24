@@ -59,12 +59,16 @@ string Names::getCallStackControllerFullName() {
   return getLangPackageName() + "." + getCallStackControllerName();
 }
 
-string Names::getThreadPushStack() {
+string Names::getPushStackMethodName() {
   return "pushStack";
 }
 
-string Names::getThreadPopStack() {
+string Names::getPopStackMethoName() {
   return "popStack";
+}
+
+string Names::getSetLineNumberMethodName() {
+  return "setLine";
 }
 
 string Names::getCurrentObjectVariableName() {

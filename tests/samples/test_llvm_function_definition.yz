@@ -5,7 +5,6 @@ import wisey.lang.CCallStack;
 controller CService {
 
   public ::llvm::function ::wisey::object runBridge(::llvm::i8::pointer argument) {
-
     return argument;
   }
 }

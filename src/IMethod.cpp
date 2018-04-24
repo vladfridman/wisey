@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/Composer.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
@@ -80,6 +81,7 @@ void IMethod::maybeAddImpliedVoidReturn(IRGenerationContext& context,
   }
   
   context.getScopes().freeOwnedMemory(context, line);
+  Composer::popCallStack(context);
   IRWriter::createReturnInst(context, NULL);
 }
 

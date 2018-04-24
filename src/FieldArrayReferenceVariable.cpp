@@ -63,13 +63,11 @@ Value* FieldArrayReferenceVariable::generateAssignmentIR(IRGenerationContext& co
                                                      IExpression* assignToExpression,
                                                      vector<const IExpression*> arrayIndices,
                                                      int line) {
-  Composer::pushCallStack(context, line);
-  
+  Composer::setLineNumber(context, line);
+
   Value* result = arrayIndices.size()
   ? generateArrayElementAssignment(context, assignToExpression, arrayIndices, line)
   : generateWholeArrayAssignment(context, assignToExpression, line);
-  
-  Composer::popCallStack(context);
   
   return result;
 }

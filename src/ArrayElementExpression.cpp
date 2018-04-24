@@ -48,10 +48,9 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   const ArrayType* arrayType = expressionType->getArrayType(context);
   Value* arrayStructPointer = mArrayExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
   
-  Composer::pushCallStack(context, mLine);
+  Composer::setLineNumber(context, mLine);
   CheckForNullAndThrowFunction::call(context, arrayStructPointer);
   Value* pointer = getArrayElement(context, arrayStructPointer, mArrayIndexExpresion);
-  Composer::popCallStack(context);
   
   if (arrayType->getNumberOfDimensions() > 1) {
     Type* resultType = getType(context)->getLLVMType(context);

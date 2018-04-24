@@ -8,6 +8,7 @@
 
 #include "wisey/Argument.hpp"
 #include "wisey/Cleanup.hpp"
+#include "wisey/Composer.hpp"
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
@@ -166,10 +167,9 @@ void StaticMethod::generateIR(IRGenerationContext& context) const {
   context.setBasicBlock(basicBlock);
   
   defineCurrentMethodNameVariable(context, mName);
-
   createArguments(context, function);
+  Composer::pushCallStack(context, mLine);
   mCompoundStatement->generateIR(context);
-  
   IMethod::maybeAddImpliedVoidReturn(context, this, mLine);
   IMethod::checkForUnhandledExceptions(context, this);
   

@@ -135,6 +135,8 @@ external controller wisey.lang.CCallStack {
     string methodName,
     string fileName,
     int lineNumber);
+  void setLine(
+    int lineNumber);
   void popStack();
   void dumpStack();
   void reportException(

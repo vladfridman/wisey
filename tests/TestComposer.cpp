@@ -143,3 +143,15 @@ TEST_F(ComposerTest, popCallStackTest) {
   
   mStringBuffer.clear();
 }
+
+TEST_F(ComposerTest, setLineNumberTestTest) {
+  Composer::setLineNumber(mContext, 5);
+  
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  call void @wisey.lang.CCallStack.setLine(%wisey.lang.CCallStack* null, %wisey.lang.threads.IThread* null, %wisey.lang.CCallStack* null, i32 5)\n";
+  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  
+  mStringBuffer.clear();
+}

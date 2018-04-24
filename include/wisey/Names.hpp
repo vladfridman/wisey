@@ -83,13 +83,18 @@ namespace wisey {
     /**
      * Get the method for pushing the call stack
      */
-    static std::string getThreadPushStack();
+    static std::string getPushStackMethodName();
     
     /**
      * Get the method for popping the call stack
      */
-    static std::string getThreadPopStack();
+    static std::string getPopStackMethoName();
     
+    /**
+     * Get the method for setting the current line number
+     */
+    static std::string getSetLineNumberMethodName();
+
     /**
      * Variable name containing current object name
      */

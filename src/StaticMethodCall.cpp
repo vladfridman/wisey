@@ -113,11 +113,9 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
   }
   string resultName = function->getReturnType()->isVoidTy() ? "" : "call";
   
-  Composer::pushCallStack(context, mLine);
-  
+  Composer::setLineNumber(context, mLine);
+
   Value* result = IRWriter::createInvokeInst(context, function, arguments, resultName, mLine);
-  
-  Composer::popCallStack(context);
   
   const IType* returnType = methodDescriptor->getReturnType();
   if (!returnType->isOwner() || assignToType->isOwner()) {

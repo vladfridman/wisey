@@ -259,7 +259,6 @@ TEST_F(TestFileRunner, returnReferenceToFreedObjectRunDeathTest) {
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CService.newData(tests/samples/test_return_reference_to_freed_object.yz:15)\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_return_reference_to_freed_object.yz:23)\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_return_reference_to_freed_object.yz:23)\n"
                                "Details: Object referenced by expression still has 1 active reference\n"
                                "Main thread ended without a result\n");
 }

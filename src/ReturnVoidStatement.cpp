@@ -6,11 +6,12 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Instructions.h>
+
+#include "wisey/Composer.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/ReturnVoidStatement.hpp"
-
-#include <llvm/IR/Instructions.h>
 
 using namespace llvm;
 using namespace wisey;
@@ -20,7 +21,8 @@ ReturnVoidStatement::ReturnVoidStatement(int line) : mLine(line) { }
 ReturnVoidStatement::~ReturnVoidStatement() { }
 
 void ReturnVoidStatement::generateIR(IRGenerationContext& context) const {
+  Composer::setLineNumber(context, mLine);
   context.getScopes().freeOwnedMemory(context, mLine);
-
+  Composer::popCallStack(context);
   IRWriter::createReturnInst(context, NULL);
 }

@@ -87,9 +87,8 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
                                                  const IType* assignToType) const {
   Value* objectValue = mExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
 
-  Composer::pushCallStack(context, mLine);
+  Composer::setLineNumber(context, mLine);
   CheckForNullAndThrowFunction::call(context, objectValue);
-  Composer::popCallStack(context);
 
   FunctionType* functionType =
     IMethod::getLLVMFunctionType(context, methodDescriptor, interface, mLine);
@@ -128,9 +127,8 @@ Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
   Value* objectValue = mExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
   Function* function = getMethodFunction(context, methodDescriptor);
 
-  Composer::pushCallStack(context, mLine);
+  Composer::setLineNumber(context, mLine);
   CheckForNullAndThrowFunction::call(context, objectValue);
-  Composer::popCallStack(context);
 
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
   Value* threadObject = threadVariable->generateIdentifierIR(context);
@@ -184,8 +182,8 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
                                       const IMethodDescriptor* methodDescriptor,
                                       vector<Value*> arguments,
                                       const IType* assignToType) const {
-  Composer::pushCallStack(context, mLine);
-  
+  Composer::setLineNumber(context, mLine);
+
   vector<const Argument*> methodArguments = methodDescriptor->getArguments();
   vector<const Argument*>::iterator methodArgumentIterator = methodArguments.begin();
   for (const IExpression* callArgument : mArguments) {
@@ -204,8 +202,6 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
   
   Value* result = IRWriter::createInvokeInst(context, function, arguments, "", mLine);
   
-  Composer::popCallStack(context);
-
   const IType* returnType = methodDescriptor->getReturnType();
   if (!returnType->isOwner() || assignToType->isOwner()) {
     return result;

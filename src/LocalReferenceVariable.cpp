@@ -68,7 +68,7 @@ Value* LocalReferenceVariable::generateAssignmentIR(IRGenerationContext& context
                                                     IExpression* assignToExpression,
                                                     vector<const IExpression*> arrayIndices,
                                                     int line) {
-  Composer::pushCallStack(context, line);
+  Composer::setLineNumber(context, line);
   
   Value* assignToValue = assignToExpression->generateIR(context, mType);
   const IType* assignToType = assignToExpression->getType(context);
@@ -79,8 +79,6 @@ Value* LocalReferenceVariable::generateAssignmentIR(IRGenerationContext& context
   IRWriter::newStoreInst(context, newValue, mValueStore);
 
   mIsInitialized = true;
-  
-  Composer::popCallStack(context);
 
   return newValue;
 }

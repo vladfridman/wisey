@@ -62,8 +62,8 @@ Value* FieldOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
                                                 int line) {
   IField* field = checkAndFindFieldForAssignment(context, mObject, mName);
 
-  Composer::pushCallStack(context, line);
-  
+  Composer::setLineNumber(context, line);
+
   const IType* expressionType = assignToExpression->getType(context);
   const IType* fieldType = field->getType();
   if (!expressionType->canAutoCastTo(context, fieldType)) {
@@ -78,11 +78,7 @@ Value* FieldOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
 
   ((const IOwnerType*) field->getType())->free(context, fieldPointerLoaded, line);
   
-  Value* value = IRWriter::newStoreInst(context, cast, fieldPointer);
-
-  Composer::popCallStack(context);
-  
-  return value;
+  return IRWriter::newStoreInst(context, cast, fieldPointer);
 }
 
 void FieldOwnerVariable::setToNull(IRGenerationContext& context) {

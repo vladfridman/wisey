@@ -8,7 +8,6 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/Composer.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Model.hpp"
@@ -109,14 +108,8 @@ void Scope::freeOwnedMemory(IRGenerationContext& context, int line) {
     return;
   }
   
-  if (line && mOwnerVariables.size()) {
-    Composer::pushCallStack(context, line);
-  }
   for (IOwnerVariable* ownerVariable : mOwnerVariables) {
     ownerVariable->free(context, line);
-  }
-  if (line && mOwnerVariables.size()) {
-    Composer::popCallStack(context);
   }
 }
 

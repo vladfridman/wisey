@@ -31,6 +31,15 @@ namespace wisey {
      */
     static void popCallStack(IRGenerationContext& context);
     
+    /**
+     * Sets the current line number in the latest entry in the call stack
+     */
+    static void setLineNumber(IRGenerationContext& context, int line);
+    
+  private:
+    
+    static bool shouldSkip(IRGenerationContext& context);
+    
   };
   
 } /* namespace wisey */

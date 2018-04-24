@@ -67,7 +67,7 @@ Value* ParameterArrayReferenceVariable::generateAssignmentIR(IRGenerationContext
     exit(1);
   }
   
-  Composer::pushCallStack(context, line);
+  Composer::setLineNumber(context, line);
   
   Value* elementStore = ArrayElementExpression::generateElementIR(context,
                                                                   mArrayType,
@@ -79,8 +79,6 @@ Value* ParameterArrayReferenceVariable::generateAssignmentIR(IRGenerationContext
                                                                     assignToExpression,
                                                                     elementStore,
                                                                     line);
-
-  Composer::popCallStack(context);
   
   return result;
 }

@@ -7,6 +7,7 @@
 //
 
 #include "wisey/AutoCast.hpp"
+#include "wisey/Composer.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IVariable.hpp"
@@ -32,6 +33,8 @@ void ReturnStatement::generateIR(IRGenerationContext& context) const {
     exit(1);
   }
   
+  Composer::setLineNumber(context, mLine);
+
   Value* result = AutoCast::maybeCast(context,
                                       mExpression->getType(context),
                                       mExpression->generateIR(context, returnType),
@@ -46,7 +49,8 @@ void ReturnStatement::generateIR(IRGenerationContext& context) const {
   if (returnType->isReference() && !returnType->isNative()) {
     ((const IReferenceType*) returnType)->decrementReferenceCount(context, result);
   }
-  
+
+  Composer::popCallStack(context);
   IRWriter::createReturnInst(context, result);
 }
 

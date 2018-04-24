@@ -115,7 +115,7 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
   CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
   MethodDefinition* pushStackMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                                            voidTypeSpecifier,
-                                                           Names::getThreadPushStack(),
+                                                           Names::getPushStackMethodName(),
                                                            arguments,
                                                            exceptions,
                                                            new MethodQualifiers(0),
@@ -128,13 +128,29 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
   compoundStatement = new CompoundStatement(block, 0);
   MethodDefinition* popStackMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                                           voidTypeSpecifier,
-                                                          Names::getThreadPopStack(),
+                                                          Names::getPopStackMethoName(),
                                                           arguments,
                                                           exceptions,
                                                           new MethodQualifiers(0),
                                                           compoundStatement,
                                                           0);
-  
+ 
+  arguments.clear();
+  intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+  declaration = VariableDeclaration::create(intTypeSpecifier, new Identifier("lineNumber", 0), 0);
+  arguments.push_back(declaration);
+  voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier(0);
+  block = new Block();
+  compoundStatement = new CompoundStatement(block, 0);
+  MethodDefinition* setLineNumberMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
+                                                          voidTypeSpecifier,
+                                                          Names::getSetLineNumberMethodName(),
+                                                          arguments,
+                                                          exceptions,
+                                                          new MethodQualifiers(0),
+                                                          compoundStatement,
+                                                          0);
+
   PackageType* packageType = new PackageType(Names::getLangPackageName());
   FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
   ControllerTypeSpecifierFull* controllerTypeSpecifier =
@@ -142,7 +158,8 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
   vector<IObjectElementDefinition*> elementDeclarations;
   elementDeclarations.push_back(pushStackMethod);
   elementDeclarations.push_back(popStackMethod);
-  
+  elementDeclarations.push_back(setLineNumberMethod);
+
   vector<IInterfaceTypeSpecifier*> interfaceSpecifiers;
   vector<IObjectDefinition*> innerObjectDefinitions;
   
