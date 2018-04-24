@@ -101,10 +101,3 @@ TEST_F(TestFileRunner, methodDecalarationImpliedReturnRunTest) {
 TEST_F(TestFileRunner, methodDecalarationMultipleParametersRunTest) {
   runFile("tests/samples/test_method_multiple_arguments.yz", "6");
 }
-
-TEST_F(TestFileRunner, revealedMethodReturningNonImmutableRunDeathTest) {
-  expectFailCompile("tests/samples/test_revealed_method_returning_non_immutable.yz",
-                    1,
-                    "tests/samples/test_revealed_method_returning_non_immutable.yz\\(9\\): "
-                    "Error: Revealed methods can only return primitive or immutable types");
-}

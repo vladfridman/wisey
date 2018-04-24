@@ -13,55 +13,48 @@ controller CWorkerThread implements IThread {
   inject CCallStack* mCallStack;
   state IWorker* mWorker;
 
-  public void run() override conceal {
-    mWorker.work();
-  }
-
   /**
    * Starts the given thread with the given worker implementation
    *
    * Calling this method after the thread has already been started has no effect
    * This is called from an outside thread through a reveal method
    */
-  public void start(::wisey::model* worker) reveal {
+  public void start(::wisey::model* worker) {
+    outsideThreadGuard(this);
     mWorker = worker;
     mWorkerThreadRunner.createThread(this);
   }
 
   /**
    * Tells whether the thread has been started
-   *
-   * This is called from an outside thread through a reveal method
    */
-  public boolean isStarted() reveal {
+  public boolean isStarted() {
+    outsideThreadGuard(this);
     return mWorkerThreadRunner.isStarted();
   }
 
   /**
    * Tells whether the thread has finished execution and has the result
-   *
-   * This is called from an outside thread through a reveal method
    */
-  public boolean isFinished() reveal {
+  public boolean isFinished() {
+    outsideThreadGuard(this);
     return mWorkerThreadRunner.isFinished();
   }
 
   /**
    * Tells whether the thread execution has been cancelled
-   *
-   * This is called from an outside thread through a reveal method
    */
-  public boolean isCancelled() reveal {
+  public boolean isCancelled() {
+    outsideThreadGuard(this);
     return mWorkerThreadRunner.isCancelled();
   }
 
   /**
    * Waits for the thread to finish and returns back the result
    * If the thread has been canceled or finished or not started then returns result immediately
-   *
-   * This is called from an outside thread through a reveal method
    */
-  public ::wisey::model* awaitResult() reveal {
+  public ::wisey::model* awaitResult() {
+    outsideThreadGuard(this);
     mWorkerThreadRunner.joinThread();
 
     return mWorkerThreadRunner.getResult();
@@ -70,48 +63,39 @@ controller CWorkerThread implements IThread {
   /**
    * Cancel thread execution from antoher thread
    * If the thread has been already canceled or finished or not started then this has no effect
-   *
-   * This is called from an outside thread through a reveal method
    */
-  public void cancel() reveal {
+  public void cancel() {
+    outsideThreadGuard(this);
     mWorkerThreadRunner.cancelThread();
   }
 
   /**
    * Reset the thread to its initial state so it can be started again
    * Calling this when the thread is in Started or Not Started state has no effect
-   *
-   * This is called from an outside thread through a reveal method
    */
-  public void reset() reveal {
+  public void reset() {
+    outsideThreadGuard(this);
     mWorkerThreadRunner.resetThread();
   }
 
-  /**
-   * Exits thread with null as a result. This is called from within the thread
-   *
-   * This is called from within the thread through a conceal method
-   */
-  public void exit() override conceal {
+  public void exit() override {
+    insideThreadGuard(this);
     mWorkerThreadRunner.exitThread();
   }
 
-  /**
-   * Sets thread result to the given model object
-   *
-   * This is called from within the thread through a conceal method
-   */
-  public ::wisey::model* send(::wisey::model* message) override conceal {
+  public ::wisey::model* send(::wisey::model* message) override {
+    insideThreadGuard(this);
     mWorkerThreadRunner.setResult(message);
     return null;
   }
 
-  /**
-   * Returns the callstack controller for the worker thread
-   *
-   * This is called from within the thread through a conceal method
-   */
-  public CCallStack getCallStack() override conceal {
+  public CCallStack getCallStack() override {
+    insideThreadGuard(this);
     return mCallStack;
+  }
+
+  public void run() override {
+    insideThreadGuard(this);
+    mWorker.work();
   }
 }

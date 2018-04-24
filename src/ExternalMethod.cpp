@@ -95,14 +95,6 @@ bool ExternalMethod::isLLVMFunction() const {
   return false;
 }
 
-bool ExternalMethod::isConceal() const {
-  return mMethodQualifiers->getMethodQualifierSet().count(MethodQualifier::CONCEAL);
-}
-
-bool ExternalMethod::isReveal() const {
-  return mMethodQualifiers->getMethodQualifierSet().count(MethodQualifier::REVEAL);
-}
-
 bool ExternalMethod::isOverride() const {
   return mMethodQualifiers->getMethodQualifierSet().count(MethodQualifier::OVERRIDE);
 }

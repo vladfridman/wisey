@@ -40,10 +40,13 @@ interface IThreadRunner {
         exception.getArraySize() + "\n");
     } catch (MStackOverflowException* exception) {
       thread.getCallStack().reportException(exception);
-    } catch (MThreadConcealedMethodException* exception) {
+    } catch (MThreadBoundaryException* exception) {
       thread.getCallStack().reportException(exception);
-    } catch (MThreadRevealedMethodException* exception) {
-      thread.getCallStack().reportException(exception);
+      if (exception.isMethodInternal()) {
+        printerr("Details: method internal to the thread is called from outside the thread\n");
+      } else {
+        printerr("Details: method external to the thread is called from inside the thread\n");
+      }
     }
     
     thread.exit();

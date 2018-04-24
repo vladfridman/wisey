@@ -236,14 +236,6 @@ bool StaticMethod::isLLVMFunction() const {
   return false;
 }
 
-bool StaticMethod::isConceal() const {
-  return false;
-}
-
-bool StaticMethod::isReveal() const {
-  return false;
-}
-
 bool StaticMethod::isOverride() const {
   return false;
 }

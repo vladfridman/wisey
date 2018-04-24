@@ -172,38 +172,12 @@ void Method::generateIR(IRGenerationContext& context) const {
 
   createArguments(context, function);
 
-  if (isReveal() || isConceal()) {
-    addThreadGuard(context, function);
-  }
-
   mCompoundStatement->generateIR(context);
   
   IMethod::maybeAddImpliedVoidReturn(context, this, mLine);
   IMethod::checkForUnhandledExceptions(context, this);
 
   scopes.popScope(context, mLine);
-}
-
-void Method::addThreadGuard(IRGenerationContext& context, Function* function) const {
-  Function::arg_iterator llvmFunctionArguments = function->arg_begin();
-  Value* thisValue = &*llvmFunctionArguments;
-  llvmFunctionArguments++;
-  Value* threadValue = &*llvmFunctionArguments;
-  llvmFunctionArguments++;
-  Value* callstackValue = &*llvmFunctionArguments;
-
-  std::string guardFunctionName = isReveal()
-  ? Names::getCheckRevealedMethodCallFunctionName()
-  : Names::getCheckConcealedMethodCallFunctionName();
-  Function* threadGuardFunction = context.getModule()->getFunction(guardFunctionName);
-  assert(threadGuardFunction);
-  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), mLine);
-  Value* thisCastToThread = mObjectType->castTo(context, thisValue, threadInterface, mLine);
-  vector<Value*> arguments;
-  arguments.push_back(threadValue);
-  arguments.push_back(callstackValue);
-  arguments.push_back(thisCastToThread);
-  IRWriter::createCallInst(context, threadGuardFunction, arguments, "");
 }
 
 void Method::createArguments(IRGenerationContext& context, Function* function) const {
@@ -272,14 +246,6 @@ bool Method::isMethodSignature() const {
 
 bool Method::isLLVMFunction() const {
   return false;
-}
-
-bool Method::isConceal() const {
-  return mMethodQualifiers->getMethodQualifierSet().count(MethodQualifier::CONCEAL);
-}
-
-bool Method::isReveal() const {
-  return mMethodQualifiers->getMethodQualifierSet().count(MethodQualifier::REVEAL);
 }
 
 bool Method::isOverride() const {

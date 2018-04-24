@@ -19,17 +19,17 @@ external interface wisey.lang.threads.IProducer {
 
 external interface wisey.lang.threads.IThread {
 
-  void run() conceal;
+  void run();
   ::wisey::model* send(
-    ::wisey::model* message) conceal;
-  void exit() conceal;
-  wisey.lang.CCallStack getCallStack() conceal;
+    ::wisey::model* message);
+  void exit();
+  wisey.lang.CCallStack getCallStack();
   static void sleep(
     int seconds);
-  static void checkConcealedMethodCall(
-    wisey.lang.threads.IThread object) throws wisey.lang.threads.MThreadConcealedMethodException;
-  static void checkRevealedMethodCall(
-    wisey.lang.threads.IThread object) throws wisey.lang.threads.MThreadRevealedMethodException;
+  static void insideThreadGuard(
+    wisey.lang.threads.IThread object) throws wisey.lang.threads.MThreadBoundaryException;
+  static void outsideThreadGuard(
+    wisey.lang.threads.IThread object) throws wisey.lang.threads.MThreadBoundaryException;
 }
 
 external interface wisey.lang.threads.IThreadRunner {
@@ -108,18 +108,14 @@ external model wisey.lang.MStackOverflowException
   string getName() override;
 }
 
-external model wisey.lang.threads.MThreadConcealedMethodException
+external model wisey.lang.threads.MThreadBoundaryException
   implements
     wisey.lang.IException {
 
-  string getName() override;
-}
-
-external model wisey.lang.threads.MThreadRevealedMethodException
-  implements
-    wisey.lang.IException {
+  fixed boolean mIsMethodInternal;
 
   string getName() override;
+  boolean isMethodInternal();
 }
 
 /* Controllers */
@@ -153,21 +149,21 @@ external controller wisey.lang.threads.CProducerThread
   inject wisey.lang.CCallStack* mCallStack;
   state wisey.lang.threads.IProducer* mProducer;
 
-  void run() conceal override;
   void start(
     ::wisey::model* producer,
-    int size) reveal;
-  boolean isStarted() reveal;
-  boolean isFinished() reveal;
-  boolean isCancelled() reveal;
-  void cancel() reveal;
-  void reset() reveal;
-  boolean hasResult() reveal;
-  ::wisey::model* consume() reveal;
-  void exit() conceal override;
+    int size);
+  boolean isStarted();
+  boolean isFinished();
+  boolean isCancelled();
+  void cancel();
+  void reset();
+  boolean hasResult();
+  ::wisey::model* consume();
+  void exit() override;
   ::wisey::model* send(
-    ::wisey::model* message) conceal override;
-  wisey.lang.CCallStack getCallStack() conceal override;
+    ::wisey::model* message) override;
+  wisey.lang.CCallStack getCallStack() override;
+  void run() override;
 }
 
 external controller wisey.lang.threads.CProducerThreadRunner
@@ -206,19 +202,19 @@ external controller wisey.lang.threads.CWorkerThread
   inject wisey.lang.CCallStack* mCallStack;
   state wisey.lang.threads.IWorker* mWorker;
 
-  void run() conceal override;
   void start(
-    ::wisey::model* worker) reveal;
-  boolean isStarted() reveal;
-  boolean isFinished() reveal;
-  boolean isCancelled() reveal;
-  ::wisey::model* awaitResult() reveal;
-  void cancel() reveal;
-  void reset() reveal;
-  void exit() conceal override;
+    ::wisey::model* worker);
+  boolean isStarted();
+  boolean isFinished();
+  boolean isCancelled();
+  ::wisey::model* awaitResult();
+  void cancel();
+  void reset();
+  void exit() override;
   ::wisey::model* send(
-    ::wisey::model* message) conceal override;
-  wisey.lang.CCallStack getCallStack() conceal override;
+    ::wisey::model* message) override;
+  wisey.lang.CCallStack getCallStack() override;
+  void run() override;
 }
 
 external controller wisey.lang.threads.CWorkerThreadRunner

@@ -108,14 +108,6 @@ bool LLVMFunction::isStatic() const {
   return true;
 }
 
-bool LLVMFunction::isConceal() const {
-  return false;
-}
-
-bool LLVMFunction::isReveal() const {
-  return false;
-}
-
 bool LLVMFunction::isOverride() const {
   return false;
 }

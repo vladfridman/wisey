@@ -74,11 +74,3 @@ string Names::getCurrentObjectVariableName() {
 string Names::getCurrentMethodVariableName() {
   return "__currentMethod";
 }
-
-string Names::getCheckConcealedMethodCallFunctionName() {
-  return "wisey.lang.threads.IThread.checkConcealedMethodCall";
-}
-
-string Names::getCheckRevealedMethodCallFunctionName() {
-  return "wisey.lang.threads.IThread.checkRevealedMethodCall";
-}

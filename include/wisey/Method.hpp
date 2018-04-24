@@ -77,10 +77,6 @@ namespace wisey {
     
     bool isLLVMFunction() const override;
     
-    bool isConceal() const override;
-
-    bool isReveal() const override;
-    
     bool isOverride() const override;
     
     MethodQualifiers* getMethodQualifiers() const override;
@@ -147,8 +143,6 @@ namespace wisey {
   private:
     
     void createArguments(IRGenerationContext& context, llvm::Function* function) const;
-    
-    void addThreadGuard(IRGenerationContext& context, llvm::Function* function) const;
     
   };
   

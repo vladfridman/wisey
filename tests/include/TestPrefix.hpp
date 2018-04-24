@@ -43,8 +43,6 @@ private:
   
   static wisey::ControllerDefinition* defineCallStackController(wisey::IRGenerationContext&
                                                                 context);
-  
-  static void defineThreadGuardFunctions(wisey::IRGenerationContext& context);
 
 };
 

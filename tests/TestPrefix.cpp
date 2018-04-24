@@ -56,33 +56,6 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   threadInterfaceDefinition->prototypeMethods(context);
   callStackDefinition->prototypeObject(context);
   callStackDefinition->prototypeMethods(context);
-  
-  defineThreadGuardFunctions(context);
-}
-
-void TestPrefix::defineThreadGuardFunctions(IRGenerationContext& context) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Controller* callStackController =
-  context.getController(Names::getCallStackControllerFullName(), 0);
-  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
-  
-  vector<Type*> argumentTypes;
-  argumentTypes.push_back(threadInterface->getLLVMType(context));
-  argumentTypes.push_back(callStackController->getLLVMType(context));
-  argumentTypes.push_back(threadInterface->getLLVMType(context));
-  FunctionType* functionType = FunctionType::get(Type::getVoidTy(llvmContext),
-                                                 argumentTypes,
-                                                 false);
-  
-  Function::Create(functionType,
-                   GlobalValue::ExternalLinkage,
-                   Names::getCheckConcealedMethodCallFunctionName(),
-                   context.getModule());
-  
-  Function::Create(functionType,
-                   GlobalValue::ExternalLinkage,
-                   Names::getCheckRevealedMethodCallFunctionName(),
-                   context.getModule());
 }
 
 void TestPrefix::defineStdErrGlobal(IRGenerationContext& context) {

@@ -120,13 +120,6 @@ TEST_F(TestFileRunner, threadExpressionNotNullRunTest) {
   runFile("tests/samples/test_thread_expression_not_null.yz", "1");
 }
 
-TEST_F(TestFileRunner, threadMethodBothConcealedAndRevealedDeathTest) {
-  expectFailCompile("tests/samples/test_thread_method_both_concealed_and_revealed.yz",
-                    1,
-                    "Error: Method 'exit' in object systems.vos.wisey.compiler.tests.CThread can "
-                    "either be marked with a conceal or reveal qualifier but not both");
-}
-
 TEST_F(TestFileRunner, threadRunRunTest) {
   runFileCheckOutput("tests/samples/test_thread_run.yz",
                      "Thread started = 0, has finished = 0\n"
@@ -217,8 +210,9 @@ TEST_F(TestFileRunner, threadThrowConcealedCallExceptionDeathRunTest) {
   compileAndRunFileCheckOutput("tests/samples/test_thread_throw_concealed_call_exception.yz",
                                1,
                                "",
-                               "Unhandled exception wisey.lang.threads.MThreadConcealedMethodException\n"
+                               "Unhandled exception wisey.lang.threads.MThreadBoundaryException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_thread_throw_concealed_call_exception.yz:19)\n"
+                               "Details: method internal to the thread is called from outside the thread\n"
                                "Main thread ended without a result\n");
 }
 
@@ -226,6 +220,7 @@ TEST_F(TestFileRunner, threadThrowRevealedCallExceptionDeathRunTest) {
   compileAndRunFileCheckOutput("tests/samples/test_thread_throw_revealed_call_exception.yz",
                                0,
                                "",
-                               "Unhandled exception wisey.lang.threads.MThreadRevealedMethodException\n"
-                               "  at systems.vos.wisey.compiler.tests.MWorker.work(tests/samples/test_thread_throw_revealed_call_exception.yz:10)\n");
+                               "Unhandled exception wisey.lang.threads.MThreadBoundaryException\n"
+                               "  at systems.vos.wisey.compiler.tests.MWorker.work(tests/samples/test_thread_throw_revealed_call_exception.yz:10)\n"
+                               "Details: method external to the thread is called from inside the thread\n");
 }

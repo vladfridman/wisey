@@ -69,10 +69,6 @@ namespace wisey {
     bool isMethodSignature() const override;
     
     bool isLLVMFunction() const override;
-    
-    bool isConceal() const override;
-    
-    bool isReveal() const override;
 
     bool isOverride() const override;
     

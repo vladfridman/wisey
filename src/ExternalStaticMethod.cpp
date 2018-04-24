@@ -95,14 +95,6 @@ bool ExternalStaticMethod::isLLVMFunction() const {
   return false;
 }
 
-bool ExternalStaticMethod::isConceal() const {
-  return false;
-}
-
-bool ExternalStaticMethod::isReveal() const {
-  return false;
-}
-
 bool ExternalStaticMethod::isOverride() const {
   return false;
 }

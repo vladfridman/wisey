@@ -75,10 +75,6 @@ namespace wisey {
     
     bool isStatic() const override;
     
-    bool isConceal() const override;
-    
-    bool isReveal() const override;
-    
     bool isOverride() const override;
     
     llvm::FunctionType* getLLVMType(IRGenerationContext& context) const override;

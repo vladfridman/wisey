@@ -1,0 +1,19 @@
+package wisey.lang.threads;
+
+import wisey.lang.IException;
+
+/**
+ * This is thrown when a an internal thread method is called from outside the thread or 
+ * externally visible thread method is called from inside the thread.
+ */
+model MThreadBoundaryException implements IException {
+  boolean mIsMethodInternal;
+
+  public string getName() override {
+    return "wisey.lang.threads.MThreadBoundaryException";
+  }
+
+  public boolean isMethodInternal() {
+    return mIsMethodInternal;
+  }
+}
