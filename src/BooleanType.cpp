@@ -124,10 +124,6 @@ bool BooleanType::isNode() const {
   return false;
 }
 
-bool BooleanType::isThread() const {
-  return false;
-}
-
 bool BooleanType::isNative() const {
   return false;
 }

@@ -108,10 +108,6 @@ bool ImmutableArrayOwnerType::isNode() const {
   return false;
 }
 
-bool ImmutableArrayOwnerType::isThread() const {
-  return false;
-}
-
 bool ImmutableArrayOwnerType::isNative() const {
   return false;
 }

@@ -121,10 +121,6 @@ bool ControllerOwner::isNode() const {
   return false;
 }
 
-bool ControllerOwner::isThread() const {
-  return false;
-}
-
 bool ControllerOwner::isNative() const {
   return false;
 }

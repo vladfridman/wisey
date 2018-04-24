@@ -104,10 +104,6 @@ bool StringType::isNode() const {
   return false;
 }
 
-bool StringType::isThread() const {
-  return false;
-}
-
 bool StringType::isNative() const {
   return false;
 }

@@ -129,10 +129,6 @@ bool ArrayExactType::isNode() const {
   return false;
 }
 
-bool ArrayExactType::isThread() const {
-  return false;
-}
-
 bool ArrayExactType::isNative() const {
   return false;
 }

@@ -285,10 +285,6 @@ bool LLVMFunction::isNode() const {
   return false;
 }
 
-bool LLVMFunction::isThread() const {
-  return false;
-}
-
 bool LLVMFunction::isNative() const {
   return true;
 }

@@ -140,7 +140,6 @@ TEST_F(WiseyObjectTypeTest, isObjectTest) {
   EXPECT_FALSE(mWiseyObjectType->isInterface());
   EXPECT_FALSE(mWiseyObjectType->isModel());
   EXPECT_FALSE(mWiseyObjectType->isNode());
-  EXPECT_FALSE(mWiseyObjectType->isThread());
 }
 
 TEST_F(WiseyObjectTypeTest, createLocalVariableTest) {

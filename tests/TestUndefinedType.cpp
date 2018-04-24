@@ -54,7 +54,6 @@ TEST_F(UndefinedTypeTest, isObjectTest) {
   EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isInterface());
   EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isModel());
   EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isNode());
-  EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isThread());
 }
 
 TEST_F(UndefinedTypeTest, injectDeathTest) {

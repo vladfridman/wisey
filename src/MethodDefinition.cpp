@@ -67,13 +67,6 @@ IMethod* MethodDefinition::define(IRGenerationContext& context,
                                mCompoundStatement,
                                mLine);
 
-  if (objectType->isThread() && !method->isConceal() && !method->isReveal()) {
-    context.reportError(mMethodQualifiers->getLine(),
-                        "Method '" + method->getName() + "' in object " +
-                        objectType->getTypeName() + " must either have have conceal or reveal "
-                        "qualifier because the object is a thread");
-    exit(1);
-  }
   if (method->isConceal() && method->isReveal()) {
     context.reportError(mMethodQualifiers->getLine(),
                         "Method '" + method->getName() + "' in object " +

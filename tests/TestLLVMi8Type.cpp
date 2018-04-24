@@ -77,7 +77,6 @@ TEST_F(LLVMi8TypeTest, isObjectTest) {
   EXPECT_FALSE(mLLVMi8Type.isInterface());
   EXPECT_FALSE(mLLVMi8Type.isModel());
   EXPECT_FALSE(mLLVMi8Type.isNode());
-  EXPECT_FALSE(mLLVMi8Type.isThread());
 }
 
 TEST_F(LLVMi8TypeTest, canCastToTest) {

@@ -120,10 +120,6 @@ bool NodeOwner::isNode() const {
   return true;
 }
 
-bool NodeOwner::isThread() const {
-  return false;
-}
-
 bool NodeOwner::isNative() const {
   return false;
 }

@@ -114,7 +114,6 @@ TEST_F(ImmutableArrayOwnerTypeTest, isObjectTest) {
   EXPECT_FALSE(mImmutableArrayOwnerType->isInterface());
   EXPECT_FALSE(mImmutableArrayOwnerType->isModel());
   EXPECT_FALSE(mImmutableArrayOwnerType->isNode());
-  EXPECT_FALSE(mImmutableArrayOwnerType->isThread());
 }
 
 TEST_F(ImmutableArrayOwnerTypeTest, createLocalVariableTest) {

@@ -45,8 +45,7 @@ bool LLVMPointerOwnerType::canCastTo(IRGenerationContext& context, const IType* 
     return true;
   }
   if (toType->isReference() || toType->isOwner()) {
-    return !toType->isController() && !toType->isModel() && !toType->isNode() &&
-    !toType->isThread();
+    return !toType->isController() && !toType->isModel() && !toType->isNode();
   }
   return false;
 }
@@ -109,10 +108,6 @@ bool LLVMPointerOwnerType::isModel() const {
 }
 
 bool LLVMPointerOwnerType::isNode() const {
-  return false;
-}
-
-bool LLVMPointerOwnerType::isThread() const {
   return false;
 }
 

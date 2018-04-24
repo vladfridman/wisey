@@ -82,10 +82,6 @@ bool UndefinedType::isNode() const {
   return false;
 }
 
-bool UndefinedType::isThread() const {
-  return false;
-}
-
 bool UndefinedType::isNative() const {
   return false;
 }

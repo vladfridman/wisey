@@ -111,11 +111,6 @@ namespace wisey {
     virtual bool isNode() const = 0;
     
     /**
-     * Tells whether this type is of thread type
-     */
-    virtual bool isThread() const = 0;
-    
-    /**
      * Tells whether this type is of native type
      */
     virtual bool isNative() const = 0;

@@ -110,10 +110,6 @@ bool ArrayExactOwnerType::isNode() const {
   return false;
 }
 
-bool ArrayExactOwnerType::isThread() const {
-  return false;
-}
-
 bool ArrayExactOwnerType::isNative() const {
   return false;
 }

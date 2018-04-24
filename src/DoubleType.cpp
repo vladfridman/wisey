@@ -120,10 +120,6 @@ bool DoubleType::isNode() const {
   return false;
 }
 
-bool DoubleType::isThread() const {
-  return false;
-}
-
 bool DoubleType::isNative() const {
   return false;
 }

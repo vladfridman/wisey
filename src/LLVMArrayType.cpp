@@ -117,10 +117,6 @@ bool LLVMArrayType::isNode() const {
   return false;
 }
 
-bool LLVMArrayType::isThread() const {
-  return false;
-}
-
 bool LLVMArrayType::isNative() const {
   return true;
 }

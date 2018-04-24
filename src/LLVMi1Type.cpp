@@ -92,10 +92,6 @@ bool LLVMi1Type::isNode() const {
   return false;
 }
 
-bool LLVMi1Type::isThread() const {
-  return false;
-}
-
 bool LLVMi1Type::isNative() const {
   return true;
 }

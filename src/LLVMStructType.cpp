@@ -117,10 +117,6 @@ bool LLVMStructType::isNode() const {
   return false;
 }
 
-bool LLVMStructType::isThread() const {
-  return false;
-}
-
 bool LLVMStructType::isNative() const {
   return true;
 }

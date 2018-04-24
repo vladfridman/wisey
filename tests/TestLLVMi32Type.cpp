@@ -78,7 +78,6 @@ TEST_F(LLVMi32TypeTest, isObjectTest) {
   EXPECT_FALSE(mLLVMi32Type.isInterface());
   EXPECT_FALSE(mLLVMi32Type.isModel());
   EXPECT_FALSE(mLLVMi32Type.isNode());
-  EXPECT_FALSE(mLLVMi32Type.isThread());
 }
 
 TEST_F(LLVMi32TypeTest, canCastToTest) {

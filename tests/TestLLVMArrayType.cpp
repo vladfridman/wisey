@@ -102,7 +102,6 @@ TEST_F(LLVMArrayTypeTest, isObjectTest) {
   EXPECT_FALSE(mLLVMArrayType->isInterface());
   EXPECT_FALSE(mLLVMArrayType->isModel());
   EXPECT_FALSE(mLLVMArrayType->isNode());
-  EXPECT_FALSE(mLLVMArrayType->isThread());
 }
 
 TEST_F(LLVMArrayTypeTest, getPointerTypeTest) {

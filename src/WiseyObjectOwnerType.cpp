@@ -42,8 +42,7 @@ bool WiseyObjectOwnerType::canCastTo(IRGenerationContext& context, const IType* 
     return true;
   }
   if (toType->isReference() || toType->isOwner()) {
-    return !toType->isController() && !toType->isModel() && !toType->isNode() &&
-    !toType->isThread();
+    return !toType->isController() && !toType->isModel() && !toType->isNode();
   }
   if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
     return true;
@@ -109,10 +108,6 @@ bool WiseyObjectOwnerType::isModel() const {
 }
 
 bool WiseyObjectOwnerType::isNode() const {
-  return false;
-}
-
-bool WiseyObjectOwnerType::isThread() const {
   return false;
 }
 

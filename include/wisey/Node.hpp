@@ -158,8 +158,6 @@ namespace wisey {
     
     bool isNode() const override;
     
-    bool isThread() const override;
-    
     bool isNative() const override;
     
     bool isPointer() const override;

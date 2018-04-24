@@ -47,7 +47,6 @@ public:
   MOCK_CONST_METHOD0(isModel, bool ());
   MOCK_CONST_METHOD0(isNode, bool ());
   MOCK_CONST_METHOD0(isExternal, bool ());
-  MOCK_CONST_METHOD0(isThread, bool ());
   MOCK_CONST_METHOD0(isNative, bool ());
   MOCK_CONST_METHOD0(isPointer, bool ());
   MOCK_CONST_METHOD0(isImmutable, bool ());

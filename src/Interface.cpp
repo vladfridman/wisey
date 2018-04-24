@@ -750,10 +750,6 @@ bool Interface::isNode() const {
   return false;
 }
 
-bool Interface::isThread() const {
-  return false;
-}
-
 bool Interface::isNative() const {
   return false;
 }

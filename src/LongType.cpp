@@ -127,10 +127,6 @@ bool LongType::isNode() const {
   return false;
 }
 
-bool LongType::isThread() const {
-  return false;
-}
-
 bool LongType::isNative() const {
   return false;
 }

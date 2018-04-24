@@ -150,10 +150,6 @@ bool ArraySpecificType::isNode() const {
   return false;
 }
 
-bool ArraySpecificType::isThread() const {
-  return false;
-}
-
 bool ArraySpecificType::isNative() const {
   return false;
 }

@@ -77,22 +77,3 @@ TEST_F(ReceivedFieldDefinitionTest, declareTest) {
   EXPECT_TRUE(field->isReceived());
   EXPECT_FALSE(field->isState());
 }
-
-TEST_F(ReceivedFieldDefinitionTest, threadReceivedControllerFieldDeathTest) {
-  Mock::AllowLeak(mObject);
-  Mock::AllowLeak(mType);
-  Mock::AllowLeak(mExpression);
-
-  ON_CALL(*mObject, isThread()).WillByDefault(Return(true));
-  PackageType* packageType = new PackageType("wisey.lang");
-  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ControllerTypeSpecifierFull* specifier = new ControllerTypeSpecifierFull(packageExpression,
-                                                                           "CCallStack",
-                                                                           0);
-  ReceivedFieldDefinition* field = new ReceivedFieldDefinition(specifier, "mProgram", 3);
-
-  EXPECT_EXIT(field->define(mContext, mObject),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: Threads are only allowed to receive "
-              "models or primitives");
-}

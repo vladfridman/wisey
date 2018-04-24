@@ -91,7 +91,6 @@ TEST_F(LLVMStructTypeTest, isObjectTest) {
   EXPECT_FALSE(mLLVMStructType->isInterface());
   EXPECT_FALSE(mLLVMStructType->isModel());
   EXPECT_FALSE(mLLVMStructType->isNode());
-  EXPECT_FALSE(mLLVMStructType->isThread());
 }
 
 TEST_F(LLVMStructTypeTest, createFieldVariableTest) {

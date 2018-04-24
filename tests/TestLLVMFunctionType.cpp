@@ -98,7 +98,6 @@ TEST_F(LLVMFunctionTypeTest, isObjectTest) {
   EXPECT_FALSE(mLLVMFunctionType->isInterface());
   EXPECT_FALSE(mLLVMFunctionType->isModel());
   EXPECT_FALSE(mLLVMFunctionType->isNode());
-  EXPECT_FALSE(mLLVMFunctionType->isThread());
 }
 
 TEST_F(LLVMFunctionTypeTest, getPointerTypeTest) {

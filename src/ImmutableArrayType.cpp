@@ -116,10 +116,6 @@ bool ImmutableArrayType::isNode() const {
   return false;
 }
 
-bool ImmutableArrayType::isThread() const {
-  return false;
-}
-
 bool ImmutableArrayType::isNative() const {
   return false;
 }

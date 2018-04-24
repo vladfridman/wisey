@@ -174,10 +174,6 @@ bool ExternalMethod::isNode() const {
   return false;
 }
 
-bool ExternalMethod::isThread() const {
-  return false;
-}
-
 bool ExternalMethod::isNative() const {
   return false;
 }

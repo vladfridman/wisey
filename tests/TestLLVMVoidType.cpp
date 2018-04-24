@@ -76,7 +76,6 @@ TEST_F(LLVMVoidTypeTest, isObjectTest) {
   EXPECT_FALSE(mLLVMVoidType.isInterface());
   EXPECT_FALSE(mLLVMVoidType.isModel());
   EXPECT_FALSE(mLLVMVoidType.isNode());
-  EXPECT_FALSE(mLLVMVoidType.isThread());
 }
 
 TEST_F(LLVMVoidTypeTest, printToStreamTest) {

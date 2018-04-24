@@ -66,9 +66,7 @@ namespace wisey {
     bool isModel() const override;
     
     bool isNode() const override;
-    
-    bool isThread() const override;
-    
+
     bool isNative() const override;
     
     bool isPointer() const override;

@@ -151,10 +151,6 @@ bool ArrayType::isNode() const {
   return false;
 }
 
-bool ArrayType::isThread() const {
-  return false;
-}
-
 bool ArrayType::isNative() const {
   return false;
 }

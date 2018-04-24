@@ -78,7 +78,6 @@ TEST_F(LLVMi16TypeTest, isObjectTest) {
   EXPECT_FALSE(mLLVMi16Type.isInterface());
   EXPECT_FALSE(mLLVMi16Type.isModel());
   EXPECT_FALSE(mLLVMi16Type.isNode());
-  EXPECT_FALSE(mLLVMi16Type.isThread());
 }
 
 TEST_F(LLVMi16TypeTest, canCastToTest) {

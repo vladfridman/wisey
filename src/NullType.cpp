@@ -83,10 +83,6 @@ bool NullType::isNode() const {
   return false;
 }
 
-bool NullType::isThread() const {
-  return false;
-}
-
 bool NullType::isNative() const {
   return false;
 }

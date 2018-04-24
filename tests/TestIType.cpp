@@ -46,10 +46,6 @@ TEST_F(ITypeTest, isObjectTypeTest) {
   EXPECT_TRUE(IType::isObjectType(&mockType));
 
   ON_CALL(mockType, isNode()).WillByDefault(Return(false));
-  ON_CALL(mockType, isThread()).WillByDefault(Return(true));
-  EXPECT_TRUE(IType::isObjectType(&mockType));
-
-  ON_CALL(mockType, isThread()).WillByDefault(Return(false));
   ON_CALL(mockType, isArray()).WillByDefault(Return(true));
   EXPECT_FALSE(IType::isObjectType(&mockType));
 }
@@ -74,10 +70,6 @@ TEST_F(ITypeTest, isConcreteObjectTypeTest) {
   EXPECT_TRUE(IType::isConcreteObjectType(&mockType));
 
   ON_CALL(mockType, isNode()).WillByDefault(Return(false));
-  ON_CALL(mockType, isThread()).WillByDefault(Return(true));
-  EXPECT_TRUE(IType::isConcreteObjectType(&mockType));
-
-  ON_CALL(mockType, isThread()).WillByDefault(Return(false));
   ON_CALL(mockType, isArray()).WillByDefault(Return(true));
   EXPECT_FALSE(IType::isConcreteObjectType(&mockType));
 }

@@ -89,10 +89,6 @@ bool LLVMVoidType::isNode() const {
   return false;
 }
 
-bool LLVMVoidType::isThread() const {
-  return false;
-}
-
 bool LLVMVoidType::isNative() const {
   return true;
 }

@@ -123,10 +123,6 @@ bool CharType::isNode() const {
   return false;
 }
 
-bool CharType::isThread() const {
-  return false;
-}
-
 bool CharType::isNative() const {
   return false;
 }

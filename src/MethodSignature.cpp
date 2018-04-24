@@ -189,10 +189,6 @@ bool MethodSignature::isNode() const {
   return false;
 }
 
-bool MethodSignature::isThread() const {
-  return false;
-}
-
 bool MethodSignature::isNative() const {
   return false;
 }

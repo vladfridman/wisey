@@ -151,7 +151,6 @@ TEST_F(CharTypeTest, isObjectTest) {
   EXPECT_FALSE(mCharType.isInterface());
   EXPECT_FALSE(mCharType.isModel());
   EXPECT_FALSE(mCharType.isNode());
-  EXPECT_FALSE(mCharType.isThread());
 }
 
 TEST_F(CharTypeTest, createLocalVariableTest) {

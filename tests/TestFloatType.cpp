@@ -151,7 +151,6 @@ TEST_F(FloatTypeTest, isObjectTest) {
   EXPECT_FALSE(mFloatType.isInterface());
   EXPECT_FALSE(mFloatType.isModel());
   EXPECT_FALSE(mFloatType.isNode());
-  EXPECT_FALSE(mFloatType.isThread());
 }
 
 TEST_F(FloatTypeTest, createLocalVariableTest) {

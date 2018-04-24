@@ -137,10 +137,6 @@ bool StaticMethod::isNode() const {
   return false;
 }
 
-bool StaticMethod::isThread() const {
-  return false;
-}
-
 bool StaticMethod::isNative() const {
   return false;
 }

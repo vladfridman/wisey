@@ -140,10 +140,6 @@ bool Method::isNode() const {
   return false;
 }
 
-bool Method::isThread() const {
-  return false;
-}
-
 bool Method::isNative() const {
   return false;
 }

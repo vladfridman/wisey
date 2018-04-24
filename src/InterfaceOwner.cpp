@@ -130,10 +130,6 @@ bool InterfaceOwner::isNode() const {
   return false;
 }
 
-bool InterfaceOwner::isThread() const {
-  return false;
-}
-
 bool InterfaceOwner::isNative() const {
   return false;
 }

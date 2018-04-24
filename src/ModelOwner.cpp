@@ -119,10 +119,6 @@ bool ModelOwner::isNode() const {
   return false;
 }
 
-bool ModelOwner::isThread() const {
-  return false;
-}
-
 bool ModelOwner::isNative() const {
   return false;
 }

@@ -120,10 +120,6 @@ bool FloatType::isNode() const {
   return false;
 }
 
-bool FloatType::isThread() const {
-  return false;
-}
-
 bool FloatType::isNative() const {
   return false;
 }

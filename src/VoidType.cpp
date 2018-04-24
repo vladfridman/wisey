@@ -85,10 +85,6 @@ bool VoidType::isNode() const {
   return false;
 }
 
-bool VoidType::isThread() const {
-  return false;
-}
-
 bool VoidType::isNative() const {
   return false;
 }

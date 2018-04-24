@@ -128,10 +128,6 @@ bool ArrayOwnerType::isNode() const {
   return false;
 }
 
-bool ArrayOwnerType::isThread() const {
-  return false;
-}
-
 bool ArrayOwnerType::isNative() const {
   return false;
 }

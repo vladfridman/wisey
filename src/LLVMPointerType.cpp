@@ -118,10 +118,6 @@ bool LLVMPointerType::isNode() const {
   return false;
 }
 
-bool LLVMPointerType::isThread() const {
-  return false;
-}
-
 bool LLVMPointerType::isNative() const {
   return true;
 }

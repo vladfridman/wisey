@@ -133,7 +133,6 @@ TEST_F(ImmutableArrayTypeTest, isObjectTest) {
   EXPECT_FALSE(mImmutableArrayType->isInterface());
   EXPECT_FALSE(mImmutableArrayType->isModel());
   EXPECT_FALSE(mImmutableArrayType->isNode());
-  EXPECT_FALSE(mImmutableArrayType->isThread());
 }
 
 TEST_F(ImmutableArrayTypeTest, createLocalVariableTest) {

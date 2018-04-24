@@ -83,10 +83,6 @@ bool PackageType::isNode() const {
   return false;
 }
 
-bool PackageType::isThread() const {
-  return false;
-}
-
 bool PackageType::isNative() const {
   return false;
 }

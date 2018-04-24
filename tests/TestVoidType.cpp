@@ -138,7 +138,6 @@ TEST_F(VoidTypeTest, isObjectTest) {
   EXPECT_FALSE(mVoidType.isInterface());
   EXPECT_FALSE(mVoidType.isModel());
   EXPECT_FALSE(mVoidType.isNode());
-  EXPECT_FALSE(mVoidType.isThread());
 }
 
 TEST_F(VoidTypeTest, injectDeathTest) {

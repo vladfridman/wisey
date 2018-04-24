@@ -128,7 +128,6 @@ TEST_F(LLVMPointerTypeTest, isObjectTest) {
   EXPECT_FALSE(mLLVMPointerType->isInterface());
   EXPECT_FALSE(mLLVMPointerType->isModel());
   EXPECT_FALSE(mLLVMPointerType->isNode());
-  EXPECT_FALSE(mLLVMPointerType->isThread());
 }
 
 TEST_F(LLVMPointerTypeTest, createLocalVariableTest) {

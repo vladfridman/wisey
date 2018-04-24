@@ -13,8 +13,7 @@
 using namespace wisey;
 
 bool IType::isObjectType(const IType* type) {
-  return type->isController() || type->isInterface() || type->isModel() ||
-  type->isNode() || type->isThread();
+  return type->isController() || type->isInterface() || type->isModel() || type->isNode();
 }
 
 bool IType::isConcreteObjectType(const IType* type) {
