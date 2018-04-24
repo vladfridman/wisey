@@ -10,6 +10,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/CastObjectFunction.hpp"
+#include "wisey/GetOriginalObjectNameFunction.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/GetOriginalObjectFunction.hpp"
@@ -118,20 +119,7 @@ void CastObjectFunction::compose(IRGenerationContext& context, llvm::Function* f
   IRWriter::createConditionalBranch(context, lessThanZero, notLessThanZero, compareLessThanZero);
   
   context.setBasicBlock(lessThanZero);
-  Value* originalObjectVTable = GetOriginalObjectFunction::call(context, fromObjectValue);
-  Type* pointerToArrayOfStrings = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
-  BitCastInst* vTablePointer =
-  IRWriter::newBitCastInst(context, originalObjectVTable, pointerToArrayOfStrings);
-  LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
-  Value* index[1];
-  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 1);
-  GetElementPtrInst* typeArrayPointerI8 = IRWriter::createGetElementPtrInst(context, vTable, index);
-  LoadInst* typeArrayI8 = IRWriter::newLoadInst(context, typeArrayPointerI8, "typeArrayI8");
-  BitCastInst* arrayOfStrings =
-  IRWriter::newBitCastInst(context, typeArrayI8, int8Type->getPointerTo()->getPointerTo());
-  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
-  Value* stringPointerPointer = IRWriter::createGetElementPtrInst(context, arrayOfStrings, index);
-  LoadInst* fromTypeName = IRWriter::newLoadInst(context, stringPointerPointer, "fromTypeName");
+  Value* fromTypeName = GetOriginalObjectNameFunction::call(context, fromObjectValue);
 
   PackageType* packageType = context.getPackageType(Names::getLangPackageName());
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
@@ -168,6 +156,7 @@ void CastObjectFunction::compose(IRGenerationContext& context, llvm::Function* f
   BitCastInst* bitcast =
   IRWriter::newBitCastInst(context, originalObject, int8Type->getPointerTo());
   Value* thunkBy = IRWriter::createBinaryOperator(context, Instruction::Mul, offset, bytes, "");
+  Value* index[1];
   index[0] = thunkBy;
   Value* thunk = IRWriter::createGetElementPtrInst(context, bitcast, index);
   IRWriter::createReturnInst(context, thunk);
