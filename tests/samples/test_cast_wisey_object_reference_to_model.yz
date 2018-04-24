@@ -1,0 +1,21 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+model MContainer {
+  public int getValue() {
+    return 3;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() override {
+    ::wisey::object objectOwner = builder(MContainer).build();
+    MContainer containerOwner = objectOwner;
+
+    return containerOwner.getValue();
+  }
+}
+
+bind(IProgram).to(CProgram);

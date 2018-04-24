@@ -42,7 +42,7 @@ bool WiseyObjectOwnerType::canCastTo(IRGenerationContext& context, const IType* 
     return true;
   }
   if (toType->isReference() || toType->isOwner()) {
-    return !toType->isController() && !toType->isModel() && !toType->isNode();
+    return true;
   }
   if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
     return true;
@@ -58,7 +58,7 @@ llvm::Value* WiseyObjectOwnerType::castTo(IRGenerationContext& context,
                                           llvm::Value* fromValue,
                                           const IType* toType,
                                           int line) const {
-  if (toType->isReference() || toType->isOwner() || toType->isPointer()) {
+  if (toType->isNative() && (toType->isReference() || toType->isOwner() || toType->isPointer())) {
     return IRWriter::newBitCastInst(context, fromValue, toType->getLLVMType(context));
   }
   if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
@@ -68,7 +68,14 @@ llvm::Value* WiseyObjectOwnerType::castTo(IRGenerationContext& context,
                                  ConstantPointerNull::get(getLLVMType(context)),
                                  "");
   }
-  assert(false);
+
+  assert(IObjectType::isObjectType(toType));
+  if (toType->isOwner()) {
+    const IReferenceType* toReferenceType = ((const IOwnerType*) toType)->getReference();
+    return getReference()->castTo(context, fromValue, toReferenceType, line);
+  }
+  
+  return getReference()->castTo(context, fromValue, toType, line);
 }
 
 bool WiseyObjectOwnerType::isPrimitive() const {

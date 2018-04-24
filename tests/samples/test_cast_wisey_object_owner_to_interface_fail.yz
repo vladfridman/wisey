@@ -1,0 +1,25 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+interface IHasValue {
+  int getValue();
+}
+
+model MContainer {
+  public int getValue() {
+    return 5;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() override {
+    ::wisey::object* objectOwner = builder(MContainer).build();
+    IHasValue* interfaceOwner = objectOwner;
+
+    return interfaceOwner.getValue();
+  }
+}
+
+bind(IProgram).to(CProgram);

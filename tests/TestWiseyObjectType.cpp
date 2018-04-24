@@ -64,7 +64,20 @@ public:
     ON_CALL(mConcreteObjectType, isReference()).WillByDefault(Return(true));
     ON_CALL(mConcreteObjectType, isNative()).WillByDefault(Return(false));
     ON_CALL(mConcreteObjectType, getLLVMType(_)).WillByDefault(Return(structType->getPointerTo()));
+    ON_CALL(mConcreteObjectType, isInterface()).WillByDefault(Return(true));
+    string typeName = "systems.vos.wisey.compiler.tests.IInterface";
+    string nameGlobal = "systems.vos.wisey.compiler.tests.IInterface.name";
     
+    ON_CALL(mConcreteObjectType, getObjectNameGlobalVariableName())
+    .WillByDefault(Return(nameGlobal));
+    
+    new GlobalVariable(*mContext.getModule(),
+                       llvm::ArrayType::get(Type::getInt8Ty(mLLVMContext), typeName.length() + 1),
+                       true,
+                       GlobalValue::LinkageTypes::ExternalLinkage,
+                       nullptr,
+                       nameGlobal);
+
     mStringStream = new raw_string_ostream(mStringBuffer);
     
     mWiseyObjectType = new WiseyObjectType();
@@ -85,7 +98,7 @@ TEST_F(WiseyObjectTypeTest, canCastTest) {
   LLVMPointerType* pointerType = LLVMPointerType::create(LLVMPrimitiveTypes::I32);
   EXPECT_TRUE(mWiseyObjectType->canCastTo(mContext, pointerType));
   EXPECT_TRUE(mWiseyObjectType->canCastTo(mContext, &mConcreteObjectType));
-  EXPECT_FALSE(mWiseyObjectType->canCastTo(mContext, WiseyModelType::WISEY_MODEL_TYPE));
+  EXPECT_TRUE(mWiseyObjectType->canCastTo(mContext, WiseyModelType::WISEY_MODEL_TYPE));
   EXPECT_FALSE(mWiseyObjectType->
                canCastTo(mContext, WiseyModelOwnerType::WISEY_MODEL_OWNER_TYPE));
 }
@@ -95,7 +108,7 @@ TEST_F(WiseyObjectTypeTest, canAutoCastToTest) {
   LLVMPointerType* pointerType = LLVMPointerType::create(LLVMPrimitiveTypes::I32);
   EXPECT_TRUE(mWiseyObjectType->canAutoCastTo(mContext, pointerType));
   EXPECT_TRUE(mWiseyObjectType->canAutoCastTo(mContext, &mConcreteObjectType));
-  EXPECT_FALSE(mWiseyObjectType->canAutoCastTo(mContext, WiseyModelType::WISEY_MODEL_TYPE));
+  EXPECT_TRUE(mWiseyObjectType->canAutoCastTo(mContext, WiseyModelType::WISEY_MODEL_TYPE));
   EXPECT_FALSE(mWiseyObjectType->
                canAutoCastTo(mContext, WiseyModelOwnerType::WISEY_MODEL_OWNER_TYPE));
 }
@@ -116,10 +129,13 @@ TEST_F(WiseyObjectTypeTest, castToObjectTest) {
   Mock::AllowLeak(&mConcreteObjectType);
   
   Value* value = ConstantPointerNull::get(mWiseyObjectType->getLLVMType(mContext));
-  Value* result = mWiseyObjectType->castTo(mContext, value, &mConcreteObjectType, 0);
-  *mStringStream << *result;
+  mWiseyObjectType->castTo(mContext, value, &mConcreteObjectType, 0);
+  *mStringStream << *mBasicBlock;
   
-  EXPECT_STREQ("  %0 = bitcast i8* null to %mystruct*", mStringStream->str().c_str());
+  EXPECT_STREQ("\nentry:"
+               "\n  %0 = invoke i8* @__castObject(i8* null, i8* getelementptr inbounds ([44 x i8], [44 x i8]* @systems.vos.wisey.compiler.tests.IInterface.name, i32 0, i32 0))"
+               "\n          to label %invoke.continue unwind label %cleanup\n",
+               mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
@@ -203,4 +219,22 @@ TEST_F(TestFileRunner, referenceCountDecrementedForWiseyObjectTypeVariableTest) 
 
 TEST_F(TestFileRunner, compareLLVMObjectsToNullTest) {
   runFile("tests/samples/test_compare_llvm_objects_to_null.yz", "1");
+}
+
+TEST_F(TestFileRunner, castWiseyObjectReferenceToModelRunTest) {
+  runFile("tests/samples/test_cast_wisey_object_reference_to_model.yz", "3");
+}
+
+TEST_F(TestFileRunner, castWiseyObjectReferenceToInterfaceRunTest) {
+  runFile("tests/samples/test_cast_wisey_object_reference_to_interface.yz", "1");
+}
+
+TEST_F(TestFileRunner, castWiseyObjectReferenceToInterfaceFailRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_cast_wisey_object_reference_to_interface_fail.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MCastException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_cast_wisey_object_reference_to_interface_fail.yz:19)\n"
+                               "Details: Can not cast from systems.vos.wisey.compiler.tests.MContainer to systems.vos.wisey.compiler.tests.IHasValue\n"
+                               "Main thread ended without a result\n");
 }
