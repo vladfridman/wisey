@@ -16,7 +16,7 @@
 namespace wisey {
   
   /**
-   * Represents an instanceof expression for type comparision
+   * Represents an m expression for type comparision
    */
   class TypeComparisionExpression : public IExpression {
     IExpression* mExpression;

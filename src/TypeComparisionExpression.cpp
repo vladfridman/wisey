@@ -46,6 +46,10 @@ Value* TypeComparisionExpression::generateIR(IRGenerationContext& context,
   if (type->isPrimitive() || expressionType->isPrimitive()) {
     return valueFalse;
   }
+  if (expressionType->isArray() || type->isArray()) {
+    context.reportError(mLine, "Operator instanceof does not work with arrays");
+    exit(1);
+  }
   if (expressionType->isOwner() && type->isOwner()) {
     return generateIRforOwnerTypes(context,
                                    (const IObjectOwnerType*) expressionType,

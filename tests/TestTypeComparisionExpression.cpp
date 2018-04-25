@@ -357,3 +357,9 @@ TEST_F(TestFileRunner, interfaceInstanceControllersRunTest) {
 TEST_F(TestFileRunner, interfaceInstanceNodesRunTest) {
   runFile("tests/samples/test_instanceof_nodes.yz", "1");
 }
+
+TEST_F(TestFileRunner, instanceofWithArraysRunDeathTest) {
+  expectFailCompile("tests/samples/test_instanceof_with_arrays.yz",
+                    1,
+                    "tests/samples/test_instanceof_with_arrays.yz\\(9\\): Error: Operator instanceof does not work with arrays");
+}
