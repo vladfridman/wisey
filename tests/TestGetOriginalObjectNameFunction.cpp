@@ -67,15 +67,14 @@ TEST_F(GetOriginalObjectNameFunctionTest, getTest) {
   string expected =
   "\ndefine i8* @__getOriginalObjectName(i8* %object) {"
   "\nentry:"
-  "\n  %0 = bitcast i8* %object to i8*"
-  "\n  %1 = call i8* @__getOriginalObject(i8* %0)"
-  "\n  %2 = bitcast i8* %1 to i8***"
-  "\n  %vtable = load i8**, i8*** %2"
-  "\n  %3 = getelementptr i8*, i8** %vtable, i64 1"
-  "\n  %typeArrayI8 = load i8*, i8** %3"
-  "\n  %4 = bitcast i8* %typeArrayI8 to i8**"
-  "\n  %5 = getelementptr i8*, i8** %4, i64 1"
-  "\n  %name = load i8*, i8** %5"
+  "\n  %0 = call i8* @__getOriginalObject(i8* %object)"
+  "\n  %1 = bitcast i8* %0 to i8***"
+  "\n  %vtable = load i8**, i8*** %1"
+  "\n  %2 = getelementptr i8*, i8** %vtable, i64 1"
+  "\n  %typeArrayI8 = load i8*, i8** %2"
+  "\n  %3 = bitcast i8* %typeArrayI8 to i8**"
+  "\n  %4 = getelementptr i8*, i8** %3, i64 1"
+  "\n  %name = load i8*, i8** %4"
   "\n  ret i8* %name"
   "\n}\n";
   

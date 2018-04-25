@@ -54,8 +54,7 @@ TEST_F(GetOriginalObjectFunctionTest, callTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = bitcast i8* null to i8*"
-  "\n  %1 = call i8* @__getOriginalObject(i8* %0)\n";
+  "\n  %0 = call i8* @__getOriginalObject(i8* null)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

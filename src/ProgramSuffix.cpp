@@ -13,43 +13,30 @@
 #include "wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp"
 #include "wisey/AdjustReferenceCounterForImmutableArrayFunction.hpp"
 #include "wisey/AdjustReferenceCountFunction.hpp"
-#include "wisey/CastExpression.hpp"
 #include "wisey/CastObjectFunction.hpp"
 #include "wisey/CheckArrayNotReferencedFunction.hpp"
 #include "wisey/CheckArrayIndexFunction.hpp"
 #include "wisey/CheckForNullAndThrowFunction.hpp"
-#include "wisey/IntConstant.hpp"
 #include "wisey/DestroyNativeObjectFunction.hpp"
 #include "wisey/DestroyOwnerArrayFunction.hpp"
 #include "wisey/DestroyObjectOwnerFunction.hpp"
 #include "wisey/DestroyPrimitiveArrayFunction.hpp"
 #include "wisey/DestroyReferenceArrayFunction.hpp"
-#include "wisey/ExpressionStatement.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/GetOriginalObjectFunction.hpp"
 #include "wisey/GetOriginalObjectNameFunction.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/Identifier.hpp"
-#include "wisey/IdentifierChain.hpp"
 #include "wisey/InstanceOfFunction.hpp"
-#include "wisey/IfStatement.hpp"
-#include "wisey/LocalOwnerVariable.hpp"
-#include "wisey/MethodCall.hpp"
+#include "wisey/IsModelFunction.hpp"
 #include "wisey/ModelTypeSpecifierFull.hpp"
 #include "wisey/Names.hpp"
-#include "wisey/NullExpression.hpp"
 #include "wisey/ParameterSystemReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
-#include "wisey/PrintErrStatement.hpp"
 #include "wisey/ProgramSuffix.hpp"
-#include "wisey/RelationalExpression.hpp"
 #include "wisey/ReturnStatement.hpp"
 #include "wisey/StaticMethodCall.hpp"
-#include "wisey/StringLiteral.hpp"
 #include "wisey/ThreadExpression.hpp"
 #include "wisey/ThrowReferenceCountExceptionFunction.hpp"
-#include "wisey/VariableDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -76,6 +63,7 @@ void ProgramSuffix::defineEssentialFunctions(IRGenerationContext& context) const
   DestroyReferenceArrayFunction::get(context);
   GetOriginalObjectFunction::get(context);
   InstanceOfFunction::get(context);
+  IsModelFunction::get(context);
   ThrowReferenceCountExceptionFunction::get(context);
 }
 

@@ -312,6 +312,7 @@ external ::llvm::function ::llvm::void __destroyReferenceArrayFunction(::llvm::i
 external ::llvm::function ::llvm::i8::pointer __getOriginalObject(::llvm::i8::pointer);
 external ::llvm::function ::llvm::i8::pointer __getOriginalObjectName(::llvm::i8::pointer);
 external ::llvm::function ::llvm::i32 __instanceOf(::llvm::i8::pointer, ::llvm::i8::pointer);
+external ::llvm::function ::llvm::i1 __isModel(::llvm::i8::pointer);
 external ::llvm::function ::llvm::void __throwReferenceCountException(::llvm::i64);
 
 /* llvm Globals */

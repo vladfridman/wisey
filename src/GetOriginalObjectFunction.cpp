@@ -35,7 +35,9 @@ Value* GetOriginalObjectFunction::call(IRGenerationContext& context, Value* inte
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
-  Value* bitcast = IRWriter::newBitCastInst(context, interfacePointer, int8PointerType);
+  Value* bitcast = interfacePointer->getType() != int8PointerType
+  ? IRWriter::newBitCastInst(context, interfacePointer, int8PointerType)
+  : interfacePointer;
   Function* function = get(context);
   vector<Value*> arguments;
   arguments.push_back(bitcast);

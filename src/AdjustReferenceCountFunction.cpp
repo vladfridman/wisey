@@ -12,6 +12,7 @@
 #include "wisey/Environment.hpp"
 #include "wisey/GetOriginalObjectFunction.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/IsModelFunction.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -36,10 +37,12 @@ void AdjustReferenceCountFunction::call(IRGenerationContext& context,
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
-  Value* castObject = IRWriter::newBitCastInst(context, object, int8PointerType);
+  Value* bitcast = object->getType() != int8PointerType
+  ? IRWriter::newBitCastInst(context, object, int8PointerType)
+  : object;
   Function* function = get(context);
   vector<Value*> arguments;
-  arguments.push_back(castObject);
+  arguments.push_back(bitcast);
   llvm::Constant* adjustmentValue = llvm::ConstantInt::get(Type::getInt64Ty(llvmContext),
                                                            adjustment);
   arguments.push_back(adjustmentValue);
@@ -91,6 +94,7 @@ void AdjustReferenceCountFunction::compose(IRGenerationContext& context, llvm::F
   IRWriter::createReturnInst(context, NULL);
   
   context.setBasicBlock(ifNotNullBlock);
+  Value* isModel = IsModelFunction::call(context, object);
   Value* original = GetOriginalObjectFunction::call(context, object);
   Type* int64PointerType = Type::getInt64Ty(llvmContext)->getPointerTo();
   Value* objectStart = IRWriter::newBitCastInst(context, original, int64PointerType);
@@ -98,26 +102,10 @@ void AdjustReferenceCountFunction::compose(IRGenerationContext& context, llvm::F
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), -1);
   Value* counter = IRWriter::createGetElementPtrInst(context, objectStart, index);
 
-  Type* int8DoublePointerType = Type::getInt8Ty(llvmContext)->getPointerTo()->getPointerTo();
-  Type* int8TriplePointerType = int8DoublePointerType->getPointerTo();
-  Value* vTablePointer = IRWriter::newBitCastInst(context, original, int8TriplePointerType);
-  LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
-  index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 1);
-  GetElementPtrInst* typeArrayPointerI8 = IRWriter::createGetElementPtrInst(context, vTable, index);
-  LoadInst* typeArrayI8 = IRWriter::newLoadInst(context, typeArrayPointerI8, "typeArrayI8");
-  BitCastInst* arrayOfStrings = IRWriter::newBitCastInst(context,
-                                                         typeArrayI8,
-                                                         int8DoublePointerType);
-  LoadInst* stringPointer = IRWriter::newLoadInst(context, arrayOfStrings, "stringPointer");
-  
-  Value* firstLetter = IRWriter::newLoadInst(context, stringPointer, "firstLetter");
-
   BasicBlock* ifModelBlock = BasicBlock::Create(llvmContext, "if.model", function);
   BasicBlock* ifNotModelBlock = BasicBlock::Create(llvmContext, "if.not.model", function);
 
-  Value* letterM = ConstantInt::get(Type::getInt8Ty(llvmContext), 77);
-  condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, firstLetter, letterM, "");
-  IRWriter::createConditionalBranch(context, ifModelBlock, ifNotModelBlock, condition);
+  IRWriter::createConditionalBranch(context, ifModelBlock, ifNotModelBlock, isModel);
 
   context.setBasicBlock(ifModelBlock);
   new AtomicRMWInst(AtomicRMWInst::BinOp::Add,

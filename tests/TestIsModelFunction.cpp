@@ -1,11 +1,11 @@
 //
-//  TestAdjustReferenceCountFunction.cpp
+//  TestIsModelFunction.cpp
 //  runtests
 //
-//  Created by Vladimir Fridman on 12/1/17.
-//  Copyright © 2017 Vladimir Fridman. All rights reserved.
+//  Created by Vladimir Fridman on 4/25/18.
+//  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link AdjustReferenceCountFunction}
+//  Tests {@link IsModelFunction}
 //
 
 #include <gtest/gtest.h>
@@ -14,8 +14,8 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/AdjustReferenceCountFunction.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/IsModelFunction.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -23,7 +23,7 @@ using namespace wisey;
 
 using ::testing::Test;
 
-struct AdjustReferenceCountFunctionTest : Test {
+struct IsModelFunctionTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBasicBlock;
@@ -31,7 +31,7 @@ struct AdjustReferenceCountFunctionTest : Test {
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  AdjustReferenceCountFunctionTest() :
+  IsModelFunctionTest() :
   mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     
@@ -48,29 +48,29 @@ struct AdjustReferenceCountFunctionTest : Test {
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
-  ~AdjustReferenceCountFunctionTest() {
+  ~IsModelFunctionTest() {
   }
 };
 
-TEST_F(AdjustReferenceCountFunctionTest, callTest) {
+TEST_F(IsModelFunctionTest, callTest) {
   Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  AdjustReferenceCountFunction::call(mContext, nullPointerValue, 1);
+  IsModelFunction::call(mContext, nullPointerValue);
   
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  call void @__adjustReferenceCounter(i8* null, i64 1)\n";
+  "\n  %0 = call i1 @__isModel(i8* null)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(AdjustReferenceCountFunctionTest, getTest) {
-  Function* function = AdjustReferenceCountFunction::get(mContext);
+TEST_F(IsModelFunctionTest, getTest) {
+  Function* function = IsModelFunction::get(mContext);
   mContext.runComposingCallbacks();
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @__adjustReferenceCounter(i8* %object, i64 %adjustment) {"
+  "\ndefine i1 @__isModel(i8* %object) {"
   "\nentry:"
   "\n  %0 = icmp eq i8* %object, null"
   "\n  br i1 %0, label %if.null, label %if.notnull"
@@ -79,22 +79,17 @@ TEST_F(AdjustReferenceCountFunctionTest, getTest) {
   "\n  ret void"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
-  "\n  %1 = call i1 @__isModel(i8* %object)"
-  "\n  %2 = call i8* @__getOriginalObject(i8* %object)"
-  "\n  %3 = bitcast i8* %2 to i64*"
-  "\n  %4 = getelementptr i64, i64* %3, i64 -1"
-  "\n  br i1 %1, label %if.model, label %if.not.model"
-  "\n"
-  "\nif.model:                                         ; preds = %if.notnull"
-  "\n  %5 = atomicrmw add i64* %4, i64 %adjustment monotonic"
-  "\n  ret void"
-  "\n"
-  "\nif.not.model:                                     ; preds = %if.notnull"
-  "\n  %count = load i64, i64* %4"
-  "\n  %6 = add i64 %count, %adjustment"
-  "\n  store i64 %6, i64* %4"
-  "\n  ret void"
+  "\n  %1 = call i8* @__getOriginalObject(i8* %object)"
+  "\n  %2 = bitcast i8* %1 to i8***"
+  "\n  %vtable = load i8**, i8*** %2"
+  "\n  %3 = getelementptr i8*, i8** %vtable, i64 1"
+  "\n  %typeArrayI8 = load i8*, i8** %3"
+  "\n  %4 = bitcast i8* %typeArrayI8 to i8**"
+  "\n  %stringPointer = load i8*, i8** %4"
+  "\n  %firstLetter = load i8, i8* %stringPointer"
+  "\n  %5 = icmp eq i8 %firstLetter, 77"
+  "\n  ret i1 %5"
   "\n}\n";
-
+  
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
