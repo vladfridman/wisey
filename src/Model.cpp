@@ -12,6 +12,7 @@
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/AutoCast.hpp"
 #include "wisey/Cast.hpp"
+#include "wisey/CheckForModelFunction.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
@@ -20,6 +21,7 @@
 #include "wisey/Log.hpp"
 #include "wisey/Model.hpp"
 #include "wisey/ModelOwner.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
@@ -434,6 +436,11 @@ void Model::initializeFields(IRGenerationContext& context,
       context.reportError(line, "Attempting to initialize a model with a mutable type. "
                           "Models can only contain primitives, other models or immutable arrays");
       exit(1);
+    }
+    if (argumentType->isInterface() && fieldType->isInterface() && context.getObjectType() &&
+        context.getObjectType()->getTypeName().compare(Names::getMainThreadWorkerFullName())) {
+      string typeName = context.getObjectType()->getTypeName();
+      CheckForModelFunction::call(context, argumentValue);
     }
     Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);
     IRWriter::newStoreInst(context, castValue, fieldPointer);

@@ -16,6 +16,7 @@
 #include "wisey/CastObjectFunction.hpp"
 #include "wisey/CheckArrayNotReferencedFunction.hpp"
 #include "wisey/CheckArrayIndexFunction.hpp"
+#include "wisey/CheckForModelFunction.hpp"
 #include "wisey/CheckForNullAndThrowFunction.hpp"
 #include "wisey/DestroyNativeObjectFunction.hpp"
 #include "wisey/DestroyOwnerArrayFunction.hpp"
@@ -56,12 +57,14 @@ void ProgramSuffix::defineEssentialFunctions(IRGenerationContext& context) const
   CastObjectFunction::get(context);
   CheckArrayNotReferencedFunction::get(context);
   CheckArrayIndexFunction::get(context);
+  CheckForModelFunction::get(context);
   DestroyNativeObjectFunction::get(context);
   DestroyOwnerArrayFunction::get(context);
   DestroyObjectOwnerFunction::get(context);
   DestroyPrimitiveArrayFunction::get(context);
   DestroyReferenceArrayFunction::get(context);
   GetOriginalObjectFunction::get(context);
+  GetOriginalObjectNameFunction::get(context);
   InstanceOfFunction::get(context);
   IsModelFunction::get(context);
   ThrowReferenceCountExceptionFunction::get(context);
@@ -112,7 +115,7 @@ void ProgramSuffix::generateMain(IRGenerationContext& context, Interface* progra
   PackageType* packageType = new PackageType("wisey.lang");
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ModelTypeSpecifierFull* mainThreadWorker =
-  new ModelTypeSpecifierFull(packageExpression, "MMainThreadWorker", 0);
+  new ModelTypeSpecifierFull(packageExpression, Names::getMainThreadWorkerShortName(), 0);
 
   ExpressionList callArguments;
   FakeExpression* argumentExpression = new FakeExpression(injectedProgram,

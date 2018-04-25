@@ -905,6 +905,10 @@ TEST_F(TestFileRunner, modelWithArrayReturnArrayReferenceRunTest) {
   runFile("tests/samples/test_model_with_array_return_array_reference.yz", "7");
 }
 
+TEST_F(TestFileRunner, modelWithInterfaceFieldInitWithInterfaceModelRunTest) {
+  runFile("tests/samples/test_model_with_interface_field_init_with_interface_model.yz", "15");
+}
+
 TEST_F(TestFileRunner, innerObjectWrongTypeSpecifierDeathRunTest) {
   expectFailCompile("tests/samples/test_inner_object_wrong_type_specifier.yz",
                     1,
@@ -963,5 +967,15 @@ TEST_F(TestFileRunner, modelWithModelArrayRceDeathRunTest) {
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_model_with_model_array_rce.yz:27)\n"
                                "Details: Object referenced by expression still has 1 active reference\n"
+                               "Main thread ended without a result\n");
+}
+
+TEST_F(TestFileRunner, modelWithInterfaceFieldInitWithInterfaceDeathRunTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_model_with_interface_field_init_with_interface.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MCastException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_model_with_interface_field_init_with_interface.yz:27)\n"
+                               "Details: Can not cast from systems.vos.wisey.compiler.tests.CWheel to model\n"
                                "Main thread ended without a result\n");
 }
