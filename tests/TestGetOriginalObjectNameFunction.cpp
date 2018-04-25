@@ -74,7 +74,8 @@ TEST_F(GetOriginalObjectNameFunctionTest, getTest) {
   "\n  %3 = getelementptr i8*, i8** %vtable, i64 1"
   "\n  %typeArrayI8 = load i8*, i8** %3"
   "\n  %4 = bitcast i8* %typeArrayI8 to i8**"
-  "\n  %name = load i8*, i8** %4"
+  "\n  %5 = getelementptr i8*, i8** %4, i64 1"
+  "\n  %name = load i8*, i8** %5"
   "\n  ret i8* %name"
   "\n}\n";
   

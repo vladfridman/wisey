@@ -59,6 +59,7 @@ namespace wisey {
    *
    * Typetable for the concrete object consists of array of pointers to type names:
    * [
+   *   i8* <concrete object type short name>,
    *   i8* <concrete object type full name>,
    *   i8* <first interface type full name>,
    *   i8* <second interface type full name>,

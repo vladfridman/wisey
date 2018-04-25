@@ -86,7 +86,8 @@ void GetOriginalObjectNameFunction::compose(IRGenerationContext& context, Functi
   LoadInst* typeArrayI8 = IRWriter::newLoadInst(context, typeArrayPointerI8, "typeArrayI8");
   BitCastInst* arrayOfStrings =
   IRWriter::newBitCastInst(context, typeArrayI8, int8Type->getPointerTo()->getPointerTo());
-  LoadInst* fromTypeName = IRWriter::newLoadInst(context, arrayOfStrings, "name");
+  Value* namePointer = IRWriter::createGetElementPtrInst(context, arrayOfStrings, index);
+  LoadInst* fromTypeName = IRWriter::newLoadInst(context, namePointer, "name");
 
   IRWriter::createReturnInst(context, fromTypeName);
   

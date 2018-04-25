@@ -77,8 +77,8 @@ void InstanceOfFunction::compose(IRGenerationContext& context, Function* functio
   
   context.setBasicBlock(entryBlock);
   Value* iterator = IRWriter::newAllocaInst(context, Type::getInt32Ty(llvmContext), "iterator");
-  ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
-  IRWriter::newStoreInst(context, zero, iterator);
+  ConstantInt* one = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
+  IRWriter::newStoreInst(context, one, iterator);
   
   Value* arrayOfStrings = composeEntryBlock(context, entryBlock, whileCond, function);
   
@@ -126,7 +126,7 @@ BitCastInst* InstanceOfFunction::composeEntryBlock(IRGenerationContext& context,
   LoadInst* typeArrayI8 = IRWriter::newLoadInst(context, typeArrayPointerI8, "typeArrayI8");
   BitCastInst* arrayOfStrings =
   IRWriter::newBitCastInst(context, typeArrayI8, int8Type->getPointerTo()->getPointerTo());
-
+  
   IRWriter::createBranch(context, whileCond);
   
   return arrayOfStrings;
@@ -195,10 +195,10 @@ void InstanceOfFunction::composeReturnFound(IRGenerationContext& context,
   
   context.setBasicBlock(returnFound);
   LoadInst* iteratorLoaded = IRWriter::newLoadInst(context, iterator, "");
-  ConstantInt* one = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
+  ConstantInt* two = ConstantInt::get(Type::getInt32Ty(llvmContext), 2);
+  
   Value* decrement =
-  IRWriter::createBinaryOperator(context, Instruction::Sub, iteratorLoaded, one, "dec");
-
+  IRWriter::createBinaryOperator(context, Instruction::Sub, iteratorLoaded, two, "dec");
   IRWriter::createReturnInst(context, decrement);
 }
 
