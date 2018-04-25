@@ -71,18 +71,8 @@ void IsModelFunction::compose(IRGenerationContext& context, llvm::Function* func
   object->setName("object");
   
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function);
-  BasicBlock* ifNullBlock = BasicBlock::Create(llvmContext, "if.null", function);
-  BasicBlock* ifNotNullBlock = BasicBlock::Create(llvmContext, "if.notnull", function);
   
   context.setBasicBlock(entryBlock);
-  Value* null = ConstantPointerNull::get(Type::getInt8Ty(llvmContext)->getPointerTo());
-  Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, object, null, "");
-  IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
-  
-  context.setBasicBlock(ifNullBlock);
-  IRWriter::createReturnInst(context, NULL);
-  
-  context.setBasicBlock(ifNotNullBlock);
   Value* original = GetOriginalObjectFunction::call(context, object);
   Type* int8DoublePointerType = Type::getInt8Ty(llvmContext)->getPointerTo()->getPointerTo();
   Type* int8TriplePointerType = int8DoublePointerType->getPointerTo();
@@ -100,7 +90,7 @@ void IsModelFunction::compose(IRGenerationContext& context, llvm::Function* func
   Value* firstLetter = IRWriter::newLoadInst(context, stringPointer, "firstLetter");
   
   Value* letterM = ConstantInt::get(Type::getInt8Ty(llvmContext), 77);
-  condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, firstLetter, letterM, "");
+  Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, firstLetter, letterM, "");
   IRWriter::createReturnInst(context, condition);
   
   context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context));
