@@ -39,7 +39,7 @@ namespace wisey {
     std::vector<IMethod*> mMethods;
     std::map<std::string, IField*> mFields;
     std::vector<IField*> mFieldsOrdered;
-    std::map<IField*, unsigned long> mFieldIndexes;
+    std::map<const IField*, unsigned long> mFieldIndexes;
     std::map<IField*, unsigned long> mReceivedFieldIndexes;
     std::map<std::string, IMethod*> mNameToMethodMap;
     std::vector<Interface*> mInterfaces;
@@ -120,7 +120,7 @@ namespace wisey {
     
     IField* findField(std::string fieldName) const override;
     
-    unsigned long getFieldIndex(IField* field) const override;
+    unsigned long getFieldIndex(const IField* field) const override;
     
     std::vector<IField*> getFields() const override;
     

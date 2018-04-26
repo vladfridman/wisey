@@ -82,7 +82,7 @@ namespace wisey {
     /**
      * Returns field index in the struct data type representing this object
      */
-    virtual unsigned long getFieldIndex(IField* field) const = 0;
+    virtual unsigned long getFieldIndex(const IField* field) const = 0;
     
     /**
      * Returns a list of all fields

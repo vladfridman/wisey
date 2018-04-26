@@ -288,7 +288,7 @@ IField* Controller::findField(string fieldName) const {
   return mFields.at(fieldName);
 }
 
-unsigned long Controller::getFieldIndex(IField* field) const {
+unsigned long Controller::getFieldIndex(const IField* field) const {
   return mFieldIndexes.at(field);
 }
 

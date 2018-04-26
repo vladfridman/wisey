@@ -180,7 +180,7 @@ IField* Node::findField(string fieldName) const {
   return mFields.at(fieldName);
 }
 
-unsigned long Node::getFieldIndex(IField* field) const {
+unsigned long Node::getFieldIndex(const IField* field) const {
   return mFieldIndexes.at(field);
 }
 
