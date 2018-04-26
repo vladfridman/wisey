@@ -1,0 +1,30 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CSubService {
+
+}
+
+controller CService {
+  inject CSubService* mSubService;
+
+  public void resetSubService() {
+    mSubService = null;
+  }
+
+  public CSubService getSubService() {
+    return mSubService;
+  }
+}
+
+controller CProgram implements IProgram {
+  inject CService* mService;
+
+  public int run() override {
+    mService.resetSubService();
+    return mService.getSubService() == null;
+  }
+}
+
+bind(IProgram).to(CProgram);

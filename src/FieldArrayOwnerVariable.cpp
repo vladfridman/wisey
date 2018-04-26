@@ -75,7 +75,13 @@ Value* FieldArrayOwnerVariable::generateWholeArrayAssignment(IRGenerationContext
                                                              IExpression* assignToExpression,
                                                              int line) {
   IField* field = checkAndFindFieldForAssignment(context, mObject, mName);
-  
+  if (field->isInjected()) {
+    context.reportError(line,
+                        "Attempt to assign to injected field '" + mName + "' of object " +
+                        mObject->getTypeName() + ", assignment to injected fields is not allowed");
+    exit(1);
+  }
+
   const IType* fieldType = field->getType();
   const IType* assignToType = assignToExpression->getType(context);
   Value* assignToValue = assignToExpression->generateIR(context, field->getType());

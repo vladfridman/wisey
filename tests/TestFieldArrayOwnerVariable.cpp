@@ -277,3 +277,17 @@ TEST_F(TestFileRunner, fieldArrayOfReferencesRceRunDeathTest) {
                                "Details: Object referenced by expression still has 1 active reference\n"
                                "Main thread ended without a result\n");
 }
+
+TEST_F(TestFileRunner, returnInjectedArrayRunDeathTest) {
+  expectFailCompile("tests/samples/test_return_injected_array.yz",
+                    1,
+                    "tests/samples/test_return_injected_array.yz\\(9\\): Error: "
+                    "Attempting to set an injected field 'mArray' of object systems.vos.wisey.compiler.tests.CService to null possibly by returning its value");
+}
+
+TEST_F(TestFileRunner, resetInjectedArrayRunDeathTest) {
+  expectFailCompile("tests/samples/test_reset_injected_array.yz",
+                    1,
+                    "tests/samples/test_reset_injected_array.yz\\(9\\): Error: "
+                    "Attempt to assign to injected field 'mArray' of object systems.vos.wisey.compiler.tests.CService, assignment to injected fields is not allowed");
+}

@@ -61,7 +61,13 @@ Value* FieldOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
                                                 vector<const IExpression*> arrayIndices,
                                                 int line) {
   IField* field = checkAndFindFieldForAssignment(context, mObject, mName);
-
+  if (field->isInjected()) {
+    context.reportError(line,
+                        "Attempt to assign to injected field '" + mName + "' of object " +
+                        mObject->getTypeName() + ", assignment to injected fields is not allowed");
+    exit(1);
+  }
+  
   Composer::setLineNumber(context, line);
 
   const IType* expressionType = assignToExpression->getType(context);
