@@ -587,7 +587,9 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
     constant->printToStream(context, stream);
   }
 
-  vector<IField*> fields = object->getFields();
+  vector<IField*> fields = object->isController()
+  ? ((const Controller*) object)->getReceivedFields()
+  : object->getFields();
   if (fields.size()) {
     stream << endl;
   }

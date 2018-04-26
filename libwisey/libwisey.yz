@@ -121,12 +121,6 @@ external controller wisey.lang.CCallStack {
 
   public constant int CALL_STACK_SIZE = 1024;
 
-  inject string[CALL_STACK_SIZE]* mCallStackObjectNames;
-  inject string[CALL_STACK_SIZE]* mCallStackMethodNames;
-  inject string[CALL_STACK_SIZE]* mCallStackFileNames;
-  inject int[CALL_STACK_SIZE]* mCallStackLineNumbers;
-  state int mCallIStackIndex;
-
   void pushStack(
     string objectName,
     string methodName,
@@ -143,10 +137,6 @@ external controller wisey.lang.CCallStack {
 external controller wisey.lang.threads.CProducerThread
   implements
     wisey.lang.threads.IThread {
-
-  inject wisey.lang.threads.CProducerThreadRunner* mProducerThreadRunner;
-  inject wisey.lang.CCallStack* mCallStack;
-  state wisey.lang.threads.IProducer* mProducer;
 
   void start(
     ::wisey::model* producer,
@@ -169,14 +159,6 @@ external controller wisey.lang.threads.CProducerThreadRunner
   implements
     wisey.lang.threads.IThreadRunner {
 
-  state ::llvm::struct::_opaque_pthread_t::pointer mMyNativeThread;
-  state boolean mIsCancelled;
-  state boolean mIsFinished;
-  state ::wisey::model*[]* mResults;
-  state int mSize;
-  state int mIndexStart;
-  state int mIndexEnd;
-
   void createThread(
     wisey.lang.threads.IThread producerThread,
     int size);
@@ -197,10 +179,6 @@ external controller wisey.lang.threads.CWorkerThread
   implements
     wisey.lang.threads.IThread {
 
-  inject wisey.lang.threads.CWorkerThreadRunner* mWorkerThreadRunner;
-  inject wisey.lang.CCallStack* mCallStack;
-  state wisey.lang.threads.IWorker* mWorker;
-
   void start(
     ::wisey::model* worker);
   boolean isStarted();
@@ -219,11 +197,6 @@ external controller wisey.lang.threads.CWorkerThread
 external controller wisey.lang.threads.CWorkerThreadRunner
   implements
     wisey.lang.threads.IThreadRunner {
-
-  state ::llvm::struct::_opaque_pthread_t::pointer mMyNativeThread;
-  state boolean mIsCancelled;
-  state boolean mIsFinished;
-  state ::wisey::model* mResult;
 
   void createThread(
     wisey.lang.threads.IThread workerThread);
