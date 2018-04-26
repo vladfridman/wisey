@@ -115,7 +115,14 @@ Value* FieldArrayOwnerVariable::generateArrayElementAssignment(IRGenerationConte
                                                            line);
 }
 
-void FieldArrayOwnerVariable::setToNull(IRGenerationContext& context) {
+void FieldArrayOwnerVariable::setToNull(IRGenerationContext& context, int line) {
+  IField* field = mObject->findField(mName);
+  if (field->isInjected()) {
+    context.reportError(line,
+                        "Attempting to set an injected field '" + mName + "' of object " +
+                        mObject->getTypeName() + " to null possibly by returning its value");
+    exit(1);
+  }
   llvm::PointerType* type = (llvm::PointerType*) getType()->getLLVMType(context);
   Value* null = ConstantPointerNull::get(type);
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);

@@ -64,7 +64,7 @@ Value* ParameterArrayOwnerVariable::generateAssignmentIR(IRGenerationContext& co
   exit(1);
 }
 
-void ParameterArrayOwnerVariable::setToNull(IRGenerationContext& context) {
+void ParameterArrayOwnerVariable::setToNull(IRGenerationContext& context, int line) {
   Value* null = ConstantPointerNull::get(mArrayOwnerType->getLLVMType(context));
   IRWriter::newStoreInst(context, null, mValueStore);
 }

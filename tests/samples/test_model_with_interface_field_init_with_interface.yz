@@ -21,10 +21,10 @@ model MCar {
 }
 
 controller CProgram implements IProgram {
-  inject IWheel* mWheelController;
 
   public int run() override {
-    MCar* car = builder(MCar).withWheel(mWheelController).build();
+    IWheel* wheelController = injector(IWheel).inject();
+    MCar* car = builder(MCar).withWheel(wheelController).build();
     return car.getWheelWidth();
   }
 }

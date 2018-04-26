@@ -72,7 +72,7 @@ generateAssignmentIR(IRGenerationContext& context,
   exit(1);
 }
 
-void ParameterImmutableArrayOwnerVariable::setToNull(IRGenerationContext& context) {
+void ParameterImmutableArrayOwnerVariable::setToNull(IRGenerationContext& context, int line) {
   Value* null = ConstantPointerNull::get(mImmutableArrayOwnerType->getLLVMType(context));
   IRWriter::newStoreInst(context, null, mValueStore);
 }

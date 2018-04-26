@@ -50,7 +50,7 @@ namespace wisey {
     
     void free(IRGenerationContext& context, int line) const override;
     
-    void setToNull(IRGenerationContext& context) override;
+    void setToNull(IRGenerationContext& context, int line) override;
     
   };
   

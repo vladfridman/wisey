@@ -101,7 +101,7 @@ generateWholeArrayAssignment(IRGenerationContext& context,
   return assignToValue;
 }
 
-void LocalImmutableArrayOwnerVariable::setToNull(IRGenerationContext& context) {
+void LocalImmutableArrayOwnerVariable::setToNull(IRGenerationContext& context, int line) {
   Value* null = ConstantPointerNull::get(mImmutableArrayOwnerType->getLLVMType(context));
   IRWriter::newStoreInst(context, null, mValueStore);
 }

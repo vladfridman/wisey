@@ -67,7 +67,7 @@ Value* ParameterOwnerVariable::generateAssignmentIR(IRGenerationContext& context
   exit(1);
 }
 
-void ParameterOwnerVariable::setToNull(IRGenerationContext& context) {
+void ParameterOwnerVariable::setToNull(IRGenerationContext& context, int line) {
   llvm::PointerType* type = (llvm::PointerType*) getType()->getLLVMType(context);
   Value* null = ConstantPointerNull::get(type);
   IRWriter::newStoreInst(context, null, mValueStore);

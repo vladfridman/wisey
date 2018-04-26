@@ -127,7 +127,7 @@ TEST_F(LocalOwnerVariableTest, setToNullTest) {
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
   
-  heapOwnerVariable.setToNull(mContext);
+  heapOwnerVariable.setToNull(mContext, 0);
 
   *mStringStream << *mBasicBlock;
   
@@ -145,7 +145,7 @@ TEST_F(LocalOwnerVariableTest, generateIdentifierIRTest) {
   Value* fooValueStore = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValueStore);
   
-  heapOwnerVariable.setToNull(mContext);
+  heapOwnerVariable.setToNull(mContext, 0);
   heapOwnerVariable.generateIdentifierIR(mContext);
   
   *mStringStream << *mBasicBlock;
@@ -165,7 +165,7 @@ TEST_F(LocalOwnerVariableTest, generateIdentifierReferenceIRTest) {
   Value* fooValueStore = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValueStore);
   
-  heapOwnerVariable.setToNull(mContext);
+  heapOwnerVariable.setToNull(mContext, 0);
 
   EXPECT_EQ(fooValueStore, heapOwnerVariable.generateIdentifierReferenceIR(mContext));
 }

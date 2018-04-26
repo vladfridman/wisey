@@ -106,7 +106,7 @@ TEST_F(ParameterArrayOwnerVariableTest, freeTest) {
 }
 
 TEST_F(ParameterArrayOwnerVariableTest, setToNullTest) {
-  mVariable->setToNull(mContext);
+  mVariable->setToNull(mContext, 0);
   
   *mStringStream << *mBasicBlock;
   

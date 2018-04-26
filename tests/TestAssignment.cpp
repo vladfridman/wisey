@@ -182,7 +182,7 @@ TEST_F(AssignmentTest, generateIRWithOwnerTypeTest) {
   mContext.getScopes().setVariable(&mockVariable);
   Identifier* identifier = new Identifier("foo", 0);
   Assignment assignment(identifier, mExpression, 0);
-  EXPECT_CALL(mockVariable, setToNull(_));
+  EXPECT_CALL(mockVariable, setToNull(_, _));
   
   assignment.generateIR(mContext, mInterface->getOwner());
 }

@@ -23,7 +23,7 @@ namespace wisey {
     /**
      * Sets variable to null
      */
-    virtual void setToNull(IRGenerationContext& context) = 0;
+    virtual void setToNull(IRGenerationContext& context, int line) = 0;
     
     /**
      * Free any allocated space associated with this variable

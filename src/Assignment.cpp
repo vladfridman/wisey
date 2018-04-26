@@ -51,7 +51,7 @@ Value* Assignment::generateIR(IRGenerationContext& context, const IType* assignT
   
   if (assignToType->isOwner()) {
     assert(variable->getType()->isOwner());
-    ((IOwnerVariable*) variable)->setToNull(context);
+    ((IOwnerVariable*) variable)->setToNull(context, mLine);
   }
 
   return result;

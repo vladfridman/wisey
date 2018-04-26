@@ -100,7 +100,7 @@ generateArrayElementAssignment(IRGenerationContext& context,
   exit(1);
 }
 
-void FieldImmutableArrayOwnerVariable::setToNull(IRGenerationContext& context) {
+void FieldImmutableArrayOwnerVariable::setToNull(IRGenerationContext& context, int line) {
   llvm::PointerType* type = (llvm::PointerType*) getType()->getLLVMType(context);
   Value* null = ConstantPointerNull::get(type);
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);

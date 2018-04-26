@@ -83,7 +83,7 @@ Value* LocalOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
   return newValue;
 }
 
-void LocalOwnerVariable::setToNull(IRGenerationContext& context) {
+void LocalOwnerVariable::setToNull(IRGenerationContext& context, int line) {
   llvm::PointerType* type = getType()->getLLVMType(context);
   Value* null = ConstantPointerNull::get(type);
   IRWriter::newStoreInst(context, null, mValueStore);

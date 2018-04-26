@@ -1,0 +1,22 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CService {
+  inject int[5]* mArray;
+
+  public int[]* getArray() {
+    return mArray;
+  }
+}
+
+controller CProgram implements IProgram {
+  inject CService* mService;
+
+  public int run() override {
+    mService.getArray();
+    return mService.getArray() == null;
+  }
+}
+
+bind(IProgram).to(CProgram);

@@ -139,7 +139,7 @@ TEST_F(ParameterOwnerVariableTest, setToNullTest) {
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   ParameterOwnerVariable heapMethodParameter("foo", mModel->getOwner(), fooValue);
   
-  heapMethodParameter.setToNull(mContext);
+  heapMethodParameter.setToNull(mContext, 0);
   
   *mStringStream << *mBasicBlock;
   

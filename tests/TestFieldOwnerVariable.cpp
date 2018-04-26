@@ -202,7 +202,7 @@ TEST_F(FieldOwnerVariableTest, generateAssignmentWithCastIRTest) {
 }
 
 TEST_F(FieldOwnerVariableTest, setToNullTest) {
-  mFieldOwnerVariable->setToNull(mContext);
+  mFieldOwnerVariable->setToNull(mContext, 0);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
@@ -261,4 +261,11 @@ TEST_F(TestFileRunner, fieldPointerOwnerVariableRunTest) {
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n"
                                         "destructor systems.vos.wisey.compiler.tests.MModel\n",
                                         "");
+}
+
+TEST_F(TestFileRunner, returnInjectedObjectRunDeathTest) {
+  expectFailCompile("tests/samples/test_return_injected_object.yz",
+                    1,
+                    "tests/samples/test_return_injected_object.yz\\(13\\): Error: "
+                    "Attempting to set an injected field 'mSubService' of object systems.vos.wisey.compiler.tests.CService to null possibly by returning its value");
 }

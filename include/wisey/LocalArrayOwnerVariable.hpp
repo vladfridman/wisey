@@ -48,7 +48,7 @@ namespace wisey {
                                       std::vector<const IExpression*> arrayIndices,
                                       int line) override;
     
-    void setToNull(IRGenerationContext& context) override;
+    void setToNull(IRGenerationContext& context, int line) override;
     
     void free(IRGenerationContext& context, int line) const override;
     

@@ -115,7 +115,7 @@ TEST_F(ParameterImmutableArrayOwnerVariableTest, freeTest) {
 }
 
 TEST_F(ParameterImmutableArrayOwnerVariableTest, setToNullTest) {
-  mVariable->setToNull(mContext);
+  mVariable->setToNull(mContext, 0);
   
   *mStringStream << *mBasicBlock;
   
