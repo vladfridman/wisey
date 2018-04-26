@@ -36,7 +36,7 @@ TESTSOURCES = $(shell find tests -name 'Test*.cpp')
 TESTOBJ=$(TESTSOURCES:tests/%.cpp=$(BUILDDIR)/%.o)
 # Flags used for compilation step
 CFLAGS = -fPIC -fvisibility-inlines-hidden -Wall -W \
-	-Wno-unused-parameter -Wwrite-strings -Wcast-qual -Wmissing-field-initializers \
+	-Wno-vla-extension -Wno-unused-parameter -Wwrite-strings -Wcast-qual -Wmissing-field-initializers \
 	-pedantic -Wno-long-long -Wcovered-switch-default -Wnon-virtual-dtor -Wno-deprecated-register \
 	-Wno-unneeded-internal-declaration -Wdelete-non-virtual-dtor -Werror=date-time \
 	-std=c++11 -g -fno-exceptions -fno-rtti \

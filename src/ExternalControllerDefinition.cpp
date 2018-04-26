@@ -56,6 +56,7 @@ Controller* ExternalControllerDefinition::prototypeObject(IRGenerationContext&
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(controller);
   IObjectDefinition::prototypeInnerObjects(context, controller, mInnerObjectDefinitions);
+  controller->declareInjectFunction(context, mLine);
   context.setObjectType(lastObjectType);
   
   return controller;

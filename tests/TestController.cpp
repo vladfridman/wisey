@@ -391,6 +391,13 @@ TEST_F(ControllerTest, getFieldsTest) {
   EXPECT_EQ(2u, mMultiplierController->getFields().size());
 }
 
+TEST_F(ControllerTest, getReceivedFieldsTest) {
+  std::vector<IField*> fields = mMultiplierController->getReceivedFields();
+  EXPECT_EQ(2u, fields.size());
+  EXPECT_EQ(mLeftField, fields.front());
+  EXPECT_EQ(mRightField, fields.back());
+}
+
 TEST_F(ControllerTest, getOwnerTest) {
   ASSERT_NE(nullptr, mMultiplierController->getOwner());
   EXPECT_EQ(mMultiplierController, mMultiplierController->getOwner()->getReference());
@@ -609,8 +616,123 @@ TEST_F(ControllerTest, getFlattenedInterfaceHierarchyTest) {
   EXPECT_EQ(allInterfaces.at(2), mObjectInterface);
 }
 
+TEST_F(ControllerTest, createInjectFunctionTest) {
+  mAdditorController->createInjectFunction(mContext, 0);
+  mContext.runComposingCallbacks();
+  
+  Function* function = mContext.getModule()->getFunction(mAdditorController->getTypeName() +
+                                                         ".inject");
+  EXPECT_NE(nullptr, function);
+  
+  *mStringStream << *function;
+  string expected =
+  "\ndefine %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject(%systems.vos.wisey.compiler.tests.NOwner* %mOwner, %systems.vos.wisey.compiler.tests.MReference* %mReference) {"
+  "\nentry:"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.CAdditor.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* null, i32 1) to i64))"
+  "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.CAdditor.refCounter*"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CAdditor.refCounter* %injectvar to i8*"
+  "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.CAdditor.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* null, i32 1) to i64), i32 4, i1 false)"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* %injectvar, i32 0, i32 1"
+  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* %1, i32 0, i32 1"
+  "\n  store %systems.vos.wisey.compiler.tests.NOwner* %mOwner, %systems.vos.wisey.compiler.tests.NOwner** %2"
+  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* %1, i32 0, i32 2"
+  "\n  store %systems.vos.wisey.compiler.tests.MReference* %mReference, %systems.vos.wisey.compiler.tests.MReference** %3"
+  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MReference* %mReference to i8*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %4, i64 1)"
+  "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.CAdditor* %1 to i8*"
+  "\n  %6 = getelementptr i8, i8* %5, i64 0"
+  "\n  %7 = bitcast i8* %6 to i32 (...)***"
+  "\n  %8 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CAdditor.vtable, i32 0, i32 0, i32 0"
+  "\n  %9 = bitcast i8** %8 to i32 (...)**"
+  "\n  store i32 (...)** %9, i32 (...)*** %7"
+  "\n  ret %systems.vos.wisey.compiler.tests.CAdditor* %1"
+  "\n}"
+  "\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
+TEST_F(ControllerTest, createInjectFunctionWithInjectedFieldTest) {
+  vector<Type*> childTypes;
+  string childFullName = "systems.vos.wisey.compiler.tests.CChild";
+  StructType* childStructType = StructType::create(mLLVMContext, childFullName);
+  childTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                       ->getPointerTo()->getPointerTo());
+  childStructType->setBody(childTypes);
+  vector<IField*> childFields;
+  Controller* childController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                                          childFullName,
+                                                          childStructType,
+                                                          0);
+  childController->setFields(mContext, childFields, 1u);
+  mContext.addController(childController);
+  IConcreteObjectType::generateNameGlobal(mContext, childController);
+  IConcreteObjectType::generateShortNameGlobal(mContext, childController);
+  IConcreteObjectType::generateVTable(mContext, childController);
+  
+  vector<Type*> parentTypes;
+  parentTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                        ->getPointerTo()->getPointerTo());
+  parentTypes.push_back(childController->getLLVMType(mContext));
+  string parentFullName = "systems.vos.wisey.compiler.tests.CParent";
+  StructType* parentStructType = StructType::create(mLLVMContext, parentFullName);
+  parentStructType->setBody(parentTypes);
+  vector<IField*> parentFields;
+  InjectionArgumentList fieldArguments;
+  parentFields.push_back(new InjectedField(childController->getOwner(),
+                                           childController->getOwner(),
+                                           "mChild",
+                                           fieldArguments,
+                                           mContext.getImportProfile()->getSourceFileName(),
+                                           3));
+  Controller* parentController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                                           parentFullName,
+                                                           parentStructType,
+                                                           0);
+  parentController->setFields(mContext, parentFields, 1u);
+  mContext.addController(parentController);
+  IConcreteObjectType::generateNameGlobal(mContext, parentController);
+  IConcreteObjectType::generateShortNameGlobal(mContext, parentController);
+  IConcreteObjectType::generateVTable(mContext, parentController);
+  
+  childController->declareInjectFunction(mContext, 0);
+  parentController->createInjectFunction(mContext, 0);
+  mContext.runComposingCallbacks();
+  
+  Function* function = mContext.getModule()->getFunction(parentController->getTypeName() +
+                                                         ".inject");
+  EXPECT_NE(nullptr, function);
+  
+  *mStringStream << *function;
+  string expected =
+  "\ndefine %systems.vos.wisey.compiler.tests.CParent* @systems.vos.wisey.compiler.tests.CParent.inject() {"
+  "\nentry:"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.CParent.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CParent.refCounter, %systems.vos.wisey.compiler.tests.CParent.refCounter* null, i32 1) to i64))"
+  "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.CParent.refCounter*"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CParent.refCounter* %injectvar to i8*"
+  "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.CParent.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CParent.refCounter, %systems.vos.wisey.compiler.tests.CParent.refCounter* null, i32 1) to i64), i32 4, i1 false)"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CParent.refCounter, %systems.vos.wisey.compiler.tests.CParent.refCounter* %injectvar, i32 0, i32 1"
+  "\n  %2 = call %systems.vos.wisey.compiler.tests.CChild* @systems.vos.wisey.compiler.tests.CChild.inject()"
+  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.CParent, %systems.vos.wisey.compiler.tests.CParent* %1, i32 0, i32 1"
+  "\n  store %systems.vos.wisey.compiler.tests.CChild* %2, %systems.vos.wisey.compiler.tests.CChild** %3"
+  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.CParent* %1 to i8*"
+  "\n  %5 = getelementptr i8, i8* %4, i64 0"
+  "\n  %6 = bitcast i8* %5 to i32 (...)***"
+  "\n  %7 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CParent.vtable, i32 0, i32 0, i32 0"
+  "\n  %8 = bitcast i8** %7 to i32 (...)**"
+  "\n  store i32 (...)** %8, i32 (...)*** %6"
+  "\n  ret %systems.vos.wisey.compiler.tests.CParent* %1"
+  "\n}"
+  "\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
 TEST_F(ControllerTest, injectTest) {
   InjectionArgumentList injectionArguments;
+  mAdditorController->declareInjectFunction(mContext, 0);
 
   NiceMock<MockExpression> ownerExpression;
   Value* ownerValue = ConstantPointerNull::get(mOwnerNode->getOwner()->getLLVMType(mContext));
@@ -635,25 +757,43 @@ TEST_F(ControllerTest, injectTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.CAdditor.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* null, i32 1) to i64))"
-  "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.CAdditor.refCounter*"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CAdditor.refCounter* %injectvar to i8*"
-  "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.CAdditor.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* null, i32 1) to i64), i32 4, i1 false)"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* %injectvar, i32 0, i32 1"
-  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* %1, i32 0, i32 1"
-  "\n  store %systems.vos.wisey.compiler.tests.NOwner* null, %systems.vos.wisey.compiler.tests.NOwner** %2"
-  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* %1, i32 0, i32 2"
-  "\n  store %systems.vos.wisey.compiler.tests.MReference* null, %systems.vos.wisey.compiler.tests.MReference** %3"
-  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MReference* null to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %4, i64 1)"
-  "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.CAdditor* %1 to i8*"
-  "\n  %6 = getelementptr i8, i8* %5, i64 0"
-  "\n  %7 = bitcast i8* %6 to i32 (...)***"
-  "\n  %8 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CAdditor.vtable, i32 0, i32 0, i32 0"
-  "\n  %9 = bitcast i8** %8 to i32 (...)**"
-  "\n  store i32 (...)** %9, i32 (...)*** %7"
+  "\n  %0 = call %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject(%systems.vos.wisey.compiler.tests.NOwner* null, %systems.vos.wisey.compiler.tests.MReference* null)"
   "\n";
 
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
+TEST_F(ControllerTest, injectChangeArgumentOrderTest) {
+  InjectionArgumentList injectionArguments;
+  mAdditorController->declareInjectFunction(mContext, 0);
+  
+  NiceMock<MockExpression> ownerExpression;
+  Value* ownerValue = ConstantPointerNull::get(mOwnerNode->getOwner()->getLLVMType(mContext));
+  ON_CALL(ownerExpression, generateIR(_, _)).WillByDefault(Return(ownerValue));
+  ON_CALL(ownerExpression, getType(_)).WillByDefault(Return(mOwnerNode->getOwner()));
+  NiceMock<MockExpression> referenceExpression;
+  Value* referenceValue = ConstantPointerNull::get(mReferenceModel->getLLVMType(mContext));
+  ON_CALL(referenceExpression, generateIR(_, _)).WillByDefault(Return(referenceValue));
+  ON_CALL(referenceExpression, getType(_)).WillByDefault(Return(mReferenceModel));
+  
+  InjectionArgument* ownerArgument = new InjectionArgument("withOwner", &ownerExpression);
+  InjectionArgument* referenceArgument = new InjectionArgument("withReference",
+                                                               &referenceExpression);
+  
+  injectionArguments.push_back(referenceArgument);
+  injectionArguments.push_back(ownerArgument);
+
+  Value* result = mAdditorController->inject(mContext, injectionArguments, 0);
+  
+  EXPECT_NE(result, nullptr);
+  
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  %0 = call %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject(%systems.vos.wisey.compiler.tests.NOwner* null, %systems.vos.wisey.compiler.tests.MReference* null)"
+  "\n";
+  
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
@@ -678,6 +818,7 @@ TEST_F(ControllerTest, injectWrongTypeOfArgumentDeathTest) {
   injectionArguments.push_back(injectionArgument1);
   injectionArguments.push_back(injectionArgument2);
   Mock::AllowLeak(mThreadVariable);
+  mAdditorController->declareInjectFunction(mContext, 0);
 
   EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments, 0),
               ::testing::ExitedWithCode(1),
@@ -688,8 +829,10 @@ TEST_F(ControllerTest, injectWrongTypeOfArgumentDeathTest) {
 TEST_F(ControllerTest, injectNonInjectableTypeDeathTest) {
   InjectionArgumentList injectionArguments;
   Mock::AllowLeak(mThreadVariable);
+  mDoublerController->createInjectFunction(mContext, 0);
+  mDoublerController->inject(mContext, injectionArguments, 3);
 
-  EXPECT_EXIT(mDoublerController->inject(mContext, injectionArguments, 3),
+  EXPECT_EXIT(mContext.runComposingCallbacks(),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(3\\): Error: type int is not injectable");
 }
@@ -747,87 +890,6 @@ TEST_F(ControllerTest, injectTooManyArgumentsDeathTest) {
               ::testing::ExitedWithCode(1),
               "Error: Injector could not find field mFoo in object "
               "systems.vos.wisey.compiler.tests.CAdditor");
-}
-
-TEST_F(ControllerTest, injectFieldTest) {
-  vector<Type*> childTypes;
-  string childFullName = "systems.vos.wisey.compiler.tests.CChild";
-  StructType* childStructType = StructType::create(mLLVMContext, childFullName);
-  childTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
-                       ->getPointerTo()->getPointerTo());
-  childStructType->setBody(childTypes);
-  vector<IField*> childFields;
-  Controller* childController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
-                                                          childFullName,
-                                                          childStructType,
-                                                          0);
-  childController->setFields(mContext, childFields, 1u);
-  mContext.addController(childController);
-  IConcreteObjectType::generateNameGlobal(mContext, childController);
-  IConcreteObjectType::generateShortNameGlobal(mContext, childController);
-  IConcreteObjectType::generateVTable(mContext, childController);
-
-  vector<Type*> parentTypes;
-  parentTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
-                        ->getPointerTo()->getPointerTo());
-  parentTypes.push_back(childController->getLLVMType(mContext));
-  string parentFullName = "systems.vos.wisey.compiler.tests.CParent";
-  StructType* parentStructType = StructType::create(mLLVMContext, parentFullName);
-  parentStructType->setBody(parentTypes);
-  vector<IField*> parentFields;
-  InjectionArgumentList fieldArguments;
-  parentFields.push_back(new InjectedField(childController->getOwner(),
-                                           childController->getOwner(),
-                                           "mChild", 
-                                           fieldArguments,
-                                           mContext.getImportProfile()->getSourceFileName(),
-                                           3));
-  Controller* parentController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
-                                                           parentFullName,
-                                                           parentStructType,
-                                                           0);
-  parentController->setFields(mContext, parentFields, 1u);
-  mContext.addController(parentController);
-  IConcreteObjectType::generateNameGlobal(mContext, parentController);
-  IConcreteObjectType::generateShortNameGlobal(mContext, parentController);
-  IConcreteObjectType::generateVTable(mContext, parentController);
-
-  InjectionArgumentList injectionArguments;
-  Value* result = parentController->inject(mContext, injectionArguments, 0);
-  
-  EXPECT_NE(result, nullptr);
-  
-  *mStringStream << *mBasicBlock;
-  string expected =
-  "\nentry:"
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.CParent.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CParent.refCounter, %systems.vos.wisey.compiler.tests.CParent.refCounter* null, i32 1) to i64))"
-  "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.CParent.refCounter*"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CParent.refCounter* %injectvar to i8*"
-  "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.CParent.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CParent.refCounter, %systems.vos.wisey.compiler.tests.CParent.refCounter* null, i32 1) to i64), i32 4, i1 false)"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CParent.refCounter, %systems.vos.wisey.compiler.tests.CParent.refCounter* %injectvar, i32 0, i32 1"
-  "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.CChild.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CChild.refCounter, %systems.vos.wisey.compiler.tests.CChild.refCounter* null, i32 1) to i64))"
-  "\n  %injectvar2 = bitcast i8* %malloccall1 to %systems.vos.wisey.compiler.tests.CChild.refCounter*"
-  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.CChild.refCounter* %injectvar2 to i8*"
-  "\n  call void @llvm.memset.p0i8.i64(i8* %2, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.CChild.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CChild.refCounter, %systems.vos.wisey.compiler.tests.CChild.refCounter* null, i32 1) to i64), i32 4, i1 false)"
-  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.CChild.refCounter, %systems.vos.wisey.compiler.tests.CChild.refCounter* %injectvar2, i32 0, i32 1"
-  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.CChild* %3 to i8*"
-  "\n  %5 = getelementptr i8, i8* %4, i64 0"
-  "\n  %6 = bitcast i8* %5 to i32 (...)***"
-  "\n  %7 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CChild.vtable, i32 0, i32 0, i32 0"
-  "\n  %8 = bitcast i8** %7 to i32 (...)**"
-  "\n  store i32 (...)** %8, i32 (...)*** %6"
-  "\n  %9 = getelementptr %systems.vos.wisey.compiler.tests.CParent, %systems.vos.wisey.compiler.tests.CParent* %1, i32 0, i32 1"
-  "\n  store %systems.vos.wisey.compiler.tests.CChild* %3, %systems.vos.wisey.compiler.tests.CChild** %9"
-  "\n  %10 = bitcast %systems.vos.wisey.compiler.tests.CParent* %1 to i8*"
-  "\n  %11 = getelementptr i8, i8* %10, i64 0"
-  "\n  %12 = bitcast i8* %11 to i32 (...)***"
-  "\n  %13 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CParent.vtable, i32 0, i32 0, i32 0"
-  "\n  %14 = bitcast i8** %13 to i32 (...)**"
-  "\n  store i32 (...)** %14, i32 (...)*** %12"
-  "\n";
-  
-  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
-  mStringBuffer.clear();
 }
 
 TEST_F(ControllerTest, printToStreamTest) {

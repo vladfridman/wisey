@@ -40,6 +40,7 @@ namespace wisey {
     std::map<std::string, IField*> mFields;
     std::vector<IField*> mFieldsOrdered;
     std::map<IField*, unsigned long> mFieldIndexes;
+    std::map<IField*, unsigned long> mReceivedFieldIndexes;
     std::map<std::string, IMethod*> mNameToMethodMap;
     std::vector<Interface*> mInterfaces;
     std::vector<Interface*> mFlattenedInterfaceHierarchy;
@@ -77,10 +78,20 @@ namespace wisey {
                                              int line);
     
     /**
-     * Tells whether it has any field that need initialization
+     * Returns received fields
      */
-    bool hasReceivedFields() const;
+    std::vector<IField*> getReceivedFields() const;
     
+    /**
+     * Creates function that injects this controller
+     */
+    llvm::Function* createInjectFunction(IRGenerationContext& context, int line);
+    
+    /**
+     * Declares function that injects this controller
+     */
+    llvm::Function* declareInjectFunction(IRGenerationContext& context, int line);
+
     bool isPublic() const override;
     
     llvm::Instruction* inject(IRGenerationContext& context,
@@ -230,13 +241,20 @@ namespace wisey {
     
     void checkAllFieldsAreSet(const InjectionArgumentList& injectionArgumentList) const;
     
-    void initializeReceivedFields(IRGenerationContext& context,
-                                  const InjectionArgumentList& controllerInjectorArguments,
-                                  llvm::Instruction* malloc,
-                                  int line) const;
+    static void initializeReceivedFields(IRGenerationContext& context,
+                                         const Controller* controller,
+                                         llvm::Function* function,
+                                         llvm::Instruction* malloc);
+
+    static void initializeInjectedFields(IRGenerationContext& context,
+                                         const Controller* controller,
+                                         llvm::Instruction* malloc);
     
-    void initializeInjectedFields(IRGenerationContext& context,
-                                  llvm::Instruction* malloc) const;
+    std::string getInjectFunctionName() const;
+
+    static void composeInjectFunctionBody(IRGenerationContext& context,
+                                          llvm::Function* function,
+                                          const IObjectType* objectType);
 
   };
   

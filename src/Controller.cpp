@@ -50,6 +50,7 @@ Controller::~Controller() {
   mFieldIndexes.clear();
   mFields.clear();
   mReceivedFields.clear();
+  mReceivedFieldIndexes.clear();
   mInjectedFields.clear();
   mStateFields.clear();
   for (IMethod* method : mMethods) {
@@ -82,8 +83,8 @@ Controller* Controller::newExternalController(string name, StructType* structTyp
   return new Controller(AccessLevel::PUBLIC_ACCESS, name, structType, true, line);
 }
 
-bool Controller::hasReceivedFields() const {
-  return mReceivedFields.size();
+vector<IField*> Controller::getReceivedFields() const {
+  return mReceivedFields;
 }
 
 bool Controller::isPublic() const {
@@ -99,6 +100,7 @@ void Controller::setFields(IRGenerationContext& context,
     mFieldsOrdered.push_back(field);
     mFieldIndexes[field] = index;
     if (field->isReceived()) {
+      mReceivedFieldIndexes[field] = mReceivedFields.size();
       mReceivedFields.push_back(field);
     } else if (field->isState()) {
       mStateFields.push_back(field);
@@ -171,18 +173,79 @@ wisey::Constant* Controller::findConstant(string constantName) const {
 Instruction* Controller::inject(IRGenerationContext& context,
                                 InjectionArgumentList injectionArgumentList,
                                 int line) const {
-  const IObjectType* lastObjectType = context.getObjectType();
-  context.setObjectType(this);
-  
   checkArguments(injectionArgumentList);
-  Instruction* malloc = createMallocForObject(context, this, "injectvar");
-  initializeReceivedFields(context, injectionArgumentList, malloc, line);
-  initializeInjectedFields(context, malloc);
-  initializeVTable(context, this, malloc);
+
+  Function* function = context.getModule()->getFunction(getInjectFunctionName());
+  assert(function && "Inject function for controller is not defined");
+
+  Value* callArguments[mReceivedFields.size()];
   
-  context.setObjectType(lastObjectType);
+  for (InjectionArgument* argument : injectionArgumentList) {
+    string argumentName = argument->deriveFieldName();
+    IField* field = findField(argumentName);
+    const IType* fieldType = field->getType();
+    
+    Value* argumentValue = argument->getValue(context, fieldType);
+    const IType* argumentType = argument->getType(context);
+    if (!argumentType->canAutoCastTo(context, fieldType)) {
+      Log::e_deprecated("Injector argumet value for field '" + field->getName() +
+                        "' does not match its type");
+      exit(1);
+    }
+    Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);
+    callArguments[mReceivedFieldIndexes.at(field)] = castValue;
+  }
+
+  vector<Value*> callArgumentsVector;
+  for (Value* callArgument : callArguments) {
+    callArgumentsVector.push_back(callArgument);
+  }
+  return IRWriter::createCallInst(context, function, callArgumentsVector, "");
+}
+
+string Controller::getInjectFunctionName() const {
+  return getTypeName() + ".inject";
+}
+
+Function* Controller::declareInjectFunction(IRGenerationContext& context, int line) {
+  LLVMContext& llvmContext = context.getLLVMContext();
   
-  return malloc;
+  Value* index[2];
+  index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  vector<Type*> argumentTypes;
+  for (IField* receivedField : mReceivedFields) {
+    argumentTypes.push_back(receivedField->getType()->getLLVMType(context));
+  }
+  
+  FunctionType* functionType = FunctionType::get(getLLVMType(context), argumentTypes, false);
+  return Function::Create(functionType,
+                          GlobalValue::ExternalLinkage,
+                          getInjectFunctionName(),
+                          context.getModule());
+}
+
+Function* Controller::createInjectFunction(IRGenerationContext& context, int line) {
+  Function* function = declareInjectFunction(context, line);
+  context.addComposingCallback1Objects(composeInjectFunctionBody, function, this);
+  return function;
+}
+
+void Controller::composeInjectFunctionBody(IRGenerationContext& context,
+                                           Function* function,
+                                           const IObjectType* objectType) {
+  const Controller* controller = (const Controller*) objectType;
+  BasicBlock* entryBlock = BasicBlock::Create(context.getLLVMContext(), "entry", function);
+  context.getScopes().pushScope();
+  context.setBasicBlock(entryBlock);
+  context.setObjectType(objectType);
+  
+  Instruction* malloc = createMallocForObject(context, controller, "injectvar");
+  initializeReceivedFields(context, controller, function, malloc);
+  initializeInjectedFields(context, controller, malloc);
+  initializeVTable(context, controller, malloc);
+  IRWriter::createReturnInst(context, malloc);
+  
+  context.getScopes().popScope(context, 0);
 }
 
 vector<string> Controller::getMissingReceivedFields(set<string> givenFields) const {
@@ -475,44 +538,38 @@ checkAllFieldsAreSet(const InjectionArgumentList& injectionArgumentList) const {
 }
 
 void Controller::initializeReceivedFields(IRGenerationContext& context,
-                                          const InjectionArgumentList& controllerInjectorArguments,
-                                          Instruction* malloc,
-                                          int line) const {
+                                          const Controller* controller,
+                                          llvm::Function* function,
+                                          Instruction* malloc) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  
+  Function::arg_iterator functionArguments = function->arg_begin();
+
   Value* index[2];
   index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
-  for (InjectionArgument* argument : controllerInjectorArguments) {
-    string argumentName = argument->deriveFieldName();
-    IField* field = findField(argumentName);
-    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
+  for (IField* field : controller->getReceivedFields()) {
+    Value* functionArgument = &*functionArguments;
+    functionArgument->setName(field->getName());
+    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), controller->getFieldIndex(field));
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
+    IRWriter::newStoreInst(context, functionArgument, fieldPointer);
     const IType* fieldType = field->getType();
-    
-    Value* argumentValue = argument->getValue(context, fieldType);
-    const IType* argumentType = argument->getType(context);
-    if (!argumentType->canAutoCastTo(context, fieldType)) {
-      Log::e_deprecated("Injector argumet value for field '" + field->getName() +
-                        "' does not match its type");
-      exit(1);
-    }
-    Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);
-    IRWriter::newStoreInst(context, castValue, fieldPointer);
     if (fieldType->isReference()) {
-      ((const IReferenceType*) fieldType)->incrementReferenceCount(context, castValue);
+      ((const IReferenceType*) fieldType)->incrementReferenceCount(context, functionArgument);
     }
+    functionArguments++;
   }
 }
 
 void Controller::initializeInjectedFields(IRGenerationContext& context,
-                                          Instruction* malloc) const {
+                                          const Controller* controller,
+                                          Instruction* malloc) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Value *index[2];
   index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
-  for (InjectedField* field : getInjectedFields()) {
+  for (InjectedField* field : controller->getInjectedFields()) {
     Value* fieldValue = field->inject(context);
-    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
+    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), controller->getFieldIndex(field));
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     IRWriter::newStoreInst(context, fieldValue, fieldPointer);
   }

@@ -20,8 +20,10 @@ controller CProgram implements IProgram {
     int[][]* array = new int[5][3];
     CController* mycontroller = injector(CController).withArray(array).inject();
     mycontroller.setValue(5);
+    int result = mycontroller.getValue();
+    mycontroller = null;
 
-    return mycontroller.getValue();
+    return result;
   }
 }
 

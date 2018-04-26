@@ -328,6 +328,7 @@ TEST_F(ControllerOwnerTest, createParameterVariableTest) {
 }
 
 TEST_F(ControllerOwnerTest, injectTest) {
+  mAdditorController->declareInjectFunction(mContext, 0);
   InjectionArgumentList injectionArguments;
   Value* result = mAdditorController->getOwner()->inject(mContext, injectionArguments, 0);
   
@@ -336,17 +337,7 @@ TEST_F(ControllerOwnerTest, injectTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.CAdditor.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* null, i32 1) to i64))"
-  "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.CAdditor.refCounter*"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CAdditor.refCounter* %injectvar to i8*"
-  "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.CAdditor.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* null, i32 1) to i64), i32 4, i1 false)"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* %injectvar, i32 0, i32 1"
-  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.CAdditor* %1 to i8*"
-  "\n  %3 = getelementptr i8, i8* %2, i64 0"
-  "\n  %4 = bitcast i8* %3 to i32 (...)***"
-  "\n  %5 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CAdditor.vtable, i32 0, i32 0, i32 0"
-  "\n  %6 = bitcast i8** %5 to i32 (...)**"
-  "\n  store i32 (...)** %6, i32 (...)*** %4"
+  "\n  %0 = call %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject()"
   "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

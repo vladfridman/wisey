@@ -373,7 +373,7 @@ void IRGenerationContext::bindInterfaces(IRGenerationContext& context) const {
   for (auto iterator = mBindings.begin(); iterator != mBindings.end(); iterator++) {
     const Interface* interface = iterator->first;
     const Controller* controller = iterator->second;
-    if (!controller->hasReceivedFields()) {
+    if (!controller->getReceivedFields().size()) {
       interface->composeInjectFunctionWithController(context, controller);
     }
   }

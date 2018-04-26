@@ -121,10 +121,10 @@ external controller wisey.lang.CCallStack {
 
   public constant int CALL_STACK_SIZE = 1024;
 
-  inject string[CALL_STACK_SIZE]* mCallStackObjectNames;
-  inject string[CALL_STACK_SIZE]* mCallStackMethodNames;
-  inject string[CALL_STACK_SIZE]* mCallStackFileNames;
-  inject int[CALL_STACK_SIZE]* mCallStackLineNumbers;
+  inject string[wisey.lang.threads.CWorkerThreadRunner.CALL_STACK_SIZE]* mCallStackObjectNames;
+  inject string[wisey.lang.threads.CWorkerThreadRunner.CALL_STACK_SIZE]* mCallStackMethodNames;
+  inject string[wisey.lang.threads.CWorkerThreadRunner.CALL_STACK_SIZE]* mCallStackFileNames;
+  inject int[wisey.lang.threads.CWorkerThreadRunner.CALL_STACK_SIZE]* mCallStackLineNumbers;
   state int mCallIStackIndex;
 
   void pushStack(
