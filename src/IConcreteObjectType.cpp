@@ -340,8 +340,8 @@ void IConcreteObjectType::declareFieldVariables(IRGenerationContext& context,
 
 void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
                                                 Function* function,
-                                                const IObjectType* objectType) {
-  const IConcreteObjectType* object = (const IConcreteObjectType*) objectType;
+                                                const void* object) {
+  const IConcreteObjectType* concreteObject = (const IConcreteObjectType*) object;
   LLVMContext& llvmContext = context.getLLVMContext();
   
   BasicBlock* basicBlock = BasicBlock::Create(llvmContext, "entry", function, 0);
@@ -369,19 +369,21 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   
   Value* thisValue = IRWriter::newBitCastInst(context,
                                               thisGeneric,
-                                              objectType->getLLVMType(context));
+                                              concreteObject->getLLVMType(context));
   
   if (context.isDestructorDebugOn()) {
     ExpressionList printOutArguments;
-    printOutArguments.push_back(new StringLiteral("destructor " + object->getTypeName() + "\n", 0));
+    StringLiteral* stringLiteral =
+    new StringLiteral("destructor " + concreteObject->getTypeName() + "\n", 0);
+    printOutArguments.push_back(stringLiteral);
     PrintOutStatement printOutStatement(printOutArguments);
     printOutStatement.generateIR(context);
   }
   
-  decrementReferenceFields(context, thisValue, object);
-  freeOwnerFields(context, thisValue, object, 0);
+  decrementReferenceFields(context, thisValue, concreteObject);
+  freeOwnerFields(context, thisValue, concreteObject, 0);
   
-  Value* referenceCount = object->getReferenceCount(context, thisValue);
+  Value* referenceCount = concreteObject->getReferenceCount(context, thisValue);
   BasicBlock* refCountZeroBlock = BasicBlock::Create(llvmContext, "ref.count.zero", function);
   BasicBlock* refCountNotZeroBlock = BasicBlock::Create(llvmContext, "ref.count.notzero", function);
   llvm::Constant* zero = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
@@ -392,7 +394,8 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   
   if (context.isDestructorDebugOn()) {
     ExpressionList printOutArguments;
-    printOutArguments.push_back(new StringLiteral("Throwing RCE " + object->getTypeName(), 0));
+    printOutArguments.push_back(new StringLiteral("Throwing RCE " + concreteObject->getTypeName(),
+                                                  0));
     printOutArguments.push_back(new StringLiteral(" count = ", 0));
     printOutArguments.push_back(new FakeExpression(referenceCount, PrimitiveTypes::LONG_TYPE));
     printOutArguments.push_back(new StringLiteral("\n", 0));

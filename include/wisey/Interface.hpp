@@ -346,12 +346,12 @@ namespace wisey {
     
     static void composeEmptyInjectFunction(IRGenerationContext& context,
                                            llvm::Function* function,
-                                           const IObjectType* objectType);
+                                           const void* object);
 
     static void composeInjectWithControllerFunction(IRGenerationContext& context,
                                                     llvm::Function* function,
-                                                    const IObjectType* objectType1,
-                                                    const IObjectType* objectType2);
+                                                    const void* object1,
+                                                    const void* object2);
     
     std::string getInjectWrapperFunctionName() const;
     

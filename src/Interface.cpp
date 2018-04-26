@@ -852,8 +852,8 @@ Function* Interface::getOrCreateEmptyInjectFunction(IRGenerationContext& context
 
 void Interface::composeEmptyInjectFunction(IRGenerationContext& context,
                                            Function* function,
-                                           const IObjectType* objectType) {
-  const Interface* interface = (const Interface*) objectType;
+                                           const void* object) {
+  const Interface* interface = (const Interface*) object;
   LLVMContext& llvmContext = context.getLLVMContext();
   
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function, 0);
@@ -934,10 +934,10 @@ Value* Interface::composeInjectFunctionWithController(IRGenerationContext& conte
 
 void Interface::composeInjectWithControllerFunction(IRGenerationContext& context,
                                                     Function* function,
-                                                    const IObjectType* objectType1,
-                                                    const IObjectType* objectType2) {
-  const Interface* interface = (const Interface*) objectType1;
-  const Controller* controller = (const Controller*) objectType2;
+                                                    const void* object1,
+                                                    const void* object2) {
+  const Interface* interface = (const Interface*) object1;
+  const Controller* controller = (const Controller*) object2;
   LLVMContext& llvmContext = context.getLLVMContext();
   
   BasicBlock* basicBlock = BasicBlock::Create(llvmContext, "entry", function, 0);

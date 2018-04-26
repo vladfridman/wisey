@@ -232,12 +232,12 @@ Function* Controller::createInjectFunction(IRGenerationContext& context, int lin
 
 void Controller::composeInjectFunctionBody(IRGenerationContext& context,
                                            Function* function,
-                                           const IObjectType* objectType) {
-  const Controller* controller = (const Controller*) objectType;
+                                           const void* object) {
+  const Controller* controller = (const Controller*) object;
   BasicBlock* entryBlock = BasicBlock::Create(context.getLLVMContext(), "entry", function);
   context.getScopes().pushScope();
   context.setBasicBlock(entryBlock);
-  context.setObjectType(objectType);
+  context.setObjectType(controller);
   
   Instruction* malloc = createMallocForObject(context, controller, "injectvar");
   initializeReceivedFields(context, controller, function, malloc);

@@ -34,10 +34,10 @@
 namespace wisey {
   
   typedef std::function<void(IRGenerationContext&, llvm::Function*)> ComposingFunction0Objects;
-  typedef std::function<void(IRGenerationContext&, llvm::Function*, const IObjectType*)>
+  typedef std::function<void(IRGenerationContext&, llvm::Function*, const void*)>
   ComposingFunction1Objects;
-  typedef std::function<void(IRGenerationContext&, llvm::Function*, const IObjectType*,
-  const IObjectType*)> ComposingFunction2Objects;
+  typedef std::function<void(IRGenerationContext&, llvm::Function*, const void*, const void*)>
+  ComposingFunction2Objects;
   
   /**
    * Represents context for Intermidate Representation code generation
@@ -67,10 +67,10 @@ namespace wisey {
     Scopes mScopes;
     bool mIsDestructorDebugOn;
     std::list<std::tuple<ComposingFunction0Objects, llvm::Function*>> mComposingCallbacks0Objects;
-    std::list<std::tuple<ComposingFunction1Objects, llvm::Function*, const IObjectType*>>
+    std::list<std::tuple<ComposingFunction1Objects, llvm::Function*, const void*>>
     mComposingCallbacks1Objects;
-    std::list<std::tuple<ComposingFunction2Objects, llvm::Function*, const IObjectType*,
-    const IObjectType*>> mComposingCallbacks2Objects;
+    std::list<std::tuple<ComposingFunction2Objects, llvm::Function*, const void*, const void*>>
+    mComposingCallbacks2Objects;
     const IObjectType* mObjectType;
     
   public:
@@ -286,15 +286,15 @@ namespace wisey {
      */
     void addComposingCallback1Objects(ComposingFunction1Objects callback,
                                       llvm::Function* function,
-                                      const IObjectType* objectType);
+                                      const void* object);
     
     /**
      * Add a IR composition function callback that will be called after code generation is finished
      */
     void addComposingCallback2Objects(ComposingFunction2Objects callback,
                                       llvm::Function* function,
-                                      const IObjectType* objectType1,
-                                      const IObjectType* objectType2);
+                                      const void* object1,
+                                      const void* object2);
     
     /**
      * Run composition callbacks that compose auxilary function bodies

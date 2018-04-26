@@ -369,7 +369,7 @@ namespace wisey {
     
     static void composeDestructorBody(IRGenerationContext& context,
                                       llvm::Function* function,
-                                      const IObjectType* object);
+                                      const void* object);
     
     static void printTypeKind(const IConcreteObjectType* type, std::iostream& stream);
     

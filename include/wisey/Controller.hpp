@@ -254,7 +254,7 @@ namespace wisey {
 
     static void composeInjectFunctionBody(IRGenerationContext& context,
                                           llvm::Function* function,
-                                          const IObjectType* objectType);
+                                          const void* object);
 
   };
   
