@@ -59,9 +59,9 @@ bool ConstantReference::isAssignable() const {
 }
 
 void ConstantReference::printToStream(IRGenerationContext& context, std::iostream& stream) const {
-  const IObjectType* objectType = getObjectType(context);
-  if (objectType) {
-    stream << objectType->getTypeName() << ".";
+  if (mObjectTypeSpecifier) {
+    mObjectTypeSpecifier->printToStream(context, stream);
+    stream << ".";
   }
   stream << mConstantName;
 }

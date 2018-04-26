@@ -207,7 +207,7 @@ string Controller::getInjectFunctionName() const {
   return getTypeName() + ".inject";
 }
 
-Function* Controller::declareInjectFunction(IRGenerationContext& context, int line) {
+Function* Controller::declareInjectFunction(IRGenerationContext& context, int line) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Value* index[2];
@@ -224,7 +224,7 @@ Function* Controller::declareInjectFunction(IRGenerationContext& context, int li
                           context.getModule());
 }
 
-Function* Controller::createInjectFunction(IRGenerationContext& context, int line) {
+Function* Controller::createInjectFunction(IRGenerationContext& context, int line) const {
   Function* function = declareInjectFunction(context, line);
   context.addComposingCallback1Objects(composeInjectFunctionBody, function, this);
   return function;
@@ -241,7 +241,6 @@ void Controller::composeInjectFunctionBody(IRGenerationContext& context,
   
   Instruction* malloc = createMallocForObject(context, controller, "injectvar");
   initializeReceivedFields(context, controller, function, malloc);
-  initializeInjectedFields(context, controller, malloc);
   initializeVTable(context, controller, malloc);
   IRWriter::createReturnInst(context, malloc);
   
@@ -560,17 +559,14 @@ void Controller::initializeReceivedFields(IRGenerationContext& context,
   }
 }
 
-void Controller::initializeInjectedFields(IRGenerationContext& context,
-                                          const Controller* controller,
-                                          Instruction* malloc) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  
-  Value *index[2];
-  index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
-  for (InjectedField* field : controller->getInjectedFields()) {
-    Value* fieldValue = field->inject(context);
-    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), controller->getFieldIndex(field));
-    GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
-    IRWriter::newStoreInst(context, fieldValue, fieldPointer);
+void Controller::defineFieldInjectorFunctions(IRGenerationContext& context, int line) const {
+  for (InjectedField* field : mInjectedFields) {
+    field->defineInjectionFunction(context, this);
+  }
+}
+
+void Controller::declareFieldInjectionFunctions(IRGenerationContext& context, int line) const {
+  for (InjectedField* field : mInjectedFields) {
+    field->declareInjectionFunction(context, this);
   }
 }

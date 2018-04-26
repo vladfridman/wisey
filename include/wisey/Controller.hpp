@@ -85,13 +85,23 @@ namespace wisey {
     /**
      * Creates function that injects this controller
      */
-    llvm::Function* createInjectFunction(IRGenerationContext& context, int line);
+    llvm::Function* createInjectFunction(IRGenerationContext& context, int line) const;
     
     /**
      * Declares function that injects this controller
      */
-    llvm::Function* declareInjectFunction(IRGenerationContext& context, int line);
+    llvm::Function* declareInjectFunction(IRGenerationContext& context, int line) const;
 
+    /**
+     * Declares injection functions for injected field in this controller
+     */
+    void declareFieldInjectionFunctions(IRGenerationContext& context, int line) const;
+    
+    /**
+     * Defines field injection functions and schedules composition of their bodies
+     */
+    void defineFieldInjectorFunctions(IRGenerationContext& context, int line) const;
+    
     bool isPublic() const override;
     
     llvm::Instruction* inject(IRGenerationContext& context,

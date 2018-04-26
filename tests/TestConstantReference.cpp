@@ -65,6 +65,9 @@ public:
     ON_CALL(*mMockExpression, generateIR(_, _)).WillByDefault(Return(intConstant));
     ON_CALL(*mMockExpression, isConstant()).WillByDefault(Return(true));
     constant->generateIR(mContext, mMockObject);
+    
+    ON_CALL(*mMockObjectTypeSpecifier, printToStream(_, _))
+    .WillByDefault(Invoke(printObjecTypeSpecifier));
 
     llvm::FunctionType* functionType = llvm::FunctionType::get(llvm::Type::getInt32Ty(mLLVMContext),
                                                                false);
@@ -85,6 +88,10 @@ public:
     delete mMockExpression;
     delete mMockObject;
     delete mMockObjectTypeSpecifier;
+  }
+  
+  static void printObjecTypeSpecifier(IRGenerationContext& context, iostream& stream) {
+    stream << "MMyObject";
   }
 };
 

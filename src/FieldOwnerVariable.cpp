@@ -21,8 +21,7 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-FieldOwnerVariable::FieldOwnerVariable(string name,
-                                       const IConcreteObjectType* object) :
+FieldOwnerVariable::FieldOwnerVariable(string name, const IConcreteObjectType* object) :
 mName(name), mObject(object) { }
 
 FieldOwnerVariable::~FieldOwnerVariable() {}
@@ -48,8 +47,15 @@ bool FieldOwnerVariable::isSystem() const {
 
 Value* FieldOwnerVariable::generateIdentifierIR(IRGenerationContext& context) const {
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
+  IField* field = mObject->findField(mName);
+
+  if (!field->isInjected()) {
+    return IRWriter::newLoadInst(context, fieldPointer, "");
+  }
   
-  return IRWriter::newLoadInst(context, fieldPointer, "");
+  assert(mObject->isController() && "Injected field in an object other than controller");
+  const Controller* controller  = (const Controller*) mObject;
+  return ((InjectedField* ) field)->callInjectFunction(context, controller, fieldPointer);
 }
 
 Value* FieldOwnerVariable::generateIdentifierReferenceIR(IRGenerationContext& context) const {

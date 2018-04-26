@@ -72,6 +72,7 @@ void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const 
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
   configureObject(context, controller, mObjectElementDeclarations, mInterfaceSpecifiers);
   controller->createInjectFunction(context, mLine);
+  controller->defineFieldInjectorFunctions(context, mLine);
   context.setObjectType(lastObjectType);
 }
 

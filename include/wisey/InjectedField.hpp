@@ -14,6 +14,9 @@
 
 namespace wisey {
   
+  class Controller;
+  class IObjectType;
+  
   /**
    * Represents an injected field in a concrete object
    */
@@ -42,6 +45,29 @@ namespace wisey {
      */
     llvm::Value* inject(IRGenerationContext& context) const;
     
+    
+    /**
+     * Declares the function that injects this field
+     */
+    llvm::Function* declareInjectionFunction(IRGenerationContext& context,
+                                             const Controller* controller) const;
+    /**
+     * Defines function that injects this field and schedules its body composition
+     */
+    void defineInjectionFunction(IRGenerationContext& context, const Controller* controller) const;
+
+    /**
+     * Returns the name of the function that injects this field
+     */
+    std::string getInjectionFunctionName(const Controller* controller) const;
+    
+    /**
+     * Calls the function that injects the field value and stores it at the provided location
+     */
+    llvm::Value* callInjectFunction(IRGenerationContext& context,
+                                    const Controller* controller,
+                                    llvm::Value* fieldPointer) const;
+
     std::string getName() const override;
     
     const IType* getType() const override;
@@ -72,6 +98,13 @@ namespace wisey {
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
+  private:
+    
+    static void composeInjectFunctionBody(IRGenerationContext& context,
+                                          llvm::Function* function,
+                                          const void* object1,
+                                          const void* object2);
+
   };
   
 } /* namespace wisey */

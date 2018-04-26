@@ -10,6 +10,8 @@
 
 #include <gtest/gtest.h>
 
+#include <llvm/Support/raw_ostream.h>
+
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "MockExpression.hpp"
@@ -30,16 +32,24 @@ using ::testing::Test;
 
 struct InjectedFieldTest : public Test {
   IRGenerationContext mContext;
+  LLVMContext& mLLVMContext;
   NiceMock<MockType>* mType;
   NiceMock<MockType>* mInjectedType;
   NiceMock<MockExpression>* mExpression;
   string mName;
   InjectionArgumentList mInjectionArgumentList;
   InjectionArgument* mInjectionArgument;
-  
+  Controller* mController;
+  Function* mFunction;
+  BasicBlock* mBasicBlock;
+  string mStringBuffer;
+  raw_string_ostream* mStringStream;
+  InjectedField* mInjectedField;
+
 public:
   
   InjectedFieldTest() :
+  mLLVMContext(mContext.getLLVMContext()),
   mType(new NiceMock<MockType>()),
   mInjectedType(new NiceMock<MockType>()),
   mExpression(new NiceMock<MockExpression>()),
@@ -53,6 +63,43 @@ public:
     ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
     EXPECT_CALL(*mType, die());
     EXPECT_CALL(*mInjectedType, die());
+
+    vector<Type*> controllerTypes;
+    string controllerFullName = "systems.vos.wisey.compiler.tests.CController";
+    StructType* controllerStructType = StructType::create(mLLVMContext, controllerFullName);
+    controllerTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                              ->getPointerTo()->getPointerTo());
+    controllerStructType->setBody(controllerTypes);
+    vector<IField*> controllerFields;
+    InjectionArgumentList fieldArguments;
+    mInjectedField = new InjectedField(mType, mType, "mFoo", fieldArguments, "/tmp/source.yz", 3);
+    controllerFields.push_back(mInjectedField);
+    mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                            controllerFullName,
+                                            controllerStructType,
+                                            0);
+    mController->setFields(mContext, controllerFields, 1u);
+    mContext.addController(mController);
+    IConcreteObjectType::generateNameGlobal(mContext, mController);
+    IConcreteObjectType::generateShortNameGlobal(mContext, mController);
+    IConcreteObjectType::generateVTable(mContext, mController);
+
+    FunctionType* functionType =
+    FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
+    mFunction = Function::Create(functionType,
+                                 GlobalValue::InternalLinkage,
+                                 "main",
+                                 mContext.getModule());
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setBasicBlock(mBasicBlock);
+    mContext.getScopes().pushScope();
+    
+    PointerType* int8PointerType = Type::getInt8Ty(mLLVMContext)->getPointerTo();
+    ON_CALL(*mType, getLLVMType(_)).WillByDefault(Return(int8PointerType));
+    Value* null = ConstantPointerNull::get(int8PointerType);
+    ON_CALL(*mType, inject(_, _, _)).WillByDefault(Return(null));
+
+    mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
   ~InjectedFieldTest() {
@@ -126,4 +173,63 @@ TEST_F(InjectedFieldTest, injectDeathTest) {
   EXPECT_EXIT(field.inject(mContext),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(5\\): Error: Injected fields must have owner type denoted by '*'");
+}
+
+TEST_F(InjectedFieldTest, declareInjectionFunctionTest) {
+  mInjectedField->declareInjectionFunction(mContext, mController);
+  
+  Function* function = mContext.getModule()->
+  getFunction(mInjectedField->getInjectionFunctionName(mController));
+  
+  EXPECT_NE(nullptr, function);
+  
+  vector<Type*> functionArgumentTypes;
+  functionArgumentTypes.push_back(mType->getLLVMType(mContext)->getPointerTo());
+  FunctionType* functionType = FunctionType::get(mType->getLLVMType(mContext),
+                                                 functionArgumentTypes,
+                                                 false);
+  
+  EXPECT_EQ(functionType, function->getFunctionType());
+}
+
+TEST_F(InjectedFieldTest, callInjectFunctionTest) {
+  mInjectedField->declareInjectionFunction(mContext, mController);
+  Value* null = ConstantPointerNull::get(mType->getLLVMType(mContext)->getPointerTo());
+  mInjectedField->callInjectFunction(mContext, mController, null);
+  
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  %0 = call i8* @systems.vos.wisey.compiler.tests.CController.mFoo.inject(i8** null)\n";
+  
+  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
+}
+
+TEST_F(InjectedFieldTest, defineInjectionFunctionTest) {
+  mInjectedField->defineInjectionFunction(mContext, mController);
+  mContext.runComposingCallbacks();
+  
+  Function* function = mContext.getModule()->
+  getFunction(mInjectedField->getInjectionFunctionName(mController));
+  
+  EXPECT_NE(nullptr, function);
+  
+  *mStringStream << *function;
+  string expected =
+  "\ndefine i8* @systems.vos.wisey.compiler.tests.CController.mFoo.inject(i8** %fieldPointer) {"
+  "\nentry:"
+  "\n  %0 = load i8*, i8** %fieldPointer"
+  "\n  %isNull = icmp eq i8* %0, null"
+  "\n  br i1 %isNull, label %if.null, label %if.not.null"
+  "\n"
+  "\nif.null:                                          ; preds = %entry"
+  "\n  store i8* null, i8** %fieldPointer"
+  "\n  ret i8* null"
+  "\n"
+  "\nif.not.null:                                      ; preds = %entry"
+  "\n  ret i8* %0"
+  "\n}"
+  "\n";
+
+  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
