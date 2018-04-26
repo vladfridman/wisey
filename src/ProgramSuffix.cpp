@@ -80,10 +80,10 @@ void ProgramSuffix::maybeGenerateMain(IRGenerationContext& context) const {
     return;
   }
   
-  generateMain(context, programInterface);
+  generateMain(context);
 }
 
-void ProgramSuffix::generateMain(IRGenerationContext& context, Interface* programInterface) const {
+void ProgramSuffix::generateMain(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
 
   FunctionType* mainFunctionType =
