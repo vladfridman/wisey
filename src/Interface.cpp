@@ -791,6 +791,16 @@ void Interface::defineInterfaceTypeName(IRGenerationContext& context) const {
                      getObjectNameGlobalVariableName());
 }
 
+void Interface::defineExternalInjectionFunctionPointer(IRGenerationContext& context) const {
+  FunctionType* functionType = FunctionType::get(getLLVMType(context), false);
+  new GlobalVariable(*context.getModule(),
+                     functionType->getPointerTo(),
+                     false,
+                     GlobalValue::ExternalLinkage,
+                     NULL,
+                     getInjectFunctionVariableName());
+}
+
 void Interface::defineInjectionFunctionPointer(IRGenerationContext& context) const {
   FunctionType* functionType = FunctionType::get(getLLVMType(context), false);
   new GlobalVariable(*context.getModule(),
@@ -916,14 +926,7 @@ Value* Interface::composeInjectFunctionWithController(IRGenerationContext& conte
                                        controller);
   GlobalVariable* functionPointer = context.getModule()->
   getNamedGlobal(getInjectFunctionVariableName());
-  if (!functionPointer) {
-    functionPointer = new GlobalVariable(*context.getModule(),
-                                         functionType->getPointerTo(),
-                                         false,
-                                         GlobalValue::ExternalLinkage,
-                                         NULL,
-                                         getInjectFunctionVariableName());
-  }
+  assert(functionPointer && "Global containing interface inject function pointer is not found");
   IRWriter::newStoreInst(context, function, functionPointer);
 
   return function;

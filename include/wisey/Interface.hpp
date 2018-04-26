@@ -148,6 +148,11 @@ namespace wisey {
     void defineInjectionFunctionPointer(IRGenerationContext& context) const;
     
     /**
+     * Defines external global containing pointer to the function that injects the interface
+     */
+    void defineExternalInjectionFunctionPointer(IRGenerationContext& context) const;
+    
+    /**
      * Defines llvm functions corresponding to interface static methods
      */
     void defineStaticMethodFunctions(IRGenerationContext& context) const;

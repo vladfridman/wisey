@@ -58,6 +58,7 @@ Interface* ExternalInterfaceDefinition::prototypeObject(IRGenerationContext& con
   context.addInterface(interface);
   interface->setImportProfile(context.getImportProfile());
   interface->defineInterfaceTypeName(context);
+  interface->defineExternalInjectionFunctionPointer(context);
 
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(interface);
