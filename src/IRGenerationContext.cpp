@@ -357,16 +357,26 @@ void IRGenerationContext::bindInterfaceToController(const Interface* interface,
   mBindings[interface] = controller;
 }
 
-const Controller* IRGenerationContext::getBoundController(const Interface* interface) {
+const Controller* IRGenerationContext::getBoundController(const Interface* interface) const {
   if (!hasBoundController(interface)) {
     Log::e_deprecated("No controller is bound to interface " + interface->getTypeName());
     exit(1);
   }
-  return mBindings[interface];
+  return mBindings.at(interface);
 }
 
-bool IRGenerationContext::hasBoundController(const Interface* interface) {
+bool IRGenerationContext::hasBoundController(const Interface* interface) const {
   return mBindings.count(interface);
+}
+
+void IRGenerationContext::bindInterfaces(IRGenerationContext& context) const {
+  for (auto iterator = mBindings.begin(); iterator != mBindings.end(); iterator++) {
+    const Interface* interface = iterator->first;
+    const Controller* controller = iterator->second;
+    if (!controller->hasReceivedFields()) {
+      interface->composeInjectFunctionWithController(context, controller);
+    }
+  }
 }
 
 PackageType* IRGenerationContext::getPackageType(string packageName) {

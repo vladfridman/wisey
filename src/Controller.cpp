@@ -82,6 +82,10 @@ Controller* Controller::newExternalController(string name, StructType* structTyp
   return new Controller(AccessLevel::PUBLIC_ACCESS, name, structType, true, line);
 }
 
+bool Controller::hasReceivedFields() const {
+  return mReceivedFields.size();
+}
+
 bool Controller::isPublic() const {
   return mIsPublic;
 }

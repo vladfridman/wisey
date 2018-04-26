@@ -4,11 +4,10 @@ import wisey.lang.threads.CWorkerThread;
 import wisey.lang.threads.IWorker;
 
 model MMainThreadWorker implements IWorker {
-  IProgram* mProgram;
 
-  public static int startMainThread(IProgram* program) {
+  public static int startMainThread() {
     CWorkerThread* workerThread = injector(CWorkerThread).inject();
-    workerThread.start(builder(MMainThreadWorker).withProgram(program).build());
+    workerThread.start(builder(MMainThreadWorker).build());
     MProgramResult* result = workerThread.awaitResult();
     if (result == null) {
       printerr("Main thread ended without a result\n");
@@ -18,7 +17,8 @@ model MMainThreadWorker implements IWorker {
   }
 
   public void work() override {
-    MProgramResult* programResult = builder(MProgramResult).withResult(mProgram.run()).build();
+    IProgram* program = injector(IProgram).inject();
+    MProgramResult* programResult = builder(MProgramResult).withResult(program.run()).build();
     thread.send(programResult);
   }
 

@@ -212,12 +212,17 @@ namespace wisey {
     /**
      * Returns controller bound to the given interface
      */
-    const Controller* getBoundController(const Interface* interface);
+    const Controller* getBoundController(const Interface* interface) const;
     
     /**
      * Tells whether there is a controller bound to the given interface
      */
-    bool hasBoundController(const Interface* interface);
+    bool hasBoundController(const Interface* interface) const;
+    
+    /**
+     * Runs code that binds interfaces to controllers
+     */
+    void bindInterfaces(IRGenerationContext& context) const;
     
     /**
      * Returns a PackageType or creates one if one does not exist yet

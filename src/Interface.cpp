@@ -15,7 +15,6 @@
 #include "wisey/CastObjectFunction.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/Environment.hpp"
-#include "wisey/FakeExpression.hpp"
 #include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/InstanceOfFunction.hpp"
 #include "wisey/Interface.hpp"
@@ -35,6 +34,8 @@
 #include "wisey/ParameterPrimitiveVariable.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/PrintOutStatement.hpp"
+#include "wisey/StringLiteral.hpp"
 #include "wisey/ThreadExpression.hpp"
 #include "wisey/ThrowStatement.hpp"
 
@@ -778,7 +779,7 @@ void Interface::printToStream(IRGenerationContext& context, iostream& stream) co
   }
 }
 
-void Interface::defineInterfaceTypeName(IRGenerationContext& context) {
+void Interface::defineInterfaceTypeName(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   string typeType = getTypeName();
   llvm::Constant* stringConstant = ConstantDataArray::getString(llvmContext, typeType);
@@ -790,13 +791,163 @@ void Interface::defineInterfaceTypeName(IRGenerationContext& context) {
                      getObjectNameGlobalVariableName());
 }
 
+void Interface::defineInjectionFunctionPointer(IRGenerationContext& context) const {
+  FunctionType* functionType = FunctionType::get(getLLVMType(context), false);
+  new GlobalVariable(*context.getModule(),
+                     functionType->getPointerTo(),
+                     false,
+                     GlobalValue::ExternalLinkage,
+                     ConstantPointerNull::get(functionType->getPointerTo()),
+                     getInjectFunctionVariableName(),
+                     nullptr,
+                     GlobalValue::NotThreadLocal,
+                     0,
+                     true);
+}
+
 Value* Interface::inject(IRGenerationContext& context,
                          InjectionArgumentList injectionArgumentList,
                          int line) const {
   const Interface* interface = context.getInterface(getTypeName(), line);
-  const Controller* controller = context.getBoundController(interface);
-  Value* controllerValue = controller->inject(context, injectionArgumentList, line);
-  return controller->castTo(context, controllerValue, this, line);
+  if (context.hasBoundController(interface) && injectionArgumentList.size()) {
+    const Controller* controller = context.getBoundController(interface);
+    Value* controllerValue = controller->inject(context, injectionArgumentList, line);
+    return controller->castTo(context, controllerValue, this, line);
+  }
+  if (injectionArgumentList.size()) {
+    context.reportError(line, "Arguments are not allowed for injection of interfaces "
+                        "that are not bound to controllers");
+    exit(1);
+  }
+  
+  Function* function = getOrCreateEmptyInjectFunction(context, line);
+  vector<Value*> arguments;
+  return IRWriter::createCallInst(context, function, arguments, "");
+}
+
+Function* Interface::getOrCreateEmptyInjectFunction(IRGenerationContext& context, int line) const {
+  Function* function = context.getModule()->getFunction(getInjectWrapperFunctionName());
+  if (function) {
+    return function;
+  }
+  FunctionType* functionType = FunctionType::get(getLLVMType(context), false);
+  function = Function::Create(functionType,
+                              GlobalValue::ExternalLinkage,
+                              getInjectWrapperFunctionName(),
+                              context.getModule());
+  context.addComposingCallback1Objects(composeEmptyInjectFunction, function, this);
+
+  return function;
+}
+
+void Interface::composeEmptyInjectFunction(IRGenerationContext& context,
+                                           Function* function,
+                                           const IObjectType* objectType) {
+  const Interface* interface = (const Interface*) objectType;
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
+  BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function, 0);
+  BasicBlock* ifNullBlock = BasicBlock::Create(llvmContext, "if.null", function, 0);
+  BasicBlock* ifNotNullBlock = BasicBlock::Create(llvmContext, "if.not.null", function, 0);
+
+  context.getScopes().pushScope();
+  context.setBasicBlock(entryBlock);
+  Value* actualInjectFunctionPointer =
+  context.getModule()->getNamedGlobal(interface->getInjectFunctionVariableName());
+  Value* actualInjectFunction = IRWriter::newLoadInst(context, actualInjectFunctionPointer, "");
+  FunctionType* functionType = FunctionType::get(interface->getLLVMType(context), false);
+  Value* null = ConstantPointerNull::get(functionType->getPointerTo());
+  Value* condition = IRWriter::newICmpInst(context,
+                                           ICmpInst::ICMP_EQ,
+                                           actualInjectFunction,
+                                           null,
+                                           "");
+  IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
+  
+  context.setBasicBlock(ifNotNullBlock);
+  vector<Value*> callArguments;
+  Value* injectValue = IRWriter::createCallInst(context,
+                                                (Function*) actualInjectFunction,
+                                                callArguments,
+                                                "");
+  IRWriter::createReturnInst(context, injectValue);
+  
+  context.setBasicBlock(ifNullBlock);
+  ExpressionList printOutArguments;
+  StringLiteral* stringLiteral = new StringLiteral("Fatal error: Interface " +
+                                                   interface->getTypeName() +
+                                                   " is not bound to any controllers\n", 0);
+  printOutArguments.push_back(stringLiteral);
+  PrintOutStatement printOutStatement(printOutArguments);
+  printOutStatement.generateIR(context);
+
+  ConstantInt* one = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
+  Function* exitFunction = context.getModule()->getFunction("exit");
+  vector<Value*> arguments;
+  arguments.push_back(one);
+  IRWriter::createCallInst(context, exitFunction, arguments, "");
+  IRWriter::newUnreachableInst(context);
+  
+  context.getScopes().popScope(context, 0);
+}
+
+string Interface::getInjectWrapperFunctionName() const {
+  return getTypeName() + ".inject";
+}
+
+string Interface::getInjectFunctionVariableName() const {
+  return getTypeName() + ".inject.pointer";
+}
+
+string Interface::getInjectFunctionName() const {
+  return getTypeName() + ".inject.function";
+}
+
+Value* Interface::composeInjectFunctionWithController(IRGenerationContext& context,
+                                                      const Controller* controller) const {
+  FunctionType* functionType = FunctionType::get(getLLVMType(context), false);
+  Function* function = Function::Create(functionType,
+                                        GlobalValue::ExternalLinkage,
+                                        getInjectFunctionName(),
+                                        context.getModule());
+  context.addComposingCallback2Objects(composeInjectWithControllerFunction,
+                                       function,
+                                       this,
+                                       controller);
+  GlobalVariable* functionPointer = context.getModule()->
+  getNamedGlobal(getInjectFunctionVariableName());
+  if (!functionPointer) {
+    functionPointer = new GlobalVariable(*context.getModule(),
+                                         functionType->getPointerTo(),
+                                         false,
+                                         GlobalValue::ExternalLinkage,
+                                         NULL,
+                                         getInjectFunctionVariableName());
+  }
+  IRWriter::newStoreInst(context, function, functionPointer);
+
+  return function;
+}
+
+void Interface::composeInjectWithControllerFunction(IRGenerationContext& context,
+                                                    Function* function,
+                                                    const IObjectType* objectType1,
+                                                    const IObjectType* objectType2) {
+  const Interface* interface = (const Interface*) objectType1;
+  const Controller* controller = (const Controller*) objectType2;
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
+  BasicBlock* basicBlock = BasicBlock::Create(llvmContext, "entry", function, 0);
+  
+  context.getScopes().pushScope();
+  context.setBasicBlock(basicBlock);
+  
+  InjectionArgumentList injectionArgumentList;
+  Value* value = controller->inject(context, injectionArgumentList, 0);
+  Value* bitcast = controller->castTo(context, value, interface, 0);
+  IRWriter::createReturnInst(context, bitcast);
+  
+  context.getScopes().popScope(context, 0);
 }
 
 tuple<vector<MethodSignature*>, vector<wisey::Constant*>, vector<StaticMethod*>,

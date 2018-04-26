@@ -70,10 +70,7 @@ external model wisey.lang.MMainThreadWorker
   implements
     wisey.lang.threads.IWorker {
 
-  fixed wisey.lang.IProgram* mProgram;
-
-  static int startMainThread(
-    wisey.lang.IProgram* program);
+  static int startMainThread();
   void work() override;
 }
 
@@ -315,6 +312,7 @@ external ::llvm::function ::llvm::i8::pointer __getOriginalObjectName(::llvm::i8
 external ::llvm::function ::llvm::i32 __instanceOf(::llvm::i8::pointer, ::llvm::i8::pointer);
 external ::llvm::function ::llvm::i1 __isModel(::llvm::i8::pointer);
 external ::llvm::function ::llvm::void __throwReferenceCountException(::llvm::i64);
+external ::llvm::function ::llvm::void exit(::llvm::i32);
 
 /* llvm Globals */
 

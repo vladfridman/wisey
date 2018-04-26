@@ -3,7 +3,7 @@ package wisey.lang;
 /**
  * Standard exit method to terminate program execution
  */
-external ::llvm::function ::llvm::void exit(::llvm::i32);
+::llvm::function ::llvm::void exit(::llvm::i32);
 
 /**
  * Program interface that all programs have to implement.

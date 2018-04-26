@@ -873,6 +873,7 @@
 		F5C0E7CF2090AF970028BBD0 /* TestIsModelFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C0E7CE2090AF970028BBD0 /* TestIsModelFunction.cpp */; };
 		F5C0E7D12090B59D0028BBD0 /* CheckForModelFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C0E7D02090B59D0028BBD0 /* CheckForModelFunction.cpp */; };
 		F5C0E7D42090B7BA0028BBD0 /* TestCheckForModelFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C0E7D32090B7BA0028BBD0 /* TestCheckForModelFunction.cpp */; };
+		F5C0E7D52091DC430028BBD0 /* CheckForModelFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C0E7D02090B59D0028BBD0 /* CheckForModelFunction.cpp */; };
 		F5C2B80C20764DA3008CB77F /* TestBindAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C2B80B20764DA3008CB77F /* TestBindAction.cpp */; };
 		F5C6FD651E48AB3B0054209D /* CharType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD641E48AB3B0054209D /* CharType.cpp */; };
 		F5C6FD661E48AB3B0054209D /* CharType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD641E48AB3B0054209D /* CharType.cpp */; };
@@ -4381,6 +4382,7 @@
 				F50FA2A11E269B4700435EEA /* TestCompoundStatement.cpp in Sources */,
 				F5603B502021562800BBA05D /* TestCheckArrayIndexFunction.cpp in Sources */,
 				F5436DB41FCF72BB003ABF6F /* ModelTypeSpecifierFull.cpp in Sources */,
+				F5C0E7D52091DC430028BBD0 /* CheckForModelFunction.cpp in Sources */,
 				F5827080206013CA00839EC7 /* TestLLVMFunctionDeclaration.cpp in Sources */,
 				F56AD49D1E9F4E400020868C /* ThrowStatement.cpp in Sources */,
 				F56AD4A21E9F66C40020868C /* IObjectType.cpp in Sources */,

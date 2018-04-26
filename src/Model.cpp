@@ -21,7 +21,6 @@
 #include "wisey/Log.hpp"
 #include "wisey/Model.hpp"
 #include "wisey/ModelOwner.hpp"
-#include "wisey/Names.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
@@ -437,8 +436,7 @@ void Model::initializeFields(IRGenerationContext& context,
                           "Models can only contain primitives, other models or immutable arrays");
       exit(1);
     }
-    if (argumentType->isInterface() && fieldType->isInterface() && context.getObjectType() &&
-        context.getObjectType()->getTypeName().compare(Names::getMainThreadWorkerFullName())) {
+    if (argumentType->isInterface() && fieldType->isInterface()) {
       string typeName = context.getObjectType()->getTypeName();
       CheckForModelFunction::call(context, argumentValue);
     }

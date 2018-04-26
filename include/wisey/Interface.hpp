@@ -23,6 +23,7 @@
 
 namespace wisey {
   
+  class Controller;
   class IInterfaceTypeSpecifier;
   class InterfaceOwner;
   class LLVMFunction;
@@ -139,7 +140,12 @@ namespace wisey {
     /**
      * Defines global variable with the interface name
      */
-    void defineInterfaceTypeName(IRGenerationContext& context);
+    void defineInterfaceTypeName(IRGenerationContext& context) const;
+    
+    /**
+     * Defines global containing pointer to the function that injects the interface
+     */
+    void defineInjectionFunctionPointer(IRGenerationContext& context) const;
     
     /**
      * Defines llvm functions corresponding to interface static methods
@@ -182,6 +188,12 @@ namespace wisey {
     llvm::Value* inject(IRGenerationContext& context,
                         const InjectionArgumentList injectionArgumentList,
                         int line) const override;
+    
+    /**
+     * Composes inject function for this interface that injects the given controller
+     */
+    llvm::Value* composeInjectFunctionWithController(IRGenerationContext& context,
+                                                     const Controller* controller) const;
     
     bool isPublic() const override;
 
@@ -325,6 +337,23 @@ namespace wisey {
                    std::vector<IObjectElementDefinition*>
                    elementDeclarations);
     
+    llvm::Function* getOrCreateEmptyInjectFunction(IRGenerationContext& context, int line) const;
+    
+    static void composeEmptyInjectFunction(IRGenerationContext& context,
+                                           llvm::Function* function,
+                                           const IObjectType* objectType);
+
+    static void composeInjectWithControllerFunction(IRGenerationContext& context,
+                                                    llvm::Function* function,
+                                                    const IObjectType* objectType1,
+                                                    const IObjectType* objectType2);
+    
+    std::string getInjectWrapperFunctionName() const;
+    
+    std::string getInjectFunctionVariableName() const;
+    
+    std::string getInjectFunctionName() const;
+
   };
   
 } /* namespace wisey */

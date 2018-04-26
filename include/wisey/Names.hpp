@@ -26,11 +26,6 @@ namespace wisey {
     static std::string getMainThreadWorkerShortName();
     
     /**
-     * Returns MMainThreadWorker class full name
-     */
-    static std::string getMainThreadWorkerFullName();
-    
-    /**
      * Returns name of the model representing the null pointer exception
      */
     static std::string getNPEModelName();

@@ -76,6 +76,11 @@ namespace wisey {
                                              llvm::StructType* structType,
                                              int line);
     
+    /**
+     * Tells whether it has any field that need initialization
+     */
+    bool hasReceivedFields() const;
+    
     bool isPublic() const override;
     
     llvm::Instruction* inject(IRGenerationContext& context,

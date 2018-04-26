@@ -15,10 +15,6 @@ string Names::getMainThreadWorkerShortName() {
   return "MMainThreadWorker";
 }
 
-string Names::getMainThreadWorkerFullName() {
-  return getLangPackageName() + "." + getMainThreadWorkerShortName();
-}
-
 string Names::getNPEModelName() {
   return "MNullPointerException";
 }

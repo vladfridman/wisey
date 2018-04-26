@@ -109,8 +109,7 @@ void ProgramSuffix::generateMain(IRGenerationContext& context, Interface* progra
   new ParameterSystemReferenceVariable(ThreadExpression::CALL_STACK, callstack, callstackValue);
   context.getScopes().setVariable(callstackVariable);
 
-  InjectionArgumentList injectionArguments;
-  Value* injectedProgram = programInterface->inject(context, injectionArguments, 0);
+  context.bindInterfaces(context);
   
   PackageType* packageType = new PackageType("wisey.lang");
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
@@ -118,9 +117,6 @@ void ProgramSuffix::generateMain(IRGenerationContext& context, Interface* progra
   new ModelTypeSpecifierFull(packageExpression, Names::getMainThreadWorkerShortName(), 0);
 
   ExpressionList callArguments;
-  FakeExpression* argumentExpression = new FakeExpression(injectedProgram,
-                                                          programInterface->getOwner());
-  callArguments.push_back(argumentExpression);
   StaticMethodCall* startMethodCall =
   new StaticMethodCall(mainThreadWorker, "startMainThread", callArguments, 0);
   ReturnStatement returnResultStatement(startMethodCall, 0);
