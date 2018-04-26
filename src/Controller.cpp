@@ -240,7 +240,7 @@ void Controller::composeInjectFunctionBody(IRGenerationContext& context,
   context.setObjectType(controller);
   
   Instruction* malloc = createMallocForObject(context, controller, "injectvar");
-  initializeReceivedFields(context, controller, function, malloc);
+  controller->initializeReceivedFields(context, function, malloc);
   initializeVTable(context, controller, malloc);
   IRWriter::createReturnInst(context, malloc);
   
@@ -537,18 +537,17 @@ checkAllFieldsAreSet(const InjectionArgumentList& injectionArgumentList) const {
 }
 
 void Controller::initializeReceivedFields(IRGenerationContext& context,
-                                          const Controller* controller,
                                           llvm::Function* function,
-                                          Instruction* malloc) {
+                                          Instruction* malloc) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Function::arg_iterator functionArguments = function->arg_begin();
 
   Value* index[2];
   index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
-  for (IField* field : controller->getReceivedFields()) {
+  for (IField* field : mReceivedFields) {
     Value* functionArgument = &*functionArguments;
     functionArgument->setName(field->getName());
-    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), controller->getFieldIndex(field));
+    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     IRWriter::newStoreInst(context, functionArgument, fieldPointer);
     const IType* fieldType = field->getType();

@@ -251,15 +251,10 @@ namespace wisey {
     
     void checkAllFieldsAreSet(const InjectionArgumentList& injectionArgumentList) const;
     
-    static void initializeReceivedFields(IRGenerationContext& context,
-                                         const Controller* controller,
-                                         llvm::Function* function,
-                                         llvm::Instruction* malloc);
+    void initializeReceivedFields(IRGenerationContext& context,
+                                  llvm::Function* function,
+                                  llvm::Instruction* malloc) const;
 
-    static void initializeInjectedFields(IRGenerationContext& context,
-                                         const Controller* controller,
-                                         llvm::Instruction* malloc);
-    
     std::string getInjectFunctionName() const;
 
     static void composeInjectFunctionBody(IRGenerationContext& context,
