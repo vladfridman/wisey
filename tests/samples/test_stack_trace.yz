@@ -7,7 +7,7 @@ model MEngine {
 
   public int getVolume() {
     printout("Stack trace 1:\n");
-    callstack.dumpStack();
+    thread.getCallStack().dumpStack();
     return mVolume;
   }
 }
@@ -26,7 +26,7 @@ controller CProgram implements IProgram {
     MCar car = builder(MCar).withEngine(builder(MEngine).withVolume(3).build()).build();
     int result = car.getEngineVolume();
     printout("Stack trace 2:\n");
-    callstack.dumpStack();
+    thread.getCallStack().dumpStack();
     return result;
   }
 }

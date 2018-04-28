@@ -185,7 +185,8 @@ const IType* Scopes::getReturnType() {
 void Scopes::reportUnhandledExceptions(IRGenerationContext& context,
                                        map<string, int> exceptions) const {
   for (auto iterator = exceptions.begin(); iterator != exceptions.end(); iterator++) {
-    if (!iterator->first.find(Names::getLangPackageName())) {
+    if (!iterator->first.find(Names::getLangPackageName()) ||
+        !iterator->first.find(Names::getThreadsPackageName())) {
       continue;
     }
     context.reportError(iterator->second, "Exception " + iterator->first + " is not handled");

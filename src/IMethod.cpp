@@ -53,7 +53,8 @@ void IMethod::checkForUnhandledExceptions(IRGenerationContext& context,
   exceptions = scope->getExceptions();
   bool hasUnhandledExceptions = false;
   for (auto iterator = exceptions.begin(); iterator != exceptions.end(); iterator++) {
-    if (!iterator->first.find(Names::getLangPackageName())) {
+    if (!iterator->first.find(Names::getLangPackageName()) ||
+        !iterator->first.find(Names::getThreadsPackageName())) {
       continue;
     }
     string prefix = (method->isStatic() ? "Static method " : "Method ");
