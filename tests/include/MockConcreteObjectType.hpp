@@ -73,7 +73,6 @@ public:
   MOCK_METHOD1(setStructBodyTypes, void (std::vector<llvm::Type*>));
   MOCK_METHOD1(setConstants, void (std::vector<wisey::Constant*>));
   MOCK_METHOD1(setLLVMFunctions, void (std::vector<wisey::LLVMFunction*>));
-  MOCK_METHOD1(setImportProfile, void (wisey::ImportProfile*));
   MOCK_CONST_METHOD0(getImportProfile, wisey::ImportProfile* ());
   MOCK_CONST_METHOD2(incrementReferenceCount, void (wisey::IRGenerationContext&, llvm::Value*));
   MOCK_CONST_METHOD2(decrementReferenceCount, void (wisey::IRGenerationContext&, llvm::Value*));

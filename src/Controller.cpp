@@ -432,10 +432,6 @@ Value* Controller::getReferenceCount(IRGenerationContext& context, Value* object
   return getReferenceCountForObject(context, object);
 }
 
-void Controller::setImportProfile(ImportProfile* importProfile) {
-  assert(false && "setImportProfile method should not be called");
-}
-
 ImportProfile* Controller::getImportProfile() const {
   return mImportProfile;
 }

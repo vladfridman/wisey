@@ -433,10 +433,6 @@ Value* Node::getReferenceCount(IRGenerationContext& context, Value* object) cons
   return getReferenceCountForObject(context, object);
 }
 
-void Node::setImportProfile(ImportProfile* importProfile) {
-  assert(false && "setImportProfile method should not be called");
-}
-
 ImportProfile* Node::getImportProfile() const {
   return mImportProfile;
 }

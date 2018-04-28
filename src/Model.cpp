@@ -486,10 +486,6 @@ Value* Model::getReferenceCount(IRGenerationContext& context, Value* object) con
   return getReferenceCountForObject(context, object);
 }
 
-void Model::setImportProfile(ImportProfile* importProfile) {
-  assert(false && "setImportProfile method should not be called");
-}
-
 ImportProfile* Model::getImportProfile() const {
   return mImportProfile;
 }

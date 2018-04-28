@@ -189,8 +189,6 @@ namespace wisey {
     
     llvm::Value* getReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
     
-    void setImportProfile(ImportProfile* importProfile) override;
-    
     ImportProfile* getImportProfile() const override;
     
     void addInnerObject(const IObjectType* innerObject) override;

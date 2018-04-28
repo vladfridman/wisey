@@ -85,11 +85,6 @@ namespace wisey {
                                            llvm::Value* object) const = 0;
     
     /**
-     * Sets the import profile associated with this object
-     */
-    virtual void setImportProfile(ImportProfile* importProfile) = 0;
-    
-    /**
      * Returns the import profile associated with this object
      */
     virtual ImportProfile* getImportProfile() const = 0;

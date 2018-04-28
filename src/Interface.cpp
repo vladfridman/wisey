@@ -1012,10 +1012,6 @@ Value* Interface::getReferenceCount(IRGenerationContext& context, Value* object)
   return getReferenceCountForObject(context, originalObject);
 }
 
-void Interface::setImportProfile(ImportProfile* importProfile) {
-  assert(false && "setImportProfile method should not be called");
-}
-
 ImportProfile* Interface::getImportProfile() const {
   return mImportProfile;
 }
