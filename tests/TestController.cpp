@@ -253,7 +253,11 @@ struct ControllerTest : public Test {
     string ownerFullName = "systems.vos.wisey.compiler.tests.NOwner";
     StructType* ownerStructType = StructType::create(mLLVMContext, ownerFullName);
     ownerStructType->setBody(ownerTypes);
-    mOwnerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS, ownerFullName, ownerStructType, 0);
+    mOwnerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
+                               ownerFullName,
+                               ownerStructType,
+                               mContext.getImportProfile(),
+                               0);
     mContext.addNode(mOwnerNode);
     
     vector<Type*> referenceTypes;

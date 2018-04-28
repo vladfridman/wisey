@@ -29,6 +29,7 @@ using namespace wisey;
 Node::Node(AccessLevel accessLevel,
            string name,
            StructType* structType,
+           ImportProfile* importProfile,
            bool isExternal,
            int line) :
 mIsPublic(accessLevel == PUBLIC_ACCESS),
@@ -36,8 +37,10 @@ mName(name),
 mStructType(structType),
 mIsExternal(isExternal),
 mIsInner(false),
+mNodeOwner(new NodeOwner(this)),
+mImportProfile(importProfile),
 mLine(line) {
-  mNodeOwner = new NodeOwner(this);
+  assert(importProfile && "Import profile can not be NULL at Node creation");
 }
 
 Node::~Node() {
@@ -69,12 +72,19 @@ Node::~Node() {
   mLLVMFunctions.clear();
 }
 
-Node* Node::newNode(AccessLevel accessLevel, string name, StructType* structType, int line) {
-  return new Node(accessLevel, name, structType, false, line);
+Node* Node::newNode(AccessLevel accessLevel,
+                    string name,
+                    StructType* structType,
+                    ImportProfile* importProfile,
+                    int line) {
+  return new Node(accessLevel, name, structType, importProfile, false, line);
 }
 
-Node* Node::newExternalNode(string name, StructType* structType, int line) {
-  return new Node(AccessLevel::PUBLIC_ACCESS, name, structType, true, line);
+Node* Node::newExternalNode(string name,
+                            StructType* structType,
+                            ImportProfile* importProfile,
+                            int line) {
+  return new Node(AccessLevel::PUBLIC_ACCESS, name, structType, importProfile, true, line);
 }
 
 bool Node::isPublic() const {
@@ -424,7 +434,7 @@ Value* Node::getReferenceCount(IRGenerationContext& context, Value* object) cons
 }
 
 void Node::setImportProfile(ImportProfile* importProfile) {
-  mImportProfile = importProfile;
+  assert(false && "setImportProfile method should not be called");
 }
 
 ImportProfile* Node::getImportProfile() const {

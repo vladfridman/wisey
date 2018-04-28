@@ -69,7 +69,11 @@ struct FieldPointerVariableTest : Test {
     
     string nodeFullName = "systems.vos.wisey.compiler.tests.NNode";
     StructType* nodeStructType = StructType::create(mLLVMContext, nodeFullName);
-    mNode = Node::newNode(AccessLevel::PUBLIC_ACCESS, nodeFullName, nodeStructType, 0);
+    mNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
+                          nodeFullName,
+                          nodeStructType,
+                          mContext.getImportProfile(),
+                          0);
     mNode->setInterfaces(interfaces);
 
     mPointerType = LLVMPrimitiveTypes::I64->getPointerType();

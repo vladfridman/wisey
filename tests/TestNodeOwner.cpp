@@ -193,6 +193,7 @@ struct NodeOwnerTest : public Test {
     mComplicatedNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                      complicatedNodeFullName,
                                      mStructType,
+                                     mContext.getImportProfile(),
                                      0);
     mComplicatedNode->setFields(mContext, fields, interfaces.size());
     mComplicatedNode->setMethods(methods);
@@ -213,6 +214,7 @@ struct NodeOwnerTest : public Test {
     mSimpleNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                 simpleNodeFullName,
                                 simpleNodeStructType,
+                                mContext.getImportProfile(),
                                 0);
     mSimpleNode->setFields(mContext, simpleNodeFields, 1u);
     mContext.addNode(mSimpleNode);
@@ -229,6 +231,7 @@ struct NodeOwnerTest : public Test {
     mSimplerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                  simplerNodeFullName,
                                  simplerNodeStructType,
+                                 mContext.getImportProfile(),
                                  0);
     mSimplerNode->setFields(mContext, simplerNodeFields, 1u);
     mContext.addNode(mSimplerNode);

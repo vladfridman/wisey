@@ -85,7 +85,11 @@ struct IRGenerationContextTest : public Test {
 
     string nodeFullName = "systems.vos.wisey.compiler.tests.NMyNode";
     StructType* nodeStructType = StructType::create(mLLVMContext, "NMyNode");
-    mNode = Node::newNode(AccessLevel::PUBLIC_ACCESS, nodeFullName, nodeStructType, 0);
+    mNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
+                          nodeFullName,
+                          nodeStructType,
+                          mContext.getImportProfile(),
+                          0);
 
     StructType* llvmStructType = StructType::create(mLLVMContext, "mystructtype");
     mLLVMStructType = LLVMStructType::newLLVMStructType(llvmStructType);

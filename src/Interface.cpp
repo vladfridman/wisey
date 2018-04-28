@@ -62,7 +62,7 @@ mElementDeclarations(elementDelcarations),
 mImportProfile(importProfile),
 mIsComplete(false),
 mLine(line) {
-  assert(importProfile && "Import profile can not be NULL at interface creation");
+  assert(importProfile && "Import profile can not be NULL at Interface creation");
 }
 
 Interface::~Interface() {

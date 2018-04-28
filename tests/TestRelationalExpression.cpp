@@ -72,7 +72,11 @@ struct RelationalExpressionTest : public Test {
 
     string nodeFullName = "systems.vos.wisey.compiler.tests.NElement";
     StructType* nodeStructType = StructType::create(llvmContext, nodeFullName);
-    mNode = Node::newNode(AccessLevel::PUBLIC_ACCESS, nodeFullName, nodeStructType, 0);
+    mNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
+                          nodeFullName,
+                          nodeStructType,
+                          mContext.getImportProfile(),
+                          0);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
   }

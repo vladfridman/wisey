@@ -52,6 +52,7 @@ namespace wisey {
     Node(AccessLevel accessLevel,
          std::string name,
          llvm::StructType* structType,
+         ImportProfile* importProfile,
          bool isExternal,
          int line);
 
@@ -65,6 +66,7 @@ namespace wisey {
     static Node* newNode(AccessLevel accessLevel,
                          std::string name,
                          llvm::StructType* structType,
+                         ImportProfile* importProfile,
                          int line);
     
     /**
@@ -72,6 +74,7 @@ namespace wisey {
      */
     static Node* newExternalNode(std::string name,
                                  llvm::StructType* structType,
+                                 ImportProfile* importProfile,
                                  int line);
     
     /**

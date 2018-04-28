@@ -178,6 +178,7 @@ struct NodeTest : public Test {
     mComplicatedNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                      complicatedNodeFullName,
                                      mStructType,
+                                     mContext.getImportProfile(),
                                      7);
    InjectionArgumentList arguments;
     mLeftField = new FixedField(PrimitiveTypes::INT_TYPE, "mLeft", 0);
@@ -249,7 +250,11 @@ struct NodeTest : public Test {
     string ownerFullName = "systems.vos.wisey.compiler.tests.NOwner";
     StructType* ownerStructType = StructType::create(mLLVMContext, ownerFullName);
     ownerStructType->setBody(ownerTypes);
-    mOwnerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS, ownerFullName, ownerStructType, 0);
+    mOwnerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
+                               ownerFullName,
+                               ownerStructType,
+                               mContext.getImportProfile(),
+                               0);
     mContext.addNode(mOwnerNode);
     
     vector<Type*> referenceTypes;
@@ -279,6 +284,7 @@ struct NodeTest : public Test {
     mSimpleNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                 simpleNodeFullName,
                                 simpleNodeStructType,
+                                mContext.getImportProfile(),
                                 0);
     mSimpleNode->setFields(mContext, simpleNodeFields, 1u);
     mContext.addNode(mSimpleNode);
@@ -297,6 +303,7 @@ struct NodeTest : public Test {
     mSimplerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                  simplerNodeFullName,
                                  simplerNodeStructType,
+                                 mContext.getImportProfile(),
                                  0);
     mSimplerNode->setFields(mContext, simplerNodeFields, 1u);
     mContext.addNode(mSimplerNode);
