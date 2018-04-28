@@ -59,6 +59,7 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             controllerFullName,
                                             structType,
+                                            mContext.getImportProfile(),
                                             0);
     mController->setFields(mContext, fields, 1u);
     mController->setMethods(methods);

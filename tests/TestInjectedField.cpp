@@ -77,6 +77,7 @@ public:
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             controllerFullName,
                                             controllerStructType,
+                                            mContext.getImportProfile(),
                                             0);
     mController->setFields(mContext, controllerFields, 1u);
     mContext.addController(mController);

@@ -49,9 +49,11 @@ Controller* ExternalControllerDefinition::prototypeObject(IRGenerationContext&
   string fullName = IObjectDefinition::getFullName(context, mControllerTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
 
-  Controller* controller = Controller::newExternalController(fullName, structType, mLine);
+  Controller* controller = Controller::newExternalController(fullName,
+                                                             structType,
+                                                             context.getImportProfile(),
+                                                             mLine);
   context.addController(controller);
-  controller->setImportProfile(context.getImportProfile());
 
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(controller);

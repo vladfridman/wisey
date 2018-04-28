@@ -17,6 +17,7 @@
 
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/FieldPrimitiveVariable.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -45,6 +46,8 @@ struct FieldPrimitiveVariableTest : Test {
   raw_string_ostream* mStringStream;
   
   FieldPrimitiveVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     vector<Type*> types;
     types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                     ->getPointerTo()->getPointerTo());
@@ -57,6 +60,7 @@ struct FieldPrimitiveVariableTest : Test {
     mObject = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                         objectFullName,
                                         objectStructType,
+                                        mContext.getImportProfile(),
                                         0);
     mObject->setFields(mContext, fields, 1u);
     

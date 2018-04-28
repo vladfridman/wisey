@@ -55,6 +55,7 @@ namespace wisey {
     Controller(AccessLevel accessLevel,
                std::string name,
                llvm::StructType* structType,
+               ImportProfile* importProfile,
                bool isExternal,
                int line);
     
@@ -68,6 +69,7 @@ namespace wisey {
     static Controller* newController(AccessLevel accessLevel,
                                      std::string name,
                                      llvm::StructType* structType,
+                                     ImportProfile* importProfile,
                                      int line);
     
     /**
@@ -75,6 +77,7 @@ namespace wisey {
      */
     static Controller* newExternalController(std::string name,
                                              llvm::StructType* structType,
+                                             ImportProfile* importProfile,
                                              int line);
     
     /**

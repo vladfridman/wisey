@@ -176,6 +176,7 @@ struct ControllerTest : public Test {
     mMultiplierController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                       multiplierFullName,
                                                       mStructType,
+                                                      mContext.getImportProfile(),
                                                       5);
     vector<IField*> fields;
     mLeftField = new ReceivedField(PrimitiveTypes::INT_TYPE, "left", 0);
@@ -281,6 +282,7 @@ struct ControllerTest : public Test {
     mAdditorController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                    additorFullName,
                                                    additorStructType,
+                                                   mContext.getImportProfile(),
                                                    0);
     mAdditorController->setFields(mContext, additorFields, 1u);
     mContext.addController(mMultiplierController);
@@ -304,6 +306,7 @@ struct ControllerTest : public Test {
     mDoublerController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                    doublerFullName,
                                                    doublerStructType,
+                                                   mContext.getImportProfile(),
                                                    0);
     mDoublerController->setFields(mContext, doublerFields, 1u);
     mContext.addController(mDoublerController);
@@ -668,6 +671,7 @@ TEST_F(ControllerTest, defineFieldInjectorFunctionsTest) {
   Controller* childController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                           childFullName,
                                                           childStructType,
+                                                          mContext.getImportProfile(),
                                                           0);
   childController->setFields(mContext, childFields, 1u);
   mContext.addController(childController);
@@ -693,6 +697,7 @@ TEST_F(ControllerTest, defineFieldInjectorFunctionsTest) {
   Controller* parentController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                            parentFullName,
                                                            parentStructType,
+                                                           mContext.getImportProfile(),
                                                            0);
   parentController->setFields(mContext, parentFields, 1u);
   mContext.addController(parentController);
@@ -741,6 +746,7 @@ TEST_F(ControllerTest, declareFieldInjectionFunctionsTest) {
   Controller* childController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                           childFullName,
                                                           childStructType,
+                                                          mContext.getImportProfile(),
                                                           0);
   childController->setFields(mContext, childFields, 1u);
   mContext.addController(childController);
@@ -766,6 +772,7 @@ TEST_F(ControllerTest, declareFieldInjectionFunctionsTest) {
   Controller* parentController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                            parentFullName,
                                                            parentStructType,
+                                                           mContext.getImportProfile(),
                                                            0);
   parentController->setFields(mContext, parentFields, 1u);
   mContext.addController(parentController);

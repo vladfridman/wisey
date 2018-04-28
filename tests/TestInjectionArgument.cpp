@@ -16,6 +16,7 @@
 
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/InjectionArgument.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ReceivedField.hpp"
@@ -37,6 +38,8 @@ struct InjectionArgumentTest : Test {
   Value* mValue;
   
   InjectionArgumentTest() : mFieldExpression(new NiceMock<MockExpression>()) {
+    TestPrefix::generateIR(mContext);
+    
     LLVMContext& llvmContext = mContext.getLLVMContext();
     vector<Type*> types;
     types.push_back(FunctionType::get(Type::getInt32Ty(llvmContext), true)
@@ -50,6 +53,7 @@ struct InjectionArgumentTest : Test {
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             modelFullName,
                                             structType,
+                                            mContext.getImportProfile(),
                                             0);
     mController->setFields(mContext, fields, 1u);
     

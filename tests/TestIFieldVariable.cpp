@@ -14,6 +14,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "TestPrefix.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IFieldVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -43,6 +44,8 @@ struct IFieldVariableTest : Test {
   raw_string_ostream* mStringStream;
   
   IFieldVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     vector<Type*> types;
     types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                     ->getPointerTo()->getPointerTo());
@@ -56,6 +59,7 @@ struct IFieldVariableTest : Test {
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             controllerFullName,
                                             controllerStructType,
+                                            mContext.getImportProfile(),
                                             0);
     mController->setFields(mContext, controllerFields, 1u);
     

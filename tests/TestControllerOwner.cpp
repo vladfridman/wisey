@@ -76,6 +76,7 @@ struct ControllerOwnerTest : public Test {
     mAdditorController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                    additorFullName,
                                                    additorStructType,
+                                                   mContext.getImportProfile(),
                                                    0);
     IConcreteObjectType::generateNameGlobal(mContext, mAdditorController);
     IConcreteObjectType::generateShortNameGlobal(mContext, mAdditorController);
@@ -133,6 +134,7 @@ struct ControllerOwnerTest : public Test {
     mMultiplierController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                       multiplierFullName,
                                                       structType,
+                                                      mContext.getImportProfile(),
                                                       0);
     mMultiplierController->setInterfaces(interfaces);
 

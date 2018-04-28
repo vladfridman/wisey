@@ -77,6 +77,7 @@ public:
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             "systems.vos.wisey.compiler.tests.CController",
                                             NULL,
+                                            mContext.getImportProfile(),
                                             0);
 
     Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);

@@ -84,6 +84,7 @@ struct FieldReferenceVariableTest : Test {
     mObject = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                         objectFullName,
                                         objectStructType,
+                                        mContext.getImportProfile(),
                                         0);
     mObject->setFields(mContext, fields, 1u);
     

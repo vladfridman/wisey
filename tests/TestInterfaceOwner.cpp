@@ -233,6 +233,7 @@ TEST_F(InterfaceOwnerTest, injectTest) {
   Controller* controller = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                      controllerFullName,
                                                      controllerStructType,
+                                                     mContext.getImportProfile(),
                                                      0);
   vector<Interface*> controllerParentInterfaces;
   controllerParentInterfaces.push_back(interface);

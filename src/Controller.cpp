@@ -30,6 +30,7 @@ using namespace wisey;
 Controller::Controller(AccessLevel accessLevel,
                        string name,
                        StructType* structType,
+                       ImportProfile* importProfile,
                        bool isExternal,
                        int line) :
 mIsPublic(accessLevel == PUBLIC_ACCESS),
@@ -37,6 +38,7 @@ mName(name),
 mStructType(structType),
 mIsExternal(isExternal),
 mIsInner(false),
+mImportProfile(importProfile),
 mLine(line) {
   mControllerOwner = new ControllerOwner(this);
 }
@@ -75,12 +77,16 @@ Controller::~Controller() {
 Controller* Controller::newController(AccessLevel accessLevel,
                                       string name,
                                       StructType* structType,
+                                      ImportProfile* importProfile,
                                       int line) {
-  return new Controller(accessLevel , name, structType, false, line);
+  return new Controller(accessLevel , name, structType, importProfile, false, line);
 }
 
-Controller* Controller::newExternalController(string name, StructType* structType, int line) {
-  return new Controller(AccessLevel::PUBLIC_ACCESS, name, structType, true, line);
+Controller* Controller::newExternalController(string name,
+                                              StructType* structType,
+                                              ImportProfile* importProfile,
+                                              int line) {
+  return new Controller(AccessLevel::PUBLIC_ACCESS, name, structType, importProfile, true, line);
 }
 
 vector<IField*> Controller::getReceivedFields() const {
@@ -426,7 +432,7 @@ Value* Controller::getReferenceCount(IRGenerationContext& context, Value* object
 }
 
 void Controller::setImportProfile(ImportProfile* importProfile) {
-  mImportProfile = importProfile;
+  assert(false && "setImportProfile method should not be called");
 }
 
 ImportProfile* Controller::getImportProfile() const {
