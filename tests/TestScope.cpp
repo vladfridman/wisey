@@ -17,6 +17,7 @@
 #include "MockOwnerVariable.hpp"
 #include "MockReferenceVariable.hpp"
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/Scope.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -46,6 +47,8 @@ public:
   mLLVMContext(mContext.getLLVMContext()),
   mReferenceVariable(new NiceMock<MockReferenceVariable>()),
   mOwnerVariable(new NiceMock<MockOwnerVariable>()) {
+    TestPrefix::generateIR(mContext);
+    
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDefinition*> interfaceElements;
     mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
@@ -53,6 +56,7 @@ public:
                                          NULL,
                                          parentInterfaces,
                                          interfaceElements,
+                                         mContext.getImportProfile(),
                                          0);
 
     StructType* exceptionModelStructType = StructType::create(mLLVMContext, "MExceptionA");

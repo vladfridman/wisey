@@ -64,6 +64,7 @@ struct ControllerOwnerTest : public Test {
                                                 vehicleInterfaceStructType,
                                                 parentInterfaces,
                                                 interfaceElements,
+                                                mContext.getImportProfile(),
                                                 0);
 
     string additorFullName = "systems.vos.wisey.compiler.tests.CAdditor";
@@ -88,6 +89,7 @@ struct ControllerOwnerTest : public Test {
                                                    calculatorIinterfaceStructType,
                                                    parentInterfaces,
                                                    interfaceElements,
+                                                   mContext.getImportProfile(),
                                                    0);
     mContext.addInterface(mCalculatorInterface);
     mCalculatorInterface->buildMethods(mContext);
@@ -99,6 +101,7 @@ struct ControllerOwnerTest : public Test {
                                                objectInterfaceStructType,
                                                parentInterfaces,
                                                interfaceElements,
+                                               mContext.getImportProfile(),
                                                0);
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
@@ -116,6 +119,7 @@ struct ControllerOwnerTest : public Test {
                                                           scienceCalculatorIinterfaceStructType,
                                                           scienceCalculatorParentInterfaces,
                                                           scienceCalculatorInterfaceElements,
+                                                          mContext.getImportProfile(),
                                                           0);
     mContext.addInterface(mScienceCalculatorInterface);
     mScienceCalculatorInterface->buildMethods(mContext);

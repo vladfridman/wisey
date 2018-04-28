@@ -53,9 +53,9 @@ Interface* InterfaceDefinition::prototypeObject(IRGenerationContext& context) co
                                                  structType,
                                                  mParentInterfaceSpecifiers,
                                                  mElementDeclarations,
+                                                 context.getImportProfile(),
                                                  mLine);
   context.addInterface(interface);
-  interface->setImportProfile(context.getImportProfile());
   interface->defineInterfaceTypeName(context);
   interface->defineInjectionFunctionPointer(context);
 

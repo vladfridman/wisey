@@ -41,6 +41,7 @@ struct MethodSignatureTest : Test {
                                          structType,
                                          parentInterfaces,
                                          interfaceElements,
+                                         mContext.getImportProfile(),
                                          0);
 
     vector<const wisey::Argument*> arguments;
@@ -83,6 +84,7 @@ TEST_F(MethodSignatureTest, createCopyTest) {
                                                  NULL,
                                                  parentInterfaces,
                                                  interfaceElements,
+                                                 mContext.getImportProfile(),
                                                  0);
   MethodSignature* copy = mMethodSignature->createCopy(interface);
   

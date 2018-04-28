@@ -44,6 +44,7 @@ struct BindActionTest : public Test {
                                          interfaceStructType,
                                          parentInterfaces,
                                          interfaceElements,
+                                         mContext.getImportProfile(),
                                          0);
     
     string controllerFullName = "systems.vos.wisey.compiler.tests.CMyController";

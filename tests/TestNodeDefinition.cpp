@@ -239,6 +239,7 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
                                                  structType,
                                                  parentInterfaces,
                                                  interfaceElements,
+                                                 mContext.getImportProfile(),
                                                  0);
   mContext.addInterface(interface);
   interface->buildMethods(mContext);

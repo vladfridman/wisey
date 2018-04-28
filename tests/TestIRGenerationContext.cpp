@@ -18,7 +18,6 @@
 #include <llvm-c/Target.h>
 
 #include "MockVariable.hpp"
-#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IRWriter.hpp"
@@ -46,6 +45,10 @@ struct IRGenerationContextTest : public Test {
   LLVMStructType* mLLVMStructType;
 
   IRGenerationContextTest() : mLLVMContext(mContext.getLLVMContext()) {
+    ImportProfile* importProfile = new ImportProfile("systems.vos.wisey.compiler.tests");
+    importProfile->setSourceFileName(mContext, "/sources/sourcefile.yz");
+    mContext.setImportProfile(importProfile);
+
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
@@ -55,6 +58,7 @@ struct IRGenerationContextTest : public Test {
                                          interfaceStructType,
                                          parentInterfaces,
                                          interfaceElements,
+                                         mContext.getImportProfile(),
                                          0);
     
     string controllerFullName = "systems.vos.wisey.compiler.tests.CMyController";
@@ -80,11 +84,6 @@ struct IRGenerationContextTest : public Test {
 
     StructType* llvmStructType = StructType::create(mLLVMContext, "mystructtype");
     mLLVMStructType = LLVMStructType::newLLVMStructType(llvmStructType);
-    
-    ImportProfile* importProfile = new ImportProfile("systems.vos.wisey.compiler.tests");
-    importProfile->setSourceFileName(mContext, "/sources/sourcefile.yz");
-    
-    mContext.setImportProfile(importProfile);
   }
   
   ~IRGenerationContextTest() { }
@@ -217,6 +216,7 @@ TEST_F(IRGenerationContextTest, addInterfaceTest) {
                                                  structType,
                                                  parentInterfaces,
                                                  interfaceElements,
+                                                 mContext.getImportProfile(),
                                                  0);
   mContext.addInterface(interface);
   Interface* resultInterface =
@@ -237,6 +237,7 @@ TEST_F(IRGenerationContextTest, addInterfaceAlreadyDefinedDeathTest) {
                                                  structType,
                                                  parentInterfaces,
                                                  interfaceElements,
+                                                 mContext.getImportProfile(),
                                                  0);
   mContext.addInterface(interface);
   

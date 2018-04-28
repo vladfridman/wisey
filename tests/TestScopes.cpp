@@ -20,6 +20,7 @@
 #include "MockType.hpp"
 #include "MockVariable.hpp"
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/Catch.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -46,6 +47,8 @@ struct ScopesTest : public Test {
   Interface* mInterface;
   
   ScopesTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDefinition*> objectElements;
     mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
@@ -53,6 +56,7 @@ struct ScopesTest : public Test {
                                          StructType::create(mLLVMContext, ""),
                                          parentInterfaces,
                                          objectElements,
+                                         mContext.getImportProfile(),
                                          0);
   }
 };

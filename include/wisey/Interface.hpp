@@ -65,6 +65,7 @@ namespace wisey {
               bool isExternal,
               std::vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
               std::vector<IObjectElementDefinition *> elementDelcarations,
+              ImportProfile* importProfile,
               int line);
     
   public:
@@ -79,6 +80,7 @@ namespace wisey {
                                    llvm::StructType* structType,
                                    std::vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
                                    std::vector<IObjectElementDefinition *> elementDeclarations,
+                                   ImportProfile* importProfile,
                                    int line);
     
     /**
@@ -90,6 +92,7 @@ namespace wisey {
                                            parentInterfaceSpecifiers,
                                            std::vector<IObjectElementDefinition *>
                                            elementDeclarations,
+                                           ImportProfile* importProfile,
                                            int line);
     
     /**

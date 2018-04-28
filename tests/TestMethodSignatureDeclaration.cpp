@@ -65,6 +65,7 @@ struct MethodSignatureDeclarationTest : Test {
                                          structType,
                                          parentInterfaces,
                                          interfaceElements,
+                                         mContext.getImportProfile(),
                                          0);
   }
   

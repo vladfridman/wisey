@@ -19,6 +19,7 @@
 #include "MockTypeSpecifier.hpp"
 #include "MockVariable.hpp"
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/CastExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -50,6 +51,8 @@ public:
   mLLVMContext(mContext.getLLVMContext()),
   mExpression(new NiceMock<MockExpression>()),
   mTypeSpecifier(new NiceMock<MockTypeSpecifier>()) {
+    TestPrefix::generateIR(mContext);
+    
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
     Function* function = Function::Create(functionType,
@@ -71,6 +74,7 @@ public:
                                             carInterfaceStructType,
                                             parentInterfaces,
                                             interfaceElements,
+                                            mContext.getImportProfile(),
                                             0);
 
     mStringStream = new raw_string_ostream(mStringBuffer);

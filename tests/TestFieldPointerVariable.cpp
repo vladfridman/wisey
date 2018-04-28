@@ -62,6 +62,7 @@ struct FieldPointerVariableTest : Test {
                                          interfaceStructType,
                                          parentInterfaces,
                                          interfaceElements,
+                                         mContext.getImportProfile(),
                                          0);
     vector<Interface*> interfaces;
     interfaces.push_back(mInterface);

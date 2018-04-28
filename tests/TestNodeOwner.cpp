@@ -94,6 +94,7 @@ struct NodeOwnerTest : public Test {
                                                 elementInterfaceStructType,
                                                 elementParentInterfaces,
                                                 elementObjectElements,
+                                                mContext.getImportProfile(),
                                                 0);
     mContext.addInterface(mElementInterface);
     mElementInterface->buildMethods(mContext);
@@ -121,6 +122,7 @@ struct NodeOwnerTest : public Test {
                                                            complicatedElementIinterfaceStructType,
                                                            complicatedElementParentInterfaces,
                                                            complicatedElementObjectElements,
+                                                           mContext.getImportProfile(),
                                                            0);
     mContext.addInterface(mComplicatedElementInterface);
     mComplicatedElementInterface->buildMethods(mContext);
@@ -144,6 +146,7 @@ struct NodeOwnerTest : public Test {
                                                objectInterfaceStructType,
                                                objectParentInterfaces,
                                                objectElements,
+                                               mContext.getImportProfile(),
                                                0);
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
@@ -242,6 +245,7 @@ struct NodeOwnerTest : public Test {
                                                 vehicleInterfaceStructType,
                                                 vehicleParentInterfaces,
                                                 vehicleObjectElements,
+                                                mContext.getImportProfile(),
                                                 0);
     
     IConcreteObjectType::generateNameGlobal(mContext, mSimpleNode);

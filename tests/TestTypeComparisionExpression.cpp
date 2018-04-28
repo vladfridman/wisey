@@ -138,6 +138,7 @@ struct TypeComparisionExpressionTest : public Test {
                                                  subShapeIinterfaceStructType,
                                                  subShapeParentInterfaces,
                                                  subShapeInterfaceElements,
+                                                 mContext.getImportProfile(),
                                                  0);
     mContext.addInterface(mSubShapeInterface);
     mSubShapeInterface->buildMethods(mContext);
@@ -165,6 +166,7 @@ struct TypeComparisionExpressionTest : public Test {
                                               shapeIinterfaceStructType,
                                               shapeParentInterfaces,
                                               shapeInterfaceElements,
+                                              mContext.getImportProfile(),
                                               0);
     mContext.addInterface(mShapeInterface);
     mShapeInterface->buildMethods(mContext);
@@ -188,6 +190,7 @@ struct TypeComparisionExpressionTest : public Test {
                                                objectInterfaceStructType,
                                                objectParentInterfaces,
                                                objectInterfaceElements,
+                                               mContext.getImportProfile(),
                                                0);
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
@@ -201,6 +204,7 @@ struct TypeComparisionExpressionTest : public Test {
                                             carInterfaceStructType,
                                             carParentInterfaces,
                                             carElements,
+                                            mContext.getImportProfile(),
                                             0);
     mContext.addInterface(mCarInterface);
     mCarInterface->buildMethods(mContext);

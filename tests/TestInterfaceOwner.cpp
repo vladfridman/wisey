@@ -16,6 +16,7 @@
 
 #include "MockConcreteObjectType.hpp"
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/InterfaceOwner.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -42,6 +43,8 @@ struct InterfaceOwnerTest : public Test {
   raw_string_ostream* mStringStream;
   
   InterfaceOwnerTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     vector<Type*> objectTypes;
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
@@ -53,6 +56,7 @@ struct InterfaceOwnerTest : public Test {
                                                objectStructType,
                                                parentInterfaces,
                                                interfaceElements,
+                                               mContext.getImportProfile(),
                                                0);
     
     vector<Type*> shapeTypes;
@@ -69,6 +73,7 @@ struct InterfaceOwnerTest : public Test {
                                               mShapeStructType,
                                               shapeParentInterfaces,
                                               shapeMethodElements,
+                                              mContext.getImportProfile(),
                                               0);
     
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
@@ -207,6 +212,7 @@ TEST_F(InterfaceOwnerTest, injectTest) {
                                                  interfaceStructType,
                                                  interfaceParentInterfaces,
                                                  interafaceElements,
+                                                 mContext.getImportProfile(),
                                                  0);
   mContext.addInterface(interface);
   llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,

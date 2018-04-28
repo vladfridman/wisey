@@ -62,24 +62,28 @@ struct IConcreteObjectTypeTest : public Test {
                                                     NULL,
                                                     parentInterfaces,
                                                     interfaceElements,
+                                                    mContext.getImportProfile(),
                                                     0);
     Interface* interface2 = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                                     "Interface2",
                                                     NULL,
                                                     parentInterfaces,
                                                     interfaceElements,
+                                                    mContext.getImportProfile(),
                                                     0);
     mInterface3 = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                           "Interface3",
                                           NULL,
                                           parentInterfaces,
                                           interfaceElements,
+                                          mContext.getImportProfile(),
                                           0);
     Interface* interface4 = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                                     "Interface4",
                                                     NULL,
                                                     parentInterfaces,
                                                     interfaceElements,
+                                                    mContext.getImportProfile(),
                                                     0);
     interfaces.push_back(interface1);
     interfaces.push_back(interface2);
@@ -144,6 +148,7 @@ struct IConcreteObjectTypeTest : public Test {
                                            canNavigateStructType,
                                            canNavigateParentInterfaces,
                                            canNavigateElements,
+                                           mContext.getImportProfile(),
                                            0);
 
     vector<Type*> carTypes;
@@ -448,6 +453,7 @@ TEST_F(IConcreteObjectTypeTest, addInterfaceAndItsParentsTest) {
                                                   grandChildStructType,
                                                   interfaceTypeSpecifiers,
                                                   objectElements,
+                                                  mContext.getImportProfile(),
                                                   0);
 
   PackageType* packageType = new PackageType(package);
@@ -461,6 +467,7 @@ TEST_F(IConcreteObjectTypeTest, addInterfaceAndItsParentsTest) {
                                               child1StructType,
                                               interfaceTypeSpecifiers,
                                               objectElements,
+                                              mContext.getImportProfile(),
                                               0);
   interfaceTypeSpecifiers.clear();
   StructType* child2StructType = StructType::create(mLLVMContext, "some.package.IChild2");
@@ -469,6 +476,7 @@ TEST_F(IConcreteObjectTypeTest, addInterfaceAndItsParentsTest) {
                                               child2StructType,
                                               interfaceTypeSpecifiers,
                                               objectElements,
+                                              mContext.getImportProfile(),
                                               0);
 
   packageExpression = new FakeExpression(NULL, packageType);
@@ -481,6 +489,7 @@ TEST_F(IConcreteObjectTypeTest, addInterfaceAndItsParentsTest) {
                                               parentStructType,
                                               interfaceTypeSpecifiers,
                                               objectElements,
+                                              mContext.getImportProfile(),
                                               0);
   mContext.addInterface(parent);
   mContext.addInterface(child1);

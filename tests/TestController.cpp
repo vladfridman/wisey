@@ -106,6 +106,7 @@ struct ControllerTest : public Test {
                                                    calculatorIinterfaceStructType,
                                                    calculatorParentInterfaces,
                                                    calculatorInterfaceElements,
+                                                   mContext.getImportProfile(),
                                                    0);
     mContext.addInterface(mCalculatorInterface);
     mCalculatorInterface->buildMethods(mContext);
@@ -135,6 +136,7 @@ struct ControllerTest : public Test {
                                                           scienceCalculatorIinterfaceStructType,
                                                           scienceCalculatorParentInterfaces,
                                                           scienceCalculatorInterfaceElements,
+                                                          mContext.getImportProfile(),
                                                           0);
     mContext.addInterface(mScienceCalculatorInterface);
     mScienceCalculatorInterface->buildMethods(mContext);
@@ -158,6 +160,7 @@ struct ControllerTest : public Test {
                                                objectInterfaceStructType,
                                                objectParentInterfaces,
                                                objectInterfaceElements,
+                                               mContext.getImportProfile(),
                                                0);
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
@@ -314,6 +317,7 @@ struct ControllerTest : public Test {
                                                 vehicleInterfaceStructType,
                                                 vehicleParentInterfaces,
                                                 vehicleElements,
+                                                mContext.getImportProfile(),
                                                 0);
     mContext.addInterface(mVehicleInterface);
     mVehicleInterface->buildMethods(mContext);

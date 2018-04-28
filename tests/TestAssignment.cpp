@@ -72,6 +72,7 @@ public:
                                          NULL,
                                          parentInterfaces,
                                          interfaceElements,
+                                         mContext.getImportProfile(),
                                          0);
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             "systems.vos.wisey.compiler.tests.CController",

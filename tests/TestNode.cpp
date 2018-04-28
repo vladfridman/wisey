@@ -110,6 +110,7 @@ struct NodeTest : public Test {
                                                 elementInterfaceStructType,
                                                 elementParentInterfaces,
                                                 elementInterfaceElements,
+                                                mContext.getImportProfile(),
                                                 0);
     mContext.addInterface(mElementInterface);
     mElementInterface->buildMethods(mContext);
@@ -136,6 +137,7 @@ struct NodeTest : public Test {
                                                            complicatedElementIinterfaceStructType,
                                                            complicatedElementParentInterfaces,
                                                            complicatedElementInterfaceElements,
+                                                           mContext.getImportProfile(),
                                                            0);
     mContext.addInterface(mComplicatedElementInterface);
     mComplicatedElementInterface->buildMethods(mContext);
@@ -159,6 +161,7 @@ struct NodeTest : public Test {
                                                objectInterfaceStructType,
                                                objectParentInterfaces,
                                                objectInterfaceElements,
+                                               mContext.getImportProfile(),
                                                0);
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
@@ -306,6 +309,7 @@ struct NodeTest : public Test {
                                                 vehicleInterfaceStructType,
                                                 vehicleParentInterfaces,
                                                 vehicleElements,
+                                                mContext.getImportProfile(),
                                                 0);
     mContext.addInterface(mVehicleInterface);
     mVehicleInterface->buildMethods(mContext);

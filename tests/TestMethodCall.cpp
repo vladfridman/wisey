@@ -234,6 +234,7 @@ TEST_F(MethodCallTest, translateInterfaceMethodToLLVMFunctionNameTest) {
                                                  structType,
                                                  parentInterfaces,
                                                  interfaceElements,
+                                                 mContext.getImportProfile(),
                                                  0);
   string functionName =
     MethodCall::translateInterfaceMethodToLLVMFunctionName(mModel, interface, "foo");

@@ -100,6 +100,7 @@ struct InterfaceTest : public Test {
                                                objectStructType,
                                                objectParentInterfaces,
                                                objectElementDeclarations,
+                                               mContext.getImportProfile(),
                                                0);
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
@@ -146,6 +147,7 @@ struct InterfaceTest : public Test {
                                               mShapeStructType,
                                               shapeParentInterfaces,
                                               shapeElements,
+                                              mContext.getImportProfile(),
                                               5);
     mContext.addInterface(mShapeInterface);
     mShapeInterface->buildMethods(mContext);
@@ -157,6 +159,7 @@ struct InterfaceTest : public Test {
                                                    mIncompleteInterfaceStructType,
                                                    shapeParentInterfaces,
                                                    shapeElements,
+                                                   mContext.getImportProfile(),
                                                    0);
     
     llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
@@ -417,6 +420,7 @@ TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
                                                  structType,
                                                  parentInterfaces,
                                                  elements,
+                                                 mContext.getImportProfile(),
                                                  0);
   
   EXPECT_EXIT(interface->buildMethods(mContext),
@@ -452,6 +456,7 @@ TEST_F(InterfaceTest, methodDeclarationDeathTest) {
                                                  structType,
                                                  parentInterfaces,
                                                  elements,
+                                                 mContext.getImportProfile(),
                                                  0);
   
   EXPECT_EXIT(interface->buildMethods(mContext),
@@ -474,6 +479,7 @@ TEST_F(InterfaceTest, constantsAfterMethodSignaturesDeathTest) {
                                                  structType,
                                                  parentInterfaces,
                                                  elements,
+                                                 mContext.getImportProfile(),
                                                  0);
   
   EXPECT_EXIT(interface->buildMethods(mContext),
@@ -546,6 +552,7 @@ TEST_F(InterfaceTest, circularDependencyDeathTest) {
                                              childStructType,
                                              childParentInterfaces,
                                              childElements,
+                                             mContext.getImportProfile(),
                                              0);
   mContext.addInterface(child);
   
@@ -559,6 +566,7 @@ TEST_F(InterfaceTest, circularDependencyDeathTest) {
                                               parentStructType,
                                               parentParentInterfaces,
                                               parentElements,
+                                              mContext.getImportProfile(),
                                               0);
   mContext.addInterface(parent);
 
@@ -676,6 +684,7 @@ TEST_F(InterfaceTest, composeInjectFunctionWithControllerTest) {
                                                  interfaceStructType,
                                                  interfaceParentInterfaces,
                                                  interafaceElements,
+                                                 mContext.getImportProfile(),
                                                  0);
   mContext.addInterface(interface);
   llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,

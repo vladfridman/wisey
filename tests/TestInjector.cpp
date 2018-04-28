@@ -82,6 +82,7 @@ struct InjectorTest : Test {
                                          interfaceStructType,
                                          parentInterfaces,
                                          interfaceElements,
+                                         mContext.getImportProfile(),
                                          0);
     mContext.addInterface(mInterface);
     mContext.bindInterfaceToController(mInterface, mController);

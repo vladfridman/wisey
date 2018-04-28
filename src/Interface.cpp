@@ -49,6 +49,7 @@ Interface::Interface(AccessLevel accessLevel,
                      bool isExternal,
                      vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
                      vector<IObjectElementDefinition *> elementDelcarations,
+                     ImportProfile* importProfile,
                      int line) :
 mIsPublic(accessLevel == PUBLIC_ACCESS),
 mName(name),
@@ -58,8 +59,11 @@ mIsInner(false),
 mInterfaceOwner(new InterfaceOwner(this)),
 mParentInterfaceSpecifiers(parentInterfaceSpecifiers),
 mElementDeclarations(elementDelcarations),
+mImportProfile(importProfile),
 mIsComplete(false),
-mLine(line) { }
+mLine(line) {
+  assert(importProfile && "Import profile can not be NULL at interface creation");
+}
 
 Interface::~Interface() {
   delete mInterfaceOwner;
@@ -92,6 +96,7 @@ Interface* Interface::newInterface(AccessLevel accessLevel,
                                    vector<IInterfaceTypeSpecifier *> parentInterfaceSpecifiers,
                                    vector<IObjectElementDefinition *>
                                    elementDeclarations,
+                                   ImportProfile* importProfile,
                                    int line) {
   return new Interface(accessLevel,
                        name,
@@ -99,6 +104,7 @@ Interface* Interface::newInterface(AccessLevel accessLevel,
                        false,
                        parentInterfaceSpecifiers,
                        elementDeclarations,
+                       importProfile,
                        line);
 }
 
@@ -108,6 +114,7 @@ Interface* Interface::newExternalInterface(string name,
                                            parentInterfaceSpecifiers,
                                            vector<IObjectElementDefinition *>
                                            elementDeclarations,
+                                           ImportProfile* importProfile,
                                            int line) {
   return new Interface(AccessLevel::PUBLIC_ACCESS,
                        name,
@@ -115,6 +122,7 @@ Interface* Interface::newExternalInterface(string name,
                        true,
                        parentInterfaceSpecifiers,
                        elementDeclarations,
+                       importProfile,
                        line);
 }
 
@@ -1005,7 +1013,7 @@ Value* Interface::getReferenceCount(IRGenerationContext& context, Value* object)
 }
 
 void Interface::setImportProfile(ImportProfile* importProfile) {
-  mImportProfile = importProfile;
+  assert(false && "setImportProfile method should not be called");
 }
 
 ImportProfile* Interface::getImportProfile() const {

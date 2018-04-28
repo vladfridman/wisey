@@ -148,6 +148,7 @@ struct ModelTest : public Test {
                                                  subShapeIinterfaceStructType,
                                                  subShapeParentInterfaces,
                                                  subShapeInterfaceElements,
+                                                 mContext.getImportProfile(),
                                                  0);
     mContext.addInterface(mSubShapeInterface);
     mSubShapeInterface->buildMethods(mContext);
@@ -175,6 +176,7 @@ struct ModelTest : public Test {
                                               shapeIinterfaceStructType,
                                               shapeParentInterfaces,
                                               shapeInterfaceElements,
+                                              mContext.getImportProfile(),
                                               0);
     mContext.addInterface(mShapeInterface);
     mShapeInterface->buildMethods(mContext);
@@ -198,6 +200,7 @@ struct ModelTest : public Test {
                                                objectInterfaceStructType,
                                                objectParentInterfaces,
                                                objectInterfaceElements,
+                                               mContext.getImportProfile(),
                                                0);
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
@@ -211,6 +214,7 @@ struct ModelTest : public Test {
                                             carInterfaceStructType,
                                             carParentInterfaces,
                                             carInterfaceElements,
+                                            mContext.getImportProfile(),
                                             0);
     mContext.addInterface(mCarInterface);
     mCarInterface->buildMethods(mContext);
