@@ -459,7 +459,7 @@ TEST_F(IRGenerationContextTest, getLLVMFunctionTypeTest) {
 TEST_F(IRGenerationContextTest, registerLLVMInternalFunctionNamedTypeTest) {
   vector<const IType*> arguments;
   arguments.push_back(LLVMPrimitiveTypes::I16);
-  LLVMFunctionType* functionType = new LLVMFunctionType(LLVMPrimitiveTypes::I8, arguments);
+  LLVMFunctionType* functionType = LLVMFunctionType::create(LLVMPrimitiveTypes::I8, arguments);
   mContext.registerLLVMInternalFunctionNamedType("myfunction", functionType);
   
   EXPECT_EQ(functionType, mContext.lookupLLVMFunctionNamedType("myfunction"));
@@ -468,7 +468,7 @@ TEST_F(IRGenerationContextTest, registerLLVMInternalFunctionNamedTypeTest) {
 TEST_F(IRGenerationContextTest, registerLLVMExternalFunctionNamedTypeTest) {
   vector<const IType*> arguments;
   arguments.push_back(LLVMPrimitiveTypes::I16);
-  LLVMFunctionType* functionType = new LLVMFunctionType(LLVMPrimitiveTypes::I8, arguments);
+  LLVMFunctionType* functionType = LLVMFunctionType::create(LLVMPrimitiveTypes::I8, arguments);
   mContext.registerLLVMExternalFunctionNamedType("myfunction", functionType);
   
   EXPECT_EQ(functionType, mContext.lookupLLVMFunctionNamedType("myfunction"));
@@ -477,7 +477,7 @@ TEST_F(IRGenerationContextTest, registerLLVMExternalFunctionNamedTypeTest) {
 TEST_F(IRGenerationContextTest, registerLLVMFunctionNamedTypeDeathTest) {
   vector<const IType*> arguments;
   arguments.push_back(LLVMPrimitiveTypes::I16);
-  LLVMFunctionType* functionType = new LLVMFunctionType(LLVMPrimitiveTypes::I8, arguments);
+  LLVMFunctionType* functionType = LLVMFunctionType::create(LLVMPrimitiveTypes::I8, arguments);
   mContext.registerLLVMExternalFunctionNamedType("myfunction", functionType);
   
   EXPECT_EXIT(mContext.registerLLVMInternalFunctionNamedType("myfunction", functionType),

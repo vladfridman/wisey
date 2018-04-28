@@ -14,11 +14,13 @@ using namespace wisey;
 
 LLVMFunctionDeclaration::LLVMFunctionDeclaration(std::string name,
                                                  bool isExternal,
+                                                 bool isVarArg,
                                                  const ITypeSpecifier* returnSpecifier,
                                                  std::vector<const ITypeSpecifier*>
                                                  argumentSpecifiers) :
 mName(name),
 mIsExternal(isExternal),
+mIsVarArg(isVarArg),
 mReturnSpecifier(returnSpecifier),
 mArgumentSpecifiers(argumentSpecifiers) {
 }
@@ -35,14 +37,28 @@ LLVMFunctionDeclaration* LLVMFunctionDeclaration::
 createInternal(std::string name,
                const ITypeSpecifier* returnSpecifier,
                std::vector<const ITypeSpecifier*> argumentSpecifiers) {
-  return new LLVMFunctionDeclaration(name, false, returnSpecifier, argumentSpecifiers);
+  return new LLVMFunctionDeclaration(name, false, false, returnSpecifier, argumentSpecifiers);
+}
+
+LLVMFunctionDeclaration* LLVMFunctionDeclaration::
+createInternalWithVarArg(std::string name,
+                         const ITypeSpecifier* returnSpecifier,
+                         std::vector<const ITypeSpecifier*> argumentSpecifiers) {
+  return new LLVMFunctionDeclaration(name, false, true, returnSpecifier, argumentSpecifiers);
 }
 
 LLVMFunctionDeclaration* LLVMFunctionDeclaration::
 createExternal(std::string name,
                const ITypeSpecifier* returnSpecifier,
                std::vector<const ITypeSpecifier*> argumentSpecifiers) {
-  return new LLVMFunctionDeclaration(name, true, returnSpecifier, argumentSpecifiers);
+  return new LLVMFunctionDeclaration(name, true, false, returnSpecifier, argumentSpecifiers);
+}
+
+LLVMFunctionDeclaration* LLVMFunctionDeclaration::
+createExternalWithVarArg(std::string name,
+                         const ITypeSpecifier* returnSpecifier,
+                         std::vector<const ITypeSpecifier*> argumentSpecifiers) {
+  return new LLVMFunctionDeclaration(name, true, true, returnSpecifier, argumentSpecifiers);
 }
 
 IObjectType* LLVMFunctionDeclaration::prototypeObject(IRGenerationContext& context,
@@ -56,7 +72,9 @@ void LLVMFunctionDeclaration::prototypeMethods(IRGenerationContext& context) con
     argumentTypes.push_back(argumentSpecifier->getType(context));
   }
   const IType* returnType = mReturnSpecifier->getType(context);
-  LLVMFunctionType* functionType = context.getLLVMFunctionType(returnType, argumentTypes);
+  LLVMFunctionType* functionType = mIsVarArg
+  ? context.getLLVMFunctionTypeWithVarArg(returnType, argumentTypes)
+  : context.getLLVMFunctionType(returnType, argumentTypes);
   if (mIsExternal) {
     context.registerLLVMExternalFunctionNamedType(mName, functionType);
   } else {

@@ -24,12 +24,27 @@ namespace wisey {
     const IType* mReturnType;
     std::vector<const IType*> mArgumentTypes;
     const LLVMPointerType* mPointerType;
+    bool mIsVarArg;
     
+    LLVMFunctionType(const IType* returnType,
+                     std::vector<const IType*> argumentTypes,
+                     bool isVarArg);
+
   public:
     
-    LLVMFunctionType(const IType* returnType, std::vector<const IType*> argumentTypes);
-    
     ~LLVMFunctionType();
+    
+    /**
+     * Create an instance that represents an llvm function type with fixed number of arguments
+     */
+    static LLVMFunctionType* create(const IType* returnType,
+                                    std::vector<const IType*> argumentTypes);
+
+    /**
+     * Create an instance that represents an llvm function type with variable number of arguments
+     */
+    static LLVMFunctionType* createWithVarArg(const IType* returnType,
+                                              std::vector<const IType*> argumentTypes);
     
     /**
      * Return function argument types

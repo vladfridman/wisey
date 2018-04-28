@@ -183,6 +183,12 @@ namespace wisey {
                                           std::vector<const IType*> argumentTypes);
     
     /**
+     * Look up a llvm function with variable arguments type
+     */
+    LLVMFunctionType* getLLVMFunctionTypeWithVarArg(const IType* returnType,
+                                                    std::vector<const IType*> argumentTypes);
+
+    /**
      * Set global llvm variable
      */
     void setLLVMGlobalVariable(const IType* type, std::string name);
@@ -317,6 +323,11 @@ namespace wisey {
     void reportError(int line, std::string message) const;
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
+    
+  private:
+    
+    std::string getLLVMFunctionKeyPrefix(const IType* returnType,
+                                         std::vector<const IType*> argumentTypes) const;
     
   };
   

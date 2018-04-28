@@ -34,6 +34,7 @@ struct LLVMFunctionDeclarationTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   LLVMFunctionDeclaration* mLLVMFunctionDeclaration;
+  LLVMFunctionDeclaration* mLLVMFunctionDeclarationWithVarArg;
   BasicBlock* mBasicBlock;
   
   LLVMFunctionDeclarationTest() : mLLVMContext(mContext.getLLVMContext()) {
@@ -44,7 +45,11 @@ struct LLVMFunctionDeclarationTest : public Test {
     mLLVMFunctionDeclaration = LLVMFunctionDeclaration::createInternal("myfunction",
                                                                        returnSpecifier,
                                                                        argumentSpecifiers);
-
+    mLLVMFunctionDeclarationWithVarArg =
+    LLVMFunctionDeclaration::createExternalWithVarArg("myfunction",
+                                                      returnSpecifier,
+                                                      argumentSpecifiers);
+    
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
     Function* function = Function::Create(functionType,
@@ -68,6 +73,21 @@ TEST_F(LLVMFunctionDeclarationTest, prototypeMethodsTest) {
   argumentTypes.push_back(Type::getInt8Ty(mLLVMContext));
   argumentTypes.push_back(Type::getInt64Ty(mLLVMContext));
   FunctionType* expected = FunctionType::get(Type::getVoidTy(mLLVMContext), argumentTypes, false);
+  
+  EXPECT_EQ(expected, function->getFunctionType());
+}
+
+TEST_F(LLVMFunctionDeclarationTest, prototypeMethodsWithVarArgTest) {
+  mLLVMFunctionDeclarationWithVarArg->prototypeMethods(mContext);
+  
+  Function* function = mContext.getModule()->getFunction("myfunction");
+  
+  ASSERT_NE(nullptr, function);
+  
+  vector<Type*> argumentTypes;
+  argumentTypes.push_back(Type::getInt8Ty(mLLVMContext));
+  argumentTypes.push_back(Type::getInt64Ty(mLLVMContext));
+  FunctionType* expected = FunctionType::get(Type::getVoidTy(mLLVMContext), argumentTypes, true);
   
   EXPECT_EQ(expected, function->getFunctionType());
 }

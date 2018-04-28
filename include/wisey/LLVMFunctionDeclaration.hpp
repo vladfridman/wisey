@@ -22,11 +22,13 @@ namespace wisey {
     
     std::string mName;
     bool mIsExternal;
+    bool mIsVarArg;
     const ITypeSpecifier* mReturnSpecifier;
     std::vector<const ITypeSpecifier*> mArgumentSpecifiers;
     
     LLVMFunctionDeclaration(std::string name,
                             bool isExternal,
+                            bool isVarArg,
                             const ITypeSpecifier* returnSpecifier,
                             std::vector<const ITypeSpecifier*> argumentSpecifiers);
     
@@ -39,6 +41,14 @@ namespace wisey {
                                                    const ITypeSpecifier* returnSpecifier,
                                                    std::vector<const ITypeSpecifier*>
                                                    argumentSpecifiers);
+    
+    /**
+     * Creates an internal llvm function with variable arguments
+     */
+    static LLVMFunctionDeclaration* createInternalWithVarArg(std::string name,
+                                                             const ITypeSpecifier* returnSpecifier,
+                                                             std::vector<const ITypeSpecifier*>
+                                                             argumentSpecifiers);
 
     /**
      * Creates an instance of LLVMFunctionDeclaration that represents an external llvm function
@@ -47,6 +57,14 @@ namespace wisey {
                                                    const ITypeSpecifier* returnSpecifier,
                                                    std::vector<const ITypeSpecifier*>
                                                    argumentSpecifiers);
+    
+    /**
+     * Creates an external llvm function with variable arguments
+     */
+    static LLVMFunctionDeclaration* createExternalWithVarArg(std::string name,
+                                                             const ITypeSpecifier* returnSpecifier,
+                                                             std::vector<const ITypeSpecifier*>
+                                                             argumentSpecifiers);
 
     ~LLVMFunctionDeclaration();
     

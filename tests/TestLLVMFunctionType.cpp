@@ -28,7 +28,8 @@ struct LLVMFunctionTypeTest : public Test {
   IRGenerationContext mContext;
   llvm::LLVMContext& mLLVMContext;
   LLVMFunctionType* mLLVMFunctionType;
-  
+  LLVMFunctionType* mLLVMFunctionTypeWithVarArg;
+
   LLVMFunctionTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     
@@ -36,6 +37,8 @@ struct LLVMFunctionTypeTest : public Test {
     argumentTypes.push_back(LLVMPrimitiveTypes::I16);
     argumentTypes.push_back(LLVMPrimitiveTypes::I64->getPointerType());
     mLLVMFunctionType = mContext.getLLVMFunctionType(LLVMPrimitiveTypes::I8, argumentTypes);
+    mLLVMFunctionTypeWithVarArg = mContext.getLLVMFunctionTypeWithVarArg(LLVMPrimitiveTypes::I8,
+                                                                         argumentTypes);
   }
 };
 
@@ -60,6 +63,11 @@ TEST_F(LLVMFunctionTypeTest, getArgumentTypesTest) {
 TEST_F(LLVMFunctionTypeTest, getNameTest) {
   EXPECT_STREQ("::llvm::i8 (::llvm::i16, ::llvm::i64::pointer)",
                mLLVMFunctionType->getTypeName().c_str());
+}
+
+TEST_F(LLVMFunctionTypeTest, getNameWithVargTest) {
+  EXPECT_STREQ("::llvm::i8 (::llvm::i16, ::llvm::i64::pointer, ...)",
+               mLLVMFunctionTypeWithVarArg->getTypeName().c_str());
 }
 
 TEST_F(LLVMFunctionTypeTest, getLLVMTypeTest) {
@@ -114,6 +122,13 @@ TEST_F(LLVMFunctionTypeTest, printToStreamTest) {
   mLLVMFunctionType->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("::llvm::i8 (::llvm::i16, ::llvm::i64::pointer)", stringStream.str().c_str());
+}
+
+TEST_F(LLVMFunctionTypeTest, printToStreamWithVarArgTest) {
+  stringstream stringStream;
+  mLLVMFunctionTypeWithVarArg->printToStream(mContext, stringStream);
+  
+  EXPECT_STREQ("::llvm::i8 (::llvm::i16, ::llvm::i64::pointer, ...)", stringStream.str().c_str());
 }
 
 TEST_F(LLVMFunctionTypeTest, injectDeathTest) {

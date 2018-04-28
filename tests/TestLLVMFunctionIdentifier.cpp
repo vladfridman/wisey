@@ -58,7 +58,7 @@ struct LLVMFunctionIdentifierTest : public Test {
     CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
     vector<const IType*> argumentTypes;
     argumentTypes.push_back(LLVMPrimitiveTypes::I64);
-    mLLVMFunctionType = new LLVMFunctionType(LLVMPrimitiveTypes::I16, argumentTypes);
+    mLLVMFunctionType = LLVMFunctionType::create(LLVMPrimitiveTypes::I16, argumentTypes);
     mPublicLLVMFunction = new LLVMFunction(mObject,
                                            "publicFunction",
                                            PUBLIC_ACCESS,

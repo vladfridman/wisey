@@ -290,6 +290,38 @@ LLVMStructType* IRGenerationContext::getLLVMStructType(string name, int line) {
 
 LLVMFunctionType* IRGenerationContext::getLLVMFunctionType(const IType* returnType,
                                                            vector<const IType*> argumentTypes) {
+  string key = getLLVMFunctionKeyPrefix(returnType, argumentTypes) + ")";
+
+  if (mLLVMFunctionTypes.count(key)) {
+    return mLLVMFunctionTypes.at(key);
+  }
+  
+  LLVMFunctionType* llvmFunctionType = LLVMFunctionType::create(returnType, argumentTypes);
+  mLLVMFunctionTypes[key] = llvmFunctionType;
+  return llvmFunctionType;
+}
+
+LLVMFunctionType* IRGenerationContext::
+getLLVMFunctionTypeWithVarArg(const IType* returnType, vector<const IType*> argumentTypes) {
+  string key = getLLVMFunctionKeyPrefix(returnType, argumentTypes);
+  if (argumentTypes.size()) {
+    key = key + ", ...)";
+  } else {
+    key = key + "...)";
+  }
+
+  if (mLLVMFunctionTypes.count(key)) {
+    return mLLVMFunctionTypes.at(key);
+  }
+  
+  LLVMFunctionType* llvmFunctionType = LLVMFunctionType::createWithVarArg(returnType,
+                                                                          argumentTypes);
+  mLLVMFunctionTypes[key] = llvmFunctionType;
+  return llvmFunctionType;
+}
+
+string IRGenerationContext::getLLVMFunctionKeyPrefix(const IType* returnType,
+                                                     vector<const IType *> argumentTypes) const {
   string key = returnType->getTypeName() + " (";
   for (const IType* argumentType : argumentTypes) {
     key = key + argumentType->getTypeName();
@@ -297,15 +329,8 @@ LLVMFunctionType* IRGenerationContext::getLLVMFunctionType(const IType* returnTy
       key = key + ", ";
     }
   }
-  key = key + ")";
 
-  if (mLLVMFunctionTypes.count(key)) {
-    return mLLVMFunctionTypes.at(key);
-  }
-  
-  LLVMFunctionType* llvmFunctionType = new LLVMFunctionType(returnType, argumentTypes);
-  mLLVMFunctionTypes[key] = llvmFunctionType;
-  return llvmFunctionType;
+  return key;
 }
 
 void IRGenerationContext::setLLVMGlobalVariable(const IType* type, string name) {

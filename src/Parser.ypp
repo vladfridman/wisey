@@ -219,8 +219,8 @@
 %token <string> TCONSTANTIDENTIFIER
 
 %token <token> TANDOP TBIND TBREAK TBUILD TBUILDER TCASE TCATCH TCEQ TCGE TCLE TINCOP
-%token <token> TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDO TDOUBLECOLON TELSE TEXTENDS 
-%token <token> TEXTERNAL TDEFAULT TFALLTHROUGH TFALSE TFIXED TFOR TIF TIMMUTABLE
+%token <token> TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDO TDOUBLECOLON TELIPSIS
+%token <token> TELSE TEXTENDS TEXTERNAL TDEFAULT TFALLTHROUGH TFALSE TFIXED TFOR TIF TIMMUTABLE
 %token <token> TIMPLEMENTS TIMPORT TINJECTOR TINJECT TINSTANCEOF TINTERFACE  
 %token <token> TLLVM TLLVMARRAY TLLVMFUNCTION TLLVMI1 TLLVMI8 TLLVMI16 TLLVMI32 TLLVMI64
 %token <token> TLLVMPOINTER TLLVMSTRUCT TLLVMVOID TLLVMREFERENCE
@@ -416,9 +416,49 @@ llvm_function_declaration
   : TLLVM TLLVMFUNCTION llvm_type_specifier TIDENTIFIER
     '(' llvm_function_argument_type_specifier_list ')' ';'
       { $$ = LLVMFunctionDeclaration::createInternal(*$4, $3, *$6); delete $4; delete $6; }
+  | TLLVM TLLVMFUNCTION llvm_type_specifier TIDENTIFIER '(' ')' ';'
+      { 
+        std::vector<const ITypeSpecifier*> typeSpecifiers;        
+        $$ = LLVMFunctionDeclaration::createInternal(*$4, $3, typeSpecifiers); 
+        delete $4; 
+      }
+  | TLLVM TLLVMFUNCTION llvm_type_specifier TIDENTIFIER
+    '(' llvm_function_argument_type_specifier_list ',' TELIPSIS ')' ';'
+      { 
+        $$ = LLVMFunctionDeclaration::createInternalWithVarArg(*$4, $3, *$6); 
+        delete $4; 
+        delete $6; 
+      }
+  | TLLVM TLLVMFUNCTION llvm_type_specifier TIDENTIFIER
+    '(' TELIPSIS ')' ';'
+      { 
+        std::vector<const ITypeSpecifier*> typeSpecifiers;
+        $$ = LLVMFunctionDeclaration::createInternalWithVarArg(*$4, $3, typeSpecifiers); 
+        delete $4; 
+      }
   | TEXTERNAL TLLVM TLLVMFUNCTION llvm_type_specifier TIDENTIFIER
     '(' llvm_function_argument_type_specifier_list ')' ';'
       { $$ = LLVMFunctionDeclaration::createExternal(*$5, $4, *$7); delete $5; delete $7; }
+  | TEXTERNAL TLLVM TLLVMFUNCTION llvm_type_specifier TIDENTIFIER '(' ')' ';'
+      { 
+        std::vector<const ITypeSpecifier*> typeSpecifiers;
+        $$ = LLVMFunctionDeclaration::createExternal(*$5, $4, typeSpecifiers); 
+        delete $5; 
+      }
+  | TEXTERNAL TLLVM TLLVMFUNCTION llvm_type_specifier TIDENTIFIER
+    '(' llvm_function_argument_type_specifier_list ',' TELIPSIS ')' ';'
+      { 
+        $$ = LLVMFunctionDeclaration::createExternalWithVarArg(*$5, $4, *$7); 
+        delete $5; 
+        delete $7;
+      }
+  | TEXTERNAL TLLVM TLLVMFUNCTION llvm_type_specifier TIDENTIFIER
+    '(' TELIPSIS ')' ';'
+      { 
+        std::vector<const ITypeSpecifier*> typeSpecifiers;
+        $$ = LLVMFunctionDeclaration::createExternalWithVarArg(*$5, $4, typeSpecifiers);
+        delete $5; 
+      }
   ;
 
 llvm_struct_definition
@@ -541,9 +581,7 @@ llvm_function_type_specifier
   ;
 
 llvm_function_argument_type_specifier_list
-  : /* blank */ 
-    { $$ = new std::vector<const ITypeSpecifier*>(); }
-  | native_type_specifier
+  : native_type_specifier
     { $$ = new std::vector<const ITypeSpecifier*>(); $$->push_back($1); }
   | llvm_function_argument_type_specifier_list ',' native_type_specifier
     { $1->push_back($3); $$ = $1; }

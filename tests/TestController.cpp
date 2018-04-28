@@ -225,8 +225,8 @@ struct ControllerTest : public Test {
     constants.push_back(privateConstant);
 
     vector<const IType*> functionArgumentTypes;
-    LLVMFunctionType* llvmFunctionType = new LLVMFunctionType(LLVMPrimitiveTypes::I8,
-                                                              functionArgumentTypes);
+    LLVMFunctionType* llvmFunctionType = LLVMFunctionType::create(LLVMPrimitiveTypes::I8,
+                                                                  functionArgumentTypes);
     vector<const wisey::Argument*> llvmFunctionArguments;
     Block* functionBlock = new Block();
     CompoundStatement* functionCompoundStatement = new CompoundStatement(functionBlock, 0);

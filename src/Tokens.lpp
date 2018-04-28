@@ -126,6 +126,7 @@ WS  [ \t\v\n\f]
 "true"                        return TOKEN(TTRUE);
 "void"                        return TOKEN(TTYPEVOID);
 "while"                       return TOKEN(TWHILE);
+"..."                         return TOKEN(TELIPSIS);
 "="                           return TOKEN('=');
 "=="                          return TOKEN(TCEQ);
 "!="                          return TOKEN(TCNE);
