@@ -14,6 +14,8 @@
 
 namespace wisey {
   
+  class ImportProfile;
+  
   /**
    * Represents a global statement such as controller definition or bind action statement
    */
@@ -24,7 +26,8 @@ namespace wisey {
     /**
      * Generate prototypes of controllers, models and interfaces without any methods or fields
      */
-    virtual IObjectType* prototypeObject(IRGenerationContext& context) const = 0;
+    virtual IObjectType* prototypeObject(IRGenerationContext& context,
+                                         ImportProfile* importProfile) const = 0;
     
     /**
      * Generate method prototypes for all object prototypes that were created using prototypeObject

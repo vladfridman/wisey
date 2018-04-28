@@ -80,7 +80,7 @@ TEST_F(ExternalModelDefinitionTest, prototypeObjectTest) {
                                           innerObjectDefinitions,
                                           0);
   
-  modelDefinition.prototypeObject(mContext);
+  modelDefinition.prototypeObject(mContext, mContext.getImportProfile());
   
   Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel", 0);
   
@@ -111,7 +111,7 @@ TEST_F(ExternalModelDefinitionTest, prototypeMethodsTest) {
                                           innerObjectDefinitions,
                                           0);
 
-  modelDefinition.prototypeObject(mContext);
+  modelDefinition.prototypeObject(mContext, mContext.getImportProfile());
   modelDefinition.prototypeMethods(mContext);
   
   Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel", 0);

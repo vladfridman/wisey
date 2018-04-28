@@ -52,9 +52,9 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   InterfaceDefinition* threadInterfaceDefinition = defineThreadInterface(context);
   ControllerDefinition* callStackDefinition = defineCallStackController(context);
   
-  threadInterfaceDefinition->prototypeObject(context);
+  threadInterfaceDefinition->prototypeObject(context, importProfile);
   threadInterfaceDefinition->prototypeMethods(context);
-  callStackDefinition->prototypeObject(context);
+  callStackDefinition->prototypeObject(context, importProfile);
   callStackDefinition->prototypeMethods(context);
 }
 
@@ -83,7 +83,7 @@ void TestPrefix::defineModel(IRGenerationContext& context,
                                   modelParentInterfaces,
                                   innerObjectDefinitions,
                                   0);
-  modelDefinition.prototypeObject(context);
+  modelDefinition.prototypeObject(context, context.getImportProfile());
   modelDefinition.prototypeMethods(context);
   Model* model = context.getModel(Names::getLangPackageName() + "." + modelName, 0);
   model->createRTTI(context);

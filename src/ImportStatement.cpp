@@ -20,7 +20,8 @@ ImportStatement::~ImportStatement() {
   delete mTypeSpecifier;
 }
 
-IObjectType* ImportStatement::prototypeObject(IRGenerationContext& context) const {
+IObjectType* ImportStatement::prototypeObject(IRGenerationContext& context,
+                                              ImportProfile* importProfile) const {
   context.getImportProfile()->addImport(mTypeSpecifier->getShortName(),
                                         mTypeSpecifier->getName(context));
   return NULL;

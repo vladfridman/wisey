@@ -27,7 +27,8 @@ LLVMStructDefinition::~LLVMStructDefinition() {
   mTypeSpecifiers.clear();
 }
 
-IObjectType* LLVMStructDefinition::prototypeObject(IRGenerationContext& context) const {
+IObjectType* LLVMStructDefinition::prototypeObject(IRGenerationContext& context,
+                                                   ImportProfile* importProfile) const {
   StructType* structType = context.getModule()->getTypeByName(mName);
   assert(structType == NULL);
   

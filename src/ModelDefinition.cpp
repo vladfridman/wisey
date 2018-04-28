@@ -47,20 +47,17 @@ ModelDefinition::~ModelDefinition() {
   mInnerObjectDefinitions.clear();
 }
 
-Model* ModelDefinition::prototypeObject(IRGenerationContext& context) const {
+Model* ModelDefinition::prototypeObject(IRGenerationContext& context,
+                                        ImportProfile* importProfile) const {
   string fullName = IObjectDefinition::getFullName(context, mModelTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
-  Model* model = Model::newModel(mAccessLevel,
-                                 fullName,
-                                 structType,
-                                 context.getImportProfile(),
-                                 mLine);
+  Model* model = Model::newModel(mAccessLevel, fullName, structType, importProfile, mLine);
   context.addModel(model);
 
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(model);
-  IObjectDefinition::prototypeInnerObjects(context, model, mInnerObjectDefinitions);
+  IObjectDefinition::prototypeInnerObjects(context, importProfile, model, mInnerObjectDefinitions);
   context.setObjectType(lastObjectType);
   
   return model;

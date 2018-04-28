@@ -106,7 +106,7 @@ TEST_F(ModelDefinitionTest, prototypeObjectTest) {
                                   innerObjectDefinitions,
                                   0);
   
-  modelDefinition.prototypeObject(mContext);
+  modelDefinition.prototypeObject(mContext, mContext.getImportProfile());
 
   Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel", 0);
   
@@ -137,7 +137,7 @@ TEST_F(ModelDefinitionTest, prototypeMethodsTest) {
                                   innerObjectDefinitions,
                                   0);
   
-  modelDefinition.prototypeObject(mContext);
+  modelDefinition.prototypeObject(mContext, mContext.getImportProfile());
   modelDefinition.prototypeMethods(mContext);
 
   Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel", 0);
@@ -169,7 +169,7 @@ TEST_F(ModelDefinitionTest, generateIRTest) {
 
   EXPECT_CALL(*mMockStatement, generateIR(_));
   
-  modelDefinition.prototypeObject(mContext);
+  modelDefinition.prototypeObject(mContext, mContext.getImportProfile());
   modelDefinition.prototypeMethods(mContext);
   modelDefinition.generateIR(mContext);
   Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel", 0);
@@ -267,7 +267,7 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
                                   interfaces,
                                   innerObjectDefinitions,
                                   0);
-  modelDefinition.prototypeObject(mContext);
+  modelDefinition.prototypeObject(mContext, mContext.getImportProfile());
   modelDefinition.prototypeMethods(mContext);
   modelDefinition.generateIR(mContext);
   
@@ -308,7 +308,7 @@ TEST_F(ModelDefinitionTest, interfaceNotDefinedDeathTest) {
                                   interfaces,
                                   innerObjectDefinitions,
                                   0);
-  modelDefinition.prototypeObject(mContext);
+  modelDefinition.prototypeObject(mContext, mContext.getImportProfile());
   
   EXPECT_EXIT(modelDefinition.prototypeMethods(mContext),
               ::testing::ExitedWithCode(1),
@@ -335,7 +335,7 @@ TEST_F(ModelDefinitionTest, modelWithInjectedFieldDeathTest) {
                                   interfaces,
                                   innerObjectDefinitions,
                                   0);
-  modelDefinition.prototypeObject(mContext);
+  modelDefinition.prototypeObject(mContext, mContext.getImportProfile());
   
   EXPECT_EXIT(modelDefinition.prototypeMethods(mContext),
               ::testing::ExitedWithCode(1),

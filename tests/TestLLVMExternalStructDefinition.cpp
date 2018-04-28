@@ -55,7 +55,7 @@ struct LLVMExternalStructDefinitionTest : public Test {
 };
 
 TEST_F(LLVMExternalStructDefinitionTest, prototypeObjectTest) {
-  mLLVMExternalStructDefinition->prototypeObject(mContext);
+  mLLVMExternalStructDefinition->prototypeObject(mContext, mContext.getImportProfile());
   
   LLVMStructType* llvmStructType = mContext.getLLVMStructType("mystruct", 0);
   
@@ -67,7 +67,7 @@ TEST_F(LLVMExternalStructDefinitionTest, prototypeObjectTest) {
 }
 
 TEST_F(LLVMExternalStructDefinitionTest, prototypeMethodsTest) {
-  mLLVMExternalStructDefinition->prototypeObject(mContext);
+  mLLVMExternalStructDefinition->prototypeObject(mContext, mContext.getImportProfile());
   mLLVMExternalStructDefinition->prototypeMethods(mContext);
   
   LLVMStructType* llvmStructType = mContext.getLLVMStructType("mystruct", 0);

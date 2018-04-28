@@ -108,7 +108,7 @@ TEST_F(NodeDefinitionTest, prototypeObjectTest) {
                                 innerObjectDefinitions,
                                 0);
   
-  nodeDefinition.prototypeObject(mContext);
+  nodeDefinition.prototypeObject(mContext, mContext.getImportProfile());
   
   Node* node = mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode", 0);
   
@@ -138,7 +138,7 @@ TEST_F(NodeDefinitionTest, prototypeMethodsTest) {
                                 innerObjectDefinitions,
                                 0);
   
-  nodeDefinition.prototypeObject(mContext);
+  nodeDefinition.prototypeObject(mContext, mContext.getImportProfile());
   nodeDefinition.prototypeMethods(mContext);
   
   Node* node = mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode", 0);
@@ -170,7 +170,7 @@ TEST_F(NodeDefinitionTest, generateIRTest) {
   
   EXPECT_CALL(*mMockStatement, generateIR(_));
   
-  nodeDefinition.prototypeObject(mContext);
+  nodeDefinition.prototypeObject(mContext, mContext.getImportProfile());
   nodeDefinition.prototypeMethods(mContext);
   nodeDefinition.generateIR(mContext);
   Node* node = mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode", 0);
@@ -268,7 +268,7 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
                                 interfaces,
                                 innerObjectDefinitions,
                                 0);
-  nodeDefinition.prototypeObject(mContext);
+  nodeDefinition.prototypeObject(mContext, mContext.getImportProfile());
   nodeDefinition.prototypeMethods(mContext);
   nodeDefinition.generateIR(mContext);
   
@@ -308,7 +308,7 @@ TEST_F(NodeDefinitionTest, interfaceNotDefinedDeathTest) {
                                 interfaces,
                                 innerObjectDefinitions,
                                 0);
-  nodeDefinition.prototypeObject(mContext);
+  nodeDefinition.prototypeObject(mContext, mContext.getImportProfile());
   
   EXPECT_EXIT(nodeDefinition.prototypeMethods(mContext),
               ::testing::ExitedWithCode(1),
@@ -336,7 +336,7 @@ TEST_F(NodeDefinitionTest, nodeWithInjectedFieldDeathTest) {
                                 interfaces,
                                 innerObjectDefinitions,
                                 0);
-  nodeDefinition.prototypeObject(mContext);
+  nodeDefinition.prototypeObject(mContext, mContext.getImportProfile());
   
   EXPECT_EXIT(nodeDefinition.prototypeMethods(mContext),
               ::testing::ExitedWithCode(1),

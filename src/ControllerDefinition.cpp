@@ -47,20 +47,24 @@ ControllerDefinition::~ControllerDefinition() {
   mInnerObjectDefinitions.clear();
 }
 
-Controller* ControllerDefinition::prototypeObject(IRGenerationContext& context) const {
+Controller* ControllerDefinition::prototypeObject(IRGenerationContext& context,
+                                                  ImportProfile* importProfile) const {
   string fullName = IObjectDefinition::getFullName(context, mControllerTypeSpecifierFull);
 
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   Controller* controller = Controller::newController(mAccessLevel,
                                                      fullName,
                                                      structType,
-                                                     context.getImportProfile(),
+                                                     importProfile,
                                                      mLine);
   context.addController(controller);
   
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(controller);
-  IObjectDefinition::prototypeInnerObjects(context, controller, mInnerObjectDefinitions);
+  IObjectDefinition::prototypeInnerObjects(context,
+                                           importProfile,
+                                           controller,
+                                           mInnerObjectDefinitions);
   context.setObjectType(lastObjectType);
   
   return controller;

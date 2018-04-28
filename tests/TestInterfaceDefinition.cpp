@@ -83,7 +83,7 @@ struct InterfaceDefinitionTest : public Test {
 };
 
 TEST_F(InterfaceDefinitionTest, prototypeObjectTest) {
-  mInterfaceDefinition->prototypeObject(mContext);
+  mInterfaceDefinition->prototypeObject(mContext, mContext.getImportProfile());
   
   ASSERT_NE(mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface", 0), nullptr);
   
@@ -95,7 +95,7 @@ TEST_F(InterfaceDefinitionTest, prototypeObjectTest) {
 }
 
 TEST_F(InterfaceDefinitionTest, prototypeMethodsTest) {
-  mInterfaceDefinition->prototypeObject(mContext);
+  mInterfaceDefinition->prototypeObject(mContext, mContext.getImportProfile());
   mInterfaceDefinition->prototypeMethods(mContext);
   
   Interface* interface = mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface", 0);
@@ -104,7 +104,7 @@ TEST_F(InterfaceDefinitionTest, prototypeMethodsTest) {
 }
 
 TEST_F(InterfaceDefinitionTest, generateIRTest) {
-  mInterfaceDefinition->prototypeObject(mContext);
+  mInterfaceDefinition->prototypeObject(mContext, mContext.getImportProfile());
   mInterfaceDefinition->prototypeMethods(mContext);
   mInterfaceDefinition->generateIR(mContext);
 

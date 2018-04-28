@@ -39,7 +39,8 @@ namespace wisey {
     
     ~ExternalControllerDefinition();
     
-    Controller* prototypeObject(IRGenerationContext& context) const override;
+    Controller* prototypeObject(IRGenerationContext& context,
+                                ImportProfile* importProfile) const override;
     
     void prototypeMethods(IRGenerationContext& context) const override;
     

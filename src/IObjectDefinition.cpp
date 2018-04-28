@@ -20,10 +20,11 @@ string IObjectDefinition::getFullName(IRGenerationContext& context,
 }
 
 void IObjectDefinition::prototypeInnerObjects(IRGenerationContext& context,
+                                              ImportProfile* importProfile,
                                               IObjectType* outerObject,
                                               vector<IObjectDefinition*> innerObjectDefinitions) {
   for (IObjectDefinition* innerObjectDefinition : innerObjectDefinitions) {
-    IObjectType* innerObject = innerObjectDefinition->prototypeObject(context);
+    IObjectType* innerObject = innerObjectDefinition->prototypeObject(context, importProfile);
     outerObject->addInnerObject(innerObject);
     innerObject->markAsInner();
   }

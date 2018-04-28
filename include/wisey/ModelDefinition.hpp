@@ -39,7 +39,8 @@ namespace wisey {
     
     ~ModelDefinition();
     
-    Model* prototypeObject(IRGenerationContext& context) const override;
+    Model* prototypeObject(IRGenerationContext& context,
+                           ImportProfile* importProfile) const override;
     
     void prototypeMethods(IRGenerationContext& context) const override;
     

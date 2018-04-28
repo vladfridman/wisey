@@ -21,7 +21,8 @@
  */
 class MockGlobalStatement : public wisey::IGlobalStatement {
 public:
-  MOCK_CONST_METHOD1(prototypeObject, wisey::IObjectType* (wisey::IRGenerationContext&));
+  MOCK_CONST_METHOD2(prototypeObject, wisey::IObjectType* (wisey::IRGenerationContext&,
+                                                           wisey::ImportProfile*));
   MOCK_CONST_METHOD1(prototypeMethods, void (wisey::IRGenerationContext&));
   MOCK_CONST_METHOD1(generateIR, void (wisey::IRGenerationContext&));
 };

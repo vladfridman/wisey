@@ -28,7 +28,8 @@ LLVMExternalStructDefinition::~LLVMExternalStructDefinition() {
   mTypeSpecifiers.clear();
 }
 
-IObjectType* LLVMExternalStructDefinition::prototypeObject(IRGenerationContext& context) const {
+IObjectType* LLVMExternalStructDefinition::prototypeObject(IRGenerationContext& context,
+                                                           ImportProfile* importProfile) const {
   StructType* structType = context.getModule()->getTypeByName(mName);
   assert(structType == NULL);
   

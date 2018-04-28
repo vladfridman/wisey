@@ -20,7 +20,8 @@ BindActionGlobalStatement::~BindActionGlobalStatement() {
   delete mBindAction;
 }
 
-IObjectType* BindActionGlobalStatement::prototypeObject(IRGenerationContext& context) const {
+IObjectType* BindActionGlobalStatement::prototypeObject(IRGenerationContext& context,
+                                                        ImportProfile* importProfile) const {
   return NULL;
 }
 

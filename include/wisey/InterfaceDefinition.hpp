@@ -38,7 +38,8 @@ namespace wisey {
     
     ~InterfaceDefinition();
     
-    Interface* prototypeObject(IRGenerationContext& context) const override;
+    Interface* prototypeObject(IRGenerationContext& context,
+                               ImportProfile* importProfile) const override;
     
     void prototypeMethods(IRGenerationContext& context) const override;
     

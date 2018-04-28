@@ -33,7 +33,7 @@ void ProgramFile::prototypeObjects(IRGenerationContext& context) const {
   mImportProfile->setSourceFileName(context, mSourceFile);
 
   for (IGlobalStatement* statement : mGlobalStatementList) {
-    statement->prototypeObject(context);
+    statement->prototypeObject(context, mImportProfile);
     context.setObjectType(NULL);
   }
 }

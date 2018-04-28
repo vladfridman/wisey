@@ -44,20 +44,23 @@ ExternalControllerDefinition::~ExternalControllerDefinition() {
   mInnerObjectDefinitions.clear();
 }
 
-Controller* ExternalControllerDefinition::prototypeObject(IRGenerationContext&
-                                                                context) const {
+Controller* ExternalControllerDefinition::prototypeObject(IRGenerationContext& context,
+                                                          ImportProfile* importProfile) const {
   string fullName = IObjectDefinition::getFullName(context, mControllerTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
 
   Controller* controller = Controller::newExternalController(fullName,
                                                              structType,
-                                                             context.getImportProfile(),
+                                                             importProfile,
                                                              mLine);
   context.addController(controller);
 
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(controller);
-  IObjectDefinition::prototypeInnerObjects(context, controller, mInnerObjectDefinitions);
+  IObjectDefinition::prototypeInnerObjects(context,
+                                           importProfile,
+                                           controller,
+                                           mInnerObjectDefinitions);
   controller->declareInjectFunction(context, mLine);
   context.setObjectType(lastObjectType);
   

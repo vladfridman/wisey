@@ -24,7 +24,8 @@ LLVMGlobalDeclaration::~LLVMGlobalDeclaration() {
   delete mTypeSpecifier;
 }
 
-IObjectType* LLVMGlobalDeclaration::prototypeObject(IRGenerationContext& context) const {
+IObjectType* LLVMGlobalDeclaration::prototypeObject(IRGenerationContext& context,
+                                                    ImportProfile* importProfile) const {
   return NULL;
 }
 

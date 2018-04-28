@@ -108,7 +108,7 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeObjectTest) {
 
   EXPECT_CALL(*mMockStatement, generateIR(_)).Times(0);
 
-  controllerDefinition.prototypeObject(mContext);
+  controllerDefinition.prototypeObject(mContext, mContext.getImportProfile());
   
   ASSERT_NE(mContext.getController("systems.vos.wisey.compiler.tests.CMyController", 0), nullptr);
 
@@ -135,7 +135,7 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeMethodsTest) {
 
   EXPECT_CALL(*mMockStatement, generateIR(_)).Times(0);
   
-  controllerDefinition.prototypeObject(mContext);
+  controllerDefinition.prototypeObject(mContext, mContext.getImportProfile());
   controllerDefinition.prototypeMethods(mContext);
   
   Controller* controller =
@@ -158,7 +158,7 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
 
   EXPECT_CALL(*mMockStatement, generateIR(_));
   
-  controllerDefinition.prototypeObject(mContext);
+  controllerDefinition.prototypeObject(mContext, mContext.getImportProfile());
   controllerDefinition.prototypeMethods(mContext);
   controllerDefinition.generateIR(mContext);
   
@@ -196,7 +196,7 @@ TEST_F(ControllerDefinitionTest, controllerWithFixedFieldDeathTest) {
                                             mInterfaces,
                                             innerObjectDefinitions,
                                             0);
-  controllerDefinition.prototypeObject(mContext);
+  controllerDefinition.prototypeObject(mContext, mContext.getImportProfile());
   
   EXPECT_EXIT(controllerDefinition.prototypeMethods(mContext),
               ::testing::ExitedWithCode(1),
@@ -219,7 +219,7 @@ TEST_F(ControllerDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
                                             mInterfaces,
                                             innerObjectDefinitions,
                                             0);
-  controllerDefinition.prototypeObject(mContext);
+  controllerDefinition.prototypeObject(mContext, mContext.getImportProfile());
   
   EXPECT_EXIT(controllerDefinition.prototypeMethods(mContext),
               ::testing::ExitedWithCode(1),

@@ -43,19 +43,17 @@ ExternalModelDefinition::~ExternalModelDefinition() {
   mInnerObjectDefinitions.clear();
 }
 
-Model* ExternalModelDefinition::prototypeObject(IRGenerationContext& context) const {
+Model* ExternalModelDefinition::prototypeObject(IRGenerationContext& context,
+                                                ImportProfile* importProfile) const {
   string fullName = IObjectDefinition::getFullName(context, mModelTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
-  Model* model = Model::newExternalModel(fullName,
-                                         structType,
-                                         context.getImportProfile(),
-                                         mLine);
+  Model* model = Model::newExternalModel(fullName, structType, importProfile, mLine);
   context.addModel(model);
 
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(model);
-  IObjectDefinition::prototypeInnerObjects(context, model, mInnerObjectDefinitions);
+  IObjectDefinition::prototypeInnerObjects(context, importProfile, model, mInnerObjectDefinitions);
   context.setObjectType(lastObjectType);
   
   return model;

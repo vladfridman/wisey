@@ -88,7 +88,7 @@ TEST_F(ExternalNodeDefinitionTest, prototypeObjectTest) {
                                         innerObjectDefinitions,
                                         0);
   
-  nodeDefinition.prototypeObject(mContext);
+  nodeDefinition.prototypeObject(mContext, mContext.getImportProfile());
   
   Node* node = mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode", 0);
   
@@ -117,7 +117,7 @@ TEST_F(ExternalNodeDefinitionTest, prototypeMethodsTest) {
                                         innerObjectDefinitions,
                                         0);
   
-  nodeDefinition.prototypeObject(mContext);
+  nodeDefinition.prototypeObject(mContext, mContext.getImportProfile());
   nodeDefinition.prototypeMethods(mContext);
   
   Node* node = mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode", 0);

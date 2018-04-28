@@ -45,7 +45,8 @@ createExternal(std::string name,
   return new LLVMFunctionDeclaration(name, true, returnSpecifier, argumentSpecifiers);
 }
 
-IObjectType* LLVMFunctionDeclaration::prototypeObject(IRGenerationContext& context) const {
+IObjectType* LLVMFunctionDeclaration::prototypeObject(IRGenerationContext& context,
+                                                      ImportProfile* importProfile) const {
   return NULL;
 }
 

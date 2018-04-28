@@ -41,7 +41,7 @@ struct ProgramFileTest : public Test {
 TEST_F(ProgramFileTest, prototypeObjectsTest) {
   ProgramFile programFile(mPackage, mGlobalStatementList);
 
-  EXPECT_CALL(*mMockGlobalStatement, prototypeObject(_)).Times(1);
+  EXPECT_CALL(*mMockGlobalStatement, prototypeObject(_, _)).Times(1);
   
   programFile.prototypeObjects(mContext);
 }

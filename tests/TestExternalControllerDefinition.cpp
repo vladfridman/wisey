@@ -90,7 +90,7 @@ TEST_F(ExternalControllerDefinitionTest, prototypeObjectTest) {
                                                     innerObjectDefinitions,
                                                     0);
 
-  controllerDefinition.prototypeObject(mContext);
+  controllerDefinition.prototypeObject(mContext, mContext.getImportProfile());
   
   ASSERT_NE(mContext.getController("systems.vos.wisey.compiler.tests.CMyController", 0), nullptr);
   
@@ -115,7 +115,7 @@ TEST_F(ExternalControllerDefinitionTest, prototypeMethodsTest) {
                                                     innerObjectDefinitions,
                                                     0);
 
-  controllerDefinition.prototypeObject(mContext);
+  controllerDefinition.prototypeObject(mContext, mContext.getImportProfile());
   controllerDefinition.prototypeMethods(mContext);
   
   Controller* controller =

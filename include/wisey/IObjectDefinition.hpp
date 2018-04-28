@@ -33,6 +33,7 @@ namespace wisey {
      * Calls prototypeObject() on inner objects
      */
     static void prototypeInnerObjects(IRGenerationContext& context,
+                                      ImportProfile* importProfile,
                                       IObjectType* outerObject,
                                       std::vector<IObjectDefinition*> innerObjectDefinitions);
     

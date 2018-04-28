@@ -40,7 +40,8 @@ namespace wisey {
     
     ~NodeDefinition();
     
-    Node* prototypeObject(IRGenerationContext& context) const override;
+    Node* prototypeObject(IRGenerationContext& context,
+                          ImportProfile* importProfile) const override;
     
     void prototypeMethods(IRGenerationContext& context) const override;
     

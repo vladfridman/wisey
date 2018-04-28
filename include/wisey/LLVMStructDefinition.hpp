@@ -32,7 +32,8 @@ namespace wisey {
     
     ~LLVMStructDefinition();
     
-    IObjectType* prototypeObject(IRGenerationContext& context) const override;
+    IObjectType* prototypeObject(IRGenerationContext& context,
+                                 ImportProfile* importProfile) const override;
     
     void prototypeMethods(IRGenerationContext& context) const override;
 
