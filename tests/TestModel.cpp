@@ -105,7 +105,11 @@ struct ModelTest : public Test {
     fields.push_back(mHeightField);
     vector<const wisey::Argument*> methodArguments;
     vector<const Model*> thrownExceptions;
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, mStructType, 3);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                             modelFullName,
+                             mStructType,
+                             mContext.getImportProfile(),
+                             3);
     mMethod = new Method(mModel,
                          "foo",
                          AccessLevel::PUBLIC_ACCESS,
@@ -259,7 +263,11 @@ struct ModelTest : public Test {
     circleTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                           ->getPointerTo()->getPointerTo());
     circleStructType->setBody(circleTypes);
-    mCircleModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, cirlceFullName, circleStructType, 0);
+    mCircleModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                   cirlceFullName,
+                                   circleStructType,
+                                   mContext.getImportProfile(),
+                                   0);
     llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
                                                                   cirlceFullName + ".name");
     new GlobalVariable(*mContext.getModule(),
@@ -275,7 +283,11 @@ struct ModelTest : public Test {
     string galaxyFullName = "systems.vos.wisey.compiler.tests.MGalaxy";
     StructType* galaxyStructType = StructType::create(mLLVMContext, galaxyFullName);
     galaxyStructType->setBody(galaxyTypes);
-    mGalaxyModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, galaxyFullName, galaxyStructType, 0);
+    mGalaxyModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                   galaxyFullName,
+                                   galaxyStructType,
+                                   mContext.getImportProfile(),
+                                   0);
     mContext.addModel(mGalaxyModel);
 
     vector<Type*> birthdateTypes;
@@ -287,6 +299,7 @@ struct ModelTest : public Test {
     mBirthdateModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                       birthdateFullName,
                                       birthdateStructType,
+                                      mContext.getImportProfile(),
                                       0);
     mContext.addModel(mBirthdateModel);
     
@@ -303,7 +316,11 @@ struct ModelTest : public Test {
     vector<IField*> starFields;
     starFields.push_back(new FixedField(mBirthdateModel->getOwner(), "mBirthdate", 0));
     starFields.push_back(new FixedField(mGalaxyModel, "mGalaxy", 0));
-    mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, starFullName, starStructType, 0);
+    mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                 starFullName,
+                                 starStructType,
+                                 mContext.getImportProfile(),
+                                 0);
     mStarModel->setFields(mContext, starFields, 1u);
     mContext.addModel(mStarModel);
     Value* field1Value = ConstantPointerNull::get(mBirthdateModel->getOwner()
@@ -751,7 +768,11 @@ TEST_F(ModelTest, buildNotAllFieldsAreSetDeathTest) {
 
 TEST_F(ModelTest, printToStreamTest) {
   stringstream stringStream;
-  Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL, 0);
+  Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS,
+                                            "MInnerPublicModel",
+                                            NULL,
+                                            mContext.getImportProfile(),
+                                            0);
   vector<IField*> fields;
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1", 0));
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
@@ -772,7 +793,11 @@ TEST_F(ModelTest, printToStreamTest) {
   methods.push_back(method);
   innerPublicModel->setMethods(methods);
 
-  Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS, "MInnerPrivateModel", NULL, 0);
+  Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS,
+                                             "MInnerPrivateModel",
+                                             NULL,
+                                             mContext.getImportProfile(),
+                                             0);
   innerPrivateModel->setFields(mContext, fields, 0);
 
   mModel->addInnerObject(innerPublicModel);

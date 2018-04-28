@@ -15,6 +15,7 @@
 
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -47,6 +48,8 @@ struct LocalPointerVariableTest : public Test {
 public:
   
   LocalPointerVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     mStringStream = new raw_string_ostream(mStringBuffer);
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
@@ -69,7 +72,11 @@ public:
     vector<IField*> fields;
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width", 0));
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height", 0));
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType, 0);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                             modelFullName,
+                             structType,
+                             mContext.getImportProfile(),
+                             0);
     mModel->setFields(mContext, fields, 1u);
 
     mPointerType = LLVMPrimitiveTypes::I64->getPointerType();

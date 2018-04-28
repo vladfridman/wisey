@@ -32,6 +32,7 @@ using namespace wisey;
 Model::Model(AccessLevel accessLevel,
              string name,
              StructType* structType,
+             ImportProfile* importProfile,
              bool isExternal,
              int line) :
 mIsPublic(accessLevel == PUBLIC_ACCESS),
@@ -39,8 +40,10 @@ mName(name),
 mStructType(structType),
 mIsExternal(isExternal),
 mIsInner(false),
+mModelOwner(new ModelOwner(this)),
+mImportProfile(importProfile),
 mLine(line) {
-  mModelOwner = new ModelOwner(this);
+  assert(importProfile && "Import profile can not be NULL at Model creation");
 }
 
 Model::~Model() {
@@ -70,12 +73,19 @@ Model::~Model() {
   mLLVMFunctions.clear();
 }
 
-Model* Model::newModel(AccessLevel accessLevel, string name, StructType* structType, int line) {
-  return new Model(accessLevel, name, structType, false, line);
+Model* Model::newModel(AccessLevel accessLevel,
+                       string name,
+                       StructType* structType,
+                       ImportProfile* importProfile,
+                       int line) {
+  return new Model(accessLevel, name, structType, importProfile, false, line);
 }
 
-Model* Model::newExternalModel(string name, StructType* structType, int line) {
-  return new Model(AccessLevel::PUBLIC_ACCESS, name, structType, true, line);
+Model* Model::newExternalModel(string name,
+                               StructType* structType,
+                               ImportProfile* importProfile,
+                               int line) {
+  return new Model(AccessLevel::PUBLIC_ACCESS, name, structType, importProfile, true, line);
 }
 
 bool Model::isPublic() const {
@@ -477,7 +487,7 @@ Value* Model::getReferenceCount(IRGenerationContext& context, Value* object) con
 }
 
 void Model::setImportProfile(ImportProfile* importProfile) {
-  mImportProfile = importProfile;
+  assert(false && "setImportProfile method should not be called");
 }
 
 ImportProfile* Model::getImportProfile() const {

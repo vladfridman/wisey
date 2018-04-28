@@ -50,6 +50,7 @@ namespace wisey {
     Model(AccessLevel accessLevel,
           std::string name,
           llvm::StructType* structType,
+          ImportProfile* importProfile,
           bool isExternal,
           int line);
 
@@ -63,6 +64,7 @@ namespace wisey {
     static Model* newModel(AccessLevel accessLevel,
                            std::string name,
                            llvm::StructType* structType,
+                           ImportProfile* importProfile,
                            int line);
     
     /**
@@ -70,6 +72,7 @@ namespace wisey {
      */
     static Model* newExternalModel(std::string name,
                                    llvm::StructType* structType,
+                                   ImportProfile* importProfile,
                                    int line);
     
     /**

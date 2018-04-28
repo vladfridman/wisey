@@ -79,6 +79,7 @@ public:
     mReturnedModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                      returnedModelFullName,
                                      returnedModelStructType,
+                                     mContext.getImportProfile(),
                                      0);
     mContext.addModel(mReturnedModel);
 
@@ -90,7 +91,11 @@ public:
     string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
     mStructType = StructType::create(mLLVMContext, modelFullName);
     mStructType->setBody(types);
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, mStructType, 0);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                             modelFullName,
+                             mStructType,
+                             mContext.getImportProfile(),
+                             0);
     vector<IField*> fields;
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width", 0));
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height", 0));
@@ -117,6 +122,7 @@ public:
     Model* exceptionModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                             "MException",
                                             exceptionModelStructType,
+                                            mContext.getImportProfile(),
                                             0);
     barThrownExceptions.push_back(exceptionModel);
     IMethod* barMethod = new StaticMethod(mModel,

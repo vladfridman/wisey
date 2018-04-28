@@ -19,6 +19,7 @@
 #include "MockReferenceVariable.hpp"
 #include "MockType.hpp"
 #include "MockVariable.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -39,6 +40,8 @@ struct IdentifierTest : public Test {
   LLVMContext& mLLVMContext;
 
   IdentifierTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     mContext.getScopes().pushScope();
   }
   
@@ -82,7 +85,11 @@ TEST_F(IdentifierTest, generateIRForObjectOwnerVariableSetToNullTest) {
   EXPECT_CALL(mockVariable, setToNull(_, _));
   EXPECT_CALL(mockType, die());
   mContext.getScopes().setVariable(&mockVariable);
-  Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, modelStructType, 0);
+  Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                 modelFullName,
+                                 modelStructType,
+                                 mContext.getImportProfile(),
+                                 0);
 
   Identifier identifier("foo", 0);
   Value* result = identifier.generateIR(mContext, model->getOwner());

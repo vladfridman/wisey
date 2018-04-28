@@ -128,7 +128,11 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   vector<IField*> fields;
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "fieldA", 0));
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "fieldB", 0));
-  Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType, 0);
+  Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                 modelFullName,
+                                 structType,
+                                 mContext.getImportProfile(),
+                                 0);
   model->setFields(mContext, fields, 1u);
 
   mContext.addModel(model);

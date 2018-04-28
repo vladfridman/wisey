@@ -195,6 +195,7 @@ TEST_F(ScopesTest, reportUnhandledExceptionsDeathTest) {
   Model* exceptionModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                           "MException",
                                           exceptionModelStructType,
+                                          mContext.getImportProfile(),
                                           0);
 
   mScopes.getScope()->addException(exceptionModel);

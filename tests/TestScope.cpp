@@ -63,6 +63,7 @@ public:
     mExceptionModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                       "MExceptionA",
                                       exceptionModelStructType,
+                                      mContext.getImportProfile(),
                                       0);
     
     ON_CALL(*mReferenceVariable, getType()).WillByDefault(Return(mInterface));
@@ -112,6 +113,7 @@ TEST_F(ScopeTest, addExceptionsTest) {
   Model* exceptionModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                           "MExceptionB",
                                           exceptionModelStructType,
+                                          mContext.getImportProfile(),
                                           0);
 
   ASSERT_EQ(mScope.getExceptions().size(), 0u);

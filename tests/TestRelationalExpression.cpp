@@ -18,6 +18,7 @@
 
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/RelationalExpression.hpp"
@@ -48,6 +49,8 @@ struct RelationalExpressionTest : public Test {
   mLLVMContext(mContext.getLLVMContext()),
   mLeftExpression(new NiceMock<MockExpression>()),
   mRightExpression(new NiceMock<MockExpression>()) {
+    TestPrefix::generateIR(mContext);
+    
     LLVMContext& llvmContext = mContext.getLLVMContext();
     Value* leftValue = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
     Value* rightValue = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
@@ -61,7 +64,11 @@ struct RelationalExpressionTest : public Test {
 
     string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
     StructType* modelStructType = StructType::create(llvmContext, modelFullName);
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, modelStructType, 0);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                             modelFullName,
+                             modelStructType,
+                             mContext.getImportProfile(),
+                             0);
 
     string nodeFullName = "systems.vos.wisey.compiler.tests.NElement";
     StructType* nodeStructType = StructType::create(llvmContext, nodeFullName);

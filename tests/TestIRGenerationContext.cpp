@@ -77,7 +77,11 @@ struct IRGenerationContextTest : public Test {
 
     string modelFullName = "systems.vos.wisey.compiler.tests.MMyModel";
     StructType* modelStructType = StructType::create(mLLVMContext, "MMyModel");
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, modelStructType, 0);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                             modelFullName,
+                             modelStructType,
+                             mContext.getImportProfile(),
+                             0);
 
     string nodeFullName = "systems.vos.wisey.compiler.tests.NMyNode";
     StructType* nodeStructType = StructType::create(mLLVMContext, "NMyNode");
@@ -248,7 +252,11 @@ TEST_F(IRGenerationContextTest, addInterfaceAlreadyDefinedDeathTest) {
 }
 
 TEST_F(IRGenerationContextTest, setObjectTypeTest) {
-  Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS, "MModel", NULL, 0);
+  Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                 "MModel",
+                                 NULL,
+                                 mContext.getImportProfile(),
+                                 0);
   
   mContext.setObjectType(model);
   

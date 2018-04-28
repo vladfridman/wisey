@@ -63,7 +63,11 @@ TEST_F(NullTypeTest, getLLVMTypeTest) {
 TEST_F(NullTypeTest, canCastToTest) {
   string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
   StructType* structType = StructType::create(mLLVMContext, modelFullName);
-  Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType, 0);
+  Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                 modelFullName,
+                                 structType,
+                                 mContext.getImportProfile(),
+                                 0);
 
   ASSERT_TRUE(NullType::NULL_TYPE->canCastTo(mContext, model));
   ASSERT_TRUE(NullType::NULL_TYPE->canCastTo(mContext, model->getOwner()));
@@ -77,7 +81,11 @@ TEST_F(NullTypeTest, canCastToTest) {
 TEST_F(NullTypeTest, canAutoCastToTest) {
   string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
   StructType* structType = StructType::create(mLLVMContext, modelFullName);
-  Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType, 0);
+  Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                 modelFullName,
+                                 structType,
+                                 mContext.getImportProfile(),
+                                 0);
   
   ASSERT_TRUE(NullType::NULL_TYPE->canAutoCastTo(mContext, model));
   ASSERT_TRUE(NullType::NULL_TYPE->canAutoCastTo(mContext, model->getOwner()));
@@ -91,7 +99,11 @@ TEST_F(NullTypeTest, canAutoCastToTest) {
 TEST_F(NullTypeTest, castToModelTest) {
   string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
   StructType* structType = StructType::create(mLLVMContext, modelFullName);
-  Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType, 0);
+  Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                 modelFullName,
+                                 structType,
+                                 mContext.getImportProfile(),
+                                 0);
   
   Value* cast = NullType::NULL_TYPE->castTo(mContext, NULL, model, 0);
 
@@ -101,7 +113,11 @@ TEST_F(NullTypeTest, castToModelTest) {
 TEST_F(NullTypeTest, castToModelOwnerTest) {
   string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
   StructType* structType = StructType::create(mLLVMContext, modelFullName);
-  Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType, 0);
+  Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                 modelFullName,
+                                 structType,
+                                 mContext.getImportProfile(),
+                                 0);
 
   Value* cast = NullType::NULL_TYPE->castTo(mContext, NULL, model->getOwner(), 0);
   

@@ -16,6 +16,7 @@
 
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/AdditiveMultiplicativeExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -46,6 +47,8 @@ struct AdditiveMultiplicativeExpressionTest : Test {
   mLLVMContext(mContext.getLLVMContext()),
   mLeftExpression(new NiceMock<MockExpression>()),
   mRightExpression(new NiceMock<MockExpression>()) {
+    TestPrefix::generateIR(mContext);
+    
     Value* leftValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
     Value* rightValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
     ON_CALL(*mLeftExpression, generateIR(_, _)).WillByDefault(Return(leftValue));
@@ -136,7 +139,11 @@ TEST_F(AdditiveMultiplicativeExpressionTest, nonPrimitiveTypesDeathTest) {
   
   string modelFullName = "systems.vos.wisey.compiler.tests.MShape";
   StructType* structType = StructType::create(mLLVMContext, modelFullName);
-  Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType, 0);
+  Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                 modelFullName,
+                                 structType,
+                                 mContext.getImportProfile(),
+                                 0);
 
   ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(model));
   ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(model));

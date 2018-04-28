@@ -62,7 +62,11 @@ struct ConditionalExpressionTest : Test {
     
     string modelFullName = "systems.vos.wisey.compiler.tests.MModel";
     StructType* structType = StructType::create(llvmContext, modelFullName);
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType, 0);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                             modelFullName,
+                             structType,
+                             mContext.getImportProfile(),
+                             0);
 
     Value* ifTrueValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
     Value* ifFalseValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 5);

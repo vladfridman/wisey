@@ -56,7 +56,11 @@ public:
     string modelFullName = "systems.vos.wisey.compiler.tests.MModel";
     StructType* modelStructType = StructType::create(mLLVMContext, modelFullName);
     modelStructType->setBody(modelTypes);
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, modelStructType, 0);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                             modelFullName,
+                             modelStructType,
+                             mContext.getImportProfile(),
+                             0);
     mContext.addModel(mModel);
     IConcreteObjectType::generateNameGlobal(mContext, mModel);
     IConcreteObjectType::generateShortNameGlobal(mContext, mModel);

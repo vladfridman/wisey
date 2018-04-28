@@ -352,7 +352,11 @@ TEST_F(InterfaceTest, isObjectTest) {
 
 TEST_F(InterfaceTest, printToStreamTest) {
   stringstream stringStream;
-  Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL, 0);
+  Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS,
+                                            "MInnerPublicModel",
+                                            NULL,
+                                            mContext.getImportProfile(),
+                                            0);
   vector<IField*> fields;
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1", 0));
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
@@ -373,7 +377,11 @@ TEST_F(InterfaceTest, printToStreamTest) {
   methods.push_back(method);
   innerPublicModel->setMethods(methods);
   
-  Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS, "MInnerPrivateModel", NULL, 0);
+  Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS,
+                                             "MInnerPrivateModel",
+                                             NULL,
+                                             mContext.getImportProfile(),
+                                             0);
   innerPrivateModel->setFields(mContext, fields, 0);
   
   mShapeInterface->addInnerObject(innerPublicModel);

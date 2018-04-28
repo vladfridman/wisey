@@ -104,7 +104,11 @@ struct IConcreteObjectTypeTest : public Test {
     vector<IField*> starFields;
     starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mBrightness", 0));
     starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mWeight", 0));
-    mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, starFullName, starStructType, 0);
+    mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                 starFullName,
+                                 starStructType,
+                                 mContext.getImportProfile(),
+                                 0);
     mStarModel->setFields(mContext, starFields, 1u);
     mContext.addModel(mStarModel);
     
@@ -117,7 +121,11 @@ struct IConcreteObjectTypeTest : public Test {
     galaxyStructType->setBody(galaxyTypes);
     vector<IField*> galaxyFields;
     galaxyFields.push_back(new FixedField(mStarModel->getOwner(), "mStar", 0));
-    mGalaxyModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, galaxyFullName, galaxyStructType, 0);
+    mGalaxyModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                   galaxyFullName,
+                                   galaxyStructType,
+                                   mContext.getImportProfile(),
+                                   0);
     mGalaxyModel->setFields(mContext, galaxyFields, 1u);
     mContext.addModel(mGalaxyModel);
 
@@ -133,6 +141,7 @@ struct IConcreteObjectTypeTest : public Test {
     mConstellationModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                           constellationFullName,
                                           constellationStructType,
+                                          mContext.getImportProfile(),
                                           0);
     mConstellationModel->setFields(mContext, constellationFields, 1u);
     mContext.addModel(mConstellationModel);
@@ -160,7 +169,11 @@ struct IConcreteObjectTypeTest : public Test {
     carStructType->setBody(carTypes);
     vector<IField*> carFields;
     carFields.push_back(new FixedField(mCanNavigate->getOwner(), "mNavigator", 0));
-    mCarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, carFullName, carStructType, 0);
+    mCarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                carFullName,
+                                carStructType,
+                                mContext.getImportProfile(),
+                                0);
     mCarModel->setFields(mContext, carFields, 1u);
     mContext.addModel(mCarModel);
 

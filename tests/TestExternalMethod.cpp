@@ -59,7 +59,11 @@ public:
     vector<IField*> fields;
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "foo", 0));
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "bar", 0));
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType, 0);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                             modelFullName,
+                             structType,
+                             mContext.getImportProfile(),
+                             0);
     mModel->setFields(mContext, fields, 1u);
 
     mMethod = new ExternalMethod(mModel,

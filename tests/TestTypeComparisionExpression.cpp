@@ -89,7 +89,11 @@ struct TypeComparisionExpressionTest : public Test {
     string squareFullName = "systems.vos.wisey.compiler.tests.MSquare";
     StructType* squareStructType = StructType::create(mLLVMContext, squareFullName);
     squareStructType->setBody(squareTypes);
-    mSquareModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, squareFullName, squareStructType, 0);
+    mSquareModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                   squareFullName,
+                                   squareStructType,
+                                   mContext.getImportProfile(),
+                                   0);
 
     vector<IField*> squareFields;
     squareFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width", 0));
@@ -220,7 +224,11 @@ struct TypeComparisionExpressionTest : public Test {
     StructType* circleStructType = StructType::create(mLLVMContext, "MCircle");
     vector<Type*> circleTypes;
     circleStructType->setBody(circleTypes);
-    mCircleModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, circleFullName, circleStructType, 0);
+    mCircleModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                   circleFullName,
+                                   circleStructType,
+                                   mContext.getImportProfile(),
+                                   0);
   }
   
   ~TypeComparisionExpressionTest() {

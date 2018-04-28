@@ -261,6 +261,7 @@ struct NodeTest : public Test {
     mReferenceModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                       referenceFullName,
                                       referenceStructType,
+                                      mContext.getImportProfile(),
                                       0);
     mContext.addModel(mReferenceModel);
     
@@ -739,7 +740,11 @@ TEST_F(NodeTest, buildNotAllFieldsAreSetDeathTest) {
 
 TEST_F(NodeTest, printToStreamTest) {
   stringstream stringStream;
-  Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL, 0);
+  Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS,
+                                            "MInnerPublicModel",
+                                            NULL,
+                                            mContext.getImportProfile(),
+                                            0);
   vector<IField*> fields;
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1", 0));
   fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
@@ -760,7 +765,11 @@ TEST_F(NodeTest, printToStreamTest) {
   methods.push_back(method);
   innerPublicModel->setMethods(methods);
   
-  Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS, "MInnerPrivateModel", NULL, 0);
+  Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS,
+                                             "MInnerPrivateModel",
+                                             NULL,
+                                             mContext.getImportProfile(),
+                                             0);
   innerPrivateModel->setFields(mContext, fields, 0);
   
   mComplicatedNode->addInnerObject(innerPublicModel);

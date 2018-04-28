@@ -79,7 +79,11 @@ struct ModelOwnerTest : public Test {
     string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
     mStructType = StructType::create(mLLVMContext, modelFullName);
     mStructType->setBody(types);
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, mStructType, 0);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                             modelFullName,
+                             mStructType,
+                             mContext.getImportProfile(),
+                             0);
 
     vector<IField*> fields;
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width", 0));
@@ -210,7 +214,11 @@ struct ModelOwnerTest : public Test {
     StructType* circleStructType = StructType::create(mLLVMContext, cirlceFullName);
     vector<Type*> circleTypes;
     circleStructType->setBody(circleTypes);
-    mCircleModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, cirlceFullName, circleStructType, 0);
+    mCircleModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                   cirlceFullName,
+                                   circleStructType,
+                                   mContext.getImportProfile(),
+                                   0);
     llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
                                                                   cirlceFullName + ".name");
     new GlobalVariable(*mContext.getModule(),
@@ -232,7 +240,11 @@ struct ModelOwnerTest : public Test {
     vector<IField*> starFields;
     starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mBrightness", 0));
     starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mWeight", 0));
-    mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, starFullName, starStructType, 0);
+    mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                 starFullName,
+                                 starStructType,
+                                 mContext.getImportProfile(),
+                                 0);
     mStarModel->setFields(mContext, starFields, 1u);
     mContext.addModel(mStarModel);
     Value* field1Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);

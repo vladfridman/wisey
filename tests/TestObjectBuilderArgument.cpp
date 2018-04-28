@@ -16,6 +16,7 @@
 
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/ObjectBuilderArgument.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -37,6 +38,8 @@ struct ObjectBuilderArgumentTest : Test {
   Value* mValue;
   
   ObjectBuilderArgumentTest() : mFieldExpression(new NiceMock<MockExpression>()) {
+    TestPrefix::generateIR(mContext);
+    
     LLVMContext& llvmContext = mContext.getLLVMContext();
     vector<Type*> types;
     types.push_back(FunctionType::get(Type::getInt32Ty(llvmContext), true)
@@ -48,7 +51,11 @@ struct ObjectBuilderArgumentTest : Test {
     vector<IField*> fields;
     InjectionArgumentList arguments;
     fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mFieldA", 0));
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType, 0);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                             modelFullName,
+                             structType,
+                             mContext.getImportProfile(),
+                             0);
     mModel->setFields(mContext, fields, 1u);
     
     mValue = ConstantFP::get(Type::getFloatTy(llvmContext), 2.5);

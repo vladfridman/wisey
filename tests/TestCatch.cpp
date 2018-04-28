@@ -63,7 +63,11 @@ public:
                                     NULL,
                                     0);
     methods.push_back(fooMethod);
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType, 0);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                             modelFullName,
+                             structType,
+                             mContext.getImportProfile(),
+                             0);
     mModel->setMethods(methods);
     mModel->setFields(mContext, fields, 0u);
     mContext.addModel(mModel);

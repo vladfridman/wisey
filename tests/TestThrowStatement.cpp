@@ -56,7 +56,11 @@ struct ThrowStatementTest : public Test {
     StructType* circleStructType = StructType::create(mLLVMContext, circleFullName);
     vector<Type*> circleTypes;
     circleStructType->setBody(circleTypes);
-    mCircleModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, circleFullName, circleStructType, 0);
+    mCircleModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                   circleFullName,
+                                   circleStructType,
+                                   mContext.getImportProfile(),
+                                   0);
     llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
                                                                   circleFullName + ".name");
     new GlobalVariable(*mContext.getModule(),

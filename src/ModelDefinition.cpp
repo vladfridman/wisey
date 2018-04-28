@@ -51,9 +51,12 @@ Model* ModelDefinition::prototypeObject(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mModelTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
-  Model* model = Model::newModel(mAccessLevel, fullName, structType, mLine);
+  Model* model = Model::newModel(mAccessLevel,
+                                 fullName,
+                                 structType,
+                                 context.getImportProfile(),
+                                 mLine);
   context.addModel(model);
-  model->setImportProfile(context.getImportProfile());
 
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(model);

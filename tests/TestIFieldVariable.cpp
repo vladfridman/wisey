@@ -65,7 +65,11 @@ struct IFieldVariableTest : Test {
     
     string modelFullName = "systems.vos.wisey.compiler.tests.MModel";
     StructType* modelStructType = StructType::create(mLLVMContext, modelFullName);
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, modelStructType, 0);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                             modelFullName,
+                             modelStructType,
+                             mContext.getImportProfile(),
+                             0);
     mFixedField = new FixedField(PrimitiveTypes::INT_TYPE, "foo", 0);
     vector<IField*> modelFields;
     modelFields.push_back(mFixedField);
