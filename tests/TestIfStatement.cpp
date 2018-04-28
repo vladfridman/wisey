@@ -101,3 +101,7 @@ TEST_F(TestFileRunner, ifThenStatementRunTest) {
 TEST_F(TestFileRunner, ifStatemenScopeRunTest) {
   runFile("tests/samples/test_fibonacci_model_calculator.yz", "21");
 }
+
+TEST_F(TestFileRunner, compareObjectToNullIfRunTest) {
+  runFile("tests/samples/test_compare_object_to_null_if.yz", "3");
+}

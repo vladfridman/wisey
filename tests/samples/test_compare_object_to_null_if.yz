@@ -1,0 +1,19 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+model MMyModel {
+}
+
+controller CProgram implements IProgram {
+
+  public int run() override {
+    MMyModel* mymodel = builder(MMyModel).build();
+    if (mymodel) {
+      return 3;
+    }
+    return 0;
+  }
+}
+
+bind(IProgram).to(CProgram);

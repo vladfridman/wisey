@@ -6,6 +6,7 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/AutoCast.hpp"
 #include "wisey/IfElseStatement.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -35,7 +36,12 @@ void IfElseStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* ifEnd = BasicBlock::Create(context.getLLVMContext(), "if.end", function);
 
   Value* conditionValue = mCondition->generateIR(context, PrimitiveTypes::VOID_TYPE);
-  IRWriter::createConditionalBranch(context, ifThen, ifElse, conditionValue);
+  Value* castConditionValue = AutoCast::maybeCast(context,
+                                                  mCondition->getType(context),
+                                                  conditionValue,
+                                                  PrimitiveTypes::BOOLEAN_TYPE,
+                                                  mCondition->getLine());
+  IRWriter::createConditionalBranch(context, ifThen, ifElse, castConditionValue);
   
   context.setBasicBlock(ifThen);
   mThenStatement->generateIR(context);

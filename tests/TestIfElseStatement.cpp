@@ -119,3 +119,7 @@ TEST_F(TestFileRunner, ifThenElseStatementWithClearedObjectsRunTest) {
 TEST_F(TestFileRunner, ifElseIfElseRunTest) {
   runFile("tests/samples/test_if_else_if_else.yz", "5");
 }
+
+TEST_F(TestFileRunner, compareObjectToNullIfElseRunTest) {
+  runFile("tests/samples/test_compare_object_to_null_if_else.yz", "5");
+}
