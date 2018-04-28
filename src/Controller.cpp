@@ -38,9 +38,10 @@ mName(name),
 mStructType(structType),
 mIsExternal(isExternal),
 mIsInner(false),
+mControllerOwner(new ControllerOwner(this)),
 mImportProfile(importProfile),
 mLine(line) {
-  mControllerOwner = new ControllerOwner(this);
+  assert(importProfile && "Import profile can not be NULL at Controller creation");
 }
 
 Controller::~Controller() {
