@@ -1075,8 +1075,10 @@ statement
   ;
 
 print_statement
-  : TPRINTOUT '(' string_concatenation_list ')' ';' { $$ = new PrintOutStatement(*$3); delete $3; }
-  | TPRINTERR '(' string_concatenation_list ')' ';' { $$ = new PrintErrStatement(*$3); delete $3; }
+  : TPRINTOUT '(' string_concatenation_list ')' ';'
+    { $$ = new PrintOutStatement(*$3, yylineno); delete $3; }
+  | TPRINTERR '(' string_concatenation_list ')' ';'
+    { $$ = new PrintErrStatement(*$3, yylineno); delete $3; }
   ;
 
 string_concatenation_list

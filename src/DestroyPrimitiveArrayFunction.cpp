@@ -95,7 +95,7 @@ void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Functi
   if (context.isDestructorDebugOn()) {
     ExpressionList printOutArguments;
     printOutArguments.push_back(new StringLiteral("destructor primitive[]\n", 0));
-    PrintOutStatement printOutStatement(printOutArguments);
+    PrintOutStatement printOutStatement(printOutArguments, 0);
     printOutStatement.generateIR(context);
   }
   IRWriter::createFree(context, arrayPointer);

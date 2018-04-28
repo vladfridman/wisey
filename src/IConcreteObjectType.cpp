@@ -376,7 +376,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
     StringLiteral* stringLiteral =
     new StringLiteral("destructor " + concreteObject->getTypeName() + "\n", 0);
     printOutArguments.push_back(stringLiteral);
-    PrintOutStatement printOutStatement(printOutArguments);
+    PrintOutStatement printOutStatement(printOutArguments, 0);
     printOutStatement.generateIR(context);
   }
   
@@ -399,7 +399,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
     printOutArguments.push_back(new StringLiteral(" count = ", 0));
     printOutArguments.push_back(new FakeExpression(referenceCount, PrimitiveTypes::LONG_TYPE));
     printOutArguments.push_back(new StringLiteral("\n", 0));
-    PrintOutStatement printOutStatement(printOutArguments);
+    PrintOutStatement printOutStatement(printOutArguments, 0);
     printOutStatement.generateIR(context);
   }
 

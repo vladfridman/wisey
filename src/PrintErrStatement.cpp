@@ -20,8 +20,8 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-PrintErrStatement::PrintErrStatement(ExpressionList expressionList) :
-mExpressionList(expressionList) { }
+PrintErrStatement::PrintErrStatement(ExpressionList expressionList, int line) :
+mExpressionList(expressionList), mLine(line) { }
 
 PrintErrStatement::~PrintErrStatement() {
   for (const IExpression* expression : mExpressionList) {
@@ -31,7 +31,7 @@ PrintErrStatement::~PrintErrStatement() {
 }
 
 void PrintErrStatement::generateIR(IRGenerationContext& context) const {
-  Value* formatPointer = IPrintStatement::getFormatString(context, mExpressionList);
+  Value* formatPointer = IPrintStatement::getFormatString(context, mExpressionList, mLine);
 
   GlobalVariable* stderrPointer = context.getModule()->getNamedGlobal(Names::getStdErrName());
   Value* stderrLoaded = IRWriter::newLoadInst(context, stderrPointer, "");

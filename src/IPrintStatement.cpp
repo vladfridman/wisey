@@ -20,16 +20,17 @@ using namespace std;
 using namespace wisey;
 
 Value* IPrintStatement::getFormatString(IRGenerationContext& context,
-                                        ExpressionList expressionList) {
+                                        ExpressionList expressionList,
+                                        int line) {
   string formatString = "";
   for (const IExpression* expression : expressionList) {
     const IType* type = expression->getType(context);
     if (!type->isPrimitive()) {
-      Log::e_deprecated("Can not print non primitive types");
+      context.reportError(line, "Can not print non primitive types");
       exit(1);
     }
     if (type == PrimitiveTypes::VOID_TYPE) {
-      Log::e_deprecated("Can not print a void type expression");
+      context.reportError(line, "Can not print a void type expression");
       exit(1);
     }
     const IPrimitiveType* primitiveType = (const IPrimitiveType*) type;

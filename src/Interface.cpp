@@ -898,7 +898,7 @@ void Interface::composeEmptyInjectFunction(IRGenerationContext& context,
                                                    interface->getTypeName() +
                                                    " is not bound to any controllers\n", 0);
   printOutArguments.push_back(stringLiteral);
-  PrintOutStatement printOutStatement(printOutArguments);
+  PrintOutStatement printOutStatement(printOutArguments, 0);
   printOutStatement.generateIR(context);
 
   ConstantInt* one = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);

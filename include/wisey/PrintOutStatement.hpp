@@ -22,10 +22,11 @@ namespace wisey {
    */
   class PrintOutStatement : public IPrintStatement {
     ExpressionList mExpressionList;
+    int mLine;
     
   public:
     
-    PrintOutStatement(ExpressionList expressionList);
+    PrintOutStatement(ExpressionList expressionList, int line);
     
     ~PrintOutStatement();
     

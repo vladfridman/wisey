@@ -138,7 +138,7 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
     printOutArguments.push_back(new StringLiteral(" bytes>*[", 0));
     printOutArguments.push_back(new FakeExpression(size, PrimitiveTypes::INT_TYPE));
     printOutArguments.push_back(new StringLiteral("]\n", 0));
-    PrintOutStatement printOutStatement(printOutArguments);
+    PrintOutStatement printOutStatement(printOutArguments, 0);
     printOutStatement.generateIR(context);
   }
 

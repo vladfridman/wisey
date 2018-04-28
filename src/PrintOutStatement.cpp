@@ -19,8 +19,9 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-PrintOutStatement::PrintOutStatement(ExpressionList expressionList) :
-mExpressionList(expressionList) { }
+PrintOutStatement::PrintOutStatement(ExpressionList expressionList, int line) :
+mExpressionList(expressionList), mLine(line) {
+}
 
 PrintOutStatement::~PrintOutStatement() {
   for (const IExpression* expression : mExpressionList) {
@@ -30,7 +31,7 @@ PrintOutStatement::~PrintOutStatement() {
 }
 
 void PrintOutStatement::generateIR(IRGenerationContext& context) const {
-  Value* formatPointer = IPrintStatement::getFormatString(context, mExpressionList);
+  Value* formatPointer = IPrintStatement::getFormatString(context, mExpressionList, mLine);
 
   Function* printf = IntrinsicFunctions::getPrintfFunction(context);
   vector<Value*> arguments;
