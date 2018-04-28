@@ -1,6 +1,4 @@
-package wisey.lang.threads;
-
-import wisey.lang.CCallStack;
+package wisey.threads;
 
 /**
  * Default implementation of the producer thread.
@@ -19,7 +17,7 @@ controller CProducerThread implements IThread {
    * Calling this method after the thread has already been started has no effect
    * This is called from an outside thread through a reveal method
    */
-  public void start(::wisey::model* producer, int size) {
+  public void start(::wisey::model* producer, int size) throws MThreadBoundaryException {
     outsideThreadGuard(this);
     mProducer = producer;
     mProducerThreadRunner.createThread(this, size);
@@ -28,7 +26,7 @@ controller CProducerThread implements IThread {
   /**
    * Tells whether the thread has been started
    */
-  public boolean isStarted() {
+  public boolean isStarted() throws MThreadBoundaryException {
     outsideThreadGuard(this);
     return mProducerThreadRunner.isStarted();
   }
@@ -36,7 +34,7 @@ controller CProducerThread implements IThread {
   /**
    * Tells whether the thread has finished execution and has the result
    */
-  public boolean isFinished() {
+  public boolean isFinished() throws MThreadBoundaryException {
     outsideThreadGuard(this);
     return mProducerThreadRunner.isFinished();
   }
@@ -44,7 +42,7 @@ controller CProducerThread implements IThread {
   /**
    * Tells whether the thread execution has been cancelled
    */
-  public boolean isCancelled() {
+  public boolean isCancelled() throws MThreadBoundaryException {
     outsideThreadGuard(this);
     return mProducerThreadRunner.isCancelled();
   }
@@ -53,7 +51,7 @@ controller CProducerThread implements IThread {
    * Cancel thread execution from antoher thread
    * If the thread has been already canceled or finished or not started then this has no effect
    */
-  public void cancel() {
+  public void cancel() throws MThreadBoundaryException {
     outsideThreadGuard(this);
     mProducerThreadRunner.cancelThread();
   }
@@ -62,7 +60,7 @@ controller CProducerThread implements IThread {
    * Reset the thread to its initial state so it can be started again
    * Calling this when the thread is in Started or Not Started state has no effect
    */
-  public void reset() {
+  public void reset() throws MThreadBoundaryException {
     outsideThreadGuard(this);
     mProducerThreadRunner.resetThread();
   }
@@ -71,7 +69,7 @@ controller CProducerThread implements IThread {
    * Tells whether the thread has a result in its buffer that can be consumed
    * If the thread is in not started or cancelled state it returns false
    */
-  public boolean hasResult() {
+  public boolean hasResult() throws MThreadBoundaryException {
     outsideThreadGuard(this);
     return mProducerThreadRunner.hasResult();
   }
@@ -80,27 +78,27 @@ controller CProducerThread implements IThread {
    * Consumes the one result object from the result buffer
    * If the thread is Not started or Cancelled state returns null
    */
-  public ::wisey::model* consume() {
+  public ::wisey::model* consume() throws MThreadBoundaryException {
     outsideThreadGuard(this);
     return mProducerThreadRunner.consumeResult();
   }
 
-  public void exit() override {
+  public void exit() throws MThreadBoundaryException override {
     insideThreadGuard(this);
     mProducerThreadRunner.exitThread();
   }
 
-  public ::wisey::model* send(::wisey::model* message) override {
+  public ::wisey::model* send(::wisey::model* message) throws MThreadBoundaryException override {
     insideThreadGuard(this);
     return mProducerThreadRunner.addResult(message);
   }
 
-  public CCallStack getCallStack() override {
+  public CCallStack getCallStack() throws MThreadBoundaryException override {
     insideThreadGuard(this);
     return mCallStack;
   }
 
-  public void run() override {
+  public void run() throws MThreadBoundaryException override {
     insideThreadGuard(this);
     mProducer.produce();
   }

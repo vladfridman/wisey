@@ -56,7 +56,7 @@ Value* StaticMethodCall::generateIR(IRGenerationContext& context, const IType* a
   }
   checkArgumentType(methodDescriptor, context);
   std::vector<const Model*> thrownExceptions = methodDescriptor->getThrownExceptions();
-  context.getScopes().getScope()->addExceptions(thrownExceptions);
+  context.getScopes().getScope()->addExceptions(thrownExceptions, mLine);
   
   return generateMethodCallIR(context, methodDescriptor, assignToType);
 }

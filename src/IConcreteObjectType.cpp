@@ -487,7 +487,7 @@ Function* IConcreteObjectType::getDestructorFunctionForObject(IRGenerationContex
                                                               const IConcreteObjectType *object,
                                                               int line) {
   string rceFullName = Names::getLangPackageName() + "." + Names::getReferenceCountExceptionName();
-  context.getScopes().getScope()->addException(context.getModel(rceFullName, line));
+  context.getScopes().getScope()->addException(context.getModel(rceFullName, line), line);
   string destructorFunctionName = getObjectDestructorFunctionName(object);
   
   return context.getModule()->getFunction(destructorFunctionName);

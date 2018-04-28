@@ -136,6 +136,8 @@ void Interface::buildMethods(IRGenerationContext& context) {
   }
 
   LLVMContext& llvmContext = context.getLLVMContext();
+  assert(mImportProfile && "Import profile is not set in an interface");
+  context.setImportProfile(mImportProfile);
 
   tuple<vector<MethodSignature*>, vector<wisey::Constant*>, vector<StaticMethod*>,
   vector<LLVMFunction*>> elements = createElements(context, mElementDeclarations);

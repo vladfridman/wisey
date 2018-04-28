@@ -96,7 +96,7 @@ TEST_F(ScopeTest, freeOwnedMemoryTest) {
 TEST_F(ScopeTest, addExceptionTest) {
   ASSERT_EQ(mScope.getExceptions().size(), 0u);
   
-  mScope.addException(mExceptionModel);
+  mScope.addException(mExceptionModel, 0);
   
   ASSERT_EQ(mScope.getExceptions().size(), 1u);
   
@@ -122,7 +122,7 @@ TEST_F(ScopeTest, addExceptionsTest) {
   exceptions.push_back(mExceptionModel);
   exceptions.push_back(exceptionModel);
   
-  mScope.addExceptions(exceptions);
+  mScope.addExceptions(exceptions, 0);
   
   ASSERT_EQ(mScope.getExceptions().size(), 2u);
   

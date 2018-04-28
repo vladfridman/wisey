@@ -198,7 +198,7 @@ TEST_F(ScopesTest, reportUnhandledExceptionsDeathTest) {
                                           mContext.getImportProfile(),
                                           0);
 
-  mScopes.getScope()->addException(exceptionModel);
+  mScopes.getScope()->addException(exceptionModel, 0);
   
   EXPECT_EXIT(mScopes.popScope(mContext, 0),
               ::testing::ExitedWithCode(1),

@@ -40,7 +40,7 @@ string Names::getLangPackageName() {
 }
 
 string Names::getThreadsPackageName() {
-  return "wisey.lang.threads";
+  return "wisey.threads";
 }
 
 string Names::getStdErrName() {
@@ -60,7 +60,7 @@ string Names::getCallStackControllerName() {
 }
 
 string Names::getCallStackControllerFullName() {
-  return getLangPackageName() + "." + getCallStackControllerName();
+  return getThreadsPackageName() + "." + getCallStackControllerName();
 }
 
 string Names::getPushStackMethodName() {

@@ -37,9 +37,11 @@ void IMethod::storeSystemArgumentValue(IRGenerationContext& context,
   context.getScopes().setVariable(variable);
 }
 
-void IMethod::checkForUnhandledExceptions(IRGenerationContext& context, const IMethod* method) {
+void IMethod::checkForUnhandledExceptions(IRGenerationContext& context,
+                                          const IMethod* method,
+                                          int line) {
   Scope* scope = context.getScopes().getScope();
-  map<string, const Model*> exceptions = scope->getExceptions();
+  map<string, int> exceptions = scope->getExceptions();
   if (exceptions.size() == 0) {
     return;
   }
@@ -50,14 +52,14 @@ void IMethod::checkForUnhandledExceptions(IRGenerationContext& context, const IM
   
   exceptions = scope->getExceptions();
   bool hasUnhandledExceptions = false;
-  for (map<string, const Model*>::const_iterator iterator = exceptions.begin();
-       iterator != exceptions.end();
-       iterator++) {
+  for (auto iterator = exceptions.begin(); iterator != exceptions.end(); iterator++) {
     if (!iterator->first.find(Names::getLangPackageName())) {
       continue;
     }
-    Log::e_deprecated((method->isStatic() ? "Static method " : "Method ") + method->getName() +
-           " neither handles the exception " + iterator->first + " nor throws it");
+    string prefix = (method->isStatic() ? "Static method " : "Method ");
+    context.reportError(iterator->second,
+                        prefix + method->getName() + " neither handles the exception " +
+                        iterator->first + " nor throws it");
     hasUnhandledExceptions = true;
   }
   

@@ -122,7 +122,8 @@ namespace wisey {
     
   private:
     
-    void reportUnhandledExceptions(std::map<std::string, const Model*> exceptions);
+    void reportUnhandledExceptions(IRGenerationContext& context,
+                                   std::map<std::string, int> exceptions) const;
     
     void clearCachedLandingPadBlock();
     

@@ -1,4 +1,4 @@
-package wisey.lang.threads;
+package wisey.threads;
 
 import wisey.lang.CCallStack;
 

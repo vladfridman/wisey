@@ -1,6 +1,4 @@
-package wisey.lang.threads;
-
-import wisey.lang.CCallStack;
+package wisey.threads;
 
 /**
  * Default implementation of the worker thread.
@@ -19,7 +17,7 @@ controller CWorkerThread implements IThread {
    * Calling this method after the thread has already been started has no effect
    * This is called from an outside thread through a reveal method
    */
-  public void start(::wisey::model* worker) {
+  public void start(::wisey::model* worker) throws MThreadBoundaryException {
     outsideThreadGuard(this);
     mWorker = worker;
     mWorkerThreadRunner.createThread(this);
@@ -28,7 +26,7 @@ controller CWorkerThread implements IThread {
   /**
    * Tells whether the thread has been started
    */
-  public boolean isStarted() {
+  public boolean isStarted() throws MThreadBoundaryException {
     outsideThreadGuard(this);
     return mWorkerThreadRunner.isStarted();
   }
@@ -36,7 +34,7 @@ controller CWorkerThread implements IThread {
   /**
    * Tells whether the thread has finished execution and has the result
    */
-  public boolean isFinished() {
+  public boolean isFinished() throws MThreadBoundaryException {
     outsideThreadGuard(this);
     return mWorkerThreadRunner.isFinished();
   }
@@ -44,7 +42,7 @@ controller CWorkerThread implements IThread {
   /**
    * Tells whether the thread execution has been cancelled
    */
-  public boolean isCancelled() {
+  public boolean isCancelled() throws MThreadBoundaryException {
     outsideThreadGuard(this);
     return mWorkerThreadRunner.isCancelled();
   }
@@ -53,7 +51,7 @@ controller CWorkerThread implements IThread {
    * Waits for the thread to finish and returns back the result
    * If the thread has been canceled or finished or not started then returns result immediately
    */
-  public ::wisey::model* awaitResult() {
+  public ::wisey::model* awaitResult() throws MThreadBoundaryException {
     outsideThreadGuard(this);
     mWorkerThreadRunner.joinThread();
 
@@ -64,7 +62,7 @@ controller CWorkerThread implements IThread {
    * Cancel thread execution from antoher thread
    * If the thread has been already canceled or finished or not started then this has no effect
    */
-  public void cancel() {
+  public void cancel() throws MThreadBoundaryException {
     outsideThreadGuard(this);
     mWorkerThreadRunner.cancelThread();
   }
@@ -73,28 +71,28 @@ controller CWorkerThread implements IThread {
    * Reset the thread to its initial state so it can be started again
    * Calling this when the thread is in Started or Not Started state has no effect
    */
-  public void reset() {
+  public void reset() throws MThreadBoundaryException {
     outsideThreadGuard(this);
     mWorkerThreadRunner.resetThread();
   }
 
-  public void exit() override {
+  public void exit() throws MThreadBoundaryException override {
     insideThreadGuard(this);
     mWorkerThreadRunner.exitThread();
   }
 
-  public ::wisey::model* send(::wisey::model* message) override {
+  public ::wisey::model* send(::wisey::model* message) throws MThreadBoundaryException override {
     insideThreadGuard(this);
     mWorkerThreadRunner.setResult(message);
     return null;
   }
 
-  public CCallStack getCallStack() override {
+  public CCallStack getCallStack() throws MThreadBoundaryException override {
     insideThreadGuard(this);
     return mCallStack;
   }
 
-  public void run() override {
+  public void run() throws MThreadBoundaryException override {
     insideThreadGuard(this);
     mWorker.work();
   }

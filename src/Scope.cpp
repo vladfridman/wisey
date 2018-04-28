@@ -113,16 +113,13 @@ void Scope::freeOwnedMemory(IRGenerationContext& context, int line) {
   }
 }
 
-void Scope::addException(const Model* exception) {
-  if (mExceptions.count(exception->getTypeName())) {
-    return;
-  }
-  mExceptions[exception->getTypeName()] = exception;
+void Scope::addException(const Model* exception, int line) {
+  mExceptions[exception->getTypeName()] = line;
 }
 
-void Scope::addExceptions(vector<const Model*> exceptions) {
+void Scope::addExceptions(vector<const Model*> exceptions, int line) {
   for (const Model* exception : exceptions) {
-    addException(exception);
+    addException(exception, line);
   }
 }
 
@@ -130,6 +127,6 @@ void Scope::removeException(const Model* exception) {
   mExceptions.erase(exception->getTypeName());
 }
 
-map<string, const Model*> Scope::getExceptions() {
+map<string, int> Scope::getExceptions() {
   return mExceptions;
 }

@@ -151,7 +151,7 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
                                                           compoundStatement,
                                                           0);
 
-  PackageType* packageType = new PackageType(Names::getLangPackageName());
+  PackageType* packageType = new PackageType(Names::getThreadsPackageName());
   FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
   ControllerTypeSpecifierFull* controllerTypeSpecifier =
   new ControllerTypeSpecifierFull(packageExpression, Names::getCallStackControllerName(), 0);

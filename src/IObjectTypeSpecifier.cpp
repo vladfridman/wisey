@@ -34,6 +34,7 @@ std::string IObjectTypeSpecifier::getFullName(IRGenerationContext& context,
     ? objectType->getImportProfile()
     : context.getImportProfile();
   
+  assert(importProfile && "Import profile is null");
   return importProfile->getFullName(shortName);
 }
 

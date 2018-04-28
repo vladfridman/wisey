@@ -277,7 +277,7 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
   *mStringStream << *irValue;
   string expected =
   "  %16 = invoke %systems.vos.wisey.compiler.tests.MReturnedModel* "
-  "@systems.vos.wisey.compiler.tests.MSquare.foo(%systems.vos.wisey.compiler.tests.MSquare* %0, %wisey.lang.threads.IThread* %14, %wisey.lang.CCallStack* %15, float 0x4014CCCCC0000000)"
+  "@systems.vos.wisey.compiler.tests.MSquare.foo(%systems.vos.wisey.compiler.tests.MSquare* %0, %wisey.threads.IThread* %14, %wisey.threads.CCallStack* %15, float 0x4014CCCCC0000000)"
   "\n          to label %invoke.continue1 unwind label %cleanup";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(methodCall.getType(mContext), mReturnedModel);
@@ -312,7 +312,7 @@ TEST_F(MethodCallTest, modelMethodCallWithTryCatchTest) {
   Value* irValue = methodCall.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   *mStringStream << *irValue;
-  EXPECT_STREQ("  %11 = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar(%systems.vos.wisey.compiler.tests.MSquare* %0, %wisey.lang.threads.IThread* %9, %wisey.lang.CCallStack* %10, float 0x4014CCCCC0000000)\n"
+  EXPECT_STREQ("  %11 = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar(%systems.vos.wisey.compiler.tests.MSquare* %0, %wisey.threads.IThread* %9, %wisey.threads.CCallStack* %10, float 0x4014CCCCC0000000)\n"
                "          to label %invoke.continue1 unwind label %eh.landing.pad",
                mStringStream->str().c_str());
   EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);

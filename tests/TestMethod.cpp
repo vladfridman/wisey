@@ -155,7 +155,7 @@ TEST_F(MethodTest, definePublicFunctionTest) {
   Function* function = method.defineFunction(mContext);
   
   *mStringStream << *function;
-  string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.foo(%systems.vos.wisey.compiler.tests.MObject*, %wisey.lang.threads.IThread*, %wisey.lang.CCallStack*, i32)\n";
+  string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.foo(%systems.vos.wisey.compiler.tests.MObject*, %wisey.threads.IThread*, %wisey.threads.CCallStack*, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
@@ -177,7 +177,7 @@ TEST_F(MethodTest, definePrivateFunctionTest) {
   Function* function = method.defineFunction(mContext);
   
   *mStringStream << *function;
-  string expected = "\ndeclare internal float @systems.vos.wisey.compiler.tests.MObject.foo(%systems.vos.wisey.compiler.tests.MObject*, %wisey.lang.threads.IThread*, %wisey.lang.CCallStack*, i32)\n";
+  string expected = "\ndeclare internal float @systems.vos.wisey.compiler.tests.MObject.foo(%systems.vos.wisey.compiler.tests.MObject*, %wisey.threads.IThread*, %wisey.threads.CCallStack*, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
@@ -201,7 +201,7 @@ TEST_F(MethodTest, generateIRTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @systems.vos.wisey.compiler.tests.MObject.foo(%systems.vos.wisey.compiler.tests.MObject* %this, %wisey.lang.threads.IThread* %thread, %wisey.lang.CCallStack* %callstack, i32 %intargument) {"
+  "\ndefine void @systems.vos.wisey.compiler.tests.MObject.foo(%systems.vos.wisey.compiler.tests.MObject* %this, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i32 %intargument) {"
   "\nentry:"
   "\n  ret void"
   "\n}"

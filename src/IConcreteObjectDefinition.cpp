@@ -21,7 +21,7 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
                                                 vector<IInterfaceTypeSpecifier*>
                                                   interfaceSpecifiers) {
   llvm::LLVMContext& llvmContext = context.getLLVMContext();
-  vector<Interface*> interfaces = processInterfaces(context, interfaceSpecifiers);
+  vector<Interface*> interfaces = processInterfaces(context, object, interfaceSpecifiers);
   tuple<vector<Constant*>, vector<IField*>, vector<IMethod*>, vector<LLVMFunction*>> elements =
     createElements(context, object, elementDeclarations);
   unsigned long numberOfVtables = interfaces.size() ? interfaces.size() : 1u;
@@ -86,6 +86,8 @@ IConcreteObjectDefinition::createElements(IRGenerationContext& context,
 }
 
 vector<Interface*> IConcreteObjectDefinition::processInterfaces(IRGenerationContext& context,
+                                                                const IConcreteObjectType*
+                                                                concreteObjectType,
                                                                 vector<IInterfaceTypeSpecifier*>
                                                                 interfaceSpecifiers) {
   vector<Interface*> interfaces;
@@ -99,6 +101,7 @@ vector<Interface*> IConcreteObjectDefinition::processInterfaces(IRGenerationCont
     }
     interfaces.push_back(interface);
   }
+  context.setImportProfile(concreteObjectType->getImportProfile());
   return interfaces;
 }
 

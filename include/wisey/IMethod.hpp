@@ -50,7 +50,9 @@ namespace wisey {
     /**
      * Check that the method handles or rethrows all the exceptions and print an error if it doesn't
      */
-    static void checkForUnhandledExceptions(IRGenerationContext& context, const IMethod* method);
+    static void checkForUnhandledExceptions(IRGenerationContext& context,
+                                            const IMethod* method,
+                                            int line);
     
     /**
      * Add a return void if there is no explicit return is in the wisey code

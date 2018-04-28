@@ -60,7 +60,7 @@ void Scopes::popScope(IRGenerationContext& context, int line) {
   top->freeOwnedMemory(context, line);
   clearCachedLandingPadBlock();
 
-  map<string, const Model*> exceptions = top->getExceptions();
+  map<string, int> exceptions = top->getExceptions();
   mScopes.pop_front();
   delete top;
   
@@ -69,15 +69,15 @@ void Scopes::popScope(IRGenerationContext& context, int line) {
   }
   
   if (mScopes.size() == 0) {
-    reportUnhandledExceptions(exceptions);
+    reportUnhandledExceptions(context, exceptions);
     return;
   }
   
   top = mScopes.front();
-  for (map<string, const Model*>::iterator iterator = exceptions.begin();
+  for (map<string, int>::iterator iterator = exceptions.begin();
        iterator != exceptions.end();
        iterator++) {
-    top->addException(iterator->second);
+    top->addException(context.getModel(iterator->first, line), iterator->second);
   }
 }
 
@@ -182,14 +182,13 @@ const IType* Scopes::getReturnType() {
   return NULL;
 }
 
-void Scopes::reportUnhandledExceptions(map<string, const Model*> exceptions) {
-  for (map<string, const Model*>::iterator iterator = exceptions.begin();
-       iterator != exceptions.end();
-       iterator++) {
+void Scopes::reportUnhandledExceptions(IRGenerationContext& context,
+                                       map<string, int> exceptions) const {
+  for (auto iterator = exceptions.begin(); iterator != exceptions.end(); iterator++) {
     if (!iterator->first.find(Names::getLangPackageName())) {
       continue;
     }
-    Log::e_deprecated("Exception " + iterator->first + " is not handled");
+    context.reportError(iterator->second, "Exception " + iterator->first + " is not handled");
     exit(1);
   }
 }

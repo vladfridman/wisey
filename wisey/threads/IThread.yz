@@ -1,6 +1,4 @@
-package wisey.lang.threads;
-
-import wisey.lang.CCallStack;
+package wisey.threads;
 
 /**
  * Represents a thread of execution. All thread objects must implement this interface.
@@ -10,7 +8,7 @@ interface IThread {
   /**
    * The work of this thread is done in this method
    */
-  void run();
+  void run() throws MThreadBoundaryException;
 
   /**
    * Sends a message to the calling thread. 
@@ -18,17 +16,17 @@ interface IThread {
    * Returns null if the message was sent successfully
    * Returns the sent message if it could not be sent
    */
-  ::wisey::model* send(::wisey::model* message);
+  ::wisey::model* send(::wisey::model* message) throws MThreadBoundaryException;
 
   /**
    * Exits thread with null as a result. This is called from within the thread
    */
-  void exit();
+  void exit() throws MThreadBoundaryException;
 
   /**
    * Returns the call stack for this thread
    */
-  CCallStack getCallStack();
+  CCallStack getCallStack() throws MThreadBoundaryException;
 
   /**
    * Method for putting the current thread to sleep

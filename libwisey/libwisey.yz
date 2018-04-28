@@ -12,32 +12,32 @@ external interface wisey.lang.IProgram {
     int exitCode);
 }
 
-external interface wisey.lang.threads.IProducer {
+external interface wisey.threads.IProducer {
 
   void produce();
 }
 
-external interface wisey.lang.threads.IThread {
+external interface wisey.threads.IThread {
 
-  void run();
+  void run() throws wisey.threads.MThreadBoundaryException;
   ::wisey::model* send(
-    ::wisey::model* message);
-  void exit();
-  wisey.lang.CCallStack getCallStack();
+    ::wisey::model* message) throws wisey.threads.MThreadBoundaryException;
+  void exit() throws wisey.threads.MThreadBoundaryException;
+  wisey.threads.CCallStack getCallStack() throws wisey.threads.MThreadBoundaryException;
   static void sleep(
     int seconds);
   static void insideThreadGuard(
-    wisey.lang.threads.IThread object) throws wisey.lang.threads.MThreadBoundaryException;
+    wisey.threads.IThread object) throws wisey.threads.MThreadBoundaryException;
   static void outsideThreadGuard(
-    wisey.lang.threads.IThread object) throws wisey.lang.threads.MThreadBoundaryException;
+    wisey.threads.IThread object) throws wisey.threads.MThreadBoundaryException;
 }
 
-external interface wisey.lang.threads.IThreadRunner {
+external interface wisey.threads.IThreadRunner {
 }
 
-external interface wisey.lang.threads.IWorker {
+external interface wisey.threads.IWorker {
 
-  void work();
+  void work() throws wisey.threads.MThreadBoundaryException;
 }
 
 /* Models */
@@ -68,10 +68,10 @@ external model wisey.lang.MCastException
 
 external model wisey.lang.MMainThreadWorker
   implements
-    wisey.lang.threads.IWorker {
+    wisey.threads.IWorker {
 
   static int startMainThread();
-  void work() override;
+  void work() throws wisey.threads.MThreadBoundaryException override;
 }
 
 external model wisey.lang.MMainThreadWorker.MProgramResult {
@@ -105,7 +105,7 @@ external model wisey.lang.MStackOverflowException
   string getName() override;
 }
 
-external model wisey.lang.threads.MThreadBoundaryException
+external model wisey.threads.MThreadBoundaryException
   implements
     wisey.lang.IException {
 
@@ -117,7 +117,7 @@ external model wisey.lang.threads.MThreadBoundaryException
 
 /* Controllers */
 
-external controller wisey.lang.CCallStack {
+external controller wisey.threads.CCallStack {
 
   public constant int CALL_STACK_SIZE = 1024;
 
@@ -134,33 +134,33 @@ external controller wisey.lang.CCallStack {
     wisey.lang.IException exception);
 }
 
-external controller wisey.lang.threads.CProducerThread
+external controller wisey.threads.CProducerThread
   implements
-    wisey.lang.threads.IThread {
+    wisey.threads.IThread {
 
   void start(
     ::wisey::model* producer,
-    int size);
-  boolean isStarted();
-  boolean isFinished();
-  boolean isCancelled();
-  void cancel();
-  void reset();
-  boolean hasResult();
-  ::wisey::model* consume();
-  void exit() override;
+    int size) throws wisey.threads.MThreadBoundaryException;
+  boolean isStarted() throws wisey.threads.MThreadBoundaryException;
+  boolean isFinished() throws wisey.threads.MThreadBoundaryException;
+  boolean isCancelled() throws wisey.threads.MThreadBoundaryException;
+  void cancel() throws wisey.threads.MThreadBoundaryException;
+  void reset() throws wisey.threads.MThreadBoundaryException;
+  boolean hasResult() throws wisey.threads.MThreadBoundaryException;
+  ::wisey::model* consume() throws wisey.threads.MThreadBoundaryException;
+  void exit() throws wisey.threads.MThreadBoundaryException override;
   ::wisey::model* send(
-    ::wisey::model* message) override;
-  wisey.lang.CCallStack getCallStack() override;
-  void run() override;
+    ::wisey::model* message) throws wisey.threads.MThreadBoundaryException override;
+  wisey.threads.CCallStack getCallStack() throws wisey.threads.MThreadBoundaryException override;
+  void run() throws wisey.threads.MThreadBoundaryException override;
 }
 
-external controller wisey.lang.threads.CProducerThreadRunner
+external controller wisey.threads.CProducerThreadRunner
   implements
-    wisey.lang.threads.IThreadRunner {
+    wisey.threads.IThreadRunner {
 
   void createThread(
-    wisey.lang.threads.IThread producerThread,
+    wisey.threads.IThread producerThread,
     int size);
   boolean isStarted();
   boolean isFinished();
@@ -175,31 +175,31 @@ external controller wisey.lang.threads.CProducerThreadRunner
   boolean hasRoom();
 }
 
-external controller wisey.lang.threads.CWorkerThread
+external controller wisey.threads.CWorkerThread
   implements
-    wisey.lang.threads.IThread {
+    wisey.threads.IThread {
 
   void start(
-    ::wisey::model* worker);
-  boolean isStarted();
-  boolean isFinished();
-  boolean isCancelled();
-  ::wisey::model* awaitResult();
-  void cancel();
-  void reset();
-  void exit() override;
+    ::wisey::model* worker) throws wisey.threads.MThreadBoundaryException;
+  boolean isStarted() throws wisey.threads.MThreadBoundaryException;
+  boolean isFinished() throws wisey.threads.MThreadBoundaryException;
+  boolean isCancelled() throws wisey.threads.MThreadBoundaryException;
+  ::wisey::model* awaitResult() throws wisey.threads.MThreadBoundaryException;
+  void cancel() throws wisey.threads.MThreadBoundaryException;
+  void reset() throws wisey.threads.MThreadBoundaryException;
+  void exit() throws wisey.threads.MThreadBoundaryException override;
   ::wisey::model* send(
-    ::wisey::model* message) override;
-  wisey.lang.CCallStack getCallStack() override;
-  void run() override;
+    ::wisey::model* message) throws wisey.threads.MThreadBoundaryException override;
+  wisey.threads.CCallStack getCallStack() throws wisey.threads.MThreadBoundaryException override;
+  void run() throws wisey.threads.MThreadBoundaryException override;
 }
 
-external controller wisey.lang.threads.CWorkerThreadRunner
+external controller wisey.threads.CWorkerThreadRunner
   implements
-    wisey.lang.threads.IThreadRunner {
+    wisey.threads.IThreadRunner {
 
   void createThread(
-    wisey.lang.threads.IThread workerThread);
+    wisey.threads.IThread workerThread);
   boolean isStarted();
   boolean isFinished();
   boolean isCancelled();

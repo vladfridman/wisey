@@ -171,7 +171,7 @@ void StaticMethod::generateIR(IRGenerationContext& context) const {
   Composer::pushCallStack(context, mLine);
   mCompoundStatement->generateIR(context);
   IMethod::maybeAddImpliedVoidReturn(context, this, mLine);
-  IMethod::checkForUnhandledExceptions(context, this);
+  IMethod::checkForUnhandledExceptions(context, this, mLine);
   
   scopes.popScope(context, mLine);
 }

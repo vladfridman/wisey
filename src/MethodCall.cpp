@@ -51,7 +51,7 @@ Value* MethodCall::generateIR(IRGenerationContext& context, const IType* assignT
   const IObjectType* object = methodDescriptor->getParentObject();
   checkArgumentType(object, methodDescriptor, context);
   std::vector<const Model*> thrownExceptions = methodDescriptor->getThrownExceptions();
-  context.getScopes().getScope()->addExceptions(thrownExceptions);
+  context.getScopes().getScope()->addExceptions(thrownExceptions, mLine);
   
   if (methodDescriptor->isNative()) {
     return generateLLVMFunctionCallIR(context, object, methodDescriptor, assignToType);
@@ -62,7 +62,7 @@ Value* MethodCall::generateIR(IRGenerationContext& context, const IType* assignT
   }
   
   string npeFullName = Names::getLangPackageName() + "." + Names::getNPEModelName();
-  context.getScopes().getScope()->addException(context.getModel(npeFullName, mLine));
+  context.getScopes().getScope()->addException(context.getModel(npeFullName, mLine), mLine);
   
   if (IType::isConcreteObjectType(object)) {
     return generateObjectMethodCallIR(context,

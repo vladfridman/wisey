@@ -1,6 +1,5 @@
-package wisey.lang.threads;
+package wisey.threads;
 
-import wisey.lang.CCallStack;
 import wisey.lang.MArrayIndexOutOfBoundsException;
 import wisey.lang.MCastException;
 import wisey.lang.MNullPointerException;
@@ -19,37 +18,36 @@ interface IThreadRunner {
   public ::llvm::function ::llvm::i8::pointer runBridge(::llvm::i8::pointer argument) {
     IThread thread = (IThread) argument;
     CCallStack callstack = null;
-    callstack = thread.getCallStack();
 
     try {
+      callstack = thread.getCallStack();
       thread.run();
+      thread.exit();
     } catch (MNullPointerException* exception) {
-      thread.getCallStack().reportException(exception);
+      callstack.reportException(exception);
     } catch (MReferenceCountException* exception) {
-      thread.getCallStack().reportException(exception);
+      callstack.reportException(exception);
       string ending = exception.getReferenceCount() > 1 ? "s" : "";
       printerr("Details: Object referenced by expression still has " + 
         exception.getReferenceCount() + " active reference" + ending + "\n");
     } catch (MCastException* exception) {
-      thread.getCallStack().reportException(exception);
+      callstack.reportException(exception);
       printerr("Details: Can not cast from " + exception.getFromType() + " to " + 
         exception.getToType() + "\n");
     } catch (MArrayIndexOutOfBoundsException* exception) {
-      thread.getCallStack().reportException(exception);
+      callstack.reportException(exception);
       printerr("Details: Index " + exception.getIndex() + " is used on array of size " + 
         exception.getArraySize() + "\n");
     } catch (MStackOverflowException* exception) {
-      thread.getCallStack().reportException(exception);
+      callstack.reportException(exception);
     } catch (MThreadBoundaryException* exception) {
-      thread.getCallStack().reportException(exception);
+      callstack.reportException(exception);
       if (exception.isMethodInternal()) {
         printerr("Details: method internal to the thread is called from outside the thread\n");
       } else {
         printerr("Details: method external to the thread is called from inside the thread\n");
       }
-    }
-    
-    thread.exit();
+    }   
 
     return argument;
   }

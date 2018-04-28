@@ -183,7 +183,7 @@ struct ModelTest : public Test {
                                               mContext.getImportProfile(),
                                               0);
     mContext.addInterface(mShapeInterface);
-    mShapeInterface->buildMethods(mContext);
+     mShapeInterface->buildMethods(mContext);
 
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectInterfaceStructType = StructType::create(mLLVMContext, objectFullName);

@@ -56,6 +56,7 @@ namespace wisey {
                                                elementDeclarations);
 
     static std::vector<Interface*> processInterfaces(IRGenerationContext& context,
+                                                     const IConcreteObjectType* concreteObjectType,
                                                      std::vector<IInterfaceTypeSpecifier*>
                                                      interfaceSpecifiers);
     

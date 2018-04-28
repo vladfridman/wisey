@@ -1,8 +1,8 @@
 package systems.vos.wisey.compiler.tests;
 
 import wisey.lang.IProgram;
-import wisey.lang.threads.CProducerThread;
-import wisey.lang.threads.IProducer;
+import wisey.threads.CProducerThread;
+import wisey.threads.IProducer;
 
 model MProducer implements IProducer {
 

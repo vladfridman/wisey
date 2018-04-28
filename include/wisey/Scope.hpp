@@ -34,7 +34,7 @@ namespace wisey {
     llvm::BasicBlock* mContinueToBlock;
     TryCatchInfo* mTryCatchInfo;
     const IType* mReturnType;
-    std::map<std::string, const Model*> mExceptions;
+    std::map<std::string, int> mExceptions;
     
   public:
     
@@ -105,12 +105,12 @@ namespace wisey {
     /**
      * Add an exception type that maybe thrown in this scope
      */
-    void addException(const Model* exception);
+    void addException(const Model* exception, int line);
     
     /**
      * Add several exception types that may thrown in this scope
      */
-    void addExceptions(std::vector<const Model*> exceptions);
+    void addExceptions(std::vector<const Model*> exceptions, int line);
     
     /**
      * Remove an exception type from the list of exceptions that maybe thrown
@@ -120,7 +120,7 @@ namespace wisey {
     /**
      * Get exceptions that could be thrown in this scope
      */
-    std::map<std::string, const Model*> getExceptions();
+    std::map<std::string, int> getExceptions();
     
   };
   

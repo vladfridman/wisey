@@ -40,11 +40,6 @@ BasicBlock* TryCatchInfo::defineLandingPadBlock(IRGenerationContext& context,
     function->setPersonalityFn(IntrinsicFunctions::getPersonalityFunction(context));
   }
   
-  for (Catch* catchClause : mCatchList) {
-    const Model* catchType = catchClause->getType(context)->getReference();
-    context.getScopes().getScope()->removeException(catchType);
-  }
-
   BasicBlock* landingPadBlock = BasicBlock::Create(llvmContext, "eh.landing.pad", function);
   
   mComposingCallbacks.push_back(make_tuple(composeLandingPadBlock,
@@ -55,6 +50,11 @@ BasicBlock* TryCatchInfo::defineLandingPadBlock(IRGenerationContext& context,
 }
 
 bool TryCatchInfo::runComposingCallbacks(IRGenerationContext& context) {
+  for (Catch* catchClause : mCatchList) {
+    const Model* catchType = catchClause->getType(context)->getReference();
+    context.getScopes().getScope()->removeException(catchType);
+  }
+  
   BasicBlock* lastBasicBlock = context.getBasicBlock();
   
   bool result = true;

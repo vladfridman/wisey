@@ -1,8 +1,8 @@
 package systems.vos.wisey.compiler.tests;
 
 import wisey.lang.IProgram;
-import wisey.lang.threads.CWorkerThread;
-import wisey.lang.threads.IWorker;
+import wisey.threads.CWorkerThread;
+import wisey.threads.IWorker;
 
 model MWorker implements IWorker {
 

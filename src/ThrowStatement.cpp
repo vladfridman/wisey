@@ -38,7 +38,7 @@ void ThrowStatement::generateIR(IRGenerationContext& context) const {
   const Model* model = ((const ModelOwner*) expressionType)->getReference();
 
   LLVMContext& llvmContext = context.getLLVMContext();
-  context.getScopes().getScope()->addException(model);
+  context.getScopes().getScope()->addException(model, mLine);
 
   GlobalVariable* rtti = context.getModule()->getNamedGlobal(model->getRTTIVariableName());
 
