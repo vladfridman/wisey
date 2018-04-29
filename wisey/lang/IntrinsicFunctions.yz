@@ -10,6 +10,11 @@
 ::llvm::function ::llvm::i32 printf(::llvm::i8::pointer, ...);
 
 /**
+ * fprintf fucntion for printing to file or stderr
+ */
+::llvm::function ::llvm::i32 fprintf(::llvm::struct::__sFILE::pointer, ::llvm::i8::pointer, ...);
+
+/**
  * This is used to throw an exception
  */
 ::llvm::function ::llvm::void __cxa_throw(::llvm::i8::pointer, ::llvm::i8::pointer, ::llvm::i8::pointer);

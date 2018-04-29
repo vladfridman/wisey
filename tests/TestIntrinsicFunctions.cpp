@@ -54,27 +54,34 @@ public:
 
 TEST_F(IntrinsicFunctionsTest, getThrowFunctionTest) {
   EXPECT_NE(IntrinsicFunctions::getThrowFunction(mContext), nullptr);
-  EXPECT_NE(mModule->getFunction("__cxa_throw"), nullptr);
 }
 
 TEST_F(IntrinsicFunctionsTest, getAllocateExceptionFunctionTest) {
   EXPECT_NE(IntrinsicFunctions::getAllocateExceptionFunction(mContext), nullptr);
-  EXPECT_NE(mModule->getFunction("__cxa_allocate_exception"), nullptr);
 }
 
 TEST_F(IntrinsicFunctionsTest, getUnexpectedFunctionTest) {
   EXPECT_NE(IntrinsicFunctions::getUnexpectedFunction(mContext), nullptr);
-  EXPECT_NE(mModule->getFunction("__cxa_call_unexpected"), nullptr);
 }
 
 TEST_F(IntrinsicFunctionsTest, getBeginCatchFunctionTest) {
   EXPECT_NE(IntrinsicFunctions::getBeginCatchFunction(mContext), nullptr);
-  EXPECT_NE(mModule->getFunction("__cxa_begin_catch"), nullptr);
+}
+
+TEST_F(IntrinsicFunctionsTest, getEndCatchFunctionTest) {
+  EXPECT_NE(IntrinsicFunctions::getEndCatchFunction(mContext), nullptr);
 }
 
 TEST_F(IntrinsicFunctionsTest, getPersonalityFunctionTest) {
   EXPECT_NE(IntrinsicFunctions::getPersonalityFunction(mContext), nullptr);
-  EXPECT_NE(mModule->getFunction("__gxx_personality_v0"), nullptr);
+}
+
+TEST_F(IntrinsicFunctionsTest, getPrintfFunctionTest) {
+  EXPECT_NE(IntrinsicFunctions::getPrintfFunction(mContext), nullptr);
+}
+
+TEST_F(IntrinsicFunctionsTest, getFprintfFunctionTest) {
+  EXPECT_NE(IntrinsicFunctions::getFprintfFunction(mContext), nullptr);
 }
 
 TEST_F(IntrinsicFunctionsTest, getMemCopyFunctionTest) {
@@ -108,20 +115,6 @@ TEST_F(IntrinsicFunctionsTest, getTypeIdFunctionTest) {
   EXPECT_EQ(mModule->getFunction("llvm.eh.typeid.for"), nullptr);
   EXPECT_NE(IntrinsicFunctions::getTypeIdFunction(mContext), nullptr);
   EXPECT_NE(mModule->getFunction("llvm.eh.typeid.for"), nullptr);
-}
-
-TEST_F(IntrinsicFunctionsTest, getEndCatchFunctionTest) {
-  EXPECT_NE(IntrinsicFunctions::getEndCatchFunction(mContext), nullptr);
-}
-
-TEST_F(IntrinsicFunctionsTest, getPrintfFunctionTest) {
-  EXPECT_NE(IntrinsicFunctions::getPrintfFunction(mContext), nullptr);
-}
-
-TEST_F(IntrinsicFunctionsTest, getFprintfFunctionTest) {
-  EXPECT_EQ(mModule->getFunction("fprintf"), nullptr);
-  EXPECT_NE(IntrinsicFunctions::getFprintfFunction(mContext), nullptr);
-  EXPECT_NE(mModule->getFunction("fprintf"), nullptr);
 }
 
 TEST_F(TestFileRunner, terminateRunTest) {

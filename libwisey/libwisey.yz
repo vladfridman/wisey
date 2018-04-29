@@ -292,6 +292,7 @@ external ::llvm::function ::llvm::i32 __instanceOf(::llvm::i8::pointer, ::llvm::
 external ::llvm::function ::llvm::i1 __isModel(::llvm::i8::pointer);
 external ::llvm::function ::llvm::void __throwReferenceCountException(::llvm::i64);
 external ::llvm::function ::llvm::void exit(::llvm::i32);
+external ::llvm::function ::llvm::i32 fprintf(::llvm::struct::__sFILE::pointer, ::llvm::i8::pointer, ...);
 external ::llvm::function ::llvm::i32 printf(::llvm::i8::pointer, ...);
 
 /* llvm Globals */

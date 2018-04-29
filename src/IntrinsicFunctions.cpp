@@ -100,14 +100,5 @@ Function* IntrinsicFunctions::getPrintfFunction(IRGenerationContext& context) {
 }
 
 Function* IntrinsicFunctions::getFprintfFunction(IRGenerationContext& context) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  GlobalVariable* stderrPointer = context.getModule()->getNamedGlobal(Names::getStdErrName());
-  vector<Type*> argumentTypes;
-  argumentTypes.push_back(stderrPointer->getType()->getPointerElementType());
-  argumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
-  FunctionType *printfType = FunctionType::get(Type::getInt32Ty(llvmContext), argumentTypes, true);
-  
-  AttributeSet attributeSet = AttributeSet().addAttribute(llvmContext, 1U, Attribute::NoAlias);
-  return cast<Function>(context.getModule()->
-                        getOrInsertFunction("fprintf", printfType, attributeSet));
+  return context.getModule()->getFunction("fprintf");
 }
