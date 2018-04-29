@@ -101,7 +101,7 @@ TEST_F(ArrayElementExpressionTest, generateIRTest) {
   *mStringStream << *mFunction;
   
   string expected =
-  "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
+  "\ndefine internal i32 @main() {"
   "\nentry:"
   "\n  %0 = bitcast { i64, i64, i64, [0 x i32] }* null to i8*"
   "\n  invoke void @__checkForNullAndThrow(i8* %0)"

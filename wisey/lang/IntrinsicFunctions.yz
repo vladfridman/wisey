@@ -8,3 +8,33 @@
  * printf fucntion for printing to sandard output
  */
 ::llvm::function ::llvm::i32 printf(::llvm::i8::pointer, ...);
+
+/**
+ * This is used to throw an exception
+ */
+::llvm::function ::llvm::void __cxa_throw(::llvm::i8::pointer, ::llvm::i8::pointer, ::llvm::i8::pointer);
+
+/**
+ * Allocates memory for exception object
+ */
+::llvm::function ::llvm::i8::pointer __cxa_allocate_exception(::llvm::i64);
+
+/**
+ * This is called when unexpected exception is cought
+ */
+::llvm::function ::llvm::void __cxa_call_unexpected(::llvm::i8::pointer);
+
+/**
+ * Function that is called at the begining of a catch in exception handling
+ */
+::llvm::function ::llvm::i8::pointer __cxa_begin_catch(::llvm::i8::pointer);
+
+/**
+ * Function that is called at the end of a catch in exception handling
+ */
+::llvm::function ::llvm::void __cxa_end_catch();
+
+/**
+ * Default personality function for exception handling
+ */
+::llvm::function ::llvm::i32 __gxx_personality_v0(...);

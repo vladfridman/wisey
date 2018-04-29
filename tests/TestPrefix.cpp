@@ -74,12 +74,30 @@ void TestPrefix::defineStdErrGlobal(IRGenerationContext& context) {
 
 void TestPrefix::defineIntrinsicFunctions(IRGenerationContext& context) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  FunctionType* printfType = llvm::TypeBuilder<int(char *, ...), false>::get(llvmContext);
+  Module* module = context.getModule();
   
-  Function::Create(printfType,
-                   GlobalValue::ExternalLinkage,
-                   "printf",
-                   context.getModule());
+  FunctionType* functionType = llvm::TypeBuilder<int(char *, ...), false>::get(llvmContext);
+  Function::Create(functionType, GlobalValue::ExternalLinkage, "printf", module);
+
+  functionType = TypeBuilder<void (), false>::get(llvmContext);
+  Function::Create(functionType, GlobalValue::ExternalLinkage, "__cxa_end_catch", module);
+
+  functionType = TypeBuilder<void (types::i<8>*,
+                                   types::i<8>*,
+                                   types::i<8>*), false>::get(llvmContext);
+  Function::Create(functionType, GlobalValue::ExternalLinkage, "__cxa_throw", module);
+
+  functionType = TypeBuilder<types::i<8>* (types::i<64>), false>::get(llvmContext);
+  Function::Create(functionType, GlobalValue::ExternalLinkage, "__cxa_allocate_exception", module);
+
+  functionType = TypeBuilder<void (types::i<8>*), false>::get(llvmContext);
+  Function::Create(functionType, GlobalValue::ExternalLinkage, "__cxa_call_unexpected", module);
+
+  functionType = TypeBuilder<types::i<8>* (types::i<8>*), false>::get(llvmContext);
+  Function::Create(functionType, GlobalValue::ExternalLinkage, "__cxa_begin_catch", module);
+
+  functionType = TypeBuilder<types::i<32> (...), false>::get(llvmContext);
+  Function::Create(functionType, GlobalValue::ExternalLinkage, "__gxx_personality_v0", module);
 }
 
 void TestPrefix::defineModel(IRGenerationContext& context,

@@ -19,21 +19,27 @@ using namespace std;
 using namespace wisey;
 
 Function* IntrinsicFunctions::getThrowFunction(IRGenerationContext& context) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  FunctionType *functionType = TypeBuilder<void (types::i<8>*, types::i<8>*, types::i<8>*), false>
-  ::get(llvmContext);
-  
-  AttributeSet attributeSet = AttributeSet().addAttribute(llvmContext, 1U, Attribute::NoAlias);
-  return cast<Function>(context.getModule()->
-                        getOrInsertFunction("__cxa_throw", functionType, attributeSet));
+  return context.getModule()->getFunction("__cxa_throw");
 }
 
 Function* IntrinsicFunctions::getAllocateExceptionFunction(IRGenerationContext& context) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  FunctionType *functionType = TypeBuilder<types::i<8>* (types::i<64>), false>::get(llvmContext);
-  
-  return cast<Function>(context.getModule()->
-                        getOrInsertFunction("__cxa_allocate_exception", functionType));
+  return context.getModule()->getFunction("__cxa_allocate_exception");
+}
+
+Function* IntrinsicFunctions::getUnexpectedFunction(IRGenerationContext& context) {
+  return context.getModule()->getFunction("__cxa_call_unexpected");
+}
+
+Function* IntrinsicFunctions::getBeginCatchFunction(IRGenerationContext& context) {
+  return context.getModule()->getFunction("__cxa_begin_catch");
+}
+
+Function* IntrinsicFunctions::getEndCatchFunction(IRGenerationContext& context) {
+  return context.getModule()->getFunction("__cxa_end_catch");
+}
+
+Function* IntrinsicFunctions::getPersonalityFunction(IRGenerationContext& context) {
+  return context.getModule()->getFunction("__gxx_personality_v0");
 }
 
 Function* IntrinsicFunctions::getMemCopyFunction(IRGenerationContext& context) {
@@ -81,44 +87,12 @@ Instruction* IntrinsicFunctions::setMemoryToZero(IRGenerationContext& context,
   return IRWriter::createCallInst(context, memSetFunction, arguments, "");
 }
 
-Function* IntrinsicFunctions::getPersonalityFunction(IRGenerationContext& context) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  FunctionType *typeIdType = TypeBuilder<types::i<32> (...), false>::get(llvmContext);
-  
-  return cast<Function>(context.getModule()->
-                        getOrInsertFunction("__gxx_personality_v0", typeIdType));
-}
-
 Function* IntrinsicFunctions::getTypeIdFunction(IRGenerationContext& context) {
   LLVMContext& llvmContext = context.getLLVMContext();
   FunctionType *typeIdType = TypeBuilder<types::i<32> (types::i<8>*), false>::get(llvmContext);
   
   return cast<Function>(context.getModule()->
                         getOrInsertFunction("llvm.eh.typeid.for", typeIdType));
-}
-
-Function* IntrinsicFunctions::getUnexpectedFunction(IRGenerationContext& context) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  FunctionType *typeIdType = TypeBuilder<void (types::i<8>*), false>::get(llvmContext);
-  
-  return cast<Function>(context.getModule()->
-                        getOrInsertFunction("__cxa_call_unexpected", typeIdType));
-}
-
-Function* IntrinsicFunctions::getBeginCatchFunction(IRGenerationContext& context) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  FunctionType *typeIdType = TypeBuilder<types::i<8>* (types::i<8>*), false>::get(llvmContext);
-  
-  return cast<Function>(context.getModule()->
-                        getOrInsertFunction("__cxa_begin_catch", typeIdType));
-}
-
-Function* IntrinsicFunctions::getEndCatchFunction(IRGenerationContext& context) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  FunctionType *typeIdType = TypeBuilder<void (), false>::get(llvmContext);
-  
-  return cast<Function>(context.getModule()->
-                        getOrInsertFunction("__cxa_end_catch", typeIdType));
 }
 
 Function* IntrinsicFunctions::getPrintfFunction(IRGenerationContext& context) {
