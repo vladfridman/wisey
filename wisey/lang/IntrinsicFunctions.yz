@@ -17,7 +17,9 @@
 /**
  * This is used to throw an exception
  */
-::llvm::function ::llvm::void __cxa_throw(::llvm::i8::pointer, ::llvm::i8::pointer, ::llvm::i8::pointer);
+::llvm::function ::llvm::void __cxa_throw(::llvm::i8::pointer, 
+                                          ::llvm::i8::pointer, 
+                                          ::llvm::i8::pointer);
 
 /**
  * Allocates memory for exception object
@@ -43,3 +45,26 @@
  * Default personality function for exception handling
  */
 ::llvm::function ::llvm::i32 __gxx_personality_v0(...);
+
+/**
+ * Function for determining the id of a thrown exception
+ */
+::llvm::function ::llvm::i32 "llvm.eh.typeid.for"(::llvm::i8::pointer);
+
+/**
+ * Function for copying memory
+ */
+::llvm::function ::llvm::void llvm.memcpy.p0i8.p0i8.i64(::llvm::i8::pointer, 
+                                                        ::llvm::i8::pointer, 
+                                                        ::llvm::i64, 
+                                                        ::llvm::i32, 
+                                                        ::llvm::i1);
+
+/**
+ * Function for setting memory
+ */
+::llvm::function ::llvm::void llvm.memset.p0i8.i64(::llvm::i8::pointer, 
+                                                   ::llvm::i8, 
+                                                   ::llvm::i64, 
+                                                   ::llvm::i32, 
+                                                   ::llvm::i1);

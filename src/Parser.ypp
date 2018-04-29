@@ -214,7 +214,7 @@
 /**
  * Tokens used in wisey 
  */
-%token <string> TIDENTIFIER TCHAR TINTEGER TLONG TFLOAT TDOUBLE STRING_LITERAL TMODELIDENTIFIER
+%token <string> TIDENTIFIER TCHAR TINTEGER TLONG TFLOAT TDOUBLE TSTRING_LITERAL TMODELIDENTIFIER
 %token <string> TFIELDIDENTIFIER TINTERFACEIDENTIFIER TCONTROLLERIDENTIFIER TNODEIDENTIFIER
 %token <string> TCONSTANTIDENTIFIER
 
@@ -413,46 +413,46 @@ llvm_global_declaration
   ;
 
 llvm_function_declaration
-  : TLLVM TLLVMFUNCTION llvm_type_specifier TIDENTIFIER
+  : TLLVM TLLVMFUNCTION llvm_type_specifier llvm_function_name
     '(' llvm_function_argument_type_specifier_list ')' ';'
       { $$ = LLVMFunctionDeclaration::createInternal(*$4, $3, *$6); delete $4; delete $6; }
-  | TLLVM TLLVMFUNCTION llvm_type_specifier TIDENTIFIER '(' ')' ';'
+  | TLLVM TLLVMFUNCTION llvm_type_specifier llvm_function_name '(' ')' ';'
       { 
         std::vector<const ITypeSpecifier*> typeSpecifiers;        
         $$ = LLVMFunctionDeclaration::createInternal(*$4, $3, typeSpecifiers); 
         delete $4; 
       }
-  | TLLVM TLLVMFUNCTION llvm_type_specifier TIDENTIFIER
+  | TLLVM TLLVMFUNCTION llvm_type_specifier llvm_function_name
     '(' llvm_function_argument_type_specifier_list ',' TELIPSIS ')' ';'
       { 
         $$ = LLVMFunctionDeclaration::createInternalWithVarArg(*$4, $3, *$6); 
         delete $4; 
         delete $6; 
       }
-  | TLLVM TLLVMFUNCTION llvm_type_specifier TIDENTIFIER
+  | TLLVM TLLVMFUNCTION llvm_type_specifier llvm_function_name
     '(' TELIPSIS ')' ';'
       { 
         std::vector<const ITypeSpecifier*> typeSpecifiers;
         $$ = LLVMFunctionDeclaration::createInternalWithVarArg(*$4, $3, typeSpecifiers); 
         delete $4; 
       }
-  | TEXTERNAL TLLVM TLLVMFUNCTION llvm_type_specifier TIDENTIFIER
+  | TEXTERNAL TLLVM TLLVMFUNCTION llvm_type_specifier llvm_function_name
     '(' llvm_function_argument_type_specifier_list ')' ';'
       { $$ = LLVMFunctionDeclaration::createExternal(*$5, $4, *$7); delete $5; delete $7; }
-  | TEXTERNAL TLLVM TLLVMFUNCTION llvm_type_specifier TIDENTIFIER '(' ')' ';'
+  | TEXTERNAL TLLVM TLLVMFUNCTION llvm_type_specifier llvm_function_name '(' ')' ';'
       { 
         std::vector<const ITypeSpecifier*> typeSpecifiers;
         $$ = LLVMFunctionDeclaration::createExternal(*$5, $4, typeSpecifiers); 
         delete $5; 
       }
-  | TEXTERNAL TLLVM TLLVMFUNCTION llvm_type_specifier TIDENTIFIER
+  | TEXTERNAL TLLVM TLLVMFUNCTION llvm_type_specifier llvm_function_name
     '(' llvm_function_argument_type_specifier_list ',' TELIPSIS ')' ';'
       { 
         $$ = LLVMFunctionDeclaration::createExternalWithVarArg(*$5, $4, *$7); 
         delete $5; 
         delete $7;
       }
-  | TEXTERNAL TLLVM TLLVMFUNCTION llvm_type_specifier TIDENTIFIER
+  | TEXTERNAL TLLVM TLLVMFUNCTION llvm_type_specifier llvm_function_name
     '(' TELIPSIS ')' ';'
       { 
         std::vector<const ITypeSpecifier*> typeSpecifiers;
@@ -618,6 +618,7 @@ llvm_function_name
   : string_identifier { $$ = $1; }
   | llvm_function_name '.' string_identifier 
     { $$ = new std::string(*$1 + "." + *$3); delete $1; delete $3; }
+  | TSTRING_LITERAL { $$ = new std::string($1->substr(1, $1->length() - 2)); delete $1; }
   ;
 
 llvm_reference
@@ -1291,7 +1292,8 @@ constant_value
   ;
     
 string_literal
-  : STRING_LITERAL { $$ = new StringLiteral($1->substr(1, $1->length() - 2), yylineno); delete $1; }
+  : TSTRING_LITERAL 
+    { $$ = new StringLiteral($1->substr(1, $1->length() - 2), yylineno); delete $1; }
   ;
 
 constant_reference

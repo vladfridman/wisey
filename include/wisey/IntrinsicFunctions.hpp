@@ -23,6 +23,16 @@ namespace wisey {
   public:
     
     /**
+     * Returns printf function that is used to print things to screen
+     */
+    static llvm::Function* getPrintfFunction(IRGenerationContext& context);
+    
+    /**
+     * Declares fprintf function that is used to print things to screen
+     */
+    static llvm::Function* getFprintfFunction(IRGenerationContext& context);
+
+    /**
      * Declares __cxa_throw function that is used to throw exceptions
      */
     static llvm::Function* getThrowFunction(IRGenerationContext& context);
@@ -52,6 +62,12 @@ namespace wisey {
      * Declares __gxx_personality_v0 function that is used orchestrate exception handling
      */
     static llvm::Function* getPersonalityFunction(IRGenerationContext& context);
+    
+    /**
+     * Declares llvm.eh.typeid.for function that identifies exception type assigned
+     * by personality function
+     */
+    static llvm::Function* getTypeIdFunction(IRGenerationContext& context);
 
     /**
      * Declares llvm.memcpy.p0i8.p0i8.i64 function that is used to copy memory
@@ -69,22 +85,6 @@ namespace wisey {
     static llvm::Instruction* setMemoryToZero(IRGenerationContext& context,
                                               llvm::Value* memoryPointer,
                                               llvm::Value* size);
-    
-    /**
-     * Declares llvm.eh.typeid.for function that identifies exception type assigned
-     * by personality function
-     */
-    static llvm::Function* getTypeIdFunction(IRGenerationContext& context);
-    
-    /**
-     * Returns printf function that is used to print things to screen
-     */
-    static llvm::Function* getPrintfFunction(IRGenerationContext& context);
-    
-    /**
-     * Declares fprintf function that is used to print things to screen
-     */
-    static llvm::Function* getFprintfFunction(IRGenerationContext& context);
     
   };
   

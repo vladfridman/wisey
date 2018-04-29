@@ -19,8 +19,8 @@ namespace wisey {
    *
    * If the chain consists of two elements and the first element is of object type
    * e.g. objectA.methodB then it is a method reference
-   * If the chain is of two elements and the first element is of undefined type then it is interpreted
-   * as a package name e.g. wisey.lang
+   * If the chain is of two elements and the first element is of undefined type then it is
+   * interpreted as a package name e.g. wisey.lang
    * If the chain consists of three or more elements then it is interpreted as a package name
    */
   class IdentifierChain : public IExpression {

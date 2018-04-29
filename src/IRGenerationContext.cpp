@@ -525,7 +525,7 @@ void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& 
     hasPrintedFunctions = true;
     const LLVMFunctionType* functionType = iterator->second;
     stream << "external ::llvm::function " << functionType->getReturnType()->getTypeName() << " ";
-    stream << name << "(";
+    stream << "\"" << name << "\"" << "(";
     vector<const IType*> argumentTypes = functionType->getArgumentTypes();
     for (vector<const IType*>::iterator iterator = argumentTypes.begin();
          iterator != argumentTypes.end();

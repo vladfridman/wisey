@@ -79,9 +79,7 @@ void TestPrefix::defineIntrinsicFunctions(IRGenerationContext& context) {
   FunctionType* functionType = llvm::TypeBuilder<int(char *, ...), false>::get(llvmContext);
   Function::Create(functionType, GlobalValue::ExternalLinkage, "printf", module);
   
-  FunctionType* functionType = llvm::TypeBuilder<int(types::i<8>*,
-                                                     char *,
-                                                     ...), false>::get(llvmContext);
+  functionType = llvm::TypeBuilder<int(types::i<8>*, char *, ...), false>::get(llvmContext);
   Function::Create(functionType, GlobalValue::ExternalLinkage, "fprintf", module);
   
   functionType = TypeBuilder<void (), false>::get(llvmContext);
@@ -103,6 +101,24 @@ void TestPrefix::defineIntrinsicFunctions(IRGenerationContext& context) {
 
   functionType = TypeBuilder<types::i<32> (...), false>::get(llvmContext);
   Function::Create(functionType, GlobalValue::ExternalLinkage, "__gxx_personality_v0", module);
+
+  functionType = TypeBuilder<types::i<32> (types::i<8>*), false>::get(llvmContext);
+  Function::Create(functionType, GlobalValue::ExternalLinkage, "llvm.eh.typeid.for", module);
+
+  functionType = TypeBuilder<void (types::i<8>*,
+                                   types::i<8>*,
+                                   types::i<64>,
+                                   types::i<32>,
+                                   types::i<1>), false>::get(llvmContext);
+  Function::Create(functionType, GlobalValue::ExternalLinkage, "llvm.memcpy.p0i8.p0i8.i64", module);
+
+  functionType = TypeBuilder<void (types::i<8>*,
+                                   types::i<8>,
+                                   types::i<64>,
+                                   types::i<32>,
+                                   types::i<1>), false>::get(llvmContext);
+  
+  Function::Create(functionType, GlobalValue::ExternalLinkage, "llvm.memset.p0i8.i64", module);
 }
 
 void TestPrefix::defineModel(IRGenerationContext& context,

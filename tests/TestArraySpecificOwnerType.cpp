@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/ArraySpecificOwnerType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -41,6 +42,8 @@ struct ArraySpecificOwnerTypeTest : public Test {
   llvm::raw_string_ostream* mStringStream;
 
   ArraySpecificOwnerTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     llvm::Constant* five = llvm::ConstantInt::get(llvm::Type::getInt64Ty(mLLVMContext), 5);
     ON_CALL(mFiveExpression, generateIR(_, _)).WillByDefault(Return(five));
     ON_CALL(mFiveExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));

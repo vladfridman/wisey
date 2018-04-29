@@ -49,8 +49,16 @@ public:
     mContext.getScopes().pushScope();
 
     mStringStream = new raw_string_ostream(mStringBuffer);
-}
+  }
 };
+
+TEST_F(IntrinsicFunctionsTest, getPrintfFunctionTest) {
+  EXPECT_NE(IntrinsicFunctions::getPrintfFunction(mContext), nullptr);
+}
+
+TEST_F(IntrinsicFunctionsTest, getFprintfFunctionTest) {
+  EXPECT_NE(IntrinsicFunctions::getFprintfFunction(mContext), nullptr);
+}
 
 TEST_F(IntrinsicFunctionsTest, getThrowFunctionTest) {
   EXPECT_NE(IntrinsicFunctions::getThrowFunction(mContext), nullptr);
@@ -76,18 +84,12 @@ TEST_F(IntrinsicFunctionsTest, getPersonalityFunctionTest) {
   EXPECT_NE(IntrinsicFunctions::getPersonalityFunction(mContext), nullptr);
 }
 
-TEST_F(IntrinsicFunctionsTest, getPrintfFunctionTest) {
-  EXPECT_NE(IntrinsicFunctions::getPrintfFunction(mContext), nullptr);
-}
-
-TEST_F(IntrinsicFunctionsTest, getFprintfFunctionTest) {
-  EXPECT_NE(IntrinsicFunctions::getFprintfFunction(mContext), nullptr);
+TEST_F(IntrinsicFunctionsTest, getTypeIdFunctionTest) {
+  EXPECT_NE(IntrinsicFunctions::getTypeIdFunction(mContext), nullptr);
 }
 
 TEST_F(IntrinsicFunctionsTest, getMemCopyFunctionTest) {
-  EXPECT_EQ(mModule->getFunction("llvm.memcpy.p0i8.p0i8.i64"), nullptr);
   EXPECT_NE(IntrinsicFunctions::getMemCopyFunction(mContext), nullptr);
-  EXPECT_NE(mModule->getFunction("llvm.memcpy.p0i8.p0i8.i64"), nullptr);
 }
 
 TEST_F(IntrinsicFunctionsTest, setMemoryToZeroTest) {
@@ -106,15 +108,7 @@ TEST_F(IntrinsicFunctionsTest, setMemoryToZeroTest) {
 }
 
 TEST_F(IntrinsicFunctionsTest, getMemSetFunctionTest) {
-  EXPECT_EQ(mModule->getFunction("llvm.memset.p0i8.i64"), nullptr);
   EXPECT_NE(IntrinsicFunctions::getMemSetFunction(mContext), nullptr);
-  EXPECT_NE(mModule->getFunction("llvm.memset.p0i8.i64"), nullptr);
-}
-
-TEST_F(IntrinsicFunctionsTest, getTypeIdFunctionTest) {
-  EXPECT_EQ(mModule->getFunction("llvm.eh.typeid.for"), nullptr);
-  EXPECT_NE(IntrinsicFunctions::getTypeIdFunction(mContext), nullptr);
-  EXPECT_NE(mModule->getFunction("llvm.eh.typeid.for"), nullptr);
 }
 
 TEST_F(TestFileRunner, terminateRunTest) {

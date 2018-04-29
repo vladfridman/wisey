@@ -18,6 +18,14 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+Function* IntrinsicFunctions::getPrintfFunction(IRGenerationContext& context) {
+  return context.getModule()->getFunction("printf");
+}
+
+Function* IntrinsicFunctions::getFprintfFunction(IRGenerationContext& context) {
+  return context.getModule()->getFunction("fprintf");
+}
+
 Function* IntrinsicFunctions::getThrowFunction(IRGenerationContext& context) {
   return context.getModule()->getFunction("__cxa_throw");
 }
@@ -42,28 +50,16 @@ Function* IntrinsicFunctions::getPersonalityFunction(IRGenerationContext& contex
   return context.getModule()->getFunction("__gxx_personality_v0");
 }
 
+Function* IntrinsicFunctions::getTypeIdFunction(IRGenerationContext& context) {
+  return context.getModule()->getFunction("llvm.eh.typeid.for");
+}
+
 Function* IntrinsicFunctions::getMemCopyFunction(IRGenerationContext& context) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  FunctionType *functionType =
-  TypeBuilder<void (types::i<8>*, types::i<8>*, types::i<64>, types::i<32>, types::i<1>), false>
-  ::get(llvmContext);
-  
-  AttributeSet attributeSet = AttributeSet().addAttribute(llvmContext, 1U, Attribute::NoAlias);
-  return cast<Function>(context.getModule()->getOrInsertFunction("llvm.memcpy.p0i8.p0i8.i64",
-                                                                 functionType,
-                                                                 attributeSet));
+  return context.getModule()->getFunction("llvm.memcpy.p0i8.p0i8.i64");
 }
 
 Function* IntrinsicFunctions::getMemSetFunction(IRGenerationContext& context) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  FunctionType *functionType =
-  TypeBuilder<void (types::i<8>*, types::i<8>, types::i<64>, types::i<32>, types::i<1>), false>
-  ::get(llvmContext);
-  
-  AttributeSet attributeSet = AttributeSet().addAttribute(llvmContext, 1U, Attribute::NoAlias);
-  return cast<Function>(context.getModule()->getOrInsertFunction("llvm.memset.p0i8.i64",
-                                                                 functionType,
-                                                                 attributeSet));
+  return context.getModule()->getFunction("llvm.memset.p0i8.i64");
 }
 
 Instruction* IntrinsicFunctions::setMemoryToZero(IRGenerationContext& context,
@@ -85,20 +81,4 @@ Instruction* IntrinsicFunctions::setMemoryToZero(IRGenerationContext& context,
   Function* memSetFunction = getMemSetFunction(context);
   
   return IRWriter::createCallInst(context, memSetFunction, arguments, "");
-}
-
-Function* IntrinsicFunctions::getTypeIdFunction(IRGenerationContext& context) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  FunctionType *typeIdType = TypeBuilder<types::i<32> (types::i<8>*), false>::get(llvmContext);
-  
-  return cast<Function>(context.getModule()->
-                        getOrInsertFunction("llvm.eh.typeid.for", typeIdType));
-}
-
-Function* IntrinsicFunctions::getPrintfFunction(IRGenerationContext& context) {
-  return context.getModule()->getFunction("printf");
-}
-
-Function* IntrinsicFunctions::getFprintfFunction(IRGenerationContext& context) {
-  return context.getModule()->getFunction("fprintf");
 }

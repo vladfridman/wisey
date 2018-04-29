@@ -17,6 +17,7 @@
 #include "MockExpression.hpp"
 #include "MockVariable.hpp"
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/ArrayAllocation.hpp"
 #include "wisey/ArraySpecificOwnerType.hpp"
 #include "wisey/ArrayOwnerType.hpp"
@@ -49,6 +50,8 @@ struct ArrayAllocationTest : Test {
 
   ArrayAllocationTest() :
   mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     mFunction = Function::Create(functionType,

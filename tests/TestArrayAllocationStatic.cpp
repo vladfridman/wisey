@@ -17,6 +17,7 @@
 #include "MockExpression.hpp"
 #include "MockVariable.hpp"
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/ArrayAllocationStatic.hpp"
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/IRWriter.hpp"
@@ -50,6 +51,7 @@ struct ArrayAllocationStaticTest : Test {
   mLLVMContext(mContext.getLLVMContext()),
   mMockExpression1(new NiceMock<MockExpression>()),
   mMockExpression2(new NiceMock<MockExpression>()) {
+    TestPrefix::generateIR(mContext);
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     mFunction = Function::Create(functionType,
