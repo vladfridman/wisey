@@ -6,6 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/TypeBuilder.h>
+
 #include "TestPrefix.hpp"
 #include "wisey/ControllerDefinition.hpp"
 #include "wisey/FakeExpressionWithCleanup.hpp"
@@ -56,6 +58,8 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   threadInterfaceDefinition->prototypeMethods(context);
   callStackDefinition->prototypeObject(context, importProfile);
   callStackDefinition->prototypeMethods(context);
+  
+  defineIntrinsicFunctions(context);
 }
 
 void TestPrefix::defineStdErrGlobal(IRGenerationContext& context) {
@@ -66,6 +70,16 @@ void TestPrefix::defineStdErrGlobal(IRGenerationContext& context) {
                      GlobalValue::ExternalLinkage,
                      nullptr,
                      "__stderrp");
+}
+
+void TestPrefix::defineIntrinsicFunctions(IRGenerationContext& context) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  FunctionType* printfType = llvm::TypeBuilder<int(char *, ...), false>::get(llvmContext);
+  
+  Function::Create(printfType,
+                   GlobalValue::ExternalLinkage,
+                   "printf",
+                   context.getModule());
 }
 
 void TestPrefix::defineModel(IRGenerationContext& context,

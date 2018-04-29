@@ -77,7 +77,7 @@ namespace wisey {
     static llvm::Function* getEndCatchFunction(IRGenerationContext& context);
     
     /**
-     * Declares printf function that is used to print things to screen
+     * Returns printf function that is used to print things to screen
      */
     static llvm::Function* getPrintfFunction(IRGenerationContext& context);
     

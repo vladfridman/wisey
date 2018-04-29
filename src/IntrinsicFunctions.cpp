@@ -122,12 +122,7 @@ Function* IntrinsicFunctions::getEndCatchFunction(IRGenerationContext& context) 
 }
 
 Function* IntrinsicFunctions::getPrintfFunction(IRGenerationContext& context) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  FunctionType *printfType = TypeBuilder<int(char *, ...), false>::get(llvmContext);
-  
-  AttributeSet attributeSet = AttributeSet().addAttribute(llvmContext, 1U, Attribute::NoAlias);
-  return cast<Function>(context.getModule()->
-                        getOrInsertFunction("printf", printfType, attributeSet));
+  return context.getModule()->getFunction("printf");
 }
 
 Function* IntrinsicFunctions::getFprintfFunction(IRGenerationContext& context) {

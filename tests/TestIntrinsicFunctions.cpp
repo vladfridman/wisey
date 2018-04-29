@@ -38,6 +38,7 @@ public:
   mLLVMContext(mContext.getLLVMContext()),
   mModule(mContext.getModule()) {
     TestPrefix::generateIR(mContext);
+    
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
                                           GlobalValue::InternalLinkage,
@@ -121,7 +122,6 @@ TEST_F(IntrinsicFunctionsTest, getEndCatchFunctionTest) {
 }
 
 TEST_F(IntrinsicFunctionsTest, getPrintfFunctionTest) {
-  EXPECT_EQ(mModule->getFunction("printf"), nullptr);
   EXPECT_NE(IntrinsicFunctions::getPrintfFunction(mContext), nullptr);
   EXPECT_NE(mModule->getFunction("printf"), nullptr);
 }

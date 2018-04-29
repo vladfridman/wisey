@@ -49,8 +49,20 @@ TEST_F(LLVMFunctionTypeTest, getLLVMFunctionTypeTest) {
   EXPECT_EQ(functionType, mLLVMFunctionType);
 }
 
+TEST_F(LLVMFunctionTypeTest, getLLVMFunctionTypeWithVarArgTest) {
+  const LLVMFunctionType* functionType =
+  mContext.getLLVMFunctionTypeWithVarArg(mLLVMFunctionTypeWithVarArg->getReturnType(),
+                                         mLLVMFunctionTypeWithVarArg->getArgumentTypes());
+  EXPECT_EQ(functionType, mLLVMFunctionTypeWithVarArg);
+}
+
 TEST_F(LLVMFunctionTypeTest, getReturnTypeTest) {
   EXPECT_EQ(LLVMPrimitiveTypes::I8, mLLVMFunctionType->getReturnType());
+}
+
+TEST_F(LLVMFunctionTypeTest, isVarArgTest) {
+  EXPECT_FALSE(mLLVMFunctionType->isVarArg());
+  EXPECT_TRUE(mLLVMFunctionTypeWithVarArg->isVarArg());
 }
 
 TEST_F(LLVMFunctionTypeTest, getArgumentTypesTest) {

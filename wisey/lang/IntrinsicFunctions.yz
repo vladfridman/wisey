@@ -1,0 +1,10 @@
+
+/**
+ * Standard exit method to terminate program execution
+ */
+::llvm::function ::llvm::void exit(::llvm::i32);
+
+/**
+ * printf fucntion for printing to sandard output
+ */
+::llvm::function ::llvm::i32 printf(::llvm::i8::pointer, ...);

@@ -56,6 +56,11 @@ namespace wisey {
      */
     const IType* getReturnType() const;
     
+    /**
+     * Tells whether this function type is var argument type
+     */
+    bool isVarArg() const;
+    
     std::string getTypeName() const override;
     
     llvm::FunctionType* getLLVMType(IRGenerationContext& context) const override;

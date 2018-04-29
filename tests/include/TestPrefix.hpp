@@ -44,6 +44,8 @@ private:
   static wisey::ControllerDefinition* defineCallStackController(wisey::IRGenerationContext&
                                                                 context);
 
+  static void defineIntrinsicFunctions(wisey::IRGenerationContext& context);
+  
 };
 
 #endif /* TestPrefix_h */

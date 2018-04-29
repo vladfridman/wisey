@@ -44,6 +44,10 @@ const IType* LLVMFunctionType::getReturnType() const {
   return mReturnType;
 }
 
+bool LLVMFunctionType::isVarArg() const {
+  return mIsVarArg;
+}
+
 string LLVMFunctionType::getTypeName() const {
   string name = mReturnType->getTypeName();
   name = name + " (";

@@ -535,6 +535,13 @@ void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& 
         stream << ", ";
       }
     }
+    if (functionType->isVarArg()) {
+      if (argumentTypes.size()) {
+        stream << ", ...";
+      } else {
+        stream << "...";
+      }
+    }
     stream << ");";
     stream << endl;
   }
