@@ -243,15 +243,15 @@ TEST_F(InterfaceTest, findConstantDeathTest) {
 }
 
 TEST_F(InterfaceTest, getMethodIndexTest) {
-  EXPECT_EQ(mShapeInterface->getMethodIndex(mShapeInterface->findMethod("foo")), 0u);
-  EXPECT_EQ(mShapeInterface->getMethodIndex(mShapeInterface->findMethod("bar")), 1u);
+  EXPECT_EQ(mShapeInterface->getMethodIndex(mContext, mShapeInterface->findMethod("foo"), 0), 0u);
+  EXPECT_EQ(mShapeInterface->getMethodIndex(mContext, mShapeInterface->findMethod("bar"), 0), 1u);
 }
 
 TEST_F(InterfaceTest, getMethodIndexDeathTest) {
   Mock::AllowLeak(mMockExpression);
   Mock::AllowLeak(mThreadVariable);
 
-  EXPECT_EXIT(mObjectInterface->getMethodIndex(mShapeInterface->findMethod("foo")),
+  EXPECT_EXIT(mObjectInterface->getMethodIndex(mContext, mShapeInterface->findMethod("foo"), 0),
               ::testing::ExitedWithCode(1),
               "Error: Method foo not found in interface systems.vos.wisey.compiler.tests.IObject");
 }
@@ -788,9 +788,11 @@ TEST_F(TestFileRunner, interfaceMethodDifferentArgumentTypesDeathTest) {
 TEST_F(TestFileRunner, interfaceExceptionsDoNotReconcileDeathTest) {
   expectFailCompile("tests/samples/test_interface_method_exceptions_dont_reconcile.yz",
                     1,
+                    "tests/samples/test_interface_method_exceptions_dont_reconcile.yz\\(13\\): "
                     "Error: Method getArea of "
                     "object systems.vos.wisey.compiler.tests.MSquare throws an unexpected "
                     "exception of type systems.vos.wisey.compiler.tests.MException\n"
+                    "tests/samples/test_interface_method_exceptions_dont_reconcile.yz\\(13\\): "
                     "Error: Exceptions thrown by method getArea "
                     "of interface systems.vos.wisey.compiler.tests.IShape "
                     "do not reconcile with exceptions thrown by its implementation "
@@ -896,6 +898,7 @@ TEST_F(TestFileRunner, interfaceCircularDependencyRunDeathTest) {
 TEST_F(TestFileRunner, interfaceMethodOverridesAnotherMethodRunDeathTest) {
   expectFailCompile("tests/samples/test_interface_method_overrides_another_method.yz",
                     1,
+                    "tests/samples/test_interface_method_overrides_another_method.yz\\(8\\): "
                     "Error: Method 'getValue' in interface systems.vos.wisey.compiler.tests.IParent"
                     " must be marked override because it overrides a method of the same name from "
                     "systems.vos.wisey.compiler.tests.IChild");

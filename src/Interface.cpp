@@ -178,8 +178,8 @@ void Interface::processParentInterfaces(IRGenerationContext& context) {
   for (IInterfaceTypeSpecifier* parentInterfaceSpecifier : mParentInterfaceSpecifiers) {
     Interface* parentInterface = (Interface*) parentInterfaceSpecifier->getType(context);
     if (mParentInterfacesMap.count(parentInterface->getTypeName())) {
-      Log::e_deprecated("Circular interface dependency between interfaces " +
-                        getTypeName() + " and " + parentInterface->getTypeName());
+      context.reportError(mLine, "Circular interface dependency between interfaces " +
+                          getTypeName() + " and " + parentInterface->getTypeName());
       exit(1);
     }
     mParentInterfacesMap[parentInterface->getTypeName()] = parentInterface;
@@ -202,7 +202,7 @@ void Interface::processMethodSignatures(IRGenerationContext& context) {
     }
   }
   for (Interface* parentInterface : mParentInterfaces) {
-    includeInterfaceMethods(parentInterface, methodOverrides);
+    includeInterfaceMethods(context, parentInterface, methodOverrides);
   }
   for (string methodName : methodOverrides) {
     MethodSignature* methodSignature = mNameToMethodSignatureMap[methodName];
@@ -233,20 +233,24 @@ bool Interface::isComplete() const {
   return mIsComplete;
 }
 
-void Interface::includeInterfaceMethods(Interface* parentInterface, set<string>& methodOverrides) {
+void Interface::includeInterfaceMethods(IRGenerationContext& context,
+                                        Interface* parentInterface,
+                                        set<string>& methodOverrides) {
   vector<MethodSignature*> inheritedMethods = parentInterface->getAllMethodSignatures();
   for (MethodSignature* methodSignature : inheritedMethods) {
     methodOverrides.erase(methodSignature->getName());
     IMethodDescriptor* existingMethod = findMethod(methodSignature->getName());
     if (existingMethod && !IMethodDescriptor::compare(existingMethod, methodSignature)) {
-      Log::e_deprecated("Interface " + mName + " overrides method '" + existingMethod->getName()
-             + "' of parent interface with a wrong signature");
+      context.reportError(existingMethod->getMethodQualifiers()->getLine(),
+                          "Interface " + mName + " overrides method '" + existingMethod->getName()
+                          + "' of parent interface with a wrong signature");
       exit(1);
     }
     if (existingMethod && !existingMethod->isOverride()) {
-      Log::e_deprecated("Method '" + existingMethod->getName() + "' in interface " + mName
-                        + " must be marked override because it overrides a method of the same "
-                        "name from " + methodSignature->getOriginalParentName());
+      context.reportError(existingMethod->getMethodQualifiers()->getLine(),
+                          "Method '" + existingMethod->getName() + "' in interface " + mName
+                          + " must be marked override because it overrides a method of the same "
+                          "name from " + methodSignature->getOriginalParentName());
       exit(1);
     }
     if (existingMethod) {
@@ -266,10 +270,12 @@ vector<Interface*> Interface::getParentInterfaces() const {
   return mParentInterfaces;
 }
 
-unsigned long Interface::getMethodIndex(const IMethodDescriptor* methodDescriptor) const {
+unsigned long Interface::getMethodIndex(IRGenerationContext& context,
+                                        const IMethodDescriptor* methodDescriptor,
+                                        int line) const {
   if (!mMethodIndexes.count(methodDescriptor)) {
-    Log::e_deprecated("Method " + methodDescriptor->getName() + " not found in interface " +
-           getTypeName());
+    context.reportError(line, "Method " + methodDescriptor->getName() + " not found in interface " +
+                        getTypeName());
     exit(1);
   }
   return mMethodIndexes.at(methodDescriptor);
@@ -427,17 +433,22 @@ Function* Interface::defineMapFunctionForMethod(IRGenerationContext& context,
   }
   
   if (objectMethodDescriptor->getReturnType() != interfaceMethodSignature->getReturnType()) {
-    Log::e_deprecated("Method " + interfaceMethodSignature->getName() + " of interface " + mName +
-           " has different return type when implmeneted by object " + object->getTypeName());
+    context.reportError(objectMethodDescriptor->getMethodQualifiers()->getLine(),
+                        "Method " + interfaceMethodSignature->getName() + " of interface " + mName +
+                        " has different return type when implmeneted by object " +
+                        object->getTypeName());
     exit(1);
   }
   
-  if (doesMethodHaveUnexpectedExceptions(interfaceMethodSignature,
+  if (doesMethodHaveUnexpectedExceptions(context,
+                                         interfaceMethodSignature,
                                          objectMethodDescriptor,
                                          object->getTypeName())) {
-    Log::e_deprecated("Exceptions thrown by method " +  interfaceMethodSignature->getName() +
-           " of interface " + mName + " do not reconcile with exceptions thrown by its " +
-           "implementation in object " + object->getTypeName());
+    context.reportError(objectMethodDescriptor->getMethodQualifiers()->getLine(),
+                        "Exceptions thrown by method " +  interfaceMethodSignature->getName() +
+                        " of interface " + mName +
+                        " do not reconcile with exceptions thrown by its " +
+                        "implementation in object " + object->getTypeName());
     exit(1);
   }
   
@@ -452,8 +463,10 @@ Function* Interface::defineMapFunctionForMethod(IRGenerationContext& context,
   }
   
   if (!IMethodDescriptor::compare(objectMethodDescriptor, interfaceMethodSignature)) {
-    Log::e_deprecated("Method " + interfaceMethodSignature->getName() + " of interface " + mName +
-           " has different argument types when implmeneted by object " + object->getTypeName());
+    context.reportError(objectMethodDescriptor->getMethodQualifiers()->getLine(),
+                        "Method " + interfaceMethodSignature->getName() + " of interface " + mName +
+                        " has different argument types when implmeneted by object " +
+                        object->getTypeName());
     exit(1);
   }
 
@@ -513,7 +526,8 @@ void Interface::composeMapFunctionBody(IRGenerationContext& context,
   
 }
 
-bool Interface::doesMethodHaveUnexpectedExceptions(MethodSignature* interfaceMethodSignature,
+bool Interface::doesMethodHaveUnexpectedExceptions(IRGenerationContext& context,
+                                                   MethodSignature* interfaceMethodSignature,
                                                    IMethodDescriptor* objectMethodDescriptor,
                                                    string objectName) const {
   map<string, const IType*> interfaceExceptionsMap;
@@ -524,8 +538,10 @@ bool Interface::doesMethodHaveUnexpectedExceptions(MethodSignature* interfaceMet
   bool result = false;
   for (const IType* objectException : objectMethodDescriptor->getThrownExceptions()) {
     if (!interfaceExceptionsMap.count(objectException->getTypeName())) {
-      Log::e_deprecated("Method " + objectMethodDescriptor->getName() + " of object " + objectName +
-             " throws an unexpected exception of type " + objectException->getTypeName());
+      context.reportError(objectMethodDescriptor->getMethodQualifiers()->getLine(),
+                          "Method " + objectMethodDescriptor->getName() + " of object " +
+                          objectName + " throws an unexpected exception of type " +
+                          objectException->getTypeName());
       result = true;
     }
   }
@@ -976,16 +992,18 @@ Interface::createElements(IRGenerationContext& context,
   for (IObjectElementDefinition* elementDeclaration : elementDeclarations) {
     IObjectElement* objectElement = elementDeclaration->define(context, this);
     if (objectElement->isField()) {
-      Log::e_deprecated("Interfaces can not contain fields");
+      context.reportError(objectElement->getLine(), "Interfaces can not contain fields");
       exit(1);
     }
     if (objectElement->isMethod()) {
-      Log::e_deprecated("Interfaces can not contain method implmentations");
+      context.reportError(objectElement->getLine(),
+                          "Interfaces can not contain method implmentations");
       exit(1);
     }
     if (objectElement->isConstant()) {
       if (methodSignatures.size() || staticMethods.size()) {
-        Log::e_deprecated("In interfaces constants should be declared before methods");
+        context.reportError(objectElement->getLine(),
+                            "In interfaces constants should be declared before methods");
         exit(1);
       }
       constants.push_back((wisey::Constant*) objectElement);
@@ -996,7 +1014,8 @@ Interface::createElements(IRGenerationContext& context,
     } else if (objectElement->isLLVMFunction()) {
       functions.push_back((LLVMFunction*) objectElement);
     } else {
-      Log::e_deprecated("Unexpected element in interface definition");
+      context.reportError(objectElement->getLine(),
+                          "Unexpected element in interface definition");
       exit(1);
     }
   }

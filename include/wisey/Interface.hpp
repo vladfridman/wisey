@@ -133,7 +133,9 @@ namespace wisey {
     /**
      * Returns method index in the list of all methods that this interface has or inherits
      */
-    unsigned long getMethodIndex(const IMethodDescriptor* methodDescriptor) const;
+    unsigned long getMethodIndex(IRGenerationContext& context,
+                                 const IMethodDescriptor* methodDescriptor,
+                                 int line) const;
     
     /**
      * Tells whether building of this interface completed
@@ -302,7 +304,8 @@ namespace wisey {
     
     void processMethodSignatures(IRGenerationContext& context);
     
-    void includeInterfaceMethods(Interface* parentInterface,
+    void includeInterfaceMethods(IRGenerationContext& context,
+                                 Interface* parentInterface,
                                  std::set<std::string>& methodOverrides);
     
     /**
@@ -335,7 +338,8 @@ namespace wisey {
                                     const IType* variableType,
                                     llvm::Value* variableValue) const;
     
-    bool doesMethodHaveUnexpectedExceptions(MethodSignature* interfaceMethodSignature,
+    bool doesMethodHaveUnexpectedExceptions(IRGenerationContext& context,
+                                            MethodSignature* interfaceMethodSignature,
                                             IMethodDescriptor* objectMethodDescriptor,
                                             std::string objectName) const;
     
