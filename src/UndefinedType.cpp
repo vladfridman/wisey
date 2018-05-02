@@ -126,5 +126,5 @@ Instruction* UndefinedType::inject(IRGenerationContext& context,
   exit(1);
 }
 
-UndefinedType* UndefinedType::UNDEFINED_TYPE = new UndefinedType();
+UndefinedType* UndefinedType::UNDEFINED = new UndefinedType();
 

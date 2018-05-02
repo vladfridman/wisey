@@ -94,7 +94,7 @@ TEST_F(IdentifierChainTest, printToStreamTest) {
 
 TEST_F(IdentifierChainTest, getTypeForUndefinedBaseTypeTest) {
   NiceMock<MockExpression>* mockExpression = new NiceMock<MockExpression>();
-  ON_CALL(*mockExpression, getType(_)).WillByDefault(Return(UndefinedType::UNDEFINED_TYPE));
+  ON_CALL(*mockExpression, getType(_)).WillByDefault(Return(UndefinedType::UNDEFINED));
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printUndefinedTypeExpression));
   
   IdentifierChain identifierChain(mockExpression, "lang", 0);
@@ -154,7 +154,7 @@ TEST_F(IdentifierChainTest, getTypeForPrimitiveBaseTypeDeathTest) {
 
 TEST_F(IdentifierChainTest, generateIRForUndefinedBaseTypeDeathTest) {
   NiceMock<MockExpression>* mockExpression = new NiceMock<MockExpression>();
-  ON_CALL(*mockExpression, getType(_)).WillByDefault(Return(UndefinedType::UNDEFINED_TYPE));
+  ON_CALL(*mockExpression, getType(_)).WillByDefault(Return(UndefinedType::UNDEFINED));
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printObjectTypeExpression));
   
   IdentifierChain identifierChain(mockExpression, "foo", 3);

@@ -30,35 +30,35 @@ struct UndefinedTypeTest : public Test {
 };
 
 TEST_F(UndefinedTypeTest, getNameTest) {
-  ASSERT_STREQ("undefined", UndefinedType::UNDEFINED_TYPE->getTypeName().c_str());
+  ASSERT_STREQ("undefined", UndefinedType::UNDEFINED->getTypeName().c_str());
 }
 
 TEST_F(UndefinedTypeTest, getLLVMTypeTest) {
-  ASSERT_EQ(nullptr, UndefinedType::UNDEFINED_TYPE->getLLVMType(mContext));
+  ASSERT_EQ(nullptr, UndefinedType::UNDEFINED->getLLVMType(mContext));
 }
 
 TEST_F(UndefinedTypeTest, isTypeKindTest) {
-  EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isPrimitive());
-  EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isOwner());
-  EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isReference());
-  EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isArray());
-  EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isFunction());
-  EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isPackage());
-  EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isNative());
-  EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isPointer());
-  EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isPointer());
+  EXPECT_FALSE(UndefinedType::UNDEFINED->isPrimitive());
+  EXPECT_FALSE(UndefinedType::UNDEFINED->isOwner());
+  EXPECT_FALSE(UndefinedType::UNDEFINED->isReference());
+  EXPECT_FALSE(UndefinedType::UNDEFINED->isArray());
+  EXPECT_FALSE(UndefinedType::UNDEFINED->isFunction());
+  EXPECT_FALSE(UndefinedType::UNDEFINED->isPackage());
+  EXPECT_FALSE(UndefinedType::UNDEFINED->isNative());
+  EXPECT_FALSE(UndefinedType::UNDEFINED->isPointer());
+  EXPECT_FALSE(UndefinedType::UNDEFINED->isPointer());
 }
 
 TEST_F(UndefinedTypeTest, isObjectTest) {
-  EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isController());
-  EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isInterface());
-  EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isModel());
-  EXPECT_FALSE(UndefinedType::UNDEFINED_TYPE->isNode());
+  EXPECT_FALSE(UndefinedType::UNDEFINED->isController());
+  EXPECT_FALSE(UndefinedType::UNDEFINED->isInterface());
+  EXPECT_FALSE(UndefinedType::UNDEFINED->isModel());
+  EXPECT_FALSE(UndefinedType::UNDEFINED->isNode());
 }
 
 TEST_F(UndefinedTypeTest, injectDeathTest) {
   InjectionArgumentList arguments;
-  EXPECT_EXIT(UndefinedType::UNDEFINED_TYPE->inject(mContext, arguments, 3),
+  EXPECT_EXIT(UndefinedType::UNDEFINED->inject(mContext, arguments, 3),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(3\\): Error: type undefined is not injectable");
 }

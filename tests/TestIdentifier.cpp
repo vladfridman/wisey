@@ -149,7 +149,7 @@ TEST_F(IdentifierTest, getTypeForUndefinedTypeTest) {
   
   const IType* type = identifier.getType(mContext);
   
-  EXPECT_EQ(UndefinedType::UNDEFINED_TYPE, type);
+  EXPECT_EQ(UndefinedType::UNDEFINED, type);
 }
 
 TEST_F(IdentifierTest, isConstantTest) {

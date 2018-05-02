@@ -81,7 +81,7 @@ namespace wisey {
                               const InjectionArgumentList injectionArgumentList,
                               int line) const override;
 
-    static UndefinedType* UNDEFINED_TYPE;
+    static UndefinedType* UNDEFINED;
 
   };
   

@@ -44,7 +44,7 @@ Value* IdentifierChain::generateIR(IRGenerationContext& context, const IType* as
 
 const IType* IdentifierChain::getType(IRGenerationContext& context) const {
   const IType* expressionType = mObjectExpression->getType(context);
-  if (expressionType->isPackage() || expressionType == UndefinedType::UNDEFINED_TYPE) {
+  if (expressionType->isPackage() || expressionType == UndefinedType::UNDEFINED) {
     stringstream stringStream;
     mObjectExpression->printToStream(context, stringStream);
     return context.getPackageType(stringStream.str() + "." + mName);
@@ -68,7 +68,7 @@ void IdentifierChain::printToStream(IRGenerationContext& context, iostream& stre
 
 IMethodDescriptor* IdentifierChain::getMethodDescriptor(IRGenerationContext& context) const {
   const IType* expressionType = mObjectExpression->getType(context);
-  if (expressionType == UndefinedType::UNDEFINED_TYPE) {
+  if (expressionType == UndefinedType::UNDEFINED) {
     context.reportError(mLine, "Attempt to call a method '" + mName +
                         "' on undefined type expression");
     exit(1);
