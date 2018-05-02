@@ -186,7 +186,8 @@ void Scopes::reportUnhandledExceptions(IRGenerationContext& context,
                                        map<string, int> exceptions) const {
   for (auto iterator = exceptions.begin(); iterator != exceptions.end(); iterator++) {
     if (!iterator->first.find(Names::getLangPackageName()) ||
-        !iterator->first.find(Names::getThreadsPackageName())) {
+        !iterator->first.find(Names::getThreadsPackageName()) ||
+        !iterator->first.find(Names::getIOPackageName())) {
       continue;
     }
     context.reportError(iterator->second, "Exception " + iterator->first + " is not handled");

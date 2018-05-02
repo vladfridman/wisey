@@ -42,6 +42,52 @@ external interface wisey.threads.IWorker {
 
 /* Models */
 
+external model wisey.io.MFileAccessException
+  implements
+    wisey.lang.IException {
+
+  string getName() override;
+}
+
+external model wisey.io.MFileCloseException
+  implements
+    wisey.lang.IException {
+
+  string getName() override;
+}
+
+external model wisey.io.MFileCouldNotCloseException
+  implements
+    wisey.lang.IException {
+
+  fixed string mFileName;
+
+  string getName() override;
+  string getFileName();
+}
+
+external model wisey.io.MFileCouldNotOpenException
+  implements
+    wisey.lang.IException {
+
+  fixed string mFileName;
+
+  string getName() override;
+  string getFileName();
+}
+
+external model wisey.io.MFileOpenException
+  implements
+    wisey.lang.IException {
+
+  fixed string mCurrentFile;
+  fixed string mNewFile;
+
+  string getName() override;
+  string getCurrentFile();
+  string getNewFile();
+}
+
 external model wisey.lang.MArrayIndexOutOfBoundsException
   implements
     wisey.lang.IException {
@@ -120,9 +166,9 @@ external model wisey.threads.MThreadBoundaryException
 external controller wisey.io.CFile {
 
   void open(
-    string fileName);
-  ::llvm::struct::__sFILE::pointer getFileStruct();
-  void close();
+    string fileName) throws wisey.io.MFileOpenException, wisey.io.MFileCouldNotOpenException;
+  ::llvm::struct::__sFILE::pointer getFileStruct() throws wisey.io.MFileAccessException;
+  void close() throws wisey.io.MFileCloseException, wisey.io.MFileCouldNotCloseException;
 }
 
 external controller wisey.threads.CCallStack {

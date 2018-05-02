@@ -1,0 +1,20 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.io.CFile;
+import wisey.io.MFileCouldNotOpenException;
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+  inject CFile* mFile;
+
+  public int run() override {
+    try {
+      mFile.open("nonexisting/test.txt");
+    } catch (MFileCouldNotOpenException* exception) {
+      return 5;
+    }
+    return 1;
+  }
+}
+
+bind(IProgram).to(CProgram);

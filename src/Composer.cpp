@@ -113,7 +113,8 @@ void Composer::setLineNumber(IRGenerationContext& context, int line) {
 bool Composer::shouldSkip(IRGenerationContext& context) {
   const IObjectType* objectType = context.getObjectType();
   if (objectType == NULL || !objectType->getTypeName().find(Names::getThreadsPackageName())
-      || !objectType->getTypeName().find(Names::getLangPackageName())) {
+      || !objectType->getTypeName().find(Names::getLangPackageName())
+      || !objectType->getTypeName().find(Names::getIOPackageName())) {
     // avoid inifinite recursion in wisey.lang.TMainThread
     return true;
   }

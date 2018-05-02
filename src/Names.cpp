@@ -16,7 +16,7 @@ string Names::getMainThreadWorkerShortName() {
 }
 
 string Names::getFileControllerFullName() {
-  return "wisey.io.CFile";
+  return getIOPackageName() + ".CFile";
 }
 
 string Names::getFileStructMethodName() {
@@ -49,6 +49,10 @@ string Names::getLangPackageName() {
 
 string Names::getThreadsPackageName() {
   return "wisey.threads";
+}
+
+string Names::getIOPackageName() {
+  return "wisey.io";
 }
 
 string Names::getStdErrName() {

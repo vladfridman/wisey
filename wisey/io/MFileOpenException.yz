@@ -1,0 +1,24 @@
+package wisey.io;
+
+import wisey.lang.IException;
+
+/**
+ * Exception that is thrown by wisey.io.CFile when trying to open a file without closing 
+ * a previously opened file.
+ */
+model MFileOpenException implements IException {
+  string mCurrentFile;
+  string mNewFile;
+
+  public string getName() override {
+    return "wisey.io.MFileOpenException";
+  }
+
+  public string getCurrentFile() {
+    return mCurrentFile;
+  }
+
+  public string getNewFile() {
+    return mNewFile;
+  }
+}

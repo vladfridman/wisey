@@ -4,20 +4,34 @@ controller CFile {
   state string mFileName;
   state ::llvm::struct::__sFILE::pointer mFileStruct;
 
-  public void open(string fileName) {
+  public void open(string fileName) throws MFileOpenException, MFileCouldNotOpenException {
+    if (mFileStruct != null) {
+      throw builder(MFileOpenException).withNewFile(fileName).withCurrentFile(mFileName).build();
+    }
+    
+    mFileName = fileName;
+    mFileStruct = ::llvm::function::fopen(mFileName, "w");
     if (mFileStruct == null) {
-      mFileName = fileName;
-      mFileStruct = ::llvm::function::fopen(mFileName, "w");
+      throw builder(MFileCouldNotOpenException).withFileName(fileName).build();
     }
   }
 
-  public ::llvm::struct::__sFILE::pointer getFileStruct() {
+  public ::llvm::struct::__sFILE::pointer getFileStruct() throws MFileAccessException {
+    if (mFileStruct == null) {
+      throw builder(MFileAccessException).build();
+    }
     return mFileStruct;
   }
 
-  public void close() {
-    if (mFileStruct != null) {
-      int result = ::llvm::function::fclose(mFileStruct);
+  public void close() throws MFileCloseException, MFileCouldNotCloseException {
+    if (mFileStruct == null) {
+      throw builder(MFileCloseException).build();
+    }
+    
+    int result = ::llvm::function::fclose(mFileStruct);
+
+    if (result != 0) {
+      throw builder(MFileCouldNotCloseException).withFileName(mFileName).build();
     }
   }
 }

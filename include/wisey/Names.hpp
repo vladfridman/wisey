@@ -69,6 +69,11 @@ namespace wisey {
      * Returns name of the threads package
      */
     static std::string getThreadsPackageName();
+    
+    /**
+     * Returns name of the io package
+     */
+    static std::string getIOPackageName();
 
     /**
      * Get name of the stderr pointer

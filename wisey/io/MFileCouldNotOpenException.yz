@@ -1,0 +1,18 @@
+package wisey.io;
+
+import wisey.lang.IException;
+
+/**
+ * Exception that is thrown by wisey.io.CFile it is not able to open a file
+ */
+model MFileCouldNotOpenException implements IException {
+  string mFileName;
+
+  public string getName() override {
+    return "wisey.io.MFileCouldNotOpenException";
+  }
+
+  public string getFileName() {
+    return mFileName;
+  }
+}

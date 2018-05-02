@@ -1,5 +1,10 @@
 package wisey.threads;
 
+import wisey.io.MFileAccessException;
+import wisey.io.MFileCloseException;
+import wisey.io.MFileCouldNotCloseException;
+import wisey.io.MFileCouldNotOpenException;
+import wisey.io.MFileOpenException;
 import wisey.lang.MArrayIndexOutOfBoundsException;
 import wisey.lang.MCastException;
 import wisey.lang.MNullPointerException;
@@ -47,7 +52,23 @@ interface IThreadRunner {
       } else {
         printerr("Details: method external to the thread is called from inside the thread\n");
       }
-    }   
+    } catch (MFileOpenException* exception) {
+      callstack.reportException(exception);
+      printerr("Details: Trying to open file " + exception.getNewFile() + " without closing " 
+        + exception.getCurrentFile() + "\n");
+    } catch (MFileCloseException* exception) {
+      callstack.reportException(exception);
+      printerr("Details: Trying to close a file without opening it first\n"); 
+    } catch (MFileAccessException* exception) {
+      callstack.reportException(exception);
+      printerr("Details: Trying to operate a file that is not opened\n"); 
+    } catch (MFileCouldNotOpenException* exception) {
+      callstack.reportException(exception);
+      printerr("Details: Could not open file " + exception.getFileName() + "\n");
+    } catch (MFileCouldNotCloseException* exception) {
+      callstack.reportException(exception);
+      printerr("Details: Could not close file " + exception.getFileName() + "\n");
+    }
 
     return argument;
   }
