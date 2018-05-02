@@ -874,6 +874,10 @@
 		F5C0E7D12090B59D0028BBD0 /* CheckForModelFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C0E7D02090B59D0028BBD0 /* CheckForModelFunction.cpp */; };
 		F5C0E7D42090B7BA0028BBD0 /* TestCheckForModelFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C0E7D32090B7BA0028BBD0 /* TestCheckForModelFunction.cpp */; };
 		F5C0E7D52091DC430028BBD0 /* CheckForModelFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C0E7D02090B59D0028BBD0 /* CheckForModelFunction.cpp */; };
+		F5C0E7E42099B6E40028BBD0 /* StringFormatType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C0E7E32099B6E40028BBD0 /* StringFormatType.cpp */; };
+		F5C0E7E52099B6E40028BBD0 /* StringFormatType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C0E7E32099B6E40028BBD0 /* StringFormatType.cpp */; };
+		F5C0E7E72099E1C20028BBD0 /* TestStringFormatType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C0E7E62099E1C20028BBD0 /* TestStringFormatType.cpp */; };
+		F5C0E7E92099E4560028BBD0 /* TestIPrintStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C0E7E82099E4560028BBD0 /* TestIPrintStatement.cpp */; };
 		F5C2B80C20764DA3008CB77F /* TestBindAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C2B80B20764DA3008CB77F /* TestBindAction.cpp */; };
 		F5C6FD651E48AB3B0054209D /* CharType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD641E48AB3B0054209D /* CharType.cpp */; };
 		F5C6FD661E48AB3B0054209D /* CharType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD641E48AB3B0054209D /* CharType.cpp */; };
@@ -1855,6 +1859,10 @@
 		F5C0E7D02090B59D0028BBD0 /* CheckForModelFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CheckForModelFunction.cpp; path = src/CheckForModelFunction.cpp; sourceTree = "<group>"; };
 		F5C0E7D22090B5AB0028BBD0 /* CheckForModelFunction.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CheckForModelFunction.hpp; path = include/wisey/CheckForModelFunction.hpp; sourceTree = "<group>"; };
 		F5C0E7D32090B7BA0028BBD0 /* TestCheckForModelFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCheckForModelFunction.cpp; path = tests/TestCheckForModelFunction.cpp; sourceTree = "<group>"; };
+		F5C0E7E22099B5660028BBD0 /* StringFormatType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = StringFormatType.hpp; path = include/wisey/StringFormatType.hpp; sourceTree = "<group>"; };
+		F5C0E7E32099B6E40028BBD0 /* StringFormatType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = StringFormatType.cpp; path = src/StringFormatType.cpp; sourceTree = "<group>"; };
+		F5C0E7E62099E1C20028BBD0 /* TestStringFormatType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestStringFormatType.cpp; path = tests/TestStringFormatType.cpp; sourceTree = "<group>"; };
+		F5C0E7E82099E4560028BBD0 /* TestIPrintStatement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestIPrintStatement.cpp; path = tests/TestIPrintStatement.cpp; sourceTree = "<group>"; };
 		F5C2B80B20764DA3008CB77F /* TestBindAction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestBindAction.cpp; path = tests/TestBindAction.cpp; sourceTree = "<group>"; };
 		F5C6FD641E48AB3B0054209D /* CharType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CharType.cpp; path = src/CharType.cpp; sourceTree = "<group>"; };
 		F5C6FD671E48B16F0054209D /* TestCharType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCharType.cpp; path = tests/TestCharType.cpp; sourceTree = "<group>"; };
@@ -2650,6 +2658,7 @@
 				F51942EC1FE2D779009C3158 /* PackageType.hpp */,
 				F5089C9A1ECD01D9004A1223 /* PrimitiveTypes.hpp */,
 				F5089C9B1ECD01D9004A1223 /* PrimitiveTypeSpecifier.hpp */,
+				F5C0E7E22099B5660028BBD0 /* StringFormatType.hpp */,
 				F58725501F6D744600FA25E6 /* StringType.hpp */,
 				F51942F61FE3C0C0009C3158 /* UndefinedType.hpp */,
 				F5089CAB1ECD01D9004A1223 /* VoidType.hpp */,
@@ -2670,6 +2679,7 @@
 				F51942ED1FE2D7C7009C3158 /* PackageType.cpp */,
 				F507D26C1E46044700495E2D /* PrimitiveTypes.cpp */,
 				F5E2092F1E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp */,
+				F5C0E7E32099B6E40028BBD0 /* StringFormatType.cpp */,
 				F58725511F6D749100FA25E6 /* StringType.cpp */,
 				F51942F71FE3C123009C3158 /* UndefinedType.cpp */,
 				F5C6FD691E48B33A0054209D /* VoidType.cpp */,
@@ -3381,6 +3391,7 @@
 				F51DF67C1FDB166800475F0B /* TestIObjectDefinition.cpp */,
 				F56AD4A31E9F6D5B0020868C /* TestIObjectType.cpp */,
 				F55DB0611F793D8C0009942C /* TestIObjectTypeSpecifier.cpp */,
+				F5C0E7E82099E4560028BBD0 /* TestIPrintStatement.cpp */,
 				F5CE2D431EF6A4CB002ABB85 /* TestIType.cpp */,
 				F53A2C201EF96FEA00E76A9E /* TestIVariable.cpp */,
 			);
@@ -3502,6 +3513,7 @@
 				F51942F01FE30024009C3158 /* TestPackageType.cpp */,
 				F53A2C4F1F02D55A00E76A9E /* TestPrimitiveTypes.cpp */,
 				F531B6381E07A80F008304F3 /* TestPrimitiveTypeSpecifier.cpp */,
+				F5C0E7E62099E1C20028BBD0 /* TestStringFormatType.cpp */,
 				F58725541F6DB97C00FA25E6 /* TestStringType.cpp */,
 				F51942FD1FE3F3CF009C3158 /* TestUndefinedType.cpp */,
 				F5C6FD6C1E48B37D0054209D /* TestVoidType.cpp */,
@@ -4095,6 +4107,7 @@
 				F50FF866208B6422008EDC40 /* ImmutableArrayType.cpp in Sources */,
 				F5F61AA5201DEADC00EF9EB7 /* TestArraySpecificTypeSpecifier.cpp in Sources */,
 				F5B9B1581E7AC0F200456CB4 /* TestTypeComparisionExpression.cpp in Sources */,
+				F5C0E7E52099B6E40028BBD0 /* StringFormatType.cpp in Sources */,
 				F5E3D64B1F6C01CE00FC37CB /* PrintOutStatement.cpp in Sources */,
 				F5CB180F1EB0C24D007E2E43 /* TestIntrinsicFunctions.cpp in Sources */,
 				F50FA2D71E2D12E000435EEA /* TestModelDefinition.cpp in Sources */,
@@ -4232,6 +4245,7 @@
 				F58FA2FD206E684B00C86D33 /* TestDestroyObjectOwnerFunction.cpp in Sources */,
 				F5C0E7D42090B7BA0028BBD0 /* TestCheckForModelFunction.cpp in Sources */,
 				F5105FBD1FD1A65E00ACF57B /* TestCheckForNullAndThrowFunction.cpp in Sources */,
+				F5C0E7E92099E4560028BBD0 /* TestIPrintStatement.cpp in Sources */,
 				F56AD4A41E9F6D5B0020868C /* TestIObjectType.cpp in Sources */,
 				F57E2E2B1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp in Sources */,
 				F52C665B1FBF348D00E89B04 /* ThrowReferenceCountExceptionFunction.cpp in Sources */,
@@ -4330,6 +4344,7 @@
 				F50FA2FC1E30051700435EEA /* TestModelTypeSpecifier.cpp in Sources */,
 				F50FA2AC1E27ADA200435EEA /* TestSwitchStatement.cpp in Sources */,
 				F523D50A206BD1E70017D5B4 /* WiseyObjectOwnerTypeSpecifier.cpp in Sources */,
+				F5C0E7E72099E1C20028BBD0 /* TestStringFormatType.cpp in Sources */,
 				F53400DC1DFBE6F00002BF7E /* Log.cpp in Sources */,
 				F53A2C3F1F0005B800E76A9E /* TestNodeTypeSpecifier.cpp in Sources */,
 				F513DE0220186900001A075B /* ParameterArrayOwnerVariable.cpp in Sources */,
@@ -4671,6 +4686,7 @@
 				F5190A4A2088DA3400BC2D93 /* CastObjectFunction.cpp in Sources */,
 				F53227E22063FB0900605E1B /* LocalSystemReferenceVariable.cpp in Sources */,
 				F5BF0C892080FBBB005AF4E5 /* DestroyNativeObjectFunction.cpp in Sources */,
+				F5C0E7E42099B6E40028BBD0 /* StringFormatType.cpp in Sources */,
 				F5378F6D2058F11500E5B5FD /* IdentifierReference.cpp in Sources */,
 				F5C6FD801E48B6E80054209D /* IntType.cpp in Sources */,
 				F52C66621FBF41C000E89B04 /* AdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp in Sources */,

@@ -94,8 +94,7 @@ void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Functi
   CheckArrayNotReferencedFunction::call(context, arrayPointer, numberOfDimensions);
   if (context.isDestructorDebugOn()) {
     ExpressionList printOutArguments;
-    printOutArguments.push_back(new StringLiteral("destructor primitive[]\n", 0));
-    PrintOutStatement printOutStatement(printOutArguments, 0);
+    PrintOutStatement printOutStatement(new StringLiteral("destructor primitive[]\n", 0), 0);
     printOutStatement.generateIR(context);
   }
   IRWriter::createFree(context, arrayPointer);

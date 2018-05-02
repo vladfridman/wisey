@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/AdditiveMultiplicativeExpression.hpp"
 #include "wisey/IPrintStatement.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -18,6 +19,34 @@
 using namespace llvm;
 using namespace std;
 using namespace wisey;
+
+ExpressionList IPrintStatement::getExpressions(IRGenerationContext& context,
+                                                           IExpression* expression,
+                                                           int line) {
+  const IType* expressionType = expression->getType(context);
+  assert(expressionType->isPrimitive() && "Attempting to printa nonprimitive type");
+  assert(expressionType != PrimitiveTypes::VOID_TYPE &&
+         "Attempting to print a void type expression");
+  
+  ExpressionList expressions;
+  if (expressionType != PrimitiveTypes::STRING_FORMAT_TYPE) {
+    expressions.push_back(expression);
+    return expressions;
+  }
+  
+  AdditiveMultiplicativeExpression* addition = (AdditiveMultiplicativeExpression*) expression;
+  IExpression* leftExpression = addition->getLeft();
+  IExpression* rightExpression = addition->getRight();
+  ExpressionList leftExpressions = getExpressions(context, leftExpression, line);
+  ExpressionList rightExpressions = getExpressions(context, rightExpression, line);
+  for (const IExpression* leftExpression : leftExpressions) {
+    expressions.push_back(leftExpression);
+  }
+  for (const IExpression* rightExpression : rightExpressions) {
+    expressions.push_back(rightExpression);
+  }
+  return expressions;
+}
 
 Value* IPrintStatement::getFormatString(IRGenerationContext& context,
                                         ExpressionList expressionList,

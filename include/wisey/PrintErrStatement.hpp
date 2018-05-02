@@ -21,12 +21,12 @@ namespace wisey {
    * Represents a printout statement for printing things to stdout stream
    */
   class PrintErrStatement : public IPrintStatement {
-    ExpressionList mExpressionList;
+    IExpression* mExpression;
     int mLine;
     
   public:
     
-    PrintErrStatement(ExpressionList expressionList, int line);
+    PrintErrStatement(IExpression* expression, int line);
     
     ~PrintErrStatement();
     

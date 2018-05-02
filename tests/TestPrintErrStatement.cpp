@@ -22,12 +22,12 @@ TEST_F(TestFileRunner, printErrNonPrimitiveTypeRunDeathTest) {
   expectFailCompile("tests/samples/test_printerr_non_primitive_type.yz",
                     1,
                     "tests/samples/test_printerr_non_primitive_type.yz\\(18\\): "
-                    "Error: Can not print non primitive types");
+                    "Error: Can not do operation '\\+' on non-primitive types");
 }
 
 TEST_F(TestFileRunner, printErrVoidTypeRunDeathTest) {
   expectFailCompile("tests/samples/test_printerr_void_type.yz",
                     1,
                     "tests/samples/test_printerr_void_type.yz\\(21\\): "
-                    "Error: Can not print a void type expression");
+                    "Error: Argument in the printerr statement is not of printable type");
 }

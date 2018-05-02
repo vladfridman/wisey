@@ -376,8 +376,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
     StringLiteral* stringLiteral =
     new StringLiteral("destructor " + concreteObject->getTypeName() + "\n", 0);
     printOutArguments.push_back(stringLiteral);
-    PrintOutStatement printOutStatement(printOutArguments, 0);
-    printOutStatement.generateIR(context);
+    PrintOutStatement::printExpressionList(context, printOutArguments, 0);
   }
   
   decrementReferenceFields(context, thisValue, concreteObject);
@@ -399,8 +398,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
     printOutArguments.push_back(new StringLiteral(" count = ", 0));
     printOutArguments.push_back(new FakeExpression(referenceCount, PrimitiveTypes::LONG_TYPE));
     printOutArguments.push_back(new StringLiteral("\n", 0));
-    PrintOutStatement printOutStatement(printOutArguments, 0);
-    printOutStatement.generateIR(context);
+    PrintOutStatement::printExpressionList(context, printOutArguments, 0);
   }
 
   ThrowReferenceCountExceptionFunction::call(context, referenceCount);

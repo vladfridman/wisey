@@ -138,9 +138,8 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
     printOutArguments.push_back(new StringLiteral(" bytes>*[", 0));
     printOutArguments.push_back(new FakeExpression(size, PrimitiveTypes::INT_TYPE));
     printOutArguments.push_back(new StringLiteral("]\n", 0));
-    PrintOutStatement printOutStatement(printOutArguments, 0);
-    printOutStatement.generateIR(context);
-  }
+    PrintOutStatement::printExpressionList(context, printOutArguments, 0);
+   }
 
   Value* referenceCount = IRWriter::newLoadInst(context, arrayPointer, "refCount");
   Value* isZero = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, referenceCount, zero, "isZero");

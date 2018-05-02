@@ -20,18 +20,21 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-PrintErrStatement::PrintErrStatement(ExpressionList expressionList, int line) :
-mExpressionList(expressionList), mLine(line) { }
+PrintErrStatement::PrintErrStatement(IExpression* expression, int line) :
+mExpression(expression), mLine(line) { }
 
 PrintErrStatement::~PrintErrStatement() {
-  for (const IExpression* expression : mExpressionList) {
-    delete expression;
-  }
-  mExpressionList.clear();
+  delete mExpression;
 }
 
 void PrintErrStatement::generateIR(IRGenerationContext& context) const {
-  Value* formatPointer = IPrintStatement::getFormatString(context, mExpressionList, mLine);
+  const IType* expressionType = mExpression->getType(context);
+  if (!expressionType->isPrimitive() || expressionType == PrimitiveTypes::VOID_TYPE) {
+    context.reportError(mLine, "Argument in the printerr statement is not of printable type");
+    exit(1);
+  }
+  ExpressionList expressions = IPrintStatement::getExpressions(context, mExpression, mLine);
+  Value* formatPointer = IPrintStatement::getFormatString(context, expressions, mLine);
 
   GlobalVariable* stderrPointer = context.getModule()->getNamedGlobal(Names::getStdErrName());
   Value* stderrLoaded = IRWriter::newLoadInst(context, stderrPointer, "");
@@ -40,7 +43,7 @@ void PrintErrStatement::generateIR(IRGenerationContext& context) const {
   vector<Value*> arguments;
   arguments.push_back(stderrLoaded);
   arguments.push_back(formatPointer);
-  for (const IExpression* expression : mExpressionList) {
+  for (const IExpression* expression : expressions) {
     arguments.push_back(expression->generateIR(context, PrimitiveTypes::VOID_TYPE));
   }
   

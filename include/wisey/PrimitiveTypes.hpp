@@ -16,6 +16,7 @@
 #include "wisey/IntType.hpp"
 #include "wisey/LongType.hpp"
 #include "wisey/StringType.hpp"
+#include "wisey/StringFormatType.hpp"
 #include "wisey/VoidType.hpp"
 
 namespace wisey {
@@ -35,6 +36,7 @@ namespace wisey {
     static LongType* LONG_TYPE;
     static StringType* STRING_TYPE;
     static VoidType* VOID_TYPE;
+    static StringFormatType* STRING_FORMAT_TYPE;
     
     /**
      * Tells whether the given type is one of float types such as float or double

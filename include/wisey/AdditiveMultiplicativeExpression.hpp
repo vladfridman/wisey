@@ -31,6 +31,16 @@ namespace wisey {
     
     ~AdditiveMultiplicativeExpression();
     
+    /**
+     * Returns the left side of the expression
+     */
+    IExpression* getLeft();
+    
+    /**
+     * Returns the right side of the expression
+     */
+    IExpression* getRight();
+    
     int getLine() const override;
 
     llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;

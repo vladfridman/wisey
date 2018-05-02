@@ -75,6 +75,18 @@ struct AdditiveMultiplicativeExpressionTest : Test {
   }
 };
 
+TEST_F(AdditiveMultiplicativeExpressionTest, getLeftTest) {
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
+  
+  EXPECT_EQ(mLeftExpression, expression.getLeft());
+}
+
+TEST_F(AdditiveMultiplicativeExpressionTest, getRightTest) {
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
+  
+  EXPECT_EQ(mRightExpression, expression.getRight());
+}
+
 TEST_F(AdditiveMultiplicativeExpressionTest, isConstantTest) {
   AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
 

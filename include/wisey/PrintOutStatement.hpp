@@ -21,14 +21,21 @@ namespace wisey {
    * Represents a printout statement for printing things to stdout stream
    */
   class PrintOutStatement : public IPrintStatement {
-    ExpressionList mExpressionList;
+    IExpression* mExpression;
     int mLine;
     
   public:
     
-    PrintOutStatement(ExpressionList expressionList, int line);
+    PrintOutStatement(IExpression* expression, int line);
     
     ~PrintOutStatement();
+    
+    /**
+     * Prints a given list of expressions each of which should have primitive type
+     */
+    static void printExpressionList(IRGenerationContext& context,
+                                    ExpressionList expressionList,
+                                    int line);
     
     void generateIR(IRGenerationContext& context) const override;
   };

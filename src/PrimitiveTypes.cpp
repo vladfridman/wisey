@@ -26,6 +26,8 @@ StringType* PrimitiveTypes::STRING_TYPE = new StringType();
 
 VoidType* PrimitiveTypes::VOID_TYPE = new VoidType();
 
+StringFormatType* PrimitiveTypes::STRING_FORMAT_TYPE = new StringFormatType();
+
 bool PrimitiveTypes::isFloatType(const IType* type) {
   return type == FLOAT_TYPE || type == DOUBLE_TYPE;
 }

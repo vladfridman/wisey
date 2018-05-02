@@ -14,6 +14,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/StringFormatType.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -38,12 +39,27 @@ int AdditiveMultiplicativeExpression::getLine() const {
   return mLine;
 }
 
+IExpression* AdditiveMultiplicativeExpression::getLeft() {
+  return mLeftExpression;
+}
+
+IExpression* AdditiveMultiplicativeExpression::getRight() {
+  return mRightExpression;
+}
+
 Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context,
                                                     const IType* assignToType) const {
   const IType* leftType = mLeftExpression->getType(context);
   const IType* rightType = mRightExpression->getType(context);
   checkTypes(context, leftType, rightType);
 
+  if (mOperation == '+' &&
+      (leftType == PrimitiveTypes::STRING_TYPE ||
+       rightType == PrimitiveTypes::STRING_TYPE ||
+       leftType == PrimitiveTypes::STRING_FORMAT_TYPE ||
+       rightType == PrimitiveTypes::STRING_FORMAT_TYPE)) {
+        assert(false && "attempting to get value of a stringformat type expression");
+  }
   Instruction::BinaryOps instruction;
   string name;
   bool isFloat = leftType == PrimitiveTypes::FLOAT_TYPE ||
@@ -76,26 +92,47 @@ const IType* AdditiveMultiplicativeExpression::getType(IRGenerationContext& cont
   const IType* rightType = mRightExpression->getType(context);
   checkTypes(context, leftType, rightType);
 
+  if (mOperation == '+' &&
+      (leftType == PrimitiveTypes::STRING_TYPE ||
+       rightType == PrimitiveTypes::STRING_TYPE ||
+       leftType == PrimitiveTypes::STRING_FORMAT_TYPE ||
+       rightType == PrimitiveTypes::STRING_FORMAT_TYPE)) {
+    return PrimitiveTypes::STRING_FORMAT_TYPE;
+  }
+  
   if (leftType->canAutoCastTo(context, rightType)) {
     return rightType;
   }
   return leftType;
 }
 
-// TODO: implement a more sensible type checking/casting
 void AdditiveMultiplicativeExpression::checkTypes(IRGenerationContext& context,
                                                   const IType* leftType,
                                                   const IType* rightType) const {
   if (leftType == PrimitiveTypes::VOID_TYPE || rightType == PrimitiveTypes::VOID_TYPE) {
-    Log::e_deprecated("Can not use expressions of type VOID in a '" + string(1, mOperation) + "' operation");
+    context.reportError(mLine, "Can not use expressions of type VOID in a '" +
+                        string(1, mOperation) + "' operation");
     exit(1);
   }
   
   if (!leftType->isPrimitive() || !rightType->isPrimitive()) {
-    Log::e_deprecated("Can not do operation '" + string(1, mOperation) + "' on non-primitive types");
+    context.reportError(mLine, "Can not do operation '" + string(1, mOperation) +
+                        "' on non-primitive types");
     exit(1);
   }
-
+  
+  if (mOperation == '+' &&
+      (leftType == PrimitiveTypes::STRING_TYPE ||
+       rightType == PrimitiveTypes::STRING_TYPE ||
+       leftType == PrimitiveTypes::STRING_FORMAT_TYPE ||
+       rightType == PrimitiveTypes::STRING_FORMAT_TYPE)) {
+    return;
+  }
+  
+  if (leftType == PrimitiveTypes::STRING_TYPE || rightType == PrimitiveTypes::STRING_TYPE) {
+    return;
+  }
+  
   if (!leftType->canCastTo(context, rightType) && !rightType->canCastTo(context, leftType)) {
     Log::e_deprecated("Incompatible types in '" + string(1, mOperation) + "' operation");
     exit(1);

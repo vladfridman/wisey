@@ -244,7 +244,7 @@
 %type <expression> constant_reference static_method_call field_identifier
 %type <expression> llvm_function_call llvm_reference call_argument
 %type <variable_vector> method_definition_arguments
-%type <expression_vector> call_arguments string_concatenation_list static_array_elements
+%type <expression_vector> call_arguments static_array_elements
 %type <block> block_item_list 
 %type <program_file> program
 %type <statement> statement variable_declaration
@@ -1114,15 +1114,10 @@ statement
   ;
 
 print_statement
-  : TPRINTOUT '(' string_concatenation_list ')' ';'
-    { $$ = new PrintOutStatement(*$3, yylineno); delete $3; }
-  | TPRINTERR '(' string_concatenation_list ')' ';'
-    { $$ = new PrintErrStatement(*$3, yylineno); delete $3; }
-  ;
-
-string_concatenation_list
-  : cast_expression { $$ = new std::vector<const IExpression*>(); $$->push_back($1); }
-  | string_concatenation_list '+' cast_expression { $1->push_back($3); $$ = $1; }
+  : TPRINTOUT '(' expression ')' ';'
+    { $$ = new PrintOutStatement($3, yylineno); }
+  | TPRINTERR '(' expression ')' ';'
+    { $$ = new PrintErrStatement($3, yylineno); }
   ;
 
 case_statement_list_with_default

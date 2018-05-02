@@ -28,6 +28,13 @@ namespace wisey {
                                         ExpressionList expressionList,
                                         int line);
     
+    /**
+     * Returns a list of expressions contained inside the given printformat type expression
+     */
+    static ExpressionList getExpressions(IRGenerationContext& context,
+                                         IExpression* expression,
+                                         int line);
+
   };
   
 } /* namespace wisey */

@@ -19,24 +19,33 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-PrintOutStatement::PrintOutStatement(ExpressionList expressionList, int line) :
-mExpressionList(expressionList), mLine(line) {
+PrintOutStatement::PrintOutStatement(IExpression* expression, int line) :
+mExpression(expression), mLine(line) {
 }
 
 PrintOutStatement::~PrintOutStatement() {
-  for (const IExpression* expression : mExpressionList) {
-    delete expression;
-  }
-  mExpressionList.clear();
+  delete mExpression;
 }
 
 void PrintOutStatement::generateIR(IRGenerationContext& context) const {
-  Value* formatPointer = IPrintStatement::getFormatString(context, mExpressionList, mLine);
+  const IType* expressionType = mExpression->getType(context);
+  if (!expressionType->isPrimitive() || expressionType == PrimitiveTypes::VOID_TYPE) {
+    context.reportError(mLine, "Argument in the printout statement is not of printable type");
+    exit(1);
+  }
+  ExpressionList expressions = IPrintStatement::getExpressions(context, mExpression, mLine);
 
+  printExpressionList(context, expressions, mLine);
+}
+
+void PrintOutStatement::printExpressionList(IRGenerationContext& context,
+                                            ExpressionList expressionList,
+                                            int line) {
+  Value* formatPointer = IPrintStatement::getFormatString(context, expressionList, line);
   Function* printf = IntrinsicFunctions::getPrintfFunction(context);
   vector<Value*> arguments;
   arguments.push_back(formatPointer);
-  for (const IExpression* expression : mExpressionList) {
+  for (const IExpression* expression : expressionList) {
     arguments.push_back(expression->generateIR(context, PrimitiveTypes::VOID_TYPE));
   }
   IRWriter::createCallInst(context, printf, arguments, "");
