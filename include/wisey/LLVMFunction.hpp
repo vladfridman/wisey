@@ -83,6 +83,8 @@ namespace wisey {
     
     MethodQualifiers* getMethodQualifiers() const override;
     
+    int getLine() const override;
+    
     bool isConstant() const override;
     
     bool isField() const override;

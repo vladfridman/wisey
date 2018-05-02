@@ -26,13 +26,15 @@ namespace wisey {
     const ITypeSpecifier* mTypeSpecifier;
     std::string mName;
     IExpression* mExpression;
+    int mLine;
     
   public:
     
     ConstantDefinition(const AccessLevel accessLevel,
                        const ITypeSpecifier* typeSpecifier,
                        std::string name,
-                       IExpression* expression);
+                       IExpression* expression,
+                       int line);
 
     ~ConstantDefinition();
     

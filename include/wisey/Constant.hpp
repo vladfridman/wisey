@@ -25,13 +25,15 @@ namespace wisey {
     const IType* mType;
     std::string mName;
     IExpression* mExpression;
+    int mLine;
     
   public:
     
     Constant(const AccessLevel accessLevel,
              const IType* type,
              std::string name,
-             IExpression* expression);
+             IExpression* expression,
+             int line);
     
     ~Constant();
     
@@ -52,6 +54,8 @@ namespace wisey {
     std::string getConstantGlobalName(const IObjectType* objectType) const;
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
+    
+    int getLine() const override;
     
     bool isConstant() const override;
     

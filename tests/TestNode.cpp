@@ -217,7 +217,8 @@ struct NodeTest : public Test {
     mConstant = new wisey::Constant(PUBLIC_ACCESS,
                                     PrimitiveTypes::INT,
                                     "MYCONSTANT",
-                                    intConstant);
+                                    intConstant,
+                                    0);
     vector<wisey::Constant*> constants;
     constants.push_back(mConstant);
     

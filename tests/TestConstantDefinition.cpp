@@ -39,7 +39,11 @@ public:
     ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
     
     const PrimitiveTypeSpecifier* typeSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
-    mConstantDefinition = new ConstantDefinition(PUBLIC_ACCESS, typeSpecifier, mName, mExpression);
+    mConstantDefinition = new ConstantDefinition(PUBLIC_ACCESS,
+                                                 typeSpecifier,
+                                                 mName,
+                                                 mExpression,
+                                                 0);
 
   }
   

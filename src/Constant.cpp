@@ -19,11 +19,13 @@ using namespace wisey;
 Constant::Constant(const AccessLevel accessLevel,
                    const IType* type,
                    std::string name,
-                   IExpression* expression) :
+                   IExpression* expression,
+                   int line) :
 mIsPublic(accessLevel == PUBLIC_ACCESS),
 mType(type),
 mName(name),
-mExpression(expression) { }
+mExpression(expression),
+mLine(line) { }
 
 Constant::~Constant() { }
 
@@ -74,6 +76,10 @@ llvm::Value* Constant::generateIR(IRGenerationContext& context,
 
 string Constant::getConstantGlobalName(const IObjectType* objectType) const {
   return "constant." + objectType->getTypeName() + "." + mName;
+}
+
+int Constant::getLine() const {
+  return mLine;
 }
 
 bool Constant::isConstant() const {

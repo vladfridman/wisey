@@ -129,9 +129,10 @@ struct InterfaceTest : public Test {
     ON_CALL(*mMockExpression, printToStream(_,_)).WillByDefault(Invoke(printExpression));
     intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
     mConstantDefinition = new ConstantDefinition(PUBLIC_ACCESS,
-                                                   intSpecifier,
-                                                   "MYCONSTANT",
-                                                   mMockExpression);
+                                                 intSpecifier,
+                                                 "MYCONSTANT",
+                                                 mMockExpression,
+                                                 0);
     shapeElements.push_back(mConstantDefinition);
     shapeElements.push_back(mFooMethod);
     shapeElements.push_back(mStaticMethod);

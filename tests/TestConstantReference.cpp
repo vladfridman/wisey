@@ -57,7 +57,8 @@ public:
     Constant* constant = new Constant(PUBLIC_ACCESS,
                                       PrimitiveTypes::INT,
                                       mName,
-                                      mMockExpression);
+                                      mMockExpression,
+                                      0);
     ON_CALL(*mMockObject, findConstant(_, _, _)).WillByDefault(Return(constant));
     ON_CALL(*mMockObject, getTypeName()).WillByDefault(Return("MMyObject"));
     ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));

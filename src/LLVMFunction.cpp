@@ -127,6 +127,10 @@ bool LLVMFunction::isPublic() const {
   return mIsPublic;
 }
 
+int LLVMFunction::getLine() const {
+  return mLine;
+}
+
 bool LLVMFunction::isConstant() const {
   return false;
 }

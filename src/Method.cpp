@@ -223,6 +223,10 @@ void Method::createArguments(IRGenerationContext& context, Function* function) c
   }
 }
 
+int Method::getLine() const {
+  return mLine;
+}
+
 bool Method::isConstant() const {
   return false;
 }

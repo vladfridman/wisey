@@ -19,7 +19,12 @@ namespace wisey {
   public:
     
     virtual ~IObjectElement() { }
-    
+
+    /**
+     * Returns the line where the object element is defined
+     */
+    virtual int getLine() const = 0;
+
     /**
      * Methods for determining the type of object element
      */
@@ -34,7 +39,7 @@ namespace wisey {
     virtual bool isMethodSignature() const = 0;
     
     virtual bool isLLVMFunction() const = 0;
-
+    
   };
   
 } /* namespace wisey */

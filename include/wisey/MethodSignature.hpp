@@ -63,6 +63,8 @@ namespace wisey {
     
     std::vector<const Model*> getThrownExceptions() const override;
     
+    int getLine() const override;
+    
     bool isConstant() const override;
     
     bool isField() const override;

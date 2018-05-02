@@ -65,13 +65,14 @@ IConcreteObjectDefinition::createElements(IRGenerationContext& context,
     IObjectElement* element = elementDeclaration->define(context, concreteObjectType);
     if (element->isConstant()) {
       if (methods.size() || fields.size()) {
-        Log::e_deprecated("Constants should be declared before fields and methods");
+        context.reportError(element->getLine(),
+                            "Constants should be declared before fields and methods");
         exit(1);
       }
       constants.push_back((Constant*) element);
     } else if (element->isField()) {
       if (methods.size()) {
-        Log::e_deprecated("Fields should be declared before methods");
+        context.reportError(element->getLine(), "Fields should be declared before methods");
         exit(1);
       }
       fields.push_back((IField*) element);

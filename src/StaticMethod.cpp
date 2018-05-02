@@ -212,6 +212,10 @@ void StaticMethod::createArguments(IRGenerationContext& context, Function* funct
   }
 }
 
+int StaticMethod::getLine() const {
+  return mLine;
+}
+
 bool StaticMethod::isConstant() const {
   return false;
 }

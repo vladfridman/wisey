@@ -71,6 +71,10 @@ vector<const Model*> ExternalMethod::getThrownExceptions() const {
   return mThrownExceptions;
 }
 
+int ExternalMethod::getLine() const {
+  return mLine;
+}
+
 bool ExternalMethod::isConstant() const {
   return false;
 }

@@ -14,11 +14,13 @@ using namespace wisey;
 ConstantDefinition::ConstantDefinition(const AccessLevel accessLevel,
                                        const ITypeSpecifier* typeSpecifier,
                                        std::string name,
-                                       IExpression* expression) :
+                                       IExpression* expression,
+                                       int line) :
 mAccessLevel(accessLevel),
 mTypeSpecifier(typeSpecifier),
 mName(name),
-mExpression(expression) { }
+mExpression(expression),
+mLine(line) { }
 
 ConstantDefinition::~ConstantDefinition() {
   delete mTypeSpecifier;
@@ -26,8 +28,8 @@ ConstantDefinition::~ConstantDefinition() {
 }
 
 wisey::Constant* ConstantDefinition::define(IRGenerationContext& context,
-                                             const IObjectType* objectType) const {
-  return new Constant(mAccessLevel, mTypeSpecifier->getType(context), mName, mExpression);
+                                            const IObjectType* objectType) const {
+  return new Constant(mAccessLevel, mTypeSpecifier->getType(context), mName, mExpression, mLine);
 }
 
 bool ConstantDefinition::isConstant() const {

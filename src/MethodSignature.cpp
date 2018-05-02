@@ -86,6 +86,10 @@ string MethodSignature::getOriginalParentName() const {
   return mOriginalParentName;
 }
 
+int MethodSignature::getLine() const {
+  return mLine;
+}
+
 bool MethodSignature::isConstant() const {
   return false;
 }

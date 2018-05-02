@@ -215,11 +215,13 @@ struct ControllerTest : public Test {
     mConstant = new wisey::Constant(PUBLIC_ACCESS,
                                     PrimitiveTypes::INT,
                                     "MYCONSTANT",
-                                    intConstant);
+                                    intConstant,
+                                    0);
     wisey::Constant* privateConstant = new wisey::Constant(PRIVATE_ACCESS,
                                                            PrimitiveTypes::INT,
                                                            "MYCONSTANT3",
-                                                           intConstant);
+                                                           intConstant,
+                                                           0);
     vector<wisey::Constant*> constants;
     constants.push_back(mConstant);
     constants.push_back(privateConstant);
