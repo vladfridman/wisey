@@ -68,9 +68,14 @@ void IdentifierChain::printToStream(IRGenerationContext& context, iostream& stre
 
 IMethodDescriptor* IdentifierChain::getMethodDescriptor(IRGenerationContext& context) const {
   const IType* expressionType = mObjectExpression->getType(context);
+  if (expressionType == UndefinedType::UNDEFINED_TYPE) {
+    context.reportError(mLine, "Attempt to call a method '" + mName +
+                        "' on undefined type expression");
+    exit(1);
+  }
   if (!IType::isObjectType(expressionType)) {
-    Log::e_deprecated("Attempt to call a method '" + mName +
-                      "' on an identifier that is not an object");
+    context.reportError(mLine, "Attempt to call a method '" + mName +
+                        "' on an expression that is not of object type");
     exit(1);
   }
   

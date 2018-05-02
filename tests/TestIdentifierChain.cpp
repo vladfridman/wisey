@@ -22,6 +22,7 @@
 #include "MockType.hpp"
 #include "MockVariable.hpp"
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IdentifierChain.hpp"
@@ -45,6 +46,7 @@ struct IdentifierChainTest : public Test {
   LLVMContext& mLLVMContext;
   
   IdentifierChainTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
   }
   
   ~IdentifierChainTest() {
@@ -141,13 +143,26 @@ TEST_F(IdentifierChainTest, getTypeForPrimitiveBaseTypeDeathTest) {
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printObjectTypeExpression));
   ON_CALL(mockObjectType, isPrimitive()).WillByDefault(Return(true));
   
-  IdentifierChain identifierChain(mockExpression, "foo", 0);
+  IdentifierChain identifierChain(mockExpression, "foo", 5);
   
   Mock::AllowLeak(mockExpression);
   Mock::AllowLeak(&mockObjectType);
   EXPECT_EXIT(identifierChain.getType(mContext),
               ::testing::ExitedWithCode(1),
-              "Attempt to call a method 'foo' on an identifier that is not an object");
+              "/tmp/source.yz\\(5\\): Error: Attempt to call a method 'foo' on an expression that is not of object type");
+}
+
+TEST_F(IdentifierChainTest, generateIRForUndefinedBaseTypeDeathTest) {
+  NiceMock<MockExpression>* mockExpression = new NiceMock<MockExpression>();
+  ON_CALL(*mockExpression, getType(_)).WillByDefault(Return(UndefinedType::UNDEFINED_TYPE));
+  ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printObjectTypeExpression));
+  
+  IdentifierChain identifierChain(mockExpression, "foo", 3);
+  
+  Mock::AllowLeak(mockExpression);
+  EXPECT_EXIT(identifierChain.generateIR(mContext, PrimitiveTypes::VOID),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(3\\): Error: Attempt to call a method 'foo' on undefined type expression");
 }
 
 TEST_F(IdentifierChainTest, getTypeForObjectBaseTypeMethodNotFoundDeathTest) {
