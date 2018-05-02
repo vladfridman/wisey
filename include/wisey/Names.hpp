@@ -26,6 +26,16 @@ namespace wisey {
     static std::string getMainThreadWorkerShortName();
     
     /**
+     * Returns name of the CFile controller
+     */
+    static std::string getFileControllerFullName();
+    
+    /**
+     * Get the name of the method returning a pointer to the __sFile struct from CFile controller
+     */
+    static std::string getFileStructMethodName();
+    
+    /**
      * Returns name of the model representing the null pointer exception
      */
     static std::string getNPEModelName();

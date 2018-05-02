@@ -31,3 +31,13 @@
 }
 
 ::llvm::struct::__sFILE::pointer __stderrp;
+
+/**
+ * Function that opens a file
+ */
+external ::llvm::function ::llvm::struct::__sFILE::pointer fopen(::llvm::i8::pointer, ::llvm::i8::pointer);
+
+/**
+ * Function that closes a file
+ */
+external ::llvm::function ::llvm::i32 fclose(::llvm::struct::__sFILE::pointer);

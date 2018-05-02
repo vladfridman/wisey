@@ -107,8 +107,9 @@
   #include "wisey/PackageType.hpp"
   #include "wisey/PrimitiveTypes.hpp"
   #include "wisey/PrimitiveTypeSpecifier.hpp"
-  #include "wisey/PrintOutStatement.hpp"
   #include "wisey/PrintErrStatement.hpp"
+  #include "wisey/PrintFileStatement.hpp"
+  #include "wisey/PrintOutStatement.hpp"
   #include "wisey/ProgramFile.hpp"
   #include "wisey/ReceivedFieldDefinition.hpp"
   #include "wisey/RelationalExpression.hpp"
@@ -225,7 +226,7 @@
 %token <token> TLLVM TLLVMARRAY TLLVMFUNCTION TLLVMI1 TLLVMI8 TLLVMI16 TLLVMI32 TLLVMI64
 %token <token> TLLVMPOINTER TLLVMSTRUCT TLLVMVOID TLLVMREFERENCE
 %token <token> TMODEL TNEW TNODE TNULL TOROP TOVERRIDE TPACKAGE 
-%token <token> TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN TSTATE TSTATIC 
+%token <token> TPRINTFILE TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN TSTATE TSTATIC 
 %token <token> TSWITCH TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN 
 %token <token> TTYPECHAR TTYPEDOUBLE TTYPEFLOAT TTYPEINT TTYPELONG TTYPESTRING TTYPEVOID TWHILE
 %token <token> TWISEY TWISEYMODEL TWISEYOBJECT
@@ -1118,6 +1119,8 @@ print_statement
     { $$ = new PrintOutStatement($3, yylineno); }
   | TPRINTERR '(' expression ')' ';'
     { $$ = new PrintErrStatement($3, yylineno); }
+  | TPRINTFILE '(' expression ',' expression ')' ';'
+    { $$ = new PrintFileStatement($3, $5, yylineno); }
   ;
 
 case_statement_list_with_default

@@ -110,6 +110,7 @@ WS  [ \t\v\n\f]
 "override"                    return TOKEN(TOVERRIDE);
 "package"                     return TOKEN(TPACKAGE);
 "printerr"                    return TOKEN(TPRINTERR);
+"printfile"                   return TOKEN(TPRINTFILE);
 "printout"                    return TOKEN(TPRINTOUT);
 "private"                     return TOKEN(TPRIVATE);
 "public"                      return TOKEN(TPUBLIC);

@@ -117,6 +117,14 @@ external model wisey.threads.MThreadBoundaryException
 
 /* Controllers */
 
+external controller wisey.io.CFile {
+
+  void open(
+    string fileName);
+  ::llvm::struct::__sFILE::pointer getFileStruct();
+  void close();
+}
+
 external controller wisey.threads.CCallStack {
 
   public constant int CALL_STACK_SIZE = 1024;

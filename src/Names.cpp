@@ -15,6 +15,14 @@ string Names::getMainThreadWorkerShortName() {
   return "MMainThreadWorker";
 }
 
+string Names::getFileControllerFullName() {
+  return "wisey.io.CFile";
+}
+
+string Names::getFileStructMethodName() {
+  return "getFileStruct";
+}
+
 string Names::getNPEModelName() {
   return "MNullPointerException";
 }

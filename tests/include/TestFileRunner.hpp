@@ -94,8 +94,9 @@ public:
    */
   static std::string exec(const char* cmd);
   
-private:
-  
+  /**
+   * Check that output content written into the given file is the same as the expected output
+   */
   void checkOutput(const char fileName[], std::string exprectedOut);
   
 };
