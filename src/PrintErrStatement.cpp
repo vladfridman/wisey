@@ -47,8 +47,5 @@ void PrintErrStatement::generateIR(IRGenerationContext& context) const {
     arguments.push_back(expression->generateIR(context, PrimitiveTypes::VOID_TYPE));
   }
   
-  Value* pointer = IRWriter::newAllocaInst(context, stderrLoaded->getType(), "");
-  IRWriter::newStoreInst(context, stderrLoaded, pointer);
-  
   IRWriter::createCallInst(context, fprintf, arguments, "");
 }
