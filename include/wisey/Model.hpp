@@ -236,11 +236,17 @@ namespace wisey {
     
   private:
     
-    void checkArguments(const ObjectBuilderArgumentList& objectBuilderArgumentList) const;
+    void checkArguments(IRGenerationContext& context,
+                        const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                        int line) const;
     
-    void checkArgumentsAreWellFormed(const ObjectBuilderArgumentList& objectBuilderArgumentList) const;
+    void checkArgumentsAreWellFormed(IRGenerationContext& context,
+                                     const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                                     int line) const;
     
-    void checkAllFieldsAreSet(const ObjectBuilderArgumentList& objectBuilderArgumentList) const;
+    void checkAllFieldsAreSet(IRGenerationContext& context,
+                              const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                              int line) const;
     
     void initializeFields(IRGenerationContext& context,
                           const ObjectBuilderArgumentList& ObjectBuilderArgumentList,

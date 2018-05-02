@@ -716,11 +716,12 @@ TEST_F(ModelTest, buildInvalidObjectBuilderArgumentsDeathTest) {
   argumentList.push_back(argument2);
   
   const char *expected =
-  "Error: Object builder argument should start with 'with'. e.g. .withField\\(value\\)."
-  "\nError: Some arguments for the model systems.vos.wisey.compiler.tests.MStar "
+  "Error: Object builder argument should start with 'with'. e.g. .withField\\(value\\).\n"
+  "/tmp/source.yz\\(3\\): Error: Some arguments for the model "
+  "systems.vos.wisey.compiler.tests.MStar "
   "builder are not well formed";
   
-  EXPECT_EXIT(mStarModel->build(mContext, argumentList, 0),
+  EXPECT_EXIT(mStarModel->build(mContext, argumentList, 3),
               ::testing::ExitedWithCode(1),
               expected);
 }
@@ -758,10 +759,11 @@ TEST_F(ModelTest, buildNotAllFieldsAreSetDeathTest) {
   argumentList.push_back(argument1);
   
   const char *expected =
-  "Error: Field mGalaxy is not initialized"
-  "\nError: Some fields of the model systems.vos.wisey.compiler.tests.MStar are not initialized.";
+  "/tmp/source.yz\\(5\\): Error: Field mGalaxy is not initialized\n"
+  "/tmp/source.yz\\(5\\): Error: Some fields of the model "
+  "systems.vos.wisey.compiler.tests.MStar are not initialized.";
   
-  EXPECT_EXIT(mStarModel->build(mContext, argumentList, 0),
+  EXPECT_EXIT(mStarModel->build(mContext, argumentList, 5),
               ::testing::ExitedWithCode(1),
               expected);
 }

@@ -339,7 +339,7 @@ bool Model::isImmutable() const {
 Instruction* Model::build(IRGenerationContext& context,
                           const ObjectBuilderArgumentList& objectBuilderArgumentList,
                           int line) const {
-  checkArguments(objectBuilderArgumentList);
+  checkArguments(context, objectBuilderArgumentList, line);
   Instruction* malloc = IConcreteObjectType::createMallocForObject(context, this, "buildervar");
   initializeFields(context, objectBuilderArgumentList, malloc, line);
   initializeVTable(context, (IConcreteObjectType*) this, malloc);
@@ -382,13 +382,16 @@ void Model::createRTTI(IRGenerationContext& context) const {
                      getRTTIVariableName());
 }
 
-void Model::checkArguments(const ObjectBuilderArgumentList& objectBuilderArgumentList) const {
-  checkArgumentsAreWellFormed(objectBuilderArgumentList);
-  checkAllFieldsAreSet(objectBuilderArgumentList);
+void Model::checkArguments(IRGenerationContext& context,
+                           const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                           int line) const {
+  checkArgumentsAreWellFormed(context, objectBuilderArgumentList, line);
+  checkAllFieldsAreSet(context, objectBuilderArgumentList, line);
 }
 
-void Model::checkArgumentsAreWellFormed(const ObjectBuilderArgumentList&
-                                        objectBuilderArgumentList) const {
+void Model::checkArgumentsAreWellFormed(IRGenerationContext& context,
+                                        const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                                        int line) const {
   bool areArgumentsWellFormed = true;
   
   for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
@@ -396,12 +399,15 @@ void Model::checkArgumentsAreWellFormed(const ObjectBuilderArgumentList&
   }
   
   if (!areArgumentsWellFormed) {
-    Log::e_deprecated("Some arguments for the model " + mName + " builder are not well formed");
+    context.reportError(line,
+                        "Some arguments for the model " + mName + " builder are not well formed");
     exit(1);
   }
 }
 
-void Model::checkAllFieldsAreSet(const ObjectBuilderArgumentList& objectBuilderArgumentList) const {
+void Model::checkAllFieldsAreSet(IRGenerationContext& context,
+                                 const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                                 int line) const {
   set<string> allFieldsThatAreSet;
   for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
     allFieldsThatAreSet.insert(argument->deriveFieldName());
@@ -413,9 +419,9 @@ void Model::checkAllFieldsAreSet(const ObjectBuilderArgumentList& objectBuilderA
   }
   
   for (string missingField : missingFields) {
-    Log::e_deprecated("Field " + missingField + " is not initialized");
+    context.reportError(line, "Field " + missingField + " is not initialized");
   }
-  Log::e_deprecated("Some fields of the model " + mName + " are not initialized.");
+  context.reportError(line, "Some fields of the model " + mName + " are not initialized.");
   exit(1);
 }
 
