@@ -21,8 +21,8 @@ using namespace std;
 using namespace wisey;
 
 ExpressionList IPrintStatement::getExpressions(IRGenerationContext& context,
-                                                           IExpression* expression,
-                                                           int line) {
+                                               const IExpression* expression,
+                                               int line) {
   const IType* expressionType = expression->getType(context);
   assert(expressionType->isPrimitive() && "Attempting to printa nonprimitive type");
   assert(expressionType != PrimitiveTypes::VOID &&
@@ -34,9 +34,10 @@ ExpressionList IPrintStatement::getExpressions(IRGenerationContext& context,
     return expressions;
   }
   
-  AdditiveMultiplicativeExpression* addition = (AdditiveMultiplicativeExpression*) expression;
-  IExpression* leftExpression = addition->getLeft();
-  IExpression* rightExpression = addition->getRight();
+  const AdditiveMultiplicativeExpression* addition =
+    (const AdditiveMultiplicativeExpression*) expression;
+  const IExpression* leftExpression = addition->getLeft();
+  const IExpression* rightExpression = addition->getRight();
   ExpressionList leftExpressions = getExpressions(context, leftExpression, line);
   ExpressionList rightExpressions = getExpressions(context, rightExpression, line);
   for (const IExpression* leftExpression : leftExpressions) {

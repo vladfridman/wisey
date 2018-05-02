@@ -32,7 +32,7 @@ namespace wisey {
      * Returns a list of expressions contained inside the given printformat type expression
      */
     static ExpressionList getExpressions(IRGenerationContext& context,
-                                         IExpression* expression,
+                                         const IExpression* expression,
                                          int line);
 
   };

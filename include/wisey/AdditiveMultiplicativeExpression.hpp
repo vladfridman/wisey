@@ -17,16 +17,16 @@ namespace wisey {
    * Represents simple binary expression such as addition or division
    */
   class AdditiveMultiplicativeExpression : public IExpression {
-    IExpression* mLeftExpression;
-    IExpression* mRightExpression;
+    const IExpression* mLeftExpression;
+    const IExpression* mRightExpression;
     int mOperation;
     int mLine;
     
   public:
     
-    AdditiveMultiplicativeExpression(IExpression* leftExpression,
+    AdditiveMultiplicativeExpression(const IExpression* leftExpression,
                                      int operation,
-                                     IExpression* rightExpression,
+                                     const IExpression* rightExpression,
                                      int line);
     
     ~AdditiveMultiplicativeExpression();
@@ -34,12 +34,12 @@ namespace wisey {
     /**
      * Returns the left side of the expression
      */
-    IExpression* getLeft();
+    const IExpression* getLeft() const;
     
     /**
      * Returns the right side of the expression
      */
-    IExpression* getRight();
+    const IExpression* getRight() const;
     
     int getLine() const override;
 

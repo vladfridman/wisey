@@ -21,9 +21,9 @@ using namespace std;
 using namespace wisey;
 
 AdditiveMultiplicativeExpression::
-AdditiveMultiplicativeExpression(IExpression* leftExpression,
+AdditiveMultiplicativeExpression(const IExpression* leftExpression,
                                  int operation,
-                                 IExpression* rightExpression,
+                                 const IExpression* rightExpression,
                                  int line) :
 mLeftExpression(leftExpression),
 mRightExpression(rightExpression),
@@ -39,11 +39,11 @@ int AdditiveMultiplicativeExpression::getLine() const {
   return mLine;
 }
 
-IExpression* AdditiveMultiplicativeExpression::getLeft() {
+const IExpression* AdditiveMultiplicativeExpression::getLeft() const {
   return mLeftExpression;
 }
 
-IExpression* AdditiveMultiplicativeExpression::getRight() {
+const IExpression* AdditiveMultiplicativeExpression::getRight() const {
   return mRightExpression;
 }
 
