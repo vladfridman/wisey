@@ -141,7 +141,9 @@ namespace wisey {
     
     std::map<std::string, IMethod*> getNameToMethodMap() const override;
 
-    Constant* findConstant(std::string constantName) const override;
+    Constant* findConstant(IRGenerationContext& context,
+                           std::string constantName,
+                           int line) const override;
     
     std::vector<IMethod*> getMethods() const override;
     
@@ -246,11 +248,17 @@ namespace wisey {
     
     std::vector<InjectedField*> getInjectedFields() const;
 
-    void checkArguments(const InjectionArgumentList& injectionArgumentList) const ;
+    void checkArguments(IRGenerationContext& context,
+                        const InjectionArgumentList& injectionArgumentList,
+                        int line) const;
     
-    void checkArgumentsAreWellFormed(const InjectionArgumentList& injectionArgumentList) const;
+    void checkArgumentsAreWellFormed(IRGenerationContext& context,
+                                     const InjectionArgumentList& injectionArgumentList,
+                                     int line) const;
     
-    void checkAllFieldsAreSet(const InjectionArgumentList& injectionArgumentList) const;
+    void checkAllFieldsAreSet(IRGenerationContext& context,
+                              const InjectionArgumentList& injectionArgumentList,
+                              int line) const;
     
     void initializeReceivedFields(IRGenerationContext& context,
                                   llvm::Function* function,

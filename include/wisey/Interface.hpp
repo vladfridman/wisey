@@ -207,8 +207,10 @@ namespace wisey {
 
     IMethodDescriptor* findMethod(std::string methodName) const override;
     
-    Constant* findConstant(std::string constantName) const override;
-    
+    Constant* findConstant(IRGenerationContext& context,
+                           std::string constantName,
+                           int line) const override;
+
     std::string getObjectNameGlobalVariableName() const override;
     
     std::string getTypeName() const override;

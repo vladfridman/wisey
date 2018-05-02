@@ -114,7 +114,8 @@ void Controller::setFields(IRGenerationContext& context,
     } else if (field->isInjected()) {
       mInjectedFields.push_back((InjectedField*) field);
     } else {
-      Log::e_deprecated("Controllers can only have received, injected or state fields");
+      context.reportError(field->getLine(),
+                          "Controllers can only have received, injected or state fields");
       exit(1);
     }
     index++;
@@ -169,9 +170,12 @@ LLVMFunction* Controller::findLLVMFunction(string functionName) const {
   return NULL;
 }
 
-wisey::Constant* Controller::findConstant(string constantName) const {
+wisey::Constant* Controller::findConstant(IRGenerationContext& context,
+                                          string constantName,
+                                          int line) const {
   if (!mNameToConstantMap.count(constantName)) {
-    Log::e_deprecated("Controller " + mName + " does not have constant named " + constantName);
+    context.reportError(line, "Controller " + mName +
+                        " does not have constant named " + constantName);
     exit(1);
   }
   return mNameToConstantMap.at(constantName);
@@ -180,7 +184,7 @@ wisey::Constant* Controller::findConstant(string constantName) const {
 Instruction* Controller::inject(IRGenerationContext& context,
                                 InjectionArgumentList injectionArgumentList,
                                 int line) const {
-  checkArguments(injectionArgumentList);
+  checkArguments(context, injectionArgumentList, line);
 
   Function* function = context.getModule()->getFunction(getInjectFunctionName());
   assert(function && "Inject function for controller is not defined");
@@ -499,13 +503,16 @@ int Controller::getLine() const {
   return mLine;
 }
 
-void Controller::checkArguments(const InjectionArgumentList& received) const {
-  checkArgumentsAreWellFormed(received);
-  checkAllFieldsAreSet(received);
+void Controller::checkArguments(IRGenerationContext& context,
+                                const InjectionArgumentList& received,
+                                int line) const {
+  checkArgumentsAreWellFormed(context, received, line);
+  checkAllFieldsAreSet(context, received, line);
 }
 
-void Controller::checkArgumentsAreWellFormed(const InjectionArgumentList&
-                                             injectionArgumentList) const {
+void Controller::checkArgumentsAreWellFormed(IRGenerationContext& context,
+                                             const InjectionArgumentList& injectionArgumentList,
+                                             int line) const {
   bool areArgumentsWellFormed = true;
   
   for (InjectionArgument* argument : injectionArgumentList) {
@@ -513,14 +520,15 @@ void Controller::checkArgumentsAreWellFormed(const InjectionArgumentList&
   }
   
   if (!areArgumentsWellFormed) {
-    Log::e_deprecated("Some injection arguments for injected object " + getTypeName() +
-                      " are not well formed");
+    context.reportError(line, "Some injection arguments for injected object " + getTypeName() +
+                        " are not well formed");
     exit(1);
   }
 }
 
-void Controller::
-checkAllFieldsAreSet(const InjectionArgumentList& injectionArgumentList) const {
+void Controller:: checkAllFieldsAreSet(IRGenerationContext& context,
+                                       const InjectionArgumentList& injectionArgumentList,
+                                       int line) const {
   set<string> allFieldsThatAreSet;
   for (InjectionArgument* argument : injectionArgumentList) {
     allFieldsThatAreSet.insert(argument->deriveFieldName());
@@ -532,10 +540,10 @@ checkAllFieldsAreSet(const InjectionArgumentList& injectionArgumentList) const {
   }
   
   for (string missingField : missingFields) {
-    Log::e_deprecated("Received field " + missingField + " is not initialized");
+    context.reportError(line, "Received field " + missingField + " is not initialized");
   }
-  Log::e_deprecated("Some received fields of the controller " + getTypeName() +
-                    " are not initialized.");
+  context.reportError(line, "Some received fields of the controller " + getTypeName() +
+                      " are not initialized.");
   exit(1);
 }
 

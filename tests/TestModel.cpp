@@ -436,7 +436,7 @@ TEST_F(ModelTest, findMethodTest) {
 }
 
 TEST_F(ModelTest, findConstantTest) {
-  EXPECT_EQ(mConstant, mModel->findConstant("MYCONSTANT"));
+  EXPECT_EQ(mConstant, mModel->findConstant(mContext, "MYCONSTANT", 0));
 }
 
 TEST_F(ModelTest, findConstantDeathTest) {
@@ -444,9 +444,10 @@ TEST_F(ModelTest, findConstantDeathTest) {
   Mock::AllowLeak(mField2Expression);
   Mock::AllowLeak(mThreadVariable);
 
-  EXPECT_EXIT(mModel->findConstant("MYCONSTANT2"),
+  EXPECT_EXIT(mModel->findConstant(mContext, "MYCONSTANT2", 1),
               ::testing::ExitedWithCode(1),
-              "Error: Model systems.vos.wisey.compiler.tests.MSquare "
+              "/tmp/source.yz\\(1\\): Error: "
+              "Model systems.vos.wisey.compiler.tests.MSquare "
               "does not have constant named MYCONSTANT2");
 }
 

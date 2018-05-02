@@ -24,7 +24,9 @@
 class MockConcreteObjectType : public wisey::IConcreteObjectType {
 public:
   MOCK_CONST_METHOD1(findField, wisey::IField* (std::string));
-  MOCK_CONST_METHOD1(findConstant, wisey::Constant* (std::string));
+  MOCK_CONST_METHOD3(findConstant, wisey::Constant* (wisey::IRGenerationContext&,
+                                                     std::string,
+                                                     int));
   MOCK_CONST_METHOD1(getFieldIndex, unsigned long (const wisey::IField*));
   MOCK_CONST_METHOD0(getFields, std::vector<wisey::IField*> ());
   MOCK_CONST_METHOD0(getVTableName, std::string ());

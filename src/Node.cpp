@@ -106,7 +106,8 @@ void Node::setFields(IRGenerationContext& context,
     }
     
     if (type->isController()) {
-      Log::e_deprecated("Nodes can only have fields of primitive or model or node type");
+      context.reportError(field->getLine(),
+                          "Nodes can only have fields of primitive or model or node type");
       exit(1);
     }
     
@@ -114,12 +115,14 @@ void Node::setFields(IRGenerationContext& context,
         mFixedFields.push_back(field);
     } else if (field->isState()) {
       if (type->isReference() || (!type->isNode() && !type->isInterface())) {
-        Log::e_deprecated("Node state fields can only be node owner or interface owner type");
+        context.reportError(field->getLine(),
+                            "Node state fields can only be node owner or interface owner type");
         exit(1);
       }
       mStateFields.push_back(field);
     } else {
-      Log::e_deprecated("Nodes can only have fixed or state fields");
+      context.reportError(field->getLine(),
+                          "Nodes can only have fixed or state fields");
       exit(1);
     }
     index++;
@@ -152,9 +155,11 @@ void Node::setConstants(vector<Constant*> constants) {
   }
 }
 
-wisey::Constant* Node::findConstant(string constantName) const {
+wisey::Constant* Node::findConstant(IRGenerationContext& context,
+                                    string constantName,
+                                    int line) const {
   if (!mNameToConstantMap.count(constantName)) {
-    Log::e_deprecated("Node " + mName + " does not have constant named " + constantName);
+    context.reportError(line, "Node " + mName + " does not have constant named " + constantName);
     exit(1);
   }
   return mNameToConstantMap.at(constantName);
@@ -339,7 +344,7 @@ vector<string> Node::getMissingFields(set<string> givenFields) const {
 Instruction* Node::build(IRGenerationContext& context,
                          const ObjectBuilderArgumentList& objectBuilderArgumentList,
                          int line) const {
-  checkArguments(objectBuilderArgumentList);
+  checkArguments(context, objectBuilderArgumentList, line);
   Instruction* malloc = IConcreteObjectType::createMallocForObject(context, this, "buildervar");
   initializePresetFields(context, objectBuilderArgumentList, malloc, line);
   initializeVTable(context, (IConcreteObjectType*) this, malloc);
@@ -347,25 +352,32 @@ Instruction* Node::build(IRGenerationContext& context,
   return malloc;
 }
 
-void Node::checkArguments(const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const {
-  checkArgumentsAreWellFormed(ObjectBuilderArgumentList);
-  checkAllFieldsAreSet(ObjectBuilderArgumentList);
+void Node::checkArguments(IRGenerationContext& context,
+                          const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                          int line) const {
+  checkArgumentsAreWellFormed(context, objectBuilderArgumentList, line);
+  checkAllFieldsAreSet(context, objectBuilderArgumentList, line);
 }
 
-void Node::checkArgumentsAreWellFormed(const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const {
+void Node::checkArgumentsAreWellFormed(IRGenerationContext& context,
+                                       const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                                       int line) const {
   bool areArgumentsWellFormed = true;
   
-  for (ObjectBuilderArgument* argument : ObjectBuilderArgumentList) {
+  for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
     areArgumentsWellFormed &= argument->checkArgument(this);
   }
   
   if (!areArgumentsWellFormed) {
-    Log::e_deprecated("Some arguments for the node " + mName + " builder are not well formed");
+    context.reportError(line, "Some arguments for the node " + mName +
+                        " builder are not well formed");
     exit(1);
   }
 }
 
-void Node::checkAllFieldsAreSet(const ObjectBuilderArgumentList& objectBuilderArgumentList) const {
+void Node::checkAllFieldsAreSet(IRGenerationContext& context,
+                                const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                                int line) const {
   set<string> allFieldsThatAreSet;
   for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
     allFieldsThatAreSet.insert(argument->deriveFieldName());
@@ -377,9 +389,10 @@ void Node::checkAllFieldsAreSet(const ObjectBuilderArgumentList& objectBuilderAr
   }
   
   for (string missingField : missingFields) {
-    Log::e_deprecated("Field " + missingField + " of the node " + mName + " is not initialized.");
+    context.reportError(line, "Field " + missingField + " of the node " + mName +
+                        " is not initialized.");
   }
-  Log::e_deprecated("Some fields of the node " + mName + " are not initialized.");
+  context.reportError(line, "Some fields of the node " + mName + " are not initialized.");
   exit(1);
 }
 
@@ -401,8 +414,8 @@ void Node::initializePresetFields(IRGenerationContext& context,
     Value* argumentValue = argument->getValue(context, fieldType);
     const IType* argumentType = argument->getType(context);
     if (!argumentType->canAutoCastTo(context, fieldType)) {
-      Log::e_deprecated("Node builder argument value for field " + argumentName +
-             " does not match its type");
+      context.reportError(line, "Node builder argument value for field " + argumentName +
+                          " does not match its type");
       exit(1);
     }
     Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);

@@ -118,8 +118,10 @@ namespace wisey {
     
     std::map<std::string, IMethod*> getNameToMethodMap() const override;
 
-    Constant* findConstant(std::string constantName) const override;
-    
+    Constant* findConstant(IRGenerationContext& context,
+                           std::string constantName,
+                           int line) const override;
+
     std::vector<IMethod*> getMethods() const override;
     
     std::string getObjectNameGlobalVariableName() const override;
@@ -223,11 +225,17 @@ namespace wisey {
 
   private:
     
-    void checkArguments(const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const;
+    void checkArguments(IRGenerationContext& context,
+                        const ObjectBuilderArgumentList& ObjectBuilderArgumentList,
+                        int line) const;
     
-    void checkArgumentsAreWellFormed(const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const;
+    void checkArgumentsAreWellFormed(IRGenerationContext& context,
+                                     const ObjectBuilderArgumentList& ObjectBuilderArgumentList,
+                                     int line) const;
     
-    void checkAllFieldsAreSet(const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const;
+    void checkAllFieldsAreSet(IRGenerationContext& context,
+                              const ObjectBuilderArgumentList& ObjectBuilderArgumentList,
+                              int line) const;
     
     void initializePresetFields(IRGenerationContext& context,
                                 const ObjectBuilderArgumentList& ObjectBuilderArgumentList,

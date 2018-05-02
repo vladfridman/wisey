@@ -148,9 +148,11 @@ void Model::setConstants(vector<Constant*> constants) {
   }
 }
 
-wisey::Constant* Model::findConstant(string constantName) const {
+wisey::Constant* Model::findConstant(IRGenerationContext& context,
+                                     string constantName,
+                                     int line) const {
   if (!mNameToConstantMap.count(constantName)) {
-    Log::e_deprecated("Model " + mName + " does not have constant named " + constantName);
+    context.reportError(line, "Model " + mName + " does not have constant named " + constantName);
     exit(1);
   }
   return mNameToConstantMap.at(constantName);

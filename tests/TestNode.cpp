@@ -416,7 +416,7 @@ TEST_F(NodeTest, findFeildTest) {
 }
 
 TEST_F(NodeTest, findConstantTest) {
-  EXPECT_EQ(mConstant, mComplicatedNode->findConstant("MYCONSTANT"));
+  EXPECT_EQ(mConstant, mComplicatedNode->findConstant(mContext, "MYCONSTANT", 0));
 }
 
 TEST_F(NodeTest, findConstantDeathTest) {
@@ -424,9 +424,10 @@ TEST_F(NodeTest, findConstantDeathTest) {
   Mock::AllowLeak(mField2Expression);
   Mock::AllowLeak(mThreadVariable);
   
-  EXPECT_EXIT(mComplicatedNode->findConstant("MYCONSTANT2"),
+  EXPECT_EXIT(mComplicatedNode->findConstant(mContext, "MYCONSTANT2", 7),
               ::testing::ExitedWithCode(1),
-              "Error: Node systems.vos.wisey.compiler.tests.NComplicatedNode "
+              "/tmp/source.yz\\(7\\): Error: "
+              "Node systems.vos.wisey.compiler.tests.NComplicatedNode "
               "does not have constant named MYCONSTANT2");
 }
 
@@ -691,11 +692,11 @@ TEST_F(NodeTest, buildInvalidObjectBuilderArgumentsDeathTest) {
   argumentList.push_back(argument2);
   
   const char *expected =
-  "Error: Object builder argument should start with 'with'. e.g. .withField\\(value\\)."
-  "\nError: Some arguments for the node systems.vos.wisey.compiler.tests.NSimpleNode "
-  "builder are not well formed";
+  "Error: Object builder argument should start with 'with'. e.g. .withField\\(value\\).\n"
+  "/tmp/source.yz\\(1\\): Error: Some arguments for the node "
+  "systems.vos.wisey.compiler.tests.NSimpleNode builder are not well formed";
   
-  EXPECT_EXIT(mSimpleNode->build(mContext, argumentList, 0),
+  EXPECT_EXIT(mSimpleNode->build(mContext, argumentList, 1),
               ::testing::ExitedWithCode(1),
               expected);
 }
@@ -736,11 +737,12 @@ TEST_F(NodeTest, buildNotAllFieldsAreSetDeathTest) {
   argumentList.push_back(argument1);
   
   const char *expected =
-  "Error: Field mOwner of the node systems.vos.wisey.compiler.tests.NSimpleNode is not initialized."
-  "\nError: Some fields of the node systems.vos.wisey.compiler.tests.NSimpleNode "
-  "are not initialized.";
+  "Error: Field mOwner of the node systems.vos.wisey.compiler.tests.NSimpleNode is not "
+  "initialized.\n"
+  "/tmp/source.yz\\(7\\): Error: Some fields of the node "
+  "systems.vos.wisey.compiler.tests.NSimpleNode are not initialized.";
   
-  EXPECT_EXIT(mSimpleNode->build(mContext, argumentList, 0),
+  EXPECT_EXIT(mSimpleNode->build(mContext, argumentList, 7),
               ::testing::ExitedWithCode(1),
               expected);
 }

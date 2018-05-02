@@ -131,8 +131,10 @@ namespace wisey {
     
     std::map<std::string, IMethod*> getNameToMethodMap() const override;
 
-    Constant* findConstant(std::string constantName) const override;
-    
+    Constant* findConstant(IRGenerationContext& context,
+                           std::string constantName,
+                           int line) const override;
+
     std::vector<IMethod*> getMethods() const override;
     
     std::string getObjectNameGlobalVariableName() const override;

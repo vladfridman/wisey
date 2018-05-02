@@ -432,15 +432,16 @@ TEST_F(ControllerTest, findMethodTest) {
 }
 
 TEST_F(ControllerTest, findConstantTest) {
-  EXPECT_EQ(mConstant, mMultiplierController->findConstant("MYCONSTANT"));
+  EXPECT_EQ(mConstant, mMultiplierController->findConstant(mContext, "MYCONSTANT", 5));
 }
 
 TEST_F(ControllerTest, findConstantDeathTest) {
   Mock::AllowLeak(mThreadVariable);
   
-  EXPECT_EXIT(mMultiplierController->findConstant("MYCONSTANT2"),
+  EXPECT_EXIT(mMultiplierController->findConstant(mContext, "MYCONSTANT2", 5),
               ::testing::ExitedWithCode(1),
-              "Error: Controller systems.vos.wisey.compiler.tests.CMultiplier "
+              "/tmp/source.yz\\(5\\): Error: "
+              "Controller systems.vos.wisey.compiler.tests.CMultiplier "
               "does not have constant named MYCONSTANT2");
 }
 
@@ -913,10 +914,10 @@ TEST_F(ControllerTest, notWellFormedInjectionArgumentsDeathTest) {
                                                                injectArgument1Expression);
   injectionArguments.push_back(injectionArgument);
 
-  EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments, 0),
+  EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments, 5),
               ::testing::ExitedWithCode(1),
               "Error: Injection argument should start with 'with'. e.g. .withField\\(value\\).\n"
-              "Error: Some injection arguments for injected object "
+              "/tmp/source.yz\\(5\\): Error: Some injection arguments for injected object "
               "systems.vos.wisey.compiler.tests.CAdditor are not well formed");
 }
 

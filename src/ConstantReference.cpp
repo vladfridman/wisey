@@ -35,7 +35,7 @@ int ConstantReference::getLine() const {
 Value* ConstantReference::generateIR(IRGenerationContext& context,
                                      const IType* assignToType) const {
   const IObjectType* objectType = getObjectType(context);
-  Constant* constant = objectType->findConstant(mConstantName);
+  Constant* constant = objectType->findConstant(context, mConstantName, mLine);
   if (!constant->isPublic() && objectType != context.getObjectType()) {
     context.reportError(mLine,
                         "Trying to reference private constant not visible from the current object");
@@ -48,7 +48,7 @@ Value* ConstantReference::generateIR(IRGenerationContext& context,
 
 const IType* ConstantReference::getType(IRGenerationContext& context) const {
   const IObjectType* objectType = getObjectType(context);
-  return objectType->findConstant(mConstantName)->getType();
+  return objectType->findConstant(context, mConstantName, mLine)->getType();
 }
 
 bool ConstantReference::isConstant() const {

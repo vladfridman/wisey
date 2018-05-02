@@ -218,9 +218,12 @@ void Interface::processMethodSignatures(IRGenerationContext& context) {
   }
 }
 
-wisey::Constant* Interface::findConstant(string constantName) const {
+wisey::Constant* Interface::findConstant(IRGenerationContext& context,
+                                         string constantName,
+                                         int line) const {
   if (!mNameToConstantMap.count(constantName)) {
-    Log::e_deprecated("Interface " + mName + " does not have constant named " + constantName);
+    context.reportError(line, "Interface " + mName + " does not have constant named " +
+                        constantName);
     exit(1);
   }
   return mNameToConstantMap.at(constantName);

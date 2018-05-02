@@ -51,7 +51,9 @@ namespace wisey {
     /**
      * Finds a method with a given name.
      */
-    virtual Constant* findConstant(std::string constantName) const = 0;
+    virtual Constant* findConstant(IRGenerationContext& context,
+                                   std::string constantName,
+                                   int line) const = 0;
     
     /**
      * Finds a llvm function with a given name.

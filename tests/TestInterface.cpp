@@ -69,15 +69,11 @@ struct InterfaceTest : public Test {
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   string mPackage = "systems.vos.wisey.compiler.tests";
-  ImportProfile* mImportProfile;
   
   InterfaceTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mMockExpression(new NiceMock<MockExpression>()) {
     TestPrefix::generateIR(mContext);
-
-    mImportProfile = new ImportProfile(mPackage);
-    mContext.setImportProfile(mImportProfile);
 
     vector<IModelTypeSpecifier*> exceptions;
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
@@ -231,16 +227,17 @@ TEST_F(InterfaceTest, findMethodTest) {
 }
 
 TEST_F(InterfaceTest, findConstantTest) {
-  ASSERT_NE(nullptr, mShapeInterface->findConstant("MYCONSTANT"));
+  ASSERT_NE(nullptr, mShapeInterface->findConstant(mContext, "MYCONSTANT", 0));
 }
 
 TEST_F(InterfaceTest, findConstantDeathTest) {
   Mock::AllowLeak(mMockExpression);
   Mock::AllowLeak(mThreadVariable);
 
-  EXPECT_EXIT(mShapeInterface->findConstant("MYCONSTANT2"),
+  EXPECT_EXIT(mShapeInterface->findConstant(mContext, "MYCONSTANT2", 3),
               ::testing::ExitedWithCode(1),
-              "Error: Interface systems.vos.wisey.compiler.tests.IShape "
+              "/tmp/source.yz\\(3\\): Error: "
+              "Interface systems.vos.wisey.compiler.tests.IShape "
               "does not have constant named MYCONSTANT2");
 }
 
