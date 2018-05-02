@@ -134,13 +134,13 @@ void AdditiveMultiplicativeExpression::checkTypes(IRGenerationContext& context,
   }
   
   if (!leftType->canCastTo(context, rightType) && !rightType->canCastTo(context, leftType)) {
-    Log::e_deprecated("Incompatible types in '" + string(1, mOperation) + "' operation");
+    context.reportError(mLine, "Incompatible types in '" + string(1, mOperation) + "' operation");
     exit(1);
   }
   
   if (!leftType->canAutoCastTo(context, rightType) && !rightType->canAutoCastTo(context, leftType)) {
-    Log::e_deprecated("Incompatible types in '" + string(1, mOperation) +
-           "' operation that require an explicit cast");
+    context.reportError(mLine, "Incompatible types in '" + string(1, mOperation) +
+                        "' operation that require an explicit cast");
     exit(1);
   }
 }

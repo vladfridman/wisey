@@ -54,7 +54,9 @@ namespace wisey {
     
     llvm::Value* generateIRForInts(IRGenerationContext& context, const IType* assignToType) const;
     
-    void reportIncompatableTypes(const IType* leftType, const IType* rightType) const;
+    void reportIncompatableTypes(IRGenerationContext& context,
+                                 const IType* leftType,
+                                 const IType* rightType) const;
     
   };
   

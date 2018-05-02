@@ -42,7 +42,7 @@ Value* RelationalExpression::generateIR(IRGenerationContext& context,
   const IType* rightType = mRightExpression->getType(context);
   if ((!leftType->isPrimitive() && rightType->isPrimitive()) ||
       (leftType->isPrimitive() && !rightType->isPrimitive())) {
-    Log::e_deprecated("Can not compare objects to primitive types");
+    context.reportError(mLine, "Can not compare objects to primitive types");
     exit(1);
   }
   
@@ -68,7 +68,7 @@ Value* RelationalExpression::generateIRForObjects(IRGenerationContext& context,
     case RELATIONAL_OPERATION_EQ : predicate = ICmpInst::ICMP_EQ; break;
     case RELATIONAL_OPERATION_NE : predicate = ICmpInst::ICMP_NE; break;
     default:
-      Log::e_deprecated("Objects can only be used to compare for equality");
+      context.reportError(mLine, "Objects can only be used to compare for equality");
       exit(1);
   }
   
@@ -92,7 +92,7 @@ Value* RelationalExpression::generateIRForObjects(IRGenerationContext& context,
     return IRWriter::newICmpInst(context, predicate, leftValue, castedRightValue, "cmp");
   }
   
-  reportIncompatableTypes(leftType, rightType);
+  reportIncompatableTypes(context, leftType, rightType);
   exit(1);
 }
 
@@ -128,7 +128,7 @@ Value* RelationalExpression::generateIRForFloats(IRGenerationContext& context,
     return IRWriter::newFCmpInst(context, predicate, leftValue, castedRightValue, "cmp");
   }
   
-  reportIncompatableTypes(leftType, rightType);
+  reportIncompatableTypes(context, leftType, rightType);
   exit(1);
 }
 
@@ -164,13 +164,15 @@ Value* RelationalExpression::generateIRForInts(IRGenerationContext& context,
     return IRWriter::newICmpInst(context, predicate, leftValue, castedRightValue, "cmp");
   }
   
-  reportIncompatableTypes(leftType, rightType);
+  reportIncompatableTypes(context, leftType, rightType);
   exit(1);
 }
 
-void RelationalExpression::reportIncompatableTypes(const IType* leftType,
+void RelationalExpression::reportIncompatableTypes(IRGenerationContext& context,
+                                                   const IType* leftType,
                                                    const IType* rightType) const {
-  Log::e_deprecated("Can not compare types " + leftType->getTypeName() + " and " + rightType->getTypeName());
+  context.reportError(mLine, "Can not compare types " + leftType->getTypeName() + " and " +
+                      rightType->getTypeName());
 }
 
 bool RelationalExpression::isConstant() const {

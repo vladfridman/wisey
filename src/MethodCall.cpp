@@ -76,8 +76,8 @@ Value* MethodCall::generateIR(IRGenerationContext& context, const IType* assignT
                                          methodDescriptor,
                                          assignToType);
   }
-  Log::e_deprecated("Method call " + methodDescriptor->getTypeName() +
-                    " on an unknown object type '" + object->getTypeName() + "'");
+  context.reportError(mLine, "Method call " + methodDescriptor->getTypeName() +
+                      " on an unknown object type '" + object->getTypeName() + "'");
   exit(1);
 }
 
@@ -238,8 +238,10 @@ void MethodCall::checkArgumentType(const IObjectType* objectWithMethods,
   ExpressionList::const_iterator callArgumentsIterator = mArguments.begin();
   
   if (mArguments.size() != methodDescriptor->getArguments().size()) {
-    Log::e_deprecated("Number of arguments for method call '" + methodDescriptor->getName() +
-           "' of the object type '" + objectWithMethods->getTypeName() + "' is not correct");
+    context.reportError(mLine,
+                        "Number of arguments for method call '" + methodDescriptor->getName() +
+                        "' of the object type '" + objectWithMethods->getTypeName() +
+                        "' is not correct");
     exit(1);
   }
   
@@ -248,9 +250,9 @@ void MethodCall::checkArgumentType(const IObjectType* objectWithMethods,
     const IType* callArgumentType = (*callArgumentsIterator)->getType(context);
     
     if (!callArgumentType->canAutoCastTo(context, methodArgumentType)) {
-      Log::e_deprecated("Call argument types do not match for a call to method '" +
-             methodDescriptor->getName() +
-             "' of the object type '" + objectWithMethods->getTypeName() + "'");
+      context.reportError(mLine, "Call argument types do not match for a call to method '" +
+                          methodDescriptor->getName() +
+                          "' of the object type '" + objectWithMethods->getTypeName() + "'");
       exit(1);
     }
     
@@ -296,8 +298,8 @@ Function* MethodCall::getMethodFunction(IRGenerationContext& context,
   
   Function *function = context.getModule()->getFunction(llvmFunctionName.c_str());
   if (function == NULL) {
-    Log::e_deprecated("LLVM function implementing object '" + objectType->getTypeName() + "' method '" +
-           methodName + "' was not found");
+    context.reportError(mLine, "LLVM function implementing object '" + objectType->getTypeName() +
+                        "' method '" + methodName + "' was not found");
     exit(1);
   }
   

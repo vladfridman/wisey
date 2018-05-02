@@ -79,8 +79,9 @@ void IMethod::maybeAddImpliedVoidReturn(IRGenerationContext& context,
   
   const IType* returnType = method->getReturnType();
   if (returnType != PrimitiveTypes::VOID) {
-    Log::e_deprecated((method->isStatic() ? "Static method " : "Method ") + method->getName() +
-           " must return a value of type " + returnType->getTypeName());
+    context.reportError(line,
+                        (method->isStatic() ? "Static method " : "Method ") + method->getName() +
+                        " must return a value of type " + returnType->getTypeName());
     exit(1);
   }
   

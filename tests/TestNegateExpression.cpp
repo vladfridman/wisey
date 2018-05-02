@@ -17,6 +17,7 @@
 
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/NegateExpression.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -41,6 +42,8 @@ struct NegateExpressionTest : Test {
   NiceMock<MockExpression>* mExpression;
   
   NegateExpressionTest() : mExpression(new NiceMock<MockExpression>()) {
+    TestPrefix::generateIR(mContext);
+    
     LLVMContext& llvmContext = mContext.getLLVMContext();
     
     FunctionType* functionType =

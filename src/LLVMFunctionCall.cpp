@@ -31,7 +31,7 @@ int LLVMFunctionCall::getLine() const {
 Value* LLVMFunctionCall::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   Function* function = context.getModule()->getFunction(mFunctionName);
   if (function == NULL) {
-    Log::e_deprecated("LLVM function " + mFunctionName + " is not defined");
+    context.reportError(mLine, "LLVM function " + mFunctionName + " is not defined");
     exit(1);
   }
   
@@ -45,7 +45,7 @@ Value* LLVMFunctionCall::generateIR(IRGenerationContext& context, const IType* a
 const IType* LLVMFunctionCall::getType(IRGenerationContext& context) const {
   Function* function = context.getModule()->getFunction(mFunctionName);
   if (function == NULL) {
-    Log::e_deprecated("LLVM function " + mFunctionName + " is not defined");
+    context.reportError(mLine, "LLVM function " + mFunctionName + " is not defined");
     exit(1);
   }
   

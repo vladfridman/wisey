@@ -19,6 +19,7 @@
 #include "MockReferenceVariable.hpp"
 #include "MockType.hpp"
 #include "MockVariable.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IdentifierReference.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
@@ -40,6 +41,8 @@ struct IdentifierReferenceTest : public Test {
   LLVMContext& mLLVMContext;
   
   IdentifierReferenceTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     mContext.getScopes().pushScope();
   }
   

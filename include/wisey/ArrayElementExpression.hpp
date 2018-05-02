@@ -37,7 +37,8 @@ namespace wisey {
     static llvm::Value* generateElementIR(IRGenerationContext& context,
                                           const ArrayType* arrayType,
                                           llvm::Value* arrayStructPointer,
-                                          std::vector<const IExpression*> arrayIndices);
+                                          std::vector<const IExpression*> arrayIndices,
+                                          int line);
     
     int getLine() const override;
 
@@ -60,7 +61,8 @@ namespace wisey {
     
     static llvm::Value* getArrayElement(IRGenerationContext& context,
                                         llvm::Value* arrayStructPointer,
-                                        const IExpression* indexExpression);
+                                        const IExpression* indexExpression,
+                                        int line);
     
   };
   

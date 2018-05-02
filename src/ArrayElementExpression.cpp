@@ -50,7 +50,7 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   
   Composer::setLineNumber(context, mLine);
   CheckForNullAndThrowFunction::call(context, arrayStructPointer);
-  Value* pointer = getArrayElement(context, arrayStructPointer, mArrayIndexExpresion);
+  Value* pointer = getArrayElement(context, arrayStructPointer, mArrayIndexExpresion, mLine);
   
   if (arrayType->getNumberOfDimensions() > 1) {
     Type* resultType = getType(context)->getLLVMType(context);
@@ -73,13 +73,14 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
 
 Value* ArrayElementExpression::getArrayElement(IRGenerationContext &context,
                                                Value* arrayStructPointer,
-                                               const IExpression* indexExpression) {
+                                               const IExpression* indexExpression,
+                                               int line) {
   LLVMContext& llvmContext = context.getLLVMContext();
   const IType* arrayIndexExpressionType = indexExpression->getType(context);
   if (arrayIndexExpressionType != PrimitiveTypes::INT &&
       arrayIndexExpressionType != PrimitiveTypes::LONG) {
-    Log::e_deprecated("Array index should be integer type, but it is " +
-           arrayIndexExpressionType->getTypeName());
+    context.reportError(line, "Array index should be integer type, but it is " +
+                        arrayIndexExpressionType->getTypeName());
     exit(1);
   }
 
@@ -119,11 +120,12 @@ Value* ArrayElementExpression::getArrayElement(IRGenerationContext &context,
 Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
                                                  const ArrayType* arrayType,
                                                  Value* arrayStructPointer,
-                                                 vector<const IExpression*> arrayIndices) {
+                                                 vector<const IExpression*> arrayIndices,
+                                                 int line) {
   LLVMContext& llvmContext = context.getLLVMContext();
 
   if (arrayType->getNumberOfDimensions() != arrayIndices.size()) {
-    Log::e_deprecated("Expression does not reference an array element");
+    context.reportError(line, "Expression does not reference an array element");
     exit(1);
   }
   
@@ -137,7 +139,7 @@ Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
     const IExpression* indexExpression = arrayIndices.back();
     arrayIndices.pop_back();
     
-    Value* element = getArrayElement(context, value, indexExpression);
+    Value* element = getArrayElement(context, value, indexExpression, line);
     const ArrayType* subArrayType = context.getArrayType(arrayType->getElementType(),
                                                          arrayIndices.size());
     value = IRWriter::newBitCastInst(context, element, subArrayType->getLLVMType(context));

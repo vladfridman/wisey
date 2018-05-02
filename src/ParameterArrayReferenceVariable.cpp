@@ -60,10 +60,11 @@ Value* ParameterArrayReferenceVariable::generateIdentifierReferenceIR(IRGenerati
 
 Value* ParameterArrayReferenceVariable::generateAssignmentIR(IRGenerationContext& context,
                                                              IExpression* assignToExpression,
-                                                             vector<const IExpression*> arrayIndices,
+                                                             vector<const IExpression*>
+                                                             arrayIndices,
                                                              int line) {
   if (!arrayIndices.size()) {
-    Log::e_deprecated("Assignment to method parameters is not allowed");
+    context.reportError(line, "Assignment to method parameters is not allowed");
     exit(1);
   }
   
@@ -72,7 +73,8 @@ Value* ParameterArrayReferenceVariable::generateAssignmentIR(IRGenerationContext
   Value* elementStore = ArrayElementExpression::generateElementIR(context,
                                                                   mArrayType,
                                                                   mValue,
-                                                                  arrayIndices);
+                                                                  arrayIndices,
+                                                                  line);
   
   Value* result = ArrayElementAssignment::generateElementAssignment(context,
                                                                     mArrayType->getElementType(),

@@ -29,7 +29,7 @@ ReturnStatement::~ReturnStatement() {
 void ReturnStatement::generateIR(IRGenerationContext& context) const {
   const IType* returnType = context.getScopes().getReturnType();
   if (returnType == NULL) {
-    Log::e_deprecated("No corresponding method found for RETURN");
+    context.reportError(mLine, "No corresponding method found for RETURN");
     exit(1);
   }
   

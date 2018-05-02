@@ -16,6 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/ParameterArrayReferenceVariable.hpp"
@@ -44,6 +45,8 @@ struct ParameterArrayReferenceVariableTest : public Test {
 public:
   
   ParameterArrayReferenceVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     mArrayType = mContext.getArrayType(PrimitiveTypes::INT, 1u);
     
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);

@@ -59,6 +59,7 @@ bool IObjectType::checkAccess(const IObjectType* from, const IObjectType* to) {
     return true;
   }
   
-  Log::e_deprecated("Object " + to->getTypeName() + " is not accessable from object " + from->getTypeName());
+  Log::e_deprecated("Object " + to->getTypeName() + " is not accessable from object " +
+                    from->getTypeName());
   exit(1);
 }

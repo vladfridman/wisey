@@ -49,9 +49,10 @@ Value* StaticMethodCall::generateIR(IRGenerationContext& context, const IType* a
   IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
   const IObjectType* objectType = mObjectTypeSpecifier->getType(context);
   if (!checkAccess(context, methodDescriptor)) {
-    Log::e_deprecated((methodDescriptor->isNative() ? "LLVM function '" : "Static method '") +
-                      mMethodName + "' of object " + objectType->getTypeName() +
-                      " is private");
+    context.reportError(mLine,
+                        (methodDescriptor->isNative() ? "LLVM function '" : "Static method '") +
+                        mMethodName + "' of object " + objectType->getTypeName() +
+                        " is private");
     exit(1);
   }
   checkArgumentType(methodDescriptor, context);
@@ -80,8 +81,8 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
   
   Function *function = context.getModule()->getFunction(llvmFunctionName.c_str());
   if (function == NULL) {
-    Log::e_deprecated("LLVM function implementing object " + objectType->getTypeName() +
-                      " method '" + mMethodName + "' was not found");
+    context.reportError(mLine, "LLVM function implementing object " + objectType->getTypeName() +
+                        " method '" + mMethodName + "' was not found");
     exit(1);
   }
   
@@ -140,14 +141,14 @@ IMethodDescriptor* StaticMethodCall::getMethodDescriptor(IRGenerationContext& co
   IMethodDescriptor* staticMethod = objectType->findMethod(mMethodName);
   IMethodDescriptor* llvmFunction = objectType->findLLVMFunction(mMethodName);
   if (staticMethod == NULL && llvmFunction == NULL) {
-    Log::e_deprecated("Static method '" + mMethodName + "' is not found in object " +
-                      objectType->getTypeName());
+    context.reportError(mLine, "Static method '" + mMethodName + "' is not found in object " +
+                        objectType->getTypeName());
     exit(1);
   }
   IMethodDescriptor* methodDescriptor = staticMethod == NULL ? llvmFunction : staticMethod;
   if (!methodDescriptor->isStatic()) {
-    Log::e_deprecated("Method '" + mMethodName + "' of object type " +
-                      objectType->getTypeName() + " is not static");
+    context.reportError(mLine, "Method '" + mMethodName + "' of object type " +
+                        objectType->getTypeName() + " is not static");
     exit(1);
   }
   
@@ -161,10 +162,11 @@ void StaticMethodCall::checkArgumentType(IMethodDescriptor* methodDescriptor,
   
   if (mArguments.size() != methodDescriptor->getArguments().size()) {
     string methodOrFunction = methodDescriptor->isNative() ? "LLVM function " : "static method ";
-    Log::e_deprecated("Number of arguments for " + methodOrFunction +
-                      "call '" + methodDescriptor->getName() +
-                      "' of the object type " +
-                      mObjectTypeSpecifier->getType(context)->getTypeName() + " is not correct");
+    context.reportError(mLine,
+                        "Number of arguments for " + methodOrFunction +
+                        "call '" + methodDescriptor->getName() +
+                        "' of the object type " +
+                        mObjectTypeSpecifier->getType(context)->getTypeName() + " is not correct");
     exit(1);
   }
   
@@ -174,9 +176,10 @@ void StaticMethodCall::checkArgumentType(IMethodDescriptor* methodDescriptor,
     
     if (!callArgumentType->canAutoCastTo(context, methodArgumentType)) {
       string methodOrFunction = methodDescriptor->isNative() ? "LLVM function '" : "method '";
-      Log::e_deprecated("Call argument types do not match for a call to " + methodOrFunction +
-                        methodDescriptor->getName() + "' of the object type " +
-                        mObjectTypeSpecifier->getType(context)->getTypeName());
+      context.reportError(mLine,
+                          "Call argument types do not match for a call to " + methodOrFunction +
+                          methodDescriptor->getName() + "' of the object type " +
+                          mObjectTypeSpecifier->getType(context)->getTypeName());
       exit(1);
     }
     

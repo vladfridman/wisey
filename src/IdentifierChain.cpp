@@ -34,8 +34,9 @@ Value* IdentifierChain::generateIR(IRGenerationContext& context, const IType* as
   IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
   const IObjectType* objectWithMethodsType = methodDescriptor->getParentObject();
   if (!checkAccess(context, methodDescriptor)) {
-    Log::e_deprecated("Method '" + mName + "' of object " + objectWithMethodsType->getTypeName() +
-                      " is private");
+    context.reportError(mLine,
+                        "Method '" + mName + "' of object " + objectWithMethodsType->getTypeName() +
+                        " is private");
     exit(1);
   }
 
@@ -86,7 +87,8 @@ IMethodDescriptor* IdentifierChain::getMethodDescriptor(IRGenerationContext& con
   IMethodDescriptor* methodDescriptor = objectType->findMethod(mName);
   
   if (methodDescriptor == NULL) {
-    Log::e_deprecated("Method '" + mName + "' is not found in object " + objectType->getTypeName());
+    context.reportError(mLine, "Method '" + mName + "' is not found in object " +
+                        objectType->getTypeName());
     exit(1);
   }
   

@@ -18,6 +18,7 @@
 #include "MockExpressionAssignable.hpp"
 #include "MockVariable.hpp"
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/ArrayElementExpression.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -51,6 +52,8 @@ struct ArrayElementExpressionTest : Test {
   mArrayExpression(new NiceMock<MockExpressionAssignable>()),
   mArrayIndexExpression(new NiceMock<MockExpression>()),
   mArrayVariable(new NiceMock<MockVariable>()) {
+    TestPrefix::generateIR(mContext);
+    
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     mFunction = Function::Create(functionType,
@@ -101,7 +104,7 @@ TEST_F(ArrayElementExpressionTest, generateIRTest) {
   *mStringStream << *mFunction;
   
   string expected =
-  "\ndefine internal i32 @main() {"
+  "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = bitcast { i64, i64, i64, [0 x i32] }* null to i8*"
   "\n  invoke void @__checkForNullAndThrow(i8* %0)"
@@ -199,7 +202,8 @@ TEST_F(ArrayElementExpressionTest, generateIRDeathTest) {
   EXPECT_EXIT(ArrayElementExpression::generateElementIR(mContext,
                                                         mArrayType,
                                                         null,
-                                                        arrayIndices),
+                                                        arrayIndices,
+                                                        3),
               ::testing::ExitedWithCode(1),
               "Error: Expression does not reference an array element");
 }

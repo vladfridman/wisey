@@ -60,7 +60,7 @@ Value* ParameterArrayOwnerVariable::generateAssignmentIR(IRGenerationContext& co
                                                          IExpression* assignToExpression,
                                                          vector<const IExpression*> arrayIndices,
                                                          int line) {
-  Log::e_deprecated("Assignment to method parameters is not allowed");
+  context.reportError(line, "Assignment to method parameters is not allowed");
   exit(1);
 }
 

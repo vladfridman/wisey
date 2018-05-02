@@ -64,8 +64,8 @@ Value* FieldPointerVariable::generateAssignmentIR(IRGenerationContext& context,
   assert(field->getType()->isPointer());
   const IReferenceType* fieldType = (const IReferenceType*) field->getType();
   if (!expressionType->canAutoCastTo(context, fieldType)) {
-    Log::e_deprecated("Can not assign to field '" + mName + "' of object '" + mObject->getTypeName() +
-           "' because of incompatable types");
+    context.reportError(line, "Can not assign to field '" + mName + "' of object '" +
+                        mObject->getTypeName() + "' because of incompatable types");
     exit(1);
   }
   Value* expressionValue = assignToExpression->generateIR(context, field->getType());

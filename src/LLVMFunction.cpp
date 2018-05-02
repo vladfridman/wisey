@@ -179,8 +179,8 @@ void LLVMFunction::maybeAddImpliedVoidReturn(IRGenerationContext& context, int l
   }
   
   if (mReturnType != LLVMPrimitiveTypes::VOID) {
-    Log::e_deprecated("LLVM function " + mName +
-           " must return a value of type " + mReturnType->getTypeName());
+    context.reportError(line, "LLVM function " + mName + " must return a value of type " +
+                        mReturnType->getTypeName());
     exit(1);
   }
   

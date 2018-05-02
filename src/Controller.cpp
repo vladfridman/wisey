@@ -195,8 +195,8 @@ Instruction* Controller::inject(IRGenerationContext& context,
     Value* argumentValue = argument->getValue(context, fieldType);
     const IType* argumentType = argument->getType(context);
     if (!argumentType->canAutoCastTo(context, fieldType)) {
-      Log::e_deprecated("Injector argumet value for field '" + field->getName() +
-                        "' does not match its type");
+      context.reportError(line, "Injector argumet value for field '" + field->getName() +
+                          "' does not match its type");
       exit(1);
     }
     Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);

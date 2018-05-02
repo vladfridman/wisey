@@ -64,8 +64,9 @@ Value* FieldLLVMVariable::generateAssignmentIR(IRGenerationContext& context,
   const IType* expressionType = assignToExpression->getType(context);
   const IType* fieldType = field->getType();
   if (!expressionType->canAutoCastTo(context, fieldType)) {
-    Log::e_deprecated("Can not assign to field '" + mName + "' of object '" + mObject->getTypeName() +
-           "' because of incompatable types");
+    context.reportError(line, "Can not assign to field '" + mName +
+                        "' of object '" + mObject->getTypeName() +
+                        "' because of incompatable types");
     exit(1);
   }
   Value* expressionValue = assignToExpression->generateIR(context, fieldType);
