@@ -76,12 +76,12 @@ struct LogicalOrExpressionTest : Test {
 
 TEST_F(LogicalOrExpressionTest, logicalAndTrueValueTest) {
   ON_CALL(*mLeftExpression, generateIR(_, _)).WillByDefault(Return(mTrueValue));
-  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
+  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN));
   ON_CALL(*mRightExpression, generateIR(_, _)).WillByDefault(Return(mFalseValue));
-  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
+  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN));
 
   LogicalOrExpression expression(mLeftExpression, mRightExpression, 0);
-  expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  expression.generateIR(mContext, PrimitiveTypes::VOID);
   
   ASSERT_EQ(3ul, mFunction->size());
   Function::iterator iterator = mFunction->begin();
@@ -109,12 +109,12 @@ TEST_F(LogicalOrExpressionTest, logicalAndTrueValueTest) {
 
 TEST_F(LogicalOrExpressionTest, logicalAndFalseValueTest) {
   ON_CALL(*mLeftExpression, generateIR(_, _)).WillByDefault(Return(mFalseValue));
-  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
+  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN));
   ON_CALL(*mRightExpression, generateIR(_, _)).WillByDefault(Return(mFalseValue));
-  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
+  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN));
 
   LogicalOrExpression expression(mLeftExpression, mRightExpression, 0);
-  expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  expression.generateIR(mContext, PrimitiveTypes::VOID);
   
   ASSERT_EQ(3ul, mFunction->size());
   Function::iterator iterator = mFunction->begin();
@@ -143,7 +143,7 @@ TEST_F(LogicalOrExpressionTest, logicalAndFalseValueTest) {
 TEST_F(LogicalOrExpressionTest, logicalOrExpressionTypeTest) {
   LogicalOrExpression expression(mLeftExpression, mRightExpression, 0);
   
-  EXPECT_EQ(expression.getType(mContext), PrimitiveTypes::BOOLEAN_TYPE);
+  EXPECT_EQ(expression.getType(mContext), PrimitiveTypes::BOOLEAN);
 }
 
 TEST_F(LogicalOrExpressionTest, isConstantTest) {

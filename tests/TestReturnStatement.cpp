@@ -53,7 +53,7 @@ public:
     TestPrefix::generateIR(mContext);
     
     Value * value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-    ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     ON_CALL(*mExpression, generateIR(_, _)).WillByDefault(Return(value));
 
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -67,8 +67,8 @@ public:
     StructType* structType = StructType::create(mLLVMContext, "MShape");
     structType->setBody(types);
     vector<IField*> fields;
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width", 0));
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height", 0));
+    fields.push_back(new FixedField(PrimitiveTypes::INT, "width", 0));
+    fields.push_back(new FixedField(PrimitiveTypes::INT, "height", 0));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                              modelFullName,
                              structType,
@@ -103,7 +103,7 @@ TEST_F(ReturnStatementTest, parentFunctionIsIncopatableTypeDeathTest) {
 
   mContext.setBasicBlock(BasicBlock::Create(mLLVMContext, "entry", function));
   mContext.getScopes().pushScope();
-  mContext.getScopes().setReturnType(PrimitiveTypes::VOID_TYPE);
+  mContext.getScopes().setReturnType(PrimitiveTypes::VOID);
   ReturnStatement returnStatement(mExpression, 5);
   
   Mock::AllowLeak(mExpression);
@@ -119,7 +119,7 @@ TEST_F(ReturnStatementTest, parentFunctionIntTest) {
   BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
   mContext.setBasicBlock(basicBlock);
   mContext.getScopes().pushScope();
-  mContext.getScopes().setReturnType(PrimitiveTypes::LONG_TYPE);
+  mContext.getScopes().setReturnType(PrimitiveTypes::LONG);
   ReturnStatement returnStatement(mExpression, 0);
 
   returnStatement.generateIR(mContext);
@@ -144,7 +144,7 @@ TEST_F(ReturnStatementTest, ownerVariablesAreClearedTest) {
   BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
   mContext.setBasicBlock(basicBlock);
   mContext.getScopes().pushScope();
-  mContext.getScopes().setReturnType(PrimitiveTypes::LONG_TYPE);
+  mContext.getScopes().setReturnType(PrimitiveTypes::LONG);
 
   Type* structType = mModel->getLLVMType(mContext)->getPointerElementType();
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
@@ -197,7 +197,7 @@ TEST_F(ReturnStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
   BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
   mContext.setBasicBlock(basicBlock);
   mContext.getScopes().pushScope();
-  mContext.getScopes().setReturnType(PrimitiveTypes::LONG_TYPE);
+  mContext.getScopes().setReturnType(PrimitiveTypes::LONG);
   
   StructType* structType = StructType::create(mLLVMContext, "MModel");
   vector<Type*> types;

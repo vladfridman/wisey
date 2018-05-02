@@ -127,10 +127,10 @@ void CastObjectFunction::compose(IRGenerationContext& context, llvm::Function* f
                                                                   Names::getCastExceptionName(),
                                                                   0);
   ObjectBuilderArgumentList objectBuilderArgumnetList;
-  FakeExpression* fromTypeValue = new FakeExpression(fromTypeName, PrimitiveTypes::STRING_TYPE);
+  FakeExpression* fromTypeValue = new FakeExpression(fromTypeName, PrimitiveTypes::STRING);
   ObjectBuilderArgument* fromTypeArgument = new ObjectBuilderArgument("withFromType",
                                                                       fromTypeValue);
-  FakeExpression* toTypeValue = new FakeExpression(toTypeName, PrimitiveTypes::STRING_TYPE);
+  FakeExpression* toTypeValue = new FakeExpression(toTypeName, PrimitiveTypes::STRING);
   ObjectBuilderArgument* toTypeArgument = new ObjectBuilderArgument("withToType", toTypeValue);
   objectBuilderArgumnetList.push_back(fromTypeArgument);
   objectBuilderArgumnetList.push_back(toTypeArgument);

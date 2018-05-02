@@ -41,18 +41,18 @@ llvm::Type* StringType::getLLVMType(IRGenerationContext& context) const {
 }
 
 bool StringType::canCastTo(IRGenerationContext& context, const IType* toType) const {
-  return toType == PrimitiveTypes::STRING_TYPE;
+  return toType == PrimitiveTypes::STRING;
 }
 
 bool StringType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
-  return toType == PrimitiveTypes::STRING_TYPE;
+  return toType == PrimitiveTypes::STRING;
 }
 
 Value* StringType::castTo(IRGenerationContext& context,
                           Value* fromValue,
                           const IType* toType,
                           int line) const {
-  if (toType == PrimitiveTypes::STRING_TYPE) {
+  if (toType == PrimitiveTypes::STRING) {
     return fromValue;
   }
 

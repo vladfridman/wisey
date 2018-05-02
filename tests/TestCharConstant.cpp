@@ -35,14 +35,14 @@ TEST_F(CharConstantTest, charConstantTest) {
   string stringBuffer;
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);
   
-  Value* irValue = mCharConstant.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  Value* irValue = mCharConstant.generateIR(mContext, PrimitiveTypes::VOID);
 
   *stringStream << *irValue;
   EXPECT_STREQ("i16 121", stringStream->str().c_str());
 }
 
 TEST_F(CharConstantTest, charConstantTypeTest) {
-  EXPECT_EQ(mCharConstant.getType(mContext), PrimitiveTypes::CHAR_TYPE);
+  EXPECT_EQ(mCharConstant.getType(mContext), PrimitiveTypes::CHAR);
 }
 
 TEST_F(CharConstantTest, printToStreamTest) {

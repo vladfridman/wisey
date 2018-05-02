@@ -50,7 +50,7 @@ public:
   ParameterImmutableArrayOwnerVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     
-    mArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 1u);
+    mArrayType = mContext.getArrayType(PrimitiveTypes::INT, 1u);
     mImmutableArrayOwnerType = mArrayType->getImmutable()->getOwner();
     
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);

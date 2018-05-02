@@ -85,7 +85,7 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
                                                  const Interface* interface,
                                                  const IMethodDescriptor* methodDescriptor,
                                                  const IType* assignToType) const {
-  Value* objectValue = mExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
+  Value* objectValue = mExpression->generateIR(context, PrimitiveTypes::VOID);
 
   Composer::setLineNumber(context, mLine);
   CheckForNullAndThrowFunction::call(context, objectValue);
@@ -124,7 +124,7 @@ Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
                                               const IObjectType* objectType,
                                               const IMethodDescriptor* methodDescriptor,
                                               const IType* assignToType) const {
-  Value* objectValue = mExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
+  Value* objectValue = mExpression->generateIR(context, PrimitiveTypes::VOID);
   Function* function = getMethodFunction(context, methodDescriptor);
 
   Composer::setLineNumber(context, mLine);

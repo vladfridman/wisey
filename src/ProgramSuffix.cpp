@@ -95,7 +95,7 @@ void ProgramSuffix::generateMain(IRGenerationContext& context) const {
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", mainFunction);
   context.setBasicBlock(entryBlock);
   context.getScopes().pushScope();
-  context.getScopes().setReturnType(PrimitiveTypes::INT_TYPE);
+  context.getScopes().setReturnType(PrimitiveTypes::INT);
 
   Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
   Value* threadNullValue = ConstantPointerNull::get(threadInterface->getLLVMType(context));

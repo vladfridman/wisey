@@ -33,7 +33,7 @@ llvm::Constant* BooleanConstant::generateIR(IRGenerationContext& context,
 }
 
 IType* BooleanConstant::getType(IRGenerationContext& context) const {
-  return PrimitiveTypes::BOOLEAN_TYPE;
+  return PrimitiveTypes::BOOLEAN;
 }
 
 bool BooleanConstant::isConstant() const {

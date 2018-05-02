@@ -35,8 +35,8 @@ struct ArrayExactOwnerTypeTest : public Test {
     
     list<unsigned long> dimensions;
     dimensions.push_back(5u);
-    mArrayExactType = new ArrayExactType(PrimitiveTypes::LONG_TYPE, dimensions);
-    mArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, 1u);
+    mArrayExactType = new ArrayExactType(PrimitiveTypes::LONG, dimensions);
+    mArrayType = new ArrayType(PrimitiveTypes::LONG, 1u);
     mArrayExactOwnerType = new ArrayExactOwnerType(mArrayExactType);
   }
 };
@@ -62,13 +62,13 @@ TEST_F(ArrayExactOwnerTypeTest, getLLVMTypeTest) {
 }
 
 TEST_F(ArrayExactOwnerTypeTest, canCastToTest) {
-  EXPECT_FALSE(mArrayExactOwnerType->canCastTo(mContext, PrimitiveTypes::STRING_TYPE));
+  EXPECT_FALSE(mArrayExactOwnerType->canCastTo(mContext, PrimitiveTypes::STRING));
   EXPECT_TRUE(mArrayExactOwnerType->canCastTo(mContext, mArrayExactOwnerType));
   EXPECT_TRUE(mArrayExactOwnerType->canCastTo(mContext, mArrayType));
 }
 
 TEST_F(ArrayExactOwnerTypeTest, canAutoCastToTest) {
-  EXPECT_FALSE(mArrayExactOwnerType->canAutoCastTo(mContext, PrimitiveTypes::STRING_TYPE));
+  EXPECT_FALSE(mArrayExactOwnerType->canAutoCastTo(mContext, PrimitiveTypes::STRING));
   EXPECT_TRUE(mArrayExactOwnerType->canAutoCastTo(mContext, mArrayExactOwnerType));
   EXPECT_TRUE(mArrayExactOwnerType->canAutoCastTo(mContext, mArrayType));
 }
@@ -93,7 +93,7 @@ TEST_F(ArrayExactOwnerTypeTest, isObjectTest) {
 }
 
 TEST_F(ArrayExactOwnerTypeTest, getArrayTypeTest) {
-  EXPECT_EQ(mContext.getArrayType(PrimitiveTypes::LONG_TYPE, 1u),
+  EXPECT_EQ(mContext.getArrayType(PrimitiveTypes::LONG, 1u),
             mArrayExactOwnerType->getArrayType(mContext));
 }
 

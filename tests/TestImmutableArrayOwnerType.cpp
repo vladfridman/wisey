@@ -45,7 +45,7 @@ struct ImmutableArrayOwnerTypeTest : public Test {
   ImmutableArrayOwnerTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     
-    mArrayType = new wisey::ArrayType(PrimitiveTypes::LONG_TYPE, 1u);
+    mArrayType = new wisey::ArrayType(PrimitiveTypes::LONG, 1u);
     mImmutableArrayType = new ImmutableArrayType(mArrayType);
     mImmutableArrayOwnerType = new ImmutableArrayOwnerType(mImmutableArrayType);
     
@@ -84,14 +84,14 @@ TEST_F(ImmutableArrayOwnerTypeTest, getLLVMTypeTest) {
 }
 
 TEST_F(ImmutableArrayOwnerTypeTest, canCastToTest) {
-  EXPECT_FALSE(mImmutableArrayOwnerType->canCastTo(mContext, PrimitiveTypes::STRING_TYPE));
+  EXPECT_FALSE(mImmutableArrayOwnerType->canCastTo(mContext, PrimitiveTypes::STRING));
   EXPECT_TRUE(mImmutableArrayOwnerType->canCastTo(mContext, mImmutableArrayOwnerType));
   EXPECT_TRUE(mImmutableArrayOwnerType->canCastTo(mContext, mImmutableArrayType));
   EXPECT_FALSE(mImmutableArrayOwnerType->canCastTo(mContext, mArrayType));
 }
 
 TEST_F(ImmutableArrayOwnerTypeTest, canAutoCastToTest) {
-  EXPECT_FALSE(mImmutableArrayOwnerType->canAutoCastTo(mContext, PrimitiveTypes::STRING_TYPE));
+  EXPECT_FALSE(mImmutableArrayOwnerType->canAutoCastTo(mContext, PrimitiveTypes::STRING));
   EXPECT_TRUE(mImmutableArrayOwnerType->canAutoCastTo(mContext, mImmutableArrayOwnerType));
   EXPECT_TRUE(mImmutableArrayOwnerType->canAutoCastTo(mContext, mImmutableArrayType));
   EXPECT_FALSE(mImmutableArrayOwnerType->canAutoCastTo(mContext, mArrayType));

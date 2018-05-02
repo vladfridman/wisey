@@ -70,7 +70,7 @@ struct VariableDeclarationTest : public Test {
 };
 
 TEST_F(VariableDeclarationTest, stackVariableDeclarationWithoutAssignmentTest) {
-  const PrimitiveTypeSpecifier* typeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* typeSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
   VariableDeclaration* declaration = VariableDeclaration::create(typeSpecifier, mIdentifier, 0);
 
   declaration->generateIR(mContext);
@@ -89,11 +89,11 @@ TEST_F(VariableDeclarationTest, stackVariableDeclarationWithoutAssignmentTest) {
 }
 
 TEST_F(VariableDeclarationTest, stackVariableDeclarationWithAssignmentTest) {
-  const PrimitiveTypeSpecifier* typeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* typeSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
   NiceMock<MockExpression>* expression = new NiceMock<MockExpression>();
   Value * value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
   ON_CALL(*expression, generateIR(_, _)).WillByDefault(Return(value));
-  ON_CALL(*expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+  ON_CALL(*expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
   VariableDeclaration* declaration =
   VariableDeclaration::createWithAssignment(typeSpecifier, mIdentifier, expression, 0);
   
@@ -126,8 +126,8 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   types.push_back(Type::getInt32Ty(mLLVMContext));
   structType->setBody(types);
   vector<IField*> fields;
-  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "fieldA", 0));
-  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "fieldB", 0));
+  fields.push_back(new FixedField(PrimitiveTypes::INT, "fieldA", 0));
+  fields.push_back(new FixedField(PrimitiveTypes::INT, "fieldB", 0));
   Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                  modelFullName,
                                  structType,

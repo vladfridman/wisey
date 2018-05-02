@@ -42,8 +42,8 @@ public:
   mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     
-    wisey::Argument* doubleArgument = new wisey::Argument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
-    wisey::Argument* charArgument = new wisey::Argument(PrimitiveTypes::CHAR_TYPE, "argChar");
+    wisey::Argument* doubleArgument = new wisey::Argument(PrimitiveTypes::DOUBLE, "argDouble");
+    wisey::Argument* charArgument = new wisey::Argument(PrimitiveTypes::CHAR, "argChar");
     std::vector<const wisey::Argument*> arguments;
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
@@ -56,8 +56,8 @@ public:
     StructType* structType = StructType::create(mLLVMContext, modelFullName);
     structType->setBody(types);
     vector<IField*> fields;
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "foo", 0));
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "bar", 0));
+    fields.push_back(new FixedField(PrimitiveTypes::INT, "foo", 0));
+    fields.push_back(new FixedField(PrimitiveTypes::INT, "bar", 0));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                              modelFullName,
                              structType,
@@ -67,7 +67,7 @@ public:
     
     mStaticMethod = new ExternalStaticMethod(mModel,
                                              "mymethod",
-                                             PrimitiveTypes::BOOLEAN_TYPE,
+                                             PrimitiveTypes::BOOLEAN,
                                              arguments,
                                              thrownExceptions,
                                              new MethodQualifiers(0),
@@ -83,7 +83,7 @@ public:
 
 TEST_F(ExternalStaticMethodTest, basicStaticMethodTest) {
   EXPECT_STREQ("mymethod", mStaticMethod->getName().c_str());
-  EXPECT_EQ(PrimitiveTypes::BOOLEAN_TYPE, mStaticMethod->getReturnType());
+  EXPECT_EQ(PrimitiveTypes::BOOLEAN, mStaticMethod->getReturnType());
   EXPECT_EQ(2u, mStaticMethod->getArguments().size());
   EXPECT_TRUE(mStaticMethod->isStatic());
   EXPECT_STREQ("systems.vos.wisey.compiler.tests.MObject.mymethod",
@@ -100,13 +100,13 @@ TEST_F(ExternalStaticMethodTest, elementTypeTest) {
 }
 
 TEST_F(ExternalStaticMethodTest, getLLVMTypeTest) {
-  wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT_TYPE, "intargument");
+  wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT, "intargument");
   std::vector<const wisey::Argument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
   ExternalStaticMethod staticMethod(mModel,
                                     "foo",
-                                    PrimitiveTypes::FLOAT_TYPE,
+                                    PrimitiveTypes::FLOAT,
                                     arguments,
                                     thrownExceptions,
                                     new MethodQualifiers(0),
@@ -118,8 +118,8 @@ TEST_F(ExternalStaticMethodTest, getLLVMTypeTest) {
   Controller* callStackController = mContext.getController(Names::getCallStackControllerFullName(),
                                                            0);
   argumentTypes.push_back(callStackController->getLLVMType(mContext));
-  argumentTypes.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mContext));
-  Type* llvmReturnType = PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext);
+  argumentTypes.push_back(PrimitiveTypes::INT->getLLVMType(mContext));
+  Type* llvmReturnType = PrimitiveTypes::FLOAT->getLLVMType(mContext);
   FunctionType* expectedType = FunctionType::get(llvmReturnType, argumentTypes, false);
   
   FunctionType* actualType = staticMethod.getLLVMType(mContext);
@@ -128,13 +128,13 @@ TEST_F(ExternalStaticMethodTest, getLLVMTypeTest) {
 }
 
 TEST_F(ExternalStaticMethodTest, definePublicFunctionTest) {
-  wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT_TYPE, "intargument");
+  wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT, "intargument");
   std::vector<const wisey::Argument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
   ExternalStaticMethod staticMethod(mModel,
                                     "foo",
-                                    PrimitiveTypes::FLOAT_TYPE,
+                                    PrimitiveTypes::FLOAT,
                                     arguments,
                                     thrownExceptions,
                                     new MethodQualifiers(0),

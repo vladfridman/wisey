@@ -32,22 +32,22 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   
   vector<IObjectElementDefinition*> modelElements;
   defineModel(context, Names::getNPEModelName(), modelElements);
-  const PrimitiveTypeSpecifier* longTypeSpecifier = PrimitiveTypes::LONG_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* longTypeSpecifier = PrimitiveTypes::LONG->newTypeSpecifier(0);
   modelElements.push_back(new FixedFieldDefinition(longTypeSpecifier, "mReferenceCount", 0));
   defineModel(context, Names::getReferenceCountExceptionName(), modelElements);
   modelElements.clear();
   
   const PrimitiveTypeSpecifier* stringTypeSpecifier =
-  PrimitiveTypes::STRING_TYPE->newTypeSpecifier(0);
+  PrimitiveTypes::STRING->newTypeSpecifier(0);
   modelElements.push_back(new FixedFieldDefinition(stringTypeSpecifier, "mFromType", 0));
-  stringTypeSpecifier = PrimitiveTypes::STRING_TYPE->newTypeSpecifier(0);
+  stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);
   modelElements.push_back(new FixedFieldDefinition(stringTypeSpecifier, "mToType", 0));
   defineModel(context, Names::getCastExceptionName(), modelElements);
   modelElements.clear();
 
-  longTypeSpecifier = PrimitiveTypes::LONG_TYPE->newTypeSpecifier(0);
+  longTypeSpecifier = PrimitiveTypes::LONG->newTypeSpecifier(0);
   modelElements.push_back(new FixedFieldDefinition(longTypeSpecifier, "mArraySize", 0));
-  longTypeSpecifier = PrimitiveTypes::LONG_TYPE->newTypeSpecifier(0);
+  longTypeSpecifier = PrimitiveTypes::LONG->newTypeSpecifier(0);
   modelElements.push_back(new FixedFieldDefinition(longTypeSpecifier, "mIndex", 0));
   defineModel(context, Names::getArrayIndexOutOfBoundsModelName(), modelElements);
   
@@ -146,24 +146,24 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
   const PrimitiveTypeSpecifier* stringTypeSpecifier;
   VariableList arguments;
   vector<IModelTypeSpecifier*> exceptions;
-  stringTypeSpecifier = PrimitiveTypes::STRING_TYPE->newTypeSpecifier(0);
+  stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);
   VariableDeclaration* declaration;
   declaration = VariableDeclaration::create(stringTypeSpecifier,
                                             new Identifier("objectName", 0),
                                             0);
   arguments.push_back(declaration);
-  stringTypeSpecifier = PrimitiveTypes::STRING_TYPE->newTypeSpecifier(0);
+  stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);
   declaration = VariableDeclaration::create(stringTypeSpecifier,
                                             new Identifier("methodName", 0),
                                             0);
   arguments.push_back(declaration);
-  stringTypeSpecifier = PrimitiveTypes::STRING_TYPE->newTypeSpecifier(0);
+  stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);
   declaration = VariableDeclaration::create(stringTypeSpecifier, new Identifier("fileName", 0), 0);
   arguments.push_back(declaration);
-  const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
   declaration = VariableDeclaration::create(intTypeSpecifier, new Identifier("lineNumber", 0), 0);
   arguments.push_back(declaration);
-  const PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID->newTypeSpecifier(0);
   Block* block = new Block();
   CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
   MethodDefinition* pushStackMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
@@ -176,7 +176,7 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
                                                            0);
   
   arguments.clear();
-  voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier(0);
+  voidTypeSpecifier = PrimitiveTypes::VOID->newTypeSpecifier(0);
   block = new Block();
   compoundStatement = new CompoundStatement(block, 0);
   MethodDefinition* popStackMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
@@ -189,10 +189,10 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
                                                           0);
  
   arguments.clear();
-  intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+  intTypeSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
   declaration = VariableDeclaration::create(intTypeSpecifier, new Identifier("lineNumber", 0), 0);
   arguments.push_back(declaration);
-  voidTypeSpecifier = PrimitiveTypes::VOID_TYPE->newTypeSpecifier(0);
+  voidTypeSpecifier = PrimitiveTypes::VOID->newTypeSpecifier(0);
   block = new Block();
   compoundStatement = new CompoundStatement(block, 0);
   MethodDefinition* setLineNumberMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,

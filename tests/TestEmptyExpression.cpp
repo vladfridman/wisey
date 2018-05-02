@@ -25,11 +25,11 @@ struct EmptyExpressionTest : public ::testing::Test {
 };
 
 TEST_F(EmptyExpressionTest, simpleEmptyExpressionTest) {
-  EXPECT_EQ(mEmptyExpression.generateIR(mContext, PrimitiveTypes::VOID_TYPE), nullptr);
+  EXPECT_EQ(mEmptyExpression.generateIR(mContext, PrimitiveTypes::VOID), nullptr);
 }
 
 TEST_F(EmptyExpressionTest, emptyExpressionTypeTest) {
-  EXPECT_EQ(mEmptyExpression.getType(mContext), PrimitiveTypes::VOID_TYPE);
+  EXPECT_EQ(mEmptyExpression.getType(mContext), PrimitiveTypes::VOID);
 }
 
 TEST_F(EmptyExpressionTest, isConstantTest) {

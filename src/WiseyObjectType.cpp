@@ -47,7 +47,7 @@ bool WiseyObjectType::canCastTo(IRGenerationContext& context, const IType* toTyp
   if (toType->isReference()) {
     return true;
   }
-  if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
+  if (toType == PrimitiveTypes::BOOLEAN) {
     return true;
   }
   return false;
@@ -64,7 +64,7 @@ Value* WiseyObjectType::castTo(IRGenerationContext& context,
   if (toType->isNative() && (toType->isReference() || toType->isPointer())) {
     return IRWriter::newBitCastInst(context, fromValue, toType->getLLVMType(context));
   }
-  if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
+  if (toType == PrimitiveTypes::BOOLEAN) {
     return IRWriter::newICmpInst(context,
                                  ICmpInst::ICMP_NE,
                                  fromValue,

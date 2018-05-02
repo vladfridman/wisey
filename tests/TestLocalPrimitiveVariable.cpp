@@ -62,10 +62,10 @@ public:
 
 TEST_F(LocalPrimitiveVariableTest, basicFieldsTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), "foo");
-  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, alloc);
+  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT, alloc);
 
   EXPECT_STREQ("foo", variable.getName().c_str());
-  EXPECT_EQ(PrimitiveTypes::INT_TYPE, variable.getType());
+  EXPECT_EQ(PrimitiveTypes::INT, variable.getType());
   EXPECT_FALSE(variable.isField());
   EXPECT_FALSE(variable.isSystem());
 }
@@ -73,10 +73,10 @@ TEST_F(LocalPrimitiveVariableTest, basicFieldsTest) {
 TEST_F(LocalPrimitiveVariableTest, generateAssignmentIRTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), "foo");
 
-  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, alloc);
+  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT, alloc);
   Value* assignValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   NiceMock<MockExpression> expression;
-  ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+  ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
   ON_CALL(expression, generateIR(_, _)).WillByDefault(Return(assignValue));
   vector<const IExpression*> arrayIndices;
 
@@ -96,10 +96,10 @@ TEST_F(LocalPrimitiveVariableTest, generateAssignmentIRTest) {
 
 TEST_F(LocalPrimitiveVariableTest, generateAssignmentIRWithCastTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), "foo");
-  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, alloc);
+  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT, alloc);
   Value* assignValue = ConstantInt::get(Type::getInt1Ty(mLLVMContext), 1);
   NiceMock<MockExpression> expression;
-  ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
+  ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN));
   ON_CALL(expression, generateIR(_, _)).WillByDefault(Return(assignValue));
   vector<const IExpression*> arrayIndices;
 
@@ -124,7 +124,7 @@ TEST_F(LocalPrimitiveVariableTest, generateAssignmentIRWithCastTest) {
 
 TEST_F(LocalPrimitiveVariableTest, generateIdentifierIRTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), "foo");
-  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, alloc);
+  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT, alloc);
   
   variable.generateIdentifierIR(mContext);
 
@@ -143,7 +143,7 @@ TEST_F(LocalPrimitiveVariableTest, generateIdentifierIRTest) {
 
 TEST_F(LocalPrimitiveVariableTest, generateIdentifierReferenceIRTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), "foo");
-  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, alloc);
+  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT, alloc);
   
   EXPECT_EQ(alloc, variable.generateIdentifierReferenceIR(mContext));
 }

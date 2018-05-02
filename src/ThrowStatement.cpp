@@ -43,7 +43,7 @@ void ThrowStatement::generateIR(IRGenerationContext& context) const {
   GlobalVariable* rtti = context.getModule()->getNamedGlobal(model->getRTTIVariableName());
 
   llvm::PointerType* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
-  Value* exceptionObject = mExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
+  Value* exceptionObject = mExpression->generateIR(context, PrimitiveTypes::VOID);
   BitCastInst* rttiBitcast = IRWriter::newBitCastInst(context, rtti, int8PointerType);
 
   BitCastInst* expressionValueBitcast =

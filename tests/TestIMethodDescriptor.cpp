@@ -40,8 +40,8 @@ public:
   IMethodDescriptorTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     
-    wisey::Argument* doubleArgument = new wisey::Argument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
-    wisey::Argument* charArgument = new wisey::Argument(PrimitiveTypes::CHAR_TYPE, "argChar");
+    wisey::Argument* doubleArgument = new wisey::Argument(PrimitiveTypes::DOUBLE, "argDouble");
+    wisey::Argument* charArgument = new wisey::Argument(PrimitiveTypes::CHAR, "argChar");
     std::vector<const wisey::Argument*> arguments;
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
@@ -56,8 +56,8 @@ public:
     StructType* structType = StructType::create(mLLVMContext, "MObject");
     structType->setBody(types);
     vector<IField*> fields;
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "foo", 0));
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "bar", 0));
+    fields.push_back(new FixedField(PrimitiveTypes::INT, "foo", 0));
+    fields.push_back(new FixedField(PrimitiveTypes::INT, "bar", 0));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                              modelFullName,
                              structType,
@@ -68,7 +68,7 @@ public:
     mMethod = new Method(mModel,
                          "mymethod",
                          AccessLevel::PUBLIC_ACCESS,
-                         PrimitiveTypes::BOOLEAN_TYPE,
+                         PrimitiveTypes::BOOLEAN,
                          arguments,
                          thrownExceptions,
                          new MethodQualifiers(0),
@@ -81,8 +81,8 @@ public:
 };
 
 TEST_F(IMethodDescriptorTest, compareTest) {
-  wisey::Argument* doubleArgument = new wisey::Argument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
-  wisey::Argument* charArgument = new wisey::Argument(PrimitiveTypes::CHAR_TYPE, "argChar2");
+  wisey::Argument* doubleArgument = new wisey::Argument(PrimitiveTypes::DOUBLE, "argDouble2");
+  wisey::Argument* charArgument = new wisey::Argument(PrimitiveTypes::CHAR, "argChar2");
   vector<const wisey::Argument*> arguments;
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
@@ -90,7 +90,7 @@ TEST_F(IMethodDescriptorTest, compareTest) {
   Method method(mModel,
                 "mymethod",
                 AccessLevel::PUBLIC_ACCESS,
-                PrimitiveTypes::BOOLEAN_TYPE,
+                PrimitiveTypes::BOOLEAN,
                 arguments,
                 thrownExceptions,
                 new MethodQualifiers(0),
@@ -101,8 +101,8 @@ TEST_F(IMethodDescriptorTest, compareTest) {
 }
 
 TEST_F(IMethodDescriptorTest, nameNotEqualsTest) {
-  wisey::Argument* doubleArgument = new wisey::Argument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
-  wisey::Argument* charArgument = new wisey::Argument(PrimitiveTypes::CHAR_TYPE, "argChar2");
+  wisey::Argument* doubleArgument = new wisey::Argument(PrimitiveTypes::DOUBLE, "argDouble2");
+  wisey::Argument* charArgument = new wisey::Argument(PrimitiveTypes::CHAR, "argChar2");
   vector<const wisey::Argument*> arguments;
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
@@ -110,7 +110,7 @@ TEST_F(IMethodDescriptorTest, nameNotEqualsTest) {
   Method method(mModel,
                 "differentname",
                 AccessLevel::PUBLIC_ACCESS,
-                PrimitiveTypes::BOOLEAN_TYPE,
+                PrimitiveTypes::BOOLEAN,
                 arguments,
                 thrownExceptions,
                 new MethodQualifiers(0),
@@ -121,14 +121,14 @@ TEST_F(IMethodDescriptorTest, nameNotEqualsTest) {
 }
 
 TEST_F(IMethodDescriptorTest, numberOfArgumentsNotEqualsTest) {
-  wisey::Argument* doubleArgument = new wisey::Argument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
+  wisey::Argument* doubleArgument = new wisey::Argument(PrimitiveTypes::DOUBLE, "argDouble2");
   vector<const wisey::Argument*> arguments;
   arguments.push_back(doubleArgument);
   vector<const Model*> thrownExceptions;
   Method method(mModel,
                 "mymethod",
                 AccessLevel::PUBLIC_ACCESS,
-                PrimitiveTypes::BOOLEAN_TYPE,
+                PrimitiveTypes::BOOLEAN,
                 arguments,
                 thrownExceptions,
                 new MethodQualifiers(0),
@@ -139,8 +139,8 @@ TEST_F(IMethodDescriptorTest, numberOfArgumentsNotEqualsTest) {
 }
 
 TEST_F(IMethodDescriptorTest, typeOfArgumentsNotEqualsTest) {
-  wisey::Argument* doubleArgument = new wisey::Argument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
-  wisey::Argument* charArgument = new wisey::Argument(PrimitiveTypes::INT_TYPE, "argChar2");
+  wisey::Argument* doubleArgument = new wisey::Argument(PrimitiveTypes::DOUBLE, "argDouble2");
+  wisey::Argument* charArgument = new wisey::Argument(PrimitiveTypes::INT, "argChar2");
   vector<const wisey::Argument*> arguments;
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
@@ -148,7 +148,7 @@ TEST_F(IMethodDescriptorTest, typeOfArgumentsNotEqualsTest) {
   Method method(mModel,
                 "mymethod",
                 AccessLevel::PUBLIC_ACCESS,
-                PrimitiveTypes::BOOLEAN_TYPE,
+                PrimitiveTypes::BOOLEAN,
                 arguments,
                 thrownExceptions,
                 new MethodQualifiers(0),
@@ -159,13 +159,13 @@ TEST_F(IMethodDescriptorTest, typeOfArgumentsNotEqualsTest) {
 }
 
 TEST_F(IMethodDescriptorTest, getLLVMFunctionTypeTest) {
-  wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT_TYPE, "intargument");
+  wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT, "intargument");
   vector<const wisey::Argument*> arguments;
   vector<const Model*> thrownExceptions;
   arguments.push_back(intArgument);
   MethodSignature method(mModel,
                          "foo",
-                         PrimitiveTypes::FLOAT_TYPE,
+                         PrimitiveTypes::FLOAT,
                          arguments,
                          thrownExceptions,
                          new MethodQualifiers(0),

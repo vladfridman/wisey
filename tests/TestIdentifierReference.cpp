@@ -50,7 +50,7 @@ struct IdentifierReferenceTest : public Test {
 TEST_F(IdentifierReferenceTest, generateIRTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
-  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT));
   mContext.getScopes().setVariable(&mockVariable);
   
   IdentifierReference identifierReference("foo", 0);
@@ -59,13 +59,13 @@ TEST_F(IdentifierReferenceTest, generateIRTest) {
   EXPECT_CALL(mockVariable, generateIdentifierIR(_)).Times(0);
   EXPECT_CALL(mockVariable, generateAssignmentIR(_, _, _, _)).Times(0);
   
-  identifierReference.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  identifierReference.generateIR(mContext, PrimitiveTypes::VOID);
 }
 
 TEST_F(IdentifierReferenceTest, undeclaredVariableDeathTest) {
   IdentifierReference identifierReference("foo", 0);
   
-  EXPECT_EXIT(identifierReference.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(identifierReference.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
               "Undeclared variable 'foo'");
 }
@@ -85,7 +85,7 @@ TEST_F(IdentifierReferenceTest, getTypeNonNativeTypeTest) {
   NiceMock<MockVariable> mockVariable;
   ::Mock::AllowLeak(&mockVariable);
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
-  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT));
   mContext.getScopes().setVariable(&mockVariable);
   
   IdentifierReference identifierReference("foo", 0);

@@ -37,7 +37,7 @@ Value* LLVMFunctionCall::generateIR(IRGenerationContext& context, const IType* a
   
   vector<Value*> arguments;
   for (const IExpression* argumentExpression : mArguments) {
-    arguments.push_back(argumentExpression->generateIR(context, PrimitiveTypes::VOID_TYPE));
+    arguments.push_back(argumentExpression->generateIR(context, PrimitiveTypes::VOID));
   }
   return IRWriter::createCallInst(context, function, arguments, "");
 }

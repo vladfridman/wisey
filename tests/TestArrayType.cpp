@@ -46,8 +46,8 @@ struct ArrayTypeTest : public Test {
     TestPrefix::generateIR(mContext);
     
     vector<unsigned long> dimensions;
-    mArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, 1u);
-    mMultiDimentionalArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, 2u);
+    mArrayType = new ArrayType(PrimitiveTypes::LONG, 1u);
+    mMultiDimentionalArrayType = new ArrayType(PrimitiveTypes::LONG, 2u);
  
     llvm::FunctionType* functionType =
     llvm::FunctionType::get(llvm::Type::getInt32Ty(mContext.getLLVMContext()), false);
@@ -75,7 +75,7 @@ TEST_F(ArrayTypeTest, getOwnerTest) {
 }
 
 TEST_F(ArrayTypeTest, getElementTypeTest) {
-  EXPECT_EQ(PrimitiveTypes::LONG_TYPE, mMultiDimentionalArrayType->getElementType());
+  EXPECT_EQ(PrimitiveTypes::LONG, mMultiDimentionalArrayType->getElementType());
 }
 
 TEST_F(ArrayTypeTest, getNumberOfDimensionsTest) {
@@ -99,12 +99,12 @@ TEST_F(ArrayTypeTest, getLLVMTypeTest) {
 }
 
 TEST_F(ArrayTypeTest, canCastToTest) {
-  EXPECT_FALSE(mArrayType->canCastTo(mContext, PrimitiveTypes::STRING_TYPE));
+  EXPECT_FALSE(mArrayType->canCastTo(mContext, PrimitiveTypes::STRING));
   EXPECT_TRUE(mArrayType->canCastTo(mContext, mArrayType));
 }
 
 TEST_F(ArrayTypeTest, canAutoCastToTest) {
-  EXPECT_FALSE(mArrayType->canAutoCastTo(mContext, PrimitiveTypes::STRING_TYPE));
+  EXPECT_FALSE(mArrayType->canAutoCastTo(mContext, PrimitiveTypes::STRING));
   EXPECT_TRUE(mArrayType->canAutoCastTo(mContext, mArrayType));
 }
 

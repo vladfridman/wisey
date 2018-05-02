@@ -63,7 +63,7 @@ struct ArrayElementExpressionTest : Test {
     mContext.getScopes().pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
     
-    mArrayType = new wisey::ArrayType(PrimitiveTypes::INT_TYPE, 1u);
+    mArrayType = new wisey::ArrayType(PrimitiveTypes::INT, 1u);
     Value* null = ConstantPointerNull::get(mArrayType->getLLVMType(mContext));
     ON_CALL(*mArrayExpression, generateIR(_, _)).WillByDefault(Return(null));
     ON_CALL(*mArrayExpression, getType(_)).WillByDefault(Return(mArrayType));
@@ -72,7 +72,7 @@ struct ArrayElementExpressionTest : Test {
     ON_CALL(*mArrayVariable, generateIdentifierIR(_)).WillByDefault(Return(null));
     ConstantInt* three = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
     ON_CALL(*mArrayIndexExpression, generateIR(_, _)).WillByDefault(Return(three));
-    ON_CALL(*mArrayIndexExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mArrayIndexExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     
     mArrayElementExpression = new ArrayElementExpression(mArrayExpression,
                                                          mArrayIndexExpression,
@@ -96,7 +96,7 @@ struct ArrayElementExpressionTest : Test {
 };
 
 TEST_F(ArrayElementExpressionTest, generateIRTest) {
-  mArrayElementExpression->generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  mArrayElementExpression->generateIR(mContext, PrimitiveTypes::VOID);
   
   *mStringStream << *mFunction;
   
@@ -158,9 +158,9 @@ TEST_F(ArrayElementExpressionTest, generateIRForNonArrayTypeDeathTest) {
   Mock::AllowLeak(mArrayExpression);
   Mock::AllowLeak(mArrayIndexExpression);
   Mock::AllowLeak(mArrayVariable);
-  ON_CALL(*mArrayExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+  ON_CALL(*mArrayExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
   
-  EXPECT_EXIT(mArrayElementExpression->generateIR(mContext, PrimitiveTypes::INT_TYPE),
+  EXPECT_EXIT(mArrayElementExpression->generateIR(mContext, PrimitiveTypes::INT),
               ::testing::ExitedWithCode(1),
               "Error: Expecting array type expression before \\[\\] but expression type is int");
 }
@@ -169,9 +169,9 @@ TEST_F(ArrayElementExpressionTest, generateIRForNonIntTypeIndexDeathTest) {
   Mock::AllowLeak(mArrayExpression);
   Mock::AllowLeak(mArrayIndexExpression);
   Mock::AllowLeak(mArrayVariable);
-  ON_CALL(*mArrayIndexExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  ON_CALL(*mArrayIndexExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
   
-  EXPECT_EXIT(mArrayElementExpression->generateIR(mContext, PrimitiveTypes::FLOAT_TYPE),
+  EXPECT_EXIT(mArrayElementExpression->generateIR(mContext, PrimitiveTypes::FLOAT),
               ::testing::ExitedWithCode(1),
               "Error: Array index should be integer type, but it is float");
 }
@@ -180,7 +180,7 @@ TEST_F(ArrayElementExpressionTest, getTypeDeathTest) {
   Mock::AllowLeak(mArrayExpression);
   Mock::AllowLeak(mArrayIndexExpression);
   Mock::AllowLeak(mArrayVariable);
-  ON_CALL(*mArrayExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+  ON_CALL(*mArrayExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
   
   EXPECT_EXIT(mArrayElementExpression->getType(mContext),
               ::testing::ExitedWithCode(1),
@@ -193,7 +193,7 @@ TEST_F(ArrayElementExpressionTest, generateIRDeathTest) {
   Mock::AllowLeak(mArrayVariable);
   vector<const IExpression*> arrayIndices;
 
-  mArrayType = new wisey::ArrayType(PrimitiveTypes::INT_TYPE, 2u);
+  mArrayType = new wisey::ArrayType(PrimitiveTypes::INT, 2u);
   Value* null = ConstantPointerNull::get(mArrayType->getLLVMType(mContext));
 
   EXPECT_EXIT(ArrayElementExpression::generateElementIR(mContext,

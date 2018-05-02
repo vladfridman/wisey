@@ -97,9 +97,9 @@ public:
                              mContext.getImportProfile(),
                              0);
     vector<IField*> fields;
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width", 0));
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height", 0));
-    wisey::Argument* fooArgument = new wisey::Argument(PrimitiveTypes::FLOAT_TYPE, "argument");
+    fields.push_back(new FixedField(PrimitiveTypes::INT, "width", 0));
+    fields.push_back(new FixedField(PrimitiveTypes::INT, "height", 0));
+    wisey::Argument* fooArgument = new wisey::Argument(PrimitiveTypes::FLOAT, "argument");
     vector<const wisey::Argument*> fooArguments;
     fooArguments.push_back(fooArgument);
     vector<const Model*> fooThrownExceptions;
@@ -116,7 +116,7 @@ public:
     methods.push_back(fooMethod);
     vector<const Model*> barThrownExceptions;
     StructType* exceptionModelStructType = StructType::create(mLLVMContext, "MException");
-    wisey::Argument* barArgument = new wisey::Argument(PrimitiveTypes::FLOAT_TYPE, "argument");
+    wisey::Argument* barArgument = new wisey::Argument(PrimitiveTypes::FLOAT, "argument");
     vector<const wisey::Argument*> barArguments;
     barArguments.push_back(barArgument);
     Model* exceptionModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
@@ -128,7 +128,7 @@ public:
     IMethod* barMethod = new StaticMethod(mModel,
                                           "bar",
                                           AccessLevel::PUBLIC_ACCESS,
-                                          PrimitiveTypes::INT_TYPE,
+                                          PrimitiveTypes::INT,
                                           barArguments,
                                           barThrownExceptions,
                                           new MethodQualifiers(0),
@@ -224,7 +224,7 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallTest) {
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mThreadInterface->getLLVMType(mContext));
   argumentTypes.push_back(mCallStack->getLLVMType(mContext));
-  argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext));
+  argumentTypes.push_back(PrimitiveTypes::FLOAT->getLLVMType(mContext));
   FunctionType* functionType = FunctionType::get(mReturnedModel->getLLVMType(mContext),
                                                  argumentTypes,
                                                  false);
@@ -236,11 +236,11 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallTest) {
   NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
   Value* value = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 5.2);
   ON_CALL(*argumentExpression, generateIR(_, _)).WillByDefault(Return(value));
-  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
   mArgumentList.push_back(argumentExpression);
   StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList, 0);
   
-  Value* irValue = staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  Value* irValue = staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID);
   
   *mStringStream << *irValue;
   string expected =
@@ -254,7 +254,7 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallWithTryCatchTest) {
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mThreadInterface->getLLVMType(mContext));
   argumentTypes.push_back(mCallStack->getLLVMType(mContext));
-  argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext));
+  argumentTypes.push_back(PrimitiveTypes::FLOAT->getLLVMType(mContext));
   FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext),
                                                  argumentTypes,
                                                  false);
@@ -266,7 +266,7 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallWithTryCatchTest) {
   NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
   Value* value = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 5.2);
   ON_CALL(*argumentExpression, generateIR(_, _)).WillByDefault(Return(value));
-  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
   mArgumentList.push_back(argumentExpression);
   StaticMethodCall staticMethodCall(mModelSpecifier, "bar", mArgumentList, 0);
   BasicBlock* continueBlock = BasicBlock::Create(mLLVMContext, "eh.continue");
@@ -274,13 +274,13 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallWithTryCatchTest) {
   TryCatchInfo* tryCatchInfo = new TryCatchInfo(catchList, continueBlock);
   mContext.getScopes().beginTryCatch(tryCatchInfo);
   
-  Value* irValue = staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  Value* irValue = staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID);
   
   *mStringStream << *irValue;
   EXPECT_STREQ("  %call = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar(%wisey.threads.IThread* %7, %wisey.threads.CCallStack* %8, float 0x4014CCCCC0000000)\n"
                "          to label %invoke.continue unwind label %eh.landing.pad",
                mStringStream->str().c_str());
-  EXPECT_EQ(staticMethodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
+  EXPECT_EQ(staticMethodCall.getType(mContext), PrimitiveTypes::INT);
 }
 
 TEST_F(StaticMethodCallTest, isConstantTest) {
@@ -315,7 +315,7 @@ TEST_F(StaticMethodCallTest, printToStreamTest) {
 TEST_F(StaticMethodCallTest, methodDoesNotExistDeathTest) {
   StaticMethodCall staticMethodCall(mModelSpecifier, "lorem", mArgumentList, 0);
   
-  EXPECT_EXIT(staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
               "Error: Static method 'lorem' is not found in object "
               "systems.vos.wisey.compiler.tests.MSquare");
@@ -324,7 +324,7 @@ TEST_F(StaticMethodCallTest, methodDoesNotExistDeathTest) {
 TEST_F(StaticMethodCallTest, incorrectNumberOfArgumentsDeathTest) {
   StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList, 0);
   
-  EXPECT_EXIT(staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
               "Error: Number of arguments for static method call 'foo' of the object type "
               "systems.vos.wisey.compiler.tests.MSquare is not correct");
@@ -332,12 +332,12 @@ TEST_F(StaticMethodCallTest, incorrectNumberOfArgumentsDeathTest) {
 
 TEST_F(StaticMethodCallTest, llvmImplementationNotFoundDeathTest) {
   NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
-  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
   mArgumentList.push_back(argumentExpression);
   StaticMethodCall staticMethodCall(mModelSpecifier, "bar", mArgumentList, 0);
   Mock::AllowLeak(argumentExpression);
   
-  EXPECT_EXIT(staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
               "Error: LLVM function implementing object systems.vos.wisey.compiler.tests.MSquare "
               "method 'bar' was not found");
@@ -346,7 +346,7 @@ TEST_F(StaticMethodCallTest, llvmImplementationNotFoundDeathTest) {
 TEST_F(StaticMethodCallTest, incorrectArgumentTypesDeathTest) {
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mStructType->getPointerTo());
-  argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext));
+  argumentTypes.push_back(PrimitiveTypes::FLOAT->getLLVMType(mContext));
   FunctionType* functionType = FunctionType::get(mReturnedModel->getLLVMType(mContext),
                                                  argumentTypes,
                                                  false);
@@ -356,12 +356,12 @@ TEST_F(StaticMethodCallTest, incorrectArgumentTypesDeathTest) {
                    mContext.getModule());
   
   NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
-  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
+  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG));
   mArgumentList.push_back(argumentExpression);
   StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList, 0);
   Mock::AllowLeak(argumentExpression);
   
-  EXPECT_EXIT(staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
               "Error: Call argument types do not match for a call to method 'foo' "
               "of the object type systems.vos.wisey.compiler.tests.MSquare");

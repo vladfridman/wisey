@@ -66,8 +66,8 @@ struct ObjectBuilderTest : Test {
     StructType *structType = StructType::create(llvmContext, modelFullName);
     structType->setBody(types);
     vector<IField*> fields;
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mWidth", 0));
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mHeight", 0));
+    fields.push_back(new FixedField(PrimitiveTypes::INT, "mWidth", 0));
+    fields.push_back(new FixedField(PrimitiveTypes::INT, "mHeight", 0));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                              modelFullName,
                              structType,
@@ -77,11 +77,11 @@ struct ObjectBuilderTest : Test {
     mContext.addModel(mModel);
     Value* fieldValue1 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
     ON_CALL(*mField1Expression, generateIR(_, _)).WillByDefault(Return(fieldValue1));
-    ON_CALL(*mField1Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mField1Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     ON_CALL(*mField1Expression, printToStream(_, _)).WillByDefault(Invoke(printBuilderArgument1));
     Value* fieldValue2 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
     ON_CALL(*mField2Expression, generateIR(_, _)).WillByDefault(Return(fieldValue2));
-    ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     ON_CALL(*mField2Expression, printToStream(_, _)).WillByDefault(Invoke(printBuilderArgument2));
 
     IConcreteObjectType::generateNameGlobal(mContext, mModel);

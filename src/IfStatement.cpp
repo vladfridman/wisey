@@ -28,11 +28,11 @@ void IfStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* ifThen = BasicBlock::Create(context.getLLVMContext(), "if.then", function);
   BasicBlock* ifEnd = BasicBlock::Create(context.getLLVMContext(), "if.end", function);
   
-  Value* conditionValue = mCondition->generateIR(context, PrimitiveTypes::VOID_TYPE);
+  Value* conditionValue = mCondition->generateIR(context, PrimitiveTypes::VOID);
   Value* castConditionValue = AutoCast::maybeCast(context,
                                                   mCondition->getType(context),
                                                   conditionValue,
-                                                  PrimitiveTypes::BOOLEAN_TYPE,
+                                                  PrimitiveTypes::BOOLEAN,
                                                   mCondition->getLine());
   IRWriter::createConditionalBranch(context, ifThen, ifEnd, castConditionValue);
   

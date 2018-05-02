@@ -61,27 +61,27 @@ TEST_F(StringFormatTypeTest, stringFormatTypeTest) {
 }
 
 TEST_F(StringFormatTypeTest, canAutoCastToTest) {
-  EXPECT_FALSE(mStringFormatType.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN_TYPE));
-  EXPECT_FALSE(mStringFormatType.canAutoCastTo(mContext, PrimitiveTypes::CHAR_TYPE));
-  EXPECT_FALSE(mStringFormatType.canAutoCastTo(mContext, PrimitiveTypes::DOUBLE_TYPE));
-  EXPECT_FALSE(mStringFormatType.canAutoCastTo(mContext, PrimitiveTypes::FLOAT_TYPE));
-  EXPECT_FALSE(mStringFormatType.canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(mStringFormatType.canAutoCastTo(mContext, PrimitiveTypes::LONG_TYPE));
-  EXPECT_FALSE(mStringFormatType.canAutoCastTo(mContext, PrimitiveTypes::STRING_TYPE));
-  EXPECT_FALSE(mStringFormatType.canAutoCastTo(mContext, PrimitiveTypes::VOID_TYPE));
-  EXPECT_TRUE(mStringFormatType.canAutoCastTo(mContext, PrimitiveTypes::STRING_FORMAT_TYPE));
+  EXPECT_FALSE(mStringFormatType.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN));
+  EXPECT_FALSE(mStringFormatType.canAutoCastTo(mContext, PrimitiveTypes::CHAR));
+  EXPECT_FALSE(mStringFormatType.canAutoCastTo(mContext, PrimitiveTypes::DOUBLE));
+  EXPECT_FALSE(mStringFormatType.canAutoCastTo(mContext, PrimitiveTypes::FLOAT));
+  EXPECT_FALSE(mStringFormatType.canAutoCastTo(mContext, PrimitiveTypes::INT));
+  EXPECT_FALSE(mStringFormatType.canAutoCastTo(mContext, PrimitiveTypes::LONG));
+  EXPECT_FALSE(mStringFormatType.canAutoCastTo(mContext, PrimitiveTypes::STRING));
+  EXPECT_FALSE(mStringFormatType.canAutoCastTo(mContext, PrimitiveTypes::VOID));
+  EXPECT_TRUE(mStringFormatType.canAutoCastTo(mContext, PrimitiveTypes::STRING_FORMAT));
 }
 
 TEST_F(StringFormatTypeTest, canCastTest) {
-  EXPECT_FALSE(mStringFormatType.canCastTo(mContext, PrimitiveTypes::BOOLEAN_TYPE));
-  EXPECT_FALSE(mStringFormatType.canCastTo(mContext, PrimitiveTypes::CHAR_TYPE));
-  EXPECT_FALSE(mStringFormatType.canCastTo(mContext, PrimitiveTypes::DOUBLE_TYPE));
-  EXPECT_FALSE(mStringFormatType.canCastTo(mContext, PrimitiveTypes::FLOAT_TYPE));
-  EXPECT_FALSE(mStringFormatType.canCastTo(mContext, PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(mStringFormatType.canCastTo(mContext, PrimitiveTypes::LONG_TYPE));
-  EXPECT_FALSE(mStringFormatType.canCastTo(mContext, PrimitiveTypes::STRING_TYPE));
-  EXPECT_FALSE(mStringFormatType.canCastTo(mContext, PrimitiveTypes::VOID_TYPE));
-  EXPECT_TRUE(mStringFormatType.canCastTo(mContext, PrimitiveTypes::STRING_FORMAT_TYPE));
+  EXPECT_FALSE(mStringFormatType.canCastTo(mContext, PrimitiveTypes::BOOLEAN));
+  EXPECT_FALSE(mStringFormatType.canCastTo(mContext, PrimitiveTypes::CHAR));
+  EXPECT_FALSE(mStringFormatType.canCastTo(mContext, PrimitiveTypes::DOUBLE));
+  EXPECT_FALSE(mStringFormatType.canCastTo(mContext, PrimitiveTypes::FLOAT));
+  EXPECT_FALSE(mStringFormatType.canCastTo(mContext, PrimitiveTypes::INT));
+  EXPECT_FALSE(mStringFormatType.canCastTo(mContext, PrimitiveTypes::LONG));
+  EXPECT_FALSE(mStringFormatType.canCastTo(mContext, PrimitiveTypes::STRING));
+  EXPECT_FALSE(mStringFormatType.canCastTo(mContext, PrimitiveTypes::VOID));
+  EXPECT_TRUE(mStringFormatType.canCastTo(mContext, PrimitiveTypes::STRING_FORMAT));
 }
 
 TEST_F(StringFormatTypeTest, isTypeKindTest) {

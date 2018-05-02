@@ -33,7 +33,7 @@ llvm::Constant* LongConstant::generateIR(IRGenerationContext& context,
 }
 
 const IType* LongConstant::getType(IRGenerationContext& context) const {
-  return PrimitiveTypes::LONG_TYPE;
+  return PrimitiveTypes::LONG;
 }
 
 bool LongConstant::isConstant() const {

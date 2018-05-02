@@ -54,18 +54,18 @@ Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context
   checkTypes(context, leftType, rightType);
 
   if (mOperation == '+' &&
-      (leftType == PrimitiveTypes::STRING_TYPE ||
-       rightType == PrimitiveTypes::STRING_TYPE ||
-       leftType == PrimitiveTypes::STRING_FORMAT_TYPE ||
-       rightType == PrimitiveTypes::STRING_FORMAT_TYPE)) {
+      (leftType == PrimitiveTypes::STRING ||
+       rightType == PrimitiveTypes::STRING ||
+       leftType == PrimitiveTypes::STRING_FORMAT ||
+       rightType == PrimitiveTypes::STRING_FORMAT)) {
         assert(false && "attempting to get value of a stringformat type expression");
   }
   Instruction::BinaryOps instruction;
   string name;
-  bool isFloat = leftType == PrimitiveTypes::FLOAT_TYPE ||
-    leftType == PrimitiveTypes::DOUBLE_TYPE ||
-    rightType == PrimitiveTypes::FLOAT_TYPE ||
-    rightType == PrimitiveTypes::DOUBLE_TYPE;
+  bool isFloat = leftType == PrimitiveTypes::FLOAT ||
+    leftType == PrimitiveTypes::DOUBLE ||
+    rightType == PrimitiveTypes::FLOAT ||
+    rightType == PrimitiveTypes::DOUBLE;
   switch (mOperation) {
     case '+': name = "add"; instruction = isFloat ? Instruction::FAdd : Instruction::Add; break;
     case '-': name = "sub"; instruction = isFloat ? Instruction::FSub : Instruction::Sub; break;
@@ -93,11 +93,11 @@ const IType* AdditiveMultiplicativeExpression::getType(IRGenerationContext& cont
   checkTypes(context, leftType, rightType);
 
   if (mOperation == '+' &&
-      (leftType == PrimitiveTypes::STRING_TYPE ||
-       rightType == PrimitiveTypes::STRING_TYPE ||
-       leftType == PrimitiveTypes::STRING_FORMAT_TYPE ||
-       rightType == PrimitiveTypes::STRING_FORMAT_TYPE)) {
-    return PrimitiveTypes::STRING_FORMAT_TYPE;
+      (leftType == PrimitiveTypes::STRING ||
+       rightType == PrimitiveTypes::STRING ||
+       leftType == PrimitiveTypes::STRING_FORMAT ||
+       rightType == PrimitiveTypes::STRING_FORMAT)) {
+    return PrimitiveTypes::STRING_FORMAT;
   }
   
   if (leftType->canAutoCastTo(context, rightType)) {
@@ -109,7 +109,7 @@ const IType* AdditiveMultiplicativeExpression::getType(IRGenerationContext& cont
 void AdditiveMultiplicativeExpression::checkTypes(IRGenerationContext& context,
                                                   const IType* leftType,
                                                   const IType* rightType) const {
-  if (leftType == PrimitiveTypes::VOID_TYPE || rightType == PrimitiveTypes::VOID_TYPE) {
+  if (leftType == PrimitiveTypes::VOID || rightType == PrimitiveTypes::VOID) {
     context.reportError(mLine, "Can not use expressions of type VOID in a '" +
                         string(1, mOperation) + "' operation");
     exit(1);
@@ -122,14 +122,14 @@ void AdditiveMultiplicativeExpression::checkTypes(IRGenerationContext& context,
   }
   
   if (mOperation == '+' &&
-      (leftType == PrimitiveTypes::STRING_TYPE ||
-       rightType == PrimitiveTypes::STRING_TYPE ||
-       leftType == PrimitiveTypes::STRING_FORMAT_TYPE ||
-       rightType == PrimitiveTypes::STRING_FORMAT_TYPE)) {
+      (leftType == PrimitiveTypes::STRING ||
+       rightType == PrimitiveTypes::STRING ||
+       leftType == PrimitiveTypes::STRING_FORMAT ||
+       rightType == PrimitiveTypes::STRING_FORMAT)) {
     return;
   }
   
-  if (leftType == PrimitiveTypes::STRING_TYPE || rightType == PrimitiveTypes::STRING_TYPE) {
+  if (leftType == PrimitiveTypes::STRING || rightType == PrimitiveTypes::STRING) {
     return;
   }
   

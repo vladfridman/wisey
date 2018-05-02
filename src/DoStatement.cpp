@@ -38,7 +38,7 @@ void DoStatement::generateIR(IRGenerationContext& context) const {
   IRWriter::createBranch(context, doCond);
   
   context.setBasicBlock(doCond);
-  Value* conditionValue = mConditionExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
+  Value* conditionValue = mConditionExpression->generateIR(context, PrimitiveTypes::VOID);
   IRWriter::createConditionalBranch(context, doBody, doEnd, conditionValue);
   
   scopes.setBreakToBlock(NULL);

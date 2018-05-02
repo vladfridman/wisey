@@ -63,9 +63,9 @@ struct NodeDefinitionTest : public Test {
     mBlock->getStatements().push_back(mMockStatement);
     mBlock->getStatements().push_back(new ReturnStatement(new FloatConstant(0.5, 0), 0));
     CompoundStatement* compoundStatement = new CompoundStatement(mBlock, 0);
-    const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+    const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
     const PrimitiveTypeSpecifier* floatTypeSpecifier =
-    PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0);
+    PrimitiveTypes::FLOAT->newTypeSpecifier(0);
     Identifier* intArgumentIdentifier = new Identifier("intargument", 0);
     VariableDeclaration* intArgument =
     VariableDeclaration::create(intTypeSpecifier, intArgumentIdentifier, 0);
@@ -87,8 +87,8 @@ struct NodeDefinitionTest : public Test {
 };
 
 TEST_F(NodeDefinitionTest, prototypeObjectTest) {
-  const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier(0);
-  const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
   FixedFieldDefinition* field1 = new FixedFieldDefinition(longType, "field1", 0);
   FixedFieldDefinition* field2 = new FixedFieldDefinition(floatType, "field2", 0);
   mObjectElements.push_back(field1);
@@ -118,8 +118,8 @@ TEST_F(NodeDefinitionTest, prototypeObjectTest) {
 }
 
 TEST_F(NodeDefinitionTest, prototypeMethodsTest) {
-  const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier(0);
-  const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
   FixedFieldDefinition* field1 = new FixedFieldDefinition(longType, "field1", 0);
   FixedFieldDefinition* field2 = new FixedFieldDefinition(floatType, "field2", 0);
   mObjectElements.push_back(field1);
@@ -147,8 +147,8 @@ TEST_F(NodeDefinitionTest, prototypeMethodsTest) {
 }
 
 TEST_F(NodeDefinitionTest, generateIRTest) {
-  const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier(0);
-  const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
   FixedFieldDefinition* field1 = new FixedFieldDefinition(longType, "field1", 0);
   FixedFieldDefinition* field2 = new FixedFieldDefinition(floatType, "field2", 0);
   mObjectElements.push_back(field1);
@@ -190,9 +190,9 @@ TEST_F(NodeDefinitionTest, generateIRTest) {
 
 TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
   CompoundStatement* compoundStatement = new CompoundStatement(mBlock, 0);
-  const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
   const PrimitiveTypeSpecifier* floatTypeSpecifier =
-  PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0);
+  PrimitiveTypes::FLOAT->newTypeSpecifier(0);
   Identifier* intArgumentIdentifier = new Identifier("intargument", 0);
   VariableDeclaration* intArgument =
   VariableDeclaration::create(intTypeSpecifier, intArgumentIdentifier, 0);
@@ -220,8 +220,8 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
   methodThrownExceptions.push_back(new ModelTypeSpecifier(packageExpression,
                                                           Names::getNPEModelName(),
                                                           0));
-  const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
-  const PrimitiveTypeSpecifier* floatSpecifier = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* floatSpecifier = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
   VariableDeclaration* methodArgument =
   VariableDeclaration::create(intSpecifier, new Identifier("intargument", 0), 0);
   methodArguments.push_back(methodArgument);
@@ -316,8 +316,8 @@ TEST_F(NodeDefinitionTest, interfaceNotDefinedDeathTest) {
 }
 
 TEST_F(NodeDefinitionTest, nodeWithInjectedFieldDeathTest) {
-  const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier(0);
-  const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
   InjectionArgumentList arguments;
   InjectedFieldDefinition* field1 = new InjectedFieldDefinition(longType, "field1", arguments, 0);
   FixedFieldDefinition* field2 = new FixedFieldDefinition(floatType, "field2", 0);

@@ -48,15 +48,15 @@ public:
     StructType* structType = StructType::create(mLLVMContext, modelFullName);
     structType->setBody(types);
     vector<IField*> fields;
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width", 0));
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height", 0));
+    fields.push_back(new FixedField(PrimitiveTypes::INT, "width", 0));
+    fields.push_back(new FixedField(PrimitiveTypes::INT, "height", 0));
     vector<const wisey::Argument*> methodArguments;
     vector<IMethod*> methods;
     vector<const Model*> thrownExceptions;
     IMethod* fooMethod = new Method(mModel,
                                     "foo",
                                     AccessLevel::PUBLIC_ACCESS,
-                                    PrimitiveTypes::INT_TYPE,
+                                    PrimitiveTypes::INT,
                                     methodArguments,
                                     thrownExceptions,
                                     new MethodQualifiers(0),

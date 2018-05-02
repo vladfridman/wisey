@@ -25,11 +25,11 @@ struct PrimitiveTypesTest : public Test {
 };
 
 TEST_F(PrimitiveTypesTest, isFloatTypeTest) {
-  EXPECT_FALSE(PrimitiveTypes::isFloatType(PrimitiveTypes::BOOLEAN_TYPE));
-  EXPECT_FALSE(PrimitiveTypes::isFloatType(PrimitiveTypes::CHAR_TYPE));
-  EXPECT_FALSE(PrimitiveTypes::isFloatType(PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(PrimitiveTypes::isFloatType(PrimitiveTypes::LONG_TYPE));
-  EXPECT_TRUE(PrimitiveTypes::isFloatType(PrimitiveTypes::FLOAT_TYPE));
-  EXPECT_TRUE(PrimitiveTypes::isFloatType(PrimitiveTypes::DOUBLE_TYPE));
-  EXPECT_FALSE(PrimitiveTypes::isFloatType(PrimitiveTypes::VOID_TYPE));
+  EXPECT_FALSE(PrimitiveTypes::isFloatType(PrimitiveTypes::BOOLEAN));
+  EXPECT_FALSE(PrimitiveTypes::isFloatType(PrimitiveTypes::CHAR));
+  EXPECT_FALSE(PrimitiveTypes::isFloatType(PrimitiveTypes::INT));
+  EXPECT_FALSE(PrimitiveTypes::isFloatType(PrimitiveTypes::LONG));
+  EXPECT_TRUE(PrimitiveTypes::isFloatType(PrimitiveTypes::FLOAT));
+  EXPECT_TRUE(PrimitiveTypes::isFloatType(PrimitiveTypes::DOUBLE));
+  EXPECT_FALSE(PrimitiveTypes::isFloatType(PrimitiveTypes::VOID));
 }

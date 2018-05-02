@@ -37,7 +37,7 @@ struct ArraySpecificOwnerTypeSpecifierTest : public Test {
   ArraySpecificOwnerTypeSpecifierTest() : mLLVMContext(mContext.getLLVMContext()) {
     llvm::Constant* three = llvm::ConstantInt::get(llvm::Type::getInt64Ty(mLLVMContext), 3);
     ON_CALL(mThreeExpression, generateIR(_, _)).WillByDefault(Return(three));
-    ON_CALL(mThreeExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(mThreeExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     ON_CALL(mThreeExpression, printToStream(_, _)).WillByDefault(Invoke(printThree));
     mDimensions.push_back(&mThreeExpression);
   }
@@ -48,7 +48,7 @@ struct ArraySpecificOwnerTypeSpecifierTest : public Test {
 };
 
 TEST_F(ArraySpecificOwnerTypeSpecifierTest, creationTest) {
-  const PrimitiveTypeSpecifier* intSpecifer = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* intSpecifer = PrimitiveTypes::INT->newTypeSpecifier(0);
   ArraySpecificTypeSpecifier* specifier =
   new ArraySpecificTypeSpecifier(intSpecifer, mDimensions, 9);
   ArraySpecificOwnerTypeSpecifier* ownerSpecifier = new ArraySpecificOwnerTypeSpecifier(specifier);
@@ -60,13 +60,13 @@ TEST_F(ArraySpecificOwnerTypeSpecifierTest, creationTest) {
   
   const ArraySpecificOwnerType* arraySpecificOwnerType = (const ArraySpecificOwnerType*) type;
   const ArraySpecificType* arraySpecificType = arraySpecificOwnerType->getArraySpecificType();
-  EXPECT_EQ(PrimitiveTypes::INT_TYPE, arraySpecificType->getElementType());
+  EXPECT_EQ(PrimitiveTypes::INT, arraySpecificType->getElementType());
   EXPECT_EQ(1u, arraySpecificType->getNumberOfDimensions());
   EXPECT_EQ(9, ownerSpecifier->getLine());
 }
 
 TEST_F(ArraySpecificOwnerTypeSpecifierTest, twoGetsReturnNotSameTypeObjectTest) {
-  const PrimitiveTypeSpecifier* floatSpecifer = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* floatSpecifer = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
   ArraySpecificTypeSpecifier* specifier =
   new ArraySpecificTypeSpecifier(floatSpecifer, mDimensions, 0);
   ArraySpecificOwnerTypeSpecifier* ownerSpecifier = new ArraySpecificOwnerTypeSpecifier(specifier);
@@ -77,7 +77,7 @@ TEST_F(ArraySpecificOwnerTypeSpecifierTest, twoGetsReturnNotSameTypeObjectTest) 
 }
 
 TEST_F(ArraySpecificOwnerTypeSpecifierTest, printToStreamTest) {
-  const PrimitiveTypeSpecifier* stringSpecifer = PrimitiveTypes::STRING_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* stringSpecifer = PrimitiveTypes::STRING->newTypeSpecifier(0);
   ArraySpecificTypeSpecifier* specifier =
   new ArraySpecificTypeSpecifier(stringSpecifer, mDimensions, 0);
   ArraySpecificOwnerTypeSpecifier* ownerSpecifier = new ArraySpecificOwnerTypeSpecifier(specifier);

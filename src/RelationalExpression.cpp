@@ -58,7 +58,7 @@ Value* RelationalExpression::generateIR(IRGenerationContext& context,
 }
 
 const IType* RelationalExpression::getType(IRGenerationContext& context) const {
-  return PrimitiveTypes::BOOLEAN_TYPE;
+  return PrimitiveTypes::BOOLEAN;
 }
 
 Value* RelationalExpression::generateIRForObjects(IRGenerationContext& context,

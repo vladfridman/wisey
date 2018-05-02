@@ -42,7 +42,7 @@ Value* LogicalOrExpression::generateIR(IRGenerationContext& context,
   Value* leftValueCast = AutoCast::maybeCast(context,
                                              mLeftExpression->getType(context),
                                              leftValue,
-                                             PrimitiveTypes::BOOLEAN_TYPE,
+                                             PrimitiveTypes::BOOLEAN,
                                              mLeftExpression->getLine());
   BasicBlock* entryBlock = context.getBasicBlock();
   
@@ -57,7 +57,7 @@ Value* LogicalOrExpression::generateIR(IRGenerationContext& context,
   Value* rightValueCast = AutoCast::maybeCast(context,
                                               mRightExpression->getType(context),
                                               rightValue,
-                                              PrimitiveTypes::BOOLEAN_TYPE,
+                                              PrimitiveTypes::BOOLEAN,
                                               mRightExpression->getLine());
   BasicBlock* lastRightBlock = context.getBasicBlock();
   IRWriter::createBranch(context, basicBlockEnd);
@@ -76,7 +76,7 @@ Value* LogicalOrExpression::generateIR(IRGenerationContext& context,
 }
 
 const IType* LogicalOrExpression::getType(IRGenerationContext& context) const {
-  return PrimitiveTypes::BOOLEAN_TYPE;
+  return PrimitiveTypes::BOOLEAN;
 }
 
 bool LogicalOrExpression::isConstant() const {

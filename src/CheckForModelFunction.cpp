@@ -105,7 +105,7 @@ void CheckForModelFunction::compose(IRGenerationContext& context, Function* func
                                                                   Names::getCastExceptionName(),
                                                                   0);
   ObjectBuilderArgumentList objectBuilderArgumnetList;
-  FakeExpression* fromTypeValue = new FakeExpression(objectName, PrimitiveTypes::STRING_TYPE);
+  FakeExpression* fromTypeValue = new FakeExpression(objectName, PrimitiveTypes::STRING);
   ObjectBuilderArgument* fromTypeArgument = new ObjectBuilderArgument("withFromType",
                                                                       fromTypeValue);
   StringLiteral* modelStringLiteral = new StringLiteral("model", 0);

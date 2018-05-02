@@ -34,8 +34,8 @@ struct ExternalMethodDefinitionTest : Test {
   VariableList mArguments;
   
   ExternalMethodDefinitionTest() :
-  mFloatTypeSpecifier(PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0)),
-  mIntTypeSpecifier(PrimitiveTypes::INT_TYPE->newTypeSpecifier(0)),
+  mFloatTypeSpecifier(PrimitiveTypes::FLOAT->newTypeSpecifier(0)),
+  mIntTypeSpecifier(PrimitiveTypes::INT->newTypeSpecifier(0)),
   mIntArgumentIdentifier(new Identifier("intargument", 0)),
   mFloatArgumentIdentifier(new Identifier("floatargument", 0)),
   mIntArgument(VariableDeclaration::create(mIntTypeSpecifier, mIntArgumentIdentifier, 0)),
@@ -49,7 +49,7 @@ TEST_F(ExternalMethodDefinitionTest, methodDescriptorExtractTest) {
   mArguments.push_back(mFloatArgument);
   vector<IModelTypeSpecifier*> thrownExceptions;
   const PrimitiveTypeSpecifier* floatTypeSpecifier =
-  PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0);
+  PrimitiveTypes::FLOAT->newTypeSpecifier(0);
   ExternalMethodDefinition methodDefinition(floatTypeSpecifier,
                                             "foo",
                                             mArguments,
@@ -68,10 +68,10 @@ TEST_F(ExternalMethodDefinitionTest, methodDescriptorExtractTest) {
 
   EXPECT_STREQ(method->getName().c_str(), "foo");
   EXPECT_FALSE(method->isStatic());
-  EXPECT_EQ(method->getReturnType(), PrimitiveTypes::FLOAT_TYPE);
+  EXPECT_EQ(method->getReturnType(), PrimitiveTypes::FLOAT);
   EXPECT_EQ(arguments.size(), 2ul);
   EXPECT_EQ(arguments.at(0)->getName(), "intargument");
-  EXPECT_EQ(arguments.at(0)->getType(), PrimitiveTypes::INT_TYPE);
+  EXPECT_EQ(arguments.at(0)->getType(), PrimitiveTypes::INT);
   EXPECT_EQ(arguments.at(1)->getName(), "floatargument");
-  EXPECT_EQ(arguments.at(1)->getType(), PrimitiveTypes::FLOAT_TYPE);
+  EXPECT_EQ(arguments.at(1)->getType(), PrimitiveTypes::FLOAT);
 }

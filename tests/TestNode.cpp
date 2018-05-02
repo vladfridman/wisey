@@ -95,7 +95,7 @@ struct NodeTest : public Test {
     VariableList elementInterfaceArguments;
     vector<IObjectElementDefinition*> elementInterfaceElements;
     vector<IModelTypeSpecifier*> elementThrownExceptions;
-    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
     IObjectElementDefinition* getElementSignature =
       new MethodSignatureDeclaration(intSpecifier,
                                      "getElement",
@@ -181,8 +181,8 @@ struct NodeTest : public Test {
                                      mContext.getImportProfile(),
                                      7);
    InjectionArgumentList arguments;
-    mLeftField = new FixedField(PrimitiveTypes::INT_TYPE, "mLeft", 0);
-    mRightField = new FixedField(PrimitiveTypes::INT_TYPE, "mRight", 0);
+    mLeftField = new FixedField(PrimitiveTypes::INT, "mLeft", 0);
+    mRightField = new FixedField(PrimitiveTypes::INT, "mRight", 0);
     fields.push_back(mLeftField);
     fields.push_back(mRightField);
     vector<const wisey::Argument*> methodArguments;
@@ -190,7 +190,7 @@ struct NodeTest : public Test {
     mMethod = new Method(mComplicatedNode,
                          "getElement",
                          AccessLevel::PUBLIC_ACCESS,
-                         PrimitiveTypes::INT_TYPE,
+                         PrimitiveTypes::INT,
                          methodArguments,
                          thrownExceptions,
                          new MethodQualifiers(0),
@@ -201,7 +201,7 @@ struct NodeTest : public Test {
     Method* fooMethod = new Method(mComplicatedNode,
                                    "foo",
                                    AccessLevel::PRIVATE_ACCESS,
-                                   PrimitiveTypes::INT_TYPE,
+                                   PrimitiveTypes::INT,
                                    methodArguments,
                                    thrownExceptions,
                                    new MethodQualifiers(0),
@@ -215,7 +215,7 @@ struct NodeTest : public Test {
     
     IntConstant* intConstant = new IntConstant(5, 0);
     mConstant = new wisey::Constant(PUBLIC_ACCESS,
-                                    PrimitiveTypes::INT_TYPE,
+                                    PrimitiveTypes::INT,
                                     "MYCONSTANT",
                                     intConstant);
     vector<wisey::Constant*> constants;
@@ -298,8 +298,8 @@ struct NodeTest : public Test {
     StructType* simplerNodeStructType = StructType::create(mLLVMContext, simplerNodeFullName);
     simplerNodeStructType->setBody(simplerNodeTypes);
     vector<IField*> simplerNodeFields;
-    simplerNodeFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mLeft", 0));
-    simplerNodeFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mRight", 0));
+    simplerNodeFields.push_back(new FixedField(PrimitiveTypes::INT, "mLeft", 0));
+    simplerNodeFields.push_back(new FixedField(PrimitiveTypes::INT, "mRight", 0));
     mSimplerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                  simplerNodeFullName,
                                  simplerNodeStructType,
@@ -487,7 +487,7 @@ TEST_F(NodeTest, getReferenceAdjustmentFunctionTest) {
 }
 
 TEST_F(NodeTest, canCastToTest) {
-  EXPECT_FALSE(mComplicatedNode->canCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mComplicatedNode->canCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_FALSE(mComplicatedNode->canCastTo(mContext, mSimplerNode));
   EXPECT_FALSE(mComplicatedNode->canCastTo(mContext, mVehicleInterface));
   EXPECT_TRUE(mComplicatedNode->canCastTo(mContext, mComplicatedNode));
@@ -503,7 +503,7 @@ TEST_F(NodeTest, canCastToTest) {
 }
 
 TEST_F(NodeTest, canAutoCastToTest) {
-  EXPECT_FALSE(mComplicatedNode->canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mComplicatedNode->canAutoCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_FALSE(mComplicatedNode->canAutoCastTo(mContext, mSimplerNode));
   EXPECT_FALSE(mComplicatedNode->canAutoCastTo(mContext, mVehicleInterface));
   EXPECT_TRUE(mComplicatedNode->canAutoCastTo(mContext, mComplicatedNode));
@@ -707,7 +707,7 @@ TEST_F(NodeTest, buildIncorrectArgumentTypeDeathTest) {
 
   Value* fieldValue = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 2.0f);
   ON_CALL(*mField2Expression, generateIR(_, _)).WillByDefault(Return(fieldValue));
-  ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
 
   string argumentSpecifier1("withOwner");
   ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
@@ -753,8 +753,8 @@ TEST_F(NodeTest, printToStreamTest) {
                                             mContext.getImportProfile(),
                                             0);
   vector<IField*> fields;
-  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1", 0));
-  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
+  fields.push_back(new FixedField(PrimitiveTypes::INT, "mField1", 0));
+  fields.push_back(new FixedField(PrimitiveTypes::INT, "mField2", 0));
   innerPublicModel->setFields(mContext, fields, 0);
   
   vector<const wisey::Argument*> methodArguments;
@@ -762,7 +762,7 @@ TEST_F(NodeTest, printToStreamTest) {
   Method* method = new Method(innerPublicModel,
                               "bar",
                               AccessLevel::PUBLIC_ACCESS,
-                              PrimitiveTypes::INT_TYPE,
+                              PrimitiveTypes::INT,
                               methodArguments,
                               thrownExceptions,
                               new MethodQualifiers(0),

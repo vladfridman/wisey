@@ -40,9 +40,9 @@ struct ExternalModelDefinitionTest : public Test {
   ExternalModelDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     
-    const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+    const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
     const PrimitiveTypeSpecifier* floatTypeSpecifier =
-    PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0);
+    PrimitiveTypes::FLOAT->newTypeSpecifier(0);
     Identifier* intArgumentIdentifier = new Identifier("intargument", 0);
     VariableDeclaration* intArgument =
     VariableDeclaration::create(intTypeSpecifier, intArgumentIdentifier, 0);
@@ -59,8 +59,8 @@ struct ExternalModelDefinitionTest : public Test {
 };
 
 TEST_F(ExternalModelDefinitionTest, prototypeObjectTest) {
-  const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier(0);
-  const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
   InjectionArgumentList arguments;
   FixedFieldDefinition* field1 = new FixedFieldDefinition(longType, "field1", 0);
   FixedFieldDefinition* field2 = new FixedFieldDefinition(floatType, "field2", 0);
@@ -90,8 +90,8 @@ TEST_F(ExternalModelDefinitionTest, prototypeObjectTest) {
 }
 
 TEST_F(ExternalModelDefinitionTest, prototypeMethodsTest) {
-  const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier(0);
-  const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
   InjectionArgumentList arguments;
   FixedFieldDefinition* field1 = new FixedFieldDefinition(longType, "field1", 0);
   FixedFieldDefinition* field2 = new FixedFieldDefinition(floatType, "field2", 0);

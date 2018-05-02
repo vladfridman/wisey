@@ -34,14 +34,14 @@ TEST_F(LongConstantTest, longConstantTest) {
   string stringBuffer;
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);
   
-  Value* irValue = mLongConstant.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  Value* irValue = mLongConstant.generateIR(mContext, PrimitiveTypes::VOID);
   
   *stringStream << *irValue;
   EXPECT_STREQ("i64 5", stringStream->str().c_str());
 }
 
 TEST_F(LongConstantTest, longConstantTypeTest) {
-  EXPECT_EQ(mLongConstant.getType(mContext), PrimitiveTypes::LONG_TYPE);
+  EXPECT_EQ(mLongConstant.getType(mContext), PrimitiveTypes::LONG);
 }
 
 TEST_F(LongConstantTest, isConstantTest) {

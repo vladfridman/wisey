@@ -40,7 +40,7 @@ public:
   mType(new NiceMock<MockType>()),
   mExpression(new NiceMock<MockExpression>()),
   mName("mField") {
-    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
     mFieldDeclaration = new FixedFieldDefinition(intSpecifier, mName, 0);
   }
   
@@ -59,7 +59,7 @@ TEST_F(FixedFieldDefinitionTest, declareTest) {
   EXPECT_FALSE(field->isMethodSignature());
   EXPECT_FALSE(field->isLLVMFunction());
 
-  EXPECT_EQ(field->getType(), PrimitiveTypes::INT_TYPE);
+  EXPECT_EQ(field->getType(), PrimitiveTypes::INT);
   EXPECT_STREQ(field->getName().c_str(), "mField");
   EXPECT_FALSE(field->isAssignable());
 }

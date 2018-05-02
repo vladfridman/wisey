@@ -47,15 +47,15 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
                              mContext.getImportProfile(),
                              0);
     vector<IField*> fields;
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width", 0));
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height", 0));
+    fields.push_back(new FixedField(PrimitiveTypes::INT, "width", 0));
+    fields.push_back(new FixedField(PrimitiveTypes::INT, "height", 0));
     vector<const wisey::Argument*> methodArguments;
     vector<IMethod*> methods;
     vector<const Model*> thrownExceptions;
     IMethod* fooMethod = new Method(mModel,
                                     "foo",
                                     AccessLevel::PUBLIC_ACCESS,
-                                    PrimitiveTypes::INT_TYPE,
+                                    PrimitiveTypes::INT,
                                     methodArguments,
                                     thrownExceptions,
                                     new MethodQualifiers(0),

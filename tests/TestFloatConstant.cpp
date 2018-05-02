@@ -35,14 +35,14 @@ TEST_F(FloatConstantTest, floatConstantTest) {
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);
   IRGenerationContext context;
   
-  Value* irValue = mFloatConstant.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  Value* irValue = mFloatConstant.generateIR(mContext, PrimitiveTypes::VOID);
   
   *stringStream << *irValue;
   EXPECT_STREQ("float 3.500000e+00", stringStream->str().c_str());
 }
 
 TEST_F(FloatConstantTest, floatConstantTypeTest) {
-  EXPECT_EQ(mFloatConstant.getType(mContext), PrimitiveTypes::FLOAT_TYPE);
+  EXPECT_EQ(mFloatConstant.getType(mContext), PrimitiveTypes::FLOAT);
 }
 
 TEST_F(FloatConstantTest, isConstantTest) {

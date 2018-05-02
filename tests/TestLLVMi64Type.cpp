@@ -84,19 +84,19 @@ TEST_F(LLVMi64TypeTest, canCastToTest) {
   EXPECT_TRUE(mLLVMi64Type.canCastTo(mContext, &mLLVMi64Type));
   LLVMi8Type i8Type;
   EXPECT_FALSE(mLLVMi64Type.canCastTo(mContext, &i8Type));
-  EXPECT_TRUE(mLLVMi64Type.canCastTo(mContext, PrimitiveTypes::LONG_TYPE));
+  EXPECT_TRUE(mLLVMi64Type.canCastTo(mContext, PrimitiveTypes::LONG));
 }
 
 TEST_F(LLVMi64TypeTest, canAutoCastToTest) {
   EXPECT_TRUE(mLLVMi64Type.canAutoCastTo(mContext, &mLLVMi64Type));
   LLVMi8Type i8Type;
   EXPECT_FALSE(mLLVMi64Type.canAutoCastTo(mContext, &i8Type));
-  EXPECT_TRUE(mLLVMi64Type.canAutoCastTo(mContext, PrimitiveTypes::LONG_TYPE));
+  EXPECT_TRUE(mLLVMi64Type.canAutoCastTo(mContext, PrimitiveTypes::LONG));
 }
 
 TEST_F(LLVMi64TypeTest, castToTest) {
   Value* value = ConstantInt::get(Type::getInt64Ty(mLLVMContext), 5);
-  EXPECT_EQ(value, mLLVMi64Type.castTo(mContext, value, PrimitiveTypes::LONG_TYPE, 0));
+  EXPECT_EQ(value, mLLVMi64Type.castTo(mContext, value, PrimitiveTypes::LONG, 0));
 }
 
 TEST_F(LLVMi64TypeTest, getPointerTypeTest) {

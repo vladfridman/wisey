@@ -37,8 +37,8 @@ struct IPrintStatementTest : public Test {
   mLLVMContext(mContext.getLLVMContext()),
   mLeftExpression(new NiceMock<MockExpression>()),
   mRightExpression(new NiceMock<MockExpression>()) {
-    ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-    ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::STRING_TYPE));
+    ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
+    ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::STRING));
   }
 };
 

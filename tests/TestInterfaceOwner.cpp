@@ -121,7 +121,7 @@ TEST_F(InterfaceOwnerTest, getDestructorFunctionTest) {
 }
 
 TEST_F(InterfaceOwnerTest, canCastToTest) {
-  EXPECT_FALSE(mObjectInterface->getOwner()->canCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mObjectInterface->getOwner()->canCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_TRUE(mObjectInterface->getOwner()->canCastTo(mContext, mShapeInterface));
   EXPECT_TRUE(mShapeInterface->getOwner()->canCastTo(mContext, mObjectInterface));
 
@@ -130,7 +130,7 @@ TEST_F(InterfaceOwnerTest, canCastToTest) {
 }
 
 TEST_F(InterfaceOwnerTest, canAutoCastToTest) {
-  EXPECT_FALSE(mObjectInterface->getOwner()->canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mObjectInterface->getOwner()->canAutoCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_TRUE(mObjectInterface->getOwner()->canAutoCastTo(mContext, mShapeInterface));
   EXPECT_TRUE(mShapeInterface->getOwner()->canAutoCastTo(mContext, mObjectInterface));
   

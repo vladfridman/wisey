@@ -47,9 +47,9 @@ struct ExternalControllerDefinitionTest : public Test {
     
     ExternalMethodDefinition* methodDeclaration;
     
-    const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+    const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
     const PrimitiveTypeSpecifier* floatTypeSpecifier =
-    PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0);
+    PrimitiveTypes::FLOAT->newTypeSpecifier(0);
     Identifier* intArgumentIdentifier = new Identifier("intargument", 0);
     VariableDeclaration* intArgument =
     VariableDeclaration::create(intTypeSpecifier, intArgumentIdentifier, 0);
@@ -63,8 +63,8 @@ struct ExternalControllerDefinitionTest : public Test {
                                                      new MethodQualifiers(0),
                                                      0);
 
-    const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier(0);
-    const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0);
+    const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
+    const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
     InjectionArgumentList arguments;
     ReceivedFieldDefinition* field1 = new ReceivedFieldDefinition(longType, "mField1", 0);
     ReceivedFieldDefinition* field2 = new ReceivedFieldDefinition(floatType, "mField2", 0);

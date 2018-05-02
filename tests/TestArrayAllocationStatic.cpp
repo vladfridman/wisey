@@ -67,8 +67,8 @@ struct ArrayAllocationStaticTest : Test {
     Type* int32Type = Type::getInt32Ty(mLLVMContext);
     llvm::Constant* fifty = ConstantInt::get(int32Type, 50);
     llvm::Constant* sixty = ConstantInt::get(int32Type, 60);
-    ON_CALL(*mMockExpression1, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-    ON_CALL(*mMockExpression2, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mMockExpression1, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
+    ON_CALL(*mMockExpression2, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     ON_CALL(*mMockExpression1, generateIR(_, _)).WillByDefault(Return(fifty));
     ON_CALL(*mMockExpression2, generateIR(_, _)).WillByDefault(Return(sixty));
     ON_CALL(*mMockExpression1, printToStream(_, _)).WillByDefault(Invoke(printExpression1));
@@ -96,7 +96,7 @@ struct ArrayAllocationStaticTest : Test {
 };
 
 TEST_F(ArrayAllocationStaticTest, generateIRTest) {
-  const wisey::ArrayType* arrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 1u);
+  const wisey::ArrayType* arrayType = mContext.getArrayType(PrimitiveTypes::INT, 1u);
   mArrayAllocationStatic->generateIR(mContext, arrayType->getOwner());
   
   *mStringStream << *mBasicBlock;
@@ -134,7 +134,7 @@ TEST_F(ArrayAllocationStaticTest, isAssignableTest) {
 TEST_F(ArrayAllocationStaticTest, getTypeTest) {
   list<unsigned long> dimensions;
   dimensions.push_back(2u);
-  const ArrayExactType* arrayExactType = mContext.getArrayExactType(PrimitiveTypes::INT_TYPE,
+  const ArrayExactType* arrayExactType = mContext.getArrayExactType(PrimitiveTypes::INT,
                                                                     dimensions);
   EXPECT_EQ(arrayExactType->getOwner(), mArrayAllocationStatic->getType(mContext));
 }

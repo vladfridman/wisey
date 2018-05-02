@@ -49,7 +49,7 @@ struct InjectionArgumentTest : Test {
     StructType *structType = StructType::create(llvmContext, modelFullName);
     structType->setBody(types);
     vector<IField*> fields;
-    fields.push_back(new ReceivedField(PrimitiveTypes::INT_TYPE, "mFieldA", 0));
+    fields.push_back(new ReceivedField(PrimitiveTypes::INT, "mFieldA", 0));
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             modelFullName,
                                             structType,
@@ -59,7 +59,7 @@ struct InjectionArgumentTest : Test {
     
     mValue = ConstantFP::get(Type::getFloatTy(llvmContext), 2.5);
     ON_CALL(*mFieldExpression, generateIR(_, _)).WillByDefault(Return(mValue));
-    ON_CALL(*mFieldExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+    ON_CALL(*mFieldExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
     ON_CALL(*mFieldExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
   }
   
@@ -110,14 +110,14 @@ TEST_F(InjectionArgumentTest, getValueTest) {
   string argumentSpecifier("withFieldA");
   InjectionArgument argument(argumentSpecifier, mFieldExpression);
   
-  EXPECT_EQ(argument.getValue(mContext, PrimitiveTypes::VOID_TYPE), mValue);
+  EXPECT_EQ(argument.getValue(mContext, PrimitiveTypes::VOID), mValue);
 }
 
 TEST_F(InjectionArgumentTest, getTypeTest) {
   string argumentSpecifier("withFieldA");
   InjectionArgument argument(argumentSpecifier, mFieldExpression);
   
-  EXPECT_EQ(argument.getType(mContext), PrimitiveTypes::FLOAT_TYPE);
+  EXPECT_EQ(argument.getType(mContext), PrimitiveTypes::FLOAT);
 }
 
 TEST_F(InjectionArgumentTest, printToStreamTest) {

@@ -95,7 +95,7 @@ Value* TypeComparisionExpression::generateIRforPointerTypes(IRGenerationContext&
 
 Value* TypeComparisionExpression::checkInterfaceImplemented(IRGenerationContext& context,
                                                             const IObjectType* objectType) const {
-  Value* expressionValue = mExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
+  Value* expressionValue = mExpression->generateIR(context, PrimitiveTypes::VOID);
   
   llvm::Constant* namePointer = IObjectType::getObjectNamePointer(objectType, context);
   Value* interfaceIndex = InstanceOfFunction::call(context, expressionValue, namePointer);
@@ -105,7 +105,7 @@ Value* TypeComparisionExpression::checkInterfaceImplemented(IRGenerationContext&
 }
 
 const IType* TypeComparisionExpression::getType(IRGenerationContext& context) const {
-  return PrimitiveTypes::BOOLEAN_TYPE;
+  return PrimitiveTypes::BOOLEAN;
 }
 
 bool TypeComparisionExpression::isConstant() const {

@@ -74,25 +74,25 @@ TEST_F(DoubleTypeTest, doubleTypeTest) {
 }
 
 TEST_F(DoubleTypeTest, canAutoCastToTest) {
-  EXPECT_FALSE(mDoubleType.canAutoCastTo(mContext, PrimitiveTypes::VOID_TYPE));
-  EXPECT_FALSE(mDoubleType.canAutoCastTo(mContext, PrimitiveTypes::STRING_TYPE));
-  EXPECT_FALSE(mDoubleType.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN_TYPE));
-  EXPECT_FALSE(mDoubleType.canAutoCastTo(mContext, PrimitiveTypes::CHAR_TYPE));
-  EXPECT_FALSE(mDoubleType.canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(mDoubleType.canAutoCastTo(mContext, PrimitiveTypes::LONG_TYPE));
-  EXPECT_FALSE(mDoubleType.canAutoCastTo(mContext, PrimitiveTypes::FLOAT_TYPE));
-  EXPECT_TRUE(mDoubleType.canAutoCastTo(mContext, PrimitiveTypes::DOUBLE_TYPE));
+  EXPECT_FALSE(mDoubleType.canAutoCastTo(mContext, PrimitiveTypes::VOID));
+  EXPECT_FALSE(mDoubleType.canAutoCastTo(mContext, PrimitiveTypes::STRING));
+  EXPECT_FALSE(mDoubleType.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN));
+  EXPECT_FALSE(mDoubleType.canAutoCastTo(mContext, PrimitiveTypes::CHAR));
+  EXPECT_FALSE(mDoubleType.canAutoCastTo(mContext, PrimitiveTypes::INT));
+  EXPECT_FALSE(mDoubleType.canAutoCastTo(mContext, PrimitiveTypes::LONG));
+  EXPECT_FALSE(mDoubleType.canAutoCastTo(mContext, PrimitiveTypes::FLOAT));
+  EXPECT_TRUE(mDoubleType.canAutoCastTo(mContext, PrimitiveTypes::DOUBLE));
 }
 
 TEST_F(DoubleTypeTest, canCastTest) {
-  EXPECT_FALSE(mDoubleType.canCastTo(mContext, PrimitiveTypes::VOID_TYPE));
-  EXPECT_FALSE(mDoubleType.canCastTo(mContext, PrimitiveTypes::STRING_TYPE));
-  EXPECT_TRUE(mDoubleType.canCastTo(mContext, PrimitiveTypes::BOOLEAN_TYPE));
-  EXPECT_TRUE(mDoubleType.canCastTo(mContext, PrimitiveTypes::CHAR_TYPE));
-  EXPECT_TRUE(mDoubleType.canCastTo(mContext, PrimitiveTypes::INT_TYPE));
-  EXPECT_TRUE(mDoubleType.canCastTo(mContext, PrimitiveTypes::LONG_TYPE));
-  EXPECT_TRUE(mDoubleType.canCastTo(mContext, PrimitiveTypes::FLOAT_TYPE));
-  EXPECT_TRUE(mDoubleType.canCastTo(mContext, PrimitiveTypes::DOUBLE_TYPE));
+  EXPECT_FALSE(mDoubleType.canCastTo(mContext, PrimitiveTypes::VOID));
+  EXPECT_FALSE(mDoubleType.canCastTo(mContext, PrimitiveTypes::STRING));
+  EXPECT_TRUE(mDoubleType.canCastTo(mContext, PrimitiveTypes::BOOLEAN));
+  EXPECT_TRUE(mDoubleType.canCastTo(mContext, PrimitiveTypes::CHAR));
+  EXPECT_TRUE(mDoubleType.canCastTo(mContext, PrimitiveTypes::INT));
+  EXPECT_TRUE(mDoubleType.canCastTo(mContext, PrimitiveTypes::LONG));
+  EXPECT_TRUE(mDoubleType.canCastTo(mContext, PrimitiveTypes::FLOAT));
+  EXPECT_TRUE(mDoubleType.canCastTo(mContext, PrimitiveTypes::DOUBLE));
 }
 
 TEST_F(DoubleTypeTest, castToTest) {
@@ -101,37 +101,37 @@ TEST_F(DoubleTypeTest, castToTest) {
   Value* result;
   Value* expressionValue = ConstantFP::get(Type::getDoubleTy(mLLVMContext), 2.5);
   
-  EXPECT_EXIT(mDoubleType.castTo(mContext, expressionValue, PrimitiveTypes::VOID_TYPE, 5),
+  EXPECT_EXIT(mDoubleType.castTo(mContext, expressionValue, PrimitiveTypes::VOID, 5),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(5\\): Error: Incompatible types: "
               "can not cast from type 'double' to 'void'");
   
-  result = mDoubleType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN_TYPE, 0);
+  result = mDoubleType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv = fptosi double 2.500000e+00 to i1", mStringStream->str().c_str());
   mStringBuffer.clear();
   
-  result = mDoubleType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR_TYPE, 0);
+  result = mDoubleType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv1 = fptosi double 2.500000e+00 to i16", mStringStream->str().c_str());
   mStringBuffer.clear();
   
-  result = mDoubleType.castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE, 0);
+  result = mDoubleType.castTo(mContext, expressionValue, PrimitiveTypes::INT, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv2 = fptosi double 2.500000e+00 to i32", mStringStream->str().c_str());
   mStringBuffer.clear();
   
-  result = mDoubleType.castTo(mContext, expressionValue, PrimitiveTypes::LONG_TYPE, 0);
+  result = mDoubleType.castTo(mContext, expressionValue, PrimitiveTypes::LONG, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv3 = fptosi double 2.500000e+00 to i64", mStringStream->str().c_str());
   mStringBuffer.clear();
   
-  result = mDoubleType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT_TYPE, 0);
+  result = mDoubleType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv4 = fptrunc double 2.500000e+00 to float", mStringStream->str().c_str());
   mStringBuffer.clear();
   
-  result = mDoubleType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE_TYPE, 0);
+  result = mDoubleType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE, 0);
   EXPECT_EQ(result, expressionValue);
 }
 

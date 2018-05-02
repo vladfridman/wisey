@@ -73,25 +73,25 @@ TEST_F(FloatTypeTest, floatTypeTest) {
 }
 
 TEST_F(FloatTypeTest, canAutoCastToTest) {
-  EXPECT_FALSE(mFloatType.canAutoCastTo(mContext, PrimitiveTypes::VOID_TYPE));
-  EXPECT_FALSE(mFloatType.canAutoCastTo(mContext, PrimitiveTypes::STRING_TYPE));
-  EXPECT_FALSE(mFloatType.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN_TYPE));
-  EXPECT_FALSE(mFloatType.canAutoCastTo(mContext, PrimitiveTypes::CHAR_TYPE));
-  EXPECT_FALSE(mFloatType.canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(mFloatType.canAutoCastTo(mContext, PrimitiveTypes::LONG_TYPE));
-  EXPECT_TRUE(mFloatType.canAutoCastTo(mContext, PrimitiveTypes::FLOAT_TYPE));
-  EXPECT_TRUE(mFloatType.canAutoCastTo(mContext, PrimitiveTypes::DOUBLE_TYPE));
+  EXPECT_FALSE(mFloatType.canAutoCastTo(mContext, PrimitiveTypes::VOID));
+  EXPECT_FALSE(mFloatType.canAutoCastTo(mContext, PrimitiveTypes::STRING));
+  EXPECT_FALSE(mFloatType.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN));
+  EXPECT_FALSE(mFloatType.canAutoCastTo(mContext, PrimitiveTypes::CHAR));
+  EXPECT_FALSE(mFloatType.canAutoCastTo(mContext, PrimitiveTypes::INT));
+  EXPECT_FALSE(mFloatType.canAutoCastTo(mContext, PrimitiveTypes::LONG));
+  EXPECT_TRUE(mFloatType.canAutoCastTo(mContext, PrimitiveTypes::FLOAT));
+  EXPECT_TRUE(mFloatType.canAutoCastTo(mContext, PrimitiveTypes::DOUBLE));
 }
 
 TEST_F(FloatTypeTest, canCastTest) {
-  EXPECT_FALSE(mFloatType.canCastTo(mContext, PrimitiveTypes::VOID_TYPE));
-  EXPECT_FALSE(mFloatType.canCastTo(mContext, PrimitiveTypes::STRING_TYPE));
-  EXPECT_TRUE(mFloatType.canCastTo(mContext, PrimitiveTypes::BOOLEAN_TYPE));
-  EXPECT_TRUE(mFloatType.canCastTo(mContext, PrimitiveTypes::CHAR_TYPE));
-  EXPECT_TRUE(mFloatType.canCastTo(mContext, PrimitiveTypes::INT_TYPE));
-  EXPECT_TRUE(mFloatType.canCastTo(mContext, PrimitiveTypes::LONG_TYPE));
-  EXPECT_TRUE(mFloatType.canCastTo(mContext, PrimitiveTypes::FLOAT_TYPE));
-  EXPECT_TRUE(mFloatType.canCastTo(mContext, PrimitiveTypes::DOUBLE_TYPE));
+  EXPECT_FALSE(mFloatType.canCastTo(mContext, PrimitiveTypes::VOID));
+  EXPECT_FALSE(mFloatType.canCastTo(mContext, PrimitiveTypes::STRING));
+  EXPECT_TRUE(mFloatType.canCastTo(mContext, PrimitiveTypes::BOOLEAN));
+  EXPECT_TRUE(mFloatType.canCastTo(mContext, PrimitiveTypes::CHAR));
+  EXPECT_TRUE(mFloatType.canCastTo(mContext, PrimitiveTypes::INT));
+  EXPECT_TRUE(mFloatType.canCastTo(mContext, PrimitiveTypes::LONG));
+  EXPECT_TRUE(mFloatType.canCastTo(mContext, PrimitiveTypes::FLOAT));
+  EXPECT_TRUE(mFloatType.canCastTo(mContext, PrimitiveTypes::DOUBLE));
 }
 
 TEST_F(FloatTypeTest, castToTest) {
@@ -100,35 +100,35 @@ TEST_F(FloatTypeTest, castToTest) {
   Value* result;
   Value* expressionValue = ConstantFP::get(Type::getFloatTy(mLLVMContext), 2.5);
   
-  EXPECT_EXIT(mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::VOID_TYPE, 5),
+  EXPECT_EXIT(mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::VOID, 5),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(5\\): Error: Incompatible types: "
               "can not cast from type 'float' to 'void'");
   
-  result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN_TYPE, 0);
+  result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv = fptosi float 2.500000e+00 to i1", mStringStream->str().c_str());
   mStringBuffer.clear();
   
-  result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR_TYPE, 0);
+  result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv1 = fptosi float 2.500000e+00 to i16", mStringStream->str().c_str());
   mStringBuffer.clear();
   
-  result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE, 0);
+  result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::INT, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv2 = fptosi float 2.500000e+00 to i32", mStringStream->str().c_str());
   mStringBuffer.clear();
   
-  result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::LONG_TYPE, 0);
+  result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::LONG, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv3 = fptosi float 2.500000e+00 to i64", mStringStream->str().c_str());
   mStringBuffer.clear();
 
-  result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT_TYPE, 0);
+  result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT, 0);
   EXPECT_EQ(result, expressionValue);
   
-  result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE_TYPE, 0);
+  result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv4 = fpext float 2.500000e+00 to double", mStringStream->str().c_str());
   mStringBuffer.clear();

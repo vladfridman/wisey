@@ -46,7 +46,7 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
     exit(1);
   }
   const ArrayType* arrayType = expressionType->getArrayType(context);
-  Value* arrayStructPointer = mArrayExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
+  Value* arrayStructPointer = mArrayExpression->generateIR(context, PrimitiveTypes::VOID);
   
   Composer::setLineNumber(context, mLine);
   CheckForNullAndThrowFunction::call(context, arrayStructPointer);
@@ -76,17 +76,17 @@ Value* ArrayElementExpression::getArrayElement(IRGenerationContext &context,
                                                const IExpression* indexExpression) {
   LLVMContext& llvmContext = context.getLLVMContext();
   const IType* arrayIndexExpressionType = indexExpression->getType(context);
-  if (arrayIndexExpressionType != PrimitiveTypes::INT_TYPE &&
-      arrayIndexExpressionType != PrimitiveTypes::LONG_TYPE) {
+  if (arrayIndexExpressionType != PrimitiveTypes::INT &&
+      arrayIndexExpressionType != PrimitiveTypes::LONG) {
     Log::e_deprecated("Array index should be integer type, but it is " +
            arrayIndexExpressionType->getTypeName());
     exit(1);
   }
 
-  Value* indexValue = indexExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
+  Value* indexValue = indexExpression->generateIR(context, PrimitiveTypes::VOID);
   Value* indexValueCast = arrayIndexExpressionType->castTo(context,
                                                            indexValue,
-                                                           PrimitiveTypes::LONG_TYPE,
+                                                           PrimitiveTypes::LONG,
                                                            0);
 
   Value* index[2];

@@ -187,7 +187,7 @@ TEST_F(IdentifierChainTest, generateIRTest) {
   ON_CALL(*mockExpression, generateIR(_, _)).WillByDefault(Return(objectPointer));
 
   IdentifierChain identifierChain(mockExpression, "foo", 0);
-  Value* result = identifierChain.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  Value* result = identifierChain.generateIR(mContext, PrimitiveTypes::VOID);
   
   EXPECT_EQ(objectPointer, result);
 }
@@ -209,7 +209,7 @@ TEST_F(IdentifierChainTest, generateIRForPrivateMethodDeathTest) {
   Mock::AllowLeak(&mockObjectType);
   Mock::AllowLeak(&mockMethodDescriptor);
   IdentifierChain identifierChain(mockExpression, "foo", 0);
-  EXPECT_EXIT(identifierChain.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(identifierChain.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
               "Error: Method 'foo' of object systems.vos.wisey.compiler.tests.MObject is private");
 }

@@ -52,7 +52,7 @@ struct IdentifierTest : public Test {
 TEST_F(IdentifierTest, generateIRForPrimitiveVariableTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
-  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT));
   mContext.getScopes().setVariable(&mockVariable);
   
   Identifier identifier("foo", 0);
@@ -60,13 +60,13 @@ TEST_F(IdentifierTest, generateIRForPrimitiveVariableTest) {
   EXPECT_CALL(mockVariable, generateIdentifierIR(_)).Times(1);
   EXPECT_CALL(mockVariable, generateAssignmentIR(_, _, _, _)).Times(0);
   
-  identifier.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  identifier.generateIR(mContext, PrimitiveTypes::VOID);
 }
 
 TEST_F(IdentifierTest, undeclaredVariableDeathTest) {
   Identifier identifier("foo", 0);
 
-  EXPECT_EXIT(identifier.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(identifier.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
               "Undeclared variable 'foo'");
 }
@@ -112,7 +112,7 @@ TEST_F(IdentifierTest, generateIRForMethodTest) {
   mContext.getScopes().setVariable(&mockVariable);
 
   Identifier identifier("foo", 0);
-  Value* result = identifier.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  Value* result = identifier.generateIR(mContext, PrimitiveTypes::VOID);
   
   EXPECT_EQ(objectPointer, result);
 }
@@ -136,12 +136,12 @@ TEST_F(IdentifierTest, getTypeForMethodTest) {
 TEST_F(IdentifierTest, getTypeForPrimitiveVariableTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
-  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT));
   mContext.getScopes().setVariable(&mockVariable);
   
   Identifier identifier("foo", 0);
 
-  EXPECT_EQ(identifier.getType(mContext), PrimitiveTypes::INT_TYPE);
+  EXPECT_EQ(identifier.getType(mContext), PrimitiveTypes::INT);
 }
 
 TEST_F(IdentifierTest, getTypeForUndefinedTypeTest) {

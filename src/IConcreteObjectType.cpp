@@ -85,7 +85,7 @@ Value* IConcreteObjectType::castTo(IRGenerationContext& context,
   if (toType->isNative() && (toType->isReference() || toType->isPointer())) {
     return IRWriter::newBitCastInst(context, fromValue, toType->getLLVMType(context));
   }
-  if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
+  if (toType == PrimitiveTypes::BOOLEAN) {
     return IRWriter::newICmpInst(context,
                                  ICmpInst::ICMP_NE,
                                  fromValue,
@@ -396,7 +396,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
     printOutArguments.push_back(new StringLiteral("Throwing RCE " + concreteObject->getTypeName(),
                                                   0));
     printOutArguments.push_back(new StringLiteral(" count = ", 0));
-    printOutArguments.push_back(new FakeExpression(referenceCount, PrimitiveTypes::LONG_TYPE));
+    printOutArguments.push_back(new FakeExpression(referenceCount, PrimitiveTypes::LONG));
     printOutArguments.push_back(new StringLiteral("\n", 0));
     PrintOutStatement::printExpressionList(context, printOutArguments, 0);
   }
@@ -632,7 +632,7 @@ void IConcreteObjectType::defineCurrentObjectNameVariable(IRGenerationContext& c
   Value* objectName = IObjectType::getObjectNamePointer(objectType, context);
   ParameterPrimitiveVariable* objectNameVariable =
   new ParameterPrimitiveVariable(Names::getCurrentObjectVariableName(),
-                                 PrimitiveTypes::STRING_TYPE,
+                                 PrimitiveTypes::STRING,
                                  objectName);
   context.getScopes().setVariable(objectNameVariable);
 }
@@ -657,7 +657,7 @@ bool IConcreteObjectType::canCast(const IType* fromType, const IType* toType) {
   if (toType->isNative() && toType->isPointer()) {
     return true;
   }
-  if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
+  if (toType == PrimitiveTypes::BOOLEAN) {
     return true;
   }
   return false;

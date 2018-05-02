@@ -29,18 +29,18 @@ Type* StringFormatType::getLLVMType(IRGenerationContext& cotnext) const {
 }
 
 bool StringFormatType::canCastTo(IRGenerationContext& context, const IType* toType) const {
-  return toType == PrimitiveTypes::STRING_FORMAT_TYPE;
+  return toType == PrimitiveTypes::STRING_FORMAT;
 }
 
 bool StringFormatType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
-  return toType == PrimitiveTypes::STRING_FORMAT_TYPE;
+  return toType == PrimitiveTypes::STRING_FORMAT;
 }
 
 Value* StringFormatType::castTo(IRGenerationContext& context,
                                 Value* fromValue,
                                 const IType* toType,
                                 int line) const {
-  if (toType == PrimitiveTypes::STRING_FORMAT_TYPE) {
+  if (toType == PrimitiveTypes::STRING_FORMAT) {
     return fromValue;
   }
   

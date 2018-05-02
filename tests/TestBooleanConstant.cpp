@@ -42,7 +42,7 @@ struct BooleanConstantTest : public Test {
 
 TEST_F(BooleanConstantTest, booleanTrueConstantTest) {
   BooleanConstant booleanTrue(true, 0);
-  Value* irValue = booleanTrue.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  Value* irValue = booleanTrue.generateIR(mContext, PrimitiveTypes::VOID);
   
   *mStringStream << *irValue;
   EXPECT_STREQ("i1 true", mStringStream->str().c_str());
@@ -50,7 +50,7 @@ TEST_F(BooleanConstantTest, booleanTrueConstantTest) {
 
 TEST_F(BooleanConstantTest, booleanFalseConstantTest) {
   BooleanConstant booleanFalse(false, 0);
-  Value* irValue = booleanFalse.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  Value* irValue = booleanFalse.generateIR(mContext, PrimitiveTypes::VOID);
   
   *mStringStream << *irValue;
   EXPECT_STREQ("i1 false", mStringStream->str().c_str());
@@ -59,7 +59,7 @@ TEST_F(BooleanConstantTest, booleanFalseConstantTest) {
 TEST_F(BooleanConstantTest, booleanConstantTypeTest) {
   BooleanConstant booleanConstant(true, 0);
   
-  EXPECT_EQ(booleanConstant.getType(mContext), PrimitiveTypes::BOOLEAN_TYPE);
+  EXPECT_EQ(booleanConstant.getType(mContext), PrimitiveTypes::BOOLEAN);
 }
 
 TEST_F(BooleanConstantTest, isConstantTest) {

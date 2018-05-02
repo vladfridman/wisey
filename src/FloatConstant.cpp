@@ -33,7 +33,7 @@ llvm::Constant* FloatConstant::generateIR(IRGenerationContext& context,
 }
 
 const IType* FloatConstant::getType(IRGenerationContext& context) const {
-  return PrimitiveTypes::FLOAT_TYPE;
+  return PrimitiveTypes::FLOAT;
 }
 
 bool FloatConstant::isConstant() const {

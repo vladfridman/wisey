@@ -46,12 +46,12 @@ struct ArraySpecificOwnerTypeTest : public Test {
     
     llvm::Constant* five = llvm::ConstantInt::get(llvm::Type::getInt64Ty(mLLVMContext), 5);
     ON_CALL(mFiveExpression, generateIR(_, _)).WillByDefault(Return(five));
-    ON_CALL(mFiveExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(mFiveExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     ON_CALL(mFiveExpression, printToStream(_, _)).WillByDefault(Invoke(printFive));
     list<const IExpression*> dimensions;
     dimensions.push_back(&mFiveExpression);
-    mArraySpecificType = new ArraySpecificType(PrimitiveTypes::LONG_TYPE, dimensions);
-    mArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, 1u);
+    mArraySpecificType = new ArraySpecificType(PrimitiveTypes::LONG, dimensions);
+    mArrayType = new ArrayType(PrimitiveTypes::LONG, 1u);
     mArraySpecificOwnerType = new ArraySpecificOwnerType(mArraySpecificType);
 
     llvm::FunctionType* functionType = llvm::FunctionType::get(llvm::Type::getVoidTy(mLLVMContext),
@@ -94,13 +94,13 @@ TEST_F(ArraySpecificOwnerTypeTest, getLLVMTypeTest) {
 }
 
 TEST_F(ArraySpecificOwnerTypeTest, canCastToTest) {
-  EXPECT_FALSE(mArraySpecificOwnerType->canCastTo(mContext, PrimitiveTypes::STRING_TYPE));
+  EXPECT_FALSE(mArraySpecificOwnerType->canCastTo(mContext, PrimitiveTypes::STRING));
   EXPECT_TRUE(mArraySpecificOwnerType->canCastTo(mContext, mArraySpecificOwnerType));
   EXPECT_TRUE(mArraySpecificOwnerType->canCastTo(mContext, mArrayType));
 }
 
 TEST_F(ArraySpecificOwnerTypeTest, canAutoCastToTest) {
-  EXPECT_FALSE(mArraySpecificOwnerType->canAutoCastTo(mContext, PrimitiveTypes::STRING_TYPE));
+  EXPECT_FALSE(mArraySpecificOwnerType->canAutoCastTo(mContext, PrimitiveTypes::STRING));
   EXPECT_TRUE(mArraySpecificOwnerType->canAutoCastTo(mContext, mArraySpecificOwnerType));
   EXPECT_TRUE(mArraySpecificOwnerType->canAutoCastTo(mContext, mArrayType));
 }
@@ -132,7 +132,7 @@ TEST_F(ArraySpecificOwnerTypeTest, printToStreamTest) {
 }
 
 TEST_F(ArraySpecificOwnerTypeTest, getArrayTypeTest) {
-  EXPECT_EQ(mContext.getArrayType(PrimitiveTypes::LONG_TYPE, 1u),
+  EXPECT_EQ(mContext.getArrayType(PrimitiveTypes::LONG, 1u),
             mArraySpecificOwnerType->getArrayType(mContext));
 }
 

@@ -31,7 +31,7 @@ Value* EmptyExpression::generateIR(IRGenerationContext& context, const IType* as
 }
 
 const IType* EmptyExpression::getType(IRGenerationContext& context) const {
-  return PrimitiveTypes::VOID_TYPE;
+  return PrimitiveTypes::VOID;
 }
 
 bool EmptyExpression::isConstant() const {

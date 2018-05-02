@@ -46,7 +46,7 @@ bool BooleanType::canCastTo(IRGenerationContext& context, const IType* toType) c
     return false;
   }
   
-  return toType != PrimitiveTypes::VOID_TYPE && toType != PrimitiveTypes::STRING_TYPE;
+  return toType != PrimitiveTypes::VOID && toType != PrimitiveTypes::STRING;
 }
 
 bool BooleanType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
@@ -57,12 +57,12 @@ bool BooleanType::canAutoCastTo(IRGenerationContext& context, const IType* toTyp
     return false;
   }
   
-  return toType == PrimitiveTypes::BOOLEAN_TYPE ||
-    toType == PrimitiveTypes::CHAR_TYPE ||
-    toType == PrimitiveTypes::INT_TYPE ||
-    toType == PrimitiveTypes::LONG_TYPE ||
-    toType == PrimitiveTypes::FLOAT_TYPE ||
-    toType == PrimitiveTypes::DOUBLE_TYPE;
+  return toType == PrimitiveTypes::BOOLEAN ||
+    toType == PrimitiveTypes::CHAR ||
+    toType == PrimitiveTypes::INT ||
+    toType == PrimitiveTypes::LONG ||
+    toType == PrimitiveTypes::FLOAT ||
+    toType == PrimitiveTypes::DOUBLE;
 }
 
 Value* BooleanType::castTo(IRGenerationContext& context,
@@ -71,13 +71,13 @@ Value* BooleanType::castTo(IRGenerationContext& context,
                            int line) const {
   if (toType->isNative() && toType->getLLVMType(context) == getLLVMType(context)) {
     return fromValue;
-  } else if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
+  } else if (toType == PrimitiveTypes::BOOLEAN) {
     return fromValue;
-  } else if (toType == PrimitiveTypes::CHAR_TYPE ||
-             toType == PrimitiveTypes::INT_TYPE ||
-             toType == PrimitiveTypes::LONG_TYPE) {
+  } else if (toType == PrimitiveTypes::CHAR ||
+             toType == PrimitiveTypes::INT ||
+             toType == PrimitiveTypes::LONG) {
     return Cast::widenIntCast(context, fromValue, toType);
-  } else if (toType == PrimitiveTypes::FLOAT_TYPE || toType == PrimitiveTypes::DOUBLE_TYPE) {
+  } else if (toType == PrimitiveTypes::FLOAT || toType == PrimitiveTypes::DOUBLE) {
     return Cast::intToFloatCast(context, fromValue, toType);
   }
   Cast::exitIncompatibleTypes(context, this, toType, line);

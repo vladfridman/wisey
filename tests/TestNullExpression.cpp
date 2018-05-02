@@ -38,7 +38,7 @@ struct NullExpressionTest : public Test {
 
 TEST_F(NullExpressionTest, generateIRTest) {
   Value* expexted = ConstantExpr::getNullValue(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  ASSERT_EQ(expexted, mNullExpression->generateIR(mContext, PrimitiveTypes::VOID_TYPE));
+  ASSERT_EQ(expexted, mNullExpression->generateIR(mContext, PrimitiveTypes::VOID));
 }
 
 TEST_F(NullExpressionTest, getTypeTest) {

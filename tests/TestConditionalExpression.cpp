@@ -71,10 +71,10 @@ struct ConditionalExpressionTest : Test {
     Value* ifTrueValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
     Value* ifFalseValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 5);
     ON_CALL(*mIfTrueExpression, generateIR(_, _)).WillByDefault(Return(ifTrueValue));
-    ON_CALL(*mIfTrueExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mIfTrueExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     ON_CALL(*mIfFalseExpression, generateIR(_, _)).WillByDefault(Return(ifFalseValue));
-    ON_CALL(*mIfFalseExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-    ON_CALL(*mConditionExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
+    ON_CALL(*mIfFalseExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
+    ON_CALL(*mConditionExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN));
     
     FunctionType* functionType =
       FunctionType::get(Type::getInt32Ty(llvmContext), false);
@@ -112,7 +112,7 @@ TEST_F(ConditionalExpressionTest, conditionalExpressionRunWithFalse) {
   ON_CALL(*mConditionExpression, generateIR(_, _)).WillByDefault(testing::Return(conditionValue));
 
   ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression, 0);
-  expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  expression.generateIR(mContext, PrimitiveTypes::VOID);
 
   ASSERT_EQ(4ul, mFunction->size());
   Function::iterator iterator = mFunction->begin();
@@ -149,7 +149,7 @@ TEST_F(ConditionalExpressionTest, conditionalExpressionRunWithTrue) {
   ON_CALL(*mConditionExpression, generateIR(_, _)).WillByDefault(testing::Return(conditionValue));
  
   ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression, 0);
-  expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  expression.generateIR(mContext, PrimitiveTypes::VOID);
   
   ASSERT_EQ(4ul, mFunction->size());
   Function::iterator iterator = mFunction->begin();
@@ -214,11 +214,11 @@ TEST_F(ConditionalExpressionTest, incompatibleTypesDeathTest) {
   
   Value* trueValue = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 5.5);
   ON_CALL(*mIfTrueExpression, generateIR(_, _)).WillByDefault(Return(trueValue));
-  ON_CALL(*mIfTrueExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  ON_CALL(*mIfTrueExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
   
   ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression, 5);
   
-  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types in conditional expression operation");
 }
@@ -229,12 +229,12 @@ TEST_F(ConditionalExpressionTest, voidTypesDeathTest) {
   Mock::AllowLeak(mIfFalseExpression);
   Mock::AllowLeak(mVariable);
   
-  ON_CALL(*mIfTrueExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
-  ON_CALL(*mIfFalseExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
+  ON_CALL(*mIfTrueExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID));
+  ON_CALL(*mIfFalseExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID));
   
   ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression, 0);
   
-  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
               "Error: Can not use expressions of type VOID in a conditional expression");
 }
@@ -245,11 +245,11 @@ TEST_F(ConditionalExpressionTest, conditionIsNotBooleanDeathTest) {
   Mock::AllowLeak(mIfFalseExpression);
   Mock::AllowLeak(mVariable);
  
-  ON_CALL(*mConditionExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
+  ON_CALL(*mConditionExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID));
   
   ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression, 0);
   
-  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
               "Condition in a conditional expression is not of type BOOLEAN");
 }

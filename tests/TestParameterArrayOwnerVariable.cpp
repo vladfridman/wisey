@@ -44,7 +44,7 @@ struct ParameterArrayOwnerVariableTest : public Test {
 public:
   
   ParameterArrayOwnerVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
-    mArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 1u);
+    mArrayType = mContext.getArrayType(PrimitiveTypes::INT, 1u);
 
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,

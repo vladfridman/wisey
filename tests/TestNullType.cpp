@@ -75,7 +75,7 @@ TEST_F(NullTypeTest, canCastToTest) {
   NullType anotherNullType;
   ASSERT_TRUE(NullType::NULL_TYPE->canCastTo(mContext, &anotherNullType));
   
-  ASSERT_FALSE(NullType::NULL_TYPE->canCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  ASSERT_FALSE(NullType::NULL_TYPE->canCastTo(mContext, PrimitiveTypes::INT));
 }
 
 TEST_F(NullTypeTest, canAutoCastToTest) {
@@ -93,7 +93,7 @@ TEST_F(NullTypeTest, canAutoCastToTest) {
   NullType anotherNullType;
   ASSERT_TRUE(NullType::NULL_TYPE->canAutoCastTo(mContext, &anotherNullType));
   
-  ASSERT_FALSE(NullType::NULL_TYPE->canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  ASSERT_FALSE(NullType::NULL_TYPE->canAutoCastTo(mContext, PrimitiveTypes::INT));
 }
 
 TEST_F(NullTypeTest, castToModelTest) {

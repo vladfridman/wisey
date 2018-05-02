@@ -52,8 +52,8 @@ public:
     
     mStringStream = new raw_string_ostream(mStringBuffer);
     
-    mArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 1u);
-    mAnotherArrayType = mContext.getArrayType(PrimitiveTypes::FLOAT_TYPE, 1u);
+    mArrayType = mContext.getArrayType(PrimitiveTypes::INT, 1u);
+    mAnotherArrayType = mContext.getArrayType(PrimitiveTypes::FLOAT, 1u);
     
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,

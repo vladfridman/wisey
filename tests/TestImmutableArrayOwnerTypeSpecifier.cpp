@@ -27,7 +27,7 @@ struct ImmutableArrayOwnerTypeSpecifierTest : public Test {
 };
 
 TEST_F(ImmutableArrayOwnerTypeSpecifierTest, creationTest) {
-  const PrimitiveTypeSpecifier* intSpecifer = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* intSpecifer = PrimitiveTypes::INT->newTypeSpecifier(0);
   ArrayTypeSpecifier* arraySpecifier = new ArrayTypeSpecifier(intSpecifer, 1u, 9);
   ImmutableArrayTypeSpecifier* immutableArray = new ImmutableArrayTypeSpecifier(arraySpecifier);
   ImmutableArrayOwnerTypeSpecifier* specifier =
@@ -38,13 +38,13 @@ TEST_F(ImmutableArrayOwnerTypeSpecifierTest, creationTest) {
   EXPECT_TRUE(type->isOwner());
   EXPECT_STREQ("immutable int[]*", type->getTypeName().c_str());
   
-  EXPECT_EQ(PrimitiveTypes::INT_TYPE, type->getArrayType(mContext)->getElementType());
+  EXPECT_EQ(PrimitiveTypes::INT, type->getArrayType(mContext)->getElementType());
   EXPECT_EQ(1u, type->getArrayType(mContext)->getNumberOfDimensions());
   EXPECT_EQ(9, specifier->getLine());
 }
 
 TEST_F(ImmutableArrayOwnerTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {
-  const PrimitiveTypeSpecifier* floatSpecifer = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* floatSpecifer = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
   ArrayTypeSpecifier* arraySpecifier = new ArrayTypeSpecifier(floatSpecifer, 1u, 0);
   ImmutableArrayTypeSpecifier* immutableArray = new ImmutableArrayTypeSpecifier(arraySpecifier);
   ImmutableArrayOwnerTypeSpecifier* specifier =
@@ -56,7 +56,7 @@ TEST_F(ImmutableArrayOwnerTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {
 }
 
 TEST_F(ImmutableArrayOwnerTypeSpecifierTest, printToStreamTest) {
-  const PrimitiveTypeSpecifier* stringSpecifer = PrimitiveTypes::STRING_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* stringSpecifer = PrimitiveTypes::STRING->newTypeSpecifier(0);
   ArrayTypeSpecifier* arraySpecifier = new ArrayTypeSpecifier(stringSpecifer, 1u, 0);
   ImmutableArrayTypeSpecifier* immutableArray = new ImmutableArrayTypeSpecifier(arraySpecifier);
   ImmutableArrayOwnerTypeSpecifier* specifier =

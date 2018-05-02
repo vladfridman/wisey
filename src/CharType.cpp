@@ -46,7 +46,7 @@ bool CharType::canCastTo(IRGenerationContext& context, const IType* toType) cons
     return false;
   }
   
-  return toType != PrimitiveTypes::VOID_TYPE && toType != PrimitiveTypes::STRING_TYPE;
+  return toType != PrimitiveTypes::VOID && toType != PrimitiveTypes::STRING;
 }
 
 bool CharType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
@@ -57,11 +57,11 @@ bool CharType::canAutoCastTo(IRGenerationContext& context, const IType* toType) 
     return false;
   }
 
-  return toType == PrimitiveTypes::CHAR_TYPE ||
-    toType == PrimitiveTypes::INT_TYPE ||
-    toType == PrimitiveTypes::LONG_TYPE ||
-    toType == PrimitiveTypes::FLOAT_TYPE ||
-    toType == PrimitiveTypes::DOUBLE_TYPE;
+  return toType == PrimitiveTypes::CHAR ||
+    toType == PrimitiveTypes::INT ||
+    toType == PrimitiveTypes::LONG ||
+    toType == PrimitiveTypes::FLOAT ||
+    toType == PrimitiveTypes::DOUBLE;
 }
 
 Value* CharType::castTo(IRGenerationContext& context,
@@ -70,13 +70,13 @@ Value* CharType::castTo(IRGenerationContext& context,
                         int line) const {
   if (toType->isNative() && toType->getLLVMType(context) == getLLVMType(context)) {
     return fromValue;
-  } else if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
+  } else if (toType == PrimitiveTypes::BOOLEAN) {
     return Cast::truncIntCast(context, fromValue, toType);
-  } else if (toType == PrimitiveTypes::CHAR_TYPE) {
+  } else if (toType == PrimitiveTypes::CHAR) {
     return fromValue;
-  } else if (toType == PrimitiveTypes::INT_TYPE || toType == PrimitiveTypes::LONG_TYPE) {
+  } else if (toType == PrimitiveTypes::INT || toType == PrimitiveTypes::LONG) {
     return Cast::widenIntCast(context, fromValue, toType);
-  } else if (toType == PrimitiveTypes::FLOAT_TYPE || toType == PrimitiveTypes::DOUBLE_TYPE) {
+  } else if (toType == PrimitiveTypes::FLOAT || toType == PrimitiveTypes::DOUBLE) {
     return Cast::intToFloatCast(context, fromValue, toType);
   }
   Cast::exitIncompatibleTypes(context, this, toType, line);

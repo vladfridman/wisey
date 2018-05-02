@@ -63,9 +63,9 @@ Value* IncrementExpression::generateIR(IRGenerationContext& context,
     context.reportError(mLine, "Increment/decrement operation may only be applied to variables");
     exit(1);
   }
-  if (expressionType != PrimitiveTypes::INT_TYPE &&
-      expressionType != PrimitiveTypes::CHAR_TYPE &&
-      expressionType != PrimitiveTypes::LONG_TYPE) {
+  if (expressionType != PrimitiveTypes::INT &&
+      expressionType != PrimitiveTypes::CHAR &&
+      expressionType != PrimitiveTypes::LONG) {
     context.reportError(mLine,
                         "Expression is of a type that is incompatible with "
                         "increment/decrement operation");

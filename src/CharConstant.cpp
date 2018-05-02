@@ -33,7 +33,7 @@ llvm::Constant* CharConstant::generateIR(IRGenerationContext& context,
 }
 
 const IType* CharConstant::getType(IRGenerationContext& context) const {
-  return PrimitiveTypes::CHAR_TYPE;
+  return PrimitiveTypes::CHAR;
 }
 
 bool CharConstant::isConstant() const {

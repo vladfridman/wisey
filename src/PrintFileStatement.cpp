@@ -44,16 +44,16 @@ void PrintFileStatement::generateIR(IRGenerationContext& context) const {
     exit(1);
   }
   
-  Value* fileExpressionValue = mFileExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
+  Value* fileExpressionValue = mFileExpression->generateIR(context, PrimitiveTypes::VOID);
   FakeExpression* fakeIdentifier = new FakeExpression(fileExpressionValue, fileExpressionType);
   IdentifierChain* identifierChain = new IdentifierChain(fakeIdentifier,
                                                          Names::getFileStructMethodName(),
                                                          mLine);
   ExpressionList methodCallArguments;
   MethodCall methodCall(identifierChain, methodCallArguments, mLine);
-  Value* fileStruct = methodCall.generateIR(context, PrimitiveTypes::VOID_TYPE);
+  Value* fileStruct = methodCall.generateIR(context, PrimitiveTypes::VOID);
   const IType* expressionType = mExpression->getType(context);
-  if (!expressionType->isPrimitive() || expressionType == PrimitiveTypes::VOID_TYPE) {
+  if (!expressionType->isPrimitive() || expressionType == PrimitiveTypes::VOID) {
     context.reportError(mLine, "Argument in the printerr statement is not of printable type");
     exit(1);
   }
@@ -65,7 +65,7 @@ void PrintFileStatement::generateIR(IRGenerationContext& context) const {
   arguments.push_back(fileStruct);
   arguments.push_back(formatPointer);
   for (const IExpression* expression : expressions) {
-    arguments.push_back(expression->generateIR(context, PrimitiveTypes::VOID_TYPE));
+    arguments.push_back(expression->generateIR(context, PrimitiveTypes::VOID));
   }
   
   IRWriter::createCallInst(context, fprintf, arguments, "");

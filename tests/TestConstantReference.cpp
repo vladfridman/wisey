@@ -55,12 +55,12 @@ public:
     mConstantReference = new ConstantReference(mMockObjectTypeSpecifier, mName, 0);
     ON_CALL(*mMockObjectTypeSpecifier, getType(_)).WillByDefault(Return(mMockObject));
     Constant* constant = new Constant(PUBLIC_ACCESS,
-                                      PrimitiveTypes::INT_TYPE,
+                                      PrimitiveTypes::INT,
                                       mName,
                                       mMockExpression);
     ON_CALL(*mMockObject, findConstant(_)).WillByDefault(Return(constant));
     ON_CALL(*mMockObject, getTypeName()).WillByDefault(Return("MMyObject"));
-    ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     llvm::Constant* intConstant = llvm::ConstantInt::get(llvm::Type::getInt32Ty(mLLVMContext), 5);
     ON_CALL(*mMockExpression, generateIR(_, _)).WillByDefault(Return(intConstant));
     ON_CALL(*mMockExpression, isConstant()).WillByDefault(Return(true));
@@ -96,7 +96,7 @@ public:
 };
 
 TEST_F(ConstantReferenceTest, getTypeTest) {
-  EXPECT_EQ(mConstantReference->getType(mContext), PrimitiveTypes::INT_TYPE);
+  EXPECT_EQ(mConstantReference->getType(mContext), PrimitiveTypes::INT);
 }
 
 TEST_F(ConstantReferenceTest, isConstantTest) {
@@ -108,7 +108,7 @@ TEST_F(ConstantReferenceTest, isAssignableTest) {
 }
 
 TEST_F(ConstantReferenceTest, generateIRTest) {
-  mConstantReference->generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  mConstantReference->generateIR(mContext, PrimitiveTypes::VOID);
   
   *mStringStream << *mBasicBlock;
   string expected =

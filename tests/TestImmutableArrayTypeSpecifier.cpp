@@ -37,7 +37,7 @@ struct ImmutableArrayTypeSpecifierTest : public Test {
 };
 
 TEST_F(ImmutableArrayTypeSpecifierTest, creationTest) {
-  const PrimitiveTypeSpecifier* intSpecifer = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* intSpecifer = PrimitiveTypes::INT->newTypeSpecifier(0);
   ArrayTypeSpecifier* arrayTypeSpecifier = new ArrayTypeSpecifier(intSpecifer, 1u, 3);
   ImmutableArrayTypeSpecifier* specifier = new ImmutableArrayTypeSpecifier(arrayTypeSpecifier);
   const ImmutableArrayType* type = specifier->getType(mContext);
@@ -46,7 +46,7 @@ TEST_F(ImmutableArrayTypeSpecifierTest, creationTest) {
   EXPECT_TRUE(type->isReference());
   EXPECT_STREQ("immutable int[]", type->getTypeName().c_str());
   
-  EXPECT_EQ(PrimitiveTypes::INT_TYPE, type->getElementType());
+  EXPECT_EQ(PrimitiveTypes::INT, type->getElementType());
   EXPECT_EQ(1u, type->getNumberOfDimensions());
   EXPECT_EQ(3, specifier->getLine());
 }
@@ -68,7 +68,7 @@ TEST_F(ImmutableArrayTypeSpecifierTest, getTypeDeathTest) {
 }
 
 TEST_F(ImmutableArrayTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {
-  const PrimitiveTypeSpecifier* floatSpecifer = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* floatSpecifer = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
   ArrayTypeSpecifier* arrayTypeSpecifier = new ArrayTypeSpecifier(floatSpecifer, 1u, 0);
   ImmutableArrayTypeSpecifier* specifier = new ImmutableArrayTypeSpecifier(arrayTypeSpecifier);
   const IType* type1 = specifier->getType(mContext);
@@ -78,7 +78,7 @@ TEST_F(ImmutableArrayTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {
 }
 
 TEST_F(ImmutableArrayTypeSpecifierTest, printToStreamTest) {
-  const PrimitiveTypeSpecifier* stringSpecifer = PrimitiveTypes::STRING_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* stringSpecifer = PrimitiveTypes::STRING->newTypeSpecifier(0);
   ArrayTypeSpecifier* arrayTypeSpecifier = new ArrayTypeSpecifier(stringSpecifer, 1u, 0);
   ImmutableArrayTypeSpecifier* specifier = new ImmutableArrayTypeSpecifier(arrayTypeSpecifier);
 

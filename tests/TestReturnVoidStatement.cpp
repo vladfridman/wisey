@@ -54,8 +54,8 @@ struct ReturnVoidStatementTest : public Test {
     StructType* structType = StructType::create(mLLVMContext, "MShape");
     structType->setBody(types);
     vector<IField*> fields;
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width", 0));
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height", 0));
+    fields.push_back(new FixedField(PrimitiveTypes::INT, "width", 0));
+    fields.push_back(new FixedField(PrimitiveTypes::INT, "height", 0));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                              modelFullName,
                              structType,
@@ -95,7 +95,7 @@ TEST_F(ReturnVoidStatementTest, ownerVariablesAreClearedTest) {
   BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
   mContext.setBasicBlock(basicBlock);
   mContext.getScopes().pushScope();
-  mContext.getScopes().setReturnType(PrimitiveTypes::VOID_TYPE);
+  mContext.getScopes().setReturnType(PrimitiveTypes::VOID);
   
   Type* structType = mModel->getLLVMType(mContext)->getPointerElementType();
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
@@ -148,7 +148,7 @@ TEST_F(ReturnVoidStatementTest, referenceVariablesGetTheirRefCountDecrementedTes
   BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
   mContext.setBasicBlock(basicBlock);
   mContext.getScopes().pushScope();
-  mContext.getScopes().setReturnType(PrimitiveTypes::VOID_TYPE);
+  mContext.getScopes().setReturnType(PrimitiveTypes::VOID);
   
   StructType* structType = StructType::create(mLLVMContext, "MModel");
   vector<Type*> types;

@@ -29,7 +29,7 @@ struct IVariableTest : public ::testing::Test {
 
   IVariableTest() : mVariable(new NiceMock<MockVariable>()) {
     ON_CALL(*mVariable, getName()).WillByDefault(Return("foo"));
-    ON_CALL(*mVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT));
 
     mContext.getScopes().pushScope();
     mContext.getScopes().setVariable(mVariable);

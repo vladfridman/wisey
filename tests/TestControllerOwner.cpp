@@ -169,7 +169,7 @@ TEST_F(ControllerOwnerTest, getLLVMTypeTest) {
 TEST_F(ControllerOwnerTest, canCastTest) {
   const IObjectOwnerType* controllerOwner = mMultiplierController->getOwner();
 
-  EXPECT_FALSE(controllerOwner->canCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(controllerOwner->canCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_FALSE(controllerOwner->canCastTo(mContext, mAdditorController));
   EXPECT_FALSE(controllerOwner->canCastTo(mContext, mVehicleInterface));
   EXPECT_TRUE(controllerOwner->canCastTo(mContext, mMultiplierController));
@@ -190,7 +190,7 @@ TEST_F(ControllerOwnerTest, canCastTest) {
 TEST_F(ControllerOwnerTest, canAutoCastTest) {
   const IObjectOwnerType* controllerOwner = mMultiplierController->getOwner();
   
-  EXPECT_FALSE(controllerOwner->canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(controllerOwner->canAutoCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_FALSE(controllerOwner->canAutoCastTo(mContext, mAdditorController));
   EXPECT_FALSE(controllerOwner->canAutoCastTo(mContext, mVehicleInterface));
   EXPECT_TRUE(controllerOwner->canAutoCastTo(mContext, mMultiplierController));

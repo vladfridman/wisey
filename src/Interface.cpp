@@ -334,7 +334,7 @@ void Interface::defineCurrentObjectNameVariable(IRGenerationContext& context) co
   Value* objectName = IObjectType::getObjectNamePointer(this, context);
   ParameterPrimitiveVariable* objectNameVariable =
   new ParameterPrimitiveVariable(Names::getCurrentObjectVariableName(),
-                                 PrimitiveTypes::STRING_TYPE,
+                                 PrimitiveTypes::STRING,
                                  objectName);
   context.getScopes().setVariable(objectNameVariable);
 }
@@ -620,7 +620,7 @@ llvm::PointerType* Interface::getLLVMType(IRGenerationContext& context) const {
  * If object type assume we can perform cast and check at run time
  */
 bool Interface::canCastTo(IRGenerationContext& context, const IType* toType) const {
-  if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
+  if (toType == PrimitiveTypes::BOOLEAN) {
     return true;
   }
   if (!IType::isObjectType(toType)) {
@@ -639,7 +639,7 @@ bool Interface::canAutoCastTo(IRGenerationContext& context, const IType* toType)
     return true;
   }
 
-  if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
+  if (toType == PrimitiveTypes::BOOLEAN) {
     return true;
   }
 
@@ -665,7 +665,7 @@ Value* Interface::castTo(IRGenerationContext& context,
   if (toType->isNative() && (toType->isReference() || toType->isPointer())) {
     return IRWriter::newBitCastInst(context, fromValue, toType->getLLVMType(context));
   }
-  if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
+  if (toType == PrimitiveTypes::BOOLEAN) {
     return IRWriter::newICmpInst(context,
                                  ICmpInst::ICMP_NE,
                                  fromValue,

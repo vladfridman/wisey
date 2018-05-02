@@ -48,7 +48,7 @@ struct MethodSignatureTest : Test {
     vector<const Model*> thrownExceptions;
     mMethodSignature = new MethodSignature(mInterface,
                                            "foo",
-                                           PrimitiveTypes::LONG_TYPE,
+                                           PrimitiveTypes::LONG,
                                            arguments,
                                            thrownExceptions,
                                            new MethodQualifiers(0),
@@ -59,7 +59,7 @@ struct MethodSignatureTest : Test {
 
 TEST_F(MethodSignatureTest, methodSignatureTest) {
   EXPECT_STREQ("foo", mMethodSignature->getName().c_str());
-  EXPECT_EQ(PrimitiveTypes::LONG_TYPE, mMethodSignature->getReturnType());
+  EXPECT_EQ(PrimitiveTypes::LONG, mMethodSignature->getReturnType());
   EXPECT_EQ(0u, mMethodSignature->getArguments().size());
   EXPECT_STREQ("systems.vos.wisey.compiler.tests.IInterface.foo",
                mMethodSignature->getTypeName().c_str());
@@ -89,7 +89,7 @@ TEST_F(MethodSignatureTest, createCopyTest) {
   MethodSignature* copy = mMethodSignature->createCopy(interface);
   
   EXPECT_STREQ(copy->getName().c_str(), "foo");
-  EXPECT_EQ(copy->getReturnType(), PrimitiveTypes::LONG_TYPE);
+  EXPECT_EQ(copy->getReturnType(), PrimitiveTypes::LONG);
   EXPECT_EQ(copy->getArguments().size(), 0u);
 }
 
@@ -100,7 +100,7 @@ TEST_F(MethodSignatureTest, getLLVMTypeTest) {
   argumentTypes.push_back(threadInterface->getLLVMType(mContext));
   Controller* callStack = mContext.getController(Names::getCallStackControllerFullName(), 0);
   argumentTypes.push_back(callStack->getLLVMType(mContext));
-  Type* llvmReturnType = PrimitiveTypes::LONG_TYPE->getLLVMType(mContext);
+  Type* llvmReturnType = PrimitiveTypes::LONG->getLLVMType(mContext);
   FunctionType* expectedType = FunctionType::get(llvmReturnType, argumentTypes, false);
   
   FunctionType* actualType = mMethodSignature->getLLVMType(mContext);

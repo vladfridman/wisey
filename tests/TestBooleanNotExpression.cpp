@@ -81,10 +81,10 @@ TEST_F(BooleanNotExpressionTest, isAssignableTest) {
 TEST_F(BooleanNotExpressionTest, negateIntExpressionTest) {
   Value* one = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 1);
   ON_CALL(*mExpression, generateIR(_, _)).WillByDefault(Return(one));
-  ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
+  ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN));
   BooleanNotExpression booleanNotExpression(mExpression, 0);
   
-  Value* result = booleanNotExpression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  Value* result = booleanNotExpression.generateIR(mContext, PrimitiveTypes::VOID);
   
   *mStringStream << *result;
   EXPECT_STREQ("  %0 = xor i1 true, true", mStringStream->str().c_str());
@@ -102,12 +102,12 @@ TEST_F(BooleanNotExpressionTest, printToStreamTest) {
 }
 
 TEST_F(BooleanNotExpressionTest, negateIncompatibleTypeDeathTest) {
-  ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
+  ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID));
   ON_CALL(*mExpression, getLine()).WillByDefault(Return(3));
   BooleanNotExpression booleanNotExpression(mExpression, 3);
   Mock::AllowLeak(mExpression);
   
-  EXPECT_EXIT(booleanNotExpression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(booleanNotExpression.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(3\\): Error: Incompatible types: "
               "can not cast from type 'void' to 'boolean'");

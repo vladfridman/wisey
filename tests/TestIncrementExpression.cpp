@@ -56,7 +56,7 @@ public:
     mContext.getScopes().pushScope();
 
     AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), mName);
-    mVariable = new LocalPrimitiveVariable(mName, PrimitiveTypes::INT_TYPE, alloc);
+    mVariable = new LocalPrimitiveVariable(mName, PrimitiveTypes::INT, alloc);
     mContext.getScopes().setVariable(mVariable);
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -75,7 +75,7 @@ TEST_F(IncrementExpressionTest, getVariableTest) {
 
 TEST_F(IncrementExpressionTest, incrementByOneExpressionTest) {
   IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier, 0);
-  expression->generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  expression->generateIR(mContext, PrimitiveTypes::VOID);
  
   *mStringStream << *mBlock;
 
@@ -92,7 +92,7 @@ TEST_F(IncrementExpressionTest, incrementByOneExpressionTest) {
 
 TEST_F(IncrementExpressionTest, decrementByOneExpressionTest) {
   IncrementExpression* expression = IncrementExpression::newDecrementByOne(mIdentifier, 0);
-  expression->generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  expression->generateIR(mContext, PrimitiveTypes::VOID);
   
   *mStringStream << *mBlock;
   
@@ -112,13 +112,13 @@ TEST_F(IncrementExpressionTest, incorrectIdentifierTypeDeathTest) {
   
   IncrementExpression* expression = IncrementExpression::newIncrementByOne(identifier, 5);
   LocalPrimitiveVariable* variable = new LocalPrimitiveVariable("bar",
-                                                                PrimitiveTypes::FLOAT_TYPE,
+                                                                PrimitiveTypes::FLOAT,
                                                                 NULL);
   mContext.getScopes().setVariable(variable);
   string expected = "/tmp/source.yz\\(5\\): Error: Expression is of a type that is "
   "incompatible with increment/decrement operation";
   
-  EXPECT_EXIT(expression->generateIR(mContext, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(expression->generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
               expected);
 }
@@ -126,7 +126,7 @@ TEST_F(IncrementExpressionTest, incorrectIdentifierTypeDeathTest) {
 TEST_F(IncrementExpressionTest, incrementExpressionTypeTest) {
   IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier, 0);
 
-  EXPECT_EQ(expression->getType(mContext), PrimitiveTypes::INT_TYPE);
+  EXPECT_EQ(expression->getType(mContext), PrimitiveTypes::INT);
 }
 
 TEST_F(IncrementExpressionTest, isConstantTest) {

@@ -41,7 +41,7 @@ struct StringLiteralTest : public Test {
 TEST_F(StringLiteralTest, stringLiteralTest) {
   StringLiteral stringLiteral("test", 0);
   
-  llvm::Value* irValue = stringLiteral.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  llvm::Value* irValue = stringLiteral.generateIR(mContext, PrimitiveTypes::VOID);
 
   *mStringStream << *mContext.getModule();
   *mStringStream << *irValue;
@@ -55,7 +55,7 @@ TEST_F(StringLiteralTest, stringLiteralTest) {
 TEST_F(StringLiteralTest, stringLiteralEscapeNewlineTest) {
   StringLiteral stringLiteral("test\ntest", 0);
   
-  stringLiteral.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  stringLiteral.generateIR(mContext, PrimitiveTypes::VOID);
   
   *mStringStream << *mContext.getModule();
   std::string expected = std::string() +

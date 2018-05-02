@@ -25,11 +25,11 @@ ExpressionList IPrintStatement::getExpressions(IRGenerationContext& context,
                                                            int line) {
   const IType* expressionType = expression->getType(context);
   assert(expressionType->isPrimitive() && "Attempting to printa nonprimitive type");
-  assert(expressionType != PrimitiveTypes::VOID_TYPE &&
+  assert(expressionType != PrimitiveTypes::VOID &&
          "Attempting to print a void type expression");
   
   ExpressionList expressions;
-  if (expressionType != PrimitiveTypes::STRING_FORMAT_TYPE) {
+  if (expressionType != PrimitiveTypes::STRING_FORMAT) {
     expressions.push_back(expression);
     return expressions;
   }
@@ -58,7 +58,7 @@ Value* IPrintStatement::getFormatString(IRGenerationContext& context,
       context.reportError(line, "Can not print non primitive types");
       exit(1);
     }
-    if (type == PrimitiveTypes::VOID_TYPE) {
+    if (type == PrimitiveTypes::VOID) {
       context.reportError(line, "Can not print a void type expression");
       exit(1);
     }

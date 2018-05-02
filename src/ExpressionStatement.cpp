@@ -19,5 +19,5 @@ ExpressionStatement::~ExpressionStatement() {
 }
 
 void ExpressionStatement::generateIR(IRGenerationContext& context) const {
-  mExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
+  mExpression->generateIR(context, PrimitiveTypes::VOID);
 }

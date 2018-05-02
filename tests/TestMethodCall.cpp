@@ -95,9 +95,9 @@ public:
                              mContext.getImportProfile(),
                              0);
     vector<IField*> fields;
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width", 0));
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height", 0));
-    wisey::Argument* methodArgument = new wisey::Argument(PrimitiveTypes::FLOAT_TYPE, "argument");
+    fields.push_back(new FixedField(PrimitiveTypes::INT, "width", 0));
+    fields.push_back(new FixedField(PrimitiveTypes::INT, "height", 0));
+    wisey::Argument* methodArgument = new wisey::Argument(PrimitiveTypes::FLOAT, "argument");
     vector<const wisey::Argument*> methodArguments;
     methodArguments.push_back(methodArgument);
     vector<const Model*> fooThrownExceptions;
@@ -123,7 +123,7 @@ public:
     mBarMethod = new Method(mModel,
                             "bar",
                             AccessLevel::PUBLIC_ACCESS,
-                            PrimitiveTypes::INT_TYPE,
+                            PrimitiveTypes::INT,
                             methodArguments,
                             barThrownExceptions,
                             new MethodQualifiers(0),
@@ -256,7 +256,7 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
   argumentTypes.push_back(mStructType->getPointerTo());
   argumentTypes.push_back(mThreadInterface->getLLVMType(mContext));
   argumentTypes.push_back(mCallStack->getLLVMType(mContext));
-  argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext));
+  argumentTypes.push_back(PrimitiveTypes::FLOAT->getLLVMType(mContext));
   FunctionType* functionType = FunctionType::get(mReturnedModel->getLLVMType(mContext),
                                                  argumentTypes,
                                                  false);
@@ -268,11 +268,11 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
   NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
   Value* value = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 5.2);
   ON_CALL(*argumentExpression, generateIR(_, _)).WillByDefault(Return(value));
-  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
   mArgumentList.push_back(argumentExpression);
   MethodCall methodCall(mExpression, mArgumentList, 0);
   
-  Value* irValue = methodCall.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  Value* irValue = methodCall.generateIR(mContext, PrimitiveTypes::VOID);
 
   *mStringStream << *irValue;
   string expected =
@@ -288,7 +288,7 @@ TEST_F(MethodCallTest, modelMethodCallWithTryCatchTest) {
   argumentTypes.push_back(mStructType->getPointerTo());
   argumentTypes.push_back(mThreadInterface->getLLVMType(mContext));
   argumentTypes.push_back(mCallStack->getLLVMType(mContext));
-  argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext));
+  argumentTypes.push_back(PrimitiveTypes::FLOAT->getLLVMType(mContext));
   FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext),
                                                  argumentTypes,
                                                  false);
@@ -300,7 +300,7 @@ TEST_F(MethodCallTest, modelMethodCallWithTryCatchTest) {
   NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
   Value* value = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 5.2);
   ON_CALL(*argumentExpression, generateIR(_, _)).WillByDefault(Return(value));
-  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(mBarMethod));
   mArgumentList.push_back(argumentExpression);
   MethodCall methodCall(mExpression, mArgumentList, 0);
@@ -309,13 +309,13 @@ TEST_F(MethodCallTest, modelMethodCallWithTryCatchTest) {
   TryCatchInfo* tryCatchInfo = new TryCatchInfo(catchList, continueBlock);
   mContext.getScopes().beginTryCatch(tryCatchInfo);
 
-  Value* irValue = methodCall.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  Value* irValue = methodCall.generateIR(mContext, PrimitiveTypes::VOID);
   
   *mStringStream << *irValue;
   EXPECT_STREQ("  %11 = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar(%systems.vos.wisey.compiler.tests.MSquare* %0, %wisey.threads.IThread* %9, %wisey.threads.CCallStack* %10, float 0x4014CCCCC0000000)\n"
                "          to label %invoke.continue1 unwind label %eh.landing.pad",
                mStringStream->str().c_str());
-  EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
+  EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT);
 }
 
 TEST_F(MethodCallTest, isConstantTest) {
@@ -350,7 +350,7 @@ TEST_F(MethodCallTest, incorrectNumberOfArgumentsDeathTest) {
   MethodCall methodCall(mExpression, mArgumentList, 0);
   Mock::AllowLeak(mExpression);
   
-  EXPECT_EXIT(methodCall.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(methodCall.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
               "Error: Number of arguments for method call 'foo' of the object type "
               "'systems.vos.wisey.compiler.tests.MSquare' is not correct");
@@ -358,14 +358,14 @@ TEST_F(MethodCallTest, incorrectNumberOfArgumentsDeathTest) {
 
 TEST_F(MethodCallTest, llvmImplementationNotFoundDeathTest) {
   NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
-  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(mBarMethod));
   mArgumentList.push_back(argumentExpression);
   MethodCall methodCall(mExpression, mArgumentList, 0);
   Mock::AllowLeak(mExpression);
   Mock::AllowLeak(argumentExpression);
   
-  EXPECT_EXIT(methodCall.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(methodCall.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
               "Error: LLVM function implementing object 'systems.vos.wisey.compiler.tests.MSquare' "
               "method 'bar' was not found");
@@ -374,7 +374,7 @@ TEST_F(MethodCallTest, llvmImplementationNotFoundDeathTest) {
 TEST_F(MethodCallTest, incorrectArgumentTypesDeathTest) {
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mStructType->getPointerTo());
-  argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext));
+  argumentTypes.push_back(PrimitiveTypes::FLOAT->getLLVMType(mContext));
   FunctionType* functionType = FunctionType::get(mReturnedModel->getLLVMType(mContext),
                                                  argumentTypes,
                                                  false);
@@ -384,13 +384,13 @@ TEST_F(MethodCallTest, incorrectArgumentTypesDeathTest) {
                    mContext.getModule());
   
   NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
-  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
+  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG));
   mArgumentList.push_back(argumentExpression);
   MethodCall methodCall(mExpression, mArgumentList, 0);
   Mock::AllowLeak(mExpression);
   Mock::AllowLeak(argumentExpression);
   
-  EXPECT_EXIT(methodCall.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(methodCall.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
               "Error: Call argument types do not match for a call to method 'foo' "
               "of the object type 'systems.vos.wisey.compiler.tests.MSquare");

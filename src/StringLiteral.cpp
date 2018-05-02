@@ -70,7 +70,7 @@ string wisey::StringLiteral::unescape(const string& input) {
 }
 
 const IType* wisey::StringLiteral::getType(IRGenerationContext& context) const {
-  return PrimitiveTypes::STRING_TYPE;
+  return PrimitiveTypes::STRING;
 }
 
 bool wisey::StringLiteral::isConstant() const {

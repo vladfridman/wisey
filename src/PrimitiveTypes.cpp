@@ -10,24 +10,24 @@
 
 using namespace wisey;
 
-BooleanType* PrimitiveTypes::BOOLEAN_TYPE = new BooleanType();
+BooleanType* PrimitiveTypes::BOOLEAN = new BooleanType();
 
-CharType* PrimitiveTypes::CHAR_TYPE = new CharType();
+CharType* PrimitiveTypes::CHAR = new CharType();
 
-DoubleType* PrimitiveTypes::DOUBLE_TYPE = new DoubleType();
+DoubleType* PrimitiveTypes::DOUBLE = new DoubleType();
 
-FloatType* PrimitiveTypes::FLOAT_TYPE = new FloatType();
+FloatType* PrimitiveTypes::FLOAT = new FloatType();
 
-IntType* PrimitiveTypes::INT_TYPE = new IntType();
+IntType* PrimitiveTypes::INT = new IntType();
 
-LongType* PrimitiveTypes::LONG_TYPE = new LongType();
+LongType* PrimitiveTypes::LONG = new LongType();
 
-StringType* PrimitiveTypes::STRING_TYPE = new StringType();
+StringType* PrimitiveTypes::STRING = new StringType();
 
-VoidType* PrimitiveTypes::VOID_TYPE = new VoidType();
+VoidType* PrimitiveTypes::VOID = new VoidType();
 
-StringFormatType* PrimitiveTypes::STRING_FORMAT_TYPE = new StringFormatType();
+StringFormatType* PrimitiveTypes::STRING_FORMAT = new StringFormatType();
 
 bool PrimitiveTypes::isFloatType(const IType* type) {
-  return type == FLOAT_TYPE || type == DOUBLE_TYPE;
+  return type == FLOAT || type == DOUBLE;
 }

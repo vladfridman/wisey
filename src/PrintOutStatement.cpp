@@ -29,7 +29,7 @@ PrintOutStatement::~PrintOutStatement() {
 
 void PrintOutStatement::generateIR(IRGenerationContext& context) const {
   const IType* expressionType = mExpression->getType(context);
-  if (!expressionType->isPrimitive() || expressionType == PrimitiveTypes::VOID_TYPE) {
+  if (!expressionType->isPrimitive() || expressionType == PrimitiveTypes::VOID) {
     context.reportError(mLine, "Argument in the printout statement is not of printable type");
     exit(1);
   }
@@ -46,7 +46,7 @@ void PrintOutStatement::printExpressionList(IRGenerationContext& context,
   vector<Value*> arguments;
   arguments.push_back(formatPointer);
   for (const IExpression* expression : expressionList) {
-    arguments.push_back(expression->generateIR(context, PrimitiveTypes::VOID_TYPE));
+    arguments.push_back(expression->generateIR(context, PrimitiveTypes::VOID));
   }
   IRWriter::createCallInst(context, printf, arguments, "");
 }

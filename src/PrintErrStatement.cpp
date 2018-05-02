@@ -29,7 +29,7 @@ PrintErrStatement::~PrintErrStatement() {
 
 void PrintErrStatement::generateIR(IRGenerationContext& context) const {
   const IType* expressionType = mExpression->getType(context);
-  if (!expressionType->isPrimitive() || expressionType == PrimitiveTypes::VOID_TYPE) {
+  if (!expressionType->isPrimitive() || expressionType == PrimitiveTypes::VOID) {
     context.reportError(mLine, "Argument in the printerr statement is not of printable type");
     exit(1);
   }
@@ -44,7 +44,7 @@ void PrintErrStatement::generateIR(IRGenerationContext& context) const {
   arguments.push_back(stderrLoaded);
   arguments.push_back(formatPointer);
   for (const IExpression* expression : expressions) {
-    arguments.push_back(expression->generateIR(context, PrimitiveTypes::VOID_TYPE));
+    arguments.push_back(expression->generateIR(context, PrimitiveTypes::VOID));
   }
   
   IRWriter::createCallInst(context, fprintf, arguments, "");

@@ -86,7 +86,7 @@ void ConditionalExpression::checkTypes(IRGenerationContext& context) const {
   const IType* ifTrueExpressionType = mIfTrueExpression->getType(context);
   const IType* ifFalseExpressionType = mIfFalseExpression->getType(context);
   
-  if (mConditionExpression->getType(context) != PrimitiveTypes::BOOLEAN_TYPE) {
+  if (mConditionExpression->getType(context) != PrimitiveTypes::BOOLEAN) {
     Log::e_deprecated("Condition in a conditional expression is not of type BOOLEAN");
     exit(1);
   }
@@ -96,7 +96,7 @@ void ConditionalExpression::checkTypes(IRGenerationContext& context) const {
     exit(1);
   }
   
-  if (ifTrueExpressionType == PrimitiveTypes::VOID_TYPE) {
+  if (ifTrueExpressionType == PrimitiveTypes::VOID) {
     Log::e_deprecated("Can not use expressions of type VOID in a conditional expression");
     exit(1);
   }

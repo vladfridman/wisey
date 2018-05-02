@@ -115,7 +115,7 @@ struct LLVMFunctionIdentifierTest : public Test {
 TEST_F(LLVMFunctionIdentifierTest, generateIRTest) {
   LLVMFunctionIdentifier llvmFunctionIdentifier(mObjectSpecifier, "publicFunction", 0);
   EXPECT_EQ(mPublicFunction,
-            llvmFunctionIdentifier.generateIR(mContext, PrimitiveTypes::VOID_TYPE));
+            llvmFunctionIdentifier.generateIR(mContext, PrimitiveTypes::VOID));
 }
 
 TEST_F(LLVMFunctionIdentifierTest, functionNotFoundDeathTest) {
@@ -124,7 +124,7 @@ TEST_F(LLVMFunctionIdentifierTest, functionNotFoundDeathTest) {
   ::Mock::AllowLeak(mObjectSpecifier);
   LLVMFunctionIdentifier llvmFunctionIdentifier(mObjectSpecifier, "foo", 11);
 
-  EXPECT_EXIT(llvmFunctionIdentifier.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(llvmFunctionIdentifier.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(11\\): Error: LLVMFunction 'foo' not found "
               "in object systems.vos.wisey.tests.IObject");
@@ -137,7 +137,7 @@ TEST_F(LLVMFunctionIdentifierTest, functionNotAccessableDeathTest) {
 
   LLVMFunctionIdentifier llvmFunctionIdentifier(mObjectSpecifier, "privateFunction", 3);
   
-  EXPECT_EXIT(llvmFunctionIdentifier.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(llvmFunctionIdentifier.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(3\\): Error: LLVMFunction 'privateFunction' in "
               "systems.vos.wisey.tests.IObject is private and can not be accessed "

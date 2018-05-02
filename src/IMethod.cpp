@@ -78,7 +78,7 @@ void IMethod::maybeAddImpliedVoidReturn(IRGenerationContext& context,
   }
   
   const IType* returnType = method->getReturnType();
-  if (returnType != PrimitiveTypes::VOID_TYPE) {
+  if (returnType != PrimitiveTypes::VOID) {
     Log::e_deprecated((method->isStatic() ? "Static method " : "Method ") + method->getName() +
            " must return a value of type " + returnType->getTypeName());
     exit(1);
@@ -130,7 +130,7 @@ void IMethod::defineCurrentMethodNameVariable(IRGenerationContext& context, stri
   
   ParameterPrimitiveVariable* methodNameVariable =
   new ParameterPrimitiveVariable(Names::getCurrentMethodVariableName(),
-                                 PrimitiveTypes::STRING_TYPE,
+                                 PrimitiveTypes::STRING,
                                  value);
   context.getScopes().setVariable(methodNameVariable);
 }

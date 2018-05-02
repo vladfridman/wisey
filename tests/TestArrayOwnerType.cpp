@@ -42,7 +42,7 @@ struct ArrayOwnerTypeTest : public Test {
   ArrayOwnerTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     
-    mArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, 1u);
+    mArrayType = new ArrayType(PrimitiveTypes::LONG, 1u);
     mArrayOwnerType = new ArrayOwnerType(mArrayType);
 
     llvm::FunctionType* functionType =
@@ -80,13 +80,13 @@ TEST_F(ArrayOwnerTypeTest, getLLVMTypeTest) {
 }
 
 TEST_F(ArrayOwnerTypeTest, canCastToTest) {
-  EXPECT_FALSE(mArrayOwnerType->canCastTo(mContext, PrimitiveTypes::STRING_TYPE));
+  EXPECT_FALSE(mArrayOwnerType->canCastTo(mContext, PrimitiveTypes::STRING));
   EXPECT_TRUE(mArrayOwnerType->canCastTo(mContext, mArrayOwnerType));
   EXPECT_TRUE(mArrayOwnerType->canCastTo(mContext, mArrayType));
 }
 
 TEST_F(ArrayOwnerTypeTest, canAutoCastToTest) {
-  EXPECT_FALSE(mArrayOwnerType->canAutoCastTo(mContext, PrimitiveTypes::STRING_TYPE));
+  EXPECT_FALSE(mArrayOwnerType->canAutoCastTo(mContext, PrimitiveTypes::STRING));
   EXPECT_TRUE(mArrayOwnerType->canAutoCastTo(mContext, mArrayOwnerType));
   EXPECT_TRUE(mArrayOwnerType->canAutoCastTo(mContext, mArrayType));
 }

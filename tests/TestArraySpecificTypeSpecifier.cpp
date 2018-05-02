@@ -35,7 +35,7 @@ struct ArraySpecificTypeSpecifierTest : public Test {
   ArraySpecificTypeSpecifierTest() : mLLVMContext(mContext.getLLVMContext()) {
     llvm::Constant* three = llvm::ConstantInt::get(llvm::Type::getInt64Ty(mLLVMContext), 3);
     ON_CALL(mThreeExpression, generateIR(_, _)).WillByDefault(Return(three));
-    ON_CALL(mThreeExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(mThreeExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     ON_CALL(mThreeExpression, printToStream(_, _)).WillByDefault(Invoke(printThree));
     mDimensions.push_back(&mThreeExpression);
   }
@@ -46,7 +46,7 @@ struct ArraySpecificTypeSpecifierTest : public Test {
 };
 
 TEST_F(ArraySpecificTypeSpecifierTest, creationTest) {
-  const PrimitiveTypeSpecifier* intSpecifer = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* intSpecifer = PrimitiveTypes::INT->newTypeSpecifier(0);
   ArraySpecificTypeSpecifier* specifier =
   new ArraySpecificTypeSpecifier(intSpecifer, mDimensions, 11);
   const IType* type = specifier->getType(mContext);
@@ -56,13 +56,13 @@ TEST_F(ArraySpecificTypeSpecifierTest, creationTest) {
   EXPECT_STREQ("int[]", type->getTypeName().c_str());
   
   const ArraySpecificType* arrayType = (const ArraySpecificType*) type;
-  EXPECT_EQ(PrimitiveTypes::INT_TYPE, arrayType->getElementType());
+  EXPECT_EQ(PrimitiveTypes::INT, arrayType->getElementType());
   EXPECT_EQ(1u, arrayType->getNumberOfDimensions());
   EXPECT_EQ(11, specifier->getLine());
 }
 
 TEST_F(ArraySpecificTypeSpecifierTest, printToStreamTest) {
-  const PrimitiveTypeSpecifier* stringSpecifer = PrimitiveTypes::STRING_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* stringSpecifer = PrimitiveTypes::STRING->newTypeSpecifier(0);
   ArraySpecificTypeSpecifier* specifier =
   new ArraySpecificTypeSpecifier(stringSpecifer, mDimensions, 0);
   

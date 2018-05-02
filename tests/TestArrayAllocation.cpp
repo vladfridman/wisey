@@ -66,12 +66,12 @@ struct ArrayAllocationTest : Test {
     
     llvm::Constant* five = llvm::ConstantInt::get(llvm::Type::getInt64Ty(mLLVMContext), 5);
     ON_CALL(mFiveExpression, generateIR(_, _)).WillByDefault(Return(five));
-    ON_CALL(mFiveExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(mFiveExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     ON_CALL(mFiveExpression, printToStream(_, _)).WillByDefault(Invoke(printFive));
     list<const IExpression*> dimensions;
     dimensions.push_back(&mFiveExpression);
-    mArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 1u);
-    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+    mArrayType = mContext.getArrayType(PrimitiveTypes::INT, 1u);
+    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
     mArraySpecificTypeSpecifier = new ArraySpecificTypeSpecifier(intSpecifier, dimensions, 0);
     
     mArrayAllocation = new ArrayAllocation(mArraySpecificTypeSpecifier, 0);
@@ -124,7 +124,7 @@ TEST_F(ArrayAllocationTest, isAssignableTest) {
 }
 
 TEST_F(ArrayAllocationTest, getTypeTest) {
-  const IType* expected = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 1u)->getOwner();
+  const IType* expected = mContext.getArrayType(PrimitiveTypes::INT, 1u)->getOwner();
   EXPECT_EQ(expected, mArrayAllocation->getType(mContext));
 }
 

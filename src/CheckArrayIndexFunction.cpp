@@ -78,7 +78,7 @@ void CheckArrayIndexFunction::compose(IRGenerationContext& context, Function* fu
   BasicBlock* basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry", function);
   context.setBasicBlock(basicBlock);
   
-  llvm::Constant* zero = ConstantInt::get(PrimitiveTypes::LONG_TYPE->getLLVMType(context), 0);
+  llvm::Constant* zero = ConstantInt::get(PrimitiveTypes::LONG->getLLVMType(context), 0);
   Value* compareToSize = IRWriter::newICmpInst(context, ICmpInst::ICMP_SGE, index, size, "cmp");
   Value* compareToZero = IRWriter::newICmpInst(context, ICmpInst::ICMP_SLT, index, zero, "cmp");
   Value* compare = IRWriter::createBinaryOperator(context,
@@ -86,7 +86,7 @@ void CheckArrayIndexFunction::compose(IRGenerationContext& context, Function* fu
                                                   compareToSize,
                                                   compareToZero,
                                                   "");
-  FakeExpression* compareExpression = new FakeExpression(compare, PrimitiveTypes::BOOLEAN_TYPE);
+  FakeExpression* compareExpression = new FakeExpression(compare, PrimitiveTypes::BOOLEAN);
   
   Block* thenBlock = new Block();
   PackageType* packageType = context.getPackageType(Names::getLangPackageName());
@@ -94,10 +94,10 @@ void CheckArrayIndexFunction::compose(IRGenerationContext& context, Function* fu
   ModelTypeSpecifier* modelTypeSpecifier =
   new ModelTypeSpecifier(packageExpression, Names::getArrayIndexOutOfBoundsModelName(), 0);
   ObjectBuilderArgumentList objectBuilderArgumnetList;
-  FakeExpression* sizeExpression = new FakeExpression(size, PrimitiveTypes::LONG_TYPE);
+  FakeExpression* sizeExpression = new FakeExpression(size, PrimitiveTypes::LONG);
   ObjectBuilderArgument* argument = new ObjectBuilderArgument("withArraySize", sizeExpression);
   objectBuilderArgumnetList.push_back(argument);
-  FakeExpression* indexExpression = new FakeExpression(index, PrimitiveTypes::LONG_TYPE);
+  FakeExpression* indexExpression = new FakeExpression(index, PrimitiveTypes::LONG);
   argument = new ObjectBuilderArgument("withIndex", indexExpression);
   objectBuilderArgumnetList.push_back(argument);
   ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier,

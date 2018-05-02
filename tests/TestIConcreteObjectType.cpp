@@ -102,8 +102,8 @@ struct IConcreteObjectTypeTest : public Test {
     StructType* starStructType = StructType::create(mLLVMContext, starFullName);
     starStructType->setBody(starTypes);
     vector<IField*> starFields;
-    starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mBrightness", 0));
-    starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mWeight", 0));
+    starFields.push_back(new FixedField(PrimitiveTypes::INT, "mBrightness", 0));
+    starFields.push_back(new FixedField(PrimitiveTypes::INT, "mWeight", 0));
     mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                  starFullName,
                                  starStructType,

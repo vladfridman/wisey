@@ -35,9 +35,9 @@ struct ArrayExactTypeTest : public Test {
     
     list<unsigned long> dimensions;
     dimensions.push_back(5u);
-    mArrayExactType = new ArrayExactType(PrimitiveTypes::LONG_TYPE, dimensions);
+    mArrayExactType = new ArrayExactType(PrimitiveTypes::LONG, dimensions);
     dimensions.push_back(10u);
-    mMultiDimentionalArrayExactType = new ArrayExactType(PrimitiveTypes::LONG_TYPE, dimensions);
+    mMultiDimentionalArrayExactType = new ArrayExactType(PrimitiveTypes::LONG, dimensions);
   }
 };
 
@@ -48,7 +48,7 @@ TEST_F(ArrayExactTypeTest, getArrayTest) {
 }
 
 TEST_F(ArrayExactTypeTest, getElementTypeTest) {
-  EXPECT_EQ(PrimitiveTypes::LONG_TYPE, mMultiDimentionalArrayExactType->getElementType());
+  EXPECT_EQ(PrimitiveTypes::LONG, mMultiDimentionalArrayExactType->getElementType());
 }
 
 TEST_F(ArrayExactTypeTest, getDimensionsTest) {
@@ -78,12 +78,12 @@ TEST_F(ArrayExactTypeTest, getLLVMTypeTest) {
 }
 
 TEST_F(ArrayExactTypeTest, canCastToTest) {
-  EXPECT_FALSE(mArrayExactType->canCastTo(mContext, PrimitiveTypes::STRING_TYPE));
+  EXPECT_FALSE(mArrayExactType->canCastTo(mContext, PrimitiveTypes::STRING));
   EXPECT_TRUE(mArrayExactType->canCastTo(mContext, mArrayExactType));
 }
 
 TEST_F(ArrayExactTypeTest, canAutoCastToTest) {
-  EXPECT_FALSE(mArrayExactType->canAutoCastTo(mContext, PrimitiveTypes::STRING_TYPE));
+  EXPECT_FALSE(mArrayExactType->canAutoCastTo(mContext, PrimitiveTypes::STRING));
   EXPECT_TRUE(mArrayExactType->canAutoCastTo(mContext, mArrayExactType));
 }
 
@@ -111,7 +111,7 @@ TEST_F(ArrayExactTypeTest, isObjectTest) {
 }
 
 TEST_F(ArrayExactTypeTest, getArrayTypeTest) {
-  EXPECT_EQ(mContext.getArrayType(PrimitiveTypes::LONG_TYPE, 2u),
+  EXPECT_EQ(mContext.getArrayType(PrimitiveTypes::LONG, 2u),
             mMultiDimentionalArrayExactType->getArrayType(mContext));
 }
 

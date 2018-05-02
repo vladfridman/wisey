@@ -63,58 +63,58 @@ TEST_F(VoidTypeTest, voidTypeTest) {
 }
 
 TEST_F(VoidTypeTest, canAutoCastToTest) {
-  EXPECT_TRUE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::VOID_TYPE));
-  EXPECT_FALSE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN_TYPE));
-  EXPECT_FALSE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::CHAR_TYPE));
-  EXPECT_FALSE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::LONG_TYPE));
-  EXPECT_FALSE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::FLOAT_TYPE));
-  EXPECT_FALSE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::DOUBLE_TYPE));
+  EXPECT_TRUE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::VOID));
+  EXPECT_FALSE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN));
+  EXPECT_FALSE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::CHAR));
+  EXPECT_FALSE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::INT));
+  EXPECT_FALSE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::LONG));
+  EXPECT_FALSE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::FLOAT));
+  EXPECT_FALSE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::DOUBLE));
 }
 
 TEST_F(VoidTypeTest, canCastTest) {
-  EXPECT_TRUE(mVoidType.canCastTo(mContext, PrimitiveTypes::VOID_TYPE));
-  EXPECT_FALSE(mVoidType.canCastTo(mContext, PrimitiveTypes::BOOLEAN_TYPE));
-  EXPECT_FALSE(mVoidType.canCastTo(mContext, PrimitiveTypes::CHAR_TYPE));
-  EXPECT_FALSE(mVoidType.canCastTo(mContext, PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(mVoidType.canCastTo(mContext, PrimitiveTypes::LONG_TYPE));
-  EXPECT_FALSE(mVoidType.canCastTo(mContext, PrimitiveTypes::FLOAT_TYPE));
-  EXPECT_FALSE(mVoidType.canCastTo(mContext, PrimitiveTypes::DOUBLE_TYPE));
+  EXPECT_TRUE(mVoidType.canCastTo(mContext, PrimitiveTypes::VOID));
+  EXPECT_FALSE(mVoidType.canCastTo(mContext, PrimitiveTypes::BOOLEAN));
+  EXPECT_FALSE(mVoidType.canCastTo(mContext, PrimitiveTypes::CHAR));
+  EXPECT_FALSE(mVoidType.canCastTo(mContext, PrimitiveTypes::INT));
+  EXPECT_FALSE(mVoidType.canCastTo(mContext, PrimitiveTypes::LONG));
+  EXPECT_FALSE(mVoidType.canCastTo(mContext, PrimitiveTypes::FLOAT));
+  EXPECT_FALSE(mVoidType.canCastTo(mContext, PrimitiveTypes::DOUBLE));
 }
 
 TEST_F(VoidTypeTest, castToTest) {
   Value* result;
   Value* expressionValue = ConstantFP::get(Type::getDoubleTy(mLLVMContext), 2.5);
   
-  result = mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::VOID_TYPE, 0);
+  result = mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::VOID, 0);
   EXPECT_EQ(result, expressionValue);
 
-  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN_TYPE, 5),
+  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN, 5),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(5\\): Error: Incompatible types: "
               "can not cast from type 'void' to 'boolean'");
   
-  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR_TYPE, 5),
+  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR, 5),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(5\\): Error: Incompatible types: "
               "can not cast from type 'void' to 'char'");
   
-  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE, 5),
+  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::INT, 5),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(5\\): Error: Incompatible types: "
               "can not cast from type 'void' to 'int'");
   
-  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::LONG_TYPE, 5),
+  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::LONG, 5),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(5\\): Error: Incompatible types: "
               "can not cast from type 'void' to 'long'");
   
-  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT_TYPE, 5),
+  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT, 5),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(5\\): Error: Incompatible types: "
               "can not cast from type 'void' to 'float'");
   
-  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE_TYPE, 5),
+  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE, 5),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(5\\): Error: Incompatible types: "
               "can not cast from type 'void' to 'double'");

@@ -42,17 +42,17 @@ struct ArraySpecificTypeTest : public Test {
     TestPrefix::generateIR(mContext);
     llvm::Constant* five = llvm::ConstantInt::get(llvm::Type::getInt64Ty(mLLVMContext), 5);
     ON_CALL(mFiveExpression, generateIR(_, _)).WillByDefault(Return(five));
-    ON_CALL(mFiveExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(mFiveExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     ON_CALL(mFiveExpression, printToStream(_, _)).WillByDefault(Invoke(printFive));
     llvm::Constant* ten = llvm::ConstantInt::get(llvm::Type::getInt64Ty(mLLVMContext), 10);
     ON_CALL(mTenExpression, generateIR(_, _)).WillByDefault(Return(ten));
-    ON_CALL(mTenExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(mTenExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     ON_CALL(mTenExpression, printToStream(_, _)).WillByDefault(Invoke(printTen));
     list<const IExpression*> dimensions;
     dimensions.push_back(&mFiveExpression);
-    mArraySpecificType = new ArraySpecificType(PrimitiveTypes::LONG_TYPE, dimensions);
+    mArraySpecificType = new ArraySpecificType(PrimitiveTypes::LONG, dimensions);
     dimensions.push_back(&mTenExpression);
-    mMultiDimentionalArraySpecificType = new ArraySpecificType(PrimitiveTypes::LONG_TYPE,
+    mMultiDimentionalArraySpecificType = new ArraySpecificType(PrimitiveTypes::LONG,
                                                                dimensions);
   }
   
@@ -72,7 +72,7 @@ TEST_F(ArraySpecificTypeTest, getArrayTypeTest) {
 }
 
 TEST_F(ArraySpecificTypeTest, getElementTypeTest) {
-  EXPECT_EQ(PrimitiveTypes::LONG_TYPE, mMultiDimentionalArraySpecificType->getElementType());
+  EXPECT_EQ(PrimitiveTypes::LONG, mMultiDimentionalArraySpecificType->getElementType());
 }
 
 TEST_F(ArraySpecificTypeTest, getNameTest) {
@@ -92,12 +92,12 @@ TEST_F(ArraySpecificTypeTest, getLLVMTypeTest) {
 }
 
 TEST_F(ArraySpecificTypeTest, canCastToTest) {
-  EXPECT_FALSE(mArraySpecificType->canCastTo(mContext, PrimitiveTypes::STRING_TYPE));
+  EXPECT_FALSE(mArraySpecificType->canCastTo(mContext, PrimitiveTypes::STRING));
   EXPECT_TRUE(mArraySpecificType->canCastTo(mContext, mArraySpecificType));
 }
 
 TEST_F(ArraySpecificTypeTest, canAutoCastToTest) {
-  EXPECT_FALSE(mArraySpecificType->canAutoCastTo(mContext, PrimitiveTypes::STRING_TYPE));
+  EXPECT_FALSE(mArraySpecificType->canAutoCastTo(mContext, PrimitiveTypes::STRING));
   EXPECT_TRUE(mArraySpecificType->canAutoCastTo(mContext, mArraySpecificType));
 }
 

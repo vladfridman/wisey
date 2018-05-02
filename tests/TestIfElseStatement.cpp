@@ -60,7 +60,7 @@ struct IfElseStatementTest : Test {
     LLVMContext &llvmContext = mContext.getLLVMContext();
     Value* conditionValue = ConstantInt::get(Type::getInt1Ty(llvmContext), 1);
     ON_CALL(*mCondition, generateIR(_, _)).WillByDefault(Return(conditionValue));
-    ON_CALL(*mCondition, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
+    ON_CALL(*mCondition, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN));
     mThenBlock->getStatements().push_back(mThenStatement);
     mElseBlock->getStatements().push_back(mElseStatement);
     

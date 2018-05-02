@@ -67,9 +67,9 @@ TEST_F(ScopesTest, scopesTest) {
   Value* barValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   
   LocalPrimitiveVariable* fooVariable =
-  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
+  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT, fooValue);
   LocalPrimitiveVariable* barVariable =
-  new LocalPrimitiveVariable("bar", PrimitiveTypes::INT_TYPE, barValue);
+  new LocalPrimitiveVariable("bar", PrimitiveTypes::INT, barValue);
   mScopes.setVariable(fooVariable);
   mScopes.pushScope();
   mScopes.setVariable(barVariable);
@@ -81,7 +81,7 @@ TEST_F(ScopesTest, scopesTest) {
   EXPECT_NE(mScopes.getVariable("foo"), nullptr);
   EXPECT_EQ(mScopes.getVariable("bar"), nullptr);
   
-  barVariable = new LocalPrimitiveVariable("bar", PrimitiveTypes::INT_TYPE, barValue);
+  barVariable = new LocalPrimitiveVariable("bar", PrimitiveTypes::INT, barValue);
   mScopes.setVariable(barVariable);
   EXPECT_NE(mScopes.getVariable("foo"), nullptr);
   EXPECT_NE(mScopes.getVariable("bar"), nullptr);
@@ -97,9 +97,9 @@ TEST_F(ScopesTest, scopesCorrectlyOrderedTest) {
   Value* innerValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   
   LocalPrimitiveVariable* outerVariable =
-  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT_TYPE, outerValue);
+  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT, outerValue);
   LocalPrimitiveVariable* innerVariable =
-  new LocalPrimitiveVariable("bar", PrimitiveTypes::INT_TYPE, innerValue);
+  new LocalPrimitiveVariable("bar", PrimitiveTypes::INT, innerValue);
   
   mScopes.setVariable(outerVariable);
   mScopes.pushScope();
@@ -114,12 +114,12 @@ TEST_F(ScopesTest, scopesCorrectlyOrderedTest) {
 
 TEST_F(ScopesTest, returnTypeTest) {
   mScopes.pushScope();
-  mScopes.setReturnType(PrimitiveTypes::DOUBLE_TYPE);
+  mScopes.setReturnType(PrimitiveTypes::DOUBLE);
   mScopes.pushScope();
   mScopes.pushScope();
   
   const IType* returnType = mScopes.getReturnType();
-  EXPECT_EQ(returnType, PrimitiveTypes::DOUBLE_TYPE);
+  EXPECT_EQ(returnType, PrimitiveTypes::DOUBLE);
 }
 
 TEST_F(ScopesTest, getScopeDeathTest) {
@@ -231,9 +231,9 @@ TEST_F(ScopesTest, variableHidingDeathTest) {
   Value* innerValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   
   LocalPrimitiveVariable* outerVariable =
-  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT_TYPE, outerValue);
+  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT, outerValue);
   LocalPrimitiveVariable* innerVariable =
-  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT_TYPE, innerValue);
+  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT, innerValue);
   
   mScopes.setVariable(outerVariable);
   mScopes.pushScope();

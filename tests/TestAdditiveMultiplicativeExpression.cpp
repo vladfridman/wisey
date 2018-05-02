@@ -52,9 +52,9 @@ struct AdditiveMultiplicativeExpressionTest : Test {
     Value* leftValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
     Value* rightValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
     ON_CALL(*mLeftExpression, generateIR(_, _)).WillByDefault(Return(leftValue));
-    ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     ON_CALL(*mRightExpression, generateIR(_, _)).WillByDefault(Return(rightValue));
-    ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     mBasicBlock = BasicBlock::Create(mLLVMContext, "test");
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
@@ -101,7 +101,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, isAssignableTest) {
 
 TEST_F(AdditiveMultiplicativeExpressionTest, additionTest) {
   AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
-  expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  expression.generateIR(mContext, PrimitiveTypes::VOID);
   
   ASSERT_EQ(1ul, mBasicBlock->size());
   Instruction &instruction = mBasicBlock->front();
@@ -111,7 +111,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, additionTest) {
 
 TEST_F(AdditiveMultiplicativeExpressionTest, subtractionTest) {
   AdditiveMultiplicativeExpression expression(mLeftExpression, '-', mRightExpression, 0);
-  expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  expression.generateIR(mContext, PrimitiveTypes::VOID);
   
   ASSERT_EQ(1ul, mBasicBlock->size());
   Instruction &instruction = mBasicBlock->front();
@@ -136,11 +136,11 @@ TEST_F(AdditiveMultiplicativeExpressionTest, incompatibleTypesDeathTest) {
 
   Value* rightValue = ConstantFP::get(Type::getFloatTy(mLLVMContext), 5.5);
   ON_CALL(*mRightExpression, generateIR(_, _)).WillByDefault(Return(rightValue));
-  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
 
   AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
 
-  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types in '\\+' operation");
 }
@@ -162,7 +162,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, nonPrimitiveTypesDeathTest) {
   
   AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
   
-  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
               "Error: Can not do operation '\\+' on non-primitive types");
 }
@@ -171,12 +171,12 @@ TEST_F(AdditiveMultiplicativeExpressionTest, voidTypesDeathTest) {
   Mock::AllowLeak(mLeftExpression);
   Mock::AllowLeak(mRightExpression);
   
-  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
-  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
+  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID));
+  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID));
   
   AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
   
-  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
               "Error: Can not use expressions of type VOID in a '\\+' operation");
 }
@@ -185,12 +185,12 @@ TEST_F(AdditiveMultiplicativeExpressionTest, explicitCastNeededOnGenerateIRDeath
   Mock::AllowLeak(mLeftExpression);
   Mock::AllowLeak(mRightExpression);
   
-  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
-  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG));
+  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
   
   AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
   
-  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types in '\\+' operation that require an explicit cast");
 }
@@ -199,8 +199,8 @@ TEST_F(AdditiveMultiplicativeExpressionTest, explicitCastNeededOnGetTypeDeathTes
   Mock::AllowLeak(mLeftExpression);
   Mock::AllowLeak(mRightExpression);
   
-  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
-  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG));
+  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
   
   AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
   

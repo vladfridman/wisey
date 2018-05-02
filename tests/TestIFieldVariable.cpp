@@ -49,12 +49,12 @@ struct IFieldVariableTest : Test {
     vector<Type*> types;
     types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                     ->getPointerTo()->getPointerTo());
-    types.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mContext));
+    types.push_back(PrimitiveTypes::INT->getLLVMType(mContext));
     string controllerFullName = "systems.vos.wisey.compiler.tests.CController";
     StructType* controllerStructType = StructType::create(mLLVMContext, controllerFullName);
     controllerStructType->setBody(types);
     vector<IField*> controllerFields;
-    mStateField = new StateField(PrimitiveTypes::INT_TYPE, "bar", 0);
+    mStateField = new StateField(PrimitiveTypes::INT, "bar", 0);
     controllerFields.push_back(mStateField);
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             controllerFullName,
@@ -70,7 +70,7 @@ struct IFieldVariableTest : Test {
                              modelStructType,
                              mContext.getImportProfile(),
                              0);
-    mFixedField = new FixedField(PrimitiveTypes::INT_TYPE, "foo", 0);
+    mFixedField = new FixedField(PrimitiveTypes::INT, "foo", 0);
     vector<IField*> modelFields;
     modelFields.push_back(mFixedField);
     mModel->setFields(mContext, modelFields, 1u);

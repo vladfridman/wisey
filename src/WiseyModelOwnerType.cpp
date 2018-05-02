@@ -44,7 +44,7 @@ bool WiseyModelOwnerType::canCastTo(IRGenerationContext& context, const IType* t
   if (toType->isReference() || toType->isOwner()) {
     return !toType->isController() && !toType->isNode();
   }
-  if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
+  if (toType == PrimitiveTypes::BOOLEAN) {
     return true;
   }
   return false;
@@ -61,7 +61,7 @@ llvm::Value* WiseyModelOwnerType::castTo(IRGenerationContext& context,
   if (toType->isNative() && (toType->isReference() || toType->isOwner() || toType->isPointer())) {
     return IRWriter::newBitCastInst(context, fromValue, toType->getLLVMType(context));
   }
-  if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
+  if (toType == PrimitiveTypes::BOOLEAN) {
     return IRWriter::newICmpInst(context,
                                  ICmpInst::ICMP_NE,
                                  fromValue,

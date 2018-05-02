@@ -33,11 +33,11 @@ int BooleanNotExpression::getLine() const {
 
 Value* BooleanNotExpression::generateIR(IRGenerationContext& context,
                                         const IType* assignToType) const {
-  Value* expressionValue = mExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
+  Value* expressionValue = mExpression->generateIR(context, PrimitiveTypes::VOID);
   Value* expressionValueCast = AutoCast::maybeCast(context,
                                                    mExpression->getType(context),
                                                    expressionValue,
-                                                   PrimitiveTypes::BOOLEAN_TYPE,
+                                                   PrimitiveTypes::BOOLEAN,
                                                    mExpression->getLine());
   
   Value* one = ConstantInt::get(Type::getInt1Ty(context.getLLVMContext()), 1);
@@ -45,7 +45,7 @@ Value* BooleanNotExpression::generateIR(IRGenerationContext& context,
 }
 
 const IType* BooleanNotExpression::getType(IRGenerationContext& context) const {
-  return PrimitiveTypes::BOOLEAN_TYPE;
+  return PrimitiveTypes::BOOLEAN;
 }
 
 bool BooleanNotExpression::isConstant() const {

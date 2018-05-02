@@ -83,7 +83,7 @@ struct InterfaceTest : public Test {
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     
-    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
     VariableList methodArguments;
     mBarMethod = new MethodSignatureDeclaration(intSpecifier,
                                                 "bar",
@@ -116,7 +116,7 @@ struct InterfaceTest : public Test {
                                                 0);
     vector<IObjectElementDefinition*> shapeElements;
 
-    intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+    intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
     VariableList staticArguments;
     vector<IModelTypeSpecifier*> staticMethodExceptions;
     Block* staticMethodBlock = new Block();
@@ -131,7 +131,7 @@ struct InterfaceTest : public Test {
     
     mMockExpression = new NiceMock<MockExpression>();
     ON_CALL(*mMockExpression, printToStream(_,_)).WillByDefault(Invoke(printExpression));
-    intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+    intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
     mConstantDefinition = new ConstantDefinition(PUBLIC_ACCESS,
                                                    intSpecifier,
                                                    "MYCONSTANT",
@@ -314,7 +314,7 @@ TEST_F(InterfaceTest, getReferenceAdjustmentFunctionTest) {
 }
 
 TEST_F(InterfaceTest, canCastToTest) {
-  EXPECT_FALSE(mObjectInterface->canCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mObjectInterface->canCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_TRUE(mObjectInterface->canCastTo(mContext, mShapeInterface));
   EXPECT_TRUE(mShapeInterface->canCastTo(mContext, mObjectInterface));
   EXPECT_FALSE(mObjectInterface->canCastTo(mContext, NullType::NULL_TYPE));
@@ -323,7 +323,7 @@ TEST_F(InterfaceTest, canCastToTest) {
 }
 
 TEST_F(InterfaceTest, canAutoCastToTest) {
-  EXPECT_FALSE(mObjectInterface->canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mObjectInterface->canAutoCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_FALSE(mObjectInterface->canAutoCastTo(mContext, mShapeInterface));
   EXPECT_TRUE(mShapeInterface->canAutoCastTo(mContext, mObjectInterface));
   EXPECT_FALSE(mObjectInterface->canAutoCastTo(mContext, NullType::NULL_TYPE));
@@ -358,8 +358,8 @@ TEST_F(InterfaceTest, printToStreamTest) {
                                             mContext.getImportProfile(),
                                             0);
   vector<IField*> fields;
-  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1", 0));
-  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
+  fields.push_back(new FixedField(PrimitiveTypes::INT, "mField1", 0));
+  fields.push_back(new FixedField(PrimitiveTypes::INT, "mField2", 0));
   innerPublicModel->setFields(mContext, fields, 0);
   
   vector<const wisey::Argument*> methodArguments;
@@ -367,7 +367,7 @@ TEST_F(InterfaceTest, printToStreamTest) {
   Method* method = new Method(innerPublicModel,
                               "bar",
                               AccessLevel::PUBLIC_ACCESS,
-                              PrimitiveTypes::INT_TYPE,
+                              PrimitiveTypes::INT,
                               methodArguments,
                               thrownExceptions,
                               new MethodQualifiers(0),
@@ -415,7 +415,7 @@ TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
   Mock::AllowLeak(mMockExpression);
   Mock::AllowLeak(mThreadVariable);
 
-  const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
   FixedFieldDefinition* fieldDeclaration = new FixedFieldDefinition(intSpecifier, "mField", 0);
   
   string name = "systems.vos.wisey.compiler.tests.IInterface";
@@ -440,7 +440,7 @@ TEST_F(InterfaceTest, methodDeclarationDeathTest) {
   Mock::AllowLeak(mMockExpression);
   Mock::AllowLeak(mThreadVariable);
 
-  const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
   VariableList arguments;
   vector<IModelTypeSpecifier*> thrownExceptions;
   Block* block = new Block();

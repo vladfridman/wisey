@@ -32,12 +32,12 @@ int NegateExpression::getLine() const {
 
 Value* NegateExpression::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   const IType* type = getType(context);
-  if (!type->isPrimitive() || type == PrimitiveTypes::VOID_TYPE) {
+  if (!type->isPrimitive() || type == PrimitiveTypes::VOID) {
     Log::e_deprecated("Can not apply negate operation to type '" + type->getTypeName() + "'");
     exit(1);
   }
   
-  if (type == PrimitiveTypes::FLOAT_TYPE || type == PrimitiveTypes::DOUBLE_TYPE) {
+  if (type == PrimitiveTypes::FLOAT || type == PrimitiveTypes::DOUBLE) {
     Value* zero = ConstantFP::get(type->getLLVMType(context), 0);
     return IRWriter::createBinaryOperator(context,
                                           Instruction::FSub,

@@ -51,12 +51,12 @@ struct FieldPrimitiveVariableTest : Test {
     vector<Type*> types;
     types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                     ->getPointerTo()->getPointerTo());
-    types.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mContext));
+    types.push_back(PrimitiveTypes::INT->getLLVMType(mContext));
     string objectFullName = "systems.vos.wisey.compiler.tests.CController";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
     vector<IField*> fields;
-    fields.push_back(new StateField(PrimitiveTypes::INT_TYPE, "foo", 0));
+    fields.push_back(new StateField(PrimitiveTypes::INT, "foo", 0));
     mObject = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                         objectFullName,
                                         objectStructType,
@@ -93,7 +93,7 @@ struct FieldPrimitiveVariableTest : Test {
 
 TEST_F(FieldPrimitiveVariableTest, basicFieldsTest) {
   EXPECT_STREQ("foo", mFieldPrimitiveVariable->getName().c_str());
-  EXPECT_EQ(PrimitiveTypes::INT_TYPE, mFieldPrimitiveVariable->getType());
+  EXPECT_EQ(PrimitiveTypes::INT, mFieldPrimitiveVariable->getType());
   EXPECT_TRUE(mFieldPrimitiveVariable->isField());
   EXPECT_FALSE(mFieldPrimitiveVariable->isSystem());
 }
@@ -125,7 +125,7 @@ TEST_F(FieldPrimitiveVariableTest, generateAssignmentIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
   Value* assignToValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+  ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
   ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
   vector<const IExpression*> arrayIndices;
 
@@ -143,8 +143,8 @@ TEST_F(FieldPrimitiveVariableTest, generateAssignmentIRTest) {
 TEST_F(FieldPrimitiveVariableTest, generateAssignmentWithCastIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
-  Value* assignToValue = ConstantInt::get(PrimitiveTypes::CHAR_TYPE->getLLVMType(mContext), 3);
-  ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR_TYPE));
+  Value* assignToValue = ConstantInt::get(PrimitiveTypes::CHAR->getLLVMType(mContext), 3);
+  ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR));
   ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
   vector<const IExpression*> arrayIndices;
 

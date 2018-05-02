@@ -79,7 +79,7 @@ struct NodeOwnerTest : public Test {
     VariableList elementInterfaceArguments;
     vector<IObjectElementDefinition*> elementObjectElements;
     vector<IModelTypeSpecifier*> elementThrownExceptions;
-    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
     IObjectElementDefinition* getElementSignature =
     new MethodSignatureDeclaration(intSpecifier,
                                    "getElement",
@@ -158,8 +158,8 @@ struct NodeOwnerTest : public Test {
     mStructType = StructType::create(mLLVMContext, complicatedNodeFullName);
     mStructType->setBody(types);
     vector<IField*> fields;
-    mLeftField = new FixedField(PrimitiveTypes::INT_TYPE, "mLeft", 0);
-    mRightField = new FixedField(PrimitiveTypes::INT_TYPE, "mRight", 0);
+    mLeftField = new FixedField(PrimitiveTypes::INT, "mLeft", 0);
+    mRightField = new FixedField(PrimitiveTypes::INT, "mRight", 0);
     fields.push_back(mLeftField);
     fields.push_back(mRightField);
     vector<const wisey::Argument*> methodArguments;
@@ -167,7 +167,7 @@ struct NodeOwnerTest : public Test {
     IMethod* method = new Method(mComplicatedNode,
                                  "getElement",
                                  AccessLevel::PUBLIC_ACCESS,
-                                 PrimitiveTypes::INT_TYPE,
+                                 PrimitiveTypes::INT,
                                  methodArguments,
                                  thrownExceptions,
                                  new MethodQualifiers(0),
@@ -178,7 +178,7 @@ struct NodeOwnerTest : public Test {
     IMethod* fooMethod = new Method(mComplicatedNode,
                                     "foo",
                                     AccessLevel::PUBLIC_ACCESS,
-                                    PrimitiveTypes::INT_TYPE,
+                                    PrimitiveTypes::INT,
                                     methodArguments,
                                     thrownExceptions,
                                     new MethodQualifiers(0),
@@ -207,9 +207,9 @@ struct NodeOwnerTest : public Test {
     StructType* simpleNodeStructType = StructType::create(mLLVMContext, simpleNodeFullName);
     simpleNodeStructType->setBody(simpleNodeTypes);
     vector<IField*> simpleNodeFields;
-    simpleNodeFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mLeft", 0));
-    simpleNodeFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mRight", 0));
-    mAreaField = new FixedField(PrimitiveTypes::INT_TYPE, "mArea", 0);
+    simpleNodeFields.push_back(new FixedField(PrimitiveTypes::INT, "mLeft", 0));
+    simpleNodeFields.push_back(new FixedField(PrimitiveTypes::INT, "mRight", 0));
+    mAreaField = new FixedField(PrimitiveTypes::INT, "mArea", 0);
     simpleNodeFields.push_back(mAreaField);
     mSimpleNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                 simpleNodeFullName,
@@ -226,8 +226,8 @@ struct NodeOwnerTest : public Test {
     StructType* simplerNodeStructType = StructType::create(mLLVMContext, simplerNodeFullName);
     simplerNodeStructType->setBody(simplerNodeTypes);
     vector<IField*> simplerNodeFields;
-    simplerNodeFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mLeft", 0));
-    simplerNodeFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mRight", 0));
+    simplerNodeFields.push_back(new FixedField(PrimitiveTypes::INT, "mLeft", 0));
+    simplerNodeFields.push_back(new FixedField(PrimitiveTypes::INT, "mRight", 0));
     mSimplerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                  simplerNodeFullName,
                                  simplerNodeStructType,
@@ -257,10 +257,10 @@ struct NodeOwnerTest : public Test {
     
     Value* field1Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
     ON_CALL(*mField1Expression, generateIR(_, _)).WillByDefault(Return(field1Value));
-    ON_CALL(*mField1Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mField1Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     Value* field2Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
     ON_CALL(*mField2Expression, generateIR(_, _)).WillByDefault(Return(field2Value));
-    ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     
     mVehicleInterface->buildMethods(mContext);
     
@@ -311,7 +311,7 @@ TEST_F(NodeOwnerTest, getDestructorFunctionTest) {
 }
 
 TEST_F(NodeOwnerTest, canCastToTest) {
-  EXPECT_FALSE(mComplicatedNode->getOwner()->canCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mComplicatedNode->getOwner()->canCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_FALSE(mComplicatedNode->getOwner()->canCastTo(mContext, mSimplerNode->getOwner()));
   EXPECT_FALSE(mComplicatedNode->getOwner()->canCastTo(mContext, mVehicleInterface->getOwner()));
   EXPECT_TRUE(mComplicatedNode->getOwner()->canCastTo(mContext, mComplicatedNode->getOwner()));
@@ -330,7 +330,7 @@ TEST_F(NodeOwnerTest, canCastToTest) {
 }
 
 TEST_F(NodeOwnerTest, canAutoCastToTest) {
-  EXPECT_FALSE(mComplicatedNode->getOwner()->canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mComplicatedNode->getOwner()->canAutoCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_FALSE(mComplicatedNode->getOwner()->canAutoCastTo(mContext, mSimplerNode->getOwner()));
   EXPECT_FALSE(mComplicatedNode->getOwner()->canAutoCastTo(mContext, mVehicleInterface->getOwner()));
   EXPECT_TRUE(mComplicatedNode->getOwner()->canAutoCastTo(mContext, mComplicatedNode->getOwner()));

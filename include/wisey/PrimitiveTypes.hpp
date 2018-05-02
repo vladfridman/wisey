@@ -28,15 +28,15 @@ namespace wisey {
     
   public:
     
-    static BooleanType* BOOLEAN_TYPE;
-    static CharType* CHAR_TYPE;
-    static DoubleType* DOUBLE_TYPE;
-    static FloatType* FLOAT_TYPE;
-    static IntType* INT_TYPE;
-    static LongType* LONG_TYPE;
-    static StringType* STRING_TYPE;
-    static VoidType* VOID_TYPE;
-    static StringFormatType* STRING_FORMAT_TYPE;
+    static BooleanType* BOOLEAN;
+    static CharType* CHAR;
+    static DoubleType* DOUBLE;
+    static FloatType* FLOAT;
+    static IntType* INT;
+    static LongType* LONG;
+    static StringType* STRING;
+    static VoidType* VOID;
+    static StringFormatType* STRING_FORMAT;
     
     /**
      * Tells whether the given type is one of float types such as float or double

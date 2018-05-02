@@ -35,7 +35,7 @@ TEST_F(IntConstantTest, intConstantTest) {
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);
   IRGenerationContext context;
   
-  Value* irValue = mIntConstant.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  Value* irValue = mIntConstant.generateIR(mContext, PrimitiveTypes::VOID);
   
   *stringStream << *irValue;
   EXPECT_STREQ("i32 5", stringStream->str().c_str());
@@ -43,7 +43,7 @@ TEST_F(IntConstantTest, intConstantTest) {
 
 TEST_F(IntConstantTest, intConstantTypeTest) {
 
-  EXPECT_EQ(mIntConstant.getType(mContext), PrimitiveTypes::INT_TYPE);
+  EXPECT_EQ(mIntConstant.getType(mContext), PrimitiveTypes::INT);
 }
 
 TEST_F(IntConstantTest, isConstantTest) {

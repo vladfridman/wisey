@@ -26,7 +26,7 @@ struct ArrayTypeSpecifierTest : public Test {
 };
 
 TEST_F(ArrayTypeSpecifierTest, creationTest) {
-  const PrimitiveTypeSpecifier* intSpecifer = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* intSpecifer = PrimitiveTypes::INT->newTypeSpecifier(0);
   ArrayTypeSpecifier* specifier = new ArrayTypeSpecifier(intSpecifer, 1u, 3);
   const IType* type = specifier->getType(mContext);
   
@@ -35,13 +35,13 @@ TEST_F(ArrayTypeSpecifierTest, creationTest) {
   EXPECT_STREQ("int[]", type->getTypeName().c_str());
   
   const ArrayType* arrayType = (const ArrayType*) type;
-  EXPECT_EQ(PrimitiveTypes::INT_TYPE, arrayType->getElementType());
+  EXPECT_EQ(PrimitiveTypes::INT, arrayType->getElementType());
   EXPECT_EQ(1u, arrayType->getNumberOfDimensions());
   EXPECT_EQ(3, specifier->getLine());
 }
 
 TEST_F(ArrayTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {
-  const PrimitiveTypeSpecifier* floatSpecifer = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* floatSpecifer = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
   ArrayTypeSpecifier* specifier = new ArrayTypeSpecifier(floatSpecifer, 1u, 0);
   const IType* type1 = specifier->getType(mContext);
   const IType* type2 = specifier->getType(mContext);
@@ -50,7 +50,7 @@ TEST_F(ArrayTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {
 }
 
 TEST_F(ArrayTypeSpecifierTest, printToStreamTest) {
-  const PrimitiveTypeSpecifier* stringSpecifer = PrimitiveTypes::STRING_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* stringSpecifer = PrimitiveTypes::STRING->newTypeSpecifier(0);
   ArrayTypeSpecifier specifier(stringSpecifer, 1u, 0);
 
   stringstream stringStream;

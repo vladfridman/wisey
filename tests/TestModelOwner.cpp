@@ -86,14 +86,14 @@ struct ModelOwnerTest : public Test {
                              0);
 
     vector<IField*> fields;
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width", 0));
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height", 0));
+    fields.push_back(new FixedField(PrimitiveTypes::INT, "width", 0));
+    fields.push_back(new FixedField(PrimitiveTypes::INT, "height", 0));
     vector<const wisey::Argument*> methodArguments;
     vector<const Model*> thrownExceptions;
     IMethod* method = new Method(mModel,
                                  "foo",
                                  AccessLevel::PUBLIC_ACCESS,
-                                 PrimitiveTypes::INT_TYPE,
+                                 PrimitiveTypes::INT,
                                  methodArguments,
                                  thrownExceptions,
                                  new MethodQualifiers(0),
@@ -104,7 +104,7 @@ struct ModelOwnerTest : public Test {
     IMethod* barMethod = new Method(mModel,
                                     "bar",
                                     AccessLevel::PUBLIC_ACCESS,
-                                    PrimitiveTypes::INT_TYPE,
+                                    PrimitiveTypes::INT,
                                     methodArguments,
                                     thrownExceptions,
                                     new MethodQualifiers(0),
@@ -117,7 +117,7 @@ struct ModelOwnerTest : public Test {
     VariableList subShapeInterfaceArguments;
     vector<IObjectElementDefinition*> subShapeInterfaceElements;
     vector<IModelTypeSpecifier*> subShapeInterfaceThrownExceptions;
-    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
     IObjectElementDefinition* methodFooSignature =
       new MethodSignatureDeclaration(intSpecifier,
                                      "foo",
@@ -238,8 +238,8 @@ struct ModelOwnerTest : public Test {
     StructType *starStructType = StructType::create(mLLVMContext, starFullName);
     starStructType->setBody(starTypes);
     vector<IField*> starFields;
-    starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mBrightness", 0));
-    starFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mWeight", 0));
+    starFields.push_back(new FixedField(PrimitiveTypes::INT, "mBrightness", 0));
+    starFields.push_back(new FixedField(PrimitiveTypes::INT, "mWeight", 0));
     mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                  starFullName,
                                  starStructType,
@@ -249,13 +249,13 @@ struct ModelOwnerTest : public Test {
     mContext.addModel(mStarModel);
     Value* field1Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
     ON_CALL(*mField1Expression, generateIR(_, _)).WillByDefault(Return(field1Value));
-    ON_CALL(*mField1Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mField1Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     Value* field2Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
     ON_CALL(*mField2Expression, generateIR(_, _)).WillByDefault(Return(field2Value));
-    ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     Value* field3Value = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 2.0f);
     ON_CALL(*mField3Expression, generateIR(_, _)).WillByDefault(Return(field3Value));
-    ON_CALL(*mField3Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+    ON_CALL(*mField3Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
     
     IConcreteObjectType::generateNameGlobal(mContext, mStarModel);
     IConcreteObjectType::generateShortNameGlobal(mContext, mStarModel);
@@ -310,7 +310,7 @@ TEST_F(ModelOwnerTest, getDestructorFunctionTest) {
 }
 
 TEST_F(ModelOwnerTest, canCastToTest) {
-  EXPECT_FALSE(mModel->getOwner()->canCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mModel->getOwner()->canCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_FALSE(mModel->getOwner()->canCastTo(mContext, mCircleModel->getOwner()));
   EXPECT_FALSE(mModel->getOwner()->canCastTo(mContext, mCarInterface->getOwner()));
   EXPECT_TRUE(mModel->getOwner()->canCastTo(mContext, mModel->getOwner()));
@@ -329,7 +329,7 @@ TEST_F(ModelOwnerTest, canCastToTest) {
 }
 
 TEST_F(ModelOwnerTest, canAutoCastToTest) {
-  EXPECT_FALSE(mModel->getOwner()->canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mModel->getOwner()->canAutoCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_FALSE(mModel->getOwner()->canAutoCastTo(mContext, mCircleModel->getOwner()));
   EXPECT_FALSE(mModel->getOwner()->canAutoCastTo(mContext, mCarInterface->getOwner()));
   EXPECT_TRUE(mModel->getOwner()->canAutoCastTo(mContext, mModel->getOwner()));

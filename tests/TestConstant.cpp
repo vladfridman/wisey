@@ -46,12 +46,12 @@ public:
   mName("MYCONSTANT") {
     ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
     ON_CALL(*mExpression, isConstant()).WillByDefault(Return(true));
-    ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     llvm::Constant* constantInt = llvm::ConstantInt::get(llvm::Type::getInt32Ty(mLLVMContext), 5);
     ON_CALL(*mExpression, generateIR(_, _)).WillByDefault(Return(constantInt));
     ON_CALL(*mObject, getTypeName()).WillByDefault(Return("MObject"));
 
-    mConstant = new Constant(PUBLIC_ACCESS, PrimitiveTypes::INT_TYPE, mName, mExpression);
+    mConstant = new Constant(PUBLIC_ACCESS, PrimitiveTypes::INT, mName, mExpression);
   }
   
   ~ConstantTest() {
@@ -67,7 +67,7 @@ public:
 TEST_F(ConstantTest, gettersTest) {
   EXPECT_TRUE(mConstant->isPublic());
   EXPECT_EQ(mConstant->getName(), mName);
-  EXPECT_EQ(mConstant->getType(), PrimitiveTypes::INT_TYPE);
+  EXPECT_EQ(mConstant->getType(), PrimitiveTypes::INT);
 }
 
 TEST_F(ConstantTest, elementTypeTest) {
@@ -110,7 +110,7 @@ TEST_F(ConstantTest, printPublicConstantToStreamTest) {
 
 TEST_F(ConstantTest, printPrivateConstantToStreamTest) {
   stringstream stringStream;
-  Constant* constant = new Constant(PRIVATE_ACCESS, PrimitiveTypes::INT_TYPE, mName, mExpression);
+  Constant* constant = new Constant(PRIVATE_ACCESS, PrimitiveTypes::INT, mName, mExpression);
   constant->printToStream(mContext, stringStream);
 
   EXPECT_EQ(stringStream.str().size(), 0u);

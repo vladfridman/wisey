@@ -84,19 +84,19 @@ TEST_F(LLVMi1TypeTest, canCastToTest) {
   EXPECT_TRUE(mLLVMi1Type.canCastTo(mContext, &mLLVMi1Type));
   LLVMi8Type i8Type;
   EXPECT_FALSE(mLLVMi1Type.canCastTo(mContext, &i8Type));
-  EXPECT_TRUE(mLLVMi1Type.canCastTo(mContext, PrimitiveTypes::BOOLEAN_TYPE));
+  EXPECT_TRUE(mLLVMi1Type.canCastTo(mContext, PrimitiveTypes::BOOLEAN));
 }
 
 TEST_F(LLVMi1TypeTest, canAutoCastToTest) {
   EXPECT_TRUE(mLLVMi1Type.canAutoCastTo(mContext, &mLLVMi1Type));
   LLVMi8Type i8Type;
   EXPECT_FALSE(mLLVMi1Type.canAutoCastTo(mContext, &i8Type));
-  EXPECT_TRUE(mLLVMi1Type.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN_TYPE));
+  EXPECT_TRUE(mLLVMi1Type.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN));
 }
 
 TEST_F(LLVMi1TypeTest, castToTest) {
   Value* value = ConstantInt::get(Type::getInt1Ty(mLLVMContext), 1);
-  EXPECT_EQ(value, mLLVMi1Type.castTo(mContext, value, PrimitiveTypes::BOOLEAN_TYPE, 0));
+  EXPECT_EQ(value, mLLVMi1Type.castTo(mContext, value, PrimitiveTypes::BOOLEAN, 0));
 }
 
 TEST_F(LLVMi1TypeTest, getPointerTypeTest) {

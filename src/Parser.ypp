@@ -1508,14 +1508,14 @@ non_array_type_specifier
   ;
 
 primitive_type_specifier
-  : TTYPEBOOLEAN { $$ = PrimitiveTypes::BOOLEAN_TYPE->newTypeSpecifier(yylineno); }
-  | TTYPECHAR { $$ = PrimitiveTypes::CHAR_TYPE->newTypeSpecifier(yylineno); }
-  | TTYPEDOUBLE { $$ = PrimitiveTypes::DOUBLE_TYPE->newTypeSpecifier(yylineno); }
-  | TTYPEFLOAT { $$ = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(yylineno); }
-  | TTYPEINT { $$ = PrimitiveTypes::INT_TYPE->newTypeSpecifier(yylineno); }
-  | TTYPELONG { $$ = PrimitiveTypes::LONG_TYPE->newTypeSpecifier(yylineno); }
-  | TTYPESTRING { $$ = PrimitiveTypes::STRING_TYPE->newTypeSpecifier(yylineno); }
-  | TTYPEVOID { $$ = PrimitiveTypes::VOID_TYPE->newTypeSpecifier(yylineno); }
+  : TTYPEBOOLEAN { $$ = PrimitiveTypes::BOOLEAN->newTypeSpecifier(yylineno); }
+  | TTYPECHAR { $$ = PrimitiveTypes::CHAR->newTypeSpecifier(yylineno); }
+  | TTYPEDOUBLE { $$ = PrimitiveTypes::DOUBLE->newTypeSpecifier(yylineno); }
+  | TTYPEFLOAT { $$ = PrimitiveTypes::FLOAT->newTypeSpecifier(yylineno); }
+  | TTYPEINT { $$ = PrimitiveTypes::INT->newTypeSpecifier(yylineno); }
+  | TTYPELONG { $$ = PrimitiveTypes::LONG->newTypeSpecifier(yylineno); }
+  | TTYPESTRING { $$ = PrimitiveTypes::STRING->newTypeSpecifier(yylineno); }
+  | TTYPEVOID { $$ = PrimitiveTypes::VOID->newTypeSpecifier(yylineno); }
   ;
 
 immutable_array_type_specifier

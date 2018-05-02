@@ -27,18 +27,18 @@ llvm::Type* VoidType::getLLVMType(IRGenerationContext& context) const {
 }
 
 bool VoidType::canCastTo(IRGenerationContext& context, const IType* toType) const {
-  return toType == PrimitiveTypes::VOID_TYPE;
+  return toType == PrimitiveTypes::VOID;
 }
 
 bool VoidType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
-  return toType == PrimitiveTypes::VOID_TYPE;
+  return toType == PrimitiveTypes::VOID;
 }
 
 Value* VoidType::castTo(IRGenerationContext& context,
                         Value* fromValue,
                         const IType* toType,
                         int line) const {
-  if (toType == PrimitiveTypes::VOID_TYPE) {
+  if (toType == PrimitiveTypes::VOID) {
     return fromValue;
   }
   Cast::exitIncompatibleTypes(context, this, toType, line);

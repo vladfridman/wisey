@@ -80,7 +80,7 @@ void CheckForNullAndThrowFunction::compose(IRGenerationContext& context, Functio
   
   Value* null = ConstantPointerNull::get(Type::getInt8Ty(llvmContext)->getPointerTo());
   Value* compare = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, llvmArgument, null, "cmp");
-  FakeExpression* fakeExpression = new FakeExpression(compare, PrimitiveTypes::BOOLEAN_TYPE);
+  FakeExpression* fakeExpression = new FakeExpression(compare, PrimitiveTypes::BOOLEAN);
   
   Block* thenBlock = new Block();
   PackageType* packageType = context.getPackageType(Names::getLangPackageName());

@@ -99,8 +99,8 @@ struct ModelTest : public Test {
     mStructType = StructType::create(mLLVMContext, modelFullName);
     mStructType->setBody(types);
     vector<IField*> fields;
-    mWidthField = new FixedField(PrimitiveTypes::INT_TYPE, "mWidth", 0);
-    mHeightField = new FixedField(PrimitiveTypes::INT_TYPE, "mHeight", 0);
+    mWidthField = new FixedField(PrimitiveTypes::INT, "mWidth", 0);
+    mHeightField = new FixedField(PrimitiveTypes::INT, "mHeight", 0);
     fields.push_back(mWidthField);
     fields.push_back(mHeightField);
     vector<const wisey::Argument*> methodArguments;
@@ -113,7 +113,7 @@ struct ModelTest : public Test {
     mMethod = new Method(mModel,
                          "foo",
                          AccessLevel::PUBLIC_ACCESS,
-                         PrimitiveTypes::INT_TYPE,
+                         PrimitiveTypes::INT,
                          methodArguments,
                          thrownExceptions,
                          new MethodQualifiers(0),
@@ -124,7 +124,7 @@ struct ModelTest : public Test {
     IMethod* barMethod = new Method(mModel,
                                     "bar",
                                     AccessLevel::PRIVATE_ACCESS,
-                                    PrimitiveTypes::INT_TYPE,
+                                    PrimitiveTypes::INT,
                                     methodArguments,
                                     thrownExceptions,
                                     new MethodQualifiers(0),
@@ -137,7 +137,7 @@ struct ModelTest : public Test {
     VariableList subShapeInterfaceArguments;
     vector<IObjectElementDefinition*> subShapeInterfaceElements;
     vector<IModelTypeSpecifier*> subShapeInterfaceThrownExceptions;
-    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
     IObjectElementDefinition* methodFooSignature =
       new MethodSignatureDeclaration(intSpecifier,
                                      "foo",
@@ -225,7 +225,7 @@ struct ModelTest : public Test {
 
     IntConstant* intConstant = new IntConstant(5, 0);
     mConstant = new wisey::Constant(PUBLIC_ACCESS,
-                                    PrimitiveTypes::INT_TYPE,
+                                    PrimitiveTypes::INT,
                                     "MYCONSTANT",
                                     intConstant);
     vector<wisey::Constant*> constants;
@@ -492,7 +492,7 @@ TEST_F(ModelTest, getReferenceAdjustmentFunctionTest) {
 }
 
 TEST_F(ModelTest, canCastToTest) {
-  EXPECT_FALSE(mModel->canCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mModel->canCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_FALSE(mModel->canCastTo(mContext, mCircleModel));
   EXPECT_FALSE(mModel->canCastTo(mContext, mCarInterface));
   EXPECT_TRUE(mModel->canCastTo(mContext, mModel));
@@ -506,7 +506,7 @@ TEST_F(ModelTest, canCastToTest) {
 }
 
 TEST_F(ModelTest, canAutoCastToTest) {
-  EXPECT_FALSE(mModel->canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mModel->canAutoCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_FALSE(mModel->canAutoCastTo(mContext, mCircleModel));
   EXPECT_FALSE(mModel->canAutoCastTo(mContext, mCarInterface));
   EXPECT_TRUE(mModel->canAutoCastTo(mContext, mModel));
@@ -637,7 +637,7 @@ TEST_F(ModelTest, castToDeathTest) {
   Mock::AllowLeak(mThreadVariable);
   Value* expressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
 
-  EXPECT_EXIT(mModel->castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE, 5),
+  EXPECT_EXIT(mModel->castTo(mContext, expressionValue, PrimitiveTypes::INT, 5),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(5\\): Error: Incompatible types: can not cast from "
               "type 'systems.vos.wisey.compiler.tests.MSquare' to 'int'");
@@ -774,8 +774,8 @@ TEST_F(ModelTest, printToStreamTest) {
                                             mContext.getImportProfile(),
                                             0);
   vector<IField*> fields;
-  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1", 0));
-  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
+  fields.push_back(new FixedField(PrimitiveTypes::INT, "mField1", 0));
+  fields.push_back(new FixedField(PrimitiveTypes::INT, "mField2", 0));
   innerPublicModel->setFields(mContext, fields, 0);
 
   vector<const wisey::Argument*> methodArguments;
@@ -783,7 +783,7 @@ TEST_F(ModelTest, printToStreamTest) {
   Method* method = new Method(innerPublicModel,
                               "bar",
                               AccessLevel::PUBLIC_ACCESS,
-                              PrimitiveTypes::INT_TYPE,
+                              PrimitiveTypes::INT,
                               methodArguments,
                               thrownExceptions,
                               new MethodQualifiers(0),

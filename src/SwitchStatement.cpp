@@ -36,7 +36,7 @@ void SwitchStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* switchDefault = mSwitchCases->defaultStatement != NULL
     ? BasicBlock::Create(llvmContext, "sw.default", function) : NULL;
   
-  Value* conditionValue = mCondition->generateIR(context, PrimitiveTypes::VOID_TYPE);
+  Value* conditionValue = mCondition->generateIR(context, PrimitiveTypes::VOID);
   SwitchInst* switchInstruction =
     SwitchInst::Create(conditionValue,
                        switchDefault != NULL ? switchDefault : switchEpilog,

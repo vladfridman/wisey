@@ -62,9 +62,9 @@ struct ControllerDefinitionTest : public Test {
     block->getStatements().push_back(mMockStatement);
     block->getStatements().push_back(new ReturnStatement(new FloatConstant(0.5, 0), 0));
     CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
-    const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+    const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
     const PrimitiveTypeSpecifier* floatTypeSpecifier =
-    PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0);
+    PrimitiveTypes::FLOAT->newTypeSpecifier(0);
     Identifier* intArgumentIdentifier = new Identifier("intargument", 0);
     VariableDeclaration* intArgument =
     VariableDeclaration::create(intTypeSpecifier, intArgumentIdentifier, 0);
@@ -80,8 +80,8 @@ struct ControllerDefinitionTest : public Test {
                                              compoundStatement,
                                              0);
 
-    const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG_TYPE->newTypeSpecifier(0);
-    const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT_TYPE->newTypeSpecifier(0);
+    const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
+    const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
     ReceivedFieldDefinition* field1 = new ReceivedFieldDefinition(longType, "field1", 0);
     ReceivedFieldDefinition* field2 = new ReceivedFieldDefinition(floatType, "field2", 0);
     mElementDeclarations.push_back(field1);
@@ -185,7 +185,7 @@ TEST_F(ControllerDefinitionTest, controllerWithFixedFieldDeathTest) {
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ControllerTypeSpecifierFull* typeSpecifier =
   new ControllerTypeSpecifierFull(packageExpression, "CMyController", 0);
-  const PrimitiveTypeSpecifier* intType = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* intType = PrimitiveTypes::INT->newTypeSpecifier(0);
   FixedFieldDefinition* field = new FixedFieldDefinition(intType, "field3", 0);
   mElementDeclarations.clear();
   mElementDeclarations.push_back(field);
@@ -209,7 +209,7 @@ TEST_F(ControllerDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
   ControllerTypeSpecifierFull* typeSpecifier =
   new ControllerTypeSpecifierFull(packageExpression, "CMyController", 0);
   InjectionArgumentList arguments;
-  const PrimitiveTypeSpecifier* intType = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+  const PrimitiveTypeSpecifier* intType = PrimitiveTypes::INT->newTypeSpecifier(0);
   FixedFieldDefinition* field = new FixedFieldDefinition(intType, "field3", 0);
   mElementDeclarations.push_back(field);
   vector<IObjectDefinition*> innerObjectDefinitions;

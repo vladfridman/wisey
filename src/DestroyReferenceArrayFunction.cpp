@@ -134,9 +134,9 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   if (context.isDestructorDebugOn()) {
     ExpressionList printOutArguments;
     printOutArguments.push_back(new StringLiteral("destructor object<", 0));
-    printOutArguments.push_back(new FakeExpression(elementSize, PrimitiveTypes::INT_TYPE));
+    printOutArguments.push_back(new FakeExpression(elementSize, PrimitiveTypes::INT));
     printOutArguments.push_back(new StringLiteral(" bytes>[", 0));
-    printOutArguments.push_back(new FakeExpression(size, PrimitiveTypes::INT_TYPE));
+    printOutArguments.push_back(new FakeExpression(size, PrimitiveTypes::INT));
     printOutArguments.push_back(new StringLiteral("]\n", 0));
     PrintOutStatement::printExpressionList(context, printOutArguments, 0);
   }

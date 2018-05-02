@@ -62,7 +62,7 @@ public:
     mContext.getScopes().pushScope();
     mExpressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
     ON_CALL(*mExpression, generateIR(_, _)).WillByDefault(Return(mExpressionValue));
-    ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
 
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
@@ -116,7 +116,7 @@ TEST_F(AssignmentTest, isAssignableTest) {
 TEST_F(AssignmentTest, getVariableTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
-  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::DOUBLE_TYPE));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::DOUBLE));
   mContext.getScopes().setVariable(&mockVariable);
   Identifier* identifier = new Identifier("foo", 0);
   Assignment assignment(identifier, mExpression, 0);
@@ -131,7 +131,7 @@ TEST_F(AssignmentTest, variableNotDeclaredDeathTest) {
   Mock::AllowLeak(mExpression);
   Mock::AllowLeak(mThreadVariable);
 
-  EXPECT_EXIT(assignment.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(assignment.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
               "Error: Undeclared variable 'foo'");
 }
@@ -139,12 +139,12 @@ TEST_F(AssignmentTest, variableNotDeclaredDeathTest) {
 TEST_F(AssignmentTest, assignmentExpressionTypeTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
-  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::DOUBLE_TYPE));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::DOUBLE));
   Identifier* identifier = new Identifier("foo", 0);
   Assignment assignment(identifier, mExpression, 0);
   mContext.getScopes().setVariable(&mockVariable);
 
-  EXPECT_EQ(assignment.getType(mContext), PrimitiveTypes::DOUBLE_TYPE);
+  EXPECT_EQ(assignment.getType(mContext), PrimitiveTypes::DOUBLE);
 }
 
 TEST_F(AssignmentTest, generateIRWithInterfaceTypeTest) {
@@ -159,13 +159,13 @@ TEST_F(AssignmentTest, generateIRWithInterfaceTypeTest) {
   EXPECT_CALL(mockVariable, generateIdentifierIR(_)).Times(0);
   EXPECT_CALL(mockVariable, generateAssignmentIR(_, _, _, _)).Times(1);
   
-  assignment.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  assignment.generateIR(mContext, PrimitiveTypes::VOID);
 }
 
 TEST_F(AssignmentTest, generateIRWithPrimitiveTypeTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
-  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::LONG));
   mContext.getScopes().setVariable(&mockVariable);
   
   Identifier* identifier = new Identifier("foo", 0);
@@ -174,7 +174,7 @@ TEST_F(AssignmentTest, generateIRWithPrimitiveTypeTest) {
   EXPECT_CALL(mockVariable, generateIdentifierIR(_)).Times(0);
   EXPECT_CALL(mockVariable, generateAssignmentIR(_, _, _, _)).Times(1);
   
-  assignment.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  assignment.generateIR(mContext, PrimitiveTypes::VOID);
 }
 
 TEST_F(AssignmentTest, generateIRWithOwnerTypeTest) {
@@ -192,7 +192,7 @@ TEST_F(AssignmentTest, generateIRWithOwnerTypeTest) {
 TEST_F(AssignmentTest, printToStreamTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
-  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::DOUBLE_TYPE));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::DOUBLE));
   mContext.getScopes().setVariable(&mockVariable);
   Identifier* identifier = new Identifier("foo", 0);
   Assignment assignment(identifier, mExpression, 0);

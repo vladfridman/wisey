@@ -91,7 +91,7 @@ struct ControllerTest : public Test {
     VariableList calculatorInterfaceArguments;
     vector<IObjectElementDefinition*> calculatorInterfaceElements;
     vector<IModelTypeSpecifier*> calculatorThrownExceptions;
-    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
     IObjectElementDefinition* calculateSignature =
       new MethodSignatureDeclaration(intSpecifier,
                                      "calculate",
@@ -179,8 +179,8 @@ struct ControllerTest : public Test {
                                                       mContext.getImportProfile(),
                                                       5);
     vector<IField*> fields;
-    mLeftField = new ReceivedField(PrimitiveTypes::INT_TYPE, "left", 0);
-    mRightField = new ReceivedField(PrimitiveTypes::INT_TYPE, "right", 0);
+    mLeftField = new ReceivedField(PrimitiveTypes::INT, "left", 0);
+    mRightField = new ReceivedField(PrimitiveTypes::INT, "right", 0);
     fields.push_back(mLeftField);
     fields.push_back(mRightField);
     vector<const wisey::Argument*> methodArguments;
@@ -188,7 +188,7 @@ struct ControllerTest : public Test {
     mMethod = new Method(mMultiplierController,
                          "calculate",
                          AccessLevel::PUBLIC_ACCESS,
-                         PrimitiveTypes::INT_TYPE,
+                         PrimitiveTypes::INT,
                          methodArguments,
                          thrownExceptions,
                          new MethodQualifiers(0),
@@ -199,7 +199,7 @@ struct ControllerTest : public Test {
     IMethod* fooMethod = new Method(mMultiplierController,
                                     "foo",
                                     AccessLevel::PUBLIC_ACCESS,
-                                    PrimitiveTypes::INT_TYPE,
+                                    PrimitiveTypes::INT,
                                     methodArguments,
                                     thrownExceptions,
                                     new MethodQualifiers(0),
@@ -213,11 +213,11 @@ struct ControllerTest : public Test {
     
     IntConstant* intConstant = new IntConstant(5, 0);
     mConstant = new wisey::Constant(PUBLIC_ACCESS,
-                                    PrimitiveTypes::INT_TYPE,
+                                    PrimitiveTypes::INT,
                                     "MYCONSTANT",
                                     intConstant);
     wisey::Constant* privateConstant = new wisey::Constant(PRIVATE_ACCESS,
-                                                           PrimitiveTypes::INT_TYPE,
+                                                           PrimitiveTypes::INT,
                                                            "MYCONSTANT3",
                                                            intConstant);
     vector<wisey::Constant*> constants;
@@ -302,8 +302,8 @@ struct ControllerTest : public Test {
     doublerStructType->setBody(doublerTypes);
     vector<IField*> doublerFields;
     InjectionArgumentList fieldArguments;
-    doublerFields.push_back(new InjectedField(PrimitiveTypes::INT_TYPE,
-                                              PrimitiveTypes::INT_TYPE,
+    doublerFields.push_back(new InjectedField(PrimitiveTypes::INT,
+                                              PrimitiveTypes::INT,
                                               "left",
                                               fieldArguments,
                                               mContext.getImportProfile()->getSourceFileName(),
@@ -491,7 +491,7 @@ TEST_F(ControllerTest, getReferenceAdjustmentFunctionTest) {
 }
 
 TEST_F(ControllerTest, canCastToTest) {
-  EXPECT_FALSE(mMultiplierController->canCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mMultiplierController->canCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_FALSE(mMultiplierController->canCastTo(mContext, mAdditorController));
   EXPECT_FALSE(mMultiplierController->canCastTo(mContext, mVehicleInterface));
   EXPECT_TRUE(mMultiplierController->canCastTo(mContext, mMultiplierController));
@@ -507,7 +507,7 @@ TEST_F(ControllerTest, canCastToTest) {
 }
 
 TEST_F(ControllerTest, canAutoCastToTest) {
-  EXPECT_FALSE(mMultiplierController->canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mMultiplierController->canAutoCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_FALSE(mMultiplierController->canAutoCastTo(mContext, mAdditorController));
   EXPECT_FALSE(mMultiplierController->canAutoCastTo(mContext, mVehicleInterface));
   EXPECT_TRUE(mMultiplierController->canAutoCastTo(mContext, mMultiplierController));
@@ -868,10 +868,10 @@ TEST_F(ControllerTest, injectWrongTypeOfArgumentDeathTest) {
   Mock::AllowLeak(injectArgument2Expression);
   Value* field1Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
   ON_CALL(*injectArgument1Expression, generateIR(_, _)).WillByDefault(Return(field1Value));
-  ON_CALL(*injectArgument1Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+  ON_CALL(*injectArgument1Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
   Value* field2Value = ConstantFP::get(Type::getFloatTy(mLLVMContext), 5.5);
   ON_CALL(*injectArgument2Expression, generateIR(_, _)).WillByDefault(Return(field2Value));
-  ON_CALL(*injectArgument2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  ON_CALL(*injectArgument2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
   InjectionArgument* injectionArgument1 = new InjectionArgument("withOwner",
                                                                 injectArgument1Expression);
   InjectionArgument* injectionArgument2 = new InjectionArgument("withReference",
@@ -967,8 +967,8 @@ TEST_F(ControllerTest, printToStreamTest) {
                                             mContext.getImportProfile(),
                                             0);
   vector<IField*> fields;
-  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField1", 0));
-  fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mField2", 0));
+  fields.push_back(new FixedField(PrimitiveTypes::INT, "mField1", 0));
+  fields.push_back(new FixedField(PrimitiveTypes::INT, "mField2", 0));
   innerPublicModel->setFields(mContext, fields, 0);
   
   vector<const wisey::Argument*> methodArguments;
@@ -976,7 +976,7 @@ TEST_F(ControllerTest, printToStreamTest) {
   Method* method = new Method(innerPublicModel,
                               "bar",
                               AccessLevel::PUBLIC_ACCESS,
-                              PrimitiveTypes::INT_TYPE,
+                              PrimitiveTypes::INT,
                               methodArguments,
                               thrownExceptions,
                               new MethodQualifiers(0),

@@ -33,7 +33,7 @@ llvm::Constant* DoubleConstant::generateIR(IRGenerationContext& context,
 }
 
 const IType* DoubleConstant::getType(IRGenerationContext& context) const {
-  return PrimitiveTypes::DOUBLE_TYPE;
+  return PrimitiveTypes::DOUBLE;
 }
 
 bool DoubleConstant::isConstant() const {

@@ -33,7 +33,7 @@ llvm::Constant* IntConstant::generateIR(IRGenerationContext& context,
 }
 
 const IType* IntConstant::getType(IRGenerationContext& context) const {
-  return PrimitiveTypes::INT_TYPE;
+  return PrimitiveTypes::INT;
 }
 
 bool IntConstant::isConstant() const {

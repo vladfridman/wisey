@@ -49,7 +49,7 @@ public:
   mName("mField") {
     TestPrefix::generateIR(mContext);
     
-    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
     mFieldDeclaration = new ReceivedFieldDefinition(intSpecifier, mName, 0);
   }
   
@@ -68,7 +68,7 @@ TEST_F(ReceivedFieldDefinitionTest, declareTest) {
   EXPECT_FALSE(field->isMethodSignature());
   EXPECT_FALSE(field->isLLVMFunction());
 
-  EXPECT_EQ(field->getType(), PrimitiveTypes::INT_TYPE);
+  EXPECT_EQ(field->getType(), PrimitiveTypes::INT);
   EXPECT_STREQ(field->getName().c_str(), "mField");
   EXPECT_TRUE(field->isAssignable());
 

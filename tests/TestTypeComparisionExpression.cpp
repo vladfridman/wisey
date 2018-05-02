@@ -96,15 +96,15 @@ struct TypeComparisionExpressionTest : public Test {
                                    0);
 
     vector<IField*> squareFields;
-    squareFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "width", 0));
-    squareFields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "height", 0));
+    squareFields.push_back(new FixedField(PrimitiveTypes::INT, "width", 0));
+    squareFields.push_back(new FixedField(PrimitiveTypes::INT, "height", 0));
     vector<const wisey::Argument*> methodArguments;
     vector<IMethod*> squareMethods;
     vector<const Model*> thrownExceptions;
     IMethod* fooMethod = new Method(mSquareModel,
                                     "foo",
                                     AccessLevel::PUBLIC_ACCESS,
-                                    PrimitiveTypes::INT_TYPE,
+                                    PrimitiveTypes::INT,
                                     methodArguments,
                                     thrownExceptions,
                                     new MethodQualifiers(0),
@@ -113,7 +113,7 @@ struct TypeComparisionExpressionTest : public Test {
     IMethod* barMethod = new Method(mSquareModel,
                                     "bar",
                                     AccessLevel::PUBLIC_ACCESS,
-                                    PrimitiveTypes::INT_TYPE,
+                                    PrimitiveTypes::INT,
                                     methodArguments,
                                     thrownExceptions,
                                     new MethodQualifiers(0),
@@ -127,7 +127,7 @@ struct TypeComparisionExpressionTest : public Test {
     VariableList subShapeInterfaceArguments;
     vector<IObjectElementDefinition*> subShapeInterfaceElements;
     vector<IModelTypeSpecifier*> subShapeThrownExceptions;
-    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT_TYPE->newTypeSpecifier(0);
+    const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
     IObjectElementDefinition* methodFooSignature =
       new MethodSignatureDeclaration(intSpecifier,
                                      "foo",
@@ -245,23 +245,23 @@ struct TypeComparisionExpressionTest : public Test {
 };
 
 TEST_F(TypeComparisionExpressionTest, compareIdenticalPrimiteveTypesTest) {
-  ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR_TYPE));
+  ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR));
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
-  ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR_TYPE));
+  ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR));
   
   TypeComparisionExpression typeComparision(mExpression, typeSpecifier, 0);
-  Value* value = typeComparision.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  Value* value = typeComparision.generateIR(mContext, PrimitiveTypes::VOID);
   
   EXPECT_EQ(value, mTrueValue);
 }
 
 TEST_F(TypeComparisionExpressionTest, compareDifferntPrimiteveTypesTest) {
-  ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
+  ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG));
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
-  ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR_TYPE));
+  ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR));
   
   TypeComparisionExpression typeComparision(mExpression, typeSpecifier, 0);
-  Value* value = typeComparision.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  Value* value = typeComparision.generateIR(mContext, PrimitiveTypes::VOID);
   
   EXPECT_EQ(value, mFalseValue);
 }
@@ -272,7 +272,7 @@ TEST_F(TypeComparisionExpressionTest, compareIdenticalModelTypesTest) {
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(mCircleModel));
   
   TypeComparisionExpression typeComparision(mExpression, typeSpecifier, 0);
-  Value* value = typeComparision.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  Value* value = typeComparision.generateIR(mContext, PrimitiveTypes::VOID);
   
   EXPECT_EQ(value, mTrueValue);
 }
@@ -283,7 +283,7 @@ TEST_F(TypeComparisionExpressionTest, compareDifferentModelTypesTest) {
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(mSquareModel));
   
   TypeComparisionExpression typeComparision(mExpression, typeSpecifier, 0);
-  Value* value = typeComparision.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  Value* value = typeComparision.generateIR(mContext, PrimitiveTypes::VOID);
   
   EXPECT_EQ(value, mFalseValue);
 }
@@ -294,7 +294,7 @@ TEST_F(TypeComparisionExpressionTest, compareModelAndInterfaceTypesTest) {
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(mSubShapeInterface));
   
   TypeComparisionExpression typeComparision(mExpression, typeSpecifier, 0);
-  Value* value = typeComparision.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  Value* value = typeComparision.generateIR(mContext, PrimitiveTypes::VOID);
   
   EXPECT_EQ(value, mTrueValue);
 }
@@ -305,7 +305,7 @@ TEST_F(TypeComparisionExpressionTest, compareModelAndInterfaceTypesNotMatchTest)
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(mCarInterface));
   
   TypeComparisionExpression typeComparision(mExpression, typeSpecifier, 0);
-  Value* value = typeComparision.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  Value* value = typeComparision.generateIR(mContext, PrimitiveTypes::VOID);
   
   EXPECT_EQ(value, mFalseValue);
 }
@@ -316,7 +316,7 @@ TEST_F(TypeComparisionExpressionTest, compareInterfaceAndInterfaceTypesTest) {
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(mSubShapeInterface));
   
   TypeComparisionExpression typeComparision(mExpression, typeSpecifier, 0);
-  Value* value = typeComparision.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  Value* value = typeComparision.generateIR(mContext, PrimitiveTypes::VOID);
   
   EXPECT_EQ(value, mTrueValue);
 }

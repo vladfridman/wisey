@@ -55,9 +55,9 @@ struct RelationalExpressionTest : public Test {
     Value* leftValue = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
     Value* rightValue = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
     ON_CALL(*mLeftExpression, generateIR(_, _)).WillByDefault(Return(leftValue));
-    ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     ON_CALL(*mRightExpression, generateIR(_, _)).WillByDefault(Return(rightValue));
-    ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     mBasicBlock = BasicBlock::Create(mContext.getLLVMContext(), "test");
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
@@ -97,10 +97,10 @@ struct RelationalExpressionTest : public Test {
 
 TEST_F(RelationalExpressionTest, intLessThanTest) {
   RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LT, mRightExpression, 0);
-  expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  expression.generateIR(mContext, PrimitiveTypes::VOID);
   
   ASSERT_EQ(1ul, mBasicBlock->size());
-  EXPECT_EQ(expression.getType(mContext), PrimitiveTypes::BOOLEAN_TYPE);
+  EXPECT_EQ(expression.getType(mContext), PrimitiveTypes::BOOLEAN);
   Instruction &instruction = mBasicBlock->front();
   *mStringStream << instruction;
   ASSERT_STREQ(mStringStream->str().c_str(), "  %cmp = icmp slt i32 3, 5");
@@ -108,10 +108,10 @@ TEST_F(RelationalExpressionTest, intLessThanTest) {
 
 TEST_F(RelationalExpressionTest, intGreaterThanOrEqualTest) {
   RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_GE, mRightExpression, 0);
-  expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  expression.generateIR(mContext, PrimitiveTypes::VOID);
   
   ASSERT_EQ(1ul, mBasicBlock->size());
-  EXPECT_EQ(expression.getType(mContext), PrimitiveTypes::BOOLEAN_TYPE);
+  EXPECT_EQ(expression.getType(mContext), PrimitiveTypes::BOOLEAN);
   Instruction &instruction = mBasicBlock->front();
   *mStringStream << instruction;
   ASSERT_STREQ(mStringStream->str().c_str(), "  %cmp = icmp sge i32 3, 5");
@@ -120,13 +120,13 @@ TEST_F(RelationalExpressionTest, intGreaterThanOrEqualTest) {
 TEST_F(RelationalExpressionTest, compareIntsWithCastTest) {
   Value* leftValue = ConstantInt::get(Type::getInt64Ty(mContext.getLLVMContext()), 3);
   ON_CALL(*mLeftExpression, generateIR(_, _)).WillByDefault(Return(leftValue));
-  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
+  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG));
 
   RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_GE, mRightExpression, 0);
-  expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  expression.generateIR(mContext, PrimitiveTypes::VOID);
   
   ASSERT_EQ(2ul, mBasicBlock->size());
-  EXPECT_EQ(expression.getType(mContext), PrimitiveTypes::BOOLEAN_TYPE);
+  EXPECT_EQ(expression.getType(mContext), PrimitiveTypes::BOOLEAN);
   *mStringStream << mBasicBlock->front();
   EXPECT_STREQ(mStringStream->str().c_str(), "  %conv = zext i32 5 to i64");
   mStringBuffer.clear();
@@ -139,15 +139,15 @@ TEST_F(RelationalExpressionTest, floatLessThanTest) {
   Value* leftValue = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 3.2);
   Value* rightValue = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 5.6);
   ON_CALL(*mLeftExpression, generateIR(_, _)).WillByDefault(Return(leftValue));
-  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
   ON_CALL(*mRightExpression, generateIR(_, _)).WillByDefault(Return(rightValue));
-  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
 
   RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LT, mRightExpression, 0);
-  expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
+  expression.generateIR(mContext, PrimitiveTypes::VOID);
   
   ASSERT_EQ(1ul, mBasicBlock->size());
-  EXPECT_EQ(expression.getType(mContext), PrimitiveTypes::BOOLEAN_TYPE);
+  EXPECT_EQ(expression.getType(mContext), PrimitiveTypes::BOOLEAN);
   Instruction &instruction = mBasicBlock->front();
   *mStringStream << instruction;
   ASSERT_STREQ(mStringStream->str().c_str(),
@@ -184,7 +184,7 @@ TEST_F(RelationalExpressionTest, objectAndNonObjectCompareDeathTest) {
   ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(mModel));
   RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LT, mRightExpression, 0);
 
-  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
               "Error: Can not compare objects to primitive types");
 }
@@ -203,7 +203,7 @@ TEST_F(RelationalExpressionTest, incompatableObjectsCompareDeathTest) {
   
   RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_EQ, mRightExpression, 0);
 
-  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
               "Error: Can not compare types systems.vos.wisey.compiler.tests.MSquare and "
               "systems.vos.wisey.compiler.tests.NElement");
@@ -217,7 +217,7 @@ TEST_F(RelationalExpressionTest, compareObjectsWithNonEqualityTypePredicateDeath
   ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(mModel));
   RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_GT, mRightExpression, 0);
   
-  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
               "Error: Objects can only be used to compare for equality");
 }
@@ -226,10 +226,10 @@ TEST_F(RelationalExpressionTest, incompatablePrimitiveTypesDeathTest) {
   Mock::AllowLeak(mLeftExpression);
   Mock::AllowLeak(mRightExpression);
   
-  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
   RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_EQ, mRightExpression, 0);
   
-  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
               "Error: Can not compare types float and int");
 }

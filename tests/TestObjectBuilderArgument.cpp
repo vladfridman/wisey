@@ -50,7 +50,7 @@ struct ObjectBuilderArgumentTest : Test {
     structType->setBody(types);
     vector<IField*> fields;
     InjectionArgumentList arguments;
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "mFieldA", 0));
+    fields.push_back(new FixedField(PrimitiveTypes::INT, "mFieldA", 0));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                              modelFullName,
                              structType,
@@ -60,7 +60,7 @@ struct ObjectBuilderArgumentTest : Test {
     
     mValue = ConstantFP::get(Type::getFloatTy(llvmContext), 2.5);
     ON_CALL(*mFieldExpression, generateIR(_, _)).WillByDefault(Return(mValue));
-    ON_CALL(*mFieldExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+    ON_CALL(*mFieldExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
     ON_CALL(*mFieldExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
   }
   
@@ -111,14 +111,14 @@ TEST_F(ObjectBuilderArgumentTest, getValueTest) {
   string argumentSpecifier("withFieldA");
   ObjectBuilderArgument argument(argumentSpecifier, mFieldExpression);
   
-  EXPECT_EQ(argument.getValue(mContext, PrimitiveTypes::VOID_TYPE), mValue);
+  EXPECT_EQ(argument.getValue(mContext, PrimitiveTypes::VOID), mValue);
 }
 
 TEST_F(ObjectBuilderArgumentTest, getTypeTest) {
   string argumentSpecifier("withFieldA");
   ObjectBuilderArgument argument(argumentSpecifier, mFieldExpression);
   
-  EXPECT_EQ(argument.getType(mContext), PrimitiveTypes::FLOAT_TYPE);
+  EXPECT_EQ(argument.getType(mContext), PrimitiveTypes::FLOAT);
 }
 
 TEST_F(ObjectBuilderArgumentTest, printToStreamTest) {

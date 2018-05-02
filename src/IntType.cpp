@@ -46,7 +46,7 @@ bool IntType::canCastTo(IRGenerationContext& context, const IType* toType) const
     return false;
   }
   
-  return toType != PrimitiveTypes::VOID_TYPE && toType != PrimitiveTypes::STRING_TYPE;
+  return toType != PrimitiveTypes::VOID && toType != PrimitiveTypes::STRING;
 }
 
 bool IntType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
@@ -57,9 +57,9 @@ bool IntType::canAutoCastTo(IRGenerationContext& context, const IType* toType) c
     return false;
   }
   
-  return toType == PrimitiveTypes::INT_TYPE ||
-    toType == PrimitiveTypes::LONG_TYPE ||
-    toType == PrimitiveTypes::DOUBLE_TYPE;
+  return toType == PrimitiveTypes::INT ||
+    toType == PrimitiveTypes::LONG ||
+    toType == PrimitiveTypes::DOUBLE;
 }
 
 Value* IntType::castTo(IRGenerationContext& context,
@@ -68,13 +68,13 @@ Value* IntType::castTo(IRGenerationContext& context,
                        int line) const {
   if (toType->isNative() && toType->getLLVMType(context) == getLLVMType(context)) {
     return fromValue;
-  } else if (toType == PrimitiveTypes::BOOLEAN_TYPE || toType == PrimitiveTypes::CHAR_TYPE) {
+  } else if (toType == PrimitiveTypes::BOOLEAN || toType == PrimitiveTypes::CHAR) {
     return Cast::truncIntCast(context, fromValue, toType);
-  } else if (toType == PrimitiveTypes::INT_TYPE) {
+  } else if (toType == PrimitiveTypes::INT) {
     return fromValue;
-  } else if (toType == PrimitiveTypes::LONG_TYPE) {
+  } else if (toType == PrimitiveTypes::LONG) {
     return Cast::widenIntCast(context, fromValue, toType);
-  } else if (toType == PrimitiveTypes::FLOAT_TYPE || toType == PrimitiveTypes::DOUBLE_TYPE) {
+  } else if (toType == PrimitiveTypes::FLOAT || toType == PrimitiveTypes::DOUBLE) {
     return Cast::intToFloatCast(context, fromValue, toType);
   }
   Cast::exitIncompatibleTypes(context, this, toType, line);

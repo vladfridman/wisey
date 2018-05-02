@@ -41,15 +41,15 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
     StructType* structType = StructType::create(llvmContext, "CMultiplier");
     structType->setBody(types);
     vector<IField*> fields;
-    fields.push_back(new ReceivedField(PrimitiveTypes::INT_TYPE, "left", 0));
-    fields.push_back(new ReceivedField(PrimitiveTypes::INT_TYPE, "right", 0));
+    fields.push_back(new ReceivedField(PrimitiveTypes::INT, "left", 0));
+    fields.push_back(new ReceivedField(PrimitiveTypes::INT, "right", 0));
     vector<const wisey::Argument*> methodArguments;
     vector<IMethod*> methods;
     vector<const Model*> thrownExceptions;
     IMethod* multiplyMethod = new Method(mController,
                                          "multiply",
                                          AccessLevel::PUBLIC_ACCESS,
-                                         PrimitiveTypes::INT_TYPE,
+                                         PrimitiveTypes::INT,
                                          methodArguments,
                                          thrownExceptions,
                                          new MethodQualifiers(0),

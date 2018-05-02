@@ -73,25 +73,25 @@ TEST_F(StringTypeTest, stringTypeTest) {
 }
 
 TEST_F(StringTypeTest, canAutoCastToTest) {
-  EXPECT_FALSE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN_TYPE));
-  EXPECT_FALSE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::CHAR_TYPE));
-  EXPECT_FALSE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::DOUBLE_TYPE));
-  EXPECT_FALSE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::FLOAT_TYPE));
-  EXPECT_FALSE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::LONG_TYPE));
-  EXPECT_TRUE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::STRING_TYPE));
-  EXPECT_FALSE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::VOID_TYPE));
+  EXPECT_FALSE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN));
+  EXPECT_FALSE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::CHAR));
+  EXPECT_FALSE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::DOUBLE));
+  EXPECT_FALSE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::FLOAT));
+  EXPECT_FALSE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::INT));
+  EXPECT_FALSE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::LONG));
+  EXPECT_TRUE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::STRING));
+  EXPECT_FALSE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::VOID));
 }
 
 TEST_F(StringTypeTest, canCastTest) {
-  EXPECT_FALSE(mStringType.canCastTo(mContext, PrimitiveTypes::BOOLEAN_TYPE));
-  EXPECT_FALSE(mStringType.canCastTo(mContext, PrimitiveTypes::CHAR_TYPE));
-  EXPECT_FALSE(mStringType.canCastTo(mContext, PrimitiveTypes::DOUBLE_TYPE));
-  EXPECT_FALSE(mStringType.canCastTo(mContext, PrimitiveTypes::FLOAT_TYPE));
-  EXPECT_FALSE(mStringType.canCastTo(mContext, PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(mStringType.canCastTo(mContext, PrimitiveTypes::LONG_TYPE));
-  EXPECT_TRUE(mStringType.canCastTo(mContext, PrimitiveTypes::STRING_TYPE));
-  EXPECT_FALSE(mStringType.canCastTo(mContext, PrimitiveTypes::VOID_TYPE));
+  EXPECT_FALSE(mStringType.canCastTo(mContext, PrimitiveTypes::BOOLEAN));
+  EXPECT_FALSE(mStringType.canCastTo(mContext, PrimitiveTypes::CHAR));
+  EXPECT_FALSE(mStringType.canCastTo(mContext, PrimitiveTypes::DOUBLE));
+  EXPECT_FALSE(mStringType.canCastTo(mContext, PrimitiveTypes::FLOAT));
+  EXPECT_FALSE(mStringType.canCastTo(mContext, PrimitiveTypes::INT));
+  EXPECT_FALSE(mStringType.canCastTo(mContext, PrimitiveTypes::LONG));
+  EXPECT_TRUE(mStringType.canCastTo(mContext, PrimitiveTypes::STRING));
+  EXPECT_FALSE(mStringType.canCastTo(mContext, PrimitiveTypes::VOID));
 }
 
 TEST_F(StringTypeTest, castToTest) {
@@ -99,42 +99,42 @@ TEST_F(StringTypeTest, castToTest) {
   
   Value* expressionValue = ConstantPointerNull::get(Type::getInt16Ty(mLLVMContext)->getPointerTo());
   
-  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::VOID_TYPE, 5),
+  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::VOID, 5),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(5\\): Error: Incompatible types: "
               "can not cast from type 'string' to 'void'");
 
-  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN_TYPE, 5),
+  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN, 5),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(5\\): Error: Incompatible types: "
               "can not cast from type 'string' to 'boolean'");
 
-  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR_TYPE, 5),
+  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR, 5),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(5\\): Error: Incompatible types: "
               "can not cast from type 'string' to 'char'");
 
-  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE, 5),
+  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::INT, 5),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(5\\): Error: Incompatible types: "
               "can not cast from type 'string' to 'int'");
 
-  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::LONG_TYPE, 5),
+  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::LONG, 5),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(5\\): Error: Incompatible types: "
               "can not cast from type 'string' to 'long'");
 
-  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT_TYPE, 5),
+  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT, 5),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(5\\): Error: Incompatible types: "
               "can not cast from type 'string' to 'float'");
 
-  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE_TYPE, 5),
+  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE, 5),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(5\\): Error: Incompatible types: "
               "can not cast from type 'string' to 'double'");
   
-  EXPECT_EQ(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::STRING_TYPE, 5),
+  EXPECT_EQ(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::STRING, 5),
             expressionValue);
 }
 

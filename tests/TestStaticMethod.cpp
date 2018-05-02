@@ -46,8 +46,8 @@ public:
   mCompoundStatement(CompoundStatement(mBlock, 0)) {
     TestPrefix::generateIR(mContext);
     
-    wisey::Argument* doubleArgument = new wisey::Argument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
-    wisey::Argument* charArgument = new wisey::Argument(PrimitiveTypes::CHAR_TYPE, "argChar");
+    wisey::Argument* doubleArgument = new wisey::Argument(PrimitiveTypes::DOUBLE, "argDouble");
+    wisey::Argument* charArgument = new wisey::Argument(PrimitiveTypes::CHAR, "argChar");
     std::vector<const wisey::Argument*> arguments;
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
@@ -71,7 +71,7 @@ public:
     mStaticMethod = new StaticMethod(mModel,
                                      "mymethod",
                                      AccessLevel::PUBLIC_ACCESS,
-                                     PrimitiveTypes::BOOLEAN_TYPE,
+                                     PrimitiveTypes::BOOLEAN,
                                      arguments,
                                      thrownExceptions,
                                      new MethodQualifiers(0),
@@ -79,8 +79,8 @@ public:
                                      0);
     
     vector<IField*> fields;
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "foo", 0));
-    fields.push_back(new FixedField(PrimitiveTypes::INT_TYPE, "bar", 0));
+    fields.push_back(new FixedField(PrimitiveTypes::INT, "foo", 0));
+    fields.push_back(new FixedField(PrimitiveTypes::INT, "bar", 0));
     mModel->setFields(mContext, fields, 1u);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -93,7 +93,7 @@ public:
 
 TEST_F(StaticMethodTest, basicStaticMethodTest) {
   EXPECT_STREQ(mStaticMethod->getName().c_str(), "mymethod");
-  EXPECT_EQ(mStaticMethod->getReturnType(), PrimitiveTypes::BOOLEAN_TYPE);
+  EXPECT_EQ(mStaticMethod->getReturnType(), PrimitiveTypes::BOOLEAN);
   EXPECT_EQ(mStaticMethod->getArguments().size(), 2u);
   EXPECT_TRUE(mStaticMethod->isStatic());
   EXPECT_STREQ("systems.vos.wisey.compiler.tests.MObject.mymethod",
@@ -110,14 +110,14 @@ TEST_F(StaticMethodTest, elementTypeTest) {
 }
 
 TEST_F(StaticMethodTest, getLLVMTypeTest) {
-  wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT_TYPE, "intargument");
+  wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT, "intargument");
   std::vector<const wisey::Argument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
   StaticMethod staticMethod(mModel,
                             "foo",
                             AccessLevel::PUBLIC_ACCESS,
-                            PrimitiveTypes::FLOAT_TYPE,
+                            PrimitiveTypes::FLOAT,
                             arguments,
                             thrownExceptions,
                             new MethodQualifiers(0),
@@ -129,8 +129,8 @@ TEST_F(StaticMethodTest, getLLVMTypeTest) {
   argumentTypes.push_back(threadInterface->getLLVMType(mContext));
   Controller* callStack = mContext.getController(Names::getCallStackControllerFullName(), 0);
   argumentTypes.push_back(callStack->getLLVMType(mContext));
-  argumentTypes.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mContext));
-  Type* llvmReturnType = PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext);
+  argumentTypes.push_back(PrimitiveTypes::INT->getLLVMType(mContext));
+  Type* llvmReturnType = PrimitiveTypes::FLOAT->getLLVMType(mContext);
   FunctionType* expectedType = FunctionType::get(llvmReturnType, argumentTypes, false);
   
   FunctionType* actualType = staticMethod.getLLVMType(mContext);
@@ -139,14 +139,14 @@ TEST_F(StaticMethodTest, getLLVMTypeTest) {
 }
 
 TEST_F(StaticMethodTest, definePublicFunctionTest) {
-  wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT_TYPE, "intargument");
+  wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT, "intargument");
   std::vector<const wisey::Argument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
   StaticMethod staticMethod(mModel,
                             "foo",
                             AccessLevel::PUBLIC_ACCESS,
-                            PrimitiveTypes::FLOAT_TYPE,
+                            PrimitiveTypes::FLOAT,
                             arguments,
                             thrownExceptions,
                             new MethodQualifiers(0),
@@ -161,14 +161,14 @@ TEST_F(StaticMethodTest, definePublicFunctionTest) {
 }
 
 TEST_F(StaticMethodTest, definePrivateFunctionTest) {
-  wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT_TYPE, "intargument");
+  wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT, "intargument");
   std::vector<const wisey::Argument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
   StaticMethod staticMethod(mModel,
                             "foo",
                             AccessLevel::PRIVATE_ACCESS,
-                            PrimitiveTypes::FLOAT_TYPE,
+                            PrimitiveTypes::FLOAT,
                             arguments,
                             thrownExceptions,
                             new MethodQualifiers(0),
@@ -183,14 +183,14 @@ TEST_F(StaticMethodTest, definePrivateFunctionTest) {
 }
 
 TEST_F(StaticMethodTest, generateIRTest) {
-  wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT_TYPE, "intargument");
+  wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT, "intargument");
   std::vector<const wisey::Argument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
   StaticMethod staticMethod(mModel,
                             "foo",
                             AccessLevel::PUBLIC_ACCESS,
-                            PrimitiveTypes::VOID_TYPE,
+                            PrimitiveTypes::VOID,
                             arguments,
                             thrownExceptions,
                             new MethodQualifiers(0),

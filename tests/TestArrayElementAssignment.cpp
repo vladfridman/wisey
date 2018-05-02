@@ -136,14 +136,14 @@ TEST_F(ArrayElementAssignmentTest, generateReferenceArrayAssignmentTest) {
 
 TEST_F(ArrayElementAssignmentTest, generatePrimitiveArrayAssignmentTest) {
   NiceMock<MockExpression> mockExpression;
-  ON_CALL(mockExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+  ON_CALL(mockExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
   Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   ON_CALL(mockExpression, generateIR(_, _)).WillByDefault(Return(value));
   Value* elementStore = ConstantPointerNull::get(Type::getInt32Ty(mLLVMContext)->getPointerTo());
-  EXPECT_CALL(mockExpression, generateIR(_, PrimitiveTypes::INT_TYPE));
+  EXPECT_CALL(mockExpression, generateIR(_, PrimitiveTypes::INT));
   
   ArrayElementAssignment::generateElementAssignment(mContext,
-                                                    PrimitiveTypes::INT_TYPE,
+                                                    PrimitiveTypes::INT,
                                                     &mockExpression,
                                                     elementStore,
                                                     0);

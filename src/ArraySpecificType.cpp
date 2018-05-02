@@ -61,12 +61,12 @@ ArraySpecificType::computeArrayAllocData(IRGenerationContext& context) const {
   list<const IExpression*> dimensionsReversed = mDimensions;
   dimensionsReversed.reverse();
   for (const IExpression* dimension : dimensionsReversed) {
-    llvm::Value* dimensionValue = dimension->generateIR(context, PrimitiveTypes::VOID_TYPE);
+    llvm::Value* dimensionValue = dimension->generateIR(context, PrimitiveTypes::VOID);
     const IType* dimensionType = dimension->getType(context);
     checkDimensionType(context, dimensionType);
     llvm::Value* dimensionCast = dimensionType->castTo(context,
                                                        dimensionValue,
-                                                       PrimitiveTypes::LONG_TYPE,
+                                                       PrimitiveTypes::LONG,
                                                        0);
     llvm::Value* sizeValue = IRWriter::newLoadInst(context, sizeStore, "size");
     result.push_front(make_tuple(dimensionCast, sizeValue));
@@ -163,7 +163,7 @@ bool ArraySpecificType::isImmutable() const {
 }
 
 void ArraySpecificType::checkDimensionType(IRGenerationContext& context, const IType* type) const {
-  if (type->canAutoCastTo(context, PrimitiveTypes::LONG_TYPE)) {
+  if (type->canAutoCastTo(context, PrimitiveTypes::LONG)) {
     return;
   }
   Log::e_deprecated("Dimension in array allocation should be castable to long, but it is of " +

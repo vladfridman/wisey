@@ -48,9 +48,9 @@ struct ImmutableArrayTypeTest : public Test {
     TestPrefix::generateIR(mContext);
     
     vector<unsigned long> dimensions;
-    mArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, 1u);
+    mArrayType = new ArrayType(PrimitiveTypes::LONG, 1u);
     mImmutableArrayType = new ImmutableArrayType(mArrayType);
-    mMultiDimentionalArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, 2u);
+    mMultiDimentionalArrayType = new ArrayType(PrimitiveTypes::LONG, 2u);
     mMultiDimentionalImmutableArrayType = new ImmutableArrayType(mMultiDimentionalArrayType);
     
     llvm::FunctionType* functionType =
@@ -79,7 +79,7 @@ TEST_F(ImmutableArrayTypeTest, getOwnerTest) {
 }
 
 TEST_F(ImmutableArrayTypeTest, getElementTypeTest) {
-  EXPECT_EQ(PrimitiveTypes::LONG_TYPE, mMultiDimentionalImmutableArrayType->getElementType());
+  EXPECT_EQ(PrimitiveTypes::LONG, mMultiDimentionalImmutableArrayType->getElementType());
 }
 
 TEST_F(ImmutableArrayTypeTest, getNumberOfDimensionsTest) {
@@ -103,14 +103,14 @@ TEST_F(ImmutableArrayTypeTest, getLLVMTypeTest) {
 }
 
 TEST_F(ImmutableArrayTypeTest, canCastToTest) {
-  EXPECT_FALSE(mImmutableArrayType->canCastTo(mContext, PrimitiveTypes::STRING_TYPE));
+  EXPECT_FALSE(mImmutableArrayType->canCastTo(mContext, PrimitiveTypes::STRING));
   EXPECT_TRUE(mImmutableArrayType->canCastTo(mContext, mImmutableArrayType));
   EXPECT_FALSE(mImmutableArrayType->canCastTo(mContext, mArrayType));
   EXPECT_FALSE(mImmutableArrayType->canCastTo(mContext, mImmutableArrayType->getOwner()));
 }
 
 TEST_F(ImmutableArrayTypeTest, canAutoCastToTest) {
-  EXPECT_FALSE(mImmutableArrayType->canAutoCastTo(mContext, PrimitiveTypes::STRING_TYPE));
+  EXPECT_FALSE(mImmutableArrayType->canAutoCastTo(mContext, PrimitiveTypes::STRING));
   EXPECT_TRUE(mImmutableArrayType->canAutoCastTo(mContext, mImmutableArrayType));
   EXPECT_FALSE(mImmutableArrayType->canAutoCastTo(mContext, mArrayType));
   EXPECT_FALSE(mImmutableArrayType->canAutoCastTo(mContext, mImmutableArrayType->getOwner()));
