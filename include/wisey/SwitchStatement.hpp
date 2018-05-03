@@ -24,7 +24,7 @@ namespace wisey {
   struct SwitchCases {
     
     std::vector<CaseStatement*> caseStatements;
-    
+
     DefaultCaseStatement* defaultStatement;
   };
   
@@ -35,15 +35,18 @@ namespace wisey {
   class SwitchStatement : public IStatement {
     IExpression* mCondition;
     SwitchCases* mSwitchCases;
+    int mLine;
     
   public:
     
-    SwitchStatement(IExpression* condition, SwitchCases* switchCases);
+    SwitchStatement(IExpression* condition, SwitchCases* switchCases, int line);
     
     ~SwitchStatement();
     
     void generateIR(IRGenerationContext& context) const override;
     
+    int getLine() const override;
+
   private:
     
     /**

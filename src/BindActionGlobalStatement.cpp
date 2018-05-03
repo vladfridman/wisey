@@ -33,3 +33,7 @@ void BindActionGlobalStatement::prototypeMethods(IRGenerationContext& context) c
 
 void BindActionGlobalStatement::generateIR(IRGenerationContext& context) const {
 }
+
+int BindActionGlobalStatement::getLine() const {
+  return mLine;
+}

@@ -39,7 +39,7 @@ struct ProgramFileTest : public Test {
 };
 
 TEST_F(ProgramFileTest, prototypeObjectsTest) {
-  ProgramFile programFile(mPackage, mGlobalStatementList);
+  ProgramFile programFile(mPackage, mGlobalStatementList, 0);
 
   EXPECT_CALL(*mMockGlobalStatement, prototypeObject(_, _)).Times(1);
   
@@ -47,7 +47,7 @@ TEST_F(ProgramFileTest, prototypeObjectsTest) {
 }
 
 TEST_F(ProgramFileTest, prototypeMethodsTest) {
-  ProgramFile programFile(mPackage, mGlobalStatementList);
+  ProgramFile programFile(mPackage, mGlobalStatementList, 0);
 
   EXPECT_CALL(*mMockGlobalStatement, prototypeMethods(_)).Times(1);
   
@@ -55,7 +55,7 @@ TEST_F(ProgramFileTest, prototypeMethodsTest) {
 }
 
 TEST_F(ProgramFileTest, generateIRTest) {
-  ProgramFile programFile(mPackage, mGlobalStatementList);
+  ProgramFile programFile(mPackage, mGlobalStatementList, 0);
 
   EXPECT_CALL(*mMockGlobalStatement, generateIR(_)).Times(1);
   

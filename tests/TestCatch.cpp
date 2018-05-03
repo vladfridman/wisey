@@ -73,7 +73,7 @@ public:
     mContext.addModel(mModel, 0);
 
     ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(NULL, "MSquare", 0);
-    Block* block = new Block();
+    Block* block = new Block(0);
     CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
     mCatch = new Catch(typeSpecifier, "mycatch", compoundStatement, 0);
   }

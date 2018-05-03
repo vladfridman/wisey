@@ -374,7 +374,7 @@
 
 program
   : package_optional global_statement_list
-    { programFile = new ProgramFile(*$1, *$2); delete $1; delete $2; }
+    { programFile = new ProgramFile(*$1, *$2, yylineno); delete $1; delete $2; }
   ;
 
 package_optional
@@ -410,7 +410,7 @@ llvm_statement
 
 llvm_global_declaration
   : llvm_type_specifier TIDENTIFIER ';'
-    { $$ = new LLVMGlobalDeclaration($1, *$2); delete $2; }
+    { $$ = new LLVMGlobalDeclaration($1, *$2, yylineno); delete $2; }
   ;
 
 llvm_function_declaration
@@ -668,10 +668,10 @@ external_object_definition
   ;
 
 import_statement
-  : TIMPORT interface_type_specifier_full ';' { $$ = new ImportStatement($2); }
-  | TIMPORT model_type_specifier_full ';' { $$ = new ImportStatement($2); }
-  | TIMPORT controller_type_specifier_full ';' { $$ = new ImportStatement($2); }
-  | TIMPORT node_type_specifier_full ';' { $$ = new ImportStatement($2); }
+  : TIMPORT interface_type_specifier_full ';' { $$ = new ImportStatement($2, yylineno); }
+  | TIMPORT model_type_specifier_full ';' { $$ = new ImportStatement($2, yylineno); }
+  | TIMPORT controller_type_specifier_full ';' { $$ = new ImportStatement($2, yylineno); }
+  | TIMPORT node_type_specifier_full ';' { $$ = new ImportStatement($2, yylineno); }
   ;
 
 bind_action_statement
@@ -1093,12 +1093,12 @@ field_definition
   ;
 
 compound_statement
-  : '{' '}' { Block* block = new Block(); $$ = new CompoundStatement(block, yylineno); }
+  : '{' '}' { Block* block = new Block(yylineno); $$ = new CompoundStatement(block, yylineno); }
   | '{'  block_item_list '}' { $$ = new CompoundStatement($2, yylineno); }
   ;
 
 block_item_list
-  : block_item { $$ = new Block(); $$->getStatements().push_back($<statement>1); }
+  : block_item { $$ = new Block(yylineno); $$->getStatements().push_back($<statement>1); }
   | block_item_list block_item { $1->getStatements().push_back($<statement>2); }
   ;
 
@@ -1149,7 +1149,7 @@ case_statement
   ;
 
 default_case_statement
-  : TDEFAULT ':' block_item_list { $$ = new DefaultCaseStatement($3); }
+  : TDEFAULT ':' block_item_list { $$ = new DefaultCaseStatement($3, yylineno); }
   ;
 
 expression_statement
@@ -1159,15 +1159,15 @@ expression_statement
 
 selection_statement
   : TIF '(' expression ')' compound_statement TELSE statement
-    { $$ = new IfElseStatement ($3, $5, $7); }
-  | TIF '(' expression ')' compound_statement { $$ = new IfStatement($3, $5); }
+    { $$ = new IfElseStatement ($3, $5, $7, yylineno); }
+  | TIF '(' expression ')' compound_statement { $$ = new IfStatement($3, $5, yylineno); }
   | TSWITCH '(' expression ')' '{' case_statement_list_with_default '}'
-    { $$ = new SwitchStatement($3, $6); }
+    { $$ = new SwitchStatement($3, $6, yylineno); }
   ;
 
 iteration_statement
-  : TWHILE '(' expression ')' statement { $$ = new WhileStatement($3, $5); }
-  | TDO statement TWHILE '(' expression ')' ';' { $$ = new DoStatement($2, $5); }
+  : TWHILE '(' expression ')' statement { $$ = new WhileStatement($3, $5, yylineno); }
+  | TDO statement TWHILE '(' expression ')' ';' { $$ = new DoStatement($2, $5, yylineno); }
   | TFOR '(' expression_statement expression ';' ')' statement
     { $$ = ForStatement::newWithNoIncrement($3, $4, $7, yylineno); }
   | TFOR '(' expression_statement expression ';' expression ')' statement

@@ -19,3 +19,7 @@ EmptyStatement::~EmptyStatement() { }
 
 void EmptyStatement::generateIR(IRGenerationContext& context) const {
 }
+
+int EmptyStatement::getLine() const {
+  return 0;
+}

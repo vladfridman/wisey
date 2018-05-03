@@ -54,6 +54,8 @@ namespace wisey {
     
     void generateIR(IRGenerationContext& context) const override;
     
+    int getLine() const override;
+
   private:
     
     VariableDeclaration(const ITypeSpecifier* typeSpecifier,

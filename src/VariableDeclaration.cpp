@@ -79,3 +79,7 @@ const ITypeSpecifier* VariableDeclaration::getTypeSpecifier() const {
 const Identifier* VariableDeclaration::getIdentifier() const {
   return mIdentifier;
 }
+
+int VariableDeclaration::getLine() const {
+  return mLine;
+}

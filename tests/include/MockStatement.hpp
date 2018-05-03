@@ -21,6 +21,7 @@
 class MockStatement : public wisey::IStatement {
 public:
   MOCK_CONST_METHOD1(generateIR, void (wisey::IRGenerationContext&));
+  MOCK_CONST_METHOD0(getLine, int ());
 };
 
 #endif /* MockStatement_h */

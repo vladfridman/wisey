@@ -13,7 +13,7 @@
 using namespace llvm;
 using namespace wisey;
 
-Block::Block() { }
+Block::Block(int line) : mLine(line) { }
 
 Block::~Block() {
   for (IStatement* statement : mStatements) {
@@ -30,4 +30,8 @@ void Block::generateIR(IRGenerationContext& context) const {
 
 StatementList& Block::getStatements() {
   return mStatements;
+}
+
+int Block::getLine() const {
+  return mLine;
 }

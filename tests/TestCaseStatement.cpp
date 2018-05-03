@@ -41,7 +41,7 @@ struct CaseStatementTest : public Test {
   Block* mStatementBlock;
   NiceMock<MockExpression>* mExpression;
   
-  CaseStatementTest() : mStatementBlock(new Block()), mExpression(new NiceMock<MockExpression>()) {
+  CaseStatementTest() : mStatementBlock(new Block(0)), mExpression(new NiceMock<MockExpression>()) {
     TestPrefix::generateIR(mContext);
   }
 };

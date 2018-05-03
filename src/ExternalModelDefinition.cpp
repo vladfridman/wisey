@@ -74,3 +74,6 @@ void ExternalModelDefinition::prototypeMethods(IRGenerationContext& context) con
 void ExternalModelDefinition::generateIR(IRGenerationContext& context) const {
 }
 
+int ExternalModelDefinition::getLine() const {
+  return mLine;
+}

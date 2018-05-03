@@ -63,7 +63,7 @@ TEST_F(DoStatementTest, doStatementSimpleTest) {
   Value * conditionValue = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 1);
   ON_CALL(*mConditionExpression, generateIR(_, _)).WillByDefault(testing::Return(conditionValue));
   
-  DoStatement doStatement(mStatement, mConditionExpression);
+  DoStatement doStatement(mStatement, mConditionExpression, 0);
   doStatement.generateIR(mContext);
   
   ASSERT_EQ(4ul, mFunction->size());

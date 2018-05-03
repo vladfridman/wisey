@@ -104,3 +104,6 @@ void ControllerDefinition::generateIR(IRGenerationContext& context) const {
   context.getScopes().popScope(context, 0);
 }
 
+int ControllerDefinition::getLine() const {
+  return mLine;
+}

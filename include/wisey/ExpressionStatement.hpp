@@ -27,8 +27,11 @@ namespace wisey {
     ~ExpressionStatement();
     
     void generateIR(IRGenerationContext& context) const override;
-  };
-  
+    
+    int getLine() const override;
+
+  };  
+
 } /* namespace wisey */
 
 #endif /* ExpressionStatement_h */

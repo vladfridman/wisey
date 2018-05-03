@@ -48,7 +48,7 @@ struct IfStatementTest : Test {
   IfStatementTest() :
   mCondition(new NiceMock<MockExpression>()),
   mThenStatement(new NiceMock<MockStatement>()),
-  mThenBlock(new Block()),
+  mThenBlock(new Block(0)),
   mThenCompoundStatement(new CompoundStatement(mThenBlock, 0)) {
     LLVMContext &llvmContext = mContext.getLLVMContext();
     Value* conditionValue = ConstantInt::get(Type::getInt1Ty(llvmContext), 1);
@@ -71,7 +71,7 @@ struct IfStatementTest : Test {
 };
 
 TEST_F(IfStatementTest, generateIRTest) {
-  IfStatement ifStatement(mCondition, mThenCompoundStatement);
+  IfStatement ifStatement(mCondition, mThenCompoundStatement, 0);
   ifStatement.generateIR(mContext);
   
   ASSERT_EQ(3ul, mFunction->size());

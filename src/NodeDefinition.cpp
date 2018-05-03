@@ -90,3 +90,6 @@ void NodeDefinition::generateIR(IRGenerationContext& context) const {
   context.getScopes().popScope(context, 0);
 }
 
+int NodeDefinition::getLine() const {
+  return mLine;
+}

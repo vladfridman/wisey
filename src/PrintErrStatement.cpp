@@ -49,3 +49,7 @@ void PrintErrStatement::generateIR(IRGenerationContext& context) const {
   
   IRWriter::createCallInst(context, fprintf, arguments, "");
 }
+
+int PrintErrStatement::getLine() const {
+  return mLine;
+}

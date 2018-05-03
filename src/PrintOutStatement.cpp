@@ -50,3 +50,7 @@ void PrintOutStatement::printExpressionList(IRGenerationContext& context,
   }
   IRWriter::createCallInst(context, printf, arguments, "");
 }
+
+int PrintOutStatement::getLine() const {
+  return mLine;
+}

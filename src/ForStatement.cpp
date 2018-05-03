@@ -77,3 +77,7 @@ ForStatement* ForStatement::newWithNoIncrement(IStatement* startStatement,
                           bodyStatement,
                           line);
 }
+
+int ForStatement::getLine() const {
+  return mLine;
+}

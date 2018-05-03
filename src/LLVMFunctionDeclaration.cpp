@@ -95,3 +95,7 @@ void LLVMFunctionDeclaration::prototypeMethods(IRGenerationContext& context) con
 
 void LLVMFunctionDeclaration::generateIR(IRGenerationContext& context) const {
 }
+
+int LLVMFunctionDeclaration::getLine() const {
+  return mLine;
+}

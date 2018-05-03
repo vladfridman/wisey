@@ -50,8 +50,8 @@ struct IfElseStatementTest : Test {
   Function* mFunction;
   
   IfElseStatementTest() :
-  mThenBlock(new Block()),
-  mElseBlock(new Block()),
+  mThenBlock(new Block(0)),
+  mElseBlock(new Block(0)),
   mCondition(new NiceMock<MockExpression>()),
   mThenStatement(new NiceMock<MockStatement>()),
   mElseStatement(new NiceMock<MockStatement>()),
@@ -78,7 +78,7 @@ struct IfElseStatementTest : Test {
 };
 
 TEST_F(IfElseStatementTest, generateIRTest) {
-  IfElseStatement ifElseStatement(mCondition, mThenCompoundStatement, mElseCompoundStatement);
+  IfElseStatement ifElseStatement(mCondition, mThenCompoundStatement, mElseCompoundStatement, 0);
   ifElseStatement.generateIR(mContext);
   
   ASSERT_EQ(4ul, mFunction->size());

@@ -29,8 +29,10 @@ namespace wisey {
     
     void generateIR(IRGenerationContext& context) const override;
     
+    int getLine() const override;
+
   };
-  
+
 }
 
 #endif /* BreakStatement_h */

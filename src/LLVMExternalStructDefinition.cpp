@@ -53,3 +53,7 @@ void LLVMExternalStructDefinition::prototypeMethods(IRGenerationContext& context
 
 void LLVMExternalStructDefinition::generateIR(IRGenerationContext& context) const {
 }
+
+int LLVMExternalStructDefinition::getLine() const {
+  return mLine;
+}

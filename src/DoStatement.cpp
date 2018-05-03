@@ -13,8 +13,8 @@
 using namespace llvm;
 using namespace wisey;
 
-DoStatement::DoStatement(IStatement* statement, IExpression* conditionExpression)
-: mStatement(statement), mConditionExpression(conditionExpression) { }
+DoStatement::DoStatement(IStatement* statement, IExpression* conditionExpression, int line)
+: mStatement(statement), mConditionExpression(conditionExpression), mLine(line) { }
 
 DoStatement::~DoStatement() {
   delete mStatement;
@@ -45,4 +45,8 @@ void DoStatement::generateIR(IRGenerationContext& context) const {
   scopes.setContinueToBlock(NULL);
   
   context.setBasicBlock(doEnd);
+}
+
+int DoStatement::getLine() const {
+  return mLine;
 }

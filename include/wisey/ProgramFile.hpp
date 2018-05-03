@@ -23,13 +23,16 @@ namespace wisey {
     GlobalStatementList mGlobalStatementList;
     std::string mSourceFile;
     ImportProfile* mImportProfile;
+    int mLine;
     
   public:
     
-    ProgramFile(std::string package, GlobalStatementList globalStatementList);
+    ProgramFile(std::string package, GlobalStatementList globalStatementList, int line);
     
     ~ProgramFile();
     
+    int getLine() const override;
+
     /**
      * Generate object prototypes from controller, model and interface definitions
      */

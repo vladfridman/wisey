@@ -23,16 +23,20 @@ namespace wisey {
   class DoStatement : public IStatement {
     IStatement* mStatement;
     IExpression* mConditionExpression;
+    int mLine;
     
   public:
     
-    DoStatement(IStatement* statement, IExpression* conditionExpression);
+    DoStatement(IStatement* statement, IExpression* conditionExpression, int line);
     
     ~DoStatement();
     
     void generateIR(IRGenerationContext& context) const override;
+    
+    int getLine() const override;
+
   };
-  
+
 } /* namespace wisey */
 
 #endif /* DoStatement_h */

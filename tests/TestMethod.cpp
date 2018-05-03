@@ -42,7 +42,7 @@ public:
   
   MethodTest() :
   mLLVMContext(mContext.getLLVMContext()),
-  mBlock(new Block()),
+  mBlock(new Block(0)),
   mCompoundStatement(CompoundStatement(mBlock, 0)) {
     TestPrefix::generateIR(mContext);
 

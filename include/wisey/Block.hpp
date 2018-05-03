@@ -22,16 +22,20 @@ namespace wisey {
    */
   class Block : public IStatement {
     StatementList mStatements;
+    int mLine;
     
   public:
     
-    Block();
+    Block(int line);
     
     ~Block();
     
     StatementList& getStatements();
     
     void generateIR(IRGenerationContext& context) const override;
+    
+    int getLine() const override;
+
   };
   
 } /* namespace wisey */

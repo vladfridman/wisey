@@ -42,6 +42,8 @@ namespace wisey {
     
     ~ForStatement();
     
+    int getLine() const override;
+
     /**
      * For loop statement without the increment part
      * for (int i = 0; i < 10;) { i ++ }

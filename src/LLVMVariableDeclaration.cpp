@@ -65,3 +65,7 @@ const ITypeSpecifier* LLVMVariableDeclaration::getTypeSpecifier() const {
 const Identifier* LLVMVariableDeclaration::getIdentifier() const {
   return mIdentifier;
 }
+
+int LLVMVariableDeclaration::getLine() const {
+  return mLine;
+}

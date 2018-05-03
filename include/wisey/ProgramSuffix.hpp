@@ -24,6 +24,8 @@ namespace wisey {
     
   private:
     
+    int getLine() const override;
+
     void maybeGenerateMain(IRGenerationContext& context) const;
     
     void generateMain(IRGenerationContext& context) const;

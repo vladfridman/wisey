@@ -96,3 +96,6 @@ void ModelDefinition::generateIR(IRGenerationContext& context) const {
   context.getScopes().popScope(context, 0);
 }
 
+int ModelDefinition::getLine() const {
+  return mLine;
+}

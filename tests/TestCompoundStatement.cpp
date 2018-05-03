@@ -31,7 +31,7 @@ struct TestCompoundStatement : public Test {
   TestCompoundStatement() :
     mStatement1(new NiceMock<MockStatement>()),
     mStatement2(new NiceMock<MockStatement>()),
-    mBlock(new Block()) {
+    mBlock(new Block(0)) {
   }
 };
 

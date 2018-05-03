@@ -43,8 +43,8 @@ namespace wisey {
     
     void generateIR(IRGenerationContext& context) const override;
     
-  private:
-    
+    int getLine() const override;
+
   };
   
 } /* namespace wisey */

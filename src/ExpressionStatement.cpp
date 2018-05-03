@@ -21,3 +21,7 @@ ExpressionStatement::~ExpressionStatement() {
 void ExpressionStatement::generateIR(IRGenerationContext& context) const {
   mExpression->generateIR(context, PrimitiveTypes::VOID);
 }
+
+int ExpressionStatement::getLine() const {
+  return mExpression->getLine();
+}

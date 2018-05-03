@@ -25,6 +25,7 @@ public:
                                                            wisey::ImportProfile*));
   MOCK_CONST_METHOD1(prototypeMethods, void (wisey::IRGenerationContext&));
   MOCK_CONST_METHOD1(generateIR, void (wisey::IRGenerationContext&));
+  MOCK_CONST_METHOD0(getLine, int ());
 };
 
 #endif /* MockGlobalStatement_h */

@@ -23,14 +23,18 @@ namespace wisey {
   class WhileStatement : public IStatement {
     IExpression* mConditionExpression;
     IStatement* mStatement;
+    int mLine;
     
   public:
     
-    WhileStatement(IExpression* conditionExpression, IStatement* statement);
+    WhileStatement(IExpression* conditionExpression, IStatement* statement, int line);
     
     ~WhileStatement();
     
     void generateIR(IRGenerationContext& context) const override;
+    
+    int getLine() const override;
+
   };
   
 } /* namespace wisey */

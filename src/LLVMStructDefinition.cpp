@@ -52,3 +52,7 @@ void LLVMStructDefinition::prototypeMethods(IRGenerationContext& context) const 
 
 void LLVMStructDefinition::generateIR(IRGenerationContext& context) const {
 }
+
+int LLVMStructDefinition::getLine() const {
+  return mLine;
+}

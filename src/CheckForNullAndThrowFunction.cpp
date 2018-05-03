@@ -82,7 +82,7 @@ void CheckForNullAndThrowFunction::compose(IRGenerationContext& context, Functio
   Value* compare = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, llvmArgument, null, "cmp");
   FakeExpression* fakeExpression = new FakeExpression(compare, PrimitiveTypes::BOOLEAN);
   
-  Block* thenBlock = new Block();
+  Block* thenBlock = new Block(0);
   PackageType* packageType = context.getPackageType(Names::getLangPackageName());
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(packageExpression,
@@ -95,7 +95,7 @@ void CheckForNullAndThrowFunction::compose(IRGenerationContext& context, Functio
   ThrowStatement* throwStatement = new ThrowStatement(objectBuilder, 0);
   thenBlock->getStatements().push_back(throwStatement);
   CompoundStatement* thenStatement = new CompoundStatement(thenBlock, 0);
-  IfStatement ifStatement(fakeExpression, thenStatement);
+  IfStatement ifStatement(fakeExpression, thenStatement, 0);
   
   context.getScopes().pushScope();
   ifStatement.generateIR(context);

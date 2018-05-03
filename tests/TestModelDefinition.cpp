@@ -54,7 +54,7 @@ struct ModelDefinitionTest : public Test {
  
   ModelDefinitionTest() :
   mLLVMContext(mContext.getLLVMContext()),
-  mBlock(new Block()),
+  mBlock(new Block(0)),
   mMockStatement(new NiceMock<MockStatement>()) {
     TestPrefix::generateIR(mContext);
 

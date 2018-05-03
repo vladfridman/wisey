@@ -26,3 +26,7 @@ void ContinueStatement::generateIR(IRGenerationContext& context) const {
   }
   IRWriter::createBranch(context, continueToBlock);
 }
+
+int ContinueStatement::getLine() const {
+  return mLine;
+}

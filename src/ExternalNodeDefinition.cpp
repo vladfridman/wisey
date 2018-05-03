@@ -72,3 +72,6 @@ void ExternalNodeDefinition::prototypeMethods(IRGenerationContext& context) cons
 void ExternalNodeDefinition::generateIR(IRGenerationContext& context) const {
 }
 
+int ExternalNodeDefinition::getLine() const {
+  return mLine;
+}

@@ -21,11 +21,13 @@ namespace wisey {
     
     const ITypeSpecifier* mTypeSpecifier;
     std::string mName;
+    int mLine;
     
   public:
     
     LLVMGlobalDeclaration(const ITypeSpecifier* typeSpecifier,
-                          std::string mName);
+                          std::string mName,
+                          int line);
 
     ~LLVMGlobalDeclaration();
     
@@ -35,6 +37,8 @@ namespace wisey {
     void prototypeMethods(IRGenerationContext& context) const override;
     
     void generateIR(IRGenerationContext& context) const override;
+    
+    int getLine() const override;
 
   };
   

@@ -23,14 +23,18 @@ namespace wisey {
   class DefaultCaseStatement : public IStatement {
     
     Block* mBlock;
+    int mLine;
     
   public:
     
-    DefaultCaseStatement(Block* block);
+    DefaultCaseStatement(Block* block, int line);
     
     ~DefaultCaseStatement();
     
     void generateIR(IRGenerationContext& context) const override;
+    
+    int getLine() const override;
+
   };
   
 } /* namespace wisey */

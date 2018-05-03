@@ -230,7 +230,7 @@ struct ControllerTest : public Test {
     LLVMFunctionType* llvmFunctionType = LLVMFunctionType::create(LLVMPrimitiveTypes::I8,
                                                                   functionArgumentTypes);
     vector<const wisey::Argument*> llvmFunctionArguments;
-    Block* functionBlock = new Block();
+    Block* functionBlock = new Block(0);
     CompoundStatement* functionCompoundStatement = new CompoundStatement(functionBlock, 0);
     mLLVMFunction = new LLVMFunction(mMultiplierController,
                                      "myfunction",

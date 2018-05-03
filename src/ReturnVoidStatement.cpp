@@ -26,3 +26,7 @@ void ReturnVoidStatement::generateIR(IRGenerationContext& context) const {
   Composer::popCallStack(context);
   IRWriter::createReturnInst(context, NULL, mLine);
 }
+
+int ReturnVoidStatement::getLine() const {
+  return mLine;
+}

@@ -15,10 +15,11 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ProgramFile::ProgramFile(std::string package, GlobalStatementList globalStatementList) :
+ProgramFile::ProgramFile(std::string package, GlobalStatementList globalStatementList, int line) :
 mGlobalStatementList(globalStatementList),
 mSourceFile(""),
-mImportProfile(new ImportProfile(package)) { }
+mImportProfile(new ImportProfile(package)),
+mLine(line) { }
 
 ProgramFile::~ProgramFile() {
   for (IGlobalStatement* statement : mGlobalStatementList) {
@@ -26,6 +27,10 @@ ProgramFile::~ProgramFile() {
   }
   mGlobalStatementList.clear();
   delete mImportProfile;
+}
+
+int ProgramFile::getLine() const {
+  return mLine;
 }
 
 void ProgramFile::prototypeObjects(IRGenerationContext& context) const {

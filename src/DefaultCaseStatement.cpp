@@ -11,7 +11,7 @@
 using namespace llvm;
 using namespace wisey;
 
-DefaultCaseStatement::DefaultCaseStatement(Block* block) : mBlock(block) { }
+DefaultCaseStatement::DefaultCaseStatement(Block* block, int line) : mBlock(block), mLine(line) { }
 
 DefaultCaseStatement::~DefaultCaseStatement() {
   delete mBlock;
@@ -21,3 +21,6 @@ void DefaultCaseStatement::generateIR(IRGenerationContext& context) const {
   mBlock->generateIR(context);
 }
 
+int DefaultCaseStatement::getLine() const {
+  return mLine;
+}
