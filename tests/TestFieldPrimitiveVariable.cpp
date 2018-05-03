@@ -79,7 +79,7 @@ struct FieldPrimitiveVariableTest : Test {
                                                              mObject,
                                                              thisPointer,
                                                              0);
-    mContext.getScopes().setVariable(thisVariable);
+    mContext.getScopes().setVariable(mContext, thisVariable);
     
     mFieldPrimitiveVariable = new FieldPrimitiveVariable("foo", mObject, 0);
     

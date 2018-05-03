@@ -41,7 +41,7 @@ namespace wisey {
     /**
      * Add a variable to the scope
      */
-    void setVariable(IVariable* variable);
+    void setVariable(IRGenerationContext& context, IVariable* variable);
     
     /**
      * Pushes a new program scope on the stack of program scopes

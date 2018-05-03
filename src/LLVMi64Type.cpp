@@ -119,7 +119,7 @@ void LLVMi64Type::createFieldVariable(IRGenerationContext& context,
                                       const IConcreteObjectType* object,
                                       int line) const {
   IVariable* variable = new FieldLLVMVariable(name, object, line);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
 }
 
 void LLVMi64Type::createParameterVariable(IRGenerationContext& context,
@@ -127,7 +127,7 @@ void LLVMi64Type::createParameterVariable(IRGenerationContext& context,
                                           Value* value,
                                           int line) const {
   ParameterLLVMVariable* variable = new ParameterLLVMVariable(name, this, value, line);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
 }
 
 const wisey::ArrayType* LLVMi64Type::getArrayType(IRGenerationContext& context, int line) const {

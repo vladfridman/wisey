@@ -23,7 +23,7 @@ LocalLLVMVariable* ILLVMType::createLocalLLVMVariable(IRGenerationContext& conte
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
   
   LocalLLVMVariable* variable = new LocalLLVMVariable(name, type, alloc, line);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
   
   Value* value = ConstantInt::get(llvmType, 0);
   IRWriter::newStoreInst(context, value, alloc);

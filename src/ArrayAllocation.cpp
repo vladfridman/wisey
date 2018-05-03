@@ -49,7 +49,7 @@ Value* ArrayAllocation::generateIR(IRGenerationContext &context, const IType* as
   arraySpecificType->getArrayType(context, mLine)->getOwner();
   string variableName = IVariable::getTemporaryVariableName(this);
   IVariable* variable = new LocalArrayOwnerVariable(variableName, arrayOwnerType, alloc, mLine);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
 
   delete arraySpecificType;
   

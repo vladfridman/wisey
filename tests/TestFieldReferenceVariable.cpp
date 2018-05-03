@@ -107,7 +107,7 @@ struct FieldReferenceVariableTest : Test {
                                                              mObject,
                                                              thisPointer,
                                                              0);
-    mContext.getScopes().setVariable(thisVariable);
+    mContext.getScopes().setVariable(mContext, thisVariable);
    
     mFieldReferenceVariable = new FieldReferenceVariable("foo", mObject, 0);
     

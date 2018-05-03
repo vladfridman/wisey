@@ -164,7 +164,7 @@ public:
     FakeExpression* fakeExpression = new FakeExpression(null, mThreadInterface);
     vector<const IExpression*> arrayIndices;
     threadVariable->generateAssignmentIR(mContext, fakeExpression, arrayIndices, 0);
-    mContext.getScopes().setVariable(threadVariable);
+    mContext.getScopes().setVariable(mContext, threadVariable);
     
     mCallStack = mContext.getController(Names::getCallStackControllerFullName(), 0);
     llvm::PointerType* callStackLLVMType = mCallStack->getLLVMType(mContext);
@@ -177,7 +177,7 @@ public:
                                                               0);
     fakeExpression = new FakeExpression(null, mCallStack);
     callStackVariable->generateAssignmentIR(mContext, fakeExpression, arrayIndices, 0);
-    mContext.getScopes().setVariable(callStackVariable);
+    mContext.getScopes().setVariable(mContext, callStackVariable);
 
     string objectName = mModel->getObjectNameGlobalVariableName();
     llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,

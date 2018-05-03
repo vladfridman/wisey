@@ -91,7 +91,7 @@ public:
                                                              mObject,
                                                              thisPointer,
                                                              0);
-    mContext.getScopes().setVariable(thisVariable);
+    mContext.getScopes().setVariable(mContext, thisVariable);
     
     mFieldImmutableArrayOwnerVariable = new FieldImmutableArrayOwnerVariable("foo", mObject, 0);
   }

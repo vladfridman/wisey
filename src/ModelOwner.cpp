@@ -144,7 +144,7 @@ void ModelOwner::createLocalVariable(IRGenerationContext& context,
   IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloca);
   
   IVariable* uninitializedVariable = new LocalOwnerVariable(name, this, alloca, line);
-  context.getScopes().setVariable(uninitializedVariable);
+  context.getScopes().setVariable(context, uninitializedVariable);
 }
 
 void ModelOwner::createFieldVariable(IRGenerationContext& context,
@@ -152,7 +152,7 @@ void ModelOwner::createFieldVariable(IRGenerationContext& context,
                                      const IConcreteObjectType* object,
                                      int line) const {
   IVariable* variable = new FieldOwnerVariable(name, object, line);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
 }
 
 void ModelOwner::createParameterVariable(IRGenerationContext& context,
@@ -163,7 +163,7 @@ void ModelOwner::createParameterVariable(IRGenerationContext& context,
   Value* alloc = IRWriter::newAllocaInst(context, llvmType, name);
   IRWriter::newStoreInst(context, value, alloc);
   IVariable* variable = new ParameterOwnerVariable(name, this, alloc, line);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
 }
 
 const wisey::ArrayType* ModelOwner::getArrayType(IRGenerationContext& context, int line) const {

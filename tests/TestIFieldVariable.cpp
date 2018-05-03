@@ -90,7 +90,7 @@ struct IFieldVariableTest : Test {
                                                              mController,
                                                              thisPointer,
                                                              0);
-    mContext.getScopes().setVariable(thisVariable);
+    mContext.getScopes().setVariable(mContext, thisVariable);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }

@@ -86,7 +86,7 @@ public:
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
     ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadInterface));
     ON_CALL(*mThreadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
-    mContext.getScopes().setVariable(mThreadVariable);
+    mContext.getScopes().setVariable(mContext, mThreadVariable);
   }
   
   ~AssignmentTest() {
@@ -117,7 +117,7 @@ TEST_F(AssignmentTest, getVariableTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
   ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::DOUBLE));
-  mContext.getScopes().setVariable(&mockVariable);
+  mContext.getScopes().setVariable(mContext, &mockVariable);
   Identifier* identifier = new Identifier("foo", 0);
   Assignment assignment(identifier, mExpression, 0);
   vector<const IExpression*> arrayIndices;
@@ -142,7 +142,7 @@ TEST_F(AssignmentTest, assignmentExpressionTypeTest) {
   ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::DOUBLE));
   Identifier* identifier = new Identifier("foo", 0);
   Assignment assignment(identifier, mExpression, 0);
-  mContext.getScopes().setVariable(&mockVariable);
+  mContext.getScopes().setVariable(mContext, &mockVariable);
 
   EXPECT_EQ(assignment.getType(mContext), PrimitiveTypes::DOUBLE);
 }
@@ -151,7 +151,7 @@ TEST_F(AssignmentTest, generateIRWithInterfaceTypeTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
   ON_CALL(mockVariable, getType()).WillByDefault(Return(mInterface->getOwner()));
-  mContext.getScopes().setVariable(&mockVariable);
+  mContext.getScopes().setVariable(mContext, &mockVariable);
   
   Identifier* identifier = new Identifier("foo", 0);
   Assignment assignment(identifier, mExpression, 0);
@@ -166,7 +166,7 @@ TEST_F(AssignmentTest, generateIRWithPrimitiveTypeTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
   ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::LONG));
-  mContext.getScopes().setVariable(&mockVariable);
+  mContext.getScopes().setVariable(mContext, &mockVariable);
   
   Identifier* identifier = new Identifier("foo", 0);
   Assignment assignment(identifier, mExpression, 0);
@@ -181,7 +181,7 @@ TEST_F(AssignmentTest, generateIRWithOwnerTypeTest) {
   NiceMock<MockOwnerVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
   ON_CALL(mockVariable, getType()).WillByDefault(Return(mInterface->getOwner()));
-  mContext.getScopes().setVariable(&mockVariable);
+  mContext.getScopes().setVariable(mContext, &mockVariable);
   Identifier* identifier = new Identifier("foo", 0);
   Assignment assignment(identifier, mExpression, 0);
   EXPECT_CALL(mockVariable, setToNull(_, _));
@@ -193,7 +193,7 @@ TEST_F(AssignmentTest, printToStreamTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
   ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::DOUBLE));
-  mContext.getScopes().setVariable(&mockVariable);
+  mContext.getScopes().setVariable(mContext, &mockVariable);
   Identifier* identifier = new Identifier("foo", 0);
   Assignment assignment(identifier, mExpression, 0);
 

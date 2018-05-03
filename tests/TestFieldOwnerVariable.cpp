@@ -107,7 +107,7 @@ struct FieldOwnerVariableTest : Test {
                                                              mObject,
                                                              thisPointer,
                                                              0);
-    mContext.getScopes().setVariable(thisVariable);
+    mContext.getScopes().setVariable(mContext, thisVariable);
     
     mFieldOwnerVariable = new FieldOwnerVariable("foo", mObject, 0);
     

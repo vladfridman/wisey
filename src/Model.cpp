@@ -534,7 +534,7 @@ void Model::createLocalVariable(IRGenerationContext& context,
   IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloca);
   
   IVariable* uninitializedVariable = new LocalReferenceVariable(name, this, alloca, line);
-  context.getScopes().setVariable(uninitializedVariable);
+  context.getScopes().setVariable(context, uninitializedVariable);
 }
 
 void Model::createFieldVariable(IRGenerationContext& context,
@@ -542,7 +542,7 @@ void Model::createFieldVariable(IRGenerationContext& context,
                                 const IConcreteObjectType* object,
                                 int line) const {
   IVariable* variable = new FieldReferenceVariable(name, object, line);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
 }
 
 void Model::createParameterVariable(IRGenerationContext& context,
@@ -551,7 +551,7 @@ void Model::createParameterVariable(IRGenerationContext& context,
                                     int line) const {
   IVariable* variable = new ParameterReferenceVariable(name, this, value, line);
   incrementReferenceCount(context, value);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
 }
 
 const wisey::ArrayType* Model::getArrayType(IRGenerationContext& context, int line) const {

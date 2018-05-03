@@ -143,7 +143,7 @@ void LLVMPointerType::createLocalVariable(IRGenerationContext& context,
   IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloca);
   
   IVariable* variable = new LocalPointerVariable(name, this, alloca, line);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
 }
 
 void LLVMPointerType::createFieldVariable(IRGenerationContext& context,
@@ -151,7 +151,7 @@ void LLVMPointerType::createFieldVariable(IRGenerationContext& context,
                                           const IConcreteObjectType* object,
                                           int line) const {
   IVariable* variable = new FieldPointerVariable(name, object, line);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
 }
 
 void LLVMPointerType::createParameterVariable(IRGenerationContext& context,
@@ -159,7 +159,7 @@ void LLVMPointerType::createParameterVariable(IRGenerationContext& context,
                                               llvm::Value* value,
                                               int line) const {
   IVariable* variable = new ParameterPointerVariable(name, this, value, line);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
 }
 
 const wisey::ArrayType* LLVMPointerType::getArrayType(IRGenerationContext& context,

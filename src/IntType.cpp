@@ -148,7 +148,7 @@ void IntType::createLocalVariable(IRGenerationContext& context,
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
   
   LocalPrimitiveVariable* variable = new LocalPrimitiveVariable(name, this, alloc, line);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
   
   Value* value = ConstantInt::get(llvmType, 0);
   IRWriter::newStoreInst(context, value, alloc);
@@ -159,7 +159,7 @@ void IntType::createFieldVariable(IRGenerationContext& context,
                                   const IConcreteObjectType* object,
                                   int line) const {
   IVariable* variable = new FieldPrimitiveVariable(name, object, line);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
 }
 
 void IntType::createParameterVariable(IRGenerationContext& context,
@@ -167,7 +167,7 @@ void IntType::createParameterVariable(IRGenerationContext& context,
                                       Value* value,
                                       int line) const {
   IVariable* variable = new ParameterPrimitiveVariable(name, this, value, line);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
 }
 
 const wisey::ArrayType* IntType::getArrayType(IRGenerationContext& context, int line) const {

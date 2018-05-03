@@ -51,7 +51,7 @@ Value* Injector::generateIR(IRGenerationContext& context, const IType* assignToT
                                                    getType(context),
                                                    pointer,
                                                    mLine);
-  context.getScopes().setVariable(heapVariable);
+  context.getScopes().setVariable(context, heapVariable);
   
   return malloc;
 }

@@ -53,7 +53,7 @@ TEST_F(IdentifierTest, generateIRForPrimitiveVariableTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
   ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT));
-  mContext.getScopes().setVariable(&mockVariable);
+  mContext.getScopes().setVariable(mContext, &mockVariable);
   
   Identifier identifier("foo", 0);
   
@@ -84,7 +84,7 @@ TEST_F(IdentifierTest, generateIRForObjectOwnerVariableSetToNullTest) {
   ON_CALL(mockType, isOwner()).WillByDefault(Return(true));
   EXPECT_CALL(mockVariable, setToNull(_, _));
   EXPECT_CALL(mockType, die());
-  mContext.getScopes().setVariable(&mockVariable);
+  mContext.getScopes().setVariable(mContext, &mockVariable);
   Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                  modelFullName,
                                  modelStructType,
@@ -109,7 +109,7 @@ TEST_F(IdentifierTest, generateIRForMethodTest) {
   ON_CALL(mockVariable, getName()).WillByDefault(Return(IObjectType::THIS));
   ON_CALL(mockVariable, generateIdentifierIR(_, _)).WillByDefault(Return(objectPointer));
   mContext.setObjectType(&mockObjecType);
-  mContext.getScopes().setVariable(&mockVariable);
+  mContext.getScopes().setVariable(mContext, &mockVariable);
 
   Identifier identifier("foo", 0);
   Value* result = identifier.generateIR(mContext, PrimitiveTypes::VOID);
@@ -125,7 +125,7 @@ TEST_F(IdentifierTest, getTypeForMethodTest) {
   ON_CALL(mockVariable, getType()).WillByDefault(Return(&mockObjecType));
   ON_CALL(mockVariable, getName()).WillByDefault(Return(IObjectType::THIS));
   mContext.setObjectType(&mockObjecType);
-  mContext.getScopes().setVariable(&mockVariable);
+  mContext.getScopes().setVariable(mContext, &mockVariable);
   
   Identifier identifier("foo", 0);
   const IType* type = identifier.getType(mContext);
@@ -137,7 +137,7 @@ TEST_F(IdentifierTest, getTypeForPrimitiveVariableTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
   ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT));
-  mContext.getScopes().setVariable(&mockVariable);
+  mContext.getScopes().setVariable(mContext, &mockVariable);
   
   Identifier identifier("foo", 0);
 

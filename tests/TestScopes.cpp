@@ -70,9 +70,9 @@ TEST_F(ScopesTest, scopesTest) {
   new LocalPrimitiveVariable("foo", PrimitiveTypes::INT, fooValue, 0);
   LocalPrimitiveVariable* barVariable =
   new LocalPrimitiveVariable("bar", PrimitiveTypes::INT, barValue, 0);
-  mScopes.setVariable(fooVariable);
+  mScopes.setVariable(mContext, fooVariable);
   mScopes.pushScope();
-  mScopes.setVariable(barVariable);
+  mScopes.setVariable(mContext, barVariable);
   
   EXPECT_NE(mScopes.getVariable("bar"), nullptr);
   EXPECT_NE(mScopes.getVariable("foo"), nullptr);
@@ -82,7 +82,7 @@ TEST_F(ScopesTest, scopesTest) {
   EXPECT_EQ(mScopes.getVariable("bar"), nullptr);
   
   barVariable = new LocalPrimitiveVariable("bar", PrimitiveTypes::INT, barValue, 0);
-  mScopes.setVariable(barVariable);
+  mScopes.setVariable(mContext, barVariable);
   EXPECT_NE(mScopes.getVariable("foo"), nullptr);
   EXPECT_NE(mScopes.getVariable("bar"), nullptr);
   
@@ -101,9 +101,9 @@ TEST_F(ScopesTest, scopesCorrectlyOrderedTest) {
   LocalPrimitiveVariable* innerVariable =
   new LocalPrimitiveVariable("bar", PrimitiveTypes::INT, innerValue, 0);
   
-  mScopes.setVariable(outerVariable);
+  mScopes.setVariable(mContext, outerVariable);
   mScopes.pushScope();
-  mScopes.setVariable(innerVariable);
+  mScopes.setVariable(mContext, innerVariable);
   
   EXPECT_NE(mScopes.getVariable("bar"), nullptr);
   
@@ -140,7 +140,7 @@ TEST_F(ScopesTest, setLocalReferenceVariableTest) {
   Value* fooValue = ConstantPointerNull::get(mInterface->getLLVMType(mContext)->getPointerTo());
   IVariable* variable =
     new LocalReferenceVariable("foo", mInterface, fooValue, 0);
-  mScopes.setVariable(variable);
+  mScopes.setVariable(mContext, variable);
   
   EXPECT_NE(mScopes.getVariable("foo"), nullptr);
 }
@@ -153,7 +153,7 @@ TEST_F(ScopesTest, setUnitializedLocalReferenceVariableTest) {
                                                                             mInterface,
                                                                             store,
                                                                             0);
-  mScopes.setVariable(unitializedLocalReferenceVariable);
+  mScopes.setVariable(mContext, unitializedLocalReferenceVariable);
   
   IVariable* variable = mScopes.getVariable("foo");
   
@@ -217,9 +217,9 @@ TEST_F(ScopesTest, freeOwnedMemoryTest) {
   ON_CALL(bar, getType()).WillByDefault(Return(mInterface->getOwner()));
   
   mScopes.pushScope();
-  mScopes.setVariable(&foo);
+  mScopes.setVariable(mContext, &foo);
   mScopes.pushScope();
-  mScopes.setVariable(&bar);
+  mScopes.setVariable(mContext, &bar);
   
   EXPECT_CALL(foo, free(_, _));
   EXPECT_CALL(bar, free(_, _));
@@ -237,9 +237,9 @@ TEST_F(ScopesTest, variableHidingDeathTest) {
   LocalPrimitiveVariable* innerVariable =
   new LocalPrimitiveVariable("foo", PrimitiveTypes::INT, innerValue, 0);
   
-  mScopes.setVariable(outerVariable);
+  mScopes.setVariable(mContext, outerVariable);
   mScopes.pushScope();
-  EXPECT_EXIT(mScopes.setVariable(innerVariable),
+  EXPECT_EXIT(mScopes.setVariable(mContext, innerVariable),
               ::testing::ExitedWithCode(1),
               "Error: Already declared variable named 'foo'. Variable hiding is not allowed.");
 }

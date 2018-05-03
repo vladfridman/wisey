@@ -54,7 +54,7 @@ TEST_F(IdentifierReferenceTest, generateIRTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
   ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT));
-  mContext.getScopes().setVariable(&mockVariable);
+  mContext.getScopes().setVariable(mContext, &mockVariable);
   
   IdentifierReference identifierReference("foo", 0);
   
@@ -77,7 +77,7 @@ TEST_F(IdentifierReferenceTest, getTypeTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
   ON_CALL(mockVariable, getType()).WillByDefault(Return(LLVMPrimitiveTypes::I32));
-  mContext.getScopes().setVariable(&mockVariable);
+  mContext.getScopes().setVariable(mContext, &mockVariable);
   
   IdentifierReference identifierReference("foo", 0);
   
@@ -90,7 +90,7 @@ TEST_F(IdentifierReferenceTest, getTypeNonNativeTypeTest) {
   ::Mock::AllowLeak(&mockVariable);
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
   ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT));
-  mContext.getScopes().setVariable(&mockVariable);
+  mContext.getScopes().setVariable(mContext, &mockVariable);
   
   IdentifierReference identifierReference("foo", 0);
   

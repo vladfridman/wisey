@@ -38,7 +38,7 @@ IVariable* Scopes::getVariable(string name) {
   return NULL;
 }
 
-void Scopes::setVariable(IVariable* variable) {
+void Scopes::setVariable(IRGenerationContext& context, IVariable* variable) {
   if (getVariable(variable->getName())) {
     Log::e_deprecated("Already declared variable named '" + variable->getName() +
            "'. Variable hiding is not allowed.");

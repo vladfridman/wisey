@@ -635,7 +635,7 @@ void IConcreteObjectType::defineCurrentObjectNameVariable(IRGenerationContext& c
                                  PrimitiveTypes::STRING,
                                  objectName,
                                  0);
-  context.getScopes().setVariable(objectNameVariable);
+  context.getScopes().setVariable(context, objectNameVariable);
 }
 
 void IConcreteObjectType::addInterfaceAndItsParents(Interface* interface,

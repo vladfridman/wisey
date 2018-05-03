@@ -153,14 +153,14 @@ TEST_F(ReturnStatementTest, ownerVariablesAreClearedTest) {
   Value* fooPointer = IRWriter::newAllocaInst(mContext, fooMalloc->getType(), "pointer");
   IRWriter::newStoreInst(mContext, fooMalloc, fooPointer);
   IVariable* foo = new LocalOwnerVariable("foo", mModel->getOwner(), fooPointer, 0);
-  mContext.getScopes().setVariable(foo);
+  mContext.getScopes().setVariable(mContext, foo);
 
   mContext.getScopes().pushScope();
   Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, one, "");
   Value* barPointer = IRWriter::newAllocaInst(mContext, barMalloc->getType(), "pointer");
   IRWriter::newStoreInst(mContext, barMalloc, barPointer);
   IVariable* bar = new LocalOwnerVariable("bar", mModel->getOwner(), barPointer, 0);
-  mContext.getScopes().setVariable(bar);
+  mContext.getScopes().setVariable(mContext, bar);
 
   ReturnStatement returnStatement(mExpression, 0);
   
@@ -209,14 +209,14 @@ TEST_F(ReturnStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
   Value* fooStore = IRWriter::newAllocaInst(mContext, fooMalloc->getType(), "");
   IRWriter::newStoreInst(mContext, fooMalloc, fooStore);
   IVariable* foo = new LocalReferenceVariable("foo", mModel, fooStore, 0);
-  mContext.getScopes().setVariable(foo);
+  mContext.getScopes().setVariable(mContext, foo);
   
   mContext.getScopes().pushScope();
   Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, one, "");
   Value* barStore = IRWriter::newAllocaInst(mContext, barMalloc->getType(), "");
   IRWriter::newStoreInst(mContext, barMalloc, barStore);
   IVariable* bar = new LocalReferenceVariable("bar", mModel, barStore, 0);
-  mContext.getScopes().setVariable(bar);
+  mContext.getScopes().setVariable(mContext, bar);
   
   ReturnStatement returnStatement(mExpression, 0);
   

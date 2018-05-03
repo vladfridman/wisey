@@ -148,7 +148,7 @@ void LLVMStructType::createFieldVariable(IRGenerationContext& context,
                                          const IConcreteObjectType* object,
                                          int line) const {
   IVariable* variable = new FieldLLVMVariable(name, object, line);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
 }
 
 void LLVMStructType::createParameterVariable(IRGenerationContext& context,
@@ -156,7 +156,7 @@ void LLVMStructType::createParameterVariable(IRGenerationContext& context,
                                              Value* value,
                                              int line) const {
   ParameterLLVMVariable* variable = new ParameterLLVMVariable(name, this, value, line);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
 }
 
 const wisey::ArrayType* LLVMStructType::getArrayType(IRGenerationContext& context, int line) const {

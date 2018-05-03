@@ -346,7 +346,7 @@ void Interface::defineCurrentObjectNameVariable(IRGenerationContext& context) co
                                  PrimitiveTypes::STRING,
                                  objectName,
                                  0);
-  context.getScopes().setVariable(objectNameVariable);
+  context.getScopes().setVariable(context, objectNameVariable);
 }
 
 void Interface::generateStaticMethodsIR(IRGenerationContext& context) const {
@@ -1078,7 +1078,7 @@ void Interface::createLocalVariable(IRGenerationContext& context,
   IVariable* uninitializedVariable = name == ThreadExpression::THREAD
     ? (IVariable*) new LocalSystemReferenceVariable(name, this, alloca, line)
     : (IVariable*) new LocalReferenceVariable(name, this, alloca, line);
-  context.getScopes().setVariable(uninitializedVariable);
+  context.getScopes().setVariable(context, uninitializedVariable);
 }
 
 void Interface::createFieldVariable(IRGenerationContext& context,
@@ -1086,7 +1086,7 @@ void Interface::createFieldVariable(IRGenerationContext& context,
                                     const IConcreteObjectType* object,
                                     int line) const {
   IVariable* variable = new FieldReferenceVariable(name, object, line);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
 }
 
 void Interface::createParameterVariable(IRGenerationContext& context,
@@ -1095,7 +1095,7 @@ void Interface::createParameterVariable(IRGenerationContext& context,
                                         int line) const {
   IVariable* variable = new ParameterReferenceVariable(name, this, value, line);
   incrementReferenceCount(context, value);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
 }
 
 const wisey::ArrayType* Interface::getArrayType(IRGenerationContext& context, int line) const {

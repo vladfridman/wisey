@@ -81,7 +81,7 @@ struct FieldLLVMVariableTest : Test {
                                                              mObject,
                                                              thisPointer,
                                                              0);
-    mContext.getScopes().setVariable(thisVariable);
+    mContext.getScopes().setVariable(mContext, thisVariable);
     
     mFieldLLVMVariable = new FieldLLVMVariable("mFoo", mObject, 0);
     

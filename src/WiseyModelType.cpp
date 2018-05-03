@@ -143,7 +143,7 @@ void WiseyModelType::createLocalVariable(IRGenerationContext& context,
   IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloca);
   
   IVariable* uninitializedVariable = new LocalReferenceVariable(name, this, alloca, line);
-  context.getScopes().setVariable(uninitializedVariable);
+  context.getScopes().setVariable(context, uninitializedVariable);
 }
 
 void WiseyModelType::createFieldVariable(IRGenerationContext& context,
@@ -151,7 +151,7 @@ void WiseyModelType::createFieldVariable(IRGenerationContext& context,
                                          const IConcreteObjectType* object,
                                          int line) const {
   IVariable* variable = new FieldReferenceVariable(name, object, line);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
 }
 
 void WiseyModelType::createParameterVariable(IRGenerationContext& context,
@@ -160,7 +160,7 @@ void WiseyModelType::createParameterVariable(IRGenerationContext& context,
                                              int line) const {
   IVariable* variable = new ParameterReferenceVariable(name, this, value, line);
   incrementReferenceCount(context, value);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
 }
 
 const wisey::ArrayType* WiseyModelType::getArrayType(IRGenerationContext& context, int line) const {

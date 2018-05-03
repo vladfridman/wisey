@@ -35,7 +35,7 @@ struct IVariableTest : public ::testing::Test {
     ON_CALL(*mVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT));
 
     mContext.getScopes().pushScope();
-    mContext.getScopes().setVariable(mVariable);
+    mContext.getScopes().setVariable(mContext, mVariable);
   }
   
   ~IVariableTest() {

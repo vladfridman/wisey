@@ -102,7 +102,7 @@ public:
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
     ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadInterface));
     ON_CALL(*mThreadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
-    mContext.getScopes().setVariable(mThreadVariable);
+    mContext.getScopes().setVariable(mContext, mThreadVariable);
 
     Controller* callStack = mContext.getController(Names::getCallStackControllerFullName(), 0);
     Value* callStackValue = ConstantPointerNull::get(callStack->getLLVMType(mContext));
@@ -110,7 +110,7 @@ public:
     ON_CALL(*mCallStackVariable, getName()).WillByDefault(Return(ThreadExpression::CALL_STACK));
     ON_CALL(*mCallStackVariable, getType()).WillByDefault(Return(callStack));
     ON_CALL(*mCallStackVariable, generateIdentifierIR(_, _)).WillByDefault(Return(callStackValue));
-    mContext.getScopes().setVariable(mCallStackVariable);
+    mContext.getScopes().setVariable(mContext, mCallStackVariable);
 
     mContext.setObjectType(mModel);
     mStringStream = new raw_string_ostream(mStringBuffer);

@@ -184,7 +184,7 @@ struct InterfaceTest : public Test {
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
     ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadInterface));
     ON_CALL(*mThreadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
-    mContext.getScopes().setVariable(mThreadVariable);
+    mContext.getScopes().setVariable(mContext, mThreadVariable);
     
     vector<Type*> exitFunctionArgumentTypes;
     exitFunctionArgumentTypes.push_back(Type::getInt32Ty(mLLVMContext));

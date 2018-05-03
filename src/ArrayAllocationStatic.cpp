@@ -56,7 +56,7 @@ Value* ArrayAllocationStatic::generateIR(IRGenerationContext& context,
   const ArrayOwnerType* arrayOwnerType = arrayExactType->getArrayType(context, mLine)->getOwner();
   string variableName = IVariable::getTemporaryVariableName(this);
   IVariable* variable = new LocalArrayOwnerVariable(variableName, arrayOwnerType, alloc, mLine);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
   
   return arrayStructPointer;
 }

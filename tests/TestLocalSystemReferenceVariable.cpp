@@ -86,7 +86,7 @@ public:
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
     ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadInterface));
     ON_CALL(*mThreadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
-    mContext.getScopes().setVariable(mThreadVariable);
+    mContext.getScopes().setVariable(mContext, mThreadVariable);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -115,7 +115,7 @@ TEST_F(LocalSystemReferenceVariableTest, assignmentTest) {
                                                                           mModel,
                                                                           fooValue,
                                                                           0);
-  mContext.getScopes().setVariable(uninitializedHeapVariable);
+  mContext.getScopes().setVariable(mContext, uninitializedHeapVariable);
   Value* barValue = ConstantPointerNull::get((llvm::PointerType*) llvmType);
   Value* referenceStore = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalSystemReferenceVariable variable("bar", mModel, referenceStore, 0);

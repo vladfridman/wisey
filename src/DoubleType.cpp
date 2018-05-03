@@ -147,7 +147,7 @@ void DoubleType::createLocalVariable(IRGenerationContext& context,
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
   
   LocalPrimitiveVariable* variable = new LocalPrimitiveVariable(name, this, alloc, line);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
   
   Value* value = ConstantFP::get(llvmType, 0);
   IRWriter::newStoreInst(context, value, alloc);
@@ -158,7 +158,7 @@ void DoubleType::createFieldVariable(IRGenerationContext& context,
                                      const IConcreteObjectType* object,
                                      int line) const {
   IVariable* variable = new FieldPrimitiveVariable(name, object, line);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
 }
 
 void DoubleType::createParameterVariable(IRGenerationContext& context,
@@ -166,7 +166,7 @@ void DoubleType::createParameterVariable(IRGenerationContext& context,
                                          Value* value,
                                          int line) const {
   IVariable* variable = new ParameterPrimitiveVariable(name, this, value, line);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
 }
 
 const wisey::ArrayType* DoubleType::getArrayType(IRGenerationContext& context, int line) const {

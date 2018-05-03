@@ -111,7 +111,7 @@ struct FieldPointerVariableTest : Test {
                                                              mObject,
                                                              thisPointer,
                                                              0);
-    mContext.getScopes().setVariable(thisVariable);
+    mContext.getScopes().setVariable(mContext, thisVariable);
     
     mFieldPointerVariable = new FieldPointerVariable("foo", mObject, 0);
     

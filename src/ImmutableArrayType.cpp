@@ -140,7 +140,7 @@ void ImmutableArrayType::createLocalVariable(IRGenerationContext &context,
   IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloc);
   
   IVariable* variable = new LocalImmutableArrayReferenceVariable(name, this, alloc, line);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
 }
 
 void ImmutableArrayType::createFieldVariable(IRGenerationContext& context,
@@ -148,7 +148,7 @@ void ImmutableArrayType::createFieldVariable(IRGenerationContext& context,
                                              const IConcreteObjectType* object,
                                              int line) const {
   IVariable* variable = new FieldImmutableArrayReferenceVariable(name, object, line);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
 }
 
 void ImmutableArrayType::createParameterVariable(IRGenerationContext& context,
@@ -157,7 +157,7 @@ void ImmutableArrayType::createParameterVariable(IRGenerationContext& context,
                                                  int line) const {
   IVariable* variable = new ParameterImmutableArrayReferenceVariable(name, this,  value, line);
   incrementReferenceCount(context, value);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
 }
 
 const ArrayType* ImmutableArrayType::getArrayType(IRGenerationContext& context, int line) const {

@@ -104,7 +104,7 @@ void ProgramSuffix::generateMain(IRGenerationContext& context) const {
                                        threadInterface,
                                        threadNullValue,
                                        0);
-  context.getScopes().setVariable(threadVariable);
+  context.getScopes().setVariable(context, threadVariable);
 
   Controller* callstack = context.getController(Names::getCallStackControllerFullName(), 0);
   Value* callstackValue = ConstantPointerNull::get(callstack->getLLVMType(context));
@@ -113,7 +113,7 @@ void ProgramSuffix::generateMain(IRGenerationContext& context) const {
                                        callstack,
                                        callstackValue,
                                        0);
-  context.getScopes().setVariable(callstackVariable);
+  context.getScopes().setVariable(context, callstackVariable);
 
   context.bindInterfaces(context);
   

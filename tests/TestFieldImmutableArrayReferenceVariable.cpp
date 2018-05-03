@@ -91,7 +91,7 @@ public:
     Value* thisPointer = ConstantPointerNull::get(mObject->getLLVMType(mContext));
     IVariable* thisVariable =
     new ParameterReferenceVariable(IObjectType::THIS, mObject, thisPointer, 0);
-    mContext.getScopes().setVariable(thisVariable);
+    mContext.getScopes().setVariable(mContext, thisVariable);
     
     mFieldImmutableArrayReferenceVariable =
     new FieldImmutableArrayReferenceVariable("foo", mObject, 0);

@@ -87,7 +87,7 @@ public:
                                                              mObject,
                                                              thisPointer,
                                                              0);
-    mContext.getScopes().setVariable(thisVariable);
+    mContext.getScopes().setVariable(mContext, thisVariable);
 
     mFieldArrayOwnerVariable = new FieldArrayOwnerVariable("foo", mObject, 0);
   }

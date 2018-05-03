@@ -90,7 +90,7 @@ public:
                                                              mObject,
                                                              thisPointer,
                                                              0);
-    mContext.getScopes().setVariable(thisVariable);
+    mContext.getScopes().setVariable(mContext, thisVariable);
     
     mFieldArrayReferenceVariable = new FieldArrayReferenceVariable("foo", mObject, 0);
   }

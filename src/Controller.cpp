@@ -478,7 +478,7 @@ void Controller::createLocalVariable(IRGenerationContext& context,
   IVariable* uninitializedVariable = name == ThreadExpression::CALL_STACK
     ? (IVariable*) new LocalSystemReferenceVariable(name, this, alloca, line)
     : (IVariable*) new LocalReferenceVariable(name, this, alloca, line);
-  context.getScopes().setVariable(uninitializedVariable);
+  context.getScopes().setVariable(context, uninitializedVariable);
 }
 
 void Controller::createFieldVariable(IRGenerationContext& context,
@@ -486,7 +486,7 @@ void Controller::createFieldVariable(IRGenerationContext& context,
                                      const IConcreteObjectType* object,
                                      int line) const {
   IVariable* variable = new FieldReferenceVariable(name, object, line);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
 }
 
 void Controller::createParameterVariable(IRGenerationContext& context,
@@ -495,7 +495,7 @@ void Controller::createParameterVariable(IRGenerationContext& context,
                                          int line) const {
   IVariable* variable = new ParameterReferenceVariable(name, this, value, line);
   incrementReferenceCount(context, value);
-  context.getScopes().setVariable(variable);
+  context.getScopes().setVariable(context, variable);
 }
 
 const wisey::ArrayType* Controller::getArrayType(IRGenerationContext& context, int line) const {

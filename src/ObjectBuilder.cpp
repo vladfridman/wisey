@@ -55,7 +55,7 @@ Value* ObjectBuilder::generateIR(IRGenerationContext& context, const IType* assi
                                                    objectType->getOwner(),
                                                    alloc,
                                                    mLine);
-  context.getScopes().setVariable(heapVariable);
+  context.getScopes().setVariable(context, heapVariable);
   
   return malloc;
 }
