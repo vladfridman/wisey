@@ -81,7 +81,7 @@ public:
                                      returnedModelStructType,
                                      mContext.getImportProfile(),
                                      0);
-    mContext.addModel(mReturnedModel);
+    mContext.addModel(mReturnedModel, 0);
 
     vector<Type*> types;
     types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
@@ -137,7 +137,7 @@ public:
     methods.push_back(barMethod);
     mModel->setFields(mContext, fields, 1u);
     mModel->setMethods(methods);
-    mContext.addModel(mModel);
+    mContext.addModel(mModel, 0);
     mModelSpecifier = new ModelTypeSpecifier(NULL, "MSquare", 0);
     
     FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);

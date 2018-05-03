@@ -63,7 +63,7 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
                                             0);
     mController->setFields(mContext, fields, 1u);
     mController->setMethods(methods);
-    mContext.addController(mController);
+    mContext.addController(mController, 0);
   }
 };
 

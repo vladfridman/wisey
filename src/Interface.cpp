@@ -849,7 +849,7 @@ Value* Interface::inject(IRGenerationContext& context,
                          int line) const {
   const Interface* interface = context.getInterface(getTypeName(), line);
   if (context.hasBoundController(interface) && injectionArgumentList.size()) {
-    const Controller* controller = context.getBoundController(interface);
+    const Controller* controller = context.getBoundController(interface, line);
     Value* controllerValue = controller->inject(context, injectionArgumentList, line);
     return controller->castTo(context, controllerValue, this, line);
   }

@@ -91,5 +91,5 @@ void GetOriginalObjectNameFunction::compose(IRGenerationContext& context, Functi
 
   IRWriter::createReturnInst(context, fromTypeName);
   
-  context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context));
+  context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context), 0);
 }

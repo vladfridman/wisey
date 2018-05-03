@@ -61,7 +61,7 @@ public:
                              modelStructType,
                              mContext.getImportProfile(),
                              0);
-    mContext.addModel(mModel);
+    mContext.addModel(mModel, 0);
     IConcreteObjectType::generateNameGlobal(mContext, mModel);
     IConcreteObjectType::generateShortNameGlobal(mContext, mModel);
     IConcreteObjectType::generateVTable(mContext, mModel);

@@ -64,7 +64,7 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
     methods.push_back(fooMethod);
     mModel->setFields(mContext, fields, 1u);
     mModel->setMethods(methods);
-    mContext.addModel(mModel);
+    mContext.addModel(mModel, 0);
   }
 };
 

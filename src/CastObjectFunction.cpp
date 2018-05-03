@@ -166,5 +166,5 @@ void CastObjectFunction::compose(IRGenerationContext& context, llvm::Function* f
   
   context.getScopes().popScope(context, 0);
 
-  context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context));
+  context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context), 0);
 }

@@ -10,6 +10,7 @@
 
 #include <gtest/gtest.h>
 
+#include "TestPrefix.hpp"
 #include "wisey/BindActionGlobalStatement.hpp"
 #include "wisey/ControllerTypeSpecifier.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -31,8 +32,7 @@ struct BindActionGlobalStatementTest : public Test {
   string mPackage = "systems.vos.wisey.compiler.tests";
   
   BindActionGlobalStatementTest() : mLLVMContext(mContext.getLLVMContext()) {
-    mImportProfile = new ImportProfile(mPackage);
-    mContext.setImportProfile(mImportProfile);
+    TestPrefix::generateIR(mContext);
 
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
@@ -61,41 +61,41 @@ struct BindActionGlobalStatementTest : public Test {
     mController->setInterfaces(controllerInterfaces);
     
     InterfaceTypeSpecifier* interfaceTypeSpecifier =
-      new InterfaceTypeSpecifier(NULL, "IMyInterface", 0);
+      new InterfaceTypeSpecifier(NULL, "IMyInterface", 3);
     ControllerTypeSpecifier* controllerTypeSpecifier =
-      new ControllerTypeSpecifier(NULL, "CMyController", 0);
+      new ControllerTypeSpecifier(NULL, "CMyController", 1);
     InjectionArgumentList injectionArgumentList;
     BindAction* bindAction = new BindAction(interfaceTypeSpecifier,
                                             controllerTypeSpecifier,
                                             injectionArgumentList);
-    mBindActionGlobalStatement = new BindActionGlobalStatement(bindAction);
+    mBindActionGlobalStatement = new BindActionGlobalStatement(bindAction, 0);
 }
   
   ~BindActionGlobalStatementTest() { }
 };
 
 TEST_F(BindActionGlobalStatementTest, bindInterfaceToControllerMissingControllerDeathTest) {
-  mContext.addInterface(mInterface);
+  mContext.addInterface(mInterface, 1);
   
   EXPECT_EXIT(mBindActionGlobalStatement->prototypeMethods(mContext),
               ::testing::ExitedWithCode(1),
-              "Controller systems.vos.wisey.compiler.tests.CMyController is not defined");
+              "/tmp/source.yz\\(1\\): Error: Controller systems.vos.wisey.compiler.tests.CMyController is not defined");
 }
 
 TEST_F(BindActionGlobalStatementTest, bindControllerToInterfaceMissingInterfaceDeathTest) {
-  mContext.addController(mController);
+  mContext.addController(mController, 3);
   
   EXPECT_EXIT(mBindActionGlobalStatement->prototypeMethods(mContext),
               ::testing::ExitedWithCode(1),
-              "Interface systems.vos.wisey.compiler.tests.IMyInterface is not defined");
+              "/tmp/source.yz\\(3\\): Error: Interface systems.vos.wisey.compiler.tests.IMyInterface is not defined");
 }
 
 TEST_F(BindActionGlobalStatementTest, generateIRTest) {
-  mContext.addController(mController);
-  mContext.addInterface(mInterface);
+  mContext.addController(mController, 0);
+  mContext.addInterface(mInterface, 0);
 
   mBindActionGlobalStatement->prototypeMethods(mContext);
   
-  EXPECT_EQ(mContext.getBoundController(mInterface), mController);
+  EXPECT_EQ(mContext.getBoundController(mInterface, 0), mController);
 }
 

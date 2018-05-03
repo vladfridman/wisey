@@ -214,7 +214,7 @@ TEST_F(InterfaceOwnerTest, injectTest) {
                                                  interafaceElements,
                                                  mContext.getImportProfile(),
                                                  0);
-  mContext.addInterface(interface);
+  mContext.addInterface(interface, 0);
   llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
                                                                 interface->getTypeName());
   new GlobalVariable(*mContext.getModule(),
@@ -239,8 +239,8 @@ TEST_F(InterfaceOwnerTest, injectTest) {
   controllerParentInterfaces.push_back(interface);
   controller->setInterfaces(controllerParentInterfaces);
   
-  mContext.addController(controller);
-  mContext.bindInterfaceToController(interface, controller);
+  mContext.addController(controller, 0);
+  mContext.bindInterfaceToController(interface, controller, 0);
   
   IConcreteObjectType::generateNameGlobal(mContext, controller);
   IConcreteObjectType::generateShortNameGlobal(mContext, controller);

@@ -416,17 +416,21 @@ llvm_global_declaration
 llvm_function_declaration
   : TLLVM TLLVMFUNCTION llvm_type_specifier llvm_function_name
     '(' llvm_function_argument_type_specifier_list ')' ';'
-      { $$ = LLVMFunctionDeclaration::createInternal(*$4, $3, *$6); delete $4; delete $6; }
+      {
+        $$ = LLVMFunctionDeclaration::createInternal(*$4, $3, *$6, yylineno);
+        delete $4;
+        delete $6;
+      }
   | TLLVM TLLVMFUNCTION llvm_type_specifier llvm_function_name '(' ')' ';'
       { 
         std::vector<const ITypeSpecifier*> typeSpecifiers;        
-        $$ = LLVMFunctionDeclaration::createInternal(*$4, $3, typeSpecifiers); 
+        $$ = LLVMFunctionDeclaration::createInternal(*$4, $3, typeSpecifiers, yylineno);
         delete $4; 
       }
   | TLLVM TLLVMFUNCTION llvm_type_specifier llvm_function_name
     '(' llvm_function_argument_type_specifier_list ',' TELIPSIS ')' ';'
       { 
-        $$ = LLVMFunctionDeclaration::createInternalWithVarArg(*$4, $3, *$6); 
+        $$ = LLVMFunctionDeclaration::createInternalWithVarArg(*$4, $3, *$6, yylineno);
         delete $4; 
         delete $6; 
       }
@@ -434,22 +438,26 @@ llvm_function_declaration
     '(' TELIPSIS ')' ';'
       { 
         std::vector<const ITypeSpecifier*> typeSpecifiers;
-        $$ = LLVMFunctionDeclaration::createInternalWithVarArg(*$4, $3, typeSpecifiers); 
+        $$ = LLVMFunctionDeclaration::createInternalWithVarArg(*$4, $3, typeSpecifiers, yylineno);
         delete $4; 
       }
   | TEXTERNAL TLLVM TLLVMFUNCTION llvm_type_specifier llvm_function_name
     '(' llvm_function_argument_type_specifier_list ')' ';'
-      { $$ = LLVMFunctionDeclaration::createExternal(*$5, $4, *$7); delete $5; delete $7; }
+      {
+        $$ = LLVMFunctionDeclaration::createExternal(*$5, $4, *$7, yylineno);
+        delete $5;
+        delete $7;
+      }
   | TEXTERNAL TLLVM TLLVMFUNCTION llvm_type_specifier llvm_function_name '(' ')' ';'
       { 
         std::vector<const ITypeSpecifier*> typeSpecifiers;
-        $$ = LLVMFunctionDeclaration::createExternal(*$5, $4, typeSpecifiers); 
+        $$ = LLVMFunctionDeclaration::createExternal(*$5, $4, typeSpecifiers, yylineno);
         delete $5; 
       }
   | TEXTERNAL TLLVM TLLVMFUNCTION llvm_type_specifier llvm_function_name
     '(' llvm_function_argument_type_specifier_list ',' TELIPSIS ')' ';'
       { 
-        $$ = LLVMFunctionDeclaration::createExternalWithVarArg(*$5, $4, *$7); 
+        $$ = LLVMFunctionDeclaration::createExternalWithVarArg(*$5, $4, *$7, yylineno);
         delete $5; 
         delete $7;
       }
@@ -457,7 +465,7 @@ llvm_function_declaration
     '(' TELIPSIS ')' ';'
       { 
         std::vector<const ITypeSpecifier*> typeSpecifiers;
-        $$ = LLVMFunctionDeclaration::createExternalWithVarArg(*$5, $4, typeSpecifiers);
+        $$ = LLVMFunctionDeclaration::createExternalWithVarArg(*$5, $4, typeSpecifiers, yylineno);
         delete $5; 
       }
   ;
@@ -667,7 +675,7 @@ import_statement
   ;
 
 bind_action_statement
-  : bind_action ';' { $$ = new BindActionGlobalStatement($1); }
+  : bind_action ';' { $$ = new BindActionGlobalStatement($1, yylineno); }
   ;
 
 bind_action

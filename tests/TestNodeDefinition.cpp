@@ -241,7 +241,7 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
                                                  interfaceElements,
                                                  mContext.getImportProfile(),
                                                  0);
-  mContext.addInterface(interface);
+  mContext.addInterface(interface, 0);
   interface->buildMethods(mContext);
   
   llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,

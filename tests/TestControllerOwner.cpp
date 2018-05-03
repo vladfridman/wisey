@@ -92,7 +92,7 @@ struct ControllerOwnerTest : public Test {
                                                    interfaceElements,
                                                    mContext.getImportProfile(),
                                                    0);
-    mContext.addInterface(mCalculatorInterface);
+    mContext.addInterface(mCalculatorInterface, 0);
     mCalculatorInterface->buildMethods(mContext);
 
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
@@ -104,7 +104,7 @@ struct ControllerOwnerTest : public Test {
                                                interfaceElements,
                                                mContext.getImportProfile(),
                                                0);
-    mContext.addInterface(mObjectInterface);
+    mContext.addInterface(mObjectInterface, 0);
     mObjectInterface->buildMethods(mContext);
 
     string scienceCalculatorFullName = "systems.vos.wisey.compiler.tests.IScienceCalculator";
@@ -122,7 +122,7 @@ struct ControllerOwnerTest : public Test {
                                                           scienceCalculatorInterfaceElements,
                                                           mContext.getImportProfile(),
                                                           0);
-    mContext.addInterface(mScienceCalculatorInterface);
+    mContext.addInterface(mScienceCalculatorInterface, 0);
     mScienceCalculatorInterface->buildMethods(mContext);
 
     vector<Interface*> interfaces;

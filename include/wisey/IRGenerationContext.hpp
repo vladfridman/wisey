@@ -129,7 +129,7 @@ namespace wisey {
     /**
      * Add a model type
      */
-    void addModel(Model* model);
+    void addModel(Model* model, int line);
     
     /**
      * Look up a model type
@@ -139,7 +139,7 @@ namespace wisey {
     /**
      * Add a controller type
      */
-    void addController(Controller* controller);
+    void addController(Controller* controller, int line);
     
     /**
      * Look up a controller type
@@ -149,7 +149,7 @@ namespace wisey {
     /**
      * Add a node type
      */
-    void addNode(Node* node);
+    void addNode(Node* node, int line);
     
     /**
      * Look up a node type
@@ -159,7 +159,7 @@ namespace wisey {
     /**
      * Add an interface type
      */
-    void addInterface(Interface* interface);
+    void addInterface(Interface* interface, int line);
     
     /**
      * Look up an interface type
@@ -169,7 +169,7 @@ namespace wisey {
     /**
      * Add an llvm struct type
      */
-    void addLLVMStructType(LLVMStructType* llvmStructType);
+    void addLLVMStructType(LLVMStructType* llvmStructType, int line);
     
     /**
      * Look up a llvm struct type
@@ -197,28 +197,32 @@ namespace wisey {
      * Registers an internal llvm function with the given type and name
      */
     void registerLLVMInternalFunctionNamedType(std::string name,
-                                               const LLVMFunctionType* functionType);
+                                               const LLVMFunctionType* functionType,
+                                               int line);
     
     /**
      * Registers an external llvm function with the given type and name
      */
     void registerLLVMExternalFunctionNamedType(std::string name,
-                                               const LLVMFunctionType* functionType);
+                                               const LLVMFunctionType* functionType,
+                                               int line);
     
     /**
      * Looks up llvm function type or throws an error if it is not registered
      */
-    const LLVMFunctionType* lookupLLVMFunctionNamedType(std::string name);
+    const LLVMFunctionType* lookupLLVMFunctionNamedType(std::string name, int line);
     
     /**
      * Bind an interface to a controller for injection
      */
-    void bindInterfaceToController(const Interface* interface, const Controller* controller);
+    void bindInterfaceToController(const Interface* interface,
+                                   const Controller* controller,
+                                   int line);
     
     /**
      * Returns controller bound to the given interface
      */
-    const Controller* getBoundController(const Interface* interface) const;
+    const Controller* getBoundController(const Interface* interface, int line) const;
     
     /**
      * Tells whether there is a controller bound to the given interface

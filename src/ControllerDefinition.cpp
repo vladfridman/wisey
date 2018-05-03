@@ -57,7 +57,7 @@ Controller* ControllerDefinition::prototypeObject(IRGenerationContext& context,
                                                      structType,
                                                      importProfile,
                                                      mLine);
-  context.addController(controller);
+  context.addController(controller, mLine);
   
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(controller);

@@ -23,7 +23,7 @@ struct LLVMStructSpecifierTest : public ::testing::Test {
   LLVMStructSpecifierTest() {
     StructType* structType = StructType::create(mContext.getLLVMContext(), "mystruct");
     mLLVMStructType = LLVMStructType::newLLVMStructType(structType);
-    mContext.addLLVMStructType(mLLVMStructType);
+    mContext.addLLVMStructType(mLLVMStructType, 0);
   }
 };
 

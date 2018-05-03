@@ -105,6 +105,6 @@ void AdjustReferenceCounterForConcreteObjectUnsafelyFunction::compose(IRGenerati
   IRWriter::newStoreInst(context, sum, counter);
   IRWriter::createReturnInst(context, NULL);
 
-  context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context));
+  context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context), 0);
 }
 

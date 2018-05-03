@@ -53,7 +53,7 @@ Value* LLVMFunction::declareFunction(IRGenerationContext& context,
   }
   LLVMFunctionType* functionType = context.getLLVMFunctionType(mReturnType, argumentTypes);
   string name = IMethodCall::translateObjectMethodToLLVMFunctionName(objectType, mName);
-  context.registerLLVMExternalFunctionNamedType(name, functionType);
+  context.registerLLVMExternalFunctionNamedType(name, functionType, mLine);
 
   return Function::Create(functionType->getLLVMType(context),
                           GlobalValue::InternalLinkage,

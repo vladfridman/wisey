@@ -13,8 +13,8 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-BindActionGlobalStatement::BindActionGlobalStatement(BindAction* bindAction) :
-mBindAction(bindAction) { }
+BindActionGlobalStatement::BindActionGlobalStatement(BindAction* bindAction, int line) :
+mBindAction(bindAction), mLine(line) { }
 
 BindActionGlobalStatement::~BindActionGlobalStatement() {
   delete mBindAction;
@@ -28,7 +28,7 @@ IObjectType* BindActionGlobalStatement::prototypeObject(IRGenerationContext& con
 void BindActionGlobalStatement::prototypeMethods(IRGenerationContext& context) const {
   const Interface* interface = mBindAction->getInterface(context);
   const Controller* controller = mBindAction->getController(context);
-  context.bindInterfaceToController(interface, controller);
+  context.bindInterfaceToController(interface, controller, mLine);
 }
 
 void BindActionGlobalStatement::generateIR(IRGenerationContext& context) const {

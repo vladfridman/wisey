@@ -42,7 +42,7 @@ struct NodeTypeSpecifierTest : public ::testing::Test {
                           structType,
                           mContext.getImportProfile(),
                           0);
-    mContext.addNode(mNode);
+    mContext.addNode(mNode, 0);
   }
 };
 

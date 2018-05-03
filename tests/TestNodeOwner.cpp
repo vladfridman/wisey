@@ -96,7 +96,7 @@ struct NodeOwnerTest : public Test {
                                                 elementObjectElements,
                                                 mContext.getImportProfile(),
                                                 0);
-    mContext.addInterface(mElementInterface);
+    mContext.addInterface(mElementInterface, 0);
     mElementInterface->buildMethods(mContext);
     
     string complicatedElementFullName = "systems.vos.wisey.compiler.tests.IComplicatedElement";
@@ -124,7 +124,7 @@ struct NodeOwnerTest : public Test {
                                                            complicatedElementObjectElements,
                                                            mContext.getImportProfile(),
                                                            0);
-    mContext.addInterface(mComplicatedElementInterface);
+    mContext.addInterface(mComplicatedElementInterface, 0);
     mComplicatedElementInterface->buildMethods(mContext);
 
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
@@ -148,7 +148,7 @@ struct NodeOwnerTest : public Test {
                                                objectElements,
                                                mContext.getImportProfile(),
                                                0);
-    mContext.addInterface(mObjectInterface);
+    mContext.addInterface(mObjectInterface, 0);
     mObjectInterface->buildMethods(mContext);
 
     vector<Type*> types;
@@ -217,7 +217,7 @@ struct NodeOwnerTest : public Test {
                                 mContext.getImportProfile(),
                                 0);
     mSimpleNode->setFields(mContext, simpleNodeFields, 1u);
-    mContext.addNode(mSimpleNode);
+    mContext.addNode(mSimpleNode, 0);
     
     vector<Type*> simplerNodeTypes;
     simplerNodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
@@ -234,7 +234,7 @@ struct NodeOwnerTest : public Test {
                                  mContext.getImportProfile(),
                                  0);
     mSimplerNode->setFields(mContext, simplerNodeFields, 1u);
-    mContext.addNode(mSimplerNode);
+    mContext.addNode(mSimplerNode, 0);
     IConcreteObjectType::generateNameGlobal(mContext, mSimplerNode);
     IConcreteObjectType::generateShortNameGlobal(mContext, mSimplerNode);
     IConcreteObjectType::generateVTable(mContext, mSimplerNode);

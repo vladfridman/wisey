@@ -57,7 +57,7 @@ Interface* ExternalInterfaceDefinition::prototypeObject(IRGenerationContext& con
                                                          mElementDeclarations,
                                                          importProfile,
                                                          mLine);
-  context.addInterface(interface);
+  context.addInterface(interface, mLine);
   interface->defineInterfaceTypeName(context);
   interface->defineExternalInjectionFunctionPointer(context);
 

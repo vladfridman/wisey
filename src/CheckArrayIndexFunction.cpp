@@ -114,6 +114,6 @@ void CheckArrayIndexFunction::compose(IRGenerationContext& context, Function* fu
   
   IRWriter::createReturnInst(context, NULL);
 
-  context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context));
+  context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context), 0);
 }
 

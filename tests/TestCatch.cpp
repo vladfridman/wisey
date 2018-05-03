@@ -70,7 +70,7 @@ public:
                              0);
     mModel->setMethods(methods);
     mModel->setFields(mContext, fields, 0u);
-    mContext.addModel(mModel);
+    mContext.addModel(mModel, 0);
 
     ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(NULL, "MSquare", 0);
     Block* block = new Block();

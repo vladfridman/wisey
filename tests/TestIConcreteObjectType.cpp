@@ -110,7 +110,7 @@ struct IConcreteObjectTypeTest : public Test {
                                  mContext.getImportProfile(),
                                  0);
     mStarModel->setFields(mContext, starFields, 1u);
-    mContext.addModel(mStarModel);
+    mContext.addModel(mStarModel, 0);
     
     vector<Type*> galaxyTypes;
     galaxyTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
@@ -127,7 +127,7 @@ struct IConcreteObjectTypeTest : public Test {
                                    mContext.getImportProfile(),
                                    0);
     mGalaxyModel->setFields(mContext, galaxyFields, 1u);
-    mContext.addModel(mGalaxyModel);
+    mContext.addModel(mGalaxyModel, 0);
 
     vector<Type*> constellationTypes;
     constellationTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
@@ -144,7 +144,7 @@ struct IConcreteObjectTypeTest : public Test {
                                           mContext.getImportProfile(),
                                           0);
     mConstellationModel->setFields(mContext, constellationFields, 1u);
-    mContext.addModel(mConstellationModel);
+    mContext.addModel(mConstellationModel, 0);
     
     vector<Type*> canNavigateTypes;
     canNavigateTypes.push_back(Type::getInt32Ty(mLLVMContext)->getPointerTo()->getPointerTo());
@@ -175,7 +175,7 @@ struct IConcreteObjectTypeTest : public Test {
                                 mContext.getImportProfile(),
                                 0);
     mCarModel->setFields(mContext, carFields, 1u);
-    mContext.addModel(mCarModel);
+    mContext.addModel(mCarModel, 0);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
 }
@@ -504,10 +504,10 @@ TEST_F(IConcreteObjectTypeTest, addInterfaceAndItsParentsTest) {
                                               objectElements,
                                               mContext.getImportProfile(),
                                               0);
-  mContext.addInterface(parent);
-  mContext.addInterface(child1);
-  mContext.addInterface(child2);
-  mContext.addInterface(grandChild);
+  mContext.addInterface(parent, 0);
+  mContext.addInterface(child1, 0);
+  mContext.addInterface(child2, 0);
+  mContext.addInterface(grandChild, 0);
 
   parent->buildMethods(mContext);
 

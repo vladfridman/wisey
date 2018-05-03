@@ -98,7 +98,7 @@ void InstanceOfFunction::compose(IRGenerationContext& context, Function* functio
   composeReturnFound(context, returnFound, iterator);
   composeReturnNotFound(context, returnNotFound);
   
-  context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context));
+  context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context), 0);
 }
 
 BitCastInst* InstanceOfFunction::composeEntryBlock(IRGenerationContext& context,

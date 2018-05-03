@@ -93,5 +93,5 @@ void IsModelFunction::compose(IRGenerationContext& context, llvm::Function* func
   Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, firstLetter, letterM, "");
   IRWriter::createReturnInst(context, condition);
   
-  context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context));
+  context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context), 0);
 }

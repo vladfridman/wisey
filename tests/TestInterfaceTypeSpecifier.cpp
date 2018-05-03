@@ -57,7 +57,7 @@ struct InterfaceTypeSpecifierTest : public ::testing::Test {
                                          mContext.getImportProfile(),
                                          0);
    
-    mContext.addInterface(mInterface);
+    mContext.addInterface(mInterface, 0);
   }
 };
 

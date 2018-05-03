@@ -112,7 +112,7 @@ struct NodeTest : public Test {
                                                 elementInterfaceElements,
                                                 mContext.getImportProfile(),
                                                 0);
-    mContext.addInterface(mElementInterface);
+    mContext.addInterface(mElementInterface, 0);
     mElementInterface->buildMethods(mContext);
     
     string complicatedElementFullName = "systems.vos.wisey.compiler.tests.IComplicatedElement";
@@ -139,7 +139,7 @@ struct NodeTest : public Test {
                                                            complicatedElementInterfaceElements,
                                                            mContext.getImportProfile(),
                                                            0);
-    mContext.addInterface(mComplicatedElementInterface);
+    mContext.addInterface(mComplicatedElementInterface, 0);
     mComplicatedElementInterface->buildMethods(mContext);
 
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
@@ -163,7 +163,7 @@ struct NodeTest : public Test {
                                                objectInterfaceElements,
                                                mContext.getImportProfile(),
                                                0);
-    mContext.addInterface(mObjectInterface);
+    mContext.addInterface(mObjectInterface, 0);
     mObjectInterface->buildMethods(mContext);
 
     vector<Type*> types;
@@ -256,7 +256,7 @@ struct NodeTest : public Test {
                                ownerStructType,
                                mContext.getImportProfile(),
                                0);
-    mContext.addNode(mOwnerNode);
+    mContext.addNode(mOwnerNode, 0);
     
     vector<Type*> referenceTypes;
     referenceTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
@@ -269,7 +269,7 @@ struct NodeTest : public Test {
                                       referenceStructType,
                                       mContext.getImportProfile(),
                                       0);
-    mContext.addModel(mReferenceModel);
+    mContext.addModel(mReferenceModel, 0);
     
     vector<Type*> simpleNodeTypes;
     simpleNodeTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
@@ -288,7 +288,7 @@ struct NodeTest : public Test {
                                 mContext.getImportProfile(),
                                 0);
     mSimpleNode->setFields(mContext, simpleNodeFields, 1u);
-    mContext.addNode(mSimpleNode);
+    mContext.addNode(mSimpleNode, 0);
     
     vector<Type*> simplerNodeTypes;
     simplerNodeTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
@@ -307,7 +307,7 @@ struct NodeTest : public Test {
                                  mContext.getImportProfile(),
                                  0);
     mSimplerNode->setFields(mContext, simplerNodeFields, 1u);
-    mContext.addNode(mSimplerNode);
+    mContext.addNode(mSimplerNode, 0);
     
     string vehicleFullName = "systems.vos.wisey.compiler.tests.IVehicle";
     StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, vehicleFullName);
@@ -320,7 +320,7 @@ struct NodeTest : public Test {
                                                 vehicleElements,
                                                 mContext.getImportProfile(),
                                                 0);
-    mContext.addInterface(mVehicleInterface);
+    mContext.addInterface(mVehicleInterface, 0);
     mVehicleInterface->buildMethods(mContext);
 
     IConcreteObjectType::generateNameGlobal(mContext, mOwnerNode);

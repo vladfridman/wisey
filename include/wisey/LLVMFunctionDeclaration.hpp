@@ -25,12 +25,14 @@ namespace wisey {
     bool mIsVarArg;
     const ITypeSpecifier* mReturnSpecifier;
     std::vector<const ITypeSpecifier*> mArgumentSpecifiers;
+    int mLine;
     
     LLVMFunctionDeclaration(std::string name,
                             bool isExternal,
                             bool isVarArg,
                             const ITypeSpecifier* returnSpecifier,
-                            std::vector<const ITypeSpecifier*> argumentSpecifiers);
+                            std::vector<const ITypeSpecifier*> argumentSpecifiers,
+                            int line);
     
   public:
     
@@ -40,7 +42,8 @@ namespace wisey {
     static LLVMFunctionDeclaration* createInternal(std::string name,
                                                    const ITypeSpecifier* returnSpecifier,
                                                    std::vector<const ITypeSpecifier*>
-                                                   argumentSpecifiers);
+                                                   argumentSpecifiers,
+                                                   int line);
     
     /**
      * Creates an internal llvm function with variable arguments
@@ -48,7 +51,8 @@ namespace wisey {
     static LLVMFunctionDeclaration* createInternalWithVarArg(std::string name,
                                                              const ITypeSpecifier* returnSpecifier,
                                                              std::vector<const ITypeSpecifier*>
-                                                             argumentSpecifiers);
+                                                             argumentSpecifiers,
+                                                             int line);
 
     /**
      * Creates an instance of LLVMFunctionDeclaration that represents an external llvm function
@@ -56,7 +60,8 @@ namespace wisey {
     static LLVMFunctionDeclaration* createExternal(std::string name,
                                                    const ITypeSpecifier* returnSpecifier,
                                                    std::vector<const ITypeSpecifier*>
-                                                   argumentSpecifiers);
+                                                   argumentSpecifiers,
+                                                   int line);
     
     /**
      * Creates an external llvm function with variable arguments
@@ -64,7 +69,8 @@ namespace wisey {
     static LLVMFunctionDeclaration* createExternalWithVarArg(std::string name,
                                                              const ITypeSpecifier* returnSpecifier,
                                                              std::vector<const ITypeSpecifier*>
-                                                             argumentSpecifiers);
+                                                             argumentSpecifiers,
+                                                             int line);
 
     ~LLVMFunctionDeclaration();
     

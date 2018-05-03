@@ -72,7 +72,7 @@ struct InjectorTest : Test {
                                             mContext.getImportProfile(),
                                             0);
     mController->setFields(mContext, controllerFields, 1u);
-    mContext.addController(mController);
+    mContext.addController(mController, 0);
 
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
     StructType* interfaceStructType = StructType::create(llvmContext, interfaceFullName);
@@ -85,8 +85,8 @@ struct InjectorTest : Test {
                                          interfaceElements,
                                          mContext.getImportProfile(),
                                          0);
-    mContext.addInterface(mInterface);
-    mContext.bindInterfaceToController(mInterface, mController);
+    mContext.addInterface(mInterface, 0);
+    mContext.bindInterfaceToController(mInterface, mController, 0);
    
     IConcreteObjectType::generateNameGlobal(mContext, mController);
     IConcreteObjectType::generateShortNameGlobal(mContext, mController);

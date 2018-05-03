@@ -79,7 +79,7 @@ public:
                                      returnedModelStructType,
                                      mContext.getImportProfile(),
                                      0);
-    mContext.addModel(mReturnedModel);
+    mContext.addModel(mReturnedModel, 0);
     
     vector<Type*> types;
     types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)

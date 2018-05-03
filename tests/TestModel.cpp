@@ -154,7 +154,7 @@ struct ModelTest : public Test {
                                                  subShapeInterfaceElements,
                                                  mContext.getImportProfile(),
                                                  0);
-    mContext.addInterface(mSubShapeInterface);
+    mContext.addInterface(mSubShapeInterface, 0);
     mSubShapeInterface->buildMethods(mContext);
     
     string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
@@ -182,7 +182,7 @@ struct ModelTest : public Test {
                                               shapeInterfaceElements,
                                               mContext.getImportProfile(),
                                               0);
-    mContext.addInterface(mShapeInterface);
+    mContext.addInterface(mShapeInterface, 0);
      mShapeInterface->buildMethods(mContext);
 
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
@@ -206,7 +206,7 @@ struct ModelTest : public Test {
                                                objectInterfaceElements,
                                                mContext.getImportProfile(),
                                                0);
-    mContext.addInterface(mObjectInterface);
+    mContext.addInterface(mObjectInterface, 0);
     mObjectInterface->buildMethods(mContext);
 
     string carFullName = "systems.vos.wisey.compiler.tests.ICar";
@@ -220,7 +220,7 @@ struct ModelTest : public Test {
                                             carInterfaceElements,
                                             mContext.getImportProfile(),
                                             0);
-    mContext.addInterface(mCarInterface);
+    mContext.addInterface(mCarInterface, 0);
     mCarInterface->buildMethods(mContext);
 
     IntConstant* intConstant = new IntConstant(5, 0);
@@ -289,7 +289,7 @@ struct ModelTest : public Test {
                                    galaxyStructType,
                                    mContext.getImportProfile(),
                                    0);
-    mContext.addModel(mGalaxyModel);
+    mContext.addModel(mGalaxyModel, 0);
 
     vector<Type*> birthdateTypes;
     birthdateTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
@@ -302,7 +302,7 @@ struct ModelTest : public Test {
                                       birthdateStructType,
                                       mContext.getImportProfile(),
                                       0);
-    mContext.addModel(mBirthdateModel);
+    mContext.addModel(mBirthdateModel, 0);
     
     vector<Type*> starTypes;
     starTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
@@ -323,7 +323,7 @@ struct ModelTest : public Test {
                                  mContext.getImportProfile(),
                                  0);
     mStarModel->setFields(mContext, starFields, 1u);
-    mContext.addModel(mStarModel);
+    mContext.addModel(mStarModel, 0);
     Value* field1Value = ConstantPointerNull::get(mBirthdateModel->getOwner()
                                                   ->getLLVMType(mContext));
     ON_CALL(*mField1Expression, generateIR(_, _)).WillByDefault(Return(field1Value));

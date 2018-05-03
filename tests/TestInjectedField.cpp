@@ -80,7 +80,7 @@ public:
                                             mContext.getImportProfile(),
                                             0);
     mController->setFields(mContext, controllerFields, 1u);
-    mContext.addController(mController);
+    mContext.addController(mController, 0);
     IConcreteObjectType::generateNameGlobal(mContext, mController);
     IConcreteObjectType::generateShortNameGlobal(mContext, mController);
     IConcreteObjectType::generateVTable(mContext, mController);

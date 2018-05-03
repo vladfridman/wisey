@@ -144,7 +144,7 @@ struct TypeComparisionExpressionTest : public Test {
                                                  subShapeInterfaceElements,
                                                  mContext.getImportProfile(),
                                                  0);
-    mContext.addInterface(mSubShapeInterface);
+    mContext.addInterface(mSubShapeInterface, 0);
     mSubShapeInterface->buildMethods(mContext);
     
     string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
@@ -172,7 +172,7 @@ struct TypeComparisionExpressionTest : public Test {
                                               shapeInterfaceElements,
                                               mContext.getImportProfile(),
                                               0);
-    mContext.addInterface(mShapeInterface);
+    mContext.addInterface(mShapeInterface, 0);
     mShapeInterface->buildMethods(mContext);
 
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
@@ -196,7 +196,7 @@ struct TypeComparisionExpressionTest : public Test {
                                                objectInterfaceElements,
                                                mContext.getImportProfile(),
                                                0);
-    mContext.addInterface(mObjectInterface);
+    mContext.addInterface(mObjectInterface, 0);
     mObjectInterface->buildMethods(mContext);
 
     string carFullName = "systems.vos.wisey.compiler.tests.ICar";
@@ -210,7 +210,7 @@ struct TypeComparisionExpressionTest : public Test {
                                             carElements,
                                             mContext.getImportProfile(),
                                             0);
-    mContext.addInterface(mCarInterface);
+    mContext.addInterface(mCarInterface, 0);
     mCarInterface->buildMethods(mContext);
 
     vector<Interface*> sqaureInterfaces;

@@ -108,7 +108,7 @@ struct ControllerTest : public Test {
                                                    calculatorInterfaceElements,
                                                    mContext.getImportProfile(),
                                                    0);
-    mContext.addInterface(mCalculatorInterface);
+    mContext.addInterface(mCalculatorInterface, 0);
     mCalculatorInterface->buildMethods(mContext);
     
     string scienceCalculatorFullName = "systems.vos.wisey.compiler.tests.IScienceCalculator";
@@ -138,7 +138,7 @@ struct ControllerTest : public Test {
                                                           scienceCalculatorInterfaceElements,
                                                           mContext.getImportProfile(),
                                                           0);
-    mContext.addInterface(mScienceCalculatorInterface);
+    mContext.addInterface(mScienceCalculatorInterface, 0);
     mScienceCalculatorInterface->buildMethods(mContext);
 
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
@@ -162,7 +162,7 @@ struct ControllerTest : public Test {
                                                objectInterfaceElements,
                                                mContext.getImportProfile(),
                                                0);
-    mContext.addInterface(mObjectInterface);
+    mContext.addInterface(mObjectInterface, 0);
     mObjectInterface->buildMethods(mContext);
 
     vector<Type*> types;
@@ -260,7 +260,7 @@ struct ControllerTest : public Test {
                                ownerStructType,
                                mContext.getImportProfile(),
                                0);
-    mContext.addNode(mOwnerNode);
+    mContext.addNode(mOwnerNode, 0);
     
     vector<Type*> referenceTypes;
     referenceTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
@@ -273,7 +273,7 @@ struct ControllerTest : public Test {
                                       referenceStructType,
                                       mContext.getImportProfile(),
                                       0);
-    mContext.addModel(mReferenceModel);
+    mContext.addModel(mReferenceModel, 0);
     
     vector<Type*> additorTypes;
     additorTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
@@ -292,7 +292,7 @@ struct ControllerTest : public Test {
                                                    mContext.getImportProfile(),
                                                    0);
     mAdditorController->setFields(mContext, additorFields, 1u);
-    mContext.addController(mMultiplierController);
+    mContext.addController(mMultiplierController, 0);
 
     vector<Type*> doublerTypes;
     doublerTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
@@ -316,7 +316,7 @@ struct ControllerTest : public Test {
                                                    mContext.getImportProfile(),
                                                    0);
     mDoublerController->setFields(mContext, doublerFields, 1u);
-    mContext.addController(mDoublerController);
+    mContext.addController(mDoublerController, 0);
 
     string vehicleFullName = "systems.vos.wisey.compiler.tests.IVehicle";
     StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, vehicleFullName);
@@ -329,7 +329,7 @@ struct ControllerTest : public Test {
                                                 vehicleElements,
                                                 mContext.getImportProfile(),
                                                 0);
-    mContext.addInterface(mVehicleInterface);
+    mContext.addInterface(mVehicleInterface, 0);
     mVehicleInterface->buildMethods(mContext);
 
     IConcreteObjectType::generateNameGlobal(mContext, mOwnerNode);
@@ -682,7 +682,7 @@ TEST_F(ControllerTest, defineFieldInjectorFunctionsTest) {
                                                           mContext.getImportProfile(),
                                                           0);
   childController->setFields(mContext, childFields, 1u);
-  mContext.addController(childController);
+  mContext.addController(childController, 0);
   IConcreteObjectType::generateNameGlobal(mContext, childController);
   IConcreteObjectType::generateShortNameGlobal(mContext, childController);
   IConcreteObjectType::generateVTable(mContext, childController);
@@ -708,7 +708,7 @@ TEST_F(ControllerTest, defineFieldInjectorFunctionsTest) {
                                                            mContext.getImportProfile(),
                                                            0);
   parentController->setFields(mContext, parentFields, 1u);
-  mContext.addController(parentController);
+  mContext.addController(parentController, 0);
   IConcreteObjectType::generateNameGlobal(mContext, parentController);
   IConcreteObjectType::generateShortNameGlobal(mContext, parentController);
   IConcreteObjectType::generateVTable(mContext, parentController);
@@ -757,7 +757,7 @@ TEST_F(ControllerTest, declareFieldInjectionFunctionsTest) {
                                                           mContext.getImportProfile(),
                                                           0);
   childController->setFields(mContext, childFields, 1u);
-  mContext.addController(childController);
+  mContext.addController(childController, 0);
   IConcreteObjectType::generateNameGlobal(mContext, childController);
   IConcreteObjectType::generateShortNameGlobal(mContext, childController);
   IConcreteObjectType::generateVTable(mContext, childController);
@@ -783,7 +783,7 @@ TEST_F(ControllerTest, declareFieldInjectionFunctionsTest) {
                                                            mContext.getImportProfile(),
                                                            0);
   parentController->setFields(mContext, parentFields, 1u);
-  mContext.addController(parentController);
+  mContext.addController(parentController, 0);
   IConcreteObjectType::generateNameGlobal(mContext, parentController);
   IConcreteObjectType::generateShortNameGlobal(mContext, parentController);
   IConcreteObjectType::generateVTable(mContext, parentController);

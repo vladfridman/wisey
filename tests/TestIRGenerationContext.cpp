@@ -22,6 +22,7 @@
 #include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
+#include "wisey/Log.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -46,7 +47,7 @@ struct IRGenerationContextTest : public Test {
 
   IRGenerationContextTest() : mLLVMContext(mContext.getLLVMContext()) {
     ImportProfile* importProfile = new ImportProfile("systems.vos.wisey.compiler.tests");
-    importProfile->setSourceFileName(mContext, "/sources/sourcefile.yz");
+    importProfile->setSourceFileName(mContext, "/tmp/source.yz");
     mContext.setImportProfile(importProfile);
 
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
@@ -125,11 +126,11 @@ TEST_F(IRGenerationContextTest, moduleIsNotNullTest) {
 TEST_F(IRGenerationContextTest, runCodeFailsWhenMainIsNullDeathTest) {
   EXPECT_EXIT(mContext.runCode(),
               ::testing::ExitedWithCode(1),
-              "Function main is not defined. Exiting.");
+              "Error: Function main is not defined. Exiting.");
 }
 
 TEST_F(IRGenerationContextTest, addNodeTest) {
-  mContext.addNode(mNode);
+  mContext.addNode(mNode, 0);
   
   Node* resultNode = mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode", 0);
   
@@ -137,21 +138,21 @@ TEST_F(IRGenerationContextTest, addNodeTest) {
 }
 
 TEST_F(IRGenerationContextTest, addNodeAlreadyDefinedDeathTest) {
-  mContext.addNode(mNode);
+  mContext.addNode(mNode, 1);
   
-  EXPECT_EXIT(mContext.addNode(mNode),
+  EXPECT_EXIT(mContext.addNode(mNode, 5),
               ::testing::ExitedWithCode(1),
-              "Redefinition of node systems.vos.wisey.compiler.tests.NMyNode");
+              "/tmp/source.yz\\(5\\): Error: Redefinition of node systems.vos.wisey.compiler.tests.NMyNode");
 }
 
 TEST_F(IRGenerationContextTest, getNodeDoesNotExistDeathTest) {
   EXPECT_EXIT(mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode", 10),
               ::testing::ExitedWithCode(1),
-              "/sources/sourcefile.yz\\(10\\): Error: Node systems.vos.wisey.compiler.tests.NMyNode is not defined");
+              "/tmp/source.yz\\(10\\): Error: Node systems.vos.wisey.compiler.tests.NMyNode is not defined");
 }
 
 TEST_F(IRGenerationContextTest, addModelTest) {
-  mContext.addModel(mModel);
+  mContext.addModel(mModel, 0);
   
   Model* resultModel = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel", 0);
   
@@ -159,21 +160,22 @@ TEST_F(IRGenerationContextTest, addModelTest) {
 }
 
 TEST_F(IRGenerationContextTest, addModelAlreadyDefinedDeathTest) {
-  mContext.addModel(mModel);
+  mContext.addModel(mModel, 0);
   
-  EXPECT_EXIT(mContext.addModel(mModel),
+  EXPECT_EXIT(mContext.addModel(mModel, 1),
               ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(1\\): Error: "
               "Redefinition of model systems.vos.wisey.compiler.tests.MMyModel");
 }
 
 TEST_F(IRGenerationContextTest, getModelDoesNotExistDeathTest) {
   EXPECT_EXIT(mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel", 10),
               ::testing::ExitedWithCode(1),
-              "/sources/sourcefile.yz\\(10\\): Error: Model systems.vos.wisey.compiler.tests.MMyModel is not defined");
+              "/tmp/source.yz\\(10\\): Error: Model systems.vos.wisey.compiler.tests.MMyModel is not defined");
 }
 
 TEST_F(IRGenerationContextTest, addControllerTest) {
-  mContext.addController(mController);
+  mContext.addController(mController, 0);
   Controller* resultController =
     mContext.getController("systems.vos.wisey.compiler.tests.CMyController", 0);
   
@@ -181,38 +183,38 @@ TEST_F(IRGenerationContextTest, addControllerTest) {
 }
 
 TEST_F(IRGenerationContextTest, addControllerAlreadyDefinedDeathTest) {
-  mContext.addController(mController);
+  mContext.addController(mController, 1);
   
-  EXPECT_EXIT(mContext.addController(mController),
+  EXPECT_EXIT(mContext.addController(mController, 3),
               ::testing::ExitedWithCode(1),
-              "Redefinition of controller systems.vos.wisey.compiler.tests.CMyController");
+              "/tmp/source.yz\\(3\\): Error: Redefinition of controller systems.vos.wisey.compiler.tests.CMyController");
 }
 
 TEST_F(IRGenerationContextTest, getControllerDoesNotExistDeathTest) {
   EXPECT_EXIT(mContext.getController("systems.vos.wisey.compiler.tests.CMyController", 10),
               ::testing::ExitedWithCode(1),
-              "/sources/sourcefile.yz\\(10\\): Error: Controller systems.vos.wisey.compiler.tests.CMyController is not defined");
+              "/tmp/source.yz\\(10\\): Error: Controller systems.vos.wisey.compiler.tests.CMyController is not defined");
 }
 
 TEST_F(IRGenerationContextTest, addLLVMStructTypeTest) {
-  mContext.addLLVMStructType(mLLVMStructType);
+  mContext.addLLVMStructType(mLLVMStructType, 0);
   LLVMStructType* resultLLVMStructType = mContext.getLLVMStructType("mystructtype", 0);
   
   EXPECT_EQ(mLLVMStructType, resultLLVMStructType);
 }
 
 TEST_F(IRGenerationContextTest, addLLVMStructTypeAlreadyDefinedDeathTest) {
-  mContext.addLLVMStructType(mLLVMStructType);
+  mContext.addLLVMStructType(mLLVMStructType, 0);
 
-  EXPECT_EXIT(mContext.addLLVMStructType(mLLVMStructType),
+  EXPECT_EXIT(mContext.addLLVMStructType(mLLVMStructType, 1),
               ::testing::ExitedWithCode(1),
-              "Redefinition of llvm struct type ::llvm::struct::mystructtype");
+              "/tmp/source.yz\\(1\\): Error: Redefinition of llvm struct type ::llvm::struct::mystructtype");
 }
 
 TEST_F(IRGenerationContextTest, getLLVMStructTypeDoesNotExistDeathTest) {
   EXPECT_EXIT(mContext.getLLVMStructType("mystructtype", 10),
               ::testing::ExitedWithCode(1),
-              "/sources/sourcefile.yz\\(10\\): Error: llvm struct type ::llvm::struct::mystructtype is not defined");
+              "/tmp/source.yz\\(10\\): Error: llvm struct type ::llvm::struct::mystructtype is not defined");
 }
 
 TEST_F(IRGenerationContextTest, addInterfaceTest) {
@@ -227,7 +229,7 @@ TEST_F(IRGenerationContextTest, addInterfaceTest) {
                                                  interfaceElements,
                                                  mContext.getImportProfile(),
                                                  0);
-  mContext.addInterface(interface);
+  mContext.addInterface(interface, 0);
   Interface* resultInterface =
     mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface", 0);
   
@@ -248,11 +250,11 @@ TEST_F(IRGenerationContextTest, addInterfaceAlreadyDefinedDeathTest) {
                                                  interfaceElements,
                                                  mContext.getImportProfile(),
                                                  0);
-  mContext.addInterface(interface);
+  mContext.addInterface(interface, 1);
   
-  EXPECT_EXIT(mContext.addInterface(interface),
+  EXPECT_EXIT(mContext.addInterface(interface, 5),
               ::testing::ExitedWithCode(1),
-              "Redefinition of interface systems.vos.wisey.compiler.tests.IMyInterface");
+              "/tmp/source.yz\\(5\\): Error: Redefinition of interface systems.vos.wisey.compiler.tests.IMyInterface");
 }
 
 TEST_F(IRGenerationContextTest, setObjectTypeTest) {
@@ -270,37 +272,37 @@ TEST_F(IRGenerationContextTest, setObjectTypeTest) {
 TEST_F(IRGenerationContextTest, getInterfaceDoesNotExistDeathTest) {
   EXPECT_EXIT(mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface", 10),
               ::testing::ExitedWithCode(1),
-              "/sources/sourcefile.yz\\(10\\): Error: Interface systems.vos.wisey.compiler.tests.IMyInterface is not defined");
+              "/tmp/source.yz\\(10\\): Error: Interface systems.vos.wisey.compiler.tests.IMyInterface is not defined");
 }
 
 TEST_F(IRGenerationContextTest, getBoundControllerDeathTest) {
-  mContext.addController(mController);
-  mContext.addInterface(mInterface);
+  mContext.addController(mController, 1);
+  mContext.addInterface(mInterface, 3);
   
-  EXPECT_EXIT(mContext.getBoundController(mInterface),
+  EXPECT_EXIT(mContext.getBoundController(mInterface, 5),
               ::testing::ExitedWithCode(1),
-              "Error: No controller is bound to "
+              "/tmp/source.yz\\(5\\): Error: No controller is bound to "
               "interface systems.vos.wisey.compiler.tests.IMyInterface");
 }
 
 TEST_F(IRGenerationContextTest, bindInterfaceToControllerTest) {
-  mContext.addController(mController);
-  mContext.addInterface(mInterface);
+  mContext.addController(mController, 1);
+  mContext.addInterface(mInterface, 3);
   
-  mContext.bindInterfaceToController(mInterface, mController);
+  mContext.bindInterfaceToController(mInterface, mController, 0);
   
-  EXPECT_EQ(mContext.getBoundController(mInterface), mController);
+  EXPECT_EQ(mContext.getBoundController(mInterface, 0), mController);
 }
 
 TEST_F(IRGenerationContextTest, bindInterfaceToControllerRepeatedlyDeathTest) {
-  mContext.addController(mController);
-  mContext.addInterface(mInterface);
+  mContext.addController(mController, 1);
+  mContext.addInterface(mInterface, 3);
   
-  mContext.bindInterfaceToController(mInterface, mController);
+  mContext.bindInterfaceToController(mInterface, mController, 0);
 
-  EXPECT_EXIT(mContext.bindInterfaceToController(mInterface, mController),
+  EXPECT_EXIT(mContext.bindInterfaceToController(mInterface, mController, 5),
               ::testing::ExitedWithCode(1),
-              "Error: Interface systems.vos.wisey.compiler.tests.IMyInterface "
+              "/tmp/source.yz\\(5\\): Error: Interface systems.vos.wisey.compiler.tests.IMyInterface "
               "is already bound to systems.vos.wisey.compiler.tests.CMyController "
               "and can not be bound to systems.vos.wisey.compiler.tests.CMyController");
 }
@@ -326,12 +328,12 @@ TEST_F(IRGenerationContextTest, getThisTest) {
 }
 
 TEST_F(IRGenerationContextTest, printToStreamTest) {
-  mContext.addLLVMStructType(mLLVMStructType);
+  mContext.addLLVMStructType(mLLVMStructType, 0);
   mContext.setLLVMGlobalVariable(mLLVMStructType->getPointerType(), "myglobal");
-  mContext.addInterface(mInterface);
-  mContext.addNode(mNode);
-  mContext.addController(mController);
-  mContext.addModel(mModel);
+  mContext.addInterface(mInterface, 0);
+  mContext.addNode(mNode, 0);
+  mContext.addController(mController, 0);
+  mContext.addModel(mModel, 0);
   
   stringstream stringStream;
   mContext.printToStream(mContext, stringStream);
@@ -460,33 +462,33 @@ TEST_F(IRGenerationContextTest, registerLLVMInternalFunctionNamedTypeTest) {
   vector<const IType*> arguments;
   arguments.push_back(LLVMPrimitiveTypes::I16);
   LLVMFunctionType* functionType = LLVMFunctionType::create(LLVMPrimitiveTypes::I8, arguments);
-  mContext.registerLLVMInternalFunctionNamedType("myfunction", functionType);
+  mContext.registerLLVMInternalFunctionNamedType("myfunction", functionType, 0);
   
-  EXPECT_EQ(functionType, mContext.lookupLLVMFunctionNamedType("myfunction"));
+  EXPECT_EQ(functionType, mContext.lookupLLVMFunctionNamedType("myfunction", 0));
 }
 
 TEST_F(IRGenerationContextTest, registerLLVMExternalFunctionNamedTypeTest) {
   vector<const IType*> arguments;
   arguments.push_back(LLVMPrimitiveTypes::I16);
   LLVMFunctionType* functionType = LLVMFunctionType::create(LLVMPrimitiveTypes::I8, arguments);
-  mContext.registerLLVMExternalFunctionNamedType("myfunction", functionType);
+  mContext.registerLLVMExternalFunctionNamedType("myfunction", functionType, 0);
   
-  EXPECT_EQ(functionType, mContext.lookupLLVMFunctionNamedType("myfunction"));
+  EXPECT_EQ(functionType, mContext.lookupLLVMFunctionNamedType("myfunction", 0));
 }
 
 TEST_F(IRGenerationContextTest, registerLLVMFunctionNamedTypeDeathTest) {
   vector<const IType*> arguments;
   arguments.push_back(LLVMPrimitiveTypes::I16);
   LLVMFunctionType* functionType = LLVMFunctionType::create(LLVMPrimitiveTypes::I8, arguments);
-  mContext.registerLLVMExternalFunctionNamedType("myfunction", functionType);
+  mContext.registerLLVMExternalFunctionNamedType("myfunction", functionType, 0);
   
-  EXPECT_EXIT(mContext.registerLLVMInternalFunctionNamedType("myfunction", functionType),
+  EXPECT_EXIT(mContext.registerLLVMInternalFunctionNamedType("myfunction", functionType, 1),
               ::testing::ExitedWithCode(1),
-              "Can not register llvm function named myfunction because it is already registered");
+              "/tmp/source.yz\\(1\\): Error: Can not register llvm function named myfunction because it is already registered");
 }
 
 TEST_F(IRGenerationContextTest, lookupLLVMFunctionNamedTypeDeathTest) {
-  EXPECT_EXIT(mContext.lookupLLVMFunctionNamedType("myfunction"),
+  EXPECT_EXIT(mContext.lookupLLVMFunctionNamedType("myfunction", 3),
               ::testing::ExitedWithCode(1),
-              "Can not find llvm function named myfunction");
+              "/tmp/source.yz\\(3\\): Error: Can not find llvm function named myfunction");
 }

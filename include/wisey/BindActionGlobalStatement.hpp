@@ -23,10 +23,11 @@ namespace wisey {
    */
   class BindActionGlobalStatement : public IGlobalStatement {
     BindAction* mBindAction;
+    int mLine;
     
   public:
     
-    BindActionGlobalStatement(BindAction* bindAction);
+    BindActionGlobalStatement(BindAction* bindAction, int line);
     
     ~BindActionGlobalStatement();
     

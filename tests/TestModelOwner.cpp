@@ -135,7 +135,7 @@ struct ModelOwnerTest : public Test {
                                                  mContext.getImportProfile(),
                                                  0);
     mSubShapeInterface->buildMethods(mContext);
-    mContext.addInterface(mSubShapeInterface);
+    mContext.addInterface(mSubShapeInterface, 0);
 
     string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
     StructType* shapeIinterfaceStructType = StructType::create(mLLVMContext, shapeFullName);
@@ -163,7 +163,7 @@ struct ModelOwnerTest : public Test {
                                               mContext.getImportProfile(),
                                               0);
     mShapeInterface->buildMethods(mContext);
-    mContext.addInterface(mShapeInterface);
+    mContext.addInterface(mShapeInterface, 0);
 
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectInterfaceStructType = StructType::create(mLLVMContext, objectFullName);
@@ -187,7 +187,7 @@ struct ModelOwnerTest : public Test {
                                                mContext.getImportProfile(),
                                                0);
     mObjectInterface->buildMethods(mContext);
-    mContext.addInterface(mObjectInterface);
+    mContext.addInterface(mObjectInterface, 0);
 
     string carFullName = "systems.vos.wisey.compiler.tests.ICar";
     StructType* carInterfaceStructType = StructType::create(mLLVMContext, carFullName);
@@ -201,7 +201,7 @@ struct ModelOwnerTest : public Test {
                                             mContext.getImportProfile(),
                                             0);
     mCarInterface->buildMethods(mContext);
-    mContext.addInterface(mCarInterface);
+    mContext.addInterface(mCarInterface, 0);
 
     vector<Interface*> interfaces;
     interfaces.push_back(mShapeInterface);
@@ -246,7 +246,7 @@ struct ModelOwnerTest : public Test {
                                  mContext.getImportProfile(),
                                  0);
     mStarModel->setFields(mContext, starFields, 1u);
-    mContext.addModel(mStarModel);
+    mContext.addModel(mStarModel, 0);
     Value* field1Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
     ON_CALL(*mField1Expression, generateIR(_, _)).WillByDefault(Return(field1Value));
     ON_CALL(*mField1Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));

@@ -98,7 +98,7 @@ struct InterfaceTest : public Test {
                                                objectElementDeclarations,
                                                mContext.getImportProfile(),
                                                0);
-    mContext.addInterface(mObjectInterface);
+    mContext.addInterface(mObjectInterface, 0);
     mObjectInterface->buildMethods(mContext);
 
     mObjectInterfaceSpecifier = new InterfaceTypeSpecifier(NULL, "IObject", 0);
@@ -146,7 +146,7 @@ struct InterfaceTest : public Test {
                                               shapeElements,
                                               mContext.getImportProfile(),
                                               5);
-    mContext.addInterface(mShapeInterface);
+    mContext.addInterface(mShapeInterface, 0);
     mShapeInterface->buildMethods(mContext);
     mShapeInterface->defineInjectionFunctionPointer(mContext);
 
@@ -560,7 +560,7 @@ TEST_F(InterfaceTest, circularDependencyDeathTest) {
                                              childElements,
                                              mContext.getImportProfile(),
                                              0);
-  mContext.addInterface(child);
+  mContext.addInterface(child, 0);
   
   string parentFullName = "systems.vos.wisey.compiler.tests.IParent";
   StructType* parentStructType = StructType::create(mLLVMContext, parentFullName);
@@ -574,7 +574,7 @@ TEST_F(InterfaceTest, circularDependencyDeathTest) {
                                               parentElements,
                                               mContext.getImportProfile(),
                                               0);
-  mContext.addInterface(parent);
+  mContext.addInterface(parent, 0);
 
   EXPECT_EXIT(child->buildMethods(mContext),
               ::testing::ExitedWithCode(1),
@@ -692,7 +692,7 @@ TEST_F(InterfaceTest, composeInjectFunctionWithControllerTest) {
                                                  interafaceElements,
                                                  mContext.getImportProfile(),
                                                  0);
-  mContext.addInterface(interface);
+  mContext.addInterface(interface, 0);
   llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
                                                                 interface->getTypeName());
   new GlobalVariable(*mContext.getModule(),
@@ -717,8 +717,8 @@ TEST_F(InterfaceTest, composeInjectFunctionWithControllerTest) {
   controllerParentInterfaces.push_back(interface);
   controller->setInterfaces(controllerParentInterfaces);
   
-  mContext.addController(controller);
-  mContext.bindInterfaceToController(interface, controller);
+  mContext.addController(controller, 0);
+  mContext.bindInterfaceToController(interface, controller, 0);
 
   IConcreteObjectType::generateNameGlobal(mContext, controller);
   IConcreteObjectType::generateShortNameGlobal(mContext, controller);

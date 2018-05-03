@@ -61,8 +61,8 @@ struct BindActionTest : public Test {
     mController->setMethods(controllerMethods);
     mController->setInterfaces(controllerInterfaces);
  
-    mContext.addInterface(mInterface);
-    mContext.addController(mController);
+    mContext.addInterface(mInterface, 0);
+    mContext.addController(mController, 0);
 
     InterfaceTypeSpecifier* interfaceTypeSpecifier =
       new InterfaceTypeSpecifier(NULL, "IMyInterface", 0);

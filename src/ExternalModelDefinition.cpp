@@ -49,7 +49,7 @@ Model* ExternalModelDefinition::prototypeObject(IRGenerationContext& context,
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
   Model* model = Model::newExternalModel(fullName, structType, importProfile, mLine);
-  context.addModel(model);
+  context.addModel(model, mLine);
 
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(model);

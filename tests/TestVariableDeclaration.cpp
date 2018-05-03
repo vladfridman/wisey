@@ -135,7 +135,7 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
                                  0);
   model->setFields(mContext, fields, 1u);
 
-  mContext.addModel(model);
+  mContext.addModel(model, 0);
   VariableDeclaration* declaration = VariableDeclaration::create(typeSpecifier, mIdentifier, 0);
   
   declaration->generateIR(mContext);

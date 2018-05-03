@@ -69,7 +69,7 @@ getLLVMFunctionType(IRGenerationContext& context) {
 }
 
 void AdjustReferenceCounterForArrayFunction::compose(IRGenerationContext& context,
-                                                                    Function* function) {
+                                                     Function* function) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Function::arg_iterator llvmArguments = function->arg_begin();
@@ -101,5 +101,5 @@ void AdjustReferenceCounterForArrayFunction::compose(IRGenerationContext& contex
   IRWriter::newStoreInst(context, sum, counter);
   IRWriter::createReturnInst(context, NULL);
 
-  context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context));
+  context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context), 0);
 }

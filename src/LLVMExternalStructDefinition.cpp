@@ -35,7 +35,7 @@ IObjectType* LLVMExternalStructDefinition::prototypeObject(IRGenerationContext& 
   
   structType = StructType::create(context.getLLVMContext(), mName);
   LLVMStructType* llvmStructType = LLVMStructType::newExternalLLVMStructType(structType);
-  context.addLLVMStructType(llvmStructType);
+  context.addLLVMStructType(llvmStructType, mLine);
   
   return NULL;
 }

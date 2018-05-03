@@ -122,5 +122,5 @@ void CheckForModelFunction::compose(IRGenerationContext& context, Function* func
   throwStatement->generateIR(context);
   context.getScopes().popScope(context, 0);
   
-  context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context));
+  context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context), 0);
 }

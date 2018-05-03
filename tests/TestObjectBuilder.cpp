@@ -74,7 +74,7 @@ struct ObjectBuilderTest : Test {
                              mContext.getImportProfile(),
                              0);
     mModel->setFields(mContext, fields, 1u);
-    mContext.addModel(mModel);
+    mContext.addModel(mModel, 0);
     Value* fieldValue1 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
     ON_CALL(*mField1Expression, generateIR(_, _)).WillByDefault(Return(fieldValue1));
     ON_CALL(*mField1Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
