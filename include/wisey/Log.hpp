@@ -35,11 +35,6 @@ namespace wisey {
     static void setLogLevel(LogLevel logLevel);
     
     /**
-     * Log an error message
-     */
-    static void e_deprecated(std::string message);
-    
-    /**
      * Log an error message with filename and line number
      */
     static void e(std::string sourceFile, int line, std::string message);

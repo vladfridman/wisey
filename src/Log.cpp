@@ -18,12 +18,6 @@ void Log::setLogLevel(LogLevel logLevel) {
   Log::sLogLevel = logLevel;
 }
 
-void Log::e_deprecated(std::string message) {
-  if (Log::sLogLevel >= ERRORLEVEL) {
-    cerr << "Error: " << message << endl;
-  }
-}
-
 void Log::e(std::string sourceFile, int line, std::string message) {
   if (Log::sLogLevel >= ERRORLEVEL) {
     cerr << sourceFile << "(" << line << "): Error: " << message << endl;
