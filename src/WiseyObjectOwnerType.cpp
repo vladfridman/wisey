@@ -134,7 +134,9 @@ void WiseyObjectOwnerType::printToStream(IRGenerationContext &context, iostream&
   stream << getTypeName();
 }
 
-void WiseyObjectOwnerType::createLocalVariable(IRGenerationContext& context, string name) const {
+void WiseyObjectOwnerType::createLocalVariable(IRGenerationContext& context,
+                                               string name,
+                                               int line) const {
   PointerType* llvmType = getLLVMType(context);
   llvm::Value* alloca = IRWriter::newAllocaInst(context, llvmType, name);
   IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloca);
@@ -144,14 +146,16 @@ void WiseyObjectOwnerType::createLocalVariable(IRGenerationContext& context, str
 
 void WiseyObjectOwnerType::createFieldVariable(IRGenerationContext& context,
                                                string name,
-                                               const IConcreteObjectType* object) const {
+                                               const IConcreteObjectType* object,
+                                               int line) const {
   IVariable* variable = new FieldOwnerVariable(name, object);
   context.getScopes().setVariable(variable);
 }
 
 void WiseyObjectOwnerType::createParameterVariable(IRGenerationContext& context,
                                                    string name,
-                                                   llvm::Value* value) const {
+                                                   llvm::Value* value,
+                                                   int line) const {
   llvm::PointerType::Type* llvmType = getLLVMType(context);
   Value* alloc = IRWriter::newAllocaInst(context, llvmType, name);
   IRWriter::newStoreInst(context, value, alloc);

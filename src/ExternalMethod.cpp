@@ -189,19 +189,23 @@ const IObjectType* ExternalMethod::getParentObject() const {
 void ExternalMethod::printToStream(IRGenerationContext& context, iostream& stream) const {
 }
 
-void ExternalMethod::createLocalVariable(IRGenerationContext& context, string name) const {
+void ExternalMethod::createLocalVariable(IRGenerationContext& context,
+                                         string name,
+                                         int line) const {
   assert(false);
 }
 
 void ExternalMethod::createFieldVariable(IRGenerationContext& context,
                                          string name,
-                                         const IConcreteObjectType* object) const {
+                                         const IConcreteObjectType* object,
+                                         int line) const {
   assert(false);
 }
 
 void ExternalMethod::createParameterVariable(IRGenerationContext& context,
                                              string name,
-                                             Value* value) const {
+                                             Value* value,
+                                             int line) const {
   assert(false);
 }
 

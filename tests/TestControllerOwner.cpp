@@ -289,7 +289,7 @@ TEST_F(ControllerOwnerTest, castToSecondInterfaceTest) {
 }
 
 TEST_F(ControllerOwnerTest, createLocalVariableTest) {
-  mMultiplierController->getOwner()->createLocalVariable(mContext, "temp");
+  mMultiplierController->getOwner()->createLocalVariable(mContext, "temp", 0);
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);
@@ -309,7 +309,10 @@ TEST_F(ControllerOwnerTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
   IField* field = new FixedField(mMultiplierController->getOwner(), "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
-  mMultiplierController->getOwner()->createFieldVariable(mContext, "mField", &concreteObjectType);
+  mMultiplierController->getOwner()->createFieldVariable(mContext,
+                                                         "mField",
+                                                         &concreteObjectType,
+                                                         0);
   IVariable* variable = mContext.getScopes().getVariable("mField");
 
   EXPECT_NE(variable, nullptr);
@@ -317,7 +320,7 @@ TEST_F(ControllerOwnerTest, createFieldVariableTest) {
 
 TEST_F(ControllerOwnerTest, createParameterVariableTest) {
   Value* value = ConstantPointerNull::get(mMultiplierController->getOwner()->getLLVMType(mContext));
-  mMultiplierController->getOwner()->createParameterVariable(mContext, "var", value);
+  mMultiplierController->getOwner()->createParameterVariable(mContext, "var", value, 0);
   IVariable* variable = mContext.getScopes().getVariable("var");
   
   EXPECT_NE(variable, nullptr);

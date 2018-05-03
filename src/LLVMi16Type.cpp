@@ -108,20 +108,24 @@ void LLVMi16Type::printToStream(IRGenerationContext &context, iostream& stream) 
   stream << getTypeName();
 }
 
-void LLVMi16Type::createLocalVariable(IRGenerationContext& context, string name) const {
+void LLVMi16Type::createLocalVariable(IRGenerationContext& context,
+                                      string name,
+                                      int line) const {
   ILLVMType::createLocalLLVMVariable(context, this, name);
 }
 
 void LLVMi16Type::createFieldVariable(IRGenerationContext& context,
                                       string name,
-                                      const IConcreteObjectType* object) const {
+                                      const IConcreteObjectType* object,
+                                      int line) const {
   IVariable* variable = new FieldLLVMVariable(name, object);
   context.getScopes().setVariable(variable);
 }
 
 void LLVMi16Type::createParameterVariable(IRGenerationContext& context,
                                           string name,
-                                          Value* value) const {
+                                          Value* value,
+                                          int line) const {
   ParameterLLVMVariable* variable = new ParameterLLVMVariable(name, this, value);
   context.getScopes().setVariable(variable);
 }

@@ -141,7 +141,9 @@ void IntType::printToStream(IRGenerationContext &context, iostream& stream) cons
   stream << getTypeName();
 }
 
-void IntType::createLocalVariable(IRGenerationContext& context, string name) const {
+void IntType::createLocalVariable(IRGenerationContext& context,
+                                  string name,
+                                  int line) const {
   Type* llvmType = getLLVMType(context);
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
   
@@ -154,14 +156,16 @@ void IntType::createLocalVariable(IRGenerationContext& context, string name) con
 
 void IntType::createFieldVariable(IRGenerationContext& context,
                                   string name,
-                                  const IConcreteObjectType* object) const {
+                                  const IConcreteObjectType* object,
+                                  int line) const {
   IVariable* variable = new FieldPrimitiveVariable(name, object);
   context.getScopes().setVariable(variable);
 }
 
 void IntType::createParameterVariable(IRGenerationContext& context,
                                       string name,
-                                      Value* value) const {
+                                      Value* value,
+                                      int line) const {
   IVariable* variable = new ParameterPrimitiveVariable(name, this, value);
   context.getScopes().setVariable(variable);
 }

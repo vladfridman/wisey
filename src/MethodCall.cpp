@@ -212,7 +212,7 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
   IRWriter::newStoreInst(context, result, pointer);
 
   string variableName = IVariable::getTemporaryVariableName(this);
-  returnType->createLocalVariable(context, variableName);
+  returnType->createLocalVariable(context, variableName, mLine);
 
   return result;
 }

@@ -134,7 +134,9 @@ void LLVMPointerType::printToStream(IRGenerationContext &context, iostream& stre
   stream << getTypeName();
 }
 
-void LLVMPointerType::createLocalVariable(IRGenerationContext& context, string name) const {
+void LLVMPointerType::createLocalVariable(IRGenerationContext& context,
+                                          string name,
+                                          int line) const {
   llvm::PointerType* llvmType = getLLVMType(context);
   
   llvm::Value* alloca = IRWriter::newAllocaInst(context, llvmType, name);
@@ -146,14 +148,16 @@ void LLVMPointerType::createLocalVariable(IRGenerationContext& context, string n
 
 void LLVMPointerType::createFieldVariable(IRGenerationContext& context,
                                           string name,
-                                          const IConcreteObjectType* object) const {
+                                          const IConcreteObjectType* object,
+                                          int line) const {
   IVariable* variable = new FieldPointerVariable(name, object);
   context.getScopes().setVariable(variable);
 }
 
 void LLVMPointerType::createParameterVariable(IRGenerationContext& context,
                                               string name,
-                                              llvm::Value* value) const {
+                                              llvm::Value* value,
+                                              int line) const {
   IVariable* variable = new ParameterPointerVariable(name, this, value);
   context.getScopes().setVariable(variable);
 }

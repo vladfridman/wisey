@@ -111,7 +111,7 @@ TEST_F(ArrayOwnerTypeTest, isObjectTest) {
 }
 
 TEST_F(ArrayOwnerTypeTest, createLocalVariableTest) {
-  mArrayOwnerType->createLocalVariable(mContext, "temp");
+  mArrayOwnerType->createLocalVariable(mContext, "temp", 0);
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);
@@ -131,7 +131,7 @@ TEST_F(ArrayOwnerTypeTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
   IField* field = new FixedField(mArrayOwnerType, "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
-  mArrayOwnerType->createFieldVariable(mContext, "mField", &concreteObjectType);
+  mArrayOwnerType->createFieldVariable(mContext, "mField", &concreteObjectType, 0);
   IVariable* variable = mContext.getScopes().getVariable("mField");
   
   EXPECT_NE(variable, nullptr);
@@ -139,7 +139,7 @@ TEST_F(ArrayOwnerTypeTest, createFieldVariableTest) {
 
 TEST_F(ArrayOwnerTypeTest, createParameterVariableTest) {
   llvm::Value* value = llvm::ConstantPointerNull::get(mArrayOwnerType->getLLVMType(mContext));
-  mArrayOwnerType->createParameterVariable(mContext, "var", value);
+  mArrayOwnerType->createParameterVariable(mContext, "var", value, 0);
   IVariable* variable = mContext.getScopes().getVariable("var");
   
   EXPECT_NE(variable, nullptr);

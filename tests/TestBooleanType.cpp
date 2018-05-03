@@ -154,7 +154,7 @@ TEST_F(BooleanTypeTest, isObjectTest) {
 }
 
 TEST_F(BooleanTypeTest, createLocalVariableTest) {
-  mBoleanType.createLocalVariable(mContext, "temp");
+  mBoleanType.createLocalVariable(mContext, "temp", 0);
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);
@@ -171,14 +171,14 @@ TEST_F(BooleanTypeTest, createLocalVariableTest) {
 }
 
 TEST_F(BooleanTypeTest, createFieldVariableTest) {
-  mBoleanType.createFieldVariable(mContext, "mField", &mConcreteObjectType);
+  mBoleanType.createFieldVariable(mContext, "mField", &mConcreteObjectType, 0);
   IVariable* variable = mContext.getScopes().getVariable("mField");
   
   EXPECT_NE(variable, nullptr);
 }
 
 TEST_F(BooleanTypeTest, createParameterVariableTest) {
-  mBoleanType.createParameterVariable(mContext, "var", NULL);
+  mBoleanType.createParameterVariable(mContext, "var", NULL, 0);
   IVariable* variable = mContext.getScopes().getVariable("var");
   
   EXPECT_NE(variable, nullptr);

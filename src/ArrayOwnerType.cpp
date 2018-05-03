@@ -144,7 +144,9 @@ void ArrayOwnerType::printToStream(IRGenerationContext& context, iostream& strea
   stream << getTypeName();
 }
 
-void ArrayOwnerType::createLocalVariable(IRGenerationContext& context, string name) const {
+void ArrayOwnerType::createLocalVariable(IRGenerationContext& context,
+                                         string name,
+                                         int line) const {
   llvm::PointerType* llvmType = getLLVMType(context);
   llvm::AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
   IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloc);
@@ -155,14 +157,16 @@ void ArrayOwnerType::createLocalVariable(IRGenerationContext& context, string na
 
 void ArrayOwnerType::createFieldVariable(IRGenerationContext& context,
                                          string name,
-                                         const IConcreteObjectType* object) const {
+                                         const IConcreteObjectType* object,
+                                         int line) const {
   IVariable* variable = new FieldArrayOwnerVariable(name, object);
   context.getScopes().setVariable(variable);
 }
 
 void ArrayOwnerType::createParameterVariable(IRGenerationContext& context,
                                              string name,
-                                             llvm::Value* value) const {
+                                             llvm::Value* value,
+                                             int line) const {
   llvm::Type* llvmType = getLLVMType(context);
   llvm::Value* alloc = IRWriter::newAllocaInst(context, llvmType, name);
   IRWriter::newStoreInst(context, value, alloc);

@@ -99,19 +99,23 @@ void PackageType::printToStream(IRGenerationContext &context, iostream& stream) 
   stream << getTypeName();
 }
 
-void PackageType::createLocalVariable(IRGenerationContext& context, string name) const {
+void PackageType::createLocalVariable(IRGenerationContext& context,
+                                      string name,
+                                      int line) const {
   assert(false);
 }
 
 void PackageType::createFieldVariable(IRGenerationContext& context,
                                       string name,
-                                      const IConcreteObjectType* object) const {
+                                      const IConcreteObjectType* object,
+                                      int line) const {
   assert(false);
 }
 
 void PackageType::createParameterVariable(IRGenerationContext& context,
                                           string name,
-                                          Value* value) const {
+                                          Value* value,
+                                          int line) const {
   assert(false);
 }
 

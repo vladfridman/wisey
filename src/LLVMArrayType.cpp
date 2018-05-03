@@ -133,19 +133,23 @@ void LLVMArrayType::printToStream(IRGenerationContext& context, iostream& stream
   stream << getTypeName();
 }
 
-void LLVMArrayType::createLocalVariable(IRGenerationContext& context, string name) const {
+void LLVMArrayType::createLocalVariable(IRGenerationContext& context,
+                                        string name,
+                                        int line) const {
   assert(false);
 }
 
 void LLVMArrayType::createFieldVariable(IRGenerationContext& context,
                                         string name,
-                                        const IConcreteObjectType* object) const {
+                                        const IConcreteObjectType* object,
+                                        int line) const {
   assert(false);
 }
 
 void LLVMArrayType::createParameterVariable(IRGenerationContext& context,
                                             string name,
-                                            llvm::Value* value) const {
+                                            llvm::Value* value,
+                                            int line) const {
   assert(false);
 }
 

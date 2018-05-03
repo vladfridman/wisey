@@ -172,7 +172,8 @@ void LLVMFunction::createArguments(IRGenerationContext& context, Function* funct
   for (const Argument* methodArgument : mArguments) {
     methodArgument->getType()->createParameterVariable(context,
                                                        methodArgument->getName(),
-                                                       &*llvmFunctionArguments);
+                                                       &*llvmFunctionArguments,
+                                                       mLine);
     llvmFunctionArguments++;
   }
 }
@@ -275,19 +276,23 @@ void LLVMFunction::printToStream(IRGenerationContext& context, iostream& stream)
   IMethodDescriptor::printDescriptorToStream(this, stream);
 }
 
-void LLVMFunction::createLocalVariable(IRGenerationContext& context, string name) const {
+void LLVMFunction::createLocalVariable(IRGenerationContext& context,
+                                       string name,
+                                       int line) const {
   assert(false);
 }
 
 void LLVMFunction::createFieldVariable(IRGenerationContext& context,
                                        string name,
-                                       const IConcreteObjectType* object) const {
+                                       const IConcreteObjectType* object,
+                                       int line) const {
   assert(false);
 }
 
 void LLVMFunction::createParameterVariable(IRGenerationContext& context,
                                            string name,
-                                           Value* value) const {
+                                           Value* value,
+                                           int line) const {
   assert(false);
 }
 

@@ -25,8 +25,9 @@ using namespace wisey;
 void IMethod::storeArgumentValue(IRGenerationContext& context,
                                  string name,
                                  const IType* type,
-                                 Value* value) {
-  type->createParameterVariable(context, name, value);
+                                 Value* value,
+                                 int line) {
+  type->createParameterVariable(context, name, value, line);
 }
 
 void IMethod::storeSystemArgumentValue(IRGenerationContext& context,

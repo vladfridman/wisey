@@ -584,7 +584,7 @@ TEST_F(InterfaceTest, circularDependencyDeathTest) {
 }
 
 TEST_F(InterfaceTest, createLocalVariableTest) {
-  mShapeInterface->createLocalVariable(mContext, "temp");
+  mShapeInterface->createLocalVariable(mContext, "temp", 0);
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);
@@ -605,7 +605,7 @@ TEST_F(InterfaceTest, createFieldVariableTest) {
   InjectionArgumentList injectionArgumentList;
   IField* field = new FixedField(mShapeInterface, "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
-  mShapeInterface->createFieldVariable(mContext, "mField", &concreteObjectType);
+  mShapeInterface->createFieldVariable(mContext, "mField", &concreteObjectType, 0);
   IVariable* variable = mContext.getScopes().getVariable("mField");
   
   EXPECT_NE(variable, nullptr);
@@ -613,7 +613,7 @@ TEST_F(InterfaceTest, createFieldVariableTest) {
 
 TEST_F(InterfaceTest, createParameterVariableTest) {
   Value* value = ConstantPointerNull::get(mShapeInterface->getLLVMType(mContext));
-  mShapeInterface->createParameterVariable(mContext, "var", value);
+  mShapeInterface->createParameterVariable(mContext, "var", value, 0);
   IVariable* variable = mContext.getScopes().getVariable("var");
   
   EXPECT_NE(variable, nullptr);

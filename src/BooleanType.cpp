@@ -144,7 +144,9 @@ void BooleanType::printToStream(IRGenerationContext &context, iostream& stream) 
   stream << getTypeName();
 }
 
-void BooleanType::createLocalVariable(IRGenerationContext& context, string name) const {
+void BooleanType::createLocalVariable(IRGenerationContext& context,
+                                      string name,
+                                      int line) const {
   Type* llvmType = getLLVMType(context);
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
   
@@ -157,14 +159,16 @@ void BooleanType::createLocalVariable(IRGenerationContext& context, string name)
 
 void BooleanType::createFieldVariable(IRGenerationContext& context,
                                       string name,
-                                      const IConcreteObjectType* object) const {
+                                      const IConcreteObjectType* object,
+                                      int line) const {
   IVariable* variable = new FieldPrimitiveVariable(name, object);
   context.getScopes().setVariable(variable);
 }
 
 void BooleanType::createParameterVariable(IRGenerationContext& context,
                                           string name,
-                                          Value* value) const {
+                                          Value* value,
+                                          int line) const {
   IVariable* variable = new ParameterPrimitiveVariable(name, this, value);
   context.getScopes().setVariable(variable);
 }

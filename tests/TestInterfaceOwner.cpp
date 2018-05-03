@@ -158,7 +158,7 @@ TEST_F(InterfaceOwnerTest, isObjectTest) {
 }
 
 TEST_F(InterfaceOwnerTest, createLocalVariableTest) {
-  mObjectInterface->getOwner()->createLocalVariable(mContext, "temp");
+  mObjectInterface->getOwner()->createLocalVariable(mContext, "temp", 0);
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);
@@ -178,7 +178,7 @@ TEST_F(InterfaceOwnerTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
   IField* field = new FixedField(mObjectInterface->getOwner(), "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
-  mObjectInterface->getOwner()->createFieldVariable(mContext, "mField", &concreteObjectType);
+  mObjectInterface->getOwner()->createFieldVariable(mContext, "mField", &concreteObjectType, 0);
   IVariable* variable = mContext.getScopes().getVariable("mField");
   
   EXPECT_NE(variable, nullptr);
@@ -186,7 +186,7 @@ TEST_F(InterfaceOwnerTest, createFieldVariableTest) {
 
 TEST_F(InterfaceOwnerTest, createParameterVariableTest) {
   Value* value = ConstantPointerNull::get(mObjectInterface->getOwner()->getLLVMType(mContext));
-  mObjectInterface->getOwner()->createParameterVariable(mContext, "var", value);
+  mObjectInterface->getOwner()->createParameterVariable(mContext, "var", value, 0);
   IVariable* variable = mContext.getScopes().getVariable("var");
   
   EXPECT_NE(variable, nullptr);

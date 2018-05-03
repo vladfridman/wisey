@@ -813,7 +813,7 @@ TEST_F(NodeTest, printToStreamTest) {
 }
 
 TEST_F(NodeTest, createLocalVariableTest) {
-  mComplicatedNode->createLocalVariable(mContext, "temp");
+  mComplicatedNode->createLocalVariable(mContext, "temp", 0);
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);
@@ -834,7 +834,7 @@ TEST_F(NodeTest, createFieldVariableTest) {
   InjectionArgumentList injectionArgumentList;
   IField* field = new FixedField(mComplicatedNode, "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
-  mComplicatedNode->createFieldVariable(mContext, "mField", &concreteObjectType);
+  mComplicatedNode->createFieldVariable(mContext, "mField", &concreteObjectType, 0);
   IVariable* variable = mContext.getScopes().getVariable("mField");
   
   EXPECT_NE(variable, nullptr);
@@ -842,7 +842,7 @@ TEST_F(NodeTest, createFieldVariableTest) {
 
 TEST_F(NodeTest, createParameterVariableTest) {
   Value* value = ConstantPointerNull::get(mComplicatedNode->getLLVMType(mContext));
-  mComplicatedNode->createParameterVariable(mContext, "var", value);
+  mComplicatedNode->createParameterVariable(mContext, "var", value, 0);
   IVariable* variable = mContext.getScopes().getVariable("var");
   
   EXPECT_NE(variable, nullptr);

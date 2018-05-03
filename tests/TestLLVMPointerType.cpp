@@ -131,7 +131,7 @@ TEST_F(LLVMPointerTypeTest, isObjectTest) {
 }
 
 TEST_F(LLVMPointerTypeTest, createLocalVariableTest) {
-  mLLVMPointerType->createLocalVariable(mContext, "temp");
+  mLLVMPointerType->createLocalVariable(mContext, "temp", 0);
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);
@@ -151,7 +151,7 @@ TEST_F(LLVMPointerTypeTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
   IField* field = new StateField(mLLVMPointerType, "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
-  mLLVMPointerType->createFieldVariable(mContext, "mField", &concreteObjectType);
+  mLLVMPointerType->createFieldVariable(mContext, "mField", &concreteObjectType, 0);
   IVariable* variable = mContext.getScopes().getVariable("mField");
   
   EXPECT_NE(variable, nullptr);
@@ -159,7 +159,7 @@ TEST_F(LLVMPointerTypeTest, createFieldVariableTest) {
 
 TEST_F(LLVMPointerTypeTest, createParameterVariableTest) {
   llvm::Constant* null = ConstantPointerNull::get(mLLVMPointerType->getLLVMType(mContext));
-  mLLVMPointerType->createParameterVariable(mContext, "foo", null);
+  mLLVMPointerType->createParameterVariable(mContext, "foo", null, 0);
   IVariable* variable = mContext.getScopes().getVariable("foo");
   
   EXPECT_NE(variable, nullptr);

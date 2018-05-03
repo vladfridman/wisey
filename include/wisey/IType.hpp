@@ -128,21 +128,25 @@ namespace wisey {
     /**
      * Allocates local variable of the type and stores it in the scope
      */
-    virtual void createLocalVariable(IRGenerationContext& context, std::string name) const = 0;
+    virtual void createLocalVariable(IRGenerationContext& context,
+                                     std::string name,
+                                     int line) const = 0;
     
     /**
      * Allocates field variable of the type and stores it in the scope
      */
     virtual void createFieldVariable(IRGenerationContext& context,
                                      std::string name,
-                                     const IConcreteObjectType* object) const = 0;
+                                     const IConcreteObjectType* object,
+                                     int line) const = 0;
     
     /**
      * Allocates parameter variable of the type and stores it in the scope
      */
     virtual void createParameterVariable(IRGenerationContext& context,
                                          std::string name,
-                                         llvm::Value* value) const = 0;
+                                         llvm::Value* value,
+                                         int line) const = 0;
     
     /**
      * Inject instance of this injectable type with given arguments, gives error if not injectable

@@ -182,19 +182,23 @@ void ArraySpecificType::printToStream(IRGenerationContext &context, iostream& st
   }
 }
 
-void ArraySpecificType::createLocalVariable(IRGenerationContext& context, string name) const {
+void ArraySpecificType::createLocalVariable(IRGenerationContext& context,
+                                            string name,
+                                            int line) const {
   assert(false);
 }
 
 void ArraySpecificType::createFieldVariable(IRGenerationContext& context,
                                             string name,
-                                            const IConcreteObjectType* object) const {
+                                            const IConcreteObjectType* object,
+                                            int line) const {
   assert(false);
 }
 
 void ArraySpecificType::createParameterVariable(IRGenerationContext& context,
                                                 string name,
-                                                llvm::Value* value) const {
+                                                llvm::Value* value,
+                                                int line) const {
   assert(false);
 }
 

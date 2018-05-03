@@ -205,19 +205,23 @@ void MethodSignature::printToStream(IRGenerationContext& context, iostream& stre
   IMethodDescriptor::printDescriptorToStream(this, stream);
 }
 
-void MethodSignature::createLocalVariable(IRGenerationContext& context, string name) const {
+void MethodSignature::createLocalVariable(IRGenerationContext& context,
+                                          string name,
+                                          int line) const {
   assert(false);
 }
 
 void MethodSignature::createFieldVariable(IRGenerationContext& context,
                                           string name,
-                                          const IConcreteObjectType* object) const {
+                                          const IConcreteObjectType* object,
+                                          int line) const {
   assert(false);
 }
 
 void MethodSignature::createParameterVariable(IRGenerationContext& context,
                                               string name,
-                                              Value* value) const {
+                                              Value* value,
+                                              int line) const {
   assert(false);
 }
 

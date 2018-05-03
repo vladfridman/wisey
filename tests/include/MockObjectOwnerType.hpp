@@ -46,13 +46,17 @@ public:
   MOCK_CONST_METHOD0(isImmutable, bool ());
   MOCK_CONST_METHOD2(getDestructorFunction, llvm::Function* (wisey::IRGenerationContext&, int));
   MOCK_CONST_METHOD2(printToStream, void (wisey::IRGenerationContext&, std::iostream& stream));
-  MOCK_CONST_METHOD2(createLocalVariable, void (wisey::IRGenerationContext&, std::string name));
-  MOCK_CONST_METHOD3(createFieldVariable, void (wisey::IRGenerationContext&,
+  MOCK_CONST_METHOD3(createLocalVariable, void (wisey::IRGenerationContext&,
                                                 std::string name,
-                                                const wisey::IConcreteObjectType* object));
-  MOCK_CONST_METHOD3(createParameterVariable, void (wisey::IRGenerationContext&,
+                                                int));
+  MOCK_CONST_METHOD4(createFieldVariable, void (wisey::IRGenerationContext&,
+                                                std::string name,
+                                                const wisey::IConcreteObjectType* object,
+                                                int));
+  MOCK_CONST_METHOD4(createParameterVariable, void (wisey::IRGenerationContext&,
                                                     std::string name,
-                                                    llvm::Value* value));
+                                                    llvm::Value* value,
+                                                    int));
   MOCK_CONST_METHOD2(getArrayType, wisey::ArrayType* (wisey::IRGenerationContext&, int));
   MOCK_CONST_METHOD0(getReference, const wisey::IReferenceType* ());
   MOCK_CONST_METHOD3(inject, llvm::Instruction* (wisey::IRGenerationContext&,

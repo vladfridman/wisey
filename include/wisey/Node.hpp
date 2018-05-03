@@ -205,15 +205,19 @@ namespace wisey {
     
     llvm::Function* getReferenceAdjustmentFunction(IRGenerationContext& context) const override;
     
-    void createLocalVariable(IRGenerationContext& context, std::string name) const override;
+    void createLocalVariable(IRGenerationContext& context,
+                             std::string name,
+                             int line) const override;
     
     void createFieldVariable(IRGenerationContext& context,
                              std::string name,
-                             const IConcreteObjectType* object) const override;
+                             const IConcreteObjectType* object,
+                             int line) const override;
     
     void createParameterVariable(IRGenerationContext& context,
                                  std::string name,
-                                 llvm::Value* value) const override;
+                                 llvm::Value* value,
+                                 int line) const override;
     
     const ArrayType* getArrayType(IRGenerationContext& context, int line) const override;
 

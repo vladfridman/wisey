@@ -1066,7 +1066,9 @@ Function* Interface::getReferenceAdjustmentFunction(IRGenerationContext& context
   return AdjustReferenceCountFunction::get(context);
 }
 
-void Interface::createLocalVariable(IRGenerationContext& context, string name) const {
+void Interface::createLocalVariable(IRGenerationContext& context,
+                                    string name,
+                                    int line) const {
   llvm::PointerType* llvmType = getLLVMType(context);
   
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "referenceDeclaration");
@@ -1080,14 +1082,16 @@ void Interface::createLocalVariable(IRGenerationContext& context, string name) c
 
 void Interface::createFieldVariable(IRGenerationContext& context,
                                     string name,
-                                    const IConcreteObjectType* object) const {
+                                    const IConcreteObjectType* object,
+                                    int line) const {
   IVariable* variable = new FieldReferenceVariable(name, object);
   context.getScopes().setVariable(variable);
 }
 
 void Interface::createParameterVariable(IRGenerationContext& context,
-                                         string name,
-                                         Value* value) const {
+                                        string name,
+                                        Value* value,
+                                        int line) const {
   IVariable* variable = new ParameterReferenceVariable(name, this, value);
   incrementReferenceCount(context, value);
   context.getScopes().setVariable(variable);

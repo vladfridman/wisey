@@ -145,19 +145,23 @@ void ArrayExactType::printToStream(IRGenerationContext& context, iostream& strea
   stream << getTypeName();
 }
 
-void ArrayExactType::createLocalVariable(IRGenerationContext& context, string name) const {
+void ArrayExactType::createLocalVariable(IRGenerationContext& context,
+                                         string name,
+                                         int line) const {
   assert(false);
 }
 
 void ArrayExactType::createFieldVariable(IRGenerationContext& context,
                                          string name,
-                                         const IConcreteObjectType* object) const {
+                                         const IConcreteObjectType* object,
+                                         int line) const {
   assert(false);
 }
 
 void ArrayExactType::createParameterVariable(IRGenerationContext& context,
                                              string name,
-                                             llvm::Value* value) const {
+                                             llvm::Value* value,
+                                             int line) const {
   assert(false);
 }
 

@@ -161,7 +161,7 @@ TEST_F(WiseyModelOwnerTypeTest, isObjectTest) {
 }
 
 TEST_F(WiseyModelOwnerTypeTest, createLocalVariableTest) {
-  mWiseyModelOwnerType->createLocalVariable(mContext, "temp");
+  mWiseyModelOwnerType->createLocalVariable(mContext, "temp", 0);
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);
@@ -180,7 +180,7 @@ TEST_F(WiseyModelOwnerTypeTest, createLocalVariableTest) {
 TEST_F(WiseyModelOwnerTypeTest, createParameterVariableTest) {
   Value* null = ConstantPointerNull::get(mWiseyModelOwnerType->getLLVMType(mContext));
   
-  mWiseyModelOwnerType->createParameterVariable(mContext, "parameter", null);
+  mWiseyModelOwnerType->createParameterVariable(mContext, "parameter", null, 0);
   IVariable* variable = mContext.getScopes().getVariable("parameter");
   
   EXPECT_NE(variable, nullptr);

@@ -132,7 +132,9 @@ void ImmutableArrayType::printToStream(IRGenerationContext &context, iostream& s
   stream << getTypeName();
 }
 
-void ImmutableArrayType::createLocalVariable(IRGenerationContext &context, string name) const {
+void ImmutableArrayType::createLocalVariable(IRGenerationContext &context,
+                                             string name,
+                                             int line) const {
   llvm::PointerType* llvmType = getLLVMType(context);
   llvm::AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
   IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloc);
@@ -143,14 +145,16 @@ void ImmutableArrayType::createLocalVariable(IRGenerationContext &context, strin
 
 void ImmutableArrayType::createFieldVariable(IRGenerationContext& context,
                                              string name,
-                                             const IConcreteObjectType* object) const {
+                                             const IConcreteObjectType* object,
+                                             int line) const {
   IVariable* variable = new FieldImmutableArrayReferenceVariable(name, object);
   context.getScopes().setVariable(variable);
 }
 
 void ImmutableArrayType::createParameterVariable(IRGenerationContext& context,
                                                  string name,
-                                                 llvm::Value* value) const {
+                                                 llvm::Value* value,
+                                                 int line) const {
   IVariable* variable = new ParameterImmutableArrayReferenceVariable(name, this,  value);
   incrementReferenceCount(context, value);
   context.getScopes().setVariable(variable);

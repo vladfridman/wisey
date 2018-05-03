@@ -105,19 +105,23 @@ void LLVMVoidType::printToStream(IRGenerationContext &context, iostream& stream)
   stream << getTypeName();
 }
 
-void LLVMVoidType::createLocalVariable(IRGenerationContext& context, string name) const {
+void LLVMVoidType::createLocalVariable(IRGenerationContext& context,
+                                       string name,
+                                       int line) const {
   assert(false);
 }
 
 void LLVMVoidType::createFieldVariable(IRGenerationContext& context,
                                      string name,
-                                     const IConcreteObjectType* object) const {
+                                       const IConcreteObjectType* object,
+                                       int line) const {
   assert(false);
 }
 
 void LLVMVoidType::createParameterVariable(IRGenerationContext& context,
-                                         string name,
-                                         Value* value) const {
+                                           string name,
+                                           Value* value,
+                                           int line) const {
   assert(false);
 }
 

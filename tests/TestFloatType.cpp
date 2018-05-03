@@ -154,7 +154,7 @@ TEST_F(FloatTypeTest, isObjectTest) {
 }
 
 TEST_F(FloatTypeTest, createLocalVariableTest) {
-  mFloatType.createLocalVariable(mContext, "temp");
+  mFloatType.createLocalVariable(mContext, "temp", 0);
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);
@@ -171,14 +171,14 @@ TEST_F(FloatTypeTest, createLocalVariableTest) {
 }
 
 TEST_F(FloatTypeTest, createFieldVariableTest) {
-  mFloatType.createFieldVariable(mContext, "mField", &mConcreteObjectType);
+  mFloatType.createFieldVariable(mContext, "mField", &mConcreteObjectType, 0);
   IVariable* variable = mContext.getScopes().getVariable("mField");
   
   EXPECT_NE(variable, nullptr);
 }
 
 TEST_F(FloatTypeTest, createParameterVariableTest) {
-  mFloatType.createParameterVariable(mContext, "var", NULL);
+  mFloatType.createParameterVariable(mContext, "var", NULL, 0);
   IVariable* variable = mContext.getScopes().getVariable("var");
   
   EXPECT_NE(variable, nullptr);

@@ -159,7 +159,7 @@ TEST_F(WiseyObjectTypeTest, isObjectTest) {
 }
 
 TEST_F(WiseyObjectTypeTest, createLocalVariableTest) {
-  mWiseyObjectType->createLocalVariable(mContext, "temp");
+  mWiseyObjectType->createLocalVariable(mContext, "temp", 0);
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);
@@ -179,7 +179,7 @@ TEST_F(WiseyObjectTypeTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
   IField* field = new StateField(mWiseyObjectType, "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
-  mWiseyObjectType->createFieldVariable(mContext, "mField", &concreteObjectType);
+  mWiseyObjectType->createFieldVariable(mContext, "mField", &concreteObjectType, 0);
   IVariable* variable = mContext.getScopes().getVariable("mField");
   
   EXPECT_NE(variable, nullptr);
@@ -187,7 +187,7 @@ TEST_F(WiseyObjectTypeTest, createFieldVariableTest) {
 
 TEST_F(WiseyObjectTypeTest, createParameterVariableTest) {
   llvm::Constant* null = ConstantPointerNull::get(mWiseyObjectType->getLLVMType(mContext));
-  mWiseyObjectType->createParameterVariable(mContext, "foo", null);
+  mWiseyObjectType->createParameterVariable(mContext, "foo", null, 0);
   IVariable* variable = mContext.getScopes().getVariable("foo");
   
   EXPECT_NE(variable, nullptr);

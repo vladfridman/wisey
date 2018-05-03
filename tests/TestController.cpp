@@ -1026,7 +1026,7 @@ TEST_F(ControllerTest, printToStreamTest) {
 }
 
 TEST_F(ControllerTest, createLocalVariableTest) {
-  mMultiplierController->createLocalVariable(mContext, "temp");
+  mMultiplierController->createLocalVariable(mContext, "temp", 0);
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);
@@ -1046,7 +1046,7 @@ TEST_F(ControllerTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
   IField* field = new FixedField(mMultiplierController, "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
-  mMultiplierController->createFieldVariable(mContext, "mField", &concreteObjectType);
+  mMultiplierController->createFieldVariable(mContext, "mField", &concreteObjectType, 0);
   IVariable* variable = mContext.getScopes().getVariable("mField");
 
   EXPECT_NE(variable, nullptr);
@@ -1054,7 +1054,7 @@ TEST_F(ControllerTest, createFieldVariableTest) {
 
 TEST_F(ControllerTest, createParameterVariableTest) {
   Value* value = ConstantPointerNull::get(mMultiplierController->getLLVMType(mContext));
-  mMultiplierController->createParameterVariable(mContext, "var", value);
+  mMultiplierController->createParameterVariable(mContext, "var", value, 0);
   IVariable* variable = mContext.getScopes().getVariable("var");
   
   EXPECT_NE(variable, nullptr);

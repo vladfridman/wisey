@@ -120,7 +120,9 @@ void StringType::printToStream(IRGenerationContext &context, iostream& stream) c
   stream << getTypeName();
 }
 
-void StringType::createLocalVariable(IRGenerationContext& context, string name) const {
+void StringType::createLocalVariable(IRGenerationContext& context,
+                                     string name,
+                                     int line) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* llvmType = getLLVMType(context);
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
@@ -153,14 +155,16 @@ void StringType::createLocalVariable(IRGenerationContext& context, string name) 
 
 void StringType::createFieldVariable(IRGenerationContext& context,
                                      string name,
-                                     const IConcreteObjectType* object) const {
+                                     const IConcreteObjectType* object,
+                                     int line) const {
   IVariable* variable = new FieldPrimitiveVariable(name, object);
   context.getScopes().setVariable(variable);
 }
 
 void StringType::createParameterVariable(IRGenerationContext& context,
                                          string name,
-                                         Value* value) const {
+                                         Value* value,
+                                         int line) const {
   IVariable* variable = new ParameterPrimitiveVariable(name, this, value);
   context.getScopes().setVariable(variable);
 }

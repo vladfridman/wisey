@@ -140,7 +140,9 @@ void DoubleType::printToStream(IRGenerationContext &context, iostream& stream) c
   stream << getTypeName();
 }
 
-void DoubleType::createLocalVariable(IRGenerationContext& context, string name) const {
+void DoubleType::createLocalVariable(IRGenerationContext& context,
+                                     string name,
+                                     int line) const {
   Type* llvmType = getLLVMType(context);
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
   
@@ -153,14 +155,16 @@ void DoubleType::createLocalVariable(IRGenerationContext& context, string name) 
 
 void DoubleType::createFieldVariable(IRGenerationContext& context,
                                      string name,
-                                     const IConcreteObjectType* object) const {
+                                     const IConcreteObjectType* object,
+                                     int line) const {
   IVariable* variable = new FieldPrimitiveVariable(name, object);
   context.getScopes().setVariable(variable);
 }
 
 void DoubleType::createParameterVariable(IRGenerationContext& context,
                                          string name,
-                                         Value* value) const {
+                                         Value* value,
+                                         int line) const {
   IVariable* variable = new ParameterPrimitiveVariable(name, this, value);
   context.getScopes().setVariable(variable);
 }

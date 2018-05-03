@@ -154,7 +154,7 @@ TEST_F(LongTypeTest, isObjectTest) {
 }
 
 TEST_F(LongTypeTest, createLocalVariableTest) {
-  mLongType.createLocalVariable(mContext, "temp");
+  mLongType.createLocalVariable(mContext, "temp", 0);
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);
@@ -171,14 +171,14 @@ TEST_F(LongTypeTest, createLocalVariableTest) {
 }
 
 TEST_F(LongTypeTest, createFieldVariableTest) {
-  mLongType.createFieldVariable(mContext, "mField", &mConcreteObjectType);
+  mLongType.createFieldVariable(mContext, "mField", &mConcreteObjectType, 0);
   IVariable* variable = mContext.getScopes().getVariable("mField");
   
   EXPECT_NE(variable, nullptr);
 }
 
 TEST_F(LongTypeTest, createParameterVariableTest) {
-  mLongType.createParameterVariable(mContext, "var", NULL);
+  mLongType.createParameterVariable(mContext, "var", NULL, 0);
   IVariable* variable = mContext.getScopes().getVariable("var");
   
   EXPECT_NE(variable, nullptr);

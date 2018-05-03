@@ -334,7 +334,7 @@ GlobalVariable* IConcreteObjectType::createTypeListGlobal(IRGenerationContext& c
 void IConcreteObjectType::declareFieldVariables(IRGenerationContext& context,
                                                 const IConcreteObjectType* object) {
   for (IField* field : object->getFields()) {
-    field->getType()->createFieldVariable(context, field->getName(), object);
+    field->getType()->createFieldVariable(context, field->getName(), object, field->getLine());
   }
 }
 

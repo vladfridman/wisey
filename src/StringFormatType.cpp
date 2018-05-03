@@ -104,19 +104,23 @@ void StringFormatType::printToStream(IRGenerationContext &context, iostream& str
   assert(false && "Attempting to print stringformat type");
 }
 
-void StringFormatType::createLocalVariable(IRGenerationContext& context, string name) const {
+void StringFormatType::createLocalVariable(IRGenerationContext& context,
+                                           string name,
+                                           int line) const {
   assert(false && "Attempting to create a local variable of stringformat type");
 }
 
 void StringFormatType::createFieldVariable(IRGenerationContext& context,
                                            string name,
-                                           const IConcreteObjectType* object) const {
+                                           const IConcreteObjectType* object,
+                                           int line) const {
   assert(false && "Attempting to create a field variable of stringformat type");
 }
 
 void StringFormatType::createParameterVariable(IRGenerationContext& context,
                                                string name,
-                                               Value* value) const {
+                                               Value* value,
+                                               int line) const {
   assert(false && "Attempting to create a parameter variable of stringformat type");
 }
 

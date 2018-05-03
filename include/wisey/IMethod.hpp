@@ -38,7 +38,8 @@ namespace wisey {
     static void storeArgumentValue(IRGenerationContext& context,
                                    std::string name,
                                    const IType* type,
-                                   llvm::Value* value);
+                                   llvm::Value* value,
+                                   int line);
     /**
      * Store method argument as a variable in the current scope
      */

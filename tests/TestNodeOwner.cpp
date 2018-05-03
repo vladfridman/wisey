@@ -406,7 +406,7 @@ TEST_F(NodeOwnerTest, isObjectTest) {
 }
 
 TEST_F(NodeOwnerTest, createLocalVariableTest) {
-  mComplicatedNode->getOwner()->createLocalVariable(mContext, "temp");
+  mComplicatedNode->getOwner()->createLocalVariable(mContext, "temp", 0);
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);
@@ -426,7 +426,7 @@ TEST_F(NodeOwnerTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
   IField* field = new FixedField(mComplicatedNode->getOwner(), "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
-  mComplicatedNode->getOwner()->createFieldVariable(mContext, "mField", &concreteObjectType);
+  mComplicatedNode->getOwner()->createFieldVariable(mContext, "mField", &concreteObjectType, 0);
   IVariable* variable = mContext.getScopes().getVariable("mField");
   
   EXPECT_NE(variable, nullptr);
@@ -434,7 +434,7 @@ TEST_F(NodeOwnerTest, createFieldVariableTest) {
 
 TEST_F(NodeOwnerTest, createParameterVariableTest) {
   Value* value = ConstantPointerNull::get(mComplicatedNode->getOwner()->getLLVMType(mContext));
-  mComplicatedNode->getOwner()->createParameterVariable(mContext, "var", value);
+  mComplicatedNode->getOwner()->createParameterVariable(mContext, "var", value, 0);
   IVariable* variable = mContext.getScopes().getVariable("var");
   
   EXPECT_NE(variable, nullptr);

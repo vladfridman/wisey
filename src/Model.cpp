@@ -525,7 +525,9 @@ Function* Model::getReferenceAdjustmentFunction(IRGenerationContext& context) co
   return AdjustReferenceCounterForConcreteObjectSafelyFunction::get(context);
 }
 
-void Model::createLocalVariable(IRGenerationContext& context, string name) const {
+void Model::createLocalVariable(IRGenerationContext& context,
+                                string name,
+                                int line) const {
   llvm::PointerType* llvmType = getLLVMType(context);
   
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "referenceDeclaration");
@@ -537,14 +539,16 @@ void Model::createLocalVariable(IRGenerationContext& context, string name) const
 
 void Model::createFieldVariable(IRGenerationContext& context,
                                 string name,
-                                const IConcreteObjectType* object) const {
+                                const IConcreteObjectType* object,
+                                int line) const {
   IVariable* variable = new FieldReferenceVariable(name, object);
   context.getScopes().setVariable(variable);
 }
 
 void Model::createParameterVariable(IRGenerationContext& context,
                                     string name,
-                                    Value* value) const {
+                                    Value* value,
+                                    int line) const {
   IVariable* variable = new ParameterReferenceVariable(name, this, value);
   incrementReferenceCount(context, value);
   context.getScopes().setVariable(variable);

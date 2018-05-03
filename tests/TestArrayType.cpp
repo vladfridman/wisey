@@ -128,7 +128,7 @@ TEST_F(ArrayTypeTest, isObjectTest) {
 }
 
 TEST_F(ArrayTypeTest, createLocalVariableTest) {
-  mArrayType->createLocalVariable(mContext, "temp");
+  mArrayType->createLocalVariable(mContext, "temp", 0);
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);
@@ -145,7 +145,7 @@ TEST_F(ArrayTypeTest, createLocalVariableTest) {
 }
 
 TEST_F(ArrayTypeTest, createFieldVariableTest) {
-  mArrayType->createFieldVariable(mContext, "mField", &mConcreteObjectType);
+  mArrayType->createFieldVariable(mContext, "mField", &mConcreteObjectType, 0);
   IVariable* variable = mContext.getScopes().getVariable("mField");
   
   EXPECT_NE(variable, nullptr);
@@ -153,7 +153,7 @@ TEST_F(ArrayTypeTest, createFieldVariableTest) {
 
 TEST_F(ArrayTypeTest, createParameterVariableTest) {
   llvm::Value* value = llvm::ConstantPointerNull::get(mArrayType->getLLVMType(mContext));
-  mArrayType->createParameterVariable(mContext, "var", value);
+  mArrayType->createParameterVariable(mContext, "var", value, 0);
   IVariable* variable = mContext.getScopes().getVariable("var");
   
   EXPECT_NE(variable, nullptr);

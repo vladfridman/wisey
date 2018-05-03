@@ -105,19 +105,23 @@ void VoidType::printToStream(IRGenerationContext &context, iostream& stream) con
   stream << getTypeName();
 }
 
-void VoidType::createLocalVariable(IRGenerationContext& context, string name) const {
+void VoidType::createLocalVariable(IRGenerationContext& context,
+                                   string name,
+                                   int line) const {
   assert(false);
 }
 
 void VoidType::createFieldVariable(IRGenerationContext& context,
                                    string name,
-                                   const IConcreteObjectType* object) const {
+                                   const IConcreteObjectType* object,
+                                   int line) const {
   assert(false);
 }
 
 void VoidType::createParameterVariable(IRGenerationContext& context,
                                        string name,
-                                       Value* value) const {
+                                       Value* value,
+                                       int line) const {
   assert(false);
 }
 

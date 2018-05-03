@@ -136,7 +136,9 @@ void NodeOwner::printToStream(IRGenerationContext &context, iostream& stream) co
   stream << getTypeName();
 }
 
-void NodeOwner::createLocalVariable(IRGenerationContext& context, string name) const {
+void NodeOwner::createLocalVariable(IRGenerationContext& context,
+                                    string name,
+                                    int line) const {
   llvm::PointerType* llvmType = getLLVMType(context);
   
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, name);
@@ -148,14 +150,16 @@ void NodeOwner::createLocalVariable(IRGenerationContext& context, string name) c
 
 void NodeOwner::createFieldVariable(IRGenerationContext& context,
                                     string name,
-                                    const IConcreteObjectType* object) const {
+                                    const IConcreteObjectType* object,
+                                    int line) const {
   IVariable* variable = new FieldOwnerVariable(name, object);
   context.getScopes().setVariable(variable);
 }
 
 void NodeOwner::createParameterVariable(IRGenerationContext& context,
                                         string name,
-                                        Value* value) const {
+                                        Value* value,
+                                        int line) const {
   Type* llvmType = getLLVMType(context);
   Value* alloc = IRWriter::newAllocaInst(context, llvmType, name);
   IRWriter::newStoreInst(context, value, alloc);

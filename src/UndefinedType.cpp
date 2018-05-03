@@ -98,19 +98,23 @@ void UndefinedType::printToStream(IRGenerationContext &context, iostream& stream
   stream << getTypeName();
 }
 
-void UndefinedType::createLocalVariable(IRGenerationContext& context, string name) const {
+void UndefinedType::createLocalVariable(IRGenerationContext& context,
+                                        string name,
+                                        int line) const {
   assert(false);
 }
 
 void UndefinedType::createFieldVariable(IRGenerationContext& context,
                                         string name,
-                                        const IConcreteObjectType* object) const {
+                                        const IConcreteObjectType* object,
+                                        int line) const {
   assert(false);
 }
 
 void UndefinedType::createParameterVariable(IRGenerationContext& context,
                                             string name,
-                                            Value* value) const {
+                                            Value* value,
+                                            int line) const {
   assert(false);
 }
 

@@ -127,19 +127,23 @@ void ArraySpecificOwnerType::printToStream(IRGenerationContext &context, iostrea
   stream << "*";
 }
 
-void ArraySpecificOwnerType::createLocalVariable(IRGenerationContext& context, string name) const {
+void ArraySpecificOwnerType::createLocalVariable(IRGenerationContext& context,
+                                                 string name,
+                                                 int line) const {
   assert(false);
 }
 
 void ArraySpecificOwnerType::createFieldVariable(IRGenerationContext& context,
                                                  string name,
-                                                 const IConcreteObjectType* object) const {
+                                                 const IConcreteObjectType* object,
+                                                 int line) const {
   assert(false);
 }
 
 void ArraySpecificOwnerType::createParameterVariable(IRGenerationContext& context,
                                                      string name,
-                                                     llvm::Value* value) const {
+                                                     llvm::Value* value,
+                                                     int line) const {
   assert(false);
 }
 

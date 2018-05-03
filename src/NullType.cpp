@@ -99,19 +99,23 @@ void NullType::printToStream(IRGenerationContext &context, iostream& stream) con
   stream << getTypeName();
 }
 
-void NullType::createLocalVariable(IRGenerationContext& context, string name) const {
+void NullType::createLocalVariable(IRGenerationContext& context,
+                                   string name,
+                                   int line) const {
   assert(false);
 }
 
 void NullType::createFieldVariable(IRGenerationContext& context,
                                    string name,
-                                   const IConcreteObjectType* object) const {
+                                   const IConcreteObjectType* object,
+                                   int line) const {
   assert(false);
 }
 
 void NullType::createParameterVariable(IRGenerationContext& context,
-                                         string name,
-                                         Value* value) const {
+                                       string name,
+                                       Value* value,
+                                       int line) const {
   assert(false);
 }
 

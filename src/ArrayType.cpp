@@ -167,7 +167,9 @@ void ArrayType::printToStream(IRGenerationContext &context, iostream& stream) co
   stream << getTypeName();
 }
 
-void ArrayType::createLocalVariable(IRGenerationContext &context, string name) const {
+void ArrayType::createLocalVariable(IRGenerationContext &context,
+                                    string name,
+                                    int line) const {
   llvm::PointerType* llvmType = getLLVMType(context);
   llvm::AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
   IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloc);
@@ -178,14 +180,16 @@ void ArrayType::createLocalVariable(IRGenerationContext &context, string name) c
 
 void ArrayType::createFieldVariable(IRGenerationContext& context,
                                     string name,
-                                    const IConcreteObjectType* object) const {
+                                    const IConcreteObjectType* object,
+                                    int line) const {
   IVariable* variable = new FieldArrayReferenceVariable(name, object);
   context.getScopes().setVariable(variable);
 }
 
 void ArrayType::createParameterVariable(IRGenerationContext& context,
                                         string name,
-                                        llvm::Value* value) const {
+                                        llvm::Value* value,
+                                        int line) const {
   IVariable* variable = new ParameterArrayReferenceVariable(name, this,  value);
   incrementReferenceCount(context, value);
   context.getScopes().setVariable(variable);

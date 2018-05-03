@@ -207,7 +207,8 @@ void StaticMethod::createArguments(IRGenerationContext& context, Function* funct
     IMethod::storeArgumentValue(context,
                                 methodArgument->getName(),
                                 methodArgument->getType(),
-                                &*llvmFunctionArguments);
+                                &*llvmFunctionArguments,
+                                mMethodQualifiers->getLine());
     llvmFunctionArguments++;
   }
 }
@@ -256,19 +257,23 @@ void StaticMethod::printToStream(IRGenerationContext& context, iostream& stream)
   IMethodDescriptor::printDescriptorToStream(this, stream);
 }
 
-void StaticMethod::createLocalVariable(IRGenerationContext& context, string name) const {
+void StaticMethod::createLocalVariable(IRGenerationContext& context,
+                                       string name,
+                                       int line) const {
   assert(false);
 }
 
 void StaticMethod::createFieldVariable(IRGenerationContext& context,
                                        string name,
-                                       const IConcreteObjectType* object) const {
+                                       const IConcreteObjectType* object,
+                                       int line) const {
   assert(false);
 }
 
 void StaticMethod::createParameterVariable(IRGenerationContext& context,
                                            string name,
-                                           Value* value) const {
+                                           Value* value,
+                                           int line) const {
   assert(false);
 }
 

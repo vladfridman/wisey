@@ -835,7 +835,7 @@ TEST_F(ModelTest, printToStreamTest) {
 }
 
 TEST_F(ModelTest, createLocalVariableTest) {
-  mModel->createLocalVariable(mContext, "temp");
+  mModel->createLocalVariable(mContext, "temp", 0);
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   ASSERT_NE(variable, nullptr);
@@ -855,7 +855,7 @@ TEST_F(ModelTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
   FixedField* field = new FixedField(mModel, "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
-  mModel->createFieldVariable(mContext, "temp", &concreteObjectType);
+  mModel->createFieldVariable(mContext, "temp", &concreteObjectType, 0);
   IVariable* variable = mContext.getScopes().getVariable("temp");
   
   EXPECT_NE(variable, nullptr);
@@ -863,7 +863,7 @@ TEST_F(ModelTest, createFieldVariableTest) {
 
 TEST_F(ModelTest, createParameterVariableTest) {
   Value* value = ConstantPointerNull::get(mModel->getLLVMType(mContext));
-  mModel->createParameterVariable(mContext, "var", value);
+  mModel->createParameterVariable(mContext, "var", value, 0);
   IVariable* variable = mContext.getScopes().getVariable("var");
   
   EXPECT_NE(variable, nullptr);
