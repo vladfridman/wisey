@@ -23,3 +23,7 @@ bool IType::isConcreteObjectType(const IType* type) {
 void IType::repotNonInjectableType(IRGenerationContext& context, const IType* type, int line) {
   context.reportError(line, "type " + type->getTypeName() + " is not injectable");
 }
+
+void IType::reportNonArrayType(IRGenerationContext& context, int line) {
+  context.reportError(line, "Trying to perform array operation on a non-array type expression");
+}

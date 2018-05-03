@@ -80,7 +80,7 @@ namespace wisey {
                                  std::string name,
                                  llvm::Value* value) const override;
     
-    const ArrayType* getArrayType(IRGenerationContext& context) const override;
+    const ArrayType* getArrayType(IRGenerationContext& context, int line) const override;
     
     const WiseyModelType* getReference() const override;
     

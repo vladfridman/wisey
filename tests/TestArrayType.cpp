@@ -71,7 +71,7 @@ TEST_F(ArrayTypeTest, getOwnerTest) {
   const ArrayOwnerType* arrayOwnerType = mArrayType->getOwner();
   EXPECT_TRUE(arrayOwnerType->isArray());
   EXPECT_TRUE(arrayOwnerType->isOwner());
-  EXPECT_EQ(mArrayType, arrayOwnerType->getArrayType(mContext));
+  EXPECT_EQ(mArrayType, arrayOwnerType->getArrayType(mContext, 0));
 }
 
 TEST_F(ArrayTypeTest, getElementTypeTest) {

@@ -44,7 +44,7 @@ struct ArrayExactTypeTest : public Test {
 TEST_F(ArrayExactTypeTest, getArrayTest) {
   const ArrayType* arrayType = mContext.getArrayType(mArrayExactType->getElementType(),
                                                      mArrayExactType->getDimensions().size());
-  EXPECT_EQ(arrayType, mArrayExactType->getArrayType(mContext));
+  EXPECT_EQ(arrayType, mArrayExactType->getArrayType(mContext, 0));
 }
 
 TEST_F(ArrayExactTypeTest, getElementTypeTest) {
@@ -112,7 +112,7 @@ TEST_F(ArrayExactTypeTest, isObjectTest) {
 
 TEST_F(ArrayExactTypeTest, getArrayTypeTest) {
   EXPECT_EQ(mContext.getArrayType(PrimitiveTypes::LONG, 2u),
-            mMultiDimentionalArrayExactType->getArrayType(mContext));
+            mMultiDimentionalArrayExactType->getArrayType(mContext, 0));
 }
 
 TEST_F(ArrayExactTypeTest, injectDeathTest) {

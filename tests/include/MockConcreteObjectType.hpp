@@ -95,7 +95,7 @@ public:
   MOCK_CONST_METHOD3(createParameterVariable, void (wisey::IRGenerationContext&,
                                                     std::string name,
                                                     llvm::Value* value));
-  MOCK_CONST_METHOD1(getArrayType, wisey::ArrayType* (wisey::IRGenerationContext&));
+  MOCK_CONST_METHOD2(getArrayType, wisey::ArrayType* (wisey::IRGenerationContext&, int));
   MOCK_CONST_METHOD3(inject, llvm::Instruction* (wisey::IRGenerationContext&,
                                                  const wisey::InjectionArgumentList,
                                                  int));

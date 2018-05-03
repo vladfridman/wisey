@@ -161,7 +161,7 @@ void ArrayExactType::createParameterVariable(IRGenerationContext& context,
   assert(false);
 }
 
-const wisey::ArrayType* ArrayExactType::getArrayType(IRGenerationContext& context) const {
+const wisey::ArrayType* ArrayExactType::getArrayType(IRGenerationContext& context, int line) const {
   return context.getArrayType(mElementType, getNumberOfDimensions());
 }
 

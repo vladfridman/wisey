@@ -64,7 +64,7 @@ struct ImmutableArrayOwnerTypeTest : public Test {
 };
 
 TEST_F(ImmutableArrayOwnerTypeTest, getArrayTypeTest) {
-  EXPECT_EQ(mArrayType, mImmutableArrayOwnerType->getArrayType(mContext));
+  EXPECT_EQ(mArrayType, mImmutableArrayOwnerType->getArrayType(mContext, 0));
 }
 
 TEST_F(ImmutableArrayOwnerTypeTest, getNameTest) {

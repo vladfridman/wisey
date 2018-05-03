@@ -26,8 +26,8 @@ mImmutableArrayType(immutableArrayType) {
 ImmutableArrayOwnerType::~ImmutableArrayOwnerType() {
 }
 
-const ArrayType* ImmutableArrayOwnerType::getArrayType(IRGenerationContext& context) const {
-  return mImmutableArrayType->getArrayType(context);
+const ArrayType* ImmutableArrayOwnerType::getArrayType(IRGenerationContext& context, int line) const {
+  return mImmutableArrayType->getArrayType(context, line);
 }
 
 string ImmutableArrayOwnerType::getTypeName() const {
@@ -65,7 +65,7 @@ llvm::Value* ImmutableArrayOwnerType::castTo(IRGenerationContext &context,
 void ImmutableArrayOwnerType::free(IRGenerationContext& context,
                                    llvm::Value* arrayPointer,
                                    int line) const {
-  mImmutableArrayType->getArrayType(context)->getOwner()->free(context, arrayPointer, line);
+  mImmutableArrayType->getArrayType(context, line)->getOwner()->free(context, arrayPointer, line);
 }
 
 bool ImmutableArrayOwnerType::isPrimitive() const {

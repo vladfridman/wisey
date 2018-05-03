@@ -94,7 +94,7 @@ TEST_F(ArrayExactOwnerTypeTest, isObjectTest) {
 
 TEST_F(ArrayExactOwnerTypeTest, getArrayTypeTest) {
   EXPECT_EQ(mContext.getArrayType(PrimitiveTypes::LONG, 1u),
-            mArrayExactOwnerType->getArrayType(mContext));
+            mArrayExactOwnerType->getArrayType(mContext, 0));
 }
 
 TEST_F(ArrayExactOwnerTypeTest, injectDeathTest) {

@@ -156,7 +156,7 @@ void ImmutableArrayType::createParameterVariable(IRGenerationContext& context,
   context.getScopes().setVariable(variable);
 }
 
-const ArrayType* ImmutableArrayType::getArrayType(IRGenerationContext& context) const {
+const ArrayType* ImmutableArrayType::getArrayType(IRGenerationContext& context, int line) const {
   return mArrayType;
 }
 

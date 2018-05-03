@@ -40,7 +40,7 @@ IField* InjectedFieldDefinition::define(IRGenerationContext& context,
   if (fieldType->isArray() && fieldType->isOwner()) {
     injectedType = fieldType;
     fieldType = ((const ArraySpecificOwnerType*) fieldType)->getArraySpecificType()
-    ->getArrayType(context)->getOwner();
+    ->getArrayType(context, mLine)->getOwner();
   } else {
     injectedType = fieldType;
   }

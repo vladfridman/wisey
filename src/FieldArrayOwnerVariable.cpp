@@ -123,7 +123,7 @@ Value* FieldArrayOwnerVariable::generateArrayElementAssignment(IRGenerationConte
   const IType* fieldType = field->getType();
   assert(fieldType->isArray() && fieldType->isOwner() && !fieldType->isImmutable());
   const ArrayOwnerType* arrayOwnerType = (const ArrayOwnerType*) fieldType;
-  const ArrayType* arrayType = arrayOwnerType->getArrayType(context);
+  const ArrayType* arrayType = arrayOwnerType->getArrayType(context, line);
   const IType* elementType = arrayType->getElementType();
   Value* elementStore = ArrayElementExpression::generateElementIR(context,
                                                                   arrayType,

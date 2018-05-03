@@ -164,8 +164,8 @@ void LongType::createParameterVariable(IRGenerationContext& context,
   context.getScopes().setVariable(variable);
 }
 
-const wisey::ArrayType* LongType::getArrayType(IRGenerationContext& context) const {
-  ArrayType::reportNonArrayType();
+const wisey::ArrayType* LongType::getArrayType(IRGenerationContext& context, int line) const {
+  ArrayType::reportNonArrayType(context, line);
   exit(1);
 }
 

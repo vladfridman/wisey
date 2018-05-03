@@ -123,16 +123,11 @@ namespace wisey {
                                  std::string name,
                                  llvm::Value* value) const override;
     
-    const ArrayType* getArrayType(IRGenerationContext& context) const override;
+    const ArrayType* getArrayType(IRGenerationContext& context, int line) const override;
 
     llvm::Instruction* inject(IRGenerationContext& context,
                               const InjectionArgumentList injectionArgumentList,
                               int line) const override;
-
-    /**
-     * Prints an error that type is not an array type
-     */
-    static void reportNonArrayType();
     
   private:
     

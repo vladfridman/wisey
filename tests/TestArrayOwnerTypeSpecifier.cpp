@@ -36,8 +36,8 @@ TEST_F(ArrayOwnerTypeSpecifierTest, creationTest) {
   EXPECT_STREQ("int[]*", type->getTypeName().c_str());
   
   const ArrayOwnerType* arrayType = (const ArrayOwnerType*) type;
-  EXPECT_EQ(PrimitiveTypes::INT, arrayType->getArrayType(mContext)->getElementType());
-  EXPECT_EQ(1u, arrayType->getArrayType(mContext)->getNumberOfDimensions());
+  EXPECT_EQ(PrimitiveTypes::INT, arrayType->getArrayType(mContext, 0)->getElementType());
+  EXPECT_EQ(1u, arrayType->getArrayType(mContext, 0)->getNumberOfDimensions());
   EXPECT_EQ(9, specifier->getLine());
 }
 

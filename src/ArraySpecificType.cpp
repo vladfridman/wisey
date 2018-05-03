@@ -45,7 +45,7 @@ string ArraySpecificType::getTypeName() const {
 }
 
 llvm::PointerType* ArraySpecificType::getLLVMType(IRGenerationContext& context) const {
-  return getArrayType(context)->getLLVMType(context);
+  return getArrayType(context, 0)->getLLVMType(context);
 }
 
 list<tuple<llvm::Value*, llvm::Value*>>
@@ -198,7 +198,7 @@ void ArraySpecificType::createParameterVariable(IRGenerationContext& context,
   assert(false);
 }
 
-const wisey::ArrayType* ArraySpecificType::getArrayType(IRGenerationContext& context) const {
+const wisey::ArrayType* ArraySpecificType::getArrayType(IRGenerationContext& context, int line) const {
   return context.getArrayType(mElementType, getNumberOfDimensions());
 }
 

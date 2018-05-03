@@ -154,7 +154,8 @@ namespace wisey {
     /**
      * Returns ArrayType if this type has one associated with it otherwise reports an error
      */
-    virtual const wisey::ArrayType* getArrayType(IRGenerationContext& context) const = 0;
+    virtual const wisey::ArrayType* getArrayType(IRGenerationContext& context,
+                                                 int line) const = 0;
     
     /**
      * Tells whether the given type is an object or an object owner type
@@ -170,7 +171,12 @@ namespace wisey {
      * Print an error that this type is not injectable
      */
     static void repotNonInjectableType(IRGenerationContext& context, const IType* type, int line);
-    
+
+    /**
+     * Prints an error that type is not an array type
+     */
+    static void reportNonArrayType(IRGenerationContext& context, int line);
+
   };
   
 } /* namespace wisey */

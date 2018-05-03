@@ -191,11 +191,7 @@ void ArrayType::createParameterVariable(IRGenerationContext& context,
   context.getScopes().setVariable(variable);
 }
 
-void ArrayType::reportNonArrayType() {
-  Log::e_deprecated("Trying to perform array operation on a non-array type expression");
-}
-
-const ArrayType* ArrayType::getArrayType(IRGenerationContext& context) const {
+const ArrayType* ArrayType::getArrayType(IRGenerationContext& context, int line) const {
   return this;
 }
 

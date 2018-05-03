@@ -39,7 +39,8 @@ namespace wisey {
      */
     static void callWithArrayType(IRGenerationContext& context,
                                   llvm::Value* array,
-                                  const IType* withArrayType);
+                                  const IType* withArrayType,
+                                  int line);
 
   private:
     

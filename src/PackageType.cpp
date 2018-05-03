@@ -115,8 +115,8 @@ void PackageType::createParameterVariable(IRGenerationContext& context,
   assert(false);
 }
 
-const wisey::ArrayType* PackageType::getArrayType(IRGenerationContext& context) const {
-  ArrayType::reportNonArrayType();
+const wisey::ArrayType* PackageType::getArrayType(IRGenerationContext& context, int line) const {
+  ArrayType::reportNonArrayType(context, line);
   exit(1);
 }
 

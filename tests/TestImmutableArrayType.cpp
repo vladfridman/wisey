@@ -75,7 +75,7 @@ TEST_F(ImmutableArrayTypeTest, getOwnerTest) {
   const ImmutableArrayOwnerType* immutableArrayOwnerType = mImmutableArrayType->getOwner();
   EXPECT_TRUE(immutableArrayOwnerType->isArray());
   EXPECT_TRUE(immutableArrayOwnerType->isOwner());
-  EXPECT_EQ(mArrayType, immutableArrayOwnerType->getArrayType(mContext));
+  EXPECT_EQ(mArrayType, immutableArrayOwnerType->getArrayType(mContext, 0));
 }
 
 TEST_F(ImmutableArrayTypeTest, getElementTypeTest) {

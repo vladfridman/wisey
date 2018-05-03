@@ -42,7 +42,7 @@ bool ArraySpecificOwnerType::canCastTo(IRGenerationContext& context, const IType
     return false;
   }
   
-  const ArrayType* toArrayType = toType->getArrayType(context);
+  const ArrayType* toArrayType = toType->getArrayType(context, 0);
   
   return toArrayType->getElementType() == mArraySpecificType->getElementType() &&
   toArrayType->getNumberOfDimensions() == mArraySpecificType->getNumberOfDimensions();
@@ -143,8 +143,8 @@ void ArraySpecificOwnerType::createParameterVariable(IRGenerationContext& contex
   assert(false);
 }
 
-const ArrayType* ArraySpecificOwnerType::getArrayType(IRGenerationContext& context) const {
-  return mArraySpecificType->getArrayType(context);
+const ArrayType* ArraySpecificOwnerType::getArrayType(IRGenerationContext& context, int line) const {
+  return mArraySpecificType->getArrayType(context, line);
 }
 
 const IReferenceType* ArraySpecificOwnerType::getReference() const {
@@ -155,6 +155,6 @@ llvm::Instruction* ArraySpecificOwnerType::inject(IRGenerationContext& context,
                                                   const InjectionArgumentList injectionArgumentList,
                                                   int line) const {
   llvm::Value* arrayPointer = ArrayAllocation::allocateArray(context, mArraySpecificType, line);
-  llvm::Type* arrayLLVMType = mArraySpecificType->getArrayType(context)->getLLVMType(context);
+  llvm::Type* arrayLLVMType = mArraySpecificType->getArrayType(context, line)->getLLVMType(context);
   return IRWriter::newBitCastInst(context, arrayPointer, arrayLLVMType);
 }

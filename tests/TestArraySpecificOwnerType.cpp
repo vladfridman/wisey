@@ -133,7 +133,7 @@ TEST_F(ArraySpecificOwnerTypeTest, printToStreamTest) {
 
 TEST_F(ArraySpecificOwnerTypeTest, getArrayTypeTest) {
   EXPECT_EQ(mContext.getArrayType(PrimitiveTypes::LONG, 1u),
-            mArraySpecificOwnerType->getArrayType(mContext));
+            mArraySpecificOwnerType->getArrayType(mContext, 0));
 }
 
 TEST_F(ArraySpecificOwnerTypeTest, injectTest) {

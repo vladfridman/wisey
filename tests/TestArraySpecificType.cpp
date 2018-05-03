@@ -68,7 +68,7 @@ struct ArraySpecificTypeTest : public Test {
 TEST_F(ArraySpecificTypeTest, getArrayTypeTest) {
   const ArrayType* arrayType = mContext.getArrayType(mArraySpecificType->getElementType(),
                                                      mArraySpecificType->getNumberOfDimensions());
-  EXPECT_EQ(arrayType, mArraySpecificType->getArrayType(mContext));
+  EXPECT_EQ(arrayType, mArraySpecificType->getArrayType(mContext, 0));
 }
 
 TEST_F(ArraySpecificTypeTest, getElementTypeTest) {

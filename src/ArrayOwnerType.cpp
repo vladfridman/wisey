@@ -32,7 +32,7 @@ mArrayType(arrayType) {
 ArrayOwnerType::~ArrayOwnerType() {
 }
 
-const ArrayType* ArrayOwnerType::getArrayType(IRGenerationContext& context) const {
+const ArrayType* ArrayOwnerType::getArrayType(IRGenerationContext& context, int line) const {
   return mArrayType;
 }
 
@@ -64,7 +64,7 @@ llvm::Value* ArrayOwnerType::castTo(IRGenerationContext &context,
     return fromValue;
   }
   if (toType == mArrayType->getImmutable()->getOwner()) {
-    CheckArrayNotReferencedFunction::callWithArrayType(context, fromValue, mArrayType);
+    CheckArrayNotReferencedFunction::callWithArrayType(context, fromValue, mArrayType, line);
     return fromValue;
   }
 

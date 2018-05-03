@@ -60,7 +60,7 @@ struct ArrayOwnerTypeTest : public Test {
 };
 
 TEST_F(ArrayOwnerTypeTest, getArrayTypeTest) {
-  EXPECT_EQ(mArrayType, mArrayOwnerType->getArrayType(mContext));
+  EXPECT_EQ(mArrayType, mArrayOwnerType->getArrayType(mContext, 0));
 }
 
 TEST_F(ArrayOwnerTypeTest, getNameTest) {

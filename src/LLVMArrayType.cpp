@@ -149,7 +149,7 @@ void LLVMArrayType::createParameterVariable(IRGenerationContext& context,
   assert(false);
 }
 
-const wisey::ArrayType* LLVMArrayType::getArrayType(IRGenerationContext& context) const {
+const wisey::ArrayType* LLVMArrayType::getArrayType(IRGenerationContext& context, int line) const {
   assert(false);
 }
 

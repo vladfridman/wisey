@@ -159,8 +159,8 @@ void WiseyModelType::createParameterVariable(IRGenerationContext& context,
   context.getScopes().setVariable(variable);
 }
 
-const wisey::ArrayType* WiseyModelType::getArrayType(IRGenerationContext& context) const {
-  ArrayType::reportNonArrayType();
+const wisey::ArrayType* WiseyModelType::getArrayType(IRGenerationContext& context, int line) const {
+  ArrayType::reportNonArrayType(context, line);
   exit(1);
 }
 

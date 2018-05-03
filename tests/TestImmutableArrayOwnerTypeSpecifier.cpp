@@ -38,8 +38,8 @@ TEST_F(ImmutableArrayOwnerTypeSpecifierTest, creationTest) {
   EXPECT_TRUE(type->isOwner());
   EXPECT_STREQ("immutable int[]*", type->getTypeName().c_str());
   
-  EXPECT_EQ(PrimitiveTypes::INT, type->getArrayType(mContext)->getElementType());
-  EXPECT_EQ(1u, type->getArrayType(mContext)->getNumberOfDimensions());
+  EXPECT_EQ(PrimitiveTypes::INT, type->getArrayType(mContext, 0)->getElementType());
+  EXPECT_EQ(1u, type->getArrayType(mContext, 0)->getNumberOfDimensions());
   EXPECT_EQ(9, specifier->getLine());
 }
 

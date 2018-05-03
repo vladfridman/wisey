@@ -121,8 +121,8 @@ void LLVMVoidType::createParameterVariable(IRGenerationContext& context,
   assert(false);
 }
 
-const wisey::ArrayType* LLVMVoidType::getArrayType(IRGenerationContext& context) const {
-  ArrayType::reportNonArrayType();
+const wisey::ArrayType* LLVMVoidType::getArrayType(IRGenerationContext& context, int line) const {
+  ArrayType::reportNonArrayType(context, line);
   exit(1);
 }
 

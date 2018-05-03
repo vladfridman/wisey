@@ -45,7 +45,7 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
     reportErrorArrayType(context, expressionType->getTypeName());
     exit(1);
   }
-  const ArrayType* arrayType = expressionType->getArrayType(context);
+  const ArrayType* arrayType = expressionType->getArrayType(context, mLine);
   Value* arrayStructPointer = mArrayExpression->generateIR(context, PrimitiveTypes::VOID);
   
   Composer::setLineNumber(context, mLine);
@@ -174,7 +174,7 @@ const IType* ArrayElementExpression::getType(IRGenerationContext& context) const
     exit(1);
   }
   
-  const ArrayType* arrayType = arrayExpressionType->getArrayType(context);
+  const ArrayType* arrayType = arrayExpressionType->getArrayType(context, mLine);
   const IType* elementType = arrayType->getElementType();
 
   unsigned long numberOfDimensions = arrayType->getNumberOfDimensions();
