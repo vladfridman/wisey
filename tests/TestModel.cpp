@@ -718,7 +718,7 @@ TEST_F(ModelTest, buildInvalidObjectBuilderArgumentsDeathTest) {
   argumentList.push_back(argument2);
   
   const char *expected =
-  "Error: Object builder argument should start with 'with'. e.g. .withField\\(value\\).\n"
+  "/tmp/source.yz\\(3\\): Error: Object builder argument should start with 'with'. e.g. .withField\\(value\\).\n"
   "/tmp/source.yz\\(3\\): Error: Some arguments for the model "
   "systems.vos.wisey.compiler.tests.MStar "
   "builder are not well formed";

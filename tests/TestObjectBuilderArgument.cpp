@@ -73,7 +73,7 @@ TEST_F(ObjectBuilderArgumentTest, validObjectBuilderArgumentTest) {
   string argumentSpecifier("withFieldA");
   ObjectBuilderArgument argument(argumentSpecifier, mFieldExpression);
   
-  EXPECT_TRUE(argument.checkArgument(mModel));
+  EXPECT_TRUE(argument.checkArgument(mContext, mModel, 0));
 }
 
 TEST_F(ObjectBuilderArgumentTest, invalidObjectBuilderArgumentTest) {
@@ -84,8 +84,8 @@ TEST_F(ObjectBuilderArgumentTest, invalidObjectBuilderArgumentTest) {
   streambuf *streamBuffer = std::cerr.rdbuf();
   cerr.rdbuf(errorBuffer.rdbuf());
   
-  EXPECT_FALSE(argument.checkArgument(mModel));
-  EXPECT_STREQ("Error: Object builder argument should start with 'with'. e.g. .withField(value).\n",
+  EXPECT_FALSE(argument.checkArgument(mContext, mModel, 1));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Object builder argument should start with 'with'. e.g. .withField(value).\n",
                errorBuffer.str().c_str());
 
   cerr.rdbuf(streamBuffer);
@@ -99,9 +99,8 @@ TEST_F(ObjectBuilderArgumentTest, misspelledObjectBuilderArgumentTest) {
   streambuf *streamBuffer = std::cerr.rdbuf();
   cerr.rdbuf(errorBuffer.rdbuf());
   
-  EXPECT_FALSE(argument.checkArgument(mModel));
-  EXPECT_STREQ("Error: Object builder could not find field mFielda in "
-               "object systems.vos.wisey.compiler.tests.MModel\n",
+  EXPECT_FALSE(argument.checkArgument(mContext, mModel, 3));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Object builder could not find field mFielda in object systems.vos.wisey.compiler.tests.MModel\n",
                errorBuffer.str().c_str());
   
   cerr.rdbuf(streamBuffer);

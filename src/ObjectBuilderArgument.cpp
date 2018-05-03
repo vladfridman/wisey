@@ -24,16 +24,19 @@ ObjectBuilderArgument::~ObjectBuilderArgument() {
   delete mFieldExpression;
 }
 
-bool ObjectBuilderArgument::checkArgument(const IConcreteObjectType* object) {
+bool ObjectBuilderArgument::checkArgument(IRGenerationContext& context,
+                                          const IConcreteObjectType* object,
+                                          int line) {
   if (mFieldSpecifier.substr(0, 4).compare("with")) {
-    Log::e_deprecated("Object builder argument should start with 'with'. e.g. .withField(value).");
+    context.reportError(line, "Object builder argument should start with 'with'. "
+                        "e.g. .withField(value).");
     return false;
   }
   
   string fieldName = deriveFieldName();
   if (object->findField(fieldName) == NULL) {
-    Log::e_deprecated("Object builder could not find field " + fieldName + " in object " +
-           object->getTypeName());
+    context.reportError(line, "Object builder could not find field " + fieldName + " in object " +
+                        object->getTypeName());
     return false;
   }
   

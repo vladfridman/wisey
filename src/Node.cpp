@@ -365,7 +365,7 @@ void Node::checkArgumentsAreWellFormed(IRGenerationContext& context,
   bool areArgumentsWellFormed = true;
   
   for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
-    areArgumentsWellFormed &= argument->checkArgument(this);
+    areArgumentsWellFormed &= argument->checkArgument(context, this, line);
   }
   
   if (!areArgumentsWellFormed) {

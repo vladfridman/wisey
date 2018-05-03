@@ -693,7 +693,7 @@ TEST_F(NodeTest, buildInvalidObjectBuilderArgumentsDeathTest) {
   argumentList.push_back(argument2);
   
   const char *expected =
-  "Error: Object builder argument should start with 'with'. e.g. .withField\\(value\\).\n"
+  "/tmp/source.yz\\(1\\): Error: Object builder argument should start with 'with'. e.g. .withField\\(value\\).\n"
   "/tmp/source.yz\\(1\\): Error: Some arguments for the node "
   "systems.vos.wisey.compiler.tests.NSimpleNode builder are not well formed";
   

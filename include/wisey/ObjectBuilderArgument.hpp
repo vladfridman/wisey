@@ -45,7 +45,9 @@ namespace wisey {
     /**
      * Checks the legality for the builder argument and prints an error if necessary
      */
-    bool checkArgument(const IConcreteObjectType* object);
+    bool checkArgument(IRGenerationContext& context,
+                       const IConcreteObjectType* object,
+                       int line);
     
     /**
      * Derives field name from builder argument by converting 'widthFieldA' to 'fieldA'
