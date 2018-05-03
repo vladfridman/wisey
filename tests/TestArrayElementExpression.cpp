@@ -79,7 +79,7 @@ struct ArrayElementExpressionTest : Test {
     
     mArrayElementExpression = new ArrayElementExpression(mArrayExpression,
                                                          mArrayIndexExpression,
-                                                         0);
+                                                         3);
   }
   
   ~ArrayElementExpressionTest() {
@@ -165,7 +165,7 @@ TEST_F(ArrayElementExpressionTest, generateIRForNonArrayTypeDeathTest) {
   
   EXPECT_EXIT(mArrayElementExpression->generateIR(mContext, PrimitiveTypes::INT),
               ::testing::ExitedWithCode(1),
-              "Error: Expecting array type expression before \\[\\] but expression type is int");
+              "/tmp/source.yz\\(3\\): Error: Expecting array type expression before \\[\\] but expression type is int");
 }
 
 TEST_F(ArrayElementExpressionTest, generateIRForNonIntTypeIndexDeathTest) {
@@ -187,7 +187,7 @@ TEST_F(ArrayElementExpressionTest, getTypeDeathTest) {
   
   EXPECT_EXIT(mArrayElementExpression->getType(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: Expecting array type expression before \\[\\] but expression type is int");
+              "/tmp/source.yz\\(3\\): Error: Expecting array type expression before \\[\\] but expression type is int");
 }
 
 TEST_F(ArrayElementExpressionTest, generateIRDeathTest) {

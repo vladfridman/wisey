@@ -42,7 +42,7 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
                                           const IType* assignToType) const {
   const IType* expressionType = mArrayExpression->getType(context);
   if (!expressionType->isArray()) {
-    reportErrorArrayType(expressionType->getTypeName());
+    reportErrorArrayType(context, expressionType->getTypeName());
     exit(1);
   }
   const ArrayType* arrayType = expressionType->getArrayType(context);
@@ -170,7 +170,7 @@ const IType* ArrayElementExpression::getType(IRGenerationContext& context) const
   const IType* arrayExpressionType = mArrayExpression->getType(context);
   
   if (!arrayExpressionType->isArray()) {
-    reportErrorArrayType(arrayExpressionType->getTypeName());
+    reportErrorArrayType(context, arrayExpressionType->getTypeName());
     exit(1);
   }
   
@@ -197,6 +197,8 @@ void ArrayElementExpression::printToStream(IRGenerationContext& context, iostrea
   stream << "]";
 }
 
-void ArrayElementExpression::reportErrorArrayType(string typeName) {
-  Log::e_deprecated("Expecting array type expression before [] but expression type is " + typeName);
+void ArrayElementExpression::reportErrorArrayType(IRGenerationContext& context,
+                                                  string typeName) const {
+  context.reportError(mLine, "Expecting array type expression before [] but expression type is " +
+                      typeName);
 }

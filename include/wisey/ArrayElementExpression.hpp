@@ -57,7 +57,7 @@ namespace wisey {
     
   private:
     
-    static void reportErrorArrayType(std::string typeName);
+    void reportErrorArrayType(IRGenerationContext& context, std::string typeName) const;
     
     static llvm::Value* getArrayElement(IRGenerationContext& context,
                                         llvm::Value* arrayStructPointer,
