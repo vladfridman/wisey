@@ -76,7 +76,7 @@ Value* FieldArrayReferenceVariable::generateAssignmentIR(IRGenerationContext& co
 Value* FieldArrayReferenceVariable::generateWholeArrayAssignment(IRGenerationContext& context,
                                                                  IExpression* assignToExpression,
                                                                  int line) {
-  IField* field = checkAndFindFieldForAssignment(context, mObject, mName);
+  IField* field = checkAndFindFieldForAssignment(context, mObject, mName, line);
   
   const IType* fieldType = field->getType();
   assert(fieldType->isArray() && fieldType->isReference() && !fieldType->isImmutable());
@@ -98,7 +98,7 @@ Value* FieldArrayReferenceVariable::generateArrayElementAssignment(IRGenerationC
                                                                    vector<const IExpression*>
                                                                    arrayIndices,
                                                                    int line) {
-  IField* field = checkAndFindFieldForAssignment(context, mObject, mName);
+  IField* field = checkAndFindFieldForAssignment(context, mObject, mName, line);
   
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
   Value* arrayPointer = IRWriter::newLoadInst(context, fieldPointer, "");

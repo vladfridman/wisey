@@ -99,7 +99,7 @@ struct IFieldVariableTest : Test {
 };
 
 TEST_F(IFieldVariableTest, checkAndFindFieldForAssignmentTest) {
-  EXPECT_EQ(IFieldVariable::checkAndFindFieldForAssignment(mContext, mController, "bar"),
+  EXPECT_EQ(IFieldVariable::checkAndFindFieldForAssignment(mContext, mController, "bar", 0),
             mStateField);
 }
 
@@ -115,14 +115,14 @@ TEST_F(IFieldVariableTest, getFieldPointerTest) {
 }
 
 TEST_F(IFieldVariableTest, checkAndFindFieldForAssignmentDoesNotExistDeathTest) {
-  EXPECT_EXIT(IFieldVariable::checkAndFindFieldForAssignment(mContext, mController, "var"),
+  EXPECT_EXIT(IFieldVariable::checkAndFindFieldForAssignment(mContext, mController, "var", 1),
               ::testing::ExitedWithCode(1),
-              "Error: Field var is not found in object "
+              "/tmp/source.yz\\(1\\): Error: Field var is not found in object "
               "systems.vos.wisey.compiler.tests.CController");
 }
 
 TEST_F(IFieldVariableTest, checkAndFindFieldForAssignmentNotAssignableDeathTest) {
-  EXPECT_EXIT(IFieldVariable::checkAndFindFieldForAssignment(mContext, mModel, "foo"),
+  EXPECT_EXIT(IFieldVariable::checkAndFindFieldForAssignment(mContext, mModel, "foo", 3),
               ::testing::ExitedWithCode(1),
-              "Error: Can not assign to field foo");
+              "/tmp/source.yz\\(3\\): Error: Can not assign to field foo");
 }

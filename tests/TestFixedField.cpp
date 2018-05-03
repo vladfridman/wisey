@@ -84,5 +84,6 @@ TEST_F(FixedFieldTest, fieldPrintToStreamTest) {
 TEST_F(TestFileRunner, nodeWithFixedFieldSetterDeathRunTest) {
   expectFailCompile("tests/samples/test_node_with_fixed_field_setter.yz",
                     1,
+                    "tests/samples/test_node_with_fixed_field_setter.yz\\(9\\): "
                     "Error: Can not assign to field mYear");
 }

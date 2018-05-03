@@ -28,7 +28,8 @@ namespace wisey {
      */
     static IField* checkAndFindFieldForAssignment(IRGenerationContext& context,
                                                   const IConcreteObjectType* object,
-                                                  std::string fieldName);
+                                                  std::string fieldName,
+                                                  int line);
     
     /**
      * Returns an llvm pointer to the object's field given an object and field name
@@ -47,7 +48,8 @@ namespace wisey {
      */
     static IField* checkAndFindField(IRGenerationContext& context,
                                      const IConcreteObjectType* object,
-                                     std::string fieldName);
+                                     std::string fieldName,
+                                     int line);
     
   };
   

@@ -60,7 +60,7 @@ Value* FieldLLVMVariable::generateAssignmentIR(IRGenerationContext& context,
                                                IExpression* assignToExpression,
                                                vector<const IExpression*> arrayIndices,
                                                int line) {
-  IField* field = checkAndFindFieldForAssignment(context, mObject, mName);
+  IField* field = checkAndFindFieldForAssignment(context, mObject, mName, line);
   
   const IType* expressionType = assignToExpression->getType(context);
   const IType* fieldType = field->getType();

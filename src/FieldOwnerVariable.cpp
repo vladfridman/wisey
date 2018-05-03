@@ -67,7 +67,7 @@ Value* FieldOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
                                                 IExpression* assignToExpression,
                                                 vector<const IExpression*> arrayIndices,
                                                 int line) {
-  IField* field = checkAndFindFieldForAssignment(context, mObject, mName);
+  IField* field = checkAndFindFieldForAssignment(context, mObject, mName, line);
   if (field->isInjected()) {
     context.reportError(line,
                         "Attempt to assign to injected field '" + mName + "' of object " +

@@ -82,7 +82,7 @@ Value* FieldArrayOwnerVariable::generateAssignmentIR(IRGenerationContext& contex
 Value* FieldArrayOwnerVariable::generateWholeArrayAssignment(IRGenerationContext& context,
                                                              IExpression* assignToExpression,
                                                              int line) {
-  IField* field = checkAndFindFieldForAssignment(context, mObject, mName);
+  IField* field = checkAndFindFieldForAssignment(context, mObject, mName, line);
   if (field->isInjected()) {
     context.reportError(line,
                         "Attempt to assign to injected field '" + mName + "' of object " +
@@ -108,7 +108,7 @@ Value* FieldArrayOwnerVariable::generateArrayElementAssignment(IRGenerationConte
                                                                vector<const IExpression*>
                                                                arrayIndices,
                                                                int line) {
-  IField* field = checkAndFindFieldForAssignment(context, mObject, mName);
+  IField* field = checkAndFindFieldForAssignment(context, mObject, mName, line);
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
   
   Value* arrayPointer = NULL;

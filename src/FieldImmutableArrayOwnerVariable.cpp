@@ -77,7 +77,7 @@ generateAssignmentIR(IRGenerationContext& context,
 Value* FieldImmutableArrayOwnerVariable::generateWholeArrayAssignment(IRGenerationContext& context,
                                                                       IExpression* assignToExpression,
                                                                       int line) {
-  IField* field = checkAndFindFieldForAssignment(context, mObject, mName);
+  IField* field = checkAndFindFieldForAssignment(context, mObject, mName, line);
   
   const IType* fieldType = field->getType();
   const IType* assignToType = assignToExpression->getType(context);
