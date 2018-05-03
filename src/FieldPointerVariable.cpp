@@ -18,9 +18,10 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-FieldPointerVariable::FieldPointerVariable(string name, const IConcreteObjectType* object) :
-mName(name),
-mObject(object) { }
+FieldPointerVariable::FieldPointerVariable(string name,
+                                           const IConcreteObjectType* object,
+                                           int line) :
+mName(name), mObject(object), mLine(line) { }
 
 FieldPointerVariable::~FieldPointerVariable() {}
 
@@ -42,6 +43,10 @@ bool FieldPointerVariable::isField() const {
 
 bool FieldPointerVariable::isSystem() const {
   return false;
+}
+
+int FieldPointerVariable::getLine() const {
+  return mLine;
 }
 
 Value* FieldPointerVariable::generateIdentifierIR(IRGenerationContext& context, int line) const {

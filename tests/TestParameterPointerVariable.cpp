@@ -58,7 +58,7 @@ public:
 
     mPointerType = LLVMPrimitiveTypes::I64->getPointerType(mContext, 0);
     mVariableValue = ConstantPointerNull::get(mPointerType->getLLVMType(mContext));
-    mVariable = new ParameterPointerVariable("foo", mPointerType, mVariableValue);
+    mVariable = new ParameterPointerVariable("foo", mPointerType, mVariableValue, 0);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
   }

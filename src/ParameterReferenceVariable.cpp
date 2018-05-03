@@ -19,8 +19,9 @@ using namespace wisey;
 
 ParameterReferenceVariable::ParameterReferenceVariable(string name,
                                                        const IReferenceType* type,
-                                                       Value* value) :
-mName(name), mType(type), mValue(value) {
+                                                       Value* value,
+                                                       int line) :
+mName(name), mType(type), mValue(value), mLine(line) {
   assert(value->getType()->isPointerTy());
   if (!type->isNative()) {
     assert(value->getType()->getPointerElementType()->isStructTy());
@@ -44,6 +45,10 @@ bool ParameterReferenceVariable::isField() const {
 
 bool ParameterReferenceVariable::isSystem() const {
   return false;
+}
+
+int ParameterReferenceVariable::getLine() const {
+  return mLine;
 }
 
 Value* ParameterReferenceVariable::generateIdentifierIR(IRGenerationContext& context,

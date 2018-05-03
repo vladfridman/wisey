@@ -20,8 +20,9 @@ using namespace wisey;
 
 LocalPointerVariable::LocalPointerVariable(string name,
                                            const LLVMPointerType* type,
-                                           Value* valueStore) :
-mName(name), mType(type), mValueStore(valueStore) {
+                                           Value* valueStore,
+                                           int line) :
+mName(name), mType(type), mValueStore(valueStore), mLine(line) {
   assert(valueStore->getType()->isPointerTy());
 }
 
@@ -42,6 +43,10 @@ bool LocalPointerVariable::isField() const {
 
 bool LocalPointerVariable::isSystem() const {
   return false;
+}
+
+int LocalPointerVariable::getLine() const {
+  return mLine;
 }
 
 Value* LocalPointerVariable::generateIdentifierIR(IRGenerationContext& context, int line) const {

@@ -67,9 +67,9 @@ TEST_F(ScopesTest, scopesTest) {
   Value* barValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   
   LocalPrimitiveVariable* fooVariable =
-  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT, fooValue);
+  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT, fooValue, 0);
   LocalPrimitiveVariable* barVariable =
-  new LocalPrimitiveVariable("bar", PrimitiveTypes::INT, barValue);
+  new LocalPrimitiveVariable("bar", PrimitiveTypes::INT, barValue, 0);
   mScopes.setVariable(fooVariable);
   mScopes.pushScope();
   mScopes.setVariable(barVariable);
@@ -81,7 +81,7 @@ TEST_F(ScopesTest, scopesTest) {
   EXPECT_NE(mScopes.getVariable("foo"), nullptr);
   EXPECT_EQ(mScopes.getVariable("bar"), nullptr);
   
-  barVariable = new LocalPrimitiveVariable("bar", PrimitiveTypes::INT, barValue);
+  barVariable = new LocalPrimitiveVariable("bar", PrimitiveTypes::INT, barValue, 0);
   mScopes.setVariable(barVariable);
   EXPECT_NE(mScopes.getVariable("foo"), nullptr);
   EXPECT_NE(mScopes.getVariable("bar"), nullptr);
@@ -97,9 +97,9 @@ TEST_F(ScopesTest, scopesCorrectlyOrderedTest) {
   Value* innerValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   
   LocalPrimitiveVariable* outerVariable =
-  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT, outerValue);
+  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT, outerValue, 0);
   LocalPrimitiveVariable* innerVariable =
-  new LocalPrimitiveVariable("bar", PrimitiveTypes::INT, innerValue);
+  new LocalPrimitiveVariable("bar", PrimitiveTypes::INT, innerValue, 0);
   
   mScopes.setVariable(outerVariable);
   mScopes.pushScope();
@@ -139,7 +139,7 @@ TEST_F(ScopesTest, setLocalReferenceVariableTest) {
   mScopes.pushScope();
   Value* fooValue = ConstantPointerNull::get(mInterface->getLLVMType(mContext)->getPointerTo());
   IVariable* variable =
-    new LocalReferenceVariable("foo", mInterface, fooValue);
+    new LocalReferenceVariable("foo", mInterface, fooValue, 0);
   mScopes.setVariable(variable);
   
   EXPECT_NE(mScopes.getVariable("foo"), nullptr);
@@ -151,7 +151,8 @@ TEST_F(ScopesTest, setUnitializedLocalReferenceVariableTest) {
   Value* store = ConstantPointerNull::get(mInterface->getLLVMType(mContext)->getPointerTo());
   IVariable* unitializedLocalReferenceVariable = new LocalReferenceVariable("foo",
                                                                             mInterface,
-                                                                            store);
+                                                                            store,
+                                                                            0);
   mScopes.setVariable(unitializedLocalReferenceVariable);
   
   IVariable* variable = mScopes.getVariable("foo");
@@ -232,9 +233,9 @@ TEST_F(ScopesTest, variableHidingDeathTest) {
   Value* innerValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   
   LocalPrimitiveVariable* outerVariable =
-  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT, outerValue);
+  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT, outerValue, 0);
   LocalPrimitiveVariable* innerVariable =
-  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT, innerValue);
+  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT, innerValue, 0);
   
   mScopes.setVariable(outerVariable);
   mScopes.pushScope();

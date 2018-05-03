@@ -48,8 +48,9 @@ Value* Injector::generateIR(IRGenerationContext& context, const IType* assignToT
   IRWriter::newStoreInst(context, malloc, pointer);
   
   IVariable* heapVariable = new LocalOwnerVariable(IVariable::getTemporaryVariableName(this),
-                                                  getType(context),
-                                                  pointer);
+                                                   getType(context),
+                                                   pointer,
+                                                   mLine);
   context.getScopes().setVariable(heapVariable);
   
   return malloc;

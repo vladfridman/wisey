@@ -24,10 +24,14 @@ namespace wisey {
     const IOwnerType* mType;
     llvm::Value* mValueStore;
     bool mIsInitialized;
-    
+    int mLine;
+
   public:
     
-    LocalOwnerVariable(std::string name, const IOwnerType* type, llvm::Value* valueStore);
+    LocalOwnerVariable(std::string name,
+                       const IOwnerType* type,
+                       llvm::Value* valueStore,
+                       int line);
     
     ~LocalOwnerVariable();
     
@@ -39,6 +43,8 @@ namespace wisey {
     
     bool isSystem() const override;
     
+    int getLine() const override;
+
     llvm::Value* generateIdentifierIR(IRGenerationContext& context, int line) const override;
     
     llvm::Value* generateIdentifierReferenceIR(IRGenerationContext& context,

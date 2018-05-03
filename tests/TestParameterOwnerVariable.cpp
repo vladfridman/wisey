@@ -84,7 +84,7 @@ public:
 TEST_F(ParameterOwnerVariableTest, basicTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValueStore = IRWriter::newAllocaInst(mContext, llvmType, "");
-  ParameterOwnerVariable variable("foo", mModel->getOwner(), fooValueStore);
+  ParameterOwnerVariable variable("foo", mModel->getOwner(), fooValueStore, 0);
 
   EXPECT_STREQ("foo", variable.getName().c_str());
   EXPECT_EQ(mModel->getOwner(), variable.getType());
@@ -95,7 +95,7 @@ TEST_F(ParameterOwnerVariableTest, basicTest) {
 TEST_F(ParameterOwnerVariableTest, generateIdentifierIRTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValueStore = IRWriter::newAllocaInst(mContext, llvmType, "");
-  ParameterOwnerVariable variable("foo", mModel->getOwner(), fooValueStore);
+  ParameterOwnerVariable variable("foo", mModel->getOwner(), fooValueStore, 0);
   
   variable.generateIdentifierIR(mContext, 0);
   
@@ -113,7 +113,7 @@ TEST_F(ParameterOwnerVariableTest, generateIdentifierIRTest) {
 TEST_F(ParameterOwnerVariableTest, generateIdentifierReferenceIRTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValueStore = IRWriter::newAllocaInst(mContext, llvmType, "");
-  ParameterOwnerVariable variable("foo", mModel->getOwner(), fooValueStore);
+  ParameterOwnerVariable variable("foo", mModel->getOwner(), fooValueStore, 0);
   
   EXPECT_EQ(fooValueStore, variable.generateIdentifierReferenceIR(mContext, 0));
 }
@@ -121,7 +121,7 @@ TEST_F(ParameterOwnerVariableTest, generateIdentifierReferenceIRTest) {
 TEST_F(ParameterOwnerVariableTest, freeTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  ParameterOwnerVariable heapMethodParameter("foo", mModel->getOwner(), fooValue);
+  ParameterOwnerVariable heapMethodParameter("foo", mModel->getOwner(), fooValue, 0);
   
   heapMethodParameter.free(mContext, 0);
   
@@ -141,7 +141,7 @@ TEST_F(ParameterOwnerVariableTest, freeTest) {
 TEST_F(ParameterOwnerVariableTest, setToNullTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  ParameterOwnerVariable heapMethodParameter("foo", mModel->getOwner(), fooValue);
+  ParameterOwnerVariable heapMethodParameter("foo", mModel->getOwner(), fooValue, 0);
   
   heapMethodParameter.setToNull(mContext, 0);
   

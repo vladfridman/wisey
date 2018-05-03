@@ -21,8 +21,9 @@ using namespace wisey;
 
 LocalPrimitiveVariable::LocalPrimitiveVariable(string name,
                                                const IPrimitiveType* type,
-                                               Value* valueStore) :
-mName(name), mType(type), mValueStore(valueStore) { }
+                                               Value* valueStore,
+                                               int line) :
+mName(name), mType(type), mValueStore(valueStore), mLine(line) { }
 
 LocalPrimitiveVariable::~LocalPrimitiveVariable() {}
 
@@ -40,6 +41,10 @@ bool LocalPrimitiveVariable::isField() const {
 
 bool LocalPrimitiveVariable::isSystem() const {
   return false;
+}
+
+int LocalPrimitiveVariable::getLine() const {
+  return mLine;
 }
 
 Value* LocalPrimitiveVariable::generateIdentifierIR(IRGenerationContext& context, int line) const {

@@ -99,7 +99,7 @@ public:
 TEST_F(LocalReferenceVariableTest, basicFieldsTest) {
   Type* llvmType = mModel->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  IVariable* variable = new LocalReferenceVariable("foo", mModel, fooValue);
+  IVariable* variable = new LocalReferenceVariable("foo", mModel, fooValue, 0);
 
   EXPECT_STREQ("foo", variable->getName().c_str());
   EXPECT_EQ(mModel, variable->getType());
@@ -111,11 +111,11 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableAssignmentTest) {
   Type* llvmType = mModel->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   
-  IVariable* uninitializedHeapVariable = new LocalReferenceVariable("foo", mModel, fooValue);
+  IVariable* uninitializedHeapVariable = new LocalReferenceVariable("foo", mModel, fooValue, 0);
   mContext.getScopes().setVariable(uninitializedHeapVariable);
   Value* barValue = ConstantPointerNull::get((llvm::PointerType*) llvmType);
   Value* referenceStore = IRWriter::newAllocaInst(mContext, llvmType, "");
-  LocalReferenceVariable localReferenceVariable("bar", mModel, referenceStore);
+  LocalReferenceVariable localReferenceVariable("bar", mModel, referenceStore, 0);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(mModel));
   ON_CALL(expression, generateIR(_, _)).WillByDefault(Return(barValue));
@@ -140,7 +140,7 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableAssignmentTest) {
 TEST_F(LocalReferenceVariableTest, generateIdentifierIRTest) {
   llvm::PointerType* llvmType = mModel->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  LocalReferenceVariable localReferenceVariable("foo", mModel, fooValue);
+  LocalReferenceVariable localReferenceVariable("foo", mModel, fooValue, 0);
   llvm::Constant* null = ConstantPointerNull::get(llvmType);
   FakeExpression* fakeExpression = new FakeExpression(null, mModel);
   vector<const IExpression*> arrayIndices;
@@ -157,7 +157,7 @@ TEST_F(LocalReferenceVariableTest, generateIdentifierIRTest) {
 TEST_F(LocalReferenceVariableTest, generateIdentifierReferenceIRTest) {
   llvm::PointerType* llvmType = mModel->getLLVMType(mContext);
   Value* fooValueStore = IRWriter::newAllocaInst(mContext, llvmType, "");
-  LocalReferenceVariable localReferenceVariable("foo", mModel, fooValueStore);
+  LocalReferenceVariable localReferenceVariable("foo", mModel, fooValueStore, 0);
   
   EXPECT_EQ(fooValueStore, localReferenceVariable.generateIdentifierReferenceIR(mContext, 0));
 }
@@ -166,7 +166,7 @@ TEST_F(LocalReferenceVariableTest, decrementReferenceCounterTest) {
   Type* llvmType = mModel->getLLVMType(mContext);
   
   Value* referenceStore = IRWriter::newAllocaInst(mContext, llvmType, "");
-  LocalReferenceVariable localReferenceVariable("bar", mModel, referenceStore);
+  LocalReferenceVariable localReferenceVariable("bar", mModel, referenceStore, 0);
   
   localReferenceVariable.decrementReferenceCounter(mContext);
   
@@ -185,7 +185,7 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableIdentifierUninitialized
   
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  LocalReferenceVariable localReferenceVariable("foo", mModel, fooValue);
+  LocalReferenceVariable localReferenceVariable("foo", mModel, fooValue, 0);
   
   EXPECT_EXIT(localReferenceVariable.generateIdentifierIR(mContext, 1),
               ::testing::ExitedWithCode(1),
@@ -197,7 +197,7 @@ TEST_F(LocalReferenceVariableTest, setToNullTest) {
   
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  LocalReferenceVariable localReferenceVariable("foo", mModel, fooValue);
+  LocalReferenceVariable localReferenceVariable("foo", mModel, fooValue, 0);
   localReferenceVariable.setToNull(mContext);
   
   localReferenceVariable.generateIdentifierIR(mContext, 0);

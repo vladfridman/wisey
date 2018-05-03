@@ -65,7 +65,8 @@ public:
     mArrayPointer = ConstantPointerNull::get(mArrayType->getLLVMType(mContext));
     mVariable = new ParameterImmutableArrayReferenceVariable("foo",
                                                              mImmutableArrayType,
-                                                             mArrayPointer);
+                                                             mArrayPointer,
+                                                             0);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }

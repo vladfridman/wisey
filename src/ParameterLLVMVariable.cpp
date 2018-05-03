@@ -19,8 +19,9 @@ using namespace wisey;
 
 ParameterLLVMVariable::ParameterLLVMVariable(string name,
                                              const ILLVMType* type,
-                                             Value* value) :
-mName(name), mType(type), mValue(value) { }
+                                             Value* value,
+                                             int line) :
+mName(name), mType(type), mValue(value), mLine(line) { }
 
 ParameterLLVMVariable::~ParameterLLVMVariable() {
 }
@@ -39,6 +40,10 @@ const ILLVMType* ParameterLLVMVariable::getType() const {
 
 bool ParameterLLVMVariable::isSystem() const {
   return false;
+}
+
+int ParameterLLVMVariable::getLine() const {
+  return mLine;
 }
 
 Value* ParameterLLVMVariable::generateIdentifierIR(IRGenerationContext& context, int line) const {

@@ -85,10 +85,11 @@ public:
     Value* thisPointer = ConstantPointerNull::get(mObject->getLLVMType(mContext));
     IVariable* thisVariable = new ParameterReferenceVariable(IObjectType::THIS,
                                                              mObject,
-                                                             thisPointer);
+                                                             thisPointer,
+                                                             0);
     mContext.getScopes().setVariable(thisVariable);
 
-    mFieldArrayOwnerVariable = new FieldArrayOwnerVariable("foo", mObject);
+    mFieldArrayOwnerVariable = new FieldArrayOwnerVariable("foo", mObject, 0);
   }
   
   ~FieldArrayOwnerVariableTest() {

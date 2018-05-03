@@ -23,10 +23,14 @@ namespace wisey {
     std::string mName;
     const IPrimitiveType* mType;
     llvm::Value* mValue;
-    
+    int mLine;
+
   public:
     
-    ParameterPrimitiveVariable(std::string name, const IPrimitiveType* type, llvm::Value* value);
+    ParameterPrimitiveVariable(std::string name,
+                               const IPrimitiveType* type,
+                               llvm::Value* value,
+                               int line);
     
     ~ParameterPrimitiveVariable();
     
@@ -38,6 +42,8 @@ namespace wisey {
     
     bool isSystem() const override;
     
+    int getLine() const override;
+
     llvm::Value* generateIdentifierIR(IRGenerationContext& context, int line) const override;
     
     llvm::Value* generateIdentifierReferenceIR(IRGenerationContext& context,

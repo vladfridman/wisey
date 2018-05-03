@@ -633,7 +633,8 @@ void IConcreteObjectType::defineCurrentObjectNameVariable(IRGenerationContext& c
   ParameterPrimitiveVariable* objectNameVariable =
   new ParameterPrimitiveVariable(Names::getCurrentObjectVariableName(),
                                  PrimitiveTypes::STRING,
-                                 objectName);
+                                 objectName,
+                                 0);
   context.getScopes().setVariable(objectNameVariable);
 }
 

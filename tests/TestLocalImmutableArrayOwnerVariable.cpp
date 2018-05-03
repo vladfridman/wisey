@@ -74,7 +74,7 @@ public:
 TEST_F(LocalImmutableArrayOwnerVariableTest, basicFieldsTest) {
   llvm::PointerType* arrayPointerType = mImmutableArrayOwnerType->getLLVMType(mContext);
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
-  LocalImmutableArrayOwnerVariable variable("foo", mImmutableArrayOwnerType, alloc);
+  LocalImmutableArrayOwnerVariable variable("foo", mImmutableArrayOwnerType, alloc, 0);
   
   EXPECT_STREQ("foo", variable.getName().c_str());
   EXPECT_EQ(mImmutableArrayOwnerType, variable.getType());
@@ -85,7 +85,7 @@ TEST_F(LocalImmutableArrayOwnerVariableTest, basicFieldsTest) {
 TEST_F(LocalImmutableArrayOwnerVariableTest, generateIdentifierIRTest) {
   llvm::PointerType* arrayPointerType = mImmutableArrayOwnerType->getLLVMType(mContext);
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
-  LocalImmutableArrayOwnerVariable variable("foo", mImmutableArrayOwnerType, alloc);
+  LocalImmutableArrayOwnerVariable variable("foo", mImmutableArrayOwnerType, alloc, 0);
   variable.generateIdentifierIR(mContext, 0);
   
   *mStringStream << *mBasicBlock;
@@ -102,7 +102,7 @@ TEST_F(LocalImmutableArrayOwnerVariableTest, generateIdentifierIRTest) {
 TEST_F(LocalImmutableArrayOwnerVariableTest, generateIdentifierReferenceIRTest) {
   llvm::PointerType* arrayPointerType = mImmutableArrayOwnerType->getLLVMType(mContext);
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
-  LocalImmutableArrayOwnerVariable variable("foo", mImmutableArrayOwnerType, alloc);
+  LocalImmutableArrayOwnerVariable variable("foo", mImmutableArrayOwnerType, alloc, 0);
   
   EXPECT_EQ(alloc, variable.generateIdentifierReferenceIR(mContext, 0));
 }
@@ -110,7 +110,7 @@ TEST_F(LocalImmutableArrayOwnerVariableTest, generateIdentifierReferenceIRTest) 
 TEST_F(LocalImmutableArrayOwnerVariableTest, generateWholeArrayAssignmentTest) {
   llvm::PointerType* arrayPointerType = mImmutableArrayOwnerType->getLLVMType(mContext);
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
-  LocalImmutableArrayOwnerVariable variable("foo", mImmutableArrayOwnerType, alloc);
+  LocalImmutableArrayOwnerVariable variable("foo", mImmutableArrayOwnerType, alloc, 0);
   vector<const IExpression*> arrayIndices;
   NiceMock<MockExpression> mockExpression;
   ON_CALL(mockExpression, getType(_)).WillByDefault(Return(mImmutableArrayOwnerType));
@@ -134,7 +134,7 @@ TEST_F(LocalImmutableArrayOwnerVariableTest, generateWholeArrayAssignmentTest) {
 TEST_F(LocalImmutableArrayOwnerVariableTest, generateWholeArrayAssignmentDeathTest) {
   llvm::PointerType* arrayPointerType = mImmutableArrayOwnerType->getLLVMType(mContext);
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
-  LocalImmutableArrayOwnerVariable variable("foo", mImmutableArrayOwnerType, alloc);
+  LocalImmutableArrayOwnerVariable variable("foo", mImmutableArrayOwnerType, alloc, 0);
   vector<const IExpression*> arrayIndices;
   NiceMock<MockExpression> mockExpression;
   ON_CALL(mockExpression, getType(_)).WillByDefault(Return(mArrayType));
@@ -150,7 +150,7 @@ TEST_F(LocalImmutableArrayOwnerVariableTest, generateWholeArrayAssignmentDeathTe
 TEST_F(LocalImmutableArrayOwnerVariableTest, generateArrayElementAssignmentDeathTest) {
   llvm::PointerType* arrayPointerType = mImmutableArrayOwnerType->getLLVMType(mContext);
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
-  LocalImmutableArrayOwnerVariable variable("foo", mImmutableArrayOwnerType, alloc);
+  LocalImmutableArrayOwnerVariable variable("foo", mImmutableArrayOwnerType, alloc, 0);
   vector<const IExpression*> arrayIndices;
   NiceMock<MockExpression> mockExpression;
   arrayIndices.push_back(&mockExpression);

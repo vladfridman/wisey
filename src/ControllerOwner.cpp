@@ -145,7 +145,7 @@ void ControllerOwner::createLocalVariable(IRGenerationContext& context,
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, name);
   IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloca);
   
-  IVariable* uninitializedVariable = new LocalOwnerVariable(name, this, alloca);
+  IVariable* uninitializedVariable = new LocalOwnerVariable(name, this, alloca, line);
   context.getScopes().setVariable(uninitializedVariable);
 }
 
@@ -153,7 +153,7 @@ void ControllerOwner::createFieldVariable(IRGenerationContext& context,
                                           string name,
                                           const IConcreteObjectType* object,
                                           int line) const {
-  IVariable* variable = new FieldOwnerVariable(name, object);
+  IVariable* variable = new FieldOwnerVariable(name, object, line);
   context.getScopes().setVariable(variable);
 }
 
@@ -164,7 +164,7 @@ void ControllerOwner::createParameterVariable(IRGenerationContext& context,
   Type* llvmType = getLLVMType(context);
   Value* alloc = IRWriter::newAllocaInst(context, llvmType, name);
   IRWriter::newStoreInst(context, value, alloc);
-  IVariable* variable = new ParameterOwnerVariable(name, this, alloc);
+  IVariable* variable = new ParameterOwnerVariable(name, this, alloc, line);
   context.getScopes().setVariable(variable);
 }
 

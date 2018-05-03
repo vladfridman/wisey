@@ -140,7 +140,7 @@ void WiseyObjectOwnerType::createLocalVariable(IRGenerationContext& context,
   PointerType* llvmType = getLLVMType(context);
   llvm::Value* alloca = IRWriter::newAllocaInst(context, llvmType, name);
   IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloca);
-  IVariable* variable = new LocalOwnerVariable(name, this, alloca);
+  IVariable* variable = new LocalOwnerVariable(name, this, alloca, line);
   context.getScopes().setVariable(variable);
 }
 
@@ -148,7 +148,7 @@ void WiseyObjectOwnerType::createFieldVariable(IRGenerationContext& context,
                                                string name,
                                                const IConcreteObjectType* object,
                                                int line) const {
-  IVariable* variable = new FieldOwnerVariable(name, object);
+  IVariable* variable = new FieldOwnerVariable(name, object, line);
   context.getScopes().setVariable(variable);
 }
 
@@ -159,7 +159,7 @@ void WiseyObjectOwnerType::createParameterVariable(IRGenerationContext& context,
   llvm::PointerType::Type* llvmType = getLLVMType(context);
   Value* alloc = IRWriter::newAllocaInst(context, llvmType, name);
   IRWriter::newStoreInst(context, value, alloc);
-  IVariable* variable = new ParameterOwnerVariable(name, this, alloc);
+  IVariable* variable = new ParameterOwnerVariable(name, this, alloc, line);
   context.getScopes().setVariable(variable);
 }
 

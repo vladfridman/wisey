@@ -86,7 +86,8 @@ bool Catch::generateIR(IRGenerationContext& context,
   
   IVariable* exceptionVariable = new ParameterOwnerVariable(mIdentifier,
                                                             exceptionType->getOwner(),
-                                                            pointer);
+                                                            pointer,
+                                                            mModelTypeSpecifier->getLine());
   context.getScopes().getScope()->setVariable(mIdentifier, exceptionVariable);
   mCompoundStatement->generateIR(context);
   context.getScopes().popScope(context, mLine);

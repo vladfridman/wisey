@@ -485,7 +485,7 @@ void Node::createLocalVariable(IRGenerationContext& context,
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "referenceDeclaration");
   IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloca);
   
-  IVariable* uninitializedVariable = new LocalReferenceVariable(name, this, alloca);
+  IVariable* uninitializedVariable = new LocalReferenceVariable(name, this, alloca, line);
   context.getScopes().setVariable(uninitializedVariable);
 }
 
@@ -493,7 +493,7 @@ void Node::createFieldVariable(IRGenerationContext& context,
                                string name,
                                const IConcreteObjectType* object,
                                int line) const {
-  IVariable* variable = new FieldReferenceVariable(name, object);
+  IVariable* variable = new FieldReferenceVariable(name, object, line);
   context.getScopes().setVariable(variable);
 }
 
@@ -501,7 +501,7 @@ void Node::createParameterVariable(IRGenerationContext& context,
                                    string name,
                                    Value* value,
                                    int line) const {
-  IVariable* variable = new ParameterReferenceVariable(name, this, value);
+  IVariable* variable = new ParameterReferenceVariable(name, this, value, line);
   incrementReferenceCount(context, value);
   context.getScopes().setVariable(variable);
 }

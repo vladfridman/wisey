@@ -22,10 +22,14 @@ namespace wisey {
     std::string mName;
     const LLVMPointerType* mType;
     llvm::Value* mValueStore;
-    
+    int mLine;
+
   public:
     
-    LocalPointerVariable(std::string name, const LLVMPointerType* type, llvm::Value* valueStore);
+    LocalPointerVariable(std::string name,
+                         const LLVMPointerType* type,
+                         llvm::Value* valueStore,
+                         int line);
     
     ~LocalPointerVariable();
     
@@ -37,6 +41,8 @@ namespace wisey {
     
     bool isSystem() const override;
     
+    int getLine() const override;
+
     llvm::Value* generateIdentifierIR(IRGenerationContext& context, int line) const override;
     
     llvm::Value* generateIdentifierReferenceIR(IRGenerationContext& context,

@@ -19,8 +19,11 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-LocalLLVMVariable::LocalLLVMVariable(string name, const ILLVMType* type, Value* valueStore) :
-mName(name), mType(type), mValueStore(valueStore) { }
+LocalLLVMVariable::LocalLLVMVariable(string name,
+                                     const ILLVMType* type,
+                                     Value* valueStore,
+                                     int line) :
+mName(name), mType(type), mValueStore(valueStore), mLine(line) { }
 
 LocalLLVMVariable::~LocalLLVMVariable() {}
 
@@ -38,6 +41,10 @@ bool LocalLLVMVariable::isField() const {
 
 bool LocalLLVMVariable::isSystem() const {
   return false;
+}
+
+int LocalLLVMVariable::getLine() const {
+  return mLine;
 }
 
 Value* LocalLLVMVariable::generateIdentifierIR(IRGenerationContext& context, int line) const {

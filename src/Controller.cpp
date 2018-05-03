@@ -476,8 +476,8 @@ void Controller::createLocalVariable(IRGenerationContext& context,
   IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloca);
   
   IVariable* uninitializedVariable = name == ThreadExpression::CALL_STACK
-    ? (IVariable*) new LocalSystemReferenceVariable(name, this, alloca)
-    : (IVariable*) new LocalReferenceVariable(name, this, alloca);
+    ? (IVariable*) new LocalSystemReferenceVariable(name, this, alloca, line)
+    : (IVariable*) new LocalReferenceVariable(name, this, alloca, line);
   context.getScopes().setVariable(uninitializedVariable);
 }
 
@@ -485,7 +485,7 @@ void Controller::createFieldVariable(IRGenerationContext& context,
                                      string name,
                                      const IConcreteObjectType* object,
                                      int line) const {
-  IVariable* variable = new FieldReferenceVariable(name, object);
+  IVariable* variable = new FieldReferenceVariable(name, object, line);
   context.getScopes().setVariable(variable);
 }
 
@@ -493,7 +493,7 @@ void Controller::createParameterVariable(IRGenerationContext& context,
                                          string name,
                                          Value* value,
                                          int line) const {
-  IVariable* variable = new ParameterReferenceVariable(name, this, value);
+  IVariable* variable = new ParameterReferenceVariable(name, this, value, line);
   incrementReferenceCount(context, value);
   context.getScopes().setVariable(variable);
 }

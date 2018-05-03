@@ -152,14 +152,14 @@ TEST_F(ReturnStatementTest, ownerVariablesAreClearedTest) {
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, one, "");
   Value* fooPointer = IRWriter::newAllocaInst(mContext, fooMalloc->getType(), "pointer");
   IRWriter::newStoreInst(mContext, fooMalloc, fooPointer);
-  IVariable* foo = new LocalOwnerVariable("foo", mModel->getOwner(), fooPointer);
+  IVariable* foo = new LocalOwnerVariable("foo", mModel->getOwner(), fooPointer, 0);
   mContext.getScopes().setVariable(foo);
 
   mContext.getScopes().pushScope();
   Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, one, "");
   Value* barPointer = IRWriter::newAllocaInst(mContext, barMalloc->getType(), "pointer");
   IRWriter::newStoreInst(mContext, barMalloc, barPointer);
-  IVariable* bar = new LocalOwnerVariable("bar", mModel->getOwner(), barPointer);
+  IVariable* bar = new LocalOwnerVariable("bar", mModel->getOwner(), barPointer, 0);
   mContext.getScopes().setVariable(bar);
 
   ReturnStatement returnStatement(mExpression, 0);
@@ -208,14 +208,14 @@ TEST_F(ReturnStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, one, "");
   Value* fooStore = IRWriter::newAllocaInst(mContext, fooMalloc->getType(), "");
   IRWriter::newStoreInst(mContext, fooMalloc, fooStore);
-  IVariable* foo = new LocalReferenceVariable("foo", mModel, fooStore);
+  IVariable* foo = new LocalReferenceVariable("foo", mModel, fooStore, 0);
   mContext.getScopes().setVariable(foo);
   
   mContext.getScopes().pushScope();
   Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, one, "");
   Value* barStore = IRWriter::newAllocaInst(mContext, barMalloc->getType(), "");
   IRWriter::newStoreInst(mContext, barMalloc, barStore);
-  IVariable* bar = new LocalReferenceVariable("bar", mModel, barStore);
+  IVariable* bar = new LocalReferenceVariable("bar", mModel, barStore, 0);
   mContext.getScopes().setVariable(bar);
   
   ReturnStatement returnStatement(mExpression, 0);

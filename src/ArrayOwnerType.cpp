@@ -151,7 +151,7 @@ void ArrayOwnerType::createLocalVariable(IRGenerationContext& context,
   llvm::AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
   IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloc);
   
-  IVariable* variable = new LocalArrayOwnerVariable(name, this, alloc);
+  IVariable* variable = new LocalArrayOwnerVariable(name, this, alloc, line);
   context.getScopes().setVariable(variable);
 }
 
@@ -159,7 +159,7 @@ void ArrayOwnerType::createFieldVariable(IRGenerationContext& context,
                                          string name,
                                          const IConcreteObjectType* object,
                                          int line) const {
-  IVariable* variable = new FieldArrayOwnerVariable(name, object);
+  IVariable* variable = new FieldArrayOwnerVariable(name, object, line);
   context.getScopes().setVariable(variable);
 }
 
@@ -170,7 +170,7 @@ void ArrayOwnerType::createParameterVariable(IRGenerationContext& context,
   llvm::Type* llvmType = getLLVMType(context);
   llvm::Value* alloc = IRWriter::newAllocaInst(context, llvmType, name);
   IRWriter::newStoreInst(context, value, alloc);
-  IVariable* variable = new ParameterArrayOwnerVariable(name, this, alloc);
+  IVariable* variable = new ParameterArrayOwnerVariable(name, this, alloc, line);
   context.getScopes().setVariable(variable);
 }
 

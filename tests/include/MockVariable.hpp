@@ -25,6 +25,7 @@ public:
   MOCK_CONST_METHOD0(getType, const wisey::IType* ());
   MOCK_CONST_METHOD0(isField, bool ());
   MOCK_CONST_METHOD0(isSystem, bool ());
+  MOCK_CONST_METHOD0(getLine, int ());
   MOCK_CONST_METHOD0(getValue, llvm::Value* ());
   MOCK_CONST_METHOD2(generateIdentifierIR, llvm::Value* (wisey::IRGenerationContext&, int));
   MOCK_CONST_METHOD2(generateIdentifierReferenceIR, llvm::Value* (wisey::IRGenerationContext&,

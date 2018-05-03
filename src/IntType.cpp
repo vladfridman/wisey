@@ -147,7 +147,7 @@ void IntType::createLocalVariable(IRGenerationContext& context,
   Type* llvmType = getLLVMType(context);
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
   
-  LocalPrimitiveVariable* variable = new LocalPrimitiveVariable(name, this, alloc);
+  LocalPrimitiveVariable* variable = new LocalPrimitiveVariable(name, this, alloc, line);
   context.getScopes().setVariable(variable);
   
   Value* value = ConstantInt::get(llvmType, 0);
@@ -158,7 +158,7 @@ void IntType::createFieldVariable(IRGenerationContext& context,
                                   string name,
                                   const IConcreteObjectType* object,
                                   int line) const {
-  IVariable* variable = new FieldPrimitiveVariable(name, object);
+  IVariable* variable = new FieldPrimitiveVariable(name, object, line);
   context.getScopes().setVariable(variable);
 }
 
@@ -166,7 +166,7 @@ void IntType::createParameterVariable(IRGenerationContext& context,
                                       string name,
                                       Value* value,
                                       int line) const {
-  IVariable* variable = new ParameterPrimitiveVariable(name, this, value);
+  IVariable* variable = new ParameterPrimitiveVariable(name, this, value, line);
   context.getScopes().setVariable(variable);
 }
 

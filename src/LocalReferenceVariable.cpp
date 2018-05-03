@@ -23,8 +23,9 @@ using namespace wisey;
 
 LocalReferenceVariable::LocalReferenceVariable(string name,
                                                const IReferenceType* type,
-                                               Value* valueStore) :
-mName(name), mType(type), mValueStore(valueStore), mIsInitialized(false) {
+                                               Value* valueStore,
+                                               int line) :
+mName(name), mType(type), mValueStore(valueStore), mIsInitialized(false), mLine(line) {
   assert(valueStore->getType()->isPointerTy());
   assert(valueStore->getType()->getPointerElementType()->isPointerTy());
   if (!type->isNative()) {
@@ -49,6 +50,10 @@ bool LocalReferenceVariable::isField() const {
 
 bool LocalReferenceVariable::isSystem() const {
   return false;
+}
+
+int LocalReferenceVariable::getLine() const {
+  return mLine;
 }
 
 Value* LocalReferenceVariable::generateIdentifierIR(IRGenerationContext& context, int line) const {

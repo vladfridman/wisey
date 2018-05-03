@@ -86,7 +86,7 @@ public:
 TEST_F(LocalOwnerVariableTest, basicFieldsTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  IVariable* variable = new LocalOwnerVariable("foo", mModel->getOwner(), fooValue);
+  IVariable* variable = new LocalOwnerVariable("foo", mModel->getOwner(), fooValue, 0);
 
   EXPECT_STREQ("foo", variable->getName().c_str());
   EXPECT_EQ(mModel->getOwner(), variable->getType());
@@ -99,11 +99,11 @@ TEST_F(LocalOwnerVariableTest, generateAssignmentIRTest) {
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
 
   IVariable* uninitializedHeapVariable =
-    new LocalOwnerVariable("foo", mModel->getOwner(), fooValue);
+    new LocalOwnerVariable("foo", mModel->getOwner(), fooValue, 0);
   mContext.getScopes().setVariable(uninitializedHeapVariable);
   Value* barValue = ConstantPointerNull::get((llvm::PointerType*) llvmType);
   Value* ownerStore = IRWriter::newAllocaInst(mContext, llvmType, "");
-  LocalOwnerVariable heapOwnerVariable("bar", mModel->getOwner(), ownerStore);
+  LocalOwnerVariable heapOwnerVariable("bar", mModel->getOwner(), ownerStore, 0);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(mModel->getOwner()));
   ON_CALL(expression, generateIR(_, _)).WillByDefault(Return(barValue));
@@ -129,7 +129,7 @@ TEST_F(LocalOwnerVariableTest, generateAssignmentIRTest) {
 TEST_F(LocalOwnerVariableTest, setToNullTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
+  LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue, 0);
   
   heapOwnerVariable.setToNull(mContext, 0);
 
@@ -147,7 +147,7 @@ TEST_F(LocalOwnerVariableTest, setToNullTest) {
 TEST_F(LocalOwnerVariableTest, generateIdentifierIRTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValueStore = IRWriter::newAllocaInst(mContext, llvmType, "");
-  LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValueStore);
+  LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValueStore, 0);
   
   heapOwnerVariable.setToNull(mContext, 0);
   heapOwnerVariable.generateIdentifierIR(mContext, 0);
@@ -167,7 +167,7 @@ TEST_F(LocalOwnerVariableTest, generateIdentifierIRTest) {
 TEST_F(LocalOwnerVariableTest, generateIdentifierReferenceIRTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValueStore = IRWriter::newAllocaInst(mContext, llvmType, "");
-  LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValueStore);
+  LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValueStore, 0);
   
   heapOwnerVariable.setToNull(mContext, 0);
 
@@ -177,7 +177,7 @@ TEST_F(LocalOwnerVariableTest, generateIdentifierReferenceIRTest) {
 TEST_F(LocalOwnerVariableTest, generateIdentifierIRDeathTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
+  LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue, 0);
   
   EXPECT_EXIT(heapOwnerVariable.generateIdentifierIR(mContext, 1),
               ::testing::ExitedWithCode(1),
@@ -187,7 +187,7 @@ TEST_F(LocalOwnerVariableTest, generateIdentifierIRDeathTest) {
 TEST_F(LocalOwnerVariableTest, freeTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
+  LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue, 0);
   
   heapOwnerVariable.free(mContext, 0);
   

@@ -22,8 +22,12 @@ using namespace wisey;
 ParameterImmutableArrayOwnerVariable::
 ParameterImmutableArrayOwnerVariable(string name,
                                      const ImmutableArrayOwnerType* immutableArrayOwnerType,
-                                     Value* valueStore) :
-mName(name), mImmutableArrayOwnerType(immutableArrayOwnerType), mValueStore(valueStore) {
+                                     Value* valueStore,
+                                     int line) :
+mName(name),
+mImmutableArrayOwnerType(immutableArrayOwnerType),
+mValueStore(valueStore),
+mLine(line) {
   assert(valueStore->getType()->isPointerTy());
   assert(valueStore->getType()->getPointerElementType()->isPointerTy());
   assert(valueStore->getType()->getPointerElementType()->getPointerElementType()->isStructTy());
@@ -46,6 +50,10 @@ bool ParameterImmutableArrayOwnerVariable::isField() const {
 
 bool ParameterImmutableArrayOwnerVariable::isSystem() const {
   return false;
+}
+
+int ParameterImmutableArrayOwnerVariable::getLine() const {
+  return mLine;
 }
 
 Value* ParameterImmutableArrayOwnerVariable::generateIdentifierIR(IRGenerationContext& context,

@@ -83,7 +83,7 @@ public:
     llvm::PointerType* llvmType = mPointerType->getLLVMType(mContext);
     mValueStore = IRWriter::newAllocaInst(mContext, llvmType, "");
     IRWriter::newStoreInst(mContext, ConstantPointerNull::get(llvmType), mValueStore);
-    mVariable = new LocalPointerVariable("foo", mPointerType, mValueStore);
+    mVariable = new LocalPointerVariable("foo", mPointerType, mValueStore, 0);
   }
   
   ~LocalPointerVariableTest() {
@@ -120,7 +120,7 @@ TEST_F(LocalPointerVariableTest, identifierReferenceTest) {
 TEST_F(LocalPointerVariableTest, assignmentTest) {
   llvm::PointerType* modelLLVMType = mModel->getLLVMType(mContext);
   Value* barValue = ConstantPointerNull::get(modelLLVMType);
-  ParameterReferenceVariable parameterReferenceVariable("bar", mModel, barValue);
+  ParameterReferenceVariable parameterReferenceVariable("bar", mModel, barValue, 0);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(mModel));
   ON_CALL(expression, generateIR(_, _)).WillByDefault(Return(barValue));

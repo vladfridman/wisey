@@ -140,14 +140,14 @@ void LLVMStructType::printToStream(IRGenerationContext &context, iostream& strea
 void LLVMStructType::createLocalVariable(IRGenerationContext& context,
                                          string name,
                                          int line) const {
-  ILLVMType::createLocalLLVMVariable(context, this, name);
+  ILLVMType::createLocalLLVMVariable(context, this, name, line);
 }
 
 void LLVMStructType::createFieldVariable(IRGenerationContext& context,
                                          string name,
                                          const IConcreteObjectType* object,
                                          int line) const {
-  IVariable* variable = new FieldLLVMVariable(name, object);
+  IVariable* variable = new FieldLLVMVariable(name, object, line);
   context.getScopes().setVariable(variable);
 }
 
@@ -155,7 +155,7 @@ void LLVMStructType::createParameterVariable(IRGenerationContext& context,
                                              string name,
                                              Value* value,
                                              int line) const {
-  ParameterLLVMVariable* variable = new ParameterLLVMVariable(name, this, value);
+  ParameterLLVMVariable* variable = new ParameterLLVMVariable(name, this, value, line);
   context.getScopes().setVariable(variable);
 }
 

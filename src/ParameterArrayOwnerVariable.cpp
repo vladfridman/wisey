@@ -21,8 +21,9 @@ using namespace wisey;
 
 ParameterArrayOwnerVariable::ParameterArrayOwnerVariable(string name,
                                                          const ArrayOwnerType* arrayOwnerType,
-                                                         Value* valueStore) :
-mName(name), mArrayOwnerType(arrayOwnerType), mValueStore(valueStore) {
+                                                         Value* valueStore,
+                                                         int line) :
+mName(name), mArrayOwnerType(arrayOwnerType), mValueStore(valueStore), mLine(line) {
   assert(valueStore->getType()->isPointerTy());
   assert(valueStore->getType()->getPointerElementType()->isPointerTy());
   assert(valueStore->getType()->getPointerElementType()->getPointerElementType()->isStructTy());
@@ -45,6 +46,10 @@ bool ParameterArrayOwnerVariable::isField() const {
 
 bool ParameterArrayOwnerVariable::isSystem() const {
   return false;
+}
+
+int ParameterArrayOwnerVariable::getLine() const {
+  return mLine;
 }
 
 Value* ParameterArrayOwnerVariable::generateIdentifierIR(IRGenerationContext& context,

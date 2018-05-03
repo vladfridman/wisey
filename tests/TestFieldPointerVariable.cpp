@@ -109,10 +109,11 @@ struct FieldPointerVariableTest : Test {
     Value* thisPointer = ConstantPointerNull::get(mObject->getLLVMType(mContext));
     IVariable* thisVariable = new ParameterReferenceVariable(IObjectType::THIS,
                                                              mObject,
-                                                             thisPointer);
+                                                             thisPointer,
+                                                             0);
     mContext.getScopes().setVariable(thisVariable);
     
-    mFieldPointerVariable = new FieldPointerVariable("foo", mObject);
+    mFieldPointerVariable = new FieldPointerVariable("foo", mObject, 0);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }

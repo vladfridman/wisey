@@ -145,14 +145,14 @@ TEST_F(ThrowStatementTest, ownerVariablesAreClearedTest) {
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, one, "");
   Value* fooPointer = IRWriter::newAllocaInst(mContext, fooMalloc->getType(), "pointer");
   IRWriter::newStoreInst(mContext, fooMalloc, fooPointer);
-  IVariable* foo = new LocalOwnerVariable("foo", mCircleModel->getOwner(), fooPointer);
+  IVariable* foo = new LocalOwnerVariable("foo", mCircleModel->getOwner(), fooPointer, 0);
   mContext.getScopes().setVariable(foo);
   
   mContext.getScopes().pushScope();
   Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, one, "");
   Value* barPointer = IRWriter::newAllocaInst(mContext, barMalloc->getType(), "pointer");
   IRWriter::newStoreInst(mContext, barMalloc, barPointer);
-  IVariable* bar = new LocalOwnerVariable("bar", mCircleModel->getOwner(), barPointer);
+  IVariable* bar = new LocalOwnerVariable("bar", mCircleModel->getOwner(), barPointer, 0);
   mContext.getScopes().setVariable(bar);
   
   llvm::Constant* exceptionObject = ConstantPointerNull::get(mCircleModel->getLLVMType(mContext));
@@ -210,14 +210,14 @@ TEST_F(ThrowStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, one, "");
   Value* fooStore = IRWriter::newAllocaInst(mContext, fooMalloc->getType(), "");
   IRWriter::newStoreInst(mContext, fooMalloc, fooStore);
-  IVariable* foo = new LocalReferenceVariable("foo", mCircleModel, fooStore);
+  IVariable* foo = new LocalReferenceVariable("foo", mCircleModel, fooStore, 0);
   mContext.getScopes().setVariable(foo);
 
   mContext.getScopes().pushScope();
   Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, one, "");
   Value* barStore = IRWriter::newAllocaInst(mContext, barMalloc->getType(), "");
   IRWriter::newStoreInst(mContext, barMalloc, barStore);
-  IVariable* bar = new LocalReferenceVariable("bar", mCircleModel, barStore);
+  IVariable* bar = new LocalReferenceVariable("bar", mCircleModel, barStore, 0);
   mContext.getScopes().setVariable(bar);
 
   llvm::Constant* exceptionObject = ConstantPointerNull::get(mCircleModel->getLLVMType(mContext));

@@ -77,10 +77,11 @@ struct FieldPrimitiveVariableTest : Test {
     Value* thisPointer = ConstantPointerNull::get(mObject->getLLVMType(mContext));
     IVariable* thisVariable = new ParameterReferenceVariable(IObjectType::THIS,
                                                              mObject,
-                                                             thisPointer);
+                                                             thisPointer,
+                                                             0);
     mContext.getScopes().setVariable(thisVariable);
     
-    mFieldPrimitiveVariable = new FieldPrimitiveVariable("foo", mObject);
+    mFieldPrimitiveVariable = new FieldPrimitiveVariable("foo", mObject, 0);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }

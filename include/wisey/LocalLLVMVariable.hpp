@@ -22,10 +22,14 @@ namespace wisey {
     std::string mName;
     const ILLVMType* mType;
     llvm::Value* mValueStore;
+    int mLine;
     
   public:
     
-    LocalLLVMVariable(std::string name, const ILLVMType* type, llvm::Value* valueStore);
+    LocalLLVMVariable(std::string name,
+                      const ILLVMType* type,
+                      llvm::Value* valueStore,
+                      int line);
     
     ~LocalLLVMVariable();
     
@@ -36,6 +40,8 @@ namespace wisey {
     bool isField() const override;
     
     bool isSystem() const override;
+    
+    int getLine() const override;
     
     llvm::Value* generateIdentifierIR(IRGenerationContext& context, int line) const override;
     

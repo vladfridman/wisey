@@ -23,8 +23,8 @@ using namespace llvm;
 using namespace wisey;
 
 FieldImmutableArrayReferenceVariable::
-FieldImmutableArrayReferenceVariable(string name, const IConcreteObjectType* object) :
-mName(name), mObject(object) { }
+FieldImmutableArrayReferenceVariable(string name, const IConcreteObjectType* object, int line) :
+mName(name), mObject(object), mLine(line) { }
 
 FieldImmutableArrayReferenceVariable::~FieldImmutableArrayReferenceVariable() {}
 
@@ -38,6 +38,10 @@ bool FieldImmutableArrayReferenceVariable::isField() const {
 
 bool FieldImmutableArrayReferenceVariable::isSystem() const {
   return false;
+}
+
+int FieldImmutableArrayReferenceVariable::getLine() const {
+  return mLine;
 }
 
 const ImmutableArrayType* FieldImmutableArrayReferenceVariable::getType() const {

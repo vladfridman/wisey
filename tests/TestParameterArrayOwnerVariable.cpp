@@ -60,7 +60,7 @@ public:
     
     llvm::PointerType* arrayPointerType = mArrayType->getOwner()->getLLVMType(mContext);
     mArrayAlloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
-    mVariable = new ParameterArrayOwnerVariable("foo", mArrayType->getOwner(), mArrayAlloc);
+    mVariable = new ParameterArrayOwnerVariable("foo", mArrayType->getOwner(), mArrayAlloc, 0);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
   }

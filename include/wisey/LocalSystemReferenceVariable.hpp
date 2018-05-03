@@ -24,10 +24,14 @@ namespace wisey {
     const IObjectType* mType;
     llvm::Value* mValueStore;
     bool mIsInitialized;
+    int mLine;
 
   public:
     
-    LocalSystemReferenceVariable(std::string name, const IObjectType* type, llvm::Value* value);
+    LocalSystemReferenceVariable(std::string name,
+                                 const IObjectType* type,
+                                 llvm::Value* value,
+                                 int line);
     
     ~LocalSystemReferenceVariable();
     
@@ -39,6 +43,8 @@ namespace wisey {
     
     bool isSystem() const override;
     
+    int getLine() const override;
+
     llvm::Value* generateIdentifierIR(IRGenerationContext& context, int line) const override;
     
     llvm::Value* generateIdentifierReferenceIR(IRGenerationContext& context,

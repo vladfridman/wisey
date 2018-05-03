@@ -34,7 +34,7 @@ void IMethod::storeSystemArgumentValue(IRGenerationContext& context,
                                        string name,
                                        const IObjectType* type,
                                        Value* value) {
-  IVariable* variable = new ParameterSystemReferenceVariable(name, type, value);
+  IVariable* variable = new ParameterSystemReferenceVariable(name, type, value, 0);
   context.getScopes().setVariable(variable);
 }
 
@@ -133,6 +133,7 @@ void IMethod::defineCurrentMethodNameVariable(IRGenerationContext& context, stri
   ParameterPrimitiveVariable* methodNameVariable =
   new ParameterPrimitiveVariable(Names::getCurrentMethodVariableName(),
                                  PrimitiveTypes::STRING,
-                                 value);
+                                 value,
+                                 0);
   context.getScopes().setVariable(methodNameVariable);
 }

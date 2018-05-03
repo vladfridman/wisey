@@ -23,8 +23,9 @@ using namespace wisey;
 
 LocalOwnerVariable::LocalOwnerVariable(string name,
                                        const IOwnerType* type,
-                                       Value* valueStore) :
-mName(name), mType(type), mValueStore(valueStore), mIsInitialized(false) {
+                                       Value* valueStore,
+                                       int line) :
+mName(name), mType(type), mValueStore(valueStore), mIsInitialized(false), mLine(line) {
   assert(valueStore->getType()->isPointerTy());
   assert(valueStore->getType()->getPointerElementType()->isPointerTy());
   if (!type->isNative()) {
@@ -49,6 +50,10 @@ bool LocalOwnerVariable::isField() const {
 
 bool LocalOwnerVariable::isSystem() const {
   return false;
+}
+
+int LocalOwnerVariable::getLine() const {
+  return mLine;
 }
 
 Value* LocalOwnerVariable::generateIdentifierIR(IRGenerationContext& context, int line) const {

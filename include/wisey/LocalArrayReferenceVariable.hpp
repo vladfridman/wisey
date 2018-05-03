@@ -22,12 +22,14 @@ namespace wisey {
     std::string mName;
     const ArrayType* mArrayType;
     llvm::Value* mValueStore;
-    
+    int mLine;
+
   public:
     
     LocalArrayReferenceVariable(std::string name,
                                 const ArrayType* arrayType,
-                                llvm::Value* valueStore);
+                                llvm::Value* valueStore,
+                                int line);
     
     ~LocalArrayReferenceVariable();
     
@@ -39,6 +41,8 @@ namespace wisey {
     
     bool isSystem() const override;
     
+    int getLine() const override;
+
     llvm::Value* generateIdentifierIR(IRGenerationContext& context, int line) const override;
     
     llvm::Value* generateIdentifierReferenceIR(IRGenerationContext& context,

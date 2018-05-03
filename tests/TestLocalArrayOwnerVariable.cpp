@@ -70,7 +70,7 @@ public:
 TEST_F(LocalArrayOwnerVariableTest, basicFieldsTest) {
   llvm::PointerType* arrayPointerType = mArrayType->getOwner()->getLLVMType(mContext);
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
-  LocalArrayOwnerVariable variable("foo", mArrayType->getOwner(), alloc);
+  LocalArrayOwnerVariable variable("foo", mArrayType->getOwner(), alloc, 0);
 
   EXPECT_STREQ("foo", variable.getName().c_str());
   EXPECT_EQ(mArrayType->getOwner(), variable.getType());
@@ -81,7 +81,7 @@ TEST_F(LocalArrayOwnerVariableTest, basicFieldsTest) {
 TEST_F(LocalArrayOwnerVariableTest, generateIdentifierIRTest) {
   llvm::PointerType* arrayPointerType = mArrayType->getOwner()->getLLVMType(mContext);
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
-  LocalArrayOwnerVariable variable("foo", mArrayType->getOwner(), alloc);
+  LocalArrayOwnerVariable variable("foo", mArrayType->getOwner(), alloc, 0);
   variable.generateIdentifierIR(mContext, 0);
   
   *mStringStream << *mBasicBlock;
@@ -98,7 +98,7 @@ TEST_F(LocalArrayOwnerVariableTest, generateIdentifierIRTest) {
 TEST_F(LocalArrayOwnerVariableTest, generateIdentifierReferenceIRTest) {
   llvm::PointerType* arrayPointerType = mArrayType->getOwner()->getLLVMType(mContext);
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
-  LocalArrayOwnerVariable variable("foo", mArrayType->getOwner(), alloc);
+  LocalArrayOwnerVariable variable("foo", mArrayType->getOwner(), alloc, 0);
 
   EXPECT_EQ(alloc, variable.generateIdentifierReferenceIR(mContext, 0));
 }
@@ -106,7 +106,7 @@ TEST_F(LocalArrayOwnerVariableTest, generateIdentifierReferenceIRTest) {
 TEST_F(LocalArrayOwnerVariableTest, generateAssignmentTest) {
   llvm::PointerType* arrayPointerType = mArrayType->getOwner()->getLLVMType(mContext);
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
-  LocalArrayOwnerVariable variable("foo", mArrayType->getOwner(), alloc);
+  LocalArrayOwnerVariable variable("foo", mArrayType->getOwner(), alloc, 0);
   vector<const IExpression*> arrayIndices;
   NiceMock<MockExpression> mockExpression;
   ON_CALL(mockExpression, getType(_)).WillByDefault(Return(mArrayType->getOwner()));
@@ -130,7 +130,7 @@ TEST_F(LocalArrayOwnerVariableTest, generateAssignmentTest) {
 TEST_F(LocalArrayOwnerVariableTest, generateAssignmentDeathTest) {
   llvm::PointerType* arrayPointerType = mArrayType->getOwner()->getLLVMType(mContext);
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
-  LocalArrayOwnerVariable variable("foo", mArrayType->getOwner(), alloc);
+  LocalArrayOwnerVariable variable("foo", mArrayType->getOwner(), alloc, 0);
   vector<const IExpression*> arrayIndices;
   NiceMock<MockExpression> mockExpression;
   ON_CALL(mockExpression, getType(_)).WillByDefault(Return(mArrayType));

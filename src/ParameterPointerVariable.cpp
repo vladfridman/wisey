@@ -19,8 +19,9 @@ using namespace wisey;
 
 ParameterPointerVariable::ParameterPointerVariable(string name,
                                                    const LLVMPointerType* type,
-                                                   Value* value) :
-mName(name), mType(type), mValue(value) {
+                                                   Value* value,
+                                                   int line) :
+mName(name), mType(type), mValue(value), mLine(line) {
 }
 
 ParameterPointerVariable::~ParameterPointerVariable() {
@@ -40,6 +41,10 @@ bool ParameterPointerVariable::isField() const {
 
 bool ParameterPointerVariable::isSystem() const {
   return false;
+}
+
+int ParameterPointerVariable::getLine() const {
+  return mLine;
 }
 
 Value* ParameterPointerVariable::generateIdentifierIR(IRGenerationContext& context,

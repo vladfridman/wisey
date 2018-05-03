@@ -23,10 +23,14 @@ namespace wisey {
     std::string mName;
     const LLVMPointerType* mType;
     llvm::Value* mValue;
-    
+    int mLine;
+
   public:
     
-    ParameterPointerVariable(std::string name, const LLVMPointerType* type, llvm::Value* value);
+    ParameterPointerVariable(std::string name,
+                             const LLVMPointerType* type,
+                             llvm::Value* value,
+                             int line);
     
     ~ParameterPointerVariable();
     
@@ -38,6 +42,8 @@ namespace wisey {
     
     bool isSystem() const override;
     
+    int getLine() const override;
+
     llvm::Value* generateIdentifierIR(IRGenerationContext& context, int line) const override;
     
     llvm::Value* generateIdentifierReferenceIR(IRGenerationContext& context,

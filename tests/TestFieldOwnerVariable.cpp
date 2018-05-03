@@ -105,10 +105,11 @@ struct FieldOwnerVariableTest : Test {
     Value* thisPointer = ConstantPointerNull::get(mObject->getLLVMType(mContext));
     IVariable* thisVariable = new ParameterReferenceVariable(IObjectType::THIS,
                                                              mObject,
-                                                             thisPointer);
+                                                             thisPointer,
+                                                             0);
     mContext.getScopes().setVariable(thisVariable);
     
-    mFieldOwnerVariable = new FieldOwnerVariable("foo", mObject);
+    mFieldOwnerVariable = new FieldOwnerVariable("foo", mObject, 0);
     
     vector<Type*> argumentTypes;
     argumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
@@ -192,7 +193,7 @@ TEST_F(FieldOwnerVariableTest, generateAssignmentWithCastIRTest) {
   ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
   vector<const IExpression*> arrayIndices;
 
-  FieldOwnerVariable* ownerFieldVariable = new FieldOwnerVariable("bar", mObject);
+  FieldOwnerVariable* ownerFieldVariable = new FieldOwnerVariable("bar", mObject, 0);
   ownerFieldVariable->generateAssignmentIR(mContext, &assignToExpression, arrayIndices, 0);
   
   *mStringStream << *mBasicBlock;

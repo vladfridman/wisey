@@ -105,10 +105,11 @@ struct FieldReferenceVariableTest : Test {
     Value* thisPointer = ConstantPointerNull::get(mObject->getLLVMType(mContext));
     IVariable* thisVariable = new ParameterReferenceVariable(IObjectType::THIS,
                                                              mObject,
-                                                             thisPointer);
+                                                             thisPointer,
+                                                             0);
     mContext.getScopes().setVariable(thisVariable);
    
-    mFieldReferenceVariable = new FieldReferenceVariable("foo", mObject);
+    mFieldReferenceVariable = new FieldReferenceVariable("foo", mObject, 0);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -184,7 +185,7 @@ TEST_F(FieldReferenceVariableTest, generateAssignmentWithCastIRTest) {
   ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
   vector<const IExpression*> arrayIndices;
 
-  FieldReferenceVariable* referenceFieldVariable = new FieldReferenceVariable("bar", mObject);
+  FieldReferenceVariable* referenceFieldVariable = new FieldReferenceVariable("bar", mObject, 0);
   referenceFieldVariable->generateAssignmentIR(mContext, &assignToExpression, arrayIndices, 0);
   
   *mStringStream << *mBasicBlock;

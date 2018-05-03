@@ -59,7 +59,7 @@ public:
     mContext.getScopes().pushScope();
     
     mArrayPointer = ConstantPointerNull::get(mArrayType->getLLVMType(mContext));
-    mVariable = new ParameterArrayReferenceVariable("foo", mArrayType, mArrayPointer);
+    mVariable = new ParameterArrayReferenceVariable("foo", mArrayType, mArrayPointer, 0);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }

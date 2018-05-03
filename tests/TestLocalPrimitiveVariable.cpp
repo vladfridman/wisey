@@ -62,7 +62,7 @@ public:
 
 TEST_F(LocalPrimitiveVariableTest, basicFieldsTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), "foo");
-  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT, alloc);
+  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT, alloc, 0);
 
   EXPECT_STREQ("foo", variable.getName().c_str());
   EXPECT_EQ(PrimitiveTypes::INT, variable.getType());
@@ -73,7 +73,7 @@ TEST_F(LocalPrimitiveVariableTest, basicFieldsTest) {
 TEST_F(LocalPrimitiveVariableTest, generateAssignmentIRTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), "foo");
 
-  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT, alloc);
+  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT, alloc, 0);
   Value* assignValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
@@ -96,7 +96,7 @@ TEST_F(LocalPrimitiveVariableTest, generateAssignmentIRTest) {
 
 TEST_F(LocalPrimitiveVariableTest, generateAssignmentIRWithCastTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), "foo");
-  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT, alloc);
+  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT, alloc, 0);
   Value* assignValue = ConstantInt::get(Type::getInt1Ty(mLLVMContext), 1);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN));
@@ -124,7 +124,7 @@ TEST_F(LocalPrimitiveVariableTest, generateAssignmentIRWithCastTest) {
 
 TEST_F(LocalPrimitiveVariableTest, generateIdentifierIRTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), "foo");
-  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT, alloc);
+  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT, alloc, 0);
   
   variable.generateIdentifierIR(mContext, 0);
 
@@ -143,7 +143,7 @@ TEST_F(LocalPrimitiveVariableTest, generateIdentifierIRTest) {
 
 TEST_F(LocalPrimitiveVariableTest, generateIdentifierReferenceIRTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), "foo");
-  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT, alloc);
+  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT, alloc, 0);
   
   EXPECT_EQ(alloc, variable.generateIdentifierReferenceIR(mContext, 0));
 }

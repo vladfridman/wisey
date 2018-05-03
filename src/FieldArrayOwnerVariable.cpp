@@ -24,8 +24,9 @@ using namespace llvm;
 using namespace wisey;
 
 FieldArrayOwnerVariable::FieldArrayOwnerVariable(string name,
-                                                 const IConcreteObjectType* object) :
-mName(name), mObject(object) { }
+                                                 const IConcreteObjectType* object,
+                                                 int line) :
+mName(name), mObject(object), mLine(line) { }
 
 FieldArrayOwnerVariable::~FieldArrayOwnerVariable() {}
 
@@ -39,6 +40,10 @@ bool FieldArrayOwnerVariable::isField() const {
 
 bool FieldArrayOwnerVariable::isSystem() const {
   return false;
+}
+
+int FieldArrayOwnerVariable::getLine() const {
+  return mLine;
 }
 
 const ArrayOwnerType* FieldArrayOwnerVariable::getType() const {

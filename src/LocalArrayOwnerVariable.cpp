@@ -24,8 +24,9 @@ using namespace wisey;
 
 LocalArrayOwnerVariable::LocalArrayOwnerVariable(string name,
                                                  const ArrayOwnerType* arrayOwnerType,
-                                                 llvm::Value* valueStore) :
-mName(name), mArrayOwnerType(arrayOwnerType), mValueStore(valueStore) {
+                                                 llvm::Value* valueStore,
+                                                 int line) :
+mName(name), mArrayOwnerType(arrayOwnerType), mValueStore(valueStore), mLine(line) {
 }
 
 LocalArrayOwnerVariable::~LocalArrayOwnerVariable() {
@@ -55,6 +56,10 @@ llvm::Value* LocalArrayOwnerVariable::generateIdentifierReferenceIR(IRGeneration
 
 bool LocalArrayOwnerVariable::isSystem() const {
   return false;
+}
+
+int LocalArrayOwnerVariable::getLine() const {
+  return mLine;
 }
 
 llvm::Value* LocalArrayOwnerVariable::generateAssignmentIR(IRGenerationContext& context,

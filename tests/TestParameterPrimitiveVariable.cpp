@@ -78,7 +78,7 @@ public:
 
 TEST_F(ParameterPrimitiveVariableTest, basicFieldsTest) {
   Value* fooValueStore = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
-  ParameterPrimitiveVariable variable("foo", PrimitiveTypes::INT, fooValueStore);
+  ParameterPrimitiveVariable variable("foo", PrimitiveTypes::INT, fooValueStore, 0);
 
   EXPECT_STREQ("foo", variable.getName().c_str());
   EXPECT_EQ(PrimitiveTypes::INT, variable.getType());
@@ -88,14 +88,14 @@ TEST_F(ParameterPrimitiveVariableTest, basicFieldsTest) {
 
 TEST_F(ParameterPrimitiveVariableTest, generateIdentifierIRTest) {
   Value* fooValueStore = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
-  ParameterPrimitiveVariable variable("foo", PrimitiveTypes::INT, fooValueStore);
+  ParameterPrimitiveVariable variable("foo", PrimitiveTypes::INT, fooValueStore, 0);
 
   EXPECT_EQ(fooValueStore, variable.generateIdentifierIR(mContext, 0));
 }
 
 TEST_F(ParameterPrimitiveVariableTest, parameterReferenceVariableAssignmentDeathTest) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
-  ParameterPrimitiveVariable variable("foo", PrimitiveTypes::INT, fooValue);
+  ParameterPrimitiveVariable variable("foo", PrimitiveTypes::INT, fooValue, 0);
   vector<const IExpression*> arrayIndices;
 
   EXPECT_EXIT(variable.generateAssignmentIR(mContext, NULL, arrayIndices, 0),
@@ -105,7 +105,7 @@ TEST_F(ParameterPrimitiveVariableTest, parameterReferenceVariableAssignmentDeath
 
 TEST_F(ParameterPrimitiveVariableTest, parameterReferenceVariableIdentifierTest) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
-  ParameterPrimitiveVariable variable("foo", PrimitiveTypes::INT, fooValue);
+  ParameterPrimitiveVariable variable("foo", PrimitiveTypes::INT, fooValue, 0);
 
   EXPECT_EQ(variable.generateIdentifierIR(mContext, 0), fooValue);
 }

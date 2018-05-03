@@ -21,8 +21,9 @@ using namespace wisey;
 
 LocalArrayReferenceVariable::LocalArrayReferenceVariable(string name,
                                                          const ArrayType* arrayType,
-                                                         llvm::Value* valueStore) :
-mName(name), mArrayType(arrayType), mValueStore(valueStore) {
+                                                         llvm::Value* valueStore,
+                                                         int line) :
+mName(name), mArrayType(arrayType), mValueStore(valueStore), mLine(line) {
 }
 
 LocalArrayReferenceVariable::~LocalArrayReferenceVariable() {
@@ -42,6 +43,10 @@ bool LocalArrayReferenceVariable::isField() const {
 
 bool LocalArrayReferenceVariable::isSystem() const {
   return false;
+}
+
+int LocalArrayReferenceVariable::getLine() const {
+  return mLine;
 }
 
 llvm::Value* LocalArrayReferenceVariable::generateIdentifierIR(IRGenerationContext& context,

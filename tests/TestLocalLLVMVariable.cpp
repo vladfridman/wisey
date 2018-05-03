@@ -62,7 +62,7 @@ public:
 
 TEST_F(LocalLLVMVariableTest, basicFieldsTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), "foo");
-  LocalLLVMVariable variable("foo", LLVMPrimitiveTypes::I16, alloc);
+  LocalLLVMVariable variable("foo", LLVMPrimitiveTypes::I16, alloc, 0);
   
   EXPECT_STREQ("foo", variable.getName().c_str());
   EXPECT_EQ(LLVMPrimitiveTypes::I16, variable.getType());
@@ -73,7 +73,7 @@ TEST_F(LocalLLVMVariableTest, basicFieldsTest) {
 TEST_F(LocalLLVMVariableTest, generateAssignmentIRTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt16Ty(mLLVMContext), "foo");
   
-  LocalLLVMVariable variable("foo", LLVMPrimitiveTypes::I16, alloc);
+  LocalLLVMVariable variable("foo", LLVMPrimitiveTypes::I16, alloc, 0);
   Value* assignValue = ConstantInt::get(Type::getInt16Ty(mLLVMContext), 5);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(LLVMPrimitiveTypes::I16));
@@ -96,7 +96,7 @@ TEST_F(LocalLLVMVariableTest, generateAssignmentIRTest) {
 
 TEST_F(LocalLLVMVariableTest, generateIdentifierIRTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt16Ty(mLLVMContext), "foo");
-  LocalLLVMVariable variable("foo", LLVMPrimitiveTypes::I16, alloc);
+  LocalLLVMVariable variable("foo", LLVMPrimitiveTypes::I16, alloc, 0);
   
   variable.generateIdentifierIR(mContext, 0);
   
@@ -115,7 +115,7 @@ TEST_F(LocalLLVMVariableTest, generateIdentifierIRTest) {
 
 TEST_F(LocalLLVMVariableTest, generateIdentifierReferenceIRTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt16Ty(mLLVMContext), "foo");
-  LocalLLVMVariable variable("foo", LLVMPrimitiveTypes::I16, alloc);
+  LocalLLVMVariable variable("foo", LLVMPrimitiveTypes::I16, alloc, 0);
   
   EXPECT_EQ(alloc, variable.generateIdentifierReferenceIR(mContext, 0));
 }

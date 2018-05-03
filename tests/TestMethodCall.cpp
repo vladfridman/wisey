@@ -159,7 +159,8 @@ public:
     IRWriter::newStoreInst(mContext, null, threadStore);
     IVariable* threadVariable = new LocalReferenceVariable(ThreadExpression::THREAD,
                                                            mThreadInterface,
-                                                           threadStore);
+                                                           threadStore,
+                                                           0);
     FakeExpression* fakeExpression = new FakeExpression(null, mThreadInterface);
     vector<const IExpression*> arrayIndices;
     threadVariable->generateAssignmentIR(mContext, fakeExpression, arrayIndices, 0);
@@ -172,7 +173,8 @@ public:
     IRWriter::newStoreInst(mContext, null, callStackStore);
     IVariable* callStackVariable = new LocalReferenceVariable(ThreadExpression::CALL_STACK,
                                                               mCallStack,
-                                                              callStackStore);
+                                                              callStackStore,
+                                                              0);
     fakeExpression = new FakeExpression(null, mCallStack);
     callStackVariable->generateAssignmentIR(mContext, fakeExpression, arrayIndices, 0);
     mContext.getScopes().setVariable(callStackVariable);

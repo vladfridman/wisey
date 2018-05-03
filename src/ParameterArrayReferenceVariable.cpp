@@ -24,8 +24,9 @@ using namespace wisey;
 
 ParameterArrayReferenceVariable::ParameterArrayReferenceVariable(string name,
                                                                  const ArrayType* arrayType,
-                                                                 Value* value) :
-mName(name), mArrayType(arrayType), mValue(value) {
+                                                                 Value* value,
+                                                                 int line) :
+mName(name), mArrayType(arrayType), mValue(value), mLine(line) {
   assert(value->getType()->isPointerTy());
   assert(value->getType()->getPointerElementType()->isStructTy());
 }
@@ -47,6 +48,10 @@ bool ParameterArrayReferenceVariable::isField() const {
 
 bool ParameterArrayReferenceVariable::isSystem() const {
   return false;
+}
+
+int ParameterArrayReferenceVariable::getLine() const {
+  return mLine;
 }
 
 Value* ParameterArrayReferenceVariable::generateIdentifierIR(IRGenerationContext& context,

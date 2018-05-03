@@ -19,9 +19,10 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-FieldPrimitiveVariable::FieldPrimitiveVariable(string name, const IConcreteObjectType* object) :
-mName(name),
-mObject(object) { }
+FieldPrimitiveVariable::FieldPrimitiveVariable(string name,
+                                               const IConcreteObjectType* object,
+                                               int line) :
+mName(name), mObject(object), mLine(line) { }
 
 FieldPrimitiveVariable::~FieldPrimitiveVariable() {}
 
@@ -39,6 +40,10 @@ bool FieldPrimitiveVariable::isField() const {
 
 bool FieldPrimitiveVariable::isSystem() const {
   return false;
+}
+
+int FieldPrimitiveVariable::getLine() const {
+  return mLine;
 }
 
 Value* FieldPrimitiveVariable::generateIdentifierIR(IRGenerationContext& context, int line) const {

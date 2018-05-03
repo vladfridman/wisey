@@ -56,7 +56,7 @@ public:
     mContext.getScopes().pushScope();
 
     AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), mName);
-    mVariable = new LocalPrimitiveVariable(mName, PrimitiveTypes::INT, alloc);
+    mVariable = new LocalPrimitiveVariable(mName, PrimitiveTypes::INT, alloc, 0);
     mContext.getScopes().setVariable(mVariable);
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -113,7 +113,8 @@ TEST_F(IncrementExpressionTest, incorrectIdentifierTypeDeathTest) {
   IncrementExpression* expression = IncrementExpression::newIncrementByOne(identifier, 5);
   LocalPrimitiveVariable* variable = new LocalPrimitiveVariable("bar",
                                                                 PrimitiveTypes::FLOAT,
-                                                                NULL);
+                                                                NULL,
+                                                                0);
   mContext.getScopes().setVariable(variable);
   string expected = "/tmp/source.yz\\(5\\): Error: Expression is of a type that is "
   "incompatible with increment/decrement operation";

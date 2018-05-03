@@ -26,8 +26,12 @@ using namespace wisey;
 LocalImmutableArrayOwnerVariable::
 LocalImmutableArrayOwnerVariable(string name,
                                  const ImmutableArrayOwnerType* immutableArrayOwnerType,
-                                 llvm::Value* valueStore) :
-mName(name), mImmutableArrayOwnerType(immutableArrayOwnerType), mValueStore(valueStore) {
+                                 llvm::Value* valueStore,
+                                 int line) :
+mName(name),
+mImmutableArrayOwnerType(immutableArrayOwnerType),
+mValueStore(valueStore),
+mLine(line) {
 }
 
 LocalImmutableArrayOwnerVariable::~LocalImmutableArrayOwnerVariable() {
@@ -57,6 +61,10 @@ generateIdentifierReferenceIR(IRGenerationContext& context, int line) const {
 
 bool LocalImmutableArrayOwnerVariable::isSystem() const {
   return false;
+}
+
+int LocalImmutableArrayOwnerVariable::getLine() const {
+  return mLine;
 }
 
 llvm::Value* LocalImmutableArrayOwnerVariable::

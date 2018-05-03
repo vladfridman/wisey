@@ -79,7 +79,7 @@ public:
 
 TEST_F(ParameterSystemReferenceVariableTest, basicFieldsTest) {
   Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mContext));
-  ParameterSystemReferenceVariable variable("foo", mModel, fooValue);
+  ParameterSystemReferenceVariable variable("foo", mModel, fooValue, 0);
   
   EXPECT_STREQ("foo", variable.getName().c_str());
   EXPECT_EQ(mModel, variable.getType());
@@ -89,7 +89,7 @@ TEST_F(ParameterSystemReferenceVariableTest, basicFieldsTest) {
 
 TEST_F(ParameterSystemReferenceVariableTest, variableAssignmentDeathTest) {
   Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mContext));
-  ParameterSystemReferenceVariable variable("foo", mModel, fooValue);
+  ParameterSystemReferenceVariable variable("foo", mModel, fooValue, 0);
   vector<const IExpression*> arrayIndices;
   
   EXPECT_EXIT(variable.generateAssignmentIR(mContext, NULL, arrayIndices, 0),
@@ -99,14 +99,14 @@ TEST_F(ParameterSystemReferenceVariableTest, variableAssignmentDeathTest) {
 
 TEST_F(ParameterSystemReferenceVariableTest, variableIdentifierTest) {
   Value* fooValueStore = ConstantPointerNull::get(mModel->getLLVMType(mContext));
-  ParameterSystemReferenceVariable variable("foo", mModel, fooValueStore);
+  ParameterSystemReferenceVariable variable("foo", mModel, fooValueStore, 0);
   
   EXPECT_EQ(fooValueStore, variable.generateIdentifierIR(mContext, 0));
 }
 
 TEST_F(ParameterSystemReferenceVariableTest, decrementReferenceCounterTest) {
   Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mContext));
-  ParameterSystemReferenceVariable variable("foo", mModel, fooValue);
+  ParameterSystemReferenceVariable variable("foo", mModel, fooValue, 0);
   
   variable.decrementReferenceCounter(mContext);
   

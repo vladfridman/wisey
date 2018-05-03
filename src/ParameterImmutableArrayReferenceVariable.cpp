@@ -22,8 +22,9 @@ using namespace wisey;
 ParameterImmutableArrayReferenceVariable::
 ParameterImmutableArrayReferenceVariable(string name,
                                          const ImmutableArrayType* immutableArrayType,
-                                         Value* value) :
-mName(name), mImmutableArrayType(immutableArrayType), mValue(value) {
+                                         Value* value,
+                                         int line) :
+mName(name), mImmutableArrayType(immutableArrayType), mValue(value), mLine(line) {
   assert(value->getType()->isPointerTy());
   assert(value->getType()->getPointerElementType()->isStructTy());
 }
@@ -45,6 +46,10 @@ bool ParameterImmutableArrayReferenceVariable::isField() const {
 
 bool ParameterImmutableArrayReferenceVariable::isSystem() const {
   return false;
+}
+
+int ParameterImmutableArrayReferenceVariable::getLine() const {
+  return mLine;
 }
 
 Value* ParameterImmutableArrayReferenceVariable::generateIdentifierIR(IRGenerationContext& context,

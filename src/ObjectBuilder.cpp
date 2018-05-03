@@ -52,8 +52,9 @@ Value* ObjectBuilder::generateIR(IRGenerationContext& context, const IType* assi
   IRWriter::newStoreInst(context, malloc, alloc);
 
   IVariable* heapVariable = new LocalOwnerVariable(IVariable::getTemporaryVariableName(this),
-                                                  objectType->getOwner(),
-                                                  alloc);
+                                                   objectType->getOwner(),
+                                                   alloc,
+                                                   mLine);
   context.getScopes().setVariable(heapVariable);
   
   return malloc;

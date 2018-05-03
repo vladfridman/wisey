@@ -21,8 +21,8 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-FieldOwnerVariable::FieldOwnerVariable(string name, const IConcreteObjectType* object) :
-mName(name), mObject(object) { }
+FieldOwnerVariable::FieldOwnerVariable(string name, const IConcreteObjectType* object, int line) :
+mName(name), mObject(object), mLine(line) { }
 
 FieldOwnerVariable::~FieldOwnerVariable() {}
 
@@ -43,6 +43,10 @@ bool FieldOwnerVariable::isField() const {
 
 bool FieldOwnerVariable::isSystem() const {
   return false;
+}
+
+int FieldOwnerVariable::getLine() const {
+  return mLine;
 }
 
 Value* FieldOwnerVariable::generateIdentifierIR(IRGenerationContext& context, int line) const {

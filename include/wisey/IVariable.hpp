@@ -67,6 +67,11 @@ namespace wisey {
     virtual bool isSystem() const = 0;
     
     /**
+     * Returns the line number where this variable was defined
+     */
+    virtual int getLine() const = 0;
+    
+    /**
      * Generated LLVM IR for the variable when it used in {@link Identifier}
      */
     virtual llvm::Value* generateIdentifierIR(IRGenerationContext& context, int line) const = 0;

@@ -66,7 +66,8 @@ public:
     mArrayAlloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
     mVariable = new ParameterImmutableArrayOwnerVariable("foo",
                                                          mImmutableArrayOwnerType,
-                                                         mArrayAlloc);
+                                                         mArrayAlloc,
+                                                         0);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }

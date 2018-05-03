@@ -23,8 +23,9 @@ using namespace wisey;
 
 LocalSystemReferenceVariable::LocalSystemReferenceVariable(string name,
                                                            const IObjectType* type,
-                                                           Value* valueStore) :
-mName(name), mType(type), mValueStore(valueStore), mIsInitialized(false) {
+                                                           Value* valueStore,
+                                                           int line) :
+mName(name), mType(type), mValueStore(valueStore), mIsInitialized(false), mLine(line) {
   assert(valueStore->getType()->isPointerTy());
   assert(valueStore->getType()->getPointerElementType()->isPointerTy());
   assert(valueStore->getType()->getPointerElementType()->getPointerElementType()->isStructTy());
@@ -47,6 +48,10 @@ bool LocalSystemReferenceVariable::isField() const {
 
 bool LocalSystemReferenceVariable::isSystem() const {
   return true;
+}
+
+int LocalSystemReferenceVariable::getLine() const {
+  return mLine;
 }
 
 Value* LocalSystemReferenceVariable::generateIdentifierIR(IRGenerationContext& context,

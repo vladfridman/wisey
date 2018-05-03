@@ -89,10 +89,11 @@ public:
     Value* thisPointer = ConstantPointerNull::get(mObject->getLLVMType(mContext));
     IVariable* thisVariable = new ParameterReferenceVariable(IObjectType::THIS,
                                                              mObject,
-                                                             thisPointer);
+                                                             thisPointer,
+                                                             0);
     mContext.getScopes().setVariable(thisVariable);
     
-    mFieldImmutableArrayOwnerVariable = new FieldImmutableArrayOwnerVariable("foo", mObject);
+    mFieldImmutableArrayOwnerVariable = new FieldImmutableArrayOwnerVariable("foo", mObject, 0);
   }
   
   ~FieldImmutableArrayOwnerVariableTest() {

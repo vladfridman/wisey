@@ -24,12 +24,14 @@ namespace wisey {
     std::string mName;
     const ArrayOwnerType* mArrayOwnerType;
     llvm::Value* mValueStore;
-    
+    int mLine;
+
   public:
     
     ParameterArrayOwnerVariable(std::string name,
                                 const ArrayOwnerType* arrayOwnerType,
-                                llvm::Value* valueStore);
+                                llvm::Value* valueStore,
+                                int line);
     
     ~ParameterArrayOwnerVariable();
     
@@ -41,6 +43,8 @@ namespace wisey {
     
     bool isSystem() const override;
     
+    int getLine() const override;
+
     llvm::Value* generateIdentifierIR(IRGenerationContext& context, int line) const override;
     
     llvm::Value* generateIdentifierReferenceIR(IRGenerationContext& context,

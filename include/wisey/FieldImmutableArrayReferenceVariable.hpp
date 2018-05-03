@@ -23,10 +23,13 @@ namespace wisey {
     
     std::string mName;
     const IConcreteObjectType* mObject;
+    int mLine;
     
   public:
     
-    FieldImmutableArrayReferenceVariable(std::string name, const IConcreteObjectType* object);
+    FieldImmutableArrayReferenceVariable(std::string name,
+                                         const IConcreteObjectType* object,
+                                         int line);
     
     ~FieldImmutableArrayReferenceVariable();
     
@@ -37,6 +40,8 @@ namespace wisey {
     bool isField() const override;
     
     bool isSystem() const override;
+    
+    int getLine() const override;
     
     llvm::Value* generateIdentifierIR(IRGenerationContext& context, int line) const override;
     

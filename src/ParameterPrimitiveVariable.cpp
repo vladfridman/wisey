@@ -19,8 +19,9 @@ using namespace wisey;
 
 ParameterPrimitiveVariable::ParameterPrimitiveVariable(string name,
                                                        const IPrimitiveType* type,
-                                                       Value* value) :
-mName(name), mType(type), mValue(value) { }
+                                                       Value* value,
+                                                       int line) :
+mName(name), mType(type), mValue(value), mLine(line) { }
 
 ParameterPrimitiveVariable::~ParameterPrimitiveVariable() {
 }
@@ -39,6 +40,10 @@ const IPrimitiveType* ParameterPrimitiveVariable::getType() const {
 
 bool ParameterPrimitiveVariable::isSystem() const {
   return false;
+}
+
+int ParameterPrimitiveVariable::getLine() const {
+  return mLine;
 }
 
 Value* ParameterPrimitiveVariable::generateIdentifierIR(IRGenerationContext& context,

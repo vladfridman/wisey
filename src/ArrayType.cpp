@@ -174,7 +174,7 @@ void ArrayType::createLocalVariable(IRGenerationContext &context,
   llvm::AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
   IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloc);
   
-  IVariable* variable = new LocalArrayReferenceVariable(name, this, alloc);
+  IVariable* variable = new LocalArrayReferenceVariable(name, this, alloc, line);
   context.getScopes().setVariable(variable);
 }
 
@@ -182,7 +182,7 @@ void ArrayType::createFieldVariable(IRGenerationContext& context,
                                     string name,
                                     const IConcreteObjectType* object,
                                     int line) const {
-  IVariable* variable = new FieldArrayReferenceVariable(name, object);
+  IVariable* variable = new FieldArrayReferenceVariable(name, object, line);
   context.getScopes().setVariable(variable);
 }
 
@@ -190,7 +190,7 @@ void ArrayType::createParameterVariable(IRGenerationContext& context,
                                         string name,
                                         llvm::Value* value,
                                         int line) const {
-  IVariable* variable = new ParameterArrayReferenceVariable(name, this,  value);
+  IVariable* variable = new ParameterArrayReferenceVariable(name, this,  value, line);
   incrementReferenceCount(context, value);
   context.getScopes().setVariable(variable);
 }

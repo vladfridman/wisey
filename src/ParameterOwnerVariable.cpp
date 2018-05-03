@@ -23,8 +23,9 @@ using namespace wisey;
 
 ParameterOwnerVariable::ParameterOwnerVariable(string name,
                                                const IOwnerType* type,
-                                               Value* valueStore) :
-mName(name), mType(type), mValueStore(valueStore) {
+                                               Value* valueStore,
+                                               int line) :
+mName(name), mType(type), mValueStore(valueStore), mLine(line) {
   assert(valueStore->getType()->isPointerTy());
   assert(valueStore->getType()->getPointerElementType()->isPointerTy());
   if (!type->isNative()) {
@@ -49,6 +50,10 @@ bool ParameterOwnerVariable::isField() const {
 
 bool ParameterOwnerVariable::isSystem() const {
   return false;
+}
+
+int ParameterOwnerVariable::getLine() const {
+  return mLine;
 }
 
 Value* ParameterOwnerVariable::generateIdentifierIR(IRGenerationContext& context, int line) const {

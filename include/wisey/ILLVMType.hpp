@@ -34,7 +34,8 @@ namespace wisey {
      */
     static LocalLLVMVariable* createLocalLLVMVariable(IRGenerationContext& context,
                                                       const ILLVMType* type,
-                                                      std::string name);
+                                                      std::string name,
+                                                      int line);
     
   };
   

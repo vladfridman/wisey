@@ -100,13 +100,19 @@ void ProgramSuffix::generateMain(IRGenerationContext& context) const {
   Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
   Value* threadNullValue = ConstantPointerNull::get(threadInterface->getLLVMType(context));
   IReferenceVariable* threadVariable =
-  new ParameterSystemReferenceVariable(ThreadExpression::THREAD, threadInterface, threadNullValue);
+  new ParameterSystemReferenceVariable(ThreadExpression::THREAD,
+                                       threadInterface,
+                                       threadNullValue,
+                                       0);
   context.getScopes().setVariable(threadVariable);
 
   Controller* callstack = context.getController(Names::getCallStackControllerFullName(), 0);
   Value* callstackValue = ConstantPointerNull::get(callstack->getLLVMType(context));
   IReferenceVariable* callstackVariable =
-  new ParameterSystemReferenceVariable(ThreadExpression::CALL_STACK, callstack, callstackValue);
+  new ParameterSystemReferenceVariable(ThreadExpression::CALL_STACK,
+                                       callstack,
+                                       callstackValue,
+                                       0);
   context.getScopes().setVariable(callstackVariable);
 
   context.bindInterfaces(context);

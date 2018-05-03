@@ -89,13 +89,12 @@ public:
     mObject->setFields(mContext, fields, 1u);
     
     Value* thisPointer = ConstantPointerNull::get(mObject->getLLVMType(mContext));
-    IVariable* thisVariable = new ParameterReferenceVariable(IObjectType::THIS,
-                                                             mObject,
-                                                             thisPointer);
+    IVariable* thisVariable =
+    new ParameterReferenceVariable(IObjectType::THIS, mObject, thisPointer, 0);
     mContext.getScopes().setVariable(thisVariable);
     
-    mFieldImmutableArrayReferenceVariable = new FieldImmutableArrayReferenceVariable("foo",
-                                                                                     mObject);
+    mFieldImmutableArrayReferenceVariable =
+    new FieldImmutableArrayReferenceVariable("foo", mObject, 0);
   }
   
   ~FieldImmutableArrayReferenceVariableTest() {

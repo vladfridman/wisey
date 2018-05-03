@@ -24,12 +24,14 @@ namespace wisey {
     std::string mName;
     const ImmutableArrayType* mImmutableArrayType;
     llvm::Value* mValue;
-    
+    int mLine;
+
   public:
     
     ParameterImmutableArrayReferenceVariable(std::string name,
                                              const ImmutableArrayType* immutableArrayType,
-                                             llvm::Value* value);
+                                             llvm::Value* value,
+                                             int line);
 
     ~ParameterImmutableArrayReferenceVariable();
     
@@ -41,6 +43,8 @@ namespace wisey {
     
     bool isSystem() const override;
     
+    int getLine() const override;
+
     llvm::Value* generateIdentifierIR(IRGenerationContext& context, int line) const override;
     
     llvm::Value* generateIdentifierReferenceIR(IRGenerationContext& context,

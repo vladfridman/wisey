@@ -111,14 +111,14 @@ void LLVMi64Type::printToStream(IRGenerationContext &context, iostream& stream) 
 void LLVMi64Type::createLocalVariable(IRGenerationContext& context,
                                       string name,
                                       int line) const {
-  ILLVMType::createLocalLLVMVariable(context, this, name);
+  ILLVMType::createLocalLLVMVariable(context, this, name, line);
 }
 
 void LLVMi64Type::createFieldVariable(IRGenerationContext& context,
                                       string name,
                                       const IConcreteObjectType* object,
                                       int line) const {
-  IVariable* variable = new FieldLLVMVariable(name, object);
+  IVariable* variable = new FieldLLVMVariable(name, object, line);
   context.getScopes().setVariable(variable);
 }
 
@@ -126,7 +126,7 @@ void LLVMi64Type::createParameterVariable(IRGenerationContext& context,
                                           string name,
                                           Value* value,
                                           int line) const {
-  ParameterLLVMVariable* variable = new ParameterLLVMVariable(name, this, value);
+  ParameterLLVMVariable* variable = new ParameterLLVMVariable(name, this, value, line);
   context.getScopes().setVariable(variable);
 }
 

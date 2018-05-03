@@ -24,8 +24,9 @@ using namespace llvm;
 using namespace wisey;
 
 FieldArrayReferenceVariable::FieldArrayReferenceVariable(string name,
-                                                 const IConcreteObjectType* object) :
-mName(name), mObject(object) { }
+                                                         const IConcreteObjectType* object,
+                                                         int line) :
+mName(name), mObject(object), mLine(line) { }
 
 FieldArrayReferenceVariable::~FieldArrayReferenceVariable() {}
 
@@ -39,6 +40,10 @@ bool FieldArrayReferenceVariable::isField() const {
 
 bool FieldArrayReferenceVariable::isSystem() const {
   return false;
+}
+
+int FieldArrayReferenceVariable::getLine() const {
+  return mLine;
 }
 
 const wisey::ArrayType* FieldArrayReferenceVariable::getType() const {

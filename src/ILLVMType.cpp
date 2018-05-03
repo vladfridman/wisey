@@ -17,11 +17,12 @@ using namespace wisey;
 
 LocalLLVMVariable* ILLVMType::createLocalLLVMVariable(IRGenerationContext& context,
                                                       const ILLVMType* type,
-                                                      std::string name) {
+                                                      std::string name,
+                                                      int line) {
   Type* llvmType = type->getLLVMType(context);
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
   
-  LocalLLVMVariable* variable = new LocalLLVMVariable(name, type, alloc);
+  LocalLLVMVariable* variable = new LocalLLVMVariable(name, type, alloc, line);
   context.getScopes().setVariable(variable);
   
   Value* value = ConstantInt::get(llvmType, 0);

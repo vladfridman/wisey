@@ -24,10 +24,11 @@ namespace wisey {
     
     std::string mName;
     const IConcreteObjectType* mObject;
+    int mLine;
     
   public:
     
-    FieldPointerVariable(std::string name, const IConcreteObjectType* object);
+    FieldPointerVariable(std::string name, const IConcreteObjectType* object, int line);
     
     ~FieldPointerVariable();
     
@@ -38,6 +39,8 @@ namespace wisey {
     bool isField() const override;
     
     bool isSystem() const override;
+    
+    int getLine() const override;
     
     llvm::Value* generateIdentifierIR(IRGenerationContext& context, int line) const override;
     
