@@ -602,11 +602,11 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   
   if (concreteObjectFunction->getReturnType()->isVoidTy()) {
     IRWriter::createInvokeInst(context, concreteObjectFunction, callArguments, "", 0);
-    IRWriter::createReturnInst(context, NULL);
+    IRWriter::createReturnInst(context, NULL, 0);
   } else {
     Value* result =
       IRWriter::createInvokeInst(context, concreteObjectFunction, callArguments, "call", 0);
-    IRWriter::createReturnInst(context, result);
+    IRWriter::createReturnInst(context, result, 0);
   }
 
   context.getScopes().popScope(context, 0);
@@ -910,7 +910,7 @@ void Interface::composeEmptyInjectFunction(IRGenerationContext& context,
                                                 (Function*) actualInjectFunction,
                                                 callArguments,
                                                 "");
-  IRWriter::createReturnInst(context, injectValue);
+  IRWriter::createReturnInst(context, injectValue, 0);
   
   context.setBasicBlock(ifNullBlock);
   ExpressionList printOutArguments;
@@ -977,7 +977,7 @@ void Interface::composeInjectWithControllerFunction(IRGenerationContext& context
   InjectionArgumentList injectionArgumentList;
   Value* value = controller->inject(context, injectionArgumentList, 0);
   Value* bitcast = controller->castTo(context, value, interface, 0);
-  IRWriter::createReturnInst(context, bitcast);
+  IRWriter::createReturnInst(context, bitcast, 0);
   
   context.getScopes().popScope(context, 0);
 }

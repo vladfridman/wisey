@@ -92,7 +92,7 @@ void AdjustReferenceCounterForConcreteObjectSafelyFunction::compose(IRGeneration
   IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
   
   context.setBasicBlock(ifNullBlock);
-  IRWriter::createReturnInst(context, NULL);
+  IRWriter::createReturnInst(context, NULL, 0);
   
   context.setBasicBlock(ifNotNullBlock);
   Type* int64Pointer = Type::getInt64Ty(llvmContext)->getPointerTo();
@@ -106,7 +106,7 @@ void AdjustReferenceCounterForConcreteObjectSafelyFunction::compose(IRGeneration
                     AtomicOrdering::Monotonic,
                     SynchronizationScope::CrossThread,
                     ifNotNullBlock);
-  IRWriter::createReturnInst(context, NULL);
+  IRWriter::createReturnInst(context, NULL, 0);
 
   context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context), 0);
 }

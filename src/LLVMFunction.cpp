@@ -190,7 +190,7 @@ void LLVMFunction::maybeAddImpliedVoidReturn(IRGenerationContext& context, int l
   }
   
   context.getScopes().freeOwnedMemory(context, line);
-  IRWriter::createReturnInst(context, NULL);
+  IRWriter::createReturnInst(context, NULL, line);
 }
 
 string LLVMFunction::getName() const {

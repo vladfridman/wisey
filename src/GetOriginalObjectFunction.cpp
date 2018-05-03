@@ -78,7 +78,7 @@ void GetOriginalObjectFunction::compose(IRGenerationContext& context, Function* 
   index[0] = unthunkBy;
   Value* originalObject = IRWriter::createGetElementPtrInst(context, interfacePointer, index);
   
-  IRWriter::createReturnInst(context, originalObject);
+  IRWriter::createReturnInst(context, originalObject, 0);
 
   context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context), 0);
 }

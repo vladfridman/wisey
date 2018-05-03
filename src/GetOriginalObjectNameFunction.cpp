@@ -90,7 +90,7 @@ void GetOriginalObjectNameFunction::compose(IRGenerationContext& context, Functi
   Value* namePointer = IRWriter::createGetElementPtrInst(context, arrayOfStrings, index);
   LoadInst* fromTypeName = IRWriter::newLoadInst(context, namePointer, "name");
 
-  IRWriter::createReturnInst(context, fromTypeName);
+  IRWriter::createReturnInst(context, fromTypeName, 0);
   
   context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context), 0);
 }

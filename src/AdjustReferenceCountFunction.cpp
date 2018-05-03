@@ -91,7 +91,7 @@ void AdjustReferenceCountFunction::compose(IRGenerationContext& context, llvm::F
   IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
   
   context.setBasicBlock(ifNullBlock);
-  IRWriter::createReturnInst(context, NULL);
+  IRWriter::createReturnInst(context, NULL, 0);
   
   context.setBasicBlock(ifNotNullBlock);
   Value* isModel = IsModelFunction::call(context, object);
@@ -114,13 +114,13 @@ void AdjustReferenceCountFunction::compose(IRGenerationContext& context, llvm::F
                     AtomicOrdering::Monotonic,
                     SynchronizationScope::CrossThread,
                     ifModelBlock);
-  IRWriter::createReturnInst(context, NULL);
+  IRWriter::createReturnInst(context, NULL, 0);
 
   context.setBasicBlock(ifNotModelBlock);
   Value* count = IRWriter::newLoadInst(context, counter, "count");
   Value* sum = IRWriter::createBinaryOperator(context, Instruction::Add, count, adjustment, "");
   IRWriter::newStoreInst(context, sum, counter);
-  IRWriter::createReturnInst(context, NULL);
+  IRWriter::createReturnInst(context, NULL, 0);
 
   context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context), 0);
 }

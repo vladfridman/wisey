@@ -28,7 +28,9 @@ namespace wisey {
     /**
      * Create an instance of a ReturnInst and check that the block does not have a terminator already
      */
-    static llvm::ReturnInst* createReturnInst(IRGenerationContext& context, llvm::Value* returnValue);
+    static llvm::ReturnInst* createReturnInst(IRGenerationContext& context,
+                                              llvm::Value* returnValue,
+                                              int line);
     
     /**
      * Create a conditional branch if the current basic block does not already have a terminator
@@ -209,6 +211,10 @@ namespace wisey {
      * Add an UnreachableInst that terminates a basic block and should not be reachable
      */
     static llvm::UnreachableInst* newUnreachableInst(IRGenerationContext& context);
+    
+  private:
+    
+    static void exitWithUnreachableStatement(IRGenerationContext& context, int line);
     
   };
   

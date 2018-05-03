@@ -92,7 +92,7 @@ void AdjustReferenceCounterForConcreteObjectUnsafelyFunction::compose(IRGenerati
   IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
   
   context.setBasicBlock(ifNullBlock);
-  IRWriter::createReturnInst(context, NULL);
+  IRWriter::createReturnInst(context, NULL, 0);
   
   context.setBasicBlock(ifNotNullBlock);
   Type* int64Pointer = Type::getInt64Ty(llvmContext)->getPointerTo();
@@ -103,7 +103,7 @@ void AdjustReferenceCounterForConcreteObjectUnsafelyFunction::compose(IRGenerati
   Value* count = IRWriter::newLoadInst(context, counter, "count");
   Value* sum = IRWriter::createBinaryOperator(context, Instruction::Add, count, adjustment, "");
   IRWriter::newStoreInst(context, sum, counter);
-  IRWriter::createReturnInst(context, NULL);
+  IRWriter::createReturnInst(context, NULL, 0);
 
   context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context), 0);
 }

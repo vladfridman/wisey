@@ -110,7 +110,7 @@ void CheckArrayNotReferencedFunction::compose(IRGenerationContext& context, Func
   IRWriter::createConditionalBranch(context, returnVoid, ifNotNull, isNull);
   
   context.setBasicBlock(returnVoid);
-  IRWriter::createReturnInst(context, NULL);
+  IRWriter::createReturnInst(context, NULL, 0);
   
   context.setBasicBlock(ifNotNull);
   Value* referenceCount = IRWriter::newLoadInst(context, arrayPointer, "refCount");

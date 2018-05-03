@@ -88,7 +88,7 @@ void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Functi
   IRWriter::createConditionalBranch(context, returnVoid, ifNotNull, isNull);
   
   context.setBasicBlock(returnVoid);
-  IRWriter::createReturnInst(context, NULL);
+  IRWriter::createReturnInst(context, NULL, 0);
   
   context.setBasicBlock(ifNotNull);
   CheckArrayNotReferencedFunction::call(context, arrayPointer, numberOfDimensions);
@@ -98,7 +98,7 @@ void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Functi
     printOutStatement.generateIR(context);
   }
   IRWriter::createFree(context, arrayPointer);
-  IRWriter::createReturnInst(context, NULL);
+  IRWriter::createReturnInst(context, NULL, 0);
 
   context.getScopes().popScope(context, 0);
 

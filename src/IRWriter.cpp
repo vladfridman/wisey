@@ -14,16 +14,13 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ReturnInst* IRWriter::createReturnInst(IRGenerationContext& context, Value* returnValue) {
+ReturnInst* IRWriter::createReturnInst(IRGenerationContext& context,
+                                       Value* returnValue,
+                                       int line) {
   BasicBlock* currentBlock = context.getBasicBlock();
 
   if (currentBlock->getTerminator()) {
-    return NULL;
-  }
-  
-  currentBlock = context.getBasicBlock();
-  
-  if (currentBlock->getTerminator()) {
+    exitWithUnreachableStatement(context, line);
     return NULL;
   }
 
@@ -357,4 +354,9 @@ UnreachableInst* IRWriter::newUnreachableInst(IRGenerationContext& context) {
   }
   
   return new UnreachableInst(context.getLLVMContext(), currentBlock);
+}
+
+void IRWriter::exitWithUnreachableStatement(IRGenerationContext& context, int line) {
+  context.reportError(line, "Statement unreachable");
+  exit(1);
 }

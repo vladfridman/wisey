@@ -24,5 +24,5 @@ void ReturnVoidStatement::generateIR(IRGenerationContext& context) const {
   Composer::setLineNumber(context, mLine);
   context.getScopes().freeOwnedMemory(context, mLine);
   Composer::popCallStack(context);
-  IRWriter::createReturnInst(context, NULL);
+  IRWriter::createReturnInst(context, NULL, mLine);
 }

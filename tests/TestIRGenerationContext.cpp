@@ -392,7 +392,7 @@ public:
     mContext.setBasicBlock(basicBlock);
     mContext.getScopes().pushScope();
     Value* returnValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 5);
-    IRWriter::createReturnInst(mContext, returnValue);
+    IRWriter::createReturnInst(mContext, returnValue, 0);
   }
   
   ~IRGenerationContextRunTest() {

@@ -91,7 +91,7 @@ void IsModelFunction::compose(IRGenerationContext& context, llvm::Function* func
   
   Value* letterM = ConstantInt::get(Type::getInt8Ty(llvmContext), 77);
   Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, firstLetter, letterM, "");
-  IRWriter::createReturnInst(context, condition);
+  IRWriter::createReturnInst(context, condition, 0);
   
   context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context), 0);
 }

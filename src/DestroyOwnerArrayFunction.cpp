@@ -113,7 +113,7 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   
   context.setBasicBlock(returnVoid);
 
-  IRWriter::createReturnInst(context, NULL);
+  IRWriter::createReturnInst(context, NULL, 0);
 
   context.setBasicBlock(ifNotNull);
   
@@ -220,7 +220,7 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   context.setBasicBlock(freeArray);
   
   IRWriter::createFree(context, arrayPointer);
-  IRWriter::createReturnInst(context, NULL);
+  IRWriter::createReturnInst(context, NULL, 0);
 
   context.getScopes().popScope(context, 0);
 

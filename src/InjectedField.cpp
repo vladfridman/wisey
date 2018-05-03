@@ -117,12 +117,12 @@ void InjectedField::composeInjectFunctionBody(IRGenerationContext& context,
   IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
   
   context.setBasicBlock(ifNotNullBlock);
-  IRWriter::createReturnInst(context, fieldValue);
+  IRWriter::createReturnInst(context, fieldValue, 0);
   
   context.setBasicBlock(ifNullBlock);
   Value* injectedValue = injectedField->inject(context);
   IRWriter::newStoreInst(context, injectedValue, fieldPointer);
-  IRWriter::createReturnInst(context, injectedValue);
+  IRWriter::createReturnInst(context, injectedValue, 0);
 
   context.getScopes().popScope(context, 0);
 }

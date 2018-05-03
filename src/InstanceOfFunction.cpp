@@ -199,7 +199,7 @@ void InstanceOfFunction::composeReturnFound(IRGenerationContext& context,
   
   Value* decrement =
   IRWriter::createBinaryOperator(context, Instruction::Sub, iteratorLoaded, two, "dec");
-  IRWriter::createReturnInst(context, decrement);
+  IRWriter::createReturnInst(context, decrement, 0);
 }
 
 void InstanceOfFunction::composeReturnNotFound(IRGenerationContext& context,
@@ -208,5 +208,5 @@ void InstanceOfFunction::composeReturnNotFound(IRGenerationContext& context,
   ConstantInt* negativeOne = ConstantInt::get(Type::getInt32Ty(llvmContext), -1);
   
   context.setBasicBlock(returnNotFound);
-  IRWriter::createReturnInst(context, negativeOne);
+  IRWriter::createReturnInst(context, negativeOne, 0);
 }

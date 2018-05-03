@@ -113,7 +113,7 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   
   context.setBasicBlock(returnVoid);
   
-  IRWriter::createReturnInst(context, NULL);
+  IRWriter::createReturnInst(context, NULL, 0);
   
   context.setBasicBlock(ifNotNull);
   
@@ -217,7 +217,7 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   context.setBasicBlock(freeArray);
   
   IRWriter::createFree(context, arrayPointer);
-  IRWriter::createReturnInst(context, NULL);
+  IRWriter::createReturnInst(context, NULL, 0);
   
   context.getScopes().popScope(context, 0);
 

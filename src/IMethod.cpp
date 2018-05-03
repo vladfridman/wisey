@@ -88,7 +88,7 @@ void IMethod::maybeAddImpliedVoidReturn(IRGenerationContext& context,
   
   context.getScopes().freeOwnedMemory(context, line);
   Composer::popCallStack(context);
-  IRWriter::createReturnInst(context, NULL);
+  IRWriter::createReturnInst(context, NULL, method->getLine());
 }
 
 Function* IMethod::defineFunction(IRGenerationContext& context,

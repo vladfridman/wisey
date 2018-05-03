@@ -81,7 +81,7 @@ void DestroyObjectOwnerFunction::compose(IRGenerationContext& context, Function*
   IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
   
   context.setBasicBlock(ifNullBlock);
-  IRWriter::createReturnInst(context, NULL);
+  IRWriter::createReturnInst(context, NULL, 0);
   
   context.setBasicBlock(ifNotNullBlock);
   
@@ -101,7 +101,7 @@ void DestroyObjectOwnerFunction::compose(IRGenerationContext& context, Function*
   arguments.push_back(originalObjectVTable);
   
   IRWriter::createInvokeInst(context, objectDestructor, arguments, "", 0);
-  IRWriter::createReturnInst(context, NULL);
+  IRWriter::createReturnInst(context, NULL, 0);
   
   context.getScopes().popScope(context, 0);
 
