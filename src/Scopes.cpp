@@ -39,9 +39,12 @@ IVariable* Scopes::getVariable(string name) {
 }
 
 void Scopes::setVariable(IRGenerationContext& context, IVariable* variable) {
-  if (getVariable(variable->getName())) {
-    Log::e_deprecated("Already declared variable named '" + variable->getName() +
-           "'. Variable hiding is not allowed.");
+  IVariable* existingVariable = getVariable(variable->getName());
+  if (existingVariable) {
+    context.reportError(variable->getLine(),
+                        "Variable '" + variable->getName() + "' is already defined on line " +
+                        to_string(existingVariable->getLine()) +
+                        ", variable hiding is not allowed");
     exit(1);
   }
   getScope()->setVariable(variable->getName(), variable);

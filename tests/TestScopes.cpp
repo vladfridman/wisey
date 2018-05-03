@@ -233,22 +233,23 @@ TEST_F(ScopesTest, variableHidingDeathTest) {
   Value* innerValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   
   LocalPrimitiveVariable* outerVariable =
-  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT, outerValue, 0);
+  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT, outerValue, 1);
   LocalPrimitiveVariable* innerVariable =
-  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT, innerValue, 0);
+  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT, innerValue, 3);
   
   mScopes.setVariable(mContext, outerVariable);
   mScopes.pushScope();
   EXPECT_EXIT(mScopes.setVariable(mContext, innerVariable),
               ::testing::ExitedWithCode(1),
-              "Error: Already declared variable named 'foo'. Variable hiding is not allowed.");
+              "/tmp/source.yz\\(3\\): Error: "
+              "Variable 'foo' is already defined on line 1, variable hiding is not allowed");
 }
 
 TEST_F(TestFileRunner, variableHidingRunDeathTest) {
   expectFailCompile("tests/samples/test_variable_hiding.yz",
                     1,
-                    "Error: Already declared variable named 'var'. "
-                    "Variable hiding is not allowed.");
+                    "tests/samples/test_variable_hiding.yz\\(11\\): Error: "
+                    "Variable 'var' is already defined on line 8, variable hiding is not allowed.");
 }
 
 TEST_F(TestFileRunner, referenceMemoryDeallocatedByPassingOwnerRunDeathTest) {
