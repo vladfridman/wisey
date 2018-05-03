@@ -93,7 +93,7 @@ GenericValue IRGenerationContext::runCode() {
   ExecutionEngine* executionEngine = EngineBuilder(move(mModuleOwner)).create();
   vector<GenericValue> noargs;
   if (mMainFunction == NULL) {
-    Log::e_deprecated("Function main is not defined. Exiting.");
+    Log::errorNoSourceFile("Function main is not defined. Exiting.");
     delete executionEngine;
     exit(1);
   }

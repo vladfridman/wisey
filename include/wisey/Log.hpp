@@ -45,6 +45,11 @@ namespace wisey {
     static void e(std::string sourceFile, int line, std::string message);
     
     /**
+     * Log an error message with filename and line number
+     */
+    static void errorNoSourceFile(std::string message);
+
+    /**
      * Log an information message
      */
     static void i(std::string message);

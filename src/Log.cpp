@@ -30,6 +30,12 @@ void Log::e(std::string sourceFile, int line, std::string message) {
   }
 }
 
+void Log::errorNoSourceFile(std::string message) {
+  if (Log::sLogLevel >= ERRORLEVEL) {
+    cerr << "Error: " << message << endl;
+  }
+}
+
 void Log::i(std::string message) {
   if (Log::sLogLevel >= INFOLEVEL) {
     cout << "Info: " << message << endl;
