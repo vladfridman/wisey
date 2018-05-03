@@ -13,6 +13,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "wisey/IRGenerationContext.hpp"
 #include "wisey/ImportProfile.hpp"
 
 using namespace llvm;
@@ -22,6 +23,8 @@ using namespace wisey;
 using ::testing::Test;
 
 struct ImportProfileTest : public Test {
+  
+  IRGenerationContext mContext;
   string mPackage = "some.package";
   ImportProfile* mImportProfile;
   
@@ -34,17 +37,18 @@ public:
 
 TEST_F(ImportProfileTest, importProfileTest) {
   EXPECT_STREQ("some.package.MObject",
-               mImportProfile->getFullName("MObject").c_str());
+               mImportProfile->getFullName("MObject", 0).c_str());
   
   mImportProfile->addImport("MObject", "some.other.MObject");
   EXPECT_STREQ("some.other.MObject",
-               mImportProfile->getFullName("MObject").c_str());
+               mImportProfile->getFullName("MObject", 0).c_str());
 }
 
 TEST_F(ImportProfileTest, getFullNameDeathTest) {
   ImportProfile* importProfile = new ImportProfile("");
-  
-  EXPECT_EXIT(importProfile->getFullName("MObject"),
+  importProfile->setSourceFileName(mContext, "/tmp/source.yz");
+
+  EXPECT_EXIT(importProfile->getFullName("MObject", 1),
               ::testing::ExitedWithCode(1),
-              "Error: Could not identify packge for object MObject");
+              "/tmp/source.yz\\(1\\): Error: Could not identify packge for object MObject");
 }

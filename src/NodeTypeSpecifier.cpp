@@ -35,7 +35,7 @@ IExpression* NodeTypeSpecifier::takePackage() {
 }
 
 string NodeTypeSpecifier::getName(IRGenerationContext& context) const {
-  return getFullName(context, mShortName, mPackageExpression);
+  return getFullName(context, mShortName, mPackageExpression, mLine);
 }
 
 const Node* NodeTypeSpecifier::getType(IRGenerationContext& context) const {

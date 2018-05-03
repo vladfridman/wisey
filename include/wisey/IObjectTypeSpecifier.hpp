@@ -45,7 +45,8 @@ namespace wisey {
      */
     static std::string getFullName(IRGenerationContext& context,
                                    std::string shortName,
-                                   IExpression* packageExpression);
+                                   IExpression* packageExpression,
+                                   int line);
     
   };
   

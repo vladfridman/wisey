@@ -42,7 +42,7 @@ namespace wisey {
     /**
      * Search list of imports and get the full name of a given object
      */
-    std::string getFullName(std::string shortName) const;
+    std::string getFullName(std::string shortName, int line) const;
     
     /**
      * Sets the current source file being processed

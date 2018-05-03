@@ -29,7 +29,7 @@ void ImportProfile::addImport(string shortName, string longName) {
   mImports[shortName] = longName;
 }
 
-string ImportProfile::getFullName(string shortName) const {
+string ImportProfile::getFullName(string shortName, int line) const {
   if (mImports.count(shortName)) {
     return mImports.at(shortName);
   }
@@ -37,7 +37,7 @@ string ImportProfile::getFullName(string shortName) const {
     return mPackage + "." + shortName;
   }
   
-  Log::e_deprecated("Could not identify packge for object " + shortName);
+  Log::e(mSourceFileName, line, "Could not identify packge for object " + shortName);
   exit(1);
 }
 

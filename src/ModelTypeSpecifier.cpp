@@ -35,7 +35,7 @@ IExpression* ModelTypeSpecifier::takePackage() {
 }
 
 string ModelTypeSpecifier::getName(IRGenerationContext& context) const {
-  return getFullName(context, mShortName, mPackageExpression);
+  return getFullName(context, mShortName, mPackageExpression, mLine);
 }
 
 Model* ModelTypeSpecifier::getType(IRGenerationContext& context) const {

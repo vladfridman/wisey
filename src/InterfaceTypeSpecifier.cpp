@@ -37,7 +37,7 @@ IExpression* InterfaceTypeSpecifier::takePackage() {
 }
 
 string InterfaceTypeSpecifier::getName(IRGenerationContext& context) const {
-  return getFullName(context, mShortName, mPackageExpression);
+  return getFullName(context, mShortName, mPackageExpression, mLine);
 }
 
 Interface* InterfaceTypeSpecifier::getType(IRGenerationContext& context) const {

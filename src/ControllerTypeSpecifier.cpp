@@ -37,7 +37,7 @@ IExpression* ControllerTypeSpecifier::takePackage() {
 }
 
 string ControllerTypeSpecifier::getName(IRGenerationContext& context) const {
-  return getFullName(context, mShortName, mPackageExpression);
+  return getFullName(context, mShortName, mPackageExpression, mLine);
 }
 
 const Controller* ControllerTypeSpecifier::getType(IRGenerationContext& context) const {

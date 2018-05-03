@@ -14,7 +14,8 @@ using namespace wisey;
 
 std::string IObjectTypeSpecifier::getFullName(IRGenerationContext& context,
                                               string shortName,
-                                              IExpression* packageExpression) {
+                                              IExpression* packageExpression,
+                                              int line) {
   if (packageExpression) {
     return packageExpression->getType(context)->getTypeName() + "." + shortName;
   }
@@ -35,6 +36,6 @@ std::string IObjectTypeSpecifier::getFullName(IRGenerationContext& context,
     : context.getImportProfile();
   
   assert(importProfile && "Import profile is null");
-  return importProfile->getFullName(shortName);
+  return importProfile->getFullName(shortName, line);
 }
 
