@@ -11,6 +11,7 @@
 #include <gtest/gtest.h>
 
 #include "MockVariable.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -28,6 +29,8 @@ struct IVariableTest : public ::testing::Test {
   NiceMock<MockVariable>* mVariable;
 
   IVariableTest() : mVariable(new NiceMock<MockVariable>()) {
+    TestPrefix::generateIR(mContext);
+    
     ON_CALL(*mVariable, getName()).WillByDefault(Return("foo"));
     ON_CALL(*mVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT));
 
@@ -49,14 +52,14 @@ TEST_F(IVariableTest, getTemporaryVariableNameTest) {
 }
 
 TEST_F(IVariableTest, getVariableTest) {
-  EXPECT_EQ(IVariable::getVariable(mContext, "foo"), mVariable);
+  EXPECT_EQ(IVariable::getVariable(mContext, "foo", 0), mVariable);
 }
 
 TEST_F(IVariableTest, getVariableDoesNotExistDeathTest) {
   Mock::AllowLeak(mVariable);
   
-  EXPECT_EXIT(IVariable::getVariable(mContext, "bar"),
+  EXPECT_EXIT(IVariable::getVariable(mContext, "bar", 7),
               ::testing::ExitedWithCode(1),
-              "Error: Undeclared variable 'bar'");
+              "/tmp/source.yz\\(7\\): Error: Undeclared variable 'bar'");
 }
 

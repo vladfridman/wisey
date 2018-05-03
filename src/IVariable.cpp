@@ -21,13 +21,13 @@ string IVariable::getTemporaryVariableName(const void* object) {
   return stream.str();
 }
 
-IVariable* IVariable::getVariable(IRGenerationContext& context, std::string name) {
+IVariable* IVariable::getVariable(IRGenerationContext& context, std::string name, int line) {
   IVariable* variable = context.getScopes().getVariable(name);
   if (variable != NULL) {
     return variable;
   }
   
-  Log::e_deprecated("Undeclared variable '" + name + "'");
+  context.reportError(line, "Undeclared variable '" + name + "'");
   exit(1);
 
 }

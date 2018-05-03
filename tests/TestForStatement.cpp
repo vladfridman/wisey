@@ -129,6 +129,6 @@ TEST_F(TestFileRunner, forStatementWithNoDeclarationNoIncrementRunTest) {
 TEST_F(TestFileRunner, forStatementLocalVariableScopeRunDeathTest) {
   expectFailCompile("tests/samples/test_for_statement_scope.yz",
                     1,
-                    "Error: Undeclared variable 'i'");
+                    "tests/samples/test_for_statement_scope.yz\\(10\\): Error: Undeclared variable 'i'");
 }
 

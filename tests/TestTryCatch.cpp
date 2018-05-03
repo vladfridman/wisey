@@ -73,7 +73,7 @@ TEST_F(TestFileRunner, tryCatchWithCleanupOwnerFromTryRunTest) {
 TEST_F(TestFileRunner, tryCatchAccessTryVariableDeathRunTest) {
   expectFailCompile("tests/samples/test_try_catch_access_try_variable.yz",
                     1,
-                    "Error: Undeclared variable 'a'");
+                    "tests/samples/test_try_catch_access_try_variable.yz\\(28\\): Error: Undeclared variable 'a'");
 }
 
 TEST_F(TestFileRunner, tryCatchNestedDeathRunTest) {

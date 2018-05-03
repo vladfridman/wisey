@@ -66,11 +66,11 @@ TEST_F(IdentifierReferenceTest, generateIRTest) {
 }
 
 TEST_F(IdentifierReferenceTest, undeclaredVariableDeathTest) {
-  IdentifierReference identifierReference("foo", 0);
+  IdentifierReference identifierReference("foo", 5);
   
   EXPECT_EXIT(identifierReference.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
-              "Undeclared variable 'foo'");
+              "/tmp/source.yz\\(5\\): Error: Undeclared variable 'foo'");
 }
 
 TEST_F(IdentifierReferenceTest, getTypeTest) {

@@ -93,7 +93,7 @@ namespace wisey {
     /**
      * Get variable reference from scopes and print an error message if the variable is missing
      */
-    static IVariable* getVariable(IRGenerationContext& context, std::string name);
+    static IVariable* getVariable(IRGenerationContext& context, std::string name, int line);
     
   };
   

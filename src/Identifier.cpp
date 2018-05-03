@@ -43,7 +43,7 @@ Value* Identifier::generateIR(IRGenerationContext& context, const IType* assignT
     assert(false);
   }
 
-  IVariable* variable = IVariable::getVariable(context, mName);
+  IVariable* variable = IVariable::getVariable(context, mName, mLine);
   Value* value = variable->generateIdentifierIR(context, mLine);
   if (assignToType->isOwner() && variable->getType()->isOwner()) {
     ((IOwnerVariable*) variable)->setToNull(context, mLine);

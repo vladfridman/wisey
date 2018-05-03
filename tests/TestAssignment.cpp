@@ -127,13 +127,13 @@ TEST_F(AssignmentTest, getVariableTest) {
 
 TEST_F(AssignmentTest, variableNotDeclaredDeathTest) {
   Identifier* identifier = new Identifier("foo", 0);
-  Assignment assignment(identifier, mExpression, 0);
+  Assignment assignment(identifier, mExpression, 1);
   Mock::AllowLeak(mExpression);
   Mock::AllowLeak(mThreadVariable);
 
   EXPECT_EXIT(assignment.generateIR(mContext, PrimitiveTypes::VOID),
               ::testing::ExitedWithCode(1),
-              "Error: Undeclared variable 'foo'");
+              "/tmp/source.yz\\(1\\): Error: Undeclared variable 'foo'");
 }
 
 TEST_F(AssignmentTest, assignmentExpressionTypeTest) {
