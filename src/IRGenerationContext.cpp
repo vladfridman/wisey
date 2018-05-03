@@ -187,7 +187,7 @@ Model* IRGenerationContext::getModel(string fullName, int line) {
   }
   
   Model* model = mModels.at(fullName);
-  IObjectType::checkAccess(mObjectType, model);
+  IObjectType::checkAccess(mImportProfile->getSourceFileName(), mObjectType, model, line);
   
   return model;
 }
@@ -209,7 +209,7 @@ Controller* IRGenerationContext::getController(string fullName, int line) {
   }
   
   Controller* controller = mControllers.at(fullName);
-  IObjectType::checkAccess(mObjectType, controller);
+  IObjectType::checkAccess(mImportProfile->getSourceFileName(), mObjectType, controller, line);
   
   return controller;
 }
@@ -231,7 +231,7 @@ Node* IRGenerationContext::getNode(string fullName, int line) {
   }
   
   Node* node = mNodes.at(fullName);
-  IObjectType::checkAccess(mObjectType, node);
+  IObjectType::checkAccess(mImportProfile->getSourceFileName(), mObjectType, node, line);
   
   return node;
 }
@@ -253,7 +253,7 @@ Interface* IRGenerationContext::getInterface(string fullName, int line) {
   }
   
   Interface* interface = mInterfaces.at(fullName);
-  IObjectType::checkAccess(mObjectType, interface);
+  IObjectType::checkAccess(mImportProfile->getSourceFileName(), mObjectType, interface, line);
   
   return interface;
 }

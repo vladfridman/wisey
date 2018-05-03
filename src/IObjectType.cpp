@@ -46,7 +46,10 @@ Value* IObjectType::getReferenceCountForObject(IRGenerationContext& context, Val
   return IRWriter::newLoadInst(context, counterPointer, "refCounter");
 }
 
-bool IObjectType::checkAccess(const IObjectType* from, const IObjectType* to) {
+bool IObjectType::checkAccess(string sourceFile,
+                              const IObjectType* from,
+                              const IObjectType* to,
+                              int line) {
   if (to->isPublic()) {
     return true;
   }
@@ -59,7 +62,7 @@ bool IObjectType::checkAccess(const IObjectType* from, const IObjectType* to) {
     return true;
   }
   
-  Log::e_deprecated("Object " + to->getTypeName() + " is not accessable from object " +
-                    from->getTypeName());
+  Log::e(sourceFile, line, "Object " + to->getTypeName() + " is not accessable from object " +
+         from->getTypeName());
   exit(1);
 }

@@ -141,7 +141,10 @@ namespace wisey {
     /**
      * Check that the private object is accessable
      */
-    static bool checkAccess(const IObjectType* from, const IObjectType* to);
+    static bool checkAccess(std::string sourceFile,
+                            const IObjectType* from,
+                            const IObjectType* to,
+                            int line);
 
   };
   

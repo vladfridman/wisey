@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockObjectType.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/IObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
@@ -35,6 +36,8 @@ struct IObjectTypeTest : public Test {
   raw_string_ostream* mStringStream;
   
   IObjectTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, "test");
     new GlobalVariable(*mContext.getModule(),
                        stringConstant->getType(),
@@ -64,14 +67,14 @@ TEST_F(IObjectTypeTest, checkAccessToObjectIsPublicTest) {
   NiceMock<MockObjectType> toObject;
   ON_CALL(toObject, isPublic()).WillByDefault(Return(true));
 
-  EXPECT_TRUE(IObjectType::checkAccess(&fromObject, &toObject));
+  EXPECT_TRUE(IObjectType::checkAccess("", &fromObject, &toObject, 0));
 }
 
 TEST_F(IObjectTypeTest, checkAccessFromAndToAreSameObjectTest) {
   NiceMock<MockObjectType> object;
   ON_CALL(object, isPublic()).WillByDefault(Return(false));
 
-  EXPECT_TRUE(IObjectType::checkAccess(&object, &object));
+  EXPECT_TRUE(IObjectType::checkAccess("", &object, &object, 0));
 }
 
 TEST_F(IObjectTypeTest, checkAccessToIsInnerOfFromTest) {
@@ -81,7 +84,7 @@ TEST_F(IObjectTypeTest, checkAccessToIsInnerOfFromTest) {
   ON_CALL(fromObject, isPublic()).WillByDefault(Return(true));
   ON_CALL(fromObject, getInnerObject(_)).WillByDefault(Return(&toObject));
   
-  EXPECT_TRUE(IObjectType::checkAccess(&fromObject, &toObject));
+  EXPECT_TRUE(IObjectType::checkAccess("", &fromObject, &toObject, 0));
 }
 
 TEST_F(IObjectTypeTest, checkAccessToIsNotAccessableDeathTest) {
@@ -94,7 +97,7 @@ TEST_F(IObjectTypeTest, checkAccessToIsNotAccessableDeathTest) {
   ON_CALL(fromObject, isPublic()).WillByDefault(Return(true));
   ON_CALL(fromObject, getTypeName()).WillByDefault(Return("MFromObject"));
   
-  EXPECT_EXIT(IObjectType::checkAccess(&fromObject, &toObject),
+  EXPECT_EXIT(IObjectType::checkAccess("/tmp/source.yz", &fromObject, &toObject, 1),
               ::testing::ExitedWithCode(1),
-              "Error: Object MToObject is not accessable from object MFromObject");
+              "/tmp/source.yz\\(1\\): Error: Object MToObject is not accessable from object MFromObject");
 }

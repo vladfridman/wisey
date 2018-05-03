@@ -951,6 +951,7 @@ TEST_F(TestFileRunner, innerObjectWrongTypeSpecifierDeathRunTest) {
 TEST_F(TestFileRunner, innerObjectPrivateInaccessableDeathRunTest) {
   expectFailCompile("tests/samples/test_inner_object_private_inaccessable.yz",
                     1,
+                    "tests/samples/test_inner_object_private_inaccessable.yz\\(18\\): "
                     "Error: Object systems.vos.wisey.compiler.tests.MOuterModel.MMyModel "
                     "is not accessable from object systems.vos.wisey.compiler.tests.CProgram");
 }
