@@ -918,9 +918,8 @@ TEST_F(ControllerTest, notWellFormedInjectionArgumentsDeathTest) {
 
   EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments, 5),
               ::testing::ExitedWithCode(1),
-              "Error: Injection argument should start with 'with'. e.g. .withField\\(value\\).\n"
-              "/tmp/source.yz\\(5\\): Error: Some injection arguments for injected object "
-              "systems.vos.wisey.compiler.tests.CAdditor are not well formed");
+              "/tmp/source.yz\\(5\\): Error: Injection argument should start with 'with'. e.g. .withField\\(value\\).\n"
+              "/tmp/source.yz\\(5\\): Error: Some injection arguments for injected object systems.vos.wisey.compiler.tests.CAdditor are not well formed");
 }
 
 TEST_F(ControllerTest, injectTooFewArgumentsDeathTest) {
@@ -956,10 +955,9 @@ TEST_F(ControllerTest, injectTooManyArgumentsDeathTest) {
   injectionArguments.push_back(injectionArgument2);
   injectionArguments.push_back(injectionArgument3);
   
-  EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments, 0),
+  EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments, 3),
               ::testing::ExitedWithCode(1),
-              "Error: Injector could not find field mFoo in object "
-              "systems.vos.wisey.compiler.tests.CAdditor");
+              "/tmp/source.yz\\(3\\): Error: Injector could not find field mFoo in object systems.vos.wisey.compiler.tests.CAdditor");
 }
 
 TEST_F(ControllerTest, printToStreamTest) {

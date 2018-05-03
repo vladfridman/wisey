@@ -516,7 +516,7 @@ void Controller::checkArgumentsAreWellFormed(IRGenerationContext& context,
   bool areArgumentsWellFormed = true;
   
   for (InjectionArgument* argument : injectionArgumentList) {
-    areArgumentsWellFormed &= argument->checkArgument(this);
+    areArgumentsWellFormed &= argument->checkArgument(context, this, line);
   }
   
   if (!areArgumentsWellFormed) {

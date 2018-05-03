@@ -24,15 +24,19 @@ InjectionArgument::~InjectionArgument() {
   delete mFieldExpression;
 }
 
-bool InjectionArgument::checkArgument(const IConcreteObjectType* object) {
+bool InjectionArgument::checkArgument(IRGenerationContext& context,
+                                      const IConcreteObjectType* object,
+                                      int line) {
   if (mFieldSpecifier.substr(0, 4).compare("with")) {
-    Log::e_deprecated("Injection argument should start with 'with'. e.g. .withField(value).");
+    context.reportError(line, "Injection argument should start with 'with'. "
+                        "e.g. .withField(value).");
     return false;
   }
   
   string fieldName = deriveFieldName();
   if (object->findField(fieldName) == NULL) {
-    Log::e_deprecated("Injector could not find field " + fieldName + " in object " + object->getTypeName());
+    context.reportError(line, "Injector could not find field " + fieldName + " in object " +
+                        object->getTypeName());
     return false;
   }
   

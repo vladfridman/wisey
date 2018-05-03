@@ -72,7 +72,7 @@ TEST_F(InjectionArgumentTest, validObjectBuilderArgumentTest) {
   string argumentSpecifier("withFieldA");
   InjectionArgument argument(argumentSpecifier, mFieldExpression);
   
-  EXPECT_TRUE(argument.checkArgument(mController));
+  EXPECT_TRUE(argument.checkArgument(mContext, mController, 0));
 }
 
 TEST_F(InjectionArgumentTest, invalidObjectBuilderArgumentTest) {
@@ -83,8 +83,8 @@ TEST_F(InjectionArgumentTest, invalidObjectBuilderArgumentTest) {
   streambuf *streamBuffer = std::cerr.rdbuf();
   cerr.rdbuf(errorBuffer.rdbuf());
   
-  EXPECT_FALSE(argument.checkArgument(mController));
-  EXPECT_STREQ("Error: Injection argument should start with 'with'. e.g. .withField(value).\n",
+  EXPECT_FALSE(argument.checkArgument(mContext, mController, 1));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Injection argument should start with 'with'. e.g. .withField(value).\n",
                errorBuffer.str().c_str());
   
   cerr.rdbuf(streamBuffer);
@@ -98,9 +98,8 @@ TEST_F(InjectionArgumentTest, misspelledObjectBuilderArgumentTest) {
   streambuf *streamBuffer = std::cerr.rdbuf();
   cerr.rdbuf(errorBuffer.rdbuf());
   
-  EXPECT_FALSE(argument.checkArgument(mController));
-  EXPECT_STREQ("Error: Injector could not find field mFielda in object "
-               "systems.vos.wisey.compiler.tests.CController\n",
+  EXPECT_FALSE(argument.checkArgument(mContext, mController, 3));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Injector could not find field mFielda in object systems.vos.wisey.compiler.tests.CController\n",
                errorBuffer.str().c_str());
   
   cerr.rdbuf(streamBuffer);

@@ -45,7 +45,9 @@ namespace wisey {
     /**
      * Checks the legality of this argument and prints an error if argument is not well formed
      */
-    bool checkArgument(const IConcreteObjectType* object);
+    bool checkArgument(IRGenerationContext& context,
+                       const IConcreteObjectType* object,
+                       int line);
     
     /**
      * Derives field name from injection argument by converting 'widthFieldA' to 'fieldA'
