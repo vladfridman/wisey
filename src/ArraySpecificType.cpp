@@ -49,7 +49,7 @@ llvm::PointerType* ArraySpecificType::getLLVMType(IRGenerationContext& context) 
 }
 
 list<tuple<llvm::Value*, llvm::Value*>>
-ArraySpecificType::computeArrayAllocData(IRGenerationContext& context) const {
+ArraySpecificType::computeArrayAllocData(IRGenerationContext& context, int line) const {
   llvm::LLVMContext& llvmContext = context.getLLVMContext();
   llvm::Type* int64Type = llvm::Type::getInt64Ty(llvmContext);
   llvm::Value* headerSize = llvm::ConstantInt::get(int64Type, 8 * 3);
@@ -63,7 +63,7 @@ ArraySpecificType::computeArrayAllocData(IRGenerationContext& context) const {
   for (const IExpression* dimension : dimensionsReversed) {
     llvm::Value* dimensionValue = dimension->generateIR(context, PrimitiveTypes::VOID);
     const IType* dimensionType = dimension->getType(context);
-    checkDimensionType(context, dimensionType);
+    checkDimensionType(context, dimensionType, line);
     llvm::Value* dimensionCast = dimensionType->castTo(context,
                                                        dimensionValue,
                                                        PrimitiveTypes::LONG,
@@ -162,12 +162,14 @@ bool ArraySpecificType::isImmutable() const {
   return false;
 }
 
-void ArraySpecificType::checkDimensionType(IRGenerationContext& context, const IType* type) const {
+void ArraySpecificType::checkDimensionType(IRGenerationContext& context,
+                                           const IType* type,
+                                           int line) const {
   if (type->canAutoCastTo(context, PrimitiveTypes::LONG)) {
     return;
   }
-  Log::e_deprecated("Dimension in array allocation should be castable to long, but it is of " +
-         type->getTypeName() + " type");
+  context.reportError(line, "Dimension in array allocation should be castable to long, "
+                      "but it is of " + type->getTypeName() + " type");
   exit(1);
 }
 

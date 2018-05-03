@@ -35,7 +35,7 @@ int ArrayAllocation::getLine() const {
 
 Value* ArrayAllocation::generateIR(IRGenerationContext &context, const IType* assignToType) const {
   ArraySpecificType* arraySpecificType = mArraySpecificTypeSpecifier->getType(context);
-  Value* arrayPointer = allocateArray(context, arraySpecificType);
+  Value* arrayPointer = allocateArray(context, arraySpecificType, mLine);
   Value* arrayCast = IRWriter::newBitCastInst(context, arrayPointer, arraySpecificType->
                                               getArrayType(context)->getLLVMType(context));
 
@@ -56,13 +56,14 @@ Value* ArrayAllocation::generateIR(IRGenerationContext &context, const IType* as
 }
 
 Value* ArrayAllocation::allocateArray(IRGenerationContext& context,
-                                      const ArraySpecificType* arraySpecificType) {
+                                      const ArraySpecificType* arraySpecificType,
+                                      int line) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* byteType = Type::getInt8Ty(llvmContext);
   Type* int64Type = Type::getInt64Ty(llvmContext);
   Value* one = ConstantInt::get(int64Type, 1);
 
-  list<tuple<Value*, Value*>> arrayData = arraySpecificType->computeArrayAllocData(context);
+  list<tuple<Value*, Value*>> arrayData = arraySpecificType->computeArrayAllocData(context, line);
   Value* allocSize = get<1>(arrayData.front());
   Instruction* malloc = IRWriter::createMalloc(context, byteType, one, allocSize, "newarray");
   IntrinsicFunctions::setMemoryToZero(context, malloc, allocSize);

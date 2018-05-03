@@ -56,8 +56,8 @@ namespace wisey {
     /**
      * Computes sizes of all sub arrays and array element sizes
      */
-    std::list<std::tuple<llvm::Value*, llvm::Value*>> computeArrayAllocData(IRGenerationContext&
-                                                                            context) const;
+    std::list<std::tuple<llvm::Value*, llvm::Value*>>
+    computeArrayAllocData(IRGenerationContext& context, int line) const;
     
     std::string getTypeName() const override;
     
@@ -118,7 +118,7 @@ namespace wisey {
 
   private:
     
-    void checkDimensionType(IRGenerationContext& context, const IType* type) const;
+    void checkDimensionType(IRGenerationContext& context, const IType* type, int line) const;
     
   };
   

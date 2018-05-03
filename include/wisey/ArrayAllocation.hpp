@@ -33,7 +33,8 @@ namespace wisey {
      * Allocate array and set it to all zeros given the array type
      */
     static llvm::Value* allocateArray(IRGenerationContext &context,
-                                      const ArraySpecificType* arrayType);
+                                      const ArraySpecificType* arrayType,
+                                      int line);
 
     llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
     

@@ -150,6 +150,6 @@ TEST_F(TestFileRunner, assignSubArrayRunTest) {
 TEST_F(TestFileRunner, localOwnerArrayOfIntsFloatDimensionDeathRunTest) {
   expectFailCompile("tests/samples/test_local_owner_array_of_ints_float_dimension.yz",
                     1,
-                    "Error: Dimension in array allocation should be castable to long, "
-                    "but it is of float type");
+                    "tests/samples/test_local_owner_array_of_ints_float_dimension.yz\\(10\\): "
+                    "Error: Dimension in array allocation should be castable to long, but it is of float type");
 }

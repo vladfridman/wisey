@@ -154,7 +154,7 @@ const IReferenceType* ArraySpecificOwnerType::getReference() const {
 llvm::Instruction* ArraySpecificOwnerType::inject(IRGenerationContext& context,
                                                   const InjectionArgumentList injectionArgumentList,
                                                   int line) const {
-  llvm::Value* arrayPointer = ArrayAllocation::allocateArray(context, mArraySpecificType);
+  llvm::Value* arrayPointer = ArrayAllocation::allocateArray(context, mArraySpecificType, line);
   llvm::Type* arrayLLVMType = mArraySpecificType->getArrayType(context)->getLLVMType(context);
   return IRWriter::newBitCastInst(context, arrayPointer, arrayLLVMType);
 }
