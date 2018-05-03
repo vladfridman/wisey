@@ -61,8 +61,8 @@ Function* InstanceOfFunction::define(IRGenerationContext& context) {
 
 LLVMFunctionType* InstanceOfFunction::getLLVMFunctionType(IRGenerationContext& context) {
   vector<const IType*> argumentTypes;
-  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType());
-  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType());
+  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType(context, 0));
+  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType(context, 0));
   
   return context.getLLVMFunctionType(LLVMPrimitiveTypes::I32, argumentTypes);
 }

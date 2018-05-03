@@ -63,7 +63,7 @@ Function* AdjustReferenceCounterForConcreteObjectSafelyFunction::define(IRGenera
 LLVMFunctionType* AdjustReferenceCounterForConcreteObjectSafelyFunction::
 getLLVMFunctionType(IRGenerationContext& context) {
   vector<const IType*> argumentTypes;
-  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType());
+  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType(context, 0));
   argumentTypes.push_back(LLVMPrimitiveTypes::I64);
   
   return context.getLLVMFunctionType(LLVMPrimitiveTypes::VOID, argumentTypes);

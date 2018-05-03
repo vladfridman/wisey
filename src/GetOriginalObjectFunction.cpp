@@ -58,9 +58,10 @@ Function* GetOriginalObjectFunction::define(IRGenerationContext& context) {
 
 LLVMFunctionType* GetOriginalObjectFunction::getLLVMFunctionType(IRGenerationContext& context) {
   vector<const IType*> argumentTypes;
-  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType());
+  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType(context, 0));
   
-  return context.getLLVMFunctionType(LLVMPrimitiveTypes::I8->getPointerType(), argumentTypes);
+  return context.getLLVMFunctionType(LLVMPrimitiveTypes::I8->getPointerType(context, 0),
+                                     argumentTypes);
 }
 
 void GetOriginalObjectFunction::compose(IRGenerationContext& context, Function* function) {

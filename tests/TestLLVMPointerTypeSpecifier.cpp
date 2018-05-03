@@ -25,7 +25,7 @@ struct LLVMPointerTypeSpecifierTest : public Test {
   
   LLVMPointerTypeSpecifierTest() {
     const ILLVMTypeSpecifier* i8Specifier = LLVMPrimitiveTypes::I8->newTypeSpecifier(0);
-    mLLVMPointerTypeSpecifier = new LLVMPointerTypeSpecifier(i8Specifier);
+    mLLVMPointerTypeSpecifier = new LLVMPointerTypeSpecifier(i8Specifier, 0);
   }
 };
 

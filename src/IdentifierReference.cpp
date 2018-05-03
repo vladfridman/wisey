@@ -46,7 +46,7 @@ const IType* IdentifierReference::getType(IRGenerationContext& context) const {
     exit(1);
   }
   
-  return ((const ILLVMType*) variableType)->getPointerType();
+  return ((const ILLVMType*) variableType)->getPointerType(context, mLine);
 }
 
 bool IdentifierReference::isConstant() const {

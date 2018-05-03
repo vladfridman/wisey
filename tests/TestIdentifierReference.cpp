@@ -81,7 +81,8 @@ TEST_F(IdentifierReferenceTest, getTypeTest) {
   
   IdentifierReference identifierReference("foo", 0);
   
-  EXPECT_EQ(identifierReference.getType(mContext), LLVMPrimitiveTypes::I32->getPointerType());
+  EXPECT_EQ(identifierReference.getType(mContext),
+            LLVMPrimitiveTypes::I32->getPointerType(mContext, 0));
 }
 
 TEST_F(IdentifierReferenceTest, getTypeNonNativeTypeTest) {

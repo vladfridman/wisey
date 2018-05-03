@@ -69,7 +69,7 @@ struct LLVMVariableDeclarationTest : public Test {
 
 TEST_F(LLVMVariableDeclarationTest, stackLLVMVariableDeclarationWithoutAssignmentTest) {
   const ILLVMTypeSpecifier* typeSpecifier = LLVMPrimitiveTypes::I8->newTypeSpecifier(0);
-  const LLVMPointerTypeSpecifier* pointerSpecifier = new LLVMPointerTypeSpecifier(typeSpecifier);
+  const LLVMPointerTypeSpecifier* pointerSpecifier = new LLVMPointerTypeSpecifier(typeSpecifier, 0);
   LLVMVariableDeclaration* declaration =
   LLVMVariableDeclaration::create(pointerSpecifier, mIdentifier, 0);
   

@@ -329,7 +329,7 @@ TEST_F(IRGenerationContextTest, getThisTest) {
 
 TEST_F(IRGenerationContextTest, printToStreamTest) {
   mContext.addLLVMStructType(mLLVMStructType, 0);
-  mContext.setLLVMGlobalVariable(mLLVMStructType->getPointerType(), "myglobal");
+  mContext.setLLVMGlobalVariable(mLLVMStructType->getPointerType(mContext, 0), "myglobal");
   mContext.addInterface(mInterface, 0);
   mContext.addNode(mNode, 0);
   mContext.addController(mController, 0);
@@ -451,7 +451,7 @@ TEST_F(IRGenerationContextTest, getLLVMArrayTypeTest) {
 TEST_F(IRGenerationContextTest, getLLVMFunctionTypeTest) {
   vector<const IType*> argumentTypes;
   argumentTypes.push_back(LLVMPrimitiveTypes::I16);
-  argumentTypes.push_back(LLVMPrimitiveTypes::I64->getPointerType());
+  argumentTypes.push_back(LLVMPrimitiveTypes::I64->getPointerType(mContext, 0));
   LLVMFunctionType* llvmFunctionType = mContext.getLLVMFunctionType(LLVMPrimitiveTypes::I8,
                                                                     argumentTypes);
   

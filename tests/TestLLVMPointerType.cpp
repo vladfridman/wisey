@@ -174,7 +174,7 @@ TEST_F(LLVMPointerTypeTest, printToStreamTest) {
 
 TEST_F(LLVMPointerTypeTest, getPointerTypeTest) {
   EXPECT_EQ(mLLVMPointerType->getLLVMType(mContext)->getPointerTo(),
-            mLLVMPointerType->getPointerType()->getLLVMType(mContext));
+            mLLVMPointerType->getPointerType(mContext, 0)->getLLVMType(mContext));
 }
 
 TEST_F(LLVMPointerTypeTest, getOwnerTest) {
@@ -193,4 +193,10 @@ TEST_F(LLVMPointerTypeTest, injectDeathTest) {
 
 TEST_F(TestFileRunner, compareLLVMPointerToNullTest) {
   runFile("tests/samples/test_compare_llvm_pointer_to_null.yz", "1");
+}
+
+TEST_F(TestFileRunner, threeDegreeLLVMPointerRunDeathTest) {
+  expectFailCompile("tests/samples/test_three_degree_llvm_pointer.yz",
+                    1,
+                    "tests/samples/test_three_degree_llvm_pointer.yz\\(8\\): Error: Three and more degree llvm pointers are not supported");
 }

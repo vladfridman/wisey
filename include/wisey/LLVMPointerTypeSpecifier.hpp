@@ -22,10 +22,11 @@ namespace wisey {
   class LLVMPointerTypeSpecifier : public ILLVMTypeSpecifier {
     
     const ILLVMTypeSpecifier* mBaseTypeSpecifier;
+    int mLine;
     
   public:
     
-    LLVMPointerTypeSpecifier(const ILLVMTypeSpecifier* baseTypeSpecifier);
+    LLVMPointerTypeSpecifier(const ILLVMTypeSpecifier* baseTypeSpecifier, int line);
     
     ~LLVMPointerTypeSpecifier();
     

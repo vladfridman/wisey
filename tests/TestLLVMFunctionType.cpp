@@ -35,7 +35,7 @@ struct LLVMFunctionTypeTest : public Test {
     
     vector<const IType*> argumentTypes;
     argumentTypes.push_back(LLVMPrimitiveTypes::I16);
-    argumentTypes.push_back(LLVMPrimitiveTypes::I64->getPointerType());
+    argumentTypes.push_back(LLVMPrimitiveTypes::I64->getPointerType(mContext, 0));
     mLLVMFunctionType = mContext.getLLVMFunctionType(LLVMPrimitiveTypes::I8, argumentTypes);
     mLLVMFunctionTypeWithVarArg = mContext.getLLVMFunctionTypeWithVarArg(LLVMPrimitiveTypes::I8,
                                                                          argumentTypes);
@@ -68,7 +68,7 @@ TEST_F(LLVMFunctionTypeTest, isVarArgTest) {
 TEST_F(LLVMFunctionTypeTest, getArgumentTypesTest) {
   EXPECT_EQ(2u, mLLVMFunctionType->getArgumentTypes().size());
   EXPECT_EQ(LLVMPrimitiveTypes::I16, mLLVMFunctionType->getArgumentTypes().front());
-  EXPECT_EQ(LLVMPrimitiveTypes::I64->getPointerType(),
+  EXPECT_EQ(LLVMPrimitiveTypes::I64->getPointerType(mContext, 0),
             mLLVMFunctionType->getArgumentTypes().back());
 }
 
@@ -126,7 +126,8 @@ TEST_F(LLVMFunctionTypeTest, getPointerTypeTest) {
   argTypesArray.push_back(Type::getInt64Ty(mLLVMContext)->getPointerTo());
   FunctionType* expected = FunctionType::get(Type::getInt8Ty(mLLVMContext), argTypesArray, false);
 
-  EXPECT_EQ(expected->getPointerTo(), mLLVMFunctionType->getPointerType()->getLLVMType(mContext));
+  EXPECT_EQ(expected->getPointerTo(),
+            mLLVMFunctionType->getPointerType(mContext, 0)->getLLVMType(mContext));
 }
 
 TEST_F(LLVMFunctionTypeTest, printToStreamTest) {

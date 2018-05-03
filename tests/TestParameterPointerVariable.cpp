@@ -56,7 +56,7 @@ public:
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
 
-    mPointerType = LLVMPrimitiveTypes::I64->getPointerType();
+    mPointerType = LLVMPrimitiveTypes::I64->getPointerType(mContext, 0);
     mVariableValue = ConstantPointerNull::get(mPointerType->getLLVMType(mContext));
     mVariable = new ParameterPointerVariable("foo", mPointerType, mVariableValue);
 

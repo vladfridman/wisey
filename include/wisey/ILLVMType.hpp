@@ -27,7 +27,7 @@ namespace wisey {
     /**
      * Returns pointer type to this type. Only works for llvm types.
      */
-    virtual const LLVMPointerType* getPointerType() const = 0;
+    virtual const LLVMPointerType* getPointerType(IRGenerationContext& context, int line) const = 0;
     
     /**
      * Creates local llvm variable

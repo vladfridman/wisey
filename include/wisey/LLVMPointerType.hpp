@@ -94,7 +94,7 @@ namespace wisey {
     
     const ArrayType* getArrayType(IRGenerationContext& context, int line) const override;
     
-    const LLVMPointerType* getPointerType() const override;
+    const LLVMPointerType* getPointerType(IRGenerationContext& context, int line) const override;
 
     llvm::Instruction* inject(IRGenerationContext& context,
                               const InjectionArgumentList injectionArgumentList,

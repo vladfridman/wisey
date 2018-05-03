@@ -66,9 +66,10 @@ Function* CheckArrayNotReferencedFunction::define(IRGenerationContext& context) 
                           context.getModule());
 }
 
-LLVMFunctionType* CheckArrayNotReferencedFunction::getLLVMFunctionType(IRGenerationContext& context) {
+LLVMFunctionType* CheckArrayNotReferencedFunction::getLLVMFunctionType(IRGenerationContext&
+                                                                       context) {
   vector<const IType*> argumentTypes;
-  argumentTypes.push_back(LLVMPrimitiveTypes::I64->getPointerType());
+  argumentTypes.push_back(LLVMPrimitiveTypes::I64->getPointerType(context, 0));
   argumentTypes.push_back(LLVMPrimitiveTypes::I64);
   
   return context.getLLVMFunctionType(LLVMPrimitiveTypes::VOID, argumentTypes);

@@ -160,7 +160,8 @@ const wisey::ArrayType* LLVMStructType::getArrayType(IRGenerationContext& contex
   exit(1);
 }
 
-const LLVMPointerType* LLVMStructType::getPointerType() const {
+const LLVMPointerType* LLVMStructType::getPointerType(IRGenerationContext& context,
+                                                      int line) const {
   return mPointerType;
 }
 

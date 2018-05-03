@@ -39,7 +39,7 @@ const LLVMPointerOwnerType* LLVMPointerType::getOwner() const {
 }
 
 LLVMPointerType* LLVMPointerType::create(const ILLVMType* baseType) {
-  return new LLVMPointerType(baseType, 0);
+  return new LLVMPointerType(baseType, 2);
 }
 
 string LLVMPointerType::getTypeName() const {
@@ -158,16 +158,18 @@ void LLVMPointerType::createParameterVariable(IRGenerationContext& context,
   context.getScopes().setVariable(variable);
 }
 
-const wisey::ArrayType* LLVMPointerType::getArrayType(IRGenerationContext& context, int line) const {
+const wisey::ArrayType* LLVMPointerType::getArrayType(IRGenerationContext& context,
+                                                      int line) const {
   ArrayType::reportNonArrayType(context, line);
   exit(1);
 }
 
-const LLVMPointerType* LLVMPointerType::getPointerType() const {
+const LLVMPointerType* LLVMPointerType::getPointerType(IRGenerationContext& context,
+                                                       int line) const {
   if (mPointerType) {
     return mPointerType;
   }
-  Log::e_deprecated("Three and more degree llvm pointers are not supported");
+  context.reportError(line, "Three and more degree llvm pointers are not supported");
   exit(1);
 }
 

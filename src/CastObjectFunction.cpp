@@ -75,10 +75,11 @@ Function* CastObjectFunction::define(IRGenerationContext& context) {
 
 LLVMFunctionType* CastObjectFunction::getLLVMFunctionType(IRGenerationContext& context) {
   vector<const IType*> argumentTypes;
-  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType());
-  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType());
+  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType(context, 0));
+  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType(context, 0));
 
-  return context.getLLVMFunctionType(LLVMPrimitiveTypes::I8->getPointerType(), argumentTypes);
+  return context.getLLVMFunctionType(LLVMPrimitiveTypes::I8->getPointerType(context, 0),
+                                     argumentTypes);
 }
 
 void CastObjectFunction::compose(IRGenerationContext& context, llvm::Function* function) {

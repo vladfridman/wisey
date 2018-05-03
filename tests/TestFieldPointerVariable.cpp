@@ -76,7 +76,7 @@ struct FieldPointerVariableTest : Test {
                           0);
     mNode->setInterfaces(interfaces);
 
-    mPointerType = LLVMPrimitiveTypes::I64->getPointerType();
+    mPointerType = LLVMPrimitiveTypes::I64->getPointerType(mContext, 0);
 
     vector<Type*> types;
     types.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)

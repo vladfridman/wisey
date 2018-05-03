@@ -79,7 +79,7 @@ public:
                              0);
     mModel->setFields(mContext, fields, 1u);
 
-    mPointerType = LLVMPrimitiveTypes::I64->getPointerType();
+    mPointerType = LLVMPrimitiveTypes::I64->getPointerType(mContext, 0);
     llvm::PointerType* llvmType = mPointerType->getLLVMType(mContext);
     mValueStore = IRWriter::newAllocaInst(mContext, llvmType, "");
     IRWriter::newStoreInst(mContext, ConstantPointerNull::get(llvmType), mValueStore);

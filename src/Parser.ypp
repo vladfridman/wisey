@@ -540,9 +540,9 @@ llvm_pointer_owner_type_specifier
 
 llvm_pointer_type_specifier
   : llvm_pointer_base_type_specifier TLLVMPOINTER
-    { $$ = new LLVMPointerTypeSpecifier($1); }
+    { $$ = new LLVMPointerTypeSpecifier($1, yylineno); }
   | llvm_pointer_type_specifier TLLVMPOINTER
-    { $$ = new LLVMPointerTypeSpecifier($1); }
+    { $$ = new LLVMPointerTypeSpecifier($1, yylineno); }
   ;
 
 llvm_pointer_base_type_specifier

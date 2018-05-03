@@ -1,0 +1,14 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+
+  public int run() override {
+    ::llvm::i32::pointer::pointer::pointer pointer;
+
+    return 1;
+  }
+}
+
+bind(IProgram).to(CProgram);

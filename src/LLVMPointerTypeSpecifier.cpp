@@ -15,8 +15,9 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-LLVMPointerTypeSpecifier::LLVMPointerTypeSpecifier(const ILLVMTypeSpecifier* baseTypeSpecifier) :
-mBaseTypeSpecifier(baseTypeSpecifier) {
+LLVMPointerTypeSpecifier::LLVMPointerTypeSpecifier(const ILLVMTypeSpecifier* baseTypeSpecifier,
+                                                   int line) :
+mBaseTypeSpecifier(baseTypeSpecifier), mLine(line) {
 }
 
 LLVMPointerTypeSpecifier::~LLVMPointerTypeSpecifier() {
@@ -24,7 +25,7 @@ LLVMPointerTypeSpecifier::~LLVMPointerTypeSpecifier() {
 }
 
 const LLVMPointerType* LLVMPointerTypeSpecifier::getType(IRGenerationContext& context) const {
-  return mBaseTypeSpecifier->getType(context)->getPointerType();
+  return mBaseTypeSpecifier->getType(context)->getPointerType(context, mLine);
 }
 
 void LLVMPointerTypeSpecifier::printToStream(IRGenerationContext& context,

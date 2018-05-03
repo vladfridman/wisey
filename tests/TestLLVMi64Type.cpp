@@ -100,7 +100,7 @@ TEST_F(LLVMi64TypeTest, castToTest) {
 }
 
 TEST_F(LLVMi64TypeTest, getPointerTypeTest) {
-  const IType* pointerType = mLLVMi64Type.getPointerType();
+  const IType* pointerType = mLLVMi64Type.getPointerType(mContext, 0);
   EXPECT_EQ(Type::getInt64Ty(mLLVMContext)->getPointerTo(), pointerType->getLLVMType(mContext));
 }
 

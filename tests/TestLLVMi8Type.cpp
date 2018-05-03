@@ -90,7 +90,7 @@ TEST_F(LLVMi8TypeTest, canAutoCastToTest) {
 }
 
 TEST_F(LLVMi8TypeTest, getPointerTypeTest) {
-  const IType* pointerType = mLLVMi8Type.getPointerType();
+  const IType* pointerType = mLLVMi8Type.getPointerType(mContext, 0);
   EXPECT_EQ(Type::getInt8Ty(mLLVMContext)->getPointerTo(), pointerType->getLLVMType(mContext));
 }
 

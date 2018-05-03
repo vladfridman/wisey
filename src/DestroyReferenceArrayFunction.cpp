@@ -62,7 +62,7 @@ Function* DestroyReferenceArrayFunction::define(IRGenerationContext& context) {
 
 LLVMFunctionType* DestroyReferenceArrayFunction::getLLVMFunctionType(IRGenerationContext& context) {
   vector<const IType*> argumentTypes;
-  argumentTypes.push_back(LLVMPrimitiveTypes::I64->getPointerType());
+  argumentTypes.push_back(LLVMPrimitiveTypes::I64->getPointerType(context, 0));
   argumentTypes.push_back(LLVMPrimitiveTypes::I64);
   argumentTypes.push_back(LLVMPrimitiveTypes::I1);
   

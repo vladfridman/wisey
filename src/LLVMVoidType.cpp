@@ -126,7 +126,7 @@ const wisey::ArrayType* LLVMVoidType::getArrayType(IRGenerationContext& context,
   exit(1);
 }
 
-const LLVMPointerType* LLVMVoidType::getPointerType() const {
+const LLVMPointerType* LLVMVoidType::getPointerType(IRGenerationContext& context, int line) const {
   assert(false);
 }
 

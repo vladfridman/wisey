@@ -83,7 +83,7 @@ namespace wisey {
     
     const ArrayType* getArrayType(IRGenerationContext& context, int line) const override;
 
-    const LLVMPointerType* getPointerType() const override;
+    const LLVMPointerType* getPointerType(IRGenerationContext& context, int line) const override;
     
     const ILLVMTypeSpecifier* newTypeSpecifier(int line) const override;
 

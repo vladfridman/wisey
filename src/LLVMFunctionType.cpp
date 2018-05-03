@@ -168,11 +168,13 @@ void LLVMFunctionType::createParameterVariable(IRGenerationContext& context,
   assert(false);
 }
 
-const wisey::ArrayType* LLVMFunctionType::getArrayType(IRGenerationContext& context, int line) const {
+const wisey::ArrayType* LLVMFunctionType::getArrayType(IRGenerationContext& context,
+                                                       int line) const {
   assert(false);
 }
 
-const LLVMPointerType* LLVMFunctionType::getPointerType() const {
+const LLVMPointerType* LLVMFunctionType::getPointerType(IRGenerationContext& context,
+                                                        int line) const {
   return mPointerType;
 }
 

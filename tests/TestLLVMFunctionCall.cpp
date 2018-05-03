@@ -53,9 +53,10 @@ struct LLVMFunctionCallTest : public Test {
 
     vector<const IType*> argumentTypes;
     vector<Type*> llvmArgumentTypes;
-    argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType());
-    llvmArgumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType()->getLLVMType(mContext));
-    const IType* returnType = LLVMPrimitiveTypes::I16->getPointerType();
+    argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType(mContext, 0));
+    llvmArgumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType(mContext, 0)->
+                                getLLVMType(mContext));
+    const IType* returnType = LLVMPrimitiveTypes::I16->getPointerType(mContext, 0);
     Type* llvmReturnType = returnType->getLLVMType(mContext);
     FunctionType* llvmFunctionType = FunctionType::get(llvmReturnType, llvmArgumentTypes, false);
     mLLVMFunctionType = mContext.getLLVMFunctionType(returnType, argumentTypes);
@@ -67,8 +68,8 @@ struct LLVMFunctionCallTest : public Test {
                      mContext.getModule());
 
     ON_CALL(*mMockExpression, getType(_)).
-    WillByDefault(Return(LLVMPrimitiveTypes::I8->getPointerType()));
-    Value* null = ConstantPointerNull::get(LLVMPrimitiveTypes::I8->getPointerType()->
+    WillByDefault(Return(LLVMPrimitiveTypes::I8->getPointerType(mContext, 0)));
+    Value* null = ConstantPointerNull::get(LLVMPrimitiveTypes::I8->getPointerType(mContext, 0)->
                                            getLLVMType(mContext));
     ON_CALL(*mMockExpression, generateIR(_, _)).WillByDefault(Return(null));
     ExpressionList expressionList;

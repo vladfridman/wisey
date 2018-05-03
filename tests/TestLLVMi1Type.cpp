@@ -100,7 +100,7 @@ TEST_F(LLVMi1TypeTest, castToTest) {
 }
 
 TEST_F(LLVMi1TypeTest, getPointerTypeTest) {
-  const IType* pointerType = mLLVMi1Type.getPointerType();
+  const IType* pointerType = mLLVMi1Type.getPointerType(mContext, 0);
   EXPECT_EQ(Type::getInt1Ty(mLLVMContext)->getPointerTo(), pointerType->getLLVMType(mContext));
 }
 

@@ -116,7 +116,7 @@ TEST_F(LLVMStructTypeTest, canAutoCastToTest) {
 }
 
 TEST_F(LLVMStructTypeTest, getPointerTypeTest) {
-  const IType* pointerType = mLLVMStructType->getPointerType();
+  const IType* pointerType = mLLVMStructType->getPointerType(mContext, 0);
   EXPECT_EQ(mStructType->getPointerTo(), pointerType->getLLVMType(mContext));
 }
 
