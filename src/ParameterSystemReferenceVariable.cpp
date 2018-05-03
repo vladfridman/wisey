@@ -44,12 +44,13 @@ bool ParameterSystemReferenceVariable::isSystem() const {
   return true;
 }
 
-Value* ParameterSystemReferenceVariable::generateIdentifierIR(IRGenerationContext& context) const {
+Value* ParameterSystemReferenceVariable::generateIdentifierIR(IRGenerationContext& context,
+                                                              int line) const {
   return mValue;
 }
 
-Value* ParameterSystemReferenceVariable::generateIdentifierReferenceIR(IRGenerationContext&
-                                                                       context) const {
+Value* ParameterSystemReferenceVariable::generateIdentifierReferenceIR(IRGenerationContext& context,
+                                                                       int line) const {
   assert(false);
 }
 

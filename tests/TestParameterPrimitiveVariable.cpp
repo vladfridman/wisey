@@ -90,7 +90,7 @@ TEST_F(ParameterPrimitiveVariableTest, generateIdentifierIRTest) {
   Value* fooValueStore = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
   ParameterPrimitiveVariable variable("foo", PrimitiveTypes::INT, fooValueStore);
 
-  EXPECT_EQ(fooValueStore, variable.generateIdentifierIR(mContext));
+  EXPECT_EQ(fooValueStore, variable.generateIdentifierIR(mContext, 0));
 }
 
 TEST_F(ParameterPrimitiveVariableTest, parameterReferenceVariableAssignmentDeathTest) {
@@ -107,7 +107,7 @@ TEST_F(ParameterPrimitiveVariableTest, parameterReferenceVariableIdentifierTest)
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
   ParameterPrimitiveVariable variable("foo", PrimitiveTypes::INT, fooValue);
 
-  EXPECT_EQ(variable.generateIdentifierIR(mContext), fooValue);
+  EXPECT_EQ(variable.generateIdentifierIR(mContext, 0), fooValue);
 }
 
 TEST_F(TestFileRunner, methodAssignToPrimitiveArgumentDeathRunTest) {

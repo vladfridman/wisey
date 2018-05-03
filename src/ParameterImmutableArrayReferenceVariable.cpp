@@ -47,13 +47,13 @@ bool ParameterImmutableArrayReferenceVariable::isSystem() const {
   return false;
 }
 
-Value* ParameterImmutableArrayReferenceVariable::
-generateIdentifierIR(IRGenerationContext& context) const {
+Value* ParameterImmutableArrayReferenceVariable::generateIdentifierIR(IRGenerationContext& context,
+                                                                      int line) const {
   return mValue;
 }
 
 Value* ParameterImmutableArrayReferenceVariable::
-generateIdentifierReferenceIR(IRGenerationContext& context) const {
+generateIdentifierReferenceIR(IRGenerationContext& context, int line) const {
   assert(false);
 }
 

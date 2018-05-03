@@ -97,7 +97,7 @@ TEST_F(ParameterOwnerVariableTest, generateIdentifierIRTest) {
   Value* fooValueStore = IRWriter::newAllocaInst(mContext, llvmType, "");
   ParameterOwnerVariable variable("foo", mModel->getOwner(), fooValueStore);
   
-  variable.generateIdentifierIR(mContext);
+  variable.generateIdentifierIR(mContext, 0);
   
   *mStringStream << *mBasicBlock;
   
@@ -115,7 +115,7 @@ TEST_F(ParameterOwnerVariableTest, generateIdentifierReferenceIRTest) {
   Value* fooValueStore = IRWriter::newAllocaInst(mContext, llvmType, "");
   ParameterOwnerVariable variable("foo", mModel->getOwner(), fooValueStore);
   
-  EXPECT_EQ(fooValueStore, variable.generateIdentifierReferenceIR(mContext));
+  EXPECT_EQ(fooValueStore, variable.generateIdentifierReferenceIR(mContext, 0));
 }
 
 TEST_F(ParameterOwnerVariableTest, freeTest) {

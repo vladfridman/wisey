@@ -43,12 +43,13 @@ const wisey::ArrayOwnerType* LocalArrayOwnerVariable::getType() const {
   return mArrayOwnerType;
 }
 
-llvm::Value* LocalArrayOwnerVariable::generateIdentifierIR(IRGenerationContext& context) const {
+llvm::Value* LocalArrayOwnerVariable::generateIdentifierIR(IRGenerationContext& context,
+                                                           int line) const {
   return IRWriter::newLoadInst(context, mValueStore, "");
 }
 
-llvm::Value* LocalArrayOwnerVariable::generateIdentifierReferenceIR(IRGenerationContext&
-                                                                    context) const {
+llvm::Value* LocalArrayOwnerVariable::generateIdentifierReferenceIR(IRGenerationContext& context,
+                                                                    int line) const {
   return mValueStore;
 }
 

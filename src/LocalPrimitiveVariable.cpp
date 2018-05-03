@@ -42,11 +42,12 @@ bool LocalPrimitiveVariable::isSystem() const {
   return false;
 }
 
-Value* LocalPrimitiveVariable::generateIdentifierIR(IRGenerationContext& context) const {
+Value* LocalPrimitiveVariable::generateIdentifierIR(IRGenerationContext& context, int line) const {
   return IRWriter::newLoadInst(context, mValueStore, "");
 }
 
-Value* LocalPrimitiveVariable::generateIdentifierReferenceIR(IRGenerationContext& context) const {
+Value* LocalPrimitiveVariable::generateIdentifierReferenceIR(IRGenerationContext& context,
+                                                             int line) const {
   return mValueStore;
 }
 

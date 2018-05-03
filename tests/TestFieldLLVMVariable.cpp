@@ -101,7 +101,7 @@ TEST_F(FieldLLVMVariableTest, basicFieldsTest) {
 }
 
 TEST_F(FieldLLVMVariableTest, generateIdentifierIRTest) {
-  mFieldLLVMVariable->generateIdentifierIR(mContext);
+  mFieldLLVMVariable->generateIdentifierIR(mContext, 0);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
@@ -113,7 +113,7 @@ TEST_F(FieldLLVMVariableTest, generateIdentifierIRTest) {
 }
 
 TEST_F(FieldLLVMVariableTest, generateIdentifierReferenceIRTest) {
-  mFieldLLVMVariable->generateIdentifierReferenceIR(mContext);
+  mFieldLLVMVariable->generateIdentifierReferenceIR(mContext, 0);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +

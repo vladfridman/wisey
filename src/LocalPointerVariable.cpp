@@ -44,11 +44,12 @@ bool LocalPointerVariable::isSystem() const {
   return false;
 }
 
-Value* LocalPointerVariable::generateIdentifierIR(IRGenerationContext& context) const {
+Value* LocalPointerVariable::generateIdentifierIR(IRGenerationContext& context, int line) const {
   return IRWriter::newLoadInst(context, mValueStore, "");
 }
 
-Value* LocalPointerVariable::generateIdentifierReferenceIR(IRGenerationContext& context) const {
+Value* LocalPointerVariable::generateIdentifierReferenceIR(IRGenerationContext& context,
+                                                           int line) const {
   return mValueStore;
 }
 

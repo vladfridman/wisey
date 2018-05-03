@@ -41,12 +41,12 @@ bool ParameterLLVMVariable::isSystem() const {
   return false;
 }
 
-Value* ParameterLLVMVariable::generateIdentifierIR(IRGenerationContext& context) const {
+Value* ParameterLLVMVariable::generateIdentifierIR(IRGenerationContext& context, int line) const {
   return mValue;
 }
 
-Value* ParameterLLVMVariable::generateIdentifierReferenceIR(IRGenerationContext&
-                                                            context) const {
+Value* ParameterLLVMVariable::generateIdentifierReferenceIR(IRGenerationContext& context,
+                                                            int line) const {
   assert(false);
 }
 

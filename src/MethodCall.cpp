@@ -104,9 +104,9 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
   Function* function = (Function*) IRWriter::newLoadInst(context, virtualFunction, "");
   
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
-  Value* threadObject = threadVariable->generateIdentifierIR(context);
+  Value* threadObject = threadVariable->generateIdentifierIR(context, mLine);
   IVariable* callStackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
-  Value* callStackObject = callStackVariable->generateIdentifierIR(context);
+  Value* callStackObject = callStackVariable->generateIdentifierIR(context, mLine);
   
   vector<Value*> arguments;
   arguments.push_back(objectValue);
@@ -132,9 +132,9 @@ Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
   CheckForNullAndThrowFunction::call(context, objectValue);
 
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
-  Value* threadObject = threadVariable->generateIdentifierIR(context);
+  Value* threadObject = threadVariable->generateIdentifierIR(context, mLine);
   IVariable* callStackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
-  Value* callStackObject = callStackVariable->generateIdentifierIR(context);
+  Value* callStackObject = callStackVariable->generateIdentifierIR(context, mLine);
 
   vector<Value*> arguments;
   arguments.push_back(objectValue);
@@ -166,9 +166,9 @@ Value* MethodCall::generateStaticMethodCallIR(IRGenerationContext& context,
   Function* function = getMethodFunction(context, methodDescriptor);
 
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
-  Value* threadObject = threadVariable->generateIdentifierIR(context);
+  Value* threadObject = threadVariable->generateIdentifierIR(context, mLine);
   IVariable* callStackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
-  Value* callStackObject = callStackVariable->generateIdentifierIR(context);
+  Value* callStackObject = callStackVariable->generateIdentifierIR(context, mLine);
   
   vector<Value*> arguments;
   arguments.push_back(threadObject);

@@ -85,7 +85,7 @@ public:
     mThreadVariable = new NiceMock<MockVariable>();
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
     ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadInterface));
-    ON_CALL(*mThreadVariable, generateIdentifierIR(_)).WillByDefault(Return(threadObject));
+    ON_CALL(*mThreadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
     mContext.getScopes().setVariable(mThreadVariable);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -141,7 +141,7 @@ TEST_F(LocalSystemReferenceVariableTest, generateIdentifierIRTest) {
   vector<const IExpression*> arrayIndices;
   variable.generateAssignmentIR(mContext, fakeExpression, arrayIndices, 0);
   
-  Value* instruction = variable.generateIdentifierIR(mContext);
+  Value* instruction = variable.generateIdentifierIR(mContext, 0);
   
   *mStringStream << *instruction;
   string expected =
@@ -154,7 +154,7 @@ TEST_F(LocalSystemReferenceVariableTest, generateIdentifierReferenceIRTest) {
   Value* fooValueStore = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalSystemReferenceVariable variable("foo", mModel, fooValueStore);
   
-  EXPECT_EQ(fooValueStore, variable.generateIdentifierReferenceIR(mContext));
+  EXPECT_EQ(fooValueStore, variable.generateIdentifierReferenceIR(mContext, 0));
 }
 
 TEST_F(LocalSystemReferenceVariableTest, decrementReferenceCounterTest) {
@@ -182,7 +182,7 @@ TEST_F(LocalSystemReferenceVariableTest, generateIdentifierUninitializedDeathTes
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalSystemReferenceVariable variable("foo", mModel, fooValue);
   
-  EXPECT_EXIT(variable.generateIdentifierIR(mContext),
+  EXPECT_EXIT(variable.generateIdentifierIR(mContext, 7),
               ::testing::ExitedWithCode(1),
-              "Error: System variable 'foo' is not initialized");
+              "/tmp/source.yz\\(7\\): Error: System variable 'foo' is not initialized");
 }

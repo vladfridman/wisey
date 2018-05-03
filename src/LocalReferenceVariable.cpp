@@ -51,16 +51,17 @@ bool LocalReferenceVariable::isSystem() const {
   return false;
 }
 
-Value* LocalReferenceVariable::generateIdentifierIR(IRGenerationContext& context) const {
+Value* LocalReferenceVariable::generateIdentifierIR(IRGenerationContext& context, int line) const {
   if (!mIsInitialized) {
-    Log::e_deprecated("Variable '" + mName + "' is used before it is initialized");
+    context.reportError(line, "Variable '" + mName + "' is used before it is initialized");
     exit(1);
   }
   
   return IRWriter::newLoadInst(context, mValueStore, "");
 }
 
-Value* LocalReferenceVariable::generateIdentifierReferenceIR(IRGenerationContext& context) const {
+Value* LocalReferenceVariable::generateIdentifierReferenceIR(IRGenerationContext& context,
+                                                             int line) const {
   return mValueStore;
 }
 

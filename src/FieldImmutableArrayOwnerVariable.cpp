@@ -48,15 +48,16 @@ const ImmutableArrayOwnerType* FieldImmutableArrayOwnerVariable::getType() const
   return (const ImmutableArrayOwnerType*) type;
 }
 
-Value* FieldImmutableArrayOwnerVariable::generateIdentifierIR(IRGenerationContext& context) const {
-  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
+Value* FieldImmutableArrayOwnerVariable::generateIdentifierIR(IRGenerationContext& context,
+                                                              int line) const {
+  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
   
   return IRWriter::newLoadInst(context, fieldPointer, "");
 }
 
-Value* FieldImmutableArrayOwnerVariable::
-generateIdentifierReferenceIR(IRGenerationContext& context) const {
-  return getFieldPointer(context, mObject, mName);
+Value* FieldImmutableArrayOwnerVariable::generateIdentifierReferenceIR(IRGenerationContext& context,
+                                                                       int line) const {
+  return getFieldPointer(context, mObject, mName, line);
 }
 
 Value* FieldImmutableArrayOwnerVariable::
@@ -83,7 +84,7 @@ Value* FieldImmutableArrayOwnerVariable::generateWholeArrayAssignment(IRGenerati
   Value* assignToValue = assignToExpression->generateIR(context, field->getType());
   Value* cast = AutoCast::maybeCast(context, assignToType, assignToValue, fieldType, line);
   
-  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
+  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
   Value* fieldPointerLoaded = IRWriter::newLoadInst(context, fieldPointer, "");
   
   ((const IOwnerType*) field->getType())->free(context, fieldPointerLoaded, line);
@@ -103,7 +104,7 @@ generateArrayElementAssignment(IRGenerationContext& context,
 void FieldImmutableArrayOwnerVariable::setToNull(IRGenerationContext& context, int line) {
   llvm::PointerType* type = (llvm::PointerType*) getType()->getLLVMType(context);
   Value* null = ConstantPointerNull::get(type);
-  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
+  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
   IRWriter::newStoreInst(context, null, fieldPointer);
 }
 

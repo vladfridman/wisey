@@ -85,7 +85,7 @@ public:
     mThreadVariable = new NiceMock<MockVariable>();
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
     ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadInterface));
-    ON_CALL(*mThreadVariable, generateIdentifierIR(_)).WillByDefault(Return(threadObject));
+    ON_CALL(*mThreadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
     mContext.getScopes().setVariable(mThreadVariable);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -146,7 +146,7 @@ TEST_F(LocalReferenceVariableTest, generateIdentifierIRTest) {
   vector<const IExpression*> arrayIndices;
   localReferenceVariable.generateAssignmentIR(mContext, fakeExpression, arrayIndices, 0);
   
-  Value* instruction = localReferenceVariable.generateIdentifierIR(mContext);
+  Value* instruction = localReferenceVariable.generateIdentifierIR(mContext, 0);
   
   *mStringStream << *instruction;
   string expected =
@@ -159,7 +159,7 @@ TEST_F(LocalReferenceVariableTest, generateIdentifierReferenceIRTest) {
   Value* fooValueStore = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalReferenceVariable localReferenceVariable("foo", mModel, fooValueStore);
   
-  EXPECT_EQ(fooValueStore, localReferenceVariable.generateIdentifierReferenceIR(mContext));
+  EXPECT_EQ(fooValueStore, localReferenceVariable.generateIdentifierReferenceIR(mContext, 0));
 }
 
 TEST_F(LocalReferenceVariableTest, decrementReferenceCounterTest) {
@@ -187,9 +187,9 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableIdentifierUninitialized
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalReferenceVariable localReferenceVariable("foo", mModel, fooValue);
   
-  EXPECT_EXIT(localReferenceVariable.generateIdentifierIR(mContext),
+  EXPECT_EXIT(localReferenceVariable.generateIdentifierIR(mContext, 1),
               ::testing::ExitedWithCode(1),
-              "Error: Variable 'foo' is used before it is initialized");
+              "/tmp/source.yz\\(1\\): Error: Variable 'foo' is used before it is initialized");
 }
 
 TEST_F(LocalReferenceVariableTest, setToNullTest) {
@@ -200,7 +200,7 @@ TEST_F(LocalReferenceVariableTest, setToNullTest) {
   LocalReferenceVariable localReferenceVariable("foo", mModel, fooValue);
   localReferenceVariable.setToNull(mContext);
   
-  localReferenceVariable.generateIdentifierIR(mContext);
+  localReferenceVariable.generateIdentifierIR(mContext, 0);
   
   *mStringStream << *mBasicBlock;
   string expected =

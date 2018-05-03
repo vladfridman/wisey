@@ -44,7 +44,8 @@ IField* IFieldVariable::checkAndFindField(IRGenerationContext& context,
 
 GetElementPtrInst* IFieldVariable::getFieldPointer(IRGenerationContext& context,
                                                    const IConcreteObjectType* object,
-                                                   std::string fieldName) {
+                                                   std::string fieldName,
+                                                   int line) {
   IVariable* thisVariable = context.getThis();
   LLVMContext& llvmContext = context.getLLVMContext();
   
@@ -53,7 +54,7 @@ GetElementPtrInst* IFieldVariable::getFieldPointer(IRGenerationContext& context,
   index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), object->getFieldIndex(field));
   
-  Value* thisObject = thisVariable->generateIdentifierIR(context);
+  Value* thisObject = thisVariable->generateIdentifierIR(context, line);
   
   return IRWriter::createGetElementPtrInst(context, thisObject, index);
 }

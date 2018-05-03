@@ -40,11 +40,12 @@ bool LocalLLVMVariable::isSystem() const {
   return false;
 }
 
-Value* LocalLLVMVariable::generateIdentifierIR(IRGenerationContext& context) const {
+Value* LocalLLVMVariable::generateIdentifierIR(IRGenerationContext& context, int line) const {
   return IRWriter::newLoadInst(context, mValueStore, "");
 }
 
-Value* LocalLLVMVariable::generateIdentifierReferenceIR(IRGenerationContext& context) const {
+Value* LocalLLVMVariable::generateIdentifierReferenceIR(IRGenerationContext& context,
+                                                        int line) const {
   return mValueStore;
 }
 

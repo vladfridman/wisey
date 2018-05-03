@@ -42,12 +42,13 @@ bool ParameterPointerVariable::isSystem() const {
   return false;
 }
 
-Value* ParameterPointerVariable::generateIdentifierIR(IRGenerationContext& context) const {
+Value* ParameterPointerVariable::generateIdentifierIR(IRGenerationContext& context,
+                                                      int line) const {
   return mValue;
 }
 
-Value* ParameterPointerVariable::generateIdentifierReferenceIR(IRGenerationContext&
-                                                                 context) const {
+Value* ParameterPointerVariable::generateIdentifierReferenceIR(IRGenerationContext& context,
+                                                               int line) const {
   assert(false);
 }
 

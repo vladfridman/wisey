@@ -28,10 +28,10 @@ void Composer::pushCallStack(IRGenerationContext& context, int line) {
   const IObjectType* objectType = context.getObjectType();
   Value* sourceFileNamePointer = objectType->getImportProfile()->getSourceFileNamePointer();
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
-  Value* threadObject = threadVariable->generateIdentifierIR(context);
+  Value* threadObject = threadVariable->generateIdentifierIR(context, line);
 
   IVariable* callStackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
-  Value* callStackObject = callStackVariable->generateIdentifierIR(context);
+  Value* callStackObject = callStackVariable->generateIdentifierIR(context, line);
 
   IVariable* currentObjectVariable = context.getScopes()
     .getVariable(Names::getCurrentObjectVariableName());
@@ -46,8 +46,8 @@ void Composer::pushCallStack(IRGenerationContext& context, int line) {
   arguments.push_back(callStackObject);
   arguments.push_back(threadObject);
   arguments.push_back(callStackObject);
-  arguments.push_back(currentObjectVariable->generateIdentifierIR(context));
-  arguments.push_back(currentMethodVariable->generateIdentifierIR(context));
+  arguments.push_back(currentObjectVariable->generateIdentifierIR(context, line));
+  arguments.push_back(currentMethodVariable->generateIdentifierIR(context, line));
   arguments.push_back(sourceFileNamePointer);
   arguments.push_back(ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), line));
   string pushStackFunctionName =
@@ -63,10 +63,10 @@ void Composer::popCallStack(IRGenerationContext& context) {
   }
 
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
-  Value* threadObject = threadVariable->generateIdentifierIR(context);
+  Value* threadObject = threadVariable->generateIdentifierIR(context, 0);
 
   IVariable* callStackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
-  Value* callStackObject = callStackVariable->generateIdentifierIR(context);
+  Value* callStackObject = callStackVariable->generateIdentifierIR(context, 0);
 
   vector<Value*> arguments;
 
@@ -91,8 +91,8 @@ void Composer::setLineNumber(IRGenerationContext& context, int line) {
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
   IVariable* callStackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
   
-  Value* threadObject = threadVariable->generateIdentifierIR(context);
-  Value* callStackObject = callStackVariable->generateIdentifierIR(context);
+  Value* threadObject = threadVariable->generateIdentifierIR(context, 0);
+  Value* callStackObject = callStackVariable->generateIdentifierIR(context, 0);
   
   vector<Value*> arguments;
   

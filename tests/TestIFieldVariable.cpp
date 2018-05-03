@@ -104,7 +104,7 @@ TEST_F(IFieldVariableTest, checkAndFindFieldForAssignmentTest) {
 }
 
 TEST_F(IFieldVariableTest, getFieldPointerTest) {
-  IFieldVariable::getFieldPointer(mContext, mController, "bar");
+  IFieldVariable::getFieldPointer(mContext, mController, "bar", 0);
 
   *mStringStream << *mBasicBlock;
   string expected = string() +

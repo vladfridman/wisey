@@ -57,7 +57,7 @@ TEST_F(IdentifierTest, generateIRForPrimitiveVariableTest) {
   
   Identifier identifier("foo", 0);
   
-  EXPECT_CALL(mockVariable, generateIdentifierIR(_)).Times(1);
+  EXPECT_CALL(mockVariable, generateIdentifierIR(_, _)).Times(1);
   EXPECT_CALL(mockVariable, generateAssignmentIR(_, _, _, _)).Times(0);
   
   identifier.generateIR(mContext, PrimitiveTypes::VOID);
@@ -79,7 +79,7 @@ TEST_F(IdentifierTest, generateIRForObjectOwnerVariableSetToNullTest) {
   Value* objectPointer = ConstantPointerNull::get(modelStructType->getPointerTo());
   ON_CALL(mockVariable, getType()).WillByDefault(Return(&mockType));
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
-  ON_CALL(mockVariable, generateIdentifierIR(_)).WillByDefault(Return(objectPointer));
+  ON_CALL(mockVariable, generateIdentifierIR(_, _)).WillByDefault(Return(objectPointer));
   ON_CALL(mockType, isModel()).WillByDefault(Return(true));
   ON_CALL(mockType, isOwner()).WillByDefault(Return(true));
   EXPECT_CALL(mockVariable, setToNull(_, _));
@@ -107,7 +107,7 @@ TEST_F(IdentifierTest, generateIRForMethodTest) {
   ON_CALL(mockObjecType, findMethod("foo")).WillByDefault(Return(&mockMethodDescriptor));
   ON_CALL(mockVariable, getType()).WillByDefault(Return(&mockObjecType));
   ON_CALL(mockVariable, getName()).WillByDefault(Return(IObjectType::THIS));
-  ON_CALL(mockVariable, generateIdentifierIR(_)).WillByDefault(Return(objectPointer));
+  ON_CALL(mockVariable, generateIdentifierIR(_, _)).WillByDefault(Return(objectPointer));
   mContext.setObjectType(&mockObjecType);
   mContext.getScopes().setVariable(&mockVariable);
 

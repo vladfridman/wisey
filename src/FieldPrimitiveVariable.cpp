@@ -41,14 +41,15 @@ bool FieldPrimitiveVariable::isSystem() const {
   return false;
 }
 
-Value* FieldPrimitiveVariable::generateIdentifierIR(IRGenerationContext& context) const {
-  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
+Value* FieldPrimitiveVariable::generateIdentifierIR(IRGenerationContext& context, int line) const {
+  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
   
   return IRWriter::newLoadInst(context, fieldPointer, "");
 }
 
-Value* FieldPrimitiveVariable::generateIdentifierReferenceIR(IRGenerationContext& context) const {
-  return getFieldPointer(context, mObject, mName);
+Value* FieldPrimitiveVariable::generateIdentifierReferenceIR(IRGenerationContext& context,
+                                                             int line) const {
+  return getFieldPointer(context, mObject, mName, line);
 }
 
 Value* FieldPrimitiveVariable::generateAssignmentIR(IRGenerationContext& context,
@@ -66,7 +67,7 @@ Value* FieldPrimitiveVariable::generateAssignmentIR(IRGenerationContext& context
   }
   Value* expressionValue = assignToExpression->generateIR(context, fieldType);
   Value* cast = AutoCast::maybeCast(context, expressionType, expressionValue, fieldType, line);
-  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
+  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
   
   return IRWriter::newStoreInst(context, cast, fieldPointer);
 }

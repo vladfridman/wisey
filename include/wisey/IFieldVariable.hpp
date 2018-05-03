@@ -35,7 +35,8 @@ namespace wisey {
      */
     static llvm::GetElementPtrInst* getFieldPointer(IRGenerationContext& context,
                                                     const IConcreteObjectType* object,
-                                                    std::string fieldName);
+                                                    std::string fieldName,
+                                                    int line);
     
   private:
     

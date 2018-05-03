@@ -99,7 +99,7 @@ TEST_F(LocalPointerVariableTest, basicTest) {
 }
 
 TEST_F(LocalPointerVariableTest, identifierTest) {
-  mVariable->generateIdentifierIR(mContext);
+  mVariable->generateIdentifierIR(mContext, 0);
   
   *mStringStream << *mBasicBlock;
   
@@ -114,7 +114,7 @@ TEST_F(LocalPointerVariableTest, identifierTest) {
 }
 
 TEST_F(LocalPointerVariableTest, identifierReferenceTest) {
-  EXPECT_EQ(mValueStore, mVariable->generateIdentifierReferenceIR(mContext));
+  EXPECT_EQ(mValueStore, mVariable->generateIdentifierReferenceIR(mContext, 0));
 }
 
 TEST_F(LocalPointerVariableTest, assignmentTest) {

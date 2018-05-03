@@ -101,7 +101,7 @@ public:
     mThreadVariable = new NiceMock<MockReferenceVariable>();
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
     ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadInterface));
-    ON_CALL(*mThreadVariable, generateIdentifierIR(_)).WillByDefault(Return(threadObject));
+    ON_CALL(*mThreadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
     mContext.getScopes().setVariable(mThreadVariable);
 
     Controller* callStack = mContext.getController(Names::getCallStackControllerFullName(), 0);
@@ -109,7 +109,7 @@ public:
     mCallStackVariable = new NiceMock<MockReferenceVariable>();
     ON_CALL(*mCallStackVariable, getName()).WillByDefault(Return(ThreadExpression::CALL_STACK));
     ON_CALL(*mCallStackVariable, getType()).WillByDefault(Return(callStack));
-    ON_CALL(*mCallStackVariable, generateIdentifierIR(_)).WillByDefault(Return(callStackValue));
+    ON_CALL(*mCallStackVariable, generateIdentifierIR(_, _)).WillByDefault(Return(callStackValue));
     mContext.getScopes().setVariable(mCallStackVariable);
 
     mContext.setObjectType(mModel);

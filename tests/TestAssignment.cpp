@@ -85,7 +85,7 @@ public:
     mThreadVariable = new NiceMock<MockVariable>();
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
     ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadInterface));
-    ON_CALL(*mThreadVariable, generateIdentifierIR(_)).WillByDefault(Return(threadObject));
+    ON_CALL(*mThreadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
     mContext.getScopes().setVariable(mThreadVariable);
   }
   
@@ -156,7 +156,7 @@ TEST_F(AssignmentTest, generateIRWithInterfaceTypeTest) {
   Identifier* identifier = new Identifier("foo", 0);
   Assignment assignment(identifier, mExpression, 0);
   
-  EXPECT_CALL(mockVariable, generateIdentifierIR(_)).Times(0);
+  EXPECT_CALL(mockVariable, generateIdentifierIR(_, _)).Times(0);
   EXPECT_CALL(mockVariable, generateAssignmentIR(_, _, _, _)).Times(1);
   
   assignment.generateIR(mContext, PrimitiveTypes::VOID);
@@ -171,7 +171,7 @@ TEST_F(AssignmentTest, generateIRWithPrimitiveTypeTest) {
   Identifier* identifier = new Identifier("foo", 0);
   Assignment assignment(identifier, mExpression, 0);
   
-  EXPECT_CALL(mockVariable, generateIdentifierIR(_)).Times(0);
+  EXPECT_CALL(mockVariable, generateIdentifierIR(_, _)).Times(0);
   EXPECT_CALL(mockVariable, generateAssignmentIR(_, _, _, _)).Times(1);
   
   assignment.generateIR(mContext, PrimitiveTypes::VOID);

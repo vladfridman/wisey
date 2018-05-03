@@ -149,16 +149,17 @@ TEST_F(ScopesTest, setUnitializedLocalReferenceVariableTest) {
   mScopes.pushScope();
   
   Value* store = ConstantPointerNull::get(mInterface->getLLVMType(mContext)->getPointerTo());
-  IVariable* unitializedLocalReferenceVariable =
-    new LocalReferenceVariable("foo", mInterface, store);
+  IVariable* unitializedLocalReferenceVariable = new LocalReferenceVariable("foo",
+                                                                            mInterface,
+                                                                            store);
   mScopes.setVariable(unitializedLocalReferenceVariable);
   
   IVariable* variable = mScopes.getVariable("foo");
   
   ASSERT_NE(variable, nullptr);
-  EXPECT_EXIT(variable->generateIdentifierIR(mContext),
+  EXPECT_EXIT(variable->generateIdentifierIR(mContext, 3),
               ::testing::ExitedWithCode(1),
-              "Error: Variable 'foo' is used before it is initialized");
+              "/tmp/source.yz\\(3\\): Error: Variable 'foo' is used before it is initialized");
               
 }
 

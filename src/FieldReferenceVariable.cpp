@@ -43,14 +43,15 @@ bool FieldReferenceVariable::isSystem() const {
   return false;
 }
 
-Value* FieldReferenceVariable::generateIdentifierIR(IRGenerationContext& context) const {
-  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
+Value* FieldReferenceVariable::generateIdentifierIR(IRGenerationContext& context, int line) const {
+  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
   
   return IRWriter::newLoadInst(context, fieldPointer, "referenceFieldIdentifier");
 }
 
-Value* FieldReferenceVariable::generateIdentifierReferenceIR(IRGenerationContext& context) const {
-  return getFieldPointer(context, mObject, mName);
+Value* FieldReferenceVariable::generateIdentifierReferenceIR(IRGenerationContext& context,
+                                                             int line) const {
+  return getFieldPointer(context, mObject, mName, line);
 }
 
 Value* FieldReferenceVariable::generateAssignmentIR(IRGenerationContext& context,
@@ -69,7 +70,7 @@ Value* FieldReferenceVariable::generateAssignmentIR(IRGenerationContext& context
   }
   Value* expressionValue = assignToExpression->generateIR(context, field->getType());
   Value* cast = AutoCast::maybeCast(context, expressionType, expressionValue, fieldType, line);
-  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
+  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
 
   Value* previousValue = IRWriter::newLoadInst(context, fieldPointer, "");
   fieldType->decrementReferenceCount(context, previousValue);

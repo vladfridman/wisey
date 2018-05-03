@@ -101,7 +101,7 @@ TEST_F(ParameterReferenceVariableTest, generateIdentifierIRTest) {
   Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mContext));
   ParameterReferenceVariable parameterReferenceVariable("foo", mModel, fooValue);
   
-  EXPECT_EQ(fooValue, parameterReferenceVariable.generateIdentifierIR(mContext));
+  EXPECT_EQ(fooValue, parameterReferenceVariable.generateIdentifierIR(mContext, 0));
 }
 
 TEST_F(ParameterReferenceVariableTest, decrementReferenceCounterTest) {

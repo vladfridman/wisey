@@ -69,12 +69,13 @@ namespace wisey {
     /**
      * Generated LLVM IR for the variable when it used in {@link Identifier}
      */
-    virtual llvm::Value* generateIdentifierIR(IRGenerationContext& context) const = 0;
+    virtual llvm::Value* generateIdentifierIR(IRGenerationContext& context, int line) const = 0;
     
     /**
      * Generated LLVM IR for the variable when it used in {@link IdentifierReference}
      */
-    virtual llvm::Value* generateIdentifierReferenceIR(IRGenerationContext& context) const = 0;
+    virtual llvm::Value* generateIdentifierReferenceIR(IRGenerationContext& context,
+                                                       int line) const = 0;
     
     /**
      * Generate LLVM IR for when it is assigned to a given value

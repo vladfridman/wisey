@@ -51,11 +51,12 @@ bool ParameterOwnerVariable::isSystem() const {
   return false;
 }
 
-Value* ParameterOwnerVariable::generateIdentifierIR(IRGenerationContext& context) const {
+Value* ParameterOwnerVariable::generateIdentifierIR(IRGenerationContext& context, int line) const {
   return IRWriter::newLoadInst(context, mValueStore, "");
 }
 
-Value* ParameterOwnerVariable::generateIdentifierReferenceIR(IRGenerationContext& context) const {
+Value* ParameterOwnerVariable::generateIdentifierReferenceIR(IRGenerationContext& context,
+                                                             int line) const {
   return mValueStore;
 }
 

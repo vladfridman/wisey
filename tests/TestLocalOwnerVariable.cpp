@@ -150,7 +150,7 @@ TEST_F(LocalOwnerVariableTest, generateIdentifierIRTest) {
   LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValueStore);
   
   heapOwnerVariable.setToNull(mContext, 0);
-  heapOwnerVariable.generateIdentifierIR(mContext);
+  heapOwnerVariable.generateIdentifierIR(mContext, 0);
   
   *mStringStream << *mBasicBlock;
   
@@ -171,7 +171,7 @@ TEST_F(LocalOwnerVariableTest, generateIdentifierReferenceIRTest) {
   
   heapOwnerVariable.setToNull(mContext, 0);
 
-  EXPECT_EQ(fooValueStore, heapOwnerVariable.generateIdentifierReferenceIR(mContext));
+  EXPECT_EQ(fooValueStore, heapOwnerVariable.generateIdentifierReferenceIR(mContext, 0));
 }
 
 TEST_F(LocalOwnerVariableTest, generateIdentifierIRDeathTest) {
@@ -179,9 +179,9 @@ TEST_F(LocalOwnerVariableTest, generateIdentifierIRDeathTest) {
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
   
-  EXPECT_EXIT(heapOwnerVariable.generateIdentifierIR(mContext),
+  EXPECT_EXIT(heapOwnerVariable.generateIdentifierIR(mContext, 1),
               ::testing::ExitedWithCode(1),
-              "Error: Variable 'foo' is used before it is initialized");
+              "/tmp/source.yz\\(1\\): Error: Variable 'foo' is used before it is initialized");
 }
 
 TEST_F(LocalOwnerVariableTest, freeTest) {

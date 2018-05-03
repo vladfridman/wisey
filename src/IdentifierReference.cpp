@@ -30,7 +30,7 @@ const string& IdentifierReference::getIdentifierName() const {
 Value* IdentifierReference::generateIR(IRGenerationContext& context,
                                        const IType* assignToType) const {
   IVariable* variable = IVariable::getVariable(context, mName);
-  return variable->generateIdentifierReferenceIR(context);
+  return variable->generateIdentifierReferenceIR(context, mLine);
 }
 
 const IType* IdentifierReference::getType(IRGenerationContext& context) const {

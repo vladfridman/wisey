@@ -86,7 +86,7 @@ TEST_F(LocalImmutableArrayReferenceVariableTest, generateIdentifierIRTest) {
   llvm::PointerType* arrayPointerType = mImmutableArrayType->getLLVMType(mContext);
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
   LocalImmutableArrayReferenceVariable variable("foo", mImmutableArrayType, alloc);
-  variable.generateIdentifierIR(mContext);
+  variable.generateIdentifierIR(mContext, 0);
   
   *mStringStream << *mBasicBlock;
   
@@ -104,7 +104,7 @@ TEST_F(LocalImmutableArrayReferenceVariableTest, generateIdentifierReferenceIRTe
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
   LocalImmutableArrayReferenceVariable variable("foo", mImmutableArrayType, alloc);
   
-  EXPECT_EQ(alloc, variable.generateIdentifierReferenceIR(mContext));
+  EXPECT_EQ(alloc, variable.generateIdentifierReferenceIR(mContext, 0));
 }
 
 TEST_F(LocalImmutableArrayReferenceVariableTest, generateWholeArrayAssignmentTest) {

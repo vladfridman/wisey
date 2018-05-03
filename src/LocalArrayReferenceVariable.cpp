@@ -44,12 +44,13 @@ bool LocalArrayReferenceVariable::isSystem() const {
   return false;
 }
 
-llvm::Value* LocalArrayReferenceVariable::generateIdentifierIR(IRGenerationContext& context) const {
+llvm::Value* LocalArrayReferenceVariable::generateIdentifierIR(IRGenerationContext& context,
+                                                               int line) const {
   return IRWriter::newLoadInst(context, mValueStore, "");
 }
 
-llvm::Value* LocalArrayReferenceVariable::generateIdentifierReferenceIR(IRGenerationContext&
-                                                                        context) const {
+llvm::Value* LocalArrayReferenceVariable::
+generateIdentifierReferenceIR(IRGenerationContext& context, int line) const {
   return mValueStore;
 }
 

@@ -103,7 +103,7 @@ TEST_F(FieldArrayOwnerVariableTest, basicFieldsTest) {
 }
 
 TEST_F(FieldArrayOwnerVariableTest, generateIdentifierIRTest) {
-  mFieldArrayOwnerVariable->generateIdentifierIR(mContext);
+  mFieldArrayOwnerVariable->generateIdentifierIR(mContext, 0);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
@@ -115,7 +115,7 @@ TEST_F(FieldArrayOwnerVariableTest, generateIdentifierIRTest) {
 }
 
 TEST_F(FieldArrayOwnerVariableTest, generateIdentifierReferenceIRTest) {
-  mFieldArrayOwnerVariable->generateIdentifierReferenceIR(mContext);
+  mFieldArrayOwnerVariable->generateIdentifierReferenceIR(mContext, 0);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +

@@ -35,7 +35,7 @@ const string& Identifier::getIdentifierName() const {
 Value* Identifier::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   IMethodDescriptor* method = getMethod(context);
   if (method) {
-    return context.getThis()->generateIdentifierIR(context);
+    return context.getThis()->generateIdentifierIR(context, mLine);
   }
 
   LLVMFunction* function = getLLVMFunction(context);
@@ -44,7 +44,7 @@ Value* Identifier::generateIR(IRGenerationContext& context, const IType* assignT
   }
 
   IVariable* variable = IVariable::getVariable(context, mName);
-  Value* value = variable->generateIdentifierIR(context);
+  Value* value = variable->generateIdentifierIR(context, mLine);
   if (assignToType->isOwner() && variable->getType()->isOwner()) {
     ((IOwnerVariable*) variable)->setToNull(context, mLine);
   }

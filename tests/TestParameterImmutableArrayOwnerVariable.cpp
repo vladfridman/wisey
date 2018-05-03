@@ -80,7 +80,7 @@ TEST_F(ParameterImmutableArrayOwnerVariableTest, basicFieldsTest) {
 }
 
 TEST_F(ParameterImmutableArrayOwnerVariableTest, generateIdentifierIRTest) {
-  mVariable->generateIdentifierIR(mContext);
+  mVariable->generateIdentifierIR(mContext, 0);
   
   *mStringStream << *mBasicBlock;
   
@@ -94,7 +94,7 @@ TEST_F(ParameterImmutableArrayOwnerVariableTest, generateIdentifierIRTest) {
 }
 
 TEST_F(ParameterImmutableArrayOwnerVariableTest, generateIdentifierReferenceIRTest) {
-  EXPECT_EQ(mArrayAlloc, mVariable->generateIdentifierReferenceIR(mContext));
+  EXPECT_EQ(mArrayAlloc, mVariable->generateIdentifierReferenceIR(mContext, 0));
 }
 
 TEST_F(ParameterImmutableArrayOwnerVariableTest, freeTest) {

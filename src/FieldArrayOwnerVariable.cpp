@@ -48,8 +48,8 @@ const ArrayOwnerType* FieldArrayOwnerVariable::getType() const {
   return (const ArrayOwnerType*) type;
 }
 
-Value* FieldArrayOwnerVariable::generateIdentifierIR(IRGenerationContext& context) const {
-  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
+Value* FieldArrayOwnerVariable::generateIdentifierIR(IRGenerationContext& context, int line) const {
+  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
   IField* field = mObject->findField(mName);
   
   if (!field->isInjected()) {
@@ -61,8 +61,9 @@ Value* FieldArrayOwnerVariable::generateIdentifierIR(IRGenerationContext& contex
   return ((InjectedField* ) field)->callInjectFunction(context, controller, fieldPointer);
 }
 
-Value* FieldArrayOwnerVariable::generateIdentifierReferenceIR(IRGenerationContext& context) const {
-  return getFieldPointer(context, mObject, mName);
+Value* FieldArrayOwnerVariable::generateIdentifierReferenceIR(IRGenerationContext& context,
+                                                              int line) const {
+  return getFieldPointer(context, mObject, mName, line);
 }
 
 Value* FieldArrayOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
@@ -94,7 +95,7 @@ Value* FieldArrayOwnerVariable::generateWholeArrayAssignment(IRGenerationContext
   Value* assignToValue = assignToExpression->generateIR(context, field->getType());
   Value* cast = AutoCast::maybeCast(context, assignToType, assignToValue, fieldType, line);
   
-  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
+  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
   Value* fieldPointerLoaded = IRWriter::newLoadInst(context, fieldPointer, "");
   
   ((const IOwnerType*) field->getType())->free(context, fieldPointerLoaded, line);
@@ -108,7 +109,7 @@ Value* FieldArrayOwnerVariable::generateArrayElementAssignment(IRGenerationConte
                                                                arrayIndices,
                                                                int line) {
   IField* field = checkAndFindFieldForAssignment(context, mObject, mName);
-  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
+  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
   
   Value* arrayPointer = NULL;
   if (field->isInjected()) {
@@ -147,7 +148,7 @@ void FieldArrayOwnerVariable::setToNull(IRGenerationContext& context, int line) 
   }
   llvm::PointerType* type = (llvm::PointerType*) getType()->getLLVMType(context);
   Value* null = ConstantPointerNull::get(type);
-  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
+  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
   IRWriter::newStoreInst(context, null, fieldPointer);
 }
 

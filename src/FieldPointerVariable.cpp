@@ -44,14 +44,15 @@ bool FieldPointerVariable::isSystem() const {
   return false;
 }
 
-Value* FieldPointerVariable::generateIdentifierIR(IRGenerationContext& context) const {
-  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
+Value* FieldPointerVariable::generateIdentifierIR(IRGenerationContext& context, int line) const {
+  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
   
   return IRWriter::newLoadInst(context, fieldPointer, mName);
 }
 
-Value* FieldPointerVariable::generateIdentifierReferenceIR(IRGenerationContext& context) const {
-  return getFieldPointer(context, mObject, mName);
+Value* FieldPointerVariable::generateIdentifierReferenceIR(IRGenerationContext& context,
+                                                           int line) const {
+  return getFieldPointer(context, mObject, mName, line);
 }
 
 Value* FieldPointerVariable::generateAssignmentIR(IRGenerationContext& context,
@@ -70,7 +71,7 @@ Value* FieldPointerVariable::generateAssignmentIR(IRGenerationContext& context,
   }
   Value* expressionValue = assignToExpression->generateIR(context, field->getType());
   Value* cast = AutoCast::maybeCast(context, expressionType, expressionValue, fieldType, line);
-  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
+  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
   
   return IRWriter::newStoreInst(context, cast, fieldPointer);
 }

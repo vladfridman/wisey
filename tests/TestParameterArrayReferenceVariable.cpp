@@ -73,7 +73,7 @@ TEST_F(ParameterArrayReferenceVariableTest, basicFieldsTest) {
 }
 
 TEST_F(ParameterArrayReferenceVariableTest, generateIdentifierIRTest) {
-  EXPECT_EQ(mArrayPointer, mVariable->generateIdentifierIR(mContext));
+  EXPECT_EQ(mArrayPointer, mVariable->generateIdentifierIR(mContext, 0));
 }
 
 TEST_F(ParameterArrayReferenceVariableTest, decrementReferenceCounterTest) {

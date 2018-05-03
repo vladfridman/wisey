@@ -47,16 +47,16 @@ const ImmutableArrayType* FieldImmutableArrayReferenceVariable::getType() const 
   return (const ImmutableArrayType*) type;
 }
 
-Value* FieldImmutableArrayReferenceVariable::
-generateIdentifierIR(IRGenerationContext& context) const {
-  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
+Value* FieldImmutableArrayReferenceVariable::generateIdentifierIR(IRGenerationContext& context,
+                                                                  int line) const {
+  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
   
   return IRWriter::newLoadInst(context, fieldPointer, "");
 }
 
 Value* FieldImmutableArrayReferenceVariable::
-generateIdentifierReferenceIR(IRGenerationContext& context) const {
-  return getFieldPointer(context, mObject, mName);
+generateIdentifierReferenceIR(IRGenerationContext& context, int line) const {
+  return getFieldPointer(context, mObject, mName, line);
 }
 
 Value* FieldImmutableArrayReferenceVariable::
@@ -85,7 +85,7 @@ generateWholeArrayAssignment(IRGenerationContext& context,
   const IType* assignToType = assignToExpression->getType(context);
   Value* assignToValue = assignToExpression->generateIR(context, field->getType());
   Value* cast = AutoCast::maybeCast(context, assignToType, assignToValue, fieldType, line);
-  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
+  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
   
   Value* previousValue = IRWriter::newLoadInst(context, fieldPointer, "");
   arrayType->decrementReferenceCount(context, previousValue);

@@ -72,7 +72,7 @@ struct ArrayElementExpressionTest : Test {
     ON_CALL(*mArrayExpression, getType(_)).WillByDefault(Return(mArrayType));
     ON_CALL(*mArrayExpression, getVariable(_, _)).WillByDefault(Return(mArrayVariable));
     ON_CALL(*mArrayVariable, getType()).WillByDefault(Return(mArrayType));
-    ON_CALL(*mArrayVariable, generateIdentifierIR(_)).WillByDefault(Return(null));
+    ON_CALL(*mArrayVariable, generateIdentifierIR(_, _)).WillByDefault(Return(null));
     ConstantInt* three = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
     ON_CALL(*mArrayIndexExpression, generateIR(_, _)).WillByDefault(Return(three));
     ON_CALL(*mArrayIndexExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));

@@ -48,15 +48,16 @@ const wisey::ArrayType* FieldArrayReferenceVariable::getType() const {
   return (const wisey::ArrayType*) type;
 }
 
-Value* FieldArrayReferenceVariable::generateIdentifierIR(IRGenerationContext& context) const {
-  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
+Value* FieldArrayReferenceVariable::generateIdentifierIR(IRGenerationContext& context,
+                                                         int line) const {
+  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
   
   return IRWriter::newLoadInst(context, fieldPointer, "");
 }
 
-Value* FieldArrayReferenceVariable::generateIdentifierReferenceIR(IRGenerationContext&
-                                                                  context) const {
-  return getFieldPointer(context, mObject, mName);
+Value* FieldArrayReferenceVariable::generateIdentifierReferenceIR(IRGenerationContext& context,
+                                                                  int line) const {
+  return getFieldPointer(context, mObject, mName, line);
 }
 
 Value* FieldArrayReferenceVariable::generateAssignmentIR(IRGenerationContext& context,
@@ -83,7 +84,7 @@ Value* FieldArrayReferenceVariable::generateWholeArrayAssignment(IRGenerationCon
   const IType* assignToType = assignToExpression->getType(context);
   Value* assignToValue = assignToExpression->generateIR(context, field->getType());
   Value* cast = AutoCast::maybeCast(context, assignToType, assignToValue, fieldType, line);
-  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
+  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
 
   Value* previousValue = IRWriter::newLoadInst(context, fieldPointer, "");
   arrayType->decrementReferenceCount(context, previousValue);
@@ -93,13 +94,13 @@ Value* FieldArrayReferenceVariable::generateWholeArrayAssignment(IRGenerationCon
 }
 
 Value* FieldArrayReferenceVariable::generateArrayElementAssignment(IRGenerationContext& context,
-                                                               IExpression* assignToExpression,
-                                                               vector<const IExpression*>
-                                                               arrayIndices,
-                                                               int line) {
+                                                                   IExpression* assignToExpression,
+                                                                   vector<const IExpression*>
+                                                                   arrayIndices,
+                                                                   int line) {
   IField* field = checkAndFindFieldForAssignment(context, mObject, mName);
   
-  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
+  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
   Value* arrayPointer = IRWriter::newLoadInst(context, fieldPointer, "");
   const IType* fieldType = field->getType();
   assert(fieldType->isArray() && fieldType->isReference());

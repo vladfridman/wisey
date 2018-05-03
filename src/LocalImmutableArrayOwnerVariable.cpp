@@ -45,13 +45,13 @@ const ImmutableArrayOwnerType* LocalImmutableArrayOwnerVariable::getType() const
   return mImmutableArrayOwnerType;
 }
 
-llvm::Value* LocalImmutableArrayOwnerVariable::
-generateIdentifierIR(IRGenerationContext& context) const {
+llvm::Value* LocalImmutableArrayOwnerVariable::generateIdentifierIR(IRGenerationContext& context,
+                                                                    int line) const {
   return IRWriter::newLoadInst(context, mValueStore, "");
 }
 
 llvm::Value* LocalImmutableArrayOwnerVariable::
-generateIdentifierReferenceIR(IRGenerationContext& context) const {
+generateIdentifierReferenceIR(IRGenerationContext& context, int line) const {
   return mValueStore;
 }
 

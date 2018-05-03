@@ -41,12 +41,13 @@ bool ParameterPrimitiveVariable::isSystem() const {
   return false;
 }
 
-Value* ParameterPrimitiveVariable::generateIdentifierIR(IRGenerationContext& context) const {
+Value* ParameterPrimitiveVariable::generateIdentifierIR(IRGenerationContext& context,
+                                                        int line) const {
   return mValue;
 }
 
-Value* ParameterPrimitiveVariable::generateIdentifierReferenceIR(IRGenerationContext&
-                                                                 context) const {
+Value* ParameterPrimitiveVariable::generateIdentifierReferenceIR(IRGenerationContext& context,
+                                                                 int line) const {
   assert(false);
 }
 

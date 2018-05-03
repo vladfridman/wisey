@@ -98,7 +98,7 @@ TEST_F(LocalLLVMVariableTest, generateIdentifierIRTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt16Ty(mLLVMContext), "foo");
   LocalLLVMVariable variable("foo", LLVMPrimitiveTypes::I16, alloc);
   
-  variable.generateIdentifierIR(mContext);
+  variable.generateIdentifierIR(mContext, 0);
   
   ASSERT_EQ(2ul, mBasicBlock->size());
   
@@ -117,7 +117,7 @@ TEST_F(LocalLLVMVariableTest, generateIdentifierReferenceIRTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt16Ty(mLLVMContext), "foo");
   LocalLLVMVariable variable("foo", LLVMPrimitiveTypes::I16, alloc);
   
-  EXPECT_EQ(alloc, variable.generateIdentifierReferenceIR(mContext));
+  EXPECT_EQ(alloc, variable.generateIdentifierReferenceIR(mContext, 0));
 }
 
 TEST_F(TestFileRunner, localLLVMVariableRunTest) {

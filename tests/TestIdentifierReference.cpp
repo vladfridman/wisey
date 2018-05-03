@@ -58,8 +58,8 @@ TEST_F(IdentifierReferenceTest, generateIRTest) {
   
   IdentifierReference identifierReference("foo", 0);
   
-  EXPECT_CALL(mockVariable, generateIdentifierReferenceIR(_)).Times(1);
-  EXPECT_CALL(mockVariable, generateIdentifierIR(_)).Times(0);
+  EXPECT_CALL(mockVariable, generateIdentifierReferenceIR(_, _)).Times(1);
+  EXPECT_CALL(mockVariable, generateIdentifierIR(_, _)).Times(0);
   EXPECT_CALL(mockVariable, generateAssignmentIR(_, _, _, _)).Times(0);
   
   identifierReference.generateIR(mContext, PrimitiveTypes::VOID);

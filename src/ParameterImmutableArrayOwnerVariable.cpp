@@ -48,13 +48,13 @@ bool ParameterImmutableArrayOwnerVariable::isSystem() const {
   return false;
 }
 
-Value* ParameterImmutableArrayOwnerVariable::
-generateIdentifierIR(IRGenerationContext& context) const {
+Value* ParameterImmutableArrayOwnerVariable::generateIdentifierIR(IRGenerationContext& context,
+                                                                  int line) const {
   return IRWriter::newLoadInst(context, mValueStore, "");
 }
 
 Value* ParameterImmutableArrayOwnerVariable::
-generateIdentifierReferenceIR(IRGenerationContext& context) const {
+generateIdentifierReferenceIR(IRGenerationContext& context, int line) const {
   return mValueStore;
 }
 

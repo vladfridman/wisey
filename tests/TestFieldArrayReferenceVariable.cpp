@@ -106,7 +106,7 @@ TEST_F(FieldArrayReferenceVariableTest, basicFieldsTest) {
 }
 
 TEST_F(FieldArrayReferenceVariableTest, generateIdentifierIRTest) {
-  mFieldArrayReferenceVariable->generateIdentifierIR(mContext);
+  mFieldArrayReferenceVariable->generateIdentifierIR(mContext, 0);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
@@ -118,7 +118,7 @@ TEST_F(FieldArrayReferenceVariableTest, generateIdentifierIRTest) {
 }
 
 TEST_F(FieldArrayReferenceVariableTest, generateIdentifierReferenceIRTest) {
-  mFieldArrayReferenceVariable->generateIdentifierReferenceIR(mContext);
+  mFieldArrayReferenceVariable->generateIdentifierReferenceIR(mContext, 0);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +

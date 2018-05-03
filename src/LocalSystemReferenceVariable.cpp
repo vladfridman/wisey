@@ -49,17 +49,18 @@ bool LocalSystemReferenceVariable::isSystem() const {
   return true;
 }
 
-Value* LocalSystemReferenceVariable::generateIdentifierIR(IRGenerationContext& context) const {
+Value* LocalSystemReferenceVariable::generateIdentifierIR(IRGenerationContext& context,
+                                                          int line) const {
   if (!mIsInitialized) {
-    Log::e_deprecated("System variable '" + mName + "' is not initialized");
+    context.reportError(line, "System variable '" + mName + "' is not initialized");
     exit(1);
   }
   
   return IRWriter::newLoadInst(context, mValueStore, "");
 }
 
-Value* LocalSystemReferenceVariable::generateIdentifierReferenceIR(IRGenerationContext&
-                                                                   context) const {
+Value* LocalSystemReferenceVariable::generateIdentifierReferenceIR(IRGenerationContext& context,
+                                                                   int line) const {
   return mValueStore;
 }
 

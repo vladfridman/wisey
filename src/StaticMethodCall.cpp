@@ -90,9 +90,9 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
   
   if (!methodDescriptor->isNative()) {
     IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
-    Value* threadObject = threadVariable->generateIdentifierIR(context);
+    Value* threadObject = threadVariable->generateIdentifierIR(context, mLine);
     IVariable* callStackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
-    Value* callStackObject = callStackVariable->generateIdentifierIR(context);
+    Value* callStackObject = callStackVariable->generateIdentifierIR(context, mLine);
     arguments.push_back(threadObject);
     arguments.push_back(callStackObject);
   }

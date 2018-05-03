@@ -80,7 +80,7 @@ TEST_F(ParameterPointerVariableTest, assignmentDeathTest) {
 }
 
 TEST_F(ParameterPointerVariableTest, generateIdentifierIRTest) {
-  EXPECT_EQ(mVariableValue, mVariable->generateIdentifierIR(mContext));
+  EXPECT_EQ(mVariableValue, mVariable->generateIdentifierIR(mContext, 0));
 }
 
 TEST_F(TestFileRunner, parameterPointerVariableRunTest) {

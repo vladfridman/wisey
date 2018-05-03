@@ -71,7 +71,7 @@ TEST_F(ParameterLLVMVariableTest, generateIdentifierIRTest) {
   Value* fooValueStore = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
   ParameterLLVMVariable variable("foo", LLVMPrimitiveTypes::I32, fooValueStore);
   
-  EXPECT_EQ(fooValueStore, variable.generateIdentifierIR(mContext));
+  EXPECT_EQ(fooValueStore, variable.generateIdentifierIR(mContext, 0));
 }
 
 TEST_F(ParameterLLVMVariableTest, parameterReferenceVariableAssignmentDeathTest) {
@@ -88,7 +88,7 @@ TEST_F(ParameterLLVMVariableTest, parameterReferenceVariableIdentifierTest) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
   ParameterLLVMVariable variable("foo", LLVMPrimitiveTypes::I32, fooValue);
   
-  EXPECT_EQ(variable.generateIdentifierIR(mContext), fooValue);
+  EXPECT_EQ(variable.generateIdentifierIR(mContext, 0), fooValue);
 }
 
 TEST_F(TestFileRunner, parameterLLVMVariableRunTest) {

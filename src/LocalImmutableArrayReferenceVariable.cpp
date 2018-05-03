@@ -45,13 +45,14 @@ bool LocalImmutableArrayReferenceVariable::isSystem() const {
   return false;
 }
 
-llvm::Value* LocalImmutableArrayReferenceVariable::
-generateIdentifierIR(IRGenerationContext& context) const {
+llvm::Value* LocalImmutableArrayReferenceVariable::generateIdentifierIR(IRGenerationContext&
+                                                                        context,
+                                                                        int line) const {
   return IRWriter::newLoadInst(context, mValueStore, "");
 }
 
 llvm::Value* LocalImmutableArrayReferenceVariable::
-generateIdentifierReferenceIR(IRGenerationContext& context) const {
+generateIdentifierReferenceIR(IRGenerationContext& context, int line) const {
   return mValueStore;
 }
 

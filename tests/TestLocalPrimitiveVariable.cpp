@@ -126,7 +126,7 @@ TEST_F(LocalPrimitiveVariableTest, generateIdentifierIRTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), "foo");
   LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT, alloc);
   
-  variable.generateIdentifierIR(mContext);
+  variable.generateIdentifierIR(mContext, 0);
 
   ASSERT_EQ(2ul, mBasicBlock->size());
   
@@ -145,7 +145,7 @@ TEST_F(LocalPrimitiveVariableTest, generateIdentifierReferenceIRTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), "foo");
   LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT, alloc);
   
-  EXPECT_EQ(alloc, variable.generateIdentifierReferenceIR(mContext));
+  EXPECT_EQ(alloc, variable.generateIdentifierReferenceIR(mContext, 0));
 }
 
 TEST_F(TestFileRunner, assignmentWithAutocastRunTest) {
