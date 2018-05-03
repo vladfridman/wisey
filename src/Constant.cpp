@@ -54,7 +54,7 @@ void Constant::printToStream(IRGenerationContext& context, iostream& stream) con
 llvm::Value* Constant::generateIR(IRGenerationContext& context,
                                   const IObjectType* objectType) const {
   if (!mExpression->isConstant()) {
-    Log::e_deprecated("Constant is initialized with a non-constant expression");
+    context.reportError(mLine, "Constant is initialized with a non-constant expression");
     exit(1);
   }
   

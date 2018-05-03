@@ -16,6 +16,7 @@
 #include "MockExpression.hpp"
 #include "MockObjectType.hpp"
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/Constant.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -44,6 +45,8 @@ public:
   mExpression(new NiceMock<MockExpression>()),
   mObject(new NiceMock<MockObjectType>()),
   mName("MYCONSTANT") {
+    TestPrefix::generateIR(mContext);
+    
     ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
     ON_CALL(*mExpression, isConstant()).WillByDefault(Return(true));
     ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
@@ -51,7 +54,7 @@ public:
     ON_CALL(*mExpression, generateIR(_, _)).WillByDefault(Return(constantInt));
     ON_CALL(*mObject, getTypeName()).WillByDefault(Return("MObject"));
 
-    mConstant = new Constant(PUBLIC_ACCESS, PrimitiveTypes::INT, mName, mExpression, 0);
+    mConstant = new Constant(PUBLIC_ACCESS, PrimitiveTypes::INT, mName, mExpression, 3);
   }
   
   ~ConstantTest() {
@@ -98,7 +101,7 @@ TEST_F(ConstantTest, generateIRForNonConstantExpressionDeathTest) {
 
   EXPECT_EXIT(mConstant->generateIR(mContext, mObject),
               ::testing::ExitedWithCode(1),
-              "Error: Constant is initialized with a non-constant expression");
+              "/tmp/source.yz\\(3\\): Error: Constant is initialized with a non-constant expression");
 }
 
 TEST_F(ConstantTest, printPublicConstantToStreamTest) {
@@ -119,5 +122,5 @@ TEST_F(ConstantTest, printPrivateConstantToStreamTest) {
 TEST_F(TestFileRunner, constantInitializedWithNonConstantDeathRunTest) {
   expectFailCompile("tests/samples/test_constant_initialized_with_non_constant.yz",
                     1,
-                    "Error: Constant is initialized with a non-constant expression");
+                    "tests/samples/test_constant_initialized_with_non_constant.yz\\(4\\): Error: Constant is initialized with a non-constant expression");
 }
