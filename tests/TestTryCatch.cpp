@@ -79,8 +79,8 @@ TEST_F(TestFileRunner, tryCatchAccessTryVariableDeathRunTest) {
 TEST_F(TestFileRunner, tryCatchNestedDeathRunTest) {
   expectFailCompile("tests/samples/test_try_catch_nested.yz",
                     1,
-                    "Error: Nested try blocks are not allowed. "
-                    "Extract inner try/catch into a method.");
+                    "tests/samples/test_try_catch_nested.yz\\(38\\): Error: "
+                    "Nested try blocks are not allowed. Extract inner try/catch into a method.");
 }
 
 TEST_F(TestFileRunner, tryCatchWithNpeDeathRunTest) {

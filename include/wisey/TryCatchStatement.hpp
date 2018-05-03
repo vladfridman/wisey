@@ -24,10 +24,13 @@ namespace wisey {
   class TryCatchStatement : public IStatement {
     CompoundStatement* mTryCompoundStatement;
     std::vector<Catch*> mCatchList;
+    int mLine;
     
   public:
     
-    TryCatchStatement(CompoundStatement* tryCompoundStatement, std::vector<Catch*> catchList);
+    TryCatchStatement(CompoundStatement* tryCompoundStatement,
+                      std::vector<Catch*> catchList,
+                      int line);
     
     ~TryCatchStatement();
     

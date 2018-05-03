@@ -21,9 +21,11 @@ using namespace std;
 using namespace wisey;
 
 TryCatchStatement::TryCatchStatement(CompoundStatement* tryCompoundStatement,
-                                     vector<Catch*> catchList) :
+                                     vector<Catch*> catchList,
+                                     int line) :
 mTryCompoundStatement(tryCompoundStatement),
-mCatchList(catchList) { }
+mCatchList(catchList),
+mLine(line) { }
 
 TryCatchStatement::~TryCatchStatement() {
   delete mTryCompoundStatement;
@@ -35,7 +37,8 @@ TryCatchStatement::~TryCatchStatement() {
 
 void TryCatchStatement::generateIR(IRGenerationContext& context) const {
   if (context.getScopes().getTryCatchInfo()) {
-    Log::e_deprecated("Nested try blocks are not allowed. Extract inner try/catch into a method.");
+    context.reportError(mLine, "Nested try blocks are not allowed. "
+                        "Extract inner try/catch into a method.");
     exit(1);
   }
   

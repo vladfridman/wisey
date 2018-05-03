@@ -1191,7 +1191,7 @@ throw_statement
 
 try_catch_statement
   : TTRY compound_statement catch_block { 
-    $$ = new TryCatchStatement($2, *$3); delete $3; 
+    $$ = new TryCatchStatement($2, *$3, yylineno); delete $3; 
   }
   ;
 
