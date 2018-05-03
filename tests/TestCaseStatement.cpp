@@ -19,6 +19,7 @@
 
 #include "MockExpression.hpp"
 #include "MockStatement.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/Block.hpp"
 #include "wisey/CaseStatement.hpp"
 #include "wisey/FloatConstant.hpp"
@@ -41,13 +42,14 @@ struct CaseStatementTest : public Test {
   NiceMock<MockExpression>* mExpression;
   
   CaseStatementTest() : mStatementBlock(new Block()), mExpression(new NiceMock<MockExpression>()) {
+    TestPrefix::generateIR(mContext);
   }
 };
 
 TEST_F(CaseStatementTest, statementsGetGeneratedTest) {
   NiceMock<MockStatement>* statement = new NiceMock<MockStatement>();
   mStatementBlock->getStatements().push_back(statement);
-  CaseStatement* caseStatement = CaseStatement::newCaseStatement(mExpression, mStatementBlock);
+  CaseStatement* caseStatement = CaseStatement::newCaseStatement(mExpression, mStatementBlock, 0);
   
   EXPECT_CALL(*statement, generateIR(_));
   
@@ -57,7 +59,7 @@ TEST_F(CaseStatementTest, statementsGetGeneratedTest) {
 
 TEST_F(CaseStatementTest, constantIntExpressionWorksTest) {
   IntConstant* expression = new IntConstant(5l, 0);
-  CaseStatement* caseStatement = CaseStatement::newCaseStatement(expression, mStatementBlock);
+  CaseStatement* caseStatement = CaseStatement::newCaseStatement(expression, mStatementBlock, 0);
   
   Value* expected = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
   
@@ -67,20 +69,20 @@ TEST_F(CaseStatementTest, constantIntExpressionWorksTest) {
 
 TEST_F(CaseStatementTest, nonIntExpressionDeathTest) {
   FloatConstant* expression = new FloatConstant(5.2f, 0);
-  CaseStatement* caseStatement = CaseStatement::newCaseStatement(expression, mStatementBlock);
+  CaseStatement* caseStatement = CaseStatement::newCaseStatement(expression, mStatementBlock, 5);
   
   Mock::AllowLeak(expression);
   Mock::AllowLeak(mStatementBlock);
   
   EXPECT_EXIT(caseStatement->getExpressionValue(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: Case expression should be an integer constant");
+              "/tmp/source.yz\\(5\\): Error: Case expression should be an integer constant");
   
   delete caseStatement;
 }
 
 TEST_F(CaseStatementTest, statementsIsNotMarkedFallThroughTest) {
-  CaseStatement* caseStatement = CaseStatement::newCaseStatement(mExpression, mStatementBlock);
+  CaseStatement* caseStatement = CaseStatement::newCaseStatement(mExpression, mStatementBlock, 0);
   
   EXPECT_EQ(false, caseStatement->isFallThrough());
   
@@ -90,7 +92,7 @@ TEST_F(CaseStatementTest, statementsIsNotMarkedFallThroughTest) {
 
 TEST_F(CaseStatementTest, statementsIsMarkedFallThroughTest) {
   CaseStatement* caseStatementWithFallThrough =
-    CaseStatement::newCaseStatementWithFallThrough(mExpression, mStatementBlock);
+    CaseStatement::newCaseStatementWithFallThrough(mExpression, mStatementBlock, 0);
   
   EXPECT_EQ(true, caseStatementWithFallThrough->isFallThrough());
   

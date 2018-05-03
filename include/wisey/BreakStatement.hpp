@@ -19,10 +19,11 @@ namespace wisey {
    * Represents a break statement used inside loops and switch statements
    */
   class BreakStatement : public IStatement {
+    int mLine;
     
   public:
     
-    BreakStatement();
+    BreakStatement(int line);
     
     ~BreakStatement();
     

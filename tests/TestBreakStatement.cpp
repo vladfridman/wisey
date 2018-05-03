@@ -37,5 +37,5 @@ TEST_F(TestFileRunner, breakOutOfWhileLoopRunTest) {
 TEST_F(TestFileRunner, breakOutOfIfStatementRunDeathTest) {
   expectFailCompile("tests/samples/test_break_out_of_if_statement.yz",
                     1,
-                    "Error: break statement not inside a loop or a switch");
+                    "tests/samples/test_break_out_of_if_statement.yz\\(10\\): Error: break statement not inside a loop or a switch");
 }

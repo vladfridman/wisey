@@ -13,7 +13,7 @@
 using namespace llvm;
 using namespace wisey;
 
-ContinueStatement::ContinueStatement() { }
+ContinueStatement::ContinueStatement(int line) : mLine(line) { }
 
 ContinueStatement::~ContinueStatement() { }
 
@@ -21,7 +21,7 @@ void ContinueStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* continueToBlock = context.getScopes().getContinueToBlock();
   
   if (continueToBlock == NULL) {
-    Log::e_deprecated("continue statement not inside a loop");
+    context.reportError(mLine, "continue statement not inside a loop");
     exit(1);
   }
   IRWriter::createBranch(context, continueToBlock);

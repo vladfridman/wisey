@@ -13,8 +13,8 @@
 using namespace llvm;
 using namespace wisey;
 
-CaseStatement::CaseStatement(IExpression* expression, Block* block, bool isFallThrough)
-: mExpression(expression), mBlock(block), mIsFallThrough(isFallThrough) { }
+CaseStatement::CaseStatement(IExpression* expression, Block* block, bool isFallThrough, int line)
+: mExpression(expression), mBlock(block), mIsFallThrough(isFallThrough), mLine(line) { }
 
 CaseStatement::~CaseStatement() {
   delete mExpression;
@@ -32,18 +32,19 @@ bool CaseStatement::isFallThrough() const {
 ConstantInt* CaseStatement::getExpressionValue(IRGenerationContext& context) const {
   Value* value = mExpression->generateIR(context, PrimitiveTypes::VOID);
   if (!ConstantInt::classof(value)) {
-    Log::e_deprecated("Case expression should be an integer constant");
+    context.reportError(mLine, "Case expression should be an integer constant");
     exit(1);
   }
   
   return (ConstantInt*) value;
 }
 
-CaseStatement* CaseStatement::newCaseStatement(IExpression* expression, Block* block) {
-  return new CaseStatement(expression, block, false);
+CaseStatement* CaseStatement::newCaseStatement(IExpression* expression, Block* block, int line) {
+  return new CaseStatement(expression, block, false, line);
 }
 
 CaseStatement* CaseStatement::newCaseStatementWithFallThrough(IExpression* expression,
-                                                              Block* block) {
-  return new CaseStatement(expression, block, true);
+                                                              Block* block,
+                                                              int line) {
+  return new CaseStatement(expression, block, true, line);
 }

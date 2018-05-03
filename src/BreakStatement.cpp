@@ -13,7 +13,7 @@
 using namespace llvm;
 using namespace wisey;
 
-BreakStatement::BreakStatement() { }
+BreakStatement::BreakStatement(int line) : mLine(line) { }
 
 BreakStatement::~BreakStatement() { }
 
@@ -21,7 +21,7 @@ void BreakStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* breackToBlock = context.getScopes().getBreakToBlock();
   
   if (breackToBlock == NULL) {
-    Log::e_deprecated("break statement not inside a loop or a switch");
+    context.reportError(mLine, "break statement not inside a loop or a switch");
     exit(1);
   }
   IRWriter::createBranch(context, breackToBlock);

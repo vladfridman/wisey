@@ -24,8 +24,9 @@ namespace wisey {
     IExpression* mExpression;
     Block* mBlock;
     bool mIsFallThrough;
+    int mLine;
     
-    CaseStatement(IExpression* expression, Block* block, bool isFallThrough);
+    CaseStatement(IExpression* expression, Block* block, bool isFallThrough, int line);
     
   public:
     
@@ -44,12 +45,14 @@ namespace wisey {
     /**
      * Create a CASE statement
      */
-    static CaseStatement * newCaseStatement(IExpression* expression, Block* block);
+    static CaseStatement * newCaseStatement(IExpression* expression, Block* block, int line);
     
     /**
      * Create a CASE statement with FALLTHROUGH
      */
-    static CaseStatement * newCaseStatementWithFallThrough(IExpression* expression, Block* block);
+    static CaseStatement * newCaseStatementWithFallThrough(IExpression* expression,
+                                                           Block* block,
+                                                           int line);
     
   };
   

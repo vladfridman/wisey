@@ -1143,9 +1143,9 @@ case_statement_list
 
 case_statement
   : TCASE expression ':' block_item_list
-    { $$ = CaseStatement::newCaseStatement($2, $4); }
+    { $$ = CaseStatement::newCaseStatement($2, $4, yylineno); }
   | TCASE expression ':' block_item_list TFALLTHROUGH ';'
-    { $$ = CaseStatement::newCaseStatementWithFallThrough($2, $4); }
+    { $$ = CaseStatement::newCaseStatementWithFallThrough($2, $4, yylineno); }
   ;
 
 default_case_statement
@@ -1179,8 +1179,8 @@ iteration_statement
   ;
 
 jump_statement
-  : TCONTINUE ';' { $$ = new ContinueStatement(); }
-  | TBREAK ';' { $$ = new BreakStatement(); }
+  : TCONTINUE ';' { $$ = new ContinueStatement(yylineno); }
+  | TBREAK ';' { $$ = new BreakStatement(yylineno); }
   | TRETURN ';' { $$ =  new ReturnVoidStatement(yylineno); }
   | TRETURN expression ';' { $$ = new ReturnStatement($2, yylineno); }
   ;

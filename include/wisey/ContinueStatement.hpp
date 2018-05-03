@@ -19,10 +19,11 @@ namespace wisey {
    * Represents a continue statement used inside loops
    */
   class ContinueStatement : public IStatement {
+    int mLine;
     
   public:
     
-    ContinueStatement();
+    ContinueStatement(int line);
     
     ~ContinueStatement();
     
