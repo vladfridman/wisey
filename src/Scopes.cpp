@@ -85,10 +85,7 @@ void Scopes::popScope(IRGenerationContext& context, int line) {
 }
 
 Scope* Scopes::getScope() {
-  if (mScopes.size() == 0) {
-    Log::e_deprecated("Can not get scope. Scope list is empty.");
-    exit(1);
-  }
+  assert(mScopes.size() && "Scope list is empty");
   return mScopes.front();
 }
 

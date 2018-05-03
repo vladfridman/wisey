@@ -122,12 +122,6 @@ TEST_F(ScopesTest, returnTypeTest) {
   EXPECT_EQ(returnType, PrimitiveTypes::DOUBLE);
 }
 
-TEST_F(ScopesTest, getScopeDeathTest) {
-  EXPECT_EXIT(mScopes.getScope(),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not get scope. Scope list is empty.");
-}
-
 TEST_F(ScopesTest, getScopeTest) {
   mScopes.pushScope();
   Scope* scope = mScopes.getScope();
