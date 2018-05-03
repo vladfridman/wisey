@@ -50,7 +50,7 @@ Value* LogicalAndExpression::generateIR(IRGenerationContext& context,
   
   BasicBlock* basicBlockRight = BasicBlock::Create(context.getLLVMContext(), "land.rhs", function);
   BasicBlock* basicBlockEnd = BasicBlock::Create(context.getLLVMContext(), "land.end", function);
-  IRWriter::createConditionalBranch(context, basicBlockRight, basicBlockEnd, leftValueCast);
+  IRWriter::createConditionalBranch(context, basicBlockRight, basicBlockEnd, leftValueCast, mLine);
   
   context.setBasicBlock(basicBlockRight);
   Value* rightValue = mRightExpression->generateIR(context, assignToType);
@@ -60,7 +60,7 @@ Value* LogicalAndExpression::generateIR(IRGenerationContext& context,
                                              PrimitiveTypes::BOOLEAN,
                                              mRightExpression->getLine());
   BasicBlock* lastRightBlock = context.getBasicBlock();
-  IRWriter::createBranch(context, basicBlockEnd);
+  IRWriter::createBranch(context, basicBlockEnd, mLine);
   
   context.setBasicBlock(basicBlockEnd);
   Type* type = Type::getInt1Ty(context.getLLVMContext());

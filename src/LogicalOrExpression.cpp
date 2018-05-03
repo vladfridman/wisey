@@ -50,7 +50,7 @@ Value* LogicalOrExpression::generateIR(IRGenerationContext& context,
   
   BasicBlock* basicBlockRight = BasicBlock::Create(context.getLLVMContext(), "lor.rhs", function);
   BasicBlock* basicBlockEnd = BasicBlock::Create(context.getLLVMContext(), "lor.end", function);
-  IRWriter::createConditionalBranch(context, basicBlockEnd, basicBlockRight, leftValueCast);
+  IRWriter::createConditionalBranch(context, basicBlockEnd, basicBlockRight, leftValueCast, mLine);
   
   context.setBasicBlock(basicBlockRight);
   Value* rightValue = mRightExpression->generateIR(context, assignToType);
@@ -60,7 +60,7 @@ Value* LogicalOrExpression::generateIR(IRGenerationContext& context,
                                               PrimitiveTypes::BOOLEAN,
                                               mRightExpression->getLine());
   BasicBlock* lastRightBlock = context.getBasicBlock();
-  IRWriter::createBranch(context, basicBlockEnd);
+  IRWriter::createBranch(context, basicBlockEnd, mLine);
   
   context.setBasicBlock(basicBlockEnd);
   Type* type = Type::getInt1Ty(context.getLLVMContext());

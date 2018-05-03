@@ -360,7 +360,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   BasicBlock* ifThisIsNullBlock = BasicBlock::Create(llvmContext, "if.this.null", function);
   BasicBlock* ifThisIsNotNullBlock = BasicBlock::Create(llvmContext, "if.this.notnull", function);
   
-  IRWriter::createConditionalBranch(context, ifThisIsNullBlock, ifThisIsNotNullBlock, isNull);
+  IRWriter::createConditionalBranch(context, ifThisIsNullBlock, ifThisIsNotNullBlock, isNull, 0);
   
   context.setBasicBlock(ifThisIsNullBlock);
   IRWriter::createReturnInst(context, NULL, 0);
@@ -387,7 +387,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   BasicBlock* refCountNotZeroBlock = BasicBlock::Create(llvmContext, "ref.count.notzero", function);
   llvm::Constant* zero = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
   Value* isZero = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, referenceCount, zero, "");
-  IRWriter::createConditionalBranch(context, refCountZeroBlock, refCountNotZeroBlock, isZero);
+  IRWriter::createConditionalBranch(context, refCountZeroBlock, refCountNotZeroBlock, isZero, 0);
   
   context.setBasicBlock(refCountNotZeroBlock);
   

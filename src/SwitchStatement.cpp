@@ -72,7 +72,11 @@ void SwitchStatement::generateCasesIR(IRGenerationContext& context,
     
     context.setBasicBlock(currentCaseBlock);
     caseStatement->generateIR(context);
-    IRWriter::createBranch(context, caseStatement->isFallThrough() ? nextCaseBlock : switchEpilog);
+    if (!context.getBasicBlock()->getTerminator()) {
+      IRWriter::createBranch(context,
+                             caseStatement->isFallThrough() ? nextCaseBlock : switchEpilog,
+                             caseStatement->getLine());
+    }
     
     switchInstruction->addCase(caseStatement->getExpressionValue(context), currentCaseBlock);
   }
@@ -88,7 +92,9 @@ void SwitchStatement::generateDefaultCaseIR(IRGenerationContext& context,
   
   context.setBasicBlock(switchDefault);
   mSwitchCases->defaultStatement->generateIR(context);
-  IRWriter::createBranch(context, switchEpilog);
+  if (!context.getBasicBlock()->getTerminator()) {
+    IRWriter::createBranch(context, switchEpilog, mSwitchCases->defaultStatement->getLine());
+  }
 }
 
 int SwitchStatement::getLine() const {

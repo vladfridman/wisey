@@ -34,11 +34,17 @@ void IfStatement::generateIR(IRGenerationContext& context) const {
                                                   conditionValue,
                                                   PrimitiveTypes::BOOLEAN,
                                                   mCondition->getLine());
-  IRWriter::createConditionalBranch(context, ifThen, ifEnd, castConditionValue);
+  IRWriter::createConditionalBranch(context,
+                                    ifThen,
+                                    ifEnd,
+                                    castConditionValue,
+                                    mCondition->getLine());
   
   context.setBasicBlock(ifThen);
   mThenStatement->generateIR(context);
-  IRWriter::createBranch(context, ifEnd);
+  if (!context.getBasicBlock()->getTerminator()) {
+    IRWriter::createBranch(context, ifEnd, mCondition->getLine());
+  }
   
   context.setBasicBlock(ifEnd);
 }

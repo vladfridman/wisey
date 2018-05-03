@@ -902,7 +902,7 @@ void Interface::composeEmptyInjectFunction(IRGenerationContext& context,
                                            actualInjectFunction,
                                            null,
                                            "");
-  IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
+  IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition, 0);
   
   context.setBasicBlock(ifNotNullBlock);
   vector<Value*> callArguments;

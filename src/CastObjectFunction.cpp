@@ -106,7 +106,7 @@ void CastObjectFunction::compose(IRGenerationContext& context, llvm::Function* f
   Value* null = ConstantPointerNull::get(Type::getInt8Ty(llvmContext)->getPointerTo());
   Value* condition =
   IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, fromObjectValue, null, "isNull");
-  IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
+  IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition, 0);
   
   context.setBasicBlock(ifNullBlock);
   IRWriter::createReturnInst(context, null, 0);
@@ -117,7 +117,7 @@ void CastObjectFunction::compose(IRGenerationContext& context, llvm::Function* f
   ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   ICmpInst* compareLessThanZero =
   IRWriter::newICmpInst(context, ICmpInst::ICMP_SLT, instanceof, zero, "cmp");
-  IRWriter::createConditionalBranch(context, lessThanZero, notLessThanZero, compareLessThanZero);
+  IRWriter::createConditionalBranch(context, lessThanZero, notLessThanZero, compareLessThanZero, 0);
   
   context.setBasicBlock(lessThanZero);
   Value* fromTypeName = GetOriginalObjectNameFunction::call(context, fromObjectValue);
@@ -147,7 +147,7 @@ void CastObjectFunction::compose(IRGenerationContext& context, llvm::Function* f
   context.setBasicBlock(notLessThanZero);
   ICmpInst* compareGreaterThanZero =
   IRWriter::newICmpInst(context, ICmpInst::ICMP_SGT, instanceof, zero, "cmp");
-  IRWriter::createConditionalBranch(context, moreThanZero, zeroExactly, compareGreaterThanZero);
+  IRWriter::createConditionalBranch(context, moreThanZero, zeroExactly, compareGreaterThanZero, 0);
   
   context.setBasicBlock(moreThanZero);
   ConstantInt* bytes = ConstantInt::get(Type::getInt32Ty(llvmContext),

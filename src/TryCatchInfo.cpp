@@ -86,9 +86,9 @@ bool TryCatchInfo::composeLandingPadBlock(IRGenerationContext& context,
   LLVMContext& llvmContext = context.getLLVMContext();
   Function* function = landingPadBlock->getParent();
   BasicBlock* landingPadContinue = BasicBlock::Create(llvmContext, "eh.landing.pad.cont", function);
-  IRWriter::createBranch(context, freeTryMemoryBlock);
+  IRWriter::createBranch(context, freeTryMemoryBlock, 0);
   context.setBasicBlock(freeTryMemoryBlock);
-  IRWriter::createBranch(context, landingPadContinue);
+  IRWriter::createBranch(context, landingPadContinue, 0);
   
   vector<tuple<Catch*, BasicBlock*>> catchesAndBlocks =
   generateSelectCatchByExceptionType(context, exceptionTypeId, catchList, landingPadContinue);
@@ -151,7 +151,7 @@ void TryCatchInfo::generateResumeAndFail(IRGenerationContext& context,
   ICmpInst* compare = IRWriter::newICmpInst(context, ICmpInst::ICMP_SLT, exceptionTypeId, zero, "");
   BasicBlock* unexpectedBlock = BasicBlock::Create(llvmContext, "unexpected", function);
   BasicBlock* resumeBlock = BasicBlock::Create(llvmContext, "resume", function);
-  IRWriter::createConditionalBranch(context, unexpectedBlock, resumeBlock, compare);
+  IRWriter::createConditionalBranch(context, unexpectedBlock, resumeBlock, compare, 0);
   
   Function* unexpectedFunction = IntrinsicFunctions::getUnexpectedFunction(context);
   vector<Value*> arguments;
@@ -195,7 +195,7 @@ TryCatchInfo::generateSelectCatchByExceptionType(IRGenerationContext& context,
     catchesAndBlocks.push_back(make_tuple(catchClause, catchBlock));
     string nextBlockName = "not." + exceptionType->getReference()->getTypeName();
     BasicBlock* nextBlock = BasicBlock::Create(llvmContext, nextBlockName, function);
-    IRWriter::createConditionalBranch(context, catchBlock, nextBlock, compare);
+    IRWriter::createConditionalBranch(context, catchBlock, nextBlock, compare, 0);
     currentBlock = nextBlock;
   }
   

@@ -56,7 +56,9 @@ void TryCatchStatement::generateIR(IRGenerationContext& context) const {
   bool doesTryBlockTerminate = context.getBasicBlock()->getTerminator() != NULL;
   bool doAllCatchesTerminate = context.getScopes().endTryCatch(context);
 
-  IRWriter::createBranch(context, continueBlock);
+  if (!doesTryBlockTerminate || !doAllCatchesTerminate) {
+    IRWriter::createBranch(context, continueBlock, mLine);
+  }
   
   context.setBasicBlock(continueBlock);
   if (doesTryBlockTerminate && doAllCatchesTerminate) {

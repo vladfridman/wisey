@@ -114,13 +114,13 @@ void ArrayAllocation::initializeEmptyArray(IRGenerationContext& context,
   Value* int8ArrayPointer = IRWriter::newBitCastInst(context, arrayPointer, int8ArrayType);
   Value* indexStore = IRWriter::newAllocaInst(context, int64Type, "index");
   IRWriter::newStoreInst(context, zero, indexStore);
-  IRWriter::createBranch(context, forCond);
+  IRWriter::createBranch(context, forCond, 0);
   
   context.setBasicBlock(forCond);
   
   Value* indexValue = IRWriter::newLoadInst(context, indexStore, "index");
   Value* compare = IRWriter::newICmpInst(context, ICmpInst::ICMP_SLT, indexValue, sizeValue, "cmp");
-  IRWriter::createConditionalBranch(context, forBody, forEnd, compare);
+  IRWriter::createConditionalBranch(context, forBody, forEnd, compare, 0);
   
   context.setBasicBlock(forBody);
   
@@ -139,7 +139,7 @@ void ArrayAllocation::initializeEmptyArray(IRGenerationContext& context,
                                                    one,
                                                    "indexIncrement");
   IRWriter::newStoreInst(context, newIndex, indexStore);
-  IRWriter::createBranch(context, forCond);
+  IRWriter::createBranch(context, forCond, 0);
   
   context.setBasicBlock(forEnd);
 }

@@ -28,18 +28,21 @@ void DoStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* doCond = BasicBlock::Create(context.getLLVMContext(), "do.cond", function);
   BasicBlock* doBody = BasicBlock::Create(context.getLLVMContext(), "do.body", function);
   BasicBlock* doEnd = BasicBlock::Create(context.getLLVMContext(), "do.end", function);
+  int line = mConditionExpression->getLine();
   
-  IRWriter::createBranch(context, doBody);
+  IRWriter::createBranch(context, doBody, line);
   
   context.setBasicBlock(doBody);
   scopes.setBreakToBlock(doEnd);
   scopes.setContinueToBlock(doBody);
   mStatement->generateIR(context);
-  IRWriter::createBranch(context, doCond);
+  if (!context.getBasicBlock()->getTerminator()) {
+    IRWriter::createBranch(context, doCond, line);
+  }
   
   context.setBasicBlock(doCond);
   Value* conditionValue = mConditionExpression->generateIR(context, PrimitiveTypes::VOID);
-  IRWriter::createConditionalBranch(context, doBody, doEnd, conditionValue);
+  IRWriter::createConditionalBranch(context, doBody, doEnd, conditionValue, line);
   
   scopes.setBreakToBlock(NULL);
   scopes.setContinueToBlock(NULL);

@@ -29,11 +29,12 @@ void WhileStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* whileCond = BasicBlock::Create(context.getLLVMContext(), "while.cond", function);
   BasicBlock* whileBody = BasicBlock::Create(context.getLLVMContext(), "while.body", function);
   BasicBlock* whileEnd = BasicBlock::Create(context.getLLVMContext(), "while.end", function);
+  int line = mConditionExpression->getLine();
   
-  IRWriter::createBranch(context, whileCond);
+  IRWriter::createBranch(context, whileCond, mConditionExpression->getLine());
   context.setBasicBlock(whileCond);
   Value* conditionValue = mConditionExpression->generateIR(context, PrimitiveTypes::VOID);
-  IRWriter::createConditionalBranch(context, whileBody, whileEnd, conditionValue);
+  IRWriter::createConditionalBranch(context, whileBody, whileEnd, conditionValue, line);
   
   context.setBasicBlock(whileBody);
   scopes.setBreakToBlock(whileEnd);
@@ -42,7 +43,9 @@ void WhileStatement::generateIR(IRGenerationContext& context) const {
   scopes.setBreakToBlock(NULL);
   scopes.setContinueToBlock(NULL);
 
-  IRWriter::createBranch(context, whileCond);
+  if (!context.getBasicBlock()->getTerminator()) {
+    IRWriter::createBranch(context, whileCond, line);
+  }
 
   context.setBasicBlock(whileEnd);
 }

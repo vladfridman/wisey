@@ -36,7 +36,8 @@ namespace wisey {
      * Create a conditional branch if the current basic block does not already have a terminator
      */
     static llvm::BranchInst* createBranch(IRGenerationContext& context,
-                                          llvm::BasicBlock* toBlock);
+                                          llvm::BasicBlock* toBlock,
+                                          int line);
     
     /**
      * Create a conditional branch if the current basic block does not already have a terminator
@@ -44,7 +45,8 @@ namespace wisey {
     static llvm::BranchInst* createConditionalBranch(IRGenerationContext& context,
                                                      llvm::BasicBlock* ifTrueBlock,
                                                      llvm::BasicBlock* ifFalseBlock,
-                                                     llvm::Value* condition);
+                                                     llvm::Value* condition,
+                                                     int line);
     
     /**
      * Create binary operator which could be an addition, multiplications, etc.

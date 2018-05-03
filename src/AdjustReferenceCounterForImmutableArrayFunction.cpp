@@ -88,7 +88,7 @@ void AdjustReferenceCounterForImmutableArrayFunction::compose(IRGenerationContex
   context.setBasicBlock(entryBlock);
   Value* null = ConstantPointerNull::get(Type::getInt8Ty(llvmContext)->getPointerTo());
   Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, array, null, "");
-  IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
+  IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition, 0);
   
   context.setBasicBlock(ifNullBlock);
   IRWriter::createReturnInst(context, NULL, 0);

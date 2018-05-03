@@ -78,7 +78,7 @@ void DestroyObjectOwnerFunction::compose(IRGenerationContext& context, Function*
   
   Value* nullValue = ConstantPointerNull::get(int8Type->getPointerTo());
   Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, thisGeneric, nullValue, "");
-  IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
+  IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition, 0);
   
   context.setBasicBlock(ifNullBlock);
   IRWriter::createReturnInst(context, NULL, 0);

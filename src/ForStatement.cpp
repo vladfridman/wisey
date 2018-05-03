@@ -44,11 +44,15 @@ void ForStatement::generateIR(IRGenerationContext& context) const {
   scopes.pushScope();
   
   mStartStatement->generateIR(context);
-  IRWriter::createBranch(context, forCond);
+  IRWriter::createBranch(context, forCond, mConditionExpression->getLine());
   
   context.setBasicBlock(forCond);
   Value* conditionValue = mConditionExpression->generateIR(context, PrimitiveTypes::VOID);
-  IRWriter::createConditionalBranch(context, forBody, forEnd, conditionValue);
+  IRWriter::createConditionalBranch(context,
+                                    forBody,
+                                    forEnd,
+                                    conditionValue,
+                                    mConditionExpression->getLine());
   
   scopes.setBreakToBlock(forEnd);
   scopes.setContinueToBlock(forInc);
@@ -57,11 +61,13 @@ void ForStatement::generateIR(IRGenerationContext& context) const {
   scopes.setBreakToBlock(NULL);
   scopes.setContinueToBlock(NULL);
 
-  IRWriter::createBranch(context, forInc);
+  if (!context.getBasicBlock()->getTerminator()) {
+    IRWriter::createBranch(context, forInc, mIncrementExpression->getLine());
+  }
   context.setBasicBlock(forInc);
   mIncrementExpression->generateIR(context, PrimitiveTypes::VOID);
 
-  IRWriter::createBranch(context, forCond);
+  IRWriter::createBranch(context, forCond, mBodyStatement->getLine());
   context.setBasicBlock(forEnd);
   
   scopes.popScope(context, mLine);

@@ -24,7 +24,7 @@ void BreakStatement::generateIR(IRGenerationContext& context) const {
     context.reportError(mLine, "break statement not inside a loop or a switch");
     exit(1);
   }
-  IRWriter::createBranch(context, breackToBlock);
+  IRWriter::createBranch(context, breackToBlock, mLine);
 }
 
 int BreakStatement::getLine() const {

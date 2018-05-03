@@ -64,17 +64,12 @@ TEST_F(IRWriterTest, createReturnInstTest) {
 
 TEST_F(IRWriterTest, createBranchTest) {
   BasicBlock* block1 = BasicBlock::Create(mLLVMContext, "block1");
-  BasicBlock* block2 = BasicBlock::Create(mLLVMContext, "block2");
   
-  BranchInst* branchInst = IRWriter::createBranch(mContext, block1);
+  BranchInst* branchInst = IRWriter::createBranch(mContext, block1, 0);
   
   EXPECT_EQ(mBasicBlock->size(), 1u);
   *mStringStream << *branchInst;
   ASSERT_STREQ(mStringStream->str().c_str(), "  br label %block1");
-
-  IRWriter::createBranch(mContext, block2);
-  
-  EXPECT_EQ(mBasicBlock->size(), 1u);
 }
 
 TEST_F(IRWriterTest, createConditionalBranchTest) {
@@ -83,15 +78,11 @@ TEST_F(IRWriterTest, createConditionalBranchTest) {
   Value* conditionValue = ConstantInt::get(Type::getInt1Ty(mLLVMContext), 1);
   
   BranchInst* branchInst =
-  IRWriter::createConditionalBranch(mContext, block1, block2, conditionValue);
+  IRWriter::createConditionalBranch(mContext, block1, block2, conditionValue, 1);
 
   EXPECT_EQ(mBasicBlock->size(), 1u);
   *mStringStream << *branchInst;
   ASSERT_STREQ(mStringStream->str().c_str(), "  br i1 true, label %block1, label %block2");
-  
-  IRWriter::createConditionalBranch(mContext, block1, block2, conditionValue);
-
-  EXPECT_EQ(mBasicBlock->size(), 1u);
 }
 
 TEST_F(IRWriterTest, createBinaryOperator) {
@@ -500,8 +491,42 @@ TEST_F(IRWriterTest, createReturnInstUreachableDeathTest) {
               "/tmp/source.yz\\(1\\): Error: Statement unreachable");
 }
 
+TEST_F(IRWriterTest, createBranchUreachableDeathTest) {
+  BasicBlock* block1 = BasicBlock::Create(mLLVMContext, "block1");
+  BasicBlock* block2 = BasicBlock::Create(mLLVMContext, "block2");
+  
+  IRWriter::createBranch(mContext, block1, 0);
+
+  EXPECT_EXIT(IRWriter::createBranch(mContext, block2, 3),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(3\\): Error: Statement unreachable");
+}
+
+TEST_F(IRWriterTest, createConditionalBranchUreachableDeathTest) {
+  BasicBlock* block1 = BasicBlock::Create(mLLVMContext, "block1");
+  BasicBlock* block2 = BasicBlock::Create(mLLVMContext, "block2");
+  Value* conditionValue = ConstantInt::get(Type::getInt1Ty(mLLVMContext), 1);
+  IRWriter::createConditionalBranch(mContext, block1, block2, conditionValue, 1);
+
+  EXPECT_EXIT(IRWriter::createConditionalBranch(mContext, block1, block2, conditionValue, 5),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(5\\): Error: Statement unreachable");
+}
+
 TEST_F(TestFileRunner, unreachableReturnRunDeathTest) {
   expectFailCompile("tests/samples/test_unreachable_return.yz",
                     1,
                     "tests/samples/test_unreachable_return.yz\\(9\\): Error: Statement unreachable");
+}
+
+TEST_F(TestFileRunner, unreachableBranchRunDeathTest) {
+  expectFailCompile("tests/samples/test_unreachable_branch.yz",
+                    1,
+                    "tests/samples/test_unreachable_branch.yz\\(9\\): Error: Statement unreachable");
+}
+
+TEST_F(TestFileRunner, unreachableConditionalBranchRunDeathTest) {
+  expectFailCompile("tests/samples/test_unreachable_conditional_branch.yz",
+                    1,
+                    "tests/samples/test_unreachable_conditional_branch.yz\\(9\\): Error: Statement unreachable");
 }
