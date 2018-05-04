@@ -210,6 +210,11 @@ namespace wisey {
      */
     static llvm::UnreachableInst* newUnreachableInst(IRGenerationContext& context);
     
+    /**
+     * Check there is no terminator already in the basic block and exit with an error if there is
+     */
+    static void checkUnreachable(IRGenerationContext& context, int line);
+  
   };
   
 } /* namespace wisey */

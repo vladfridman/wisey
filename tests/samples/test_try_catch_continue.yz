@@ -27,7 +27,6 @@ controller CCatcher {
     } catch (MException* exception) {
       return exception.getValue();
     }
-    return 5;
   }
 }
 

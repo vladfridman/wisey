@@ -14,6 +14,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -192,4 +193,10 @@ TEST_F(ReturnVoidStatementTest, referenceVariablesGetTheirRefCountDecrementedTes
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %7, i64 -1)"
   "\n  ret void\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
+}
+
+TEST_F(TestFileRunner, unreachableReturnVoidRunDeathTest) {
+  expectFailCompile("tests/samples/test_unreachable_return_void.yz",
+                    1,
+                    "tests/samples/test_unreachable_return_void.yz\\(9\\): Error: Statement unreachable");
 }

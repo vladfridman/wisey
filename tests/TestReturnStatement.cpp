@@ -252,10 +252,6 @@ TEST_F(TestFileRunner, returnStatementCastRunTest) {
   runFile("tests/samples/test_return_boolean_cast.yz", "1");
 }
 
-TEST_F(TestFileRunner, earlyReturnRunTest) {
-  runFile("tests/samples/test_early_return.yz", "1");
-}
-
 TEST_F(TestFileRunner, returnReferenceToFreedObjectRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_return_reference_to_freed_object.yz",
                                1,
@@ -265,4 +261,10 @@ TEST_F(TestFileRunner, returnReferenceToFreedObjectRunDeathTest) {
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_return_reference_to_freed_object.yz:23)\n"
                                "Details: Object referenced by expression still has 1 active reference\n"
                                "Main thread ended without a result\n");
+}
+
+TEST_F(TestFileRunner, unreachableReturnRunDeathTest) {
+  expectFailCompile("tests/samples/test_unreachable_return.yz",
+                    1,
+                    "tests/samples/test_unreachable_return.yz\\(9\\): Error: Statement unreachable");
 }
