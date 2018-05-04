@@ -59,6 +59,6 @@ GetElementPtrInst* IFieldVariable::getFieldPointer(IRGenerationContext& context,
   
   Value* thisObject = thisVariable->generateIdentifierIR(context, line);
   
-  return IRWriter::createGetElementPtrInst(context, thisObject, index, line);
+  return IRWriter::createGetElementPtrInst(context, thisObject, index);
 }
 

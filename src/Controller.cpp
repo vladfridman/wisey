@@ -436,8 +436,8 @@ void Controller::decrementReferenceCount(IRGenerationContext& context,
   AdjustReferenceCounterForConcreteObjectUnsafelyFunction::call(context, object, -1, line);
 }
 
-Value* Controller::getReferenceCount(IRGenerationContext& context, Value* object, int line) const {
-  return getReferenceCountForObject(context, object, line);
+Value* Controller::getReferenceCount(IRGenerationContext& context, Value* object) const {
+  return getReferenceCountForObject(context, object);
 }
 
 ImportProfile* Controller::getImportProfile() const {
@@ -567,7 +567,7 @@ void Controller::initializeReceivedFields(IRGenerationContext& context,
     Value* functionArgument = &*functionArguments;
     functionArgument->setName(field->getName());
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
-    GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index, 0);
+    GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     IRWriter::newStoreInst(context, functionArgument, fieldPointer);
     const IType* fieldType = field->getType();
     if (fieldType->isReference()) {

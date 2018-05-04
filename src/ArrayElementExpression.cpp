@@ -93,24 +93,15 @@ Value* ArrayElementExpression::getArrayElement(IRGenerationContext &context,
   Value* index[2];
   index[0] = ConstantInt::get(llvm::Type::getInt64Ty(llvmContext), 0);
   index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 1);
-  Value* arraySizeStore = IRWriter::createGetElementPtrInst(context,
-                                                            arrayStructPointer,
-                                                            index,
-                                                            line);
+  Value* arraySizeStore = IRWriter::createGetElementPtrInst(context, arrayStructPointer, index);
   Value* arraySize = IRWriter::newLoadInst(context, arraySizeStore, "arraySize");
   CheckArrayIndexFunction::call(context, indexValueCast, arraySize, line);
   index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 2);
-  Value* elementSizeStore = IRWriter::createGetElementPtrInst(context,
-                                                              arrayStructPointer,
-                                                              index,
-                                                              line);
+  Value* elementSizeStore = IRWriter::createGetElementPtrInst(context, arrayStructPointer, index);
   Value* elementSize = IRWriter::newLoadInst(context, elementSizeStore, "elementSize");
   index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext),
                               ArrayType::ARRAY_ELEMENTS_START_INDEX);
-  Value* arrayPointer = IRWriter::createGetElementPtrInst(context,
-                                                          arrayStructPointer,
-                                                          index,
-                                                          line);
+  Value* arrayPointer = IRWriter::createGetElementPtrInst(context, arrayStructPointer, index);
 
   Value* offset = IRWriter::createBinaryOperator(context,
                                                  Instruction::Mul,
@@ -124,7 +115,7 @@ Value* ArrayElementExpression::getArrayElement(IRGenerationContext &context,
   Value* idx[1];
   idx[0] = offset;
   
-  return IRWriter::createGetElementPtrInst(context, genericPointer, idx, line);
+  return IRWriter::createGetElementPtrInst(context, genericPointer, idx);
 }
 
 Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,

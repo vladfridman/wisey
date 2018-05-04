@@ -363,14 +363,12 @@ namespace wisey {
     static llvm::Value* getFieldValuePointer(IRGenerationContext& context,
                                              llvm::Value* thisValue,
                                              const IConcreteObjectType* object,
-                                             IField* field,
-                                             int line);
+                                             IField* field);
     
     static llvm::Value* getFieldPointer(IRGenerationContext& context,
                                         llvm::Value* thisValue,
                                         const IConcreteObjectType* object,
-                                        IField* field,
-                                        int line);
+                                        IField* field);
     
     static void composeDestructorBody(IRGenerationContext& context,
                                       llvm::Function* function,

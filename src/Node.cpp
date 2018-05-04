@@ -411,10 +411,7 @@ void Node::initializePresetFields(IRGenerationContext& context,
     string argumentName = argument->deriveFieldName();
     IField* field = findField(argumentName);
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
-    GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context,
-                                                                        malloc,
-                                                                        index,
-                                                                        line);
+    GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     const IType* fieldType = field->getType();
 
     Value* argumentValue = argument->getValue(context, fieldType);
@@ -452,8 +449,8 @@ void Node::decrementReferenceCount(IRGenerationContext& context,
   AdjustReferenceCounterForConcreteObjectUnsafelyFunction::call(context, object, -1, line);
 }
 
-Value* Node::getReferenceCount(IRGenerationContext& context, Value* object, int line) const {
-  return getReferenceCountForObject(context, object, line);
+Value* Node::getReferenceCount(IRGenerationContext& context, Value* object) const {
+  return getReferenceCountForObject(context, object);
 }
 
 ImportProfile* Node::getImportProfile() const {

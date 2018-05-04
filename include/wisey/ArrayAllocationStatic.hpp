@@ -61,9 +61,9 @@ namespace wisey {
     
     llvm::Value* allocateArray(IRGenerationContext &context, const ArrayExactType* arrayType) const;
 
-    void initializeEmptyArray(IRGenerationContext& context,
-                              llvm::Value* arrayStructPointer,
-                              std::list<unsigned long> dimensions) const;
+    static void initializeEmptyArray(IRGenerationContext& context,
+                                     llvm::Value* arrayStructPointer,
+                                     std::list<unsigned long> dimensions);
 
   };
   

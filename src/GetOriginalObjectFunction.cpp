@@ -78,7 +78,7 @@ void GetOriginalObjectFunction::compose(IRGenerationContext& context, Function* 
   
   Value* index[1];
   index[0] = unthunkBy;
-  Value* originalObject = IRWriter::createGetElementPtrInst(context, interfacePointer, index, 0);
+  Value* originalObject = IRWriter::createGetElementPtrInst(context, interfacePointer, index);
   
   IRWriter::createReturnInst(context, originalObject, 0);
 
@@ -94,7 +94,7 @@ Value* GetOriginalObjectFunction::getUnthunkBy(IRGenerationContext& context, Val
   LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 0);
-  GetElementPtrInst* unthunkPointer = IRWriter::createGetElementPtrInst(context, vTable, index, 0);
+  GetElementPtrInst* unthunkPointer = IRWriter::createGetElementPtrInst(context, vTable, index);
   
   LoadInst* pointerToVal = IRWriter::newLoadInst(context, unthunkPointer, "unthunkbypointer");
   Value* unthunkBy = IRWriter::newPtrToIntInst(context,

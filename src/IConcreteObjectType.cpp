@@ -102,7 +102,7 @@ Value* IConcreteObjectType::castTo(IRGenerationContext& context,
   Value* index[1];
   unsigned long thunkBy = interfaceIndex * Environment::getAddressSizeInBytes();
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
-  Value* thunk = IRWriter::createGetElementPtrInst(context, bitcast, index, line);
+  Value* thunk = IRWriter::createGetElementPtrInst(context, bitcast, index);
   return IRWriter::newBitCastInst(context, thunk, llvmType);
 }
 
@@ -134,7 +134,7 @@ void IConcreteObjectType::initializeVTable(IRGenerationContext& context,
     Value* index[1];
     unsigned int thunkBy = vTableIndex * Environment::getAddressSizeInBytes();
     index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
-    vTableStart = IRWriter::createGetElementPtrInst(context, vTableStartCalculation, index, 0);
+    vTableStart = IRWriter::createGetElementPtrInst(context, vTableStartCalculation, index);
     
     Value* vTablePointer =
     IRWriter::newBitCastInst(context, vTableStart, vTableType->getPointerTo());
@@ -142,7 +142,7 @@ void IConcreteObjectType::initializeVTable(IRGenerationContext& context,
     idx[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
     idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), vTableIndex);
     idx[2] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
-    Value* initializerStart = IRWriter::createGetElementPtrInst(context, vTableGlobal, idx, 0);
+    Value* initializerStart = IRWriter::createGetElementPtrInst(context, vTableGlobal, idx);
     BitCastInst* bitcast = IRWriter::newBitCastInst(context, initializerStart, vTableType);
     IRWriter::newStoreInst(context, bitcast, vTablePointer);
   }
@@ -382,7 +382,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   decrementReferenceFields(context, thisValue, concreteObject);
   freeOwnerFields(context, thisValue, concreteObject, 0);
   
-  Value* referenceCount = concreteObject->getReferenceCount(context, thisValue, 0);
+  Value* referenceCount = concreteObject->getReferenceCount(context, thisValue);
   BasicBlock* refCountZeroBlock = BasicBlock::Create(llvmContext, "ref.count.zero", function);
   BasicBlock* refCountNotZeroBlock = BasicBlock::Create(llvmContext, "ref.count.notzero", function);
   llvm::Constant* zero = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
@@ -409,7 +409,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext),
                               -Environment::getAddressSizeInBytes());
-  Value* refCounterObject = IRWriter::createGetElementPtrInst(context, thisGeneric, index, 0);
+  Value* refCounterObject = IRWriter::createGetElementPtrInst(context, thisGeneric, index);
   IRWriter::createFree(context, refCounterObject, 0);
   IRWriter::createReturnInst(context, NULL, 0);
   
@@ -426,7 +426,7 @@ void IConcreteObjectType::decrementReferenceFields(IRGenerationContext& context,
       continue;
     }
     
-    Value* fieldValuePointer = getFieldValuePointer(context, thisValue, object, field, 0);
+    Value* fieldValuePointer = getFieldValuePointer(context, thisValue, object, field);
     const IReferenceType* referenceType = (const IReferenceType*) fieldType;
     referenceType->decrementReferenceCount(context, fieldValuePointer, 0);
   }
@@ -443,7 +443,7 @@ void IConcreteObjectType::freeOwnerFields(IRGenerationContext& context,
       continue;
     }
     
-    Value* fieldValuePointer = getFieldValuePointer(context, thisValue, object, field, line);
+    Value* fieldValuePointer = getFieldValuePointer(context, thisValue, object, field);
     const IOwnerType* ownerType = (const IOwnerType*) fieldType;
     ownerType->free(context, fieldValuePointer, line);
   }
@@ -452,24 +452,22 @@ void IConcreteObjectType::freeOwnerFields(IRGenerationContext& context,
 Value* IConcreteObjectType::getFieldValuePointer(IRGenerationContext& context,
                                                  Value* thisValue,
                                                  const IConcreteObjectType* object,
-                                                 IField* field,
-                                                 int line) {
-  Value* fieldPointer = getFieldPointer(context, thisValue, object, field, line);
+                                                 IField* field) {
+  Value* fieldPointer = getFieldPointer(context, thisValue, object, field);
   return IRWriter::newLoadInst(context, fieldPointer, "");
 }
 
 Value* IConcreteObjectType::getFieldPointer(IRGenerationContext& context,
                                             Value* thisValue,
                                             const IConcreteObjectType* object,
-                                            IField* field,
-                                            int line) {
+                                            IField* field) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Value* index[2];
   index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), object->getFieldIndex(field));
   
-  return IRWriter::createGetElementPtrInst(context, thisValue, index, line);
+  return IRWriter::createGetElementPtrInst(context, thisValue, index);
 }
 
 string IConcreteObjectType::getObjectDestructorFunctionName(const IConcreteObjectType* object) {
@@ -704,7 +702,7 @@ llvm::Instruction* IConcreteObjectType::createMallocForObject(IRGenerationContex
   Value* index[2];
   index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
-  return IRWriter::createGetElementPtrInst(context, malloc, index, line);
+  return IRWriter::createGetElementPtrInst(context, malloc, index);
 }
 
 llvm::StructType* IConcreteObjectType::

@@ -586,7 +586,7 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext),
                               -interfaceIndex * Environment::getAddressSizeInBytes());
   Value* concreteOjbectThis =
-    IRWriter::createGetElementPtrInst(context, castedInterfaceThis, index, 0);
+    IRWriter::createGetElementPtrInst(context, castedInterfaceThis, index);
   Value* castedObjectThis = IRWriter::newBitCastInst(context,
                                                      concreteOjbectThis,
                                                      object->getLLVMType(context));
@@ -1036,9 +1036,9 @@ void Interface::decrementReferenceCount(IRGenerationContext& context,
   AdjustReferenceCountFunction::call(context, object, -1, line);
 }
 
-Value* Interface::getReferenceCount(IRGenerationContext& context, Value* object, int line) const {
+Value* Interface::getReferenceCount(IRGenerationContext& context, Value* object) const {
   Value* originalObject = GetOriginalObjectFunction::call(context, object, 0);
-  return getReferenceCountForObject(context, originalObject, line);
+  return getReferenceCountForObject(context, originalObject);
 }
 
 ImportProfile* Interface::getImportProfile() const {

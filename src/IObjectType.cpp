@@ -36,15 +36,13 @@ llvm::Constant* IObjectType::getObjectNamePointer(const IObjectType* object,
   return ConstantExpr::getGetElementPtr(elementType, nameGlobal, Idx);
 }
 
-Value* IObjectType::getReferenceCountForObject(IRGenerationContext& context,
-                                               Value* object,
-                                               int line) {
+Value* IObjectType::getReferenceCountForObject(IRGenerationContext& context, Value* object) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int64Pointer = Type::getInt64Ty(llvmContext)->getPointerTo();
   Value* genericPointer = IRWriter::newBitCastInst(context, object, int64Pointer);
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), -1);
-  Value* counterPointer = IRWriter::createGetElementPtrInst(context, genericPointer, index, line);
+  Value* counterPointer = IRWriter::createGetElementPtrInst(context, genericPointer, index);
   return IRWriter::newLoadInst(context, counterPointer, "refCounter");
 }
 

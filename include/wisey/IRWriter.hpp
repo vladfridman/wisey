@@ -98,8 +98,7 @@ namespace wisey {
      */
     static llvm::GetElementPtrInst* createGetElementPtrInst(IRGenerationContext& context,
                                                             llvm::Value* value,
-                                                            llvm::ArrayRef<llvm::Value *> index,
-                                                            int line);
+                                                            llvm::ArrayRef<llvm::Value *> index);
     
     /**
      * Add a BitCastInst to the current basic block casting value to the given type

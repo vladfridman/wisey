@@ -101,7 +101,7 @@ void AdjustReferenceCountFunction::compose(IRGenerationContext& context, llvm::F
   Value* objectStart = IRWriter::newBitCastInst(context, original, int64PointerType);
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), -1);
-  Value* counter = IRWriter::createGetElementPtrInst(context, objectStart, index, 0);
+  Value* counter = IRWriter::createGetElementPtrInst(context, objectStart, index);
 
   BasicBlock* ifModelBlock = BasicBlock::Create(llvmContext, "if.model", function);
   BasicBlock* ifNotModelBlock = BasicBlock::Create(llvmContext, "if.not.model", function);

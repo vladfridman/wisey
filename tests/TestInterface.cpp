@@ -526,7 +526,7 @@ TEST_F(InterfaceTest, decrementReferenceCountTest) {
 TEST_F(InterfaceTest, getReferenceCountTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mShapeInterface->getLLVMType(mContext));
-  mShapeInterface->getReferenceCount(mContext, pointer, 0);
+  mShapeInterface->getReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
   string expected =

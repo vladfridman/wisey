@@ -84,8 +84,7 @@ namespace wisey {
      * Returns pointer reference counter value for this object
      */
     virtual llvm::Value* getReferenceCount(IRGenerationContext& context,
-                                           llvm::Value* object,
-                                           int line) const = 0;
+                                           llvm::Value* object) const = 0;
     
     /**
      * Returns the import profile associated with this object
@@ -137,8 +136,7 @@ namespace wisey {
      * Returns the reference count value for the given object
      */
     static llvm::Value* getReferenceCountForObject(IRGenerationContext& context,
-                                                   llvm::Value* object,
-                                                   int line);
+                                                   llvm::Value* object);
     
     /**
      * Check that the private object is accessable
