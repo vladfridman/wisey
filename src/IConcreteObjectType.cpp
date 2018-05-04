@@ -410,7 +410,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext),
                               -Environment::getAddressSizeInBytes());
   Value* refCounterObject = IRWriter::createGetElementPtrInst(context, thisGeneric, index);
-  IRWriter::createFree(context, refCounterObject);
+  IRWriter::createFree(context, refCounterObject, 0);
   IRWriter::createReturnInst(context, NULL, 0);
   
   context.getScopes().popScope(context, 0);

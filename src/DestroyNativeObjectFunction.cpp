@@ -92,7 +92,7 @@ void DestroyNativeObjectFunction::compose(IRGenerationContext& context, Function
   
   context.setBasicBlock(ifNotNullBlock);
   
-  IRWriter::createFree(context, thisGeneric);
+  IRWriter::createFree(context, thisGeneric, 0);
 
   IRWriter::createReturnInst(context, NULL, 0);
   
