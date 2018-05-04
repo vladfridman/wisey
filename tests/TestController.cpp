@@ -579,7 +579,7 @@ TEST_F(ControllerTest, isObjectTest) {
 TEST_F(ControllerTest, incrementReferenceCountTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mMultiplierController->getLLVMType(mContext));
-  mMultiplierController->incrementReferenceCount(mContext, pointer, 0);
+  mMultiplierController->incrementReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
   string expected =
@@ -594,7 +594,7 @@ TEST_F(ControllerTest, incrementReferenceCountTest) {
 TEST_F(ControllerTest, decrementReferenceCountTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mMultiplierController->getLLVMType(mContext));
-  mMultiplierController->decrementReferenceCount(mContext, pointer, 0);
+  mMultiplierController->decrementReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
   string expected =

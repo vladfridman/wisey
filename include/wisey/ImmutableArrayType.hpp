@@ -47,12 +47,10 @@ namespace wisey {
     const IType* getElementType() const;
     
     void incrementReferenceCount(IRGenerationContext& context,
-                                 llvm::Value* arrayPointer,
-                                 int line) const override;
+                                 llvm::Value* arrayPointer) const override;
     
     void decrementReferenceCount(IRGenerationContext& context,
-                                 llvm::Value* arrayPointer,
-                                 int line) const override;
+                                 llvm::Value* arrayPointer) const override;
     
     std::string getTypeName() const override;
     

@@ -53,7 +53,7 @@ namespace wisey {
                                       std::vector<const IExpression*> arrayIndices,
                                       int line) override;
     
-    void decrementReferenceCounter(IRGenerationContext& context, int line) const override;
+    void decrementReferenceCounter(IRGenerationContext& context) const override;
     
   private:
     

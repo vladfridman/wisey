@@ -84,9 +84,8 @@ Value* LocalSystemReferenceVariable::generateAssignmentIR(IRGenerationContext& c
   return newValue;
 }
 
-void LocalSystemReferenceVariable::decrementReferenceCounter(IRGenerationContext& context,
-                                                             int line) const {
+void LocalSystemReferenceVariable::decrementReferenceCounter(IRGenerationContext& context) const {
   Value* value = IRWriter::newLoadInst(context, mValueStore, "");
-  mType->decrementReferenceCount(context, value, line);
+  mType->decrementReferenceCount(context, value);
 }
 

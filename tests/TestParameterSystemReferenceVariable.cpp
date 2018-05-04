@@ -108,7 +108,7 @@ TEST_F(ParameterSystemReferenceVariableTest, decrementReferenceCounterTest) {
   Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mContext));
   ParameterSystemReferenceVariable variable("foo", mModel, fooValue, 0);
   
-  variable.decrementReferenceCounter(mContext, 0);
+  variable.decrementReferenceCounter(mContext);
   
   *mStringStream << *mBasicBlock;
   string expected =

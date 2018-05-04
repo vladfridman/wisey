@@ -77,7 +77,7 @@ TEST_F(ParameterArrayReferenceVariableTest, generateIdentifierIRTest) {
 }
 
 TEST_F(ParameterArrayReferenceVariableTest, decrementReferenceCounterTest) {
-  mVariable->decrementReferenceCounter(mContext, 0);
+  mVariable->decrementReferenceCounter(mContext);
   
   *mStringStream << *mBasicBlock;
   

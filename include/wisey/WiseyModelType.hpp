@@ -83,13 +83,9 @@ namespace wisey {
     
     const ArrayType* getArrayType(IRGenerationContext& context, int line) const override;
     
-    void incrementReferenceCount(IRGenerationContext& context,
-                                 llvm::Value* object,
-                                 int line) const override;
+    void incrementReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
     
-    void decrementReferenceCount(IRGenerationContext& context,
-                                 llvm::Value* object,
-                                 int line) const override;
+    void decrementReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
     
     const IOwnerType* getOwner() const override;
     

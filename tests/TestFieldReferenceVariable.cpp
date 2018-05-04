@@ -207,7 +207,7 @@ TEST_F(FieldReferenceVariableTest, generateAssignmentWithCastIRTest) {
 }
 
 TEST_F(FieldReferenceVariableTest, decrementReferenceCounterTest) {
-  mFieldReferenceVariable->decrementReferenceCounter(mContext, 0);
+  mFieldReferenceVariable->decrementReferenceCounter(mContext);
   
   EXPECT_EQ(mBasicBlock->getInstList().size(), 0u);
 }

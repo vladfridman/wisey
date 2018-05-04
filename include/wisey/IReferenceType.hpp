@@ -29,15 +29,13 @@ namespace wisey {
      * Increments reference counter for this object
      */
     virtual void incrementReferenceCount(IRGenerationContext& context,
-                                         llvm::Value* object,
-                                         int line) const = 0;
+                                         llvm::Value* object) const = 0;
     
     /**
      * Decrements reference counter for this object
      */
     virtual void decrementReferenceCount(IRGenerationContext& context,
-                                         llvm::Value* object,
-                                         int line) const = 0;
+                                         llvm::Value* object) const = 0;
     
     /**
      * Returns the owner type for this object

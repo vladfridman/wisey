@@ -63,15 +63,13 @@ llvm::Value* ImmutableArrayType::castTo(IRGenerationContext &context,
 }
 
 void ImmutableArrayType::incrementReferenceCount(IRGenerationContext& context,
-                                                 llvm::Value* arrayPointer,
-                                                 int line) const {
-  AdjustReferenceCounterForImmutableArrayFunction::call(context, arrayPointer, 1, line);
+                                                 llvm::Value* arrayPointer) const {
+  AdjustReferenceCounterForImmutableArrayFunction::call(context, arrayPointer, 1);
 }
 
 void ImmutableArrayType::decrementReferenceCount(IRGenerationContext& context,
-                                                 llvm::Value* arrayPointer,
-                                                 int line) const {
-  AdjustReferenceCounterForImmutableArrayFunction::call(context, arrayPointer, -1, line);
+                                                 llvm::Value* arrayPointer) const {
+  AdjustReferenceCounterForImmutableArrayFunction::call(context, arrayPointer, -1);
 }
 
 unsigned long ImmutableArrayType::getNumberOfDimensions() const {
@@ -158,7 +156,7 @@ void ImmutableArrayType::createParameterVariable(IRGenerationContext& context,
                                                  llvm::Value* value,
                                                  int line) const {
   IVariable* variable = new ParameterImmutableArrayReferenceVariable(name, this,  value, line);
-  incrementReferenceCount(context, value, line);
+  incrementReferenceCount(context, value);
   context.getScopes().setVariable(context, variable);
 }
 

@@ -32,8 +32,7 @@ Function* AdjustReferenceCounterForConcreteObjectSafelyFunction::get(IRGeneratio
 
 void AdjustReferenceCounterForConcreteObjectSafelyFunction::call(IRGenerationContext& context,
                                                                  Value* object,
-                                                                 int adjustment,
-                                                                 int line) {
+                                                                 int adjustment) {
   Type* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   
   Function* function = get(context);

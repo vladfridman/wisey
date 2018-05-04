@@ -424,16 +424,12 @@ void Controller::printToStream(IRGenerationContext& context, iostream& stream) c
   IConcreteObjectType::printObjectToStream(context, this, stream);
 }
 
-void Controller::incrementReferenceCount(IRGenerationContext& context,
-                                         Value* object,
-                                         int line) const {
-  AdjustReferenceCounterForConcreteObjectUnsafelyFunction::call(context, object, 1, line);
+void Controller::incrementReferenceCount(IRGenerationContext& context, Value* object) const {
+  AdjustReferenceCounterForConcreteObjectUnsafelyFunction::call(context, object, 1);
 }
 
-void Controller::decrementReferenceCount(IRGenerationContext& context,
-                                         Value* object,
-                                         int line) const {
-  AdjustReferenceCounterForConcreteObjectUnsafelyFunction::call(context, object, -1, line);
+void Controller::decrementReferenceCount(IRGenerationContext& context, Value* object) const {
+  AdjustReferenceCounterForConcreteObjectUnsafelyFunction::call(context, object, -1);
 }
 
 Value* Controller::getReferenceCount(IRGenerationContext& context, Value* object) const {
@@ -498,7 +494,7 @@ void Controller::createParameterVariable(IRGenerationContext& context,
                                          Value* value,
                                          int line) const {
   IVariable* variable = new ParameterReferenceVariable(name, this, value, line);
-  incrementReferenceCount(context, value, line);
+  incrementReferenceCount(context, value);
   context.getScopes().setVariable(context, variable);
 }
 
@@ -571,7 +567,7 @@ void Controller::initializeReceivedFields(IRGenerationContext& context,
     IRWriter::newStoreInst(context, functionArgument, fieldPointer);
     const IType* fieldType = field->getType();
     if (fieldType->isReference()) {
-      ((const IReferenceType*) fieldType)->incrementReferenceCount(context, functionArgument, 0);
+      ((const IReferenceType*) fieldType)->incrementReferenceCount(context, functionArgument);
     }
     functionArguments++;
   }

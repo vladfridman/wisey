@@ -496,7 +496,7 @@ TEST_F(InterfaceTest, constantsAfterMethodSignaturesDeathTest) {
 TEST_F(InterfaceTest, incrementReferenceCountTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mShapeInterface->getLLVMType(mContext));
-  mShapeInterface->incrementReferenceCount(mContext, pointer, 0);
+  mShapeInterface->incrementReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
   string expected =
@@ -511,7 +511,7 @@ TEST_F(InterfaceTest, incrementReferenceCountTest) {
 TEST_F(InterfaceTest, decrementReferenceCountTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mShapeInterface->getLLVMType(mContext));
-  mShapeInterface->decrementReferenceCount(mContext, pointer, 0);
+  mShapeInterface->decrementReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
   string expected =

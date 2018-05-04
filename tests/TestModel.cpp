@@ -572,7 +572,7 @@ TEST_F(ModelTest, isObjectTest) {
 
 TEST_F(ModelTest, incrementReferenceCountTest) {
   ConstantPointerNull* pointer = ConstantPointerNull::get(mModel->getLLVMType(mContext));
-  mModel->incrementReferenceCount(mContext, pointer, 0);
+  mModel->incrementReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
   string expected =
@@ -586,7 +586,7 @@ TEST_F(ModelTest, incrementReferenceCountTest) {
 
 TEST_F(ModelTest, decrementReferenceCountTest) {
   ConstantPointerNull* pointer = ConstantPointerNull::get(mModel->getLLVMType(mContext));
-  mModel->decrementReferenceCount(mContext, pointer, 0);
+  mModel->decrementReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
   string expected =

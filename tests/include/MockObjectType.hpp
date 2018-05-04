@@ -53,12 +53,8 @@ public:
   MOCK_CONST_METHOD0(isPointer, bool ());
   MOCK_CONST_METHOD0(isImmutable, bool ());
   MOCK_CONST_METHOD2(printToStream, void (wisey::IRGenerationContext&, std::iostream& stream));
-  MOCK_CONST_METHOD3(incrementReferenceCount, void (wisey::IRGenerationContext&,
-                                                    llvm::Value*,
-                                                    int));
-  MOCK_CONST_METHOD3(decrementReferenceCount, void (wisey::IRGenerationContext&,
-                                                    llvm::Value*,
-                                                    int));
+  MOCK_CONST_METHOD2(incrementReferenceCount, void (wisey::IRGenerationContext&, llvm::Value*));
+  MOCK_CONST_METHOD2(decrementReferenceCount, void (wisey::IRGenerationContext&, llvm::Value*));
   MOCK_CONST_METHOD2(getReferenceCount, llvm::Value* (wisey::IRGenerationContext&, llvm::Value*));
   MOCK_CONST_METHOD0(getImportProfile, wisey::ImportProfile* ());
   MOCK_METHOD1(addInnerObject, void (const wisey::IObjectType*));

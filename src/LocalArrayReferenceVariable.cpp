@@ -101,15 +101,14 @@ generateWholeArrayAssignment(IRGenerationContext& context,
   const IType* assignToType = assignToExpression->getType(context);
   Value* assignToValue = assignToExpression->generateIR(context, mArrayType);
   Value* cast = AutoCast::maybeCast(context, assignToType, assignToValue, mArrayType, line);
-  decrementReferenceCounter(context, line);
-  mArrayType->incrementReferenceCount(context, cast, line);
+  decrementReferenceCounter(context);
+  mArrayType->incrementReferenceCount(context, cast);
   IRWriter::newStoreInst(context, cast, mValueStore);
   
   return assignToValue;
 }
 
-void LocalArrayReferenceVariable::decrementReferenceCounter(IRGenerationContext& context,
-                                                            int line) const {
+void LocalArrayReferenceVariable::decrementReferenceCounter(IRGenerationContext& context) const {
   Value* value = IRWriter::newLoadInst(context, mValueStore, "");
-  mArrayType->decrementReferenceCount(context, value, line);
+  mArrayType->decrementReferenceCount(context, value);
 }

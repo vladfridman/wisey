@@ -95,16 +95,16 @@ generateWholeArrayAssignment(IRGenerationContext& context,
                                     assignToValue,
                                     mImmutableArrayType,
                                     line);
-  decrementReferenceCounter(context, line);
-  mImmutableArrayType->incrementReferenceCount(context, cast, line);
+  decrementReferenceCounter(context);
+  mImmutableArrayType->incrementReferenceCount(context, cast);
   IRWriter::newStoreInst(context, cast, mValueStore);
   
   return assignToValue;
 }
 
-void LocalImmutableArrayReferenceVariable::decrementReferenceCounter(IRGenerationContext& context,
-                                                                     int line) const {
+void LocalImmutableArrayReferenceVariable::
+decrementReferenceCounter(IRGenerationContext& context) const {
   Value* value = IRWriter::newLoadInst(context, mValueStore, "");
-  mImmutableArrayType->decrementReferenceCount(context, value, line);
+  mImmutableArrayType->decrementReferenceCount(context, value);
 }
 

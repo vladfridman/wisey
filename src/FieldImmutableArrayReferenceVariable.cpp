@@ -92,8 +92,8 @@ generateWholeArrayAssignment(IRGenerationContext& context,
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
   
   Value* previousValue = IRWriter::newLoadInst(context, fieldPointer, "");
-  arrayType->decrementReferenceCount(context, previousValue, line);
-  arrayType->incrementReferenceCount(context, cast, line);
+  arrayType->decrementReferenceCount(context, previousValue);
+  arrayType->incrementReferenceCount(context, cast);
   
   return IRWriter::newStoreInst(context, cast, fieldPointer);
 }
@@ -107,7 +107,7 @@ generateArrayElementAssignment(IRGenerationContext& context,
   exit(1);
 }
 
-void FieldImmutableArrayReferenceVariable::decrementReferenceCounter(IRGenerationContext &context,
-                                                                     int line) const {
+void FieldImmutableArrayReferenceVariable::
+decrementReferenceCounter(IRGenerationContext &context) const {
   /** Decremented using object destructor */
 }

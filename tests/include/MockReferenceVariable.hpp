@@ -34,7 +34,7 @@ public:
                                                    std::vector<const wisey::IExpression*>
                                                    arrayIndices,
                                                    int));
-  MOCK_CONST_METHOD2(decrementReferenceCounter, void (wisey::IRGenerationContext&, int));
+  MOCK_CONST_METHOD1(decrementReferenceCounter, void (wisey::IRGenerationContext&));
 };
 
 

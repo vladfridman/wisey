@@ -74,8 +74,8 @@ generateReferenceElementAssignment(IRGenerationContext& context,
   
   Value* elementLoaded = IRWriter::newLoadInst(context, elementStore, "");
   const IReferenceType* referenceType = (const IReferenceType*) elementType;
-  referenceType->decrementReferenceCount(context, elementLoaded, line);
-  referenceType->incrementReferenceCount(context, newValue, line);
+  referenceType->decrementReferenceCount(context, elementLoaded);
+  referenceType->incrementReferenceCount(context, newValue);
 
   IRWriter::newStoreInst(context, newValue, elementStore);
   

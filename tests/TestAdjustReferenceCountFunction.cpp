@@ -54,7 +54,7 @@ struct AdjustReferenceCountFunctionTest : Test {
 
 TEST_F(AdjustReferenceCountFunctionTest, callTest) {
   Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  AdjustReferenceCountFunction::call(mContext, nullPointerValue, 1, 0);
+  AdjustReferenceCountFunction::call(mContext, nullPointerValue, 1);
   
   *mStringStream << *mBasicBlock;
   string expected =

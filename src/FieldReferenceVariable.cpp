@@ -78,13 +78,12 @@ Value* FieldReferenceVariable::generateAssignmentIR(IRGenerationContext& context
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
 
   Value* previousValue = IRWriter::newLoadInst(context, fieldPointer, "");
-  fieldType->decrementReferenceCount(context, previousValue, line);
-  fieldType->incrementReferenceCount(context, cast, line);
+  fieldType->decrementReferenceCount(context, previousValue);
+  fieldType->incrementReferenceCount(context, cast);
 
   return IRWriter::newStoreInst(context, cast, fieldPointer);
 }
 
-void FieldReferenceVariable::decrementReferenceCounter(IRGenerationContext& context,
-                                                       int line) const {
+void FieldReferenceVariable::decrementReferenceCounter(IRGenerationContext& context) const {
   /** Decremented using object destructor */
 }

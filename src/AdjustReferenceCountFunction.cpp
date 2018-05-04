@@ -33,8 +33,7 @@ Function* AdjustReferenceCountFunction::get(IRGenerationContext& context) {
 
 void AdjustReferenceCountFunction::call(IRGenerationContext& context,
                                         Value* object,
-                                        int adjustment,
-                                        int line) {
+                                        int adjustment) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();

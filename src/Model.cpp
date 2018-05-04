@@ -461,7 +461,7 @@ void Model::initializeFields(IRGenerationContext& context,
     Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);
     IRWriter::newStoreInst(context, castValue, fieldPointer);
     if (fieldType->isReference()) {
-      ((const IReferenceType*) fieldType)->incrementReferenceCount(context, castValue, line);
+      ((const IReferenceType*) fieldType)->incrementReferenceCount(context, castValue);
     }
   }
 }
@@ -482,16 +482,12 @@ void Model::printToStream(IRGenerationContext& context, iostream& stream) const 
 	IConcreteObjectType::printObjectToStream(context, this, stream);
 }
 
-void Model::incrementReferenceCount(IRGenerationContext& context,
-                                    Value* object,
-                                    int line) const {
-  AdjustReferenceCounterForConcreteObjectSafelyFunction::call(context, object, 1, line);
+void Model::incrementReferenceCount(IRGenerationContext& context, Value* object) const {
+  AdjustReferenceCounterForConcreteObjectSafelyFunction::call(context, object, 1);
 }
 
-void Model::decrementReferenceCount(IRGenerationContext& context,
-                                    Value* object,
-                                    int line) const {
-  AdjustReferenceCounterForConcreteObjectSafelyFunction::call(context, object, -1, line);
+void Model::decrementReferenceCount(IRGenerationContext& context, Value* object) const {
+  AdjustReferenceCounterForConcreteObjectSafelyFunction::call(context, object, -1);
 }
 
 Value* Model::getReferenceCount(IRGenerationContext& context, Value* object) const {
@@ -554,7 +550,7 @@ void Model::createParameterVariable(IRGenerationContext& context,
                                     Value* value,
                                     int line) const {
   IVariable* variable = new ParameterReferenceVariable(name, this, value, line);
-  incrementReferenceCount(context, value, line);
+  incrementReferenceCount(context, value);
   context.getScopes().setVariable(context, variable);
 }
 
