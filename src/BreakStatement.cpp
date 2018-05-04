@@ -18,7 +18,7 @@ BreakStatement::BreakStatement(int line) : mLine(line) { }
 BreakStatement::~BreakStatement() { }
 
 void BreakStatement::generateIR(IRGenerationContext& context) const {
-  IRWriter::checkUnreachable(context, mLine);
+  checkUnreachable(context, mLine);
   
   BasicBlock* breackToBlock = context.getScopes().getBreakToBlock();
   

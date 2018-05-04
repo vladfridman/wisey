@@ -21,7 +21,7 @@ ReturnVoidStatement::ReturnVoidStatement(int line) : mLine(line) { }
 ReturnVoidStatement::~ReturnVoidStatement() { }
 
 void ReturnVoidStatement::generateIR(IRGenerationContext& context) const {
-  IRWriter::checkUnreachable(context, mLine);
+  checkUnreachable(context, mLine);
 
   Composer::setLineNumber(context, mLine);
   context.getScopes().freeOwnedMemory(context, mLine);

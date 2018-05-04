@@ -27,7 +27,7 @@ ReturnStatement::~ReturnStatement() {
 }
 
 void ReturnStatement::generateIR(IRGenerationContext& context) const {
-  IRWriter::checkUnreachable(context, mLine);
+  checkUnreachable(context, mLine);
   
   const IType* returnType = context.getScopes().getReturnType();
   if (returnType == NULL) {

@@ -7,7 +7,6 @@
 //
 
 #include "wisey/CompoundStatement.hpp"
-#include "wisey/IRWriter.hpp"
 
 using namespace llvm;
 using namespace wisey;
@@ -19,7 +18,7 @@ CompoundStatement::~CompoundStatement() {
 }
 
 void CompoundStatement::generateIR(IRGenerationContext& context) const {
-  IRWriter::checkUnreachable(context, mLine);
+  checkUnreachable(context, mLine);
 
   Scopes& scopes = context.getScopes();
   

@@ -209,11 +209,6 @@ namespace wisey {
      * Add an UnreachableInst that terminates a basic block and should not be reachable
      */
     static llvm::UnreachableInst* newUnreachableInst(IRGenerationContext& context);
-    
-    /**
-     * Check there is no terminator already in the basic block and exit with an error if there is
-     */
-    static void checkUnreachable(IRGenerationContext& context, int line);
   
   };
   

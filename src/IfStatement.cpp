@@ -23,7 +23,7 @@ IfStatement::~IfStatement() {
 }
 
 void IfStatement::generateIR(IRGenerationContext& context) const {
-  IRWriter::checkUnreachable(context, mCondition->getLine());
+  checkUnreachable(context, mCondition->getLine());
   
   Function* function = context.getBasicBlock()->getParent();
   

@@ -358,10 +358,3 @@ UnreachableInst* IRWriter::newUnreachableInst(IRGenerationContext& context) {
   
   return new UnreachableInst(context.getLLVMContext(), currentBlock);
 }
-
-void IRWriter::checkUnreachable(IRGenerationContext& context, int line) {
-  if(context.getBasicBlock()->getTerminator()) {
-    context.reportError(line, "Statement unreachable");
-    exit(1);
-  }
-}

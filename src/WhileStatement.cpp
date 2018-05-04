@@ -22,7 +22,7 @@ WhileStatement::~WhileStatement() {
 }
 
 void WhileStatement::generateIR(IRGenerationContext& context) const {
-  IRWriter::checkUnreachable(context, mConditionExpression->getLine());
+  checkUnreachable(context, mConditionExpression->getLine());
   
   Function* function = context.getBasicBlock()->getParent();
   Scopes& scopes = context.getScopes();

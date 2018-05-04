@@ -29,6 +29,11 @@ namespace wisey {
      */
     virtual void generateIR(IRGenerationContext& context) const = 0;
     
+    /**
+     * Check there is no terminator already in the basic block and exit with an error if there is
+     */
+    static void checkUnreachable(IRGenerationContext& context, int line);
+
   };
   
   /**

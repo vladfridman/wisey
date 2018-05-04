@@ -7,7 +7,6 @@
 //
 
 #include "wisey/ExpressionStatement.hpp"
-#include "wisey/IRWriter.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -21,7 +20,7 @@ ExpressionStatement::~ExpressionStatement() {
 }
 
 void ExpressionStatement::generateIR(IRGenerationContext& context) const {
-  IRWriter::checkUnreachable(context, mLine);
+  checkUnreachable(context, mLine);
 
   mExpression->generateIR(context, PrimitiveTypes::VOID);
 }

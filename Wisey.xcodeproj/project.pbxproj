@@ -829,6 +829,9 @@
 		F5A67DB72017023D0018068F /* FieldArrayOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A67DB62017023D0018068F /* FieldArrayOwnerVariable.cpp */; };
 		F5A67DB920171D060018068F /* TestFieldArrayOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A67DB820171D060018068F /* TestFieldArrayOwnerVariable.cpp */; };
 		F5A67DBA20171F0B0018068F /* FieldArrayOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A67DB62017023D0018068F /* FieldArrayOwnerVariable.cpp */; };
+		F5A8208A209CB23A003DA505 /* IStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A82089209CB23A003DA505 /* IStatement.cpp */; };
+		F5A8208B209CB23A003DA505 /* IStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A82089209CB23A003DA505 /* IStatement.cpp */; };
+		F5A8208D209CB2F3003DA505 /* TestIStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A8208C209CB2F3003DA505 /* TestIStatement.cpp */; };
 		F5A98A361F9A37910063D626 /* ConstantReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A98A351F9A37910063D626 /* ConstantReference.cpp */; };
 		F5A98A371F9A37910063D626 /* ConstantReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A98A351F9A37910063D626 /* ConstantReference.cpp */; };
 		F5ADB6101E5DA08200FFC941 /* Cast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB60F1E5DA08200FFC941 /* Cast.cpp */; };
@@ -1822,6 +1825,8 @@
 		F5A67DB5201702230018068F /* FieldArrayOwnerVariable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FieldArrayOwnerVariable.hpp; path = include/wisey/FieldArrayOwnerVariable.hpp; sourceTree = "<group>"; };
 		F5A67DB62017023D0018068F /* FieldArrayOwnerVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FieldArrayOwnerVariable.cpp; path = src/FieldArrayOwnerVariable.cpp; sourceTree = "<group>"; };
 		F5A67DB820171D060018068F /* TestFieldArrayOwnerVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestFieldArrayOwnerVariable.cpp; path = tests/TestFieldArrayOwnerVariable.cpp; sourceTree = "<group>"; };
+		F5A82089209CB23A003DA505 /* IStatement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IStatement.cpp; path = src/IStatement.cpp; sourceTree = "<group>"; };
+		F5A8208C209CB2F3003DA505 /* TestIStatement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestIStatement.cpp; path = tests/TestIStatement.cpp; sourceTree = "<group>"; };
 		F5A98A341F9A36910063D626 /* ConstantReference.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ConstantReference.hpp; path = include/wisey/ConstantReference.hpp; sourceTree = "<group>"; };
 		F5A98A351F9A37910063D626 /* ConstantReference.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ConstantReference.cpp; path = src/ConstantReference.cpp; sourceTree = "<group>"; };
 		F5ADB60F1E5DA08200FFC941 /* Cast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Cast.cpp; path = src/Cast.cpp; sourceTree = "<group>"; };
@@ -2752,6 +2757,7 @@
 				F56AD4A01E9F66C40020868C /* IObjectType.cpp */,
 				F55DB05E1F7914CB0009942C /* IObjectTypeSpecifier.cpp */,
 				F58725611F70143100FA25E6 /* IPrintStatement.cpp */,
+				F5A82089209CB23A003DA505 /* IStatement.cpp */,
 				F5CE2D401EF6A43C002ABB85 /* IType.cpp */,
 				F53A2C1D1EF96C0200E76A9E /* IVariable.cpp */,
 			);
@@ -3400,6 +3406,7 @@
 				F56AD4A31E9F6D5B0020868C /* TestIObjectType.cpp */,
 				F55DB0611F793D8C0009942C /* TestIObjectTypeSpecifier.cpp */,
 				F5C0E7E82099E4560028BBD0 /* TestIPrintStatement.cpp */,
+				F5A8208C209CB2F3003DA505 /* TestIStatement.cpp */,
 				F5CE2D431EF6A4CB002ABB85 /* TestIType.cpp */,
 				F53A2C201EF96FEA00E76A9E /* TestIVariable.cpp */,
 			);
@@ -4407,6 +4414,8 @@
 				F50FA2A11E269B4700435EEA /* TestCompoundStatement.cpp in Sources */,
 				F5603B502021562800BBA05D /* TestCheckArrayIndexFunction.cpp in Sources */,
 				F5436DB41FCF72BB003ABF6F /* ModelTypeSpecifierFull.cpp in Sources */,
+				F5A8208B209CB23A003DA505 /* IStatement.cpp in Sources */,
+				F5A8208D209CB2F3003DA505 /* TestIStatement.cpp in Sources */,
 				F5C0E7D52091DC430028BBD0 /* CheckForModelFunction.cpp in Sources */,
 				F5827080206013CA00839EC7 /* TestLLVMFunctionDeclaration.cpp in Sources */,
 				F56AD49D1E9F4E400020868C /* ThrowStatement.cpp in Sources */,
@@ -4573,6 +4582,7 @@
 				F5CB7FC220529D20007628B5 /* StateFieldDefinition.cpp in Sources */,
 				F50427B41E4E3FA7001CB148 /* FieldReferenceVariable.cpp in Sources */,
 				F531B6421E0A16D7008304F3 /* Block.cpp in Sources */,
+				F5A8208A209CB23A003DA505 /* IStatement.cpp in Sources */,
 				F5CB18111EB0C615007E2E43 /* TryCatchStatement.cpp in Sources */,
 				F53B8EBB1ECE101A00F45564 /* ImportStatement.cpp in Sources */,
 				F5CB18131EB0D96A007E2E43 /* Catch.cpp in Sources */,

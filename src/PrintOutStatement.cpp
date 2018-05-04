@@ -28,7 +28,7 @@ PrintOutStatement::~PrintOutStatement() {
 }
 
 void PrintOutStatement::generateIR(IRGenerationContext& context) const {
-  IRWriter::checkUnreachable(context, mLine);
+  checkUnreachable(context, mLine);
   
   const IType* expressionType = mExpression->getType(context);
   if (!expressionType->isPrimitive() || expressionType == PrimitiveTypes::VOID) {
