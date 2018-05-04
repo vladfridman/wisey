@@ -313,7 +313,8 @@ namespace wisey {
      */
     static llvm::Instruction* createMallocForObject(IRGenerationContext& context,
                                                     const IConcreteObjectType* object,
-                                                    std::string variableName);
+                                                    std::string variableName,
+                                                    int line);
     
     /**
      * Searches list of methods in the given objects and in its inherented interfaces

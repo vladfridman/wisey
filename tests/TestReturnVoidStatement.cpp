@@ -100,14 +100,14 @@ TEST_F(ReturnVoidStatementTest, ownerVariablesAreClearedTest) {
   Type* structType = mModel->getLLVMType(mContext)->getPointerElementType();
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   llvm::Constant* one = ConstantInt::get(Type::getInt64Ty(mLLVMContext), 1);
-  Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, one, "");
+  Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, one, "", 0);
   Value* fooPointer = IRWriter::newAllocaInst(mContext, fooMalloc->getType(), "pointer");
   IRWriter::newStoreInst(mContext, fooMalloc, fooPointer);
   IVariable* foo = new LocalOwnerVariable("foo", mModel->getOwner(), fooPointer, 0);
   mContext.getScopes().setVariable(mContext, foo);
   
   mContext.getScopes().pushScope();
-  Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, one, "");
+  Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, one, "", 0);
   Value* barPointer = IRWriter::newAllocaInst(mContext, barMalloc->getType(), "pointer");
   IRWriter::newStoreInst(mContext, barMalloc, barPointer);
   IVariable* bar = new LocalOwnerVariable("bar", mModel->getOwner(), barPointer, 0);
@@ -156,14 +156,14 @@ TEST_F(ReturnVoidStatementTest, referenceVariablesGetTheirRefCountDecrementedTes
   structType->setBody(types);
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   llvm::Constant* one = ConstantInt::get(Type::getInt64Ty(mLLVMContext), 1);
-  Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, one, "");
+  Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, one, "", 0);
   Value* fooStore = IRWriter::newAllocaInst(mContext, fooMalloc->getType(), "");
   IRWriter::newStoreInst(mContext, fooMalloc, fooStore);
   IVariable* foo = new LocalReferenceVariable("foo", mModel, fooStore, 0);
   mContext.getScopes().setVariable(mContext, foo);
   
   mContext.getScopes().pushScope();
-  Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, one, "");
+  Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, one, "", 0);
   Value* barStore = IRWriter::newAllocaInst(mContext, barMalloc->getType(), "");
   IRWriter::newStoreInst(mContext, barMalloc, barStore);
   IVariable* bar = new LocalReferenceVariable("bar", mModel, barStore, 0);

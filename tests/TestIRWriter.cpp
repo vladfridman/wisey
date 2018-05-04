@@ -124,22 +124,13 @@ TEST_F(IRWriterTest, createMallocTest) {
   Type* structType = Type::getInt8Ty(mLLVMContext);
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   llvm::Constant* one = ConstantInt::get(Type::getInt64Ty(mLLVMContext), 1);
-  Instruction* instruction = IRWriter::createMalloc(mContext, structType, allocSize, one, "");
+  Instruction* instruction = IRWriter::createMalloc(mContext, structType, allocSize, one, "", 0);
 
   EXPECT_EQ(mBasicBlock->size(), 1u);
   *mStringStream << *instruction;
   ASSERT_STREQ(mStringStream->str().c_str(),
                "  %malloccall = tail call i8* @malloc(i64 ptrtoint "
                "(i8* getelementptr (i8, i8* null, i32 1) to i64))");
-  
-  Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
-  IRWriter::createReturnInst(mContext, value, 0);
-  
-  EXPECT_EQ(mBasicBlock->size(), 2u);
-  
-  IRWriter::createMalloc(mContext, structType, allocSize, one, "");
-  
-  EXPECT_EQ(mBasicBlock->size(), 2u);
 }
 
 TEST_F(IRWriterTest, createFreeTest) {
@@ -519,6 +510,18 @@ TEST_F(IRWriterTest, createIvokeInstUreachableDeathTest) {
   EXPECT_EXIT(IRWriter::createInvokeInst(mContext, mMainFunction, arguments, "", 11),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(11\\): Error: Statement unreachable");
+}
+
+TEST_F(IRWriterTest, createMallocUreachableDeathTest) {
+  Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
+  IRWriter::createReturnInst(mContext, value, 0);
+  Type* structType = Type::getInt8Ty(mLLVMContext);
+  llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
+  llvm::Constant* one = ConstantInt::get(Type::getInt64Ty(mLLVMContext), 1);
+
+  EXPECT_EXIT(IRWriter::createMalloc(mContext, structType, allocSize, one, "", 13),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(13\\): Error: Statement unreachable");
 }
 
 TEST_F(TestFileRunner, unreachableReturnRunDeathTest) {

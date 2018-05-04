@@ -66,7 +66,7 @@ Value* ArrayAllocation::allocateArray(IRGenerationContext& context,
 
   list<tuple<Value*, Value*>> arrayData = arraySpecificType->computeArrayAllocData(context, line);
   Value* allocSize = get<1>(arrayData.front());
-  Instruction* malloc = IRWriter::createMalloc(context, byteType, one, allocSize, "newarray");
+  Instruction* malloc = IRWriter::createMalloc(context, byteType, one, allocSize, "newarray", line);
   IntrinsicFunctions::setMemoryToZero(context, malloc, allocSize);
 
   arrayData.pop_front();

@@ -686,12 +686,18 @@ unsigned long IConcreteObjectType::getVTableSizeForObject(const IConcreteObjectT
 
 llvm::Instruction* IConcreteObjectType::createMallocForObject(IRGenerationContext& context,
                                                               const IConcreteObjectType* object,
-                                                              string variableName) {
+                                                              string variableName,
+                                                              int line) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* structType = getOrCreateRefCounterStruct(context, object);
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   llvm::Constant* one = ConstantInt::get(Type::getInt64Ty(llvmContext), 1);
-  Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, one, variableName);
+  Instruction* malloc = IRWriter::createMalloc(context,
+                                               structType,
+                                               allocSize,
+                                               one,
+                                               variableName,
+                                               line);
   IntrinsicFunctions::setMemoryToZero(context, malloc, ConstantExpr::getSizeOf(structType));
   Value* index[2];
   index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);

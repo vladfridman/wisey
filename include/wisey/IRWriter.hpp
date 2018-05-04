@@ -83,7 +83,8 @@ namespace wisey {
                                            llvm::Type* structType,
                                            llvm::Value* allocSize,
                                            llvm::Value* arraySize,
-                                           std::string variableName);
+                                           std::string variableName,
+                                           int line);
     
     /**
      * Create a call to free function that frees heep allocated memory

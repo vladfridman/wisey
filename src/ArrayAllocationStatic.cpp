@@ -181,12 +181,17 @@ ExpressionList ArrayAllocationStatic::flattenExpressionList(IRGenerationContext&
 }
 
 Value* ArrayAllocationStatic::allocateArray(IRGenerationContext& context,
-                                            const ArrayExactType* arrayExactType) {
+                                            const ArrayExactType* arrayExactType) const {
   llvm::PointerType* arrayPointerType = arrayExactType->getLLVMType(context);
   StructType* structType = (StructType*) arrayPointerType->getPointerElementType();
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   llvm::Constant* one = llvm::ConstantInt::get(llvm::Type::getInt64Ty(context.getLLVMContext()), 1);
-  Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, one, "newarray");
+  Instruction* malloc = IRWriter::createMalloc(context,
+                                               structType,
+                                               allocSize,
+                                               one,
+                                               "newarray",
+                                               mLine);
   IntrinsicFunctions::setMemoryToZero(context, malloc, ConstantExpr::getSizeOf(structType));
   
   initializeEmptyArray(context, malloc, arrayExactType->getDimensions());
