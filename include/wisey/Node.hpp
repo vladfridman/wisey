@@ -193,7 +193,9 @@ namespace wisey {
                                  llvm::Value* object,
                                  int line) const override;
     
-    llvm::Value* getReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
+    llvm::Value* getReferenceCount(IRGenerationContext& context,
+                                   llvm::Value* object,
+                                   int line) const override;
     
     ImportProfile* getImportProfile() const override;
     

@@ -96,7 +96,7 @@ void DestroyObjectOwnerFunction::compose(IRGenerationContext& context, Function*
   LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 2);
-  GetElementPtrInst* virtualFunction = IRWriter::createGetElementPtrInst(context, vTable, index);
+  GetElementPtrInst* virtualFunction = IRWriter::createGetElementPtrInst(context, vTable, index, 0);
   Function* objectDestructor = (Function*) IRWriter::newLoadInst(context, virtualFunction, "");
   
   vector<Value*> arguments;

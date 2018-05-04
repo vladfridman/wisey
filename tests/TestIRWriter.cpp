@@ -145,19 +145,14 @@ TEST_F(IRWriterTest, createFreeTest) {
 TEST_F(IRWriterTest, createGetElementPtrInstTest) {
   Value* value = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
   vector<Value*> index;
-  GetElementPtrInst* getElementPtrInst = IRWriter::createGetElementPtrInst(mContext, value, index);
+  GetElementPtrInst* getElementPtrInst = IRWriter::createGetElementPtrInst(mContext,
+                                                                           value,
+                                                                           index,
+                                                                           0);
   
   EXPECT_EQ(mBasicBlock->size(), 1u);
   *mStringStream << *getElementPtrInst;
   ASSERT_STREQ(mStringStream->str().c_str(), "  %0 = getelementptr i8, i8* null");
-  
-  IRWriter::createReturnInst(mContext, value, 0);
-  
-  EXPECT_EQ(mBasicBlock->size(), 2u);
-  
-  IRWriter::createGetElementPtrInst(mContext, value, index);
-  
-  EXPECT_EQ(mBasicBlock->size(), 2u);
 }
 
 TEST_F(IRWriterTest, newBitCastInst) {
@@ -524,6 +519,17 @@ TEST_F(IRWriterTest, createFreeUreachableDeathTest) {
   EXPECT_EXIT(IRWriter::createFree(mContext, pointer, 15),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(15\\): Error: Statement unreachable");
+}
+
+TEST_F(IRWriterTest, createGetElementPtrInstUreachableDeathTest) {
+  Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
+  IRWriter::createReturnInst(mContext, value, 0);
+
+  Value* pointer = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
+  vector<Value*> index;
+  EXPECT_EXIT(IRWriter::createGetElementPtrInst(mContext, pointer, index, 17),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(17\\): Error: Statement unreachable");
 }
 
 TEST_F(TestFileRunner, unreachableReturnRunDeathTest) {

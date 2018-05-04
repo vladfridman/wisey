@@ -55,7 +55,7 @@ void ThrowStatement::generateIR(IRGenerationContext& context) const {
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), -Environment::getAddressSizeInBytes());
   Value* excpetionShellStart =
-  IRWriter::createGetElementPtrInst(context, expressionValueBitcast, index);
+  IRWriter::createGetElementPtrInst(context, expressionValueBitcast, index, mLine);
 
   llvm::Constant* modelSize = ConstantExpr::getSizeOf(model->getLLVMType(context)->
                                                       getPointerElementType());

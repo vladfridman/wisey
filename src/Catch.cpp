@@ -74,7 +74,7 @@ bool Catch::generateIR(IRGenerationContext& context,
   BitCastInst* mallocBitcast = IRWriter::newBitCastInst(context, malloc, int8PointerType);
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), -Environment::getAddressSizeInBytes());
-  Value* modelShellStart = IRWriter::createGetElementPtrInst(context, mallocBitcast, index);
+  Value* modelShellStart = IRWriter::createGetElementPtrInst(context, mallocBitcast, index, line);
 
   vector<Value*> memCopyArguments;
   unsigned int memoryAlignment = Environment::getDefaultMemoryAllignment();

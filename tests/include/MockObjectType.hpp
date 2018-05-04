@@ -59,7 +59,9 @@ public:
   MOCK_CONST_METHOD3(decrementReferenceCount, void (wisey::IRGenerationContext&,
                                                     llvm::Value*,
                                                     int));
-  MOCK_CONST_METHOD2(getReferenceCount, llvm::Value* (wisey::IRGenerationContext&, llvm::Value*));
+  MOCK_CONST_METHOD3(getReferenceCount, llvm::Value* (wisey::IRGenerationContext&,
+                                                      llvm::Value*,
+                                                      int));
   MOCK_CONST_METHOD0(getImportProfile, wisey::ImportProfile* ());
   MOCK_METHOD1(addInnerObject, void (const wisey::IObjectType*));
   MOCK_CONST_METHOD1(getInnerObject, const wisey::IObjectType* (std::string));

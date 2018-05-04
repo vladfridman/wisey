@@ -120,10 +120,10 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   
   Value* index[1];
   index[0] = one;
-  Value* sizeStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
+  Value* sizeStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index, 0);
   Value* size = IRWriter::newLoadInst(context, sizeStore, "size");
   index[0] = two;
-  Value* elementSizeStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
+  Value* elementSizeStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index, 0);
   Value* elementSize = IRWriter::newLoadInst(context, elementSizeStore, "elementSize");
   
   Value* numberOfDimensionsMinusOne = IRWriter::createBinaryOperator(context,
@@ -155,7 +155,7 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   context.setBasicBlock(refCountZeroBlock);
   
   index[0] = ConstantInt::get(int64type, ArrayType::ARRAY_ELEMENTS_START_INDEX);
-  Value* arrayStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
+  Value* arrayStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index, 0);
   Value* array = IRWriter::newBitCastInst(context, arrayStore, bytePointer);
   
   Value* indexStore = IRWriter::newAllocaInst(context, int64type, "indexStore");
@@ -176,7 +176,7 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   
   Value* idx[1];
   idx[0] = offsetValue;
-  Value* elementStore = IRWriter::createGetElementPtrInst(context, array, idx);
+  Value* elementStore = IRWriter::createGetElementPtrInst(context, array, idx, 0);
   Value* newIndex = IRWriter::createBinaryOperator(context,
                                                    Instruction::Add,
                                                    indexValue,

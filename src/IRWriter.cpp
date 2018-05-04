@@ -157,10 +157,12 @@ Instruction* IRWriter::createFree(IRGenerationContext& context, Value* value, in
 
 GetElementPtrInst* IRWriter::createGetElementPtrInst(IRGenerationContext& context,
                                                      Value* value,
-                                                     ArrayRef<Value *> index) {
+                                                     ArrayRef<Value *> index,
+                                                     int line) {
   BasicBlock* currentBlock = context.getBasicBlock();
   
   if(currentBlock->getTerminator()) {
+    exitWithUnreachableStatement(context, line);
     return NULL;
   }
 

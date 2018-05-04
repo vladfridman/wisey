@@ -442,7 +442,10 @@ void Model::initializeFields(IRGenerationContext& context,
     string argumentName = argument->deriveFieldName();
     IField* field = findField(argumentName);
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
-    GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
+    GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context,
+                                                                        malloc,
+                                                                        index,
+                                                                        line);
     const IType* fieldType = field->getType();
     
     Value* argumentValue = argument->getValue(context, fieldType);
@@ -497,8 +500,8 @@ void Model::decrementReferenceCount(IRGenerationContext& context,
   AdjustReferenceCounterForConcreteObjectSafelyFunction::call(context, object, -1, line);
 }
 
-Value* Model::getReferenceCount(IRGenerationContext& context, Value* object) const {
-  return getReferenceCountForObject(context, object);
+Value* Model::getReferenceCount(IRGenerationContext& context, Value* object, int line) const {
+  return getReferenceCountForObject(context, object, line);
 }
 
 ImportProfile* Model::getImportProfile() const {

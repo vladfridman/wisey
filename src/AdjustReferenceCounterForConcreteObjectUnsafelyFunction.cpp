@@ -100,7 +100,7 @@ void AdjustReferenceCounterForConcreteObjectUnsafelyFunction::compose(IRGenerati
   Value* objectStart = IRWriter::newBitCastInst(context, object, int64Pointer);
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), -1);
-  Value* counter = IRWriter::createGetElementPtrInst(context, objectStart, index);
+  Value* counter = IRWriter::createGetElementPtrInst(context, objectStart, index, 0);
   Value* count = IRWriter::newLoadInst(context, counter, "count");
   Value* sum = IRWriter::createBinaryOperator(context, Instruction::Add, count, adjustment, "", 0);
   IRWriter::newStoreInst(context, sum, counter);

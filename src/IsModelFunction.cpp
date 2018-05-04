@@ -80,7 +80,10 @@ void IsModelFunction::compose(IRGenerationContext& context, llvm::Function* func
   LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 1);
-  GetElementPtrInst* typeArrayPointerI8 = IRWriter::createGetElementPtrInst(context, vTable, index);
+  GetElementPtrInst* typeArrayPointerI8 = IRWriter::createGetElementPtrInst(context,
+                                                                            vTable,
+                                                                            index,
+                                                                            0);
   LoadInst* typeArrayI8 = IRWriter::newLoadInst(context, typeArrayPointerI8, "typeArrayI8");
   BitCastInst* arrayOfStrings = IRWriter::newBitCastInst(context,
                                                          typeArrayI8,

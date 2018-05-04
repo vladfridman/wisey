@@ -100,7 +100,10 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()),
                               interface->getMethodIndex(context, methodDescriptor, mLine) +
                               VTABLE_METHODS_OFFSET);
-  GetElementPtrInst* virtualFunction = IRWriter::createGetElementPtrInst(context, vTable, index);
+  GetElementPtrInst* virtualFunction = IRWriter::createGetElementPtrInst(context,
+                                                                         vTable,
+                                                                         index,
+                                                                         mLine);
   Function* function = (Function*) IRWriter::newLoadInst(context, virtualFunction, "");
   
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);

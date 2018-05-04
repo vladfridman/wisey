@@ -600,7 +600,7 @@ TEST_F(ModelTest, decrementReferenceCountTest) {
 
 TEST_F(ModelTest, getReferenceCountTest) {
   ConstantPointerNull* pointer = ConstantPointerNull::get(mModel->getLLVMType(mContext));
-  mModel->getReferenceCount(mContext, pointer);
+  mModel->getReferenceCount(mContext, pointer, 0);
   
   *mStringStream << *mBasicBlock;
   string expected =

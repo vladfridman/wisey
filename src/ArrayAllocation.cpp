@@ -90,13 +90,13 @@ void ArrayAllocation::initializeEmptyArray(IRGenerationContext& context,
   Type* int8ArrayType = llvm::ArrayType::get(int8Type, 0)->getPointerTo();
   Type* int64ArrayType = llvm::ArrayType::get(int64Type, 0)->getPointerTo();
   Value* int64ArrayPointer = IRWriter::newBitCastInst(context, arrayStructPointer, int64ArrayType);
-  Value* sizeStore = IRWriter::createGetElementPtrInst(context, int64ArrayPointer, index);
+  Value* sizeStore = IRWriter::createGetElementPtrInst(context, int64ArrayPointer, index, 0);
   Value* sizeValue = get<0>(arrayData.front());
   IRWriter::newStoreInst(context, sizeValue, sizeStore);
   
   Value* elementSize = get<1>(arrayData.front());
   index[1] = two;
-  Value* elementSizeStore = IRWriter::createGetElementPtrInst(context, int64ArrayPointer, index);
+  Value* elementSizeStore = IRWriter::createGetElementPtrInst(context, int64ArrayPointer, index, 0);
   IRWriter::newStoreInst(context, elementSize, elementSizeStore);
 
   if (arrayData.size() == 1) {
@@ -110,7 +110,7 @@ void ArrayAllocation::initializeEmptyArray(IRGenerationContext& context,
   BasicBlock* forEnd = BasicBlock::Create(context.getLLVMContext(), "for.end", function);
 
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), ArrayType::ARRAY_ELEMENTS_START_INDEX);
-  Value* arrayPointer = IRWriter::createGetElementPtrInst(context, int64ArrayPointer, index);
+  Value* arrayPointer = IRWriter::createGetElementPtrInst(context, int64ArrayPointer, index, 0);
   Value* int8ArrayPointer = IRWriter::newBitCastInst(context, arrayPointer, int8ArrayType);
   Value* indexStore = IRWriter::newAllocaInst(context, int64Type, "index");
   IRWriter::newStoreInst(context, zero, indexStore);
@@ -131,7 +131,7 @@ void ArrayAllocation::initializeEmptyArray(IRGenerationContext& context,
                                                  "",
                                                  0);
   index[1] = offset;
-  Value* arrayElement = IRWriter::createGetElementPtrInst(context, int8ArrayPointer, index);
+  Value* arrayElement = IRWriter::createGetElementPtrInst(context, int8ArrayPointer, index, 0);
   arrayData.pop_front();
   initializeEmptyArray(context, arrayElement, arrayData);
   Value* newIndex = IRWriter::createBinaryOperator(context,

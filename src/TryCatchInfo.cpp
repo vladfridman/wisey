@@ -131,10 +131,10 @@ TryCatchInfo::generateLandingPad(IRGenerationContext& context,
   index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   Value* wrappedExceptionPointer =
-  IRWriter::createGetElementPtrInst(context, landingPadReturnValueAlloca, index);
+  IRWriter::createGetElementPtrInst(context, landingPadReturnValueAlloca, index, 0);
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
   Value* exceptionTypeIdPointer =
-  IRWriter::createGetElementPtrInst(context, landingPadReturnValueAlloca, index);
+  IRWriter::createGetElementPtrInst(context, landingPadReturnValueAlloca, index, 0);
   Value* wrappedException = IRWriter::newLoadInst(context, wrappedExceptionPointer, "");
   Value* exceptionTypeId = IRWriter::newLoadInst(context, exceptionTypeIdPointer, "");
   
