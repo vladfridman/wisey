@@ -41,7 +41,12 @@ Value* BooleanNotExpression::generateIR(IRGenerationContext& context,
                                                    mExpression->getLine());
   
   Value* one = ConstantInt::get(Type::getInt1Ty(context.getLLVMContext()), 1);
-  return IRWriter::createBinaryOperator(context, Instruction::Xor, expressionValueCast, one, "");
+  return IRWriter::createBinaryOperator(context,
+                                        Instruction::Xor,
+                                        expressionValueCast,
+                                        one,
+                                        "",
+                                        mLine);
 }
 
 const IType* BooleanNotExpression::getType(IRGenerationContext& context) const {

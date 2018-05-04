@@ -118,7 +118,7 @@ void AdjustReferenceCountFunction::compose(IRGenerationContext& context, llvm::F
 
   context.setBasicBlock(ifNotModelBlock);
   Value* count = IRWriter::newLoadInst(context, counter, "count");
-  Value* sum = IRWriter::createBinaryOperator(context, Instruction::Add, count, adjustment, "");
+  Value* sum = IRWriter::createBinaryOperator(context, Instruction::Add, count, adjustment, "", 0);
   IRWriter::newStoreInst(context, sum, counter);
   IRWriter::createReturnInst(context, NULL, 0);
 

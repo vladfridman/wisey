@@ -74,12 +74,14 @@ ArraySpecificType::computeArrayAllocData(IRGenerationContext& context, int line)
                                                           llvm::Instruction::Mul,
                                                           dimensionCast,
                                                           sizeValue,
-                                                          "");
+                                                          "",
+                                                          line);
     llvm::Value* withHeader = IRWriter::createBinaryOperator(context,
                                                              llvm::Instruction::Add,
                                                              newSize,
                                                              headerSize,
-                                                             "");
+                                                             "",
+                                                             line);
     IRWriter::newStoreInst(context, withHeader, sizeStore);
   }
   llvm::Value* arraySize = IRWriter::newLoadInst(context, sizeStore, "");

@@ -153,10 +153,10 @@ void CastObjectFunction::compose(IRGenerationContext& context, llvm::Function* f
   ConstantInt* bytes = ConstantInt::get(Type::getInt32Ty(llvmContext),
                                         Environment::getAddressSizeInBytes());
   ConstantInt* one = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
-  Value* offset = IRWriter::createBinaryOperator(context, Instruction::Sub, instanceof, one, "");
+  Value* offset = IRWriter::createBinaryOperator(context, Instruction::Sub, instanceof, one, "", 0);
   BitCastInst* bitcast =
   IRWriter::newBitCastInst(context, originalObject, int8Type->getPointerTo());
-  Value* thunkBy = IRWriter::createBinaryOperator(context, Instruction::Mul, offset, bytes, "");
+  Value* thunkBy = IRWriter::createBinaryOperator(context, Instruction::Mul, offset, bytes, "", 0);
   Value* index[1];
   index[0] = thunkBy;
   Value* thunk = IRWriter::createGetElementPtrInst(context, bitcast, index);

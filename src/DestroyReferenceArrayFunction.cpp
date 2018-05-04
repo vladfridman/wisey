@@ -129,7 +129,8 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
                                                                      llvm::Instruction::Sub,
                                                                      numberOfDimensions,
                                                                      one,
-                                                                     "dimensionsMinusOne");
+                                                                     "dimensionsMinusOne",
+                                                                     0);
   
   if (context.isDestructorDebugOn()) {
     ExpressionList printOutArguments;
@@ -179,13 +180,15 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
                                                    Instruction::Add,
                                                    indexValue,
                                                    one,
-                                                   "newIndex");
+                                                   "newIndex",
+                                                   0);
   IRWriter::newStoreInst(context, newIndex, indexStore);
   Value* newOffset = IRWriter::createBinaryOperator(context,
                                                     Instruction::Add,
                                                     offsetValue,
                                                     elementSize,
-                                                    "offsetIncrement");
+                                                    "offsetIncrement",
+                                                    0);
   IRWriter::newStoreInst(context, newOffset, offsetStore);
   Value* isMultiDimensional = IRWriter::newICmpInst(context,
                                                     ICmpInst::ICMP_SGT,

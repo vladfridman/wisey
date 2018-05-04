@@ -88,19 +88,11 @@ TEST_F(IRWriterTest, createConditionalBranchTest) {
 TEST_F(IRWriterTest, createBinaryOperator) {
   Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
   BinaryOperator* binaryOperator =
-  IRWriter::createBinaryOperator(mContext, Instruction::Add, value, value, "");
+  IRWriter::createBinaryOperator(mContext, Instruction::Add, value, value, "", 0);
 
   EXPECT_EQ(mBasicBlock->size(), 1u);
   *mStringStream << *binaryOperator;
   ASSERT_STREQ(mStringStream->str().c_str(), "  %0 = add i32 1, 1");
-
-  IRWriter::createReturnInst(mContext, value, 0);
-
-  EXPECT_EQ(mBasicBlock->size(), 2u);
-
-  IRWriter::createBinaryOperator(mContext, Instruction::Add, value, value, "");
-
-  EXPECT_EQ(mBasicBlock->size(), 2u);
 }
 
 TEST_F(IRWriterTest, createCallInstTest) {
@@ -513,6 +505,15 @@ TEST_F(IRWriterTest, createConditionalBranchUreachableDeathTest) {
               "/tmp/source.yz\\(5\\): Error: Statement unreachable");
 }
 
+TEST_F(IRWriterTest, createBinaryOperatorUreachableDeathTest) {
+  Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
+  IRWriter::createReturnInst(mContext, value, 0);
+  
+  EXPECT_EXIT(IRWriter::createBinaryOperator(mContext, Instruction::Add, value, value, "", 7),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(7\\): Error: Statement unreachable");
+}
+
 TEST_F(TestFileRunner, unreachableReturnRunDeathTest) {
   expectFailCompile("tests/samples/test_unreachable_return.yz",
                     1,
@@ -529,4 +530,10 @@ TEST_F(TestFileRunner, unreachableConditionalBranchRunDeathTest) {
   expectFailCompile("tests/samples/test_unreachable_conditional_branch.yz",
                     1,
                     "tests/samples/test_unreachable_conditional_branch.yz\\(9\\): Error: Statement unreachable");
+}
+
+TEST_F(TestFileRunner, unreachableBinaryOperatorRunDeathTest) {
+  expectFailCompile("tests/samples/test_unreachable_binary_operator.yz",
+                    1,
+                    "tests/samples/test_unreachable_binary_operator.yz\\(9\\): Error: Statement unreachable");
 }

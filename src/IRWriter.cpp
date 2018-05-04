@@ -59,10 +59,12 @@ BinaryOperator* IRWriter::createBinaryOperator(IRGenerationContext& context,
                                                Instruction::BinaryOps instruction,
                                                Value* leftValue,
                                                Value* rightValue,
-                                               string llvmVariableName) {
+                                               string llvmVariableName,
+                                               int line) {
   BasicBlock* currentBlock = context.getBasicBlock();
 
   if(currentBlock->getTerminator()) {
+    exitWithUnreachableStatement(context, line);
     return NULL;
   }
 

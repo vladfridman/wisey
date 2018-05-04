@@ -85,7 +85,8 @@ void CheckArrayIndexFunction::compose(IRGenerationContext& context, Function* fu
                                                   Instruction::Or,
                                                   compareToSize,
                                                   compareToZero,
-                                                  "");
+                                                  "",
+                                                  0);
   FakeExpression* compareExpression = new FakeExpression(compare, PrimitiveTypes::BOOLEAN);
   
   Block* thenBlock = new Block(0);

@@ -107,7 +107,8 @@ Value* ArrayElementExpression::getArrayElement(IRGenerationContext &context,
                                                  Instruction::Mul,
                                                  elementSize,
                                                  indexValueCast,
-                                                 "offset");
+                                                 "offset",
+                                                 line);
   
   llvm::PointerType* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
   Value* genericPointer = IRWriter::newBitCastInst(context, arrayPointer, int8Pointer);

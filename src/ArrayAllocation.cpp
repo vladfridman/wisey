@@ -128,7 +128,8 @@ void ArrayAllocation::initializeEmptyArray(IRGenerationContext& context,
                                                  Instruction::Mul,
                                                  indexValue,
                                                  elementSize,
-                                                 "");
+                                                 "",
+                                                 0);
   index[1] = offset;
   Value* arrayElement = IRWriter::createGetElementPtrInst(context, int8ArrayPointer, index);
   arrayData.pop_front();
@@ -137,7 +138,8 @@ void ArrayAllocation::initializeEmptyArray(IRGenerationContext& context,
                                                    Instruction::Add,
                                                    indexValue,
                                                    one,
-                                                   "indexIncrement");
+                                                   "indexIncrement",
+                                                   0);
   IRWriter::newStoreInst(context, newIndex, indexStore);
   IRWriter::createBranch(context, forCond, 0);
   

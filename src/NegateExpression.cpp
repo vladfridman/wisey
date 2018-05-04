@@ -44,7 +44,8 @@ Value* NegateExpression::generateIR(IRGenerationContext& context, const IType* a
                                           Instruction::FSub,
                                           zero,
                                           mExpression->generateIR(context, assignToType),
-                                          "fsub");
+                                          "fsub",
+                                          mLine);
   }
   
   Value* zero = ConstantInt::get(type->getLLVMType(context), 0);
@@ -52,7 +53,8 @@ Value* NegateExpression::generateIR(IRGenerationContext& context, const IType* a
                                         Instruction::Sub,
                                         zero,
                                         mExpression->generateIR(context, assignToType),
-                                        "sub");
+                                        "sub",
+                                        mLine);
 }
 
 const IType* NegateExpression::getType(IRGenerationContext& context) const {
