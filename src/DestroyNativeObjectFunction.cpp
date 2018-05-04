@@ -45,7 +45,7 @@ void DestroyNativeObjectFunction::call(IRGenerationContext& context, Value* refe
     arguments.push_back(genericReference);
   }
   
-  IRWriter::createCallInst(context, function, arguments, "", line);
+  IRWriter::createCallInst(context, function, arguments, "");
 }
 
 string DestroyNativeObjectFunction::getName() {

@@ -43,7 +43,7 @@ void DestroyPrimitiveArrayFunction::call(IRGenerationContext& context,
   arguments.push_back(array);
   arguments.push_back(ConstantInt::get(Type::getInt64Ty(llvmContext), numberOfDimensions));
 
-  IRWriter::createCallInst(context, function, arguments, "", line);
+  IRWriter::createCallInst(context, function, arguments, "");
 }
 
 string DestroyPrimitiveArrayFunction::getName() {

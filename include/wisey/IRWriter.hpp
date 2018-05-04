@@ -64,8 +64,7 @@ namespace wisey {
     static llvm::CallInst* createCallInst(IRGenerationContext& context,
                                           llvm::Function* function,
                                           std::vector<llvm::Value*> arguments,
-                                          std::string resultName,
-                                          int line);
+                                          std::string resultName);
     
     /**
      * Create a call to a given function using invoke with supplied arguments

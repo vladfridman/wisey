@@ -48,7 +48,7 @@ void PrintOutStatement::printExpressionList(IRGenerationContext& context,
   for (const IExpression* expression : expressionList) {
     arguments.push_back(expression->generateIR(context, PrimitiveTypes::VOID));
   }
-  IRWriter::createCallInst(context, printf, arguments, "", line);
+  IRWriter::createCallInst(context, printf, arguments, "");
 }
 
 int PrintOutStatement::getLine() const {

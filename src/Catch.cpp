@@ -52,12 +52,7 @@ bool Catch::generateIR(IRGenerationContext& context,
   
   vector<Value*> arguments;
   arguments.push_back(wrappedException);
-  int line = mModelTypeSpecifier->getLine();
-  CallInst* exceptionPointer = IRWriter::createCallInst(context,
-                                                        beginCatchFunction,
-                                                        arguments,
-                                                        "",
-                                                        line);
+  CallInst* exceptionPointer = IRWriter::createCallInst(context, beginCatchFunction, arguments, "");
   
   const Model* exceptionType = getType(context)->getReference();
   llvm::PointerType* exceptionLLVMType = exceptionType->getLLVMType(context);
@@ -81,10 +76,10 @@ bool Catch::generateIR(IRGenerationContext& context,
   memCopyArguments.push_back(ConstantInt::get(Type::getInt32Ty(llvmContext), memoryAlignment));
   memCopyArguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 0));
   Function* memCopyFunction = IntrinsicFunctions::getMemCopyFunction(context);
-  IRWriter::createCallInst(context, memCopyFunction, memCopyArguments, "", line);
+  IRWriter::createCallInst(context, memCopyFunction, memCopyArguments, "");
 
   vector<Value*> endCatchArguments;
-  IRWriter::createCallInst(context, endCatchFunction, endCatchArguments, "", line);
+  IRWriter::createCallInst(context, endCatchFunction, endCatchArguments, "");
   
   Value* pointer = IRWriter::newAllocaInst(context, malloc->getType(), "exceptionPointer");
   IRWriter::newStoreInst(context, malloc, pointer);

@@ -47,7 +47,7 @@ void DestroyReferenceArrayFunction::call(IRGenerationContext& context,
   arguments.push_back(ConstantInt::get(Type::getInt64Ty(llvmContext), numberOfDimensions));
   arguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 1));
 
-  IRWriter::createCallInst(context, function, arguments, "", line);
+  IRWriter::createCallInst(context, function, arguments, "");
 }
 
 string DestroyReferenceArrayFunction::getName() {
@@ -208,7 +208,7 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   recursiveCallArguments.push_back(IRWriter::newBitCastInst(context, elementStore, genericPointer));
   recursiveCallArguments.push_back(numberOfDimensionsMinusOne);
   recursiveCallArguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 0));
-  IRWriter::createCallInst(context, function, recursiveCallArguments, "", 0);
+  IRWriter::createCallInst(context, function, recursiveCallArguments, "");
   IRWriter::createBranch(context, forCond, 0);
   
   context.setBasicBlock(oneDimensional);
