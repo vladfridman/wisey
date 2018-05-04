@@ -97,3 +97,8 @@ TEST_F(TestFileRunner, whileStatementRunTest) {
   runFile("tests/samples/test_while_statement.yz", "10");
 }
 
+TEST_F(TestFileRunner, unreachableWhileStatementRunDeathTest) {
+  expectFailCompile("tests/samples/test_unreachable_while_statement.yz",
+                    1,
+                    "tests/samples/test_unreachable_while_statement.yz\\(9\\): Error: Statement unreachable");
+}

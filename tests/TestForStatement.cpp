@@ -132,3 +132,8 @@ TEST_F(TestFileRunner, forStatementLocalVariableScopeRunDeathTest) {
                     "tests/samples/test_for_statement_scope.yz\\(10\\): Error: Undeclared variable 'i'");
 }
 
+TEST_F(TestFileRunner, unreachableForStatementRunDeathTest) {
+  expectFailCompile("tests/samples/test_unreachable_for_statement.yz",
+                    1,
+                    "tests/samples/test_unreachable_for_statement.yz\\(9\\): Error: Statement unreachable");
+}

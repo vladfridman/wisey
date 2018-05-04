@@ -15,6 +15,12 @@ TEST_F(TestFileRunner, printFileRunTest) {
   checkOutput("build/test.txt", "This is a test\n");
 }
 
+TEST_F(TestFileRunner, unreachablePrintFileStatementRunDeathTest) {
+  expectFailCompile("tests/samples/test_unreachable_printfile_statement.yz",
+                    1,
+                    "tests/samples/test_unreachable_printfile_statement.yz\\(9\\): Error: Statement unreachable");
+}
+
 TEST_F(TestFileRunner, printFileCatchFileOpenExceptionRunTest) {
   compileAndRunFileCheckOutput("tests/samples/test_printfile_catch_file_open_exception.yz",
                                5,

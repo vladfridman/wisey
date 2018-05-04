@@ -28,3 +28,9 @@ TEST_F(TestFileRunner, switchStatementWithDefaultRunTest) {
 TEST_F(TestFileRunner, switchStatementWithFallThroughRunTest) {
   runFile("tests/samples/test_switch_statement_with_fallthrough.yz", "7");
 }
+
+TEST_F(TestFileRunner, unreachableSwithcStatementRunDeathTest) {
+  expectFailCompile("tests/samples/test_unreachable_switch_statement.yz",
+                    1,
+                    "tests/samples/test_unreachable_switch_statement.yz\\(10\\): Error: Statement unreachable");
+}

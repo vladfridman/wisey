@@ -1,0 +1,19 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+
+  public int run() override {
+    int foo = 2;
+    return 1;
+    switch (foo) {
+      case 1: 
+        break;
+      default:
+        break;
+    } 
+  }
+}
+
+bind(IProgram).to(CProgram);

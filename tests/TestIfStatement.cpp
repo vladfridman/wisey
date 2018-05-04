@@ -105,3 +105,9 @@ TEST_F(TestFileRunner, ifStatemenScopeRunTest) {
 TEST_F(TestFileRunner, compareObjectToNullIfRunTest) {
   runFile("tests/samples/test_compare_object_to_null_if.yz", "3");
 }
+
+TEST_F(TestFileRunner, unreachableIfStatementRunDeathTest) {
+  expectFailCompile("tests/samples/test_unreachable_if_statement.yz",
+                    1,
+                    "tests/samples/test_unreachable_if_statement.yz\\(9\\): Error: Statement unreachable");
+}

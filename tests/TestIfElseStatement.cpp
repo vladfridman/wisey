@@ -123,3 +123,9 @@ TEST_F(TestFileRunner, ifElseIfElseRunTest) {
 TEST_F(TestFileRunner, compareObjectToNullIfElseRunTest) {
   runFile("tests/samples/test_compare_object_to_null_if_else.yz", "5");
 }
+
+TEST_F(TestFileRunner, unreachableIfElseStatementRunDeathTest) {
+  expectFailCompile("tests/samples/test_unreachable_if_else_statement.yz",
+                    1,
+                    "tests/samples/test_unreachable_if_else_statement.yz\\(9\\): Error: Statement unreachable");
+}

@@ -18,6 +18,8 @@ ContinueStatement::ContinueStatement(int line) : mLine(line) { }
 ContinueStatement::~ContinueStatement() { }
 
 void ContinueStatement::generateIR(IRGenerationContext& context) const {
+  IRWriter::checkUnreachable(context, mLine);
+  
   BasicBlock* continueToBlock = context.getScopes().getContinueToBlock();
   
   if (continueToBlock == NULL) {

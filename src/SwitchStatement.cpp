@@ -28,6 +28,8 @@ SwitchStatement::~SwitchStatement() {
 }
 
 void SwitchStatement::generateIR(IRGenerationContext& context) const {
+  IRWriter::checkUnreachable(context, mCondition->getLine());
+  
   Function* function = context.getBasicBlock()->getParent();
   LLVMContext& llvmContext = context.getLLVMContext();
   

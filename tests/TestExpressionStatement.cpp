@@ -31,14 +31,24 @@ using ::testing::Test;
 struct ExpressionStatementTest : public Test {
   IRGenerationContext mContext;
   NiceMock<MockExpression>* mExpression;
-  
+  BasicBlock* mBasicBlock;
+
   ExpressionStatementTest() : mExpression(new NiceMock<MockExpression>()) {
+    mContext.getScopes().pushScope();
+    mBasicBlock = BasicBlock::Create(mContext.getLLVMContext());
+    mContext.setBasicBlock(mBasicBlock);
   }
 };
 
 TEST_F(ExpressionStatementTest, generateIRTest) {
-  ExpressionStatement expressionStatement(mExpression);
+  ExpressionStatement expressionStatement(mExpression, 0);
   EXPECT_CALL(*mExpression, generateIR(_, _));
   
   expressionStatement.generateIR(mContext);
+}
+
+TEST_F(TestFileRunner, unreachableExpressionStatementRunDeathTest) {
+  expectFailCompile("tests/samples/test_unreachable_expression_statement.yz",
+                    1,
+                    "tests/samples/test_unreachable_expression_statement.yz\\(10\\): Error: Statement unreachable");
 }

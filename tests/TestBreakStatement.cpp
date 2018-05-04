@@ -39,3 +39,9 @@ TEST_F(TestFileRunner, breakOutOfIfStatementRunDeathTest) {
                     1,
                     "tests/samples/test_break_out_of_if_statement.yz\\(10\\): Error: break statement not inside a loop or a switch");
 }
+
+TEST_F(TestFileRunner, unreachableBreakStatementRunDeathTest) {
+  expectFailCompile("tests/samples/test_unreachable_break_statement.yz",
+                    1,
+                    "tests/samples/test_unreachable_break_statement.yz\\(9\\): Error: Statement unreachable");
+}

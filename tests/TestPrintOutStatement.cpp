@@ -18,6 +18,12 @@ TEST_F(TestFileRunner, printOutCompositeStringRunTest) {
   runFileCheckOutput("tests/samples/test_printout_composite_string.yz", "Car year: 2018\n", "");
 }
 
+TEST_F(TestFileRunner, unreachablePrintOutStatementRunDeathTest) {
+  expectFailCompile("tests/samples/test_unreachable_printout_statement.yz",
+                    1,
+                    "tests/samples/test_unreachable_printout_statement.yz\\(9\\): Error: Statement unreachable");
+}
+
 TEST_F(TestFileRunner, printOutNonPrimitiveTypeRunDeathTest) {
   expectFailCompile("tests/samples/test_printout_non_primitive_type.yz",
                     1,

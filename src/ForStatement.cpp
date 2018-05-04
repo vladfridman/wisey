@@ -32,6 +32,7 @@ ForStatement::~ForStatement() {
 }
 
 void ForStatement::generateIR(IRGenerationContext& context) const {
+  IRWriter::checkUnreachable(context, mConditionExpression->getLine());
   
   Function* function = context.getBasicBlock()->getParent();
   Scopes& scopes = context.getScopes();

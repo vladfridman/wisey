@@ -28,6 +28,8 @@ PrintOutStatement::~PrintOutStatement() {
 }
 
 void PrintOutStatement::generateIR(IRGenerationContext& context) const {
+  IRWriter::checkUnreachable(context, mLine);
+  
   const IType* expressionType = mExpression->getType(context);
   if (!expressionType->isPrimitive() || expressionType == PrimitiveTypes::VOID) {
     context.reportError(mLine, "Argument in the printout statement is not of printable type");

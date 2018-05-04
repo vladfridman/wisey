@@ -27,11 +27,15 @@ struct TestCompoundStatement : public Test {
   NiceMock<MockStatement>* mStatement1;
   NiceMock<MockStatement>* mStatement2;
   Block* mBlock;
+  BasicBlock* mBasicBlock;
 
   TestCompoundStatement() :
     mStatement1(new NiceMock<MockStatement>()),
     mStatement2(new NiceMock<MockStatement>()),
     mBlock(new Block()) {
+      mContext.getScopes().pushScope();
+      mBasicBlock = BasicBlock::Create(mContext.getLLVMContext());
+      mContext.setBasicBlock(mBasicBlock);
   }
 };
 
@@ -50,4 +54,10 @@ TEST_F(TestFileRunner, compoundStatementOutOfScopeVariableRunDeathTest) {
   expectFailCompile("tests/samples/test_compound_statement_fail.yz",
                     1,
                     "tests/samples/test_compound_statement_fail.yz\\(11\\): Error: Undeclared variable 'j'");
+}
+
+TEST_F(TestFileRunner, unreachableCompoundStatementRunDeathTest) {
+  expectFailCompile("tests/samples/test_unreachable_compound_statement.yz",
+                    1,
+                    "tests/samples/test_unreachable_compound_statement.yz\\(9\\): Error: Statement unreachable");
 }

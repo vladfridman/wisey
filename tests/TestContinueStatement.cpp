@@ -39,3 +39,9 @@ TEST_F(TestFileRunner, continueInIfStatementRunDeathTest) {
                     1,
                     "tests/samples/test_continue_in_if_statement.yz\\(9\\): Error: continue statement not inside a loop");
 }
+
+TEST_F(TestFileRunner, unreachableContinueStatementRunDeathTest) {
+  expectFailCompile("tests/samples/test_unreachable_continue_statement.yz",
+                    1,
+                    "tests/samples/test_unreachable_continue_statement.yz\\(9\\): Error: Statement unreachable");
+}

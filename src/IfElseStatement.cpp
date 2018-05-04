@@ -29,6 +29,8 @@ IfElseStatement::~IfElseStatement() {
 }
 
 void IfElseStatement::generateIR(IRGenerationContext& context) const {
+  IRWriter::checkUnreachable(context, mCondition->getLine());
+  
   Function* function = context.getBasicBlock()->getParent();
   
   BasicBlock* ifThen = BasicBlock::Create(context.getLLVMContext(), "if.then", function);

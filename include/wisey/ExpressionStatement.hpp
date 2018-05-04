@@ -19,10 +19,11 @@ namespace wisey {
    */
   class ExpressionStatement : public IStatement {
     IExpression* mExpression;
+    int mLine;
     
   public:
     
-    ExpressionStatement(IExpression* expression);
+    ExpressionStatement(IExpression* expression, int line);
     
     ~ExpressionStatement();
     

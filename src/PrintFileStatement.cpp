@@ -35,6 +35,8 @@ PrintFileStatement::~PrintFileStatement() {
 }
 
 void PrintFileStatement::generateIR(IRGenerationContext& context) const {
+  IRWriter::checkUnreachable(context, mLine);
+  
   Controller* fileController = context.getController(Names::getFileControllerFullName(), mLine);
   assert(fileController && "wisey.io.CFile is not defined");
   const IType* fileExpressionType = mFileExpression->getType(context);

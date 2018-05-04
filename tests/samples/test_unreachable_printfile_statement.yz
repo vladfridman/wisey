@@ -1,0 +1,13 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+
+  public int run() override {
+    return 1;
+    printfile(null, "test");
+  }
+}
+
+bind(IProgram).to(CProgram);
