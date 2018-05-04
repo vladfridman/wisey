@@ -363,7 +363,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   IRWriter::createConditionalBranch(context, ifThisIsNullBlock, ifThisIsNotNullBlock, isNull);
   
   context.setBasicBlock(ifThisIsNullBlock);
-  IRWriter::createReturnInst(context, NULL, 0);
+  IRWriter::createReturnInst(context, NULL);
   
   context.setBasicBlock(ifThisIsNotNullBlock);
   
@@ -411,7 +411,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
                               -Environment::getAddressSizeInBytes());
   Value* refCounterObject = IRWriter::createGetElementPtrInst(context, thisGeneric, index);
   IRWriter::createFree(context, refCounterObject);
-  IRWriter::createReturnInst(context, NULL, 0);
+  IRWriter::createReturnInst(context, NULL);
   
   context.getScopes().popScope(context, 0);
 }

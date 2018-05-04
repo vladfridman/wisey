@@ -12,8 +12,6 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "TestFileRunner.hpp"
-#include "TestPrefix.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/IRWriter.hpp"
 
@@ -32,8 +30,6 @@ struct IRWriterTest : public Test {
   raw_string_ostream* mStringStream;
   
   IRWriterTest() : mLLVMContext(mContext.getLLVMContext()) {
-    TestPrefix::generateIR(mContext);
-    
     FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
     mMainFunction = Function::Create(functionType,
                                      GlobalValue::InternalLinkage,
@@ -55,11 +51,17 @@ struct IRWriterTest : public Test {
 
 TEST_F(IRWriterTest, createReturnInstTest) {
   Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
-  ReturnInst* returnInst = IRWriter::createReturnInst(mContext, value, 0);
+  ReturnInst* returnInst = IRWriter::createReturnInst(mContext, value);
   
   EXPECT_EQ(mBasicBlock->size(), 1u);
   *mStringStream << *returnInst;
   ASSERT_STREQ(mStringStream->str().c_str(), "  ret i32 1");
+
+  value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 2);
+  IRWriter::createReturnInst(mContext, value);
+
+  EXPECT_EQ(mBasicBlock->size(), 1u);
+  EXPECT_EQ(mBasicBlock->getTerminator(), returnInst);
 }
 
 TEST_F(IRWriterTest, createBranchTest) {
@@ -103,7 +105,7 @@ TEST_F(IRWriterTest, createBinaryOperator) {
   *mStringStream << *binaryOperator;
   ASSERT_STREQ(mStringStream->str().c_str(), "  %0 = add i32 1, 1");
 
-  IRWriter::createReturnInst(mContext, value, 0);
+  IRWriter::createReturnInst(mContext, value);
 
   EXPECT_EQ(mBasicBlock->size(), 2u);
 
@@ -121,7 +123,7 @@ TEST_F(IRWriterTest, createCallInstTest) {
   ASSERT_STREQ(mStringStream->str().c_str(), "  %0 = call i64 @main()");
 
   Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
-  IRWriter::createReturnInst(mContext, value, 0);
+  IRWriter::createReturnInst(mContext, value);
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
 
@@ -163,7 +165,7 @@ TEST_F(IRWriterTest, createMallocTest) {
                "(i8* getelementptr (i8, i8* null, i32 1) to i64))");
   
   Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
-  IRWriter::createReturnInst(mContext, value, 0);
+  IRWriter::createReturnInst(mContext, value);
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
   
@@ -180,7 +182,7 @@ TEST_F(IRWriterTest, createFreeTest) {
   *mStringStream << *instruction;
   ASSERT_STREQ(mStringStream->str().c_str(), "  tail call void @free(i8* null)");
   
-  IRWriter::createReturnInst(mContext, value, 0);
+  IRWriter::createReturnInst(mContext, value);
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
   
@@ -198,7 +200,7 @@ TEST_F(IRWriterTest, createGetElementPtrInstTest) {
   *mStringStream << *getElementPtrInst;
   ASSERT_STREQ(mStringStream->str().c_str(), "  %0 = getelementptr i8, i8* null");
   
-  IRWriter::createReturnInst(mContext, value, 0);
+  IRWriter::createReturnInst(mContext, value);
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
   
@@ -217,7 +219,7 @@ TEST_F(IRWriterTest, newBitCastInst) {
   *mStringStream << *bitCastInst;
   ASSERT_STREQ(mStringStream->str().c_str(), "  %0 = bitcast i8* null to i8**");
   
-  IRWriter::createReturnInst(mContext, value, 0);
+  IRWriter::createReturnInst(mContext, value);
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
   
@@ -236,7 +238,7 @@ TEST_F(IRWriterTest, newStoreInst) {
   *mStringStream << *storeInst;
   ASSERT_STREQ(mStringStream->str().c_str(), "  store i32 0, i32* null");
   
-  IRWriter::createReturnInst(mContext, value, 0);
+  IRWriter::createReturnInst(mContext, value);
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
   
@@ -254,7 +256,7 @@ TEST_F(IRWriterTest, newAllocaInst) {
   *mStringStream << *allocaInst;
   ASSERT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i32");
   
-  IRWriter::createReturnInst(mContext, value, 0);
+  IRWriter::createReturnInst(mContext, value);
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
   
@@ -273,7 +275,7 @@ TEST_F(IRWriterTest, newLoadInst) {
   *mStringStream << *loadInst;
   ASSERT_STREQ(mStringStream->str().c_str(), "  %foo = load i32, i32* null");
   
-  IRWriter::createReturnInst(mContext, value, 0);
+  IRWriter::createReturnInst(mContext, value);
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
   
@@ -291,7 +293,7 @@ TEST_F(IRWriterTest, createZExtOrBitCastTest) {
   *mStringStream << *castInst;
   ASSERT_STREQ(mStringStream->str().c_str(), "  %conv = zext i32 0 to i64");
   
-  IRWriter::createReturnInst(mContext, value, 0);
+  IRWriter::createReturnInst(mContext, value);
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
   
@@ -309,7 +311,7 @@ TEST_F(IRWriterTest, newTruncInstTest) {
   *mStringStream << *castInst;
   ASSERT_STREQ(mStringStream->str().c_str(), "  %conv = trunc i32 0 to i16");
   
-  IRWriter::createReturnInst(mContext, value, 0);
+  IRWriter::createReturnInst(mContext, value);
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
   
@@ -327,7 +329,7 @@ TEST_F(IRWriterTest, newFPTruncInstTest) {
   *mStringStream << *castInst;
   ASSERT_STREQ(mStringStream->str().c_str(), "  %conv = fptrunc double 0.000000e+00 to float");
   
-  IRWriter::createReturnInst(mContext, value, 0);
+  IRWriter::createReturnInst(mContext, value);
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
   
@@ -345,7 +347,7 @@ TEST_F(IRWriterTest, newFPExtInstTest) {
   *mStringStream << *castInst;
   ASSERT_STREQ(mStringStream->str().c_str(), "  %conv = fpext float 0.000000e+00 to double");
   
-  IRWriter::createReturnInst(mContext, value, 0);
+  IRWriter::createReturnInst(mContext, value);
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
   
@@ -363,7 +365,7 @@ TEST_F(IRWriterTest, newSIToFPInstTest) {
   *mStringStream << *castInst;
   ASSERT_STREQ(mStringStream->str().c_str(), "  %conv = sitofp i32 0 to double");
   
-  IRWriter::createReturnInst(mContext, value, 0);
+  IRWriter::createReturnInst(mContext, value);
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
   
@@ -381,7 +383,7 @@ TEST_F(IRWriterTest, newFPToSIInstTest) {
   *mStringStream << *castInst;
   ASSERT_STREQ(mStringStream->str().c_str(), "  %conv = fptosi double 0.000000e+00 to i16");
   
-  IRWriter::createReturnInst(mContext, value, 0);
+  IRWriter::createReturnInst(mContext, value);
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
   
@@ -400,7 +402,7 @@ TEST_F(IRWriterTest, newPtrToIntInstTest) {
   *mStringStream << *castInst;
   ASSERT_STREQ(mStringStream->str().c_str(), "  %conv = ptrtoint i32* null to i16");
   
-  IRWriter::createReturnInst(mContext, ConstantInt::get(Type::getInt32Ty(mLLVMContext), 0), 0);
+  IRWriter::createReturnInst(mContext, ConstantInt::get(Type::getInt32Ty(mLLVMContext), 0));
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
   
@@ -423,7 +425,7 @@ TEST_F(IRWriterTest, createPhiNodeTest) {
   ASSERT_STREQ(mStringStream->str().c_str(),
                "  %phi = phi i1 [ true, %block1 ], [ false, %block2 ]");
   
-  IRWriter::createReturnInst(mContext, ConstantInt::get(Type::getInt32Ty(mLLVMContext), 0), 0);
+  IRWriter::createReturnInst(mContext, ConstantInt::get(Type::getInt32Ty(mLLVMContext), 0));
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
   
@@ -440,7 +442,7 @@ TEST_F(IRWriterTest, newICmpInstTest) {
   *mStringStream << *iCmpInst;
   ASSERT_STREQ(mStringStream->str().c_str(), "  %cmp = icmp sge i32 0, 0");
   
-  IRWriter::createReturnInst(mContext, value, 0);
+  IRWriter::createReturnInst(mContext, value);
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
   
@@ -457,7 +459,7 @@ TEST_F(IRWriterTest, newFCmpInstTest) {
   *mStringStream << *fCmpInst;
   ASSERT_STREQ(mStringStream->str().c_str(), "  %cmp = fcmp ueq float 0.000000e+00, 0.000000e+00");
   
-  IRWriter::createReturnInst(mContext, value, 0);
+  IRWriter::createReturnInst(mContext, value);
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
   
@@ -490,18 +492,4 @@ TEST_F(IRWriterTest, newUnreachableInstTest) {
   EXPECT_EQ(mBasicBlock->size(), 1u);
   *mStringStream << *unreachableInst;
   ASSERT_STREQ(mStringStream->str().c_str(), "  unreachable");
-}
-
-TEST_F(IRWriterTest, createReturnInstUreachableDeathTest) {
-  Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
-  IRWriter::createReturnInst(mContext, value, 0);
-  EXPECT_EXIT(IRWriter::createReturnInst(mContext, value, 1),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(1\\): Error: Statement unreachable");
-}
-
-TEST_F(TestFileRunner, unreachableReturnRunDeathTest) {
-  expectFailCompile("tests/samples/test_unreachable_return.yz",
-                    1,
-                    "tests/samples/test_unreachable_return.yz\\(9\\): Error: Statement unreachable");
 }

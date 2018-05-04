@@ -87,6 +87,8 @@ void ThrowReferenceCountExceptionFunction::compose(IRGenerationContext& context,
   context.getScopes().pushScope();
   throwStatement.generateIR(context);
   context.getScopes().popScope(context, 0);
+  
+  IRWriter::createReturnInst(context, NULL);
 
   context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context), 0);
 }

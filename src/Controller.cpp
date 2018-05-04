@@ -253,7 +253,7 @@ void Controller::composeInjectFunctionBody(IRGenerationContext& context,
   Instruction* malloc = createMallocForObject(context, controller, "injectvar");
   controller->initializeReceivedFields(context, function, malloc);
   initializeVTable(context, controller, malloc);
-  IRWriter::createReturnInst(context, malloc, 0);
+  IRWriter::createReturnInst(context, malloc);
   
   context.getScopes().popScope(context, 0);
 }

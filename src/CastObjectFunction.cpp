@@ -109,7 +109,7 @@ void CastObjectFunction::compose(IRGenerationContext& context, llvm::Function* f
   IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
   
   context.setBasicBlock(ifNullBlock);
-  IRWriter::createReturnInst(context, null, 0);
+  IRWriter::createReturnInst(context, null);
   
   context.setBasicBlock(ifNotNullBlock);
   Value* instanceof = InstanceOfFunction::call(context, fromObjectValue, toTypeName);
@@ -160,10 +160,10 @@ void CastObjectFunction::compose(IRGenerationContext& context, llvm::Function* f
   Value* index[1];
   index[0] = thunkBy;
   Value* thunk = IRWriter::createGetElementPtrInst(context, bitcast, index);
-  IRWriter::createReturnInst(context, thunk, 0);
+  IRWriter::createReturnInst(context, thunk);
   
   context.setBasicBlock(zeroExactly);
-  IRWriter::createReturnInst(context, originalObject, 0);
+  IRWriter::createReturnInst(context, originalObject);
   
   context.getScopes().popScope(context, 0);
 

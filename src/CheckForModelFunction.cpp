@@ -91,7 +91,7 @@ void CheckForModelFunction::compose(IRGenerationContext& context, Function* func
   IRWriter::createConditionalBranch(context, returnBlock, ifNotNullBlock, condition);
   
   context.setBasicBlock(returnBlock);
-  IRWriter::createReturnInst(context, NULL, 0);
+  IRWriter::createReturnInst(context, NULL);
   
   context.setBasicBlock(ifNotNullBlock);
   Value* isModel = IsModelFunction::call(context, object);

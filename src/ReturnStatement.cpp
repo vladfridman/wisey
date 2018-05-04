@@ -51,6 +51,6 @@ void ReturnStatement::generateIR(IRGenerationContext& context) const {
   }
 
   Composer::popCallStack(context);
-  IRWriter::createReturnInst(context, result, mLine);
+  IRWriter::createReturnInst(context, result);
 }
 

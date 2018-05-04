@@ -252,6 +252,10 @@ TEST_F(TestFileRunner, returnStatementCastRunTest) {
   runFile("tests/samples/test_return_boolean_cast.yz", "1");
 }
 
+TEST_F(TestFileRunner, earlyReturnRunTest) {
+  runFile("tests/samples/test_early_return.yz", "1");
+}
+
 TEST_F(TestFileRunner, returnReferenceToFreedObjectRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_return_reference_to_freed_object.yz",
                                1,

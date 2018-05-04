@@ -112,7 +112,7 @@ void CheckArrayIndexFunction::compose(IRGenerationContext& context, Function* fu
   ifStatement.generateIR(context);
   context.getScopes().popScope(context, 0);
   
-  IRWriter::createReturnInst(context, NULL, 0);
+  IRWriter::createReturnInst(context, NULL);
 
   context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context), 0);
 }

@@ -88,13 +88,13 @@ void DestroyNativeObjectFunction::compose(IRGenerationContext& context, Function
   IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
   
   context.setBasicBlock(ifNullBlock);
-  IRWriter::createReturnInst(context, NULL, 0);
+  IRWriter::createReturnInst(context, NULL);
   
   context.setBasicBlock(ifNotNullBlock);
   
   IRWriter::createFree(context, thisGeneric);
 
-  IRWriter::createReturnInst(context, NULL, 0);
+  IRWriter::createReturnInst(context, NULL);
   
   context.getScopes().popScope(context, 0);
   
