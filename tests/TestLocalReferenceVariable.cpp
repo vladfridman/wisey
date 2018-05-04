@@ -168,7 +168,7 @@ TEST_F(LocalReferenceVariableTest, decrementReferenceCounterTest) {
   Value* referenceStore = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalReferenceVariable localReferenceVariable("bar", mModel, referenceStore, 0);
   
-  localReferenceVariable.decrementReferenceCounter(mContext);
+  localReferenceVariable.decrementReferenceCounter(mContext, 0);
   
   *mStringStream << *mBasicBlock;
   string expected =

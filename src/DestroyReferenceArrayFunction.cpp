@@ -214,7 +214,7 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   
   Value* objectStore = IRWriter::newBitCastInst(context, elementStore, bytePointer->getPointerTo());
   Value* elementPointer = IRWriter::newLoadInst(context, objectStore, "");
-  AdjustReferenceCounterForConcreteObjectSafelyFunction::call(context, elementPointer, -1);
+  AdjustReferenceCounterForConcreteObjectSafelyFunction::call(context, elementPointer, -1, 0);
   IRWriter::createBranch(context, forCond, 0);
   
   context.setBasicBlock(maybeFreeArray);

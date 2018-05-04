@@ -428,7 +428,7 @@ void IConcreteObjectType::decrementReferenceFields(IRGenerationContext& context,
     
     Value* fieldValuePointer = getFieldValuePointer(context, thisValue, object, field);
     const IReferenceType* referenceType = (const IReferenceType*) fieldType;
-    referenceType->decrementReferenceCount(context, fieldValuePointer);
+    referenceType->decrementReferenceCount(context, fieldValuePointer, 0);
   }
 }
 

@@ -101,7 +101,7 @@ void Scope::freeOwnedMemory(IRGenerationContext& context, int line) {
   }
   
   for (IReferenceVariable* referenceVariable : mReferenceVariables) {
-    referenceVariable->decrementReferenceCounter(context);
+    referenceVariable->decrementReferenceCounter(context, line);
   }
   
   if (!mOwnerVariables.size()) {

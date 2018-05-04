@@ -80,8 +80,8 @@ Value* LocalReferenceVariable::generateAssignmentIR(IRGenerationContext& context
   const IType* assignToType = assignToExpression->getType(context);
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType, line);
   
-  decrementReferenceCounter(context);
-  mType->incrementReferenceCount(context, newValue);
+  decrementReferenceCounter(context, line);
+  mType->incrementReferenceCount(context, newValue, line);
   IRWriter::newStoreInst(context, newValue, mValueStore);
 
   mIsInitialized = true;
@@ -89,9 +89,10 @@ Value* LocalReferenceVariable::generateAssignmentIR(IRGenerationContext& context
   return newValue;
 }
 
-void LocalReferenceVariable::decrementReferenceCounter(IRGenerationContext& context) const {
+void LocalReferenceVariable::decrementReferenceCounter(IRGenerationContext& context,
+                                                       int line) const {
   Value* value = IRWriter::newLoadInst(context, mValueStore, "");
-  mType->decrementReferenceCount(context, value);
+  mType->decrementReferenceCount(context, value, line);
 }
 
 void LocalReferenceVariable::setToNull(IRGenerationContext& context) {

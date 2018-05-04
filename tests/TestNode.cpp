@@ -574,7 +574,7 @@ TEST_F(NodeTest, isObjectTest) {
 TEST_F(NodeTest, incrementReferenceCountTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mComplicatedNode->getLLVMType(mContext));
-  mComplicatedNode->incrementReferenceCount(mContext, pointer);
+  mComplicatedNode->incrementReferenceCount(mContext, pointer, 0);
   
   *mStringStream << *mBasicBlock;
   string expected =
@@ -589,7 +589,7 @@ TEST_F(NodeTest, incrementReferenceCountTest) {
 TEST_F(NodeTest, decrementReferenceCountTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mComplicatedNode->getLLVMType(mContext));
-  mComplicatedNode->decrementReferenceCount(mContext, pointer);
+  mComplicatedNode->decrementReferenceCount(mContext, pointer, 0);
   
   *mStringStream << *mBasicBlock;
   string expected =

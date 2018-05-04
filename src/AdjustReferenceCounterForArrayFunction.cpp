@@ -31,7 +31,8 @@ Function* AdjustReferenceCounterForArrayFunction::get(IRGenerationContext& conte
 
 void AdjustReferenceCounterForArrayFunction::call(IRGenerationContext& context,
                                                   Value* array,
-                                                  int adjustment) {
+                                                  int adjustment,
+                                                  int line) {
   Type* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
 
   Function* function = get(context);

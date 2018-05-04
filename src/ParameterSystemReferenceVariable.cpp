@@ -68,7 +68,7 @@ Value* ParameterSystemReferenceVariable::generateAssignmentIR(IRGenerationContex
   exit(1);
 }
 
-void ParameterSystemReferenceVariable::decrementReferenceCounter(IRGenerationContext&
-                                                                 context) const {
-  mType->decrementReferenceCount(context, mValue);
+void ParameterSystemReferenceVariable::decrementReferenceCounter(IRGenerationContext& context,
+                                                                 int line) const {
+  mType->decrementReferenceCount(context, mValue, line);
 }

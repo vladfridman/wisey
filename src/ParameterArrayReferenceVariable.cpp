@@ -91,8 +91,8 @@ Value* ParameterArrayReferenceVariable::generateAssignmentIR(IRGenerationContext
   return result;
 }
 
-void ParameterArrayReferenceVariable::decrementReferenceCounter(IRGenerationContext&
-                                                                context) const {
-  mArrayType->decrementReferenceCount(context, mValue);
+void ParameterArrayReferenceVariable::decrementReferenceCounter(IRGenerationContext& context,
+                                                                int line) const {
+  mArrayType->decrementReferenceCount(context, mValue, line);
 }
 

@@ -1023,12 +1023,16 @@ Interface::createElements(IRGenerationContext& context,
   return make_tuple(methodSignatures, constants, staticMethods, functions);
 }
 
-void Interface::incrementReferenceCount(IRGenerationContext& context, Value* object) const {
-  AdjustReferenceCountFunction::call(context, object, 1);
+void Interface::incrementReferenceCount(IRGenerationContext& context,
+                                        Value* object,
+                                        int line) const {
+  AdjustReferenceCountFunction::call(context, object, 1, line);
 }
 
-void Interface::decrementReferenceCount(IRGenerationContext& context, Value* object) const {
-  AdjustReferenceCountFunction::call(context, object, -1);
+void Interface::decrementReferenceCount(IRGenerationContext& context,
+                                        Value* object,
+                                        int line) const {
+  AdjustReferenceCountFunction::call(context, object, -1, line);
 }
 
 Value* Interface::getReferenceCount(IRGenerationContext& context, Value* object) const {
@@ -1094,7 +1098,7 @@ void Interface::createParameterVariable(IRGenerationContext& context,
                                         Value* value,
                                         int line) const {
   IVariable* variable = new ParameterReferenceVariable(name, this, value, line);
-  incrementReferenceCount(context, value);
+  incrementReferenceCount(context, value, line);
   context.getScopes().setVariable(context, variable);
 }
 

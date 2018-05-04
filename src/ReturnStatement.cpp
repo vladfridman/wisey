@@ -41,13 +41,13 @@ void ReturnStatement::generateIR(IRGenerationContext& context) const {
                                       returnType,
                                       mLine);
   if (returnType->isReference() && !returnType->isNative()) {
-    ((const IReferenceType*) returnType)->incrementReferenceCount(context, result);
+    ((const IReferenceType*) returnType)->incrementReferenceCount(context, result, mLine);
   }
   
   context.getScopes().freeOwnedMemory(context, mLine);
   
   if (returnType->isReference() && !returnType->isNative()) {
-    ((const IReferenceType*) returnType)->decrementReferenceCount(context, result);
+    ((const IReferenceType*) returnType)->decrementReferenceCount(context, result, mLine);
   }
 
   Composer::popCallStack(context);

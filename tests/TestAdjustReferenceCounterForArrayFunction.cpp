@@ -54,7 +54,7 @@ struct AdjustReferenceCounterForArrayFunctionTest : Test {
 
 TEST_F(AdjustReferenceCounterForArrayFunctionTest, callTest) {
   Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  AdjustReferenceCounterForArrayFunction::call(mContext, nullPointerValue, 1);
+  AdjustReferenceCounterForArrayFunction::call(mContext, nullPointerValue, 1, 0);
   
   *mStringStream << *mBasicBlock;
   string expected =

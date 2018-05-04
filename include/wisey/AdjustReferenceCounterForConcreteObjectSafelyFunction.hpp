@@ -30,7 +30,7 @@ namespace wisey {
     /**
      * Call function with given parameters
      */
-    static void call(IRGenerationContext& context, llvm::Value* object, int adjustment);
+    static void call(IRGenerationContext& context, llvm::Value* object, int adjustment, int line);
     
   private:
     

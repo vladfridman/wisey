@@ -54,7 +54,7 @@ struct AdjustReferenceCounterForImmutableArrayFunctionTest : Test {
 
 TEST_F(AdjustReferenceCounterForImmutableArrayFunctionTest, callTest) {
   Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  AdjustReferenceCounterForImmutableArrayFunction::call(mContext, nullPointerValue, 1);
+  AdjustReferenceCounterForImmutableArrayFunction::call(mContext, nullPointerValue, 1, 0);
   
   *mStringStream << *mBasicBlock;
   string expected =

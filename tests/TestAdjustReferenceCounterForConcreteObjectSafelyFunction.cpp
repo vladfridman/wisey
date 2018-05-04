@@ -54,7 +54,7 @@ struct AdjustReferenceCounterForConcreteObjectSafelyFunctionTest : Test {
 
 TEST_F(AdjustReferenceCounterForConcreteObjectSafelyFunctionTest, callTest) {
   Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  AdjustReferenceCounterForConcreteObjectSafelyFunction::call(mContext, nullPointerValue, 1);
+  AdjustReferenceCounterForConcreteObjectSafelyFunction::call(mContext, nullPointerValue, 1, 0);
   
   *mStringStream << *mBasicBlock;
   string expected =

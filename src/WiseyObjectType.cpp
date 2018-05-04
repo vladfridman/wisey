@@ -158,7 +158,7 @@ void WiseyObjectType::createParameterVariable(IRGenerationContext& context,
                                               Value* value,
                                               int line) const {
   IVariable* variable = new ParameterReferenceVariable(name, this, value, line);
-  incrementReferenceCount(context, value);
+  incrementReferenceCount(context, value, line);
   context.getScopes().setVariable(context, variable);
 }
 
@@ -167,12 +167,16 @@ const wisey::ArrayType* WiseyObjectType::getArrayType(IRGenerationContext& conte
   exit(1);
 }
 
-void WiseyObjectType::incrementReferenceCount(IRGenerationContext& context, Value* object) const {
-  AdjustReferenceCountFunction::call(context, object, 1);
+void WiseyObjectType::incrementReferenceCount(IRGenerationContext& context,
+                                              Value* object,
+                                              int line) const {
+  AdjustReferenceCountFunction::call(context, object, 1, line);
 }
 
-void WiseyObjectType::decrementReferenceCount(IRGenerationContext& context, Value* object) const {
-  AdjustReferenceCountFunction::call(context, object, -1);
+void WiseyObjectType::decrementReferenceCount(IRGenerationContext& context,
+                                              Value* object,
+                                              int line) const {
+  AdjustReferenceCountFunction::call(context, object, -1, line);
 }
 
 const IOwnerType* WiseyObjectType::getOwner() const {

@@ -421,7 +421,7 @@ void Node::initializePresetFields(IRGenerationContext& context,
     Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);
     IRWriter::newStoreInst(context, castValue, fieldPointer);
     if (fieldType->isReference()) {
-      ((const IReferenceType*) fieldType)->incrementReferenceCount(context, castValue);
+      ((const IReferenceType*) fieldType)->incrementReferenceCount(context, castValue, line);
     }
   }
 }
@@ -434,12 +434,16 @@ void Node::printToStream(IRGenerationContext& context, iostream& stream) const {
   IConcreteObjectType::printObjectToStream(context, this, stream);
 }
 
-void Node::incrementReferenceCount(IRGenerationContext& context, Value* object) const {
-  AdjustReferenceCounterForConcreteObjectUnsafelyFunction::call(context, object, 1);
+void Node::incrementReferenceCount(IRGenerationContext& context,
+                                   Value* object,
+                                   int line) const {
+  AdjustReferenceCounterForConcreteObjectUnsafelyFunction::call(context, object, 1, line);
 }
 
-void Node::decrementReferenceCount(IRGenerationContext& context, Value* object) const {
-  AdjustReferenceCounterForConcreteObjectUnsafelyFunction::call(context, object, -1);
+void Node::decrementReferenceCount(IRGenerationContext& context,
+                                   Value* object,
+                                   int line) const {
+  AdjustReferenceCounterForConcreteObjectUnsafelyFunction::call(context, object, -1, line);
 }
 
 Value* Node::getReferenceCount(IRGenerationContext& context, Value* object) const {
@@ -502,7 +506,7 @@ void Node::createParameterVariable(IRGenerationContext& context,
                                    Value* value,
                                    int line) const {
   IVariable* variable = new ParameterReferenceVariable(name, this, value, line);
-  incrementReferenceCount(context, value);
+  incrementReferenceCount(context, value, line);
   context.getScopes().setVariable(context, variable);
 }
 

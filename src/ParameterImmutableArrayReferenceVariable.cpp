@@ -77,6 +77,6 @@ generateAssignmentIR(IRGenerationContext& context,
 }
 
 void ParameterImmutableArrayReferenceVariable::
-decrementReferenceCounter(IRGenerationContext& context) const {
-  mImmutableArrayType->decrementReferenceCount(context, mValue);
+decrementReferenceCounter(IRGenerationContext& context, int line) const {
+  mImmutableArrayType->decrementReferenceCount(context, mValue, line);
 }

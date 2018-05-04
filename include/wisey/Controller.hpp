@@ -208,9 +208,13 @@ namespace wisey {
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
-    void incrementReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
+    void incrementReferenceCount(IRGenerationContext& context,
+                                 llvm::Value* object,
+                                 int line) const override;
     
-    void decrementReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
+    void decrementReferenceCount(IRGenerationContext& context,
+                                 llvm::Value* object,
+                                 int line) const override;
     
     llvm::Value* getReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
     

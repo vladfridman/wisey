@@ -23,7 +23,7 @@ namespace wisey {
     /**
      * Decrements reference counter for the object pointed to by this variable
      */
-    virtual void decrementReferenceCounter(IRGenerationContext& context) const = 0;
+    virtual void decrementReferenceCounter(IRGenerationContext& context, int line) const = 0;
     
   };
   

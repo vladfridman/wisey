@@ -92,13 +92,15 @@ llvm::Value* ArrayType::castTo(IRGenerationContext &context,
 }
 
 void ArrayType::incrementReferenceCount(IRGenerationContext& context,
-                                        llvm::Value* arrayPointer) const {
-  AdjustReferenceCounterForArrayFunction::call(context, arrayPointer, 1);
+                                        llvm::Value* arrayPointer,
+                                        int line) const {
+  AdjustReferenceCounterForArrayFunction::call(context, arrayPointer, 1, line);
 }
 
 void ArrayType::decrementReferenceCount(IRGenerationContext& context,
-                                        llvm::Value* arrayPointer) const {
-  AdjustReferenceCounterForArrayFunction::call(context, arrayPointer, -1);
+                                        llvm::Value* arrayPointer,
+                                        int line) const {
+  AdjustReferenceCounterForArrayFunction::call(context, arrayPointer, -1, line);
 }
 
 unsigned long ArrayType::getNumberOfDimensions() const {
@@ -191,7 +193,7 @@ void ArrayType::createParameterVariable(IRGenerationContext& context,
                                         llvm::Value* value,
                                         int line) const {
   IVariable* variable = new ParameterArrayReferenceVariable(name, this,  value, line);
-  incrementReferenceCount(context, value);
+  incrementReferenceCount(context, value, line);
   context.getScopes().setVariable(context, variable);
 }
 
