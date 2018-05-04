@@ -118,6 +118,10 @@ TEST_F(IRWriterTest, createInvokeInstTest) {
   "          to label %invoke.continue unwind label %eh.landing.pad";
   *mStringStream << *invokeInst;
   ASSERT_STREQ(expexted.c_str(), mStringStream->str().c_str());
+  
+  IRWriter::createInvokeInst(mContext, mMainFunction, arguments, "", 0);
+  
+  EXPECT_EQ(mBasicBlock->size(), 1u);
 }
 
 TEST_F(IRWriterTest, createMallocTest) {
@@ -509,16 +513,6 @@ TEST_F(IRWriterTest, createCallInstUreachableDeathTest) {
   EXPECT_EXIT(IRWriter::createCallInst(mContext, mMainFunction, arguments, "", 9),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(9\\): Error: Statement unreachable");
-}
-
-TEST_F(IRWriterTest, createIvokeInstUreachableDeathTest) {
-  Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
-  IRWriter::createReturnInst(mContext, value, 0);
-  vector<Value*> arguments;
-  
-  EXPECT_EXIT(IRWriter::createInvokeInst(mContext, mMainFunction, arguments, "", 11),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(11\\): Error: Statement unreachable");
 }
 
 TEST_F(TestFileRunner, unreachableReturnRunDeathTest) {
