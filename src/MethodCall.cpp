@@ -88,7 +88,7 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
   Value* objectValue = mExpression->generateIR(context, PrimitiveTypes::VOID);
 
   Composer::setLineNumber(context, mLine);
-  CheckForNullAndThrowFunction::call(context, objectValue);
+  CheckForNullAndThrowFunction::call(context, objectValue, mLine);
 
   FunctionType* functionType =
     IMethod::getLLVMFunctionType(context, methodDescriptor, interface, mLine);
@@ -129,7 +129,7 @@ Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
   Function* function = getMethodFunction(context, methodDescriptor);
 
   Composer::setLineNumber(context, mLine);
-  CheckForNullAndThrowFunction::call(context, objectValue);
+  CheckForNullAndThrowFunction::call(context, objectValue, mLine);
 
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
   Value* threadObject = threadVariable->generateIdentifierIR(context, mLine);

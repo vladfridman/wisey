@@ -36,7 +36,8 @@ namespace wisey {
      */
     static llvm::Value* call(IRGenerationContext& context,
                              llvm::Value* haystack,
-                             llvm::Value* needle);
+                             llvm::Value* needle,
+                             int line);
     
   private:
     

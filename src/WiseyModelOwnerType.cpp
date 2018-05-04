@@ -173,7 +173,7 @@ const WiseyModelType* WiseyModelOwnerType::getReference() const {
 }
 
 void WiseyModelOwnerType::free(IRGenerationContext& context, Value* value, int line) const {
-  IConcreteObjectType::composeDestructorCall(context, value);
+  IConcreteObjectType::composeDestructorCall(context, value, line);
 }
 
 Instruction* WiseyModelOwnerType::inject(IRGenerationContext& context,

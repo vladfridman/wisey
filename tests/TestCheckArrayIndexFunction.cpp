@@ -54,7 +54,7 @@ struct CheckArrayIndexFunctionTest : Test {
 TEST_F(CheckArrayIndexFunctionTest, callTest) {
   Value* index = ConstantInt::get(Type::getInt64Ty(mLLVMContext), -1);
   Value* arraySize = ConstantInt::get(Type::getInt64Ty(mLLVMContext), 5);
-  CheckArrayIndexFunction::call(mContext, index, arraySize);
+  CheckArrayIndexFunction::call(mContext, index, arraySize, 0);
   
   *mStringStream << *mFunction;
   string expected =

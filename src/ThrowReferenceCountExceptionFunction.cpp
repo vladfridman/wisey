@@ -35,7 +35,8 @@ Function* ThrowReferenceCountExceptionFunction::get(IRGenerationContext& context
 }
 
 void ThrowReferenceCountExceptionFunction::call(IRGenerationContext& context,
-                                                Value* referenceCount) {
+                                                Value* referenceCount,
+                                                int line) {
   Function* function = get(context);
   vector<Value*> arguments;
   arguments.push_back(referenceCount);

@@ -30,7 +30,9 @@ namespace wisey {
     /**
      * Calls getOriginalObject function to get the pointer to the original object's vTable
      */
-    static llvm::Value* call(IRGenerationContext& context, llvm::Value* interfacePointer);
+    static llvm::Value* call(IRGenerationContext& context,
+                             llvm::Value* interfacePointer,
+                             int line);
   
   private:
     

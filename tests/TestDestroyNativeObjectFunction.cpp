@@ -55,7 +55,7 @@ struct DestroyNativeObjectFunctionTest : Test {
 TEST_F(DestroyNativeObjectFunctionTest, callTest) {
   PointerType* genericPointer = Type::getInt8Ty(mLLVMContext)->getPointerTo();
   Value* nullPointerValue = ConstantPointerNull::get(genericPointer);
-  DestroyNativeObjectFunction::call(mContext, nullPointerValue);
+  DestroyNativeObjectFunction::call(mContext, nullPointerValue, 0);
   
   *mStringStream << *mBasicBlock;
   string expected =

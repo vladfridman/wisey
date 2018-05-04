@@ -30,7 +30,9 @@ namespace wisey {
     /**
      * Calls the function with given pointer to object that could be an interface or another object
      */
-    static llvm::Value* call(IRGenerationContext& context, llvm::Value* object);
+    static llvm::Value* call(IRGenerationContext& context,
+                             llvm::Value* object,
+                             int line);
     
   private:
     

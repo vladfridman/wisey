@@ -68,7 +68,7 @@ struct DestroyPrimitiveArrayFunctionTest : Test {
 TEST_F(DestroyPrimitiveArrayFunctionTest, callTest) {
   llvm::PointerType* genericPointer = llvm::Type::getInt64Ty(mLLVMContext)->getPointerTo();
   Value* nullPointerValue = ConstantPointerNull::get(genericPointer);
-  DestroyPrimitiveArrayFunction::call(mContext, nullPointerValue, 2u);
+  DestroyPrimitiveArrayFunction::call(mContext, nullPointerValue, 2u, 0);
   
   *mStringStream << *mBasicBlock;
   string expected =

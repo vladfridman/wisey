@@ -39,7 +39,10 @@ Function* CheckArrayIndexFunction::get(IRGenerationContext& context) {
   return function;
 }
 
-void CheckArrayIndexFunction::call(IRGenerationContext& context, Value* index, Value* size) {
+void CheckArrayIndexFunction::call(IRGenerationContext& context,
+                                   Value* index,
+                                   Value* size,
+                                   int line) {
   Function* function = get(context);
   vector<Value*> arguments;
   arguments.push_back(index);

@@ -39,7 +39,7 @@ Function* CheckForNullAndThrowFunction::get(IRGenerationContext& context) {
   return function;
 }
 
-void CheckForNullAndThrowFunction::call(IRGenerationContext& context, Value* value) {
+void CheckForNullAndThrowFunction::call(IRGenerationContext& context, Value* value, int line) {
   llvm::PointerType* int8PointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   Value* bitcast = IRWriter::newBitCastInst(context, value, int8PointerType);
   

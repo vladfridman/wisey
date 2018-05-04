@@ -72,7 +72,7 @@ Value* ModelOwner::castTo(IRGenerationContext& context,
 }
 
 void ModelOwner::free(IRGenerationContext& context, Value* value, int line) const {
-  IConcreteObjectType::composeDestructorCall(context, value);
+  IConcreteObjectType::composeDestructorCall(context, value, line);
 }
 
 Function* ModelOwner::getDestructorFunction(IRGenerationContext& context, int line) const {

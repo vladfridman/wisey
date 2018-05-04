@@ -55,7 +55,7 @@ struct DestroyOwnerArrayFunctionTest : Test {
 TEST_F(DestroyOwnerArrayFunctionTest, callTest) {
   llvm::PointerType* genericPointer = llvm::Type::getInt64Ty(mLLVMContext)->getPointerTo();
   Value* nullPointerValue = ConstantPointerNull::get(genericPointer);
-  DestroyOwnerArrayFunction::call(mContext, nullPointerValue, 2u);
+  DestroyOwnerArrayFunction::call(mContext, nullPointerValue, 2u, 0);
   
   *mStringStream << *mBasicBlock;
   string expected =

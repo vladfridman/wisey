@@ -32,7 +32,8 @@ Function* CheckArrayNotReferencedFunction::get(IRGenerationContext& context) {
 
 void CheckArrayNotReferencedFunction::call(IRGenerationContext& context,
                                            Value* array,
-                                           Value* numberOfDimensions) {
+                                           Value* numberOfDimensions,
+                                           int line) {
   Type* int64PointerType = Type::getInt64Ty(context.getLLVMContext())->getPointerTo();
   Value* arrayBitcast = array->getType() != int64PointerType
   ? IRWriter::newBitCastInst(context, array, int64PointerType)
@@ -52,7 +53,7 @@ void CheckArrayNotReferencedFunction::callWithArrayType(IRGenerationContext& con
   const ArrayType* arrayType = withArrayType->getArrayType(context, line);
   ConstantInt* numberOfDimentions = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()),
                                                      arrayType->getNumberOfDimensions());
-  call(context, array, numberOfDimentions);
+  call(context, array, numberOfDimentions, line);
 }
 
 string CheckArrayNotReferencedFunction::getName() {
@@ -118,7 +119,7 @@ void CheckArrayNotReferencedFunction::compose(IRGenerationContext& context, Func
   IRWriter::createConditionalBranch(context, refCountZeroBlock, refCountNotZeroBlock, isZero, 0);
   
   context.setBasicBlock(refCountNotZeroBlock);
-  ThrowReferenceCountExceptionFunction::call(context, referenceCount);
+  ThrowReferenceCountExceptionFunction::call(context, referenceCount, 0);
   IRWriter::newUnreachableInst(context);
   
   context.setBasicBlock(refCountZeroBlock);

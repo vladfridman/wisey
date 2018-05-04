@@ -32,7 +32,7 @@ Function* DestroyNativeObjectFunction::get(IRGenerationContext& context) {
   return function;
 }
 
-void DestroyNativeObjectFunction::call(IRGenerationContext& context, Value* reference) {
+void DestroyNativeObjectFunction::call(IRGenerationContext& context, Value* reference, int line) {
   Function* function = get(context);
   
   LLVMContext& llvmContext = context.getLLVMContext();

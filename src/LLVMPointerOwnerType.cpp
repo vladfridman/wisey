@@ -166,7 +166,7 @@ const IReferenceType* LLVMPointerOwnerType::getReference() const {
 }
 
 void LLVMPointerOwnerType::free(IRGenerationContext& context, Value* value, int line) const {
-  DestroyNativeObjectFunction::call(context, value);
+  DestroyNativeObjectFunction::call(context, value, line);
 }
 
 Instruction* LLVMPointerOwnerType::inject(IRGenerationContext& context,

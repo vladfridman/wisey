@@ -43,7 +43,7 @@ Function* CheckForModelFunction::get(IRGenerationContext& context) {
   return function;
 }
 
-void CheckForModelFunction::call(IRGenerationContext& context, Value* value) {
+void CheckForModelFunction::call(IRGenerationContext& context, Value* value, int line) {
   llvm::PointerType* int8PointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   Value* bitcast = IRWriter::newBitCastInst(context, value, int8PointerType);
   
@@ -94,11 +94,11 @@ void CheckForModelFunction::compose(IRGenerationContext& context, Function* func
   IRWriter::createReturnInst(context, NULL, 0);
   
   context.setBasicBlock(ifNotNullBlock);
-  Value* isModel = IsModelFunction::call(context, object);
+  Value* isModel = IsModelFunction::call(context, object, 0);
   IRWriter::createConditionalBranch(context, returnBlock, ifNotModelBlock, isModel, 0);
   
   context.setBasicBlock(ifNotModelBlock);
-  Value* objectName = GetOriginalObjectNameFunction::call(context, object);
+  Value* objectName = GetOriginalObjectNameFunction::call(context, object, 0);
   PackageType* packageType = context.getPackageType(Names::getLangPackageName());
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(packageExpression,

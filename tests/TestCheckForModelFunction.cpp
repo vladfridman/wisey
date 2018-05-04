@@ -54,7 +54,7 @@ struct CheckForModelFunctionTest : Test {
 
 TEST_F(CheckForModelFunctionTest, callTest) {
   Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  CheckForModelFunction::call(mContext, nullPointerValue);
+  CheckForModelFunction::call(mContext, nullPointerValue, 0);
   
   *mStringStream << *mBasicBlock;
   string expected =

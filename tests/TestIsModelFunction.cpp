@@ -54,7 +54,7 @@ struct IsModelFunctionTest : Test {
 
 TEST_F(IsModelFunctionTest, callTest) {
   Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  IsModelFunction::call(mContext, nullPointerValue);
+  IsModelFunction::call(mContext, nullPointerValue, 0);
   
   *mStringStream << *mBasicBlock;
   string expected =
