@@ -141,8 +141,7 @@ void CheckArrayNotReferencedFunction::compose(IRGenerationContext& context, Func
                                                                      llvm::Instruction::Sub,
                                                                      numberOfDimensions,
                                                                      one,
-                                                                     "dimensionsMinusOne",
-                                                                     0);
+                                                                     "dimensionsMinusOne");
   index[0] = ConstantInt::get(int64type, ArrayType::ARRAY_ELEMENTS_START_INDEX);
   Value* arrayStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
   Value* array = IRWriter::newBitCastInst(context, arrayStore, bytePointer);
@@ -166,15 +165,13 @@ void CheckArrayNotReferencedFunction::compose(IRGenerationContext& context, Func
                                                    Instruction::Add,
                                                    indexValue,
                                                    one,
-                                                   "newIndex",
-                                                   0);
+                                                   "newIndex");
   IRWriter::newStoreInst(context, newIndex, indexStore);
   Value* newOffset = IRWriter::createBinaryOperator(context,
                                                     Instruction::Add,
                                                     offsetValue,
                                                     elementSize,
-                                                    "offsetIncrement",
-                                                    0);
+                                                    "offsetIncrement");
   IRWriter::newStoreInst(context, newOffset, offsetStore);
   vector<Value*> recursiveCallArguments;
   recursiveCallArguments.push_back(IRWriter::newBitCastInst(context, elementStore, genericPointer));

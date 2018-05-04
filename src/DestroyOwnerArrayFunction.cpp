@@ -129,8 +129,7 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
                                                                      llvm::Instruction::Sub,
                                                                      numberOfDimensions,
                                                                      one,
-                                                                     "dimensionsMinusOne",
-                                                                     0);
+                                                                     "dimensionsMinusOne");
 
   if (context.isDestructorDebugOn()) {
     ExpressionList printOutArguments;
@@ -180,15 +179,13 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
                                                    Instruction::Add,
                                                    indexValue,
                                                    one,
-                                                   "newIndex",
-                                                   0);
+                                                   "newIndex");
   IRWriter::newStoreInst(context, newIndex, indexStore);
   Value* newOffset = IRWriter::createBinaryOperator(context,
                                                     Instruction::Add,
                                                     offsetValue,
                                                     elementSize,
-                                                    "offsetIncrement",
-                                                    0);
+                                                    "offsetIncrement");
   IRWriter::newStoreInst(context, newOffset, offsetStore);
   Value* isMultiDimensional = IRWriter::newICmpInst(context,
                                                     ICmpInst::ICMP_SGT,

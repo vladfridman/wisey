@@ -84,7 +84,7 @@ Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context
     rightValue = AutoCast::maybeCast(context, rightType, rightValue, leftType, mLine);
   }
   
-  return IRWriter::createBinaryOperator(context, instruction, leftValue, rightValue, name, mLine);
+  return IRWriter::createBinaryOperator(context, instruction, leftValue, rightValue, name);
 }
 
 const IType* AdditiveMultiplicativeExpression::getType(IRGenerationContext& context) const {

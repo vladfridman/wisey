@@ -81,8 +81,7 @@ Value* IncrementExpression::generateIR(IRGenerationContext& context,
                                                           Instruction::Add,
                                                           originalValue,
                                                           increment,
-                                                          mVariableName,
-                                                          mLine);
+                                                          mVariableName);
 
   vector<const IExpression*> arrayIndices;
   IVariable* variable = ((IExpressionAssignable*) mExpression)->getVariable(context, arrayIndices);

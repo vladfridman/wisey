@@ -97,7 +97,7 @@ void AdjustReferenceCounterForArrayFunction::compose(IRGenerationContext& contex
   Type* int64Pointer = Type::getInt64Ty(llvmContext)->getPointerTo();
   Value* counter = IRWriter::newBitCastInst(context, array, int64Pointer);
   Value* count = IRWriter::newLoadInst(context, counter, "count");
-  Value* sum = IRWriter::createBinaryOperator(context, Instruction::Add, count, adjustment, "", 0);
+  Value* sum = IRWriter::createBinaryOperator(context, Instruction::Add, count, adjustment, "");
   IRWriter::newStoreInst(context, sum, counter);
   IRWriter::createReturnInst(context, NULL, 0);
 

@@ -175,8 +175,7 @@ void InstanceOfFunction::composeWhileBodyBlock(IRGenerationContext& context,
                                                     Instruction::Add,
                                                     iteratorLoaded,
                                                     one,
-                                                    "inc",
-                                                    0);
+                                                    "inc");
   IRWriter::newStoreInst(context, increment, iterator);
   
   Function::arg_iterator functionArguments = function->arg_begin();
@@ -199,7 +198,7 @@ void InstanceOfFunction::composeReturnFound(IRGenerationContext& context,
   ConstantInt* two = ConstantInt::get(Type::getInt32Ty(llvmContext), 2);
   
   Value* decrement =
-  IRWriter::createBinaryOperator(context, Instruction::Sub, iteratorLoaded, two, "dec", 0);
+  IRWriter::createBinaryOperator(context, Instruction::Sub, iteratorLoaded, two, "dec");
   IRWriter::createReturnInst(context, decrement, 0);
 }
 

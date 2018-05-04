@@ -55,8 +55,7 @@ namespace wisey {
                                                       llvm::Instruction::BinaryOps instruction,
                                                       llvm::Value* leftValue,
                                                       llvm::Value* rightValue,
-                                                      std::string llvmVariableName,
-                                                      int line);
+                                                      std::string llvmVariableName);
     
     /**
      * Create a call to a given function with supplied arguments
