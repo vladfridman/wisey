@@ -94,6 +94,7 @@ InvokeInst* IRWriter::createInvokeInst(IRGenerationContext& context,
   BasicBlock* currentBlock = context.getBasicBlock();
   
   if(currentBlock->getTerminator()) {
+    exitWithUnreachableStatement(context, line);
     return NULL;
   }
   
