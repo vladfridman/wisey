@@ -34,8 +34,7 @@ Function* DestroyPrimitiveArrayFunction::get(IRGenerationContext& context) {
 
 void DestroyPrimitiveArrayFunction::call(IRGenerationContext& context,
                                          Value* array,
-                                         unsigned long numberOfDimensions,
-                                         int line) {
+                                         unsigned long numberOfDimensions) {
   LLVMContext& llvmContext = context.getLLVMContext();
 
   Function* function = get(context);
@@ -92,7 +91,7 @@ void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Functi
   IRWriter::createReturnInst(context, NULL, 0);
   
   context.setBasicBlock(ifNotNull);
-  CheckArrayNotReferencedFunction::call(context, arrayPointer, numberOfDimensions, 0);
+  CheckArrayNotReferencedFunction::call(context, arrayPointer, numberOfDimensions);
   if (context.isDestructorDebugOn()) {
     ExpressionList printOutArguments;
     PrintOutStatement printOutStatement(new StringLiteral("destructor primitive[]\n", 0), 0);

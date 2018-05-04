@@ -32,8 +32,7 @@ namespace wisey {
      */
     static void call(IRGenerationContext& context,
                      llvm::Value* array,
-                     llvm::Value* numberOfDimensions,
-                     int line);
+                     llvm::Value* numberOfDimensions);
 
     /**
      * Call function with the type that contains and array type

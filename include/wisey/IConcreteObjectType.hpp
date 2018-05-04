@@ -230,9 +230,7 @@ namespace wisey {
     /**
      * Compose a call to destroy a given concrete object
      */
-    static void composeDestructorCall(IRGenerationContext& context,
-                                      llvm::Value* value,
-                                      int line);
+    static void composeDestructorCall(IRGenerationContext& context, llvm::Value* value);
     
     /**
      * Returns destructor function

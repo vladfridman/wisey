@@ -53,7 +53,7 @@ struct ThrowReferenceCountExceptionFunctionTest : Test {
 
 TEST_F(ThrowReferenceCountExceptionFunctionTest, callTest) {
   Value* referenceCount = ConstantInt::get(Type::getInt64Ty(mLLVMContext), 5);
-  ThrowReferenceCountExceptionFunction::call(mContext, referenceCount, 0);
+  ThrowReferenceCountExceptionFunction::call(mContext, referenceCount);
   
   *mStringStream << *mFunction;
   string expected =

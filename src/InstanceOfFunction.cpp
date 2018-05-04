@@ -34,8 +34,7 @@ Function* InstanceOfFunction::get(IRGenerationContext& context) {
 
 Value* InstanceOfFunction::call(IRGenerationContext& context,
                                 llvm::Value* haystack,
-                                llvm::Value* needle,
-                                int line) {
+                                llvm::Value* needle) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
@@ -114,7 +113,7 @@ BitCastInst* InstanceOfFunction::composeEntryBlock(IRGenerationContext& context,
   Function::arg_iterator functionArguments = function->arg_begin();
   Value* haystackArgument = &*functionArguments;
   haystackArgument->setName("haystack");
-  Value* originalObjectVTable = GetOriginalObjectFunction::call(context, haystackArgument, 0);
+  Value* originalObjectVTable = GetOriginalObjectFunction::call(context, haystackArgument);
   
   Type* pointerToArrayOfStrings = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
   

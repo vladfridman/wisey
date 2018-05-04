@@ -37,8 +37,7 @@ Function* DestroyReferenceArrayFunction::get(IRGenerationContext& context) {
 
 void DestroyReferenceArrayFunction::call(IRGenerationContext& context,
                                          Value* array,
-                                         unsigned long numberOfDimensions,
-                                         int line) {
+                                         unsigned long numberOfDimensions) {
   LLVMContext& llvmContext = context.getLLVMContext();
 
   Function* function = get(context);
@@ -149,7 +148,7 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   
   context.setBasicBlock(refCountNotZeroBlock);
   
-  ThrowReferenceCountExceptionFunction::call(context, referenceCount, 0);
+  ThrowReferenceCountExceptionFunction::call(context, referenceCount);
   IRWriter::newUnreachableInst(context);
   
   context.setBasicBlock(refCountZeroBlock);

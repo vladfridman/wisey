@@ -1036,7 +1036,7 @@ void Interface::decrementReferenceCount(IRGenerationContext& context,
 }
 
 Value* Interface::getReferenceCount(IRGenerationContext& context, Value* object) const {
-  Value* originalObject = GetOriginalObjectFunction::call(context, object, 0);
+  Value* originalObject = GetOriginalObjectFunction::call(context, object);
   return getReferenceCountForObject(context, originalObject);
 }
 

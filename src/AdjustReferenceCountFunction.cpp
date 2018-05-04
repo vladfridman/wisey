@@ -95,8 +95,8 @@ void AdjustReferenceCountFunction::compose(IRGenerationContext& context, llvm::F
   IRWriter::createReturnInst(context, NULL, 0);
   
   context.setBasicBlock(ifNotNullBlock);
-  Value* isModel = IsModelFunction::call(context, object, 0);
-  Value* original = GetOriginalObjectFunction::call(context, object, 0);
+  Value* isModel = IsModelFunction::call(context, object);
+  Value* original = GetOriginalObjectFunction::call(context, object);
   Type* int64PointerType = Type::getInt64Ty(llvmContext)->getPointerTo();
   Value* objectStart = IRWriter::newBitCastInst(context, original, int64PointerType);
   Value* index[1];

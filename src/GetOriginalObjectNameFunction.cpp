@@ -31,9 +31,7 @@ Function* GetOriginalObjectNameFunction::get(IRGenerationContext& context) {
   return function;
 }
 
-Value* GetOriginalObjectNameFunction::call(IRGenerationContext& context,
-                                           Value* object,
-                                           int line) {
+Value* GetOriginalObjectNameFunction::call(IRGenerationContext& context, Value* object) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
@@ -78,7 +76,7 @@ void GetOriginalObjectNameFunction::compose(IRGenerationContext& context, Functi
   BasicBlock* basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry", function);
   context.setBasicBlock(basicBlock);
   
-  Value* originalObjectVTable = GetOriginalObjectFunction::call(context, object, 0);
+  Value* originalObjectVTable = GetOriginalObjectFunction::call(context, object);
   Type* pointerToArrayOfStrings = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
   BitCastInst* vTablePointer =
   IRWriter::newBitCastInst(context, originalObjectVTable, pointerToArrayOfStrings);

@@ -112,15 +112,15 @@ void CastObjectFunction::compose(IRGenerationContext& context, llvm::Function* f
   IRWriter::createReturnInst(context, null, 0);
   
   context.setBasicBlock(ifNotNullBlock);
-  Value* instanceof = InstanceOfFunction::call(context, fromObjectValue, toTypeName, 0);
-  Value* originalObject = GetOriginalObjectFunction::call(context, fromObjectValue, 0);
+  Value* instanceof = InstanceOfFunction::call(context, fromObjectValue, toTypeName);
+  Value* originalObject = GetOriginalObjectFunction::call(context, fromObjectValue);
   ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   ICmpInst* compareLessThanZero =
   IRWriter::newICmpInst(context, ICmpInst::ICMP_SLT, instanceof, zero, "cmp");
   IRWriter::createConditionalBranch(context, lessThanZero, notLessThanZero, compareLessThanZero, 0);
   
   context.setBasicBlock(lessThanZero);
-  Value* fromTypeName = GetOriginalObjectNameFunction::call(context, fromObjectValue, 0);
+  Value* fromTypeName = GetOriginalObjectNameFunction::call(context, fromObjectValue);
 
   PackageType* packageType = context.getPackageType(Names::getLangPackageName());
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);

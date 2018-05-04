@@ -33,9 +33,7 @@ Function* DestroyObjectOwnerFunction::get(IRGenerationContext& context) {
   return function;
 }
 
-void DestroyObjectOwnerFunction::call(IRGenerationContext& context,
-                                      Value* objectReference,
-                                      int line) {
+void DestroyObjectOwnerFunction::call(IRGenerationContext& context, Value* objectReference) {
   Function* function = get(context);
   vector<Value*> arguments;
   arguments.push_back(objectReference);
@@ -87,7 +85,7 @@ void DestroyObjectOwnerFunction::compose(IRGenerationContext& context, Function*
   
   context.setBasicBlock(ifNotNullBlock);
   
-  Value* originalObjectVTable = GetOriginalObjectFunction::call(context, thisGeneric, 0);
+  Value* originalObjectVTable = GetOriginalObjectFunction::call(context, thisGeneric);
   
   Type* pointerToVTablePointer = function->getFunctionType()
   ->getPointerTo()->getPointerTo()->getPointerTo();

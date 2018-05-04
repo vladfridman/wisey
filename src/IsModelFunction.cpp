@@ -30,7 +30,7 @@ Function* IsModelFunction::get(IRGenerationContext& context) {
   return function;
 }
 
-Value* IsModelFunction::call(IRGenerationContext& context, Value* object, int line) {
+Value* IsModelFunction::call(IRGenerationContext& context, Value* object) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
@@ -73,7 +73,7 @@ void IsModelFunction::compose(IRGenerationContext& context, llvm::Function* func
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function);
   
   context.setBasicBlock(entryBlock);
-  Value* original = GetOriginalObjectFunction::call(context, object, 0);
+  Value* original = GetOriginalObjectFunction::call(context, object);
   Type* int8DoublePointerType = Type::getInt8Ty(llvmContext)->getPointerTo()->getPointerTo();
   Type* int8TriplePointerType = int8DoublePointerType->getPointerTo();
   Value* vTablePointer = IRWriter::newBitCastInst(context, original, int8TriplePointerType);

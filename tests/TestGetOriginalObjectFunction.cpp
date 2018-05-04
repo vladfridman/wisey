@@ -49,7 +49,7 @@ struct GetOriginalObjectFunctionTest : Test {
 
 TEST_F(GetOriginalObjectFunctionTest, callTest) {
   Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  GetOriginalObjectFunction::call(mContext, nullPointerValue, 0);
+  GetOriginalObjectFunction::call(mContext, nullPointerValue);
   
   *mStringStream << *mBasicBlock;
   string expected =

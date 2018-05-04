@@ -31,9 +31,7 @@ Function* GetOriginalObjectFunction::get(IRGenerationContext& context) {
   return function;
 }
 
-Value* GetOriginalObjectFunction::call(IRGenerationContext& context,
-                                       Value* interfacePointer,
-                                       int line) {
+Value* GetOriginalObjectFunction::call(IRGenerationContext& context, Value* interfacePointer) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();

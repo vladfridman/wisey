@@ -456,7 +456,7 @@ void Model::initializeFields(IRGenerationContext& context,
     }
     if (argumentType->isInterface() && fieldType->isInterface()) {
       string typeName = context.getObjectType()->getTypeName();
-      CheckForModelFunction::call(context, argumentValue, line);
+      CheckForModelFunction::call(context, argumentValue);
     }
     Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);
     IRWriter::newStoreInst(context, castValue, fieldPointer);

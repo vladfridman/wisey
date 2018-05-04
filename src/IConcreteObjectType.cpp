@@ -401,7 +401,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
     PrintOutStatement::printExpressionList(context, printOutArguments, 0);
   }
 
-  ThrowReferenceCountExceptionFunction::call(context, referenceCount, 0);
+  ThrowReferenceCountExceptionFunction::call(context, referenceCount);
   IRWriter::newUnreachableInst(context);
 
   context.setBasicBlock(refCountZeroBlock);
@@ -474,13 +474,11 @@ string IConcreteObjectType::getObjectDestructorFunctionName(const IConcreteObjec
   return object->getTypeName() + ".destructor";
 }
 
-void IConcreteObjectType::composeDestructorCall(IRGenerationContext& context,
-                                                Value* value,
-                                                int line) {
+void IConcreteObjectType::composeDestructorCall(IRGenerationContext& context, Value* value) {
   Type* int8pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   Value* bitcast = IRWriter::newBitCastInst(context, value, int8pointer);
   
-  DestroyObjectOwnerFunction::call(context, bitcast, line);
+  DestroyObjectOwnerFunction::call(context, bitcast);
 }
 
 Function* IConcreteObjectType::getDestructorFunctionForObject(IRGenerationContext &context,

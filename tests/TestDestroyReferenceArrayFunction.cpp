@@ -67,7 +67,7 @@ struct DestroyReferenceArrayFunctionTest : Test {
 TEST_F(DestroyReferenceArrayFunctionTest, callTest) {
   llvm::PointerType* genericPointer = llvm::Type::getInt64Ty(mLLVMContext)->getPointerTo();
   Value* nullPointerValue = ConstantPointerNull::get(genericPointer);
-  DestroyReferenceArrayFunction::call(mContext, nullPointerValue, 2u, 0);
+  DestroyReferenceArrayFunction::call(mContext, nullPointerValue, 2u);
   
   *mStringStream << *mBasicBlock;
   string expected =

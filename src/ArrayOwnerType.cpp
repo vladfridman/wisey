@@ -77,21 +77,14 @@ void ArrayOwnerType::free(IRGenerationContext& context, llvm::Value* arrayPointe
   llvm::Value* arrayBitcast = IRWriter::newBitCastInst(context, arrayPointer, genericPointer);
   
   if (elementType->isOwner()) {
-    DestroyOwnerArrayFunction::call(context,
-                                    arrayBitcast,
-                                    mArrayType->getNumberOfDimensions(),
-                                    line);
+    DestroyOwnerArrayFunction::call(context, arrayBitcast, mArrayType->getNumberOfDimensions());
   } else if (elementType->isReference()) {
-    DestroyReferenceArrayFunction::call(context,
-                                        arrayBitcast,
-                                        mArrayType->getNumberOfDimensions(),
-                                        line);
+    DestroyReferenceArrayFunction::call(context, arrayBitcast, mArrayType->getNumberOfDimensions());
   } else {
     assert(elementType->isPrimitive());
     DestroyPrimitiveArrayFunction::call(context,
                                         arrayBitcast,
-                                        mArrayType->getNumberOfDimensions(),
-                                        line);
+                                        mArrayType->getNumberOfDimensions());
   }
 }
 

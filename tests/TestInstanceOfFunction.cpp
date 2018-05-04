@@ -66,7 +66,7 @@ struct InstanceOfFunctionTest : Test {
 TEST_F(InstanceOfFunctionTest, callTest) {
   llvm::Constant* nullPointerValue =
   ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  InstanceOfFunction::call(mContext, nullPointerValue, nullPointerValue, 0);
+  InstanceOfFunction::call(mContext, nullPointerValue, nullPointerValue);
   
   *mStringStream << *mBasicBlock;
   string expected =

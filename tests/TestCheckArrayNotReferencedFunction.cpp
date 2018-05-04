@@ -66,7 +66,7 @@ TEST_F(CheckArrayNotReferencedFunctionTest, callTest) {
   llvm::PointerType* genericPointer = llvm::Type::getInt64Ty(mLLVMContext)->getPointerTo();
   Value* nullPointerValue = ConstantPointerNull::get(genericPointer);
   Value* two = ConstantInt::get(Type::getInt64Ty(mLLVMContext), 2);
-  CheckArrayNotReferencedFunction::call(mContext, nullPointerValue, two, 0);
+  CheckArrayNotReferencedFunction::call(mContext, nullPointerValue, two);
   
   *mStringStream << *mBasicBlock;
   string expected =
