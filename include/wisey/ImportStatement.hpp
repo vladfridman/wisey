@@ -22,11 +22,10 @@ namespace wisey {
   class ImportStatement : public IGlobalStatement {
     
     IObjectTypeSpecifier* mTypeSpecifier;
-    int mLine;
     
   public:
     
-    ImportStatement(IObjectTypeSpecifier* typeSpecifier, int line);
+    ImportStatement(IObjectTypeSpecifier* typeSpecifier);
     
     ~ImportStatement();
     
@@ -37,8 +36,6 @@ namespace wisey {
     
     void generateIR(IRGenerationContext& context) const override;
     
-    int getLine() const override;
-
   };
   
 }

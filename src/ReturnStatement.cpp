@@ -54,6 +54,3 @@ void ReturnStatement::generateIR(IRGenerationContext& context) const {
   IRWriter::createReturnInst(context, result, mLine);
 }
 
-int ReturnStatement::getLine() const {
-  return mLine;
-}

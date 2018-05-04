@@ -28,11 +28,8 @@ namespace wisey {
     ~ContinueStatement();
     
     void generateIR(IRGenerationContext& context) const override;
-    
-    int getLine() const override;
-
-  };  
-
+  };
+  
 }
 
 #endif /* ContinueStatement_h */

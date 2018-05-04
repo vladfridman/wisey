@@ -115,7 +115,7 @@ struct InterfaceTest : public Test {
     intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
     VariableList staticArguments;
     vector<IModelTypeSpecifier*> staticMethodExceptions;
-    Block* staticMethodBlock = new Block(0);
+    Block* staticMethodBlock = new Block();
     CompoundStatement* staticMethodCompoundStatement = new CompoundStatement(staticMethodBlock, 0);
     mStaticMethod = new StaticMethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                                 intSpecifier,
@@ -441,7 +441,7 @@ TEST_F(InterfaceTest, methodDeclarationDeathTest) {
   const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
   VariableList arguments;
   vector<IModelTypeSpecifier*> thrownExceptions;
-  Block* block = new Block(0);
+  Block* block = new Block();
   CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
   MethodDefinition* methodDeclaration = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                                              intSpecifier,

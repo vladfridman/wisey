@@ -24,11 +24,6 @@ namespace wisey {
     IExpression* mAssignmentExpression;
     int mLine;
     
-    LLVMVariableDeclaration(const ITypeSpecifier* typeSpecifier,
-                            Identifier* identifier,
-                            IExpression* assignmentExpression,
-                            int line);
-
   public:
     
     ~LLVMVariableDeclaration();
@@ -54,7 +49,12 @@ namespace wisey {
     
     void generateIR(IRGenerationContext& context) const override;
     
-    int getLine() const override;
+  private:
+    
+    LLVMVariableDeclaration(const ITypeSpecifier* typeSpecifier,
+                            Identifier* identifier,
+                            IExpression* assignmentExpression,
+                            int line);
 
   };
   

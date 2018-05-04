@@ -57,7 +57,7 @@ struct ControllerDefinitionTest : public Test {
     TestPrefix::generateIR(mContext);
     
     MethodDefinition *methodDeclaration;
-    Block* block = new Block(0);
+    Block* block = new Block();
 
     block->getStatements().push_back(mMockStatement);
     block->getStatements().push_back(new ReturnStatement(new FloatConstant(0.5, 0), 0));

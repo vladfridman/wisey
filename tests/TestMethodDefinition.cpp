@@ -51,7 +51,7 @@ struct MethodDefinitionTest : Test {
   mFloatArgumentIdentifier(new Identifier("floatargument", 0)),
   mIntArgument(VariableDeclaration::create(mIntTypeSpecifier, mIntArgumentIdentifier, 0)),
   mFloatArgument(VariableDeclaration::create(mFloatTypeSpecifier, mFloatArgumentIdentifier, 0)),
-  mBlock(new Block(0)),
+  mBlock(new Block()),
   mCompoundStatement(new CompoundStatement(mBlock, 0)),
   mObject(new NiceMock<MockObjectType>()) {
     TestPrefix::generateIR(mContext);

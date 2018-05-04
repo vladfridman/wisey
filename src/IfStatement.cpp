@@ -14,8 +14,8 @@
 using namespace llvm;
 using namespace wisey;
 
-IfStatement::IfStatement(IExpression* condition, CompoundStatement* thenStatement, int line) :
-mCondition(condition), mThenStatement(thenStatement), mLine(line) { }
+IfStatement::IfStatement(IExpression* condition, CompoundStatement* thenStatement) :
+mCondition(condition), mThenStatement(thenStatement) { }
 
 IfStatement::~IfStatement() {
   delete mCondition;
@@ -43,6 +43,3 @@ void IfStatement::generateIR(IRGenerationContext& context) const {
   context.setBasicBlock(ifEnd);
 }
 
-int IfStatement::getLine() const {
-  return mLine;
-}

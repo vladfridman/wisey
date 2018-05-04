@@ -14,8 +14,8 @@
 using namespace llvm;
 using namespace wisey;
 
-SwitchStatement::SwitchStatement(IExpression* condition, SwitchCases* switchCases, int line)
-: mCondition(condition), mSwitchCases(switchCases), mLine(line) { }
+SwitchStatement::SwitchStatement(IExpression* condition, SwitchCases* switchCases)
+: mCondition(condition), mSwitchCases(switchCases) { }
 
 SwitchStatement::~SwitchStatement() {
   delete mCondition;
@@ -89,8 +89,4 @@ void SwitchStatement::generateDefaultCaseIR(IRGenerationContext& context,
   context.setBasicBlock(switchDefault);
   mSwitchCases->defaultStatement->generateIR(context);
   IRWriter::createBranch(context, switchEpilog);
-}
-
-int SwitchStatement::getLine() const {
-  return mLine;
 }

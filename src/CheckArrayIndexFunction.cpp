@@ -88,7 +88,7 @@ void CheckArrayIndexFunction::compose(IRGenerationContext& context, Function* fu
                                                   "");
   FakeExpression* compareExpression = new FakeExpression(compare, PrimitiveTypes::BOOLEAN);
   
-  Block* thenBlock = new Block(0);
+  Block* thenBlock = new Block();
   PackageType* packageType = context.getPackageType(Names::getLangPackageName());
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ModelTypeSpecifier* modelTypeSpecifier =
@@ -106,7 +106,7 @@ void CheckArrayIndexFunction::compose(IRGenerationContext& context, Function* fu
   ThrowStatement* throwStatement = new ThrowStatement(objectBuilder, 0);
   thenBlock->getStatements().push_back(throwStatement);
   CompoundStatement* thenStatement = new CompoundStatement(thenBlock, 0);
-  IfStatement ifStatement(compareExpression, thenStatement, 0);
+  IfStatement ifStatement(compareExpression, thenStatement);
   
   context.getScopes().pushScope();
   ifStatement.generateIR(context);

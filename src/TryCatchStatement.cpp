@@ -35,10 +35,6 @@ TryCatchStatement::~TryCatchStatement() {
   mCatchList.clear();
 }
 
-int TryCatchStatement::getLine() const {
-  return mLine;
-}
-
 void TryCatchStatement::generateIR(IRGenerationContext& context) const {
   if (context.getScopes().getTryCatchInfo()) {
     context.reportError(mLine, "Nested try blocks are not allowed. "

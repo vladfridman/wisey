@@ -30,8 +30,6 @@ namespace wisey {
     
     ~ThrowStatement();
     
-    int getLine() const override;
-
     void generateIR(IRGenerationContext& context) const override;
     
   };

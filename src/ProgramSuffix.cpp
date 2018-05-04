@@ -132,6 +132,3 @@ void ProgramSuffix::generateMain(IRGenerationContext& context) const {
   context.setMainFunction(mainFunction);
 }
 
-int ProgramSuffix::getLine() const {
-  return 0;
-}

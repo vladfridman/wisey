@@ -17,12 +17,10 @@ using namespace wisey;
 
 IfElseStatement::IfElseStatement(IExpression* condition,
                                  CompoundStatement* thenStatement,
-                                 IStatement* elseStatement,
-                                 int line) :
+                                 IStatement* elseStatement) :
 mCondition(condition),
 mThenStatement(thenStatement),
-mElseStatement(elseStatement),
-mLine(line) { }
+mElseStatement(elseStatement) { }
 
 IfElseStatement::~IfElseStatement() {
   delete mCondition;
@@ -56,6 +54,3 @@ void IfElseStatement::generateIR(IRGenerationContext& context) const {
   context.setBasicBlock(ifEnd);
 }
 
-int IfElseStatement::getLine() const {
-  return mLine;
-}

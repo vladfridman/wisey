@@ -34,7 +34,7 @@ struct DefaultCaseStatementTest : public Test {
   DefaultCaseStatementTest() :
   mMockStatement1(new NiceMock<MockStatement>()),
   mMockStatement2(new NiceMock<MockStatement>()),
-  mBlock(new Block(0)) {
+  mBlock(new Block()) {
   }
 };
 
@@ -42,7 +42,7 @@ TEST_F(DefaultCaseStatementTest, generateIRTest) {
   mBlock->getStatements().push_back(mMockStatement1);
   mBlock->getStatements().push_back(mMockStatement2);
   
-  DefaultCaseStatement defaultCaseStatement(mBlock, 0);
+  DefaultCaseStatement defaultCaseStatement(mBlock);
   
   EXPECT_CALL(*mMockStatement1, generateIR(_));
   EXPECT_CALL(*mMockStatement2, generateIR(_));

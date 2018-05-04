@@ -226,7 +226,7 @@ struct NodeTest : public Test {
     LLVMFunctionType* llvmFunctionType = LLVMFunctionType::create(LLVMPrimitiveTypes::I8,
                                                                   functionArgumentTypes);
     vector<const wisey::Argument*> llvmFunctionArguments;
-    Block* functionBlock = new Block(0);
+    Block* functionBlock = new Block();
     CompoundStatement* functionCompoundStatement = new CompoundStatement(functionBlock, 0);
     mLLVMFunction = new LLVMFunction(mComplicatedNode,
                                      "myfunction",

@@ -164,7 +164,7 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
   declaration = VariableDeclaration::create(intTypeSpecifier, new Identifier("lineNumber", 0), 0);
   arguments.push_back(declaration);
   const PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID->newTypeSpecifier(0);
-  Block* block = new Block(0);
+  Block* block = new Block();
   CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
   MethodDefinition* pushStackMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                                            voidTypeSpecifier,
@@ -177,7 +177,7 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
   
   arguments.clear();
   voidTypeSpecifier = PrimitiveTypes::VOID->newTypeSpecifier(0);
-  block = new Block(0);
+  block = new Block();
   compoundStatement = new CompoundStatement(block, 0);
   MethodDefinition* popStackMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                                           voidTypeSpecifier,
@@ -193,7 +193,7 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
   declaration = VariableDeclaration::create(intTypeSpecifier, new Identifier("lineNumber", 0), 0);
   arguments.push_back(declaration);
   voidTypeSpecifier = PrimitiveTypes::VOID->newTypeSpecifier(0);
-  block = new Block(0);
+  block = new Block();
   compoundStatement = new CompoundStatement(block, 0);
   MethodDefinition* setLineNumberMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                                           voidTypeSpecifier,

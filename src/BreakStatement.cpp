@@ -26,7 +26,3 @@ void BreakStatement::generateIR(IRGenerationContext& context) const {
   }
   IRWriter::createBranch(context, breackToBlock);
 }
-
-int BreakStatement::getLine() const {
-  return mLine;
-}

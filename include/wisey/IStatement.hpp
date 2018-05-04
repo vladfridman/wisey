@@ -29,11 +29,6 @@ namespace wisey {
      */
     virtual void generateIR(IRGenerationContext& context) const = 0;
     
-    /**
-     * Return the line where this statement is
-     */
-    virtual int getLine() const = 0;
-    
   };
   
   /**

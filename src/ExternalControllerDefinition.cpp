@@ -81,7 +81,3 @@ void ExternalControllerDefinition::prototypeMethods(IRGenerationContext& context
 
 void ExternalControllerDefinition::generateIR(IRGenerationContext& context) const {
 }
-
-int ExternalControllerDefinition::getLine() const {
-  return mLine;
-}

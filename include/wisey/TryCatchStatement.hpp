@@ -34,10 +34,8 @@ namespace wisey {
     
     ~TryCatchStatement();
     
-    int getLine() const override;
-
     void generateIR(IRGenerationContext& context) const override;
-
+    
   };
   
 } /* namespace wisey */

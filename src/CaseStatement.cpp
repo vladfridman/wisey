@@ -39,10 +39,6 @@ ConstantInt* CaseStatement::getExpressionValue(IRGenerationContext& context) con
   return (ConstantInt*) value;
 }
 
-int CaseStatement::getLine() const {
-  return mLine;
-}
-
 CaseStatement* CaseStatement::newCaseStatement(IExpression* expression, Block* block, int line) {
   return new CaseStatement(expression, block, false, line);
 }

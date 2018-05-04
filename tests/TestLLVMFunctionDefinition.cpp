@@ -44,7 +44,7 @@ struct LLVMFunctionDefinitionTest : public Test {
                                     0);
     arguments.push_back(argument);
     const ILLVMTypeSpecifier* returnSpecifier = LLVMPrimitiveTypes::VOID->newTypeSpecifier(0);
-    Block* block = new Block(0);
+    Block* block = new Block();
     CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
     mLLVMFunctionDefinition = new LLVMFunctionDefinition("myfunction",
                                                          PUBLIC_ACCESS,

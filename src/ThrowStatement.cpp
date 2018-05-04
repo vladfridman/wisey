@@ -29,10 +29,6 @@ ThrowStatement::~ThrowStatement() {
   delete mExpression;
 }
 
-int ThrowStatement::getLine() const {
-  return mLine;
-}
-
 void ThrowStatement::generateIR(IRGenerationContext& context) const {
   const IType* expressionType = mExpression->getType(context);
   if (!expressionType->isModel() || !expressionType->isOwner()) {

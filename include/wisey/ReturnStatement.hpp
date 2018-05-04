@@ -29,11 +29,8 @@ namespace wisey {
     ~ReturnStatement();
     
     void generateIR(IRGenerationContext& context) const override;
-    
-    int getLine() const override;
-
-  };  
-
+  };
+  
 } /* namespace wisey */
 
 #endif /* ReturnStatement_h */

@@ -25,21 +25,17 @@ namespace wisey {
     IExpression* mCondition;
     CompoundStatement* mThenStatement;
     IStatement* mElseStatement;
-    int mLine;
     
   public:
     
     IfElseStatement(IExpression* condition,
                     CompoundStatement* thenStatement,
-                    IStatement* elseStatement,
-                    int line);
+                    IStatement* elseStatement);
     
     ~IfElseStatement();
     
     void generateIR(IRGenerationContext& context) const override;
     
-    int getLine() const override;
-
   };
   
 } /* namespace wisey */

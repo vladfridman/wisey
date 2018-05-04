@@ -15,9 +15,9 @@ using namespace std;
 using namespace wisey;
 
 LLVMGlobalDeclaration::LLVMGlobalDeclaration(const ITypeSpecifier* typeSpecifier,
-                                             string name,
-                                             int line) :
-mTypeSpecifier(typeSpecifier), mName(name), mLine(line) {
+                                             string name) :
+mTypeSpecifier(typeSpecifier),
+mName(name) {
 }
 
 LLVMGlobalDeclaration::~LLVMGlobalDeclaration() {
@@ -43,8 +43,4 @@ void LLVMGlobalDeclaration::prototypeMethods(IRGenerationContext& context) const
 }
 
 void LLVMGlobalDeclaration::generateIR(IRGenerationContext& context) const {
-}
-
-int LLVMGlobalDeclaration::getLine() const {
-  return mLine;
 }

@@ -24,7 +24,3 @@ void CompoundStatement::generateIR(IRGenerationContext& context) const {
   mBlock->generateIR(context);
   scopes.popScope(context, mLine);
 }
-
-int CompoundStatement::getLine() const {
-  return mLine;
-}

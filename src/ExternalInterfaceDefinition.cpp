@@ -87,6 +87,3 @@ void ExternalInterfaceDefinition::prototypeMethods(IRGenerationContext& context)
 void ExternalInterfaceDefinition::generateIR(IRGenerationContext& context) const {
 }
 
-int ExternalInterfaceDefinition::getLine() const {
-  return mLine;
-}

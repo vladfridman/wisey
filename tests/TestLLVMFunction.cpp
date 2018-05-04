@@ -39,7 +39,7 @@ struct LLVMFunctionTest : public Test {
     wisey::Argument* argument = new wisey::Argument(LLVMPrimitiveTypes::I64, "input");
     vector<const wisey::Argument*> arguments;
     arguments.push_back(argument);
-    Block* block = new Block(0);
+    Block* block = new Block();
     CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
     vector<const IType*> argumentTypes;
     argumentTypes.push_back(LLVMPrimitiveTypes::I64);

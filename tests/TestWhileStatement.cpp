@@ -63,7 +63,7 @@ TEST_F(WhileStatementTest, whileStatementSimpleTest) {
   Value * conditionValue = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 1);
   ON_CALL(*mConditionExpression, generateIR(_, _)).WillByDefault(testing::Return(conditionValue));
   
-  WhileStatement whileStatement(mConditionExpression, mStatement, 0);
+  WhileStatement whileStatement(mConditionExpression, mStatement);
   whileStatement.generateIR(mContext);
   
   ASSERT_EQ(4ul, mFunction->size());

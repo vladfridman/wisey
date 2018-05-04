@@ -24,20 +24,16 @@ namespace wisey {
   class IfStatement : public IStatement {
     IExpression* mCondition;
     CompoundStatement* mThenStatement;
-    int mLine;
     
   public:
     
-    IfStatement(IExpression* condition, CompoundStatement* thenStatement, int line);
+    IfStatement(IExpression* condition, CompoundStatement* thenStatement);
     
     ~IfStatement();
     
     void generateIR(IRGenerationContext& context) const override;
-    
-    int getLine() const override;
-
   };
-
+  
 } /* namespace wisey */
 
 #endif /* IfStatement_h */

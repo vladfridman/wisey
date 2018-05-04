@@ -13,8 +13,8 @@
 using namespace llvm;
 using namespace wisey;
 
-WhileStatement::WhileStatement(IExpression* conditionExpression, IStatement* statement, int line)
-: mConditionExpression(conditionExpression), mStatement(statement), mLine(line) { }
+WhileStatement::WhileStatement(IExpression* conditionExpression, IStatement* statement)
+: mConditionExpression(conditionExpression), mStatement(statement) { }
 
 WhileStatement::~WhileStatement() {
   delete mConditionExpression;
@@ -45,8 +45,4 @@ void WhileStatement::generateIR(IRGenerationContext& context) const {
   IRWriter::createBranch(context, whileCond);
 
   context.setBasicBlock(whileEnd);
-}
-
-int WhileStatement::getLine() const {
-  return mLine;
 }
