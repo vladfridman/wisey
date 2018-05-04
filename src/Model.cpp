@@ -342,10 +342,7 @@ Instruction* Model::build(IRGenerationContext& context,
                           const ObjectBuilderArgumentList& objectBuilderArgumentList,
                           int line) const {
   checkArguments(context, objectBuilderArgumentList, line);
-  Instruction* malloc = IConcreteObjectType::createMallocForObject(context,
-                                                                   this,
-                                                                   "buildervar",
-                                                                   line);
+  Instruction* malloc = IConcreteObjectType::createMallocForObject(context, this, "buildervar");
   initializeFields(context, objectBuilderArgumentList, malloc, line);
   initializeVTable(context, (IConcreteObjectType*) this, malloc);
   

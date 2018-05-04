@@ -119,12 +119,10 @@ Instruction* IRWriter::createMalloc(IRGenerationContext& context,
                                     Type* structType,
                                     Value* allocSize,
                                     Value* arraySize,
-                                    string variableName,
-                                    int line) {
+                                    string variableName) {
   BasicBlock* currentBlock = context.getBasicBlock();
   
   if(currentBlock->getTerminator()) {
-    exitWithUnreachableStatement(context, line);
     return NULL;
   }
 

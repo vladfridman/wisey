@@ -59,7 +59,8 @@ namespace wisey {
     
     ExpressionList flattenExpressionList(IRGenerationContext& context) const;
     
-    llvm::Value* allocateArray(IRGenerationContext &context, const ArrayExactType* arrayType) const;
+    static llvm::Value* allocateArray(IRGenerationContext &context,
+                                      const ArrayExactType* arrayType);
 
     static void initializeEmptyArray(IRGenerationContext& context,
                                      llvm::Value* arrayStructPointer,
