@@ -98,7 +98,7 @@ void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Functi
     PrintOutStatement printOutStatement(new StringLiteral("destructor primitive[]\n", 0), 0);
     printOutStatement.generateIR(context);
   }
-  IRWriter::createFree(context, arrayPointer, 0);
+  IRWriter::createFree(context, arrayPointer);
   IRWriter::createReturnInst(context, NULL, 0);
 
   context.getScopes().popScope(context, 0);

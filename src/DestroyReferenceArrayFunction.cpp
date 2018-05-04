@@ -224,7 +224,7 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   
   context.setBasicBlock(freeArray);
   
-  IRWriter::createFree(context, arrayPointer, 0);
+  IRWriter::createFree(context, arrayPointer);
   IRWriter::createReturnInst(context, NULL, 0);
   
   context.getScopes().popScope(context, 0);

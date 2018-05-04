@@ -141,11 +141,10 @@ Instruction* IRWriter::createMalloc(IRGenerationContext& context,
   return malloc;
 }
 
-Instruction* IRWriter::createFree(IRGenerationContext& context, Value* value, int line) {
+Instruction* IRWriter::createFree(IRGenerationContext& context, Value* value) {
   BasicBlock* currentBlock = context.getBasicBlock();
   
   if(currentBlock->getTerminator()) {
-    exitWithUnreachableStatement(context, line);
     return NULL;
   }
 

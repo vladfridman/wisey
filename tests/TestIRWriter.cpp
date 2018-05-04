@@ -135,11 +135,19 @@ TEST_F(IRWriterTest, createMallocTest) {
 
 TEST_F(IRWriterTest, createFreeTest) {
   Value* value = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  Instruction* instruction = IRWriter::createFree(mContext, value, 0);
+  Instruction* instruction = IRWriter::createFree(mContext, value);
   
   EXPECT_EQ(mBasicBlock->size(), 1u);
   *mStringStream << *instruction;
   ASSERT_STREQ(mStringStream->str().c_str(), "  tail call void @free(i8* null)");
+  
+  IRWriter::createReturnInst(mContext, value, 0);
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+  
+  IRWriter::createFree(mContext, value);
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
 }
 
 TEST_F(IRWriterTest, createGetElementPtrInstTest) {
@@ -514,16 +522,6 @@ TEST_F(IRWriterTest, createMallocUreachableDeathTest) {
   EXPECT_EXIT(IRWriter::createMalloc(mContext, structType, allocSize, one, "", 13),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(13\\): Error: Statement unreachable");
-}
-
-TEST_F(IRWriterTest, createFreeUreachableDeathTest) {
-  Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
-  IRWriter::createReturnInst(mContext, value, 0);
-  Value* pointer = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  
-  EXPECT_EXIT(IRWriter::createFree(mContext, pointer, 15),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(15\\): Error: Statement unreachable");
 }
 
 TEST_F(TestFileRunner, unreachableReturnRunDeathTest) {

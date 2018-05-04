@@ -227,7 +227,7 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
 
   context.setBasicBlock(freeArray);
   
-  IRWriter::createFree(context, arrayPointer, 0);
+  IRWriter::createFree(context, arrayPointer);
   IRWriter::createReturnInst(context, NULL, 0);
 
   context.getScopes().popScope(context, 0);
