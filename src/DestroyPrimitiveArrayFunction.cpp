@@ -85,7 +85,7 @@ void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Functi
   context.setBasicBlock(entry);
   Value* null = ConstantPointerNull::get(genericPointer);
   Value* isNull = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, arrayPointer, null, "isNull");
-  IRWriter::createConditionalBranch(context, returnVoid, ifNotNull, isNull, 0);
+  IRWriter::createConditionalBranch(context, returnVoid, ifNotNull, isNull);
   
   context.setBasicBlock(returnVoid);
   IRWriter::createReturnInst(context, NULL, 0);

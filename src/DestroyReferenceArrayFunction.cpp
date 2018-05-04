@@ -109,7 +109,7 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   
   Value* null = ConstantPointerNull::get(genericPointer);
   Value* isNull = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, arrayPointer, null, "isNull");
-  IRWriter::createConditionalBranch(context, returnVoid, ifNotNull, isNull, 0);
+  IRWriter::createConditionalBranch(context, returnVoid, ifNotNull, isNull);
   
   context.setBasicBlock(returnVoid);
   
@@ -143,7 +143,7 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   
   Value* referenceCount = IRWriter::newLoadInst(context, arrayPointer, "refCount");
   Value* isZero = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, referenceCount, zero, "isZero");
-  IRWriter::createConditionalBranch(context, refCountZeroBlock, refCountNotZeroBlock, isZero, 0);
+  IRWriter::createConditionalBranch(context, refCountZeroBlock, refCountNotZeroBlock, isZero);
   
   context.setBasicBlock(refCountNotZeroBlock);
   
@@ -161,14 +161,14 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   Value* offsetStore = IRWriter::newAllocaInst(context, int64type, "offsetStore");
   IRWriter::newStoreInst(context, zero, offsetStore);
   
-  IRWriter::createBranch(context, forCond, 0);
+  IRWriter::createBranch(context, forCond);
   
   context.setBasicBlock(forCond);
   
   Value* offsetValue = IRWriter::newLoadInst(context, offsetStore, "offset");
   Value* indexValue = IRWriter::newLoadInst(context, indexStore, "index");
   Value* compare = IRWriter::newICmpInst(context, ICmpInst::ICMP_SLT, indexValue, size, "cmp");
-  IRWriter::createConditionalBranch(context, forBody, maybeFreeArray, compare, 0);
+  IRWriter::createConditionalBranch(context, forBody, maybeFreeArray, compare);
   
   context.setBasicBlock(forBody);
   
@@ -192,11 +192,7 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
                                                     numberOfDimensions,
                                                     one,
                                                     "cmp");
-  IRWriter::createConditionalBranch(context,
-                                    multiDimensional,
-                                    oneDimensional,
-                                    isMultiDimensional,
-                                    0);
+  IRWriter::createConditionalBranch(context, multiDimensional, oneDimensional, isMultiDimensional);
   
   context.setBasicBlock(multiDimensional);
   
@@ -205,18 +201,18 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   recursiveCallArguments.push_back(numberOfDimensionsMinusOne);
   recursiveCallArguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 0));
   IRWriter::createCallInst(context, function, recursiveCallArguments, "");
-  IRWriter::createBranch(context, forCond, 0);
+  IRWriter::createBranch(context, forCond);
   
   context.setBasicBlock(oneDimensional);
   
   Value* objectStore = IRWriter::newBitCastInst(context, elementStore, bytePointer->getPointerTo());
   Value* elementPointer = IRWriter::newLoadInst(context, objectStore, "");
   AdjustReferenceCounterForConcreteObjectSafelyFunction::call(context, elementPointer, -1);
-  IRWriter::createBranch(context, forCond, 0);
+  IRWriter::createBranch(context, forCond);
   
   context.setBasicBlock(maybeFreeArray);
   
-  IRWriter::createConditionalBranch(context, freeArray, returnVoid, shouldFree, 0);
+  IRWriter::createConditionalBranch(context, freeArray, returnVoid, shouldFree);
   
   context.setBasicBlock(freeArray);
   

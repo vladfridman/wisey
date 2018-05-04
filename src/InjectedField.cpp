@@ -114,7 +114,7 @@ void InjectedField::composeInjectFunctionBody(IRGenerationContext& context,
   Value* null = ConstantPointerNull::get((PointerType*) fieldValue->getType());
   Value* condition =
   IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, fieldValue, null, "isNull");
-  IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition, 0);
+  IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
   
   context.setBasicBlock(ifNotNullBlock);
   IRWriter::createReturnInst(context, fieldValue, 0);

@@ -94,9 +94,7 @@ bool Catch::generateIR(IRGenerationContext& context,
   
   bool hasTerminator = context.getBasicBlock()->getTerminator() != NULL;
 
-  if (!hasTerminator) {
-    IRWriter::createBranch(context, exceptionContinueBlock, mLine);
-  }
+  IRWriter::createBranch(context, exceptionContinueBlock);
   
   return hasTerminator;
 }

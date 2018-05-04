@@ -127,7 +127,7 @@ BitCastInst* InstanceOfFunction::composeEntryBlock(IRGenerationContext& context,
   BitCastInst* arrayOfStrings =
   IRWriter::newBitCastInst(context, typeArrayI8, int8Type->getPointerTo()->getPointerTo());
   
-  IRWriter::createBranch(context, whileCond, 0);
+  IRWriter::createBranch(context, whileCond);
   
   return arrayOfStrings;
 }
@@ -153,7 +153,7 @@ LoadInst* InstanceOfFunction::composeWhileConditionBlock(IRGenerationContext& co
   Value* checkStringIsNull =
   IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, stringPointer, nullPointerValue, "cmpnull");
   
-  IRWriter::createConditionalBranch(context, returnFalse, whileBody, checkStringIsNull, 0);
+  IRWriter::createConditionalBranch(context, returnFalse, whileBody, checkStringIsNull);
   
   return stringPointer;
 }
@@ -185,7 +185,7 @@ void InstanceOfFunction::composeWhileBodyBlock(IRGenerationContext& context,
   
   Value* doesTypeMatch =
   IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, stringPointer, needleArgument, "cmp");
-  IRWriter::createConditionalBranch(context, returnTrue, whileCond, doesTypeMatch, 0);
+  IRWriter::createConditionalBranch(context, returnTrue, whileCond, doesTypeMatch);
 }
 
 void InstanceOfFunction::composeReturnFound(IRGenerationContext& context,

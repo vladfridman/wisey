@@ -107,7 +107,7 @@ void CheckArrayNotReferencedFunction::compose(IRGenerationContext& context, Func
   context.setBasicBlock(entry);
   Value* null = ConstantPointerNull::get(genericPointer);
   Value* isNull = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, arrayPointer, null, "isNull");
-  IRWriter::createConditionalBranch(context, returnVoid, ifNotNull, isNull, 0);
+  IRWriter::createConditionalBranch(context, returnVoid, ifNotNull, isNull);
   
   context.setBasicBlock(returnVoid);
   IRWriter::createReturnInst(context, NULL, 0);
@@ -115,7 +115,7 @@ void CheckArrayNotReferencedFunction::compose(IRGenerationContext& context, Func
   context.setBasicBlock(ifNotNull);
   Value* referenceCount = IRWriter::newLoadInst(context, arrayPointer, "refCount");
   Value* isZero = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, referenceCount, zero, "isZero");
-  IRWriter::createConditionalBranch(context, refCountZeroBlock, refCountNotZeroBlock, isZero, 0);
+  IRWriter::createConditionalBranch(context, refCountZeroBlock, refCountNotZeroBlock, isZero);
   
   context.setBasicBlock(refCountNotZeroBlock);
   ThrowReferenceCountExceptionFunction::call(context, referenceCount);
@@ -127,7 +127,7 @@ void CheckArrayNotReferencedFunction::compose(IRGenerationContext& context, Func
                                                     numberOfDimensions,
                                                     one,
                                                     "cmp");
-  IRWriter::createConditionalBranch(context, multiDimensional, returnVoid, isMultiDimensional, 0);
+  IRWriter::createConditionalBranch(context, multiDimensional, returnVoid, isMultiDimensional);
 
   context.setBasicBlock(multiDimensional);
   Value* index[1];
@@ -149,13 +149,13 @@ void CheckArrayNotReferencedFunction::compose(IRGenerationContext& context, Func
   IRWriter::newStoreInst(context, zero, indexStore);
   Value* offsetStore = IRWriter::newAllocaInst(context, int64type, "offsetStore");
   IRWriter::newStoreInst(context, zero, offsetStore);
-  IRWriter::createBranch(context, forCond, 0);
+  IRWriter::createBranch(context, forCond);
   
   context.setBasicBlock(forCond);
   Value* offsetValue = IRWriter::newLoadInst(context, offsetStore, "offset");
   Value* indexValue = IRWriter::newLoadInst(context, indexStore, "index");
   Value* compare = IRWriter::newICmpInst(context, ICmpInst::ICMP_SLT, indexValue, size, "cmp");
-  IRWriter::createConditionalBranch(context, forBody, returnVoid, compare, 0);
+  IRWriter::createConditionalBranch(context, forBody, returnVoid, compare);
   
   context.setBasicBlock(forBody);
   Value* idx[1];
@@ -177,7 +177,7 @@ void CheckArrayNotReferencedFunction::compose(IRGenerationContext& context, Func
   recursiveCallArguments.push_back(IRWriter::newBitCastInst(context, elementStore, genericPointer));
   recursiveCallArguments.push_back(numberOfDimensionsMinusOne);
   IRWriter::createCallInst(context, function, recursiveCallArguments, "");
-  IRWriter::createBranch(context, forCond, 0);
+  IRWriter::createBranch(context, forCond);
   
   context.getScopes().popScope(context, 0);
   context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context), 0);

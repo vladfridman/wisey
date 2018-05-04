@@ -49,17 +49,17 @@ Value* ConditionalExpression::generateIR(IRGenerationContext& context,
   BasicBlock* blockTrue = BasicBlock::Create(llvmContext, "cond.true", function);
   BasicBlock* blockFalse = BasicBlock::Create(llvmContext, "cond.false", function);
   BasicBlock* blockEnd = BasicBlock::Create(llvmContext, "cond.end", function);
-  IRWriter::createConditionalBranch(context, blockTrue, blockFalse, conditionValue, mLine);
+  IRWriter::createConditionalBranch(context, blockTrue, blockFalse, conditionValue);
   
   context.setBasicBlock(blockTrue);
   Value* ifTrueValue = mIfTrueExpression->generateIR(context, assignToType);
   Type* ifTrueResultType = ifTrueValue->getType();
-  IRWriter::createBranch(context, blockEnd, mLine);
+  IRWriter::createBranch(context, blockEnd);
 
   context.setBasicBlock(blockFalse);
   Value* ifFalseValue = mIfFalseExpression->generateIR(context, assignToType);
   Type* ifFalseResultType = ifFalseValue->getType();
-  IRWriter::createBranch(context, blockEnd, mLine);
+  IRWriter::createBranch(context, blockEnd);
 
   if (ifTrueResultType != ifFalseResultType) {
     context.reportError(mLine, "Results of different type in a conditional expresion!");

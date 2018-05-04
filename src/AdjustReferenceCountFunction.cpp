@@ -88,7 +88,7 @@ void AdjustReferenceCountFunction::compose(IRGenerationContext& context, llvm::F
   context.setBasicBlock(entryBlock);
   Value* null = ConstantPointerNull::get(Type::getInt8Ty(llvmContext)->getPointerTo());
   Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, object, null, "");
-  IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition, 0);
+  IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
   
   context.setBasicBlock(ifNullBlock);
   IRWriter::createReturnInst(context, NULL, 0);
@@ -105,7 +105,7 @@ void AdjustReferenceCountFunction::compose(IRGenerationContext& context, llvm::F
   BasicBlock* ifModelBlock = BasicBlock::Create(llvmContext, "if.model", function);
   BasicBlock* ifNotModelBlock = BasicBlock::Create(llvmContext, "if.not.model", function);
 
-  IRWriter::createConditionalBranch(context, ifModelBlock, ifNotModelBlock, isModel, 0);
+  IRWriter::createConditionalBranch(context, ifModelBlock, ifNotModelBlock, isModel);
 
   context.setBasicBlock(ifModelBlock);
   new AtomicRMWInst(AtomicRMWInst::BinOp::Add,

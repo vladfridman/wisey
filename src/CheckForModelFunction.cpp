@@ -88,14 +88,14 @@ void CheckForModelFunction::compose(IRGenerationContext& context, Function* func
   Value* null = ConstantPointerNull::get(Type::getInt8Ty(llvmContext)->getPointerTo());
   Value* condition =
   IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, object, null, "isNull");
-  IRWriter::createConditionalBranch(context, returnBlock, ifNotNullBlock, condition, 0);
+  IRWriter::createConditionalBranch(context, returnBlock, ifNotNullBlock, condition);
   
   context.setBasicBlock(returnBlock);
   IRWriter::createReturnInst(context, NULL, 0);
   
   context.setBasicBlock(ifNotNullBlock);
   Value* isModel = IsModelFunction::call(context, object);
-  IRWriter::createConditionalBranch(context, returnBlock, ifNotModelBlock, isModel, 0);
+  IRWriter::createConditionalBranch(context, returnBlock, ifNotModelBlock, isModel);
   
   context.setBasicBlock(ifNotModelBlock);
   Value* objectName = GetOriginalObjectNameFunction::call(context, object);
