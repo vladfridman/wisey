@@ -45,7 +45,7 @@ void AdjustReferenceCounterForImmutableArrayFunction::call(IRGenerationContext& 
   llvm::Constant* value = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), adjustment);
   arguments.push_back(value);
   
-  IRWriter::createCallInst(context, function, arguments, "");
+  IRWriter::createCallInst(context, function, arguments, "", line);
 }
 
 string AdjustReferenceCounterForImmutableArrayFunction::getName() {

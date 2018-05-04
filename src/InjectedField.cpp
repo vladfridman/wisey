@@ -71,7 +71,7 @@ Value* InjectedField::callInjectFunction(IRGenerationContext& context,
   vector<Value*> arguments;
   arguments.push_back(fieldPointer);
   
-  return IRWriter::createCallInst(context, function, arguments, "");
+  return IRWriter::createCallInst(context, function, arguments, "", mLine);
 }
 
 Function* InjectedField::declareInjectionFunction(IRGenerationContext& context,

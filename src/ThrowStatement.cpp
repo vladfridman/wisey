@@ -68,7 +68,8 @@ void ThrowStatement::generateIR(IRGenerationContext& context) const {
   Value* exceptionAlloca = IRWriter::createCallInst(context,
                                                     allocateExceptionFunction,
                                                     allocateExceptionArguments,
-                                                    "");
+                                                    "",
+                                                    mLine);
 
   vector<Value*> memCopyArguments;
   unsigned int memoryAlignment = Environment::getDefaultMemoryAllignment();
@@ -78,7 +79,7 @@ void ThrowStatement::generateIR(IRGenerationContext& context) const {
   memCopyArguments.push_back(ConstantInt::get(Type::getInt32Ty(llvmContext), memoryAlignment));
   memCopyArguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 0));
   Function* memCopyFunction = IntrinsicFunctions::getMemCopyFunction(context);
-  IRWriter::createCallInst(context, memCopyFunction, memCopyArguments, "");
+  IRWriter::createCallInst(context, memCopyFunction, memCopyArguments, "", mLine);
   
   Composer::setLineNumber(context, mLine);
 

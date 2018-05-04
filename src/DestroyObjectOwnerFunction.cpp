@@ -40,7 +40,7 @@ void DestroyObjectOwnerFunction::call(IRGenerationContext& context,
   vector<Value*> arguments;
   arguments.push_back(objectReference);
   
-  IRWriter::createCallInst(context, function, arguments, "");
+  IRWriter::createCallInst(context, function, arguments, "", line);
 }
 
 string DestroyObjectOwnerFunction::getName() {

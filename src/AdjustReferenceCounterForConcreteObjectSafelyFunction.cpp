@@ -46,7 +46,7 @@ void AdjustReferenceCounterForConcreteObjectSafelyFunction::call(IRGenerationCon
   llvm::Constant* value = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), adjustment);
   arguments.push_back(value);
   
-  IRWriter::createCallInst(context, function, arguments, "");
+  IRWriter::createCallInst(context, function, arguments, "", line);
 }
 
 string AdjustReferenceCounterForConcreteObjectSafelyFunction::getName() {

@@ -80,5 +80,5 @@ Instruction* IntrinsicFunctions::setMemoryToZero(IRGenerationContext& context,
   arguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 0));
   Function* memSetFunction = getMemSetFunction(context);
   
-  return IRWriter::createCallInst(context, memSetFunction, arguments, "");
+  return IRWriter::createCallInst(context, memSetFunction, arguments, "", 0);
 }

@@ -48,7 +48,7 @@ void AdjustReferenceCountFunction::call(IRGenerationContext& context,
                                                            adjustment);
   arguments.push_back(adjustmentValue);
   
-  IRWriter::createCallInst(context, function, arguments, "");
+  IRWriter::createCallInst(context, function, arguments, "", line);
 }
 
 string AdjustReferenceCountFunction::getName() {

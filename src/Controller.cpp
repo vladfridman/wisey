@@ -211,7 +211,7 @@ Instruction* Controller::inject(IRGenerationContext& context,
   for (Value* callArgument : callArguments) {
     callArgumentsVector.push_back(callArgument);
   }
-  return IRWriter::createCallInst(context, function, callArgumentsVector, "");
+  return IRWriter::createCallInst(context, function, callArgumentsVector, "", line);
 }
 
 string Controller::getInjectFunctionName() const {

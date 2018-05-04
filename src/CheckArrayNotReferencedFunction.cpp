@@ -43,7 +43,7 @@ void CheckArrayNotReferencedFunction::call(IRGenerationContext& context,
   arguments.push_back(arrayBitcast);
   arguments.push_back(numberOfDimensions);
   
-  IRWriter::createCallInst(context, function, arguments, "");
+  IRWriter::createCallInst(context, function, arguments, "", line);
 }
 
 void CheckArrayNotReferencedFunction::callWithArrayType(IRGenerationContext& context,
@@ -180,7 +180,7 @@ void CheckArrayNotReferencedFunction::compose(IRGenerationContext& context, Func
   vector<Value*> recursiveCallArguments;
   recursiveCallArguments.push_back(IRWriter::newBitCastInst(context, elementStore, genericPointer));
   recursiveCallArguments.push_back(numberOfDimensionsMinusOne);
-  IRWriter::createCallInst(context, function, recursiveCallArguments, "");
+  IRWriter::createCallInst(context, function, recursiveCallArguments, "", 0);
   IRWriter::createBranch(context, forCond, 0);
   
   context.getScopes().popScope(context, 0);

@@ -42,7 +42,7 @@ Value* IsModelFunction::call(IRGenerationContext& context, Value* object, int li
   vector<Value*> arguments;
   arguments.push_back(castObject);
   
-  return IRWriter::createCallInst(context, function, arguments, "");
+  return IRWriter::createCallInst(context, function, arguments, "", line);
 }
 
 string IsModelFunction::getName() {

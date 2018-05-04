@@ -83,7 +83,7 @@ void InterfaceOwner::free(IRGenerationContext& context, Value* value, int line) 
   vector<Value*> arguments;
   arguments.push_back(bitcast);
 
-  IRWriter::createCallInst(context, destructor, arguments, "");
+  IRWriter::createCallInst(context, destructor, arguments, "", line);
 }
 
 Function* InterfaceOwner::getDestructorFunction(IRGenerationContext& context, int line) const {

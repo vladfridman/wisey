@@ -44,7 +44,7 @@ Value* GetOriginalObjectFunction::call(IRGenerationContext& context,
   vector<Value*> arguments;
   arguments.push_back(bitcast);
   
-  return IRWriter::createCallInst(context, function, arguments, "");
+  return IRWriter::createCallInst(context, function, arguments, "", line);
 }
 
 string GetOriginalObjectFunction::getName() {

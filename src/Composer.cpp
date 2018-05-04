@@ -54,7 +54,7 @@ void Composer::pushCallStack(IRGenerationContext& context, int line) {
   IMethodCall::translateObjectMethodToLLVMFunctionName(callStackController,
                                                        Names::getPushStackMethodName());
   Function* pushStackFunction = context.getModule()->getFunction(pushStackFunctionName.c_str());
-  IRWriter::createCallInst(context, pushStackFunction, arguments, "");
+  IRWriter::createCallInst(context, pushStackFunction, arguments, "", line);
 }
 
 void Composer::popCallStack(IRGenerationContext& context) {
@@ -80,7 +80,7 @@ void Composer::popCallStack(IRGenerationContext& context) {
   IMethodCall::translateObjectMethodToLLVMFunctionName(callStackController,
                                                        Names::getPopStackMethoName());
   Function* popStackFunction = context.getModule()->getFunction(popStackFunctionName.c_str());
-  IRWriter::createCallInst(context, popStackFunction, arguments, "");
+  IRWriter::createCallInst(context, popStackFunction, arguments, "", 0);
 }
 
 void Composer::setLineNumber(IRGenerationContext& context, int line) {
@@ -91,13 +91,13 @@ void Composer::setLineNumber(IRGenerationContext& context, int line) {
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
   IVariable* callStackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
   
-  Value* threadObject = threadVariable->generateIdentifierIR(context, 0);
-  Value* callStackObject = callStackVariable->generateIdentifierIR(context, 0);
+  Value* threadObject = threadVariable->generateIdentifierIR(context, line);
+  Value* callStackObject = callStackVariable->generateIdentifierIR(context, line);
   
   vector<Value*> arguments;
   
   Controller* callStackController = context.getController(Names::getCallStackControllerFullName(),
-                                                          0);
+                                                          line);
   arguments.clear();
   arguments.push_back(callStackObject);
   arguments.push_back(threadObject);
@@ -107,7 +107,7 @@ void Composer::setLineNumber(IRGenerationContext& context, int line) {
   IMethodCall::translateObjectMethodToLLVMFunctionName(callStackController,
                                                        Names::getSetLineNumberMethodName());
   Function* function = context.getModule()->getFunction(functionName.c_str());
-  IRWriter::createCallInst(context, function, arguments, "");
+  IRWriter::createCallInst(context, function, arguments, "", line);
 }
 
 bool Composer::shouldSkip(IRGenerationContext& context) {

@@ -158,7 +158,7 @@ void TryCatchInfo::generateResumeAndFail(IRGenerationContext& context,
   arguments.push_back(wrappedException);
   context.setBasicBlock(unexpectedBlock);
 
-  IRWriter::createCallInst(context, unexpectedFunction, arguments, "");
+  IRWriter::createCallInst(context, unexpectedFunction, arguments, "", 0);
   IRWriter::newUnreachableInst(context);
   
   context.setBasicBlock(resumeBlock);
@@ -186,7 +186,7 @@ TryCatchInfo::generateSelectCatchByExceptionType(IRGenerationContext& context,
     Value* rttiBitcast = IRWriter::newBitCastInst(context, rtti, int8PointerType);
     vector<Value*> arguments;
     arguments.push_back(rttiBitcast);
-    CallInst* typeId = IRWriter::createCallInst(context, typeIdFunction, arguments, "");
+    CallInst* typeId = IRWriter::createCallInst(context, typeIdFunction, arguments, "", 0);
     typeId->setTailCall();
     ICmpInst* compare =
     IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, exceptionTypeId, typeId, "");

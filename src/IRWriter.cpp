@@ -74,10 +74,12 @@ BinaryOperator* IRWriter::createBinaryOperator(IRGenerationContext& context,
 CallInst* IRWriter::createCallInst(IRGenerationContext& context,
                                    Function* function,
                                    vector<Value*> arguments,
-                                   string resultName) {
+                                   string resultName,
+                                   int line) {
   BasicBlock* currentBlock = context.getBasicBlock();
   
   if(currentBlock->getTerminator()) {
+    exitWithUnreachableStatement(context, line);
     return NULL;
   }
   

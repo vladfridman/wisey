@@ -47,7 +47,7 @@ void PrintErrStatement::generateIR(IRGenerationContext& context) const {
     arguments.push_back(expression->generateIR(context, PrimitiveTypes::VOID));
   }
   
-  IRWriter::createCallInst(context, fprintf, arguments, "");
+  IRWriter::createCallInst(context, fprintf, arguments, "", mLine);
 }
 
 int PrintErrStatement::getLine() const {

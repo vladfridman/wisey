@@ -46,7 +46,7 @@ Value* InstanceOfFunction::call(IRGenerationContext& context,
   arguments.push_back(bitcast);
   arguments.push_back(needle);
   
-  return IRWriter::createCallInst(context, function, arguments, "");
+  return IRWriter::createCallInst(context, function, arguments, "", line);
 }
 
 string InstanceOfFunction::getName() {

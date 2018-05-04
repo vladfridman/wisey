@@ -47,7 +47,7 @@ void DestroyOwnerArrayFunction::call(IRGenerationContext& context,
   arguments.push_back(ConstantInt::get(Type::getInt64Ty(llvmContext), numberOfDimensions));
   arguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 1));
   
-  IRWriter::createCallInst(context, function, arguments, "");
+  IRWriter::createCallInst(context, function, arguments, "", line);
 }
 
 string DestroyOwnerArrayFunction::getName() {
@@ -208,7 +208,7 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   recursiveCallArguments.push_back(IRWriter::newBitCastInst(context, elementStore, genericPointer));
   recursiveCallArguments.push_back(numberOfDimensionsMinusOne);
   recursiveCallArguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 0));
-  IRWriter::createCallInst(context, function, recursiveCallArguments, "");
+  IRWriter::createCallInst(context, function, recursiveCallArguments, "", 0);
   IRWriter::createBranch(context, forCond, 0);
 
   context.setBasicBlock(oneDimensional);
@@ -218,7 +218,7 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   vector<Value*> destructorArguments;
   destructorArguments.push_back(elementPointer);
   Function* destructor = DestroyObjectOwnerFunction::get(context);
-  IRWriter::createCallInst(context, destructor, destructorArguments, "");
+  IRWriter::createCallInst(context, destructor, destructorArguments, "", 0);
   IRWriter::createBranch(context, forCond, 0);
 
   context.setBasicBlock(maybeFreeArray);

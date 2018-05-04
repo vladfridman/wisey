@@ -97,20 +97,11 @@ TEST_F(IRWriterTest, createBinaryOperator) {
 
 TEST_F(IRWriterTest, createCallInstTest) {
   vector<Value*> arguments;
-  CallInst* callInst = IRWriter::createCallInst(mContext, mMainFunction, arguments, "");
+  CallInst* callInst = IRWriter::createCallInst(mContext, mMainFunction, arguments, "", 0);
 
   EXPECT_EQ(mBasicBlock->size(), 1u);
   *mStringStream << *callInst;
   ASSERT_STREQ(mStringStream->str().c_str(), "  %0 = call i64 @main()");
-
-  Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
-  IRWriter::createReturnInst(mContext, value, 0);
-  
-  EXPECT_EQ(mBasicBlock->size(), 2u);
-
-  IRWriter::createCallInst(mContext, mMainFunction, arguments, "");
-
-  EXPECT_EQ(mBasicBlock->size(), 2u);
 }
 
 TEST_F(IRWriterTest, createInvokeInstTest) {
@@ -512,6 +503,16 @@ TEST_F(IRWriterTest, createBinaryOperatorUreachableDeathTest) {
   EXPECT_EXIT(IRWriter::createBinaryOperator(mContext, Instruction::Add, value, value, "", 7),
               ::testing::ExitedWithCode(1),
               "/tmp/source.yz\\(7\\): Error: Statement unreachable");
+}
+
+TEST_F(IRWriterTest, createCallInstUreachableDeathTest) {
+  Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
+  IRWriter::createReturnInst(mContext, value, 0);
+  vector<Value*> arguments;
+  
+  EXPECT_EXIT(IRWriter::createCallInst(mContext, mMainFunction, arguments, "", 9),
+              ::testing::ExitedWithCode(1),
+              "/tmp/source.yz\\(9\\): Error: Statement unreachable");
 }
 
 TEST_F(TestFileRunner, unreachableReturnRunDeathTest) {

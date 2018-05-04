@@ -862,7 +862,7 @@ Value* Interface::inject(IRGenerationContext& context,
   
   Function* function = getOrCreateEmptyInjectFunction(context, line);
   vector<Value*> arguments;
-  return IRWriter::createCallInst(context, function, arguments, "");
+  return IRWriter::createCallInst(context, function, arguments, "", line);
 }
 
 Function* Interface::getOrCreateEmptyInjectFunction(IRGenerationContext& context, int line) const {
@@ -909,7 +909,8 @@ void Interface::composeEmptyInjectFunction(IRGenerationContext& context,
   Value* injectValue = IRWriter::createCallInst(context,
                                                 (Function*) actualInjectFunction,
                                                 callArguments,
-                                                "");
+                                                "",
+                                                0);
   IRWriter::createReturnInst(context, injectValue, 0);
   
   context.setBasicBlock(ifNullBlock);
@@ -924,7 +925,7 @@ void Interface::composeEmptyInjectFunction(IRGenerationContext& context,
   Function* exitFunction = context.getModule()->getFunction("exit");
   vector<Value*> arguments;
   arguments.push_back(one);
-  IRWriter::createCallInst(context, exitFunction, arguments, "");
+  IRWriter::createCallInst(context, exitFunction, arguments, "", 0);
   IRWriter::newUnreachableInst(context);
   
   context.getScopes().popScope(context, 0);
