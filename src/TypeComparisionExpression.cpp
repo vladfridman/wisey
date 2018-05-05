@@ -37,17 +37,18 @@ Value* TypeComparisionExpression::generateIR(IRGenerationContext& context,
   const IType* expressionType = mExpression->getType(context);
   const IType* type = mTypeSpecifier->getType(context);
   LLVMContext& llvmContext = context.getLLVMContext();
-  ConstantInt* valueTrue = ConstantInt::get(Type::getInt1Ty(llvmContext), 1);
   ConstantInt* valueFalse = ConstantInt::get(Type::getInt1Ty(llvmContext), 0);
   
-  if (type == expressionType) {
-    return valueTrue;
-  }
   if (type->isPrimitive() || expressionType->isPrimitive()) {
     return valueFalse;
   }
-  if (expressionType->isArray() || type->isArray()) {
+  if (type->isArray() || expressionType->isArray()) {
     context.reportError(mLine, "Operator instanceof does not work with arrays");
+    throw 1;
+  }
+  if (!expressionType->getLLVMType(context)->isPointerTy()) {
+    context.reportError(mLine, "instanceof is not supported with type " +
+                        expressionType->getTypeName());
     throw 1;
   }
   if (expressionType->isOwner() && type->isOwner()) {
@@ -56,7 +57,7 @@ Value* TypeComparisionExpression::generateIR(IRGenerationContext& context,
                                    (const IObjectOwnerType*) type);
   }
   if (expressionType->isReference() && type->isReference()) {
-    return generateIRforPointerTypes(context,
+    return generateIRforReferenceTypes(context,
                                        (const IObjectType*) expressionType,
                                        (const IObjectType*) type);
   }
@@ -66,12 +67,12 @@ Value* TypeComparisionExpression::generateIR(IRGenerationContext& context,
 Value* TypeComparisionExpression::generateIRforOwnerTypes(IRGenerationContext& context,
                                                           const IObjectOwnerType* expressionType,
                                                           const IObjectOwnerType* type) const {
-  return generateIRforPointerTypes(context,
-                                   (const IObjectType*) expressionType->getReference(),
-                                   (const IObjectType*) type->getReference());
+  return generateIRforReferenceTypes(context,
+                                     (const IObjectType*) expressionType->getReference(),
+                                     (const IObjectType*) type->getReference());
 }
 
-Value* TypeComparisionExpression::generateIRforPointerTypes(IRGenerationContext& context,
+Value* TypeComparisionExpression::generateIRforReferenceTypes(IRGenerationContext& context,
                                                               const IObjectType* expressionType,
                                                               const IObjectType* type) const {
   LLVMContext& llvmContext = context.getLLVMContext();

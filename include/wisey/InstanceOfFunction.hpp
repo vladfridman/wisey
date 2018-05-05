@@ -50,6 +50,7 @@ namespace wisey {
     
     static llvm::BitCastInst* composeEntryBlock(IRGenerationContext& context,
                                                 llvm::BasicBlock* entryBlock,
+                                                llvm::BasicBlock* returnNotFound,
                                                 llvm::BasicBlock* whileCond,
                                                 llvm::Function* function);
     

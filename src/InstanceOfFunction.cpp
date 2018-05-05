@@ -80,7 +80,11 @@ void InstanceOfFunction::compose(IRGenerationContext& context, Function* functio
   ConstantInt* one = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
   IRWriter::newStoreInst(context, one, iterator);
   
-  Value* arrayOfStrings = composeEntryBlock(context, entryBlock, whileCond, function);
+  Value* arrayOfStrings = composeEntryBlock(context,
+                                            entryBlock,
+                                            returnNotFound,
+                                            whileCond,
+                                            function);
   
   Value* stringPointer = composeWhileConditionBlock(context,
                                                     whileCond,
@@ -103,6 +107,7 @@ void InstanceOfFunction::compose(IRGenerationContext& context, Function* functio
 
 BitCastInst* InstanceOfFunction::composeEntryBlock(IRGenerationContext& context,
                                                    BasicBlock* entryBlock,
+                                                   BasicBlock* returnNotFound,
                                                    BasicBlock* whileCond,
                                                    Function* function) {
   LLVMContext& llvmContext = context.getLLVMContext();
@@ -113,8 +118,15 @@ BitCastInst* InstanceOfFunction::composeEntryBlock(IRGenerationContext& context,
   Function::arg_iterator functionArguments = function->arg_begin();
   Value* haystackArgument = &*functionArguments;
   haystackArgument->setName("haystack");
-  Value* originalObjectVTable = GetOriginalObjectFunction::call(context, haystackArgument);
   
+  BasicBlock* ifNotNullBlock = BasicBlock::Create(llvmContext, "if.notnull", function);
+  
+  Value* null = ConstantPointerNull::get((llvm::PointerType*) haystackArgument->getType());
+  Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, haystackArgument, null, "");
+  IRWriter::createConditionalBranch(context, returnNotFound, ifNotNullBlock, condition);
+  
+  context.setBasicBlock(ifNotNullBlock);
+  Value* originalObjectVTable = GetOriginalObjectFunction::call(context, haystackArgument);
   Type* pointerToArrayOfStrings = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
   
   BitCastInst* vTablePointer =

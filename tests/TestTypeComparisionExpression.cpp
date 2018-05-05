@@ -244,19 +244,8 @@ struct TypeComparisionExpressionTest : public Test {
   }
 };
 
-TEST_F(TypeComparisionExpressionTest, compareIdenticalPrimiteveTypesTest) {
+TEST_F(TypeComparisionExpressionTest, compareIdenticalPrimitiveTypesTest) {
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR));
-  NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
-  ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR));
-  
-  TypeComparisionExpression typeComparision(mExpression, typeSpecifier, 0);
-  Value* value = typeComparision.generateIR(mContext, PrimitiveTypes::VOID);
-  
-  EXPECT_EQ(value, mTrueValue);
-}
-
-TEST_F(TypeComparisionExpressionTest, compareDifferntPrimiteveTypesTest) {
-  ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG));
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR));
   
@@ -266,15 +255,15 @@ TEST_F(TypeComparisionExpressionTest, compareDifferntPrimiteveTypesTest) {
   EXPECT_EQ(value, mFalseValue);
 }
 
-TEST_F(TypeComparisionExpressionTest, compareIdenticalModelTypesTest) {
-  ON_CALL(*mExpression, getType(_)).WillByDefault(Return(mCircleModel));
+TEST_F(TypeComparisionExpressionTest, compareDifferntPrimitiveTypesTest) {
+  ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG));
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
-  ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(mCircleModel));
+  ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR));
   
   TypeComparisionExpression typeComparision(mExpression, typeSpecifier, 0);
   Value* value = typeComparision.generateIR(mContext, PrimitiveTypes::VOID);
   
-  EXPECT_EQ(value, mTrueValue);
+  EXPECT_EQ(value, mFalseValue);
 }
 
 TEST_F(TypeComparisionExpressionTest, compareDifferentModelTypesTest) {
@@ -368,6 +357,10 @@ TEST_F(TestFileRunner, interfaceInstanceControllersRunTest) {
 
 TEST_F(TestFileRunner, interfaceInstanceNodesRunTest) {
   runFile("tests/samples/test_instanceof_nodes.yz", "1");
+}
+
+TEST_F(TestFileRunner, interfaceInstanceOfWithNullRunTest) {
+  runFile("tests/samples/test_instanceof_with_null.yz", "0");
 }
 
 TEST_F(TestFileRunner, instanceofWithArraysRunDeathTest) {
