@@ -120,6 +120,11 @@ namespace wisey {
      */
     llvm::BasicBlock* getLandingPadBlock(IRGenerationContext& context, int line);
     
+    /**
+     * Clears the scopes and forgets all variables
+     */
+    void clear();
+    
   private:
     
     void reportUnhandledExceptions(IRGenerationContext& context,

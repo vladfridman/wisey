@@ -125,6 +125,12 @@ void IRGenerationContext::setBasicBlock(BasicBlock* block) {
   mBasicBlock = block;
 }
 
+void IRGenerationContext::reset() {
+  mScopes.clear();
+  mBasicBlock = NULL;
+  mObjectType = NULL;
+}
+
 wisey::ArrayType* IRGenerationContext::getArrayType(const IType* elementType,
                                                     unsigned long numberOfDimensions) {
   string key = elementType->getTypeName();

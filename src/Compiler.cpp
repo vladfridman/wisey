@@ -177,6 +177,7 @@ void Compiler::prototypeObjects(vector<ProgramFile*> programFiles, IRGenerationC
     try {
       programFile->prototypeObjects(context);
     } catch (int exceptionId) {
+      context.reset();
       errorCount++;
     }
     if (errorCount >= MAX_NUMBER_OF_ERRORS) {
@@ -194,6 +195,7 @@ void Compiler::prototypeMethods(vector<ProgramFile*> programFiles, IRGenerationC
     try {
       programFile->prototypeMethods(context);
     } catch (int exceptionId) {
+      context.reset();
       errorCount++;
     }
     if (errorCount >= MAX_NUMBER_OF_ERRORS) {
@@ -211,6 +213,7 @@ void Compiler::generateIR(vector<ProgramFile*> programFiles, IRGenerationContext
     try {
       programFile->generateIR(context);
     } catch (int exceptionId) {
+      context.reset();
       errorCount++;
     }
     if (errorCount >= MAX_NUMBER_OF_ERRORS) {

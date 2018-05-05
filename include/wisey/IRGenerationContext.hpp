@@ -110,6 +110,11 @@ namespace wisey {
     void setBasicBlock(llvm::BasicBlock* block);
     
     /**
+     * Resets the context to clean state
+     */
+    void reset();
+    
+    /**
      * Get an array type
      */
     wisey::ArrayType* getArrayType(const IType* elementType, unsigned long numberOfDimensions);

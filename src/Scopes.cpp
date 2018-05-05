@@ -232,3 +232,7 @@ llvm::BasicBlock* Scopes::freeMemoryAllocatedInTry(IRGenerationContext& context,
   
   return freeMemoryBlock;
 }
+
+void Scopes::clear() {
+  mScopes.clear();
+}

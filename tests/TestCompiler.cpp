@@ -132,18 +132,29 @@ TEST_F(CompilerTest, runNonExistingDirectoryDeathTest) {
               "Error: Could not open directory tests/foo");
 }
 
+TEST_F(CompilerTest, unterminatedCommentRunDeathTest) {
+  string result = TestFileRunner::exec("bin/wiseyc "
+                                       "tests/samples/test_unterminated_comment.yz");
+  
+  EXPECT_STREQ(result.c_str(), "tests/samples/test_unterminated_comment.yz(2): "
+               "unterminated comment\n");
+}
+
+TEST_F(CompilerTest, twoErrorsRunDeathTest) {
+  mCompilerArguments.addSourceFile("tests/samples/test_multifile_two_errors/Adder.yz");
+  mCompilerArguments.addSourceFile("tests/samples/test_multifile_two_errors/Runner.yz");
+  mCompilerArguments.addSourceFile(LIBWISEY);
+  
+  EXPECT_EXIT(mCompiler.compile(),
+              ::testing::ExitedWithCode(1),
+              "tests/samples/test_multifile_two_errors/Adder.yz\\(5\\): Error: Undeclared variable 'j'\n"
+              "tests/samples/test_multifile_two_errors/Runner.yz\\(10\\): Error: Undeclared variable 'i'\n");
+}
+
 TEST_F(TestFileRunner, commentsRunTest) {
   runFile("tests/samples/test_comments.yz", "5");
 }
 
 TEST_F(TestFileRunner, noPackageDeclarationRunTest) {
   runFile("tests/samples/test_no_package_declaration.yz", "7");
-}
-
-TEST_F(CompilerTest, unterminatedCommentRunDeathTest) {
-  string result = TestFileRunner::exec("bin/wiseyc "
-                                             "tests/samples/test_unterminated_comment.yz");
-  
-  EXPECT_STREQ(result.c_str(), "tests/samples/test_unterminated_comment.yz(2): "
-               "unterminated comment\n");
 }
