@@ -124,10 +124,13 @@ TEST_F(LLVMFunctionIdentifierTest, functionNotFoundDeathTest) {
   ::Mock::AllowLeak(mObjectSpecifier);
   LLVMFunctionIdentifier llvmFunctionIdentifier(mObjectSpecifier, "foo", 11);
 
-  EXPECT_EXIT(llvmFunctionIdentifier.generateIR(mContext, PrimitiveTypes::VOID),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(11\\): Error: LLVMFunction 'foo' not found "
-              "in object systems.vos.wisey.tests.IObject");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(llvmFunctionIdentifier.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(11): Error: LLVMFunction 'foo' not found in object systems.vos.wisey.tests.IObject\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(LLVMFunctionIdentifierTest, functionNotAccessableDeathTest) {
@@ -136,12 +139,13 @@ TEST_F(LLVMFunctionIdentifierTest, functionNotAccessableDeathTest) {
   ::Mock::AllowLeak(mObjectSpecifier);
 
   LLVMFunctionIdentifier llvmFunctionIdentifier(mObjectSpecifier, "privateFunction", 3);
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
-  EXPECT_EXIT(llvmFunctionIdentifier.generateIR(mContext, PrimitiveTypes::VOID),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: LLVMFunction 'privateFunction' in "
-              "systems.vos.wisey.tests.IObject is private and can not be accessed "
-              "from systems.vos.wisey.tests.CAnotherObject");
+  EXPECT_ANY_THROW(llvmFunctionIdentifier.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: LLVMFunction 'privateFunction' in systems.vos.wisey.tests.IObject is private and can not be accessed from systems.vos.wisey.tests.CAnotherObject\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(LLVMFunctionIdentifierTest, getTypeTest) {

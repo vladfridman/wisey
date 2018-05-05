@@ -28,5 +28,5 @@ IVariable* IVariable::getVariable(IRGenerationContext& context, std::string name
   }
   
   context.reportError(line, "Undeclared variable '" + name + "'");
-  exit(1);
+  throw 1;
 }

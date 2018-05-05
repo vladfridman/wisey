@@ -170,7 +170,7 @@ void LongType::createParameterVariable(IRGenerationContext& context,
 
 const wisey::ArrayType* LongType::getArrayType(IRGenerationContext& context, int line) const {
   ArrayType::reportNonArrayType(context, line);
-  exit(1);
+  throw 1;
 }
 
 const PrimitiveTypeSpecifier* LongType::newTypeSpecifier(int line) const {
@@ -181,5 +181,5 @@ Instruction* LongType::inject(IRGenerationContext& context,
                               const InjectionArgumentList injectionArgumentList,
                               int line) const {
   repotNonInjectableType(context, this, line);
-  exit(1);
+  throw 1;
 }

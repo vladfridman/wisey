@@ -87,7 +87,7 @@ generateArrayElementAssignment(IRGenerationContext& context,
                                vector<const IExpression*> arrayIndices,
                                int line) {
   context.reportError(line, "Attempting to change a value in an immutable array");
-  exit(1);
+  throw 1;
 }
 
 llvm::Value* LocalImmutableArrayOwnerVariable::

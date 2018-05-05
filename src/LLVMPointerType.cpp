@@ -165,7 +165,7 @@ void LLVMPointerType::createParameterVariable(IRGenerationContext& context,
 const wisey::ArrayType* LLVMPointerType::getArrayType(IRGenerationContext& context,
                                                       int line) const {
   ArrayType::reportNonArrayType(context, line);
-  exit(1);
+  throw 1;
 }
 
 const LLVMPointerType* LLVMPointerType::getPointerType(IRGenerationContext& context,
@@ -174,12 +174,12 @@ const LLVMPointerType* LLVMPointerType::getPointerType(IRGenerationContext& cont
     return mPointerType;
   }
   context.reportError(line, "Three and more degree llvm pointers are not supported");
-  exit(1);
+  throw 1;
 }
 
 llvm::Instruction* LLVMPointerType::inject(IRGenerationContext& context,
                                            const InjectionArgumentList injectionArgumentList,
                                            int line) const {
   repotNonInjectableType(context, this, line);
-  exit(1);
+  throw 1;
 }

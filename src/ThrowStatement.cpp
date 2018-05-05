@@ -33,7 +33,7 @@ void ThrowStatement::generateIR(IRGenerationContext& context) const {
   const IType* expressionType = mExpression->getType(context);
   if (!expressionType->isModel() || !expressionType->isOwner()) {
     context.reportError(mLine, "Thrown object can only be a model owner");
-    exit(1);
+    throw 1;
   }
   const Model* model = ((const ModelOwner*) expressionType)->getReference();
 

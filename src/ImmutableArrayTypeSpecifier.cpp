@@ -27,7 +27,7 @@ const ImmutableArrayType* ImmutableArrayTypeSpecifier::getType(IRGenerationConte
   if (!elementType->isImmutable() && !elementType->isPrimitive()) {
     context.reportError(mArrayTypeSpecifier->getLine(),
                         "Immutable array base type can only be of primitive or immutable type");
-    exit(1);
+    throw 1;
   }
   return arrayType->getImmutable();
 }

@@ -89,12 +89,16 @@ public:
 TEST_F(ReturnStatementTest, parentFunctionIsNullDeathTest) {
   mContext.setBasicBlock(BasicBlock::Create(mLLVMContext, "entry"));
   mContext.getScopes().pushScope();
-  ReturnStatement returnStatement(mExpression, 0);
+  ReturnStatement returnStatement(mExpression, 1);
 
   Mock::AllowLeak(mExpression);
-  EXPECT_EXIT(returnStatement.generateIR(mContext),
-              ExitedWithCode(1),
-              "No corresponding method found for RETURN");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(returnStatement.generateIR(mContext));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: No corresponding method found for RETURN\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ReturnStatementTest, parentFunctionIsIncopatableTypeDeathTest) {
@@ -107,10 +111,13 @@ TEST_F(ReturnStatementTest, parentFunctionIsIncopatableTypeDeathTest) {
   ReturnStatement returnStatement(mExpression, 5);
   
   Mock::AllowLeak(mExpression);
-  EXPECT_EXIT(returnStatement.generateIR(mContext),
-              ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: "
-              "Incompatible types: can not cast from type 'int' to 'void'");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(returnStatement.generateIR(mContext));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'int' to 'void'\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ReturnStatementTest, parentFunctionIntTest) {

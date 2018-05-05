@@ -76,7 +76,7 @@ Value* FieldOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
     context.reportError(line,
                         "Attempt to assign to injected field '" + mName + "' of object " +
                         mObject->getTypeName() + ", assignment to injected fields is not allowed");
-    exit(1);
+    throw 1;
   }
   
   Composer::setLineNumber(context, line);
@@ -86,7 +86,7 @@ Value* FieldOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
   if (!expressionType->canAutoCastTo(context, fieldType)) {
     context.reportError(line, "Can not assign to field '" + mName + "' of object '" +
                         mObject->getTypeName() + "' because of incompatable types");
-    exit(1);
+    throw 1;
   }
   Value* expressionValue = assignToExpression->generateIR(context, field->getType());
   Value* cast = AutoCast::maybeCast(context, expressionType, expressionValue, fieldType, line);
@@ -104,7 +104,7 @@ void FieldOwnerVariable::setToNull(IRGenerationContext& context, int line) {
     context.reportError(line,
                         "Attempting to set an injected field '" + mName + "' of object " +
                         mObject->getTypeName() + " to null possibly by returning its value");
-    exit(1);
+    throw 1;
   }
   llvm::PointerType* type = (llvm::PointerType*) getType()->getLLVMType(context);
   Value* null = ConstantPointerNull::get(type);

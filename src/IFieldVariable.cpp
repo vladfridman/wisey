@@ -27,7 +27,7 @@ IField* IFieldVariable::checkAndFindFieldForAssignment(IRGenerationContext& cont
   }
   
   context.reportError(line, "Can not assign to field " + field->getName());
-  exit(1);
+  throw 1;
 }
 
 IField* IFieldVariable::checkAndFindField(IRGenerationContext& context,
@@ -42,7 +42,7 @@ IField* IFieldVariable::checkAndFindField(IRGenerationContext& context,
   
   context.reportError(line, "Field " + fieldName + " is not found in object " +
                       object->getTypeName());
-  exit(1);
+  throw 1;
 }
 
 GetElementPtrInst* IFieldVariable::getFieldPointer(IRGenerationContext& context,

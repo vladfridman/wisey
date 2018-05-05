@@ -11,6 +11,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+#include "TestPrefix.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/NodeTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -26,11 +27,10 @@ struct NodeTypeSpecifierTest : public ::testing::Test {
   ImportProfile* mImportProfile;
 
   NodeTypeSpecifierTest() {
+    TestPrefix::generateIR(mContext);
+    
     LLVMContext& llvmContext = mContext.getLLVMContext();
     
-    mImportProfile = new ImportProfile(mPackage);
-    mContext.setImportProfile(mImportProfile);
-
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(llvmContext));
     types.push_back(Type::getInt32Ty(llvmContext));
@@ -74,9 +74,13 @@ TEST_F(NodeTypeSpecifierTest, printToStreamTest) {
 TEST_F(NodeTypeSpecifierTest, nodeTypeSpecifierSamePackageDeathTest) {
   NodeTypeSpecifier nodeTypeSpecifier(NULL, "NNode", 10);
   
-  EXPECT_EXIT(nodeTypeSpecifier.getType(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Node systems.vos.wisey.compiler.tests.NNode is not defined");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(nodeTypeSpecifier.getType(mContext));
+  EXPECT_STREQ("/tmp/source.yz(10): Error: Node systems.vos.wisey.compiler.tests.NNode is not defined\n",
+              buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(NodeTypeSpecifierTest, nodeTypeSpecifierNotDefinedDeathTest) {
@@ -84,7 +88,11 @@ TEST_F(NodeTypeSpecifierTest, nodeTypeSpecifierNotDefinedDeathTest) {
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   NodeTypeSpecifier nodeTypeSpecifier(packageExpression, "NNode", 15);
   
-  EXPECT_EXIT(nodeTypeSpecifier.getType(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Node systems.vos.wisey.compiler.tests.NNode is not defined");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(nodeTypeSpecifier.getType(mContext));
+  EXPECT_STREQ("/tmp/source.yz(15): Error: Node systems.vos.wisey.compiler.tests.NNode is not defined\n",
+              buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }

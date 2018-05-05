@@ -33,7 +33,7 @@ void PrintOutStatement::generateIR(IRGenerationContext& context) const {
   const IType* expressionType = mExpression->getType(context);
   if (!expressionType->isPrimitive() || expressionType == PrimitiveTypes::VOID) {
     context.reportError(mLine, "Argument in the printout statement is not of printable type");
-    exit(1);
+    throw 1;
   }
   ExpressionList expressions = IPrintStatement::getExpressions(context, mExpression, mLine);
 

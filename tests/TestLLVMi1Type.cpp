@@ -113,7 +113,11 @@ TEST_F(LLVMi1TypeTest, printToStreamTest) {
 
 TEST_F(LLVMi1TypeTest, injectDeathTest) {
   InjectionArgumentList arguments;
-  EXPECT_EXIT(mLLVMi1Type.inject(mContext, arguments, 3),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: type ::llvm::i1 is not injectable");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mLLVMi1Type.inject(mContext, arguments, 3));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: type ::llvm::i1 is not injectable\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }

@@ -11,6 +11,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+#include "TestPrefix.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/Method.hpp"
@@ -28,11 +29,10 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
   ImportProfile* mImportProfile;
 
   ModelTypeSpecifierTest() {
+    TestPrefix::generateIR(mContext);
+    
     LLVMContext& llvmContext = mContext.getLLVMContext();
 
-    mImportProfile = new ImportProfile(mPackage);
-    mContext.setImportProfile(mImportProfile);
-    
     vector<Type*> types;
      types.push_back(FunctionType::get(Type::getInt32Ty(llvmContext), true)
                     ->getPointerTo()->getPointerTo());
@@ -97,9 +97,13 @@ TEST_F(ModelTypeSpecifierTest, printToStreamTest) {
 TEST_F(ModelTypeSpecifierTest, modelTypeSpecifierSamePackageDeathTest) {
   ModelTypeSpecifier modelTypeSpecifier(NULL, "MCircle", 10);
   
-  EXPECT_EXIT(modelTypeSpecifier.getType(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Model systems.vos.wisey.compiler.tests.MCircle is not defined");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(modelTypeSpecifier.getType(mContext));
+  EXPECT_STREQ("/tmp/source.yz(10): Error: Model systems.vos.wisey.compiler.tests.MCircle is not defined\n",
+              buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ModelTypeSpecifierTest, modelTypeSpecifierNotDefinedDeathTest) {
@@ -107,7 +111,11 @@ TEST_F(ModelTypeSpecifierTest, modelTypeSpecifierNotDefinedDeathTest) {
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ModelTypeSpecifier modelTypeSpecifier(packageExpression, "MCircle", 15);
   
-  EXPECT_EXIT(modelTypeSpecifier.getType(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Model systems.vos.wisey.compiler.tests.MCircle is not defined");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(modelTypeSpecifier.getType(mContext));
+  EXPECT_STREQ("/tmp/source.yz(15): Error: Model systems.vos.wisey.compiler.tests.MCircle is not defined\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }

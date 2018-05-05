@@ -101,11 +101,14 @@ TEST_F(DoubleTypeTest, castToTest) {
   Value* result;
   Value* expressionValue = ConstantFP::get(Type::getDoubleTy(mLLVMContext), 2.5);
   
-  EXPECT_EXIT(mDoubleType.castTo(mContext, expressionValue, PrimitiveTypes::VOID, 5),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
-              "can not cast from type 'double' to 'void'");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
+  EXPECT_ANY_THROW(mDoubleType.castTo(mContext, expressionValue, PrimitiveTypes::VOID, 5));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'double' to 'void'\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
+
   result = mDoubleType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv = fptosi double 2.500000e+00 to i1", mStringStream->str().c_str());
@@ -189,7 +192,11 @@ TEST_F(DoubleTypeTest, injectDeathTest) {
   Mock::AllowLeak(&mConcreteObjectType);
   
   InjectionArgumentList arguments;
-  EXPECT_EXIT(mDoubleType.inject(mContext, arguments, 3),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: type double is not injectable");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mDoubleType.inject(mContext, arguments, 3));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: type double is not injectable\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }

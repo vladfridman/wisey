@@ -138,11 +138,15 @@ TEST_F(AdditiveMultiplicativeExpressionTest, incompatibleTypesDeathTest) {
   ON_CALL(*mRightExpression, generateIR(_, _)).WillByDefault(Return(rightValue));
   ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
 
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 11);
 
-  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID),
-              ::testing::ExitedWithCode(1),
-              "Error: Incompatible types in '\\+' operation");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(expression.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(11): Error: Incompatible types in '+' operation that require an explicit cast\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(AdditiveMultiplicativeExpressionTest, nonPrimitiveTypesDeathTest) {
@@ -160,11 +164,15 @@ TEST_F(AdditiveMultiplicativeExpressionTest, nonPrimitiveTypesDeathTest) {
   ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(model));
   ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(model));
   
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 9);
   
-  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not do operation '\\+' on non-primitive types");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(expression.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(9): Error: Can not do operation '+' on non-primitive types\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(AdditiveMultiplicativeExpressionTest, voidTypesDeathTest) {
@@ -174,11 +182,15 @@ TEST_F(AdditiveMultiplicativeExpressionTest, voidTypesDeathTest) {
   ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID));
   ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID));
   
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 5);
   
-  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not use expressions of type VOID in a '\\+' operation");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(expression.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Can not use expressions of type VOID in a '+' operation\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(AdditiveMultiplicativeExpressionTest, explicitCastNeededOnGenerateIRDeathTest) {
@@ -188,11 +200,15 @@ TEST_F(AdditiveMultiplicativeExpressionTest, explicitCastNeededOnGenerateIRDeath
   ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG));
   ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
   
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 3);
   
-  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID),
-              ::testing::ExitedWithCode(1),
-              "Error: Incompatible types in '\\+' operation that require an explicit cast");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(expression.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Incompatible types in '+' operation that require an explicit cast\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(AdditiveMultiplicativeExpressionTest, explicitCastNeededOnGetTypeDeathTest) {
@@ -202,11 +218,15 @@ TEST_F(AdditiveMultiplicativeExpressionTest, explicitCastNeededOnGetTypeDeathTes
   ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG));
   ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
   
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 1);
   
-  EXPECT_EXIT(expression.getType(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Incompatible types in '\\+' operation that require an explicit cast");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(expression.getType(mContext));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Incompatible types in '+' operation that require an explicit cast\n",
+              buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(TestFileRunner, additionRunTest) {

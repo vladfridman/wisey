@@ -131,9 +131,13 @@ TEST_F(AssignmentTest, variableNotDeclaredDeathTest) {
   Mock::AllowLeak(mExpression);
   Mock::AllowLeak(mThreadVariable);
 
-  EXPECT_EXIT(assignment.generateIR(mContext, PrimitiveTypes::VOID),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(1\\): Error: Undeclared variable 'foo'");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(assignment.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Undeclared variable 'foo'\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(AssignmentTest, assignmentExpressionTypeTest) {

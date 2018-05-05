@@ -162,5 +162,5 @@ llvm::Instruction* ImmutableArrayOwnerType::inject(IRGenerationContext& context,
                                                    const InjectionArgumentList injectionArguments,
                                                    int line) const {
   repotNonInjectableType(context, this, line);
-  exit(1);
+  throw 1;
 }

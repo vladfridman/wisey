@@ -159,11 +159,14 @@ TEST_F(FieldImmutableArrayOwnerVariableTest, generateWholeArrayAssignmentDeathTe
   
   Mock::AllowLeak(&mockExpression);
   
-  EXPECT_EXIT(mFieldImmutableArrayOwnerVariable->
-              generateAssignmentIR(mContext, &mockExpression, arrayIndices, 5),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
-              "can not cast from type 'int\\[\\]' to 'immutable int\\[\\]\\*'");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mFieldImmutableArrayOwnerVariable->
+                   generateAssignmentIR(mContext, &mockExpression, arrayIndices, 5));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'int[]' to 'immutable int[]*'\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(FieldImmutableArrayOwnerVariableTest, generateArrayElementAssignmentDeathTest) {
@@ -173,10 +176,14 @@ TEST_F(FieldImmutableArrayOwnerVariableTest, generateArrayElementAssignmentDeath
   
   Mock::AllowLeak(&mockExpression);
   
-  EXPECT_EXIT(mFieldImmutableArrayOwnerVariable->
-              generateAssignmentIR(mContext, &mockExpression, arrayIndices, 11),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(11\\): Error: Attempting to change a value in an immutable array");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mFieldImmutableArrayOwnerVariable->
+                   generateAssignmentIR(mContext, &mockExpression, arrayIndices, 11));
+  EXPECT_STREQ("/tmp/source.yz(11): Error: Attempting to change a value in an immutable array\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(TestFileRunner, fieldImmutableArrayOwnerRunTest) {

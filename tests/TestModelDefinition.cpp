@@ -58,9 +58,6 @@ struct ModelDefinitionTest : public Test {
   mMockStatement(new NiceMock<MockStatement>()) {
     TestPrefix::generateIR(mContext);
 
-    mImportProfile = new ImportProfile(mPackage);
-    mContext.setImportProfile(mImportProfile);
-    
     mBlock->getStatements().push_back(mMockStatement);
     mBlock->getStatements().push_back(new ReturnStatement(new FloatConstant(0.5, 0), 0));
     CompoundStatement* compoundStatement = new CompoundStatement(mBlock, 0);
@@ -293,7 +290,7 @@ TEST_F(ModelDefinitionTest, interfaceNotDefinedDeathTest) {
   string package = "systems.vos.wisey.compiler.tests";
   PackageType* packageType = new PackageType(package);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  interfaces.push_back(new InterfaceTypeSpecifier(packageExpression, "IMyInterface", 0));
+  interfaces.push_back(new InterfaceTypeSpecifier(packageExpression, "IMyInterface", 3));
   
   mObjectElements.push_back(mMethodDefinition);
 
@@ -310,15 +307,19 @@ TEST_F(ModelDefinitionTest, interfaceNotDefinedDeathTest) {
                                   0);
   modelDefinition.prototypeObject(mContext, mContext.getImportProfile());
   
-  EXPECT_EXIT(modelDefinition.prototypeMethods(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Interface systems.vos.wisey.compiler.tests.IMyInterface is not defined");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(modelDefinition.prototypeMethods(mContext));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Interface systems.vos.wisey.compiler.tests.IMyInterface is not defined\n",
+              buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ModelDefinitionTest, modelWithInjectedFieldDeathTest) {
   const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
   InjectionArgumentList arguments;
-  InjectedFieldDefinition* field1 = new InjectedFieldDefinition(longType, "field1", arguments, 0);
+  InjectedFieldDefinition* field1 = new InjectedFieldDefinition(longType, "field1", arguments, 1);
   mObjectElements.push_back(field1);
   
   mObjectElements.push_back(mMethodDefinition);
@@ -337,9 +338,13 @@ TEST_F(ModelDefinitionTest, modelWithInjectedFieldDeathTest) {
                                   0);
   modelDefinition.prototypeObject(mContext, mContext.getImportProfile());
   
-  EXPECT_EXIT(modelDefinition.prototypeMethods(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Models can only have fixed fields");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(modelDefinition.prototypeMethods(mContext));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Models can only have fixed fields\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(TestFileRunner, modelDefinitionRunTest) {

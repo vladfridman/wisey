@@ -165,7 +165,7 @@ void WiseyModelType::createParameterVariable(IRGenerationContext& context,
 
 const wisey::ArrayType* WiseyModelType::getArrayType(IRGenerationContext& context, int line) const {
   ArrayType::reportNonArrayType(context, line);
-  exit(1);
+  throw 1;
 }
 
 void WiseyModelType::incrementReferenceCount(IRGenerationContext& context, Value* object) const {
@@ -184,5 +184,5 @@ Instruction* WiseyModelType::inject(IRGenerationContext& context,
                                     const InjectionArgumentList injectionArgumentList,
                                     int line) const {
   repotNonInjectableType(context, this, line);
-  exit(1);
+  throw 1;
 }

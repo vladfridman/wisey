@@ -58,7 +58,7 @@ Value* LocalSystemReferenceVariable::generateIdentifierIR(IRGenerationContext& c
                                                           int line) const {
   if (!mIsInitialized) {
     context.reportError(line, "System variable '" + mName + "' is not initialized");
-    exit(1);
+    throw 1;
   }
   
   return IRWriter::newLoadInst(context, mValueStore, "");

@@ -39,7 +39,7 @@ Value* ConstantReference::generateIR(IRGenerationContext& context,
   if (!constant->isPublic() && objectType != context.getObjectType()) {
     context.reportError(mLine,
                         "Trying to reference private constant not visible from the current object");
-    exit(1);
+    throw 1;
   }
   string constantGlobalName = constant->getConstantGlobalName(objectType);
   llvm::Constant* constantStore = context.getModule()->getNamedGlobal(constantGlobalName);

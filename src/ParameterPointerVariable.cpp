@@ -62,5 +62,5 @@ Value* ParameterPointerVariable::generateAssignmentIR(IRGenerationContext& conte
                                                      vector<const IExpression*> arrayIndices,
                                                      int line) {
   context.reportError(line, "Assignment to method parameters is not allowed");
-  exit(1);
+  throw 1;
 }

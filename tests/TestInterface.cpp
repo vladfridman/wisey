@@ -132,7 +132,7 @@ struct InterfaceTest : public Test {
                                                  intSpecifier,
                                                  "MYCONSTANT",
                                                  mMockExpression,
-                                                 0);
+                                                 9);
     shapeElements.push_back(mConstantDefinition);
     shapeElements.push_back(mFooMethod);
     shapeElements.push_back(mStaticMethod);
@@ -235,11 +235,13 @@ TEST_F(InterfaceTest, findConstantDeathTest) {
   Mock::AllowLeak(mMockExpression);
   Mock::AllowLeak(mThreadVariable);
 
-  EXPECT_EXIT(mShapeInterface->findConstant(mContext, "MYCONSTANT2", 3),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: "
-              "Interface systems.vos.wisey.compiler.tests.IShape "
-              "does not have constant named MYCONSTANT2");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mShapeInterface->findConstant(mContext, "MYCONSTANT2", 3));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Interface systems.vos.wisey.compiler.tests.IShape does not have constant named MYCONSTANT2\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(InterfaceTest, getMethodIndexTest) {
@@ -251,9 +253,13 @@ TEST_F(InterfaceTest, getMethodIndexDeathTest) {
   Mock::AllowLeak(mMockExpression);
   Mock::AllowLeak(mThreadVariable);
 
-  EXPECT_EXIT(mObjectInterface->getMethodIndex(mContext, mShapeInterface->findMethod("foo"), 0),
-              ::testing::ExitedWithCode(1),
-              "Error: Method foo not found in interface systems.vos.wisey.compiler.tests.IObject");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mObjectInterface->getMethodIndex(mContext, mShapeInterface->findMethod("foo"), 1));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Method foo not found in interface systems.vos.wisey.compiler.tests.IObject\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(InterfaceTest, getObjectNameGlobalVariableNameTest) {
@@ -414,7 +420,7 @@ TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
   Mock::AllowLeak(mThreadVariable);
 
   const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
-  FixedFieldDefinition* fieldDeclaration = new FixedFieldDefinition(intSpecifier, "mField", 0);
+  FixedFieldDefinition* fieldDeclaration = new FixedFieldDefinition(intSpecifier, "mField", 3);
   
   string name = "systems.vos.wisey.compiler.tests.IInterface";
   StructType* structType = StructType::create(mLLVMContext, name);
@@ -429,9 +435,13 @@ TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
                                                  mContext.getImportProfile(),
                                                  0);
   
-  EXPECT_EXIT(interface->buildMethods(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Interfaces can not contain fields");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(interface->buildMethods(mContext));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Interfaces can not contain fields\n",
+              buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(InterfaceTest, methodDeclarationDeathTest) {
@@ -450,7 +460,7 @@ TEST_F(InterfaceTest, methodDeclarationDeathTest) {
                                                              thrownExceptions,
                                                              new MethodQualifiers(0),
                                                              compoundStatement,
-                                                             0);
+                                                             5);
 
   string name = "systems.vos.wisey.compiler.tests.IInterface";
   StructType* structType = StructType::create(mLLVMContext, name);
@@ -465,9 +475,13 @@ TEST_F(InterfaceTest, methodDeclarationDeathTest) {
                                                  mContext.getImportProfile(),
                                                  0);
   
-  EXPECT_EXIT(interface->buildMethods(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Interfaces can not contain method implmentations");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(interface->buildMethods(mContext));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Interfaces can not contain method implmentations\n",
+              buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(InterfaceTest, constantsAfterMethodSignaturesDeathTest) {
@@ -488,9 +502,13 @@ TEST_F(InterfaceTest, constantsAfterMethodSignaturesDeathTest) {
                                                  mContext.getImportProfile(),
                                                  0);
   
-  EXPECT_EXIT(interface->buildMethods(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: In interfaces constants should be declared before methods");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(interface->buildMethods(mContext));
+  EXPECT_STREQ("/tmp/source.yz(9): Error: In interfaces constants should be declared before methods\n",
+              buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(InterfaceTest, incrementReferenceCountTest) {
@@ -559,7 +577,7 @@ TEST_F(InterfaceTest, circularDependencyDeathTest) {
                                              childParentInterfaces,
                                              childElements,
                                              mContext.getImportProfile(),
-                                             0);
+                                             3);
   mContext.addInterface(child, 0);
   
   string parentFullName = "systems.vos.wisey.compiler.tests.IParent";
@@ -573,14 +591,16 @@ TEST_F(InterfaceTest, circularDependencyDeathTest) {
                                               parentParentInterfaces,
                                               parentElements,
                                               mContext.getImportProfile(),
-                                              0);
+                                              1);
   mContext.addInterface(parent, 0);
 
-  EXPECT_EXIT(child->buildMethods(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Circular interface dependency between interfaces "
-              "systems.vos.wisey.compiler.tests.IChild and "
-              "systems.vos.wisey.compiler.tests.IParent");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(child->buildMethods(mContext));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Circular interface dependency between interfaces systems.vos.wisey.compiler.tests.IChild and systems.vos.wisey.compiler.tests.IParent\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(InterfaceTest, createLocalVariableTest) {

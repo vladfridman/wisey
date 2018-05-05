@@ -116,7 +116,7 @@ void Controller::setFields(IRGenerationContext& context,
     } else {
       context.reportError(field->getLine(),
                           "Controllers can only have received, injected or state fields");
-      exit(1);
+      throw 1;
     }
     index++;
   }
@@ -176,7 +176,7 @@ wisey::Constant* Controller::findConstant(IRGenerationContext& context,
   if (!mNameToConstantMap.count(constantName)) {
     context.reportError(line, "Controller " + mName +
                         " does not have constant named " + constantName);
-    exit(1);
+    throw 1;
   }
   return mNameToConstantMap.at(constantName);
 }
@@ -201,7 +201,7 @@ Instruction* Controller::inject(IRGenerationContext& context,
     if (!argumentType->canAutoCastTo(context, fieldType)) {
       context.reportError(line, "Injector argumet value for field '" + field->getName() +
                           "' does not match its type");
-      exit(1);
+      throw 1;
     }
     Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);
     callArguments[mReceivedFieldIndexes.at(field)] = castValue;
@@ -500,7 +500,7 @@ void Controller::createParameterVariable(IRGenerationContext& context,
 
 const wisey::ArrayType* Controller::getArrayType(IRGenerationContext& context, int line) const {
   ArrayType::reportNonArrayType(context, line);
-  exit(1);
+  throw 1;
 }
 
 int Controller::getLine() const {
@@ -526,7 +526,7 @@ void Controller::checkArgumentsAreWellFormed(IRGenerationContext& context,
   if (!areArgumentsWellFormed) {
     context.reportError(line, "Some injection arguments for injected object " + getTypeName() +
                         " are not well formed");
-    exit(1);
+    throw 1;
   }
 }
 
@@ -548,7 +548,7 @@ void Controller:: checkAllFieldsAreSet(IRGenerationContext& context,
   }
   context.reportError(line, "Some received fields of the controller " + getTypeName() +
                       " are not initialized.");
-  exit(1);
+  throw 1;
 }
 
 void Controller::initializeReceivedFields(IRGenerationContext& context,

@@ -92,7 +92,7 @@ Value* FieldArrayOwnerVariable::generateWholeArrayAssignment(IRGenerationContext
     context.reportError(line,
                         "Attempt to assign to injected field '" + mName + "' of object " +
                         mObject->getTypeName() + ", assignment to injected fields is not allowed");
-    exit(1);
+    throw 1;
   }
 
   const IType* fieldType = field->getType();
@@ -149,7 +149,7 @@ void FieldArrayOwnerVariable::setToNull(IRGenerationContext& context, int line) 
     context.reportError(line,
                         "Attempting to set an injected field '" + mName + "' of object " +
                         mObject->getTypeName() + " to null possibly by returning its value");
-    exit(1);
+    throw 1;
   }
   llvm::PointerType* type = (llvm::PointerType*) getType()->getLLVMType(context);
   Value* null = ConstantPointerNull::get(type);

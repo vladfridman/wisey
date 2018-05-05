@@ -43,7 +43,7 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   const IType* expressionType = mArrayExpression->getType(context);
   if (!expressionType->isArray()) {
     reportErrorArrayType(context, expressionType->getTypeName());
-    exit(1);
+    throw 1;
   }
   const ArrayType* arrayType = expressionType->getArrayType(context, mLine);
   Value* arrayStructPointer = mArrayExpression->generateIR(context, PrimitiveTypes::VOID);
@@ -81,7 +81,7 @@ Value* ArrayElementExpression::getArrayElement(IRGenerationContext &context,
       arrayIndexExpressionType != PrimitiveTypes::LONG) {
     context.reportError(line, "Array index should be integer type, but it is " +
                         arrayIndexExpressionType->getTypeName());
-    exit(1);
+    throw 1;
   }
 
   Value* indexValue = indexExpression->generateIR(context, PrimitiveTypes::VOID);
@@ -126,7 +126,7 @@ Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
 
   if (arrayType->getNumberOfDimensions() != arrayIndices.size()) {
     context.reportError(line, "Expression does not reference an array element");
-    exit(1);
+    throw 1;
   }
   
   CheckForNullAndThrowFunction::call(context, arrayStructPointer);
@@ -152,7 +152,7 @@ IVariable* ArrayElementExpression::getVariable(IRGenerationContext& context,
                                                vector<const IExpression*>& arrayIndices) const {
   if (!mArrayExpression->isAssignable()) {
     context.reportError(mLine, "Expression is not assignable");
-    exit(1);
+    throw 1;
   }
   arrayIndices.push_back(mArrayIndexExpresion);
   return ((const IExpressionAssignable*) mArrayExpression)->getVariable(context, arrayIndices);
@@ -171,7 +171,7 @@ const IType* ArrayElementExpression::getType(IRGenerationContext& context) const
   
   if (!arrayExpressionType->isArray()) {
     reportErrorArrayType(context, arrayExpressionType->getTypeName());
-    exit(1);
+    throw 1;
   }
   
   const ArrayType* arrayType = arrayExpressionType->getArrayType(context, mLine);

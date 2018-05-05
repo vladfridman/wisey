@@ -34,8 +34,12 @@ extern FILE* yyin;
 extern int yylineno;
 std::string SourceFile;
 
+Compiler::Compiler(CompilerArguments& argments) : mArguments(argments), mHasCompiled(false) { }
+
 Compiler::~Compiler() {
 }
+
+const unsigned int Compiler::MAX_NUMBER_OF_ERRORS = 10u;
 
 void Compiler::compile() {
   vector<ProgramFile*> programFiles;
@@ -168,20 +172,53 @@ vector<ProgramFile*> Compiler::parseFiles(vector<string> sourcePatterns) {
 }
 
 void Compiler::prototypeObjects(vector<ProgramFile*> programFiles, IRGenerationContext& context) {
+  unsigned int errorCount = 0;
   for (ProgramFile* programFile : programFiles) {
-    programFile->prototypeObjects(context);
+    try {
+      programFile->prototypeObjects(context);
+    } catch (int exceptionId) {
+      errorCount++;
+    }
+    if (errorCount >= MAX_NUMBER_OF_ERRORS) {
+      exit(1);
+    }
+  }
+  if (errorCount) {
+    exit(1);
   }
 }
 
 void Compiler::prototypeMethods(vector<ProgramFile*> programFiles, IRGenerationContext& context) {
+  unsigned int errorCount = 0;
   for (ProgramFile* programFile : programFiles) {
-    programFile->prototypeMethods(context);
+    try {
+      programFile->prototypeMethods(context);
+    } catch (int exceptionId) {
+      errorCount++;
+    }
+    if (errorCount >= MAX_NUMBER_OF_ERRORS) {
+      exit(1);
+    }
+  }
+  if (errorCount) {
+    exit(1);
   }
 }
 
 void Compiler::generateIR(vector<ProgramFile*> programFiles, IRGenerationContext& context) {
+  unsigned int errorCount = 0;
   for (ProgramFile* programFile : programFiles) {
-    programFile->generateIR(context);
+    try {
+      programFile->generateIR(context);
+    } catch (int exceptionId) {
+      errorCount++;
+    }
+    if (errorCount >= MAX_NUMBER_OF_ERRORS) {
+      exit(1);
+    }
+  }
+  if (errorCount) {
+    exit(1);
   }
 }
 

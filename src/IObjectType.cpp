@@ -64,5 +64,5 @@ bool IObjectType::checkAccess(string sourceFile,
   
   Log::e(sourceFile, line, "Object " + to->getTypeName() + " is not accessable from object " +
          from->getTypeName());
-  exit(1);
+  throw 1;
 }

@@ -99,7 +99,11 @@ TEST_F(ArrayExactOwnerTypeTest, getArrayTypeTest) {
 
 TEST_F(ArrayExactOwnerTypeTest, injectDeathTest) {
   InjectionArgumentList arguments;
-  EXPECT_EXIT(mArrayExactOwnerType->inject(mContext, arguments, 3),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: type long\\[5\\]\\* is not injectable");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mArrayExactOwnerType->inject(mContext, arguments, 3));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: type long[5]* is not injectable\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }

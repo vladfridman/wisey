@@ -32,7 +32,7 @@ Value* LLVMFunctionCall::generateIR(IRGenerationContext& context, const IType* a
   Function* function = context.getModule()->getFunction(mFunctionName);
   if (function == NULL) {
     context.reportError(mLine, "LLVM function " + mFunctionName + " is not defined");
-    exit(1);
+    throw 1;
   }
   
   vector<Value*> arguments;
@@ -46,7 +46,7 @@ const IType* LLVMFunctionCall::getType(IRGenerationContext& context) const {
   Function* function = context.getModule()->getFunction(mFunctionName);
   if (function == NULL) {
     context.reportError(mLine, "LLVM function " + mFunctionName + " is not defined");
-    exit(1);
+    throw 1;
   }
   
   return context.lookupLLVMFunctionNamedType(mFunctionName, mLine)->getReturnType();

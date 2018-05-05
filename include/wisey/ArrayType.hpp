@@ -44,6 +44,9 @@ namespace wisey {
     
     ~ArrayType();
     
+    /**
+     * Index of the actual elements array in the struct that represents a wisey array
+     */
     static const unsigned int ARRAY_ELEMENTS_START_INDEX;
     
     /**

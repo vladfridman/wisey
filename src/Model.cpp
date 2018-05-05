@@ -103,14 +103,14 @@ void Model::setFields(IRGenerationContext& context,
     index++;
     if (!field->isFixed()) {
       context.reportError(field->getLine(), "Models can only have fixed fields");
-      exit(1);
+      throw 1;
     }
     const IType* fieldType = field->getType();
     if (!fieldType->isPrimitive() && !fieldType->isModel() && !fieldType->isInterface() &&
         !fieldType->isArray()) {
       context.reportError(field->getLine(),
                           "Model fields can only be of primitive, model or array type");
-      exit(1);
+      throw 1;
     }
     if (!fieldType->isArray()) {
       continue;
@@ -118,7 +118,7 @@ void Model::setFields(IRGenerationContext& context,
     if (!fieldType->isImmutable() || !fieldType->isOwner()) {
       context.reportError(field->getLine(),
                           "Array fields in models can only be of immutable array owner type");
-      exit(1);
+      throw 1;
     }
   }
 }
@@ -153,7 +153,7 @@ wisey::Constant* Model::findConstant(IRGenerationContext& context,
                                      int line) const {
   if (!mNameToConstantMap.count(constantName)) {
     context.reportError(line, "Model " + mName + " does not have constant named " + constantName);
-    exit(1);
+    throw 1;
   }
   return mNameToConstantMap.at(constantName);
 }
@@ -403,7 +403,7 @@ void Model::checkArgumentsAreWellFormed(IRGenerationContext& context,
   if (!areArgumentsWellFormed) {
     context.reportError(line,
                         "Some arguments for the model " + mName + " builder are not well formed");
-    exit(1);
+    throw 1;
   }
 }
 
@@ -424,7 +424,7 @@ void Model::checkAllFieldsAreSet(IRGenerationContext& context,
     context.reportError(line, "Field " + missingField + " is not initialized");
   }
   context.reportError(line, "Some fields of the model " + mName + " are not initialized.");
-  exit(1);
+  throw 1;
 }
 
 void Model::initializeFields(IRGenerationContext& context,
@@ -447,12 +447,12 @@ void Model::initializeFields(IRGenerationContext& context,
     if (!argumentType->canAutoCastTo(context, fieldType)) {
       context.reportError(line, "Model builder argument value for field " + argumentName +
                           " does not match its type");
-      exit(1);
+      throw 1;
     }
     if (argumentType->isController() || argumentType->isNode()) {
       context.reportError(line, "Attempting to initialize a model with a mutable type. "
                           "Models can only contain primitives, other models or immutable arrays");
-      exit(1);
+      throw 1;
     }
     if (argumentType->isInterface() && fieldType->isInterface()) {
       string typeName = context.getObjectType()->getTypeName();
@@ -556,14 +556,14 @@ void Model::createParameterVariable(IRGenerationContext& context,
 
 const wisey::ArrayType* Model::getArrayType(IRGenerationContext& context, int line) const {
   ArrayType::reportNonArrayType(context, line);
-  exit(1);
+  throw 1;
 }
 
 Instruction* Model::inject(IRGenerationContext& context,
                            const InjectionArgumentList injectionArgumentList,
                            int line) const {
   repotNonInjectableType(context, this, line);
-  exit(1);
+  throw 1;
 }
 
 int Model::getLine() const {

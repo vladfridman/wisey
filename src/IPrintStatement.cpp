@@ -57,11 +57,11 @@ Value* IPrintStatement::getFormatString(IRGenerationContext& context,
     const IType* type = expression->getType(context);
     if (!type->isPrimitive()) {
       context.reportError(line, "Can not print non primitive types");
-      exit(1);
+      throw 1;
     }
     if (type == PrimitiveTypes::VOID) {
       context.reportError(line, "Can not print a void type expression");
-      exit(1);
+      throw 1;
     }
     const IPrimitiveType* primitiveType = (const IPrimitiveType*) type;
     formatString += primitiveType->getFormat();

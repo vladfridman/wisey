@@ -24,7 +24,7 @@ void ContinueStatement::generateIR(IRGenerationContext& context) const {
   
   if (continueToBlock == NULL) {
     context.reportError(mLine, "continue statement not inside a loop");
-    exit(1);
+    throw 1;
   }
   IRWriter::createBranch(context, continueToBlock);
 }

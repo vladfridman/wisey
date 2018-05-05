@@ -98,11 +98,15 @@ TEST_F(ThrowStatementTest, wrongExpressionTypeDeathTest) {
   
   ON_CALL(mMockType, isController()).WillByDefault(Return(true));
   ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(&mMockType));
-  ThrowStatement throwStatement(mMockExpression, 0);
+  ThrowStatement throwStatement(mMockExpression, 3);
   
-  EXPECT_EXIT(throwStatement.generateIR(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Thrown object can only be a model");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(throwStatement.generateIR(mContext));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Thrown object can only be a model owner\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ThrowStatementTest, modelExpressionTypeTest) {

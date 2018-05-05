@@ -65,7 +65,7 @@ Value* ParameterSystemReferenceVariable::generateAssignmentIR(IRGenerationContex
                                                               arrayIndices,
                                                               int line) {
   context.reportError(line, "Assignment to method parameters is not allowed");
-  exit(1);
+  throw 1;
 }
 
 void ParameterSystemReferenceVariable::decrementReferenceCounter(IRGenerationContext&

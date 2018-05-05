@@ -35,7 +35,7 @@ Value* NegateExpression::generateIR(IRGenerationContext& context, const IType* a
   if (!type->isPrimitive() || type == PrimitiveTypes::VOID) {
     context.reportError(mLine,
                         "Can not apply negate operation to type '" + type->getTypeName() + "'");
-    exit(1);
+    throw 1;
   }
   
   if (type == PrimitiveTypes::FLOAT || type == PrimitiveTypes::DOUBLE) {

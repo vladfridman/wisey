@@ -32,7 +32,7 @@ void ReturnStatement::generateIR(IRGenerationContext& context) const {
   const IType* returnType = context.getScopes().getReturnType();
   if (returnType == NULL) {
     context.reportError(mLine, "No corresponding method found for RETURN");
-    exit(1);
+    throw 1;
   }
   
   Composer::setLineNumber(context, mLine);

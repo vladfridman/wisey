@@ -95,7 +95,7 @@ GenericValue IRGenerationContext::runCode() {
   if (mMainFunction == NULL) {
     Log::errorNoSourceFile("Function main is not defined. Exiting.");
     delete executionEngine;
-    exit(1);
+    throw 1;
   }
   Log::i("Running program");
   GenericValue result = executionEngine->runFunction(mMainFunction, noargs);
@@ -174,7 +174,7 @@ void IRGenerationContext::addModel(Model* model, int line) {
   string name = model->getTypeName();
   if (mModels.count(name)) {
     reportError(line, "Redefinition of model " + name);
-    exit(1);
+    throw 1;
   }
   
   mModels[name] = model;
@@ -183,7 +183,7 @@ void IRGenerationContext::addModel(Model* model, int line) {
 Model* IRGenerationContext::getModel(string fullName, int line) {
   if (!mModels.count(fullName)) {
     reportError(line, "Model " + fullName + " is not defined");
-    exit(1);
+    throw 1;
   }
   
   Model* model = mModels.at(fullName);
@@ -196,7 +196,7 @@ void IRGenerationContext::addController(Controller* controller, int line) {
   string name = controller->getTypeName();
   if (mControllers.count(name)) {
     reportError(line, "Redefinition of controller " + name);
-    exit(1);
+    throw 1;
   }
   
   mControllers[name] = controller;
@@ -205,7 +205,7 @@ void IRGenerationContext::addController(Controller* controller, int line) {
 Controller* IRGenerationContext::getController(string fullName, int line) {
   if (!mControllers.count(fullName)) {
     reportError(line, "Controller " + fullName + " is not defined");
-    exit(1);
+    throw 1;
   }
   
   Controller* controller = mControllers.at(fullName);
@@ -218,7 +218,7 @@ void IRGenerationContext::addNode(Node* node, int line) {
   string name = node->getTypeName();
   if (mNodes.count(name)) {
     reportError(line, "Redefinition of node " + name);
-    exit(1);
+    throw 1;
   }
   
   mNodes[name] = node;
@@ -227,7 +227,7 @@ void IRGenerationContext::addNode(Node* node, int line) {
 Node* IRGenerationContext::getNode(string fullName, int line) {
   if (!mNodes.count(fullName)) {
     reportError(line, "Node " + fullName + " is not defined");
-    exit(1);
+    throw 1;
   }
   
   Node* node = mNodes.at(fullName);
@@ -240,7 +240,7 @@ void IRGenerationContext::addInterface(Interface* interface, int line) {
   string name = interface->getTypeName();
   if (mInterfaces.count(name)) {
     reportError(line, "Redefinition of interface " + name);
-    exit(1);
+    throw 1;
   }
   
   mInterfaces[name] = interface;
@@ -249,7 +249,7 @@ void IRGenerationContext::addInterface(Interface* interface, int line) {
 Interface* IRGenerationContext::getInterface(string fullName, int line) {
   if (!mInterfaces.count(fullName)) {
     reportError(line, "Interface " + fullName + " is not defined");
-    exit(1);
+    throw 1;
   }
   
   Interface* interface = mInterfaces.at(fullName);
@@ -262,7 +262,7 @@ void IRGenerationContext::addLLVMStructType(LLVMStructType* llvmStructType, int 
   string name = llvmStructType->getTypeName();
   if (mLLVMStructTypes.count(name)) {
     reportError(line, "Redefinition of llvm struct type " + name);
-    exit(1);
+    throw 1;
   }
   
   mLLVMStructTypes[name] = llvmStructType;
@@ -274,7 +274,7 @@ LLVMStructType* IRGenerationContext::getLLVMStructType(string name, int line) {
     Log::e(getImportProfile()->getSourceFileName(),
            line,
            "llvm struct type " + fullName + " is not defined");
-    exit(1);
+    throw 1;
   }
   
   return mLLVMStructTypes.at(fullName);
@@ -336,7 +336,7 @@ void IRGenerationContext::registerLLVMInternalFunctionNamedType(string name,
   if (mLLVMInternalFunctionNamedTypes.count(name) || mLLVMExternalFunctionNamedTypes.count(name)) {
     reportError(line, "Can not register llvm function named " + name +
                 " because it is already registered");
-    exit(1);
+    throw 1;
   }
   mLLVMInternalFunctionNamedTypes[name] = functionType;
 }
@@ -348,7 +348,7 @@ void IRGenerationContext::registerLLVMExternalFunctionNamedType(string name,
   if (mLLVMInternalFunctionNamedTypes.count(name) || mLLVMExternalFunctionNamedTypes.count(name)) {
     reportError(line, "Can not register llvm function named " + name +
                 " because it is already registered");
-    exit(1);
+    throw 1;
   }
   mLLVMExternalFunctionNamedTypes[name] = functionType;
 }
@@ -362,7 +362,7 @@ const LLVMFunctionType* IRGenerationContext::lookupLLVMFunctionNamedType(string 
   }
 
   reportError(line, "Can not find llvm function named " + name);
-  exit(1);
+  throw 1;
 }
 
 void IRGenerationContext::bindInterfaceToController(const Interface* interface,
@@ -372,7 +372,7 @@ void IRGenerationContext::bindInterfaceToController(const Interface* interface,
     reportError(line, "Interface " + interface->getTypeName() + " is already bound to " +
                 mBindings[interface]->getTypeName() + " and can not be bound to " +
                 controller->getTypeName());
-    exit(1);
+    throw 1;
   }
   mBindings[interface] = controller;
 }
@@ -381,7 +381,7 @@ const Controller* IRGenerationContext::getBoundController(const Interface* inter
                                                           int line) const {
   if (!hasBoundController(interface)) {
     reportError(line, "No controller is bound to interface " + interface->getTypeName());
-    exit(1);
+    throw 1;
   }
   return mBindings.at(interface);
 }

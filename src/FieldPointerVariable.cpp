@@ -72,7 +72,7 @@ Value* FieldPointerVariable::generateAssignmentIR(IRGenerationContext& context,
   if (!expressionType->canAutoCastTo(context, fieldType)) {
     context.reportError(line, "Can not assign to field '" + mName + "' of object '" +
                         mObject->getTypeName() + "' because of incompatable types");
-    exit(1);
+    throw 1;
   }
   Value* expressionValue = assignToExpression->generateIR(context, field->getType());
   Value* cast = AutoCast::maybeCast(context, expressionType, expressionValue, fieldType, line);

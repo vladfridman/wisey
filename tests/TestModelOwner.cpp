@@ -448,10 +448,13 @@ TEST_F(ModelOwnerTest, injectDeathTest) {
   ::Mock::AllowLeak(mField2Expression);
   ::Mock::AllowLeak(mField3Expression);
   InjectionArgumentList arguments;
-  EXPECT_EXIT(mModel->getOwner()->inject(mContext, arguments, 3),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: type "
-              "systems.vos.wisey.compiler.tests.MSquare\\* is not injectable");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mModel->getOwner()->inject(mContext, arguments, 3));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: type systems.vos.wisey.compiler.tests.MSquare* is not injectable\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(TestFileRunner, ownerAssignToReferenceRunTest) {

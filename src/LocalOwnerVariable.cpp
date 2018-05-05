@@ -59,7 +59,7 @@ int LocalOwnerVariable::getLine() const {
 Value* LocalOwnerVariable::generateIdentifierIR(IRGenerationContext& context, int line) const {
   if (!mIsInitialized) {
     context.reportError(line, "Variable '" + mName + "' is used before it is initialized");
-    exit(1);
+    throw 1;
   }
   
   return IRWriter::newLoadInst(context, mValueStore, "");

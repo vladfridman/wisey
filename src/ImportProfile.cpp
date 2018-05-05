@@ -38,7 +38,7 @@ string ImportProfile::getFullName(string shortName, int line) const {
   }
   
   Log::e(mSourceFileName, line, "Could not identify packge for object " + shortName);
-  exit(1);
+  throw 1;
 }
 
 void ImportProfile::setSourceFileName(IRGenerationContext& context, string sourceFileName) {

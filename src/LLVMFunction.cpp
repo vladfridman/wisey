@@ -186,7 +186,7 @@ void LLVMFunction::maybeAddImpliedVoidReturn(IRGenerationContext& context, int l
   if (mReturnType != LLVMPrimitiveTypes::VOID) {
     context.reportError(line, "LLVM function " + mName + " must return a value of type " +
                         mReturnType->getTypeName());
-    exit(1);
+    throw 1;
   }
   
   context.getScopes().freeOwnedMemory(context, line);
@@ -298,12 +298,12 @@ void LLVMFunction::createParameterVariable(IRGenerationContext& context,
 
 const wisey::ArrayType* LLVMFunction::getArrayType(IRGenerationContext& context, int line) const {
   ArrayType::reportNonArrayType(context, line);
-  exit(1);
+  throw 1;
 }
 
 Instruction* LLVMFunction::inject(IRGenerationContext& context,
                                   const InjectionArgumentList injectionArgumentList,
                                   int line) const {
   repotNonInjectableType(context, this, line);
-  exit(1);
+  throw 1;
 }

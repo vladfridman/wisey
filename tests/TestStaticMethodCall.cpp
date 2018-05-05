@@ -70,9 +70,6 @@ public:
   mIntType(Type::getInt32Ty(mContext.getLLVMContext())) {
     TestPrefix::generateIR(mContext);
     
-    mImportProfile = new ImportProfile(mPackage);
-    mContext.setImportProfile(mImportProfile);
-
     vector<Type*> returnedModelTypes;
     string returnedModelFullName = "systems.vos.wisey.compiler.tests.MReturnedModel";
     StructType* returnedModelStructType = StructType::create(mLLVMContext, returnedModelFullName);
@@ -315,34 +312,43 @@ TEST_F(StaticMethodCallTest, printToStreamTest) {
 }
 
 TEST_F(StaticMethodCallTest, methodDoesNotExistDeathTest) {
-  StaticMethodCall staticMethodCall(mModelSpecifier, "lorem", mArgumentList, 0);
+  StaticMethodCall staticMethodCall(mModelSpecifier, "lorem", mArgumentList, 1);
   
-  EXPECT_EXIT(staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID),
-              ::testing::ExitedWithCode(1),
-              "Error: Static method 'lorem' is not found in object "
-              "systems.vos.wisey.compiler.tests.MSquare");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Static method 'lorem' is not found in object systems.vos.wisey.compiler.tests.MSquare\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(StaticMethodCallTest, incorrectNumberOfArgumentsDeathTest) {
-  StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList, 0);
+  StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList, 3);
   
-  EXPECT_EXIT(staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID),
-              ::testing::ExitedWithCode(1),
-              "Error: Number of arguments for static method call 'foo' of the object type "
-              "systems.vos.wisey.compiler.tests.MSquare is not correct");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Number of arguments for static method call 'foo' of the object type systems.vos.wisey.compiler.tests.MSquare is not correct\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(StaticMethodCallTest, llvmImplementationNotFoundDeathTest) {
   NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
   ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
   mArgumentList.push_back(argumentExpression);
-  StaticMethodCall staticMethodCall(mModelSpecifier, "bar", mArgumentList, 0);
+  StaticMethodCall staticMethodCall(mModelSpecifier, "bar", mArgumentList, 5);
   Mock::AllowLeak(argumentExpression);
   
-  EXPECT_EXIT(staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID),
-              ::testing::ExitedWithCode(1),
-              "Error: LLVM function implementing object systems.vos.wisey.compiler.tests.MSquare "
-              "method 'bar' was not found");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: LLVM function implementing object systems.vos.wisey.compiler.tests.MSquare method 'bar' was not found\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(StaticMethodCallTest, incorrectArgumentTypesDeathTest) {
@@ -360,13 +366,16 @@ TEST_F(StaticMethodCallTest, incorrectArgumentTypesDeathTest) {
   NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
   ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG));
   mArgumentList.push_back(argumentExpression);
-  StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList, 0);
+  StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList, 7);
   Mock::AllowLeak(argumentExpression);
   
-  EXPECT_EXIT(staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID),
-              ::testing::ExitedWithCode(1),
-              "Error: Call argument types do not match for a call to method 'foo' "
-              "of the object type systems.vos.wisey.compiler.tests.MSquare");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(7): Error: Call argument types do not match for a call to method 'foo' of the object type systems.vos.wisey.compiler.tests.MSquare\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(TestFileRunner, modelStaticMethodCallRunTest) {

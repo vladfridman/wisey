@@ -67,7 +67,7 @@ void IMethod::checkForUnhandledExceptions(IRGenerationContext& context,
   }
   
   if (hasUnhandledExceptions) {
-    exit(1);
+    throw 1;
   }
 }
 
@@ -83,7 +83,7 @@ void IMethod::maybeAddImpliedVoidReturn(IRGenerationContext& context,
     context.reportError(line,
                         (method->isStatic() ? "Static method " : "Method ") + method->getName() +
                         " must return a value of type " + returnType->getTypeName());
-    exit(1);
+    throw 1;
   }
   
   context.getScopes().freeOwnedMemory(context, line);

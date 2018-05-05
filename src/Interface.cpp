@@ -180,7 +180,7 @@ void Interface::processParentInterfaces(IRGenerationContext& context) {
     if (mParentInterfacesMap.count(parentInterface->getTypeName())) {
       context.reportError(mLine, "Circular interface dependency between interfaces " +
                           getTypeName() + " and " + parentInterface->getTypeName());
-      exit(1);
+      throw 1;
     }
     mParentInterfacesMap[parentInterface->getTypeName()] = parentInterface;
     if (!parentInterface->isComplete()) {
@@ -209,7 +209,7 @@ void Interface::processMethodSignatures(IRGenerationContext& context) {
     context.reportError(methodSignature->getMethodQualifiers()->getLine(),
                         "Method signature '" + methodName + "' is marked override but it does not "
                         "override any signatures from parent interfaces");
-    exit(1);
+    throw 1;
   }
   unsigned long index = 0;
   for (const MethodSignature* methodSignature : mAllMethodSignatures) {
@@ -224,7 +224,7 @@ wisey::Constant* Interface::findConstant(IRGenerationContext& context,
   if (!mNameToConstantMap.count(constantName)) {
     context.reportError(line, "Interface " + mName + " does not have constant named " +
                         constantName);
-    exit(1);
+    throw 1;
   }
   return mNameToConstantMap.at(constantName);
 }
@@ -244,14 +244,14 @@ void Interface::includeInterfaceMethods(IRGenerationContext& context,
       context.reportError(existingMethod->getMethodQualifiers()->getLine(),
                           "Interface " + mName + " overrides method '" + existingMethod->getName()
                           + "' of parent interface with a wrong signature");
-      exit(1);
+      throw 1;
     }
     if (existingMethod && !existingMethod->isOverride()) {
       context.reportError(existingMethod->getMethodQualifiers()->getLine(),
                           "Method '" + existingMethod->getName() + "' in interface " + mName
                           + " must be marked override because it overrides a method of the same "
                           "name from " + methodSignature->getOriginalParentName());
-      exit(1);
+      throw 1;
     }
     if (existingMethod) {
       continue;
@@ -276,7 +276,7 @@ unsigned long Interface::getMethodIndex(IRGenerationContext& context,
   if (!mMethodIndexes.count(methodDescriptor)) {
     context.reportError(line, "Method " + methodDescriptor->getName() + " not found in interface " +
                         getTypeName());
-    exit(1);
+    throw 1;
   }
   return mMethodIndexes.at(methodDescriptor);
 }
@@ -430,7 +430,7 @@ Function* Interface::defineMapFunctionForMethod(IRGenerationContext& context,
                         "Method " + interfaceMethodSignature->getName() + " of interface " +
                         interfaceMethodSignature->getOriginalParentName() +
                         " is not implemented by object " + object->getTypeName());
-    exit(1);
+    throw 1;
   }
   
   if (objectMethodDescriptor->getReturnType() != interfaceMethodSignature->getReturnType()) {
@@ -438,7 +438,7 @@ Function* Interface::defineMapFunctionForMethod(IRGenerationContext& context,
                         "Method " + interfaceMethodSignature->getName() + " of interface " + mName +
                         " has different return type when implmeneted by object " +
                         object->getTypeName());
-    exit(1);
+    throw 1;
   }
   
   if (doesMethodHaveUnexpectedExceptions(context,
@@ -450,7 +450,7 @@ Function* Interface::defineMapFunctionForMethod(IRGenerationContext& context,
                         " of interface " + mName +
                         " do not reconcile with exceptions thrown by its " +
                         "implementation in object " + object->getTypeName());
-    exit(1);
+    throw 1;
   }
   
   if (!objectMethodDescriptor->isOverride()) {
@@ -460,7 +460,7 @@ Function* Interface::defineMapFunctionForMethod(IRGenerationContext& context,
                         "' with 'override' qualifier because it overrides the method defined in "
                         "the parent interface " +
                         interfaceMethodSignature->getOriginalParentName());
-    exit(1);
+    throw 1;
   }
   
   if (!IMethodDescriptor::compare(objectMethodDescriptor, interfaceMethodSignature)) {
@@ -468,7 +468,7 @@ Function* Interface::defineMapFunctionForMethod(IRGenerationContext& context,
                         "Method " + interfaceMethodSignature->getName() + " of interface " + mName +
                         " has different argument types when implmeneted by object " +
                         object->getTypeName());
-    exit(1);
+    throw 1;
   }
 
   string functionName =
@@ -857,7 +857,7 @@ Value* Interface::inject(IRGenerationContext& context,
   if (injectionArgumentList.size()) {
     context.reportError(line, "Arguments are not allowed for injection of interfaces "
                         "that are not bound to controllers");
-    exit(1);
+    throw 1;
   }
   
   Function* function = getOrCreateEmptyInjectFunction(context, line);
@@ -994,18 +994,18 @@ Interface::createElements(IRGenerationContext& context,
     IObjectElement* objectElement = elementDeclaration->define(context, this);
     if (objectElement->isField()) {
       context.reportError(objectElement->getLine(), "Interfaces can not contain fields");
-      exit(1);
+      throw 1;
     }
     if (objectElement->isMethod()) {
       context.reportError(objectElement->getLine(),
                           "Interfaces can not contain method implmentations");
-      exit(1);
+      throw 1;
     }
     if (objectElement->isConstant()) {
       if (methodSignatures.size() || staticMethods.size()) {
         context.reportError(objectElement->getLine(),
                             "In interfaces constants should be declared before methods");
-        exit(1);
+        throw 1;
       }
       constants.push_back((wisey::Constant*) objectElement);
     } else if (objectElement->isMethodSignature()) {
@@ -1017,7 +1017,7 @@ Interface::createElements(IRGenerationContext& context,
     } else {
       context.reportError(objectElement->getLine(),
                           "Unexpected element in interface definition");
-      exit(1);
+      throw 1;
     }
   }
   return make_tuple(methodSignatures, constants, staticMethods, functions);
@@ -1100,7 +1100,7 @@ void Interface::createParameterVariable(IRGenerationContext& context,
 
 const wisey::ArrayType* Interface::getArrayType(IRGenerationContext& context, int line) const {
   ArrayType::reportNonArrayType(context, line);
-  exit(1);
+  throw 1;
 }
 
 int Interface::getLine() const {

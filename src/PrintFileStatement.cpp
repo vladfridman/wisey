@@ -43,7 +43,7 @@ void PrintFileStatement::generateIR(IRGenerationContext& context) const {
   if (fileExpressionType != fileController && fileExpressionType != fileController->getOwner()) {
     context.reportError(mLine, "First argument to the printerr instruction should be "
                         "an instance of " + Names::getFileControllerFullName());
-    exit(1);
+    throw 1;
   }
   
   Value* fileExpressionValue = mFileExpression->generateIR(context, PrimitiveTypes::VOID);
@@ -57,7 +57,7 @@ void PrintFileStatement::generateIR(IRGenerationContext& context) const {
   const IType* expressionType = mExpression->getType(context);
   if (!expressionType->isPrimitive() || expressionType == PrimitiveTypes::VOID) {
     context.reportError(mLine, "Argument in the printerr statement is not of printable type");
-    exit(1);
+    throw 1;
   }
   ExpressionList expressions = IPrintStatement::getExpressions(context, mExpression, mLine);
   Value* formatPointer = IPrintStatement::getFormatString(context, expressions, mLine);

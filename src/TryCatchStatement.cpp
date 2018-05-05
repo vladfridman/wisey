@@ -39,7 +39,7 @@ void TryCatchStatement::generateIR(IRGenerationContext& context) const {
   if (context.getScopes().getTryCatchInfo()) {
     context.reportError(mLine, "Nested try blocks are not allowed. "
                         "Extract inner try/catch into a method.");
-    exit(1);
+    throw 1;
   }
   
   Function* function = context.getBasicBlock()->getParent();

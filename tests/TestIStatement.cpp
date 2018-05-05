@@ -48,7 +48,11 @@ TEST_F(IStatementTest, checkUnreachableTest) {
   Value* value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 1);
   IRWriter::createReturnInst(mContext, value);
   
-  EXPECT_EXIT(IStatement::checkUnreachable(mContext, 1),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(1\\): Error: Statement unreachable");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(IStatement::checkUnreachable(mContext, 1));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Statement unreachable\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }

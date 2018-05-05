@@ -217,10 +217,13 @@ TEST_F(ConditionalExpressionTest, incompatibleTypesDeathTest) {
   ON_CALL(*mIfTrueExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
   
   ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression, 5);
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
-  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID),
-              ::testing::ExitedWithCode(1),
-              "Error: Incompatible types in conditional expression operation");
+  EXPECT_ANY_THROW(expression.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types in conditional expression operation\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ConditionalExpressionTest, voidTypesDeathTest) {
@@ -232,11 +235,14 @@ TEST_F(ConditionalExpressionTest, voidTypesDeathTest) {
   ON_CALL(*mIfTrueExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID));
   ON_CALL(*mIfFalseExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID));
   
-  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression, 0);
+  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression, 3);
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
-  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not use expressions of type VOID in a conditional expression");
+  EXPECT_ANY_THROW(expression.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Can not use expressions of type VOID in a conditional expression\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ConditionalExpressionTest, conditionIsNotBooleanDeathTest) {
@@ -247,11 +253,14 @@ TEST_F(ConditionalExpressionTest, conditionIsNotBooleanDeathTest) {
  
   ON_CALL(*mConditionExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID));
   
-  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression, 0);
+  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression, 7);
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
-  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID),
-              ::testing::ExitedWithCode(1),
-              "Condition in a conditional expression is not of type BOOLEAN");
+  EXPECT_ANY_THROW(expression.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(7): Error: Condition in a conditional expression is not of type BOOLEAN\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(TestFileRunner, conditionalExpressionRunTrueConditionRunTest) {

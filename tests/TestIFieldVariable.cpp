@@ -118,14 +118,21 @@ TEST_F(IFieldVariableTest, getFieldPointerTest) {
 }
 
 TEST_F(IFieldVariableTest, checkAndFindFieldForAssignmentDoesNotExistDeathTest) {
-  EXPECT_EXIT(IFieldVariable::checkAndFindFieldForAssignment(mContext, mController, "var", 1),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(1\\): Error: Field var is not found in object "
-              "systems.vos.wisey.compiler.tests.CController");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(IFieldVariable::checkAndFindFieldForAssignment(mContext, mController, "var", 1));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Field var is not found in object systems.vos.wisey.compiler.tests.CController\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(IFieldVariableTest, checkAndFindFieldForAssignmentNotAssignableDeathTest) {
-  EXPECT_EXIT(IFieldVariable::checkAndFindFieldForAssignment(mContext, mModel, "foo", 3),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: Can not assign to field foo");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(IFieldVariable::checkAndFindFieldForAssignment(mContext, mModel, "foo", 3));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Can not assign to field foo\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }

@@ -112,13 +112,13 @@ void AdditiveMultiplicativeExpression::checkTypes(IRGenerationContext& context,
   if (leftType == PrimitiveTypes::VOID || rightType == PrimitiveTypes::VOID) {
     context.reportError(mLine, "Can not use expressions of type VOID in a '" +
                         string(1, mOperation) + "' operation");
-    exit(1);
+    throw 1;
   }
   
   if (!leftType->isPrimitive() || !rightType->isPrimitive()) {
     context.reportError(mLine, "Can not do operation '" + string(1, mOperation) +
                         "' on non-primitive types");
-    exit(1);
+    throw 1;
   }
   
   if (mOperation == '+' &&
@@ -135,13 +135,13 @@ void AdditiveMultiplicativeExpression::checkTypes(IRGenerationContext& context,
   
   if (!leftType->canCastTo(context, rightType) && !rightType->canCastTo(context, leftType)) {
     context.reportError(mLine, "Incompatible types in '" + string(1, mOperation) + "' operation");
-    exit(1);
+    throw 1;
   }
   
   if (!leftType->canAutoCastTo(context, rightType) && !rightType->canAutoCastTo(context, leftType)) {
     context.reportError(mLine, "Incompatible types in '" + string(1, mOperation) +
                         "' operation that require an explicit cast");
-    exit(1);
+    throw 1;
   }
 }
 

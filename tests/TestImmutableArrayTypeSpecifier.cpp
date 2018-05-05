@@ -62,9 +62,13 @@ TEST_F(ImmutableArrayTypeSpecifierTest, getTypeDeathTest) {
   ArrayTypeSpecifier* arrayTypeSpecifier = new ArrayTypeSpecifier(&mockTypeSpecifier, 1u, 3);
   ImmutableArrayTypeSpecifier* specifier = new ImmutableArrayTypeSpecifier(arrayTypeSpecifier);
   
-  EXPECT_EXIT(specifier->getType(mContext),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: Immutable array base type can only be of primitive or immutable type");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(specifier->getType(mContext));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Immutable array base type can only be of primitive or immutable type\n",
+              buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ImmutableArrayTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {

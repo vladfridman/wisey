@@ -497,7 +497,7 @@ void IConcreteObjectType::generateStaticMethodsIR(IRGenerationContext& context,
     if (method->isStatic() && method->isOverride()) {
       context.reportError(method->getMethodQualifiers()->getLine(),
                           "Static methods can not be marked with override qualifier");
-      exit(1);
+      throw 1;
     }
     if (method->isStatic()) {
       method->generateIR(context);
@@ -530,7 +530,7 @@ void IConcreteObjectType::checkMethodOverride(IRGenerationContext& context,
   context.reportError(method->getMethodQualifiers()->getLine(),
                       "Method '" + method->getName() + "' of object " + object->getTypeName()
                       + " is marked override but does not override any interface methods");
-  exit(1);
+  throw 1;
 }
 
 void IConcreteObjectType::generateConstantsIR(IRGenerationContext& context,

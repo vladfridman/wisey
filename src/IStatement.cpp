@@ -16,6 +16,6 @@ using namespace wisey;
 void IStatement::checkUnreachable(IRGenerationContext& context, int line) {
   if(context.getBasicBlock()->getTerminator()) {
     context.reportError(line, "Statement unreachable");
-    exit(1);
+    throw 1;
   }
 }

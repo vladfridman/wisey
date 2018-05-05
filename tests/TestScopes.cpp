@@ -150,12 +150,14 @@ TEST_F(ScopesTest, setUnitializedLocalReferenceVariableTest) {
   mScopes.setVariable(mContext, unitializedLocalReferenceVariable);
   
   IVariable* variable = mScopes.getVariable("foo");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
   ASSERT_NE(variable, nullptr);
-  EXPECT_EXIT(variable->generateIdentifierIR(mContext, 3),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: Variable 'foo' is used before it is initialized");
-              
+  EXPECT_ANY_THROW(variable->generateIdentifierIR(mContext, 3));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Variable 'foo' is used before it is initialized\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ScopesTest, beginTryCatchTest) {
@@ -194,11 +196,14 @@ TEST_F(ScopesTest, reportUnhandledExceptionsDeathTest) {
                                           mContext.getImportProfile(),
                                           0);
 
-  mScopes.getScope()->addException(exceptionModel, 0);
+  mScopes.getScope()->addException(exceptionModel, 3);
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
-  EXPECT_EXIT(mScopes.popScope(mContext, 0),
-              ::testing::ExitedWithCode(1),
-              "Error: Exception MException is not handled");
+  EXPECT_ANY_THROW(mScopes.popScope(mContext, 0));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Exception MException is not handled\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ScopesTest, freeOwnedMemoryTest) {
@@ -233,10 +238,13 @@ TEST_F(ScopesTest, variableHidingDeathTest) {
   
   mScopes.setVariable(mContext, outerVariable);
   mScopes.pushScope();
-  EXPECT_EXIT(mScopes.setVariable(mContext, innerVariable),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: "
-              "Variable 'foo' is already defined on line 1, variable hiding is not allowed");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(mScopes.setVariable(mContext, innerVariable));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Variable 'foo' is already defined on line 1, variable hiding is not allowed\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(TestFileRunner, variableHidingRunDeathTest) {

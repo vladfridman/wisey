@@ -45,7 +45,7 @@ void Scopes::setVariable(IRGenerationContext& context, IVariable* variable) {
                         "Variable '" + variable->getName() + "' is already defined on line " +
                         to_string(existingVariable->getLine()) +
                         ", variable hiding is not allowed");
-    exit(1);
+    throw 1;
   }
   getScope()->setVariable(variable->getName(), variable);
   if (!variable->getType()->isPrimitive()) {
@@ -191,7 +191,7 @@ void Scopes::reportUnhandledExceptions(IRGenerationContext& context,
       continue;
     }
     context.reportError(iterator->second, "Exception " + iterator->first + " is not handled");
-    exit(1);
+    throw 1;
   }
 }
 

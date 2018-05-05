@@ -74,10 +74,14 @@ TEST_F(CaseStatementTest, nonIntExpressionDeathTest) {
   Mock::AllowLeak(expression);
   Mock::AllowLeak(mStatementBlock);
   
-  EXPECT_EXIT(caseStatement->getExpressionValue(mContext),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: Case expression should be an integer constant");
-  
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(caseStatement->getExpressionValue(mContext));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Case expression should be an integer constant\n",
+              buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
+
   delete caseStatement;
 }
 

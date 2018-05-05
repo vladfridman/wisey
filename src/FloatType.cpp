@@ -171,7 +171,7 @@ void FloatType::createParameterVariable(IRGenerationContext& context,
 
 const wisey::ArrayType* FloatType::getArrayType(IRGenerationContext& context, int line) const {
   ArrayType::reportNonArrayType(context, line);
-  exit(1);
+  throw 1;
 }
 
 const PrimitiveTypeSpecifier* FloatType::newTypeSpecifier(int line) const {
@@ -182,5 +182,5 @@ Instruction* FloatType::inject(IRGenerationContext& context,
                                const InjectionArgumentList injectionArgumentList,
                                int line) const {
   repotNonInjectableType(context, this, line);
-  exit(1);
+  throw 1;
 }

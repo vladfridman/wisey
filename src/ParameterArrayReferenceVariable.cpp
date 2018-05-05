@@ -71,7 +71,7 @@ Value* ParameterArrayReferenceVariable::generateAssignmentIR(IRGenerationContext
                                                              int line) {
   if (!arrayIndices.size()) {
     context.reportError(line, "Assignment to method parameters is not allowed");
-    exit(1);
+    throw 1;
   }
   
   Composer::setLineNumber(context, line);

@@ -99,43 +99,29 @@ TEST_F(StringTypeTest, castToTest) {
   
   Value* expressionValue = ConstantPointerNull::get(Type::getInt16Ty(mLLVMContext)->getPointerTo());
   
-  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::VOID, 5),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
-              "can not cast from type 'string' to 'void'");
-
-  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN, 5),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
-              "can not cast from type 'string' to 'boolean'");
-
-  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR, 5),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
-              "can not cast from type 'string' to 'char'");
-
-  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::INT, 5),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
-              "can not cast from type 'string' to 'int'");
-
-  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::LONG, 5),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
-              "can not cast from type 'string' to 'long'");
-
-  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT, 5),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
-              "can not cast from type 'string' to 'float'");
-
-  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE, 5),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
-              "can not cast from type 'string' to 'double'");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
+  EXPECT_ANY_THROW(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::VOID, 5));
+  
+  EXPECT_ANY_THROW(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN, 5));
+  EXPECT_ANY_THROW(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR, 5));
+  EXPECT_ANY_THROW(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::INT, 5));
+  EXPECT_ANY_THROW(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::LONG, 5));
+  EXPECT_ANY_THROW(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT, 5));
+  EXPECT_ANY_THROW(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE, 5));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'string' to 'void'\n"
+               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'string' to 'boolean'\n"
+               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'string' to 'char'\n"
+               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'string' to 'int'\n"
+               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'string' to 'long'\n"
+               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'string' to 'float'\n"
+               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'string' to 'double'\n",
+               buffer.str().c_str());
+
   EXPECT_EQ(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::STRING, 5),
             expressionValue);
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(StringTypeTest, isTypeKindTest) {
@@ -192,7 +178,11 @@ TEST_F(StringTypeTest, injectDeathTest) {
   Mock::AllowLeak(&mConcreteObjectType);
   
   InjectionArgumentList arguments;
-  EXPECT_EXIT(mStringType.inject(mContext, arguments, 3),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: type string is not injectable");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mStringType.inject(mContext, arguments, 3));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: type string is not injectable\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }

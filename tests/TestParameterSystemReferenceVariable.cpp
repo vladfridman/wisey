@@ -92,9 +92,13 @@ TEST_F(ParameterSystemReferenceVariableTest, variableAssignmentDeathTest) {
   ParameterSystemReferenceVariable variable("foo", mModel, fooValue, 0);
   vector<const IExpression*> arrayIndices;
   
-  EXPECT_EXIT(variable.generateAssignmentIR(mContext, NULL, arrayIndices, 0),
-              ::testing::ExitedWithCode(1),
-              "Error: Assignment to method parameters is not allowed");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(variable.generateAssignmentIR(mContext, NULL, arrayIndices, 5));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Assignment to method parameters is not allowed\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ParameterSystemReferenceVariableTest, variableIdentifierTest) {

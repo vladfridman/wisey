@@ -89,36 +89,23 @@ TEST_F(VoidTypeTest, castToTest) {
   result = mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::VOID, 0);
   EXPECT_EQ(result, expressionValue);
 
-  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN, 5),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
-              "can not cast from type 'void' to 'boolean'");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
-  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR, 5),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
-              "can not cast from type 'void' to 'char'");
-  
-  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::INT, 5),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
-              "can not cast from type 'void' to 'int'");
-  
-  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::LONG, 5),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
-              "can not cast from type 'void' to 'long'");
-  
-  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT, 5),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
-              "can not cast from type 'void' to 'float'");
-  
-  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE, 5),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
-              "can not cast from type 'void' to 'double'");
-  
+  EXPECT_ANY_THROW(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN, 5));
+  EXPECT_ANY_THROW(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR, 5));
+  EXPECT_ANY_THROW(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::INT, 5));
+  EXPECT_ANY_THROW(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::LONG, 5));
+  EXPECT_ANY_THROW(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT, 5));
+  EXPECT_ANY_THROW(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE, 5));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'void' to 'boolean'\n"
+               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'void' to 'char'\n"
+               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'void' to 'int'\n"
+               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'void' to 'long'\n"
+               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'void' to 'float'\n"
+               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'void' to 'double'\n",
+               buffer.str().c_str());  
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(VoidTypeTest, isTypeKindTest) {
@@ -142,7 +129,11 @@ TEST_F(VoidTypeTest, isObjectTest) {
 
 TEST_F(VoidTypeTest, injectDeathTest) {
   InjectionArgumentList arguments;
-  EXPECT_EXIT(mVoidType.inject(mContext, arguments, 3),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: type void is not injectable");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mVoidType.inject(mContext, arguments, 3));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: type void is not injectable\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }

@@ -69,5 +69,5 @@ void Cast::exitIncompatibleTypes(IRGenerationContext& context,
   context.reportError(line,
                       "Incompatible types: can not cast from type '" + fromType->getTypeName() +
                       "' to '" + toType->getTypeName() + "'");
-  exit(1);
+  throw 1;
 }

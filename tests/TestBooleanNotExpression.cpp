@@ -107,10 +107,13 @@ TEST_F(BooleanNotExpressionTest, negateIncompatibleTypeDeathTest) {
   BooleanNotExpression booleanNotExpression(mExpression, 3);
   Mock::AllowLeak(mExpression);
   
-  EXPECT_EXIT(booleanNotExpression.generateIR(mContext, PrimitiveTypes::VOID),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: Incompatible types: "
-              "can not cast from type 'void' to 'boolean'");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(booleanNotExpression.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Incompatible types: can not cast from type 'void' to 'boolean'\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(TestFileRunner, booleanNotRunTest) {

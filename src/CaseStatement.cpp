@@ -33,7 +33,7 @@ ConstantInt* CaseStatement::getExpressionValue(IRGenerationContext& context) con
   Value* value = mExpression->generateIR(context, PrimitiveTypes::VOID);
   if (!ConstantInt::classof(value)) {
     context.reportError(mLine, "Case expression should be an integer constant");
-    exit(1);
+    throw 1;
   }
   
   return (ConstantInt*) value;

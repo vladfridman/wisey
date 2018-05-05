@@ -171,7 +171,7 @@ void DoubleType::createParameterVariable(IRGenerationContext& context,
 
 const wisey::ArrayType* DoubleType::getArrayType(IRGenerationContext& context, int line) const {
   ArrayType::reportNonArrayType(context, line);
-  exit(1);
+  throw 1;
 }
 
 const PrimitiveTypeSpecifier* DoubleType::newTypeSpecifier(int line) const {
@@ -182,5 +182,5 @@ Instruction* DoubleType::inject(IRGenerationContext& context,
                                 const InjectionArgumentList injectionArgumentList,
                                 int line) const {
   repotNonInjectableType(context, this, line);
-  exit(1);
+  throw 1;
 }

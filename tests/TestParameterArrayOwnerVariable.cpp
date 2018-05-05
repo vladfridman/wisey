@@ -122,12 +122,16 @@ TEST_F(ParameterArrayOwnerVariableTest, setToNullTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(ParameterArrayOwnerVariableTest, generateAssignmentDathTest) {
+TEST_F(ParameterArrayOwnerVariableTest, generateAssignmentDeathTest) {
   vector<const IExpression*> indices;
 
-  EXPECT_EXIT(mVariable->generateAssignmentIR(mContext, NULL, indices, 0),
-              ::testing::ExitedWithCode(1),
-              "Error: Assignment to method parameters is not allowed");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mVariable->generateAssignmentIR(mContext, NULL, indices, 1));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Assignment to method parameters is not allowed\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(TestFileRunner, parameterArrayOwnerOfIntsRunTest) {

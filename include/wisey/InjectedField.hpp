@@ -45,7 +45,6 @@ namespace wisey {
      */
     llvm::Value* inject(IRGenerationContext& context) const;
     
-    
     /**
      * Declares the function that injects this field
      */
@@ -100,6 +99,8 @@ namespace wisey {
     
   private:
     
+    void checkForReferenceType() const;
+
     static void composeInjectFunctionBody(IRGenerationContext& context,
                                           llvm::Function* function,
                                           const void* object1,

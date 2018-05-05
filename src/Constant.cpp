@@ -55,7 +55,7 @@ llvm::Value* Constant::generateIR(IRGenerationContext& context,
                                   const IObjectType* objectType) const {
   if (!mExpression->isConstant()) {
     context.reportError(mLine, "Constant is initialized with a non-constant expression");
-    exit(1);
+    throw 1;
   }
   
   const IType* type = mExpression->getType(context);

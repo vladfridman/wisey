@@ -185,7 +185,11 @@ TEST_F(LocalSystemReferenceVariableTest, generateIdentifierUninitializedDeathTes
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalSystemReferenceVariable variable("foo", mModel, fooValue, 0);
   
-  EXPECT_EXIT(variable.generateIdentifierIR(mContext, 7),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(7\\): Error: System variable 'foo' is not initialized");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(variable.generateIdentifierIR(mContext, 7));
+  EXPECT_STREQ("/tmp/source.yz(7): Error: System variable 'foo' is not initialized\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }

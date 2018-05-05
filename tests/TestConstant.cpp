@@ -99,9 +99,13 @@ TEST_F(ConstantTest, generateIRForNonConstantExpressionDeathTest) {
   Mock::AllowLeak(mObject);
   ON_CALL(*mExpression, isConstant()).WillByDefault(Return(false));
 
-  EXPECT_EXIT(mConstant->generateIR(mContext, mObject),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: Constant is initialized with a non-constant expression");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mConstant->generateIR(mContext, mObject));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Constant is initialized with a non-constant expression\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ConstantTest, printPublicConstantToStreamTest) {

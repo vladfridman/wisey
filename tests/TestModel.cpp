@@ -445,11 +445,13 @@ TEST_F(ModelTest, findConstantDeathTest) {
   Mock::AllowLeak(mField2Expression);
   Mock::AllowLeak(mThreadVariable);
 
-  EXPECT_EXIT(mModel->findConstant(mContext, "MYCONSTANT2", 1),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(1\\): Error: "
-              "Model systems.vos.wisey.compiler.tests.MSquare "
-              "does not have constant named MYCONSTANT2");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mModel->findConstant(mContext, "MYCONSTANT2", 1));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Model systems.vos.wisey.compiler.tests.MSquare does not have constant named MYCONSTANT2\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ModelTest, findLLVMFunctionTest) {
@@ -639,10 +641,13 @@ TEST_F(ModelTest, castToDeathTest) {
   Mock::AllowLeak(mThreadVariable);
   Value* expressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
 
-  EXPECT_EXIT(mModel->castTo(mContext, expressionValue, PrimitiveTypes::INT, 5),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: Incompatible types: can not cast from "
-              "type 'systems.vos.wisey.compiler.tests.MSquare' to 'int'");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mModel->castTo(mContext, expressionValue, PrimitiveTypes::INT, 5));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'systems.vos.wisey.compiler.tests.MSquare' to 'int'\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ModelTest, getFlattenedInterfaceHierarchyTest) {
@@ -717,15 +722,16 @@ TEST_F(ModelTest, buildInvalidObjectBuilderArgumentsDeathTest) {
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
   
-  const char *expected =
-  "/tmp/source.yz\\(3\\): Error: Object builder argument should start with 'with'. e.g. .withField\\(value\\).\n"
-  "/tmp/source.yz\\(3\\): Error: Some arguments for the model "
-  "systems.vos.wisey.compiler.tests.MStar "
-  "builder are not well formed";
+  const char* expected =
+  "/tmp/source.yz(3): Error: Object builder argument should start with 'with'. e.g. .withField(value).\n"
+  "/tmp/source.yz(3): Error: Some arguments for the model systems.vos.wisey.compiler.tests.MStar builder are not well formed\n";
   
-  EXPECT_EXIT(mStarModel->build(mContext, argumentList, 3),
-              ::testing::ExitedWithCode(1),
-              expected);
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mStarModel->build(mContext, argumentList, 3));
+  EXPECT_STREQ(expected, buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ModelTest, buildIncorrectArgumentTypeDeathTest) {
@@ -743,10 +749,13 @@ TEST_F(ModelTest, buildIncorrectArgumentTypeDeathTest) {
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
   
-  EXPECT_EXIT(mStarModel->build(mContext, argumentList, 3),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: "
-              "Model builder argument value for field mBirthdate does not match its type");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mStarModel->build(mContext, argumentList, 3));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Model builder argument value for field mBirthdate does not match its type\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ModelTest, buildNotAllFieldsAreSetDeathTest) {
@@ -760,14 +769,16 @@ TEST_F(ModelTest, buildNotAllFieldsAreSetDeathTest) {
   ObjectBuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   
-  const char *expected =
-  "/tmp/source.yz\\(5\\): Error: Field mGalaxy is not initialized\n"
-  "/tmp/source.yz\\(5\\): Error: Some fields of the model "
-  "systems.vos.wisey.compiler.tests.MStar are not initialized.";
+  const char* expected =
+  "/tmp/source.yz(5): Error: Field mGalaxy is not initialized\n"
+  "/tmp/source.yz(5): Error: Some fields of the model systems.vos.wisey.compiler.tests.MStar are not initialized.\n";
   
-  EXPECT_EXIT(mStarModel->build(mContext, argumentList, 5),
-              ::testing::ExitedWithCode(1),
-              expected);
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mStarModel->build(mContext, argumentList, 5));
+  EXPECT_STREQ(expected, buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ModelTest, printToStreamTest) {
@@ -884,10 +895,14 @@ TEST_F(ModelTest, injectDeathTest) {
   ::Mock::AllowLeak(mField2Expression);
   ::Mock::AllowLeak(mThreadVariable);
   InjectionArgumentList arguments;
-  EXPECT_EXIT(mModel->inject(mContext, arguments, 3),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: type systems.vos.wisey.compiler.tests.MSquare "
-              "is not injectable");
+  
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mModel->inject(mContext, arguments, 3));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: type systems.vos.wisey.compiler.tests.MSquare is not injectable\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(TestFileRunner, modelBuilderObjectArgumentAutocastRunTest) {

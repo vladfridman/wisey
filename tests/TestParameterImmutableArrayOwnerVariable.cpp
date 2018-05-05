@@ -132,9 +132,13 @@ TEST_F(ParameterImmutableArrayOwnerVariableTest, setToNullTest) {
 TEST_F(ParameterImmutableArrayOwnerVariableTest, generateAssignmentDeathTest) {
   vector<const IExpression*> indices;
   
-  EXPECT_EXIT(mVariable->generateAssignmentIR(mContext, NULL, indices, 1),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(1\\): Error: Assignment to method parameters is not allowed");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mVariable->generateAssignmentIR(mContext, NULL, indices, 1));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Assignment to method parameters is not allowed\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ParameterImmutableArrayOwnerVariableTest, generateElementAssignmentDeathTest) {
@@ -142,9 +146,13 @@ TEST_F(ParameterImmutableArrayOwnerVariableTest, generateElementAssignmentDeathT
   NiceMock<MockExpression> expression;
   indices.push_back(&expression);
   
-  EXPECT_EXIT(mVariable->generateAssignmentIR(mContext, NULL, indices, 3),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: Attempting to change a value in an immutable array");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mVariable->generateAssignmentIR(mContext, NULL, indices, 3));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Attempting to change a value in an immutable array\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(TestFileRunner, parameterImmutableArrayOwnerRunTest) {

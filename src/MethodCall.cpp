@@ -78,7 +78,7 @@ Value* MethodCall::generateIR(IRGenerationContext& context, const IType* assignT
   }
   context.reportError(mLine, "Method call " + methodDescriptor->getTypeName() +
                       " on an unknown object type '" + object->getTypeName() + "'");
-  exit(1);
+  throw 1;
 }
 
 Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
@@ -227,7 +227,7 @@ const IMethodDescriptor* MethodCall::getMethodDescriptor(IRGenerationContext& co
     context.reportError(mLine,
                         "Can not call a method on expression of type " +
                         expressionType->getTypeName());
-    exit(1);
+    throw 1;
   }
   return (const IMethodDescriptor*) expressionType;
 }
@@ -243,7 +243,7 @@ void MethodCall::checkArgumentType(const IObjectType* objectWithMethods,
                         "Number of arguments for method call '" + methodDescriptor->getName() +
                         "' of the object type '" + objectWithMethods->getTypeName() +
                         "' is not correct");
-    exit(1);
+    throw 1;
   }
   
   for (const Argument* methodArgument : methodArguments) {
@@ -254,7 +254,7 @@ void MethodCall::checkArgumentType(const IObjectType* objectWithMethods,
       context.reportError(mLine, "Call argument types do not match for a call to method '" +
                           methodDescriptor->getName() +
                           "' of the object type '" + objectWithMethods->getTypeName() + "'");
-      exit(1);
+      throw 1;
     }
     
     callArgumentsIterator++;
@@ -301,7 +301,7 @@ Function* MethodCall::getMethodFunction(IRGenerationContext& context,
   if (function == NULL) {
     context.reportError(mLine, "LLVM function implementing object '" + objectType->getTypeName() +
                         "' method '" + methodName + "' was not found");
-    exit(1);
+    throw 1;
   }
   
   return function;

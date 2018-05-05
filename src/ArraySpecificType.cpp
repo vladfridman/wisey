@@ -170,7 +170,7 @@ void ArraySpecificType::checkDimensionType(IRGenerationContext& context,
   }
   context.reportError(line, "Dimension in array allocation should be castable to long, "
                       "but it is of " + type->getTypeName() + " type");
-  exit(1);
+  throw 1;
 }
 
 void ArraySpecificType::printToStream(IRGenerationContext &context, iostream& stream) const {
@@ -210,5 +210,5 @@ llvm::Instruction* ArraySpecificType::inject(IRGenerationContext& context,
                                              const InjectionArgumentList injectionArgumentList,
                                              int line) const {
   repotNonInjectableType(context, this, line);
-  exit(1);
+  throw 1;
 }

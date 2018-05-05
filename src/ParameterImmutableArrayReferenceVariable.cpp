@@ -69,11 +69,11 @@ generateAssignmentIR(IRGenerationContext& context,
                      int line) {
   if (!arrayIndices.size()) {
     context.reportError(line, "Assignment to method parameters is not allowed");
-    exit(1);
+    throw 1;
   }
 
   context.reportError(line, "Attempting to change a value in an immutable array");
-  exit(1);
+  throw 1;
 }
 
 void ParameterImmutableArrayReferenceVariable::

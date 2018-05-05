@@ -43,7 +43,7 @@ const IType* IdentifierReference::getType(IRGenerationContext& context) const {
   const IType* variableType = variable->getType();
   if (!variableType->isNative()) {
     context.reportError(mLine, "Can not take a reference of a non-native type variable");
-    exit(1);
+    throw 1;
   }
   
   return ((const ILLVMType*) variableType)->getPointerType(context, mLine);

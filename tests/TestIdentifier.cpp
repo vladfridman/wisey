@@ -66,9 +66,13 @@ TEST_F(IdentifierTest, generateIRForPrimitiveVariableTest) {
 TEST_F(IdentifierTest, undeclaredVariableDeathTest) {
   Identifier identifier("foo", 3);
 
-  EXPECT_EXIT(identifier.generateIR(mContext, PrimitiveTypes::VOID),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: Undeclared variable 'foo'");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(identifier.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Undeclared variable 'foo'\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(IdentifierTest, generateIRForObjectOwnerVariableSetToNullTest) {

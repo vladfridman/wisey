@@ -108,7 +108,7 @@ void Node::setFields(IRGenerationContext& context,
     if (type->isController()) {
       context.reportError(field->getLine(),
                           "Nodes can only have fields of primitive or model or node type");
-      exit(1);
+      throw 1;
     }
     
     if (field->isFixed()) {
@@ -117,13 +117,13 @@ void Node::setFields(IRGenerationContext& context,
       if (type->isReference() || (!type->isNode() && !type->isInterface())) {
         context.reportError(field->getLine(),
                             "Node state fields can only be node owner or interface owner type");
-        exit(1);
+        throw 1;
       }
       mStateFields.push_back(field);
     } else {
       context.reportError(field->getLine(),
                           "Nodes can only have fixed or state fields");
-      exit(1);
+      throw 1;
     }
     index++;
   }
@@ -160,7 +160,7 @@ wisey::Constant* Node::findConstant(IRGenerationContext& context,
                                     int line) const {
   if (!mNameToConstantMap.count(constantName)) {
     context.reportError(line, "Node " + mName + " does not have constant named " + constantName);
-    exit(1);
+    throw 1;
   }
   return mNameToConstantMap.at(constantName);
 }
@@ -371,7 +371,7 @@ void Node::checkArgumentsAreWellFormed(IRGenerationContext& context,
   if (!areArgumentsWellFormed) {
     context.reportError(line, "Some arguments for the node " + mName +
                         " builder are not well formed");
-    exit(1);
+    throw 1;
   }
 }
 
@@ -393,7 +393,7 @@ void Node::checkAllFieldsAreSet(IRGenerationContext& context,
                         " is not initialized.");
   }
   context.reportError(line, "Some fields of the node " + mName + " are not initialized.");
-  exit(1);
+  throw 1;
 }
 
 void Node::initializePresetFields(IRGenerationContext& context,
@@ -416,7 +416,7 @@ void Node::initializePresetFields(IRGenerationContext& context,
     if (!argumentType->canAutoCastTo(context, fieldType)) {
       context.reportError(line, "Node builder argument value for field " + argumentName +
                           " does not match its type");
-      exit(1);
+      throw 1;
     }
     Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);
     IRWriter::newStoreInst(context, castValue, fieldPointer);
@@ -508,14 +508,14 @@ void Node::createParameterVariable(IRGenerationContext& context,
 
 const wisey::ArrayType* Node::getArrayType(IRGenerationContext& context, int line) const {
   ArrayType::reportNonArrayType(context, line);
-  exit(1);
+  throw 1;
 }
 
 Instruction* Node::inject(IRGenerationContext& context,
                           const InjectionArgumentList injectionArgumentList,
                           int line) const {
   repotNonInjectableType(context, this, line);
-  exit(1);
+  throw 1;
 }
 
 int Node::getLine() const {

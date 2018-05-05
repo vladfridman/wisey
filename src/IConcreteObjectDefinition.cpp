@@ -67,13 +67,13 @@ IConcreteObjectDefinition::createElements(IRGenerationContext& context,
       if (methods.size() || fields.size()) {
         context.reportError(element->getLine(),
                             "Constants should be declared before fields and methods");
-        exit(1);
+        throw 1;
       }
       constants.push_back((Constant*) element);
     } else if (element->isField()) {
       if (methods.size()) {
         context.reportError(element->getLine(), "Fields should be declared before methods");
-        exit(1);
+        throw 1;
       }
       fields.push_back((IField*) element);
     } else if (element->isLLVMFunction()) {

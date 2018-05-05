@@ -43,7 +43,7 @@ Value* RelationalExpression::generateIR(IRGenerationContext& context,
   if ((!leftType->isPrimitive() && rightType->isPrimitive()) ||
       (leftType->isPrimitive() && !rightType->isPrimitive())) {
     context.reportError(mLine, "Can not compare objects to primitive types");
-    exit(1);
+    throw 1;
   }
   
   if (!leftType->isPrimitive() || !rightType->isPrimitive()) {
@@ -69,7 +69,7 @@ Value* RelationalExpression::generateIRForObjects(IRGenerationContext& context,
     case RELATIONAL_OPERATION_NE : predicate = ICmpInst::ICMP_NE; break;
     default:
       context.reportError(mLine, "Objects can only be used to compare for equality");
-      exit(1);
+      throw 1;
   }
   
   const IType* leftType = mLeftExpression->getType(context);
@@ -93,7 +93,7 @@ Value* RelationalExpression::generateIRForObjects(IRGenerationContext& context,
   }
   
   reportIncompatableTypes(context, leftType, rightType);
-  exit(1);
+  throw 1;
 }
 
 Value* RelationalExpression::generateIRForFloats(IRGenerationContext& context,
@@ -129,7 +129,7 @@ Value* RelationalExpression::generateIRForFloats(IRGenerationContext& context,
   }
   
   reportIncompatableTypes(context, leftType, rightType);
-  exit(1);
+  throw 1;
 }
 
 Value* RelationalExpression::generateIRForInts(IRGenerationContext& context,
@@ -165,7 +165,7 @@ Value* RelationalExpression::generateIRForInts(IRGenerationContext& context,
   }
   
   reportIncompatableTypes(context, leftType, rightType);
-  exit(1);
+  throw 1;
 }
 
 void RelationalExpression::reportIncompatableTypes(IRGenerationContext& context,

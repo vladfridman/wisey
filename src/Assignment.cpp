@@ -32,7 +32,7 @@ IVariable* Assignment::getVariable(IRGenerationContext& context,
                                    std::vector<const IExpression*>& arrayIndices) const {
   if (!mIdentifier->isAssignable()) {
     context.reportError(mLine, "Expression is not assignable");
-    exit(1);
+    throw 1;
   }
   return ((IExpressionAssignable*) mIdentifier)->getVariable(context, arrayIndices);
 }
@@ -44,7 +44,7 @@ Value* Assignment::generateIR(IRGenerationContext& context, const IType* assignT
     std::stringstream stringStream;
     mIdentifier->printToStream(context, stringStream);
     context.reportError(mLine, "Undeclared variable '" + stringStream.str() + "'");
-    exit(1);
+    throw 1;
   }
   
   Value* result = variable->generateAssignmentIR(context, mExpression, arrayIndices, mLine);

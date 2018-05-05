@@ -440,11 +440,13 @@ TEST_F(ControllerTest, findConstantTest) {
 TEST_F(ControllerTest, findConstantDeathTest) {
   Mock::AllowLeak(mThreadVariable);
   
-  EXPECT_EXIT(mMultiplierController->findConstant(mContext, "MYCONSTANT2", 5),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: "
-              "Controller systems.vos.wisey.compiler.tests.CMultiplier "
-              "does not have constant named MYCONSTANT2");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mMultiplierController->findConstant(mContext, "MYCONSTANT2", 3));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Controller systems.vos.wisey.compiler.tests.CMultiplier does not have constant named MYCONSTANT2\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ControllerTest, findLLVMFunctionTest) {
@@ -885,10 +887,13 @@ TEST_F(ControllerTest, injectWrongTypeOfArgumentDeathTest) {
   Mock::AllowLeak(mThreadVariable);
   mAdditorController->declareInjectFunction(mContext, 0);
 
-  EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments, 0),
-              ::testing::ExitedWithCode(1),
-              "Error: Injector argumet value for field 'mOwner' "
-              "does not match its type");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mAdditorController->inject(mContext, injectionArguments, 3));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Injector argumet value for field 'mOwner' does not match its type\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ControllerTest, injectNonInjectableTypeDeathTest) {
@@ -902,9 +907,13 @@ TEST_F(ControllerTest, injectNonInjectableTypeDeathTest) {
   mDoublerController->createInjectFunction(mContext, 0);
   mDoublerController->defineFieldInjectorFunctions(mContext, 0);
 
-  EXPECT_EXIT(mContext.runComposingCallbacks(),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: type int is not injectable");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(mContext.runComposingCallbacks());
+  EXPECT_STREQ("/tmp/source.yz(3): Error: type int is not injectable\n",
+              buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ControllerTest, notWellFormedInjectionArgumentsDeathTest) {
@@ -916,10 +925,14 @@ TEST_F(ControllerTest, notWellFormedInjectionArgumentsDeathTest) {
                                                                injectArgument1Expression);
   injectionArguments.push_back(injectionArgument);
 
-  EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments, 5),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: Injection argument should start with 'with'. e.g. .withField\\(value\\).\n"
-              "/tmp/source.yz\\(5\\): Error: Some injection arguments for injected object systems.vos.wisey.compiler.tests.CAdditor are not well formed");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mAdditorController->inject(mContext, injectionArguments, 5));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Injection argument should start with 'with'. e.g. .withField(value).\n"
+               "/tmp/source.yz(5): Error: Some injection arguments for injected object systems.vos.wisey.compiler.tests.CAdditor are not well formed\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ControllerTest, injectTooFewArgumentsDeathTest) {
@@ -931,9 +944,14 @@ TEST_F(ControllerTest, injectTooFewArgumentsDeathTest) {
                                                                injectArgument1Expression);
   injectionArguments.push_back(injectionArgument);
   
-  EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments, 0),
-              ::testing::ExitedWithCode(1),
-              "Error: Received field mReference is not initialized");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mAdditorController->inject(mContext, injectionArguments, 5));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Received field mReference is not initialized\n"
+               "/tmp/source.yz(5): Error: Some received fields of the controller systems.vos.wisey.compiler.tests.CAdditor are not initialized.\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ControllerTest, injectTooManyArgumentsDeathTest) {
@@ -955,9 +973,14 @@ TEST_F(ControllerTest, injectTooManyArgumentsDeathTest) {
   injectionArguments.push_back(injectionArgument2);
   injectionArguments.push_back(injectionArgument3);
   
-  EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments, 3),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: Injector could not find field mFoo in object systems.vos.wisey.compiler.tests.CAdditor");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mAdditorController->inject(mContext, injectionArguments, 3));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Injector could not find field mFoo in object systems.vos.wisey.compiler.tests.CAdditor\n"
+               "/tmp/source.yz(3): Error: Some injection arguments for injected object systems.vos.wisey.compiler.tests.CAdditor are not well formed\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ControllerTest, printToStreamTest) {

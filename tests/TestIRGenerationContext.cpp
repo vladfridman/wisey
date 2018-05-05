@@ -124,9 +124,13 @@ TEST_F(IRGenerationContextTest, moduleIsNotNullTest) {
 }
 
 TEST_F(IRGenerationContextTest, runCodeFailsWhenMainIsNullDeathTest) {
-  EXPECT_EXIT(mContext.runCode(),
-              ::testing::ExitedWithCode(1),
-              "Error: Function main is not defined. Exiting.");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(mContext.runCode());
+  EXPECT_STREQ("Error: Function main is not defined. Exiting.\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(IRGenerationContextTest, addNodeTest) {
@@ -140,15 +144,23 @@ TEST_F(IRGenerationContextTest, addNodeTest) {
 TEST_F(IRGenerationContextTest, addNodeAlreadyDefinedDeathTest) {
   mContext.addNode(mNode, 1);
   
-  EXPECT_EXIT(mContext.addNode(mNode, 5),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: Redefinition of node systems.vos.wisey.compiler.tests.NMyNode");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mContext.addNode(mNode, 5));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Redefinition of node systems.vos.wisey.compiler.tests.NMyNode\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(IRGenerationContextTest, getNodeDoesNotExistDeathTest) {
-  EXPECT_EXIT(mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode", 10),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(10\\): Error: Node systems.vos.wisey.compiler.tests.NMyNode is not defined");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode", 10));
+  EXPECT_STREQ("/tmp/source.yz(10): Error: Node systems.vos.wisey.compiler.tests.NMyNode is not defined\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(IRGenerationContextTest, addModelTest) {
@@ -161,17 +173,23 @@ TEST_F(IRGenerationContextTest, addModelTest) {
 
 TEST_F(IRGenerationContextTest, addModelAlreadyDefinedDeathTest) {
   mContext.addModel(mModel, 0);
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
-  EXPECT_EXIT(mContext.addModel(mModel, 1),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(1\\): Error: "
-              "Redefinition of model systems.vos.wisey.compiler.tests.MMyModel");
+  EXPECT_ANY_THROW(mContext.addModel(mModel, 1));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Redefinition of model systems.vos.wisey.compiler.tests.MMyModel\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(IRGenerationContextTest, getModelDoesNotExistDeathTest) {
-  EXPECT_EXIT(mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel", 10),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(10\\): Error: Model systems.vos.wisey.compiler.tests.MMyModel is not defined");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel", 10));
+  EXPECT_STREQ("/tmp/source.yz(10): Error: Model systems.vos.wisey.compiler.tests.MMyModel is not defined\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(IRGenerationContextTest, addControllerTest) {
@@ -185,15 +203,23 @@ TEST_F(IRGenerationContextTest, addControllerTest) {
 TEST_F(IRGenerationContextTest, addControllerAlreadyDefinedDeathTest) {
   mContext.addController(mController, 1);
   
-  EXPECT_EXIT(mContext.addController(mController, 3),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: Redefinition of controller systems.vos.wisey.compiler.tests.CMyController");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mContext.addController(mController, 3));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Redefinition of controller systems.vos.wisey.compiler.tests.CMyController\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(IRGenerationContextTest, getControllerDoesNotExistDeathTest) {
-  EXPECT_EXIT(mContext.getController("systems.vos.wisey.compiler.tests.CMyController", 10),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(10\\): Error: Controller systems.vos.wisey.compiler.tests.CMyController is not defined");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mContext.getController("systems.vos.wisey.compiler.tests.CMyController", 10));
+  EXPECT_STREQ("/tmp/source.yz(10): Error: Controller systems.vos.wisey.compiler.tests.CMyController is not defined\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(IRGenerationContextTest, addLLVMStructTypeTest) {
@@ -206,15 +232,23 @@ TEST_F(IRGenerationContextTest, addLLVMStructTypeTest) {
 TEST_F(IRGenerationContextTest, addLLVMStructTypeAlreadyDefinedDeathTest) {
   mContext.addLLVMStructType(mLLVMStructType, 0);
 
-  EXPECT_EXIT(mContext.addLLVMStructType(mLLVMStructType, 1),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(1\\): Error: Redefinition of llvm struct type ::llvm::struct::mystructtype");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mContext.addLLVMStructType(mLLVMStructType, 1));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Redefinition of llvm struct type ::llvm::struct::mystructtype\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(IRGenerationContextTest, getLLVMStructTypeDoesNotExistDeathTest) {
-  EXPECT_EXIT(mContext.getLLVMStructType("mystructtype", 10),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(10\\): Error: llvm struct type ::llvm::struct::mystructtype is not defined");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mContext.getLLVMStructType("mystructtype", 10));
+  EXPECT_STREQ("/tmp/source.yz(10): Error: llvm struct type ::llvm::struct::mystructtype is not defined\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(IRGenerationContextTest, addInterfaceTest) {
@@ -252,9 +286,13 @@ TEST_F(IRGenerationContextTest, addInterfaceAlreadyDefinedDeathTest) {
                                                  0);
   mContext.addInterface(interface, 1);
   
-  EXPECT_EXIT(mContext.addInterface(interface, 5),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: Redefinition of interface systems.vos.wisey.compiler.tests.IMyInterface");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mContext.addInterface(interface, 5));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Redefinition of interface systems.vos.wisey.compiler.tests.IMyInterface\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(IRGenerationContextTest, setObjectTypeTest) {
@@ -270,19 +308,26 @@ TEST_F(IRGenerationContextTest, setObjectTypeTest) {
 }
 
 TEST_F(IRGenerationContextTest, getInterfaceDoesNotExistDeathTest) {
-  EXPECT_EXIT(mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface", 10),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(10\\): Error: Interface systems.vos.wisey.compiler.tests.IMyInterface is not defined");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface", 10));
+  EXPECT_STREQ("/tmp/source.yz(10): Error: Interface systems.vos.wisey.compiler.tests.IMyInterface is not defined\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(IRGenerationContextTest, getBoundControllerDeathTest) {
   mContext.addController(mController, 1);
   mContext.addInterface(mInterface, 3);
   
-  EXPECT_EXIT(mContext.getBoundController(mInterface, 5),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: No controller is bound to "
-              "interface systems.vos.wisey.compiler.tests.IMyInterface");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mContext.getBoundController(mInterface, 5));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: No controller is bound to interface systems.vos.wisey.compiler.tests.IMyInterface\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(IRGenerationContextTest, bindInterfaceToControllerTest) {
@@ -300,11 +345,15 @@ TEST_F(IRGenerationContextTest, bindInterfaceToControllerRepeatedlyDeathTest) {
   
   mContext.bindInterfaceToController(mInterface, mController, 0);
 
-  EXPECT_EXIT(mContext.bindInterfaceToController(mInterface, mController, 5),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: Interface systems.vos.wisey.compiler.tests.IMyInterface "
-              "is already bound to systems.vos.wisey.compiler.tests.CMyController "
-              "and can not be bound to systems.vos.wisey.compiler.tests.CMyController");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mContext.bindInterfaceToController(mInterface, mController, 5));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Interface systems.vos.wisey.compiler.tests.IMyInterface "
+               "is already bound to systems.vos.wisey.compiler.tests.CMyController "
+               "and can not be bound to systems.vos.wisey.compiler.tests.CMyController\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(IRGenerationContextTest, getPackageTypeTest) {
@@ -482,13 +531,21 @@ TEST_F(IRGenerationContextTest, registerLLVMFunctionNamedTypeDeathTest) {
   LLVMFunctionType* functionType = LLVMFunctionType::create(LLVMPrimitiveTypes::I8, arguments);
   mContext.registerLLVMExternalFunctionNamedType("myfunction", functionType, 0);
   
-  EXPECT_EXIT(mContext.registerLLVMInternalFunctionNamedType("myfunction", functionType, 1),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(1\\): Error: Can not register llvm function named myfunction because it is already registered");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mContext.registerLLVMInternalFunctionNamedType("myfunction", functionType, 1));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Can not register llvm function named myfunction because it is already registered\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(IRGenerationContextTest, lookupLLVMFunctionNamedTypeDeathTest) {
-  EXPECT_EXIT(mContext.lookupLLVMFunctionNamedType("myfunction", 3),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: Can not find llvm function named myfunction");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mContext.lookupLLVMFunctionNamedType("myfunction", 3));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Can not find llvm function named myfunction\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }

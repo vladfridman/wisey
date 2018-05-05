@@ -182,11 +182,15 @@ TEST_F(RelationalExpressionTest, objectAndNonObjectCompareDeathTest) {
   Mock::AllowLeak(mRightExpression);
 
   ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(mModel));
-  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LT, mRightExpression, 0);
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LT, mRightExpression, 3);
 
-  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not compare objects to primitive types");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(expression.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Can not compare objects to primitive types\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(RelationalExpressionTest, incompatableObjectsCompareDeathTest) {
@@ -201,12 +205,14 @@ TEST_F(RelationalExpressionTest, incompatableObjectsCompareDeathTest) {
   ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(mNode));
   ON_CALL(*mRightExpression, generateIR(_, _)).WillByDefault(Return(nodeNull));
   
-  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_EQ, mRightExpression, 0);
-
-  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not compare types systems.vos.wisey.compiler.tests.MSquare and "
-              "systems.vos.wisey.compiler.tests.NElement");
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_EQ, mRightExpression, 3);
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(expression.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Can not compare types systems.vos.wisey.compiler.tests.MSquare and systems.vos.wisey.compiler.tests.NElement\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(RelationalExpressionTest, compareObjectsWithNonEqualityTypePredicateDeathTest) {
@@ -215,11 +221,14 @@ TEST_F(RelationalExpressionTest, compareObjectsWithNonEqualityTypePredicateDeath
   
   ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(mModel));
   ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(mModel));
-  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_GT, mRightExpression, 0);
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_GT, mRightExpression, 5);
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
-  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID),
-              ::testing::ExitedWithCode(1),
-              "Error: Objects can only be used to compare for equality");
+  EXPECT_ANY_THROW(expression.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Objects can only be used to compare for equality\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(RelationalExpressionTest, incompatablePrimitiveTypesDeathTest) {
@@ -227,11 +236,15 @@ TEST_F(RelationalExpressionTest, incompatablePrimitiveTypesDeathTest) {
   Mock::AllowLeak(mRightExpression);
   
   ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
-  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_EQ, mRightExpression, 0);
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_EQ, mRightExpression, 7);
   
-  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not compare types float and int");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(expression.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(7): Error: Can not compare types float and int\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(TestFileRunner, lessThanRunTest) {

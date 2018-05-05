@@ -63,7 +63,7 @@ Value* ConditionalExpression::generateIR(IRGenerationContext& context,
 
   if (ifTrueResultType != ifFalseResultType) {
     context.reportError(mLine, "Results of different type in a conditional expresion!");
-    exit(1);
+    throw 1;
   }
 
   context.setBasicBlock(blockEnd);
@@ -89,17 +89,17 @@ void ConditionalExpression::checkTypes(IRGenerationContext& context) const {
   
   if (mConditionExpression->getType(context) != PrimitiveTypes::BOOLEAN) {
     context.reportError(mLine, "Condition in a conditional expression is not of type BOOLEAN");
-    exit(1);
+    throw 1;
   }
   
   if (ifTrueExpressionType != ifFalseExpressionType) {
     context.reportError(mLine, "Incompatible types in conditional expression operation");
-    exit(1);
+    throw 1;
   }
   
   if (ifTrueExpressionType == PrimitiveTypes::VOID) {
     context.reportError(mLine, "Can not use expressions of type VOID in a conditional expression");
-    exit(1);
+    throw 1;
   }
 }
 

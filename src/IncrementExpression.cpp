@@ -51,7 +51,7 @@ IVariable* IncrementExpression::getVariable(IRGenerationContext& context,
                                             vector<const IExpression*>& arrayIndices) const {
   if (!mExpression->isAssignable()) {
     context.reportError(mLine, "Expression is not assignable");
-    exit(1);
+    throw 1;
   }
   return ((IExpressionAssignable*) mExpression)->getVariable(context, arrayIndices);
 }
@@ -61,7 +61,7 @@ Value* IncrementExpression::generateIR(IRGenerationContext& context,
   const IType* expressionType = mExpression->getType(context);
   if (!mExpression->isAssignable()) {
     context.reportError(mLine, "Increment/decrement operation may only be applied to variables");
-    exit(1);
+    throw 1;
   }
   if (expressionType != PrimitiveTypes::INT &&
       expressionType != PrimitiveTypes::CHAR &&
@@ -69,7 +69,7 @@ Value* IncrementExpression::generateIR(IRGenerationContext& context,
     context.reportError(mLine,
                         "Expression is of a type that is incompatible with "
                         "increment/decrement operation");
-    exit(1);
+    throw 1;
   }
   
   Value* originalValue = mExpression->generateIR(context, assignToType);

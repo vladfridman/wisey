@@ -147,9 +147,13 @@ TEST_F(IdentifierChainTest, getTypeForPrimitiveBaseTypeDeathTest) {
   
   Mock::AllowLeak(mockExpression);
   Mock::AllowLeak(&mockObjectType);
-  EXPECT_EXIT(identifierChain.getType(mContext),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: Attempt to call a method 'foo' on an expression that is not of object type");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(identifierChain.getType(mContext));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Attempt to call a method 'foo' on an expression that is not of object type\n",
+              buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(IdentifierChainTest, generateIRForUndefinedBaseTypeDeathTest) {
@@ -158,11 +162,14 @@ TEST_F(IdentifierChainTest, generateIRForUndefinedBaseTypeDeathTest) {
   ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printObjectTypeExpression));
   
   IdentifierChain identifierChain(mockExpression, "foo", 3);
-  
   Mock::AllowLeak(mockExpression);
-  EXPECT_EXIT(identifierChain.generateIR(mContext, PrimitiveTypes::VOID),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: Attempt to call a method 'foo' on undefined type expression");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(identifierChain.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Attempt to call a method 'foo' on undefined type expression\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(IdentifierChainTest, getTypeForObjectBaseTypeMethodNotFoundDeathTest) {
@@ -175,13 +182,17 @@ TEST_F(IdentifierChainTest, getTypeForObjectBaseTypeMethodNotFoundDeathTest) {
   ON_CALL(mockObjectType, isReference()).WillByDefault(Return(true));
   ON_CALL(mockObjectType, getTypeName()).WillByDefault(Return(modelFullName));
 
-  IdentifierChain identifierChain(mockExpression, "foo", 0);
+  IdentifierChain identifierChain(mockExpression, "foo", 1);
 
   Mock::AllowLeak(mockExpression);
   Mock::AllowLeak(&mockObjectType);
-  EXPECT_EXIT(identifierChain.getType(mContext),
-              ::testing::ExitedWithCode(1),
-              "Method 'foo' is not found in object systems.vos.wisey.compiler.tests.MObject");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(identifierChain.getType(mContext));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Method 'foo' is not found in object systems.vos.wisey.compiler.tests.MObject\n",
+              buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(IdentifierChainTest, generateIRTest) {
@@ -223,8 +234,12 @@ TEST_F(IdentifierChainTest, generateIRForPrivateMethodDeathTest) {
   Mock::AllowLeak(mockExpression);
   Mock::AllowLeak(&mockObjectType);
   Mock::AllowLeak(&mockMethodDescriptor);
-  IdentifierChain identifierChain(mockExpression, "foo", 0);
-  EXPECT_EXIT(identifierChain.generateIR(mContext, PrimitiveTypes::VOID),
-              ::testing::ExitedWithCode(1),
-              "Error: Method 'foo' of object systems.vos.wisey.compiler.tests.MObject is private");
+  IdentifierChain identifierChain(mockExpression, "foo", 3);
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(identifierChain.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Method 'foo' of object systems.vos.wisey.compiler.tests.MObject is private\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }

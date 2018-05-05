@@ -29,10 +29,15 @@ namespace wisey {
     
   public:
     
-    Compiler(CompilerArguments& argments) : mArguments(argments), mHasCompiled(false) { }
+    Compiler(CompilerArguments& argments);
     
     ~Compiler();
     
+    /**
+     * Maximum number of errors that compiler may encounter before it terminates
+     */
+    static const unsigned int MAX_NUMBER_OF_ERRORS;
+
     /**
      * Compile Wisey code passed through constructor arguments
      */

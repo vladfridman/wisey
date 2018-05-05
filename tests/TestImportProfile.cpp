@@ -48,7 +48,11 @@ TEST_F(ImportProfileTest, getFullNameDeathTest) {
   ImportProfile* importProfile = new ImportProfile("");
   importProfile->setSourceFileName(mContext, "/tmp/source.yz");
 
-  EXPECT_EXIT(importProfile->getFullName("MObject", 1),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(1\\): Error: Could not identify packge for object MObject");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(importProfile->getFullName("MObject", 1));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Could not identify packge for object MObject\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }

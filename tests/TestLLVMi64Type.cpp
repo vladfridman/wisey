@@ -112,8 +112,12 @@ TEST_F(LLVMi64TypeTest, printToStreamTest) {
 }
 
 TEST_F(LLVMi64TypeTest, injectDeathTest) {
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
   InjectionArgumentList arguments;
-  EXPECT_EXIT(mLLVMi64Type.inject(mContext, arguments, 3),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: type ::llvm::i64 is not injectable");
+  EXPECT_ANY_THROW(mLLVMi64Type.inject(mContext, arguments, 3));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: type ::llvm::i64 is not injectable\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }

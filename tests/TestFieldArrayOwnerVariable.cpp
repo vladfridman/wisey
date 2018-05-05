@@ -155,13 +155,16 @@ TEST_F(FieldArrayOwnerVariableTest, generateWholeArrayAssignmentDeathTest) {
   
   Mock::AllowLeak(&mockExpression);
   
-  EXPECT_EXIT(mFieldArrayOwnerVariable->generateAssignmentIR(mContext,
-                                                             &mockExpression,
-                                                             arrayIndices,
-                                                             5),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
-              "can not cast from type 'int\\[\\]' to 'int\\[\\]\\*'");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mFieldArrayOwnerVariable->generateAssignmentIR(mContext,
+                                                                  &mockExpression,
+                                                                  arrayIndices,
+                                                                  5));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'int[]' to 'int[]*'\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(TestFileRunner, fieldArrayOwnerOfIntsRunTest) {

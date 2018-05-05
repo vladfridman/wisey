@@ -171,9 +171,13 @@ TEST_F(InjectedFieldTest, injectDeathTest) {
   InjectedField field(mType, mInjectedType, mName, mInjectionArgumentList, "/tmp/source.yz", 5);
   ON_CALL(*mInjectedType, isReference()).WillByDefault(Return(true));
   
-  EXPECT_EXIT(field.inject(mContext),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: Injected fields must have owner type denoted by '*'");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(field.inject(mContext));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Injected fields must have owner type denoted by '*'\n",
+              buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(InjectedFieldTest, declareInjectionFunctionTest) {

@@ -349,13 +349,16 @@ TEST_F(MethodCallTest, printToStreamTest) {
 }
 
 TEST_F(MethodCallTest, incorrectNumberOfArgumentsDeathTest) {
-  MethodCall methodCall(mExpression, mArgumentList, 0);
+  MethodCall methodCall(mExpression, mArgumentList, 1);
   Mock::AllowLeak(mExpression);
   
-  EXPECT_EXIT(methodCall.generateIR(mContext, PrimitiveTypes::VOID),
-              ::testing::ExitedWithCode(1),
-              "Error: Number of arguments for method call 'foo' of the object type "
-              "'systems.vos.wisey.compiler.tests.MSquare' is not correct");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(methodCall.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Number of arguments for method call 'foo' of the object type 'systems.vos.wisey.compiler.tests.MSquare' is not correct\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(MethodCallTest, llvmImplementationNotFoundDeathTest) {
@@ -363,14 +366,17 @@ TEST_F(MethodCallTest, llvmImplementationNotFoundDeathTest) {
   ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(mBarMethod));
   mArgumentList.push_back(argumentExpression);
-  MethodCall methodCall(mExpression, mArgumentList, 0);
+  MethodCall methodCall(mExpression, mArgumentList, 3);
   Mock::AllowLeak(mExpression);
   Mock::AllowLeak(argumentExpression);
   
-  EXPECT_EXIT(methodCall.generateIR(mContext, PrimitiveTypes::VOID),
-              ::testing::ExitedWithCode(1),
-              "Error: LLVM function implementing object 'systems.vos.wisey.compiler.tests.MSquare' "
-              "method 'bar' was not found");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(methodCall.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: LLVM function implementing object 'systems.vos.wisey.compiler.tests.MSquare' method 'bar' was not found\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(MethodCallTest, incorrectArgumentTypesDeathTest) {
@@ -388,14 +394,17 @@ TEST_F(MethodCallTest, incorrectArgumentTypesDeathTest) {
   NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
   ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG));
   mArgumentList.push_back(argumentExpression);
-  MethodCall methodCall(mExpression, mArgumentList, 0);
+  MethodCall methodCall(mExpression, mArgumentList, 5);
   Mock::AllowLeak(mExpression);
   Mock::AllowLeak(argumentExpression);
   
-  EXPECT_EXIT(methodCall.generateIR(mContext, PrimitiveTypes::VOID),
-              ::testing::ExitedWithCode(1),
-              "Error: Call argument types do not match for a call to method 'foo' "
-              "of the object type 'systems.vos.wisey.compiler.tests.MSquare");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(methodCall.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Call argument types do not match for a call to method 'foo' of the object type 'systems.vos.wisey.compiler.tests.MSquare'\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(TestFileRunner, modelMethodCallRunTest) {

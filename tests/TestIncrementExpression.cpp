@@ -114,14 +114,16 @@ TEST_F(IncrementExpressionTest, incorrectIdentifierTypeDeathTest) {
   LocalPrimitiveVariable* variable = new LocalPrimitiveVariable("bar",
                                                                 PrimitiveTypes::FLOAT,
                                                                 NULL,
-                                                                0);
+                                                                5);
   mContext.getScopes().setVariable(mContext, variable);
-  string expected = "/tmp/source.yz\\(5\\): Error: Expression is of a type that is "
-  "incompatible with increment/decrement operation";
+  string expected = "/tmp/source.yz(5): Error: Expression is of a type that is incompatible with increment/decrement operation\n";
   
-  EXPECT_EXIT(expression->generateIR(mContext, PrimitiveTypes::VOID),
-              ::testing::ExitedWithCode(1),
-              expected);
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(expression->generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ(expected.c_str(), buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(IncrementExpressionTest, incrementExpressionTypeTest) {

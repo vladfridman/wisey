@@ -53,7 +53,7 @@ Value* StaticMethodCall::generateIR(IRGenerationContext& context, const IType* a
                         (methodDescriptor->isNative() ? "LLVM function '" : "Static method '") +
                         mMethodName + "' of object " + objectType->getTypeName() +
                         " is private");
-    exit(1);
+    throw 1;
   }
   checkArgumentType(methodDescriptor, context);
   std::vector<const Model*> thrownExceptions = methodDescriptor->getThrownExceptions();
@@ -83,7 +83,7 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
   if (function == NULL) {
     context.reportError(mLine, "LLVM function implementing object " + objectType->getTypeName() +
                         " method '" + mMethodName + "' was not found");
-    exit(1);
+    throw 1;
   }
   
   vector<Value*> arguments;
@@ -143,13 +143,13 @@ IMethodDescriptor* StaticMethodCall::getMethodDescriptor(IRGenerationContext& co
   if (staticMethod == NULL && llvmFunction == NULL) {
     context.reportError(mLine, "Static method '" + mMethodName + "' is not found in object " +
                         objectType->getTypeName());
-    exit(1);
+    throw 1;
   }
   IMethodDescriptor* methodDescriptor = staticMethod == NULL ? llvmFunction : staticMethod;
   if (!methodDescriptor->isStatic()) {
     context.reportError(mLine, "Method '" + mMethodName + "' of object type " +
                         objectType->getTypeName() + " is not static");
-    exit(1);
+    throw 1;
   }
   
   return methodDescriptor;
@@ -167,7 +167,7 @@ void StaticMethodCall::checkArgumentType(IMethodDescriptor* methodDescriptor,
                         "call '" + methodDescriptor->getName() +
                         "' of the object type " +
                         mObjectTypeSpecifier->getType(context)->getTypeName() + " is not correct");
-    exit(1);
+    throw 1;
   }
   
   for (const Argument* methodArgument : methodArguments) {
@@ -180,7 +180,7 @@ void StaticMethodCall::checkArgumentType(IMethodDescriptor* methodDescriptor,
                           "Call argument types do not match for a call to " + methodOrFunction +
                           methodDescriptor->getName() + "' of the object type " +
                           mObjectTypeSpecifier->getType(context)->getTypeName());
-      exit(1);
+      throw 1;
     }
     
     callArgumentsIterator++;

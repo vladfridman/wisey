@@ -37,7 +37,7 @@ Value* IdentifierChain::generateIR(IRGenerationContext& context, const IType* as
     context.reportError(mLine,
                         "Method '" + mName + "' of object " + objectWithMethodsType->getTypeName() +
                         " is private");
-    exit(1);
+    throw 1;
   }
 
   return mObjectExpression->generateIR(context, assignToType);
@@ -72,12 +72,12 @@ IMethodDescriptor* IdentifierChain::getMethodDescriptor(IRGenerationContext& con
   if (expressionType == UndefinedType::UNDEFINED) {
     context.reportError(mLine, "Attempt to call a method '" + mName +
                         "' on undefined type expression");
-    exit(1);
+    throw 1;
   }
   if (!IType::isObjectType(expressionType)) {
     context.reportError(mLine, "Attempt to call a method '" + mName +
                         "' on an expression that is not of object type");
-    exit(1);
+    throw 1;
   }
   
   const IObjectType* objectType = expressionType->isOwner()
@@ -89,7 +89,7 @@ IMethodDescriptor* IdentifierChain::getMethodDescriptor(IRGenerationContext& con
   if (methodDescriptor == NULL) {
     context.reportError(mLine, "Method '" + mName + "' is not found in object " +
                         objectType->getTypeName());
-    exit(1);
+    throw 1;
   }
   
   assert(objectType == methodDescriptor->getParentObject());

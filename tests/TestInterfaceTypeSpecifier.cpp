@@ -11,6 +11,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+#include "TestPrefix.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/MethodSignature.hpp"
@@ -29,8 +30,7 @@ struct InterfaceTypeSpecifierTest : public ::testing::Test {
   ImportProfile* mImportProfile;
 
   InterfaceTypeSpecifierTest() {
-    mImportProfile = new ImportProfile(mPackage);
-    mContext.setImportProfile(mImportProfile);
+    TestPrefix::generateIR(mContext);
     
     vector<Type*> types;
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IShape";
@@ -88,19 +88,27 @@ TEST_F(InterfaceTypeSpecifierTest, printToStreamTest) {
 }
 
 TEST_F(InterfaceTypeSpecifierTest, interfaceTypeSpecifierSamePackageDeathTest) {
-  InterfaceTypeSpecifier interfaceTypeSpecifier(NULL, "IObject", 0);
+  InterfaceTypeSpecifier interfaceTypeSpecifier(NULL, "IObject", 3);
   
-  EXPECT_EXIT(interfaceTypeSpecifier.getType(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Interface systems.vos.wisey.compiler.tests.IObject is not defined");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(interfaceTypeSpecifier.getType(mContext));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Interface systems.vos.wisey.compiler.tests.IObject is not defined\n",
+              buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(InterfaceTypeSpecifierTest, interfaceTypeSpecifierNotDefinedDeathTest) {
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  InterfaceTypeSpecifier interfaceTypeSpecifier(packageExpression, "IObject", 0);
+  InterfaceTypeSpecifier interfaceTypeSpecifier(packageExpression, "IObject", 1);
   
-  EXPECT_EXIT(interfaceTypeSpecifier.getType(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Interface systems.vos.wisey.compiler.tests.IObject is not defined");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(interfaceTypeSpecifier.getType(mContext));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Interface systems.vos.wisey.compiler.tests.IObject is not defined\n",
+              buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }

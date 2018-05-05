@@ -100,11 +100,14 @@ TEST_F(FloatTypeTest, castToTest) {
   Value* result;
   Value* expressionValue = ConstantFP::get(Type::getFloatTy(mLLVMContext), 2.5);
   
-  EXPECT_EXIT(mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::VOID, 5),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(5\\): Error: Incompatible types: "
-              "can not cast from type 'float' to 'void'");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
+  EXPECT_ANY_THROW(mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::VOID, 5));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'float' to 'void'\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
+
   result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv = fptosi float 2.500000e+00 to i1", mStringStream->str().c_str());
@@ -188,7 +191,11 @@ TEST_F(FloatTypeTest, injectDeathTest) {
   Mock::AllowLeak(&mConcreteObjectType);
   
   InjectionArgumentList arguments;
-  EXPECT_EXIT(mFloatType.inject(mContext, arguments, 3),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: type float is not injectable");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mFloatType.inject(mContext, arguments, 3));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: type float is not injectable\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }

@@ -201,9 +201,13 @@ TEST_F(WiseyModelOwnerTypeTest, injectDeathTest) {
   ::Mock::AllowLeak(&mConcreteObjectType);
   
   InjectionArgumentList arguments;
-  EXPECT_EXIT(mWiseyModelOwnerType->inject(mContext, arguments, 3),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: type ::wisey::model\\* is not injectable");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mWiseyModelOwnerType->inject(mContext, arguments, 3));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: type ::wisey::model* is not injectable\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(TestFileRunner, castWiseyModelOwnerToInterfaceOwnerRunDeathTest) {

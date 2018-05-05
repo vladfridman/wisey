@@ -30,7 +30,7 @@ Value* AutoCast::maybeCast(IRGenerationContext& context,
     context.reportError(line,
                         "Incompatible types: need explicit cast from type '" +
                         fromType->getTypeName() + "' to '" + toType->getTypeName() + "'");
-    exit(1);
+    throw 1;
   }
   
   return fromType->castTo(context, fromValue, toType, line);

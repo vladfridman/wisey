@@ -179,7 +179,7 @@ void InterfaceOwner::createParameterVariable(IRGenerationContext& context,
 
 const wisey::ArrayType* InterfaceOwner::getArrayType(IRGenerationContext& context, int line) const {
   ArrayType::reportNonArrayType(context, line);
-  exit(1);
+  throw 1;
 }
 
 Value* InterfaceOwner::inject(IRGenerationContext &context,

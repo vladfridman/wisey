@@ -168,12 +168,12 @@ void ModelOwner::createParameterVariable(IRGenerationContext& context,
 
 const wisey::ArrayType* ModelOwner::getArrayType(IRGenerationContext& context, int line) const {
   ArrayType::reportNonArrayType(context, line);
-  exit(1);
+  throw 1;
 }
 
 Instruction* ModelOwner::inject(IRGenerationContext& context,
                                 const InjectionArgumentList injectionArgumentList,
                                 int line) const {
   repotNonInjectableType(context, this, line);
-  exit(1);
+  throw 1;
 }

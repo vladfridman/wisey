@@ -425,11 +425,13 @@ TEST_F(NodeTest, findConstantDeathTest) {
   Mock::AllowLeak(mField2Expression);
   Mock::AllowLeak(mThreadVariable);
   
-  EXPECT_EXIT(mComplicatedNode->findConstant(mContext, "MYCONSTANT2", 7),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(7\\): Error: "
-              "Node systems.vos.wisey.compiler.tests.NComplicatedNode "
-              "does not have constant named MYCONSTANT2");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mComplicatedNode->findConstant(mContext, "MYCONSTANT2", 7));
+  EXPECT_STREQ("/tmp/source.yz(7): Error: Node systems.vos.wisey.compiler.tests.NComplicatedNode does not have constant named MYCONSTANT2\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(NodeTest, findLLVMFunctionTest) {
@@ -692,14 +694,16 @@ TEST_F(NodeTest, buildInvalidObjectBuilderArgumentsDeathTest) {
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
   
-  const char *expected =
-  "/tmp/source.yz\\(1\\): Error: Object builder argument should start with 'with'. e.g. .withField\\(value\\).\n"
-  "/tmp/source.yz\\(1\\): Error: Some arguments for the node "
-  "systems.vos.wisey.compiler.tests.NSimpleNode builder are not well formed";
+  const char* expected =
+  "/tmp/source.yz(1): Error: Object builder argument should start with 'with'. e.g. .withField(value).\n"
+  "/tmp/source.yz(1): Error: Some arguments for the node systems.vos.wisey.compiler.tests.NSimpleNode builder are not well formed\n";
   
-  EXPECT_EXIT(mSimpleNode->build(mContext, argumentList, 1),
-              ::testing::ExitedWithCode(1),
-              expected);
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mSimpleNode->build(mContext, argumentList, 1));
+  EXPECT_STREQ(expected, buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(NodeTest, buildIncorrectArgumentTypeDeathTest) {
@@ -721,9 +725,13 @@ TEST_F(NodeTest, buildIncorrectArgumentTypeDeathTest) {
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
   
-  EXPECT_EXIT(mSimpleNode->build(mContext, argumentList, 0),
-              ::testing::ExitedWithCode(1),
-              "Error: Node builder argument value for field mReference does not match its type");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mSimpleNode->build(mContext, argumentList, 1));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Node builder argument value for field mReference does not match its type\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(NodeTest, buildNotAllFieldsAreSetDeathTest) {
@@ -737,15 +745,16 @@ TEST_F(NodeTest, buildNotAllFieldsAreSetDeathTest) {
   ObjectBuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   
-  const char *expected =
-  "Error: Field mOwner of the node systems.vos.wisey.compiler.tests.NSimpleNode is not "
-  "initialized.\n"
-  "/tmp/source.yz\\(7\\): Error: Some fields of the node "
-  "systems.vos.wisey.compiler.tests.NSimpleNode are not initialized.";
+  const char* expected =
+  "/tmp/source.yz(7): Error: Field mOwner of the node systems.vos.wisey.compiler.tests.NSimpleNode is not initialized.\n"
+  "/tmp/source.yz(7): Error: Some fields of the node systems.vos.wisey.compiler.tests.NSimpleNode are not initialized.\n";
   
-  EXPECT_EXIT(mSimpleNode->build(mContext, argumentList, 7),
-              ::testing::ExitedWithCode(1),
-              expected);
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mSimpleNode->build(mContext, argumentList, 7));
+  EXPECT_STREQ(expected, buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(NodeTest, printToStreamTest) {
@@ -863,10 +872,13 @@ TEST_F(NodeTest, injectDeathTest) {
   ::Mock::AllowLeak(mField2Expression);
   ::Mock::AllowLeak(mThreadVariable);
   InjectionArgumentList arguments;
-  EXPECT_EXIT(mComplicatedNode->inject(mContext, arguments, 3),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: type "
-              "systems.vos.wisey.compiler.tests.NComplicatedNode is not injectable");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mComplicatedNode->inject(mContext, arguments, 3));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: type systems.vos.wisey.compiler.tests.NComplicatedNode is not injectable\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(TestFileRunner, linkListRunTest) {

@@ -11,6 +11,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+#include "TestPrefix.hpp"
 #include "wisey/ControllerTypeSpecifier.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/Method.hpp"
@@ -28,9 +29,9 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
   ImportProfile* mImportProfile;
   
   ControllerTypeSpecifierTest() {
+    TestPrefix::generateIR(mContext);
+    
     LLVMContext& llvmContext = mContext.getLLVMContext();
-    mImportProfile = new ImportProfile(mPackage);
-    mContext.setImportProfile(mImportProfile);
     
     vector<Type*> types;
     types.push_back(FunctionType::get(Type::getInt32Ty(llvmContext), true)
@@ -95,9 +96,13 @@ TEST_F(ControllerTypeSpecifierTest, printToStreamTest) {
 TEST_F(ControllerTypeSpecifierTest, controllerTypeSpecifierSamePackageDeathTest) {
   ControllerTypeSpecifier controllerTypeSpecifier(NULL, "CAdder", 10);
   
-  EXPECT_EXIT(controllerTypeSpecifier.getType(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Controller systems.vos.wisey.compiler.tests.CAdder is not defined");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(controllerTypeSpecifier.getType(mContext));
+  EXPECT_STREQ("/tmp/source.yz(10): Error: Controller systems.vos.wisey.compiler.tests.CAdder is not defined\n",
+              buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ControllerTypeSpecifierTest, controllerTypeSpecifierNotDefinedDeathTest) {
@@ -105,7 +110,11 @@ TEST_F(ControllerTypeSpecifierTest, controllerTypeSpecifierNotDefinedDeathTest) 
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ControllerTypeSpecifier controllerTypeSpecifier(packageExpression, "CAdder", 15);
   
-  EXPECT_EXIT(controllerTypeSpecifier.getType(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Controller systems.vos.wisey.compiler.tests.CAdder is not defined");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(controllerTypeSpecifier.getType(mContext));
+  EXPECT_STREQ("/tmp/source.yz(15): Error: Controller systems.vos.wisey.compiler.tests.CAdder is not defined\n",
+              buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }

@@ -132,7 +132,7 @@ void LLVMi16Type::createParameterVariable(IRGenerationContext& context,
 
 const wisey::ArrayType* LLVMi16Type::getArrayType(IRGenerationContext& context, int line) const {
   ArrayType::reportNonArrayType(context, line);
-  exit(1);
+  throw 1;
 }
 
 const LLVMPointerType* LLVMi16Type::getPointerType(IRGenerationContext& context, int line) const {
@@ -147,5 +147,5 @@ Instruction* LLVMi16Type::inject(IRGenerationContext& context,
                                  const InjectionArgumentList injectionArgumentList,
                                  int line) const {
   repotNonInjectableType(context, this, line);
-  exit(1);
+  throw 1;
 }

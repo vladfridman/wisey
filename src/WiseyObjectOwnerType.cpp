@@ -165,7 +165,7 @@ void WiseyObjectOwnerType::createParameterVariable(IRGenerationContext& context,
 
 const wisey::ArrayType* WiseyObjectOwnerType::getArrayType(IRGenerationContext& context, int line) const {
   ArrayType::reportNonArrayType(context, line);
-  exit(1);
+  throw 1;
 }
 
 const WiseyObjectType* WiseyObjectOwnerType::getReference() const {
@@ -180,5 +180,5 @@ Instruction* WiseyObjectOwnerType::inject(IRGenerationContext& context,
                                           const InjectionArgumentList injectionArgumentList,
                                           int line) const {
   repotNonInjectableType(context, this, line);
-  exit(1);
+  throw 1;
 }

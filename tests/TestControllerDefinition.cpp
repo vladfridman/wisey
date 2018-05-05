@@ -186,7 +186,7 @@ TEST_F(ControllerDefinitionTest, controllerWithFixedFieldDeathTest) {
   ControllerTypeSpecifierFull* typeSpecifier =
   new ControllerTypeSpecifierFull(packageExpression, "CMyController", 0);
   const PrimitiveTypeSpecifier* intType = PrimitiveTypes::INT->newTypeSpecifier(0);
-  FixedFieldDefinition* field = new FixedFieldDefinition(intType, "field3", 0);
+  FixedFieldDefinition* field = new FixedFieldDefinition(intType, "field3", 1);
   mElementDeclarations.clear();
   mElementDeclarations.push_back(field);
   vector<IObjectDefinition*> innerObjectDefinitions;
@@ -195,12 +195,16 @@ TEST_F(ControllerDefinitionTest, controllerWithFixedFieldDeathTest) {
                                             mElementDeclarations,
                                             mInterfaces,
                                             innerObjectDefinitions,
-                                            0);
+                                            1);
   controllerDefinition.prototypeObject(mContext, mContext.getImportProfile());
   
-  EXPECT_EXIT(controllerDefinition.prototypeMethods(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Controllers can only have received, injected or state fields");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(controllerDefinition.prototypeMethods(mContext));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Controllers can only have received, injected or state fields\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ControllerDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
@@ -210,7 +214,7 @@ TEST_F(ControllerDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
   new ControllerTypeSpecifierFull(packageExpression, "CMyController", 0);
   InjectionArgumentList arguments;
   const PrimitiveTypeSpecifier* intType = PrimitiveTypes::INT->newTypeSpecifier(0);
-  FixedFieldDefinition* field = new FixedFieldDefinition(intType, "field3", 0);
+  FixedFieldDefinition* field = new FixedFieldDefinition(intType, "field3", 11);
   mElementDeclarations.push_back(field);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ControllerDefinition controllerDefinition(AccessLevel::PUBLIC_ACCESS,
@@ -221,9 +225,13 @@ TEST_F(ControllerDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
                                             0);
   controllerDefinition.prototypeObject(mContext, mContext.getImportProfile());
   
-  EXPECT_EXIT(controllerDefinition.prototypeMethods(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Fields should be declared before methods");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(controllerDefinition.prototypeMethods(mContext));
+  EXPECT_STREQ("/tmp/source.yz(11): Error: Fields should be declared before methods\n",
+              buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(TestFileRunner, controllerDefinitionSyntaxRunTest) {

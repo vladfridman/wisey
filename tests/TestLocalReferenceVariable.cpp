@@ -187,9 +187,13 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableIdentifierUninitialized
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalReferenceVariable localReferenceVariable("foo", mModel, fooValue, 0);
   
-  EXPECT_EXIT(localReferenceVariable.generateIdentifierIR(mContext, 1),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(1\\): Error: Variable 'foo' is used before it is initialized");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(localReferenceVariable.generateIdentifierIR(mContext, 1));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Variable 'foo' is used before it is initialized\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(LocalReferenceVariableTest, setToNullTest) {

@@ -71,7 +71,7 @@ Value* FieldLLVMVariable::generateAssignmentIR(IRGenerationContext& context,
     context.reportError(line, "Can not assign to field '" + mName +
                         "' of object '" + mObject->getTypeName() +
                         "' because of incompatable types");
-    exit(1);
+    throw 1;
   }
   Value* expressionValue = assignToExpression->generateIR(context, fieldType);
   Value* cast = AutoCast::maybeCast(context, expressionType, expressionValue, fieldType, line);

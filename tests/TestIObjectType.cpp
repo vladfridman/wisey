@@ -97,7 +97,11 @@ TEST_F(IObjectTypeTest, checkAccessToIsNotAccessableDeathTest) {
   ON_CALL(fromObject, isPublic()).WillByDefault(Return(true));
   ON_CALL(fromObject, getTypeName()).WillByDefault(Return("MFromObject"));
   
-  EXPECT_EXIT(IObjectType::checkAccess("/tmp/source.yz", &fromObject, &toObject, 1),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(1\\): Error: Object MToObject is not accessable from object MFromObject");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(IObjectType::checkAccess("/tmp/source.yz", &fromObject, &toObject, 1));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Object MToObject is not accessable from object MFromObject\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }

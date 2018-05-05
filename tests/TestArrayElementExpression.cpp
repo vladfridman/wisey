@@ -163,9 +163,13 @@ TEST_F(ArrayElementExpressionTest, generateIRForNonArrayTypeDeathTest) {
   Mock::AllowLeak(mArrayVariable);
   ON_CALL(*mArrayExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
   
-  EXPECT_EXIT(mArrayElementExpression->generateIR(mContext, PrimitiveTypes::INT),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: Expecting array type expression before \\[\\] but expression type is int");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(mArrayElementExpression->generateIR(mContext, PrimitiveTypes::INT));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Expecting array type expression before [] but expression type is int\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ArrayElementExpressionTest, generateIRForNonIntTypeIndexDeathTest) {
@@ -174,9 +178,13 @@ TEST_F(ArrayElementExpressionTest, generateIRForNonIntTypeIndexDeathTest) {
   Mock::AllowLeak(mArrayVariable);
   ON_CALL(*mArrayIndexExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
   
-  EXPECT_EXIT(mArrayElementExpression->generateIR(mContext, PrimitiveTypes::FLOAT),
-              ::testing::ExitedWithCode(1),
-              "Error: Array index should be integer type, but it is float");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mArrayElementExpression->generateIR(mContext, PrimitiveTypes::FLOAT));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Array index should be integer type, but it is float\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ArrayElementExpressionTest, getTypeDeathTest) {
@@ -185,9 +193,13 @@ TEST_F(ArrayElementExpressionTest, getTypeDeathTest) {
   Mock::AllowLeak(mArrayVariable);
   ON_CALL(*mArrayExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
   
-  EXPECT_EXIT(mArrayElementExpression->getType(mContext),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(3\\): Error: Expecting array type expression before \\[\\] but expression type is int");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(mArrayElementExpression->getType(mContext));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Expecting array type expression before [] but expression type is int\n",
+              buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(ArrayElementExpressionTest, generateIRDeathTest) {
@@ -199,13 +211,17 @@ TEST_F(ArrayElementExpressionTest, generateIRDeathTest) {
   mArrayType = new wisey::ArrayType(PrimitiveTypes::INT, 2u);
   Value* null = ConstantPointerNull::get(mArrayType->getLLVMType(mContext));
 
-  EXPECT_EXIT(ArrayElementExpression::generateElementIR(mContext,
-                                                        mArrayType,
-                                                        null,
-                                                        arrayIndices,
-                                                        3),
-              ::testing::ExitedWithCode(1),
-              "Error: Expression does not reference an array element");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(ArrayElementExpression::generateElementIR(mContext,
+                                                             mArrayType,
+                                                             null,
+                                                             arrayIndices,
+                                                             3));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Expression does not reference an array element\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(TestFileRunner, ownerArrayNotNulledOnElementAssignTest) {

@@ -174,7 +174,7 @@ void CharType::createParameterVariable(IRGenerationContext& context,
 
 const wisey::ArrayType* CharType::getArrayType(IRGenerationContext& context, int line) const {
   ArrayType::reportNonArrayType(context, line);
-  exit(1);
+  throw 1;
 }
 
 const PrimitiveTypeSpecifier* CharType::newTypeSpecifier(int line) const {
@@ -185,5 +185,5 @@ Instruction* CharType::inject(IRGenerationContext& context,
                               const InjectionArgumentList injectionArgumentList,
                               int line) const {
   repotNonInjectableType(context, this, line);
-  exit(1);
+  throw 1;
 }

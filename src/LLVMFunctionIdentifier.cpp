@@ -59,7 +59,7 @@ LLVMFunction* LLVMFunctionIdentifier::getLLVMFunctionObject(IRGenerationContext&
     context.reportError(mLine,
                         "LLVMFunction '" + mLLVMFunctionName + "' not found in object " +
                         objectType->getTypeName());
-    exit(1);
+    throw 1;
   }
   
   if (llvmFunction->isPublic() || objectType == context.getObjectType()) {
@@ -70,5 +70,5 @@ LLVMFunction* LLVMFunctionIdentifier::getLLVMFunctionObject(IRGenerationContext&
                       "LLVMFunction '" + mLLVMFunctionName + "' in " +
                       objectType->getTypeName() + " is private and can not be accessed from " +
                       context.getObjectType()->getTypeName());
-  exit(1);
+  throw 1;
 }

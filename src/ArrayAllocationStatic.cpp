@@ -110,7 +110,7 @@ void ArrayAllocationStatic::checkArrayElements(IRGenerationContext &context) con
     
     context.reportError(mLine,
                         "All elements in static array allocation should be of the same type");
-    exit(1);
+    throw 1;
   }
 }
 

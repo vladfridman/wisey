@@ -127,7 +127,7 @@ void VoidType::createParameterVariable(IRGenerationContext& context,
 
 const wisey::ArrayType* VoidType::getArrayType(IRGenerationContext& context, int line) const {
   reportNonArrayType(context, line);
-  exit(1);
+  throw 1;
 }
 
 const PrimitiveTypeSpecifier* VoidType::newTypeSpecifier(int line) const {
@@ -138,5 +138,5 @@ Instruction* VoidType::inject(IRGenerationContext& context,
                               const InjectionArgumentList injectionArgumentList,
                               int line) const {
   repotNonInjectableType(context, this, line);
-  exit(1);
+  throw 1;
 }

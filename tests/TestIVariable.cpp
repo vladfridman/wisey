@@ -58,8 +58,12 @@ TEST_F(IVariableTest, getVariableTest) {
 TEST_F(IVariableTest, getVariableDoesNotExistDeathTest) {
   Mock::AllowLeak(mVariable);
   
-  EXPECT_EXIT(IVariable::getVariable(mContext, "bar", 7),
-              ::testing::ExitedWithCode(1),
-              "/tmp/source.yz\\(7\\): Error: Undeclared variable 'bar'");
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(IVariable::getVariable(mContext, "bar", 7));
+  EXPECT_STREQ("/tmp/source.yz(7): Error: Undeclared variable 'bar'\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
