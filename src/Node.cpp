@@ -10,7 +10,7 @@
 
 #include "wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp"
 #include "wisey/AutoCast.hpp"
-#include "wisey/CheckForModelFunction.hpp"
+#include "wisey/CheckCastToObjectFunction.hpp"
 #include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -416,7 +416,7 @@ void Node::initializePresetFields(IRGenerationContext& context,
     }
     if (field->isFixed() && argumentType->isInterface() && fieldType->isInterface()) {
       string typeName = context.getObjectType()->getTypeName();
-      CheckForModelFunction::call(context, argumentValue);
+      CheckCastToObjectFunction::callCheckCastToModel(context, argumentValue);
     }
     Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);
     IRWriter::newStoreInst(context, castValue, fieldPointer);

@@ -1,13 +1,13 @@
 //
-//  IsModelFunction.hpp
+//  IsObjectFunction.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 4/25/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef IsModelFunction_h
-#define IsModelFunction_h
+#ifndef IsObjectFunction_h
+#define IsObjectFunction_h
 
 #include <llvm/IR/Instructions.h>
 
@@ -16,9 +16,9 @@
 namespace wisey {
   
   /**
-   * Determines whether the given object is a model, works with interfaces
+   * Determines whether the given object is a cetetain type of object, works with interfaces
    */
-  class IsModelFunction {
+  class IsObjectFunction {
     
   public:
     
@@ -28,10 +28,17 @@ namespace wisey {
     static llvm::Function* get(IRGenerationContext& context);
     
     /**
-     * Call function with given parameters
+     * Call to determine if the object is a model
      */
-    static llvm::Value* call(IRGenerationContext& context, llvm::Value* object);
+    static llvm::Value* callIsModel(IRGenerationContext& context, llvm::Value* object);
     
+    /**
+     * Call to determine if the object's name starts with the given letter
+     */
+    static llvm::Value* call(IRGenerationContext& context,
+                             llvm::Value* object,
+                             llvm::Value* letter);
+
   private:
     
     static std::string getName();
@@ -46,4 +53,4 @@ namespace wisey {
   
 } /* namespace wisey */
 
-#endif /* IsModelFunction_h */
+#endif /* IsObjectFunction_h */

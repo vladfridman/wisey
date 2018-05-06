@@ -1,5 +1,5 @@
 //
-//  IsModelFunction.cpp
+//  IsObjectFunction.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 4/25/18.
@@ -11,14 +11,14 @@
 #include "wisey/Environment.hpp"
 #include "wisey/GetOriginalObjectFunction.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/IsModelFunction.hpp"
+#include "wisey/IsObjectFunction.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Function* IsModelFunction::get(IRGenerationContext& context) {
+Function* IsObjectFunction::get(IRGenerationContext& context) {
   Function* function = context.getModule()->getFunction(getName());
   if (function) {
     return function;
@@ -30,7 +30,12 @@ Function* IsModelFunction::get(IRGenerationContext& context) {
   return function;
 }
 
-Value* IsModelFunction::call(IRGenerationContext& context, Value* object) {
+Value* IsObjectFunction::callIsModel(IRGenerationContext& context, Value* object) {
+  Value* letter = ConstantInt::get(Type::getInt8Ty(context.getLLVMContext()), 77);
+  return call(context, object, letter);
+}
+
+Value* IsObjectFunction::call(IRGenerationContext& context, Value* object, Value* letter) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
@@ -41,34 +46,39 @@ Value* IsModelFunction::call(IRGenerationContext& context, Value* object) {
   Function* function = get(context);
   vector<Value*> arguments;
   arguments.push_back(castObject);
+  arguments.push_back(letter);
   
   return IRWriter::createCallInst(context, function, arguments, "");
 }
 
-string IsModelFunction::getName() {
-  return "__isModel";
+string IsObjectFunction::getName() {
+  return "__isObject";
 }
 
-Function* IsModelFunction::define(IRGenerationContext& context) {
+Function* IsObjectFunction::define(IRGenerationContext& context) {
   return Function::Create(getLLVMFunctionType(context)->getLLVMType(context),
                           GlobalValue::ExternalLinkage,
                           getName(),
                           context.getModule());
 }
 
-LLVMFunctionType* IsModelFunction::getLLVMFunctionType(IRGenerationContext& context) {
+LLVMFunctionType* IsObjectFunction::getLLVMFunctionType(IRGenerationContext& context) {
   vector<const IType*> argumentTypes;
   argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType(context, 0));
-  
+  argumentTypes.push_back(LLVMPrimitiveTypes::I8);
+
   return context.getLLVMFunctionType(LLVMPrimitiveTypes::I1, argumentTypes);
 }
 
-void IsModelFunction::compose(IRGenerationContext& context, llvm::Function* function) {
+void IsObjectFunction::compose(IRGenerationContext& context, llvm::Function* function) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Function::arg_iterator llvmArguments = function->arg_begin();
   llvm::Argument* object = &*llvmArguments;
   object->setName("object");
+  llvmArguments++;
+  llvm::Argument* letter = &*llvmArguments;
+  letter->setName("letter");
   
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function);
   
@@ -89,8 +99,7 @@ void IsModelFunction::compose(IRGenerationContext& context, llvm::Function* func
   
   Value* firstLetter = IRWriter::newLoadInst(context, stringPointer, "firstLetter");
   
-  Value* letterM = ConstantInt::get(Type::getInt8Ty(llvmContext), 77);
-  Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, firstLetter, letterM, "");
+  Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, firstLetter, letter, "");
   IRWriter::createReturnInst(context, condition);
   
   context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context), 0);

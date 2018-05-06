@@ -1,11 +1,11 @@
 //
-//  TestIsModelFunction.cpp
+//  TestIsObjectFunction.cpp
 //  runtests
 //
 //  Created by Vladimir Fridman on 4/25/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link IsModelFunction}
+//  Tests {@link IsObjectFunction}
 //
 
 #include <gtest/gtest.h>
@@ -15,7 +15,7 @@
 
 #include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/IsModelFunction.hpp"
+#include "wisey/IsObjectFunction.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -23,7 +23,7 @@ using namespace wisey;
 
 using ::testing::Test;
 
-struct IsModelFunctionTest : Test {
+struct IsObjectFunctionTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBasicBlock;
@@ -31,7 +31,7 @@ struct IsModelFunctionTest : Test {
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  IsModelFunctionTest() :
+  IsObjectFunctionTest() :
   mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     
@@ -48,29 +48,29 @@ struct IsModelFunctionTest : Test {
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
-  ~IsModelFunctionTest() {
+  ~IsObjectFunctionTest() {
   }
 };
 
-TEST_F(IsModelFunctionTest, callTest) {
+TEST_F(IsObjectFunctionTest, callIsModelTest) {
   Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  IsModelFunction::call(mContext, nullPointerValue);
+  IsObjectFunction::callIsModel(mContext, nullPointerValue);
   
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = call i1 @__isModel(i8* null)\n";
+  "\n  %0 = call i1 @__isObject(i8* null, i8 77)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(IsModelFunctionTest, getTest) {
-  Function* function = IsModelFunction::get(mContext);
+TEST_F(IsObjectFunctionTest, getTest) {
+  Function* function = IsObjectFunction::get(mContext);
   mContext.runComposingCallbacks();
   
   *mStringStream << *function;
   string expected =
-  "\ndefine i1 @__isModel(i8* %object) {"
+  "\ndefine i1 @__isObject(i8* %object, i8 %letter) {"
   "\nentry:"
   "\n  %0 = call i8* @__getOriginalObject(i8* %object)"
   "\n  %1 = bitcast i8* %0 to i8***"
@@ -80,7 +80,7 @@ TEST_F(IsModelFunctionTest, getTest) {
   "\n  %3 = bitcast i8* %typeArrayI8 to i8**"
   "\n  %stringPointer = load i8*, i8** %3"
   "\n  %firstLetter = load i8, i8* %stringPointer"
-  "\n  %4 = icmp eq i8 %firstLetter, 77"
+  "\n  %4 = icmp eq i8 %firstLetter, %letter"
   "\n  ret i1 %4"
   "\n}\n";
   

@@ -16,9 +16,9 @@
 namespace wisey {
   
   /**
-   * Checks that the given object is a model and throws an exception if it is not
+   * Checks that given object can be cast to certain object type, throws an exception if it can't
    */
-  class CheckForModelFunction {
+  class CheckCastToObjectFunction {
     
   public:
     
@@ -28,13 +28,20 @@ namespace wisey {
     static llvm::Function* get(IRGenerationContext& context);
     
     /**
-     * Calls function for the given object pointer
+     * Calls to determine if the object can be cast to a model
      */
-    static void call(IRGenerationContext& context, llvm::Value* object);
+    static void callCheckCastToModel(IRGenerationContext& context, llvm::Value* object);
     
   private:
     
+    static void call(IRGenerationContext& context,
+                     llvm::Value* object,
+                     llvm::Value* letterCode,
+                     llvm::Value* toTypeName);
+
     static std::string getName();
+    
+    static llvm::Value* getTypeName(IRGenerationContext& context, std::string name);
     
     static llvm::Function* define(IRGenerationContext& context);
     

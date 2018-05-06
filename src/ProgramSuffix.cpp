@@ -18,7 +18,7 @@
 #include "wisey/CastObjectFunction.hpp"
 #include "wisey/CheckArrayNotReferencedFunction.hpp"
 #include "wisey/CheckArrayIndexFunction.hpp"
-#include "wisey/CheckForModelFunction.hpp"
+#include "wisey/CheckCastToObjectFunction.hpp"
 #include "wisey/CheckForNullAndThrowFunction.hpp"
 #include "wisey/DestroyNativeObjectFunction.hpp"
 #include "wisey/DestroyOwnerArrayFunction.hpp"
@@ -33,7 +33,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/InstanceOfFunction.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
-#include "wisey/IsModelFunction.hpp"
+#include "wisey/IsObjectFunction.hpp"
 #include "wisey/ModelTypeSpecifierFull.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/ParameterSystemReferenceVariable.hpp"
@@ -63,7 +63,7 @@ void ProgramSuffix::defineEssentialFunctions(IRGenerationContext& context) const
   CastObjectFunction::get(context);
   CheckArrayNotReferencedFunction::get(context);
   CheckArrayIndexFunction::get(context);
-  CheckForModelFunction::get(context);
+  CheckCastToObjectFunction::get(context);
   DestroyNativeObjectFunction::get(context);
   DestroyOwnerArrayFunction::get(context);
   DestroyObjectOwnerFunction::get(context);
@@ -72,7 +72,7 @@ void ProgramSuffix::defineEssentialFunctions(IRGenerationContext& context) const
   GetOriginalObjectFunction::get(context);
   GetOriginalObjectNameFunction::get(context);
   InstanceOfFunction::get(context);
-  IsModelFunction::get(context);
+  IsObjectFunction::get(context);
   ThrowReferenceCountExceptionFunction::get(context);
 }
 

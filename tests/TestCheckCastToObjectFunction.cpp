@@ -1,11 +1,11 @@
 //
-//  TestCheckForModelFunction.cpp
+//  TestCheckCastToObjectFunction.cpp
 //  runtests
 //
 //  Created by Vladimir Fridman on 4/25/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link CheckForModelFunction}
+//  Tests {@link CheckCastToObjectFunction}
 //
 
 #include <gtest/gtest.h>
@@ -14,7 +14,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/CheckForModelFunction.hpp"
+#include "wisey/CheckCastToObjectFunction.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
 using namespace llvm;
@@ -23,7 +23,7 @@ using namespace wisey;
 
 using ::testing::Test;
 
-struct CheckForModelFunctionTest : Test {
+struct CheckCastToObjectFunctionTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBasicBlock;
@@ -31,7 +31,7 @@ struct CheckForModelFunctionTest : Test {
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  CheckForModelFunctionTest() :
+  CheckCastToObjectFunctionTest() :
   mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     
@@ -48,31 +48,31 @@ struct CheckForModelFunctionTest : Test {
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
-  ~CheckForModelFunctionTest() {
+  ~CheckCastToObjectFunctionTest() {
   }
 };
 
-TEST_F(CheckForModelFunctionTest, callTest) {
+TEST_F(CheckCastToObjectFunctionTest, callCheckCastToModelTest) {
   Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  CheckForModelFunction::call(mContext, nullPointerValue);
+  CheckCastToObjectFunction::callCheckCastToModel(mContext, nullPointerValue);
   
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
   "\n  %0 = bitcast i8* null to i8*"
-  "\n  invoke void @__checkForModel(i8* %0)"
+  "\n  invoke void @__checkCastToObject(i8* %0, i8 77, i8* getelementptr inbounds ([6 x i8], [6 x i8]* @__model, i32 0, i32 0))"
   "\n          to label %invoke.continue unwind label %cleanup\n";
 
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(CheckForModelFunctionTest, getTest) {
-  Function* function = CheckForModelFunction::get(mContext);
+TEST_F(CheckCastToObjectFunctionTest, getTest) {
+  Function* function = CheckCastToObjectFunction::get(mContext);
   mContext.runComposingCallbacks();
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @__checkForModel(i8* %object) personality i32 (...)* @__gxx_personality_v0 {"
+  "\ndefine void @__checkCastToObject(i8* %object, i8 %letter, i8* %toType) personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %isNull = icmp eq i8* %object, null"
   "\n  br i1 %isNull, label %return.block, label %if.notnull"
@@ -81,10 +81,10 @@ TEST_F(CheckForModelFunctionTest, getTest) {
   "\n  ret void"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
-  "\n  %0 = call i1 @__isModel(i8* %object)"
-  "\n  br i1 %0, label %return.block, label %if.not.model"
+  "\n  %0 = call i1 @__isObject(i8* %object, i8 %letter)"
+  "\n  br i1 %0, label %return.block, label %if.not.object"
   "\n"
-  "\nif.not.model:                                     ; preds = %if.notnull"
+  "\nif.not.object:                                    ; preds = %if.notnull"
   "\n  %1 = call i8* @__getOriginalObjectName(i8* %object)"
   "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%wisey.lang.MCastException.refCounter* getelementptr (%wisey.lang.MCastException.refCounter, %wisey.lang.MCastException.refCounter* null, i32 1) to i64))"
   "\n  %buildervar = bitcast i8* %malloccall to %wisey.lang.MCastException.refCounter*"
@@ -94,7 +94,7 @@ TEST_F(CheckForModelFunctionTest, getTest) {
   "\n  %4 = getelementptr %wisey.lang.MCastException, %wisey.lang.MCastException* %3, i32 0, i32 1"
   "\n  store i8* %1, i8** %4"
   "\n  %5 = getelementptr %wisey.lang.MCastException, %wisey.lang.MCastException* %3, i32 0, i32 2"
-  "\n  store i8* getelementptr inbounds ([6 x i8], [6 x i8]* @.str, i32 0, i32 0), i8** %5"
+  "\n  store i8* %toType, i8** %5"
   "\n  %6 = bitcast %wisey.lang.MCastException* %3 to i8*"
   "\n  %7 = getelementptr i8, i8* %6, i64 0"
   "\n  %8 = bitcast i8* %7 to i32 (...)***"
@@ -111,7 +111,7 @@ TEST_F(CheckForModelFunctionTest, getTest) {
   "\n  invoke void @__cxa_throw(i8* %15, i8* %12, i8* null)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
-  "\ncleanup:                                          ; preds = %if.not.model"
+  "\ncleanup:                                          ; preds = %if.not.object"
   "\n  %16 = landingpad { i8*, i32 }"
   "\n          cleanup"
   "\n  %17 = load %wisey.lang.MCastException*, %wisey.lang.MCastException** %11"
@@ -119,7 +119,7 @@ TEST_F(CheckForModelFunctionTest, getTest) {
   "\n  call void @__destroyObjectOwnerFunction(i8* %18)"
   "\n  resume { i8*, i32 } %16"
   "\n"
-  "\ninvoke.continue:                                  ; preds = %if.not.model"
+  "\ninvoke.continue:                                  ; preds = %if.not.object"
   "\n  unreachable"
   "\n}\n";
   

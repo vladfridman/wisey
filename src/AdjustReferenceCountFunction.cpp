@@ -12,7 +12,7 @@
 #include "wisey/Environment.hpp"
 #include "wisey/GetOriginalObjectFunction.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/IsModelFunction.hpp"
+#include "wisey/IsObjectFunction.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -94,7 +94,7 @@ void AdjustReferenceCountFunction::compose(IRGenerationContext& context, llvm::F
   IRWriter::createReturnInst(context, NULL);
   
   context.setBasicBlock(ifNotNullBlock);
-  Value* isModel = IsModelFunction::call(context, object);
+  Value* isModel = IsObjectFunction::callIsModel(context, object);
   Value* original = GetOriginalObjectFunction::call(context, object);
   Type* int64PointerType = Type::getInt64Ty(llvmContext)->getPointerTo();
   Value* objectStart = IRWriter::newBitCastInst(context, original, int64PointerType);

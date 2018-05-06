@@ -12,7 +12,7 @@
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/AutoCast.hpp"
 #include "wisey/Cast.hpp"
-#include "wisey/CheckForModelFunction.hpp"
+#include "wisey/CheckCastToObjectFunction.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
@@ -441,7 +441,7 @@ void Model::initializeFields(IRGenerationContext& context,
     }
     if (argumentType->isInterface() && fieldType->isInterface()) {
       string typeName = context.getObjectType()->getTypeName();
-      CheckForModelFunction::call(context, argumentValue);
+      CheckCastToObjectFunction::callCheckCastToModel(context, argumentValue);
     }
     Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);
     IRWriter::newStoreInst(context, castValue, fieldPointer);
