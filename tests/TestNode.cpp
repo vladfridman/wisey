@@ -38,6 +38,7 @@
 #include "wisey/NullType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "wisey/StateField.hpp"
 #include "wisey/ThreadExpression.hpp"
 #include "wisey/VariableDeclaration.hpp"
 #include "wisey/WiseyModelOwnerType.hpp"
@@ -280,7 +281,7 @@ struct NodeTest : public Test {
     StructType* simpleNodeStructType = StructType::create(mLLVMContext, simpleNodeFullName);
     simpleNodeStructType->setBody(simpleNodeTypes);
     vector<IField*> simpleNodeFields;
-    simpleNodeFields.push_back(new FixedField(mOwnerNode->getOwner(), "mOwner", 0));
+    simpleNodeFields.push_back(new StateField(mOwnerNode->getOwner(), "mOwner", 0));
     simpleNodeFields.push_back(new FixedField(mReferenceModel, "mReference", 0));
     mSimpleNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                 simpleNodeFullName,
@@ -739,15 +740,11 @@ TEST_F(NodeTest, buildNotAllFieldsAreSetDeathTest) {
   Mock::AllowLeak(mField2Expression);
   Mock::AllowLeak(mThreadVariable);
 
-  string argumentSpecifier1("withReference");
-  ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
-                                                               mField1Expression);
   ObjectBuilderArgumentList argumentList;
-  argumentList.push_back(argument1);
   
   const char* expected =
-  "/tmp/source.yz(7): Error: Field mOwner of the node systems.vos.wisey.compiler.tests.NSimpleNode is not initialized.\n"
-  "/tmp/source.yz(7): Error: Some fields of the node systems.vos.wisey.compiler.tests.NSimpleNode are not initialized.\n";
+  "/tmp/source.yz(7): Error: Field mReference of the node systems.vos.wisey.compiler.tests.NSimpleNode is not initialized.\n"
+  "/tmp/source.yz(7): Error: Some fixed fields of the node systems.vos.wisey.compiler.tests.NSimpleNode are not initialized.\n";
   
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
@@ -908,5 +905,23 @@ TEST_F(TestFileRunner, nodeWithModelFieldCompileTest) {
 TEST_F(TestFileRunner, nodeWithControllerFieldDeathRunTest) {
   expectFailCompile("tests/samples/test_node_with_controller_field.yz",
                     1,
-                    "Error: Fixed fields can only be of primitive, model or array type");
+                    "tests/samples/test_node_with_controller_field.yz\\(7\\): Error: "
+                    "Fixed fields can only be of primitive, model or array type");
+}
+
+TEST_F(TestFileRunner, nodeInitWithControllerDeathRunTest) {
+  expectFailCompile("tests/samples/test_node_init_with_controller.yz",
+                    1,
+                    "tests/samples/test_node_init_with_controller.yz\\(30\\): Error: "
+                    "Attempting to initialize a node with a mutable type\\. Node fixed fields can only contain primitives, other models or immutable arrays");
+}
+
+TEST_F(TestFileRunner, nodeInitWithInterfaceThatsControllerDeathRunTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_node_init_with_interface_thats_controller.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MCastException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_node_init_with_interface_thats_controller.yz:30)\n"
+                               "Details: Can not cast from systems.vos.wisey.compiler.tests.CService to model\n"
+                               "Main thread ended without a result\n");
 }

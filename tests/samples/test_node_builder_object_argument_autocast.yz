@@ -19,7 +19,7 @@ node NYear implements IHasDirection, IHasValue {
 }
 
 node NCar {
-  IHasValue* mYear;
+  state IHasValue* mYear;
 
   public int getYear() {
     return mYear.getValue();

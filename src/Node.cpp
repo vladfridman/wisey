@@ -10,6 +10,7 @@
 
 #include "wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp"
 #include "wisey/AutoCast.hpp"
+#include "wisey/CheckForModelFunction.hpp"
 #include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -376,7 +377,7 @@ void Node::checkAllFieldsAreSet(IRGenerationContext& context,
     context.reportError(line, "Field " + missingField + " of the node " + mName +
                         " is not initialized.");
   }
-  context.reportError(line, "Some fields of the node " + mName + " are not initialized.");
+  context.reportError(line, "Some fixed fields of the node " + mName + " are not initialized.");
   throw 1;
 }
 
@@ -401,6 +402,16 @@ void Node::initializePresetFields(IRGenerationContext& context,
       context.reportError(line, "Node builder argument value for field " + argumentName +
                           " does not match its type");
       throw 1;
+    }
+    if (field->isFixed() && (argumentType->isController() || argumentType->isNode())) {
+      context.reportError(line, "Attempting to initialize a node with a mutable type. "
+                          "Node fixed fields can only contain primitives, other models or "
+                          "immutable arrays");
+      throw 1;
+    }
+    if (argumentType->isInterface() && fieldType->isInterface()) {
+      string typeName = context.getObjectType()->getTypeName();
+      CheckForModelFunction::call(context, argumentValue);
     }
     Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);
     IRWriter::newStoreInst(context, castValue, fieldPointer);

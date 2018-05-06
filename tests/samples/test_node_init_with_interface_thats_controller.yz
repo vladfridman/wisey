@@ -1,0 +1,35 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+interface IHasValue {
+  int getValue();
+}
+
+controller CService implements IHasValue {
+  public int getValue() override { return 1; }
+}
+
+model MCar implements IHasValue {
+  public int getValue() override { return 3; }
+}
+
+node NElement {
+  IHasValue mHasValue;
+
+  public int getValue() {
+    return mHasValue.getValue();
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    IHasValue* car = builder(MCar).build();
+    IHasValue* service = injector(CService).inject();
+    NElement* element = builder(NElement).withHasValue(service).build();
+    return element.getValue();
+  }
+}
+
+bind(IProgram).to(CProgram);
