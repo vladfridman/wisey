@@ -32,6 +32,11 @@ namespace wisey {
      */
     static void callCheckCastToModel(IRGenerationContext& context, llvm::Value* object);
     
+    /**
+     * Calls to determine if the object can be cast to a node
+     */
+    static void callCheckCastToNode(IRGenerationContext& context, llvm::Value* object);
+
   private:
     
     static void call(IRGenerationContext& context,

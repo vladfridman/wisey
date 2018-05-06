@@ -923,12 +923,22 @@ TEST_F(TestFileRunner, nodeInitStateFieldWithControllerDeathRunTest) {
                     "Trying to initialize a node state field with object that is not a node. Node state fields can only be of node owner type");
 }
 
-TEST_F(TestFileRunner, nodeInitWithInterfaceThatsControllerDeathRunTest) {
-  compileAndRunFileCheckOutput("tests/samples/test_node_init_with_interface_thats_controller.yz",
+TEST_F(TestFileRunner, nodeInitFixedFieldWithInterfaceThatsControllerDeathRunTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_node_init_fixed_field_with_interface_thats_controller.yz",
                                1,
                                "",
                                "Unhandled exception wisey.lang.MCastException\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_node_init_with_interface_thats_controller.yz:30)\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_node_init_fixed_field_with_interface_thats_controller.yz:30)\n"
                                "Details: Can not cast from systems.vos.wisey.compiler.tests.CService to model\n"
+                               "Main thread ended without a result\n");
+}
+
+TEST_F(TestFileRunner, nodeInitStateFieldWithInterfaceThatsControllerDeathRunTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_node_init_state_field_with_interface_thats_controller.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MCastException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_node_init_state_field_with_interface_thats_controller.yz:30)\n"
+                               "Details: Can not cast from systems.vos.wisey.compiler.tests.CService to node\n"
                                "Main thread ended without a result\n");
 }

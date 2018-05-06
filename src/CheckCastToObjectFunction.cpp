@@ -48,6 +48,11 @@ void CheckCastToObjectFunction::callCheckCastToModel(IRGenerationContext& contex
   return call(context, object, letter, getTypeName(context, "model"));
 }
 
+void CheckCastToObjectFunction::callCheckCastToNode(IRGenerationContext& context, Value* object) {
+  Value* letter = ConstantInt::get(Type::getInt8Ty(context.getLLVMContext()), 78);
+  return call(context, object, letter, getTypeName(context, "node"));
+}
+
 Value* CheckCastToObjectFunction::getTypeName(IRGenerationContext& context, string name) {
   LLVMContext& llvmContext = context.getLLVMContext();
 

@@ -418,6 +418,10 @@ void Node::initializePresetFields(IRGenerationContext& context,
       string typeName = context.getObjectType()->getTypeName();
       CheckCastToObjectFunction::callCheckCastToModel(context, argumentValue);
     }
+    if (field->isState() && argumentType->isInterface() && fieldType->isInterface()) {
+      string typeName = context.getObjectType()->getTypeName();
+      CheckCastToObjectFunction::callCheckCastToNode(context, argumentValue);
+    }
     Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);
     IRWriter::newStoreInst(context, castValue, fieldPointer);
     if (fieldType->isReference()) {
