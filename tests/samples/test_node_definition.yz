@@ -10,7 +10,7 @@ node NNode {
   int mWidth;
   long mHeight;
   float mDepth;
-  NSubNode* mColor;
+  state NSubNode* mColor;
 }
 
 controller CProgram implements IProgram {

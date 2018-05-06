@@ -105,21 +105,6 @@ void Model::setFields(IRGenerationContext& context,
       context.reportError(field->getLine(), "Models can only have fixed fields");
       throw 1;
     }
-    const IType* fieldType = field->getType();
-    if (!fieldType->isPrimitive() && !fieldType->isModel() && !fieldType->isInterface() &&
-        !fieldType->isArray()) {
-      context.reportError(field->getLine(),
-                          "Model fields can only be of primitive, model or array type");
-      throw 1;
-    }
-    if (!fieldType->isArray()) {
-      continue;
-    }
-    if (!fieldType->isImmutable() || !fieldType->isOwner()) {
-      context.reportError(field->getLine(),
-                          "Array fields in models can only be of immutable array owner type");
-      throw 1;
-    }
   }
 }
 

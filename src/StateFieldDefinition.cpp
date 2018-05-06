@@ -25,8 +25,10 @@ StateFieldDefinition::~StateFieldDefinition() {
 IField* StateFieldDefinition::define(IRGenerationContext& context,
                                       const IObjectType* objectType) const {
   const IType* fieldType = mTypeSpecifier->getType(context);
+  StateField* stateField = new StateField(fieldType, mName, mLine);
+  stateField->checkType(context, objectType);
   
-  return new StateField(fieldType, mName, mLine);
+  return stateField;
 }
 
 bool StateFieldDefinition::isConstant() const {

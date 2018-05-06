@@ -54,14 +54,12 @@ string InjectedField::getName() const {
 }
 
 Value* InjectedField::inject(IRGenerationContext& context) const {
-  checkForReferenceType();
-  
   return mInjectedType->inject(context, mInjectionArgumentList, mLine);
 }
 
-void InjectedField::checkForReferenceType() const {
-  if (mInjectedType->isReference()) {
-    Log::e(mSourceFileName, mLine, "Injected fields must have owner type denoted by '*'");
+void InjectedField::checkType(IRGenerationContext& context) const {
+  if (!mInjectedType->isOwner() || !mType->isOwner()) {
+    context.reportError(mLine, "Injected fields must have owner type denoted by '*'");
     throw 1;
   }
 }
@@ -92,7 +90,6 @@ Function* InjectedField::declareInjectionFunction(IRGenerationContext& context,
 
 void InjectedField::defineInjectionFunction(IRGenerationContext& context,
                                             const Controller* controller) const {
-  checkForReferenceType();
   Function* function = declareInjectionFunction(context, controller);
   context.addComposingCallback2Objects(composeInjectFunctionBody, function, controller, this);
 }

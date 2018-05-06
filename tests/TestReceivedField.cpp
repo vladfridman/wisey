@@ -10,8 +10,9 @@
 
 #include <gtest/gtest.h>
 
-#include "TestFileRunner.hpp"
 #include "MockType.hpp"
+#include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ReceivedField.hpp"
 
@@ -29,6 +30,7 @@ struct ReceivedFieldTest : public Test {
   IRGenerationContext mContext;
   NiceMock<MockType>* mType;
   string mName;
+  ReceivedField* mField;
   
 public:
   
@@ -37,10 +39,13 @@ public:
   mName("mField") {
     ON_CALL(*mType, printToStream(_, _)).WillByDefault(Invoke(printType));
     EXPECT_CALL(*mType, die());
+    
+    mField = new ReceivedField(mType, mName, 7);
   }
   
   ~ReceivedFieldTest() {
     delete mType;
+    delete mField;
   }
   
   static void printType(IRGenerationContext& context, iostream& stream) {
@@ -49,34 +54,28 @@ public:
 };
 
 TEST_F(ReceivedFieldTest, fieldCreationTest) {
-  ReceivedField field(mType, mName, 0);
+  EXPECT_EQ(mField->getType(), mType);
+  EXPECT_STREQ(mField->getName().c_str(), "mField");
+  EXPECT_TRUE(mField->isAssignable());
   
-  EXPECT_EQ(field.getType(), mType);
-  EXPECT_STREQ(field.getName().c_str(), "mField");
-  EXPECT_TRUE(field.isAssignable());
-  
-  EXPECT_FALSE(field.isFixed());
-  EXPECT_FALSE(field.isInjected());
-  EXPECT_TRUE(field.isReceived());
-  EXPECT_FALSE(field.isState());
+  EXPECT_FALSE(mField->isFixed());
+  EXPECT_FALSE(mField->isInjected());
+  EXPECT_TRUE(mField->isReceived());
+  EXPECT_FALSE(mField->isState());
 }
 
 TEST_F(ReceivedFieldTest, elementTypeTest) {
-  ReceivedField field(mType, mName, 0);
-  
-  EXPECT_FALSE(field.isConstant());
-  EXPECT_TRUE(field.isField());
-  EXPECT_FALSE(field.isMethod());
-  EXPECT_FALSE(field.isStaticMethod());
-  EXPECT_FALSE(field.isMethodSignature());
-  EXPECT_FALSE(field.isLLVMFunction());
+  EXPECT_FALSE(mField->isConstant());
+  EXPECT_TRUE(mField->isField());
+  EXPECT_FALSE(mField->isMethod());
+  EXPECT_FALSE(mField->isStaticMethod());
+  EXPECT_FALSE(mField->isMethodSignature());
+  EXPECT_FALSE(mField->isLLVMFunction());
 }
 
 TEST_F(ReceivedFieldTest, fieldPrintToStreamTest) {
-  ReceivedField field(mType, mName, 0);
-  
   stringstream stringStream;
-  field.printToStream(mContext, stringStream);
+  mField->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("  receive MObject* mField;\n", stringStream.str().c_str());
 }

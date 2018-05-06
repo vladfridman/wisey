@@ -13,6 +13,8 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "MockObjectType.hpp"
+#include "MockObjectTypeSpecifier.hpp"
 #include "MockStatement.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
@@ -40,6 +42,7 @@ using namespace wisey;
 using ::testing::_;
 using ::testing::Mock;
 using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
 
 struct ModelDefinitionTest : public Test {
@@ -317,9 +320,16 @@ TEST_F(ModelDefinitionTest, interfaceNotDefinedDeathTest) {
 }
 
 TEST_F(ModelDefinitionTest, modelWithInjectedFieldDeathTest) {
-  const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
+  NiceMock<MockObjectType> object;
+  ON_CALL(object, isOwner()).WillByDefault(Return(true));
+  NiceMock<MockObjectTypeSpecifier>* objectSpecifier = new NiceMock<MockObjectTypeSpecifier>();
+  ON_CALL(*objectSpecifier, getType(_)).WillByDefault(Return(&object));
+  
   InjectionArgumentList arguments;
-  InjectedFieldDefinition* field1 = new InjectedFieldDefinition(longType, "field1", arguments, 1);
+  InjectedFieldDefinition* field1 = new InjectedFieldDefinition(objectSpecifier,
+                                                                "field1",
+                                                                arguments,
+                                                                1);
   mObjectElements.push_back(field1);
   
   mObjectElements.push_back(mMethodDefinition);

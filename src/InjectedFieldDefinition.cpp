@@ -46,12 +46,11 @@ IField* InjectedFieldDefinition::define(IRGenerationContext& context,
   }
   
   string sourceFile = context.getImportProfile()->getSourceFileName();
-  return new InjectedField(fieldType,
-                           injectedType,
-                           mName,
-                           mInjectionArgumentList,
-                           sourceFile,
-                           mLine);
+  InjectedField* injectedField =
+  new InjectedField(fieldType, injectedType, mName, mInjectionArgumentList, sourceFile, mLine);
+  injectedField->checkType(context);
+  
+  return injectedField;
 }
 
 bool InjectedFieldDefinition::isConstant() const {

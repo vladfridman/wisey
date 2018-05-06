@@ -66,6 +66,11 @@ namespace wisey {
     llvm::Value* callInjectFunction(IRGenerationContext& context,
                                     const Controller* controller,
                                     llvm::Value* fieldPointer) const;
+    
+    /**
+     * Checks that field injected type is of object owner or array owner type
+     */
+    void checkType(IRGenerationContext& context) const;
 
     std::string getName() const override;
     
@@ -98,8 +103,6 @@ namespace wisey {
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
   private:
-    
-    void checkForReferenceType() const;
 
     static void composeInjectFunctionBody(IRGenerationContext& context,
                                           llvm::Function* function,

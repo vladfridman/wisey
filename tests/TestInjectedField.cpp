@@ -12,10 +12,10 @@
 
 #include <llvm/Support/raw_ostream.h>
 
-#include "TestFileRunner.hpp"
-#include "TestPrefix.hpp"
 #include "MockExpression.hpp"
 #include "MockType.hpp"
+#include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/InjectedField.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -44,7 +44,7 @@ struct InjectedFieldTest : public Test {
   BasicBlock* mBasicBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
-  InjectedField* mInjectedField;
+  InjectedField* mField;
 
 public:
   
@@ -72,8 +72,8 @@ public:
     controllerStructType->setBody(controllerTypes);
     vector<IField*> controllerFields;
     InjectionArgumentList fieldArguments;
-    mInjectedField = new InjectedField(mType, mType, "mFoo", fieldArguments, "/tmp/source.yz", 3);
-    controllerFields.push_back(mInjectedField);
+    mField = new InjectedField(mType, mType, "mFoo", fieldArguments, "/tmp/source.yz", 1);
+    controllerFields.push_back(mField);
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             controllerFullName,
                                             controllerStructType,
@@ -163,28 +163,11 @@ TEST_F(InjectedFieldTest, injectTest) {
   field.inject(mContext);
 }
 
-TEST_F(InjectedFieldTest, injectDeathTest) {
-  Mock::AllowLeak(mType);
-  Mock::AllowLeak(mInjectedType);
-  Mock::AllowLeak(mExpression);
-
-  InjectedField field(mType, mInjectedType, mName, mInjectionArgumentList, "/tmp/source.yz", 5);
-  ON_CALL(*mInjectedType, isReference()).WillByDefault(Return(true));
-  
-  std::stringstream buffer;
-  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
-
-  EXPECT_ANY_THROW(field.inject(mContext));
-  EXPECT_STREQ("/tmp/source.yz(5): Error: Injected fields must have owner type denoted by '*'\n",
-              buffer.str().c_str());
-  std::cerr.rdbuf(oldbuffer);
-}
-
 TEST_F(InjectedFieldTest, declareInjectionFunctionTest) {
-  mInjectedField->declareInjectionFunction(mContext, mController);
+  mField->declareInjectionFunction(mContext, mController);
   
   Function* function = mContext.getModule()->
-  getFunction(mInjectedField->getInjectionFunctionName(mController));
+  getFunction(mField->getInjectionFunctionName(mController));
   
   EXPECT_NE(nullptr, function);
   
@@ -198,9 +181,9 @@ TEST_F(InjectedFieldTest, declareInjectionFunctionTest) {
 }
 
 TEST_F(InjectedFieldTest, callInjectFunctionTest) {
-  mInjectedField->declareInjectionFunction(mContext, mController);
+  mField->declareInjectionFunction(mContext, mController);
   Value* null = ConstantPointerNull::get(mType->getLLVMType(mContext)->getPointerTo());
-  mInjectedField->callInjectFunction(mContext, mController, null);
+  mField->callInjectFunction(mContext, mController, null);
   
   *mStringStream << *mBasicBlock;
   string expected =
@@ -211,11 +194,11 @@ TEST_F(InjectedFieldTest, callInjectFunctionTest) {
 }
 
 TEST_F(InjectedFieldTest, defineInjectionFunctionTest) {
-  mInjectedField->defineInjectionFunction(mContext, mController);
+  mField->defineInjectionFunction(mContext, mController);
   mContext.runComposingCallbacks();
   
   Function* function = mContext.getModule()->
-  getFunction(mInjectedField->getInjectionFunctionName(mController));
+  getFunction(mField->getInjectionFunctionName(mController));
   
   EXPECT_NE(nullptr, function);
   
@@ -237,4 +220,23 @@ TEST_F(InjectedFieldTest, defineInjectionFunctionTest) {
   "\n";
 
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
+}
+
+TEST_F(InjectedFieldTest, checkOwnerTypeTest) {
+  ON_CALL(*mType, isOwner()).WillByDefault(Return(true));
+  ON_CALL(*mType, isReference()).WillByDefault(Return(false));
+
+  EXPECT_NO_THROW(mField->checkType(mContext));
+}
+
+TEST_F(InjectedFieldTest, checkReferenceTypeDeathTest) {
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  ON_CALL(*mType, isOwner()).WillByDefault(Return(false));
+  ON_CALL(*mType, isReference()).WillByDefault(Return(true));
+
+  EXPECT_ANY_THROW(mField->checkType(mContext));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Injected fields must have owner type denoted by '*'\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }

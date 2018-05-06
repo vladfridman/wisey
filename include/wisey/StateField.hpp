@@ -10,6 +10,7 @@
 #define StateField_h
 
 #include "wisey/IField.hpp"
+#include "wisey/IObjectType.hpp"
 
 namespace wisey {
   
@@ -26,7 +27,12 @@ namespace wisey {
     StateField(const IType* type, std::string name, int line);
     
     ~StateField();
-    
+
+    /**
+     * Checks that if the field is part of a node then it is of node owner type
+     */
+    void checkType(IRGenerationContext& context, const IObjectType* object) const;
+
     std::string getName() const override;
     
     const IType* getType() const override;

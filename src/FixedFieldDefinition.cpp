@@ -25,8 +25,9 @@ FixedFieldDefinition::~FixedFieldDefinition() {
 IField* FixedFieldDefinition::define(IRGenerationContext& context,
                                       const IObjectType* objectType) const {
   const IType* fieldType = mTypeSpecifier->getType(context);
-  
-  return new FixedField(fieldType, mName, mLine);
+  FixedField* fixedField = new FixedField(fieldType, mName, mLine);
+  fixedField->checkType(context);
+  return fixedField;
 }
 
 bool FixedFieldDefinition::isConstant() const {

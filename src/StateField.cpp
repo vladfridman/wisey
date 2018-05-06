@@ -7,6 +7,7 @@
 //
 
 #include "wisey/ArraySpecificOwnerType.hpp"
+#include "wisey/IRGenerationContext.hpp"
 #include "wisey/StateField.hpp"
 
 using namespace std;
@@ -20,6 +21,16 @@ StateField::~StateField() {
 
 const IType* StateField::getType() const {
   return mType;
+}
+
+void StateField::checkType(IRGenerationContext& context, const IObjectType* object) const {
+  if (!object->isNode()) {
+    return;
+  }
+  if (!mType->isOwner() || (!mType->isNode() && !mType->isInterface())) {
+    context.reportError(mLine, "Node state fields can only be node owner or interface owner type");
+    throw 1;
+  }
 }
 
 string StateField::getName() const {

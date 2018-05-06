@@ -27,6 +27,11 @@ namespace wisey {
     
     ~FixedField();
     
+    /**
+     * Checks that field type is of primitive, model, or immutable array type
+     */
+    void checkType(IRGenerationContext& context) const;
+    
     std::string getName() const override;
     
     const IType* getType() const override;

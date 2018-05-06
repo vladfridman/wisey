@@ -99,26 +99,10 @@ void Node::setFields(IRGenerationContext& context,
   for (IField* field : fields) {
     mFields[field->getName()] = field;
     mFieldIndexes[field] = index;
-    const IType* type = field->getType();
-    
-    if (type->isArray() && type->isReference()) {
-      type = ((const wisey::ArrayType*) field->getType())->getElementType();
-    }
-    
-    if (type->isController()) {
-      context.reportError(field->getLine(),
-                          "Nodes can only have fields of primitive or model or node type");
-      throw 1;
-    }
-    
+
     if (field->isFixed()) {
-        mFixedFields.push_back(field);
+      mFixedFields.push_back(field);
     } else if (field->isState()) {
-      if (type->isReference() || (!type->isNode() && !type->isInterface())) {
-        context.reportError(field->getLine(),
-                            "Node state fields can only be node owner or interface owner type");
-        throw 1;
-      }
       mStateFields.push_back(field);
     } else {
       context.reportError(field->getLine(),

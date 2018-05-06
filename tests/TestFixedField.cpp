@@ -10,8 +10,9 @@
 
 #include <gtest/gtest.h>
 
-#include "TestFileRunner.hpp"
 #include "MockType.hpp"
+#include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -29,18 +30,24 @@ struct FixedFieldTest : public Test {
   IRGenerationContext mContext;
   NiceMock<MockType>* mType;
   string mName;
+  FixedField* mField;
   
 public:
   
   FixedFieldTest() :
   mType(new NiceMock<MockType>()),
   mName("mField") {
+    TestPrefix::generateIR(mContext);
+    
     ON_CALL(*mType, printToStream(_, _)).WillByDefault(Invoke(printType));
     EXPECT_CALL(*mType, die());
+    
+    mField = new FixedField(mType, mName, 3);
   }
   
   ~FixedFieldTest() {
     delete mType;
+    delete mField;
   }
   
   static void printType(IRGenerationContext& context, iostream& stream) {
@@ -49,36 +56,78 @@ public:
 };
 
 TEST_F(FixedFieldTest, fieldCreationTest) {
-  FixedField field(mType, mName, 0);
+  EXPECT_EQ(mField->getType(), mType);
+  EXPECT_STREQ(mField->getName().c_str(), "mField");
+  EXPECT_FALSE(mField->isAssignable());
   
-  EXPECT_EQ(field.getType(), mType);
-  EXPECT_STREQ(field.getName().c_str(), "mField");
-  EXPECT_FALSE(field.isAssignable());
-  
-  EXPECT_TRUE(field.isFixed());
-  EXPECT_FALSE(field.isInjected());
-  EXPECT_FALSE(field.isReceived());
-  EXPECT_FALSE(field.isState());
+  EXPECT_TRUE(mField->isFixed());
+  EXPECT_FALSE(mField->isInjected());
+  EXPECT_FALSE(mField->isReceived());
+  EXPECT_FALSE(mField->isState());
 }
 
 TEST_F(FixedFieldTest, elementTypeTest) {
-  FixedField field(mType, mName, 0);
-
-  EXPECT_FALSE(field.isConstant());
-  EXPECT_TRUE(field.isField());
-  EXPECT_FALSE(field.isMethod());
-  EXPECT_FALSE(field.isStaticMethod());
-  EXPECT_FALSE(field.isMethodSignature());
-  EXPECT_FALSE(field.isLLVMFunction());
+  EXPECT_FALSE(mField->isConstant());
+  EXPECT_TRUE(mField->isField());
+  EXPECT_FALSE(mField->isMethod());
+  EXPECT_FALSE(mField->isStaticMethod());
+  EXPECT_FALSE(mField->isMethodSignature());
+  EXPECT_FALSE(mField->isLLVMFunction());
 }
 
 TEST_F(FixedFieldTest, fieldPrintToStreamTest) {
-  FixedField field(mType, mName, 0);
-
   stringstream stringStream;
-  field.printToStream(mContext, stringStream);
+  mField->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("  fixed MObject* mField;\n", stringStream.str().c_str());
+}
+
+TEST_F(FixedFieldTest, checkTypePrimitiveTypeTest) {
+  ON_CALL(*mType, isPrimitive()).WillByDefault(Return(true));
+  
+  EXPECT_NO_THROW(mField->checkType(mContext));
+}
+
+TEST_F(FixedFieldTest, checkTypeModelTypeTest) {
+  ON_CALL(*mType, isModel()).WillByDefault(Return(true));
+  
+  EXPECT_NO_THROW(mField->checkType(mContext));
+}
+
+TEST_F(FixedFieldTest, checkTypeInterfaceTypeTest) {
+  ON_CALL(*mType, isInterface()).WillByDefault(Return(true));
+  
+  EXPECT_NO_THROW(mField->checkType(mContext));
+}
+
+TEST_F(FixedFieldTest, checkTypeArrayTypeTest) {
+  ON_CALL(*mType, isArray()).WillByDefault(Return(true));
+  ON_CALL(*mType, isImmutable()).WillByDefault(Return(true));
+  ON_CALL(*mType, isOwner()).WillByDefault(Return(true));
+
+  EXPECT_NO_THROW(mField->checkType(mContext));
+}
+
+TEST_F(FixedFieldTest, checkTypeNonImmutableTypeDeathTest) {
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mField->checkType(mContext));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Fixed fields can only be of primitive, model or array type\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
+}
+
+TEST_F(FixedFieldTest, checkTypeNonImmutableArrayTypeDeathTest) {
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  ON_CALL(*mType, isArray()).WillByDefault(Return(true));
+
+  EXPECT_ANY_THROW(mField->checkType(mContext));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Fixed array fields can only be of immutable array owner type\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(TestFileRunner, nodeWithFixedFieldSetterDeathRunTest) {

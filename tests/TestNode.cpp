@@ -908,5 +908,5 @@ TEST_F(TestFileRunner, nodeWithModelFieldCompileTest) {
 TEST_F(TestFileRunner, nodeWithControllerFieldDeathRunTest) {
   expectFailCompile("tests/samples/test_node_with_controller_field.yz",
                     1,
-                    "Error: Nodes can only have fields of primitive or model or node type");
+                    "Error: Fixed fields can only be of primitive, model or array type");
 }
