@@ -8,6 +8,7 @@
 
 #include <sstream>
 
+#include "wisey/ArrayGetSizeMethod.hpp"
 #include "wisey/IMethodCall.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IdentifierChain.hpp"
@@ -31,7 +32,7 @@ int IdentifierChain::getLine() const {
 }
 
 Value* IdentifierChain::generateIR(IRGenerationContext& context, const IType* assignToType) const {
-  IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
+  const IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
   const IObjectType* objectWithMethodsType = methodDescriptor->getParentObject();
   if (!checkAccess(context, methodDescriptor)) {
     context.reportError(mLine,
@@ -67,12 +68,15 @@ void IdentifierChain::printToStream(IRGenerationContext& context, iostream& stre
   stream << "." << mName;
 }
 
-IMethodDescriptor* IdentifierChain::getMethodDescriptor(IRGenerationContext& context) const {
+const IMethodDescriptor* IdentifierChain::getMethodDescriptor(IRGenerationContext& context) const {
   const IType* expressionType = mObjectExpression->getType(context);
   if (expressionType == UndefinedType::UNDEFINED) {
     context.reportError(mLine, "Attempt to call a method '" + mName +
                         "' on undefined type expression");
     throw 1;
+  }
+  if (expressionType->isArray() && !mName.compare(ArrayGetSizeMethod::ARRAY_GET_SIZE_METHOD_NAME)) {
+    return ArrayGetSizeMethod::ARRAY_GET_SIZE_METHOD;
   }
   if (!IType::isObjectType(expressionType)) {
     context.reportError(mLine, "Attempt to call a method '" + mName +
@@ -98,7 +102,7 @@ IMethodDescriptor* IdentifierChain::getMethodDescriptor(IRGenerationContext& con
 }
 
 bool IdentifierChain::checkAccess(IRGenerationContext& context,
-                                  IMethodDescriptor* methodDescriptor) const {
+                                  const IMethodDescriptor* methodDescriptor) const {
 
   if (methodDescriptor->isPublic()) {
     return true;

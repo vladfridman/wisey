@@ -805,6 +805,9 @@
 		F5A0DAF9207BE83500B0E479 /* TestWiseyModelOwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A0DAF8207BE83500B0E479 /* TestWiseyModelOwnerTypeSpecifier.cpp */; };
 		F5A0DAFB207BE87700B0E479 /* TestWiseyModelType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A0DAFA207BE87700B0E479 /* TestWiseyModelType.cpp */; };
 		F5A0DAFD207BE8D600B0E479 /* TestWiseyModelTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A0DAFC207BE8D600B0E479 /* TestWiseyModelTypeSpecifier.cpp */; };
+		F5A34F62209EE7DA00DCAF5E /* ArrayGetSizeMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A34F61209EE7DA00DCAF5E /* ArrayGetSizeMethod.cpp */; };
+		F5A34F63209EE7DA00DCAF5E /* ArrayGetSizeMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A34F61209EE7DA00DCAF5E /* ArrayGetSizeMethod.cpp */; };
+		F5A34F65209EF50500DCAF5E /* TestArrayGetSizeMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A34F64209EF50500DCAF5E /* TestArrayGetSizeMethod.cpp */; };
 		F5A363411F33C1A8005880B3 /* LocalOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A363401F33C1A8005880B3 /* LocalOwnerVariable.cpp */; };
 		F5A363421F33C1A8005880B3 /* LocalOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A363401F33C1A8005880B3 /* LocalOwnerVariable.cpp */; };
 		F5A363471F37257C005880B3 /* ParameterOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A363461F37257C005880B3 /* ParameterOwnerVariable.cpp */; };
@@ -1799,6 +1802,9 @@
 		F5A0DAF8207BE83500B0E479 /* TestWiseyModelOwnerTypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestWiseyModelOwnerTypeSpecifier.cpp; path = tests/TestWiseyModelOwnerTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F5A0DAFA207BE87700B0E479 /* TestWiseyModelType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestWiseyModelType.cpp; path = tests/TestWiseyModelType.cpp; sourceTree = "<group>"; };
 		F5A0DAFC207BE8D600B0E479 /* TestWiseyModelTypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestWiseyModelTypeSpecifier.cpp; path = tests/TestWiseyModelTypeSpecifier.cpp; sourceTree = "<group>"; };
+		F5A34F60209EE77D00DCAF5E /* ArrayGetSizeMethod.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ArrayGetSizeMethod.hpp; path = include/wisey/ArrayGetSizeMethod.hpp; sourceTree = "<group>"; };
+		F5A34F61209EE7DA00DCAF5E /* ArrayGetSizeMethod.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ArrayGetSizeMethod.cpp; path = src/ArrayGetSizeMethod.cpp; sourceTree = "<group>"; };
+		F5A34F64209EF50500DCAF5E /* TestArrayGetSizeMethod.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestArrayGetSizeMethod.cpp; path = tests/TestArrayGetSizeMethod.cpp; sourceTree = "<group>"; };
 		F5A3633F1F33C091005880B3 /* LocalOwnerVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LocalOwnerVariable.hpp; path = include/wisey/LocalOwnerVariable.hpp; sourceTree = "<group>"; };
 		F5A363401F33C1A8005880B3 /* LocalOwnerVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LocalOwnerVariable.cpp; path = src/LocalOwnerVariable.cpp; sourceTree = "<group>"; };
 		F5A363451F3724EF005880B3 /* ParameterOwnerVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ParameterOwnerVariable.hpp; path = include/wisey/ParameterOwnerVariable.hpp; sourceTree = "<group>"; };
@@ -3270,6 +3276,7 @@
 				F51942E11FE030AA009C3158 /* TestArrayElementExpression.cpp */,
 				F532506D202A286B007D8597 /* TestArrayExactOwnerType.cpp */,
 				F532506B202A27AA007D8597 /* TestArrayExactType.cpp */,
+				F5A34F64209EF50500DCAF5E /* TestArrayGetSizeMethod.cpp */,
 				F51701A6200E9A9300A10B7C /* TestArrayOwnerType.cpp */,
 				F51701AB200FD13900A10B7C /* TestArrayOwnerTypeSpecifier.cpp */,
 				F5603B4420211E5100BBA05D /* TestArraySpecificOwnerType.cpp */,
@@ -3838,6 +3845,7 @@
 				F51942DB1FDFE98C009C3158 /* ArrayElementExpression.hpp */,
 				F5325067202A226C007D8597 /* ArrayExactOwnerType.hpp */,
 				F5325063202A2129007D8597 /* ArrayExactType.hpp */,
+				F5A34F60209EE77D00DCAF5E /* ArrayGetSizeMethod.hpp */,
 				F51701A5200E993800A10B7C /* ArrayOwnerType.hpp */,
 				F51701A8200FCE7300A10B7C /* ArrayOwnerTypeSpecifier.hpp */,
 				F5603B4620211E6B00BBA05D /* ArraySpecificOwnerType.hpp */,
@@ -3863,6 +3871,7 @@
 				F51942DC1FDFEDFF009C3158 /* ArrayElementExpression.cpp */,
 				F5325068202A22B7007D8597 /* ArrayExactOwnerType.cpp */,
 				F5325064202A21D2007D8597 /* ArrayExactType.cpp */,
+				F5A34F61209EE7DA00DCAF5E /* ArrayGetSizeMethod.cpp */,
 				F51701A3200E992200A10B7C /* ArrayOwnerType.cpp */,
 				F51701A9200FCE8300A10B7C /* ArrayOwnerTypeSpecifier.cpp */,
 				F5603B4720211E7B00BBA05D /* ArraySpecificOwnerType.cpp */,
@@ -4218,6 +4227,7 @@
 				F5C2B80C20764DA3008CB77F /* TestBindAction.cpp in Sources */,
 				F57780A61EC673EC0049542D /* EmptyStatement.cpp in Sources */,
 				F53A2C211EF96FEA00E76A9E /* TestIVariable.cpp in Sources */,
+				F5A34F65209EF50500DCAF5E /* TestArrayGetSizeMethod.cpp in Sources */,
 				F51942F91FE3C123009C3158 /* UndefinedType.cpp in Sources */,
 				F54B1473205D6B8F0030773F /* LLVMi32Type.cpp in Sources */,
 				F5E3D64D1F6C19D900FC37CB /* TestPrintOutStatement.cpp in Sources */,
@@ -4340,6 +4350,7 @@
 				F57085F61E511BAC007D627E /* TestFieldReferenceVariable.cpp in Sources */,
 				F513DDFC201790A1001A075B /* FieldArrayReferenceVariable.cpp in Sources */,
 				F592A7C51F7D8EAE0026BD2F /* IMethodDefinition.cpp in Sources */,
+				F5A34F63209EE7DA00DCAF5E /* ArrayGetSizeMethod.cpp in Sources */,
 				F5C6FD6D1E48B37D0054209D /* TestVoidType.cpp in Sources */,
 				F556E6551EDDD2F900CCC3D7 /* IConcreteObjectType.cpp in Sources */,
 				F5CB7FD02052A54C007628B5 /* TestFixedFieldDefinition.cpp in Sources */,
@@ -4662,6 +4673,7 @@
 				F53401091DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
 				F5F61A9C201DDCCE00EF9EB7 /* ArraySpecificType.cpp in Sources */,
 				F5E270731F98F6A4008D2EB7 /* Constant.cpp in Sources */,
+				F5A34F62209EE7DA00DCAF5E /* ArrayGetSizeMethod.cpp in Sources */,
 				F5A0DAE8207BE39300B0E479 /* WiseyModelTypeSpecifier.cpp in Sources */,
 				F50FF85F208A2D04008EDC40 /* CheckArrayNotReferencedFunction.cpp in Sources */,
 				F50FF8A2208C9F14008EDC40 /* AdjustReferenceCounterForImmutableArrayFunction.cpp in Sources */,

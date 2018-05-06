@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/Argument.hpp"
+#include "wisey/ArrayGetSizeMethod.hpp"
 #include "wisey/AutoCast.hpp"
 #include "wisey/CheckForNullAndThrowFunction.hpp"
 #include "wisey/Composer.hpp"
@@ -64,6 +65,9 @@ Value* MethodCall::generateIR(IRGenerationContext& context, const IType* assignT
   string npeFullName = Names::getLangPackageName() + "." + Names::getNPEModelName();
   context.getScopes().getScope()->addException(context.getModel(npeFullName, mLine), mLine);
   
+  if (methodDescriptor == ArrayGetSizeMethod::ARRAY_GET_SIZE_METHOD) {
+    return ArrayGetSizeMethod::generateIR(context, mExpression);
+  }
   if (IType::isConcreteObjectType(object)) {
     return generateObjectMethodCallIR(context,
                                       (const IObjectType*) object,

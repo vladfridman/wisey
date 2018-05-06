@@ -49,9 +49,9 @@ namespace wisey {
     
   private:
     
-    bool checkAccess(IRGenerationContext& context, IMethodDescriptor* methodDescriptor) const;
+    bool checkAccess(IRGenerationContext& context, const IMethodDescriptor* methodDescriptor) const;
     
-    IMethodDescriptor* getMethodDescriptor(IRGenerationContext& context) const;
+    const IMethodDescriptor* getMethodDescriptor(IRGenerationContext& context) const;
     
   };
   
