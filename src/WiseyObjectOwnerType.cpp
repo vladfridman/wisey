@@ -164,7 +164,7 @@ void WiseyObjectOwnerType::createParameterVariable(IRGenerationContext& context,
 }
 
 const wisey::ArrayType* WiseyObjectOwnerType::getArrayType(IRGenerationContext& context, int line) const {
-  ArrayType::reportNonArrayType(context, line);
+  reportNonArrayType(context, line);
   throw 1;
 }
 

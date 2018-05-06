@@ -131,7 +131,7 @@ void LLVMi16Type::createParameterVariable(IRGenerationContext& context,
 }
 
 const wisey::ArrayType* LLVMi16Type::getArrayType(IRGenerationContext& context, int line) const {
-  ArrayType::reportNonArrayType(context, line);
+  reportNonArrayType(context, line);
   throw 1;
 }
 

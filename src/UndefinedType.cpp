@@ -119,7 +119,7 @@ void UndefinedType::createParameterVariable(IRGenerationContext& context,
 }
 
 const wisey::ArrayType* UndefinedType::getArrayType(IRGenerationContext& context, int line) const {
-  ArrayType::reportNonArrayType(context, line);
+  reportNonArrayType(context, line);
   throw 1;
 }
 

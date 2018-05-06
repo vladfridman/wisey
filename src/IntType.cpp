@@ -171,7 +171,7 @@ void IntType::createParameterVariable(IRGenerationContext& context,
 }
 
 const wisey::ArrayType* IntType::getArrayType(IRGenerationContext& context, int line) const {
-  ArrayType::reportNonArrayType(context, line);
+  reportNonArrayType(context, line);
   throw 1;
 }
 

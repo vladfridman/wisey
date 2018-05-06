@@ -499,7 +499,7 @@ void Controller::createParameterVariable(IRGenerationContext& context,
 }
 
 const wisey::ArrayType* Controller::getArrayType(IRGenerationContext& context, int line) const {
-  ArrayType::reportNonArrayType(context, line);
+  reportNonArrayType(context, line);
   throw 1;
 }
 

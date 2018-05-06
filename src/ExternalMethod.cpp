@@ -210,7 +210,7 @@ void ExternalMethod::createParameterVariable(IRGenerationContext& context,
 }
 
 const wisey::ArrayType* ExternalMethod::getArrayType(IRGenerationContext& context, int line) const {
-  ArrayType::reportNonArrayType(context, line);
+  reportNonArrayType(context, line);
   throw 1;
 }
 

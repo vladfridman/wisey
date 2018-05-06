@@ -164,7 +164,7 @@ void WiseyModelType::createParameterVariable(IRGenerationContext& context,
 }
 
 const wisey::ArrayType* WiseyModelType::getArrayType(IRGenerationContext& context, int line) const {
-  ArrayType::reportNonArrayType(context, line);
+  reportNonArrayType(context, line);
   throw 1;
 }
 
