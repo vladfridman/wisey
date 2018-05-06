@@ -7,7 +7,7 @@ controller CProgram implements IProgram {
   public static int foo() {
   }
 
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     return foo();
   }
 }

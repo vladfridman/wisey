@@ -28,7 +28,7 @@ model MModel implements IHasSubModule {
 
 controller CProgram implements IProgram {
 
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     IHasSubModule* myObject = builder(MModel).withSubModel((IHasValue*) builder(MSubModel).withValue(3).build()).build();
     
     return myObject.getSubModel().getValue();

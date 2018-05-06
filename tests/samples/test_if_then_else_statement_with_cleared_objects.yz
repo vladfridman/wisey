@@ -12,7 +12,7 @@ model MData {
 
 controller CProgram implements IProgram {
 
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     MData* data = builder(MData).withValue(2).build();
 
     if (data.getValue() < 5) {

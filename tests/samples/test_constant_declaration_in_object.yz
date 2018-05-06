@@ -9,7 +9,7 @@ model MCar {
 controller CProgram implements IProgram {
   private constant int MY_PRIVATE_CONSTANT = 3;
 
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     return 1;
   }
 }

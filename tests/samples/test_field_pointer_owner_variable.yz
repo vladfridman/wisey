@@ -10,7 +10,7 @@ controller CProgram implements IProgram {
 
   state ::wisey::object* mPointer;
 
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     mPointer = builder(MModel).withValue(5).build();
 
     return 1;

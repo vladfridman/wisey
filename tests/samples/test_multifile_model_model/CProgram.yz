@@ -16,7 +16,7 @@ model MDoer {
 controller CProgram implements IProgram {
   state MDoer* mDoer;
 
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     mDoer = builder(MDoer).build();
     return mDoer.doSomething();
   }

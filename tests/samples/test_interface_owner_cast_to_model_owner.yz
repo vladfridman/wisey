@@ -35,7 +35,7 @@ model MFridge implements IDevice {
 
 controller CProgram implements IProgram {
 
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     MFridge* fridge = builder(MFridge).withSize(5).build();
     IObject* object = fridge;
     MFridge* fridge2 = (MFridge*) object;

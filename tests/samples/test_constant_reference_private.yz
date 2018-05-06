@@ -8,7 +8,7 @@ model MCar {
 
 controller CProgram implements IProgram {
 
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     return systems.vos.wisey.compiler.tests.MCar.MY_PRIVATE_CONSTANT;
   }
 }

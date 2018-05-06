@@ -8,7 +8,7 @@ model MCar {
 
 controller CProgram implements IProgram {
 
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     MCar[]* array = new MCar[3];
     MCar[] reference = array;
     array = null;

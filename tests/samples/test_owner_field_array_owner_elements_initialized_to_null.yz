@@ -19,7 +19,7 @@ controller CController {
 
 controller CProgram implements IProgram {
 
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     CController* mycontroller = injector(CController).withArray(new MCar*[5]).inject();
 
     return mycontroller.getCarYear();

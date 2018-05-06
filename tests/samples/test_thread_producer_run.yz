@@ -33,7 +33,7 @@ model MProducer implements IProducer {
 controller CProgram implements IProgram {
   inject CProducerThread* mProducerThread;
 
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     printout("Thread started = " + mProducerThread.isStarted() + ", has result = " + mProducerThread.hasResult() + "\n");
     printout("Starting producer thread\n");
     mProducerThread.start(builder(MProducer).build(), 3);

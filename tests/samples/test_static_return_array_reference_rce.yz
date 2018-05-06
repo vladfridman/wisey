@@ -8,7 +8,7 @@ controller CProgram implements IProgram {
     return array;
   }
 
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     int[][]* array = new int[5][3];
     array[4][2] = 5;
     return getArray(array)[4][2];

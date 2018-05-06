@@ -18,7 +18,7 @@ node systems.vos.wisey.compiler.tests.NNode implements systems.vos.wisey.compile
 
 controller systems.vos.wisey.compiler.tests.CController implements IProgram {
 
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     systems.vos.wisey.compiler.tests.NNode* object = 
       builder(systems.vos.wisey.compiler.tests.NNode).build();
     return object.calculate();

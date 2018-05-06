@@ -7,7 +7,7 @@ controller CProgram implements IProgram {
   state immutable int[][]* mImmutableArray;
   state immutable int[][] mImmutableArrayReference;
 
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     int[][]* array = new int[3][3];
     array[2][2] = 7;
     mImmutableArray = array;

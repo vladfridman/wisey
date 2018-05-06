@@ -24,7 +24,7 @@ model MShape {
 
 controller CProgram implements IProgram {
 
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     MShape rectangle = builder(MShape)
       .withWidth(3)
       .withHeight(5l)

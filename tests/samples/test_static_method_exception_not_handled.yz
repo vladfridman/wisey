@@ -20,7 +20,7 @@ controller CCatcher {
 }
 
 controller CProgram implements IProgram {
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     return CCatcher.doSomething();
   }
 }

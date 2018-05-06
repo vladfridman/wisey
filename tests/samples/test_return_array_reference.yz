@@ -12,7 +12,7 @@ controller CProgram implements IProgram {
     return mArray;
   }
 
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     return getArray()[4][2];
   }
 }

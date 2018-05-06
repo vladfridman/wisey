@@ -8,7 +8,7 @@ node NMyNode {
 
 controller CProgram implements IProgram {
 
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     immutable NMyNode[][]* array = new NMyNode[3][3];
     return 1;
   }

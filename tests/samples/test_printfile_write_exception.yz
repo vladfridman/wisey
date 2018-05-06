@@ -6,7 +6,7 @@ import wisey.lang.IProgram;
 controller CProgram implements IProgram {
   inject CFile* mFile;
 
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     printfile(mFile, "foo");
     return 1;
   }

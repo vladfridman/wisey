@@ -8,7 +8,7 @@ controller CProgram implements IProgram {
     return 3;
   }
 
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     return systems.vos.wisey.compiler.tests.CProgram.getValue();
   }
 }

@@ -7,7 +7,8 @@ external interface wisey.lang.IException {
 
 external interface wisey.lang.IProgram {
 
-  int run() throws wisey.lang.MReferenceCountException, wisey.lang.MNullPointerException;
+  int run(
+    immutable string[] arguments) throws wisey.lang.MReferenceCountException, wisey.lang.MNullPointerException;
   static void terminate(
     int exitCode);
 }

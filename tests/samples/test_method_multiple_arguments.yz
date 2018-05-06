@@ -10,7 +10,7 @@ model MModel {
 
 controller CProgram implements IProgram {
 
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     MModel* myModel = builder(MModel).build();
     return myModel.foo(1, 2, 3);
   }

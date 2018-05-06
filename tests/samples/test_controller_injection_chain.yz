@@ -28,7 +28,7 @@ controller CBottomController {
 controller CProgram implements IProgram {
   inject CTopController* mTopController;
 
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     return mTopController.get1();
   }
 }

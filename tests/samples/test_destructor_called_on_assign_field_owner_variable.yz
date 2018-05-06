@@ -8,7 +8,7 @@ model MCar {
 controller CProgram implements IProgram {
   state MCar* mCar;
 
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     mCar = builder(MCar).build();
     mCar = null;
     printout("car is destoyed\n");

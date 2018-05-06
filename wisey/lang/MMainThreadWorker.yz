@@ -22,16 +22,21 @@ model MMainThreadWorker implements IWorker {
       .build();
     workerThread.start(mainThreadWorker);
     MProgramResult* result = workerThread.awaitResult();
-    if (result == null) {
-      printerr("Main thread ended without a result\n");
-      return 1;
+    if (result != null) {
+      return result.getResult();
     }
-    return result.getResult();
+    
+    printerr("Main thread ended without a result\n");
+    IProgram.terminate(1);
+
+    return 1;
   }
 
   public void work() throws MThreadBoundaryException override {
     IProgram* program = injector(IProgram).inject();
-    MProgramResult* programResult = builder(MProgramResult).withResult(program.run()).build();
+    MProgramResult* programResult = builder(MProgramResult)
+      .withResult(program.run(mArguments))
+      .build();
     thread.send(programResult);
   }
 

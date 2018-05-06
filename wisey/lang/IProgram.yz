@@ -11,7 +11,7 @@ interface IProgram {
   /**
    * Main program controller method that starts the program
    */
-  int run() throws MReferenceCountException, MNullPointerException;
+  int run(immutable string[] arguments) throws MReferenceCountException, MNullPointerException;
 
   /**
    * Terminate program execution

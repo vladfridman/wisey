@@ -14,7 +14,7 @@ model MContainer implements IHasValue {
 
 controller CProgram implements IProgram {
 
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     ::wisey::object objectOwner = builder(MContainer).build();
     IHasValue interfaceOwner = objectOwner;
 

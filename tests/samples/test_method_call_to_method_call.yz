@@ -16,7 +16,7 @@ model MCircle {
 
 controller CProgram implements IProgram {
 
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     MCircle circle = builder(MCircle).withRadius(5).build();
     return circle.getDiameter();
   }

@@ -10,7 +10,7 @@ model MContainer {
 
 controller CProgram implements IProgram {
 
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     ::wisey::object objectOwner = builder(MContainer).build();
     MContainer containerOwner = objectOwner;
 

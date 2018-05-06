@@ -9,7 +9,7 @@ model MRectangle {
 
 controller CProgram implements IProgram {
 
-  public int run() override {
+  public int run(immutable string[] arguments) override {
     MRectangle* r1 = builder(MRectangle)
       .withWidth(1)
       .withHeight(3)
