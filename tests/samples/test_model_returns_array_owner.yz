@@ -1,0 +1,22 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+node NElement {
+  immutable int[]* mArray;
+
+  public int[]* capture() {
+    return mArray;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    NElement* element = builder(NElement).withArray(new int[5]).build();
+    element.capture();
+    return 1;
+  }
+}
+
+bind(IProgram).to(CProgram);

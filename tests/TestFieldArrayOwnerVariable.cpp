@@ -296,3 +296,10 @@ TEST_F(TestFileRunner, resetInjectedArrayRunDeathTest) {
                     "tests/samples/test_reset_injected_array.yz\\(9\\): Error: "
                     "Attempt to assign to injected field 'mArray' of object systems.vos.wisey.compiler.tests.CService, assignment to injected fields is not allowed");
 }
+
+TEST_F(TestFileRunner, modelReturnsArrayOwnerRunDeathTest) {
+  expectFailCompile("tests/samples/test_model_returns_array_owner.yz",
+                    1,
+                    "tests/samples/test_model_returns_array_owner.yz\\(9\\): Error: "
+                    "Setting a fixed owner field 'mArray' of object systems.vos.wisey.compiler.tests.NElement to null possibly by returning its value");
+}

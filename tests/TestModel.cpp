@@ -941,14 +941,6 @@ TEST_F(TestFileRunner, modelWithModelArrayRunTest) {
   runFile("tests/samples/test_model_with_model_array.yz", "3");
 }
 
-TEST_F(TestFileRunner, modelWithArrayReturnArrayOwnerRunTest) {
-  runFile("tests/samples/test_model_with_array_return_array_owner.yz", "5");
-}
-
-TEST_F(TestFileRunner, modelWithArrayReturnArrayOwnerWithReferenceRunTest) {
-  runFile("tests/samples/test_model_with_array_return_array_owner_with_reference.yz", "5");
-}
-
 TEST_F(TestFileRunner, modelWithArrayReturnArrayReferenceRunTest) {
   runFile("tests/samples/test_model_with_array_return_array_reference.yz", "7");
 }

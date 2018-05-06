@@ -106,6 +106,13 @@ generateArrayElementAssignment(IRGenerationContext& context,
 }
 
 void FieldImmutableArrayOwnerVariable::setToNull(IRGenerationContext& context, int line) {
+  IField* field = mObject->findField(mName);
+  if (field->isFixed()) {
+    context.reportError(line,
+                        "Setting a fixed owner field '" + mName + "' of object " +
+                        mObject->getTypeName() + " to null possibly by returning its value");
+    throw 1;
+  }
   llvm::PointerType* type = (llvm::PointerType*) getType()->getLLVMType(context);
   Value* null = ConstantPointerNull::get(type);
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);

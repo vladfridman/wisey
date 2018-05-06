@@ -151,6 +151,12 @@ void FieldArrayOwnerVariable::setToNull(IRGenerationContext& context, int line) 
                         mObject->getTypeName() + " to null possibly by returning its value");
     throw 1;
   }
+  if (field->isFixed()) {
+    context.reportError(line,
+                        "Setting a fixed owner field '" + mName + "' of object " +
+                        mObject->getTypeName() + " to null possibly by returning its value");
+    throw 1;
+  }
   llvm::PointerType* type = (llvm::PointerType*) getType()->getLLVMType(context);
   Value* null = ConstantPointerNull::get(type);
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);

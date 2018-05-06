@@ -1,0 +1,25 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+model MPart {
+}
+
+model MCar {
+  MPart* mPart;
+
+  public MPart* capture() {
+    return mPart;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    MCar* car = builder(MCar).withArray(null).build();
+    car.capture();
+    return 1;
+  }
+}
+
+bind(IProgram).to(CProgram);

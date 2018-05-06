@@ -222,3 +222,10 @@ TEST_F(TestFileRunner, fieldImmutableArrayOwnerCastFromArrayReferenceRunDeathTes
                     "tests/samples/test_field_immutable_array_owner_cast_from_array_reference.yz\\(12\\): "
                     "Error: Incompatible types: can not cast from type 'int\\[\\]\\[\\]' to 'immutable int\\[\\]\\[\\]\\*'");
 }
+
+TEST_F(TestFileRunner, modelReturnsImmutableArrayOwnerRunDeathTest) {
+  expectFailCompile("tests/samples/test_model_returns_immutable_array_owner.yz",
+                    1,
+                    "tests/samples/test_model_returns_immutable_array_owner.yz\\(9\\): Error: "
+                    "Setting a fixed owner field 'mArray' of object systems.vos.wisey.compiler.tests.MCar to null possibly by returning its value");
+}
