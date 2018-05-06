@@ -89,16 +89,18 @@ IRGenerationContext::~IRGenerationContext() {
   mBindings.clear();
 }
 
-GenericValue IRGenerationContext::runCode() {
+GenericValue IRGenerationContext::runCode(int argc, char** argv) {
   ExecutionEngine* executionEngine = EngineBuilder(move(mModuleOwner)).create();
-  vector<GenericValue> noargs;
+  vector<GenericValue> arguments(2);
+  arguments[0].IntVal = APInt(32, argc);
+  arguments[1].PointerVal = argv;
   if (mMainFunction == NULL) {
     Log::errorNoSourceFile("Function main is not defined. Exiting.");
     delete executionEngine;
     throw 1;
   }
   Log::i("Running program");
-  GenericValue result = executionEngine->runFunction(mMainFunction, noargs);
+  GenericValue result = executionEngine->runFunction(mMainFunction, arguments);
   Log::i("Result: " + result.IntVal.toString(10, true));
   delete executionEngine;
   

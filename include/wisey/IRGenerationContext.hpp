@@ -82,7 +82,7 @@ namespace wisey {
     /**
      * Run compiled IR code and return the result
      */
-    llvm::GenericValue runCode();
+    llvm::GenericValue runCode(int argc, char** argv);
     
     /**
      * Return the main module

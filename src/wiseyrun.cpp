@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
   Compiler compiler(compilerArguments);
   compiler.compile();
   if (!compilerArguments.getOutputFile().size()) {
-    compiler.run();
+    compiler.run(argc, argv);
   }
   
   return 0;

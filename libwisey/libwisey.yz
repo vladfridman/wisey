@@ -116,7 +116,10 @@ external model wisey.lang.MMainThreadWorker
   implements
     wisey.threads.IWorker {
 
-  static int startMainThread();
+  fixed immutable string[]* mArguments;
+
+  static int startMainThread(
+    string[]* arguments);
   void work() throws wisey.threads.MThreadBoundaryException override;
 }
 

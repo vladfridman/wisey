@@ -83,12 +83,12 @@ void Compiler::printAssembly() {
   mContext.printAssembly(outs());
 }
 
-GenericValue Compiler::run() {
+GenericValue Compiler::run(int argc, char** argv) {
   if (!mHasCompiled) {
     Log::errorNoSourceFile("Need to compile before running code");
     exit(1);
   }
-  return mContext.runCode();
+  return mContext.runCode(argc, argv);
 }
 
 void Compiler::extractHeaders(string headerFile) {

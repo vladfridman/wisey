@@ -127,7 +127,7 @@ TEST_F(IRGenerationContextTest, runCodeFailsWhenMainIsNullDeathTest) {
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
 
-  EXPECT_ANY_THROW(mContext.runCode());
+  EXPECT_ANY_THROW(mContext.runCode(0, NULL));
   EXPECT_STREQ("Error: Function main is not defined. Exiting.\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
@@ -430,8 +430,11 @@ public:
   
   IRGenerationContextRunTest() {
     LLVMContext &llvmContext = mContext.getLLVMContext();
+    vector<Type*> mainArguments;
+    mainArguments.push_back(Type::getInt32Ty(llvmContext));
+    mainArguments.push_back(Type::getInt8Ty(llvmContext)->getPointerTo()->getPointerTo());
     FunctionType* functionType =
-      FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
+      FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), mainArguments, false);
     Function* function = Function::Create(functionType,
                                           GlobalValue::InternalLinkage,
                                           "main",
@@ -451,7 +454,7 @@ public:
 TEST_F(IRGenerationContextRunTest, runCodeTest) {
   InitializeNativeTarget();
   LLVMInitializeNativeAsmPrinter();
-  GenericValue result = mContext.runCode();
+  GenericValue result = mContext.runCode(0, nullptr);
   
   EXPECT_EQ(result.IntVal.toString(10, true), "5");
 }
@@ -465,7 +468,7 @@ TEST_F(IRGenerationContextRunTest, printAssemblyTest) {
     "; ModuleID = 'wisey'\n" +
     "source_filename = \"wisey\"\n" +
     "\n" +
-    "define internal i32 @main() {\n" +
+    "define internal i32 @main(i32, i8**) {\n" +
     "entry:\n" +
     "  ret i32 5\n" +
     "}\n";
