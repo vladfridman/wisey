@@ -913,7 +913,14 @@ TEST_F(TestFileRunner, nodeInitWithControllerDeathRunTest) {
   expectFailCompile("tests/samples/test_node_init_with_controller.yz",
                     1,
                     "tests/samples/test_node_init_with_controller.yz\\(30\\): Error: "
-                    "Attempting to initialize a node with a mutable type\\. Node fixed fields can only contain primitives, other models or immutable arrays");
+                    "Attempting to initialize a node fixed field with a mutable type\\. Node fixed fields can only contain primitives, other models or immutable arrays");
+}
+
+TEST_F(TestFileRunner, nodeInitStateFieldWithControllerDeathRunTest) {
+  expectFailCompile("tests/samples/test_node_init_state_field_with_controller.yz",
+                    1,
+                    "tests/samples/test_node_init_state_field_with_controller.yz\\(30\\): Error: "
+                    "Trying to initialize a node state field with object that is not a node. Node state fields can only be of node owner type");
 }
 
 TEST_F(TestFileRunner, nodeInitWithInterfaceThatsControllerDeathRunTest) {
