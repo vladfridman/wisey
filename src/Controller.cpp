@@ -194,15 +194,13 @@ Instruction* Controller::inject(IRGenerationContext& context,
   for (InjectionArgument* argument : injectionArgumentList) {
     string argumentName = argument->deriveFieldName();
     IField* field = findField(argumentName);
+    assert(field->isReceived() && "Trying to initialize a field that is not of receive type");
     const IType* fieldType = field->getType();
     
     Value* argumentValue = argument->getValue(context, fieldType);
     const IType* argumentType = argument->getType(context);
-    if (!argumentType->canAutoCastTo(context, fieldType)) {
-      context.reportError(line, "Injector argumet value for field '" + field->getName() +
-                          "' does not match its type");
-      throw 1;
-    }
+    assert(argumentType->canAutoCastTo(context, fieldType) &&
+           "Init value is not castable for a received field");
     Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);
     callArguments[mReceivedFieldIndexes.at(field)] = castValue;
   }
@@ -512,6 +510,7 @@ void Controller::checkArguments(IRGenerationContext& context,
                                 int line) const {
   checkArgumentsAreWellFormed(context, received, line);
   checkAllFieldsAreSet(context, received, line);
+  checkReceivedValuesAreForReceivedFields(context, received, line);
 }
 
 void Controller::checkArgumentsAreWellFormed(IRGenerationContext& context,
@@ -549,6 +548,27 @@ void Controller:: checkAllFieldsAreSet(IRGenerationContext& context,
   context.reportError(line, "Some received fields of the controller " + getTypeName() +
                       " are not initialized.");
   throw 1;
+}
+
+void Controller:: checkReceivedValuesAreForReceivedFields(IRGenerationContext& context,
+                                                          const InjectionArgumentList&
+                                                          injectionArgumentList,
+                                                          int line) const {
+  for (InjectionArgument* argument : injectionArgumentList) {
+    IField* field = findField(argument->deriveFieldName());
+    if (!field->isReceived()) {
+      context.reportError(line, "Use receive type for fileds that are initialized at injection time");
+      throw 1;
+    }
+    const IType* fieldType = field->getType();
+    
+    const IType* argumentType = argument->getType(context);
+    if (!argumentType->canAutoCastTo(context, fieldType)) {
+      context.reportError(line, "Injector argumet value for field '" + field->getName() +
+                          "' does not match its type");
+      throw 1;
+    }
+  }
 }
 
 void Controller::initializeReceivedFields(IRGenerationContext& context,

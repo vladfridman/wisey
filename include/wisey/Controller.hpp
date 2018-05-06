@@ -264,6 +264,10 @@ namespace wisey {
                               const InjectionArgumentList& injectionArgumentList,
                               int line) const;
     
+    void checkReceivedValuesAreForReceivedFields(IRGenerationContext& context,
+                                                 const InjectionArgumentList& injectionArgumentList,
+                                                 int line) const;
+
     void initializeReceivedFields(IRGenerationContext& context,
                                   llvm::Function* function,
                                   llvm::Instruction* malloc) const;

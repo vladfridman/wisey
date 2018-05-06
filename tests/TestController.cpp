@@ -1119,3 +1119,8 @@ TEST_F(TestFileRunner, injectNonOwnerRunDeathTest) {
                     "tests/samples/test_inject_non_owner_run_death_test.yz\\(9\\): Error: Injected fields must have owner type denoted by '\\*'");
 }
 
+TEST_F(TestFileRunner, initControllerStateFieldRunDeathTest) {
+  expectFailCompile("tests/samples/test_init_controller_state_field.yz",
+                    1,
+                    "tests/samples/test_init_controller_state_field.yz\\(16\\): Error: Use receive type for fileds that are initialized at injection time");
+}
