@@ -902,6 +902,14 @@ TEST_F(TestFileRunner, nodeWithModelFieldCompileTest) {
   compileFile("tests/samples/test_node_with_model_field.yz");
 }
 
+TEST_F(TestFileRunner, nodeWithNodeReferenceStateFieldRunTest) {
+  runFile("tests/samples/test_node_reference_node_state_field.yz", "3");
+}
+
+TEST_F(TestFileRunner, nodeInitStateFieldWithNodeRunTest) {
+  runFile("tests/samples/test_node_init_state_field_with_node.yz", "1");
+}
+
 TEST_F(TestFileRunner, nodeWithControllerFieldDeathRunTest) {
   expectFailCompile("tests/samples/test_node_with_controller_field.yz",
                     1,
@@ -920,7 +928,7 @@ TEST_F(TestFileRunner, nodeInitStateFieldWithControllerDeathRunTest) {
   expectFailCompile("tests/samples/test_node_init_state_field_with_controller.yz",
                     1,
                     "tests/samples/test_node_init_state_field_with_controller.yz\\(30\\): Error: "
-                    "Trying to initialize a node state field with object that is not a node. Node state fields can only be of node owner type");
+                    "Trying to initialize a node state field with object that is not a node. Node state fields can only be of node type");
 }
 
 TEST_F(TestFileRunner, nodeInitFixedFieldWithInterfaceThatsControllerDeathRunTest) {

@@ -411,7 +411,7 @@ void Node::initializePresetFields(IRGenerationContext& context,
     }
     if (field->isState() && (argumentType->isController() || argumentType->isModel())) {
       context.reportError(line, "Trying to initialize a node state field with object that is "
-                          "not a node. Node state fields can only be of node owner type");
+                          "not a node. Node state fields can only be of node type");
       throw 1;
     }
     if (field->isFixed() && argumentType->isInterface() && fieldType->isInterface()) {

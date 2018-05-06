@@ -1,0 +1,41 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+node NElement {
+  int mValue;
+  state NElement mPrevious;
+  state NElement* mNext;
+
+  public void setNext(NElement* next) {
+    mNext = next;
+  }
+
+  public NElement getNext() {
+    return mNext;
+  }
+
+  public int getValue() {
+    return mValue;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    NElement* first = builder(NElement).withValue(1).build();
+    NElement* second = builder(NElement).withPrevious(first).withValue(2).build();
+    first.setNext(second);
+
+    int sum;
+    NElement iterator = first;
+    while (iterator != null) {
+      sum = sum + iterator.getValue();
+      iterator = iterator.getNext();
+    }
+
+    return sum;
+  }
+}
+
+bind(IProgram).to(CProgram);

@@ -1,0 +1,32 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+interface IHasValue {
+  int getValue();
+}
+
+node NSubNode implements IHasValue {
+  public int getValue() override { 
+    return 1; 
+  }
+}
+
+node NElement {
+  state IHasValue* mHasValue;
+
+  public int getValue() {
+    return mHasValue.getValue();
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    IHasValue* subNode = builder(NSubNode).build();
+    NElement* element = builder(NElement).withHasValue(subNode).build();
+    return element.getValue();
+  }
+}
+
+bind(IProgram).to(CProgram);

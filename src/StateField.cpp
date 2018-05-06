@@ -27,8 +27,8 @@ void StateField::checkType(IRGenerationContext& context, const IObjectType* obje
   if (!object->isNode()) {
     return;
   }
-  if (!mType->isOwner() || (!mType->isNode() && !mType->isInterface())) {
-    context.reportError(mLine, "Node state fields can only be node owner or interface owner type");
+  if (!mType->isNode() && !mType->isInterface()) {
+    context.reportError(mLine, "Node state fields can only be of node or interface type");
     throw 1;
   }
 }
