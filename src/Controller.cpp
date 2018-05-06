@@ -184,7 +184,7 @@ wisey::Constant* Controller::findConstant(IRGenerationContext& context,
 Instruction* Controller::inject(IRGenerationContext& context,
                                 InjectionArgumentList injectionArgumentList,
                                 int line) const {
-  checkArguments(context, injectionArgumentList, line);
+  checkInjectionArguments(context, injectionArgumentList, line);
 
   Function* function = context.getModule()->getFunction(getInjectFunctionName());
   assert(function && "Inject function for controller is not defined");
@@ -505,9 +505,9 @@ int Controller::getLine() const {
   return mLine;
 }
 
-void Controller::checkArguments(IRGenerationContext& context,
-                                const InjectionArgumentList& received,
-                                int line) const {
+void Controller::checkInjectionArguments(IRGenerationContext& context,
+                                         const InjectionArgumentList& received,
+                                         int line) const {
   checkArgumentsAreWellFormed(context, received, line);
   checkAllFieldsAreSet(context, received, line);
   checkReceivedValuesAreForReceivedFields(context, received, line);

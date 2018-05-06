@@ -105,6 +105,13 @@ namespace wisey {
      */
     void defineFieldInjectorFunctions(IRGenerationContext& context, int line) const;
     
+    /**
+     * Checks that injection arguments are of correct type and are all there
+     */
+    void checkInjectionArguments(IRGenerationContext& context,
+                                 const InjectionArgumentList& injectionArgumentList,
+                                 int line) const;
+
     bool isPublic() const override;
     
     llvm::Instruction* inject(IRGenerationContext& context,
@@ -251,10 +258,6 @@ namespace wisey {
     std::vector<std::string> getMissingReceivedFields(std::set<std::string> givenFields) const;
     
     std::vector<InjectedField*> getInjectedFields() const;
-
-    void checkArguments(IRGenerationContext& context,
-                        const InjectionArgumentList& injectionArgumentList,
-                        int line) const;
     
     void checkArgumentsAreWellFormed(IRGenerationContext& context,
                                      const InjectionArgumentList& injectionArgumentList,

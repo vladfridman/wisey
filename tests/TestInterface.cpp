@@ -931,3 +931,15 @@ TEST_F(TestFileRunner, interfaceMethodOverridesNothingRunDeathTest) {
                     "Method signature 'getSomething' is marked override but it does not override "
                     "any signatures from parent interfaces");
 }
+
+TEST_F(TestFileRunner, injectInterfaceNotBoundInInjectFieldRunDeathTest) {
+  expectFailCompile("tests/samples/test_inject_interface_not_bound_in_inject_field.yz",
+                    1,
+                    "tests/samples/test_inject_interface_not_bound_in_inject_field.yz\\(29\\): Error: Arguments are not allowed for injection of interfaces that are not bound to controllers");
+}
+
+TEST_F(TestFileRunner, injectInterfaceNotBoundInlineRunDeathTest) {
+  expectFailCompile("tests/samples/test_inject_interface_not_bound_inline.yz",
+                    1,
+                    "tests/samples/test_inject_interface_not_bound_inline.yz\\(31\\): Error: Arguments are not allowed for injection of interfaces that are not bound to controllers");
+}

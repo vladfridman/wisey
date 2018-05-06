@@ -12,11 +12,13 @@
 #include <gmock/gmock.h>
 
 #include "MockExpression.hpp"
+#include "MockObjectOwnerType.hpp"
 #include "MockObjectType.hpp"
 #include "MockObjectTypeSpecifier.hpp"
 #include "MockType.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/InjectedFieldDefinition.hpp"
+#include "wisey/ObjectOwnerTypeSpecifier.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -35,8 +37,9 @@ struct InjectedFieldDefinitionTest : public Test {
   InjectedFieldDefinition* mFieldDeclaration;
   NiceMock<MockType>* mType;
   NiceMock<MockExpression>* mExpression;
+  NiceMock<MockObjectOwnerType>* mObjectOwnerType;
   NiceMock<MockObjectType>* mObjectType;
-  NiceMock<MockObjectTypeSpecifier>* mObjectSpecifier;
+  const NiceMock<MockObjectTypeSpecifier>* mObjectSpecifier;
   string mName;
 
 public:
@@ -44,23 +47,27 @@ public:
   InjectedFieldDefinitionTest() :
   mType(new NiceMock<MockType>()),
   mExpression(new NiceMock<MockExpression>()),
+  mObjectOwnerType(new NiceMock<MockObjectOwnerType>()),
   mObjectType(new NiceMock<MockObjectType>()),
   mObjectSpecifier(new NiceMock<MockObjectTypeSpecifier>()),
   mName("mField") {
     TestPrefix::generateIR(mContext);
     
-    mInjectionArgument = new InjectionArgument("withFoo", mExpression);
-    mArguments.push_back(mInjectionArgument);
-    ON_CALL(*mObjectType, isOwner()).WillByDefault(Return(true));
+    ON_CALL(*mObjectOwnerType, isOwner()).WillByDefault(Return(true));
+    ON_CALL(*mObjectOwnerType, isController()).WillByDefault(Return(true));
+    ON_CALL(*mObjectType, getOwner()).WillByDefault(Return(mObjectOwnerType));
+    ON_CALL(*mObjectOwnerType, getReference()).WillByDefault(Return(mObjectType));
     NiceMock<MockObjectTypeSpecifier>* mObjectSpecifier = new NiceMock<MockObjectTypeSpecifier>();
     ON_CALL(*mObjectSpecifier, getType(_)).WillByDefault(Return(mObjectType));
+    ObjectOwnerTypeSpecifier* ownerSpecifier = new ObjectOwnerTypeSpecifier(mObjectSpecifier);
 
-    mFieldDeclaration = new InjectedFieldDefinition(mObjectSpecifier, mName, mArguments, 0);
+    mFieldDeclaration = new InjectedFieldDefinition(ownerSpecifier, mName, mArguments, 0);
   }
   
   ~InjectedFieldDefinitionTest() {
     delete mFieldDeclaration;
     delete mObjectType;
+    delete mObjectOwnerType;
   }
 };
 
@@ -74,7 +81,7 @@ TEST_F(InjectedFieldDefinitionTest, declareTest) {
   EXPECT_FALSE(field->isMethodSignature());
   EXPECT_FALSE(field->isLLVMFunction());
 
-  EXPECT_EQ(mObjectType, field->getType());
+  EXPECT_EQ(mObjectOwnerType, field->getType());
   EXPECT_STREQ("mField", field->getName().c_str());
   EXPECT_TRUE(field->isAssignable());
 

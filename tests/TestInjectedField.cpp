@@ -13,6 +13,8 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
+#include "MockObjectType.hpp"
+#include "MockObjectOwnerType.hpp"
 #include "MockType.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
@@ -35,6 +37,8 @@ struct InjectedFieldTest : public Test {
   LLVMContext& mLLVMContext;
   NiceMock<MockType>* mType;
   NiceMock<MockType>* mInjectedType;
+  const NiceMock<MockObjectOwnerType>* mObjectOwnerType;
+  const NiceMock<MockObjectType>* mObjectType;
   NiceMock<MockExpression>* mExpression;
   string mName;
   InjectionArgumentList mInjectionArgumentList;
@@ -52,6 +56,8 @@ public:
   mLLVMContext(mContext.getLLVMContext()),
   mType(new NiceMock<MockType>()),
   mInjectedType(new NiceMock<MockType>()),
+  mObjectOwnerType(new NiceMock<MockObjectOwnerType>()),
+  mObjectType(new NiceMock<MockObjectType>()),
   mExpression(new NiceMock<MockExpression>()),
   mName("mField") {
     TestPrefix::generateIR(mContext);
@@ -107,6 +113,8 @@ public:
     delete mType;
     delete mExpression;
     delete mInjectedType;
+    delete mObjectOwnerType;
+    delete mObjectType;
   }
   
   static void printType(IRGenerationContext& context, iostream& stream) {
@@ -237,6 +245,21 @@ TEST_F(InjectedFieldTest, checkReferenceTypeDeathTest) {
 
   EXPECT_ANY_THROW(mField->checkType(mContext));
   EXPECT_STREQ("/tmp/source.yz(1): Error: Injected fields must have owner type denoted by '*'\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
+}
+
+TEST_F(InjectedFieldTest, injectInterfaceNotBoundWithArgumentsDeathTest) {
+  InjectedField field(mObjectOwnerType, mObjectOwnerType, mName, mInjectionArgumentList, "", 5);
+  ON_CALL(*mObjectOwnerType, isOwner()).WillByDefault(Return(true));
+  ON_CALL(*mObjectOwnerType, isInterface()).WillByDefault(Return(true));
+  ON_CALL(*mObjectOwnerType, getReference()).WillByDefault(Return(mObjectType));
+  ON_CALL(*mObjectType, isInterface()).WillByDefault(Return(true));
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+
+  EXPECT_ANY_THROW(field.checkType(mContext));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Arguments are not allowed for injection of interfaces that are not bound to controllers\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }

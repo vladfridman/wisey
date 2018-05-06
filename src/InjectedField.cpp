@@ -9,7 +9,9 @@
 #include "wisey/ArraySpecificOwnerType.hpp"
 #include "wisey/AutoCast.hpp"
 #include "wisey/Controller.hpp"
+#include "wisey/ControllerOwner.hpp"
 #include "wisey/InjectedField.hpp"
+#include "wisey/InterfaceOwner.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
 
@@ -62,6 +64,21 @@ void InjectedField::checkType(IRGenerationContext& context) const {
     context.reportError(mLine, "Injected fields must have owner type denoted by '*'");
     throw 1;
   }
+  if (!mInjectionArgumentList.size()) {
+    return;
+  }
+  if (mInjectedType->isInterface() &&
+      !context.hasBoundController(((const InterfaceOwner*) mInjectedType)->getReference())) {
+    context.reportError(mLine, "Arguments are not allowed for injection of interfaces "
+                        "that are not bound to controllers");
+    throw 1;
+  }
+  
+  const Controller* controller = mInjectedType->isInterface()
+  ? context.getBoundController(((const InterfaceOwner*) mInjectedType)->getReference(), mLine)
+  : ((const ControllerOwner*) mInjectedType)->getReference();
+  
+  controller->checkInjectionArguments(context, mInjectionArgumentList, mLine);
 }
 
 Value* InjectedField::callInjectFunction(IRGenerationContext& context,

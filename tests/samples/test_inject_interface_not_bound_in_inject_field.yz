@@ -1,0 +1,36 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+interface ICalculator {
+  int calculate();
+}
+
+controller CFibonacciCalculator implements ICalculator {
+
+  receive int mIndex;
+
+  public int calculate() override {
+    int previous = 0;
+    int current = 1;
+    if (mIndex <= 0) {
+      return mIndex;
+    }    
+    for (int i = 1; i < mIndex; i++) {
+      int next = previous + current;
+      previous = current;
+      current = next;
+    }
+    return current;
+  }
+}
+
+controller CProgram implements IProgram {
+  inject ICalculator* mCalculator.withIndex(6);
+
+  public int run(immutable string[] arguments) override {
+    return mCalculator.calculate();
+  }
+}
+
+bind(IProgram).to(CProgram);

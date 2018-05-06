@@ -1,0 +1,21 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CService {
+  state int mValue;
+
+  public int getValue() {
+    return mValue;
+  }
+}
+
+controller CProgram implements IProgram {
+  inject CService* mService.withValue(5);
+
+  public int run(immutable string[] arguments) override {
+    return mService.getValue();
+  }
+}
+
+bind(IProgram).to(CProgram);
