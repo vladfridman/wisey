@@ -34,7 +34,8 @@ using ::testing::Test;
 struct ArrayGetSizeMethodTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBlock;
+  BasicBlock* mBasicBlock;
+  Function* mFunction;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   const ArrayGetSizeMethod* mArrayGetSizeMethod;
@@ -47,12 +48,12 @@ public:
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
-    Function* function = Function::Create(functionType,
-                                          GlobalValue::InternalLinkage,
-                                          "main",
-                                          mContext.getModule());
-    mBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBlock);
+    mFunction = Function::Create(functionType,
+                                 GlobalValue::InternalLinkage,
+                                 "main",
+                                 mContext.getModule());
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -79,12 +80,24 @@ TEST_F(ArrayGetSizeMethodTest, generateIRTest) {
   Value* null = ConstantPointerNull::get(arrayType->getLLVMType(mContext));
   ArrayGetSizeMethod::generateIR(mContext, new FakeExpression(null, arrayType));
   
-  *mStringStream << *mBlock;
+  *mStringStream << *mFunction;
   
   string expected =
+  "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
-  "\n  %0 = getelementptr { i64, i64, i64, [0 x float] }, { i64, i64, i64, [0 x float] }* null, i32 0, i32 1"
-  "\n  %1 = load i64, i64* %0"
+  "\n  %0 = bitcast { i64, i64, i64, [0 x float] }* null to i8*"
+  "\n  invoke void @__checkForNullAndThrow(i8* %0)"
+  "\n          to label %invoke.continue unwind label %cleanup"
+  "\n"
+  "\ncleanup:                                          ; preds = %entry"
+  "\n  %1 = landingpad { i8*, i32 }"
+  "\n          cleanup"
+  "\n  resume { i8*, i32 } %1"
+  "\n"
+  "\ninvoke.continue:                                  ; preds = %entry"
+  "\n  %2 = getelementptr { i64, i64, i64, [0 x float] }, { i64, i64, i64, [0 x float] }* null, i32 0, i32 1"
+  "\n  %3 = load i64, i64* %2"
+  "\n}"
   "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -123,4 +136,14 @@ TEST_F(ArrayGetSizeMethodTest, injectDeathTest) {
 
 TEST_F(TestFileRunner, getArraySizeRunTest) {
   runFile("tests/samples/test_get_array_size.yz", "7");
+}
+
+TEST_F(TestFileRunner, getNullArraySizeRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_get_null_array_size.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MNullPointerException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_get_null_array_size.yz:9)\n"
+                               "Main thread ended without a result\n");
+
 }
