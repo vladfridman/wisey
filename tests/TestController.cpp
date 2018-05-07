@@ -505,13 +505,6 @@ TEST_F(ControllerTest, markAsInnerTest) {
   EXPECT_TRUE(mMultiplierController->isInner());
 }
 
-TEST_F(ControllerTest, getReferenceAdjustmentFunctionTest) {
-  Function* result = mMultiplierController->getReferenceAdjustmentFunction(mContext);
-  
-  ASSERT_NE(nullptr, result);
-  EXPECT_EQ(result, AdjustReferenceCounterForConcreteObjectUnsafelyFunction::get(mContext));
-}
-
 TEST_F(ControllerTest, canCastToTest) {
   EXPECT_FALSE(mMultiplierController->canCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_FALSE(mMultiplierController->canCastTo(mContext, mAdditorController));

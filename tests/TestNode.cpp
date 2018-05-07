@@ -485,13 +485,6 @@ TEST_F(NodeTest, markAsInnerTest) {
   EXPECT_TRUE(mComplicatedNode->isInner());
 }
 
-TEST_F(NodeTest, getReferenceAdjustmentFunctionTest) {
-  Function* result = mComplicatedNode->getReferenceAdjustmentFunction(mContext);
-  
-  ASSERT_NE(nullptr, result);
-  EXPECT_EQ(result, AdjustReferenceCounterForConcreteObjectUnsafelyFunction::get(mContext));
-}
-
 TEST_F(NodeTest, canCastToTest) {
   EXPECT_FALSE(mComplicatedNode->canCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_FALSE(mComplicatedNode->canCastTo(mContext, mSimplerNode));

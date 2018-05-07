@@ -478,10 +478,6 @@ bool Node::isInner() const {
   return mIsInner;
 }
 
-Function* Node::getReferenceAdjustmentFunction(IRGenerationContext& context) const {
-  return AdjustReferenceCounterForConcreteObjectUnsafelyFunction::get(context);
-}
-
 void Node::createLocalVariable(IRGenerationContext& context,
                                string name,
                                int line) const {

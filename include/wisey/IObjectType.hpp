@@ -117,11 +117,6 @@ namespace wisey {
     virtual bool isInner() const = 0;
     
     /**
-     * Returns a function that is used to adjust the number of reference for this object type
-     */
-    virtual llvm::Function* getReferenceAdjustmentFunction(IRGenerationContext& context) const = 0;
-    
-    /**
      * Returns the line number where this object is defined
      */
     virtual int getLine() const = 0;

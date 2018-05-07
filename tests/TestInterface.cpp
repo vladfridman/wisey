@@ -310,13 +310,6 @@ TEST_F(InterfaceTest, markAsInnerTest) {
   EXPECT_TRUE(mObjectInterface->isInner());
 }
 
-TEST_F(InterfaceTest, getReferenceAdjustmentFunctionTest) {
-  Function* result = mObjectInterface->getReferenceAdjustmentFunction(mContext);
-  
-  ASSERT_NE(nullptr, result);
-  EXPECT_EQ(result, AdjustReferenceCountFunction::get(mContext));
-}
-
 TEST_F(InterfaceTest, canCastToTest) {
   EXPECT_FALSE(mObjectInterface->canCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_TRUE(mObjectInterface->canCastTo(mContext, mShapeInterface));

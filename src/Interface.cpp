@@ -1063,10 +1063,6 @@ bool Interface::isInner() const {
   return mIsInner;
 }
 
-Function* Interface::getReferenceAdjustmentFunction(IRGenerationContext& context) const {
-  return AdjustReferenceCountFunction::get(context);
-}
-
 void Interface::createLocalVariable(IRGenerationContext& context,
                                     string name,
                                     int line) const {

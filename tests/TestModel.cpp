@@ -489,13 +489,6 @@ TEST_F(ModelTest, markAsInnerTest) {
   EXPECT_TRUE(mModel->isInner());
 }
 
-TEST_F(ModelTest, getReferenceAdjustmentFunctionTest) {
-  Function* result = mModel->getReferenceAdjustmentFunction(mContext);
-  
-  ASSERT_NE(nullptr, result);
-  EXPECT_EQ(result, AdjustReferenceCounterForConcreteObjectSafelyFunction::get(mContext));
-}
-
 TEST_F(ModelTest, canCastToTest) {
   EXPECT_FALSE(mModel->canCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_FALSE(mModel->canCastTo(mContext, mCircleModel));

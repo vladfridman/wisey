@@ -472,10 +472,6 @@ bool Controller::isInner() const {
   return mIsInner;
 }
 
-Function* Controller::getReferenceAdjustmentFunction(IRGenerationContext& context) const {
-  return AdjustReferenceCounterForConcreteObjectUnsafelyFunction::get(context);
-}
-
 void Controller::createLocalVariable(IRGenerationContext& context,
                                      string name,
                                      int line) const {

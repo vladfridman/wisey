@@ -216,8 +216,6 @@ namespace wisey {
     
     bool isInner() const override;
     
-    llvm::Function* getReferenceAdjustmentFunction(IRGenerationContext& context) const override;
-    
     void createLocalVariable(IRGenerationContext& context,
                              std::string name,
                              int line) const override;

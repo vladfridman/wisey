@@ -507,10 +507,6 @@ bool Model::isInner() const {
   return mIsInner;
 }
 
-Function* Model::getReferenceAdjustmentFunction(IRGenerationContext& context) const {
-  return AdjustReferenceCounterForConcreteObjectSafelyFunction::get(context);
-}
-
 void Model::createLocalVariable(IRGenerationContext& context,
                                 string name,
                                 int line) const {

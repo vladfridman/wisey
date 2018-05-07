@@ -86,8 +86,6 @@ public:
   MOCK_METHOD0(markAsInner, void ());
   MOCK_CONST_METHOD0(isInner, bool ());
   MOCK_CONST_METHOD0(getLine, int ());
-  MOCK_CONST_METHOD1(getReferenceAdjustmentFunction,
-                     llvm::Function* (wisey::IRGenerationContext& context));
   MOCK_CONST_METHOD3(createLocalVariable, void (wisey::IRGenerationContext&,
                                                 std::string name,
                                                 int));
