@@ -980,7 +980,7 @@ TEST_F(TestFileRunner, modelWithNodeArrayDeathRunTest) {
   expectFailCompile("tests/samples/test_model_with_node_array.yz",
                     1,
                     "tests/samples/test_model_with_node_array.yz\\(14\\): Error: "
-                    "Fixed array fields can only be of immutable array owner type");
+                    "Fixed array fields can only be of immutable array type");
 }
 
 TEST_F(TestFileRunner, modelWithInterfaceFieldInitWithControllerDeathRunTest) {

@@ -1,0 +1,24 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+model MCar {
+  immutable int[] mArray;
+
+  public int getValue() {
+    return mArray[2];
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    int[]* array = new int[3];
+    array[2] = 5;
+    immutable int[]* immutableArray = array;
+    MCar* car = builder(MCar).withArray(immutableArray).build();
+    return car.getValue();
+  }
+}
+
+bind(IProgram).to(CProgram);

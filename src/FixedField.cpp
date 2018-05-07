@@ -25,8 +25,8 @@ void FixedField::checkType(IRGenerationContext& context) const {
     context.reportError(mLine, "Fixed fields can only be of primitive, model or array type");
     throw 1;
   }
-  if (mType->isArray() && (!mType->isImmutable() || !mType->isOwner())) {
-    context.reportError(mLine, "Fixed array fields can only be of immutable array owner type");
+  if (mType->isArray() && !mType->isImmutable()) {
+    context.reportError(mLine, "Fixed array fields can only be of immutable array type");
     throw 1;
   }
 }

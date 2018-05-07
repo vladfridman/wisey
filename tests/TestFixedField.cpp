@@ -125,9 +125,13 @@ TEST_F(FixedFieldTest, checkTypeNonImmutableArrayTypeDeathTest) {
   ON_CALL(*mType, isArray()).WillByDefault(Return(true));
 
   EXPECT_ANY_THROW(mField->checkType(mContext));
-  EXPECT_STREQ("/tmp/source.yz(3): Error: Fixed array fields can only be of immutable array owner type\n",
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Fixed array fields can only be of immutable array type\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
+}
+
+TEST_F(TestFileRunner, modelImmutableArrayReferenceFieldRunTest) {
+  runFile("tests/samples/test_model_immutable_array_reference_field.yz", "5");
 }
 
 TEST_F(TestFileRunner, nodeWithFixedFieldSetterDeathRunTest) {
