@@ -23,6 +23,7 @@
 #include "wisey/ModelOwner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/ObjectKindGlobal.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
 
 using namespace llvm;
@@ -553,4 +554,8 @@ Instruction* Model::inject(IRGenerationContext& context,
 
 int Model::getLine() const {
   return mLine;
+}
+
+llvm::Constant* Model::getObjectTypeNameGlobal(IRGenerationContext& context) const {
+  return ObjectKindGlobal::getModel(context);
 }

@@ -38,6 +38,7 @@
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/NullType.hpp"
+#include "wisey/ObjectKindGlobal.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ThreadExpression.hpp"
@@ -903,6 +904,11 @@ TEST_F(ModelTest, injectDeathTest) {
   EXPECT_STREQ("/tmp/source.yz(3): Error: type systems.vos.wisey.compiler.tests.MSquare is not injectable\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
+}
+
+TEST_F(ModelTest, getObjectTypeNameGlobalTest) {
+  EXPECT_EQ(ObjectKindGlobal::getModel(mContext),
+            mModel->getObjectTypeNameGlobal(mContext));
 }
 
 TEST_F(TestFileRunner, modelBuilderObjectArgumentAutocastRunTest) {

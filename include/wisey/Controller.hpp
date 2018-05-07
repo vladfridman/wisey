@@ -253,6 +253,8 @@ namespace wisey {
     
     int getLine() const override;
     
+    llvm::Constant* getObjectTypeNameGlobal(IRGenerationContext& context) const override;
+
   private:
     
     std::vector<std::string> getMissingReceivedFields(std::set<std::string> givenFields) const;

@@ -226,6 +226,8 @@ namespace wisey {
                               int line) const override;
 
     int getLine() const override;
+    
+    llvm::Constant* getObjectTypeNameGlobal(IRGenerationContext& context) const override;
 
   private:
     

@@ -21,6 +21,7 @@
 #include "wisey/Names.hpp"
 #include "wisey/Node.hpp"
 #include "wisey/NodeOwner.hpp"
+#include "wisey/ObjectKindGlobal.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
 
 using namespace llvm;
@@ -524,4 +525,8 @@ Instruction* Node::inject(IRGenerationContext& context,
 
 int Node::getLine() const {
   return mLine;
+}
+
+llvm::Constant* Node::getObjectTypeNameGlobal(IRGenerationContext& context) const {
+  return ObjectKindGlobal::getNode(context);
 }

@@ -46,8 +46,6 @@ namespace wisey {
 
     static std::string getName();
     
-    static llvm::Value* getTypeName(IRGenerationContext& context, std::string name);
-    
     static llvm::Function* define(IRGenerationContext& context);
     
     static void compose(IRGenerationContext& context, llvm::Function* function);

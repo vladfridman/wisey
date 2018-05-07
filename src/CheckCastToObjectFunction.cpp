@@ -15,12 +15,14 @@
 #include "wisey/FakeExpression.hpp"
 #include "wisey/GetOriginalObjectNameFunction.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IfStatement.hpp"
 #include "wisey/IsObjectFunction.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/ObjectBuilder.hpp"
+#include "wisey/ObjectKindGlobal.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrintOutStatement.hpp"
 #include "wisey/StringLiteral.hpp"
@@ -44,33 +46,15 @@ Function* CheckCastToObjectFunction::get(IRGenerationContext& context) {
 }
 
 void CheckCastToObjectFunction::callCheckCastToModel(IRGenerationContext& context, Value* object) {
-  Value* letter = ConstantInt::get(Type::getInt8Ty(context.getLLVMContext()), 77);
-  return call(context, object, letter, getTypeName(context, "model"));
+  Value* letter = ConstantInt::get(Type::getInt8Ty(context.getLLVMContext()),
+                                   IConcreteObjectType::MODEL_FIRST_LETTER_ASCII_CODE);
+  return call(context, object, letter, ObjectKindGlobal::getModel(context));
 }
 
 void CheckCastToObjectFunction::callCheckCastToNode(IRGenerationContext& context, Value* object) {
-  Value* letter = ConstantInt::get(Type::getInt8Ty(context.getLLVMContext()), 78);
-  return call(context, object, letter, getTypeName(context, "node"));
-}
-
-Value* CheckCastToObjectFunction::getTypeName(IRGenerationContext& context, string name) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-
-  string variableName = "__" + name;
-  GlobalVariable* variable = context.getModule()->getGlobalVariable(variableName.c_str());
-  if (!variable) {
-    llvm::Constant* stringConstant = ConstantDataArray::getString(llvmContext, name);
-    variable = new GlobalVariable(*context.getModule(),
-                                  stringConstant->getType(),
-                                  true,
-                                  GlobalValue::InternalLinkage,
-                                  stringConstant,
-                                  variableName.c_str());
-  }
-  llvm::Constant* zero = llvm::Constant::getNullValue(IntegerType::getInt32Ty(llvmContext));
-  llvm::Constant* indices[] = {zero, zero};
-  
-  return ConstantExpr::getGetElementPtr(NULL, variable, indices, true);
+  Value* letter = ConstantInt::get(Type::getInt8Ty(context.getLLVMContext()),
+                                   IConcreteObjectType::NODE_FIRST_LETTER_ASCII_CODE);
+  return call(context, object, letter, ObjectKindGlobal::getNode(context));
 }
 
 void CheckCastToObjectFunction::call(IRGenerationContext& context,

@@ -59,7 +59,7 @@ TEST_F(IsObjectFunctionTest, callIsModelTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = call i1 @__isObject(i8* null, i8 77)\n";
+  "\n  %0 = call i1 @__isObject(i8* null, i8 109)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

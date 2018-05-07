@@ -20,6 +20,7 @@
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/LocalSystemReferenceVariable.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/ObjectKindGlobal.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
 #include "wisey/ThreadExpression.hpp"
 
@@ -603,4 +604,8 @@ void Controller::declareFieldInjectionFunctions(IRGenerationContext& context, in
   for (InjectedField* field : mInjectedFields) {
     field->declareInjectionFunction(context, this);
   }
+}
+
+llvm::Constant* Controller::getObjectTypeNameGlobal(IRGenerationContext& context) const {
+  return ObjectKindGlobal::getController(context);
 }

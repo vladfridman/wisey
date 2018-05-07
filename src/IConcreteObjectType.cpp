@@ -43,6 +43,10 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
+const unsigned int IConcreteObjectType::CONTROLLER_FIRST_LETTER_ASCII_CODE = 99u;
+const unsigned int IConcreteObjectType::MODEL_FIRST_LETTER_ASCII_CODE = 109u;
+const unsigned int IConcreteObjectType::NODE_FIRST_LETTER_ASCII_CODE = 110u;
+
 void IConcreteObjectType::generateNameGlobal(IRGenerationContext& context,
                                              const IConcreteObjectType* object) {
   LLVMContext& llvmContext = context.getLLVMContext();
@@ -308,11 +312,11 @@ GlobalVariable* IConcreteObjectType::createTypeListGlobal(IRGenerationContext& c
   vector<Interface*> interfaces = object->getFlattenedInterfaceHierarchy();
   Type* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
   
-  llvm::Constant* objectShortNamePointer = getObjectShortNamePointer(object, context);
+  llvm::Constant* objectTypeNamePointer = object->getObjectTypeNameGlobal(context);
   llvm::Constant* objectNamePointer = IObjectType::getObjectNamePointer(object, context);
   
   vector<llvm::Constant*> typeNames;
-  typeNames.push_back(objectShortNamePointer);
+  typeNames.push_back(objectTypeNamePointer);
   typeNames.push_back(objectNamePointer);
   
   for (Interface* interface : interfaces) {
@@ -662,19 +666,6 @@ bool IConcreteObjectType::canCast(const IType* fromType, const IType* toType) {
     return true;
   }
   return false;
-}
-
-llvm::Constant* IConcreteObjectType::getObjectShortNamePointer(const IConcreteObjectType* object,
-                                                               IRGenerationContext& context) {
-  GlobalVariable* nameGlobal =
-  context.getModule()->getNamedGlobal(object->getObjectShortNameGlobalVariableName());
-  ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);
-  Value* Idx[2];
-  Idx[0] = zeroInt32;
-  Idx[1] = zeroInt32;
-  Type* elementType = nameGlobal->getType()->getPointerElementType();
-  
-  return ConstantExpr::getGetElementPtr(elementType, nameGlobal, Idx);
 }
 
 unsigned long IConcreteObjectType::getVTableSizeForObject(const IConcreteObjectType* object) {

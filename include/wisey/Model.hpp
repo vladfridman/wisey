@@ -240,6 +240,8 @@ namespace wisey {
 
     int getLine() const override;
     
+    llvm::Constant* getObjectTypeNameGlobal(IRGenerationContext& context) const override;
+    
   private:
     
     void checkArguments(IRGenerationContext& context,

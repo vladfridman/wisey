@@ -60,7 +60,7 @@ TEST_F(CheckCastToObjectFunctionTest, callCheckCastToModelTest) {
   string expected =
   "\nentry:"
   "\n  %0 = bitcast i8* null to i8*"
-  "\n  invoke void @__checkCastToObject(i8* %0, i8 77, i8* getelementptr inbounds ([6 x i8], [6 x i8]* @__model, i32 0, i32 0))"
+  "\n  invoke void @__checkCastToObject(i8* %0, i8 109, i8* getelementptr inbounds ([6 x i8], [6 x i8]* @model, i32 0, i32 0))"
   "\n          to label %invoke.continue unwind label %cleanup\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -74,7 +74,7 @@ TEST_F(CheckCastToObjectFunctionTest, callCheckCastToNodeTest) {
   string expected =
   "\nentry:"
   "\n  %0 = bitcast i8* null to i8*"
-  "\n  invoke void @__checkCastToObject(i8* %0, i8 78, i8* getelementptr inbounds ([5 x i8], [5 x i8]* @__node, i32 0, i32 0))"
+  "\n  invoke void @__checkCastToObject(i8* %0, i8 110, i8* getelementptr inbounds ([5 x i8], [5 x i8]* @node, i32 0, i32 0))"
   "\n          to label %invoke.continue unwind label %cleanup\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());

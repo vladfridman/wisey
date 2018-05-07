@@ -36,6 +36,7 @@
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/NullType.hpp"
+#include "wisey/ObjectKindGlobal.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ReceivedField.hpp"
@@ -1091,6 +1092,11 @@ TEST_F(ControllerTest, createParameterVariableTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(ControllerTest, getObjectTypeNameGlobalTest) {
+  EXPECT_EQ(ObjectKindGlobal::getController(mContext),
+            mMultiplierController->getObjectTypeNameGlobal(mContext));
 }
 
 TEST_F(TestFileRunner, controllerInjectionChainRunTest) {

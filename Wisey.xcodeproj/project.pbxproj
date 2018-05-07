@@ -773,6 +773,9 @@
 		F592A7C41F7D8EAE0026BD2F /* IMethodDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592A7C31F7D8EAE0026BD2F /* IMethodDefinition.cpp */; };
 		F592A7C51F7D8EAE0026BD2F /* IMethodDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592A7C31F7D8EAE0026BD2F /* IMethodDefinition.cpp */; };
 		F592C9961ED323F7007FB2D0 /* TestWiseyc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592C9951ED323F7007FB2D0 /* TestWiseyc.cpp */; };
+		F598117A20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
+		F598117B20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
+		F598117E20A0676E003AADCA /* TestObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */; };
 		F59D82081E0F102000057FB5 /* TestEmptyStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82071E0F102000057FB5 /* TestEmptyStatement.cpp */; };
 		F59D820B1E0F157E00057FB5 /* WhileStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */; };
 		F59D820C1E0F157E00057FB5 /* WhileStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */; };
@@ -1776,6 +1779,9 @@
 		F592A7C01F7D8D690026BD2F /* ExternalMethodDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ExternalMethodDefinition.cpp; path = src/ExternalMethodDefinition.cpp; sourceTree = "<group>"; };
 		F592A7C31F7D8EAE0026BD2F /* IMethodDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IMethodDefinition.cpp; path = src/IMethodDefinition.cpp; sourceTree = "<group>"; };
 		F592C9951ED323F7007FB2D0 /* TestWiseyc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestWiseyc.cpp; path = tests/TestWiseyc.cpp; sourceTree = "<group>"; };
+		F598117720A05DAC003AADCA /* ObjectKindGlobal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ObjectKindGlobal.hpp; path = include/wisey/ObjectKindGlobal.hpp; sourceTree = "<group>"; };
+		F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectKindGlobal.cpp; path = src/ObjectKindGlobal.cpp; sourceTree = "<group>"; };
+		F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectKindGlobal.cpp; path = tests/TestObjectKindGlobal.cpp; sourceTree = "<group>"; };
 		F59D82071E0F102000057FB5 /* TestEmptyStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestEmptyStatement.cpp; path = tests/TestEmptyStatement.cpp; sourceTree = "<group>"; };
 		F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WhileStatement.cpp; path = src/WhileStatement.cpp; sourceTree = "<group>"; };
 		F59D820D1E0F25DF00057FB5 /* TestWhileStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestWhileStatement.cpp; path = tests/TestWhileStatement.cpp; sourceTree = "<group>"; };
@@ -2473,6 +2479,7 @@
 				F5CB7FA120527F60007628B5 /* exceptions */,
 				F5CB7F9520527A89007628B5 /* expressions */,
 				F5CB7F9720527BA5007628B5 /* generator */,
+				F598117C20A0674F003AADCA /* globals */,
 				F53401021DFED9AB0002BF7E /* include */,
 				F5CB7FA22052800F007628B5 /* infrastructure */,
 				F5CB7F9820527BD9007628B5 /* interfaces */,
@@ -2588,6 +2595,7 @@
 				F58725461F6D6DFA00FA25E6 /* exceptions */,
 				F58725401F6D6B7000FA25E6 /* expressions */,
 				F587254E1F6D728800FA25E6 /* generator */,
+				F598117820A05E3E003AADCA /* globals */,
 				F587253A1F6D337900FA25E6 /* interfaces */,
 				F5CB7F5A2050F967007628B5 /* native */,
 				F587253E1F6D6A9200FA25E6 /* objects */,
@@ -2652,6 +2660,7 @@
 				F58725451F6D6DB700FA25E6 /* exceptions */,
 				F587253F1F6D6B1700FA25E6 /* expressions */,
 				F587254D1F6D724200FA25E6 /* generator */,
+				F598117620A05D84003AADCA /* globals */,
 				F58725391F6D332300FA25E6 /* interfaces */,
 				F5CB7F582050F86F007628B5 /* native */,
 				F587253D1F6D6A0800FA25E6 /* objects */,
@@ -3153,6 +3162,30 @@
 				F50FA2FE1E323AAD00435EEA /* Scopes.cpp */,
 			);
 			name = generator;
+			sourceTree = "<group>";
+		};
+		F598117620A05D84003AADCA /* globals */ = {
+			isa = PBXGroup;
+			children = (
+				F598117720A05DAC003AADCA /* ObjectKindGlobal.hpp */,
+			);
+			name = globals;
+			sourceTree = "<group>";
+		};
+		F598117820A05E3E003AADCA /* globals */ = {
+			isa = PBXGroup;
+			children = (
+				F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */,
+			);
+			name = globals;
+			sourceTree = "<group>";
+		};
+		F598117C20A0674F003AADCA /* globals */ = {
+			isa = PBXGroup;
+			children = (
+				F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */,
+			);
+			name = globals;
 			sourceTree = "<group>";
 		};
 		F5CB7F582050F86F007628B5 /* native */ = {
@@ -4076,6 +4109,7 @@
 				F57411741E043EE4009809FF /* Identifier.cpp in Sources */,
 				F5CB7FD22052A5A8007628B5 /* TestStateFieldDefinition.cpp in Sources */,
 				F5A363481F37257C005880B3 /* ParameterOwnerVariable.cpp in Sources */,
+				F598117B20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */,
 				F53A2C1F1EF96C0200E76A9E /* IVariable.cpp in Sources */,
 				F507D2661E43551900495E2D /* Model.cpp in Sources */,
 				F539147D1FDE6BD900CD5174 /* TestAdjustReferenceCounterForConcreteObjectSafelyFunction.cpp in Sources */,
@@ -4213,6 +4247,7 @@
 				F534010C1DFF09D30002BF7E /* TestConditionalExpression.cpp in Sources */,
 				F526D8AB1FEBB33A008103B9 /* TestArrayAllocation.cpp in Sources */,
 				F50FF883208B8A43008EDC40 /* LocalImmutableArrayReferenceVariable.cpp in Sources */,
+				F598117E20A0676E003AADCA /* TestObjectKindGlobal.cpp in Sources */,
 				F574114C1E019597009809FF /* TestReturnVoidStatement.cpp in Sources */,
 				F5C6FD861E48B7A00054209D /* LongType.cpp in Sources */,
 				F53A2C3B1F00029600E76A9E /* TestNodeDefinition.cpp in Sources */,
@@ -4589,6 +4624,7 @@
 				F526D8A81FEBA854008103B9 /* ArrayAllocation.cpp in Sources */,
 				F50FF87D208B87EE008EDC40 /* LocalImmutableArrayOwnerVariable.cpp in Sources */,
 				F5CB7FBD20529B65007628B5 /* FixedFieldDefinition.cpp in Sources */,
+				F598117A20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */,
 				F51942EE1FE2D7C7009C3158 /* PackageType.cpp in Sources */,
 				F5CB7FC220529D20007628B5 /* StateFieldDefinition.cpp in Sources */,
 				F50427B41E4E3FA7001CB148 /* FieldReferenceVariable.cpp in Sources */,

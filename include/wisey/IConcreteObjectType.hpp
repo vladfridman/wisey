@@ -75,6 +75,21 @@ namespace wisey {
     virtual ~IConcreteObjectType() { }
     
     /**
+     * Contains ascii code for the letter 'c'
+     */
+    static const unsigned int CONTROLLER_FIRST_LETTER_ASCII_CODE;
+
+    /**
+     * Contains ascii code for the letter 'm'
+     */
+    static const unsigned int MODEL_FIRST_LETTER_ASCII_CODE;
+
+    /**
+     * Contains ascii code for the letter 'n'
+     */
+    static const unsigned int NODE_FIRST_LETTER_ASCII_CODE;
+
+    /**
      * Looks for a field with a given name in the object
      */
     virtual IField* findField(std::string fieldName) const = 0;
@@ -175,7 +190,12 @@ namespace wisey {
      * Returns name of the global variable containing short name of this concrete Object
      */
     virtual std::string getObjectShortNameGlobalVariableName() const = 0;
-
+    
+    /**
+     * Generates a global with object type name. e.g. model or controller
+     */
+    virtual llvm::Constant* getObjectTypeNameGlobal(IRGenerationContext& context) const = 0;
+    
     /**
      * Generate global variable with the name of the given object
      */
@@ -372,9 +392,6 @@ namespace wisey {
                                       const void* object);
     
     static void printTypeKind(const IConcreteObjectType* type, std::iostream& stream);
-    
-    static llvm::Constant* getObjectShortNamePointer(const IConcreteObjectType* object,
-                                                     IRGenerationContext& context);
     
     static llvm::StructType* getOrCreateRefCounterStruct(IRGenerationContext& context,
                                                          const IConcreteObjectType* object);

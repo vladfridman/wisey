@@ -36,6 +36,7 @@
 #include "wisey/Node.hpp"
 #include "wisey/NodeTypeSpecifier.hpp"
 #include "wisey/NullType.hpp"
+#include "wisey/ObjectKindGlobal.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/StateField.hpp"
@@ -876,6 +877,11 @@ TEST_F(NodeTest, injectDeathTest) {
   EXPECT_STREQ("/tmp/source.yz(3): Error: type systems.vos.wisey.compiler.tests.NComplicatedNode is not injectable\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
+}
+
+TEST_F(NodeTest, getObjectTypeNameGlobalTest) {
+  EXPECT_EQ(ObjectKindGlobal::getNode(mContext),
+            mSimpleNode->getObjectTypeNameGlobal(mContext));
 }
 
 TEST_F(TestFileRunner, linkListRunTest) {

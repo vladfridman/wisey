@@ -103,6 +103,8 @@ public:
   MOCK_CONST_METHOD3(inject, llvm::Instruction* (wisey::IRGenerationContext&,
                                                  const wisey::InjectionArgumentList,
                                                  int));
+  MOCK_CONST_METHOD1(getObjectTypeNameGlobal,
+                     llvm::Constant* (wisey::IRGenerationContext& context));
 };
 
 #endif /* MockConcreteObjectType_h */

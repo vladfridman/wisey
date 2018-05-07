@@ -79,7 +79,7 @@ TEST_F(AdjustReferenceCountFunctionTest, getTest) {
   "\n  ret void"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
-  "\n  %1 = call i1 @__isObject(i8* %object, i8 77)"
+  "\n  %1 = call i1 @__isObject(i8* %object, i8 109)"
   "\n  %2 = call i8* @__getOriginalObject(i8* %object)"
   "\n  %3 = bitcast i8* %2 to i64*"
   "\n  %4 = getelementptr i64, i64* %3, i64 -1"

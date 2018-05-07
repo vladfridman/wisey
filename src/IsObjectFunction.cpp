@@ -11,6 +11,7 @@
 #include "wisey/Environment.hpp"
 #include "wisey/GetOriginalObjectFunction.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IsObjectFunction.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 
@@ -31,7 +32,8 @@ Function* IsObjectFunction::get(IRGenerationContext& context) {
 }
 
 Value* IsObjectFunction::callIsModel(IRGenerationContext& context, Value* object) {
-  Value* letter = ConstantInt::get(Type::getInt8Ty(context.getLLVMContext()), 77);
+  Value* letter = ConstantInt::get(Type::getInt8Ty(context.getLLVMContext()),
+                                   IConcreteObjectType::MODEL_FIRST_LETTER_ASCII_CODE);
   return call(context, object, letter);
 }
 
