@@ -33,6 +33,11 @@ namespace wisey {
     static llvm::Value* callIsModel(IRGenerationContext& context, llvm::Value* object);
     
     /**
+     * Call to determine if the object is a thread controller
+     */
+    static llvm::Value* callIsThread(IRGenerationContext& context, llvm::Value* object);
+
+    /**
      * Call to determine if the object's name starts with the given letter
      */
     static llvm::Value* call(IRGenerationContext& context,

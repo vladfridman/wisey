@@ -37,6 +37,12 @@ Value* IsObjectFunction::callIsModel(IRGenerationContext& context, Value* object
   return call(context, object, letter);
 }
 
+Value* IsObjectFunction::callIsThread(IRGenerationContext& context, Value* object) {
+  Value* letter = ConstantInt::get(Type::getInt8Ty(context.getLLVMContext()),
+                                   IConcreteObjectType::THREAD_FIRST_LETTER_ASCII_CODE);
+  return call(context, object, letter);
+}
+
 Value* IsObjectFunction::call(IRGenerationContext& context, Value* object, Value* letter) {
   LLVMContext& llvmContext = context.getLLVMContext();
   

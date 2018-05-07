@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp"
 #include "wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp"
 #include "wisey/AutoCast.hpp"
 #include "wisey/Controller.hpp"
@@ -20,6 +21,7 @@
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/LocalSystemReferenceVariable.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/ObjectKindGlobal.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
 #include "wisey/ThreadExpression.hpp"
@@ -424,11 +426,19 @@ void Controller::printToStream(IRGenerationContext& context, iostream& stream) c
 }
 
 void Controller::incrementReferenceCount(IRGenerationContext& context, Value* object) const {
-  AdjustReferenceCounterForConcreteObjectUnsafelyFunction::call(context, object, 1);
+  if (isThread(context)) {
+    AdjustReferenceCounterForConcreteObjectSafelyFunction::call(context, object, 1);
+  } else {
+    AdjustReferenceCounterForConcreteObjectUnsafelyFunction::call(context, object, 1);
+  }
 }
 
 void Controller::decrementReferenceCount(IRGenerationContext& context, Value* object) const {
-  AdjustReferenceCounterForConcreteObjectUnsafelyFunction::call(context, object, -1);
+  if (isThread(context)) {
+    AdjustReferenceCounterForConcreteObjectSafelyFunction::call(context, object, -1);
+  } else {
+    AdjustReferenceCounterForConcreteObjectUnsafelyFunction::call(context, object, -1);
+  }
 }
 
 Value* Controller::getReferenceCount(IRGenerationContext& context, Value* object) const {
@@ -607,5 +617,18 @@ void Controller::declareFieldInjectionFunctions(IRGenerationContext& context, in
 }
 
 llvm::Constant* Controller::getObjectTypeNameGlobal(IRGenerationContext& context) const {
+  if (isThread(context)) {
+    return ObjectKindGlobal::getThread(context);
+  }
   return ObjectKindGlobal::getController(context);
+}
+
+bool Controller::isThread(IRGenerationContext& context) const {
+  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
+  for (Interface* interface : mFlattenedInterfaceHierarchy) {
+    if (interface == threadInterface) {
+      return true;
+    }
+  }
+  return false;
 }

@@ -46,6 +46,7 @@ using namespace wisey;
 const unsigned int IConcreteObjectType::CONTROLLER_FIRST_LETTER_ASCII_CODE = 99u;
 const unsigned int IConcreteObjectType::MODEL_FIRST_LETTER_ASCII_CODE = 109u;
 const unsigned int IConcreteObjectType::NODE_FIRST_LETTER_ASCII_CODE = 110u;
+const unsigned int IConcreteObjectType::THREAD_FIRST_LETTER_ASCII_CODE = 116u;
 
 void IConcreteObjectType::generateNameGlobal(IRGenerationContext& context,
                                              const IConcreteObjectType* object) {

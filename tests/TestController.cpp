@@ -61,6 +61,7 @@ struct ControllerTest : public Test {
   Controller* mMultiplierController;
   Controller* mAdditorController;
   Controller* mDoublerController;
+  Controller* mThreadController;
   Interface* mCalculatorInterface;
   Interface* mScienceCalculatorInterface;
   Interface* mObjectInterface;
@@ -339,6 +340,22 @@ struct ControllerTest : public Test {
     IConcreteObjectType::generateNameGlobal(mContext, mAdditorController);
     IConcreteObjectType::generateShortNameGlobal(mContext, mAdditorController);
     IConcreteObjectType::generateVTable(mContext, mAdditorController);
+    
+    vector<Type*> threadTypes;
+    threadTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                           ->getPointerTo()->getPointerTo());
+    string threadFullName = "systems.vos.wisey.compiler.tests.CThread";
+    StructType* threadStructType = StructType::create(mLLVMContext, threadFullName);
+    threadStructType->setBody(threadTypes);
+    vector<IField*> threadFields;
+    mThreadController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                                  threadFullName,
+                                                  threadStructType, mContext.getImportProfile(),
+                                                  0);
+    Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
+    vector<Interface*> threadInterfaces;
+    threadInterfaces.push_back(threadInterface);
+    mThreadController->setInterfaces(threadInterfaces);
 
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);
     mFunction = Function::Create(functionType,
@@ -350,7 +367,6 @@ struct ControllerTest : public Test {
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
-    Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
     Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));
     mThreadVariable = new NiceMock<MockVariable>();
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
@@ -605,6 +621,34 @@ TEST_F(ControllerTest, decrementReferenceCountTest) {
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %0, i64 -1)\n";
 
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
+TEST_F(ControllerTest, incrementReferenceCountForThreadTest) {
+  ConstantPointerNull* pointer = ConstantPointerNull::get(mThreadController->getLLVMType(mContext));
+  mThreadController->incrementReferenceCount(mContext, pointer);
+  
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CThread* null to i8*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %0, i64 1)\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
+TEST_F(ControllerTest, decrementReferenceCountForThreadTest) {
+  ConstantPointerNull* pointer = ConstantPointerNull::get(mThreadController->getLLVMType(mContext));
+  mThreadController->decrementReferenceCount(mContext, pointer);
+
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CThread* null to i8*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %0, i64 -1)\n";
+  
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }

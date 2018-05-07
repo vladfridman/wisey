@@ -27,6 +27,10 @@ llvm::Constant* ObjectKindGlobal::getNode(IRGenerationContext& context) {
   return getName(context, "node");
 }
 
+llvm::Constant* ObjectKindGlobal::getThread(IRGenerationContext& context) {
+  return getName(context, "thread");
+}
+
 llvm::Constant* ObjectKindGlobal::getName(IRGenerationContext& context, string name) {
   LLVMContext& llvmContext = context.getLLVMContext();
   GlobalVariable* global = context.getModule()->getNamedGlobal(name);

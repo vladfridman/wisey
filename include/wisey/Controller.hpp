@@ -283,6 +283,8 @@ namespace wisey {
                                           llvm::Function* function,
                                           const void* object);
 
+    bool isThread(IRGenerationContext& context) const;
+    
   };
   
 } /* namespace wisey */

@@ -25,6 +25,8 @@ namespace wisey {
     
     static llvm::Constant* getNode(IRGenerationContext& context);
     
+    static llvm::Constant* getThread(IRGenerationContext& context);
+
   private:
     
     static llvm::Constant* getName(IRGenerationContext& context, std::string name);

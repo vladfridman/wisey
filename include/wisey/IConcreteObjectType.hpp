@@ -90,6 +90,11 @@ namespace wisey {
     static const unsigned int NODE_FIRST_LETTER_ASCII_CODE;
 
     /**
+     * Contains ascii code for the letter 't'
+     */
+    static const unsigned int THREAD_FIRST_LETTER_ASCII_CODE;
+
+    /**
      * Looks for a field with a given name in the object
      */
     virtual IField* findField(std::string fieldName) const = 0;

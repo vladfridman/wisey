@@ -19,6 +19,7 @@
 #include "MockExpression.hpp"
 #include "MockVariable.hpp"
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Injector.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -52,9 +53,9 @@ struct InjectorTest : Test {
   InjectionArgumentList mInjectionArgumentList;
   
   InjectorTest() {
+    TestPrefix::generateIR(mContext);
+    
     LLVMContext& llvmContext = mContext.getLLVMContext();
-    mImportProfile = new ImportProfile(mPackage);
-    mContext.setImportProfile(mImportProfile);
 
     mInterfaceTypeSpecifier = new InterfaceTypeSpecifier(NULL, "IMyInterface", 0);
     vector<Type*> types;
