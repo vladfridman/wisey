@@ -57,7 +57,9 @@ bool FloatType::canAutoCastTo(IRGenerationContext& context, const IType* toType)
     return false;
   }
   
-  return toType == PrimitiveTypes::FLOAT || toType == PrimitiveTypes::DOUBLE;
+  return toType == PrimitiveTypes::BOOLEAN ||
+    toType == PrimitiveTypes::FLOAT ||
+    toType == PrimitiveTypes::DOUBLE;
 }
 
 Value* FloatType::castTo(IRGenerationContext& context,
@@ -66,10 +68,15 @@ Value* FloatType::castTo(IRGenerationContext& context,
                          int line) const {
   if (toType->isNative() && toType->getLLVMType(context) == getLLVMType(context)) {
     return fromValue;
-  } else if (toType == PrimitiveTypes::BOOLEAN ||
-      toType == PrimitiveTypes::CHAR ||
-      toType == PrimitiveTypes::INT ||
-      toType == PrimitiveTypes::LONG) {
+  } else if (toType == PrimitiveTypes::BOOLEAN) {
+    return IRWriter::newFCmpInst(context,
+                                 FCmpInst::FCMP_ONE,
+                                 fromValue,
+                                 ConstantFP::get(getLLVMType(context), 0),
+                                 "");
+  } else if (toType == PrimitiveTypes::CHAR ||
+             toType == PrimitiveTypes::INT ||
+             toType == PrimitiveTypes::LONG) {
     return Cast::floatToIntCast(context, fromValue, toType);
   } else if (toType == PrimitiveTypes::FLOAT) {
     return fromValue;

@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockConcreteObjectType.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/FloatType.hpp"
@@ -75,7 +76,7 @@ TEST_F(FloatTypeTest, floatTypeTest) {
 TEST_F(FloatTypeTest, canAutoCastToTest) {
   EXPECT_FALSE(mFloatType.canAutoCastTo(mContext, PrimitiveTypes::VOID));
   EXPECT_FALSE(mFloatType.canAutoCastTo(mContext, PrimitiveTypes::STRING));
-  EXPECT_FALSE(mFloatType.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN));
+  EXPECT_TRUE(mFloatType.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN));
   EXPECT_FALSE(mFloatType.canAutoCastTo(mContext, PrimitiveTypes::CHAR));
   EXPECT_FALSE(mFloatType.canAutoCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_FALSE(mFloatType.canAutoCastTo(mContext, PrimitiveTypes::LONG));
@@ -110,22 +111,22 @@ TEST_F(FloatTypeTest, castToTest) {
 
   result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv = fptosi float 2.500000e+00 to i1", mStringStream->str().c_str());
+  EXPECT_STREQ("  %0 = fcmp one float 2.500000e+00, 0.000000e+00", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv1 = fptosi float 2.500000e+00 to i8", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv = fptosi float 2.500000e+00 to i8", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::INT, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv2 = fptosi float 2.500000e+00 to i32", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv1 = fptosi float 2.500000e+00 to i32", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::LONG, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv3 = fptosi float 2.500000e+00 to i64", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv2 = fptosi float 2.500000e+00 to i64", mStringStream->str().c_str());
   mStringBuffer.clear();
 
   result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT, 0);
@@ -133,7 +134,7 @@ TEST_F(FloatTypeTest, castToTest) {
   
   result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv4 = fpext float 2.500000e+00 to double", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv3 = fpext float 2.500000e+00 to double", mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
@@ -198,4 +199,8 @@ TEST_F(FloatTypeTest, injectDeathTest) {
   EXPECT_STREQ("/tmp/source.yz(3): Error: type float is not injectable\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
+}
+
+TEST_F(TestFileRunner, floatCastToBooleanRunTest) {
+  runFile("tests/samples/test_float_cast_to_boolean.yz", "7");
 }

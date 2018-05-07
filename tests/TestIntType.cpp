@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockConcreteObjectType.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IntType.hpp"
@@ -75,7 +76,7 @@ TEST_F(IntTypeTest, intTypeTest) {
 TEST_F(IntTypeTest, canAutoCastToTest) {
   EXPECT_FALSE(mIntType.canAutoCastTo(mContext, PrimitiveTypes::VOID));
   EXPECT_FALSE(mIntType.canAutoCastTo(mContext, PrimitiveTypes::STRING));
-  EXPECT_FALSE(mIntType.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN));
+  EXPECT_TRUE(mIntType.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN));
   EXPECT_FALSE(mIntType.canAutoCastTo(mContext, PrimitiveTypes::CHAR));
   EXPECT_TRUE(mIntType.canAutoCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_TRUE(mIntType.canAutoCastTo(mContext, PrimitiveTypes::LONG));
@@ -110,12 +111,12 @@ TEST_F(IntTypeTest, castToTest) {
 
   result = mIntType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv = trunc i32 5 to i1", mStringStream->str().c_str());
+  EXPECT_STREQ("  %0 = icmp ne i32 5, 0", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = mIntType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv1 = trunc i32 5 to i8", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv = trunc i32 5 to i8", mStringStream->str().c_str());
   mStringBuffer.clear();
 
   result = mIntType.castTo(mContext, expressionValue, PrimitiveTypes::INT, 0);
@@ -123,17 +124,17 @@ TEST_F(IntTypeTest, castToTest) {
   
   result = mIntType.castTo(mContext, expressionValue, PrimitiveTypes::LONG, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv2 = zext i32 5 to i64", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv1 = zext i32 5 to i64", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = mIntType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv3 = sitofp i32 5 to float", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv2 = sitofp i32 5 to float", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = mIntType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv4 = sitofp i32 5 to double", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv3 = sitofp i32 5 to double", mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
@@ -198,4 +199,8 @@ TEST_F(IntTypeTest, injectDeathTest) {
   EXPECT_STREQ("/tmp/source.yz(3): Error: type int is not injectable\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
+}
+
+TEST_F(TestFileRunner, intCastToBooleanRunTest) {
+  runFile("tests/samples/test_int_cast_to_boolean.yz", "3");
 }

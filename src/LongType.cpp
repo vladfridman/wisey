@@ -57,7 +57,7 @@ bool LongType::canAutoCastTo(IRGenerationContext& context, const IType* toType) 
     return false;
   }
   
-  return toType == PrimitiveTypes::LONG;
+  return toType == PrimitiveTypes::BOOLEAN || toType == PrimitiveTypes::LONG;
 }
 
 Value* LongType::castTo(IRGenerationContext& context,
@@ -66,9 +66,13 @@ Value* LongType::castTo(IRGenerationContext& context,
                         int line) const {
   if (toType->isNative() && toType->getLLVMType(context) == getLLVMType(context)) {
     return fromValue;
-  } else if (toType == PrimitiveTypes::BOOLEAN ||
-      toType == PrimitiveTypes::CHAR ||
-      toType == PrimitiveTypes::INT) {
+  } else if (toType == PrimitiveTypes::BOOLEAN) {
+    return IRWriter::newICmpInst(context,
+                                 ICmpInst::ICMP_NE,
+                                 fromValue,
+                                 ConstantInt::get(getLLVMType(context), 0),
+                                 "");
+  } else if (toType == PrimitiveTypes::CHAR || toType == PrimitiveTypes::INT) {
     return Cast::truncIntCast(context, fromValue, toType);
   } else if (toType == PrimitiveTypes::LONG) {
     return fromValue;

@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockConcreteObjectType.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/LongType.hpp"
@@ -75,7 +76,7 @@ TEST_F(LongTypeTest, longTypeTest) {
 TEST_F(LongTypeTest, canAutoCastToTest) {
   EXPECT_FALSE(mLongType.canAutoCastTo(mContext, PrimitiveTypes::VOID));
   EXPECT_FALSE(mLongType.canAutoCastTo(mContext, PrimitiveTypes::STRING));
-  EXPECT_FALSE(mLongType.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN));
+  EXPECT_TRUE(mLongType.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN));
   EXPECT_FALSE(mLongType.canAutoCastTo(mContext, PrimitiveTypes::CHAR));
   EXPECT_FALSE(mLongType.canAutoCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_TRUE(mLongType.canAutoCastTo(mContext, PrimitiveTypes::LONG));
@@ -110,17 +111,17 @@ TEST_F(LongTypeTest, castToTest) {
 
   result = mLongType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv = trunc i64 5 to i1", mStringStream->str().c_str());
+  EXPECT_STREQ("  %0 = icmp ne i64 5, 0", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = mLongType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv1 = trunc i64 5 to i8", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv = trunc i64 5 to i8", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = mLongType.castTo(mContext, expressionValue, PrimitiveTypes::INT, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv2 = trunc i64 5 to i32", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv1 = trunc i64 5 to i32", mStringStream->str().c_str());
   mStringBuffer.clear();
 
   result = mLongType.castTo(mContext, expressionValue, PrimitiveTypes::LONG, 0);
@@ -128,12 +129,12 @@ TEST_F(LongTypeTest, castToTest) {
   
   result = mLongType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv3 = sitofp i64 5 to float", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv2 = sitofp i64 5 to float", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = mLongType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv4 = sitofp i64 5 to double", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv3 = sitofp i64 5 to double", mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
@@ -198,4 +199,8 @@ TEST_F(LongTypeTest, injectDeathTest) {
   EXPECT_STREQ("/tmp/source.yz(3): Error: type long is not injectable\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
+}
+
+TEST_F(TestFileRunner, longCastToBooleanRunTest) {
+  runFile("tests/samples/test_long_cast_to_boolean.yz", "5");
 }
