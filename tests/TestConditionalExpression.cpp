@@ -278,3 +278,7 @@ TEST_F(TestFileRunner, conditionalExpressionReleaseOwnershipRunTest) {
 TEST_F(TestFileRunner, conditionalExpressionAddReferenceToOwnerRunTest) {
   runFile("tests/samples/test_conditional_expression_add_reference_to_owner.yz", "3");
 }
+
+TEST_F(TestFileRunner, conditionalExpressionAutocastConditionRunTest) {
+  runFile("tests/samples/test_conditional_expression_autocast_condition.yz", "3");
+}

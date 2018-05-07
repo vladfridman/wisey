@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "wisey/AutoCast.hpp"
 #include "wisey/ConditionalExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -42,6 +43,12 @@ Value* ConditionalExpression::generateIR(IRGenerationContext& context,
   checkTypes(context);
   
   Value* conditionValue = mConditionExpression->generateIR(context, assignToType);
+  const IType* conditionType = mConditionExpression->getType(context);
+  Value* conditionValueCast = AutoCast::maybeCast(context,
+                                                  conditionType,
+                                                  conditionValue,
+                                                  PrimitiveTypes::BOOLEAN,
+                                                  mLine);
   
   Function* function = context.getBasicBlock()->getParent();
   
@@ -49,7 +56,7 @@ Value* ConditionalExpression::generateIR(IRGenerationContext& context,
   BasicBlock* blockTrue = BasicBlock::Create(llvmContext, "cond.true", function);
   BasicBlock* blockFalse = BasicBlock::Create(llvmContext, "cond.false", function);
   BasicBlock* blockEnd = BasicBlock::Create(llvmContext, "cond.end", function);
-  IRWriter::createConditionalBranch(context, blockTrue, blockFalse, conditionValue);
+  IRWriter::createConditionalBranch(context, blockTrue, blockFalse, conditionValueCast);
   
   context.setBasicBlock(blockTrue);
   Value* ifTrueValue = mIfTrueExpression->generateIR(context, assignToType);
@@ -87,7 +94,7 @@ void ConditionalExpression::checkTypes(IRGenerationContext& context) const {
   const IType* ifTrueExpressionType = mIfTrueExpression->getType(context);
   const IType* ifFalseExpressionType = mIfFalseExpression->getType(context);
   
-  if (mConditionExpression->getType(context) != PrimitiveTypes::BOOLEAN) {
+  if (!mConditionExpression->getType(context)->canAutoCastTo(context, PrimitiveTypes::BOOLEAN)) {
     context.reportError(mLine, "Condition in a conditional expression is not of type BOOLEAN");
     throw 1;
   }
