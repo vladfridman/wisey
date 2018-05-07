@@ -13,6 +13,8 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IdentifierChain.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/PrimitiveTypes.hpp"
+#include "wisey/StringGetLengthMethod.hpp"
 #include "wisey/UndefinedType.hpp"
 
 using namespace std;
@@ -77,6 +79,10 @@ const IMethodDescriptor* IdentifierChain::getMethodDescriptor(IRGenerationContex
   }
   if (expressionType->isArray() && !mName.compare(ArrayGetSizeMethod::ARRAY_GET_SIZE_METHOD_NAME)) {
     return ArrayGetSizeMethod::ARRAY_GET_SIZE_METHOD;
+  }
+  if (expressionType == PrimitiveTypes::STRING &&
+      !mName.compare(StringGetLengthMethod::STRING_GET_LENGTH_METHOD_NAME)) {
+    return StringGetLengthMethod::STRING_GET_LENGTH_METHOD;
   }
   if (!IType::isObjectType(expressionType)) {
     context.reportError(mLine, "Attempt to call a method '" + mName +

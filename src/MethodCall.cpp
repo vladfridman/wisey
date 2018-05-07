@@ -22,6 +22,7 @@
 #include "wisey/MethodCall.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/StringGetLengthMethod.hpp"
 #include "wisey/ThreadExpression.hpp"
 
 using namespace std;
@@ -67,6 +68,9 @@ Value* MethodCall::generateIR(IRGenerationContext& context, const IType* assignT
   
   if (methodDescriptor == ArrayGetSizeMethod::ARRAY_GET_SIZE_METHOD) {
     return ArrayGetSizeMethod::generateIR(context, mExpression);
+  }
+  if (methodDescriptor == StringGetLengthMethod::STRING_GET_LENGTH_METHOD) {
+    return StringGetLengthMethod::generateIR(context, mExpression);
   }
   if (IType::isConcreteObjectType(object)) {
     return generateObjectMethodCallIR(context,

@@ -82,6 +82,9 @@ void TestPrefix::defineIntrinsicFunctions(IRGenerationContext& context) {
   functionType = llvm::TypeBuilder<int(types::i<8>*, char *, ...), false>::get(llvmContext);
   Function::Create(functionType, GlobalValue::ExternalLinkage, "fprintf", module);
   
+  functionType = llvm::TypeBuilder<long(types::i<8>*), false>::get(llvmContext);
+  Function::Create(functionType, GlobalValue::ExternalLinkage, "strlen", module);
+  
   functionType = TypeBuilder<void (), false>::get(llvmContext);
   Function::Create(functionType, GlobalValue::ExternalLinkage, "__cxa_end_catch", module);
 

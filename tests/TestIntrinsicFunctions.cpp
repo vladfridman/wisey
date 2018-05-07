@@ -60,6 +60,10 @@ TEST_F(IntrinsicFunctionsTest, getFprintfFunctionTest) {
   EXPECT_NE(IntrinsicFunctions::getFprintfFunction(mContext), nullptr);
 }
 
+TEST_F(IntrinsicFunctionsTest, getStrLenFunctionTest) {
+  EXPECT_NE(IntrinsicFunctions::getStrLenFunction(mContext), nullptr);
+}
+
 TEST_F(IntrinsicFunctionsTest, getThrowFunctionTest) {
   EXPECT_NE(IntrinsicFunctions::getThrowFunction(mContext), nullptr);
 }

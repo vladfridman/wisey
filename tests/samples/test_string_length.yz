@@ -1,0 +1,13 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    string mystring = "1234567";
+    return (int) mystring.getLength();
+  }
+}
+
+bind(IProgram).to(CProgram);

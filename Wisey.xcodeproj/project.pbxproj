@@ -776,6 +776,9 @@
 		F598117A20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117B20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117E20A0676E003AADCA /* TestObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */; };
+		F598118120A0A17F003AADCA /* StringGetLengthMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598118020A0A17F003AADCA /* StringGetLengthMethod.cpp */; };
+		F598118220A0A17F003AADCA /* StringGetLengthMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598118020A0A17F003AADCA /* StringGetLengthMethod.cpp */; };
+		F598118420A0A548003AADCA /* TestStringGetLengthMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598118320A0A548003AADCA /* TestStringGetLengthMethod.cpp */; };
 		F59D82081E0F102000057FB5 /* TestEmptyStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82071E0F102000057FB5 /* TestEmptyStatement.cpp */; };
 		F59D820B1E0F157E00057FB5 /* WhileStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */; };
 		F59D820C1E0F157E00057FB5 /* WhileStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */; };
@@ -1782,6 +1785,9 @@
 		F598117720A05DAC003AADCA /* ObjectKindGlobal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ObjectKindGlobal.hpp; path = include/wisey/ObjectKindGlobal.hpp; sourceTree = "<group>"; };
 		F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectKindGlobal.cpp; path = src/ObjectKindGlobal.cpp; sourceTree = "<group>"; };
 		F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectKindGlobal.cpp; path = tests/TestObjectKindGlobal.cpp; sourceTree = "<group>"; };
+		F598117F20A0A13B003AADCA /* StringGetLengthMethod.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = StringGetLengthMethod.hpp; path = include/wisey/StringGetLengthMethod.hpp; sourceTree = "<group>"; };
+		F598118020A0A17F003AADCA /* StringGetLengthMethod.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = StringGetLengthMethod.cpp; path = src/StringGetLengthMethod.cpp; sourceTree = "<group>"; };
+		F598118320A0A548003AADCA /* TestStringGetLengthMethod.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestStringGetLengthMethod.cpp; path = tests/TestStringGetLengthMethod.cpp; sourceTree = "<group>"; };
 		F59D82071E0F102000057FB5 /* TestEmptyStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestEmptyStatement.cpp; path = tests/TestEmptyStatement.cpp; sourceTree = "<group>"; };
 		F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WhileStatement.cpp; path = src/WhileStatement.cpp; sourceTree = "<group>"; };
 		F59D820D1E0F25DF00057FB5 /* TestWhileStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestWhileStatement.cpp; path = tests/TestWhileStatement.cpp; sourceTree = "<group>"; };
@@ -2685,6 +2691,7 @@
 				F5089C9A1ECD01D9004A1223 /* PrimitiveTypes.hpp */,
 				F5089C9B1ECD01D9004A1223 /* PrimitiveTypeSpecifier.hpp */,
 				F5C0E7E22099B5660028BBD0 /* StringFormatType.hpp */,
+				F598117F20A0A13B003AADCA /* StringGetLengthMethod.hpp */,
 				F58725501F6D744600FA25E6 /* StringType.hpp */,
 				F51942F61FE3C0C0009C3158 /* UndefinedType.hpp */,
 				F5089CAB1ECD01D9004A1223 /* VoidType.hpp */,
@@ -2706,6 +2713,7 @@
 				F507D26C1E46044700495E2D /* PrimitiveTypes.cpp */,
 				F5E2092F1E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp */,
 				F5C0E7E32099B6E40028BBD0 /* StringFormatType.cpp */,
+				F598118020A0A17F003AADCA /* StringGetLengthMethod.cpp */,
 				F58725511F6D749100FA25E6 /* StringType.cpp */,
 				F51942F71FE3C123009C3158 /* UndefinedType.cpp */,
 				F5C6FD691E48B33A0054209D /* VoidType.cpp */,
@@ -3570,6 +3578,7 @@
 				F53A2C4F1F02D55A00E76A9E /* TestPrimitiveTypes.cpp */,
 				F531B6381E07A80F008304F3 /* TestPrimitiveTypeSpecifier.cpp */,
 				F5C0E7E62099E1C20028BBD0 /* TestStringFormatType.cpp */,
+				F598118320A0A548003AADCA /* TestStringGetLengthMethod.cpp */,
 				F58725541F6DB97C00FA25E6 /* TestStringType.cpp */,
 				F51942FD1FE3F3CF009C3158 /* TestUndefinedType.cpp */,
 				F5C6FD6C1E48B37D0054209D /* TestVoidType.cpp */,
@@ -4338,6 +4347,7 @@
 				F57411641E01BBFC009809FF /* Scope.cpp in Sources */,
 				F58725531F6D749100FA25E6 /* StringType.cpp in Sources */,
 				F5C7D1581F7C256400D65584 /* TestExternalModelDefinition.cpp in Sources */,
+				F598118420A0A548003AADCA /* TestStringGetLengthMethod.cpp in Sources */,
 				F5C6FD771E48B50A0054209D /* DoubleType.cpp in Sources */,
 				F58725551F6DB97C00FA25E6 /* TestStringType.cpp in Sources */,
 				F5CB7FE52052AEB1007628B5 /* StateField.cpp in Sources */,
@@ -4457,6 +4467,7 @@
 				F5105FB41FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp in Sources */,
 				F5752AC32088C52F00C00DE1 /* InstanceOfFunction.cpp in Sources */,
 				F5BF0C902081028F005AF4E5 /* TestLLVMPointerOwnerType.cpp in Sources */,
+				F598118220A0A17F003AADCA /* StringGetLengthMethod.cpp in Sources */,
 				F50FA2A11E269B4700435EEA /* TestCompoundStatement.cpp in Sources */,
 				F5603B502021562800BBA05D /* TestCheckArrayIndexFunction.cpp in Sources */,
 				F5436DB41FCF72BB003ABF6F /* ModelTypeSpecifierFull.cpp in Sources */,
@@ -4731,6 +4742,7 @@
 				F508E0691E72D954005D6115 /* IMethodDescriptor.cpp in Sources */,
 				F50FF882208B8A43008EDC40 /* LocalImmutableArrayReferenceVariable.cpp in Sources */,
 				F5B3DCE51F9116AF00FC76D3 /* IMethodCall.cpp in Sources */,
+				F598118120A0A17F003AADCA /* StringGetLengthMethod.cpp in Sources */,
 				F5A0DAEC207BE43000B0E479 /* WiseyModelType.cpp in Sources */,
 				F58A83561F798B6300369388 /* ExternalNodeDefinition.cpp in Sources */,
 				F54B1466205D66AB0030773F /* LLVMi1Type.cpp in Sources */,

@@ -26,6 +26,10 @@ Function* IntrinsicFunctions::getFprintfFunction(IRGenerationContext& context) {
   return context.getModule()->getFunction("fprintf");
 }
 
+Function* IntrinsicFunctions::getStrLenFunction(IRGenerationContext& context) {
+  return context.getModule()->getFunction("strlen");
+}
+
 Function* IntrinsicFunctions::getThrowFunction(IRGenerationContext& context) {
   return context.getModule()->getFunction("__cxa_throw");
 }
