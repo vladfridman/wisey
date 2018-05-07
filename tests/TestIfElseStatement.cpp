@@ -129,3 +129,9 @@ TEST_F(TestFileRunner, unreachableIfElseStatementRunDeathTest) {
                     1,
                     "tests/samples/test_unreachable_if_else_statement.yz\\(9\\): Error: Statement unreachable");
 }
+
+TEST_F(TestFileRunner, ifElseReturnsRunDeathTest) {
+  expectFailCompile("tests/samples/test_if_else_returns.yz",
+                    1,
+                    "tests/samples/test_if_else_returns.yz\\(13\\): Error: Statement unreachable");
+}

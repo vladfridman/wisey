@@ -2,18 +2,15 @@ package systems.vos.wisey.compiler.tests;
 
 import wisey.lang.IProgram;
 
-model MMyModel {
-}
-
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MMyModel* mymodel = builder(MMyModel).build();
-    if (mymodel) {
-      return 5;
+    if (true) {
+      return 1;
     } else {
-      return 0;
+      return 2;
     }
+    return 3;
   }
 }
 

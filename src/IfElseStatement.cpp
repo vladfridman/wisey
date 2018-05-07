@@ -47,12 +47,15 @@ void IfElseStatement::generateIR(IRGenerationContext& context) const {
   
   context.setBasicBlock(ifThen);
   mThenStatement->generateIR(context);
-  IRWriter::createBranch(context, ifEnd);
+  Value* createdIfBranch = IRWriter::createBranch(context, ifEnd);
   
   context.setBasicBlock(ifElse);
   mElseStatement->generateIR(context);
-  IRWriter::createBranch(context, ifEnd);
+  Value* createdElseBranch = IRWriter::createBranch(context, ifEnd);
   
   context.setBasicBlock(ifEnd);
+  if (!createdIfBranch && !createdElseBranch) {
+    IRWriter::newUnreachableInst(context);
+  }
 }
 
