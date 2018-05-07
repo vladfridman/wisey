@@ -35,7 +35,12 @@ Value* CastExpression::generateIR(IRGenerationContext& context, const IType* ass
   const IType* fromType = mExpression->getType(context);
   Value* fromValue = mExpression->generateIR(context, assignToType);
   const IType* toType = mTypeSpecifier->getType(context);
-  
+  if (!fromType->canCastTo(context, toType)) {
+    context.reportError(mLine, "Can not cast from type " + fromType->getTypeName() + " to type " +
+                        toType->getTypeName());
+    throw 1;
+  }
+
   return fromType->castTo(context, fromValue, toType, mLine);
 }
 

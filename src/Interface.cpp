@@ -640,9 +640,10 @@ llvm::PointerType* Interface::getLLVMType(IRGenerationContext& context) const {
  * If object type assume we can perform cast and check at run time
  */
 bool Interface::canCastTo(IRGenerationContext& context, const IType* toType) const {
-  if (toType == PrimitiveTypes::BOOLEAN) {
+  if (canAutoCastTo(context, toType)) {
     return true;
   }
+
   if (!IType::isObjectType(toType)) {
     return false;
   }
