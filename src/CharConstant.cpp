@@ -29,7 +29,7 @@ int CharConstant::getLine() const {
 
 llvm::Constant* CharConstant::generateIR(IRGenerationContext& context,
                                          const IType* assignToType) const {
-  return ConstantInt::get(Type::getInt16Ty(context.getLLVMContext()), mValue);
+  return ConstantInt::get(Type::getInt8Ty(context.getLLVMContext()), mValue);
 }
 
 const IType* CharConstant::getType(IRGenerationContext& context) const {

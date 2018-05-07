@@ -115,7 +115,7 @@ TEST_F(LongTypeTest, castToTest) {
   
   result = mLongType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv1 = trunc i64 5 to i16", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv1 = trunc i64 5 to i8", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = mLongType.castTo(mContext, expressionValue, PrimitiveTypes::INT, 0);

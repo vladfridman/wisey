@@ -304,12 +304,12 @@ TEST_F(IRWriterTest, createZExtOrBitCastTest) {
 
 TEST_F(IRWriterTest, newTruncInstTest) {
   ConstantInt* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 0);
-  Type* type = Type::getInt16Ty(mLLVMContext);
+  Type* type = Type::getInt8Ty(mLLVMContext);
   CastInst* castInst = IRWriter::newTruncInst(mContext, value, type);
   
   EXPECT_EQ(mBasicBlock->size(), 1u);
   *mStringStream << *castInst;
-  ASSERT_STREQ(mStringStream->str().c_str(), "  %conv = trunc i32 0 to i16");
+  ASSERT_STREQ(mStringStream->str().c_str(), "  %conv = trunc i32 0 to i8");
   
   IRWriter::createReturnInst(mContext, value);
   
@@ -376,12 +376,12 @@ TEST_F(IRWriterTest, newSIToFPInstTest) {
 
 TEST_F(IRWriterTest, newFPToSIInstTest) {
   llvm::Constant* value = ConstantFP::get(Type::getDoubleTy(mLLVMContext), 0);
-  Type* type = Type::getInt16Ty(mLLVMContext);
+  Type* type = Type::getInt8Ty(mLLVMContext);
   CastInst* castInst = IRWriter::newFPToSIInst(mContext, value, type);
   
   EXPECT_EQ(mBasicBlock->size(), 1u);
   *mStringStream << *castInst;
-  ASSERT_STREQ(mStringStream->str().c_str(), "  %conv = fptosi double 0.000000e+00 to i16");
+  ASSERT_STREQ(mStringStream->str().c_str(), "  %conv = fptosi double 0.000000e+00 to i8");
   
   IRWriter::createReturnInst(mContext, value);
   
@@ -395,12 +395,12 @@ TEST_F(IRWriterTest, newFPToSIInstTest) {
 TEST_F(IRWriterTest, newPtrToIntInstTest) {
   llvm::PointerType* int32PointerType = Type::getInt32Ty(mLLVMContext)->getPointerTo();
   Value* pointer = ConstantPointerNull::get(int32PointerType);
-  Type* type = Type::getInt16Ty(mLLVMContext);
+  Type* type = Type::getInt8Ty(mLLVMContext);
   CastInst* castInst = IRWriter::newPtrToIntInst(mContext, pointer, type, "conv");
   
   EXPECT_EQ(mBasicBlock->size(), 1u);
   *mStringStream << *castInst;
-  ASSERT_STREQ(mStringStream->str().c_str(), "  %conv = ptrtoint i32* null to i16");
+  ASSERT_STREQ(mStringStream->str().c_str(), "  %conv = ptrtoint i32* null to i8");
   
   IRWriter::createReturnInst(mContext, ConstantInt::get(Type::getInt32Ty(mLLVMContext), 0));
   

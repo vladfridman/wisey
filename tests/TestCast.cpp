@@ -99,13 +99,13 @@ TEST_F(CastTest, truncIntToFloatCastTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(CastTest, floatToIntCastTest) {
+TEST_F(CastTest, floatToCharCastTest) {
   Value* expressionValue = ConstantFP::get(Type::getDoubleTy(mLLVMContext), 2.5);
   
   Value* result = Cast::floatToIntCast(mContext, expressionValue, PrimitiveTypes::CHAR);
   
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv = fptosi double 2.500000e+00 to i16", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv = fptosi double 2.500000e+00 to i8", mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 

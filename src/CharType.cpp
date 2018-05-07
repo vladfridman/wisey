@@ -35,7 +35,7 @@ string CharType::getTypeName() const {
 }
 
 llvm::Type* CharType::getLLVMType(IRGenerationContext& context) const {
-  return Type::getInt16Ty(context.getLLVMContext());
+  return Type::getInt8Ty(context.getLLVMContext());
 }
 
 bool CharType::canCastTo(IRGenerationContext& context, const IType* toType) const {

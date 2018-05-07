@@ -115,7 +115,7 @@ TEST_F(FloatTypeTest, castToTest) {
   
   result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv1 = fptosi float 2.500000e+00 to i16", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv1 = fptosi float 2.500000e+00 to i8", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::INT, 0);

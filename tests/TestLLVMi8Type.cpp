@@ -20,6 +20,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMi8Type.hpp"
 #include "wisey/LLVMi1Type.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -83,15 +84,22 @@ TEST_F(LLVMi8TypeTest, canCastToTest) {
   EXPECT_TRUE(mLLVMi8Type.canCastTo(mContext, &mLLVMi8Type));
   LLVMi1Type i1Type;
   EXPECT_FALSE(mLLVMi8Type.canCastTo(mContext, &i1Type));
+  EXPECT_TRUE(mLLVMi8Type.canCastTo(mContext, PrimitiveTypes::CHAR));
 }
 
 TEST_F(LLVMi8TypeTest, canAutoCastToTest) {
   EXPECT_TRUE(mLLVMi8Type.canAutoCastTo(mContext, &mLLVMi8Type));
+  EXPECT_TRUE(mLLVMi8Type.canAutoCastTo(mContext, PrimitiveTypes::CHAR));
 }
 
 TEST_F(LLVMi8TypeTest, getPointerTypeTest) {
   const IType* pointerType = mLLVMi8Type.getPointerType(mContext, 0);
   EXPECT_EQ(Type::getInt8Ty(mLLVMContext)->getPointerTo(), pointerType->getLLVMType(mContext));
+}
+
+TEST_F(LLVMi8TypeTest, castToTest) {
+  Value* value = ConstantInt::get(Type::getInt8Ty(mLLVMContext), 5);
+  EXPECT_EQ(value, mLLVMi8Type.castTo(mContext, value, PrimitiveTypes::CHAR, 0));
 }
 
 TEST_F(LLVMi8TypeTest, printToStreamTest) {

@@ -67,7 +67,7 @@ public:
 };
 
 TEST_F(CharTypeTest, charTypeTest) {
-  EXPECT_EQ(Type::getInt16Ty(mLLVMContext), mCharType.getLLVMType(mContext));
+  EXPECT_EQ(Type::getInt8Ty(mLLVMContext), mCharType.getLLVMType(mContext));
   EXPECT_STREQ("char", mCharType.getTypeName().c_str());
   EXPECT_EQ("%c", mCharType.getFormat());
 }
@@ -98,7 +98,7 @@ TEST_F(CharTypeTest, castToTest) {
   Mock::AllowLeak(&mConcreteObjectType);
 
   Value* result;
-  Value* expressionValue = ConstantInt::get(Type::getInt16Ty(mLLVMContext), 'a');
+  Value* expressionValue = ConstantInt::get(Type::getInt8Ty(mLLVMContext), 'a');
   
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
@@ -110,7 +110,7 @@ TEST_F(CharTypeTest, castToTest) {
 
   result = mCharType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv = trunc i16 97 to i1", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv = trunc i8 97 to i1", mStringStream->str().c_str());
   mStringBuffer.clear();
 
   result = mCharType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR, 0);
@@ -118,22 +118,22 @@ TEST_F(CharTypeTest, castToTest) {
   
   result = mCharType.castTo(mContext, expressionValue, PrimitiveTypes::INT, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv1 = zext i16 97 to i32", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv1 = zext i8 97 to i32", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = mCharType.castTo(mContext, expressionValue, PrimitiveTypes::LONG, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv2 = zext i16 97 to i64", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv2 = zext i8 97 to i64", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = mCharType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv3 = sitofp i16 97 to float", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv3 = sitofp i8 97 to float", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = mCharType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv4 = sitofp i16 97 to double", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv4 = sitofp i8 97 to double", mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
@@ -166,8 +166,8 @@ TEST_F(CharTypeTest, createLocalVariableTest) {
   
   string expected =
   "\nentry:"
-  "\n  %0 = alloca i16"
-  "\n  store i16 0, i16* %0\n";
+  "\n  %0 = alloca i8"
+  "\n  store i8 0, i8* %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

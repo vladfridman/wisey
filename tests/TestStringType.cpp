@@ -97,7 +97,7 @@ TEST_F(StringTypeTest, canCastTest) {
 TEST_F(StringTypeTest, castToTest) {
   Mock::AllowLeak(&mConcreteObjectType);
   
-  Value* expressionValue = ConstantPointerNull::get(Type::getInt16Ty(mLLVMContext)->getPointerTo());
+  Value* expressionValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
   
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
