@@ -74,7 +74,7 @@ TEST_F(StringTypeTest, stringTypeTest) {
 }
 
 TEST_F(StringTypeTest, canAutoCastToTest) {
-  EXPECT_FALSE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN));
+  EXPECT_TRUE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN));
   EXPECT_FALSE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::CHAR));
   EXPECT_FALSE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::DOUBLE));
   EXPECT_FALSE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::FLOAT));
@@ -85,7 +85,7 @@ TEST_F(StringTypeTest, canAutoCastToTest) {
 }
 
 TEST_F(StringTypeTest, canCastTest) {
-  EXPECT_FALSE(mStringType.canCastTo(mContext, PrimitiveTypes::BOOLEAN));
+  EXPECT_TRUE(mStringType.canCastTo(mContext, PrimitiveTypes::BOOLEAN));
   EXPECT_FALSE(mStringType.canCastTo(mContext, PrimitiveTypes::CHAR));
   EXPECT_FALSE(mStringType.canCastTo(mContext, PrimitiveTypes::DOUBLE));
   EXPECT_FALSE(mStringType.canCastTo(mContext, PrimitiveTypes::FLOAT));
@@ -105,20 +105,21 @@ TEST_F(StringTypeTest, castToTest) {
   
   EXPECT_ANY_THROW(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::VOID, 5));
   
-  EXPECT_ANY_THROW(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN, 5));
   EXPECT_ANY_THROW(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR, 5));
   EXPECT_ANY_THROW(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::INT, 5));
   EXPECT_ANY_THROW(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::LONG, 5));
   EXPECT_ANY_THROW(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT, 5));
   EXPECT_ANY_THROW(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE, 5));
   EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'string' to 'void'\n"
-               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'string' to 'boolean'\n"
                "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'string' to 'char'\n"
                "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'string' to 'int'\n"
                "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'string' to 'long'\n"
                "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'string' to 'float'\n"
                "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'string' to 'double'\n",
                buffer.str().c_str());
+
+  Value* one = ConstantInt::get(Type::getInt1Ty(mLLVMContext), 1);
+  EXPECT_EQ(one, mStringType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN, 0));
 
   EXPECT_EQ(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::STRING, 5),
             expressionValue);
@@ -186,6 +187,10 @@ TEST_F(StringTypeTest, injectDeathTest) {
   EXPECT_STREQ("/tmp/source.yz(3): Error: type string is not injectable\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
+}
+
+TEST_F(TestFileRunner, stringCastToBooleanRunTest) {
+  runFile("tests/samples/test_string_cast_to_boolean.yz", "3");
 }
 
 TEST_F(TestFileRunner, initStringRunTest) {

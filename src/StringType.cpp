@@ -36,7 +36,7 @@ string StringType::getTypeName() const {
   return "string";
 }
 
-llvm::Type* StringType::getLLVMType(IRGenerationContext& context) const {
+llvm::PointerType* StringType::getLLVMType(IRGenerationContext& context) const {
   return Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
 }
 
@@ -44,7 +44,7 @@ bool StringType::canCastTo(IRGenerationContext& context, const IType* toType) co
   if (toType->isPointer() && toType->isNative()) {
     return true;
   }
-  return toType == PrimitiveTypes::STRING;
+  return toType == PrimitiveTypes::BOOLEAN || toType == PrimitiveTypes::STRING;
 }
 
 bool StringType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
@@ -57,6 +57,9 @@ Value* StringType::castTo(IRGenerationContext& context,
                           int line) const {
   if (toType->isPointer() && toType->isNative()) {
     return IRWriter::newBitCastInst(context, fromValue, toType->getLLVMType(context));
+  }
+  if (toType == PrimitiveTypes::BOOLEAN) {
+    return ConstantInt::get(Type::getInt1Ty(context.getLLVMContext()), 1);
   }
   if (toType == PrimitiveTypes::STRING) {
     return fromValue;

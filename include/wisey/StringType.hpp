@@ -28,7 +28,7 @@ namespace wisey {
     
     std::string getTypeName() const override;
     
-    llvm::Type* getLLVMType(IRGenerationContext& context) const override;
+    llvm::PointerType* getLLVMType(IRGenerationContext& context) const override;
     
     bool canCastTo(IRGenerationContext& context, const IType* toType) const override;
     
