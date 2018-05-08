@@ -155,6 +155,15 @@ external model wisey.lang.MStackOverflowException
   string getName() override;
 }
 
+external model wisey.lang.MString {
+
+  fixed immutable char[]* mContent;
+
+  static wisey.lang.MString* create(
+    string input);
+  long getLength();
+}
+
 external model wisey.threads.MThreadBoundaryException
   implements
     wisey.lang.IException {

@@ -1,0 +1,23 @@
+package wisey.lang;
+
+model MString {
+
+  immutable char[]* mContent; 
+
+  /**
+   * Creates an MString from a string literal
+   */
+  public static MString* create(string input) {
+    char[]* buffer = new char[input.getLength() + 1];
+    ::llvm::i8::pointer pointer = buffer;
+    ::llvm::function::"llvm.memcpy.p0i8.p0i8.i64"(pointer, input, input.getLength(), 4, false);
+    return builder(MString).withContent(buffer).build();
+  }
+
+  /**
+   * Returns the string length
+   */
+  public long getLength() {
+    return mContent.getSize() ? mContent.getSize() - 1 : 0l;
+  }
+}

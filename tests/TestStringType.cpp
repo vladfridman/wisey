@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockConcreteObjectType.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -185,4 +186,8 @@ TEST_F(StringTypeTest, injectDeathTest) {
   EXPECT_STREQ("/tmp/source.yz(3): Error: type string is not injectable\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
+}
+
+TEST_F(TestFileRunner, initStringRunTest) {
+  runFile("tests/samples/test_string_init.yz", "7");
 }

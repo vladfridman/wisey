@@ -62,11 +62,13 @@ Value* ConditionalExpression::generateIR(IRGenerationContext& context,
   Value* ifTrueValue = mIfTrueExpression->generateIR(context, assignToType);
   Type* ifTrueResultType = ifTrueValue->getType();
   IRWriter::createBranch(context, blockEnd);
+  BasicBlock* blockFromTrue = context.getBasicBlock();
 
   context.setBasicBlock(blockFalse);
   Value* ifFalseValue = mIfFalseExpression->generateIR(context, assignToType);
   Type* ifFalseResultType = ifFalseValue->getType();
   IRWriter::createBranch(context, blockEnd);
+  BasicBlock* blockFromFalse = context.getBasicBlock();
 
   if (ifTrueResultType != ifFalseResultType) {
     context.reportError(mLine, "Results of different type in a conditional expresion!");
@@ -78,9 +80,9 @@ Value* ConditionalExpression::generateIR(IRGenerationContext& context,
                                              ifTrueResultType,
                                              "cond",
                                              ifTrueValue,
-                                             blockTrue,
+                                             blockFromTrue,
                                              ifFalseValue,
-                                             blockFalse);
+                                             blockFromFalse);
   
   return phiNode;
 }

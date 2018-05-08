@@ -21,6 +21,7 @@
 #include "wisey/LocalArrayOwnerVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/ParameterArrayOwnerVariable.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace std;
 using namespace wisey;
@@ -48,6 +49,9 @@ bool ArrayOwnerType::canCastTo(IRGenerationContext& context, const IType* toType
   if (toType == this || toType == mArrayType || toType == mArrayType->getImmutable()->getOwner()) {
     return true;
   }
+  if (toType->isPointer() && toType->isNative()) {
+    return true;
+  }
 
   return false;
 }
@@ -62,6 +66,15 @@ llvm::Value* ArrayOwnerType::castTo(IRGenerationContext &context,
                                     int line) const {
   if (toType == this || toType == mArrayType) {
     return fromValue;
+  }
+  if (toType->isPointer() && toType->isNative()) {
+    llvm::LLVMContext& llvmContext = context.getLLVMContext();
+    llvm::Value* index[2];
+    index[0] = llvm::ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 0);
+    index[1] = llvm::ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 3);
+    
+    llvm::Value* arrayStart = IRWriter::createGetElementPtrInst(context, fromValue, index);
+    return IRWriter::newBitCastInst(context, arrayStart, toType->getLLVMType(context));
   }
   if (toType == mArrayType->getImmutable()->getOwner()) {
     CheckArrayNotReferencedFunction::callWithArrayType(context, fromValue, mArrayType, line);

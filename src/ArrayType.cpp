@@ -73,11 +73,18 @@ llvm::PointerType* ArrayType::getLLVMType(IRGenerationContext& context) const {
 }
 
 bool ArrayType::canCastTo(IRGenerationContext& context, const IType *toType) const {
-  return toType == this;
+  if (toType == this) {
+    return true;
+  }
+  if (toType->isPointer() && toType->isNative()) {
+    return true;
+  }
+  
+  return false;
 }
 
 bool ArrayType::canAutoCastTo(IRGenerationContext& context, const IType *toType) const {
-  return toType == this;
+  return canCastTo(context, toType);
 }
 
 llvm::Value* ArrayType::castTo(IRGenerationContext &context,
@@ -87,7 +94,16 @@ llvm::Value* ArrayType::castTo(IRGenerationContext &context,
   if (toType == this) {
     return fromValue;
   }
-  
+  if (toType->isPointer() && toType->isNative()) {
+    llvm::LLVMContext& llvmContext = context.getLLVMContext();
+    llvm::Value* index[2];
+    index[0] = llvm::ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 0);
+    index[1] = llvm::ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 3);
+        
+    llvm::Value* arrayStart = IRWriter::createGetElementPtrInst(context, fromValue, index);
+    return IRWriter::newBitCastInst(context, arrayStart, toType->getLLVMType(context));
+  }
+
   return NULL;
 }
 

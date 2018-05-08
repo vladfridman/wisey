@@ -58,7 +58,6 @@ llvm::Value* ImmutableArrayOwnerType::castTo(IRGenerationContext &context,
   if (toType == this || toType == mImmutableArrayType) {
     return fromValue;
   }
-  
   return NULL;
 }
 

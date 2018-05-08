@@ -41,17 +41,23 @@ llvm::Type* StringType::getLLVMType(IRGenerationContext& context) const {
 }
 
 bool StringType::canCastTo(IRGenerationContext& context, const IType* toType) const {
+  if (toType->isPointer() && toType->isNative()) {
+    return true;
+  }
   return toType == PrimitiveTypes::STRING;
 }
 
 bool StringType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
-  return toType == PrimitiveTypes::STRING;
+  return canCastTo(context, toType);
 }
 
 Value* StringType::castTo(IRGenerationContext& context,
                           Value* fromValue,
                           const IType* toType,
                           int line) const {
+  if (toType->isPointer() && toType->isNative()) {
+    return IRWriter::newBitCastInst(context, fromValue, toType->getLLVMType(context));
+  }
   if (toType == PrimitiveTypes::STRING) {
     return fromValue;
   }
