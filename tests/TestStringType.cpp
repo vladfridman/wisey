@@ -202,5 +202,5 @@ TEST_F(TestFileRunner, stringCopyRunTest) {
 }
 
 TEST_F(TestFileRunner, stringAppendRunTest) {
-  runFile("tests/samples/test_string_append.yz", "7");
+  runFileCheckOutput("tests/samples/test_string_append.yz", "1234567\n", "");
 }

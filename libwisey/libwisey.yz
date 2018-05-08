@@ -165,6 +165,7 @@ external model wisey.lang.MString {
   wisey.lang.MString* copy();
   wisey.lang.MString* append(
     wisey.lang.MString appendix);
+  immutable char[] getContent();
 }
 
 external model wisey.lang.MSystem {

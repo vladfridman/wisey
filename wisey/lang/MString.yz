@@ -42,13 +42,17 @@ model MString {
     char[]* buffer = new char[length];
     ::llvm::i8::pointer destination = buffer;
     ::llvm::i8::pointer source = mContent;
-    MSystem.memcopy(destination, source, length);
+    MSystem.memcopy(destination, source, getLength());
     destination = destination + getLength();
     source = appendix.getContent();
+    MSystem.memcopy(destination, source, appendix.getLength());
     return builder(MString).withContent(buffer).build();
   }
 
-  private immutable char[] getContent() {
+  /**
+   * Returns char array for this string
+   */
+  public immutable char[] getContent() {
     return mContent;
   }
 }
