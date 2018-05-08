@@ -181,6 +181,21 @@ TEST_F(ArrayTypeTest, injectDeathTest) {
   std::cerr.rdbuf(oldbuffer);
 }
 
+TEST_F(ArrayTypeTest, extractLLVMArrayTest) {
+  llvm::Value* value = llvm::ConstantPointerNull::get(mArrayType->getLLVMType(mContext));
+  ArrayType::extractLLVMArray(mContext, value);
+  
+  *mStringStream << *mBasicBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %0 = getelementptr { i64, i64, i64, [0 x i64] }, { i64, i64, i64, [0 x i64] }* null, i32 0, i32 3"
+  "\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
 TEST_F(TestFileRunner, llvmArrayRunTest) {
   runFile("tests/samples/test_llvm_array.yz", "4");
 }

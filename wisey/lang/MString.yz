@@ -18,6 +18,19 @@ model MString {
    * Returns the string length
    */
   public long getLength() {
-    return mContent.getSize() ? mContent.getSize() - 1 : 0l;
+    long size = mContent.getSize();
+    return size ? size - 1 : 0l;
+  }
+
+  /**
+   * Creates a copy of the string
+   */
+  public MString* copy() {
+    long length = mContent.getSize();
+    char[]* buffer = new char[length];
+    ::llvm::i8::pointer destination = buffer;
+    ::llvm::i8::pointer source = mContent;
+    MSystem.memcopy(destination, source, length);
+    return builder(MString).withContent(buffer).build();
   }
 }

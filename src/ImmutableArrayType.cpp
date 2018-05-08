@@ -44,11 +44,17 @@ llvm::PointerType* ImmutableArrayType::getLLVMType(IRGenerationContext& context)
 }
 
 bool ImmutableArrayType::canCastTo(IRGenerationContext& context, const IType *toType) const {
-  return toType == this;
+  if (toType == this) {
+    return true;
+  }
+  if (toType->isPointer() && toType->isNative()) {
+    return true;
+  }
+  return false;
 }
 
 bool ImmutableArrayType::canAutoCastTo(IRGenerationContext& context, const IType *toType) const {
-  return toType == this;
+  return canCastTo(context, toType);
 }
 
 llvm::Value* ImmutableArrayType::castTo(IRGenerationContext &context,
@@ -58,7 +64,11 @@ llvm::Value* ImmutableArrayType::castTo(IRGenerationContext &context,
   if (toType == this) {
     return fromValue;
   }
-  
+  if (toType->isPointer() && toType->isNative()) {
+    llvm::Value* arrayStart = ArrayType::extractLLVMArray(context, fromValue);
+    return IRWriter::newBitCastInst(context, arrayStart, toType->getLLVMType(context));
+  }
+
   return NULL;
 }
 

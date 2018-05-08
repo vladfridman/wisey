@@ -95,12 +95,7 @@ llvm::Value* ArrayType::castTo(IRGenerationContext &context,
     return fromValue;
   }
   if (toType->isPointer() && toType->isNative()) {
-    llvm::LLVMContext& llvmContext = context.getLLVMContext();
-    llvm::Value* index[2];
-    index[0] = llvm::ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 0);
-    index[1] = llvm::ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 3);
-        
-    llvm::Value* arrayStart = IRWriter::createGetElementPtrInst(context, fromValue, index);
+    llvm::Value* arrayStart = ArrayType::extractLLVMArray(context, fromValue);
     return IRWriter::newBitCastInst(context, arrayStart, toType->getLLVMType(context));
   }
 
@@ -220,4 +215,13 @@ llvm::Instruction* ArrayType::inject(IRGenerationContext& context,
                                      int line) const {
   repotNonInjectableType(context, this, line);
   throw 1;
+}
+
+llvm::Value* ArrayType::extractLLVMArray(IRGenerationContext& context, llvm::Value* arrayPointer) {
+  llvm::LLVMContext& llvmContext = context.getLLVMContext();
+  llvm::Value* index[2];
+  index[0] = llvm::ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 0);
+  index[1] = llvm::ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 3);
+  
+  return IRWriter::createGetElementPtrInst(context, arrayPointer, index);
 }

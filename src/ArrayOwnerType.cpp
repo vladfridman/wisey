@@ -68,12 +68,7 @@ llvm::Value* ArrayOwnerType::castTo(IRGenerationContext &context,
     return fromValue;
   }
   if (toType->isPointer() && toType->isNative()) {
-    llvm::LLVMContext& llvmContext = context.getLLVMContext();
-    llvm::Value* index[2];
-    index[0] = llvm::ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 0);
-    index[1] = llvm::ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 3);
-    
-    llvm::Value* arrayStart = IRWriter::createGetElementPtrInst(context, fromValue, index);
+    llvm::Value* arrayStart = ArrayType::extractLLVMArray(context, fromValue);
     return IRWriter::newBitCastInst(context, arrayStart, toType->getLLVMType(context));
   }
   if (toType == mArrayType->getImmutable()->getOwner()) {

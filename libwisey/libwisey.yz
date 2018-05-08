@@ -162,6 +162,7 @@ external model wisey.lang.MString {
   static wisey.lang.MString* create(
     string input);
   long getLength();
+  wisey.lang.MString* copy();
 }
 
 external model wisey.lang.MSystem {

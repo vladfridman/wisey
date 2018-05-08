@@ -193,6 +193,10 @@ TEST_F(TestFileRunner, stringCastToBooleanRunTest) {
   runFile("tests/samples/test_string_cast_to_boolean.yz", "3");
 }
 
-TEST_F(TestFileRunner, initStringRunTest) {
+TEST_F(TestFileRunner, stringInitRunTest) {
   runFile("tests/samples/test_string_init.yz", "7");
+}
+
+TEST_F(TestFileRunner, stringCopyRunTest) {
+  runFile("tests/samples/test_string_copy.yz", "7");
 }

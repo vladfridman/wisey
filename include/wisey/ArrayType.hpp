@@ -69,6 +69,12 @@ namespace wisey {
      */
     const ImmutableArrayType* getImmutable() const;
     
+    /**
+     * Given a pointer to the array structure returns a pointer to the llvm array within it
+     */
+    static llvm::Value* extractLLVMArray(IRGenerationContext& context,
+                                         llvm::Value* arrayPointer);
+    
     void incrementReferenceCount(IRGenerationContext& context,
                                  llvm::Value* arrayPointer) const override;
     

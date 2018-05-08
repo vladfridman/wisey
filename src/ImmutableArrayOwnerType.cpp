@@ -42,7 +42,10 @@ bool ImmutableArrayOwnerType::canCastTo(IRGenerationContext& context, const ITyp
   if (toType == this || toType == mImmutableArrayType) {
     return true;
   }
-  
+  if (toType->isPointer() && toType->isNative()) {
+    return true;
+  }
+
   return false;
 }
 
@@ -57,6 +60,10 @@ llvm::Value* ImmutableArrayOwnerType::castTo(IRGenerationContext &context,
                                              int line) const {
   if (toType == this || toType == mImmutableArrayType) {
     return fromValue;
+  }
+  if (toType->isPointer() && toType->isNative()) {
+    llvm::Value* arrayStart = ArrayType::extractLLVMArray(context, fromValue);
+    return IRWriter::newBitCastInst(context, arrayStart, toType->getLLVMType(context));
   }
   return NULL;
 }
