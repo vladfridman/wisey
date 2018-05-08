@@ -191,6 +191,22 @@ external controller wisey.io.CFile {
   void close() throws wisey.io.MFileCloseException, wisey.io.MFileCouldNotCloseException;
 }
 
+external controller wisey.lang.CString {
+
+  receive char[]* mContent;
+  receive long mCapacity;
+  receive long mLength;
+
+  static wisey.lang.CString* create(
+    string input);
+  long getLength();
+  wisey.lang.CString* copy();
+  wisey.lang.CString appendString(
+    string appendix);
+  char[] getContent();
+  long getCapacity();
+}
+
 external controller wisey.threads.CCallStack {
 
   public constant int CALL_STACK_SIZE = 1024;

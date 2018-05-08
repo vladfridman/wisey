@@ -1,0 +1,95 @@
+package wisey.lang;
+
+/**
+ * String controller allows one to work with a modifiable string
+ */
+controller CString {
+
+  receive char[]* mContent;
+  receive long mCapacity; 
+  receive long mLength;
+
+  /**
+   * Creates a modifiable CString from a string literal
+   */
+  public static CString* create(string input) {
+    long length = input.getLength();
+    long capacity = estimateCapacity(length);
+    char[]* buffer = new char[capacity];
+    ::llvm::i8::pointer pointer = buffer;
+    MSystem.memcopy(pointer, input, input.getLength());
+    return injector(CString)
+      .withContent(buffer)
+      .withCapacity(capacity)
+      .withLength(length)
+      .inject();
+  }
+
+  /**
+   * Returns the string length
+   */
+  public long getLength() {
+    return mLength;
+  }
+
+  /**
+   * Creates a copy of the string
+   */
+  public CString* copy() {
+    char[]* buffer = new char[mCapacity];
+    ::llvm::i8::pointer destination = buffer;
+    ::llvm::i8::pointer source = mContent;
+    MSystem.memcopy(destination, source, mCapacity);
+    return injector(CString)
+      .withContent(buffer)
+      .withCapacity(mCapacity)
+      .withLength(mLength)
+      .inject();
+  }
+
+  /**
+   * Tries to fit the new string into existing buffer, creates a new buffer if needed
+   */
+  public CString appendString(string appendix) {
+    long length = mLength + appendix.getLength();
+    if (length <= mCapacity) {
+       ::llvm::i8::pointer destination = mContent;     
+       destination = destination + mLength;     
+       ::llvm::i8::pointer source = appendix;
+       MSystem.memcopy(destination, source, appendix.getLength());
+    } else {
+      long newCapacity = estimateCapacity(length);
+      char[]* buffer = new char[newCapacity];
+      ::llvm::i8::pointer destination = buffer;
+      ::llvm::i8::pointer source = mContent;
+      MSystem.memcopy(destination, source, mLength);
+      destination = destination + mLength;
+      source = appendix;
+      MSystem.memcopy(destination, source, appendix.getLength());
+      mContent = buffer;
+      mCapacity = newCapacity;
+    }
+
+    mLength = length;
+    
+    return this;
+  }
+
+  /**
+   * Returns char array for this string
+   */
+  public char[] getContent() {
+    return mContent;
+  }
+
+  /**
+   * Returns string capacity
+   */ 
+  public long getCapacity() {
+    return mCapacity;
+  }
+
+  private static long estimateCapacity(long size) {
+    return (long) (((float) (size + 1)) * 1.5);
+  }
+}

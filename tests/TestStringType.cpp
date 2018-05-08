@@ -193,14 +193,38 @@ TEST_F(TestFileRunner, stringCastToBooleanRunTest) {
   runFile("tests/samples/test_string_cast_to_boolean.yz", "3");
 }
 
-TEST_F(TestFileRunner, stringInitRunTest) {
-  runFile("tests/samples/test_string_init.yz", "7");
+TEST_F(TestFileRunner, mstringInitRunTest) {
+  runFile("tests/samples/test_mstring_init.yz", "7");
 }
 
-TEST_F(TestFileRunner, stringCopyRunTest) {
-  runFile("tests/samples/test_string_copy.yz", "7");
+TEST_F(TestFileRunner, mstringCopyRunTest) {
+  runFile("tests/samples/test_mstring_copy.yz", "7");
 }
 
-TEST_F(TestFileRunner, stringAppendRunTest) {
-  runFileCheckOutput("tests/samples/test_string_append.yz", "1234567\n", "");
+TEST_F(TestFileRunner, mstringAppendRunTest) {
+  runFileCheckOutput("tests/samples/test_mstring_append.yz", "1234567\n", "");
+}
+
+TEST_F(TestFileRunner, cstringInitRunTest) {
+  runFile("tests/samples/test_cstring_init.yz", "3");
+}
+
+TEST_F(TestFileRunner, cstringCopyRunTest) {
+  runFile("tests/samples/test_cstring_copy.yz", "3");
+}
+
+TEST_F(TestFileRunner, cstringAppendRunTest) {
+  runFileCheckOutput("tests/samples/test_cstring_append.yz",
+                     "Capacity before: 10\n"
+                     "1234567\n"
+                     "Capacity after: 10\n",
+                     "");
+}
+
+TEST_F(TestFileRunner, cstringAppendLongRunTest) {
+  runFileCheckOutput("tests/samples/test_cstring_append_long.yz",
+                     "Capacity before: 6\n"
+                     "1234567\n"
+                     "Capacity after: 12\n",
+                     "");
 }
