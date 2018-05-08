@@ -9,7 +9,7 @@ controller CProgram implements IProgram {
     CString* cstring = CString.create("123");
     printout("Capacity before: " + cstring.getCapacity() + "\n");
     cstring.appendString("4567");
-    printout(cstring.getContent() + "\n");
+    printout(cstring + "\n");
     printout("Capacity after: " + cstring.getCapacity() + "\n");
     return (int) cstring.getLength();
   }

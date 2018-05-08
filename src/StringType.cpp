@@ -202,7 +202,9 @@ bool StringType::isStringVariation(IRGenerationContext& context, const IType* ty
   type == PrimitiveTypes::STRING_FORMAT ||
   isCharArray(context, type, line) ||
   !type->getTypeName().compare("wisey.lang.MString") ||
-  !type->getTypeName().compare("wisey.lang.MString*");
+  !type->getTypeName().compare("wisey.lang.MString*") ||
+  !type->getTypeName().compare("wisey.lang.CString") ||
+  !type->getTypeName().compare("wisey.lang.CString*");
 }
 
 bool StringType::isCharArray(IRGenerationContext& context, const IType* type, int line) {
@@ -215,7 +217,7 @@ Value* StringType::callGetContent(IRGenerationContext& context,
                                   const IType* type,
                                   llvm::Value* object,
                                   int line) {
-  assert(type->isModel() && "Expecting wisey.lang.MString");
+  assert(IType::isObjectType(type) && "Expecting wisey.lang.MString or wisey.lang.CString");
   
   IdentifierChain* identifierChain = new IdentifierChain(new FakeExpression(object, type),
                                                          "getContent",
