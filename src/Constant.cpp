@@ -58,11 +58,17 @@ llvm::Value* Constant::generateIR(IRGenerationContext& context,
     throw 1;
   }
   
-  const IType* type = mExpression->getType(context);
-  llvm::Type* llvmType = type->getLLVMType(context);
+  const IType* expressionType = mExpression->getType(context);
+  
+  llvm::Type* llvmType = mType->getLLVMType(context);
   llvm::GlobalValue::LinkageTypes linkageType = mIsPublic
     ? llvm::GlobalValue::ExternalLinkage
     : llvm::GlobalValue::InternalLinkage;
+  
+  if (expressionType != mType) {
+    context.reportError(mLine, "Constant value type does not match declared constant type");
+    throw 1;
+  }
   
   llvm::Constant* expressionValue = (llvm::Constant*) mExpression->generateIR(context, mType);
 

@@ -6,11 +6,8 @@ import wisey.lang.MString;
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MString* string1 = MString.create("123");
-    MString* string2 = MString.create("4567");
-    MString* string3 = string1.append(string2);
-    printout(string3 + "\n");
-    return (int) string3.getLength();
+    MString* mstring = MString.createFromString("1234567");
+    return (int) mstring.getLength();
   }
 }
 

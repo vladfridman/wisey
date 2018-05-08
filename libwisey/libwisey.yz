@@ -159,12 +159,14 @@ external model wisey.lang.MString {
 
   fixed immutable char[]* mContent;
 
-  static wisey.lang.MString* create(
+  static wisey.lang.MString* createFromString(
     string input);
+  static wisey.lang.MString* createFromCharArray(
+    char[] input);
+  static wisey.lang.MString* createFromImmutableCharArray(
+    immutable char[] input);
   long getLength();
   wisey.lang.MString* copy();
-  wisey.lang.MString* append(
-    wisey.lang.MString appendix);
   immutable char[] getContent();
 }
 
@@ -193,12 +195,21 @@ external controller wisey.io.CFile {
 
 external controller wisey.lang.CString {
 
-  receive char[]* mContent;
+  public constant long DEFAULT_INITIAL_CAPACITY = 16l;
+
+  receive char[]* mBuffer;
   receive long mCapacity;
   receive long mLength;
 
-  static wisey.lang.CString* create(
+  static wisey.lang.CString* create();
+  static wisey.lang.CString* createFromString(
     string input);
+  static wisey.lang.CString* createFromModel(
+    wisey.lang.MString input);
+  static wisey.lang.CString* createFromCharArray(
+    char[] input);
+  static wisey.lang.CString* createFromImmutableCharArray(
+    immutable char[] input);
   wisey.lang.MString* toModel();
   long getLength();
   wisey.lang.CString* copy();

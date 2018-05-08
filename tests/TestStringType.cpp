@@ -193,20 +193,28 @@ TEST_F(TestFileRunner, stringCastToBooleanRunTest) {
   runFile("tests/samples/test_string_cast_to_boolean.yz", "3");
 }
 
-TEST_F(TestFileRunner, mstringInitRunTest) {
-  runFile("tests/samples/test_mstring_init.yz", "7");
+TEST_F(TestFileRunner, mstringCreateFromStringRunTest) {
+  runFile("tests/samples/test_mstring_create_from_string.yz", "7");
+}
+
+TEST_F(TestFileRunner, mstringCreateFromCharArrayRunTest) {
+  runFileCheckOutput("tests/samples/test_mstring_create_from_char_array.yz",
+                     "mstring: abc length: 3\n",
+                     "");
+}
+
+TEST_F(TestFileRunner, mstringCreateFromImmutableCharArrayRunTest) {
+  runFileCheckOutput("tests/samples/test_mstring_create_from_immutable_char_array.yz",
+                     "mstring: def length: 3\n",
+                     "");
 }
 
 TEST_F(TestFileRunner, mstringCopyRunTest) {
   runFile("tests/samples/test_mstring_copy.yz", "7");
 }
 
-TEST_F(TestFileRunner, mstringAppendRunTest) {
-  runFileCheckOutput("tests/samples/test_mstring_append.yz", "1234567\n", "");
-}
-
-TEST_F(TestFileRunner, cstringInitRunTest) {
-  runFile("tests/samples/test_cstring_init.yz", "3");
+TEST_F(TestFileRunner, cstringCreateFromStringRunTest) {
+  runFile("tests/samples/test_cstring_create_from_string.yz", "3");
 }
 
 TEST_F(TestFileRunner, cstringCopyRunTest) {
@@ -233,5 +241,24 @@ TEST_F(TestFileRunner, cstringToModelRunTest) {
   runFileCheckOutput("tests/samples/test_cstring_to_model.yz",
                      "before: 123 length: 3 capacity: 6\n"
                      "after: 123 length: 3\n",
+                     "");
+}
+
+TEST_F(TestFileRunner, cstringCreateFromModelRunTest) {
+  runFileCheckOutput("tests/samples/test_cstring_create_from_model.yz",
+                     "mstring: 123 length: 3\n"
+                     "cstring: 123 length: 3 capacity: 6\n",
+                     "");
+}
+
+TEST_F(TestFileRunner, cstringCreateFromCharArrayRunTest) {
+  runFileCheckOutput("tests/samples/test_cstring_create_from_char_array.yz",
+                     "cstring: abc length: 5 capacity: 9\n",
+                     "");
+}
+
+TEST_F(TestFileRunner, cstringCreateFromImmutableCharArrayRunTest) {
+  runFileCheckOutput("tests/samples/test_cstring_create_from_immutable_char_array.yz",
+                     "cstring: def length: 5 capacity: 9\n",
                      "");
 }

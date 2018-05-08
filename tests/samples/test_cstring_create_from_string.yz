@@ -1,13 +1,13 @@
 package systems.vos.wisey.compiler.tests;
 
+import wisey.lang.CString;
 import wisey.lang.IProgram;
-import wisey.lang.MString;
 
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MString* mstring = MString.create("1234567");
-    return (int) mstring.getLength();
+    CString* cstring = CString.createFromString("123");
+    return (int) cstring.getLength();
   }
 }
 

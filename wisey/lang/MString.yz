@@ -10,11 +10,22 @@ model MString {
   /**
    * Creates an MString from a string literal
    */
-  public static MString* create(string input) {
-    char[]* buffer = new char[input.getLength() + 1];
-    ::llvm::i8::pointer pointer = buffer;
-    MSystem.memcopy(pointer, input, input.getLength());
-    return builder(MString).withContent(buffer).build();
+  public static MString* createFromString(string input) {
+    return memcopyAndBuild(input, input.getLength() + 1);
+  }
+
+  /**
+   * Creates an MString from a null terminated char array
+   */
+  public static MString* createFromCharArray(char[] input) {
+    return memcopyAndBuild(input, input.getSize());
+  }
+
+  /**
+   * Creates an MString from a null terminated immutable char array
+   */
+  public static MString* createFromImmutableCharArray(immutable char[] input) {
+    return memcopyAndBuild(input, input.getSize());
   }
 
   /**
@@ -38,24 +49,16 @@ model MString {
   }
 
   /**
-   * Creates a copy of a string with another string appended
-   */
-  public MString* append(MString appendix) {
-    long length = mContent.getSize() + appendix.getLength();
-    char[]* buffer = new char[length];
-    ::llvm::i8::pointer destination = buffer;
-    ::llvm::i8::pointer source = mContent;
-    MSystem.memcopy(destination, source, getLength());
-    destination = destination + getLength();
-    source = appendix.getContent();
-    MSystem.memcopy(destination, source, appendix.getLength());
-    return builder(MString).withContent(buffer).build();
-  }
-
-  /**
    * Returns char array for this string
    */
   public immutable char[] getContent() {
     return mContent;
+  }
+
+  private static MString* memcopyAndBuild(::llvm::i8::pointer source, long length) {
+    char[]* buffer = new char[length];
+    ::llvm::i8::pointer destination = buffer;
+    MSystem.memcopy(destination, source, length);
+    return builder(MString).withContent(buffer).build();    
   }
 }

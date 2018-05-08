@@ -5,24 +5,49 @@ package wisey.lang;
  */
 controller CString {
 
-  receive char[]* mContent;
+  public constant long DEFAULT_INITIAL_CAPACITY = 16l;
+
+  receive char[]* mBuffer;
   receive long mCapacity; 
   receive long mLength;
 
   /**
+   * Creates an empty modifiable CString
+   */
+  public static CString* create() {
+    return injector(CString)
+      .withBuffer(new char[DEFAULT_INITIAL_CAPACITY])
+      .withCapacity(DEFAULT_INITIAL_CAPACITY)
+      .withLength(0)
+      .inject();
+  }
+
+  /**
    * Creates a modifiable CString from a string literal
    */
-  public static CString* create(string input) {
-    long length = input.getLength();
-    long capacity = estimateCapacity(length);
-    char[]* buffer = new char[capacity];
-    ::llvm::i8::pointer pointer = buffer;
-    MSystem.memcopy(pointer, input, input.getLength());
-    return injector(CString)
-      .withContent(buffer)
-      .withCapacity(capacity)
-      .withLength(length)
-      .inject();
+  public static CString* createFromString(string input) {
+    return memcopyAndInject(input, input.getLength());
+  }
+
+  /**
+   * Creates a modifiable CString from an MString model
+   */
+  public static CString* createFromModel(MString input) {
+    return memcopyAndInject(input.getContent(), input.getLength());
+  }
+
+  /**
+   * Creates a CString from a null terminated char array
+   */
+  public static CString* createFromCharArray(char[] input) {
+    return memcopyAndInject(input, input.getSize());
+  }
+
+  /**
+   * Creates a CString from a null terminated immutable char array
+   */
+  public static CString* createFromImmutableCharArray(immutable char[] input) {
+    return memcopyAndInject(input, input.getSize());
   }
 
   /**
@@ -31,7 +56,7 @@ controller CString {
   public MString* toModel() {
     char[]* buffer = new char[mLength + 1];
     ::llvm::i8::pointer destination = buffer;
-    ::llvm::i8::pointer source = mContent;
+    ::llvm::i8::pointer source = mBuffer;
     MSystem.memcopy(destination, source, mCapacity);
     return builder(MString).withContent(buffer).build();    
   }
@@ -49,10 +74,10 @@ controller CString {
   public CString* copy() {
     char[]* buffer = new char[mCapacity];
     ::llvm::i8::pointer destination = buffer;
-    ::llvm::i8::pointer source = mContent;
+    ::llvm::i8::pointer source = mBuffer;
     MSystem.memcopy(destination, source, mCapacity);
     return injector(CString)
-      .withContent(buffer)
+      .withBuffer(buffer)
       .withCapacity(mCapacity)
       .withLength(mLength)
       .inject();
@@ -64,7 +89,7 @@ controller CString {
   public CString appendString(string appendix) {
     long length = mLength + appendix.getLength();
     if (length <= mCapacity) {
-       ::llvm::i8::pointer destination = mContent;     
+       ::llvm::i8::pointer destination = mBuffer;     
        destination = destination + mLength;     
        ::llvm::i8::pointer source = appendix;
        MSystem.memcopy(destination, source, appendix.getLength());
@@ -72,12 +97,12 @@ controller CString {
       long newCapacity = estimateCapacity(length);
       char[]* buffer = new char[newCapacity];
       ::llvm::i8::pointer destination = buffer;
-      ::llvm::i8::pointer source = mContent;
+      ::llvm::i8::pointer source = mBuffer;
       MSystem.memcopy(destination, source, mLength);
       destination = destination + mLength;
       source = appendix;
       MSystem.memcopy(destination, source, appendix.getLength());
-      mContent = buffer;
+      mBuffer = buffer;
       mCapacity = newCapacity;
     }
 
@@ -90,7 +115,7 @@ controller CString {
    * Returns char array for this string
    */
   public char[] getContent() {
-    return mContent;
+    return mBuffer;
   }
 
   /**
@@ -102,5 +127,17 @@ controller CString {
 
   private static long estimateCapacity(long size) {
     return (long) (((float) (size + 1)) * 1.5);
+  }
+
+  private static CString* memcopyAndInject(::llvm::i8::pointer source, long length) {
+    long capacity = estimateCapacity(length);
+    char[]* buffer = new char[capacity];
+    ::llvm::i8::pointer destination = buffer;
+    MSystem.memcopy(destination, source, length);
+    return injector(CString)
+      .withBuffer(buffer)
+      .withCapacity(capacity)
+      .withLength(length)
+      .inject();
   }
 }

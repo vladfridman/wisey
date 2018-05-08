@@ -108,6 +108,20 @@ TEST_F(ConstantTest, generateIRForNonConstantExpressionDeathTest) {
   std::cerr.rdbuf(oldbuffer);
 }
 
+TEST_F(ConstantTest, typeMismatchDeathTest) {
+  Mock::AllowLeak(mExpression);
+  Mock::AllowLeak(mObject);
+  ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR));
+
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mConstant->generateIR(mContext, mObject));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Constant value type does not match declared constant type\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
+}
+
 TEST_F(ConstantTest, printPublicConstantToStreamTest) {
   stringstream stringStream;
   mConstant->printToStream(mContext, stringStream);
