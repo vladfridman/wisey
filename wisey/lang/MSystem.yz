@@ -1,0 +1,13 @@
+package wisey.lang;
+
+model MSystem {
+
+  /**
+   * Forwards the call to memcopy function for needed architecture
+   */
+  public ::llvm::function ::llvm::void memcopy(::llvm::i8::pointer destination, 
+                                               ::llvm::i8::pointer source, 
+                                               ::llvm::i64 size) {
+    ::llvm::function::"llvm.memcpy.p0i8.p0i8.i64"(destination, source, size, 4, false);
+  }
+}

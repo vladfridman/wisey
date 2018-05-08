@@ -164,6 +164,9 @@ external model wisey.lang.MString {
   long getLength();
 }
 
+external model wisey.lang.MSystem {
+}
+
 external model wisey.threads.MThreadBoundaryException
   implements
     wisey.lang.IException {

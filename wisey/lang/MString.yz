@@ -10,7 +10,7 @@ model MString {
   public static MString* create(string input) {
     char[]* buffer = new char[input.getLength() + 1];
     ::llvm::i8::pointer pointer = buffer;
-    ::llvm::function::"llvm.memcpy.p0i8.p0i8.i64"(pointer, input, input.getLength(), 4, false);
+    MSystem.memcopy(pointer, input, input.getLength());
     return builder(MString).withContent(buffer).build();
   }
 
