@@ -12,6 +12,7 @@
 #include "wisey/AutoCast.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/IPrintStatement.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/StringFormatType.hpp"
@@ -61,10 +62,8 @@ Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context
   }
 
   if (mOperation == '+' &&
-      (leftType == PrimitiveTypes::STRING ||
-       rightType == PrimitiveTypes::STRING ||
-       leftType == PrimitiveTypes::STRING_FORMAT ||
-       rightType == PrimitiveTypes::STRING_FORMAT)) {
+      (isStringVariation(context, leftType, mLine) ||
+       isStringVariation(context, rightType, mLine))) {
         assert(false && "attempting to get value of a stringformat type expression");
   }
   Instruction::BinaryOps instruction;
@@ -101,10 +100,8 @@ const IType* AdditiveMultiplicativeExpression::getType(IRGenerationContext& cont
   }
 
   if (mOperation == '+' &&
-      (leftType == PrimitiveTypes::STRING ||
-       rightType == PrimitiveTypes::STRING ||
-       leftType == PrimitiveTypes::STRING_FORMAT ||
-       rightType == PrimitiveTypes::STRING_FORMAT)) {
+      (isStringVariation(context, leftType, mLine) ||
+       isStringVariation(context, rightType, mLine))) {
     return PrimitiveTypes::STRING_FORMAT;
   }
   
@@ -126,23 +123,26 @@ void AdditiveMultiplicativeExpression::checkTypes(IRGenerationContext& context,
   if (isPointerArithmetic(leftType, rightType)) {
     return;
   }
+
+  if (mOperation == '+' && isStringVariation(context, leftType, mLine) &&
+      rightType->isPrimitive()) {
+    return;
+  }
   
-  if (!leftType->isPrimitive() || !rightType->isPrimitive()) {
+  if (mOperation == '+' && isStringVariation(context, rightType, mLine) &&
+      leftType->isPrimitive()) {
+    return;
+  }
+ 
+  if (mOperation == '+' && isStringVariation(context, leftType, mLine) &&
+      isStringVariation(context, rightType, mLine)) {
+    return;
+  }
+
+  if (!leftType->isPrimitive()  || !rightType->isPrimitive()) {
     context.reportError(mLine, "Can not do operation '" + string(1, mOperation) +
                         "' on non-primitive types");
     throw 1;
-  }
-  
-  if (mOperation == '+' &&
-      (leftType == PrimitiveTypes::STRING ||
-       rightType == PrimitiveTypes::STRING ||
-       leftType == PrimitiveTypes::STRING_FORMAT ||
-       rightType == PrimitiveTypes::STRING_FORMAT)) {
-    return;
-  }
-  
-  if (leftType == PrimitiveTypes::STRING || rightType == PrimitiveTypes::STRING) {
-    return;
   }
   
   if (!leftType->canCastTo(context, rightType) && !rightType->canCastTo(context, leftType)) {
@@ -200,4 +200,12 @@ Value* AdditiveMultiplicativeExpression::computePointer(IRGenerationContext& con
                                                   "sub");
   index[0] = negated;
   return IRWriter::createGetElementPtrInst(context, pointerValue, index);
+}
+
+bool AdditiveMultiplicativeExpression::isStringVariation(IRGenerationContext& context,
+                                                         const IType* type,
+                                                         int line) const {
+  return type == PrimitiveTypes::STRING ||
+    type == PrimitiveTypes::STRING_FORMAT ||
+  IPrintStatement::isCharArray(context, type, line);
 }

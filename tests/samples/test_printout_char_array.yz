@@ -9,8 +9,7 @@ controller CProgram implements IProgram {
     array[0] = 'a';
     array[1] = 'b';
     array[2] = 'c';
-    array[3] = '\n';
-    printout(array);
+    printout(array + "\n");
     return 1;
   }
 }
