@@ -228,3 +228,10 @@ TEST_F(TestFileRunner, cstringAppendLongRunTest) {
                      "Capacity after: 12\n",
                      "");
 }
+
+TEST_F(TestFileRunner, cstringToModelRunTest) {
+  runFileCheckOutput("tests/samples/test_cstring_to_model.yz",
+                     "before: 123 length: 3 capacity: 6\n"
+                     "after: 123 length: 3\n",
+                     "");
+}

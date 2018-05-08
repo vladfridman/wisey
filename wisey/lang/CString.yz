@@ -26,6 +26,17 @@ controller CString {
   }
 
   /**
+   * Creates an MString copy of this string
+   */
+  public MString* toModel() {
+    char[]* buffer = new char[mLength + 1];
+    ::llvm::i8::pointer destination = buffer;
+    ::llvm::i8::pointer source = mContent;
+    MSystem.memcopy(destination, source, mCapacity);
+    return builder(MString).withContent(buffer).build();    
+  }
+
+  /**
    * Returns the string length
    */
   public long getLength() {

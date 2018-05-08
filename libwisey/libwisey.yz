@@ -199,6 +199,7 @@ external controller wisey.lang.CString {
 
   static wisey.lang.CString* create(
     string input);
+  wisey.lang.MString* toModel();
   long getLength();
   wisey.lang.CString* copy();
   wisey.lang.CString appendString(
