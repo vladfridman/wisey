@@ -33,4 +33,22 @@ model MString {
     MSystem.memcopy(destination, source, length);
     return builder(MString).withContent(buffer).build();
   }
+
+  /**
+   * Creates a copy of a string with another string appended
+   */
+  public MString* append(MString appendix) {
+    long length = mContent.getSize() + appendix.getLength();
+    char[]* buffer = new char[length];
+    ::llvm::i8::pointer destination = buffer;
+    ::llvm::i8::pointer source = mContent;
+    MSystem.memcopy(destination, source, length);
+    destination = destination + getLength();
+    source = appendix.getContent();
+    return builder(MString).withContent(buffer).build();
+  }
+
+  private immutable char[] getContent() {
+    return mContent;
+  }
 }

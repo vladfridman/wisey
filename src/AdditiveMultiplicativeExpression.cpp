@@ -53,6 +53,13 @@ Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context
   const IType* rightType = mRightExpression->getType(context);
   checkTypes(context, leftType, rightType);
 
+  Value* leftValue = mLeftExpression->generateIR(context, PrimitiveTypes::VOID);
+  Value* rightValue = mRightExpression->generateIR(context, PrimitiveTypes::VOID);
+  
+  if (leftType->isPointer()) {
+    return computePointer(context, leftValue, rightType, rightValue);
+  }
+
   if (mOperation == '+' &&
       (leftType == PrimitiveTypes::STRING ||
        rightType == PrimitiveTypes::STRING ||
@@ -75,9 +82,6 @@ Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context
     default: return NULL;
   }
   
-  Value* leftValue = mLeftExpression->generateIR(context, assignToType);
-  Value* rightValue = mRightExpression->generateIR(context, assignToType);
-  
   if (leftType->canAutoCastTo(context, rightType)) {
     leftValue = AutoCast::maybeCast(context, leftType, leftValue, rightType, mLine);
   } else {
@@ -91,6 +95,10 @@ const IType* AdditiveMultiplicativeExpression::getType(IRGenerationContext& cont
   const IType* leftType = mLeftExpression->getType(context);
   const IType* rightType = mRightExpression->getType(context);
   checkTypes(context, leftType, rightType);
+  
+  if (leftType->isPointer()) {
+    return leftType;
+  }
 
   if (mOperation == '+' &&
       (leftType == PrimitiveTypes::STRING ||
@@ -113,6 +121,10 @@ void AdditiveMultiplicativeExpression::checkTypes(IRGenerationContext& context,
     context.reportError(mLine, "Can not use expressions of type VOID in a '" +
                         string(1, mOperation) + "' operation");
     throw 1;
+  }
+  
+  if (isPointerArithmetic(leftType, rightType)) {
+    return;
   }
   
   if (!leftType->isPrimitive() || !rightType->isPrimitive()) {
@@ -158,4 +170,34 @@ void AdditiveMultiplicativeExpression::printToStream(IRGenerationContext& contex
   mLeftExpression->printToStream(context, stream);
   stream << " + ";
   mRightExpression->printToStream(context, stream);
+}
+
+bool AdditiveMultiplicativeExpression::isPointerArithmetic(const IType* leftType,
+                                                           const IType* rightType) const {
+  if (leftType->isPointer() &&
+      (rightType == PrimitiveTypes::INT || rightType == PrimitiveTypes::LONG)) {
+    return mOperation == '+' || mOperation == '-';
+  }
+  
+  return false;
+}
+
+Value* AdditiveMultiplicativeExpression::computePointer(IRGenerationContext& context,
+                                                        Value* pointerValue,
+                                                        const IType* integerType,
+                                                        Value* integerValue) const {
+  Value* index[1];
+  if (mOperation == '+') {
+    index[0] = integerValue;
+    return IRWriter::createGetElementPtrInst(context, pointerValue, index);
+  }
+  
+  Value* zero = ConstantInt::get(integerType->getLLVMType(context), 0);
+  Value* negated = IRWriter::createBinaryOperator(context,
+                                                  Instruction::Sub,
+                                                  zero,
+                                                  integerValue,
+                                                  "sub");
+  index[0] = negated;
+  return IRWriter::createGetElementPtrInst(context, pointerValue, index);
 }

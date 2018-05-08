@@ -19,6 +19,7 @@
 #include "TestPrefix.hpp"
 #include "wisey/AdditiveMultiplicativeExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using ::testing::_;
@@ -55,14 +56,21 @@ struct AdditiveMultiplicativeExpressionTest : Test {
     ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     ON_CALL(*mRightExpression, generateIR(_, _)).WillByDefault(Return(rightValue));
     ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "test");
+
+    FunctionType* functionType =
+    FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
+    Function* function = Function::Create(functionType,
+                                          GlobalValue::InternalLinkage,
+                                          "main",
+                                          mContext.getModule());
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
+ 
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
   ~AdditiveMultiplicativeExpressionTest() {
-    delete mBasicBlock;
     delete mStringStream;
   }
 
@@ -106,7 +114,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, additionTest) {
   ASSERT_EQ(1ul, mBasicBlock->size());
   Instruction &instruction = mBasicBlock->front();
   *mStringStream << instruction;
-  ASSERT_STREQ(mStringStream->str().c_str(), "  %add = add i32 3, 5");
+  ASSERT_STREQ("  %add = add i32 3, 5", mStringStream->str().c_str());
 }
 
 TEST_F(AdditiveMultiplicativeExpressionTest, subtractionTest) {
@@ -116,7 +124,44 @@ TEST_F(AdditiveMultiplicativeExpressionTest, subtractionTest) {
   ASSERT_EQ(1ul, mBasicBlock->size());
   Instruction &instruction = mBasicBlock->front();
   *mStringStream << instruction;
-  ASSERT_STREQ(mStringStream->str().c_str(), "  %sub = sub i32 3, 5");
+  ASSERT_STREQ("  %sub = sub i32 3, 5", mStringStream->str().c_str());
+}
+
+TEST_F(AdditiveMultiplicativeExpressionTest, pointerAddTest) {
+  const LLVMPointerType* pointerType = LLVMPrimitiveTypes::I8->getPointerType(mContext, 0);
+  Value* leftValue = ConstantPointerNull::get(pointerType->getLLVMType(mContext));
+  Value* rightValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
+  ON_CALL(*mLeftExpression, generateIR(_, _)).WillByDefault(Return(leftValue));
+  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(pointerType));
+  ON_CALL(*mRightExpression, generateIR(_, _)).WillByDefault(Return(rightValue));
+  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
+
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
+  expression.generateIR(mContext, PrimitiveTypes::VOID);
+  
+  ASSERT_EQ(1ul, mBasicBlock->size());
+  Instruction &instruction = mBasicBlock->front();
+  *mStringStream << instruction;
+  ASSERT_STREQ("  %0 = getelementptr i8, i8* null, i32 3", mStringStream->str().c_str());
+}
+
+TEST_F(AdditiveMultiplicativeExpressionTest, pointerSubtractTest) {
+  const LLVMPointerType* pointerType = LLVMPrimitiveTypes::I8->getPointerType(mContext, 0);
+  Value* leftValue = ConstantPointerNull::get(pointerType->getLLVMType(mContext));
+  Value* rightValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
+  ON_CALL(*mLeftExpression, generateIR(_, _)).WillByDefault(Return(leftValue));
+  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(pointerType));
+  ON_CALL(*mRightExpression, generateIR(_, _)).WillByDefault(Return(rightValue));
+  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
+  
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '-', mRightExpression, 0);
+  expression.generateIR(mContext, PrimitiveTypes::VOID);
+  
+  *mStringStream << *mBasicBlock;
+  ASSERT_STREQ("\nentry:"
+               "\n  %sub = sub i32 0, 3"
+               "\n  %0 = getelementptr i8, i8* null, i32 %sub\n",
+               mStringStream->str().c_str());
 }
 
 TEST_F(AdditiveMultiplicativeExpressionTest, printToStreamTest) {

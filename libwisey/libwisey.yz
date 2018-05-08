@@ -163,6 +163,8 @@ external model wisey.lang.MString {
     string input);
   long getLength();
   wisey.lang.MString* copy();
+  wisey.lang.MString* append(
+    wisey.lang.MString appendix);
 }
 
 external model wisey.lang.MSystem {

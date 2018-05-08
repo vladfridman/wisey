@@ -200,3 +200,7 @@ TEST_F(TestFileRunner, stringInitRunTest) {
 TEST_F(TestFileRunner, stringCopyRunTest) {
   runFile("tests/samples/test_string_copy.yz", "7");
 }
+
+TEST_F(TestFileRunner, stringAppendRunTest) {
+  runFile("tests/samples/test_string_append.yz", "7");
+}

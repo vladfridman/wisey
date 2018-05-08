@@ -1,0 +1,16 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+import wisey.lang.MString;
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    MString* string1 = MString.create("123");
+    MString* string2 = MString.create("4567");
+    MString* string3 = string1.append(string2);
+    return (int) string3.getLength();
+  }
+}
+
+bind(IProgram).to(CProgram);

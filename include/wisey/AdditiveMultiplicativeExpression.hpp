@@ -55,7 +55,17 @@ namespace wisey {
     
   private:
     
-    void checkTypes(IRGenerationContext& context, const IType* leftType, const IType* rightType) const;
+    void checkTypes(IRGenerationContext& context,
+                    const IType* leftType,
+                    const IType* rightType) const;
+  
+    bool isPointerArithmetic(const IType* leftType, const IType* rightType) const;
+    
+    llvm::Value* computePointer(IRGenerationContext& context,
+                                llvm::Value* pointerValue,
+                                const IType* integerType,
+                                llvm::Value* integerValue) const;
+    
   };
   
 } /* namespace wisey */
