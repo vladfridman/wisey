@@ -15,6 +15,7 @@
 #include "wisey/Log.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/StringType.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -24,8 +25,9 @@ ExpressionList IPrintStatement::getExpressions(IRGenerationContext& context,
                                                const IExpression* expression,
                                                int line) {
   const IType* expressionType = expression->getType(context);
-  assert((isCharArray(context, expressionType, line) || expressionType->isPrimitive()) &&
-         "Attempting to printa nonprimitive type");
+  assert((StringType::isStringVariation(context, expressionType, line) ||
+          expressionType->isPrimitive()) &&
+         "Attempting to print a nonprimitive type");
   assert(expressionType != PrimitiveTypes::VOID &&
          "Attempting to print a void type expression");
   
@@ -56,7 +58,7 @@ Value* IPrintStatement::getFormatString(IRGenerationContext& context,
   string formatString = "";
   for (const IExpression* expression : expressionList) {
     const IType* type = expression->getType(context);
-    if (isCharArray(context, type, line)) {
+    if (StringType::isStringVariation(context, type, line)) {
       formatString += PrimitiveTypes::STRING->getFormat();
       continue;
     }
@@ -88,8 +90,20 @@ Value* IPrintStatement::getFormatString(IRGenerationContext& context,
   return ConstantExpr::getGetElementPtr(NULL, globalVariableString, indices, true);
 }
 
-bool IPrintStatement::isCharArray(IRGenerationContext& context, const IType* type, int line) {
-  return type->isArray() &&
-  type->getArrayType(context, line)->getNumberOfDimensions() == 1 &&
-  type->getArrayType(context, line)->getElementType() == PrimitiveTypes::CHAR;
+void IPrintStatement::addPrintArguments(IRGenerationContext& context,
+                                        vector<Value *>& arguments,
+                                        ExpressionList expressions,
+                                        int line) {
+  for (const IExpression* expression : expressions) {
+    const IType* type = expression->getType(context);
+    Value* value = expression->generateIR(context, PrimitiveTypes::VOID);
+    if (StringType::isCharArray(context, type, line)) {
+      arguments.push_back(ArrayType::extractLLVMArray(context, value));
+    } else if(type->isPrimitive()) {
+      arguments.push_back(value);
+    } else {
+      Value* content = StringType::callGetContent(context, type, value, line);
+      arguments.push_back(ArrayType::extractLLVMArray(context, content));
+    }
+  }
 }

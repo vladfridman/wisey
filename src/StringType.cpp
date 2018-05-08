@@ -10,10 +10,13 @@
 
 #include "wisey/ArrayType.hpp"
 #include "wisey/Cast.hpp"
+#include "wisey/FakeExpression.hpp"
 #include "wisey/FieldPrimitiveVariable.hpp"
 #include "wisey/IObjectType.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/IdentifierChain.hpp"
 #include "wisey/LocalPrimitiveVariable.hpp"
+#include "wisey/MethodCall.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/ParameterPrimitiveVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -192,4 +195,32 @@ Instruction* StringType::inject(IRGenerationContext& context,
                                 int line) const {
   repotNonInjectableType(context, this, line);
   throw 1;
+}
+
+bool StringType::isStringVariation(IRGenerationContext& context, const IType* type, int line) {
+  return type == PrimitiveTypes::STRING ||
+  type == PrimitiveTypes::STRING_FORMAT ||
+  isCharArray(context, type, line) ||
+  !type->getTypeName().compare("wisey.lang.MString") ||
+  !type->getTypeName().compare("wisey.lang.MString*");
+}
+
+bool StringType::isCharArray(IRGenerationContext& context, const IType* type, int line) {
+  return type->isArray() &&
+  type->getArrayType(context, line)->getNumberOfDimensions() == 1 &&
+  type->getArrayType(context, line)->getElementType() == PrimitiveTypes::CHAR;
+}
+
+Value* StringType::callGetContent(IRGenerationContext& context,
+                                  const IType* type,
+                                  llvm::Value* object,
+                                  int line) {
+  assert(type->isModel() && "Expecting wisey.lang.MString");
+  
+  IdentifierChain* identifierChain = new IdentifierChain(new FakeExpression(object, type),
+                                                         "getContent",
+                                                         line);
+  ExpressionList arguments;
+  MethodCall methodCall(identifierChain, arguments, line);
+  return methodCall.generateIR(context, PrimitiveTypes::VOID);
 }

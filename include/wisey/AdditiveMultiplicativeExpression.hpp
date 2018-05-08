@@ -58,8 +58,6 @@ namespace wisey {
     void checkTypes(IRGenerationContext& context,
                     const IType* leftType,
                     const IType* rightType) const;
-    
-    bool isStringVariation(IRGenerationContext& context, const IType* type, int line) const;
   
     bool isPointerArithmetic(const IType* leftType, const IType* rightType) const;
     

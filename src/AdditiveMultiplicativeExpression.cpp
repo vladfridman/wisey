@@ -16,6 +16,7 @@
 #include "wisey/Log.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/StringFormatType.hpp"
+#include "wisey/StringType.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -62,8 +63,8 @@ Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context
   }
 
   if (mOperation == '+' &&
-      (isStringVariation(context, leftType, mLine) ||
-       isStringVariation(context, rightType, mLine))) {
+      (StringType::isStringVariation(context, leftType, mLine) ||
+       StringType::isStringVariation(context, rightType, mLine))) {
         assert(false && "attempting to get value of a stringformat type expression");
   }
   Instruction::BinaryOps instruction;
@@ -100,8 +101,8 @@ const IType* AdditiveMultiplicativeExpression::getType(IRGenerationContext& cont
   }
 
   if (mOperation == '+' &&
-      (isStringVariation(context, leftType, mLine) ||
-       isStringVariation(context, rightType, mLine))) {
+      (StringType::isStringVariation(context, leftType, mLine) ||
+       StringType::isStringVariation(context, rightType, mLine))) {
     return PrimitiveTypes::STRING_FORMAT;
   }
   
@@ -124,18 +125,18 @@ void AdditiveMultiplicativeExpression::checkTypes(IRGenerationContext& context,
     return;
   }
 
-  if (mOperation == '+' && isStringVariation(context, leftType, mLine) &&
+  if (mOperation == '+' && StringType::isStringVariation(context, leftType, mLine) &&
       rightType->isPrimitive()) {
     return;
   }
   
-  if (mOperation == '+' && isStringVariation(context, rightType, mLine) &&
+  if (mOperation == '+' && StringType::isStringVariation(context, rightType, mLine) &&
       leftType->isPrimitive()) {
     return;
   }
  
-  if (mOperation == '+' && isStringVariation(context, leftType, mLine) &&
-      isStringVariation(context, rightType, mLine)) {
+  if (mOperation == '+' && StringType::isStringVariation(context, leftType, mLine) &&
+      StringType::isStringVariation(context, rightType, mLine)) {
     return;
   }
 
@@ -200,12 +201,4 @@ Value* AdditiveMultiplicativeExpression::computePointer(IRGenerationContext& con
                                                   "sub");
   index[0] = negated;
   return IRWriter::createGetElementPtrInst(context, pointerValue, index);
-}
-
-bool AdditiveMultiplicativeExpression::isStringVariation(IRGenerationContext& context,
-                                                         const IType* type,
-                                                         int line) const {
-  return type == PrimitiveTypes::STRING ||
-    type == PrimitiveTypes::STRING_FORMAT ||
-  IPrintStatement::isCharArray(context, type, line);
 }

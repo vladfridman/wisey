@@ -9,8 +9,7 @@ controller CProgram implements IProgram {
     MString* string1 = MString.create("123");
     MString* string2 = MString.create("4567");
     MString* string3 = string1.append(string2);
-    printout(string3.getContent());
-    printout("\n");
+    printout(string3 + "\n");
     return (int) string3.getLength();
   }
 }

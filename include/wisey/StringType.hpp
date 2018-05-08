@@ -26,6 +26,21 @@ namespace wisey {
     
     ~StringType();
     
+    /**
+     * Tells whether the given type is one of the various representations of a string
+     */
+    static bool isStringVariation(IRGenerationContext& context, const IType* type, int line);
+
+    /**
+     * Tells if the type is a char array
+     */
+    static bool isCharArray(IRGenerationContext& context, const IType* type, int line);
+
+    static llvm::Value* callGetContent(IRGenerationContext& context,
+                                       const IType* type,
+                                       llvm::Value* object,
+                                       int line);
+    
     std::string getTypeName() const override;
     
     llvm::PointerType* getLLVMType(IRGenerationContext& context) const override;

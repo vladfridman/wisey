@@ -36,10 +36,12 @@ namespace wisey {
                                          int line);
 
     /**
-     * Tells if the type is a char array
+     * Adds print arguments to the list of arguments to be supplied to one of the print functions
      */
-    static bool isCharArray(IRGenerationContext& context, const IType* type, int line);
-    
+    static void addPrintArguments(IRGenerationContext& context,
+                                  std::vector<llvm::Value*>& arguments,
+                                  ExpressionList expressions,
+                                  int line);
   };
   
 } /* namespace wisey */

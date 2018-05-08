@@ -31,7 +31,7 @@ namespace wisey {
     ~PrintOutStatement();
     
     /**
-     * Prints a given list of expressions each of which should have primitive type
+     * Prints a given list of expressions each of which should have a printable type
      */
     static void printExpressionList(IRGenerationContext& context,
                                     ExpressionList expressionList,

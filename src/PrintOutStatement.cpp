@@ -14,6 +14,7 @@
 #include "wisey/Log.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrintOutStatement.hpp"
+#include "wisey/StringType.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -31,7 +32,7 @@ void PrintOutStatement::generateIR(IRGenerationContext& context) const {
   checkUnreachable(context, mLine);
   
   const IType* expressionType = mExpression->getType(context);
-  if (!isCharArray(context, expressionType, mLine) &&
+  if (!StringType::isStringVariation(context, expressionType, mLine) &&
       (!expressionType->isPrimitive() || expressionType == PrimitiveTypes::VOID)) {
     context.reportError(mLine, "Argument in the printout statement is not of printable type");
     throw 1;
@@ -48,14 +49,7 @@ void PrintOutStatement::printExpressionList(IRGenerationContext& context,
   Function* printf = IntrinsicFunctions::getPrintfFunction(context);
   vector<Value*> arguments;
   arguments.push_back(formatPointer);
-  for (const IExpression* expression : expressionList) {
-    const IType* expressionType = expression->getType(context);
-    Value* expressionValue = expression->generateIR(context, PrimitiveTypes::VOID);
-    if (isCharArray(context, expressionType, line)) {
-      arguments.push_back(ArrayType::extractLLVMArray(context, expressionValue));
-    } else {
-      arguments.push_back(expressionValue);
-    }
-  }
+  IPrintStatement::addPrintArguments(context, arguments, expressionList, line);
+  
   IRWriter::createCallInst(context, printf, arguments, "");
 }
