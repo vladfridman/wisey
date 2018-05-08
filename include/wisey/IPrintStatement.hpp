@@ -35,6 +35,11 @@ namespace wisey {
                                          const IExpression* expression,
                                          int line);
 
+    /**
+     * Tells if the type is a char array
+     */
+    static bool isCharArray(IRGenerationContext& context, const IType* type, int line);
+    
   };
   
 } /* namespace wisey */

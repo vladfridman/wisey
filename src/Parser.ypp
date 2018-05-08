@@ -1288,7 +1288,7 @@ access_specifier
   ;
 
 constant_value
-  : TCHAR { $$ = new CharConstant($1->c_str()[1], yylineno); delete $1; }
+  : TCHAR { $$ = new CharConstant($1->substr(1, $1->length() - 2), yylineno); delete $1; }
   | TINTEGER { $$ = new IntConstant(atol($1->c_str()), yylineno); delete $1; }
   | TLONG { $$ = new LongConstant(atoll($1->c_str()), yylineno); delete $1; }
   | TFLOAT { $$ = new FloatConstant(atof($1->c_str()), yylineno); delete $1; }

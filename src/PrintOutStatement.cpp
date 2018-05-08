@@ -31,7 +31,8 @@ void PrintOutStatement::generateIR(IRGenerationContext& context) const {
   checkUnreachable(context, mLine);
   
   const IType* expressionType = mExpression->getType(context);
-  if (!expressionType->isPrimitive() || expressionType == PrimitiveTypes::VOID) {
+  if (!isCharArray(context, expressionType, mLine) &&
+      (!expressionType->isPrimitive() || expressionType == PrimitiveTypes::VOID)) {
     context.reportError(mLine, "Argument in the printout statement is not of printable type");
     throw 1;
   }
@@ -48,7 +49,13 @@ void PrintOutStatement::printExpressionList(IRGenerationContext& context,
   vector<Value*> arguments;
   arguments.push_back(formatPointer);
   for (const IExpression* expression : expressionList) {
-    arguments.push_back(expression->generateIR(context, PrimitiveTypes::VOID));
+    const IType* expressionType = expression->getType(context);
+    Value* expressionValue = expression->generateIR(context, PrimitiveTypes::VOID);
+    if (isCharArray(context, expressionType, line)) {
+      arguments.push_back(ArrayType::extractLLVMArray(context, expressionValue));
+    } else {
+      arguments.push_back(expressionValue);
+    }
   }
   IRWriter::createCallInst(context, printf, arguments, "");
 }

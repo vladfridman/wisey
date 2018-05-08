@@ -18,6 +18,10 @@ TEST_F(TestFileRunner, printOutCompositeStringRunTest) {
   runFileCheckOutput("tests/samples/test_printout_composite_string.yz", "Car year: 2018\n", "");
 }
 
+TEST_F(TestFileRunner, printOutCharArrayRunTest) {
+  runFileCheckOutput("tests/samples/test_printout_char_array.yz", "abc\n", "");
+}
+
 TEST_F(TestFileRunner, unreachablePrintOutStatementRunDeathTest) {
   expectFailCompile("tests/samples/test_unreachable_printout_statement.yz",
                     1,

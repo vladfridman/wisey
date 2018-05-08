@@ -55,8 +55,9 @@ void PrintFileStatement::generateIR(IRGenerationContext& context) const {
   MethodCall methodCall(identifierChain, methodCallArguments, mLine);
   Value* fileStruct = methodCall.generateIR(context, PrimitiveTypes::VOID);
   const IType* expressionType = mExpression->getType(context);
-  if (!expressionType->isPrimitive() || expressionType == PrimitiveTypes::VOID) {
-    context.reportError(mLine, "Argument in the printerr statement is not of printable type");
+  if (!isCharArray(context, expressionType, mLine) &&
+      (!expressionType->isPrimitive() || expressionType == PrimitiveTypes::VOID)) {
+    context.reportError(mLine, "Argument in the printfile statement is not of printable type");
     throw 1;
   }
   ExpressionList expressions = IPrintStatement::getExpressions(context, mExpression, mLine);
@@ -67,7 +68,12 @@ void PrintFileStatement::generateIR(IRGenerationContext& context) const {
   arguments.push_back(fileStruct);
   arguments.push_back(formatPointer);
   for (const IExpression* expression : expressions) {
-    arguments.push_back(expression->generateIR(context, PrimitiveTypes::VOID));
+    Value* expressionValue = expression->generateIR(context, PrimitiveTypes::VOID);
+    if (isCharArray(context, expressionType, mLine)) {
+      arguments.push_back(ArrayType::extractLLVMArray(context, expressionValue));
+    } else {
+      arguments.push_back(expressionValue);
+    }
   }
   
   IRWriter::createCallInst(context, fprintf, arguments, "");

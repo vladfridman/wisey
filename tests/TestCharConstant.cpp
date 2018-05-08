@@ -16,6 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/CharConstant.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -28,7 +29,9 @@ struct CharConstantTest : public ::testing::Test {
   IRGenerationContext mContext;
   CharConstant mCharConstant;
 
-  CharConstantTest() : mCharConstant('y', 0) { }
+  CharConstantTest() : mCharConstant("y", 0) {
+    TestPrefix::generateIR(mContext);
+  }
 };
 
 TEST_F(CharConstantTest, charConstantTest) {
@@ -50,6 +53,53 @@ TEST_F(CharConstantTest, printToStreamTest) {
   mCharConstant.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("'y'", stringStream.str().c_str());
+}
+
+TEST_F(CharConstantTest, newLineTest) {
+  string stringBuffer;
+  raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);
+  CharConstant constant("\n", 5);
+  
+  Value* irValue = constant.generateIR(mContext, PrimitiveTypes::VOID);
+  
+  *stringStream << *irValue;
+  EXPECT_STREQ("i8 10", stringStream->str().c_str());
+}
+
+TEST_F(CharConstantTest, emptyValueDeathTest) {
+  CharConstant constant("", 5);
+  
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(constant.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Character in characted constant is not specified\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
+}
+
+TEST_F(CharConstantTest, stringInsteadOfCharDeathTest) {
+  CharConstant constant("aa", 5);
+  
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(constant.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: String specified instead of a character constant\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
+}
+
+TEST_F(CharConstantTest, unknownEscapeSequenceDeathTest) {
+  CharConstant constant("\\a", 5);
+  
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(constant.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Unknown escape sequence\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(CharConstantTest, isConstantTest) {

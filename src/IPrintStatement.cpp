@@ -24,7 +24,8 @@ ExpressionList IPrintStatement::getExpressions(IRGenerationContext& context,
                                                const IExpression* expression,
                                                int line) {
   const IType* expressionType = expression->getType(context);
-  assert(expressionType->isPrimitive() && "Attempting to printa nonprimitive type");
+  assert((isCharArray(context, expressionType, line) || expressionType->isPrimitive()) &&
+         "Attempting to printa nonprimitive type");
   assert(expressionType != PrimitiveTypes::VOID &&
          "Attempting to print a void type expression");
   
@@ -55,6 +56,10 @@ Value* IPrintStatement::getFormatString(IRGenerationContext& context,
   string formatString = "";
   for (const IExpression* expression : expressionList) {
     const IType* type = expression->getType(context);
+    if (isCharArray(context, type, line)) {
+      formatString += PrimitiveTypes::STRING->getFormat();
+      continue;
+    }
     if (!type->isPrimitive()) {
       context.reportError(line, "Can not print non primitive types");
       throw 1;
@@ -81,4 +86,10 @@ Value* IPrintStatement::getFormatString(IRGenerationContext& context,
   llvm::Constant* indices[] = {zero, zero};
   
   return ConstantExpr::getGetElementPtr(NULL, globalVariableString, indices, true);
+}
+
+bool IPrintStatement::isCharArray(IRGenerationContext& context, const IType* type, int line) {
+  return type->isArray() &&
+  type->getArrayType(context, line)->getNumberOfDimensions() == 1 &&
+  type->getArrayType(context, line)->getElementType() == PrimitiveTypes::CHAR;
 }

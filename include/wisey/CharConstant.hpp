@@ -9,6 +9,8 @@
 #ifndef CharConstant_h
 #define CharConstant_h
 
+#include <string>
+
 #include "wisey/IExpression.hpp"
 #include "wisey/IHasType.hpp"
 
@@ -18,12 +20,12 @@ namespace wisey {
    * Represents a constant character
    */
   class CharConstant : public IExpression {
-    char mValue;
+    std::string mValue;
     int mLine;
     
   public:
     
-    CharConstant(char value, int line);
+    CharConstant(std::string value, int line);
     
     ~CharConstant();
     
