@@ -42,9 +42,7 @@ model MString {
   public MString* copy() {
     long length = mContent.getSize();
     char[]* buffer = new char[length];
-    ::llvm::i8::pointer destination = buffer;
-    ::llvm::i8::pointer source = mContent;
-    MSystem.memcopy(destination, source, length);
+    MSystem.memcopy(buffer, mContent, length);
     return builder(MString).withContent(buffer).build();
   }
 
@@ -57,8 +55,7 @@ model MString {
 
   private static MString* memcopyAndBuild(::llvm::i8::pointer source, long length) {
     char[]* buffer = new char[length];
-    ::llvm::i8::pointer destination = buffer;
-    MSystem.memcopy(destination, source, length);
+    MSystem.memcopy(buffer, source, length);
     return builder(MString).withContent(buffer).build();    
   }
 }

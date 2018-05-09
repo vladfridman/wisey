@@ -45,7 +45,10 @@ llvm::Constant* CharConstant::generateIR(IRGenerationContext& context,
   if (second == 'n') {
     return ConstantInt::get(Type::getInt8Ty(context.getLLVMContext()), '\n');
   }
-  
+  if (second == '0') {
+    return ConstantInt::get(Type::getInt8Ty(context.getLLVMContext()), '\0');
+  }
+
   context.reportError(mLine, "Unknown escape sequence");
   throw 1;
 }

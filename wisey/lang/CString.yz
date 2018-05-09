@@ -55,9 +55,7 @@ controller CString {
    */
   public MString* toModel() {
     char[]* buffer = new char[mLength + 1];
-    ::llvm::i8::pointer destination = buffer;
-    ::llvm::i8::pointer source = mBuffer;
-    MSystem.memcopy(destination, source, mCapacity);
+    MSystem.memcopy(buffer, mBuffer, mCapacity);
     return builder(MString).withContent(buffer).build();    
   }
 
@@ -73,9 +71,7 @@ controller CString {
    */
   public CString* copy() {
     char[]* buffer = new char[mCapacity];
-    ::llvm::i8::pointer destination = buffer;
-    ::llvm::i8::pointer source = mBuffer;
-    MSystem.memcopy(destination, source, mCapacity);
+    MSystem.memcopy(buffer, mBuffer, mCapacity);
     return injector(CString)
       .withBuffer(buffer)
       .withCapacity(mCapacity)
@@ -87,28 +83,21 @@ controller CString {
    * Tries to fit the new string into existing buffer, creates a new buffer if needed
    */
   public CString appendString(string appendix) {
-    long length = mLength + appendix.getLength();
-    if (length <= mCapacity) {
-       ::llvm::i8::pointer destination = mBuffer;     
-       destination = destination + mLength;     
-       ::llvm::i8::pointer source = appendix;
-       MSystem.memcopy(destination, source, appendix.getLength());
-    } else {
-      long newCapacity = estimateCapacity(length);
-      char[]* buffer = new char[newCapacity];
-      ::llvm::i8::pointer destination = buffer;
-      ::llvm::i8::pointer source = mBuffer;
-      MSystem.memcopy(destination, source, mLength);
-      destination = destination + mLength;
-      source = appendix;
-      MSystem.memcopy(destination, source, appendix.getLength());
-      mBuffer = buffer;
-      mCapacity = newCapacity;
-    }
+    return append(appendix, appendix.getLength());
+  }
 
-    mLength = length;
-    
-    return this;
+  /**
+   * Appends a character array to the string
+   */
+  public CString appendCharArray(char[] appendix) {
+    return append(appendix, appendix.getSize());
+  }
+
+  /**
+   * Appends a immutable character array to the string
+   */
+  public CString appendImmutableCharArray(immutable char[] appendix) {
+    return append(appendix, appendix.getSize());
   }
 
   /**
@@ -132,12 +121,33 @@ controller CString {
   private static CString* memcopyAndInject(::llvm::i8::pointer source, long length) {
     long capacity = estimateCapacity(length);
     char[]* buffer = new char[capacity];
-    ::llvm::i8::pointer destination = buffer;
-    MSystem.memcopy(destination, source, length);
+    MSystem.memcopy(buffer, source, length);
     return injector(CString)
       .withBuffer(buffer)
       .withCapacity(capacity)
       .withLength(length)
       .inject();
+  }
+
+  private CString append(::llvm::i8::pointer source, long sourceLength) {
+    long length = mLength + sourceLength;
+    if (length <= mCapacity) {
+       ::llvm::i8::pointer destination = mBuffer;     
+       destination = destination + mLength;     
+       MSystem.memcopy(destination, source, sourceLength);
+    } else {
+      long newCapacity = estimateCapacity(length);
+      char[]* buffer = new char[newCapacity];
+      ::llvm::i8::pointer destination = buffer;
+      MSystem.memcopy(destination, mBuffer, mLength);
+      destination = destination + mLength;
+      MSystem.memcopy(destination, source, sourceLength);
+      mBuffer = buffer;
+      mCapacity = newCapacity;
+    }
+
+    mLength = length;
+    
+    return this;
   }
 }

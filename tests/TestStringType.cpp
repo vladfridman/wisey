@@ -221,19 +221,31 @@ TEST_F(TestFileRunner, cstringCopyRunTest) {
   runFile("tests/samples/test_cstring_copy.yz", "3");
 }
 
-TEST_F(TestFileRunner, cstringAppendRunTest) {
-  runFileCheckOutput("tests/samples/test_cstring_append.yz",
-                     "Capacity before: 10\n"
-                     "1234567\n"
-                     "Capacity after: 10\n",
+TEST_F(TestFileRunner, cstringAppendStringRunTest) {
+  runFileCheckOutput("tests/samples/test_cstring_append_string.yz",
+                     "Before cstring: 123456 capacity: 10\n"
+                     "After cstring: 1234567 capacity: 10\n",
                      "");
 }
 
-TEST_F(TestFileRunner, cstringAppendLongRunTest) {
-  runFileCheckOutput("tests/samples/test_cstring_append_long.yz",
-                     "Capacity before: 6\n"
-                     "1234567\n"
-                     "Capacity after: 12\n",
+TEST_F(TestFileRunner, cstringAppendStringLongRunTest) {
+  runFileCheckOutput("tests/samples/test_cstring_append_string_long.yz",
+                     "Before cstring: 123 capacity: 6\n"
+                     "After cstring: 1234567 capacity: 12\n",
+                     "");
+}
+
+TEST_F(TestFileRunner, cstringAppendCharArrayLongRunTest) {
+  runFileCheckOutput("tests/samples/test_cstring_append_char_array.yz",
+                     "Before cstring: 123 capacity: 6\n"
+                     "After cstring: 1234567 capacity: 13\n",
+                     "");
+}
+
+TEST_F(TestFileRunner, cstringAppendImmutableCharArrayLongRunTest) {
+  runFileCheckOutput("tests/samples/test_cstring_append_immutable_char_array.yz",
+                     "Before cstring: 123 capacity: 6\n"
+                     "After cstring: 1234567 capacity: 13\n",
                      "");
 }
 

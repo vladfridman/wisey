@@ -215,6 +215,10 @@ external controller wisey.lang.CString {
   wisey.lang.CString* copy();
   wisey.lang.CString appendString(
     string appendix);
+  wisey.lang.CString appendCharArray(
+    char[] appendix);
+  wisey.lang.CString appendImmutableCharArray(
+    immutable char[] appendix);
   char[] getContent();
   long getCapacity();
 }
