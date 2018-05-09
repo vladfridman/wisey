@@ -9,6 +9,7 @@
 #include "wisey/Environment.hpp"
 #include "wisey/IConcreteObjectDefinition.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/LLVMFunction.hpp"
 #include "wisey/Log.hpp"
 
 using namespace std;
@@ -61,6 +62,7 @@ IConcreteObjectDefinition::createElements(IRGenerationContext& context,
   vector<IMethod*> methods;
   vector<Constant*> constants;
   vector<LLVMFunction*> llvmFunctions;
+  map<string, IObjectElement*> nameToElementMap;
   for (IObjectElementDefinition* elementDeclaration : elementDeclarations) {
     IObjectElement* element = elementDeclaration->define(context, concreteObjectType);
     if (element->isConstant()) {
@@ -69,17 +71,51 @@ IConcreteObjectDefinition::createElements(IRGenerationContext& context,
                             "Constants should be declared before fields and methods");
         throw 1;
       }
-      constants.push_back((Constant*) element);
+      Constant* constant = (Constant*) element;
+      if (nameToElementMap.count(constant->getName())) {
+        context.reportError(constant->getLine(), "Constant named '" + constant->getName() +
+                            "' was already defined on line " +
+                            to_string(nameToElementMap.at(constant->getName())->getLine()));
+        throw 1;
+      }
+      nameToElementMap[constant->getName()] = constant;
+      constants.push_back(constant);
     } else if (element->isField()) {
       if (methods.size()) {
         context.reportError(element->getLine(), "Fields should be declared before methods");
         throw 1;
       }
-      fields.push_back((IField*) element);
+      IField* field = (IField*) element;
+      if (nameToElementMap.count(field->getName())) {
+        context.reportError(field->getLine(), "Field named '" + field->getName() +
+                            "' was already defined on line " +
+                            to_string(nameToElementMap.at(field->getName())->getLine()));
+        throw 1;
+      }
+      nameToElementMap[field->getName()] = field;
+      fields.push_back(field);
     } else if (element->isLLVMFunction()) {
+      LLVMFunction* llvmFunction = (LLVMFunction*) element;
+      if (nameToElementMap.count(llvmFunction->getName())) {
+        context.reportError(llvmFunction->getLine(), "Function or method named '" +
+                            llvmFunction->getName() + "' was already defined on line " +
+                            to_string(nameToElementMap.at(llvmFunction->getName())->getLine()) +
+                            ", method overloading is not allowed");
+        throw 1;
+      }
+      nameToElementMap[llvmFunction->getName()] = llvmFunction;
       llvmFunctions.push_back((LLVMFunction*) element);
     } else {
-      methods.push_back((IMethod*) element);
+      IMethod* method = (IMethod*) element;
+      if (nameToElementMap.count(method->getName())) {
+        context.reportError(method->getLine(), "Method named '" + method->getName() +
+                            "' was already defined on line " +
+                            to_string(nameToElementMap.at(method->getName())->getLine()) +
+                            ", method overloading is not allowed");
+        throw 1;
+      }
+      nameToElementMap[method->getName()] = method;
+      methods.push_back(method);
     }
   }
   

@@ -1,0 +1,17 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+model MCar {
+  int mField;
+  float mField;
+}
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    return;
+  }
+}
+
+bind(IProgram).to(CProgram);

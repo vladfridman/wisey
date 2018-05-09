@@ -991,6 +991,7 @@ Interface::createElements(IRGenerationContext& context,
   vector<wisey::Constant*> constants;
   vector<StaticMethod*> staticMethods;
   vector<LLVMFunction*> functions;
+  map<string, IObjectElement*> nameToElementMap;
   for (IObjectElementDefinition* elementDeclaration : elementDeclarations) {
     IObjectElement* objectElement = elementDeclaration->define(context, this);
     if (objectElement->isField()) {
@@ -1008,12 +1009,44 @@ Interface::createElements(IRGenerationContext& context,
                             "In interfaces constants should be declared before methods");
         throw 1;
       }
-      constants.push_back((wisey::Constant*) objectElement);
+      wisey::Constant* constant = (wisey::Constant*) objectElement;
+      if (nameToElementMap.count(constant->getName())) {
+        context.reportError(constant->getLine(), "Constant named '" + constant->getName() +
+                            "' was already defined on line " +
+                            to_string(nameToElementMap.at(constant->getName())->getLine()));
+        throw 1;
+      }
+      nameToElementMap[constant->getName()] = constant;
+      constants.push_back(constant);
     } else if (objectElement->isMethodSignature()) {
-      methodSignatures.push_back((MethodSignature*) objectElement);
+      MethodSignature* methodSignature = (MethodSignature*) objectElement;
+      if (nameToElementMap.count(methodSignature->getName())) {
+        context.reportError(methodSignature->getLine(), "Method signature '" +
+                            methodSignature->getName() + "' was already defined on line " +
+                            to_string(nameToElementMap.at(methodSignature->getName())->getLine()));
+        throw 1;
+      }
+      nameToElementMap[methodSignature->getName()] = methodSignature;
+      methodSignatures.push_back(methodSignature);
     } else if (objectElement->isStaticMethod()) {
-      staticMethods.push_back((StaticMethod*) objectElement);
+      StaticMethod* staticMethod = (StaticMethod*) objectElement;
+      if (nameToElementMap.count(staticMethod->getName())) {
+        context.reportError(staticMethod->getLine(), "Static method '" +
+                            staticMethod->getName() + "' was already defined on line " +
+                            to_string(nameToElementMap.at(staticMethod->getName())->getLine()));
+        throw 1;
+      }
+      nameToElementMap[staticMethod->getName()] = staticMethod;
+      staticMethods.push_back(staticMethod);
     } else if (objectElement->isLLVMFunction()) {
+      LLVMFunction* llvmFunction = (LLVMFunction*) objectElement;
+      if (nameToElementMap.count(llvmFunction->getName())) {
+        context.reportError(llvmFunction->getLine(), "Function or method '" +
+                            llvmFunction->getName() + "' was already defined on line " +
+                            to_string(nameToElementMap.at(llvmFunction->getName())->getLine()));
+        throw 1;
+      }
+      nameToElementMap[llvmFunction->getName()] = llvmFunction;
       functions.push_back((LLVMFunction*) objectElement);
     } else {
       context.reportError(objectElement->getLine(),

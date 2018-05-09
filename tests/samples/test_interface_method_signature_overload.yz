@@ -1,0 +1,17 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+interface IInterface {
+  int getValue();
+  int getValue(int input);
+}
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    return;
+  }
+}
+
+bind(IProgram).to(CProgram);

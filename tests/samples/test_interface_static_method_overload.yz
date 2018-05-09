@@ -1,0 +1,22 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+interface IInterface {
+  static int getYear() {
+    return 1;
+  }
+
+  static int getYear(int input) {
+    return input;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    return;
+  }
+}
+
+bind(IProgram).to(CProgram);

@@ -928,11 +928,41 @@ TEST_F(TestFileRunner, interfaceMethodOverridesNothingRunDeathTest) {
 TEST_F(TestFileRunner, injectInterfaceNotBoundInInjectFieldRunDeathTest) {
   expectFailCompile("tests/samples/test_inject_interface_not_bound_in_inject_field.yz",
                     1,
-                    "tests/samples/test_inject_interface_not_bound_in_inject_field.yz\\(29\\): Error: Arguments are not allowed for injection of interfaces that are not bound to controllers");
+                    "tests/samples/test_inject_interface_not_bound_in_inject_field.yz\\(29\\): "
+                    "Error: Arguments are not allowed for injection of interfaces that are not bound to controllers");
 }
 
 TEST_F(TestFileRunner, injectInterfaceNotBoundInlineRunDeathTest) {
   expectFailCompile("tests/samples/test_inject_interface_not_bound_inline.yz",
                     1,
-                    "tests/samples/test_inject_interface_not_bound_inline.yz\\(31\\): Error: Arguments are not allowed for injection of interfaces that are not bound to controllers");
+                    "tests/samples/test_inject_interface_not_bound_inline.yz\\(31\\): "
+                    "Error: Arguments are not allowed for injection of interfaces that are not bound to controllers");
+}
+
+TEST_F(TestFileRunner, interfaceRedefineConstantRunDeathTest) {
+  expectFailCompile("tests/samples/test_interface_redefine_constant.yz",
+                    1,
+                    "tests/samples/test_interface_redefine_constant.yz\\(7\\): Error: "
+                    "Constant named 'CONSTANT' was already defined on line 6");
+}
+
+TEST_F(TestFileRunner, interfaceMethodSignatureOverloadRunDeathTest) {
+  expectFailCompile("tests/samples/test_interface_method_signature_overload.yz",
+                    1,
+                    "tests/samples/test_interface_method_signature_overload.yz\\(7\\): Error: "
+                    "Method signature 'getValue' was already defined on line 6");
+}
+
+TEST_F(TestFileRunner, interfaceStaticMethodOverloadRunDeathTest) {
+  expectFailCompile("tests/samples/test_interface_static_method_overload.yz",
+                    1,
+                    "tests/samples/test_interface_static_method_overload.yz\\(12\\): Error: "
+                    "Static method 'getYear' was already defined on line 8");
+}
+
+TEST_F(TestFileRunner, interfaceFunctionOverloadRunDeathTest) {
+  expectFailCompile("tests/samples/test_interface_function_overload.yz",
+                    1,
+                    "tests/samples/test_interface_function_overload.yz\\(12\\): Error: "
+                    "Function or method 'getYear' was already defined on line 8");
 }

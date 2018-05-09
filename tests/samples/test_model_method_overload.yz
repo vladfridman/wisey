@@ -1,0 +1,22 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+model MCar {
+  public int getYear() {
+    return 1;
+  }
+
+  public int getYear(int input) {
+    return input;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    return;
+  }
+}
+
+bind(IProgram).to(CProgram);
