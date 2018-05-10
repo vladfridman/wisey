@@ -18,14 +18,26 @@ model MString {
    * Creates an MString from a null terminated char array
    */
   public static MString* createFromCharArray(char[] input) {
-    return memcopyAndBuild(input, input.getSize());
+    if (input.getSize() == 0) {
+      return memcopyAndBuild(input, 1);
+    }
+    long length = input[input.getSize() - 1] == '\0' 
+      ? (long) ::llvm::function::strlen(input) + 1
+      : input.getSize() + 1;
+    return memcopyAndBuild(input, length);
   }
 
   /**
    * Creates an MString from a null terminated immutable char array
    */
   public static MString* createFromImmutableCharArray(immutable char[] input) {
-    return memcopyAndBuild(input, input.getSize());
+    if (input.getSize() == 0) {
+      return memcopyAndBuild(input, 1);
+    }
+    long length = input[input.getSize() - 1] == '\0' 
+      ? (long) ::llvm::function::strlen(input) + 1
+      : input.getSize() + 1;
+    return memcopyAndBuild(input, length);
   }
 
   /**
@@ -55,7 +67,7 @@ model MString {
 
   private static MString* memcopyAndBuild(::llvm::i8::pointer source, long length) {
     char[]* buffer = new char[length];
-    MSystem.memcopy(buffer, source, length);
+    MSystem.memcopy(buffer, source, length - 1);
     return builder(MString).withContent(buffer).build();    
   }
 }

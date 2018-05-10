@@ -40,14 +40,26 @@ controller CString {
    * Creates a CString from a null terminated char array
    */
   public static CString* createFromCharArray(char[] input) {
-    return memcopyAndInject(input, input.getSize());
+    if (input.getSize() == 0) {
+      return memcopyAndInject(input, 0);
+    }
+    long length = input[input.getSize() - 1] == '\0' 
+      ? (long) ::llvm::function::strlen(input)
+      : input.getSize();
+    return memcopyAndInject(input, length);
   }
 
   /**
    * Creates a CString from a null terminated immutable char array
    */
   public static CString* createFromImmutableCharArray(immutable char[] input) {
-    return memcopyAndInject(input, input.getSize());
+    if (input.getSize() == 0) {
+      return memcopyAndInject(input, 0);
+    }
+    long length = input[input.getSize() - 1] == '\0' 
+      ? (long) ::llvm::function::strlen(input)
+      : input.getSize();
+    return memcopyAndInject(input, length);
   }
 
   /**

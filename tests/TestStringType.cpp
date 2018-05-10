@@ -209,6 +209,12 @@ TEST_F(TestFileRunner, mstringCreateFromImmutableCharArrayRunTest) {
                      "");
 }
 
+TEST_F(TestFileRunner, mstringCreateFromEmptyCharArrayRunTest) {
+  runFileCheckOutput("tests/samples/test_mstring_create_from_empty_char_array.yz",
+                     "mstring:  length: 0\n",
+                     "");
+}
+
 TEST_F(TestFileRunner, mstringCopyRunTest) {
   runFile("tests/samples/test_mstring_copy.yz", "7");
 }
@@ -265,12 +271,18 @@ TEST_F(TestFileRunner, cstringCreateFromModelRunTest) {
 
 TEST_F(TestFileRunner, cstringCreateFromCharArrayRunTest) {
   runFileCheckOutput("tests/samples/test_cstring_create_from_char_array.yz",
-                     "cstring: abc length: 5 capacity: 9\n",
+                     "cstring: abc length: 3 capacity: 6\n",
                      "");
 }
 
 TEST_F(TestFileRunner, cstringCreateFromImmutableCharArrayRunTest) {
   runFileCheckOutput("tests/samples/test_cstring_create_from_immutable_char_array.yz",
-                     "cstring: def length: 5 capacity: 9\n",
+                     "cstring: def length: 3 capacity: 6\n",
+                     "");
+}
+
+TEST_F(TestFileRunner, cstringCreateFromEmptyCharArrayRunTest) {
+  runFileCheckOutput("tests/samples/test_cstring_create_from_empty_char_array.yz",
+                     "cstring:  length: 0 capacity: 1\n",
                      "");
 }

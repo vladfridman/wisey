@@ -101,7 +101,8 @@ void ConditionalExpression::checkTypes(IRGenerationContext& context) const {
     throw 1;
   }
   
-  if (ifTrueExpressionType != ifFalseExpressionType) {
+  if (ifTrueExpressionType != ifFalseExpressionType &&
+      ifTrueExpressionType->getLLVMType(context) != ifFalseExpressionType->getLLVMType(context)) {
     context.reportError(mLine, "Incompatible types in conditional expression operation");
     throw 1;
   }
