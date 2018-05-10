@@ -215,6 +215,12 @@ TEST_F(TestFileRunner, mstringCreateFromEmptyCharArrayRunTest) {
                      "");
 }
 
+TEST_F(TestFileRunner, mstringCreateFromUnterminatedCharArrayRunTest) {
+  runFileCheckOutput("tests/samples/test_mstring_create_from_unterminated_char_array.yz",
+                     "mstring: a length: 1\n",
+                     "");
+}
+
 TEST_F(TestFileRunner, mstringCopyRunTest) {
   runFile("tests/samples/test_mstring_copy.yz", "7");
 }
@@ -284,5 +290,11 @@ TEST_F(TestFileRunner, cstringCreateFromImmutableCharArrayRunTest) {
 TEST_F(TestFileRunner, cstringCreateFromEmptyCharArrayRunTest) {
   runFileCheckOutput("tests/samples/test_cstring_create_from_empty_char_array.yz",
                      "cstring:  length: 0 capacity: 1\n",
+                     "");
+}
+
+TEST_F(TestFileRunner, cstringCreateFromUnterminatedCharArrayRunTest) {
+  runFileCheckOutput("tests/samples/test_cstring_create_from_unterminated_char_array.yz",
+                     "cstring: a length: 1 capacity: 3\n",
                      "");
 }
