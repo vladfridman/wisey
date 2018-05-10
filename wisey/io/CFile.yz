@@ -7,23 +7,28 @@ controller CFile {
   state ::llvm::struct::__sFILE::pointer mFileStruct;
 
   /**
+   * Tells whether a file is opened
+   */
+  public boolean isOpened() {
+    return mFileStruct;
+  }
+
+  /**
    * Opens the given text file for writing
    *
    * Throws an exception if could not open the file or if another file is already opened
    */
   public void openForWriting(CString fileName) throws MFileOpenException, MFileCouldNotOpenException {
-    if (mFileStruct != null) {
-      throw builder(MFileOpenException)
-        .withNewFile(fileName.toModel())
-        .withCurrentFile(mFileName.toModel())
-        .build();
-    }
-    
-    mFileName = fileName;
-    mFileStruct = ::llvm::function::fopen(mFileName.getContent(), "w");
-    if (mFileStruct == null) {
-      throw builder(MFileCouldNotOpenException).withFileName(fileName.toModel()).build();
-    }
+    open(fileName, "w");
+  }
+
+  /**
+   * Opens the given text file for reading
+   *
+   * Throws an exception if could not open the file or if another file is already opened
+   */
+  public void openForReading(CString fileName) throws MFileOpenException, MFileCouldNotOpenException {
+    open(fileName, "r");
   }
 
   /**
@@ -48,5 +53,21 @@ controller CFile {
       throw builder(MFileAccessException).build();
     }
     return mFileStruct;
+  }
+
+  private void open(CString fileName, string mode) 
+    throws MFileOpenException, MFileCouldNotOpenException {
+    if (mFileStruct != null) {
+      throw builder(MFileOpenException)
+        .withNewFile(fileName.toModel())
+        .withCurrentFile(mFileName.toModel())
+        .build();
+    }
+    
+    mFileName = fileName;
+    mFileStruct = ::llvm::function::fopen(mFileName.getContent(), mode);
+    if (mFileStruct == null) {
+      throw builder(MFileCouldNotOpenException).withFileName(fileName.toModel()).build();
+    }
   }
 }

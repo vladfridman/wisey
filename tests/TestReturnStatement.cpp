@@ -107,6 +107,25 @@ TEST_F(ReturnStatementTest, parentFunctionIsIncopatableTypeDeathTest) {
 
   mContext.setBasicBlock(BasicBlock::Create(mLLVMContext, "entry", function));
   mContext.getScopes().pushScope();
+  mContext.getScopes().setReturnType(PrimitiveTypes::STRING);
+  ReturnStatement returnStatement(mExpression, 5);
+  
+  Mock::AllowLeak(mExpression);
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(returnStatement.generateIR(mContext));
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'int' to 'string'\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
+}
+
+TEST_F(ReturnStatementTest, cantReturnVoidTypeDeathTest) {
+  FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);
+  Function* function = Function::Create(functionType, GlobalValue::InternalLinkage, "test");
+  
+  mContext.setBasicBlock(BasicBlock::Create(mLLVMContext, "entry", function));
+  mContext.getScopes().pushScope();
   mContext.getScopes().setReturnType(PrimitiveTypes::VOID);
   ReturnStatement returnStatement(mExpression, 5);
   
@@ -115,7 +134,7 @@ TEST_F(ReturnStatementTest, parentFunctionIsIncopatableTypeDeathTest) {
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
   EXPECT_ANY_THROW(returnStatement.generateIR(mContext));
-  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'int' to 'void'\n",
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Can't return value of type void\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
@@ -274,4 +293,10 @@ TEST_F(TestFileRunner, unreachableReturnRunDeathTest) {
   expectFailCompile("tests/samples/test_unreachable_return.yz",
                     1,
                     "tests/samples/test_unreachable_return.yz\\(9\\): Error: Statement unreachable");
+}
+
+TEST_F(TestFileRunner, returnVoidValueRunDeathTest) {
+  expectFailCompile("tests/samples/test_return_void_value.yz",
+                    1,
+                    "tests/samples/test_return_void_value.yz\\(11\\): Error: Can't return value of type void");
 }

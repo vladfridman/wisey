@@ -12,6 +12,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/IVariable.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ReturnStatement.hpp"
 
 #include <llvm/IR/Instructions.h>
@@ -34,7 +35,11 @@ void ReturnStatement::generateIR(IRGenerationContext& context) const {
     context.reportError(mLine, "No corresponding method found for RETURN");
     throw 1;
   }
-  
+  if (returnType == PrimitiveTypes::VOID) {
+    context.reportError(mLine, "Can't return value of type void");
+    throw 1;
+  }
+
   Composer::setLineNumber(context, mLine);
 
   Value* result = AutoCast::maybeCast(context,

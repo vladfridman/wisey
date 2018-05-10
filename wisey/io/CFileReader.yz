@@ -1,0 +1,34 @@
+package wisey.io;
+
+import wisey.lang.CString;
+
+/**
+ * Reads lines from a text file
+ */
+controller CFileReader {
+
+  public constant int BUFFER_SIZE = 256;
+
+  inject CFile* mFile;
+  inject char[BUFFER_SIZE]* mBuffer;
+
+  receive CString mFileName;
+
+  public static CFileReader* create(CString fileName) {
+    return injector(CFileReader).withFileName(fileName).inject();
+  }
+
+  public CString* readLine() throws MFileOpenException, MFileCouldNotOpenException {
+    if (!mFile.isOpened()) {
+      mFile.openForReading(mFileName);
+    }
+    ::llvm::i8::pointer result = 
+      ::llvm::function::fgets(mBuffer, BUFFER_SIZE, mFile.getFileStruct());
+    if (!result) {
+      mFile.close();
+      return null;
+    }
+
+    return CString.createFromCharArray(mBuffer);
+  }
+}

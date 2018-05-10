@@ -1,0 +1,19 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+
+  public void getNothing() {
+  }
+
+  public void returnNothing() {
+    return getNothing();
+  }
+
+  public int run(immutable string[] arguments) override {
+    return 1;
+  }
+}
+
+bind(IProgram).to(CProgram);

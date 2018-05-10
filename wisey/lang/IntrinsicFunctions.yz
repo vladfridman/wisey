@@ -14,6 +14,11 @@
 ::llvm::function ::llvm::i32 fprintf(::llvm::struct::__sFILE::pointer, ::llvm::i8::pointer, ...);
 
 /**
+ * fgets function for reading from a file
+ */
+::llvm::function ::llvm::i8::pointer fgets(::llvm::i8::pointer, ::llvm::i32, ::llvm::struct::__sFILE::pointer);
+
+/**
  * function to get string length
  */
 ::llvm::function ::llvm::i64 strlen(::llvm::i8::pointer);

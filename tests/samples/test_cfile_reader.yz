@@ -1,0 +1,22 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.io.CFileReader;
+import wisey.lang.CString;
+import wisey.lang.IProgram;
+import wisey.lang.MString;
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    CFileReader* reader = CFileReader.create(
+      CString.createFromString("tests/samples/inputs/textfile.txt"));
+    CString* line = reader.readLine();
+    while (line != null) {
+      printout(line);
+      line = reader.readLine();
+    }
+    return 1;
+  }
+}
+
+bind(IProgram).to(CProgram);
