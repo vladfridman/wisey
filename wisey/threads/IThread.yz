@@ -31,14 +31,14 @@ interface IThread {
   /**
    * Method for putting the current thread to sleep
    */
-  static void sleep(int seconds) {
+  public static void sleep(int seconds) {
     ::llvm::function::sleep(seconds);
   }
 
   /**
    * Throws an exception when passed object is not the current thread
    */
-  static void insideThreadGuard(IThread object) throws MThreadBoundaryException {
+  public static void insideThreadGuard(IThread object) throws MThreadBoundaryException {
     if (object != thread) {
       throw builder(MThreadBoundaryException).withIsMethodInternal(true).build();
     }
@@ -47,7 +47,7 @@ interface IThread {
   /**
    * Throws an exception when passed object is the same as the current thread
    */
-  static void outsideThreadGuard(IThread object) throws MThreadBoundaryException {
+  public static void outsideThreadGuard(IThread object) throws MThreadBoundaryException {
     if (object == thread) {
       throw builder(MThreadBoundaryException).withIsMethodInternal(false).build();
     }

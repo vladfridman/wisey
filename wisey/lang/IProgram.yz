@@ -16,7 +16,7 @@ interface IProgram {
   /**
    * Terminate program execution
    */
-  static void terminate(int exitCode) {
+  public static void terminate(int exitCode) {
     ::llvm::function::exit(exitCode);
   }
 }

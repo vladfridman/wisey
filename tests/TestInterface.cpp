@@ -870,6 +870,10 @@ TEST_F(TestFileRunner, interfaceObjectAddReferenceForNodeRunTest) {
   runFile("tests/samples/test_interface_object_add_reference_for_node.yz", "7");
 }
 
+TEST_F(TestFileRunner, interfaceBridgeToPrivateStaticMethodRunTest) {
+  runFile("tests/samples/test_interface_bridge_to_private_static_method.yz", "5");
+}
+
 TEST_F(TestFileRunner, interfaceStaticMethodThrowsNpeDeathRunTest) {
   compileAndRunFileCheckOutput("tests/samples/test_interface_static_method_throws_npe.yz",
                                1,
@@ -965,4 +969,11 @@ TEST_F(TestFileRunner, interfaceFunctionOverloadRunDeathTest) {
                     1,
                     "tests/samples/test_interface_function_overload.yz\\(12\\): Error: "
                     "Function or method 'getYear' was already defined on line 8");
+}
+
+TEST_F(TestFileRunner, interfacePrivateStaticMethodRunDeathTest) {
+  expectFailCompile("tests/samples/test_interface_private_static_method.yz",
+                    1,
+                    "tests/samples/test_interface_private_static_method.yz\\(14\\): Error: "
+                    "Static method 'getValue' of object systems.vos.wisey.compiler.tests.IShape is private");
 }

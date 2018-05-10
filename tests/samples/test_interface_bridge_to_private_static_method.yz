@@ -2,21 +2,21 @@ package systems.vos.wisey.compiler.tests;
 
 import wisey.lang.IProgram;
 
-interface IInterface {
-  public static int getYear() {
-    return 1;
+interface IShape {
+  private static int getValue() {
+    return 5;
   }
 
-  public static int getYear(int input) {
-    return input;
+  public static int bridgeToGetValue() {
+    return getValue();
   }
 }
 
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    return;
+    return IShape.bridgeToGetValue();
   }
-}
+} 
 
 bind(IProgram).to(CProgram);

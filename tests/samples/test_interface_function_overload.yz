@@ -3,7 +3,7 @@ package systems.vos.wisey.compiler.tests;
 import wisey.lang.IProgram;
 
 interface IInterface {
-  static int getYear() {
+  public static int getYear() {
     return 1;
   }
 
