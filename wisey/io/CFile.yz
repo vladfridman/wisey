@@ -1,28 +1,36 @@
 package wisey.io;
 
+import wisey.lang.CString;
+
 controller CFile {
-  state string mFileName;
+  state CString mFileName;
   state ::llvm::struct::__sFILE::pointer mFileStruct;
 
-  public void open(string fileName) throws MFileOpenException, MFileCouldNotOpenException {
+  /**
+   * Opens the given text file for writing
+   *
+   * Throws an exception if could not open the file or if another file is already opened
+   */
+  public void openForWriting(CString fileName) throws MFileOpenException, MFileCouldNotOpenException {
     if (mFileStruct != null) {
-      throw builder(MFileOpenException).withNewFile(fileName).withCurrentFile(mFileName).build();
+      throw builder(MFileOpenException)
+        .withNewFile(fileName.toModel())
+        .withCurrentFile(mFileName.toModel())
+        .build();
     }
     
     mFileName = fileName;
-    mFileStruct = ::llvm::function::fopen(mFileName, "w");
+    mFileStruct = ::llvm::function::fopen(mFileName.getContent(), "w");
     if (mFileStruct == null) {
-      throw builder(MFileCouldNotOpenException).withFileName(fileName).build();
+      throw builder(MFileCouldNotOpenException).withFileName(fileName.toModel()).build();
     }
   }
 
-  public ::llvm::struct::__sFILE::pointer getFileStruct() throws MFileAccessException {
-    if (mFileStruct == null) {
-      throw builder(MFileAccessException).build();
-    }
-    return mFileStruct;
-  }
-
+  /**
+   * Close the file previously opened using one of the open method
+   *
+   * Throws an exception if could not open the file or if the file is not opened
+   */
   public void close() throws MFileCloseException, MFileCouldNotCloseException {
     if (mFileStruct == null) {
       throw builder(MFileCloseException).build();
@@ -31,7 +39,14 @@ controller CFile {
     int result = ::llvm::function::fclose(mFileStruct);
 
     if (result != 0) {
-      throw builder(MFileCouldNotCloseException).withFileName(mFileName).build();
+      throw builder(MFileCouldNotCloseException).withFileName(mFileName.toModel()).build();
     }
+  }
+
+  public ::llvm::struct::__sFILE::pointer getFileStruct() throws MFileAccessException {
+    if (mFileStruct == null) {
+      throw builder(MFileAccessException).build();
+    }
+    return mFileStruct;
   }
 }

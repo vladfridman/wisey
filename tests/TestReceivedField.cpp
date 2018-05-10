@@ -37,7 +37,7 @@ public:
   ReceivedFieldTest() :
   mType(new NiceMock<MockType>()),
   mName("mField") {
-    ON_CALL(*mType, printToStream(_, _)).WillByDefault(Invoke(printType));
+    ON_CALL(*mType, getTypeName()).WillByDefault(Return("MObject*"));
     EXPECT_CALL(*mType, die());
     
     mField = new ReceivedField(mType, mName, 7);
@@ -46,10 +46,6 @@ public:
   ~ReceivedFieldTest() {
     delete mType;
     delete mField;
-  }
-  
-  static void printType(IRGenerationContext& context, iostream& stream) {
-    stream << "MObject*";
   }
 };
 

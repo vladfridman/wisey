@@ -195,10 +195,7 @@ bool InjectedField::isState() const {
 }
 
 void InjectedField::printToStream(IRGenerationContext& context, iostream& stream) const {
-  stream << "  inject ";
-  
-  mInjectedType->printToStream(context, stream);
-  stream << " " << getName();
+  stream << "  inject " << mInjectedType->getTypeName() << " " << getName();
   
   if (!mInjectionArgumentList.size()) {
     stream << ";" << endl;

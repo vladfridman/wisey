@@ -39,7 +39,7 @@ public:
   mName("mField") {
     TestPrefix::generateIR(mContext);
     
-    ON_CALL(*mType, printToStream(_, _)).WillByDefault(Invoke(printType));
+    ON_CALL(*mType, getTypeName()).WillByDefault(Return("MObject*"));
     EXPECT_CALL(*mType, die());
     
     mField = new FixedField(mType, mName, 3);
@@ -48,10 +48,6 @@ public:
   ~FixedFieldTest() {
     delete mType;
     delete mField;
-  }
-  
-  static void printType(IRGenerationContext& context, iostream& stream) {
-    stream << "MObject*";
   }
 };
 

@@ -150,7 +150,8 @@ TEST_F(LLVMFunctionIdentifierTest, functionNotAccessableDeathTest) {
 
 TEST_F(LLVMFunctionIdentifierTest, getTypeTest) {
   LLVMFunctionIdentifier llvmFunctionIdentifier(mObjectSpecifier, "publicFunction", 0);
-  EXPECT_EQ(mLLVMFunctionType, llvmFunctionIdentifier.getType(mContext));
+  EXPECT_EQ(mLLVMFunctionType->getPointerType(mContext, 0) ,
+            llvmFunctionIdentifier.getType(mContext));
 }
 
 TEST_F(LLVMFunctionIdentifierTest, isConstantTest) {

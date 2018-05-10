@@ -1,14 +1,15 @@
 package systems.vos.wisey.compiler.tests;
 
 import wisey.io.CFile;
+import wisey.lang.CString;
 import wisey.lang.IProgram;
 
 controller CProgram implements IProgram {
   inject CFile* mFile;
 
   public int run(immutable string[] arguments) override {
-    mFile.open("build/test.txt");
-    mFile.open("build/foo.txt");
+    mFile.openForWriting(CString.createFromString("build/test.txt"));
+    mFile.openForWriting(CString.createFromString("build/foo.txt"));
     mFile.close();
     return 1;
   }

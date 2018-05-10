@@ -6,6 +6,7 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/AutoCast.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
@@ -30,14 +31,25 @@ int LLVMFunctionCall::getLine() const {
 
 Value* LLVMFunctionCall::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   Function* function = context.getModule()->getFunction(mFunctionName);
-  if (function == NULL) {
+  const LLVMFunctionType* functionType = context.lookupLLVMFunctionNamedType(mFunctionName, mLine);
+  if (!function || !functionType) {
     context.reportError(mLine, "LLVM function " + mFunctionName + " is not defined");
     throw 1;
   }
   
   vector<Value*> arguments;
+  vector<const IType*> argumentTypes = functionType->getArgumentTypes();
+  auto argumentTypesIterator = argumentTypes.begin();
   for (const IExpression* argumentExpression : mArguments) {
-    arguments.push_back(argumentExpression->generateIR(context, PrimitiveTypes::VOID));
+    Value* expressionValue = argumentExpression->generateIR(context, PrimitiveTypes::VOID);
+    const IType* expressionType = argumentExpression->getType(context);
+    Value* castValue = AutoCast::maybeCast(context,
+                                           expressionType,
+                                           expressionValue,
+                                           *argumentTypesIterator,
+                                           mLine);
+    arguments.push_back(castValue);
+    argumentTypesIterator++;
   }
   return IRWriter::createCallInst(context, function, arguments, "");
 }

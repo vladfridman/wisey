@@ -33,7 +33,7 @@ TEST_F(TestFileRunner, fileOpenExceptionDeathRunTest) {
                                1,
                                "",
                                "Unhandled exception wisey.io.MFileOpenException\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_printfile_open_exception.yz:11)\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_printfile_open_exception.yz:12)\n"
                                "Details: Trying to open file build/foo.txt without closing build/test.txt\n"
                                "Main thread ended without a result\n");
 }
@@ -43,7 +43,7 @@ TEST_F(TestFileRunner, fileOpenFailDeathRunTest) {
                                1,
                                "",
                                "Unhandled exception wisey.io.MFileCouldNotOpenException\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_printfile_open_fail.yz:10)\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_printfile_open_fail.yz:11)\n"
                                "Details: Could not open file nonexisting/test.txt\n"
                                "Main thread ended without a result\n");
 }

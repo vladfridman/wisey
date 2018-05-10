@@ -2,6 +2,7 @@ package systems.vos.wisey.compiler.tests;
 
 import wisey.io.CFile;
 import wisey.io.MFileCouldNotOpenException;
+import wisey.lang.CString;
 import wisey.lang.IProgram;
 
 controller CProgram implements IProgram {
@@ -9,7 +10,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     try {
-      mFile.open("nonexisting/test.txt");
+      mFile.openForWriting(CString.createFromString("nonexisting/test.txt"));
     } catch (MFileCouldNotOpenException* exception) {
       return 5;
     }

@@ -75,8 +75,6 @@ bool ReceivedField::isState() const {
 }
 
 void ReceivedField::printToStream(IRGenerationContext& context, iostream& stream) const {
-  stream << "  receive ";
-  mType->printToStream(context, stream);
-  stream << " " << getName() << ";" << endl;
+  stream << "  receive " << mType->getTypeName() << " " << getName() << ";" << endl;
 }
 

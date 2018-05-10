@@ -42,7 +42,7 @@ public:
   mName("mField") {
     TestPrefix::generateIR(mContext);
     
-    ON_CALL(*mType, printToStream(_, _)).WillByDefault(Invoke(printType));
+    ON_CALL(*mType, getTypeName()).WillByDefault(Return("MObject*"));
     EXPECT_CALL(*mType, die());
     
     mField = new StateField(mType, mName, 5);
@@ -52,10 +52,6 @@ public:
     delete mType;
     delete mObjectType;
     delete mField;
-  }
-  
-  static void printType(IRGenerationContext& context, iostream& stream) {
-    stream << "MObject*";
   }
 };
 

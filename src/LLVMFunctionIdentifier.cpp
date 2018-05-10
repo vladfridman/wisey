@@ -35,7 +35,7 @@ Value* LLVMFunctionIdentifier::generateIR(IRGenerationContext& context,
 }
 
 const IType* LLVMFunctionIdentifier::getType(IRGenerationContext& context) const {
-  return getLLVMFunctionObject(context)->getType();
+  return getLLVMFunctionObject(context)->getType()->getPointerType(context, mLine);
 }
 
 bool LLVMFunctionIdentifier::isConstant() const {

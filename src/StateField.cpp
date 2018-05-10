@@ -86,7 +86,5 @@ bool StateField::isState() const {
 }
 
 void StateField::printToStream(IRGenerationContext& context, iostream& stream) const {
-  stream << "  state ";
-  mType->printToStream(context, stream);
-  stream << " " << getName() << ";" << endl;
+  stream << "  state " << mType->getTypeName() << " " << getName() << ";" << endl;
 }

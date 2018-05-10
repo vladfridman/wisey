@@ -64,8 +64,8 @@ public:
     
     mInjectionArgument = new InjectionArgument("withFoo", mExpression);
     mInjectionArgumentList.push_back(mInjectionArgument);
-    ON_CALL(*mType, printToStream(_, _)).WillByDefault(Invoke(printType));
-    ON_CALL(*mInjectedType, printToStream(_, _)).WillByDefault(Invoke(printInjectedType));
+    ON_CALL(*mType, getTypeName()).WillByDefault(Return("MObject*"));
+    ON_CALL(*mInjectedType, getTypeName()).WillByDefault(Return("MInjectedObject*"));
     ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
     EXPECT_CALL(*mType, die());
     EXPECT_CALL(*mInjectedType, die());
@@ -115,14 +115,6 @@ public:
     delete mInjectedType;
     delete mObjectOwnerType;
     delete mObjectType;
-  }
-  
-  static void printType(IRGenerationContext& context, iostream& stream) {
-    stream << "MObject*";
-  }
-  
-  static void printInjectedType(IRGenerationContext& context, iostream& stream) {
-    stream << "MInjectedObject*";
   }
   
   static void printExpression(IRGenerationContext& context, iostream& stream) {

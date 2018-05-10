@@ -61,32 +61,32 @@ external model wisey.io.MFileCouldNotCloseException
   implements
     wisey.lang.IException {
 
-  fixed string mFileName;
+  fixed wisey.lang.MString mFileName;
 
   string getName() override;
-  string getFileName();
+  wisey.lang.MString getFileName();
 }
 
 external model wisey.io.MFileCouldNotOpenException
   implements
     wisey.lang.IException {
 
-  fixed string mFileName;
+  fixed wisey.lang.MString mFileName;
 
   string getName() override;
-  string getFileName();
+  wisey.lang.MString getFileName();
 }
 
 external model wisey.io.MFileOpenException
   implements
     wisey.lang.IException {
 
-  fixed string mCurrentFile;
-  fixed string mNewFile;
+  fixed wisey.lang.MString mCurrentFile;
+  fixed wisey.lang.MString mNewFile;
 
   string getName() override;
-  string getCurrentFile();
-  string getNewFile();
+  wisey.lang.MString getCurrentFile();
+  wisey.lang.MString getNewFile();
 }
 
 external model wisey.lang.MArrayIndexOutOfBoundsException
@@ -187,10 +187,10 @@ external model wisey.threads.MThreadBoundaryException
 
 external controller wisey.io.CFile {
 
-  void open(
-    string fileName) throws wisey.io.MFileOpenException, wisey.io.MFileCouldNotOpenException;
-  ::llvm::struct::__sFILE::pointer getFileStruct() throws wisey.io.MFileAccessException;
+  void openForWriting(
+    wisey.lang.CString fileName) throws wisey.io.MFileOpenException, wisey.io.MFileCouldNotOpenException;
   void close() throws wisey.io.MFileCloseException, wisey.io.MFileCouldNotCloseException;
+  ::llvm::struct::__sFILE::pointer getFileStruct() throws wisey.io.MFileAccessException;
 }
 
 external controller wisey.lang.CString {

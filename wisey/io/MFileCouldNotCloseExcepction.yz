@@ -1,18 +1,19 @@
 package wisey.io;
 
 import wisey.lang.IException;
+import wisey.lang.MString;
 
 /**
  * Exception that is thrown by wisey.io.CFile it is not able to close a file
  */
 model MFileCouldNotCloseException implements IException {
-  string mFileName;
+  MString mFileName;
 
   public string getName() override {
     return "wisey.io.MFileCouldNotCloseException";
   }
 
-  public string getFileName() {
+  public MString getFileName() {
     return mFileName;
   }
 }

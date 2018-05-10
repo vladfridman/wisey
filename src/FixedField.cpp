@@ -88,8 +88,6 @@ bool FixedField::isState() const {
 }
 
 void FixedField::printToStream(IRGenerationContext& context, iostream& stream) const {
-  stream << "  fixed ";
-  mType->printToStream(context, stream);
-  stream << " " << getName() << ";" << endl;
+  stream << "  fixed " << mType->getTypeName() << " " << getName() << ";" << endl;
 }
 
