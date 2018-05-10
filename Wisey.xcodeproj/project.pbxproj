@@ -963,6 +963,8 @@
 		F5CE2D501F180B89002ABB85 /* TryCatchInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CE2D4E1F180B89002ABB85 /* TryCatchInfo.cpp */; };
 		F5D1599420A32C0B00107E84 /* TestIConcreteObjectDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D1599320A32C0B00107E84 /* TestIConcreteObjectDefinition.cpp */; };
 		F5D1599720A48E5E00107E84 /* TestCFileReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D1599620A48E5E00107E84 /* TestCFileReader.cpp */; };
+		F5D1599920A498A900107E84 /* TestCString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D1599820A498A900107E84 /* TestCString.cpp */; };
+		F5D1599B20A498EC00107E84 /* TestMString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D1599A20A498EC00107E84 /* TestMString.cpp */; };
 		F5D465F42060FA4F00C1047A /* LLVMFunctionDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D465F32060FA4F00C1047A /* LLVMFunctionDefinition.cpp */; };
 		F5D465F52060FA4F00C1047A /* LLVMFunctionDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D465F32060FA4F00C1047A /* LLVMFunctionDefinition.cpp */; };
 		F5D465F82061086D00C1047A /* LLVMFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D465F72061086D00C1047A /* LLVMFunction.cpp */; };
@@ -1956,6 +1958,8 @@
 		F5CE2D4E1F180B89002ABB85 /* TryCatchInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TryCatchInfo.cpp; path = src/TryCatchInfo.cpp; sourceTree = "<group>"; };
 		F5D1599320A32C0B00107E84 /* TestIConcreteObjectDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestIConcreteObjectDefinition.cpp; path = tests/TestIConcreteObjectDefinition.cpp; sourceTree = "<group>"; };
 		F5D1599620A48E5E00107E84 /* TestCFileReader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCFileReader.cpp; path = tests/TestCFileReader.cpp; sourceTree = "<group>"; };
+		F5D1599820A498A900107E84 /* TestCString.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCString.cpp; path = tests/TestCString.cpp; sourceTree = "<group>"; };
+		F5D1599A20A498EC00107E84 /* TestMString.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestMString.cpp; path = tests/TestMString.cpp; sourceTree = "<group>"; };
 		F5D465F22060F96100C1047A /* LLVMFunctionDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMFunctionDefinition.hpp; path = include/wisey/LLVMFunctionDefinition.hpp; sourceTree = "<group>"; };
 		F5D465F32060FA4F00C1047A /* LLVMFunctionDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMFunctionDefinition.cpp; path = src/LLVMFunctionDefinition.cpp; sourceTree = "<group>"; };
 		F5D465F62061078F00C1047A /* LLVMFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMFunction.hpp; path = include/wisey/LLVMFunction.hpp; sourceTree = "<group>"; };
@@ -3888,6 +3892,8 @@
 			isa = PBXGroup;
 			children = (
 				F5D1599620A48E5E00107E84 /* TestCFileReader.cpp */,
+				F5D1599820A498A900107E84 /* TestCString.cpp */,
+				F5D1599A20A498EC00107E84 /* TestMString.cpp */,
 			);
 			name = wisey;
 			sourceTree = "<group>";
@@ -4061,6 +4067,7 @@
 				F57085FD1E51E2ED007D627E /* MethodCall.cpp in Sources */,
 				F5F2F3781EEAFAF80060CF42 /* ObjectOwnerTypeSpecifier.cpp in Sources */,
 				F531B63D1E089E59008304F3 /* ExpressionStatement.cpp in Sources */,
+				F5D1599920A498A900107E84 /* TestCString.cpp in Sources */,
 				F574116C1E042390009809FF /* IncrementExpression.cpp in Sources */,
 				F51797141E660779009B16AA /* TestInterfaceDefinition.cpp in Sources */,
 				F50FA3021E3240D800435EEA /* TestScopes.cpp in Sources */,
@@ -4264,6 +4271,7 @@
 				F53CDAD41F8BC4ED00D27687 /* ExternalInterfaceDefinition.cpp in Sources */,
 				F5B9B1501E797B4800456CB4 /* TestMethodSignature.cpp in Sources */,
 				F51942F51FE302E5009C3158 /* IdentifierChain.cpp in Sources */,
+				F5D1599B20A498EC00107E84 /* TestMString.cpp in Sources */,
 				F57411531E019A46009809FF /* LogicalAndExpression.cpp in Sources */,
 				F5C7D1601F7CFCD700D65584 /* ExternalMethod.cpp in Sources */,
 				F5CB7FEB2052CA62007628B5 /* TestReceivedField.cpp in Sources */,

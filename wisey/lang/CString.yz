@@ -102,14 +102,26 @@ controller CString {
    * Appends a character array to the string
    */
   public CString appendCharArray(char[] appendix) {
-    return append(appendix, appendix.getSize());
+    if (appendix.getSize() == 0) {
+      return this;
+    }
+    long length = appendix[appendix.getSize() - 1] == '\0' 
+      ? ::llvm::function::strlen(appendix)
+      : appendix.getSize();
+    return append(appendix, length);
   }
 
   /**
    * Appends a immutable character array to the string
    */
   public CString appendImmutableCharArray(immutable char[] appendix) {
-    return append(appendix, appendix.getSize());
+    if (appendix.getSize() == 0) {
+      return this;
+    }
+    long length = appendix[appendix.getSize() - 1] == '\0' 
+      ? ::llvm::function::strlen(appendix)
+      : appendix.getSize();
+    return append(appendix, length);
   }
 
   /**
