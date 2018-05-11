@@ -427,7 +427,7 @@ void IConcreteObjectType::decrementReferenceFields(IRGenerationContext& context,
   for (IField* field : object->getFields()) {
     const IType* fieldType = field->getType();
     
-    if (!fieldType->isReference() || fieldType->isNative()) {
+    if (!fieldType->isReference()) {
       continue;
     }
     

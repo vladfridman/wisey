@@ -73,7 +73,7 @@ Value* IncrementExpression::generateIR(IRGenerationContext& context,
   }
   
   Value* originalValue = mExpression->generateIR(context, assignToType);
-  Value* increment = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()),
+  Value* increment = ConstantInt::get(expressionType->getLLVMType(context),
                                       mIncrementBy,
                                       true);
   

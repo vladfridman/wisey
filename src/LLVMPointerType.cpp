@@ -51,7 +51,7 @@ llvm::PointerType* LLVMPointerType::getLLVMType(IRGenerationContext& context) co
 }
 
 bool LLVMPointerType::canCastTo(IRGenerationContext& context, const IType* toType) const {
-  if (toType == PrimitiveTypes::BOOLEAN) {
+  if (toType == PrimitiveTypes::BOOLEAN || toType == PrimitiveTypes::LONG) {
     return true;
   }
   return toType->isReference() || toType->isPointer();
@@ -67,6 +67,9 @@ llvm::Value* LLVMPointerType::castTo(IRGenerationContext& context,
                                  int line) const {
   if (toType->isReference() || toType->isPointer()) {
     return IRWriter::newBitCastInst(context, fromValue, toType->getLLVMType(context));
+  }
+  if (toType == PrimitiveTypes::LONG) {
+    return IRWriter::newPtrToIntInst(context, fromValue, toType->getLLVMType(context), "");
   }
   if (toType == PrimitiveTypes::BOOLEAN) {
     return IRWriter::newICmpInst(context,

@@ -185,6 +185,38 @@ external model wisey.threads.MThreadBoundaryException
 
 /* Controllers */
 
+external controller wisey.data.CReferenceList {
+
+  void append(
+    ::llvm::i8::pointer key,
+    ::wisey::object value);
+  ::wisey::object get(
+    ::llvm::i8::pointer key);
+  void erase(
+    ::llvm::i8::pointer key);
+}
+
+external node wisey.data.CReferenceList.NElement {
+}
+
+external controller wisey.data.CReferenceMap {
+
+  public constant long DEAFUALT_SIZE = 109l;
+
+  receive long mSize;
+
+  static wisey.data.CReferenceMap* create();
+  static wisey.data.CReferenceMap* createWithSize(
+    long size);
+  void put(
+    ::llvm::i8::pointer key,
+    ::wisey::object value);
+  ::wisey::object get(
+    ::llvm::i8::pointer key);
+  void erase(
+    ::llvm::i8::pointer key);
+}
+
 external controller wisey.io.CFile {
 
   boolean isOpened();

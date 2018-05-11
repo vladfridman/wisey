@@ -909,13 +909,6 @@ TEST_F(TestFileRunner, nodeInitStateFieldWithNodeRunTest) {
   runFile("tests/samples/test_node_init_state_field_with_node.yz", "1");
 }
 
-TEST_F(TestFileRunner, nodeWithControllerFieldDeathRunTest) {
-  expectFailCompile("tests/samples/test_node_with_controller_field.yz",
-                    1,
-                    "tests/samples/test_node_with_controller_field.yz\\(7\\): Error: "
-                    "Fixed fields can only be of primitive, model or array type");
-}
-
 TEST_F(TestFileRunner, nodeInitWithControllerDeathRunTest) {
   expectFailCompile("tests/samples/test_node_init_with_controller.yz",
                     1,

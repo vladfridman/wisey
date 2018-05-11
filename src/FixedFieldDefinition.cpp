@@ -26,7 +26,9 @@ IField* FixedFieldDefinition::define(IRGenerationContext& context,
                                       const IObjectType* objectType) const {
   const IType* fieldType = mTypeSpecifier->getType(context);
   FixedField* fixedField = new FixedField(fieldType, mName, mLine);
-  fixedField->checkType(context);
+  if (objectType->isModel()) {
+    fixedField->checkType(context);
+  }
   return fixedField;
 }
 

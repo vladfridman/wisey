@@ -1,0 +1,84 @@
+package wisey.data;
+
+/**
+ * Link list of references
+ */
+controller CReferenceList {
+
+  state NElement* mHead;
+
+  /**
+   * Appends a key/value pair to the beginning of the list
+   */
+  public void append(::llvm::i8::pointer key, ::wisey::object value) {
+    NElement* element = builder(NElement).withKey(key).withValue(value).build();
+    if (mHead != null) {
+      element.setNext(mHead);
+      mHead = element;
+    } else {
+      mHead = element;
+    }
+  }
+
+  /**
+   * Returns the fist object for the given key
+   */
+  public ::wisey::object get(::llvm::i8::pointer key) {
+    NElement iterator = mHead;
+    while (iterator != null) {
+      if (iterator.getKey() == key) {
+        return iterator.getValue();
+      }
+      iterator = iterator.getNext();
+    }
+    return null;
+  }
+
+  /**
+   * Erases all object with the given key
+   */
+  public void erase(::llvm::i8::pointer key) {
+    NElement iterator = mHead;
+    NElement previous = null;
+    while (iterator != null) {
+      if (iterator.getKey() != key) {
+        previous = iterator;
+        iterator = iterator.getNext();        
+      } else if (previous != null) {
+        NElement* next = iterator.takeNext();
+        iterator = next;
+        previous.setNext(next);
+      } else {
+        NElement* next = iterator.takeNext();
+        iterator = next;
+        mHead = next;
+      }
+    }
+  }
+
+  private node NElement {
+    fixed ::llvm::i8::pointer mKey;
+    fixed ::wisey::object mValue;
+    state NElement* mNext;
+
+    public ::llvm::i8::pointer getKey() {
+      return mKey;
+    }
+
+    public ::wisey::object getValue() {
+      return mValue;
+    }
+
+    public void setNext(NElement* element) {
+      mNext = element;
+    }
+
+    public NElement getNext() {
+      return mNext;
+    }
+
+    public NElement* takeNext() {
+      return mNext;
+    }
+  }
+}

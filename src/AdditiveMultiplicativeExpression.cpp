@@ -58,7 +58,7 @@ Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context
   Value* leftValue = mLeftExpression->generateIR(context, PrimitiveTypes::VOID);
   Value* rightValue = mRightExpression->generateIR(context, PrimitiveTypes::VOID);
   
-  if (leftType->isPointer()) {
+  if (leftType->isPointer() && mOperation != '%') {
     return computePointer(context, leftValue, rightType, rightValue);
   }
 
@@ -97,7 +97,7 @@ const IType* AdditiveMultiplicativeExpression::getType(IRGenerationContext& cont
   checkTypes(context, leftType, rightType);
   
   if (leftType->isPointer()) {
-    return leftType;
+    return mOperation == '%' ? PrimitiveTypes::LONG : leftType;
   }
 
   if (mOperation == '+' &&
@@ -177,7 +177,7 @@ bool AdditiveMultiplicativeExpression::isPointerArithmetic(const IType* leftType
                                                            const IType* rightType) const {
   if (leftType->isPointer() &&
       (rightType == PrimitiveTypes::INT || rightType == PrimitiveTypes::LONG)) {
-    return mOperation == '+' || mOperation == '-';
+    return mOperation == '+' || mOperation == '-' || mOperation == '%';
   }
   
   return false;

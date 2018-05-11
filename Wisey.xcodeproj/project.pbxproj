@@ -965,6 +965,7 @@
 		F5D1599720A48E5E00107E84 /* TestCFileReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D1599620A48E5E00107E84 /* TestCFileReader.cpp */; };
 		F5D1599920A498A900107E84 /* TestCString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D1599820A498A900107E84 /* TestCString.cpp */; };
 		F5D1599B20A498EC00107E84 /* TestMString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D1599A20A498EC00107E84 /* TestMString.cpp */; };
+		F5D159A020A5F0E500107E84 /* TestCReferenceList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D1599F20A5F0E500107E84 /* TestCReferenceList.cpp */; };
 		F5D465F42060FA4F00C1047A /* LLVMFunctionDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D465F32060FA4F00C1047A /* LLVMFunctionDefinition.cpp */; };
 		F5D465F52060FA4F00C1047A /* LLVMFunctionDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D465F32060FA4F00C1047A /* LLVMFunctionDefinition.cpp */; };
 		F5D465F82061086D00C1047A /* LLVMFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D465F72061086D00C1047A /* LLVMFunction.cpp */; };
@@ -1960,6 +1961,7 @@
 		F5D1599620A48E5E00107E84 /* TestCFileReader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCFileReader.cpp; path = tests/TestCFileReader.cpp; sourceTree = "<group>"; };
 		F5D1599820A498A900107E84 /* TestCString.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCString.cpp; path = tests/TestCString.cpp; sourceTree = "<group>"; };
 		F5D1599A20A498EC00107E84 /* TestMString.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestMString.cpp; path = tests/TestMString.cpp; sourceTree = "<group>"; };
+		F5D1599F20A5F0E500107E84 /* TestCReferenceList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCReferenceList.cpp; path = tests/TestCReferenceList.cpp; sourceTree = "<group>"; };
 		F5D465F22060F96100C1047A /* LLVMFunctionDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMFunctionDefinition.hpp; path = include/wisey/LLVMFunctionDefinition.hpp; sourceTree = "<group>"; };
 		F5D465F32060FA4F00C1047A /* LLVMFunctionDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMFunctionDefinition.cpp; path = src/LLVMFunctionDefinition.cpp; sourceTree = "<group>"; };
 		F5D465F62061078F00C1047A /* LLVMFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMFunction.hpp; path = include/wisey/LLVMFunction.hpp; sourceTree = "<group>"; };
@@ -3892,6 +3894,7 @@
 			isa = PBXGroup;
 			children = (
 				F5D1599620A48E5E00107E84 /* TestCFileReader.cpp */,
+				F5D1599F20A5F0E500107E84 /* TestCReferenceList.cpp */,
 				F5D1599820A498A900107E84 /* TestCString.cpp */,
 				F5D1599A20A498EC00107E84 /* TestMString.cpp */,
 			);
@@ -4355,6 +4358,7 @@
 				F532506C202A27AA007D8597 /* TestArrayExactType.cpp in Sources */,
 				F55DB0621F793D8C0009942C /* TestIObjectTypeSpecifier.cpp in Sources */,
 				F5F435CA1FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp in Sources */,
+				F5D159A020A5F0E500107E84 /* TestCReferenceList.cpp in Sources */,
 				F50FA2EC1E2E3B1700435EEA /* LongConstant.cpp in Sources */,
 				F50FF891208BB0BC008EDC40 /* TestFieldImmutableArrayOwnerVariable.cpp in Sources */,
 				F523D517206C28060017D5B4 /* TestWiseyObjectOwnerType.cpp in Sources */,
