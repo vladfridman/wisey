@@ -594,8 +594,8 @@ TEST_F(InterfaceTest, createLocalVariableTest) {
   
   string expected =
   "\nentry:"
-  "\n  %referenceDeclaration = alloca %systems.vos.wisey.compiler.tests.IShape*"
-  "\n  store %systems.vos.wisey.compiler.tests.IShape* null, %systems.vos.wisey.compiler.tests.IShape** %referenceDeclaration\n";
+  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.IShape*"
+  "\n  store %systems.vos.wisey.compiler.tests.IShape* null, %systems.vos.wisey.compiler.tests.IShape** %temp\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

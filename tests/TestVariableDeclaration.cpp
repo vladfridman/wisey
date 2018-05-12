@@ -146,9 +146,8 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   
   string expected =
   "\nentry:"
-  "\n  %referenceDeclaration = alloca %systems.vos.wisey.compiler.tests.MModel*"
-  "\n  store %systems.vos.wisey.compiler.tests.MModel* null, "
-  "%systems.vos.wisey.compiler.tests.MModel** %referenceDeclaration\n";
+  "\n  %foo = alloca %systems.vos.wisey.compiler.tests.MModel*"
+  "\n  store %systems.vos.wisey.compiler.tests.MModel* null, %systems.vos.wisey.compiler.tests.MModel** %foo\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

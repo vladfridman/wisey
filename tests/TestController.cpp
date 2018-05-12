@@ -734,8 +734,8 @@ TEST_F(ControllerTest, createContextInjectFunctionTest) {
   string expected =
   "\ndefine %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject(%wisey.threads.IThread* %thread, %systems.vos.wisey.compiler.tests.NOwner* %mOwner, %systems.vos.wisey.compiler.tests.MReference* %mReference) personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
-  "\n  %referenceDeclaration = alloca %wisey.threads.CContextManager*"
-  "\n  store %wisey.threads.CContextManager* null, %wisey.threads.CContextManager** %referenceDeclaration"
+  "\n  %contextManager = alloca %wisey.threads.CContextManager*"
+  "\n  store %wisey.threads.CContextManager* null, %wisey.threads.CContextManager** %contextManager"
   "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i32 0)"
   "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i32 0)"
   "\n  %0 = bitcast %wisey.threads.IThread* null to i8*"
@@ -745,7 +745,7 @@ TEST_F(ControllerTest, createContextInjectFunctionTest) {
   "\ncleanup:                                          ; preds = %invoke.continue5, %if.null, %invoke.continue3, %invoke.continue2, %invoke.continue1, %invoke.continue, %entry"
   "\n  %1 = landingpad { i8*, i32 }"
   "\n          cleanup"
-  "\n  %2 = load %wisey.threads.CContextManager*, %wisey.threads.CContextManager** %referenceDeclaration"
+  "\n  %2 = load %wisey.threads.CContextManager*, %wisey.threads.CContextManager** %contextManager"
   "\n  %3 = bitcast %wisey.threads.CContextManager* %2 to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %3, i64 -1)"
   "\n  resume { i8*, i32 } %1"
@@ -760,13 +760,13 @@ TEST_F(ControllerTest, createContextInjectFunctionTest) {
   "\n          to label %invoke.continue1 unwind label %cleanup"
   "\n"
   "\ninvoke.continue1:                                 ; preds = %invoke.continue"
-  "\n  %8 = load %wisey.threads.CContextManager*, %wisey.threads.CContextManager** %referenceDeclaration"
+  "\n  %8 = load %wisey.threads.CContextManager*, %wisey.threads.CContextManager** %contextManager"
   "\n  %9 = bitcast %wisey.threads.CContextManager* %8 to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %9, i64 -1)"
   "\n  %10 = bitcast %wisey.threads.CContextManager* %7 to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %10, i64 1)"
-  "\n  store %wisey.threads.CContextManager* %7, %wisey.threads.CContextManager** %referenceDeclaration"
-  "\n  %11 = load %wisey.threads.CContextManager*, %wisey.threads.CContextManager** %referenceDeclaration"
+  "\n  store %wisey.threads.CContextManager* %7, %wisey.threads.CContextManager** %contextManager"
+  "\n  %11 = load %wisey.threads.CContextManager*, %wisey.threads.CContextManager** %contextManager"
   "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i32 0)"
   "\n  %12 = bitcast %wisey.threads.CContextManager* %11 to i8*"
   "\n  invoke void @__checkForNullAndThrow(i8* %12)"
@@ -804,7 +804,7 @@ TEST_F(ControllerTest, createContextInjectFunctionTest) {
   "\n  %25 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CAdditor.vtable, i32 0, i32 0, i32 0"
   "\n  %26 = bitcast i8** %25 to i32 (...)**"
   "\n  store i32 (...)** %26, i32 (...)*** %24"
-  "\n  %27 = load %wisey.threads.CContextManager*, %wisey.threads.CContextManager** %referenceDeclaration"
+  "\n  %27 = load %wisey.threads.CContextManager*, %wisey.threads.CContextManager** %contextManager"
   "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i32 0)"
   "\n  %28 = bitcast %wisey.threads.CContextManager* %27 to i8*"
   "\n  invoke void @__checkForNullAndThrow(i8* %28)"
@@ -1209,8 +1209,8 @@ TEST_F(ControllerTest, createLocalVariableTest) {
   
   string expected =
   "\nentry:"
-  "\n  %referenceDeclaration = alloca %systems.vos.wisey.compiler.tests.CMultiplier*"
-  "\n  store %systems.vos.wisey.compiler.tests.CMultiplier* null, %systems.vos.wisey.compiler.tests.CMultiplier** %referenceDeclaration\n";
+  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.CMultiplier*"
+  "\n  store %systems.vos.wisey.compiler.tests.CMultiplier* null, %systems.vos.wisey.compiler.tests.CMultiplier** %temp\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

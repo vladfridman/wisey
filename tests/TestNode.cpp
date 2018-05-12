@@ -811,8 +811,8 @@ TEST_F(NodeTest, createLocalVariableTest) {
   
   string expected =
   "\nentry:"
-  "\n  %referenceDeclaration = alloca %systems.vos.wisey.compiler.tests.NComplicatedNode*"
-  "\n  store %systems.vos.wisey.compiler.tests.NComplicatedNode* null, %systems.vos.wisey.compiler.tests.NComplicatedNode** %referenceDeclaration\n";
+  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.NComplicatedNode*"
+  "\n  store %systems.vos.wisey.compiler.tests.NComplicatedNode* null, %systems.vos.wisey.compiler.tests.NComplicatedNode** %temp\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

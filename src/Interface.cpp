@@ -1132,12 +1132,10 @@ bool Interface::isInner() const {
   return mIsInner;
 }
 
-void Interface::createLocalVariable(IRGenerationContext& context,
-                                    string name,
-                                    int line) const {
+void Interface::createLocalVariable(IRGenerationContext& context, string name, int line) const {
   llvm::PointerType* llvmType = getLLVMType(context);
   
-  Value* alloca = IRWriter::newAllocaInst(context, llvmType, "referenceDeclaration");
+  Value* alloca = IRWriter::newAllocaInst(context, llvmType, name);
   IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloca);
   
   IVariable* uninitializedVariable = name == ThreadExpression::THREAD

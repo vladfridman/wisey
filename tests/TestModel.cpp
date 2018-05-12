@@ -838,8 +838,8 @@ TEST_F(ModelTest, createLocalVariableTest) {
   
   string expected =
   "\nentry:"
-  "\n  %referenceDeclaration = alloca %systems.vos.wisey.compiler.tests.MSquare*"
-  "\n  store %systems.vos.wisey.compiler.tests.MSquare* null, %systems.vos.wisey.compiler.tests.MSquare** %referenceDeclaration\n";
+  "\n  %temp = alloca %systems.vos.wisey.compiler.tests.MSquare*"
+  "\n  store %systems.vos.wisey.compiler.tests.MSquare* null, %systems.vos.wisey.compiler.tests.MSquare** %temp\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

@@ -507,12 +507,10 @@ bool Model::isInner() const {
   return mIsInner;
 }
 
-void Model::createLocalVariable(IRGenerationContext& context,
-                                string name,
-                                int line) const {
+void Model::createLocalVariable(IRGenerationContext& context, string name, int line) const {
   llvm::PointerType* llvmType = getLLVMType(context);
   
-  Value* alloca = IRWriter::newAllocaInst(context, llvmType, "referenceDeclaration");
+  Value* alloca = IRWriter::newAllocaInst(context, llvmType, name);
   IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloca);
   
   IVariable* uninitializedVariable = new LocalReferenceVariable(name, this, alloca, line);
