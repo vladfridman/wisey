@@ -143,6 +143,6 @@ TEST_F(CastExpressionTest, printToStreamTest) {
   EXPECT_STREQ("(int) true", stringStream.str().c_str());
 }
 
-TEST_F(TestFileRunner, CastOrExpressionGrammarRunTest) {
+TEST_F(TestFileRunner, castOrExpressionGrammarRunTest) {
   runFile("tests/samples/test_cast_or_expression.yz", "10");
 }
