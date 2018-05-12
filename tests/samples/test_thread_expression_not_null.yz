@@ -5,7 +5,7 @@ import wisey.lang.IProgram;
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    return thread != null;
+    return thread != null && thread.getCallStack();
   }
 }
 
