@@ -512,8 +512,14 @@ int Controller::getLine() const {
   return mLine;
 }
 
+void Controller::checkInjectedFields(IRGenerationContext& context) const {
+  for (InjectedField* injectedField : mInjectedFields) {
+    injectedField->checkInjectionArguments(context);
+  }
+}
+
 void Controller::checkInjectionArguments(IRGenerationContext& context,
-                                         const InjectionArgumentList& received,
+                                         const InjectionArgumentList received,
                                          int line) const {
   checkArgumentsAreWellFormed(context, received, line);
   checkAllFieldsAreSet(context, received, line);
@@ -521,7 +527,7 @@ void Controller::checkInjectionArguments(IRGenerationContext& context,
 }
 
 void Controller::checkArgumentsAreWellFormed(IRGenerationContext& context,
-                                             const InjectionArgumentList& injectionArgumentList,
+                                             const InjectionArgumentList injectionArgumentList,
                                              int line) const {
   bool areArgumentsWellFormed = true;
   
@@ -536,9 +542,9 @@ void Controller::checkArgumentsAreWellFormed(IRGenerationContext& context,
   }
 }
 
-void Controller:: checkAllFieldsAreSet(IRGenerationContext& context,
-                                       const InjectionArgumentList& injectionArgumentList,
-                                       int line) const {
+void Controller::checkAllFieldsAreSet(IRGenerationContext& context,
+                                      const InjectionArgumentList injectionArgumentList,
+                                      int line) const {
   set<string> allFieldsThatAreSet;
   for (InjectionArgument* argument : injectionArgumentList) {
     allFieldsThatAreSet.insert(argument->deriveFieldName());

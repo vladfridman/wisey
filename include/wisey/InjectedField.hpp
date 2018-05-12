@@ -71,6 +71,11 @@ namespace wisey {
      * Checks that field injected type is of object owner or array owner type
      */
     void checkType(IRGenerationContext& context) const;
+    
+    /**
+     * Checks that injection arguments are all there and match received types
+     */
+    void checkInjectionArguments(IRGenerationContext& context) const;
 
     std::string getName() const override;
     

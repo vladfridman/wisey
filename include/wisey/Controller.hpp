@@ -109,8 +109,13 @@ namespace wisey {
      * Checks that injection arguments are of correct type and are all there
      */
     void checkInjectionArguments(IRGenerationContext& context,
-                                 const InjectionArgumentList& injectionArgumentList,
+                                 const InjectionArgumentList injectionArgumentList,
                                  int line) const;
+    
+    /**
+     * Checks that injected fields are well formed and have correct arguments
+     */
+    void checkInjectedFields(IRGenerationContext& context) const;
 
     bool isPublic() const override;
     
@@ -260,11 +265,11 @@ namespace wisey {
     std::vector<InjectedField*> getInjectedFields() const;
     
     void checkArgumentsAreWellFormed(IRGenerationContext& context,
-                                     const InjectionArgumentList& injectionArgumentList,
+                                     const InjectionArgumentList injectionArgumentList,
                                      int line) const;
     
     void checkAllFieldsAreSet(IRGenerationContext& context,
-                              const InjectionArgumentList& injectionArgumentList,
+                              const InjectionArgumentList injectionArgumentList,
                               int line) const;
     
     void checkReceivedValuesAreForReceivedFields(IRGenerationContext& context,

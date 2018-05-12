@@ -1,0 +1,71 @@
+package wisey.data;
+
+/**
+ * Map of references to wisey objects
+ */
+controller CReferenceMap {
+
+  public constant long DEAFUALT_SIZE = 109l;
+
+  receive long mSize;
+  state CReferenceList*[]* mBuckets;
+
+  /**
+   * Creates a hashmap of deafault size
+   */
+  public static CReferenceMap* create() {
+    return injector(CReferenceMap).withSize(DEAFUALT_SIZE).inject();
+  }
+
+  /**
+   * Creates a hasmap of the given size
+   */
+  public static CReferenceMap* createWithSize(long size) {
+    return injector(CReferenceMap).withSize(size).inject();
+  }
+
+  /**
+   * Puts a reference to an object into the map according keyed by the given key
+   */
+  public void put(::llvm::i8::pointer key, ::wisey::object value) {
+    if (mBuckets == null) {
+      mBuckets = new CReferenceList*[mSize];
+    }
+    long hash = key % mSize;
+    if (mBuckets[hash] == null) {
+      mBuckets[hash] = injector(CReferenceList).inject();
+    }
+    CReferenceList referenceList = mBuckets[hash];
+    referenceList.append(key, value);
+  }
+
+  /**
+   * Looks up a reference to an object given by the key
+   */
+  public ::wisey::object get(::llvm::i8::pointer key) {
+    if (mBuckets == null) {
+      return null;
+    }
+    long hash = key % mSize;
+    CReferenceList referenceList = mBuckets[hash];
+    if (!referenceList) {
+      return null;
+    }
+    return referenceList.get(key);
+  }
+
+  /**
+   * Erases entries in the hashmap with the given key
+   */
+  public void erase(::llvm::i8::pointer key) {
+    if (mBuckets == null) {
+      return;
+    }
+    long hash = key % mSize;
+    CReferenceList referenceList = mBuckets[hash];
+    if (!referenceList) {
+      return;
+    }
+    referenceList.erase(key);
+  }
+}

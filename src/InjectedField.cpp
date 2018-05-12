@@ -64,14 +64,18 @@ void InjectedField::checkType(IRGenerationContext& context) const {
     context.reportError(mLine, "Injected fields must have owner type denoted by '*'");
     throw 1;
   }
-  if (!mInjectionArgumentList.size()) {
-    return;
-  }
   if (mInjectedType->isInterface() &&
+      mInjectionArgumentList.size() &&
       !context.hasBoundController(((const InterfaceOwner*) mInjectedType)->getReference())) {
     context.reportError(mLine, "Arguments are not allowed for injection of interfaces "
                         "that are not bound to controllers");
     throw 1;
+  }
+}
+
+void InjectedField::checkInjectionArguments(IRGenerationContext& context) const {
+  if (mInjectedType->isArray()) {
+    return;
   }
   
   const Controller* controller = mInjectedType->isInterface()

@@ -1,6 +1,6 @@
 package systems.vos.wisey.compiler.tests;
 
-import wisey.data.CReferenceList;
+import wisey.data.CReferenceMap;
 import wisey.lang.IProgram;
 
 model MCar {
@@ -12,44 +12,44 @@ model MCar {
 }
 
 controller CProgram implements IProgram {
-  inject CReferenceList* mList;
+  inject CReferenceMap* mMap.withSize(CReferenceMap.DEAFUALT_SIZE);
 
   public int run(immutable string[] arguments) override {
     MCar* toyota = builder(MCar).withMake("Toyota").build(); 
     MCar* bmw = builder(MCar).withMake("BMW").build(); 
     MCar* mercedes = builder(MCar).withMake("Mercedes").build();
 
-    mList.append(toyota.getMake(), toyota);
-    mList.append(bmw.getMake(), bmw);
-    mList.append(bmw.getMake(), bmw);
-    mList.append(mercedes.getMake(), mercedes);
+    mMap.put(toyota.getMake(), toyota);
+    mMap.put(bmw.getMake(), bmw);
+    mMap.put(bmw.getMake(), bmw);
+    mMap.put(mercedes.getMake(), mercedes);
 
-    MCar car = mList.get(toyota.getMake());
+    MCar car = mMap.get(toyota.getMake());
     printout("Lookup " + toyota.getMake() + ": " + car.getMake() + "\n");
-    car = mList.get(bmw.getMake());
+    car = mMap.get(bmw.getMake());
     printout("Lookup " + bmw.getMake() + ": " + car.getMake() + "\n");
-    car = mList.get(mercedes.getMake());
+    car = mMap.get(mercedes.getMake());
     printout("Lookup " + mercedes.getMake() + ": " + car.getMake() + "\n");
 
-    mList.erase(bmw.getMake());
-    car = mList.get(bmw.getMake());
+    mMap.erase(bmw.getMake());
+    car = mMap.get(bmw.getMake());
     if (car == null) {
       printout("BMW was erased\n");
     } else {
       printout("BMW is still there\n");
     }
 
-    mList.erase(toyota.getMake());
-    mList.erase(bmw.getMake());
-    mList.erase(mercedes.getMake());
+    mMap.erase(toyota.getMake());
+    mMap.erase(bmw.getMake());
+    mMap.erase(mercedes.getMake());
 
-    car = mList.get(toyota.getMake());
+    car = mMap.get(toyota.getMake());
     if (car == null) {
       printout("Toyota was erased\n");
     } else {
       printout("Toyota is still there\n");
     }
-    car = mList.get(mercedes.getMake());
+    car = mMap.get(mercedes.getMake());
     if (car == null) {
       printout("Mercedes was erased\n");
     } else {

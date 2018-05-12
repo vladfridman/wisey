@@ -61,7 +61,6 @@ Controller* ExternalControllerDefinition::prototypeObject(IRGenerationContext& c
                                            importProfile,
                                            controller,
                                            mInnerObjectDefinitions);
-  controller->declareInjectFunction(context, mLine);
   context.setObjectType(lastObjectType);
   
   return controller;
@@ -75,9 +74,16 @@ void ExternalControllerDefinition::prototypeMethods(IRGenerationContext& context
   context.setObjectType(controller);
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
   configureObject(context, controller, mObjectElementDeclarations, mInterfaceSpecifiers);
-  controller->declareFieldInjectionFunctions(context, mLine);
+  controller->declareInjectFunction(context, mLine);
   context.setObjectType(lastObjectType);
 }
 
 void ExternalControllerDefinition::generateIR(IRGenerationContext& context) const {
+  string fullName = IObjectDefinition::getFullName(context, mControllerTypeSpecifierFull);
+  Controller* controller = context.getController(fullName, mLine);
+  
+  const IObjectType* lastObjectType = context.getObjectType();
+  context.setObjectType(controller);
+  controller->declareFieldInjectionFunctions(context, mLine);
+  context.setObjectType(lastObjectType);
 }
