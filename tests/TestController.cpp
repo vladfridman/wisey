@@ -18,7 +18,7 @@
 #include "MockConcreteObjectType.hpp"
 #include "MockExpression.hpp"
 #include "MockObjectType.hpp"
-#include "MockVariable.hpp"
+#include "MockReferenceVariable.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp"
@@ -76,7 +76,8 @@ struct ControllerTest : public Test {
   LLVMContext& mLLVMContext;
   BasicBlock *mBasicBlock;
   wisey::Constant* mConstant;
-  NiceMock<MockVariable>* mThreadVariable;
+  NiceMock<MockReferenceVariable>* mThreadVariable;
+  NiceMock<MockReferenceVariable>* mCallstackVariable;
   string mStringBuffer;
   Function* mFunction;
   raw_string_ostream* mStringStream;
@@ -368,17 +369,26 @@ struct ControllerTest : public Test {
     mContext.getScopes().pushScope();
     
     Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));
-    mThreadVariable = new NiceMock<MockVariable>();
+    mThreadVariable = new NiceMock<MockReferenceVariable>();
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
     ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadInterface));
     ON_CALL(*mThreadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
 
+    Controller* callstackController =
+    mContext.getController(Names::getCallStackControllerFullName(), 0);
+    Value* callstackObject = ConstantPointerNull::get(callstackController->getLLVMType(mContext));
+    mCallstackVariable = new NiceMock<MockReferenceVariable>();
+    ON_CALL(*mCallstackVariable, getName()).WillByDefault(Return(ThreadExpression::CALL_STACK));
+    ON_CALL(*mCallstackVariable, getType()).WillByDefault(Return(callstackController));
+    ON_CALL(*mCallstackVariable, generateIdentifierIR(_, _)).WillByDefault(Return(callstackObject));
+    
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
   ~ControllerTest() {
     delete mStringStream;
     delete mThreadVariable;
+    delete mCallstackVariable;
   }
 };
 
@@ -700,6 +710,117 @@ TEST_F(ControllerTest, createInjectFunctionTest) {
   "\n  %9 = bitcast i8** %8 to i32 (...)**"
   "\n  store i32 (...)** %9, i32 (...)*** %7"
   "\n  ret %systems.vos.wisey.compiler.tests.CAdditor* %1"
+  "\n}"
+  "\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
+TEST_F(ControllerTest, createContextInjectFunctionTest) {
+  mContext.getScopes().setVariable(mContext, mThreadVariable);
+  mContext.getScopes().setVariable(mContext, mCallstackVariable);
+
+  Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
+  mAdditorController->setContextType(threadInterface);
+  mAdditorController->createInjectFunction(mContext, 0);
+  mContext.runComposingCallbacks();
+  
+  Function* function = mContext.getModule()->getFunction(mAdditorController->getTypeName() +
+                                                         ".inject");
+  EXPECT_NE(nullptr, function);
+  
+  *mStringStream << *function;
+  string expected =
+  "\ndefine %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject(%wisey.threads.IThread* %thread, %systems.vos.wisey.compiler.tests.NOwner* %mOwner, %systems.vos.wisey.compiler.tests.MReference* %mReference) personality i32 (...)* @__gxx_personality_v0 {"
+  "\nentry:"
+  "\n  %referenceDeclaration = alloca %wisey.threads.CContextManager*"
+  "\n  store %wisey.threads.CContextManager* null, %wisey.threads.CContextManager** %referenceDeclaration"
+  "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i32 0)"
+  "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i32 0)"
+  "\n  %0 = bitcast %wisey.threads.IThread* null to i8*"
+  "\n  invoke void @__checkForNullAndThrow(i8* %0)"
+  "\n          to label %invoke.continue unwind label %cleanup"
+  "\n"
+  "\ncleanup:                                          ; preds = %invoke.continue5, %if.null, %invoke.continue3, %invoke.continue2, %invoke.continue1, %invoke.continue, %entry"
+  "\n  %1 = landingpad { i8*, i32 }"
+  "\n          cleanup"
+  "\n  %2 = load %wisey.threads.CContextManager*, %wisey.threads.CContextManager** %referenceDeclaration"
+  "\n  %3 = bitcast %wisey.threads.CContextManager* %2 to i8*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %3, i64 -1)"
+  "\n  resume { i8*, i32 } %1"
+  "\n"
+  "\ninvoke.continue:                                  ; preds = %entry"
+  "\n  %4 = bitcast %wisey.threads.IThread* null to %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)***"
+  "\n  %vtable = load %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)**, %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)*** %4"
+  "\n  %5 = getelementptr %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)*, %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)** %vtable, i64 3"
+  "\n  %6 = load %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)*, %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)** %5"
+  "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i32 0)"
+  "\n  %7 = invoke %wisey.threads.CContextManager* %6(%wisey.threads.IThread* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null)"
+  "\n          to label %invoke.continue1 unwind label %cleanup"
+  "\n"
+  "\ninvoke.continue1:                                 ; preds = %invoke.continue"
+  "\n  %8 = load %wisey.threads.CContextManager*, %wisey.threads.CContextManager** %referenceDeclaration"
+  "\n  %9 = bitcast %wisey.threads.CContextManager* %8 to i8*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %9, i64 -1)"
+  "\n  %10 = bitcast %wisey.threads.CContextManager* %7 to i8*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %10, i64 1)"
+  "\n  store %wisey.threads.CContextManager* %7, %wisey.threads.CContextManager** %referenceDeclaration"
+  "\n  %11 = load %wisey.threads.CContextManager*, %wisey.threads.CContextManager** %referenceDeclaration"
+  "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i32 0)"
+  "\n  %12 = bitcast %wisey.threads.CContextManager* %11 to i8*"
+  "\n  invoke void @__checkForNullAndThrow(i8* %12)"
+  "\n          to label %invoke.continue2 unwind label %cleanup"
+  "\n"
+  "\ninvoke.continue2:                                 ; preds = %invoke.continue1"
+  "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i32 0)"
+  "\n  %13 = invoke i8* @wisey.threads.CContextManager.getInstance(%wisey.threads.CContextManager* %11, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* getelementptr inbounds ([22 x i8], [22 x i8]* @wisey.threads.IThread.name, i32 0, i32 0), i8* getelementptr inbounds ([42 x i8], [42 x i8]* @systems.vos.wisey.compiler.tests.CAdditor.name, i32 0, i32 0))"
+  "\n          to label %invoke.continue3 unwind label %cleanup"
+  "\n"
+  "\ninvoke.continue3:                                 ; preds = %invoke.continue2"
+  "\n  %14 = invoke i8* @__castObject(i8* %13, i8* getelementptr inbounds ([42 x i8], [42 x i8]* @systems.vos.wisey.compiler.tests.CAdditor.name, i32 0, i32 0))"
+  "\n          to label %invoke.continue4 unwind label %cleanup"
+  "\n"
+  "\ninvoke.continue4:                                 ; preds = %invoke.continue3"
+  "\n  %15 = bitcast i8* %14 to %systems.vos.wisey.compiler.tests.CAdditor*"
+  "\n  %16 = icmp eq %systems.vos.wisey.compiler.tests.CAdditor* %15, null"
+  "\n  br i1 %16, label %if.null, label %if.not.null"
+  "\n"
+  "\nif.null:                                          ; preds = %invoke.continue4"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.CAdditor.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* null, i32 1) to i64))"
+  "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.CAdditor.refCounter*"
+  "\n  %17 = bitcast %systems.vos.wisey.compiler.tests.CAdditor.refCounter* %injectvar to i8*"
+  "\n  call void @llvm.memset.p0i8.i64(i8* %17, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.CAdditor.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* null, i32 1) to i64), i32 4, i1 false)"
+  "\n  %18 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* %injectvar, i32 0, i32 1"
+  "\n  %19 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* %18, i32 0, i32 1"
+  "\n  store %systems.vos.wisey.compiler.tests.NOwner* %mOwner, %systems.vos.wisey.compiler.tests.NOwner** %19"
+  "\n  %20 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* %18, i32 0, i32 2"
+  "\n  store %systems.vos.wisey.compiler.tests.MReference* %mReference, %systems.vos.wisey.compiler.tests.MReference** %20"
+  "\n  %21 = bitcast %systems.vos.wisey.compiler.tests.MReference* %mReference to i8*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %21, i64 1)"
+  "\n  %22 = bitcast %systems.vos.wisey.compiler.tests.CAdditor* %18 to i8*"
+  "\n  %23 = getelementptr i8, i8* %22, i64 0"
+  "\n  %24 = bitcast i8* %23 to i32 (...)***"
+  "\n  %25 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CAdditor.vtable, i32 0, i32 0, i32 0"
+  "\n  %26 = bitcast i8** %25 to i32 (...)**"
+  "\n  store i32 (...)** %26, i32 (...)*** %24"
+  "\n  %27 = load %wisey.threads.CContextManager*, %wisey.threads.CContextManager** %referenceDeclaration"
+  "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i32 0)"
+  "\n  %28 = bitcast %wisey.threads.CContextManager* %27 to i8*"
+  "\n  invoke void @__checkForNullAndThrow(i8* %28)"
+  "\n          to label %invoke.continue5 unwind label %cleanup"
+  "\n"
+  "\nif.not.null:                                      ; preds = %invoke.continue4"
+  "\n  ret %systems.vos.wisey.compiler.tests.CAdditor* %15"
+  "\n"
+  "\ninvoke.continue5:                                 ; preds = %if.null"
+  "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i32 0)"
+  "\n  %29 = bitcast %systems.vos.wisey.compiler.tests.CAdditor* %18 to i8*"
+  "\n  invoke void @wisey.threads.CContextManager.setInstance(%wisey.threads.CContextManager* %27, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* getelementptr inbounds ([22 x i8], [22 x i8]* @wisey.threads.IThread.name, i32 0, i32 0), i8* getelementptr inbounds ([42 x i8], [42 x i8]* @systems.vos.wisey.compiler.tests.CAdditor.name, i32 0, i32 0), i8* %29)"
+  "\n          to label %invoke.continue6 unwind label %cleanup"
+  "\n"
+  "\ninvoke.continue6:                                 ; preds = %invoke.continue5"
+  "\n  ret %systems.vos.wisey.compiler.tests.CAdditor* %18"
   "\n}"
   "\n";
   

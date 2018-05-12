@@ -91,6 +91,11 @@ namespace wisey {
     static std::string getThreadInterfaceFullName();
     
     /**
+     * Returns getContextManager method name of the IThread
+     */
+    static std::string getGetContextManagerMethodName();
+    
+    /**
      * Get the name of the CCallStack controller
      */
     static std::string getCallStackControllerName();
@@ -100,6 +105,26 @@ namespace wisey {
      */
     static std::string getCallStackControllerFullName();
     
+    /**
+     * Get the name of the CContextManager controller
+     */
+    static std::string getContextManagerName();
+    
+    /**
+     * Get the name of the CContextManager controller
+     */
+    static std::string getContextManagerFullName();
+
+    /**
+     * Returns name of the getInstance method of CContextManager
+     */
+    static std::string getGetInstanceMethodName();
+    
+    /**
+     * Returns name of the setInstance method of CContextManager
+     */
+    static std::string getSetInstanceMethodName();
+
     /**
      * Get the method for pushing the call stack
      */

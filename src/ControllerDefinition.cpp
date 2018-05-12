@@ -23,12 +23,14 @@ ControllerDefinition::ControllerDefinition(AccessLevel accessLevel,
                                              objectElementDeclarations,
                                            vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
                                            vector<IObjectDefinition*> innerObjectDefinitions,
+                                           const IObjectTypeSpecifier* contextTypeSpecifier,
                                            int line) :
 mAccessLevel(accessLevel),
 mControllerTypeSpecifierFull(controllerTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers),
 mInnerObjectDefinitions(innerObjectDefinitions),
+mContextTypeSpecifier(contextTypeSpecifier),
 mLine(line) { }
 
 ControllerDefinition::~ControllerDefinition() {
@@ -45,6 +47,7 @@ ControllerDefinition::~ControllerDefinition() {
     delete innerObjectDefinition;
   }
   mInnerObjectDefinitions.clear();
+  delete mContextTypeSpecifier;
 }
 
 Controller* ControllerDefinition::prototypeObject(IRGenerationContext& context,
@@ -78,6 +81,9 @@ void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const 
   context.setObjectType(controller);
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
   configureObject(context, controller, mObjectElementDeclarations, mInterfaceSpecifiers);
+  if (mContextTypeSpecifier) {
+    controller->setContextType(mContextTypeSpecifier->getType(context));
+  }
   controller->createInjectFunction(context, mLine);
   controller->defineFieldInjectorFunctions(context, mLine);
   context.setObjectType(lastObjectType);

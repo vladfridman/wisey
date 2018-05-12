@@ -67,12 +67,32 @@ string Names::getThreadInterfaceFullName() {
   return getThreadsPackageName() + "." + getThreadInterfaceName();
 }
 
+string Names::getGetContextManagerMethodName() {
+  return "getContextManager";
+}
+
 string Names::getCallStackControllerName() {
   return "CCallStack";
 }
 
 string Names::getCallStackControllerFullName() {
   return getThreadsPackageName() + "." + getCallStackControllerName();
+}
+
+string Names::getContextManagerName() {
+  return "CContextManager";
+}
+
+string Names::getContextManagerFullName() {
+  return getThreadsPackageName() + "." + getContextManagerName();
+}
+
+string Names::getGetInstanceMethodName() {
+  return "getInstance";
+}
+
+string Names::getSetInstanceMethodName() {
+  return "setInstance";
 }
 
 string Names::getPushStackMethodName() {

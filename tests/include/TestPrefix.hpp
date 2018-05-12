@@ -39,10 +39,11 @@ private:
                           std::string modelName,
                           std::vector<wisey::IObjectElementDefinition*> modelElements);
   
-  static wisey::InterfaceDefinition* defineThreadInterface(wisey::IRGenerationContext& context);
+  static wisey::InterfaceDefinition* defineIThread(wisey::IRGenerationContext& context);
   
-  static wisey::ControllerDefinition* defineCallStackController(wisey::IRGenerationContext&
-                                                                context);
+  static wisey::ControllerDefinition* defineCCallStack(wisey::IRGenerationContext& context);
+  
+  static wisey::ControllerDefinition* defineCContextManager(wisey::IRGenerationContext& context);
 
   static void defineIntrinsicFunctions(wisey::IRGenerationContext& context);
   

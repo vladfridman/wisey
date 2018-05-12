@@ -14,10 +14,12 @@
 #include "wisey/FixedFieldDefinition.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/MethodDefinition.hpp"
+#include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/ModelDefinition.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/WiseyObjectTypeSpecifier.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -51,14 +53,17 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   modelElements.push_back(new FixedFieldDefinition(longTypeSpecifier, "mIndex", 0));
   defineModel(context, Names::getArrayIndexOutOfBoundsModelName(), modelElements);
   
-  InterfaceDefinition* threadInterfaceDefinition = defineThreadInterface(context);
-  ControllerDefinition* callStackDefinition = defineCallStackController(context);
+  InterfaceDefinition* threadInterfaceDefinition = defineIThread(context);
+  ControllerDefinition* callStackDefinition = defineCCallStack(context);
+  ControllerDefinition* contextManagerDefinition = defineCContextManager(context);
   
   threadInterfaceDefinition->prototypeObject(context, importProfile);
-  threadInterfaceDefinition->prototypeMethods(context);
   callStackDefinition->prototypeObject(context, importProfile);
+  contextManagerDefinition->prototypeObject(context, importProfile);
+  threadInterfaceDefinition->prototypeMethods(context);
   callStackDefinition->prototypeMethods(context);
-  
+  contextManagerDefinition->prototypeMethods(context);
+
   defineIntrinsicFunctions(context);
 }
 
@@ -145,7 +150,7 @@ void TestPrefix::defineModel(IRGenerationContext& context,
   model->createRTTI(context);
 }
 
-ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext& context) {
+ControllerDefinition* TestPrefix::defineCCallStack(IRGenerationContext& context) {
   const PrimitiveTypeSpecifier* stringTypeSpecifier;
   VariableList arguments;
   vector<IModelTypeSpecifier*> exceptions;
@@ -224,10 +229,86 @@ ControllerDefinition* TestPrefix::defineCallStackController(IRGenerationContext&
                                   elementDeclarations,
                                   interfaceSpecifiers,
                                   innerObjectDefinitions,
+                                  NULL,
                                   0);
 }
 
-InterfaceDefinition* TestPrefix::defineThreadInterface(IRGenerationContext& context) {
+ControllerDefinition* TestPrefix::defineCContextManager(IRGenerationContext& context) {
+  const PrimitiveTypeSpecifier* stringTypeSpecifier;
+  VariableList arguments;
+  vector<IModelTypeSpecifier*> exceptions;
+  stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);
+  VariableDeclaration* declaration;
+  stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);
+  declaration = VariableDeclaration::create(stringTypeSpecifier,
+                                            new Identifier("contextName", 0),
+                                            0);
+  arguments.push_back(declaration);
+  stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);
+  declaration = VariableDeclaration::create(stringTypeSpecifier,
+                                            new Identifier("objectName", 0),
+                                            0);
+  arguments.push_back(declaration);
+  Block* block = new Block();
+  CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
+  MethodDefinition* getInstance = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
+                                                       new WiseyObjectTypeSpecifier(0),
+                                                       Names::getGetInstanceMethodName(),
+                                                       arguments,
+                                                       exceptions,
+                                                       new MethodQualifiers(0),
+                                                       compoundStatement,
+                                                       0);
+
+  arguments.clear();
+  stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);
+  declaration = VariableDeclaration::create(stringTypeSpecifier,
+                                            new Identifier("contextName", 0),
+                                            0);
+  arguments.push_back(declaration);
+  stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);
+  declaration = VariableDeclaration::create(stringTypeSpecifier,
+                                            new Identifier("objectName", 0),
+                                            0);
+  arguments.push_back(declaration);
+  declaration = VariableDeclaration::create(new WiseyObjectTypeSpecifier(0),
+                                            new Identifier("instance", 0),
+                                            0);
+  arguments.push_back(declaration);
+  block = new Block();
+  compoundStatement = new CompoundStatement(block, 0);
+  MethodDefinition* setInstance = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
+                                                       PrimitiveTypes::VOID->newTypeSpecifier(0),
+                                                       Names::getSetInstanceMethodName(),
+                                                       arguments,
+                                                       exceptions,
+                                                       new MethodQualifiers(0),
+                                                       compoundStatement,
+                                                       0);
+
+  arguments.clear();
+  
+  PackageType* packageType = new PackageType(Names::getThreadsPackageName());
+  FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
+  ControllerTypeSpecifierFull* controllerTypeSpecifier =
+  new ControllerTypeSpecifierFull(packageExpression, Names::getContextManagerName(), 0);
+  vector<IObjectElementDefinition*> elementDeclarations;
+  elementDeclarations.push_back(getInstance);
+  elementDeclarations.push_back(setInstance);
+  
+  vector<IInterfaceTypeSpecifier*> interfaceSpecifiers;
+  vector<IObjectDefinition*> innerObjectDefinitions;
+  
+  return new ControllerDefinition(AccessLevel::PUBLIC_ACCESS,
+                                  controllerTypeSpecifier,
+                                  elementDeclarations,
+                                  interfaceSpecifiers,
+                                  innerObjectDefinitions,
+                                  NULL,
+                                  0);
+}
+
+InterfaceDefinition* TestPrefix::defineIThread(IRGenerationContext& context) {
   PackageType* packageType = new PackageType(Names::getThreadsPackageName());
   FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
   InterfaceTypeSpecifierFull* interfaceTypeSpecifier =
@@ -236,6 +317,23 @@ InterfaceDefinition* TestPrefix::defineThreadInterface(IRGenerationContext& cont
   vector<IObjectElementDefinition *> elementDeclarations;
   vector<IObjectDefinition*> innerObjectDefinitions;
   
+  packageType = new PackageType(Names::getThreadsPackageName());
+  packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
+  ControllerTypeSpecifierFull* contextManagerSpecifier =
+  new ControllerTypeSpecifierFull(packageExpression, Names::getContextManagerName(), 0);
+  VariableList arguments;
+  vector<IModelTypeSpecifier*> thrownExceptions;
+  MethodQualifiers* methodQualifiers = new MethodQualifiers(0);
+  MethodSignatureDeclaration* getContextManager =
+  new MethodSignatureDeclaration(contextManagerSpecifier,
+                                 Names::getGetContextManagerMethodName(),
+                                 arguments,
+                                 thrownExceptions,
+                                 methodQualifiers,
+                                 0);
+  
+  elementDeclarations.push_back(getContextManager);
+
   return new InterfaceDefinition(AccessLevel::PUBLIC_ACCESS,
                                  interfaceTypeSpecifier,
                                  parentInterfaceSpecifiers,

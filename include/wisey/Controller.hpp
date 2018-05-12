@@ -49,6 +49,7 @@ namespace wisey {
     std::map<std::string, const IObjectType*> mInnerObjects;
     std::vector<LLVMFunction*> mLLVMFunctions;
     std::map<std::string, LLVMFunction*> mLLVMFunctionMap;
+    const IObjectType* mContextType;
     ImportProfile* mImportProfile;
     int mLine;
     
@@ -117,6 +118,11 @@ namespace wisey {
      */
     void checkInjectedFields(IRGenerationContext& context) const;
 
+    /**
+     * Sets the context type that will be used for context injection of this controller
+     */
+    void setContextType(const IObjectType* objectType);
+    
     bool isPublic() const override;
     
     llvm::Instruction* inject(IRGenerationContext& context,
@@ -284,7 +290,11 @@ namespace wisey {
 
     static void composeInjectFunctionBody(IRGenerationContext& context,
                                           llvm::Function* function,
-                                          const void* object);
+                                          const void* objectType);
+
+    static void composeContextInjectFunctionBody(IRGenerationContext& context,
+                                                 llvm::Function* function,
+                                                 const void* objectType);
 
     bool isThread(IRGenerationContext& context) const;
     

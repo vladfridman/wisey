@@ -36,13 +36,13 @@ controller CContextManager {
   /**
    * Set injected object instance in the given context
    */
-  public void setObject(string contextName, string objectName, ::wisey::object objectValue) {
+  public void setInstance(string contextName, string objectName, ::wisey::object instance) {
     ::wisey::object context = mContextNameToContextMap.get(contextName);
     if (context == null) {
       throw builder(MContextNonExistant).withContextName(contextName).build();
     }
     CReferenceMap objectNameToObjectMap = mContextToObjectMap.get(context);
-    objectNameToObjectMap.put(objectName, objectValue);
+    objectNameToObjectMap.put(objectName, instance);
   }
 
   /**

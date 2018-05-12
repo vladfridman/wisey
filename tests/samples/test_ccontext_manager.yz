@@ -34,10 +34,10 @@ controller CProgram implements IProgram {
 
     mContextManager.setContext(context1, mContext1);
     mContextManager.setContext(context2, mContext2);
-    mContextManager.setObject(context1, toyota.getMake(), toyota);
-    mContextManager.setObject(context1, bmw.getMake(), bmw);
-    mContextManager.setObject(context2, bmw.getMake(), toyota);
-    mContextManager.setObject(context2, toyota.getMake(), bmw);
+    mContextManager.setInstance(context1, toyota.getMake(), toyota);
+    mContextManager.setInstance(context1, bmw.getMake(), bmw);
+    mContextManager.setInstance(context2, bmw.getMake(), toyota);
+    mContextManager.setInstance(context2, toyota.getMake(), bmw);
 
     CCar car = mContextManager.getInstance(context1, toyota.getMake());
     printout("In context " + context1 + " looking for " + toyota.getMake() + " got " + 
@@ -53,7 +53,7 @@ controller CProgram implements IProgram {
     printout("In context " + context2 + " looking for " + bmw.getMake() + " got " + 
       car.getMake() + " back\n");
     
-    mContextManager.setObject(context2, bmw.getMake(), bmw);
+    mContextManager.setInstance(context2, bmw.getMake(), bmw);
     car = mContextManager.getInstance(context2, bmw.getMake());
     printout("In context " + context2 + " looking for " + bmw.getMake() + " got " + 
       car.getMake() + " back\n");

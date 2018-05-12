@@ -219,7 +219,7 @@
 %token <string> TFIELDIDENTIFIER TINTERFACEIDENTIFIER TCONTROLLERIDENTIFIER TNODEIDENTIFIER
 %token <string> TCONSTANTIDENTIFIER
 
-%token <token> TANDOP TBIND TBREAK TBUILD TBUILDER TCASE TCATCH TCEQ TCGE TCLE TINCOP
+%token <token> TANDOP TBIND TBREAK TBUILD TBUILDER TCASE TCATCH TCEQ TCGE TCLE TCONTEXT TINCOP
 %token <token> TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDO TDOUBLECOLON TELIPSIS
 %token <token> TELSE TEXTENDS TEXTERNAL TDEFAULT TFALLTHROUGH TFALSE TFIXED TFOR TIF TIMMUTABLE
 %token <token> TIMPLEMENTS TIMPORT TINJECTOR TINJECT TINSTANCEOF TINTERFACE  
@@ -293,6 +293,7 @@
 %type <object_type_specifier> object_type_specifier_injectable 
 %type <object_type_specifier> object_type_specifier_inner_short
 %type <object_type_specifier> object_type_specifier_inner_full
+%type <object_type_specifier> context_object
 %type <object_builder_argument_list> object_builder_argument_list
 %type <object_builder_argument> object_builder_argument
 %type <injection_argument_list> injection_argument_list
@@ -797,8 +798,8 @@ method_signature
   ;
 
 controller_definition
-  : TCONTROLLER controller_type_specifier_top_level implmeneted_interfaces 
-      '{' object_element_declaration_list '}'
+  : TCONTROLLER controller_type_specifier_top_level context_object 
+      implmeneted_interfaces '{' object_element_declaration_list '}'
     {
       IExpression* package = $2->takePackage();
       package = package ? package : new FakeExpression(NULL, filePackageType);
@@ -806,19 +807,20 @@ controller_definition
         new ControllerTypeSpecifierFull(package, $2->getShortName(), yylineno);
       $$ = new ControllerDefinition(AccessLevel::PUBLIC_ACCESS, 
                                     fullSpecifier, 
-                                    std::get<0>(*$5), 
-                                    *$3, 
-                                    std::get<1>(*$5),
+                                    std::get<0>(*$6), 
+                                    *$4, 
+                                    std::get<1>(*$6),
+                                    $3,
                                     yylineno);
       delete $2;
-      delete $5;
-      delete $3;
+      delete $4;
+      delete $6;
     }
   ;
 
 inner_controller_definition
-  : access_specifier TCONTROLLER controller_type_specifier_short implmeneted_interfaces 
-      '{' object_element_declaration_list '}'
+  : access_specifier TCONTROLLER controller_type_specifier_short context_object 
+      implmeneted_interfaces '{' object_element_declaration_list '}'
     {
       IExpression* package = $3->takePackage();
       package = package ? package : new FakeExpression(NULL, filePackageType);
@@ -826,13 +828,14 @@ inner_controller_definition
         new ControllerTypeSpecifierFull(package, $3->getShortName(), yylineno);
       $$ = new ControllerDefinition($1, 
                                     fullSpecifier, 
-                                    std::get<0>(*$6), 
-                                    *$4, 
-                                    std::get<1>(*$6),
+                                    std::get<0>(*$7), 
+                                    *$5, 
+                                    std::get<1>(*$7),
+                                    $4,
                                     yylineno);
       delete $3;
-      delete $6;
-      delete $4;
+      delete $5;
+      delete $7;
     }
   ;
 
@@ -850,9 +853,14 @@ external_controller_definition
                                             std::get<1>(*$6),
                                             yylineno);
       delete $3;
-      delete $6;
       delete $4;
+      delete $6;
     }
+  ;
+
+context_object
+  : /* none */ { $$ = NULL; }
+  | TCONTEXT object_type_specifier 
   ;
 
 node_definition

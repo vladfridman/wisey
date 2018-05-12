@@ -13,18 +13,27 @@
 #include "wisey/AutoCast.hpp"
 #include "wisey/Controller.hpp"
 #include "wisey/ControllerOwner.hpp"
+#include "wisey/ControllerTypeSpecifierFull.hpp"
 #include "wisey/Environment.hpp"
+#include "wisey/FakeExpression.hpp"
+#include "wisey/FakeExpressionWithCleanup.hpp"
 #include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/Identifier.hpp"
+#include "wisey/IdentifierChain.hpp"
 #include "wisey/LLVMFunction.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/LocalSystemReferenceVariable.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/MethodCall.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/ObjectKindGlobal.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ThreadExpression.hpp"
+#include "wisey/VariableDeclaration.hpp"
+#include "wisey/WiseyObjectType.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -42,6 +51,7 @@ mStructType(structType),
 mIsExternal(isExternal),
 mIsInner(false),
 mControllerOwner(new ControllerOwner(this)),
+mContextType(NULL),
 mImportProfile(importProfile),
 mLine(line) {
   assert(importProfile && "Import profile can not be NULL at Controller creation");
@@ -244,22 +254,108 @@ Function* Controller::declareInjectFunction(IRGenerationContext& context, int li
 
 Function* Controller::createInjectFunction(IRGenerationContext& context, int line) const {
   Function* function = declareInjectFunction(context, line);
-  context.addComposingCallback1Objects(composeInjectFunctionBody, function, this);
+  ComposingFunction1Objects callback = mContextType
+  ? composeContextInjectFunctionBody
+  : composeInjectFunctionBody;
+  
+  context.addComposingCallback1Objects(callback, function, this);
   return function;
 }
 
 void Controller::composeInjectFunctionBody(IRGenerationContext& context,
                                            Function* function,
-                                           const void* object) {
-  const Controller* controller = (const Controller*) object;
-  BasicBlock* entryBlock = BasicBlock::Create(context.getLLVMContext(), "entry", function);
+                                           const void* objectType) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  const Controller* controller = (const Controller*) objectType;
+  BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function);
   context.getScopes().pushScope();
   context.setBasicBlock(entryBlock);
   context.setObjectType(controller);
+    
+  Instruction* malloc = createMallocForObject(context, controller, "injectvar");
+  controller->initializeReceivedFields(context, function, malloc);
+  initializeVTable(context, controller, malloc);
+  IRWriter::createReturnInst(context, malloc);
+  
+  context.getScopes().popScope(context, 0);
+}
+
+void Controller::composeContextInjectFunctionBody(IRGenerationContext& context,
+                                                  Function* function,
+                                                  const void* objectType) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  const Controller* controller = (const Controller*) objectType;
+  BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function);
+  context.getScopes().pushScope();
+  context.setBasicBlock(entryBlock);
+  context.setObjectType(controller);
+
+  Identifier* identfier = new Identifier(ThreadExpression::THREAD, 0);
+  IdentifierChain* methodIdentifier = new IdentifierChain(identfier,
+                                                          Names::getGetContextManagerMethodName(),
+                                                          0);
+  ExpressionList callArguments;
+  MethodCall* getContextManager = new MethodCall(methodIdentifier, callArguments, 0);
+  PackageType* packageType = new PackageType(Names::getThreadsPackageName());
+  FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
+  ControllerTypeSpecifierFull* controllerTypeSpecifier =
+  new ControllerTypeSpecifierFull(packageExpression, Names::getContextManagerName(), 0);
+  
+  string contextManagerVariableName = "contextManager";
+  VariableDeclaration* variableDeclaration =
+  VariableDeclaration::createWithAssignment(controllerTypeSpecifier,
+                                            new Identifier(contextManagerVariableName, 0),
+                                            getContextManager,
+                                            0);
+  variableDeclaration->generateIR(context);
+  delete variableDeclaration;
+  
+  methodIdentifier = new IdentifierChain(new Identifier(contextManagerVariableName, 0),
+                                         Names::getGetInstanceMethodName(),
+                                         0);
+  Value* contextObjectName = IObjectType::getObjectNamePointer(controller->mContextType, context);
+  FakeExpression* contextName = new FakeExpression(contextObjectName, PrimitiveTypes::STRING);
+  Value* objectNamePointer = IObjectType::getObjectNamePointer(controller, context);
+  FakeExpression* objectName = new FakeExpression(objectNamePointer, PrimitiveTypes::STRING);
+  
+  callArguments.clear();
+  callArguments.push_back(contextName);
+  callArguments.push_back(objectName);
+  MethodCall getInstance(methodIdentifier, callArguments, 0);
+  
+  Value* object = getInstance.generateIR(context, PrimitiveTypes::VOID);
+  Value* instance = WiseyObjectType::WISEY_OBJECT_TYPE->castTo(context, object, controller, 0);
+
+  BasicBlock* ifNullBlock = BasicBlock::Create(llvmContext, "if.null", function);
+  BasicBlock* ifNotNullBlock = BasicBlock::Create(llvmContext, "if.not.null", function);
+  
+  ConstantPointerNull* null = ConstantPointerNull::get(controller->getLLVMType(context));
+  Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, instance, null, "");
+  IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
+  
+  context.setBasicBlock(ifNotNullBlock);
+  IRWriter::createReturnInst(context, instance);
+  
+  context.setBasicBlock(ifNullBlock);
   
   Instruction* malloc = createMallocForObject(context, controller, "injectvar");
   controller->initializeReceivedFields(context, function, malloc);
   initializeVTable(context, controller, malloc);
+  
+  methodIdentifier = new IdentifierChain(new Identifier(contextManagerVariableName, 0),
+                                         Names::getSetInstanceMethodName(),
+                                         0);
+  contextName = new FakeExpression(contextObjectName, PrimitiveTypes::STRING);
+  objectName = new FakeExpression(objectNamePointer, PrimitiveTypes::STRING);
+  FakeExpression* instanceExpression = new FakeExpression(malloc, controller);
+
+  callArguments.clear();
+  callArguments.push_back(contextName);
+  callArguments.push_back(objectName);
+  callArguments.push_back(instanceExpression);
+  MethodCall setInstance(methodIdentifier, callArguments, 0);
+  setInstance.generateIR(context, PrimitiveTypes::VOID);
+
   IRWriter::createReturnInst(context, malloc);
   
   context.getScopes().popScope(context, 0);
@@ -522,6 +618,10 @@ void Controller::checkInjectedFields(IRGenerationContext& context) const {
   for (InjectedField* injectedField : mInjectedFields) {
     injectedField->checkInjectionArguments(context);
   }
+}
+
+void Controller::setContextType(const IObjectType* objectType) {
+  mContextType = objectType;
 }
 
 void Controller::checkInjectionArguments(IRGenerationContext& context,

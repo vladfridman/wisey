@@ -104,6 +104,7 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeObjectTest) {
                                             mElementDeclarations,
                                             mInterfaces,
                                             innerObjectDefinitions,
+                                            NULL,
                                             0);
 
   EXPECT_CALL(*mMockStatement, generateIR(_)).Times(0);
@@ -131,6 +132,7 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeMethodsTest) {
                                             mElementDeclarations,
                                             mInterfaces,
                                             innerObjectDefinitions,
+                                            NULL,
                                             0);
 
   EXPECT_CALL(*mMockStatement, generateIR(_)).Times(0);
@@ -154,6 +156,7 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
                                             mElementDeclarations,
                                             mInterfaces,
                                             innerObjectDefinitions,
+                                            NULL,
                                             0);
 
   EXPECT_CALL(*mMockStatement, generateIR(_));
@@ -195,6 +198,7 @@ TEST_F(ControllerDefinitionTest, controllerWithFixedFieldDeathTest) {
                                             mElementDeclarations,
                                             mInterfaces,
                                             innerObjectDefinitions,
+                                            NULL,
                                             1);
   controllerDefinition.prototypeObject(mContext, mContext.getImportProfile());
   
@@ -222,6 +226,7 @@ TEST_F(ControllerDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
                                             mElementDeclarations,
                                             mInterfaces,
                                             innerObjectDefinitions,
+                                            NULL,
                                             0);
   controllerDefinition.prototypeObject(mContext, mContext.getImportProfile());
   
