@@ -12,7 +12,7 @@ model MCar {
 }
 
 controller CProgram implements IProgram {
-  inject CReferenceMap* mMap.withSize(CReferenceMap.DEAFUALT_SIZE);
+  inject CReferenceMap* mMap;
 
   public int run(immutable string[] arguments) override {
     MCar* toyota = builder(MCar).withMake("Toyota").build(); 

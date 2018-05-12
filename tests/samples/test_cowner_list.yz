@@ -1,0 +1,71 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.data.COwnerList;
+import wisey.lang.IProgram;
+
+model MCar {
+  string mMake;
+
+  public string getMake() {
+    return mMake;
+  }
+}
+
+controller CProgram implements IProgram {
+  inject COwnerList* mList;
+
+  public int run(immutable string[] arguments) override {
+    string toyotaMake = "Toyota";
+    string bmwMake = "BMW";
+    string mercedesMake = "Mercedes";
+    MCar* toyota = builder(MCar).withMake(toyotaMake).build(); 
+    MCar* bmw = builder(MCar).withMake(bmwMake).build(); 
+    MCar* mercedes = builder(MCar).withMake(mercedesMake).build();
+
+    mList.append(toyota.getMake(), toyota);
+    mList.append(bmw.getMake(), bmw);
+    mList.append(mercedes.getMake(), mercedes);
+
+    if (bmw == null) {
+      printout("bmw is null\n");
+    } else {
+      printout("bmw is not null\n");
+    }
+
+    MCar car = mList.get(toyotaMake);
+    printout("Lookup " + toyotaMake + ": " + car.getMake() + "\n");
+    car = mList.get(bmwMake);
+    printout("Lookup " + bmwMake + ": " + car.getMake() + "\n");
+    car = mList.get(mercedesMake);
+    printout("Lookup " + mercedesMake + ": " + car.getMake() + "\n");
+
+    mList.erase(bmwMake);
+    car = mList.get(bmwMake);
+    if (car == null) {
+      printout("BMW was erased\n");
+    } else {
+      printout("BMW is still there\n");
+    }
+
+    mList.erase(toyotaMake);
+    mList.erase(bmwMake);
+    mList.erase(mercedesMake);
+
+    car = mList.get(toyotaMake);
+    if (car == null) {
+      printout("Toyota was erased\n");
+    } else {
+      printout("Toyota is still there\n");
+    }
+    car = mList.get(mercedesMake);
+    if (car == null) {
+      printout("Mercedes was erased\n");
+    } else {
+      printout("Mercedes is still there\n");
+    }
+
+    return 1;
+  }
+}
+
+bind(IProgram).to(CProgram);

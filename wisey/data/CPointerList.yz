@@ -1,0 +1,84 @@
+package wisey.data;
+
+/**
+ * Link list of llvm pointers
+ */
+controller CPointerList {
+
+  state IListElement* mHead;
+
+  /**
+   * Appends a key/value pair to the beginning of the list
+   */
+  public void append(::llvm::i8::pointer key, IListElement* element) {
+    if (mHead != null) {
+      element.setNext(mHead);
+      mHead = element;
+    } else {
+      mHead = element;
+    }
+  }
+
+  /**
+   * Returns the fist object for the given key
+   */
+  public IListElement get(::llvm::i8::pointer key) {
+    IListElement iterator = mHead;
+    while (iterator != null) {
+      if (iterator.getKey() == key) {
+        return iterator;
+      }
+      iterator = iterator.getNext();
+    }
+    return null;
+  }
+
+  /**
+   * Erases all object with the given key
+   */
+  public void erase(::llvm::i8::pointer key) {
+    IListElement iterator = mHead;
+    IListElement previous = null;
+    while (iterator != null) {
+      if (iterator.getKey() != key) {
+        previous = iterator;
+        iterator = iterator.getNext();        
+      } else if (previous != null) {
+        IListElement* next = iterator.takeNext();
+        iterator = next;
+        previous.setNext(next);
+      } else {
+        IListElement* next = iterator.takeNext();
+        iterator = next;
+        mHead = next;
+      }
+    }
+  }
+
+  /**
+   * List implementations must implement this interface for their elements
+   */
+  public interface IListElement {
+
+    /**
+     * Returns a reference to the next element in the list
+     */
+    IListElement getNext();
+
+    /**
+     * Returns an owner reference to the next element in the list
+     */
+    IListElement* takeNext();
+
+    /**
+     * Set the next element after this element to the given object
+     */
+    void setNext(IListElement* element);
+
+    /**
+     * Returns the key for this element
+     */
+    ::llvm::i8::pointer getKey();
+
+  }
+}

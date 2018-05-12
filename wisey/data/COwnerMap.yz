@@ -1,24 +1,24 @@
 package wisey.data;
 
 /**
- * Map of references to wisey objects
+ * Map of owner references to wisey objects
  */
-controller CReferenceMap {
+controller COwnerMap {
 
   inject CPointerMap* mPointerMap.withSize(CPointerMap.DEFAULT_SIZE);
 
   /**
    * Creates a hashmap of deafault size
    */
-  public static CReferenceMap* create() {
-    return injector(CReferenceMap).inject();
+  public static COwnerMap* create() {
+    return injector(COwnerMap).inject();
   }
 
   /**
    * Puts a reference to an object into the map according keyed by the given key
    */
-  public void put(::llvm::i8::pointer key, ::wisey::object value) {
-    CReferenceList.NElement* element = builder(CReferenceList.NElement)
+  public void put(::llvm::i8::pointer key, ::wisey::object* value) {
+    COwnerList.NElement* element = builder(COwnerList.NElement)
       .withKey(key)
       .withValue(value)
       .build();
@@ -30,7 +30,7 @@ controller CReferenceMap {
    */
   public ::wisey::object get(::llvm::i8::pointer key) {
     CPointerList.IListElement element = mPointerMap.get(key);
-    return element ? ((CReferenceList.NElement) element).getValue() : null;
+    return element ? ((COwnerList.NElement) element).getValue() : null;
   }
 
   /**

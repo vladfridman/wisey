@@ -1,16 +1,16 @@
 package wisey.data;
 
 /**
- * Link list of references
+ * Link list of owner references
  */
-controller CReferenceList {
+controller COwnerList {
 
   inject CPointerList* mPointerList;
 
   /**
    * Appends a key/value pair to the beginning of the list
    */
-  public void append(::llvm::i8::pointer key, ::wisey::object value) {
+  public void append(::llvm::i8::pointer key, ::wisey::object* value) {
     NElement* element = builder(NElement).withKey(key).withValue(value).build();
     mPointerList.append(key, element);
   }
@@ -31,11 +31,11 @@ controller CReferenceList {
   }
 
   /**
-   * Represents list element where value field is of object reference type
+   * Represents list element where value field is of object owner type
    */
   public node NElement implements CPointerList.IListElement {
     fixed ::llvm::i8::pointer mKey;
-    fixed ::wisey::object mValue;
+    fixed ::wisey::object* mValue;
     state NElement* mNext;
 
     public ::wisey::object getValue() {

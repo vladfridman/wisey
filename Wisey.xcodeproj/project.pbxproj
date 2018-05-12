@@ -967,6 +967,8 @@
 		F5D1599B20A498EC00107E84 /* TestMString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D1599A20A498EC00107E84 /* TestMString.cpp */; };
 		F5D159A020A5F0E500107E84 /* TestCReferenceList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D1599F20A5F0E500107E84 /* TestCReferenceList.cpp */; };
 		F5D159A220A6DD1900107E84 /* TestCReferenceMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159A120A6DD1900107E84 /* TestCReferenceMap.cpp */; };
+		F5D159A420A7020D00107E84 /* TestCOwnerList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159A320A7020D00107E84 /* TestCOwnerList.cpp */; };
+		F5D159A620A70A1800107E84 /* TestCOwnerMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159A520A70A1800107E84 /* TestCOwnerMap.cpp */; };
 		F5D465F42060FA4F00C1047A /* LLVMFunctionDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D465F32060FA4F00C1047A /* LLVMFunctionDefinition.cpp */; };
 		F5D465F52060FA4F00C1047A /* LLVMFunctionDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D465F32060FA4F00C1047A /* LLVMFunctionDefinition.cpp */; };
 		F5D465F82061086D00C1047A /* LLVMFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D465F72061086D00C1047A /* LLVMFunction.cpp */; };
@@ -1964,6 +1966,8 @@
 		F5D1599A20A498EC00107E84 /* TestMString.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestMString.cpp; path = tests/TestMString.cpp; sourceTree = "<group>"; };
 		F5D1599F20A5F0E500107E84 /* TestCReferenceList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCReferenceList.cpp; path = tests/TestCReferenceList.cpp; sourceTree = "<group>"; };
 		F5D159A120A6DD1900107E84 /* TestCReferenceMap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCReferenceMap.cpp; path = tests/TestCReferenceMap.cpp; sourceTree = "<group>"; };
+		F5D159A320A7020D00107E84 /* TestCOwnerList.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCOwnerList.cpp; path = tests/TestCOwnerList.cpp; sourceTree = "<group>"; };
+		F5D159A520A70A1800107E84 /* TestCOwnerMap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCOwnerMap.cpp; path = tests/TestCOwnerMap.cpp; sourceTree = "<group>"; };
 		F5D465F22060F96100C1047A /* LLVMFunctionDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMFunctionDefinition.hpp; path = include/wisey/LLVMFunctionDefinition.hpp; sourceTree = "<group>"; };
 		F5D465F32060FA4F00C1047A /* LLVMFunctionDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMFunctionDefinition.cpp; path = src/LLVMFunctionDefinition.cpp; sourceTree = "<group>"; };
 		F5D465F62061078F00C1047A /* LLVMFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMFunction.hpp; path = include/wisey/LLVMFunction.hpp; sourceTree = "<group>"; };
@@ -3896,10 +3900,12 @@
 			isa = PBXGroup;
 			children = (
 				F5D1599620A48E5E00107E84 /* TestCFileReader.cpp */,
+				F5D159A320A7020D00107E84 /* TestCOwnerList.cpp */,
 				F5D1599F20A5F0E500107E84 /* TestCReferenceList.cpp */,
 				F5D159A120A6DD1900107E84 /* TestCReferenceMap.cpp */,
 				F5D1599820A498A900107E84 /* TestCString.cpp */,
 				F5D1599A20A498EC00107E84 /* TestMString.cpp */,
+				F5D159A520A70A1800107E84 /* TestCOwnerMap.cpp */,
 			);
 			name = wisey;
 			sourceTree = "<group>";
@@ -4171,6 +4177,7 @@
 				F51581221E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */,
 				F5ADB62B1E69860F00FFC941 /* TestMethod.cpp in Sources */,
 				F51581301E8AAB12009CE419 /* Controller.cpp in Sources */,
+				F5D159A620A70A1800107E84 /* TestCOwnerMap.cpp in Sources */,
 				F5436DA61FCF6551003ABF6F /* ControllerTypeSpecifierFull.cpp in Sources */,
 				F531B63F1E089ED6008304F3 /* TestExpressionStatement.cpp in Sources */,
 				F5FE0A201F7D9E7C000621CA /* TestStaticMethodDefinition.cpp in Sources */,
@@ -4461,6 +4468,7 @@
 				F5A363581F376C90005880B3 /* IFieldVariable.cpp in Sources */,
 				F53A2C121EEEC56700E76A9E /* TestControllerOwner.cpp in Sources */,
 				F5BD74641EE15BD00035E8FC /* TestDefaultCaseStatement.cpp in Sources */,
+				F5D159A420A7020D00107E84 /* TestCOwnerList.cpp in Sources */,
 				F508E0701E73076E005D6115 /* Environment.cpp in Sources */,
 				F5D465F52060FA4F00C1047A /* LLVMFunctionDefinition.cpp in Sources */,
 				F5827066205FD6A600839EC7 /* LLVMFunctionTypeSpecifier.cpp in Sources */,

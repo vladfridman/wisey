@@ -1,5 +1,14 @@
 /* Interfaces */
 
+external interface wisey.data.CPointerList.IListElement {
+
+  wisey.data.CPointerList.IListElement getNext();
+  wisey.data.CPointerList.IListElement* takeNext();
+  void setNext(
+    wisey.data.CPointerList.IListElement* element);
+  ::llvm::i8::pointer getKey();
+}
+
 external interface wisey.lang.IException {
 
   string getName();
@@ -124,13 +133,6 @@ external model wisey.lang.MMainThreadWorker
   void work() throws wisey.threads.MThreadBoundaryException override;
 }
 
-external model wisey.lang.MMainThreadWorker.MProgramResult {
-
-  fixed int mResult;
-
-  int getResult();
-}
-
 external model wisey.lang.MNullPointerException
   implements
     wisey.lang.IException {
@@ -173,6 +175,16 @@ external model wisey.lang.MString {
 external model wisey.lang.MSystem {
 }
 
+external model wisey.threads.MContextNonExistant
+  implements
+    wisey.lang.IException {
+
+  fixed string mContextName;
+
+  string getName() override;
+  string getContextName();
+}
+
 external model wisey.threads.MThreadBoundaryException
   implements
     wisey.lang.IException {
@@ -185,6 +197,60 @@ external model wisey.threads.MThreadBoundaryException
 
 /* Controllers */
 
+external controller wisey.data.COwnerList {
+
+  void append(
+    ::llvm::i8::pointer key,
+    ::wisey::object* value);
+  ::wisey::object get(
+    ::llvm::i8::pointer key);
+  void erase(
+    ::llvm::i8::pointer key);
+}
+
+external controller wisey.data.COwnerMap {
+
+  static wisey.data.COwnerMap* create();
+  void put(
+    ::llvm::i8::pointer key,
+    ::wisey::object* value);
+  ::wisey::object get(
+    ::llvm::i8::pointer key);
+  void erase(
+    ::llvm::i8::pointer key);
+  void clear();
+}
+
+external controller wisey.data.CPointerList {
+
+  void append(
+    ::llvm::i8::pointer key,
+    wisey.data.CPointerList.IListElement* element);
+  wisey.data.CPointerList.IListElement get(
+    ::llvm::i8::pointer key);
+  void erase(
+    ::llvm::i8::pointer key);
+}
+
+external controller wisey.data.CPointerMap {
+
+  public constant long DEFAULT_SIZE = 109l;
+
+  receive long mSize;
+
+  static wisey.data.CPointerMap* create();
+  static wisey.data.CPointerMap* createWithSize(
+    long size);
+  void put(
+    ::llvm::i8::pointer key,
+    wisey.data.CPointerList.IListElement* element);
+  wisey.data.CPointerList.IListElement get(
+    ::llvm::i8::pointer key);
+  void erase(
+    ::llvm::i8::pointer key);
+  void clear();
+}
+
 external controller wisey.data.CReferenceList {
 
   void append(
@@ -196,18 +262,9 @@ external controller wisey.data.CReferenceList {
     ::llvm::i8::pointer key);
 }
 
-external node wisey.data.CReferenceList.NElement {
-}
-
 external controller wisey.data.CReferenceMap {
 
-  public constant long DEAFUALT_SIZE = 109l;
-
-  receive long mSize;
-
   static wisey.data.CReferenceMap* create();
-  static wisey.data.CReferenceMap* createWithSize(
-    long size);
   void put(
     ::llvm::i8::pointer key,
     ::wisey::object value);
@@ -215,6 +272,7 @@ external controller wisey.data.CReferenceMap {
     ::llvm::i8::pointer key);
   void erase(
     ::llvm::i8::pointer key);
+  void clear();
 }
 
 external controller wisey.io.CFile {
@@ -284,6 +342,21 @@ external controller wisey.threads.CCallStack {
   void dumpStack();
   void reportException(
     wisey.lang.IException exception);
+}
+
+external controller wisey.threads.CContextManager {
+
+  ::wisey::object getInstance(
+    string contextName,
+    string objectName);
+  void setContext(
+    string contextName,
+    ::wisey::object context);
+  void setObject(
+    string contextName,
+    string objectName,
+    ::wisey::object objectValue);
+  void clear();
 }
 
 external controller wisey.threads.CProducerThread

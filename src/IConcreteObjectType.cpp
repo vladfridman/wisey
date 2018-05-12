@@ -610,14 +610,6 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
   }
   
   stream << "}" << endl;
-
-  map<string, const IObjectType*> innerObjects = object->getInnerObjects();
-  for (map<string, const IObjectType*>::iterator iterator = innerObjects.begin();
-       iterator != innerObjects.end();
-       iterator++) {
-    stream << endl;
-    iterator->second->printToStream(context, stream);
-  }
 }
 
 void IConcreteObjectType::printTypeKind(const IConcreteObjectType* type, iostream& stream) {

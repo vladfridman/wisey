@@ -768,7 +768,7 @@ bool Interface::isExternal() const {
 
 void Interface::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << "external interface ";
-  stream << (isInner() ? getShortName() : getTypeName());
+  stream << getTypeName();
   if (!isPublic()) {
     stream << " {" << endl << "}" << endl;
     return;

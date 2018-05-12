@@ -13,12 +13,16 @@
 #include "TestFileRunner.hpp"
 
 TEST_F(TestFileRunner, cReferenceMapRunTest) {
-  runFileCheckOutput("tests/samples/test_creference_map.yz",
-                     "Lookup Toyota: Toyota\n"
-                     "Lookup BMW: BMW\n"
-                     "Lookup Mercedes: Mercedes\n"
-                     "BMW was erased\n"
-                     "Toyota was erased\n"
-                     "Mercedes was erased\n",
-                     "");
+  runFileCheckOutputWithDestructorDebug("tests/samples/test_creference_map.yz",
+                                        "Lookup Toyota: Toyota\n"
+                                        "Lookup BMW: BMW\n"
+                                        "Lookup Mercedes: Mercedes\n"
+                                        "BMW was erased\n"
+                                        "Toyota was erased\n"
+                                        "Mercedes was erased\n"
+                                        "destructor systems.vos.wisey.compiler.tests.MCar\n"
+                                        "destructor systems.vos.wisey.compiler.tests.MCar\n"
+                                        "destructor systems.vos.wisey.compiler.tests.MCar\n"
+                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "");
 }
