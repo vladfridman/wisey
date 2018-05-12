@@ -1,0 +1,68 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+import wisey.threads.CContextManager;
+
+controller CCar {
+  receive string mMake;
+
+  public string getMake() {
+    return mMake;
+  }
+}
+
+controller CContext1 {
+
+}
+
+controller CContext2 {
+
+}
+
+controller CProgram implements IProgram {
+  inject CContextManager* mContextManager;
+  inject CContext1* mContext1;
+  inject CContext2* mContext2;
+
+  public int run(immutable string[] arguments) override {
+    string context1 = "context1";
+    string context2 = "context2";
+
+    CCar* toyota = injector(CCar).withMake("Toyota").inject(); 
+    CCar* bmw = injector(CCar).withMake("BMW").inject(); 
+    CCar* mercedes = injector(CCar).withMake("Mercedes").inject();
+
+    mContextManager.setContext(context1, mContext1);
+    mContextManager.setContext(context2, mContext2);
+    mContextManager.setObject(context1, toyota.getMake(), toyota);
+    mContextManager.setObject(context1, bmw.getMake(), bmw);
+    mContextManager.setObject(context2, bmw.getMake(), toyota);
+    mContextManager.setObject(context2, toyota.getMake(), bmw);
+
+    CCar car = mContextManager.getInstance(context1, toyota.getMake());
+    printout("In context " + context1 + " looking for " + toyota.getMake() + " got " + 
+      car.getMake() + " back\n");
+    car = mContextManager.getInstance(context1, bmw.getMake());
+    printout("In context " + context1 + " looking for " + bmw.getMake() + " got " + 
+      car.getMake() + " back\n");
+
+    car = mContextManager.getInstance(context2, toyota.getMake());
+    printout("In context " + context2 + " looking for " + toyota.getMake() + " got " + 
+      car.getMake() + " back\n");
+    car = mContextManager.getInstance(context2, bmw.getMake());
+    printout("In context " + context2 + " looking for " + bmw.getMake() + " got " + 
+      car.getMake() + " back\n");
+    
+    mContextManager.setObject(context2, bmw.getMake(), bmw);
+    car = mContextManager.getInstance(context2, bmw.getMake());
+    printout("In context " + context2 + " looking for " + bmw.getMake() + " got " + 
+      car.getMake() + " back\n");
+
+
+    mContextManager.clear();
+
+    return 1;
+  }
+}
+
+bind(IProgram).to(CProgram);

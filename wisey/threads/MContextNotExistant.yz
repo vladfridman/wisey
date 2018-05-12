@@ -1,0 +1,18 @@
+package wisey.threads;
+
+import wisey.lang.IException;
+
+/**
+ * Thrown when adding instance of a class for a context that does not exist
+ */
+model MContextNonExistant implements IException {
+  string mContextName;
+
+  public string getName() override {
+    return "wisey.threads.MContextNonExistant";
+  }
+
+  public string getContextName() {
+    return mContextName;
+  }
+}

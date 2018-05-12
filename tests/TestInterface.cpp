@@ -393,17 +393,6 @@ TEST_F(InterfaceTest, printToStreamTest) {
                "\n"
                "  int foo();\n"
                "  static int foostatic();\n"
-               "}\n"
-               "\n"
-               "external model MInnerPrivateModel {\n"
-               "}\n"
-               "\n"
-               "external model MInnerPublicModel {\n"
-               "\n"
-               "  fixed int mField1;\n"
-               "  fixed int mField2;\n"
-               "\n"
-               "  int bar();\n"
                "}\n",
                stringStream.str().c_str());
 }

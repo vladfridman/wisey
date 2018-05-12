@@ -5,7 +5,7 @@
 //  Created by Vladimir Fridman on 5/12/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link wisey.io.CReferenceMap}
+//  Tests {@link wisey.data.CReferenceMap}
 //
 
 #include <gtest/gtest.h>

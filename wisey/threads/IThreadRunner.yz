@@ -68,6 +68,9 @@ interface IThreadRunner {
     } catch (MFileCouldNotCloseException* exception) {
       callstack.reportException(exception);
       printerr("Details: Could not close file " + exception.getFileName() + "\n");
+    } catch (MContextNonExistant* exception) {
+      callstack.reportException(exception);
+      printerr("Details: Context " + exception.getContextName() + " does not exist\n");
     }
 
     return argument;

@@ -969,6 +969,7 @@
 		F5D159A220A6DD1900107E84 /* TestCReferenceMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159A120A6DD1900107E84 /* TestCReferenceMap.cpp */; };
 		F5D159A420A7020D00107E84 /* TestCOwnerList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159A320A7020D00107E84 /* TestCOwnerList.cpp */; };
 		F5D159A620A70A1800107E84 /* TestCOwnerMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159A520A70A1800107E84 /* TestCOwnerMap.cpp */; };
+		F5D159A820A7133500107E84 /* TestCContextManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159A720A7133500107E84 /* TestCContextManager.cpp */; };
 		F5D465F42060FA4F00C1047A /* LLVMFunctionDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D465F32060FA4F00C1047A /* LLVMFunctionDefinition.cpp */; };
 		F5D465F52060FA4F00C1047A /* LLVMFunctionDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D465F32060FA4F00C1047A /* LLVMFunctionDefinition.cpp */; };
 		F5D465F82061086D00C1047A /* LLVMFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D465F72061086D00C1047A /* LLVMFunction.cpp */; };
@@ -1968,6 +1969,7 @@
 		F5D159A120A6DD1900107E84 /* TestCReferenceMap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCReferenceMap.cpp; path = tests/TestCReferenceMap.cpp; sourceTree = "<group>"; };
 		F5D159A320A7020D00107E84 /* TestCOwnerList.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCOwnerList.cpp; path = tests/TestCOwnerList.cpp; sourceTree = "<group>"; };
 		F5D159A520A70A1800107E84 /* TestCOwnerMap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCOwnerMap.cpp; path = tests/TestCOwnerMap.cpp; sourceTree = "<group>"; };
+		F5D159A720A7133500107E84 /* TestCContextManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCContextManager.cpp; path = tests/TestCContextManager.cpp; sourceTree = "<group>"; };
 		F5D465F22060F96100C1047A /* LLVMFunctionDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMFunctionDefinition.hpp; path = include/wisey/LLVMFunctionDefinition.hpp; sourceTree = "<group>"; };
 		F5D465F32060FA4F00C1047A /* LLVMFunctionDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMFunctionDefinition.cpp; path = src/LLVMFunctionDefinition.cpp; sourceTree = "<group>"; };
 		F5D465F62061078F00C1047A /* LLVMFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMFunction.hpp; path = include/wisey/LLVMFunction.hpp; sourceTree = "<group>"; };
@@ -3899,13 +3901,14 @@
 		F5D1599520A48E1900107E84 /* wisey */ = {
 			isa = PBXGroup;
 			children = (
+				F5D159A720A7133500107E84 /* TestCContextManager.cpp */,
 				F5D1599620A48E5E00107E84 /* TestCFileReader.cpp */,
 				F5D159A320A7020D00107E84 /* TestCOwnerList.cpp */,
+				F5D159A520A70A1800107E84 /* TestCOwnerMap.cpp */,
 				F5D1599F20A5F0E500107E84 /* TestCReferenceList.cpp */,
 				F5D159A120A6DD1900107E84 /* TestCReferenceMap.cpp */,
 				F5D1599820A498A900107E84 /* TestCString.cpp */,
 				F5D1599A20A498EC00107E84 /* TestMString.cpp */,
-				F5D159A520A70A1800107E84 /* TestCOwnerMap.cpp */,
 			);
 			name = wisey;
 			sourceTree = "<group>";
@@ -4225,6 +4228,7 @@
 				F582705E205FCA6C00839EC7 /* LLVMPointerType.cpp in Sources */,
 				F5609F1820580DE000664ADD /* LocalPointerVariable.cpp in Sources */,
 				F58725631F70143100FA25E6 /* IPrintStatement.cpp in Sources */,
+				F5D159A820A7133500107E84 /* TestCContextManager.cpp in Sources */,
 				F507D26E1E46044700495E2D /* PrimitiveTypes.cpp in Sources */,
 				F57411681E02CE97009809FF /* TestIRGenerationContext.cpp in Sources */,
 				F587255F1F6FFB2D00FA25E6 /* PrintErrStatement.cpp in Sources */,

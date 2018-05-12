@@ -145,5 +145,4 @@ TEST_F(TestFileRunner, getNullArraySizeRunDeathTest) {
                                "Unhandled exception wisey.lang.MNullPointerException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_get_null_array_size.yz:9)\n"
                                "Main thread ended without a result\n");
-
 }

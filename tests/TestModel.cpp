@@ -824,17 +824,6 @@ TEST_F(ModelTest, printToStreamTest) {
                "  fixed int mHeight;\n"
                "\n"
                "  int foo();\n"
-               "}\n"
-               "\n"
-               "external model MInnerPrivateModel {\n"
-               "}\n"
-               "\n"
-               "external model MInnerPublicModel {\n"
-               "\n"
-               "  fixed int mField1;\n"
-               "  fixed int mField2;\n"
-               "\n"
-               "  int bar();\n"
                "}\n",
                stringStream.str().c_str());
 }

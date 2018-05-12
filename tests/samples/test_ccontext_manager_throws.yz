@@ -1,0 +1,16 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+import wisey.threads.CContextManager;
+
+controller CProgram implements IProgram {
+  inject CContextManager* mContextManager;
+
+  public int run(immutable string[] arguments) override {
+    mContextManager.getInstance("mycontext", "something");
+
+    return 1;
+  }
+}
+
+bind(IProgram).to(CProgram);

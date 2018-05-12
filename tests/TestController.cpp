@@ -1071,17 +1071,6 @@ TEST_F(ControllerTest, printToStreamTest) {
                "\n"
                "  int calculate();\n"
                "  int foo();\n"
-               "}\n"
-               "\n"
-               "external model MInnerPrivateModel {\n"
-               "}\n"
-               "\n"
-               "external model MInnerPublicModel {\n"
-               "\n"
-               "  fixed int mField1;\n"
-               "  fixed int mField2;\n"
-               "\n"
-               "  int bar();\n"
                "}\n",
                stringStream.str().c_str());
 }

@@ -5,7 +5,7 @@
 //  Created by Vladimir Fridman on 5/12/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link wisey.io.COwnerMap}
+//  Tests {@link wisey.data.COwnerMap}
 //
 
 #include <gtest/gtest.h>

@@ -801,13 +801,6 @@ void Interface::printToStream(IRGenerationContext& context, iostream& stream) co
     staticMethod->printToStream(context, stream);
   }
   stream << "}" << endl;
-  map<string, const IObjectType*> innerObjects = getInnerObjects();
-  for (map<string, const IObjectType*>::iterator iterator = innerObjects.begin();
-       iterator != innerObjects.end();
-       iterator++) {
-    stream << endl;
-    iterator->second->printToStream(context, stream);
-  }
 }
 
 void Interface::defineInterfaceTypeName(IRGenerationContext& context) const {
