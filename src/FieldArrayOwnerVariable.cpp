@@ -63,7 +63,7 @@ Value* FieldArrayOwnerVariable::generateIdentifierIR(IRGenerationContext& contex
   
   assert(mObject->isController() && "Injected field in an object other than controller");
   const Controller* controller  = (const Controller*) mObject;
-  return ((InjectedField* ) field)->callInjectFunction(context, controller, fieldPointer);
+  return ((InjectedField* ) field)->callInjectFunction(context, controller, fieldPointer, line);
 }
 
 Value* FieldArrayOwnerVariable::generateIdentifierReferenceIR(IRGenerationContext& context,
@@ -120,7 +120,10 @@ Value* FieldArrayOwnerVariable::generateArrayElementAssignment(IRGenerationConte
   if (field->isInjected()) {
     assert(mObject->isController() && "Injected array field in an object other than controller");
     const Controller* controller  = (const Controller*) mObject;
-    arrayPointer = ((InjectedField* ) field)->callInjectFunction(context, controller, fieldPointer);
+    arrayPointer = ((InjectedField* ) field)->callInjectFunction(context,
+                                                                 controller,
+                                                                 fieldPointer,
+                                                                 line);
   } else {
     arrayPointer = IRWriter::newLoadInst(context, fieldPointer, "");
   }

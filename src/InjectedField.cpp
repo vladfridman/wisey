@@ -14,6 +14,9 @@
 #include "wisey/InterfaceOwner.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/Names.hpp"
+#include "wisey/ParameterSystemReferenceVariable.hpp"
+#include "wisey/ThreadExpression.hpp"
 
 using namespace std;
 using namespace llvm;
@@ -87,19 +90,24 @@ void InjectedField::checkInjectionArguments(IRGenerationContext& context) const 
 
 Value* InjectedField::callInjectFunction(IRGenerationContext& context,
                                          const Controller* controller,
-                                         Value* fieldPointer) const {
+                                         Value* fieldPointer,
+                                         int line) const {
   Function* function = context.getModule()->getFunction(getInjectionFunctionName(controller));
   assert(function && "Inject function for injected field is not declared");
-  
+  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
+  Value* threadObject = threadVariable->generateIdentifierIR(context, line);
   vector<Value*> arguments;
+  arguments.push_back(threadObject);
   arguments.push_back(fieldPointer);
-  
+
   return IRWriter::createCallInst(context, function, arguments, "");
 }
 
 Function* InjectedField::declareInjectionFunction(IRGenerationContext& context,
                                                   const Controller* controller) const {
   vector<Type*> argumentTypes;
+  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), mLine);
+  argumentTypes.push_back(threadInterface->getLLVMType(context));
   Type* fieldLLVMType = getType()->getLLVMType(context);
   argumentTypes.push_back(fieldLLVMType->getPointerTo());
   FunctionType* functionType = FunctionType::get(fieldLLVMType, argumentTypes, false);
@@ -125,9 +133,19 @@ void InjectedField::composeInjectFunctionBody(IRGenerationContext& context,
   const InjectedField* injectedField = (const InjectedField*) object2;
 
   Function::arg_iterator llvmArguments = function->arg_begin();
+  llvm::Argument* thread = &*llvmArguments;
+  thread->setName(ThreadExpression::THREAD);
+  llvmArguments++;
   llvm::Argument* fieldPointer = &*llvmArguments;
   fieldPointer->setName("fieldPointer");
   
+  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
+  IVariable* variable = new ParameterSystemReferenceVariable(ThreadExpression::THREAD,
+                                                             threadInterface,
+                                                             thread,
+                                                             0);
+  context.getScopes().setVariable(context, variable);
+
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function);
   BasicBlock* ifNullBlock = BasicBlock::Create(llvmContext, "if.null", function);
   BasicBlock* ifNotNullBlock = BasicBlock::Create(llvmContext, "if.not.null", function);

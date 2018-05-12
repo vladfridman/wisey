@@ -148,7 +148,7 @@ struct InterfaceTest : public Test {
                                               5);
     mContext.addInterface(mShapeInterface, 0);
     mShapeInterface->buildMethods(mContext);
-    mShapeInterface->defineInjectionFunctionPointer(mContext);
+    mShapeInterface->defineInjectionFunctionPointer(mContext, 0);
 
     mIncompleteInterfaceStructType = StructType::create(mLLVMContext, shapeFullName);
     mIncompleteInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
@@ -184,7 +184,6 @@ struct InterfaceTest : public Test {
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
     ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadInterface));
     ON_CALL(*mThreadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
-    mContext.getScopes().setVariable(mContext, mThreadVariable);
     
     vector<Type*> exitFunctionArgumentTypes;
     exitFunctionArgumentTypes.push_back(Type::getInt32Ty(mLLVMContext));
@@ -632,6 +631,8 @@ TEST_F(InterfaceTest, createParameterVariableTest) {
 }
 
 TEST_F(InterfaceTest, injectWrapperFunctionTest) {
+  mContext.getScopes().setVariable(mContext, mThreadVariable);
+
   InjectionArgumentList injectionArgumentList;
   mShapeInterface->inject(mContext, injectionArgumentList, 0);
   mContext.runComposingCallbacks();
@@ -641,10 +642,10 @@ TEST_F(InterfaceTest, injectWrapperFunctionTest) {
   *mStringStream << *function;
   
   string expected =
-  "\ndefine %systems.vos.wisey.compiler.tests.IShape* @systems.vos.wisey.compiler.tests.IShape.inject() {"
+  "\ndefine %systems.vos.wisey.compiler.tests.IShape* @systems.vos.wisey.compiler.tests.IShape.inject(%wisey.threads.IThread* %thread) {"
   "\nentry:"
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.IShape* ()*, %systems.vos.wisey.compiler.tests.IShape* ()** @systems.vos.wisey.compiler.tests.IShape.inject.pointer"
-  "\n  %1 = icmp eq %systems.vos.wisey.compiler.tests.IShape* ()* %0, null"
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.IShape* (%wisey.threads.IThread*)*, %systems.vos.wisey.compiler.tests.IShape* (%wisey.threads.IThread*)** @systems.vos.wisey.compiler.tests.IShape.inject.pointer"
+  "\n  %1 = icmp eq %systems.vos.wisey.compiler.tests.IShape* (%wisey.threads.IThread*)* %0, null"
   "\n  br i1 %1, label %if.null, label %if.not.null"
   "\n"
   "\nif.null:                                          ; preds = %entry"
@@ -653,7 +654,7 @@ TEST_F(InterfaceTest, injectWrapperFunctionTest) {
   "\n  unreachable"
   "\n"
   "\nif.not.null:                                      ; preds = %entry"
-  "\n  %3 = call %systems.vos.wisey.compiler.tests.IShape* %0()"
+  "\n  %3 = call %systems.vos.wisey.compiler.tests.IShape* %0(%wisey.threads.IThread* %thread)"
   "\n  ret %systems.vos.wisey.compiler.tests.IShape* %3"
   "\n}"
   "\n";
@@ -663,7 +664,10 @@ TEST_F(InterfaceTest, injectWrapperFunctionTest) {
 }
 
 TEST_F(InterfaceTest, injectTest) {
+  mContext.getScopes().setVariable(mContext, mThreadVariable);
+  
   InjectionArgumentList injectionArgumentList;
+
   mShapeInterface->inject(mContext, injectionArgumentList, 0);
   mContext.runComposingCallbacks();
 
@@ -671,7 +675,7 @@ TEST_F(InterfaceTest, injectTest) {
   
   string expected =
   "\nentry:"
-  "\n  %0 = call %systems.vos.wisey.compiler.tests.IShape* @systems.vos.wisey.compiler.tests.IShape.inject()"
+  "\n  %0 = call %systems.vos.wisey.compiler.tests.IShape* @systems.vos.wisey.compiler.tests.IShape.inject(%wisey.threads.IThread* null)"
   "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -726,11 +730,11 @@ TEST_F(InterfaceTest, composeInjectFunctionWithControllerTest) {
   IConcreteObjectType::generateShortNameGlobal(mContext, controller);
   IConcreteObjectType::generateVTable(mContext, controller);
 
-  interface->defineInjectionFunctionPointer(mContext);
+  interface->defineInjectionFunctionPointer(mContext, 0);
   controller->declareInjectFunction(mContext, 0);
   
   InjectionArgumentList arguments;
-  interface->composeInjectFunctionWithController(mContext, controller);
+  interface->composeInjectFunctionWithController(mContext, controller, 0);
   mContext.runComposingCallbacks();
 
   Function* function = mContext.getModule()->getFunction(interface->getTypeName() +
@@ -738,9 +742,9 @@ TEST_F(InterfaceTest, composeInjectFunctionWithControllerTest) {
   *mStringStream << *function;
 
   string expected =
-  "\ndefine %systems.vos.wisey.compiler.tests.ITest* @systems.vos.wisey.compiler.tests.ITest.inject.function() {"
+  "\ndefine %systems.vos.wisey.compiler.tests.ITest* @systems.vos.wisey.compiler.tests.ITest.inject.function(%wisey.threads.IThread* %thread) {"
   "\nentry:"
-  "\n  %0 = call %systems.vos.wisey.compiler.tests.CController* @systems.vos.wisey.compiler.tests.CController.inject()"
+  "\n  %0 = call %systems.vos.wisey.compiler.tests.CController* @systems.vos.wisey.compiler.tests.CController.inject(%wisey.threads.IThread* %thread)"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CController* %0 to i8*"
   "\n  %2 = getelementptr i8, i8* %1, i64 0"
   "\n  %3 = bitcast i8* %2 to %systems.vos.wisey.compiler.tests.ITest*"

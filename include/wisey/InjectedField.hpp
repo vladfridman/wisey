@@ -65,7 +65,8 @@ namespace wisey {
      */
     llvm::Value* callInjectFunction(IRGenerationContext& context,
                                     const Controller* controller,
-                                    llvm::Value* fieldPointer) const;
+                                    llvm::Value* fieldPointer,
+                                    int line) const;
     
     /**
      * Checks that field injected type is of object owner or array owner type

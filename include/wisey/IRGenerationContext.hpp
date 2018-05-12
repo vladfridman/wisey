@@ -61,7 +61,7 @@ namespace wisey {
     std::map<std::string, const LLVMFunctionType*> mLLVMInternalFunctionNamedTypes;
     std::map<std::string, const LLVMFunctionType*> mLLVMExternalFunctionNamedTypes;
     std::map<std::string, const IType*> mGlobalVariables;
-    std::map<const Interface*, const Controller*> mBindings;
+    std::map<const Interface*, std::tuple<const Controller*, int>> mBindings;
     ImportProfile* mImportProfile;
     std::string mPackage;
     Scopes mScopes;

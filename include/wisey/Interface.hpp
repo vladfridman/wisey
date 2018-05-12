@@ -150,12 +150,12 @@ namespace wisey {
     /**
      * Defines global containing pointer to the function that injects the interface
      */
-    void defineInjectionFunctionPointer(IRGenerationContext& context) const;
+    void defineInjectionFunctionPointer(IRGenerationContext& context, int line) const;
     
     /**
      * Defines external global containing pointer to the function that injects the interface
      */
-    void defineExternalInjectionFunctionPointer(IRGenerationContext& context) const;
+    void defineExternalInjectionFunctionPointer(IRGenerationContext& context, int line) const;
     
     /**
      * Defines llvm functions corresponding to interface static methods
@@ -203,7 +203,8 @@ namespace wisey {
      * Composes inject function for this interface that injects the given controller
      */
     llvm::Value* composeInjectFunctionWithController(IRGenerationContext& context,
-                                                     const Controller* controller) const;
+                                                     const Controller* controller,
+                                                     int line) const;
     
     bool isPublic() const override;
 

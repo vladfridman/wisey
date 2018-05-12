@@ -14,13 +14,16 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockConcreteObjectType.hpp"
+#include "MockVariable.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/ControllerOwner.hpp"
 #include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ThreadExpression.hpp"
 #include "wisey/WiseyModelOwnerType.hpp"
 #include "wisey/WiseyModelType.hpp"
 #include "wisey/WiseyObjectOwnerType.hpp"
@@ -45,6 +48,7 @@ struct ControllerOwnerTest : public Test {
   Interface* mScienceCalculatorInterface;
   Interface* mObjectInterface;
   Interface* mVehicleInterface;
+  NiceMock<MockVariable>* mThreadVariable;
   BasicBlock *mBasicBlock;
   string mStringBuffer;
   Function* mFunction;
@@ -147,8 +151,20 @@ struct ControllerOwnerTest : public Test {
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
-    
+
+    Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
+    Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));
+    mThreadVariable = new NiceMock<MockVariable>();
+    ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
+    ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadInterface));
+    ON_CALL(*mThreadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
+    mContext.getScopes().setVariable(mContext, mThreadVariable);
+
     mStringStream = new raw_string_ostream(mStringBuffer);
+  }
+  
+  ~ControllerOwnerTest() {
+    delete mThreadVariable;
   }
 };
 
@@ -346,7 +362,7 @@ TEST_F(ControllerOwnerTest, injectTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = call %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject()"
+  "\n  %0 = call %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject(%wisey.threads.IThread* null)"
   "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

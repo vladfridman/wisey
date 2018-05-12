@@ -33,6 +33,7 @@
 #include "wisey/ObjectBuilder.hpp"
 #include "wisey/ParameterPrimitiveVariable.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
+#include "wisey/ParameterSystemReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrintOutStatement.hpp"
 #include "wisey/StringLiteral.hpp"
@@ -815,8 +816,12 @@ void Interface::defineInterfaceTypeName(IRGenerationContext& context) const {
                      getObjectNameGlobalVariableName());
 }
 
-void Interface::defineExternalInjectionFunctionPointer(IRGenerationContext& context) const {
-  FunctionType* functionType = FunctionType::get(getLLVMType(context), false);
+void Interface::defineExternalInjectionFunctionPointer(IRGenerationContext& context,
+                                                       int line) const {
+  vector<Type*> argumentTypes;
+  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), line);
+  argumentTypes.push_back(threadInterface->getLLVMType(context));
+  FunctionType* functionType = FunctionType::get(getLLVMType(context), argumentTypes, false);
   new GlobalVariable(*context.getModule(),
                      functionType->getPointerTo(),
                      false,
@@ -825,8 +830,11 @@ void Interface::defineExternalInjectionFunctionPointer(IRGenerationContext& cont
                      getInjectFunctionVariableName());
 }
 
-void Interface::defineInjectionFunctionPointer(IRGenerationContext& context) const {
-  FunctionType* functionType = FunctionType::get(getLLVMType(context), false);
+void Interface::defineInjectionFunctionPointer(IRGenerationContext& context, int line) const {
+  vector<Type*> argumentTypes;
+  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), line);
+  argumentTypes.push_back(threadInterface->getLLVMType(context));
+  FunctionType* functionType = FunctionType::get(getLLVMType(context), argumentTypes, false);
   new GlobalVariable(*context.getModule(),
                      functionType->getPointerTo(),
                      false,
@@ -854,8 +862,12 @@ Value* Interface::inject(IRGenerationContext& context,
     throw 1;
   }
   
+  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
+  Value* threadObject = threadVariable->generateIdentifierIR(context, line);
+
   Function* function = getOrCreateEmptyInjectFunction(context, line);
   vector<Value*> arguments;
+  arguments.push_back(threadObject);
   return IRWriter::createCallInst(context, function, arguments, "");
 }
 
@@ -864,7 +876,10 @@ Function* Interface::getOrCreateEmptyInjectFunction(IRGenerationContext& context
   if (function) {
     return function;
   }
-  FunctionType* functionType = FunctionType::get(getLLVMType(context), false);
+  vector<Type*> argumentTypes;
+  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), line);
+  argumentTypes.push_back(threadInterface->getLLVMType(context));
+  FunctionType* functionType = FunctionType::get(getLLVMType(context), argumentTypes, false);
   function = Function::Create(functionType,
                               GlobalValue::ExternalLinkage,
                               getInjectWrapperFunctionName(),
@@ -879,7 +894,11 @@ void Interface::composeEmptyInjectFunction(IRGenerationContext& context,
                                            const void* object) {
   const Interface* interface = (const Interface*) object;
   LLVMContext& llvmContext = context.getLLVMContext();
-  
+ 
+  Function::arg_iterator llvmArguments = function->arg_begin();
+  llvm::Argument* thread = &*llvmArguments;
+  thread->setName(ThreadExpression::THREAD);
+
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function, 0);
   BasicBlock* ifNullBlock = BasicBlock::Create(llvmContext, "if.null", function, 0);
   BasicBlock* ifNotNullBlock = BasicBlock::Create(llvmContext, "if.not.null", function, 0);
@@ -889,7 +908,12 @@ void Interface::composeEmptyInjectFunction(IRGenerationContext& context,
   Value* actualInjectFunctionPointer =
   context.getModule()->getNamedGlobal(interface->getInjectFunctionVariableName());
   Value* actualInjectFunction = IRWriter::newLoadInst(context, actualInjectFunctionPointer, "");
-  FunctionType* functionType = FunctionType::get(interface->getLLVMType(context), false);
+  vector<Type*> argumentTypes;
+  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
+  argumentTypes.push_back(threadInterface->getLLVMType(context));
+  FunctionType* functionType = FunctionType::get(interface->getLLVMType(context),
+                                                 argumentTypes,
+                                                 false);
   Value* null = ConstantPointerNull::get(functionType->getPointerTo());
   Value* condition = IRWriter::newICmpInst(context,
                                            ICmpInst::ICMP_EQ,
@@ -900,6 +924,7 @@ void Interface::composeEmptyInjectFunction(IRGenerationContext& context,
   
   context.setBasicBlock(ifNotNullBlock);
   vector<Value*> callArguments;
+  callArguments.push_back(thread);
   Value* injectValue = IRWriter::createCallInst(context,
                                                 (Function*) actualInjectFunction,
                                                 callArguments,
@@ -937,8 +962,14 @@ string Interface::getInjectFunctionName() const {
 }
 
 Value* Interface::composeInjectFunctionWithController(IRGenerationContext& context,
-                                                      const Controller* controller) const {
-  FunctionType* functionType = FunctionType::get(getLLVMType(context), false);
+                                                      const Controller* controller,
+                                                      int line) const {
+  
+  vector<Type*> argumentTypes;
+  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), line);
+  argumentTypes.push_back(threadInterface->getLLVMType(context));
+
+  FunctionType* functionType = FunctionType::get(getLLVMType(context), argumentTypes, false);
   Function* function = Function::Create(functionType,
                                         GlobalValue::ExternalLinkage,
                                         getInjectFunctionName(),
@@ -963,11 +994,22 @@ void Interface::composeInjectWithControllerFunction(IRGenerationContext& context
   const Controller* controller = (const Controller*) object2;
   LLVMContext& llvmContext = context.getLLVMContext();
   
+  Function::arg_iterator llvmArguments = function->arg_begin();
+  llvm::Argument* thread = &*llvmArguments;
+  thread->setName(ThreadExpression::THREAD);
+
   BasicBlock* basicBlock = BasicBlock::Create(llvmContext, "entry", function, 0);
   
   context.getScopes().pushScope();
   context.setBasicBlock(basicBlock);
-  
+
+  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
+  IVariable* variable = new ParameterSystemReferenceVariable(ThreadExpression::THREAD,
+                                                             threadInterface,
+                                                             thread,
+                                                             0);
+  context.getScopes().setVariable(context, variable);
+
   InjectionArgumentList injectionArgumentList;
   Value* value = controller->inject(context, injectionArgumentList, 0);
   Value* bitcast = controller->castTo(context, value, interface, 0);

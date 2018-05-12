@@ -59,7 +59,6 @@ Interface* ExternalInterfaceDefinition::prototypeObject(IRGenerationContext& con
                                                          mLine);
   context.addInterface(interface, mLine);
   interface->defineInterfaceTypeName(context);
-  interface->defineExternalInjectionFunctionPointer(context);
 
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(interface);
@@ -78,6 +77,7 @@ void ExternalInterfaceDefinition::prototypeMethods(IRGenerationContext& context)
 
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(interface);
+  interface->defineExternalInjectionFunctionPointer(context, mLine);
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
   interface->buildMethods(context);
   interface->defineStaticMethodFunctions(context);

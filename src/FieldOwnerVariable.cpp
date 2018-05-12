@@ -59,7 +59,7 @@ Value* FieldOwnerVariable::generateIdentifierIR(IRGenerationContext& context, in
   
   assert(mObject->isController() && "Injected field in an object other than controller");
   const Controller* controller  = (const Controller*) mObject;
-  return ((InjectedField* ) field)->callInjectFunction(context, controller, fieldPointer);
+  return ((InjectedField* ) field)->callInjectFunction(context, controller, fieldPointer, line);
 }
 
 Value* FieldOwnerVariable::generateIdentifierReferenceIR(IRGenerationContext& context,

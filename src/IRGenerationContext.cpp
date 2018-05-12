@@ -378,11 +378,11 @@ void IRGenerationContext::bindInterfaceToController(const Interface* interface,
                                                     int line) {
   if (mBindings.count(interface)) {
     reportError(line, "Interface " + interface->getTypeName() + " is already bound to " +
-                mBindings[interface]->getTypeName() + " and can not be bound to " +
+                get<0>(mBindings[interface])->getTypeName() + " and can not be bound to " +
                 controller->getTypeName());
     throw 1;
   }
-  mBindings[interface] = controller;
+  mBindings[interface] = make_tuple(controller, line);
 }
 
 const Controller* IRGenerationContext::getBoundController(const Interface* interface,
@@ -391,7 +391,7 @@ const Controller* IRGenerationContext::getBoundController(const Interface* inter
     reportError(line, "No controller is bound to interface " + interface->getTypeName());
     throw 1;
   }
-  return mBindings.at(interface);
+  return get<0>(mBindings.at(interface));
 }
 
 bool IRGenerationContext::hasBoundController(const Interface* interface) const {
@@ -401,9 +401,10 @@ bool IRGenerationContext::hasBoundController(const Interface* interface) const {
 void IRGenerationContext::bindInterfaces(IRGenerationContext& context) const {
   for (auto iterator = mBindings.begin(); iterator != mBindings.end(); iterator++) {
     const Interface* interface = iterator->first;
-    const Controller* controller = iterator->second;
+    const Controller* controller = get<0>(iterator->second);
+    int line = get<1>(iterator->second);
     if (!controller->getReceivedFields().size()) {
-      interface->composeInjectFunctionWithController(context, controller);
+      interface->composeInjectFunctionWithController(context, controller, line);
     }
   }
 }
@@ -495,11 +496,9 @@ void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& 
   }
   
   stream << "/* Bindings */" << endl << endl;
-  for (map<const Interface*, const Controller*>::const_iterator iterator = mBindings.begin();
-       iterator != mBindings.end();
-       iterator++) {
+  for (auto iterator = mBindings.begin(); iterator != mBindings.end(); iterator++) {
     const Interface* interface = iterator->first;
-    const Controller* controller = iterator->second;
+    const Controller* controller = get<0>(iterator->second);
     stream << "bind(" << controller->getTypeName() << ").to(" << interface->getTypeName() << ");";
     stream << endl;
   }

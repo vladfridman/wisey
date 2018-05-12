@@ -208,7 +208,11 @@ Instruction* Controller::inject(IRGenerationContext& context,
     callArguments[mReceivedFieldIndexes.at(field)] = castValue;
   }
 
+  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
+  Value* threadObject = threadVariable->generateIdentifierIR(context, line);
+
   vector<Value*> callArgumentsVector;
+  callArgumentsVector.push_back(threadObject);
   for (Value* callArgument : callArguments) {
     callArgumentsVector.push_back(callArgument);
   }
@@ -225,6 +229,8 @@ Function* Controller::declareInjectFunction(IRGenerationContext& context, int li
   Value* index[2];
   index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
   vector<Type*> argumentTypes;
+  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), line);
+  argumentTypes.push_back(threadInterface->getLLVMType(context));
   for (IField* receivedField : mReceivedFields) {
     argumentTypes.push_back(receivedField->getType()->getLLVMType(context));
   }
@@ -589,6 +595,9 @@ void Controller::initializeReceivedFields(IRGenerationContext& context,
                                           Instruction* malloc) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Function::arg_iterator functionArguments = function->arg_begin();
+  llvm::Argument* thread = &*functionArguments;
+  thread->setName(ThreadExpression::THREAD);
+  functionArguments++;
 
   Value* index[2];
   index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));

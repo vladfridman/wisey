@@ -58,7 +58,6 @@ Interface* InterfaceDefinition::prototypeObject(IRGenerationContext& context,
                                                  mLine);
   context.addInterface(interface, mLine);
   interface->defineInterfaceTypeName(context);
-  interface->defineInjectionFunctionPointer(context);
 
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(interface);
@@ -77,8 +76,8 @@ void InterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(interface);
 
+  interface->defineInjectionFunctionPointer(context, mLine);
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
-
   interface->buildMethods(context);
   interface->generateConstantsIR(context);
   interface->defineLLVMFunctions(context);
