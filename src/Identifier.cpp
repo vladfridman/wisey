@@ -6,6 +6,7 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/GetObjectNameMethod.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMFunction.hpp"
@@ -84,7 +85,13 @@ void Identifier::printToStream(IRGenerationContext& context, std::iostream& stre
 
 const IMethodDescriptor* Identifier::getMethod(IRGenerationContext& context) const {
   const IObjectType* objectType = context.getObjectType();
-  return objectType ? objectType->findMethod(mName) : NULL;
+  if (objectType == NULL) {
+    return NULL;
+  }
+  if (!mName.compare(GetObjectNameMethod::GET_OBJECT_NAME_METHOD_NAME)) {
+    return GetObjectNameMethod::GET_OBJECT_NAME_METHOD;
+  }
+  return objectType->findMethod(mName);
 }
 
 LLVMFunction* Identifier::getLLVMFunction(IRGenerationContext &context) const {

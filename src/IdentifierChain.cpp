@@ -9,6 +9,7 @@
 #include <sstream>
 
 #include "wisey/ArrayGetSizeMethod.hpp"
+#include "wisey/GetObjectNameMethod.hpp"
 #include "wisey/IMethodCall.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IdentifierChain.hpp"
@@ -89,7 +90,10 @@ const IMethodDescriptor* IdentifierChain::getMethodDescriptor(IRGenerationContex
                         "' on an expression that is not of object type");
     throw 1;
   }
-  
+  if (!mName.compare(GetObjectNameMethod::GET_OBJECT_NAME_METHOD_NAME)) {
+    return GetObjectNameMethod::GET_OBJECT_NAME_METHOD;
+  }
+
   const IObjectType* objectType = expressionType->isOwner()
   ? (const IObjectType*) ((const IObjectOwnerType*) expressionType)->getReference()
   : (const IObjectType*) expressionType;
