@@ -9,6 +9,7 @@ package wisey.threads;
 controller CWorkerThread implements IThread {
   inject CWorkerThreadRunner* mWorkerThreadRunner;
   inject CCallStack* mCallStack;
+  inject CContextManager* mContextManager;
   state IWorker* mWorker;
 
   /**
@@ -90,6 +91,11 @@ controller CWorkerThread implements IThread {
   public CCallStack getCallStack() throws MThreadBoundaryException override {
     insideThreadGuard(this);
     return mCallStack;
+  }
+
+  public CContextManager getContextManager() throws MThreadBoundaryException override {
+    insideThreadGuard(this);
+    return mContextManager;    
   }
 
   public void run() throws MThreadBoundaryException override {

@@ -34,6 +34,7 @@ external interface wisey.threads.IThread {
     ::wisey::model* message) throws wisey.threads.MThreadBoundaryException;
   void exit() throws wisey.threads.MThreadBoundaryException;
   wisey.threads.CCallStack getCallStack() throws wisey.threads.MThreadBoundaryException;
+  wisey.threads.CContextManager getContextManager() throws wisey.threads.MThreadBoundaryException;
   static void sleep(
     int seconds);
   static void insideThreadGuard(
@@ -377,6 +378,7 @@ external controller wisey.threads.CProducerThread
   ::wisey::model* send(
     ::wisey::model* message) throws wisey.threads.MThreadBoundaryException override;
   wisey.threads.CCallStack getCallStack() throws wisey.threads.MThreadBoundaryException override;
+  wisey.threads.CContextManager getContextManager() throws wisey.threads.MThreadBoundaryException override;
   void run() throws wisey.threads.MThreadBoundaryException override;
 }
 
@@ -416,6 +418,7 @@ external controller wisey.threads.CWorkerThread
   ::wisey::model* send(
     ::wisey::model* message) throws wisey.threads.MThreadBoundaryException override;
   wisey.threads.CCallStack getCallStack() throws wisey.threads.MThreadBoundaryException override;
+  wisey.threads.CContextManager getContextManager() throws wisey.threads.MThreadBoundaryException override;
   void run() throws wisey.threads.MThreadBoundaryException override;
 }
 

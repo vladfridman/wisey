@@ -29,6 +29,11 @@ interface IThread {
   CCallStack getCallStack() throws MThreadBoundaryException;
 
   /**
+   * Return context manager that keeps instances of context injected controllers
+   */
+  CContextManager getContextManager() throws MThreadBoundaryException;
+
+  /**
    * Method for putting the current thread to sleep
    */
   public static void sleep(int seconds) {
