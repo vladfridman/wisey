@@ -56,7 +56,7 @@ namespace wisey {
     
   private:
     
-    IMethodDescriptor* getMethod(IRGenerationContext& context) const;
+    const IMethodDescriptor* getMethod(IRGenerationContext& context) const;
     
     LLVMFunction* getLLVMFunction(IRGenerationContext& context) const;
     

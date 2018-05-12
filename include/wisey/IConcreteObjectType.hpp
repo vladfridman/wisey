@@ -137,7 +137,7 @@ namespace wisey {
     /**
      * Finds a method with a given name.
      */
-    virtual IMethodDescriptor* findMethod(std::string methodName) const = 0;
+    virtual const IMethodDescriptor* findMethod(std::string methodName) const = 0;
     
     /**
      * Returns the map of method names to methods
@@ -341,7 +341,8 @@ namespace wisey {
     /**
      * Searches list of methods in the given objects and in its inherented interfaces
      */
-    static IMethod* findMethodInObject(std::string methodName, const IConcreteObjectType* object);
+    static const IMethod* findMethodInObject(std::string methodName,
+                                             const IConcreteObjectType* object);
     
   private:
     

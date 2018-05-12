@@ -189,7 +189,7 @@ vector<IField*> Node::getFields() const {
   return mFieldsOrdered;
 }
 
-IMethod* Node::findMethod(string methodName) const {
+const IMethod* Node::findMethod(string methodName) const {
   return IConcreteObjectType::findMethodInObject(methodName, this);
 }
 

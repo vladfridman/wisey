@@ -413,7 +413,7 @@ vector<InjectedField*> Controller::getInjectedFields() const {
   return mInjectedFields;
 }
 
-IMethod* Controller::findMethod(std::string methodName) const {
+const IMethod* Controller::findMethod(std::string methodName) const {
   return IConcreteObjectType::findMethodInObject(methodName, this);
 }
 

@@ -22,7 +22,7 @@
  */
 class MockObjectType : public wisey::IObjectType {
 public:
-  MOCK_CONST_METHOD1(findMethod, wisey::IMethodDescriptor* (std::string));
+  MOCK_CONST_METHOD1(findMethod, const wisey::IMethodDescriptor* (std::string));
   MOCK_CONST_METHOD3(findConstant, wisey::Constant* (wisey::IRGenerationContext&,
                                                      std::string,
                                                      int));

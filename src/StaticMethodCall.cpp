@@ -46,7 +46,7 @@ int StaticMethodCall::getLine() const {
 }
 
 Value* StaticMethodCall::generateIR(IRGenerationContext& context, const IType* assignToType) const {
-  IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
+  const IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
   const IObjectType* objectType = mObjectTypeSpecifier->getType(context);
   if (!checkAccess(context, methodDescriptor)) {
     context.reportError(mLine,
@@ -63,7 +63,7 @@ Value* StaticMethodCall::generateIR(IRGenerationContext& context, const IType* a
 }
 
 bool StaticMethodCall::checkAccess(IRGenerationContext& context,
-                                   IMethodDescriptor* methodDescriptor) const {
+                                   const IMethodDescriptor* methodDescriptor) const {
   
   if (methodDescriptor->isPublic()) {
     return true;
@@ -74,7 +74,7 @@ bool StaticMethodCall::checkAccess(IRGenerationContext& context,
 }
 
 Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
-                                              IMethodDescriptor* methodDescriptor,
+                                              const IMethodDescriptor* methodDescriptor,
                                               const IType* assignToType) const {
   const IObjectType* objectType = mObjectTypeSpecifier->getType(context);
   string llvmFunctionName = objectType->getTypeName() + "." + mMethodName;
@@ -136,16 +136,16 @@ const IType* StaticMethodCall::getType(IRGenerationContext& context) const {
   return getMethodDescriptor(context)->getReturnType();
 }
 
-IMethodDescriptor* StaticMethodCall::getMethodDescriptor(IRGenerationContext& context) const {
+const IMethodDescriptor* StaticMethodCall::getMethodDescriptor(IRGenerationContext& context) const {
   const IObjectType* objectType = mObjectTypeSpecifier->getType(context);
-  IMethodDescriptor* staticMethod = objectType->findMethod(mMethodName);
+  const IMethodDescriptor* staticMethod = objectType->findMethod(mMethodName);
   IMethodDescriptor* llvmFunction = objectType->findLLVMFunction(mMethodName);
   if (staticMethod == NULL && llvmFunction == NULL) {
     context.reportError(mLine, "Static method '" + mMethodName + "' is not found in object " +
                         objectType->getTypeName());
     throw 1;
   }
-  IMethodDescriptor* methodDescriptor = staticMethod == NULL ? llvmFunction : staticMethod;
+  const IMethodDescriptor* methodDescriptor = staticMethod == NULL ? llvmFunction : staticMethod;
   if (!methodDescriptor->isStatic()) {
     context.reportError(mLine, "Method '" + mMethodName + "' of object type " +
                         objectType->getTypeName() + " is not static");
@@ -155,7 +155,7 @@ IMethodDescriptor* StaticMethodCall::getMethodDescriptor(IRGenerationContext& co
   return methodDescriptor;
 }
 
-void StaticMethodCall::checkArgumentType(IMethodDescriptor* methodDescriptor,
+void StaticMethodCall::checkArgumentType(const IMethodDescriptor* methodDescriptor,
                                          IRGenerationContext& context) const {
   vector<const Argument*> methodArguments = methodDescriptor->getArguments();
   ExpressionList::const_iterator callArgumentsIterator = mArguments.begin();

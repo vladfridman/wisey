@@ -15,7 +15,8 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-bool IMethodDescriptor::compare(IMethodDescriptor* method1, IMethodDescriptor* method2) {
+bool IMethodDescriptor::compare(const IMethodDescriptor* method1,
+                                const IMethodDescriptor* method2) {
   vector<const Argument*> thisArguments = method1->getArguments();
   vector<const Argument*> thatArugments = method2->getArguments();
   if (thisArguments.size() != thatArugments.size()) {

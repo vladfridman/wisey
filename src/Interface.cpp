@@ -240,7 +240,7 @@ void Interface::includeInterfaceMethods(IRGenerationContext& context,
   vector<MethodSignature*> inheritedMethods = parentInterface->getAllMethodSignatures();
   for (MethodSignature* methodSignature : inheritedMethods) {
     methodOverrides.erase(methodSignature->getName());
-    IMethodDescriptor* existingMethod = findMethod(methodSignature->getName());
+    const IMethodDescriptor* existingMethod = findMethod(methodSignature->getName());
     if (existingMethod && !IMethodDescriptor::compare(existingMethod, methodSignature)) {
       context.reportError(existingMethod->getMethodQualifiers()->getLine(),
                           "Interface " + mName + " overrides method '" + existingMethod->getName()
@@ -295,7 +295,7 @@ string Interface::getObjectNameGlobalVariableName() const {
   return mName + ".name";
 }
 
-IMethodDescriptor* Interface::findMethod(string methodName) const {
+const IMethodDescriptor* Interface::findMethod(string methodName) const {
   if (mNameToMethodSignatureMap.count(methodName)) {
     return mNameToMethodSignatureMap.at(methodName);
   }
@@ -424,7 +424,7 @@ Function* Interface::defineMapFunctionForMethod(IRGenerationContext& context,
                                                 llvm::Function* concreteObjectFunction,
                                                 unsigned long interfaceIndex,
                                                 MethodSignature* interfaceMethodSignature) const {
-  IMethodDescriptor* objectMethodDescriptor =
+  const IMethodDescriptor* objectMethodDescriptor =
     object->findMethod(interfaceMethodSignature->getName());
   if (objectMethodDescriptor == NULL) {
     context.reportError(object->getLine(),
@@ -530,7 +530,7 @@ void Interface::composeMapFunctionBody(IRGenerationContext& context,
 
 bool Interface::doesMethodHaveUnexpectedExceptions(IRGenerationContext& context,
                                                    MethodSignature* interfaceMethodSignature,
-                                                   IMethodDescriptor* objectMethodDescriptor,
+                                                   const IMethodDescriptor* objectMethodDescriptor,
                                                    string objectName) const {
   map<string, const IType*> interfaceExceptionsMap;
   for (const IType* interfaceException : interfaceMethodSignature->getThrownExceptions()) {

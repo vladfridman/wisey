@@ -46,7 +46,7 @@ namespace wisey {
     /**
      * Finds a method with a given name.
      */
-    virtual IMethodDescriptor* findMethod(std::string methodName) const = 0;
+    virtual const IMethodDescriptor* findMethod(std::string methodName) const = 0;
     
     /**
      * Finds a method with a given name.

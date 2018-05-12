@@ -33,7 +33,7 @@ const string& Identifier::getIdentifierName() const {
 }
 
 Value* Identifier::generateIR(IRGenerationContext& context, const IType* assignToType) const {
-  IMethodDescriptor* method = getMethod(context);
+  const IMethodDescriptor* method = getMethod(context);
   if (method) {
     return context.getThis()->generateIdentifierIR(context, mLine);
   }
@@ -52,7 +52,7 @@ Value* Identifier::generateIR(IRGenerationContext& context, const IType* assignT
 }
 
 const IType* Identifier::getType(IRGenerationContext& context) const {
-  IMethodDescriptor* method = getMethod(context);
+  const IMethodDescriptor* method = getMethod(context);
   if (method) {
     return method;
   }
@@ -82,7 +82,7 @@ void Identifier::printToStream(IRGenerationContext& context, std::iostream& stre
   stream << mName;
 }
 
-IMethodDescriptor* Identifier::getMethod(IRGenerationContext& context) const {
+const IMethodDescriptor* Identifier::getMethod(IRGenerationContext& context) const {
   const IObjectType* objectType = context.getObjectType();
   return objectType ? objectType->findMethod(mName) : NULL;
 }

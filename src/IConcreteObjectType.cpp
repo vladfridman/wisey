@@ -699,8 +699,8 @@ getOrCreateRefCounterStruct(IRGenerationContext& context, const IConcreteObjectT
   return structType;
 }
 
-IMethod* IConcreteObjectType::findMethodInObject(string methodName,
-                                                 const IConcreteObjectType* object) {
+const IMethod* IConcreteObjectType::findMethodInObject(string methodName,
+                                                       const IConcreteObjectType* object) {
   std::map<std::string, IMethod*> nameToMethodMap = object->getNameToMethodMap();
   if (nameToMethodMap.count(methodName)) {
     return nameToMethodMap.at(methodName);

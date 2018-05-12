@@ -21,7 +21,7 @@
 class MockObjectOwnerType : public wisey::IObjectOwnerType {
 public:
   MOCK_CONST_METHOD0(getObject, wisey::IObjectType* ());
-  MOCK_CONST_METHOD1(findMethod, wisey::IMethodDescriptor* (std::string));
+  MOCK_CONST_METHOD1(findMethod, const wisey::IMethodDescriptor* (std::string));
   MOCK_CONST_METHOD0(getTypeName, std::string ());
   MOCK_CONST_METHOD1(getLLVMType, llvm::PointerType* (wisey::IRGenerationContext&));
   MOCK_CONST_METHOD3(free, void (wisey::IRGenerationContext&, llvm::Value*, int));

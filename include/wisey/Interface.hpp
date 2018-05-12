@@ -208,7 +208,7 @@ namespace wisey {
     
     bool isPublic() const override;
 
-    IMethodDescriptor* findMethod(std::string methodName) const override;
+    const IMethodDescriptor* findMethod(std::string methodName) const override;
     
     Constant* findConstant(IRGenerationContext& context,
                            std::string constantName,
@@ -343,7 +343,7 @@ namespace wisey {
     
     bool doesMethodHaveUnexpectedExceptions(IRGenerationContext& context,
                                             MethodSignature* interfaceMethodSignature,
-                                            IMethodDescriptor* objectMethodDescriptor,
+                                            const IMethodDescriptor* objectMethodDescriptor,
                                             std::string objectName) const;
     
     std::tuple<std::vector<MethodSignature*>, std::vector<wisey::Constant*>,

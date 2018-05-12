@@ -114,7 +114,7 @@ namespace wisey {
     
     std::vector<IField*> getFields() const override;
     
-    IMethod* findMethod(std::string methodName) const override;
+    const IMethod* findMethod(std::string methodName) const override;
     
     std::map<std::string, IMethod*> getNameToMethodMap() const override;
 

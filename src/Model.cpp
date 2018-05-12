@@ -197,7 +197,7 @@ vector<string> Model::getMissingFields(set<string> givenFields) const {
   return missingFields;
 }
 
-IMethod* Model::findMethod(std::string methodName) const {
+const IMethod* Model::findMethod(std::string methodName) const {
   return IConcreteObjectType::findMethodInObject(methodName, this);
 }
 

@@ -94,7 +94,7 @@ const IMethodDescriptor* IdentifierChain::getMethodDescriptor(IRGenerationContex
   ? (const IObjectType*) ((const IObjectOwnerType*) expressionType)->getReference()
   : (const IObjectType*) expressionType;
   
-  IMethodDescriptor* methodDescriptor = objectType->findMethod(mName);
+  const IMethodDescriptor* methodDescriptor = objectType->findMethod(mName);
   
   if (methodDescriptor == NULL) {
     context.reportError(mLine, "Method '" + mName + "' is not found in object " +

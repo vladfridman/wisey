@@ -91,7 +91,7 @@ namespace wisey {
      * Returns two if two method descriptors are the same in terms of their name, return type
      * and argument types
      */
-    static bool compare(IMethodDescriptor* method1, IMethodDescriptor* method2);
+    static bool compare(const IMethodDescriptor* method1, const IMethodDescriptor* method2);
     
     /**
      * Returns function type corresponding to the given method descirptor

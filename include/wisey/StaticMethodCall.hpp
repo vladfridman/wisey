@@ -46,14 +46,15 @@ namespace wisey {
     
   private:
     
-    bool checkAccess(IRGenerationContext& context, IMethodDescriptor* methodDescriptor) const;
+    bool checkAccess(IRGenerationContext& context, const IMethodDescriptor* methodDescriptor) const;
     
-    IMethodDescriptor* getMethodDescriptor(IRGenerationContext& context) const;
+    const IMethodDescriptor* getMethodDescriptor(IRGenerationContext& context) const;
     
-    void checkArgumentType(IMethodDescriptor* methodDescriptor, IRGenerationContext& context) const;
+    void checkArgumentType(const IMethodDescriptor* methodDescriptor,
+                           IRGenerationContext& context) const;
     
     llvm::Value* generateMethodCallIR(IRGenerationContext& context,
-                                      IMethodDescriptor* methodDescriptor,
+                                      const IMethodDescriptor* methodDescriptor,
                                       const IType* assignToType) const;
   };
   
