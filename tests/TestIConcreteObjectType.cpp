@@ -552,3 +552,10 @@ TEST_F(TestFileRunner, objectMethodMarkedErroneouslyOverrideRunDeathTest) {
                     "Error: Method 'getValue' of object systems.vos.wisey.compiler.tests.MMyModel "
                     "is marked override but does not override any interface methods");
 }
+
+TEST_F(TestFileRunner, overloadGetTypeNameRunDeathTest) {
+  expectFailCompile("tests/samples/test_overload_get_type_name.yz",
+                    1,
+                    "tests/samples/test_overload_get_type_name.yz\\(14\\): Error: "
+                    "Method named 'getTypeName' is reserved and can not be overloaded");
+}

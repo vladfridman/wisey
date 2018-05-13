@@ -13,6 +13,7 @@
 #include "wisey/AutoCast.hpp"
 #include "wisey/CheckForNullAndThrowFunction.hpp"
 #include "wisey/Composer.hpp"
+#include "wisey/GetTypeNameMethod.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalArrayOwnerVariable.hpp"
@@ -55,6 +56,17 @@ Value* MethodCall::generateIR(IRGenerationContext& context, const IType* assignT
   std::vector<const Model*> thrownExceptions = methodDescriptor->getThrownExceptions();
   context.getScopes().getScope()->addExceptions(thrownExceptions, mLine);
   
+  if (methodDescriptor == ArrayGetSizeMethod::ARRAY_GET_SIZE_METHOD) {
+    return ArrayGetSizeMethod::generateIR(context, mExpression);
+  }
+  if (methodDescriptor == StringGetLengthMethod::STRING_GET_LENGTH_METHOD) {
+    return StringGetLengthMethod::generateIR(context, mExpression);
+  }
+  if (methodDescriptor == GetTypeNameMethod::GET_TYPE_NAME_METHOD) {
+    const IObjectType* objectType = object ? object : context.getObjectType();
+    return GetTypeNameMethod::generateIR(context, objectType);
+  }
+
   if (methodDescriptor->isNative()) {
     return generateLLVMFunctionCallIR(context, object, methodDescriptor, assignToType);
   }
@@ -66,12 +78,6 @@ Value* MethodCall::generateIR(IRGenerationContext& context, const IType* assignT
   string npeFullName = Names::getLangPackageName() + "." + Names::getNPEModelName();
   context.getScopes().getScope()->addException(context.getModel(npeFullName, mLine), mLine);
   
-  if (methodDescriptor == ArrayGetSizeMethod::ARRAY_GET_SIZE_METHOD) {
-    return ArrayGetSizeMethod::generateIR(context, mExpression);
-  }
-  if (methodDescriptor == StringGetLengthMethod::STRING_GET_LENGTH_METHOD) {
-    return StringGetLengthMethod::generateIR(context, mExpression);
-  }
   if (IType::isConcreteObjectType(object)) {
     return generateObjectMethodCallIR(context,
                                       (const IObjectType*) object,

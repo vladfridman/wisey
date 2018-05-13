@@ -7,6 +7,7 @@
 //
 
 #include "wisey/Environment.hpp"
+#include "wisey/GetTypeNameMethod.hpp"
 #include "wisey/IConcreteObjectDefinition.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMFunction.hpp"
@@ -107,6 +108,12 @@ IConcreteObjectDefinition::createElements(IRGenerationContext& context,
       llvmFunctions.push_back((LLVMFunction*) element);
     } else {
       IMethod* method = (IMethod*) element;
+      if (!method->getName().compare(GetTypeNameMethod::GET_TYPE_NAME_METHOD_NAME)) {
+        context.reportError(method->getLine(), "Method named '" +
+                            GetTypeNameMethod::GET_TYPE_NAME_METHOD_NAME +
+                            "' is reserved and can not be overloaded");
+        throw 1;
+      }
       if (nameToElementMap.count(method->getName())) {
         context.reportError(method->getLine(), "Method named '" + method->getName() +
                             "' was already defined on line " +

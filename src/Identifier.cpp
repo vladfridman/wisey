@@ -6,6 +6,7 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/GetTypeNameMethod.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMFunction.hpp"
@@ -86,6 +87,9 @@ const IMethodDescriptor* Identifier::getMethod(IRGenerationContext& context) con
   const IObjectType* objectType = context.getObjectType();
   if (objectType == NULL) {
     return NULL;
+  }
+  if (mName == GetTypeNameMethod::GET_TYPE_NAME_METHOD_NAME) {
+    return GetTypeNameMethod::GET_TYPE_NAME_METHOD;
   }
   return objectType->findMethod(mName);
 }
