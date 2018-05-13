@@ -108,7 +108,7 @@ TEST_F(FieldLLVMVariableTest, generateIdentifierIRTest) {
   string expected = string() +
   "\nentry:" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1"
-  "\n  %1 = load i16, i16* %0\n";
+  "\n  %mFoo = load i16, i16* %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

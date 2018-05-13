@@ -51,7 +51,7 @@ int FieldLLVMVariable::getLine() const {
 Value* FieldLLVMVariable::generateIdentifierIR(IRGenerationContext& context, int line) const {
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
   
-  return IRWriter::newLoadInst(context, fieldPointer, "");
+  return IRWriter::newLoadInst(context, fieldPointer, mName);
 }
 
 Value* FieldLLVMVariable::generateIdentifierReferenceIR(IRGenerationContext& context,

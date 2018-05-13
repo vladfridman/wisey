@@ -49,7 +49,7 @@ int FieldPrimitiveVariable::getLine() const {
 Value* FieldPrimitiveVariable::generateIdentifierIR(IRGenerationContext& context, int line) const {
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
   
-  return IRWriter::newLoadInst(context, fieldPointer, "");
+  return IRWriter::newLoadInst(context, fieldPointer, mName);
 }
 
 Value* FieldPrimitiveVariable::generateIdentifierReferenceIR(IRGenerationContext& context,

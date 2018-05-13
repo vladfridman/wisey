@@ -53,7 +53,7 @@ Value* FieldReferenceVariable::generateIdentifierIR(IRGenerationContext& context
   IField* field = mObject->findField(mName);
   
   if (!field->isInjected()) {
-    return IRWriter::newLoadInst(context, fieldPointer, "");
+    return IRWriter::newLoadInst(context, fieldPointer, mName);
   }
   
   assert(mObject->isController() && "Injected field in an object other than controller");

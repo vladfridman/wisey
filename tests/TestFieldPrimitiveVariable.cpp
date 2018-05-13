@@ -106,7 +106,7 @@ TEST_F(FieldPrimitiveVariableTest, generateIdentifierIRTest) {
   string expected = string() +
   "\nentry:" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1"
-  "\n  %1 = load i32, i32* %0\n";
+  "\n  %foo = load i32, i32* %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
