@@ -41,6 +41,7 @@ struct InjectedFieldTest : public Test {
   NiceMock<MockType>* mType;
   NiceMock<MockType>* mInjectedType;
   NiceMock<MockVariable>* mThreadVariable;
+  NiceMock<MockVariable>* mCallstackVariable;
   const NiceMock<MockObjectOwnerType>* mObjectOwnerType;
   const NiceMock<MockObjectType>* mObjectType;
   NiceMock<MockExpression>* mExpression;
@@ -117,6 +118,14 @@ public:
     ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadInterface));
     ON_CALL(*mThreadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
 
+    Controller* callstackController =
+    mContext.getController(Names::getCallStackControllerFullName(), 0);
+    Value* callstackObject = ConstantPointerNull::get(callstackController->getLLVMType(mContext));
+    mCallstackVariable = new NiceMock<MockVariable>();
+    ON_CALL(*mCallstackVariable, getName()).WillByDefault(Return(ThreadExpression::CALL_STACK));
+    ON_CALL(*mCallstackVariable, getType()).WillByDefault(Return(callstackController));
+    ON_CALL(*mCallstackVariable, generateIdentifierIR(_, _)).WillByDefault(Return(callstackObject));
+
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
@@ -127,6 +136,7 @@ public:
     delete mObjectOwnerType;
     delete mObjectType;
     delete mThreadVariable;
+    delete mCallstackVariable;
   }
   
   static void printExpression(IRGenerationContext& context, iostream& stream) {
@@ -186,6 +196,9 @@ TEST_F(InjectedFieldTest, declareInjectionFunctionTest) {
   Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
   vector<Type*> functionArgumentTypes;
   functionArgumentTypes.push_back(threadInterface->getLLVMType(mContext));
+  Controller* callstackController =
+    mContext.getController(Names::getCallStackControllerFullName(), 0);
+  functionArgumentTypes.push_back(callstackController->getLLVMType(mContext));
   functionArgumentTypes.push_back(mType->getLLVMType(mContext)->getPointerTo());
   FunctionType* functionType = FunctionType::get(mType->getLLVMType(mContext),
                                                  functionArgumentTypes,
@@ -196,6 +209,7 @@ TEST_F(InjectedFieldTest, declareInjectionFunctionTest) {
 
 TEST_F(InjectedFieldTest, callInjectFunctionTest) {
   mContext.getScopes().setVariable(mContext, mThreadVariable);
+  mContext.getScopes().setVariable(mContext, mCallstackVariable);
   mField->declareInjectionFunction(mContext, mController);
   Value* null = ConstantPointerNull::get(mType->getLLVMType(mContext)->getPointerTo());
   mField->callInjectFunction(mContext, mController, null, 0);
@@ -203,7 +217,7 @@ TEST_F(InjectedFieldTest, callInjectFunctionTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = call i8* @systems.vos.wisey.compiler.tests.CController.mFoo.inject(%wisey.threads.IThread* null, i8** null)\n";
+  "\n  %0 = call i8* @systems.vos.wisey.compiler.tests.CController.mFoo.inject(%wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8** null)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -219,7 +233,7 @@ TEST_F(InjectedFieldTest, defineInjectionFunctionTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine i8* @systems.vos.wisey.compiler.tests.CController.mFoo.inject(%wisey.threads.IThread* %thread, i8** %fieldPointer) {"
+  "\ndefine i8* @systems.vos.wisey.compiler.tests.CController.mFoo.inject(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8** %fieldPointer) {"
   "\nentry:"
   "\n  %0 = load i8*, i8** %fieldPointer"
   "\n  %isNull = icmp eq i8* %0, null"

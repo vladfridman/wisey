@@ -96,8 +96,11 @@ Value* InjectedField::callInjectFunction(IRGenerationContext& context,
   assert(function && "Inject function for injected field is not declared");
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
   Value* threadObject = threadVariable->generateIdentifierIR(context, line);
+  IVariable* callstackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
+  Value* callstackObject = callstackVariable->generateIdentifierIR(context, line);
   vector<Value*> arguments;
   arguments.push_back(threadObject);
+  arguments.push_back(callstackObject);
   arguments.push_back(fieldPointer);
 
   return IRWriter::createCallInst(context, function, arguments, "");
@@ -108,6 +111,9 @@ Function* InjectedField::declareInjectionFunction(IRGenerationContext& context,
   vector<Type*> argumentTypes;
   Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), mLine);
   argumentTypes.push_back(threadInterface->getLLVMType(context));
+  Controller* callstackController =
+    context.getController(Names::getCallStackControllerFullName(), mLine);
+  argumentTypes.push_back(callstackController->getLLVMType(context));
   Type* fieldLLVMType = getType()->getLLVMType(context);
   argumentTypes.push_back(fieldLLVMType->getPointerTo());
   FunctionType* functionType = FunctionType::get(fieldLLVMType, argumentTypes, false);
@@ -136,15 +142,25 @@ void InjectedField::composeInjectFunctionBody(IRGenerationContext& context,
   llvm::Argument* thread = &*llvmArguments;
   thread->setName(ThreadExpression::THREAD);
   llvmArguments++;
+  llvm::Argument* callstack = &*llvmArguments;
+  callstack->setName(ThreadExpression::CALL_STACK);
+  llvmArguments++;
   llvm::Argument* fieldPointer = &*llvmArguments;
   fieldPointer->setName("fieldPointer");
   
   Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
-  IVariable* variable = new ParameterSystemReferenceVariable(ThreadExpression::THREAD,
-                                                             threadInterface,
-                                                             thread,
-                                                             0);
-  context.getScopes().setVariable(context, variable);
+  IVariable* threadVariable = new ParameterSystemReferenceVariable(ThreadExpression::THREAD,
+                                                                   threadInterface,
+                                                                   thread,
+                                                                   0);
+  context.getScopes().setVariable(context, threadVariable);
+  Controller* callstackController =
+    context.getController(Names::getCallStackControllerFullName(), 0);
+  IVariable* callstackVariable = new ParameterSystemReferenceVariable(ThreadExpression::CALL_STACK,
+                                                                      callstackController,
+                                                                      callstack,
+                                                                      0);
+  context.getScopes().setVariable(context, callstackVariable);
 
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function);
   BasicBlock* ifNullBlock = BasicBlock::Create(llvmContext, "if.null", function);

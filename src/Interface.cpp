@@ -821,6 +821,9 @@ void Interface::defineExternalInjectionFunctionPointer(IRGenerationContext& cont
   vector<Type*> argumentTypes;
   Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), line);
   argumentTypes.push_back(threadInterface->getLLVMType(context));
+  Controller* callstackController =
+    context.getController(Names::getCallStackControllerFullName(), line);
+  argumentTypes.push_back(callstackController->getLLVMType(context));
   FunctionType* functionType = FunctionType::get(getLLVMType(context), argumentTypes, false);
   new GlobalVariable(*context.getModule(),
                      functionType->getPointerTo(),
@@ -834,6 +837,9 @@ void Interface::defineInjectionFunctionPointer(IRGenerationContext& context, int
   vector<Type*> argumentTypes;
   Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), line);
   argumentTypes.push_back(threadInterface->getLLVMType(context));
+  Controller* callstackController =
+    context.getController(Names::getCallStackControllerFullName(), line);
+  argumentTypes.push_back(callstackController->getLLVMType(context));
   FunctionType* functionType = FunctionType::get(getLLVMType(context), argumentTypes, false);
   new GlobalVariable(*context.getModule(),
                      functionType->getPointerTo(),
@@ -864,10 +870,13 @@ Value* Interface::inject(IRGenerationContext& context,
   
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
   Value* threadObject = threadVariable->generateIdentifierIR(context, line);
+  IVariable* callstackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
+  Value* callstackObject = callstackVariable->generateIdentifierIR(context, line);
 
   Function* function = getOrCreateEmptyInjectFunction(context, line);
   vector<Value*> arguments;
   arguments.push_back(threadObject);
+  arguments.push_back(callstackObject);
   return IRWriter::createCallInst(context, function, arguments, "");
 }
 
@@ -879,6 +888,9 @@ Function* Interface::getOrCreateEmptyInjectFunction(IRGenerationContext& context
   vector<Type*> argumentTypes;
   Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), line);
   argumentTypes.push_back(threadInterface->getLLVMType(context));
+  Controller* callstackController =
+    context.getController(Names::getCallStackControllerFullName(), line);
+  argumentTypes.push_back(callstackController->getLLVMType(context));
   FunctionType* functionType = FunctionType::get(getLLVMType(context), argumentTypes, false);
   function = Function::Create(functionType,
                               GlobalValue::ExternalLinkage,
@@ -898,6 +910,9 @@ void Interface::composeEmptyInjectFunction(IRGenerationContext& context,
   Function::arg_iterator llvmArguments = function->arg_begin();
   llvm::Argument* thread = &*llvmArguments;
   thread->setName(ThreadExpression::THREAD);
+  llvmArguments++;
+  llvm::Argument* callstack = &*llvmArguments;
+  callstack->setName(ThreadExpression::CALL_STACK);
 
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function, 0);
   BasicBlock* ifNullBlock = BasicBlock::Create(llvmContext, "if.null", function, 0);
@@ -911,6 +926,9 @@ void Interface::composeEmptyInjectFunction(IRGenerationContext& context,
   vector<Type*> argumentTypes;
   Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
   argumentTypes.push_back(threadInterface->getLLVMType(context));
+  Controller* callstackController =
+    context.getController(Names::getCallStackControllerFullName(), 0);
+  argumentTypes.push_back(callstackController->getLLVMType(context));
   FunctionType* functionType = FunctionType::get(interface->getLLVMType(context),
                                                  argumentTypes,
                                                  false);
@@ -925,6 +943,7 @@ void Interface::composeEmptyInjectFunction(IRGenerationContext& context,
   context.setBasicBlock(ifNotNullBlock);
   vector<Value*> callArguments;
   callArguments.push_back(thread);
+  callArguments.push_back(callstack);
   Value* injectValue = IRWriter::createCallInst(context,
                                                 (Function*) actualInjectFunction,
                                                 callArguments,
@@ -968,6 +987,9 @@ Value* Interface::composeInjectFunctionWithController(IRGenerationContext& conte
   vector<Type*> argumentTypes;
   Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), line);
   argumentTypes.push_back(threadInterface->getLLVMType(context));
+  Controller* callstackController =
+    context.getController(Names::getCallStackControllerFullName(), 0);
+  argumentTypes.push_back(callstackController->getLLVMType(context));
 
   FunctionType* functionType = FunctionType::get(getLLVMType(context), argumentTypes, false);
   Function* function = Function::Create(functionType,
@@ -997,6 +1019,9 @@ void Interface::composeInjectWithControllerFunction(IRGenerationContext& context
   Function::arg_iterator llvmArguments = function->arg_begin();
   llvm::Argument* thread = &*llvmArguments;
   thread->setName(ThreadExpression::THREAD);
+  llvmArguments++;
+  llvm::Argument* callstack = &*llvmArguments;
+  callstack->setName(ThreadExpression::CALL_STACK);
 
   BasicBlock* basicBlock = BasicBlock::Create(llvmContext, "entry", function, 0);
   
@@ -1004,11 +1029,18 @@ void Interface::composeInjectWithControllerFunction(IRGenerationContext& context
   context.setBasicBlock(basicBlock);
 
   Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
-  IVariable* variable = new ParameterSystemReferenceVariable(ThreadExpression::THREAD,
-                                                             threadInterface,
-                                                             thread,
-                                                             0);
-  context.getScopes().setVariable(context, variable);
+  IVariable* threadVariable = new ParameterSystemReferenceVariable(ThreadExpression::THREAD,
+                                                                   threadInterface,
+                                                                   thread,
+                                                                   0);
+  context.getScopes().setVariable(context, threadVariable);
+  Controller* callstackController =
+  context.getController(Names::getCallStackControllerFullName(), 0);
+  IVariable* callstackVariable = new ParameterSystemReferenceVariable(ThreadExpression::CALL_STACK,
+                                                                      callstackController,
+                                                                      callstack,
+                                                                      0);
+  context.getScopes().setVariable(context, callstackVariable);
 
   InjectionArgumentList injectionArgumentList;
   Value* value = controller->inject(context, injectionArgumentList, 0);

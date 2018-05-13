@@ -66,6 +66,7 @@ struct InterfaceTest : public Test {
   NiceMock<MockExpression>* mMockExpression;
   ConstantDefinition* mConstantDefinition;
   NiceMock<MockReferenceVariable>* mThreadVariable;
+  NiceMock<MockReferenceVariable>* mCallstackVariable;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   string mPackage = "systems.vos.wisey.compiler.tests";
@@ -185,6 +186,14 @@ struct InterfaceTest : public Test {
     ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadInterface));
     ON_CALL(*mThreadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
     
+    Controller* callstackController =
+      mContext.getController(Names::getCallStackControllerFullName(), 0);
+    Value* callstackObject = ConstantPointerNull::get(callstackController->getLLVMType(mContext));
+    mCallstackVariable = new NiceMock<MockReferenceVariable>();
+    ON_CALL(*mCallstackVariable, getName()).WillByDefault(Return(ThreadExpression::CALL_STACK));
+    ON_CALL(*mCallstackVariable, getType()).WillByDefault(Return(callstackController));
+    ON_CALL(*mCallstackVariable, generateIdentifierIR(_, _)).WillByDefault(Return(callstackObject));
+
     vector<Type*> exitFunctionArgumentTypes;
     exitFunctionArgumentTypes.push_back(Type::getInt32Ty(mLLVMContext));
     FunctionType* exitFunctionType = FunctionType::get(Type::getVoidTy(mLLVMContext),
@@ -201,6 +210,7 @@ struct InterfaceTest : public Test {
   ~InterfaceTest() {
     delete mMockExpression;
     delete mThreadVariable;
+    delete mCallstackVariable;
     delete mStringStream;
   }
 
@@ -233,6 +243,7 @@ TEST_F(InterfaceTest, findConstantTest) {
 TEST_F(InterfaceTest, findConstantDeathTest) {
   Mock::AllowLeak(mMockExpression);
   Mock::AllowLeak(mThreadVariable);
+  Mock::AllowLeak(mCallstackVariable);
 
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
@@ -251,6 +262,7 @@ TEST_F(InterfaceTest, getMethodIndexTest) {
 TEST_F(InterfaceTest, getMethodIndexDeathTest) {
   Mock::AllowLeak(mMockExpression);
   Mock::AllowLeak(mThreadVariable);
+  Mock::AllowLeak(mCallstackVariable);
 
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
@@ -399,6 +411,7 @@ TEST_F(InterfaceTest, printToStreamTest) {
 TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
   Mock::AllowLeak(mMockExpression);
   Mock::AllowLeak(mThreadVariable);
+  Mock::AllowLeak(mCallstackVariable);
 
   const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
   FixedFieldDefinition* fieldDeclaration = new FixedFieldDefinition(intSpecifier, "mField", 3);
@@ -428,6 +441,7 @@ TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
 TEST_F(InterfaceTest, methodDeclarationDeathTest) {
   Mock::AllowLeak(mMockExpression);
   Mock::AllowLeak(mThreadVariable);
+  Mock::AllowLeak(mCallstackVariable);
 
   const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
   VariableList arguments;
@@ -468,6 +482,7 @@ TEST_F(InterfaceTest, methodDeclarationDeathTest) {
 TEST_F(InterfaceTest, constantsAfterMethodSignaturesDeathTest) {
   Mock::AllowLeak(mMockExpression);
   Mock::AllowLeak(mThreadVariable);
+  Mock::AllowLeak(mCallstackVariable);
 
   string name = "systems.vos.wisey.compiler.tests.IInterface";
   StructType* structType = StructType::create(mLLVMContext, name);
@@ -541,9 +556,10 @@ TEST_F(InterfaceTest, getReferenceCountTest) {
 }
 
 TEST_F(InterfaceTest, circularDependencyDeathTest) {
-  Mock::AllowLeak(mThreadVariable);
   Mock::AllowLeak(mMockExpression);
-  
+  Mock::AllowLeak(mThreadVariable);
+  Mock::AllowLeak(mCallstackVariable);
+
   InterfaceTypeSpecifier* parentInterfaceSpecifier = new InterfaceTypeSpecifier(NULL, "IParent", 0);
   InterfaceTypeSpecifier* childInterfaceSpecifier = new InterfaceTypeSpecifier(NULL, "IChild", 0);
 
@@ -632,6 +648,7 @@ TEST_F(InterfaceTest, createParameterVariableTest) {
 
 TEST_F(InterfaceTest, injectWrapperFunctionTest) {
   mContext.getScopes().setVariable(mContext, mThreadVariable);
+  mContext.getScopes().setVariable(mContext, mCallstackVariable);
 
   InjectionArgumentList injectionArgumentList;
   mShapeInterface->inject(mContext, injectionArgumentList, 0);
@@ -642,10 +659,10 @@ TEST_F(InterfaceTest, injectWrapperFunctionTest) {
   *mStringStream << *function;
   
   string expected =
-  "\ndefine %systems.vos.wisey.compiler.tests.IShape* @systems.vos.wisey.compiler.tests.IShape.inject(%wisey.threads.IThread* %thread) {"
+  "\ndefine %systems.vos.wisey.compiler.tests.IShape* @systems.vos.wisey.compiler.tests.IShape.inject(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack) {"
   "\nentry:"
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.IShape* (%wisey.threads.IThread*)*, %systems.vos.wisey.compiler.tests.IShape* (%wisey.threads.IThread*)** @systems.vos.wisey.compiler.tests.IShape.inject.pointer"
-  "\n  %1 = icmp eq %systems.vos.wisey.compiler.tests.IShape* (%wisey.threads.IThread*)* %0, null"
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.IShape* (%wisey.threads.IThread*, %wisey.threads.CCallStack*)*, %systems.vos.wisey.compiler.tests.IShape* (%wisey.threads.IThread*, %wisey.threads.CCallStack*)** @systems.vos.wisey.compiler.tests.IShape.inject.pointer"
+  "\n  %1 = icmp eq %systems.vos.wisey.compiler.tests.IShape* (%wisey.threads.IThread*, %wisey.threads.CCallStack*)* %0, null"
   "\n  br i1 %1, label %if.null, label %if.not.null"
   "\n"
   "\nif.null:                                          ; preds = %entry"
@@ -654,7 +671,7 @@ TEST_F(InterfaceTest, injectWrapperFunctionTest) {
   "\n  unreachable"
   "\n"
   "\nif.not.null:                                      ; preds = %entry"
-  "\n  %3 = call %systems.vos.wisey.compiler.tests.IShape* %0(%wisey.threads.IThread* %thread)"
+  "\n  %3 = call %systems.vos.wisey.compiler.tests.IShape* %0(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack)"
   "\n  ret %systems.vos.wisey.compiler.tests.IShape* %3"
   "\n}"
   "\n";
@@ -665,7 +682,8 @@ TEST_F(InterfaceTest, injectWrapperFunctionTest) {
 
 TEST_F(InterfaceTest, injectTest) {
   mContext.getScopes().setVariable(mContext, mThreadVariable);
-  
+  mContext.getScopes().setVariable(mContext, mCallstackVariable);
+
   InjectionArgumentList injectionArgumentList;
 
   mShapeInterface->inject(mContext, injectionArgumentList, 0);
@@ -675,7 +693,7 @@ TEST_F(InterfaceTest, injectTest) {
   
   string expected =
   "\nentry:"
-  "\n  %0 = call %systems.vos.wisey.compiler.tests.IShape* @systems.vos.wisey.compiler.tests.IShape.inject(%wisey.threads.IThread* null)"
+  "\n  %0 = call %systems.vos.wisey.compiler.tests.IShape* @systems.vos.wisey.compiler.tests.IShape.inject(%wisey.threads.IThread* null, %wisey.threads.CCallStack* null)"
   "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -742,9 +760,9 @@ TEST_F(InterfaceTest, composeInjectFunctionWithControllerTest) {
   *mStringStream << *function;
 
   string expected =
-  "\ndefine %systems.vos.wisey.compiler.tests.ITest* @systems.vos.wisey.compiler.tests.ITest.inject.function(%wisey.threads.IThread* %thread) {"
+  "\ndefine %systems.vos.wisey.compiler.tests.ITest* @systems.vos.wisey.compiler.tests.ITest.inject.function(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack) {"
   "\nentry:"
-  "\n  %0 = call %systems.vos.wisey.compiler.tests.CController* @systems.vos.wisey.compiler.tests.CController.inject(%wisey.threads.IThread* %thread)"
+  "\n  %0 = call %systems.vos.wisey.compiler.tests.CController* @systems.vos.wisey.compiler.tests.CController.inject(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack)"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CController* %0 to i8*"
   "\n  %2 = getelementptr i8, i8* %1, i64 0"
   "\n  %3 = bitcast i8* %2 to %systems.vos.wisey.compiler.tests.ITest*"

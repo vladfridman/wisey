@@ -465,7 +465,8 @@ TEST_F(ControllerTest, findConstantTest) {
 
 TEST_F(ControllerTest, findConstantDeathTest) {
   Mock::AllowLeak(mThreadVariable);
-  
+  Mock::AllowLeak(mCallstackVariable);
+
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
@@ -690,7 +691,7 @@ TEST_F(ControllerTest, createInjectFunctionTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject(%wisey.threads.IThread* %thread, %systems.vos.wisey.compiler.tests.NOwner* %mOwner, %systems.vos.wisey.compiler.tests.MReference* %mReference) {"
+  "\ndefine %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, %systems.vos.wisey.compiler.tests.NOwner* %mOwner, %systems.vos.wisey.compiler.tests.MReference* %mReference) {"
   "\nentry:"
   "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.CAdditor.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* null, i32 1) to i64))"
   "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.CAdditor.refCounter*"
@@ -718,7 +719,6 @@ TEST_F(ControllerTest, createInjectFunctionTest) {
 }
 
 TEST_F(ControllerTest, createContextInjectFunctionTest) {
-  mContext.getScopes().setVariable(mContext, mThreadVariable);
   mContext.getScopes().setVariable(mContext, mCallstackVariable);
 
   Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
@@ -732,13 +732,13 @@ TEST_F(ControllerTest, createContextInjectFunctionTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject(%wisey.threads.IThread* %thread, %systems.vos.wisey.compiler.tests.NOwner* %mOwner, %systems.vos.wisey.compiler.tests.MReference* %mReference) personality i32 (...)* @__gxx_personality_v0 {"
+  "\ndefine %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, %systems.vos.wisey.compiler.tests.NOwner* %mOwner, %systems.vos.wisey.compiler.tests.MReference* %mReference) personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %contextManager = alloca %wisey.threads.CContextManager*"
   "\n  store %wisey.threads.CContextManager* null, %wisey.threads.CContextManager** %contextManager"
-  "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i32 0)"
-  "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i32 0)"
-  "\n  %0 = bitcast %wisey.threads.IThread* null to i8*"
+  "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* null, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* null, i32 0)"
+  "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* null, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* null, i32 0)"
+  "\n  %0 = bitcast %wisey.threads.IThread* %thread to i8*"
   "\n  invoke void @__checkForNullAndThrow(i8* %0)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
@@ -751,12 +751,12 @@ TEST_F(ControllerTest, createContextInjectFunctionTest) {
   "\n  resume { i8*, i32 } %1"
   "\n"
   "\ninvoke.continue:                                  ; preds = %entry"
-  "\n  %4 = bitcast %wisey.threads.IThread* null to %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)***"
+  "\n  %4 = bitcast %wisey.threads.IThread* %thread to %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)***"
   "\n  %vtable = load %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)**, %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)*** %4"
   "\n  %5 = getelementptr %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)*, %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)** %vtable, i64 3"
   "\n  %6 = load %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)*, %wisey.threads.CContextManager* (%wisey.threads.IThread*, %wisey.threads.IThread*, %wisey.threads.CCallStack*)** %5"
-  "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i32 0)"
-  "\n  %7 = invoke %wisey.threads.CContextManager* %6(%wisey.threads.IThread* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null)"
+  "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* null, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* null, i32 0)"
+  "\n  %7 = invoke %wisey.threads.CContextManager* %6(%wisey.threads.IThread* %thread, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* null)"
   "\n          to label %invoke.continue1 unwind label %cleanup"
   "\n"
   "\ninvoke.continue1:                                 ; preds = %invoke.continue"
@@ -767,14 +767,14 @@ TEST_F(ControllerTest, createContextInjectFunctionTest) {
   "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %10, i64 1)"
   "\n  store %wisey.threads.CContextManager* %7, %wisey.threads.CContextManager** %contextManager"
   "\n  %11 = load %wisey.threads.CContextManager*, %wisey.threads.CContextManager** %contextManager"
-  "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i32 0)"
+  "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* null, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* null, i32 0)"
   "\n  %12 = bitcast %wisey.threads.CContextManager* %11 to i8*"
   "\n  invoke void @__checkForNullAndThrow(i8* %12)"
   "\n          to label %invoke.continue2 unwind label %cleanup"
   "\n"
   "\ninvoke.continue2:                                 ; preds = %invoke.continue1"
-  "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i32 0)"
-  "\n  %13 = invoke i8* @wisey.threads.CContextManager.getInstance(%wisey.threads.CContextManager* %11, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* getelementptr inbounds ([22 x i8], [22 x i8]* @wisey.threads.IThread.name, i32 0, i32 0), i8* getelementptr inbounds ([42 x i8], [42 x i8]* @systems.vos.wisey.compiler.tests.CAdditor.name, i32 0, i32 0))"
+  "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* null, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* null, i32 0)"
+  "\n  %13 = invoke i8* @wisey.threads.CContextManager.getInstance(%wisey.threads.CContextManager* %11, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* null, i8* getelementptr inbounds ([22 x i8], [22 x i8]* @wisey.threads.IThread.name, i32 0, i32 0), i8* getelementptr inbounds ([42 x i8], [42 x i8]* @systems.vos.wisey.compiler.tests.CAdditor.name, i32 0, i32 0))"
   "\n          to label %invoke.continue3 unwind label %cleanup"
   "\n"
   "\ninvoke.continue3:                                 ; preds = %invoke.continue2"
@@ -805,7 +805,7 @@ TEST_F(ControllerTest, createContextInjectFunctionTest) {
   "\n  %26 = bitcast i8** %25 to i32 (...)**"
   "\n  store i32 (...)** %26, i32 (...)*** %24"
   "\n  %27 = load %wisey.threads.CContextManager*, %wisey.threads.CContextManager** %contextManager"
-  "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i32 0)"
+  "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* null, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* null, i32 0)"
   "\n  %28 = bitcast %wisey.threads.CContextManager* %27 to i8*"
   "\n  invoke void @__checkForNullAndThrow(i8* %28)"
   "\n          to label %invoke.continue5 unwind label %cleanup"
@@ -814,9 +814,9 @@ TEST_F(ControllerTest, createContextInjectFunctionTest) {
   "\n  ret %systems.vos.wisey.compiler.tests.CAdditor* %15"
   "\n"
   "\ninvoke.continue5:                                 ; preds = %if.null"
-  "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i32 0)"
+  "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* null, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* null, i32 0)"
   "\n  %29 = bitcast %systems.vos.wisey.compiler.tests.CAdditor* %18 to i8*"
-  "\n  invoke void @wisey.threads.CContextManager.setInstance(%wisey.threads.CContextManager* %27, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* getelementptr inbounds ([22 x i8], [22 x i8]* @wisey.threads.IThread.name, i32 0, i32 0), i8* getelementptr inbounds ([42 x i8], [42 x i8]* @systems.vos.wisey.compiler.tests.CAdditor.name, i32 0, i32 0), i8* %29)"
+  "\n  invoke void @wisey.threads.CContextManager.setInstance(%wisey.threads.CContextManager* %27, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* null, i8* getelementptr inbounds ([22 x i8], [22 x i8]* @wisey.threads.IThread.name, i32 0, i32 0), i8* getelementptr inbounds ([42 x i8], [42 x i8]* @systems.vos.wisey.compiler.tests.CAdditor.name, i32 0, i32 0), i8* %29)"
   "\n          to label %invoke.continue6 unwind label %cleanup"
   "\n"
   "\ninvoke.continue6:                                 ; preds = %invoke.continue5"
@@ -883,14 +883,14 @@ TEST_F(ControllerTest, defineFieldInjectorFunctionsTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine %systems.vos.wisey.compiler.tests.CChild* @systems.vos.wisey.compiler.tests.CParent.mChild.inject(%wisey.threads.IThread* %thread, %systems.vos.wisey.compiler.tests.CChild** %fieldPointer) {"
+  "\ndefine %systems.vos.wisey.compiler.tests.CChild* @systems.vos.wisey.compiler.tests.CParent.mChild.inject(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, %systems.vos.wisey.compiler.tests.CChild** %fieldPointer) {"
   "\nentry:"
   "\n  %0 = load %systems.vos.wisey.compiler.tests.CChild*, %systems.vos.wisey.compiler.tests.CChild** %fieldPointer"
   "\n  %isNull = icmp eq %systems.vos.wisey.compiler.tests.CChild* %0, null"
   "\n  br i1 %isNull, label %if.null, label %if.not.null"
   "\n"
   "\nif.null:                                          ; preds = %entry"
-  "\n  %1 = call %systems.vos.wisey.compiler.tests.CChild* @systems.vos.wisey.compiler.tests.CChild.inject(%wisey.threads.IThread* %thread)"
+  "\n  %1 = call %systems.vos.wisey.compiler.tests.CChild* @systems.vos.wisey.compiler.tests.CChild.inject(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack)"
   "\n  store %systems.vos.wisey.compiler.tests.CChild* %1, %systems.vos.wisey.compiler.tests.CChild** %fieldPointer"
   "\n  ret %systems.vos.wisey.compiler.tests.CChild* %1"
   "\n"
@@ -957,6 +957,7 @@ TEST_F(ControllerTest, declareFieldInjectionFunctionsTest) {
 
 TEST_F(ControllerTest, injectTest) {
   mContext.getScopes().setVariable(mContext, mThreadVariable);
+  mContext.getScopes().setVariable(mContext, mCallstackVariable);
 
   InjectionArgumentList injectionArguments;
   mAdditorController->declareInjectFunction(mContext, 0);
@@ -984,7 +985,7 @@ TEST_F(ControllerTest, injectTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = call %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject(%wisey.threads.IThread* null, %systems.vos.wisey.compiler.tests.NOwner* null, %systems.vos.wisey.compiler.tests.MReference* null)"
+  "\n  %0 = call %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject(%wisey.threads.IThread* null, %wisey.threads.CCallStack* null, %systems.vos.wisey.compiler.tests.NOwner* null, %systems.vos.wisey.compiler.tests.MReference* null)"
   "\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -993,6 +994,7 @@ TEST_F(ControllerTest, injectTest) {
 
 TEST_F(ControllerTest, injectChangeArgumentOrderTest) {
   mContext.getScopes().setVariable(mContext, mThreadVariable);
+  mContext.getScopes().setVariable(mContext, mCallstackVariable);
 
   InjectionArgumentList injectionArguments;
   mAdditorController->declareInjectFunction(mContext, 0);
@@ -1020,7 +1022,7 @@ TEST_F(ControllerTest, injectChangeArgumentOrderTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = call %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject(%wisey.threads.IThread* null, %systems.vos.wisey.compiler.tests.NOwner* null, %systems.vos.wisey.compiler.tests.MReference* null)"
+  "\n  %0 = call %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject(%wisey.threads.IThread* null, %wisey.threads.CCallStack* null, %systems.vos.wisey.compiler.tests.NOwner* null, %systems.vos.wisey.compiler.tests.MReference* null)"
   "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -1047,6 +1049,7 @@ TEST_F(ControllerTest, injectWrongTypeOfArgumentDeathTest) {
   injectionArguments.push_back(injectionArgument1);
   injectionArguments.push_back(injectionArgument2);
   Mock::AllowLeak(mThreadVariable);
+  Mock::AllowLeak(mCallstackVariable);
   mAdditorController->declareInjectFunction(mContext, 0);
 
   std::stringstream buffer;
@@ -1061,6 +1064,7 @@ TEST_F(ControllerTest, injectWrongTypeOfArgumentDeathTest) {
 TEST_F(ControllerTest, injectNonInjectableTypeDeathTest) {
   InjectionArgumentList injectionArguments;
   Mock::AllowLeak(mThreadVariable);
+  Mock::AllowLeak(mCallstackVariable);
 
   IConcreteObjectType::generateNameGlobal(mContext, mDoublerController);
   IConcreteObjectType::generateShortNameGlobal(mContext, mDoublerController);
@@ -1083,6 +1087,7 @@ TEST_F(ControllerTest, notWellFormedInjectionArgumentsDeathTest) {
   NiceMock<MockExpression>* injectArgument1Expression = new NiceMock<MockExpression>();
   Mock::AllowLeak(injectArgument1Expression);
   Mock::AllowLeak(mThreadVariable);
+  Mock::AllowLeak(mCallstackVariable);
   InjectionArgument* injectionArgument = new InjectionArgument("owner",
                                                                injectArgument1Expression);
   injectionArguments.push_back(injectionArgument);
@@ -1102,6 +1107,7 @@ TEST_F(ControllerTest, injectTooFewArgumentsDeathTest) {
   NiceMock<MockExpression>* injectArgument1Expression = new NiceMock<MockExpression>();
   Mock::AllowLeak(injectArgument1Expression);
   Mock::AllowLeak(mThreadVariable);
+  Mock::AllowLeak(mCallstackVariable);
   InjectionArgument* injectionArgument = new InjectionArgument("withOwner",
                                                                injectArgument1Expression);
   injectionArguments.push_back(injectionArgument);
@@ -1125,6 +1131,7 @@ TEST_F(ControllerTest, injectTooManyArgumentsDeathTest) {
   Mock::AllowLeak(injectArgument2Expression);
   Mock::AllowLeak(injectArgument3Expression);
   Mock::AllowLeak(mThreadVariable);
+  Mock::AllowLeak(mCallstackVariable);
   InjectionArgument* injectionArgument1 = new InjectionArgument("withFoo",
                                                                 injectArgument1Expression);
   InjectionArgument* injectionArgument2 = new InjectionArgument("withOwner",

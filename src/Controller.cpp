@@ -30,6 +30,7 @@
 #include "wisey/Names.hpp"
 #include "wisey/ObjectKindGlobal.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
+#include "wisey/ParameterSystemReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ThreadExpression.hpp"
 #include "wisey/VariableDeclaration.hpp"
@@ -220,9 +221,12 @@ Instruction* Controller::inject(IRGenerationContext& context,
 
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
   Value* threadObject = threadVariable->generateIdentifierIR(context, line);
+  IVariable* callstackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
+  Value* callstackObject = callstackVariable->generateIdentifierIR(context, line);
 
   vector<Value*> callArgumentsVector;
   callArgumentsVector.push_back(threadObject);
+  callArgumentsVector.push_back(callstackObject);
   for (Value* callArgument : callArguments) {
     callArgumentsVector.push_back(callArgument);
   }
@@ -241,6 +245,9 @@ Function* Controller::declareInjectFunction(IRGenerationContext& context, int li
   vector<Type*> argumentTypes;
   Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), line);
   argumentTypes.push_back(threadInterface->getLLVMType(context));
+  Controller* calstackController =
+    context.getController(Names::getCallStackControllerFullName(), line);
+  argumentTypes.push_back(calstackController->getLLVMType(context));
   for (IField* receivedField : mReceivedFields) {
     argumentTypes.push_back(receivedField->getType()->getLLVMType(context));
   }
@@ -289,6 +296,17 @@ void Controller::composeContextInjectFunctionBody(IRGenerationContext& context,
   context.getScopes().pushScope();
   context.setBasicBlock(entryBlock);
   context.setObjectType(controller);
+
+  Function::arg_iterator llvmArguments = function->arg_begin();
+  llvm::Argument* thread = &*llvmArguments;
+  thread->setName(ThreadExpression::THREAD);
+  
+  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
+  IVariable* variable = new ParameterSystemReferenceVariable(ThreadExpression::THREAD,
+                                                             threadInterface,
+                                                             thread,
+                                                             0);
+  context.getScopes().setVariable(context, variable);
 
   Identifier* identfier = new Identifier(ThreadExpression::THREAD, 0);
   IdentifierChain* methodIdentifier = new IdentifierChain(identfier,
@@ -695,6 +713,9 @@ void Controller::initializeReceivedFields(IRGenerationContext& context,
   Function::arg_iterator functionArguments = function->arg_begin();
   llvm::Argument* thread = &*functionArguments;
   thread->setName(ThreadExpression::THREAD);
+  functionArguments++;
+  llvm::Argument* callstack = &*functionArguments;
+  callstack->setName(ThreadExpression::CALL_STACK);
   functionArguments++;
 
   Value* index[2];

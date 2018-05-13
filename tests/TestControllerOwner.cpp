@@ -49,6 +49,7 @@ struct ControllerOwnerTest : public Test {
   Interface* mObjectInterface;
   Interface* mVehicleInterface;
   NiceMock<MockVariable>* mThreadVariable;
+  NiceMock<MockVariable>* mCallstackVariable;
   BasicBlock *mBasicBlock;
   string mStringBuffer;
   Function* mFunction;
@@ -160,11 +161,21 @@ struct ControllerOwnerTest : public Test {
     ON_CALL(*mThreadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
     mContext.getScopes().setVariable(mContext, mThreadVariable);
 
+    Controller* callstackController =
+      mContext.getController(Names::getCallStackControllerFullName(), 0);
+    Value* callstackObject = ConstantPointerNull::get(callstackController->getLLVMType(mContext));
+    mCallstackVariable = new NiceMock<MockVariable>();
+    ON_CALL(*mCallstackVariable, getName()).WillByDefault(Return(ThreadExpression::CALL_STACK));
+    ON_CALL(*mCallstackVariable, getType()).WillByDefault(Return(callstackController));
+    ON_CALL(*mCallstackVariable, generateIdentifierIR(_, _)).WillByDefault(Return(callstackObject));
+    mContext.getScopes().setVariable(mContext, mCallstackVariable);
+
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
   ~ControllerOwnerTest() {
     delete mThreadVariable;
+    delete mCallstackVariable;
   }
 };
 
@@ -362,7 +373,7 @@ TEST_F(ControllerOwnerTest, injectTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = call %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject(%wisey.threads.IThread* null)"
+  "\n  %0 = call %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject(%wisey.threads.IThread* null, %wisey.threads.CCallStack* null)"
   "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
