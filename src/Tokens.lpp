@@ -80,7 +80,6 @@ WS  [ \t\v\n\f]
 "catch"                       return TOKEN(TCATCH);
 "char"                        return TOKEN(TTYPECHAR);
 "constant"                    return TOKEN(TCONSTANT);
-"context"                     return TOKEN(TCONTEXT);
 "continue"                    return TOKEN(TCONTINUE);
 "controller"                  return TOKEN(TCONTROLLER);
 "do"                          return TOKEN(TDO);
@@ -117,6 +116,7 @@ WS  [ \t\v\n\f]
 "public"                      return TOKEN(TPUBLIC);
 "receive"                     return TOKEN(TRECEIVE);
 "return"                      return TOKEN(TRETURN);
+"scope"                       return TOKEN(TSCOPE);
 "state"                       return TOKEN(TSTATE);
 "static"                      return TOKEN(TSTATIC);
 "string"                      return TOKEN(TTYPESTRING);

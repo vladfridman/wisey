@@ -14,22 +14,22 @@ controller CContextManager {
    * Find the existing instance of the object with the given name in the given context
    */
   public ::wisey::object getInstance(string contextName, string objectName) {
-    ::wisey::object contextObject = mContextNameToContextMap.get(contextName);
-    if (contextObject == null) {
+    ::wisey::object context = mContextNameToContextMap.get(contextName);
+    if (context == null) {
       throw builder(MContextNonExistant).withContextName(contextName).build();
     }
-    CReferenceMap objectNameToObjectMap = mContextToObjectMap.get(contextObject);
+    CReferenceMap objectNameToObjectMap = mContextToObjectMap.get(context);
     return objectNameToObjectMap.get(objectName);
   }
 
   /**
    * Set current context to the given object value
    */
-  public void setContext(string contextName, ::wisey::object contextObject) {
-    mContextNameToContextMap.put(contextName, contextObject);
-    CReferenceMap objectNameToObjectMap = mContextToObjectMap.get(contextObject);
+  public void setContext(string contextName, ::wisey::object context) {
+    mContextNameToContextMap.put(contextName, context);
+    CReferenceMap objectNameToObjectMap = mContextToObjectMap.get(context);
     if (objectNameToObjectMap == null) {
-      mContextToObjectMap.put(contextObject, CReferenceMap.create());
+      mContextToObjectMap.put(context, CReferenceMap.create());
     }
   }
 
@@ -37,11 +37,11 @@ controller CContextManager {
    * Removes all objects stored in the given context
    */
   public void eraseContext(string contextName) {
-    ::wisey::object contextObject = mContextNameToContextMap.get(contextName);
-    if (contextObject == null) {
+    ::wisey::object context = mContextNameToContextMap.get(contextName);
+    if (context == null) {
       return;
     }
-    mContextToObjectMap.erase(contextObject);
+    mContextToObjectMap.erase(context);
     mContextNameToContextMap.erase(contextName);
   }
 
@@ -49,11 +49,11 @@ controller CContextManager {
    * Set injected object instance in the given context
    */
   public void setInstance(string contextName, string objectName, ::wisey::object instance) {
-    ::wisey::object contextObject = mContextNameToContextMap.get(contextName);
-    if (contextObject == null) {
+    ::wisey::object context = mContextNameToContextMap.get(contextName);
+    if (context == null) {
       throw builder(MContextNonExistant).withContextName(contextName).build();
     }
-    CReferenceMap objectNameToObjectMap = mContextToObjectMap.get(contextObject);
+    CReferenceMap objectNameToObjectMap = mContextToObjectMap.get(context);
     objectNameToObjectMap.put(objectName, instance);
   }
 
