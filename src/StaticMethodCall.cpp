@@ -11,6 +11,7 @@
 #include "wisey/Argument.hpp"
 #include "wisey/AutoCast.hpp"
 #include "wisey/Composer.hpp"
+#include "wisey/GetTypeNameMethod.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMFunction.hpp"
 #include "wisey/LocalArrayOwnerVariable.hpp"
@@ -77,6 +78,9 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
                                               const IMethodDescriptor* methodDescriptor,
                                               const IType* assignToType) const {
   const IObjectType* objectType = mObjectTypeSpecifier->getType(context);
+  if (methodDescriptor == GetTypeNameMethod::GET_TYPE_NAME_METHOD) {
+    return GetTypeNameMethod::GET_TYPE_NAME_METHOD->generateIR(context, objectType);
+  }
   string llvmFunctionName = objectType->getTypeName() + "." + mMethodName;
   
   Function *function = context.getModule()->getFunction(llvmFunctionName.c_str());
@@ -138,6 +142,9 @@ const IType* StaticMethodCall::getType(IRGenerationContext& context) const {
 
 const IMethodDescriptor* StaticMethodCall::getMethodDescriptor(IRGenerationContext& context) const {
   const IObjectType* objectType = mObjectTypeSpecifier->getType(context);
+  if (!mMethodName.compare(GetTypeNameMethod::GET_TYPE_NAME_METHOD_NAME)) {
+    return GetTypeNameMethod::GET_TYPE_NAME_METHOD;
+  }
   const IMethodDescriptor* staticMethod = objectType->findMethod(mMethodName);
   IMethodDescriptor* llvmFunction = objectType->findLLVMFunction(mMethodName);
   if (staticMethod == NULL && llvmFunction == NULL) {

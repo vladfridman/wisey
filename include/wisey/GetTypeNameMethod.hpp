@@ -1,13 +1,13 @@
 //
-//  GetObjectNameMethod.hpp
+//  GetTypeNameMethod.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 5/12/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef GetObjectNameMethod_h
-#define GetObjectNameMethod_h
+#ifndef GetTypeNameMethod_h
+#define GetTypeNameMethod_h
 
 #include "wisey/IMethodDescriptor.hpp"
 #include "wisey/MethodQualifier.hpp"
@@ -15,32 +15,32 @@
 namespace wisey {
   
   /**
-   * Represents getObjectName() method that can be executed on all objects
+   * Represents getTypeName() method that can be executed on all objects
    */
-  class GetObjectNameMethod : public IMethodDescriptor {
+  class GetTypeNameMethod : public IMethodDescriptor {
     
     MethodQualifiers* mMethodQualifiers;
     
-    GetObjectNameMethod();
+    GetTypeNameMethod();
     
   public:
     
-    ~GetObjectNameMethod();
+    ~GetTypeNameMethod();
     
     /**
-     * The only instance of GetObjectNameMethod
+     * The only instance of GetTypeNameMethod
      */
-    static const GetObjectNameMethod* GET_OBJECT_NAME_METHOD;
+    static const GetTypeNameMethod* GET_TYPE_NAME_METHOD;
     
     /**
      * Name of the getObjectName method
      */
-    static const std::string GET_OBJECT_NAME_METHOD_NAME;
+    static const std::string GET_TYPE_NAME_METHOD_NAME;
     
     /**
      * Generates IR to get array size
      */
-    static llvm::Value* generateIR(IRGenerationContext& context, const IExpression* expression);
+    static llvm::Value* generateIR(IRGenerationContext& context, const IObjectType* objectType);
     
     std::string getName() const override;
     
@@ -126,4 +126,4 @@ namespace wisey {
   
 } /* namespace wisey */
 
-#endif /* GetObjectNameMethod_h */
+#endif /* GetTypeNameMethod_h */

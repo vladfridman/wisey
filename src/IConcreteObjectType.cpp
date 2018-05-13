@@ -23,7 +23,6 @@
 #include "wisey/FieldOwnerVariable.hpp"
 #include "wisey/FieldPrimitiveVariable.hpp"
 #include "wisey/FieldReferenceVariable.hpp"
-#include "wisey/GetObjectNameMethod.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/InterfaceOwner.hpp"
 #include "wisey/IntrinsicFunctions.hpp"

@@ -13,7 +13,6 @@
 #include "wisey/AutoCast.hpp"
 #include "wisey/CheckForNullAndThrowFunction.hpp"
 #include "wisey/Composer.hpp"
-#include "wisey/GetObjectNameMethod.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalArrayOwnerVariable.hpp"
@@ -72,9 +71,6 @@ Value* MethodCall::generateIR(IRGenerationContext& context, const IType* assignT
   }
   if (methodDescriptor == StringGetLengthMethod::STRING_GET_LENGTH_METHOD) {
     return StringGetLengthMethod::generateIR(context, mExpression);
-  }
-  if (methodDescriptor == GetObjectNameMethod::GET_OBJECT_NAME_METHOD) {
-    return GetObjectNameMethod::generateIR(context, mExpression);
   }
   if (IType::isConcreteObjectType(object)) {
     return generateObjectMethodCallIR(context,

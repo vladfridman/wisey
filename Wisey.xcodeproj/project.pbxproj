@@ -972,9 +972,9 @@
 		F5D159A820A7133500107E84 /* TestCContextManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159A720A7133500107E84 /* TestCContextManager.cpp */; };
 		F5D159AA20A7258100107E84 /* TestCWorkerThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159A920A7258100107E84 /* TestCWorkerThread.cpp */; };
 		F5D159AC20A7261500107E84 /* TestCProducerThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159AB20A7261500107E84 /* TestCProducerThread.cpp */; };
-		F5D159AF20A7878D00107E84 /* GetObjectNameMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159AE20A7878D00107E84 /* GetObjectNameMethod.cpp */; };
-		F5D159B020A7878D00107E84 /* GetObjectNameMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159AE20A7878D00107E84 /* GetObjectNameMethod.cpp */; };
-		F5D159B220A792F600107E84 /* TestGetObjectNameMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159B120A792F600107E84 /* TestGetObjectNameMethod.cpp */; };
+		F5D159AF20A7878D00107E84 /* GetTypeNameMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159AE20A7878D00107E84 /* GetTypeNameMethod.cpp */; };
+		F5D159B020A7878D00107E84 /* GetTypeNameMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159AE20A7878D00107E84 /* GetTypeNameMethod.cpp */; };
+		F5D159B220A792F600107E84 /* TestGetTypeNameMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159B120A792F600107E84 /* TestGetTypeNameMethod.cpp */; };
 		F5D465F42060FA4F00C1047A /* LLVMFunctionDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D465F32060FA4F00C1047A /* LLVMFunctionDefinition.cpp */; };
 		F5D465F52060FA4F00C1047A /* LLVMFunctionDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D465F32060FA4F00C1047A /* LLVMFunctionDefinition.cpp */; };
 		F5D465F82061086D00C1047A /* LLVMFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D465F72061086D00C1047A /* LLVMFunction.cpp */; };
@@ -1977,9 +1977,9 @@
 		F5D159A720A7133500107E84 /* TestCContextManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCContextManager.cpp; path = tests/TestCContextManager.cpp; sourceTree = "<group>"; };
 		F5D159A920A7258100107E84 /* TestCWorkerThread.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCWorkerThread.cpp; path = tests/TestCWorkerThread.cpp; sourceTree = "<group>"; };
 		F5D159AB20A7261500107E84 /* TestCProducerThread.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCProducerThread.cpp; path = tests/TestCProducerThread.cpp; sourceTree = "<group>"; };
-		F5D159AD20A7872800107E84 /* GetObjectNameMethod.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = GetObjectNameMethod.hpp; path = include/wisey/GetObjectNameMethod.hpp; sourceTree = "<group>"; };
-		F5D159AE20A7878D00107E84 /* GetObjectNameMethod.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = GetObjectNameMethod.cpp; path = src/GetObjectNameMethod.cpp; sourceTree = "<group>"; };
-		F5D159B120A792F600107E84 /* TestGetObjectNameMethod.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestGetObjectNameMethod.cpp; path = tests/TestGetObjectNameMethod.cpp; sourceTree = "<group>"; };
+		F5D159AD20A7872800107E84 /* GetTypeNameMethod.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = GetTypeNameMethod.hpp; path = include/wisey/GetTypeNameMethod.hpp; sourceTree = "<group>"; };
+		F5D159AE20A7878D00107E84 /* GetTypeNameMethod.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = GetTypeNameMethod.cpp; path = src/GetTypeNameMethod.cpp; sourceTree = "<group>"; };
+		F5D159B120A792F600107E84 /* TestGetTypeNameMethod.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestGetTypeNameMethod.cpp; path = tests/TestGetTypeNameMethod.cpp; sourceTree = "<group>"; };
 		F5D465F22060F96100C1047A /* LLVMFunctionDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMFunctionDefinition.hpp; path = include/wisey/LLVMFunctionDefinition.hpp; sourceTree = "<group>"; };
 		F5D465F32060FA4F00C1047A /* LLVMFunctionDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMFunctionDefinition.cpp; path = src/LLVMFunctionDefinition.cpp; sourceTree = "<group>"; };
 		F5D465F62061078F00C1047A /* LLVMFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMFunction.hpp; path = include/wisey/LLVMFunction.hpp; sourceTree = "<group>"; };
@@ -3747,7 +3747,7 @@
 		F5CB7FAA20528144007628B5 /* other */ = {
 			isa = PBXGroup;
 			children = (
-				F5D159AE20A7878D00107E84 /* GetObjectNameMethod.cpp */,
+				F5D159AE20A7878D00107E84 /* GetTypeNameMethod.cpp */,
 				F5105FA91FD02B6200ACF57B /* ImportProfile.cpp */,
 				F5F2F3761EEAFAF80060CF42 /* ObjectOwnerTypeSpecifier.cpp */,
 			);
@@ -3828,7 +3828,7 @@
 			isa = PBXGroup;
 			children = (
 				F5089C491ECD01D9004A1223 /* AccessLevel.hpp */,
-				F5D159AD20A7872800107E84 /* GetObjectNameMethod.hpp */,
+				F5D159AD20A7872800107E84 /* GetTypeNameMethod.hpp */,
 				F5105FAB1FD02B7100ACF57B /* ImportProfile.hpp */,
 				F5F2F3751EEAFA110060CF42 /* ObjectOwnerTypeSpecifier.hpp */,
 			);
@@ -3903,7 +3903,7 @@
 		F5CB7FB920528227007628B5 /* other */ = {
 			isa = PBXGroup;
 			children = (
-				F5D159B120A792F600107E84 /* TestGetObjectNameMethod.cpp */,
+				F5D159B120A792F600107E84 /* TestGetTypeNameMethod.cpp */,
 				F5105FAD1FD0553900ACF57B /* TestImportProfile.cpp */,
 				F53A2BFF1EEC167000E76A9E /* TestObjectOwnerTypeSpecifier.cpp */,
 				F519ED7B1FD9910D00BE3FED /* TestThis.cpp */,
@@ -4398,7 +4398,7 @@
 				F53A2C1C1EF92D8300E76A9E /* TestParameterReferenceVariable.cpp in Sources */,
 				F50FF893208BB263008EDC40 /* TestFieldImmutableArrayReferenceVariable.cpp in Sources */,
 				F517970A1E5C95BC009B16AA /* TestCastExpression.cpp in Sources */,
-				F5D159B220A792F600107E84 /* TestGetObjectNameMethod.cpp in Sources */,
+				F5D159B220A792F600107E84 /* TestGetTypeNameMethod.cpp in Sources */,
 				F5CB7FBE20529B65007628B5 /* FixedFieldDefinition.cpp in Sources */,
 				F5827060205FCF1200839EC7 /* TestLLVMPointerType.cpp in Sources */,
 				F53A2C4A1F029BA500E76A9E /* NullExpression.cpp in Sources */,
@@ -4539,7 +4539,7 @@
 				F56AD49D1E9F4E400020868C /* ThrowStatement.cpp in Sources */,
 				F56AD4A21E9F66C40020868C /* IObjectType.cpp in Sources */,
 				F57411561E019B32009809FF /* TestLogicalAndExpression.cpp in Sources */,
-				F5D159B020A7878D00107E84 /* GetObjectNameMethod.cpp in Sources */,
+				F5D159B020A7878D00107E84 /* GetTypeNameMethod.cpp in Sources */,
 				F5E6BD0C1F1B7B1600D59444 /* TestFakeExpression.cpp in Sources */,
 				F526D8A91FEBA854008103B9 /* ArrayAllocation.cpp in Sources */,
 				F519ED781FD8476800BE3FED /* InjectionArgument.cpp in Sources */,
@@ -4594,7 +4594,7 @@
 				F5F3F8D61FDEC95B001BA5B9 /* ArrayType.cpp in Sources */,
 				F50FF865208B6422008EDC40 /* ImmutableArrayType.cpp in Sources */,
 				F51D2BAA1F68436C00510784 /* StaticMethodDefinition.cpp in Sources */,
-				F5D159AF20A7878D00107E84 /* GetObjectNameMethod.cpp in Sources */,
+				F5D159AF20A7878D00107E84 /* GetTypeNameMethod.cpp in Sources */,
 				F53A2C301EFFD91200E76A9E /* NodeOwner.cpp in Sources */,
 				F5D4660D20614CAF00C1047A /* LLVMFunctionCall.cpp in Sources */,
 				F57086021E5317E8007D627E /* AutoCast.cpp in Sources */,
