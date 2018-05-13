@@ -1,0 +1,36 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+import wisey.threads.IThread;
+
+controller CScopedService scope IThread {
+
+}
+
+controller CService {
+
+}
+
+controller CProgram implements IProgram {
+  inject CScopedService mScopedService;
+  inject CService* mService;
+
+  public int run(immutable string[] arguments) override {
+    CScopedService scopedService = injector(CScopedService).inject();
+    CService service = injector(CService).inject();
+    if (mScopedService == scopedService) {
+      printout("Scoped services are the same\n");
+    } else {
+      printout("Scoped services are different\n");
+    }
+    if (mService == service) {
+      printout("Unscoped services are the same\n");
+    } else {
+      printout("Unscoped services are different\n");
+    }
+
+    return 1;
+  }
+}
+
+bind(IProgram).to(CProgram);

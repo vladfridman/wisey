@@ -861,7 +861,7 @@ external_controller_definition
 
 context_scope
   : /* none */ { $$ = NULL; }
-  | TSCOPE object_type_specifier 
+  | TSCOPE object_type_specifier { $$ = $2; }
   ;
 
 node_definition

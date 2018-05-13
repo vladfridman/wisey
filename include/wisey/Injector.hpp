@@ -36,7 +36,7 @@ namespace wisey {
 
     llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
     
-    const IObjectOwnerType* getType(IRGenerationContext& context) const override;
+    const IType* getType(IRGenerationContext& context) const override;
     
     bool isConstant() const override;
     

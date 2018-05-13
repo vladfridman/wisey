@@ -2,6 +2,7 @@ package wisey.lang;
 
 import wisey.threads.CCallStack;
 import wisey.threads.CWorkerThread;
+import wisey.threads.IThread;
 import wisey.threads.IWorker;
 import wisey.threads.MThreadBoundaryException;
 
@@ -34,9 +35,11 @@ model MMainThreadWorker implements IWorker {
 
   public void work() throws MThreadBoundaryException override {
     IProgram* program = injector(IProgram).inject();
+    thread.getContextManager().setContext(IThread.getTypeName(), thread);
     MProgramResult* programResult = builder(MProgramResult)
       .withResult(program.run(mArguments))
       .build();
+    thread.getContextManager().eraseContext(IThread.getTypeName());
     thread.send(programResult);
   }
 

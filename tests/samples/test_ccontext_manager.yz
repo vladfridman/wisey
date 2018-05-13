@@ -28,38 +28,35 @@ controller CProgram implements IProgram {
     string context1 = "context1";
     string context2 = "context2";
 
-    CCar* toyota = injector(CCar).withMake("Toyota").inject(); 
-    CCar* bmw = injector(CCar).withMake("BMW").inject(); 
-    CCar* mercedes = injector(CCar).withMake("Mercedes").inject();
+    string toyotaMake = "Toyota";
+    string bmwMake = "BMW";
+    string mecedesMake = "Mercedes";
+    CCar* toyota = injector(CCar).withMake(toyotaMake).inject(); 
+    CCar* bmw = injector(CCar).withMake(bmwMake).inject(); 
+    CCar* mercedes = injector(CCar).withMake(mecedesMake).inject();
 
     mContextManager.setContext(context1, mContext1);
     mContextManager.setContext(context2, mContext2);
-    mContextManager.setInstance(context1, toyota.getMake(), toyota);
-    mContextManager.setInstance(context1, bmw.getMake(), bmw);
-    mContextManager.setInstance(context2, bmw.getMake(), toyota);
-    mContextManager.setInstance(context2, toyota.getMake(), bmw);
+    mContextManager.setInstance(context1, toyotaMake, toyota);
+    mContextManager.setInstance(context1, bmwMake, bmw);
+    mContextManager.setInstance(context2, mecedesMake, mercedes);
 
-    CCar car = mContextManager.getInstance(context1, toyota.getMake());
-    printout("In context " + context1 + " looking for " + toyota.getMake() + " got " + 
+    CCar car = mContextManager.getInstance(context1, toyotaMake);
+    printout("In context " + context1 + " looking for " + toyotaMake + " got " + 
       car.getMake() + " back\n");
-    car = mContextManager.getInstance(context1, bmw.getMake());
-    printout("In context " + context1 + " looking for " + bmw.getMake() + " got " + 
+    car = mContextManager.getInstance(context1, bmwMake);
+    printout("In context " + context1 + " looking for " + bmwMake + " got " + 
       car.getMake() + " back\n");
 
-    car = mContextManager.getInstance(context2, toyota.getMake());
-    printout("In context " + context2 + " looking for " + toyota.getMake() + " got " + 
-      car.getMake() + " back\n");
-    car = mContextManager.getInstance(context2, bmw.getMake());
-    printout("In context " + context2 + " looking for " + bmw.getMake() + " got " + 
+    car = mContextManager.getInstance(context2, mecedesMake);
+    printout("In context " + context2 + " looking for " + mecedesMake + " got " + 
       car.getMake() + " back\n");
     
-    mContextManager.setInstance(context2, bmw.getMake(), bmw);
-    car = mContextManager.getInstance(context2, bmw.getMake());
-    printout("In context " + context2 + " looking for " + bmw.getMake() + " got " + 
+    CCar* replacement = injector(CCar).withMake("Audi").inject(); 
+    mContextManager.setInstance(context1, bmwMake, replacement);
+    car = mContextManager.getInstance(context1, bmwMake);
+    printout("In context " + context2 + " looking for " + bmwMake + " got " + 
       car.getMake() + " back\n");
-
-
-    mContextManager.clear();
 
     return 1;
   }

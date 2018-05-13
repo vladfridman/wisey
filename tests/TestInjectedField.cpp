@@ -252,20 +252,25 @@ TEST_F(InjectedFieldTest, defineInjectionFunctionTest) {
 }
 
 TEST_F(InjectedFieldTest, checkOwnerTypeTest) {
-  ON_CALL(*mType, isOwner()).WillByDefault(Return(true));
-  ON_CALL(*mType, isReference()).WillByDefault(Return(false));
+  vector<IField*> controllerFields;
+  InjectionArgumentList fieldArguments;
+  InjectedField* injectedField =
+  new InjectedField(mType, mController->getOwner(), "mFoo", fieldArguments, "/tmp/source.yz", 1);
 
-  EXPECT_NO_THROW(mField->checkType(mContext));
+  EXPECT_NO_THROW(injectedField->checkType(mContext));
 }
 
 TEST_F(InjectedFieldTest, checkReferenceTypeDeathTest) {
+  vector<IField*> controllerFields;
+  InjectionArgumentList fieldArguments;
+  InjectedField* injectedField =
+  new InjectedField(mType, mController, "mFoo", fieldArguments, "/tmp/source.yz", 1);
+
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
-  ON_CALL(*mType, isOwner()).WillByDefault(Return(false));
-  ON_CALL(*mType, isReference()).WillByDefault(Return(true));
 
-  EXPECT_ANY_THROW(mField->checkType(mContext));
-  EXPECT_STREQ("/tmp/source.yz(1): Error: Injected fields must have owner type denoted by '*'\n",
+  EXPECT_ANY_THROW(injectedField->checkType(mContext));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Injected fields must have owner type denoted by '*' if the injected type is not scoped\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
@@ -283,4 +288,22 @@ TEST_F(InjectedFieldTest, injectInterfaceNotBoundWithArgumentsDeathTest) {
   EXPECT_STREQ("/tmp/source.yz(5): Error: Arguments are not allowed for injection of interfaces that are not bound to controllers\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
+}
+
+TEST_F(TestFileRunner, injectFieldNodeTypeRunDeathTest) {
+  expectFailCompile("tests/samples/test_inject_field_node_type.yz",
+                    1,
+                    "tests/samples/test_inject_field_node_type.yz\\(7\\): Error: Only controllers, interfaces bound to controllers and arrays may be injected in fields");
+}
+
+TEST_F(TestFileRunner, injectFieldControllerScopedNotReferenceRunDeathTest) {
+  expectFailCompile("tests/samples/test_inject_field_controller_scoped_not_reference.yz",
+                    1,
+                    "tests/samples/test_inject_field_controller_scoped_not_reference.yz\\(7\\): Error: Controller systems.vos.wisey.compiler.tests.CService is scoped and should have reference field type");
+}
+
+TEST_F(TestFileRunner, injectFieldControllerNotScopedNotOwnerRunDeathTest) {
+  expectFailCompile("tests/samples/test_inject_field_controller_not_scoped_not_owner.yz",
+                    1,
+                    "tests/samples/test_inject_field_controller_not_scoped_not_owner.yz\\(7\\): Error: Injected fields must have owner type denoted by '\\*' if the injected type is not scoped");
 }

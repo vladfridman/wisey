@@ -300,33 +300,41 @@ void Controller::composeContextInjectFunctionBody(IRGenerationContext& context,
   Function::arg_iterator llvmArguments = function->arg_begin();
   llvm::Argument* thread = &*llvmArguments;
   thread->setName(ThreadExpression::THREAD);
-  
-  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
-  IVariable* variable = new ParameterSystemReferenceVariable(ThreadExpression::THREAD,
-                                                             threadInterface,
-                                                             thread,
-                                                             0);
-  context.getScopes().setVariable(context, variable);
+  llvmArguments++;
+  llvm::Argument* callstack = &*llvmArguments;
+  callstack->setName(ThreadExpression::CALL_STACK);
 
+  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
+  IVariable* threadVariable = new ParameterSystemReferenceVariable(ThreadExpression::THREAD,
+                                                                   threadInterface,
+                                                                   thread,
+                                                                   0);
+  context.getScopes().setVariable(context, threadVariable);
+  Controller* callstackController =
+    context.getController(Names::getCallStackControllerFullName(), 0);
+  IVariable* callstackVariable = new ParameterSystemReferenceVariable(ThreadExpression::CALL_STACK,
+                                                                      callstackController,
+                                                                      callstack,
+                                                                      0);
+  context.getScopes().setVariable(context, callstackVariable);
+  
   Identifier* identfier = new Identifier(ThreadExpression::THREAD, 0);
   IdentifierChain* methodIdentifier = new IdentifierChain(identfier,
                                                           Names::getGetContextManagerMethodName(),
                                                           0);
   ExpressionList callArguments;
-  MethodCall* getContextManager = new MethodCall(methodIdentifier, callArguments, 0);
-  PackageType* packageType = new PackageType(Names::getThreadsPackageName());
-  FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
-  ControllerTypeSpecifierFull* controllerTypeSpecifier =
-  new ControllerTypeSpecifierFull(packageExpression, Names::getContextManagerName(), 0);
+  MethodCall getContextManager(methodIdentifier, callArguments, 0);
+  Value* contextManagerPointer = getContextManager.generateIR(context, PrimitiveTypes::VOID);
   
   string contextManagerVariableName = "contextManager";
-  VariableDeclaration* variableDeclaration =
-  VariableDeclaration::createWithAssignment(controllerTypeSpecifier,
-                                            new Identifier(contextManagerVariableName, 0),
-                                            getContextManager,
-                                            0);
-  variableDeclaration->generateIR(context);
-  delete variableDeclaration;
+  Controller* contextManagerController =
+    context.getController(Names::getContextManagerFullName(), 0);
+  IVariable* contextManagerVariable =
+  new ParameterSystemReferenceVariable(contextManagerVariableName,
+                                       contextManagerController,
+                                       contextManagerPointer,
+                                       0);
+  context.getScopes().setVariable(context, contextManagerVariable);
   
   methodIdentifier = new IdentifierChain(new Identifier(contextManagerVariableName, 0),
                                          Names::getGetInstanceMethodName(),
@@ -340,7 +348,6 @@ void Controller::composeContextInjectFunctionBody(IRGenerationContext& context,
   callArguments.push_back(contextName);
   callArguments.push_back(objectName);
   MethodCall getInstance(methodIdentifier, callArguments, 0);
-  
   Value* object = getInstance.generateIR(context, PrimitiveTypes::VOID);
   Value* instance = WiseyObjectType::WISEY_OBJECT_TYPE->castTo(context, object, controller, 0);
 
@@ -352,10 +359,11 @@ void Controller::composeContextInjectFunctionBody(IRGenerationContext& context,
   IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
   
   context.setBasicBlock(ifNotNullBlock);
+  
   IRWriter::createReturnInst(context, instance);
   
   context.setBasicBlock(ifNullBlock);
-  
+
   Instruction* malloc = createMallocForObject(context, controller, "injectvar");
   controller->initializeReceivedFields(context, function, malloc);
   initializeVTable(context, controller, malloc);
@@ -365,7 +373,7 @@ void Controller::composeContextInjectFunctionBody(IRGenerationContext& context,
                                          0);
   contextName = new FakeExpression(contextObjectName, PrimitiveTypes::STRING);
   objectName = new FakeExpression(objectNamePointer, PrimitiveTypes::STRING);
-  FakeExpression* instanceExpression = new FakeExpression(malloc, controller);
+  FakeExpression* instanceExpression = new FakeExpression(malloc, controller->getOwner());
 
   callArguments.clear();
   callArguments.push_back(contextName);
@@ -638,6 +646,10 @@ void Controller::checkInjectedFields(IRGenerationContext& context) const {
 
 void Controller::setContextType(const IObjectType* objectType) {
   mContextType = objectType;
+}
+
+bool Controller::isContextInjected() const {
+  return mContextType != NULL;
 }
 
 void Controller::checkInjectionArguments(IRGenerationContext& context,

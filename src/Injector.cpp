@@ -47,17 +47,28 @@ Value* Injector::generateIR(IRGenerationContext& context, const IType* assignToT
   Value* pointer = IRWriter::newAllocaInst(context, malloc->getType(), "pointer");
   IRWriter::newStoreInst(context, malloc, pointer);
   
-  IVariable* heapVariable = new LocalOwnerVariable(IVariable::getTemporaryVariableName(this),
-                                                   getType(context),
-                                                   pointer,
-                                                   mLine);
-  context.getScopes().setVariable(context, heapVariable);
+  const IType* injectedType = getType(context);
+  string variableName = IVariable::getTemporaryVariableName(this);
+  if (injectedType->isOwner()) {
+    IVariable* heapVariable = new LocalOwnerVariable(variableName,
+                                                     (const IObjectOwnerType*) injectedType,
+                                                     pointer,
+                                                     mLine);
+    context.getScopes().setVariable(context, heapVariable);
+  }
   
   return malloc;
 }
 
-const IObjectOwnerType* Injector::getType(IRGenerationContext& context) const {
-  return mObjectTypeSpecifier->getType(context)->getOwner();
+const IType* Injector::getType(IRGenerationContext& context) const {
+  const IObjectType* objectType = mObjectTypeSpecifier->getType(context);
+  if (objectType->isInterface()) {
+    return objectType->getOwner();
+  }
+  if (((const Controller*) objectType)->isContextInjected()) {
+    return objectType;
+  }
+  return objectType->getOwner();
 }
 
 bool Injector::isConstant() const {

@@ -63,15 +63,52 @@ Value* InjectedField::inject(IRGenerationContext& context) const {
 }
 
 void InjectedField::checkType(IRGenerationContext& context) const {
-  if (!mInjectedType->isOwner() || !mType->isOwner()) {
-    context.reportError(mLine, "Injected fields must have owner type denoted by '*'");
+  if (!mInjectedType->isController() && !mInjectedType->isInterface() &&
+      !mInjectedType->isArray()) {
+    context.reportError(mLine, "Only controllers, interfaces bound to controllers and arrays "
+                        "may be injected in fields");
     throw 1;
   }
-  if (mInjectedType->isInterface() &&
-      mInjectionArgumentList.size() &&
-      !context.hasBoundController(((const InterfaceOwner*) mInjectedType)->getReference())) {
+  if (mInjectedType->isOwner()) {
+    if (mInjectedType->isInterface()) {
+      const Interface* interface = ((const InterfaceOwner*) mInjectedType)->getReference();
+      checkInterfaceType(context, interface);
+    } else if (mInjectedType->isController()) {
+      const Controller* controller = ((const ControllerOwner*) mInjectedType)->getReference();
+      checkControllerType(context, controller);
+    }
+  } else if (mInjectedType->isReference()) {
+    if (mInjectedType->isInterface()) {
+      const Interface* interface = (const Interface*) mInjectedType;
+      checkInterfaceType(context, interface);
+    } else if (mInjectedType->isController()) {
+      const Controller* controller = (const Controller*) mInjectedType;
+      checkControllerType(context, controller);
+    }
+  }
+}
+
+void InjectedField::checkInterfaceType(IRGenerationContext& context,
+                                       const Interface* interface) const {
+  if (mInjectionArgumentList.size() && !context.hasBoundController(interface)) {
     context.reportError(mLine, "Arguments are not allowed for injection of interfaces "
                         "that are not bound to controllers");
+    throw 1;
+  }
+  if (context.hasBoundController(interface)) {
+    checkControllerType(context, context.getBoundController(interface, mLine));
+  }
+}
+
+void InjectedField::checkControllerType(IRGenerationContext& context,
+                                        const Controller* controller) const {
+  if (mInjectedType->isOwner() && controller->isContextInjected()) {
+    context.reportError(mLine, "Controller " + controller->getTypeName() + " is scoped"
+                        " and should have reference field type");
+    throw 1;
+  } else if (mInjectedType->isReference() && !controller->isContextInjected()) {
+    context.reportError(mLine, "Injected fields must have owner type denoted by '*'"
+                        " if the injected type is not scoped");
     throw 1;
   }
 }
@@ -81,9 +118,13 @@ void InjectedField::checkInjectionArguments(IRGenerationContext& context) const 
     return;
   }
   
-  const Controller* controller = mInjectedType->isInterface()
-  ? context.getBoundController(((const InterfaceOwner*) mInjectedType)->getReference(), mLine)
-  : ((const ControllerOwner*) mInjectedType)->getReference();
+  const IObjectType* objectType = mInjectedType->isOwner()
+  ? (const IObjectType*) ((const IObjectOwnerType*) mInjectedType)->getReference()
+  : (const IObjectType*) mInjectedType;
+  
+  const Controller* controller = objectType->isInterface()
+  ? context.getBoundController((const Interface*) objectType, mLine)
+  : (const Controller*) objectType;
   
   controller->checkInjectionArguments(context, mInjectionArgumentList, mLine);
 }

@@ -1,0 +1,8 @@
+package systems.vos.wisey.compiler.tests;
+
+node NNode {
+}
+
+controller CService {
+  inject NNode* mNode;
+}

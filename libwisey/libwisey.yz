@@ -358,8 +358,7 @@ external controller wisey.threads.CContextManager {
   void setInstance(
     string contextName,
     string objectName,
-    ::wisey::object instance);
-  void clear();
+    ::wisey::object* instance);
 }
 
 external controller wisey.threads.CProducerThread

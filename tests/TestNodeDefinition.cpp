@@ -322,7 +322,7 @@ TEST_F(NodeDefinitionTest, interfaceNotDefinedDeathTest) {
 TEST_F(NodeDefinitionTest, nodeWithInjectedFieldDeathTest) {
   const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
   NiceMock<MockObjectType> object;
-  ON_CALL(object, isOwner()).WillByDefault(Return(true));
+  ON_CALL(object, isController()).WillByDefault(Return(true));
   NiceMock<MockObjectTypeSpecifier>* objectSpecifier = new NiceMock<MockObjectTypeSpecifier>();
   ON_CALL(*objectSpecifier, getType(_)).WillByDefault(Return(&object));
 

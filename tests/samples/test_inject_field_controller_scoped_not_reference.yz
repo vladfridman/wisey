@@ -1,8 +1,8 @@
 package systems.vos.wisey.compiler.tests;
 
-controller CService {
+controller CService scope wisey.threads.IThread {
 }
 
-node NNode {
+controller CProgram {
   inject CService* mService;
 }

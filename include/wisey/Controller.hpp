@@ -123,6 +123,11 @@ namespace wisey {
      */
     void setContextType(const IObjectType* objectType);
     
+    /**
+     * Tells whether this controller is context injected
+     */
+    bool isContextInjected() const;
+
     bool isPublic() const override;
     
     llvm::Instruction* inject(IRGenerationContext& context,

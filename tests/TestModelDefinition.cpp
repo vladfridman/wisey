@@ -321,7 +321,7 @@ TEST_F(ModelDefinitionTest, interfaceNotDefinedDeathTest) {
 
 TEST_F(ModelDefinitionTest, modelWithInjectedFieldDeathTest) {
   NiceMock<MockObjectType> object;
-  ON_CALL(object, isOwner()).WillByDefault(Return(true));
+  ON_CALL(object, isController()).WillByDefault(Return(true));
   NiceMock<MockObjectTypeSpecifier>* objectSpecifier = new NiceMock<MockObjectTypeSpecifier>();
   ON_CALL(*objectSpecifier, getType(_)).WillByDefault(Return(&object));
   

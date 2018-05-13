@@ -18,7 +18,7 @@ controller CContextManager {
     if (context == null) {
       throw builder(MContextNonExistant).withContextName(contextName).build();
     }
-    CReferenceMap objectNameToObjectMap = mContextToObjectMap.get(context);
+    COwnerMap objectNameToObjectMap = mContextToObjectMap.get(context);
     return objectNameToObjectMap.get(objectName);
   }
 
@@ -29,7 +29,7 @@ controller CContextManager {
     mContextNameToContextMap.put(contextName, context);
     CReferenceMap objectNameToObjectMap = mContextToObjectMap.get(context);
     if (objectNameToObjectMap == null) {
-      mContextToObjectMap.put(context, CReferenceMap.create());
+      mContextToObjectMap.put(context, COwnerMap.create());
     }
   }
 
@@ -48,20 +48,12 @@ controller CContextManager {
   /**
    * Set injected object instance in the given context
    */
-  public void setInstance(string contextName, string objectName, ::wisey::object instance) {
+  public void setInstance(string contextName, string objectName, ::wisey::object* instance) {
     ::wisey::object context = mContextNameToContextMap.get(contextName);
     if (context == null) {
       throw builder(MContextNonExistant).withContextName(contextName).build();
     }
-    CReferenceMap objectNameToObjectMap = mContextToObjectMap.get(context);
+    COwnerMap objectNameToObjectMap = mContextToObjectMap.get(context);
     objectNameToObjectMap.put(objectName, instance);
-  }
-
-  /**
-   * Clears the context manager maps
-   */
-  public void clear() {
-    mContextToObjectMap.clear();
-    mContextNameToContextMap.clear();
   }
 }

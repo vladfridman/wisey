@@ -3,6 +3,6 @@ package systems.vos.wisey.compiler.tests;
 controller CService {
 }
 
-node NNode {
-  inject CService* mService;
+controller CProgram {
+  inject CService mService;
 }

@@ -11,26 +11,28 @@ controller CCar {
   }
 }
 
-controller CContext1 {
+controller CContext {
 
 }
 
 controller CProgram implements IProgram {
   inject CContextManager* mContextManager;
-  inject CContext1* mContext1;
+  inject CContext* mContext;
 
   public int run(immutable string[] arguments) override {
-    string context1 = "context1";
-    CCar* toyota = injector(CCar).withMake("Toyota").inject(); 
+    string mycontext = "mycontext";
+    string toyotaMake = "Toyota";
+    CCar* toyota = injector(CCar).withMake(toyotaMake).inject(); 
 
-    mContextManager.setContext(context1, mContext1);
-    mContextManager.setInstance(context1, toyota.getMake(), toyota);
-    CCar car = mContextManager.getInstance(context1, toyota.getMake());
-    printout("In context " + context1 + " looking for " + toyota.getMake() + " got " + 
+    mContextManager.setContext(mycontext, mContext);
+    mContextManager.setInstance(mycontext, toyotaMake, toyota);
+    CCar car = mContextManager.getInstance(mycontext, toyotaMake);
+    printout("In context " + mycontext + " looking for " + toyotaMake + " got " + 
       car.getMake() + " back\n");
+    car = null;
 
-    mContextManager.eraseContext(context1);
-    mContextManager.getInstance(context1, toyota.getMake());
+    mContextManager.eraseContext(mycontext);
+    mContextManager.getInstance(mycontext, toyotaMake);
 
     return 1;
   }

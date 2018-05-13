@@ -16,6 +16,7 @@ namespace wisey {
   
   class Controller;
   class IObjectType;
+  class Interface;
   
   /**
    * Represents an injected field in a concrete object
@@ -115,6 +116,10 @@ namespace wisey {
                                           const void* object1,
                                           const void* object2);
 
+    void checkInterfaceType(IRGenerationContext& context, const Interface* interface) const;
+    
+    void checkControllerType(IRGenerationContext& context, const Controller* controller) const;
+    
   };
   
 } /* namespace wisey */
