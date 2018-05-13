@@ -34,6 +34,18 @@ controller CContextManager {
   }
 
   /**
+   * Removes all objects stored in the given context
+   */
+  public void eraseContext(string contextName) {
+    ::wisey::object contextObject = mContextNameToContextMap.get(contextName);
+    if (contextObject == null) {
+      return;
+    }
+    mContextToObjectMap.erase(contextObject);
+    mContextNameToContextMap.erase(contextName);
+  }
+
+  /**
    * Set injected object instance in the given context
    */
   public void setInstance(string contextName, string objectName, ::wisey::object instance) {

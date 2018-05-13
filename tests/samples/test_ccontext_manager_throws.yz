@@ -3,11 +3,34 @@ package systems.vos.wisey.compiler.tests;
 import wisey.lang.IProgram;
 import wisey.threads.CContextManager;
 
+controller CCar {
+  receive string mMake;
+
+  public string getMake() {
+    return mMake;
+  }
+}
+
+controller CContext1 {
+
+}
+
 controller CProgram implements IProgram {
   inject CContextManager* mContextManager;
+  inject CContext1* mContext1;
 
   public int run(immutable string[] arguments) override {
-    mContextManager.getInstance("mycontext", "something");
+    string context1 = "context1";
+    CCar* toyota = injector(CCar).withMake("Toyota").inject(); 
+
+    mContextManager.setContext(context1, mContext1);
+    mContextManager.setInstance(context1, toyota.getMake(), toyota);
+    CCar car = mContextManager.getInstance(context1, toyota.getMake());
+    printout("In context " + context1 + " looking for " + toyota.getMake() + " got " + 
+      car.getMake() + " back\n");
+
+    mContextManager.eraseContext(context1);
+    mContextManager.getInstance(context1, toyota.getMake());
 
     return 1;
   }
