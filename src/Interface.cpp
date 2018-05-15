@@ -506,11 +506,11 @@ void Interface::composeMapFunctionBody(IRGenerationContext& context,
   Function* function = context.getModule()->getFunction(functionName);
 
   Function::arg_iterator arguments = function->arg_begin();
-  llvm::Argument *argument = &*arguments;
-  argument->setName("thisLoaded");
+  llvm::Argument* thisLoaded = &*arguments;
+  thisLoaded->setName("thisLoaded");
   arguments++;
-  argument = &*arguments;
-  argument->setName(ThreadExpression::THREAD);
+  llvm::Argument* thread = &*arguments;
+  thread->setName(ThreadExpression::THREAD);
   arguments++;
   vector<const Argument*> methodArguments = interfaceMethodSignature->getArguments();
   for (const Argument* methodArgument : interfaceMethodSignature->getArguments()) {
@@ -519,13 +519,7 @@ void Interface::composeMapFunctionBody(IRGenerationContext& context,
     arguments++;
   }
   
-  generateMapFunctionBody(context,
-                          object,
-                          concreteObjectFunction,
-                          function,
-                          interfaceIndex,
-                          interfaceMethodSignature);
-  
+  generateMapFunctionBody(context, object, concreteObjectFunction, function, interfaceIndex);
 }
 
 bool Interface::doesMethodHaveUnexpectedExceptions(IRGenerationContext& context,
@@ -555,8 +549,7 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
                                         const IObjectType* object,
                                         Function* concreteObjectFunction,
                                         Function* mapFunction,
-                                        unsigned long interfaceIndex,
-                                        MethodSignature* methodSignature) const {
+                                        unsigned long interfaceIndex) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   BasicBlock *basicBlock = BasicBlock::Create(llvmContext, "entry", mapFunction, 0);
   context.setBasicBlock(basicBlock);
@@ -565,20 +558,6 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   Function::arg_iterator arguments = mapFunction->arg_begin();
   Value* interfaceThis = &*arguments;
   arguments++;
-  Value* threadReference = &*arguments;
-  arguments++;
-  Value* callStackReference = &*arguments;
-  arguments++;
-  vector<Value*> argumentPointers;
-  for (const  Argument* methodArgument : methodSignature->getArguments()) {
-    Value* argumentPointer = storeArgumentValue(context,
-                                                basicBlock,
-                                                methodArgument->getName(),
-                                                methodArgument->getType(),
-                                                &*arguments);
-    argumentPointers.push_back(argumentPointer);
-    arguments++;
-  }
   
   Type* int8Type = Type::getInt8Ty(llvmContext);
   Type* pointerType = int8Type->getPointerTo();
@@ -587,26 +566,23 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext),
                               -interfaceIndex * Environment::getAddressSizeInBytes());
   Value* concreteOjbectThis =
-    IRWriter::createGetElementPtrInst(context, castedInterfaceThis, index);
-  Value* castedObjectThis = IRWriter::newBitCastInst(context,
-                                                     concreteOjbectThis,
-                                                     object->getLLVMType(context));
-  
+  IRWriter::createGetElementPtrInst(context, castedInterfaceThis, index);
+  Value* castObjectThis = IRWriter::newBitCastInst(context,
+                                                   concreteOjbectThis,
+                                                   object->getLLVMType(context));
+
   vector<Value*> callArguments;
-  callArguments.push_back(castedObjectThis);
-  callArguments.push_back(threadReference);
-  callArguments.push_back(callStackReference);
-  for (Value* argumentPointer : argumentPointers) {
-    Value* loadedCallArgument = IRWriter::newLoadInst(context, argumentPointer, "");
-    callArguments.push_back(loadedCallArgument);
+  callArguments.push_back(castObjectThis);
+  while (arguments != mapFunction->arg_end()) {
+    callArguments.push_back(&*arguments);
+    arguments++;
   }
   
+  Value* result = IRWriter::createInvokeInst(context, concreteObjectFunction, callArguments, "", 0);
+
   if (concreteObjectFunction->getReturnType()->isVoidTy()) {
-    IRWriter::createInvokeInst(context, concreteObjectFunction, callArguments, "", 0);
     IRWriter::createReturnInst(context, NULL);
   } else {
-    Value* result =
-      IRWriter::createInvokeInst(context, concreteObjectFunction, callArguments, "call", 0);
     IRWriter::createReturnInst(context, result);
   }
 

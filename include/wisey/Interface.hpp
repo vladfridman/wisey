@@ -332,8 +332,7 @@ namespace wisey {
                                  const IObjectType* object,
                                  llvm::Function* concreteObjectFunction,
                                  llvm::Function* mapFunction,
-                                 unsigned long interfaceIndex,
-                                 MethodSignature* methodSignature) const;
+                                 unsigned long interfaceIndex) const;
     
     llvm::Value* storeArgumentValue(IRGenerationContext& context,
                                     llvm::BasicBlock* basicBlock,
