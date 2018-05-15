@@ -303,24 +303,24 @@ TEST_F(TestFileRunner, referenceCountExceptionRunDeathTest) {
                                "Main thread ended without a result\n");
 }
 
-TEST_F(TestFileRunner, throwDosiuFromCleanupRunDeathTest) {
-  compileAndRunFileCheckOutput("tests/samples/test_throw_dosiu_from_cleanup.yz",
+TEST_F(TestFileRunner, throwRceFromCleanupRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_throw_rce_from_cleanup.yz",
                                1,
                                "",
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
-                               "  at systems.vos.wisey.compiler.tests.CService.throwException(tests/samples/test_throw_dosiu_from_cleanup.yz:20)\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_throw_dosiu_from_cleanup.yz:32)\n"
+                               "  at systems.vos.wisey.compiler.tests.CService.throwException(tests/samples/test_throw_rce_from_cleanup.yz:20)\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_throw_rce_from_cleanup.yz:32)\n"
                                "Details: Object referenced by expression of type systems.vos.wisey.compiler.tests.MData still has 2 active references\n"
                                "Main thread ended without a result\n");
 }
 
-TEST_F(TestFileRunner, throwDosiuFromFreeOwnedMemoryRunDeathTest) {
-  compileAndRunFileCheckOutput("tests/samples/test_throw_dosiu_from_free_owned_memory.yz",
+TEST_F(TestFileRunner, throwRceFromFreeOwnedMemoryRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_throw_rce_from_free_owned_memory.yz",
                                1,
                                "",
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
-                               "  at systems.vos.wisey.compiler.tests.CService.throwException(tests/samples/test_throw_dosiu_from_free_owned_memory.yz:19)\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_throw_dosiu_from_free_owned_memory.yz:30)\n"
+                               "  at systems.vos.wisey.compiler.tests.CService.throwException(tests/samples/test_throw_rce_from_free_owned_memory.yz:19)\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_throw_rce_from_free_owned_memory.yz:30)\n"
                                "Details: Object referenced by expression of type systems.vos.wisey.compiler.tests.MData still has 2 active references\n"
                                "Main thread ended without a result\n");
 }
