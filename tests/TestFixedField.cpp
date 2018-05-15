@@ -109,7 +109,7 @@ TEST_F(FixedFieldTest, checkTypeNonImmutableTypeDeathTest) {
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
   EXPECT_ANY_THROW(mField->checkType(mContext));
-  EXPECT_STREQ("/tmp/source.yz(3): Error: Fixed fields can only be of primitive, model or array type\n",
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Model fixed fields can only be of primitive, model or array type\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
@@ -121,7 +121,7 @@ TEST_F(FixedFieldTest, checkTypeNonImmutableArrayTypeDeathTest) {
   ON_CALL(*mType, isArray()).WillByDefault(Return(true));
 
   EXPECT_ANY_THROW(mField->checkType(mContext));
-  EXPECT_STREQ("/tmp/source.yz(3): Error: Fixed array fields can only be of immutable array type\n",
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Model fixed array fields can only be of immutable array type\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }

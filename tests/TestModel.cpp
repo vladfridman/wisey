@@ -953,21 +953,21 @@ TEST_F(TestFileRunner, modelWithNodeFieldDeathRunTest) {
   expectFailCompile("tests/samples/test_model_with_node_field.yz",
                     1,
                     "tests/samples/test_model_with_node_field.yz\\(7\\): Error: "
-                    "Fixed fields can only be of primitive, model or array type");
+                    "Model fixed fields can only be of primitive, model or array type");
 }
 
 TEST_F(TestFileRunner, modelWithControllerFieldDeathRunTest) {
   expectFailCompile("tests/samples/test_model_with_controller_field.yz",
                     1,
                     "tests/samples/test_model_with_controller_field.yz\\(7\\): Error: "
-                    "Fixed fields can only be of primitive, model or array type");
+                    "Model fixed fields can only be of primitive, model or array type");
 }
 
 TEST_F(TestFileRunner, modelWithNodeArrayDeathRunTest) {
   expectFailCompile("tests/samples/test_model_with_node_array.yz",
                     1,
                     "tests/samples/test_model_with_node_array.yz\\(14\\): Error: "
-                    "Fixed array fields can only be of immutable array type");
+                    "Model fixed array fields can only be of immutable array type");
 }
 
 TEST_F(TestFileRunner, modelWithInterfaceFieldInitWithControllerDeathRunTest) {
