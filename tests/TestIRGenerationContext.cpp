@@ -124,13 +124,9 @@ TEST_F(IRGenerationContextTest, moduleIsNotNullTest) {
 }
 
 TEST_F(IRGenerationContextTest, runCodeFailsWhenMainIsNullDeathTest) {
-  std::stringstream buffer;
-  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
-
-  EXPECT_ANY_THROW(mContext.runCode(0, NULL));
-  EXPECT_STREQ("Error: Function main is not defined. Exiting.\n",
-               buffer.str().c_str());
-  std::cerr.rdbuf(oldbuffer);
+  EXPECT_EXIT(mContext.runCode(0, NULL),
+              ::testing::ExitedWithCode(1),
+              "Error: Function main is not defined. Exiting.\n");
 }
 
 TEST_F(IRGenerationContextTest, addNodeTest) {

@@ -97,7 +97,7 @@ GenericValue IRGenerationContext::runCode(int argc, char** argv) {
   if (mMainFunction == NULL) {
     Log::errorNoSourceFile("Function main is not defined. Exiting.");
     delete executionEngine;
-    throw 1;
+    exit(1);
   }
   Log::i("Running program");
   GenericValue result = executionEngine->runFunction(mMainFunction, arguments);
