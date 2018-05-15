@@ -86,12 +86,6 @@ namespace wisey {
      * Returns the method qualifiers
      */
     virtual MethodQualifiers* getMethodQualifiers() const = 0;
-
-    /**
-     * Returns two if two method descriptors are the same in terms of their name, return type
-     * and argument types
-     */
-    static bool compare(const IMethodDescriptor* method1, const IMethodDescriptor* method2);
     
     /**
      * Returns function type corresponding to the given method descirptor

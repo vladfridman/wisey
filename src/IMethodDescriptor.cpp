@@ -15,29 +15,6 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-bool IMethodDescriptor::compare(const IMethodDescriptor* method1,
-                                const IMethodDescriptor* method2) {
-  vector<const Argument*> thisArguments = method1->getArguments();
-  vector<const Argument*> thatArugments = method2->getArguments();
-  if (thisArguments.size() != thatArugments.size()) {
-    return false;
-  }
-  
-  vector<const Argument*>::const_iterator thatArgumentIterator = thatArugments.begin();
-  for (vector<const Argument*>::const_iterator thisArgumentIterator = thisArguments.begin();
-       thisArgumentIterator != thisArguments.end();
-       thisArgumentIterator++, thatArgumentIterator++) {
-    const Argument* thisArgument = *thisArgumentIterator;
-    const Argument* thatArgument = *thatArgumentIterator;
-    if (thisArgument->getType() != thatArgument->getType()) {
-      return false;
-    }
-  }
-  
-  return !method1->getName().compare(method2->getName()) &&
-    method1->getReturnType() == method2->getReturnType();
-}
-
 FunctionType* IMethodDescriptor::getLLVMFunctionType(IRGenerationContext& context,
                                                      const IMethodDescriptor* method,
                                                      const IObjectType* object,

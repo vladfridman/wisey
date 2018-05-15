@@ -777,60 +777,42 @@ TEST_F(InterfaceTest, composeInjectFunctionWithControllerTest) {
 TEST_F(TestFileRunner, interfaceMethodNotImplmentedDeathTest) {
   expectFailCompile("tests/samples/test_interface_method_not_implmented.yz",
                     1,
-                    "Error: Method getArea "
-                    "of interface systems.vos.wisey.compiler.tests.IShape is not "
-                    "implemented by object systems.vos.wisey.compiler.tests.MSquare");
+                    "Error: Method getArea of interface systems.vos.wisey.compiler.tests.IShape is not implemented by object systems.vos.wisey.compiler.tests.MSquare");
 }
 
 TEST_F(TestFileRunner, interfaceInheritedMethodNotImplmentedDeathTest) {
   expectFailCompile("tests/samples/test_interface_inherited_method_not_implemented.yz",
                     1,
                     "tests/samples/test_interface_inherited_method_not_implemented.yz\\(19\\): "
-                    "Error: Method getArea "
-                    "of interface systems.vos.wisey.compiler.tests.IShape is not "
-                    "implemented by object systems.vos.wisey.compiler.tests.MSquare");
+                    "Error: Method getArea of interface systems.vos.wisey.compiler.tests.IShape is not implemented by object systems.vos.wisey.compiler.tests.MSquare");
 }
 
 TEST_F(TestFileRunner, interfaceMethodDifferentReturnTypeDeathTest) {
   expectFailCompile("tests/samples/test_interface_method_return_type_doesnot_match.yz",
                     1,
-                    "Error: Method getArea "
-                    "of interface systems.vos.wisey.compiler.tests.IShape has different "
-                    "return type when implmeneted by "
-                    "object systems.vos.wisey.compiler.tests.MSquare");
+                    "Error: Method getArea of interface systems.vos.wisey.compiler.tests.IShape has different return type when implmeneted by object systems.vos.wisey.compiler.tests.MSquare");
 }
 
 TEST_F(TestFileRunner, interfaceMethodDifferentArgumentTypesDeathTest) {
   expectFailCompile("tests/samples/test_interface_method_arguments_dont_match.yz",
                     1,
-                    "Error: Method getArea "
-                    "of interface systems.vos.wisey.compiler.tests.IShape has different "
-                    "argument types when implmeneted by "
-                    "object systems.vos.wisey.compiler.tests.MSquare");
+                    "Error: Method getArea of interface systems.vos.wisey.compiler.tests.IShape has different argument types when implmeneted by object systems.vos.wisey.compiler.tests.MSquare");
 }
 
 TEST_F(TestFileRunner, interfaceExceptionsDoNotReconcileDeathTest) {
   expectFailCompile("tests/samples/test_interface_method_exceptions_dont_reconcile.yz",
                     1,
                     "tests/samples/test_interface_method_exceptions_dont_reconcile.yz\\(13\\): "
-                    "Error: Method getArea of "
-                    "object systems.vos.wisey.compiler.tests.MSquare throws an unexpected "
-                    "exception of type systems.vos.wisey.compiler.tests.MException\n"
+                    "Error: Method getArea of object systems.vos.wisey.compiler.tests.MSquare throws an unexpected exception of type systems.vos.wisey.compiler.tests.MException\n"
                     "tests/samples/test_interface_method_exceptions_dont_reconcile.yz\\(13\\): "
-                    "Error: Exceptions thrown by method getArea "
-                    "of interface systems.vos.wisey.compiler.tests.IShape "
-                    "do not reconcile with exceptions thrown by its implementation "
-                    "in object systems.vos.wisey.compiler.tests.MSquare");
+                    "Error: Exceptions thrown by method getArea of interface systems.vos.wisey.compiler.tests.IShape do not reconcile with exceptions thrown by its implementation in object systems.vos.wisey.compiler.tests.MSquare");
 }
 
 TEST_F(TestFileRunner, objectMethodNotMarkedOverrideDeathTest) {
   expectFailCompile("tests/samples/test_object_method_not_marked_override.yz",
                     1,
                     "tests/samples/test_object_method_not_marked_override.yz\\(9\\): "
-                    "Error: Object systems.vos.wisey.compiler.tests.MMyModel "
-                    "should mark method 'getValue' with 'override' qualifier "
-                    "because it overrides the method defined in the parent interface "
-                    "systems.vos.wisey.compiler.tests.IMyInterface");
+                    "Error: Object systems.vos.wisey.compiler.tests.MMyModel should mark method 'getValue' with 'override' qualifier because it overrides the method defined in the parent interface systems.vos.wisey.compiler.tests.IMyInterface");
 }
 
 TEST_F(TestFileRunner, modelImplmenetingInterfaceDefinitionRunTest) {
@@ -883,6 +865,36 @@ TEST_F(TestFileRunner, interfaceObjectAddReferenceForNodeRunTest) {
 
 TEST_F(TestFileRunner, interfaceBridgeToPrivateStaticMethodRunTest) {
   runFile("tests/samples/test_interface_bridge_to_private_static_method.yz", "5");
+}
+
+TEST_F(TestFileRunner, concreteObjectOverloadInterfaceReturnTypeRunTest) {
+  runFile("tests/samples/test_concrete_object_overload_interface_return_type.yz", "1");
+}
+
+TEST_F(TestFileRunner, concreteObjectOverloadInterfaceArgumentTypeRunTest) {
+  runFile("tests/samples/test_concrete_object_overload_interface_argument_type.yz", "3");
+}
+
+TEST_F(TestFileRunner, interfaceOverridesInterfaceMethodReturnTypeRunTest) {
+  runFile("tests/samples/test_interface_overrides_interface_method_return_type.yz", "5");
+}
+
+TEST_F(TestFileRunner, interfaceOverridesInterfaceMethodArgumentTypeRunTest) {
+  runFile("tests/samples/test_interface_overrides_interface_method_argument_type.yz", "7");
+}
+
+TEST_F(TestFileRunner, interfaceOverridesInterfaceMethodReturnTypeFailRunDeathTest) {
+  expectFailCompile("tests/samples/test_interface_overrides_interface_method_return_type_fail.yz",
+                    1,
+                    "tests/samples/test_interface_overrides_interface_method_return_type_fail.yz\\(20\\): Error: "
+                    "Interface systems.vos.wisey.compiler.tests.IReturnsHasValue overrides method 'getHasValue' of parent interface with a different return type");
+}
+
+TEST_F(TestFileRunner, interfaceOverridesInterfaceMethodArgumentTypeFailRunDeathTest) {
+  expectFailCompile("tests/samples/test_interface_overrides_interface_method_argument_type_fail.yz",
+                    1,
+                    "tests/samples/test_interface_overrides_interface_method_argument_type_fail.yz\\(20\\): Error: "
+                    "Interface systems.vos.wisey.compiler.tests.IProcessesHasValue overrides method 'processHasValue' of parent interface with different argument types");
 }
 
 TEST_F(TestFileRunner, interfaceStaticMethodThrowsNpeDeathRunTest) {

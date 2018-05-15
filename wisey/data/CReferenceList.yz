@@ -46,15 +46,15 @@ controller CReferenceList {
       return mKey;
     }
 
-    public void setNext(CPointerList.IListElement* element) override {
+    public void setNext(NElement* element) override {
       mNext = element;
     }
 
-    public CPointerList.IListElement getNext() override {
+    public NElement getNext() override {
       return mNext;
     }
 
-    public CPointerList.IListElement* takeNext() override {
+    public NElement* takeNext() override {
       return mNext;
     }
   }

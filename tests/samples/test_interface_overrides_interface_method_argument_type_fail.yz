@@ -1,0 +1,21 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+interface IHasValue {
+  int getValue();
+}
+
+model MHasValue implements IHasValue {
+  public int getValue() override {
+    return 7;
+  }
+}
+
+interface ISubInterface {
+  int processHasValue(MHasValue hasValue);
+}
+
+interface IProcessesHasValue extends ISubInterface {
+  int processHasValue(IHasValue hasValue) override;
+}

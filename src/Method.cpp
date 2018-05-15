@@ -181,17 +181,17 @@ void Method::generateIR(IRGenerationContext& context) const {
 
 void Method::createArguments(IRGenerationContext& context, Function* function) const {
   Function::arg_iterator llvmFunctionArguments = function->arg_begin();
-  llvm::Argument *llvmFunctionArgument = &*llvmFunctionArguments;
-  llvmFunctionArgument->setName(IObjectType::THIS);
+  llvm::Argument* thisArugment = &*llvmFunctionArguments;
+  thisArugment->setName(IObjectType::THIS);
   llvmFunctionArguments++;
-  llvmFunctionArgument = &*llvmFunctionArguments;
-  llvmFunctionArgument->setName(ThreadExpression::THREAD);
+  llvm::Argument* threadArgument = &*llvmFunctionArguments;
+  threadArgument->setName(ThreadExpression::THREAD);
   llvmFunctionArguments++;
-  llvmFunctionArgument = &*llvmFunctionArguments;
-  llvmFunctionArgument->setName(ThreadExpression::CALL_STACK);
+  llvm::Argument* callstackArgument = &*llvmFunctionArguments;
+  callstackArgument->setName(ThreadExpression::CALL_STACK);
   llvmFunctionArguments++;
   for (const Argument* methodArgument : mArguments) {
-    llvmFunctionArgument = &*llvmFunctionArguments;
+    llvm::Argument* llvmFunctionArgument = &*llvmFunctionArguments;
     llvmFunctionArgument->setName(methodArgument->getName());
     llvmFunctionArguments++;
   }

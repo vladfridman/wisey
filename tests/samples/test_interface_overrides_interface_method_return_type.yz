@@ -1,0 +1,42 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+interface IEmptyInterface {
+}
+
+interface IHasValue {
+  int getValue();
+}
+
+model MHasValue implements IEmptyInterface, IHasValue {
+  public int getValue() override {
+    return 5;
+  }
+}
+
+interface ISubInterface {
+  IHasValue getHasValue();
+}
+
+interface IReturnsHasValue extends ISubInterface {
+  MHasValue getHasValue() override;
+}
+
+model MModel implements IReturnsHasValue {
+  MHasValue* mHasValue; 
+
+  public MHasValue getHasValue() override {
+    return mHasValue;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    IReturnsHasValue* returner = builder(MModel).withHasValue(builder(MHasValue).build()).build();
+    return returner.getHasValue().getValue();
+  }
+}
+
+bind(IProgram).to(CProgram);

@@ -241,10 +241,17 @@ void Interface::includeInterfaceMethods(IRGenerationContext& context,
   for (MethodSignature* methodSignature : inheritedMethods) {
     methodOverrides.erase(methodSignature->getName());
     const IMethodDescriptor* existingMethod = findMethod(methodSignature->getName());
-    if (existingMethod && !IMethodDescriptor::compare(existingMethod, methodSignature)) {
+    if (existingMethod && !existingMethod->getReturnType()->
+        canAutoCastTo(context, methodSignature->getReturnType())) {
       context.reportError(existingMethod->getMethodQualifiers()->getLine(),
                           "Interface " + mName + " overrides method '" + existingMethod->getName()
-                          + "' of parent interface with a wrong signature");
+                          + "' of parent interface with a different return type");
+      throw 1;
+    }
+    if (existingMethod && !compareArguments(context, existingMethod, methodSignature)) {
+      context.reportError(existingMethod->getMethodQualifiers()->getLine(),
+                          "Interface " + mName + " overrides method '" + existingMethod->getName()
+                          + "' of parent interface with different argument types");
       throw 1;
     }
     if (existingMethod && !existingMethod->isOverride()) {
@@ -423,31 +430,32 @@ Function* Interface::defineMapFunctionForMethod(IRGenerationContext& context,
                                                 const IObjectType* object,
                                                 llvm::Function* concreteObjectFunction,
                                                 unsigned long interfaceIndex,
-                                                MethodSignature* interfaceMethodSignature) const {
+                                                MethodSignature* methodSignature) const {
   const IMethodDescriptor* objectMethodDescriptor =
-    object->findMethod(interfaceMethodSignature->getName());
+    object->findMethod(methodSignature->getName());
   if (objectMethodDescriptor == NULL) {
     context.reportError(object->getLine(),
-                        "Method " + interfaceMethodSignature->getName() + " of interface " +
-                        interfaceMethodSignature->getOriginalParentName() +
+                        "Method " + methodSignature->getName() + " of interface " +
+                        methodSignature->getOriginalParentName() +
                         " is not implemented by object " + object->getTypeName());
     throw 1;
   }
   
-  if (objectMethodDescriptor->getReturnType() != interfaceMethodSignature->getReturnType()) {
+  if (!objectMethodDescriptor->getReturnType()->
+      canAutoCastTo(context, methodSignature->getReturnType())) {
     context.reportError(objectMethodDescriptor->getMethodQualifiers()->getLine(),
-                        "Method " + interfaceMethodSignature->getName() + " of interface " + mName +
+                        "Method " + methodSignature->getName() + " of interface " + mName +
                         " has different return type when implmeneted by object " +
                         object->getTypeName());
     throw 1;
   }
   
   if (doesMethodHaveUnexpectedExceptions(context,
-                                         interfaceMethodSignature,
+                                         methodSignature,
                                          objectMethodDescriptor,
                                          object->getTypeName())) {
     context.reportError(objectMethodDescriptor->getMethodQualifiers()->getLine(),
-                        "Exceptions thrown by method " +  interfaceMethodSignature->getName() +
+                        "Exceptions thrown by method " +  methodSignature->getName() +
                         " of interface " + mName +
                         " do not reconcile with exceptions thrown by its " +
                         "implementation in object " + object->getTypeName());
@@ -457,35 +465,36 @@ Function* Interface::defineMapFunctionForMethod(IRGenerationContext& context,
   if (!objectMethodDescriptor->isOverride()) {
     context.reportError(objectMethodDescriptor->getMethodQualifiers()->getLine(),
                         "Object " + object->getTypeName() + " should mark method '" +
-                        interfaceMethodSignature->getName() +
+                        methodSignature->getName() +
                         "' with 'override' qualifier because it overrides the method defined in "
                         "the parent interface " +
-                        interfaceMethodSignature->getOriginalParentName());
+                        methodSignature->getOriginalParentName());
     throw 1;
   }
   
-  if (!IMethodDescriptor::compare(objectMethodDescriptor, interfaceMethodSignature)) {
+  if (!compareArguments(context, objectMethodDescriptor, methodSignature)) {
     context.reportError(objectMethodDescriptor->getMethodQualifiers()->getLine(),
-                        "Method " + interfaceMethodSignature->getName() + " of interface " + mName +
+                        "Method " + methodSignature->getName() + " of interface " + mName +
                         " has different argument types when implmeneted by object " +
                         object->getTypeName());
     throw 1;
   }
 
-  string functionName =
-    MethodCall::translateInterfaceMethodToLLVMFunctionName(object,
-                                                           this,
-                                                           interfaceMethodSignature->getName());
-  FunctionType* concreteObjectFunctionType = concreteObjectFunction->getFunctionType();
-  
+  string functionName = MethodCall::
+  translateInterfaceMethodToLLVMFunctionName(object, this, methodSignature->getName());
+
   vector<Type*> argumentTypes;
   argumentTypes.push_back(getLLVMType(context));
-  for (unsigned int i = 1; i < concreteObjectFunctionType->getNumParams(); i++) {
-    argumentTypes.push_back(concreteObjectFunctionType->getParamType(i));
+  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
+  argumentTypes.push_back(threadInterface->getLLVMType(context));
+  Controller* callStack = context.getController(Names::getCallStackControllerFullName(), 0);
+  argumentTypes.push_back(callStack->getLLVMType(context));
+
+  for (const Argument* argument : methodSignature->getArguments()) {
+    argumentTypes.push_back(argument->getType()->getLLVMType(context));
   }
-  FunctionType* functionType = FunctionType::get(concreteObjectFunctionType->getReturnType(),
-                                                 argumentTypes,
-                                                 true);
+  FunctionType* functionType =
+  FunctionType::get(methodSignature->getReturnType()->getLLVMType(context), argumentTypes, true);
 
   Function* function = Function::Create(functionType,
                                         GlobalValue::ExternalLinkage,
@@ -498,11 +507,9 @@ void Interface::composeMapFunctionBody(IRGenerationContext& context,
                                        const IObjectType* object,
                                        llvm::Function* concreteObjectFunction,
                                        unsigned long interfaceIndex,
-                                       MethodSignature* interfaceMethodSignature) const {
-  string functionName =
-  MethodCall::translateInterfaceMethodToLLVMFunctionName(object,
-                                                         this,
-                                                         interfaceMethodSignature->getName());
+                                       MethodSignature* methodSignature) const {
+  string functionName = MethodCall::
+  translateInterfaceMethodToLLVMFunctionName(object, this, methodSignature->getName());
   Function* function = context.getModule()->getFunction(functionName);
 
   Function::arg_iterator arguments = function->arg_begin();
@@ -512,22 +519,31 @@ void Interface::composeMapFunctionBody(IRGenerationContext& context,
   llvm::Argument* thread = &*arguments;
   thread->setName(ThreadExpression::THREAD);
   arguments++;
-  vector<const Argument*> methodArguments = interfaceMethodSignature->getArguments();
-  for (const Argument* methodArgument : interfaceMethodSignature->getArguments()) {
+  llvm::Argument* callstack = &*arguments;
+  callstack->setName(ThreadExpression::CALL_STACK);
+  arguments++;
+  vector<const Argument*> methodArguments = methodSignature->getArguments();
+  for (const Argument* methodArgument : methodSignature->getArguments()) {
     llvm::Argument *argument = &*arguments;
     argument->setName(methodArgument->getName());
     arguments++;
   }
   
-  generateMapFunctionBody(context, object, concreteObjectFunction, function, interfaceIndex);
+  generateMapFunctionBody(context,
+                          object,
+                          concreteObjectFunction,
+                          function,
+                          object->findMethod(methodSignature->getName()),
+                          methodSignature,
+                          interfaceIndex);
 }
 
 bool Interface::doesMethodHaveUnexpectedExceptions(IRGenerationContext& context,
-                                                   MethodSignature* interfaceMethodSignature,
+                                                   MethodSignature* methodSignature,
                                                    const IMethodDescriptor* objectMethodDescriptor,
                                                    string objectName) const {
   map<string, const IType*> interfaceExceptionsMap;
-  for (const IType* interfaceException : interfaceMethodSignature->getThrownExceptions()) {
+  for (const IType* interfaceException : methodSignature->getThrownExceptions()) {
     interfaceExceptionsMap[interfaceException->getTypeName()] = interfaceException;
   }
 
@@ -549,6 +565,8 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
                                         const IObjectType* object,
                                         Function* concreteObjectFunction,
                                         Function* mapFunction,
+                                        const IMethodDescriptor* objectMethod,
+                                        MethodSignature* methodSignature,
                                         unsigned long interfaceIndex) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   BasicBlock *basicBlock = BasicBlock::Create(llvmContext, "entry", mapFunction, 0);
@@ -573,17 +591,40 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
 
   vector<Value*> callArguments;
   callArguments.push_back(castObjectThis);
+  callArguments.push_back(&*arguments);
+  arguments++;
+  callArguments.push_back(&*arguments);
+  arguments++;
+  vector<const Argument*> objectMethodArguments = objectMethod->getArguments();
+  vector<const Argument*> methodSignatureArguments = methodSignature->getArguments();
+  auto methodArguments = objectMethodArguments.begin();
+  auto signatureArguments = methodSignatureArguments.begin();
   while (arguments != mapFunction->arg_end()) {
-    callArguments.push_back(&*arguments);
+    Value* value = &*arguments;
+    const Argument* signatureArgument = *signatureArguments;
+    const Argument* methodArgument = *methodArguments;
+    const IType* fromType = signatureArgument->getType();
+    const IType* toType = methodArgument->getType();
+    Value* castValue = fromType->castTo(context, value, toType, 0);
+    callArguments.push_back(castValue);
     arguments++;
+    methodArguments++;
+    signatureArguments++;
   }
-  
+  assert(methodArguments == objectMethodArguments.end() ||
+         "There are more method arguments than in the function that implements it");
+  assert(signatureArguments == methodSignatureArguments.end() ||
+         "There are more method signature arguments than in the function that implements it");
+
   Value* result = IRWriter::createInvokeInst(context, concreteObjectFunction, callArguments, "", 0);
 
   if (concreteObjectFunction->getReturnType()->isVoidTy()) {
     IRWriter::createReturnInst(context, NULL);
   } else {
-    IRWriter::createReturnInst(context, result);
+    const IType* fromType = objectMethod->getReturnType();
+    const IType* toType = methodSignature->getReturnType();
+    Value* castResult = fromType->castTo(context, result, toType, 0);
+    IRWriter::createReturnInst(context, castResult);
   }
 
   context.getScopes().popScope(context, 0);
@@ -1176,4 +1217,27 @@ const wisey::ArrayType* Interface::getArrayType(IRGenerationContext& context, in
 
 int Interface::getLine() const {
   return mLine;
+}
+
+bool Interface::compareArguments(IRGenerationContext& context,
+                                 const IMethodDescriptor* method1,
+                                 const IMethodDescriptor* method2) {
+  vector<const Argument*> thisArguments = method1->getArguments();
+  vector<const Argument*> thatArugments = method2->getArguments();
+  if (thisArguments.size() != thatArugments.size()) {
+    return false;
+  }
+  
+  vector<const Argument*>::const_iterator thatArgumentIterator = thatArugments.begin();
+  for (vector<const Argument*>::const_iterator thisArgumentIterator = thisArguments.begin();
+       thisArgumentIterator != thisArguments.end();
+       thisArgumentIterator++, thatArgumentIterator++) {
+    const Argument* thisArgument = *thisArgumentIterator;
+    const Argument* thatArgument = *thatArgumentIterator;
+    if (!thisArgument->getType()->canAutoCastTo(context, thatArgument->getType())) {
+      return false;
+    }
+  }
+  
+  return true;
 }

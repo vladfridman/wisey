@@ -332,6 +332,8 @@ namespace wisey {
                                  const IObjectType* object,
                                  llvm::Function* concreteObjectFunction,
                                  llvm::Function* mapFunction,
+                                 const IMethodDescriptor* objectMethod,
+                                 MethodSignature* methodSignature,
                                  unsigned long interfaceIndex) const;
     
     llvm::Value* storeArgumentValue(IRGenerationContext& context,
@@ -341,7 +343,7 @@ namespace wisey {
                                     llvm::Value* variableValue) const;
     
     bool doesMethodHaveUnexpectedExceptions(IRGenerationContext& context,
-                                            MethodSignature* interfaceMethodSignature,
+                                            MethodSignature* methodSignature,
                                             const IMethodDescriptor* objectMethodDescriptor,
                                             std::string objectName) const;
     
@@ -362,6 +364,10 @@ namespace wisey {
                                                     const void* object1,
                                                     const void* object2);
     
+    static bool compareArguments(IRGenerationContext& context,
+                                 const IMethodDescriptor* method1,
+                                 const IMethodDescriptor* method2);
+
     std::string getInjectWrapperFunctionName() const;
     
     std::string getInjectFunctionVariableName() const;
