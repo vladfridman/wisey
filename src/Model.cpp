@@ -387,8 +387,6 @@ void Model::checkArgumentsAreWellFormed(IRGenerationContext& context,
   }
   
   if (!areArgumentsWellFormed) {
-    context.reportError(line,
-                        "Some arguments for the model " + mName + " builder are not well formed");
     throw 1;
   }
 }
@@ -409,7 +407,6 @@ void Model::checkAllFieldsAreSet(IRGenerationContext& context,
   for (string missingField : missingFields) {
     context.reportError(line, "Field " + missingField + " is not initialized");
   }
-  context.reportError(line, "Some fields of the model " + mName + " are not initialized.");
   throw 1;
 }
 

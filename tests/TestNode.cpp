@@ -690,8 +690,7 @@ TEST_F(NodeTest, buildInvalidObjectBuilderArgumentsDeathTest) {
   argumentList.push_back(argument2);
   
   const char* expected =
-  "/tmp/source.yz(1): Error: Object builder argument should start with 'with'. e.g. .withField(value).\n"
-  "/tmp/source.yz(1): Error: Some arguments for the node systems.vos.wisey.compiler.tests.NSimpleNode builder are not well formed\n";
+  "/tmp/source.yz(1): Error: Object builder argument should start with 'with'. e.g. .withField(value).\n";
   
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
@@ -737,8 +736,7 @@ TEST_F(NodeTest, buildNotAllFieldsAreSetDeathTest) {
   ObjectBuilderArgumentList argumentList;
   
   const char* expected =
-  "/tmp/source.yz(7): Error: Field mReference of the node systems.vos.wisey.compiler.tests.NSimpleNode is not initialized.\n"
-  "/tmp/source.yz(7): Error: Some fixed fields of the node systems.vos.wisey.compiler.tests.NSimpleNode are not initialized.\n";
+  "/tmp/source.yz(7): Error: Field mReference of the node systems.vos.wisey.compiler.tests.NSimpleNode is not initialized.\n";
   
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());

@@ -355,8 +355,6 @@ void Node::checkArgumentsAreWellFormed(IRGenerationContext& context,
   }
   
   if (!areArgumentsWellFormed) {
-    context.reportError(line, "Some arguments for the node " + mName +
-                        " builder are not well formed");
     throw 1;
   }
 }
@@ -378,7 +376,6 @@ void Node::checkAllFieldsAreSet(IRGenerationContext& context,
     context.reportError(line, "Field " + missingField + " of the node " + mName +
                         " is not initialized.");
   }
-  context.reportError(line, "Some fixed fields of the node " + mName + " are not initialized.");
   throw 1;
 }
 

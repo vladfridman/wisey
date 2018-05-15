@@ -717,8 +717,7 @@ TEST_F(ModelTest, buildInvalidObjectBuilderArgumentsDeathTest) {
   argumentList.push_back(argument2);
   
   const char* expected =
-  "/tmp/source.yz(3): Error: Object builder argument should start with 'with'. e.g. .withField(value).\n"
-  "/tmp/source.yz(3): Error: Some arguments for the model systems.vos.wisey.compiler.tests.MStar builder are not well formed\n";
+  "/tmp/source.yz(3): Error: Object builder argument should start with 'with'. e.g. .withField(value).\n";
   
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
@@ -764,8 +763,7 @@ TEST_F(ModelTest, buildNotAllFieldsAreSetDeathTest) {
   argumentList.push_back(argument1);
   
   const char* expected =
-  "/tmp/source.yz(5): Error: Field mGalaxy is not initialized\n"
-  "/tmp/source.yz(5): Error: Some fields of the model systems.vos.wisey.compiler.tests.MStar are not initialized.\n";
+  "/tmp/source.yz(5): Error: Field mGalaxy is not initialized\n";
   
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
