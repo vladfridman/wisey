@@ -53,13 +53,14 @@ struct ThrowReferenceCountExceptionFunctionTest : Test {
 
 TEST_F(ThrowReferenceCountExceptionFunctionTest, callTest) {
   Value* referenceCount = ConstantInt::get(Type::getInt64Ty(mLLVMContext), 5);
-  ThrowReferenceCountExceptionFunction::call(mContext, referenceCount);
+  Value* namePointer = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
+  ThrowReferenceCountExceptionFunction::call(mContext, referenceCount, namePointer);
   
   *mStringStream << *mFunction;
   string expected =
   "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
-  "\n  invoke void @__throwReferenceCountException(i64 5)"
+  "\n  invoke void @__throwReferenceCountException(i64 5, i8* null)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\ncleanup:                                          ; preds = %entry"
@@ -79,8 +80,7 @@ TEST_F(ThrowReferenceCountExceptionFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @__throwReferenceCountException(i64 %referenceCount) "
-  "personality i32 (...)* @__gxx_personality_v0 {"
+  "\ndefine void @__throwReferenceCountException(i64 %referenceCount, i8* %namePointer) personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%wisey.lang.MReferenceCountException.refCounter* getelementptr (%wisey.lang.MReferenceCountException.refCounter, %wisey.lang.MReferenceCountException.refCounter* null, i32 1) to i64))"
   "\n  %buildervar = bitcast i8* %malloccall to %wisey.lang.MReferenceCountException.refCounter*"
@@ -89,29 +89,31 @@ TEST_F(ThrowReferenceCountExceptionFunctionTest, getTest) {
   "\n  %1 = getelementptr %wisey.lang.MReferenceCountException.refCounter, %wisey.lang.MReferenceCountException.refCounter* %buildervar, i32 0, i32 1"
   "\n  %2 = getelementptr %wisey.lang.MReferenceCountException, %wisey.lang.MReferenceCountException* %1, i32 0, i32 1"
   "\n  store i64 %referenceCount, i64* %2"
-  "\n  %3 = bitcast %wisey.lang.MReferenceCountException* %1 to i8*"
-  "\n  %4 = getelementptr i8, i8* %3, i64 0"
-  "\n  %5 = bitcast i8* %4 to i32 (...)***"
-  "\n  %6 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @wisey.lang.MReferenceCountException.vtable, i32 0, i32 0, i32 0"
-  "\n  %7 = bitcast i8** %6 to i32 (...)**"
-  "\n  store i32 (...)** %7, i32 (...)*** %5"
-  "\n  %8 = alloca %wisey.lang.MReferenceCountException*"
-  "\n  store %wisey.lang.MReferenceCountException* %1, %wisey.lang.MReferenceCountException** %8"
-  "\n  %9 = bitcast { i8*, i8* }* @wisey.lang.MReferenceCountException.rtti to i8*"
-  "\n  %10 = bitcast %wisey.lang.MReferenceCountException* %1 to i8*"
-  "\n  %11 = getelementptr i8, i8* %10, i64 -8"
-  "\n  %12 = call i8* @__cxa_allocate_exception(i64 add (i64 ptrtoint (%wisey.lang.MReferenceCountException* getelementptr (%wisey.lang.MReferenceCountException, %wisey.lang.MReferenceCountException* null, i32 1) to i64), i64 ptrtoint (i64* getelementptr (i64, i64* null, i32 1) to i64)))"
-  "\n  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %12, i8* %11, i64 add (i64 ptrtoint (%wisey.lang.MReferenceCountException* getelementptr (%wisey.lang.MReferenceCountException, %wisey.lang.MReferenceCountException* null, i32 1) to i64), i64 ptrtoint (i64* getelementptr (i64, i64* null, i32 1) to i64)), i32 4, i1 false)"
-  "\n  invoke void @__cxa_throw(i8* %12, i8* %9, i8* null)"
+  "\n  %3 = getelementptr %wisey.lang.MReferenceCountException, %wisey.lang.MReferenceCountException* %1, i32 0, i32 2"
+  "\n  store i8* %namePointer, i8** %3"
+  "\n  %4 = bitcast %wisey.lang.MReferenceCountException* %1 to i8*"
+  "\n  %5 = getelementptr i8, i8* %4, i64 0"
+  "\n  %6 = bitcast i8* %5 to i32 (...)***"
+  "\n  %7 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @wisey.lang.MReferenceCountException.vtable, i32 0, i32 0, i32 0"
+  "\n  %8 = bitcast i8** %7 to i32 (...)**"
+  "\n  store i32 (...)** %8, i32 (...)*** %6"
+  "\n  %9 = alloca %wisey.lang.MReferenceCountException*"
+  "\n  store %wisey.lang.MReferenceCountException* %1, %wisey.lang.MReferenceCountException** %9"
+  "\n  %10 = bitcast { i8*, i8* }* @wisey.lang.MReferenceCountException.rtti to i8*"
+  "\n  %11 = bitcast %wisey.lang.MReferenceCountException* %1 to i8*"
+  "\n  %12 = getelementptr i8, i8* %11, i64 -8"
+  "\n  %13 = call i8* @__cxa_allocate_exception(i64 add (i64 ptrtoint (%wisey.lang.MReferenceCountException* getelementptr (%wisey.lang.MReferenceCountException, %wisey.lang.MReferenceCountException* null, i32 1) to i64), i64 ptrtoint (i64* getelementptr (i64, i64* null, i32 1) to i64)))"
+  "\n  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %13, i8* %12, i64 add (i64 ptrtoint (%wisey.lang.MReferenceCountException* getelementptr (%wisey.lang.MReferenceCountException, %wisey.lang.MReferenceCountException* null, i32 1) to i64), i64 ptrtoint (i64* getelementptr (i64, i64* null, i32 1) to i64)), i32 4, i1 false)"
+  "\n  invoke void @__cxa_throw(i8* %13, i8* %10, i8* null)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\ncleanup:                                          ; preds = %entry"
-  "\n  %13 = landingpad { i8*, i32 }"
+  "\n  %14 = landingpad { i8*, i32 }"
   "\n          cleanup"
-  "\n  %14 = load %wisey.lang.MReferenceCountException*, %wisey.lang.MReferenceCountException** %8"
-  "\n  %15 = bitcast %wisey.lang.MReferenceCountException* %14 to i8*"
-  "\n  call void @__destroyObjectOwnerFunction(i8* %15)"
-  "\n  resume { i8*, i32 } %13"
+  "\n  %15 = load %wisey.lang.MReferenceCountException*, %wisey.lang.MReferenceCountException** %9"
+  "\n  %16 = bitcast %wisey.lang.MReferenceCountException* %15 to i8*"
+  "\n  call void @__destroyObjectOwnerFunction(i8* %16)"
+  "\n  resume { i8*, i32 } %14"
   "\n"
   "\ninvoke.continue:                                  ; preds = %entry"
   "\n  unreachable"

@@ -142,7 +142,7 @@ TEST_F(FieldArrayOwnerVariableTest, generateWholeArrayAssignmentTest) {
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1"
   "\n  %1 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %0"
   "\n  %2 = bitcast { i64, i64, i64, [0 x i32] }* %1 to i64*"
-  "\n  call void @__destroyPrimitiveArrayFunction(i64* %2, i64 1)"
+  "\n  call void @__destroyPrimitiveArrayFunction(i64* %2, i64 1, i8* getelementptr inbounds ([7 x i8], [7 x i8]* @\"int[]*\", i32 0, i32 0))"
   "\n  store { i64, i64, i64, [0 x i32] }* null, { i64, i64, i64, [0 x i32] }** %0\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -236,7 +236,7 @@ TEST_F(TestFileRunner, referenceCountIncrementsOnAssignToFieldArrayOwnerElementR
                                "",
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_count_increments_on_assign_to_field_array_owner_element.yz:29)\n"
-                               "Details: Object referenced by expression still has 1 active reference\n"
+                               "Details: Object referenced by expression of type systems.vos.wisey.compiler.tests.MCar still has 1 active reference\n"
                                "Main thread ended without a result\n");
 }
 
@@ -257,7 +257,7 @@ TEST_F(TestFileRunner, fieldArrayOfIntsRceRunDeathTest) {
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CController.getRce(tests/samples/test_field_array_of_ints_rce.yz:10)\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_field_array_of_ints_rce.yz:19)\n"
-                               "Details: Object referenced by expression still has 1 active reference\n"
+                               "Details: Object referenced by expression of type int[]* still has 1 active reference\n"
                                "Main thread ended without a result\n");
 }
 
@@ -268,7 +268,7 @@ TEST_F(TestFileRunner, fieldArrayOfOwnersRceRunDeathTest) {
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CController.getRce(tests/samples/test_field_array_of_owners_rce.yz:16)\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_field_array_of_owners_rce.yz:25)\n"
-                               "Details: Object referenced by expression still has 1 active reference\n"
+                               "Details: Object referenced by expression of type systems.vos.wisey.compiler.tests.MCar*[]* still has 1 active reference\n"
                                "Main thread ended without a result\n");
 }
 
@@ -279,7 +279,7 @@ TEST_F(TestFileRunner, fieldArrayOfReferencesRceRunDeathTest) {
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CController.getRce(tests/samples/test_field_array_of_references_rce.yz:16)\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_field_array_of_references_rce.yz:25)\n"
-                               "Details: Object referenced by expression still has 1 active reference\n"
+                               "Details: Object referenced by expression of type systems.vos.wisey.compiler.tests.MCar[]* still has 1 active reference\n"
                                "Main thread ended without a result\n");
 }
 

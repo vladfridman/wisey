@@ -34,13 +34,15 @@ Function* DestroyPrimitiveArrayFunction::get(IRGenerationContext& context) {
 
 void DestroyPrimitiveArrayFunction::call(IRGenerationContext& context,
                                          Value* array,
-                                         unsigned long numberOfDimensions) {
+                                         long numberOfDimentions,
+                                         llvm::Value* arrayNamePointer) {
   LLVMContext& llvmContext = context.getLLVMContext();
 
   Function* function = get(context);
   vector<Value*> arguments;
   arguments.push_back(array);
-  arguments.push_back(ConstantInt::get(Type::getInt64Ty(llvmContext), numberOfDimensions));
+  arguments.push_back(ConstantInt::get(Type::getInt64Ty(llvmContext), numberOfDimentions));
+  arguments.push_back(arrayNamePointer);
 
   IRWriter::createCallInst(context, function, arguments, "");
 }
@@ -60,6 +62,7 @@ LLVMFunctionType* DestroyPrimitiveArrayFunction::getLLVMFunctionType(IRGeneratio
   vector<const IType*> argumentTypes;
   argumentTypes.push_back(LLVMPrimitiveTypes::I64->getPointerType(context, 0));
   argumentTypes.push_back(LLVMPrimitiveTypes::I64);
+  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType(context, 0));
 
   return context.getLLVMFunctionType(LLVMPrimitiveTypes::VOID, argumentTypes);
 }
@@ -77,7 +80,10 @@ void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Functi
   llvmArguments++;
   Value* numberOfDimensions = &*llvmArguments;
   numberOfDimensions->setName("noOfDimensions");
-  
+  llvmArguments++;
+  Value* arrayName = &*llvmArguments;
+  arrayName->setName("arrayName");
+
   BasicBlock* entry = BasicBlock::Create(llvmContext, "entry", function);
   BasicBlock* returnVoid = BasicBlock::Create(llvmContext, "return.void", function);
   BasicBlock* ifNotNull = BasicBlock::Create(llvmContext, "if.not.null", function);
@@ -91,7 +97,7 @@ void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Functi
   IRWriter::createReturnInst(context, NULL);
   
   context.setBasicBlock(ifNotNull);
-  CheckArrayNotReferencedFunction::call(context, arrayPointer, numberOfDimensions);
+  CheckArrayNotReferencedFunction::call(context, arrayPointer, numberOfDimensions, arrayName);
   if (context.isDestructorDebugOn()) {
     ExpressionList printOutArguments;
     PrintOutStatement printOutStatement(new StringLiteral("destructor primitive[]\n", 0), 0);

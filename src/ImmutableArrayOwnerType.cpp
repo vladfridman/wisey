@@ -8,6 +8,9 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/DestroyOwnerArrayFunction.hpp"
+#include "wisey/DestroyPrimitiveArrayFunction.hpp"
+#include "wisey/DestroyReferenceArrayFunction.hpp"
 #include "wisey/FieldImmutableArrayOwnerVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -71,7 +74,22 @@ llvm::Value* ImmutableArrayOwnerType::castTo(IRGenerationContext &context,
 void ImmutableArrayOwnerType::free(IRGenerationContext& context,
                                    llvm::Value* arrayPointer,
                                    int line) const {
-  mImmutableArrayType->getArrayType(context, line)->getOwner()->free(context, arrayPointer, line);
+  const ArrayType* arrayType = getArrayType(context, line);
+  
+  const IType* elementType = arrayType->getElementType();
+  llvm::Type* genericPointer = llvm::Type::getInt64Ty(context.getLLVMContext())->getPointerTo();
+  llvm::Value* arrayBitcast = IRWriter::newBitCastInst(context, arrayPointer, genericPointer);
+  long dimensions = arrayType->getNumberOfDimensions();
+  llvm::Value* arrayNamePointer = getArrayNamePointer(context);
+  
+  if (elementType->isOwner()) {
+    DestroyOwnerArrayFunction::call(context, arrayBitcast, dimensions, arrayNamePointer);
+  } else if (elementType->isReference()) {
+    DestroyReferenceArrayFunction::call(context, arrayBitcast, dimensions, arrayNamePointer);
+  } else {
+    assert(elementType->isPrimitive());
+    DestroyPrimitiveArrayFunction::call(context, arrayBitcast, dimensions, arrayNamePointer);
+  }
 }
 
 bool ImmutableArrayOwnerType::isPrimitive() const {
@@ -169,4 +187,30 @@ llvm::Instruction* ImmutableArrayOwnerType::inject(IRGenerationContext& context,
                                                    int line) const {
   repotNonInjectableType(context, this, line);
   throw 1;
+}
+
+llvm::Value* ImmutableArrayOwnerType::getArrayNamePointer(IRGenerationContext& context) const {
+  llvm::LLVMContext& llvmContext = context.getLLVMContext();
+  string typeName = getTypeName();
+  
+  llvm::GlobalVariable* nameGlobal = context.getModule()->getNamedGlobal(typeName);
+  if (!nameGlobal) {
+    llvm::Constant* stringConstant = llvm::ConstantDataArray::getString(llvmContext, typeName);
+    
+    llvm::Type* charArrayType = llvm::ArrayType::get(llvm::Type::getInt8Ty(llvmContext),
+                                                     typeName.length() + 1);
+    nameGlobal = new llvm::GlobalVariable(*context.getModule(),
+                                          charArrayType,
+                                          true,
+                                          llvm::GlobalValue::LinkageTypes::ExternalLinkage,
+                                          stringConstant,
+                                          typeName);
+  }
+  llvm::ConstantInt* zeroInt32 = llvm::ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 0);
+  llvm::Value* Idx[2];
+  Idx[0] = zeroInt32;
+  Idx[1] = zeroInt32;
+  llvm::Type* elementType = nameGlobal->getType()->getPointerElementType();
+  
+  return llvm::ConstantExpr::getGetElementPtr(elementType, nameGlobal, Idx);
 }

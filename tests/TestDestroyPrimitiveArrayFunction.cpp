@@ -66,14 +66,16 @@ struct DestroyPrimitiveArrayFunctionTest : Test {
 };
 
 TEST_F(DestroyPrimitiveArrayFunctionTest, callTest) {
-  llvm::PointerType* genericPointer = llvm::Type::getInt64Ty(mLLVMContext)->getPointerTo();
-  Value* nullPointerValue = ConstantPointerNull::get(genericPointer);
-  DestroyPrimitiveArrayFunction::call(mContext, nullPointerValue, 2u);
+  llvm::PointerType* i64PointerType = llvm::Type::getInt64Ty(mLLVMContext)->getPointerTo();
+  llvm::PointerType* i8PointerType = llvm::Type::getInt8Ty(mLLVMContext)->getPointerTo();
+  Value* arrayPointer = ConstantPointerNull::get(i64PointerType);
+  Value* arrayNamePointer = ConstantPointerNull::get(i8PointerType);
+  DestroyPrimitiveArrayFunction::call(mContext, arrayPointer, 2u, arrayNamePointer);
   
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  call void @__destroyPrimitiveArrayFunction(i64* null, i64 2)\n";
+  "\n  call void @__destroyPrimitiveArrayFunction(i64* null, i64 2, i8* null)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -84,7 +86,7 @@ TEST_F(DestroyPrimitiveArrayFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @__destroyPrimitiveArrayFunction(i64* %arrayPointer, i64 %noOfDimensions) {"
+  "\ndefine void @__destroyPrimitiveArrayFunction(i64* %arrayPointer, i64 %noOfDimensions, i8* %arrayName) {"
   "\nentry:"
   "\n  %isNull = icmp eq i64* %arrayPointer, null"
   "\n  br i1 %isNull, label %return.void, label %if.not.null"
@@ -93,7 +95,7 @@ TEST_F(DestroyPrimitiveArrayFunctionTest, getTest) {
   "\n  ret void"
   "\n"
   "\nif.not.null:                                      ; preds = %entry"
-  "\n  call void @__checkArrayNotReferenced(i64* %arrayPointer, i64 %noOfDimensions)"
+  "\n  call void @__checkArrayNotReferenced(i64* %arrayPointer, i64 %noOfDimensions, i8* %arrayName)"
   "\n  %0 = bitcast i64* %arrayPointer to i8*"
   "\n  tail call void @free(i8* %0)"
   "\n  ret void"

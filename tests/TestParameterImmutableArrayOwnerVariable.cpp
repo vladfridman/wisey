@@ -108,7 +108,7 @@ TEST_F(ParameterImmutableArrayOwnerVariableTest, freeTest) {
   "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*"
   "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo"
   "\n  %1 = bitcast { i64, i64, i64, [0 x i32] }* %0 to i64*"
-  "\n  call void @__destroyPrimitiveArrayFunction(i64* %1, i64 1)"
+  "\n  call void @__destroyPrimitiveArrayFunction(i64* %1, i64 1, i8* getelementptr inbounds ([17 x i8], [17 x i8]* @\"immutable int[]*\", i32 0, i32 0))"
   "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -165,7 +165,7 @@ TEST_F(TestFileRunner, parameterImmutableArrayOwnerRceRunDeathTest) {
                                "",
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_parameter_immutable_array_owner_rce.yz:15)\n"
-                               "Details: Object referenced by expression still has 1 active reference\n"
+                               "Details: Object referenced by expression of type int[][]* still has 1 active reference\n"
                                "Main thread ended without a result\n");
 }
 

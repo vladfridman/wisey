@@ -32,8 +32,9 @@ interface IThreadRunner {
     } catch (MReferenceCountException* exception) {
       callstack.reportException(exception);
       string ending = exception.getReferenceCount() > 1 ? "s" : "";
-      printerr("Details: Object referenced by expression still has " + 
-        exception.getReferenceCount() + " active reference" + ending + "\n");
+      printerr("Details: Object referenced by expression of type " +
+        exception.getObjectType() +  " still has " + exception.getReferenceCount() + 
+        " active reference" + ending + "\n");
     } catch (MCastException* exception) {
       callstack.reportException(exception);
       printerr("Details: Can not cast from " + exception.getFromType() + " to " + 

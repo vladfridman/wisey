@@ -32,7 +32,8 @@ Function* CheckArrayNotReferencedFunction::get(IRGenerationContext& context) {
 
 void CheckArrayNotReferencedFunction::call(IRGenerationContext& context,
                                            Value* array,
-                                           Value* numberOfDimensions) {
+                                           Value* numberOfDimensions,
+                                           Value* arrayNamePointer) {
   Type* int64PointerType = Type::getInt64Ty(context.getLLVMContext())->getPointerTo();
   Value* arrayBitcast = array->getType() != int64PointerType
   ? IRWriter::newBitCastInst(context, array, int64PointerType)
@@ -41,18 +42,9 @@ void CheckArrayNotReferencedFunction::call(IRGenerationContext& context,
   vector<Value*> arguments;
   arguments.push_back(arrayBitcast);
   arguments.push_back(numberOfDimensions);
-  
-  IRWriter::createCallInst(context, function, arguments, "");
-}
+  arguments.push_back(arrayNamePointer);
 
-void CheckArrayNotReferencedFunction::callWithArrayType(IRGenerationContext& context,
-                                                        Value* array,
-                                                        const IType* withArrayType,
-                                                        int line) {
-  const ArrayType* arrayType = withArrayType->getArrayType(context, line);
-  ConstantInt* numberOfDimentions = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()),
-                                                     arrayType->getNumberOfDimensions());
-  call(context, array, numberOfDimentions);
+  IRWriter::createCallInst(context, function, arguments, "");
 }
 
 string CheckArrayNotReferencedFunction::getName() {
@@ -71,7 +63,8 @@ LLVMFunctionType* CheckArrayNotReferencedFunction::getLLVMFunctionType(IRGenerat
   vector<const IType*> argumentTypes;
   argumentTypes.push_back(LLVMPrimitiveTypes::I64->getPointerType(context, 0));
   argumentTypes.push_back(LLVMPrimitiveTypes::I64);
-  
+  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType(context, 0));
+
   return context.getLLVMFunctionType(LLVMPrimitiveTypes::VOID, argumentTypes);
 }
 
@@ -87,14 +80,15 @@ void CheckArrayNotReferencedFunction::compose(IRGenerationContext& context, Func
   context.getScopes().pushScope();
   
   Function::arg_iterator llvmArguments = function->arg_begin();
-  Value *llvmArgument = &*llvmArguments;
-  llvmArgument->setName("arrayPointer");
-  Value* arrayPointer = llvmArgument;
+  Value* arrayPointer = &*llvmArguments;
+  arrayPointer->setName("arrayPointer");
   llvmArguments++;
-  llvmArgument = &*llvmArguments;
-  llvmArgument->setName("noOfDimensions");
-  Value* numberOfDimensions = llvmArgument;
-  
+  Value* numberOfDimensions = &*llvmArguments;
+  numberOfDimensions->setName("noOfDimensions");
+  llvmArguments++;
+  Value* arrayName = &*llvmArguments;
+  arrayName->setName("arrayName");
+
   BasicBlock* entry = BasicBlock::Create(llvmContext, "entry", function);
   BasicBlock* returnVoid = BasicBlock::Create(llvmContext, "return.void", function);
   BasicBlock* ifNotNull = BasicBlock::Create(llvmContext, "if.not.null", function);
@@ -118,7 +112,7 @@ void CheckArrayNotReferencedFunction::compose(IRGenerationContext& context, Func
   IRWriter::createConditionalBranch(context, refCountZeroBlock, refCountNotZeroBlock, isZero);
   
   context.setBasicBlock(refCountNotZeroBlock);
-  ThrowReferenceCountExceptionFunction::call(context, referenceCount);
+  ThrowReferenceCountExceptionFunction::call(context, referenceCount, arrayName);
   IRWriter::newUnreachableInst(context);
   
   context.setBasicBlock(refCountZeroBlock);
@@ -176,6 +170,7 @@ void CheckArrayNotReferencedFunction::compose(IRGenerationContext& context, Func
   vector<Value*> recursiveCallArguments;
   recursiveCallArguments.push_back(IRWriter::newBitCastInst(context, elementStore, genericPointer));
   recursiveCallArguments.push_back(numberOfDimensionsMinusOne);
+  recursiveCallArguments.push_back(arrayName);
   IRWriter::createCallInst(context, function, recursiveCallArguments, "");
   IRWriter::createBranch(context, forCond);
   

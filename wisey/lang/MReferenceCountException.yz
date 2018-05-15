@@ -1,6 +1,7 @@
 package wisey.lang;
 
 model MReferenceCountException implements IException {
+  string mObjectType;
   long mReferenceCount;
 
   public string getName() override {
@@ -9,5 +10,9 @@ model MReferenceCountException implements IException {
 
   public long getReferenceCount() {
     return mReferenceCount;
+  }
+
+  public string getObjectType() {
+    return mObjectType;
   }
 }

@@ -66,30 +66,13 @@ TEST_F(CheckArrayNotReferencedFunctionTest, callTest) {
   llvm::PointerType* genericPointer = llvm::Type::getInt64Ty(mLLVMContext)->getPointerTo();
   Value* nullPointerValue = ConstantPointerNull::get(genericPointer);
   Value* two = ConstantInt::get(Type::getInt64Ty(mLLVMContext), 2);
-  CheckArrayNotReferencedFunction::call(mContext, nullPointerValue, two);
+  Value* namePointer = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
+  CheckArrayNotReferencedFunction::call(mContext, nullPointerValue, two, namePointer);
   
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  call void @__checkArrayNotReferenced(i64* null, i64 2)\n";
-  
-  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
-}
-
-TEST_F(CheckArrayNotReferencedFunctionTest, callWithArrayTypeTest) {
-  wisey::ArrayType* arrayType = new wisey::ArrayType(PrimitiveTypes::INT, 3);
-  ON_CALL(mWithArrayType, getArrayType(_, _)).WillByDefault(Return(arrayType));
-  llvm::PointerType* genericPointer = llvm::Type::getInt64Ty(mLLVMContext)->getPointerTo();
-  Value* nullPointerValue = ConstantPointerNull::get(genericPointer);
-  CheckArrayNotReferencedFunction::callWithArrayType(mContext,
-                                                     nullPointerValue,
-                                                     &mWithArrayType,
-                                                     0);
-  
-  *mStringStream << *mBasicBlock;
-  string expected =
-  "\nentry:"
-  "\n  call void @__checkArrayNotReferenced(i64* null, i64 3)\n";
+  "\n  call void @__checkArrayNotReferenced(i64* null, i64 2, i8* null)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -100,7 +83,7 @@ TEST_F(CheckArrayNotReferencedFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @__checkArrayNotReferenced(i64* %arrayPointer, i64 %noOfDimensions) personality i32 (...)* @__gxx_personality_v0 {"
+  "\ndefine void @__checkArrayNotReferenced(i64* %arrayPointer, i64 %noOfDimensions, i8* %arrayName) personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %isNull = icmp eq i64* %arrayPointer, null"
   "\n  br i1 %isNull, label %return.void, label %if.not.null"
@@ -118,7 +101,7 @@ TEST_F(CheckArrayNotReferencedFunctionTest, getTest) {
   "\n  br i1 %cmp, label %multi.dimensional, label %return.void"
   "\n"
   "\nref.count.notzero:                                ; preds = %if.not.null"
-  "\n  invoke void @__throwReferenceCountException(i64 %refCount)"
+  "\n  invoke void @__throwReferenceCountException(i64 %refCount, i8* %arrayName)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\nfor.cond:                                         ; preds = %for.body, %multi.dimensional"
@@ -134,7 +117,7 @@ TEST_F(CheckArrayNotReferencedFunctionTest, getTest) {
   "\n  %offsetIncrement = add i64 %offset, %elementSize"
   "\n  store i64 %offsetIncrement, i64* %offsetStore"
   "\n  %1 = bitcast i8* %0 to i64*"
-  "\n  call void @__checkArrayNotReferenced(i64* %1, i64 %dimensionsMinusOne)"
+  "\n  call void @__checkArrayNotReferenced(i64* %1, i64 %dimensionsMinusOne, i8* %arrayName)"
   "\n  br label %for.cond"
   "\n"
   "\nmulti.dimensional:                                ; preds = %ref.count.zero"

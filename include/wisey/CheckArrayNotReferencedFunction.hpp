@@ -32,15 +32,8 @@ namespace wisey {
      */
     static void call(IRGenerationContext& context,
                      llvm::Value* array,
-                     llvm::Value* numberOfDimensions);
-
-    /**
-     * Call function with the type that contains and array type
-     */
-    static void callWithArrayType(IRGenerationContext& context,
-                                  llvm::Value* array,
-                                  const IType* withArrayType,
-                                  int line);
+                     llvm::Value* numberOfDimensions,
+                     llvm::Value* arrayNamePointer);
 
   private:
     

@@ -983,7 +983,7 @@ TEST_F(TestFileRunner, modelWithPrimitiveArrayRceDeathRunTest) {
                                "",
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_model_with_primitive_array_rce.yz:19)\n"
-                               "Details: Object referenced by expression still has 1 active reference\n"
+                               "Details: Object referenced by expression of type int[][]* still has 1 active reference\n"
                                "Main thread ended without a result\n");
 }
 
@@ -993,7 +993,7 @@ TEST_F(TestFileRunner, modelWithModelArrayRceDeathRunTest) {
                                "",
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_model_with_model_array_rce.yz:27)\n"
-                               "Details: Object referenced by expression still has 1 active reference\n"
+                               "Details: Object referenced by expression of type systems.vos.wisey.compiler.tests.MContainer[][]* still has 1 active reference\n"
                                "Main thread ended without a result\n");
 }
 

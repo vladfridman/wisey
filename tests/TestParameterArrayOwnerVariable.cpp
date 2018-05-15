@@ -101,7 +101,7 @@ TEST_F(ParameterArrayOwnerVariableTest, freeTest) {
   "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*"
   "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo"
   "\n  %1 = bitcast { i64, i64, i64, [0 x i32] }* %0 to i64*"
-  "\n  call void @__destroyPrimitiveArrayFunction(i64* %1, i64 1)"
+  "\n  call void @__destroyPrimitiveArrayFunction(i64* %1, i64 1, i8* getelementptr inbounds ([7 x i8], [7 x i8]* @\"int[]*\", i32 0, i32 0))"
   "\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -155,6 +155,6 @@ TEST_F(TestFileRunner, parameterArrayOwnerOfIntsIsFreedRunDeathTest) {
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CController.init(tests/samples/test_parameter_array_owner_of_ints_is_freed.yz:9)\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_parameter_array_owner_of_ints_is_freed.yz:18)\n"
-                               "Details: Object referenced by expression still has 1 active reference\n"
+                               "Details: Object referenced by expression of type int[][]* still has 1 active reference\n"
                                "Main thread ended without a result\n");
 }

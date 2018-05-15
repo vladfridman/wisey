@@ -261,7 +261,7 @@ TEST_F(TestFileRunner, referenceMemoryDeallocatedByPassingOwnerRunDeathTest) {
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CService.capture(tests/samples/test_reference_memory_deallocated_by_passing_owner.yz:16)\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_memory_deallocated_by_passing_owner.yz:26)\n"
-                               "Details: Object referenced by expression still has 2 active references\n"
+                               "Details: Object referenced by expression of type systems.vos.wisey.compiler.tests.MData still has 2 active references\n"
                                "Main thread ended without a result\n");
 }
 
@@ -271,7 +271,7 @@ TEST_F(TestFileRunner, referenceMemoryDeallocatedBySettingNullOutsideObjectRunDe
                                "",
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_memory_deallocated_by_setting_null_outside_object.yz:31)\n"
-                               "Details: Object referenced by expression still has 1 active reference\n"
+                               "Details: Object referenced by expression of type systems.vos.wisey.compiler.tests.MData still has 1 active reference\n"
                                "Main thread ended without a result\n");
 }
 
@@ -282,7 +282,7 @@ TEST_F(TestFileRunner, referenceMemoryDeallocatedByPassingOwnerInsideIfThenElseR
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CService.capture(tests/samples/test_reference_memory_deallocated_by_passing_owner_inside_if_then_else.yz:16)\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_memory_deallocated_by_passing_owner_inside_if_then_else.yz:27)\n"
-                               "Details: Object referenced by expression still has 2 active references\n"
+                               "Details: Object referenced by expression of type systems.vos.wisey.compiler.tests.MData still has 2 active references\n"
                                "Main thread ended without a result\n");
 }
 
@@ -299,7 +299,7 @@ TEST_F(TestFileRunner, referenceCountExceptionRunDeathTest) {
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CService.clear(tests/samples/test_reference_count_exception.yz:22)\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_count_exception.yz:31)\n"
-                               "Details: Object referenced by expression still has 1 active reference\n"
+                               "Details: Object referenced by expression of type systems.vos.wisey.compiler.tests.MData still has 1 active reference\n"
                                "Main thread ended without a result\n");
 }
 
@@ -310,7 +310,7 @@ TEST_F(TestFileRunner, throwDosiuFromCleanupRunDeathTest) {
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CService.throwException(tests/samples/test_throw_dosiu_from_cleanup.yz:20)\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_throw_dosiu_from_cleanup.yz:32)\n"
-                               "Details: Object referenced by expression still has 2 active references\n"
+                               "Details: Object referenced by expression of type systems.vos.wisey.compiler.tests.MData still has 2 active references\n"
                                "Main thread ended without a result\n");
 }
 
@@ -321,7 +321,7 @@ TEST_F(TestFileRunner, throwDosiuFromFreeOwnedMemoryRunDeathTest) {
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
                                "  at systems.vos.wisey.compiler.tests.CService.throwException(tests/samples/test_throw_dosiu_from_free_owned_memory.yz:19)\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_throw_dosiu_from_free_owned_memory.yz:30)\n"
-                               "Details: Object referenced by expression still has 2 active references\n"
+                               "Details: Object referenced by expression of type systems.vos.wisey.compiler.tests.MData still has 2 active references\n"
                                "Main thread ended without a result\n");
 }
 

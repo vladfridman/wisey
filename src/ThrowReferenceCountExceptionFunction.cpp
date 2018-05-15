@@ -35,11 +35,13 @@ Function* ThrowReferenceCountExceptionFunction::get(IRGenerationContext& context
 }
 
 void ThrowReferenceCountExceptionFunction::call(IRGenerationContext& context,
-                                                Value* referenceCount) {
+                                                Value* referenceCount,
+                                                llvm::Value* namePointer) {
   Function* function = get(context);
   vector<Value*> arguments;
   arguments.push_back(referenceCount);
-  
+  arguments.push_back(namePointer);
+
   IRWriter::createInvokeInst(context, function, arguments, "", 0);
 }
 
@@ -57,16 +59,19 @@ Function* ThrowReferenceCountExceptionFunction::define(IRGenerationContext& cont
 LLVMFunctionType* ThrowReferenceCountExceptionFunction::getLLVMFunctionType(IRGenerationContext& context) {
   vector<const IType*> argumentTypes;
   argumentTypes.push_back(LLVMPrimitiveTypes::I64);
-  
+  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType(context, 0));
+
   return context.getLLVMFunctionType(LLVMPrimitiveTypes::VOID, argumentTypes);
 }
 
 void ThrowReferenceCountExceptionFunction::compose(IRGenerationContext& context,
-                                                llvm::Function* function) {
+                                                   llvm::Function* function) {
   Function::arg_iterator llvmArguments = function->arg_begin();
-  llvm::Argument *llvmArgument = &*llvmArguments;
-  llvmArgument->setName("referenceCount");
-  Value* referenceCount = llvmArgument;
+  llvm::Argument* referenceCount = &*llvmArguments;
+  referenceCount->setName("referenceCount");
+  llvmArguments++;
+  llvm::Argument* namePointer = &*llvmArguments;
+  namePointer->setName("namePointer");
 
   BasicBlock* basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry", function);
   context.setBasicBlock(basicBlock);
@@ -77,8 +82,13 @@ void ThrowReferenceCountExceptionFunction::compose(IRGenerationContext& context,
   new ModelTypeSpecifier(packageExpression, Names::getReferenceCountExceptionName(), 0);
   ObjectBuilderArgumentList objectBuilderArgumnetList;
   FakeExpression* fakeExpression = new FakeExpression(referenceCount, PrimitiveTypes::LONG);
-  ObjectBuilderArgument* argument = new ObjectBuilderArgument("withReferenceCount", fakeExpression);
-  objectBuilderArgumnetList.push_back(argument);
+  ObjectBuilderArgument* refCountArgument =
+    new ObjectBuilderArgument("withReferenceCount", fakeExpression);
+  fakeExpression = new FakeExpression(namePointer, PrimitiveTypes::STRING);
+  ObjectBuilderArgument* objectNameArgument =
+    new ObjectBuilderArgument("withObjectType", fakeExpression);
+  objectBuilderArgumnetList.push_back(refCountArgument);
+  objectBuilderArgumnetList.push_back(objectNameArgument);
   ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier,
                                                    objectBuilderArgumnetList,
                                                    0);

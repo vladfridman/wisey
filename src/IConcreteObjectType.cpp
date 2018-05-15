@@ -406,7 +406,8 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
     PrintOutStatement::printExpressionList(context, printOutArguments, 0);
   }
 
-  ThrowReferenceCountExceptionFunction::call(context, referenceCount);
+  Value* objectName = IObjectType::getObjectNamePointer(concreteObject, context);
+  ThrowReferenceCountExceptionFunction::call(context, referenceCount, objectName);
   IRWriter::newUnreachableInst(context);
 
   context.setBasicBlock(refCountZeroBlock);

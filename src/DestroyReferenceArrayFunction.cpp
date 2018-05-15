@@ -37,13 +37,15 @@ Function* DestroyReferenceArrayFunction::get(IRGenerationContext& context) {
 
 void DestroyReferenceArrayFunction::call(IRGenerationContext& context,
                                          Value* array,
-                                         unsigned long numberOfDimensions) {
+                                         long numberOfDimentions,
+                                         llvm::Value* arrayNamePointer) {
   LLVMContext& llvmContext = context.getLLVMContext();
 
   Function* function = get(context);
   vector<Value*> arguments;
   arguments.push_back(array);
-  arguments.push_back(ConstantInt::get(Type::getInt64Ty(llvmContext), numberOfDimensions));
+  arguments.push_back(ConstantInt::get(Type::getInt64Ty(llvmContext), numberOfDimentions));
+  arguments.push_back(arrayNamePointer);
   arguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 1));
 
   IRWriter::createCallInst(context, function, arguments, "");
@@ -64,6 +66,7 @@ LLVMFunctionType* DestroyReferenceArrayFunction::getLLVMFunctionType(IRGeneratio
   vector<const IType*> argumentTypes;
   argumentTypes.push_back(LLVMPrimitiveTypes::I64->getPointerType(context, 0));
   argumentTypes.push_back(LLVMPrimitiveTypes::I64);
+  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType(context, 0));
   argumentTypes.push_back(LLVMPrimitiveTypes::I1);
   
   return context.getLLVMFunctionType(LLVMPrimitiveTypes::VOID, argumentTypes);
@@ -81,18 +84,18 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   context.getScopes().pushScope();
   
   Function::arg_iterator llvmArguments = function->arg_begin();
-  Value* llvmArgument = &*llvmArguments;
-  llvmArgument->setName("arrayPointer");
-  Value* arrayPointer = llvmArgument;
+  Value* arrayPointer = &*llvmArguments;
+  arrayPointer->setName("arrayPointer");
   llvmArguments++;
-  llvmArgument = &*llvmArguments;
-  llvmArgument->setName("noOfDimensions");
-  Value* numberOfDimensions = llvmArgument;
+  Value* numberOfDimensions = &*llvmArguments;
+  numberOfDimensions->setName("noOfDimensions");
   llvmArguments++;
-  llvmArgument = &*llvmArguments;
-  llvmArgument->setName("shouldFree");
-  Value* shouldFree = llvmArgument;
-  
+  Value* arrayName = &*llvmArguments;
+  arrayName->setName("arrayName");
+  llvmArguments++;
+  Value* shouldFree = &*llvmArguments;
+  shouldFree->setName("shouldFree");
+
   BasicBlock* entry = BasicBlock::Create(llvmContext, "entry", function);
   BasicBlock* returnVoid = BasicBlock::Create(llvmContext, "return.void", function);
   BasicBlock* ifNotNull = BasicBlock::Create(llvmContext, "if.not.null", function);
@@ -147,7 +150,7 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   
   context.setBasicBlock(refCountNotZeroBlock);
   
-  ThrowReferenceCountExceptionFunction::call(context, referenceCount);
+  ThrowReferenceCountExceptionFunction::call(context, referenceCount, arrayName);
   IRWriter::newUnreachableInst(context);
   
   context.setBasicBlock(refCountZeroBlock);
@@ -199,6 +202,7 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   vector<Value*> recursiveCallArguments;
   recursiveCallArguments.push_back(IRWriter::newBitCastInst(context, elementStore, genericPointer));
   recursiveCallArguments.push_back(numberOfDimensionsMinusOne);
+  recursiveCallArguments.push_back(arrayName);
   recursiveCallArguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 0));
   IRWriter::createCallInst(context, function, recursiveCallArguments, "");
   IRWriter::createBranch(context, forCond);

@@ -60,7 +60,7 @@ bool ArrayOwnerType::canAutoCastTo(IRGenerationContext& context, const IType* to
   return canCastTo(context, toType);
 }
 
-llvm::Value* ArrayOwnerType::castTo(IRGenerationContext &context,
+llvm::Value* ArrayOwnerType::castTo(IRGenerationContext& context,
                                     llvm::Value* fromValue,
                                     const IType* toType,
                                     int line) const {
@@ -72,7 +72,11 @@ llvm::Value* ArrayOwnerType::castTo(IRGenerationContext &context,
     return IRWriter::newBitCastInst(context, arrayStart, toType->getLLVMType(context));
   }
   if (toType == mArrayType->getImmutable()->getOwner()) {
-    CheckArrayNotReferencedFunction::callWithArrayType(context, fromValue, mArrayType, line);
+    llvm::Type* int64type = llvm::Type::getInt64Ty(context.getLLVMContext());
+    long dimensions = mArrayType->getNumberOfDimensions();
+    llvm::Value* dimensionsConstant = llvm::ConstantInt::get(int64type, dimensions);
+    llvm::Value* arrayNamePointer = getArrayNamePointer(context);
+    CheckArrayNotReferencedFunction::call(context, fromValue, dimensionsConstant, arrayNamePointer);
     return fromValue;
   }
 
@@ -83,16 +87,16 @@ void ArrayOwnerType::free(IRGenerationContext& context, llvm::Value* arrayPointe
   const IType* elementType = mArrayType->getElementType();
   llvm::Type* genericPointer = llvm::Type::getInt64Ty(context.getLLVMContext())->getPointerTo();
   llvm::Value* arrayBitcast = IRWriter::newBitCastInst(context, arrayPointer, genericPointer);
-  
+  long dimensions = mArrayType->getNumberOfDimensions();
+  llvm::Value* arrayNamePointer = getArrayNamePointer(context);
+
   if (elementType->isOwner()) {
-    DestroyOwnerArrayFunction::call(context, arrayBitcast, mArrayType->getNumberOfDimensions());
+    DestroyOwnerArrayFunction::call(context, arrayBitcast, dimensions, arrayNamePointer);
   } else if (elementType->isReference()) {
-    DestroyReferenceArrayFunction::call(context, arrayBitcast, mArrayType->getNumberOfDimensions());
+    DestroyReferenceArrayFunction::call(context, arrayBitcast, dimensions, arrayNamePointer);
   } else {
     assert(elementType->isPrimitive());
-    DestroyPrimitiveArrayFunction::call(context,
-                                        arrayBitcast,
-                                        mArrayType->getNumberOfDimensions());
+    DestroyPrimitiveArrayFunction::call(context, arrayBitcast, dimensions, arrayNamePointer);
   }
 }
 
@@ -191,4 +195,30 @@ llvm::Instruction* ArrayOwnerType::inject(IRGenerationContext& context,
                                           int line) const {
   repotNonInjectableType(context, this, line);
   throw 1;
+}
+
+llvm::Value* ArrayOwnerType::getArrayNamePointer(IRGenerationContext& context) const {
+  llvm::LLVMContext& llvmContext = context.getLLVMContext();
+  string typeName = getTypeName();
+  
+  llvm::GlobalVariable* nameGlobal = context.getModule()->getNamedGlobal(typeName);
+  if (!nameGlobal) {
+    llvm::Constant* stringConstant = llvm::ConstantDataArray::getString(llvmContext, typeName);
+    
+    llvm::Type* charArrayType = llvm::ArrayType::get(llvm::Type::getInt8Ty(llvmContext),
+                                                     typeName.length() + 1);
+    nameGlobal = new llvm::GlobalVariable(*context.getModule(),
+                                          charArrayType,
+                                          true,
+                                          llvm::GlobalValue::LinkageTypes::ExternalLinkage,
+                                          stringConstant,
+                                          typeName);
+  }
+  llvm::ConstantInt* zeroInt32 = llvm::ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 0);
+  llvm::Value* Idx[2];
+  Idx[0] = zeroInt32;
+  Idx[1] = zeroInt32;
+  llvm::Type* elementType = nameGlobal->getType()->getPointerElementType();
+  
+  return llvm::ConstantExpr::getGetElementPtr(elementType, nameGlobal, Idx);
 }

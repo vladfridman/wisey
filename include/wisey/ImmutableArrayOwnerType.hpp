@@ -93,6 +93,10 @@ namespace wisey {
                               const InjectionArgumentList injectionArguments,
                               int line) const override;
     
+  private:
+
+    llvm::Value* getArrayNamePointer(IRGenerationContext& context) const;
+
   };
   
 } /* namespace wisey */

@@ -65,14 +65,16 @@ struct DestroyReferenceArrayFunctionTest : Test {
 };
 
 TEST_F(DestroyReferenceArrayFunctionTest, callTest) {
-  llvm::PointerType* genericPointer = llvm::Type::getInt64Ty(mLLVMContext)->getPointerTo();
-  Value* nullPointerValue = ConstantPointerNull::get(genericPointer);
-  DestroyReferenceArrayFunction::call(mContext, nullPointerValue, 2u);
+  llvm::PointerType* i64PointerType = llvm::Type::getInt64Ty(mLLVMContext)->getPointerTo();
+  llvm::PointerType* i8PointerType = llvm::Type::getInt8Ty(mLLVMContext)->getPointerTo();
+  Value* arrayPointer = ConstantPointerNull::get(i64PointerType);
+  Value* arrayNamePointer = ConstantPointerNull::get(i8PointerType);
+  DestroyReferenceArrayFunction::call(mContext, arrayPointer, 2u, arrayNamePointer);
   
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  call void @__destroyReferenceArrayFunction(i64* null, i64 2, i1 true)\n";
+  "\n  call void @__destroyReferenceArrayFunction(i64* null, i64 2, i8* null, i1 true)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -83,7 +85,7 @@ TEST_F(DestroyReferenceArrayFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @__destroyReferenceArrayFunction(i64* %arrayPointer, i64 %noOfDimensions, i1 %shouldFree) personality i32 (...)* @__gxx_personality_v0 {"
+  "\ndefine void @__destroyReferenceArrayFunction(i64* %arrayPointer, i64 %noOfDimensions, i8* %arrayName, i1 %shouldFree) personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %isNull = icmp eq i64* %arrayPointer, null"
   "\n  br i1 %isNull, label %return.void, label %if.not.null"
@@ -111,7 +113,7 @@ TEST_F(DestroyReferenceArrayFunctionTest, getTest) {
   "\n  br label %for.cond"
   "\n"
   "\nref.count.notzero:                                ; preds = %if.not.null"
-  "\n  invoke void @__throwReferenceCountException(i64 %refCount)"
+  "\n  invoke void @__throwReferenceCountException(i64 %refCount, i8* %arrayName)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\nfor.cond:                                         ; preds = %one.dimensional, %multi.dimensional, %ref.count.zero"
@@ -131,7 +133,7 @@ TEST_F(DestroyReferenceArrayFunctionTest, getTest) {
   "\n"
   "\nmulti.dimensional:                                ; preds = %for.body"
   "\n  %5 = bitcast i8* %4 to i64*"
-  "\n  call void @__destroyReferenceArrayFunction(i64* %5, i64 %dimensionsMinusOne, i1 false)"
+  "\n  call void @__destroyReferenceArrayFunction(i64* %5, i64 %dimensionsMinusOne, i8* %arrayName, i1 false)"
   "\n  br label %for.cond"
   "\n"
   "\none.dimensional:                                  ; preds = %for.body"
