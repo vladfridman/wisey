@@ -176,7 +176,7 @@ external model wisey.lang.MString {
 external model wisey.lang.MSystem {
 }
 
-external model wisey.threads.MContextNonExistant
+external model wisey.threads.MContextNonExistantException
   implements
     wisey.lang.IException {
 

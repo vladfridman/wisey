@@ -9,6 +9,6 @@ import wisey.lang.IException;
 model MFileAccessException implements IException {
 
   public string getName() override {
-    return "wisey.io.MFileAccessException";
+    return getTypeName();
   }
 }

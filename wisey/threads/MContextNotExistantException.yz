@@ -5,11 +5,11 @@ import wisey.lang.IException;
 /**
  * Thrown when adding instance of a class for a context that does not exist
  */
-model MContextNonExistant implements IException {
+model MContextNonExistantException implements IException {
   string mContextName;
 
   public string getName() override {
-    return "wisey.threads.MContextNonExistant";
+    return getTypeName();
   }
 
   public string getContextName() {

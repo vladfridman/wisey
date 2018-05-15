@@ -5,7 +5,7 @@ model MCastException implements IException {
   string mToType;
 
   public string getName() override {
-    return "wisey.lang.MCastException";
+    return getTypeName();
   }
 
   public string getFromType() {

@@ -12,7 +12,7 @@ model MFileOpenException implements IException {
   MString mNewFile;
 
   public string getName() override {
-    return "wisey.io.MFileOpenException";
+    return getTypeName();
   }
 
   public MString getCurrentFile() {

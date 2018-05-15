@@ -25,7 +25,7 @@ TEST_F(TestFileRunner, cContextManagerThrowsRunTest) {
   compileAndRunFileCheckOutput("tests/samples/test_ccontext_manager_throws.yz",
                                1,
                                "In context mycontext looking for Toyota got Toyota back\n",
-                               "Unhandled exception wisey.threads.MContextNonExistant\n"
+                               "Unhandled exception wisey.threads.MContextNonExistantException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_ccontext_manager_throws.yz:35)\n"
                                "Details: Context mycontext does not exist\n"
                                "Main thread ended without a result\n");

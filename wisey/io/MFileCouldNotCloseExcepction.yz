@@ -10,7 +10,7 @@ model MFileCouldNotCloseException implements IException {
   MString mFileName;
 
   public string getName() override {
-    return "wisey.io.MFileCouldNotCloseException";
+    return getTypeName();
   }
 
   public MString getFileName() {

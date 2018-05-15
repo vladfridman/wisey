@@ -8,6 +8,6 @@ import wisey.lang.IException;
 model MFileCloseException implements IException {
 
   public string getName() override {
-    return "wisey.io.MFileCloseException";
+    return getTypeName();
   }
 }

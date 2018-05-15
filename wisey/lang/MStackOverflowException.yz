@@ -3,6 +3,6 @@ package wisey.lang;
 model MStackOverflowException implements IException {
 
   public string getName() override {
-    return "wisey.lang.MStackOverflowException";
+    return getTypeName();
   }
 }

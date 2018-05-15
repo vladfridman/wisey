@@ -10,7 +10,7 @@ model MThreadBoundaryException implements IException {
   boolean mIsMethodInternal;
 
   public string getName() override {
-    return "wisey.threads.MThreadBoundaryException";
+    return getTypeName();
   }
 
   public boolean isMethodInternal() {

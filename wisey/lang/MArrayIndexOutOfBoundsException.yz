@@ -5,7 +5,7 @@ model MArrayIndexOutOfBoundsException implements IException {
   long mIndex;
 
   public string getName() override {
-    return "wisey.lang.MArrayIndexOutOfBoundsException";
+    return getTypeName();
   }
 
   public long getArraySize() {
