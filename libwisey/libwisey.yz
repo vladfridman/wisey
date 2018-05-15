@@ -151,13 +151,6 @@ external model wisey.lang.MReferenceCountException
   long getReferenceCount();
 }
 
-external model wisey.lang.MStackOverflowException
-  implements
-    wisey.lang.IException {
-
-  string getName() override;
-}
-
 external model wisey.lang.MString {
 
   fixed immutable char[]* mContent;
@@ -184,6 +177,13 @@ external model wisey.threads.MContextNonExistantException
 
   string getName() override;
   string getContextName();
+}
+
+external model wisey.threads.MStackOverflowException
+  implements
+    wisey.lang.IException {
+
+  string getName() override;
 }
 
 external model wisey.threads.MThreadBoundaryException

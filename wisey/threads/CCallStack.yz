@@ -1,7 +1,6 @@
 package wisey.threads;
 
 import wisey.lang.IException;
-import wisey.lang.MStackOverflowException;
 
 /**
  * Keeps track of the method call stack and can print out a strack trace

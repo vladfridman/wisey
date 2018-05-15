@@ -1,4 +1,6 @@
-package wisey.lang;
+package wisey.threads;
+
+import wisey.lang.IException;
 
 model MStackOverflowException implements IException {
 

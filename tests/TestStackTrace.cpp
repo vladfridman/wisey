@@ -38,7 +38,7 @@ TEST_F(TestFileRunner, stackTraceMultipleFilesRunTest) {
 }
 
 TEST_F(TestFileRunner, stackOverflowRunDeathTest) {
-  string expected = "Unhandled exception wisey.lang.MStackOverflowException\n";
+  string expected = "Unhandled exception wisey.threads.MStackOverflowException\n";
   for (int i = 0; i < 1023; i++) {
     expected += "  at systems.vos.wisey.compiler.tests.CProgram.callRecursive(tests/samples/test_stack_overflow.yz:9)\n";
   }
