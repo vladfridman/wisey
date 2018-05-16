@@ -12,6 +12,7 @@
 #include "wisey/DestroyPrimitiveArrayFunction.hpp"
 #include "wisey/DestroyReferenceArrayFunction.hpp"
 #include "wisey/FieldImmutableArrayOwnerVariable.hpp"
+#include "wisey/GlobalStringConstant.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/ImmutableArrayOwnerType.hpp"
@@ -190,27 +191,5 @@ llvm::Instruction* ImmutableArrayOwnerType::inject(IRGenerationContext& context,
 }
 
 llvm::Value* ImmutableArrayOwnerType::getArrayNamePointer(IRGenerationContext& context) const {
-  llvm::LLVMContext& llvmContext = context.getLLVMContext();
-  string typeName = getTypeName();
-  
-  llvm::GlobalVariable* nameGlobal = context.getModule()->getNamedGlobal(typeName);
-  if (!nameGlobal) {
-    llvm::Constant* stringConstant = llvm::ConstantDataArray::getString(llvmContext, typeName);
-    
-    llvm::Type* charArrayType = llvm::ArrayType::get(llvm::Type::getInt8Ty(llvmContext),
-                                                     typeName.length() + 1);
-    nameGlobal = new llvm::GlobalVariable(*context.getModule(),
-                                          charArrayType,
-                                          true,
-                                          llvm::GlobalValue::LinkageTypes::ExternalLinkage,
-                                          stringConstant,
-                                          typeName);
-  }
-  llvm::ConstantInt* zeroInt32 = llvm::ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 0);
-  llvm::Value* Idx[2];
-  Idx[0] = zeroInt32;
-  Idx[1] = zeroInt32;
-  llvm::Type* elementType = nameGlobal->getType()->getPointerElementType();
-  
-  return llvm::ConstantExpr::getGetElementPtr(elementType, nameGlobal, Idx);
+  return GlobalStringConstant::get(context, getTypeName());
 }

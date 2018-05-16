@@ -58,12 +58,7 @@ namespace wisey {
      * Returns the current source file being processed
      */
     llvm::Value* getSourceFileNamePointer() const;
-    
-  private:
-    
-    llvm::Value* defineSourceFileConstant(IRGenerationContext& context,
-                                          std::string sourceFile) const;
-    
+
   };
   
 } /* namespace wisey */

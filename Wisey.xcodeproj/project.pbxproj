@@ -397,6 +397,8 @@
 		F534644220ACBC2B006369D4 /* ExternalConstantDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534644120ACBC2B006369D4 /* ExternalConstantDeclaration.cpp */; };
 		F534644320ACBC2B006369D4 /* ExternalConstantDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534644120ACBC2B006369D4 /* ExternalConstantDeclaration.cpp */; };
 		F534644520ACC12F006369D4 /* TestExternalConstantDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534644420ACC12F006369D4 /* TestExternalConstantDeclaration.cpp */; };
+		F534644820ACCD26006369D4 /* GlobalStringConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534644720ACCD26006369D4 /* GlobalStringConstant.cpp */; };
+		F534644920ACCD26006369D4 /* GlobalStringConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534644720ACCD26006369D4 /* GlobalStringConstant.cpp */; };
 		F534FFD61DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */; };
 		F5378F6D2058F11500E5B5FD /* IdentifierReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5378F6C2058F11500E5B5FD /* IdentifierReference.cpp */; };
 		F5378F6E2058F11500E5B5FD /* IdentifierReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5378F6C2058F11500E5B5FD /* IdentifierReference.cpp */; };
@@ -1488,6 +1490,8 @@
 		F534643F20ACBB5D006369D4 /* ExternalConstantDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ExternalConstantDeclaration.hpp; path = include/wisey/ExternalConstantDeclaration.hpp; sourceTree = "<group>"; };
 		F534644120ACBC2B006369D4 /* ExternalConstantDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ExternalConstantDeclaration.cpp; path = src/ExternalConstantDeclaration.cpp; sourceTree = "<group>"; };
 		F534644420ACC12F006369D4 /* TestExternalConstantDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestExternalConstantDeclaration.cpp; path = tests/TestExternalConstantDeclaration.cpp; sourceTree = "<group>"; };
+		F534644620ACCCAD006369D4 /* GlobalStringConstant.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = GlobalStringConstant.hpp; path = include/wisey/GlobalStringConstant.hpp; sourceTree = "<group>"; };
+		F534644720ACCD26006369D4 /* GlobalStringConstant.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = GlobalStringConstant.cpp; path = src/GlobalStringConstant.cpp; sourceTree = "<group>"; };
 		F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestAdditiveMultiplicativeExpression.cpp; path = tests/TestAdditiveMultiplicativeExpression.cpp; sourceTree = "<group>"; };
 		F5378F6B2058F0B500E5B5FD /* IdentifierReference.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IdentifierReference.hpp; path = include/wisey/IdentifierReference.hpp; sourceTree = "<group>"; };
 		F5378F6C2058F11500E5B5FD /* IdentifierReference.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IdentifierReference.cpp; path = src/IdentifierReference.cpp; sourceTree = "<group>"; };
@@ -3216,6 +3220,7 @@
 		F598117620A05D84003AADCA /* globals */ = {
 			isa = PBXGroup;
 			children = (
+				F534644620ACCCAD006369D4 /* GlobalStringConstant.hpp */,
 				F598117720A05DAC003AADCA /* ObjectKindGlobal.hpp */,
 			);
 			name = globals;
@@ -3224,6 +3229,7 @@
 		F598117820A05E3E003AADCA /* globals */ = {
 			isa = PBXGroup;
 			children = (
+				F534644720ACCD26006369D4 /* GlobalStringConstant.cpp */,
 				F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */,
 			);
 			name = globals;
@@ -4534,6 +4540,7 @@
 				F5B12E79207E6C2A00677C63 /* TestLLVMFunctionIdentifier.cpp in Sources */,
 				F58FA2FA206E65C100C86D33 /* DestroyObjectOwnerFunction.cpp in Sources */,
 				F51701AA200FCE8400A10B7C /* ArrayOwnerTypeSpecifier.cpp in Sources */,
+				F534644920ACCD26006369D4 /* GlobalStringConstant.cpp in Sources */,
 				F5A67DBA20171F0B0018068F /* FieldArrayOwnerVariable.cpp in Sources */,
 				F5CB7FCE20529E77007628B5 /* InjectedFieldDefinition.cpp in Sources */,
 				F5F396D81E34BBDD00F34296 /* ObjectBuilder.cpp in Sources */,
@@ -4597,6 +4604,7 @@
 				F513DE072018A0F7001A075B /* ParameterArrayReferenceVariable.cpp in Sources */,
 				F5CB7F702051532A007628B5 /* FakeExpressionWithCleanup.cpp in Sources */,
 				F515812F1E8AAB12009CE419 /* Controller.cpp in Sources */,
+				F534644820ACCD26006369D4 /* GlobalStringConstant.cpp in Sources */,
 				F53401111DFF333E0002BF7E /* MethodDefinition.cpp in Sources */,
 				F5752AC22088C52F00C00DE1 /* InstanceOfFunction.cpp in Sources */,
 				F581A0102073A65500EA0156 /* FieldLLVMVariable.cpp in Sources */,

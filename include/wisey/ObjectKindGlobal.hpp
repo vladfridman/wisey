@@ -19,17 +19,25 @@ namespace wisey {
     
   public:
     
+    /**
+     * Returns a string constant that contains string "controller"
+     */
     static llvm::Constant* getController(IRGenerationContext& context);
     
+    /**
+     * Returns a string constant that contains string "model"
+     */
     static llvm::Constant* getModel(IRGenerationContext& context);
     
+    /**
+     * Returns a string constant that contains string "node"
+     */
     static llvm::Constant* getNode(IRGenerationContext& context);
     
-    static llvm::Constant* getThread(IRGenerationContext& context);
-
-  private:
-    
-    static llvm::Constant* getName(IRGenerationContext& context, std::string name);
+    /**
+     * Returns a string constant that contains string "thread"
+     */
+   static llvm::Constant* getThread(IRGenerationContext& context);
     
   };
   

@@ -27,19 +27,19 @@ struct ObjectKindGlobalTest : public Test {
 };
 
 TEST_F(ObjectKindGlobalTest, getController) {
-  EXPECT_EQ(nullptr, mContext.getModule()->getGlobalVariable("controller"));
+  EXPECT_EQ(nullptr, mContext.getModule()->getNamedGlobal("controller"));
   ObjectKindGlobal::getController(mContext);
-  EXPECT_NE(nullptr, mContext.getModule()->getGlobalVariable("controller"));
+  EXPECT_NE(nullptr, mContext.getModule()->getNamedGlobal("controller"));
 }
 
 TEST_F(ObjectKindGlobalTest, getModel) {
-  EXPECT_EQ(nullptr, mContext.getModule()->getGlobalVariable("model"));
+  EXPECT_EQ(nullptr, mContext.getModule()->getNamedGlobal("model"));
   ObjectKindGlobal::getModel(mContext);
-  EXPECT_NE(nullptr, mContext.getModule()->getGlobalVariable("model"));
+  EXPECT_NE(nullptr, mContext.getModule()->getNamedGlobal("model"));
 }
 
 TEST_F(ObjectKindGlobalTest, getNode) {
-  EXPECT_EQ(nullptr, mContext.getModule()->getGlobalVariable("node"));
+  EXPECT_EQ(nullptr, mContext.getModule()->getNamedGlobal("node"));
   ObjectKindGlobal::getNode(mContext);
-  EXPECT_NE(nullptr, mContext.getModule()->getGlobalVariable("node"));
+  EXPECT_NE(nullptr, mContext.getModule()->getNamedGlobal("node"));
 }
