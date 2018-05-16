@@ -48,7 +48,6 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
   collectFieldTypes(context, types, get<1>(elements));
   object->setStructBodyTypes(types);
   
-  IConcreteObjectType::generateShortNameGlobal(context, object);
   IConcreteObjectType::generateNameGlobal(context, object);
   IConcreteObjectType::declareLLVMFunctions(context, object);
   if (object->isExternal()) {

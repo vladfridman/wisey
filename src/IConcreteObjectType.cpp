@@ -61,19 +61,6 @@ void IConcreteObjectType::generateNameGlobal(IRGenerationContext& context,
                      object->getObjectNameGlobalVariableName());
 }
 
-void IConcreteObjectType::generateShortNameGlobal(IRGenerationContext& context,
-                                                  const IConcreteObjectType* object) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  llvm::Constant* stringConstant = ConstantDataArray::getString(llvmContext,
-                                                                object->getShortName());
-  new GlobalVariable(*context.getModule(),
-                     stringConstant->getType(),
-                     true,
-                     GlobalValue::LinkageTypes::LinkOnceODRLinkage,
-                     stringConstant,
-                     object->getObjectShortNameGlobalVariableName());
-}
-
 Value* IConcreteObjectType::castTo(IRGenerationContext& context,
                                    const IConcreteObjectType* object,
                                    Value* fromValue,

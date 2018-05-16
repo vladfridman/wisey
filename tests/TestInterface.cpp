@@ -745,7 +745,6 @@ TEST_F(InterfaceTest, composeInjectFunctionWithControllerTest) {
   mContext.bindInterfaceToController(interface, controller, 0);
 
   IConcreteObjectType::generateNameGlobal(mContext, controller);
-  IConcreteObjectType::generateShortNameGlobal(mContext, controller);
   IConcreteObjectType::declareVTable(mContext, controller);
 
   interface->defineInjectionFunctionPointer(mContext, 0);

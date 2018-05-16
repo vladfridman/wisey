@@ -236,7 +236,6 @@ struct NodeOwnerTest : public Test {
     mSimplerNode->setFields(mContext, simplerNodeFields, 1u);
     mContext.addNode(mSimplerNode, 0);
     IConcreteObjectType::generateNameGlobal(mContext, mSimplerNode);
-    IConcreteObjectType::generateShortNameGlobal(mContext, mSimplerNode);
     IConcreteObjectType::declareVTable(mContext, mSimplerNode);
 
     string vehicleFullName = "systems.vos.wisey.compiler.tests.IVehicle";
@@ -252,7 +251,6 @@ struct NodeOwnerTest : public Test {
                                                 0);
     
     IConcreteObjectType::generateNameGlobal(mContext, mSimpleNode);
-    IConcreteObjectType::generateShortNameGlobal(mContext, mSimpleNode);
     IConcreteObjectType::declareVTable(mContext, mSimpleNode);
     
     Value* field1Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);

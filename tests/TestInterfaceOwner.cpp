@@ -268,7 +268,6 @@ TEST_F(InterfaceOwnerTest, injectTest) {
   mContext.bindInterfaceToController(interface, controller, 0);
   
   IConcreteObjectType::generateNameGlobal(mContext, controller);
-  IConcreteObjectType::generateShortNameGlobal(mContext, controller);
   IConcreteObjectType::declareVTable(mContext, controller);
   
   InjectionArgumentList arguments;

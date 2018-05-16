@@ -189,11 +189,6 @@ namespace wisey {
     virtual std::vector<LLVMFunction*> getLLVMFunctions() const = 0;
     
     /**
-     * Returns name of the global variable containing short name of this concrete Object
-     */
-    virtual std::string getObjectShortNameGlobalVariableName() const = 0;
-    
-    /**
      * Generates a global with object type name. e.g. model or controller
      */
     virtual llvm::Constant* getObjectTypeNameGlobal(IRGenerationContext& context) const = 0;
@@ -202,12 +197,6 @@ namespace wisey {
      * Generate global variable with the name of the given object
      */
     static void generateNameGlobal(IRGenerationContext& context, const IConcreteObjectType* object);
-    
-    /**
-     * Generate global variable with the short name of the given object
-     */
-    static void generateShortNameGlobal(IRGenerationContext& context,
-                                        const IConcreteObjectType* object);
     
     /**
      * Casts this concrete object to a given type

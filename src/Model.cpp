@@ -218,10 +218,6 @@ string Model::getObjectNameGlobalVariableName() const {
   return getTypeName() + ".name";
 }
 
-string Model::getObjectShortNameGlobalVariableName() const {
-  return getTypeName() + ".shortname";
-}
-
 string Model::getTypeTableName() const {
   return getTypeName() + ".typetable";
 }

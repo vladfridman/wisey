@@ -84,7 +84,6 @@ struct ControllerOwnerTest : public Test {
                                                    mContext.getImportProfile(),
                                                    0);
     IConcreteObjectType::generateNameGlobal(mContext, mAdditorController);
-    IConcreteObjectType::generateShortNameGlobal(mContext, mAdditorController);
     IConcreteObjectType::declareVTable(mContext, mAdditorController);
 
     string calculatorFullName = "systems.vos.wisey.compiler.tests.ICalculator";

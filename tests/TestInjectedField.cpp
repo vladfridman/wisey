@@ -93,7 +93,6 @@ public:
     mController->setFields(mContext, controllerFields, 1u);
     mContext.addController(mController, 0);
     IConcreteObjectType::generateNameGlobal(mContext, mController);
-    IConcreteObjectType::generateShortNameGlobal(mContext, mController);
     IConcreteObjectType::declareVTable(mContext, mController);
 
     FunctionType* functionType =

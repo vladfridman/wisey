@@ -228,7 +228,6 @@ struct ModelOwnerTest : public Test {
                        stringConstant,
                        cirlceFullName + ".name");
     IConcreteObjectType::generateNameGlobal(mContext, mCircleModel);
-    IConcreteObjectType::generateShortNameGlobal(mContext, mCircleModel);
     IConcreteObjectType::declareVTable(mContext, mCircleModel);
 
     vector<Type*> starTypes;
@@ -258,7 +257,6 @@ struct ModelOwnerTest : public Test {
     ON_CALL(*mField3Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
     
     IConcreteObjectType::generateNameGlobal(mContext, mStarModel);
-    IConcreteObjectType::generateShortNameGlobal(mContext, mStarModel);
     IConcreteObjectType::declareVTable(mContext, mStarModel);
     
     FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);

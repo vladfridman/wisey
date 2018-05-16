@@ -144,8 +144,6 @@ namespace wisey {
     
     std::string getObjectNameGlobalVariableName() const override;
     
-    std::string getObjectShortNameGlobalVariableName() const override;
-    
     std::string getTypeName() const override;
     
     std::string getShortName() const override;

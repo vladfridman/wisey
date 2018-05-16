@@ -77,7 +77,6 @@ public:
     mModel->setFields(mContext, fields, 1u);
 
     IConcreteObjectType::generateNameGlobal(mContext, mModel);
-    IConcreteObjectType::generateShortNameGlobal(mContext, mModel);
     IConcreteObjectType::declareVTable(mContext, mModel);
 }
 

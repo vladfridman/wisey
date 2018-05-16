@@ -336,10 +336,8 @@ struct ControllerTest : public Test {
     mVehicleInterface->buildMethods(mContext);
 
     IConcreteObjectType::generateNameGlobal(mContext, mOwnerNode);
-    IConcreteObjectType::generateShortNameGlobal(mContext, mOwnerNode);
     IConcreteObjectType::declareVTable(mContext, mOwnerNode);
     IConcreteObjectType::generateNameGlobal(mContext, mAdditorController);
-    IConcreteObjectType::generateShortNameGlobal(mContext, mAdditorController);
     IConcreteObjectType::declareVTable(mContext, mAdditorController);
     
     vector<Type*> threadTypes;
@@ -479,11 +477,6 @@ TEST_F(ControllerTest, findLLVMFunctionTest) {
 TEST_F(ControllerTest, getObjectNameGlobalVariableNameTest) {
   ASSERT_STREQ("systems.vos.wisey.compiler.tests.CMultiplier.name",
                mMultiplierController->getObjectNameGlobalVariableName().c_str());
-}
-
-TEST_F(ControllerTest, getObjectShortNameGlobalVariableNameTest) {
-  ASSERT_STREQ("systems.vos.wisey.compiler.tests.CMultiplier.shortname",
-               mMultiplierController->getObjectShortNameGlobalVariableName().c_str());
 }
 
 TEST_F(ControllerTest, getTypeTableNameTest) {
@@ -829,7 +822,6 @@ TEST_F(ControllerTest, defineFieldInjectorFunctionsTest) {
   childController->setFields(mContext, childFields, 1u);
   mContext.addController(childController, 0);
   IConcreteObjectType::generateNameGlobal(mContext, childController);
-  IConcreteObjectType::generateShortNameGlobal(mContext, childController);
   IConcreteObjectType::declareVTable(mContext, childController);
   
   vector<Type*> parentTypes;
@@ -855,7 +847,6 @@ TEST_F(ControllerTest, defineFieldInjectorFunctionsTest) {
   parentController->setFields(mContext, parentFields, 1u);
   mContext.addController(parentController, 0);
   IConcreteObjectType::generateNameGlobal(mContext, parentController);
-  IConcreteObjectType::generateShortNameGlobal(mContext, parentController);
   IConcreteObjectType::declareVTable(mContext, parentController);
   
   childController->declareInjectFunction(mContext, 0);
@@ -904,7 +895,6 @@ TEST_F(ControllerTest, declareFieldInjectionFunctionsTest) {
   childController->setFields(mContext, childFields, 1u);
   mContext.addController(childController, 0);
   IConcreteObjectType::generateNameGlobal(mContext, childController);
-  IConcreteObjectType::generateShortNameGlobal(mContext, childController);
   IConcreteObjectType::declareVTable(mContext, childController);
   
   vector<Type*> parentTypes;
@@ -930,7 +920,6 @@ TEST_F(ControllerTest, declareFieldInjectionFunctionsTest) {
   parentController->setFields(mContext, parentFields, 1u);
   mContext.addController(parentController, 0);
   IConcreteObjectType::generateNameGlobal(mContext, parentController);
-  IConcreteObjectType::generateShortNameGlobal(mContext, parentController);
   IConcreteObjectType::declareVTable(mContext, parentController);
   
   parentController->declareFieldInjectionFunctions(mContext, 0);
@@ -1052,7 +1041,6 @@ TEST_F(ControllerTest, injectNonInjectableTypeDeathTest) {
   Mock::AllowLeak(mCallstackVariable);
 
   IConcreteObjectType::generateNameGlobal(mContext, mDoublerController);
-  IConcreteObjectType::generateShortNameGlobal(mContext, mDoublerController);
   IConcreteObjectType::declareVTable(mContext, mDoublerController);
 
   mDoublerController->createInjectFunction(mContext, 0);

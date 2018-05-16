@@ -206,10 +206,6 @@ string Node::getObjectNameGlobalVariableName() const {
   return mName + ".name";
 }
 
-string Node::getObjectShortNameGlobalVariableName() const {
-  return mName + ".shortname";
-}
-
 string Node::getTypeName() const {
   return mName;
 }
