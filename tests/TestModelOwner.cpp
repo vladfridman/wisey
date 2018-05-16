@@ -229,7 +229,7 @@ struct ModelOwnerTest : public Test {
                        cirlceFullName + ".name");
     IConcreteObjectType::generateNameGlobal(mContext, mCircleModel);
     IConcreteObjectType::generateShortNameGlobal(mContext, mCircleModel);
-    IConcreteObjectType::generateVTable(mContext, mCircleModel);
+    IConcreteObjectType::declareVTable(mContext, mCircleModel);
 
     vector<Type*> starTypes;
     starTypes.push_back(Type::getInt32Ty(mLLVMContext));
@@ -259,7 +259,7 @@ struct ModelOwnerTest : public Test {
     
     IConcreteObjectType::generateNameGlobal(mContext, mStarModel);
     IConcreteObjectType::generateShortNameGlobal(mContext, mStarModel);
-    IConcreteObjectType::generateVTable(mContext, mStarModel);
+    IConcreteObjectType::declareVTable(mContext, mStarModel);
     
     FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
@@ -297,6 +297,7 @@ TEST_F(ModelOwnerTest, getLLVMTypeTest) {
 }
 
 TEST_F(ModelOwnerTest, getDestructorFunctionTest) {
+  IConcreteObjectType::defineVTable(mContext, mCircleModel);
   Function* result = mCircleModel->getOwner()->getDestructorFunction(mContext, 0);
   
   ASSERT_NE(nullptr, result);

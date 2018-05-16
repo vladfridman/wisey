@@ -237,7 +237,7 @@ struct NodeOwnerTest : public Test {
     mContext.addNode(mSimplerNode, 0);
     IConcreteObjectType::generateNameGlobal(mContext, mSimplerNode);
     IConcreteObjectType::generateShortNameGlobal(mContext, mSimplerNode);
-    IConcreteObjectType::generateVTable(mContext, mSimplerNode);
+    IConcreteObjectType::declareVTable(mContext, mSimplerNode);
 
     string vehicleFullName = "systems.vos.wisey.compiler.tests.IVehicle";
     StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, vehicleFullName);
@@ -253,7 +253,7 @@ struct NodeOwnerTest : public Test {
     
     IConcreteObjectType::generateNameGlobal(mContext, mSimpleNode);
     IConcreteObjectType::generateShortNameGlobal(mContext, mSimpleNode);
-    IConcreteObjectType::generateVTable(mContext, mSimpleNode);
+    IConcreteObjectType::declareVTable(mContext, mSimpleNode);
     
     Value* field1Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
     ON_CALL(*mField1Expression, generateIR(_, _)).WillByDefault(Return(field1Value));
@@ -298,6 +298,7 @@ TEST_F(NodeOwnerTest, getLLVMTypeTest) {
 }
 
 TEST_F(NodeOwnerTest, getDestructorFunctionTest) {
+  IConcreteObjectType::defineVTable(mContext, mSimplerNode);
   Function* result = mSimplerNode->getOwner()->getDestructorFunction(mContext, 0);
   
   ASSERT_NE(nullptr, result);

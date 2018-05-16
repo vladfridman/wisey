@@ -51,7 +51,11 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
   IConcreteObjectType::generateShortNameGlobal(context, object);
   IConcreteObjectType::generateNameGlobal(context, object);
   IConcreteObjectType::declareLLVMFunctions(context, object);
-  IConcreteObjectType::generateVTable(context, object);
+  if (object->isExternal()) {
+    IConcreteObjectType::declareVTable(context, object);
+  } else {
+    IConcreteObjectType::defineVTable(context, object);
+  }
   IConcreteObjectType::generateConstantsIR(context, object);
 }
 

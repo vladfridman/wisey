@@ -269,7 +269,7 @@ TEST_F(InterfaceOwnerTest, injectTest) {
   
   IConcreteObjectType::generateNameGlobal(mContext, controller);
   IConcreteObjectType::generateShortNameGlobal(mContext, controller);
-  IConcreteObjectType::generateVTable(mContext, controller);
+  IConcreteObjectType::declareVTable(mContext, controller);
   
   InjectionArgumentList arguments;
   interface->getOwner()->inject(mContext, arguments, 0);

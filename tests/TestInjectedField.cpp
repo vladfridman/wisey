@@ -94,7 +94,7 @@ public:
     mContext.addController(mController, 0);
     IConcreteObjectType::generateNameGlobal(mContext, mController);
     IConcreteObjectType::generateShortNameGlobal(mContext, mController);
-    IConcreteObjectType::generateVTable(mContext, mController);
+    IConcreteObjectType::declareVTable(mContext, mController);
 
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);

@@ -11,6 +11,8 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include <list>
+
 #include "wisey/Constant.hpp"
 #include "wisey/IField.hpp"
 #include "wisey/IMethod.hpp"
@@ -232,9 +234,13 @@ namespace wisey {
     /**
      * Generate vTable global variable for the given object
      */
-    static void generateVTable(IRGenerationContext& context,
-                               const IConcreteObjectType* object);
+    static void defineVTable(IRGenerationContext& context, const IConcreteObjectType* object);
     
+    /**
+     * Declares vTable global variable for the given object
+     */
+    static void declareVTable(IRGenerationContext& context, const IConcreteObjectType* object);
+
     /**
      * Declare all fields as variables in the current scope
      */
@@ -352,9 +358,14 @@ namespace wisey {
                                const IConcreteObjectType* object,
                                std::vector<std::vector<llvm::Constant*>>& vTables);
     
-    static void declareInterfaceMapFunctions(IRGenerationContext& context,
-                                             const IConcreteObjectType* object,
-                                             std::vector<std::vector<llvm::Constant*>>& vTables);
+    static std::vector<std::list<llvm::Constant*>>
+    declareInterfaceMapFunctions(IRGenerationContext& context,
+                                 const IConcreteObjectType* object);
+    
+    static void addInterfaceMapFunctionsToVTable(std::vector<std::list<llvm::Constant*>>
+                                                 interfaceMapFunctions,
+                                                 std::vector<std::vector<llvm::Constant*>>&
+                                                 vTables);
     
     static void defineVTableGlobal(IRGenerationContext& context,
                                    const IConcreteObjectType* object,
@@ -362,7 +373,7 @@ namespace wisey {
 
     static void declareVTableGlobal(IRGenerationContext& context,
                                     const IConcreteObjectType* object,
-                                    std::vector<std::vector<llvm::Constant*>> interfaceVTables);
+                                    std::vector<unsigned long> tableDimensions);
 
     static llvm::GlobalVariable* createTypeListGlobal(IRGenerationContext& context,
                                                       const IConcreteObjectType* object);

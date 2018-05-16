@@ -85,7 +85,7 @@ struct ControllerOwnerTest : public Test {
                                                    0);
     IConcreteObjectType::generateNameGlobal(mContext, mAdditorController);
     IConcreteObjectType::generateShortNameGlobal(mContext, mAdditorController);
-    IConcreteObjectType::generateVTable(mContext, mAdditorController);
+    IConcreteObjectType::declareVTable(mContext, mAdditorController);
 
     string calculatorFullName = "systems.vos.wisey.compiler.tests.ICalculator";
     StructType* calculatorIinterfaceStructType = StructType::create(mLLVMContext,
@@ -266,6 +266,7 @@ TEST_F(ControllerOwnerTest, isObjectTest) {
 }
 
 TEST_F(ControllerOwnerTest, getDestructorFunctionTest) {
+  IConcreteObjectType::defineVTable(mContext, mAdditorController);
   Function* result = mAdditorController->getOwner()->getDestructorFunction(mContext, 0);
   
   ASSERT_NE(nullptr, result);

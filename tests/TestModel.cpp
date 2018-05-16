@@ -335,11 +335,11 @@ struct ModelTest : public Test {
     
     IConcreteObjectType::generateNameGlobal(mContext, mBirthdateModel);
     IConcreteObjectType::generateShortNameGlobal(mContext, mBirthdateModel);
-    IConcreteObjectType::generateVTable(mContext, mBirthdateModel);
+    IConcreteObjectType::declareVTable(mContext, mBirthdateModel);
 
     IConcreteObjectType::generateNameGlobal(mContext, mStarModel);
     IConcreteObjectType::generateShortNameGlobal(mContext, mStarModel);
-    IConcreteObjectType::generateVTable(mContext, mStarModel);
+    IConcreteObjectType::declareVTable(mContext, mStarModel);
 
     FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,

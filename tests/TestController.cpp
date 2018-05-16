@@ -337,10 +337,10 @@ struct ControllerTest : public Test {
 
     IConcreteObjectType::generateNameGlobal(mContext, mOwnerNode);
     IConcreteObjectType::generateShortNameGlobal(mContext, mOwnerNode);
-    IConcreteObjectType::generateVTable(mContext, mOwnerNode);
+    IConcreteObjectType::declareVTable(mContext, mOwnerNode);
     IConcreteObjectType::generateNameGlobal(mContext, mAdditorController);
     IConcreteObjectType::generateShortNameGlobal(mContext, mAdditorController);
-    IConcreteObjectType::generateVTable(mContext, mAdditorController);
+    IConcreteObjectType::declareVTable(mContext, mAdditorController);
     
     vector<Type*> threadTypes;
     threadTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
@@ -830,7 +830,7 @@ TEST_F(ControllerTest, defineFieldInjectorFunctionsTest) {
   mContext.addController(childController, 0);
   IConcreteObjectType::generateNameGlobal(mContext, childController);
   IConcreteObjectType::generateShortNameGlobal(mContext, childController);
-  IConcreteObjectType::generateVTable(mContext, childController);
+  IConcreteObjectType::declareVTable(mContext, childController);
   
   vector<Type*> parentTypes;
   parentTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
@@ -856,7 +856,7 @@ TEST_F(ControllerTest, defineFieldInjectorFunctionsTest) {
   mContext.addController(parentController, 0);
   IConcreteObjectType::generateNameGlobal(mContext, parentController);
   IConcreteObjectType::generateShortNameGlobal(mContext, parentController);
-  IConcreteObjectType::generateVTable(mContext, parentController);
+  IConcreteObjectType::declareVTable(mContext, parentController);
   
   childController->declareInjectFunction(mContext, 0);
   parentController->defineFieldInjectorFunctions(mContext, 0);
@@ -905,7 +905,7 @@ TEST_F(ControllerTest, declareFieldInjectionFunctionsTest) {
   mContext.addController(childController, 0);
   IConcreteObjectType::generateNameGlobal(mContext, childController);
   IConcreteObjectType::generateShortNameGlobal(mContext, childController);
-  IConcreteObjectType::generateVTable(mContext, childController);
+  IConcreteObjectType::declareVTable(mContext, childController);
   
   vector<Type*> parentTypes;
   parentTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
@@ -931,7 +931,7 @@ TEST_F(ControllerTest, declareFieldInjectionFunctionsTest) {
   mContext.addController(parentController, 0);
   IConcreteObjectType::generateNameGlobal(mContext, parentController);
   IConcreteObjectType::generateShortNameGlobal(mContext, parentController);
-  IConcreteObjectType::generateVTable(mContext, parentController);
+  IConcreteObjectType::declareVTable(mContext, parentController);
   
   parentController->declareFieldInjectionFunctions(mContext, 0);
   
@@ -1053,7 +1053,7 @@ TEST_F(ControllerTest, injectNonInjectableTypeDeathTest) {
 
   IConcreteObjectType::generateNameGlobal(mContext, mDoublerController);
   IConcreteObjectType::generateShortNameGlobal(mContext, mDoublerController);
-  IConcreteObjectType::generateVTable(mContext, mDoublerController);
+  IConcreteObjectType::declareVTable(mContext, mDoublerController);
 
   mDoublerController->createInjectFunction(mContext, 0);
   mDoublerController->defineFieldInjectorFunctions(mContext, 0);

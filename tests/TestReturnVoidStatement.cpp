@@ -66,7 +66,7 @@ struct ReturnVoidStatementTest : public Test {
 
     IConcreteObjectType::generateNameGlobal(mContext, mModel);
     IConcreteObjectType::generateShortNameGlobal(mContext, mModel);
-    IConcreteObjectType::generateVTable(mContext, mModel);
+    IConcreteObjectType::declareVTable(mContext, mModel);
   }
   
   ~ReturnVoidStatementTest() {

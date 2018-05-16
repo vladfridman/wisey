@@ -68,7 +68,7 @@ public:
     
     IConcreteObjectType::generateNameGlobal(mContext, mModel);
     IConcreteObjectType::generateShortNameGlobal(mContext, mModel);
-    IConcreteObjectType::generateVTable(mContext, mModel);
+    IConcreteObjectType::declareVTable(mContext, mModel);
     
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,

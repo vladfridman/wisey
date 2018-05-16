@@ -153,20 +153,31 @@ void IConcreteObjectType::initializeVTable(IRGenerationContext& context,
   }
 }
 
-void IConcreteObjectType::generateVTable(IRGenerationContext& context,
-                                         const IConcreteObjectType* object) {
+void IConcreteObjectType::defineVTable(IRGenerationContext& context,
+                                       const IConcreteObjectType* object) {
   
   vector<vector<llvm::Constant*>> vTables;
   
   addTypeListInfo(context, object, vTables);
   addDestructorInfo(context, object, vTables);
   addUnthunkInfo(context, object, vTables);
-  declareInterfaceMapFunctions(context, object, vTables);
-  if (object->isExternal()) {
-    declareVTableGlobal(context, object, vTables);
-  } else {
-    defineVTableGlobal(context, object, vTables);
+  addInterfaceMapFunctionsToVTable(declareInterfaceMapFunctions(context, object), vTables);
+  defineVTableGlobal(context, object, vTables);
+}
+
+void IConcreteObjectType::declareVTable(IRGenerationContext& context,
+                                        const IConcreteObjectType* object) {
+  
+  vector<unsigned long> vTableDimensions;
+  
+  vector<list<llvm::Constant*>> mapFunction = declareInterfaceMapFunctions(context, object);
+  for (list<llvm::Constant*> mapFunctionsPortion : mapFunction) {
+    vTableDimensions.push_back(3u + mapFunctionsPortion.size());
   }
+  if (!mapFunction.size()) {
+    vTableDimensions.push_back(3u);
+  }
+  declareVTableGlobal(context, object, vTableDimensions);
 }
 
 map<string, Function*> IConcreteObjectType::defineMethodFunctions(IRGenerationContext& context,
@@ -250,21 +261,29 @@ void IConcreteObjectType::addUnthunkInfo(IRGenerationContext& context,
   }
 }
 
-void IConcreteObjectType::declareInterfaceMapFunctions(IRGenerationContext& context,
-                                                       const IConcreteObjectType* object,
-                                                       vector<vector<llvm::Constant*>>& vTables) {
+vector<list<llvm::Constant*>> IConcreteObjectType::
+declareInterfaceMapFunctions(IRGenerationContext& context, const IConcreteObjectType* object) {
   map<string, Function*> methodFunctionMap = defineMethodFunctions(context, object);
   
   vector<list<llvm::Constant*>> interfaceMapFunctions;
   
   for (Interface* interface : object->getInterfaces()) {
     vector<list<llvm::Constant*>> vSubTable =
-    interface->declareMapFunctions(context, object, methodFunctionMap, interfaceMapFunctions.size());
+    interface->declareMapFunctions(context,
+                                   object,
+                                   methodFunctionMap,
+                                   interfaceMapFunctions.size());
     for (list<llvm::Constant*> vTablePortion : vSubTable) {
       interfaceMapFunctions.push_back(vTablePortion);
     }
   }
   
+  return interfaceMapFunctions;
+}
+
+void IConcreteObjectType::
+addInterfaceMapFunctionsToVTable(vector<list<llvm::Constant*>> interfaceMapFunctions,
+                                 vector<vector<llvm::Constant*>>& vTables) {
   assert(interfaceMapFunctions.size() == 0 || interfaceMapFunctions.size() == vTables.size());
   
   int vTablesIndex = 0;
@@ -313,13 +332,13 @@ void IConcreteObjectType::defineVTableGlobal(IRGenerationContext& context,
 
 void IConcreteObjectType::declareVTableGlobal(IRGenerationContext& context,
                                               const IConcreteObjectType* object,
-                                              vector<vector<llvm::Constant*>> interfaceVTables) {
+                                              vector<unsigned long> tableDimensions) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
   
   vector<Type*> vTableTypes;
-  for (vector<llvm::Constant*> vTablePortionVector : interfaceVTables) {
-    llvm::ArrayType* arrayType = llvm::ArrayType::get(int8Pointer, vTablePortionVector.size());
+  for (unsigned long dimension : tableDimensions) {
+    llvm::ArrayType* arrayType = llvm::ArrayType::get(int8Pointer, dimension);
     vTableTypes.push_back(arrayType);
   }
   

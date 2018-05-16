@@ -327,11 +327,11 @@ struct NodeTest : public Test {
 
     IConcreteObjectType::generateNameGlobal(mContext, mOwnerNode);
     IConcreteObjectType::generateShortNameGlobal(mContext, mOwnerNode);
-    IConcreteObjectType::generateVTable(mContext, mOwnerNode);
+    IConcreteObjectType::declareVTable(mContext, mOwnerNode);
 
     IConcreteObjectType::generateShortNameGlobal(mContext, mSimpleNode);
     IConcreteObjectType::generateNameGlobal(mContext, mSimpleNode);
-    IConcreteObjectType::generateVTable(mContext, mSimpleNode);
+    IConcreteObjectType::declareVTable(mContext, mSimpleNode);
     
     Value* field1Value = ConstantPointerNull::get(mOwnerNode->getOwner()->getLLVMType(mContext));
     ON_CALL(*mField1Expression, generateIR(_, _)).WillByDefault(Return(field1Value));

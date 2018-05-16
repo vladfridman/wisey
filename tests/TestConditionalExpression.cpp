@@ -84,7 +84,7 @@ struct ConditionalExpressionTest : Test {
 
     IConcreteObjectType::generateNameGlobal(mContext, mModel);
     IConcreteObjectType::generateShortNameGlobal(mContext, mModel);
-    IConcreteObjectType::generateVTable(mContext, mModel);
+    IConcreteObjectType::declareVTable(mContext, mModel);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
