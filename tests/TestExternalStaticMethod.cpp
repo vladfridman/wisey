@@ -139,7 +139,7 @@ TEST_F(ExternalStaticMethodTest, definePublicFunctionTest) {
                                     thrownExceptions,
                                     new MethodQualifiers(0),
                                     0);
-  Function* function = staticMethod.defineFunction(mContext);
+  Function* function = staticMethod.declareFunction(mContext);
   
   *mStringStream << *function;
   string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.foo(%wisey.threads.IThread*, %wisey.threads.CCallStack*, i32)\n";

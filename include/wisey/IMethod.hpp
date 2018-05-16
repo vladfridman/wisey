@@ -23,9 +23,9 @@ namespace wisey {
   public:
     
     /**
-     * Defines LLVM function for this method
+     * Declares LLVM function corresponding to this method
      */
-    virtual llvm::Function* defineFunction(IRGenerationContext& context) const = 0;
+    virtual llvm::Function* declareFunction(IRGenerationContext& context) const = 0;
     
     /**
      * Generates IR for this method in a given concrete object
@@ -63,12 +63,12 @@ namespace wisey {
                                           int line);
     
     /**
-     * Define llvm function for the given method
+     * Declare llvm function for the given method in the given object
      */
-    static llvm::Function* defineFunction(IRGenerationContext& context,
-                                          const IObjectType* objectType,
-                                          const IMethod* method);
-    
+    static llvm::Function* declareFunctionForObject(IRGenerationContext& context,
+                                                    const IObjectType* objectType,
+                                                    const IMethod* method);
+
     /**
      * Get pointer to the method name constant
      */

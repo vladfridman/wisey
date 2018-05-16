@@ -166,14 +166,14 @@ void IConcreteObjectType::declareVTable(IRGenerationContext& context,
   declareVTableGlobal(context, object, vTableDimensions);
 }
 
-map<string, Function*> IConcreteObjectType::defineMethodFunctions(IRGenerationContext& context,
-                                                                  const IConcreteObjectType*
-                                                                  object) {
+map<string, Function*> IConcreteObjectType::declareMethodFunctions(IRGenerationContext& context,
+                                                                   const IConcreteObjectType*
+                                                                   object) {
   map<string, Function*> methodFunctionMap;
   vector<tuple<IMethod*, Function*>> methodsWithFunctions;
   
   for (IMethod* method : object->getMethods()) {
-    Function* function = method->defineFunction(context);
+    Function* function = method->declareFunction(context);
     methodFunctionMap[method->getName()] = function;
     methodsWithFunctions.push_back(make_tuple(method, function));
   }
@@ -249,7 +249,7 @@ void IConcreteObjectType::addUnthunkInfo(IRGenerationContext& context,
 
 vector<list<llvm::Constant*>> IConcreteObjectType::
 declareInterfaceMapFunctions(IRGenerationContext& context, const IConcreteObjectType* object) {
-  map<string, Function*> methodFunctionMap = defineMethodFunctions(context, object);
+  map<string, Function*> methodFunctionMap = declareMethodFunctions(context, object);
   
   vector<list<llvm::Constant*>> interfaceMapFunctions;
   

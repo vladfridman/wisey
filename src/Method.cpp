@@ -153,8 +153,8 @@ bool Method::isImmutable() const {
   return false;
 }
 
-Function* Method::defineFunction(IRGenerationContext& context) const {
-  return IMethod::defineFunction(context, mObjectType, this);
+Function* Method::declareFunction(IRGenerationContext& context) const {
+  return IMethod::declareFunctionForObject(context, mObjectType, this);
 }
 
 void Method::generateIR(IRGenerationContext& context) const {

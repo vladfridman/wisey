@@ -152,7 +152,7 @@ TEST_F(StaticMethodTest, definePublicFunctionTest) {
                             new MethodQualifiers(0),
                             &mCompoundStatement,
                             0);
-  Function* function = staticMethod.defineFunction(mContext);
+  Function* function = staticMethod.declareFunction(mContext);
   
   *mStringStream << *function;
   string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.foo(%wisey.threads.IThread*, %wisey.threads.CCallStack*, i32)\n";
@@ -174,7 +174,7 @@ TEST_F(StaticMethodTest, definePrivateFunctionTest) {
                             new MethodQualifiers(0),
                             &mCompoundStatement,
                             0);
-  Function* function = staticMethod.defineFunction(mContext);
+  Function* function = staticMethod.declareFunction(mContext);
   
   *mStringStream << *function;
   string expected = "\ndeclare internal float @systems.vos.wisey.compiler.tests.MObject.foo(%wisey.threads.IThread*, %wisey.threads.CCallStack*, i32)\n";
@@ -196,7 +196,7 @@ TEST_F(StaticMethodTest, generateIRTest) {
                             new MethodQualifiers(0),
                             &mCompoundStatement,
                             0);
-  Function* function = staticMethod.defineFunction(mContext);
+  Function* function = staticMethod.declareFunction(mContext);
   staticMethod.generateIR(mContext);
   
   *mStringStream << *function;

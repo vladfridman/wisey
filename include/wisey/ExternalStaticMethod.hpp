@@ -44,7 +44,7 @@ namespace wisey {
     
     bool isStatic() const override;
     
-    llvm::Function* defineFunction(IRGenerationContext& context) const override;
+    llvm::Function* declareFunction(IRGenerationContext& context) const override;
     
     void generateIR(IRGenerationContext& context) const override;
     

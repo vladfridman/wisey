@@ -337,7 +337,7 @@ namespace wisey {
   private:
     
     static std::map<std::string, llvm::Function*>
-    defineMethodFunctions(IRGenerationContext& context, const IConcreteObjectType* object);
+    declareMethodFunctions(IRGenerationContext& context, const IConcreteObjectType* object);
     
     static void addTypeListInfo(IRGenerationContext& context,
                                 const IConcreteObjectType* object,

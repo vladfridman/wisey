@@ -128,7 +128,7 @@ TEST_F(ExternalMethodTest, getLLVMTypeTest) {
   EXPECT_EQ(expectedType, actualType);
 }
 
-TEST_F(ExternalMethodTest, defineFunctionTest) {
+TEST_F(ExternalMethodTest, declareFunctionTest) {
   wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT, "intargument");
   std::vector<const wisey::Argument*> arguments;
   arguments.push_back(intArgument);
@@ -140,7 +140,7 @@ TEST_F(ExternalMethodTest, defineFunctionTest) {
                         thrownExceptions,
                         new MethodQualifiers(0),
                         0);
-  Function* function = method.defineFunction(mContext);
+  Function* function = method.declareFunction(mContext);
   
   *mStringStream << *function;
   string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.foo(%systems.vos.wisey.compiler.tests.MObject*, %wisey.threads.IThread*, %wisey.threads.CCallStack*, i32)\n";

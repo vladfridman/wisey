@@ -44,8 +44,8 @@ bool ExternalMethod::isStatic() const {
   return false;
 }
 
-Function* ExternalMethod::defineFunction(IRGenerationContext& context) const {
-  return IMethod::defineFunction(context, mObjectType, this);
+Function* ExternalMethod::declareFunction(IRGenerationContext& context) const {
+  return IMethod::declareFunctionForObject(context, mObjectType, this);
 }
 
 void ExternalMethod::generateIR(IRGenerationContext& context) const {

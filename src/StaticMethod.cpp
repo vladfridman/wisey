@@ -150,8 +150,8 @@ bool StaticMethod::isImmutable() const {
   return false;
 }
 
-Function* StaticMethod::defineFunction(IRGenerationContext& context) const {
-  return IMethod::defineFunction(context, mObjectType, this);
+Function* StaticMethod::declareFunction(IRGenerationContext& context) const {
+  return IMethod::declareFunctionForObject(context, mObjectType, this);
 }
 
 void StaticMethod::generateIR(IRGenerationContext& context) const {
