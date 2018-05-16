@@ -30,7 +30,6 @@ public:
   MOCK_CONST_METHOD1(getFieldIndex, unsigned long (const wisey::IField*));
   MOCK_CONST_METHOD0(getFields, std::vector<wisey::IField*> ());
   MOCK_CONST_METHOD0(getVTableName, std::string ());
-  MOCK_CONST_METHOD0(getVTableSize, unsigned long ());
   MOCK_CONST_METHOD0(getInterfaces, std::vector<wisey::Interface*> ());
   MOCK_CONST_METHOD0(getFlattenedInterfaceHierarchy, std::vector<wisey::Interface*> ());
   MOCK_CONST_METHOD0(getTypeTableName, std::string ());

@@ -189,8 +189,6 @@ namespace wisey {
 
     std::string getVTableName() const override;
     
-    unsigned long getVTableSize() const override;
-    
     std::vector<Interface*> getInterfaces() const override;
     
     std::vector<Interface*> getFlattenedInterfaceHierarchy() const override;

@@ -399,10 +399,6 @@ TEST_F(ModelTest, getInterfacesTest) {
   EXPECT_EQ(2u, mModel->getInterfaces().size());
 }
 
-TEST_F(ModelTest, getVTableSizeTest) {
-  EXPECT_EQ(3u, mModel->getVTableSize());
-}
-
 TEST_F(ModelTest, getFieldsTest) {
   EXPECT_EQ(2u, mModel->getFields().size());
 }

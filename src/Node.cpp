@@ -352,10 +352,6 @@ string Node::getVTableName() const {
   return mName + ".vtable";
 }
 
-unsigned long Node::getVTableSize() const {
-  return IConcreteObjectType::getVTableSizeForObject(this);
-}
-
 vector<Interface*> Node::getInterfaces() const {
   return mInterfaces;
 }

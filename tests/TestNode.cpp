@@ -404,10 +404,6 @@ TEST_F(NodeTest, getInterfacesTest) {
   EXPECT_EQ(2u, mComplicatedNode->getInterfaces().size());
 }
 
-TEST_F(NodeTest, getVTableSizeTest) {
-  EXPECT_EQ(3u, mComplicatedNode->getVTableSize());
-}
-
 TEST_F(NodeTest, getFieldsTest) {
   EXPECT_EQ(2u, mComplicatedNode->getFields().size());
 }

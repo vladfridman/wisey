@@ -214,10 +214,6 @@ string Model::getVTableName() const {
   return getTypeName() + ".vtable";
 }
 
-unsigned long Model::getVTableSize() const {
-  return IConcreteObjectType::getVTableSizeForObject(this);
-}
-
 string Model::getObjectNameGlobalVariableName() const {
   return getTypeName() + ".name";
 }

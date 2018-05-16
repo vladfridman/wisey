@@ -415,10 +415,6 @@ string Controller::getVTableName() const {
   return mName + ".vtable";
 }
 
-unsigned long Controller::getVTableSize() const {
-  return IConcreteObjectType::getVTableSizeForObject(this);
-}
-
 IField* Controller::findField(string fieldName) const {
   if (!mFields.count(fieldName)) {
     return NULL;

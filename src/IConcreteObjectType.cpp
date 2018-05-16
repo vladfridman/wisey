@@ -134,7 +134,7 @@ void IConcreteObjectType::initializeVTable(IRGenerationContext& context,
   Type* vTableType = functionType->getPointerTo()->getPointerTo();
   Value* vTableStartCalculation = IRWriter::newBitCastInst(context, malloc, genericPointerType);
 
-  for (unsigned int vTableIndex = 0; vTableIndex < object->getVTableSize(); vTableIndex++) {
+  for (unsigned int vTableIndex = 0; vTableIndex < getVTableSizeForObject(object); vTableIndex++) {
     Value* vTableStart;
     Value* index[1];
     unsigned int thunkBy = vTableIndex * Environment::getAddressSizeInBytes();
@@ -235,7 +235,7 @@ void IConcreteObjectType::addUnthunkInfo(IRGenerationContext& context,
                                          vector<vector<llvm::Constant*>>& vTables) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-  unsigned long vTableSize = object->getVTableSize();
+  unsigned long vTableSize = getVTableSizeForObject(object);
   
   for (unsigned long i = 1; i < vTableSize; i++) {
     vector<llvm::Constant*> vTablePortion;

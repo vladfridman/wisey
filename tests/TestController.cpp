@@ -423,10 +423,6 @@ TEST_F(ControllerTest, getInterfacesTest) {
   EXPECT_EQ(2u, mMultiplierController->getInterfaces().size());
 }
 
-TEST_F(ControllerTest, getVTableSizeTest) {
-  EXPECT_EQ(3u, mMultiplierController->getVTableSize());
-}
-
 TEST_F(ControllerTest, getFieldsTest) {
   EXPECT_EQ(2u, mMultiplierController->getFields().size());
 }

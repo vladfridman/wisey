@@ -115,11 +115,6 @@ namespace wisey {
     virtual std::string getVTableName() const = 0;
     
     /**
-     * Returns the size of the VTable array for this object
-     */
-    virtual unsigned long getVTableSize() const = 0;
-    
-    /**
      * Returns interfaces that this object implements
      */
     virtual std::vector<Interface*> getInterfaces() const = 0;
