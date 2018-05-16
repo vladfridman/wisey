@@ -69,7 +69,7 @@ struct ThrowStatementTest : public Test {
                        GlobalValue::LinkageTypes::LinkOnceODRLinkage,
                        stringConstant,
                        circleFullName + ".name");
-    mCircleModel->createRTTI(mContext);
+    mCircleModel->declareRTTI(mContext);
 
     IConcreteObjectType::generateNameGlobal(mContext, mCircleModel);
     IConcreteObjectType::declareVTable(mContext, mCircleModel);

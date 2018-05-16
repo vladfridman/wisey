@@ -410,7 +410,7 @@ TEST_F(ModelTest, createRTTITest) {
   GlobalVariable* rtti = mContext.getModule()->getNamedGlobal(mCircleModel->getRTTIVariableName());
   ASSERT_EQ(rtti, nullptr);
   
-  mCircleModel->createRTTI(mContext);
+  mCircleModel->defineRTTI(mContext);
   rtti = mContext.getModule()->getNamedGlobal(mCircleModel->getRTTIVariableName());
   ASSERT_NE(rtti, nullptr);
 }

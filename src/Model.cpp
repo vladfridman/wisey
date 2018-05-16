@@ -368,7 +368,7 @@ Function* Model::defineBuildFunction(IRGenerationContext& context) const {
   return IBuildableConcreteObjectType::defineBuildFunctionForObject(context, this);
 }
 
-void Model::createRTTI(IRGenerationContext& context) const {
+void Model::defineRTTI(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
  
@@ -398,8 +398,26 @@ void Model::createRTTI(IRGenerationContext& context) const {
   new GlobalVariable(*context.getModule(),
                      rttiGlobalType,
                      true,
-                     GlobalValue::LinkageTypes::LinkOnceODRLinkage,
+                     GlobalValue::LinkageTypes::ExternalLinkage,
                      rttiGlobalConstantStruct,
+                     getRTTIVariableName());
+}
+
+void Model::declareRTTI(IRGenerationContext& context) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
+  
+  vector<Type*> types;
+  types.push_back(int8PointerType);
+  types.push_back(int8PointerType);
+  
+  StructType* rttiGlobalType = StructType::get(llvmContext, types);
+  
+  new GlobalVariable(*context.getModule(),
+                     rttiGlobalType,
+                     true,
+                     GlobalValue::LinkageTypes::ExternalLinkage,
+                     NULL,
                      getRTTIVariableName());
 }
 

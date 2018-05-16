@@ -94,8 +94,13 @@ namespace wisey {
     /**
      * Creates a global variable with type description for this model in RTTI format
      */
-    void createRTTI(IRGenerationContext& context) const;
+    void defineRTTI(IRGenerationContext& context) const;
     
+    /**
+     * Creates a global variable with type description for this model in RTTI format
+     */
+    void declareRTTI(IRGenerationContext& context) const;
+
     llvm::Function* declareBuildFunction(IRGenerationContext& context) const override;
     
     llvm::Function* defineBuildFunction(IRGenerationContext& context) const override;

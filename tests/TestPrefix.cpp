@@ -148,7 +148,7 @@ void TestPrefix::defineModel(IRGenerationContext& context,
   modelDefinition.prototypeObject(context, context.getImportProfile());
   modelDefinition.prototypeMethods(context);
   Model* model = context.getModel(Names::getLangPackageName() + "." + modelName, 0);
-  model->createRTTI(context);
+  model->declareRTTI(context);
 }
 
 ControllerDefinition* TestPrefix::defineCCallStack(IRGenerationContext& context) {

@@ -68,7 +68,7 @@ void ExternalModelDefinition::prototypeMethods(IRGenerationContext& context) con
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
   configureObject(context, model, mObjectElementDeclarations, mInterfaceSpecifiers);
   model->declareBuildFunction(context);
-  model->createRTTI(context);
+  model->declareRTTI(context);
   context.setObjectType(lastObjectType);
 }
 
