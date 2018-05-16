@@ -401,20 +401,10 @@ void Node::initializePresetFields(IRGenerationContext& context,
                           " does not match its type");
       throw 1;
     }
-    if (field->isFixed() && (argumentType->isController() || argumentType->isNode())) {
-      context.reportError(line, "Attempting to initialize a node fixed field with a mutable type. "
-                          "Node fixed fields can only contain primitives, other models or "
-                          "immutable arrays");
-      throw 1;
-    }
     if (field->isState() && (argumentType->isController() || argumentType->isModel())) {
       context.reportError(line, "Trying to initialize a node state field with object that is "
                           "not a node. Node state fields can only be of node type");
       throw 1;
-    }
-    if (field->isFixed() && argumentType->isInterface() && fieldType->isInterface()) {
-      string typeName = context.getObjectType()->getTypeName();
-      CheckCastToObjectFunction::callCheckCastToModel(context, argumentValue);
     }
     if (field->isState() && argumentType->isInterface() && fieldType->isInterface()) {
       string typeName = context.getObjectType()->getTypeName();

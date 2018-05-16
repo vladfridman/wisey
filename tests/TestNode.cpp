@@ -896,11 +896,12 @@ TEST_F(TestFileRunner, nodeInitStateFieldWithNodeRunTest) {
   runFile("tests/samples/test_node_init_state_field_with_node.yz", "1");
 }
 
-TEST_F(TestFileRunner, nodeInitWithControllerDeathRunTest) {
-  expectFailCompile("tests/samples/test_node_init_with_controller.yz",
-                    1,
-                    "tests/samples/test_node_init_with_controller.yz\\(30\\): Error: "
-                    "Attempting to initialize a node fixed field with a mutable type\\. Node fixed fields can only contain primitives, other models or immutable arrays");
+TEST_F(TestFileRunner, nodeInitWithControllerRunTest) {
+  runFile("tests/samples/test_node_init_with_controller.yz", "1");
+}
+
+TEST_F(TestFileRunner, nodeInitFixedFieldWithInterfaceThatsControllerRunTest) {
+  runFile("tests/samples/test_node_init_fixed_field_with_interface_thats_controller.yz", "1");
 }
 
 TEST_F(TestFileRunner, nodeInitStateFieldWithControllerDeathRunTest) {
@@ -908,16 +909,6 @@ TEST_F(TestFileRunner, nodeInitStateFieldWithControllerDeathRunTest) {
                     1,
                     "tests/samples/test_node_init_state_field_with_controller.yz\\(30\\): Error: "
                     "Trying to initialize a node state field with object that is not a node. Node state fields can only be of node type");
-}
-
-TEST_F(TestFileRunner, nodeInitFixedFieldWithInterfaceThatsControllerDeathRunTest) {
-  compileAndRunFileCheckOutput("tests/samples/test_node_init_fixed_field_with_interface_thats_controller.yz",
-                               1,
-                               "",
-                               "Unhandled exception wisey.lang.MCastException\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_node_init_fixed_field_with_interface_thats_controller.yz:30)\n"
-                               "Details: Can not cast from systems.vos.wisey.compiler.tests.CService to model\n"
-                               "Main thread ended without a result\n");
 }
 
 TEST_F(TestFileRunner, nodeInitStateFieldWithInterfaceThatsControllerDeathRunTest) {
