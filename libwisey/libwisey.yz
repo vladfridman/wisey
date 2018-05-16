@@ -166,6 +166,14 @@ external model wisey.lang.MString {
   long getLength();
   wisey.lang.MString* copy();
   immutable char[] getContent();
+  int compareToString(
+    string input);
+  int compareToMString(
+    wisey.lang.MString input);
+  int compareToImmutableCharArray(
+    immutable char[] input);
+  int compareToCharArray(
+    char[] input);
 }
 
 external model wisey.lang.MSystem {
@@ -328,6 +336,16 @@ external controller wisey.lang.CString {
     immutable char[] appendix);
   char[] getContent();
   long getCapacity();
+  int compareToString(
+    string input);
+  int compareToMString(
+    wisey.lang.MString input);
+  int compareToCString(
+    wisey.lang.CString input);
+  int compareToImmutableCharArray(
+    immutable char[] input);
+  int compareToCharArray(
+    char[] input);
 }
 
 external controller wisey.threads.CCallStack {
@@ -529,6 +547,7 @@ external ::llvm::function ::llvm::i32 "llvm.eh.typeid.for"(::llvm::i8::pointer);
 external ::llvm::function ::llvm::void "llvm.memcpy.p0i8.p0i8.i64"(::llvm::i8::pointer, ::llvm::i8::pointer, ::llvm::i64, ::llvm::i32, ::llvm::i1);
 external ::llvm::function ::llvm::void "llvm.memset.p0i8.i64"(::llvm::i8::pointer, ::llvm::i8, ::llvm::i64, ::llvm::i32, ::llvm::i1);
 external ::llvm::function ::llvm::i32 "printf"(::llvm::i8::pointer, ...);
+external ::llvm::function ::llvm::i32 "strcmp"(::llvm::i8::pointer, ::llvm::i8::pointer);
 external ::llvm::function ::llvm::i64 "strlen"(::llvm::i8::pointer);
 
 /* llvm Globals */

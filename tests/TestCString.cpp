@@ -20,6 +20,10 @@ TEST_F(TestFileRunner, cstringCopyRunTest) {
   runFile("tests/samples/test_cstring_copy.yz", "3");
 }
 
+TEST_F(TestFileRunner, cstringCompareRunTest) {
+  runFile("tests/samples/test_cstring_compare_to_string.yz", "0");
+}
+
 TEST_F(TestFileRunner, cstringAppendStringRunTest) {
   runFileCheckOutput("tests/samples/test_cstring_append_string.yz",
                      "Before cstring: 123456 capacity: 10\n"

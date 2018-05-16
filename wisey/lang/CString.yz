@@ -138,6 +138,41 @@ controller CString {
     return mCapacity;
   }
 
+  /**
+   * Compares the string to the given input string and returns 0 if they are equal
+   */
+  public int compareToString(string input) {
+    return ::llvm::function::strcmp(mBuffer, input);
+  }
+
+  /**
+   * Compares the string to the given input MString and returns 0 if they are equal
+   */
+  public int compareToMString(MString input) {
+    return ::llvm::function::strcmp(mBuffer, input.getContent());
+  }
+
+  /**
+   * Compares the string to the given input CString and returns 0 if they are equal
+   */
+  public int compareToCString(CString input) {
+    return ::llvm::function::strcmp(mBuffer, input.getContent());
+  }
+
+  /**
+   * Compares the string to the given input immutable char array and returns 0 if they are equal
+   */
+  public int compareToImmutableCharArray(immutable char[] input) {
+    return ::llvm::function::strcmp(mBuffer, input);
+  }
+
+  /**
+   * Compares the string to the given input char array and returns 0 if they are equal
+   */
+  public int compareToCharArray(char[] input) {
+    return ::llvm::function::strcmp(mBuffer, input);
+  }
+
   private static long estimateCapacity(long size) {
     return (long) (((float) (size + 1)) * 1.5);
   }

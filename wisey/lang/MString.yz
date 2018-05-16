@@ -65,6 +65,34 @@ model MString {
     return mContent;
   }
 
+  /**
+   * Compares the string to the given input string and returns 0 if they are equal
+   */
+  public int compareToString(string input) {
+    return ::llvm::function::strcmp(mContent, input);
+  }
+
+  /**
+   * Compares the string to the given input MString and returns 0 if they are equal
+   */
+  public int compareToMString(MString input) {
+    return ::llvm::function::strcmp(mContent, input.getContent());
+  }
+
+  /**
+   * Compares the string to the given input immutable char array and returns 0 if they are equal
+   */
+  public int compareToImmutableCharArray(immutable char[] input) {
+    return ::llvm::function::strcmp(mContent, input);
+  }
+
+  /**
+   * Compares the string to the given input char array and returns 0 if they are equal
+   */
+  public int compareToCharArray(char[] input) {
+    return ::llvm::function::strcmp(mContent, input);
+  }
+
   private static MString* memcopyAndBuild(::llvm::i8::pointer source, long length) {
     char[]* buffer = new char[length];
     MSystem.memcopy(buffer, source, length - 1);

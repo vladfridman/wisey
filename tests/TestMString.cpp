@@ -39,3 +39,7 @@ TEST_F(TestFileRunner, mstringCreateFromUnterminatedCharArrayRunTest) {
 TEST_F(TestFileRunner, mstringCopyRunTest) {
   runFile("tests/samples/test_mstring_copy.yz", "7");
 }
+
+TEST_F(TestFileRunner, mstringCompareRunTest) {
+  runFile("tests/samples/test_mstring_compare_to_string.yz", "0");
+}

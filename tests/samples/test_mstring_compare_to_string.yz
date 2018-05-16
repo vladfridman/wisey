@@ -1,0 +1,22 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+import wisey.lang.MString;
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    MString* mstring = MString.createFromString("test");
+    char[]* array = new char[5];
+    array[0] = 't';
+    array[1] = 'e';
+    array[2] = 's';
+    array[3] = 't';
+    return mstring.compareToString("test") 
+      + mstring.compareToMString(mstring) 
+      + mstring.compareToImmutableCharArray(mstring.getContent()) 
+      + mstring.compareToCharArray(array);
+  }
+}
+
+bind(IProgram).to(CProgram);

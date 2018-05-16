@@ -24,6 +24,11 @@
 ::llvm::function ::llvm::i64 strlen(::llvm::i8::pointer);
 
 /**
+ * Compares two strins and returns zero if they are equal
+ */
+::llvm::function ::llvm::i32 strcmp(::llvm::i8::pointer, ::llvm::i8::pointer);
+
+/**
  * This is used to throw an exception
  */
 ::llvm::function ::llvm::void __cxa_throw(::llvm::i8::pointer, 
