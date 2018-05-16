@@ -105,7 +105,7 @@ Function* IMethod::declareFunctionForObject(IRGenerationContext& context,
   Function* function = Function::Create(ftype, linkageType, functionName, context.getModule());
   
   string functionNameConstantName = MethodCall::getMethodNameConstantName(methodName);
-  if (!context.getModule()->getNamedGlobal(functionNameConstantName)) {
+  if (!objectType->isExternal() && !context.getModule()->getNamedGlobal(functionNameConstantName)) {
     llvm::Constant* stringConstant =
       ConstantDataArray::getString(context.getLLVMContext(), methodName);
     new GlobalVariable(*context.getModule(),
