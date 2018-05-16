@@ -299,7 +299,7 @@ bool Interface::doesExtendInterface(const Interface* interface) const {
 }
 
 string Interface::getObjectNameGlobalVariableName() const {
-  return mName + ".name";
+  return mName + ".typename";
 }
 
 const IMethodDescriptor* Interface::findMethod(string methodName) const {
@@ -827,6 +827,17 @@ void Interface::printToStream(IRGenerationContext& context, iostream& stream) co
   stream << "}" << endl;
 }
 
+void Interface::declareInterfaceTypeName(IRGenerationContext& context) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  string typeType = getTypeName();
+  new GlobalVariable(*context.getModule(),
+                     llvm::ArrayType::get(Type::getInt8Ty(llvmContext), typeType.length() + 1),
+                     true,
+                     GlobalValue::LinkageTypes::ExternalLinkage,
+                     nullptr,
+                     getObjectNameGlobalVariableName());
+}
+
 void Interface::defineInterfaceTypeName(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   string typeType = getTypeName();
@@ -835,7 +846,7 @@ void Interface::defineInterfaceTypeName(IRGenerationContext& context) const {
                      llvm::ArrayType::get(Type::getInt8Ty(llvmContext), typeType.length() + 1),
                      true,
                      GlobalValue::LinkageTypes::ExternalLinkage,
-                     mIsExternal ? nullptr : stringConstant,
+                     stringConstant,
                      getObjectNameGlobalVariableName());
 }
 

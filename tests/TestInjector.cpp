@@ -89,7 +89,7 @@ struct InjectorTest : Test {
     mContext.addInterface(mInterface, 0);
     mContext.bindInterfaceToController(mInterface, mController, 0);
    
-    IConcreteObjectType::generateNameGlobal(mContext, mController);
+    IConcreteObjectType::declareTypeNameGlobal(mContext, mController);
     IConcreteObjectType::declareVTable(mContext, mController);
     
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(llvmContext), false);

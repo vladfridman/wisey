@@ -48,12 +48,14 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
   collectFieldTypes(context, types, get<1>(elements));
   object->setStructBodyTypes(types);
   
-  IConcreteObjectType::generateNameGlobal(context, object);
   IConcreteObjectType::declareLLVMFunctions(context, object);
+  
   if (object->isExternal()) {
+    IConcreteObjectType::declareTypeNameGlobal(context, object);
     IConcreteObjectType::declareVTable(context, object);
     IConcreteObjectType::declareConstants(context, object);
   } else {
+    IConcreteObjectType::defineTypeNameGlobal(context, object);
     IConcreteObjectType::defineVTable(context, object);
     IConcreteObjectType::defineConstants(context, object);
   }

@@ -62,7 +62,7 @@ public:
                              mContext.getImportProfile(),
                              0);
     mContext.addModel(mModel, 0);
-    IConcreteObjectType::generateNameGlobal(mContext, mModel);
+    IConcreteObjectType::declareTypeNameGlobal(mContext, mModel);
     IConcreteObjectType::declareVTable(mContext, mModel);
     
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);

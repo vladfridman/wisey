@@ -82,7 +82,7 @@ struct ConditionalExpressionTest : Test {
     mContext.setBasicBlock(BasicBlock::Create(llvmContext, "entry", mFunction));
     mContext.getScopes().pushScope();
 
-    IConcreteObjectType::generateNameGlobal(mContext, mModel);
+    IConcreteObjectType::declareTypeNameGlobal(mContext, mModel);
     IConcreteObjectType::declareVTable(mContext, mModel);
     
     mStringStream = new raw_string_ostream(mStringBuffer);

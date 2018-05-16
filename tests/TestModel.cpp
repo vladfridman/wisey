@@ -271,13 +271,13 @@ struct ModelTest : public Test {
                                    mContext.getImportProfile(),
                                    0);
     llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
-                                                                  cirlceFullName + ".name");
+                                                                  cirlceFullName + ".typename");
     new GlobalVariable(*mContext.getModule(),
                        stringConstant->getType(),
                        true,
                        GlobalValue::LinkageTypes::LinkOnceODRLinkage,
                        stringConstant,
-                       cirlceFullName + ".name");
+                       cirlceFullName + ".typename");
 
     vector<Type*> galaxyTypes;
     galaxyTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
@@ -333,10 +333,10 @@ struct ModelTest : public Test {
     ON_CALL(*mField2Expression, generateIR(_, _)).WillByDefault(Return(field2Value));
     ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(mGalaxyModel));
     
-    IConcreteObjectType::generateNameGlobal(mContext, mBirthdateModel);
+    IConcreteObjectType::declareTypeNameGlobal(mContext, mBirthdateModel);
     IConcreteObjectType::declareVTable(mContext, mBirthdateModel);
 
-    IConcreteObjectType::generateNameGlobal(mContext, mStarModel);
+    IConcreteObjectType::declareTypeNameGlobal(mContext, mStarModel);
     IConcreteObjectType::declareVTable(mContext, mStarModel);
 
     FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
@@ -407,6 +407,7 @@ TEST_F(ModelTest, getOwnerTest) {
 }
 
 TEST_F(ModelTest, createRTTITest) {
+  IConcreteObjectType::declareTypeNameGlobal(mContext, mCircleModel);
   GlobalVariable* rtti = mContext.getModule()->getNamedGlobal(mCircleModel->getRTTIVariableName());
   ASSERT_EQ(rtti, nullptr);
   
@@ -605,7 +606,7 @@ TEST_F(ModelTest, getReferenceCountTest) {
 
 TEST_F(ModelTest, getObjectNameGlobalVariableNameTest) {
   ASSERT_STREQ(mModel->getObjectNameGlobalVariableName().c_str(),
-               "systems.vos.wisey.compiler.tests.MSquare.name");
+               "systems.vos.wisey.compiler.tests.MSquare.typename");
 }
 
 TEST_F(ModelTest, getTypeTableNameTest) {

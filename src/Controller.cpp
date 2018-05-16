@@ -448,7 +448,7 @@ map<string, IMethod*> Controller::getNameToMethodMap() const {
 }
 
 string Controller::getObjectNameGlobalVariableName() const {
-  return mName + ".name";
+  return mName + ".typename";
 }
 
 string Controller::getTypeName() const {

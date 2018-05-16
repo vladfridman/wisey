@@ -47,8 +47,20 @@ const unsigned int IConcreteObjectType::MODEL_FIRST_LETTER_ASCII_CODE = 109u;
 const unsigned int IConcreteObjectType::NODE_FIRST_LETTER_ASCII_CODE = 110u;
 const unsigned int IConcreteObjectType::THREAD_FIRST_LETTER_ASCII_CODE = 116u;
 
-void IConcreteObjectType::generateNameGlobal(IRGenerationContext& context,
-                                             const IConcreteObjectType* object) {
+void IConcreteObjectType::declareTypeNameGlobal(IRGenerationContext& context,
+                                                const IConcreteObjectType* object) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  string typeName = object->getTypeName();
+  new GlobalVariable(*context.getModule(),
+                     llvm::ArrayType::get(Type::getInt8Ty(llvmContext), typeName.length() + 1),
+                     true,
+                     GlobalValue::LinkageTypes::ExternalLinkage,
+                     nullptr,
+                     object->getObjectNameGlobalVariableName());
+}
+
+void IConcreteObjectType::defineTypeNameGlobal(IRGenerationContext& context,
+                                               const IConcreteObjectType* object) {
   LLVMContext& llvmContext = context.getLLVMContext();
   string typeName = object->getTypeName();
   llvm::Constant* stringConstant = ConstantDataArray::getString(llvmContext, typeName);
@@ -56,7 +68,7 @@ void IConcreteObjectType::generateNameGlobal(IRGenerationContext& context,
                      llvm::ArrayType::get(Type::getInt8Ty(llvmContext), typeName.length() + 1),
                      true,
                      GlobalValue::LinkageTypes::ExternalLinkage,
-                     object->isExternal() ? nullptr : stringConstant,
+                     stringConstant,
                      object->getObjectNameGlobalVariableName());
 }
 

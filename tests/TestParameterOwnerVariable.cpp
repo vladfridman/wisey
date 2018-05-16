@@ -64,7 +64,7 @@ public:
                              0);
     mModel->setFields(mContext, fields, 1u);
 
-    IConcreteObjectType::generateNameGlobal(mContext, mModel);
+    IConcreteObjectType::declareTypeNameGlobal(mContext, mModel);
     IConcreteObjectType::declareVTable(mContext, mModel);
 
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);

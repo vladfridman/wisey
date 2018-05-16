@@ -215,7 +215,7 @@ string Model::getVTableName() const {
 }
 
 string Model::getObjectNameGlobalVariableName() const {
-  return getTypeName() + ".name";
+  return getTypeName() + ".typename";
 }
 
 string Model::getTypeTableName() const {

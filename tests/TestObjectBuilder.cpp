@@ -84,7 +84,7 @@ struct ObjectBuilderTest : Test {
     ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     ON_CALL(*mField2Expression, printToStream(_, _)).WillByDefault(Invoke(printBuilderArgument2));
 
-    IConcreteObjectType::generateNameGlobal(mContext, mModel);
+    IConcreteObjectType::declareTypeNameGlobal(mContext, mModel);
     IConcreteObjectType::declareVTable(mContext, mModel);
 
     string argumentSpecifier1("withWidth");

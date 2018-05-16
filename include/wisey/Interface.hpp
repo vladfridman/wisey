@@ -143,7 +143,12 @@ namespace wisey {
     bool isComplete() const;
     
     /**
-     * Defines global variable with the interface name
+     * Defines global variable with the interface name defined externally
+     */
+    void declareInterfaceTypeName(IRGenerationContext& context) const;
+
+    /**
+     * Defines global variable with the interface name and initializes it
      */
     void defineInterfaceTypeName(IRGenerationContext& context) const;
     

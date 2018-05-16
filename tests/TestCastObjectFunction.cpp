@@ -52,7 +52,7 @@ struct CastObjectFunctionTest : Test {
     mStringStream = new raw_string_ostream(mStringBuffer);
     
     string toTypeName = "systems.vos.wisey.compiler.tests.IToInterface";
-    string toNameGlobal = "systems.vos.wisey.compiler.tests.IToInterface.name";
+    string toNameGlobal = "systems.vos.wisey.compiler.tests.IToInterface.typename";
 
     ON_CALL(mToObjectType, getObjectNameGlobalVariableName())
     .WillByDefault(Return(toNameGlobal));
@@ -80,7 +80,7 @@ TEST_F(CastObjectFunctionTest, callTest) {
   string expected =
   "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
-  "\n  %0 = invoke i8* @__castObject(i8* null, i8* getelementptr inbounds ([46 x i8], [46 x i8]* @systems.vos.wisey.compiler.tests.IToInterface.name, i32 0, i32 0))"
+  "\n  %0 = invoke i8* @__castObject(i8* null, i8* getelementptr inbounds ([46 x i8], [46 x i8]* @systems.vos.wisey.compiler.tests.IToInterface.typename, i32 0, i32 0))"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\ncleanup:                                          ; preds = %entry"

@@ -58,7 +58,7 @@ Interface* ExternalInterfaceDefinition::prototypeObject(IRGenerationContext& con
                                                          importProfile,
                                                          mLine);
   context.addInterface(interface, mLine);
-  interface->defineInterfaceTypeName(context);
+  interface->declareInterfaceTypeName(context);
 
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(interface);

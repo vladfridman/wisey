@@ -194,10 +194,15 @@ namespace wisey {
     virtual llvm::Constant* getObjectTypeNameGlobal(IRGenerationContext& context) const = 0;
     
     /**
-     * Generate global variable with the name of the given object
+     * Declares global variable with the name of the given object defined externally
      */
-    static void generateNameGlobal(IRGenerationContext& context, const IConcreteObjectType* object);
+    static void declareTypeNameGlobal(IRGenerationContext& context, const IConcreteObjectType* object);
     
+    /**
+     * Difines global variable with the name of the given object and initializes it
+     */
+    static void defineTypeNameGlobal(IRGenerationContext& context, const IConcreteObjectType* object);
+
     /**
      * Casts this concrete object to a given type
      */

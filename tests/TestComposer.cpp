@@ -129,7 +129,7 @@ TEST_F(ComposerTest, pushCallStackTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  call void @wisey.threads.CCallStack.pushStack(%wisey.threads.CCallStack* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* getelementptr inbounds ([42 x i8], [42 x i8]* @systems.vos.wisey.compiler.tests.MMyModel.name, i32 0, i32 0), i8* getelementptr inbounds ([4 x i8], [4 x i8]* @methodname.foo, i32 0, i32 0), i8* getelementptr inbounds ([8 x i8], [8 x i8]* @sourcefile.test.yz, i32 0, i32 0), i32 5)\n";
+  "\n  call void @wisey.threads.CCallStack.pushStack(%wisey.threads.CCallStack* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* getelementptr inbounds ([42 x i8], [42 x i8]* @systems.vos.wisey.compiler.tests.MMyModel.typename, i32 0, i32 0), i8* getelementptr inbounds ([4 x i8], [4 x i8]* @methodname.foo, i32 0, i32 0), i8* getelementptr inbounds ([8 x i8], [8 x i8]* @sourcefile.test.yz, i32 0, i32 0), i32 5)\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
   
   mStringBuffer.clear();

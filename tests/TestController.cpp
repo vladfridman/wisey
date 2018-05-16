@@ -335,9 +335,9 @@ struct ControllerTest : public Test {
     mContext.addInterface(mVehicleInterface, 0);
     mVehicleInterface->buildMethods(mContext);
 
-    IConcreteObjectType::generateNameGlobal(mContext, mOwnerNode);
+    IConcreteObjectType::declareTypeNameGlobal(mContext, mOwnerNode);
     IConcreteObjectType::declareVTable(mContext, mOwnerNode);
-    IConcreteObjectType::generateNameGlobal(mContext, mAdditorController);
+    IConcreteObjectType::declareTypeNameGlobal(mContext, mAdditorController);
     IConcreteObjectType::declareVTable(mContext, mAdditorController);
     
     vector<Type*> threadTypes;
@@ -475,7 +475,7 @@ TEST_F(ControllerTest, findLLVMFunctionTest) {
 }
 
 TEST_F(ControllerTest, getObjectNameGlobalVariableNameTest) {
-  ASSERT_STREQ("systems.vos.wisey.compiler.tests.CMultiplier.name",
+  ASSERT_STREQ("systems.vos.wisey.compiler.tests.CMultiplier.typename",
                mMultiplierController->getObjectNameGlobalVariableName().c_str());
 }
 
@@ -753,11 +753,11 @@ TEST_F(ControllerTest, createContextInjectFunctionTest) {
   "\n"
   "\ninvoke.continue3:                                 ; preds = %invoke.continue1"
   "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* %callstack, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i32 0)"
-  "\n  %8 = invoke i8* @wisey.threads.CContextManager.getInstance(%wisey.threads.CContextManager* %5, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8* getelementptr inbounds ([22 x i8], [22 x i8]* @wisey.threads.IThread.name, i32 0, i32 0), i8* getelementptr inbounds ([42 x i8], [42 x i8]* @systems.vos.wisey.compiler.tests.CAdditor.name, i32 0, i32 0))"
+  "\n  %8 = invoke i8* @wisey.threads.CContextManager.getInstance(%wisey.threads.CContextManager* %5, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8* getelementptr inbounds ([22 x i8], [22 x i8]* @wisey.threads.IThread.typename, i32 0, i32 0), i8* getelementptr inbounds ([42 x i8], [42 x i8]* @systems.vos.wisey.compiler.tests.CAdditor.typename, i32 0, i32 0))"
   "\n          to label %invoke.continue4 unwind label %cleanup2"
   "\n"
   "\ninvoke.continue4:                                 ; preds = %invoke.continue3"
-  "\n  %9 = invoke i8* @__castObject(i8* %8, i8* getelementptr inbounds ([42 x i8], [42 x i8]* @systems.vos.wisey.compiler.tests.CAdditor.name, i32 0, i32 0))"
+  "\n  %9 = invoke i8* @__castObject(i8* %8, i8* getelementptr inbounds ([42 x i8], [42 x i8]* @systems.vos.wisey.compiler.tests.CAdditor.typename, i32 0, i32 0))"
   "\n          to label %invoke.continue5 unwind label %cleanup2"
   "\n"
   "\ninvoke.continue5:                                 ; preds = %invoke.continue4"
@@ -794,7 +794,7 @@ TEST_F(ControllerTest, createContextInjectFunctionTest) {
   "\ninvoke.continue6:                                 ; preds = %if.null"
   "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* %callstack, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i32 0)"
   "\n  %23 = bitcast %systems.vos.wisey.compiler.tests.CAdditor* %13 to i8*"
-  "\n  invoke void @wisey.threads.CContextManager.setInstance(%wisey.threads.CContextManager* %5, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8* getelementptr inbounds ([22 x i8], [22 x i8]* @wisey.threads.IThread.name, i32 0, i32 0), i8* getelementptr inbounds ([42 x i8], [42 x i8]* @systems.vos.wisey.compiler.tests.CAdditor.name, i32 0, i32 0), i8* %23)"
+  "\n  invoke void @wisey.threads.CContextManager.setInstance(%wisey.threads.CContextManager* %5, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8* getelementptr inbounds ([22 x i8], [22 x i8]* @wisey.threads.IThread.typename, i32 0, i32 0), i8* getelementptr inbounds ([42 x i8], [42 x i8]* @systems.vos.wisey.compiler.tests.CAdditor.typename, i32 0, i32 0), i8* %23)"
   "\n          to label %invoke.continue7 unwind label %cleanup2"
   "\n"
   "\ninvoke.continue7:                                 ; preds = %invoke.continue6"
@@ -821,7 +821,7 @@ TEST_F(ControllerTest, defineFieldInjectorFunctionsTest) {
                                                           0);
   childController->setFields(mContext, childFields, 1u);
   mContext.addController(childController, 0);
-  IConcreteObjectType::generateNameGlobal(mContext, childController);
+  IConcreteObjectType::declareTypeNameGlobal(mContext, childController);
   IConcreteObjectType::declareVTable(mContext, childController);
   
   vector<Type*> parentTypes;
@@ -846,7 +846,7 @@ TEST_F(ControllerTest, defineFieldInjectorFunctionsTest) {
                                                            0);
   parentController->setFields(mContext, parentFields, 1u);
   mContext.addController(parentController, 0);
-  IConcreteObjectType::generateNameGlobal(mContext, parentController);
+  IConcreteObjectType::declareTypeNameGlobal(mContext, parentController);
   IConcreteObjectType::declareVTable(mContext, parentController);
   
   childController->declareInjectFunction(mContext, 0);
@@ -894,7 +894,7 @@ TEST_F(ControllerTest, declareFieldInjectionFunctionsTest) {
                                                           0);
   childController->setFields(mContext, childFields, 1u);
   mContext.addController(childController, 0);
-  IConcreteObjectType::generateNameGlobal(mContext, childController);
+  IConcreteObjectType::declareTypeNameGlobal(mContext, childController);
   IConcreteObjectType::declareVTable(mContext, childController);
   
   vector<Type*> parentTypes;
@@ -919,7 +919,7 @@ TEST_F(ControllerTest, declareFieldInjectionFunctionsTest) {
                                                            0);
   parentController->setFields(mContext, parentFields, 1u);
   mContext.addController(parentController, 0);
-  IConcreteObjectType::generateNameGlobal(mContext, parentController);
+  IConcreteObjectType::declareTypeNameGlobal(mContext, parentController);
   IConcreteObjectType::declareVTable(mContext, parentController);
   
   parentController->declareFieldInjectionFunctions(mContext, 0);
@@ -1040,7 +1040,7 @@ TEST_F(ControllerTest, injectNonInjectableTypeDeathTest) {
   Mock::AllowLeak(mThreadVariable);
   Mock::AllowLeak(mCallstackVariable);
 
-  IConcreteObjectType::generateNameGlobal(mContext, mDoublerController);
+  IConcreteObjectType::declareTypeNameGlobal(mContext, mDoublerController);
   IConcreteObjectType::declareVTable(mContext, mDoublerController);
 
   mDoublerController->createInjectFunction(mContext, 0);

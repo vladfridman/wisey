@@ -275,7 +275,7 @@ TEST_F(InterfaceTest, getMethodIndexDeathTest) {
 
 TEST_F(InterfaceTest, getObjectNameGlobalVariableNameTest) {
   EXPECT_STREQ(mShapeInterface->getObjectNameGlobalVariableName().c_str(),
-               "systems.vos.wisey.compiler.tests.IShape.name");
+               "systems.vos.wisey.compiler.tests.IShape.typename");
 }
 
 TEST_F(InterfaceTest, getParentInterfacesTest) {
@@ -744,7 +744,7 @@ TEST_F(InterfaceTest, composeInjectFunctionWithControllerTest) {
   mContext.addController(controller, 0);
   mContext.bindInterfaceToController(interface, controller, 0);
 
-  IConcreteObjectType::generateNameGlobal(mContext, controller);
+  IConcreteObjectType::declareTypeNameGlobal(mContext, controller);
   IConcreteObjectType::declareVTable(mContext, controller);
 
   interface->defineInjectionFunctionPointer(mContext, 0);

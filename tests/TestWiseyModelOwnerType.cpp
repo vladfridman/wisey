@@ -66,7 +66,7 @@ public:
     ON_CALL(mConcreteObjectType, getLLVMType(_)).WillByDefault(Return(structType->getPointerTo()));
     ON_CALL(mConcreteObjectType, isInterface()).WillByDefault(Return(true));
     string typeName = "systems.vos.wisey.compiler.tests.IInterface";
-    string nameGlobal = "systems.vos.wisey.compiler.tests.IInterface.name";
+    string nameGlobal = "systems.vos.wisey.compiler.tests.IInterface.typename";
     
     ON_CALL(mConcreteObjectType, getObjectNameGlobalVariableName())
     .WillByDefault(Return(nameGlobal));
@@ -134,7 +134,7 @@ TEST_F(WiseyModelOwnerTypeTest, castToObjectTest) {
   *mStringStream << *mBasicBlock;
   
   EXPECT_STREQ("\nentry:"
-               "\n  %0 = invoke i8* @__castObject(i8* null, i8* getelementptr inbounds ([44 x i8], [44 x i8]* @systems.vos.wisey.compiler.tests.IInterface.name, i32 0, i32 0))"
+               "\n  %0 = invoke i8* @__castObject(i8* null, i8* getelementptr inbounds ([44 x i8], [44 x i8]* @systems.vos.wisey.compiler.tests.IInterface.typename, i32 0, i32 0))"
                "\n          to label %invoke.continue unwind label %cleanup"
                "\n",
                mStringStream->str().c_str());

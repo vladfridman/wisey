@@ -52,7 +52,8 @@ struct IConcreteObjectTypeTest : public Test {
 
     mContext.getScopes().pushScope();
     ON_CALL(mMockObject, getTypeName()).WillByDefault(Return("Object"));
-    ON_CALL(mMockObject, getObjectNameGlobalVariableName()).WillByDefault(Return("Object.name"));
+    ON_CALL(mMockObject, getObjectNameGlobalVariableName())
+    .WillByDefault(Return("Object.typename"));
 
     vector<Interface*> interfaces;
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
@@ -184,11 +185,11 @@ struct IConcreteObjectTypeTest : public Test {
 };
 
 TEST_F(IConcreteObjectTypeTest, generateNameGlobalTest) {
-  ASSERT_EQ(mContext.getModule()->getNamedGlobal("Object.name"), nullptr);
+  ASSERT_EQ(mContext.getModule()->getNamedGlobal("Object.typename"), nullptr);
 
-  IConcreteObjectType::generateNameGlobal(mContext, &mMockObject);
+  IConcreteObjectType::declareTypeNameGlobal(mContext, &mMockObject);
 
-  ASSERT_NE(mContext.getModule()->getNamedGlobal("Object.name"), nullptr);
+  ASSERT_NE(mContext.getModule()->getNamedGlobal("Object.typename"), nullptr);
 }
 
 TEST_F(IConcreteObjectTypeTest, getInterfaceIndexTest) {
@@ -204,7 +205,7 @@ TEST_F(IConcreteObjectTypeTest, declareFieldVariablesTest) {
 }
 
 TEST_F(IConcreteObjectTypeTest, composeDestructorBodyTest) {
-  IConcreteObjectType::generateNameGlobal(mContext, mStarModel);
+  IConcreteObjectType::declareTypeNameGlobal(mContext, mStarModel);
   IConcreteObjectType::defineVTable(mContext, mStarModel);
   IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mStarModel);
   mContext.runComposingCallbacks();
@@ -236,7 +237,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorBodyTest) {
   "\n  ret void"
   "\n"
   "\nref.count.notzero:                                ; preds = %if.this.notnull"
-  "\n  invoke void @__throwReferenceCountException(i64 %refCounter, i8* getelementptr inbounds ([39 x i8], [39 x i8]* @systems.vos.wisey.compiler.tests.MStar.name, i32 0, i32 0))"
+  "\n  invoke void @__throwReferenceCountException(i64 %refCounter, i8* getelementptr inbounds ([39 x i8], [39 x i8]* @systems.vos.wisey.compiler.tests.MStar.typename, i32 0, i32 0))"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\ncleanup:                                          ; preds = %ref.count.notzero"
@@ -253,10 +254,10 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorBodyTest) {
 }
 
 TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldTest) {
-  IConcreteObjectType::generateNameGlobal(mContext, mStarModel);
+  IConcreteObjectType::declareTypeNameGlobal(mContext, mStarModel);
   IConcreteObjectType::declareVTable(mContext, mStarModel);
   
-  IConcreteObjectType::generateNameGlobal(mContext, mGalaxyModel);
+  IConcreteObjectType::declareTypeNameGlobal(mContext, mGalaxyModel);
   IConcreteObjectType::defineVTable(mContext, mGalaxyModel);
   IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mGalaxyModel);
   mContext.runComposingCallbacks();
@@ -293,7 +294,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldTe
   "\n  ret void"
   "\n"
   "\nref.count.notzero:                                ; preds = %if.this.notnull"
-  "\n  invoke void @__throwReferenceCountException(i64 %refCounter, i8* getelementptr inbounds ([41 x i8], [41 x i8]* @systems.vos.wisey.compiler.tests.MGalaxy.name, i32 0, i32 0))"
+  "\n  invoke void @__throwReferenceCountException(i64 %refCounter, i8* getelementptr inbounds ([41 x i8], [41 x i8]* @systems.vos.wisey.compiler.tests.MGalaxy.typename, i32 0, i32 0))"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\ncleanup:                                          ; preds = %ref.count.notzero"
@@ -310,7 +311,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldTe
 }
 
 TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectReferenceFieldTest) {
-  IConcreteObjectType::generateNameGlobal(mContext, mConstellationModel);
+  IConcreteObjectType::declareTypeNameGlobal(mContext, mConstellationModel);
   IConcreteObjectType::defineVTable(mContext, mConstellationModel);
   IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mConstellationModel);
   mContext.runComposingCallbacks();
@@ -347,7 +348,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectReferenceFie
   "\n  ret void"
   "\n"
   "\nref.count.notzero:                                ; preds = %if.this.notnull"
-  "\n  invoke void @__throwReferenceCountException(i64 %refCounter, i8* getelementptr inbounds ([48 x i8], [48 x i8]* @systems.vos.wisey.compiler.tests.MConstellation.name, i32 0, i32 0))"
+  "\n  invoke void @__throwReferenceCountException(i64 %refCounter, i8* getelementptr inbounds ([48 x i8], [48 x i8]* @systems.vos.wisey.compiler.tests.MConstellation.typename, i32 0, i32 0))"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\ncleanup:                                          ; preds = %ref.count.notzero"
@@ -365,7 +366,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectReferenceFie
 
 
 TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFieldsTest) {
-  IConcreteObjectType::generateNameGlobal(mContext, mCarModel);
+  IConcreteObjectType::declareTypeNameGlobal(mContext, mCarModel);
   IConcreteObjectType::defineVTable(mContext, mCarModel);
   IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mCarModel);
   mContext.runComposingCallbacks();
@@ -402,7 +403,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFiel
   "\n  ret void"
   "\n"
   "\nref.count.notzero:                                ; preds = %if.this.notnull"
-  "\n  invoke void @__throwReferenceCountException(i64 %refCounter, i8* getelementptr inbounds ([38 x i8], [38 x i8]* @systems.vos.wisey.compiler.tests.MCar.name, i32 0, i32 0))"
+  "\n  invoke void @__throwReferenceCountException(i64 %refCounter, i8* getelementptr inbounds ([38 x i8], [38 x i8]* @systems.vos.wisey.compiler.tests.MCar.typename, i32 0, i32 0))"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\ncleanup:                                          ; preds = %ref.count.notzero"
@@ -419,7 +420,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFiel
 }
 
 TEST_F(IConcreteObjectTypeTest, composeDestructorCallTest) {
-  IConcreteObjectType::generateNameGlobal(mContext, mStarModel);
+  IConcreteObjectType::declareTypeNameGlobal(mContext, mStarModel);
   IConcreteObjectType::declareVTable(mContext, mStarModel);
 
   FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);

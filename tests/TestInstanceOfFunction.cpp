@@ -47,7 +47,7 @@ struct InstanceOfFunctionTest : Test {
     mStringStream = new raw_string_ostream(mStringBuffer);
     
     string typeName = "systems.vos.wisey.compiler.tests.IInterface";
-    string nameGlobal = "systems.vos.wisey.compiler.tests.IInterface.name";
+    string nameGlobal = "systems.vos.wisey.compiler.tests.IInterface.typename";
 
     ON_CALL(mObjectType, getObjectNameGlobalVariableName()).WillByDefault(Return(nameGlobal));
 

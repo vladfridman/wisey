@@ -325,10 +325,10 @@ struct NodeTest : public Test {
     mContext.addInterface(mVehicleInterface, 0);
     mVehicleInterface->buildMethods(mContext);
 
-    IConcreteObjectType::generateNameGlobal(mContext, mOwnerNode);
+    IConcreteObjectType::declareTypeNameGlobal(mContext, mOwnerNode);
     IConcreteObjectType::declareVTable(mContext, mOwnerNode);
 
-    IConcreteObjectType::generateNameGlobal(mContext, mSimpleNode);
+    IConcreteObjectType::declareTypeNameGlobal(mContext, mSimpleNode);
     IConcreteObjectType::declareVTable(mContext, mSimpleNode);
     
     Value* field1Value = ConstantPointerNull::get(mOwnerNode->getOwner()->getLLVMType(mContext));
@@ -446,7 +446,7 @@ TEST_F(NodeTest, findMethodTest) {
 
 TEST_F(NodeTest, getObjectNameGlobalVariableNameTest) {
   ASSERT_STREQ(mComplicatedNode->getObjectNameGlobalVariableName().c_str(),
-               "systems.vos.wisey.compiler.tests.NComplicatedNode.name");
+               "systems.vos.wisey.compiler.tests.NComplicatedNode.typename");
 }
 
 TEST_F(NodeTest, getTypeTableNameTest) {

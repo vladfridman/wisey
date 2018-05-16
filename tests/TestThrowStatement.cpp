@@ -62,16 +62,16 @@ struct ThrowStatementTest : public Test {
                                    mContext.getImportProfile(),
                                    0);
     llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
-                                                                  circleFullName + ".name");
+                                                                  circleFullName + ".typename");
     new GlobalVariable(*mContext.getModule(),
                        stringConstant->getType(),
                        true,
                        GlobalValue::LinkageTypes::LinkOnceODRLinkage,
                        stringConstant,
-                       circleFullName + ".name");
+                       circleFullName + ".typename");
     mCircleModel->declareRTTI(mContext);
 
-    IConcreteObjectType::generateNameGlobal(mContext, mCircleModel);
+    IConcreteObjectType::declareTypeNameGlobal(mContext, mCircleModel);
     IConcreteObjectType::declareVTable(mContext, mCircleModel);
 
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);

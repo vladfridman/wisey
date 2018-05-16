@@ -203,7 +203,7 @@ map<string, IMethod*> Node::getNameToMethodMap() const {
 }
 
 string Node::getObjectNameGlobalVariableName() const {
-  return mName + ".name";
+  return mName + ".typename";
 }
 
 string Node::getTypeName() const {

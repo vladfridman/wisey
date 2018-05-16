@@ -220,14 +220,14 @@ struct ModelOwnerTest : public Test {
                                    mContext.getImportProfile(),
                                    0);
     llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
-                                                                  cirlceFullName + ".name");
+                                                                  cirlceFullName + ".typename");
     new GlobalVariable(*mContext.getModule(),
                        stringConstant->getType(),
                        true,
                        GlobalValue::LinkageTypes::LinkOnceODRLinkage,
                        stringConstant,
-                       cirlceFullName + ".name");
-    IConcreteObjectType::generateNameGlobal(mContext, mCircleModel);
+                       cirlceFullName + ".typename");
+    IConcreteObjectType::declareTypeNameGlobal(mContext, mCircleModel);
     IConcreteObjectType::declareVTable(mContext, mCircleModel);
 
     vector<Type*> starTypes;
@@ -256,7 +256,7 @@ struct ModelOwnerTest : public Test {
     ON_CALL(*mField3Expression, generateIR(_, _)).WillByDefault(Return(field3Value));
     ON_CALL(*mField3Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
     
-    IConcreteObjectType::generateNameGlobal(mContext, mStarModel);
+    IConcreteObjectType::declareTypeNameGlobal(mContext, mStarModel);
     IConcreteObjectType::declareVTable(mContext, mStarModel);
     
     FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
