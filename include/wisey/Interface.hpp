@@ -101,13 +101,13 @@ namespace wisey {
     void buildMethods(IRGenerationContext& context);
     
     /**
-     * Define functions that map interface methods to model methods
+     * Declare functions that map interface methods to model methods
      */
-    std::vector<std::list<llvm::Constant*>> defineMapFunctions(IRGenerationContext& context,
-                                                               const IObjectType* object,
-                                                               std::map<std::string,
-                                                               llvm::Function*>& methodFunctionMap,
-                                                               unsigned long interfaceIndex) const;
+    std::vector<std::list<llvm::Constant*>> declareMapFunctions(IRGenerationContext& context,
+                                                                const IObjectType* object,
+                                                                std::map<std::string,
+                                                                llvm::Function*>& methodFunctionMap,
+                                                                unsigned long interfaceIndex) const;
     /**
      * Compose functions that map interface methods to model methods
      */
@@ -316,12 +316,12 @@ namespace wisey {
      */
     std::vector<MethodSignature*> getAllMethodSignatures() const;
     
-    llvm::Function* defineMapFunctionForMethod(IRGenerationContext& context,
-                                               const IObjectType* object,
-                                               llvm::Function* concreteObjectFunction,
-                                               unsigned long interfaceIndex,
-                                               MethodSignature* methodSignature) const;
-    
+    llvm::Function* declareMapFunctionForMethod(IRGenerationContext& context,
+                                                const IObjectType* object,
+                                                llvm::Function* concreteObjectFunction,
+                                                unsigned long interfaceIndex,
+                                                MethodSignature* methodSignature) const;
+
     void composeMapFunctionBody(IRGenerationContext& context,
                                 const IObjectType* object,
                                 llvm::Function* concreteObjectFunction,

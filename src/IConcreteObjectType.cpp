@@ -161,8 +161,12 @@ void IConcreteObjectType::generateVTable(IRGenerationContext& context,
   addTypeListInfo(context, object, vTables);
   addDestructorInfo(context, object, vTables);
   addUnthunkInfo(context, object, vTables);
-  defineInterfaceMapFunctions(context, object, vTables);
-  createVTableGlobal(context, object, vTables);
+  declareInterfaceMapFunctions(context, object, vTables);
+  if (object->isExternal()) {
+    declareVTableGlobal(context, object, vTables);
+  } else {
+    defineVTableGlobal(context, object, vTables);
+  }
 }
 
 map<string, Function*> IConcreteObjectType::defineMethodFunctions(IRGenerationContext& context,
@@ -246,16 +250,16 @@ void IConcreteObjectType::addUnthunkInfo(IRGenerationContext& context,
   }
 }
 
-void IConcreteObjectType::defineInterfaceMapFunctions(IRGenerationContext& context,
-                                                      const IConcreteObjectType* object,
-                                                      vector<vector<llvm::Constant*>>& vTables) {
+void IConcreteObjectType::declareInterfaceMapFunctions(IRGenerationContext& context,
+                                                       const IConcreteObjectType* object,
+                                                       vector<vector<llvm::Constant*>>& vTables) {
   map<string, Function*> methodFunctionMap = defineMethodFunctions(context, object);
   
   vector<list<llvm::Constant*>> interfaceMapFunctions;
   
   for (Interface* interface : object->getInterfaces()) {
     vector<list<llvm::Constant*>> vSubTable =
-    interface->defineMapFunctions(context, object, methodFunctionMap, interfaceMapFunctions.size());
+    interface->declareMapFunctions(context, object, methodFunctionMap, interfaceMapFunctions.size());
     for (list<llvm::Constant*> vTablePortion : vSubTable) {
       interfaceMapFunctions.push_back(vTablePortion);
     }
@@ -280,7 +284,7 @@ void IConcreteObjectType::composeInterfaceMapFunctions(IRGenerationContext& cont
   }
 }
 
-void IConcreteObjectType::createVTableGlobal(IRGenerationContext& context,
+void IConcreteObjectType::defineVTableGlobal(IRGenerationContext& context,
                                              const IConcreteObjectType* object,
                                              vector<vector<llvm::Constant*>> interfaceVTables) {
   LLVMContext& llvmContext = context.getLLVMContext();
@@ -302,8 +306,30 @@ void IConcreteObjectType::createVTableGlobal(IRGenerationContext& context,
   new GlobalVariable(*context.getModule(),
                      vTableGlobalType,
                      true,
-                     GlobalValue::LinkageTypes::LinkOnceODRLinkage,
+                     GlobalValue::LinkageTypes::ExternalLinkage,
                      vTableGlobalConstantStruct,
+                     object->getVTableName());
+}
+
+void IConcreteObjectType::declareVTableGlobal(IRGenerationContext& context,
+                                              const IConcreteObjectType* object,
+                                              vector<vector<llvm::Constant*>> interfaceVTables) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Type* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
+  
+  vector<Type*> vTableTypes;
+  for (vector<llvm::Constant*> vTablePortionVector : interfaceVTables) {
+    llvm::ArrayType* arrayType = llvm::ArrayType::get(int8Pointer, vTablePortionVector.size());
+    vTableTypes.push_back(arrayType);
+  }
+  
+  StructType* vTableGlobalType = StructType::get(llvmContext, vTableTypes);
+  
+  new GlobalVariable(*context.getModule(),
+                     vTableGlobalType,
+                     true,
+                     GlobalValue::LinkageTypes::ExternalLinkage,
+                     NULL,
                      object->getVTableName());
 }
 

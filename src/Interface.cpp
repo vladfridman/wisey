@@ -369,22 +369,22 @@ void Interface::generateLLVMFunctionsIR(IRGenerationContext& context) const {
   }
 }
 
-vector<list<llvm::Constant*>> Interface::defineMapFunctions(IRGenerationContext& context,
-                                                            const IObjectType* object,
-                                                            map<string, Function*>&
-                                                            methodFunctionMap,
-                                                            unsigned long interfaceIndex) const {
+vector<list<llvm::Constant*>> Interface::declareMapFunctions(IRGenerationContext& context,
+                                                             const IObjectType* object,
+                                                             map<string, Function*>&
+                                                             methodFunctionMap,
+                                                             unsigned long interfaceIndex) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
   list<llvm::Constant*> vTableArrayProtion;
   for (MethodSignature* methodSignature : mAllMethodSignatures) {
     Function* concreteObjectFunction = methodFunctionMap.count(methodSignature->getName())
       ? methodFunctionMap.at(methodSignature->getName()) : NULL;
-    Function* function = defineMapFunctionForMethod(context,
-                                                    object,
-                                                    concreteObjectFunction,
-                                                    interfaceIndex,
-                                                    methodSignature);
+    Function* function = declareMapFunctionForMethod(context,
+                                                     object,
+                                                     concreteObjectFunction,
+                                                     interfaceIndex,
+                                                     methodSignature);
     llvm::Constant* bitCast = ConstantExpr::getBitCast(function, int8Pointer);
     vTableArrayProtion.push_back(bitCast);
   }
@@ -392,7 +392,7 @@ vector<list<llvm::Constant*>> Interface::defineMapFunctions(IRGenerationContext&
   vSubTable.push_back(vTableArrayProtion);
   for (Interface* parentInterface : mParentInterfaces) {
     vector<list<llvm::Constant*>> parentInterfaceTables =
-      parentInterface->defineMapFunctions(context,
+      parentInterface->declareMapFunctions(context,
                                           object,
                                           methodFunctionMap,
                                           interfaceIndex + vSubTable.size());
@@ -426,11 +426,11 @@ unsigned long Interface::composeMapFunctions(IRGenerationContext& context,
   return offset;
 }
 
-Function* Interface::defineMapFunctionForMethod(IRGenerationContext& context,
-                                                const IObjectType* object,
-                                                llvm::Function* concreteObjectFunction,
-                                                unsigned long interfaceIndex,
-                                                MethodSignature* methodSignature) const {
+Function* Interface::declareMapFunctionForMethod(IRGenerationContext& context,
+                                                 const IObjectType* object,
+                                                 llvm::Function* concreteObjectFunction,
+                                                 unsigned long interfaceIndex,
+                                                 MethodSignature* methodSignature) const {
   const IMethodDescriptor* objectMethodDescriptor =
     object->findMethod(methodSignature->getName());
   if (objectMethodDescriptor == NULL) {

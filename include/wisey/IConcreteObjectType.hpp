@@ -357,14 +357,18 @@ namespace wisey {
                                const IConcreteObjectType* object,
                                std::vector<std::vector<llvm::Constant*>>& vTables);
     
-    static void defineInterfaceMapFunctions(IRGenerationContext& context,
-                                            const IConcreteObjectType* object,
-                                            std::vector<std::vector<llvm::Constant*>>& vTables);
+    static void declareInterfaceMapFunctions(IRGenerationContext& context,
+                                             const IConcreteObjectType* object,
+                                             std::vector<std::vector<llvm::Constant*>>& vTables);
     
-    static void createVTableGlobal(IRGenerationContext& context,
+    static void defineVTableGlobal(IRGenerationContext& context,
                                    const IConcreteObjectType* object,
                                    std::vector<std::vector<llvm::Constant*>> interfaceVTables);
-    
+
+    static void declareVTableGlobal(IRGenerationContext& context,
+                                    const IConcreteObjectType* object,
+                                    std::vector<std::vector<llvm::Constant*>> interfaceVTables);
+
     static llvm::GlobalVariable* createTypeListGlobal(IRGenerationContext& context,
                                                       const IConcreteObjectType* object);
     
