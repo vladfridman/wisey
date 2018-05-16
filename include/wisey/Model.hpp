@@ -35,6 +35,7 @@ namespace wisey {
     std::map<std::string, IField*> mFields;
     std::vector<IField*> mFieldsOrdered;
     std::map<const IField*, unsigned long> mFieldIndexes;
+    std::map<IField*, unsigned long> mReceivedFieldIndexes;
     std::vector<IMethod*> mMethods;
     std::map<std::string, IMethod*> mNameToMethodMap;
     std::vector<Interface*> mInterfaces;
@@ -94,6 +95,21 @@ namespace wisey {
      * Creates a global variable with type description for this model in RTTI format
      */
     void createRTTI(IRGenerationContext& context) const;
+    
+    /**
+     * Declares a function that builds this model
+     */
+    llvm::Function* declareBuildFunction(IRGenerationContext& context) const;
+    
+    /**
+     * Defines a function that builds this model, composes the function body
+     */
+    llvm::Function* defineBuildFunction(IRGenerationContext& context) const;
+
+    /**
+     * Returns build function name
+     */
+    std::string getBuildFunctionName() const;
     
     bool isPublic() const override;
 
@@ -253,11 +269,15 @@ namespace wisey {
     void checkAllFieldsAreSet(IRGenerationContext& context,
                               const ObjectBuilderArgumentList& objectBuilderArgumentList,
                               int line) const;
-    
-    void initializeFields(IRGenerationContext& context,
-                          const ObjectBuilderArgumentList& ObjectBuilderArgumentList,
-                          llvm::Instruction* malloc,
-                          int line) const;
+
+    void initializeFixedFields(IRGenerationContext& context,
+                               llvm::Function* buildFunction,
+                               llvm::Instruction* malloc) const;
+
+    static void composeBuildFunctionBody(IRGenerationContext& context,
+                                         llvm::Function* buildFunction,
+                                         const void* objectType);
+
   };
   
 } /* namespace wisey */

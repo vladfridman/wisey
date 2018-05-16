@@ -72,6 +72,7 @@ void ModelDefinition::prototypeMethods(IRGenerationContext& context) const {
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
   configureObject(context, model, mObjectElementDeclarations, mInterfaceSpecifiers);
   model->createRTTI(context);
+  model->defineBuildFunction(context);
   context.setObjectType(lastObjectType);
 }
 

@@ -99,8 +99,9 @@ void Model::setFields(IRGenerationContext& context,
   mFieldsOrdered = fields;
   unsigned long index = startIndex;
   for (IField* field : fields) {
-    mFields[field->getName()] = field;
     mFieldIndexes[field] = index;
+    mReceivedFieldIndexes[field] = mFields.size();
+    mFields[field->getName()] = field;
     index++;
     if (!field->isFixed()) {
       context.reportError(field->getLine(), "Models can only have fixed fields");
@@ -328,11 +329,108 @@ Instruction* Model::build(IRGenerationContext& context,
                           const ObjectBuilderArgumentList& objectBuilderArgumentList,
                           int line) const {
   checkArguments(context, objectBuilderArgumentList, line);
-  Instruction* malloc = IConcreteObjectType::createMallocForObject(context, this, "buildervar");
-  initializeFields(context, objectBuilderArgumentList, malloc, line);
-  initializeVTable(context, (IConcreteObjectType*) this, malloc);
+
+  Function* buildFunction = context.getModule()->getFunction(getBuildFunctionName());
+  assert(buildFunction && "Build function for model is not defined");
+  Value* callArguments[mReceivedFieldIndexes.size()];
   
-  return malloc;
+  for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
+    string argumentName = argument->deriveFieldName();
+    IField* field = findField(argumentName);
+    assert(field->isFixed() && "Trying to initialize a field that is not of fixed type");
+    const IType* fieldType = field->getType();
+    
+    Value* argumentValue = argument->getValue(context, fieldType);
+    const IType* argumentType = argument->getType(context);
+    if (!argumentType->canAutoCastTo(context, fieldType)) {
+      context.reportError(line, "Model builder argument value for field " + argumentName +
+                          " does not match its type");
+      throw 1;
+    }
+    if (argumentType->isController() || argumentType->isNode()) {
+      context.reportError(line, "Attempting to initialize a model with a mutable type. "
+                          "Models can only contain primitives, other models or immutable arrays");
+      throw 1;
+    }
+    if (argumentType->isInterface() && fieldType->isInterface()) {
+      string typeName = context.getObjectType()->getTypeName();
+      CheckCastToObjectFunction::callCheckCastToModel(context, argumentValue);
+    }
+    Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);
+    callArguments[mReceivedFieldIndexes.at(field)] = castValue;
+  }
+  
+  vector<Value*> callArgumentsVector;
+  for (Value* callArgument : callArguments) {
+    callArgumentsVector.push_back(callArgument);
+  }
+  
+  return IRWriter::createCallInst(context, buildFunction, callArgumentsVector, "");
+}
+
+Function* Model::declareBuildFunction(IRGenerationContext& context) const {
+  vector<Type*> argumentTypes;
+  for (const IField* field : mFieldsOrdered) {
+    argumentTypes.push_back(field->getType()->getLLVMType(context));
+  }
+  
+  FunctionType* functionType = FunctionType::get(getLLVMType(context), argumentTypes, false);
+  return Function::Create(functionType,
+                          isPublic() ? GlobalValue::ExternalLinkage : GlobalValue::InternalLinkage,
+                          getBuildFunctionName(),
+                          context.getModule());
+
+}
+
+Function* Model::defineBuildFunction(IRGenerationContext& context) const {
+  Function* buildFunction = declareBuildFunction(context);
+  context.addComposingCallback1Objects(composeBuildFunctionBody, buildFunction, this);
+  
+  return buildFunction;
+}
+
+string Model::getBuildFunctionName() const {
+  return getTypeName() + ".build";
+}
+
+void Model::composeBuildFunctionBody(IRGenerationContext& context,
+                                     Function* buildFunction,
+                                     const void* objectType) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  const Model* model = (const Model*) objectType;
+  BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", buildFunction);
+  context.getScopes().pushScope();
+  context.setBasicBlock(entryBlock);
+  context.setObjectType(model);
+
+  Instruction* malloc = IConcreteObjectType::createMallocForObject(context, model, "buildervar");
+  model->initializeFixedFields(context, buildFunction, malloc);
+  initializeVTable(context, model, malloc);
+  IRWriter::createReturnInst(context, malloc);
+
+  context.getScopes().popScope(context, 0);
+}
+
+void Model::initializeFixedFields(IRGenerationContext& context,
+                                  llvm::Function* buildFunction,
+                                  Instruction* malloc) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Function::arg_iterator functionArguments = buildFunction->arg_begin();
+  
+  Value* index[2];
+  index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  for (const IField* field : mFieldsOrdered) {
+    Value* functionArgument = &*functionArguments;
+    functionArgument->setName(field->getName());
+    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
+    GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
+    IRWriter::newStoreInst(context, functionArgument, fieldPointer);
+    const IType* fieldType = field->getType();
+    if (fieldType->isReference()) {
+      ((const IReferenceType*) fieldType)->incrementReferenceCount(context, functionArgument);
+    }
+    functionArguments++;
+  }
 }
 
 void Model::createRTTI(IRGenerationContext& context) const {
@@ -408,45 +506,6 @@ void Model::checkAllFieldsAreSet(IRGenerationContext& context,
     context.reportError(line, "Field " + missingField + " is not initialized");
   }
   throw 1;
-}
-
-void Model::initializeFields(IRGenerationContext& context,
-                             const ObjectBuilderArgumentList& objectBuilderArgumentList,
-                             Instruction* malloc,
-                             int line) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  
-  Value* index[2];
-  index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
-  for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
-    string argumentName = argument->deriveFieldName();
-    IField* field = findField(argumentName);
-    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
-    GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
-    const IType* fieldType = field->getType();
-    
-    Value* argumentValue = argument->getValue(context, fieldType);
-    const IType* argumentType = argument->getType(context);
-    if (!argumentType->canAutoCastTo(context, fieldType)) {
-      context.reportError(line, "Model builder argument value for field " + argumentName +
-                          " does not match its type");
-      throw 1;
-    }
-    if (argumentType->isController() || argumentType->isNode()) {
-      context.reportError(line, "Attempting to initialize a model with a mutable type. "
-                          "Models can only contain primitives, other models or immutable arrays");
-      throw 1;
-    }
-    if (argumentType->isInterface() && fieldType->isInterface()) {
-      string typeName = context.getObjectType()->getTypeName();
-      CheckCastToObjectFunction::callCheckCastToModel(context, argumentValue);
-    }
-    Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);
-    IRWriter::newStoreInst(context, castValue, fieldPointer);
-    if (fieldType->isReference()) {
-      ((const IReferenceType*) fieldType)->incrementReferenceCount(context, castValue);
-    }
-  }
 }
 
 string Model::getRTTIVariableName() const {

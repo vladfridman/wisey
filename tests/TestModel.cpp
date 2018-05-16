@@ -671,6 +671,7 @@ TEST_F(ModelTest, buildTest) {
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
   
+  mStarModel->declareBuildFunction(mContext);
   Value* result = mStarModel->build(mContext, argumentList, 0);
   
   EXPECT_NE(result, nullptr);
@@ -678,16 +679,51 @@ TEST_F(ModelTest, buildTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
+  "\n  %0 = call %systems.vos.wisey.compiler.tests.MStar* @systems.vos.wisey.compiler.tests.MStar.build(%systems.vos.wisey.compiler.tests.MBirthdate* null, %systems.vos.wisey.compiler.tests.MGalaxy* null)"
+  "\n";
+
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
+TEST_F(ModelTest, getBuildFunctionNameTest) {
+  EXPECT_STREQ("systems.vos.wisey.compiler.tests.MStar.build",
+               mStarModel->getBuildFunctionName().c_str());
+}
+
+TEST_F(ModelTest, declareBuildFunctionTest) {
+  Function* buildFunction = mStarModel->declareBuildFunction(mContext);
+
+  EXPECT_NE(buildFunction, nullptr);
+  
+  *mStringStream << *buildFunction;
+  string expected =
+  "\ndeclare %systems.vos.wisey.compiler.tests.MStar* @systems.vos.wisey.compiler.tests.MStar.build(%systems.vos.wisey.compiler.tests.MBirthdate*, %systems.vos.wisey.compiler.tests.MGalaxy*)\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
+TEST_F(ModelTest, defineBuildFunctionTest) {
+  Function* buildFunction = mStarModel->defineBuildFunction(mContext);
+  mContext.runComposingCallbacks();
+
+  EXPECT_NE(buildFunction, nullptr);
+  
+  *mStringStream << *buildFunction;
+  string expected = string() +
+  "\ndefine %systems.vos.wisey.compiler.tests.MStar* @systems.vos.wisey.compiler.tests.MStar.build(%systems.vos.wisey.compiler.tests.MBirthdate* %mBirthdate, %systems.vos.wisey.compiler.tests.MGalaxy* %mGalaxy) {"
+  "\nentry:" +
   "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.MStar.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.MStar.refCounter, %systems.vos.wisey.compiler.tests.MStar.refCounter* null, i32 1) to i64))"
   "\n  %buildervar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.MStar.refCounter*"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MStar.refCounter* %buildervar to i8*"
   "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.MStar.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.MStar.refCounter, %systems.vos.wisey.compiler.tests.MStar.refCounter* null, i32 1) to i64), i32 4, i1 false)"
   "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.MStar.refCounter, %systems.vos.wisey.compiler.tests.MStar.refCounter* %buildervar, i32 0, i32 1"
   "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MStar, %systems.vos.wisey.compiler.tests.MStar* %1, i32 0, i32 1"
-  "\n  store %systems.vos.wisey.compiler.tests.MBirthdate* null, %systems.vos.wisey.compiler.tests.MBirthdate** %2"
+  "\n  store %systems.vos.wisey.compiler.tests.MBirthdate* %mBirthdate, %systems.vos.wisey.compiler.tests.MBirthdate** %2"
   "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.MStar, %systems.vos.wisey.compiler.tests.MStar* %1, i32 0, i32 2"
-  "\n  store %systems.vos.wisey.compiler.tests.MGalaxy* null, %systems.vos.wisey.compiler.tests.MGalaxy** %3"
-  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MGalaxy* null to i8*"
+  "\n  store %systems.vos.wisey.compiler.tests.MGalaxy* %mGalaxy, %systems.vos.wisey.compiler.tests.MGalaxy** %3"
+  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MGalaxy* %mGalaxy to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %4, i64 1)"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.MStar* %1 to i8*"
   "\n  %6 = getelementptr i8, i8* %5, i64 0"
@@ -695,6 +731,8 @@ TEST_F(ModelTest, buildTest) {
   "\n  %8 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.MStar.vtable, i32 0, i32 0, i32 0"
   "\n  %9 = bitcast i8** %8 to i32 (...)**"
   "\n  store i32 (...)** %9, i32 (...)*** %7"
+  "\n  ret %systems.vos.wisey.compiler.tests.MStar* %1"
+  "\n}"
   "\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -741,6 +779,7 @@ TEST_F(ModelTest, buildIncorrectArgumentTypeDeathTest) {
   ObjectBuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
+  mStarModel->declareBuildFunction(mContext);
   
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
@@ -761,7 +800,8 @@ TEST_F(ModelTest, buildNotAllFieldsAreSetDeathTest) {
                                                                mField1Expression);
   ObjectBuilderArgumentList argumentList;
   argumentList.push_back(argument1);
-  
+  mStarModel->declareBuildFunction(mContext);
+
   const char* expected =
   "/tmp/source.yz(5): Error: Field mGalaxy is not initialized\n";
   
