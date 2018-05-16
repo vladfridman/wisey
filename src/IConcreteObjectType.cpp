@@ -17,7 +17,6 @@
 #include "wisey/DestroyObjectOwnerFunction.hpp"
 #include "wisey/DestroyOwnerArrayFunction.hpp"
 #include "wisey/Environment.hpp"
-#include "wisey/FakeExpression.hpp"
 #include "wisey/FieldArrayOwnerVariable.hpp"
 #include "wisey/FieldArrayReferenceVariable.hpp"
 #include "wisey/FieldOwnerVariable.hpp"
@@ -428,16 +427,6 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   
   context.setBasicBlock(refCountNotZeroBlock);
   
-  if (context.isDestructorDebugOn()) {
-    ExpressionList printOutArguments;
-    printOutArguments.push_back(new StringLiteral("Throwing RCE " + concreteObject->getTypeName(),
-                                                  0));
-    printOutArguments.push_back(new StringLiteral(" count = ", 0));
-    printOutArguments.push_back(new FakeExpression(referenceCount, PrimitiveTypes::LONG));
-    printOutArguments.push_back(new StringLiteral("\n", 0));
-    PrintOutStatement::printExpressionList(context, printOutArguments, 0);
-  }
-
   Value* objectName = IObjectType::getObjectNamePointer(concreteObject, context);
   ThrowReferenceCountExceptionFunction::call(context, referenceCount, objectName);
   IRWriter::newUnreachableInst(context);
