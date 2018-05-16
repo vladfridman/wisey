@@ -765,7 +765,7 @@ external_interface_element_delcaration_list
 
 external_interface_element_declaration
   : method_signature
-  | constant_definition
+  | constant_declaration
   | external_static_method_definition
   ;
 
