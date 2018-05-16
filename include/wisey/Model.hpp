@@ -96,20 +96,11 @@ namespace wisey {
      */
     void createRTTI(IRGenerationContext& context) const;
     
-    /**
-     * Declares a function that builds this model
-     */
-    llvm::Function* declareBuildFunction(IRGenerationContext& context) const;
+    llvm::Function* declareBuildFunction(IRGenerationContext& context) const override;
     
-    /**
-     * Defines a function that builds this model, composes the function body
-     */
-    llvm::Function* defineBuildFunction(IRGenerationContext& context) const;
+    llvm::Function* defineBuildFunction(IRGenerationContext& context) const override;
 
-    /**
-     * Returns build function name
-     */
-    std::string getBuildFunctionName() const;
+    std::string getBuildFunctionName() const override;
     
     bool isPublic() const override;
 
@@ -270,9 +261,9 @@ namespace wisey {
                               const ObjectBuilderArgumentList& objectBuilderArgumentList,
                               int line) const;
 
-    void initializeFixedFields(IRGenerationContext& context,
-                               llvm::Function* buildFunction,
-                               llvm::Instruction* malloc) const;
+    void initializeReceivedFields(IRGenerationContext& context,
+                                  llvm::Function* buildFunction,
+                                  llvm::Instruction* malloc) const;
 
     static void composeBuildFunctionBody(IRGenerationContext& context,
                                          llvm::Function* buildFunction,

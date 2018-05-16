@@ -643,6 +643,7 @@ TEST_F(NodeTest, buildTest) {
   ObjectBuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
+  mSimpleNode->declareBuildFunction(mContext);
   
   Value* result = mSimpleNode->build(mContext, argumentList, 0);
   
@@ -651,16 +652,51 @@ TEST_F(NodeTest, buildTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
+  "\n  %0 = call %systems.vos.wisey.compiler.tests.NSimpleNode* @systems.vos.wisey.compiler.tests.NSimpleNode.build(%systems.vos.wisey.compiler.tests.NOwner* null, %systems.vos.wisey.compiler.tests.MReference* null)"
+  "\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
+TEST_F(NodeTest, getBuildFunctionNameTest) {
+  EXPECT_STREQ("systems.vos.wisey.compiler.tests.NSimpleNode.build",
+               mSimpleNode->getBuildFunctionName().c_str());
+}
+
+TEST_F(NodeTest, declareBuildFunctionTest) {
+  Function* buildFunction = mSimpleNode->declareBuildFunction(mContext);
+  
+  EXPECT_NE(buildFunction, nullptr);
+  
+  *mStringStream << *buildFunction;
+  string expected =
+  "\ndeclare %systems.vos.wisey.compiler.tests.NSimpleNode* @systems.vos.wisey.compiler.tests.NSimpleNode.build(%systems.vos.wisey.compiler.tests.NOwner*, %systems.vos.wisey.compiler.tests.MReference*)\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
+TEST_F(NodeTest, defineBuildFunctionTest) {
+  Function* buildFunction = mSimpleNode->defineBuildFunction(mContext);
+  mContext.runComposingCallbacks();
+  
+  EXPECT_NE(buildFunction, nullptr);
+  
+  *mStringStream << *buildFunction;
+  string expected = string() +
+  "\ndefine %systems.vos.wisey.compiler.tests.NSimpleNode* @systems.vos.wisey.compiler.tests.NSimpleNode.build(%systems.vos.wisey.compiler.tests.NOwner* %mOwner, %systems.vos.wisey.compiler.tests.MReference* %mReference) {"
+  "\nentry:" +
   "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.NSimpleNode.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.NSimpleNode.refCounter, %systems.vos.wisey.compiler.tests.NSimpleNode.refCounter* null, i32 1) to i64))"
   "\n  %buildervar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.NSimpleNode.refCounter*"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NSimpleNode.refCounter* %buildervar to i8*"
   "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.NSimpleNode.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.NSimpleNode.refCounter, %systems.vos.wisey.compiler.tests.NSimpleNode.refCounter* null, i32 1) to i64), i32 4, i1 false)"
   "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.NSimpleNode.refCounter, %systems.vos.wisey.compiler.tests.NSimpleNode.refCounter* %buildervar, i32 0, i32 1"
   "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.NSimpleNode, %systems.vos.wisey.compiler.tests.NSimpleNode* %1, i32 0, i32 1"
-  "\n  store %systems.vos.wisey.compiler.tests.NOwner* null, %systems.vos.wisey.compiler.tests.NOwner** %2"
+  "\n  store %systems.vos.wisey.compiler.tests.NOwner* %mOwner, %systems.vos.wisey.compiler.tests.NOwner** %2"
   "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.NSimpleNode, %systems.vos.wisey.compiler.tests.NSimpleNode* %1, i32 0, i32 2"
-  "\n  store %systems.vos.wisey.compiler.tests.MReference* null, %systems.vos.wisey.compiler.tests.MReference** %3"
-  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MReference* null to i8*"
+  "\n  store %systems.vos.wisey.compiler.tests.MReference* %mReference, %systems.vos.wisey.compiler.tests.MReference** %3"
+  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MReference* %mReference to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %4, i64 1)"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.NSimpleNode* %1 to i8*"
   "\n  %6 = getelementptr i8, i8* %5, i64 0"
@@ -668,6 +704,8 @@ TEST_F(NodeTest, buildTest) {
   "\n  %8 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.NSimpleNode.vtable, i32 0, i32 0, i32 0"
   "\n  %9 = bitcast i8** %8 to i32 (...)**"
   "\n  store i32 (...)** %9, i32 (...)*** %7"
+  "\n  ret %systems.vos.wisey.compiler.tests.NSimpleNode* %1"
+  "\n}"
   "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -688,7 +726,8 @@ TEST_F(NodeTest, buildInvalidObjectBuilderArgumentsDeathTest) {
   ObjectBuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
-  
+  mSimpleNode->declareBuildFunction(mContext);
+
   const char* expected =
   "/tmp/source.yz(1): Error: Object builder argument should start with 'with'. e.g. .withField(value).\n";
   
@@ -718,7 +757,8 @@ TEST_F(NodeTest, buildIncorrectArgumentTypeDeathTest) {
   ObjectBuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
-  
+  mSimpleNode->declareBuildFunction(mContext);
+
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   

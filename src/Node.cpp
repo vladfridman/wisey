@@ -99,6 +99,7 @@ void Node::setFields(IRGenerationContext& context,
   mFieldsOrdered = fields;
   unsigned long index = startIndex;
   for (IField* field : fields) {
+    mReceivedFieldIndexes[field] = mFields.size();
     mFields[field->getName()] = field;
     mFieldIndexes[field] = index;
 
@@ -291,6 +292,119 @@ bool Node::isImmutable() const {
   return false;
 }
 
+Instruction* Node::build(IRGenerationContext& context,
+                          const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                          int line) const {
+  checkArguments(context, objectBuilderArgumentList, line);
+  
+  Function* buildFunction = context.getModule()->getFunction(getBuildFunctionName());
+  assert(buildFunction && "Build function for node is not defined");
+  Value* callArguments[mReceivedFieldIndexes.size()];
+  
+  for (const IField* field : mFieldsOrdered) {
+    Value* nullValue = llvm::Constant::getNullValue(field->getType()->getLLVMType(context));
+    callArguments[mReceivedFieldIndexes.at(field)] = nullValue;
+  }
+  
+  for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
+    string argumentName = argument->deriveFieldName();
+    IField* field = findField(argumentName);
+    const IType* fieldType = field->getType();
+    
+    Value* argumentValue = argument->getValue(context, fieldType);
+    const IType* argumentType = argument->getType(context);
+
+    if (!argumentType->canAutoCastTo(context, fieldType)) {
+      context.reportError(line, "Node builder argument value for field " + argumentName +
+                          " does not match its type");
+      throw 1;
+    }
+    if (field->isState() && (argumentType->isController() || argumentType->isModel())) {
+      context.reportError(line, "Trying to initialize a node state field with object that is "
+                          "not a node. Node state fields can only be of node type");
+      throw 1;
+    }
+    if (field->isState() && argumentType->isInterface() && fieldType->isInterface()) {
+      string typeName = context.getObjectType()->getTypeName();
+      CheckCastToObjectFunction::callCheckCastToNode(context, argumentValue);
+    }
+    Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);
+    callArguments[mReceivedFieldIndexes.at(field)] = castValue;
+  }
+  
+  vector<Value*> callArgumentsVector;
+  for (Value* callArgument : callArguments) {
+    callArgumentsVector.push_back(callArgument);
+  }
+  
+  return IRWriter::createCallInst(context, buildFunction, callArgumentsVector, "");
+}
+
+Function* Node::declareBuildFunction(IRGenerationContext& context) const {
+  vector<Type*> argumentTypes;
+  for (const IField* field : mFieldsOrdered) {
+    argumentTypes.push_back(field->getType()->getLLVMType(context));
+  }
+  
+  FunctionType* functionType = FunctionType::get(getLLVMType(context), argumentTypes, false);
+  return Function::Create(functionType,
+                          isPublic() ? GlobalValue::ExternalLinkage : GlobalValue::InternalLinkage,
+                          getBuildFunctionName(),
+                          context.getModule());
+  
+}
+
+Function* Node::defineBuildFunction(IRGenerationContext& context) const {
+  Function* buildFunction = declareBuildFunction(context);
+  context.addComposingCallback1Objects(composeBuildFunctionBody, buildFunction, this);
+  
+  return buildFunction;
+}
+
+string Node::getBuildFunctionName() const {
+  return getTypeName() + ".build";
+}
+
+void Node::composeBuildFunctionBody(IRGenerationContext& context,
+                                     Function* buildFunction,
+                                     const void* objectType) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  const Node* node = (const Node*) objectType;
+  BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", buildFunction);
+  context.getScopes().pushScope();
+  context.setBasicBlock(entryBlock);
+  context.setObjectType(node);
+  
+  Instruction* malloc = IConcreteObjectType::createMallocForObject(context, node, "buildervar");
+  node->initializeReceivedFields(context, buildFunction, malloc);
+  initializeVTable(context, node, malloc);
+  IRWriter::createReturnInst(context, malloc);
+  
+  context.getScopes().popScope(context, 0);
+}
+
+void Node::initializeReceivedFields(IRGenerationContext& context,
+                                    llvm::Function* buildFunction,
+                                    Instruction* malloc) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Function::arg_iterator functionArguments = buildFunction->arg_begin();
+  
+  Value* index[2];
+  index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  for (const IField* field : mFieldsOrdered) {
+    Value* functionArgument = &*functionArguments;
+    functionArgument->setName(field->getName());
+    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
+    GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
+    IRWriter::newStoreInst(context, functionArgument, fieldPointer);
+    const IType* fieldType = field->getType();
+    if (fieldType->isReference()) {
+      ((const IReferenceType*) fieldType)->incrementReferenceCount(context, functionArgument);
+    }
+    functionArguments++;
+  }
+}
+
 string Node::getVTableName() const {
   return mName + ".vtable";
 }
@@ -325,17 +439,6 @@ vector<string> Node::getMissingFields(set<string> givenFields) const {
   }
   
   return missingFields;
-}
-
-Instruction* Node::build(IRGenerationContext& context,
-                         const ObjectBuilderArgumentList& objectBuilderArgumentList,
-                         int line) const {
-  checkArguments(context, objectBuilderArgumentList, line);
-  Instruction* malloc = IConcreteObjectType::createMallocForObject(context, this, "buildervar");
-  initializePresetFields(context, objectBuilderArgumentList, malloc, line);
-  initializeVTable(context, (IConcreteObjectType*) this, malloc);
-  
-  return malloc;
 }
 
 void Node::checkArguments(IRGenerationContext& context,

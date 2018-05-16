@@ -404,16 +404,16 @@ void Model::composeBuildFunctionBody(IRGenerationContext& context,
   context.setObjectType(model);
 
   Instruction* malloc = IConcreteObjectType::createMallocForObject(context, model, "buildervar");
-  model->initializeFixedFields(context, buildFunction, malloc);
+  model->initializeReceivedFields(context, buildFunction, malloc);
   initializeVTable(context, model, malloc);
   IRWriter::createReturnInst(context, malloc);
 
   context.getScopes().popScope(context, 0);
 }
 
-void Model::initializeFixedFields(IRGenerationContext& context,
-                                  llvm::Function* buildFunction,
-                                  Instruction* malloc) const {
+void Model::initializeReceivedFields(IRGenerationContext& context,
+                                     llvm::Function* buildFunction,
+                                     Instruction* malloc) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Function::arg_iterator functionArguments = buildFunction->arg_begin();
   

@@ -37,6 +37,7 @@ namespace wisey {
     std::map<std::string, IField*> mFields;
     std::vector<IField*> mFieldsOrdered;
     std::map<const IField*, unsigned long> mFieldIndexes;
+    std::map<const IField*, unsigned long> mReceivedFieldIndexes;
     std::vector<IMethod*> mMethods;
     std::map<std::string, IMethod*> mNameToMethodMap;
     std::vector<Interface*> mInterfaces;
@@ -82,6 +83,12 @@ namespace wisey {
      */
     std::vector<std::string> getMissingFields(std::set<std::string> givenFields) const;
     
+    llvm::Function* declareBuildFunction(IRGenerationContext& context) const override;
+    
+    llvm::Function* defineBuildFunction(IRGenerationContext& context) const override;
+    
+    std::string getBuildFunctionName() const override;
+
     bool isPublic() const override;
 
     void setFields(IRGenerationContext& context,
@@ -245,7 +252,15 @@ namespace wisey {
                                 const ObjectBuilderArgumentList& ObjectBuilderArgumentList,
                                 llvm::Instruction* malloc,
                                 int line) const;
-    
+
+    void initializeReceivedFields(IRGenerationContext& context,
+                                  llvm::Function* buildFunction,
+                                  llvm::Instruction* malloc) const;
+
+    static void composeBuildFunctionBody(IRGenerationContext& context,
+                                         llvm::Function* buildFunction,
+                                         const void* objectType);
+
   };
   
 } /* namespace wisey */

@@ -66,6 +66,7 @@ void ExternalNodeDefinition::prototypeMethods(IRGenerationContext& context) cons
   context.setObjectType(node);
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
   configureObject(context, node, mObjectElementDeclarations, mInterfaceSpecifiers);
+  node->declareBuildFunction(context);
   context.setObjectType(lastObjectType);
 }
 

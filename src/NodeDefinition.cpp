@@ -66,6 +66,7 @@ void NodeDefinition::prototypeMethods(IRGenerationContext& context) const {
   context.setObjectType(node);
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
   configureObject(context, node, mObjectElementDeclarations, mInterfaceSpecifiers);
+  node->defineBuildFunction(context);
   context.setObjectType(lastObjectType);
 }
 
