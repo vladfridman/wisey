@@ -297,7 +297,7 @@ Instruction* Node::build(IRGenerationContext& context,
                           int line) const {
   checkArguments(context, objectBuilderArgumentList, line);
   
-  Function* buildFunction = context.getModule()->getFunction(getBuildFunctionName());
+  Function* buildFunction = context.getModule()->getFunction(getBuildFunctionNameForObject(this));
   assert(buildFunction && "Build function for node is not defined");
   Value* callArguments[mReceivedFieldIndexes.size()];
   
@@ -341,68 +341,11 @@ Instruction* Node::build(IRGenerationContext& context,
 }
 
 Function* Node::declareBuildFunction(IRGenerationContext& context) const {
-  vector<Type*> argumentTypes;
-  for (const IField* field : mFieldsOrdered) {
-    argumentTypes.push_back(field->getType()->getLLVMType(context));
-  }
-  
-  FunctionType* functionType = FunctionType::get(getLLVMType(context), argumentTypes, false);
-  return Function::Create(functionType,
-                          isPublic() ? GlobalValue::ExternalLinkage : GlobalValue::InternalLinkage,
-                          getBuildFunctionName(),
-                          context.getModule());
-  
+  return IBuildableConcreteObjectType::declareBuildFunctionForObject(context, this);
 }
 
 Function* Node::defineBuildFunction(IRGenerationContext& context) const {
-  Function* buildFunction = declareBuildFunction(context);
-  context.addComposingCallback1Objects(composeBuildFunctionBody, buildFunction, this);
-  
-  return buildFunction;
-}
-
-string Node::getBuildFunctionName() const {
-  return getTypeName() + ".build";
-}
-
-void Node::composeBuildFunctionBody(IRGenerationContext& context,
-                                     Function* buildFunction,
-                                     const void* objectType) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  const Node* node = (const Node*) objectType;
-  BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", buildFunction);
-  context.getScopes().pushScope();
-  context.setBasicBlock(entryBlock);
-  context.setObjectType(node);
-  
-  Instruction* malloc = IConcreteObjectType::createMallocForObject(context, node, "buildervar");
-  node->initializeReceivedFields(context, buildFunction, malloc);
-  initializeVTable(context, node, malloc);
-  IRWriter::createReturnInst(context, malloc);
-  
-  context.getScopes().popScope(context, 0);
-}
-
-void Node::initializeReceivedFields(IRGenerationContext& context,
-                                    llvm::Function* buildFunction,
-                                    Instruction* malloc) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Function::arg_iterator functionArguments = buildFunction->arg_begin();
-  
-  Value* index[2];
-  index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
-  for (const IField* field : mFieldsOrdered) {
-    Value* functionArgument = &*functionArguments;
-    functionArgument->setName(field->getName());
-    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
-    GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
-    IRWriter::newStoreInst(context, functionArgument, fieldPointer);
-    const IType* fieldType = field->getType();
-    if (fieldType->isReference()) {
-      ((const IReferenceType*) fieldType)->incrementReferenceCount(context, functionArgument);
-    }
-    functionArguments++;
-  }
+  return IBuildableConcreteObjectType::defineBuildFunctionForObject(context, this);
 }
 
 string Node::getVTableName() const {

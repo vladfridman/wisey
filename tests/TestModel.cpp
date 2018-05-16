@@ -686,11 +686,6 @@ TEST_F(ModelTest, buildTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(ModelTest, getBuildFunctionNameTest) {
-  EXPECT_STREQ("systems.vos.wisey.compiler.tests.MStar.build",
-               mStarModel->getBuildFunctionName().c_str());
-}
-
 TEST_F(ModelTest, declareBuildFunctionTest) {
   Function* buildFunction = mStarModel->declareBuildFunction(mContext);
 

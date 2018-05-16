@@ -392,6 +392,8 @@
 		F53401111DFF333E0002BF7E /* MethodDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53401101DFF333E0002BF7E /* MethodDefinition.cpp */; };
 		F53401121DFF333E0002BF7E /* MethodDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53401101DFF333E0002BF7E /* MethodDefinition.cpp */; };
 		F534011C1E000DBC0002BF7E /* TestMethodDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534011B1E000DBC0002BF7E /* TestMethodDefinition.cpp */; };
+		F534643D20AC8743006369D4 /* IBuildableConcreteObjectType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534643C20AC8743006369D4 /* IBuildableConcreteObjectType.cpp */; };
+		F534643E20AC8743006369D4 /* IBuildableConcreteObjectType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534643C20AC8743006369D4 /* IBuildableConcreteObjectType.cpp */; };
 		F534FFD61DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */; };
 		F5378F6D2058F11500E5B5FD /* IdentifierReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5378F6C2058F11500E5B5FD /* IdentifierReference.cpp */; };
 		F5378F6E2058F11500E5B5FD /* IdentifierReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5378F6C2058F11500E5B5FD /* IdentifierReference.cpp */; };
@@ -1479,6 +1481,7 @@
 		F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestConditionalExpression.cpp; path = tests/TestConditionalExpression.cpp; sourceTree = "<group>"; };
 		F53401101DFF333E0002BF7E /* MethodDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MethodDefinition.cpp; path = src/MethodDefinition.cpp; sourceTree = "<group>"; };
 		F534011B1E000DBC0002BF7E /* TestMethodDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethodDefinition.cpp; path = tests/TestMethodDefinition.cpp; sourceTree = "<group>"; };
+		F534643C20AC8743006369D4 /* IBuildableConcreteObjectType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IBuildableConcreteObjectType.cpp; path = src/IBuildableConcreteObjectType.cpp; sourceTree = "<group>"; };
 		F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestAdditiveMultiplicativeExpression.cpp; path = tests/TestAdditiveMultiplicativeExpression.cpp; sourceTree = "<group>"; };
 		F5378F6B2058F0B500E5B5FD /* IdentifierReference.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IdentifierReference.hpp; path = include/wisey/IdentifierReference.hpp; sourceTree = "<group>"; };
 		F5378F6C2058F11500E5B5FD /* IdentifierReference.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IdentifierReference.cpp; path = src/IdentifierReference.cpp; sourceTree = "<group>"; };
@@ -2797,6 +2800,7 @@
 		F587253A1F6D337900FA25E6 /* interfaces */ = {
 			isa = PBXGroup;
 			children = (
+				F534643C20AC8743006369D4 /* IBuildableConcreteObjectType.cpp */,
 				F592A7B81F7D62D10026BD2F /* IConcreteObjectDefinition.cpp */,
 				F556E6531EDDD2F900CCC3D7 /* IConcreteObjectType.cpp */,
 				F5A363561F376C90005880B3 /* IFieldVariable.cpp */,
@@ -4343,6 +4347,7 @@
 				F534011C1E000DBC0002BF7E /* TestMethodDefinition.cpp in Sources */,
 				F5CB7F8A20519130007628B5 /* TestFieldLLVMVariable.cpp in Sources */,
 				F5A3634A1F373FFE005880B3 /* TestParameterOwnerVariable.cpp in Sources */,
+				F534643E20AC8743006369D4 /* IBuildableConcreteObjectType.cpp in Sources */,
 				F5F61AA3201DE99300EF9EB7 /* TestArraySpecificType.cpp in Sources */,
 				F5D4660420611DA000C1047A /* TestLLVMVariableDeclaration.cpp in Sources */,
 				F539147B1FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp in Sources */,
@@ -4673,6 +4678,7 @@
 				F58748341F95143A0088F1E3 /* ThreadExpression.cpp in Sources */,
 				F59D821D1E0F66E800057FB5 /* IfElseStatement.cpp in Sources */,
 				F5296AC01E564B9B00FB1E1D /* CastExpression.cpp in Sources */,
+				F534643D20AC8743006369D4 /* IBuildableConcreteObjectType.cpp in Sources */,
 				F57411731E043EE4009809FF /* Identifier.cpp in Sources */,
 				F581A0132073B11700EA0156 /* LocalLLVMVariable.cpp in Sources */,
 				F52C66661FBF446400E89B04 /* AdjustReferenceCountFunction.cpp in Sources */,

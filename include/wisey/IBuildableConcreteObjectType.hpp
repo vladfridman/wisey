@@ -39,9 +39,34 @@ namespace wisey {
     virtual llvm::Function* defineBuildFunction(IRGenerationContext& context) const = 0;
     
     /**
-     * Returns build function name
+     * Declares a build function for the given buildable object
      */
-    virtual std::string getBuildFunctionName() const = 0;
+    static llvm::Function* declareBuildFunctionForObject(IRGenerationContext& context,
+                                                         const IBuildableConcreteObjectType*
+                                                         object);
+    
+    /**
+     * Defines a build function for the given buildable object, composes the function body
+     */
+    static llvm::Function* defineBuildFunctionForObject(IRGenerationContext& context,
+                                                        const IBuildableConcreteObjectType* object);
+    
+    /**
+     * Returns build function name for the given buildable object
+     */
+    static std::string getBuildFunctionNameForObject(const IBuildableConcreteObjectType* object);
+
+  private:
+    
+    
+    static void initializeReceivedFieldsForObject(IRGenerationContext& context,
+                                                  llvm::Function* buildFunction,
+                                                  const IBuildableConcreteObjectType* object,
+                                                  llvm::Instruction* malloc);
+
+    static void composeBuildFunctionBody(IRGenerationContext& context,
+                                         llvm::Function* buildFunction,
+                                         const void* objectType);
 
   };
   

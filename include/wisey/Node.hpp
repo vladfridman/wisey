@@ -86,8 +86,6 @@ namespace wisey {
     llvm::Function* declareBuildFunction(IRGenerationContext& context) const override;
     
     llvm::Function* defineBuildFunction(IRGenerationContext& context) const override;
-    
-    std::string getBuildFunctionName() const override;
 
     bool isPublic() const override;
 
@@ -252,14 +250,6 @@ namespace wisey {
                                 const ObjectBuilderArgumentList& ObjectBuilderArgumentList,
                                 llvm::Instruction* malloc,
                                 int line) const;
-
-    void initializeReceivedFields(IRGenerationContext& context,
-                                  llvm::Function* buildFunction,
-                                  llvm::Instruction* malloc) const;
-
-    static void composeBuildFunctionBody(IRGenerationContext& context,
-                                         llvm::Function* buildFunction,
-                                         const void* objectType);
 
   };
   

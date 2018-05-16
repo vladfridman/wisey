@@ -659,11 +659,6 @@ TEST_F(NodeTest, buildTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(NodeTest, getBuildFunctionNameTest) {
-  EXPECT_STREQ("systems.vos.wisey.compiler.tests.NSimpleNode.build",
-               mSimpleNode->getBuildFunctionName().c_str());
-}
-
 TEST_F(NodeTest, declareBuildFunctionTest) {
   Function* buildFunction = mSimpleNode->declareBuildFunction(mContext);
   
