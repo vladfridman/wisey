@@ -266,10 +266,15 @@ namespace wisey {
     static void generateMethodsIR(IRGenerationContext& context, const IConcreteObjectType* object);
     
     /**
-     * Generates IR for constants defined in the object
+     * Declare constants difined externally
      */
-    static void generateConstantsIR(IRGenerationContext& context, const IConcreteObjectType* object);
-    
+    static void declareConstants(IRGenerationContext& context, const IConcreteObjectType* object);
+
+    /**
+     * Defines constants defined in the object and generates IR for their initializtion
+     */
+    static void defineConstants(IRGenerationContext& context, const IConcreteObjectType* object);
+
     /**
      * Generates llvm function declarations
      */

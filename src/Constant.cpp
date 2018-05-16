@@ -46,39 +46,51 @@ void Constant::printToStream(IRGenerationContext& context, iostream& stream) con
     return;
   }
   
-  stream << "  public constant " << mType->getTypeName() << " " << mName << " = ";
-  mExpression->printToStream(context, stream);
-  stream << ";\n";
+  stream << "  constant " << mType->getTypeName() << " " << mName << ";\n";
 }
 
-llvm::Value* Constant::generateIR(IRGenerationContext& context,
-                                  const IObjectType* objectType) const {
+llvm::Value* Constant::define(IRGenerationContext& context, const IObjectType* objectType) const {
+  assert(mExpression && "Constant definition does not have an initialization expression");
+
+  llvm::Type* llvmType = mType->getLLVMType(context);
+  llvm::GlobalValue::LinkageTypes linkageType = mIsPublic
+  ? llvm::GlobalValue::ExternalLinkage
+  : llvm::GlobalValue::InternalLinkage;
+  
   if (!mExpression->isConstant()) {
     context.reportError(mLine, "Constant is initialized with a non-constant expression");
     throw 1;
   }
   
   const IType* expressionType = mExpression->getType(context);
-  
-  llvm::Type* llvmType = mType->getLLVMType(context);
-  llvm::GlobalValue::LinkageTypes linkageType = mIsPublic
-    ? llvm::GlobalValue::ExternalLinkage
-    : llvm::GlobalValue::InternalLinkage;
-  
   if (expressionType != mType) {
     context.reportError(mLine, "Constant value type does not match declared constant type");
     throw 1;
   }
   
-  llvm::Constant* expressionValue = (llvm::Constant*) mExpression->generateIR(context, mType);
-
   return new llvm::GlobalVariable(*context.getModule(),
                                   llvmType,
                                   true,
                                   linkageType,
-                                  expressionValue,
+                                  (llvm::Constant*) mExpression->generateIR(context, mType),
                                   getConstantGlobalName(objectType));
 }
+
+llvm::Value* Constant::declare(IRGenerationContext& context, const IObjectType* objectType) const {
+  llvm::Type* llvmType = mType->getLLVMType(context);
+  llvm::GlobalValue::LinkageTypes linkageType = mIsPublic
+  ? llvm::GlobalValue::ExternalLinkage
+  : llvm::GlobalValue::InternalLinkage;
+  
+  assert(mExpression == NULL && "External constant is supposed to have no expression");
+  
+  return new llvm::GlobalVariable(*context.getModule(),
+                                  llvmType,
+                                  true,
+                                  linkageType,
+                                  NULL,
+                                  getConstantGlobalName(objectType));
+  }
 
 string Constant::getConstantGlobalName(const IObjectType* objectType) const {
   return "constant." + objectType->getTypeName() + "." + mName;

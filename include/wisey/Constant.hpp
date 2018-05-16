@@ -38,20 +38,25 @@ namespace wisey {
     ~Constant();
     
     /**
+     * Returns global llvm constant name for this constant
+     */
+    std::string getConstantGlobalName(const IObjectType* objectType) const;
+
+    /**
      * Generates IR defining a global llvm constant for this constant
      */
-    llvm::Value* generateIR(IRGenerationContext& context, const IObjectType* objectType) const;
-    
+    llvm::Value* define(IRGenerationContext& context, const IObjectType* objectType) const;
+
+    /**
+     * Declare a constant that is defined externally
+     */
+    llvm::Value* declare(IRGenerationContext& context, const IObjectType* objectType) const;
+
     std::string getName() const;
     
     const IType* getType() const;
     
     bool isPublic() const;
-    
-    /**
-     * Returns global llvm constant name for this constant
-     */
-    std::string getConstantGlobalName(const IObjectType* objectType) const;
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     

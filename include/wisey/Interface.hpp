@@ -168,10 +168,15 @@ namespace wisey {
     void defineLLVMFunctions(IRGenerationContext& context) const;
 
     /**
-     * Generate IR for constants defined in this interface
+     * Declares constants defined externally
      */
-    void generateConstantsIR(IRGenerationContext& context) const;
-    
+    void declareConstants(IRGenerationContext& context) const;
+
+    /**
+     * Defines constants defined in this interface and initializes them
+     */
+    void defineConstants(IRGenerationContext& context) const;
+
     /**
      * Define variable containing interface's name
      */

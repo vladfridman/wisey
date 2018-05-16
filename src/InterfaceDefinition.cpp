@@ -79,7 +79,7 @@ void InterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {
   interface->defineInjectionFunctionPointer(context, mLine);
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
   interface->buildMethods(context);
-  interface->generateConstantsIR(context);
+  interface->defineConstants(context);
   interface->defineLLVMFunctions(context);
   interface->defineStaticMethodFunctions(context);
   context.setObjectType(lastObjectType);

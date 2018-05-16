@@ -813,7 +813,7 @@ TEST_F(NodeTest, printToStreamTest) {
                "    systems.vos.wisey.compiler.tests.IComplicatedElement,\n"
                "    systems.vos.wisey.compiler.tests.IObject {\n"
                "\n"
-               "  public constant int MYCONSTANT = 5;\n"
+               "  constant int MYCONSTANT;\n"
                "\n"
                "  fixed int mLeft;\n"
                "  fixed int mRight;\n"

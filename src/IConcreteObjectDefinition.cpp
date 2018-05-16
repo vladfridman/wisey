@@ -52,10 +52,11 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
   IConcreteObjectType::declareLLVMFunctions(context, object);
   if (object->isExternal()) {
     IConcreteObjectType::declareVTable(context, object);
+    IConcreteObjectType::declareConstants(context, object);
   } else {
     IConcreteObjectType::defineVTable(context, object);
+    IConcreteObjectType::defineConstants(context, object);
   }
-  IConcreteObjectType::generateConstantsIR(context, object);
 }
 
 tuple<vector<Constant*>, vector<IField*>, vector<IMethod*>, vector<LLVMFunction*>>

@@ -1168,7 +1168,7 @@ TEST_F(ControllerTest, printToStreamTest) {
                "    systems.vos.wisey.compiler.tests.IScienceCalculator,\n"
                "    systems.vos.wisey.compiler.tests.IObject {\n"
                "\n"
-               "  public constant int MYCONSTANT = 5;\n"
+               "  constant int MYCONSTANT;\n"
                "\n"
                "  receive int left;\n"
                "  receive int right;\n"

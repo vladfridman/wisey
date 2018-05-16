@@ -35,6 +35,7 @@
   #include "wisey/EmptyExpression.hpp"
   #include "wisey/EmptyStatement.hpp"
   #include "wisey/ExpressionStatement.hpp"
+  #include "wisey/ExternalConstantDeclaration.hpp"
   #include "wisey/ExternalControllerDefinition.hpp"
   #include "wisey/ExternalInterfaceDefinition.hpp"
   #include "wisey/ExternalMethodDefinition.hpp"
@@ -274,9 +275,9 @@
 %type <object_element> object_element_declaration external_object_element_declaration
 %type <object_element> field_definition method_definition static_method_definition
 %type <object_element> external_method_definition interface_static_method_definition
-%type <object_element> constant_definition interface_element_declaration method_signature
-%type <object_element> external_interface_element_declaration external_static_method_definition
-%type <object_element> llvm_function_definition
+%type <object_element> constant_definition constant_declaration interface_element_declaration 
+%type <object_element> method_signature external_interface_element_declaration 
+%type <object_element> external_static_method_definition llvm_function_definition
 %type <object_element_list> object_element_declaration_list 
 %type <object_element_list> external_object_element_declaration_list
 %type <object_element_list> interface_element_delcaration_list
@@ -1055,7 +1056,7 @@ external_object_element_declaration_list
   ;
 
 external_object_element_declaration
-  : constant_definition
+  : constant_declaration
   | field_definition
   | external_method_definition
   | external_static_method_definition
@@ -1064,6 +1065,11 @@ external_object_element_declaration
 constant_definition
   : access_specifier TCONSTANT type_specifier TCONSTANTIDENTIFIER '=' expression ';'
     { $$ = new ConstantDefinition($1, $3, *$4, $6, yylineno); delete $4; }
+  ;
+
+constant_declaration
+  : TCONSTANT type_specifier TCONSTANTIDENTIFIER ';'
+    { $$ = new ExternalConstantDeclaration($2, *$3, yylineno); delete $3; }
   ;
 
 field_definition
