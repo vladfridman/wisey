@@ -22,6 +22,14 @@ TEST_F(TestFileRunner, printOutCharArrayRunTest) {
   runFileCheckOutput("tests/samples/test_printout_char_array.yz", "abc\n", "");
 }
 
+TEST_F(TestFileRunner, printOutFloatRunTest) {
+  runFileCheckOutput("tests/samples/test_printout_float.yz", "3.141593\n", "");
+}
+
+TEST_F(TestFileRunner, printOutDoubleRunTest) {
+  runFileCheckOutput("tests/samples/test_printout_double.yz", "3.141593e+00\n", "");
+}
+
 TEST_F(TestFileRunner, unreachablePrintOutStatementRunDeathTest) {
   expectFailCompile("tests/samples/test_unreachable_printout_statement.yz",
                     1,

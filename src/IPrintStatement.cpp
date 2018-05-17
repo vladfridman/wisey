@@ -99,7 +99,9 @@ void IPrintStatement::addPrintArguments(IRGenerationContext& context,
     Value* value = expression->generateIR(context, PrimitiveTypes::VOID);
     if (StringType::isCharArray(context, type, line)) {
       arguments.push_back(ArrayType::extractLLVMArray(context, value));
-    } else if(type->isPrimitive()) {
+    } else if (type == PrimitiveTypes::FLOAT) {
+      arguments.push_back(type->castTo(context, value, PrimitiveTypes::DOUBLE, line));
+    } else if (type->isPrimitive()) {
       arguments.push_back(value);
     } else {
       Value* content = StringType::callGetContent(context, type, value, line);
