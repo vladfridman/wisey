@@ -149,6 +149,18 @@ TEST_F(TestFileRunner, cstringToLongRunTest) {
   runFile("tests/samples/test_cstring_to_long.yz", "1234567");
 }
 
+TEST_F(TestFileRunner, cstringToFloatRunTest) {
+  runFileCheckOutput("tests/samples/test_cstring_to_float.yz",
+                     "Result: 3.141590\n",
+                     "");
+}
+
+TEST_F(TestFileRunner, cstringToDoubleRunTest) {
+  runFileCheckOutput("tests/samples/test_cstring_to_double.yz",
+                     "Result: 3.141590e+00\n",
+                     "");
+}
+
 TEST_F(TestFileRunner, cstringToIntThrowRunTest) {
   compileAndRunFileCheckOutput("tests/samples/test_cstring_to_int_throw.yz",
                                1,

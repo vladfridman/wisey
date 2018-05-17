@@ -168,6 +168,32 @@ controller CString {
   }
 
   /**
+   * Tries to convert the CString to float
+   */
+  public float toFloat() {
+    float value;
+    int success = ::llvm::function::sscanf(mBuffer, "%f", ::llvm::reference(value));
+    if (success) {
+      return value;
+    }
+
+    throw builder(MCastException).withFromType("string").withToType("float").build();
+  }
+
+  /**
+   * Tries to convert the CString to double
+   */
+  public double toDouble() {
+    float value;
+    int success = ::llvm::function::sscanf(mBuffer, "%f", ::llvm::reference(value));
+    if (success) {
+      return value;
+    }
+
+    throw builder(MCastException).withFromType("string").withToType("double").build();
+  }
+
+  /**
    * Creates an MString copy of this string
    */
   public MString* toModel() {

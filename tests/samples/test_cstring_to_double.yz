@@ -1,0 +1,16 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.CString;
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    CString* cstring = CString.createFromString("3.14159");
+    double converted = cstring.toDouble();
+    printout("Result: " + converted + "\n");
+    return 1;
+  }
+}
+
+bind(IProgram).to(CProgram);
