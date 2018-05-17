@@ -10,6 +10,7 @@
 
 #include <gtest/gtest.h>
 
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/BindActionGlobalStatement.hpp"
 #include "wisey/ControllerTypeSpecifier.hpp"
@@ -120,4 +121,21 @@ TEST_F(BindActionGlobalStatementTest, bindInterfaceToIncompatableControllerDeath
   EXPECT_STREQ("/tmp/source.yz(3): Error: Can not bind interface systems.vos.wisey.compiler.tests.IMyInterface to systems.vos.wisey.compiler.tests.CMyController because it does not implement the interface\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
+}
+
+TEST_F(TestFileRunner, injectInterfaceWithArgumentsRunTest) {
+  runFile("tests/samples/test_inject_interface_with_arguments.yz", "7");
+}
+
+TEST_F(TestFileRunner, bindIncompatableControllerRunDeathTest) {
+  expectFailCompile("tests/samples/test_bind_incompatable_controller.yz",
+                    1,
+                    "tests/samples/test_bind_incompatable_controller.yz\\(10\\): Error: Can not bind interface systems.vos.wisey.compiler.tests.IMyInterface to systems.vos.wisey.compiler.tests.CService because it does not implement the interface");
+}
+
+TEST_F(TestFileRunner, bindExternalInterfaceToControllerWithReceivedFieldsRunDeathTest) {
+  expectFailCompile("tests/samples/test_bind_external_interface_to_controller_with_receieved_fields.yz",
+                    1,
+                    "tests/samples/test_bind_external_interface_to_controller_with_receieved_fields.yz\\(25\\): Error: "
+                    "Can not bind external interface systems.vos.wisey.compiler.tests.IMyInterface to systems.vos.wisey.compiler.tests.CService because it receives arguments");
 }

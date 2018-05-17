@@ -1089,8 +1089,7 @@ TEST_F(ControllerTest, injectTooFewArgumentsDeathTest) {
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
   EXPECT_ANY_THROW(mAdditorController->inject(mContext, injectionArguments, 5));
-  EXPECT_STREQ("/tmp/source.yz(5): Error: Received field mReference is not initialized\n"
-               "/tmp/source.yz(5): Error: Some received fields of the controller systems.vos.wisey.compiler.tests.CAdditor are not initialized.\n",
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Received field mReference is not initialized\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }

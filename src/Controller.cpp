@@ -684,8 +684,6 @@ void Controller::checkAllFieldsAreSet(IRGenerationContext& context,
   for (string missingField : missingFields) {
     context.reportError(line, "Received field " + missingField + " is not initialized");
   }
-  context.reportError(line, "Some received fields of the controller " + getTypeName() +
-                      " are not initialized.");
   throw 1;
 }
 

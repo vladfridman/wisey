@@ -552,9 +552,3 @@ TEST_F(IRGenerationContextTest, lookupLLVMFunctionNamedTypeDeathTest) {
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
-
-TEST_F(TestFileRunner, bindIncompatableControllerRunDeathTest) {
-  expectFailCompile("tests/samples/test_bind_incompatable_controller.yz",
-                    1,
-                    "tests/samples/test_bind_incompatable_controller.yz\\(10\\): Error: Can not bind interface systems.vos.wisey.compiler.tests.IMyInterface to systems.vos.wisey.compiler.tests.CService because it does not implement the interface");
-}

@@ -1,0 +1,25 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CService implements IMyInterface {
+  receive int mValue;
+
+  public int getValue() override {
+    return mValue;
+  }
+}
+
+external interface systems.vos.wisey.compiler.tests.IMyInterface {
+  int getValue();
+}
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    return 1;
+  }
+}
+
+bind(IProgram).to(CProgram);
+bind(IMyInterface).to(CService);

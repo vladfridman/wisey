@@ -292,17 +292,27 @@ TEST_F(InjectedFieldTest, injectInterfaceNotBoundWithArgumentsDeathTest) {
 TEST_F(TestFileRunner, injectFieldNodeTypeRunDeathTest) {
   expectFailCompile("tests/samples/test_inject_field_node_type.yz",
                     1,
-                    "tests/samples/test_inject_field_node_type.yz\\(7\\): Error: Only controllers, interfaces bound to controllers and arrays may be injected in fields");
+                    "tests/samples/test_inject_field_node_type.yz\\(7\\): Error: "
+                    "Only controllers, interfaces bound to controllers and arrays may be injected in fields");
 }
 
 TEST_F(TestFileRunner, injectFieldControllerScopedNotReferenceRunDeathTest) {
   expectFailCompile("tests/samples/test_inject_field_controller_scoped_not_reference.yz",
                     1,
-                    "tests/samples/test_inject_field_controller_scoped_not_reference.yz\\(7\\): Error: Controller systems.vos.wisey.compiler.tests.CService is scoped and should have reference field type");
+                    "tests/samples/test_inject_field_controller_scoped_not_reference.yz\\(7\\): Error: "
+                    "Controller systems.vos.wisey.compiler.tests.CService is scoped and should have reference field type");
 }
 
 TEST_F(TestFileRunner, injectFieldControllerNotScopedNotOwnerRunDeathTest) {
   expectFailCompile("tests/samples/test_inject_field_controller_not_scoped_not_owner.yz",
                     1,
-                    "tests/samples/test_inject_field_controller_not_scoped_not_owner.yz\\(7\\): Error: Injected fields must have owner type denoted by '\\*' if the injected type is not scoped");
+                    "tests/samples/test_inject_field_controller_not_scoped_not_owner.yz\\(7\\): Error: "
+                    "Injected fields must have owner type denoted by '\\*' if the injected type is not scoped");
+}
+
+TEST_F(TestFileRunner, injectInterfaceMissingArgumentsRunDeathTest) {
+  expectFailCompile("tests/samples/test_inject_interface_missing_arguments.yz",
+                    1,
+                    "tests/samples/test_inject_interface_missing_arguments.yz\\(18\\): Error: "
+                    "Received field mValue is not initialized");
 }

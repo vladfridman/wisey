@@ -39,4 +39,9 @@ void BindActionGlobalStatement::generateIR(IRGenerationContext& context) const {
                         controller->getTypeName() + " because it does not implement the interface");
     throw 1;
   }
+  if (interface->isExternal() && controller->getReceivedFields().size()) {
+    context.reportError(mLine, "Can not bind external interface " + interface->getTypeName() +
+                        " to " + controller->getTypeName() + " because it receives arguments");
+    throw 1;
+  }
 }
