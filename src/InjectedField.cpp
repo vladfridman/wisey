@@ -122,11 +122,13 @@ void InjectedField::checkInjectionArguments(IRGenerationContext& context) const 
   ? (const IObjectType*) ((const IObjectOwnerType*) mInjectedType)->getReference()
   : (const IObjectType*) mInjectedType;
   
-  const Controller* controller = objectType->isInterface()
-  ? context.getBoundController((const Interface*) objectType, mLine)
-  : (const Controller*) objectType;
-  
-  controller->checkInjectionArguments(context, mInjectionArgumentList, mLine);
+  if (objectType->isInterface() && mInjectionArgumentList.size()) {
+    const Controller* controller = context.getBoundController((const Interface*) objectType, mLine);
+    controller->checkInjectionArguments(context, mInjectionArgumentList, mLine);
+  } else if (objectType->isController()) {
+    const Controller* controller = (const Controller*) objectType;
+    controller->checkInjectionArguments(context, mInjectionArgumentList, mLine);
+  }
 }
 
 Value* InjectedField::callInjectFunction(IRGenerationContext& context,

@@ -18,6 +18,7 @@
 #include <llvm-c/Target.h>
 
 #include "MockVariable.hpp"
+#include "TestFileRunner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IRWriter.hpp"
@@ -345,9 +346,22 @@ TEST_F(IRGenerationContextTest, bindInterfaceToControllerRepeatedlyDeathTest) {
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
   EXPECT_ANY_THROW(mContext.bindInterfaceToController(mInterface, mController, 5));
-  EXPECT_STREQ("/tmp/source.yz(5): Error: Interface systems.vos.wisey.compiler.tests.IMyInterface "
-               "is already bound to systems.vos.wisey.compiler.tests.CMyController "
-               "and can not be bound to systems.vos.wisey.compiler.tests.CMyController\n",
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Interface systems.vos.wisey.compiler.tests.IMyInterface is already bound to systems.vos.wisey.compiler.tests.CMyController and can not be bound to systems.vos.wisey.compiler.tests.CMyController\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
+}
+
+TEST_F(IRGenerationContextTest, bindInterfaceToIncompatableControllerDeathTest) {
+  vector<Interface*> controllerInterfaces;
+  mController->setInterfaces(controllerInterfaces);
+  mContext.addController(mController, 1);
+  mContext.addInterface(mInterface, 3);
+  
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mContext.bindInterfaceToController(mInterface, mController, 3));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Can not bind interface systems.vos.wisey.compiler.tests.IMyInterface to systems.vos.wisey.compiler.tests.CMyController because it does not implement the interface\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
@@ -547,4 +561,10 @@ TEST_F(IRGenerationContextTest, lookupLLVMFunctionNamedTypeDeathTest) {
   EXPECT_STREQ("/tmp/source.yz(3): Error: Can not find llvm function named myfunction\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
+}
+
+TEST_F(TestFileRunner, bindIncompatableControllerRunDeathTest) {
+  expectFailCompile("tests/samples/test_bind_incompatable_controller.yz",
+                    1,
+                    "tests/samples/test_bind_incompatable_controller.yz\\(10\\): Error: Can not bind interface systems.vos.wisey.compiler.tests.IMyInterface to systems.vos.wisey.compiler.tests.CService because it does not implement the interface");
 }

@@ -1,0 +1,10 @@
+package systems.vos.wisey.compiler.tests;
+
+controller CService {
+}
+
+interface IMyInterface {
+  int getValue();
+}
+
+bind(IMyInterface).to(CService);

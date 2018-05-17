@@ -382,6 +382,11 @@ void IRGenerationContext::bindInterfaceToController(const Interface* interface,
                 controller->getTypeName());
     throw 1;
   }
+  if (IConcreteObjectType::getInterfaceIndex(controller, interface) < 0) {
+    reportError(line, "Can not bind interface " + interface->getTypeName() + " to " +
+                controller->getTypeName() + " because it does not implement the interface");
+    throw 1;
+  }
   mBindings[interface] = make_tuple(controller, line);
 }
 
