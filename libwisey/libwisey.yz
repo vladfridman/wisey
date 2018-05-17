@@ -333,6 +333,10 @@ external controller wisey.lang.CString {
     long input);
   static wisey.lang.CString* craeteFromChar(
     char input);
+  static wisey.lang.CString* craeteFromFloat(
+    float input);
+  static wisey.lang.CString* craeteFromDouble(
+    double input);
   wisey.lang.MString* toModel();
   long getLength();
   wisey.lang.CString* copy();

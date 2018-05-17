@@ -57,6 +57,18 @@ TEST_F(TestFileRunner, cstringCreateFromCharRunTest) {
                      "");
 }
 
+TEST_F(TestFileRunner, cstringCreateFromFloatRunTest) {
+  runFileCheckOutput("tests/samples/test_cstring_create_from_float.yz",
+                     "Result: 3.141500\n",
+                     "");
+}
+
+TEST_F(TestFileRunner, cstringCreateFromDoubleRunTest) {
+  runFileCheckOutput("tests/samples/test_cstring_create_from_double.yz",
+                     "Result: 3.141593e+00\n",
+                     "");
+}
+
 TEST_F(TestFileRunner, cstringCreateFromIntRunTest) {
   runFileCheckOutput("tests/samples/test_cstring_create_from_int.yz",
                      "Result: 12345\n",

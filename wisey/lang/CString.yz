@@ -88,11 +88,29 @@ controller CString {
   }
 
   /**
-   * Get a string representation of a float
+   * Get a string representation of a char
    */
   public static CString* craeteFromChar(char input) {
     char[]* buffer = new char[2];
     ::llvm::function::sprintf(buffer, "%c", input);
+    return createFromCharArray(buffer);
+  }
+
+  /**
+   * Get a string representation of a float
+   */
+  public static CString* craeteFromFloat(float input) {
+    char[]* buffer = new char[80];
+    ::llvm::function::sprintf(buffer, "%f", (double) input);
+    return createFromCharArray(buffer);
+  }
+
+  /**
+   * Get a string representation of a double
+   */
+  public static CString* craeteFromDouble(double input) {
+    char[]* buffer = new char[80];
+    ::llvm::function::sprintf(buffer, "%e", input);
     return createFromCharArray(buffer);
   }
 
