@@ -7,7 +7,6 @@
 //
 
 #include "wisey/BindAction.hpp"
-#include "wisey/IRGenerationContext.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -29,14 +28,14 @@ BindAction::~BindAction() {
   mInjectionArguments.clear();
 }
 
-const Interface* BindAction::getInterface(IRGenerationContext& context) const {
-  return mInterfaceTypeSpecifier->getType(context);
+const IInterfaceTypeSpecifier* BindAction::getInterface() const {
+  return mInterfaceTypeSpecifier;
 }
 
-const Controller* BindAction::getController(IRGenerationContext& context) const {
-  return mContreollerTypeSpecifier->getType(context);
+const IControllerTypeSpecifier* BindAction::getController() const {
+  return mContreollerTypeSpecifier;
 }
 
-InjectionArgumentList BindAction::getInjectionArguments(IRGenerationContext& context) const {
+InjectionArgumentList BindAction::getInjectionArguments() const {
   return mInjectionArguments;
 }

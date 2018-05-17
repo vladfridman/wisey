@@ -91,7 +91,7 @@ struct InjectorTest : Test {
     vector<Interface*> interfaces;
     interfaces.push_back(mInterface);
     mController->setInterfaces(interfaces);
-    mContext.bindInterfaceToController(mInterface, mController, 0);
+    mContext.bindInterfaceToController(mInterface->getTypeName(), mController->getTypeName(), 0);
    
     IConcreteObjectType::declareTypeNameGlobal(mContext, mController);
     IConcreteObjectType::declareVTable(mContext, mController);

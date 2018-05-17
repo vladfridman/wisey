@@ -51,7 +51,6 @@ struct BindActionGlobalStatementTest : public Test {
     vector<IField*> controllerFields;
     vector<IMethod*> controllerMethods;
     vector<Interface*> controllerInterfaces;
-    controllerInterfaces.push_back(mInterface);
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             controllerFullName,
                                             controllerStructType,
@@ -69,42 +68,56 @@ struct BindActionGlobalStatementTest : public Test {
     BindAction* bindAction = new BindAction(interfaceTypeSpecifier,
                                             controllerTypeSpecifier,
                                             injectionArgumentList);
-    mBindActionGlobalStatement = new BindActionGlobalStatement(bindAction, 0);
+    mBindActionGlobalStatement = new BindActionGlobalStatement(bindAction, 3);
 }
   
   ~BindActionGlobalStatementTest() { }
 };
 
 TEST_F(BindActionGlobalStatementTest, bindInterfaceToControllerMissingControllerDeathTest) {
+  mBindActionGlobalStatement->prototypeObject(mContext, mContext.getImportProfile());
   mContext.addInterface(mInterface, 1);
   
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
 
-  EXPECT_ANY_THROW(mBindActionGlobalStatement->prototypeMethods(mContext));
+  EXPECT_ANY_THROW(mBindActionGlobalStatement->generateIR(mContext));
   EXPECT_STREQ("/tmp/source.yz(1): Error: Controller systems.vos.wisey.compiler.tests.CMyController is not defined\n",
               buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(BindActionGlobalStatementTest, bindControllerToInterfaceMissingInterfaceDeathTest) {
+  mBindActionGlobalStatement->prototypeObject(mContext, mContext.getImportProfile());
   mContext.addController(mController, 3);
   
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
 
-  EXPECT_ANY_THROW(mBindActionGlobalStatement->prototypeMethods(mContext));
+  EXPECT_ANY_THROW(mBindActionGlobalStatement->generateIR(mContext));
   EXPECT_STREQ("/tmp/source.yz(3): Error: Interface systems.vos.wisey.compiler.tests.IMyInterface is not defined\n",
               buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
 
-TEST_F(BindActionGlobalStatementTest, generateIRTest) {
+TEST_F(BindActionGlobalStatementTest, prototypeObjectTest) {
   mContext.addController(mController, 0);
   mContext.addInterface(mInterface, 0);
 
-  mBindActionGlobalStatement->prototypeMethods(mContext);
+  mBindActionGlobalStatement->prototypeObject(mContext, mContext.getImportProfile());
   
   EXPECT_EQ(mContext.getBoundController(mInterface, 0), mController);
 }
 
+TEST_F(BindActionGlobalStatementTest, bindInterfaceToIncompatableControllerDeathTest) {
+  mContext.addController(mController, 0);
+  mContext.addInterface(mInterface, 0);
+
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mBindActionGlobalStatement->generateIR(mContext));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Can not bind interface systems.vos.wisey.compiler.tests.IMyInterface to systems.vos.wisey.compiler.tests.CMyController because it does not implement the interface\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
+}

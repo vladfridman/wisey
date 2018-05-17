@@ -332,7 +332,7 @@ TEST_F(IRGenerationContextTest, bindInterfaceToControllerTest) {
   mContext.addController(mController, 1);
   mContext.addInterface(mInterface, 3);
   
-  mContext.bindInterfaceToController(mInterface, mController, 0);
+  mContext.bindInterfaceToController(mInterface->getTypeName(), mController->getTypeName(), 0);
   
   EXPECT_EQ(mContext.getBoundController(mInterface, 0), mController);
 }
@@ -341,32 +341,15 @@ TEST_F(IRGenerationContextTest, bindInterfaceToControllerRepeatedlyDeathTest) {
   mContext.addController(mController, 1);
   mContext.addInterface(mInterface, 3);
   
-  mContext.bindInterfaceToController(mInterface, mController, 0);
+  mContext.bindInterfaceToController(mInterface->getTypeName(), mController->getTypeName(), 0);
 
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
-  EXPECT_ANY_THROW(mContext.bindInterfaceToController(mInterface, mController, 5));
+  EXPECT_ANY_THROW(mContext.bindInterfaceToController(mInterface->getTypeName(),
+                                                      mController->getTypeName(),
+                                                      5));
   EXPECT_STREQ("/tmp/source.yz(5): Error: Interface systems.vos.wisey.compiler.tests.IMyInterface is already bound to systems.vos.wisey.compiler.tests.CMyController and can not be bound to systems.vos.wisey.compiler.tests.CMyController\n",
-               buffer.str().c_str());
-  std::cerr.rdbuf(oldbuffer);
-}
-
-TEST_F(IRGenerationContextTest, bindInterfaceToIncompatableControllerDeathTest) {
-  string controllerFullName = "systems.vos.wisey.compiler.tests.CController";
-  StructType* controllerStructType = StructType::create(mLLVMContext, controllerFullName);
-  Controller* controller = Controller::newController(AccessLevel::PUBLIC_ACCESS,
-                                                     controllerFullName,
-                                                     controllerStructType,
-                                                     mContext.getImportProfile(),
-                                                     0);
-  mContext.addController(controller, 1);
-  
-  std::stringstream buffer;
-  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
-  
-  EXPECT_ANY_THROW(mContext.bindInterfaceToController(mInterface, controller, 3));
-  EXPECT_STREQ("/tmp/source.yz(3): Error: Can not bind interface systems.vos.wisey.compiler.tests.IMyInterface to systems.vos.wisey.compiler.tests.CController because it does not implement the interface\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }

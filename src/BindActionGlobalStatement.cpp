@@ -22,14 +22,21 @@ BindActionGlobalStatement::~BindActionGlobalStatement() {
 
 IObjectType* BindActionGlobalStatement::prototypeObject(IRGenerationContext& context,
                                                         ImportProfile* importProfile) const {
+  const string interfaceName = mBindAction->getInterface()->getName(context);
+  const string controllerName = mBindAction->getController()->getName(context);
+  context.bindInterfaceToController(interfaceName, controllerName, mLine);
   return NULL;
 }
 
 void BindActionGlobalStatement::prototypeMethods(IRGenerationContext& context) const {
-  const Interface* interface = mBindAction->getInterface(context);
-  const Controller* controller = mBindAction->getController(context);
-  context.bindInterfaceToController(interface, controller, mLine);
 }
 
 void BindActionGlobalStatement::generateIR(IRGenerationContext& context) const {
+  const Interface* interface = mBindAction->getInterface()->getType(context);
+  const Controller* controller = mBindAction->getController()->getType(context);
+  if (IConcreteObjectType::getInterfaceIndex(controller, interface) < 0) {
+    context.reportError(mLine, "Can not bind interface " + interface->getTypeName() + " to " +
+                        controller->getTypeName() + " because it does not implement the interface");
+    throw 1;
+  }
 }

@@ -114,7 +114,7 @@ TEST_F(MainTest, extractHeadersTest) {
                "\n"
                "/* Bindings */\n"
                "\n"
-               "bind(systems.vos.wisey.compiler.tests.CProgram).to(wisey.lang.IProgram);\n"
+               "bind(wisey.lang.IProgram).to(systems.vos.wisey.compiler.tests.CProgram);\n"
                "\n"
                "/* llvm Structs */\n"
                "\n"

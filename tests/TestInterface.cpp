@@ -742,7 +742,7 @@ TEST_F(InterfaceTest, composeInjectFunctionWithControllerTest) {
   controller->setInterfaces(controllerParentInterfaces);
   
   mContext.addController(controller, 0);
-  mContext.bindInterfaceToController(interface, controller, 0);
+  mContext.bindInterfaceToController(interface->getTypeName(), controller->getTypeName(), 0);
 
   IConcreteObjectType::declareTypeNameGlobal(mContext, controller);
   IConcreteObjectType::declareVTable(mContext, controller);

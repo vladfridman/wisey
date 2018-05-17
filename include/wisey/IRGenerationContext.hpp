@@ -61,7 +61,7 @@ namespace wisey {
     std::map<std::string, const LLVMFunctionType*> mLLVMInternalFunctionNamedTypes;
     std::map<std::string, const LLVMFunctionType*> mLLVMExternalFunctionNamedTypes;
     std::map<std::string, const IType*> mGlobalVariables;
-    std::map<const Interface*, std::tuple<const Controller*, int>> mBindings;
+    std::map<std::string, std::tuple<std::string, int>> mBindings;
     ImportProfile* mImportProfile;
     std::string mPackage;
     Scopes mScopes;
@@ -139,7 +139,7 @@ namespace wisey {
     /**
      * Look up a model type
      */
-    Model* getModel(std::string name, int line);
+    Model* getModel(std::string name, int line) const;
     
     /**
      * Add a controller type
@@ -149,7 +149,7 @@ namespace wisey {
     /**
      * Look up a controller type
      */
-    Controller* getController(std::string name, int line);
+    Controller* getController(std::string name, int line) const;
     
     /**
      * Add a node type
@@ -159,7 +159,7 @@ namespace wisey {
     /**
      * Look up a node type
      */
-    Node* getNode(std::string name, int line);
+    Node* getNode(std::string name, int line) const;
     
     /**
      * Add an interface type
@@ -169,7 +169,7 @@ namespace wisey {
     /**
      * Look up an interface type
      */
-    Interface* getInterface(std::string name, int line);
+    Interface* getInterface(std::string name, int line) const;
     
     /**
      * Add an llvm struct type
@@ -220,9 +220,7 @@ namespace wisey {
     /**
      * Bind an interface to a controller for injection
      */
-    void bindInterfaceToController(const Interface* interface,
-                                   const Controller* controller,
-                                   int line);
+    void bindInterfaceToController(std::string interfaceName, std::string controllerName, int line);
     
     /**
      * Returns controller bound to the given interface

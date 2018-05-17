@@ -188,7 +188,7 @@ void IRGenerationContext::addModel(Model* model, int line) {
   mModels[name] = model;
 }
 
-Model* IRGenerationContext::getModel(string fullName, int line) {
+Model* IRGenerationContext::getModel(string fullName, int line) const {
   if (!mModels.count(fullName)) {
     reportError(line, "Model " + fullName + " is not defined");
     throw 1;
@@ -210,7 +210,7 @@ void IRGenerationContext::addController(Controller* controller, int line) {
   mControllers[name] = controller;
 }
 
-Controller* IRGenerationContext::getController(string fullName, int line) {
+Controller* IRGenerationContext::getController(string fullName, int line) const {
   if (!mControllers.count(fullName)) {
     reportError(line, "Controller " + fullName + " is not defined");
     throw 1;
@@ -232,7 +232,7 @@ void IRGenerationContext::addNode(Node* node, int line) {
   mNodes[name] = node;
 }
 
-Node* IRGenerationContext::getNode(string fullName, int line) {
+Node* IRGenerationContext::getNode(string fullName, int line) const {
   if (!mNodes.count(fullName)) {
     reportError(line, "Node " + fullName + " is not defined");
     throw 1;
@@ -254,7 +254,7 @@ void IRGenerationContext::addInterface(Interface* interface, int line) {
   mInterfaces[name] = interface;
 }
 
-Interface* IRGenerationContext::getInterface(string fullName, int line) {
+Interface* IRGenerationContext::getInterface(string fullName, int line) const {
   if (!mInterfaces.count(fullName)) {
     reportError(line, "Interface " + fullName + " is not defined");
     throw 1;
@@ -373,21 +373,15 @@ const LLVMFunctionType* IRGenerationContext::lookupLLVMFunctionNamedType(string 
   throw 1;
 }
 
-void IRGenerationContext::bindInterfaceToController(const Interface* interface,
-                                                    const Controller* controller,
+void IRGenerationContext::bindInterfaceToController(string interfaceName,
+                                                    string controllerName,
                                                     int line) {
-  if (mBindings.count(interface)) {
-    reportError(line, "Interface " + interface->getTypeName() + " is already bound to " +
-                get<0>(mBindings[interface])->getTypeName() + " and can not be bound to " +
-                controller->getTypeName());
+  if (mBindings.count(interfaceName)) {
+    reportError(line, "Interface " + interfaceName + " is already bound to " +
+                get<0>(mBindings[interfaceName]) + " and can not be bound to " + controllerName);
     throw 1;
   }
-  if (IConcreteObjectType::getInterfaceIndex(controller, interface) < 0) {
-    reportError(line, "Can not bind interface " + interface->getTypeName() + " to " +
-                controller->getTypeName() + " because it does not implement the interface");
-    throw 1;
-  }
-  mBindings[interface] = make_tuple(controller, line);
+  mBindings[interfaceName] = make_tuple(controllerName, line);
 }
 
 const Controller* IRGenerationContext::getBoundController(const Interface* interface,
@@ -396,18 +390,18 @@ const Controller* IRGenerationContext::getBoundController(const Interface* inter
     reportError(line, "No controller is bound to interface " + interface->getTypeName());
     throw 1;
   }
-  return get<0>(mBindings.at(interface));
+  return getController(get<0>(mBindings.at(interface->getTypeName())), line);
 }
 
 bool IRGenerationContext::hasBoundController(const Interface* interface) const {
-  return mBindings.count(interface);
+  return mBindings.count(interface->getTypeName());
 }
 
 void IRGenerationContext::bindInterfaces(IRGenerationContext& context) const {
   for (auto iterator = mBindings.begin(); iterator != mBindings.end(); iterator++) {
-    const Interface* interface = iterator->first;
-    const Controller* controller = get<0>(iterator->second);
     int line = get<1>(iterator->second);
+    const Interface* interface = getInterface(iterator->first, line);
+    const Controller* controller = getController(get<0>(iterator->second), line);
     if (!controller->getReceivedFields().size()) {
       interface->composeInjectFunctionWithController(context, controller, line);
     }
@@ -502,9 +496,9 @@ void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& 
   
   stream << "/* Bindings */" << endl << endl;
   for (auto iterator = mBindings.begin(); iterator != mBindings.end(); iterator++) {
-    const Interface* interface = iterator->first;
-    const Controller* controller = get<0>(iterator->second);
-    stream << "bind(" << controller->getTypeName() << ").to(" << interface->getTypeName() << ");";
+    const string interfaceName = iterator->first;
+    const string controllerName = get<0>(iterator->second);
+    stream << "bind(" << interfaceName << ").to(" << controllerName << ");";
     stream << endl;
   }
   if (mBindings.size()) {

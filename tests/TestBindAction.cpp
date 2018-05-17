@@ -30,7 +30,9 @@ struct BindActionTest : public Test {
   ImportProfile* mImportProfile;
   InjectionArgument* mInjectionArgument;
   string mPackage = "systems.vos.wisey.compiler.tests";
-  
+  InterfaceTypeSpecifier* mInterfaceTypeSpecifier;
+  ControllerTypeSpecifier* mControllerTypeSpecifier;
+
   BindActionTest() : mLLVMContext(mContext.getLLVMContext()) {
     mImportProfile = new ImportProfile(mPackage);
     mContext.setImportProfile(mImportProfile);
@@ -64,15 +66,13 @@ struct BindActionTest : public Test {
     mContext.addInterface(mInterface, 0);
     mContext.addController(mController, 0);
 
-    InterfaceTypeSpecifier* interfaceTypeSpecifier =
-      new InterfaceTypeSpecifier(NULL, "IMyInterface", 0);
-    ControllerTypeSpecifier* controllerTypeSpecifier =
-      new ControllerTypeSpecifier(NULL, "CMyController", 0);
+    mInterfaceTypeSpecifier = new InterfaceTypeSpecifier(NULL, "IMyInterface", 0);
+    mControllerTypeSpecifier = new ControllerTypeSpecifier(NULL, "CMyController", 0);
     InjectionArgumentList injectionArgumentList;
     mInjectionArgument = new InjectionArgument("withField", NULL);
     injectionArgumentList.push_back(mInjectionArgument);
-    mBindAction = new BindAction(interfaceTypeSpecifier,
-                                 controllerTypeSpecifier,
+    mBindAction = new BindAction(mInterfaceTypeSpecifier,
+                                 mControllerTypeSpecifier,
                                  injectionArgumentList);
   }
   
@@ -80,15 +80,15 @@ struct BindActionTest : public Test {
 };
 
 TEST_F(BindActionTest, getInterfaceTest) {
-  EXPECT_EQ(mInterface, mBindAction->getInterface(mContext));
+  EXPECT_EQ(mInterfaceTypeSpecifier, mBindAction->getInterface());
 }
 
 TEST_F(BindActionTest, getControllerTest) {
-  EXPECT_EQ(mController, mBindAction->getController(mContext));
+  EXPECT_EQ(mControllerTypeSpecifier, mBindAction->getController());
 }
 
 TEST_F(BindActionTest, getInjectionArgumentsTest) {
-  InjectionArgumentList list = mBindAction->getInjectionArguments(mContext);
+  InjectionArgumentList list = mBindAction->getInjectionArguments();
   
   EXPECT_EQ(1u, list.size());
   EXPECT_EQ(mInjectionArgument, list.front());

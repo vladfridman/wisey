@@ -31,11 +31,11 @@ namespace wisey {
     
     ~BindAction();
     
-    const Interface* getInterface(IRGenerationContext& context) const;
+    const IInterfaceTypeSpecifier* getInterface() const;
     
-    const Controller* getController(IRGenerationContext& context) const;
+    const IControllerTypeSpecifier* getController() const;
     
-    InjectionArgumentList getInjectionArguments(IRGenerationContext& context) const;
+    InjectionArgumentList getInjectionArguments() const;
     
   };
   
