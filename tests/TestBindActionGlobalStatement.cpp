@@ -51,6 +51,7 @@ struct BindActionGlobalStatementTest : public Test {
     vector<IField*> controllerFields;
     vector<IMethod*> controllerMethods;
     vector<Interface*> controllerInterfaces;
+    controllerInterfaces.push_back(mInterface);
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             controllerFullName,
                                             controllerStructType,

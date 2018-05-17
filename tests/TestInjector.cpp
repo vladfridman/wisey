@@ -87,6 +87,10 @@ struct InjectorTest : Test {
                                          mContext.getImportProfile(),
                                          0);
     mContext.addInterface(mInterface, 0);
+    
+    vector<Interface*> interfaces;
+    interfaces.push_back(mInterface);
+    mController->setInterfaces(interfaces);
     mContext.bindInterfaceToController(mInterface, mController, 0);
    
     IConcreteObjectType::declareTypeNameGlobal(mContext, mController);

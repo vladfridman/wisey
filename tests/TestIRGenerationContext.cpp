@@ -68,6 +68,7 @@ struct IRGenerationContextTest : public Test {
     vector<IField*> controllerFields;
     vector<IMethod*> controllerMethods;
     vector<Interface*> controllerInterfaces;
+    controllerInterfaces.push_back(mInterface);
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             controllerFullName,
                                             controllerStructType,
@@ -352,16 +353,20 @@ TEST_F(IRGenerationContextTest, bindInterfaceToControllerRepeatedlyDeathTest) {
 }
 
 TEST_F(IRGenerationContextTest, bindInterfaceToIncompatableControllerDeathTest) {
-  vector<Interface*> controllerInterfaces;
-  mController->setInterfaces(controllerInterfaces);
-  mContext.addController(mController, 1);
-  mContext.addInterface(mInterface, 3);
+  string controllerFullName = "systems.vos.wisey.compiler.tests.CController";
+  StructType* controllerStructType = StructType::create(mLLVMContext, controllerFullName);
+  Controller* controller = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                                     controllerFullName,
+                                                     controllerStructType,
+                                                     mContext.getImportProfile(),
+                                                     0);
+  mContext.addController(controller, 1);
   
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
-  EXPECT_ANY_THROW(mContext.bindInterfaceToController(mInterface, mController, 3));
-  EXPECT_STREQ("/tmp/source.yz(3): Error: Can not bind interface systems.vos.wisey.compiler.tests.IMyInterface to systems.vos.wisey.compiler.tests.CMyController because it does not implement the interface\n",
+  EXPECT_ANY_THROW(mContext.bindInterfaceToController(mInterface, controller, 3));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Can not bind interface systems.vos.wisey.compiler.tests.IMyInterface to systems.vos.wisey.compiler.tests.CController because it does not implement the interface\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
@@ -409,7 +414,9 @@ TEST_F(IRGenerationContextTest, printToStreamTest) {
                "\n"
                "/* Controllers */\n"
                "\n"
-               "external controller systems.vos.wisey.compiler.tests.CMyController {\n"
+               "external controller systems.vos.wisey.compiler.tests.CMyController\n"
+               "  implements\n"
+               "    systems.vos.wisey.compiler.tests.IMyInterface {\n"
                "}\n"
                "\n"
                "/* Nodes */\n"
