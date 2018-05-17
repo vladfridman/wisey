@@ -99,6 +99,20 @@ controller CString {
   }
 
   /**
+   * Appends another CString to this string
+   */
+  public CString appendCString(CString appendix) {
+    return append(appendix.getContent(), appendix.getLength());
+  }
+
+  /**
+   * Appends another MString to this string
+   */
+  public CString appendMString(MString appendix) {
+    return append(appendix.getContent(), appendix.getLength());
+  }
+
+  /**
    * Appends a character array to the string
    */
   public CString appendCharArray(char[] appendix) {

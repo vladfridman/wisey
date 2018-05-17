@@ -38,6 +38,20 @@ TEST_F(TestFileRunner, cstringAppendStringLongRunTest) {
                      "");
 }
 
+TEST_F(TestFileRunner, cstringAppendCStringRunTest) {
+  runFileCheckOutput("tests/samples/test_cstring_append_cstring.yz",
+                     "Before cstring: 123 capacity: 6\n"
+                     "After cstring: 1234567 capacity: 12\n",
+                     "");
+}
+
+TEST_F(TestFileRunner, cstringAppendMStringRunTest) {
+  runFileCheckOutput("tests/samples/test_cstring_append_mstring.yz",
+                     "Before cstring: 123 capacity: 6\n"
+                     "After cstring: 1234567 capacity: 12\n",
+                     "");
+}
+
 TEST_F(TestFileRunner, cstringAppendCharArrayLongRunTest) {
   runFileCheckOutput("tests/samples/test_cstring_append_char_array.yz",
                      "Before cstring: 123 capacity: 6\n"
