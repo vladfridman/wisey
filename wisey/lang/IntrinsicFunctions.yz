@@ -34,6 +34,11 @@
 ::llvm::function ::llvm::i32 sprintf(::llvm::i8::pointer, ::llvm::i8::pointer, ...);
 
 /**
+ * Reads from a string
+ */
+::llvm::function ::llvm::i32 sscanf(::llvm::i8::pointer, ::llvm::i8::pointer, ...);
+
+/**
  * This is used to throw an exception
  */
 ::llvm::function ::llvm::void __cxa_throw(::llvm::i8::pointer, 

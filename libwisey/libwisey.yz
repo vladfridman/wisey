@@ -337,6 +337,10 @@ external controller wisey.lang.CString {
     float input);
   static wisey.lang.CString* craeteFromDouble(
     double input);
+  boolean toBoolean();
+  char toChar();
+  int toInt();
+  long toLong();
   wisey.lang.MString* toModel();
   long getLength();
   wisey.lang.CString* copy();
@@ -564,6 +568,7 @@ external ::llvm::function ::llvm::void "llvm.memcpy.p0i8.p0i8.i64"(::llvm::i8::p
 external ::llvm::function ::llvm::void "llvm.memset.p0i8.i64"(::llvm::i8::pointer, ::llvm::i8, ::llvm::i64, ::llvm::i32, ::llvm::i1);
 external ::llvm::function ::llvm::i32 "printf"(::llvm::i8::pointer, ...);
 external ::llvm::function ::llvm::i32 "sprintf"(::llvm::i8::pointer, ::llvm::i8::pointer, ...);
+external ::llvm::function ::llvm::i32 "sscanf"(::llvm::i8::pointer, ::llvm::i8::pointer, ...);
 external ::llvm::function ::llvm::i32 "strcmp"(::llvm::i8::pointer, ::llvm::i8::pointer);
 external ::llvm::function ::llvm::i64 "strlen"(::llvm::i8::pointer);
 

@@ -1,0 +1,14 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.CString;
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    CString* cstring = CString.createFromString("true");
+    return cstring.toBoolean();
+  }
+}
+
+bind(IProgram).to(CProgram);

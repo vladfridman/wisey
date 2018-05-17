@@ -132,3 +132,30 @@ TEST_F(TestFileRunner, cstringCreateFromUnterminatedCharArrayRunTest) {
                      "cstring: a length: 1 capacity: 3\n",
                      "");
 }
+
+TEST_F(TestFileRunner, cstringToBooleanRunTest) {
+  runFile("tests/samples/test_cstring_to_boolean.yz", "1");
+}
+
+TEST_F(TestFileRunner, cstringToCharRunTest) {
+  runFile("tests/samples/test_cstring_to_char.yz", "77");
+}
+
+TEST_F(TestFileRunner, cstringToIntRunTest) {
+  runFile("tests/samples/test_cstring_to_int.yz", "15");
+}
+
+TEST_F(TestFileRunner, cstringToLongRunTest) {
+  runFile("tests/samples/test_cstring_to_long.yz", "1234567");
+}
+
+TEST_F(TestFileRunner, cstringToIntThrowRunTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_cstring_to_int_throw.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MCastException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_cstring_to_int_throw.yz:10)\n"
+                               "Details: Can not cast from string to int\n"
+                               "Main thread ended without a result\n");
+
+}

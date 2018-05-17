@@ -115,6 +115,59 @@ controller CString {
   }
 
   /**
+   * Tries to convert the CString to boolean
+   */
+  public boolean toBoolean() {
+    if (!compareToString("true") || !compareToString("1")) {
+      return true;
+    }
+    if (!compareToString("false") || !compareToString("0")) {
+      return false;
+    }
+
+    throw builder(MCastException).withFromType("string").withToType("boolean").build();
+  }
+
+  /**
+   * Tries to convert the CString to char
+   */
+  public char toChar() {
+    char value;
+    int success = ::llvm::function::sscanf(mBuffer, "%c", ::llvm::reference(value));
+    if (success) {
+      return value;
+    }
+
+    throw builder(MCastException).withFromType("string").withToType("char").build();
+  }
+
+  /**
+   * Tries to convert the CString to int
+   */
+  public int toInt() {
+    int value;
+    int success = ::llvm::function::sscanf(mBuffer, "%d", ::llvm::reference(value));
+    if (success) {
+      return value;
+    }
+
+    throw builder(MCastException).withFromType("string").withToType("int").build();
+  }
+
+  /**
+   * Tries to convert the CString to long
+   */
+  public long toLong() {
+    long value;
+    int success = ::llvm::function::sscanf(mBuffer, "%d", ::llvm::reference(value));
+    if (success) {
+      return value;
+    }
+
+    throw builder(MCastException).withFromType("string").withToType("long").build();
+  }
+
+  /**
    * Creates an MString copy of this string
    */
   public MString* toModel() {
