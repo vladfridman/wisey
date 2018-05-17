@@ -35,7 +35,7 @@
 #include "wisey/ParameterReferenceVariable.hpp"
 #include "wisey/ParameterSystemReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
-#include "wisey/PrintOutStatement.hpp"
+#include "wisey/PrintErrStatement.hpp"
 #include "wisey/StringLiteral.hpp"
 #include "wisey/ThreadExpression.hpp"
 #include "wisey/ThrowStatement.hpp"
@@ -990,7 +990,8 @@ void Interface::composeEmptyInjectFunction(IRGenerationContext& context,
                                                    interface->getTypeName() +
                                                    " is not bound to any controllers\n", 0);
   printOutArguments.push_back(stringLiteral);
-  PrintOutStatement::printExpressionList(context, printOutArguments, 0);
+  PrintErrStatement printErrStatement(stringLiteral, 0);
+  printErrStatement.generateIR(context);
 
   ConstantInt* one = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
   Function* exitFunction = context.getModule()->getFunction("exit");

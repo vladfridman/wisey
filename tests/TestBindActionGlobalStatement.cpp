@@ -139,3 +139,10 @@ TEST_F(TestFileRunner, bindExternalInterfaceToControllerWithReceivedFieldsRunDea
                     "tests/samples/test_bind_external_interface_to_controller_with_receieved_fields.yz\\(25\\): Error: "
                     "Can not bind external interface systems.vos.wisey.compiler.tests.IMyInterface to systems.vos.wisey.compiler.tests.CService because it receives arguments");
 }
+
+TEST_F(TestFileRunner, injectInterfaceOwnerNotBoundRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_inject_interface_owner_not_bound.yz",
+                               1,
+                               "",
+                               "Fatal error: Interface systems.vos.wisey.compiler.tests.IMyInterface is not bound to any controllers\n");
+}
