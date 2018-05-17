@@ -63,6 +63,40 @@ controller CString {
   }
 
   /**
+   * Get a string representation of a boolean
+   */
+  public static CString* craeteFromBoolean(boolean input) {
+    return input ? createFromString("true") : createFromString("false");
+  }
+
+  /**
+   * Get a string representation of an int
+   */
+  public static CString* craeteFromInt(int input) {
+    char[]* buffer = new char[80];
+    ::llvm::function::sprintf(buffer, "%d", input);
+    return createFromCharArray(buffer);
+  }
+
+  /**
+   * Get a string representation of a long
+   */
+  public static CString* craeteFromLong(long input) {
+    char[]* buffer = new char[80];
+    ::llvm::function::sprintf(buffer, "%d", input);
+    return createFromCharArray(buffer);
+  }
+
+  /**
+   * Get a string representation of a float
+   */
+  public static CString* craeteFromChar(char input) {
+    char[]* buffer = new char[2];
+    ::llvm::function::sprintf(buffer, "%c", input);
+    return createFromCharArray(buffer);
+  }
+
+  /**
    * Creates an MString copy of this string
    */
   public MString* toModel() {

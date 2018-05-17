@@ -45,10 +45,27 @@ TEST_F(TestFileRunner, cstringAppendCStringRunTest) {
                      "");
 }
 
-TEST_F(TestFileRunner, cstringAppendMStringRunTest) {
-  runFileCheckOutput("tests/samples/test_cstring_append_mstring.yz",
-                     "Before cstring: 123 capacity: 6\n"
-                     "After cstring: 1234567 capacity: 12\n",
+TEST_F(TestFileRunner, cstringCreateFromBooleanRunTest) {
+  runFileCheckOutput("tests/samples/test_cstring_create_from_boolean.yz",
+                     "Result: true\n",
+                     "");
+}
+
+TEST_F(TestFileRunner, cstringCreateFromCharRunTest) {
+  runFileCheckOutput("tests/samples/test_cstring_create_from_char.yz",
+                     "Result: A\n",
+                     "");
+}
+
+TEST_F(TestFileRunner, cstringCreateFromIntRunTest) {
+  runFileCheckOutput("tests/samples/test_cstring_create_from_int.yz",
+                     "Result: 12345\n",
+                     "");
+}
+
+TEST_F(TestFileRunner, cstringCreateFromLongRunTest) {
+  runFileCheckOutput("tests/samples/test_cstring_create_from_long.yz",
+                     "Result: 1234567\n",
                      "");
 }
 

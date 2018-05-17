@@ -29,6 +29,11 @@
 ::llvm::function ::llvm::i32 strcmp(::llvm::i8::pointer, ::llvm::i8::pointer);
 
 /**
+ * Prints to a character array
+ */
+::llvm::function ::llvm::i32 sprintf(::llvm::i8::pointer, ::llvm::i8::pointer, ...);
+
+/**
  * This is used to throw an exception
  */
 ::llvm::function ::llvm::void __cxa_throw(::llvm::i8::pointer, 

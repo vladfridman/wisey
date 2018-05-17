@@ -42,6 +42,11 @@ Value* LLVMFunctionCall::generateIR(IRGenerationContext& context, const IType* a
   auto argumentTypesIterator = argumentTypes.begin();
   for (const IExpression* argumentExpression : mArguments) {
     Value* expressionValue = argumentExpression->generateIR(context, PrimitiveTypes::VOID);
+    if (argumentTypesIterator == argumentTypes.end()) {
+      arguments.push_back(expressionValue);
+      continue;
+    }
+
     const IType* expressionType = argumentExpression->getType(context);
     Value* castValue = AutoCast::maybeCast(context,
                                            expressionType,
