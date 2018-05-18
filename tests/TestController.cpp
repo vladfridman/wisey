@@ -1069,8 +1069,7 @@ TEST_F(ControllerTest, notWellFormedInjectionArgumentsDeathTest) {
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
   EXPECT_ANY_THROW(mAdditorController->inject(mContext, injectionArguments, 5));
-  EXPECT_STREQ("/tmp/source.yz(5): Error: Injection argument should start with 'with'. e.g. .withField(value).\n"
-               "/tmp/source.yz(5): Error: Some injection arguments for injected object systems.vos.wisey.compiler.tests.CAdditor are not well formed\n",
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Injection argument should start with 'with'. e.g. .withField(value).\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
@@ -1118,8 +1117,7 @@ TEST_F(ControllerTest, injectTooManyArgumentsDeathTest) {
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
   EXPECT_ANY_THROW(mAdditorController->inject(mContext, injectionArguments, 3));
-  EXPECT_STREQ("/tmp/source.yz(3): Error: Injector could not find field mFoo in object systems.vos.wisey.compiler.tests.CAdditor\n"
-               "/tmp/source.yz(3): Error: Some injection arguments for injected object systems.vos.wisey.compiler.tests.CAdditor are not well formed\n",
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Injector could not find field mFoo in object systems.vos.wisey.compiler.tests.CAdditor\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }

@@ -662,8 +662,6 @@ void Controller::checkArgumentsAreWellFormed(IRGenerationContext& context,
   }
   
   if (!areArgumentsWellFormed) {
-    context.reportError(line, "Some injection arguments for injected object " + getTypeName() +
-                        " are not well formed");
     throw 1;
   }
 }
