@@ -222,6 +222,10 @@ void InjectedField::composeInjectFunctionBody(IRGenerationContext& context,
   context.setBasicBlock(ifNullBlock);
   Value* injectedValue = injectedField->inject(context);
   IRWriter::newStoreInst(context, injectedValue, fieldPointer);
+  if (injectedField->getType()->isReference()) {
+    ((const IReferenceType*) injectedField->getType())->
+    incrementReferenceCount(context, injectedValue);
+  }
   IRWriter::createReturnInst(context, injectedValue);
 
   context.getScopes().popScope(context, 0);

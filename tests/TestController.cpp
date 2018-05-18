@@ -1253,9 +1253,9 @@ TEST_F(TestFileRunner, contextScopedInjectionOnIThreadRunTest) {
                                         "Scoped services are the same\n"
                                         "Unscoped services are different\n"
                                         "destructor systems.vos.wisey.compiler.tests.CService\n"
-                                        "destructor systems.vos.wisey.compiler.tests.CScopedService\n"
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n"
-                                        "destructor systems.vos.wisey.compiler.tests.CService\n",
+                                        "destructor systems.vos.wisey.compiler.tests.CService\n"
+                                        "destructor systems.vos.wisey.compiler.tests.CScopedService\n",
                                         "");
 }
 

@@ -39,6 +39,7 @@ model MMainThreadWorker implements IWorker {
     MProgramResult* programResult = builder(MProgramResult)
       .withResult(program.run(mArguments))
       .build();
+    program = null;
     thread.getContextManager().eraseContext(IThread.getTypeName());
     thread.send(programResult);
   }
