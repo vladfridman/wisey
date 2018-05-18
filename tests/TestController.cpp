@@ -709,7 +709,7 @@ TEST_F(ControllerTest, createInjectFunctionTest) {
 
 TEST_F(ControllerTest, createContextInjectFunctionTest) {
   Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
-  mAdditorController->setContextType(threadInterface);
+  mAdditorController->setScopeType(threadInterface);
   mAdditorController->createInjectFunction(mContext, 0);
   mContext.runComposingCallbacks();
   

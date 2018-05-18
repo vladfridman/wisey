@@ -52,7 +52,7 @@ mStructType(structType),
 mIsExternal(isExternal),
 mIsInner(false),
 mControllerOwner(new ControllerOwner(this)),
-mContextType(NULL),
+mScopeType(NULL),
 mImportProfile(importProfile),
 mLine(line) {
   assert(importProfile && "Import profile can not be NULL at Controller creation");
@@ -261,7 +261,7 @@ Function* Controller::declareInjectFunction(IRGenerationContext& context, int li
 
 Function* Controller::createInjectFunction(IRGenerationContext& context, int line) const {
   Function* function = declareInjectFunction(context, line);
-  ComposingFunction1Objects callback = mContextType
+  ComposingFunction1Objects callback = mScopeType
   ? composeContextInjectFunctionBody
   : composeInjectFunctionBody;
   
@@ -339,7 +339,7 @@ void Controller::composeContextInjectFunctionBody(IRGenerationContext& context,
   methodIdentifier = new IdentifierChain(new Identifier(contextManagerVariableName, 0),
                                          Names::getGetInstanceMethodName(),
                                          0);
-  Value* contextObjectName = IObjectType::getObjectNamePointer(controller->mContextType, context);
+  Value* contextObjectName = IObjectType::getObjectNamePointer(controller->mScopeType, context);
   FakeExpression* contextName = new FakeExpression(contextObjectName, PrimitiveTypes::STRING);
   Value* objectNamePointer = IObjectType::getObjectNamePointer(controller, context);
   FakeExpression* objectName = new FakeExpression(objectNamePointer, PrimitiveTypes::STRING);
@@ -636,12 +636,12 @@ void Controller::checkInjectedFields(IRGenerationContext& context) const {
   }
 }
 
-void Controller::setContextType(const IObjectType* objectType) {
-  mContextType = objectType;
+void Controller::setScopeType(const IObjectType* objectType) {
+  mScopeType = objectType;
 }
 
-bool Controller::isContextInjected() const {
-  return mContextType != NULL;
+bool Controller::isScopeInjected() const {
+  return mScopeType != NULL;
 }
 
 void Controller::checkInjectionArguments(IRGenerationContext& context,

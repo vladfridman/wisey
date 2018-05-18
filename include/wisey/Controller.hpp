@@ -49,7 +49,7 @@ namespace wisey {
     std::map<std::string, const IObjectType*> mInnerObjects;
     std::vector<LLVMFunction*> mLLVMFunctions;
     std::map<std::string, LLVMFunction*> mLLVMFunctionMap;
-    const IObjectType* mContextType;
+    const IObjectType* mScopeType;
     ImportProfile* mImportProfile;
     int mLine;
     
@@ -119,14 +119,14 @@ namespace wisey {
     void checkInjectedFields(IRGenerationContext& context) const;
 
     /**
-     * Sets the context type that will be used for context injection of this controller
+     * Sets the context scope type that will be used for scope injection of this controller
      */
-    void setContextType(const IObjectType* objectType);
+    void setScopeType(const IObjectType* objectType);
     
     /**
-     * Tells whether this controller is context injected
+     * Tells whether this controller is scope injected
      */
-    bool isContextInjected() const;
+    bool isScopeInjected() const;
 
     bool isPublic() const override;
     

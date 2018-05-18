@@ -82,7 +82,7 @@ void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const 
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
   configureObject(context, controller, mObjectElementDeclarations, mInterfaceSpecifiers);
   if (mContextTypeSpecifier) {
-    controller->setContextType(mContextTypeSpecifier->getType(context));
+    controller->setScopeType(mContextTypeSpecifier->getType(context));
   }
   controller->createInjectFunction(context, mLine);
   controller->defineFieldInjectorFunctions(context, mLine);

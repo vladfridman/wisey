@@ -71,7 +71,7 @@ const IType* Injector::getType(IRGenerationContext& context) const {
   const IObjectType* objectType = mObjectTypeSpecifier->getType(context);
   if (objectType->isController()) {
     const Controller* controller = (const Controller*) objectType;
-    if (controller->isContextInjected()) {
+    if (controller->isScopeInjected()) {
       return controller;
     }
     return controller->getOwner();
@@ -81,7 +81,7 @@ const IType* Injector::getType(IRGenerationContext& context) const {
     return interface->getOwner();
   }
   const Controller* controller = context.getBoundController(interface, mLine);
-  if (controller->isContextInjected()) {
+  if (controller->isScopeInjected()) {
     return interface;
   }
   return interface->getOwner();
