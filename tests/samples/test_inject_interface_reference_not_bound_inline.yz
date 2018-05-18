@@ -1,0 +1,16 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+interface IMyInterface {
+  int getValue();
+}
+
+controller CProgram implements IProgram {
+  public int run(immutable string[] arguments) override {
+    IMyInterface reference = injector(IMyInterface).inject();
+    return reference.getValue();
+  }
+}
+
+bind(IProgram).to(CProgram);
