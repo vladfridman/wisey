@@ -127,6 +127,10 @@ TEST_F(TestFileRunner, injectInterfaceWithArgumentsRunTest) {
   runFile("tests/samples/test_inject_interface_with_arguments.yz", "7");
 }
 
+TEST_F(TestFileRunner, injectInterfaceWithArgumentsInlineRunTest) {
+  runFile("tests/samples/test_inject_interface_with_arguments_inline.yz", "7");
+}
+
 TEST_F(TestFileRunner, injectInterfaceReferenceBoundRunTest) {
   runFile("tests/samples/test_inject_interface_reference_bound.yz", "3");
 }
