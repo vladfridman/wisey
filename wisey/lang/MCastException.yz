@@ -7,10 +7,6 @@ model MCastException implements IException {
   string mFromType;
   string mToType;
 
-  public string getName() override {
-    return getTypeName();
-  }
-
   /**
    * Name of the type that was cast from
    */

@@ -7,8 +7,4 @@ import wisey.lang.IException;
  * presumably for a write or read operation and without the file being opened
  */
 model MFileAccessException implements IException {
-
-  public string getName() override {
-    return getTypeName();
-  }
 }

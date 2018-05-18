@@ -6,8 +6,4 @@ import wisey.lang.IException;
  * Thrown when the thread callstack is overflown
  */
 model MStackOverflowException implements IException {
-
-  public string getName() override {
-    return getTypeName();
-  }
 }

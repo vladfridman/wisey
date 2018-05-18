@@ -1,6 +1,7 @@
 package wisey.threads;
 
 import wisey.lang.IException;
+import wisey.lang.MSystem;
 
 /**
  * Keeps track of the method call stack and can print out a strack trace
@@ -70,7 +71,7 @@ controller CCallStack {
    * The last element in the stack trace is the call to this method and is not printed
    */
   public void reportException(IException exception) {
-    printerr("Unhandled exception " + exception.getName() + "\n");
+    printerr("Unhandled exception " + MSystem.getOriginalObjectTypeName(exception) + "\n");
     for (int i = mCallIStackIndex - 1; i >= 0; i--) {
       printerr("  at " + mCallStackObjectNames[i] + "." + mCallStackMethodNames[i] + "(" +
         mCallStackFileNames[i] + ":" + mCallStackLineNumbers[i] + ")\n");

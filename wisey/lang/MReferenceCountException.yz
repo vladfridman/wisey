@@ -7,10 +7,6 @@ model MReferenceCountException implements IException {
   string mObjectType;
   long mReferenceCount;
 
-  public string getName() override {
-    return getTypeName();
-  }
-
   /**
    * Returns the number of references that are still pointing to the object
    */

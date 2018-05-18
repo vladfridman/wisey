@@ -8,10 +8,6 @@ import wisey.lang.IException;
 model MContextNonExistantException implements IException {
   string mContextName;
 
-  public string getName() override {
-    return getTypeName();
-  }
-
   /**
    * Returns the name of the context that is was used
    */

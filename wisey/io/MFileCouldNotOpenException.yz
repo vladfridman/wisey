@@ -9,10 +9,6 @@ import wisey.lang.MString;
 model MFileCouldNotOpenException implements IException {
   MString mFileName;
 
-  public string getName() override {
-    return getTypeName();
-  }
-
   /**
    * Returns the file name that could not be opened
    */

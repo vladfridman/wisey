@@ -6,10 +6,6 @@ package wisey.lang;
 model MInterfaceNotBoundException implements IException {
   string mInterfaceName;
 
-  public string getName() override {
-    return getTypeName();
-  }
-
   /**
    * Returns the name of the interface that is not bound
    */

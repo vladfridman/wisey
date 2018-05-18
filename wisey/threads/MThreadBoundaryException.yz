@@ -9,10 +9,6 @@ import wisey.lang.IException;
 model MThreadBoundaryException implements IException {
   boolean mIsMethodInternal;
 
-  public string getName() override {
-    return getTypeName();
-  }
-
   /**
    * Tells whether the method being called across thread boundary is internal to the thread
    */

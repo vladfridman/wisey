@@ -4,10 +4,4 @@ package wisey.lang;
  * All exceptions must implement this interface
  */
 interface IException {
-
-  /**
-   * Returns name of this exception
-   */
-  string getName();
-
 }

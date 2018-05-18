@@ -11,10 +11,6 @@ model MFileOpenException implements IException {
   MString mCurrentFile;
   MString mNewFile;
 
-  public string getName() override {
-    return getTypeName();
-  }
-
   /**
    * Returns the file name of the currently opened file
    */
