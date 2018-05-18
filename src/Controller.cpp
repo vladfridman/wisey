@@ -260,6 +260,11 @@ Function* Controller::declareInjectFunction(IRGenerationContext& context, int li
 }
 
 Function* Controller::createInjectFunction(IRGenerationContext& context, int line) const {
+  if (isScopeInjected(context) && mReceivedFields.size()) {
+    context.reportError(mReceivedFields.front()->getLine(),
+                        "Scope injected controllers can not have received fields");
+    throw 1;
+  }
   Function* function = declareInjectFunction(context, line);
   ComposingFunction1Objects callback = mScopeType
   ? composeContextInjectFunctionBody

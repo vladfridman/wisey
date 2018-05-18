@@ -61,6 +61,7 @@ struct ControllerTest : public Test {
   Controller* mMultiplierController;
   Controller* mAdditorController;
   Controller* mDoublerController;
+  Controller* mSimpleController;
   Controller* mThreadController;
   Interface* mCalculatorInterface;
   Interface* mScienceCalculatorInterface;
@@ -278,6 +279,20 @@ struct ControllerTest : public Test {
                                       0);
     mContext.addModel(mReferenceModel, 0);
     
+    vector<Type*> simpleControllerTypes;
+    simpleControllerTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                                    ->getPointerTo()->getPointerTo());
+    string simpleControllerFullName = "systems.vos.wisey.compiler.tests.CSimpleController";
+    StructType* simpleControllerStructType = StructType::create(mLLVMContext,
+                                                                simpleControllerFullName);
+    simpleControllerStructType->setBody(simpleControllerTypes);
+    mSimpleController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                                  simpleControllerFullName,
+                                                  simpleControllerStructType,
+                                                  mContext.getImportProfile(),
+                                                  0);
+    mContext.addController(mSimpleController, 0);
+
     vector<Type*> additorTypes;
     additorTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                              ->getPointerTo()->getPointerTo());
@@ -287,8 +302,8 @@ struct ControllerTest : public Test {
     StructType* additorStructType = StructType::create(mLLVMContext, additorFullName);
     additorStructType->setBody(additorTypes);
     vector<IField*> additorFields;
-    additorFields.push_back(new ReceivedField(mOwnerNode->getOwner(), "mOwner", 0));
-    additorFields.push_back(new ReceivedField(mReferenceModel, "mReference", 0));
+    additorFields.push_back(new ReceivedField(mOwnerNode->getOwner(), "mOwner", 1));
+    additorFields.push_back(new ReceivedField(mReferenceModel, "mReference", 3));
     mAdditorController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                    additorFullName,
                                                    additorStructType,
@@ -339,7 +354,9 @@ struct ControllerTest : public Test {
     IConcreteObjectType::declareVTable(mContext, mOwnerNode);
     IConcreteObjectType::declareTypeNameGlobal(mContext, mAdditorController);
     IConcreteObjectType::declareVTable(mContext, mAdditorController);
-    
+    IConcreteObjectType::declareTypeNameGlobal(mContext, mSimpleController);
+    IConcreteObjectType::declareVTable(mContext, mSimpleController);
+
     vector<Type*> threadTypes;
     threadTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                            ->getPointerTo()->getPointerTo());
@@ -714,19 +731,31 @@ TEST_F(ControllerTest, createInjectFunctionTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(ControllerTest, createContextInjectFunctionTest) {
+TEST_F(ControllerTest, createContextInjectFunctionDeathTest) {
   Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
   mAdditorController->setScopeType(threadInterface);
-  mAdditorController->createInjectFunction(mContext, 0);
+
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mAdditorController->createInjectFunction(mContext, 0));
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Scope injected controllers can not have received fields\n",
+               buffer.str().c_str());
+  
+  std::cerr.rdbuf(oldbuffer);
+}
+
+TEST_F(ControllerTest, createContextInjectFunctionTest) {
+  Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
+  mSimpleController->setScopeType(threadInterface);
+  Function* function = mSimpleController->createInjectFunction(mContext, 0);
   mContext.runComposingCallbacks();
   
-  Function* function = mContext.getModule()->getFunction(mAdditorController->getTypeName() +
-                                                         ".inject");
   EXPECT_NE(nullptr, function);
   
   *mStringStream << *function;
   string expected =
-  "\ndefine %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, %systems.vos.wisey.compiler.tests.NOwner* %mOwner, %systems.vos.wisey.compiler.tests.MReference* %mReference) personality i32 (...)* @__gxx_personality_v0 {"
+  "\ndefine %systems.vos.wisey.compiler.tests.CSimpleController* @systems.vos.wisey.compiler.tests.CSimpleController.inject(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack) personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* %callstack, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i32 0)"
   "\n  %0 = bitcast %wisey.threads.IThread* %thread to i8*"
@@ -760,52 +789,46 @@ TEST_F(ControllerTest, createContextInjectFunctionTest) {
   "\n"
   "\ninvoke.continue3:                                 ; preds = %invoke.continue1"
   "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* %callstack, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i32 0)"
-  "\n  %8 = invoke i8* @wisey.threads.CContextManager.getInstance(%wisey.threads.CContextManager* %5, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8* getelementptr inbounds ([22 x i8], [22 x i8]* @wisey.threads.IThread.typename, i32 0, i32 0), i8* getelementptr inbounds ([42 x i8], [42 x i8]* @systems.vos.wisey.compiler.tests.CAdditor.typename, i32 0, i32 0))"
+  "\n  %8 = invoke i8* @wisey.threads.CContextManager.getInstance(%wisey.threads.CContextManager* %5, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8* getelementptr inbounds ([22 x i8], [22 x i8]* @wisey.threads.IThread.typename, i32 0, i32 0), i8* getelementptr inbounds ([51 x i8], [51 x i8]* @systems.vos.wisey.compiler.tests.CSimpleController.typename, i32 0, i32 0))"
   "\n          to label %invoke.continue4 unwind label %cleanup2"
   "\n"
   "\ninvoke.continue4:                                 ; preds = %invoke.continue3"
-  "\n  %9 = invoke i8* @__castObject(i8* %8, i8* getelementptr inbounds ([42 x i8], [42 x i8]* @systems.vos.wisey.compiler.tests.CAdditor.typename, i32 0, i32 0))"
+  "\n  %9 = invoke i8* @__castObject(i8* %8, i8* getelementptr inbounds ([51 x i8], [51 x i8]* @systems.vos.wisey.compiler.tests.CSimpleController.typename, i32 0, i32 0))"
   "\n          to label %invoke.continue5 unwind label %cleanup2"
   "\n"
   "\ninvoke.continue5:                                 ; preds = %invoke.continue4"
-  "\n  %10 = bitcast i8* %9 to %systems.vos.wisey.compiler.tests.CAdditor*"
-  "\n  %11 = icmp eq %systems.vos.wisey.compiler.tests.CAdditor* %10, null"
+  "\n  %10 = bitcast i8* %9 to %systems.vos.wisey.compiler.tests.CSimpleController*"
+  "\n  %11 = icmp eq %systems.vos.wisey.compiler.tests.CSimpleController* %10, null"
   "\n  br i1 %11, label %if.null, label %if.not.null"
   "\n"
   "\nif.null:                                          ; preds = %invoke.continue5"
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.CAdditor.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* null, i32 1) to i64))"
-  "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.CAdditor.refCounter*"
-  "\n  %12 = bitcast %systems.vos.wisey.compiler.tests.CAdditor.refCounter* %injectvar to i8*"
-  "\n  call void @llvm.memset.p0i8.i64(i8* %12, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.CAdditor.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* null, i32 1) to i64), i32 4, i1 false)"
-  "\n  %13 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* %injectvar, i32 0, i32 1"
-  "\n  %14 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* %13, i32 0, i32 1"
-  "\n  store %systems.vos.wisey.compiler.tests.NOwner* %mOwner, %systems.vos.wisey.compiler.tests.NOwner** %14"
-  "\n  %15 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* %13, i32 0, i32 2"
-  "\n  store %systems.vos.wisey.compiler.tests.MReference* %mReference, %systems.vos.wisey.compiler.tests.MReference** %15"
-  "\n  %16 = bitcast %systems.vos.wisey.compiler.tests.MReference* %mReference to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %16, i64 1)"
-  "\n  %17 = bitcast %systems.vos.wisey.compiler.tests.CAdditor* %13 to i8*"
-  "\n  %18 = getelementptr i8, i8* %17, i64 0"
-  "\n  %19 = bitcast i8* %18 to i32 (...)***"
-  "\n  %20 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CAdditor.vtable, i32 0, i32 0, i32 0"
-  "\n  %21 = bitcast i8** %20 to i32 (...)**"
-  "\n  store i32 (...)** %21, i32 (...)*** %19"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.CSimpleController.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CSimpleController.refCounter, %systems.vos.wisey.compiler.tests.CSimpleController.refCounter* null, i32 1) to i64))"
+  "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.CSimpleController.refCounter*"
+  "\n  %12 = bitcast %systems.vos.wisey.compiler.tests.CSimpleController.refCounter* %injectvar to i8*"
+  "\n  call void @llvm.memset.p0i8.i64(i8* %12, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.CSimpleController.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CSimpleController.refCounter, %systems.vos.wisey.compiler.tests.CSimpleController.refCounter* null, i32 1) to i64), i32 4, i1 false)"
+  "\n  %13 = getelementptr %systems.vos.wisey.compiler.tests.CSimpleController.refCounter, %systems.vos.wisey.compiler.tests.CSimpleController.refCounter* %injectvar, i32 0, i32 1"
+  "\n  %14 = bitcast %systems.vos.wisey.compiler.tests.CSimpleController* %13 to i8*"
+  "\n  %15 = getelementptr i8, i8* %14, i64 0"
+  "\n  %16 = bitcast i8* %15 to i32 (...)***"
+  "\n  %17 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.CSimpleController.vtable, i32 0, i32 0, i32 0"
+  "\n  %18 = bitcast i8** %17 to i32 (...)**"
+  "\n  store i32 (...)** %18, i32 (...)*** %16"
   "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* %callstack, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i32 0)"
-  "\n  %22 = bitcast %wisey.threads.CContextManager* %5 to i8*"
-  "\n  invoke void @__checkForNullAndThrow(i8* %22)"
+  "\n  %19 = bitcast %wisey.threads.CContextManager* %5 to i8*"
+  "\n  invoke void @__checkForNullAndThrow(i8* %19)"
   "\n          to label %invoke.continue6 unwind label %cleanup2"
   "\n"
   "\nif.not.null:                                      ; preds = %invoke.continue5"
-  "\n  ret %systems.vos.wisey.compiler.tests.CAdditor* %10"
+  "\n  ret %systems.vos.wisey.compiler.tests.CSimpleController* %10"
   "\n"
   "\ninvoke.continue6:                                 ; preds = %if.null"
   "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* %callstack, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i32 0)"
-  "\n  %23 = bitcast %systems.vos.wisey.compiler.tests.CAdditor* %13 to i8*"
-  "\n  invoke void @wisey.threads.CContextManager.setInstance(%wisey.threads.CContextManager* %5, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8* getelementptr inbounds ([22 x i8], [22 x i8]* @wisey.threads.IThread.typename, i32 0, i32 0), i8* getelementptr inbounds ([42 x i8], [42 x i8]* @systems.vos.wisey.compiler.tests.CAdditor.typename, i32 0, i32 0), i8* %23)"
+  "\n  %20 = bitcast %systems.vos.wisey.compiler.tests.CSimpleController* %13 to i8*"
+  "\n  invoke void @wisey.threads.CContextManager.setInstance(%wisey.threads.CContextManager* %5, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8* getelementptr inbounds ([22 x i8], [22 x i8]* @wisey.threads.IThread.typename, i32 0, i32 0), i8* getelementptr inbounds ([51 x i8], [51 x i8]* @systems.vos.wisey.compiler.tests.CSimpleController.typename, i32 0, i32 0), i8* %20)"
   "\n          to label %invoke.continue7 unwind label %cleanup2"
   "\n"
   "\ninvoke.continue7:                                 ; preds = %invoke.continue6"
-  "\n  ret %systems.vos.wisey.compiler.tests.CAdditor* %13"
+  "\n  ret %systems.vos.wisey.compiler.tests.CSimpleController* %13"
   "\n}"
   "\n";
 
@@ -1267,17 +1290,27 @@ TEST_F(TestFileRunner, contextScopedInjectionOnIThreadRunTest) {
 TEST_F(TestFileRunner, injectNonOwnerRunDeathTest) {
   expectFailCompile("tests/samples/test_inject_non_owner_run_death_test.yz",
                     1,
-                    "tests/samples/test_inject_non_owner_run_death_test.yz\\(9\\): Error: Injected fields must have owner type denoted by '\\*'");
+                    "tests/samples/test_inject_non_owner_run_death_test.yz\\(9\\): Error: "
+                    "Injected fields must have owner type denoted by '\\*'");
 }
 
 TEST_F(TestFileRunner, initControllerStateFieldInlineRunDeathTest) {
   expectFailCompile("tests/samples/test_init_controller_state_field_inline.yz",
                     1,
-                    "tests/samples/test_init_controller_state_field_inline.yz\\(16\\): Error: Use receive type for fileds that are initialized at injection time");
+                    "tests/samples/test_init_controller_state_field_inline.yz\\(16\\): Error: "
+                    "Use receive type for fileds that are initialized at injection time");
 }
 
 TEST_F(TestFileRunner, initControllerStateFieldInInjectFieldRunDeathTest) {
   expectFailCompile("tests/samples/test_init_controller_state_field_in_inject_field.yz",
                     1,
-                    "tests/samples/test_init_controller_state_field_in_inject_field.yz\\(14\\): Error: Use receive type for fileds that are initialized at injection time");
+                    "tests/samples/test_init_controller_state_field_in_inject_field.yz\\(14\\): Error: "
+                    "Use receive type for fileds that are initialized at injection time");
+}
+
+TEST_F(TestFileRunner, controllerScopeInjectedWithReceivedFieldsRunDeathTest) {
+  expectFailCompile("tests/samples/test_controller_scope_injected_with_received_fields.yz",
+                    1,
+                    "tests/samples/test_controller_scope_injected_with_received_fields.yz\\(4\\): Error: "
+                    "Scope injected controllers can not have received fields");
 }
