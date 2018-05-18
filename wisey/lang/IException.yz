@@ -4,4 +4,10 @@ package wisey.lang;
  * All exceptions must implement this interface
  */
 interface IException {
+
+  /**
+   * Report the exception to the user by printing information about it to stderr
+   */
+  void report();
+  
 }

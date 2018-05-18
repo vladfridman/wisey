@@ -7,6 +7,11 @@ model MCastException implements IException {
   string mFromType;
   string mToType;
 
+  public void report() override {
+    callstack.reportException(this);
+    printerr("Details: Can not cast from " + mFromType + " to " + mToType + "\n");
+  }
+
   /**
    * Name of the type that was cast from
    */

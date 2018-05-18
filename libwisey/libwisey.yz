@@ -10,6 +10,8 @@ external interface wisey.data.CPointerList.IListElement {
 }
 
 external interface wisey.lang.IException {
+
+  void report();
 }
 
 external interface wisey.lang.IProgram {
@@ -54,11 +56,15 @@ external interface wisey.threads.IWorker {
 external model wisey.io.MFileAccessException
   implements
     wisey.lang.IException {
+
+  void report() override;
 }
 
 external model wisey.io.MFileCloseException
   implements
     wisey.lang.IException {
+
+  void report() override;
 }
 
 external model wisey.io.MFileCouldNotCloseException
@@ -67,6 +73,7 @@ external model wisey.io.MFileCouldNotCloseException
 
   fixed wisey.lang.MString mFileName;
 
+  void report() override;
   wisey.lang.MString getFileName();
 }
 
@@ -76,6 +83,7 @@ external model wisey.io.MFileCouldNotOpenException
 
   fixed wisey.lang.MString mFileName;
 
+  void report() override;
   wisey.lang.MString getFileName();
 }
 
@@ -86,6 +94,7 @@ external model wisey.io.MFileOpenException
   fixed wisey.lang.MString mCurrentFile;
   fixed wisey.lang.MString mNewFile;
 
+  void report() override;
   wisey.lang.MString getCurrentFile();
   wisey.lang.MString getNewFile();
 }
@@ -97,6 +106,7 @@ external model wisey.lang.MArrayIndexOutOfBoundsException
   fixed long mArraySize;
   fixed long mIndex;
 
+  void report() override;
   long getArraySize();
   long getIndex();
 }
@@ -108,6 +118,7 @@ external model wisey.lang.MCastException
   fixed string mFromType;
   fixed string mToType;
 
+  void report() override;
   string getFromType();
   string getToType();
 }
@@ -118,6 +129,7 @@ external model wisey.lang.MInterfaceNotBoundException
 
   fixed string mInterfaceName;
 
+  void report() override;
   string getInterfaceName();
 }
 
@@ -135,6 +147,8 @@ external model wisey.lang.MMainThreadWorker
 external model wisey.lang.MNullPointerException
   implements
     wisey.lang.IException {
+
+  void report() override;
 }
 
 external model wisey.lang.MReferenceCountException
@@ -144,6 +158,7 @@ external model wisey.lang.MReferenceCountException
   fixed string mObjectType;
   fixed long mReferenceCount;
 
+  void report() override;
   long getReferenceCount();
   string getObjectType();
 }
@@ -183,12 +198,15 @@ external model wisey.threads.MContextNonExistantException
 
   fixed string mContextName;
 
+  void report() override;
   string getContextName();
 }
 
 external model wisey.threads.MStackOverflowException
   implements
     wisey.lang.IException {
+
+  void report() override;
 }
 
 external model wisey.threads.MThreadBoundaryException
@@ -197,6 +215,7 @@ external model wisey.threads.MThreadBoundaryException
 
   fixed boolean mIsMethodInternal;
 
+  void report() override;
   boolean isMethodInternal();
 }
 

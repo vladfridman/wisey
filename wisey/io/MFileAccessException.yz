@@ -7,4 +7,9 @@ import wisey.lang.IException;
  * presumably for a write or read operation and without the file being opened
  */
 model MFileAccessException implements IException {
+
+  public void report() override {
+    callstack.reportException(this);
+    printerr("Details: Trying to operate a file that is not opened\n"); 
+  }
 }

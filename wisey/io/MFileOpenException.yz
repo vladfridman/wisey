@@ -11,6 +11,12 @@ model MFileOpenException implements IException {
   MString mCurrentFile;
   MString mNewFile;
 
+  public void report() override {
+    callstack.reportException(this);
+    printerr("Details: Trying to open file " + mNewFile + " without closing " + 
+      mCurrentFile + "\n");
+  }
+
   /**
    * Returns the file name of the currently opened file
    */

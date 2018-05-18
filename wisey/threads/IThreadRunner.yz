@@ -29,53 +29,31 @@ interface IThreadRunner {
       thread.run();
       thread.exit();
     } catch (MNullPointerException* exception) {
-      callstack.reportException(exception);
+      exception.report();
     } catch (MReferenceCountException* exception) {
-      callstack.reportException(exception);
-      string ending = exception.getReferenceCount() > 1 ? "s" : "";
-      printerr("Details: Object referenced by expression of type " +
-        exception.getObjectType() +  " still has " + exception.getReferenceCount() + 
-        " active reference" + ending + "\n");
+      exception.report();
     } catch (MCastException* exception) {
-      callstack.reportException(exception);
-      printerr("Details: Can not cast from " + exception.getFromType() + " to " + 
-        exception.getToType() + "\n");
+      exception.report();
     } catch (MArrayIndexOutOfBoundsException* exception) {
-      callstack.reportException(exception);
-      printerr("Details: Index " + exception.getIndex() + " is used on array of size " + 
-        exception.getArraySize() + "\n");
+      exception.report();
     } catch (MStackOverflowException* exception) {
-      callstack.reportException(exception);
+      exception.report();
     } catch (MThreadBoundaryException* exception) {
-      callstack.reportException(exception);
-      if (exception.isMethodInternal()) {
-        printerr("Details: method internal to the thread is called from outside the thread\n");
-      } else {
-        printerr("Details: method external to the thread is called from inside the thread\n");
-      }
+      exception.report();
     } catch (MFileOpenException* exception) {
-      callstack.reportException(exception);
-      printerr("Details: Trying to open file " + exception.getNewFile() + " without closing " 
-        + exception.getCurrentFile() + "\n");
+      exception.report();
     } catch (MFileCloseException* exception) {
-      callstack.reportException(exception);
-      printerr("Details: Trying to close a file without opening it first\n"); 
+      exception.report();
     } catch (MFileAccessException* exception) {
-      callstack.reportException(exception);
-      printerr("Details: Trying to operate a file that is not opened\n"); 
+      exception.report();
     } catch (MFileCouldNotOpenException* exception) {
-      callstack.reportException(exception);
-      printerr("Details: Could not open file " + exception.getFileName() + "\n");
+      exception.report();
     } catch (MFileCouldNotCloseException* exception) {
-      callstack.reportException(exception);
-      printerr("Details: Could not close file " + exception.getFileName() + "\n");
+      exception.report();
     } catch (MContextNonExistantException* exception) {
-      callstack.reportException(exception);
-      printerr("Details: Context " + exception.getContextName() + " does not exist\n");
+      exception.report();
     } catch (MInterfaceNotBoundException* exception) {
-      callstack.reportException(exception);
-      printerr("Details: Interface " + exception.getInterfaceName() + 
-        " is not bound to any controllers\n");
+      exception.report();
     }
 
     return argument;

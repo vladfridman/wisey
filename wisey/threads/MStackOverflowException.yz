@@ -6,4 +6,8 @@ import wisey.lang.IException;
  * Thrown when the thread callstack is overflown
  */
 model MStackOverflowException implements IException {
+
+  public void report() override {
+    callstack.reportException(this);
+  }
 }

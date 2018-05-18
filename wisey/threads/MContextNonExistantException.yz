@@ -8,6 +8,11 @@ import wisey.lang.IException;
 model MContextNonExistantException implements IException {
   string mContextName;
 
+  public void report() override {
+    callstack.reportException(this);
+    printerr("Details: Context " + mContextName + " does not exist\n");
+  }
+
   /**
    * Returns the name of the context that is was used
    */

@@ -9,6 +9,15 @@ import wisey.lang.IException;
 model MThreadBoundaryException implements IException {
   boolean mIsMethodInternal;
 
+  public void report() override {
+    callstack.reportException(this);
+    if (mIsMethodInternal) {
+      printerr("Details: method internal to the thread is called from outside the thread\n");
+    } else {
+      printerr("Details: method external to the thread is called from inside the thread\n");
+    }
+  }
+
   /**
    * Tells whether the method being called across thread boundary is internal to the thread
    */

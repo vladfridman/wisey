@@ -9,6 +9,11 @@ import wisey.lang.MString;
 model MFileCouldNotOpenException implements IException {
   MString mFileName;
 
+  public void report() override {
+    callstack.reportException(this);
+    printerr("Details: Could not open file " + mFileName + "\n");
+  }
+
   /**
    * Returns the file name that could not be opened
    */

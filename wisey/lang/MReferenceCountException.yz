@@ -7,6 +7,14 @@ model MReferenceCountException implements IException {
   string mObjectType;
   long mReferenceCount;
 
+  public void report() override {
+    callstack.reportException(this);
+    string ending = mReferenceCount > 1 ? "s" : "";
+    printerr("Details: Object referenced by expression of type " +
+      mObjectType +  " still has " + mReferenceCount + 
+      " active reference" + ending + "\n");
+  }
+
   /**
    * Returns the number of references that are still pointing to the object
    */
