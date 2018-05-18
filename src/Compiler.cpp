@@ -21,6 +21,7 @@
 #include <llvm-c/Target.h>
 
 #include "wisey/Compiler.hpp"
+#include "wisey/EssentialFunctions.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/ProgramSuffix.hpp"
 
@@ -43,8 +44,9 @@ const unsigned int Compiler::MAX_NUMBER_OF_ERRORS = 10u;
 
 void Compiler::compile() {
   vector<ProgramFile*> programFiles;
+  EssentialFunctions essentialFunctions;
   ProgramSuffix programSuffix;
-  
+
   InitializeNativeTarget();
   LLVMInitializeNativeAsmPrinter();
   
@@ -56,6 +58,7 @@ void Compiler::compile() {
   
   prototypeObjects(programFiles, mContext);
   prototypeMethods(programFiles, mContext);
+  essentialFunctions.generateIR(mContext);
   generateIR(programFiles, mContext);
   mContext.getImportProfile()->setSourceFileName(mContext, "");
   programSuffix.generateIR(mContext);

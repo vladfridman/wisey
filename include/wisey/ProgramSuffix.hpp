@@ -27,9 +27,7 @@ namespace wisey {
     void maybeGenerateMain(IRGenerationContext& context) const;
     
     void generateMain(IRGenerationContext& context) const;
-    
-    void defineEssentialFunctions(IRGenerationContext& context) const;
-    
+
   };
   
 } /* namespace wisey */

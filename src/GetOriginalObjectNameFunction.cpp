@@ -26,8 +26,10 @@ Function* GetOriginalObjectNameFunction::get(IRGenerationContext& context) {
   }
   
   function = define(context);
-  context.addComposingCallback0Objects(compose, function);
   
+  context.addComposingCallback0Objects(compose, function);
+  context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context), 0);
+
   return function;
 }
 
@@ -91,6 +93,4 @@ void GetOriginalObjectNameFunction::compose(IRGenerationContext& context, Functi
   LoadInst* fromTypeName = IRWriter::newLoadInst(context, namePointer, "name");
 
   IRWriter::createReturnInst(context, fromTypeName);
-  
-  context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context), 0);
 }

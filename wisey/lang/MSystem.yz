@@ -3,6 +3,15 @@ package wisey.lang;
 model MSystem {
 
   /**
+   * Returns the original object's type name
+   *
+   * If the object is an interface returns the concrete object that implements that interface
+   */
+  public static string getOriginalObjectTypeName(::wisey::object object) {
+    return (string) ::llvm::function::__getOriginalObjectName(object);
+  }
+
+  /**
    * Forwards the call to memcopy function for needed architecture
    */
   public ::llvm::function ::llvm::void memcopy(::llvm::i8::pointer destination, 

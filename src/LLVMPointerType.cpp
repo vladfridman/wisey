@@ -14,6 +14,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMPointerOwnerType.hpp"
 #include "wisey/LLVMPointerType.hpp"
+#include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/LocalPointerVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/ParameterPointerVariable.hpp"
@@ -54,6 +55,9 @@ bool LLVMPointerType::canCastTo(IRGenerationContext& context, const IType* toTyp
   if (toType == PrimitiveTypes::BOOLEAN || toType == PrimitiveTypes::LONG) {
     return true;
   }
+  if (toType == PrimitiveTypes::STRING && mBaseType == LLVMPrimitiveTypes::I8) {
+    return true;
+  }
   return toType->isReference() || toType->isPointer();
 }
 
@@ -70,6 +74,9 @@ llvm::Value* LLVMPointerType::castTo(IRGenerationContext& context,
   }
   if (toType == PrimitiveTypes::LONG) {
     return IRWriter::newPtrToIntInst(context, fromValue, toType->getLLVMType(context), "");
+  }
+  if (toType == PrimitiveTypes::STRING && mBaseType == LLVMPrimitiveTypes::I8) {
+    return fromValue;
   }
   if (toType == PrimitiveTypes::BOOLEAN) {
     return IRWriter::newICmpInst(context,

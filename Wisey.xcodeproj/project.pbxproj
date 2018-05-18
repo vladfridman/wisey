@@ -399,6 +399,9 @@
 		F534644520ACC12F006369D4 /* TestExternalConstantDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534644420ACC12F006369D4 /* TestExternalConstantDeclaration.cpp */; };
 		F534644820ACCD26006369D4 /* GlobalStringConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534644720ACCD26006369D4 /* GlobalStringConstant.cpp */; };
 		F534644920ACCD26006369D4 /* GlobalStringConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534644720ACCD26006369D4 /* GlobalStringConstant.cpp */; };
+		F534644C20AF16DB006369D4 /* EssentialFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534644B20AF16DB006369D4 /* EssentialFunctions.cpp */; };
+		F534644D20AF16DB006369D4 /* EssentialFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534644B20AF16DB006369D4 /* EssentialFunctions.cpp */; };
+		F534645020AF1F35006369D4 /* TestMSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534644E20AF1F35006369D4 /* TestMSystem.cpp */; };
 		F534FFD61DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */; };
 		F5378F6D2058F11500E5B5FD /* IdentifierReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5378F6C2058F11500E5B5FD /* IdentifierReference.cpp */; };
 		F5378F6E2058F11500E5B5FD /* IdentifierReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5378F6C2058F11500E5B5FD /* IdentifierReference.cpp */; };
@@ -1492,6 +1495,9 @@
 		F534644420ACC12F006369D4 /* TestExternalConstantDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestExternalConstantDeclaration.cpp; path = tests/TestExternalConstantDeclaration.cpp; sourceTree = "<group>"; };
 		F534644620ACCCAD006369D4 /* GlobalStringConstant.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = GlobalStringConstant.hpp; path = include/wisey/GlobalStringConstant.hpp; sourceTree = "<group>"; };
 		F534644720ACCD26006369D4 /* GlobalStringConstant.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = GlobalStringConstant.cpp; path = src/GlobalStringConstant.cpp; sourceTree = "<group>"; };
+		F534644A20AF1694006369D4 /* EssentialFunctions.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = EssentialFunctions.hpp; path = include/wisey/EssentialFunctions.hpp; sourceTree = "<group>"; };
+		F534644B20AF16DB006369D4 /* EssentialFunctions.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = EssentialFunctions.cpp; path = src/EssentialFunctions.cpp; sourceTree = "<group>"; };
+		F534644E20AF1F35006369D4 /* TestMSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestMSystem.cpp; path = tests/TestMSystem.cpp; sourceTree = "<group>"; };
 		F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestAdditiveMultiplicativeExpression.cpp; path = tests/TestAdditiveMultiplicativeExpression.cpp; sourceTree = "<group>"; };
 		F5378F6B2058F0B500E5B5FD /* IdentifierReference.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IdentifierReference.hpp; path = include/wisey/IdentifierReference.hpp; sourceTree = "<group>"; };
 		F5378F6C2058F11500E5B5FD /* IdentifierReference.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IdentifierReference.cpp; path = src/IdentifierReference.cpp; sourceTree = "<group>"; };
@@ -3053,6 +3059,7 @@
 				F5C0E7EA209A03000028BBD0 /* PrintFileStatement.hpp */,
 				F5E3D6481F6C00DC00FC37CB /* PrintOutStatement.hpp */,
 				F5089C9C1ECD01D9004A1223 /* ProgramFile.hpp */,
+				F534644A20AF1694006369D4 /* EssentialFunctions.hpp */,
 				F5089C9E1ECD01D9004A1223 /* ProgramSuffix.hpp */,
 				F5089CA11ECD01D9004A1223 /* ReturnStatement.hpp */,
 				F5089CA21ECD01D9004A1223 /* ReturnVoidStatement.hpp */,
@@ -3075,6 +3082,7 @@
 				F50FA2B21E27DD9400435EEA /* DefaultCaseStatement.cpp */,
 				F50FA2B61E28BA5600435EEA /* DoStatement.cpp */,
 				F57780A41EC673EC0049542D /* EmptyStatement.cpp */,
+				F534644B20AF16DB006369D4 /* EssentialFunctions.cpp */,
 				F531B63B1E089E59008304F3 /* ExpressionStatement.cpp */,
 				F59D82101E0F311B00057FB5 /* ForStatement.cpp */,
 				F59D821C1E0F66E800057FB5 /* IfElseStatement.cpp */,
@@ -3943,6 +3951,7 @@
 				F5D1599820A498A900107E84 /* TestCString.cpp */,
 				F5D159A920A7258100107E84 /* TestCWorkerThread.cpp */,
 				F5D1599A20A498EC00107E84 /* TestMString.cpp */,
+				F534644E20AF1F35006369D4 /* TestMSystem.cpp */,
 			);
 			name = wisey;
 			sourceTree = "<group>";
@@ -4232,6 +4241,7 @@
 				F5296AC11E564B9B00FB1E1D /* CastExpression.cpp in Sources */,
 				F534010A1DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
 				F50FA2DC1E2D329900435EEA /* ModelTypeSpecifier.cpp in Sources */,
+				F534645020AF1F35006369D4 /* TestMSystem.cpp in Sources */,
 				F50FA2B41E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */,
 				F50FA2D91E2D324600435EEA /* SwitchStatement.cpp in Sources */,
 				F5105FC31FD1B18F00ACF57B /* TestAdjustReferenceCountFunction.cpp in Sources */,
@@ -4242,6 +4252,7 @@
 				F53227E52063FFB300605E1B /* TestLocalSystemReferenceVariable.cpp in Sources */,
 				F5FCAE3D1ED5F67F00C69899 /* TestCompiler.cpp in Sources */,
 				F519ED7A1FD8665400BE3FED /* TestInjectionArgument.cpp in Sources */,
+				F534644D20AF16DB006369D4 /* EssentialFunctions.cpp in Sources */,
 				F54B1477205D6BFD0030773F /* LLVMi64Type.cpp in Sources */,
 				F51797121E6605FC009B16AA /* MethodSignatureDeclaration.cpp in Sources */,
 				F50FA2BA1E28C0C900435EEA /* TestDoStatement.cpp in Sources */,
@@ -4632,6 +4643,7 @@
 				F592A7B91F7D62D10026BD2F /* IConcreteObjectDefinition.cpp in Sources */,
 				F53CDAD31F8BC4ED00D27687 /* ExternalInterfaceDefinition.cpp in Sources */,
 				F50FA3051E325E5400435EEA /* BooleanConstant.cpp in Sources */,
+				F534644C20AF16DB006369D4 /* EssentialFunctions.cpp in Sources */,
 				F54B1472205D6B8F0030773F /* LLVMi32Type.cpp in Sources */,
 				F5C6FD651E48AB3B0054209D /* CharType.cpp in Sources */,
 				F5325071202B8E29007D8597 /* ArraySpecificOwnerTypeSpecifier.cpp in Sources */,

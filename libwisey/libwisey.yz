@@ -187,6 +187,9 @@ external model wisey.lang.MString {
 }
 
 external model wisey.lang.MSystem {
+
+  static string getOriginalObjectTypeName(
+    ::wisey::object object);
 }
 
 external model wisey.threads.MContextNonExistantException

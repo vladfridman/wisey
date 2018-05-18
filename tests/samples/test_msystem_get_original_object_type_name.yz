@@ -1,0 +1,14 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+import wisey.lang.MSystem;
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    printout("Object: " + MSystem.getOriginalObjectTypeName(this) + "\n");
+    return 1;
+  }
+}
+
+bind(IProgram).to(CProgram);
