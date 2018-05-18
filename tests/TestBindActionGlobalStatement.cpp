@@ -146,6 +146,13 @@ TEST_F(TestFileRunner, injectInterfaceWithMissingArgumentsRunDeathTest) {
                     "Received field mValue is not initialized");
 }
 
+TEST_F(TestFileRunner, injectInterfaceWithMissingArgumentsInlineRunDeathTest) {
+  expectFailCompile("tests/samples/test_inject_interface_with_missing_arguments_inline.yz",
+                    1,
+                    "tests/samples/test_inject_interface_with_missing_arguments_inline.yz\\(20\\): Error: "
+                    "Received field mValue is not initialized");
+}
+
 TEST_F(TestFileRunner, bindIncompatableControllerRunDeathTest) {
   expectFailCompile("tests/samples/test_bind_incompatable_controller.yz",
                     1,

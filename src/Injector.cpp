@@ -35,28 +35,35 @@ int Injector::getLine() const {
 }
 
 Value* Injector::generateIR(IRGenerationContext& context, const IType* assignToType) const {
-  const IObjectType* type = mObjectTypeSpecifier->getType(context);
-  Value* malloc = type->isInterface()
-    ? ((const Interface*) type)->inject(context, mInjectionArgumentList, mLine)
-    : ((const Controller*) type)->inject(context, mInjectionArgumentList, mLine);
+  const IObjectType* objectType = mObjectTypeSpecifier->getType(context);
+
+  if (objectType->isInterface() && context.hasBoundController((const Interface*) objectType)) {
+    const Controller* controller = context.getBoundController((const Interface*) objectType, mLine);
+    controller->checkInjectionArguments(context, mInjectionArgumentList, mLine);
+  } else if (objectType->isController()) {
+    const Controller* controller = (const Controller*) objectType;
+    controller->checkInjectionArguments(context, mInjectionArgumentList, mLine);
+  }
+
+  Value* malloc = objectType->isInterface()
+    ? ((const Interface*) objectType)->inject(context, mInjectionArgumentList, mLine)
+    : ((const Controller*) objectType)->inject(context, mInjectionArgumentList, mLine);
   
-  if (assignToType->isOwner()) {
+  const IType* injectedType = getType(context);
+  if (assignToType->isOwner() || !injectedType->isOwner()) {
     return malloc;
   }
   
   Value* pointer = IRWriter::newAllocaInst(context, malloc->getType(), "pointer");
   IRWriter::newStoreInst(context, malloc, pointer);
   
-  const IType* injectedType = getType(context);
   string variableName = IVariable::getTemporaryVariableName(this);
-  if (injectedType->isOwner()) {
-    IVariable* heapVariable = new LocalOwnerVariable(variableName,
-                                                     (const IObjectOwnerType*) injectedType,
-                                                     pointer,
-                                                     mLine);
-    context.getScopes().setVariable(context, heapVariable);
-  }
-  
+  IVariable* heapVariable = new LocalOwnerVariable(variableName,
+                                                   (const IObjectOwnerType*) injectedType,
+                                                   pointer,
+                                                   mLine);
+  context.getScopes().setVariable(context, heapVariable);
+
   return malloc;
 }
 
