@@ -131,6 +131,10 @@ TEST_F(TestFileRunner, injectInterfaceReferenceBoundRunTest) {
   runFile("tests/samples/test_inject_interface_reference_bound.yz", "3");
 }
 
+TEST_F(TestFileRunner, injectInterfaceReferenceBoundInlineRunTest) {
+  runFile("tests/samples/test_inject_interface_reference_bound_inline.yz", "5");
+}
+
 TEST_F(TestFileRunner, bindIncompatableControllerRunDeathTest) {
   expectFailCompile("tests/samples/test_bind_incompatable_controller.yz",
                     1,

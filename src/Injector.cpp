@@ -62,13 +62,22 @@ Value* Injector::generateIR(IRGenerationContext& context, const IType* assignToT
 
 const IType* Injector::getType(IRGenerationContext& context) const {
   const IObjectType* objectType = mObjectTypeSpecifier->getType(context);
-  if (objectType->isInterface()) {
-    return objectType->getOwner();
+  if (objectType->isController()) {
+    const Controller* controller = (const Controller*) objectType;
+    if (controller->isContextInjected()) {
+      return controller;
+    }
+    return controller->getOwner();
   }
-  if (((const Controller*) objectType)->isContextInjected()) {
-    return objectType;
+  const Interface* interface = (const Interface*) objectType;
+  if (!context.hasBoundController(interface)) {
+    return interface->getOwner();
   }
-  return objectType->getOwner();
+  const Controller* controller = context.getBoundController(interface, mLine);
+  if (controller->isContextInjected()) {
+    return interface;
+  }
+  return interface->getOwner();
 }
 
 bool Injector::isConstant() const {
