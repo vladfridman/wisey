@@ -102,6 +102,8 @@ namespace wisey {
     void declareRTTI(IRGenerationContext& context) const;
 
     void setScopeType(const IObjectType* objectType) override;
+    
+    bool isScopeInjected(IRGenerationContext& context) const override;
 
     llvm::Function* declareBuildFunction(IRGenerationContext& context) const override;
     

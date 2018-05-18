@@ -360,6 +360,57 @@ TEST_F(InterfaceTest, isObjectTest) {
   EXPECT_FALSE(mObjectInterface->isNode());
 }
 
+TEST_F(InterfaceTest, isScopeInjectedTest) {
+  string interfaceFullName = "systems.vos.wisey.compiler.tests.ITest";
+  StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
+  vector<Type*> interfaceTypes;
+  interfaceTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                           ->getPointerTo()->getPointerTo());
+  interfaceStructType->setBody(interfaceTypes);
+  vector<IInterfaceTypeSpecifier*> interfaceParentInterfaces;
+  vector<IObjectElementDefinition*> interafaceElements;
+  Interface* interface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                 interfaceFullName,
+                                                 interfaceStructType,
+                                                 interfaceParentInterfaces,
+                                                 interafaceElements,
+                                                 mContext.getImportProfile(),
+                                                 0);
+  mContext.addInterface(interface, 0);
+  llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
+                                                                interface->getTypeName());
+  new GlobalVariable(*mContext.getModule(),
+                     stringConstant->getType(),
+                     true,
+                     GlobalValue::LinkageTypes::LinkOnceODRLinkage,
+                     stringConstant,
+                     interface->getObjectNameGlobalVariableName());
+  
+  string controllerFullName = "systems.vos.wisey.compiler.tests.CController";
+  StructType* controllerStructType = StructType::create(mLLVMContext, controllerFullName);
+  vector<Type*> controllerTypes;
+  controllerTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                            ->getPointerTo()->getPointerTo());
+  controllerStructType->setBody(controllerTypes);
+  Controller* controller = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                                     controllerFullName,
+                                                     controllerStructType,
+                                                     mContext.getImportProfile(),
+                                                     0);
+  vector<Interface*> controllerParentInterfaces;
+  controllerParentInterfaces.push_back(interface);
+  controller->setInterfaces(controllerParentInterfaces);
+  mContext.addController(controller, 0);
+  EXPECT_FALSE(interface->isScopeInjected(mContext));
+
+  mContext.bindInterfaceToController(interface->getTypeName(), controller->getTypeName(), 0);
+  EXPECT_FALSE(interface->isScopeInjected(mContext));
+
+  Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
+  controller->setScopeType(threadInterface);
+  EXPECT_TRUE(interface->isScopeInjected(mContext));
+}
+
 TEST_F(InterfaceTest, printToStreamTest) {
   stringstream stringStream;
   Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS,

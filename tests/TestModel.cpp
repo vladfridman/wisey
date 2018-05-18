@@ -561,6 +561,10 @@ TEST_F(ModelTest, isObjectTest) {
   EXPECT_FALSE(mModel->isNode());
 }
 
+TEST_F(ModelTest, isScopeInjectedTest) {
+  EXPECT_FALSE(mModel->isScopeInjected(mContext));
+}
+
 TEST_F(ModelTest, incrementReferenceCountTest) {
   ConstantPointerNull* pointer = ConstantPointerNull::get(mModel->getLLVMType(mContext));
   mModel->incrementReferenceCount(mContext, pointer);

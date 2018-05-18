@@ -640,7 +640,7 @@ void Controller::setScopeType(const IObjectType* objectType) {
   mScopeType = objectType;
 }
 
-bool Controller::isScopeInjected() const {
+bool Controller::isScopeInjected(IRGenerationContext& context) const {
   return mScopeType != NULL;
 }
 

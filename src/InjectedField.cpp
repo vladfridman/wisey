@@ -107,11 +107,11 @@ void InjectedField::checkInterfaceType(IRGenerationContext& context,
 
 void InjectedField::checkControllerType(IRGenerationContext& context,
                                         const Controller* controller) const {
-  if (mInjectedType->isOwner() && controller->isScopeInjected()) {
+  if (mInjectedType->isOwner() && controller->isScopeInjected(context)) {
     context.reportError(mLine, "Controller " + controller->getTypeName() + " is scoped"
                         " and should have reference field type");
     throw 1;
-  } else if (mInjectedType->isReference() && !controller->isScopeInjected()) {
+  } else if (mInjectedType->isReference() && !controller->isScopeInjected(context)) {
     context.reportError(mLine, "Injected fields must have owner type denoted by '*'"
                         " if the injected type is not scoped");
     throw 1;

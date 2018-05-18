@@ -553,3 +553,7 @@ llvm::Constant* Node::getObjectTypeNameGlobal(IRGenerationContext& context) cons
 void Node::setScopeType(const IObjectType* objectType) {
   assert(false && "Nodes should not have injection scopes");
 }
+
+bool Node::isScopeInjected(IRGenerationContext& context) const {
+  return false;
+}

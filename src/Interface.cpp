@@ -1271,3 +1271,11 @@ bool Interface::compareArguments(IRGenerationContext& context,
   
   return true;
 }
+
+bool Interface::isScopeInjected(IRGenerationContext& context) const {
+  if (!context.hasBoundController(this)) {
+    return false;
+  }
+  const Controller* controller = context.getBoundController(this, mLine);
+  return controller->isScopeInjected(context);
+}

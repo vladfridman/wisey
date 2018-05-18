@@ -120,6 +120,11 @@ namespace wisey {
      * Returns the line number where this object is defined
      */
     virtual int getLine() const = 0;
+    
+    /**
+     * Tells whether this object can be injected and is using scope injection
+     */
+    virtual bool isScopeInjected(IRGenerationContext& context) const = 0;
 
     /**
      * Returns an i8* constant pointer to the name of the collable object

@@ -557,6 +557,10 @@ TEST_F(NodeTest, isObjectTest) {
   EXPECT_TRUE(mSimpleNode->isNode());
 }
 
+TEST_F(NodeTest, isScopeInjectedTest) {
+  EXPECT_FALSE(mSimpleNode->isScopeInjected(mContext));
+}
+
 TEST_F(NodeTest, incrementReferenceCountTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mComplicatedNode->getLLVMType(mContext));

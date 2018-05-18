@@ -587,6 +587,13 @@ TEST_F(ControllerTest, isObjectTest) {
   EXPECT_FALSE(mMultiplierController->isNode());
 }
 
+TEST_F(ControllerTest, isScopeInjectedTest) {
+  EXPECT_FALSE(mAdditorController->isScopeInjected(mContext));
+  Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
+  mAdditorController->setScopeType(threadInterface);
+  EXPECT_TRUE(mAdditorController->isScopeInjected(mContext));
+}
+
 TEST_F(ControllerTest, incrementReferenceCountTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mMultiplierController->getLLVMType(mContext));

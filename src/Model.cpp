@@ -566,3 +566,7 @@ llvm::Constant* Model::getObjectTypeNameGlobal(IRGenerationContext& context) con
 void Model::setScopeType(const IObjectType* objectType) {
   assert(false && "Models should not have injection scopes");
 }
+
+bool Model::isScopeInjected(IRGenerationContext& context) const {
+  return false;
+}

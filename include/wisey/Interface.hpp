@@ -217,6 +217,8 @@ namespace wisey {
                                                      int line) const;
     
     bool isPublic() const override;
+    
+    bool isScopeInjected(IRGenerationContext& context) const override;
 
     const IMethodDescriptor* findMethod(std::string methodName) const override;
     
