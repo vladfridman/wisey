@@ -117,16 +117,13 @@ namespace wisey {
      * Checks that injected fields are well formed and have correct arguments
      */
     void checkInjectedFields(IRGenerationContext& context) const;
-
-    /**
-     * Sets the context scope type that will be used for scope injection of this controller
-     */
-    void setScopeType(const IObjectType* objectType);
     
     /**
      * Tells whether this controller is scope injected
      */
     bool isScopeInjected() const;
+
+    void setScopeType(const IObjectType* objectType) override;
 
     bool isPublic() const override;
     

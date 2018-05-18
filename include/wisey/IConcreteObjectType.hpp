@@ -159,6 +159,11 @@ namespace wisey {
     virtual void setInterfaces(std::vector<Interface*> interfaces) = 0;
     
     /**
+     * Set scope for scoped injection of this object
+     */
+    virtual void setScopeType(const IObjectType* objectType) = 0;
+    
+    /**
      * Set methods for this object
      */
     virtual void setMethods(std::vector<IMethod*> methods) = 0;

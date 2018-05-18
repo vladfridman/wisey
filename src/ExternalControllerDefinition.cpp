@@ -73,7 +73,7 @@ void ExternalControllerDefinition::prototypeMethods(IRGenerationContext& context
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(controller);
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
-  configureObject(context, controller, mObjectElementDeclarations, mInterfaceSpecifiers);
+  configureObject(context, controller, mObjectElementDeclarations, mInterfaceSpecifiers, NULL);
   controller->declareInjectFunction(context, mLine);
   context.setObjectType(lastObjectType);
 }

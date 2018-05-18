@@ -45,7 +45,8 @@ namespace wisey {
     static void configureObject(IRGenerationContext& context,
                                 IConcreteObjectType* object,
                                 std::vector<IObjectElementDefinition*> elementDeclarations,
-                                std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers);
+                                std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
+                                const IObjectTypeSpecifier* scopeObjectSpecifier);
     
   private:
     

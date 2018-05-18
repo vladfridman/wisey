@@ -23,14 +23,14 @@ ControllerDefinition::ControllerDefinition(AccessLevel accessLevel,
                                              objectElementDeclarations,
                                            vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
                                            vector<IObjectDefinition*> innerObjectDefinitions,
-                                           const IObjectTypeSpecifier* contextTypeSpecifier,
+                                           const IObjectTypeSpecifier* scopeTypeSpecifier,
                                            int line) :
 mAccessLevel(accessLevel),
 mControllerTypeSpecifierFull(controllerTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers),
 mInnerObjectDefinitions(innerObjectDefinitions),
-mContextTypeSpecifier(contextTypeSpecifier),
+mScopeTypeSpecifier(scopeTypeSpecifier),
 mLine(line) { }
 
 ControllerDefinition::~ControllerDefinition() {
@@ -47,7 +47,7 @@ ControllerDefinition::~ControllerDefinition() {
     delete innerObjectDefinition;
   }
   mInnerObjectDefinitions.clear();
-  delete mContextTypeSpecifier;
+  delete mScopeTypeSpecifier;
 }
 
 Controller* ControllerDefinition::prototypeObject(IRGenerationContext& context,
@@ -80,10 +80,11 @@ void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const 
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(controller);
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
-  configureObject(context, controller, mObjectElementDeclarations, mInterfaceSpecifiers);
-  if (mContextTypeSpecifier) {
-    controller->setScopeType(mContextTypeSpecifier->getType(context));
-  }
+  configureObject(context,
+                  controller,
+                  mObjectElementDeclarations,
+                  mInterfaceSpecifiers,
+                  mScopeTypeSpecifier);
   controller->createInjectFunction(context, mLine);
   controller->defineFieldInjectorFunctions(context, mLine);
   context.setObjectType(lastObjectType);

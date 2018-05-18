@@ -549,3 +549,7 @@ int Node::getLine() const {
 llvm::Constant* Node::getObjectTypeNameGlobal(IRGenerationContext& context) const {
   return ObjectKindGlobal::getNode(context);
 }
+
+void Node::setScopeType(const IObjectType* objectType) {
+  assert(false && "Nodes should not have injection scopes");
+}

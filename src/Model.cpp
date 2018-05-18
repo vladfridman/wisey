@@ -562,3 +562,7 @@ int Model::getLine() const {
 llvm::Constant* Model::getObjectTypeNameGlobal(IRGenerationContext& context) const {
   return ObjectKindGlobal::getModel(context);
 }
+
+void Model::setScopeType(const IObjectType* objectType) {
+  assert(false && "Models should not have injection scopes");
+}

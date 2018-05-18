@@ -21,7 +21,8 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
                                                 vector<IObjectElementDefinition*>
                                                   elementDeclarations,
                                                 vector<IInterfaceTypeSpecifier*>
-                                                  interfaceSpecifiers) {
+                                                interfaceSpecifiers,
+                                                const IObjectTypeSpecifier* scopeObjectSpecifier) {
   llvm::LLVMContext& llvmContext = context.getLLVMContext();
   vector<Interface*> interfaces = processInterfaces(context, object, interfaceSpecifiers);
   tuple<vector<Constant*>, vector<IField*>, vector<IMethod*>, vector<LLVMFunction*>> elements =
@@ -32,6 +33,9 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
   object->setMethods(get<2>(elements));
   object->setConstants(get<0>(elements));
   object->setLLVMFunctions(get<3>(elements));
+  if (scopeObjectSpecifier) {
+    object->setScopeType(scopeObjectSpecifier->getType(context));
+  }
 
   vector<llvm::Type*> types;
 
