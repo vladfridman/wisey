@@ -174,6 +174,13 @@ TEST_F(TestFileRunner, bindExternalInterfaceToControllerWithReceivedFieldsRunDea
                     "Can not bind external interface systems.vos.wisey.compiler.tests.IMyInterface to systems.vos.wisey.compiler.tests.CService because it receives arguments");
 }
 
+TEST_F(TestFileRunner, bindExternalInterfaceToScopeInjectedControllerRunDeathTest) {
+  expectFailCompile("tests/samples/test_bind_external_interface_to_scope_injected_controller.yz",
+                    1,
+                    "tests/samples/test_bind_external_interface_to_scope_injected_controller.yz\\(23\\): Error: "
+                    "Can not bind external interface systems.vos.wisey.compiler.tests.IMyInterface to systems.vos.wisey.compiler.tests.CService because it is scope injected");
+}
+
 TEST_F(TestFileRunner, injectInterfaceOwnerNotBoundRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_inject_interface_owner_not_bound.yz",
                                1,

@@ -44,4 +44,9 @@ void BindActionGlobalStatement::generateIR(IRGenerationContext& context) const {
                         " to " + controller->getTypeName() + " because it receives arguments");
     throw 1;
   }
+  if (interface->isExternal() && controller->isContextInjected()) {
+    context.reportError(mLine, "Can not bind external interface " + interface->getTypeName() +
+                        " to " + controller->getTypeName() + " because it is scope injected");
+    throw 1;
+  }
 }
