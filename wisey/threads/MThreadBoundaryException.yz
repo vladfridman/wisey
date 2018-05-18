@@ -13,6 +13,9 @@ model MThreadBoundaryException implements IException {
     return getTypeName();
   }
 
+  /**
+   * Tells whether the method being called across thread boundary is internal to the thread
+   */
   public boolean isMethodInternal() {
     return mIsMethodInternal;
   }

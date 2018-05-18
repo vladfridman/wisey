@@ -12,6 +12,9 @@ model MContextNonExistantException implements IException {
     return getTypeName();
   }
 
+  /**
+   * Returns the name of the context that is was used
+   */
   public string getContextName() {
     return mContextName;
   }

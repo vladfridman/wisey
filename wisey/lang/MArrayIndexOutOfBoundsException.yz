@@ -1,5 +1,8 @@
 package wisey.lang;
 
+/**
+ * This is thrown when index in an array is used that is out of array range
+ */
 model MArrayIndexOutOfBoundsException implements IException {
   long mArraySize;
   long mIndex;
@@ -8,10 +11,16 @@ model MArrayIndexOutOfBoundsException implements IException {
     return getTypeName();
   }
 
+  /**
+   * Returns array size
+   */
   public long getArraySize() {
     return mArraySize;
   }
 
+  /**
+   * Returns index used on the array
+   */
   public long getIndex() {
     return mIndex;
   }

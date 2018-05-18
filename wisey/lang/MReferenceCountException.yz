@@ -1,5 +1,8 @@
 package wisey.lang;
 
+/**
+ * Thrown when attempting to destroy an object that still have active references pointing to it
+ */
 model MReferenceCountException implements IException {
   string mObjectType;
   long mReferenceCount;
@@ -8,10 +11,16 @@ model MReferenceCountException implements IException {
     return getTypeName();
   }
 
+  /**
+   * Returns the number of references that are still pointing to the object
+   */
   public long getReferenceCount() {
     return mReferenceCount;
   }
 
+  /**
+   * Returns the object type name
+   */
   public string getObjectType() {
     return mObjectType;
   }

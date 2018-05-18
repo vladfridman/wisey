@@ -15,10 +15,16 @@ model MFileOpenException implements IException {
     return getTypeName();
   }
 
+  /**
+   * Returns the file name of the currently opened file
+   */
   public MString getCurrentFile() {
     return mCurrentFile;
   }
 
+  /**
+   * Returns the file name of the file that was attempted to be open
+   */
   public MString getNewFile() {
     return mNewFile;
   }

@@ -1,5 +1,8 @@
 package wisey.lang;
 
+/**
+ * This is thrown when attempting to call a method on a null object
+ */
 model MNullPointerException implements IException {
 
   public string getName() override {

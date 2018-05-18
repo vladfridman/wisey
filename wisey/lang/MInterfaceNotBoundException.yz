@@ -10,6 +10,9 @@ model MInterfaceNotBoundException implements IException {
     return getTypeName();
   }
 
+  /**
+   * Returns the name of the interface that is not bound
+   */
   public string getInterfaceName() {
     return mInterfaceName;
   }
