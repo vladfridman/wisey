@@ -105,7 +105,7 @@ TEST_F(CharTypeTest, castToTest) {
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
   EXPECT_ANY_THROW(mCharType.castTo(mContext, expressionValue, PrimitiveTypes::VOID, 5));
-  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'char' to 'void'\n",
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type char to void\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 

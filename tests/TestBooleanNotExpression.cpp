@@ -111,7 +111,7 @@ TEST_F(BooleanNotExpressionTest, negateIncompatibleTypeDeathTest) {
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
   EXPECT_ANY_THROW(booleanNotExpression.generateIR(mContext, PrimitiveTypes::VOID));
-  EXPECT_STREQ("/tmp/source.yz(3): Error: Incompatible types: can not cast from type 'void' to 'boolean'\n",
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Incompatible types: can not cast from type void to boolean\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }

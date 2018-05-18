@@ -105,7 +105,7 @@ TEST_F(LongTypeTest, castToTest) {
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
   EXPECT_ANY_THROW(mLongType.castTo(mContext, expressionValue, PrimitiveTypes::VOID, 5));
-  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'long' to 'void'\n",
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type long to void\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 

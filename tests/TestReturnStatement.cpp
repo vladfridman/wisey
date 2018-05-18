@@ -114,7 +114,7 @@ TEST_F(ReturnStatementTest, parentFunctionIsIncopatableTypeDeathTest) {
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
   EXPECT_ANY_THROW(returnStatement.generateIR(mContext));
-  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'int' to 'string'\n",
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type int to string\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }

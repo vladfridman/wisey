@@ -67,7 +67,7 @@ TEST_F(AutoCastTest, castBooleanTest) {
                                        expressionValue,
                                        PrimitiveTypes::VOID,
                                        11));
-  EXPECT_STREQ("/tmp/source.yz(11): Error: Incompatible types: can not cast from type 'boolean' to 'void'\n",
+  EXPECT_STREQ("/tmp/source.yz(11): Error: Incompatible types: can not cast from type boolean to void\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 
@@ -136,7 +136,7 @@ TEST_F(AutoCastTest, castCharTest) {
                                        expressionValue,
                                        PrimitiveTypes::VOID,
                                        11));
-  EXPECT_STREQ("/tmp/source.yz(11): Error: Incompatible types: can not cast from type 'char' to 'void'\n",
+  EXPECT_STREQ("/tmp/source.yz(11): Error: Incompatible types: can not cast from type char to void\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 
@@ -233,9 +233,9 @@ TEST_F(AutoCastTest, castIntTest) {
                                        expressionValue,
                                        PrimitiveTypes::FLOAT,
                                        11));
-  EXPECT_STREQ("/tmp/source.yz(11): Error: Incompatible types: can not cast from type 'int' to 'void'\n"
-               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type 'int' to 'char'\n"
-               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type 'int' to 'float'\n",
+  EXPECT_STREQ("/tmp/source.yz(11): Error: Incompatible types: can not cast from type int to void\n"
+               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type int to char\n"
+               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type int to float\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 
@@ -298,11 +298,11 @@ TEST_F(AutoCastTest, castLongTest) {
                                        expressionValue,
                                        PrimitiveTypes::DOUBLE,
                                        11));
-  EXPECT_STREQ("/tmp/source.yz(11): Error: Incompatible types: can not cast from type 'long' to 'void'\n"
-               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type 'long' to 'char'\n"
-               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type 'long' to 'int'\n"
-               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type 'long' to 'float'\n"
-               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type 'long' to 'double'\n",
+  EXPECT_STREQ("/tmp/source.yz(11): Error: Incompatible types: can not cast from type long to void\n"
+               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type long to char\n"
+               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type long to int\n"
+               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type long to float\n"
+               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type long to double\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 
@@ -343,10 +343,10 @@ TEST_F(AutoCastTest, castFloatTest) {
                                        expressionValue,
                                        PrimitiveTypes::LONG,
                                        11));
-  EXPECT_STREQ("/tmp/source.yz(11): Error: Incompatible types: can not cast from type 'float' to 'void'\n"
-               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type 'float' to 'char'\n"
-               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type 'float' to 'int'\n"
-               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type 'float' to 'long'\n",
+  EXPECT_STREQ("/tmp/source.yz(11): Error: Incompatible types: can not cast from type float to void\n"
+               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type float to char\n"
+               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type float to int\n"
+               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type float to long\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 
@@ -408,11 +408,11 @@ TEST_F(AutoCastTest, castDoubleTest) {
                                        expressionValue,
                                        PrimitiveTypes::FLOAT,
                                        11));
-  EXPECT_STREQ("/tmp/source.yz(11): Error: Incompatible types: can not cast from type 'double' to 'void'\n"
-               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type 'double' to 'char'\n"
-               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type 'double' to 'int'\n"
-               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type 'double' to 'long'\n"
-               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type 'double' to 'float'\n",
+  EXPECT_STREQ("/tmp/source.yz(11): Error: Incompatible types: can not cast from type double to void\n"
+               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type double to char\n"
+               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type double to int\n"
+               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type double to long\n"
+               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type double to float\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 

@@ -98,12 +98,12 @@ TEST_F(VoidTypeTest, castToTest) {
   EXPECT_ANY_THROW(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::LONG, 5));
   EXPECT_ANY_THROW(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT, 5));
   EXPECT_ANY_THROW(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE, 5));
-  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'void' to 'boolean'\n"
-               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'void' to 'char'\n"
-               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'void' to 'int'\n"
-               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'void' to 'long'\n"
-               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'void' to 'float'\n"
-               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'void' to 'double'\n",
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type void to boolean\n"
+               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type void to char\n"
+               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type void to int\n"
+               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type void to long\n"
+               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type void to float\n"
+               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type void to double\n",
                buffer.str().c_str());  
   std::cerr.rdbuf(oldbuffer);
 }

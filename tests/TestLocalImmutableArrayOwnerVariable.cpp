@@ -145,7 +145,7 @@ TEST_F(LocalImmutableArrayOwnerVariableTest, generateWholeArrayAssignmentDeathTe
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
   EXPECT_ANY_THROW(variable.generateAssignmentIR(mContext, &mockExpression, arrayIndices, 11));
-  EXPECT_STREQ("/tmp/source.yz(11): Error: Incompatible types: can not cast from type 'int[]' to 'immutable int[]*'\n",
+  EXPECT_STREQ("/tmp/source.yz(11): Error: Incompatible types: can not cast from type int[] to immutable int[]*\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
@@ -203,5 +203,5 @@ TEST_F(TestFileRunner, localImmutableArrayOwnerCastFromArrayReferenceRunDeathTes
   expectFailCompile("tests/samples/test_local_immutable_array_owner_cast_from_array_reference.yz",
                     1,
                     "tests/samples/test_local_immutable_array_owner_cast_from_array_reference.yz\\(10\\): "
-                    "Error: Incompatible types: can not cast from type 'int\\[\\]\\[\\]' to 'immutable int\\[\\]\\[\\]\\*'");
+                    "Error: Incompatible types: can not cast from type int\\[\\]\\[\\] to immutable int\\[\\]\\[\\]\\*");
 }

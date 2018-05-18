@@ -141,7 +141,7 @@ TEST_F(LocalArrayOwnerVariableTest, generateAssignmentDeathTest) {
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
   EXPECT_ANY_THROW(variable.generateAssignmentIR(mContext, &mockExpression, arrayIndices, 11));
-  EXPECT_STREQ("/tmp/source.yz(11): Error: Incompatible types: can not cast from type 'int[]' to 'int[]*'\n",
+  EXPECT_STREQ("/tmp/source.yz(11): Error: Incompatible types: can not cast from type int[] to int[]*\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }

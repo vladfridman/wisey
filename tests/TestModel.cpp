@@ -633,7 +633,7 @@ TEST_F(ModelTest, castToDeathTest) {
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
   EXPECT_ANY_THROW(mModel->castTo(mContext, expressionValue, PrimitiveTypes::INT, 5));
-  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'systems.vos.wisey.compiler.tests.MSquare' to 'int'\n",
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type systems.vos.wisey.compiler.tests.MSquare to int\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }

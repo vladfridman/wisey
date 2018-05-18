@@ -162,7 +162,7 @@ TEST_F(FieldArrayOwnerVariableTest, generateWholeArrayAssignmentDeathTest) {
                                                                   &mockExpression,
                                                                   arrayIndices,
                                                                   5));
-  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'int[]' to 'int[]*'\n",
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type int[] to int[]*\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }

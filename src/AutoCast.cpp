@@ -28,8 +28,8 @@ Value* AutoCast::maybeCast(IRGenerationContext& context,
   if (!fromType->canAutoCastTo(context, toType)) {
     fromType->canAutoCastTo(context, toType);
     context.reportError(line,
-                        "Incompatible types: need explicit cast from type '" +
-                        fromType->getTypeName() + "' to '" + toType->getTypeName() + "'");
+                        "Incompatible types: need explicit cast from type " +
+                        fromType->getTypeName() + " to " + toType->getTypeName());
     throw 1;
   }
   

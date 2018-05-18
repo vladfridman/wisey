@@ -67,7 +67,7 @@ void Cast::exitIncompatibleTypes(IRGenerationContext& context,
                                  const IType* toType,
                                  int line) {
   context.reportError(line,
-                      "Incompatible types: can not cast from type '" + fromType->getTypeName() +
-                      "' to '" + toType->getTypeName() + "'");
+                      "Incompatible types: can not cast from type " + fromType->getTypeName() +
+                      " to " + toType->getTypeName());
   throw 1;
 }

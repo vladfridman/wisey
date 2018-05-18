@@ -143,7 +143,7 @@ TEST_F(TestFileRunner, injectInterfaceOwnerBoundToScopedControllerRunDeathTest) 
   expectFailCompile("tests/samples/test_inject_interface_owner_bound_to_scoped_controller.yz",
                     1,
                     "tests/samples/test_inject_interface_owner_bound_to_scoped_controller.yz\\(18\\): Error: "
-                    "Incompatible types: can not cast from type 'systems.vos.wisey.compiler.tests.IMyInterface' to 'systems.vos.wisey.compiler.tests.IMyInterface\\*'");
+                    "Incompatible types: can not cast from type systems.vos.wisey.compiler.tests.IMyInterface to systems.vos.wisey.compiler.tests.IMyInterface\\*");
 }
 
 TEST_F(TestFileRunner, injectInterfaceWithMissingArgumentsRunDeathTest) {

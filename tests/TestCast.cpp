@@ -64,7 +64,7 @@ TEST_F(CastTest, exitIncompatobleTypesTest) {
                                                PrimitiveTypes::CHAR,
                                                PrimitiveTypes::INT,
                                                11));
-  EXPECT_STREQ("/tmp/source.yz(11): Error: Incompatible types: can not cast from type 'char' to 'int'\n",
+  EXPECT_STREQ("/tmp/source.yz(11): Error: Incompatible types: can not cast from type char to int\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }

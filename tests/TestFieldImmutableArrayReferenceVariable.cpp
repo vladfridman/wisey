@@ -169,7 +169,7 @@ TEST_F(FieldImmutableArrayReferenceVariableTest, generateWholeArrayAssignmentDea
                                                                                &mockExpression,
                                                                                arrayIndices,
                                                                                5));
-  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'int[][]' to 'immutable int[]'\n",
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type int[][] to immutable int[]\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
@@ -216,12 +216,12 @@ TEST_F(TestFileRunner, fieldImmutableArrayReferenceCastFromArrayReferenceRunDeat
   expectFailCompile("tests/samples/test_field_immutable_array_reference_cast_from_array_reference.yz",
                     1,
                     "tests/samples/test_field_immutable_array_reference_cast_from_array_reference.yz\\(12\\): "
-                    "Error: Incompatible types: can not cast from type 'int\\[\\]\\[\\]' to 'immutable int\\[\\]\\[\\]'");
+                    "Error: Incompatible types: can not cast from type int\\[\\]\\[\\] to immutable int\\[\\]\\[\\]");
 }
 
 TEST_F(TestFileRunner, fieldImmutableArrayReferenceCastFromArrayOwnerRunDeathTest) {
   expectFailCompile("tests/samples/test_field_immutable_array_reference_cast_from_array_owner.yz",
                     1,
                     "tests/samples/test_field_immutable_array_reference_cast_from_array_owner.yz\\(12\\): "
-                    "Error: Incompatible types: can not cast from type 'int\\[\\]\\[\\]\\*' to 'immutable int\\[\\]\\[\\]'");
+                    "Error: Incompatible types: can not cast from type int\\[\\]\\[\\]\\* to immutable int\\[\\]\\[\\]");
 }

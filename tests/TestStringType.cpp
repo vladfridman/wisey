@@ -110,12 +110,12 @@ TEST_F(StringTypeTest, castToTest) {
   EXPECT_ANY_THROW(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::LONG, 5));
   EXPECT_ANY_THROW(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT, 5));
   EXPECT_ANY_THROW(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE, 5));
-  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'string' to 'void'\n"
-               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'string' to 'char'\n"
-               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'string' to 'int'\n"
-               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'string' to 'long'\n"
-               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'string' to 'float'\n"
-               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type 'string' to 'double'\n",
+  EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type string to void\n"
+               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type string to char\n"
+               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type string to int\n"
+               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type string to long\n"
+               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type string to float\n"
+               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type string to double\n",
                buffer.str().c_str());
 
   Value* one = ConstantInt::get(Type::getInt1Ty(mLLVMContext), 1);
