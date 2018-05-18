@@ -1,0 +1,24 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CService scope wisey.threads.IThread implements IMyInterface {
+
+  public int getValue() override {
+    return 3;
+  }
+}
+
+interface IMyInterface {
+  int getValue();
+}
+
+controller CProgram implements IProgram {
+  public int run(immutable string[] arguments) override {
+    IMyInterface* reference = injector(IMyInterface).inject();
+    return reference.getValue();
+  }
+}
+
+bind(IProgram).to(CProgram);
+bind(IMyInterface).to(CService);

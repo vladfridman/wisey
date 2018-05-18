@@ -328,6 +328,7 @@ TEST_F(InterfaceTest, canCastToTest) {
   EXPECT_FALSE(mObjectInterface->canCastTo(mContext, NullType::NULL_TYPE));
   EXPECT_TRUE(mObjectInterface->canCastTo(mContext, mObjectInterface));
   EXPECT_TRUE(mShapeInterface->canCastTo(mContext, mShapeInterface));
+  EXPECT_FALSE(mObjectInterface->canCastTo(mContext, mObjectInterface->getOwner()));
 }
 
 TEST_F(InterfaceTest, canAutoCastToTest) {
@@ -337,6 +338,7 @@ TEST_F(InterfaceTest, canAutoCastToTest) {
   EXPECT_FALSE(mObjectInterface->canAutoCastTo(mContext, NullType::NULL_TYPE));
   EXPECT_TRUE(mObjectInterface->canAutoCastTo(mContext, mObjectInterface));
   EXPECT_TRUE(mShapeInterface->canAutoCastTo(mContext, mShapeInterface));
+  EXPECT_FALSE(mObjectInterface->canAutoCastTo(mContext, mObjectInterface->getOwner()));
 }
 
 TEST_F(InterfaceTest, isTypeKindTest) {

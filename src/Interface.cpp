@@ -671,6 +671,10 @@ bool Interface::canCastTo(IRGenerationContext& context, const IType* toType) con
     return false;
   }
   
+  if (toType->isOwner()) {
+    return false;
+  }
+  
   return true;
 }
 
