@@ -139,10 +139,18 @@ TEST_F(TestFileRunner, injectInterfaceReferenceBoundInlineRunTest) {
   runFile("tests/samples/test_inject_interface_reference_bound_inline.yz", "5");
 }
 
+TEST_F(TestFileRunner, injectInterfaceWithMissingArgumentsRunDeathTest) {
+  expectFailCompile("tests/samples/test_inject_interface_with_missing_arguments.yz",
+                    1,
+                    "tests/samples/test_inject_interface_with_missing_arguments.yz\\(18\\): Error: "
+                    "Received field mValue is not initialized");
+}
+
 TEST_F(TestFileRunner, bindIncompatableControllerRunDeathTest) {
   expectFailCompile("tests/samples/test_bind_incompatable_controller.yz",
                     1,
-                    "tests/samples/test_bind_incompatable_controller.yz\\(10\\): Error: Can not bind interface systems.vos.wisey.compiler.tests.IMyInterface to systems.vos.wisey.compiler.tests.CService because it does not implement the interface");
+                    "tests/samples/test_bind_incompatable_controller.yz\\(10\\): Error: "
+                    "Can not bind interface systems.vos.wisey.compiler.tests.IMyInterface to systems.vos.wisey.compiler.tests.CService because it does not implement the interface");
 }
 
 TEST_F(TestFileRunner, bindExternalInterfaceToControllerWithReceivedFieldsRunDeathTest) {
