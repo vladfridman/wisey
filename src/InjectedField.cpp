@@ -95,6 +95,11 @@ void InjectedField::checkInterfaceType(IRGenerationContext& context,
                         "that are not bound to controllers");
     throw 1;
   }
+  if (mInjectedType->isReference() && !context.hasBoundController(interface)) {
+    context.reportError(mLine, "Injecting unbound interface reference is not allowed, "
+                        "either inject an owner or bind the interface");
+    throw 1;
+  }
   if (context.hasBoundController(interface)) {
     checkControllerType(context, context.getBoundController(interface, mLine));
   }

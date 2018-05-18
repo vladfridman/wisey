@@ -10,7 +10,7 @@ controller CProgram implements IProgram {
   inject IMyInterface mInjected;
 
   public int run(immutable string[] arguments) override {
-    return mInjected.getValue();
+    return 1;
   }
 }
 
