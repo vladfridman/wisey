@@ -123,6 +123,16 @@ external model wisey.lang.MCastException
   string getToType();
 }
 
+external model wisey.lang.MInterfaceNotBoundException
+  implements
+    wisey.lang.IException {
+
+  fixed string mInterfaceName;
+
+  string getName() override;
+  string getInterfaceName();
+}
+
 external model wisey.lang.MMainThreadWorker
   implements
     wisey.threads.IWorker {

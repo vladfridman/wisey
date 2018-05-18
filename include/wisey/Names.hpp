@@ -51,6 +51,11 @@ namespace wisey {
     static std::string getCastExceptionName();
     
     /**
+     * Returns name of the model representing interface not bound exception
+     */
+    static std::string getInterfaceNotBoundExceptionName();
+    
+    /**
      * Returns name of the model representing the array index out of bounds exception
      */
     static std::string getArrayIndexOutOfBoundsModelName();

@@ -15,6 +15,7 @@
 #include "wisey/CastObjectFunction.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/Environment.hpp"
+#include "wisey/FakeExpression.hpp"
 #include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/InstanceOfFunction.hpp"
 #include "wisey/Interface.hpp"
@@ -35,8 +36,6 @@
 #include "wisey/ParameterReferenceVariable.hpp"
 #include "wisey/ParameterSystemReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
-#include "wisey/PrintErrStatement.hpp"
-#include "wisey/StringLiteral.hpp"
 #include "wisey/ThreadExpression.hpp"
 #include "wisey/ThrowStatement.hpp"
 
@@ -985,13 +984,22 @@ void Interface::composeEmptyInjectFunction(IRGenerationContext& context,
   IRWriter::createReturnInst(context, injectValue);
   
   context.setBasicBlock(ifNullBlock);
-  ExpressionList printOutArguments;
-  StringLiteral* stringLiteral = new StringLiteral("Fatal error: Interface " +
-                                                   interface->getTypeName() +
-                                                   " is not bound to any controllers\n", 0);
-  printOutArguments.push_back(stringLiteral);
-  PrintErrStatement printErrStatement(stringLiteral, 0);
-  printErrStatement.generateIR(context);
+  
+  PackageType* packageType = context.getPackageType(Names::getLangPackageName());
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  ModelTypeSpecifier* modelTypeSpecifier =
+  new ModelTypeSpecifier(packageExpression, Names::getInterfaceNotBoundExceptionName(), 0);
+  ObjectBuilderArgumentList objectBuilderArgumnetList;
+  FakeExpression* fakeExpression =
+  new FakeExpression(IObjectType::getObjectNamePointer(interface, context), PrimitiveTypes::STRING);
+  ObjectBuilderArgument* objectNameArgument =
+  new ObjectBuilderArgument("withInterfaceName", fakeExpression);
+  objectBuilderArgumnetList.push_back(objectNameArgument);
+  ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier,
+                                                   objectBuilderArgumnetList,
+                                                   0);
+  ThrowStatement throwStatement(objectBuilder, 0);
+  throwStatement.generateIR(context);
 
   ConstantInt* one = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
   Function* exitFunction = context.getModule()->getFunction("exit");

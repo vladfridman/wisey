@@ -1,0 +1,16 @@
+package wisey.lang;
+
+/**
+ * This is thrown when an unbound interface is injected
+ */
+model MInterfaceNotBoundException implements IException {
+  string mInterfaceName;
+
+  public string getName() override {
+    return getTypeName();
+  }
+
+  public string getInterfaceName() {
+    return mInterfaceName;
+  }
+}

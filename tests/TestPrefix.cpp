@@ -40,7 +40,11 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   modelElements.push_back(new FixedFieldDefinition(stringTypeSpecifier, "mObjectType", 0));
   defineModel(context, Names::getReferenceCountExceptionName(), modelElements);
   modelElements.clear();
-  
+  stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);
+  modelElements.push_back(new FixedFieldDefinition(stringTypeSpecifier, "mInterfaceName", 0));
+  defineModel(context, Names::getInterfaceNotBoundExceptionName(), modelElements);
+  modelElements.clear();
+
   stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);
   modelElements.push_back(new FixedFieldDefinition(stringTypeSpecifier, "mFromType", 0));
   stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);

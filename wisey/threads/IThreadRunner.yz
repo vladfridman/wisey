@@ -7,6 +7,7 @@ import wisey.io.MFileCouldNotOpenException;
 import wisey.io.MFileOpenException;
 import wisey.lang.MArrayIndexOutOfBoundsException;
 import wisey.lang.MCastException;
+import wisey.lang.MInterfaceNotBoundException;
 import wisey.lang.MNullPointerException;
 import wisey.lang.MReferenceCountException;
 
@@ -71,6 +72,10 @@ interface IThreadRunner {
     } catch (MContextNonExistantException* exception) {
       callstack.reportException(exception);
       printerr("Details: Context " + exception.getContextName() + " does not exist\n");
+    } catch (MInterfaceNotBoundException* exception) {
+      callstack.reportException(exception);
+      printerr("Details: Interface " + exception.getInterfaceName() + 
+        " is not bound to any controllers\n");
     }
 
     return argument;

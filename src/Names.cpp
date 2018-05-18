@@ -35,6 +35,10 @@ string Names::getCastExceptionName() {
   return "MCastException";
 }
 
+string Names::getInterfaceNotBoundExceptionName() {
+  return "MInterfaceNotBoundException";
+}
+
 string Names::getArrayIndexOutOfBoundsModelName() {
   return "MArrayIndexOutOfBoundsException";
 }
