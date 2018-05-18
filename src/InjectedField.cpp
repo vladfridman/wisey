@@ -69,22 +69,19 @@ void InjectedField::checkType(IRGenerationContext& context) const {
                         "may be injected in fields");
     throw 1;
   }
-  if (mInjectedType->isOwner()) {
-    if (mInjectedType->isInterface()) {
-      const Interface* interface = ((const InterfaceOwner*) mInjectedType)->getReference();
-      checkInterfaceType(context, interface);
-    } else if (mInjectedType->isController()) {
-      const Controller* controller = ((const ControllerOwner*) mInjectedType)->getReference();
-      checkControllerType(context, controller);
-    }
-  } else if (mInjectedType->isReference()) {
-    if (mInjectedType->isInterface()) {
-      const Interface* interface = (const Interface*) mInjectedType;
-      checkInterfaceType(context, interface);
-    } else if (mInjectedType->isController()) {
-      const Controller* controller = (const Controller*) mInjectedType;
-      checkControllerType(context, controller);
-    }
+  
+  if (mInjectedType->isArray()) {
+    return;
+  }
+  
+  const IObjectType* objectType = mInjectedType->isOwner()
+  ? (const IObjectType*) ((const IObjectOwnerType*) mInjectedType)->getReference()
+  : (const IObjectType*) mInjectedType;
+  
+  if (objectType->isInterface()) {
+    checkInterfaceType(context, (const Interface*) objectType);
+  } else if (objectType->isController()) {
+    checkControllerType(context, (const Controller*) objectType);
   }
 }
 
