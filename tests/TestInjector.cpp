@@ -153,6 +153,10 @@ TEST_F(TestFileRunner, inlineControllerInjectionRunTest) {
   runFile("tests/samples/test_inline_controller_injection.yz", "5");
 }
 
+TEST_F(TestFileRunner, injectControllerReferenceInlineRunTest) {
+  runFile("tests/samples/test_inject_controller_reference_inline.yz", "3");
+}
+
 TEST_F(TestFileRunner, inlineInterfaceInjectionRunTest) {
   runFile("tests/samples/test_inline_interface_injection.yz", "7");
 }
