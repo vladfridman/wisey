@@ -153,3 +153,13 @@ TEST_F(TestFileRunner, injectInterfaceOwnerNotBoundRunDeathTest) {
                                "Details: Interface systems.vos.wisey.compiler.tests.IMyInterface is not bound to any controllers\n"
                                "Main thread ended without a result\n");
 }
+
+TEST_F(TestFileRunner, injectInterfaceReferenceNotBoundRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_inject_interface_reference_not_bound.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MInterfaceNotBoundException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_inject_interface_reference_not_bound.yz:13)\n"
+                               "Details: Interface systems.vos.wisey.compiler.tests.IMyInterface is not bound to any controllers\n"
+                               "Main thread ended without a result\n");
+}
