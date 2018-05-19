@@ -39,7 +39,8 @@ void DestroyReferenceArrayFunction::call(IRGenerationContext& context,
                                          Value* array,
                                          long numberOfDimentions,
                                          llvm::Value* arrayNamePointer,
-                                         llvm::Value* exception) {
+                                         llvm::Value* exception,
+                                         int line) {
   LLVMContext& llvmContext = context.getLLVMContext();
 
   Function* function = get(context);
@@ -48,9 +49,16 @@ void DestroyReferenceArrayFunction::call(IRGenerationContext& context,
   arguments.push_back(ConstantInt::get(Type::getInt64Ty(llvmContext), numberOfDimentions));
   arguments.push_back(arrayNamePointer);
   arguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 1));
-  arguments.push_back(exception);
 
-  IRWriter::createCallInst(context, function, arguments, "");
+  if (exception) {
+    arguments.push_back(exception);
+    IRWriter::createCallInst(context, function, arguments, "");
+  } else {
+    llvm::PointerType* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
+    Value* nullPointer = ConstantPointerNull::get(int8Pointer);
+    arguments.push_back(nullPointer);
+    IRWriter::createInvokeInst(context, function, arguments, "", line);
+  }
 }
 
 string DestroyReferenceArrayFunction::getName() {

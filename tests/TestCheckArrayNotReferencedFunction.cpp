@@ -67,7 +67,12 @@ TEST_F(CheckArrayNotReferencedFunctionTest, callTest) {
   Value* nullPointerValue = ConstantPointerNull::get(genericPointer);
   Value* two = ConstantInt::get(Type::getInt64Ty(mLLVMContext), 2);
   Value* nullPointer = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  CheckArrayNotReferencedFunction::call(mContext, nullPointerValue, two, nullPointer, nullPointer);
+  CheckArrayNotReferencedFunction::call(mContext,
+                                        nullPointerValue,
+                                        two,
+                                        nullPointer,
+                                        nullPointer,
+                                        0);
   
   *mStringStream << *mBasicBlock;
   string expected =

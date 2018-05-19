@@ -42,6 +42,7 @@ struct FieldArrayOwnerVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBasicBlock;
+  Function* mFunction;
   const wisey::ArrayType* mArrayType;
   FieldArrayOwnerVariable* mFieldArrayOwnerVariable;
   Controller* mObject;
@@ -58,11 +59,11 @@ public:
     mArrayType = mContext.getArrayType(PrimitiveTypes::INT, 1u);
 
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
-    Function* function = Function::Create(functionType,
-                                          GlobalValue::InternalLinkage,
-                                          "test",
-                                          mContext.getModule());
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mFunction = Function::Create(functionType,
+                                 GlobalValue::InternalLinkage,
+                                 "test",
+                                 mContext.getModule());
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
 
@@ -136,15 +137,33 @@ TEST_F(FieldArrayOwnerVariableTest, generateWholeArrayAssignmentTest) {
   EXPECT_CALL(mockExpression, generateIR(_, mArrayType->getOwner()));
   mFieldArrayOwnerVariable->generateAssignmentIR(mContext, &mockExpression, arrayIndices, 0);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mFunction;
   string expected =
+  "\ndefine internal i32 @test() personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1"
   "\n  %1 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %0"
   "\n  %2 = bitcast { i64, i64, i64, [0 x i32] }* %1 to i64*"
-  "\n  call void @__destroyPrimitiveArrayFunction(i64* %2, i64 1, i8* getelementptr inbounds ([7 x i8], [7 x i8]* @\"int[]*\", i32 0, i32 0), i8* null)"
-  "\n  store { i64, i64, i64, [0 x i32] }* null, { i64, i64, i64, [0 x i32] }** %0\n";
-  
+  "\n  invoke void @__destroyPrimitiveArrayFunction(i64* %2, i64 1, i8* getelementptr inbounds ([7 x i8], [7 x i8]* @\"int[]*\", i32 0, i32 0), i8* null)"
+  "\n          to label %invoke.continue unwind label %cleanup"
+  "\n"
+  "\ncleanup:                                          ; preds = %entry"
+  "\n  %3 = landingpad { i8*, i32 }"
+  "\n          cleanup"
+  "\n  %4 = alloca { i8*, i32 }"
+  "\n  store { i8*, i32 } %3, { i8*, i32 }* %4"
+  "\n  %5 = getelementptr { i8*, i32 }, { i8*, i32 }* %4, i32 0, i32 0"
+  "\n  %6 = load i8*, i8** %5"
+  "\n  %7 = call i8* @__cxa_get_exception_ptr(i8* %6)"
+  "\n  %8 = getelementptr i8, i8* %7, i64 8"
+  "\n  %9 = bitcast %systems.vos.wisey.compiler.tests.CObject* null to i8*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %9, i64 -1)"
+  "\n  resume { i8*, i32 } %3"
+  "\n"
+  "\ninvoke.continue:                                  ; preds = %entry"
+  "\n  store { i64, i64, i64, [0 x i32] }* null, { i64, i64, i64, [0 x i32] }** %0"
+  "\n}\n";
+
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 

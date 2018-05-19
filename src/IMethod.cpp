@@ -86,9 +86,7 @@ void IMethod::maybeAddImpliedVoidReturn(IRGenerationContext& context,
     throw 1;
   }
   
-  llvm::PointerType* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-  Value* null = ConstantPointerNull::get(int8Pointer);
-  context.getScopes().freeOwnedMemory(context, null, line);
+  context.getScopes().freeOwnedMemory(context, NULL, line);
   Composer::popCallStack(context);
   IRWriter::createReturnInst(context, NULL);
 }

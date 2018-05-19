@@ -60,9 +60,7 @@ void Scopes::pushScope() {
 void Scopes::popScope(IRGenerationContext& context, int line) {
   Scope* top = mScopes.front();
 
-  llvm::PointerType* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-  Value* null = ConstantPointerNull::get(int8Pointer);
-  top->freeOwnedMemory(context, null, line);
+  top->freeOwnedMemory(context, NULL, line);
   clearCachedLandingPadBlock();
 
   map<string, int> exceptions = top->getExceptions();

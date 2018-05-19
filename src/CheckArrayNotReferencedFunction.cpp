@@ -34,7 +34,8 @@ void CheckArrayNotReferencedFunction::call(IRGenerationContext& context,
                                            Value* array,
                                            Value* numberOfDimensions,
                                            Value* arrayNamePointer,
-                                           Value* exception) {
+                                           Value* exception,
+                                           int line) {
   Type* int64PointerType = Type::getInt64Ty(context.getLLVMContext())->getPointerTo();
   Value* arrayBitcast = array->getType() != int64PointerType
   ? IRWriter::newBitCastInst(context, array, int64PointerType)
@@ -44,9 +45,16 @@ void CheckArrayNotReferencedFunction::call(IRGenerationContext& context,
   arguments.push_back(arrayBitcast);
   arguments.push_back(numberOfDimensions);
   arguments.push_back(arrayNamePointer);
-  arguments.push_back(exception);
 
-  IRWriter::createCallInst(context, function, arguments, "");
+  if (exception) {
+    arguments.push_back(exception);
+    IRWriter::createCallInst(context, function, arguments, "");
+  } else {
+    llvm::PointerType* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+    Value* nullPointer = ConstantPointerNull::get(int8Pointer);
+    arguments.push_back(nullPointer);
+    IRWriter::createInvokeInst(context, function, arguments, "", line);
+  }
 }
 
 string CheckArrayNotReferencedFunction::getName() {

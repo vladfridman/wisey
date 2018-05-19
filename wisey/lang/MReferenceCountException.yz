@@ -9,16 +9,23 @@ model MReferenceCountException implements IException {
   IException mNestedException;
 
   public void report() override {
+    if (mNestedException instanceof MReferenceCountException) {
+      mNestedException.report();
+      return;
+    }
+
     callstack.reportException(this);
     string ending = mReferenceCount > 1 ? "s" : "";
     printerr("Details: Object referenced by expression of type " +
       mObjectType +  " still has " + mReferenceCount + 
       " active reference" + ending + "\n");
-    if (mNestedException) {
-      printerr("Was thrown from memory clean up after " + 
-        MSystem.getOriginalObjectTypeName(mNestedException) + "\n");
-      mNestedException.report();
+    
+    if (mNestedException == null) {
+      return;
     }
+    printerr("Was thrown from memory clean up after " + 
+      MSystem.getOriginalObjectTypeName(mNestedException) + "\n");
+    mNestedException.report();
   }
 
   /**

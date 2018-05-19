@@ -461,7 +461,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorCallTest) {
   ConstantPointerNull* objectPointer = ConstantPointerNull::get(mCarModel->getLLVMType(mContext));
   llvm::PointerType* int8Pointer = Type::getInt8Ty(mLLVMContext)->getPointerTo();
   Value* nullPointer = ConstantPointerNull::get(int8Pointer);
-  IConcreteObjectType::composeDestructorCall(mContext, objectPointer, nullPointer);
+  IConcreteObjectType::composeDestructorCall(mContext, objectPointer, nullPointer, 0);
   
   *mStringStream << *basicBlock;
   string expected =

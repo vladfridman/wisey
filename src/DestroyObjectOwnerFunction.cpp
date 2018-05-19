@@ -35,13 +35,21 @@ Function* DestroyObjectOwnerFunction::get(IRGenerationContext& context) {
 
 void DestroyObjectOwnerFunction::call(IRGenerationContext& context,
                                       Value* objectReference,
-                                      Value* exception) {
+                                      Value* exception,
+                                      int line) {
   Function* function = get(context);
   vector<Value*> arguments;
   arguments.push_back(objectReference);
-  arguments.push_back(exception);
 
-  IRWriter::createCallInst(context, function, arguments, "");
+  if (exception) {
+    arguments.push_back(exception);
+    IRWriter::createCallInst(context, function, arguments, "");
+  } else {
+    llvm::PointerType* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+    Value* nullPointer = ConstantPointerNull::get(int8Pointer);
+    arguments.push_back(nullPointer);
+    IRWriter::createInvokeInst(context, function, arguments, "", line);
+  }
 }
 
 string DestroyObjectOwnerFunction::getName() {

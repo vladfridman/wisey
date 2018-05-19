@@ -78,13 +78,12 @@ llvm::Value* ArrayOwnerType::castTo(IRGenerationContext& context,
     long dimensions = mArrayType->getNumberOfDimensions();
     llvm::Value* dimensionsConstant = llvm::ConstantInt::get(int64type, dimensions);
     llvm::Value* arrayNamePointer = getArrayNamePointer(context);
-    llvm::PointerType* int8Pointer = llvm::Type::getInt8Ty(llvmContext)->getPointerTo();
-    llvm::Value* null = llvm::ConstantPointerNull::get(int8Pointer);
     CheckArrayNotReferencedFunction::call(context,
                                           fromValue,
                                           dimensionsConstant,
                                           arrayNamePointer,
-                                          null);
+                                          NULL,
+                                          line);
     return fromValue;
   }
 
@@ -102,20 +101,27 @@ void ArrayOwnerType::free(IRGenerationContext& context,
   llvm::Value* arrayNamePointer = getArrayNamePointer(context);
 
   if (elementType->isOwner()) {
-    DestroyOwnerArrayFunction::call(context, arrayBitcast, dimensions, arrayNamePointer, exception);
+    DestroyOwnerArrayFunction::call(context,
+                                    arrayBitcast,
+                                    dimensions,
+                                    arrayNamePointer,
+                                    exception,
+                                    line);
   } else if (elementType->isReference()) {
     DestroyReferenceArrayFunction::call(context,
                                         arrayBitcast,
                                         dimensions,
                                         arrayNamePointer,
-                                        exception);
+                                        exception,
+                                        line);
   } else {
     assert(elementType->isPrimitive());
     DestroyPrimitiveArrayFunction::call(context,
                                         arrayBitcast,
                                         dimensions,
                                         arrayNamePointer,
-                                        exception);
+                                        exception,
+                                        line);
   }
 }
 

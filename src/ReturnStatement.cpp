@@ -51,9 +51,7 @@ void ReturnStatement::generateIR(IRGenerationContext& context) const {
     ((const IReferenceType*) returnType)->incrementReferenceCount(context, result);
   }
   
-  llvm::PointerType* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-  Value* null = ConstantPointerNull::get(int8Pointer);
-  context.getScopes().freeOwnedMemory(context, null, mLine);
+  context.getScopes().freeOwnedMemory(context, NULL, mLine);
   
   if (returnType->isReference() && !returnType->isNative()) {
     ((const IReferenceType*) returnType)->decrementReferenceCount(context, result);

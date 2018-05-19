@@ -75,7 +75,7 @@ void ModelOwner::free(IRGenerationContext& context,
                       Value* value,
                       Value* exception,
                       int line) const {
-  IConcreteObjectType::composeDestructorCall(context, value, exception);
+  IConcreteObjectType::composeDestructorCall(context, value, exception, line);
 }
 
 Function* ModelOwner::getDestructorFunction(IRGenerationContext& context, int line) const {

@@ -91,9 +91,7 @@ Value* FieldImmutableArrayOwnerVariable::generateWholeArrayAssignment(IRGenerati
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
   Value* fieldPointerLoaded = IRWriter::newLoadInst(context, fieldPointer, "");
   
-  llvm::PointerType* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-  Value* null = ConstantPointerNull::get(int8Pointer);
-  ((const IOwnerType*) field->getType())->free(context, fieldPointerLoaded, null, line);
+  ((const IOwnerType*) field->getType())->free(context, fieldPointerLoaded, NULL, line);
   
   return IRWriter::newStoreInst(context, cast, fieldPointer);
 }

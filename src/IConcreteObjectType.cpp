@@ -520,11 +520,12 @@ string IConcreteObjectType::getObjectDestructorFunctionName(const IConcreteObjec
 
 void IConcreteObjectType::composeDestructorCall(IRGenerationContext& context,
                                                 Value* value,
-                                                Value* exception) {
+                                                Value* exception,
+                                                int line) {
   Type* int8pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   Value* bitcast = IRWriter::newBitCastInst(context, value, int8pointer);
   
-  DestroyObjectOwnerFunction::call(context, bitcast, exception);
+  DestroyObjectOwnerFunction::call(context, bitcast, exception, line);
 }
 
 Function* IConcreteObjectType::getDestructorFunctionForObject(IRGenerationContext &context,

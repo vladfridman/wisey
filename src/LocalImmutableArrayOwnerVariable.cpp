@@ -102,9 +102,7 @@ generateWholeArrayAssignment(IRGenerationContext& context,
                                     mImmutableArrayOwnerType,
                                     line);
   
-  llvm::PointerType* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-  Value* null = ConstantPointerNull::get(int8Pointer);
-  free(context, null, line);
+  free(context, NULL, line);
   
   IRWriter::newStoreInst(context, cast, mValueStore);
   

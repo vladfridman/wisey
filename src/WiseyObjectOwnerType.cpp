@@ -176,7 +176,7 @@ void WiseyObjectOwnerType::free(IRGenerationContext& context,
                                 Value* value,
                                 llvm::Value* exception,
                                 int line) const {
-  IConcreteObjectType::composeDestructorCall(context, value, exception);
+  IConcreteObjectType::composeDestructorCall(context, value, exception, line);
 }
 
 Instruction* WiseyObjectOwnerType::inject(IRGenerationContext& context,

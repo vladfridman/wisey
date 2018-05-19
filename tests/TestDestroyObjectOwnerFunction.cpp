@@ -55,7 +55,7 @@ struct DestroyObjectOwnerFunctionTest : Test {
 TEST_F(DestroyObjectOwnerFunctionTest, callTest) {
   PointerType* genericPointer = Type::getInt8Ty(mLLVMContext)->getPointerTo();
   Value* nullPointer = ConstantPointerNull::get(genericPointer);
-  DestroyObjectOwnerFunction::call(mContext, nullPointer, nullPointer);
+  DestroyObjectOwnerFunction::call(mContext, nullPointer, nullPointer, 0);
   
   *mStringStream << *mBasicBlock;
   string expected =

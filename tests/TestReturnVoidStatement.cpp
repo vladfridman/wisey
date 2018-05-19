@@ -117,8 +117,9 @@ TEST_F(ReturnVoidStatementTest, ownerVariablesAreClearedTest) {
   
   returnStatement.generateIR(mContext);
   
-  *mStringStream << *basicBlock;
+  *mStringStream << *function;
   string expected =
+  "\ndefine internal i64 @test() personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%MShape* getelementptr (%MShape, %MShape* null, i32 1) to i64))"
   "\n  %0 = bitcast i8* %malloccall to %MShape*"
@@ -130,12 +131,36 @@ TEST_F(ReturnVoidStatementTest, ownerVariablesAreClearedTest) {
   "\n  store %MShape* %1, %MShape** %pointer2"
   "\n  %2 = load %MShape*, %MShape** %pointer2"
   "\n  %3 = bitcast %MShape* %2 to i8*"
-  "\n  call void @__destroyObjectOwnerFunction(i8* %3, i8* null)"
-  "\n  %4 = load %MShape*, %MShape** %pointer"
-  "\n  %5 = bitcast %MShape* %4 to i8*"
-  "\n  call void @__destroyObjectOwnerFunction(i8* %5, i8* null)"
-  "\n  ret void\n";
-  
+  "\n  invoke void @__destroyObjectOwnerFunction(i8* %3, i8* null)"
+  "\n          to label %invoke.continue unwind label %cleanup"
+  "\n"
+  "\ncleanup:                                          ; preds = %invoke.continue, %entry"
+  "\n  %4 = landingpad { i8*, i32 }"
+  "\n          cleanup"
+  "\n  %5 = alloca { i8*, i32 }"
+  "\n  store { i8*, i32 } %4, { i8*, i32 }* %5"
+  "\n  %6 = getelementptr { i8*, i32 }, { i8*, i32 }* %5, i32 0, i32 0"
+  "\n  %7 = load i8*, i8** %6"
+  "\n  %8 = call i8* @__cxa_get_exception_ptr(i8* %7)"
+  "\n  %9 = getelementptr i8, i8* %8, i64 8"
+  "\n  %10 = load %MShape*, %MShape** %pointer2"
+  "\n  %11 = bitcast %MShape* %10 to i8*"
+  "\n  call void @__destroyObjectOwnerFunction(i8* %11, i8* %9)"
+  "\n  %12 = load %MShape*, %MShape** %pointer"
+  "\n  %13 = bitcast %MShape* %12 to i8*"
+  "\n  call void @__destroyObjectOwnerFunction(i8* %13, i8* %9)"
+  "\n  resume { i8*, i32 } %4"
+  "\n"
+  "\ninvoke.continue:                                  ; preds = %entry"
+  "\n  %14 = load %MShape*, %MShape** %pointer"
+  "\n  %15 = bitcast %MShape* %14 to i8*"
+  "\n  invoke void @__destroyObjectOwnerFunction(i8* %15, i8* null)"
+  "\n          to label %invoke.continue3 unwind label %cleanup"
+  "\n"
+  "\ninvoke.continue3:                                 ; preds = %invoke.continue"
+  "\n  ret void"
+  "\n}\n";
+
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 

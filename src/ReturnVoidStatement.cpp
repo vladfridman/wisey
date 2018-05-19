@@ -24,9 +24,7 @@ void ReturnVoidStatement::generateIR(IRGenerationContext& context) const {
   checkUnreachable(context, mLine);
 
   Composer::setLineNumber(context, mLine);
-  llvm::PointerType* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-  Value* null = ConstantPointerNull::get(int8Pointer);
-  context.getScopes().freeOwnedMemory(context, null, mLine);
+  context.getScopes().freeOwnedMemory(context, NULL, mLine);
   Composer::popCallStack(context);
   IRWriter::createReturnInst(context, NULL);
 }

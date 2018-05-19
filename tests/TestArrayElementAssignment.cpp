@@ -41,6 +41,7 @@ struct ArrayElementAssignmentTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBasicBlock;
+  Function* mFunction;
   Model* mModel;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
@@ -66,11 +67,11 @@ public:
     IConcreteObjectType::declareVTable(mContext, mModel);
     
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
-    Function* function = Function::Create(functionType,
-                                          GlobalValue::InternalLinkage,
-                                          "test",
-                                          mContext.getModule());
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mFunction = Function::Create(functionType,
+                                 GlobalValue::InternalLinkage,
+                                 "test",
+                                 mContext.getModule());
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
   }
@@ -93,13 +94,29 @@ TEST_F(ArrayElementAssignmentTest, generateOwnerArrayAssignmentTest) {
                                                     elementStore,
                                                     0);
 
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mFunction;
   string expected =
+  "\ndefine internal i32 @test() personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = load %systems.vos.wisey.compiler.tests.MModel*, %systems.vos.wisey.compiler.tests.MModel** null"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MModel* %0 to i8*"
-  "\n  call void @__destroyObjectOwnerFunction(i8* %1, i8* null)"
+  "\n  invoke void @__destroyObjectOwnerFunction(i8* %1, i8* null)"
+  "\n          to label %invoke.continue unwind label %cleanup"
+  "\n"
+  "\ncleanup:                                          ; preds = %entry"
+  "\n  %2 = landingpad { i8*, i32 }"
+  "\n          cleanup"
+  "\n  %3 = alloca { i8*, i32 }"
+  "\n  store { i8*, i32 } %2, { i8*, i32 }* %3"
+  "\n  %4 = getelementptr { i8*, i32 }, { i8*, i32 }* %3, i32 0, i32 0"
+  "\n  %5 = load i8*, i8** %4"
+  "\n  %6 = call i8* @__cxa_get_exception_ptr(i8* %5)"
+  "\n  %7 = getelementptr i8, i8* %6, i64 8"
+  "\n  resume { i8*, i32 } %2"
+  "\n"
+  "\ninvoke.continue:                                  ; preds = %entry"
   "\n  store %systems.vos.wisey.compiler.tests.MModel* null, %systems.vos.wisey.compiler.tests.MModel** null"
+  "\n}"
   "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());

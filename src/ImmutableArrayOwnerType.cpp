@@ -85,20 +85,27 @@ void ImmutableArrayOwnerType::free(IRGenerationContext& context,
   llvm::Value* arrayNamePointer = getArrayNamePointer(context);
   
   if (elementType->isOwner()) {
-    DestroyOwnerArrayFunction::call(context, arrayBitcast, dimensions, arrayNamePointer, exception);
+    DestroyOwnerArrayFunction::call(context,
+                                    arrayBitcast,
+                                    dimensions,
+                                    arrayNamePointer,
+                                    exception,
+                                    line);
   } else if (elementType->isReference()) {
     DestroyReferenceArrayFunction::call(context,
                                         arrayBitcast,
                                         dimensions,
                                         arrayNamePointer,
-                                        exception);
+                                        exception,
+                                        line);
   } else {
     assert(elementType->isPrimitive());
     DestroyPrimitiveArrayFunction::call(context,
                                         arrayBitcast,
                                         dimensions,
                                         arrayNamePointer,
-                                        exception);
+                                        exception,
+                                        line);
   }
 }
 

@@ -103,9 +103,7 @@ llvm::Value* LocalArrayOwnerVariable::generateWholeArrayAssignment(IRGenerationC
   Value* assignToValue = assignToExpression->generateIR(context, mArrayOwnerType);
   Value* cast = AutoCast::maybeCast(context, assignToType, assignToValue, mArrayOwnerType, line);
   
-  llvm::PointerType* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-  Value* null = ConstantPointerNull::get(int8Pointer);
-  free(context, null, line);
+  free(context, NULL, line);
   
   IRWriter::newStoreInst(context, cast, mValueStore);
 

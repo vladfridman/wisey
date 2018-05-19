@@ -79,15 +79,21 @@ void InterfaceOwner::free(IRGenerationContext& context,
                           Value* value,
                           Value* exception,
                           int line) const {
-  Type* int8pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-  Value* bitcast = IRWriter::newBitCastInst(context, value, int8pointer);
+  llvm::PointerType* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+  Value* bitcast = IRWriter::newBitCastInst(context, value, int8Pointer);
 
   Function* destructor = getDestructorFunction(context, line);
   vector<Value*> arguments;
   arguments.push_back(bitcast);
-  arguments.push_back(exception);
 
-  IRWriter::createCallInst(context, destructor, arguments, "");
+  if (exception) {
+    arguments.push_back(exception);
+    IRWriter::createCallInst(context, destructor, arguments, "");
+  } else {
+    Value* nullPointer = ConstantPointerNull::get(int8Pointer);
+    arguments.push_back(nullPointer);
+    IRWriter::createInvokeInst(context, destructor, arguments, "", line);
+  }
 }
 
 Function* InterfaceOwner::getDestructorFunction(IRGenerationContext& context, int line) const {

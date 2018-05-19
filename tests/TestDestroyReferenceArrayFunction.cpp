@@ -69,7 +69,7 @@ TEST_F(DestroyReferenceArrayFunctionTest, callTest) {
   llvm::PointerType* i8PointerType = llvm::Type::getInt8Ty(mLLVMContext)->getPointerTo();
   Value* arrayPointer = ConstantPointerNull::get(i64PointerType);
   Value* nullPointer = ConstantPointerNull::get(i8PointerType);
-  DestroyReferenceArrayFunction::call(mContext, arrayPointer, 2u, nullPointer, nullPointer);
+  DestroyReferenceArrayFunction::call(mContext, arrayPointer, 2u, nullPointer, nullPointer, 0);
   
   *mStringStream << *mBasicBlock;
   string expected =

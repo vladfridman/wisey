@@ -259,7 +259,8 @@ namespace wisey {
      */
     static void composeDestructorCall(IRGenerationContext& context,
                                       llvm::Value* value,
-                                      llvm::Value* exception);
+                                      llvm::Value* exception,
+                                      int line);
     
     /**
      * Returns destructor function

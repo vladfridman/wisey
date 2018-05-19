@@ -38,6 +38,7 @@ struct LocalOwnerVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBasicBlock;
+  Function* mFunction;
   Model* mModel;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
@@ -70,11 +71,11 @@ public:
     IConcreteObjectType::declareVTable(mContext, mModel);
     
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
-    Function* function = Function::Create(functionType,
-                                          GlobalValue::InternalLinkage,
-                                          "test",
-                                          mContext.getModule());
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mFunction = Function::Create(functionType,
+                                 GlobalValue::InternalLinkage,
+                                 "test",
+                                 mContext.getModule());
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
@@ -110,17 +111,36 @@ TEST_F(LocalOwnerVariableTest, generateAssignmentIRTest) {
 
   uninitializedHeapVariable->generateAssignmentIR(mContext, &expression, arrayIndices, 0);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mFunction;
   
   string expected =
+  "\ndefine internal i32 @test() personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
   "\n  %1 = alloca %systems.vos.wisey.compiler.tests.MShape*"
   "\n  %2 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0"
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MShape* %2 to i8*"
-  "\n  call void @__destroyObjectOwnerFunction(i8* %3, i8* null)"
-  "\n  store %systems.vos.wisey.compiler.tests.MShape* null, %systems.vos.wisey.compiler.tests.MShape** %0\n";
-  
+  "\n  invoke void @__destroyObjectOwnerFunction(i8* %3, i8* null)"
+  "\n          to label %invoke.continue unwind label %cleanup"
+  "\n"
+  "\ncleanup:                                          ; preds = %entry"
+  "\n  %4 = landingpad { i8*, i32 }"
+  "\n          cleanup"
+  "\n  %5 = alloca { i8*, i32 }"
+  "\n  store { i8*, i32 } %4, { i8*, i32 }* %5"
+  "\n  %6 = getelementptr { i8*, i32 }, { i8*, i32 }* %5, i32 0, i32 0"
+  "\n  %7 = load i8*, i8** %6"
+  "\n  %8 = call i8* @__cxa_get_exception_ptr(i8* %7)"
+  "\n  %9 = getelementptr i8, i8* %8, i64 8"
+  "\n  %10 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0"
+  "\n  %11 = bitcast %systems.vos.wisey.compiler.tests.MShape* %10 to i8*"
+  "\n  call void @__destroyObjectOwnerFunction(i8* %11, i8* %9)"
+  "\n  resume { i8*, i32 } %4"
+  "\n"
+  "\ninvoke.continue:                                  ; preds = %entry"
+  "\n  store %systems.vos.wisey.compiler.tests.MShape* null, %systems.vos.wisey.compiler.tests.MShape** %0"
+  "\n}\n";
+
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }

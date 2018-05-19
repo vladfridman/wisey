@@ -31,7 +31,8 @@ namespace wisey {
      */
     static void call(IRGenerationContext& context,
                      llvm::Value* objectReference,
-                     llvm::Value* exception);
+                     llvm::Value* exception,
+                     int line);
     
   private:
     

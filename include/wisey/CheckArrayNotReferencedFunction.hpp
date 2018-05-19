@@ -34,7 +34,8 @@ namespace wisey {
                      llvm::Value* array,
                      llvm::Value* numberOfDimensions,
                      llvm::Value* arrayNamePointer,
-                     llvm::Value* exception);
+                     llvm::Value* exception,
+                     int line);
 
   private:
     

@@ -80,9 +80,7 @@ Value* LocalOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
   const IType* assignToType = assignToExpression->getType(context);
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType, line);
   
-  llvm::PointerType* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-  Value* null = ConstantPointerNull::get(int8Pointer);
-  free(context, null, line);
+  free(context, NULL, line);
 
   IRWriter::newStoreInst(context, newValue, mValueStore);
   

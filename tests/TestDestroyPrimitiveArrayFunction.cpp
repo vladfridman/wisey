@@ -70,7 +70,7 @@ TEST_F(DestroyPrimitiveArrayFunctionTest, callTest) {
   llvm::PointerType* i8PointerType = llvm::Type::getInt8Ty(mLLVMContext)->getPointerTo();
   Value* arrayPointer = ConstantPointerNull::get(i64PointerType);
   Value* nullPointer = ConstantPointerNull::get(i8PointerType);
-  DestroyPrimitiveArrayFunction::call(mContext, arrayPointer, 2u, nullPointer, nullPointer);
+  DestroyPrimitiveArrayFunction::call(mContext, arrayPointer, 2u, nullPointer, nullPointer, 0);
   
   *mStringStream << *mBasicBlock;
   string expected =

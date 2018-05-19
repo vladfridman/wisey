@@ -57,7 +57,7 @@ TEST_F(DestroyOwnerArrayFunctionTest, callTest) {
   llvm::PointerType* i8PointerType = llvm::Type::getInt8Ty(mLLVMContext)->getPointerTo();
   Value* arrayPointer = ConstantPointerNull::get(i64PointerType);
   Value* nullPointer = ConstantPointerNull::get(i8PointerType);
-  DestroyOwnerArrayFunction::call(mContext, arrayPointer, 2u, nullPointer, nullPointer);
+  DestroyOwnerArrayFunction::call(mContext, arrayPointer, 2u, nullPointer, nullPointer, 0);
   
   *mStringStream << *mBasicBlock;
   string expected =
