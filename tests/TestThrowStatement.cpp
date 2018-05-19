@@ -22,6 +22,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/ThrowStatement.hpp"
 
 using namespace llvm;
@@ -61,6 +62,10 @@ struct ThrowStatementTest : public Test {
                                    circleStructType,
                                    mContext.getImportProfile(),
                                    0);
+    Interface* exceptionInterface = mContext.getInterface(Names::getExceptionInterfaceFullName(), 0);
+    vector<Interface*> interfaces;
+    interfaces.push_back(exceptionInterface);
+    mCircleModel->setInterfaces(interfaces);
     llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
                                                                   circleFullName + ".typename");
     new GlobalVariable(*mContext.getModule(),
@@ -285,4 +290,10 @@ TEST_F(ThrowStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
   "\n}\n";
 
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
+}
+
+TEST_F(TestFileRunner, throwNonExceptionRunDeathTest) {
+  expectFailCompile("tests/samples/test_throw_non_exception.yz",
+                    1,
+                    "tests/samples/test_throw_non_exception.yz\\(11\\): Error: Exceptions must implement wisey.lang.IException");
 }

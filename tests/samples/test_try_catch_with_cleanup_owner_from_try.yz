@@ -1,15 +1,19 @@
 package systems.vos.wisey.compiler.tests;
 
+import wisey.lang.IException;
 import wisey.lang.IProgram;
 
 model MData {
 }
 
-model MException {
+model MException implements IException {
   int mValue;
 
   public int getValue() {
     return mValue;
+  }
+
+  public void report() override {
   }
 }
 

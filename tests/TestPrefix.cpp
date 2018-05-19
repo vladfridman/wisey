@@ -36,7 +36,7 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   exceptionInterfaceDefinition->prototypeObject(context, importProfile);
 
   vector<IObjectElementDefinition*> modelElements;
-  defineModel(context, Names::getNPEModelName(), modelElements);
+  defineExceptionModel(context, Names::getNPEModelName(), modelElements);
   const PrimitiveTypeSpecifier* longTypeSpecifier = PrimitiveTypes::LONG->newTypeSpecifier(0);
   modelElements.push_back(new FixedFieldDefinition(longTypeSpecifier, "mReferenceCount", 0));
   const PrimitiveTypeSpecifier* stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);
@@ -47,25 +47,25 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   InterfaceTypeSpecifierFull* interfaceTypeSpecifier =
   new InterfaceTypeSpecifierFull(packageExpression, Names::getExceptionInterfaceName(), 0);
   modelElements.push_back(new FixedFieldDefinition(interfaceTypeSpecifier, "mNestedException", 0));
-  defineModel(context, Names::getReferenceCountExceptionName(), modelElements);
+  defineExceptionModel(context, Names::getReferenceCountExceptionName(), modelElements);
   modelElements.clear();
   stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);
   modelElements.push_back(new FixedFieldDefinition(stringTypeSpecifier, "mInterfaceName", 0));
-  defineModel(context, Names::getInterfaceNotBoundExceptionName(), modelElements);
+  defineExceptionModel(context, Names::getInterfaceNotBoundExceptionName(), modelElements);
   modelElements.clear();
 
   stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);
   modelElements.push_back(new FixedFieldDefinition(stringTypeSpecifier, "mFromType", 0));
   stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);
   modelElements.push_back(new FixedFieldDefinition(stringTypeSpecifier, "mToType", 0));
-  defineModel(context, Names::getCastExceptionName(), modelElements);
+  defineExceptionModel(context, Names::getCastExceptionName(), modelElements);
   modelElements.clear();
 
   longTypeSpecifier = PrimitiveTypes::LONG->newTypeSpecifier(0);
   modelElements.push_back(new FixedFieldDefinition(longTypeSpecifier, "mArraySize", 0));
   longTypeSpecifier = PrimitiveTypes::LONG->newTypeSpecifier(0);
   modelElements.push_back(new FixedFieldDefinition(longTypeSpecifier, "mIndex", 0));
-  defineModel(context, Names::getArrayIndexOutOfBoundsModelName(), modelElements);
+  defineExceptionModel(context, Names::getArrayIndexOutOfBoundsModelName(), modelElements);
   
   InterfaceDefinition* threadInterfaceDefinition = defineIThread(context);
   ControllerDefinition* callStackDefinition = defineCCallStack(context);
@@ -146,9 +146,9 @@ void TestPrefix::defineIntrinsicFunctions(IRGenerationContext& context) {
   Function::Create(functionType, GlobalValue::ExternalLinkage, "llvm.memset.p0i8.i64", module);
 }
 
-void TestPrefix::defineModel(IRGenerationContext& context,
-                             string modelName,
-                             vector<IObjectElementDefinition*> modelElements) {
+void TestPrefix::defineExceptionModel(IRGenerationContext& context,
+                                      string modelName,
+                                      vector<IObjectElementDefinition*> modelElements) {
   vector<IInterfaceTypeSpecifier*> modelParentInterfaces;
   PackageType* packageType = new PackageType(Names::getLangPackageName());
   FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
@@ -165,6 +165,10 @@ void TestPrefix::defineModel(IRGenerationContext& context,
   modelDefinition.prototypeMethods(context);
   Model* model = context.getModel(Names::getLangPackageName() + "." + modelName, 0);
   model->declareRTTI(context);
+  Interface* exceptionInterface = context.getInterface(Names::getExceptionInterfaceFullName(), 0);
+  vector<Interface*> interfaces;
+  interfaces.push_back(exceptionInterface);
+  model->setInterfaces(interfaces);
 }
 
 ControllerDefinition* TestPrefix::defineCCallStack(IRGenerationContext& context) {

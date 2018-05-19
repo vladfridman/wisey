@@ -1,0 +1,16 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+model MMyException {
+}
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    throw builder(MMyException).build();
+    return 1;
+  }
+}
+
+bind(IProgram).to(CProgram);

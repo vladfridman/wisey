@@ -1,5 +1,6 @@
 package systems.vos.wisey.compiler.tests;
 
+import wisey.lang.IException;
 import wisey.lang.IProgram;
 
 controller CResult {
@@ -14,7 +15,10 @@ controller CResult {
   }
 }
 
-model MException {
+model MException implements IException {
+
+  public void report() override {
+  }
 }
 
 controller CThrower {

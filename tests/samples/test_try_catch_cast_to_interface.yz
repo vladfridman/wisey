@@ -1,8 +1,9 @@
 package systems.vos.wisey.compiler.tests;
 
+import wisey.lang.IException;
 import wisey.lang.IProgram;
 
-interface IException {
+interface IMyException {
   int getValue();
 }
 
@@ -10,7 +11,7 @@ interface IObject {
   int getSomething();
 }
 
-model MException implements IException, IObject {
+model MException implements IException, IMyException, IObject {
   int mValue;
 
   public int getValue() override {
@@ -19,6 +20,9 @@ model MException implements IException, IObject {
 
   public int getSomething() override {
     return 2;
+  }
+
+  public void report() override {
   }
 }
 

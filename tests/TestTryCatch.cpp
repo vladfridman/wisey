@@ -73,13 +73,13 @@ TEST_F(TestFileRunner, tryCatchWithCleanupOwnerFromTryRunTest) {
 TEST_F(TestFileRunner, tryCatchAccessTryVariableDeathRunTest) {
   expectFailCompile("tests/samples/test_try_catch_access_try_variable.yz",
                     1,
-                    "tests/samples/test_try_catch_access_try_variable.yz\\(28\\): Error: Undeclared variable 'a'");
+                    "tests/samples/test_try_catch_access_try_variable.yz\\(32\\): Error: Undeclared variable 'a'");
 }
 
 TEST_F(TestFileRunner, tryCatchNestedDeathRunTest) {
   expectFailCompile("tests/samples/test_try_catch_nested.yz",
                     1,
-                    "tests/samples/test_try_catch_nested.yz\\(38\\): Error: "
+                    "tests/samples/test_try_catch_nested.yz\\(42\\): Error: "
                     "Nested try blocks are not allowed. Extract inner try/catch into a method.");
 }
 
@@ -88,8 +88,8 @@ TEST_F(TestFileRunner, tryCatchWithNpeDeathRunTest) {
                                1,
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
-                               "  at systems.vos.wisey.compiler.tests.CThrower.doThrow(tests/samples/test_try_catch_with_npe.yz:17)\n"
-                               "  at systems.vos.wisey.compiler.tests.CCatcher.doTryCatch(tests/samples/test_try_catch_with_npe.yz:27)\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_try_catch_with_npe.yz:39)\n"
+                               "  at systems.vos.wisey.compiler.tests.CThrower.doThrow(tests/samples/test_try_catch_with_npe.yz:21)\n"
+                               "  at systems.vos.wisey.compiler.tests.CCatcher.doTryCatch(tests/samples/test_try_catch_with_npe.yz:31)\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_try_catch_with_npe.yz:43)\n"
                                "Main thread ended without a result\n");
 }

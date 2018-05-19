@@ -11,10 +11,12 @@
 
 #include "wisey/Composer.hpp"
 #include "wisey/Environment.hpp"
+#include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/ModelOwner.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ThrowStatement.hpp"
 
@@ -37,6 +39,13 @@ void ThrowStatement::generateIR(IRGenerationContext& context) const {
   }
   const Model* model = ((const ModelOwner*) expressionType)->getReference();
 
+  string exceptionInterfaceName = Names::getExceptionInterfaceFullName();
+  const Interface* exceptionInterface = context.getInterface(exceptionInterfaceName, mLine);
+  if (IConcreteObjectType::getInterfaceIndex(model, exceptionInterface) < 0) {
+    context.reportError(mLine, "Exceptions must implement " + exceptionInterfaceName);
+    throw 1;
+  }
+  
   LLVMContext& llvmContext = context.getLLVMContext();
   context.getScopes().getScope()->addException(model, mLine);
 

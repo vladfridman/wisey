@@ -10,12 +10,16 @@ model MData {
   }
 }
 
-model MMyException {
-
+model MMyException implements wisey.lang.IException {
+  public void report() override {
+    callstack.reportException(this);
+  }
 }
 
 controller CService {
   public void throwException(MData* data) throws MMyException {
+    MMyException* myException = builder(MMyException).build();
+    throw myException;
   }
 }
 
