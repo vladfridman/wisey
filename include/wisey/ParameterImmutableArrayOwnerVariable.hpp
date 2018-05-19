@@ -55,7 +55,7 @@ namespace wisey {
                                       std::vector<const IExpression*> arrayIndices,
                                       int line) override;
     
-    void free(IRGenerationContext& context, int line) const override;
+    void free(IRGenerationContext& context, llvm::Value* exception, int line) const override;
     
     void setToNull(IRGenerationContext& context, int line) override;
     

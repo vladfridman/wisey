@@ -214,7 +214,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorBodyTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @systems.vos.wisey.compiler.tests.MStar.destructor(i8* %this) "
+  "\ndefine void @systems.vos.wisey.compiler.tests.MStar.destructor(i8* %this, i8* %exception) "
   "personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = icmp eq i8* %this, null"
@@ -237,12 +237,18 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorBodyTest) {
   "\n  ret void"
   "\n"
   "\nref.count.notzero:                                ; preds = %if.this.notnull"
-  "\n  invoke void @__throwReferenceCountException(i64 %refCounter, i8* getelementptr inbounds ([39 x i8], [39 x i8]* @systems.vos.wisey.compiler.tests.MStar.typename, i32 0, i32 0))"
+  "\n  invoke void @__throwReferenceCountException(i64 %refCounter, i8* getelementptr inbounds ([39 x i8], [39 x i8]* @systems.vos.wisey.compiler.tests.MStar.typename, i32 0, i32 0), i8* %exception)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\ncleanup:                                          ; preds = %ref.count.notzero"
   "\n  %6 = landingpad { i8*, i32 }"
   "\n          cleanup"
+  "\n  %7 = alloca { i8*, i32 }"
+  "\n  store { i8*, i32 } %6, { i8*, i32 }* %7"
+  "\n  %8 = getelementptr { i8*, i32 }, { i8*, i32 }* %7, i32 0, i32 0"
+  "\n  %9 = load i8*, i8** %8"
+  "\n  %10 = call i8* @__cxa_get_exception_ptr(i8* %9)"
+  "\n  %11 = getelementptr i8, i8* %10, i64 8"
   "\n  resume { i8*, i32 } %6"
   "\n"
   "\ninvoke.continue:                                  ; preds = %ref.count.notzero"
@@ -267,7 +273,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldTe
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @systems.vos.wisey.compiler.tests.MGalaxy.destructor(i8* %this) "
+  "\ndefine void @systems.vos.wisey.compiler.tests.MGalaxy.destructor(i8* %this, i8* %exception) "
   "personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = icmp eq i8* %this, null"
@@ -281,7 +287,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldTe
   "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MGalaxy, %systems.vos.wisey.compiler.tests.MGalaxy* %1, i32 0, i32 1"
   "\n  %3 = load %systems.vos.wisey.compiler.tests.MStar*, %systems.vos.wisey.compiler.tests.MStar** %2"
   "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MStar* %3 to i8*"
-  "\n  call void @__destroyObjectOwnerFunction(i8* %4)"
+  "\n  call void @__destroyObjectOwnerFunction(i8* %4, i8* %exception)"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.MGalaxy* %1 to i64*"
   "\n  %6 = getelementptr i64, i64* %5, i64 -1"
   "\n  %refCounter = load i64, i64* %6"
@@ -294,12 +300,18 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldTe
   "\n  ret void"
   "\n"
   "\nref.count.notzero:                                ; preds = %if.this.notnull"
-  "\n  invoke void @__throwReferenceCountException(i64 %refCounter, i8* getelementptr inbounds ([41 x i8], [41 x i8]* @systems.vos.wisey.compiler.tests.MGalaxy.typename, i32 0, i32 0))"
+  "\n  invoke void @__throwReferenceCountException(i64 %refCounter, i8* getelementptr inbounds ([41 x i8], [41 x i8]* @systems.vos.wisey.compiler.tests.MGalaxy.typename, i32 0, i32 0), i8* %exception)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\ncleanup:                                          ; preds = %ref.count.notzero"
   "\n  %9 = landingpad { i8*, i32 }"
   "\n          cleanup"
+  "\n  %10 = alloca { i8*, i32 }"
+  "\n  store { i8*, i32 } %9, { i8*, i32 }* %10"
+  "\n  %11 = getelementptr { i8*, i32 }, { i8*, i32 }* %10, i32 0, i32 0"
+  "\n  %12 = load i8*, i8** %11"
+  "\n  %13 = call i8* @__cxa_get_exception_ptr(i8* %12)"
+  "\n  %14 = getelementptr i8, i8* %13, i64 8"
   "\n  resume { i8*, i32 } %9"
   "\n"
   "\ninvoke.continue:                                  ; preds = %ref.count.notzero"
@@ -321,7 +333,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectReferenceFie
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @systems.vos.wisey.compiler.tests.MConstellation.destructor(i8* %this) "
+  "\ndefine void @systems.vos.wisey.compiler.tests.MConstellation.destructor(i8* %this, i8* %exception) "
   "personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = icmp eq i8* %this, null"
@@ -348,12 +360,18 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectReferenceFie
   "\n  ret void"
   "\n"
   "\nref.count.notzero:                                ; preds = %if.this.notnull"
-  "\n  invoke void @__throwReferenceCountException(i64 %refCounter, i8* getelementptr inbounds ([48 x i8], [48 x i8]* @systems.vos.wisey.compiler.tests.MConstellation.typename, i32 0, i32 0))"
+  "\n  invoke void @__throwReferenceCountException(i64 %refCounter, i8* getelementptr inbounds ([48 x i8], [48 x i8]* @systems.vos.wisey.compiler.tests.MConstellation.typename, i32 0, i32 0), i8* %exception)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\ncleanup:                                          ; preds = %ref.count.notzero"
   "\n  %9 = landingpad { i8*, i32 }"
   "\n          cleanup"
+  "\n  %10 = alloca { i8*, i32 }"
+  "\n  store { i8*, i32 } %9, { i8*, i32 }* %10"
+  "\n  %11 = getelementptr { i8*, i32 }, { i8*, i32 }* %10, i32 0, i32 0"
+  "\n  %12 = load i8*, i8** %11"
+  "\n  %13 = call i8* @__cxa_get_exception_ptr(i8* %12)"
+  "\n  %14 = getelementptr i8, i8* %13, i64 8"
   "\n  resume { i8*, i32 } %9"
   "\n"
   "\ninvoke.continue:                                  ; preds = %ref.count.notzero"
@@ -376,7 +394,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFiel
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @systems.vos.wisey.compiler.tests.MCar.destructor(i8* %this) "
+  "\ndefine void @systems.vos.wisey.compiler.tests.MCar.destructor(i8* %this, i8* %exception) "
   "personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = icmp eq i8* %this, null"
@@ -390,7 +408,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFiel
   "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MCar, %systems.vos.wisey.compiler.tests.MCar* %1, i32 0, i32 1"
   "\n  %3 = load %systems.vos.wisey.compiler.tests.ICanNavigate*, %systems.vos.wisey.compiler.tests.ICanNavigate** %2"
   "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.ICanNavigate* %3 to i8*"
-  "\n  call void @__destroyObjectOwnerFunction(i8* %4)"
+  "\n  call void @__destroyObjectOwnerFunction(i8* %4, i8* %exception)"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.MCar* %1 to i64*"
   "\n  %6 = getelementptr i64, i64* %5, i64 -1"
   "\n  %refCounter = load i64, i64* %6"
@@ -403,12 +421,18 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFiel
   "\n  ret void"
   "\n"
   "\nref.count.notzero:                                ; preds = %if.this.notnull"
-  "\n  invoke void @__throwReferenceCountException(i64 %refCounter, i8* getelementptr inbounds ([38 x i8], [38 x i8]* @systems.vos.wisey.compiler.tests.MCar.typename, i32 0, i32 0))"
+  "\n  invoke void @__throwReferenceCountException(i64 %refCounter, i8* getelementptr inbounds ([38 x i8], [38 x i8]* @systems.vos.wisey.compiler.tests.MCar.typename, i32 0, i32 0), i8* %exception)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\ncleanup:                                          ; preds = %ref.count.notzero"
   "\n  %9 = landingpad { i8*, i32 }"
   "\n          cleanup"
+  "\n  %10 = alloca { i8*, i32 }"
+  "\n  store { i8*, i32 } %9, { i8*, i32 }* %10"
+  "\n  %11 = getelementptr { i8*, i32 }, { i8*, i32 }* %10, i32 0, i32 0"
+  "\n  %12 = load i8*, i8** %11"
+  "\n  %13 = call i8* @__cxa_get_exception_ptr(i8* %12)"
+  "\n  %14 = getelementptr i8, i8* %13, i64 8"
   "\n  resume { i8*, i32 } %9"
   "\n"
   "\ninvoke.continue:                                  ; preds = %ref.count.notzero"
@@ -434,14 +458,16 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorCallTest) {
   mContext.getScopes().pushScope();
   mContext.setMainFunction(function);
 
-  ConstantPointerNull* pointer = ConstantPointerNull::get(mCarModel->getLLVMType(mContext));
-  IConcreteObjectType::composeDestructorCall(mContext, pointer);
+  ConstantPointerNull* objectPointer = ConstantPointerNull::get(mCarModel->getLLVMType(mContext));
+  llvm::PointerType* int8Pointer = Type::getInt8Ty(mLLVMContext)->getPointerTo();
+  Value* nullPointer = ConstantPointerNull::get(int8Pointer);
+  IConcreteObjectType::composeDestructorCall(mContext, objectPointer, nullPointer);
   
   *mStringStream << *basicBlock;
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MCar* null to i8*"
-  "\n  call void @__destroyObjectOwnerFunction(i8* %0)\n";
+  "\n  call void @__destroyObjectOwnerFunction(i8* %0, i8* null)\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -518,6 +544,7 @@ TEST_F(IConcreteObjectTypeTest, getDestructorFunctionTypeTest) {
   Type* int8Pointer = Type::getInt8Ty(mLLVMContext)->getPointerTo();
   
   vector<Type*> argumentTypes;
+  argumentTypes.push_back(int8Pointer);
   argumentTypes.push_back(int8Pointer);
   Type* llvmReturnType = Type::getVoidTy(mLLVMContext);
   

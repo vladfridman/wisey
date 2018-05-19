@@ -228,6 +228,7 @@ FunctionType* IConcreteObjectType::getDestructorFunctionType(IRGenerationContext
   
   vector<Type*> argumentTypes;
   argumentTypes.push_back(int8Pointer);
+  argumentTypes.push_back(int8Pointer);
   Type* llvmReturnType = Type::getVoidTy(llvmContext);
   
   return FunctionType::get(llvmReturnType, argumentTypes, false);
@@ -401,7 +402,10 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   Function::arg_iterator functionArguments = function->arg_begin();
   Value* thisGeneric = &*functionArguments;
   thisGeneric->setName(IObjectType::THIS);
-  
+  functionArguments++;
+  Value* exception = &*functionArguments;
+  exception->setName("exception");
+
   Value* nullValue = ConstantPointerNull::get((llvm::PointerType*) thisGeneric->getType());
   Value* isNull = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, thisGeneric, nullValue, "");
   
@@ -428,7 +432,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   }
   
   decrementReferenceFields(context, thisValue, concreteObject);
-  freeOwnerFields(context, thisValue, concreteObject, 0);
+  freeOwnerFields(context, thisValue, concreteObject, exception, 0);
   
   Value* referenceCount = concreteObject->getReferenceCount(context, thisValue);
   BasicBlock* refCountZeroBlock = BasicBlock::Create(llvmContext, "ref.count.zero", function);
@@ -440,7 +444,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   context.setBasicBlock(refCountNotZeroBlock);
   
   Value* objectName = IObjectType::getObjectNamePointer(concreteObject, context);
-  ThrowReferenceCountExceptionFunction::call(context, referenceCount, objectName);
+  ThrowReferenceCountExceptionFunction::call(context, referenceCount, objectName, exception);
   IRWriter::newUnreachableInst(context);
 
   context.setBasicBlock(refCountZeroBlock);
@@ -474,6 +478,7 @@ void IConcreteObjectType::decrementReferenceFields(IRGenerationContext& context,
 void IConcreteObjectType::freeOwnerFields(IRGenerationContext& context,
                                           Value* thisValue,
                                           const IConcreteObjectType* object,
+                                          Value* exception,
                                           int line) {
   for (IField* field : object->getFields()) {
     const IType* fieldType = field->getType();
@@ -484,7 +489,7 @@ void IConcreteObjectType::freeOwnerFields(IRGenerationContext& context,
     
     Value* fieldValuePointer = getFieldValuePointer(context, thisValue, object, field);
     const IOwnerType* ownerType = (const IOwnerType*) fieldType;
-    ownerType->free(context, fieldValuePointer, line);
+    ownerType->free(context, fieldValuePointer, exception, line);
   }
 }
 
@@ -513,11 +518,13 @@ string IConcreteObjectType::getObjectDestructorFunctionName(const IConcreteObjec
   return object->getTypeName() + ".destructor";
 }
 
-void IConcreteObjectType::composeDestructorCall(IRGenerationContext& context, Value* value) {
+void IConcreteObjectType::composeDestructorCall(IRGenerationContext& context,
+                                                Value* value,
+                                                Value* exception) {
   Type* int8pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   Value* bitcast = IRWriter::newBitCastInst(context, value, int8pointer);
   
-  DestroyObjectOwnerFunction::call(context, bitcast);
+  DestroyObjectOwnerFunction::call(context, bitcast, exception);
 }
 
 Function* IConcreteObjectType::getDestructorFunctionForObject(IRGenerationContext &context,

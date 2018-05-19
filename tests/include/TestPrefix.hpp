@@ -41,6 +41,8 @@ private:
   
   static wisey::InterfaceDefinition* defineIThread(wisey::IRGenerationContext& context);
   
+  static wisey::InterfaceDefinition* defineIException(wisey::IRGenerationContext& context);
+
   static wisey::ControllerDefinition* defineCCallStack(wisey::IRGenerationContext& context);
   
   static wisey::ControllerDefinition* defineCContextManager(wisey::IRGenerationContext& context);

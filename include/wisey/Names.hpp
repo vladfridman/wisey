@@ -36,6 +36,16 @@ namespace wisey {
     static std::string getFileStructMethodName();
     
     /**
+     * Retuns IException inteface name
+     */
+    static std::string getExceptionInterfaceName();
+
+    /**
+     * Retuns IException inteface full name
+     */
+    static std::string getExceptionInterfaceFullName();
+
+    /**
      * Returns name of the model representing the null pointer exception
      */
     static std::string getNPEModelName();
@@ -94,7 +104,7 @@ namespace wisey {
      * Retuns IThread inteface full name
      */
     static std::string getThreadInterfaceFullName();
-    
+
     /**
      * Returns getContextManager method name of the IThread
      */

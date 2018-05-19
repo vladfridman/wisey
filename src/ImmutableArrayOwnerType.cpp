@@ -74,6 +74,7 @@ llvm::Value* ImmutableArrayOwnerType::castTo(IRGenerationContext &context,
 
 void ImmutableArrayOwnerType::free(IRGenerationContext& context,
                                    llvm::Value* arrayPointer,
+                                   llvm::Value* exception,
                                    int line) const {
   const ArrayType* arrayType = getArrayType(context, line);
   
@@ -84,12 +85,20 @@ void ImmutableArrayOwnerType::free(IRGenerationContext& context,
   llvm::Value* arrayNamePointer = getArrayNamePointer(context);
   
   if (elementType->isOwner()) {
-    DestroyOwnerArrayFunction::call(context, arrayBitcast, dimensions, arrayNamePointer);
+    DestroyOwnerArrayFunction::call(context, arrayBitcast, dimensions, arrayNamePointer, exception);
   } else if (elementType->isReference()) {
-    DestroyReferenceArrayFunction::call(context, arrayBitcast, dimensions, arrayNamePointer);
+    DestroyReferenceArrayFunction::call(context,
+                                        arrayBitcast,
+                                        dimensions,
+                                        arrayNamePointer,
+                                        exception);
   } else {
     assert(elementType->isPrimitive());
-    DestroyPrimitiveArrayFunction::call(context, arrayBitcast, dimensions, arrayNamePointer);
+    DestroyPrimitiveArrayFunction::call(context,
+                                        arrayBitcast,
+                                        dimensions,
+                                        arrayNamePointer,
+                                        exception);
   }
 }
 

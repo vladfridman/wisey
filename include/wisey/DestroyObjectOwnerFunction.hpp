@@ -29,7 +29,9 @@ namespace wisey {
     /**
      * Call function with given parameters
      */
-    static void call(IRGenerationContext& context, llvm::Value* objectReference);
+    static void call(IRGenerationContext& context,
+                     llvm::Value* objectReference,
+                     llvm::Value* exception);
     
   private:
     

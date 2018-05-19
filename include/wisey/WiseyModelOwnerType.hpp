@@ -88,7 +88,10 @@ namespace wisey {
     
     const WiseyModelType* getReference() const override;
     
-    void free(IRGenerationContext& context, llvm::Value* value, int line) const override;
+    void free(IRGenerationContext& context,
+              llvm::Value* value,
+              llvm::Value* exception,
+              int line) const override;
     
     llvm::Instruction* inject(IRGenerationContext& context,
                               const InjectionArgumentList injectionArgumentList,

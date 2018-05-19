@@ -80,7 +80,9 @@ Value* LocalOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
   const IType* assignToType = assignToExpression->getType(context);
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType, line);
   
-  free(context, line);
+  llvm::PointerType* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+  Value* null = ConstantPointerNull::get(int8Pointer);
+  free(context, null, line);
 
   IRWriter::newStoreInst(context, newValue, mValueStore);
   
@@ -96,8 +98,8 @@ void LocalOwnerVariable::setToNull(IRGenerationContext& context, int line) {
   mIsInitialized = true;
 }
 
-void LocalOwnerVariable::free(IRGenerationContext& context, int line) const {
+void LocalOwnerVariable::free(IRGenerationContext& context, Value* exception, int line) const {
   Value* valueLoaded = IRWriter::newLoadInst(context, mValueStore, "");
-  mType->free(context, valueLoaded, line);
+  mType->free(context, valueLoaded, exception, line);
 }
 

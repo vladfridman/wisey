@@ -172,8 +172,11 @@ const WiseyObjectType* WiseyObjectOwnerType::getReference() const {
   return WiseyObjectType::WISEY_OBJECT_TYPE;
 }
 
-void WiseyObjectOwnerType::free(IRGenerationContext& context, Value* value, int line) const {
-  IConcreteObjectType::composeDestructorCall(context, value);
+void WiseyObjectOwnerType::free(IRGenerationContext& context,
+                                Value* value,
+                                llvm::Value* exception,
+                                int line) const {
+  IConcreteObjectType::composeDestructorCall(context, value, exception);
 }
 
 Instruction* WiseyObjectOwnerType::inject(IRGenerationContext& context,

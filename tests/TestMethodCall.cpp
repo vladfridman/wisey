@@ -278,8 +278,8 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
 
   *mStringStream << *irValue;
   string expected =
-  "  %16 = invoke %systems.vos.wisey.compiler.tests.MReturnedModel* "
-  "@systems.vos.wisey.compiler.tests.MSquare.foo(%systems.vos.wisey.compiler.tests.MSquare* %0, %wisey.threads.IThread* %14, %wisey.threads.CCallStack* %15, float 0x4014CCCCC0000000)"
+  "  %21 = invoke %systems.vos.wisey.compiler.tests.MReturnedModel* "
+  "@systems.vos.wisey.compiler.tests.MSquare.foo(%systems.vos.wisey.compiler.tests.MSquare* %0, %wisey.threads.IThread* %19, %wisey.threads.CCallStack* %20, float 0x4014CCCCC0000000)"
   "\n          to label %invoke.continue1 unwind label %cleanup";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(methodCall.getType(mContext), mReturnedModel);

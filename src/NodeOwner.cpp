@@ -72,8 +72,11 @@ Value* NodeOwner::castTo(IRGenerationContext& context,
   return mNode->castTo(context, fromValue, toType, line);
 }
 
-void NodeOwner::free(IRGenerationContext &context, Value* value, int line) const {
-  IConcreteObjectType::composeDestructorCall(context, value);
+void NodeOwner::free(IRGenerationContext &context,
+                     Value* value,
+                     Value* exception,
+                     int line) const {
+  IConcreteObjectType::composeDestructorCall(context, value, exception);
 }
 
 Function* NodeOwner::getDestructorFunction(IRGenerationContext& context, int line) const {

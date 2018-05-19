@@ -146,7 +146,7 @@ TEST_F(FieldImmutableArrayOwnerVariableTest, generateWholeArrayAssignmentTest) {
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1"
   "\n  %1 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %0"
   "\n  %2 = bitcast { i64, i64, i64, [0 x i32] }* %1 to i64*"
-  "\n  call void @__destroyPrimitiveArrayFunction(i64* %2, i64 1, i8* getelementptr inbounds ([17 x i8], [17 x i8]* @\"immutable int[]*\", i32 0, i32 0))"
+  "\n  call void @__destroyPrimitiveArrayFunction(i64* %2, i64 1, i8* getelementptr inbounds ([17 x i8], [17 x i8]* @\"immutable int[]*\", i32 0, i32 0), i8* null)"
   "\n  store { i64, i64, i64, [0 x i32] }* null, { i64, i64, i64, [0 x i32] }** %0\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());

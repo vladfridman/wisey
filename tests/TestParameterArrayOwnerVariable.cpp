@@ -92,7 +92,9 @@ TEST_F(ParameterArrayOwnerVariableTest, generateIdentifierReferenceIRTest) {
 }
 
 TEST_F(ParameterArrayOwnerVariableTest, freeTest) {
-  mVariable->free(mContext, 0);
+  llvm::PointerType* int8Pointer = Type::getInt8Ty(mLLVMContext)->getPointerTo();
+  Value* nullPointer = ConstantPointerNull::get(int8Pointer);
+  mVariable->free(mContext, nullPointer, 0);
   
   *mStringStream << *mBasicBlock;
   
@@ -101,7 +103,7 @@ TEST_F(ParameterArrayOwnerVariableTest, freeTest) {
   "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*"
   "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo"
   "\n  %1 = bitcast { i64, i64, i64, [0 x i32] }* %0 to i64*"
-  "\n  call void @__destroyPrimitiveArrayFunction(i64* %1, i64 1, i8* getelementptr inbounds ([7 x i8], [7 x i8]* @\"int[]*\", i32 0, i32 0))"
+  "\n  call void @__destroyPrimitiveArrayFunction(i64* %1, i64 1, i8* getelementptr inbounds ([7 x i8], [7 x i8]* @\"int[]*\", i32 0, i32 0), i8* null)"
   "\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

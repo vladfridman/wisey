@@ -103,7 +103,9 @@ llvm::Value* LocalArrayOwnerVariable::generateWholeArrayAssignment(IRGenerationC
   Value* assignToValue = assignToExpression->generateIR(context, mArrayOwnerType);
   Value* cast = AutoCast::maybeCast(context, assignToType, assignToValue, mArrayOwnerType, line);
   
-  free(context, line);
+  llvm::PointerType* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+  Value* null = ConstantPointerNull::get(int8Pointer);
+  free(context, null, line);
   
   IRWriter::newStoreInst(context, cast, mValueStore);
 
@@ -115,7 +117,7 @@ void LocalArrayOwnerVariable::setToNull(IRGenerationContext& context, int line) 
   IRWriter::newStoreInst(context, null, mValueStore);
 }
 
-void LocalArrayOwnerVariable::free(IRGenerationContext& context, int line) const {
+void LocalArrayOwnerVariable::free(IRGenerationContext& context, Value* exception, int line) const {
   Value* value = IRWriter::newLoadInst(context, mValueStore, "");
-  mArrayOwnerType->free(context, value, line);
+  mArrayOwnerType->free(context, value, exception, line);
 }

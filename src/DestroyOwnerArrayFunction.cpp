@@ -38,7 +38,8 @@ Function* DestroyOwnerArrayFunction::get(IRGenerationContext& context) {
 void DestroyOwnerArrayFunction::call(IRGenerationContext& context,
                                      Value* array,
                                      long numberOfDimentions,
-                                     llvm::Value* arrayNamePointer) {
+                                     llvm::Value* arrayNamePointer,
+                                     llvm::Value* exception) {
   LLVMContext& llvmContext = context.getLLVMContext();
 
   Function* function = get(context);
@@ -47,7 +48,8 @@ void DestroyOwnerArrayFunction::call(IRGenerationContext& context,
   arguments.push_back(ConstantInt::get(Type::getInt64Ty(llvmContext), numberOfDimentions));
   arguments.push_back(arrayNamePointer);
   arguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 1));
-  
+  arguments.push_back(exception);
+
   IRWriter::createCallInst(context, function, arguments, "");
 }
 
@@ -68,6 +70,7 @@ LLVMFunctionType* DestroyOwnerArrayFunction::getLLVMFunctionType(IRGenerationCon
   argumentTypes.push_back(LLVMPrimitiveTypes::I64);
   argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType(context, 0));
   argumentTypes.push_back(LLVMPrimitiveTypes::I1);
+  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType(context, 0));
 
   return context.getLLVMFunctionType(LLVMPrimitiveTypes::VOID, argumentTypes);
 }
@@ -95,6 +98,9 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   llvmArguments++;
   Value* shouldFree = &*llvmArguments;
   shouldFree->setName("shouldFree");
+  llvmArguments++;
+  Value* exception = &*llvmArguments;
+  exception->setName("exception");
 
   BasicBlock* entry = BasicBlock::Create(llvmContext, "entry", function);
   BasicBlock* returnVoid = BasicBlock::Create(llvmContext, "return.void", function);
@@ -150,7 +156,7 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   
   context.setBasicBlock(refCountNotZeroBlock);
   
-  ThrowReferenceCountExceptionFunction::call(context, referenceCount, arrayName);
+  ThrowReferenceCountExceptionFunction::call(context, referenceCount, arrayName, exception);
   IRWriter::newUnreachableInst(context);
   
   context.setBasicBlock(refCountZeroBlock);
@@ -204,6 +210,7 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   recursiveCallArguments.push_back(numberOfDimensionsMinusOne);
   recursiveCallArguments.push_back(arrayName);
   recursiveCallArguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 0));
+  recursiveCallArguments.push_back(exception);
   IRWriter::createCallInst(context, function, recursiveCallArguments, "");
   IRWriter::createBranch(context, forCond);
 
@@ -213,6 +220,7 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   Value* elementPointer = IRWriter::newLoadInst(context, objectStore, "");
   vector<Value*> destructorArguments;
   destructorArguments.push_back(elementPointer);
+  destructorArguments.push_back(exception);
   Function* destructor = DestroyObjectOwnerFunction::get(context);
   IRWriter::createCallInst(context, destructor, destructorArguments, "");
   IRWriter::createBranch(context, forCond);

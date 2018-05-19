@@ -100,7 +100,7 @@ namespace wisey {
     /**
      * Free memory owner variables and decrement reference count for reference variables
      */
-    void freeOwnedMemory(IRGenerationContext& context, int line);
+    void freeOwnedMemory(IRGenerationContext& context, llvm::Value* exception, int line);
     
     /**
      * Add an exception type that maybe thrown in this scope

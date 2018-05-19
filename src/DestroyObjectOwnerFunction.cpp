@@ -33,11 +33,14 @@ Function* DestroyObjectOwnerFunction::get(IRGenerationContext& context) {
   return function;
 }
 
-void DestroyObjectOwnerFunction::call(IRGenerationContext& context, Value* objectReference) {
+void DestroyObjectOwnerFunction::call(IRGenerationContext& context,
+                                      Value* objectReference,
+                                      Value* exception) {
   Function* function = get(context);
   vector<Value*> arguments;
   arguments.push_back(objectReference);
-  
+  arguments.push_back(exception);
+
   IRWriter::createCallInst(context, function, arguments, "");
 }
 
@@ -55,7 +58,8 @@ Function* DestroyObjectOwnerFunction::define(IRGenerationContext& context) {
 LLVMFunctionType* DestroyObjectOwnerFunction::getLLVMFunctionType(IRGenerationContext& context) {
   vector<const IType*> argumentTypes;
   argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType(context, 0));
-  
+  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType(context, 0));
+
   return context.getLLVMFunctionType(LLVMPrimitiveTypes::VOID, argumentTypes);
 }
 
@@ -69,7 +73,9 @@ void DestroyObjectOwnerFunction::compose(IRGenerationContext& context, Function*
   Value* thisGeneric = &*functionArguments;
   thisGeneric->setName("thisGeneric");
   functionArguments++;
-  
+  Value* exception = &*functionArguments;
+  exception->setName("exception");
+
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function);
   BasicBlock* ifNullBlock = BasicBlock::Create(llvmContext, "if.null", function);
   BasicBlock* ifNotNullBlock = BasicBlock::Create(llvmContext, "if.notnull", function);
@@ -99,7 +105,8 @@ void DestroyObjectOwnerFunction::compose(IRGenerationContext& context, Function*
   
   vector<Value*> arguments;
   arguments.push_back(originalObjectVTable);
-  
+  arguments.push_back(exception);
+
   IRWriter::createInvokeInst(context, objectDestructor, arguments, "", 0);
   IRWriter::createReturnInst(context, NULL);
   

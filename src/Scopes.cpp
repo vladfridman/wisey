@@ -60,7 +60,9 @@ void Scopes::pushScope() {
 void Scopes::popScope(IRGenerationContext& context, int line) {
   Scope* top = mScopes.front();
 
-  top->freeOwnedMemory(context, line);
+  llvm::PointerType* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+  Value* null = ConstantPointerNull::get(int8Pointer);
+  top->freeOwnedMemory(context, null, line);
   clearCachedLandingPadBlock();
 
   map<string, int> exceptions = top->getExceptions();
@@ -93,9 +95,9 @@ list<Scope*> Scopes::getScopesList() {
   return mScopes;
 }
 
-void Scopes::freeOwnedMemory(IRGenerationContext& context, int line) {
+void Scopes::freeOwnedMemory(IRGenerationContext& context, Value* exception, int line) {
   for (Scope* scope : mScopes) {
-    scope->freeOwnedMemory(context, line);
+    scope->freeOwnedMemory(context, exception, line);
   }
 }
 
@@ -225,7 +227,9 @@ llvm::BasicBlock* Scopes::freeMemoryAllocatedInTry(IRGenerationContext& context,
     if (scope->getTryCatchInfo()) {
       break;
     }
-    scope->freeOwnedMemory(context, line);
+    llvm::PointerType* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+    Value* null = ConstantPointerNull::get(int8Pointer);
+    scope->freeOwnedMemory(context, null, line);
   }
 
   context.setBasicBlock(lastBasicBlock);

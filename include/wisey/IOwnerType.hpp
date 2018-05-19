@@ -32,7 +32,10 @@ namespace wisey {
     /**
      * Deallocates memory occupied by this object owner and its field variables
      */
-    virtual void free(IRGenerationContext& context, llvm::Value* value, int line) const = 0;
+    virtual void free(IRGenerationContext& context,
+                      llvm::Value* value,
+                      llvm::Value* exception,
+                      int line) const = 0;
     
     /**
      * Returns IReferenceType for this owner type

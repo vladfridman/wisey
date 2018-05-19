@@ -102,7 +102,9 @@ generateWholeArrayAssignment(IRGenerationContext& context,
                                     mImmutableArrayOwnerType,
                                     line);
   
-  free(context, line);
+  llvm::PointerType* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+  Value* null = ConstantPointerNull::get(int8Pointer);
+  free(context, null, line);
   
   IRWriter::newStoreInst(context, cast, mValueStore);
   
@@ -114,7 +116,9 @@ void LocalImmutableArrayOwnerVariable::setToNull(IRGenerationContext& context, i
   IRWriter::newStoreInst(context, null, mValueStore);
 }
 
-void LocalImmutableArrayOwnerVariable::free(IRGenerationContext& context, int line) const {
+void LocalImmutableArrayOwnerVariable::free(IRGenerationContext& context,
+                                            Value* exception,
+                                            int line) const {
   Value* value = IRWriter::newLoadInst(context, mValueStore, "");
-  mImmutableArrayOwnerType->free(context, value, line);
+  mImmutableArrayOwnerType->free(context, value, exception, line);
 }

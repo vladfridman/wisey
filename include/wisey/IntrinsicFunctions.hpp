@@ -64,6 +64,11 @@ namespace wisey {
     static llvm::Function* getEndCatchFunction(IRGenerationContext& context);
     
     /**
+     * Returns __cxa_get_exception_ptr function that completes a catch block
+     */
+    static llvm::Function* getExceptionPointerFunction(IRGenerationContext& context);
+
+    /**
      * Returns __gxx_personality_v0 function that is used orchestrate exception handling
      */
     static llvm::Function* getPersonalityFunction(IRGenerationContext& context);

@@ -54,13 +54,13 @@ struct DestroyObjectOwnerFunctionTest : Test {
 
 TEST_F(DestroyObjectOwnerFunctionTest, callTest) {
   PointerType* genericPointer = Type::getInt8Ty(mLLVMContext)->getPointerTo();
-  Value* nullPointerValue = ConstantPointerNull::get(genericPointer);
-  DestroyObjectOwnerFunction::call(mContext, nullPointerValue);
+  Value* nullPointer = ConstantPointerNull::get(genericPointer);
+  DestroyObjectOwnerFunction::call(mContext, nullPointer, nullPointer);
   
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  call void @__destroyObjectOwnerFunction(i8* null)\n";
+  "\n  call void @__destroyObjectOwnerFunction(i8* null, i8* null)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -71,7 +71,7 @@ TEST_F(DestroyObjectOwnerFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @__destroyObjectOwnerFunction(i8* %thisGeneric) personality i32 (...)* @__gxx_personality_v0 {"
+  "\ndefine void @__destroyObjectOwnerFunction(i8* %thisGeneric, i8* %exception) personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = icmp eq i8* %thisGeneric, null"
   "\n  br i1 %0, label %if.null, label %if.notnull"
@@ -81,16 +81,22 @@ TEST_F(DestroyObjectOwnerFunctionTest, getTest) {
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
   "\n  %1 = call i8* @__getOriginalObject(i8* %thisGeneric)"
-  "\n  %2 = bitcast i8* %1 to void (i8*)***"
-  "\n  %vtable = load void (i8*)**, void (i8*)*** %2"
-  "\n  %3 = getelementptr void (i8*)*, void (i8*)** %vtable, i64 2"
-  "\n  %4 = load void (i8*)*, void (i8*)** %3"
-  "\n  invoke void %4(i8* %1)"
+  "\n  %2 = bitcast i8* %1 to void (i8*, i8*)***"
+  "\n  %vtable = load void (i8*, i8*)**, void (i8*, i8*)*** %2"
+  "\n  %3 = getelementptr void (i8*, i8*)*, void (i8*, i8*)** %vtable, i64 2"
+  "\n  %4 = load void (i8*, i8*)*, void (i8*, i8*)** %3"
+  "\n  invoke void %4(i8* %1, i8* %exception)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\ncleanup:                                          ; preds = %if.notnull"
   "\n  %5 = landingpad { i8*, i32 }"
   "\n          cleanup"
+  "\n  %6 = alloca { i8*, i32 }"
+  "\n  store { i8*, i32 } %5, { i8*, i32 }* %6"
+  "\n  %7 = getelementptr { i8*, i32 }, { i8*, i32 }* %6, i32 0, i32 0"
+  "\n  %8 = load i8*, i8** %7"
+  "\n  %9 = call i8* @__cxa_get_exception_ptr(i8* %8)"
+  "\n  %10 = getelementptr i8, i8* %9, i64 8"
   "\n  resume { i8*, i32 } %5"
   "\n"
   "\ninvoke.continue:                                  ; preds = %if.notnull"

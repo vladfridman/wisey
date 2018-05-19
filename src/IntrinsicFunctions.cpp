@@ -50,6 +50,10 @@ Function* IntrinsicFunctions::getEndCatchFunction(IRGenerationContext& context) 
   return context.getModule()->getFunction("__cxa_end_catch");
 }
 
+Function* IntrinsicFunctions::getExceptionPointerFunction(IRGenerationContext& context) {
+  return context.getModule()->getFunction("__cxa_get_exception_ptr");
+}
+
 Function* IntrinsicFunctions::getPersonalityFunction(IRGenerationContext& context) {
   return context.getModule()->getFunction("__gxx_personality_v0");
 }

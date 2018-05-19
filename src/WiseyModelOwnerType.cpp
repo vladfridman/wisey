@@ -172,8 +172,11 @@ const WiseyModelType* WiseyModelOwnerType::getReference() const {
   return WiseyModelType::WISEY_MODEL_TYPE;
 }
 
-void WiseyModelOwnerType::free(IRGenerationContext& context, Value* value, int line) const {
-  IConcreteObjectType::composeDestructorCall(context, value);
+void WiseyModelOwnerType::free(IRGenerationContext& context,
+                               Value* value,
+                               llvm::Value* exception,
+                               int line) const {
+  IConcreteObjectType::composeDestructorCall(context, value, exception);
 }
 
 Instruction* WiseyModelOwnerType::inject(IRGenerationContext& context,

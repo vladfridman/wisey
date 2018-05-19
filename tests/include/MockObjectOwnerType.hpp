@@ -24,7 +24,7 @@ public:
   MOCK_CONST_METHOD1(findMethod, const wisey::IMethodDescriptor* (std::string));
   MOCK_CONST_METHOD0(getTypeName, std::string ());
   MOCK_CONST_METHOD1(getLLVMType, llvm::PointerType* (wisey::IRGenerationContext&));
-  MOCK_CONST_METHOD3(free, void (wisey::IRGenerationContext&, llvm::Value*, int));
+  MOCK_CONST_METHOD4(free, void (wisey::IRGenerationContext&, llvm::Value*, llvm::Value*, int));
   MOCK_CONST_METHOD2(canCastTo, bool (wisey::IRGenerationContext&, const wisey::IType*));
   MOCK_CONST_METHOD2(canAutoCastTo, bool (wisey::IRGenerationContext&, const wisey::IType*));
   MOCK_CONST_METHOD4(castTo, llvm::Value* (wisey::IRGenerationContext&,

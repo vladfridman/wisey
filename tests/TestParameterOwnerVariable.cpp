@@ -121,8 +121,10 @@ TEST_F(ParameterOwnerVariableTest, freeTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   ParameterOwnerVariable heapMethodParameter("foo", mModel->getOwner(), fooValue, 0);
-  
-  heapMethodParameter.free(mContext, 0);
+  llvm::PointerType* int8Pointer = Type::getInt8Ty(mLLVMContext)->getPointerTo();
+  Value* nullPointer = ConstantPointerNull::get(int8Pointer);
+
+  heapMethodParameter.free(mContext, nullPointer, 0);
   
   *mStringStream << *mBasicBlock;
   
@@ -131,7 +133,7 @@ TEST_F(ParameterOwnerVariableTest, freeTest) {
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
   "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0"
   "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.MShape* %1 to i8*"
-  "\n  call void @__destroyObjectOwnerFunction(i8* %2)\n";
+  "\n  call void @__destroyObjectOwnerFunction(i8* %2, i8* null)\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

@@ -6,6 +6,7 @@ package wisey.lang;
 model MReferenceCountException implements IException {
   string mObjectType;
   long mReferenceCount;
+  IException mNestedException;
 
   public void report() override {
     callstack.reportException(this);
@@ -13,6 +14,11 @@ model MReferenceCountException implements IException {
     printerr("Details: Object referenced by expression of type " +
       mObjectType +  " still has " + mReferenceCount + 
       " active reference" + ending + "\n");
+    if (mNestedException) {
+      printerr("Was thrown from memory clean up after " + 
+        MSystem.getOriginalObjectTypeName(mNestedException) + "\n");
+      mNestedException.report();
+    }
   }
 
   /**

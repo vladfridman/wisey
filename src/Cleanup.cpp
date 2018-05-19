@@ -7,6 +7,7 @@
 //
 
 #include "wisey/Cleanup.hpp"
+#include "wisey/Environment.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/TryCatchInfo.hpp"
@@ -36,10 +37,27 @@ BasicBlock* Cleanup::generate(IRGenerationContext& context, int line) {
                                                       0,
                                                       "",
                                                       context.getBasicBlock());
+
+  Value* landingPadReturnValueAlloca = IRWriter::newAllocaInst(context, landingPadReturnType, "");
+  IRWriter::newStoreInst(context, landingPad, landingPadReturnValueAlloca);
   
+  Value* index[2];
+  index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+  Value* wrappedExceptionPointer =
+  IRWriter::createGetElementPtrInst(context, landingPadReturnValueAlloca, index);
+  Value* wrappedException = IRWriter::newLoadInst(context, wrappedExceptionPointer, "");
+  Function* getException = IntrinsicFunctions::getExceptionPointerFunction(context);
+  vector<Value*> arguments;
+  arguments.push_back(wrappedException);
+  Value* exceptionShell = IRWriter::createCallInst(context, getException, arguments, "");
+  Value* idx[1];
+  idx[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), Environment::getAddressSizeInBytes());
+  Value* exception = IRWriter::createGetElementPtrInst(context, exceptionShell, idx);
+
   landingPad->setCleanup(true);
 
-  context.getScopes().freeOwnedMemory(context, line);
+  context.getScopes().freeOwnedMemory(context, exception, line);
   
   IRWriter::createResumeInst(context, landingPad);
 

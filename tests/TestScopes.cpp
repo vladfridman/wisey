@@ -220,10 +220,10 @@ TEST_F(ScopesTest, freeOwnedMemoryTest) {
   mScopes.pushScope();
   mScopes.setVariable(mContext, &bar);
   
-  EXPECT_CALL(foo, free(_, _));
-  EXPECT_CALL(bar, free(_, _));
+  EXPECT_CALL(foo, free(_, _, _));
+  EXPECT_CALL(bar, free(_, _, _));
   
-  mScopes.freeOwnedMemory(mContext, 0);
+  mScopes.freeOwnedMemory(mContext, NULL, 0);
 }
 
 TEST_F(ScopesTest, variableHidingDeathTest) {
@@ -300,17 +300,6 @@ TEST_F(TestFileRunner, referenceCountExceptionRunDeathTest) {
                                "  at systems.vos.wisey.compiler.tests.CService.clear(tests/samples/test_reference_count_exception.yz:22)\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_count_exception.yz:31)\n"
                                "Details: Object referenced by expression of type systems.vos.wisey.compiler.tests.MData still has 1 active reference\n"
-                               "Main thread ended without a result\n");
-}
-
-TEST_F(TestFileRunner, throwRceFromCleanupRunDeathTest) {
-  compileAndRunFileCheckOutput("tests/samples/test_throw_rce_from_cleanup.yz",
-                               1,
-                               "",
-                               "Unhandled exception wisey.lang.MReferenceCountException\n"
-                               "  at systems.vos.wisey.compiler.tests.CService.throwException(tests/samples/test_throw_rce_from_cleanup.yz:20)\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_throw_rce_from_cleanup.yz:32)\n"
-                               "Details: Object referenced by expression of type systems.vos.wisey.compiler.tests.MData still has 2 active references\n"
                                "Main thread ended without a result\n");
 }
 

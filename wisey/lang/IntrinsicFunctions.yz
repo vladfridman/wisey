@@ -66,6 +66,11 @@
 ::llvm::function ::llvm::void __cxa_end_catch();
 
 /**
+ * Returns the adjusted pointer to the exception object
+ */
+::llvm::function ::llvm::i8::pointer __cxa_get_exception_ptr(::llvm::i8::pointer);
+
+/**
  * Default personality function for exception handling
  */
 ::llvm::function ::llvm::i32 __gxx_personality_v0(...);

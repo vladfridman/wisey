@@ -32,7 +32,10 @@ namespace wisey {
     
     llvm::PointerType* getLLVMType(IRGenerationContext& context) const override;
     
-    void free(IRGenerationContext& context, llvm::Value* value, int line) const override;
+    void free(IRGenerationContext& context,
+              llvm::Value* value,
+              llvm::Value* exception,
+              int line) const override;
     
     bool canCastTo(IRGenerationContext& context, const IType* toType) const override;
     

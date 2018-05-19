@@ -28,7 +28,7 @@ namespace wisey {
     /**
      * Free any allocated space associated with this variable
      */
-    virtual void free(IRGenerationContext& context, int line) const = 0;
+    virtual void free(IRGenerationContext& context, llvm::Value* exception, int line) const = 0;
     
   };
   

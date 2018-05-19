@@ -27,6 +27,7 @@
 		F508E06C1E72DC7D005D6115 /* TestIMethodDescriptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F508E06B1E72DC7D005D6115 /* TestIMethodDescriptor.cpp */; };
 		F508E06F1E73076E005D6115 /* Environment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F508E06E1E73076E005D6115 /* Environment.cpp */; };
 		F508E0701E73076E005D6115 /* Environment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F508E06E1E73076E005D6115 /* Environment.cpp */; };
+		F50D5E3620B04AE400A025E9 /* TestCleanup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50D5E3520B04AE400A025E9 /* TestCleanup.cpp */; };
 		F50FA29E1E2693F400435EEA /* CompoundStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */; };
 		F50FA29F1E2693F400435EEA /* CompoundStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */; };
 		F50FA2A11E269B4700435EEA /* TestCompoundStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2A01E269B4700435EEA /* TestCompoundStatement.cpp */; };
@@ -1181,6 +1182,7 @@
 		F508E0681E72D954005D6115 /* IMethodDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IMethodDescriptor.cpp; path = src/IMethodDescriptor.cpp; sourceTree = "<group>"; };
 		F508E06B1E72DC7D005D6115 /* TestIMethodDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIMethodDescriptor.cpp; path = tests/TestIMethodDescriptor.cpp; sourceTree = "<group>"; };
 		F508E06E1E73076E005D6115 /* Environment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environment.cpp; path = src/Environment.cpp; sourceTree = "<group>"; };
+		F50D5E3520B04AE400A025E9 /* TestCleanup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCleanup.cpp; path = tests/TestCleanup.cpp; sourceTree = "<group>"; };
 		F50EF29B1EDB4599002E68A8 /* IGlobalStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IGlobalStatement.hpp; path = include/wisey/IGlobalStatement.hpp; sourceTree = "<group>"; };
 		F50EF2A01EDC7A97002E68A8 /* MockGlobalStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockGlobalStatement.hpp; path = tests/include/MockGlobalStatement.hpp; sourceTree = "<group>"; };
 		F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CompoundStatement.cpp; path = src/CompoundStatement.cpp; sourceTree = "<group>"; };
@@ -3684,9 +3686,10 @@
 			isa = PBXGroup;
 			children = (
 				F518B5E71EB2240C00577EEB /* TestCatch.cpp */,
+				F50D5E3520B04AE400A025E9 /* TestCleanup.cpp */,
+				F5CB7F4E204B7D89007628B5 /* TestStackTrace.cpp */,
 				F56AD49E1E9F50FD0020868C /* TestThrowStatement.cpp */,
 				F52F2C981EA95C7B0081DE38 /* TestTryCatch.cpp */,
-				F5CB7F4E204B7D89007628B5 /* TestStackTrace.cpp */,
 			);
 			name = exceptions;
 			sourceTree = "<group>";
@@ -4213,6 +4216,7 @@
 				F5CB7FDD2052ABFE007628B5 /* FixedField.cpp in Sources */,
 				F5A0DAF5207BE68600B0E479 /* WiseyModelOwnerTypeSpecifier.cpp in Sources */,
 				F57780B61ECA6B460049542D /* TestInjector.cpp in Sources */,
+				F50D5E3620B04AE400A025E9 /* TestCleanup.cpp in Sources */,
 				F531B6571E0DE040008304F3 /* TestStringLiteral.cpp in Sources */,
 				F57411661E01BF18009809FF /* TestScope.cpp in Sources */,
 				F53A2C051EEC31CC00E76A9E /* ControllerOwner.cpp in Sources */,

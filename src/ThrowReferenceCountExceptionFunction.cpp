@@ -36,11 +36,13 @@ Function* ThrowReferenceCountExceptionFunction::get(IRGenerationContext& context
 
 void ThrowReferenceCountExceptionFunction::call(IRGenerationContext& context,
                                                 Value* referenceCount,
-                                                llvm::Value* namePointer) {
+                                                llvm::Value* namePointer,
+                                                llvm::Value* exception) {
   Function* function = get(context);
   vector<Value*> arguments;
   arguments.push_back(referenceCount);
   arguments.push_back(namePointer);
+  arguments.push_back(exception);
 
   IRWriter::createInvokeInst(context, function, arguments, "", 0);
 }
@@ -60,22 +62,27 @@ LLVMFunctionType* ThrowReferenceCountExceptionFunction::getLLVMFunctionType(IRGe
   vector<const IType*> argumentTypes;
   argumentTypes.push_back(LLVMPrimitiveTypes::I64);
   argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType(context, 0));
+  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType(context, 0));
 
   return context.getLLVMFunctionType(LLVMPrimitiveTypes::VOID, argumentTypes);
 }
 
 void ThrowReferenceCountExceptionFunction::compose(IRGenerationContext& context,
                                                    llvm::Function* function) {
+  LLVMContext& llvmContext = context.getLLVMContext();
   Function::arg_iterator llvmArguments = function->arg_begin();
   llvm::Argument* referenceCount = &*llvmArguments;
   referenceCount->setName("referenceCount");
   llvmArguments++;
   llvm::Argument* namePointer = &*llvmArguments;
   namePointer->setName("namePointer");
+  llvmArguments++;
+  llvm::Argument* exception = &*llvmArguments;
+  exception->setName("exception");
 
-  BasicBlock* basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry", function);
-  context.setBasicBlock(basicBlock);
-  
+  BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function);
+
+  context.setBasicBlock(entryBlock);
   PackageType* packageType = context.getPackageType(Names::getLangPackageName());
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ModelTypeSpecifier* modelTypeSpecifier =
@@ -87,17 +94,23 @@ void ThrowReferenceCountExceptionFunction::compose(IRGenerationContext& context,
   fakeExpression = new FakeExpression(namePointer, PrimitiveTypes::STRING);
   ObjectBuilderArgument* objectNameArgument =
     new ObjectBuilderArgument("withObjectType", fakeExpression);
+  Interface* exceptionInterface = context.getInterface(Names::getExceptionInterfaceFullName(), 0);
+  Value* exceptionCast = IRWriter::newBitCastInst(context,
+                                                  exception,
+                                                  exceptionInterface->getLLVMType(context));
+  fakeExpression = new FakeExpression(exceptionCast, exceptionInterface);
+  ObjectBuilderArgument* nestedExceptionArgument =
+    new ObjectBuilderArgument("withNestedException", fakeExpression);
   objectBuilderArgumnetList.push_back(refCountArgument);
   objectBuilderArgumnetList.push_back(objectNameArgument);
+  objectBuilderArgumnetList.push_back(nestedExceptionArgument);
   ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier,
                                                    objectBuilderArgumnetList,
                                                    0);
   ThrowStatement throwStatement(objectBuilder, 0);
-  
   context.getScopes().pushScope();
   throwStatement.generateIR(context);
   context.getScopes().popScope(context, 0);
-  
   IRWriter::createReturnInst(context, NULL);
 
   context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context), 0);

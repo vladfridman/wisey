@@ -32,7 +32,8 @@ namespace wisey {
      */
     static void call(IRGenerationContext& context,
                      llvm::Value* referenceCount,
-                     llvm::Value* namePointer);
+                     llvm::Value* namePointer,
+                     llvm::Value* exception);
     
   private:
     

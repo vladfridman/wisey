@@ -33,7 +33,8 @@ namespace wisey {
     static void call(IRGenerationContext& context,
                      llvm::Value* array,
                      llvm::Value* numberOfDimensions,
-                     llvm::Value* arrayNamePointer);
+                     llvm::Value* arrayNamePointer,
+                     llvm::Value* exception);
 
   private:
     

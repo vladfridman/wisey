@@ -31,13 +31,22 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   importProfile->setSourceFileName(context, "/tmp/source.yz");
   
   defineStdErrGlobal(context);
-  
+
+  InterfaceDefinition* exceptionInterfaceDefinition = defineIException(context);
+  exceptionInterfaceDefinition->prototypeObject(context, importProfile);
+
   vector<IObjectElementDefinition*> modelElements;
   defineModel(context, Names::getNPEModelName(), modelElements);
   const PrimitiveTypeSpecifier* longTypeSpecifier = PrimitiveTypes::LONG->newTypeSpecifier(0);
   modelElements.push_back(new FixedFieldDefinition(longTypeSpecifier, "mReferenceCount", 0));
   const PrimitiveTypeSpecifier* stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);
   modelElements.push_back(new FixedFieldDefinition(stringTypeSpecifier, "mObjectType", 0));
+  
+  PackageType* packageType = new PackageType(Names::getLangPackageName());
+  FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
+  InterfaceTypeSpecifierFull* interfaceTypeSpecifier =
+  new InterfaceTypeSpecifierFull(packageExpression, Names::getExceptionInterfaceName(), 0);
+  modelElements.push_back(new FixedFieldDefinition(interfaceTypeSpecifier, "mNestedException", 0));
   defineModel(context, Names::getReferenceCountExceptionName(), modelElements);
   modelElements.clear();
   stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);
@@ -94,9 +103,6 @@ void TestPrefix::defineIntrinsicFunctions(IRGenerationContext& context) {
   
   functionType = llvm::TypeBuilder<long(types::i<8>*), false>::get(llvmContext);
   Function::Create(functionType, GlobalValue::ExternalLinkage, "strlen", module);
-  
-  functionType = TypeBuilder<void (), false>::get(llvmContext);
-  Function::Create(functionType, GlobalValue::ExternalLinkage, "__cxa_end_catch", module);
 
   functionType = TypeBuilder<void (types::i<8>*,
                                    types::i<8>*,
@@ -111,6 +117,12 @@ void TestPrefix::defineIntrinsicFunctions(IRGenerationContext& context) {
 
   functionType = TypeBuilder<types::i<8>* (types::i<8>*), false>::get(llvmContext);
   Function::Create(functionType, GlobalValue::ExternalLinkage, "__cxa_begin_catch", module);
+  
+  functionType = TypeBuilder<void (), false>::get(llvmContext);
+  Function::Create(functionType, GlobalValue::ExternalLinkage, "__cxa_end_catch", module);
+  
+  functionType = TypeBuilder<types::i<8>* (types::i<8>*), false>::get(llvmContext);
+  Function::Create(functionType, GlobalValue::ExternalLinkage, "__cxa_get_exception_ptr", module);
 
   functionType = TypeBuilder<types::i<32> (...), false>::get(llvmContext);
   Function::Create(functionType, GlobalValue::ExternalLinkage, "__gxx_personality_v0", module);
@@ -347,3 +359,19 @@ InterfaceDefinition* TestPrefix::defineIThread(IRGenerationContext& context) {
                                  0);
 }
 
+InterfaceDefinition* TestPrefix::defineIException(IRGenerationContext& context) {
+  PackageType* packageType = new PackageType(Names::getLangPackageName());
+  FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
+  InterfaceTypeSpecifierFull* interfaceTypeSpecifier =
+  new InterfaceTypeSpecifierFull(packageExpression, Names::getExceptionInterfaceName(), 0);
+  vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers;
+  vector<IObjectElementDefinition *> elementDeclarations;
+  vector<IObjectDefinition*> innerObjectDefinitions;
+
+  return new InterfaceDefinition(AccessLevel::PUBLIC_ACCESS,
+                                 interfaceTypeSpecifier,
+                                 parentInterfaceSpecifiers,
+                                 elementDeclarations,
+                                 innerObjectDefinitions,
+                                 0);
+}

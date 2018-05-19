@@ -87,10 +87,10 @@ TEST_F(ScopeTest, freeOwnedMemoryTest) {
   mScope.setVariable("bar", mOwnerVariable);
   mScope.setVariable("foo", mReferenceVariable);
 
-  EXPECT_CALL(*mOwnerVariable, free(_, _));
+  EXPECT_CALL(*mOwnerVariable, free(_, _, _));
   EXPECT_CALL(*mReferenceVariable, decrementReferenceCounter(_));
   
-  mScope.freeOwnedMemory(mContext, 0);
+  mScope.freeOwnedMemory(mContext, NULL, 0);
 }
 
 TEST_F(ScopeTest, addExceptionTest) {

@@ -201,12 +201,14 @@ namespace wisey {
     /**
      * Declares global variable with the name of the given object defined externally
      */
-    static void declareTypeNameGlobal(IRGenerationContext& context, const IConcreteObjectType* object);
+    static void declareTypeNameGlobal(IRGenerationContext& context,
+                                      const IConcreteObjectType* object);
     
     /**
      * Difines global variable with the name of the given object and initializes it
      */
-    static void defineTypeNameGlobal(IRGenerationContext& context, const IConcreteObjectType* object);
+    static void defineTypeNameGlobal(IRGenerationContext& context,
+                                     const IConcreteObjectType* object);
 
     /**
      * Casts this concrete object to a given type
@@ -255,7 +257,9 @@ namespace wisey {
     /**
      * Compose a call to destroy a given concrete object
      */
-    static void composeDestructorCall(IRGenerationContext& context, llvm::Value* value);
+    static void composeDestructorCall(IRGenerationContext& context,
+                                      llvm::Value* value,
+                                      llvm::Value* exception);
     
     /**
      * Returns destructor function
@@ -395,6 +399,7 @@ namespace wisey {
     static void freeOwnerFields(IRGenerationContext& context,
                                 llvm::Value* thisValue,
                                 const IConcreteObjectType* object,
+                                llvm::Value* exception,
                                 int line);
     
     static llvm::Value* getFieldValuePointer(IRGenerationContext& context,

@@ -68,13 +68,13 @@ TEST_F(DestroyReferenceArrayFunctionTest, callTest) {
   llvm::PointerType* i64PointerType = llvm::Type::getInt64Ty(mLLVMContext)->getPointerTo();
   llvm::PointerType* i8PointerType = llvm::Type::getInt8Ty(mLLVMContext)->getPointerTo();
   Value* arrayPointer = ConstantPointerNull::get(i64PointerType);
-  Value* arrayNamePointer = ConstantPointerNull::get(i8PointerType);
-  DestroyReferenceArrayFunction::call(mContext, arrayPointer, 2u, arrayNamePointer);
+  Value* nullPointer = ConstantPointerNull::get(i8PointerType);
+  DestroyReferenceArrayFunction::call(mContext, arrayPointer, 2u, nullPointer, nullPointer);
   
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  call void @__destroyReferenceArrayFunction(i64* null, i64 2, i8* null, i1 true)\n";
+  "\n  call void @__destroyReferenceArrayFunction(i64* null, i64 2, i8* null, i1 true, i8* null)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -85,7 +85,7 @@ TEST_F(DestroyReferenceArrayFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @__destroyReferenceArrayFunction(i64* %arrayPointer, i64 %noOfDimensions, i8* %arrayName, i1 %shouldFree) personality i32 (...)* @__gxx_personality_v0 {"
+  "\ndefine void @__destroyReferenceArrayFunction(i64* %arrayPointer, i64 %noOfDimensions, i8* %arrayName, i1 %shouldFree, i8* %exception) personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %isNull = icmp eq i64* %arrayPointer, null"
   "\n  br i1 %isNull, label %return.void, label %if.not.null"
@@ -113,7 +113,7 @@ TEST_F(DestroyReferenceArrayFunctionTest, getTest) {
   "\n  br label %for.cond"
   "\n"
   "\nref.count.notzero:                                ; preds = %if.not.null"
-  "\n  invoke void @__throwReferenceCountException(i64 %refCount, i8* %arrayName)"
+  "\n  invoke void @__throwReferenceCountException(i64 %refCount, i8* %arrayName, i8* %exception)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\nfor.cond:                                         ; preds = %one.dimensional, %multi.dimensional, %ref.count.zero"
@@ -133,7 +133,7 @@ TEST_F(DestroyReferenceArrayFunctionTest, getTest) {
   "\n"
   "\nmulti.dimensional:                                ; preds = %for.body"
   "\n  %5 = bitcast i8* %4 to i64*"
-  "\n  call void @__destroyReferenceArrayFunction(i64* %5, i64 %dimensionsMinusOne, i8* %arrayName, i1 false)"
+  "\n  call void @__destroyReferenceArrayFunction(i64* %5, i64 %dimensionsMinusOne, i8* %arrayName, i1 false, i8* %exception)"
   "\n  br label %for.cond"
   "\n"
   "\none.dimensional:                                  ; preds = %for.body"
@@ -153,6 +153,12 @@ TEST_F(DestroyReferenceArrayFunctionTest, getTest) {
   "\ncleanup:                                          ; preds = %ref.count.notzero"
   "\n  %9 = landingpad { i8*, i32 }"
   "\n          cleanup"
+  "\n  %10 = alloca { i8*, i32 }"
+  "\n  store { i8*, i32 } %9, { i8*, i32 }* %10"
+  "\n  %11 = getelementptr { i8*, i32 }, { i8*, i32 }* %10, i32 0, i32 0"
+  "\n  %12 = load i8*, i8** %11"
+  "\n  %13 = call i8* @__cxa_get_exception_ptr(i8* %12)"
+  "\n  %14 = getelementptr i8, i8* %13, i64 8"
   "\n  resume { i8*, i32 } %9"
   "\n"
   "\ninvoke.continue:                                  ; preds = %ref.count.notzero"

@@ -103,7 +103,9 @@ Value* FieldArrayOwnerVariable::generateWholeArrayAssignment(IRGenerationContext
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
   Value* fieldPointerLoaded = IRWriter::newLoadInst(context, fieldPointer, "");
   
-  ((const IOwnerType*) field->getType())->free(context, fieldPointerLoaded, line);
+  llvm::PointerType* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+  Value* null = ConstantPointerNull::get(int8Pointer);
+  ((const IOwnerType*) field->getType())->free(context, fieldPointerLoaded, null, line);
 
   return IRWriter::newStoreInst(context, cast, fieldPointer);
 }
@@ -166,6 +168,6 @@ void FieldArrayOwnerVariable::setToNull(IRGenerationContext& context, int line) 
   IRWriter::newStoreInst(context, null, fieldPointer);
 }
 
-void FieldArrayOwnerVariable::free(IRGenerationContext& context, int line) const {
+void FieldArrayOwnerVariable::free(IRGenerationContext& context, Value* exception, int line) const {
   /** Freed using object destructor */
 }

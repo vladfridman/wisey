@@ -68,7 +68,7 @@ namespace wisey {
      *
      * This is typically called before a return or a throw
      */
-    void freeOwnedMemory(IRGenerationContext& context, int line);
+    void freeOwnedMemory(IRGenerationContext& context, llvm::Value* exception, int line);
     
     /**
      * Set block to break to out of a loop or a switch statement

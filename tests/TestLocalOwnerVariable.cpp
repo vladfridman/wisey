@@ -118,7 +118,7 @@ TEST_F(LocalOwnerVariableTest, generateAssignmentIRTest) {
   "\n  %1 = alloca %systems.vos.wisey.compiler.tests.MShape*"
   "\n  %2 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0"
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MShape* %2 to i8*"
-  "\n  call void @__destroyObjectOwnerFunction(i8* %3)"
+  "\n  call void @__destroyObjectOwnerFunction(i8* %3, i8* null)"
   "\n  store %systems.vos.wisey.compiler.tests.MShape* null, %systems.vos.wisey.compiler.tests.MShape** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -191,8 +191,10 @@ TEST_F(LocalOwnerVariableTest, freeTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue, 0);
-  
-  heapOwnerVariable.free(mContext, 0);
+  llvm::PointerType* int8Pointer = Type::getInt8Ty(mLLVMContext)->getPointerTo();
+  Value* nullPointer = ConstantPointerNull::get(int8Pointer);
+
+  heapOwnerVariable.free(mContext, nullPointer, 0);
   
   *mStringStream << *mBasicBlock;
   
@@ -201,7 +203,7 @@ TEST_F(LocalOwnerVariableTest, freeTest) {
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
   "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0"
   "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.MShape* %1 to i8*"
-  "\n  call void @__destroyObjectOwnerFunction(i8* %2)\n";
+  "\n  call void @__destroyObjectOwnerFunction(i8* %2, i8* null)\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

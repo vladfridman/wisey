@@ -65,6 +65,7 @@ llvm::Value* ArraySpecificOwnerType::castTo(IRGenerationContext &context,
 
 void ArraySpecificOwnerType::free(IRGenerationContext& context,
                                   llvm::Value* arrayPointer,
+                                  llvm::Value* exception,
                                   int line) const {
   // This should never be called
   assert(false);

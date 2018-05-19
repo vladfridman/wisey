@@ -272,6 +272,7 @@ TEST_F(ControllerOwnerTest, getDestructorFunctionTest) {
   
   vector<Type*> argumentTypes;
   argumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
+  argumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
   Type* llvmReturnType = Type::getVoidTy(mLLVMContext);
   FunctionType* functionType = FunctionType::get(llvmReturnType, argumentTypes, false);
 

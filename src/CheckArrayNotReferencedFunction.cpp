@@ -33,7 +33,8 @@ Function* CheckArrayNotReferencedFunction::get(IRGenerationContext& context) {
 void CheckArrayNotReferencedFunction::call(IRGenerationContext& context,
                                            Value* array,
                                            Value* numberOfDimensions,
-                                           Value* arrayNamePointer) {
+                                           Value* arrayNamePointer,
+                                           Value* exception) {
   Type* int64PointerType = Type::getInt64Ty(context.getLLVMContext())->getPointerTo();
   Value* arrayBitcast = array->getType() != int64PointerType
   ? IRWriter::newBitCastInst(context, array, int64PointerType)
@@ -43,6 +44,7 @@ void CheckArrayNotReferencedFunction::call(IRGenerationContext& context,
   arguments.push_back(arrayBitcast);
   arguments.push_back(numberOfDimensions);
   arguments.push_back(arrayNamePointer);
+  arguments.push_back(exception);
 
   IRWriter::createCallInst(context, function, arguments, "");
 }
@@ -63,6 +65,7 @@ LLVMFunctionType* CheckArrayNotReferencedFunction::getLLVMFunctionType(IRGenerat
   vector<const IType*> argumentTypes;
   argumentTypes.push_back(LLVMPrimitiveTypes::I64->getPointerType(context, 0));
   argumentTypes.push_back(LLVMPrimitiveTypes::I64);
+  argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType(context, 0));
   argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType(context, 0));
 
   return context.getLLVMFunctionType(LLVMPrimitiveTypes::VOID, argumentTypes);
@@ -88,6 +91,9 @@ void CheckArrayNotReferencedFunction::compose(IRGenerationContext& context, Func
   llvmArguments++;
   Value* arrayName = &*llvmArguments;
   arrayName->setName("arrayName");
+  llvmArguments++;
+  Value* exception = &*llvmArguments;
+  exception->setName("exception");
 
   BasicBlock* entry = BasicBlock::Create(llvmContext, "entry", function);
   BasicBlock* returnVoid = BasicBlock::Create(llvmContext, "return.void", function);
@@ -112,7 +118,7 @@ void CheckArrayNotReferencedFunction::compose(IRGenerationContext& context, Func
   IRWriter::createConditionalBranch(context, refCountZeroBlock, refCountNotZeroBlock, isZero);
   
   context.setBasicBlock(refCountNotZeroBlock);
-  ThrowReferenceCountExceptionFunction::call(context, referenceCount, arrayName);
+  ThrowReferenceCountExceptionFunction::call(context, referenceCount, arrayName, exception);
   IRWriter::newUnreachableInst(context);
   
   context.setBasicBlock(refCountZeroBlock);
@@ -171,6 +177,7 @@ void CheckArrayNotReferencedFunction::compose(IRGenerationContext& context, Func
   recursiveCallArguments.push_back(IRWriter::newBitCastInst(context, elementStore, genericPointer));
   recursiveCallArguments.push_back(numberOfDimensionsMinusOne);
   recursiveCallArguments.push_back(arrayName);
+  recursiveCallArguments.push_back(exception);
   IRWriter::createCallInst(context, function, recursiveCallArguments, "");
   IRWriter::createBranch(context, forCond);
   

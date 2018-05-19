@@ -92,7 +92,7 @@ const IType* Scope::getReturnType() {
   return mReturnType;
 }
 
-void Scope::freeOwnedMemory(IRGenerationContext& context, int line) {
+void Scope::freeOwnedMemory(IRGenerationContext& context, Value* exception, int line) {
   BasicBlock* currentBlock = context.getBasicBlock();
   if(currentBlock != NULL &&
      currentBlock->size() > 0 &&
@@ -109,7 +109,7 @@ void Scope::freeOwnedMemory(IRGenerationContext& context, int line) {
   }
   
   for (IOwnerVariable* ownerVariable : mOwnerVariables) {
-    ownerVariable->free(context, line);
+    ownerVariable->free(context, exception, line);
   }
 }
 

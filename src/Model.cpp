@@ -345,7 +345,6 @@ Instruction* Model::build(IRGenerationContext& context,
       throw 1;
     }
     if (argumentType->isInterface() && fieldType->isInterface()) {
-      string typeName = context.getObjectType()->getTypeName();
       CheckCastToObjectFunction::callCheckCastToModel(context, argumentValue);
     }
     Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);

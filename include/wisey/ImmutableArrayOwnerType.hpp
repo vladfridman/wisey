@@ -28,7 +28,10 @@ namespace wisey {
     
     ~ImmutableArrayOwnerType();
     
-    void free(IRGenerationContext& context, llvm::Value* arrayPointer, int line) const override;
+    void free(IRGenerationContext& context,
+              llvm::Value* arrayPointer,
+              llvm::Value* exception,
+              int line) const override;
     
     std::string getTypeName() const override;
     

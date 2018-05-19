@@ -177,7 +177,7 @@ TEST_F(FieldOwnerVariableTest, generateAssignmentIRTest) {
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
   "\n  %1 = load %systems.vos.wisey.compiler.tests.NNode*, %systems.vos.wisey.compiler.tests.NNode** %0"
   "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.NNode* %1 to i8*"
-  "\n  call void @__destroyObjectOwnerFunction(i8* %2)"
+  "\n  call void @__destroyObjectOwnerFunction(i8* %2, i8* null)"
   "\n  store %systems.vos.wisey.compiler.tests.NNode* null, "
   "%systems.vos.wisey.compiler.tests.NNode** %0\n";
   
@@ -205,7 +205,7 @@ TEST_F(FieldOwnerVariableTest, generateAssignmentWithCastIRTest) {
   "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 2"
   "\n  %4 = load %systems.vos.wisey.compiler.tests.IInterface*, %systems.vos.wisey.compiler.tests.IInterface** %3"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.IInterface* %4 to i8*"
-  "\n  call void @__destroyObjectOwnerFunction(i8* %5)"
+  "\n  call void @__destroyObjectOwnerFunction(i8* %5, i8* null)"
   "\n  store %systems.vos.wisey.compiler.tests.IInterface* %2, %systems.vos.wisey.compiler.tests.IInterface** %3\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

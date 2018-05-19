@@ -73,18 +73,28 @@ llvm::Value* ArrayOwnerType::castTo(IRGenerationContext& context,
     return IRWriter::newBitCastInst(context, arrayStart, toType->getLLVMType(context));
   }
   if (toType == mArrayType->getImmutable()->getOwner()) {
-    llvm::Type* int64type = llvm::Type::getInt64Ty(context.getLLVMContext());
+    llvm::LLVMContext& llvmContext = context.getLLVMContext();
+    llvm::Type* int64type = llvm::Type::getInt64Ty(llvmContext);
     long dimensions = mArrayType->getNumberOfDimensions();
     llvm::Value* dimensionsConstant = llvm::ConstantInt::get(int64type, dimensions);
     llvm::Value* arrayNamePointer = getArrayNamePointer(context);
-    CheckArrayNotReferencedFunction::call(context, fromValue, dimensionsConstant, arrayNamePointer);
+    llvm::PointerType* int8Pointer = llvm::Type::getInt8Ty(llvmContext)->getPointerTo();
+    llvm::Value* null = llvm::ConstantPointerNull::get(int8Pointer);
+    CheckArrayNotReferencedFunction::call(context,
+                                          fromValue,
+                                          dimensionsConstant,
+                                          arrayNamePointer,
+                                          null);
     return fromValue;
   }
 
   return NULL;
 }
 
-void ArrayOwnerType::free(IRGenerationContext& context, llvm::Value* arrayPointer, int line) const {
+void ArrayOwnerType::free(IRGenerationContext& context,
+                          llvm::Value* arrayPointer,
+                          llvm::Value* exception,
+                          int line) const {
   const IType* elementType = mArrayType->getElementType();
   llvm::Type* genericPointer = llvm::Type::getInt64Ty(context.getLLVMContext())->getPointerTo();
   llvm::Value* arrayBitcast = IRWriter::newBitCastInst(context, arrayPointer, genericPointer);
@@ -92,12 +102,20 @@ void ArrayOwnerType::free(IRGenerationContext& context, llvm::Value* arrayPointe
   llvm::Value* arrayNamePointer = getArrayNamePointer(context);
 
   if (elementType->isOwner()) {
-    DestroyOwnerArrayFunction::call(context, arrayBitcast, dimensions, arrayNamePointer);
+    DestroyOwnerArrayFunction::call(context, arrayBitcast, dimensions, arrayNamePointer, exception);
   } else if (elementType->isReference()) {
-    DestroyReferenceArrayFunction::call(context, arrayBitcast, dimensions, arrayNamePointer);
+    DestroyReferenceArrayFunction::call(context,
+                                        arrayBitcast,
+                                        dimensions,
+                                        arrayNamePointer,
+                                        exception);
   } else {
     assert(elementType->isPrimitive());
-    DestroyPrimitiveArrayFunction::call(context, arrayBitcast, dimensions, arrayNamePointer);
+    DestroyPrimitiveArrayFunction::call(context,
+                                        arrayBitcast,
+                                        dimensions,
+                                        arrayNamePointer,
+                                        exception);
   }
 }
 

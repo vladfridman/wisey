@@ -23,6 +23,14 @@ string Names::getFileStructMethodName() {
   return "getFileStruct";
 }
 
+string Names::getExceptionInterfaceFullName() {
+  return getLangPackageName() + "." + getExceptionInterfaceName();
+}
+
+string Names::getExceptionInterfaceName() {
+  return "IException";
+}
+
 string Names::getNPEModelName() {
   return "MNullPointerException";
 }
