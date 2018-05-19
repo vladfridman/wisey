@@ -18,7 +18,8 @@ namespace wisey {
   class Catch;
   
   typedef std::function<bool(IRGenerationContext&, llvm::BasicBlock*, std::vector<Catch*>,
-  llvm::BasicBlock*, llvm::BasicBlock*)> LandingPadComposingFunction;
+  llvm::BasicBlock*, llvm::BasicBlock*, llvm::LandingPadInst*, llvm::Value*, llvm::Value*)>
+  LandingPadComposingFunction;
   
   /**
    * Information needed for IR generation of a try catch sequence
@@ -26,8 +27,8 @@ namespace wisey {
   class TryCatchInfo {
     std::vector<Catch*> mCatchList;
     llvm::BasicBlock* mContinueBlock;
-    std::vector<std::tuple<LandingPadComposingFunction, llvm::BasicBlock*, llvm::BasicBlock*>>
-    mComposingCallbacks;
+    std::vector<std::tuple<LandingPadComposingFunction, llvm::BasicBlock*, llvm::BasicBlock*,
+    llvm::LandingPadInst*, llvm::Value*, llvm::Value*>> mComposingCallbacks;
     
   public:
     
@@ -43,8 +44,8 @@ namespace wisey {
     /**
      * Defines landing pad based block on try/catch statement that created this TryCatchInfo
      */
-    llvm::BasicBlock* defineLandingPadBlock(IRGenerationContext& context,
-                                            llvm::BasicBlock* freeMemoryBlock);
+    std::tuple<llvm::BasicBlock*, llvm::Value*>
+    defineLandingPadBlock(IRGenerationContext& context, llvm::BasicBlock* freeMemoryBlock);
     
     /**
      * Run callbacks composing landing pads
@@ -57,7 +58,10 @@ namespace wisey {
                                        llvm::BasicBlock* landingPadBlock,
                                        std::vector<Catch*> catchList,
                                        llvm::BasicBlock* continueBlock,
-                                       llvm::BasicBlock* freeTryMemoryBlock);
+                                       llvm::BasicBlock* freeTryMemoryBlock,
+                                       llvm::LandingPadInst* landingPadInst,
+                                       llvm::Value* wrappedException,
+                                       llvm::Value* exceptionTypeId);
     
     static std::vector<std::tuple<Catch*, llvm::BasicBlock*>>
     generateSelectCatchByExceptionType(IRGenerationContext& context,

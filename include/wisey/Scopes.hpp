@@ -132,8 +132,11 @@ namespace wisey {
     
     void clearCachedLandingPadBlock();
     
-    llvm::BasicBlock* freeMemoryAllocatedInTry(IRGenerationContext& context, int line);
-    
+    void freeMemoryAllocatedInTry(IRGenerationContext& context,
+                                  llvm::BasicBlock* basicBlock,
+                                  llvm::Value* wrappedException,
+                                  int line);
+
   };
   
 } /* namespace wisey */

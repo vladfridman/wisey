@@ -2,38 +2,26 @@ package systems.vos.wisey.compiler.tests;
 
 import wisey.lang.IProgram;
 
-model MData {
-  int mValue;
-
-  public int getValue() {
-    return mValue;
-  }
-}
-
-model MMyException {
-
-}
-
-controller CService {
-  public void throwException(MData* data) throws MMyException {
+model MCar {
+  public int getYear() {
+    return 2018;
   }
 }
 
 controller CProgram implements IProgram {
-  inject CService* mService;
+  state MCar mCarRef;
 
   public int run(immutable string[] arguments) override {
     try {
-      MData* data = builder(MData).withValue(1).build();
-      MData dataRef = data;
-      MData dataRef2 = data;
-      mService.throwException(data);
-    } catch (MMyException* exception) {
-      printout("cought exception\n");
+      mCarRef = builder(MCar).build();
+      MCar* owner = null;
+      return owner.getYear();
+    } catch (wisey.lang.MNullPointerException* exception) {
+      printerr("Caught!!!\n");
+      exception.report();
     }
-
-    return 1;
+    return 0;
   }
-} 
+}
 
 bind(IProgram).to(CProgram);

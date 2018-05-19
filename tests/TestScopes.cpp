@@ -308,9 +308,11 @@ TEST_F(TestFileRunner, throwRceFromFreeOwnedMemoryRunDeathTest) {
                                1,
                                "",
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
-                               "  at systems.vos.wisey.compiler.tests.CService.throwException(tests/samples/test_throw_rce_from_free_owned_memory.yz:19)\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_throw_rce_from_free_owned_memory.yz:30)\n"
-                               "Details: Object referenced by expression of type systems.vos.wisey.compiler.tests.MData still has 2 active references\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_throw_rce_from_free_owned_memory.yz:18)\n"
+                               "Details: Object referenced by expression of type systems.vos.wisey.compiler.tests.MCar still has 1 active reference\n"
+                               "Was thrown from memory clean up after wisey.lang.MNullPointerException\n"
+                               "Unhandled exception wisey.lang.MNullPointerException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_throw_rce_from_free_owned_memory.yz:18)\n"
                                "Main thread ended without a result\n");
 }
 

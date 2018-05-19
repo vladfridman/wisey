@@ -9,6 +9,9 @@
 #include <set>
 
 #include "wisey/Cleanup.hpp"
+#include "wisey/Environment.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/Scopes.hpp"
@@ -202,8 +205,13 @@ BasicBlock* Scopes::getLandingPadBlock(IRGenerationContext& context, int line) {
   
   TryCatchInfo* tryCatchInfo = getTryCatchInfo();
   if (tryCatchInfo) {
-    BasicBlock* freeMemoryBlock = freeMemoryAllocatedInTry(context, line);
-    mCachedLandingPadBlock = tryCatchInfo->defineLandingPadBlock(context, freeMemoryBlock);
+    LLVMContext& llvmContext = context.getLLVMContext();
+    Function* function = context.getBasicBlock()->getParent();
+    BasicBlock* freeMemoryBlock = BasicBlock::Create(llvmContext, "freeMem", function);
+    auto landingPadInfo = tryCatchInfo->defineLandingPadBlock(context, freeMemoryBlock);
+    mCachedLandingPadBlock = get<0>(landingPadInfo);
+    Value* wrappedException = get<1>(landingPadInfo);
+    freeMemoryAllocatedInTry(context, freeMemoryBlock, wrappedException, line);
   } else {
     mCachedLandingPadBlock = Cleanup::generate(context, line);
   }
@@ -215,24 +223,30 @@ void Scopes::clearCachedLandingPadBlock() {
   mCachedLandingPadBlock = NULL;
 }
 
-llvm::BasicBlock* Scopes::freeMemoryAllocatedInTry(IRGenerationContext& context, int line) {
-  Function* function = context.getBasicBlock()->getParent();
-  BasicBlock* freeMemoryBlock = BasicBlock::Create(context.getLLVMContext(), "freeMem", function);
+void Scopes::freeMemoryAllocatedInTry(IRGenerationContext& context,
+                                      BasicBlock* basicBlock,
+                                      Value* wrappedException,
+                                      int line) {
+  LLVMContext& llvmContext = context.getLLVMContext();
   BasicBlock* lastBasicBlock = context.getBasicBlock();
-  context.setBasicBlock(freeMemoryBlock);
-  
+  context.setBasicBlock(basicBlock);
+
+  Function* getException = IntrinsicFunctions::getExceptionPointerFunction(context);
+  vector<Value*> arguments;
+  arguments.push_back(wrappedException);
+  Value* exceptionShell = IRWriter::createCallInst(context, getException, arguments, "");
+  Value* idx[1];
+  idx[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), Environment::getAddressSizeInBytes());
+  Value* exception = IRWriter::createGetElementPtrInst(context, exceptionShell, idx);
+
   for (Scope* scope : mScopes) {
     if (scope->getTryCatchInfo()) {
       break;
     }
-    llvm::PointerType* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-    Value* null = ConstantPointerNull::get(int8Pointer);
-    scope->freeOwnedMemory(context, null, line);
+    scope->freeOwnedMemory(context, exception, line);
   }
 
   context.setBasicBlock(lastBasicBlock);
-  
-  return freeMemoryBlock;
 }
 
 void Scopes::clear() {

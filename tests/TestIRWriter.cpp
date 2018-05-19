@@ -12,6 +12,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "TestPrefix.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/IRWriter.hpp"
 
@@ -30,6 +31,8 @@ struct IRWriterTest : public Test {
   raw_string_ostream* mStringStream;
   
   IRWriterTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::generateIR(mContext);
+    
     FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
     mMainFunction = Function::Create(functionType,
                                      GlobalValue::InternalLinkage,
