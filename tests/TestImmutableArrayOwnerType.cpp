@@ -16,11 +16,11 @@
 
 #include "MockConcreteObjectType.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/ImmutableArrayOwnerType.hpp"
 #include "wisey/ImmutableArrayType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ReceivedField.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -135,7 +135,7 @@ TEST_F(ImmutableArrayOwnerTypeTest, createLocalVariableTest) {
 
 TEST_F(ImmutableArrayOwnerTypeTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  IField* field = new FixedField(mImmutableArrayOwnerType, "mField", 0);
+  IField* field = new ReceivedField(mImmutableArrayOwnerType, "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mImmutableArrayOwnerType->createFieldVariable(mContext, "mField", &concreteObjectType, 0);
   IVariable* variable = mContext.getScopes().getVariable("mField");

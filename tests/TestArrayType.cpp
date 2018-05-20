@@ -19,9 +19,9 @@
 #include "TestPrefix.hpp"
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/ArrayType.hpp"
-#include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ReceivedField.hpp"
 
 using namespace std;
 using namespace wisey;
@@ -60,7 +60,7 @@ struct ArrayTypeTest : public Test {
     mContext.getScopes().pushScope();
     
     InjectionArgumentList injectionArgumentList;
-    IField* field = new FixedField(mArrayType, "mField", 0);
+    IField* field = new ReceivedField(mArrayType, "mField", 0);
     ON_CALL(mConcreteObjectType, findField(_)).WillByDefault(Return(field));
 
     mStringStream = new llvm::raw_string_ostream(mStringBuffer);

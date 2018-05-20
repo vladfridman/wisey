@@ -8,6 +8,7 @@
 
 #include "wisey/ArraySpecificOwnerType.hpp"
 #include "wisey/IConcreteObjectType.hpp"
+#include "wisey/IRGenerationContext.hpp"
 #include "wisey/ReceivedField.hpp"
 
 using namespace std;
@@ -17,6 +18,18 @@ ReceivedField::ReceivedField(const IType* type, string name, int line) :
 mType(type), mName(name), mLine(line) { }
 
 ReceivedField::~ReceivedField() {
+}
+
+void ReceivedField::checkType(IRGenerationContext& context) const {
+  if (!mType->isPrimitive() && !mType->isModel() && !mType->isInterface() &&
+      !mType->isArray()) {
+    context.reportError(mLine, "Model fixed fields can only be of primitive, model or array type");
+    throw 1;
+  }
+  if (mType->isArray() && !mType->isImmutable()) {
+    context.reportError(mLine, "Model fixed array fields can only be of immutable array type");
+    throw 1;
+  }
 }
 
 const IType* ReceivedField::getType() const {

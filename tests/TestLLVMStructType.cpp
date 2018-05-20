@@ -17,10 +17,10 @@
 
 #include "MockConcreteObjectType.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/LLVMStructType.hpp"
+#include "wisey/ReceivedField.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -95,7 +95,7 @@ TEST_F(LLVMStructTypeTest, isObjectTest) {
 
 TEST_F(LLVMStructTypeTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  IField* field = new FixedField(mLLVMStructType, "mField", 0);
+  IField* field = new ReceivedField(mLLVMStructType, "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mLLVMStructType->createFieldVariable(mContext, "mField", &concreteObjectType, 0);
   IVariable* variable = mContext.getScopes().getVariable("mField");

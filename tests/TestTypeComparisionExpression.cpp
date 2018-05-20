@@ -19,7 +19,6 @@
 #include "MockTypeSpecifier.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -30,6 +29,7 @@
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/TypeComparisionExpression.hpp"
 #include "wisey/VariableDeclaration.hpp"
+#include "wisey/ReceivedField.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -96,8 +96,8 @@ struct TypeComparisionExpressionTest : public Test {
                                    0);
 
     vector<IField*> squareFields;
-    squareFields.push_back(new FixedField(PrimitiveTypes::INT, "width", 0));
-    squareFields.push_back(new FixedField(PrimitiveTypes::INT, "height", 0));
+    squareFields.push_back(new ReceivedField(PrimitiveTypes::INT, "width", 0));
+    squareFields.push_back(new ReceivedField(PrimitiveTypes::INT, "height", 0));
     vector<const wisey::Argument*> methodArguments;
     vector<IMethod*> squareMethods;
     vector<const Model*> thrownExceptions;

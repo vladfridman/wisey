@@ -40,6 +40,8 @@ public:
   mType(new NiceMock<MockType>()),
   mObject(new NiceMock<MockConcreteObjectType>()),
   mName("mField") {
+    TestPrefix::generateIR(mContext);
+    
     ON_CALL(*mType, getTypeName()).WillByDefault(Return("MObject*"));
     EXPECT_CALL(*mType, die());
     
@@ -80,9 +82,42 @@ TEST_F(ReceivedFieldTest, elementTypeTest) {
   EXPECT_FALSE(mField->isLLVMFunction());
 }
 
+TEST_F(ReceivedFieldTest, checkTypeNonImmutableTypeDeathTest) {
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mField->checkType(mContext));
+  EXPECT_STREQ("/tmp/source.yz(7): Error: Model fixed fields can only be of primitive, model or array type\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
+}
+
+TEST_F(ReceivedFieldTest, checkTypeNonImmutableArrayTypeDeathTest) {
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  ON_CALL(*mType, isArray()).WillByDefault(Return(true));
+  
+  EXPECT_ANY_THROW(mField->checkType(mContext));
+  EXPECT_STREQ("/tmp/source.yz(7): Error: Model fixed array fields can only be of immutable array type\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
+}
+
 TEST_F(ReceivedFieldTest, fieldPrintToStreamTest) {
   stringstream stringStream;
   mField->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("  receive MObject* mField;\n", stringStream.str().c_str());
+}
+
+TEST_F(TestFileRunner, modelImmutableArrayReferenceFieldRunTest) {
+  runFile("tests/samples/test_model_immutable_array_reference_field.yz", "5");
+}
+
+TEST_F(TestFileRunner, nodeWithRecievedFieldSetterDeathRunTest) {
+  expectFailCompile("tests/samples/test_node_with_received_field_setter.yz",
+                    1,
+                    "tests/samples/test_node_with_received_field_setter.yz\\(9\\): "
+                    "Error: Can not assign to received field mYear");
 }

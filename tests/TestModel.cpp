@@ -25,7 +25,6 @@
 #include "TestPrefix.hpp"
 #include "wisey/AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp"
 #include "wisey/Constant.hpp"
-#include "wisey/FixedField.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IntConstant.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -41,6 +40,7 @@
 #include "wisey/ObjectKindGlobal.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "wisey/ReceivedField.hpp"
 #include "wisey/ThreadExpression.hpp"
 #include "wisey/VariableDeclaration.hpp"
 #include "wisey/WiseyModelOwnerType.hpp"
@@ -72,8 +72,8 @@ struct ModelTest : public Test {
   Interface* mCarInterface;
   IMethod* mMethod;
   StructType* mStructType;
-  FixedField* mWidthField;
-  FixedField* mHeightField;
+  ReceivedField* mWidthField;
+  ReceivedField* mHeightField;
   NiceMock<MockExpression>* mField1Expression;
   NiceMock<MockExpression>* mField2Expression;
   wisey::Constant* mConstant;
@@ -100,8 +100,8 @@ struct ModelTest : public Test {
     mStructType = StructType::create(mLLVMContext, modelFullName);
     mStructType->setBody(types);
     vector<IField*> fields;
-    mWidthField = new FixedField(PrimitiveTypes::INT, "mWidth", 0);
-    mHeightField = new FixedField(PrimitiveTypes::INT, "mHeight", 0);
+    mWidthField = new ReceivedField(PrimitiveTypes::INT, "mWidth", 0);
+    mHeightField = new ReceivedField(PrimitiveTypes::INT, "mHeight", 0);
     fields.push_back(mWidthField);
     fields.push_back(mHeightField);
     vector<const wisey::Argument*> methodArguments;
@@ -316,8 +316,8 @@ struct ModelTest : public Test {
     StructType *starStructType = StructType::create(mLLVMContext, starFullName);
     starStructType->setBody(starTypes);
     vector<IField*> starFields;
-    starFields.push_back(new FixedField(mBirthdateModel->getOwner(), "mBirthdate", 0));
-    starFields.push_back(new FixedField(mGalaxyModel, "mGalaxy", 0));
+    starFields.push_back(new ReceivedField(mBirthdateModel->getOwner(), "mBirthdate", 0));
+    starFields.push_back(new ReceivedField(mGalaxyModel, "mGalaxy", 0));
     mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                  starFullName,
                                  starStructType,
@@ -804,40 +804,7 @@ TEST_F(ModelTest, buildNotAllFieldsAreSetDeathTest) {
 
 TEST_F(ModelTest, printToStreamTest) {
   stringstream stringStream;
-  Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS,
-                                            "MInnerPublicModel",
-                                            NULL,
-                                            mContext.getImportProfile(),
-                                            0);
-  vector<IField*> fields;
-  fields.push_back(new FixedField(PrimitiveTypes::INT, "mField1", 0));
-  fields.push_back(new FixedField(PrimitiveTypes::INT, "mField2", 0));
-  innerPublicModel->setFields(mContext, fields, 0);
 
-  vector<const wisey::Argument*> methodArguments;
-  vector<const Model*> thrownExceptions;
-  Method* method = new Method(innerPublicModel,
-                              "bar",
-                              AccessLevel::PUBLIC_ACCESS,
-                              PrimitiveTypes::INT,
-                              methodArguments,
-                              thrownExceptions,
-                              new MethodQualifiers(0),
-                              NULL,
-                              0);
-  vector<IMethod*> methods;
-  methods.push_back(method);
-  innerPublicModel->setMethods(methods);
-
-  Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS,
-                                             "MInnerPrivateModel",
-                                             NULL,
-                                             mContext.getImportProfile(),
-                                             0);
-  innerPrivateModel->setFields(mContext, fields, 0);
-
-  mModel->addInnerObject(innerPublicModel);
-  mModel->addInnerObject(innerPrivateModel);
   mModel->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("external model systems.vos.wisey.compiler.tests.MSquare\n"
@@ -847,8 +814,8 @@ TEST_F(ModelTest, printToStreamTest) {
                "\n"
                "  constant int MYCONSTANT;\n"
                "\n"
-               "  fixed int mWidth;\n"
-               "  fixed int mHeight;\n"
+               "  receive int mWidth;\n"
+               "  receive int mHeight;\n"
                "\n"
                "  int foo();\n"
                "}\n",
@@ -874,7 +841,7 @@ TEST_F(ModelTest, createLocalVariableTest) {
 
 TEST_F(ModelTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  FixedField* field = new FixedField(mModel, "mField", 0);
+  ReceivedField* field = new ReceivedField(mModel, "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mModel->createFieldVariable(mContext, "temp", &concreteObjectType, 0);
   IVariable* variable = mContext.getScopes().getVariable("temp");

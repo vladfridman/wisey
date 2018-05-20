@@ -17,11 +17,11 @@
 #include "MockConcreteObjectType.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/ImmutableArrayOwnerType.hpp"
 #include "wisey/ImmutableArrayType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ReceivedField.hpp"
 
 using namespace std;
 using namespace wisey;
@@ -64,7 +64,7 @@ struct ImmutableArrayTypeTest : public Test {
     mContext.getScopes().pushScope();
     
     InjectionArgumentList injectionArgumentList;
-    IField* field = new FixedField(mImmutableArrayType, "mField", 0);
+    IField* field = new ReceivedField(mImmutableArrayType, "mField", 0);
     ON_CALL(mConcreteObjectType, findField(_)).WillByDefault(Return(field));
     
     mStringStream = new llvm::raw_string_ostream(mStringBuffer);

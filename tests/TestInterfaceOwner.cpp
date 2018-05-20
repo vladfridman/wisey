@@ -18,12 +18,12 @@
 #include "MockVariable.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/FixedField.hpp"
 #include "wisey/InterfaceOwner.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ThreadExpression.hpp"
+#include "wisey/ReceivedField.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -202,7 +202,7 @@ TEST_F(InterfaceOwnerTest, createLocalVariableTest) {
 
 TEST_F(InterfaceOwnerTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  IField* field = new FixedField(mObjectInterface->getOwner(), "mField", 0);
+  IField* field = new ReceivedField(mObjectInterface->getOwner(), "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mObjectInterface->getOwner()->createFieldVariable(mContext, "mField", &concreteObjectType, 0);
   IVariable* variable = mContext.getScopes().getVariable("mField");

@@ -18,11 +18,12 @@
 #include "wisey/ExternalMethodDefinition.hpp"
 #include "wisey/ExternalModelDefinition.hpp"
 #include "wisey/FakeExpression.hpp"
-#include "wisey/FixedFieldDefinition.hpp"
+#include "wisey/ReceivedFieldDefinition.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "wisey/ReceivedFieldDefinition.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -62,8 +63,8 @@ TEST_F(ExternalModelDefinitionTest, prototypeObjectTest) {
   const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
   const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
   InjectionArgumentList arguments;
-  FixedFieldDefinition* field1 = new FixedFieldDefinition(longType, "field1", 0);
-  FixedFieldDefinition* field2 = new FixedFieldDefinition(floatType, "field2", 0);
+  ReceivedFieldDefinition* field1 = new ReceivedFieldDefinition(longType, "field1", 0);
+  ReceivedFieldDefinition* field2 = new ReceivedFieldDefinition(floatType, "field2", 0);
   mElementDeclarations.push_back(field1);
   mElementDeclarations.push_back(field2);
   mElementDeclarations.push_back(mMethodDefinition);
@@ -93,8 +94,8 @@ TEST_F(ExternalModelDefinitionTest, prototypeMethodsTest) {
   const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
   const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
   InjectionArgumentList arguments;
-  FixedFieldDefinition* field1 = new FixedFieldDefinition(longType, "field1", 0);
-  FixedFieldDefinition* field2 = new FixedFieldDefinition(floatType, "field2", 0);
+  ReceivedFieldDefinition* field1 = new ReceivedFieldDefinition(longType, "field1", 0);
+  ReceivedFieldDefinition* field2 = new ReceivedFieldDefinition(floatType, "field2", 0);
   mElementDeclarations.push_back(field1);
   mElementDeclarations.push_back(field2);
   mElementDeclarations.push_back(mMethodDefinition);

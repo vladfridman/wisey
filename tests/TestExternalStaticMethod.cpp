@@ -17,10 +17,10 @@
 #include "TestPrefix.hpp"
 #include "wisey/Argument.hpp"
 #include "wisey/ExternalStaticMethod.hpp"
-#include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ReceivedField.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -56,8 +56,8 @@ public:
     StructType* structType = StructType::create(mLLVMContext, modelFullName);
     structType->setBody(types);
     vector<IField*> fields;
-    fields.push_back(new FixedField(PrimitiveTypes::INT, "foo", 0));
-    fields.push_back(new FixedField(PrimitiveTypes::INT, "bar", 0));
+    fields.push_back(new ReceivedField(PrimitiveTypes::INT, "foo", 0));
+    fields.push_back(new ReceivedField(PrimitiveTypes::INT, "bar", 0));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                              modelFullName,
                              structType,

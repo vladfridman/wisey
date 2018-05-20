@@ -11,7 +11,6 @@
 #include "TestPrefix.hpp"
 #include "wisey/ControllerDefinition.hpp"
 #include "wisey/FakeExpressionWithCleanup.hpp"
-#include "wisey/FixedFieldDefinition.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/MethodDefinition.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
@@ -19,6 +18,7 @@
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ReceivedFieldDefinition.hpp"
 #include "wisey/WiseyObjectTypeSpecifier.hpp"
 
 using namespace llvm;
@@ -38,33 +38,35 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   vector<IObjectElementDefinition*> modelElements;
   defineExceptionModel(context, Names::getNPEModelName(), modelElements);
   const PrimitiveTypeSpecifier* longTypeSpecifier = PrimitiveTypes::LONG->newTypeSpecifier(0);
-  modelElements.push_back(new FixedFieldDefinition(longTypeSpecifier, "mReferenceCount", 0));
+  modelElements.push_back(new ReceivedFieldDefinition(longTypeSpecifier, "mReferenceCount", 0));
   const PrimitiveTypeSpecifier* stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);
-  modelElements.push_back(new FixedFieldDefinition(stringTypeSpecifier, "mObjectType", 0));
+  modelElements.push_back(new ReceivedFieldDefinition(stringTypeSpecifier, "mObjectType", 0));
   
   PackageType* packageType = new PackageType(Names::getLangPackageName());
   FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
   InterfaceTypeSpecifierFull* interfaceTypeSpecifier =
   new InterfaceTypeSpecifierFull(packageExpression, Names::getExceptionInterfaceName(), 0);
-  modelElements.push_back(new FixedFieldDefinition(interfaceTypeSpecifier, "mNestedException", 0));
+  modelElements.push_back(new ReceivedFieldDefinition(interfaceTypeSpecifier,
+                                                      "mNestedException",
+                                                      0));
   defineExceptionModel(context, Names::getReferenceCountExceptionName(), modelElements);
   modelElements.clear();
   stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);
-  modelElements.push_back(new FixedFieldDefinition(stringTypeSpecifier, "mInterfaceName", 0));
+  modelElements.push_back(new ReceivedFieldDefinition(stringTypeSpecifier, "mInterfaceName", 0));
   defineExceptionModel(context, Names::getInterfaceNotBoundExceptionName(), modelElements);
   modelElements.clear();
 
   stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);
-  modelElements.push_back(new FixedFieldDefinition(stringTypeSpecifier, "mFromType", 0));
+  modelElements.push_back(new ReceivedFieldDefinition(stringTypeSpecifier, "mFromType", 0));
   stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);
-  modelElements.push_back(new FixedFieldDefinition(stringTypeSpecifier, "mToType", 0));
+  modelElements.push_back(new ReceivedFieldDefinition(stringTypeSpecifier, "mToType", 0));
   defineExceptionModel(context, Names::getCastExceptionName(), modelElements);
   modelElements.clear();
 
   longTypeSpecifier = PrimitiveTypes::LONG->newTypeSpecifier(0);
-  modelElements.push_back(new FixedFieldDefinition(longTypeSpecifier, "mArraySize", 0));
+  modelElements.push_back(new ReceivedFieldDefinition(longTypeSpecifier, "mArraySize", 0));
   longTypeSpecifier = PrimitiveTypes::LONG->newTypeSpecifier(0);
-  modelElements.push_back(new FixedFieldDefinition(longTypeSpecifier, "mIndex", 0));
+  modelElements.push_back(new ReceivedFieldDefinition(longTypeSpecifier, "mIndex", 0));
   defineExceptionModel(context, Names::getArrayIndexOutOfBoundsModelName(), modelElements);
   
   InterfaceDefinition* threadInterfaceDefinition = defineIThread(context);

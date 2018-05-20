@@ -20,7 +20,7 @@
 #include "TestPrefix.hpp"
 #include "wisey/Argument.hpp"
 #include "wisey/FakeExpression.hpp"
-#include "wisey/FixedFieldDefinition.hpp"
+#include "wisey/ReceivedFieldDefinition.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/IObjectElementDefinition.hpp"
 #include "wisey/InjectedFieldDefinition.hpp"
@@ -32,6 +32,7 @@
 #include "wisey/PackageType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "wisey/ReceivedFieldDefinition.hpp"
 #include "wisey/ReturnStatement.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
@@ -87,8 +88,8 @@ struct ModelDefinitionTest : public Test {
 TEST_F(ModelDefinitionTest, prototypeObjectTest) {
   const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
   const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
-  FixedFieldDefinition* field1 = new FixedFieldDefinition(longType, "field1", 0);
-  FixedFieldDefinition* field2 = new FixedFieldDefinition(floatType, "field2", 0);
+  ReceivedFieldDefinition* field1 = new ReceivedFieldDefinition(longType, "field1", 0);
+  ReceivedFieldDefinition* field2 = new ReceivedFieldDefinition(floatType, "field2", 0);
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDefinition);
@@ -118,8 +119,8 @@ TEST_F(ModelDefinitionTest, prototypeObjectTest) {
 TEST_F(ModelDefinitionTest, prototypeMethodsTest) {
   const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
   const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
-  FixedFieldDefinition* field1 = new FixedFieldDefinition(longType, "field1", 0);
-  FixedFieldDefinition* field2 = new FixedFieldDefinition(floatType, "field2", 0);
+  ReceivedFieldDefinition* field1 = new ReceivedFieldDefinition(longType, "field1", 0);
+  ReceivedFieldDefinition* field2 = new ReceivedFieldDefinition(floatType, "field2", 0);
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDefinition);
@@ -148,8 +149,8 @@ TEST_F(ModelDefinitionTest, prototypeMethodsTest) {
 TEST_F(ModelDefinitionTest, generateIRTest) {
   const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
   const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
-  FixedFieldDefinition* field1 = new FixedFieldDefinition(longType, "field1", 0);
-  FixedFieldDefinition* field2 = new FixedFieldDefinition(floatType, "field2", 0);
+  ReceivedFieldDefinition* field1 = new ReceivedFieldDefinition(longType, "field1", 0);
+  ReceivedFieldDefinition* field2 = new ReceivedFieldDefinition(floatType, "field2", 0);
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDefinition);
@@ -352,7 +353,7 @@ TEST_F(ModelDefinitionTest, modelWithInjectedFieldDeathTest) {
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
 
   EXPECT_ANY_THROW(modelDefinition.prototypeMethods(mContext));
-  EXPECT_STREQ("/tmp/source.yz(1): Error: Models can only have fixed fields\n",
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Models can only have receive fields\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
@@ -361,7 +362,7 @@ TEST_F(TestFileRunner, modelDefinitionRunTest) {
   runFile("tests/samples/test_model_definition.yz", "0");
 }
 
-TEST_F(TestFileRunner, modelDefinitionExplicitFixedFieldsRunTest) {
+TEST_F(TestFileRunner, modelDefinitionExplicitReceivedFieldsRunTest) {
   runFile("tests/samples/test_model_definition_explicit_fixed_fields.yz", "3");
 }
 
@@ -373,11 +374,11 @@ TEST_F(TestFileRunner, setterInModelDeathRunTest) {
   expectFailCompile("tests/samples/test_setter_in_model.yz",
                     1,
                     "tests/samples/test_setter_in_model.yz\\(13\\): "
-                    "Error: Can not assign to fixed field mValue");
+                    "Error: Can not assign to received field mValue");
 }
 
 TEST_F(TestFileRunner, modelWithStateFieldDeathRunTest) {
   expectFailCompile("tests/samples/test_model_with_state_field.yz",
                     1,
-                    "Error: Models can only have fixed fields");
+                    "Error: Models can only have receive fields");
 }

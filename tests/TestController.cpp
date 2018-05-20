@@ -26,7 +26,6 @@
 #include "wisey/Constant.hpp"
 #include "wisey/Controller.hpp"
 #include "wisey/FakeExpression.hpp"
-#include "wisey/FixedField.hpp"
 #include "wisey/IntConstant.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/LLVMFunction.hpp"
@@ -1172,8 +1171,8 @@ TEST_F(ControllerTest, printToStreamTest) {
                                             mContext.getImportProfile(),
                                             0);
   vector<IField*> fields;
-  fields.push_back(new FixedField(PrimitiveTypes::INT, "mField1", 0));
-  fields.push_back(new FixedField(PrimitiveTypes::INT, "mField2", 0));
+  fields.push_back(new ReceivedField(PrimitiveTypes::INT, "mField1", 0));
+  fields.push_back(new ReceivedField(PrimitiveTypes::INT, "mField2", 0));
   innerPublicModel->setFields(mContext, fields, 0);
   
   vector<const wisey::Argument*> methodArguments;
@@ -1237,7 +1236,7 @@ TEST_F(ControllerTest, createLocalVariableTest) {
 
 TEST_F(ControllerTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  IField* field = new FixedField(mMultiplierController, "mField", 0);
+  IField* field = new ReceivedField(mMultiplierController, "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mMultiplierController->createFieldVariable(mContext, "mField", &concreteObjectType, 0);
   IVariable* variable = mContext.getScopes().getVariable("mField");

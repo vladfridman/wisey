@@ -13,10 +13,10 @@
 
 #include "TestPrefix.hpp"
 #include "wisey/FakeExpression.hpp"
-#include "wisey/FixedField.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ReceivedField.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -47,8 +47,8 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
                              mContext.getImportProfile(),
                              0);
     vector<IField*> fields;
-    fields.push_back(new FixedField(PrimitiveTypes::INT, "width", 0));
-    fields.push_back(new FixedField(PrimitiveTypes::INT, "height", 0));
+    fields.push_back(new ReceivedField(PrimitiveTypes::INT, "width", 0));
+    fields.push_back(new ReceivedField(PrimitiveTypes::INT, "height", 0));
     vector<const wisey::Argument*> methodArguments;
     vector<IMethod*> methods;
     vector<const Model*> thrownExceptions;

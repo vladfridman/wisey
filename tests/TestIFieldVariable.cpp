@@ -15,11 +15,11 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/FixedField.hpp"
 #include "wisey/IFieldVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ReceivedField.hpp"
 #include "wisey/StateField.hpp"
 
 using namespace llvm;
@@ -38,7 +38,7 @@ struct IFieldVariableTest : Test {
   Controller* mController;
   Model* mModel;
   StateField* mStateField;
-  FixedField* mFixedField;
+  ReceivedField* mReceivedField;
   BasicBlock* mBasicBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
@@ -70,9 +70,9 @@ struct IFieldVariableTest : Test {
                              modelStructType,
                              mContext.getImportProfile(),
                              0);
-    mFixedField = new FixedField(PrimitiveTypes::INT, "foo", 0);
+    mReceivedField = new ReceivedField(PrimitiveTypes::INT, "foo", 0);
     vector<IField*> modelFields;
-    modelFields.push_back(mFixedField);
+    modelFields.push_back(mReceivedField);
     mModel->setFields(mContext, modelFields, 1u);
     
     FunctionType* functionType =
@@ -132,7 +132,7 @@ TEST_F(IFieldVariableTest, checkAndFindFieldForAssignmentNotAssignableDeathTest)
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
   EXPECT_ANY_THROW(IFieldVariable::checkAndFindFieldForAssignment(mContext, mModel, "foo", 3));
-  EXPECT_STREQ("/tmp/source.yz(3): Error: Can not assign to fixed field foo\n",
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Can not assign to received field foo\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }

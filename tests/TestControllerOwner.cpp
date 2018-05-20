@@ -18,11 +18,11 @@
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/ControllerOwner.hpp"
-#include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ReceivedField.hpp"
 #include "wisey/ThreadExpression.hpp"
 #include "wisey/WiseyModelOwnerType.hpp"
 #include "wisey/WiseyModelType.hpp"
@@ -335,7 +335,7 @@ TEST_F(ControllerOwnerTest, createLocalVariableTest) {
 
 TEST_F(ControllerOwnerTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  IField* field = new FixedField(mMultiplierController->getOwner(), "mField", 0);
+  IField* field = new ReceivedField(mMultiplierController->getOwner(), "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mMultiplierController->getOwner()->createFieldVariable(mContext,
                                                          "mField",

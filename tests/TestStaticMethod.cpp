@@ -17,10 +17,10 @@
 #include "TestPrefix.hpp"
 #include "wisey/Argument.hpp"
 #include "wisey/CompoundStatement.hpp"
-#include "wisey/FixedField.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/StaticMethod.hpp"
+#include "wisey/ReceivedField.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -79,8 +79,8 @@ public:
                                      0);
     
     vector<IField*> fields;
-    fields.push_back(new FixedField(PrimitiveTypes::INT, "foo", 0));
-    fields.push_back(new FixedField(PrimitiveTypes::INT, "bar", 0));
+    fields.push_back(new ReceivedField(PrimitiveTypes::INT, "foo", 0));
+    fields.push_back(new ReceivedField(PrimitiveTypes::INT, "bar", 0));
     mModel->setFields(mContext, fields, 1u);
     
     mStringStream = new raw_string_ostream(mStringBuffer);

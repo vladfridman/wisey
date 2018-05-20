@@ -18,11 +18,11 @@
 
 #include "MockExpression.hpp"
 #include "MockVariable.hpp"
-#include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/ObjectBuilder.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ReceivedField.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -66,8 +66,8 @@ struct ObjectBuilderTest : Test {
     StructType *structType = StructType::create(llvmContext, modelFullName);
     structType->setBody(types);
     vector<IField*> fields;
-    fields.push_back(new FixedField(PrimitiveTypes::INT, "mWidth", 0));
-    fields.push_back(new FixedField(PrimitiveTypes::INT, "mHeight", 0));
+    fields.push_back(new ReceivedField(PrimitiveTypes::INT, "mWidth", 0));
+    fields.push_back(new ReceivedField(PrimitiveTypes::INT, "mHeight", 0));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                              modelFullName,
                              structType,

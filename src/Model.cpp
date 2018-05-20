@@ -103,8 +103,8 @@ void Model::setFields(IRGenerationContext& context,
     mReceivedFieldIndexes[field] = mFields.size();
     mFields[field->getName()] = field;
     index++;
-    if (!field->isFixed()) {
-      context.reportError(field->getLine(), "Models can only have fixed fields");
+    if (!field->isReceived()) {
+      context.reportError(field->getLine(), "Models can only have receive fields");
       throw 1;
     }
   }
@@ -329,7 +329,7 @@ Instruction* Model::build(IRGenerationContext& context,
   for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
     string argumentName = argument->deriveFieldName();
     IField* field = findField(argumentName);
-    assert(field->isFixed() && "Trying to initialize a field that is not of fixed type");
+    assert(field->isReceived() && "Trying to initialize a field that is not of receive kind");
     const IType* fieldType = field->getType();
     
     Value* argumentValue = argument->getValue(context, fieldType);

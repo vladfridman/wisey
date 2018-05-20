@@ -3,14 +3,14 @@ package systems.vos.wisey.compiler.tests;
 import wisey.lang.IProgram;
 
 model MColor {
-  fixed double mColor;
+  receive double mColor;
 }
 
 model MShape {
-  fixed int mWidth;
-  fixed long mHeight;
-  fixed float mDepth;
-  fixed MColor* mColor;
+  receive int mWidth;
+  receive long mHeight;
+  receive float mDepth;
+  receive MColor* mColor;
 
   public int getWidth() {
     return mWidth;

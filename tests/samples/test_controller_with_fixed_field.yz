@@ -1,5 +1,0 @@
-package systems.vos.wisey.compiler.tests;
-
-controller CController {
-  int mValue;
-}

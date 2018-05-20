@@ -18,9 +18,9 @@
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/CharType.hpp"
-#include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ReceivedField.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -56,7 +56,7 @@ public:
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
     
-    IField* field = new FixedField(&mCharType, "mField", 0);
+    IField* field = new ReceivedField(&mCharType, "mField", 0);
     ON_CALL(mConcreteObjectType, findField(_)).WillByDefault(Return(field));
 
     mStringStream = new raw_string_ostream(mStringBuffer);

@@ -43,7 +43,6 @@
   #include "wisey/ExternalNodeDefinition.hpp"
   #include "wisey/ExternalStaticMethodDefinition.hpp"
   #include "wisey/FakeExpression.hpp"
-  #include "wisey/FixedFieldDefinition.hpp"
   #include "wisey/FloatConstant.hpp"
   #include "wisey/ForStatement.hpp"
   #include "wisey/Identifier.hpp"
@@ -222,7 +221,7 @@
 
 %token <token> TANDOP TBIND TBREAK TBUILD TBUILDER TCASE TCATCH TCEQ TCGE TCLE TINCOP
 %token <token> TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDO TDOUBLECOLON TELIPSIS
-%token <token> TELSE TEXTENDS TEXTERNAL TDEFAULT TFALLTHROUGH TFALSE TFIXED TFOR TIF TIMMUTABLE
+%token <token> TELSE TEXTENDS TEXTERNAL TDEFAULT TFALLTHROUGH TFALSE TFOR TIF TIMMUTABLE
 %token <token> TIMPLEMENTS TIMPORT TINJECTOR TINJECT TINSTANCEOF TINTERFACE  
 %token <token> TLLVM TLLVMARRAY TLLVMFUNCTION TLLVMI1 TLLVMI8 TLLVMI16 TLLVMI32 TLLVMI64
 %token <token> TLLVMPOINTER TLLVMSTRUCT TLLVMVOID TLLVMREFERENCE
@@ -1075,12 +1074,12 @@ constant_declaration
 field_definition
   : type_specifier TFIELDIDENTIFIER ';'
     {
-      $$ = new FixedFieldDefinition($1, *$2, yylineno);
+      $$ = new ReceivedFieldDefinition($1, *$2, yylineno);
       delete $2;
     }
-  | TFIXED type_specifier TFIELDIDENTIFIER ';'
+  | TRECEIVE type_specifier TFIELDIDENTIFIER ';'
     {
-      $$ = new FixedFieldDefinition($2, *$3, yylineno);
+      $$ = new ReceivedFieldDefinition($2, *$3, yylineno);
       delete $3;
     }
   | TINJECT injectable_type_specifier TFIELDIDENTIFIER ';'
@@ -1094,11 +1093,6 @@ field_definition
       $$ = new InjectedFieldDefinition($2, *$3, *$4, yylineno);
       delete $3;
       delete $4;
-    }
-  | TRECEIVE type_specifier TFIELDIDENTIFIER ';'
-    {
-      $$ = new ReceivedFieldDefinition($2, *$3, yylineno);
-      delete $3;
     }
   | TSTATE type_specifier TFIELDIDENTIFIER ';'
     {

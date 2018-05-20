@@ -22,7 +22,6 @@
 #include "wisey/Argument.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/FakeExpression.hpp"
-#include "wisey/FixedField.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -33,6 +32,7 @@
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ThreadExpression.hpp"
+#include "wisey/ReceivedField.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -95,8 +95,8 @@ public:
                              mContext.getImportProfile(),
                              0);
     vector<IField*> fields;
-    fields.push_back(new FixedField(PrimitiveTypes::INT, "width", 0));
-    fields.push_back(new FixedField(PrimitiveTypes::INT, "height", 0));
+    fields.push_back(new ReceivedField(PrimitiveTypes::INT, "width", 0));
+    fields.push_back(new ReceivedField(PrimitiveTypes::INT, "height", 0));
     wisey::Argument* methodArgument = new wisey::Argument(PrimitiveTypes::FLOAT, "argument");
     vector<const wisey::Argument*> methodArguments;
     methodArguments.push_back(methodArgument);

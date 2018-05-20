@@ -129,14 +129,3 @@ TEST_F(FixedFieldTest, checkTypeNonImmutableArrayTypeDeathTest) {
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
-
-TEST_F(TestFileRunner, modelImmutableArrayReferenceFieldRunTest) {
-  runFile("tests/samples/test_model_immutable_array_reference_field.yz", "5");
-}
-
-TEST_F(TestFileRunner, nodeWithFixedFieldSetterDeathRunTest) {
-  expectFailCompile("tests/samples/test_node_with_fixed_field_setter.yz",
-                    1,
-                    "tests/samples/test_node_with_fixed_field_setter.yz\\(9\\): "
-                    "Error: Can not assign to received field mYear");
-}

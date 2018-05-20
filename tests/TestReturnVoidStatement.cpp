@@ -16,12 +16,12 @@
 
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ReceivedField.hpp"
 #include "wisey/ReturnVoidStatement.hpp"
 
 using namespace llvm;
@@ -55,8 +55,8 @@ struct ReturnVoidStatementTest : public Test {
     StructType* structType = StructType::create(mLLVMContext, "MShape");
     structType->setBody(types);
     vector<IField*> fields;
-    fields.push_back(new FixedField(PrimitiveTypes::INT, "width", 0));
-    fields.push_back(new FixedField(PrimitiveTypes::INT, "height", 0));
+    fields.push_back(new ReceivedField(PrimitiveTypes::INT, "width", 0));
+    fields.push_back(new ReceivedField(PrimitiveTypes::INT, "height", 0));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                              modelFullName,
                              structType,

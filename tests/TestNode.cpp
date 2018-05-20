@@ -895,8 +895,8 @@ TEST_F(TestFileRunner, nodeInitWithControllerRunTest) {
   runFile("tests/samples/test_node_init_with_controller.yz", "1");
 }
 
-TEST_F(TestFileRunner, nodeInitFixedFieldWithInterfaceThatsControllerRunTest) {
-  runFile("tests/samples/test_node_init_fixed_field_with_interface_thats_controller.yz", "1");
+TEST_F(TestFileRunner, nodeInitReceivedFieldWithInterfaceThatsControllerRunTest) {
+  runFile("tests/samples/test_node_init_received_field_with_interface_thats_controller.yz", "1");
 }
 
 TEST_F(TestFileRunner, nodeInitStateFieldWithControllerDeathRunTest) {

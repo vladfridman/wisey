@@ -18,12 +18,12 @@
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
 #include "wisey/ControllerTypeSpecifier.hpp"
-#include "wisey/FixedField.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "wisey/ReceivedField.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
 using namespace llvm;
@@ -126,8 +126,8 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   types.push_back(Type::getInt32Ty(mLLVMContext));
   structType->setBody(types);
   vector<IField*> fields;
-  fields.push_back(new FixedField(PrimitiveTypes::INT, "fieldA", 0));
-  fields.push_back(new FixedField(PrimitiveTypes::INT, "fieldB", 0));
+  fields.push_back(new ReceivedField(PrimitiveTypes::INT, "fieldA", 0));
+  fields.push_back(new ReceivedField(PrimitiveTypes::INT, "fieldB", 0));
   Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                  modelFullName,
                                  structType,

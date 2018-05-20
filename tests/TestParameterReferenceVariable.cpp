@@ -17,11 +17,11 @@
 
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ReceivedField.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -64,8 +64,8 @@ public:
     StructType* structType = StructType::create(mLLVMContext, modelFullName);
     structType->setBody(types);
     vector<IField*> fields;
-    fields.push_back(new FixedField(PrimitiveTypes::INT, "width", 0));
-    fields.push_back(new FixedField(PrimitiveTypes::INT, "height", 0));
+    fields.push_back(new ReceivedField(PrimitiveTypes::INT, "width", 0));
+    fields.push_back(new ReceivedField(PrimitiveTypes::INT, "height", 0));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                              modelFullName,
                              structType,

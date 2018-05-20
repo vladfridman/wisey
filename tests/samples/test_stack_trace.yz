@@ -3,7 +3,7 @@ package systems.vos.wisey.compiler.tests;
 import wisey.lang.IProgram;
 
 model MEngine {
-  fixed int mVolume;
+  receive int mVolume;
 
   public int getVolume() {
     printout("Stack trace 1:\n");
@@ -13,7 +13,7 @@ model MEngine {
 }
 
 model MCar {
-  fixed MEngine* mEngine;
+  receive MEngine* mEngine;
 
   public int getEngineVolume() {
     return mEngine.getVolume();

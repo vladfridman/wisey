@@ -21,7 +21,7 @@
 #include "wisey/Argument.hpp"
 #include "wisey/ControllerDefinition.hpp"
 #include "wisey/FakeExpression.hpp"
-#include "wisey/FixedFieldDefinition.hpp"
+#include "wisey/ReceivedFieldDefinition.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -183,34 +183,6 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
   EXPECT_NE(controller->findMethod("foo"), nullptr);
 }
 
-TEST_F(ControllerDefinitionTest, controllerWithFixedFieldDeathTest) {
-  PackageType* packageType = new PackageType(mPackage);
-  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
-  ControllerTypeSpecifierFull* typeSpecifier =
-  new ControllerTypeSpecifierFull(packageExpression, "CMyController", 0);
-  const PrimitiveTypeSpecifier* intType = PrimitiveTypes::INT->newTypeSpecifier(0);
-  FixedFieldDefinition* field = new FixedFieldDefinition(intType, "field3", 1);
-  mElementDeclarations.clear();
-  mElementDeclarations.push_back(field);
-  vector<IObjectDefinition*> innerObjectDefinitions;
-  ControllerDefinition controllerDefinition(AccessLevel::PUBLIC_ACCESS,
-                                            typeSpecifier,
-                                            mElementDeclarations,
-                                            mInterfaces,
-                                            innerObjectDefinitions,
-                                            NULL,
-                                            1);
-  controllerDefinition.prototypeObject(mContext, mContext.getImportProfile());
-  
-  std::stringstream buffer;
-  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
-
-  EXPECT_ANY_THROW(controllerDefinition.prototypeMethods(mContext));
-  EXPECT_STREQ("/tmp/source.yz(1): Error: Controllers can only have received, injected or state fields\n",
-               buffer.str().c_str());
-  std::cerr.rdbuf(oldbuffer);
-}
-
 TEST_F(ControllerDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
   PackageType* packageType = new PackageType(mPackage);
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
@@ -218,7 +190,7 @@ TEST_F(ControllerDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
   new ControllerTypeSpecifierFull(packageExpression, "CMyController", 0);
   InjectionArgumentList arguments;
   const PrimitiveTypeSpecifier* intType = PrimitiveTypes::INT->newTypeSpecifier(0);
-  FixedFieldDefinition* field = new FixedFieldDefinition(intType, "field3", 11);
+  ReceivedFieldDefinition* field = new ReceivedFieldDefinition(intType, "field3", 11);
   mElementDeclarations.push_back(field);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ControllerDefinition controllerDefinition(AccessLevel::PUBLIC_ACCESS,
@@ -249,12 +221,6 @@ TEST_F(TestFileRunner, controllerDefinitionWithModelStateSyntaxRunTest) {
 
 TEST_F(TestFileRunner, controllerDefinitionWithInjectedInterfaceFieldRunTest) {
   runFile("tests/samples/test_controller_definition_with_injected_interface_field.yz", "8");
-}
-
-TEST_F(TestFileRunner, controllerWithFixedFieldDeathRunTest) {
-  expectFailCompile("tests/samples/test_controller_with_fixed_field.yz",
-                    1,
-                    "Error: Controllers can only have received, injected or state fields");
 }
 
 TEST_F(TestFileRunner, objectFieldsAfterMethodsDeathRunTest) {

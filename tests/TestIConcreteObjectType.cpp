@@ -18,11 +18,11 @@
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/FakeExpression.hpp"
-#include "wisey/FixedField.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ReceivedField.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -103,8 +103,8 @@ struct IConcreteObjectTypeTest : public Test {
     StructType* starStructType = StructType::create(mLLVMContext, starFullName);
     starStructType->setBody(starTypes);
     vector<IField*> starFields;
-    starFields.push_back(new FixedField(PrimitiveTypes::INT, "mBrightness", 0));
-    starFields.push_back(new FixedField(PrimitiveTypes::INT, "mWeight", 0));
+    starFields.push_back(new ReceivedField(PrimitiveTypes::INT, "mBrightness", 0));
+    starFields.push_back(new ReceivedField(PrimitiveTypes::INT, "mWeight", 0));
     mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                  starFullName,
                                  starStructType,
@@ -121,7 +121,7 @@ struct IConcreteObjectTypeTest : public Test {
     StructType* galaxyStructType = StructType::create(mLLVMContext, galaxyFullName);
     galaxyStructType->setBody(galaxyTypes);
     vector<IField*> galaxyFields;
-    galaxyFields.push_back(new FixedField(mStarModel->getOwner(), "mStar", 0));
+    galaxyFields.push_back(new ReceivedField(mStarModel->getOwner(), "mStar", 0));
     mGalaxyModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                    galaxyFullName,
                                    galaxyStructType,
@@ -138,7 +138,7 @@ struct IConcreteObjectTypeTest : public Test {
     StructType* constellationStructType = StructType::create(mLLVMContext, constellationFullName);
     constellationStructType->setBody(constellationTypes);
     vector<IField*> constellationFields;
-    constellationFields.push_back(new FixedField(mStarModel, "mStar", 0));
+    constellationFields.push_back(new ReceivedField(mStarModel, "mStar", 0));
     mConstellationModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                           constellationFullName,
                                           constellationStructType,
@@ -169,7 +169,7 @@ struct IConcreteObjectTypeTest : public Test {
     StructType* carStructType = StructType::create(mLLVMContext, carFullName);
     carStructType->setBody(carTypes);
     vector<IField*> carFields;
-    carFields.push_back(new FixedField(mCanNavigate->getOwner(), "mNavigator", 0));
+    carFields.push_back(new ReceivedField(mCanNavigate->getOwner(), "mNavigator", 0));
     mCarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                 carFullName,
                                 carStructType,

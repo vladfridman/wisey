@@ -17,10 +17,10 @@
 
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/FixedField.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/ParameterLLVMVariable.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
+#include "wisey/ParameterLLVMVariable.hpp"
+#include "wisey/ReceivedField.hpp"
 
 using namespace llvm;
 using namespace std;

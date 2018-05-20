@@ -1,6 +1,6 @@
 
 external model wisey.lang.MModel {
-  fixed int mValue;
+  receive int mValue;
 
   static int getValue();
 }

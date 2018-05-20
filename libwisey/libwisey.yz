@@ -71,7 +71,7 @@ external model wisey.io.MFileCouldNotCloseException
   implements
     wisey.lang.IException {
 
-  fixed wisey.lang.MString mFileName;
+  receive wisey.lang.MString mFileName;
 
   void report() override;
   wisey.lang.MString getFileName();
@@ -81,7 +81,7 @@ external model wisey.io.MFileCouldNotOpenException
   implements
     wisey.lang.IException {
 
-  fixed wisey.lang.MString mFileName;
+  receive wisey.lang.MString mFileName;
 
   void report() override;
   wisey.lang.MString getFileName();
@@ -91,8 +91,8 @@ external model wisey.io.MFileOpenException
   implements
     wisey.lang.IException {
 
-  fixed wisey.lang.MString mCurrentFile;
-  fixed wisey.lang.MString mNewFile;
+  receive wisey.lang.MString mCurrentFile;
+  receive wisey.lang.MString mNewFile;
 
   void report() override;
   wisey.lang.MString getCurrentFile();
@@ -103,8 +103,8 @@ external model wisey.lang.MArrayIndexOutOfBoundsException
   implements
     wisey.lang.IException {
 
-  fixed long mArraySize;
-  fixed long mIndex;
+  receive long mArraySize;
+  receive long mIndex;
 
   void report() override;
   long getArraySize();
@@ -115,8 +115,8 @@ external model wisey.lang.MCastException
   implements
     wisey.lang.IException {
 
-  fixed string mFromType;
-  fixed string mToType;
+  receive string mFromType;
+  receive string mToType;
 
   void report() override;
   string getFromType();
@@ -127,7 +127,7 @@ external model wisey.lang.MInterfaceNotBoundException
   implements
     wisey.lang.IException {
 
-  fixed string mInterfaceName;
+  receive string mInterfaceName;
 
   void report() override;
   string getInterfaceName();
@@ -137,7 +137,7 @@ external model wisey.lang.MMainThreadWorker
   implements
     wisey.threads.IWorker {
 
-  fixed immutable string[]* mArguments;
+  receive immutable string[]* mArguments;
 
   static int startMainThread(
     string[]* arguments);
@@ -155,9 +155,9 @@ external model wisey.lang.MReferenceCountException
   implements
     wisey.lang.IException {
 
-  fixed string mObjectType;
-  fixed long mReferenceCount;
-  fixed wisey.lang.IException mNestedException;
+  receive string mObjectType;
+  receive long mReferenceCount;
+  receive wisey.lang.IException mNestedException;
 
   void report() override;
   long getReferenceCount();
@@ -166,7 +166,7 @@ external model wisey.lang.MReferenceCountException
 
 external model wisey.lang.MString {
 
-  fixed immutable char[]* mContent;
+  receive immutable char[]* mContent;
 
   static wisey.lang.MString* createFromString(
     string input);
@@ -197,7 +197,7 @@ external model wisey.threads.MContextNonExistantException
   implements
     wisey.lang.IException {
 
-  fixed string mContextName;
+  receive string mContextName;
 
   void report() override;
   string getContextName();
@@ -214,7 +214,7 @@ external model wisey.threads.MThreadBoundaryException
   implements
     wisey.lang.IException {
 
-  fixed boolean mIsMethodInternal;
+  receive boolean mIsMethodInternal;
 
   void report() override;
   boolean isMethodInternal();

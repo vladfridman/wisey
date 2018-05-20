@@ -7,7 +7,7 @@ import wisey.lang.IException;
  * externally visible thread method is called from inside the thread.
  */
 model MThreadBoundaryException implements IException {
-  boolean mIsMethodInternal;
+  receive boolean mIsMethodInternal;
 
   public void report() override {
     callstack.reportException(this);

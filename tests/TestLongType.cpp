@@ -17,10 +17,10 @@
 #include "MockConcreteObjectType.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/FixedField.hpp"
 #include "wisey/LongType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ReceivedField.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -56,7 +56,7 @@ public:
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
     
-    IField* field = new FixedField(&mLongType, "mField", 0);
+    IField* field = new ReceivedField(&mLongType, "mField", 0);
     ON_CALL(mConcreteObjectType, findField(_)).WillByDefault(Return(field));
     
     mStringStream = new raw_string_ostream(mStringBuffer);

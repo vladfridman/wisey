@@ -17,9 +17,9 @@
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/FixedField.hpp"
 #include "wisey/ObjectBuilderArgument.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ReceivedField.hpp"
 
 using ::testing::_;
 using ::testing::Invoke;
@@ -50,7 +50,7 @@ struct ObjectBuilderArgumentTest : Test {
     structType->setBody(types);
     vector<IField*> fields;
     InjectionArgumentList arguments;
-    fields.push_back(new FixedField(PrimitiveTypes::INT, "mFieldA", 0));
+    fields.push_back(new ReceivedField(PrimitiveTypes::INT, "mFieldA", 0));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                              modelFullName,
                              structType,

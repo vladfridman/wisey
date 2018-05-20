@@ -4,8 +4,8 @@ package wisey.lang;
  * This is thrown when program is unable to cast at runtime
  */
 model MCastException implements IException {
-  string mFromType;
-  string mToType;
+  receive string mFromType;
+  receive string mToType;
 
   public void report() override {
     callstack.reportException(this);

@@ -4,8 +4,8 @@ package wisey.lang;
  * This is thrown when index in an array is used that is out of array range
  */
 model MArrayIndexOutOfBoundsException implements IException {
-  long mArraySize;
-  long mIndex;
+  receive long mArraySize;
+  receive long mIndex;
 
   public void report() override {
     callstack.reportException(this);

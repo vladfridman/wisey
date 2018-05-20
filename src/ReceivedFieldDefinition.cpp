@@ -26,7 +26,11 @@ ReceivedFieldDefinition::~ReceivedFieldDefinition() {
 IField* ReceivedFieldDefinition::define(IRGenerationContext& context,
                                          const IObjectType* objectType) const {
   const IType* fieldType = mTypeSpecifier->getType(context);
-  return new ReceivedField(fieldType, mName, mLine);
+  ReceivedField* field = new ReceivedField(fieldType, mName, mLine);
+  if (objectType->isModel()) {
+    field->checkType(context);
+  }
+  return field;
 }
 
 bool ReceivedFieldDefinition::isConstant() const {

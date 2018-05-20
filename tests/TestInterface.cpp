@@ -23,8 +23,7 @@
 #include "TestPrefix.hpp"
 #include "wisey/AdjustReferenceCountFunction.hpp"
 #include "wisey/ConstantDefinition.hpp"
-#include "wisey/FixedField.hpp"
-#include "wisey/FixedFieldDefinition.hpp"
+#include "wisey/ReceivedFieldDefinition.hpp"
 #include "wisey/GetOriginalObjectFunction.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -36,6 +35,7 @@
 #include "wisey/NullType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "wisey/ReceivedField.hpp"
 #include "wisey/StaticMethodDefinition.hpp"
 #include "wisey/ThreadExpression.hpp"
 
@@ -419,8 +419,8 @@ TEST_F(InterfaceTest, printToStreamTest) {
                                             mContext.getImportProfile(),
                                             0);
   vector<IField*> fields;
-  fields.push_back(new FixedField(PrimitiveTypes::INT, "mField1", 0));
-  fields.push_back(new FixedField(PrimitiveTypes::INT, "mField2", 0));
+  fields.push_back(new ReceivedField(PrimitiveTypes::INT, "mField1", 0));
+  fields.push_back(new ReceivedField(PrimitiveTypes::INT, "mField2", 0));
   innerPublicModel->setFields(mContext, fields, 0);
   
   vector<const wisey::Argument*> methodArguments;
@@ -467,7 +467,7 @@ TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
   Mock::AllowLeak(mCallstackVariable);
 
   const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
-  FixedFieldDefinition* fieldDeclaration = new FixedFieldDefinition(intSpecifier, "mField", 3);
+  ReceivedFieldDefinition* fieldDeclaration = new ReceivedFieldDefinition(intSpecifier, "mField", 3);
   
   string name = "systems.vos.wisey.compiler.tests.IInterface";
   StructType* structType = StructType::create(mLLVMContext, name);
@@ -673,7 +673,7 @@ TEST_F(InterfaceTest, createLocalVariableTest) {
 TEST_F(InterfaceTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
   InjectionArgumentList injectionArgumentList;
-  IField* field = new FixedField(mShapeInterface, "mField", 0);
+  IField* field = new ReceivedField(mShapeInterface, "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mShapeInterface->createFieldVariable(mContext, "mField", &concreteObjectType, 0);
   IVariable* variable = mContext.getScopes().getVariable("mField");
