@@ -10,6 +10,7 @@
 
 #include <gtest/gtest.h>
 
+#include "MockConcreteObjectType.hpp"
 #include "MockType.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
@@ -29,6 +30,7 @@ using ::testing::Test;
 struct ReceivedFieldTest : public Test {
   IRGenerationContext mContext;
   NiceMock<MockType>* mType;
+  NiceMock<MockConcreteObjectType>* mObject;
   string mName;
   ReceivedField* mField;
   
@@ -36,6 +38,7 @@ public:
   
   ReceivedFieldTest() :
   mType(new NiceMock<MockType>()),
+  mObject(new NiceMock<MockConcreteObjectType>()),
   mName("mField") {
     ON_CALL(*mType, getTypeName()).WillByDefault(Return("MObject*"));
     EXPECT_CALL(*mType, die());
@@ -46,18 +49,26 @@ public:
   ~ReceivedFieldTest() {
     delete mType;
     delete mField;
+    delete mObject;
   }
 };
 
 TEST_F(ReceivedFieldTest, fieldCreationTest) {
   EXPECT_EQ(mField->getType(), mType);
   EXPECT_STREQ(mField->getName().c_str(), "mField");
-  EXPECT_TRUE(mField->isAssignable());
   
   EXPECT_FALSE(mField->isFixed());
   EXPECT_FALSE(mField->isInjected());
   EXPECT_TRUE(mField->isReceived());
   EXPECT_FALSE(mField->isState());
+}
+
+TEST_F(ReceivedFieldTest, isAssignableTest) {
+  ON_CALL(*mObject, isController()).WillByDefault(Return(true));
+  EXPECT_TRUE(mField->isAssignable(mObject));
+
+  ON_CALL(*mObject, isController()).WillByDefault(Return(false));
+  EXPECT_FALSE(mField->isAssignable(mObject));
 }
 
 TEST_F(ReceivedFieldTest, elementTypeTest) {

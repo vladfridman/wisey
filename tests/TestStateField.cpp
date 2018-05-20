@@ -10,7 +10,7 @@
 
 #include <gtest/gtest.h>
 
-#include "MockObjectType.hpp"
+#include "MockConcreteObjectType.hpp"
 #include "MockType.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
@@ -30,7 +30,7 @@ using ::testing::Test;
 struct StateFieldTest : public Test {
   IRGenerationContext mContext;
   NiceMock<MockType>* mType;
-  NiceMock<MockObjectType>* mObjectType;
+  NiceMock<MockConcreteObjectType>* mObjectType;
   string mName;
   StateField* mField;
 
@@ -38,7 +38,7 @@ public:
   
   StateFieldTest() :
   mType(new NiceMock<MockType>()),
-  mObjectType(new NiceMock<MockObjectType>()),
+  mObjectType(new NiceMock<MockConcreteObjectType>()),
   mName("mField") {
     TestPrefix::generateIR(mContext);
     
@@ -58,7 +58,7 @@ public:
 TEST_F(StateFieldTest, fieldCreationTest) {
   EXPECT_EQ(mField->getType(), mType);
   EXPECT_STREQ(mField->getName().c_str(), "mField");
-  EXPECT_TRUE(mField->isAssignable());
+  EXPECT_TRUE(mField->isAssignable(mObjectType));
   
   EXPECT_FALSE(mField->isFixed());
   EXPECT_FALSE(mField->isInjected());

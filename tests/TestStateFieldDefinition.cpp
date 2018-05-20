@@ -12,7 +12,7 @@
 #include <gmock/gmock.h>
 
 #include "MockExpression.hpp"
-#include "MockObjectType.hpp"
+#include "MockConcreteObjectType.hpp"
 #include "MockType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
@@ -30,14 +30,14 @@ using ::testing::Test;
 
 struct StateFieldDefinitionTest : public Test {
   IRGenerationContext mContext;
-  NiceMock<MockObjectType>* mObject;
+  NiceMock<MockConcreteObjectType>* mObject;
   string mName;
   StateFieldDefinition* mFieldDeclaration;
   
 public:
   
   StateFieldDefinitionTest() :
-  mObject(new NiceMock<MockObjectType>()),
+  mObject(new NiceMock<MockConcreteObjectType>()),
   mName("mField") {
     const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
     mFieldDeclaration = new StateFieldDefinition(intSpecifier, mName, 0);
@@ -62,7 +62,7 @@ TEST_F(StateFieldDefinitionTest, declareTest) {
 
   EXPECT_EQ(field->getType(), PrimitiveTypes::INT);
   EXPECT_STREQ(field->getName().c_str(), "mField");
-  EXPECT_TRUE(field->isAssignable());
+  EXPECT_TRUE(field->isAssignable(mObject));
   
   EXPECT_FALSE(field->isFixed());
   EXPECT_FALSE(field->isInjected());

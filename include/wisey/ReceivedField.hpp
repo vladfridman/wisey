@@ -33,7 +33,7 @@ namespace wisey {
     
     int getLine() const override;
     
-    bool isAssignable() const override;
+    bool isAssignable(const IConcreteObjectType* object) const override;
     
     bool isConstant() const override;
     

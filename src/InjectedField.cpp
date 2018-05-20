@@ -237,7 +237,7 @@ string InjectedField::getInjectionFunctionName(const Controller* controller) con
   return controller->getTypeName() + "." + mName + ".inject";
 }
 
-bool InjectedField::isAssignable() const {
+bool InjectedField::isAssignable(const IConcreteObjectType* object) const {
   return false;
 }
 

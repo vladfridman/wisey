@@ -41,7 +41,7 @@ int StateField::getLine() const {
   return mLine;
 }
 
-bool StateField::isAssignable() const {
+bool StateField::isAssignable(const IConcreteObjectType* object) const {
   return true;
 }
 

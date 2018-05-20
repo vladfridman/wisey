@@ -12,7 +12,7 @@
 #include <gmock/gmock.h>
 
 #include "MockExpression.hpp"
-#include "MockObjectType.hpp"
+#include "MockConcreteObjectType.hpp"
 #include "MockType.hpp"
 #include "wisey/FixedFieldDefinition.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -32,7 +32,7 @@ struct FixedFieldDefinitionTest : public Test {
   IRGenerationContext mContext;
   NiceMock<MockType>* mType;
   NiceMock<MockExpression>* mExpression;
-  NiceMock<MockObjectType>* mObject;
+  NiceMock<MockConcreteObjectType>* mObject;
   string mName;
   FixedFieldDefinition* mFieldDeclaration;
   
@@ -41,7 +41,7 @@ public:
   FixedFieldDefinitionTest() :
   mType(new NiceMock<MockType>()),
   mExpression(new NiceMock<MockExpression>()),
-  mObject(new NiceMock<MockObjectType>()),
+  mObject(new NiceMock<MockConcreteObjectType>()),
   mName("mField") {
     const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
     mFieldDeclaration = new FixedFieldDefinition(intSpecifier, mName, 0);
@@ -65,5 +65,5 @@ TEST_F(FixedFieldDefinitionTest, declareTest) {
 
   EXPECT_EQ(field->getType(), PrimitiveTypes::INT);
   EXPECT_STREQ(field->getName().c_str(), "mField");
-  EXPECT_FALSE(field->isAssignable());
+  EXPECT_FALSE(field->isAssignable(mObject));
 }

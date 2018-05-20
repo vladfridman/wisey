@@ -40,7 +40,7 @@ namespace wisey {
     /**
      * Tells whether this field is assignable
      */
-    virtual bool isAssignable() const = 0;
+    virtual bool isAssignable(const IConcreteObjectType* object) const = 0;
     
     /**
      * Returns field kind in a form of a string

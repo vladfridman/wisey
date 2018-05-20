@@ -13,7 +13,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "MockObjectType.hpp"
+#include "MockConcreteObjectType.hpp"
 #include "MockObjectOwnerType.hpp"
 #include "MockType.hpp"
 #include "MockVariable.hpp"
@@ -43,7 +43,7 @@ struct InjectedFieldTest : public Test {
   NiceMock<MockVariable>* mThreadVariable;
   NiceMock<MockVariable>* mCallstackVariable;
   const NiceMock<MockObjectOwnerType>* mObjectOwnerType;
-  const NiceMock<MockObjectType>* mObjectType;
+  const NiceMock<MockConcreteObjectType>* mObjectType;
   NiceMock<MockExpression>* mExpression;
   string mName;
   InjectionArgumentList mInjectionArgumentList;
@@ -62,7 +62,7 @@ public:
   mType(new NiceMock<MockType>()),
   mInjectedType(new NiceMock<MockType>()),
   mObjectOwnerType(new NiceMock<MockObjectOwnerType>()),
-  mObjectType(new NiceMock<MockObjectType>()),
+  mObjectType(new NiceMock<MockConcreteObjectType>()),
   mExpression(new NiceMock<MockExpression>()),
   mName("mField") {
     TestPrefix::generateIR(mContext);
@@ -148,7 +148,7 @@ TEST_F(InjectedFieldTest, fieldCreationTest) {
   
   EXPECT_EQ(field.getType(), mType);
   EXPECT_STREQ(field.getName().c_str(), "mField");
-  EXPECT_FALSE(field.isAssignable());
+  EXPECT_FALSE(field.isAssignable(mObjectType));
 
   EXPECT_FALSE(field.isFixed());
   EXPECT_TRUE(field.isInjected());

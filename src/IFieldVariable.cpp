@@ -22,7 +22,7 @@ IField* IFieldVariable::checkAndFindFieldForAssignment(IRGenerationContext& cont
                                                        int line) {
   IField* field = checkAndFindField(context, object, fieldName, line);
   
-  if (field->isAssignable()) {
+  if (field->isAssignable(object)) {
     return field;
   }
   

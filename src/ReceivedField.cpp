@@ -7,6 +7,7 @@
 //
 
 #include "wisey/ArraySpecificOwnerType.hpp"
+#include "wisey/IConcreteObjectType.hpp"
 #include "wisey/ReceivedField.hpp"
 
 using namespace std;
@@ -30,8 +31,8 @@ int ReceivedField::getLine() const {
   return mLine;
 }
 
-bool ReceivedField::isAssignable() const {
-  return true;
+bool ReceivedField::isAssignable(const IConcreteObjectType* object) const {
+  return object->isController();
 }
 
 bool ReceivedField::isConstant() const {

@@ -11,9 +11,9 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "MockExpression.hpp"
+#include "MockConcreteObjectType.hpp"
 #include "MockObjectTypeSpecifier.hpp"
-#include "MockType.hpp"
+#include "MockObjectOwnerType.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/InjectedFieldDefinition.hpp"
 #include "wisey/ObjectOwnerTypeSpecifier.hpp"
@@ -33,41 +33,42 @@ struct InjectedFieldDefinitionTest : public Test {
   InjectionArgumentList mArguments;
   InjectionArgument* mInjectionArgument;
   InjectedFieldDefinition* mFieldDeclaration;
-  NiceMock<MockType>* mType;
-  NiceMock<MockExpression>* mExpression;
-  Controller* mController;
+  NiceMock<MockConcreteObjectType>* mObjectType;
+  NiceMock<MockObjectOwnerType>* mObjectOwnerType;
   const NiceMock<MockObjectTypeSpecifier>* mObjectSpecifier;
   string mName;
 
 public:
   
   InjectedFieldDefinitionTest() :
-  mType(new NiceMock<MockType>()),
-  mExpression(new NiceMock<MockExpression>()),
+  mObjectType(new NiceMock<MockConcreteObjectType>()),
+  mObjectOwnerType(new NiceMock<MockObjectOwnerType>()),
   mObjectSpecifier(new NiceMock<MockObjectTypeSpecifier>()),
   mName("mField") {
     TestPrefix::generateIR(mContext);
     
     NiceMock<MockObjectTypeSpecifier>* mObjectSpecifier = new NiceMock<MockObjectTypeSpecifier>();
     
-    mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
-                                            "systems.vos.wisey.compiler.tests.CController",
-                                            NULL,
-                                            mContext.getImportProfile(),
-                                            0);
-    ON_CALL(*mObjectSpecifier, getType(_)).WillByDefault(Return(mController));
+    ON_CALL(*mObjectSpecifier, getType(_)).WillByDefault(Return(mObjectType));
     ObjectOwnerTypeSpecifier* ownerSpecifier = new ObjectOwnerTypeSpecifier(mObjectSpecifier);
+    ON_CALL(*mObjectType, getOwner()).WillByDefault(Return(mObjectOwnerType));
+    ON_CALL(*mObjectType, isController()).WillByDefault(Return(true));
+    ON_CALL(*mObjectOwnerType, isOwner()).WillByDefault(Return(true));
+    ON_CALL(*mObjectOwnerType, isController()).WillByDefault(Return(true));
+    ON_CALL(*mObjectOwnerType, getReference()).WillByDefault(Return(mObjectType));
 
     mFieldDeclaration = new InjectedFieldDefinition(ownerSpecifier, mName, mArguments, 0);
   }
   
   ~InjectedFieldDefinitionTest() {
     delete mFieldDeclaration;
+    delete mObjectType;
+    delete mObjectOwnerType;
   }
 };
 
 TEST_F(InjectedFieldDefinitionTest, declareTest) {
-  IField* field = mFieldDeclaration->define(mContext, mController);
+  IField* field = mFieldDeclaration->define(mContext, mObjectType);
   
   EXPECT_FALSE(field->isConstant());
   EXPECT_TRUE(field->isField());
@@ -76,9 +77,9 @@ TEST_F(InjectedFieldDefinitionTest, declareTest) {
   EXPECT_FALSE(field->isMethodSignature());
   EXPECT_FALSE(field->isLLVMFunction());
 
-  EXPECT_EQ(mController->getOwner(), field->getType());
+  EXPECT_EQ(mObjectOwnerType, field->getType());
   EXPECT_STREQ("mField", field->getName().c_str());
-  EXPECT_FALSE(field->isAssignable());
+  EXPECT_FALSE(field->isAssignable(mObjectType));
 
   EXPECT_FALSE(field->isFixed());
   EXPECT_TRUE(field->isInjected());

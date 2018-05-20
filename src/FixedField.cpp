@@ -43,7 +43,7 @@ int FixedField::getLine() const {
   return mLine;
 }
 
-bool FixedField::isAssignable() const {
+bool FixedField::isAssignable(const IConcreteObjectType* object) const {
   return false;
 }
 

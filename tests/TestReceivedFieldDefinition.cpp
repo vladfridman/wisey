@@ -12,7 +12,7 @@
 #include <gmock/gmock.h>
 
 #include "MockExpression.hpp"
-#include "MockObjectType.hpp"
+#include "MockConcreteObjectType.hpp"
 #include "MockType.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/ControllerTypeSpecifierFull.hpp"
@@ -36,7 +36,7 @@ struct ReceivedFieldDefinitionTest : public Test {
   IRGenerationContext mContext;
   NiceMock<MockType>* mType;
   NiceMock<MockExpression>* mExpression;
-  NiceMock<MockObjectType>* mObject;
+  NiceMock<MockConcreteObjectType>* mObject;
   string mName;
   ReceivedFieldDefinition* mFieldDeclaration;
   
@@ -45,7 +45,7 @@ public:
   ReceivedFieldDefinitionTest() :
   mType(new NiceMock<MockType>()),
   mExpression(new NiceMock<MockExpression>()),
-  mObject(new NiceMock<MockObjectType>()),
+  mObject(new NiceMock<MockConcreteObjectType>()),
   mName("mField") {
     TestPrefix::generateIR(mContext);
     
@@ -55,6 +55,7 @@ public:
   
   ~ReceivedFieldDefinitionTest() {
     delete mFieldDeclaration;
+    delete mObject;
   }
 };
 
@@ -70,10 +71,19 @@ TEST_F(ReceivedFieldDefinitionTest, declareTest) {
 
   EXPECT_EQ(field->getType(), PrimitiveTypes::INT);
   EXPECT_STREQ(field->getName().c_str(), "mField");
-  EXPECT_TRUE(field->isAssignable());
 
   EXPECT_FALSE(field->isFixed());
   EXPECT_FALSE(field->isInjected());
   EXPECT_TRUE(field->isReceived());
   EXPECT_FALSE(field->isState());
+}
+
+TEST_F(ReceivedFieldDefinitionTest, isAssignableTest) {
+  IField* field = mFieldDeclaration->define(mContext, mObject);
+
+  ON_CALL(*mObject, isController()).WillByDefault(Return(true));
+  EXPECT_TRUE(field->isAssignable(mObject));
+
+  ON_CALL(*mObject, isController()).WillByDefault(Return(false));
+  EXPECT_FALSE(field->isAssignable(mObject));
 }
