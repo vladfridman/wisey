@@ -81,7 +81,7 @@ namespace wisey {
     /**
      * Run compiled IR code and return the result
      */
-    long runCode(int argc, char** argv);
+    int runCode(int argc, char** argv);
     
     /**
      * Return the main module

@@ -6,7 +6,7 @@ controller CProgram implements IProgram {
   public long run(immutable string[] arguments) override {
     double f = 0 - 2.5d;
 
-    return (long) f;
+    return (int) f;
   }
 }
 

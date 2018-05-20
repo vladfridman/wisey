@@ -33,7 +33,7 @@ TEST_F(CompilerTest, compileAndRunTest) {
   mCompilerArguments.addSourceFile("tests/samples/test_addition.yz");
   mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
-  long result = mCompiler.run(0, NULL);
+  int result = mCompiler.run(0, NULL);
   
   EXPECT_EQ(7, result);
 }
@@ -66,7 +66,7 @@ TEST_F(CompilerTest, runMultipleFilesTest) {
   mCompilerArguments.addSourceFile("tests/samples/test_multifile_controller_controller/Runner.yz");
   mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
-  long result = mCompiler.run(0, NULL);
+  int result = mCompiler.run(0, NULL);
 
   EXPECT_EQ(5, result);
 }
@@ -76,7 +76,7 @@ TEST_F(CompilerTest, runMultipleFilesOutOfOrderTest) {
   mCompilerArguments.addSourceFile("tests/samples/test_multifile_controller_controller/Adder.yz");
   mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
-  long result = mCompiler.run(0, NULL);
+  int result = mCompiler.run(0, NULL);
 
   EXPECT_EQ(5, result);
 }
@@ -86,7 +86,7 @@ TEST_F(CompilerTest, runMultipleFilesControllerAndModelsTest) {
   mCompilerArguments.addSourceFile("tests/samples/test_multifile_controller_model/CProgram.yz");
   mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
-  long result = mCompiler.run(0, NULL);
+  int result = mCompiler.run(0, NULL);
 
   EXPECT_EQ(7, result);
 }
@@ -96,7 +96,7 @@ TEST_F(CompilerTest, runMultipleFilesInterdependentModelsTest) {
   mCompilerArguments.addSourceFile("tests/samples/test_multifile_model_model/MAdder.yz");
   mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
-  long result = mCompiler.run(0, NULL);
+  int result = mCompiler.run(0, NULL);
 
   EXPECT_EQ(6, result);
 }
@@ -105,7 +105,7 @@ TEST_F(CompilerTest, runMultipleFilesUseWildcardTest) {
   mCompilerArguments.addSourceFile("tests/samples/test_multifile_model_model/*.yz");
   mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
-  long result = mCompiler.run(0, NULL);
+  int result = mCompiler.run(0, NULL);
 
   EXPECT_EQ(6, result);
 }

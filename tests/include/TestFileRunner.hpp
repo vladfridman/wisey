@@ -39,7 +39,7 @@ public:
   /**
    * Compiles a sample file, runs it and checks the result against the expected one.
    */
-  void runFile(std::string fileName, long expectedResult);
+  void runFile(std::string fileName, int expectedResult);
 
   /**
    * Compiles sample files, runs them and checks the stdout and stderr against the expected one.
