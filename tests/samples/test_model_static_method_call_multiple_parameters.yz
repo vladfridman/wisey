@@ -11,7 +11,7 @@ model MColor {
 
 controller CProgram implements IProgram {
 
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     MColor* color = builder(MColor).build();
 
     return MColor.doubleValue(3);

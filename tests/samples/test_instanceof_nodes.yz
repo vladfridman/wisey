@@ -12,7 +12,7 @@ node NNode implements IHasAnswer {
 
 controller CProgram implements IProgram {
 
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     NNode nnode = builder(NNode).build();
     
     return nnode instanceof IHasAnswer;

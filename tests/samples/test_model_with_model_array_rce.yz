@@ -20,7 +20,7 @@ model MMyModel {
 
 controller CProgram implements IProgram {
 
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     MContainer[][]* array = new MContainer[4][4];
     array[3][3] = builder(MContainer).withContent(5).build();
     MContainer[] reference = array[2];

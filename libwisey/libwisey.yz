@@ -16,7 +16,7 @@ external interface wisey.lang.IException {
 
 external interface wisey.lang.IProgram {
 
-  int run(
+  long run(
     immutable string[] arguments) throws wisey.lang.MReferenceCountException, wisey.lang.MNullPointerException;
   static void terminate(
     int exitCode);
@@ -139,7 +139,7 @@ external model wisey.lang.MMainThreadWorker
 
   receive immutable string[]* mArguments;
 
-  static int startMainThread(
+  static long startMainThread(
     string[]* arguments);
   void work() throws wisey.threads.MThreadBoundaryException override;
 }

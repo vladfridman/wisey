@@ -6,7 +6,7 @@ import wisey.lang.MString;
 
 controller CProgram implements IProgram {
 
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     CString* cstring = CString.createFromString("123");
     printout("Before cstring: " + cstring + " capacity: " + cstring.getCapacity() + "\n");
     MString* appnedix = MString.createFromString("4567");

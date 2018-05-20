@@ -10,7 +10,7 @@ controller CProgram implements IProgram {
     }
   }
 
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     callRecursive(wisey.threads.CCallStack.CALL_STACK_SIZE);
     return 1;
   }

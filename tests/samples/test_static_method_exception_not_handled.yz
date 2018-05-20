@@ -24,7 +24,7 @@ controller CCatcher {
 }
 
 controller CProgram implements IProgram {
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     return CCatcher.doSomething();
   }
 }

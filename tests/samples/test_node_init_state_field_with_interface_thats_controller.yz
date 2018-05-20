@@ -24,7 +24,7 @@ node NElement {
 
 controller CProgram implements IProgram {
 
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     IHasValue* car = builder(MCar).build();
     IHasValue* service = injector(CService).inject();
     NElement* element = builder(NElement).withHasValue(service).build();

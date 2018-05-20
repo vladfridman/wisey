@@ -11,7 +11,7 @@ controller CProgram implements IProgram {
     return getNothing();
   }
 
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     return 1;
   }
 }

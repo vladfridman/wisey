@@ -11,7 +11,7 @@ model MCar {
 controller CProgram implements IProgram {
   state MCar mCarRef;
 
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     try {
       mCarRef = builder(MCar).build();
       MCar* owner = null;

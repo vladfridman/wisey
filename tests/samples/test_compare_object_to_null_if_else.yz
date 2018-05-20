@@ -7,7 +7,7 @@ model MMyModel {
 
 controller CProgram implements IProgram {
 
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     MMyModel* mymodel = builder(MMyModel).build();
     if (mymodel) {
       return 5;

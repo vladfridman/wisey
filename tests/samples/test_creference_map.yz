@@ -14,7 +14,7 @@ model MCar {
 controller CProgram implements IProgram {
   inject CReferenceMap* mMap;
 
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     MCar* toyota = builder(MCar).withMake("Toyota").build(); 
     MCar* bmw = builder(MCar).withMake("BMW").build(); 
     MCar* mercedes = builder(MCar).withMake("Mercedes").build();

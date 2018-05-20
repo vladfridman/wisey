@@ -51,10 +51,10 @@ void ProgramSuffix::generateMain(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
 
   vector<Type*> mainArguments;
-  mainArguments.push_back(Type::getInt32Ty(llvmContext));
-  mainArguments.push_back(Type::getInt8Ty(llvmContext)->getPointerTo()->getPointerTo());
+  mainArguments.push_back(PrimitiveTypes::INT->getLLVMType(context));
+  mainArguments.push_back(PrimitiveTypes::STRING->getLLVMType(context)->getPointerTo());
   FunctionType* mainFunctionType =
-  FunctionType::get(Type::getInt32Ty(llvmContext), mainArguments, false);
+  FunctionType::get(PrimitiveTypes::LONG->getLLVMType(context), mainArguments, false);
   Function* mainFunction = Function::Create(mainFunctionType,
                                             GlobalValue::ExternalLinkage,
                                             "main",
@@ -69,7 +69,7 @@ void ProgramSuffix::generateMain(IRGenerationContext& context) const {
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", mainFunction);
   context.setBasicBlock(entryBlock);
   context.getScopes().pushScope();
-  context.getScopes().setReturnType(PrimitiveTypes::INT);
+  context.getScopes().setReturnType(PrimitiveTypes::LONG);
 
   Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
   Value* threadNullValue = ConstantPointerNull::get(threadInterface->getLLVMType(context));

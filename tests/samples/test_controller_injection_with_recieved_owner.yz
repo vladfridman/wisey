@@ -22,7 +22,7 @@ controller CService {
 controller CProgram implements IProgram {
   inject CService* mService.withIntNumber(builder(MIntNumber).withNumber(5).build());
 
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     return mService.getIntNumber().getNumber();
   }
 }

@@ -100,14 +100,13 @@ int IRGenerationContext::runCode(int argc, char** argv) {
     exit(1);
   }
 
-
   Log::i("Running program");
-  int (*main)(int, char**) = (int (*)(int, char**)) rawMainAddress;
-  int result = main(argc, argv);
+  long (*main)(int, char**) = (long (*)(int, char**)) rawMainAddress;
+  long result = main(argc, argv);
   Log::i("Result: " + to_string(result));
   delete executionEngine;
   
-  return result;
+  return (int) result;
 }
 
 Module* IRGenerationContext::getModule() {

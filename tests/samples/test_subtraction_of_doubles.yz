@@ -3,7 +3,7 @@ package systems.vos.wisey.compiler.tests;
 import wisey.lang.IProgram;
 
 controller CProgram implements IProgram {
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     double f = 0 - 2.5d;
 
     return (int) f;

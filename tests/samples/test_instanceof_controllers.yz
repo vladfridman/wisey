@@ -13,7 +13,7 @@ controller CService implements IHasAnswer {
 controller CProgram implements IProgram {
   inject CService* mService;
 
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     return mService instanceof IHasAnswer*;
   }
 }

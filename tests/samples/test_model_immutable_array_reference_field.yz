@@ -12,7 +12,7 @@ model MCar {
 
 controller CProgram implements IProgram {
 
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     int[]* array = new int[3];
     array[2] = 5;
     immutable int[]* immutableArray = array;

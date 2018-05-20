@@ -15,7 +15,7 @@ node NNode {
 
 controller CProgram implements IProgram {
 
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     NNode* rectangle = builder(NNode)
       .withWidth(3)
       .withHeight(5l)

@@ -4,10 +4,10 @@ import wisey.lang.IProgram;
 
 controller CProgram implements IProgram {
 
-  state ::llvm::i32 mField;
+  state ::llvm::i64 mField;
 
-  public int run(immutable string[] arguments) override {
-    mField = 7;
+  public long run(immutable string[] arguments) override {
+    mField = 7l;
     return mField;
   }
 }

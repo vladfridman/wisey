@@ -30,7 +30,7 @@ controller CService {
 controller CProgram implements IProgram {
   inject CService* mService;
 
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     mService.setModel();
     mService.setAnotherModel();
     return mService.getValue();

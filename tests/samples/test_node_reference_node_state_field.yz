@@ -22,7 +22,7 @@ node NElement {
 
 controller CProgram implements IProgram {
 
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     NElement* first = builder(NElement).withValue(1).build();
     NElement* second = builder(NElement).withPrevious(first).withValue(2).build();
     first.setNext(second);

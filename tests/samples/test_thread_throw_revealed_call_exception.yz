@@ -14,7 +14,7 @@ model MWorker implements IWorker {
 controller CProgram implements IProgram {
   inject CWorkerThread* mWorkerThread;
 
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     mWorkerThread.start(builder(MWorker).build());
     mWorkerThread.awaitResult();
 

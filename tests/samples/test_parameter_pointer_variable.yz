@@ -17,7 +17,7 @@ controller CProgram implements IProgram {
     return reference.getValue();
   }
 
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     MModel* mymodel = builder(MModel).withValue(3).build();
     return method(mymodel);
   }

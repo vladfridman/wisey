@@ -239,6 +239,6 @@ TEST_F(TestFileRunner, methodMissingThrowsDeathRunTest) {
 TEST_F(TestFileRunner, methodReturnTypeIsNotVoidDeathRunTest) {
   expectFailCompile("tests/samples/test_method_return_type_is_not_void.yz",
                     1,
-                    "Error: Method run must return a value of type int");
+                    "Error: Method run must return a value of type long");
 }
 

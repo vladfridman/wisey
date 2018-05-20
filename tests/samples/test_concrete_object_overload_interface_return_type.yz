@@ -29,7 +29,7 @@ model MModel implements IReturnsHasValue {
 
 controller CProgram implements IProgram {
 
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     IReturnsHasValue* returner = builder(MModel).withHasValue(builder(MHasValue).build()).build();
     return returner.getHasValue().getValue();
   }

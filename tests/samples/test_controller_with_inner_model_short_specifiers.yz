@@ -4,7 +4,7 @@ import wisey.lang.IProgram;
 
 controller CProgram implements IProgram {
 
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     MMyModel* object = builder(MMyModel).withValue(5).build();
 
     return object.getValue();

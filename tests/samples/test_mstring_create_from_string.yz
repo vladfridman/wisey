@@ -5,7 +5,7 @@ import wisey.lang.MString;
 
 controller CProgram implements IProgram {
 
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     MString* mstring = MString.createFromString("1234567");
     return (int) mstring.getLength();
   }

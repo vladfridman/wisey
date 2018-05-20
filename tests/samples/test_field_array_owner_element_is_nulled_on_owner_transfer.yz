@@ -27,7 +27,7 @@ controller CController {
 
 controller CProgram implements IProgram {
 
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     CController* mycontroller = injector(CController).withArray(new MCar*[5]).inject();
     mycontroller.init();
     mycontroller.getOwner();

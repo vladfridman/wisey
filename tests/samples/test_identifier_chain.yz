@@ -6,7 +6,7 @@ model MSystem {
 }
 
 controller CProgram implements IProgram {
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     MSystem* system = builder(MSystem).build();
     system.vos.wisey();
   }

@@ -25,7 +25,7 @@ model MWorker implements IWorker {
 controller CProgram implements IProgram {
   inject CWorkerThread* mWorkerThread;
 
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     printout("Thread started = " + mWorkerThread.isStarted() + ", has result = " + mWorkerThread.isFinished() + 
       ", was cancelled = " + mWorkerThread.isCancelled() + "\n");
     printout("Starting worker thread\n");

@@ -9,7 +9,7 @@ interface IMyInterface {
 controller CProgram implements IProgram {
   inject IMyInterface* mInjected;
 
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     return mInjected.getValue();
   }
 }

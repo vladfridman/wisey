@@ -12,7 +12,7 @@ controller CProgram implements IProgram {
 
   inject MCar*[5]* mArray;
 
-  public int run(immutable string[] arguments) override {
+  public long run(immutable string[] arguments) override {
     mArray[4] = builder(MCar).build();
     return mArray[4].getYear();
   }
