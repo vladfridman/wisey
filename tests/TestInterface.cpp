@@ -413,40 +413,6 @@ TEST_F(InterfaceTest, isScopeInjectedTest) {
 
 TEST_F(InterfaceTest, printToStreamTest) {
   stringstream stringStream;
-  Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS,
-                                            "MInnerPublicModel",
-                                            NULL,
-                                            mContext.getImportProfile(),
-                                            0);
-  vector<IField*> fields;
-  fields.push_back(new ReceivedField(PrimitiveTypes::INT, "mField1", 0));
-  fields.push_back(new ReceivedField(PrimitiveTypes::INT, "mField2", 0));
-  innerPublicModel->setFields(mContext, fields, 0);
-  
-  vector<const wisey::Argument*> methodArguments;
-  vector<const Model*> thrownExceptions;
-  Method* method = new Method(innerPublicModel,
-                              "bar",
-                              AccessLevel::PUBLIC_ACCESS,
-                              PrimitiveTypes::INT,
-                              methodArguments,
-                              thrownExceptions,
-                              new MethodQualifiers(0),
-                              NULL,
-                              0);
-  vector<IMethod*> methods;
-  methods.push_back(method);
-  innerPublicModel->setMethods(methods);
-  
-  Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS,
-                                             "MInnerPrivateModel",
-                                             NULL,
-                                             mContext.getImportProfile(),
-                                             0);
-  innerPrivateModel->setFields(mContext, fields, 0);
-  
-  mShapeInterface->addInnerObject(innerPublicModel);
-  mShapeInterface->addInnerObject(innerPrivateModel);
   mShapeInterface->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("external interface systems.vos.wisey.compiler.tests.IShape\n"

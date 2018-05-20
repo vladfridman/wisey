@@ -1165,40 +1165,6 @@ TEST_F(ControllerTest, injectTooManyArgumentsDeathTest) {
 
 TEST_F(ControllerTest, printToStreamTest) {
   stringstream stringStream;
-  Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS,
-                                            "MInnerPublicModel",
-                                            NULL,
-                                            mContext.getImportProfile(),
-                                            0);
-  vector<IField*> fields;
-  fields.push_back(new ReceivedField(PrimitiveTypes::INT, "mField1", 0));
-  fields.push_back(new ReceivedField(PrimitiveTypes::INT, "mField2", 0));
-  innerPublicModel->setFields(mContext, fields, 0);
-  
-  vector<const wisey::Argument*> methodArguments;
-  vector<const Model*> thrownExceptions;
-  Method* method = new Method(innerPublicModel,
-                              "bar",
-                              AccessLevel::PUBLIC_ACCESS,
-                              PrimitiveTypes::INT,
-                              methodArguments,
-                              thrownExceptions,
-                              new MethodQualifiers(0),
-                              NULL,
-                              0);
-  vector<IMethod*> methods;
-  methods.push_back(method);
-  innerPublicModel->setMethods(methods);
-  
-  Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS,
-                                             "MInnerPrivateModel",
-                                             NULL,
-                                             mContext.getImportProfile(),
-                                             0);
-  innerPrivateModel->setFields(mContext, fields, 0);
-  
-  mMultiplierController->addInnerObject(innerPublicModel);
-  mMultiplierController->addInnerObject(innerPrivateModel);
   mMultiplierController->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("external controller systems.vos.wisey.compiler.tests.CMultiplier\n"
