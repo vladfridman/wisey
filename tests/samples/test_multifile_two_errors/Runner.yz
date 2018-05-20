@@ -6,7 +6,7 @@ import wisey.lang.IProgram;
 controller CProgram implements IProgram {
   inject CAdder* mAdder;
 
-  public long run(immutable string[] arguments) override {
+  public int run(immutable string[] arguments) override {
     return i;
   }
 }

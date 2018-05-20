@@ -3,14 +3,14 @@ package systems.vos.wisey.compiler.tests;
 import wisey.lang.IProgram;
 
 interface IMyInterface {
-  public ::llvm::function ::llvm::i64 getValue(long addTo) {
-    return 3l + addTo;
+  public ::llvm::function ::llvm::i32 getValue(int addTo) {
+    return 3 + addTo;
   }
 }
 
 controller CProgram implements IProgram {
 
-  public long run(immutable string[] arguments) override {
+  public int run(immutable string[] arguments) override {
     return IMyInterface.getValue(5);
   }
 }

@@ -22,7 +22,7 @@ model MCar {
 
 controller CProgram implements IProgram {
 
-  public long run(immutable string[] arguments) override {
+  public int run(immutable string[] arguments) override {
     IWheel* wheel = builder(MWheel).build();
     MCar* car = builder(MCar).withWheel(wheel).build();
     return car.getWheelWidth();

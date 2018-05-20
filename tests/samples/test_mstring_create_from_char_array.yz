@@ -6,7 +6,7 @@ import wisey.lang.MString;
 
 controller CProgram implements IProgram {
 
-  public long run(immutable string[] arguments) override {
+  public int run(immutable string[] arguments) override {
     char[]* array = new char[4];
     array[0] = 'a';
     array[1] = 'b';

@@ -16,7 +16,7 @@ interface IMyInterface {
 
 controller CProgram implements IProgram {
 
-  public long run(immutable string[] arguments) override {
+  public int run(immutable string[] arguments) override {
     IMyInterface* injected = injector(IMyInterface).withValue(7).inject();
     return injected.getValue();
   }

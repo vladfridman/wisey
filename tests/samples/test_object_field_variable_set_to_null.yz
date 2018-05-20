@@ -13,7 +13,7 @@ model MModel {
 controller CProgram implements IProgram {
   state MModel* mModel;
 
-  public long run(immutable string[] arguments) override {
+  public int run(immutable string[] arguments) override {
     mModel = builder(MModel).withValue(5).build();
     MModel* variable = mModel;
     

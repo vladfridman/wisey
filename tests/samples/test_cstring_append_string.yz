@@ -5,7 +5,7 @@ import wisey.lang.IProgram;
 
 controller CProgram implements IProgram {
 
-  public long run(immutable string[] arguments) override {
+  public int run(immutable string[] arguments) override {
     CString* cstring = CString.createFromString("123456");
     printout("Before cstring: " + cstring + " capacity: " + cstring.getCapacity() + "\n");
     cstring.appendString("7");

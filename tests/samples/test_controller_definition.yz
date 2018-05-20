@@ -24,7 +24,7 @@ controller CFibonacciCalculator {
 controller CProgram implements IProgram {
   inject CFibonacciCalculator* mFibonacciCalculator.withIndex(6);
 
-  public long run(immutable string[] arguments) override {
+  public int run(immutable string[] arguments) override {
     return mFibonacciCalculator.calculate();
   }
 }

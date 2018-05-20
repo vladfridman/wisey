@@ -14,7 +14,7 @@ model MCar {
 controller CProgram implements IProgram {
   inject COwnerList* mList;
 
-  public long run(immutable string[] arguments) override {
+  public int run(immutable string[] arguments) override {
     string toyotaMake = "Toyota";
     string bmwMake = "BMW";
     string mercedesMake = "Mercedes";

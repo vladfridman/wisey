@@ -4,11 +4,11 @@ import wisey.lang.IProgram;
 
 controller CProgram implements IProgram {
 
-  private ::llvm::function ::llvm::i64 getValue() {
-    return 3l;
+  private ::llvm::function ::llvm::i32 getValue() {
+    return 3;
   }
 
-  public long run(immutable string[] arguments) override {
+  public int run(immutable string[] arguments) override {
     return systems.vos.wisey.compiler.tests.CProgram.getValue();
   }
 }

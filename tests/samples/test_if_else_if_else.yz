@@ -4,7 +4,7 @@ import wisey.lang.IProgram;
 
 controller CProgram implements IProgram {
 
-  public long run(immutable string[] arguments) override {
+  public int run(immutable string[] arguments) override {
     int a = 10;
     if (a < 5) {
       a = 6;

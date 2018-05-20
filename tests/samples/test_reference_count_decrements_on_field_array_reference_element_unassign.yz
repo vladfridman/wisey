@@ -22,7 +22,7 @@ controller CController {
 
 controller CProgram implements IProgram {
 
-  public long run(immutable string[] arguments) override {
+  public int run(immutable string[] arguments) override {
     MCar* car = builder(MCar).build();
     MCar[]* array = new MCar[5];
     CController* mycontroller = injector(CController).withArray(array).inject();

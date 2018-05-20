@@ -12,7 +12,7 @@ model MElement {
 
 controller CProgram implements IProgram {
 
-  public long run(immutable string[] arguments) override {
+  public int run(immutable string[] arguments) override {
     ::wisey::object*[]* array = new ::wisey::object*[5];
     array[0] = builder(MElement).withContent(0).build();
     array[1] = builder(MElement).withContent(1).build();

@@ -8,7 +8,7 @@ interface IInterface {
 
 controller CProgram implements IProgram {
 
-  public long run(immutable string[] arguments) override {
+  public int run(immutable string[] arguments) override {
     return systems.vos.wisey.compiler.tests.IInterface.MY_PUBLIC_CONSTANT;
   }
 }

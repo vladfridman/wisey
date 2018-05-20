@@ -11,7 +11,7 @@ model MElement {
 }
 
 controller CProgram implements IProgram {
-  public long run(immutable string[] arguments) override {
+  public int run(immutable string[] arguments) override {
     MElement*[]* array = new MElement*[1];
     MElement*[]* anotherArray = array;
 

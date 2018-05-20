@@ -18,7 +18,7 @@ controller CService {
 controller CProgram implements IProgram {
   inject CService* mService;
 
-  public long run(immutable string[] arguments) override {
+  public int run(immutable string[] arguments) override {
     MData data = mService.newData();
     return data.getResult();
   }

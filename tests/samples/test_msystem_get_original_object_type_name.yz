@@ -5,7 +5,7 @@ import wisey.lang.MSystem;
 
 controller CProgram implements IProgram {
 
-  public long run(immutable string[] arguments) override {
+  public int run(immutable string[] arguments) override {
     printout("Object: " + MSystem.getOriginalObjectTypeName(this) + "\n");
     return 1;
   }

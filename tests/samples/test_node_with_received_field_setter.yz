@@ -16,7 +16,7 @@ node NCar {
 
 controller CProgram implements IProgram {
 
-  public long run(immutable string[] arguments) override {
+  public int run(immutable string[] arguments) override {
     NCar* car = builder(NCar).withYear(2017).build();
     
     return car.getYear();

@@ -7,7 +7,7 @@ import wisey.lang.IProgram;
 controller CProgram implements IProgram {
   inject CFile* mFile;
 
-  public long run(immutable string[] arguments) override {
+  public int run(immutable string[] arguments) override {
     mFile.openForWriting(CString.createFromString("build/test.txt"));
     printfile(mFile, "This is a test\n");
     mFile.close();

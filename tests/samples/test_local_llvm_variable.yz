@@ -4,8 +4,8 @@ import wisey.lang.IProgram;
 
 controller CProgram implements IProgram {
 
-  public long run(immutable string[] arguments) override {
-    ::llvm::i64 local = (::llvm::i64) 5l;
+  public int run(immutable string[] arguments) override {
+    ::llvm::i32 local = (::llvm::i32) 5;
     return local;
   }
 }

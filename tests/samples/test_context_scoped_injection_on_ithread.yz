@@ -15,7 +15,7 @@ controller CProgram implements IProgram {
   inject CScopedService mScopedService;
   inject CService* mService;
 
-  public long run(immutable string[] arguments) override {
+  public int run(immutable string[] arguments) override {
     CScopedService scopedService = injector(CScopedService).inject();
     CService service = injector(CService).inject();
     if (mScopedService == scopedService) {

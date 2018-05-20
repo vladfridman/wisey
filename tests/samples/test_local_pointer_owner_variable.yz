@@ -8,7 +8,7 @@ model MModel {
 
 controller CProgram implements IProgram {
 
-  public long run(immutable string[] arguments) override {
+  public int run(immutable string[] arguments) override {
     ::wisey::object* pointer = builder(MModel).withValue(5).build();
     return 1;
   }

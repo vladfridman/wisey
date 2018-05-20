@@ -5,7 +5,7 @@ import wisey.lang.IProgram;
 
 controller CProgram implements IProgram {
 
-  public long run(immutable string[] arguments) override {
+  public int run(immutable string[] arguments) override {
     CString* cstring = CString.createFromString("3.14159");
     float converted = cstring.toFloat();
     printout("Result: " + converted + "\n");

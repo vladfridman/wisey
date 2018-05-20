@@ -24,7 +24,7 @@ controller CProgram implements IProgram {
   inject CContext1* mContext1;
   inject CContext2* mContext2;
 
-  public long run(immutable string[] arguments) override {
+  public int run(immutable string[] arguments) override {
     string context1 = "context1";
     string context2 = "context2";
 

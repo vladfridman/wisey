@@ -10,7 +10,7 @@ controller CProgram implements IProgram {
     return array;
   }
 
-  public long run(immutable string[] arguments) override {
+  public int run(immutable string[] arguments) override {
     return getArray()[4][2];
   }
 }

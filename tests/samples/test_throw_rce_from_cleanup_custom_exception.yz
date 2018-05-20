@@ -26,7 +26,7 @@ controller CService {
 controller CProgram implements IProgram {
   inject CService* mService;
 
-  public long run(immutable string[] arguments) override {
+  public int run(immutable string[] arguments) override {
     try {
       MData* data = builder(MData).withValue(1).build();
       MData dataRef = data;

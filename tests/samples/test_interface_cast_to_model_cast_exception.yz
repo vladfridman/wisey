@@ -41,7 +41,7 @@ model MFoo implements IObject {
 
 controller CProgram implements IProgram {
 
-  public long run(immutable string[] arguments) override {
+  public int run(immutable string[] arguments) override {
     MFridge* fridge = builder(MFridge).withSize(5).build();
     IObject object = fridge;
     MFoo foo = (MFoo) object;
