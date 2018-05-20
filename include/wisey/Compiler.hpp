@@ -46,7 +46,7 @@ namespace wisey {
     /**
      * Run compiled code
      */
-    int run(int argc, char** argv);
+    long run(int argc, char** argv);
     
   private:
     

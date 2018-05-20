@@ -47,11 +47,11 @@ void TestFileRunner::compileFile(string fileName) {
   mCompiler.compile();
 }
 
-void TestFileRunner::runFile(string fileName, int expectedResult) {
+void TestFileRunner::runFile(string fileName, long expectedResult) {
   mCompilerArguments.addSourceFile(fileName);
   mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
-  int result = mCompiler.run(0, NULL);
+  long result = mCompiler.run(0, NULL);
   
   ASSERT_EQ(expectedResult, result);
 }

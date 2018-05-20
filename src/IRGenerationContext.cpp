@@ -88,7 +88,7 @@ IRGenerationContext::~IRGenerationContext() {
   mBindings.clear();
 }
 
-int IRGenerationContext::runCode(int argc, char** argv) {
+long IRGenerationContext::runCode(int argc, char** argv) {
   ExecutionEngine* executionEngine = EngineBuilder(move(mModuleOwner)).create();
   vector<GenericValue> arguments(2);
   arguments[0].IntVal = APInt(32, argc);
@@ -106,7 +106,7 @@ int IRGenerationContext::runCode(int argc, char** argv) {
   Log::i("Result: " + to_string(result));
   delete executionEngine;
   
-  return (int) result;
+  return result;
 }
 
 Module* IRGenerationContext::getModule() {

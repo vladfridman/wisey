@@ -86,7 +86,7 @@ void Compiler::printAssembly() {
   mContext.printAssembly(outs());
 }
 
-int Compiler::run(int argc, char** argv) {
+long Compiler::run(int argc, char** argv) {
   if (!mHasCompiled) {
     Log::errorNoSourceFile("Need to compile before running code");
     exit(1);

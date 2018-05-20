@@ -128,6 +128,6 @@ TEST_F(NegateExpressionTest, negateIncompatibleTypeDeathTest) {
   std::cerr.rdbuf(oldbuffer);
 }
 
-TEST_F(TestFileRunner, negateIntRunTest) {
+TEST_F(TestFileRunner, unaryMinusRunTest) {
   runFile("tests/samples/test_unary_minus.yz", -5);
 }

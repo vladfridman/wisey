@@ -451,7 +451,7 @@ TEST_F(IRGenerationContextRunTest, runCodeTest) {
   InitializeNativeTarget();
   LLVMInitializeNativeAsmPrinter();
   defineMain();
-  int result = mContext.runCode(0, nullptr);
+  long result = mContext.runCode(0, nullptr);
   
   EXPECT_EQ(result, 5);
 }
