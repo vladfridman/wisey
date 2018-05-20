@@ -72,7 +72,6 @@ TEST_F(ReceivedFieldDefinitionTest, declareTest) {
   EXPECT_EQ(field->getType(), PrimitiveTypes::INT);
   EXPECT_STREQ(field->getName().c_str(), "mField");
 
-  EXPECT_FALSE(field->isFixed());
   EXPECT_FALSE(field->isInjected());
   EXPECT_TRUE(field->isReceived());
   EXPECT_FALSE(field->isState());

@@ -100,8 +100,6 @@ namespace wisey {
     bool isLLVMFunction() const override;
     
     std::string getFieldKind() const override;
-
-    bool isFixed() const override;
     
     bool isInjected() const override;
     

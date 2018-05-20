@@ -35,7 +35,7 @@ namespace wisey {
     ~LLVMFunctionType();
     
     /**
-     * Create an instance that represents an llvm function type with fixed number of arguments
+     * Create an instance that represents an llvm function type with a fixed number of arguments
      */
     static LLVMFunctionType* create(const IType* returnType,
                                     std::vector<const IType*> argumentTypes);

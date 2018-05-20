@@ -23,11 +23,12 @@ ReceivedField::~ReceivedField() {
 void ReceivedField::checkType(IRGenerationContext& context) const {
   if (!mType->isPrimitive() && !mType->isModel() && !mType->isInterface() &&
       !mType->isArray()) {
-    context.reportError(mLine, "Model fixed fields can only be of primitive, model or array type");
+    context.reportError(mLine,
+                        "Model receive fields can only be of primitive, model or array type");
     throw 1;
   }
   if (mType->isArray() && !mType->isImmutable()) {
-    context.reportError(mLine, "Model fixed array fields can only be of immutable array type");
+    context.reportError(mLine, "Model receive array fields can only be of immutable array type");
     throw 1;
   }
 }
@@ -74,10 +75,6 @@ bool ReceivedField::isLLVMFunction() const {
 
 string ReceivedField::getFieldKind() const {
   return "received";
-}
-
-bool ReceivedField::isFixed() const {
-  return false;
 }
 
 bool ReceivedField::isInjected() const {

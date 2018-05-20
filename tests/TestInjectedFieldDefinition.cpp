@@ -81,7 +81,6 @@ TEST_F(InjectedFieldDefinitionTest, declareTest) {
   EXPECT_STREQ("mField", field->getName().c_str());
   EXPECT_FALSE(field->isAssignable(mObjectType));
 
-  EXPECT_FALSE(field->isFixed());
   EXPECT_TRUE(field->isInjected());
   EXPECT_FALSE(field->isReceived());
   EXPECT_FALSE(field->isState());

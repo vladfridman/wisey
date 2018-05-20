@@ -60,7 +60,6 @@ TEST_F(StateFieldTest, fieldCreationTest) {
   EXPECT_STREQ(mField->getName().c_str(), "mField");
   EXPECT_TRUE(mField->isAssignable(mObjectType));
   
-  EXPECT_FALSE(mField->isFixed());
   EXPECT_FALSE(mField->isInjected());
   EXPECT_FALSE(mField->isReceived());
   EXPECT_TRUE(mField->isState());

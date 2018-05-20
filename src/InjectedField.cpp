@@ -269,10 +269,6 @@ string InjectedField::getFieldKind() const {
   return "injected";
 }
 
-bool InjectedField::isFixed() const {
-  return false;
-}
-
 bool InjectedField::isInjected() const {
   return true;
 }

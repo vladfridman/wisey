@@ -50,8 +50,6 @@ namespace wisey {
     /**
      * Methods for determining field kind
      */
-    virtual bool isFixed() const = 0;
-    
     virtual bool isInjected() const = 0;
     
     virtual bool isReceived() const = 0;

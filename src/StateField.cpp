@@ -73,10 +73,6 @@ string StateField::getFieldKind() const {
   return "state";
 }
 
-bool StateField::isFixed() const {
-  return false;
-}
-
 bool StateField::isInjected() const {
   return false;
 }

@@ -363,7 +363,7 @@ TEST_F(TestFileRunner, modelDefinitionRunTest) {
 }
 
 TEST_F(TestFileRunner, modelDefinitionExplicitReceivedFieldsRunTest) {
-  runFile("tests/samples/test_model_definition_explicit_fixed_fields.yz", "3");
+  runFile("tests/samples/test_model_definition_explicit_received_fields.yz", "3");
 }
 
 TEST_F(TestFileRunner, modelDefinitionWithMethodRunTest) {

@@ -59,7 +59,6 @@ TEST_F(ReceivedFieldTest, fieldCreationTest) {
   EXPECT_EQ(mField->getType(), mType);
   EXPECT_STREQ(mField->getName().c_str(), "mField");
   
-  EXPECT_FALSE(mField->isFixed());
   EXPECT_FALSE(mField->isInjected());
   EXPECT_TRUE(mField->isReceived());
   EXPECT_FALSE(mField->isState());
@@ -82,12 +81,38 @@ TEST_F(ReceivedFieldTest, elementTypeTest) {
   EXPECT_FALSE(mField->isLLVMFunction());
 }
 
+TEST_F(ReceivedFieldTest, checkTypePrimitiveTypeTest) {
+  ON_CALL(*mType, isPrimitive()).WillByDefault(Return(true));
+  
+  EXPECT_NO_THROW(mField->checkType(mContext));
+}
+
+TEST_F(ReceivedFieldTest, checkTypeModelTypeTest) {
+  ON_CALL(*mType, isModel()).WillByDefault(Return(true));
+  
+  EXPECT_NO_THROW(mField->checkType(mContext));
+}
+
+TEST_F(ReceivedFieldTest, checkTypeInterfaceTypeTest) {
+  ON_CALL(*mType, isInterface()).WillByDefault(Return(true));
+  
+  EXPECT_NO_THROW(mField->checkType(mContext));
+}
+
+TEST_F(ReceivedFieldTest, checkTypeArrayTypeTest) {
+  ON_CALL(*mType, isArray()).WillByDefault(Return(true));
+  ON_CALL(*mType, isImmutable()).WillByDefault(Return(true));
+  ON_CALL(*mType, isOwner()).WillByDefault(Return(true));
+  
+  EXPECT_NO_THROW(mField->checkType(mContext));
+}
+
 TEST_F(ReceivedFieldTest, checkTypeNonImmutableTypeDeathTest) {
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
   EXPECT_ANY_THROW(mField->checkType(mContext));
-  EXPECT_STREQ("/tmp/source.yz(7): Error: Model fixed fields can only be of primitive, model or array type\n",
+  EXPECT_STREQ("/tmp/source.yz(7): Error: Model receive fields can only be of primitive, model or array type\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
@@ -99,7 +124,7 @@ TEST_F(ReceivedFieldTest, checkTypeNonImmutableArrayTypeDeathTest) {
   ON_CALL(*mType, isArray()).WillByDefault(Return(true));
   
   EXPECT_ANY_THROW(mField->checkType(mContext));
-  EXPECT_STREQ("/tmp/source.yz(7): Error: Model fixed array fields can only be of immutable array type\n",
+  EXPECT_STREQ("/tmp/source.yz(7): Error: Model receive array fields can only be of immutable array type\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
