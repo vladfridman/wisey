@@ -47,14 +47,13 @@ void TestFileRunner::compileFile(string fileName) {
   mCompiler.compile();
 }
 
-void TestFileRunner::runFile(string fileName, string expectedResult) {
+void TestFileRunner::runFile(string fileName, int expectedResult) {
   mCompilerArguments.addSourceFile(fileName);
   mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
   int result = mCompiler.run(0, NULL);
-  string resultString = to_string(result);
   
-  ASSERT_STREQ(expectedResult.c_str(), resultString.c_str());
+  ASSERT_EQ(expectedResult, result);
 }
 
 void TestFileRunner::runFilesCheckOutput(vector<string> fileNames,
@@ -77,8 +76,7 @@ void TestFileRunner::runFilesCheckOutput(vector<string> fileNames,
   fclose(wiseyStdOut);
   fclose(wiseyStdErr);
   
-  int result = mCompiler.run(0, NULL);
-  string resultString = to_string(result);
+  mCompiler.run(0, NULL);
   
   dup2(oldStdOut, STDOUT_FILENO);
   dup2(oldStdErr, STDERR_FILENO);

@@ -187,7 +187,7 @@ TEST_F(LocalImmutableArrayOwnerVariableTest, generateArrayElementAssignmentDeath
 }
 
 TEST_F(TestFileRunner, localImmutableArrayOwnerRunTest) {
-  runFile("tests/samples/test_local_immutable_array_owner.yz", "3");
+  runFile("tests/samples/test_local_immutable_array_owner.yz", 3);
 }
 
 TEST_F(TestFileRunner, localImmutableArrayOwnerRceRunDeathTest) {

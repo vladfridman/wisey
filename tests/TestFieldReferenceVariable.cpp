@@ -213,11 +213,11 @@ TEST_F(FieldReferenceVariableTest, decrementReferenceCounterTest) {
 }
 
 TEST_F(TestFileRunner, compareTwoNullsRunTest) {
-  runFile("tests/samples/test_compare_two_nulls.yz", "1");
+  runFile("tests/samples/test_compare_two_nulls.yz", 1);
 }
 
 TEST_F(TestFileRunner, compareToNullRunTest) {
-  runFile("tests/samples/test_compare_to_null.yz", "1");
+  runFile("tests/samples/test_compare_to_null.yz", 1);
 }
 
 TEST_F(TestFileRunner, assignFieldReferenceToParameterOwnerCompileTest) {

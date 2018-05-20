@@ -121,5 +121,5 @@ TEST_F(LocalLLVMVariableTest, generateIdentifierReferenceIRTest) {
 }
 
 TEST_F(TestFileRunner, localLLVMVariableRunTest) {
-  runFile("tests/samples/test_local_llvm_variable.yz", "5");
+  runFile("tests/samples/test_local_llvm_variable.yz", 5);
 }

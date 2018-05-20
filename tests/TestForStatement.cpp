@@ -111,19 +111,19 @@ TEST_F(ForStatementTest, forStatementSimpleTest) {
 }
 
 TEST_F(TestFileRunner, forStatementRunTest) {
-  runFile("tests/samples/test_for_statement.yz", "90");
+  runFile("tests/samples/test_for_statement.yz", 90);
 }
 
 TEST_F(TestFileRunner, forStatementWithNoIncrementRunTest) {
-  runFile("tests/samples/test_for_statement_with_no_increment.yz", "100");
+  runFile("tests/samples/test_for_statement_with_no_increment.yz", 100);
 }
 
 TEST_F(TestFileRunner, forStatementWithNoDeclarationRunTest) {
-  runFile("tests/samples/test_for_statement_with_no_declaration.yz", "10");
+  runFile("tests/samples/test_for_statement_with_no_declaration.yz", 10);
 }
 
 TEST_F(TestFileRunner, forStatementWithNoDeclarationNoIncrementRunTest) {
-  runFile("tests/samples/test_for_statement_with_no_declaration_no_increment.yz", "11");
+  runFile("tests/samples/test_for_statement_with_no_declaration_no_increment.yz", 11);
 }
 
 TEST_F(TestFileRunner, forStatementLocalVariableScopeRunDeathTest) {

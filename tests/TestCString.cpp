@@ -13,15 +13,15 @@
 #include "TestFileRunner.hpp"
 
 TEST_F(TestFileRunner, cstringCreateFromStringRunTest) {
-  runFile("tests/samples/test_cstring_create_from_string.yz", "3");
+  runFile("tests/samples/test_cstring_create_from_string.yz", 3);
 }
 
 TEST_F(TestFileRunner, cstringCopyRunTest) {
-  runFile("tests/samples/test_cstring_copy.yz", "3");
+  runFile("tests/samples/test_cstring_copy.yz", 3);
 }
 
 TEST_F(TestFileRunner, cstringCompareRunTest) {
-  runFile("tests/samples/test_cstring_compare_to_string.yz", "0");
+  runFile("tests/samples/test_cstring_compare_to_string.yz", 0);
 }
 
 TEST_F(TestFileRunner, cstringAppendStringRunTest) {
@@ -134,19 +134,19 @@ TEST_F(TestFileRunner, cstringCreateFromUnterminatedCharArrayRunTest) {
 }
 
 TEST_F(TestFileRunner, cstringToBooleanRunTest) {
-  runFile("tests/samples/test_cstring_to_boolean.yz", "1");
+  runFile("tests/samples/test_cstring_to_boolean.yz", 1);
 }
 
 TEST_F(TestFileRunner, cstringToCharRunTest) {
-  runFile("tests/samples/test_cstring_to_char.yz", "77");
+  runFile("tests/samples/test_cstring_to_char.yz", 77);
 }
 
 TEST_F(TestFileRunner, cstringToIntRunTest) {
-  runFile("tests/samples/test_cstring_to_int.yz", "15");
+  runFile("tests/samples/test_cstring_to_int.yz", 15);
 }
 
 TEST_F(TestFileRunner, cstringToLongRunTest) {
-  runFile("tests/samples/test_cstring_to_long.yz", "1234567");
+  runFile("tests/samples/test_cstring_to_long.yz", 1234567);
 }
 
 TEST_F(TestFileRunner, cstringToFloatRunTest) {

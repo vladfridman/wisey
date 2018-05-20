@@ -164,23 +164,23 @@ TEST_F(LocalArrayOwnerVariableTest, generateAssignmentDeathTest) {
 }
 
 TEST_F(TestFileRunner, arrayOwnerOfIntsRunTest) {
-  runFile("tests/samples/test_array_owner_of_ints.yz", "5");
+  runFile("tests/samples/test_array_owner_of_ints.yz", 5);
 }
 
 TEST_F(TestFileRunner, arrayOwnerOfIntsAutocastRunTest) {
-  runFile("tests/samples/test_array_owner_of_ints_autocast.yz", "1");
+  runFile("tests/samples/test_array_owner_of_ints_autocast.yz", 1);
 }
 
 TEST_F(TestFileRunner, arrayOwnerOfIntsIncrementElementRunTest) {
-  runFile("tests/samples/test_array_owner_of_ints_increment_element.yz", "5");
+  runFile("tests/samples/test_array_owner_of_ints_increment_element.yz", 5);
 }
 
 TEST_F(TestFileRunner, localArrayOwner3dOfIntsStaticAllocationRunTest) {
-  runFile("tests/samples/test_local_array_owner_3d_of_ints_static_allocation.yz", "12");
+  runFile("tests/samples/test_local_array_owner_3d_of_ints_static_allocation.yz", 12);
 }
 
 TEST_F(TestFileRunner, arrayOwnerOfModelOwnersRunTest) {
-  runFile("tests/samples/test_array_owner_of_model_owners.yz", "2018");
+  runFile("tests/samples/test_array_owner_of_model_owners.yz", 2018);
 }
 
 TEST_F(TestFileRunner, arrayOwnerOfModelOwnersDestructorsAreCalledRunTest) {
@@ -219,11 +219,11 @@ TEST_F(TestFileRunner, ownerArrayOwnerElementsInitializedToNullRunDeathTest) {
 }
 
 TEST_F(TestFileRunner, arrayOwnerOfModelReferencesRunTest) {
-  runFile("tests/samples/test_array_owner_of_model_references.yz", "2018");
+  runFile("tests/samples/test_array_owner_of_model_references.yz", 2018);
 }
 
 TEST_F(TestFileRunner, referenceCountDecrementsOnArrayOwnerElementUnassignRunTest) {
-  runFile("tests/samples/test_reference_count_decrements_on_array_owner_element_unassign.yz", "5");
+  runFile("tests/samples/test_reference_count_decrements_on_array_owner_element_unassign.yz", 5);
 }
 
 TEST_F(TestFileRunner, referenceCountIncrementsOnAssignToArrayOwnerElementRunDeathTest) {

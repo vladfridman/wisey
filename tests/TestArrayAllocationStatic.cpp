@@ -147,10 +147,10 @@ TEST_F(ArrayAllocationStaticTest, printToStreamTest) {
 }
 
 TEST_F(TestFileRunner, localArrayOwnerOfIntsStaticAllocationRunTest) {
-  runFile("tests/samples/test_local_array_owner_of_ints_static_allocation.yz", "5");
+  runFile("tests/samples/test_local_array_owner_of_ints_static_allocation.yz", 5);
 }
 
 TEST_F(TestFileRunner, localArrayOwnerOfIntsStaticAllocationTrailingCommaRunTest) {
-  runFile("tests/samples/test_local_array_owner_of_ints_static_allocation_trailing_comma.yz", "5");
+  runFile("tests/samples/test_local_array_owner_of_ints_static_allocation_trailing_comma.yz", 5);
 }
 

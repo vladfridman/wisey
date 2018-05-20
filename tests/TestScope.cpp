@@ -136,5 +136,5 @@ TEST_F(ScopeTest, addExceptionsTest) {
 }
 
 TEST_F(TestFileRunner, destroyDependencyRunTest) {
-  runFile("tests/samples/test_destroy_dependency.yz", "5");
+  runFile("tests/samples/test_destroy_dependency.yz", 5);
 }

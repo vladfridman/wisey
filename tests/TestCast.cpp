@@ -130,5 +130,5 @@ TEST_F(CastTest, widenFloatCastTest) {
 }
 
 TEST_F(TestFileRunner, castFloatToIntRunTest) {
-  runFile("tests/samples/test_cast_float_to_int.yz", "3");
+  runFile("tests/samples/test_cast_float_to_int.yz", 3);
 }

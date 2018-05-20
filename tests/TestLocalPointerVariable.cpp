@@ -141,5 +141,5 @@ TEST_F(LocalPointerVariableTest, assignmentTest) {
 }
 
 TEST_F(TestFileRunner, localPointerVariableRunTest) {
-  runFile("tests/samples/test_local_pointer_variable.yz", "5");
+  runFile("tests/samples/test_local_pointer_variable.yz", 5);
 }

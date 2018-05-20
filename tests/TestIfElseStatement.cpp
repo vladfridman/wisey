@@ -109,19 +109,19 @@ TEST_F(IfElseStatementTest, generateIRTest) {
 }
 
 TEST_F(TestFileRunner, ifThenElseStatementRunTest) {
-  runFile("tests/samples/test_if_then_else_statement.yz", "7");
+  runFile("tests/samples/test_if_then_else_statement.yz", 7);
 }
 
 TEST_F(TestFileRunner, ifThenElseStatementWithClearedObjectsRunTest) {
-  runFile("tests/samples/test_if_then_else_statement_with_cleared_objects.yz", "5");
+  runFile("tests/samples/test_if_then_else_statement_with_cleared_objects.yz", 5);
 }
 
 TEST_F(TestFileRunner, ifElseIfElseRunTest) {
-  runFile("tests/samples/test_if_else_if_else.yz", "5");
+  runFile("tests/samples/test_if_else_if_else.yz", 5);
 }
 
 TEST_F(TestFileRunner, compareObjectToNullIfElseRunTest) {
-  runFile("tests/samples/test_compare_object_to_null_if_else.yz", "5");
+  runFile("tests/samples/test_compare_object_to_null_if_else.yz", 5);
 }
 
 TEST_F(TestFileRunner, unreachableIfElseStatementRunDeathTest) {

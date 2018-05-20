@@ -141,7 +141,7 @@ TEST_F(ArrayGetSizeMethodTest, injectDeathTest) {
 }
 
 TEST_F(TestFileRunner, getArraySizeRunTest) {
-  runFile("tests/samples/test_get_array_size.yz", "7");
+  runFile("tests/samples/test_get_array_size.yz", 7);
 }
 
 TEST_F(TestFileRunner, getNullArraySizeRunDeathTest) {

@@ -129,5 +129,5 @@ TEST_F(NegateExpressionTest, negateIncompatibleTypeDeathTest) {
 }
 
 TEST_F(TestFileRunner, negateIntRunTest) {
-  runFile("tests/samples/test_unary_minus.yz", "-5");
+  runFile("tests/samples/test_unary_minus.yz", -5);
 }

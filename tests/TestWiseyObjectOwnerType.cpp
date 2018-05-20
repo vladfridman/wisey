@@ -210,7 +210,7 @@ TEST_F(WiseyObjectOwnerTypeTest, injectDeathTest) {
 }
 
 TEST_F(TestFileRunner, castWiseyObjectOwnerToModelRunTest) {
-  runFile("tests/samples/test_cast_wisey_object_owner_to_model.yz", "5");
+  runFile("tests/samples/test_cast_wisey_object_owner_to_model.yz", 5);
 }
 
 TEST_F(TestFileRunner, castWiseyObjectOwnerToInterfaceFailRunDeathTest) {

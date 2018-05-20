@@ -158,7 +158,7 @@ TEST_F(ParameterImmutableArrayOwnerVariableTest, generateElementAssignmentDeathT
 }
 
 TEST_F(TestFileRunner, parameterImmutableArrayOwnerRunTest) {
-  runFile("tests/samples/test_parameter_immutable_array_owner.yz", "1");
+  runFile("tests/samples/test_parameter_immutable_array_owner.yz", 1);
 }
 
 TEST_F(TestFileRunner, parameterImmutableArrayOwnerRceRunDeathTest) {

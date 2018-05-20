@@ -191,5 +191,5 @@ TEST_F(ImmutableArrayTypeTest, injectDeathTest) {
 }
 
 TEST_F(TestFileRunner, immutableSubarrayRunTest) {
-  runFile("tests/samples/test_immutable_subarray.yz", "7");
+  runFile("tests/samples/test_immutable_subarray.yz", 7);
 }

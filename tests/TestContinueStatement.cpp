@@ -23,15 +23,15 @@ TEST(ContinueStatementTest, noScopesTest) {
 }
 
 TEST_F(TestFileRunner, continueForLoopRunTest) {
-  runFile("tests/samples/test_continue_for_loop.yz", "9");
+  runFile("tests/samples/test_continue_for_loop.yz", 9);
 }
 
 TEST_F(TestFileRunner, continueNestedForLoopsRunTest) {
-  runFile("tests/samples/test_continue_nested_for_loop.yz", "51");
+  runFile("tests/samples/test_continue_nested_for_loop.yz", 51);
 }
 
 TEST_F(TestFileRunner, continueWhileLoopRunTest) {
-  runFile("tests/samples/test_continue_while_loop.yz", "20");
+  runFile("tests/samples/test_continue_while_loop.yz", 20);
 }
 
 TEST_F(TestFileRunner, continueInIfStatementRunDeathTest) {

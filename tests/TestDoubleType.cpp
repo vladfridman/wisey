@@ -203,5 +203,5 @@ TEST_F(DoubleTypeTest, injectDeathTest) {
 }
 
 TEST_F(TestFileRunner, doubleCastToBooleanRunTest) {
-  runFile("tests/samples/test_double_cast_to_boolean.yz", "9");
+  runFile("tests/samples/test_double_cast_to_boolean.yz", 9);
 }

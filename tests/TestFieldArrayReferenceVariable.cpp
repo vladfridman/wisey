@@ -173,19 +173,19 @@ TEST_F(FieldArrayReferenceVariableTest, generateWholeArrayAssignmentDeathTest) {
 }
 
 TEST_F(TestFileRunner, fieldArrayReferenceOfIntsRunTest) {
-  runFile("tests/samples/test_field_array_reference_of_ints.yz", "5");
+  runFile("tests/samples/test_field_array_reference_of_ints.yz", 5);
 }
 
 TEST_F(TestFileRunner, fieldArrayReferenceOfIntsAutocastRunTest) {
-  runFile("tests/samples/test_field_array_reference_of_ints_autocast.yz", "1");
+  runFile("tests/samples/test_field_array_reference_of_ints_autocast.yz", 1);
 }
 
 TEST_F(TestFileRunner, fieldArrayReferenceOfIntsIncrementElementRunTest) {
-  runFile("tests/samples/test_field_array_reference_of_ints_increment_element.yz", "5");
+  runFile("tests/samples/test_field_array_reference_of_ints_increment_element.yz", 5);
 }
 
 TEST_F(TestFileRunner, fieldArrayReferenceOfModelOwnersRunTest) {
-  runFile("tests/samples/test_field_array_reference_of_model_owners.yz", "2018");
+  runFile("tests/samples/test_field_array_reference_of_model_owners.yz", 2018);
 }
 
 TEST_F(TestFileRunner, fieldArrayReferenceOfModelOwnersDestructorsAreCalledRunTest) {
@@ -228,11 +228,11 @@ TEST_F(TestFileRunner, ownerFieldArrayReferenceElementsInitializedToNullRunDeath
 }
 
 TEST_F(TestFileRunner, fieldArrayReferenceOfModelReferencesRunTest) {
-  runFile("tests/samples/test_field_array_reference_of_model_references.yz", "2018");
+  runFile("tests/samples/test_field_array_reference_of_model_references.yz", 2018);
 }
 
 TEST_F(TestFileRunner, referenceCountDecrementsOnFieldArrayReferenceElementUnassignRunTest) {
-  runFile("tests/samples/test_reference_count_decrements_on_field_array_reference_element_unassign.yz", "5");
+  runFile("tests/samples/test_reference_count_decrements_on_field_array_reference_element_unassign.yz", 5);
 }
 
 TEST_F(TestFileRunner, referenceCountIncrementsOnAssignToFieldArrayReferenceElementRunDeathTest) {

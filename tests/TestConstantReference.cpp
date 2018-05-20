@@ -135,11 +135,11 @@ TEST_F(ConstantReferenceTest, printToStreamConstantReferenceWihtoutObjectTest) {
 }
 
 TEST_F(TestFileRunner, constantReferenceInObjectRunTest) {
-  runFile("tests/samples/test_constant_reference_in_object.yz", "5");
+  runFile("tests/samples/test_constant_reference_in_object.yz", 5);
 }
 
 TEST_F(TestFileRunner, constantReferenceInInterfaceRunTest) {
-  runFile("tests/samples/test_constant_reference_in_interface.yz", "2");
+  runFile("tests/samples/test_constant_reference_in_interface.yz", 2);
 }
 
 TEST_F(TestFileRunner, constantReferencePrivateDeathRunTest) {

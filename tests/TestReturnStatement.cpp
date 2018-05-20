@@ -295,11 +295,11 @@ TEST_F(ReturnStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
 }
 
 TEST_F(TestFileRunner, returnStatementRunTest) {
-  runFile("tests/samples/test_return_int.yz", "5");
+  runFile("tests/samples/test_return_int.yz", 5);
 }
 
 TEST_F(TestFileRunner, returnStatementCastRunTest) {
-  runFile("tests/samples/test_return_boolean_cast.yz", "1");
+  runFile("tests/samples/test_return_boolean_cast.yz", 1);
 }
 
 TEST_F(TestFileRunner, returnReferenceToFreedObjectRunDeathTest) {

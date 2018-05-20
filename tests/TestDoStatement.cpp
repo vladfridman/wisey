@@ -94,7 +94,7 @@ TEST_F(DoStatementTest, doStatementSimpleTest) {
 }
 
 TEST_F(TestFileRunner, doStatementRunTest) {
-  runFile("tests/samples/test_do_statement.yz", "5");
+  runFile("tests/samples/test_do_statement.yz", 5);
 }
 
 TEST_F(TestFileRunner, unreachableDoStatementRunDeathTest) {

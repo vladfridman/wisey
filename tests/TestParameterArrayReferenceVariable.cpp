@@ -104,11 +104,11 @@ TEST_F(ParameterArrayReferenceVariableTest, generateAssignmentDeathTest) {
 }
 
 TEST_F(TestFileRunner, parameterArrayReferenceOfIntsRunTest) {
-  runFile("tests/samples/test_parameter_array_reference_of_ints.yz", "5");
+  runFile("tests/samples/test_parameter_array_reference_of_ints.yz", 5);
 }
 
 TEST_F(TestFileRunner, assignToParameterArrayReferenceVariableElementRunTest) {
-  runFile("tests/samples/test_assign_to_parameter_array_reference_variable_element.yz", "7");
+  runFile("tests/samples/test_assign_to_parameter_array_reference_variable_element.yz", 7);
 }
 
 TEST_F(TestFileRunner, parameterArrayReferenceOfIntsIncrementsReferenceCountRunDeathTest) {

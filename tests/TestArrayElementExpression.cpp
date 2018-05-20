@@ -231,11 +231,11 @@ TEST_F(ArrayElementExpressionTest, generateIRDeathTest) {
 }
 
 TEST_F(TestFileRunner, ownerArrayNotNulledOnElementAssignTest) {
-  runFile("tests/samples/test_owner_array_not_nulled_on_element_assign.yz", "1");
+  runFile("tests/samples/test_owner_array_not_nulled_on_element_assign.yz", 1);
 }
 
 TEST_F(TestFileRunner, ownerArrayNulledOnWholeArrayAssignTest) {
-  runFile("tests/samples/test_owner_array_nulled_on_whole_array_assign.yz", "1");
+  runFile("tests/samples/test_owner_array_nulled_on_whole_array_assign.yz", 1);
 }
 
 TEST_F(TestFileRunner, arrayElementGetOnNullArrayRunDeathTest) {

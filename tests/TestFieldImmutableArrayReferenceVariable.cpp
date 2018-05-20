@@ -192,7 +192,7 @@ TEST_F(FieldImmutableArrayReferenceVariableTest, generateArrayElementAssignmentD
 }
 
 TEST_F(TestFileRunner, fieldImmutableArrayReferenceRunTest) {
-  runFile("tests/samples/test_field_immutable_array_reference.yz", "7");
+  runFile("tests/samples/test_field_immutable_array_reference.yz", 7);
 }
 
 TEST_F(TestFileRunner, fieldImmutableArrayReferenceRceRunDeathTest) {

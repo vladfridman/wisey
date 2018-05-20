@@ -79,7 +79,7 @@ TEST_F(IObjectTypeSpecifierTest, getFullNameInnerObjectInnerOfCurrentObjectTest)
 }
 
 TEST_F(TestFileRunner, longObjectTypeSpecifiersRunTest) {
-  runFile("tests/samples/test_long_object_type_specifiers.yz", "5");
+  runFile("tests/samples/test_long_object_type_specifiers.yz", 5);
 }
 
 

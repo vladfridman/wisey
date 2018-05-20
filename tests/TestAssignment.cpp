@@ -208,10 +208,10 @@ TEST_F(AssignmentTest, printToStreamTest) {
 }
 
 TEST_F(TestFileRunner, assignToAssignmentPrimitiveRunTest) {
-  runFile("tests/samples/test_assignment_to_assignment_primitive.yz", "5");
+  runFile("tests/samples/test_assignment_to_assignment_primitive.yz", 5);
 }
 
 TEST_F(TestFileRunner, assignToAssignmentObjectRunTest) {
-  runFile("tests/samples/test_assingment_to_assignment_object.yz", "3");
+  runFile("tests/samples/test_assingment_to_assignment_object.yz", 3);
 }
 

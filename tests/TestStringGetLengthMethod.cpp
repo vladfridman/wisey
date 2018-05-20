@@ -121,5 +121,5 @@ TEST_F(StringGetLengthMethodTest, injectDeathTest) {
 }
 
 TEST_F(TestFileRunner, stringLengthRunTest) {
-  runFile("tests/samples/test_string_length.yz", "7");
+  runFile("tests/samples/test_string_length.yz", 7);
 }

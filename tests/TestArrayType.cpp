@@ -197,7 +197,7 @@ TEST_F(ArrayTypeTest, extractLLVMArrayTest) {
 }
 
 TEST_F(TestFileRunner, llvmArrayRunTest) {
-  runFile("tests/samples/test_llvm_array.yz", "4");
+  runFile("tests/samples/test_llvm_array.yz", 4);
 }
 
 TEST_F(TestFileRunner, llvmArrayDebugDestructorsRunTest) {

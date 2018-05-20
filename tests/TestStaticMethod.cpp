@@ -230,7 +230,7 @@ TEST_F(StaticMethodTest, isTypeKindTest) {
 }
 
 TEST_F(TestFileRunner, staticMethodDefinitionRunTest) {
-  runFile("tests/samples/test_static_method_definition.yz", "2018");
+  runFile("tests/samples/test_static_method_definition.yz", 2018);
 }
 
 TEST_F(TestFileRunner, staticMethodMissingThrowsDeathRunTest) {

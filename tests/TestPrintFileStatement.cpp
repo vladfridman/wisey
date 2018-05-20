@@ -11,7 +11,7 @@
 #include "TestFileRunner.hpp"
 
 TEST_F(TestFileRunner, printFileRunTest) {
-  runFile("tests/samples/test_printfile.yz", "1");
+  runFile("tests/samples/test_printfile.yz", 1);
   checkOutput("build/test.txt", "This is a test\n");
 }
 

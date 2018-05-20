@@ -95,15 +95,15 @@ TEST_F(IfStatementTest, generateIRTest) {
 }
 
 TEST_F(TestFileRunner, ifThenStatementRunTest) {
-  runFile("tests/samples/test_if_then_statement.yz", "9");
+  runFile("tests/samples/test_if_then_statement.yz", 9);
 }
 
 TEST_F(TestFileRunner, ifStatemenScopeRunTest) {
-  runFile("tests/samples/test_fibonacci_model_calculator.yz", "21");
+  runFile("tests/samples/test_fibonacci_model_calculator.yz", 21);
 }
 
 TEST_F(TestFileRunner, compareObjectToNullIfRunTest) {
-  runFile("tests/samples/test_compare_object_to_null_if.yz", "3");
+  runFile("tests/samples/test_compare_object_to_null_if.yz", 3);
 }
 
 TEST_F(TestFileRunner, unreachableIfStatementRunDeathTest) {

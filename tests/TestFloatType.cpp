@@ -202,5 +202,5 @@ TEST_F(FloatTypeTest, injectDeathTest) {
 }
 
 TEST_F(TestFileRunner, floatCastToBooleanRunTest) {
-  runFile("tests/samples/test_float_cast_to_boolean.yz", "7");
+  runFile("tests/samples/test_float_cast_to_boolean.yz", 7);
 }

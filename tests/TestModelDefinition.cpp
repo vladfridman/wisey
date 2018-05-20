@@ -359,15 +359,15 @@ TEST_F(ModelDefinitionTest, modelWithInjectedFieldDeathTest) {
 }
 
 TEST_F(TestFileRunner, modelDefinitionRunTest) {
-  runFile("tests/samples/test_model_definition.yz", "0");
+  runFile("tests/samples/test_model_definition.yz", 0);
 }
 
 TEST_F(TestFileRunner, modelDefinitionExplicitReceivedFieldsRunTest) {
-  runFile("tests/samples/test_model_definition_explicit_received_fields.yz", "3");
+  runFile("tests/samples/test_model_definition_explicit_received_fields.yz", 3);
 }
 
 TEST_F(TestFileRunner, modelDefinitionWithMethodRunTest) {
-  runFile("tests/samples/test_model_method.yz", "7");
+  runFile("tests/samples/test_model_method.yz", 7);
 }
 
 TEST_F(TestFileRunner, setterInModelDeathRunTest) {

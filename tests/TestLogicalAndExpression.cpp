@@ -167,9 +167,9 @@ TEST_F(LogicalAndExpressionTest, printToStreamTest) {
 }
 
 TEST_F(TestFileRunner, logicalAndExpressionResultFalseRunTest) {
-  runFile("tests/samples/test_logical_and_result_false.yz", "0");
+  runFile("tests/samples/test_logical_and_result_false.yz", 0);
 }
 
 TEST_F(TestFileRunner, logicalAndExpressionResultTrueRunTest) {
-  runFile("tests/samples/test_logical_and_result_true.yz", "1");
+  runFile("tests/samples/test_logical_and_result_true.yz", 1);
 }

@@ -111,5 +111,5 @@ TEST_F(CharConstantTest, isAssignableTest) {
 }
 
 TEST_F(TestFileRunner, charVariableRunTest) {
-  runFile("tests/samples/test_char_variable.yz", "7");
+  runFile("tests/samples/test_char_variable.yz", 7);
 }

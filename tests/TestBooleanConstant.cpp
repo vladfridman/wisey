@@ -88,9 +88,9 @@ TEST_F(BooleanConstantTest, printToStreamTest) {
 }
 
 TEST_F(TestFileRunner, booleanConstantRunTest) {
-  runFile("tests/samples/test_boolean_constant.yz", "7");
+  runFile("tests/samples/test_boolean_constant.yz", 7);
 }
 
 TEST_F(TestFileRunner, booleanVariableRunTest) {
-  runFile("tests/samples/test_boolean_variable.yz", "5");
+  runFile("tests/samples/test_boolean_variable.yz", 5);
 }

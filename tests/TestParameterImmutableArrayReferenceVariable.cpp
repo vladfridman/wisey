@@ -125,7 +125,7 @@ TEST_F(ParameterImmutableArrayReferenceVariableTest, generateElementAssignmentDa
 }
 
 TEST_F(TestFileRunner, parameterImmutableArrayReferenceRunTest) {
-  runFile("tests/samples/test_parameter_immutable_array_reference.yz", "5");
+  runFile("tests/samples/test_parameter_immutable_array_reference.yz", 5);
 }
 
 TEST_F(TestFileRunner, parameterImmutableArrayReferenceElementAssignRunDeathTest) {

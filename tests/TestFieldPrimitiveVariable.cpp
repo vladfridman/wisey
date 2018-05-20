@@ -162,9 +162,9 @@ TEST_F(FieldPrimitiveVariableTest, generateAssignmentWithCastIRTest) {
 }
 
 TEST_F(TestFileRunner, objectFieldSetRunTest) {
-  runFile("tests/samples/test_object_field_set.yz", "7");
+  runFile("tests/samples/test_object_field_set.yz", 7);
 }
 
 TEST_F(TestFileRunner, objectFieldSetWithAutocastRunTest) {
-  runFile("tests/samples/test_object_field_set_with_autocast.yz", "1");
+  runFile("tests/samples/test_object_field_set_with_autocast.yz", 1);
 }

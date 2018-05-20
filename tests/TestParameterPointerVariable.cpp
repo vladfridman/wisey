@@ -88,5 +88,5 @@ TEST_F(ParameterPointerVariableTest, generateIdentifierIRTest) {
 }
 
 TEST_F(TestFileRunner, parameterPointerVariableRunTest) {
-  runFile("tests/samples/test_parameter_pointer_variable.yz", "3");
+  runFile("tests/samples/test_parameter_pointer_variable.yz", 3);
 }

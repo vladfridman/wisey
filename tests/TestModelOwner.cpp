@@ -457,5 +457,5 @@ TEST_F(ModelOwnerTest, injectDeathTest) {
 }
 
 TEST_F(TestFileRunner, ownerAssignToReferenceRunTest) {
-  runFile("tests/samples/test_owner_assign_to_reference.yz", "3");
+  runFile("tests/samples/test_owner_assign_to_reference.yz", 3);
 }

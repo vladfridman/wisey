@@ -96,5 +96,5 @@ TEST_F(ParameterLLVMVariableTest, parameterReferenceVariableIdentifierTest) {
 }
 
 TEST_F(TestFileRunner, parameterLLVMVariableRunTest) {
-  runFile("tests/samples/test_parameter_llvm_variable.yz", "3");
+  runFile("tests/samples/test_parameter_llvm_variable.yz", 3);
 }

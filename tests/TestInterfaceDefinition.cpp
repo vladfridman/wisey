@@ -133,5 +133,5 @@ TEST_F(InterfaceDefinitionTest, generateIRTest) {
 }
 
 TEST_F(TestFileRunner, interfaceDefinitionRunTest) {
-  runFile("tests/samples/test_interface_definition.yz", "0");
+  runFile("tests/samples/test_interface_definition.yz", 0);
 }

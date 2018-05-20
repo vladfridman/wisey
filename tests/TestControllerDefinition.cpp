@@ -212,15 +212,15 @@ TEST_F(ControllerDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
 }
 
 TEST_F(TestFileRunner, controllerDefinitionSyntaxRunTest) {
-  runFile("tests/samples/test_controller_definition.yz", "8");
+  runFile("tests/samples/test_controller_definition.yz", 8);
 }
 
 TEST_F(TestFileRunner, controllerDefinitionWithModelStateSyntaxRunTest) {
-  runFile("tests/samples/test_controller_definition_with_model_state.yz", "21");
+  runFile("tests/samples/test_controller_definition_with_model_state.yz", 21);
 }
 
 TEST_F(TestFileRunner, controllerDefinitionWithInjectedInterfaceFieldRunTest) {
-  runFile("tests/samples/test_controller_definition_with_injected_interface_field.yz", "8");
+  runFile("tests/samples/test_controller_definition_with_injected_interface_field.yz", 8);
 }
 
 TEST_F(TestFileRunner, objectFieldsAfterMethodsDeathRunTest) {

@@ -382,6 +382,6 @@ TEST_F(ControllerOwnerTest, injectTest) {
 }
 
 TEST_F(TestFileRunner, controllerPassModelReferenceRunTest) {
-  runFile("tests/samples/test_controller_pass_model_reference.yz", "3");
+  runFile("tests/samples/test_controller_pass_model_reference.yz", 3);
 }
 

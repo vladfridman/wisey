@@ -117,5 +117,5 @@ TEST_F(BooleanNotExpressionTest, negateIncompatibleTypeDeathTest) {
 }
 
 TEST_F(TestFileRunner, booleanNotRunTest) {
-  runFile("tests/samples/test_boolean_not.yz", "1");
+  runFile("tests/samples/test_boolean_not.yz", 1);
 }

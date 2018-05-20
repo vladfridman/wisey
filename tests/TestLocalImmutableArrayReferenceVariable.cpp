@@ -172,7 +172,7 @@ TEST_F(LocalImmutableArrayReferenceVariableTest, generateArrayElementAssignmentD
 }
 
 TEST_F(TestFileRunner, localImmutableArrayReferenceRunTest) {
-  runFile("tests/samples/test_local_immutable_array_reference.yz", "3");
+  runFile("tests/samples/test_local_immutable_array_reference.yz", 3);
 }
 
 TEST_F(TestFileRunner, localImmutableArrayReferenceRceRunDeathTest) {

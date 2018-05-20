@@ -34,9 +34,8 @@ TEST_F(CompilerTest, compileAndRunTest) {
   mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
   int result = mCompiler.run(0, NULL);
-  string resultString = to_string(result);
   
-  EXPECT_STREQ(resultString.c_str(), "7");
+  EXPECT_EQ(7, result);
 }
 
 TEST_F(CompilerTest, compileAndSaveTest) {
@@ -68,9 +67,8 @@ TEST_F(CompilerTest, runMultipleFilesTest) {
   mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
   int result = mCompiler.run(0, NULL);
-  string resultString = to_string(result);
 
-  EXPECT_STREQ(resultString.c_str(), "5");
+  EXPECT_EQ(5, result);
 }
 
 TEST_F(CompilerTest, runMultipleFilesOutOfOrderTest) {
@@ -79,9 +77,8 @@ TEST_F(CompilerTest, runMultipleFilesOutOfOrderTest) {
   mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
   int result = mCompiler.run(0, NULL);
-  string resultString = to_string(result);
 
-  EXPECT_STREQ(resultString.c_str(), "5");
+  EXPECT_EQ(5, result);
 }
 
 TEST_F(CompilerTest, runMultipleFilesControllerAndModelsTest) {
@@ -90,9 +87,8 @@ TEST_F(CompilerTest, runMultipleFilesControllerAndModelsTest) {
   mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
   int result = mCompiler.run(0, NULL);
-  string resultString = to_string(result);
 
-  EXPECT_STREQ(resultString.c_str(), "7");
+  EXPECT_EQ(7, result);
 }
 
 TEST_F(CompilerTest, runMultipleFilesInterdependentModelsTest) {
@@ -101,9 +97,8 @@ TEST_F(CompilerTest, runMultipleFilesInterdependentModelsTest) {
   mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
   int result = mCompiler.run(0, NULL);
-  string resultString = to_string(result);
 
-  EXPECT_STREQ(resultString.c_str(), "6");
+  EXPECT_EQ(6, result);
 }
 
 TEST_F(CompilerTest, runMultipleFilesUseWildcardTest) {
@@ -111,9 +106,8 @@ TEST_F(CompilerTest, runMultipleFilesUseWildcardTest) {
   mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
   int result = mCompiler.run(0, NULL);
-  string resultString = to_string(result);
 
-  EXPECT_STREQ(resultString.c_str(), "6");
+  EXPECT_EQ(6, result);
 }
 
 TEST_F(CompilerTest, runWildcardDirectoryDeathTest) {
@@ -152,13 +146,13 @@ TEST_F(CompilerTest, twoErrorsRunDeathTest) {
 }
 
 TEST_F(TestFileRunner, commentsRunTest) {
-  runFile("tests/samples/test_comments.yz", "5");
+  runFile("tests/samples/test_comments.yz", 5);
 }
 
 TEST_F(TestFileRunner, noPackageDeclarationRunTest) {
-  runFile("tests/samples/test_no_package_declaration.yz", "7");
+  runFile("tests/samples/test_no_package_declaration.yz", 7);
 }
 
 TEST_F(TestFileRunner, noPackageRunTest) {
-  runFile("tests/samples/test_no_package.yz", "1");
+  runFile("tests/samples/test_no_package.yz", 1);
 }

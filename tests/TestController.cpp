@@ -1234,23 +1234,23 @@ TEST_F(ControllerTest, getObjectTypeNameGlobalTest) {
 }
 
 TEST_F(TestFileRunner, controllerInjectionChainRunTest) {
-  runFile("tests/samples/test_controller_injection_chain.yz", "2");
+  runFile("tests/samples/test_controller_injection_chain.yz", 2);
 }
 
 TEST_F(TestFileRunner, controllerWithUninitializedStateFieldRunTest) {
-  runFile("tests/samples/test_controller_with_unitilized_state_field.yz", "0");
+  runFile("tests/samples/test_controller_with_unitilized_state_field.yz", 0);
 }
 
 TEST_F(TestFileRunner, controllerInjectionWithRecievedOwnerRunTest) {
-  runFile("tests/samples/test_controller_injection_with_recieved_owner.yz", "5");
+  runFile("tests/samples/test_controller_injection_with_recieved_owner.yz", 5);
 }
 
 TEST_F(TestFileRunner, controllerInjectionWithRecievedReferenceRunTest) {
-  runFile("tests/samples/test_controller_injection_with_recieved_reference.yz", "7");
+  runFile("tests/samples/test_controller_injection_with_recieved_reference.yz", 7);
 }
 
 TEST_F(TestFileRunner, injectArrayFieldRunTest) {
-  runFile("tests/samples/test_inject_array_field.yz", "2018");
+  runFile("tests/samples/test_inject_array_field.yz", 2018);
 }
 
 TEST_F(TestFileRunner, contextScopedInjectionOnIThreadRunTest) {

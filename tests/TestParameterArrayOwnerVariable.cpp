@@ -137,7 +137,7 @@ TEST_F(ParameterArrayOwnerVariableTest, generateAssignmentDeathTest) {
 }
 
 TEST_F(TestFileRunner, parameterArrayOwnerOfIntsRunTest) {
-  runFile("tests/samples/test_parameter_array_owner_of_ints.yz", "5");
+  runFile("tests/samples/test_parameter_array_owner_of_ints.yz", 5);
 }
 
 TEST_F(TestFileRunner, parameterArrayOwnerOfIntsIsNulledOnAssignmentRunDeathTest) {

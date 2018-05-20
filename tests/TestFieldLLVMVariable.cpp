@@ -144,5 +144,5 @@ TEST_F(FieldLLVMVariableTest, generateAssignmentIRTest) {
 }
 
 TEST_F(TestFileRunner, fieldLLVMVariableRunTest) {
-  runFile("tests/samples/test_field_llvm_variable.yz", "7");
+  runFile("tests/samples/test_field_llvm_variable.yz", 7);
 }

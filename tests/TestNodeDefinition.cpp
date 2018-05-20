@@ -359,11 +359,11 @@ TEST_F(NodeDefinitionTest, nodeWithInjectedFieldDeathTest) {
 }
 
 TEST_F(TestFileRunner, nodeDefinitionRunTest) {
-  runFile("tests/samples/test_node_definition.yz", "0");
+  runFile("tests/samples/test_node_definition.yz", 0);
 }
 
 TEST_F(TestFileRunner, nodeDefinitionWithMethodRunTest) {
-  runFile("tests/samples/test_node_method.yz", "5");
+  runFile("tests/samples/test_node_method.yz", 5);
 }
 
 TEST_F(TestFileRunner, nodeStateFieldsNonNodeOwnerTypeDeathRunTest) {

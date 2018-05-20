@@ -248,25 +248,25 @@ TEST_F(RelationalExpressionTest, incompatablePrimitiveTypesDeathTest) {
 }
 
 TEST_F(TestFileRunner, lessThanRunTest) {
-  runFile("tests/samples/test_less_than.yz", "1");
+  runFile("tests/samples/test_less_than.yz", 1);
 }
 
 TEST_F(TestFileRunner, greaterThanOrEqualRunTest) {
-  runFile("tests/samples/test_greater_than_or_equal.yz", "1");
+  runFile("tests/samples/test_greater_than_or_equal.yz", 1);
 }
 
 TEST_F(TestFileRunner, equalRunTest) {
-  runFile("tests/samples/test_equal.yz", "0");
+  runFile("tests/samples/test_equal.yz", 0);
 }
 
 TEST_F(TestFileRunner, notEqualRunTest) {
-  runFile("tests/samples/test_not_equal.yz", "1");
+  runFile("tests/samples/test_not_equal.yz", 1);
 }
 
 TEST_F(TestFileRunner, compareModelToNullRunTest) {
-  runFile("tests/samples/test_compare_model_to_null.yz", "0");
+  runFile("tests/samples/test_compare_model_to_null.yz", 0);
 }
 
 TEST_F(TestFileRunner, compareModelToItselfRunTest) {
-  runFile("tests/samples/test_compare_model_to_itself.yz", "1");
+  runFile("tests/samples/test_compare_model_to_itself.yz", 1);
 }

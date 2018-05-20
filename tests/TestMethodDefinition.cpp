@@ -91,13 +91,13 @@ TEST_F(MethodDefinitionTest, methodDescriptorExtractTest) {
 }
 
 TEST_F(TestFileRunner, methodDecalarationIntFunctionRunTest) {
-  runFile("tests/samples/test_int_method.yz", "10");
+  runFile("tests/samples/test_int_method.yz", 10);
 }
 
 TEST_F(TestFileRunner, methodDecalarationImpliedReturnRunTest) {
-  runFile("tests/samples/test_implied_return.yz", "5");
+  runFile("tests/samples/test_implied_return.yz", 5);
 }
 
 TEST_F(TestFileRunner, methodDecalarationMultipleParametersRunTest) {
-  runFile("tests/samples/test_method_multiple_arguments.yz", "6");
+  runFile("tests/samples/test_method_multiple_arguments.yz", 6);
 }

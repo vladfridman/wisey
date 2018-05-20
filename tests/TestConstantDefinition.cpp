@@ -68,9 +68,9 @@ TEST_F(ConstantDefinitionTest, declareTest) {
 }
 
 TEST_F(TestFileRunner, constantDeclarationInObjectRunTest) {
-  runFile("tests/samples/test_constant_declaration_in_object.yz", "1");
+  runFile("tests/samples/test_constant_declaration_in_object.yz", 1);
 }
 
 TEST_F(TestFileRunner, constantDeclarationInInterfaceRunTest) {
-  runFile("tests/samples/test_constant_declaration_in_interface.yz", "1");
+  runFile("tests/samples/test_constant_declaration_in_interface.yz", 1);
 }

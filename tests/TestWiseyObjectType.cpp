@@ -218,19 +218,19 @@ TEST_F(WiseyObjectTypeTest, injectDeathTest) {
 }
 
 TEST_F(TestFileRunner, referenceCountDecrementedForWiseyObjectTypeVariableTest) {
-  runFile("tests/samples/test_reference_count_decremented_for_llvm_object_type_variable.yz", "1");
+  runFile("tests/samples/test_reference_count_decremented_for_llvm_object_type_variable.yz", 1);
 }
 
 TEST_F(TestFileRunner, compareLLVMObjectsToNullTest) {
-  runFile("tests/samples/test_compare_llvm_objects_to_null.yz", "1");
+  runFile("tests/samples/test_compare_llvm_objects_to_null.yz", 1);
 }
 
 TEST_F(TestFileRunner, castWiseyObjectReferenceToModelRunTest) {
-  runFile("tests/samples/test_cast_wisey_object_reference_to_model.yz", "3");
+  runFile("tests/samples/test_cast_wisey_object_reference_to_model.yz", 3);
 }
 
 TEST_F(TestFileRunner, castWiseyObjectReferenceToInterfaceRunTest) {
-  runFile("tests/samples/test_cast_wisey_object_reference_to_interface.yz", "1");
+  runFile("tests/samples/test_cast_wisey_object_reference_to_interface.yz", 1);
 }
 
 TEST_F(TestFileRunner, castWiseyObjectReferenceToInterfaceFailRunDeathTest) {

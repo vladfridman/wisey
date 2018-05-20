@@ -144,5 +144,5 @@ TEST_F(CastExpressionTest, printToStreamTest) {
 }
 
 TEST_F(TestFileRunner, castOrExpressionGrammarRunTest) {
-  runFile("tests/samples/test_cast_or_expression.yz", "10");
+  runFile("tests/samples/test_cast_or_expression.yz", 10);
 }

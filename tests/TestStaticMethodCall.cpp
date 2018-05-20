@@ -378,55 +378,55 @@ TEST_F(StaticMethodCallTest, incorrectArgumentTypesDeathTest) {
 }
 
 TEST_F(TestFileRunner, modelStaticMethodCallRunTest) {
-  runFile("tests/samples/test_model_static_method_call.yz", "2018");
+  runFile("tests/samples/test_model_static_method_call.yz", 2018);
 }
 
 TEST_F(TestFileRunner, nodeStaticMethodCallRunTest) {
-  runFile("tests/samples/test_node_static_method_call.yz", "5");
+  runFile("tests/samples/test_node_static_method_call.yz", 5);
 }
 
 TEST_F(TestFileRunner, controllerStaticMethodCallRunTest) {
-  runFile("tests/samples/test_controller_static_method_call.yz", "7");
+  runFile("tests/samples/test_controller_static_method_call.yz", 7);
 }
 
 TEST_F(TestFileRunner, modelStaticMethodCallMultipleArgumentsRunTest) {
-  runFile("tests/samples/test_model_static_method_call_multiple_parameters.yz", "6");
+  runFile("tests/samples/test_model_static_method_call_multiple_parameters.yz", 6);
 }
 
 TEST_F(TestFileRunner, modelStaticMethodCallToSubModelRunTest) {
-  runFile("tests/samples/test_model_static_method_call_to_submodel.yz", "3");
+  runFile("tests/samples/test_model_static_method_call_to_submodel.yz", 3);
 }
 
 TEST_F(TestFileRunner, modelStaticMethodCallAutoCastArgumentRunTest) {
-  runFile("tests/samples/test_static_method_argument_autocast.yz", "1");
+  runFile("tests/samples/test_static_method_argument_autocast.yz", 1);
 }
 
 TEST_F(TestFileRunner, modelStaticMethodCallInExpressionRunTest) {
-  runFile("tests/samples/test_static_method_call_in_expression.yz", "8");
+  runFile("tests/samples/test_static_method_call_in_expression.yz", 8);
 }
 
 TEST_F(TestFileRunner, staticMethodCallToMethodCallRunTest) {
-  runFile("tests/samples/test_static_method_call_to_method_call.yz", "10");
+  runFile("tests/samples/test_static_method_call_to_method_call.yz", 10);
 }
 
 TEST_F(TestFileRunner, staticMethodCallToPrivateMethodViaPublicMethodRunTest) {
-  runFile("tests/samples/test_call_to_private_static_method_via_public_static_method.yz", "10");
+  runFile("tests/samples/test_call_to_private_static_method_via_public_static_method.yz", 10);
 }
 
 TEST_F(TestFileRunner, staticMethodReturnOwnerAndAssignToReferenceRunTest) {
-  runFile("tests/samples/test_static_method_call_return_owner_and_assign_to_reference.yz", "3");
+  runFile("tests/samples/test_static_method_call_return_owner_and_assign_to_reference.yz", 3);
 }
 
 TEST_F(TestFileRunner, passOwnerAsParameterToStaticMethodRunTest) {
-  runFile("tests/samples/test_pass_owner_as_parameter_to_static_method.yz", "3");
+  runFile("tests/samples/test_pass_owner_as_parameter_to_static_method.yz", 3);
 }
 
 TEST_F(TestFileRunner, staticReturnArrayReferenceRunTest) {
-  runFile("tests/samples/test_static_return_array_reference.yz", "5");
+  runFile("tests/samples/test_static_return_array_reference.yz", 5);
 }
 
 TEST_F(TestFileRunner, staticReturnArrayOwnerRunTest) {
-  runFile("tests/samples/test_static_return_array_owner.yz", "5");
+  runFile("tests/samples/test_static_return_array_owner.yz", 5);
 }
 
 TEST_F(TestFileRunner, staticMethodCallToPrivateMethodRunDeathTest) {

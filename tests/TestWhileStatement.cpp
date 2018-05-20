@@ -94,7 +94,7 @@ TEST_F(WhileStatementTest, whileStatementSimpleTest) {
 }
 
 TEST_F(TestFileRunner, whileStatementRunTest) {
-  runFile("tests/samples/test_while_statement.yz", "10");
+  runFile("tests/samples/test_while_statement.yz", 10);
 }
 
 TEST_F(TestFileRunner, unreachableWhileStatementRunDeathTest) {

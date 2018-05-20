@@ -105,15 +105,15 @@ TEST_F(LLVMFunctionCallTest, generateIRTest) {
 }
 
 TEST_F(TestFileRunner, llvmFunctionCallRunTest) {
-  runFile("tests/samples/test_llvm_function_call.yz", "3");
+  runFile("tests/samples/test_llvm_function_call.yz", 3);
 }
 
 TEST_F(TestFileRunner, llvmFunctionCallFullPathRunTest) {
-  runFile("tests/samples/test_llvm_function_call_full_path.yz", "3");
+  runFile("tests/samples/test_llvm_function_call_full_path.yz", 3);
 }
 
 TEST_F(TestFileRunner, llvmFunctionCallInInterfaceRunTest) {
-  runFile("tests/samples/test_llvm_function_call_in_interface.yz", "8");
+  runFile("tests/samples/test_llvm_function_call_in_interface.yz", 8);
 }
 
 TEST_F(TestFileRunner, llvmFunctionCallPrivateFailDeathRunTest) {

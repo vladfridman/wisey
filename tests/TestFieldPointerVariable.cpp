@@ -175,5 +175,5 @@ TEST_F(FieldPointerVariableTest, generateAssignmentIRTest) {
 }
 
 TEST_F(TestFileRunner, fieldPointerVariableRunTest) {
-  runFile("tests/samples/test_field_pointer_variable.yz", "1");
+  runFile("tests/samples/test_field_pointer_variable.yz", 1);
 }

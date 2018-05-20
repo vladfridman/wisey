@@ -190,9 +190,9 @@ TEST_F(StringTypeTest, injectDeathTest) {
 }
 
 TEST_F(TestFileRunner, stringCastToBooleanRunTest) {
-  runFile("tests/samples/test_string_cast_to_boolean.yz", "3");
+  runFile("tests/samples/test_string_cast_to_boolean.yz", 3);
 }
 
 TEST_F(TestFileRunner, mstringCreateFromStringRunTest) {
-  runFile("tests/samples/test_mstring_create_from_string.yz", "7");
+  runFile("tests/samples/test_mstring_create_from_string.yz", 7);
 }

@@ -137,7 +137,7 @@ TEST_F(ReceivedFieldTest, fieldPrintToStreamTest) {
 }
 
 TEST_F(TestFileRunner, modelImmutableArrayReferenceFieldRunTest) {
-  runFile("tests/samples/test_model_immutable_array_reference_field.yz", "5");
+  runFile("tests/samples/test_model_immutable_array_reference_field.yz", 5);
 }
 
 TEST_F(TestFileRunner, nodeWithRecievedFieldSetterDeathRunTest) {

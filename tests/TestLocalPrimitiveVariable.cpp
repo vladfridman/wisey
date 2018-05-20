@@ -149,5 +149,5 @@ TEST_F(LocalPrimitiveVariableTest, generateIdentifierReferenceIRTest) {
 }
 
 TEST_F(TestFileRunner, assignmentWithAutocastRunTest) {
-  runFile("tests/samples/test_assignment_with_autocast.yz", "1");
+  runFile("tests/samples/test_assignment_with_autocast.yz", 1);
 }

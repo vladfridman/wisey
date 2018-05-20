@@ -124,19 +124,19 @@ TEST_F(BindActionGlobalStatementTest, bindInterfaceToIncompatableControllerDeath
 }
 
 TEST_F(TestFileRunner, injectInterfaceWithArgumentsRunTest) {
-  runFile("tests/samples/test_inject_interface_with_arguments.yz", "7");
+  runFile("tests/samples/test_inject_interface_with_arguments.yz", 7);
 }
 
 TEST_F(TestFileRunner, injectInterfaceWithArgumentsInlineRunTest) {
-  runFile("tests/samples/test_inject_interface_with_arguments_inline.yz", "7");
+  runFile("tests/samples/test_inject_interface_with_arguments_inline.yz", 7);
 }
 
 TEST_F(TestFileRunner, injectInterfaceReferenceBoundRunTest) {
-  runFile("tests/samples/test_inject_interface_reference_bound.yz", "3");
+  runFile("tests/samples/test_inject_interface_reference_bound.yz", 3);
 }
 
 TEST_F(TestFileRunner, injectInterfaceReferenceBoundInlineRunTest) {
-  runFile("tests/samples/test_inject_interface_reference_bound_inline.yz", "5");
+  runFile("tests/samples/test_inject_interface_reference_bound_inline.yz", 5);
 }
 
 TEST_F(TestFileRunner, injectInterfaceOwnerBoundToScopedControllerRunDeathTest) {

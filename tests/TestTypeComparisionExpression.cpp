@@ -336,31 +336,31 @@ TEST_F(TypeComparisionExpressionTest, printToStreamTest) {
 }
 
 TEST_F(TestFileRunner, instanceOfTrivialMatchRunTest) {
-  runFile("tests/samples/test_instanceof_trivial_match.yz", "2");
+  runFile("tests/samples/test_instanceof_trivial_match.yz", 2);
 }
 
 TEST_F(TestFileRunner, interfaceInstanceOfModelMatchRunTest) {
-  runFile("tests/samples/test_interface_instanceof_model_match.yz", "1");
+  runFile("tests/samples/test_interface_instanceof_model_match.yz", 1);
 }
 
 TEST_F(TestFileRunner, interfaceInstanceOfInterfaceMatchRunTest) {
-  runFile("tests/samples/test_interface_instanceof_interface_match.yz", "1");
+  runFile("tests/samples/test_interface_instanceof_interface_match.yz", 1);
 }
 
 TEST_F(TestFileRunner, interfaceInstanceOfInterfaceNotMatchRunTest) {
-  runFile("tests/samples/test_interface_instanceof_interface_notmatch.yz", "0");
+  runFile("tests/samples/test_interface_instanceof_interface_notmatch.yz", 0);
 }
 
 TEST_F(TestFileRunner, interfaceInstanceControllersRunTest) {
-  runFile("tests/samples/test_instanceof_controllers.yz", "1");
+  runFile("tests/samples/test_instanceof_controllers.yz", 1);
 }
 
 TEST_F(TestFileRunner, interfaceInstanceNodesRunTest) {
-  runFile("tests/samples/test_instanceof_nodes.yz", "1");
+  runFile("tests/samples/test_instanceof_nodes.yz", 1);
 }
 
 TEST_F(TestFileRunner, interfaceInstanceOfWithNullRunTest) {
-  runFile("tests/samples/test_instanceof_with_null.yz", "0");
+  runFile("tests/samples/test_instanceof_with_null.yz", 0);
 }
 
 TEST_F(TestFileRunner, instanceofWithArraysRunDeathTest) {

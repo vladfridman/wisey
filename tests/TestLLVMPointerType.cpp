@@ -196,7 +196,7 @@ TEST_F(LLVMPointerTypeTest, injectDeathTest) {
 }
 
 TEST_F(TestFileRunner, compareLLVMPointerToNullTest) {
-  runFile("tests/samples/test_compare_llvm_pointer_to_null.yz", "1");
+  runFile("tests/samples/test_compare_llvm_pointer_to_null.yz", 1);
 }
 
 TEST_F(TestFileRunner, threeDegreeLLVMPointerRunDeathTest) {

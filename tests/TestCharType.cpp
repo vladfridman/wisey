@@ -202,5 +202,5 @@ TEST_F(CharTypeTest, injectDeathTest) {
 }
 
 TEST_F(TestFileRunner, charCastToBooleanRunTest) {
-  runFile("tests/samples/test_char_cast_to_boolean.yz", "1");
+  runFile("tests/samples/test_char_cast_to_boolean.yz", 1);
 }

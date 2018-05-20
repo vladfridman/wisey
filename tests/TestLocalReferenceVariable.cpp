@@ -217,11 +217,11 @@ TEST_F(LocalReferenceVariableTest, setToNullTest) {
 }
 
 TEST_F(TestFileRunner, headReferenceVariableAssignmentRunTest) {
-  runFile("tests/samples/test_assignment_model_variable.yz", "0");
+  runFile("tests/samples/test_assignment_model_variable.yz", 0);
 }
 
 TEST_F(TestFileRunner, interfaceVariableAssignmentRunTest) {
-  runFile("tests/samples/test_interface_variable_assignment.yz", "25");
+  runFile("tests/samples/test_interface_variable_assignment.yz", 25);
 }
 
 TEST_F(TestFileRunner, assignLocalReferenceToFieldOwnerCompileTest) {

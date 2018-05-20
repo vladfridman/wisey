@@ -887,47 +887,47 @@ TEST_F(ModelTest, getObjectTypeNameGlobalTest) {
 }
 
 TEST_F(TestFileRunner, modelBuilderObjectArgumentAutocastRunTest) {
-  runFile("tests/samples/test_model_builder_object_argument_autocast.yz", "2017");
+  runFile("tests/samples/test_model_builder_object_argument_autocast.yz", 2017);
 }
 
 TEST_F(TestFileRunner, modelBuilderPrimitiveArgumentAutocastRunTest) {
-  runFile("tests/samples/test_model_builder_primitive_argument_autocast.yz", "1");
+  runFile("tests/samples/test_model_builder_primitive_argument_autocast.yz", 1);
 }
 
 TEST_F(TestFileRunner, controllerWithInnerModelRunTest) {
-  runFile("tests/samples/test_controller_with_inner_model.yz", "3");
+  runFile("tests/samples/test_controller_with_inner_model.yz", 3);
 }
 
 TEST_F(TestFileRunner, controllerWithInnerModelShortSpecifiersRunTest) {
-  runFile("tests/samples/test_controller_with_inner_model_short_specifiers.yz", "5");
+  runFile("tests/samples/test_controller_with_inner_model_short_specifiers.yz", 5);
 }
 
 TEST_F(TestFileRunner, controllerWithInnerModelMediumSpecifiersRunTest) {
-  runFile("tests/samples/test_controller_with_inner_model_medium_specifiers.yz", "7");
+  runFile("tests/samples/test_controller_with_inner_model_medium_specifiers.yz", 7);
 }
 
 TEST_F(TestFileRunner, innerObjectDefinedInDifferentObjectRunTest) {
-  runFile("tests/samples/test_inner_object_defined_in_different_object.yz", "7");
+  runFile("tests/samples/test_inner_object_defined_in_different_object.yz", 7);
 }
 
 TEST_F(TestFileRunner, innerObjectPrivateAccessableRunTest) {
-  runFile("tests/samples/test_inner_object_private_accessable.yz", "3");
+  runFile("tests/samples/test_inner_object_private_accessable.yz", 3);
 }
 
 TEST_F(TestFileRunner, modelWithPrimitiveArrayRunTest) {
-  runFile("tests/samples/test_model_with_primitive_array.yz", "5");
+  runFile("tests/samples/test_model_with_primitive_array.yz", 5);
 }
 
 TEST_F(TestFileRunner, modelWithModelArrayRunTest) {
-  runFile("tests/samples/test_model_with_model_array.yz", "3");
+  runFile("tests/samples/test_model_with_model_array.yz", 3);
 }
 
 TEST_F(TestFileRunner, modelWithArrayReturnArrayReferenceRunTest) {
-  runFile("tests/samples/test_model_with_array_return_array_reference.yz", "7");
+  runFile("tests/samples/test_model_with_array_return_array_reference.yz", 7);
 }
 
 TEST_F(TestFileRunner, modelWithInterfaceFieldInitWithInterfaceModelRunTest) {
-  runFile("tests/samples/test_model_with_interface_field_init_with_interface_model.yz", "15");
+  runFile("tests/samples/test_model_with_interface_field_init_with_interface_model.yz", 15);
 }
 
 TEST_F(TestFileRunner, innerObjectWrongTypeSpecifierDeathRunTest) {

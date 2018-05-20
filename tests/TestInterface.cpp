@@ -858,71 +858,71 @@ TEST_F(TestFileRunner, objectMethodNotMarkedOverrideDeathTest) {
 }
 
 TEST_F(TestFileRunner, modelImplmenetingInterfaceDefinitionRunTest) {
-  runFile("tests/samples/test_interface_implementation.yz", "90");
+  runFile("tests/samples/test_interface_implementation.yz", 90);
 }
 
 TEST_F(TestFileRunner, interfaceInheritanceRunTest) {
-  runFile("tests/samples/test_level2_inheritance.yz", "235");
+  runFile("tests/samples/test_level2_inheritance.yz", 235);
 }
 
 TEST_F(TestFileRunner, modelWithMultipleInterfaceInheritanceRunTest) {
-  runFile("tests/samples/test_model_multiple_interface_inheritance.yz", "5");
+  runFile("tests/samples/test_model_multiple_interface_inheritance.yz", 5);
 }
 
 TEST_F(TestFileRunner, interfaceWithMultipleInterfaceInheritanceRunTest) {
-  runFile("tests/samples/test_interface_multiple_interface_inheritance.yz", "15");
+  runFile("tests/samples/test_interface_multiple_interface_inheritance.yz", 15);
 }
 
 TEST_F(TestFileRunner, interfaceCastToModelRunTest) {
-  runFile("tests/samples/test_interface_cast_to_model.yz", "5");
+  runFile("tests/samples/test_interface_cast_to_model.yz", 5);
 }
 
 TEST_F(TestFileRunner, interfaceCastToInterfaceRunTest) {
-  runFile("tests/samples/test_interface_cast_to_interface.yz", "5");
+  runFile("tests/samples/test_interface_cast_to_interface.yz", 5);
 }
 
 TEST_F(TestFileRunner, interfaceCastToAnotherInterfaceRunTest) {
-  runFile("tests/samples/test_interface_cast_to_another_interface.yz", "5");
+  runFile("tests/samples/test_interface_cast_to_another_interface.yz", 5);
 }
 
 TEST_F(TestFileRunner, interfaceAutoCastRunTest) {
-  runFile("tests/samples/test_interface_autocast.yz", "5");
+  runFile("tests/samples/test_interface_autocast.yz", 5);
 }
 
 TEST_F(TestFileRunner, interfaceStaticMethodRunTest) {
-  runFile("tests/samples/test_interface_static_method.yz", "5");
+  runFile("tests/samples/test_interface_static_method.yz", 5);
 }
 
 TEST_F(TestFileRunner, interfaceStaticMethodComplicatedRunTest) {
-  runFile("tests/samples/test_interface_static_method_complicated.yz", "7");
+  runFile("tests/samples/test_interface_static_method_complicated.yz", 7);
 }
 
 TEST_F(TestFileRunner, interfaceObjectAddReferenceForModelRunTest) {
-  runFile("tests/samples/test_interface_object_add_reference_for_model.yz", "5");
+  runFile("tests/samples/test_interface_object_add_reference_for_model.yz", 5);
 }
 
 TEST_F(TestFileRunner, interfaceObjectAddReferenceForNodeRunTest) {
-  runFile("tests/samples/test_interface_object_add_reference_for_node.yz", "7");
+  runFile("tests/samples/test_interface_object_add_reference_for_node.yz", 7);
 }
 
 TEST_F(TestFileRunner, interfaceBridgeToPrivateStaticMethodRunTest) {
-  runFile("tests/samples/test_interface_bridge_to_private_static_method.yz", "5");
+  runFile("tests/samples/test_interface_bridge_to_private_static_method.yz", 5);
 }
 
 TEST_F(TestFileRunner, concreteObjectOverloadInterfaceReturnTypeRunTest) {
-  runFile("tests/samples/test_concrete_object_overload_interface_return_type.yz", "1");
+  runFile("tests/samples/test_concrete_object_overload_interface_return_type.yz", 1);
 }
 
 TEST_F(TestFileRunner, concreteObjectOverloadInterfaceArgumentTypeRunTest) {
-  runFile("tests/samples/test_concrete_object_overload_interface_argument_type.yz", "3");
+  runFile("tests/samples/test_concrete_object_overload_interface_argument_type.yz", 3);
 }
 
 TEST_F(TestFileRunner, interfaceOverridesInterfaceMethodReturnTypeRunTest) {
-  runFile("tests/samples/test_interface_overrides_interface_method_return_type.yz", "5");
+  runFile("tests/samples/test_interface_overrides_interface_method_return_type.yz", 5);
 }
 
 TEST_F(TestFileRunner, interfaceOverridesInterfaceMethodArgumentTypeRunTest) {
-  runFile("tests/samples/test_interface_overrides_interface_method_argument_type.yz", "7");
+  runFile("tests/samples/test_interface_overrides_interface_method_argument_type.yz", 7);
 }
 
 TEST_F(TestFileRunner, interfaceOverridesInterfaceMethodReturnTypeFailRunDeathTest) {

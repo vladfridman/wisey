@@ -170,9 +170,9 @@ TEST_F(LogicalOrExpressionTest, printToStreamTest) {
 }
 
 TEST_F(TestFileRunner, LogicalOrExpressionResultFalseRunTest) {
-  runFile("tests/samples/test_logical_or_result_false.yz", "0");
+  runFile("tests/samples/test_logical_or_result_false.yz", 0);
 }
 
 TEST_F(TestFileRunner, LogicalOrExpressionResultTrueRunTest) {
-  runFile("tests/samples/test_logical_or_result_true.yz", "1");
+  runFile("tests/samples/test_logical_or_result_true.yz", 1);
 }

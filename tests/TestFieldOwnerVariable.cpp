@@ -269,11 +269,11 @@ TEST_F(TestFileRunner, variableSetToNullRunDeathTest) {
 }
 
 TEST_F(TestFileRunner, stateOwnerFieldSetToNullTest) {
-  runFile("tests/samples/test_state_owner_field_set_to_null.yz", "1");
+  runFile("tests/samples/test_state_owner_field_set_to_null.yz", 1);
 }
 
 TEST_F(TestFileRunner, objectFieldVariableSetToAnotherTest) {
-  runFile("tests/samples/test_object_field_variable_set_to_another.yz", "7");
+  runFile("tests/samples/test_object_field_variable_set_to_another.yz", 7);
 }
 
 TEST_F(TestFileRunner, assignFieldOwnerToParameterOwnerCompileTest) {

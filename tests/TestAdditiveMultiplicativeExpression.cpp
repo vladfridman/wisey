@@ -275,29 +275,29 @@ TEST_F(AdditiveMultiplicativeExpressionTest, explicitCastNeededOnGetTypeDeathTes
 }
 
 TEST_F(TestFileRunner, additionRunTest) {
-  runFile("tests/samples/test_addition.yz", "7");
+  runFile("tests/samples/test_addition.yz", 7);
 }
 
 TEST_F(TestFileRunner, subtractionRunTest) {
-  runFile("tests/samples/test_subtraction.yz", "14");
+  runFile("tests/samples/test_subtraction.yz", 14);
 }
 
 TEST_F(TestFileRunner, multiplicationRunTest) {
-  runFile("tests/samples/test_multiplication.yz", "50");
+  runFile("tests/samples/test_multiplication.yz", 50);
 }
 
 TEST_F(TestFileRunner, divisionRunTest) {
-  runFile("tests/samples/test_division.yz", "5");
+  runFile("tests/samples/test_division.yz", 5);
 }
 
 TEST_F(TestFileRunner, moduloRunTest) {
-  runFile("tests/samples/test_modulo.yz", "3");
+  runFile("tests/samples/test_modulo.yz", 3);
 }
 
 TEST_F(TestFileRunner, additionWithCastRunTest) {
-  runFile("tests/samples/test_addition_with_cast.yz", "3");
+  runFile("tests/samples/test_addition_with_cast.yz", 3);
 }
 
 TEST_F(TestFileRunner, subtractionOfDoubleRunTest) {
-  runFile("tests/samples/test_subtraction_of_doubles.yz", "-2");
+  runFile("tests/samples/test_subtraction_of_doubles.yz", -2);
 }

@@ -136,15 +136,15 @@ TEST_F(ArrayAllocationTest, printToStreamTest) {
 }
 
 TEST_F(TestFileRunner, localPrimitiveArrayAllocationRunTest) {
-  runFile("tests/samples/test_local_primitive_array_allocation.yz", "0");
+  runFile("tests/samples/test_local_primitive_array_allocation.yz", 0);
 }
 
 TEST_F(TestFileRunner, localOwnerArrayOfIntsCreatedDynamicallyRunTest) {
-  runFile("tests/samples/test_local_owner_array_of_ints_created_dynamically.yz", "1");
+  runFile("tests/samples/test_local_owner_array_of_ints_created_dynamically.yz", 1);
 }
 
 TEST_F(TestFileRunner, assignSubArrayRunTest) {
-  runFile("tests/samples/test_assign_sub_array.yz", "5");
+  runFile("tests/samples/test_assign_sub_array.yz", 5);
 }
 
 TEST_F(TestFileRunner, localOwnerArrayOfIntsFloatDimensionDeathRunTest) {

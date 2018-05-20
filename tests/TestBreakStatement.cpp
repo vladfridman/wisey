@@ -23,15 +23,15 @@ TEST(BreakStatementTest, noScopesTest) {
 }
 
 TEST_F(TestFileRunner, breakOutOfForLoopRunTest) {
-  runFile("tests/samples/test_break_out_of_for_loop.yz", "5");
+  runFile("tests/samples/test_break_out_of_for_loop.yz", 5);
 }
 
 TEST_F(TestFileRunner, breakOutOfNestedForLoopsRunTest) {
-  runFile("tests/samples/test_break_out_of_nested_for_loop.yz", "99");
+  runFile("tests/samples/test_break_out_of_nested_for_loop.yz", 99);
 }
 
 TEST_F(TestFileRunner, breakOutOfWhileLoopRunTest) {
-  runFile("tests/samples/test_break_out_of_while_loop.yz", "51");
+  runFile("tests/samples/test_break_out_of_while_loop.yz", 51);
 }
 
 TEST_F(TestFileRunner, breakOutOfIfStatementRunDeathTest) {

@@ -155,15 +155,15 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
 }
 
 TEST_F(TestFileRunner, variableDeclarationRunTest) {
-  runFile("tests/samples/test_variable_declaration.yz", "5");
+  runFile("tests/samples/test_variable_declaration.yz", 5);
 }
 
 TEST_F(TestFileRunner, variableDeclarationAssignToZeroRunTest) {
-  runFile("tests/samples/test_variable_declaration_assign_to_zero.yz", "0");
+  runFile("tests/samples/test_variable_declaration_assign_to_zero.yz", 0);
 }
 
 TEST_F(TestFileRunner, uninitializedIntRunTest) {
-  runFile("tests/samples/test_uninitialized_int.yz", "2");
+  runFile("tests/samples/test_uninitialized_int.yz", 2);
 }
 
 TEST_F(TestFileRunner, stringRunTest) {

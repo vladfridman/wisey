@@ -206,7 +206,7 @@ TEST_F(FieldImmutableArrayOwnerVariableTest, generateArrayElementAssignmentDeath
 }
 
 TEST_F(TestFileRunner, fieldImmutableArrayOwnerRunTest) {
-  runFile("tests/samples/test_field_immutable_array_owner.yz", "3");
+  runFile("tests/samples/test_field_immutable_array_owner.yz", 3);
 }
 
 TEST_F(TestFileRunner, fieldImmutableArrayOwnerRceRunDeathTest) {

@@ -13,11 +13,11 @@
 #include "TestFileRunner.hpp"
 
 TEST_F(TestFileRunner, threadExpressionNotNullRunTest) {
-  runFile("tests/samples/test_thread_expression_not_null.yz", "1");
+  runFile("tests/samples/test_thread_expression_not_null.yz", 1);
 }
 
 TEST_F(TestFileRunner, threadExpressionTypeRunTest) {
-  runFile("tests/samples/test_thread_expression_type.yz", "1");
+  runFile("tests/samples/test_thread_expression_type.yz", 1);
 }
 
 TEST_F(TestFileRunner, threadRunRunTest) {

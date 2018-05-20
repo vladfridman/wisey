@@ -860,23 +860,23 @@ TEST_F(NodeTest, getObjectTypeNameGlobalTest) {
 }
 
 TEST_F(TestFileRunner, linkListRunTest) {
-  runFile("tests/samples/test_linklist.yz", "9");
+  runFile("tests/samples/test_linklist.yz", 9);
 }
 
 TEST_F(TestFileRunner, linkListReverseRunTest) {
-  runFile("tests/samples/test_linklist_reverse.yz", "7");
+  runFile("tests/samples/test_linklist_reverse.yz", 7);
 }
 
 TEST_F(TestFileRunner, nodeBuilderObjectArgumentAutocast) {
-  runFile("tests/samples/test_node_builder_object_argument_autocast.yz", "2018");
+  runFile("tests/samples/test_node_builder_object_argument_autocast.yz", 2018);
 }
 
 TEST_F(TestFileRunner, nodeBuilderPrimitiveArgumentAutocast) {
-  runFile("tests/samples/test_node_builder_primitive_argument_autocast.yz", "0");
+  runFile("tests/samples/test_node_builder_primitive_argument_autocast.yz", 0);
 }
 
 TEST_F(TestFileRunner, nodeBuilderSetStateFieldsRunTest) {
-  runFile("tests/samples/test_node_builder_set_state_fields.yz", "2018");
+  runFile("tests/samples/test_node_builder_set_state_fields.yz", 2018);
 }
 
 TEST_F(TestFileRunner, nodeWithModelFieldCompileTest) {
@@ -884,19 +884,19 @@ TEST_F(TestFileRunner, nodeWithModelFieldCompileTest) {
 }
 
 TEST_F(TestFileRunner, nodeWithNodeReferenceStateFieldRunTest) {
-  runFile("tests/samples/test_node_reference_node_state_field.yz", "3");
+  runFile("tests/samples/test_node_reference_node_state_field.yz", 3);
 }
 
 TEST_F(TestFileRunner, nodeInitStateFieldWithNodeRunTest) {
-  runFile("tests/samples/test_node_init_state_field_with_node.yz", "1");
+  runFile("tests/samples/test_node_init_state_field_with_node.yz", 1);
 }
 
 TEST_F(TestFileRunner, nodeInitWithControllerRunTest) {
-  runFile("tests/samples/test_node_init_with_controller.yz", "1");
+  runFile("tests/samples/test_node_init_with_controller.yz", 1);
 }
 
 TEST_F(TestFileRunner, nodeInitReceivedFieldWithInterfaceThatsControllerRunTest) {
-  runFile("tests/samples/test_node_init_received_field_with_interface_thats_controller.yz", "1");
+  runFile("tests/samples/test_node_init_received_field_with_interface_thats_controller.yz", 1);
 }
 
 TEST_F(TestFileRunner, nodeInitStateFieldWithControllerDeathRunTest) {

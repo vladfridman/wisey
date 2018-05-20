@@ -18,5 +18,5 @@
 using namespace wisey;
 
 TEST_F(TestFileRunner, emptyStatementRunTest) {
-  runFile("tests/samples/test_empty_statement.yz", "5");
+  runFile("tests/samples/test_empty_statement.yz", 5);
 }

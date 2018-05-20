@@ -202,5 +202,5 @@ TEST_F(IntTypeTest, injectDeathTest) {
 }
 
 TEST_F(TestFileRunner, intCastToBooleanRunTest) {
-  runFile("tests/samples/test_int_cast_to_boolean.yz", "3");
+  runFile("tests/samples/test_int_cast_to_boolean.yz", 3);
 }

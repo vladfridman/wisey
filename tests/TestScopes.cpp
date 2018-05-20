@@ -247,6 +247,10 @@ TEST_F(ScopesTest, variableHidingDeathTest) {
   std::cerr.rdbuf(oldbuffer);
 }
 
+TEST_F(TestFileRunner, referenceMemoryDeallocatedByPassingOwnerReuseReferenceRunTest) {
+  runFile("tests/samples/test_reference_memory_deallocated_by_passing_owner_reuse_reference.yz", 5);
+}
+
 TEST_F(TestFileRunner, variableHidingRunDeathTest) {
   expectFailCompile("tests/samples/test_variable_hiding.yz",
                     1,
@@ -284,12 +288,6 @@ TEST_F(TestFileRunner, referenceMemoryDeallocatedByPassingOwnerInsideIfThenElseR
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_memory_deallocated_by_passing_owner_inside_if_then_else.yz:27)\n"
                                "Details: Object referenced by expression of type systems.vos.wisey.compiler.tests.MData still has 2 active references\n"
                                "Main thread ended without a result\n");
-}
-
-TEST_F(TestFileRunner, referenceMemoryDeallocatedByPassingOwnerReuseReferenceRunTest) {
-  runFile("tests/samples/"
-          "test_reference_memory_deallocated_by_passing_owner_reuse_reference.yz",
-          "5");
 }
 
 TEST_F(TestFileRunner, referenceCountExceptionRunDeathTest) {

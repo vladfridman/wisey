@@ -157,15 +157,15 @@ TEST_F(IncrementExpressionTest, printToStreamTest) {
 }
 
 TEST_F(TestFileRunner, incrementByOneRunTest) {
-  runFile("tests/samples/test_increment_by_one.yz", "3");
+  runFile("tests/samples/test_increment_by_one.yz", 3);
 }
 
 TEST_F(TestFileRunner, decrementByOneRunTest) {
-  runFile("tests/samples/test_decrement_by_one.yz", "5");
+  runFile("tests/samples/test_decrement_by_one.yz", 5);
 }
 
 TEST_F(TestFileRunner, incrementByOneWrappedIdentifierRunTest) {
-  runFile("tests/samples/test_increment_by_one_wrapped_identifier.yz", "7");
+  runFile("tests/samples/test_increment_by_one_wrapped_identifier.yz", 7);
 }
 
 TEST_F(TestFileRunner, illigalIncrementRunDeathTest) {
