@@ -33,8 +33,8 @@ TEST_F(CompilerTest, compileAndRunTest) {
   mCompilerArguments.addSourceFile("tests/samples/test_addition.yz");
   mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
-  GenericValue result = mCompiler.run(0, NULL);
-  string resultString = result.IntVal.toString(10, true);
+  int result = mCompiler.run(0, NULL);
+  string resultString = to_string(result);
   
   EXPECT_STREQ(resultString.c_str(), "7");
 }
@@ -67,8 +67,8 @@ TEST_F(CompilerTest, runMultipleFilesTest) {
   mCompilerArguments.addSourceFile("tests/samples/test_multifile_controller_controller/Runner.yz");
   mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
-  GenericValue result = mCompiler.run(0, NULL);
-  string resultString = result.IntVal.toString(10, true);
+  int result = mCompiler.run(0, NULL);
+  string resultString = to_string(result);
 
   EXPECT_STREQ(resultString.c_str(), "5");
 }
@@ -78,8 +78,8 @@ TEST_F(CompilerTest, runMultipleFilesOutOfOrderTest) {
   mCompilerArguments.addSourceFile("tests/samples/test_multifile_controller_controller/Adder.yz");
   mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
-  GenericValue result = mCompiler.run(0, NULL);
-  string resultString = result.IntVal.toString(10, true);
+  int result = mCompiler.run(0, NULL);
+  string resultString = to_string(result);
 
   EXPECT_STREQ(resultString.c_str(), "5");
 }
@@ -89,8 +89,8 @@ TEST_F(CompilerTest, runMultipleFilesControllerAndModelsTest) {
   mCompilerArguments.addSourceFile("tests/samples/test_multifile_controller_model/CProgram.yz");
   mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
-  GenericValue result = mCompiler.run(0, NULL);
-  string resultString = result.IntVal.toString(10, true);
+  int result = mCompiler.run(0, NULL);
+  string resultString = to_string(result);
 
   EXPECT_STREQ(resultString.c_str(), "7");
 }
@@ -100,8 +100,8 @@ TEST_F(CompilerTest, runMultipleFilesInterdependentModelsTest) {
   mCompilerArguments.addSourceFile("tests/samples/test_multifile_model_model/MAdder.yz");
   mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
-  GenericValue result = mCompiler.run(0, NULL);
-  string resultString = result.IntVal.toString(10, true);
+  int result = mCompiler.run(0, NULL);
+  string resultString = to_string(result);
 
   EXPECT_STREQ(resultString.c_str(), "6");
 }
@@ -110,9 +110,9 @@ TEST_F(CompilerTest, runMultipleFilesUseWildcardTest) {
   mCompilerArguments.addSourceFile("tests/samples/test_multifile_model_model/*.yz");
   mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
-  GenericValue result = mCompiler.run(0, NULL);
-  string resultString = result.IntVal.toString(10, true);
-  
+  int result = mCompiler.run(0, NULL);
+  string resultString = to_string(result);
+
   EXPECT_STREQ(resultString.c_str(), "6");
 }
 

@@ -348,7 +348,6 @@ struct ModelTest : public Test {
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
-    mContext.setMainFunction(function);
  
     Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
     Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));

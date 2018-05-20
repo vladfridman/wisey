@@ -157,7 +157,6 @@ TEST_F(StaticMethodTest, definePublicFunctionTest) {
   *mStringStream << *function;
   string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.foo(%wisey.threads.IThread*, %wisey.threads.CCallStack*, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
-  EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
 
 TEST_F(StaticMethodTest, definePrivateFunctionTest) {
@@ -179,7 +178,6 @@ TEST_F(StaticMethodTest, definePrivateFunctionTest) {
   *mStringStream << *function;
   string expected = "\ndeclare internal float @systems.vos.wisey.compiler.tests.MObject.foo(%wisey.threads.IThread*, %wisey.threads.CCallStack*, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
-  EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
 
 TEST_F(StaticMethodTest, generateIRTest) {
@@ -207,7 +205,6 @@ TEST_F(StaticMethodTest, generateIRTest) {
   "\n}"
   "\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
-  EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
 
 TEST_F(StaticMethodTest, printToStreamTest) {

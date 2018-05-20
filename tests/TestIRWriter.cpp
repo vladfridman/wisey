@@ -42,7 +42,6 @@ struct IRWriterTest : public Test {
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mMainFunction);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
-    mContext.setMainFunction(mMainFunction);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
 }

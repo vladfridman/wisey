@@ -456,7 +456,6 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorCallTest) {
   BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
   mContext.setBasicBlock(basicBlock);
   mContext.getScopes().pushScope();
-  mContext.setMainFunction(function);
 
   ConstantPointerNull* objectPointer = ConstantPointerNull::get(mCarModel->getLLVMType(mContext));
   llvm::PointerType* int8Pointer = Type::getInt8Ty(mLLVMContext)->getPointerTo();

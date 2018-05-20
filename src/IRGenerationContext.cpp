@@ -24,7 +24,6 @@ using namespace std;
 using namespace wisey;
 
 IRGenerationContext::IRGenerationContext() :
-mMainFunction(NULL),
 mBasicBlock(NULL),
 mImportProfile(NULL),
 mIsDestructorDebugOn(false),
@@ -89,19 +88,23 @@ IRGenerationContext::~IRGenerationContext() {
   mBindings.clear();
 }
 
-GenericValue IRGenerationContext::runCode(int argc, char** argv) {
+int IRGenerationContext::runCode(int argc, char** argv) {
   ExecutionEngine* executionEngine = EngineBuilder(move(mModuleOwner)).create();
   vector<GenericValue> arguments(2);
   arguments[0].IntVal = APInt(32, argc);
   arguments[1].PointerVal = argv;
-  if (mMainFunction == NULL) {
+  uint64_t rawMainAddress = executionEngine->getFunctionAddress("main");
+  if (!rawMainAddress) {
     Log::errorNoSourceFile("Function main is not defined. Exiting.");
     delete executionEngine;
     exit(1);
   }
+
+
   Log::i("Running program");
-  GenericValue result = executionEngine->runFunction(mMainFunction, arguments);
-  Log::i("Result: " + result.IntVal.toString(10, true));
+  int (*main)(int, char**) = (int (*)(int, char**)) rawMainAddress;
+  int result = main(argc, argv);
+  Log::i("Result: " + to_string(result));
   delete executionEngine;
   
   return result;
@@ -109,14 +112,6 @@ GenericValue IRGenerationContext::runCode(int argc, char** argv) {
 
 Module* IRGenerationContext::getModule() {
   return mModule;
-}
-
-void IRGenerationContext::setMainFunction(llvm::Function* function) {
-  mMainFunction = function;
-}
-
-Function* IRGenerationContext::getMainFunction() {
-  return mMainFunction;
 }
 
 BasicBlock* IRGenerationContext::getBasicBlock() {

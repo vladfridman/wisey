@@ -268,7 +268,6 @@ struct ModelOwnerTest : public Test {
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
-    mContext.setMainFunction(function);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }

@@ -144,7 +144,6 @@ TEST_F(ExternalStaticMethodTest, definePublicFunctionTest) {
   *mStringStream << *function;
   string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.foo(%wisey.threads.IThread*, %wisey.threads.CCallStack*, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
-  EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
 
 TEST_F(ExternalStaticMethodTest, isTypeKindTest) {

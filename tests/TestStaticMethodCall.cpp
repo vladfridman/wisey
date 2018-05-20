@@ -146,7 +146,6 @@ public:
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mainFunction);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
-    mContext.setMainFunction(mainFunction);
     
     mThreadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
     llvm::PointerType* llvmType = mThreadInterface->getLLVMType(mContext);

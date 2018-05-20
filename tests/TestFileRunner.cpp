@@ -51,8 +51,8 @@ void TestFileRunner::runFile(string fileName, string expectedResult) {
   mCompilerArguments.addSourceFile(fileName);
   mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
-  GenericValue result = mCompiler.run(0, NULL);
-  string resultString = result.IntVal.toString(10, true);
+  int result = mCompiler.run(0, NULL);
+  string resultString = to_string(result);
   
   ASSERT_STREQ(expectedResult.c_str(), resultString.c_str());
 }
@@ -77,8 +77,8 @@ void TestFileRunner::runFilesCheckOutput(vector<string> fileNames,
   fclose(wiseyStdOut);
   fclose(wiseyStdErr);
   
-  GenericValue result = mCompiler.run(0, NULL);
-  string resultString = result.IntVal.toString(10, true);
+  int result = mCompiler.run(0, NULL);
+  string resultString = to_string(result);
   
   dup2(oldStdOut, STDOUT_FILENO);
   dup2(oldStdErr, STDERR_FILENO);

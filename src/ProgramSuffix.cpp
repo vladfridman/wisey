@@ -148,6 +148,5 @@ void ProgramSuffix::generateMain(IRGenerationContext& context) const {
   returnResultStatement.generateIR(context);
 
   context.getScopes().popScope(context, 0);
-  context.setMainFunction(mainFunction);
 }
 

@@ -46,7 +46,7 @@ namespace wisey {
     /**
      * Run compiled code
      */
-    llvm::GenericValue run(int argc, char** argv);
+    int run(int argc, char** argv);
     
   private:
     

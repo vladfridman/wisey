@@ -112,20 +112,14 @@ TEST_F(IRGenerationContextTest, blockStackTest) {
   EXPECT_EQ(mContext.getBasicBlock(), block2);
 }
 
-TEST_F(IRGenerationContextTest, mainFunctionTest) {
-  FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
-  Function* function = Function::Create(functionType, GlobalValue::InternalLinkage, "main");
-
-  EXPECT_EQ(mContext.getMainFunction(), nullptr);
-  mContext.setMainFunction(function);
-  EXPECT_EQ(mContext.getMainFunction(), function);
-}
-
 TEST_F(IRGenerationContextTest, moduleIsNotNullTest) {
   EXPECT_NE(mContext.getModule(), nullptr);
 }
 
 TEST_F(IRGenerationContextTest, runCodeFailsWhenMainIsNullDeathTest) {
+  InitializeNativeTarget();
+  LLVMInitializeNativeAsmPrinter();
+
   EXPECT_EXIT(mContext.runCode(0, NULL),
               ::testing::ExitedWithCode(1),
               "Error: Function main is not defined. Exiting.\n");
@@ -429,37 +423,42 @@ struct IRGenerationContextRunTest : public ::testing::Test {
 public:
   
   IRGenerationContextRunTest() {
+  }
+  
+  ~IRGenerationContextRunTest() {
+  }
+  
+  void defineMain() {
     LLVMContext &llvmContext = mContext.getLLVMContext();
     vector<Type*> mainArguments;
     mainArguments.push_back(Type::getInt32Ty(llvmContext));
     mainArguments.push_back(Type::getInt8Ty(llvmContext)->getPointerTo()->getPointerTo());
     FunctionType* functionType =
-      FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), mainArguments, false);
+    FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), mainArguments, false);
     Function* function = Function::Create(functionType,
                                           GlobalValue::InternalLinkage,
                                           "main",
                                           mContext.getModule());
-    mContext.setMainFunction(function);
     BasicBlock* basicBlock = BasicBlock::Create(llvmContext, "entry", function);
     mContext.setBasicBlock(basicBlock);
     mContext.getScopes().pushScope();
     Value* returnValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 5);
     IRWriter::createReturnInst(mContext, returnValue);
   }
-  
-  ~IRGenerationContextRunTest() {
-  }
 };
 
 TEST_F(IRGenerationContextRunTest, runCodeTest) {
   InitializeNativeTarget();
   LLVMInitializeNativeAsmPrinter();
-  GenericValue result = mContext.runCode(0, nullptr);
+  defineMain();
+  int result = mContext.runCode(0, nullptr);
   
-  EXPECT_EQ(result.IntVal.toString(10, true), "5");
+  EXPECT_EQ(result, 5);
 }
 
 TEST_F(IRGenerationContextRunTest, printAssemblyTest) {
+  defineMain();
+  
   string stringBuffer;
   raw_string_ostream stringStream(stringBuffer);
   

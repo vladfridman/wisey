@@ -44,7 +44,6 @@ namespace wisey {
    */
   class IRGenerationContext : public IPrintable {
     llvm::LLVMContext mLLVMContext;
-    llvm::Function* mMainFunction;
     llvm::Module* mModule;
     std::unique_ptr<llvm::Module> mModuleOwner;
     llvm::BasicBlock* mBasicBlock;
@@ -82,22 +81,12 @@ namespace wisey {
     /**
      * Run compiled IR code and return the result
      */
-    llvm::GenericValue runCode(int argc, char** argv);
+    int runCode(int argc, char** argv);
     
     /**
      * Return the main module
      */
     llvm::Module* getModule();
-    
-    /**
-     * Sets the main function for the program
-     */
-    void setMainFunction(llvm::Function* function);
-    
-    /**
-     * Returns the main function of the program
-     */
-    llvm::Function* getMainFunction();
     
     /**
      * Return current LLVM basic block
