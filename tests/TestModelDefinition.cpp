@@ -373,7 +373,7 @@ TEST_F(TestFileRunner, setterInModelDeathRunTest) {
   expectFailCompile("tests/samples/test_setter_in_model.yz",
                     1,
                     "tests/samples/test_setter_in_model.yz\\(13\\): "
-                    "Error: Can not assign to field mValue");
+                    "Error: Can not assign to fixed field mValue");
 }
 
 TEST_F(TestFileRunner, modelWithStateFieldDeathRunTest) {

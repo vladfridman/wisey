@@ -69,6 +69,10 @@ bool StateField::isLLVMFunction() const {
   return false;
 }
 
+string StateField::getFieldKind() const {
+  return "state";
+}
+
 bool StateField::isFixed() const {
   return false;
 }

@@ -43,6 +43,11 @@ namespace wisey {
     virtual bool isAssignable() const = 0;
     
     /**
+     * Returns field kind in a form of a string
+     */
+    virtual std::string getFieldKind() const = 0;
+    
+    /**
      * Methods for determining field kind
      */
     virtual bool isFixed() const = 0;

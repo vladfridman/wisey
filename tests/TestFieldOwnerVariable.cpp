@@ -320,7 +320,7 @@ TEST_F(TestFileRunner, resetInjectedObjectRunDeathTest) {
   expectFailCompile("tests/samples/test_reset_injected_object.yz",
                     1,
                     "tests/samples/test_reset_injected_object.yz\\(13\\): Error: "
-                    "Attempt to assign to injected field 'mSubService' of object systems.vos.wisey.compiler.tests.CService, assignment to injected fields is not allowed");
+                    "Can not assign to injected field mSubService");
 }
 
 TEST_F(TestFileRunner, modelReturnsObjectOwnerRunDeathTest) {

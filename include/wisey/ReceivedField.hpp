@@ -46,6 +46,8 @@ namespace wisey {
     bool isMethodSignature() const override;
     
     bool isLLVMFunction() const override;
+    
+    std::string getFieldKind() const override;
 
     bool isFixed() const override;
     

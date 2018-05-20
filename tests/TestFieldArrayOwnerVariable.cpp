@@ -313,7 +313,7 @@ TEST_F(TestFileRunner, resetInjectedArrayRunDeathTest) {
   expectFailCompile("tests/samples/test_reset_injected_array.yz",
                     1,
                     "tests/samples/test_reset_injected_array.yz\\(9\\): Error: "
-                    "Attempt to assign to injected field 'mArray' of object systems.vos.wisey.compiler.tests.CService, assignment to injected fields is not allowed");
+                    "Can not assign to injected field mArray");
 }
 
 TEST_F(TestFileRunner, modelReturnsArrayOwnerRunDeathTest) {

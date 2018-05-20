@@ -71,6 +71,10 @@ bool FixedField::isLLVMFunction() const {
   return false;
 }
 
+string FixedField::getFieldKind() const {
+  return "fixed";
+}
+
 bool FixedField::isFixed() const {
   return true;
 }

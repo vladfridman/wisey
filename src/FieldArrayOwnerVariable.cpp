@@ -113,7 +113,7 @@ Value* FieldArrayOwnerVariable::generateArrayElementAssignment(IRGenerationConte
                                                                vector<const IExpression*>
                                                                arrayIndices,
                                                                int line) {
-  IField* field = checkAndFindFieldForAssignment(context, mObject, mName, line);
+  IField* field = checkAndFindField(context, mObject, mName, line);
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
   
   Value* arrayPointer = NULL;

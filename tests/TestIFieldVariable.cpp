@@ -132,7 +132,7 @@ TEST_F(IFieldVariableTest, checkAndFindFieldForAssignmentNotAssignableDeathTest)
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
   EXPECT_ANY_THROW(IFieldVariable::checkAndFindFieldForAssignment(mContext, mModel, "foo", 3));
-  EXPECT_STREQ("/tmp/source.yz(3): Error: Can not assign to field foo\n",
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Can not assign to fixed field foo\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }

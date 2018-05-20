@@ -78,7 +78,7 @@ TEST_F(InjectedFieldDefinitionTest, declareTest) {
 
   EXPECT_EQ(mController->getOwner(), field->getType());
   EXPECT_STREQ("mField", field->getName().c_str());
-  EXPECT_TRUE(field->isAssignable());
+  EXPECT_FALSE(field->isAssignable());
 
   EXPECT_FALSE(field->isFixed());
   EXPECT_TRUE(field->isInjected());

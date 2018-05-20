@@ -78,9 +78,10 @@ generateAssignmentIR(IRGenerationContext& context,
   return result;
 }
 
-Value* FieldImmutableArrayOwnerVariable::generateWholeArrayAssignment(IRGenerationContext& context,
-                                                                      IExpression* assignToExpression,
-                                                                      int line) {
+Value* FieldImmutableArrayOwnerVariable::
+generateWholeArrayAssignment(IRGenerationContext& context,
+                             IExpression* assignToExpression,
+                             int line) {
   IField* field = checkAndFindFieldForAssignment(context, mObject, mName, line);
   
   const IType* fieldType = field->getType();

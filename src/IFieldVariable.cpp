@@ -26,7 +26,8 @@ IField* IFieldVariable::checkAndFindFieldForAssignment(IRGenerationContext& cont
     return field;
   }
   
-  context.reportError(line, "Can not assign to field " + field->getName());
+  context.reportError(line, "Can not assign to " + field->getFieldKind() +
+                      " field " + field->getName());
   throw 1;
 }
 

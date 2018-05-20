@@ -148,7 +148,7 @@ TEST_F(InjectedFieldTest, fieldCreationTest) {
   
   EXPECT_EQ(field.getType(), mType);
   EXPECT_STREQ(field.getName().c_str(), "mField");
-  EXPECT_TRUE(field.isAssignable());
+  EXPECT_FALSE(field.isAssignable());
 
   EXPECT_FALSE(field.isFixed());
   EXPECT_TRUE(field.isInjected());

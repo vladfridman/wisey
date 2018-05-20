@@ -39,8 +39,6 @@ namespace wisey {
                                                     std::string fieldName,
                                                     int line);
     
-  private:
-    
     /**
      * Returns an object's field given an object and field name
      *

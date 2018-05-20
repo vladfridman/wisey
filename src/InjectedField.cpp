@@ -238,7 +238,7 @@ string InjectedField::getInjectionFunctionName(const Controller* controller) con
 }
 
 bool InjectedField::isAssignable() const {
-  return true;
+  return false;
 }
 
 bool InjectedField::isConstant() const {
@@ -263,6 +263,10 @@ bool InjectedField::isMethodSignature() const {
 
 bool InjectedField::isLLVMFunction() const {
   return false;
+}
+
+string InjectedField::getFieldKind() const {
+  return "injected";
 }
 
 bool InjectedField::isFixed() const {

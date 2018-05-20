@@ -58,6 +58,10 @@ bool ReceivedField::isLLVMFunction() const {
   return false;
 }
 
+string ReceivedField::getFieldKind() const {
+  return "received";
+}
+
 bool ReceivedField::isFixed() const {
   return false;
 }
