@@ -63,8 +63,8 @@ TEST_F(ExternalModelDefinitionTest, prototypeObjectTest) {
   const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
   const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
   InjectionArgumentList arguments;
-  ReceivedFieldDefinition* field1 = new ReceivedFieldDefinition(longType, "field1", 0);
-  ReceivedFieldDefinition* field2 = new ReceivedFieldDefinition(floatType, "field2", 0);
+  ReceivedFieldDefinition* field1 = ReceivedFieldDefinition::create(longType, "field1", 0);
+  ReceivedFieldDefinition* field2 = ReceivedFieldDefinition::create(floatType, "field2", 0);
   mElementDeclarations.push_back(field1);
   mElementDeclarations.push_back(field2);
   mElementDeclarations.push_back(mMethodDefinition);
@@ -94,8 +94,8 @@ TEST_F(ExternalModelDefinitionTest, prototypeMethodsTest) {
   const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
   const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
   InjectionArgumentList arguments;
-  ReceivedFieldDefinition* field1 = new ReceivedFieldDefinition(longType, "field1", 0);
-  ReceivedFieldDefinition* field2 = new ReceivedFieldDefinition(floatType, "field2", 0);
+  ReceivedFieldDefinition* field1 = ReceivedFieldDefinition::create(longType, "field1", 0);
+  ReceivedFieldDefinition* field2 = ReceivedFieldDefinition::create(floatType, "field2", 0);
   mElementDeclarations.push_back(field1);
   mElementDeclarations.push_back(field2);
   mElementDeclarations.push_back(mMethodDefinition);

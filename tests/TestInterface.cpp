@@ -433,7 +433,7 @@ TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
   Mock::AllowLeak(mCallstackVariable);
 
   const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
-  ReceivedFieldDefinition* fieldDeclaration = new ReceivedFieldDefinition(intSpecifier, "mField", 3);
+  ReceivedFieldDefinition* fieldDeclaration = ReceivedFieldDefinition::create(intSpecifier, "mField", 3);
   
   string name = "systems.vos.wisey.compiler.tests.IInterface";
   StructType* structType = StructType::create(mLLVMContext, name);

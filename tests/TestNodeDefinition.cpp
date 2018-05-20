@@ -89,8 +89,8 @@ struct NodeDefinitionTest : public Test {
 TEST_F(NodeDefinitionTest, prototypeObjectTest) {
   const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
   const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
-  ReceivedFieldDefinition* field1 = new ReceivedFieldDefinition(longType, "field1", 0);
-  ReceivedFieldDefinition* field2 = new ReceivedFieldDefinition(floatType, "field2", 0);
+  ReceivedFieldDefinition* field1 = ReceivedFieldDefinition::create(longType, "field1", 0);
+  ReceivedFieldDefinition* field2 = ReceivedFieldDefinition::create(floatType, "field2", 0);
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDefinition);
@@ -120,8 +120,8 @@ TEST_F(NodeDefinitionTest, prototypeObjectTest) {
 TEST_F(NodeDefinitionTest, prototypeMethodsTest) {
   const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
   const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
-  ReceivedFieldDefinition* field1 = new ReceivedFieldDefinition(longType, "field1", 0);
-  ReceivedFieldDefinition* field2 = new ReceivedFieldDefinition(floatType, "field2", 0);
+  ReceivedFieldDefinition* field1 = ReceivedFieldDefinition::create(longType, "field1", 0);
+  ReceivedFieldDefinition* field2 = ReceivedFieldDefinition::create(floatType, "field2", 0);
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDefinition);
@@ -149,8 +149,8 @@ TEST_F(NodeDefinitionTest, prototypeMethodsTest) {
 TEST_F(NodeDefinitionTest, generateIRTest) {
   const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
   const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
-  ReceivedFieldDefinition* field1 = new ReceivedFieldDefinition(longType, "field1", 0);
-  ReceivedFieldDefinition* field2 = new ReceivedFieldDefinition(floatType, "field2", 0);
+  ReceivedFieldDefinition* field1 = ReceivedFieldDefinition::create(longType, "field1", 0);
+  ReceivedFieldDefinition* field2 = ReceivedFieldDefinition::create(floatType, "field2", 0);
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDefinition);
@@ -331,7 +331,7 @@ TEST_F(NodeDefinitionTest, nodeWithInjectedFieldDeathTest) {
                                                                 "field1",
                                                                 arguments,
                                                                 1);
-  ReceivedFieldDefinition* field2 = new ReceivedFieldDefinition(floatType, "field2", 0);
+  ReceivedFieldDefinition* field2 = ReceivedFieldDefinition::create(floatType, "field2", 0);
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDefinition);

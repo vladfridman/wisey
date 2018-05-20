@@ -24,14 +24,32 @@ namespace wisey {
   class ReceivedFieldDefinition : public IObjectElementDefinition {
     const ITypeSpecifier* mTypeSpecifier;
     std::string mName;
+    bool mIsImplied;
     int mLine;
+    
+    ReceivedFieldDefinition(const ITypeSpecifier* typeSpecifier,
+                            std::string name,
+                            bool isImplied,
+                            int line);
     
   public:
     
-    ReceivedFieldDefinition(const ITypeSpecifier* typeSpecifier, std::string name, int line);
-    
     ~ReceivedFieldDefinition();
     
+    /**
+     * Creates an instance of ReceivedFieldDefinition
+     */
+    static ReceivedFieldDefinition* create(const ITypeSpecifier* typeSpecifier,
+                                           std::string name,
+                                           int line);
+    
+    /**
+     * Creates an instance of ReceivedFieldDefinition where the receive kind is implied
+     */
+    static ReceivedFieldDefinition* createImplied(const ITypeSpecifier* typeSpecifier,
+                                                  std::string name,
+                                                  int line);
+
     IField* define(IRGenerationContext& context, const IObjectType* objectType) const override;
     
     bool isConstant() const override;

@@ -1,0 +1,5 @@
+package systems.vos.wisey.compiler.tests;
+
+controller CService {
+  int mValue;
+}

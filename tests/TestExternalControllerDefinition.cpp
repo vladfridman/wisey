@@ -66,8 +66,8 @@ struct ExternalControllerDefinitionTest : public Test {
     const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
     const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
     InjectionArgumentList arguments;
-    ReceivedFieldDefinition* field1 = new ReceivedFieldDefinition(longType, "mField1", 0);
-    ReceivedFieldDefinition* field2 = new ReceivedFieldDefinition(floatType, "mField2", 0);
+    ReceivedFieldDefinition* field1 = ReceivedFieldDefinition::create(longType, "mField1", 0);
+    ReceivedFieldDefinition* field2 = ReceivedFieldDefinition::create(floatType, "mField2", 0);
     mElementDeclarations.push_back(field1);
     mElementDeclarations.push_back(field2);
     mElementDeclarations.push_back(methodDeclaration);

@@ -69,8 +69,8 @@ struct ExternalNodeDefinitionTest : public Test {
 TEST_F(ExternalNodeDefinitionTest, prototypeObjectTest) {
   const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
   const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
-  ReceivedFieldDefinition* field1 = new ReceivedFieldDefinition(longType, "field1", 0);
-  ReceivedFieldDefinition* field2 = new ReceivedFieldDefinition(floatType, "field2", 0);
+  ReceivedFieldDefinition* field1 = ReceivedFieldDefinition::create(longType, "field1", 0);
+  ReceivedFieldDefinition* field2 = ReceivedFieldDefinition::create(floatType, "field2", 0);
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDefinition);
@@ -100,8 +100,8 @@ TEST_F(ExternalNodeDefinitionTest, prototypeObjectTest) {
 TEST_F(ExternalNodeDefinitionTest, prototypeMethodsTest) {
   const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
   const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
-  ReceivedFieldDefinition* field1 = new ReceivedFieldDefinition(longType, "field1", 0);
-  ReceivedFieldDefinition* field2 = new ReceivedFieldDefinition(floatType, "field2", 0);
+  ReceivedFieldDefinition* field1 = ReceivedFieldDefinition::create(longType, "field1", 0);
+  ReceivedFieldDefinition* field2 = ReceivedFieldDefinition::create(floatType, "field2", 0);
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDefinition);

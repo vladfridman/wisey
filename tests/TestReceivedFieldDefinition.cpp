@@ -14,6 +14,7 @@
 #include "MockExpression.hpp"
 #include "MockConcreteObjectType.hpp"
 #include "MockType.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/ControllerTypeSpecifierFull.hpp"
 #include "wisey/FakeExpression.hpp"
@@ -50,7 +51,7 @@ public:
     TestPrefix::generateIR(mContext);
     
     const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
-    mFieldDeclaration = new ReceivedFieldDefinition(intSpecifier, mName, 0);
+    mFieldDeclaration = ReceivedFieldDefinition::create(intSpecifier, mName, 0);
   }
   
   ~ReceivedFieldDefinitionTest() {
@@ -85,4 +86,18 @@ TEST_F(ReceivedFieldDefinitionTest, isAssignableTest) {
 
   ON_CALL(*mObject, isController()).WillByDefault(Return(false));
   EXPECT_FALSE(field->isAssignable(mObject));
+}
+
+TEST_F(TestFileRunner, impliedReceivedFieldInNodeRunDeathTest) {
+  expectFailCompile("tests/samples/test_implied_received_field_in_node.yz",
+                    1,
+                    "tests/samples/test_implied_received_field_in_node.yz\\(4\\): Error: "
+                    "Received field delcarations in nodes must have 'receive' keyword preceding the field type");
+}
+
+TEST_F(TestFileRunner, impliedReceivedFieldInControllerRunDeathTest) {
+  expectFailCompile("tests/samples/test_implied_received_field_in_controller.yz",
+                    1,
+                    "tests/samples/test_implied_received_field_in_controller.yz\\(4\\): Error: "
+                    "Received field delcarations in controllers must have 'receive' keyword preceding the field type");
 }
