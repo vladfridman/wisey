@@ -380,7 +380,7 @@ program
   ;
 
 package_optional
-  : /* blank */ { filePackageType = NULL; $$ = new std::string(""); }
+  : /* blank */ { $$ = new std::string("wisey.sandbox"); filePackageType = new PackageType(*$$); }
   | TPACKAGE package_name ';' {  filePackageType = new PackageType(*$2); $$ = $2; }
   ;
 

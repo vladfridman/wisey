@@ -1,0 +1,10 @@
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    return 1;
+  }
+}
+
+bind(IProgram).to(CProgram);

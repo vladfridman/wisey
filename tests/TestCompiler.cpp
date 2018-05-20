@@ -158,3 +158,7 @@ TEST_F(TestFileRunner, commentsRunTest) {
 TEST_F(TestFileRunner, noPackageDeclarationRunTest) {
   runFile("tests/samples/test_no_package_declaration.yz", "7");
 }
+
+TEST_F(TestFileRunner, noPackageRunTest) {
+  runFile("tests/samples/test_no_package.yz", "1");
+}
