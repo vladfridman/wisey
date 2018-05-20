@@ -100,7 +100,6 @@ int IRGenerationContext::runCode(int argc, char** argv) {
     exit(1);
   }
 
-
   Log::i("Running program");
   int (*main)(int, char**) = (int (*)(int, char**)) rawMainAddress;
   int result = main(argc, argv);
