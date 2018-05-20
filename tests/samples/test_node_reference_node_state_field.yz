@@ -3,7 +3,7 @@ package systems.vos.wisey.compiler.tests;
 import wisey.lang.IProgram;
 
 node NElement {
-  int mValue;
+  receive int mValue;
   state NElement mPrevious;
   state NElement* mNext;
 

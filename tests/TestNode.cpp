@@ -22,7 +22,6 @@
 #include "TestPrefix.hpp"
 #include "wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp"
 #include "wisey/Constant.hpp"
-#include "wisey/FixedField.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IntConstant.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -39,6 +38,7 @@
 #include "wisey/ObjectKindGlobal.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "wisey/ReceivedField.hpp"
 #include "wisey/StateField.hpp"
 #include "wisey/ThreadExpression.hpp"
 #include "wisey/VariableDeclaration.hpp"
@@ -71,8 +71,8 @@ struct NodeTest : public Test {
   Interface* mVehicleInterface;
   IMethod* mMethod;
   StructType* mStructType;
-  FixedField* mLeftField;
-  FixedField* mRightField;
+  ReceivedField* mLeftField;
+  ReceivedField* mRightField;
   BasicBlock* mBasicBlock;
   NiceMock<MockExpression>* mField1Expression;
   NiceMock<MockExpression>* mField2Expression;
@@ -183,8 +183,8 @@ struct NodeTest : public Test {
                                      mContext.getImportProfile(),
                                      7);
    InjectionArgumentList arguments;
-    mLeftField = new FixedField(PrimitiveTypes::INT, "mLeft", 0);
-    mRightField = new FixedField(PrimitiveTypes::INT, "mRight", 0);
+    mLeftField = new ReceivedField(PrimitiveTypes::INT, "mLeft", 0);
+    mRightField = new ReceivedField(PrimitiveTypes::INT, "mRight", 0);
     fields.push_back(mLeftField);
     fields.push_back(mRightField);
     vector<const wisey::Argument*> methodArguments;
@@ -283,7 +283,7 @@ struct NodeTest : public Test {
     simpleNodeStructType->setBody(simpleNodeTypes);
     vector<IField*> simpleNodeFields;
     simpleNodeFields.push_back(new StateField(mOwnerNode->getOwner(), "mOwner", 0));
-    simpleNodeFields.push_back(new FixedField(mReferenceModel, "mReference", 0));
+    simpleNodeFields.push_back(new ReceivedField(mReferenceModel, "mReference", 0));
     mSimpleNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                 simpleNodeFullName,
                                 simpleNodeStructType,
@@ -301,8 +301,8 @@ struct NodeTest : public Test {
     StructType* simplerNodeStructType = StructType::create(mLLVMContext, simplerNodeFullName);
     simplerNodeStructType->setBody(simplerNodeTypes);
     vector<IField*> simplerNodeFields;
-    simplerNodeFields.push_back(new FixedField(PrimitiveTypes::INT, "mLeft", 0));
-    simplerNodeFields.push_back(new FixedField(PrimitiveTypes::INT, "mRight", 0));
+    simplerNodeFields.push_back(new ReceivedField(PrimitiveTypes::INT, "mLeft", 0));
+    simplerNodeFields.push_back(new ReceivedField(PrimitiveTypes::INT, "mRight", 0));
     mSimplerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                  simplerNodeFullName,
                                  simplerNodeStructType,
@@ -776,40 +776,7 @@ TEST_F(NodeTest, buildNotAllFieldsAreSetDeathTest) {
 
 TEST_F(NodeTest, printToStreamTest) {
   stringstream stringStream;
-  Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS,
-                                            "MInnerPublicModel",
-                                            NULL,
-                                            mContext.getImportProfile(),
-                                            0);
-  vector<IField*> fields;
-  fields.push_back(new FixedField(PrimitiveTypes::INT, "mField1", 0));
-  fields.push_back(new FixedField(PrimitiveTypes::INT, "mField2", 0));
-  innerPublicModel->setFields(mContext, fields, 0);
-  
-  vector<const wisey::Argument*> methodArguments;
-  vector<const Model*> thrownExceptions;
-  Method* method = new Method(innerPublicModel,
-                              "bar",
-                              AccessLevel::PUBLIC_ACCESS,
-                              PrimitiveTypes::INT,
-                              methodArguments,
-                              thrownExceptions,
-                              new MethodQualifiers(0),
-                              NULL,
-                              0);
-  vector<IMethod*> methods;
-  methods.push_back(method);
-  innerPublicModel->setMethods(methods);
-  
-  Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS,
-                                             "MInnerPrivateModel",
-                                             NULL,
-                                             mContext.getImportProfile(),
-                                             0);
-  innerPrivateModel->setFields(mContext, fields, 0);
-  
-  mComplicatedNode->addInnerObject(innerPublicModel);
-  mComplicatedNode->addInnerObject(innerPrivateModel);
+
   mComplicatedNode->printToStream(mContext, stringStream);
 
   EXPECT_STREQ("external node systems.vos.wisey.compiler.tests.NComplicatedNode\n"
@@ -819,8 +786,8 @@ TEST_F(NodeTest, printToStreamTest) {
                "\n"
                "  constant int MYCONSTANT;\n"
                "\n"
-               "  fixed int mLeft;\n"
-               "  fixed int mRight;\n"
+               "  receive int mLeft;\n"
+               "  receive int mRight;\n"
                "\n"
                "  int getElement();\n"
                "}\n",
@@ -847,7 +814,7 @@ TEST_F(NodeTest, createLocalVariableTest) {
 TEST_F(NodeTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
   InjectionArgumentList injectionArgumentList;
-  IField* field = new FixedField(mComplicatedNode, "mField", 0);
+  IField* field = new ReceivedField(mComplicatedNode, "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mComplicatedNode->createFieldVariable(mContext, "mField", &concreteObjectType, 0);
   IVariable* variable = mContext.getScopes().getVariable("mField");

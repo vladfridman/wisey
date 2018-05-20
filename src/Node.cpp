@@ -53,7 +53,7 @@ Node::~Node() {
   mFieldsOrdered.clear();
   mFieldIndexes.clear();
   mFields.clear();
-  mFixedFields.clear();
+  mReceivedFields.clear();
   mStateFields.clear();
   for (IMethod* method : mMethods) {
     delete method;
@@ -103,13 +103,13 @@ void Node::setFields(IRGenerationContext& context,
     mFields[field->getName()] = field;
     mFieldIndexes[field] = index;
 
-    if (field->isFixed()) {
-      mFixedFields.push_back(field);
+    if (field->isReceived()) {
+      mReceivedFields.push_back(field);
     } else if (field->isState()) {
       mStateFields.push_back(field);
     } else {
       context.reportError(field->getLine(),
-                          "Nodes can only have fixed or state fields");
+                          "Nodes can only have receive or state fields");
       throw 1;
     }
     index++;
@@ -367,9 +367,9 @@ const IObjectOwnerType* Node::getOwner() const {
 vector<string> Node::getMissingFields(set<string> givenFields) const {
   vector<string> missingFields;
   
-  for (IField* fixedField : mFixedFields) {
-    if (givenFields.find(fixedField->getName()) == givenFields.end()) {
-      missingFields.push_back(fixedField->getName());
+  for (IField* receivedField : mReceivedFields) {
+    if (givenFields.find(receivedField->getName()) == givenFields.end()) {
+      missingFields.push_back(receivedField->getName());
     }
   }
   

@@ -32,7 +32,7 @@ namespace wisey {
     bool mIsExternal;
     bool mIsInner;
     NodeOwner* mNodeOwner;
-    std::vector<IField*> mFixedFields;
+    std::vector<IField*> mReceivedFields;
     std::vector<IField*> mStateFields;
     std::map<std::string, IField*> mFields;
     std::vector<IField*> mFieldsOrdered;
@@ -79,7 +79,7 @@ namespace wisey {
                                  int line);
     
     /**
-     * Returns the difference beteween the set of fixed fields and the fields given as argument
+     * Returns the difference beteween the set of received fields and the fields given as argument
      */
     std::vector<std::string> getMissingFields(std::set<std::string> givenFields) const;
     

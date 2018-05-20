@@ -138,5 +138,5 @@ TEST_F(TestFileRunner, nodeWithFixedFieldSetterDeathRunTest) {
   expectFailCompile("tests/samples/test_node_with_fixed_field_setter.yz",
                     1,
                     "tests/samples/test_node_with_fixed_field_setter.yz\\(9\\): "
-                    "Error: Can not assign to fixed field mYear");
+                    "Error: Can not assign to received field mYear");
 }

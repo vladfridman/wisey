@@ -34,8 +34,8 @@ controller CReferenceList {
    * Represents list element where value field is of object reference type
    */
   public node NElement implements CPointerList.IListElement {
-    fixed ::llvm::i8::pointer mKey;
-    fixed ::wisey::object mValue;
+    receive ::llvm::i8::pointer mKey;
+    receive ::wisey::object mValue;
     state NElement* mNext;
 
     public ::wisey::object getValue() {

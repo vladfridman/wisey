@@ -3,7 +3,7 @@ package systems.vos.wisey.compiler.tests;
 import wisey.lang.IProgram;
 
 node NNode {
-  int mValue;
+  receive int mValue;
 
   public int getValue() {
     return mValue;

@@ -4,6 +4,6 @@ model MColor {
 }
 
 node NShape {
-  MColor mColor;
+  receive MColor mColor;
 }
 

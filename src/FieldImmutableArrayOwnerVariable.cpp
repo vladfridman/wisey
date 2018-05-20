@@ -108,9 +108,9 @@ generateArrayElementAssignment(IRGenerationContext& context,
 
 void FieldImmutableArrayOwnerVariable::setToNull(IRGenerationContext& context, int line) {
   IField* field = mObject->findField(mName);
-  if (field->isFixed()) {
+  if (!field->isAssignable(mObject)) {
     context.reportError(line,
-                        "Setting a fixed owner field '" + mName + "' of object " +
+                        "Setting an unassignable owner field '" + mName + "' of object " +
                         mObject->getTypeName() + " to null possibly by returning its value");
     throw 1;
   }

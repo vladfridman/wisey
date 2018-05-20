@@ -11,7 +11,7 @@ model MData {
 }
 
 node NNode {
-  MData* mData;
+  receive MData* mData;
   state NNode* mNext;
 
   public void setNext(NNode* next) {

@@ -3,9 +3,9 @@ package systems.vos.wisey.compiler.tests;
 import wisey.lang.IProgram;
 
 node NElement {
-  immutable int[]* mArray;
+  receive immutable int[]* mArray;
 
-  public int[]* capture() {
+  public immutable int[]* capture() {
     return mArray;
   }
 }

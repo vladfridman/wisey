@@ -3,7 +3,7 @@ package systems.vos.wisey.compiler.tests;
 import wisey.lang.IProgram;
 
 node NCar {
-  int mYear;
+  receive int mYear;
   state NCar* mNextCar;
 
   public int getYear() {

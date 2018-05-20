@@ -15,7 +15,7 @@ model MCar implements IHasValue {
 }
 
 node NElement {
-  IHasValue mHasValue;
+  receive IHasValue mHasValue;
 
   public int getValue() {
     return mHasValue.getValue();

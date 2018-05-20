@@ -3,7 +3,7 @@ package systems.vos.wisey.compiler.tests;
 import wisey.lang.IProgram;
 
 node NContainer {
-  int mContent;
+  receive int mContent;
 
   public int getContent() {
     return mContent;

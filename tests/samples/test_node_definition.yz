@@ -3,13 +3,13 @@ package systems.vos.wisey.compiler.tests;
 import wisey.lang.IProgram;
 
 node NSubNode {
-  double mColor;
+  receive double mColor;
 }
 
 node NNode {
-  int mWidth;
-  long mHeight;
-  float mDepth;
+  receive int mWidth;
+  receive long mHeight;
+  receive float mDepth;
   state NSubNode* mColor;
 }
 

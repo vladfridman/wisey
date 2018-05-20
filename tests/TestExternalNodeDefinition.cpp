@@ -16,7 +16,6 @@
 #include "TestPrefix.hpp"
 #include "wisey/Argument.hpp"
 #include "wisey/FakeExpression.hpp"
-#include "wisey/FixedFieldDefinition.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/ExternalNodeDefinition.hpp"
 #include "wisey/ExternalMethodDefinition.hpp"
@@ -24,6 +23,7 @@
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "wisey/ReceivedFieldDefinition.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -69,8 +69,8 @@ struct ExternalNodeDefinitionTest : public Test {
 TEST_F(ExternalNodeDefinitionTest, prototypeObjectTest) {
   const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
   const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
-  FixedFieldDefinition* field1 = new FixedFieldDefinition(longType, "field1", 0);
-  FixedFieldDefinition* field2 = new FixedFieldDefinition(floatType, "field2", 0);
+  ReceivedFieldDefinition* field1 = new ReceivedFieldDefinition(longType, "field1", 0);
+  ReceivedFieldDefinition* field2 = new ReceivedFieldDefinition(floatType, "field2", 0);
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDefinition);
@@ -100,8 +100,8 @@ TEST_F(ExternalNodeDefinitionTest, prototypeObjectTest) {
 TEST_F(ExternalNodeDefinitionTest, prototypeMethodsTest) {
   const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
   const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
-  FixedFieldDefinition* field1 = new FixedFieldDefinition(longType, "field1", 0);
-  FixedFieldDefinition* field2 = new FixedFieldDefinition(floatType, "field2", 0);
+  ReceivedFieldDefinition* field1 = new ReceivedFieldDefinition(longType, "field1", 0);
+  ReceivedFieldDefinition* field2 = new ReceivedFieldDefinition(floatType, "field2", 0);
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDefinition);

@@ -20,7 +20,6 @@
 #include "TestPrefix.hpp"
 #include "wisey/Argument.hpp"
 #include "wisey/FakeExpression.hpp"
-#include "wisey/FixedFieldDefinition.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/IObjectElementDefinition.hpp"
 #include "wisey/InjectedFieldDefinition.hpp"
@@ -32,6 +31,7 @@
 #include "wisey/NodeDefinition.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "wisey/ReceivedFieldDefinition.hpp"
 #include "wisey/ReturnStatement.hpp"
 
 using namespace llvm;
@@ -89,8 +89,8 @@ struct NodeDefinitionTest : public Test {
 TEST_F(NodeDefinitionTest, prototypeObjectTest) {
   const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
   const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
-  FixedFieldDefinition* field1 = new FixedFieldDefinition(longType, "field1", 0);
-  FixedFieldDefinition* field2 = new FixedFieldDefinition(floatType, "field2", 0);
+  ReceivedFieldDefinition* field1 = new ReceivedFieldDefinition(longType, "field1", 0);
+  ReceivedFieldDefinition* field2 = new ReceivedFieldDefinition(floatType, "field2", 0);
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDefinition);
@@ -120,8 +120,8 @@ TEST_F(NodeDefinitionTest, prototypeObjectTest) {
 TEST_F(NodeDefinitionTest, prototypeMethodsTest) {
   const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
   const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
-  FixedFieldDefinition* field1 = new FixedFieldDefinition(longType, "field1", 0);
-  FixedFieldDefinition* field2 = new FixedFieldDefinition(floatType, "field2", 0);
+  ReceivedFieldDefinition* field1 = new ReceivedFieldDefinition(longType, "field1", 0);
+  ReceivedFieldDefinition* field2 = new ReceivedFieldDefinition(floatType, "field2", 0);
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDefinition);
@@ -149,8 +149,8 @@ TEST_F(NodeDefinitionTest, prototypeMethodsTest) {
 TEST_F(NodeDefinitionTest, generateIRTest) {
   const PrimitiveTypeSpecifier* longType = PrimitiveTypes::LONG->newTypeSpecifier(0);
   const PrimitiveTypeSpecifier* floatType = PrimitiveTypes::FLOAT->newTypeSpecifier(0);
-  FixedFieldDefinition* field1 = new FixedFieldDefinition(longType, "field1", 0);
-  FixedFieldDefinition* field2 = new FixedFieldDefinition(floatType, "field2", 0);
+  ReceivedFieldDefinition* field1 = new ReceivedFieldDefinition(longType, "field1", 0);
+  ReceivedFieldDefinition* field2 = new ReceivedFieldDefinition(floatType, "field2", 0);
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDefinition);
@@ -331,7 +331,7 @@ TEST_F(NodeDefinitionTest, nodeWithInjectedFieldDeathTest) {
                                                                 "field1",
                                                                 arguments,
                                                                 1);
-  FixedFieldDefinition* field2 = new FixedFieldDefinition(floatType, "field2", 0);
+  ReceivedFieldDefinition* field2 = new ReceivedFieldDefinition(floatType, "field2", 0);
   mObjectElements.push_back(field1);
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDefinition);
@@ -353,7 +353,7 @@ TEST_F(NodeDefinitionTest, nodeWithInjectedFieldDeathTest) {
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
 
   EXPECT_ANY_THROW(nodeDefinition.prototypeMethods(mContext));
-  EXPECT_STREQ("/tmp/source.yz(1): Error: Nodes can only have fixed or state fields\n",
+  EXPECT_STREQ("/tmp/source.yz(1): Error: Nodes can only have receive or state fields\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
@@ -375,5 +375,5 @@ TEST_F(TestFileRunner, nodeStateFieldsNonNodeOwnerTypeDeathRunTest) {
 TEST_F(TestFileRunner, nodeWithInjectedFieldDeathRunTest) {
   expectFailCompile("tests/samples/test_node_with_injected_field.yz",
                     1,
-                    "Error: Nodes can only have fixed or state fields");
+                    "Error: Nodes can only have receive or state fields");
 }

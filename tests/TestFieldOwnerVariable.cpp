@@ -327,5 +327,5 @@ TEST_F(TestFileRunner, modelReturnsObjectOwnerRunDeathTest) {
   expectFailCompile("tests/samples/test_model_returns_object_owner.yz",
                     1,
                     "tests/samples/test_model_returns_object_owner.yz\\(12\\): Error: "
-                    "Setting a fixed owner field 'mPart' of object systems.vos.wisey.compiler.tests.MCar to null possibly by returning its value");
+                    "Setting an unassignable owner field 'mPart' of object systems.vos.wisey.compiler.tests.MCar to null possibly by returning its value");
 }

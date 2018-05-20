@@ -17,7 +17,6 @@
 #include "MockConcreteObjectType.hpp"
 #include "MockExpression.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/FixedField.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/Method.hpp"
@@ -28,6 +27,7 @@
 #include "wisey/NodeTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "wisey/ReceivedField.hpp"
 #include "wisey/VariableDeclaration.hpp"
 #include "wisey/WiseyModelOwnerType.hpp"
 #include "wisey/WiseyModelType.hpp"
@@ -55,9 +55,9 @@ struct NodeOwnerTest : public Test {
   Interface* mObjectInterface;
   Interface* mVehicleInterface;
   StructType* mStructType;
-  FixedField* mLeftField;
-  FixedField* mRightField;
-  FixedField* mAreaField;
+  ReceivedField* mLeftField;
+  ReceivedField* mRightField;
+  ReceivedField* mAreaField;
   BasicBlock* mBasicBlock;
   NiceMock<MockExpression>* mField1Expression;
   NiceMock<MockExpression>* mField2Expression;
@@ -158,8 +158,8 @@ struct NodeOwnerTest : public Test {
     mStructType = StructType::create(mLLVMContext, complicatedNodeFullName);
     mStructType->setBody(types);
     vector<IField*> fields;
-    mLeftField = new FixedField(PrimitiveTypes::INT, "mLeft", 0);
-    mRightField = new FixedField(PrimitiveTypes::INT, "mRight", 0);
+    mLeftField = new ReceivedField(PrimitiveTypes::INT, "mLeft", 0);
+    mRightField = new ReceivedField(PrimitiveTypes::INT, "mRight", 0);
     fields.push_back(mLeftField);
     fields.push_back(mRightField);
     vector<const wisey::Argument*> methodArguments;
@@ -207,9 +207,9 @@ struct NodeOwnerTest : public Test {
     StructType* simpleNodeStructType = StructType::create(mLLVMContext, simpleNodeFullName);
     simpleNodeStructType->setBody(simpleNodeTypes);
     vector<IField*> simpleNodeFields;
-    simpleNodeFields.push_back(new FixedField(PrimitiveTypes::INT, "mLeft", 0));
-    simpleNodeFields.push_back(new FixedField(PrimitiveTypes::INT, "mRight", 0));
-    mAreaField = new FixedField(PrimitiveTypes::INT, "mArea", 0);
+    simpleNodeFields.push_back(new ReceivedField(PrimitiveTypes::INT, "mLeft", 0));
+    simpleNodeFields.push_back(new ReceivedField(PrimitiveTypes::INT, "mRight", 0));
+    mAreaField = new ReceivedField(PrimitiveTypes::INT, "mArea", 0);
     simpleNodeFields.push_back(mAreaField);
     mSimpleNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                 simpleNodeFullName,
@@ -226,8 +226,8 @@ struct NodeOwnerTest : public Test {
     StructType* simplerNodeStructType = StructType::create(mLLVMContext, simplerNodeFullName);
     simplerNodeStructType->setBody(simplerNodeTypes);
     vector<IField*> simplerNodeFields;
-    simplerNodeFields.push_back(new FixedField(PrimitiveTypes::INT, "mLeft", 0));
-    simplerNodeFields.push_back(new FixedField(PrimitiveTypes::INT, "mRight", 0));
+    simplerNodeFields.push_back(new ReceivedField(PrimitiveTypes::INT, "mLeft", 0));
+    simplerNodeFields.push_back(new ReceivedField(PrimitiveTypes::INT, "mRight", 0));
     mSimplerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
                                  simplerNodeFullName,
                                  simplerNodeStructType,
@@ -424,7 +424,7 @@ TEST_F(NodeOwnerTest, createLocalVariableTest) {
 
 TEST_F(NodeOwnerTest, createFieldVariableTest) {
   NiceMock<MockConcreteObjectType> concreteObjectType;
-  IField* field = new FixedField(mComplicatedNode->getOwner(), "mField", 0);
+  IField* field = new ReceivedField(mComplicatedNode->getOwner(), "mField", 0);
   ON_CALL(concreteObjectType, findField(_)).WillByDefault(Return(field));
   mComplicatedNode->getOwner()->createFieldVariable(mContext, "mField", &concreteObjectType, 0);
   IVariable* variable = mContext.getScopes().getVariable("mField");

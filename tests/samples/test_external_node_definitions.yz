@@ -1,11 +1,11 @@
 external node wisey.lang.NNodeWithFixedFieldsAndMethods {
-  int mValue;
+  receive int mValue;
 
   int getValue();
 }
 
 external node wisey.lang.NNodeWithFixedFieldsAndStateFieldsAndMethods {
-  int mValue;
+  receive int mValue;
   state wisey.lang.NNodeWithFixedFieldsAndMethods* mStateField;
 
   int getValue();
@@ -18,11 +18,11 @@ external node wisey.lang.NNodeWithStateFieldsAndMethods {
 }
 
 external node wisey.lang.NNodeWithFixedFields {
-  int mValue;
+  receive int mValue;
 }
 
 external node wisey.lang.NNodeWithFixedFieldsAndStateFields {
-  int mValue;
+  receive int mValue;
   state wisey.lang.NNodeWithFixedFieldsAndMethods* mStateField;
 }
 
@@ -38,13 +38,13 @@ interface wisey.lang.IInterface {
 }
 
 external node wisey.lang.NNodeWithFixedFieldsAndMethodsAndInterface implements wisey.lang.IInterface {
-  int mValue;
+  receive int mValue;
 
   int getValue();
 }
 
 external node wisey.lang.NNodeWithFixedFieldsAndStateFieldsAndMethodsAndInterface implements wisey.lang.IInterface {
-  int mValue;
+  receive int mValue;
   state wisey.lang.NNodeWithFixedFieldsAndMethods* mStateField;
 
   int getValue();
@@ -57,11 +57,11 @@ external node wisey.lang.NNodeWithStateFieldsAndMethodsAndInterface implements w
 }
 
 external node wisey.lang.NNodeWithFixedFieldsAndInterface implements wisey.lang.IInterface {
-  int mValue;
+  receive int mValue;
 }
 
 external node wisey.lang.NNodeWithFixedFieldsAndStateFieldsAndInterface implements wisey.lang.IInterface {
-  int mValue;
+  receive int mValue;
   state wisey.lang.NNodeWithFixedFieldsAndMethods* mStateField;
 }
 

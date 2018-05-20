@@ -11,7 +11,7 @@ interface IHasValue {
 }
 
 node NYear implements IHasDirection, IHasValue {
-  int mValue;
+  receive int mValue;
 
   public int getValue() override {
     return mValue;
