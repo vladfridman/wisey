@@ -8,7 +8,7 @@ controller CPointerMap {
   public constant long DEFAULT_SIZE = 109l;
 
   receive long mSize;
-  state CPointerList*[]* mBuckets;
+  inject CPointerList*[mSize]* mBuckets;
 
   /**
    * Creates a hashmap of deafault size
@@ -28,9 +28,6 @@ controller CPointerMap {
    * Puts a reference to an object into the map according keyed by the given key
    */
   public void put(::llvm::i8::pointer key, CPointerList.IListElement* element) {
-    if (mBuckets == null) {
-      mBuckets = new CPointerList*[mSize];
-    }
     long hash = key % mSize;
     if (mBuckets[hash] == null) {
       mBuckets[hash] = injector(CPointerList).inject();
@@ -44,9 +41,6 @@ controller CPointerMap {
    * Looks up a reference to an object given by the key
    */
   public CPointerList.IListElement get(::llvm::i8::pointer key) {
-    if (mBuckets == null) {
-      return null;
-    }
     long hash = key % mSize;
     CPointerList pointerList = mBuckets[hash];
     if (!pointerList) {
@@ -59,9 +53,6 @@ controller CPointerMap {
    * Erases entries in the hashmap with the given key
    */
   public void erase(::llvm::i8::pointer key) {
-    if (mBuckets == null) {
-      return;
-    }
     long hash = key % mSize;
     CPointerList pointerList = mBuckets[hash];
     if (!pointerList) {
