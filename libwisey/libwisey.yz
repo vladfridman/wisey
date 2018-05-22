@@ -246,6 +246,24 @@ external controller wisey.data.COwnerMap {
   void clear();
 }
 
+external controller wisey.data.COwnerVector {
+
+  constant long DEFAULT_INITIAL_CAPACITY;
+
+  receive long mCapacity;
+
+  static wisey.data.COwnerVector* create();
+  static wisey.data.COwnerVector* createWithCapacity(
+    long initialCapacity);
+  void pushBack(
+    ::wisey::object* value);
+  ::wisey::object* popBack();
+  ::wisey::object getAt(
+    long index);
+  long getSize();
+  long getCapacity();
+}
+
 external controller wisey.data.CPointerList {
 
   void append(

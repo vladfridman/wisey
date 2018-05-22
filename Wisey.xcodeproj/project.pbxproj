@@ -28,6 +28,7 @@
 		F508E06F1E73076E005D6115 /* Environment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F508E06E1E73076E005D6115 /* Environment.cpp */; };
 		F508E0701E73076E005D6115 /* Environment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F508E06E1E73076E005D6115 /* Environment.cpp */; };
 		F50D5E3620B04AE400A025E9 /* TestCleanup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50D5E3520B04AE400A025E9 /* TestCleanup.cpp */; };
+		F50D5E3820B4884100A025E9 /* TestCOwnerVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50D5E3720B4884100A025E9 /* TestCOwnerVector.cpp */; };
 		F50FA29E1E2693F400435EEA /* CompoundStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */; };
 		F50FA29F1E2693F400435EEA /* CompoundStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */; };
 		F50FA2A11E269B4700435EEA /* TestCompoundStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2A01E269B4700435EEA /* TestCompoundStatement.cpp */; };
@@ -1177,6 +1178,7 @@
 		F508E06B1E72DC7D005D6115 /* TestIMethodDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIMethodDescriptor.cpp; path = tests/TestIMethodDescriptor.cpp; sourceTree = "<group>"; };
 		F508E06E1E73076E005D6115 /* Environment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environment.cpp; path = src/Environment.cpp; sourceTree = "<group>"; };
 		F50D5E3520B04AE400A025E9 /* TestCleanup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCleanup.cpp; path = tests/TestCleanup.cpp; sourceTree = "<group>"; };
+		F50D5E3720B4884100A025E9 /* TestCOwnerVector.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCOwnerVector.cpp; path = tests/TestCOwnerVector.cpp; sourceTree = "<group>"; };
 		F50EF29B1EDB4599002E68A8 /* IGlobalStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IGlobalStatement.hpp; path = include/wisey/IGlobalStatement.hpp; sourceTree = "<group>"; };
 		F50EF2A01EDC7A97002E68A8 /* MockGlobalStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockGlobalStatement.hpp; path = tests/include/MockGlobalStatement.hpp; sourceTree = "<group>"; };
 		F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CompoundStatement.cpp; path = src/CompoundStatement.cpp; sourceTree = "<group>"; };
@@ -3930,6 +3932,7 @@
 				F5D1599620A48E5E00107E84 /* TestCFileReader.cpp */,
 				F5D159A320A7020D00107E84 /* TestCOwnerList.cpp */,
 				F5D159A520A70A1800107E84 /* TestCOwnerMap.cpp */,
+				F50D5E3720B4884100A025E9 /* TestCOwnerVector.cpp */,
 				F5D159AB20A7261500107E84 /* TestCProducerThread.cpp */,
 				F5D1599F20A5F0E500107E84 /* TestCReferenceList.cpp */,
 				F5D159A120A6DD1900107E84 /* TestCReferenceMap.cpp */,
@@ -4206,6 +4209,7 @@
 				F50FA29F1E2693F400435EEA /* CompoundStatement.cpp in Sources */,
 				F53A2C311EFFD91200E76A9E /* NodeOwner.cpp in Sources */,
 				F508E06A1E72D954005D6115 /* IMethodDescriptor.cpp in Sources */,
+				F50D5E3820B4884100A025E9 /* TestCOwnerVector.cpp in Sources */,
 				F51581221E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */,
 				F5ADB62B1E69860F00FFC941 /* TestMethod.cpp in Sources */,
 				F51581301E8AAB12009CE419 /* Controller.cpp in Sources */,
