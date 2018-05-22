@@ -144,6 +144,7 @@ Value* InjectedField::callInjectFunction(IRGenerationContext& context,
   IVariable* callstackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
   Value* callstackObject = callstackVariable->generateIdentifierIR(context, line);
   vector<Value*> arguments;
+  arguments.push_back(context.getThis()->generateIdentifierIR(context, line));
   arguments.push_back(threadObject);
   arguments.push_back(callstackObject);
   arguments.push_back(fieldPointer);
@@ -154,6 +155,7 @@ Value* InjectedField::callInjectFunction(IRGenerationContext& context,
 Function* InjectedField::declareInjectionFunction(IRGenerationContext& context,
                                                   const Controller* controller) const {
   vector<Type*> argumentTypes;
+  argumentTypes.push_back(controller->getLLVMType(context));
   Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), mLine);
   argumentTypes.push_back(threadInterface->getLLVMType(context));
   Controller* callstackController =
@@ -184,6 +186,9 @@ void InjectedField::composeInjectFunctionBody(IRGenerationContext& context,
   const InjectedField* injectedField = (const InjectedField*) object2;
 
   Function::arg_iterator llvmArguments = function->arg_begin();
+  llvm::Argument* thisObject = &*llvmArguments;
+  thisObject->setName(IObjectType::THIS);
+  llvmArguments++;
   llvm::Argument* thread = &*llvmArguments;
   thread->setName(ThreadExpression::THREAD);
   llvmArguments++;
