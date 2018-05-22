@@ -79,7 +79,7 @@ TEST_F(InjectedFieldDefinitionTest, declareTest) {
 
   EXPECT_EQ(mObjectOwnerType, field->getType());
   EXPECT_STREQ("mField", field->getName().c_str());
-  EXPECT_FALSE(field->isAssignable(mObjectType));
+  EXPECT_TRUE(field->isAssignable(mObjectType));
 
   EXPECT_TRUE(field->isInjected());
   EXPECT_FALSE(field->isReceived());

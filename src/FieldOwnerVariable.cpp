@@ -72,12 +72,6 @@ Value* FieldOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
                                                 vector<const IExpression*> arrayIndices,
                                                 int line) {
   IField* field = checkAndFindFieldForAssignment(context, mObject, mName, line);
-  if (field->isInjected()) {
-    context.reportError(line,
-                        "Attempt to assign to injected field '" + mName + "' of object " +
-                        mObject->getTypeName() + ", assignment to injected fields is not allowed");
-    throw 1;
-  }
   
   Composer::setLineNumber(context, line);
 
@@ -100,12 +94,6 @@ Value* FieldOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
 
 void FieldOwnerVariable::setToNull(IRGenerationContext& context, int line) {
   IField* field = mObject->findField(mName);
-  if (field->isInjected()) {
-    context.reportError(line,
-                        "Attempting to set an injected field '" + mName + "' of object " +
-                        mObject->getTypeName() + " to null possibly by returning its value");
-    throw 1;
-  }
   if (!field->isAssignable(mObject)) {
     context.reportError(line,
                         "Setting an unassignable owner field '" + mName + "' of object " +

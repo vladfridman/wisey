@@ -302,20 +302,6 @@ TEST_F(TestFileRunner, fieldArrayOfReferencesRceRunDeathTest) {
                                "Main thread ended without a result\n");
 }
 
-TEST_F(TestFileRunner, returnInjectedArrayRunDeathTest) {
-  expectFailCompile("tests/samples/test_return_injected_array.yz",
-                    1,
-                    "tests/samples/test_return_injected_array.yz\\(9\\): Error: "
-                    "Attempting to set an injected field 'mArray' of object systems.vos.wisey.compiler.tests.CService to null possibly by returning its value");
-}
-
-TEST_F(TestFileRunner, resetInjectedArrayRunDeathTest) {
-  expectFailCompile("tests/samples/test_reset_injected_array.yz",
-                    1,
-                    "tests/samples/test_reset_injected_array.yz\\(9\\): Error: "
-                    "Can not assign to injected field mArray");
-}
-
 TEST_F(TestFileRunner, modelReturnsArrayOwnerRunDeathTest) {
   expectFailCompile("tests/samples/test_model_returns_array_owner.yz",
                     1,

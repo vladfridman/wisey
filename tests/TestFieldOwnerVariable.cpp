@@ -309,20 +309,6 @@ TEST_F(TestFileRunner, fieldPointerOwnerVariableRunTest) {
                                         "");
 }
 
-TEST_F(TestFileRunner, returnInjectedObjectRunDeathTest) {
-  expectFailCompile("tests/samples/test_return_injected_object.yz",
-                    1,
-                    "tests/samples/test_return_injected_object.yz\\(13\\): Error: "
-                    "Attempting to set an injected field 'mSubService' of object systems.vos.wisey.compiler.tests.CService to null possibly by returning its value");
-}
-
-TEST_F(TestFileRunner, resetInjectedObjectRunDeathTest) {
-  expectFailCompile("tests/samples/test_reset_injected_object.yz",
-                    1,
-                    "tests/samples/test_reset_injected_object.yz\\(13\\): Error: "
-                    "Can not assign to injected field mSubService");
-}
-
 TEST_F(TestFileRunner, modelReturnsObjectOwnerRunDeathTest) {
   expectFailCompile("tests/samples/test_model_returns_object_owner.yz",
                     1,

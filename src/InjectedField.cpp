@@ -181,8 +181,12 @@ void InjectedField::composeInjectFunctionBody(IRGenerationContext& context,
                                               const void* object1,
                                               const void* object2) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  context.setObjectType((const IObjectType*) object1);
+  const Controller* controller = (const Controller*) object1;
+  context.setObjectType(controller);
   context.getScopes().pushScope();
+
+  IConcreteObjectType::declareFieldVariables(context, controller);
+
   const InjectedField* injectedField = (const InjectedField*) object2;
 
   Function::arg_iterator llvmArguments = function->arg_begin();
@@ -198,6 +202,12 @@ void InjectedField::composeInjectFunctionBody(IRGenerationContext& context,
   llvm::Argument* fieldPointer = &*llvmArguments;
   fieldPointer->setName("fieldPointer");
   
+  IVariable* thisVariable = new ParameterSystemReferenceVariable(IObjectType::THIS,
+                                                                 controller,
+                                                                 thisObject,
+                                                                 0);
+  context.getScopes().setVariable(context, thisVariable);
+
   Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
   IVariable* threadVariable = new ParameterSystemReferenceVariable(ThreadExpression::THREAD,
                                                                    threadInterface,
@@ -243,7 +253,7 @@ string InjectedField::getInjectionFunctionName(const Controller* controller) con
 }
 
 bool InjectedField::isAssignable(const IConcreteObjectType* object) const {
-  return false;
+  return true;
 }
 
 bool InjectedField::isConstant() const {
