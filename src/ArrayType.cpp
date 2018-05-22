@@ -18,6 +18,7 @@
 #include "wisey/LocalArrayReferenceVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/ParameterArrayReferenceVariable.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace std;
 using namespace wisey;
@@ -79,7 +80,10 @@ bool ArrayType::canCastTo(IRGenerationContext& context, const IType *toType) con
   if (toType->isPointer() && toType->isNative()) {
     return true;
   }
-  
+  if (toType == PrimitiveTypes::BOOLEAN) {
+    return true;
+  }
+
   return false;
 }
 
@@ -97,6 +101,13 @@ llvm::Value* ArrayType::castTo(IRGenerationContext &context,
   if (toType->isPointer() && toType->isNative()) {
     llvm::Value* arrayStart = ArrayType::extractLLVMArray(context, fromValue);
     return IRWriter::newBitCastInst(context, arrayStart, toType->getLLVMType(context));
+  }
+  if (toType == PrimitiveTypes::BOOLEAN) {
+    return IRWriter::newICmpInst(context,
+                                 llvm::ICmpInst::ICMP_NE,
+                                 fromValue,
+                                 llvm::ConstantPointerNull::get(getLLVMType(context)),
+                                 "");
   }
 
   return NULL;

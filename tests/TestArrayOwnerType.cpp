@@ -15,6 +15,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "MockConcreteObjectType.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -80,12 +81,14 @@ TEST_F(ArrayOwnerTypeTest, getLLVMTypeTest) {
 }
 
 TEST_F(ArrayOwnerTypeTest, canCastToTest) {
+  EXPECT_TRUE(mArrayOwnerType->canCastTo(mContext, PrimitiveTypes::BOOLEAN));
   EXPECT_FALSE(mArrayOwnerType->canCastTo(mContext, PrimitiveTypes::STRING));
   EXPECT_TRUE(mArrayOwnerType->canCastTo(mContext, mArrayOwnerType));
   EXPECT_TRUE(mArrayOwnerType->canCastTo(mContext, mArrayType));
 }
 
 TEST_F(ArrayOwnerTypeTest, canAutoCastToTest) {
+  EXPECT_TRUE(mArrayOwnerType->canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN));
   EXPECT_FALSE(mArrayOwnerType->canAutoCastTo(mContext, PrimitiveTypes::STRING));
   EXPECT_TRUE(mArrayOwnerType->canAutoCastTo(mContext, mArrayOwnerType));
   EXPECT_TRUE(mArrayOwnerType->canAutoCastTo(mContext, mArrayType));
@@ -164,4 +167,8 @@ TEST_F(ArrayOwnerTypeTest, injectDeathTest) {
   EXPECT_STREQ("/tmp/source.yz(3): Error: type long[]* is not injectable\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
+}
+
+TEST_F(TestFileRunner, arrayOwnerTypeAutocastToBoolean) {
+  runFile("tests/samples/test_array_owner_type_autocast_to_boolean.yz", 5);
 }

@@ -99,11 +99,13 @@ TEST_F(ArrayTypeTest, getLLVMTypeTest) {
 }
 
 TEST_F(ArrayTypeTest, canCastToTest) {
+  EXPECT_TRUE(mArrayType->canCastTo(mContext, PrimitiveTypes::BOOLEAN));
   EXPECT_FALSE(mArrayType->canCastTo(mContext, PrimitiveTypes::STRING));
   EXPECT_TRUE(mArrayType->canCastTo(mContext, mArrayType));
 }
 
 TEST_F(ArrayTypeTest, canAutoCastToTest) {
+  EXPECT_TRUE(mArrayType->canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN));
   EXPECT_FALSE(mArrayType->canAutoCastTo(mContext, PrimitiveTypes::STRING));
   EXPECT_TRUE(mArrayType->canAutoCastTo(mContext, mArrayType));
 }
@@ -198,6 +200,10 @@ TEST_F(ArrayTypeTest, extractLLVMArrayTest) {
 
 TEST_F(TestFileRunner, llvmArrayRunTest) {
   runFile("tests/samples/test_llvm_array.yz", 4);
+}
+
+TEST_F(TestFileRunner, arrayTypeAutocastToBoolean) {
+  runFile("tests/samples/test_array_type_autocast_to_boolean.yz", 5);
 }
 
 TEST_F(TestFileRunner, llvmArrayDebugDestructorsRunTest) {

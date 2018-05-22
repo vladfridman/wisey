@@ -53,6 +53,9 @@ bool ArrayOwnerType::canCastTo(IRGenerationContext& context, const IType* toType
   if (toType->isPointer() && toType->isNative()) {
     return true;
   }
+  if (toType == PrimitiveTypes::BOOLEAN) {
+    return true;
+  }
 
   return false;
 }
@@ -86,6 +89,13 @@ llvm::Value* ArrayOwnerType::castTo(IRGenerationContext& context,
                                           line);
     return fromValue;
   }
+  if (toType == PrimitiveTypes::BOOLEAN) {
+    return IRWriter::newICmpInst(context,
+                                 llvm::ICmpInst::ICMP_NE,
+                                 fromValue,
+                                 llvm::ConstantPointerNull::get(getLLVMType(context)),
+                                 "");
+  }
 
   return NULL;
 }
@@ -115,7 +125,7 @@ void ArrayOwnerType::free(IRGenerationContext& context,
                                         exception,
                                         line);
   } else {
-    assert(elementType->isPrimitive());
+    assert(elementType->isPrimitive() || elementType->isPointer());
     DestroyPrimitiveArrayFunction::call(context,
                                         arrayBitcast,
                                         dimensions,
