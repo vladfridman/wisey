@@ -26,14 +26,14 @@ controller CString {
    * Creates a modifiable CString from a string literal
    */
   public static CString* createFromString(string input) {
-    return memcopyAndInject(input, input.getLength());
+    return copyMemoryAndInject(input, input.getLength());
   }
 
   /**
    * Creates a modifiable CString from an MString model
    */
   public static CString* createFromModel(MString input) {
-    return memcopyAndInject(input.getContent(), input.getLength());
+    return copyMemoryAndInject(input.getContent(), input.getLength());
   }
 
   /**
@@ -41,12 +41,12 @@ controller CString {
    */
   public static CString* createFromCharArray(char[] input) {
     if (input.getSize() == 0) {
-      return memcopyAndInject(input, 0);
+      return copyMemoryAndInject(input, 0);
     }
     long length = input[input.getSize() - 1] == '\0' 
       ? (long) ::llvm::function::strlen(input)
       : input.getSize();
-    return memcopyAndInject(input, length);
+    return copyMemoryAndInject(input, length);
   }
 
   /**
@@ -54,12 +54,12 @@ controller CString {
    */
   public static CString* createFromImmutableCharArray(immutable char[] input) {
     if (input.getSize() == 0) {
-      return memcopyAndInject(input, 0);
+      return copyMemoryAndInject(input, 0);
     }
     long length = input[input.getSize() - 1] == '\0' 
       ? (long) ::llvm::function::strlen(input)
       : input.getSize();
-    return memcopyAndInject(input, length);
+    return copyMemoryAndInject(input, length);
   }
 
   /**
@@ -198,7 +198,7 @@ controller CString {
    */
   public MString* toModel() {
     char[]* buffer = new char[mLength + 1];
-    MSystem.memcopy(buffer, mBuffer, mCapacity);
+    MSystem.copyMemory(buffer, mBuffer, mCapacity);
     return builder(MString).withContent(buffer).build();    
   }
 
@@ -214,7 +214,7 @@ controller CString {
    */
   public CString* copy() {
     char[]* buffer = new char[mCapacity];
-    MSystem.memcopy(buffer, mBuffer, mCapacity);
+    MSystem.copyMemory(buffer, mBuffer, mCapacity);
     return injector(CString)
       .withBuffer(buffer)
       .withCapacity(mCapacity)
@@ -322,10 +322,10 @@ controller CString {
     return (long) (((float) (size + 1)) * 1.5);
   }
 
-  private static CString* memcopyAndInject(::llvm::i8::pointer source, long length) {
+  private static CString* copyMemoryAndInject(::llvm::i8::pointer source, long length) {
     long capacity = estimateCapacity(length);
     char[]* buffer = new char[capacity];
-    MSystem.memcopy(buffer, source, length);
+    MSystem.copyMemory(buffer, source, length);
     return injector(CString)
       .withBuffer(buffer)
       .withCapacity(capacity)
@@ -338,14 +338,14 @@ controller CString {
     if (length <= mCapacity) {
        ::llvm::i8::pointer destination = mBuffer;     
        destination = destination + mLength;     
-       MSystem.memcopy(destination, source, sourceLength);
+       MSystem.copyMemory(destination, source, sourceLength);
     } else {
       long newCapacity = estimateCapacity(length);
       char[]* buffer = new char[newCapacity];
       ::llvm::i8::pointer destination = buffer;
-      MSystem.memcopy(destination, mBuffer, mLength);
+      MSystem.copyMemory(destination, mBuffer, mLength);
       destination = destination + mLength;
-      MSystem.memcopy(destination, source, sourceLength);
+      MSystem.copyMemory(destination, source, sourceLength);
       mBuffer = buffer;
       mCapacity = newCapacity;
     }

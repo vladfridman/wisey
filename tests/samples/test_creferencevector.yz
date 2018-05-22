@@ -1,6 +1,6 @@
 package systems.vos.wisey.compiler.tests;
 
-import wisey.data.COwnerVector;
+import wisey.data.CReferenceVector;
 import wisey.lang.IProgram;
 
 model MCar {
@@ -12,41 +12,43 @@ model MCar {
 }
 
 controller CProgram implements IProgram {
-  inject COwnerVector* mVector.withCapacity(3);
+  inject CReferenceVector* mVector.withCapacity(3);
 
   public int run(immutable string[] arguments) override {
+    MCar* car1 = builder(MCar).withYear(2018).build();
+    MCar* car2 = builder(MCar).withYear(2017).build();
+    MCar* car3 = builder(MCar).withYear(2016).build();
+    MCar* car4 = builder(MCar).withYear(2015).build();
+
     printout("Vector size: " + mVector.getSize() + ", capacity: " + mVector.getCapacity() + "\n");
     
-    mVector.pushBack(builder(MCar).withYear(2018).build());
+    mVector.pushBack(car1);
 
     printout("Vector size: " + mVector.getSize() + ", capacity: " + mVector.getCapacity() + "\n");
 
-    mVector.pushBack(builder(MCar).withYear(2017).build());
+    mVector.pushBack(car2);
 
     printout("Vector size: " + mVector.getSize() + ", capacity: " + mVector.getCapacity() + "\n");
 
-    mVector.pushBack(builder(MCar).withYear(2016).build());
+    mVector.pushBack(car3);
 
     printout("Vector size: " + mVector.getSize() + ", capacity: " + mVector.getCapacity() + "\n");
 
-    mVector.pushBack(builder(MCar).withYear(2015).build());
+    mVector.pushBack(car4);
 
     printout("Vector size: " + mVector.getSize() + ", capacity: " + mVector.getCapacity() + "\n");
 
-    MCar* car = mVector.popBack();
+    MCar car = mVector.popBack();
 
     printout("Car year: " + car.getYear() + "\n");
-
-    car = null;
 
     printout("Vector size: " + mVector.getSize() + ", capacity: " + mVector.getCapacity() + "\n");
 
     MCar carRef = mVector.getAt(0);
 
-    printout("Car year: " + carRef.getYear() + "\n");
-    carRef = null;
-
     mVector.clear();
+
+    printout("Car year: " + carRef.getYear() + "\n");
 
     return 1;
   }

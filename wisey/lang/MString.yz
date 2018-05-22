@@ -11,7 +11,7 @@ model MString {
    * Creates an MString from a string literal
    */
   public static MString* createFromString(string input) {
-    return memcopyAndBuild(input, input.getLength() + 1);
+    return copyMemoryAndBuild(input, input.getLength() + 1);
   }
 
   /**
@@ -19,12 +19,12 @@ model MString {
    */
   public static MString* createFromCharArray(char[] input) {
     if (input.getSize() == 0) {
-      return memcopyAndBuild(input, 1);
+      return copyMemoryAndBuild(input, 1);
     }
     long length = input[input.getSize() - 1] == '\0' 
       ? (long) ::llvm::function::strlen(input) + 1
       : input.getSize() + 1;
-    return memcopyAndBuild(input, length);
+    return copyMemoryAndBuild(input, length);
   }
 
   /**
@@ -32,12 +32,12 @@ model MString {
    */
   public static MString* createFromImmutableCharArray(immutable char[] input) {
     if (input.getSize() == 0) {
-      return memcopyAndBuild(input, 1);
+      return copyMemoryAndBuild(input, 1);
     }
     long length = input[input.getSize() - 1] == '\0' 
       ? (long) ::llvm::function::strlen(input) + 1
       : input.getSize() + 1;
-    return memcopyAndBuild(input, length);
+    return copyMemoryAndBuild(input, length);
   }
 
   /**
@@ -54,7 +54,7 @@ model MString {
   public MString* copy() {
     long length = mContent.getSize();
     char[]* buffer = new char[length];
-    MSystem.memcopy(buffer, mContent, length);
+    MSystem.copyMemory(buffer, mContent, length);
     return builder(MString).withContent(buffer).build();
   }
 
@@ -93,9 +93,9 @@ model MString {
     return ::llvm::function::strcmp(mContent, input);
   }
 
-  private static MString* memcopyAndBuild(::llvm::i8::pointer source, long length) {
+  private static MString* copyMemoryAndBuild(::llvm::i8::pointer source, long length) {
     char[]* buffer = new char[length];
-    MSystem.memcopy(buffer, source, length - 1);
+    MSystem.copyMemory(buffer, source, length - 1);
     return builder(MString).withContent(buffer).build();    
   }
 }

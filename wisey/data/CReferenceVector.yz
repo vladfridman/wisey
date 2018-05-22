@@ -3,36 +3,36 @@ package wisey.data;
 import wisey.lang.MSystem;
 
 /**
- * Vector of owner references
+ * Vector of references to objects
  */
-controller COwnerVector {
+controller CReferenceVector {
 
   public constant long DEFAULT_INITIAL_CAPACITY = 16l;
 
   receive long mCapacity;
-  inject ::wisey::object*[mCapacity]* mData;
+  inject ::wisey::object[mCapacity]* mData;
   state long mSize;
 
   /**
    * Creates a vector with default initial capacity
    */
-  public static COwnerVector* create() {
-    return injector(COwnerVector).withCapacity(DEFAULT_INITIAL_CAPACITY)
+  public static CReferenceVector* create() {
+    return injector(CReferenceVector).withCapacity(DEFAULT_INITIAL_CAPACITY)
       .inject();    
   }
 
   /**
    * Creates a vector with specified initial capacity
    */
-  public static COwnerVector* createWithCapacity(long initialCapacity) {
-    return injector(COwnerVector).withCapacity(initialCapacity)
+  public static CReferenceVector* createWithCapacity(long initialCapacity) {
+    return injector(CReferenceVector).withCapacity(initialCapacity)
       .inject();
   }
 
   /**
    * Appends a value to the end of the vector
    */
-  public void pushBack(::wisey::object* value) {
+  public void pushBack(::wisey::object value) {
     if (mSize >= mData.getSize()) {
       resize();
     }
@@ -43,7 +43,7 @@ controller COwnerVector {
   /**
    * Deletes the last element from the vector
    */
-  public ::wisey::object* popBack() {
+  public ::wisey::object popBack() {
     mSize--; 
     return mData[mSize];
   }
@@ -81,7 +81,7 @@ controller COwnerVector {
 
   private void resize() {
     mCapacity = mSize * 2;
-    ::wisey::object*[]* array = new ::wisey::object*[mCapacity];
+    ::wisey::object[]* array = new ::wisey::object[mCapacity];
     MSystem.copyMemory(array, mData, mSize * 8);
     MSystem.zeroMemory(mData, mSize * 8);
     mData = array;
