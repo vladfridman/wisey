@@ -24,6 +24,7 @@
 #include "wisey/EssentialFunctions.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/ProgramSuffix.hpp"
+#include "wisey/Optimizer.hpp"
 
 using namespace std;
 using namespace llvm;
@@ -63,23 +64,19 @@ void Compiler::compile() {
   mContext.getImportProfile()->setSourceFileName(mContext, "");
   programSuffix.generateIR(mContext);
   mContext.runComposingCallbacks();
-  
+
   verifyModule(*mContext.getModule());
-  
+
   if (mArguments.getHeaderFile().size()) {
     extractHeaders(mArguments.getHeaderFile());
   }
-
-  deleteProgramFiles(programFiles);
+  
   mHasCompiled = true;
-  
-  if (mArguments.shouldPrintAssembly()) {
-    printAssembly();
-  }
-  
-  if (mArguments.getOutputFile().size()) {
-    saveBinary(mArguments.getOutputFile());
-  }
+  deleteProgramFiles(programFiles);
+}
+
+void Compiler::optimize() {
+  Optimizer::optimize(mContext);
 }
 
 void Compiler::printAssembly() {

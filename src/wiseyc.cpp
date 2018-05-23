@@ -33,6 +33,13 @@ int main(int argc, char **argv) {
 
   Compiler compiler(compilerArguments);
   compiler.compile();
+  compiler.optimize();
+  if (compilerArguments.shouldPrintAssembly()) {
+    compiler.printAssembly();
+  }
+  if (compilerArguments.getOutputFile().size()) {
+    compiler.saveBinary(compilerArguments.getOutputFile());
+  }
 
   return 0;
 }

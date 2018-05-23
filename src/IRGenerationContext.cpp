@@ -13,7 +13,6 @@
 #include <llvm/IR/IRPrintingPasses.h>
 #include <llvm/IR/LegacyPassManager.h>
 #include <llvm/IR/Verifier.h>
-#include <llvm/Transforms/Scalar.h>
 
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Log.hpp"
@@ -554,17 +553,6 @@ void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& 
     stream << type->getTypeName() << " " << name << ";";
     stream << endl;
   }
-}
-
-void IRGenerationContext::optimizeIR() {
-  legacy::PassManager passManager;
-  
-  // Optimization: Constant Propagation transform
-  passManager.add(createConstantPropagationPass());
-  // Optimization: Dead Instruction Elimination transform
-  passManager.add(createDeadInstEliminationPass());
-  
-  passManager.run(*mModule);
 }
 
 void IRGenerationContext::turnDestructorDebugOn() {

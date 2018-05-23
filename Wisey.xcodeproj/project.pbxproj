@@ -30,6 +30,9 @@
 		F50D5E3620B04AE400A025E9 /* TestCleanup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50D5E3520B04AE400A025E9 /* TestCleanup.cpp */; };
 		F50D5E3820B4884100A025E9 /* TestCOwnerVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50D5E3720B4884100A025E9 /* TestCOwnerVector.cpp */; };
 		F50D5E3A20B4CF1900A025E9 /* TestCReferenceVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50D5E3920B4CF1900A025E9 /* TestCReferenceVector.cpp */; };
+		F50D5E3D20B58DCB00A025E9 /* Optimizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50D5E3C20B58DCB00A025E9 /* Optimizer.cpp */; };
+		F50D5E3E20B58DCB00A025E9 /* Optimizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50D5E3C20B58DCB00A025E9 /* Optimizer.cpp */; };
+		F50D5E3F20B5A03800A025E9 /* libLLVMAsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F53061881F794DA20098D637 /* libLLVMAsmParser.a */; };
 		F50FA29E1E2693F400435EEA /* CompoundStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */; };
 		F50FA29F1E2693F400435EEA /* CompoundStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */; };
 		F50FA2A11E269B4700435EEA /* TestCompoundStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2A01E269B4700435EEA /* TestCompoundStatement.cpp */; };
@@ -1181,6 +1184,8 @@
 		F50D5E3520B04AE400A025E9 /* TestCleanup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCleanup.cpp; path = tests/TestCleanup.cpp; sourceTree = "<group>"; };
 		F50D5E3720B4884100A025E9 /* TestCOwnerVector.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCOwnerVector.cpp; path = tests/TestCOwnerVector.cpp; sourceTree = "<group>"; };
 		F50D5E3920B4CF1900A025E9 /* TestCReferenceVector.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCReferenceVector.cpp; path = tests/TestCReferenceVector.cpp; sourceTree = "<group>"; };
+		F50D5E3B20B58D5200A025E9 /* Optimizer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Optimizer.hpp; path = include/wisey/Optimizer.hpp; sourceTree = "<group>"; };
+		F50D5E3C20B58DCB00A025E9 /* Optimizer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Optimizer.cpp; path = src/Optimizer.cpp; sourceTree = "<group>"; };
 		F50EF29B1EDB4599002E68A8 /* IGlobalStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IGlobalStatement.hpp; path = include/wisey/IGlobalStatement.hpp; sourceTree = "<group>"; };
 		F50EF2A01EDC7A97002E68A8 /* MockGlobalStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockGlobalStatement.hpp; path = tests/include/MockGlobalStatement.hpp; sourceTree = "<group>"; };
 		F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CompoundStatement.cpp; path = src/CompoundStatement.cpp; sourceTree = "<group>"; };
@@ -2101,6 +2106,7 @@
 				F58A82FD1F7965B600369388 /* libLLVMARMDesc.a in Frameworks */,
 				F58A82FE1F7965B600369388 /* libLLVMARMDisassembler.a in Frameworks */,
 				F58A82FF1F7965B600369388 /* libLLVMARMInfo.a in Frameworks */,
+				F50D5E3F20B5A03800A025E9 /* libLLVMAsmParser.a in Frameworks */,
 				F53400C81DFBE3370002BF7E /* libLLVMAsmPrinter.a in Frameworks */,
 				F53400C91DFBE3370002BF7E /* libLLVMBitReader.a in Frameworks */,
 				F53400CA1DFBE3370002BF7E /* libLLVMBitWriter.a in Frameworks */,
@@ -3168,6 +3174,7 @@
 				F5089C671ECD01D9004A1223 /* Environment.hpp */,
 				F5089C871ECD01D9004A1223 /* Log.hpp */,
 				F52FF1831F1C565D003F4D37 /* Names.hpp */,
+				F50D5E3B20B58D5200A025E9 /* Optimizer.hpp */,
 			);
 			name = compiler;
 			sourceTree = "<group>";
@@ -3180,8 +3187,9 @@
 				F508E06E1E73076E005D6115 /* Environment.cpp */,
 				F569E9EB1DF9CC9600BBB20E /* Log.cpp */,
 				F52FF1841F1C570C003F4D37 /* Names.cpp */,
-				F5FA52921F7437A7001BBE67 /* wiseyrun.cpp */,
+				F50D5E3C20B58DCB00A025E9 /* Optimizer.cpp */,
 				F58725661F7178DB00FA25E6 /* wiseyc.cpp */,
+				F5FA52921F7437A7001BBE67 /* wiseyrun.cpp */,
 			);
 			name = compiler;
 			sourceTree = "<group>";
@@ -4234,6 +4242,7 @@
 				F534010A1DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
 				F50FA2DC1E2D329900435EEA /* ModelTypeSpecifier.cpp in Sources */,
 				F534645020AF1F35006369D4 /* TestMSystem.cpp in Sources */,
+				F50D5E3E20B58DCB00A025E9 /* Optimizer.cpp in Sources */,
 				F50FA2B41E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */,
 				F50FA2D91E2D324600435EEA /* SwitchStatement.cpp in Sources */,
 				F5105FC31FD1B18F00ACF57B /* TestAdjustReferenceCountFunction.cpp in Sources */,
@@ -4602,6 +4611,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F59D820B1E0F157E00057FB5 /* WhileStatement.cpp in Sources */,
+				F50D5E3D20B58DCB00A025E9 /* Optimizer.cpp in Sources */,
 				F513DE072018A0F7001A075B /* ParameterArrayReferenceVariable.cpp in Sources */,
 				F5CB7F702051532A007628B5 /* FakeExpressionWithCleanup.cpp in Sources */,
 				F515812F1E8AAB12009CE419 /* Controller.cpp in Sources */,

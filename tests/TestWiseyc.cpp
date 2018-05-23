@@ -133,16 +133,16 @@ TEST_F(MainTest, emitLLVMTest) {
   string resultWithoutEmitLLVM =
   TestFileRunner::exec("bin/wiseyc -o build/test.bc tests/samples/test_addition.yz "
                              "libwisey/libwisey.yz");
-  EXPECT_EQ(resultWithoutEmitLLVM.find("define i32 @main()"), string::npos);
+  EXPECT_EQ(resultWithoutEmitLLVM.find("define i32 @main"), string::npos);
   
   string resultWithEmitLLVM = TestFileRunner::exec("bin/wiseyc --emit-llvm -o build/test.bc "
                                                    "tests/samples/test_addition.yz "
                                                    "libwisey/libwisey.yz");
-  EXPECT_NE(resultWithEmitLLVM.find("define i32 @main(i32 %argc, i8** %argv)"), string::npos);
+  EXPECT_NE(resultWithEmitLLVM.find("define i32 @main"), string::npos);
   
   resultWithEmitLLVM = TestFileRunner::exec("bin/wiseyc -e -o build/test.bc "
                                             "tests/samples/test_addition.yz libwisey/libwisey.yz");
-  EXPECT_NE(resultWithEmitLLVM.find("define i32 @main(i32 %argc, i8** %argv)"), string::npos);
+  EXPECT_NE(resultWithEmitLLVM.find("define i32 @main"), string::npos);
 }
 
 TEST_F(TestFileRunner, debugDestructorsRunTest) {

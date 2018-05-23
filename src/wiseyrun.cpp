@@ -29,7 +29,13 @@ int main(int argc, char** argv) {
 
   Compiler compiler(compilerArguments);
   compiler.compile();
-  if (!compilerArguments.getOutputFile().size()) {
+  compiler.optimize();
+  if (compilerArguments.shouldPrintAssembly()) {
+    compiler.printAssembly();
+  }
+  if (compilerArguments.getOutputFile().size()) {
+    compiler.saveBinary(compilerArguments.getOutputFile());
+  } else {
     compiler.run(argc, argv);
   }
   

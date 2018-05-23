@@ -42,17 +42,28 @@ namespace wisey {
      * Compile Wisey code passed through constructor arguments
      */
     void compile();
+
+    /**
+     * Optimize generated IR code
+     */
+    void optimize();
     
+    /**
+     * Prints llvm code
+     */
+    void printAssembly();
+    
+    /**
+     * Saves resulting IR in an object file
+     */
+    void saveBinary(std::string outputFile);
+
     /**
      * Run compiled code
      */
     int run(int argc, char** argv);
-    
+
   private:
-    
-    void printAssembly();
-    
-    void saveBinary(std::string outputFile);
     
     void extractHeaders(std::string headerFile);
     

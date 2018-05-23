@@ -262,12 +262,6 @@ namespace wisey {
     void printAssembly(llvm::raw_ostream &outputStream);
     
     /**
-     * Oprimize IR code
-     * TODO: implement and add a unit test for it
-     */
-    void optimizeIR();
-    
-    /**
      * Turns on destrcutor debug mode on that prints out a message when object destructor is called
      */
     void turnDestructorDebugOn();
