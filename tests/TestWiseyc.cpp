@@ -36,7 +36,9 @@ TEST_F(MainTest, noArgumentsTest) {
                "[-v|--verbouse] "
                "[-H|--headers <header_file.yzh>] "
                "[-o|--output <object_file.o>] "
-               "[-n|--no-output] <source_file.yz>...\n");
+               "[-n|--no-output] "
+               "[--no-optimization] "
+               "<source_file.yz>...\n");
 }
 
 TEST_F(MainTest, missingFileTest) {
@@ -64,7 +66,9 @@ TEST_F(MainTest, helpTest) {
                "[-v|--verbouse] "
                "[-H|--headers <header_file.yzh>] "
                "[-o|--output <object_file.o>] "
-               "[-n|--no-output] <source_file.yz>...\n");
+               "[-n|--no-output] "
+               "[--no-optimization] "
+               "<source_file.yz>...\n");
   EXPECT_STREQ(TestFileRunner::exec("bin/wiseyc --help 2>&1").c_str(),
                "Syntax: wiseyc "
                "[-d|--destructor-debug] "
@@ -73,7 +77,9 @@ TEST_F(MainTest, helpTest) {
                "[-v|--verbouse] "
                "[-H|--headers <header_file.yzh>] "
                "[-o|--output <object_file.o>] "
-               "[-n|--no-output] <source_file.yz>...\n");
+               "[-n|--no-output] "
+               "[--no-optimization] "
+               "<source_file.yz>...\n");
 }
 
 TEST_F(MainTest, outputToFileTest) {

@@ -21,6 +21,7 @@ void CompilerArgumentParser::printSyntaxAndExit() const {
           "[-H|--headers <header_file.yzh>] "
           "[-o|--output <object_file.o>] "
           "[-n|--no-output] "
+          "[--no-optimization] "
           "<source_file.yz>..." << endl;
   exit(1);
 }
@@ -70,6 +71,10 @@ CompilerArguments CompilerArgumentParser::parse(vector<string> argumnets) const 
     }
     if (!argument.compare("--no-output") || !argument.compare("-n")) {
       compilerArguments.setShouldOutput(false);
+      continue;
+    }
+    if (!argument.compare("--no-optimization")) {
+      compilerArguments.setShouldOptimize(false);
       continue;
     }
     if (!argument.compare("--destructor-debug") || !argument.compare("-d")) {
