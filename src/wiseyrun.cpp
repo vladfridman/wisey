@@ -29,7 +29,9 @@ int main(int argc, char** argv) {
 
   Compiler compiler(compilerArguments);
   compiler.compile();
-  compiler.optimize();
+  if (compilerArguments.shouldOptimize()) {
+    compiler.optimize();
+  }
   if (compilerArguments.shouldPrintAssembly()) {
     compiler.printAssembly();
   }
