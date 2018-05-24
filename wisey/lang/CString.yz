@@ -65,14 +65,14 @@ controller CString {
   /**
    * Get a string representation of a boolean
    */
-  public static CString* craeteFromBoolean(boolean input) {
+  public static CString* createFromBoolean(boolean input) {
     return input ? createFromString("true") : createFromString("false");
   }
 
   /**
    * Get a string representation of an int
    */
-  public static CString* craeteFromInt(int input) {
+  public static CString* createFromInt(int input) {
     char[]* buffer = new char[80];
     ::llvm::function::sprintf(buffer, "%d", input);
     return createFromCharArray(buffer);
@@ -81,7 +81,7 @@ controller CString {
   /**
    * Get a string representation of a long
    */
-  public static CString* craeteFromLong(long input) {
+  public static CString* createFromLong(long input) {
     char[]* buffer = new char[80];
     ::llvm::function::sprintf(buffer, "%d", input);
     return createFromCharArray(buffer);
@@ -90,7 +90,7 @@ controller CString {
   /**
    * Get a string representation of a char
    */
-  public static CString* craeteFromChar(char input) {
+  public static CString* createFromChar(char input) {
     char[]* buffer = new char[2];
     ::llvm::function::sprintf(buffer, "%c", input);
     return createFromCharArray(buffer);
@@ -99,7 +99,7 @@ controller CString {
   /**
    * Get a string representation of a float
    */
-  public static CString* craeteFromFloat(float input) {
+  public static CString* createFromFloat(float input) {
     char[]* buffer = new char[80];
     ::llvm::function::sprintf(buffer, "%f", (double) input);
     return createFromCharArray(buffer);
@@ -108,7 +108,7 @@ controller CString {
   /**
    * Get a string representation of a double
    */
-  public static CString* craeteFromDouble(double input) {
+  public static CString* createFromDouble(double input) {
     char[]* buffer = new char[80];
     ::llvm::function::sprintf(buffer, "%e", input);
     return createFromCharArray(buffer);

@@ -377,17 +377,17 @@ external controller wisey.lang.CString {
     char[] input);
   static wisey.lang.CString* createFromImmutableCharArray(
     immutable char[] input);
-  static wisey.lang.CString* craeteFromBoolean(
+  static wisey.lang.CString* createFromBoolean(
     boolean input);
-  static wisey.lang.CString* craeteFromInt(
+  static wisey.lang.CString* createFromInt(
     int input);
-  static wisey.lang.CString* craeteFromLong(
+  static wisey.lang.CString* createFromLong(
     long input);
-  static wisey.lang.CString* craeteFromChar(
+  static wisey.lang.CString* createFromChar(
     char input);
-  static wisey.lang.CString* craeteFromFloat(
+  static wisey.lang.CString* createFromFloat(
     float input);
-  static wisey.lang.CString* craeteFromDouble(
+  static wisey.lang.CString* createFromDouble(
     double input);
   boolean toBoolean();
   char toChar();
