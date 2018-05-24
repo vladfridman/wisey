@@ -151,3 +151,7 @@ TEST_F(ShiftLeftExpressionTest, rightExpressionNotIntegerTypeDeathTest) {
 TEST_F(TestFileRunner, shiftLeftTest) {
   runFile("tests/samples/test_shiftleft.yz", 32);
 }
+
+TEST_F(TestFileRunner, shiftLeftAutoCastTest) {
+  runFile("tests/samples/test_shiftleft_autocast.yz", 32);
+}

@@ -39,6 +39,11 @@ Value* ShiftLeftExpression::generateIR(IRGenerationContext& context,
   
   Value* leftValue = mLeftExpression->generateIR(context, PrimitiveTypes::VOID);
   Value* rightValue = mRightExpression->generateIR(context, PrimitiveTypes::VOID);
+  const IType* leftType = mLeftExpression->getType(context);
+  const IType* rightType = mRightExpression->getType(context);
+  if (rightType != leftType) {
+    rightValue = rightType->castTo(context, rightValue, leftType, mLine);
+  }
 
   return IRWriter::createBinaryOperator(context, Instruction::Shl, leftValue, rightValue, "");
 }
