@@ -128,6 +128,8 @@ WS  [ \t\v\n\f]
 "void"                        return TOKEN(TTYPEVOID);
 "while"                       return TOKEN(TWHILE);
 "..."                         return TOKEN(TELIPSIS);
+"<<"                          return TOKEN(TSHIFTLEFT);
+">>"                          return TOKEN(TSHIFTRIGHT);
 "="                           return TOKEN('=');
 "=="                          return TOKEN(TCEQ);
 "!="                          return TOKEN(TCNE);

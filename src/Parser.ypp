@@ -115,6 +115,8 @@
   #include "wisey/RelationalExpression.hpp"
   #include "wisey/ReturnStatement.hpp"
   #include "wisey/ReturnVoidStatement.hpp"
+  #include "wisey/ShiftLeftExpression.hpp"
+  #include "wisey/ShiftRightExpression.hpp"
   #include "wisey/StringLiteral.hpp"
   #include "wisey/StateFieldDefinition.hpp"
   #include "wisey/StaticMethodCall.hpp"
@@ -227,7 +229,7 @@
 %token <token> TLLVMPOINTER TLLVMSTRUCT TLLVMVOID TLLVMREFERENCE
 %token <token> TMODEL TNEW TNODE TNULL TOROP TOVERRIDE TPACKAGE 
 %token <token> TPRINTFILE TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN 
-%token <token> TSCOPE TSTATE TSTATIC TSWITCH 
+%token <token> TSCOPE TSHIFTLEFT TSHIFTRIGHT TSTATE TSTATIC TSWITCH 
 %token <token> TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN 
 %token <token> TTYPECHAR TTYPEDOUBLE TTYPEFLOAT TTYPEINT TTYPELONG TTYPESTRING TTYPEVOID TWHILE
 %token <token> TWISEY TWISEYMODEL TWISEYOBJECT
@@ -239,7 +241,7 @@
 %type <string> package_optional package_name string_identifier llvm_function_name
 %type <expression> string_literal constant_value expression multiplicative_expression 
 %type <expression> additive_expression relational_expression equality_expression
-%type <expression> logical_and_expression logical_or_expression
+%type <expression> logical_and_expression logical_or_expression shift_expression
 %type <expression> conditional_expression postfix_expression object_builder
 %type <expression> cast_expression primary_expression assignment unary_expression
 %type <expression> type_comparision_expression injection array_allocation static_array_allocation
@@ -1389,15 +1391,23 @@ additive_expression
     { $$ = new AdditiveMultiplicativeExpression($1, '-', $3, yylineno); }
   ;
 
-relational_expression
+shift_expression
   : additive_expression
-  | relational_expression '<' additive_expression
+  | shift_expression TSHIFTLEFT additive_expression
+    { $$ = new ShiftLeftExpression($1, $3, yylineno); }
+  | shift_expression TSHIFTRIGHT additive_expression
+    { $$ = new ShiftRightExpression($1, $3, yylineno); }
+  ;
+
+relational_expression
+  : shift_expression
+  | relational_expression '<' shift_expression
     { $$ = new RelationalExpression($1, RELATIONAL_OPERATION_LT, $3, yylineno); }
-  | relational_expression '>' additive_expression
+  | relational_expression '>' shift_expression
     { $$ = new RelationalExpression($1, RELATIONAL_OPERATION_GT, $3, yylineno); }
-  | relational_expression TCLE additive_expression
+  | relational_expression TCLE shift_expression
     { $$ = new RelationalExpression($1, RELATIONAL_OPERATION_LE, $3, yylineno); }
-  | relational_expression TCGE additive_expression
+  | relational_expression TCGE shift_expression
     { $$ = new RelationalExpression($1, RELATIONAL_OPERATION_GE, $3, yylineno); }
   ;
 

@@ -33,6 +33,12 @@
 		F50D5E3D20B58DCB00A025E9 /* Optimizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50D5E3C20B58DCB00A025E9 /* Optimizer.cpp */; };
 		F50D5E3E20B58DCB00A025E9 /* Optimizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50D5E3C20B58DCB00A025E9 /* Optimizer.cpp */; };
 		F50D5E3F20B5A03800A025E9 /* libLLVMAsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F53061881F794DA20098D637 /* libLLVMAsmParser.a */; };
+		F50D5E4220B6FD0600A025E9 /* ShiftLeftExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50D5E4120B6FD0600A025E9 /* ShiftLeftExpression.cpp */; };
+		F50D5E4320B6FD0600A025E9 /* ShiftLeftExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50D5E4120B6FD0600A025E9 /* ShiftLeftExpression.cpp */; };
+		F50D5E4620B7068B00A025E9 /* ShiftRightExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50D5E4520B7068B00A025E9 /* ShiftRightExpression.cpp */; };
+		F50D5E4720B7068B00A025E9 /* ShiftRightExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50D5E4520B7068B00A025E9 /* ShiftRightExpression.cpp */; };
+		F50D5E4A20B7079200A025E9 /* TestShiftLeftExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50D5E4820B7079200A025E9 /* TestShiftLeftExpression.cpp */; };
+		F50D5E4C20B70ACA00A025E9 /* TestShiftRightExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50D5E4B20B70ACA00A025E9 /* TestShiftRightExpression.cpp */; };
 		F50FA29E1E2693F400435EEA /* CompoundStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */; };
 		F50FA29F1E2693F400435EEA /* CompoundStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */; };
 		F50FA2A11E269B4700435EEA /* TestCompoundStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2A01E269B4700435EEA /* TestCompoundStatement.cpp */; };
@@ -1186,6 +1192,12 @@
 		F50D5E3920B4CF1900A025E9 /* TestCReferenceVector.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCReferenceVector.cpp; path = tests/TestCReferenceVector.cpp; sourceTree = "<group>"; };
 		F50D5E3B20B58D5200A025E9 /* Optimizer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Optimizer.hpp; path = include/wisey/Optimizer.hpp; sourceTree = "<group>"; };
 		F50D5E3C20B58DCB00A025E9 /* Optimizer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Optimizer.cpp; path = src/Optimizer.cpp; sourceTree = "<group>"; };
+		F50D5E4020B6FCBD00A025E9 /* ShiftLeftExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ShiftLeftExpression.hpp; path = include/wisey/ShiftLeftExpression.hpp; sourceTree = "<group>"; };
+		F50D5E4120B6FD0600A025E9 /* ShiftLeftExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ShiftLeftExpression.cpp; path = src/ShiftLeftExpression.cpp; sourceTree = "<group>"; };
+		F50D5E4420B7065A00A025E9 /* ShiftRightExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ShiftRightExpression.hpp; path = include/wisey/ShiftRightExpression.hpp; sourceTree = "<group>"; };
+		F50D5E4520B7068B00A025E9 /* ShiftRightExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ShiftRightExpression.cpp; path = src/ShiftRightExpression.cpp; sourceTree = "<group>"; };
+		F50D5E4820B7079200A025E9 /* TestShiftLeftExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestShiftLeftExpression.cpp; path = tests/TestShiftLeftExpression.cpp; sourceTree = "<group>"; };
+		F50D5E4B20B70ACA00A025E9 /* TestShiftRightExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestShiftRightExpression.cpp; path = tests/TestShiftRightExpression.cpp; sourceTree = "<group>"; };
 		F50EF29B1EDB4599002E68A8 /* IGlobalStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IGlobalStatement.hpp; path = include/wisey/IGlobalStatement.hpp; sourceTree = "<group>"; };
 		F50EF2A01EDC7A97002E68A8 /* MockGlobalStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockGlobalStatement.hpp; path = tests/include/MockGlobalStatement.hpp; sourceTree = "<group>"; };
 		F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CompoundStatement.cpp; path = src/CompoundStatement.cpp; sourceTree = "<group>"; };
@@ -2928,6 +2940,8 @@
 				F53A2C471F029AF700E76A9E /* NullExpression.hpp */,
 				F5089C9F1ECD01D9004A1223 /* RelationalExpression.hpp */,
 				F5089CA01ECD01D9004A1223 /* RelationalOperation.hpp */,
+				F50D5E4020B6FCBD00A025E9 /* ShiftLeftExpression.hpp */,
+				F50D5E4420B7065A00A025E9 /* ShiftRightExpression.hpp */,
 				F58748321F9513B00088F1E3 /* ThreadExpression.hpp */,
 				F5089CA91ECD01D9004A1223 /* TypeComparisionExpression.hpp */,
 			);
@@ -2957,6 +2971,8 @@
 				F5ADB61A1E5F568400FFC941 /* NegateExpression.cpp */,
 				F53A2C481F029BA500E76A9E /* NullExpression.cpp */,
 				F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */,
+				F50D5E4120B6FD0600A025E9 /* ShiftLeftExpression.cpp */,
+				F50D5E4520B7068B00A025E9 /* ShiftRightExpression.cpp */,
 				F58748331F95143A0088F1E3 /* ThreadExpression.cpp */,
 				F5B9B1521E7A9DB000456CB4 /* TypeComparisionExpression.cpp */,
 			);
@@ -3466,6 +3482,8 @@
 				F5ADB61C1E5F587300FFC941 /* TestNegateExpression.cpp */,
 				F53A2C4D1F02A4EC00E76A9E /* TestNullExpression.cpp */,
 				F53400FA1DFD999B0002BF7E /* TestRelationalExpression.cpp */,
+				F50D5E4820B7079200A025E9 /* TestShiftLeftExpression.cpp */,
+				F50D5E4B20B70ACA00A025E9 /* TestShiftRightExpression.cpp */,
 				F5B9B1571E7AC0F200456CB4 /* TestTypeComparisionExpression.cpp */,
 			);
 			name = expressions;
@@ -4275,6 +4293,7 @@
 				F58FA310207295B500C86D33 /* TestWiseyObjectTypeSpecifier.cpp in Sources */,
 				F53A2C371EFFFCEE00E76A9E /* TestNode.cpp in Sources */,
 				F582705E205FCA6C00839EC7 /* LLVMPointerType.cpp in Sources */,
+				F50D5E4A20B7079200A025E9 /* TestShiftLeftExpression.cpp in Sources */,
 				F5609F1820580DE000664ADD /* LocalPointerVariable.cpp in Sources */,
 				F58725631F70143100FA25E6 /* IPrintStatement.cpp in Sources */,
 				F5D159A820A7133500107E84 /* TestCContextManager.cpp in Sources */,
@@ -4285,6 +4304,7 @@
 				F50FA2F81E2E3B3900435EEA /* TestLongConstant.cpp in Sources */,
 				F5827053205FAB1600839EC7 /* TestLLVMArrayType.cpp in Sources */,
 				F513DDFE20179374001A075B /* TestFieldArrayReferenceVariable.cpp in Sources */,
+				F50D5E4320B6FD0600A025E9 /* ShiftLeftExpression.cpp in Sources */,
 				F54B146B205D69D20030773F /* LLVMi8Type.cpp in Sources */,
 				F5CB18141EB0D96A007E2E43 /* Catch.cpp in Sources */,
 				F5FE0A1E1F7D9B84000621CA /* TestExternalMethodDefinition.cpp in Sources */,
@@ -4454,6 +4474,7 @@
 				F52C66671FBF446400E89B04 /* AdjustReferenceCountFunction.cpp in Sources */,
 				F5C6FD791E48B59C0054209D /* TestDoubleType.cpp in Sources */,
 				F5D4660A2061330C00C1047A /* TestParameterPointerVariable.cpp in Sources */,
+				F50D5E4720B7068B00A025E9 /* ShiftRightExpression.cpp in Sources */,
 				F53401061DFEDB620002BF7E /* TestFileRunner.cpp in Sources */,
 				F582707E20600ECD00839EC7 /* LLVMFunctionDeclaration.cpp in Sources */,
 				F50FF885208B8BC5008EDC40 /* TestLocalImmutableArrayOwnerVariable.cpp in Sources */,
@@ -4534,6 +4555,7 @@
 				F54B1489205EC5CD0030773F /* TestLLVMi1Type.cpp in Sources */,
 				F50427AF1E4DD329001CB148 /* TestLocalPrimitiveVariable.cpp in Sources */,
 				F59D822A1E1089E700057FB5 /* BreakStatement.cpp in Sources */,
+				F50D5E4C20B70ACA00A025E9 /* TestShiftRightExpression.cpp in Sources */,
 				F581A0162073B1BC00EA0156 /* TestLocalLLVMVariable.cpp in Sources */,
 				F56AD49F1E9F50FD0020868C /* TestThrowStatement.cpp in Sources */,
 				F5C0E7CF2090AF970028BBD0 /* TestIsModelObject.cpp in Sources */,
@@ -4662,6 +4684,7 @@
 				F59D82231E0F6DAE00057FB5 /* IfStatement.cpp in Sources */,
 				F58FA300206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp in Sources */,
 				F5B9B1531E7A9DB000456CB4 /* TypeComparisionExpression.cpp in Sources */,
+				F50D5E4620B7068B00A025E9 /* ShiftRightExpression.cpp in Sources */,
 				F5827059205FC88600839EC7 /* LLVMPointerTypeSpecifier.cpp in Sources */,
 				F56C214A1F5EA91A002510FC /* Cleanup.cpp in Sources */,
 				F52FF1851F1C570C003F4D37 /* Names.cpp in Sources */,
@@ -4851,6 +4874,7 @@
 				F50FF869208B66BD008EDC40 /* ImmutableArrayOwnerType.cpp in Sources */,
 				F5A67DA520120A0A0018068F /* LocalArrayReferenceVariable.cpp in Sources */,
 				F51701A4200E992200A10B7C /* ArrayOwnerType.cpp in Sources */,
+				F50D5E4220B6FD0600A025E9 /* ShiftLeftExpression.cpp in Sources */,
 				F5A363571F376C90005880B3 /* IFieldVariable.cpp in Sources */,
 				F5C6FD6F1E48B40F0054209D /* BooleanType.cpp in Sources */,
 				F50FF896208C8B61008EDC40 /* ParameterImmutableArrayOwnerVariable.cpp in Sources */,
