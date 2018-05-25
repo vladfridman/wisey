@@ -229,6 +229,16 @@ TEST_F(MethodTest, printToStreamTest) {
                stringStream.str().c_str());
 }
 
+TEST_F(TestFileRunner, freeOwnerReturnedFromMethodRunTest) {
+  runFileCheckOutputWithDestructorDebug("tests/samples/test_free_owner_returned_from_method.yz",
+                                        "5\n"
+                                        "destructor systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n"
+                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n"
+                                        "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "");
+}
+
 TEST_F(TestFileRunner, methodMissingThrowsDeathRunTest) {
   expectFailCompile("tests/samples/test_method_missing_throws.yz",
                     1,

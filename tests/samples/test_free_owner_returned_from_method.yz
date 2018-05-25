@@ -1,0 +1,24 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+
+model MCar {
+  public int getValue() {
+    return 5;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  private MCar* getOwner() {
+    return builder(MCar).build();
+  }
+
+  public int run(immutable string[] arguments) override {
+    printout(getOwner().getValue() + "\n");
+    return 1;
+  }
+}
+
+bind(IProgram).to(CProgram);

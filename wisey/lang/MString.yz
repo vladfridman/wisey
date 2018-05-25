@@ -41,6 +41,13 @@ model MString {
   }
 
   /**
+   * Creates CString equivalent
+   */
+  public CString* toController() {
+    return CString.createFromImmutableCharArray(mContent);
+  }
+
+  /**
    * Returns the string length
    */
   public long getLength() {

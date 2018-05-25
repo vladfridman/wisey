@@ -8,8 +8,8 @@ import wisey.lang.MString;
  * a previously opened file.
  */
 model MFileOpenException implements IException {
-  receive MString mCurrentFile;
-  receive MString mNewFile;
+  receive MString* mCurrentFile;
+  receive MString* mNewFile;
 
   public void report() override {
     callstack.reportException(this);

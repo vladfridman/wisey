@@ -1,6 +1,7 @@
 package wisey.io;
 
 import wisey.lang.CString;
+import wisey.lang.MString;
 
 /**
  * Reads lines from a text file
@@ -12,15 +13,15 @@ controller CFileReader {
   inject CFile* mFile;
   inject char[BUFFER_SIZE]* mBuffer;
 
-  receive CString mFileName;
+  receive MString* mFileName;
 
   public static CFileReader* create(CString fileName) {
-    return injector(CFileReader).withFileName(fileName).inject();
+    return injector(CFileReader).withFileName(fileName.toModel()).inject();
   }
 
   public CString* readLine() throws MFileOpenException, MFileCouldNotOpenException {
     if (!mFile.isOpened()) {
-      mFile.openForReading(mFileName);
+      mFile.openForReading(mFileName.toController());
     }
 
     CString* cstring = CString.create();

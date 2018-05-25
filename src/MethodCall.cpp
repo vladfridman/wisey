@@ -222,11 +222,11 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
     return result;
   }
   
-  Value* pointer = IRWriter::newAllocaInst(context, result->getType(), "returnedObjectPointer");
-  IRWriter::newStoreInst(context, result, pointer);
-
   string variableName = IVariable::getTemporaryVariableName(this);
   returnType->createLocalVariable(context, variableName, mLine);
+  vector<const IExpression*> arrayIndicies;
+  context.getScopes().getVariable(variableName)->
+  generateAssignmentIR(context, new FakeExpression(result, returnType), arrayIndicies, mLine);
 
   return result;
 }

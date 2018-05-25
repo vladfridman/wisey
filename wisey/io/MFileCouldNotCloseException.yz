@@ -7,7 +7,7 @@ import wisey.lang.MString;
  * Exception that is thrown by wisey.io.CFile when it is not able to close a file
  */
 model MFileCouldNotCloseException implements IException {
-  receive MString mFileName;
+  receive MString* mFileName;
 
   public void report() override {
     callstack.reportException(this);

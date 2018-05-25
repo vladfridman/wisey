@@ -11,6 +11,7 @@
 #include "wisey/Argument.hpp"
 #include "wisey/AutoCast.hpp"
 #include "wisey/Composer.hpp"
+#include "wisey/FakeExpression.hpp"
 #include "wisey/GetTypeNameMethod.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMFunction.hpp"
@@ -127,11 +128,11 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
     return result;
   }
   
-  Value* pointer = IRWriter::newAllocaInst(context, result->getType(), "returnedObjectPointer");
-  IRWriter::newStoreInst(context, result, pointer);
-  
   string variableName = IVariable::getTemporaryVariableName(this);
   returnType->createLocalVariable(context, variableName, mLine);
+  vector<const IExpression*> arrayIndicies;
+  context.getScopes().getVariable(variableName)->
+  generateAssignmentIR(context, new FakeExpression(result, returnType), arrayIndicies, mLine);
 
   return result;
 }

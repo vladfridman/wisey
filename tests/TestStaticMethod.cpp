@@ -233,6 +233,16 @@ TEST_F(TestFileRunner, staticMethodDefinitionRunTest) {
   runFile("tests/samples/test_static_method_definition.yz", 2018);
 }
 
+TEST_F(TestFileRunner, freeOwnerReturnedFromStaticMethodRunTest) {
+  runFileCheckOutputWithDestructorDebug("tests/samples/test_free_owner_returned_from_static_method.yz",
+                                        "3\n"
+                                        "destructor systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n"
+                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n"
+                                        "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "");
+}
+
 TEST_F(TestFileRunner, staticMethodMissingThrowsDeathRunTest) {
   expectFailCompile("tests/samples/test_static_method_missing_throws.yz",
                     1,

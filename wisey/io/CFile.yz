@@ -1,9 +1,10 @@
 package wisey.io;
 
 import wisey.lang.CString;
+import wisey.lang.MString;
 
 controller CFile {
-  state CString mFileName;
+  state MString* mFileName;
   state ::llvm::struct::__sFILE::pointer mFileStruct;
 
   /**
@@ -44,7 +45,7 @@ controller CFile {
     int result = ::llvm::function::fclose(mFileStruct);
 
     if (result != 0) {
-      throw builder(MFileCouldNotCloseException).withFileName(mFileName.toModel()).build();
+      throw builder(MFileCouldNotCloseException).withFileName(mFileName).build();
     }
   }
 
@@ -60,14 +61,14 @@ controller CFile {
     if (mFileStruct != null) {
       throw builder(MFileOpenException)
         .withNewFile(fileName.toModel())
-        .withCurrentFile(mFileName.toModel())
+        .withCurrentFile(mFileName.copy())
         .build();
     }
     
-    mFileName = fileName;
+    mFileName = fileName.toModel();
     mFileStruct = ::llvm::function::fopen(mFileName.getContent(), mode);
     if (mFileStruct == null) {
-      throw builder(MFileCouldNotOpenException).withFileName(fileName.toModel()).build();
+      throw builder(MFileCouldNotOpenException).withFileName(mFileName).build();
     }
   }
 }

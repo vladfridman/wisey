@@ -52,7 +52,7 @@ void ThrowStatement::generateIR(IRGenerationContext& context) const {
   GlobalVariable* rtti = context.getModule()->getNamedGlobal(model->getRTTIVariableName());
 
   llvm::PointerType* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
-  Value* exceptionObject = mExpression->generateIR(context, PrimitiveTypes::VOID);
+  Value* exceptionObject = mExpression->generateIR(context, expressionType);
   BitCastInst* rttiBitcast = IRWriter::newBitCastInst(context, rtti, int8PointerType);
 
   BitCastInst* expressionValueBitcast =
@@ -84,6 +84,7 @@ void ThrowStatement::generateIR(IRGenerationContext& context) const {
   memCopyArguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 0));
   Function* memCopyFunction = IntrinsicFunctions::getMemCopyFunction(context);
   IRWriter::createCallInst(context, memCopyFunction, memCopyArguments, "");
+  IRWriter::createFree(context, excpetionShellStart);
   
   Composer::setLineNumber(context, mLine);
 
