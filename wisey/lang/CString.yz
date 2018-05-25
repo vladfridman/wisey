@@ -198,7 +198,7 @@ controller CString {
    */
   public MString* toModel() {
     char[]* buffer = new char[mLength + 1];
-    MSystem.copyMemory(buffer, mBuffer, mCapacity);
+    MSystem.copyMemory(buffer, mBuffer, mLength);
     return builder(MString).withContent(buffer).build();    
   }
 
