@@ -23,9 +23,15 @@ TEST_F(TestFileRunner, cReferenceVectorRunTest) {
                                         "Vector size: 3, capacity: 6\n"
                                         "Car year: 2018\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
-                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n"
+                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n"
+                                        "freeing systems.vos.wisey.compiler.tests.CProgram.mVector\n"
+                                        "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");
 }

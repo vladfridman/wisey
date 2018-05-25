@@ -454,6 +454,13 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
                               -Environment::getAddressSizeInBytes());
   Value* refCounterObject = IRWriter::createGetElementPtrInst(context, thisGeneric, index);
   IRWriter::createFree(context, refCounterObject);
+  if (context.isDestructorDebugOn()) {
+    ExpressionList printOutArguments;
+    StringLiteral* stringLiteral =
+    new StringLiteral("done destructing " + concreteObject->getTypeName() + "\n", 0);
+    printOutArguments.push_back(stringLiteral);
+    PrintOutStatement::printExpressionList(context, printOutArguments, 0);
+  }
   IRWriter::createReturnInst(context, NULL);
   
   context.getScopes().popScope(context, 0);
@@ -468,7 +475,15 @@ void IConcreteObjectType::decrementReferenceFields(IRGenerationContext& context,
     if (!fieldType->isReference()) {
       continue;
     }
-    
+
+    if (context.isDestructorDebugOn()) {
+      ExpressionList printOutArguments;
+      StringLiteral* stringLiteral =
+      new StringLiteral("decrementing " + object->getTypeName() + "." + field->getName() + "\n", 0);
+      printOutArguments.push_back(stringLiteral);
+      PrintOutStatement::printExpressionList(context, printOutArguments, 0);
+    }
+
     Value* fieldValuePointer = getFieldValuePointer(context, thisValue, object, field);
     const IReferenceType* referenceType = (const IReferenceType*) fieldType;
     referenceType->decrementReferenceCount(context, fieldValuePointer);
@@ -486,7 +501,15 @@ void IConcreteObjectType::freeOwnerFields(IRGenerationContext& context,
     if (!fieldType->isOwner()) {
       continue;
     }
-    
+ 
+    if (context.isDestructorDebugOn()) {
+      ExpressionList printOutArguments;
+      StringLiteral* stringLiteral =
+      new StringLiteral("freeing " + object->getTypeName() + "." + field->getName() + "\n", 0);
+      printOutArguments.push_back(stringLiteral);
+      PrintOutStatement::printExpressionList(context, printOutArguments, 0);
+    }
+
     Value* fieldValuePointer = getFieldValuePointer(context, thisValue, object, field);
     const IOwnerType* ownerType = (const IOwnerType*) fieldType;
     ownerType->free(context, fieldValuePointer, exception, line);

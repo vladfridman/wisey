@@ -168,7 +168,9 @@ TEST_F(TestFileRunner, assignParameterOwnerToNullCompileTest) {
 TEST_F(TestFileRunner, parameterPointerOwnerVariableRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_parameter_pointer_owner_variable.yz",
                                         "destructor systems.vos.wisey.compiler.tests.MModel\n"
+                                        "done destructing systems.vos.wisey.compiler.tests.MModel\n"
                                         "free completed\n"
-                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n"
+                                        "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");
 }

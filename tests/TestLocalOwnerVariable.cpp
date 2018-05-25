@@ -250,8 +250,10 @@ TEST_F(TestFileRunner, usingUninitializedLocalOwnerVariableRunDeathTest) {
 TEST_F(TestFileRunner, destructorCalledOnAssignLocalOwnerVariableRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_destructor_called_on_assign_heap_owner_variable.yz",
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n"
                                         "car is destoyed\n"
-                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n"
+                                        "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");
 }
 
@@ -268,6 +270,8 @@ TEST_F(TestFileRunner, stringArrayRunTest) {
 TEST_F(TestFileRunner, localPointerOwnerVariableRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_local_pointer_owner_variable.yz",
                                         "destructor systems.vos.wisey.compiler.tests.MModel\n"
-                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "done destructing systems.vos.wisey.compiler.tests.MModel\n"
+                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n"
+                                        "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");
 }

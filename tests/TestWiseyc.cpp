@@ -154,8 +154,15 @@ TEST_F(MainTest, emitLLVMTest) {
 TEST_F(TestFileRunner, debugDestructorsRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_controller_injection_chain.yz",
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n"
+                                        "freeing systems.vos.wisey.compiler.tests.CProgram.mTopController\n"
                                         "destructor systems.vos.wisey.compiler.tests.CTopController\n"
+                                        "freeing systems.vos.wisey.compiler.tests.CTopController.mMiddleController\n"
                                         "destructor systems.vos.wisey.compiler.tests.CMiddleController\n"
-                                        "destructor systems.vos.wisey.compiler.tests.CBottomController\n",
+                                        "freeing systems.vos.wisey.compiler.tests.CMiddleController.mBottomController\n"
+                                        "destructor systems.vos.wisey.compiler.tests.CBottomController\n"
+                                        "done destructing systems.vos.wisey.compiler.tests.CBottomController\n"
+                                        "done destructing systems.vos.wisey.compiler.tests.CMiddleController\n"
+                                        "done destructing systems.vos.wisey.compiler.tests.CTopController\n"
+                                        "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");
 }

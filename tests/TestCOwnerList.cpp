@@ -19,11 +19,16 @@ TEST_F(TestFileRunner, cOwnerListRunTest) {
                                         "Lookup BMW: BMW\n"
                                         "Lookup Mercedes: Mercedes\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n"
                                         "BMW was erased\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n"
                                         "Toyota was erased\n"
                                         "Mercedes was erased\n"
-                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n"
+                                        "freeing systems.vos.wisey.compiler.tests.CProgram.mList\n"
+                                        "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");
 }

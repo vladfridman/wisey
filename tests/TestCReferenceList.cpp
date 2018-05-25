@@ -21,8 +21,13 @@ TEST_F(TestFileRunner, cReferenceListRunTest) {
                                         "Toyota was erased\n"
                                         "Mercedes was erased\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
-                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n"
+                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n"
+                                        "freeing systems.vos.wisey.compiler.tests.CProgram.mList\n"
+                                        "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");
 }
