@@ -74,15 +74,17 @@ struct ReturnVoidStatementTest : public Test {
 };
 
 TEST_F(ReturnVoidStatementTest, returnVoidTest) {
-  BasicBlock *basicBlock = BasicBlock::Create(mLLVMContext, "entry");
-  mContext.setBasicBlock(basicBlock);
+  BasicBlock* entryBlock = BasicBlock::Create(mLLVMContext, "entry");
+  BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare");
+  mContext.setBasicBlock(entryBlock);
+  mContext.setDeclarationsBlock(declareBlock);
   mContext.getScopes().pushScope();
   
   ReturnVoidStatement returnVoidStatement(0);
   returnVoidStatement.generateIR(mContext);
   
-  ASSERT_EQ(1ul, basicBlock->size());
-  *mStringStream << basicBlock->front();
+  ASSERT_EQ(1ul, entryBlock->size());
+  *mStringStream << entryBlock->front();
   ASSERT_STREQ(mStringStream->str().c_str(), "  ret void");
 }
 
@@ -92,8 +94,10 @@ TEST_F(ReturnVoidStatementTest, ownerVariablesAreClearedTest) {
                                         GlobalValue::InternalLinkage,
                                         "test",
                                         mContext.getModule());
-  BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-  mContext.setBasicBlock(basicBlock);
+  BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
+  BasicBlock* entryBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+  mContext.setBasicBlock(entryBlock);
+  mContext.setDeclarationsBlock(declareBlock);
   mContext.getScopes().pushScope();
   mContext.getScopes().setReturnType(PrimitiveTypes::VOID);
   
@@ -116,18 +120,22 @@ TEST_F(ReturnVoidStatementTest, ownerVariablesAreClearedTest) {
   ReturnVoidStatement returnStatement(0);
   
   returnStatement.generateIR(mContext);
-  
+  BranchInst::Create(entryBlock, declareBlock);
+
   *mStringStream << *function;
   string expected =
   "\ndefine internal i64 @test() personality i32 (...)* @__gxx_personality_v0 {"
-  "\nentry:"
+  "\ndeclare:"
+  "\n  %pointer = alloca %MShape*"
+  "\n  %pointer2 = alloca %MShape*"
+  "\n  br label %entry"
+  "\n"
+  "\nentry:                                            ; preds = %declare"
   "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%MShape* getelementptr (%MShape, %MShape* null, i32 1) to i64))"
   "\n  %0 = bitcast i8* %malloccall to %MShape*"
-  "\n  %pointer = alloca %MShape*"
   "\n  store %MShape* %0, %MShape** %pointer"
   "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint (%MShape* getelementptr (%MShape, %MShape* null, i32 1) to i64))"
   "\n  %1 = bitcast i8* %malloccall1 to %MShape*"
-  "\n  %pointer2 = alloca %MShape*"
   "\n  store %MShape* %1, %MShape** %pointer2"
   "\n  %2 = load %MShape*, %MShape** %pointer2"
   "\n  %3 = bitcast %MShape* %2 to i8*"
@@ -138,6 +146,9 @@ TEST_F(ReturnVoidStatementTest, ownerVariablesAreClearedTest) {
   "\n  %4 = landingpad { i8*, i32 }"
   "\n          cleanup"
   "\n  %5 = alloca { i8*, i32 }"
+  "\n  br label %cleanup.cont"
+  "\n"
+  "\ncleanup.cont:                                     ; preds = %cleanup"
   "\n  store { i8*, i32 } %4, { i8*, i32 }* %5"
   "\n  %6 = getelementptr { i8*, i32 }, { i8*, i32 }* %5, i32 0, i32 0"
   "\n  %7 = load i8*, i8** %6"
@@ -170,8 +181,10 @@ TEST_F(ReturnVoidStatementTest, referenceVariablesGetTheirRefCountDecrementedTes
                                         GlobalValue::InternalLinkage,
                                         "test",
                                         mContext.getModule());
-  BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-  mContext.setBasicBlock(basicBlock);
+  BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
+  BasicBlock* entryBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+  mContext.setDeclarationsBlock(declareBlock);
+  mContext.setBasicBlock(entryBlock);
   mContext.getScopes().pushScope();
   mContext.getScopes().setReturnType(PrimitiveTypes::VOID);
   
@@ -197,22 +210,28 @@ TEST_F(ReturnVoidStatementTest, referenceVariablesGetTheirRefCountDecrementedTes
   ReturnVoidStatement returnStatement(0);
   
   returnStatement.generateIR(mContext);
+  BranchInst::Create(entryBlock, declareBlock);
+
+  *mStringStream << *declareBlock;
+  *mStringStream << *entryBlock;
   
-  *mStringStream << *basicBlock;
   string expected =
-  "\nentry:"
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (i32* getelementptr (i32, i32* null, i32 1) to i64))"
-  "\n  %0 = bitcast i8* %malloccall to %MModel*"
+  "\ndeclare:"
+  "\n  %0 = alloca %MModel*"
   "\n  %1 = alloca %MModel*"
-  "\n  store %MModel* %0, %MModel** %1"
+  "\n  br label %entry"
+  "\n"
+  "\nentry:                                            ; preds = %declare"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (i32* getelementptr (i32, i32* null, i32 1) to i64))"
+  "\n  %2 = bitcast i8* %malloccall to %MModel*"
+  "\n  store %MModel* %2, %MModel** %0"
   "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint (i32* getelementptr (i32, i32* null, i32 1) to i64))"
-  "\n  %2 = bitcast i8* %malloccall1 to %MModel*"
-  "\n  %3 = alloca %MModel*"
-  "\n  store %MModel* %2, %MModel** %3"
-  "\n  %4 = load %MModel*, %MModel** %3"
+  "\n  %3 = bitcast i8* %malloccall1 to %MModel*"
+  "\n  store %MModel* %3, %MModel** %1"
+  "\n  %4 = load %MModel*, %MModel** %1"
   "\n  %5 = bitcast %MModel* %4 to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %5, i64 -1)"
-  "\n  %6 = load %MModel*, %MModel** %1"
+  "\n  %6 = load %MModel*, %MModel** %0"
   "\n  %7 = bitcast %MModel* %6 to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %7, i64 -1)"
   "\n  ret void\n";

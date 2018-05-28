@@ -35,7 +35,8 @@ using ::testing::Test;
 struct CharTypeTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBlock;
+  BasicBlock* mEntryBlock;
+  BasicBlock* mDeclareBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   CharType mCharType;
@@ -52,8 +53,10 @@ public:
                                           GlobalValue::InternalLinkage,
                                           "main",
                                           mContext.getModule());
-    mBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
     
     IField* field = new ReceivedField(&mCharType, "mField", 0);
@@ -163,11 +166,14 @@ TEST_F(CharTypeTest, createLocalVariableTest) {
   
   ASSERT_NE(variable, nullptr);
   
-  *mStringStream << *mBlock;
-  
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
+
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %0 = alloca i8"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  store i8 0, i8* %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

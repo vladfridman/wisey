@@ -41,7 +41,9 @@ struct DestroyObjectOwnerFunctionTest : Test {
                                  GlobalValue::InternalLinkage,
                                  "main",
                                  mContext.getModule());
+    BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
@@ -59,7 +61,7 @@ TEST_F(DestroyObjectOwnerFunctionTest, callTest) {
   
   *mStringStream << *mBasicBlock;
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  call void @__destroyObjectOwnerFunction(i8* null, i8* null)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -92,6 +94,9 @@ TEST_F(DestroyObjectOwnerFunctionTest, getTest) {
   "\n  %5 = landingpad { i8*, i32 }"
   "\n          cleanup"
   "\n  %6 = alloca { i8*, i32 }"
+  "\n  br label %cleanup.cont"
+  "\n"
+  "\ncleanup.cont:                                     ; preds = %cleanup"
   "\n  store { i8*, i32 } %5, { i8*, i32 }* %6"
   "\n  %7 = getelementptr { i8*, i32 }, { i8*, i32 }* %6, i32 0, i32 0"
   "\n  %8 = load i8*, i8** %7"

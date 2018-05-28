@@ -26,7 +26,8 @@ using ::testing::Test;
 struct CheckForNullAndThrowFunctionTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBasicBlock;
+  BasicBlock* mDeclareBlock;
+  BasicBlock* mEntryBlock;
   Function* mFunction;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
@@ -40,8 +41,10 @@ struct CheckForNullAndThrowFunctionTest : Test {
                                  GlobalValue::InternalLinkage,
                                  "main",
                                  mContext.getModule());
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
     
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -54,11 +57,15 @@ struct CheckForNullAndThrowFunctionTest : Test {
 TEST_F(CheckForNullAndThrowFunctionTest, callTest) {
   Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
   CheckForNullAndThrowFunction::call(mContext, nullPointerValue);
+  BranchInst::Create(mEntryBlock, mDeclareBlock);
   
   *mStringStream << *mFunction;
   string expected =
   "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
-  "\nentry:"
+  "\ndeclare:"
+  "\n  br label %entry"
+  "\n"
+  "\nentry:                                            ; preds = %declare"
   "\n  %0 = bitcast i8* null to i8*"
   "\n  invoke void @__checkForNullAndThrow(i8* %0)"
   "\n          to label %invoke.continue unwind label %cleanup"
@@ -67,6 +74,9 @@ TEST_F(CheckForNullAndThrowFunctionTest, callTest) {
   "\n  %1 = landingpad { i8*, i32 }"
   "\n          cleanup"
   "\n  %2 = alloca { i8*, i32 }"
+  "\n  br label %cleanup.cont"
+  "\n"
+  "\ncleanup.cont:                                     ; preds = %cleanup"
   "\n  store { i8*, i32 } %1, { i8*, i32 }* %2"
   "\n  %3 = getelementptr { i8*, i32 }, { i8*, i32 }* %2, i32 0, i32 0"
   "\n  %4 = load i8*, i8** %3"
@@ -109,6 +119,9 @@ TEST_F(CheckForNullAndThrowFunctionTest, getTest) {
   "\n  %5 = landingpad { i8*, i32 }"
   "\n          cleanup"
   "\n  %6 = alloca { i8*, i32 }"
+  "\n  br label %cleanup.cont"
+  "\n"
+  "\ncleanup.cont:                                     ; preds = %cleanup"
   "\n  store { i8*, i32 } %5, { i8*, i32 }* %6"
   "\n  %7 = getelementptr { i8*, i32 }, { i8*, i32 }* %6, i32 0, i32 0"
   "\n  %8 = load i8*, i8** %7"

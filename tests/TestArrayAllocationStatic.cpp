@@ -59,7 +59,9 @@ struct ArrayAllocationStaticTest : Test {
                                  "main",
                                  mContext.getModule());
     
+    BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -102,7 +104,7 @@ TEST_F(ArrayAllocationStaticTest, generateIRTest) {
   *mStringStream << *mBasicBlock;
   
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint ({ i64, i64, i64, [2 x i32] }* getelementptr ({ i64, i64, i64, [2 x i32] }, { i64, i64, i64, [2 x i32] }* null, i32 1) to i64))"
   "\n  %newarray = bitcast i8* %malloccall to { i64, i64, i64, [2 x i32] }*"
   "\n  %0 = bitcast { i64, i64, i64, [2 x i32] }* %newarray to i8*"

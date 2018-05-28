@@ -222,11 +222,13 @@ void InjectedField::composeInjectFunctionBody(IRGenerationContext& context,
                                                                       0);
   context.getScopes().setVariable(context, callstackVariable);
 
+  BasicBlock* declarations = BasicBlock::Create(llvmContext, "declarations", function);
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function);
   BasicBlock* ifNullBlock = BasicBlock::Create(llvmContext, "if.null", function);
   BasicBlock* ifNotNullBlock = BasicBlock::Create(llvmContext, "if.not.null", function);
   
   context.setBasicBlock(entryBlock);
+  context.setDeclarationsBlock(declarations);
   Value* fieldValue = IRWriter::newLoadInst(context, fieldPointer, "");
   Value* null = ConstantPointerNull::get((PointerType*) fieldValue->getType());
   Value* condition =
@@ -246,6 +248,9 @@ void InjectedField::composeInjectFunctionBody(IRGenerationContext& context,
   IRWriter::createReturnInst(context, injectedValue);
 
   context.getScopes().popScope(context, 0);
+
+  context.setBasicBlock(declarations);
+  IRWriter::createBranch(context, entryBlock);
 }
 
 string InjectedField::getInjectionFunctionName(const Controller* controller) const {

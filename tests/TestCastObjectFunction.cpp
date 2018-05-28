@@ -30,7 +30,8 @@ using ::testing::Test;
 struct CastObjectFunctionTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBasicBlock;
+  BasicBlock* mDeclareBlock;
+  BasicBlock* mEntryBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   NiceMock<MockObjectType> mToObjectType;
@@ -45,8 +46,10 @@ struct CastObjectFunctionTest : Test {
                                  GlobalValue::InternalLinkage,
                                  "main",
                                  mContext.getModule());
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
     
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -75,11 +78,15 @@ TEST_F(CastObjectFunctionTest, callTest) {
   llvm::Constant* nullPointerValue =
   ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
   CastObjectFunction::call(mContext, nullPointerValue, &mToObjectType, 5);
+  BranchInst::Create(mEntryBlock, mDeclareBlock);
   
   *mStringStream << *mFunction;
   string expected =
   "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
-  "\nentry:"
+  "\ndeclare:"
+  "\n  br label %entry"
+  "\n"
+  "\nentry:                                            ; preds = %declare"
   "\n  %0 = invoke i8* @__castObject(i8* null, i8* getelementptr inbounds ([46 x i8], [46 x i8]* @systems.vos.wisey.compiler.tests.IToInterface.typename, i32 0, i32 0))"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
@@ -87,6 +94,9 @@ TEST_F(CastObjectFunctionTest, callTest) {
   "\n  %1 = landingpad { i8*, i32 }"
   "\n          cleanup"
   "\n  %2 = alloca { i8*, i32 }"
+  "\n  br label %cleanup.cont"
+  "\n"
+  "\ncleanup.cont:                                     ; preds = %cleanup"
   "\n  store { i8*, i32 } %1, { i8*, i32 }* %2"
   "\n  %3 = getelementptr { i8*, i32 }, { i8*, i32 }* %2, i32 0, i32 0"
   "\n  %4 = load i8*, i8** %3"
@@ -151,6 +161,9 @@ TEST_F(CastObjectFunctionTest, getTest) {
   "\n  %12 = landingpad { i8*, i32 }"
   "\n          cleanup"
   "\n  %13 = alloca { i8*, i32 }"
+  "\n  br label %cleanup.cont"
+  "\n"
+  "\ncleanup.cont:                                     ; preds = %cleanup"
   "\n  store { i8*, i32 } %12, { i8*, i32 }* %13"
   "\n  %14 = getelementptr { i8*, i32 }, { i8*, i32 }* %13, i32 0, i32 0"
   "\n  %15 = load i8*, i8** %14"

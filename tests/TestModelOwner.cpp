@@ -60,7 +60,8 @@ struct ModelOwnerTest : public Test {
   NiceMock<MockExpression>* mField1Expression;
   NiceMock<MockExpression>* mField2Expression;
   NiceMock<MockExpression>* mField3Expression;
-  BasicBlock *mBasicBlock;
+  BasicBlock* mEntryBlock;
+  BasicBlock* mDeclareBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   string mPackage = "systems.vos.wisey.compiler.tests";
@@ -265,8 +266,10 @@ struct ModelOwnerTest : public Test {
                                           "main",
                                           mContext.getModule());
     
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock= BasicBlock::Create(mLLVMContext, "declare", function);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
     
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -351,9 +354,9 @@ TEST_F(ModelOwnerTest, castToFirstInterfaceTest) {
   ConstantPointerNull::get(mModel->getOwner()->getLLVMType(mContext));
   mModel->getOwner()->castTo(mContext, pointer, mShapeInterface->getOwner(), 0);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mEntryBlock;
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null to i8*"
   "\n  %1 = getelementptr i8, i8* %0, i64 0"
   "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IShape*\n";
@@ -367,9 +370,9 @@ TEST_F(ModelOwnerTest, castToSecondInterfaceTest) {
   ConstantPointerNull::get(mModel->getLLVMType(mContext));
   mModel->getOwner()->castTo(mContext, pointer, mSubShapeInterface->getOwner(), 0);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mEntryBlock;
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null to i8*"
   "\n  %1 = getelementptr i8, i8* %0, i64 8"
   "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.ISubShape*\n";
@@ -403,11 +406,14 @@ TEST_F(ModelOwnerTest, createLocalVariableTest) {
   
   ASSERT_NE(variable, nullptr);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
   
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %temp = alloca %systems.vos.wisey.compiler.tests.MSquare*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  store %systems.vos.wisey.compiler.tests.MSquare* null, %systems.vos.wisey.compiler.tests.MSquare** %temp\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -431,11 +437,14 @@ TEST_F(ModelOwnerTest, createParameterVariableTest) {
   
   EXPECT_NE(variable, nullptr);
   
-  *mStringStream << *mBasicBlock;
-  
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
+
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %var = alloca %systems.vos.wisey.compiler.tests.MSquare*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  store %systems.vos.wisey.compiler.tests.MSquare* null, %systems.vos.wisey.compiler.tests.MSquare** %var\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

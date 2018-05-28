@@ -39,6 +39,7 @@ struct VariableDeclarationTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBasicBlock;
+  BasicBlock* mDeclareBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   Function* mFunction;
@@ -57,8 +58,11 @@ struct VariableDeclarationTest : public Test {
                                  GlobalValue::InternalLinkage,
                                  "test",
                                  mContext.getModule());
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
-    
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mBasicBlock);
+
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -76,11 +80,13 @@ TEST_F(VariableDeclarationTest, stackVariableDeclarationWithoutAssignmentTest) {
   declaration->generateIR(mContext);
   
   EXPECT_NE(mContext.getScopes().getVariable("foo"), nullptr);
-  ASSERT_EQ(2ul, mBasicBlock->size());
+  *mStringStream << *mDeclareBlock;
   *mStringStream << *mBasicBlock;
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %0 = alloca i32"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  store i32 0, i32* %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -101,11 +107,14 @@ TEST_F(VariableDeclarationTest, stackVariableDeclarationWithAssignmentTest) {
   
   EXPECT_NE(mContext.getScopes().getVariable("foo"), nullptr);
 
+  *mStringStream << *mDeclareBlock;
   *mStringStream << *mBasicBlock;
 
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %0 = alloca i32"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  store i32 0, i32* %0"
   "\n  store i32 5, i32* %0\n";
   
@@ -142,11 +151,14 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   
   EXPECT_NE(mContext.getScopes().getVariable("foo"), nullptr);
 
+  *mStringStream << *mDeclareBlock;
   *mStringStream << *mBasicBlock;
   
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %foo = alloca %systems.vos.wisey.compiler.tests.MModel*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  store %systems.vos.wisey.compiler.tests.MModel* null, %systems.vos.wisey.compiler.tests.MModel** %foo\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

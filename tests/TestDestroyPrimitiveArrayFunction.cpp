@@ -54,7 +54,9 @@ struct DestroyPrimitiveArrayFunctionTest : Test {
                                  GlobalValue::InternalLinkage,
                                  "main",
                                  mContext.getModule());
+    BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
@@ -74,7 +76,7 @@ TEST_F(DestroyPrimitiveArrayFunctionTest, callTest) {
   
   *mStringStream << *mBasicBlock;
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  call void @__destroyPrimitiveArrayFunction(i64* null, i64 2, i8* null, i8* null)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());

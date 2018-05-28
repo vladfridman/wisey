@@ -37,7 +37,8 @@ struct ArrayTypeTest : public Test {
   llvm::LLVMContext& mLLVMContext;
   ArrayType* mArrayType;
   ArrayType* mMultiDimentionalArrayType;
-  llvm::BasicBlock* mBasicBlock;
+  llvm::BasicBlock* mEntryBlock;
+  llvm::BasicBlock* mDeclareBlock;
   string mStringBuffer;
   llvm::raw_string_ostream* mStringStream;
   NiceMock<MockConcreteObjectType> mConcreteObjectType;
@@ -55,8 +56,10 @@ struct ArrayTypeTest : public Test {
                                                       llvm::GlobalValue::InternalLinkage,
                                                       "main",
                                                       mContext.getModule());
-    mBasicBlock = llvm::BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = llvm::BasicBlock::Create(mLLVMContext, "declare", function);
+    mEntryBlock = llvm::BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
     
     InjectionArgumentList injectionArgumentList;
@@ -135,11 +138,14 @@ TEST_F(ArrayTypeTest, createLocalVariableTest) {
   
   ASSERT_NE(variable, nullptr);
   
-  *mStringStream << *mBasicBlock;
-  
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
+
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %0 = alloca { i64, i64, i64, [0 x i64] }*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  store { i64, i64, i64, [0 x i64] }* null, { i64, i64, i64, [0 x i64] }** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -160,10 +166,13 @@ TEST_F(ArrayTypeTest, createParameterVariableTest) {
   
   EXPECT_NE(variable, nullptr);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
   
   string expected =
-  "\nentry:"
+  "\ndeclare:"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = bitcast { i64, i64, i64, [0 x i64] }* null to i8*"
   "\n  call void @__adjustReferenceCounterForArray(i8* %0, i64 1)\n";
   
@@ -187,10 +196,10 @@ TEST_F(ArrayTypeTest, extractLLVMArrayTest) {
   llvm::Value* value = llvm::ConstantPointerNull::get(mArrayType->getLLVMType(mContext));
   ArrayType::extractLLVMArray(mContext, value);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mEntryBlock;
   
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = getelementptr { i64, i64, i64, [0 x i64] }, { i64, i64, i64, [0 x i64] }* null, i32 0, i32 3"
   "\n";
   

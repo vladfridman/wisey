@@ -75,9 +75,9 @@ void CheckArrayIndexFunction::compose(IRGenerationContext& context, Function* fu
   Value* size = &*llvmArguments;
   size->setName("size");
 
-  BasicBlock* basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry", function);
-  context.setBasicBlock(basicBlock);
-  
+  BasicBlock* entryBlock = BasicBlock::Create(context.getLLVMContext(), "entry", function);
+  context.setBasicBlock(entryBlock);
+
   llvm::Constant* zero = ConstantInt::get(PrimitiveTypes::LONG->getLLVMType(context), 0);
   Value* compareToSize = IRWriter::newICmpInst(context, ICmpInst::ICMP_SGE, index, size, "cmp");
   Value* compareToZero = IRWriter::newICmpInst(context, ICmpInst::ICMP_SLT, index, zero, "cmp");

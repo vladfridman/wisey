@@ -69,6 +69,7 @@ LLVMFunctionType* InstanceOfFunction::getLLVMFunctionType(IRGenerationContext& c
 
 void InstanceOfFunction::compose(IRGenerationContext& context, Function* function) {
   LLVMContext& llvmContext = context.getLLVMContext();
+  BasicBlock* declarations = BasicBlock::Create(llvmContext, "declarations", function);
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function, 0);
   BasicBlock* whileCond = BasicBlock::Create(llvmContext, "while.cond", function);
   BasicBlock* whileBody = BasicBlock::Create(llvmContext, "while.body", function);
@@ -76,6 +77,7 @@ void InstanceOfFunction::compose(IRGenerationContext& context, Function* functio
   BasicBlock* returnFound = BasicBlock::Create(llvmContext, "return.found", function);
   
   context.setBasicBlock(entryBlock);
+  context.setDeclarationsBlock(declarations);
   Value* iterator = IRWriter::newAllocaInst(context, Type::getInt32Ty(llvmContext), "iterator");
   ConstantInt* one = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
   IRWriter::newStoreInst(context, one, iterator);
@@ -101,7 +103,10 @@ void InstanceOfFunction::compose(IRGenerationContext& context, Function* functio
                         function);
   composeReturnFound(context, returnFound, iterator);
   composeReturnNotFound(context, returnNotFound);
-  
+
+  context.setBasicBlock(declarations);
+  IRWriter::createBranch(context, entryBlock);
+
   context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context), 0);
 }
 

@@ -38,7 +38,8 @@ using ::testing::Test;
 struct WiseyObjectTypeTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBasicBlock;
+  BasicBlock* mEntryBlock;
+  BasicBlock* mDeclareBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   WiseyObjectType* mWiseyObjectType;
@@ -55,8 +56,10 @@ public:
                                           GlobalValue::InternalLinkage,
                                           "main",
                                           mContext.getModule());
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
     
     StructType* structType = StructType::create(mLLVMContext, "mystruct");
@@ -130,9 +133,9 @@ TEST_F(WiseyObjectTypeTest, castToObjectTest) {
   
   Value* value = ConstantPointerNull::get(mWiseyObjectType->getLLVMType(mContext));
   mWiseyObjectType->castTo(mContext, value, &mConcreteObjectType, 0);
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mEntryBlock;
   
-  EXPECT_STREQ("\nentry:"
+  EXPECT_STREQ("\nentry:                                            ; No predecessors!"
                "\n  %0 = invoke i8* @__castObject(i8* null, i8* getelementptr inbounds ([44 x i8], [44 x i8]* @systems.vos.wisey.compiler.tests.IInterface.typename, i32 0, i32 0))"
                "\n          to label %invoke.continue unwind label %cleanup\n",
                mStringStream->str().c_str());
@@ -164,11 +167,14 @@ TEST_F(WiseyObjectTypeTest, createLocalVariableTest) {
   
   ASSERT_NE(variable, nullptr);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
   
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %temp = alloca i8*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  store i8* null, i8** %temp\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

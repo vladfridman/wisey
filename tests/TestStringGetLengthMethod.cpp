@@ -52,7 +52,9 @@ public:
                                  GlobalValue::InternalLinkage,
                                  "main",
                                  mContext.getModule());
+    BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
@@ -82,7 +84,7 @@ TEST_F(StringGetLengthMethodTest, generateIRTest) {
   *mStringStream << *mBasicBlock;
   
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = call i64 @strlen(i8* null)"
   "\n";
   

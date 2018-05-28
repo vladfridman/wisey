@@ -41,7 +41,8 @@ struct InterfaceOwnerTest : public Test {
   StructType* mShapeStructType;
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBasicBlock;
+  BasicBlock* mEntryBlock;
+  BasicBlock* mDeclareBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   NiceMock<MockVariable>* mThreadVariable;
@@ -87,8 +88,10 @@ struct InterfaceOwnerTest : public Test {
                                           "main",
                                           mContext.getModule());
     
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
 
     Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
@@ -189,11 +192,14 @@ TEST_F(InterfaceOwnerTest, createLocalVariableTest) {
   
   ASSERT_NE(variable, nullptr);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
   
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %temp = alloca %systems.vos.wisey.compiler.tests.IObject*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  store %systems.vos.wisey.compiler.tests.IObject* null, %systems.vos.wisey.compiler.tests.IObject** %temp\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -217,11 +223,14 @@ TEST_F(InterfaceOwnerTest, createParameterVariableTest) {
   
   EXPECT_NE(variable, nullptr);
   
-  *mStringStream << *mBasicBlock;
-  
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
+
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %var = alloca %systems.vos.wisey.compiler.tests.IObject*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  store %systems.vos.wisey.compiler.tests.IObject* null, %systems.vos.wisey.compiler.tests.IObject** %var\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -274,10 +283,10 @@ TEST_F(InterfaceOwnerTest, injectTest) {
   InjectionArgumentList arguments;
   interface->getOwner()->inject(mContext, arguments, 0);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mEntryBlock;
   
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = call %systems.vos.wisey.compiler.tests.ITest* @systems.vos.wisey.compiler.tests.ITest.inject(%wisey.threads.IThread* null, %wisey.threads.CCallStack* null)"
   "\n";
   

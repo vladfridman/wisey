@@ -36,7 +36,8 @@ using ::testing::Test;
 struct LocalLLVMVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBasicBlock;
+  BasicBlock* mEntryBlock;
+  BasicBlock* mDeclareBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
@@ -48,8 +49,10 @@ public:
                                           GlobalValue::InternalLinkage,
                                           "test",
                                           mContext.getModule());
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
     
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -82,14 +85,13 @@ TEST_F(LocalLLVMVariableTest, generateAssignmentIRTest) {
   
   variable.generateAssignmentIR(mContext, &expression, arrayIndices, 0);
   
-  ASSERT_EQ(2ul, mBasicBlock->size());
-  BasicBlock::iterator iterator = mBasicBlock->begin();
-  *mStringStream << *iterator;
+  ASSERT_EQ(1ul, mDeclareBlock->size());
+  *mStringStream << mDeclareBlock->front();
   EXPECT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i16");
   mStringBuffer.clear();
   
-  iterator++;
-  *mStringStream << *iterator;
+  ASSERT_EQ(1ul, mEntryBlock->size());
+  *mStringStream << mEntryBlock->front();
   EXPECT_STREQ(mStringStream->str().c_str(), "  store i16 5, i16* %foo");
   mStringBuffer.clear();
 }
@@ -100,15 +102,13 @@ TEST_F(LocalLLVMVariableTest, generateIdentifierIRTest) {
   
   variable.generateIdentifierIR(mContext, 0);
   
-  ASSERT_EQ(2ul, mBasicBlock->size());
-  
-  BasicBlock::iterator iterator = mBasicBlock->begin();
-  *mStringStream << *iterator;
+  ASSERT_EQ(1ul, mDeclareBlock->size());
+  *mStringStream << mDeclareBlock->front();
   EXPECT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i16");
   mStringBuffer.clear();
   
-  iterator++;
-  *mStringStream << *iterator;
+  ASSERT_EQ(1ul, mEntryBlock->size());
+  *mStringStream << mEntryBlock->front();
   EXPECT_STREQ(mStringStream->str().c_str(), "  %0 = load i16, i16* %foo");
   mStringBuffer.clear();
 }

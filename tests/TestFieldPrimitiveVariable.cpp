@@ -70,7 +70,9 @@ struct FieldPrimitiveVariableTest : Test {
                                           GlobalValue::InternalLinkage,
                                           "main",
                                           mContext.getModule());
+    BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
@@ -104,7 +106,7 @@ TEST_F(FieldPrimitiveVariableTest, generateIdentifierIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
-  "\nentry:" +
+  "\nentry:                                            ; No predecessors!" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1"
   "\n  %foo = load i32, i32* %0\n";
   
@@ -116,7 +118,7 @@ TEST_F(FieldPrimitiveVariableTest, generateIdentifierReferenceIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
-  "\nentry:" +
+  "\nentry:                                            ; No predecessors!" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -134,7 +136,7 @@ TEST_F(FieldPrimitiveVariableTest, generateAssignmentIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
-  "\nentry:" +
+  "\nentry:                                            ; No predecessors!" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1"
   "\n  store i32 3, i32* %0\n";
   
@@ -153,7 +155,7 @@ TEST_F(FieldPrimitiveVariableTest, generateAssignmentWithCastIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
-  "\nentry:" +
+  "\nentry:                                            ; No predecessors!" +
   "\n  %conv = zext i8 3 to i32"
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1"
   "\n  store i32 %conv, i32* %0\n";

@@ -40,7 +40,8 @@ using ::testing::Test;
 struct ArrayElementAssignmentTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBasicBlock;
+  BasicBlock* mEntryBlock;
+  BasicBlock* mDeclareBlock;
   Function* mFunction;
   Model* mModel;
   string mStringBuffer;
@@ -71,8 +72,10 @@ public:
                                  GlobalValue::InternalLinkage,
                                  "test",
                                  mContext.getModule());
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
   }
   
@@ -93,11 +96,15 @@ TEST_F(ArrayElementAssignmentTest, generateOwnerArrayAssignmentTest) {
                                                     &mockExpression,
                                                     elementStore,
                                                     0);
+  BranchInst::Create(mEntryBlock, mDeclareBlock);
 
   *mStringStream << *mFunction;
   string expected =
   "\ndefine internal i32 @test() personality i32 (...)* @__gxx_personality_v0 {"
-  "\nentry:"
+  "\ndeclare:"
+  "\n  br label %entry"
+  "\n"
+  "\nentry:                                            ; preds = %declare"
   "\n  %0 = load %systems.vos.wisey.compiler.tests.MModel*, %systems.vos.wisey.compiler.tests.MModel** null"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MModel* %0 to i8*"
   "\n  invoke void @__destroyObjectOwnerFunction(i8* %1, i8* null)"
@@ -107,6 +114,9 @@ TEST_F(ArrayElementAssignmentTest, generateOwnerArrayAssignmentTest) {
   "\n  %2 = landingpad { i8*, i32 }"
   "\n          cleanup"
   "\n  %3 = alloca { i8*, i32 }"
+  "\n  br label %cleanup.cont"
+  "\n"
+  "\ncleanup.cont:                                     ; preds = %cleanup"
   "\n  store { i8*, i32 } %2, { i8*, i32 }* %3"
   "\n  %4 = getelementptr { i8*, i32 }, { i8*, i32 }* %3, i32 0, i32 0"
   "\n  %5 = load i8*, i8** %4"
@@ -136,9 +146,9 @@ TEST_F(ArrayElementAssignmentTest, generateReferenceArrayAssignmentTest) {
                                                     elementStore,
                                                     0);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mEntryBlock;
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = load %systems.vos.wisey.compiler.tests.MModel*, %systems.vos.wisey.compiler.tests.MModel** null"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MModel* %0 to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %1, i64 -1)"
@@ -164,9 +174,9 @@ TEST_F(ArrayElementAssignmentTest, generatePrimitiveArrayAssignmentTest) {
                                                     elementStore,
                                                     0);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mEntryBlock;
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  store i32 5, i32* null"
   "\n";
   

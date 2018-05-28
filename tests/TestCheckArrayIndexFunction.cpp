@@ -26,7 +26,8 @@ using ::testing::Test;
 struct CheckArrayIndexFunctionTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBasicBlock;
+  BasicBlock* mEntryBlock;
+  BasicBlock* mDeclareBlock;
   Function* mFunction;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
@@ -40,8 +41,10 @@ struct CheckArrayIndexFunctionTest : Test {
                                  GlobalValue::InternalLinkage,
                                  "main",
                                  mContext.getModule());
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
     
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -55,11 +58,15 @@ TEST_F(CheckArrayIndexFunctionTest, callTest) {
   Value* index = ConstantInt::get(Type::getInt64Ty(mLLVMContext), -1);
   Value* arraySize = ConstantInt::get(Type::getInt64Ty(mLLVMContext), 5);
   CheckArrayIndexFunction::call(mContext, index, arraySize);
+  BranchInst::Create(mEntryBlock, mDeclareBlock);
   
   *mStringStream << *mFunction;
   string expected =
   "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
-  "\nentry:"
+  "\ndeclare:"
+  "\n  br label %entry"
+  "\n"
+  "\nentry:                                            ; preds = %declare"
   "\n  invoke void @__checkArrayIndexFunction(i64 -1, i64 5)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
@@ -67,6 +74,9 @@ TEST_F(CheckArrayIndexFunctionTest, callTest) {
   "\n  %0 = landingpad { i8*, i32 }"
   "\n          cleanup"
   "\n  %1 = alloca { i8*, i32 }"
+  "\n  br label %cleanup.cont"
+  "\n"
+  "\ncleanup.cont:                                     ; preds = %cleanup"
   "\n  store { i8*, i32 } %0, { i8*, i32 }* %1"
   "\n  %2 = getelementptr { i8*, i32 }, { i8*, i32 }* %1, i32 0, i32 0"
   "\n  %3 = load i8*, i8** %2"
@@ -111,6 +121,9 @@ TEST_F(CheckArrayIndexFunctionTest, getTest) {
   "\n  %6 = landingpad { i8*, i32 }"
   "\n          cleanup"
   "\n  %7 = alloca { i8*, i32 }"
+  "\n  br label %cleanup.cont"
+  "\n"
+  "\ncleanup.cont:                                     ; preds = %cleanup"
   "\n  store { i8*, i32 } %6, { i8*, i32 }* %7"
   "\n  %8 = getelementptr { i8*, i32 }, { i8*, i32 }* %7, i32 0, i32 0"
   "\n  %9 = load i8*, i8** %8"

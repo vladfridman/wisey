@@ -36,7 +36,8 @@ using ::testing::Test;
 struct LLVMVariableDeclarationTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBasicBlock;
+  BasicBlock* mDeclareBlock;
+  BasicBlock* mEntryBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   Function* mFunction;
@@ -55,9 +56,10 @@ struct LLVMVariableDeclarationTest : public Test {
                                  GlobalValue::InternalLinkage,
                                  "test",
                                  mContext.getModule());
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
-    
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -76,10 +78,13 @@ TEST_F(LLVMVariableDeclarationTest, stackLLVMVariableDeclarationWithoutAssignmen
   declaration->generateIR(mContext);
   
   EXPECT_NE(mContext.getScopes().getVariable("foo"), nullptr);
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %foo = alloca i8*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  store i8* null, i8** %foo\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

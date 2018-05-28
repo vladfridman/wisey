@@ -37,7 +37,8 @@ using ::testing::Test;
 struct LocalOwnerVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBasicBlock;
+  BasicBlock* mEntryBlock;
+  BasicBlock* mDeclareBlock;
   Function* mFunction;
   Model* mModel;
   string mStringBuffer;
@@ -75,8 +76,10 @@ public:
                                  GlobalValue::InternalLinkage,
                                  "test",
                                  mContext.getModule());
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
     
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -115,9 +118,11 @@ TEST_F(LocalOwnerVariableTest, generateAssignmentIRTest) {
   
   string expected =
   "\ndefine internal i32 @test() personality i32 (...)* @__gxx_personality_v0 {"
-  "\nentry:"
+  "\ndeclare:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
   "\n  %1 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  %2 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0"
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MShape* %2 to i8*"
   "\n  invoke void @__destroyObjectOwnerFunction(i8* %3, i8* null)"
@@ -127,6 +132,9 @@ TEST_F(LocalOwnerVariableTest, generateAssignmentIRTest) {
   "\n  %4 = landingpad { i8*, i32 }"
   "\n          cleanup"
   "\n  %5 = alloca { i8*, i32 }"
+  "\n  br label %cleanup.cont"
+  "\n"
+  "\ncleanup.cont:                                     ; preds = %cleanup"
   "\n  store { i8*, i32 } %4, { i8*, i32 }* %5"
   "\n  %6 = getelementptr { i8*, i32 }, { i8*, i32 }* %5, i32 0, i32 0"
   "\n  %7 = load i8*, i8** %6"
@@ -152,11 +160,14 @@ TEST_F(LocalOwnerVariableTest, setToNullTest) {
   
   heapOwnerVariable.setToNull(mContext, 0);
 
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
   
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  store %systems.vos.wisey.compiler.tests.MShape* null, %systems.vos.wisey.compiler.tests.MShape** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -171,11 +182,14 @@ TEST_F(LocalOwnerVariableTest, generateIdentifierIRTest) {
   heapOwnerVariable.setToNull(mContext, 0);
   heapOwnerVariable.generateIdentifierIR(mContext, 0);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
   
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  store %systems.vos.wisey.compiler.tests.MShape* null, %systems.vos.wisey.compiler.tests.MShape** %0"
   "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0\n";
   
@@ -216,11 +230,14 @@ TEST_F(LocalOwnerVariableTest, freeTest) {
 
   heapOwnerVariable.free(mContext, nullPointer, 0);
   
-  *mStringStream << *mBasicBlock;
-  
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
+
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0"
   "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.MShape* %1 to i8*"
   "\n  call void @__destroyObjectOwnerFunction(i8* %2, i8* null)\n";

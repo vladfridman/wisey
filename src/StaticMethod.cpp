@@ -158,22 +158,28 @@ void StaticMethod::generateIR(IRGenerationContext& context) const {
   string functionName = IMethodCall::translateObjectMethodToLLVMFunctionName(mObjectType, mName);
   Function* function = context.getModule()->getFunction(functionName);
   assert(function != NULL);
+  LLVMContext& llvmContext = context.getLLVMContext();
 
   Scopes& scopes = context.getScopes();
   
   scopes.pushScope();
   scopes.setReturnType(mReturnType);
-  BasicBlock* basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry", function, 0);
-  context.setBasicBlock(basicBlock);
-  
+  BasicBlock* declarationsBlock = BasicBlock::Create(llvmContext, "declarations", function, 0);
+  BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function, 0);
+  context.setBasicBlock(entryBlock);
+  context.setDeclarationsBlock(declarationsBlock);
+
   defineCurrentMethodNameVariable(context, mName);
   createArguments(context, function);
   Composer::pushCallStack(context, mLine);
   mCompoundStatement->generateIR(context);
   IMethod::maybeAddImpliedVoidReturn(context, this, mLine);
   IMethod::checkForUnhandledExceptions(context, this, mLine);
-  
+
   scopes.popScope(context, mLine);
+  
+  context.setBasicBlock(declarationsBlock);
+  IRWriter::createBranch(context, entryBlock);
 }
 
 void StaticMethod::createArguments(IRGenerationContext& context, Function* function) const {

@@ -40,7 +40,9 @@ struct InstanceOfFunctionTest : Test {
                                           GlobalValue::InternalLinkage,
                                           "main",
                                           mContext.getModule());
+    BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
 
@@ -70,7 +72,7 @@ TEST_F(InstanceOfFunctionTest, callTest) {
   
   *mStringStream << *mBasicBlock;
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = call i32 @__instanceOf(i8* null, i8* null)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -83,8 +85,11 @@ TEST_F(InstanceOfFunctionTest, getTest) {
   *mStringStream << *function;
   string expected =
   "\ndefine i32 @__instanceOf(i8* %haystack, i8* %needle) {"
-  "\nentry:"
+  "\ndeclarations:"
   "\n  %iterator = alloca i32"
+  "\n  br label %entry"
+  "\n"
+  "\nentry:                                            ; preds = %declarations"
   "\n  store i32 1, i32* %iterator"
   "\n  %0 = icmp eq i8* %haystack, null"
   "\n  br i1 %0, label %return.notfound, label %if.notnull"

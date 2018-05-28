@@ -41,7 +41,9 @@ struct CheckCastToObjectFunctionTest : Test {
                                  GlobalValue::InternalLinkage,
                                  "main",
                                  mContext.getModule());
+    BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
@@ -58,7 +60,7 @@ TEST_F(CheckCastToObjectFunctionTest, callCheckCastToModelTest) {
   
   *mStringStream << *mBasicBlock;
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = bitcast i8* null to i8*"
   "\n  invoke void @__checkCastToObject(i8* %0, i8 109, i8* getelementptr inbounds ([6 x i8], [6 x i8]* @model, i32 0, i32 0))"
   "\n          to label %invoke.continue unwind label %cleanup\n";
@@ -72,7 +74,7 @@ TEST_F(CheckCastToObjectFunctionTest, callCheckCastToNodeTest) {
   
   *mStringStream << *mBasicBlock;
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = bitcast i8* null to i8*"
   "\n  invoke void @__checkCastToObject(i8* %0, i8 110, i8* getelementptr inbounds ([5 x i8], [5 x i8]* @node, i32 0, i32 0))"
   "\n          to label %invoke.continue unwind label %cleanup\n";
@@ -114,6 +116,9 @@ TEST_F(CheckCastToObjectFunctionTest, getTest) {
   "\n  %7 = landingpad { i8*, i32 }"
   "\n          cleanup"
   "\n  %8 = alloca { i8*, i32 }"
+  "\n  br label %cleanup.cont"
+  "\n"
+  "\ncleanup.cont:                                     ; preds = %cleanup"
   "\n  store { i8*, i32 } %7, { i8*, i32 }* %8"
   "\n  %9 = getelementptr { i8*, i32 }, { i8*, i32 }* %8, i32 0, i32 0"
   "\n  %10 = load i8*, i8** %9"

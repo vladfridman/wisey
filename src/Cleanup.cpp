@@ -17,13 +17,16 @@ using namespace std;
 using namespace wisey;
 
 BasicBlock* Cleanup::generate(IRGenerationContext& context, int line) {
+  LLVMContext& llvmContext = context.getLLVMContext();
   BasicBlock* lastBasicBlock = context.getBasicBlock();
+  BasicBlock* lastDeclarationsBlock = context.getDeclarationsBlock();
   Function* function = lastBasicBlock->getParent();
 
-  BasicBlock* landingPadBlock = BasicBlock::Create(context.getLLVMContext(), "cleanup", function);
-  context.setBasicBlock(landingPadBlock);
+  BasicBlock* cleanupDeclare = BasicBlock::Create(llvmContext, "cleanup", function);
+  BasicBlock* cleanupContinueBlock = BasicBlock::Create(llvmContext, "cleanup.cont", function);
+  context.setDeclarationsBlock(cleanupDeclare);
+  context.setBasicBlock(cleanupContinueBlock);
 
-  LLVMContext& llvmContext = context.getLLVMContext();
   if (!function->hasPersonalityFn()) {
     function->setPersonalityFn(IntrinsicFunctions::getPersonalityFunction(context));
   }
@@ -36,7 +39,7 @@ BasicBlock* Cleanup::generate(IRGenerationContext& context, int line) {
   LandingPadInst* landingPad = LandingPadInst::Create(landingPadReturnType,
                                                       0,
                                                       "",
-                                                      context.getBasicBlock());
+                                                      cleanupDeclare);
 
   Value* landingPadReturnValueAlloca = IRWriter::newAllocaInst(context, landingPadReturnType, "");
   IRWriter::newStoreInst(context, landingPad, landingPadReturnValueAlloca);
@@ -61,5 +64,10 @@ BasicBlock* Cleanup::generate(IRGenerationContext& context, int line) {
   
   IRWriter::createResumeInst(context, landingPad);
 
-  return landingPadBlock;
+  context.setBasicBlock(cleanupDeclare);
+  IRWriter::createBranch(context, cleanupContinueBlock);
+  
+  context.setDeclarationsBlock(lastDeclarationsBlock);
+  
+  return cleanupDeclare;
 }

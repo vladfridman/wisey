@@ -42,7 +42,8 @@ struct ArrayAllocationTest : Test {
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   Function* mFunction;
-  BasicBlock* mBasicBlock;
+  BasicBlock* mEntryBlock;
+  BasicBlock* mDeclareBlock;
   ArraySpecificTypeSpecifier* mArraySpecificTypeSpecifier;
   wisey::ArrayType* mArrayType;
   ArrayAllocation* mArrayAllocation;
@@ -59,8 +60,10 @@ struct ArrayAllocationTest : Test {
                                  "main",
                                  mContext.getModule());
     
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
     
@@ -89,11 +92,14 @@ struct ArrayAllocationTest : Test {
 TEST_F(ArrayAllocationTest, generateIRTest) {
   mArrayAllocation->generateIR(mContext, mArrayType->getOwner());
   
-  *mStringStream << *mBasicBlock;
-  
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
+
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %arraySize = alloca i64"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  store i64 ptrtoint (i32* getelementptr (i32, i32* null, i32 1) to i64), i64* %arraySize"
   "\n  %conv = bitcast i64 5 to i64"
   "\n  %size = load i64, i64* %arraySize"

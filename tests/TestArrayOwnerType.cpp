@@ -36,7 +36,8 @@ struct ArrayOwnerTypeTest : public Test {
   llvm::LLVMContext& mLLVMContext;
   ArrayType* mArrayType;
   ArrayOwnerType* mArrayOwnerType;
-  llvm::BasicBlock* mBasicBlock;
+  llvm::BasicBlock* mEntryBlock;
+  llvm::BasicBlock* mDeclareBlock;
   string mStringBuffer;
   llvm::raw_string_ostream* mStringStream;
 
@@ -52,8 +53,10 @@ struct ArrayOwnerTypeTest : public Test {
                                                       llvm::GlobalValue::InternalLinkage,
                                                       "main",
                                                       mContext.getModule());
-    mBasicBlock = llvm::BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = llvm::BasicBlock::Create(mLLVMContext, "declare", function);
+    mEntryBlock = llvm::BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
     
     mStringStream = new llvm::raw_string_ostream(mStringBuffer);
@@ -119,11 +122,14 @@ TEST_F(ArrayOwnerTypeTest, createLocalVariableTest) {
   
   ASSERT_NE(variable, nullptr);
   
-  *mStringStream << *mBasicBlock;
-  
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
+
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %0 = alloca { i64, i64, i64, [0 x i64] }*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  store { i64, i64, i64, [0 x i64] }* null, { i64, i64, i64, [0 x i64] }** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -147,11 +153,14 @@ TEST_F(ArrayOwnerTypeTest, createParameterVariableTest) {
   
   EXPECT_NE(variable, nullptr);
   
-  *mStringStream << *mBasicBlock;
-  
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
+
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %var = alloca { i64, i64, i64, [0 x i64] }*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  store { i64, i64, i64, [0 x i64] }* null, { i64, i64, i64, [0 x i64] }** %var\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

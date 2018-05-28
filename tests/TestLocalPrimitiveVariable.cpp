@@ -36,7 +36,8 @@ using ::testing::Test;
 struct LocalPrimitiveVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBasicBlock;
+  BasicBlock* mEntryBlock;
+  BasicBlock* mDeclareBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
@@ -48,8 +49,10 @@ public:
                                           GlobalValue::InternalLinkage,
                                           "test",
                                           mContext.getModule());
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
 
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -82,14 +85,13 @@ TEST_F(LocalPrimitiveVariableTest, generateAssignmentIRTest) {
 
   variable.generateAssignmentIR(mContext, &expression, arrayIndices, 0);
   
-  ASSERT_EQ(2ul, mBasicBlock->size());
-  BasicBlock::iterator iterator = mBasicBlock->begin();
-  *mStringStream << *iterator;
+  ASSERT_EQ(1ul, mDeclareBlock->size());
+  *mStringStream << mDeclareBlock->front();
   EXPECT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i32");
   mStringBuffer.clear();
   
-  iterator++;
-  *mStringStream << *iterator;
+  ASSERT_EQ(1ul, mEntryBlock->size());
+  *mStringStream << mEntryBlock->front();
   EXPECT_STREQ(mStringStream->str().c_str(), "  store i32 5, i32* %foo");
   mStringBuffer.clear();
 }
@@ -105,19 +107,17 @@ TEST_F(LocalPrimitiveVariableTest, generateAssignmentIRWithCastTest) {
 
   variable.generateAssignmentIR(mContext, &expression, arrayIndices, 0);
   
-  ASSERT_EQ(3ul, mBasicBlock->size());
-  BasicBlock::iterator iterator = mBasicBlock->begin();
-  *mStringStream << *iterator;
+  ASSERT_EQ(1ul, mDeclareBlock->size());
+  *mStringStream << mDeclareBlock->front();
   EXPECT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i32");
   mStringBuffer.clear();
   
-  iterator++;
-  *mStringStream << *iterator;
+  ASSERT_EQ(2ul, mEntryBlock->size());
+  *mStringStream << mEntryBlock->front();
   EXPECT_STREQ(mStringStream->str().c_str(), "  %conv = zext i1 true to i32");
   mStringBuffer.clear();
   
-  iterator++;
-  *mStringStream << *iterator;
+  *mStringStream << mEntryBlock->back();
   EXPECT_STREQ(mStringStream->str().c_str(), "  store i32 %conv, i32* %foo");
   mStringBuffer.clear();
 }
@@ -128,15 +128,13 @@ TEST_F(LocalPrimitiveVariableTest, generateIdentifierIRTest) {
   
   variable.generateIdentifierIR(mContext, 0);
 
-  ASSERT_EQ(2ul, mBasicBlock->size());
-  
-  BasicBlock::iterator iterator = mBasicBlock->begin();
-  *mStringStream << *iterator;
+  ASSERT_EQ(1ul, mDeclareBlock->size());
+  *mStringStream << mDeclareBlock->front();
   EXPECT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i32");
   mStringBuffer.clear();
   
-  iterator++;
-  *mStringStream << *iterator;
+  ASSERT_EQ(1ul, mEntryBlock->size());
+  *mStringStream << mEntryBlock->front();
   EXPECT_STREQ(mStringStream->str().c_str(), "  %0 = load i32, i32* %foo");
   mStringBuffer.clear();
 }

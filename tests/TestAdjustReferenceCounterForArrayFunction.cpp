@@ -41,7 +41,9 @@ struct AdjustReferenceCounterForArrayFunctionTest : Test {
                                  GlobalValue::InternalLinkage,
                                  "main",
                                  mContext.getModule());
+    BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
@@ -58,7 +60,7 @@ TEST_F(AdjustReferenceCounterForArrayFunctionTest, callTest) {
   
   *mStringStream << *mBasicBlock;
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  call void @__adjustReferenceCounterForArray(i8* null, i64 1)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());

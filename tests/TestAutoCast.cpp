@@ -43,7 +43,9 @@ public:
                                           GlobalValue::InternalLinkage,
                                           "main",
                                           mContext.getModule());
+    BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
     mBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
 

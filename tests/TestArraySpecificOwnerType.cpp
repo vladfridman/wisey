@@ -18,6 +18,7 @@
 #include "TestPrefix.hpp"
 #include "wisey/ArraySpecificOwnerType.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/IRWriter.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace std;
@@ -37,7 +38,8 @@ struct ArraySpecificOwnerTypeTest : public Test {
   ArraySpecificOwnerType* mArraySpecificOwnerType;
   NiceMock<MockExpression> mFiveExpression;
   NiceMock<MockExpression> mTenExpression;
-  llvm::BasicBlock *mBasicBlock;
+  llvm::BasicBlock* mEntryBlock;
+  llvm::BasicBlock* mDeclareBlock;
   string mStringBuffer;
   llvm::raw_string_ostream* mStringStream;
 
@@ -61,8 +63,10 @@ struct ArraySpecificOwnerTypeTest : public Test {
                                                       "test",
                                                       mContext.getModule());
 
-    mBasicBlock = llvm::BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = llvm::BasicBlock::Create(mLLVMContext, "declare", function);
+    mEntryBlock = llvm::BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
     
     mStringStream = new llvm::raw_string_ostream(mStringBuffer);
@@ -139,12 +143,18 @@ TEST_F(ArraySpecificOwnerTypeTest, getArrayTypeTest) {
 TEST_F(ArraySpecificOwnerTypeTest, injectTest) {
   InjectionArgumentList arguments;
   mArraySpecificOwnerType->inject(mContext, arguments, 0);
+  mContext.setBasicBlock(mDeclareBlock);
+  IRWriter::createBranch(mContext, mEntryBlock);
 
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
 
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %arraySize = alloca i64"
+  "\n  br label %entry"
+  "\n"
+  "\nentry:                                            ; preds = %declare"
   "\n  store i64 ptrtoint (i64* getelementptr (i64, i64* null, i32 1) to i64), i64* %arraySize"
   "\n  %conv = bitcast i64 5 to i64"
   "\n  %size = load i64, i64* %arraySize"

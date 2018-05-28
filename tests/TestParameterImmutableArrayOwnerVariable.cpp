@@ -37,7 +37,8 @@ using ::testing::Test;
 struct ParameterImmutableArrayOwnerVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBasicBlock;
+  BasicBlock* mEntryBlock;
+  BasicBlock* mDeclareBlock;
   const wisey::ArrayType* mArrayType;
   const ImmutableArrayOwnerType* mImmutableArrayOwnerType;
   ParameterImmutableArrayOwnerVariable* mVariable;
@@ -58,8 +59,10 @@ public:
                                           GlobalValue::InternalLinkage,
                                           "test",
                                           mContext.getModule());
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
     
     llvm::PointerType* arrayPointerType = mArrayType->getOwner()->getLLVMType(mContext);
@@ -83,11 +86,14 @@ TEST_F(ParameterImmutableArrayOwnerVariableTest, basicFieldsTest) {
 TEST_F(ParameterImmutableArrayOwnerVariableTest, generateIdentifierIRTest) {
   mVariable->generateIdentifierIR(mContext, 0);
   
-  *mStringStream << *mBasicBlock;
-  
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
+
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -103,11 +109,14 @@ TEST_F(ParameterImmutableArrayOwnerVariableTest, freeTest) {
   Value* nullPointer = ConstantPointerNull::get(int8Pointer);
   mVariable->free(mContext, nullPointer, 0);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
   
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo"
   "\n  %1 = bitcast { i64, i64, i64, [0 x i32] }* %0 to i64*"
   "\n  call void @__destroyPrimitiveArrayFunction(i64* %1, i64 1, i8* getelementptr inbounds ([17 x i8], [17 x i8]* @\"immutable int[]*\", i32 0, i32 0), i8* null)"
@@ -120,11 +129,14 @@ TEST_F(ParameterImmutableArrayOwnerVariableTest, freeTest) {
 TEST_F(ParameterImmutableArrayOwnerVariableTest, setToNullTest) {
   mVariable->setToNull(mContext, 0);
   
-  *mStringStream << *mBasicBlock;
-  
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
+
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  store { i64, i64, i64, [0 x i32] }* null, { i64, i64, i64, [0 x i32] }** %foo\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

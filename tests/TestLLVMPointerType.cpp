@@ -36,7 +36,8 @@ using ::testing::Test;
 struct LLVMPointerTypeTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBasicBlock;
+  BasicBlock* mEntryBlock;
+  BasicBlock* mDeclareBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   LLVMPointerType* mLLVMPointerType;
@@ -53,8 +54,10 @@ public:
                                           GlobalValue::InternalLinkage,
                                           "main",
                                           mContext.getModule());
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
     
     StructType* structType = StructType::create(mLLVMContext, "mystruct");
@@ -136,11 +139,14 @@ TEST_F(LLVMPointerTypeTest, createLocalVariableTest) {
   
   ASSERT_NE(variable, nullptr);
   
-  *mStringStream << *mBasicBlock;
-  
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
+
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %temp = alloca i8*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  store i8* null, i8** %temp\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

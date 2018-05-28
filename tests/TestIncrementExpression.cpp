@@ -32,7 +32,8 @@ using ::testing::Test;
 struct IncrementExpressionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBlock = BasicBlock::Create(mLLVMContext, "entry");
+  BasicBlock* mEntryBlock;
+  BasicBlock* mDeclareBlock;
   string mName = "foo";
   Identifier* mIdentifier;
   LocalPrimitiveVariable* mVariable;
@@ -51,8 +52,10 @@ public:
                                           GlobalValue::InternalLinkage,
                                           "test",
                                           mContext.getModule());
-    mBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
 
     AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), mName);
@@ -77,11 +80,14 @@ TEST_F(IncrementExpressionTest, incrementByOneExpressionTest) {
   IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier, 0);
   expression->generateIR(mContext, PrimitiveTypes::VOID);
  
-  *mStringStream << *mBlock;
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
 
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %foo = alloca i32"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = load i32, i32* %foo"
   "\n  %inc = add i32 %0, 1"
   "\n  store i32 %inc, i32* %foo\n";
@@ -94,11 +100,14 @@ TEST_F(IncrementExpressionTest, decrementByOneExpressionTest) {
   IncrementExpression* expression = IncrementExpression::newDecrementByOne(mIdentifier, 0);
   expression->generateIR(mContext, PrimitiveTypes::VOID);
   
-  *mStringStream << *mBlock;
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
   
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %foo = alloca i32"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = load i32, i32* %foo"
   "\n  %dec = add i32 %0, -1"
   "\n  store i32 %dec, i32* %foo\n";

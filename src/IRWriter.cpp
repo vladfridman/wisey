@@ -182,7 +182,7 @@ StoreInst* IRWriter::newStoreInst(IRGenerationContext& context, Value* value, Va
 }
 
 AllocaInst* IRWriter::newAllocaInst(IRGenerationContext& context, Type* type, string variableName) {
-  BasicBlock* currentBlock = context.getBasicBlock();
+  BasicBlock* currentBlock = context.getDeclarationsBlock();
   
   if(currentBlock->getTerminator()) {
     return NULL;

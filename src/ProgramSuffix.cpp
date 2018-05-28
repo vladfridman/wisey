@@ -66,8 +66,10 @@ void ProgramSuffix::generateMain(IRGenerationContext& context) const {
   Value* argv = &*llvmArguments;
   argv->setName("argv");
 
-  BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", mainFunction);
+  BasicBlock* declarationsBlock = BasicBlock::Create(llvmContext, "declarations", mainFunction, 0);
+  BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", mainFunction, 0);
   context.setBasicBlock(entryBlock);
+  context.setDeclarationsBlock(declarationsBlock);
   context.getScopes().pushScope();
   context.getScopes().setReturnType(PrimitiveTypes::INT);
 
@@ -148,5 +150,8 @@ void ProgramSuffix::generateMain(IRGenerationContext& context) const {
   returnResultStatement.generateIR(context);
 
   context.getScopes().popScope(context, 0);
+
+  context.setBasicBlock(declarationsBlock);
+  IRWriter::createBranch(context, entryBlock);
 }
 

@@ -41,7 +41,9 @@ struct DestroyNativeObjectFunctionTest : Test {
                                  GlobalValue::InternalLinkage,
                                  "main",
                                  mContext.getModule());
+    BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
@@ -59,7 +61,7 @@ TEST_F(DestroyNativeObjectFunctionTest, callTest) {
   
   *mStringStream << *mBasicBlock;
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  call void @__destroyNativeObjectFunction(i8* null)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());

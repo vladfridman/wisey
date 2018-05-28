@@ -41,7 +41,8 @@ using ::testing::Test;
 struct LocalReferenceVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBasicBlock;
+  BasicBlock* mDeclareBlock;
+  BasicBlock* mEntryBlock;
   Model* mModel;
   NiceMock<MockVariable>* mThreadVariable;
   string mStringBuffer;
@@ -57,8 +58,10 @@ public:
                                           GlobalValue::InternalLinkage,
                                           "test",
                                           mContext.getModule());
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
 
     vector<Type*> types;
@@ -123,11 +126,15 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableAssignmentTest) {
   
   uninitializedHeapVariable->generateAssignmentIR(mContext, &expression, arrayIndices, 0);
 
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
+  
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
   "\n  %1 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  %2 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0"
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MShape* %2 to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %3, i64 -1)"
@@ -170,10 +177,14 @@ TEST_F(LocalReferenceVariableTest, decrementReferenceCounterTest) {
   
   localReferenceVariable.decrementReferenceCounter(mContext);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
+  
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0"
   "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.MShape* %1 to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %2, i64 -1)\n";
@@ -206,10 +217,14 @@ TEST_F(LocalReferenceVariableTest, setToNullTest) {
   
   localReferenceVariable.generateIdentifierIR(mContext, 0);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
+  
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  store %systems.vos.wisey.compiler.tests.MShape* null, %systems.vos.wisey.compiler.tests.MShape** %0"
   "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0\n";
 

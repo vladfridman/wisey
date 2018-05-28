@@ -62,7 +62,8 @@ struct InterfaceTest : public Test {
   StructType* mIncompleteInterfaceStructType;
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBasicBlock;
+  BasicBlock* mEntryBlock;
+  BasicBlock* mDeclareBlock;
   NiceMock<MockExpression>* mMockExpression;
   ConstantDefinition* mConstantDefinition;
   NiceMock<MockReferenceVariable>* mThreadVariable;
@@ -175,8 +176,10 @@ struct InterfaceTest : public Test {
                                           "main",
                                           mContext.getModule());
     
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
 
     Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
@@ -531,9 +534,9 @@ TEST_F(InterfaceTest, incrementReferenceCountTest) {
   ConstantPointerNull::get(mShapeInterface->getLLVMType(mContext));
   mShapeInterface->incrementReferenceCount(mContext, pointer);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mEntryBlock;
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
   "\n  call void @__adjustReferenceCounter(i8* %0, i64 1)\n";
 
@@ -546,9 +549,9 @@ TEST_F(InterfaceTest, decrementReferenceCountTest) {
   ConstantPointerNull::get(mShapeInterface->getLLVMType(mContext));
   mShapeInterface->decrementReferenceCount(mContext, pointer);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mEntryBlock;
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
   "\n  call void @__adjustReferenceCounter(i8* %0, i64 -1)\n";
 
@@ -561,9 +564,9 @@ TEST_F(InterfaceTest, getReferenceCountTest) {
   ConstantPointerNull::get(mShapeInterface->getLLVMType(mContext));
   mShapeInterface->getReferenceCount(mContext, pointer);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mEntryBlock;
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
   "\n  %1 = call i8* @__getOriginalObject(i8* %0)"
   "\n  %2 = bitcast i8* %1 to i64*"
@@ -625,11 +628,14 @@ TEST_F(InterfaceTest, createLocalVariableTest) {
   
   ASSERT_NE(variable, nullptr);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
   
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %temp = alloca %systems.vos.wisey.compiler.tests.IShape*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  store %systems.vos.wisey.compiler.tests.IShape* null, %systems.vos.wisey.compiler.tests.IShape** %temp\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -654,10 +660,10 @@ TEST_F(InterfaceTest, createParameterVariableTest) {
   
   EXPECT_NE(variable, nullptr);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mEntryBlock;
   
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
   "\n  call void @__adjustReferenceCounter(i8* %0, i64 1)\n";
   
@@ -703,6 +709,9 @@ TEST_F(InterfaceTest, injectWrapperFunctionTest) {
   "\n  %8 = landingpad { i8*, i32 }"
   "\n          cleanup"
   "\n  %9 = alloca { i8*, i32 }"
+  "\n  br label %cleanup.cont"
+  "\n"
+  "\ncleanup.cont:                                     ; preds = %cleanup"
   "\n  store { i8*, i32 } %8, { i8*, i32 }* %9"
   "\n  %10 = getelementptr { i8*, i32 }, { i8*, i32 }* %9, i32 0, i32 0"
   "\n  %11 = load i8*, i8** %10"
@@ -728,10 +737,10 @@ TEST_F(InterfaceTest, injectTest) {
   mShapeInterface->inject(mContext, injectionArgumentList, 0);
   mContext.runComposingCallbacks();
 
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mEntryBlock;
   
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = call %systems.vos.wisey.compiler.tests.IShape* @systems.vos.wisey.compiler.tests.IShape.inject(%wisey.threads.IThread* null, %wisey.threads.CCallStack* null)"
   "\n";
   

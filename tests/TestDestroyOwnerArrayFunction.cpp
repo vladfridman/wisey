@@ -41,7 +41,9 @@ struct DestroyOwnerArrayFunctionTest : Test {
                                  GlobalValue::InternalLinkage,
                                  "main",
                                  mContext.getModule());
+    BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
@@ -61,7 +63,7 @@ TEST_F(DestroyOwnerArrayFunctionTest, callTest) {
   
   *mStringStream << *mBasicBlock;
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  call void @__destroyOwnerArrayFunction(i64* null, i64 2, i8* null, i1 true, i8* null)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -74,7 +76,12 @@ TEST_F(DestroyOwnerArrayFunctionTest, getTest) {
   *mStringStream << *function;
   string expected =
   "\ndefine void @__destroyOwnerArrayFunction(i64* %arrayPointer, i64 %noOfDimensions, i8* %arrayName, i1 %shouldFree, i8* %exception) personality i32 (...)* @__gxx_personality_v0 {"
-  "\nentry:"
+  "\ndeclarations:"
+  "\n  %indexStore = alloca i64"
+  "\n  %offsetStore = alloca i64"
+  "\n  br label %entry"
+  "\n"
+  "\nentry:                                            ; preds = %declarations"
   "\n  %isNull = icmp eq i64* %arrayPointer, null"
   "\n  br i1 %isNull, label %return.void, label %if.not.null"
   "\n"
@@ -94,9 +101,7 @@ TEST_F(DestroyOwnerArrayFunctionTest, getTest) {
   "\nref.count.zero:                                   ; preds = %if.not.null"
   "\n  %2 = getelementptr i64, i64* %arrayPointer, i64 3"
   "\n  %3 = bitcast i64* %2 to i8*"
-  "\n  %indexStore = alloca i64"
   "\n  store i64 0, i64* %indexStore"
-  "\n  %offsetStore = alloca i64"
   "\n  store i64 0, i64* %offsetStore"
   "\n  br label %for.cond"
   "\n"
@@ -142,6 +147,9 @@ TEST_F(DestroyOwnerArrayFunctionTest, getTest) {
   "\n  %9 = landingpad { i8*, i32 }"
   "\n          cleanup"
   "\n  %10 = alloca { i8*, i32 }"
+  "\n  br label %cleanup.cont"
+  "\n"
+  "\ncleanup.cont:                                     ; preds = %cleanup"
   "\n  store { i8*, i32 } %9, { i8*, i32 }* %10"
   "\n  %11 = getelementptr { i8*, i32 }, { i8*, i32 }* %10, i32 0, i32 0"
   "\n  %12 = load i8*, i8** %11"

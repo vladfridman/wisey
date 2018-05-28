@@ -39,7 +39,8 @@ using ::testing::Test;
 struct LocalArrayReferenceVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBasicBlock;
+  BasicBlock* mDeclareBlock;
+  BasicBlock* mEntryBlock;
   const wisey::ArrayType* mArrayType;
   const wisey::ArrayType* mAnotherArrayType;
   string mStringBuffer;
@@ -60,8 +61,10 @@ public:
                                           GlobalValue::InternalLinkage,
                                           "test",
                                           mContext.getModule());
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
   }
   
@@ -86,11 +89,14 @@ TEST_F(LocalArrayReferenceVariableTest, generateIdentifierIRTest) {
   LocalArrayReferenceVariable variable("foo", mArrayType, alloc, 0);
   variable.generateIdentifierIR(mContext, 0);
   
-  *mStringStream << *mBasicBlock;
-  
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
+
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -117,10 +123,14 @@ TEST_F(LocalArrayReferenceVariableTest, generateWholeArrayAssignmentTest) {
   EXPECT_CALL(mockExpression, generateIR(_, mArrayType));
   variable.generateAssignmentIR(mContext, &mockExpression, arrayIndices, 0);
 
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
+
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo"
   "\n  %1 = bitcast { i64, i64, i64, [0 x i32] }* %0 to i8*"
   "\n  call void @__adjustReferenceCounterForArray(i8* %1, i64 -1)"

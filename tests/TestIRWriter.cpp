@@ -27,6 +27,7 @@ struct IRWriterTest : public Test {
   LLVMContext& mLLVMContext;
   Function* mMainFunction;
   BasicBlock* mBasicBlock;
+  BasicBlock* mDeclareBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
@@ -39,7 +40,9 @@ struct IRWriterTest : public Test {
                                      "main",
                                      mContext.getModule());
     
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", mMainFunction);
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mMainFunction);
+    mContext.setDeclarationsBlock(mDeclareBlock);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
 
@@ -144,7 +147,7 @@ TEST_F(IRWriterTest, createInvokeInstTest) {
   InvokeInst* invokeInst = IRWriter::createInvokeInst(mContext, mMainFunction, arguments, "", 0);
   
   string expexted =
-  "  %0 = invoke i64 @main()\n"
+  "  %1 = invoke i64 @main()\n"
   "          to label %invoke.continue unwind label %eh.landing.pad";
   *mStringStream << *invokeInst;
   ASSERT_STREQ(expexted.c_str(), mStringStream->str().c_str());
@@ -251,20 +254,12 @@ TEST_F(IRWriterTest, newStoreInst) {
 
 TEST_F(IRWriterTest, newAllocaInst) {
   Type* int32Type = Type::getInt32Ty(mLLVMContext);
-  ConstantInt* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 0);
   AllocaInst* allocaInst = IRWriter::newAllocaInst(mContext, int32Type, "foo");
   
-  EXPECT_EQ(mBasicBlock->size(), 1u);
+  EXPECT_EQ(mDeclareBlock->size(), 1u);
+  EXPECT_EQ(mBasicBlock->size(), 0u);
   *mStringStream << *allocaInst;
   ASSERT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i32");
-  
-  IRWriter::createReturnInst(mContext, value);
-  
-  EXPECT_EQ(mBasicBlock->size(), 2u);
-  
-  IRWriter::newAllocaInst(mContext, int32Type, "foo");
-  
-  EXPECT_EQ(mBasicBlock->size(), 2u);
 }
 
 TEST_F(IRWriterTest, newLoadInst) {

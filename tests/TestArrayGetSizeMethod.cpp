@@ -34,7 +34,8 @@ using ::testing::Test;
 struct ArrayGetSizeMethodTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBasicBlock;
+  BasicBlock* mEntryBlock;
+  BasicBlock* mDeclareBlock;
   Function* mFunction;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
@@ -52,8 +53,10 @@ public:
                                  GlobalValue::InternalLinkage,
                                  "main",
                                  mContext.getModule());
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
     
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -79,12 +82,16 @@ TEST_F(ArrayGetSizeMethodTest, generateIRTest) {
   wisey::ArrayType* arrayType = mContext.getArrayType(PrimitiveTypes::FLOAT, 1);
   Value* null = ConstantPointerNull::get(arrayType->getLLVMType(mContext));
   ArrayGetSizeMethod::generateIR(mContext, new FakeExpression(null, arrayType));
+  BranchInst::Create(mEntryBlock, mDeclareBlock);
   
   *mStringStream << *mFunction;
   
   string expected =
   "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
-  "\nentry:"
+  "\ndeclare:"
+  "\n  br label %entry"
+  "\n"
+  "\nentry:                                            ; preds = %declare"
   "\n  %0 = bitcast { i64, i64, i64, [0 x float] }* null to i8*"
   "\n  invoke void @__checkForNullAndThrow(i8* %0)"
   "\n          to label %invoke.continue unwind label %cleanup"
@@ -93,6 +100,9 @@ TEST_F(ArrayGetSizeMethodTest, generateIRTest) {
   "\n  %1 = landingpad { i8*, i32 }"
   "\n          cleanup"
   "\n  %2 = alloca { i8*, i32 }"
+  "\n  br label %cleanup.cont"
+  "\n"
+  "\ncleanup.cont:                                     ; preds = %cleanup"
   "\n  store { i8*, i32 } %1, { i8*, i32 }* %2"
   "\n  %3 = getelementptr { i8*, i32 }, { i8*, i32 }* %2, i32 0, i32 0"
   "\n  %4 = load i8*, i8** %3"

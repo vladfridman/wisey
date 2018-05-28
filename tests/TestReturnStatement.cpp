@@ -86,6 +86,7 @@ public:
 };
 
 TEST_F(ReturnStatementTest, parentFunctionIsNullDeathTest) {
+  mContext.setDeclarationsBlock(BasicBlock::Create(mLLVMContext, "declare"));
   mContext.setBasicBlock(BasicBlock::Create(mLLVMContext, "entry"));
   mContext.getScopes().pushScope();
   ReturnStatement returnStatement(mExpression, 1);
@@ -166,8 +167,10 @@ TEST_F(ReturnStatementTest, ownerVariablesAreClearedTest) {
                                         GlobalValue::InternalLinkage,
                                         "test",
                                         mContext.getModule());
-  BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-  mContext.setBasicBlock(basicBlock);
+  BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
+  BasicBlock* entryBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+  mContext.setDeclarationsBlock(declareBlock);
+  mContext.setBasicBlock(entryBlock);
   mContext.getScopes().pushScope();
   mContext.getScopes().setReturnType(PrimitiveTypes::LONG);
 
@@ -190,18 +193,23 @@ TEST_F(ReturnStatementTest, ownerVariablesAreClearedTest) {
   ReturnStatement returnStatement(mExpression, 0);
   
   returnStatement.generateIR(mContext);
+  mContext.setBasicBlock(declareBlock);
+  IRWriter::createBranch(mContext, entryBlock);
   
   *mStringStream << *function;
   string expected =
   "\ndefine internal i64 @test() personality i32 (...)* @__gxx_personality_v0 {"
-  "\nentry:"
+  "\ndeclare:"
+  "\n  %pointer = alloca %MShape*"
+  "\n  %pointer2 = alloca %MShape*"
+  "\n  br label %entry"
+  "\n"
+  "\nentry:                                            ; preds = %declare"
   "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%MShape* getelementptr (%MShape, %MShape* null, i32 1) to i64))"
   "\n  %0 = bitcast i8* %malloccall to %MShape*"
-  "\n  %pointer = alloca %MShape*"
   "\n  store %MShape* %0, %MShape** %pointer"
   "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint (%MShape* getelementptr (%MShape, %MShape* null, i32 1) to i64))"
   "\n  %1 = bitcast i8* %malloccall1 to %MShape*"
-  "\n  %pointer2 = alloca %MShape*"
   "\n  store %MShape* %1, %MShape** %pointer2"
   "\n  %conv = zext i32 3 to i64"
   "\n  %2 = load %MShape*, %MShape** %pointer2"
@@ -213,6 +221,9 @@ TEST_F(ReturnStatementTest, ownerVariablesAreClearedTest) {
   "\n  %4 = landingpad { i8*, i32 }"
   "\n          cleanup"
   "\n  %5 = alloca { i8*, i32 }"
+  "\n  br label %cleanup.cont"
+  "\n"
+  "\ncleanup.cont:                                     ; preds = %cleanup"
   "\n  store { i8*, i32 } %4, { i8*, i32 }* %5"
   "\n  %6 = getelementptr { i8*, i32 }, { i8*, i32 }* %5, i32 0, i32 0"
   "\n  %7 = load i8*, i8** %6"
@@ -244,8 +255,10 @@ TEST_F(ReturnStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
                                         GlobalValue::InternalLinkage,
                                         "test",
                                         mContext.getModule());
-  BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-  mContext.setBasicBlock(basicBlock);
+  BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
+  BasicBlock* entryBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+  mContext.setDeclarationsBlock(declareBlock);
+  mContext.setBasicBlock(entryBlock);
   mContext.getScopes().pushScope();
   mContext.getScopes().setReturnType(PrimitiveTypes::LONG);
   
@@ -271,23 +284,30 @@ TEST_F(ReturnStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
   ReturnStatement returnStatement(mExpression, 0);
   
   returnStatement.generateIR(mContext);
+  mContext.setBasicBlock(declareBlock);
+  IRWriter::createBranch(mContext, entryBlock);
   
-  *mStringStream << *basicBlock;
+  *mStringStream << *declareBlock;
+  
+  *mStringStream << *entryBlock;
   string expected =
-  "\nentry:"
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (i32* getelementptr (i32, i32* null, i32 1) to i64))"
-  "\n  %0 = bitcast i8* %malloccall to %MModel*"
+  "\ndeclare:"
+  "\n  %0 = alloca %MModel*"
   "\n  %1 = alloca %MModel*"
-  "\n  store %MModel* %0, %MModel** %1"
+  "\n  br label %entry"
+  "\n"
+  "\nentry:                                            ; preds = %declare"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (i32* getelementptr (i32, i32* null, i32 1) to i64))"
+  "\n  %2 = bitcast i8* %malloccall to %MModel*"
+  "\n  store %MModel* %2, %MModel** %0"
   "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint (i32* getelementptr (i32, i32* null, i32 1) to i64))"
-  "\n  %2 = bitcast i8* %malloccall1 to %MModel*"
-  "\n  %3 = alloca %MModel*"
-  "\n  store %MModel* %2, %MModel** %3"
+  "\n  %3 = bitcast i8* %malloccall1 to %MModel*"
+  "\n  store %MModel* %3, %MModel** %1"
   "\n  %conv = zext i32 3 to i64"
-  "\n  %4 = load %MModel*, %MModel** %3"
+  "\n  %4 = load %MModel*, %MModel** %1"
   "\n  %5 = bitcast %MModel* %4 to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %5, i64 -1)"
-  "\n  %6 = load %MModel*, %MModel** %1"
+  "\n  %6 = load %MModel*, %MModel** %0"
   "\n  %7 = bitcast %MModel* %6 to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %7, i64 -1)"
   "\n  ret i64 %conv\n";

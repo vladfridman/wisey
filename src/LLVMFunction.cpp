@@ -66,20 +66,26 @@ void LLVMFunction::generateBodyIR(IRGenerationContext& context,
   string name = IMethodCall::translateObjectMethodToLLVMFunctionName(objectType, mName);
   Function* function = context.getModule()->getFunction(name);
   assert(function != NULL);
-  
+  LLVMContext& llvmContext = context.getLLVMContext();
+
   Scopes& scopes = context.getScopes();
   
   scopes.pushScope();
   scopes.setReturnType(mReturnType);
-  BasicBlock* basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry", function, 0);
-  context.setBasicBlock(basicBlock);
-  
+  BasicBlock* declarationsBlock = BasicBlock::Create(llvmContext, "declarations", function, 0);
+  BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function, 0);
+  context.setBasicBlock(entryBlock);
+  context.setDeclarationsBlock(declarationsBlock);
+
   createArguments(context, function);
   mCompoundStatement->generateIR(context);
   
   maybeAddImpliedVoidReturn(context, mLine);
-  
+
   scopes.popScope(context, mLine);
+  
+  context.setBasicBlock(declarationsBlock);
+  IRWriter::createBranch(context, entryBlock);
 }
 
 Function* LLVMFunction::getLLVMFunction(IRGenerationContext& context) const {

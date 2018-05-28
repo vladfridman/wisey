@@ -47,6 +47,7 @@ namespace wisey {
     llvm::Module* mModule;
     std::unique_ptr<llvm::Module> mModuleOwner;
     llvm::BasicBlock* mBasicBlock;
+    llvm::BasicBlock* mDeclarationsBlock;
     std::map<std::string, ArrayType*> mArrayTypes;
     std::map<std::string, ArrayExactType*> mArrayExactTypes;
     std::map<std::string, LLVMArrayType*> mLLVMArrayTypes;
@@ -98,6 +99,16 @@ namespace wisey {
      */
     void setBasicBlock(llvm::BasicBlock* block);
     
+    /**
+     * Returns LLVM basic block where all variable declarations are placed
+     */
+    llvm::BasicBlock* getDeclarationsBlock();
+    
+    /**
+     * Set LLVM basic block where all variable declarations will be placed
+     */
+    void setDeclarationsBlock(llvm::BasicBlock* block);
+
     /**
      * Resets the context to clean state
      */

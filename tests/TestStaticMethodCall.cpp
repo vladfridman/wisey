@@ -143,7 +143,9 @@ public:
                                               "main",
                                               mContext.getModule());
     
+    BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", mainFunction);
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mainFunction);
+    mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
@@ -275,7 +277,7 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallWithTryCatchTest) {
   Value* irValue = staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID);
   
   *mStringStream << *irValue;
-  EXPECT_STREQ("  %call = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar(%wisey.threads.IThread* %7, %wisey.threads.CCallStack* %8, float 0x4014CCCCC0000000)\n"
+  EXPECT_STREQ("  %call = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar(%wisey.threads.IThread* %8, %wisey.threads.CCallStack* %9, float 0x4014CCCCC0000000)\n"
                "          to label %invoke.continue unwind label %eh.landing.pad",
                mStringStream->str().c_str());
   EXPECT_EQ(staticMethodCall.getType(mContext), PrimitiveTypes::INT);

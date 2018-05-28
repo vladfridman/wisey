@@ -65,7 +65,9 @@ public:
                                           GlobalValue::InternalLinkage,
                                           "test",
                                           mContext.getModule());
+    BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
@@ -111,7 +113,7 @@ TEST_F(FieldArrayReferenceVariableTest, generateIdentifierIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
-  "\nentry:" +
+  "\nentry:                                            ; No predecessors!" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1"
   "\n  %1 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %0\n";
   
@@ -123,7 +125,7 @@ TEST_F(FieldArrayReferenceVariableTest, generateIdentifierReferenceIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
-  "\nentry:" +
+  "\nentry:                                            ; No predecessors!" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -141,7 +143,7 @@ TEST_F(FieldArrayReferenceVariableTest, generateWholeArrayAssignmentTest) {
   
   *mStringStream << *mBasicBlock;
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1"
   "\n  %1 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %0"
   "\n  %2 = bitcast { i64, i64, i64, [0 x i32] }* %1 to i8*"

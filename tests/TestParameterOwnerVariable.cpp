@@ -36,7 +36,8 @@ using ::testing::Test;
 struct ParameterOwnerVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBasicBlock;
+  BasicBlock* mEntryBlock;
+  BasicBlock* mDeclareBlock;
   Model* mModel;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
@@ -72,8 +73,10 @@ public:
                                           GlobalValue::InternalLinkage,
                                           "test",
                                           mContext.getModule());
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
 
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -98,11 +101,14 @@ TEST_F(ParameterOwnerVariableTest, generateIdentifierIRTest) {
   
   variable.generateIdentifierIR(mContext, 0);
   
-  *mStringStream << *mBasicBlock;
-  
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
+
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -126,11 +132,14 @@ TEST_F(ParameterOwnerVariableTest, freeTest) {
 
   heapMethodParameter.free(mContext, nullPointer, 0);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
   
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0"
   "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.MShape* %1 to i8*"
   "\n  call void @__destroyObjectOwnerFunction(i8* %2, i8* null)\n";
@@ -146,11 +155,14 @@ TEST_F(ParameterOwnerVariableTest, setToNullTest) {
   
   heapMethodParameter.setToNull(mContext, 0);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
   
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  store %systems.vos.wisey.compiler.tests.MShape* null, %systems.vos.wisey.compiler.tests.MShape** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

@@ -45,8 +45,9 @@ struct LLVMFunctionCallTest : public Test {
                                  GlobalValue::InternalLinkage,
                                  "test",
                                  mContext.getModule());
+    BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
-    
+    mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -97,7 +98,7 @@ TEST_F(LLVMFunctionCallTest, generateIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = call i16* @myfunction(i8* null)\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

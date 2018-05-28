@@ -39,7 +39,8 @@ using ::testing::Test;
 struct LocalArrayOwnerVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBasicBlock;
+  BasicBlock* mEntryBlock;
+  BasicBlock* mDeclareBlock;
   Function* mFunction;
   const wisey::ArrayType* mArrayType;
   string mStringBuffer;
@@ -59,8 +60,10 @@ public:
                                  GlobalValue::InternalLinkage,
                                  "test",
                                  mContext.getModule());
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
   }
   
@@ -85,11 +88,14 @@ TEST_F(LocalArrayOwnerVariableTest, generateIdentifierIRTest) {
   LocalArrayOwnerVariable variable("foo", mArrayType->getOwner(), alloc, 0);
   variable.generateIdentifierIR(mContext, 0);
   
-  *mStringStream << *mBasicBlock;
-  
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
+
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -115,12 +121,16 @@ TEST_F(LocalArrayOwnerVariableTest, generateAssignmentTest) {
   ON_CALL(mockExpression, generateIR(_, _)).WillByDefault(Return(value));
   EXPECT_CALL(mockExpression, generateIR(_, mArrayType->getOwner()));
   variable.generateAssignmentIR(mContext, &mockExpression, arrayIndices, 0);
+  BranchInst::Create(mEntryBlock, mDeclareBlock);
   
   *mStringStream << *mFunction;
   string expected =
   "\ndefine internal i32 @test() personality i32 (...)* @__gxx_personality_v0 {"
-  "\nentry:"
+  "\ndeclare:"
   "\n  %foo = alloca { i64, i64, i64, [0 x i32] }*"
+  "\n  br label %entry"
+  "\n"
+  "\nentry:                                            ; preds = %declare"
   "\n  %0 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %foo"
   "\n  %1 = bitcast { i64, i64, i64, [0 x i32] }* %0 to i64*"
   "\n  invoke void @__destroyPrimitiveArrayFunction(i64* %1, i64 1, i8* getelementptr inbounds ([7 x i8], [7 x i8]* @\"int[]*\", i32 0, i32 0), i8* null)"
@@ -130,6 +140,9 @@ TEST_F(LocalArrayOwnerVariableTest, generateAssignmentTest) {
   "\n  %2 = landingpad { i8*, i32 }"
   "\n          cleanup"
   "\n  %3 = alloca { i8*, i32 }"
+  "\n  br label %cleanup.cont"
+  "\n"
+  "\ncleanup.cont:                                     ; preds = %cleanup"
   "\n  store { i8*, i32 } %2, { i8*, i32 }* %3"
   "\n  %4 = getelementptr { i8*, i32 }, { i8*, i32 }* %3, i32 0, i32 0"
   "\n  %5 = load i8*, i8** %4"

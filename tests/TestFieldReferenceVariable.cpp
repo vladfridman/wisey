@@ -98,7 +98,9 @@ struct FieldReferenceVariableTest : Test {
                                           GlobalValue::InternalLinkage,
                                           "main",
                                           mContext.getModule());
+    BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
@@ -132,7 +134,7 @@ TEST_F(FieldReferenceVariableTest, generateIdentifierIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
-  "\nentry:" +
+  "\nentry:                                            ; No predecessors!" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1"
   "\n  %foo = load %systems.vos.wisey.compiler.tests.NNode*, %systems.vos.wisey.compiler.tests.NNode** %0\n";
   
@@ -144,7 +146,7 @@ TEST_F(FieldReferenceVariableTest, generateIdentifierreferenceIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
-  "\nentry:" +
+  "\nentry:                                            ; No predecessors!" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -163,7 +165,7 @@ TEST_F(FieldReferenceVariableTest, generateAssignmentIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
-  "\nentry:" +
+  "\nentry:                                            ; No predecessors!" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1"
   "\n  %1 = load %systems.vos.wisey.compiler.tests.NNode*, %systems.vos.wisey.compiler.tests.NNode** %0"
   "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.NNode* %1 to i8*"
@@ -190,7 +192,7 @@ TEST_F(FieldReferenceVariableTest, generateAssignmentWithCastIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
-  "\nentry:" +
+  "\nentry:                                            ; No predecessors!" +
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NNode* null to i8*"
   "\n  %1 = getelementptr i8, i8* %0, i64 0"
   "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IInterface*"

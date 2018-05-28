@@ -41,7 +41,8 @@ struct ThrowStatementTest : public Test {
   NiceMock<MockExpression>* mMockExpression;
   NiceMock<MockType> mMockType;
   Model* mCircleModel;
-  BasicBlock* mBlock;
+  BasicBlock* mDeclareBlock;
+  BasicBlock* mEntryBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   Function* mFunction;
@@ -84,8 +85,10 @@ struct ThrowStatementTest : public Test {
                                  GlobalValue::InternalLinkage,
                                  "main",
                                  mContext.getModule());
-    mBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
-    mContext.setBasicBlock(mBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
     
     EXPECT_CALL(mMockType, die());
@@ -121,12 +124,17 @@ TEST_F(ThrowStatementTest, modelExpressionTypeTest) {
   ThrowStatement throwStatement(mMockExpression, 0);
   
   throwStatement.generateIR(mContext);
+  BranchInst::Create(mEntryBlock, mDeclareBlock);
+  
   EXPECT_EQ(mContext.getScopes().getScope()->getExceptions().size(), 1u);
 
   *mStringStream << *mFunction;
   string expected =
   "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
-  "\nentry:"
+  "\ndeclare:"
+  "\n  br label %entry"
+  "\n"
+  "\nentry:                                            ; preds = %declare"
   "\n  %0 = bitcast { i8*, i8* }* @systems.vos.wisey.compiler.tests.MCircle.rtti to i8*"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MCircle* null to i8*"
   "\n  %2 = getelementptr i8, i8* %1, i64 -8"
@@ -140,6 +148,9 @@ TEST_F(ThrowStatementTest, modelExpressionTypeTest) {
   "\n  %4 = landingpad { i8*, i32 }"
   "\n          cleanup"
   "\n  %5 = alloca { i8*, i32 }"
+  "\n  br label %cleanup.cont"
+  "\n"
+  "\ncleanup.cont:                                     ; preds = %cleanup"
   "\n  store { i8*, i32 } %4, { i8*, i32 }* %5"
   "\n  %6 = getelementptr { i8*, i32 }, { i8*, i32 }* %5, i32 0, i32 0"
   "\n  %7 = load i8*, i8** %6"
@@ -176,18 +187,22 @@ TEST_F(ThrowStatementTest, ownerVariablesAreClearedTest) {
   ThrowStatement throwStatement(mMockExpression, 0);
   
   throwStatement.generateIR(mContext);
-  
+  BranchInst::Create(mEntryBlock, mDeclareBlock);
+
   *mStringStream << *mFunction;
   string expected =
   "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
-  "\nentry:"
+  "\ndeclare:"
+  "\n  %pointer = alloca %systems.vos.wisey.compiler.tests.MCircle*"
+  "\n  %pointer2 = alloca %systems.vos.wisey.compiler.tests.MCircle*"
+  "\n  br label %entry"
+  "\n"
+  "\nentry:                                            ; preds = %declare"
   "\n  %malloccall = tail call i8* @malloc(i64 0)"
   "\n  %0 = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.MCircle*"
-  "\n  %pointer = alloca %systems.vos.wisey.compiler.tests.MCircle*"
   "\n  store %systems.vos.wisey.compiler.tests.MCircle* %0, %systems.vos.wisey.compiler.tests.MCircle** %pointer"
   "\n  %malloccall1 = tail call i8* @malloc(i64 0)"
   "\n  %1 = bitcast i8* %malloccall1 to %systems.vos.wisey.compiler.tests.MCircle*"
-  "\n  %pointer2 = alloca %systems.vos.wisey.compiler.tests.MCircle*"
   "\n  store %systems.vos.wisey.compiler.tests.MCircle* %1, %systems.vos.wisey.compiler.tests.MCircle** %pointer2"
   "\n  %2 = bitcast { i8*, i8* }* @systems.vos.wisey.compiler.tests.MCircle.rtti to i8*"
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MCircle* null to i8*"
@@ -202,6 +217,9 @@ TEST_F(ThrowStatementTest, ownerVariablesAreClearedTest) {
   "\n  %6 = landingpad { i8*, i32 }"
   "\n          cleanup"
   "\n  %7 = alloca { i8*, i32 }"
+  "\n  br label %cleanup.cont"
+  "\n"
+  "\ncleanup.cont:                                     ; preds = %cleanup"
   "\n  store { i8*, i32 } %6, { i8*, i32 }* %7"
   "\n  %8 = getelementptr { i8*, i32 }, { i8*, i32 }* %7, i32 0, i32 0"
   "\n  %9 = load i8*, i8** %8"
@@ -248,20 +266,25 @@ TEST_F(ThrowStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
   ThrowStatement throwStatement(mMockExpression, 0);
   
   throwStatement.generateIR(mContext);
+  BranchInst::Create(mEntryBlock, mDeclareBlock);
+
   EXPECT_EQ(mContext.getScopes().getScope()->getExceptions().size(), 1u);
   
   *mStringStream << *mFunction;
   string expected =
   "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
-  "\nentry:"
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (i32* getelementptr (i32, i32* null, i32 1) to i64))"
-  "\n  %0 = bitcast i8* %malloccall to %MModel*"
+  "\ndeclare:"
+  "\n  %0 = alloca %MModel*"
   "\n  %1 = alloca %MModel*"
-  "\n  store %MModel* %0, %MModel** %1"
+  "\n  br label %entry"
+  "\n"
+  "\nentry:                                            ; preds = %declare"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (i32* getelementptr (i32, i32* null, i32 1) to i64))"
+  "\n  %2 = bitcast i8* %malloccall to %MModel*"
+  "\n  store %MModel* %2, %MModel** %0"
   "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint (i32* getelementptr (i32, i32* null, i32 1) to i64))"
-  "\n  %2 = bitcast i8* %malloccall1 to %MModel*"
-  "\n  %3 = alloca %MModel*"
-  "\n  store %MModel* %2, %MModel** %3"
+  "\n  %3 = bitcast i8* %malloccall1 to %MModel*"
+  "\n  store %MModel* %3, %MModel** %1"
   "\n  %4 = bitcast { i8*, i8* }* @systems.vos.wisey.compiler.tests.MCircle.rtti to i8*"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.MCircle* null to i8*"
   "\n  %6 = getelementptr i8, i8* %5, i64 -8"
@@ -275,15 +298,18 @@ TEST_F(ThrowStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
   "\n  %8 = landingpad { i8*, i32 }"
   "\n          cleanup"
   "\n  %9 = alloca { i8*, i32 }"
+  "\n  br label %cleanup.cont"
+  "\n"
+  "\ncleanup.cont:                                     ; preds = %cleanup"
   "\n  store { i8*, i32 } %8, { i8*, i32 }* %9"
   "\n  %10 = getelementptr { i8*, i32 }, { i8*, i32 }* %9, i32 0, i32 0"
   "\n  %11 = load i8*, i8** %10"
   "\n  %12 = call i8* @__cxa_get_exception_ptr(i8* %11)"
   "\n  %13 = getelementptr i8, i8* %12, i64 8"
-  "\n  %14 = load %MModel*, %MModel** %3"
+  "\n  %14 = load %MModel*, %MModel** %1"
   "\n  %15 = bitcast %MModel* %14 to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %15, i64 -1)"
-  "\n  %16 = load %MModel*, %MModel** %1"
+  "\n  %16 = load %MModel*, %MModel** %0"
   "\n  %17 = bitcast %MModel* %16 to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %17, i64 -1)"
   "\n  resume { i8*, i32 } %8"

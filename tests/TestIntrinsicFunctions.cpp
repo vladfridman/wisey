@@ -28,7 +28,8 @@ struct IntrinsicFunctionsTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   Module* mModule;
-  BasicBlock* mBasicBlock;
+  BasicBlock* mEntryBlock;
+  BasicBlock* mDeclareBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
 
@@ -44,8 +45,10 @@ public:
                                           GlobalValue::InternalLinkage,
                                           "test",
                                           mContext.getModule());
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
 
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -100,11 +103,16 @@ TEST_F(IntrinsicFunctionsTest, setMemoryToZeroTest) {
   Type* type = Type::getInt32Ty(mLLVMContext);
   Value* alloca = IRWriter::newAllocaInst(mContext, type, "");
   IntrinsicFunctions::setMemoryToZero(mContext, alloca, ConstantExpr::getSizeOf(type));
+  BranchInst::Create(mEntryBlock, mDeclareBlock);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %0 = alloca i32"
+  "\n  br label %entry"
+  "\n"
+  "\nentry:                                            ; preds = %declare"
   "\n  %1 = bitcast i32* %0 to i8*"
   "\n  call void @llvm.memset.p0i8.i64(i8* %1, i8 0, i64 ptrtoint (i32* getelementptr "
   "(i32, i32* null, i32 1) to i64), i32 4, i1 false)\n";

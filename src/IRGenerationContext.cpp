@@ -120,6 +120,14 @@ void IRGenerationContext::setBasicBlock(BasicBlock* block) {
   mBasicBlock = block;
 }
 
+BasicBlock* IRGenerationContext::getDeclarationsBlock() {
+  return mDeclarationsBlock;
+}
+
+void IRGenerationContext::setDeclarationsBlock(BasicBlock* block) {
+  mDeclarationsBlock = block;
+}
+
 void IRGenerationContext::reset() {
   mScopes.clear();
   mBasicBlock = NULL;

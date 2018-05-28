@@ -46,9 +46,13 @@ bool Catch::generateIR(IRGenerationContext& context,
   
   Function* beginCatchFunction = IntrinsicFunctions::getBeginCatchFunction(context);
   Function* endCatchFunction = IntrinsicFunctions::getEndCatchFunction(context);
-
+  BasicBlock* catchContinueBlock = BasicBlock::Create(llvmContext,
+                                                      catchBlock->getName() + ".cont",
+                                                      catchBlock->getParent());
+  
   context.getScopes().pushScope();
-  context.setBasicBlock(catchBlock);
+  context.setDeclarationsBlock(catchBlock);
+  context.setBasicBlock(catchContinueBlock);
   
   vector<Value*> arguments;
   arguments.push_back(wrappedException);
@@ -95,6 +99,9 @@ bool Catch::generateIR(IRGenerationContext& context,
   bool hasTerminator = context.getBasicBlock()->getTerminator() != NULL;
 
   IRWriter::createBranch(context, exceptionContinueBlock);
+  
+  context.setBasicBlock(catchBlock);
+  IRWriter::createBranch(context, catchContinueBlock);
   
   return hasTerminator;
 }

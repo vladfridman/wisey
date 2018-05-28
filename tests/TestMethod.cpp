@@ -200,7 +200,10 @@ TEST_F(MethodTest, generateIRTest) {
   *mStringStream << *function;
   string expected =
   "\ndefine void @systems.vos.wisey.compiler.tests.MObject.foo(%systems.vos.wisey.compiler.tests.MObject* %this, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i32 %intargument) {"
-  "\nentry:"
+  "\ndeclarations:"
+  "\n  br label %entry"
+  "\n"
+  "\nentry:                                            ; preds = %declarations"
   "\n  ret void"
   "\n}"
   "\n";

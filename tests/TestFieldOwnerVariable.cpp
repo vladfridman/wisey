@@ -43,7 +43,8 @@ struct FieldOwnerVariableTest : Test {
   Node* mObject;
   Node* mNode;
   Interface* mInterface;
-  BasicBlock* mBasicBlock;
+  BasicBlock* mDeclareBlock;
+  BasicBlock* mEntryBlock;
   Function* mFunction;
   FieldOwnerVariable* mFieldOwnerVariable;
   string mStringBuffer;
@@ -99,8 +100,10 @@ struct FieldOwnerVariableTest : Test {
                                  GlobalValue::InternalLinkage,
                                  "main",
                                  mContext.getModule());
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
     
     Value* thisPointer = ConstantPointerNull::get(mObject->getLLVMType(mContext));
@@ -141,9 +144,10 @@ TEST_F(FieldOwnerVariableTest, basicFieldsTest) {
 TEST_F(FieldOwnerVariableTest, generateIdentifierIRTest) {
   mFieldOwnerVariable->generateIdentifierIR(mContext, 0);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mEntryBlock;
+  
   string expected = string() +
-  "\nentry:" +
+  "\nentry:                                            ; No predecessors!" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
   "\n  %foo = load %systems.vos.wisey.compiler.tests.NNode*, %systems.vos.wisey.compiler.tests.NNode** %0\n";
   
@@ -153,9 +157,9 @@ TEST_F(FieldOwnerVariableTest, generateIdentifierIRTest) {
 TEST_F(FieldOwnerVariableTest, generateIdentifierReferenceIRTest) {
   mFieldOwnerVariable->generateIdentifierReferenceIR(mContext, 0);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mEntryBlock;
   string expected = string() +
-  "\nentry:" +
+  "\nentry:                                            ; No predecessors!" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -171,11 +175,15 @@ TEST_F(FieldOwnerVariableTest, generateAssignmentIRTest) {
   vector<const IExpression*> arrayIndices;
 
   mFieldOwnerVariable->generateAssignmentIR(mContext, &assignToExpression, arrayIndices, 0);
+  BranchInst::Create(mEntryBlock, mDeclareBlock);
   
   *mStringStream << *mFunction;
   string expected = string() +
   "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
-  "\nentry:" +
+  "\ndeclare:"
+  "\n  br label %entry"
+  "\n"
+  "\nentry:                                            ; preds = %declare"
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
   "\n  %1 = load %systems.vos.wisey.compiler.tests.NNode*, %systems.vos.wisey.compiler.tests.NNode** %0"
   "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.NNode* %1 to i8*"
@@ -186,6 +194,9 @@ TEST_F(FieldOwnerVariableTest, generateAssignmentIRTest) {
   "\n  %3 = landingpad { i8*, i32 }"
   "\n          cleanup"
   "\n  %4 = alloca { i8*, i32 }"
+  "\n  br label %cleanup.cont"
+  "\n"
+  "\ncleanup.cont:                                     ; preds = %cleanup"
   "\n  store { i8*, i32 } %3, { i8*, i32 }* %4"
   "\n  %5 = getelementptr { i8*, i32 }, { i8*, i32 }* %4, i32 0, i32 0"
   "\n  %6 = load i8*, i8** %5"
@@ -213,11 +224,15 @@ TEST_F(FieldOwnerVariableTest, generateAssignmentWithCastIRTest) {
 
   FieldOwnerVariable* ownerFieldVariable = new FieldOwnerVariable("bar", mObject, 0);
   ownerFieldVariable->generateAssignmentIR(mContext, &assignToExpression, arrayIndices, 0);
-  
+  BranchInst::Create(mEntryBlock, mDeclareBlock);
+
   *mStringStream << *mFunction;
   string expected = string() +
   "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
-  "\nentry:" +
+  "\ndeclare:"
+  "\n  br label %entry"
+  "\n"
+  "\nentry:                                            ; preds = %declare"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NNode* null to i8*"
   "\n  %1 = getelementptr i8, i8* %0, i64 0"
   "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IInterface*"
@@ -231,6 +246,9 @@ TEST_F(FieldOwnerVariableTest, generateAssignmentWithCastIRTest) {
   "\n  %6 = landingpad { i8*, i32 }"
   "\n          cleanup"
   "\n  %7 = alloca { i8*, i32 }"
+  "\n  br label %cleanup.cont"
+  "\n"
+  "\ncleanup.cont:                                     ; preds = %cleanup"
   "\n  store { i8*, i32 } %6, { i8*, i32 }* %7"
   "\n  %8 = getelementptr { i8*, i32 }, { i8*, i32 }* %7, i32 0, i32 0"
   "\n  %9 = load i8*, i8** %8"
@@ -250,9 +268,9 @@ TEST_F(FieldOwnerVariableTest, generateAssignmentWithCastIRTest) {
 TEST_F(FieldOwnerVariableTest, setToNullTest) {
   mFieldOwnerVariable->setToNull(mContext, 0);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mEntryBlock;
   string expected = string() +
-  "\nentry:" +
+  "\nentry:                                            ; No predecessors!" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
   "\n  store %systems.vos.wisey.compiler.tests.NNode* null, %systems.vos.wisey.compiler.tests.NNode** %0\n";
   

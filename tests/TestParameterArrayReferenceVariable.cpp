@@ -54,7 +54,9 @@ public:
                                           GlobalValue::InternalLinkage,
                                           "test",
                                           mContext.getModule());
+    BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
@@ -82,7 +84,7 @@ TEST_F(ParameterArrayReferenceVariableTest, decrementReferenceCounterTest) {
   *mStringStream << *mBasicBlock;
   
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = bitcast { i64, i64, i64, [0 x i32] }* null to i8*"
   "\n  call void @__adjustReferenceCounterForArray(i8* %0, i64 -1)"
   "\n";

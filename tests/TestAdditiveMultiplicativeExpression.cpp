@@ -63,7 +63,9 @@ struct AdditiveMultiplicativeExpressionTest : Test {
                                           GlobalValue::InternalLinkage,
                                           "main",
                                           mContext.getModule());
+    BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
  
@@ -158,7 +160,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, pointerSubtractTest) {
   expression.generateIR(mContext, PrimitiveTypes::VOID);
   
   *mStringStream << *mBasicBlock;
-  ASSERT_STREQ("\nentry:"
+  ASSERT_STREQ("\nentry:                                            ; No predecessors!"
                "\n  %sub = sub i32 0, 3"
                "\n  %0 = getelementptr i8, i8* null, i32 %sub\n",
                mStringStream->str().c_str());

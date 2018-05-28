@@ -73,7 +73,8 @@ struct NodeTest : public Test {
   StructType* mStructType;
   ReceivedField* mLeftField;
   ReceivedField* mRightField;
-  BasicBlock* mBasicBlock;
+  BasicBlock* mEntryBlock;
+  BasicBlock* mDeclareBlock;
   NiceMock<MockExpression>* mField1Expression;
   NiceMock<MockExpression>* mField2Expression;
   wisey::Constant* mConstant;
@@ -344,8 +345,10 @@ struct NodeTest : public Test {
                                  "test",
                                  mContext.getModule());
     
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
     
     Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
@@ -511,9 +514,9 @@ TEST_F(NodeTest, castToFirstInterfaceTest) {
   ConstantPointerNull::get(mComplicatedNode->getLLVMType(mContext));
   mComplicatedNode->castTo(mContext, pointer, mComplicatedElementInterface, 0);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mEntryBlock;
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i8*"
   "\n  %1 = getelementptr i8, i8* %0, i64 0"
   "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IComplicatedElement*\n";
@@ -527,9 +530,9 @@ TEST_F(NodeTest, castToSecondInterfaceTest) {
   ConstantPointerNull::get(mComplicatedNode->getLLVMType(mContext));
   mComplicatedNode->castTo(mContext, pointer, mElementInterface, 0);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mEntryBlock;
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i8*"
   "\n  %1 = getelementptr i8, i8* %0, i64 8"
   "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IElement*\n";
@@ -566,9 +569,9 @@ TEST_F(NodeTest, incrementReferenceCountTest) {
   ConstantPointerNull::get(mComplicatedNode->getLLVMType(mContext));
   mComplicatedNode->incrementReferenceCount(mContext, pointer);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mEntryBlock;
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %0, i64 1)\n";
 
@@ -581,9 +584,9 @@ TEST_F(NodeTest, decrementReferenceCountTest) {
   ConstantPointerNull::get(mComplicatedNode->getLLVMType(mContext));
   mComplicatedNode->decrementReferenceCount(mContext, pointer);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mEntryBlock;
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %0, i64 -1)\n";
 
@@ -596,9 +599,9 @@ TEST_F(NodeTest, getReferenceCountTest) {
   ConstantPointerNull::get(mComplicatedNode->getLLVMType(mContext));
   mComplicatedNode->getReferenceCount(mContext, pointer);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mEntryBlock;
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i64*"
   "\n  %1 = getelementptr i64, i64* %0, i64 -1"
   "\n  %refCounter = load i64, i64* %1\n";
@@ -642,9 +645,9 @@ TEST_F(NodeTest, buildTest) {
   
   EXPECT_NE(result, nullptr);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mEntryBlock;
   string expected = string() +
-  "\nentry:" +
+  "\nentry:                                            ; No predecessors!" +
   "\n  %0 = call %systems.vos.wisey.compiler.tests.NSimpleNode* @systems.vos.wisey.compiler.tests.NSimpleNode.build(%systems.vos.wisey.compiler.tests.NOwner* null, %systems.vos.wisey.compiler.tests.MReference* null)"
   "\n";
   
@@ -800,11 +803,14 @@ TEST_F(NodeTest, createLocalVariableTest) {
   
   ASSERT_NE(variable, nullptr);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
   
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %temp = alloca %systems.vos.wisey.compiler.tests.NComplicatedNode*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  store %systems.vos.wisey.compiler.tests.NComplicatedNode* null, %systems.vos.wisey.compiler.tests.NComplicatedNode** %temp\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -829,10 +835,10 @@ TEST_F(NodeTest, createParameterVariableTest) {
   
   EXPECT_NE(variable, nullptr);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mEntryBlock;
   
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %0, i64 1)\n";
   

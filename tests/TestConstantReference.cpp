@@ -78,7 +78,9 @@ public:
                                                       "main",
                                                       mContext.getModule());
 
+    llvm::BasicBlock* declareBlock = llvm::BasicBlock::Create(mLLVMContext, "declare", function);
     mBasicBlock = llvm::BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
 
@@ -113,7 +115,7 @@ TEST_F(ConstantReferenceTest, generateIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = load i32, i32* @constant.MMyObject.MYCONSTANT\n";
   
   ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());

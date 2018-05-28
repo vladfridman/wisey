@@ -63,7 +63,9 @@ public:
                                  GlobalValue::InternalLinkage,
                                  "test",
                                  mContext.getModule());
+    BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
 
@@ -109,7 +111,7 @@ TEST_F(FieldArrayOwnerVariableTest, generateIdentifierIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
-  "\nentry:" +
+  "\nentry:                                            ; No predecessors!" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1"
   "\n  %1 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %0\n";
   
@@ -121,7 +123,7 @@ TEST_F(FieldArrayOwnerVariableTest, generateIdentifierReferenceIRTest) {
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
-  "\nentry:" +
+  "\nentry:                                            ; No predecessors!" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -140,7 +142,9 @@ TEST_F(FieldArrayOwnerVariableTest, generateWholeArrayAssignmentTest) {
   *mStringStream << *mFunction;
   string expected =
   "\ndefine internal i32 @test() personality i32 (...)* @__gxx_personality_v0 {"
-  "\nentry:"
+  "\ndeclare:"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1"
   "\n  %1 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %0"
   "\n  %2 = bitcast { i64, i64, i64, [0 x i32] }* %1 to i64*"
@@ -151,6 +155,9 @@ TEST_F(FieldArrayOwnerVariableTest, generateWholeArrayAssignmentTest) {
   "\n  %3 = landingpad { i8*, i32 }"
   "\n          cleanup"
   "\n  %4 = alloca { i8*, i32 }"
+  "\n  br label %cleanup.cont"
+  "\n"
+  "\ncleanup.cont:                                     ; preds = %cleanup"
   "\n  store { i8*, i32 } %3, { i8*, i32 }* %4"
   "\n  %5 = getelementptr { i8*, i32 }, { i8*, i32 }* %4, i32 0, i32 0"
   "\n  %6 = load i8*, i8** %5"

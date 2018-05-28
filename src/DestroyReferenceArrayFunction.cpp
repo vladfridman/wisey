@@ -110,6 +110,7 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   Value* exception = &*llvmArguments;
   exception->setName("exception");
 
+  BasicBlock* declarations = BasicBlock::Create(llvmContext, "declarations", function);
   BasicBlock* entry = BasicBlock::Create(llvmContext, "entry", function);
   BasicBlock* returnVoid = BasicBlock::Create(llvmContext, "return.void", function);
   BasicBlock* ifNotNull = BasicBlock::Create(llvmContext, "if.not.null", function);
@@ -123,7 +124,8 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   BasicBlock* freeArray = BasicBlock::Create(llvmContext, "free.array", function);
   
   context.setBasicBlock(entry);
-  
+  context.setDeclarationsBlock(declarations);
+
   Value* null = ConstantPointerNull::get(genericPointer);
   Value* isNull = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, arrayPointer, null, "isNull");
   IRWriter::createConditionalBranch(context, returnVoid, ifNotNull, isNull);
@@ -239,6 +241,9 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   IRWriter::createReturnInst(context, NULL);
   
   context.getScopes().popScope(context, 0);
+
+  context.setBasicBlock(declarations);
+  IRWriter::createBranch(context, entry);
 
   context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context), 0);
 }

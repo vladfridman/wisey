@@ -50,7 +50,8 @@ struct ControllerOwnerTest : public Test {
   Interface* mVehicleInterface;
   NiceMock<MockVariable>* mThreadVariable;
   NiceMock<MockVariable>* mCallstackVariable;
-  BasicBlock *mBasicBlock;
+  BasicBlock* mEntryBlock;
+  BasicBlock* mDeclareBlock;
   string mStringBuffer;
   Function* mFunction;
   raw_string_ostream* mStringStream;
@@ -148,8 +149,10 @@ struct ControllerOwnerTest : public Test {
                                  "test",
                                  mContext.getModule());
     
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
 
     Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
@@ -286,9 +289,9 @@ TEST_F(ControllerOwnerTest, castToFirstInterfaceTest) {
                                             pointer,
                                             mScienceCalculatorInterface->getOwner(),
                                             0);
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mEntryBlock;
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i8*"
   "\n  %1 = getelementptr i8, i8* %0, i64 0"
   "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IScienceCalculator*\n";
@@ -305,9 +308,9 @@ TEST_F(ControllerOwnerTest, castToSecondInterfaceTest) {
                                             mCalculatorInterface->getOwner(),
                                             0);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mEntryBlock;
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i8*"
   "\n  %1 = getelementptr i8, i8* %0, i64 8"
   "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.ICalculator*\n";
@@ -322,11 +325,14 @@ TEST_F(ControllerOwnerTest, createLocalVariableTest) {
   
   ASSERT_NE(variable, nullptr);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
   
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %temp = alloca %systems.vos.wisey.compiler.tests.CMultiplier*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  store %systems.vos.wisey.compiler.tests.CMultiplier* null, %systems.vos.wisey.compiler.tests.CMultiplier** %temp\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -353,11 +359,14 @@ TEST_F(ControllerOwnerTest, createParameterVariableTest) {
   
   EXPECT_NE(variable, nullptr);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
   
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %var = alloca %systems.vos.wisey.compiler.tests.CMultiplier*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  store %systems.vos.wisey.compiler.tests.CMultiplier* null, %systems.vos.wisey.compiler.tests.CMultiplier** %var\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -371,9 +380,9 @@ TEST_F(ControllerOwnerTest, injectTest) {
   
   EXPECT_NE(result, nullptr);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mEntryBlock;
   string expected =
-  "\nentry:"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = call %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject(%wisey.threads.IThread* null, %wisey.threads.CCallStack* null)"
   "\n";
   

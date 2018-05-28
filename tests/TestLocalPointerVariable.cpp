@@ -37,7 +37,8 @@ using ::testing::Test;
 struct LocalPointerVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBasicBlock;
+  BasicBlock* mEntryBlock;
+  BasicBlock* mDeclareBlock;
   const LLVMPointerType* mPointerType;
   Value* mValueStore;
   LocalPointerVariable* mVariable;
@@ -56,8 +57,10 @@ public:
                                           GlobalValue::InternalLinkage,
                                           "test",
                                           mContext.getModule());
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
     
     vector<Type*> types;
@@ -101,11 +104,14 @@ TEST_F(LocalPointerVariableTest, basicTest) {
 TEST_F(LocalPointerVariableTest, identifierTest) {
   mVariable->generateIdentifierIR(mContext, 0);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
   
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %0 = alloca i64*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  store i64* null, i64** %0"
   "\n  %1 = load i64*, i64** %0\n";
   
@@ -128,10 +134,13 @@ TEST_F(LocalPointerVariableTest, assignmentTest) {
   
   mVariable->generateAssignmentIR(mContext, &expression, arrayIndices, 0);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mDeclareBlock;
+  *mStringStream << *mEntryBlock;
   string expected =
-  "\nentry:"
+  "\ndeclare:"
   "\n  %0 = alloca i64*"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  store i64* null, i64** %0"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MShape* null to i64*"
   "\n  store i64* %1, i64** %0\n";

@@ -26,7 +26,8 @@ using ::testing::Test;
 struct ThrowReferenceCountExceptionFunctionTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBasicBlock;
+  BasicBlock* mDeclareBlock;
+  BasicBlock* mEntryBlock;
   Function* mFunction;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
@@ -40,8 +41,10 @@ struct ThrowReferenceCountExceptionFunctionTest : Test {
                                  GlobalValue::InternalLinkage,
                                  "main",
                                  mContext.getModule());
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
-    mContext.setBasicBlock(mBasicBlock);
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setDeclarationsBlock(mDeclareBlock);
+    mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
     
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -55,11 +58,15 @@ TEST_F(ThrowReferenceCountExceptionFunctionTest, callTest) {
   Value* referenceCount = ConstantInt::get(Type::getInt64Ty(mLLVMContext), 5);
   Value* nullPointer = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
   ThrowReferenceCountExceptionFunction::call(mContext, referenceCount, nullPointer, nullPointer);
+  BranchInst::Create(mEntryBlock, mDeclareBlock);
   
   *mStringStream << *mFunction;
   string expected =
   "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
-  "\nentry:"
+  "\ndeclare:"
+  "\n  br label %entry"
+  "\n"
+  "\nentry:                                            ; preds = %declare"
   "\n  invoke void @__throwReferenceCountException(i64 5, i8* null, i8* null)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
@@ -67,6 +74,9 @@ TEST_F(ThrowReferenceCountExceptionFunctionTest, callTest) {
   "\n  %0 = landingpad { i8*, i32 }"
   "\n          cleanup"
   "\n  %1 = alloca { i8*, i32 }"
+  "\n  br label %cleanup.cont"
+  "\n"
+  "\ncleanup.cont:                                     ; preds = %cleanup"
   "\n  store { i8*, i32 } %0, { i8*, i32 }* %1"
   "\n  %2 = getelementptr { i8*, i32 }, { i8*, i32 }* %1, i32 0, i32 0"
   "\n  %3 = load i8*, i8** %2"
@@ -97,6 +107,9 @@ TEST_F(ThrowReferenceCountExceptionFunctionTest, getTest) {
   "\n  %2 = landingpad { i8*, i32 }"
   "\n          cleanup"
   "\n  %3 = alloca { i8*, i32 }"
+  "\n  br label %cleanup.cont"
+  "\n"
+  "\ncleanup.cont:                                     ; preds = %cleanup"
   "\n  store { i8*, i32 } %2, { i8*, i32 }* %3"
   "\n  %4 = getelementptr { i8*, i32 }, { i8*, i32 }* %3, i32 0, i32 0"
   "\n  %5 = load i8*, i8** %4"
