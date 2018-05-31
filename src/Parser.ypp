@@ -229,7 +229,7 @@
 %token <token> TLLVMPOINTER TLLVMSTRUCT TLLVMVOID TLLVMREFERENCE
 %token <token> TMODEL TNEW TNODE TNULL TOROP TOVERRIDE TPACKAGE 
 %token <token> TPRINTFILE TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN 
-%token <token> TSCOPE TSHIFTLEFT TSHIFTRIGHT TSTATE TSTATIC TSWITCH 
+%token <token> TSCOPEDTO TSHIFTLEFT TSHIFTRIGHT TSTATE TSTATIC TSWITCH 
 %token <token> TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN 
 %token <token> TTYPECHAR TTYPEDOUBLE TTYPEFLOAT TTYPEINT TTYPELONG TTYPESTRING TTYPEVOID TWHILE
 %token <token> TWISEY TWISEYMODEL TWISEYOBJECT
@@ -296,7 +296,7 @@
 %type <object_type_specifier> object_type_specifier_injectable 
 %type <object_type_specifier> object_type_specifier_inner_short
 %type <object_type_specifier> object_type_specifier_inner_full
-%type <object_type_specifier> context_scope
+%type <object_type_specifier> object_scope
 %type <object_builder_argument_list> object_builder_argument_list
 %type <object_builder_argument> object_builder_argument
 %type <injection_argument_list> injection_argument_list
@@ -801,7 +801,7 @@ method_signature
   ;
 
 controller_definition
-  : TCONTROLLER controller_type_specifier_top_level context_scope 
+  : TCONTROLLER controller_type_specifier_top_level object_scope 
       implmeneted_interfaces '{' object_element_declaration_list '}'
     {
       IExpression* package = $2->takePackage();
@@ -822,7 +822,7 @@ controller_definition
   ;
 
 inner_controller_definition
-  : access_specifier TCONTROLLER controller_type_specifier_short context_scope 
+  : access_specifier TCONTROLLER controller_type_specifier_short object_scope 
       implmeneted_interfaces '{' object_element_declaration_list '}'
     {
       IExpression* package = $3->takePackage();
@@ -861,9 +861,9 @@ external_controller_definition
     }
   ;
 
-context_scope
+object_scope
   : /* none */ { $$ = NULL; }
-  | TSCOPE object_type_specifier { $$ = $2; }
+  | TSCOPEDTO object_type_specifier { $$ = $2; }
   ;
 
 node_definition

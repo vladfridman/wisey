@@ -1,6 +1,6 @@
 package systems.vos.wisey.compiler.tests;
 
-controller CService scope wisey.threads.IThread {
+controller CService scopedto wisey.threads.IThread {
 }
 
 controller CProgram {
