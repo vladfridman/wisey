@@ -169,7 +169,7 @@ bool AdditiveMultiplicativeExpression::isAssignable() const {
 void AdditiveMultiplicativeExpression::printToStream(IRGenerationContext& context,
                                                      std::iostream& stream) const {
   mLeftExpression->printToStream(context, stream);
-  stream << " + ";
+  stream << " " << (char) mOperation << " ";
   mRightExpression->printToStream(context, stream);
 }
 

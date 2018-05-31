@@ -167,14 +167,14 @@ TEST_F(AdditiveMultiplicativeExpressionTest, pointerSubtractTest) {
 }
 
 TEST_F(AdditiveMultiplicativeExpressionTest, printToStreamTest) {
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '%', mRightExpression, 0);
   
   stringstream stringStream;
   ON_CALL(*mLeftExpression, printToStream(_, _)).WillByDefault(Invoke(printLeftExpression));
   ON_CALL(*mRightExpression, printToStream(_, _)).WillByDefault(Invoke(printRightExpression));
   expression.printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("i + j", stringStream.str().c_str());
+  EXPECT_STREQ("i % j", stringStream.str().c_str());
 }
 
 TEST_F(AdditiveMultiplicativeExpressionTest, incompatibleTypesDeathTest) {
