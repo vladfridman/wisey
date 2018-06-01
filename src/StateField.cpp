@@ -24,13 +24,6 @@ const IType* StateField::getType() const {
 }
 
 void StateField::checkType(IRGenerationContext& context, const IObjectType* object) const {
-  if (!object->isNode()) {
-    return;
-  }
-  if (!mType->isNode() && !mType->isInterface()) {
-    context.reportError(mLine, "Node state fields can only be of node or interface type");
-    throw 1;
-  }
 }
 
 string StateField::getName() const {

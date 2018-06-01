@@ -107,18 +107,3 @@ TEST_F(StateFieldTest, checkTypeNodeReferenceInNodeTest) {
   
   EXPECT_NO_THROW(mField->checkType(mContext, mObjectType));
 }
-
-TEST_F(StateFieldTest, checkTypeControllerOwnerInNodeDeathTest) {
-  ON_CALL(*mObjectType, isNode()).WillByDefault(Return(true));
-  ON_CALL(*mType, isOwner()).WillByDefault(Return(true));
-  ON_CALL(*mType, isNode()).WillByDefault(Return(false));
-  ON_CALL(*mType, isController()).WillByDefault(Return(true));
-  
-  std::stringstream buffer;
-  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
-  
-  EXPECT_ANY_THROW(mField->checkType(mContext, mObjectType));
-  EXPECT_STREQ("/tmp/source.yz(5): Error: Node state fields can only be of node or interface type\n",
-               buffer.str().c_str());
-  std::cerr.rdbuf(oldbuffer);
-}

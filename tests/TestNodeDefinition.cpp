@@ -372,12 +372,6 @@ TEST_F(TestFileRunner, nodeDefinitionWithMethodRunTest) {
   runFile("tests/samples/test_node_method.yz", 5);
 }
 
-TEST_F(TestFileRunner, nodeStateFieldsNonNodeOwnerTypeDeathRunTest) {
-  expectFailCompile("tests/samples/test_node_state_fields_non_node_owner_type.yz",
-                    1,
-                    "Error: Node state fields can only be of node or interface type");
-}
-
 TEST_F(TestFileRunner, nodeWithInjectedFieldDeathRunTest) {
   expectFailCompile("tests/samples/test_node_with_injected_field.yz",
                     1,
