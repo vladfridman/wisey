@@ -108,6 +108,7 @@ WS  [ \t\v\n\f]
 "null"                        return TOKEN(TNULL);
 "override"                    return TOKEN(TOVERRIDE);
 "package"                     return TOKEN(TPACKAGE);
+"pooled"                      return TOKEN(TPOOLED);
 "printerr"                    return TOKEN(TPRINTERR);
 "printfile"                   return TOKEN(TPRINTFILE);
 "printout"                    return TOKEN(TPRINTOUT);

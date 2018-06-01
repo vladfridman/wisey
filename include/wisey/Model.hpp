@@ -30,6 +30,7 @@ namespace wisey {
     std::string mName;
     llvm::StructType* mStructType;
     bool mIsExternal;
+    bool mIsPooled;
     bool mIsInner;
     ModelOwner* mModelOwner;
     std::map<std::string, IField*> mFields;
@@ -53,6 +54,7 @@ namespace wisey {
           llvm::StructType* structType,
           ImportProfile* importProfile,
           bool isExternal,
+          bool isPooled,
           int line);
 
   public:
@@ -60,22 +62,39 @@ namespace wisey {
     ~Model();
     
     /**
-     * static method for model instantiation
+     * Mmodel instantiation
      */
     static Model* newModel(AccessLevel accessLevel,
                            std::string name,
                            llvm::StructType* structType,
                            ImportProfile* importProfile,
                            int line);
-    
+
     /**
-     * static method for external model instantiation
+     * Model instantiation whose instances are allocated from a memory pool
+     */
+    static Model* newPooledModel(AccessLevel accessLevel,
+                                 std::string name,
+                                 llvm::StructType* structType,
+                                 ImportProfile* importProfile,
+                                 int line);
+
+    /**
+     * External model instantiation
      */
     static Model* newExternalModel(std::string name,
                                    llvm::StructType* structType,
                                    ImportProfile* importProfile,
                                    int line);
     
+    /**
+     * External model instantiation whose instances are allocated from a memory pool
+     */
+    static Model* newPooledExternalModel(std::string name,
+                                         llvm::StructType* structType,
+                                         ImportProfile* importProfile,
+                                         int line);
+
     /**
      * Gets a set of field names and returns the ones that are missing
      */
@@ -110,6 +129,8 @@ namespace wisey {
     llvm::Function* defineBuildFunction(IRGenerationContext& context) const override;
     
     bool isPublic() const override;
+    
+    bool isPooled() const override;
 
     void setFields(IRGenerationContext& context,
                    std::vector<IField*> fields,

@@ -106,6 +106,7 @@ TEST_F(NodeDefinitionTest, prototypeObjectTest) {
                                 mObjectElements,
                                 interfaces,
                                 innerObjectDefinitions,
+                                false,
                                 0);
   
   nodeDefinition.prototypeObject(mContext, mContext.getImportProfile());
@@ -136,6 +137,7 @@ TEST_F(NodeDefinitionTest, prototypeMethodsTest) {
                                 mObjectElements,
                                 interfaces,
                                 innerObjectDefinitions,
+                                false,
                                 0);
   
   nodeDefinition.prototypeObject(mContext, mContext.getImportProfile());
@@ -166,6 +168,7 @@ TEST_F(NodeDefinitionTest, generateIRTest) {
                                 mObjectElements,
                                 interfaces,
                                 innerObjectDefinitions,
+                                false,
                                 0);
   
   EXPECT_CALL(*mMockStatement, generateIR(_));
@@ -267,6 +270,7 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
                                 mObjectElements,
                                 interfaces,
                                 innerObjectDefinitions,
+                                false,
                                 0);
   nodeDefinition.prototypeObject(mContext, mContext.getImportProfile());
   nodeDefinition.prototypeMethods(mContext);
@@ -307,6 +311,7 @@ TEST_F(NodeDefinitionTest, interfaceNotDefinedDeathTest) {
                                 mObjectElements,
                                 interfaces,
                                 innerObjectDefinitions,
+                                false,
                                 0);
   nodeDefinition.prototypeObject(mContext, mContext.getImportProfile());
   
@@ -346,6 +351,7 @@ TEST_F(NodeDefinitionTest, nodeWithInjectedFieldDeathTest) {
                                 mObjectElements,
                                 interfaces,
                                 innerObjectDefinitions,
+                                false,
                                 0);
   nodeDefinition.prototypeObject(mContext, mContext.getImportProfile());
   

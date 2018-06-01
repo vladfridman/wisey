@@ -18,12 +18,14 @@ NodeDefinition::NodeDefinition(AccessLevel accessLevel,
                                vector<IObjectElementDefinition*> objectElementDeclarations,
                                vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
                                vector<IObjectDefinition*> innerObjectDefinitions,
+                               bool isPooled,
                                int line) :
 mAccessLevel(accessLevel),
 mNodeTypeSpecifierFull(nodeTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers),
 mInnerObjectDefinitions(innerObjectDefinitions),
+mIsPooled(isPooled),
 mLine(line) { }
 
 NodeDefinition::~NodeDefinition() {
@@ -47,7 +49,9 @@ Node* NodeDefinition::prototypeObject(IRGenerationContext& context,
   string fullName = IObjectDefinition::getFullName(context, mNodeTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
-  Node* node = Node::newNode(mAccessLevel, fullName, structType, importProfile, mLine);
+  Node* node = mIsPooled
+  ? Node::newPooledNode(mAccessLevel, fullName, structType, importProfile, mLine)
+  : Node::newNode(mAccessLevel, fullName, structType, importProfile, mLine);
   context.addNode(node, mLine);
 
   const IObjectType* lastObjectType = context.getObjectType();

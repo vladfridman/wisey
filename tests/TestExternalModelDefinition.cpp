@@ -79,6 +79,7 @@ TEST_F(ExternalModelDefinitionTest, prototypeObjectTest) {
                                           mElementDeclarations,
                                           interfaces,
                                           innerObjectDefinitions,
+                                          false,
                                           0);
   
   modelDefinition.prototypeObject(mContext, mContext.getImportProfile());
@@ -110,6 +111,7 @@ TEST_F(ExternalModelDefinitionTest, prototypeMethodsTest) {
                                           mElementDeclarations,
                                           interfaces,
                                           innerObjectDefinitions,
+                                          false,
                                           0);
 
   modelDefinition.prototypeObject(mContext, mContext.getImportProfile());

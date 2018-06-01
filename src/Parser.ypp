@@ -212,6 +212,7 @@
   std::string* string;
   unsigned long unsignedlong;
   int token;
+  int integer;
 }
 
 /**
@@ -227,7 +228,7 @@
 %token <token> TIMPLEMENTS TIMPORT TINJECTOR TINJECT TINSTANCEOF TINTERFACE  
 %token <token> TLLVM TLLVMARRAY TLLVMFUNCTION TLLVMI1 TLLVMI8 TLLVMI16 TLLVMI32 TLLVMI64
 %token <token> TLLVMPOINTER TLLVMSTRUCT TLLVMVOID TLLVMREFERENCE
-%token <token> TMODEL TNEW TNODE TNULL TOROP TOVERRIDE TPACKAGE 
+%token <token> TMODEL TNEW TNODE TNULL TOROP TOVERRIDE TPACKAGE TPOOLED
 %token <token> TPRINTFILE TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN 
 %token <token> TSCOPEDTO TSHIFTLEFT TSHIFTRIGHT TSTATE TSTATIC TSWITCH 
 %token <token> TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN 
@@ -360,6 +361,7 @@
 %type <list_of_ulongs> llvm_array_dimensions
 %type <method_qualifier> method_qualifier
 %type <method_qualifiers> method_qualifiers method_qualifier_set
+%type <integer> pooled
 
 %left '+' '-'
 %left '*' '/' '%'
@@ -866,8 +868,13 @@ object_scope
   | TSCOPEDTO object_type_specifier { $$ = $2; }
   ;
 
+pooled
+  : /* none */ { $$ = 0; }
+  | TPOOLED { $$ = 1; }
+  ;
+
 node_definition
-  : TNODE node_type_specifier_top_level implmeneted_interfaces
+  : TNODE node_type_specifier_top_level pooled implmeneted_interfaces
       '{' object_element_declaration_list '}'
     {
       IExpression* package = $2->takePackage();
@@ -876,18 +883,19 @@ node_definition
         new NodeTypeSpecifierFull(package, $2->getShortName(), yylineno);
       $$ = new NodeDefinition(AccessLevel::PUBLIC_ACCESS, 
                               fullSpecifier, 
-                              std::get<0>(*$5), 
-                              *$3, 
-                              std::get<1>(*$5),
+                              std::get<0>(*$6), 
+                              *$4, 
+                              std::get<1>(*$6),
+                              $3,
                               yylineno);
       delete $2;
-      delete $5;
-      delete $3;
+      delete $4;
+      delete $6;
     }
   ;
 
 inner_node_definition
-  : access_specifier TNODE node_type_specifier_short implmeneted_interfaces
+  : access_specifier TNODE node_type_specifier_short pooled implmeneted_interfaces
       '{' object_element_declaration_list '}'
     {
       IExpression* package = $3->takePackage();
@@ -896,18 +904,19 @@ inner_node_definition
         new NodeTypeSpecifierFull(package, $3->getShortName(), yylineno);
       $$ = new NodeDefinition($1, 
                               fullSpecifier, 
-                              std::get<0>(*$6), 
-                              *$4, 
-                              std::get<1>(*$6),
+                              std::get<0>(*$7), 
+                              *$5, 
+                              std::get<1>(*$7),
+                              $4,
                               yylineno);
       delete $3;
-      delete $6;
-      delete $4;
+      delete $5;
+      delete $7;
     }
   ;
 
 external_node_definition
-  : TEXTERNAL TNODE node_type_specifier_full implmeneted_interfaces
+  : TEXTERNAL TNODE node_type_specifier_full pooled implmeneted_interfaces
       '{' external_object_element_declaration_list '}'
     {
       IExpression* package = $3->takePackage();
@@ -915,18 +924,19 @@ external_node_definition
       NodeTypeSpecifierFull* fullSpecifier =
         new NodeTypeSpecifierFull(package, $3->getShortName(), yylineno);
       $$ = new ExternalNodeDefinition(fullSpecifier,
-                                      std::get<0>(*$6),
-                                      *$4,
-                                      std::get<1>(*$6),
+                                      std::get<0>(*$7),
+                                      *$5,
+                                      std::get<1>(*$7),
+                                      $4,
                                       yylineno);
       delete $3;
-      delete $6;
-      delete $4;
+      delete $5;
+      delete $7;
     }
   ;
 
 model_definition
-  : TMODEL model_type_specifier_top_level implmeneted_interfaces
+  : TMODEL model_type_specifier_top_level pooled implmeneted_interfaces
       '{' object_element_declaration_list '}'
     {
       IExpression* package = $2->takePackage();
@@ -935,18 +945,19 @@ model_definition
         new ModelTypeSpecifierFull(package, $2->getShortName(), yylineno);
       $$ = new ModelDefinition(AccessLevel::PUBLIC_ACCESS,
                                fullSpecifier, 
-                               std::get<0>(*$5), 
-                               *$3, 
-                               std::get<1>(*$5),
+                               std::get<0>(*$6), 
+                               *$4, 
+                               std::get<1>(*$6),
+                               $3,
                                yylineno);
       delete $2;
-      delete $5;
-      delete $3;
+      delete $4;
+      delete $6;
     }
   ;
 
 inner_model_definition
-  : access_specifier TMODEL model_type_specifier_short implmeneted_interfaces
+  : access_specifier TMODEL model_type_specifier_short pooled implmeneted_interfaces
       '{' object_element_declaration_list '}'
     {
       IExpression* package = $3->takePackage();
@@ -955,18 +966,19 @@ inner_model_definition
         new ModelTypeSpecifierFull(package, $3->getShortName(), yylineno);
       $$ = new ModelDefinition($1,
                                fullSpecifier, 
-                               std::get<0>(*$6), 
-                               *$4, 
-                               std::get<1>(*$6),
+                               std::get<0>(*$7), 
+                               *$5, 
+                               std::get<1>(*$7),
+                               $4,
                                yylineno);
       delete $3;
-      delete $6;
-      delete $4;
+      delete $5;
+      delete $7;
     }
   ;
 
 external_model_definition
-  : TEXTERNAL TMODEL model_type_specifier_full implmeneted_interfaces
+  : TEXTERNAL TMODEL model_type_specifier_full pooled implmeneted_interfaces
       '{' external_object_element_declaration_list '}'
     {
       IExpression* package = $3->takePackage();
@@ -974,13 +986,14 @@ external_model_definition
       ModelTypeSpecifierFull* fullSpecifier =
         new ModelTypeSpecifierFull(package, $3->getShortName(), yylineno);
       $$ = new ExternalModelDefinition(fullSpecifier,
-                                       std::get<0>(*$6),
-                                       *$4,
-                                       std::get<1>(*$6),
+                                       std::get<0>(*$7),
+                                       *$5,
+                                       std::get<1>(*$7),
+                                       $4,
                                        yylineno);
       delete $3;
-      delete $6;
-      delete $4;
+      delete $5;
+      delete $7;
     }
   ;
 

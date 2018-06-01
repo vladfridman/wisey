@@ -86,6 +86,7 @@ TEST_F(ExternalNodeDefinitionTest, prototypeObjectTest) {
                                         mObjectElements,
                                         interfaces,
                                         innerObjectDefinitions,
+                                        false,
                                         0);
   
   nodeDefinition.prototypeObject(mContext, mContext.getImportProfile());
@@ -115,6 +116,7 @@ TEST_F(ExternalNodeDefinitionTest, prototypeMethodsTest) {
                                         mObjectElements,
                                         interfaces,
                                         innerObjectDefinitions,
+                                        false,
                                         0);
   
   nodeDefinition.prototypeObject(mContext, mContext.getImportProfile());

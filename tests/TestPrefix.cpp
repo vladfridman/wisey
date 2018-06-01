@@ -162,6 +162,7 @@ void TestPrefix::defineExceptionModel(IRGenerationContext& context,
                                   modelElements,
                                   modelParentInterfaces,
                                   innerObjectDefinitions,
+                                  false,
                                   0);
   modelDefinition.prototypeObject(context, context.getImportProfile());
   modelDefinition.prototypeMethods(context);

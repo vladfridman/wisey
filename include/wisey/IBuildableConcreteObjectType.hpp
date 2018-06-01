@@ -39,6 +39,11 @@ namespace wisey {
     virtual llvm::Function* defineBuildFunction(IRGenerationContext& context) const = 0;
     
     /**
+     * Tells whether the object instance is allocated on a memory pool
+     */
+    virtual bool isPooled() const = 0;
+    
+    /**
      * Declares a build function for the given buildable object
      */
     static llvm::Function* declareBuildFunctionForObject(IRGenerationContext& context,

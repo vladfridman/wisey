@@ -66,6 +66,7 @@ struct ModelTest : public Test {
   Model* mStarModel;
   Model* mGalaxyModel;
   Model* mBirthdateModel;
+  Model* mPooledModel;
   Interface* mSubShapeInterface;
   Interface* mShapeInterface;
   Interface* mObjectInterface;
@@ -352,6 +353,24 @@ struct ModelTest : public Test {
     mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
  
+    vector<Type*> pooledModelTypes;
+    pooledModelTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
+                    ->getPointerTo()->getPointerTo());
+    pooledModelTypes.push_back(Type::getInt32Ty(mLLVMContext));
+    pooledModelTypes.push_back(Type::getInt32Ty(mLLVMContext));
+    string pooledModelFullName = "systems.vos.wisey.compiler.tests.MPooledModel";
+    StructType* pooledModelStruct = StructType::create(mLLVMContext, pooledModelFullName);
+    pooledModelStruct->setBody(pooledModelTypes);
+    vector<IField*> pooledModelfields;
+    pooledModelfields.push_back(new ReceivedField(PrimitiveTypes::INT, "mWidth", 0));
+    pooledModelfields.push_back(new ReceivedField(PrimitiveTypes::INT, "mHeight", 0));
+    mPooledModel = Model::newPooledModel(AccessLevel::PUBLIC_ACCESS,
+                                         pooledModelFullName,
+                                         pooledModelStruct,
+                                         mContext.getImportProfile(),
+                                         3);
+    mPooledModel->setFields(mContext, pooledModelfields, 1u);
+
     Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
     Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));
     mThreadVariable = new NiceMock<MockVariable>();
@@ -808,7 +827,7 @@ TEST_F(ModelTest, printToStreamTest) {
   stringstream stringStream;
 
   mModel->printToStream(mContext, stringStream);
-  
+
   EXPECT_STREQ("external model systems.vos.wisey.compiler.tests.MSquare\n"
                "  implements\n"
                "    systems.vos.wisey.compiler.tests.IShape,\n"
@@ -820,6 +839,19 @@ TEST_F(ModelTest, printToStreamTest) {
                "  receive int mHeight;\n"
                "\n"
                "  int foo();\n"
+               "}\n",
+               stringStream.str().c_str());
+}
+
+TEST_F(ModelTest, printToStreamPooledTest) {
+  stringstream stringStream;
+  
+  mPooledModel->printToStream(mContext, stringStream);
+  
+  EXPECT_STREQ("external model systems.vos.wisey.compiler.tests.MPooledModel pooled {\n"
+               "\n"
+               "  receive int mWidth;\n"
+               "  receive int mHeight;\n"
                "}\n",
                stringStream.str().c_str());
 }

@@ -30,6 +30,7 @@ namespace wisey {
     std::string mName;
     llvm::StructType* mStructType;
     bool mIsExternal;
+    bool mIsPooled;
     bool mIsInner;
     NodeOwner* mNodeOwner;
     std::vector<IField*> mReceivedFields;
@@ -55,6 +56,7 @@ namespace wisey {
          llvm::StructType* structType,
          ImportProfile* importProfile,
          bool isExternal,
+         bool isPooled,
          int line);
 
   public:
@@ -62,7 +64,7 @@ namespace wisey {
     ~Node();
     
     /**
-     * static method for node instantiation
+     * Node instantiation
      */
     static Node* newNode(AccessLevel accessLevel,
                          std::string name,
@@ -71,13 +73,30 @@ namespace wisey {
                          int line);
     
     /**
-     * static method for external node instantiation
+     * Node instantiation whose instances are allocated from a memory pool
+     */
+    static Node* newPooledNode(AccessLevel accessLevel,
+                               std::string name,
+                               llvm::StructType* structType,
+                               ImportProfile* importProfile,
+                               int line);
+
+    /**
+     * External node instantiation
      */
     static Node* newExternalNode(std::string name,
                                  llvm::StructType* structType,
                                  ImportProfile* importProfile,
                                  int line);
-    
+
+    /**
+     * External node instantiation whose instances are allocated from a memory pool
+     */
+    static Node* newPooledExternalNode(std::string name,
+                                       llvm::StructType* structType,
+                                       ImportProfile* importProfile,
+                                       int line);
+
     /**
      * Returns the difference beteween the set of received fields and the fields given as argument
      */
@@ -92,6 +111,8 @@ namespace wisey {
     llvm::Function* defineBuildFunction(IRGenerationContext& context) const override;
 
     bool isPublic() const override;
+    
+    bool isPooled() const override;
 
     void setFields(IRGenerationContext& context,
                    std::vector<IField*> fields,

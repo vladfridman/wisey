@@ -638,6 +638,12 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
   printTypeKind(object, stream);
   stream << " ";
   stream << object->getTypeName();
+  if (object->isNode() || object->isModel()) {
+    const IBuildableConcreteObjectType* buildable = (const IBuildableConcreteObjectType*) object;
+    if (buildable->isPooled()) {
+      stream << " pooled";
+    }
+  }
   if (!object->isPublic()) {
     stream << " {" << endl << "}" << endl;
     return;

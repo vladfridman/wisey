@@ -23,12 +23,14 @@ ModelDefinition::ModelDefinition(AccessLevel accessLevel,
                                  vector<IObjectElementDefinition*> objectElementDeclarations,
                                  vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
                                  vector<IObjectDefinition*> innerObjectDefinitions,
+                                 bool isPooled,
                                  int line) :
 mAccessLevel(accessLevel),
 mModelTypeSpecifierFull(modelTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers),
 mInnerObjectDefinitions(innerObjectDefinitions),
+mIsPooled(isPooled),
 mLine(line) { }
 
 ModelDefinition::~ModelDefinition() {
@@ -52,7 +54,9 @@ Model* ModelDefinition::prototypeObject(IRGenerationContext& context,
   string fullName = IObjectDefinition::getFullName(context, mModelTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
-  Model* model = Model::newModel(mAccessLevel, fullName, structType, importProfile, mLine);
+  Model* model = mIsPooled
+  ? Model::newPooledModel(mAccessLevel, fullName, structType, importProfile, mLine)
+  : Model::newModel(mAccessLevel, fullName, structType, importProfile, mLine);
   context.addModel(model, mLine);
 
   const IObjectType* lastObjectType = context.getObjectType();
