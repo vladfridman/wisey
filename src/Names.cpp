@@ -91,8 +91,24 @@ string Names::getCallStackControllerFullName() {
   return getThreadsPackageName() + "." + getCallStackControllerName();
 }
 
+string Names::getCPoolMapName() {
+  return "CPoolMap";
+}
+
+string Names::getCPoolMapFullName() {
+  return getLangPackageName() + "." + getCPoolMapName();
+}
+
 string Names::getContextManagerName() {
   return "CContextManager";
+}
+
+string Names::getGetPoolMethodName() {
+  return "getPool";
+}
+
+string Names::getCreatePoolMethodName() {
+  return "createPool";
 }
 
 string Names::getContextManagerFullName() {

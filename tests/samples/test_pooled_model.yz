@@ -1,0 +1,22 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+model MCar pooled {
+  int mYear;
+
+  public int getYear() {
+    return mYear;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    MCar car = builder(MCar).withYear(2018).build();
+    MCar car2 = builder(MCar).withYear(2017).build();
+    return car2.getYear();
+  }
+}
+
+bind(IProgram).to(CProgram);

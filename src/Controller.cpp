@@ -285,9 +285,14 @@ void Controller::composeInjectFunctionBody(IRGenerationContext& context,
   context.setObjectType(controller);
     
   Instruction* malloc = createMallocForObject(context, controller, "injectvar");
-  controller->initializeReceivedFields(context, function, malloc);
-  initializeVTable(context, controller, malloc);
-  IRWriter::createReturnInst(context, malloc);
+  Value* index[2];
+  index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
+  Instruction* objectStart = IRWriter::createGetElementPtrInst(context, malloc, index);
+  
+  controller->initializeReceivedFields(context, function, objectStart);
+  initializeVTable(context, controller, objectStart);
+  IRWriter::createReturnInst(context, objectStart);
   
   context.getScopes().popScope(context, 0);
 }
@@ -370,15 +375,20 @@ void Controller::composeContextInjectFunctionBody(IRGenerationContext& context,
   context.setBasicBlock(ifNullBlock);
 
   Instruction* malloc = createMallocForObject(context, controller, "injectvar");
-  controller->initializeReceivedFields(context, function, malloc);
-  initializeVTable(context, controller, malloc);
+  Value* index[2];
+  index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
+  Instruction* objectStart = IRWriter::createGetElementPtrInst(context, malloc, index);
+
+  controller->initializeReceivedFields(context, function, objectStart);
+  initializeVTable(context, controller, objectStart);
   
   methodIdentifier = new IdentifierChain(new Identifier(contextManagerVariableName, 0),
                                          Names::getSetInstanceMethodName(),
                                          0);
   contextName = new FakeExpression(contextObjectName, PrimitiveTypes::STRING);
   objectName = new FakeExpression(objectNamePointer, PrimitiveTypes::STRING);
-  FakeExpression* instanceExpression = new FakeExpression(malloc, controller->getOwner());
+  FakeExpression* instanceExpression = new FakeExpression(objectStart, controller->getOwner());
 
   callArguments.clear();
   callArguments.push_back(contextName);
@@ -387,7 +397,7 @@ void Controller::composeContextInjectFunctionBody(IRGenerationContext& context,
   MethodCall setInstance(methodIdentifier, callArguments, 0);
   setInstance.generateIR(context, PrimitiveTypes::VOID);
 
-  IRWriter::createReturnInst(context, malloc);
+  IRWriter::createReturnInst(context, objectStart);
   
   context.getScopes().popScope(context, 0);
 }

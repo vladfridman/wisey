@@ -753,10 +753,7 @@ llvm::Instruction* IConcreteObjectType::createMallocForObject(IRGenerationContex
   llvm::Constant* one = ConstantInt::get(Type::getInt64Ty(llvmContext), 1);
   Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, one, variableName);
   IntrinsicFunctions::setMemoryToZero(context, malloc, ConstantExpr::getSizeOf(structType));
-  Value* index[2];
-  index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
-  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
-  return IRWriter::createGetElementPtrInst(context, malloc, index);
+  return malloc;
 }
 
 llvm::StructType* IConcreteObjectType::

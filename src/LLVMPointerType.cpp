@@ -58,7 +58,7 @@ bool LLVMPointerType::canCastTo(IRGenerationContext& context, const IType* toTyp
   if (toType == PrimitiveTypes::STRING && mBaseType == LLVMPrimitiveTypes::I8) {
     return true;
   }
-  return toType->isReference() || toType->isPointer();
+  return toType->isReference() || toType->isOwner() || toType->isPointer();
 }
 
 bool LLVMPointerType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
@@ -69,7 +69,7 @@ llvm::Value* LLVMPointerType::castTo(IRGenerationContext& context,
                                  llvm::Value* fromValue,
                                  const IType* toType,
                                  int line) const {
-  if (toType->isReference() || toType->isPointer()) {
+  if (toType->isReference() || toType->isOwner() || toType->isPointer()) {
     return IRWriter::newBitCastInst(context, fromValue, toType->getLLVMType(context));
   }
   if (toType == PrimitiveTypes::LONG) {

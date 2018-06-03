@@ -25,6 +25,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/ObjectKindGlobal.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
+#include "wisey/ThreadExpression.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -373,6 +374,12 @@ Instruction* Model::build(IRGenerationContext& context,
   }
   
   vector<Value*> callArgumentsVector;
+  if (isPooled()) {
+    IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
+    callArgumentsVector.push_back(threadVariable->generateIdentifierIR(context, mLine));
+    IVariable* callstackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
+    callArgumentsVector.push_back(callstackVariable->generateIdentifierIR(context, mLine));
+  }
   for (Value* callArgument : callArguments) {
     callArgumentsVector.push_back(callArgument);
   }

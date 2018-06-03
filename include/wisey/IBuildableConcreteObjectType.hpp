@@ -73,6 +73,10 @@ namespace wisey {
                                          llvm::Function* buildFunction,
                                          const void* objectType);
 
+    static void composeBuildPooledFunctionBody(IRGenerationContext& context,
+                                               llvm::Function* buildFunction,
+                                               const void* objectType);
+
   };
   
 } /* namespace wisey */

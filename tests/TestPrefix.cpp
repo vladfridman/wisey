@@ -34,6 +34,10 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
 
   InterfaceDefinition* exceptionInterfaceDefinition = defineIException(context);
   exceptionInterfaceDefinition->prototypeObject(context, importProfile);
+  InterfaceDefinition* threadInterfaceDefinition = defineIThread(context);
+  threadInterfaceDefinition->prototypeObject(context, importProfile);
+  ControllerDefinition* callStackDefinition = defineCCallStack(context);
+  callStackDefinition->prototypeObject(context, importProfile);
 
   vector<IObjectElementDefinition*> modelElements;
   defineExceptionModel(context, Names::getNPEModelName(), modelElements);
@@ -69,12 +73,8 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   modelElements.push_back(ReceivedFieldDefinition::create(longTypeSpecifier, "mIndex", 0));
   defineExceptionModel(context, Names::getArrayIndexOutOfBoundsModelName(), modelElements);
   
-  InterfaceDefinition* threadInterfaceDefinition = defineIThread(context);
-  ControllerDefinition* callStackDefinition = defineCCallStack(context);
   ControllerDefinition* contextManagerDefinition = defineCContextManager(context);
   
-  threadInterfaceDefinition->prototypeObject(context, importProfile);
-  callStackDefinition->prototypeObject(context, importProfile);
   contextManagerDefinition->prototypeObject(context, importProfile);
   threadInterfaceDefinition->prototypeMethods(context);
   callStackDefinition->prototypeMethods(context);

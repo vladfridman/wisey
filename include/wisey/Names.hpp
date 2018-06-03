@@ -126,9 +126,29 @@ namespace wisey {
     static std::string getContextManagerName();
     
     /**
-     * Get the name of the CContextManager controller
+     * Get the full name of the CContextManager controller
      */
     static std::string getContextManagerFullName();
+    
+    /**
+     * Get the name of the CPoolMap controller
+     */
+    static std::string getCPoolMapName();
+
+    /**
+     * Get the full name of the CPoolMap controller
+     */
+    static std::string getCPoolMapFullName();
+
+    /**
+     * Returns name of the getPool method of CPoolMap
+     */
+    static std::string getGetPoolMethodName();
+
+    /**
+     * Returns name of the createPool method of CPoolMap
+     */
+    static std::string getCreatePoolMethodName();
 
     /**
      * Returns name of the getInstance method of CContextManager

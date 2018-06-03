@@ -1,0 +1,71 @@
+package wisey.lang;
+
+import wisey.data.CPointerList.IListElement;
+import wisey.data.CPointerMap;
+import wisey.threads.IThread;
+
+controller CPoolMap scopedto IThread {
+  public constant long START_LENGTH = 16l;
+
+  inject CPointerMap* mPointerMap.withSize(CPointerMap.DEFAULT_SIZE);
+
+  public ::wisey::object getPool(string key) {
+    NPool pool = (NPool) mPointerMap.get(key);
+    if (pool) {
+      return pool.getObject();
+    }
+    return null;
+  }
+
+  public ::llvm::i8::pointer createPool(string key, long headerSize, long blockSize) {
+    long allocSize = headerSize + blockSize * START_LENGTH;
+    ::llvm::i8::pointer malloc = ::llvm::function::malloc(allocSize);
+    MSystem.zeroMemory(malloc, allocSize);
+    ::llvm::i8::pointer objectStart = malloc + 8;
+    CPointerList.IListElement* pool = builder(NPool)
+      .withKey(key)
+      .withHeaderSize(headerSize)
+      .withBlockSize(blockSize)
+      .withObject(objectStart)
+      .withHead(0)
+      .withFree(START_LENGTH)
+      .build();
+    mPointerMap.put(key, pool);
+    return objectStart;
+  }
+
+  public void erasePool(string key) {
+    mPointerMap.erase(key);
+  }
+
+  public node NPool implements CPointerList.IListElement {
+    receive string mKey;
+    receive long mHeaderSize;
+    receive long mBlockSize;
+    receive ::wisey::object* mObject;
+    state long mHead;
+    state long mFree;
+    state long mTaken;
+    state NPool* mNext;
+
+    public ::wisey::object getObject() {
+      return mObject;
+    }
+
+    public CPointerList.IListElement getNext() override {
+      return mNext;
+    }
+
+    public CPointerList.IListElement* takeNext() override {
+      return mNext;
+    }
+
+    public void setNext(CPointerList.IListElement* next) override {
+      mNext = next;
+    }
+
+    public ::llvm::i8::pointer getKey() override {
+      return mKey;
+    }
+  }
+}

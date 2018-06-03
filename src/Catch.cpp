@@ -65,16 +65,12 @@ bool Catch::generateIR(IRGenerationContext& context,
   llvm::Constant* refCounterSize = ConstantExpr::getSizeOf(Type::getInt64Ty(llvmContext));
   llvm::Constant* mallocSize = ConstantExpr::getAdd(modelSize, refCounterSize);
   Instruction* malloc = IConcreteObjectType::createMallocForObject(context, exceptionType, "");
-
   Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
   BitCastInst* mallocBitcast = IRWriter::newBitCastInst(context, malloc, int8PointerType);
-  Value* index[1];
-  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), -Environment::getAddressSizeInBytes());
-  Value* modelShellStart = IRWriter::createGetElementPtrInst(context, mallocBitcast, index);
 
   vector<Value*> memCopyArguments;
   unsigned int memoryAlignment = Environment::getDefaultMemoryAllignment();
-  memCopyArguments.push_back(modelShellStart);
+  memCopyArguments.push_back(mallocBitcast);
   memCopyArguments.push_back(exceptionPointer);
   memCopyArguments.push_back(mallocSize);
   memCopyArguments.push_back(ConstantInt::get(Type::getInt32Ty(llvmContext), memoryAlignment));
@@ -85,8 +81,13 @@ bool Catch::generateIR(IRGenerationContext& context,
   vector<Value*> endCatchArguments;
   IRWriter::createCallInst(context, endCatchFunction, endCatchArguments, "");
   
-  Value* pointer = IRWriter::newAllocaInst(context, malloc->getType(), "exceptionPointer");
-  IRWriter::newStoreInst(context, malloc, pointer);
+  Value* index[2];
+  index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
+  Instruction* objectStart = IRWriter::createGetElementPtrInst(context, malloc, index);
+
+  Value* pointer = IRWriter::newAllocaInst(context, objectStart->getType(), "exceptionPointer");
+  IRWriter::newStoreInst(context, objectStart, pointer);
   
   IVariable* exceptionVariable = new ParameterOwnerVariable(mIdentifier,
                                                             exceptionType->getOwner(),
