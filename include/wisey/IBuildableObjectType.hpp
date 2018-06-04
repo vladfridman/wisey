@@ -1,13 +1,13 @@
 //
-//  IBuildableConcreteObjectType.hpp
+//  IBuildableObjectType.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 6/26/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef IBuildableConcreteObjectType_h
-#define IBuildableConcreteObjectType_h
+#ifndef IBuildableObjectType_h
+#define IBuildableObjectType_h
 
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/ObjectBuilderArgument.hpp"
@@ -17,7 +17,7 @@ namespace wisey {
   /**
    * Interface representing a buildable object
    */
-  class IBuildableConcreteObjectType : public IConcreteObjectType {
+  class IBuildableObjectType : public IConcreteObjectType {
     
   public:
     
@@ -47,26 +47,26 @@ namespace wisey {
      * Declares a build function for the given buildable object
      */
     static llvm::Function* declareBuildFunctionForObject(IRGenerationContext& context,
-                                                         const IBuildableConcreteObjectType*
+                                                         const IBuildableObjectType*
                                                          object);
     
     /**
      * Defines a build function for the given buildable object, composes the function body
      */
     static llvm::Function* defineBuildFunctionForObject(IRGenerationContext& context,
-                                                        const IBuildableConcreteObjectType* object);
+                                                        const IBuildableObjectType* object);
     
     /**
      * Returns build function name for the given buildable object
      */
-    static std::string getBuildFunctionNameForObject(const IBuildableConcreteObjectType* object);
+    static std::string getBuildFunctionNameForObject(const IBuildableObjectType* object);
 
   private:
     
     
     static void initializeReceivedFieldsForObject(IRGenerationContext& context,
                                                   llvm::Function* buildFunction,
-                                                  const IBuildableConcreteObjectType* object,
+                                                  const IBuildableObjectType* object,
                                                   llvm::Instruction* malloc);
 
     static void composeBuildFunctionBody(IRGenerationContext& context,
@@ -81,5 +81,5 @@ namespace wisey {
   
 } /* namespace wisey */
 
-#endif /* IBuildableConcreteObjectType_h */
+#endif /* IBuildableObjectType_h */
 

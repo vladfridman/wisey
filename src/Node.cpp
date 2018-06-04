@@ -358,11 +358,11 @@ Instruction* Node::build(IRGenerationContext& context,
 }
 
 Function* Node::declareBuildFunction(IRGenerationContext& context) const {
-  return IBuildableConcreteObjectType::declareBuildFunctionForObject(context, this);
+  return IBuildableObjectType::declareBuildFunctionForObject(context, this);
 }
 
 Function* Node::defineBuildFunction(IRGenerationContext& context) const {
-  return IBuildableConcreteObjectType::defineBuildFunctionForObject(context, this);
+  return IBuildableObjectType::defineBuildFunctionForObject(context, this);
 }
 
 string Node::getVTableName() const {

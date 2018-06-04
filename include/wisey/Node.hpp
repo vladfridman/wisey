@@ -13,7 +13,7 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/IBuildableConcreteObjectType.hpp"
+#include "wisey/IBuildableObjectType.hpp"
 #include "wisey/IMethod.hpp"
 #include "wisey/ObjectBuilderArgument.hpp"
 
@@ -25,7 +25,7 @@ namespace wisey {
   /**
    * Contains information about a node including the llvm::StructType and field information
    */
-  class Node : public IBuildableConcreteObjectType {
+  class Node : public IBuildableObjectType {
     bool mIsPublic;
     std::string mName;
     llvm::StructType* mStructType;

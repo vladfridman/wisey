@@ -639,7 +639,7 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
   stream << " ";
   stream << object->getTypeName();
   if (object->isNode() || object->isModel()) {
-    const IBuildableConcreteObjectType* buildable = (const IBuildableConcreteObjectType*) object;
+    const IBuildableObjectType* buildable = (const IBuildableObjectType*) object;
     if (buildable->isPooled()) {
       stream << " pooled";
     }

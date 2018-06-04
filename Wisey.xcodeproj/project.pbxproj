@@ -404,8 +404,8 @@
 		F53401111DFF333E0002BF7E /* MethodDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53401101DFF333E0002BF7E /* MethodDefinition.cpp */; };
 		F53401121DFF333E0002BF7E /* MethodDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53401101DFF333E0002BF7E /* MethodDefinition.cpp */; };
 		F534011C1E000DBC0002BF7E /* TestMethodDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534011B1E000DBC0002BF7E /* TestMethodDefinition.cpp */; };
-		F534643D20AC8743006369D4 /* IBuildableConcreteObjectType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534643C20AC8743006369D4 /* IBuildableConcreteObjectType.cpp */; };
-		F534643E20AC8743006369D4 /* IBuildableConcreteObjectType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534643C20AC8743006369D4 /* IBuildableConcreteObjectType.cpp */; };
+		F534643D20AC8743006369D4 /* IBuildableObjectType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534643C20AC8743006369D4 /* IBuildableObjectType.cpp */; };
+		F534643E20AC8743006369D4 /* IBuildableObjectType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534643C20AC8743006369D4 /* IBuildableObjectType.cpp */; };
 		F534644220ACBC2B006369D4 /* ExternalConstantDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534644120ACBC2B006369D4 /* ExternalConstantDeclaration.cpp */; };
 		F534644320ACBC2B006369D4 /* ExternalConstantDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534644120ACBC2B006369D4 /* ExternalConstantDeclaration.cpp */; };
 		F534644520ACC12F006369D4 /* TestExternalConstantDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534644420ACC12F006369D4 /* TestExternalConstantDeclaration.cpp */; };
@@ -1507,7 +1507,7 @@
 		F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestConditionalExpression.cpp; path = tests/TestConditionalExpression.cpp; sourceTree = "<group>"; };
 		F53401101DFF333E0002BF7E /* MethodDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MethodDefinition.cpp; path = src/MethodDefinition.cpp; sourceTree = "<group>"; };
 		F534011B1E000DBC0002BF7E /* TestMethodDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethodDefinition.cpp; path = tests/TestMethodDefinition.cpp; sourceTree = "<group>"; };
-		F534643C20AC8743006369D4 /* IBuildableConcreteObjectType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IBuildableConcreteObjectType.cpp; path = src/IBuildableConcreteObjectType.cpp; sourceTree = "<group>"; };
+		F534643C20AC8743006369D4 /* IBuildableObjectType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IBuildableObjectType.cpp; path = src/IBuildableObjectType.cpp; sourceTree = "<group>"; };
 		F534643F20ACBB5D006369D4 /* ExternalConstantDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ExternalConstantDeclaration.hpp; path = include/wisey/ExternalConstantDeclaration.hpp; sourceTree = "<group>"; };
 		F534644120ACBC2B006369D4 /* ExternalConstantDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ExternalConstantDeclaration.cpp; path = src/ExternalConstantDeclaration.cpp; sourceTree = "<group>"; };
 		F534644420ACC12F006369D4 /* TestExternalConstantDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestExternalConstantDeclaration.cpp; path = tests/TestExternalConstantDeclaration.cpp; sourceTree = "<group>"; };
@@ -1553,7 +1553,7 @@
 		F53A2C3A1F00029600E76A9E /* TestNodeDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestNodeDefinition.cpp; path = tests/TestNodeDefinition.cpp; sourceTree = "<group>"; };
 		F53A2C3C1F00048C00E76A9E /* TestNodeOwner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestNodeOwner.cpp; path = tests/TestNodeOwner.cpp; sourceTree = "<group>"; };
 		F53A2C3E1F0005B800E76A9E /* TestNodeTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestNodeTypeSpecifier.cpp; path = tests/TestNodeTypeSpecifier.cpp; sourceTree = "<group>"; };
-		F53A2C401F01663A00E76A9E /* IBuildableConcreteObjectType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IBuildableConcreteObjectType.hpp; path = include/wisey/IBuildableConcreteObjectType.hpp; sourceTree = "<group>"; };
+		F53A2C401F01663A00E76A9E /* IBuildableObjectType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IBuildableObjectType.hpp; path = include/wisey/IBuildableObjectType.hpp; sourceTree = "<group>"; };
 		F53A2C431F02987800E76A9E /* NullType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = NullType.hpp; path = include/wisey/NullType.hpp; sourceTree = "<group>"; };
 		F53A2C441F0298E800E76A9E /* NullType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NullType.cpp; path = src/NullType.cpp; sourceTree = "<group>"; };
 		F53A2C471F029AF700E76A9E /* NullExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = NullExpression.hpp; path = include/wisey/NullExpression.hpp; sourceTree = "<group>"; };
@@ -2786,7 +2786,7 @@
 		F58725391F6D332300FA25E6 /* interfaces */ = {
 			isa = PBXGroup;
 			children = (
-				F53A2C401F01663A00E76A9E /* IBuildableConcreteObjectType.hpp */,
+				F53A2C401F01663A00E76A9E /* IBuildableObjectType.hpp */,
 				F592A7B71F7D61320026BD2F /* IConcreteObjectDefinition.hpp */,
 				F556E6521EDDC80000CCC3D7 /* IConcreteObjectType.hpp */,
 				F5436DB81FCF7D37003ABF6F /* IControllerTypeSpecifier.hpp */,
@@ -2830,7 +2830,7 @@
 		F587253A1F6D337900FA25E6 /* interfaces */ = {
 			isa = PBXGroup;
 			children = (
-				F534643C20AC8743006369D4 /* IBuildableConcreteObjectType.cpp */,
+				F534643C20AC8743006369D4 /* IBuildableObjectType.cpp */,
 				F592A7B81F7D62D10026BD2F /* IConcreteObjectDefinition.cpp */,
 				F556E6531EDDD2F900CCC3D7 /* IConcreteObjectType.cpp */,
 				F5A363561F376C90005880B3 /* IFieldVariable.cpp */,
@@ -4399,7 +4399,7 @@
 				F534011C1E000DBC0002BF7E /* TestMethodDefinition.cpp in Sources */,
 				F5CB7F8A20519130007628B5 /* TestFieldLLVMVariable.cpp in Sources */,
 				F5A3634A1F373FFE005880B3 /* TestParameterOwnerVariable.cpp in Sources */,
-				F534643E20AC8743006369D4 /* IBuildableConcreteObjectType.cpp in Sources */,
+				F534643E20AC8743006369D4 /* IBuildableObjectType.cpp in Sources */,
 				F5F61AA3201DE99300EF9EB7 /* TestArraySpecificType.cpp in Sources */,
 				F5D4660420611DA000C1047A /* TestLLVMVariableDeclaration.cpp in Sources */,
 				F539147B1FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp in Sources */,
@@ -4736,7 +4736,7 @@
 				F58748341F95143A0088F1E3 /* ThreadExpression.cpp in Sources */,
 				F59D821D1E0F66E800057FB5 /* IfElseStatement.cpp in Sources */,
 				F5296AC01E564B9B00FB1E1D /* CastExpression.cpp in Sources */,
-				F534643D20AC8743006369D4 /* IBuildableConcreteObjectType.cpp in Sources */,
+				F534643D20AC8743006369D4 /* IBuildableObjectType.cpp in Sources */,
 				F57411731E043EE4009809FF /* Identifier.cpp in Sources */,
 				F581A0132073B11700EA0156 /* LocalLLVMVariable.cpp in Sources */,
 				F52C66661FBF446400E89B04 /* AdjustReferenceCountFunction.cpp in Sources */,

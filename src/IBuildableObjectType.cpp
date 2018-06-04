@@ -1,5 +1,5 @@
 //
-//  IBuildableConcreteObjectType.cpp
+//  IBuildableObjectType.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 5/16/18.
@@ -8,7 +8,7 @@
 
 #include "wisey/Environment.hpp"
 #include "wisey/FakeExpression.hpp"
-#include "wisey/IBuildableConcreteObjectType.hpp"
+#include "wisey/IBuildableObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IdentifierChain.hpp"
@@ -23,9 +23,9 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Function* IBuildableConcreteObjectType::
+Function* IBuildableObjectType::
 declareBuildFunctionForObject(IRGenerationContext& context,
-                              const IBuildableConcreteObjectType* object) {
+                              const IBuildableObjectType* object) {
   const Interface* thread = context.getInterface(Names::getThreadInterfaceFullName(), 0);
   const Controller* callstack = context.getController(Names::getCallStackControllerFullName(), 0);
   vector<Type*> argumentTypes;
@@ -51,9 +51,9 @@ declareBuildFunctionForObject(IRGenerationContext& context,
   
 }
 
-Function* IBuildableConcreteObjectType::
+Function* IBuildableObjectType::
 defineBuildFunctionForObject(IRGenerationContext& context,
-                             const IBuildableConcreteObjectType* object) {
+                             const IBuildableObjectType* object) {
   Function* buildFunction = declareBuildFunctionForObject(context, object);
   if (object->isPooled()) {
     context.addComposingCallback1Objects(composeBuildPooledFunctionBody, buildFunction, object);
@@ -64,17 +64,17 @@ defineBuildFunctionForObject(IRGenerationContext& context,
   return buildFunction;
 }
 
-string IBuildableConcreteObjectType::
-getBuildFunctionNameForObject(const IBuildableConcreteObjectType* object) {
+string IBuildableObjectType::
+getBuildFunctionNameForObject(const IBuildableObjectType* object) {
   return object->getTypeName() + ".build";
 }
 
-void IBuildableConcreteObjectType::composeBuildPooledFunctionBody(IRGenerationContext& context,
+void IBuildableObjectType::composeBuildPooledFunctionBody(IRGenerationContext& context,
                                                                   Function* buildFunction,
                                                                   const void* objectType) {
   LLVMContext& llvmContext = context.getLLVMContext();
   llvm::PointerType* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
-  const IBuildableConcreteObjectType* buildable = (const IBuildableConcreteObjectType*) objectType;
+  const IBuildableObjectType* buildable = (const IBuildableObjectType*) objectType;
   Type* buildableLLVMType = buildable->getLLVMType(context);
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", buildFunction);
   BasicBlock* newPoolBlock = BasicBlock::Create(llvmContext, "new.pool", buildFunction);
@@ -171,11 +171,11 @@ void IBuildableConcreteObjectType::composeBuildPooledFunctionBody(IRGenerationCo
   context.getScopes().popScope(context, 0);
 }
 
-void IBuildableConcreteObjectType::composeBuildFunctionBody(IRGenerationContext& context,
+void IBuildableObjectType::composeBuildFunctionBody(IRGenerationContext& context,
                                                             Function* buildFunction,
                                                             const void* objectType) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  const IBuildableConcreteObjectType* buildable = (const IBuildableConcreteObjectType*) objectType;
+  const IBuildableObjectType* buildable = (const IBuildableObjectType*) objectType;
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", buildFunction);
   context.getScopes().pushScope();
   context.setBasicBlock(entryBlock);
@@ -196,10 +196,10 @@ void IBuildableConcreteObjectType::composeBuildFunctionBody(IRGenerationContext&
   context.getScopes().popScope(context, 0);
 }
 
-void IBuildableConcreteObjectType::
+void IBuildableObjectType::
 initializeReceivedFieldsForObject(IRGenerationContext& context,
                                   llvm::Function* buildFunction,
-                                  const IBuildableConcreteObjectType* object,
+                                  const IBuildableObjectType* object,
                                   Instruction* malloc) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Function::arg_iterator functionArguments = buildFunction->arg_begin();

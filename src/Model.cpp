@@ -388,11 +388,11 @@ Instruction* Model::build(IRGenerationContext& context,
 }
 
 Function* Model::declareBuildFunction(IRGenerationContext& context) const {
-  return IBuildableConcreteObjectType::declareBuildFunctionForObject(context, this);
+  return IBuildableObjectType::declareBuildFunctionForObject(context, this);
 }
 
 Function* Model::defineBuildFunction(IRGenerationContext& context) const {
-  return IBuildableConcreteObjectType::defineBuildFunctionForObject(context, this);
+  return IBuildableObjectType::defineBuildFunctionForObject(context, this);
 }
 
 void Model::defineRTTI(IRGenerationContext& context) const {
