@@ -1834,6 +1834,7 @@
 		F592A7C31F7D8EAE0026BD2F /* IMethodDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IMethodDefinition.cpp; path = src/IMethodDefinition.cpp; sourceTree = "<group>"; };
 		F592C9951ED323F7007FB2D0 /* TestWiseyc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestWiseyc.cpp; path = tests/TestWiseyc.cpp; sourceTree = "<group>"; };
 		F593627920C424D600A8C67A /* TestCPoolMap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCPoolMap.cpp; path = tests/TestCPoolMap.cpp; sourceTree = "<group>"; };
+		F593627F20C5462600A8C67A /* IBuildableObjectTypeSpecifier.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IBuildableObjectTypeSpecifier.hpp; path = include/wisey/IBuildableObjectTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F598117720A05DAC003AADCA /* ObjectKindGlobal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ObjectKindGlobal.hpp; path = include/wisey/ObjectKindGlobal.hpp; sourceTree = "<group>"; };
 		F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectKindGlobal.cpp; path = src/ObjectKindGlobal.cpp; sourceTree = "<group>"; };
 		F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectKindGlobal.cpp; path = tests/TestObjectKindGlobal.cpp; sourceTree = "<group>"; };
@@ -2787,6 +2788,7 @@
 			isa = PBXGroup;
 			children = (
 				F53A2C401F01663A00E76A9E /* IBuildableObjectType.hpp */,
+				F593627F20C5462600A8C67A /* IBuildableObjectTypeSpecifier.hpp */,
 				F592A7B71F7D61320026BD2F /* IConcreteObjectDefinition.hpp */,
 				F556E6521EDDC80000CCC3D7 /* IConcreteObjectType.hpp */,
 				F5436DB81FCF7D37003ABF6F /* IControllerTypeSpecifier.hpp */,

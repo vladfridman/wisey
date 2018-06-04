@@ -18,7 +18,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ObjectBuilder::ObjectBuilder(IObjectTypeSpecifier* typeSpecifier,
+ObjectBuilder::ObjectBuilder(IBuildableObjectTypeSpecifier* typeSpecifier,
                              ObjectBuilderArgumentList ObjectBuilderArgumentList,
                              int line) :
 mTypeSpecifier(typeSpecifier),
@@ -38,10 +38,7 @@ int ObjectBuilder::getLine() const {
 }
 
 Value* ObjectBuilder::generateIR(IRGenerationContext& context, const IType* assignToType) const {
-  const IObjectType* objectType = mTypeSpecifier->getType(context);
-  assert(objectType->isModel() || objectType->isNode());
-  const IBuildableObjectType* buildableType =
-  (const IBuildableObjectType*) objectType;
+  const IBuildableObjectType* buildableType = mTypeSpecifier->getType(context);
   Instruction* malloc = buildableType->build(context, mObjectBuilderArgumentList, mLine);
   
   if (assignToType->isOwner() || buildableType->isPooled()) {
@@ -52,7 +49,7 @@ Value* ObjectBuilder::generateIR(IRGenerationContext& context, const IType* assi
   IRWriter::newStoreInst(context, malloc, alloc);
 
   IVariable* heapVariable = new LocalOwnerVariable(IVariable::getTemporaryVariableName(this),
-                                                   objectType->getOwner(),
+                                                   buildableType->getOwner(),
                                                    alloc,
                                                    mLine);
   context.getScopes().setVariable(context, heapVariable);
@@ -61,8 +58,7 @@ Value* ObjectBuilder::generateIR(IRGenerationContext& context, const IType* assi
 }
 
 const IType* ObjectBuilder::getType(IRGenerationContext& context) const {
-  const IBuildableObjectType* objectType =
-  (const IBuildableObjectType*) mTypeSpecifier->getType(context);
+  const IBuildableObjectType* objectType = mTypeSpecifier->getType(context);
   return objectType->isPooled() ? (const IType*) objectType : objectType->getOwner();
 }
 

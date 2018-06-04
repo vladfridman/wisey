@@ -70,8 +70,8 @@ getBuildFunctionNameForObject(const IBuildableObjectType* object) {
 }
 
 void IBuildableObjectType::composeBuildPooledFunctionBody(IRGenerationContext& context,
-                                                                  Function* buildFunction,
-                                                                  const void* objectType) {
+                                                          Function* buildFunction,
+                                                          const void* objectType) {
   LLVMContext& llvmContext = context.getLLVMContext();
   llvm::PointerType* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
   const IBuildableObjectType* buildable = (const IBuildableObjectType*) objectType;

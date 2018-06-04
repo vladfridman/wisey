@@ -9,14 +9,14 @@
 #ifndef IModelTypeSpecifier_h
 #define IModelTypeSpecifier_h
 
-#include "wisey/IObjectTypeSpecifier.hpp"
+#include "wisey/IBuildableObjectTypeSpecifier.hpp"
 
 namespace wisey {
   
   /**
    * Represents model type specifier
    */
-  class IModelTypeSpecifier : public IObjectTypeSpecifier {
+  class IModelTypeSpecifier : public IBuildableObjectTypeSpecifier {
     
   public:
     

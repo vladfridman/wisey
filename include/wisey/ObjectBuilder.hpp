@@ -10,7 +10,7 @@
 #define ObjectBuilder_h
 
 #include "wisey/IExpression.hpp"
-#include "wisey/IObjectTypeSpecifier.hpp"
+#include "wisey/IBuildableObjectTypeSpecifier.hpp"
 #include "wisey/ObjectBuilderArgument.hpp"
 
 namespace wisey {
@@ -24,13 +24,13 @@ namespace wisey {
    */
   class ObjectBuilder : public IExpression {
     
-    IObjectTypeSpecifier* mTypeSpecifier;
+    IBuildableObjectTypeSpecifier* mTypeSpecifier;
     ObjectBuilderArgumentList mObjectBuilderArgumentList;
     int mLine;
     
   public:
     
-    ObjectBuilder(IObjectTypeSpecifier* typeSpecifier,
+    ObjectBuilder(IBuildableObjectTypeSpecifier* typeSpecifier,
                   ObjectBuilderArgumentList ObjectBuilderArgumentList,
                   int line);
     

@@ -9,14 +9,14 @@
 #ifndef INodeTypeSpecifier_h
 #define INodeTypeSpecifier_h
 
-#include "wisey/IObjectTypeSpecifier.hpp"
+#include "wisey/IBuildableObjectTypeSpecifier.hpp"
 
 namespace wisey {
   
   /**
    * Represents node type specifier
    */
-  class INodeTypeSpecifier : public IObjectTypeSpecifier {
+  class INodeTypeSpecifier : public IBuildableObjectTypeSpecifier {
     
   public:
     

@@ -45,12 +45,24 @@
   #include "wisey/FakeExpression.hpp"
   #include "wisey/FloatConstant.hpp"
   #include "wisey/ForStatement.hpp"
+  #include "wisey/IBuildableObjectTypeSpecifier.hpp"
+  #include "wisey/IControllerTypeSpecifier.hpp"
+  #include "wisey/IGlobalStatement.hpp"
+  #include "wisey/IInterfaceTypeSpecifier.hpp"
+  #include "wisey/ILLVMTypeSpecifier.hpp"
+  #include "wisey/IModelTypeSpecifier.hpp"
+  #include "wisey/INodeTypeSpecifier.hpp"
+  #include "wisey/IObjectElementDefinition.hpp"
+  #include "wisey/IObjectDefinition.hpp"
+  #include "wisey/IObjectTypeSpecifier.hpp"
+  #include "wisey/ITypeSpecifier.hpp"
   #include "wisey/Identifier.hpp"
   #include "wisey/IdentifierChain.hpp"
   #include "wisey/IdentifierReference.hpp"
   #include "wisey/IfElseStatement.hpp"
   #include "wisey/IfStatement.hpp"
-  #include "wisey/IGlobalStatement.hpp"
+  #include "wisey/ImmutableArrayOwnerTypeSpecifier.hpp"
+  #include "wisey/ImmutableArrayTypeSpecifier.hpp"
   #include "wisey/ImportStatement.hpp"
   #include "wisey/IncrementExpression.hpp"
   #include "wisey/InjectedFieldDefinition.hpp"
@@ -60,17 +72,6 @@
   #include "wisey/InterfaceDefinition.hpp"
   #include "wisey/InterfaceTypeSpecifier.hpp"
   #include "wisey/InterfaceTypeSpecifierFull.hpp"
-  #include "wisey/IControllerTypeSpecifier.hpp"
-  #include "wisey/IInterfaceTypeSpecifier.hpp"
-  #include "wisey/ILLVMTypeSpecifier.hpp"
-  #include "wisey/IModelTypeSpecifier.hpp"
-  #include "wisey/INodeTypeSpecifier.hpp"
-  #include "wisey/IObjectElementDefinition.hpp"
-  #include "wisey/IObjectDefinition.hpp"
-  #include "wisey/IObjectTypeSpecifier.hpp"
-  #include "wisey/ITypeSpecifier.hpp"
-  #include "wisey/ImmutableArrayOwnerTypeSpecifier.hpp"
-  #include "wisey/ImmutableArrayTypeSpecifier.hpp"
   #include "wisey/LLVMArrayTypeSpecifer.hpp"
   #include "wisey/LLVMExternalStructDefinition.hpp"
   #include "wisey/LLVMGlobalDeclaration.hpp"
@@ -175,6 +176,7 @@
   wisey::ImmutableArrayOwnerTypeSpecifier* immutable_array_owner_type_specifier;
   wisey::IObjectDefinition* object_definition;
   wisey::IObjectTypeSpecifier* object_type_specifier;
+  wisey::IBuildableObjectTypeSpecifier* object_type_specifier_buildable;
   wisey::Identifier* identifier;
   wisey::VariableDeclaration* variable_declaration;
   wisey::ObjectBuilderArgument* object_builder_argument;
@@ -292,7 +294,7 @@
 %type <object_type_specifier> object_type_specifier
 %type <object_type_specifier> object_type_specifier_dot
 %type <object_type_specifier> object_type_specifier_short 
-%type <object_type_specifier> object_type_specifier_buildable
+%type <object_type_specifier_buildable> object_type_specifier_buildable
 %type <object_type_specifier> object_type_specifier_top_level_full
 %type <object_type_specifier> object_type_specifier_injectable 
 %type <object_type_specifier> object_type_specifier_inner_short
@@ -1842,8 +1844,8 @@ exception_type_specifier
   ;
 
 object_type_specifier_buildable
-  : model_type_specifier { $$ = (IObjectTypeSpecifier*) $1; }
-  | node_type_specifier { $$ = (IObjectTypeSpecifier*) $1; }
+  : model_type_specifier { $$ = (IBuildableObjectTypeSpecifier*) $1; }
+  | node_type_specifier { $$ = (IBuildableObjectTypeSpecifier*) $1; }
   ;
 
 object_type_specifier_injectable
