@@ -199,6 +199,11 @@ namespace wisey {
     virtual llvm::Constant* getObjectTypeNameGlobal(IRGenerationContext& context) const = 0;
     
     /**
+     * Tells whether the object instance is allocated on a memory pool
+     */
+    virtual bool isPooled() const = 0;
+
+    /**
      * Declares global variable with the name of the given object defined externally
      */
     static void declareTypeNameGlobal(IRGenerationContext& context,
