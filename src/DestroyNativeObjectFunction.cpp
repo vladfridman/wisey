@@ -14,6 +14,8 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMFunctionType.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
+#include "wisey/PrintOutStatement.hpp"
+#include "wisey/StringLiteral.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -92,6 +94,12 @@ void DestroyNativeObjectFunction::compose(IRGenerationContext& context, Function
   
   context.setBasicBlock(ifNotNullBlock);
   
+  if (context.isDestructorDebugOn()) {
+    ExpressionList printOutArguments;
+    printOutArguments.push_back(new StringLiteral("destructor native object\n", 0));
+    PrintOutStatement::printExpressionList(context, printOutArguments, 0);
+  }
+
   IRWriter::createFree(context, thisGeneric);
 
   IRWriter::createReturnInst(context, NULL);

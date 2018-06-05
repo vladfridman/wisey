@@ -141,14 +141,14 @@ namespace wisey {
     static std::string getCPoolMapFullName();
 
     /**
-     * Returns name of the getPool method of CPoolMap
+     * Returns name of the allocate method of CPoolMap
      */
-    static std::string getGetPoolMethodName();
+    static std::string getAllocateMethodName();
 
     /**
-     * Returns name of the createPool method of CPoolMap
+     * Returns name of the deallocate method of CPoolMap
      */
-    static std::string getCreatePoolMethodName();
+    static std::string getDeallocateMethodName();
 
     /**
      * Returns name of the getInstance method of CContextManager

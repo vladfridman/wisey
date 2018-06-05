@@ -103,12 +103,12 @@ string Names::getContextManagerName() {
   return "CContextManager";
 }
 
-string Names::getGetPoolMethodName() {
-  return "getPool";
+string Names::getAllocateMethodName() {
+  return "allocate";
 }
 
-string Names::getCreatePoolMethodName() {
-  return "createPool";
+string Names::getDeallocateMethodName() {
+  return "deallocate";
 }
 
 string Names::getContextManagerFullName() {

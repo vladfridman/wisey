@@ -14,6 +14,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMPointerOwnerType.hpp"
+#include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/ParameterOwnerVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -38,15 +39,10 @@ llvm::PointerType* LLVMPointerOwnerType::getLLVMType(IRGenerationContext& contex
 }
 
 bool LLVMPointerOwnerType::canCastTo(IRGenerationContext& context, const IType* toType) const {
-  if (toType == PrimitiveTypes::BOOLEAN) {
+  if (toType == this) {
     return true;
   }
-  if (toType->isPointer()) {
-    return true;
-  }
-  if (toType->isReference() || toType->isOwner()) {
-    return !toType->isController() && !toType->isModel() && !toType->isNode();
-  }
+  return mPointerType->canCastTo(context, toType);
   return false;
 }
 
@@ -58,17 +54,10 @@ llvm::Value* LLVMPointerOwnerType::castTo(IRGenerationContext& context,
                                           llvm::Value* fromValue,
                                           const IType* toType,
                                           int line) const {
-  if (toType->isReference() || toType->isOwner() || toType->isPointer()) {
-    return IRWriter::newBitCastInst(context, fromValue, toType->getLLVMType(context));
+  if (toType == this) {
+    return fromValue;
   }
-  if (toType == PrimitiveTypes::BOOLEAN) {
-    return IRWriter::newICmpInst(context,
-                                 ICmpInst::ICMP_NE,
-                                 fromValue,
-                                 ConstantPointerNull::get(getLLVMType(context)),
-                                 "");
-  }
-  assert(false);
+  return mPointerType->castTo(context, fromValue, toType, line);
 }
 
 bool LLVMPointerOwnerType::isPrimitive() const {
@@ -130,7 +119,7 @@ void LLVMPointerOwnerType::printToStream(IRGenerationContext &context, iostream&
 void LLVMPointerOwnerType::createLocalVariable(IRGenerationContext& context,
                                                string name,
                                                int line) const {
-  PointerType* llvmType = getLLVMType(context);
+  llvm::PointerType* llvmType = getLLVMType(context);
   llvm::Value* alloca = IRWriter::newAllocaInst(context, llvmType, name);
   IRWriter::newStoreInst(context, llvm::ConstantPointerNull::get(llvmType), alloca);
   IVariable* variable = new LocalOwnerVariable(name, this, alloca, line);

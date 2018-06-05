@@ -73,12 +73,8 @@ void IBuildableObjectType::composeBuildPooledFunctionBody(IRGenerationContext& c
                                                           Function* buildFunction,
                                                           const void* objectType) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  llvm::PointerType* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
   const IBuildableObjectType* buildable = (const IBuildableObjectType*) objectType;
-  Type* buildableLLVMType = buildable->getLLVMType(context);
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", buildFunction);
-  BasicBlock* newPoolBlock = BasicBlock::Create(llvmContext, "new.pool", buildFunction);
-  BasicBlock* existingPoolBlock = BasicBlock::Create(llvmContext, "existing.pool", buildFunction);
   context.getScopes().pushScope();
   context.setBasicBlock(entryBlock);
   context.setObjectType(buildable);
@@ -107,66 +103,27 @@ void IBuildableObjectType::composeBuildPooledFunctionBody(IRGenerationContext& c
   const InjectionArgumentList injectionArguments;
   Value* poolMap = cPoolMap->inject(context, injectionArguments, 0);
   
-  unsigned long numberOfInterfaces = buildable->getFlattenedInterfaceHierarchy().size();
-  unsigned long headerSizeInBytes = numberOfInterfaces ? numberOfInterfaces + 1 : 2;
-  llvm::Constant* headerSize = ConstantInt::get(Type::getInt64Ty(llvmContext),
-                                                headerSizeInBytes *
-                                                Environment::getAddressSizeInBytes());
-  llvm::Constant* structSize = ConstantExpr::getSizeOf(buildable->getLLVMType(context)->
-                                                       getPointerElementType());
-  llvm::Constant* eight = ConstantInt::get(Type::getInt64Ty(llvmContext),
-                                           Environment::getAddressSizeInBytes());
-  llvm::Constant* blockSizeMinusEight = ConstantExpr::getSub(structSize, headerSize);
-  llvm::Constant* blockSize = ConstantExpr::getAdd(blockSizeMinusEight, eight);
+  StructType* refStruct = IConcreteObjectType::getOrCreateRefCounterStruct(context, buildable);
+  llvm::Constant* blockSize = ConstantExpr::getSizeOf(refStruct);
   llvm::Constant* key = getObjectNamePointer(buildable, context);
   
   FakeExpression* poolMapExpression = new FakeExpression(poolMap, cPoolMap);
-  IdentifierChain* getPool = new IdentifierChain(poolMapExpression,
-                                                 Names::getGetPoolMethodName(),
-                                                 0);
-  ExpressionList getPoolCallArguments;
-  getPoolCallArguments.push_back(new FakeExpression(key, PrimitiveTypes::STRING));
-  MethodCall getPoolCall(getPool, getPoolCallArguments, 0);
-  Value* existingPool = getPoolCall.generateIR(context, PrimitiveTypes::VOID);
-  Value* nullValue = ConstantPointerNull::get(int8Pointer);
-  Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, existingPool, nullValue, "");
-  IRWriter::createConditionalBranch(context, newPoolBlock, existingPoolBlock, condition);
-
-  context.setBasicBlock(newPoolBlock);
-  poolMapExpression = new FakeExpression(poolMap, cPoolMap);
-  IdentifierChain* createPool = new IdentifierChain(poolMapExpression,
-                                                    Names::getCreatePoolMethodName(),
-                                                    0);
-  ExpressionList createPoolCallArguments;
-  createPoolCallArguments.push_back(new FakeExpression(key, PrimitiveTypes::STRING));
-  createPoolCallArguments.push_back(new FakeExpression(headerSize, PrimitiveTypes::LONG));
-  createPoolCallArguments.push_back(new FakeExpression(blockSize, PrimitiveTypes::LONG));
-  MethodCall createPoolCall(createPool, createPoolCallArguments, 0);
-  Value* newPool = createPoolCall.generateIR(context, 0);
-  Instruction* build = IConcreteObjectType::createMallocForObject(context, buildable, "build");
+  IdentifierChain* allocate = new IdentifierChain(poolMapExpression,
+                                                  Names::getAllocateMethodName(),
+                                                  0);
+  ExpressionList allocateCallArguments;
+  allocateCallArguments.push_back(new FakeExpression(key, PrimitiveTypes::STRING));
+  allocateCallArguments.push_back(new FakeExpression(blockSize, PrimitiveTypes::LONG));
+  MethodCall allocateCall(allocate, allocateCallArguments, 0);
+  Value* memory = allocateCall.generateIR(context, PrimitiveTypes::VOID);
+  Value* shellObject = IRWriter::newBitCastInst(context, memory, refStruct->getPointerTo());
   Value* index[2];
   index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
-  Instruction* objectStart = IRWriter::createGetElementPtrInst(context, build, index);
-  Value* objectStartI8Pointer = IRWriter::newBitCastInst(context, objectStart, int8Pointer);
+  Instruction* objectStart = IRWriter::createGetElementPtrInst(context, shellObject, index);
   initializeReceivedFieldsForObject(context, buildFunction, buildable, objectStart);
   initializeVTable(context, buildable, objectStart);
-  Function* memCopy = IntrinsicFunctions::getMemCopyFunction(context);
-  vector<Value*> memCopyArguments;
-  memCopyArguments.push_back(newPool);
-  memCopyArguments.push_back(objectStartI8Pointer);
-  memCopyArguments.push_back(structSize);
-  memCopyArguments.push_back(ConstantInt::get(Type::getInt32Ty(llvmContext),
-                                              Environment::getDefaultMemoryAllignment()));
-  memCopyArguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 0));
-  IRWriter::createCallInst(context, memCopy, memCopyArguments, "");
-  IRWriter::createFree(context, build);
-  Value* result = IRWriter::newBitCastInst(context, newPool, buildableLLVMType);
-  IRWriter::createReturnInst(context, result);
-  
-  context.setBasicBlock(existingPoolBlock);
-  result = IRWriter::newBitCastInst(context, existingPool, buildableLLVMType);
-  IRWriter::createReturnInst(context, result);
+  IRWriter::createReturnInst(context, objectStart);
   
   context.getScopes().popScope(context, 0);
 }

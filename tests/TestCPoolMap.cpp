@@ -14,13 +14,17 @@
 
 TEST_F(TestFileRunner, pooledModelDestructorDebugRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_pooled_model.yz",
+                                        "destructor pooled object systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing pooled object systems.vos.wisey.compiler.tests.MCar\n"
+                                        "destructor pooled object systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing pooled object systems.vos.wisey.compiler.tests.MCar\n"
+                                        "destructor pooled object systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing pooled object systems.vos.wisey.compiler.tests.MCar\n"
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.CProgram\n"
-                                        "destructor systems.vos.wisey.compiler.tests.MCar\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.MCar\n",
+                                        "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");
 }
 
 TEST_F(TestFileRunner, pooledModelRunTest) {
-  runFile("tests/samples/test_pooled_model.yz", 2018);
+  runFile("tests/samples/test_pooled_model.yz", 2017);
 }

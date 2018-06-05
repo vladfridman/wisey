@@ -13,8 +13,10 @@ model MCar pooled {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MCar car = builder(MCar).withYear(2018).build();
-    MCar car2 = builder(MCar).withYear(2017).build();
+    MCar* car1 = builder(MCar).withYear(2018).build();
+    MCar* car2 = builder(MCar).withYear(2017).build();
+    car1 = null;
+    MCar* car3 = builder(MCar).withYear(2016).build();
     return car2.getYear();
   }
 }

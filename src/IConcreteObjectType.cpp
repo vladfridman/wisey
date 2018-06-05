@@ -17,18 +17,22 @@
 #include "wisey/DestroyObjectOwnerFunction.hpp"
 #include "wisey/DestroyOwnerArrayFunction.hpp"
 #include "wisey/Environment.hpp"
+#include "wisey/FakeExpression.hpp"
 #include "wisey/FieldArrayOwnerVariable.hpp"
 #include "wisey/FieldArrayReferenceVariable.hpp"
 #include "wisey/FieldOwnerVariable.hpp"
 #include "wisey/FieldPrimitiveVariable.hpp"
 #include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/IConcreteObjectType.hpp"
+#include "wisey/IdentifierChain.hpp"
 #include "wisey/InterfaceOwner.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMFunction.hpp"
+#include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/Names.hpp"
+#include "wisey/MethodCall.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/ObjectBuilder.hpp"
 #include "wisey/ParameterPrimitiveVariable.hpp"
@@ -238,7 +242,11 @@ void IConcreteObjectType::addDestructorInfo(IRGenerationContext& context,
 void IConcreteObjectType::scheduleDestructorBodyComposition(IRGenerationContext& context,
                                                             const IConcreteObjectType* object) {
   Function* function = context.getModule()->getFunction(getObjectDestructorFunctionName(object));
-  context.addComposingCallback1Objects(composeDestructorBody, function, object);
+  if (object->isPooled()) {
+    context.addComposingCallback1Objects(composePooledObjectDestructorBody, function, object);
+  } else {
+    context.addComposingCallback1Objects(composeDestructorBody, function, object);
+  }
 }
 
 void IConcreteObjectType::addUnthunkInfo(IRGenerationContext& context,
@@ -486,6 +494,120 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   context.getScopes().popScope(context, 0);
 }
 
+void IConcreteObjectType::composePooledObjectDestructorBody(IRGenerationContext& context,
+                                                            Function* function,
+                                                            const void* object) {
+  const IConcreteObjectType* concreteObject = (const IConcreteObjectType*) object;
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
+  BasicBlock* basicBlock = BasicBlock::Create(llvmContext, "entry", function, 0);
+  context.setBasicBlock(basicBlock);
+  
+  context.getScopes().pushScope();
+  context.setBasicBlock(basicBlock);
+  
+  const Interface* thread = context.getInterface(Names::getThreadInterfaceFullName(), 0);
+  const Controller* callstack = context.getController(Names::getCallStackControllerFullName(), 0);
+
+  Function::arg_iterator functionArguments = function->arg_begin();
+  Value* thisGeneric = &*functionArguments;
+  thisGeneric->setName(IObjectType::THIS);
+  functionArguments++;
+  Value* threadArgument = &*functionArguments;
+  threadArgument->setName(ThreadExpression::THREAD);
+  functionArguments++;
+  llvm::Argument* callstackArgument = &*functionArguments;
+  callstackArgument->setName(ThreadExpression::CALL_STACK);
+  functionArguments++;
+  Value* exception = &*functionArguments;
+  exception->setName("exception");
+  IVariable* threadVariable = new ParameterSystemReferenceVariable(ThreadExpression::THREAD,
+                                                                   thread,
+                                                                   threadArgument,
+                                                                   0);
+  context.getScopes().setVariable(context, threadVariable);
+  IVariable* callstackVariable = new ParameterSystemReferenceVariable(ThreadExpression::CALL_STACK,
+                                                                      callstack,
+                                                                      callstackArgument,
+                                                                      0);
+  context.getScopes().setVariable(context, callstackVariable);
+
+  Value* nullValue = ConstantPointerNull::get((llvm::PointerType*) thisGeneric->getType());
+  Value* isNull = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, thisGeneric, nullValue, "");
+  
+  BasicBlock* ifThisIsNullBlock = BasicBlock::Create(llvmContext, "if.this.null", function);
+  BasicBlock* ifThisIsNotNullBlock = BasicBlock::Create(llvmContext, "if.this.notnull", function);
+  
+  IRWriter::createConditionalBranch(context, ifThisIsNullBlock, ifThisIsNotNullBlock, isNull);
+  
+  context.setBasicBlock(ifThisIsNullBlock);
+  IRWriter::createReturnInst(context, NULL);
+  
+  context.setBasicBlock(ifThisIsNotNullBlock);
+  
+  Value* thisValue = IRWriter::newBitCastInst(context,
+                                              thisGeneric,
+                                              concreteObject->getLLVMType(context));
+  
+  if (context.isDestructorDebugOn()) {
+    ExpressionList printOutArguments;
+    StringLiteral* stringLiteral =
+    new StringLiteral("destructor pooled object " + concreteObject->getTypeName() + "\n", 0);
+    printOutArguments.push_back(stringLiteral);
+    PrintOutStatement::printExpressionList(context, printOutArguments, 0);
+  }
+  
+  decrementReferenceFields(context, thisValue, concreteObject);
+  freeOwnerFields(context, thisValue, concreteObject, exception, 0);
+  
+  Value* referenceCount = concreteObject->getReferenceCount(context, thisValue);
+  BasicBlock* refCountZeroBlock = BasicBlock::Create(llvmContext, "ref.count.zero", function);
+  BasicBlock* refCountNotZeroBlock = BasicBlock::Create(llvmContext, "ref.count.notzero", function);
+  llvm::Constant* zero = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
+  Value* isZero = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, referenceCount, zero, "");
+  IRWriter::createConditionalBranch(context, refCountZeroBlock, refCountNotZeroBlock, isZero);
+  
+  context.setBasicBlock(refCountNotZeroBlock);
+  
+  Value* objectName = IObjectType::getObjectNamePointer(concreteObject, context);
+  ThrowReferenceCountExceptionFunction::call(context, referenceCount, objectName, exception);
+  IRWriter::newUnreachableInst(context);
+  
+  context.setBasicBlock(refCountZeroBlock);
+  
+  Value* index[1];
+  index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), -Environment::getAddressSizeInBytes());
+  Value* objectShell = IRWriter::createGetElementPtrInst(context, thisGeneric, index);
+
+  const Controller* cPoolMap = context.getController(Names::getCPoolMapFullName(), 0);
+  const InjectionArgumentList injectionArguments;
+  Value* poolMap = cPoolMap->inject(context, injectionArguments, 0);
+  
+  llvm::Constant* key = getObjectNamePointer(concreteObject, context);
+
+  FakeExpression* poolMapExpression = new FakeExpression(poolMap, cPoolMap);
+  IdentifierChain* deallocate = new IdentifierChain(poolMapExpression,
+                                                  Names::getDeallocateMethodName(),
+                                                  0);
+  const IType* pointerType = LLVMPrimitiveTypes::I8->getPointerType(context, 0);
+  ExpressionList deallocateCallArguments;
+  deallocateCallArguments.push_back(new FakeExpression(key, PrimitiveTypes::STRING));
+  deallocateCallArguments.push_back(new FakeExpression(objectShell, pointerType));
+  MethodCall deallocateCall(deallocate, deallocateCallArguments, 0);
+  deallocateCall.generateIR(context, PrimitiveTypes::VOID);
+
+  if (context.isDestructorDebugOn()) {
+    ExpressionList printOutArguments;
+    StringLiteral* stringLiteral =
+    new StringLiteral("done destructing pooled object " + concreteObject->getTypeName() + "\n", 0);
+    printOutArguments.push_back(stringLiteral);
+    PrintOutStatement::printExpressionList(context, printOutArguments, 0);
+  }
+  IRWriter::createReturnInst(context, NULL);
+  
+  context.getScopes().popScope(context, 0);
+}
+
 void IConcreteObjectType::decrementReferenceFields(IRGenerationContext& context,
                                                    Value* thisValue,
                                                    const IConcreteObjectType* object) {
@@ -571,8 +693,8 @@ void IConcreteObjectType::composeDestructorCall(IRGenerationContext& context,
   DestroyObjectOwnerFunction::call(context, bitcast, exception, line);
 }
 
-Function* IConcreteObjectType::getDestructorFunctionForObject(IRGenerationContext &context,
-                                                              const IConcreteObjectType *object,
+Function* IConcreteObjectType::getDestructorFunctionForObject(IRGenerationContext& context,
+                                                              const IConcreteObjectType* object,
                                                               int line) {
   string rceFullName = Names::getLangPackageName() + "." + Names::getReferenceCountExceptionName();
   context.getScopes().getScope()->addException(context.getModel(rceFullName, line), line);

@@ -365,12 +365,12 @@ external controller wisey.lang.CPoolMap {
 
   constant long START_LENGTH;
 
-  ::wisey::object getPool(
-    string key);
-  ::llvm::i8::pointer createPool(
+  ::llvm::i8::pointer allocate(
     string key,
-    long headerSize,
     long blockSize);
+  void deallocate(
+    string key,
+    ::llvm::i8::pointer objectShell);
   void erasePool(
     string key);
 }

@@ -266,7 +266,7 @@ namespace wisey {
                                       llvm::Value* value,
                                       llvm::Value* exception,
                                       int line);
-    
+
     /**
      * Returns destructor function
      */
@@ -335,7 +335,7 @@ namespace wisey {
      */
     static void composeInterfaceMapFunctions(IRGenerationContext& context,
                                              const IConcreteObjectType* object);
-  
+
     /**
      * Returns the size of the VTable array for the given object
      */
@@ -354,6 +354,12 @@ namespace wisey {
     static const IMethod* findMethodInObject(std::string methodName,
                                              const IConcreteObjectType* object);
     
+    /**
+     * Returns struct type for object that includes the reference counter field
+     */
+    static llvm::StructType* getOrCreateRefCounterStruct(IRGenerationContext& context,
+                                                         const IConcreteObjectType* object);
+
   private:
     
     static std::map<std::string, llvm::Function*>
@@ -412,15 +418,16 @@ namespace wisey {
                                         llvm::Value* thisValue,
                                         const IConcreteObjectType* object,
                                         IField* field);
-    
+
     static void composeDestructorBody(IRGenerationContext& context,
                                       llvm::Function* function,
                                       const void* object);
     
+    static void composePooledObjectDestructorBody(IRGenerationContext& context,
+                                                  llvm::Function* function,
+                                                  const void* object);
+
     static void printTypeKind(const IConcreteObjectType* type, std::iostream& stream);
-    
-    static llvm::StructType* getOrCreateRefCounterStruct(IRGenerationContext& context,
-                                                         const IConcreteObjectType* object);
     
     static void checkMethodOverride(IRGenerationContext& context,
                                     const IConcreteObjectType* object,

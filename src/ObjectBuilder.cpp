@@ -41,7 +41,7 @@ Value* ObjectBuilder::generateIR(IRGenerationContext& context, const IType* assi
   const IBuildableObjectType* buildableType = mTypeSpecifier->getType(context);
   Instruction* malloc = buildableType->build(context, mObjectBuilderArgumentList, mLine);
   
-  if (assignToType->isOwner() || buildableType->isPooled()) {
+  if (assignToType->isOwner()) {
     return malloc;
   }
   
@@ -59,7 +59,7 @@ Value* ObjectBuilder::generateIR(IRGenerationContext& context, const IType* assi
 
 const IType* ObjectBuilder::getType(IRGenerationContext& context) const {
   const IBuildableObjectType* objectType = mTypeSpecifier->getType(context);
-  return objectType->isPooled() ? (const IType*) objectType : objectType->getOwner();
+  return objectType->getOwner();
 }
 
 bool ObjectBuilder::isConstant() const {

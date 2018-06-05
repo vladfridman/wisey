@@ -58,6 +58,16 @@ Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context
   Value* leftValue = mLeftExpression->generateIR(context, PrimitiveTypes::VOID);
   Value* rightValue = mRightExpression->generateIR(context, PrimitiveTypes::VOID);
   
+  if (leftType->isPointer() && rightType == leftType && mOperation == '-') {
+    Value* leftLongValue = leftType->castTo(context, leftValue, PrimitiveTypes::LONG, mLine);
+    Value* rightLongValue = leftType->castTo(context, rightValue, PrimitiveTypes::LONG, mLine);
+    return IRWriter::createBinaryOperator(context,
+                                          Instruction::Sub,
+                                          leftLongValue,
+                                          rightLongValue,
+                                          "sub");
+  }
+  
   if (leftType->isPointer() && mOperation != '%') {
     return computePointer(context, leftValue, rightType, rightValue);
   }
@@ -95,6 +105,10 @@ const IType* AdditiveMultiplicativeExpression::getType(IRGenerationContext& cont
   const IType* leftType = mLeftExpression->getType(context);
   const IType* rightType = mRightExpression->getType(context);
   checkTypes(context, leftType, rightType);
+  
+  if (leftType->isPointer() && rightType == leftType) {
+    return PrimitiveTypes::LONG;
+  }
   
   if (leftType->isPointer()) {
     return mOperation == '%' ? PrimitiveTypes::LONG : leftType;
@@ -178,6 +192,9 @@ bool AdditiveMultiplicativeExpression::isPointerArithmetic(const IType* leftType
   if (leftType->isPointer() &&
       (rightType == PrimitiveTypes::INT || rightType == PrimitiveTypes::LONG)) {
     return mOperation == '+' || mOperation == '-' || mOperation == '%';
+  }
+  if (leftType->isPointer() && rightType == leftType && mOperation == '-') {
+    return true;
   }
   
   return false;
