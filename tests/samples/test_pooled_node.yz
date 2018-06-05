@@ -1,0 +1,25 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+node NCar pooled {
+  receive int mYear;
+
+  public int getYear() {
+    return mYear;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    NCar* car1 = builder(NCar).withYear(2018).build();
+    NCar* car2 = builder(NCar).withYear(2017).build();
+    NCar* car3 = builder(NCar).withYear(2016).build();
+    car1 = null;
+    NCar* car4 = builder(NCar).withYear(2015).build();
+    return car2.getYear();
+  }
+}
+
+bind(IProgram).to(CProgram);
