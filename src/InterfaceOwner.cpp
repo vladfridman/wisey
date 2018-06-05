@@ -15,6 +15,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/ParameterOwnerVariable.hpp"
+#include "wisey/ThreadExpression.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -85,6 +86,11 @@ void InterfaceOwner::free(IRGenerationContext& context,
   Function* destructor = getDestructorFunction(context, line);
   vector<Value*> arguments;
   arguments.push_back(bitcast);
+
+  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
+  arguments.push_back(threadVariable->generateIdentifierIR(context, line));
+  IVariable* callstackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
+  arguments.push_back(callstackVariable->generateIdentifierIR(context, line));
 
   if (exception) {
     arguments.push_back(exception);

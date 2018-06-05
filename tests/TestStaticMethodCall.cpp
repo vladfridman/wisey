@@ -150,31 +150,7 @@ public:
     mContext.getScopes().pushScope();
     
     mThreadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
-    llvm::PointerType* llvmType = mThreadInterface->getLLVMType(mContext);
-    Value* threadStore = IRWriter::newAllocaInst(mContext, llvmType, "threadStore");
-    llvm::Constant* null = ConstantPointerNull::get(llvmType);
-    IRWriter::newStoreInst(mContext, null, threadStore);
-    IVariable* threadVariable = new LocalReferenceVariable(ThreadExpression::THREAD,
-                                                          mThreadInterface,
-                                                          threadStore,
-                                                           0);
-    FakeExpression* fakeExpression = new FakeExpression(null, mThreadInterface);
-    vector<const IExpression*> arrayIndices;
-    threadVariable->generateAssignmentIR(mContext, fakeExpression, arrayIndices, 0);
-    mContext.getScopes().setVariable(mContext, threadVariable);
-
     mCallStack = mContext.getController(Names::getCallStackControllerFullName(), 0);
-    llvm::PointerType* callStackLLVMType = mCallStack->getLLVMType(mContext);
-    Value* callStackStore = IRWriter::newAllocaInst(mContext, callStackLLVMType, "");
-    null = ConstantPointerNull::get(callStackLLVMType);
-    IRWriter::newStoreInst(mContext, null, callStackStore);
-    IVariable* callStackVariable = new LocalReferenceVariable(ThreadExpression::CALL_STACK,
-                                                              mCallStack,
-                                                              callStackStore,
-                                                              0);
-    fakeExpression = new FakeExpression(null, mCallStack);
-    callStackVariable->generateAssignmentIR(mContext, fakeExpression, arrayIndices, 0);
-    mContext.getScopes().setVariable(mContext, callStackVariable);
 
     string objectName = mModel->getObjectNameGlobalVariableName();
     llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
@@ -244,7 +220,7 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallTest) {
   
   *mStringStream << *irValue;
   string expected =
-  "  %call = invoke %systems.vos.wisey.compiler.tests.MReturnedModel* @systems.vos.wisey.compiler.tests.MSquare.foo(%wisey.threads.IThread* %7, %wisey.threads.CCallStack* %8, float 0x4014CCCCC0000000)"
+  "  %call = invoke %systems.vos.wisey.compiler.tests.MReturnedModel* @systems.vos.wisey.compiler.tests.MSquare.foo(%wisey.threads.IThread* null, %wisey.threads.CCallStack* null, float 0x4014CCCCC0000000)"
   "\n          to label %invoke.continue unwind label %cleanup";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(staticMethodCall.getType(mContext), mReturnedModel);
@@ -277,7 +253,7 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallWithTryCatchTest) {
   Value* irValue = staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID);
   
   *mStringStream << *irValue;
-  EXPECT_STREQ("  %call = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar(%wisey.threads.IThread* %8, %wisey.threads.CCallStack* %9, float 0x4014CCCCC0000000)\n"
+  EXPECT_STREQ("  %call = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar(%wisey.threads.IThread* null, %wisey.threads.CCallStack* null, float 0x4014CCCCC0000000)\n"
                "          to label %invoke.continue unwind label %eh.landing.pad",
                mStringStream->str().c_str());
   EXPECT_EQ(staticMethodCall.getType(mContext), PrimitiveTypes::INT);

@@ -13,9 +13,11 @@
 #include "wisey/FakeExpression.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrintOutStatement.hpp"
 #include "wisey/StringLiteral.hpp"
+#include "wisey/ThreadExpression.hpp"
 #include "wisey/ThrowReferenceCountExceptionFunction.hpp"
 
 using namespace llvm;
@@ -46,6 +48,12 @@ void DestroyOwnerArrayFunction::call(IRGenerationContext& context,
   Function* function = get(context);
   vector<Value*> arguments;
   arguments.push_back(array);
+
+  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
+  arguments.push_back(threadVariable->generateIdentifierIR(context, line));
+  IVariable* callstackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
+  arguments.push_back(callstackVariable->generateIdentifierIR(context, line));
+
   arguments.push_back(ConstantInt::get(Type::getInt64Ty(llvmContext), numberOfDimentions));
   arguments.push_back(arrayNamePointer);
   arguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 1));
@@ -72,8 +80,13 @@ Function* DestroyOwnerArrayFunction::define(IRGenerationContext& context) {
 }
 
 LLVMFunctionType* DestroyOwnerArrayFunction::getLLVMFunctionType(IRGenerationContext& context) {
+  const Interface* thread = context.getInterface(Names::getThreadInterfaceFullName(), 0);
+  const Controller* callstack = context.getController(Names::getCallStackControllerFullName(), 0);
+  
   vector<const IType*> argumentTypes;
   argumentTypes.push_back(LLVMPrimitiveTypes::I64->getPointerType(context, 0));
+  argumentTypes.push_back(thread);
+  argumentTypes.push_back(callstack);
   argumentTypes.push_back(LLVMPrimitiveTypes::I64);
   argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType(context, 0));
   argumentTypes.push_back(LLVMPrimitiveTypes::I1);
@@ -96,6 +109,12 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   Function::arg_iterator llvmArguments = function->arg_begin();
   Value* arrayPointer = &*llvmArguments;
   arrayPointer->setName("arrayPointer");
+  llvmArguments++;
+  Value* threadArgument = &*llvmArguments;
+  threadArgument->setName(ThreadExpression::THREAD);
+  llvmArguments++;
+  Value* callstackArgument = &*llvmArguments;
+  callstackArgument->setName(ThreadExpression::CALL_STACK);
   llvmArguments++;
   Value* numberOfDimensions = &*llvmArguments;
   numberOfDimensions->setName("noOfDimensions");
@@ -216,6 +235,8 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
 
   vector<Value*> recursiveCallArguments;
   recursiveCallArguments.push_back(IRWriter::newBitCastInst(context, elementStore, genericPointer));
+  recursiveCallArguments.push_back(threadArgument);
+  recursiveCallArguments.push_back(callstackArgument);
   recursiveCallArguments.push_back(numberOfDimensionsMinusOne);
   recursiveCallArguments.push_back(arrayName);
   recursiveCallArguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 0));
@@ -229,6 +250,8 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   Value* elementPointer = IRWriter::newLoadInst(context, objectStore, "");
   vector<Value*> destructorArguments;
   destructorArguments.push_back(elementPointer);
+  destructorArguments.push_back(threadArgument);
+  destructorArguments.push_back(callstackArgument);
   destructorArguments.push_back(exception);
   Function* destructor = DestroyObjectOwnerFunction::get(context);
   IRWriter::createCallInst(context, destructor, destructorArguments, "");

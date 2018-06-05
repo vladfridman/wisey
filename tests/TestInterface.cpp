@@ -66,8 +66,6 @@ struct InterfaceTest : public Test {
   BasicBlock* mDeclareBlock;
   NiceMock<MockExpression>* mMockExpression;
   ConstantDefinition* mConstantDefinition;
-  NiceMock<MockReferenceVariable>* mThreadVariable;
-  NiceMock<MockReferenceVariable>* mCallstackVariable;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   string mPackage = "systems.vos.wisey.compiler.tests";
@@ -180,22 +178,6 @@ struct InterfaceTest : public Test {
     mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", function);
     mContext.setDeclarationsBlock(mDeclareBlock);
     mContext.setBasicBlock(mEntryBlock);
-    mContext.getScopes().pushScope();
-
-    Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
-    Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));
-    mThreadVariable = new NiceMock<MockReferenceVariable>();
-    ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
-    ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadInterface));
-    ON_CALL(*mThreadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
-    
-    Controller* callstackController =
-      mContext.getController(Names::getCallStackControllerFullName(), 0);
-    Value* callstackObject = ConstantPointerNull::get(callstackController->getLLVMType(mContext));
-    mCallstackVariable = new NiceMock<MockReferenceVariable>();
-    ON_CALL(*mCallstackVariable, getName()).WillByDefault(Return(ThreadExpression::CALL_STACK));
-    ON_CALL(*mCallstackVariable, getType()).WillByDefault(Return(callstackController));
-    ON_CALL(*mCallstackVariable, generateIdentifierIR(_, _)).WillByDefault(Return(callstackObject));
 
     vector<Type*> exitFunctionArgumentTypes;
     exitFunctionArgumentTypes.push_back(Type::getInt32Ty(mLLVMContext));
@@ -212,8 +194,6 @@ struct InterfaceTest : public Test {
   
   ~InterfaceTest() {
     delete mMockExpression;
-    delete mThreadVariable;
-    delete mCallstackVariable;
     delete mStringStream;
   }
 
@@ -245,8 +225,6 @@ TEST_F(InterfaceTest, findConstantTest) {
 
 TEST_F(InterfaceTest, findConstantDeathTest) {
   Mock::AllowLeak(mMockExpression);
-  Mock::AllowLeak(mThreadVariable);
-  Mock::AllowLeak(mCallstackVariable);
 
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
@@ -264,8 +242,6 @@ TEST_F(InterfaceTest, getMethodIndexTest) {
 
 TEST_F(InterfaceTest, getMethodIndexDeathTest) {
   Mock::AllowLeak(mMockExpression);
-  Mock::AllowLeak(mThreadVariable);
-  Mock::AllowLeak(mCallstackVariable);
 
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
@@ -432,8 +408,6 @@ TEST_F(InterfaceTest, printToStreamTest) {
 
 TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
   Mock::AllowLeak(mMockExpression);
-  Mock::AllowLeak(mThreadVariable);
-  Mock::AllowLeak(mCallstackVariable);
 
   const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
   ReceivedFieldDefinition* fieldDeclaration = ReceivedFieldDefinition::create(intSpecifier, "mField", 3);
@@ -462,8 +436,6 @@ TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
 
 TEST_F(InterfaceTest, methodDeclarationDeathTest) {
   Mock::AllowLeak(mMockExpression);
-  Mock::AllowLeak(mThreadVariable);
-  Mock::AllowLeak(mCallstackVariable);
 
   const PrimitiveTypeSpecifier* intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
   VariableList arguments;
@@ -503,8 +475,6 @@ TEST_F(InterfaceTest, methodDeclarationDeathTest) {
 
 TEST_F(InterfaceTest, constantsAfterMethodSignaturesDeathTest) {
   Mock::AllowLeak(mMockExpression);
-  Mock::AllowLeak(mThreadVariable);
-  Mock::AllowLeak(mCallstackVariable);
 
   string name = "systems.vos.wisey.compiler.tests.IInterface";
   StructType* structType = StructType::create(mLLVMContext, name);
@@ -579,8 +549,6 @@ TEST_F(InterfaceTest, getReferenceCountTest) {
 
 TEST_F(InterfaceTest, circularDependencyDeathTest) {
   Mock::AllowLeak(mMockExpression);
-  Mock::AllowLeak(mThreadVariable);
-  Mock::AllowLeak(mCallstackVariable);
 
   InterfaceTypeSpecifier* parentInterfaceSpecifier = new InterfaceTypeSpecifier(NULL, "IParent", 0);
   InterfaceTypeSpecifier* childInterfaceSpecifier = new InterfaceTypeSpecifier(NULL, "IChild", 0);
@@ -672,9 +640,6 @@ TEST_F(InterfaceTest, createParameterVariableTest) {
 }
 
 TEST_F(InterfaceTest, injectWrapperFunctionTest) {
-  mContext.getScopes().setVariable(mContext, mThreadVariable);
-  mContext.getScopes().setVariable(mContext, mCallstackVariable);
-
   InjectionArgumentList injectionArgumentList;
   mShapeInterface->inject(mContext, injectionArgumentList, 0);
   mContext.runComposingCallbacks();
@@ -729,9 +694,6 @@ TEST_F(InterfaceTest, injectWrapperFunctionTest) {
 }
 
 TEST_F(InterfaceTest, injectTest) {
-  mContext.getScopes().setVariable(mContext, mThreadVariable);
-  mContext.getScopes().setVariable(mContext, mCallstackVariable);
-
   InjectionArgumentList injectionArgumentList;
 
   mShapeInterface->inject(mContext, injectionArgumentList, 0);
@@ -749,6 +711,8 @@ TEST_F(InterfaceTest, injectTest) {
 }
 
 TEST_F(InterfaceTest, composeInjectFunctionWithControllerTest) {
+  mContext.getScopes().popScope(mContext, 0);
+
   string interfaceFullName = "systems.vos.wisey.compiler.tests.ITest";
   StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
   vector<Type*> interfaceTypes;

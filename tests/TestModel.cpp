@@ -80,7 +80,6 @@ struct ModelTest : public Test {
   wisey::Constant* mConstant;
   BasicBlock* mEntryBlock;
   BasicBlock* mDeclareBlock;
-  NiceMock<MockVariable>* mThreadVariable;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   string mPackage = "systems.vos.wisey.compiler.tests";
@@ -371,14 +370,6 @@ struct ModelTest : public Test {
                                          3);
     mPooledModel->setFields(mContext, pooledModelfields, 1u);
 
-    Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
-    Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));
-    mThreadVariable = new NiceMock<MockVariable>();
-    ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
-    ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadInterface));
-    ON_CALL(*mThreadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
-    mContext.getScopes().setVariable(mContext, mThreadVariable);
-
     mStringStream = new raw_string_ostream(mStringBuffer);
 }
   
@@ -386,7 +377,6 @@ struct ModelTest : public Test {
     delete mStringStream;
     delete mField1Expression;
     delete mField2Expression;
-    delete mThreadVariable;
   }
 };
 
@@ -460,7 +450,6 @@ TEST_F(ModelTest, findConstantTest) {
 TEST_F(ModelTest, findConstantDeathTest) {
   Mock::AllowLeak(mField1Expression);
   Mock::AllowLeak(mField2Expression);
-  Mock::AllowLeak(mThreadVariable);
 
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
@@ -647,7 +636,6 @@ TEST_F(ModelTest, getRTTIVariableNameTest) {
 TEST_F(ModelTest, castToDeathTest) {
   Mock::AllowLeak(mField1Expression);
   Mock::AllowLeak(mField2Expression);
-  Mock::AllowLeak(mThreadVariable);
   Value* expressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
 
   std::stringstream buffer;
@@ -752,7 +740,6 @@ TEST_F(ModelTest, defineBuildFunctionTest) {
 TEST_F(ModelTest, buildInvalidObjectBuilderArgumentsDeathTest) {
   Mock::AllowLeak(mField1Expression);
   Mock::AllowLeak(mField2Expression);
-  Mock::AllowLeak(mThreadVariable);
 
   string argumentSpecifier1("width");
   ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
@@ -778,7 +765,6 @@ TEST_F(ModelTest, buildInvalidObjectBuilderArgumentsDeathTest) {
 TEST_F(ModelTest, buildIncorrectArgumentTypeDeathTest) {
   Mock::AllowLeak(mField1Expression);
   Mock::AllowLeak(mField2Expression);
-  Mock::AllowLeak(mThreadVariable);
 
   string argumentSpecifier1("withBirthdate");
   ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
@@ -803,7 +789,6 @@ TEST_F(ModelTest, buildIncorrectArgumentTypeDeathTest) {
 TEST_F(ModelTest, buildNotAllFieldsAreSetDeathTest) {
   Mock::AllowLeak(mField1Expression);
   Mock::AllowLeak(mField2Expression);
-  Mock::AllowLeak(mThreadVariable);
 
   string argumentSpecifier1("withBirthdate");
   ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
@@ -910,7 +895,6 @@ TEST_F(ModelTest, createParameterVariableTest) {
 TEST_F(ModelTest, injectDeathTest) {
   ::Mock::AllowLeak(mField1Expression);
   ::Mock::AllowLeak(mField2Expression);
-  ::Mock::AllowLeak(mThreadVariable);
   InjectionArgumentList arguments;
   
   std::stringstream buffer;

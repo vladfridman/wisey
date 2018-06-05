@@ -8,6 +8,10 @@
 
 #include <llvm/IR/TypeBuilder.h>
 
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
+
+#include "MockReferenceVariable.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/ControllerDefinition.hpp"
 #include "wisey/FakeExpressionWithCleanup.hpp"
@@ -19,11 +23,16 @@
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ReceivedFieldDefinition.hpp"
+#include "wisey/ThreadExpression.hpp"
 #include "wisey/WiseyObjectTypeSpecifier.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
+
+using ::testing::_;
+using ::testing::NiceMock;
+using ::testing::Return;
 
 void TestPrefix::generateIR(IRGenerationContext& context) {
   ImportProfile* importProfile = new ImportProfile("systems.vos.wisey.compiler.tests");
@@ -81,6 +90,27 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   contextManagerDefinition->prototypeMethods(context);
 
   defineIntrinsicFunctions(context);
+
+  context.getScopes().pushScope();
+  
+  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
+  Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(context));
+  NiceMock<MockReferenceVariable>* threadVariable = new NiceMock<MockReferenceVariable>();
+  ON_CALL(*threadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
+  ON_CALL(*threadVariable, getType()).WillByDefault(Return(threadInterface));
+  ON_CALL(*threadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
+  context.getScopes().setVariable(context, threadVariable);
+  
+  Controller* callStack = context.getController(Names::getCallStackControllerFullName(), 0);
+  Value* callStackValue = ConstantPointerNull::get(callStack->getLLVMType(context));
+  NiceMock<MockReferenceVariable>*  callStackVariable = new NiceMock<MockReferenceVariable>();
+  ON_CALL(*callStackVariable, getName()).WillByDefault(Return(ThreadExpression::CALL_STACK));
+  ON_CALL(*callStackVariable, getType()).WillByDefault(Return(callStack));
+  ON_CALL(*callStackVariable, generateIdentifierIR(_, _)).WillByDefault(Return(callStackValue));
+  context.getScopes().setVariable(context, callStackVariable);
+  
+  ::testing::Mock::AllowLeak(threadVariable);
+  ::testing::Mock::AllowLeak(callStackVariable);
 }
 
 void TestPrefix::defineStdErrGlobal(IRGenerationContext& context) {

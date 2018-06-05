@@ -45,8 +45,6 @@ struct InterfaceOwnerTest : public Test {
   BasicBlock* mDeclareBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
-  NiceMock<MockVariable>* mThreadVariable;
-  NiceMock<MockVariable>* mCallstackVariable;
 
   InterfaceOwnerTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
@@ -94,30 +92,11 @@ struct InterfaceOwnerTest : public Test {
     mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
 
-    Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
-    Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));
-    mThreadVariable = new NiceMock<MockVariable>();
-    ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
-    ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadInterface));
-    ON_CALL(*mThreadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
-    mContext.getScopes().setVariable(mContext, mThreadVariable);
-
-    Controller* callstackController =
-    mContext.getController(Names::getCallStackControllerFullName(), 0);
-    Value* callstackObject = ConstantPointerNull::get(callstackController->getLLVMType(mContext));
-    mCallstackVariable = new NiceMock<MockVariable>();
-    ON_CALL(*mCallstackVariable, getName()).WillByDefault(Return(ThreadExpression::CALL_STACK));
-    ON_CALL(*mCallstackVariable, getType()).WillByDefault(Return(callstackController));
-    ON_CALL(*mCallstackVariable, generateIdentifierIR(_, _)).WillByDefault(Return(callstackObject));
-    mContext.getScopes().setVariable(mContext, mCallstackVariable);
-
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
   ~InterfaceOwnerTest() {
     delete mStringStream;
-    delete mThreadVariable;
-    delete mCallstackVariable;
   }
 };
 
@@ -140,8 +119,13 @@ TEST_F(InterfaceOwnerTest, getDestructorFunctionTest) {
   
   ASSERT_NE(nullptr, result);
   
+  Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
+  Controller* callStack = mContext.getController(Names::getCallStackControllerFullName(), 0);
+  
   vector<Type*> argumentTypes;
   argumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
+  argumentTypes.push_back(threadInterface->getLLVMType(mContext));
+  argumentTypes.push_back(callStack->getLLVMType(mContext));
   argumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
   Type* llvmReturnType = Type::getVoidTy(mLLVMContext);
   FunctionType* functionType = FunctionType::get(llvmReturnType, argumentTypes, false);

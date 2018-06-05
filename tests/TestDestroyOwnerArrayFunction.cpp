@@ -64,7 +64,7 @@ TEST_F(DestroyOwnerArrayFunctionTest, callTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:                                            ; No predecessors!"
-  "\n  call void @__destroyOwnerArrayFunction(i64* null, i64 2, i8* null, i1 true, i8* null)\n";
+  "\n  call void @__destroyOwnerArrayFunction(i64* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i64 2, i8* null, i1 true, i8* null)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -75,7 +75,7 @@ TEST_F(DestroyOwnerArrayFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @__destroyOwnerArrayFunction(i64* %arrayPointer, i64 %noOfDimensions, i8* %arrayName, i1 %shouldFree, i8* %exception) personality i32 (...)* @__gxx_personality_v0 {"
+  "\ndefine void @__destroyOwnerArrayFunction(i64* %arrayPointer, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i64 %noOfDimensions, i8* %arrayName, i1 %shouldFree, i8* %exception) personality i32 (...)* @__gxx_personality_v0 {"
   "\ndeclarations:"
   "\n  %indexStore = alloca i64"
   "\n  %offsetStore = alloca i64"
@@ -126,13 +126,13 @@ TEST_F(DestroyOwnerArrayFunctionTest, getTest) {
   "\n"
   "\nmulti.dimensional:                                ; preds = %for.body"
   "\n  %5 = bitcast i8* %4 to i64*"
-  "\n  call void @__destroyOwnerArrayFunction(i64* %5, i64 %dimensionsMinusOne, i8* %arrayName, i1 false, i8* %exception)"
+  "\n  call void @__destroyOwnerArrayFunction(i64* %5, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i64 %dimensionsMinusOne, i8* %arrayName, i1 false, i8* %exception)"
   "\n  br label %for.cond"
   "\n"
   "\none.dimensional:                                  ; preds = %for.body"
   "\n  %6 = bitcast i8* %4 to i8**"
   "\n  %7 = load i8*, i8** %6"
-  "\n  call void @__destroyObjectOwnerFunction(i8* %7, i8* %exception)"
+  "\n  call void @__destroyObjectOwnerFunction(i8* %7, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8* %exception)"
   "\n  br label %for.cond"
   "\n"
   "\nmaybe.free.array:                                 ; preds = %for.cond"

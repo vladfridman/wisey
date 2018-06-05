@@ -62,7 +62,7 @@ TEST_F(DestroyObjectOwnerFunctionTest, callTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:                                            ; No predecessors!"
-  "\n  call void @__destroyObjectOwnerFunction(i8* null, i8* null)\n";
+  "\n  call void @__destroyObjectOwnerFunction(i8* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* null)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -73,7 +73,7 @@ TEST_F(DestroyObjectOwnerFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @__destroyObjectOwnerFunction(i8* %thisGeneric, i8* %exception) personality i32 (...)* @__gxx_personality_v0 {"
+  "\ndefine void @__destroyObjectOwnerFunction(i8* %thisGeneric, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8* %exception) personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = icmp eq i8* %thisGeneric, null"
   "\n  br i1 %0, label %if.null, label %if.notnull"
@@ -83,11 +83,11 @@ TEST_F(DestroyObjectOwnerFunctionTest, getTest) {
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
   "\n  %1 = call i8* @__getOriginalObject(i8* %thisGeneric)"
-  "\n  %2 = bitcast i8* %1 to void (i8*, i8*)***"
-  "\n  %vtable = load void (i8*, i8*)**, void (i8*, i8*)*** %2"
-  "\n  %3 = getelementptr void (i8*, i8*)*, void (i8*, i8*)** %vtable, i64 2"
-  "\n  %4 = load void (i8*, i8*)*, void (i8*, i8*)** %3"
-  "\n  invoke void %4(i8* %1, i8* %exception)"
+  "\n  %2 = bitcast i8* %1 to void (i8*, %wisey.threads.IThread*, %wisey.threads.CCallStack*, i8*)***"
+  "\n  %vtable = load void (i8*, %wisey.threads.IThread*, %wisey.threads.CCallStack*, i8*)**, void (i8*, %wisey.threads.IThread*, %wisey.threads.CCallStack*, i8*)*** %2"
+  "\n  %3 = getelementptr void (i8*, %wisey.threads.IThread*, %wisey.threads.CCallStack*, i8*)*, void (i8*, %wisey.threads.IThread*, %wisey.threads.CCallStack*, i8*)** %vtable, i64 2"
+  "\n  %4 = load void (i8*, %wisey.threads.IThread*, %wisey.threads.CCallStack*, i8*)*, void (i8*, %wisey.threads.IThread*, %wisey.threads.CCallStack*, i8*)** %3"
+  "\n  invoke void %4(i8* %1, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8* %exception)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\ncleanup:                                          ; preds = %if.notnull"

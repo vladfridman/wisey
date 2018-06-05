@@ -32,9 +32,11 @@
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/ObjectBuilder.hpp"
 #include "wisey/ParameterPrimitiveVariable.hpp"
+#include "wisey/ParameterSystemReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrintOutStatement.hpp"
 #include "wisey/StringLiteral.hpp"
+#include "wisey/ThreadExpression.hpp"
 #include "wisey/ThrowReferenceCountExceptionFunction.hpp"
 #include "wisey/ThrowStatement.hpp"
 
@@ -210,7 +212,19 @@ void IConcreteObjectType::addTypeListInfo(IRGenerationContext& context,
 void IConcreteObjectType::addDestructorInfo(IRGenerationContext& context,
                                             const IConcreteObjectType* object,
                                             vector<vector<llvm::Constant*>>& vTables) {
-  FunctionType* functionType = getDestructorFunctionType(context);
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Type* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
+  
+  const Interface* thread = context.getInterface(Names::getThreadInterfaceFullName(), 0);
+  const Controller* callstack = context.getController(Names::getCallStackControllerFullName(), 0);
+  vector<Type*> argumentTypes;
+  argumentTypes.push_back(int8Pointer);
+  argumentTypes.push_back(thread->getLLVMType(context));
+  argumentTypes.push_back(callstack->getLLVMType(context));
+  argumentTypes.push_back(int8Pointer);
+  Type* llvmReturnType = Type::getVoidTy(llvmContext);
+
+  FunctionType* functionType = FunctionType::get(llvmReturnType, argumentTypes, false);
   string functionName = getObjectDestructorFunctionName(object);
   
   Function* destructor = Function::Create(functionType,
@@ -218,20 +232,7 @@ void IConcreteObjectType::addDestructorInfo(IRGenerationContext& context,
                                           functionName,
                                           context.getModule());
   
-  Type* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   vTables.at(0).push_back(ConstantExpr::getBitCast(destructor, int8Pointer));
-}
-
-FunctionType* IConcreteObjectType::getDestructorFunctionType(IRGenerationContext& context) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Type* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
-  
-  vector<Type*> argumentTypes;
-  argumentTypes.push_back(int8Pointer);
-  argumentTypes.push_back(int8Pointer);
-  Type* llvmReturnType = Type::getVoidTy(llvmContext);
-  
-  return FunctionType::get(llvmReturnType, argumentTypes, false);
 }
 
 void IConcreteObjectType::scheduleDestructorBodyComposition(IRGenerationContext& context,
@@ -399,12 +400,31 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   context.getScopes().pushScope();
   context.setBasicBlock(basicBlock);
   
+  const Interface* thread = context.getInterface(Names::getThreadInterfaceFullName(), 0);
+  const Controller* callstack = context.getController(Names::getCallStackControllerFullName(), 0);
+
   Function::arg_iterator functionArguments = function->arg_begin();
   Value* thisGeneric = &*functionArguments;
   thisGeneric->setName(IObjectType::THIS);
   functionArguments++;
+  Value* threadArgument = &*functionArguments;
+  threadArgument->setName(ThreadExpression::THREAD);
+  functionArguments++;
+  llvm::Argument* callstackArgument = &*functionArguments;
+  callstackArgument->setName(ThreadExpression::CALL_STACK);
+  functionArguments++;
   Value* exception = &*functionArguments;
   exception->setName("exception");
+  IVariable* threadVariable = new ParameterSystemReferenceVariable(ThreadExpression::THREAD,
+                                                                   thread,
+                                                                   threadArgument,
+                                                                   0);
+  context.getScopes().setVariable(context, threadVariable);
+  IVariable* callstackVariable = new ParameterSystemReferenceVariable(ThreadExpression::CALL_STACK,
+                                                                      callstack,
+                                                                      callstackArgument,
+                                                                      0);
+  context.getScopes().setVariable(context, callstackVariable);
 
   Value* nullValue = ConstantPointerNull::get((llvm::PointerType*) thisGeneric->getType());
   Value* isNull = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, thisGeneric, nullValue, "");

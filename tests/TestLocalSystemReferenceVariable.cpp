@@ -44,7 +44,6 @@ struct LocalSystemReferenceVariableTest : public Test {
   BasicBlock* mEntryBlock;
   BasicBlock* mDeclareBlock;
   Model* mModel;
-  NiceMock<MockVariable>* mThreadVariable;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
@@ -83,19 +82,10 @@ public:
                              0);
     mModel->setFields(mContext, fields, 1u);
     
-    Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
-    Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));
-    mThreadVariable = new NiceMock<MockVariable>();
-    ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
-    ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadInterface));
-    ON_CALL(*mThreadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
-    mContext.getScopes().setVariable(mContext, mThreadVariable);
-    
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
   ~LocalSystemReferenceVariableTest() {
-    delete mThreadVariable;
   }
 };
 
@@ -190,8 +180,6 @@ TEST_F(LocalSystemReferenceVariableTest, decrementReferenceCounterTest) {
 }
 
 TEST_F(LocalSystemReferenceVariableTest, generateIdentifierUninitializedDeathTest) {
-  Mock::AllowLeak(mThreadVariable);
-  
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalSystemReferenceVariable variable("foo", mModel, fooValue, 0);

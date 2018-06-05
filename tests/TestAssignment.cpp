@@ -48,7 +48,6 @@ struct AssignmentTest : public Test {
   BasicBlock* mBlock;
   Interface* mInterface;
   Controller* mController;
-  NiceMock<MockVariable>* mThreadVariable;
 
 public:
   
@@ -79,19 +78,10 @@ public:
                                             NULL,
                                             mContext.getImportProfile(),
                                             0);
-
-    Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
-    Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));
-    mThreadVariable = new NiceMock<MockVariable>();
-    ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
-    ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadInterface));
-    ON_CALL(*mThreadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
-    mContext.getScopes().setVariable(mContext, mThreadVariable);
   }
   
   ~AssignmentTest() {
     delete mBlock;
-    delete mThreadVariable;
   }
 
   static void printExpression(IRGenerationContext& context, iostream& stream) {
@@ -129,7 +119,6 @@ TEST_F(AssignmentTest, variableNotDeclaredDeathTest) {
   Identifier* identifier = new Identifier("foo", 0);
   Assignment assignment(identifier, mExpression, 1);
   Mock::AllowLeak(mExpression);
-  Mock::AllowLeak(mThreadVariable);
 
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());

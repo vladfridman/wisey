@@ -600,7 +600,7 @@ llvm_function_type_specifier
 llvm_function_argument_type_specifier_list
   : native_type_specifier
     { $$ = new std::vector<const ITypeSpecifier*>(); $$->push_back($1); }
-  | llvm_function_argument_type_specifier_list ',' native_type_specifier
+  | llvm_function_argument_type_specifier_list ',' type_specifier
     { $1->push_back($3); $$ = $1; }
   ;
 

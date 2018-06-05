@@ -59,6 +59,7 @@ struct NodeDefinitionTest : public Test {
   mBlock(new Block()),
   mMockStatement(new NiceMock<MockStatement>()) {
     TestPrefix::generateIR(mContext);
+    mContext.getScopes().popScope(mContext, 0);
 
     mBlock->getStatements().push_back(mMockStatement);
     mBlock->getStatements().push_back(new ReturnStatement(new FloatConstant(0.5, 0), 0));

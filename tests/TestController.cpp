@@ -77,8 +77,6 @@ struct ControllerTest : public Test {
   BasicBlock* mEntryBlock;
   BasicBlock* mDeclareBlock;
   wisey::Constant* mConstant;
-  NiceMock<MockReferenceVariable>* mThreadVariable;
-  NiceMock<MockReferenceVariable>* mCallstackVariable;
   string mStringBuffer;
   Function* mFunction;
   raw_string_ostream* mStringStream;
@@ -383,29 +381,12 @@ struct ControllerTest : public Test {
     mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
     mContext.setDeclarationsBlock(mDeclareBlock);
     mContext.setBasicBlock(mEntryBlock);
-    mContext.getScopes().pushScope();
-    
-    Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));
-    mThreadVariable = new NiceMock<MockReferenceVariable>();
-    ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
-    ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadInterface));
-    ON_CALL(*mThreadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
-
-    Controller* callstackController =
-    mContext.getController(Names::getCallStackControllerFullName(), 0);
-    Value* callstackObject = ConstantPointerNull::get(callstackController->getLLVMType(mContext));
-    mCallstackVariable = new NiceMock<MockReferenceVariable>();
-    ON_CALL(*mCallstackVariable, getName()).WillByDefault(Return(ThreadExpression::CALL_STACK));
-    ON_CALL(*mCallstackVariable, getType()).WillByDefault(Return(callstackController));
-    ON_CALL(*mCallstackVariable, generateIdentifierIR(_, _)).WillByDefault(Return(callstackObject));
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
   ~ControllerTest() {
     delete mStringStream;
-    delete mThreadVariable;
-    delete mCallstackVariable;
   }
 };
 
@@ -477,9 +458,6 @@ TEST_F(ControllerTest, findConstantTest) {
 }
 
 TEST_F(ControllerTest, findConstantDeathTest) {
-  Mock::AllowLeak(mThreadVariable);
-  Mock::AllowLeak(mCallstackVariable);
-
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
@@ -748,6 +726,8 @@ TEST_F(ControllerTest, createContextInjectFunctionDeathTest) {
 }
 
 TEST_F(ControllerTest, createContextInjectFunctionTest) {
+  mContext.getScopes().popScope(mContext, 0);
+  
   Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
   mSimpleController->setScopeType(threadInterface);
   Function* function = mSimpleController->createInjectFunction(mContext, 0);
@@ -857,6 +837,8 @@ TEST_F(ControllerTest, createContextInjectFunctionTest) {
 }
 
 TEST_F(ControllerTest, defineFieldInjectorFunctionsTest) {
+  mContext.getScopes().popScope(mContext, 0);
+  
   vector<Type*> childTypes;
   string childFullName = "systems.vos.wisey.compiler.tests.CChild";
   StructType* childStructType = StructType::create(mLLVMContext, childFullName);
@@ -983,9 +965,6 @@ TEST_F(ControllerTest, declareFieldInjectionFunctionsTest) {
 }
 
 TEST_F(ControllerTest, injectTest) {
-  mContext.getScopes().setVariable(mContext, mThreadVariable);
-  mContext.getScopes().setVariable(mContext, mCallstackVariable);
-
   InjectionArgumentList injectionArguments;
   mAdditorController->declareInjectFunction(mContext, 0);
 
@@ -1020,9 +999,6 @@ TEST_F(ControllerTest, injectTest) {
 }
 
 TEST_F(ControllerTest, injectChangeArgumentOrderTest) {
-  mContext.getScopes().setVariable(mContext, mThreadVariable);
-  mContext.getScopes().setVariable(mContext, mCallstackVariable);
-
   InjectionArgumentList injectionArguments;
   mAdditorController->declareInjectFunction(mContext, 0);
   
@@ -1075,8 +1051,6 @@ TEST_F(ControllerTest, injectWrongTypeOfArgumentDeathTest) {
 
   injectionArguments.push_back(injectionArgument1);
   injectionArguments.push_back(injectionArgument2);
-  Mock::AllowLeak(mThreadVariable);
-  Mock::AllowLeak(mCallstackVariable);
   mAdditorController->declareInjectFunction(mContext, 0);
 
   std::stringstream buffer;
@@ -1089,9 +1063,9 @@ TEST_F(ControllerTest, injectWrongTypeOfArgumentDeathTest) {
 }
 
 TEST_F(ControllerTest, injectNonInjectableTypeDeathTest) {
+  mContext.getScopes().popScope(mContext, 0);
+  
   InjectionArgumentList injectionArguments;
-  Mock::AllowLeak(mThreadVariable);
-  Mock::AllowLeak(mCallstackVariable);
 
   IConcreteObjectType::declareTypeNameGlobal(mContext, mDoublerController);
   IConcreteObjectType::declareVTable(mContext, mDoublerController);
@@ -1112,8 +1086,6 @@ TEST_F(ControllerTest, notWellFormedInjectionArgumentsDeathTest) {
   InjectionArgumentList injectionArguments;
   NiceMock<MockExpression>* injectArgument1Expression = new NiceMock<MockExpression>();
   Mock::AllowLeak(injectArgument1Expression);
-  Mock::AllowLeak(mThreadVariable);
-  Mock::AllowLeak(mCallstackVariable);
   InjectionArgument* injectionArgument = new InjectionArgument("owner",
                                                                injectArgument1Expression);
   injectionArguments.push_back(injectionArgument);
@@ -1131,8 +1103,6 @@ TEST_F(ControllerTest, injectTooFewArgumentsDeathTest) {
   InjectionArgumentList injectionArguments;
   NiceMock<MockExpression>* injectArgument1Expression = new NiceMock<MockExpression>();
   Mock::AllowLeak(injectArgument1Expression);
-  Mock::AllowLeak(mThreadVariable);
-  Mock::AllowLeak(mCallstackVariable);
   InjectionArgument* injectionArgument = new InjectionArgument("withOwner",
                                                                injectArgument1Expression);
   injectionArguments.push_back(injectionArgument);
@@ -1154,8 +1124,6 @@ TEST_F(ControllerTest, injectTooManyArgumentsDeathTest) {
   Mock::AllowLeak(injectArgument1Expression);
   Mock::AllowLeak(injectArgument2Expression);
   Mock::AllowLeak(injectArgument3Expression);
-  Mock::AllowLeak(mThreadVariable);
-  Mock::AllowLeak(mCallstackVariable);
   InjectionArgument* injectionArgument1 = new InjectionArgument("withFoo",
                                                                 injectArgument1Expression);
   InjectionArgument* injectionArgument2 = new InjectionArgument("withOwner",

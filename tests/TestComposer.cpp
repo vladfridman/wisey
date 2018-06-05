@@ -42,8 +42,6 @@ struct ComposerTest : public Test {
   Model* mModel;
   Function* mMainFunction;
   string mMethodName;
-  NiceMock<MockReferenceVariable>* mThreadVariable;
-  NiceMock<MockReferenceVariable>* mCallStackVariable;
   ImportProfile* mImportProfile;
   string mPackage = "systems.vos.wisey.compiler.tests";
 
@@ -96,30 +94,12 @@ public:
 
     mContext.getScopes().pushScope();
 
-    Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
-    Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));
-    mThreadVariable = new NiceMock<MockReferenceVariable>();
-    ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
-    ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadInterface));
-    ON_CALL(*mThreadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
-    mContext.getScopes().setVariable(mContext, mThreadVariable);
-
-    Controller* callStack = mContext.getController(Names::getCallStackControllerFullName(), 0);
-    Value* callStackValue = ConstantPointerNull::get(callStack->getLLVMType(mContext));
-    mCallStackVariable = new NiceMock<MockReferenceVariable>();
-    ON_CALL(*mCallStackVariable, getName()).WillByDefault(Return(ThreadExpression::CALL_STACK));
-    ON_CALL(*mCallStackVariable, getType()).WillByDefault(Return(callStack));
-    ON_CALL(*mCallStackVariable, generateIdentifierIR(_, _)).WillByDefault(Return(callStackValue));
-    mContext.getScopes().setVariable(mContext, mCallStackVariable);
-
     mContext.setObjectType(mModel);
     mStringStream = new raw_string_ostream(mStringBuffer);
 }
   
   ~ComposerTest() {
     delete mStringStream;
-    delete mThreadVariable;
-    delete mCallStackVariable;
   }
 };
 

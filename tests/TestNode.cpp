@@ -79,7 +79,6 @@ struct NodeTest : public Test {
   NiceMock<MockExpression>* mField1Expression;
   NiceMock<MockExpression>* mField2Expression;
   wisey::Constant* mConstant;
-  NiceMock<MockVariable>* mThreadVariable;
   string mStringBuffer;
   Function* mFunction;
   raw_string_ostream* mStringStream;
@@ -369,14 +368,6 @@ struct NodeTest : public Test {
     mContext.setDeclarationsBlock(mDeclareBlock);
     mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
-    
-    Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
-    Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));
-    mThreadVariable = new NiceMock<MockVariable>();
-    ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
-    ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadInterface));
-    ON_CALL(*mThreadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
-    mContext.getScopes().setVariable(mContext, mThreadVariable);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -385,7 +376,6 @@ struct NodeTest : public Test {
     delete mStringStream;
     delete mField1Expression;
     delete mField2Expression;
-    delete mThreadVariable;
   }
 };
 
@@ -441,7 +431,6 @@ TEST_F(NodeTest, findConstantTest) {
 TEST_F(NodeTest, findConstantDeathTest) {
   Mock::AllowLeak(mField1Expression);
   Mock::AllowLeak(mField2Expression);
-  Mock::AllowLeak(mThreadVariable);
   
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
@@ -725,7 +714,6 @@ TEST_F(NodeTest, defineBuildFunctionTest) {
 TEST_F(NodeTest, buildInvalidObjectBuilderArgumentsDeathTest) {
   Mock::AllowLeak(mField1Expression);
   Mock::AllowLeak(mField2Expression);
-  Mock::AllowLeak(mThreadVariable);
 
   string argumentSpecifier1("owner");
   ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
@@ -752,7 +740,6 @@ TEST_F(NodeTest, buildInvalidObjectBuilderArgumentsDeathTest) {
 TEST_F(NodeTest, buildIncorrectArgumentTypeDeathTest) {
   Mock::AllowLeak(mField1Expression);
   Mock::AllowLeak(mField2Expression);
-  Mock::AllowLeak(mThreadVariable);
 
   Value* fieldValue = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 2.0f);
   ON_CALL(*mField2Expression, generateIR(_, _)).WillByDefault(Return(fieldValue));
@@ -781,7 +768,6 @@ TEST_F(NodeTest, buildIncorrectArgumentTypeDeathTest) {
 TEST_F(NodeTest, buildNotAllFieldsAreSetDeathTest) {
   Mock::AllowLeak(mField1Expression);
   Mock::AllowLeak(mField2Expression);
-  Mock::AllowLeak(mThreadVariable);
 
   ObjectBuilderArgumentList argumentList;
   
@@ -881,7 +867,6 @@ TEST_F(NodeTest, createParameterVariableTest) {
 TEST_F(NodeTest, injectDeathTest) {
   ::Mock::AllowLeak(mField1Expression);
   ::Mock::AllowLeak(mField2Expression);
-  ::Mock::AllowLeak(mThreadVariable);
   InjectionArgumentList arguments;
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());

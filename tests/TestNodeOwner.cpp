@@ -23,6 +23,7 @@
 #include "wisey/MethodSignature.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/NodeOwner.hpp"
 #include "wisey/NodeTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -304,8 +305,13 @@ TEST_F(NodeOwnerTest, getDestructorFunctionTest) {
   
   ASSERT_NE(nullptr, result);
   
+  Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
+  Controller* callStack = mContext.getController(Names::getCallStackControllerFullName(), 0);
+  
   vector<Type*> argumentTypes;
   argumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
+  argumentTypes.push_back(threadInterface->getLLVMType(mContext));
+  argumentTypes.push_back(callStack->getLLVMType(mContext));
   argumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
   Type* llvmReturnType = Type::getVoidTy(mLLVMContext);
   FunctionType* functionType = FunctionType::get(llvmReturnType, argumentTypes, false);

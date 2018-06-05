@@ -335,12 +335,7 @@ namespace wisey {
      */
     static void composeInterfaceMapFunctions(IRGenerationContext& context,
                                              const IConcreteObjectType* object);
-    
-    /**
-     * Returns destructor function type that is the same for all objects
-     */
-    static llvm::FunctionType* getDestructorFunctionType(IRGenerationContext& context);
-    
+  
     /**
      * Returns the size of the VTable array for the given object
      */

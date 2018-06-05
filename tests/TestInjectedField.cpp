@@ -41,8 +41,6 @@ struct InjectedFieldTest : public Test {
   NiceMock<MockType>* mType;
   NiceMock<MockType>* mInjectedType;
   NiceMock<MockVariable>* mThisVariable;
-  NiceMock<MockVariable>* mThreadVariable;
-  NiceMock<MockVariable>* mCallstackVariable;
   const NiceMock<MockObjectOwnerType>* mObjectOwnerType;
   const NiceMock<MockConcreteObjectType>* mObjectType;
   NiceMock<MockExpression>* mExpression;
@@ -106,33 +104,17 @@ public:
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
     mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
-    mContext.getScopes().pushScope();
-    
+     
     PointerType* int8PointerType = Type::getInt8Ty(mLLVMContext)->getPointerTo();
     ON_CALL(*mType, getLLVMType(_)).WillByDefault(Return(int8PointerType));
     Value* null = ConstantPointerNull::get(int8PointerType);
     ON_CALL(*mType, inject(_, _, _)).WillByDefault(Return(null));
-
-    Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
-    Value* threadObject = ConstantPointerNull::get(threadInterface->getLLVMType(mContext));
-    mThreadVariable = new NiceMock<MockVariable>();
-    ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
-    ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadInterface));
-    ON_CALL(*mThreadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
 
     mThisVariable = new NiceMock<MockVariable>();
     ON_CALL(*mThisVariable, getName()).WillByDefault(Return(IObjectType::THIS));
     ON_CALL(*mThisVariable, getType()).WillByDefault(Return(mController));
     null = ConstantPointerNull::get(mController->getLLVMType(mContext));
     ON_CALL(*mThisVariable, generateIdentifierIR(_, _)).WillByDefault(Return(null));
-    
-    Controller* callstackController =
-    mContext.getController(Names::getCallStackControllerFullName(), 0);
-    Value* callstackObject = ConstantPointerNull::get(callstackController->getLLVMType(mContext));
-    mCallstackVariable = new NiceMock<MockVariable>();
-    ON_CALL(*mCallstackVariable, getName()).WillByDefault(Return(ThreadExpression::CALL_STACK));
-    ON_CALL(*mCallstackVariable, getType()).WillByDefault(Return(callstackController));
-    ON_CALL(*mCallstackVariable, generateIdentifierIR(_, _)).WillByDefault(Return(callstackObject));
 
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -144,8 +126,6 @@ public:
     delete mObjectOwnerType;
     delete mObjectType;
     delete mThisVariable;
-    delete mThreadVariable;
-    delete mCallstackVariable;
   }
   
   static void printExpression(IRGenerationContext& context, iostream& stream) {
@@ -218,8 +198,6 @@ TEST_F(InjectedFieldTest, declareInjectionFunctionTest) {
 
 TEST_F(InjectedFieldTest, callInjectFunctionTest) {
   mContext.getScopes().setVariable(mContext, mThisVariable);
-  mContext.getScopes().setVariable(mContext, mThreadVariable);
-  mContext.getScopes().setVariable(mContext, mCallstackVariable);
   mField->declareInjectionFunction(mContext, mController);
   Value* null = ConstantPointerNull::get(mType->getLLVMType(mContext)->getPointerTo());
   mField->callInjectFunction(mContext, mController, null, 0);
@@ -233,6 +211,8 @@ TEST_F(InjectedFieldTest, callInjectFunctionTest) {
 }
 
 TEST_F(InjectedFieldTest, defineInjectionFunctionTest) {
+  mContext.getScopes().popScope(mContext, 0);
+  
   mField->defineInjectionFunction(mContext, mController);
   mContext.runComposingCallbacks();
   

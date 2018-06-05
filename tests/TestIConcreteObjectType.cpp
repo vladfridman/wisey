@@ -50,7 +50,6 @@ struct IConcreteObjectTypeTest : public Test {
   IConcreteObjectTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
 
-    mContext.getScopes().pushScope();
     ON_CALL(mMockObject, getTypeName()).WillByDefault(Return("Object"));
     ON_CALL(mMockObject, getObjectNameGlobalVariableName())
     .WillByDefault(Return("Object.typename"));
@@ -205,6 +204,9 @@ TEST_F(IConcreteObjectTypeTest, declareFieldVariablesTest) {
 }
 
 TEST_F(IConcreteObjectTypeTest, composeDestructorBodyTest) {
+  mContext.getScopes().popScope(mContext, 0);
+  mContext.getScopes().pushScope();
+
   IConcreteObjectType::declareTypeNameGlobal(mContext, mStarModel);
   IConcreteObjectType::defineVTable(mContext, mStarModel);
   IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mStarModel);
@@ -214,7 +216,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorBodyTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @systems.vos.wisey.compiler.tests.MStar.destructor(i8* %this, i8* %exception) "
+  "\ndefine void @systems.vos.wisey.compiler.tests.MStar.destructor(i8* %this, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8* %exception) "
   "personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = icmp eq i8* %this, null"
@@ -263,6 +265,9 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorBodyTest) {
 }
 
 TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldTest) {
+  mContext.getScopes().popScope(mContext, 0);
+  mContext.getScopes().pushScope();
+
   IConcreteObjectType::declareTypeNameGlobal(mContext, mStarModel);
   IConcreteObjectType::declareVTable(mContext, mStarModel);
   
@@ -276,7 +281,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldTe
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @systems.vos.wisey.compiler.tests.MGalaxy.destructor(i8* %this, i8* %exception) "
+  "\ndefine void @systems.vos.wisey.compiler.tests.MGalaxy.destructor(i8* %this, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8* %exception) "
   "personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = icmp eq i8* %this, null"
@@ -290,7 +295,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldTe
   "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MGalaxy, %systems.vos.wisey.compiler.tests.MGalaxy* %1, i32 0, i32 1"
   "\n  %3 = load %systems.vos.wisey.compiler.tests.MStar*, %systems.vos.wisey.compiler.tests.MStar** %2"
   "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MStar* %3 to i8*"
-  "\n  call void @__destroyObjectOwnerFunction(i8* %4, i8* %exception)"
+  "\n  call void @__destroyObjectOwnerFunction(i8* %4, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8* %exception)"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.MGalaxy* %1 to i64*"
   "\n  %6 = getelementptr i64, i64* %5, i64 -1"
   "\n  %refCounter = load i64, i64* %6"
@@ -329,6 +334,9 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldTe
 }
 
 TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectReferenceFieldTest) {
+  mContext.getScopes().popScope(mContext, 0);
+  mContext.getScopes().pushScope();
+
   IConcreteObjectType::declareTypeNameGlobal(mContext, mConstellationModel);
   IConcreteObjectType::defineVTable(mContext, mConstellationModel);
   IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mConstellationModel);
@@ -339,7 +347,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectReferenceFie
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @systems.vos.wisey.compiler.tests.MConstellation.destructor(i8* %this, i8* %exception) "
+  "\ndefine void @systems.vos.wisey.compiler.tests.MConstellation.destructor(i8* %this, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8* %exception) "
   "personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = icmp eq i8* %this, null"
@@ -393,6 +401,9 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectReferenceFie
 
 
 TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFieldsTest) {
+  mContext.getScopes().popScope(mContext, 0);
+  mContext.getScopes().pushScope();
+
   IConcreteObjectType::declareTypeNameGlobal(mContext, mCarModel);
   IConcreteObjectType::defineVTable(mContext, mCarModel);
   IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mCarModel);
@@ -403,7 +414,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFiel
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @systems.vos.wisey.compiler.tests.MCar.destructor(i8* %this, i8* %exception) "
+  "\ndefine void @systems.vos.wisey.compiler.tests.MCar.destructor(i8* %this, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8* %exception) "
   "personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = icmp eq i8* %this, null"
@@ -417,7 +428,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFiel
   "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MCar, %systems.vos.wisey.compiler.tests.MCar* %1, i32 0, i32 1"
   "\n  %3 = load %systems.vos.wisey.compiler.tests.ICanNavigate*, %systems.vos.wisey.compiler.tests.ICanNavigate** %2"
   "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.ICanNavigate* %3 to i8*"
-  "\n  call void @__destroyObjectOwnerFunction(i8* %4, i8* %exception)"
+  "\n  call void @__destroyObjectOwnerFunction(i8* %4, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8* %exception)"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.MCar* %1 to i64*"
   "\n  %6 = getelementptr i64, i64* %5, i64 -1"
   "\n  %refCounter = load i64, i64* %6"
@@ -467,7 +478,6 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorCallTest) {
   
   BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
   mContext.setBasicBlock(basicBlock);
-  mContext.getScopes().pushScope();
 
   ConstantPointerNull* objectPointer = ConstantPointerNull::get(mCarModel->getLLVMType(mContext));
   llvm::PointerType* int8Pointer = Type::getInt8Ty(mLLVMContext)->getPointerTo();
@@ -478,7 +488,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorCallTest) {
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MCar* null to i8*"
-  "\n  call void @__destroyObjectOwnerFunction(i8* %0, i8* null)\n";
+  "\n  call void @__destroyObjectOwnerFunction(i8* %0, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* null)\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -549,20 +559,6 @@ TEST_F(IConcreteObjectTypeTest, addInterfaceAndItsParentsTest) {
   EXPECT_EQ(flattenedInterfaces.at(1), child1);
   EXPECT_EQ(flattenedInterfaces.at(2), grandChild);
   EXPECT_EQ(flattenedInterfaces.at(3), child2);
-}
-
-TEST_F(IConcreteObjectTypeTest, getDestructorFunctionTypeTest) {
-  Type* int8Pointer = Type::getInt8Ty(mLLVMContext)->getPointerTo();
-  
-  vector<Type*> argumentTypes;
-  argumentTypes.push_back(int8Pointer);
-  argumentTypes.push_back(int8Pointer);
-  Type* llvmReturnType = Type::getVoidTy(mLLVMContext);
-  
-  Type* expextedType = FunctionType::get(llvmReturnType, argumentTypes, false);
-  Type* actualType = IConcreteObjectType::getDestructorFunctionType(mContext);
-  
-  EXPECT_EQ(expextedType, actualType);
 }
 
 TEST_F(TestFileRunner, freeingFieldVariablesRunTest) {

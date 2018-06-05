@@ -15,6 +15,8 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/LLVMFunctionType.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
+#include "wisey/Names.hpp"
+#include "wisey/ThreadExpression.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -41,6 +43,11 @@ void DestroyObjectOwnerFunction::call(IRGenerationContext& context,
   vector<Value*> arguments;
   arguments.push_back(objectReference);
 
+  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
+  arguments.push_back(threadVariable->generateIdentifierIR(context, line));
+  IVariable* callstackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
+  arguments.push_back(callstackVariable->generateIdentifierIR(context, line));
+
   if (exception) {
     arguments.push_back(exception);
     IRWriter::createCallInst(context, function, arguments, "");
@@ -64,8 +71,13 @@ Function* DestroyObjectOwnerFunction::define(IRGenerationContext& context) {
 }
 
 LLVMFunctionType* DestroyObjectOwnerFunction::getLLVMFunctionType(IRGenerationContext& context) {
+  const Interface* thread = context.getInterface(Names::getThreadInterfaceFullName(), 0);
+  const Controller* callstack = context.getController(Names::getCallStackControllerFullName(), 0);
+
   vector<const IType*> argumentTypes;
   argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType(context, 0));
+  argumentTypes.push_back(thread);
+  argumentTypes.push_back(callstack);
   argumentTypes.push_back(LLVMPrimitiveTypes::I8->getPointerType(context, 0));
 
   return context.getLLVMFunctionType(LLVMPrimitiveTypes::VOID, argumentTypes);
@@ -80,6 +92,12 @@ void DestroyObjectOwnerFunction::compose(IRGenerationContext& context, Function*
   Function::arg_iterator functionArguments = function->arg_begin();
   Value* thisGeneric = &*functionArguments;
   thisGeneric->setName("thisGeneric");
+  functionArguments++;
+  Value* threadArgument = &*functionArguments;
+  threadArgument->setName(ThreadExpression::THREAD);
+  functionArguments++;
+  Value* callstackArgument = &*functionArguments;
+  callstackArgument->setName(ThreadExpression::CALL_STACK);
   functionArguments++;
   Value* exception = &*functionArguments;
   exception->setName("exception");
@@ -113,6 +131,8 @@ void DestroyObjectOwnerFunction::compose(IRGenerationContext& context, Function*
   
   vector<Value*> arguments;
   arguments.push_back(originalObjectVTable);
+  arguments.push_back(threadArgument);
+  arguments.push_back(callstackArgument);
   arguments.push_back(exception);
 
   IRWriter::createInvokeInst(context, objectDestructor, arguments, "", 0);

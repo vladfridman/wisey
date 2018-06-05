@@ -181,6 +181,8 @@ TEST_F(StaticMethodTest, definePrivateFunctionTest) {
 }
 
 TEST_F(StaticMethodTest, generateIRTest) {
+  mContext.getScopes().popScope(mContext, 0);
+  
   wisey::Argument* intArgument = new wisey::Argument(PrimitiveTypes::INT, "intargument");
   std::vector<const wisey::Argument*> arguments;
   arguments.push_back(intArgument);

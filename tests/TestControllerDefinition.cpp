@@ -55,6 +55,7 @@ struct ControllerDefinitionTest : public Test {
   mLLVMContext(mContext.getLLVMContext()),
   mMockStatement(new NiceMock<MockStatement>()) {
     TestPrefix::generateIR(mContext);
+    mContext.getScopes().popScope(mContext, 0);
     
     MethodDefinition *methodDeclaration;
     Block* block = new Block();
