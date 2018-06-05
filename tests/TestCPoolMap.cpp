@@ -20,6 +20,8 @@ TEST_F(TestFileRunner, pooledModelDestructorDebugRunTest) {
                                         "done destructing pooled object systems.vos.wisey.compiler.tests.MCar\n"
                                         "destructor pooled object systems.vos.wisey.compiler.tests.MCar\n"
                                         "done destructing pooled object systems.vos.wisey.compiler.tests.MCar\n"
+                                        "destructor pooled object systems.vos.wisey.compiler.tests.MCar\n"
+                                        "done destructing pooled object systems.vos.wisey.compiler.tests.MCar\n"
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n"
                                         "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");

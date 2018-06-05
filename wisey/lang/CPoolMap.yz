@@ -5,16 +5,25 @@ import wisey.data.CPointerMap;
 import wisey.threads.IThread;
 
 controller CPoolMap scopedto IThread {
-  public constant long START_LENGTH = 16l;
+  public constant long START_LENGTH = 2048l;
 
   inject CPointerMap* mPointerMap.withSize(CPointerMap.DEFAULT_SIZE);
 
   public ::llvm::i8::pointer allocate(string key, long blockSize) {
-    NPool pool = (NPool) mPointerMap.get(key);
-    if (!pool) {
-      pool = createPool(key, blockSize);
+    NPool headPool = (NPool) mPointerMap.get(key);
+    if (!headPool) {
+      NPool* newPool = createPool(key, blockSize, START_LENGTH);
+      headPool = newPool;
+      mPointerMap.put(key, newPool);
     }
-    return pool.allocate();
+    NPool pool = headPool.getLargestPool();
+    if (pool.hasRoom()) {
+      return pool.allocate();
+    }
+    NPool* largerPool = createPool(key, blockSize, pool.getLength() * 2);
+    NPool largerPoolReference = largerPool;
+    pool.setLargerPool(largerPool);
+    return largerPoolReference.allocate();
   }
 
   public void deallocate(string key, ::llvm::i8::pointer objectShell) {
@@ -26,20 +35,17 @@ controller CPoolMap scopedto IThread {
     mPointerMap.erase(key);
   }
 
-  private NPool createPool(string key, long blockSize) {
-    long allocSize = blockSize * START_LENGTH;
+  private NPool* createPool(string key, long blockSize, long length) {
+    long allocSize = blockSize * length;
     ::llvm::i8::pointer* malloc = ::llvm::function::malloc(allocSize);
     MSystem.zeroMemory(malloc, allocSize);
-    NPool* pool = builder(NPool)
+    return builder(NPool)
       .withKey(key)
       .withBlockSize(blockSize)
       .withMemoryPool(malloc)
       .withHead(0)
-      .withFree(START_LENGTH)
+      .withFree(length)
       .build();
-    NPool poolReference = pool;
-    mPointerMap.put(key, pool);
-    return poolReference;
   }
 
   public node NPool implements CPointerList.IListElement {
@@ -49,9 +55,11 @@ controller CPoolMap scopedto IThread {
     state long mHead;
     state long mFree;
     state long mTaken;
+    state NPool* mLargerPool;
     state NPool* mNext;
 
     public ::llvm::i8::pointer allocate() {
+      ::llvm::i8::pointer here = this;
       ::llvm::i64::pointer i64Pointer = mMemoryPool + mBlockSize * mHead;
       long storedHead = ::llvm::dereference(i64Pointer);
       mHead = storedHead ? storedHead : mHead + 1;
@@ -61,14 +69,40 @@ controller CPoolMap scopedto IThread {
       return i64Pointer;
     }
 
-    public void deallocate(::llvm::i8::pointer objectShell) {
+    public boolean deallocate(::llvm::i8::pointer objectShell) {
+      if (mLargerPool && mLargerPool.deallocate(objectShell)) {
+        return true;
+      }
+
       ::llvm::i8::pointer memoryPool = mMemoryPool;
       long objectIndex = (objectShell - memoryPool) / mBlockSize;
+
+      if (objectIndex < 0 || objectIndex >= (mFree + mTaken)) {
+        return false;
+      }
       ::llvm::i64::pointer i64Pointer = objectShell;
       ::llvm::store(mHead, i64Pointer);
       mFree++;
       mTaken--;
       mHead = objectIndex;
+
+      return true;
+    }
+
+    public void setLargerPool(NPool* pool) {
+      mLargerPool = pool;
+    }
+
+    public NPool getLargestPool() {
+      return mLargerPool ? mLargerPool.getLargestPool() : this;
+    }
+
+    public long getLength() {
+      return mFree + mTaken;
+    }
+
+    public boolean hasRoom() {
+      return mFree > 0;
     }
 
     public CPointerList.IListElement getNext() override {
