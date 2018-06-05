@@ -30,6 +30,7 @@
   #include "wisey/ControllerTypeSpecifier.hpp"
   #include "wisey/ControllerTypeSpecifierFull.hpp"
   #include "wisey/DefaultCaseStatement.hpp"
+  #include "wisey/DereferenceExpression.hpp"
   #include "wisey/DoStatement.hpp"
   #include "wisey/DoubleConstant.hpp"
   #include "wisey/EmptyExpression.hpp"
@@ -122,6 +123,7 @@
   #include "wisey/StateFieldDefinition.hpp"
   #include "wisey/StaticMethodCall.hpp"
   #include "wisey/StaticMethodDefinition.hpp"
+  #include "wisey/StoreInReference.hpp"
   #include "wisey/SwitchStatement.hpp"
   #include "wisey/TryCatchStatement.hpp"
   #include "wisey/ThrowStatement.hpp"
@@ -228,8 +230,8 @@
 %token <token> TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDO TDOUBLECOLON TELIPSIS
 %token <token> TELSE TEXTENDS TEXTERNAL TDEFAULT TFALLTHROUGH TFALSE TFOR TIF TIMMUTABLE
 %token <token> TIMPLEMENTS TIMPORT TINJECTOR TINJECT TINSTANCEOF TINTERFACE  
-%token <token> TLLVM TLLVMARRAY TLLVMFUNCTION TLLVMI1 TLLVMI8 TLLVMI16 TLLVMI32 TLLVMI64
-%token <token> TLLVMPOINTER TLLVMSTRUCT TLLVMVOID TLLVMREFERENCE
+%token <token> TLLVM TLLVMARRAY TLLVMDEREFERENCE TLLVMFUNCTION TLLVMI1 TLLVMI8 TLLVMI16 TLLVMI32
+%token <token> TLLVMI64 TLLVMPOINTER TLLVMSTORE TLLVMSTRUCT TLLVMVOID TLLVMREFERENCE
 %token <token> TMODEL TNEW TNODE TNULL TOROP TOVERRIDE TPACKAGE TPOOLED
 %token <token> TPRINTFILE TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN 
 %token <token> TSCOPEDTO TSHIFTLEFT TSHIFTRIGHT TSTATE TSTATIC TSWITCH 
@@ -249,7 +251,7 @@
 %type <expression> cast_expression primary_expression assignment unary_expression
 %type <expression> type_comparision_expression injection array_allocation static_array_allocation
 %type <expression> constant_reference static_method_call field_identifier
-%type <expression> llvm_function_call llvm_reference call_argument
+%type <expression> llvm_function_call llvm_reference llvm_dereference call_argument
 %type <variable_vector> method_definition_arguments
 %type <expression_vector> call_arguments static_array_elements
 %type <block> block_item_list 
@@ -259,7 +261,7 @@
 %type <statement> declaration expression_statement iteration_statement
 %type <statement> print_statement selection_statement 
 %type <statement> throw_statement try_catch_statement
-%type <statement> llvm_function_argument_declaration
+%type <statement> llvm_function_argument_declaration llvm_store
 %type <global_statement> bind_action_statement import_statement global_statement llvm_statement 
 %type <global_statement> llvm_struct_definition llvm_function_declaration 
 %type <global_statement> llvm_external_struct_definition llvm_global_declaration
@@ -643,6 +645,16 @@ llvm_reference
     { $$ = new IdentifierReference(*$4, yylineno); delete $4; }
   | TLLVM TLLVMREFERENCE '(' TFIELDIDENTIFIER ')' 
     { $$ = new IdentifierReference(*$4, yylineno); delete $4; }
+  ;
+
+llvm_dereference
+  : TLLVM TLLVMDEREFERENCE '(' expression ')'
+    { $$ = new DereferenceExpression($4, yylineno); }
+  ;
+
+llvm_store
+  : TLLVM TLLVMSTORE '(' expression ',' expression ')' ';'
+    { $$ = new StoreInReference($4, $6, yylineno); }
   ;
 
 string_identifier
@@ -1146,6 +1158,7 @@ statement
   | jump_statement
   | throw_statement
   | try_catch_statement
+  | llvm_store
   ;
 
 print_statement
@@ -1363,6 +1376,7 @@ primary_expression
   | static_method_call
   | llvm_function_call
   | llvm_reference
+  | llvm_dereference
   | '(' expression ')' { $$ = $2; }
   | TNULL { $$ = new NullExpression(yylineno); }
   ;

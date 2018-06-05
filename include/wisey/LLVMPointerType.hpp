@@ -41,6 +41,11 @@ namespace wisey {
      */
     const LLVMPointerOwnerType* getOwner() const;
     
+    /**
+     * Returns base type
+     */
+    const ILLVMType* getBaseType() const;
+    
     std::string getTypeName() const override;
     
     llvm::PointerType* getLLVMType(IRGenerationContext& context) const override;

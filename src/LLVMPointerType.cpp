@@ -39,6 +39,10 @@ const LLVMPointerOwnerType* LLVMPointerType::getOwner() const {
   return mPointerOwnerType;
 }
 
+const ILLVMType* LLVMPointerType::getBaseType() const {
+  return mBaseType;
+}
+
 LLVMPointerType* LLVMPointerType::create(const ILLVMType* baseType) {
   return new LLVMPointerType(baseType, 2);
 }

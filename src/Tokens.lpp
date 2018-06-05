@@ -57,6 +57,7 @@ WS  [ \t\v\n\f]
 "/*"                          { comment(); }
 "//".*                        { }
 "::array"                     return TOKEN(TLLVMARRAY);
+"::dereference"               return TOKEN(TLLVMDEREFERENCE);
 "::function"                  return TOKEN(TLLVMFUNCTION);
 "::i1"                        return TOKEN(TLLVMI1);
 "::i8"                        return TOKEN(TLLVMI8);
@@ -68,6 +69,7 @@ WS  [ \t\v\n\f]
 "::object"                    return TOKEN(TWISEYOBJECT);
 "::pointer"                   return TOKEN(TLLVMPOINTER);
 "::reference"                 return TOKEN(TLLVMREFERENCE);
+"::store"                     return TOKEN(TLLVMSTORE);
 "::struct"                    return TOKEN(TLLVMSTRUCT);
 "::void"                      return TOKEN(TLLVMVOID);
 "::wisey"                     return TOKEN(TWISEY);
