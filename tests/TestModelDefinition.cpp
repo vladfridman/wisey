@@ -333,10 +333,10 @@ TEST_F(ModelDefinitionTest, modelWithInjectedFieldDeathTest) {
   ON_CALL(*objectSpecifier, getType(_)).WillByDefault(Return(&object));
   
   InjectionArgumentList arguments;
-  InjectedFieldDefinition* field1 = new InjectedFieldDefinition(objectSpecifier,
-                                                                "field1",
-                                                                arguments,
-                                                                1);
+  InjectedFieldDefinition* field1 = InjectedFieldDefinition::createDelayed(objectSpecifier,
+                                                                           "field1",
+                                                                           arguments,
+                                                                           1);
   mObjectElements.push_back(field1);
   
   mObjectElements.push_back(mMethodDefinition);

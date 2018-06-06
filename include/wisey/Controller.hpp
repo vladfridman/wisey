@@ -281,7 +281,10 @@ namespace wisey {
 
     void initializeReceivedFields(IRGenerationContext& context,
                                   llvm::Function* function,
-                                  llvm::Instruction* malloc) const;
+                                  llvm::Instruction* objectStart) const;
+
+    void injectInjectedFields(IRGenerationContext& context,
+                              llvm::Instruction* objectStart) const;
 
     std::string getInjectFunctionName() const;
 

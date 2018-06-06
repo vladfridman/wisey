@@ -82,7 +82,12 @@ public:
     controllerStructType->setBody(controllerTypes);
     vector<IField*> controllerFields;
     InjectionArgumentList fieldArguments;
-    mField = new InjectedField(mType, mType, "mFoo", fieldArguments, "/tmp/source.yz", 1);
+    mField = InjectedField::createDelayed(mType,
+                                          mType,
+                                          "mFoo",
+                                          fieldArguments,
+                                          "/tmp/source.yz",
+                                          1);
     controllerFields.push_back(mField);
     mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                             controllerFullName,
@@ -134,43 +139,97 @@ public:
 };
 
 TEST_F(InjectedFieldTest, fieldCreationTest) {
-  InjectedField field(mType, mInjectedType, mName, mInjectionArgumentList, "", 0);
+  InjectedField* field = InjectedField::createDelayed(mType,
+                                                      mInjectedType,
+                                                      mName,
+                                                      mInjectionArgumentList,
+                                                      "",
+                                                      0);
   
-  EXPECT_EQ(field.getType(), mType);
-  EXPECT_STREQ(field.getName().c_str(), "mField");
-  EXPECT_TRUE(field.isAssignable(mObjectType));
+  EXPECT_EQ(field->getType(), mType);
+  EXPECT_STREQ(field->getName().c_str(), "mField");
+  EXPECT_TRUE(field->isAssignable(mObjectType));
 
-  EXPECT_TRUE(field.isInjected());
-  EXPECT_FALSE(field.isReceived());
-  EXPECT_FALSE(field.isState());
+  EXPECT_TRUE(field->isInjected());
+  EXPECT_FALSE(field->isReceived());
+  EXPECT_FALSE(field->isState());
 }
 
 TEST_F(InjectedFieldTest, elementTypeTest) {
-  InjectedField field(mType, mInjectedType, mName, mInjectionArgumentList, "", 0);
-
-  EXPECT_FALSE(field.isConstant());
-  EXPECT_TRUE(field.isField());
-  EXPECT_FALSE(field.isMethod());
-  EXPECT_FALSE(field.isStaticMethod());
-  EXPECT_FALSE(field.isMethodSignature());
-  EXPECT_FALSE(field.isLLVMFunction());
+  InjectedField* field = InjectedField::createDelayed(mType,
+                                                      mInjectedType,
+                                                      mName,
+                                                      mInjectionArgumentList,
+                                                      "",
+                                                      0);
+  
+  EXPECT_FALSE(field->isConstant());
+  EXPECT_TRUE(field->isField());
+  EXPECT_FALSE(field->isMethod());
+  EXPECT_FALSE(field->isStaticMethod());
+  EXPECT_FALSE(field->isMethodSignature());
+  EXPECT_FALSE(field->isLLVMFunction());
 }
 
 TEST_F(InjectedFieldTest, fieldPrintToStreamTest) {
-  InjectedField field(mType, mInjectedType, mName, mInjectionArgumentList, "", 0);
+  InjectedField* field = InjectedField::createImmediate(mType,
+                                                        mInjectedType,
+                                                        mName,
+                                                        mInjectionArgumentList,
+                                                        "",
+                                                        0);
 
   stringstream stringStream;
-  field.printToStream(mContext, stringStream);
+  field->printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("  inject MInjectedObject* mField.withFoo(expression);\n",
+  EXPECT_STREQ("  inject immediate MInjectedObject* mField.withFoo(expression);\n",
                stringStream.str().c_str());
 }
 
 TEST_F(InjectedFieldTest, injectTest) {
-  InjectedField field(mType, mInjectedType, mName, mInjectionArgumentList, "", 0);
+  InjectedField* field = InjectedField::createDelayed(mType,
+                                                      mInjectedType,
+                                                      mName,
+                                                      mInjectionArgumentList,
+                                                      "",
+                                                      0);
   EXPECT_CALL(*mInjectedType, inject(_, _, _));
 
-  field.inject(mContext);
+  field->inject(mContext);
+}
+
+TEST_F(InjectedFieldTest, getValueForDelayedInjectedFieldTest) {
+  mContext.getScopes().setVariable(mContext, mThisVariable);
+  mField->declareInjectionFunction(mContext, mController);
+  Value* null = ConstantPointerNull::get(mType->getLLVMType(mContext)->getPointerTo());
+  mField->getValue(mContext, mController, null, 0);
+  
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:                                            ; No predecessors!"
+  "\n  %0 = call i8* @systems.vos.wisey.compiler.tests.CController.mFoo.inject(%systems.vos.wisey.compiler.tests.CController* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8** null)\n";
+  
+  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
+}
+
+TEST_F(InjectedFieldTest, getValueForImmediateInjectedFieldTest) {
+  InjectionArgumentList fieldArguments;
+  InjectedField* field = InjectedField::createImmediate(mType,
+                                                        mType,
+                                                        "mFoo",
+                                                        fieldArguments,
+                                                        "/tmp/source.yz",
+                                                        1);
+
+  Value* null = ConstantPointerNull::get(mType->getLLVMType(mContext)->getPointerTo());
+  field->getValue(mContext, mController, null, 0);
+  
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:                                            ; No predecessors!"
+  "\n  %mFoo = load i8*, i8** null\n";
+  
+  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
 TEST_F(InjectedFieldTest, declareInjectionFunctionTest) {
@@ -194,20 +253,6 @@ TEST_F(InjectedFieldTest, declareInjectionFunctionTest) {
                                                  false);
   
   EXPECT_EQ(functionType, function->getFunctionType());
-}
-
-TEST_F(InjectedFieldTest, callInjectFunctionTest) {
-  mContext.getScopes().setVariable(mContext, mThisVariable);
-  mField->declareInjectionFunction(mContext, mController);
-  Value* null = ConstantPointerNull::get(mType->getLLVMType(mContext)->getPointerTo());
-  mField->callInjectFunction(mContext, mController, null, 0);
-  
-  *mStringStream << *mBasicBlock;
-  string expected =
-  "\nentry:                                            ; No predecessors!"
-  "\n  %0 = call i8* @systems.vos.wisey.compiler.tests.CController.mFoo.inject(%systems.vos.wisey.compiler.tests.CController* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8** null)\n";
-  
-  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
 TEST_F(InjectedFieldTest, defineInjectionFunctionTest) {
@@ -247,8 +292,12 @@ TEST_F(InjectedFieldTest, defineInjectionFunctionTest) {
 TEST_F(InjectedFieldTest, checkOwnerTypeTest) {
   vector<IField*> controllerFields;
   InjectionArgumentList fieldArguments;
-  InjectedField* injectedField =
-  new InjectedField(mType, mController->getOwner(), "mFoo", fieldArguments, "/tmp/source.yz", 1);
+  InjectedField* injectedField = InjectedField::createDelayed(mType,
+                                                              mController->getOwner(),
+                                                              "mFoo",
+                                                              fieldArguments,
+                                                              "/tmp/source.yz",
+                                                              1);
 
   EXPECT_NO_THROW(injectedField->checkType(mContext));
 }
@@ -256,8 +305,12 @@ TEST_F(InjectedFieldTest, checkOwnerTypeTest) {
 TEST_F(InjectedFieldTest, checkReferenceTypeDeathTest) {
   vector<IField*> controllerFields;
   InjectionArgumentList fieldArguments;
-  InjectedField* injectedField =
-  new InjectedField(mType, mController, "mFoo", fieldArguments, "/tmp/source.yz", 1);
+  InjectedField* injectedField = InjectedField::createDelayed(mType,
+                                                              mController,
+                                                              "mFoo",
+                                                              fieldArguments,
+                                                              "/tmp/source.yz",
+                                                              1);
 
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
@@ -269,7 +322,13 @@ TEST_F(InjectedFieldTest, checkReferenceTypeDeathTest) {
 }
 
 TEST_F(InjectedFieldTest, injectInterfaceNotBoundWithArgumentsDeathTest) {
-  InjectedField field(mObjectOwnerType, mObjectOwnerType, mName, mInjectionArgumentList, "", 5);
+  InjectedField* field = InjectedField::createDelayed(mType,
+                                                      mObjectOwnerType,
+                                                      mName,
+                                                      mInjectionArgumentList,
+                                                      "",
+                                                      5);
+  
   ON_CALL(*mObjectOwnerType, isOwner()).WillByDefault(Return(true));
   ON_CALL(*mObjectOwnerType, isInterface()).WillByDefault(Return(true));
   ON_CALL(*mObjectOwnerType, getReference()).WillByDefault(Return(mObjectType));
@@ -277,7 +336,7 @@ TEST_F(InjectedFieldTest, injectInterfaceNotBoundWithArgumentsDeathTest) {
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
 
-  EXPECT_ANY_THROW(field.checkType(mContext));
+  EXPECT_ANY_THROW(field->checkType(mContext));
   EXPECT_STREQ("/tmp/source.yz(5): Error: Arguments are not allowed for injection of interfaces that are not bound to controllers\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);

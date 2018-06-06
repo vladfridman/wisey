@@ -15,6 +15,8 @@
 
 namespace wisey {
   
+  class IConcreteObjectType;
+  
   /**
    * Represents a field in a concrete object
    */
@@ -31,6 +33,14 @@ namespace wisey {
      * Returns field type
      */
     virtual const IType* getType() const = 0;
+    
+    /**
+     * Returns field value
+     */
+    virtual llvm::Value* getValue(IRGenerationContext& context,
+                                  const IConcreteObjectType* object,
+                                  llvm::Value* fieldPointer,
+                                  int line) const = 0;
     
     /**
      * Returns the line where the field is defined

@@ -283,9 +283,11 @@ void Controller::composeInjectFunctionBody(IRGenerationContext& context,
                                            const void* objectType) {
   LLVMContext& llvmContext = context.getLLVMContext();
   const Controller* controller = (const Controller*) objectType;
+  BasicBlock* declareBlock = BasicBlock::Create(llvmContext, "declare", function);
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function);
   context.getScopes().pushScope();
   context.setBasicBlock(entryBlock);
+  context.setDeclarationsBlock(declareBlock);
   context.setObjectType(controller);
     
   Instruction* malloc = createMallocForObject(context, controller, "injectvar");
@@ -295,9 +297,13 @@ void Controller::composeInjectFunctionBody(IRGenerationContext& context,
   Instruction* objectStart = IRWriter::createGetElementPtrInst(context, malloc, index);
   
   controller->initializeReceivedFields(context, function, objectStart);
+  controller->injectInjectedFields(context, objectStart);
   initializeVTable(context, controller, objectStart);
   IRWriter::createReturnInst(context, objectStart);
-  
+
+  context.setBasicBlock(declareBlock);
+  IRWriter::createBranch(context, entryBlock);
+
   context.getScopes().popScope(context, 0);
 }
 
@@ -727,7 +733,7 @@ void Controller:: checkReceivedValuesAreForReceivedFields(IRGenerationContext& c
 
 void Controller::initializeReceivedFields(IRGenerationContext& context,
                                           llvm::Function* function,
-                                          Instruction* malloc) const {
+                                          Instruction* objectStart) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Function::arg_iterator functionArguments = function->arg_begin();
   llvm::Argument* thread = &*functionArguments;
@@ -743,7 +749,9 @@ void Controller::initializeReceivedFields(IRGenerationContext& context,
     Value* functionArgument = &*functionArguments;
     functionArgument->setName(field->getName());
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
-    GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
+    GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context,
+                                                                        objectStart,
+                                                                        index);
     IRWriter::newStoreInst(context, functionArgument, fieldPointer);
     const IType* fieldType = field->getType();
     if (fieldType->isReference()) {
@@ -753,14 +761,43 @@ void Controller::initializeReceivedFields(IRGenerationContext& context,
   }
 }
 
+void Controller::injectInjectedFields(IRGenerationContext& context,
+                                      Instruction* objectStart) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
+  Value* index[2];
+  index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  for (InjectedField* field : mInjectedFields) {
+    if (!field->isImmediate()) {
+      continue;
+    }
+    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
+    GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context,
+                                                                        objectStart,
+                                                                        index);
+    Value* injectedValue = field->inject(context);
+    IRWriter::newStoreInst(context, injectedValue, fieldPointer);
+    const IType* fieldType = field->getType();
+    if (fieldType->isReference()) {
+      ((const IReferenceType*) fieldType)->incrementReferenceCount(context, injectedValue);
+    }
+  }
+}
+
 void Controller::defineFieldInjectorFunctions(IRGenerationContext& context, int line) const {
   for (InjectedField* field : mInjectedFields) {
+    if (field->isImmediate()) {
+      continue;
+    }
     field->defineInjectionFunction(context, this);
   }
 }
 
 void Controller::declareFieldInjectionFunctions(IRGenerationContext& context, int line) const {
   for (InjectedField* field : mInjectedFields) {
+    if (field->isImmediate()) {
+      continue;
+    }
     field->declareInjectionFunction(context, this);
   }
 }

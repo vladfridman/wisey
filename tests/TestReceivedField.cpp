@@ -10,6 +10,8 @@
 
 #include <gtest/gtest.h>
 
+#include <llvm/Support/raw_ostream.h>
+
 #include "MockConcreteObjectType.hpp"
 #include "MockType.hpp"
 #include "TestFileRunner.hpp"
@@ -29,23 +31,43 @@ using ::testing::Test;
 
 struct ReceivedFieldTest : public Test {
   IRGenerationContext mContext;
+  LLVMContext& mLLVMContext;
   NiceMock<MockType>* mType;
   NiceMock<MockConcreteObjectType>* mObject;
   string mName;
   ReceivedField* mField;
-  
+  BasicBlock* mBasicBlock;
+  Function* mFunction;
+  string mStringBuffer;
+  raw_string_ostream* mStringStream;
+
 public:
   
   ReceivedFieldTest() :
+  mLLVMContext(mContext.getLLVMContext()),
   mType(new NiceMock<MockType>()),
   mObject(new NiceMock<MockConcreteObjectType>()),
   mName("mField") {
     TestPrefix::generateIR(mContext);
     
     ON_CALL(*mType, getTypeName()).WillByDefault(Return("MObject*"));
+    ON_CALL(*mType, getLLVMType(_)).WillByDefault(Return(Type::getInt8Ty(mLLVMContext)));
     EXPECT_CALL(*mType, die());
     
     mField = new ReceivedField(mType, mName, 7);
+
+    mStringStream = new raw_string_ostream(mStringBuffer);
+
+    FunctionType* functionType =
+    FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
+    mFunction = Function::Create(functionType,
+                                 GlobalValue::InternalLinkage,
+                                 "main",
+                                 mContext.getModule());
+    BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setDeclarationsBlock(declareBlock);
+    mContext.setBasicBlock(mBasicBlock);
   }
   
   ~ReceivedFieldTest() {
@@ -79,6 +101,16 @@ TEST_F(ReceivedFieldTest, elementTypeTest) {
   EXPECT_FALSE(mField->isStaticMethod());
   EXPECT_FALSE(mField->isMethodSignature());
   EXPECT_FALSE(mField->isLLVMFunction());
+}
+
+TEST_F(ReceivedFieldTest, getValueTest) {
+  Value* null = ConstantPointerNull::get(mField->getType()->getLLVMType(mContext)->getPointerTo());
+  Value* instruction = mField->getValue(mContext, mObject, null, 0);
+  
+  *mStringStream << *instruction;
+  string expected = "  %mField = load i8, i8* null";
+  
+  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
 TEST_F(ReceivedFieldTest, checkTypePrimitiveTypeTest) {

@@ -9,10 +9,10 @@ import wisey.lang.MSystem;
 controller CCallStack {
   public constant int CALL_STACK_SIZE = 1024;
 
-  inject string[CALL_STACK_SIZE]* mCallStackObjectNames;
-  inject string[CALL_STACK_SIZE]* mCallStackMethodNames;
-  inject string[CALL_STACK_SIZE]* mCallStackFileNames;
-  inject int[CALL_STACK_SIZE]* mCallStackLineNumbers;
+  inject immediate string[CALL_STACK_SIZE]* mCallStackObjectNames;
+  inject immediate string[CALL_STACK_SIZE]* mCallStackMethodNames;
+  inject immediate string[CALL_STACK_SIZE]* mCallStackFileNames;
+  inject immediate int[CALL_STACK_SIZE]* mCallStackLineNumbers;
   state int mCallIStackIndex;
 
   /**

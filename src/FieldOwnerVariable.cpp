@@ -53,13 +53,7 @@ Value* FieldOwnerVariable::generateIdentifierIR(IRGenerationContext& context, in
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
   IField* field = mObject->findField(mName);
 
-  if (!field->isInjected()) {
-    return IRWriter::newLoadInst(context, fieldPointer, mName);
-  }
-  
-  assert(mObject->isController() && "Injected field in an object other than controller");
-  const Controller* controller  = (const Controller*) mObject;
-  return ((InjectedField* ) field)->callInjectFunction(context, controller, fieldPointer, line);
+  return field->getValue(context, mObject, fieldPointer, line);
 }
 
 Value* FieldOwnerVariable::generateIdentifierReferenceIR(IRGenerationContext& context,

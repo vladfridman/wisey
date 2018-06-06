@@ -36,6 +36,11 @@ namespace wisey {
     
     const IType* getType() const override;
     
+    llvm::Value* getValue(IRGenerationContext& context,
+                          const IConcreteObjectType* object,
+                          llvm::Value* fieldPointer,
+                          int line) const override;
+
     int getLine() const override;
     
     bool isAssignable(const IConcreteObjectType* object) const override;

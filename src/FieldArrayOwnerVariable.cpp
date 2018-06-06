@@ -56,14 +56,8 @@ const ArrayOwnerType* FieldArrayOwnerVariable::getType() const {
 Value* FieldArrayOwnerVariable::generateIdentifierIR(IRGenerationContext& context, int line) const {
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
   IField* field = mObject->findField(mName);
-  
-  if (!field->isInjected()) {
-    return IRWriter::newLoadInst(context, fieldPointer, "");
-  }
-  
-  assert(mObject->isController() && "Injected field in an object other than controller");
-  const Controller* controller  = (const Controller*) mObject;
-  return ((InjectedField* ) field)->callInjectFunction(context, controller, fieldPointer, line);
+
+  return field->getValue(context, mObject, fieldPointer, line);
 }
 
 Value* FieldArrayOwnerVariable::generateIdentifierReferenceIR(IRGenerationContext& context,
@@ -109,18 +103,7 @@ Value* FieldArrayOwnerVariable::generateArrayElementAssignment(IRGenerationConte
                                                                int line) {
   IField* field = checkAndFindField(context, mObject, mName, line);
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName, line);
-  
-  Value* arrayPointer = NULL;
-  if (field->isInjected()) {
-    assert(mObject->isController() && "Injected array field in an object other than controller");
-    const Controller* controller  = (const Controller*) mObject;
-    arrayPointer = ((InjectedField* ) field)->callInjectFunction(context,
-                                                                 controller,
-                                                                 fieldPointer,
-                                                                 line);
-  } else {
-    arrayPointer = IRWriter::newLoadInst(context, fieldPointer, "");
-  }
+  Value* arrayPointer = field->getValue(context, mObject, fieldPointer, line);
 
   const IType* fieldType = field->getType();
   assert(fieldType->isArray() && fieldType->isOwner() && !fieldType->isImmutable());

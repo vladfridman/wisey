@@ -9,8 +9,10 @@
 #include "wisey/ArraySpecificOwnerType.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/IRWriter.hpp"
 #include "wisey/ReceivedField.hpp"
 
+using namespace llvm;
 using namespace std;
 using namespace wisey;
 
@@ -35,6 +37,13 @@ void ReceivedField::checkType(IRGenerationContext& context) const {
 
 const IType* ReceivedField::getType() const {
   return mType;
+}
+
+Value* ReceivedField::getValue(IRGenerationContext& context,
+                               const IConcreteObjectType* object,
+                               Value* fieldPointer,
+                               int line) const {
+  return IRWriter::newLoadInst(context, fieldPointer, mName);
 }
 
 string ReceivedField::getName() const {

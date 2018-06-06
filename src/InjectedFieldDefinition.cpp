@@ -18,22 +18,40 @@ using namespace wisey;
 InjectedFieldDefinition::InjectedFieldDefinition(const ITypeSpecifier* typeSpecifier,
                                                  string name,
                                                  InjectionArgumentList injectionArguments,
+                                                 bool isImmediate,
                                                  int line) :
 mTypeSpecifier(typeSpecifier),
 mName(name),
-mInjectionArgumentList(injectionArguments),
+mInjectionArguments(injectionArguments),
+mIsImmediate(isImmediate),
 mLine(line) { }
 
 InjectedFieldDefinition::~InjectedFieldDefinition() {
   delete mTypeSpecifier;
-  for (InjectionArgument* injectionArgument : mInjectionArgumentList) {
+  for (InjectionArgument* injectionArgument : mInjectionArguments) {
     delete injectionArgument;
   }
-  mInjectionArgumentList.clear();
+  mInjectionArguments.clear();
+}
+
+InjectedFieldDefinition* InjectedFieldDefinition::
+createDelayed(const ITypeSpecifier* typeSpecifier,
+              std::string name,
+              InjectionArgumentList injectionArguments,
+              int line) {
+  return new InjectedFieldDefinition(typeSpecifier, name, injectionArguments, false, line);
+}
+
+InjectedFieldDefinition* InjectedFieldDefinition::
+createImmediate(const ITypeSpecifier* typeSpecifier,
+                std::string name,
+                InjectionArgumentList injectionArguments,
+                int line) {
+  return new InjectedFieldDefinition(typeSpecifier, name, injectionArguments, true, line);
 }
 
 IField* InjectedFieldDefinition::define(IRGenerationContext& context,
-                                         const IObjectType* objectType) const {
+                                        const IObjectType* objectType) const {
   const IType* fieldType = mTypeSpecifier->getType(context);
   
   const IType* injectedType = NULL;
@@ -46,8 +64,19 @@ IField* InjectedFieldDefinition::define(IRGenerationContext& context,
   }
   
   string sourceFile = context.getImportProfile()->getSourceFileName();
-  InjectedField* injectedField =
-  new InjectedField(fieldType, injectedType, mName, mInjectionArgumentList, sourceFile, mLine);
+  InjectedField* injectedField = mIsImmediate
+  ? InjectedField::createImmediate(fieldType,
+                                   injectedType,
+                                   mName,
+                                   mInjectionArguments,
+                                   sourceFile,
+                                   mLine)
+  : InjectedField::createDelayed(fieldType,
+                                 injectedType,
+                                 mName,
+                                 mInjectionArguments,
+                                 sourceFile,
+                                 mLine);
   injectedField->checkType(context);
   
   return injectedField;

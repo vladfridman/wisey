@@ -68,7 +68,7 @@ TEST_F(TestFileRunner, threadThrowConcealedCallExceptionDeathRunTest) {
                                1,
                                "",
                                "Unhandled exception wisey.threads.MThreadBoundaryException\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_thread_throw_concealed_call_exception.yz:19)\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_thread_throw_concealed_call_exception.yz:20)\n"
                                "Details: method internal to the thread is called from outside the thread\n"
                                "Main thread ended without a result\n");
 }

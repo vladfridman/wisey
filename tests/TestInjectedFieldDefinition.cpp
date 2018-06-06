@@ -57,7 +57,10 @@ public:
     ON_CALL(*mObjectOwnerType, isController()).WillByDefault(Return(true));
     ON_CALL(*mObjectOwnerType, getReference()).WillByDefault(Return(mObjectType));
 
-    mFieldDeclaration = new InjectedFieldDefinition(ownerSpecifier, mName, mArguments, 0);
+    mFieldDeclaration = InjectedFieldDefinition::createDelayed(ownerSpecifier,
+                                                               mName,
+                                                               mArguments,
+                                                               0);
   }
   
   ~InjectedFieldDefinitionTest() {

@@ -24,18 +24,36 @@ namespace wisey {
   class InjectedFieldDefinition : public IObjectElementDefinition {
     const ITypeSpecifier* mTypeSpecifier;
     std::string mName;
-    InjectionArgumentList mInjectionArgumentList;
+    InjectionArgumentList mInjectionArguments;
+    bool mIsImmediate;
     int mLine;
-    
-  public:
     
     InjectedFieldDefinition(const ITypeSpecifier* typeSpecifier,
                             std::string name,
                             InjectionArgumentList injectionArguments,
+                            bool isImmediate,
                             int line);
+    
+  public:
     
     ~InjectedFieldDefinition();
     
+    /**
+     * Create an instance of InjectedFieldDefinition where the field is dalyed injected
+     */
+    static InjectedFieldDefinition* createDelayed(const ITypeSpecifier* typeSpecifier,
+                                                  std::string name,
+                                                  InjectionArgumentList injectionArguments,
+                                                  int line);
+    
+    /**
+     * Create an instance of InjectedFieldDefinition where the field is immediately injected
+     */
+    static InjectedFieldDefinition* createImmediate(const ITypeSpecifier* typeSpecifier,
+                                                    std::string name,
+                                                    InjectionArgumentList injectionArguments,
+                                                    int line);
+
     IField* define(IRGenerationContext& context, const IObjectType* objectType) const override;
     
     bool isConstant() const override;

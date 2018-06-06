@@ -27,6 +27,7 @@ InjectedField::InjectedField(const IType* type,
                              std::string name,
                              InjectionArgumentList injectionArgumentList,
                              std::string sourceFileName,
+                             bool isImmediate,
                              int line) :
 mType(type),
 mInjectedType(injectedType),
@@ -34,6 +35,7 @@ mIsArrayType(injectedType->isArray()),
 mName(name),
 mInjectionArgumentList(injectionArgumentList),
 mSourceFileName(sourceFileName),
+mIsImmediate(isImmediate),
 mLine(line) {
   assert(injectedType);
 }
@@ -44,6 +46,24 @@ InjectedField::~InjectedField() {
   if (mIsArrayType) {
     delete ((const ArraySpecificOwnerType*) mInjectedType)->getArraySpecificType();
   }
+}
+
+InjectedField* InjectedField::createDelayed(const IType* type,
+                                            const IType* injectedType,
+                                            std::string name,
+                                            InjectionArgumentList injectionArguments,
+                                            std::string sourceFile,
+                                            int line) {
+  return new InjectedField(type, injectedType, name, injectionArguments, sourceFile, false, line);
+}
+
+InjectedField* InjectedField::createImmediate(const IType* type,
+                                              const IType* injectedType,
+                                              std::string name,
+                                              InjectionArgumentList injectionArguments,
+                                              std::string sourceFile,
+                                              int line) {
+  return new InjectedField(type, injectedType, name, injectionArguments, sourceFile, true, line);
 }
 
 int InjectedField::getLine() const {
@@ -133,8 +153,21 @@ void InjectedField::checkInjectionArguments(IRGenerationContext& context) const 
   }
 }
 
+bool InjectedField::isImmediate() const {
+  return mIsImmediate;
+}
+
+Value* InjectedField::getValue(IRGenerationContext& context,
+                               const IConcreteObjectType* controller,
+                               Value* fieldPointer,
+                               int line) const {
+  return mIsImmediate
+  ? IRWriter::newLoadInst(context, fieldPointer, mName)
+  : callInjectFunction(context, controller, fieldPointer, line);
+}
+
 Value* InjectedField::callInjectFunction(IRGenerationContext& context,
-                                         const Controller* controller,
+                                         const IConcreteObjectType* controller,
                                          Value* fieldPointer,
                                          int line) const {
   Function* function = context.getModule()->getFunction(getInjectionFunctionName(controller));
@@ -253,7 +286,7 @@ void InjectedField::composeInjectFunctionBody(IRGenerationContext& context,
   IRWriter::createBranch(context, entryBlock);
 }
 
-string InjectedField::getInjectionFunctionName(const Controller* controller) const {
+string InjectedField::getInjectionFunctionName(const IConcreteObjectType* controller) const {
   return controller->getTypeName() + "." + mName + ".inject";
 }
 
@@ -302,7 +335,11 @@ bool InjectedField::isState() const {
 }
 
 void InjectedField::printToStream(IRGenerationContext& context, iostream& stream) const {
-  stream << "  inject " << mInjectedType->getTypeName() << " " << getName();
+  stream << "  inject ";
+  if (mIsImmediate) {
+    stream << "immediate ";
+  }
+  stream << mInjectedType->getTypeName() << " " << getName();
   
   if (!mInjectionArgumentList.size()) {
     stream << ";" << endl;

@@ -320,12 +320,14 @@ struct ControllerTest : public Test {
     doublerStructType->setBody(doublerTypes);
     vector<IField*> doublerFields;
     InjectionArgumentList fieldArguments;
-    doublerFields.push_back(new InjectedField(PrimitiveTypes::INT,
-                                              PrimitiveTypes::INT,
-                                              "left",
-                                              fieldArguments,
-                                              mContext.getImportProfile()->getSourceFileName(),
-                                              3));
+    InjectedField* injectedField = InjectedField::createDelayed(PrimitiveTypes::INT,
+                                                                PrimitiveTypes::INT,
+                                                                "left",
+                                                                fieldArguments,
+                                                                mContext.getImportProfile()->
+                                                                getSourceFileName(),
+                                                                3);
+    doublerFields.push_back(injectedField);
     mDoublerController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                    doublerFullName,
                                                    doublerStructType,
@@ -685,7 +687,10 @@ TEST_F(ControllerTest, createInjectFunctionTest) {
   *mStringStream << *function;
   string expected =
   "\ndefine %systems.vos.wisey.compiler.tests.CAdditor* @systems.vos.wisey.compiler.tests.CAdditor.inject(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, %systems.vos.wisey.compiler.tests.NOwner* %mOwner, %systems.vos.wisey.compiler.tests.MReference* %mReference) {"
-  "\nentry:"
+  "\ndeclare:"
+  "\n  br label %entry"
+  "\n"
+  "\nentry:                                            ; preds = %declare"
   "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.CAdditor.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.CAdditor.refCounter, %systems.vos.wisey.compiler.tests.CAdditor.refCounter* null, i32 1) to i64))"
   "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.CAdditor.refCounter*"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CAdditor.refCounter* %injectvar to i8*"
@@ -865,12 +870,13 @@ TEST_F(ControllerTest, defineFieldInjectorFunctionsTest) {
   parentStructType->setBody(parentTypes);
   vector<IField*> parentFields;
   InjectionArgumentList fieldArguments;
-  parentFields.push_back(new InjectedField(childController->getOwner(),
-                                           childController->getOwner(),
-                                           "mChild",
-                                           fieldArguments,
-                                           mContext.getImportProfile()->getSourceFileName(),
-                                           3));
+  parentFields.push_back(InjectedField::createDelayed(childController->getOwner(),
+                                                      childController->getOwner(),
+                                                      "mChild",
+                                                      fieldArguments,
+                                                      mContext.getImportProfile()->
+                                                      getSourceFileName(),
+                                                      3));
   Controller* parentController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                            parentFullName,
                                                            parentStructType,
@@ -941,12 +947,13 @@ TEST_F(ControllerTest, declareFieldInjectionFunctionsTest) {
   parentStructType->setBody(parentTypes);
   vector<IField*> parentFields;
   InjectionArgumentList fieldArguments;
-  parentFields.push_back(new InjectedField(childController->getOwner(),
-                                           childController->getOwner(),
-                                           "mChild",
-                                           fieldArguments,
-                                           mContext.getImportProfile()->getSourceFileName(),
-                                           3));
+  parentFields.push_back(InjectedField::createDelayed(childController->getOwner(),
+                                                      childController->getOwner(),
+                                                      "mChild",
+                                                      fieldArguments,
+                                                      mContext.getImportProfile()->
+                                                      getSourceFileName(),
+                                                      3));
   Controller* parentController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                            parentFullName,
                                                            parentStructType,

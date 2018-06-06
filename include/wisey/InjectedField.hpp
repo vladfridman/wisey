@@ -28,19 +28,41 @@ namespace wisey {
     std::string mName;
     InjectionArgumentList mInjectionArgumentList;
     std::string mSourceFileName;
+    bool mIsImmediate;
     int mLine;
-    
-  public:
     
     InjectedField(const IType* type,
                   const IType* injectedType,
                   std::string name,
                   InjectionArgumentList injectionArgumentList,
                   std::string sourceFileName,
+                  bool isImmediate,
                   int line);
+
+  public:
     
     ~InjectedField();
     
+    /**
+     * Creates an instance of InjectedField that is delayed injected
+     */
+    static InjectedField* createDelayed(const IType* type,
+                                        const IType* injectedType,
+                                        std::string name,
+                                        InjectionArgumentList injectionArguments,
+                                        std::string sourceFile,
+                                        int line);
+    
+    /**
+     * Creates an instance of InjectedField that is delayed injected
+     */
+    static InjectedField* createImmediate(const IType* type,
+                                          const IType* injectedType,
+                                          std::string name,
+                                          InjectionArgumentList injectionArguments,
+                                          std::string sourceFile,
+                                          int line);
+
     /**
      * Injects the field type and returns the injected value
      */
@@ -59,15 +81,7 @@ namespace wisey {
     /**
      * Returns the name of the function that injects this field
      */
-    std::string getInjectionFunctionName(const Controller* controller) const;
-    
-    /**
-     * Calls the function that injects the field value and stores it at the provided location
-     */
-    llvm::Value* callInjectFunction(IRGenerationContext& context,
-                                    const Controller* controller,
-                                    llvm::Value* fieldPointer,
-                                    int line) const;
+    std::string getInjectionFunctionName(const IConcreteObjectType* controller) const;
     
     /**
      * Checks that field injected type is of object owner or array owner type
@@ -78,11 +92,21 @@ namespace wisey {
      * Checks that injection arguments are all there and match received types
      */
     void checkInjectionArguments(IRGenerationContext& context) const;
+    
+    /**
+     * Tells whether this is an immediate injection field
+     */
+    bool isImmediate() const;
 
     std::string getName() const override;
     
     const IType* getType() const override;
     
+    llvm::Value* getValue(IRGenerationContext& context,
+                          const IConcreteObjectType* object,
+                          llvm::Value* fieldPointer,
+                          int line) const override;
+
     int getLine() const override;
     
     bool isAssignable(const IConcreteObjectType* object) const override;
@@ -110,6 +134,11 @@ namespace wisey {
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
   private:
+    
+    llvm::Value* callInjectFunction(IRGenerationContext& context,
+                                    const IConcreteObjectType* controller,
+                                    llvm::Value* fieldPointer,
+                                    int line) const;
 
     static void composeInjectFunctionBody(IRGenerationContext& context,
                                           llvm::Function* function,

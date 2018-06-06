@@ -8,8 +8,10 @@
 
 #include "wisey/ArraySpecificOwnerType.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/IRWriter.hpp"
 #include "wisey/StateField.hpp"
 
+using namespace llvm;
 using namespace std;
 using namespace wisey;
 
@@ -24,6 +26,14 @@ const IType* StateField::getType() const {
 }
 
 void StateField::checkType(IRGenerationContext& context, const IObjectType* object) const {
+}
+
+
+Value* StateField::getValue(IRGenerationContext& context,
+                            const IConcreteObjectType* object,
+                            Value* fieldPointer,
+                            int line) const {
+  return IRWriter::newLoadInst(context, fieldPointer, mName);
 }
 
 string StateField::getName() const {

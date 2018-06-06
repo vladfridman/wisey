@@ -95,6 +95,7 @@ WS  [ \t\v\n\f]
 "float"                       return TOKEN(TTYPEFLOAT);
 "for"                         return TOKEN(TFOR);
 "if"                          return TOKEN(TIF);
+"immediate"                   return TOKEN(TIMMEDIATE);
 "immutable"                   return TOKEN(TIMMUTABLE);
 "implements"                  return TOKEN(TIMPLEMENTS);
 "import"                      return TOKEN(TIMPORT);
