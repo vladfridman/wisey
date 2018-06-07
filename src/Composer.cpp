@@ -87,26 +87,36 @@ void Composer::setLineNumber(IRGenerationContext& context, int line) {
     return;
   }
   
-  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
+  LLVMContext& llvmContext = context.getLLVMContext();
   IVariable* callStackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
+  Value* callStackValue = callStackVariable->generateIdentifierIR(context, 0);
   
-  Value* threadObject = threadVariable->generateIdentifierIR(context, 0);
-  Value* callStackObject = callStackVariable->generateIdentifierIR(context, 0);
-  
-  vector<Value*> arguments;
-  
-  Controller* callStackController = context.getController(Names::getCallStackControllerFullName(),
-                                                          0);
-  arguments.clear();
-  arguments.push_back(callStackObject);
-  arguments.push_back(threadObject);
-  arguments.push_back(callStackObject);
-  arguments.push_back(ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), line));
-  string functionName =
-  IMethodCall::translateObjectMethodToLLVMFunctionName(callStackController,
-                                                       Names::getSetLineNumberMethodName());
-  Function* function = context.getModule()->getFunction(functionName.c_str());
-  IRWriter::createCallInst(context, function, arguments, "");
+  Type* i32 = Type::getInt32Ty(llvmContext);
+  llvm::Constant* zero = ConstantInt::get(i32, 0);
+  llvm::Constant* one = ConstantInt::get(i32, 1);
+  llvm::Constant* two = ConstantInt::get(i32, 2);
+  llvm::Constant* three = ConstantInt::get(i32, 3);
+  PointerType* callStackStuct = getCCallStackStruct(context)->getPointerTo();
+  Value* callStack = IRWriter::newBitCastInst(context, callStackValue, callStackStuct);
+  Value* indexes[2];
+  indexes[0] = zero;
+  indexes[1] = three;
+  Value* callstackIndexStore = IRWriter::createGetElementPtrInst(context, callStack, indexes);
+  Value* callstackIndex = IRWriter::newLoadInst(context, callstackIndexStore, "");
+  Value* newCallstackIndex = IRWriter::createBinaryOperator(context,
+                                                            Instruction::Sub,
+                                                            callstackIndex,
+                                                            one,
+                                                            "");
+  indexes[1] = two;
+  Value* arrayStructPointer = IRWriter::createGetElementPtrInst(context, callStack, indexes);
+  Value* arrayStruct = IRWriter::newLoadInst(context, arrayStructPointer, "");
+  indexes[1] = three;
+  Value* arrayPointer = IRWriter::createGetElementPtrInst(context, arrayStruct, indexes);
+  indexes[1] = newCallstackIndex;
+  Value* lineStore = IRWriter::createGetElementPtrInst(context, arrayPointer, indexes);
+  llvm::Constant* lineNumber = ConstantInt::get(i32, line);
+  IRWriter::newStoreInst(context, lineNumber, lineStore);
 }
 
 bool Composer::shouldSkip(IRGenerationContext& context) {
@@ -130,5 +140,28 @@ bool Composer::shouldSkip(IRGenerationContext& context) {
     return true;
   }
   
+  if (context.isRunningComposingCallbacks()) {
+    return true;
+  }
+  
   return false;
+}
+
+StructType* Composer::getCCallStackStruct(IRGenerationContext& context) {
+  string structTypeName = "CCallStack";
+  StructType* structType = context.getModule()->getTypeByName(structTypeName);
+  if (structType) {
+    return structType;
+  }
+  
+  LLVMContext& llvmContext = context.getLLVMContext();
+  structType = StructType::create(llvmContext, structTypeName);
+  vector<Type*> bodyTypes;
+  bodyTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
+  bodyTypes.push_back(context.getArrayType(PrimitiveTypes::STRING, 1)->getLLVMType(context));
+  bodyTypes.push_back(context.getArrayType(PrimitiveTypes::INT, 1)->getLLVMType(context));
+  bodyTypes.push_back(PrimitiveTypes::INT->getLLVMType(context));
+  structType->setBody(bodyTypes);
+  
+  return structType;
 }

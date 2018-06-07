@@ -40,6 +40,8 @@ namespace wisey {
     
     static bool shouldSkip(IRGenerationContext& context);
     
+    static llvm::StructType* getCCallStackStruct(IRGenerationContext& context);
+    
   };
   
 } /* namespace wisey */

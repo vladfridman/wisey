@@ -136,7 +136,15 @@ TEST_F(ComposerTest, setLineNumberTestTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  call void @wisey.threads.CCallStack.setLine(%wisey.threads.CCallStack* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i32 5)\n";
+  "\n  %0 = bitcast %wisey.threads.CCallStack* null to %CCallStack*"
+  "\n  %1 = getelementptr %CCallStack, %CCallStack* %0, i32 0, i32 3"
+  "\n  %2 = load i32, i32* %1"
+  "\n  %3 = sub i32 %2, 1"
+  "\n  %4 = getelementptr %CCallStack, %CCallStack* %0, i32 0, i32 2"
+  "\n  %5 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %4"
+  "\n  %6 = getelementptr { i64, i64, i64, [0 x i32] }, { i64, i64, i64, [0 x i32] }* %5, i32 0, i32 3"
+  "\n  %7 = getelementptr [0 x i32], [0 x i32]* %6, i32 0, i32 %3"
+  "\n  store i32 5, i32* %7\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
   
   mStringBuffer.clear();

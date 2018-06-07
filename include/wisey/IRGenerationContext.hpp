@@ -73,6 +73,7 @@ namespace wisey {
     mComposingCallbacks2Objects;
     const IObjectType* mObjectType;
     const IMethod* mCurrentMethod;
+    bool mIsRunningComposingCallbacks;
     
   public:
     
@@ -328,6 +329,11 @@ namespace wisey {
      * Returns the currently processed method
      */
     const IMethod* getCurrentMethod() const;
+     
+    /**
+     * Tells whether compiler is running composing callbacks
+     */
+    bool isRunningComposingCallbacks() const;
     
     /**
      * Print a compile error message

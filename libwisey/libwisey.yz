@@ -444,8 +444,6 @@ external controller wisey.threads.CCallStack {
   void pushStack(
     string callInfo,
     int lineNumber);
-  void setLine(
-    int lineNumber);
   void popStack();
   void dumpStack();
   void reportException(

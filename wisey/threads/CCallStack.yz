@@ -26,16 +26,6 @@ controller CCallStack {
   }
 
   /**
-   * Sets the current line number
-   */
-  public void setLine(int lineNumber) {
-    if (mIndex == 0) {
-      return;
-    }
-    mLineNumbers[mIndex - 1] = lineNumber;
-  }
-
-  /**
    * Pops the method call stack
    */
   public void popStack() {

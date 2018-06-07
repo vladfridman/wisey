@@ -27,7 +27,8 @@ mBasicBlock(NULL),
 mImportProfile(NULL),
 mIsDestructorDebugOn(false),
 mObjectType(NULL),
-mCurrentMethod(NULL) {
+mCurrentMethod(NULL),
+mIsRunningComposingCallbacks(false) {
   mModuleOwner = llvm::make_unique<llvm::Module>("wisey", mLLVMContext);
   mModule = mModuleOwner.get();
 }
@@ -591,7 +592,7 @@ void IRGenerationContext::addComposingCallback2Objects(ComposingFunction2Objects
 }
 
 void IRGenerationContext::runComposingCallbacks() {
-  
+  mIsRunningComposingCallbacks = true;
   while(mComposingCallbacks0Objects.size() ||
         mComposingCallbacks1Objects.size() ||
         mComposingCallbacks2Objects.size()) {
@@ -644,6 +645,10 @@ void IRGenerationContext::setCurrentMethod(const IMethod* method) {
 
 const IMethod* IRGenerationContext::getCurrentMethod() const {
   return mCurrentMethod;
+}
+
+bool IRGenerationContext::isRunningComposingCallbacks() const {
+  return mIsRunningComposingCallbacks;
 }
 
 void IRGenerationContext::reportError(int line, string message) const {
