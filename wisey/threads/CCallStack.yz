@@ -14,13 +14,6 @@ controller CCallStack {
   state int mIndex;
 
   /**
-   * Pops the method call stack
-   */
-  public void popStack() {
-    mIndex--;
-  }
-
-  /**
    * Throws stack overflo exception
    */
   public static void throwStackOverflowException() {
