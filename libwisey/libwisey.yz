@@ -441,7 +441,6 @@ external controller wisey.threads.CCallStack {
 
   constant int CALL_STACK_SIZE;
 
-  void popStack();
   static void throwStackOverflowException();
   void dumpStack();
   void reportException(
