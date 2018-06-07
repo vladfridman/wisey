@@ -159,21 +159,21 @@ namespace wisey {
      * Returns name of the setInstance method of CContextManager
      */
     static std::string getSetInstanceMethodName();
-
-    /**
-     * Get the method for pushing the call stack
-     */
-    static std::string getPushStackMethodName();
     
     /**
      * Get the method for popping the call stack
      */
-    static std::string getPopStackMethoName();
+    static std::string getPopStackMethodName();
     
     /**
-     * Get the method for setting the current line number
+     * Get the method that throws stack overflow exception
      */
-    static std::string getSetLineNumberMethodName();
+    static std::string getThrowStackOverflowMethodName();
+    
+    /**
+     * Returns the name of the constant containing call stack max size
+     */
+    static std::string getCallStackSizeConstantName();
 
   };
   

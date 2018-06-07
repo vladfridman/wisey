@@ -105,9 +105,9 @@ void ArrayAllocation::initializeEmptyArray(IRGenerationContext& context,
   }
   
   Function* function = context.getBasicBlock()->getParent();
-  BasicBlock* forCond = BasicBlock::Create(context.getLLVMContext(), "for.cond", function);
-  BasicBlock* forBody = BasicBlock::Create(context.getLLVMContext(), "for.body", function);
-  BasicBlock* forEnd = BasicBlock::Create(context.getLLVMContext(), "for.end", function);
+  BasicBlock* forCond = BasicBlock::Create(llvmContext, "for.cond", function);
+  BasicBlock* forBody = BasicBlock::Create(llvmContext, "for.body", function);
+  BasicBlock* forEnd = BasicBlock::Create(llvmContext, "for.end", function);
 
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), ArrayType::ARRAY_ELEMENTS_START_INDEX);
   Value* arrayPointer = IRWriter::createGetElementPtrInst(context, int64ArrayPointer, index);

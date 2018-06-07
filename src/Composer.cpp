@@ -26,34 +26,90 @@ void Composer::pushCallStack(IRGenerationContext& context, int line) {
     return;
   }
 
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
+  Function* function = context.getBasicBlock()->getParent();
+  BasicBlock* ifOverflowBlock = BasicBlock::Create(llvmContext, "if.overflow", function);
+  BasicBlock* ifContinueBlock = BasicBlock::Create(llvmContext, "if.continue", function);
+
   const IObjectType* objectType = context.getObjectType();
-  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
-  Value* threadObject = threadVariable->generateIdentifierIR(context, line);
-
+  const Controller* callStackController =
+  context.getController(Names::getCallStackControllerFullName(), 0);
   IVariable* callStackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
-  Value* callStackObject = callStackVariable->generateIdentifierIR(context, line);
-
+  Value* callStackValue = callStackVariable->generateIdentifierIR(context, line);
+  
   string objectName = objectType->getTypeName();
   string methodName = context.getCurrentMethod()->getName();
   string fileName = objectType->getImportProfile()->getSourceFileName();
   string value = objectName + "." + methodName + "(" + fileName;
-  llvm::Constant* constant = GlobalStringConstant::get(context, value);
+  llvm::Constant* infoConstant = GlobalStringConstant::get(context, value);
   
-  vector<Value*> arguments;
+  Constant* constant = callStackController->findConstant(context,
+                                                         Names::getCallStackSizeConstantName(),
+                                                         0);
+  string constantGlobalName = constant->getConstantGlobalName(callStackController);
+  llvm::Constant* constantStore = context.getModule()->getNamedGlobal(constantGlobalName);
+  Value* maxIndex = IRWriter::newLoadInst(context, constantStore, "");
 
-  Controller* callStackController = context.getController(Names::getCallStackControllerFullName(),
-                                                          line);
+  Type* i32 = Type::getInt32Ty(llvmContext);
+  llvm::Constant* zero = ConstantInt::get(i32, 0);
+  llvm::Constant* one = ConstantInt::get(i32, 1);
+  llvm::Constant* two = ConstantInt::get(i32, 2);
+  llvm::Constant* three = ConstantInt::get(i32, 3);
+  PointerType* callStackStuct = getCCallStackStruct(context)->getPointerTo();
+  Value* callStack = IRWriter::newBitCastInst(context, callStackValue, callStackStuct);
+  Value* indexes[2];
+  indexes[0] = zero;
+  indexes[1] = three;
+  Value* callstackIndexStore = IRWriter::createGetElementPtrInst(context, callStack, indexes);
+  Value* callstackIndex = IRWriter::newLoadInst(context, callstackIndexStore, "");
+  Value* condition = IRWriter::newICmpInst(context,
+                                           ICmpInst::ICMP_SGE,
+                                           callstackIndex,
+                                           maxIndex,
+                                           "");
+  IRWriter::createConditionalBranch(context, ifOverflowBlock, ifContinueBlock, condition);
+  
+  context.setBasicBlock(ifOverflowBlock);
+  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
+  Value* threadValue = threadVariable->generateIdentifierIR(context, 0);
+  vector<Value*> arguments;
   arguments.clear();
-  arguments.push_back(callStackObject);
-  arguments.push_back(threadObject);
-  arguments.push_back(callStackObject);
-  arguments.push_back(constant);
-  arguments.push_back(ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), line));
-  string pushStackFunctionName =
+  arguments.push_back(threadValue);
+  arguments.push_back(callStackValue);
+  string throwMethodName =
   IMethodCall::translateObjectMethodToLLVMFunctionName(callStackController,
-                                                       Names::getPushStackMethodName());
-  Function* pushStackFunction = context.getModule()->getFunction(pushStackFunctionName.c_str());
-  IRWriter::createCallInst(context, pushStackFunction, arguments, "");
+                                                       Names::getThrowStackOverflowMethodName());
+  Function* throwFunction = context.getModule()->getFunction(throwMethodName.c_str());
+  IRWriter::createCallInst(context, throwFunction, arguments, "");
+  IRWriter::newUnreachableInst(context);
+
+  context.setBasicBlock(ifContinueBlock);
+  indexes[1] = one;
+  Value* infoArrayStructPointer = IRWriter::createGetElementPtrInst(context, callStack, indexes);
+  Value* infoArrayStruct = IRWriter::newLoadInst(context, infoArrayStructPointer, "");
+  indexes[1] = three;
+  Value* infoArrayPointer = IRWriter::createGetElementPtrInst(context, infoArrayStruct, indexes);
+  indexes[1] = callstackIndex;
+  Value* infoStore = IRWriter::createGetElementPtrInst(context, infoArrayPointer, indexes);
+  IRWriter::newStoreInst(context, infoConstant, infoStore);
+  
+  indexes[1] = two;
+  Value* linesArrayStructPointer = IRWriter::createGetElementPtrInst(context, callStack, indexes);
+  Value* linesArrayStruct = IRWriter::newLoadInst(context, linesArrayStructPointer, "");
+  indexes[1] = three;
+  Value* lineArrayPointer = IRWriter::createGetElementPtrInst(context, linesArrayStruct, indexes);
+  indexes[1] = callstackIndex;
+  Value* lineStore = IRWriter::createGetElementPtrInst(context, lineArrayPointer, indexes);
+  llvm::Constant* lineNumber = ConstantInt::get(i32, line);
+  IRWriter::newStoreInst(context, lineNumber, lineStore);
+  
+  Value* newCallstackIndex = IRWriter::createBinaryOperator(context,
+                                                            Instruction::Add,
+                                                            callstackIndex,
+                                                            one,
+                                                            "");
+  IRWriter::newStoreInst(context, newCallstackIndex, callstackIndexStore);
 }
 
 void Composer::popCallStack(IRGenerationContext& context) {
@@ -77,7 +133,7 @@ void Composer::popCallStack(IRGenerationContext& context) {
   arguments.push_back(callStackObject);
   string popStackFunctionName =
   IMethodCall::translateObjectMethodToLLVMFunctionName(callStackController,
-                                                       Names::getPopStackMethoName());
+                                                       Names::getPopStackMethodName());
   Function* popStackFunction = context.getModule()->getFunction(popStackFunctionName.c_str());
   IRWriter::createCallInst(context, popStackFunction, arguments, "");
 }

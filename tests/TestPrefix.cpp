@@ -13,8 +13,10 @@
 
 #include "MockReferenceVariable.hpp"
 #include "TestPrefix.hpp"
+#include "wisey/ConstantDefinition.hpp"
 #include "wisey/ControllerDefinition.hpp"
 #include "wisey/FakeExpressionWithCleanup.hpp"
+#include "wisey/IntConstant.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/MethodDefinition.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
@@ -23,6 +25,7 @@
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ReceivedFieldDefinition.hpp"
+#include "wisey/StaticMethodDefinition.hpp"
 #include "wisey/ThreadExpression.hpp"
 #include "wisey/WiseyObjectTypeSpecifier.hpp"
 
@@ -60,8 +63,8 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   InterfaceTypeSpecifierFull* interfaceTypeSpecifier =
   new InterfaceTypeSpecifierFull(packageExpression, Names::getExceptionInterfaceName(), 0);
   modelElements.push_back(ReceivedFieldDefinition::create(interfaceTypeSpecifier,
-                                                      "mNestedException",
-                                                      0));
+                                                          "mNestedException",
+                                                          0));
   defineExceptionModel(context, Names::getReferenceCountExceptionName(), modelElements);
   modelElements.clear();
   stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);
@@ -205,35 +208,15 @@ void TestPrefix::defineExceptionModel(IRGenerationContext& context,
 }
 
 ControllerDefinition* TestPrefix::defineCCallStack(IRGenerationContext& context) {
-  const PrimitiveTypeSpecifier* stringTypeSpecifier;
   vector<IModelTypeSpecifier*> exceptions;
-  VariableDeclaration* declaration;
   VariableList arguments;
-  stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);
-  declaration = VariableDeclaration::create(stringTypeSpecifier, new Identifier("callInfo", 0), 0);
-  arguments.push_back(declaration);
-  const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
-  declaration = VariableDeclaration::create(intTypeSpecifier, new Identifier("lineNumber", 0), 0);
-  arguments.push_back(declaration);
+  
   const PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID->newTypeSpecifier(0);
   Block* block = new Block();
   CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
-  MethodDefinition* pushStackMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
-                                                           voidTypeSpecifier,
-                                                           Names::getPushStackMethodName(),
-                                                           arguments,
-                                                           exceptions,
-                                                           new MethodQualifiers(0),
-                                                           compoundStatement,
-                                                           0);
-  
-  arguments.clear();
-  voidTypeSpecifier = PrimitiveTypes::VOID->newTypeSpecifier(0);
-  block = new Block();
-  compoundStatement = new CompoundStatement(block, 0);
   MethodDefinition* popStackMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                                           voidTypeSpecifier,
-                                                          Names::getPopStackMethoName(),
+                                                          Names::getPopStackMethodName(),
                                                           arguments,
                                                           exceptions,
                                                           new MethodQualifiers(0),
@@ -241,29 +224,34 @@ ControllerDefinition* TestPrefix::defineCCallStack(IRGenerationContext& context)
                                                           0);
  
   arguments.clear();
-  intTypeSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
-  declaration = VariableDeclaration::create(intTypeSpecifier, new Identifier("lineNumber", 0), 0);
-  arguments.push_back(declaration);
   voidTypeSpecifier = PrimitiveTypes::VOID->newTypeSpecifier(0);
   block = new Block();
   compoundStatement = new CompoundStatement(block, 0);
-  MethodDefinition* setLineNumberMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
-                                                          voidTypeSpecifier,
-                                                          Names::getSetLineNumberMethodName(),
-                                                          arguments,
-                                                          exceptions,
-                                                          new MethodQualifiers(0),
-                                                          compoundStatement,
-                                                          0);
+  StaticMethodDefinition* throwExceptionMethod =
+  new StaticMethodDefinition(PUBLIC_ACCESS,
+                             voidTypeSpecifier,
+                             Names::getThrowStackOverflowMethodName(),
+                             arguments,
+                             exceptions,
+                             compoundStatement,
+                             0);
 
   PackageType* packageType = new PackageType(Names::getThreadsPackageName());
   FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
   ControllerTypeSpecifierFull* controllerTypeSpecifier =
   new ControllerTypeSpecifierFull(packageExpression, Names::getCallStackControllerName(), 0);
+  
+  ConstantDefinition* constantDefinition =
+  new ConstantDefinition(PUBLIC_ACCESS,
+                         PrimitiveTypes::INT->newTypeSpecifier(0),
+                         Names::getCallStackSizeConstantName(),
+                         new IntConstant(1024, 0),
+                         0);
+
   vector<IObjectElementDefinition*> elementDeclarations;
-  elementDeclarations.push_back(pushStackMethod);
+  elementDeclarations.push_back(constantDefinition);
   elementDeclarations.push_back(popStackMethod);
-  elementDeclarations.push_back(setLineNumberMethod);
+  elementDeclarations.push_back(throwExceptionMethod);
 
   vector<IInterfaceTypeSpecifier*> interfaceSpecifiers;
   vector<IObjectDefinition*> innerObjectDefinitions;

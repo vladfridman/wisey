@@ -123,14 +123,14 @@ string Names::getSetInstanceMethodName() {
   return "setInstance";
 }
 
-string Names::getPushStackMethodName() {
-  return "pushStack";
-}
-
-string Names::getPopStackMethoName() {
+string Names::getPopStackMethodName() {
   return "popStack";
 }
 
-string Names::getSetLineNumberMethodName() {
-  return "setLine";
+string Names::getThrowStackOverflowMethodName() {
+  return "throwStackOverflowException";
+}
+
+string Names::getCallStackSizeConstantName() {
+  return "CALL_STACK_SIZE";
 }

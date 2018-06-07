@@ -14,18 +14,6 @@ controller CCallStack {
   state int mIndex;
 
   /**
-   * Pushes a new method on the call stack
-   */
-  public void pushStack(string callInfo, int lineNumber) {
-    if (mIndex >= CALL_STACK_SIZE) {
-      throw builder(MStackOverflowException).build();
-    }
-    mCallInfo[mIndex] = callInfo;
-    mLineNumbers[mIndex] = lineNumber;
-    mIndex++;
-  }
-
-  /**
    * Pops the method call stack
    */
   public void popStack() {
@@ -34,6 +22,13 @@ controller CCallStack {
     }
 
     mIndex--;
+  }
+
+  /**
+   * Throws stack overflo exception
+   */
+  public static void throwStackOverflowException() {
+    throw builder(MStackOverflowException).build();
   }
 
   /**

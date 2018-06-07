@@ -109,10 +109,36 @@ public:
 TEST_F(ComposerTest, pushCallStackTest) {
   Composer::pushCallStack(mContext, 5);
 
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mMainFunction;
   string expected =
+  "\ndefine internal i32 @main() {"
   "\nentry:"
-  "\n  call void @wisey.threads.CCallStack.pushStack(%wisey.threads.CCallStack* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* getelementptr inbounds ([54 x i8], [54 x i8]* @\"systems.vos.wisey.compiler.tests.MMyModel.foo(test.yz\", i32 0, i32 0), i32 5)\n";
+  "\n  %0 = load i32, i32* @constant.wisey.threads.CCallStack.CALL_STACK_SIZE"
+  "\n  %1 = bitcast %wisey.threads.CCallStack* null to %CCallStack*"
+  "\n  %2 = getelementptr %CCallStack, %CCallStack* %1, i32 0, i32 3"
+  "\n  %3 = load i32, i32* %2"
+  "\n  %4 = icmp sge i32 %3, %0"
+  "\n  br i1 %4, label %if.overflow, label %if.continue"
+  "\n"
+  "\nif.overflow:                                      ; preds = %entry"
+  "\n  call void @wisey.threads.CCallStack.throwStackOverflowException(%wisey.threads.IThread* null, %wisey.threads.CCallStack* null)"
+  "\n  unreachable"
+  "\n"
+  "\nif.continue:                                      ; preds = %entry"
+  "\n  %5 = getelementptr %CCallStack, %CCallStack* %1, i32 0, i32 1"
+  "\n  %6 = load { i64, i64, i64, [0 x i8*] }*, { i64, i64, i64, [0 x i8*] }** %5"
+  "\n  %7 = getelementptr { i64, i64, i64, [0 x i8*] }, { i64, i64, i64, [0 x i8*] }* %6, i32 0, i32 3"
+  "\n  %8 = getelementptr [0 x i8*], [0 x i8*]* %7, i32 0, i32 %3"
+  "\n  store i8* getelementptr inbounds ([54 x i8], [54 x i8]* @\"systems.vos.wisey.compiler.tests.MMyModel.foo(test.yz\", i32 0, i32 0), i8** %8"
+  "\n  %9 = getelementptr %CCallStack, %CCallStack* %1, i32 0, i32 2"
+  "\n  %10 = load { i64, i64, i64, [0 x i32] }*, { i64, i64, i64, [0 x i32] }** %9"
+  "\n  %11 = getelementptr { i64, i64, i64, [0 x i32] }, { i64, i64, i64, [0 x i32] }* %10, i32 0, i32 3"
+  "\n  %12 = getelementptr [0 x i32], [0 x i32]* %11, i32 0, i32 %3"
+  "\n  store i32 5, i32* %12"
+  "\n  %13 = add i32 %3, 1"
+  "\n  store i32 %13, i32* %2"
+  "\n}\n";
+  
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
   
   mStringBuffer.clear();
