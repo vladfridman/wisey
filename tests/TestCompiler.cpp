@@ -38,21 +38,6 @@ TEST_F(CompilerTest, compileAndRunTest) {
   EXPECT_EQ(7, result);
 }
 
-TEST_F(CompilerTest, compileAndSaveTest) {
-  mCompilerArguments.addSourceFile("tests/samples/test_addition.yz");
-  mCompilerArguments.addSourceFile(LIBWISEY);
-  system("mkdir -p build");
-  
-  mCompilerArguments.setOutputFile("build/test.o");
-  mCompiler.compile();
-  
-  system("g++ -o build/test build/test.o -Llibwisey -lwisey");
-  int result = system("build/test");
-  int returnValue = WEXITSTATUS(result);
-  
-  EXPECT_EQ(returnValue, 7);
-}
-
 TEST_F(CompilerTest, runWithoutCompileDeathTest) {
   mCompilerArguments.addSourceFile("tests/samples/test_addition.yz");
 
