@@ -290,6 +290,27 @@ void Controller::composeInjectFunctionBody(IRGenerationContext& context,
   context.setDeclarationsBlock(declareBlock);
   context.setObjectType(controller);
     
+  Function::arg_iterator llvmArguments = function->arg_begin();
+  llvm::Argument* thread = &*llvmArguments;
+  thread->setName(ThreadExpression::THREAD);
+  llvmArguments++;
+  llvm::Argument* callstack = &*llvmArguments;
+  callstack->setName(ThreadExpression::CALL_STACK);
+  
+  Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
+  IVariable* threadVariable = new ParameterSystemReferenceVariable(ThreadExpression::THREAD,
+                                                                   threadInterface,
+                                                                   thread,
+                                                                   0);
+  context.getScopes().setVariable(context, threadVariable);
+  Controller* callstackController =
+  context.getController(Names::getCallStackControllerFullName(), 0);
+  IVariable* callstackVariable = new ParameterSystemReferenceVariable(ThreadExpression::CALL_STACK,
+                                                                      callstackController,
+                                                                      callstack,
+                                                                      0);
+  context.getScopes().setVariable(context, callstackVariable);
+
   Instruction* malloc = createMallocForObject(context, controller, "injectvar");
   Value* index[2];
   index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
@@ -736,11 +757,7 @@ void Controller::initializeReceivedFields(IRGenerationContext& context,
                                           Instruction* objectStart) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Function::arg_iterator functionArguments = function->arg_begin();
-  llvm::Argument* thread = &*functionArguments;
-  thread->setName(ThreadExpression::THREAD);
   functionArguments++;
-  llvm::Argument* callstack = &*functionArguments;
-  callstack->setName(ThreadExpression::CALL_STACK);
   functionArguments++;
 
   Value* index[2];
@@ -765,6 +782,15 @@ void Controller::injectInjectedFields(IRGenerationContext& context,
                                       Instruction* objectStart) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
+  for (IField* field : mReceivedFields) {
+    field->getType()->createFieldVariable(context, field->getName(), this, field->getLine());
+  }
+  IVariable* thisVariable = new ParameterSystemReferenceVariable(IObjectType::THIS,
+                                                                 this,
+                                                                 objectStart,
+                                                                 mLine);
+  context.getScopes().setVariable(context, thisVariable);
+
   Value* index[2];
   index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
   for (InjectedField* field : mInjectedFields) {

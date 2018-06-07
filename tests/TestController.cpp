@@ -1243,6 +1243,10 @@ TEST_F(TestFileRunner, injectArrayFieldRunTest) {
   runFile("tests/samples/test_inject_array_field.yz", 2018);
 }
 
+TEST_F(TestFileRunner, injectImmediateRunTest) {
+  runFile("tests/samples/test_inject_immediate.yz", 5);
+}
+
 TEST_F(TestFileRunner, contextScopedInjectionOnIThreadRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_context_scoped_injection_on_ithread.yz",
                                         "Scoped services are the same\n"

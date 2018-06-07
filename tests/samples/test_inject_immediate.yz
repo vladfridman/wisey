@@ -1,0 +1,23 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CService {
+  receive int mSize;
+  inject immediate int[mSize]* mArray;
+
+  public int setAndGetValue() {
+    mArray[mSize - 1] = 5;
+    return mArray[mSize - 1];
+  }
+}
+
+controller CProgram implements IProgram {
+  inject immediate CService* mService.withSize(10);
+
+  public int run(immutable string[] arguments) override {
+    return mService.setAndGetValue();
+  }
+}
+
+bind(IProgram).to(CProgram);
