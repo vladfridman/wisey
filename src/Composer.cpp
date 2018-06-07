@@ -117,25 +117,27 @@ void Composer::popCallStack(IRGenerationContext& context) {
     return;
   }
 
-  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
-  Value* threadObject = threadVariable->generateIdentifierIR(context, 0);
-
+  LLVMContext& llvmContext = context.getLLVMContext();
   IVariable* callStackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
-  Value* callStackObject = callStackVariable->generateIdentifierIR(context, 0);
-
-  vector<Value*> arguments;
-
-  Controller* callStackController = context.getController(Names::getCallStackControllerFullName(),
-                                                          0);
-  arguments.clear();
-  arguments.push_back(callStackObject);
-  arguments.push_back(threadObject);
-  arguments.push_back(callStackObject);
-  string popStackFunctionName =
-  IMethodCall::translateObjectMethodToLLVMFunctionName(callStackController,
-                                                       Names::getPopStackMethodName());
-  Function* popStackFunction = context.getModule()->getFunction(popStackFunctionName.c_str());
-  IRWriter::createCallInst(context, popStackFunction, arguments, "");
+  Value* callStackValue = callStackVariable->generateIdentifierIR(context, 0);
+  
+  Type* i32 = Type::getInt32Ty(llvmContext);
+  llvm::Constant* zero = ConstantInt::get(i32, 0);
+  llvm::Constant* one = ConstantInt::get(i32, 1);
+  llvm::Constant* three = ConstantInt::get(i32, 3);
+  PointerType* callStackStuct = getCCallStackStruct(context)->getPointerTo();
+  Value* callStack = IRWriter::newBitCastInst(context, callStackValue, callStackStuct);
+  Value* indexes[2];
+  indexes[0] = zero;
+  indexes[1] = three;
+  Value* callstackIndexStore = IRWriter::createGetElementPtrInst(context, callStack, indexes);
+  Value* callstackIndex = IRWriter::newLoadInst(context, callstackIndexStore, "");
+  Value* newCallstackIndex = IRWriter::createBinaryOperator(context,
+                                                            Instruction::Sub,
+                                                            callstackIndex,
+                                                            one,
+                                                            "");
+  IRWriter::newStoreInst(context, newCallstackIndex, callstackIndexStore);
 }
 
 void Composer::setLineNumber(IRGenerationContext& context, int line) {

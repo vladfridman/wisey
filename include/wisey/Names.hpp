@@ -161,11 +161,6 @@ namespace wisey {
     static std::string getSetInstanceMethodName();
     
     /**
-     * Get the method for popping the call stack
-     */
-    static std::string getPopStackMethodName();
-    
-    /**
      * Get the method that throws stack overflow exception
      */
     static std::string getThrowStackOverflowMethodName();

@@ -150,7 +150,11 @@ TEST_F(ComposerTest, popCallStackTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  call void @wisey.threads.CCallStack.popStack(%wisey.threads.CCallStack* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null)\n";
+  "\n  %0 = bitcast %wisey.threads.CCallStack* null to %CCallStack*"
+  "\n  %1 = getelementptr %CCallStack, %CCallStack* %0, i32 0, i32 3"
+  "\n  %2 = load i32, i32* %1"
+  "\n  %3 = sub i32 %2, 1"
+  "\n  store i32 %3, i32* %1\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
   
   mStringBuffer.clear();

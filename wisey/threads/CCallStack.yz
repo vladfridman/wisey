@@ -17,10 +17,6 @@ controller CCallStack {
    * Pops the method call stack
    */
   public void popStack() {
-    if (mIndex == 0) {
-      return;
-    }
-
     mIndex--;
   }
 

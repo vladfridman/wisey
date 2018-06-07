@@ -123,10 +123,6 @@ string Names::getSetInstanceMethodName() {
   return "setInstance";
 }
 
-string Names::getPopStackMethodName() {
-  return "popStack";
-}
-
 string Names::getThrowStackOverflowMethodName() {
   return "throwStackOverflowException";
 }

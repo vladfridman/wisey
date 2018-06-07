@@ -214,19 +214,6 @@ ControllerDefinition* TestPrefix::defineCCallStack(IRGenerationContext& context)
   const PrimitiveTypeSpecifier* voidTypeSpecifier = PrimitiveTypes::VOID->newTypeSpecifier(0);
   Block* block = new Block();
   CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
-  MethodDefinition* popStackMethod = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
-                                                          voidTypeSpecifier,
-                                                          Names::getPopStackMethodName(),
-                                                          arguments,
-                                                          exceptions,
-                                                          new MethodQualifiers(0),
-                                                          compoundStatement,
-                                                          0);
- 
-  arguments.clear();
-  voidTypeSpecifier = PrimitiveTypes::VOID->newTypeSpecifier(0);
-  block = new Block();
-  compoundStatement = new CompoundStatement(block, 0);
   StaticMethodDefinition* throwExceptionMethod =
   new StaticMethodDefinition(PUBLIC_ACCESS,
                              voidTypeSpecifier,
@@ -250,7 +237,6 @@ ControllerDefinition* TestPrefix::defineCCallStack(IRGenerationContext& context)
 
   vector<IObjectElementDefinition*> elementDeclarations;
   elementDeclarations.push_back(constantDefinition);
-  elementDeclarations.push_back(popStackMethod);
   elementDeclarations.push_back(throwExceptionMethod);
 
   vector<IInterfaceTypeSpecifier*> interfaceSpecifiers;
