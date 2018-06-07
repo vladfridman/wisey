@@ -206,21 +206,11 @@ void TestPrefix::defineExceptionModel(IRGenerationContext& context,
 
 ControllerDefinition* TestPrefix::defineCCallStack(IRGenerationContext& context) {
   const PrimitiveTypeSpecifier* stringTypeSpecifier;
-  VariableList arguments;
   vector<IModelTypeSpecifier*> exceptions;
-  stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);
   VariableDeclaration* declaration;
-  declaration = VariableDeclaration::create(stringTypeSpecifier,
-                                            new Identifier("objectName", 0),
-                                            0);
-  arguments.push_back(declaration);
+  VariableList arguments;
   stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);
-  declaration = VariableDeclaration::create(stringTypeSpecifier,
-                                            new Identifier("methodName", 0),
-                                            0);
-  arguments.push_back(declaration);
-  stringTypeSpecifier = PrimitiveTypes::STRING->newTypeSpecifier(0);
-  declaration = VariableDeclaration::create(stringTypeSpecifier, new Identifier("fileName", 0), 0);
+  declaration = VariableDeclaration::create(stringTypeSpecifier, new Identifier("callInfo", 0), 0);
   arguments.push_back(declaration);
   const PrimitiveTypeSpecifier* intTypeSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
   declaration = VariableDeclaration::create(intTypeSpecifier, new Identifier("lineNumber", 0), 0);

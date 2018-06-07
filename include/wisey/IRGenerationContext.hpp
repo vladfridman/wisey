@@ -72,6 +72,7 @@ namespace wisey {
     std::list<std::tuple<ComposingFunction2Objects, llvm::Function*, const void*, const void*>>
     mComposingCallbacks2Objects;
     const IObjectType* mObjectType;
+    const IMethod* mCurrentMethod;
     
   public:
     
@@ -317,6 +318,16 @@ namespace wisey {
      * Gets type of the current object definition that is being processed
      */
     const IObjectType* getObjectType() const;
+    
+    /**
+     * Sets the currently processed method
+     */
+    void setCurrentMethod(const IMethod* method);
+    
+    /**
+     * Returns the currently processed method
+     */
+    const IMethod* getCurrentMethod() const;
     
     /**
      * Print a compile error message

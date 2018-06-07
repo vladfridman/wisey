@@ -104,36 +104,5 @@ Function* IMethod::declareFunctionForObject(IRGenerationContext& context,
     : GlobalValue::InternalLinkage;
   Function* function = Function::Create(ftype, linkageType, functionName, context.getModule());
   
-  string functionNameConstantName = MethodCall::getMethodNameConstantName(methodName);
-  if (!objectType->isExternal() && !context.getModule()->getNamedGlobal(functionNameConstantName)) {
-    llvm::Constant* stringConstant =
-      ConstantDataArray::getString(context.getLLVMContext(), methodName);
-    new GlobalVariable(*context.getModule(),
-                       stringConstant->getType(),
-                       true,
-                       GlobalValue::InternalLinkage,
-                       stringConstant,
-                       functionNameConstantName);
-  }
-  
   return function;
-}
-
-void IMethod::defineCurrentMethodNameVariable(IRGenerationContext& context, string methodName) {
-  string constantName = IMethodCall::getMethodNameConstantName(methodName);
-  GlobalVariable* constant = context.getModule()->getNamedGlobal(constantName);
-  ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);
-  Value* Idx[2];
-  Idx[0] = zeroInt32;
-  Idx[1] = zeroInt32;
-  Type* elementType = constant->getType()->getPointerElementType();
-  
-  Value* value = ConstantExpr::getGetElementPtr(elementType, constant, Idx);
-  
-  ParameterPrimitiveVariable* methodNameVariable =
-  new ParameterPrimitiveVariable(Names::getCurrentMethodVariableName(),
-                                 PrimitiveTypes::STRING,
-                                 value,
-                                 0);
-  context.getScopes().setVariable(context, methodNameVariable);
 }

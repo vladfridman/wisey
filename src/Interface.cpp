@@ -352,16 +352,6 @@ LLVMFunction* Interface::findLLVMFunction(string functionName) const {
   return NULL;
 }
 
-void Interface::defineCurrentObjectNameVariable(IRGenerationContext& context) const {
-  Value* objectName = IObjectType::getObjectNamePointer(this, context);
-  ParameterPrimitiveVariable* objectNameVariable =
-  new ParameterPrimitiveVariable(Names::getCurrentObjectVariableName(),
-                                 PrimitiveTypes::STRING,
-                                 objectName,
-                                 0);
-  context.getScopes().setVariable(context, objectNameVariable);
-}
-
 void Interface::generateStaticMethodsIR(IRGenerationContext& context) const {
   for (IMethod* method : mStaticMethods) {
     method->generateIR(context);

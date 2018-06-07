@@ -45,7 +45,6 @@ struct CheckForNullAndThrowFunctionTest : Test {
     mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
     mContext.setDeclarationsBlock(mDeclareBlock);
     mContext.setBasicBlock(mEntryBlock);
-    mContext.getScopes().pushScope();
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -91,6 +90,9 @@ TEST_F(CheckForNullAndThrowFunctionTest, callTest) {
 }
 
 TEST_F(CheckForNullAndThrowFunctionTest, getTest) {
+  mContext.getScopes().popScope(mContext, 0);
+  mContext.getScopes().pushScope();
+  
   Function* function = CheckForNullAndThrowFunction::get(mContext);
   mContext.runComposingCallbacks();
   

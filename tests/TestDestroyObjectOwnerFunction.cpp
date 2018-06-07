@@ -45,7 +45,6 @@ struct DestroyObjectOwnerFunctionTest : Test {
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
     mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
-    mContext.getScopes().pushScope();
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -68,6 +67,9 @@ TEST_F(DestroyObjectOwnerFunctionTest, callTest) {
 }
 
 TEST_F(DestroyObjectOwnerFunctionTest, getTest) {
+  mContext.getScopes().popScope(mContext, 0);
+  mContext.getScopes().pushScope();
+  
   Function* function = DestroyObjectOwnerFunction::get(mContext);
   mContext.runComposingCallbacks();
   

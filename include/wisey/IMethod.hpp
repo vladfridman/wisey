@@ -68,12 +68,6 @@ namespace wisey {
     static llvm::Function* declareFunctionForObject(IRGenerationContext& context,
                                                     const IObjectType* objectType,
                                                     const IMethod* method);
-
-    /**
-     * Get pointer to the method name constant
-     */
-    static void defineCurrentMethodNameVariable(IRGenerationContext& context,
-                                                std::string methodName);
     
   };
   

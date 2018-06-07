@@ -45,7 +45,6 @@ struct AdjustReferenceCounterForConcreteObjectUnsafelyFunctionTest : Test {
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
     mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
-    mContext.getScopes().pushScope();
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -67,6 +66,9 @@ TEST_F(AdjustReferenceCounterForConcreteObjectUnsafelyFunctionTest, callTest) {
 }
 
 TEST_F(AdjustReferenceCounterForConcreteObjectUnsafelyFunctionTest, getTest) {
+  mContext.getScopes().popScope(mContext, 0);
+  mContext.getScopes().pushScope();
+  
   Function* function = AdjustReferenceCounterForConcreteObjectUnsafelyFunction::get(mContext);
   mContext.runComposingCallbacks();
   

@@ -315,12 +315,6 @@ namespace wisey {
                                     std::iostream& stream);
     
     /**
-     * Define variable containing current object name
-     */
-    static void defineCurrentObjectNameVariable(IRGenerationContext& context,
-                                                const IConcreteObjectType* objectType);
-    
-    /**
      * Add the given interface and all of its parents to the given vector of interfaces
      */
     static void addInterfaceAndItsParents(Interface* interface, std::vector<Interface*>& result);

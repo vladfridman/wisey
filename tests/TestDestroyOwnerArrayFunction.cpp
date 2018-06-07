@@ -45,7 +45,6 @@ struct DestroyOwnerArrayFunctionTest : Test {
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
     mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
-    mContext.getScopes().pushScope();
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -70,6 +69,9 @@ TEST_F(DestroyOwnerArrayFunctionTest, callTest) {
 }
 
 TEST_F(DestroyOwnerArrayFunctionTest, getTest) {
+  mContext.getScopes().popScope(mContext, 0);
+  mContext.getScopes().pushScope();
+  
   Function* function = DestroyOwnerArrayFunction::get(mContext);
   mContext.runComposingCallbacks();
   

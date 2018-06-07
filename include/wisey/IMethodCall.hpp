@@ -27,11 +27,6 @@ namespace wisey {
     static std::string translateObjectMethodToLLVMFunctionName(const IObjectType* object,
                                                                std::string methodName);
     
-    /**
-     * Return name of the global constant containing method name
-     */
-    static std::string getMethodNameConstantName(std::string methodName);
-    
   };
   
 } /* namespace wisey */

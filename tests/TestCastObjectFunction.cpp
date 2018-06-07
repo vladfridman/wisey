@@ -50,7 +50,6 @@ struct CastObjectFunctionTest : Test {
     mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
     mContext.setDeclarationsBlock(mDeclareBlock);
     mContext.setBasicBlock(mEntryBlock);
-    mContext.getScopes().pushScope();
     
     mStringStream = new raw_string_ostream(mStringBuffer);
     
@@ -112,6 +111,9 @@ TEST_F(CastObjectFunctionTest, callTest) {
 }
 
 TEST_F(CastObjectFunctionTest, getTest) {
+  mContext.getScopes().popScope(mContext, 0);
+  mContext.getScopes().pushScope();
+  
   Function* function = CastObjectFunction::get(mContext);
   mContext.runComposingCallbacks();
   

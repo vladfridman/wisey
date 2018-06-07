@@ -9,59 +9,49 @@ import wisey.lang.MSystem;
 controller CCallStack {
   public constant int CALL_STACK_SIZE = 1024;
 
-  inject immediate string[CALL_STACK_SIZE]* mCallStackObjectNames;
-  inject immediate string[CALL_STACK_SIZE]* mCallStackMethodNames;
-  inject immediate string[CALL_STACK_SIZE]* mCallStackFileNames;
-  inject immediate int[CALL_STACK_SIZE]* mCallStackLineNumbers;
-  state int mCallIStackIndex;
+  inject immediate string[CALL_STACK_SIZE]* mCallInfo;
+  inject immediate int[CALL_STACK_SIZE]* mLineNumbers;
+  state int mIndex;
 
   /**
    * Pushes a new method on the call stack
    */
-  public void pushStack(string objectName, 
-                        string methodName, 
-                        string fileName, 
-                        int lineNumber) {
-    if (mCallIStackIndex >= CALL_STACK_SIZE) {
+  public void pushStack(string callInfo, int lineNumber) {
+    if (mIndex >= CALL_STACK_SIZE) {
       throw builder(MStackOverflowException).build();
     }
-    mCallStackObjectNames[mCallIStackIndex] = objectName;
-    mCallStackMethodNames[mCallIStackIndex] = methodName;
-    mCallStackFileNames[mCallIStackIndex] = fileName;
-    mCallStackLineNumbers[mCallIStackIndex] = lineNumber;
-    mCallIStackIndex++;
+    mCallInfo[mIndex] = callInfo;
+    mLineNumbers[mIndex] = lineNumber;
+    mIndex++;
   }
 
   /**
    * Sets the current line number
    */
   public void setLine(int lineNumber) {
-    if (mCallIStackIndex == 0) {
+    if (mIndex == 0) {
       return;
     }
-    mCallStackLineNumbers[mCallIStackIndex - 1] = lineNumber;
+    mLineNumbers[mIndex - 1] = lineNumber;
   }
 
   /**
    * Pops the method call stack
    */
   public void popStack() {
-    if (mCallIStackIndex == 0) {
+    if (mIndex == 0) {
       return;
     }
 
-    mCallIStackIndex--;
+    mIndex--;
   }
 
   /**
    * Dumps the call stack to standart output
    */
   public void dumpStack() {
-    for (int i = mCallIStackIndex - 1; i >= 0; i--) {
-      printout(mCallStackObjectNames[i] + "." + 
-               mCallStackMethodNames[i] + "(" + 
-               mCallStackFileNames[i] + ":" + 
-               mCallStackLineNumbers[i] + ")\n");
+    for (int i = mIndex - 1; i >= 0; i--) {
+      printout(mCallInfo[i] + ":" + mLineNumbers[i] + ")\n");
     }
   }
 
@@ -72,9 +62,8 @@ controller CCallStack {
    */
   public void reportException(IException exception) {
     printerr("Unhandled exception " + MSystem.getOriginalObjectTypeName(exception) + "\n");
-    for (int i = mCallIStackIndex - 1; i >= 0; i--) {
-      printerr("  at " + mCallStackObjectNames[i] + "." + mCallStackMethodNames[i] + "(" +
-        mCallStackFileNames[i] + ":" + mCallStackLineNumbers[i] + ")\n");
+    for (int i = mIndex - 1; i >= 0; i--) {
+      printerr("  at " + mCallInfo[i] + ":" + mLineNumbers[i] + ")\n");
     }
   }
 }

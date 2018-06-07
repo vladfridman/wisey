@@ -100,7 +100,6 @@ void ControllerDefinition::generateIR(IRGenerationContext& context) const {
 
   IObjectDefinition::generateInnerObjectIR(context, mInnerObjectDefinitions);
   controller->checkInjectedFields(context);
-  IConcreteObjectType::defineCurrentObjectNameVariable(context, controller);
   IConcreteObjectType::generateStaticMethodsIR(context, controller);
   IConcreteObjectType::declareFieldVariables(context, controller);
   IConcreteObjectType::generateMethodsIR(context, controller);

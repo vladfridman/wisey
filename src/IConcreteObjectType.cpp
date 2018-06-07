@@ -841,17 +841,6 @@ void IConcreteObjectType::printTypeKind(const IConcreteObjectType* type, iostrea
   }
 }
 
-void IConcreteObjectType::defineCurrentObjectNameVariable(IRGenerationContext& context,
-                                                          const IConcreteObjectType* objectType) {
-  Value* objectName = IObjectType::getObjectNamePointer(objectType, context);
-  ParameterPrimitiveVariable* objectNameVariable =
-  new ParameterPrimitiveVariable(Names::getCurrentObjectVariableName(),
-                                 PrimitiveTypes::STRING,
-                                 objectName,
-                                 0);
-  context.getScopes().setVariable(context, objectNameVariable);
-}
-
 void IConcreteObjectType::addInterfaceAndItsParents(Interface* interface,
                                                     vector<Interface *> &result) {
   result.push_back(interface);

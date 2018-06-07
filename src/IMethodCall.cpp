@@ -26,7 +26,3 @@ string IMethodCall::translateObjectMethodToLLVMFunctionName(const IObjectType* o
   }
   return object->getTypeName() + "." + methodName;
 }
-
-string IMethodCall::getMethodNameConstantName(string methodName) {
-  return "methodname." + methodName;
-}

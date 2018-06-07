@@ -89,7 +89,6 @@ void ModelDefinition::generateIR(IRGenerationContext& context) const {
   context.setObjectType(model);
 
   IObjectDefinition::generateInnerObjectIR(context, mInnerObjectDefinitions);
-  IConcreteObjectType::defineCurrentObjectNameVariable(context, model);
   IConcreteObjectType::generateStaticMethodsIR(context, model);
   IConcreteObjectType::declareFieldVariables(context, model);
   IConcreteObjectType::generateMethodsIR(context, model);

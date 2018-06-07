@@ -94,7 +94,6 @@ void InterfaceDefinition::generateIR(IRGenerationContext& context) const {
   context.setObjectType(interface);
 
   IObjectDefinition::generateInnerObjectIR(context, mInnerObjectDefinitions);
-  interface->defineCurrentObjectNameVariable(context);
   interface->generateLLVMFunctionsIR(context);
   interface->generateStaticMethodsIR(context);
 

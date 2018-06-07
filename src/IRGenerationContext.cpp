@@ -26,7 +26,8 @@ IRGenerationContext::IRGenerationContext() :
 mBasicBlock(NULL),
 mImportProfile(NULL),
 mIsDestructorDebugOn(false),
-mObjectType(NULL) {
+mObjectType(NULL),
+mCurrentMethod(NULL) {
   mModuleOwner = llvm::make_unique<llvm::Module>("wisey", mLLVMContext);
   mModule = mModuleOwner.get();
 }
@@ -635,6 +636,14 @@ void IRGenerationContext::setObjectType(const IObjectType* objectType) {
 
 const IObjectType* IRGenerationContext::getObjectType() const {
   return mObjectType;
+}
+
+void IRGenerationContext::setCurrentMethod(const IMethod* method) {
+  mCurrentMethod = method;
+}
+
+const IMethod* IRGenerationContext::getCurrentMethod() const {
+  return mCurrentMethod;
 }
 
 void IRGenerationContext::reportError(int line, string message) const {

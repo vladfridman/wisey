@@ -83,7 +83,6 @@ void NodeDefinition::generateIR(IRGenerationContext& context) const {
   context.setObjectType(node);
 
   IObjectDefinition::generateInnerObjectIR(context, mInnerObjectDefinitions);
-  IConcreteObjectType::defineCurrentObjectNameVariable(context, node);
   IConcreteObjectType::generateStaticMethodsIR(context, node);
   IConcreteObjectType::declareFieldVariables(context, node);
   IConcreteObjectType::generateMethodsIR(context, node);

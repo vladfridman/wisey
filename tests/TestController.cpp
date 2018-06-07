@@ -677,6 +677,9 @@ TEST_F(ControllerTest, getFlattenedInterfaceHierarchyTest) {
 }
 
 TEST_F(ControllerTest, createInjectFunctionTest) {
+  mContext.getScopes().popScope(mContext, 0);
+  mContext.getScopes().pushScope();
+  
   mAdditorController->createInjectFunction(mContext, 0);
   mContext.runComposingCallbacks();
   

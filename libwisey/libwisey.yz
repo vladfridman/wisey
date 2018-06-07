@@ -442,9 +442,7 @@ external controller wisey.threads.CCallStack {
   constant int CALL_STACK_SIZE;
 
   void pushStack(
-    string objectName,
-    string methodName,
-    string fileName,
+    string callInfo,
     int lineNumber);
   void setLine(
     int lineNumber);

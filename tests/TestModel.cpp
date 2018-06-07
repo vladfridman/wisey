@@ -350,7 +350,6 @@ struct ModelTest : public Test {
     mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", function);
     mContext.setDeclarationsBlock(mDeclareBlock);
     mContext.setBasicBlock(mEntryBlock);
-    mContext.getScopes().pushScope();
  
     vector<Type*> pooledModelTypes;
     pooledModelTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
@@ -703,6 +702,9 @@ TEST_F(ModelTest, declareBuildFunctionTest) {
 }
 
 TEST_F(ModelTest, defineBuildFunctionTest) {
+  mContext.getScopes().popScope(mContext, 0);
+  mContext.getScopes().pushScope();
+  
   Function* buildFunction = mStarModel->defineBuildFunction(mContext);
   mContext.runComposingCallbacks();
 

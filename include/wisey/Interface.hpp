@@ -181,11 +181,6 @@ namespace wisey {
      * Defines constants defined in this interface and initializes them
      */
     void defineConstants(IRGenerationContext& context) const;
-
-    /**
-     * Define variable containing interface's name
-     */
-    void defineCurrentObjectNameVariable(IRGenerationContext& context) const;
     
     /**
      * Generates code for static methods defined in this interface

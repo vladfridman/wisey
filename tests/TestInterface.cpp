@@ -642,6 +642,10 @@ TEST_F(InterfaceTest, createParameterVariableTest) {
 TEST_F(InterfaceTest, injectWrapperFunctionTest) {
   InjectionArgumentList injectionArgumentList;
   mShapeInterface->inject(mContext, injectionArgumentList, 0);
+
+  mContext.getScopes().popScope(mContext, 0);
+  mContext.getScopes().pushScope();
+  
   mContext.runComposingCallbacks();
   
   Function* function = mContext.getModule()->getFunction(mShapeInterface->getTypeName() +
@@ -695,8 +699,11 @@ TEST_F(InterfaceTest, injectWrapperFunctionTest) {
 
 TEST_F(InterfaceTest, injectTest) {
   InjectionArgumentList injectionArgumentList;
-
   mShapeInterface->inject(mContext, injectionArgumentList, 0);
+
+  mContext.getScopes().popScope(mContext, 0);
+  mContext.getScopes().pushScope();
+  
   mContext.runComposingCallbacks();
 
   *mStringStream << *mEntryBlock;

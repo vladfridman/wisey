@@ -10,6 +10,7 @@
 
 #include "wisey/CheckForNullAndThrowFunction.hpp"
 #include "wisey/Composer.hpp"
+#include "wisey/GlobalStringConstant.hpp"
 #include "wisey/IMethodCall.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Names.hpp"
@@ -26,17 +27,17 @@ void Composer::pushCallStack(IRGenerationContext& context, int line) {
   }
 
   const IObjectType* objectType = context.getObjectType();
-  Value* sourceFileNamePointer = objectType->getImportProfile()->getSourceFileNamePointer();
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
   Value* threadObject = threadVariable->generateIdentifierIR(context, line);
 
   IVariable* callStackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
   Value* callStackObject = callStackVariable->generateIdentifierIR(context, line);
 
-  IVariable* currentObjectVariable = context.getScopes()
-    .getVariable(Names::getCurrentObjectVariableName());
-  IVariable* currentMethodVariable = context.getScopes()
-    .getVariable(Names::getCurrentMethodVariableName());
+  string objectName = objectType->getTypeName();
+  string methodName = context.getCurrentMethod()->getName();
+  string fileName = objectType->getImportProfile()->getSourceFileName();
+  string value = objectName + "." + methodName + "(" + fileName;
+  llvm::Constant* constant = GlobalStringConstant::get(context, value);
   
   vector<Value*> arguments;
 
@@ -46,9 +47,7 @@ void Composer::pushCallStack(IRGenerationContext& context, int line) {
   arguments.push_back(callStackObject);
   arguments.push_back(threadObject);
   arguments.push_back(callStackObject);
-  arguments.push_back(currentObjectVariable->generateIdentifierIR(context, line));
-  arguments.push_back(currentMethodVariable->generateIdentifierIR(context, line));
-  arguments.push_back(sourceFileNamePointer);
+  arguments.push_back(constant);
   arguments.push_back(ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), line));
   string pushStackFunctionName =
   IMethodCall::translateObjectMethodToLLVMFunctionName(callStackController,

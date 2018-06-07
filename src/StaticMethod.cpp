@@ -169,7 +169,7 @@ void StaticMethod::generateIR(IRGenerationContext& context) const {
   context.setBasicBlock(entryBlock);
   context.setDeclarationsBlock(declarationsBlock);
 
-  defineCurrentMethodNameVariable(context, mName);
+  context.setCurrentMethod(this);
   createArguments(context, function);
   Composer::pushCallStack(context, mLine);
   mCompoundStatement->generateIR(context);

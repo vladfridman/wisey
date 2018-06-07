@@ -53,7 +53,6 @@ struct CheckArrayNotReferencedFunctionTest : Test {
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
     mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
-    mContext.getScopes().pushScope();
     
     mStringStream = new raw_string_ostream(mStringBuffer);
 
@@ -85,6 +84,9 @@ TEST_F(CheckArrayNotReferencedFunctionTest, callTest) {
 }
 
 TEST_F(CheckArrayNotReferencedFunctionTest, getTest) {
+  mContext.getScopes().popScope(mContext, 0);
+  mContext.getScopes().pushScope();
+  
   Function* function = CheckArrayNotReferencedFunction::get(mContext);
   mContext.runComposingCallbacks();
   

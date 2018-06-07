@@ -20,7 +20,9 @@
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/IMethod.hpp"
 #include "wisey/IMethodCall.hpp"
+#include "wisey/Method.hpp"
 #include "wisey/Names.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramFile.hpp"
 #include "wisey/ThreadExpression.hpp"
 
@@ -41,13 +43,12 @@ struct ComposerTest : public Test {
   raw_string_ostream* mStringStream;
   Model* mModel;
   Function* mMainFunction;
-  string mMethodName;
   ImportProfile* mImportProfile;
   string mPackage = "systems.vos.wisey.compiler.tests";
 
 public:
   
-  ComposerTest() : mLLVMContext(mContext.getLLVMContext()), mMethodName("foo") {
+  ComposerTest() : mLLVMContext(mContext.getLLVMContext()){
     TestPrefix::generateIR(mContext);
     
     mImportProfile = new ImportProfile(mPackage);
@@ -82,19 +83,21 @@ public:
                        stringConstant,
                        mModel->getObjectNameGlobalVariableName());
 
-    stringConstant = ConstantDataArray::getString(mLLVMContext, mMethodName);
-    new GlobalVariable(*mContext.getModule(),
-                       stringConstant->getType(),
-                       true,
-                       GlobalValue::LinkageTypes::LinkOnceODRLinkage,
-                       stringConstant,
-                       IMethodCall::getMethodNameConstantName(mMethodName));
-    IConcreteObjectType::defineCurrentObjectNameVariable(mContext, mModel);
-    IMethod::defineCurrentMethodNameVariable(mContext, mMethodName);
-
     mContext.getScopes().pushScope();
 
     mContext.setObjectType(mModel);
+    vector<const wisey::Argument*> arguments;
+    vector<const Model*> exceptions;
+    Method* method = new Method(mModel,
+                                "foo",
+                                PUBLIC_ACCESS,
+                                PrimitiveTypes::VOID,
+                                arguments,
+                                exceptions,
+                                NULL,
+                                NULL,
+                                5);
+    mContext.setCurrentMethod(method);
     mStringStream = new raw_string_ostream(mStringBuffer);
 }
   
@@ -109,7 +112,7 @@ TEST_F(ComposerTest, pushCallStackTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  call void @wisey.threads.CCallStack.pushStack(%wisey.threads.CCallStack* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* getelementptr inbounds ([42 x i8], [42 x i8]* @systems.vos.wisey.compiler.tests.MMyModel.typename, i32 0, i32 0), i8* getelementptr inbounds ([4 x i8], [4 x i8]* @methodname.foo, i32 0, i32 0), i8* getelementptr inbounds ([8 x i8], [8 x i8]* @test.yz, i32 0, i32 0), i32 5)\n";
+  "\n  call void @wisey.threads.CCallStack.pushStack(%wisey.threads.CCallStack* null, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* getelementptr inbounds ([54 x i8], [54 x i8]* @\"systems.vos.wisey.compiler.tests.MMyModel.foo(test.yz\", i32 0, i32 0), i32 5)\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
   
   mStringBuffer.clear();

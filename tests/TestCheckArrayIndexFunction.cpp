@@ -45,7 +45,6 @@ struct CheckArrayIndexFunctionTest : Test {
     mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
     mContext.setDeclarationsBlock(mDeclareBlock);
     mContext.setBasicBlock(mEntryBlock);
-    mContext.getScopes().pushScope();
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -91,6 +90,9 @@ TEST_F(CheckArrayIndexFunctionTest, callTest) {
 }
 
 TEST_F(CheckArrayIndexFunctionTest, getTest) {
+  mContext.getScopes().popScope(mContext, 0);
+  mContext.getScopes().pushScope();
+  
   Function* function = CheckArrayIndexFunction::get(mContext);
   mContext.runComposingCallbacks();
   

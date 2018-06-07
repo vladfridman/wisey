@@ -134,11 +134,3 @@ string Names::getPopStackMethoName() {
 string Names::getSetLineNumberMethodName() {
   return "setLine";
 }
-
-string Names::getCurrentObjectVariableName() {
-  return "__currentObject";
-}
-
-string Names::getCurrentMethodVariableName() {
-  return "__currentMethod";
-}

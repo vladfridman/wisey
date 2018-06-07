@@ -175,16 +175,6 @@ namespace wisey {
      */
     static std::string getSetLineNumberMethodName();
 
-    /**
-     * Variable name containing current object name
-     */
-    static std::string getCurrentObjectVariableName();
-    
-    /**
-     * Variable name containing current method name
-     */
-    static std::string getCurrentMethodVariableName();
-
   };
   
 } /* namespace wisey */
