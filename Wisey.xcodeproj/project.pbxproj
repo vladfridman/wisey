@@ -2677,7 +2677,6 @@
 				F58725401F6D6B7000FA25E6 /* expressions */,
 				F587254E1F6D728800FA25E6 /* generator */,
 				F598117820A05E3E003AADCA /* globals */,
-				F587253A1F6D337900FA25E6 /* interfaces */,
 				F5CB7F5A2050F967007628B5 /* native */,
 				F587253E1F6D6A9200FA25E6 /* objects */,
 				F587254B1F6D716D00FA25E6 /* parser */,
@@ -2742,7 +2741,6 @@
 				F587253F1F6D6B1700FA25E6 /* expressions */,
 				F587254D1F6D724200FA25E6 /* generator */,
 				F598117620A05D84003AADCA /* globals */,
-				F58725391F6D332300FA25E6 /* interfaces */,
 				F5CB7F582050F86F007628B5 /* native */,
 				F587253D1F6D6A0800FA25E6 /* objects */,
 				F58725431F6D6CFC00FA25E6 /* statements */,
@@ -2759,7 +2757,11 @@
 				F5089C591ECD01D9004A1223 /* CharType.hpp */,
 				F5089C641ECD01D9004A1223 /* DoubleType.hpp */,
 				F5089C6C1ECD01D9004A1223 /* FloatType.hpp */,
+				F5089C721ECD01D9004A1223 /* IHasType.hpp */,
 				F5089C7C1ECD01D9004A1223 /* IntType.hpp */,
+				F587255B1F6FEF6D00FA25E6 /* IPrimitiveType.hpp */,
+				F5089C821ECD01D9004A1223 /* IType.hpp */,
+				F5089C831ECD01D9004A1223 /* ITypeSpecifier.hpp */,
 				F5089C8B1ECD01D9004A1223 /* LongType.hpp */,
 				F53A2C431F02987800E76A9E /* NullType.hpp */,
 				F51942EC1FE2D779009C3158 /* PackageType.hpp */,
@@ -2782,6 +2784,7 @@
 				F5C6FD751E48B50A0054209D /* DoubleType.cpp */,
 				F5C6FD7A1E48B64C0054209D /* FloatType.cpp */,
 				F5C6FD7F1E48B6E80054209D /* IntType.cpp */,
+				F5CE2D401EF6A43C002ABB85 /* IType.cpp */,
 				F5C6FD841E48B7A00054209D /* LongType.cpp */,
 				F53A2C441F0298E800E76A9E /* NullType.cpp */,
 				F51942ED1FE2D7C7009C3158 /* PackageType.cpp */,
@@ -2794,74 +2797,6 @@
 				F5C6FD691E48B33A0054209D /* VoidType.cpp */,
 			);
 			name = types;
-			sourceTree = "<group>";
-		};
-		F58725391F6D332300FA25E6 /* interfaces */ = {
-			isa = PBXGroup;
-			children = (
-				F53A2C401F01663A00E76A9E /* IBuildableObjectType.hpp */,
-				F593627F20C5462600A8C67A /* IBuildableObjectTypeSpecifier.hpp */,
-				F592A7B71F7D61320026BD2F /* IConcreteObjectDefinition.hpp */,
-				F556E6521EDDC80000CCC3D7 /* IConcreteObjectType.hpp */,
-				F5436DB81FCF7D37003ABF6F /* IControllerTypeSpecifier.hpp */,
-				F5089C6F1ECD01D9004A1223 /* IExpression.hpp */,
-				F5752ABE208893BB00C00DE1 /* IExpressionAssignable.hpp */,
-				F5CB7FD52052A94E007628B5 /* IField.hpp */,
-				F5A363551F376AE8005880B3 /* IFieldVariable.hpp */,
-				F50EF29B1EDB4599002E68A8 /* IGlobalStatement.hpp */,
-				F5089C721ECD01D9004A1223 /* IHasType.hpp */,
-				F5436DB91FCF7D4A003ABF6F /* IInterfaceTypeSpecifier.hpp */,
-				F54B147C205D6ED40030773F /* ILLVMPrimitiveType.hpp */,
-				F5827054205FAB9700839EC7 /* ILLVMType.hpp */,
-				F54B1481205D71C60030773F /* ILLVMTypeSpecifier.hpp */,
-				F51D2BA71F68390200510784 /* IMethod.hpp */,
-				F5B3DCE31F91156C00FC76D3 /* IMethodCall.hpp */,
-				F52FBDD51F67B85200339F92 /* IMethodDefinition.hpp */,
-				F5089C731ECD01D9004A1223 /* IMethodDescriptor.hpp */,
-				F5436DBA1FCF7D59003ABF6F /* IModelTypeSpecifier.hpp */,
-				F5436DBB1FCF7D68003ABF6F /* INodeTypeSpecifier.hpp */,
-				F592A7B61F7D609D0026BD2F /* IObjectDefinition.hpp */,
-				F585C7681F97B73100F0FC5E /* IObjectElement.hpp */,
-				F585C7671F97B68000F0FC5E /* IObjectElementDefinition.hpp */,
-				F53A2C0E1EED4CFE00E76A9E /* IObjectOwnerType.hpp */,
-				F53B8EB81ECDC08700F45564 /* IObjectType.hpp */,
-				F53A2C0F1EED58BD00E76A9E /* IObjectTypeSpecifier.hpp */,
-				F5A67DB3201636630018068F /* IOwnerType.hpp */,
-				F5885F621FB4DB4A00E69D17 /* IOwnerVariable.hpp */,
-				F587255B1F6FEF6D00FA25E6 /* IPrimitiveType.hpp */,
-				F55DB05D1F7911320009942C /* IPrintable.hpp */,
-				F58725601F70131D00FA25E6 /* IPrintStatement.hpp */,
-				F5A67DB420163A460018068F /* IReferenceType.hpp */,
-				F5885F641FB4F52A00E69D17 /* IReferenceVariable.hpp */,
-				F5089C811ECD01D9004A1223 /* IStatement.hpp */,
-				F5089C821ECD01D9004A1223 /* IType.hpp */,
-				F5089C831ECD01D9004A1223 /* ITypeSpecifier.hpp */,
-				F5089C841ECD01D9004A1223 /* IVariable.hpp */,
-			);
-			name = interfaces;
-			sourceTree = "<group>";
-		};
-		F587253A1F6D337900FA25E6 /* interfaces */ = {
-			isa = PBXGroup;
-			children = (
-				F534643C20AC8743006369D4 /* IBuildableObjectType.cpp */,
-				F592A7B81F7D62D10026BD2F /* IConcreteObjectDefinition.cpp */,
-				F556E6531EDDD2F900CCC3D7 /* IConcreteObjectType.cpp */,
-				F5A363561F376C90005880B3 /* IFieldVariable.cpp */,
-				F581A0172073B3CB00EA0156 /* ILLVMType.cpp */,
-				F51D2BB31F691C8100510784 /* IMethod.cpp */,
-				F5B3DCE41F9116AF00FC76D3 /* IMethodCall.cpp */,
-				F592A7C31F7D8EAE0026BD2F /* IMethodDefinition.cpp */,
-				F508E0681E72D954005D6115 /* IMethodDescriptor.cpp */,
-				F51DF6791FDAB2F800475F0B /* IObjectDefinition.cpp */,
-				F56AD4A01E9F66C40020868C /* IObjectType.cpp */,
-				F55DB05E1F7914CB0009942C /* IObjectTypeSpecifier.cpp */,
-				F58725611F70143100FA25E6 /* IPrintStatement.cpp */,
-				F5A82089209CB23A003DA505 /* IStatement.cpp */,
-				F5CE2D401EF6A43C002ABB85 /* IType.cpp */,
-				F53A2C1D1EF96C0200E76A9E /* IVariable.cpp */,
-			);
-			name = interfaces;
 			sourceTree = "<group>";
 		};
 		F587253B1F6D33DA00FA25E6 /* constants */ = {
@@ -2949,7 +2884,10 @@
 				F5089C6E1ECD01D9004A1223 /* Identifier.hpp */,
 				F51942F21FE302C3009C3158 /* IdentifierChain.hpp */,
 				F5378F6B2058F0B500E5B5FD /* IdentifierReference.hpp */,
+				F5089C6F1ECD01D9004A1223 /* IExpression.hpp */,
+				F5752ABE208893BB00C00DE1 /* IExpressionAssignable.hpp */,
 				F5089C741ECD01D9004A1223 /* IncrementExpression.hpp */,
+				F55DB05D1F7911320009942C /* IPrintable.hpp */,
 				F5B12E74207E4AB500677C63 /* LLVMFunctionIdentifier.hpp */,
 				F5089C881ECD01D9004A1223 /* LogicalAndExpression.hpp */,
 				F5089C891ECD01D9004A1223 /* LogicalOrExpression.hpp */,
@@ -3000,35 +2938,12 @@
 		F58725411F6D6BDD00FA25E6 /* variables */ = {
 			isa = PBXGroup;
 			children = (
-				F5A67DB5201702230018068F /* FieldArrayOwnerVariable.hpp */,
-				F513DDF920178FE1001A075B /* FieldArrayReferenceVariable.hpp */,
-				F50FF888208B9FF1008EDC40 /* FieldImmutableArrayOwnerVariable.hpp */,
-				F50FF88C208BAEDB008EDC40 /* FieldImmutableArrayReferenceVariable.hpp */,
-				F5CB7F67205116F9007628B5 /* FieldLLVMVariable.hpp */,
-				F5A3634B1F374586005880B3 /* FieldOwnerVariable.hpp */,
-				F581A0092073748500EA0156 /* FieldPointerVariable.hpp */,
-				F5A363511F37699B005880B3 /* FieldPrimitiveVariable.hpp */,
-				F5089C991ECD01D9004A1223 /* FieldReferenceVariable.hpp */,
-				F51701B0200FDE1500A10B7C /* LocalArrayOwnerVariable.hpp */,
-				F5A67DA32012084D0018068F /* LocalArrayReferenceVariable.hpp */,
-				F50FF87B208B878A008EDC40 /* LocalImmutableArrayOwnerVariable.hpp */,
-				F50FF880208B89EF008EDC40 /* LocalImmutableArrayReferenceVariable.hpp */,
-				F581A0112073B0D100EA0156 /* LocalLLVMVariable.hpp */,
-				F5A3633F1F33C091005880B3 /* LocalOwnerVariable.hpp */,
-				F5609F1520580D9E00664ADD /* LocalPointerVariable.hpp */,
-				F5089C861ECD01D9004A1223 /* LocalPrimitiveVariable.hpp */,
-				F5089C851ECD01D9004A1223 /* LocalReferenceVariable.hpp */,
-				F53227E02063FAA600605E1B /* LocalSystemReferenceVariable.hpp */,
-				F513DDFF2018682E001A075B /* ParameterArrayOwnerVariable.hpp */,
-				F513DE052018A0A7001A075B /* ParameterArrayReferenceVariable.hpp */,
-				F50FF894208C8AD6008EDC40 /* ParameterImmutableArrayOwnerVariable.hpp */,
-				F50FF898208C8C8C008EDC40 /* ParameterImmutableArrayReferenceVariable.hpp */,
-				F54DC5BF2073B97500841E0F /* ParameterLLVMVariable.hpp */,
-				F5A363451F3724EF005880B3 /* ParameterOwnerVariable.hpp */,
-				F5D466052061316100C1047A /* ParameterPointerVariable.hpp */,
-				F5F435C71FACA10A0097E5D0 /* ParameterPrimitiveVariable.hpp */,
-				F53A2C171EF85D5B00E76A9E /* ParameterReferenceVariable.hpp */,
-				F5609F052057BF7300664ADD /* ParameterSystemReferenceVariable.hpp */,
+				F593629220CAECCB00A8C67A /* field */,
+				F5885F621FB4DB4A00E69D17 /* IOwnerVariable.hpp */,
+				F5885F641FB4F52A00E69D17 /* IReferenceVariable.hpp */,
+				F5089C841ECD01D9004A1223 /* IVariable.hpp */,
+				F593629320CAECD200A8C67A /* local */,
+				F593629420CAECD900A8C67A /* parameter */,
 				F5089CAA1ECD01D9004A1223 /* VariableDeclaration.hpp */,
 			);
 			name = variables;
@@ -3037,35 +2952,10 @@
 		F58725421F6D6C6300FA25E6 /* variables */ = {
 			isa = PBXGroup;
 			children = (
-				F5A67DB62017023D0018068F /* FieldArrayOwnerVariable.cpp */,
-				F513DDFA201790A1001A075B /* FieldArrayReferenceVariable.cpp */,
-				F50FF889208BA029008EDC40 /* FieldImmutableArrayOwnerVariable.cpp */,
-				F50FF88D208BAF21008EDC40 /* FieldImmutableArrayReferenceVariable.cpp */,
-				F5CB7F64205116D4007628B5 /* FieldLLVMVariable.cpp */,
-				F5A3634C1F374680005880B3 /* FieldOwnerVariable.cpp */,
-				F581A00A207374EF00EA0156 /* FieldPointerVariable.cpp */,
-				F5A363521F376A23005880B3 /* FieldPrimitiveVariable.cpp */,
-				F50427B31E4E3FA7001CB148 /* FieldReferenceVariable.cpp */,
-				F51701AE200FDE0300A10B7C /* LocalArrayOwnerVariable.cpp */,
-				F5A67DA420120A0A0018068F /* LocalArrayReferenceVariable.cpp */,
-				F50FF87C208B87EE008EDC40 /* LocalImmutableArrayOwnerVariable.cpp */,
-				F50FF881208B8A43008EDC40 /* LocalImmutableArrayReferenceVariable.cpp */,
-				F581A0122073B11700EA0156 /* LocalLLVMVariable.cpp */,
-				F5A363401F33C1A8005880B3 /* LocalOwnerVariable.cpp */,
-				F5609F1620580DE000664ADD /* LocalPointerVariable.cpp */,
-				F50427A71E4D226C001CB148 /* LocalPrimitiveVariable.cpp */,
-				F50427AB1E4D2747001CB148 /* LocalReferenceVariable.cpp */,
-				F53227E12063FB0900605E1B /* LocalSystemReferenceVariable.cpp */,
-				F513DE0020186900001A075B /* ParameterArrayOwnerVariable.cpp */,
-				F513DE062018A0F7001A075B /* ParameterArrayReferenceVariable.cpp */,
-				F50FF895208C8B61008EDC40 /* ParameterImmutableArrayOwnerVariable.cpp */,
-				F50FF899208C8CBA008EDC40 /* ParameterImmutableArrayReferenceVariable.cpp */,
-				F54DC5C02073B9B700841E0F /* ParameterLLVMVariable.cpp */,
-				F5A363461F37257C005880B3 /* ParameterOwnerVariable.cpp */,
-				F5D466062061318F00C1047A /* ParameterPointerVariable.cpp */,
-				F5F435C81FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp */,
-				F53A2C181EF85DF000E76A9E /* ParameterReferenceVariable.cpp */,
-				F5609F062057C07F00664ADD /* ParameterSystemReferenceVariable.cpp */,
+				F593629520CAED0500A8C67A /* field */,
+				F53A2C1D1EF96C0200E76A9E /* IVariable.cpp */,
+				F593629620CAED1400A8C67A /* local */,
+				F593629720CAED2400A8C67A /* parameter */,
 				F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */,
 			);
 			name = variables;
@@ -3089,7 +2979,10 @@
 				F5089C6D1ECD01D9004A1223 /* ForStatement.hpp */,
 				F5089C701ECD01D9004A1223 /* IfElseStatement.hpp */,
 				F5089C711ECD01D9004A1223 /* IfStatement.hpp */,
+				F50EF29B1EDB4599002E68A8 /* IGlobalStatement.hpp */,
 				F53B8EB91ECE0E5800F45564 /* ImportStatement.hpp */,
+				F58725601F70131D00FA25E6 /* IPrintStatement.hpp */,
+				F5089C811ECD01D9004A1223 /* IStatement.hpp */,
 				F587255C1F6FFAEE00FA25E6 /* PrintErrStatement.hpp */,
 				F5C0E7EA209A03000028BBD0 /* PrintFileStatement.hpp */,
 				F5E3D6481F6C00DC00FC37CB /* PrintOutStatement.hpp */,
@@ -3123,6 +3016,8 @@
 				F59D821C1E0F66E800057FB5 /* IfElseStatement.cpp */,
 				F59D82221E0F6DAE00057FB5 /* IfStatement.cpp */,
 				F53B8EBA1ECE101A00F45564 /* ImportStatement.cpp */,
+				F58725611F70143100FA25E6 /* IPrintStatement.cpp */,
+				F5A82089209CB23A003DA505 /* IStatement.cpp */,
 				F587255D1F6FFB2D00FA25E6 /* PrintErrStatement.cpp */,
 				F5C0E7EB209A03A20028BBD0 /* PrintFileStatement.cpp */,
 				F5E3D6491F6C01CE00FC37CB /* PrintOutStatement.cpp */,
@@ -3169,6 +3064,10 @@
 				F592A7BF1F7D8CEF0026BD2F /* ExternalMethodDefinition.hpp */,
 				F55CF1731F7DA0CC00A11426 /* ExternalStaticMethod.hpp */,
 				F5FE0A211F7D9F90000621CA /* ExternalStaticMethodDefinition.hpp */,
+				F51D2BA71F68390200510784 /* IMethod.hpp */,
+				F5B3DCE31F91156C00FC76D3 /* IMethodCall.hpp */,
+				F52FBDD51F67B85200339F92 /* IMethodDefinition.hpp */,
+				F5089C731ECD01D9004A1223 /* IMethodDescriptor.hpp */,
 				F5089C8C1ECD01D9004A1223 /* Method.hpp */,
 				F5089C8E1ECD01D9004A1223 /* MethodCall.hpp */,
 				F5089C8F1ECD01D9004A1223 /* MethodDefinition.hpp */,
@@ -3189,6 +3088,10 @@
 				F592A7C01F7D8D690026BD2F /* ExternalMethodDefinition.cpp */,
 				F55CF1741F7DA11C00A11426 /* ExternalStaticMethod.cpp */,
 				F5FE0A221F7DA00B000621CA /* ExternalStaticMethodDefinition.cpp */,
+				F51D2BB31F691C8100510784 /* IMethod.cpp */,
+				F5B3DCE41F9116AF00FC76D3 /* IMethodCall.cpp */,
+				F592A7C31F7D8EAE0026BD2F /* IMethodDefinition.cpp */,
+				F508E0681E72D954005D6115 /* IMethodDescriptor.cpp */,
 				F5ADB6271E69831A00FFC941 /* Method.cpp */,
 				F57085FB1E51E2ED007D627E /* MethodCall.cpp */,
 				F53401101DFF333E0002BF7E /* MethodDefinition.cpp */,
@@ -3263,6 +3166,159 @@
 			name = generator;
 			sourceTree = "<group>";
 		};
+		F593629220CAECCB00A8C67A /* field */ = {
+			isa = PBXGroup;
+			children = (
+				F5A67DB5201702230018068F /* FieldArrayOwnerVariable.hpp */,
+				F513DDF920178FE1001A075B /* FieldArrayReferenceVariable.hpp */,
+				F50FF888208B9FF1008EDC40 /* FieldImmutableArrayOwnerVariable.hpp */,
+				F50FF88C208BAEDB008EDC40 /* FieldImmutableArrayReferenceVariable.hpp */,
+				F5CB7F67205116F9007628B5 /* FieldLLVMVariable.hpp */,
+				F5A3634B1F374586005880B3 /* FieldOwnerVariable.hpp */,
+				F581A0092073748500EA0156 /* FieldPointerVariable.hpp */,
+				F5A363511F37699B005880B3 /* FieldPrimitiveVariable.hpp */,
+				F5089C991ECD01D9004A1223 /* FieldReferenceVariable.hpp */,
+				F5A363551F376AE8005880B3 /* IFieldVariable.hpp */,
+			);
+			name = field;
+			sourceTree = "<group>";
+		};
+		F593629320CAECD200A8C67A /* local */ = {
+			isa = PBXGroup;
+			children = (
+				F51701B0200FDE1500A10B7C /* LocalArrayOwnerVariable.hpp */,
+				F5A67DA32012084D0018068F /* LocalArrayReferenceVariable.hpp */,
+				F50FF87B208B878A008EDC40 /* LocalImmutableArrayOwnerVariable.hpp */,
+				F50FF880208B89EF008EDC40 /* LocalImmutableArrayReferenceVariable.hpp */,
+				F581A0112073B0D100EA0156 /* LocalLLVMVariable.hpp */,
+				F5A3633F1F33C091005880B3 /* LocalOwnerVariable.hpp */,
+				F5609F1520580D9E00664ADD /* LocalPointerVariable.hpp */,
+				F5089C861ECD01D9004A1223 /* LocalPrimitiveVariable.hpp */,
+				F5089C851ECD01D9004A1223 /* LocalReferenceVariable.hpp */,
+				F53227E02063FAA600605E1B /* LocalSystemReferenceVariable.hpp */,
+			);
+			name = local;
+			sourceTree = "<group>";
+		};
+		F593629420CAECD900A8C67A /* parameter */ = {
+			isa = PBXGroup;
+			children = (
+				F513DDFF2018682E001A075B /* ParameterArrayOwnerVariable.hpp */,
+				F513DE052018A0A7001A075B /* ParameterArrayReferenceVariable.hpp */,
+				F50FF894208C8AD6008EDC40 /* ParameterImmutableArrayOwnerVariable.hpp */,
+				F50FF898208C8C8C008EDC40 /* ParameterImmutableArrayReferenceVariable.hpp */,
+				F54DC5BF2073B97500841E0F /* ParameterLLVMVariable.hpp */,
+				F5A363451F3724EF005880B3 /* ParameterOwnerVariable.hpp */,
+				F5D466052061316100C1047A /* ParameterPointerVariable.hpp */,
+				F5F435C71FACA10A0097E5D0 /* ParameterPrimitiveVariable.hpp */,
+				F53A2C171EF85D5B00E76A9E /* ParameterReferenceVariable.hpp */,
+				F5609F052057BF7300664ADD /* ParameterSystemReferenceVariable.hpp */,
+			);
+			name = parameter;
+			sourceTree = "<group>";
+		};
+		F593629520CAED0500A8C67A /* field */ = {
+			isa = PBXGroup;
+			children = (
+				F5A67DB62017023D0018068F /* FieldArrayOwnerVariable.cpp */,
+				F513DDFA201790A1001A075B /* FieldArrayReferenceVariable.cpp */,
+				F50FF889208BA029008EDC40 /* FieldImmutableArrayOwnerVariable.cpp */,
+				F50FF88D208BAF21008EDC40 /* FieldImmutableArrayReferenceVariable.cpp */,
+				F5CB7F64205116D4007628B5 /* FieldLLVMVariable.cpp */,
+				F5A3634C1F374680005880B3 /* FieldOwnerVariable.cpp */,
+				F581A00A207374EF00EA0156 /* FieldPointerVariable.cpp */,
+				F5A363521F376A23005880B3 /* FieldPrimitiveVariable.cpp */,
+				F50427B31E4E3FA7001CB148 /* FieldReferenceVariable.cpp */,
+				F5A363561F376C90005880B3 /* IFieldVariable.cpp */,
+			);
+			name = field;
+			sourceTree = "<group>";
+		};
+		F593629620CAED1400A8C67A /* local */ = {
+			isa = PBXGroup;
+			children = (
+				F51701AE200FDE0300A10B7C /* LocalArrayOwnerVariable.cpp */,
+				F5A67DA420120A0A0018068F /* LocalArrayReferenceVariable.cpp */,
+				F50FF87C208B87EE008EDC40 /* LocalImmutableArrayOwnerVariable.cpp */,
+				F50FF881208B8A43008EDC40 /* LocalImmutableArrayReferenceVariable.cpp */,
+				F581A0122073B11700EA0156 /* LocalLLVMVariable.cpp */,
+				F5A363401F33C1A8005880B3 /* LocalOwnerVariable.cpp */,
+				F5609F1620580DE000664ADD /* LocalPointerVariable.cpp */,
+				F50427A71E4D226C001CB148 /* LocalPrimitiveVariable.cpp */,
+				F50427AB1E4D2747001CB148 /* LocalReferenceVariable.cpp */,
+				F53227E12063FB0900605E1B /* LocalSystemReferenceVariable.cpp */,
+			);
+			name = local;
+			sourceTree = "<group>";
+		};
+		F593629720CAED2400A8C67A /* parameter */ = {
+			isa = PBXGroup;
+			children = (
+				F513DE0020186900001A075B /* ParameterArrayOwnerVariable.cpp */,
+				F513DE062018A0F7001A075B /* ParameterArrayReferenceVariable.cpp */,
+				F50FF895208C8B61008EDC40 /* ParameterImmutableArrayOwnerVariable.cpp */,
+				F50FF899208C8CBA008EDC40 /* ParameterImmutableArrayReferenceVariable.cpp */,
+				F54DC5C02073B9B700841E0F /* ParameterLLVMVariable.cpp */,
+				F5A363461F37257C005880B3 /* ParameterOwnerVariable.cpp */,
+				F5D466062061318F00C1047A /* ParameterPointerVariable.cpp */,
+				F5F435C81FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp */,
+				F53A2C181EF85DF000E76A9E /* ParameterReferenceVariable.cpp */,
+				F5609F062057C07F00664ADD /* ParameterSystemReferenceVariable.cpp */,
+			);
+			name = parameter;
+			sourceTree = "<group>";
+		};
+		F593629820CAEEE400A8C67A /* field */ = {
+			isa = PBXGroup;
+			children = (
+				F5A67DB820171D060018068F /* TestFieldArrayOwnerVariable.cpp */,
+				F513DDFD20179374001A075B /* TestFieldArrayReferenceVariable.cpp */,
+				F50FF890208BB0BC008EDC40 /* TestFieldImmutableArrayOwnerVariable.cpp */,
+				F50FF892208BB263008EDC40 /* TestFieldImmutableArrayReferenceVariable.cpp */,
+				F5CB7F8920519130007628B5 /* TestFieldLLVMVariable.cpp */,
+				F5A3634F1F374DCB005880B3 /* TestFieldOwnerVariable.cpp */,
+				F581A00D207380E800EA0156 /* TestFieldPointerVariable.cpp */,
+				F5A363591F376F1C005880B3 /* TestFieldPrimitiveVariable.cpp */,
+				F57085F51E511BAC007D627E /* TestFieldReferenceVariable.cpp */,
+				F5A3635B1F377F84005880B3 /* TestIFieldVariable.cpp */,
+			);
+			name = field;
+			sourceTree = "<group>";
+		};
+		F593629920CAEEF400A8C67A /* local */ = {
+			isa = PBXGroup;
+			children = (
+				F51701BB20105FE900A10B7C /* TestLocalArrayOwnerVariable.cpp */,
+				F5A67DAD201353300018068F /* TestLocalArrayReferenceVariable.cpp */,
+				F50FF884208B8BC5008EDC40 /* TestLocalImmutableArrayOwnerVariable.cpp */,
+				F50FF886208B8F09008EDC40 /* TestLocalImmutableArrayReferenceVariable.cpp */,
+				F581A0152073B1BC00EA0156 /* TestLocalLLVMVariable.cpp */,
+				F58FA3052072776500C86D33 /* TestLocalOwnerVariable.cpp */,
+				F5609F1B205815D900664ADD /* TestLocalPointerVariable.cpp */,
+				F50427AE1E4DD329001CB148 /* TestLocalPrimitiveVariable.cpp */,
+				F50427B01E4DD621001CB148 /* TestLocalReferenceVariable.cpp */,
+				F53227E42063FFB300605E1B /* TestLocalSystemReferenceVariable.cpp */,
+			);
+			name = local;
+			sourceTree = "<group>";
+		};
+		F593629A20CAEF0600A8C67A /* parameter */ = {
+			isa = PBXGroup;
+			children = (
+				F513DE0320186CFC001A075B /* TestParameterArrayOwnerVariable.cpp */,
+				F513DE092018AA3E001A075B /* TestParameterArrayReferenceVariable.cpp */,
+				F50FF89C208C8EF8008EDC40 /* TestParameterImmutableArrayOwnerVariable.cpp */,
+				F50FF89E208C9093008EDC40 /* TestParameterImmutableArrayReferenceVariable.cpp */,
+				F54DC5C32073BB2500841E0F /* TestParameterLLVMVariable.cpp */,
+				F5A363491F373FFE005880B3 /* TestParameterOwnerVariable.cpp */,
+				F5D466092061330C00C1047A /* TestParameterPointerVariable.cpp */,
+				F5F435CB1FACA32A0097E5D0 /* TestParameterPrimitiveVariable.cpp */,
+				F53A2C1B1EF92D8300E76A9E /* TestParameterReferenceVariable.cpp */,
+				F5609F0B2057C54900664ADD /* TestParameterSystemReferenceVariable.cpp */,
+			);
+			name = parameter;
+			sourceTree = "<group>";
+		};
 		F598117620A05D84003AADCA /* globals */ = {
 			isa = PBXGroup;
 			children = (
@@ -3292,6 +3348,9 @@
 		F5CB7F582050F86F007628B5 /* native */ = {
 			isa = PBXGroup;
 			children = (
+				F54B147C205D6ED40030773F /* ILLVMPrimitiveType.hpp */,
+				F5827054205FAB9700839EC7 /* ILLVMType.hpp */,
+				F54B1481205D71C60030773F /* ILLVMTypeSpecifier.hpp */,
 				F582704A205F9D5400839EC7 /* LLVMArrayType.hpp */,
 				F582704B205F9F1A00839EC7 /* LLVMArrayTypeSpecifer.hpp */,
 				F53227DA206282EB00605E1B /* LLVMExternalStructDefinition.hpp */,
@@ -3333,6 +3392,7 @@
 		F5CB7F5A2050F967007628B5 /* native */ = {
 			isa = PBXGroup;
 			children = (
+				F581A0172073B3CB00EA0156 /* ILLVMType.cpp */,
 				F582704F205FA27900839EC7 /* LLVMArrayType.cpp */,
 				F582704C205FA01600839EC7 /* LLVMArrayTypeSpecifer.cpp */,
 				F53227DB2062832800605E1B /* LLVMExternalStructDefinition.cpp */,
@@ -3374,6 +3434,8 @@
 		F5CB7F8F2052787C007628B5 /* fields */ = {
 			isa = PBXGroup;
 			children = (
+				F5CB7FD52052A94E007628B5 /* IField.hpp */,
+				F5436DB91FCF7D4A003ABF6F /* IInterfaceTypeSpecifier.hpp */,
 				F5CB7FD62052A9EC007628B5 /* InjectedField.hpp */,
 				F5CB7FCB20529E3A007628B5 /* InjectedFieldDefinition.hpp */,
 				F5CB7FDE2052ADF9007628B5 /* ReceivedField.hpp */,
@@ -3538,17 +3600,6 @@
 		F5CB7F9820527BD9007628B5 /* interfaces */ = {
 			isa = PBXGroup;
 			children = (
-				F5D1599320A32C0B00107E84 /* TestIConcreteObjectDefinition.cpp */,
-				F556E6591EDEE3E700CCC3D7 /* TestIConcreteObjectType.cpp */,
-				F5A3635B1F377F84005880B3 /* TestIFieldVariable.cpp */,
-				F508E06B1E72DC7D005D6115 /* TestIMethodDescriptor.cpp */,
-				F51DF67C1FDB166800475F0B /* TestIObjectDefinition.cpp */,
-				F56AD4A31E9F6D5B0020868C /* TestIObjectType.cpp */,
-				F55DB0611F793D8C0009942C /* TestIObjectTypeSpecifier.cpp */,
-				F5C0E7E82099E4560028BBD0 /* TestIPrintStatement.cpp */,
-				F5A8208C209CB2F3003DA505 /* TestIStatement.cpp */,
-				F5CE2D431EF6A4CB002ABB85 /* TestIType.cpp */,
-				F53A2C201EF96FEA00E76A9E /* TestIVariable.cpp */,
 			);
 			name = interfaces;
 			sourceTree = "<group>";
@@ -3560,6 +3611,7 @@
 				F5FE0A1D1F7D9B84000621CA /* TestExternalMethodDefinition.cpp */,
 				F55CF17B1F7DA54900A11426 /* TestExternalStaticMethod.cpp */,
 				F55CF1771F7DA22800A11426 /* TestExternalStaticMethodDefinition.cpp */,
+				F508E06B1E72DC7D005D6115 /* TestIMethodDescriptor.cpp */,
 				F5ADB62A1E69860F00FFC941 /* TestMethod.cpp */,
 				F57085FE1E51F8C9007D627E /* TestMethodCall.cpp */,
 				F534011B1E000DBC0002BF7E /* TestMethodDefinition.cpp */,
@@ -3644,6 +3696,8 @@
 				F59D82131E0F3BA500057FB5 /* TestForStatement.cpp */,
 				F59D821F1E0F68DF00057FB5 /* TestIfElseStatement.cpp */,
 				F59D82251E0F6E8800057FB5 /* TestIfStatement.cpp */,
+				F5C0E7E82099E4560028BBD0 /* TestIPrintStatement.cpp */,
+				F5A8208C209CB2F3003DA505 /* TestIStatement.cpp */,
 				F58725641F70178D00FA25E6 /* TestPrintErrStatement.cpp */,
 				F5C0E7EE209A0A640028BBD0 /* TestPrintFileStatement.cpp */,
 				F5E3D64C1F6C19D900FC37CB /* TestPrintOutStatement.cpp */,
@@ -3665,6 +3719,7 @@
 				F5C6FD781E48B59C0054209D /* TestDoubleType.cpp */,
 				F5C6FD7D1E48B6810054209D /* TestFloatType.cpp */,
 				F5C6FD821E48B7260054209D /* TestIntType.cpp */,
+				F5CE2D431EF6A4CB002ABB85 /* TestIType.cpp */,
 				F5C6FD871E48B7DE0054209D /* TestLongType.cpp */,
 				F53A2C4B1F029DC800E76A9E /* TestNullType.cpp */,
 				F51942F01FE30024009C3158 /* TestPackageType.cpp */,
@@ -3682,35 +3737,10 @@
 		F5CB7FA020527ED7007628B5 /* variables */ = {
 			isa = PBXGroup;
 			children = (
-				F5A67DB820171D060018068F /* TestFieldArrayOwnerVariable.cpp */,
-				F513DDFD20179374001A075B /* TestFieldArrayReferenceVariable.cpp */,
-				F50FF890208BB0BC008EDC40 /* TestFieldImmutableArrayOwnerVariable.cpp */,
-				F50FF892208BB263008EDC40 /* TestFieldImmutableArrayReferenceVariable.cpp */,
-				F5CB7F8920519130007628B5 /* TestFieldLLVMVariable.cpp */,
-				F5A3634F1F374DCB005880B3 /* TestFieldOwnerVariable.cpp */,
-				F581A00D207380E800EA0156 /* TestFieldPointerVariable.cpp */,
-				F5A363591F376F1C005880B3 /* TestFieldPrimitiveVariable.cpp */,
-				F57085F51E511BAC007D627E /* TestFieldReferenceVariable.cpp */,
-				F51701BB20105FE900A10B7C /* TestLocalArrayOwnerVariable.cpp */,
-				F5A67DAD201353300018068F /* TestLocalArrayReferenceVariable.cpp */,
-				F50FF884208B8BC5008EDC40 /* TestLocalImmutableArrayOwnerVariable.cpp */,
-				F50FF886208B8F09008EDC40 /* TestLocalImmutableArrayReferenceVariable.cpp */,
-				F581A0152073B1BC00EA0156 /* TestLocalLLVMVariable.cpp */,
-				F58FA3052072776500C86D33 /* TestLocalOwnerVariable.cpp */,
-				F5609F1B205815D900664ADD /* TestLocalPointerVariable.cpp */,
-				F50427AE1E4DD329001CB148 /* TestLocalPrimitiveVariable.cpp */,
-				F50427B01E4DD621001CB148 /* TestLocalReferenceVariable.cpp */,
-				F53227E42063FFB300605E1B /* TestLocalSystemReferenceVariable.cpp */,
-				F513DE0320186CFC001A075B /* TestParameterArrayOwnerVariable.cpp */,
-				F513DE092018AA3E001A075B /* TestParameterArrayReferenceVariable.cpp */,
-				F50FF89C208C8EF8008EDC40 /* TestParameterImmutableArrayOwnerVariable.cpp */,
-				F50FF89E208C9093008EDC40 /* TestParameterImmutableArrayReferenceVariable.cpp */,
-				F54DC5C32073BB2500841E0F /* TestParameterLLVMVariable.cpp */,
-				F5A363491F373FFE005880B3 /* TestParameterOwnerVariable.cpp */,
-				F5D466092061330C00C1047A /* TestParameterPointerVariable.cpp */,
-				F5F435CB1FACA32A0097E5D0 /* TestParameterPrimitiveVariable.cpp */,
-				F53A2C1B1EF92D8300E76A9E /* TestParameterReferenceVariable.cpp */,
-				F5609F0B2057C54900664ADD /* TestParameterSystemReferenceVariable.cpp */,
+				F593629820CAEEE400A8C67A /* field */,
+				F593629920CAEEF400A8C67A /* local */,
+				F593629A20CAEF0600A8C67A /* parameter */,
+				F53A2C201EF96FEA00E76A9E /* TestIVariable.cpp */,
 				F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */,
 			);
 			name = variables;
@@ -3802,6 +3832,7 @@
 		F5CB7FA9205280EC007628B5 /* builder */ = {
 			isa = PBXGroup;
 			children = (
+				F534643C20AC8743006369D4 /* IBuildableObjectType.cpp */,
 				F5F396D61E34BBDD00F34296 /* ObjectBuilder.cpp */,
 				F5F396DA1E34BFE000F34296 /* ObjectBuilderArgument.cpp */,
 			);
@@ -3812,7 +3843,12 @@
 			isa = PBXGroup;
 			children = (
 				F5D159AE20A7878D00107E84 /* GetTypeNameMethod.cpp */,
+				F592A7B81F7D62D10026BD2F /* IConcreteObjectDefinition.cpp */,
+				F556E6531EDDD2F900CCC3D7 /* IConcreteObjectType.cpp */,
 				F5105FA91FD02B6200ACF57B /* ImportProfile.cpp */,
+				F51DF6791FDAB2F800475F0B /* IObjectDefinition.cpp */,
+				F56AD4A01E9F66C40020868C /* IObjectType.cpp */,
+				F55DB05E1F7914CB0009942C /* IObjectTypeSpecifier.cpp */,
 				F5F2F3761EEAFAF80060CF42 /* ObjectOwnerTypeSpecifier.cpp */,
 			);
 			name = other;
@@ -3827,6 +3863,7 @@
 				F5089C601ECD01D9004A1223 /* ControllerTypeSpecifier.hpp */,
 				F5436DA31FCF640F003ABF6F /* ControllerTypeSpecifierFull.hpp */,
 				F58A834C1F79882700369388 /* ExternalControllerDefinition.hpp */,
+				F5436DB81FCF7D37003ABF6F /* IControllerTypeSpecifier.hpp */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -3835,6 +3872,7 @@
 			isa = PBXGroup;
 			children = (
 				F58A83501F7989C100369388 /* ExternalModelDefinition.hpp */,
+				F5436DBA1FCF7D59003ABF6F /* IModelTypeSpecifier.hpp */,
 				F5089C921ECD01D9004A1223 /* Model.hpp */,
 				F5089C951ECD01D9004A1223 /* ModelDefinition.hpp */,
 				F53A2C061EEC343C00E76A9E /* ModelOwner.hpp */,
@@ -3861,6 +3899,7 @@
 			isa = PBXGroup;
 			children = (
 				F58A83541F798AFC00369388 /* ExternalNodeDefinition.hpp */,
+				F5436DBB1FCF7D68003ABF6F /* INodeTypeSpecifier.hpp */,
 				F53A2C2A1EFFD4C700E76A9E /* Node.hpp */,
 				F53A2C221EFFCFFD00E76A9E /* NodeDefinition.hpp */,
 				F53A2C2E1EFFD86F00E76A9E /* NodeOwner.hpp */,
@@ -3882,6 +3921,8 @@
 		F5CB7FB120528195007628B5 /* builder */ = {
 			isa = PBXGroup;
 			children = (
+				F53A2C401F01663A00E76A9E /* IBuildableObjectType.hpp */,
+				F593627F20C5462600A8C67A /* IBuildableObjectTypeSpecifier.hpp */,
 				F5089C931ECD01D9004A1223 /* ObjectBuilder.hpp */,
 				F5089C941ECD01D9004A1223 /* ObjectBuilderArgument.hpp */,
 			);
@@ -3893,7 +3934,17 @@
 			children = (
 				F5089C491ECD01D9004A1223 /* AccessLevel.hpp */,
 				F5D159AD20A7872800107E84 /* GetTypeNameMethod.hpp */,
+				F592A7B71F7D61320026BD2F /* IConcreteObjectDefinition.hpp */,
+				F556E6521EDDC80000CCC3D7 /* IConcreteObjectType.hpp */,
 				F5105FAB1FD02B7100ACF57B /* ImportProfile.hpp */,
+				F592A7B61F7D609D0026BD2F /* IObjectDefinition.hpp */,
+				F585C7681F97B73100F0FC5E /* IObjectElement.hpp */,
+				F585C7671F97B68000F0FC5E /* IObjectElementDefinition.hpp */,
+				F53A2C0E1EED4CFE00E76A9E /* IObjectOwnerType.hpp */,
+				F53B8EB81ECDC08700F45564 /* IObjectType.hpp */,
+				F53A2C0F1EED58BD00E76A9E /* IObjectTypeSpecifier.hpp */,
+				F5A67DB3201636630018068F /* IOwnerType.hpp */,
+				F5A67DB420163A460018068F /* IReferenceType.hpp */,
 				F5F2F3751EEAFA110060CF42 /* ObjectOwnerTypeSpecifier.hpp */,
 			);
 			name = other;
@@ -3968,7 +4019,12 @@
 			isa = PBXGroup;
 			children = (
 				F5D159B120A792F600107E84 /* TestGetTypeNameMethod.cpp */,
+				F5D1599320A32C0B00107E84 /* TestIConcreteObjectDefinition.cpp */,
+				F556E6591EDEE3E700CCC3D7 /* TestIConcreteObjectType.cpp */,
 				F5105FAD1FD0553900ACF57B /* TestImportProfile.cpp */,
+				F51DF67C1FDB166800475F0B /* TestIObjectDefinition.cpp */,
+				F56AD4A31E9F6D5B0020868C /* TestIObjectType.cpp */,
+				F55DB0611F793D8C0009942C /* TestIObjectTypeSpecifier.cpp */,
 				F53A2BFF1EEC167000E76A9E /* TestObjectOwnerTypeSpecifier.cpp */,
 				F519ED7B1FD9910D00BE3FED /* TestThis.cpp */,
 			);
