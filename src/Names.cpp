@@ -39,6 +39,10 @@ string Names::getReferenceCountExceptionName() {
   return "MReferenceCountException";
 }
 
+string Names::getMemoryPoolNonEmptyExceptionName() {
+  return "MMemoryPoolNonEmpty";
+}
+
 string Names::getCastExceptionName() {
   return "MCastException";
 }
@@ -91,12 +95,12 @@ string Names::getCallStackControllerFullName() {
   return getThreadsPackageName() + "." + getCallStackControllerName();
 }
 
-string Names::getCPoolMapName() {
-  return "CPoolMap";
+string Names::getCMemoryPoolName() {
+  return "CMemoryPool";
 }
 
-string Names::getCPoolMapFullName() {
-  return getLangPackageName() + "." + getCPoolMapName();
+string Names::getCMemoryPoolFullName() {
+  return getLangPackageName() + "." + getCMemoryPoolName();
 }
 
 string Names::getContextManagerName() {
@@ -107,8 +111,12 @@ string Names::getAllocateMethodName() {
   return "allocate";
 }
 
-string Names::getDeallocateMethodName() {
-  return "deallocate";
+string Names::getClearMethodName() {
+  return "clear";
+}
+
+string Names::getDestroyMethodName() {
+  return "destroy";
 }
 
 string Names::getContextManagerFullName() {

@@ -795,13 +795,17 @@
 		F592A7C41F7D8EAE0026BD2F /* IMethodDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592A7C31F7D8EAE0026BD2F /* IMethodDefinition.cpp */; };
 		F592A7C51F7D8EAE0026BD2F /* IMethodDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592A7C31F7D8EAE0026BD2F /* IMethodDefinition.cpp */; };
 		F592C9961ED323F7007FB2D0 /* TestWiseyc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592C9951ED323F7007FB2D0 /* TestWiseyc.cpp */; };
-		F593627A20C424D600A8C67A /* TestCPoolMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F593627920C424D600A8C67A /* TestCPoolMap.cpp */; };
+		F593627A20C424D600A8C67A /* TestCMemoryPool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F593627920C424D600A8C67A /* TestCMemoryPool.cpp */; };
 		F593628820C5C3BD00A8C67A /* StoreInReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F593628720C5C3BD00A8C67A /* StoreInReference.cpp */; };
 		F593628920C5C3BD00A8C67A /* StoreInReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F593628720C5C3BD00A8C67A /* StoreInReference.cpp */; };
 		F593628C20C5CCF200A8C67A /* DereferenceExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F593628B20C5CCF200A8C67A /* DereferenceExpression.cpp */; };
 		F593628D20C5CCF200A8C67A /* DereferenceExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F593628B20C5CCF200A8C67A /* DereferenceExpression.cpp */; };
 		F593628F20C6D48400A8C67A /* TestDereferenceExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F593628E20C6D48400A8C67A /* TestDereferenceExpression.cpp */; };
 		F593629120C6D93100A8C67A /* TestStoreInReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F593629020C6D93100A8C67A /* TestStoreInReference.cpp */; };
+		F593629C20CC033500A8C67A /* libapr-1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F593629B20CC033500A8C67A /* libapr-1.dylib */; };
+		F593629F20CC25C300A8C67A /* ObjectAllocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F593629E20CC25C300A8C67A /* ObjectAllocator.cpp */; };
+		F59362A020CC25C700A8C67A /* ObjectAllocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F593629E20CC25C300A8C67A /* ObjectAllocator.cpp */; };
+		F59362A220CFE98800A8C67A /* TestObjectAllocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59362A120CFE98800A8C67A /* TestObjectAllocator.cpp */; };
 		F598117A20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117B20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117E20A0676E003AADCA /* TestObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */; };
@@ -1839,7 +1843,7 @@
 		F592A7C01F7D8D690026BD2F /* ExternalMethodDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ExternalMethodDefinition.cpp; path = src/ExternalMethodDefinition.cpp; sourceTree = "<group>"; };
 		F592A7C31F7D8EAE0026BD2F /* IMethodDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IMethodDefinition.cpp; path = src/IMethodDefinition.cpp; sourceTree = "<group>"; };
 		F592C9951ED323F7007FB2D0 /* TestWiseyc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestWiseyc.cpp; path = tests/TestWiseyc.cpp; sourceTree = "<group>"; };
-		F593627920C424D600A8C67A /* TestCPoolMap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCPoolMap.cpp; path = tests/TestCPoolMap.cpp; sourceTree = "<group>"; };
+		F593627920C424D600A8C67A /* TestCMemoryPool.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCMemoryPool.cpp; path = tests/TestCMemoryPool.cpp; sourceTree = "<group>"; };
 		F593627F20C5462600A8C67A /* IBuildableObjectTypeSpecifier.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IBuildableObjectTypeSpecifier.hpp; path = include/wisey/IBuildableObjectTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F593628620C5C34400A8C67A /* StoreInReference.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = StoreInReference.hpp; path = include/wisey/StoreInReference.hpp; sourceTree = "<group>"; };
 		F593628720C5C3BD00A8C67A /* StoreInReference.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = StoreInReference.cpp; path = src/StoreInReference.cpp; sourceTree = "<group>"; };
@@ -1847,6 +1851,10 @@
 		F593628B20C5CCF200A8C67A /* DereferenceExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DereferenceExpression.cpp; path = src/DereferenceExpression.cpp; sourceTree = "<group>"; };
 		F593628E20C6D48400A8C67A /* TestDereferenceExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestDereferenceExpression.cpp; path = tests/TestDereferenceExpression.cpp; sourceTree = "<group>"; };
 		F593629020C6D93100A8C67A /* TestStoreInReference.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestStoreInReference.cpp; path = tests/TestStoreInReference.cpp; sourceTree = "<group>"; };
+		F593629B20CC033500A8C67A /* libapr-1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libapr-1.dylib"; path = "../../../usr/lib/libapr-1.dylib"; sourceTree = "<group>"; };
+		F593629D20CC255200A8C67A /* ObjectAllocator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ObjectAllocator.hpp; path = include/wisey/ObjectAllocator.hpp; sourceTree = "<group>"; };
+		F593629E20CC25C300A8C67A /* ObjectAllocator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectAllocator.cpp; path = src/ObjectAllocator.cpp; sourceTree = "<group>"; };
+		F59362A120CFE98800A8C67A /* TestObjectAllocator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectAllocator.cpp; path = tests/TestObjectAllocator.cpp; sourceTree = "<group>"; };
 		F598117720A05DAC003AADCA /* ObjectKindGlobal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ObjectKindGlobal.hpp; path = include/wisey/ObjectKindGlobal.hpp; sourceTree = "<group>"; };
 		F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectKindGlobal.cpp; path = src/ObjectKindGlobal.cpp; sourceTree = "<group>"; };
 		F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectKindGlobal.cpp; path = tests/TestObjectKindGlobal.cpp; sourceTree = "<group>"; };
@@ -2112,6 +2120,7 @@
 				F53400DF1DFBE7ED0002BF7E /* libcurses.dylib in Frameworks */,
 				F53400E01DFBE7ED0002BF7E /* libm.dylib in Frameworks */,
 				F53400E11DFBE7ED0002BF7E /* libz.dylib in Frameworks */,
+				F593629C20CC033500A8C67A /* libapr-1.dylib in Frameworks */,
 				F58A82EC1F79657300369388 /* libLLVMAArch64AsmParser.a in Frameworks */,
 				F58A82ED1F79657300369388 /* libLLVMAArch64AsmPrinter.a in Frameworks */,
 				F58A82EE1F79657300369388 /* libLLVMAArch64CodeGen.a in Frameworks */,
@@ -2444,6 +2453,7 @@
 		F53060C71F7947800098D637 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F593629B20CC033500A8C67A /* libapr-1.dylib */,
 				F5CB7F6C20514C84007628B5 /* libpthread.dylib */,
 				F55CF1801F8504C100A11426 /* libwisey.so */,
 				F55CF1821F85052500A11426 /* libwisey.so */,
@@ -3833,6 +3843,7 @@
 			isa = PBXGroup;
 			children = (
 				F534643C20AC8743006369D4 /* IBuildableObjectType.cpp */,
+				F593629E20CC25C300A8C67A /* ObjectAllocator.cpp */,
 				F5F396D61E34BBDD00F34296 /* ObjectBuilder.cpp */,
 				F5F396DA1E34BFE000F34296 /* ObjectBuilderArgument.cpp */,
 			);
@@ -3923,6 +3934,7 @@
 			children = (
 				F53A2C401F01663A00E76A9E /* IBuildableObjectType.hpp */,
 				F593627F20C5462600A8C67A /* IBuildableObjectTypeSpecifier.hpp */,
+				F593629D20CC255200A8C67A /* ObjectAllocator.hpp */,
 				F5089C931ECD01D9004A1223 /* ObjectBuilder.hpp */,
 				F5089C941ECD01D9004A1223 /* ObjectBuilderArgument.hpp */,
 			);
@@ -3953,6 +3965,7 @@
 		F5CB7FB320528207007628B5 /* builder */ = {
 			isa = PBXGroup;
 			children = (
+				F59362A120CFE98800A8C67A /* TestObjectAllocator.cpp */,
 				F5F396DF1E3F8C5700F34296 /* TestObjectBuilder.cpp */,
 				F5F396DD1E3F898900F34296 /* TestObjectBuilderArgument.cpp */,
 			);
@@ -4036,10 +4049,10 @@
 			children = (
 				F5D159A720A7133500107E84 /* TestCContextManager.cpp */,
 				F5D1599620A48E5E00107E84 /* TestCFileReader.cpp */,
+				F593627920C424D600A8C67A /* TestCMemoryPool.cpp */,
 				F5D159A320A7020D00107E84 /* TestCOwnerList.cpp */,
 				F5D159A520A70A1800107E84 /* TestCOwnerMap.cpp */,
 				F50D5E3720B4884100A025E9 /* TestCOwnerVector.cpp */,
-				F593627920C424D600A8C67A /* TestCPoolMap.cpp */,
 				F5D159AB20A7261500107E84 /* TestCProducerThread.cpp */,
 				F5D1599F20A5F0E500107E84 /* TestCReferenceList.cpp */,
 				F5D159A120A6DD1900107E84 /* TestCReferenceMap.cpp */,
@@ -4297,6 +4310,7 @@
 				F5A363481F37257C005880B3 /* ParameterOwnerVariable.cpp in Sources */,
 				F598117B20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */,
 				F53A2C1F1EF96C0200E76A9E /* IVariable.cpp in Sources */,
+				F59362A220CFE98800A8C67A /* TestObjectAllocator.cpp in Sources */,
 				F507D2661E43551900495E2D /* Model.cpp in Sources */,
 				F539147D1FDE6BD900CD5174 /* TestAdjustReferenceCounterForConcreteObjectSafelyFunction.cpp in Sources */,
 				F531B65B1E0DE52F008304F3 /* CharConstant.cpp in Sources */,
@@ -4531,7 +4545,7 @@
 				F51942EF1FE2D7C7009C3158 /* PackageType.cpp in Sources */,
 				F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */,
 				F53A2C1C1EF92D8300E76A9E /* TestParameterReferenceVariable.cpp in Sources */,
-				F593627A20C424D600A8C67A /* TestCPoolMap.cpp in Sources */,
+				F593627A20C424D600A8C67A /* TestCMemoryPool.cpp in Sources */,
 				F50FF893208BB263008EDC40 /* TestFieldImmutableArrayReferenceVariable.cpp in Sources */,
 				F517970A1E5C95BC009B16AA /* TestCastExpression.cpp in Sources */,
 				F593628D20C5CCF200A8C67A /* DereferenceExpression.cpp in Sources */,
@@ -4696,6 +4710,7 @@
 				F5A3BE5B1F9906BB000FDB09 /* TestInjectedFieldDefinition.cpp in Sources */,
 				F51D2BB51F691C8100510784 /* IMethod.cpp in Sources */,
 				F54B1487205D7A520030773F /* TestLLVMStructDefinition.cpp in Sources */,
+				F59362A020CC25C700A8C67A /* ObjectAllocator.cpp in Sources */,
 				F501B4941E161D140010783D /* TestBreakStatement.cpp in Sources */,
 				F57E2E291E82D6E300FE1DB9 /* BooleanNotExpression.cpp in Sources */,
 				F5B9B8B120764B37009C5650 /* BindActionGlobalStatement.cpp in Sources */,
@@ -4856,6 +4871,7 @@
 				F50FA2D31E2D0AD600435EEA /* ModelDefinition.cpp in Sources */,
 				F569E9F31DF9CC9600BBB20E /* Tokens.lpp in Sources */,
 				F51764CB1ECCEAEB000AFBA7 /* ProgramFile.cpp in Sources */,
+				F593629F20CC25C300A8C67A /* ObjectAllocator.cpp in Sources */,
 				F569E9F01DF9CC9600BBB20E /* Log.cpp in Sources */,
 				F5105FAA1FD02B6200ACF57B /* ImportProfile.cpp in Sources */,
 				F5603B4D2021316E00BBA05D /* CheckArrayIndexFunction.cpp in Sources */,
@@ -4998,10 +5014,12 @@
 				GCC_ENABLE_CPP_RTTI = NO;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include,
+					"/usr/include/apr-1",
 					include,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/lib,
+					/usr/lib,
 					"$(PROJECT_DIR)/lib",
 					"$(PROJECT_DIR)/libwisey",
 				);
@@ -5065,10 +5083,12 @@
 				GCC_ENABLE_CPP_RTTI = NO;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include,
+					"/usr/include/apr-1",
 					include,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/lib,
+					/usr/lib,
 					"$(PROJECT_DIR)/lib",
 					"$(PROJECT_DIR)/libwisey",
 				);
@@ -5229,10 +5249,14 @@
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
 				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_VERSION = "";
-				HEADER_SEARCH_PATHS = /usr/local/include;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					"/usr/include/apr-1",
+				);
 				LEXFLAGS = "";
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/lib,
+					/usr/lib,
 					"$(PROJECT_DIR)/libwisey",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
@@ -5271,10 +5295,14 @@
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
 				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_VERSION = "";
-				HEADER_SEARCH_PATHS = /usr/local/include;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					"/usr/include/apr-1",
+				);
 				LEXFLAGS = "";
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/lib,
+					/usr/lib,
 					"$(PROJECT_DIR)/libwisey",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;

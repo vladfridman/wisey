@@ -21,10 +21,12 @@
 #include "wisey/Log.hpp"
 #include "wisey/Model.hpp"
 #include "wisey/ModelOwner.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/ObjectKindGlobal.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ThreadExpression.hpp"
 
 using namespace llvm;
@@ -346,6 +348,47 @@ Instruction* Model::build(IRGenerationContext& context,
 
   Function* buildFunction = context.getModule()->getFunction(getBuildFunctionNameForObject(this));
   assert(buildFunction && "Build function for model is not defined");
+
+  vector<Value*> callArgumentsVector;
+  populateBuildArguments(context, objectBuilderArgumentList, callArgumentsVector, line);
+
+  return IRWriter::createCallInst(context, buildFunction, callArgumentsVector, "");
+}
+
+Instruction* Model::allocate(IRGenerationContext& context,
+                             const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                             IExpression* poolExpression,
+                             int line) const {
+  checkArguments(context, objectBuilderArgumentList, line);
+  
+  Function* allocateFunction = context.getModule()->
+  getFunction(getAllocateFunctionNameForObject(this));
+  assert(allocateFunction && "Allocate function for model is not defined");
+  
+  const Controller* cMemoryPool = context.getController(Names::getCMemoryPoolFullName(), 0);
+  const IType* poolType = poolExpression->getType(context);
+  if (poolType != cMemoryPool && poolType != cMemoryPool->getOwner()) {
+    context.reportError(line,
+                        "pool expression in allocate is not of type " + cMemoryPool->getTypeName());
+    throw 1;
+  }
+  
+  vector<Value*> callArgumentsVector;
+  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
+  callArgumentsVector.push_back(threadVariable->generateIdentifierIR(context, mLine));
+  IVariable* callstackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
+  callArgumentsVector.push_back(callstackVariable->generateIdentifierIR(context, mLine));
+  callArgumentsVector.push_back(poolExpression->generateIR(context, PrimitiveTypes::VOID));
+  
+  populateBuildArguments(context, objectBuilderArgumentList, callArgumentsVector, line);
+  
+  return IRWriter::createCallInst(context, allocateFunction, callArgumentsVector, "");
+}
+
+void Model::populateBuildArguments(IRGenerationContext& context,
+                                   const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                                   vector<Value*>& callArgumentsVector,
+                                   int line) const {
   Value* callArguments[mReceivedFieldIndexes.size()];
   
   for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
@@ -373,26 +416,25 @@ Instruction* Model::build(IRGenerationContext& context,
     callArguments[mReceivedFieldIndexes.at(field)] = castValue;
   }
   
-  vector<Value*> callArgumentsVector;
-  if (isPooled()) {
-    IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
-    callArgumentsVector.push_back(threadVariable->generateIdentifierIR(context, mLine));
-    IVariable* callstackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
-    callArgumentsVector.push_back(callstackVariable->generateIdentifierIR(context, mLine));
-  }
   for (Value* callArgument : callArguments) {
     callArgumentsVector.push_back(callArgument);
   }
-  
-  return IRWriter::createCallInst(context, buildFunction, callArgumentsVector, "");
 }
 
 Function* Model::declareBuildFunction(IRGenerationContext& context) const {
   return IBuildableObjectType::declareBuildFunctionForObject(context, this);
 }
 
+Function* Model::declareAllocateFunction(IRGenerationContext& context) const {
+  return IBuildableObjectType::declareAllocateFunctionForObject(context, this);
+}
+
 Function* Model::defineBuildFunction(IRGenerationContext& context) const {
   return IBuildableObjectType::defineBuildFunctionForObject(context, this);
+}
+
+Function* Model::defineAllocateFunction(IRGenerationContext& context) const {
+  return IBuildableObjectType::defineAllocateFunctionForObject(context, this);
 }
 
 void Model::defineRTTI(IRGenerationContext& context) const {

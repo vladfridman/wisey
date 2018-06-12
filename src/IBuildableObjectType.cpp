@@ -26,13 +26,7 @@ using namespace wisey;
 Function* IBuildableObjectType::
 declareBuildFunctionForObject(IRGenerationContext& context,
                               const IBuildableObjectType* object) {
-  const Interface* thread = context.getInterface(Names::getThreadInterfaceFullName(), 0);
-  const Controller* callstack = context.getController(Names::getCallStackControllerFullName(), 0);
   vector<Type*> argumentTypes;
-  if (object->isPooled()) {
-    argumentTypes.push_back(thread->getLLVMType(context));
-    argumentTypes.push_back(callstack->getLLVMType(context));
-  }
   for (const IField* field : object->getFields()) {
     argumentTypes.push_back(field->getType()->getLLVMType(context));
   }
@@ -52,16 +46,49 @@ declareBuildFunctionForObject(IRGenerationContext& context,
 }
 
 Function* IBuildableObjectType::
+declareAllocateFunctionForObject(IRGenerationContext& context,
+                                 const IBuildableObjectType* object) {
+  const Interface* thread = context.getInterface(Names::getThreadInterfaceFullName(), 0);
+  const Controller* callstack = context.getController(Names::getCallStackControllerFullName(), 0);
+  const Controller* cMemoryPool = context.getController(Names::getCMemoryPoolFullName(), 0);
+  vector<Type*> argumentTypes;
+  argumentTypes.push_back(thread->getLLVMType(context));
+  argumentTypes.push_back(callstack->getLLVMType(context));
+  argumentTypes.push_back(cMemoryPool->getLLVMType(context));
+  for (const IField* field : object->getFields()) {
+    argumentTypes.push_back(field->getType()->getLLVMType(context));
+  }
+  
+  FunctionType* functionType = FunctionType::get(object->getLLVMType(context),
+                                                 argumentTypes,
+                                                 false);
+  GlobalValue::LinkageTypes linkageType = object->isPublic()
+  ? GlobalValue::ExternalLinkage
+  : GlobalValue::InternalLinkage;
+  
+  return Function::Create(functionType,
+                          linkageType,
+                          getAllocateFunctionNameForObject(object),
+                          context.getModule());
+  
+}
+
+Function* IBuildableObjectType::
 defineBuildFunctionForObject(IRGenerationContext& context,
                              const IBuildableObjectType* object) {
   Function* buildFunction = declareBuildFunctionForObject(context, object);
-  if (object->isPooled()) {
-    context.addComposingCallback1Objects(composeBuildPooledFunctionBody, buildFunction, object);
-  } else {
-    context.addComposingCallback1Objects(composeBuildFunctionBody, buildFunction, object);
-  }
+  context.addComposingCallback1Objects(composeBuildFunctionBody, buildFunction, object);
   
   return buildFunction;
+}
+
+Function* IBuildableObjectType::
+defineAllocateFunctionForObject(IRGenerationContext& context,
+                                const IBuildableObjectType* object) {
+  Function* allocateFunction = declareAllocateFunctionForObject(context, object);
+  context.addComposingCallback1Objects(composeAllocateFunctionBody, allocateFunction, object);
+  
+  return allocateFunction;
 }
 
 string IBuildableObjectType::
@@ -69,9 +96,14 @@ getBuildFunctionNameForObject(const IBuildableObjectType* object) {
   return object->getTypeName() + ".build";
 }
 
-void IBuildableObjectType::composeBuildPooledFunctionBody(IRGenerationContext& context,
-                                                          Function* buildFunction,
-                                                          const void* objectType) {
+string IBuildableObjectType::
+getAllocateFunctionNameForObject(const IBuildableObjectType* object) {
+  return object->getTypeName() + ".allocate";
+}
+
+void IBuildableObjectType::composeAllocateFunctionBody(IRGenerationContext& context,
+                                                       Function* buildFunction,
+                                                       const void* objectType) {
   LLVMContext& llvmContext = context.getLLVMContext();
   const IBuildableObjectType* buildable = (const IBuildableObjectType*) objectType;
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", buildFunction);
@@ -88,6 +120,9 @@ void IBuildableObjectType::composeBuildPooledFunctionBody(IRGenerationContext& c
   llvm::Argument* callstackArgument = &*llvmFunctionArguments;
   callstackArgument->setName(ThreadExpression::CALL_STACK);
   llvmFunctionArguments++;
+  llvm::Argument* poolArgument = &*llvmFunctionArguments;
+  poolArgument->setName("pool");
+
   IVariable* threadVariable = new ParameterSystemReferenceVariable(ThreadExpression::THREAD,
                                                                    thread,
                                                                    threadArgument,
@@ -99,29 +134,42 @@ void IBuildableObjectType::composeBuildPooledFunctionBody(IRGenerationContext& c
                                                                       0);
   context.getScopes().setVariable(context, callstackVariable);
 
-  const Controller* cPoolMap = context.getController(Names::getCPoolMapFullName(), 0);
-  const InjectionArgumentList injectionArguments;
-  Value* poolMap = cPoolMap->inject(context, injectionArguments, 0);
-  
+  const Controller* cMemoryPool = context.getController(Names::getCMemoryPoolFullName(), 0);
   StructType* refStruct = IConcreteObjectType::getOrCreateRefCounterStruct(context, buildable);
   llvm::Constant* blockSize = ConstantExpr::getSizeOf(refStruct);
-  llvm::Constant* key = getObjectNamePointer(buildable, context);
   
-  FakeExpression* poolMapExpression = new FakeExpression(poolMap, cPoolMap);
+  FakeExpression* poolMapExpression = new FakeExpression(poolArgument, cMemoryPool);
   IdentifierChain* allocate = new IdentifierChain(poolMapExpression,
                                                   Names::getAllocateMethodName(),
                                                   0);
   ExpressionList allocateCallArguments;
-  allocateCallArguments.push_back(new FakeExpression(key, PrimitiveTypes::STRING));
   allocateCallArguments.push_back(new FakeExpression(blockSize, PrimitiveTypes::LONG));
   MethodCall allocateCall(allocate, allocateCallArguments, 0);
   Value* memory = allocateCall.generateIR(context, PrimitiveTypes::VOID);
+  llvm::Constant* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+  llvm::Constant* one = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
   Value* shellObject = IRWriter::newBitCastInst(context, memory, refStruct->getPointerTo());
   Value* index[2];
-  index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
-  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
+  index[0] = zero;
+  index[1] = zero;
+  Instruction* refCounter = IRWriter::createGetElementPtrInst(context, shellObject, index);
+  IRWriter::newStoreInst(context, ConstantInt::get(Type::getInt64Ty(llvmContext), 0), refCounter);
+  index[0] = zero;
+  index[1] = one;
   Instruction* objectStart = IRWriter::createGetElementPtrInst(context, shellObject, index);
-  initializeReceivedFieldsForObject(context, buildFunction, buildable, objectStart);
+  
+  unsigned long numberOfInterfaces = buildable->getFlattenedInterfaceHierarchy().size();
+  unsigned long poolStoreIndex = numberOfInterfaces > 0 ? numberOfInterfaces + 1 : 1;
+  index[0] = zero;
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), poolStoreIndex);
+  Instruction* poolStore = IRWriter::createGetElementPtrInst(context, objectStart, index);
+  IRWriter::newStoreInst(context, poolArgument, poolStore);
+
+  Function::arg_iterator functionArguments = buildFunction->arg_begin();
+  functionArguments++;
+  functionArguments++;
+  functionArguments++;
+  initializeReceivedFieldsForObject(context, functionArguments, buildable, objectStart);
   initializeVTable(context, buildable, objectStart);
   IRWriter::createReturnInst(context, objectStart);
   
@@ -146,7 +194,8 @@ void IBuildableObjectType::composeBuildFunctionBody(IRGenerationContext& context
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
   Instruction* objectStart = IRWriter::createGetElementPtrInst(context, malloc, index);
   
-  initializeReceivedFieldsForObject(context, buildFunction, buildable, objectStart);
+  Function::arg_iterator functionArguments = buildFunction->arg_begin();
+  initializeReceivedFieldsForObject(context, functionArguments, buildable, objectStart);
   initializeVTable(context, buildable, objectStart);
   IRWriter::createReturnInst(context, objectStart);
   
@@ -155,15 +204,10 @@ void IBuildableObjectType::composeBuildFunctionBody(IRGenerationContext& context
 
 void IBuildableObjectType::
 initializeReceivedFieldsForObject(IRGenerationContext& context,
-                                  llvm::Function* buildFunction,
+                                  Function::arg_iterator functionArguments,
                                   const IBuildableObjectType* object,
                                   Instruction* malloc) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  Function::arg_iterator functionArguments = buildFunction->arg_begin();
-  if (object->isPooled()) {
-    functionArguments++;
-    functionArguments++;
-  }
   
   Value* index[2];
   index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));

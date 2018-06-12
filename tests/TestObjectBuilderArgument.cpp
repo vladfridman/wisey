@@ -15,7 +15,6 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/ObjectBuilderArgument.hpp"
 #include "wisey/PrimitiveTypes.hpp"

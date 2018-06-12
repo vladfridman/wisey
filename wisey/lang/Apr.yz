@@ -1,0 +1,16 @@
+
+::llvm::struct AprPool { }
+
+external ::llvm::struct AprAllocator { }
+
+external ::llvm::function ::llvm::void apr_pool_destroy(::llvm::struct::AprPool::pointer);
+
+external ::llvm::function ::llvm::void apr_pool_clear(::llvm::struct::AprPool::pointer);
+
+external ::llvm::function ::llvm::i32 apr_pool_create_unmanaged_ex(::llvm::struct::AprPool::pointer::pointer, ::llvm::i32 (::llvm::i32)::pointer, ::llvm::struct::AprAllocator::pointer);
+
+external ::llvm::function ::llvm::i8::pointer apr_palloc(::llvm::struct::AprPool::pointer, ::llvm::i64);
+
+external ::llvm::function ::llvm::i32 apr_initialize();
+
+external ::llvm::function ::llvm::void apr_terminate();

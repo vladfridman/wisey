@@ -426,6 +426,14 @@ namespace wisey {
     static void checkMethodOverride(IRGenerationContext& context,
                                     const IConcreteObjectType* object,
                                     IMethod* method);
+    
+    static llvm::StructType* getCMemoryPoolStruct(IRGenerationContext& context);
+    
+    static void addMemoryPoolDestructor(IRGenerationContext& context,
+                                        llvm::Function* function,
+                                        llvm::Value* exception,
+                                        llvm::Value* object);
+
   };
   
 } /* namespace wisey */

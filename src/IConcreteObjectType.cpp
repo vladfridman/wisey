@@ -477,6 +477,11 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
 
   context.setBasicBlock(refCountZeroBlock);
   
+  const Controller* cMemoryPool = context.getController(Names::getCMemoryPoolFullName(), 0);
+  if (concreteObject == cMemoryPool) {
+    addMemoryPoolDestructor(context, function, exception, thisValue);
+  }
+  
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext),
                               -Environment::getAddressSizeInBytes());
@@ -575,26 +580,46 @@ void IConcreteObjectType::composePooledObjectDestructorBody(IRGenerationContext&
   
   context.setBasicBlock(refCountZeroBlock);
   
-  Value* index[1];
-  index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), -Environment::getAddressSizeInBytes());
-  Value* objectShell = IRWriter::createGetElementPtrInst(context, thisGeneric, index);
-
-  const Controller* cPoolMap = context.getController(Names::getCPoolMapFullName(), 0);
-  const InjectionArgumentList injectionArguments;
-  Value* poolMap = cPoolMap->inject(context, injectionArguments, 0);
+  unsigned long interfacesCount = concreteObject->getFlattenedInterfaceHierarchy().size();
+  unsigned long poolOffset = interfacesCount > 0 ? interfacesCount : 1;
+  Value* index[2];
+  index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), poolOffset);
+  Value* poolStore = IRWriter::createGetElementPtrInst(context, thisValue, index);
+  Value* poolUncast = IRWriter::newLoadInst(context, poolStore, "");
   
-  llvm::Constant* key = getObjectNamePointer(concreteObject, context);
+  Value* pool = IRWriter::newBitCastInst(context,
+                                         poolUncast,
+                                         getCMemoryPoolStruct(context)->getPointerTo());
+  index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
+  Value* countStore = IRWriter::createGetElementPtrInst(context, pool, index);
+  Value* count = IRWriter::newLoadInst(context, countStore, "");
+  llvm::Constant* one = ConstantInt::get(Type::getInt64Ty(llvmContext), 1);
+  Value* countMinusOne = IRWriter::createBinaryOperator(context,
+                                                        Instruction::Sub,
+                                                        count,
+                                                        one,
+                                                        "");
+  IRWriter::newStoreInst(context, countMinusOne, countStore);
+  BasicBlock* poolCountZeroBlock = BasicBlock::Create(llvmContext, "pool.count.zero", function);
+  BasicBlock* poolCountNotZeroBlock = BasicBlock::Create(llvmContext,
+                                                         "pool.count.notzero",
+                                                         function);
+  isZero = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, countMinusOne, zero, "");
+  IRWriter::createConditionalBranch(context, poolCountZeroBlock, poolCountNotZeroBlock, isZero);
 
-  FakeExpression* poolMapExpression = new FakeExpression(poolMap, cPoolMap);
-  IdentifierChain* deallocate = new IdentifierChain(poolMapExpression,
-                                                  Names::getDeallocateMethodName(),
-                                                  0);
-  const IType* pointerType = LLVMPrimitiveTypes::I8->getPointerType(context, 0);
-  ExpressionList deallocateCallArguments;
-  deallocateCallArguments.push_back(new FakeExpression(key, PrimitiveTypes::STRING));
-  deallocateCallArguments.push_back(new FakeExpression(objectShell, pointerType));
-  MethodCall deallocateCall(deallocate, deallocateCallArguments, 0);
-  deallocateCall.generateIR(context, PrimitiveTypes::VOID);
+  context.setBasicBlock(poolCountZeroBlock);
+  const Controller* cMemoryPool = context.getController(Names::getCMemoryPoolFullName(), 0);
+  FakeExpression* poolMapExpression = new FakeExpression(poolUncast, cMemoryPool);
+  IdentifierChain* clearMethod =
+  new IdentifierChain(poolMapExpression, Names::getClearMethodName(), 0);
+  ExpressionList clearArguments;
+  MethodCall clearCall(clearMethod, clearArguments, 0);
+  clearCall.generateIR(context, PrimitiveTypes::VOID);
+  IRWriter::createBranch(context, poolCountNotZeroBlock);
+  
+  context.setBasicBlock(poolCountNotZeroBlock);
 
   if (context.isDestructorDebugOn()) {
     ExpressionList printOutArguments;
@@ -781,7 +806,7 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
   stream << " ";
   stream << object->getTypeName();
   if (object->isPooled()) {
-    stream << " pooled";
+    stream << " onPool";
   }
   if (!object->isPublic()) {
     stream << " {" << endl << "}" << endl;
@@ -917,4 +942,79 @@ const IMethod* IConcreteObjectType::findMethodInObject(string methodName,
   }
   
   return NULL;
+}
+
+StructType* IConcreteObjectType::getCMemoryPoolStruct(IRGenerationContext& context) {
+  string structName = "CMemoryPool";
+  StructType* structType = context.getModule()->getTypeByName(structName);
+  if (structType) {
+    return structType;
+  }
+
+  LLVMContext& llvmContext = context.getLLVMContext();
+  StructType* aprPool = context.getModule()->getTypeByName("AprPool");
+  assert(aprPool && "Could not find AprPool struct");
+  structType = StructType::create(llvmContext, structName);
+  vector<Type*> types;
+  types.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
+  types.push_back(Type::getInt64Ty(llvmContext));
+  types.push_back(aprPool->getPointerTo());
+  structType->setBody(types);
+  
+  return structType;
+}
+
+void IConcreteObjectType::addMemoryPoolDestructor(IRGenerationContext& context,
+                                                  Function* function,
+                                                  Value* exception,
+                                                  Value* object) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  BasicBlock* objectCountZeroBlock = BasicBlock::Create(llvmContext, "object.count.zero", function);
+  BasicBlock* objectCountNotZeroBlock = BasicBlock::Create(llvmContext,
+                                                           "object.count.not.zero",
+                                                           function);
+  llvm::Constant* zero = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
+  Type* memoryPoolType = getCMemoryPoolStruct(context)->getPointerTo();
+  Value* memoryPool = IRWriter::newBitCastInst(context, object, memoryPoolType);
+  Value* index[2];
+  index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
+  Value* objectCountStore = IRWriter::createGetElementPtrInst(context, memoryPool, index);
+  Value* objectCount = IRWriter::newLoadInst(context, objectCountStore, "objectCount");
+  Value* isZero = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, objectCount, zero, "");
+  IRWriter::createConditionalBranch(context, objectCountZeroBlock, objectCountNotZeroBlock, isZero);
+
+  context.setBasicBlock(objectCountNotZeroBlock);
+  PackageType* packageType = context.getPackageType(Names::getLangPackageName());
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  ModelTypeSpecifier* modelTypeSpecifier =
+  new ModelTypeSpecifier(packageExpression, Names::getMemoryPoolNonEmptyExceptionName(), 0);
+  ObjectBuilderArgumentList objectBuilderArgumnetList;
+  FakeExpression* fakeExpression = new FakeExpression(objectCount, PrimitiveTypes::LONG);
+  ObjectBuilderArgument* refCountArgument =
+  new ObjectBuilderArgument("withObjectCount", fakeExpression);
+  Interface* exceptionInterface = context.getInterface(Names::getExceptionInterfaceFullName(), 0);
+  Value* exceptionCast = IRWriter::newBitCastInst(context,
+                                                  exception,
+                                                  exceptionInterface->getLLVMType(context));
+  fakeExpression = new FakeExpression(exceptionCast, exceptionInterface);
+  ObjectBuilderArgument* nestedExceptionArgument =
+  new ObjectBuilderArgument("withNestedException", fakeExpression);
+  objectBuilderArgumnetList.push_back(refCountArgument);
+  objectBuilderArgumnetList.push_back(nestedExceptionArgument);
+  ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier,
+                                                   objectBuilderArgumnetList,
+                                                   0);
+  ThrowStatement throwStatement(objectBuilder, 0);
+  throwStatement.generateIR(context);
+  IRWriter::newUnreachableInst(context);
+
+  context.setBasicBlock(objectCountZeroBlock);
+  const Controller* cMemoryPool = context.getController(Names::getCMemoryPoolFullName(), 0);
+  FakeExpression* poolMapExpression = new FakeExpression(object, cMemoryPool);
+  IdentifierChain* destroyMethod =
+  new IdentifierChain(poolMapExpression, Names::getDestroyMethodName(), 0);
+  ExpressionList destroyArguments;
+  MethodCall destroyCall(destroyMethod, destroyArguments, 0);
+  destroyCall.generateIR(context, PrimitiveTypes::VOID);
 }

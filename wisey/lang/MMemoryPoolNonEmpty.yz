@@ -1,0 +1,35 @@
+package wisey.lang;
+
+/**
+ * Thrown when attempting to destroy an CMemoryPool that still has objects allocated in it
+ */
+model MMemoryPoolNonEmpty implements IException {
+  receive long mObjectCount;
+  receive IException mNestedException;
+
+  public void report() override {
+    if (mNestedException instanceof MReferenceCountException) {
+      mNestedException.report();
+      return;
+    }
+
+    callstack.reportException(this);
+    string ending = mObjectCount > 1 ? "s" : "";
+    printerr("Details: Attempting to destroy a memory pool that still contains " + mObjectCount +
+      " allocated object" + ending + "\n");
+    
+    if (mNestedException == null) {
+      return;
+    }
+    printerr("Was thrown from memory clean up after " + 
+      MSystem.getOriginalObjectTypeName(mNestedException) + "\n");
+    mNestedException.report();
+  }
+
+  /**
+   * Returns the number of objects that are still allocated in the pool
+   */
+  public long getObjectCount() {
+    return mObjectCount;
+  }
+}

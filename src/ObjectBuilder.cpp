@@ -39,6 +39,11 @@ int ObjectBuilder::getLine() const {
 
 Value* ObjectBuilder::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   const IBuildableObjectType* buildableType = mTypeSpecifier->getType(context);
+  if (buildableType->isPooled()) {
+    context.reportError(mLine, "Object " + buildableType->getTypeName() +
+                        " can not be built, it should be allocated using allocator command");
+    throw 1;
+  }
   Instruction* malloc = buildableType->build(context, mObjectBuilderArgumentList, mLine);
   
   if (assignToType->isOwner()) {

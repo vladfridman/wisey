@@ -107,8 +107,12 @@ namespace wisey {
     bool isScopeInjected(IRGenerationContext& context) const override;
 
     llvm::Function* declareBuildFunction(IRGenerationContext& context) const override;
-    
+
+    llvm::Function* declareAllocateFunction(IRGenerationContext& context) const override;
+
     llvm::Function* defineBuildFunction(IRGenerationContext& context) const override;
+
+    llvm::Function* defineAllocateFunction(IRGenerationContext& context) const override;
 
     bool isPublic() const override;
     
@@ -138,6 +142,11 @@ namespace wisey {
                              const ObjectBuilderArgumentList& objectBuilderArgumentList,
                              int line) const override;
     
+    llvm::Instruction* allocate(IRGenerationContext& context,
+                                const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                                IExpression* poolExpression,
+                                int line) const override;
+
     IField* findField(std::string fieldName) const override;
     
     unsigned long getFieldIndex(const IField* field) const override;
@@ -256,20 +265,25 @@ namespace wisey {
   private:
     
     void checkArguments(IRGenerationContext& context,
-                        const ObjectBuilderArgumentList& ObjectBuilderArgumentList,
+                        const ObjectBuilderArgumentList& objectBuilderArgumentList,
                         int line) const;
     
     void checkArgumentsAreWellFormed(IRGenerationContext& context,
-                                     const ObjectBuilderArgumentList& ObjectBuilderArgumentList,
+                                     const ObjectBuilderArgumentList& objectBuilderArgumentList,
                                      int line) const;
     
     void checkAllFieldsAreSet(IRGenerationContext& context,
-                              const ObjectBuilderArgumentList& ObjectBuilderArgumentList,
+                              const ObjectBuilderArgumentList& objectBuilderArgumentList,
                               int line) const;
     
     void initializePresetFields(IRGenerationContext& context,
-                                const ObjectBuilderArgumentList& ObjectBuilderArgumentList,
+                                const ObjectBuilderArgumentList& objectBuilderArgumentList,
                                 llvm::Instruction* malloc,
+                                int line) const;
+    
+    void populateBuildArguments(IRGenerationContext& context,
+                                const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                                std::vector<llvm::Value*>& callArgumentsVector,
                                 int line) const;
 
   };

@@ -3,7 +3,7 @@ package systems.vos.wisey.compiler.tests;
 import wisey.lang.CMemoryPool;
 import wisey.lang.IProgram;
 
-model MCar onPool {
+model MCar {
   int mYear;
 
   public int getYear() {
@@ -15,13 +15,8 @@ controller CProgram implements IProgram {
   inject CMemoryPool* mPool;
 
   public int run(immutable string[] arguments) override {
-
-    MCar* car1 = allocator(MCar).withYear(2018).onPool(mPool);
-    MCar* car2 = allocator(MCar).withYear(2017).onPool(mPool);
-    MCar* car3 = allocator(MCar).withYear(2016).onPool(mPool);
-    car1 = null;
-    MCar* car4 = allocator(MCar).withYear(2015).onPool(mPool);
-    return car2.getYear();
+    MCar* car = allocator(MCar).withYear(2018).onPool(mPool);
+    return car.getYear();
   }
 }
 

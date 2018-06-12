@@ -1,0 +1,45 @@
+package wisey.lang;
+
+import wisey.threads.IThread;
+
+/**
+ * Memory pool implementation using APR memory pools
+ *
+ * This controller is used by the system and should not be called directly.
+ * Some of its methods are optmized out of the cotrnoller and are implmented directly in compiler
+ */
+controller CMemoryPool {
+
+  state long mCount;
+  state ::llvm::struct::AprPool::pointer mPool;
+
+  /**
+   * Allocates an object of the given size on pool; creates pool if it does not exist
+   */
+  public ::llvm::i8::pointer allocate(::llvm::i64 size) {
+    if (null == mPool) {
+      initialize();
+    }
+    mCount++;
+    return ::llvm::function::apr_palloc(mPool, size);
+  }
+
+  /**
+   * Clears the pool of all objects; this is called when mCount gets to zero
+   */
+  public void clear() {
+    ::llvm::function::apr_pool_clear(mPool);
+  }
+
+  /**
+   * Destroys APR pool; this is called from CMemoryPool destructor
+   */
+  public void destroy() {
+    ::llvm::function::apr_pool_destroy(mPool);
+  }
+
+  private void initialize() {
+    ::llvm::function::apr_initialize();
+    ::llvm::function::apr_pool_create_unmanaged_ex(::llvm::reference(mPool), null, null);
+  }
+}

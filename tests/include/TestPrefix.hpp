@@ -44,10 +44,14 @@ private:
   static wisey::InterfaceDefinition* defineIException(wisey::IRGenerationContext& context);
 
   static wisey::ControllerDefinition* defineCCallStack(wisey::IRGenerationContext& context);
-  
+
   static wisey::ControllerDefinition* defineCContextManager(wisey::IRGenerationContext& context);
 
+  static wisey::ControllerDefinition* defineCMemoryPool(wisey::IRGenerationContext& context);
+
   static void defineIntrinsicFunctions(wisey::IRGenerationContext& context);
+  
+  static void defineStructs(wisey::IRGenerationContext& context);
   
 };
 

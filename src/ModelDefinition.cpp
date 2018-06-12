@@ -76,7 +76,11 @@ void ModelDefinition::prototypeMethods(IRGenerationContext& context) const {
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
   configureObject(context, model, mObjectElementDeclarations, mInterfaceSpecifiers, NULL);
   model->defineRTTI(context);
-  model->defineBuildFunction(context);
+  if (model->isPooled()) {
+    model->defineAllocateFunction(context);
+  } else {
+    model->defineBuildFunction(context);
+  }
   context.setObjectType(lastObjectType);
 }
 

@@ -1,8 +1,9 @@
 package systems.vos.wisey.compiler.tests;
 
+import wisey.lang.CMemoryPool;
 import wisey.lang.IProgram;
 
-node NCar pooled {
+node NCar onPool {
   receive int mYear;
 
   public int getYear() {
@@ -11,13 +12,14 @@ node NCar pooled {
 }
 
 controller CProgram implements IProgram {
+  inject CMemoryPool* mPool;
 
   public int run(immutable string[] arguments) override {
-    NCar* car1 = builder(NCar).withYear(2018).build();
-    NCar* car2 = builder(NCar).withYear(2017).build();
-    NCar* car3 = builder(NCar).withYear(2016).build();
+    NCar* car1 = allocator(NCar).withYear(2018).onPool(mPool);
+    NCar* car2 = allocator(NCar).withYear(2017).onPool(mPool);
+    NCar* car3 = allocator(NCar).withYear(2016).onPool(mPool);
     car1 = null;
-    NCar* car4 = builder(NCar).withYear(2015).build();
+    NCar* car4 = allocator(NCar).withYear(2015).onPool(mPool);
     return car2.getYear();
   }
 }

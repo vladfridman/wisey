@@ -103,6 +103,7 @@
   #include "wisey/NodeTypeSpecifier.hpp"
   #include "wisey/NodeTypeSpecifierFull.hpp"
   #include "wisey/NullExpression.hpp"
+  #include "wisey/ObjectAllocator.hpp"
   #include "wisey/ObjectBuilder.hpp"
   #include "wisey/ObjectBuilderArgument.hpp"
   #include "wisey/ObjectOwnerTypeSpecifier.hpp"
@@ -226,13 +227,13 @@
 %token <string> TFIELDIDENTIFIER TINTERFACEIDENTIFIER TCONTROLLERIDENTIFIER TNODEIDENTIFIER
 %token <string> TCONSTANTIDENTIFIER
 
-%token <token> TANDOP TBIND TBREAK TBUILD TBUILDER TCASE TCATCH TCEQ TCGE TCLE TINCOP
+%token <token> TALLOCATOR TANDOP TBIND TBREAK TBUILD TBUILDER TCASE TCATCH TCEQ TCGE TCLE TINCOP
 %token <token> TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDO TDOUBLECOLON TELIPSIS
 %token <token> TELSE TEXTENDS TEXTERNAL TDEFAULT TFALLTHROUGH TFALSE TFOR TIF TIMMEDIATE TIMMUTABLE
 %token <token> TIMPLEMENTS TIMPORT TINJECTOR TINJECT TINSTANCEOF TINTERFACE  
 %token <token> TLLVM TLLVMARRAY TLLVMDEREFERENCE TLLVMFUNCTION TLLVMI1 TLLVMI8 TLLVMI16 TLLVMI32
 %token <token> TLLVMI64 TLLVMPOINTER TLLVMSTORE TLLVMSTRUCT TLLVMVOID TLLVMREFERENCE
-%token <token> TMODEL TNEW TNODE TNULL TOROP TOVERRIDE TPACKAGE TPOOLED
+%token <token> TMODEL TNEW TNODE TNULL TONPOOL TOROP TOVERRIDE TPACKAGE
 %token <token> TPRINTFILE TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN 
 %token <token> TSCOPEDTO TSHIFTLEFT TSHIFTRIGHT TSTATE TSTATIC TSWITCH 
 %token <token> TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN 
@@ -247,7 +248,7 @@
 %type <expression> string_literal constant_value expression multiplicative_expression 
 %type <expression> additive_expression relational_expression equality_expression
 %type <expression> logical_and_expression logical_or_expression shift_expression
-%type <expression> conditional_expression postfix_expression object_builder
+%type <expression> conditional_expression postfix_expression object_builder object_allocator
 %type <expression> cast_expression primary_expression assignment unary_expression
 %type <expression> type_comparision_expression injection array_allocation static_array_allocation
 %type <expression> constant_reference static_method_call field_identifier
@@ -365,7 +366,7 @@
 %type <list_of_ulongs> llvm_array_dimensions
 %type <method_qualifier> method_qualifier
 %type <method_qualifiers> method_qualifiers method_qualifier_set
-%type <integer> pooled
+%type <integer> on_pool
 
 %left '+' '-'
 %left '*' '/' '%'
@@ -483,11 +484,23 @@ llvm_function_declaration
 llvm_struct_definition
   : TLLVM TLLVMSTRUCT TIDENTIFIER '{' native_type_specifier_list '}' 
     { $$ = new LLVMStructDefinition(*$3, *$5, yylineno); delete $3; delete $5; }
+  | TLLVM TLLVMSTRUCT TIDENTIFIER '{' '}' 
+    { 
+      std::vector<const ITypeSpecifier*> emptyList;
+      $$ = new LLVMStructDefinition(*$3, emptyList, yylineno); 
+      delete $3;
+    }
   ;
 
 llvm_external_struct_definition
   : TEXTERNAL TLLVM TLLVMSTRUCT TIDENTIFIER '{' native_type_specifier_list '}' 
     { $$ = new LLVMExternalStructDefinition(*$4, *$6, yylineno); delete $4; delete $6; }
+  | TEXTERNAL TLLVM TLLVMSTRUCT TIDENTIFIER '{' '}' 
+    { 
+      std::vector<const ITypeSpecifier*> emptyList;
+      $$ = new LLVMExternalStructDefinition(*$4, emptyList, yylineno); 
+      delete $4; 
+    }
   ;
 
 native_type_specifier_list
@@ -882,13 +895,13 @@ object_scope
   | TSCOPEDTO object_type_specifier { $$ = $2; }
   ;
 
-pooled
+on_pool
   : /* none */ { $$ = 0; }
-  | TPOOLED { $$ = 1; }
+  | TONPOOL { $$ = 1; }
   ;
 
 node_definition
-  : TNODE node_type_specifier_top_level pooled implmeneted_interfaces
+  : TNODE node_type_specifier_top_level on_pool implmeneted_interfaces
       '{' object_element_declaration_list '}'
     {
       IExpression* package = $2->takePackage();
@@ -909,7 +922,7 @@ node_definition
   ;
 
 inner_node_definition
-  : access_specifier TNODE node_type_specifier_short pooled implmeneted_interfaces
+  : access_specifier TNODE node_type_specifier_short on_pool implmeneted_interfaces
       '{' object_element_declaration_list '}'
     {
       IExpression* package = $3->takePackage();
@@ -930,7 +943,7 @@ inner_node_definition
   ;
 
 external_node_definition
-  : TEXTERNAL TNODE node_type_specifier_full pooled implmeneted_interfaces
+  : TEXTERNAL TNODE node_type_specifier_full on_pool implmeneted_interfaces
       '{' external_object_element_declaration_list '}'
     {
       IExpression* package = $3->takePackage();
@@ -950,7 +963,7 @@ external_node_definition
   ;
 
 model_definition
-  : TMODEL model_type_specifier_top_level pooled implmeneted_interfaces
+  : TMODEL model_type_specifier_top_level on_pool implmeneted_interfaces
       '{' object_element_declaration_list '}'
     {
       IExpression* package = $2->takePackage();
@@ -971,7 +984,7 @@ model_definition
   ;
 
 inner_model_definition
-  : access_specifier TMODEL model_type_specifier_short pooled implmeneted_interfaces
+  : access_specifier TMODEL model_type_specifier_short on_pool implmeneted_interfaces
       '{' object_element_declaration_list '}'
     {
       IExpression* package = $3->takePackage();
@@ -992,7 +1005,7 @@ inner_model_definition
   ;
 
 external_model_definition
-  : TEXTERNAL TMODEL model_type_specifier_full pooled implmeneted_interfaces
+  : TEXTERNAL TMODEL model_type_specifier_full on_pool implmeneted_interfaces
       '{' external_object_element_declaration_list '}'
     {
       IExpression* package = $3->takePackage();
@@ -1384,6 +1397,7 @@ primary_expression
   | string_literal
   | static_array_allocation
   | object_builder
+  | object_allocator
   | injection
   | static_method_call
   | llvm_function_call
@@ -1531,6 +1545,18 @@ object_builder
   | TBUILDER '(' object_type_specifier_buildable ')' '.' TBUILD '(' ')'
     { ObjectBuilderArgumentList argumentList; $$ = new ObjectBuilder($3, argumentList, yylineno); }
   ;
+
+object_allocator
+  : TALLOCATOR '(' object_type_specifier_buildable ')' object_builder_argument_list
+    '.' TONPOOL '(' expression ')'
+    { $$ = new ObjectAllocator($3, *$5, $9, yylineno); delete $5; }
+  | TALLOCATOR '(' object_type_specifier_buildable ')' '.' TONPOOL '(' expression ')'
+    { 
+      ObjectBuilderArgumentList argumentList; 
+      $$ = new ObjectAllocator($3, argumentList, $8, yylineno); 
+    }
+  ;
+
 
 object_builder_argument_list
   : object_builder_argument { $$ = new ObjectBuilderArgumentList(); $$->push_back($1); }

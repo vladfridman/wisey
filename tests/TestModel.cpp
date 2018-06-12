@@ -351,9 +351,11 @@ struct ModelTest : public Test {
     mContext.setDeclarationsBlock(mDeclareBlock);
     mContext.setBasicBlock(mEntryBlock);
  
+    const Controller* cMemoryPool = mContext.getController(Names::getCMemoryPoolFullName(), 0);
     vector<Type*> pooledModelTypes;
     pooledModelTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                     ->getPointerTo()->getPointerTo());
+    pooledModelTypes.push_back(cMemoryPool->getLLVMType(mContext));
     pooledModelTypes.push_back(Type::getInt32Ty(mLLVMContext));
     pooledModelTypes.push_back(Type::getInt32Ty(mLLVMContext));
     string pooledModelFullName = "systems.vos.wisey.compiler.tests.MPooledModel";
@@ -367,7 +369,9 @@ struct ModelTest : public Test {
                                          pooledModelStruct,
                                          mContext.getImportProfile(),
                                          3);
-    mPooledModel->setFields(mContext, pooledModelfields, 1u);
+    mPooledModel->setFields(mContext, pooledModelfields, 2u);
+    IConcreteObjectType::declareTypeNameGlobal(mContext, mPooledModel);
+    IConcreteObjectType::declareVTable(mContext, mPooledModel);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
 }
@@ -739,6 +743,66 @@ TEST_F(ModelTest, defineBuildFunctionTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(ModelTest, defineAllocateFunctionTest) {
+  mContext.getScopes().popScope(mContext, 0);
+  mContext.getScopes().pushScope();
+  
+  Function* allocateFunction = mPooledModel->defineAllocateFunction(mContext);
+  mContext.runComposingCallbacks();
+  
+  EXPECT_NE(allocateFunction, nullptr);
+  
+  *mStringStream << *allocateFunction;
+  string expected = string() +
+  "\ndefine %systems.vos.wisey.compiler.tests.MPooledModel* @systems.vos.wisey.compiler.tests.MPooledModel.allocate(%wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, %wisey.lang.CMemoryPool* %pool, i32 %mWidth, i32 %mHeight) personality i32 (...)* @__gxx_personality_v0 {"
+  "\nentry:"
+  "\n  %0 = bitcast %wisey.lang.CMemoryPool* %pool to i8*"
+  "\n  invoke void @__checkForNullAndThrow(i8* %0)"
+  "\n          to label %invoke.continue unwind label %cleanup"
+  "\n"
+  "\ncleanup:                                          ; preds = %invoke.continue, %entry"
+  "\n  %1 = landingpad { i8*, i32 }"
+  "\n          cleanup"
+  "\n  %2 = alloca { i8*, i32 }"
+  "\n  br label %cleanup.cont"
+  "\n"
+  "\ncleanup.cont:                                     ; preds = %cleanup"
+  "\n  store { i8*, i32 } %1, { i8*, i32 }* %2"
+  "\n  %3 = getelementptr { i8*, i32 }, { i8*, i32 }* %2, i32 0, i32 0"
+  "\n  %4 = load i8*, i8** %3"
+  "\n  %5 = call i8* @__cxa_get_exception_ptr(i8* %4)"
+  "\n  %6 = getelementptr i8, i8* %5, i64 8"
+  "\n  resume { i8*, i32 } %1"
+  "\n"
+  "\ninvoke.continue:                                  ; preds = %entry"
+  "\n  %7 = invoke i8* @wisey.lang.CMemoryPool.allocate(%wisey.lang.CMemoryPool* %pool, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i64 ptrtoint (%systems.vos.wisey.compiler.tests.MPooledModel.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.MPooledModel.refCounter, %systems.vos.wisey.compiler.tests.MPooledModel.refCounter* null, i32 1) to i64))"
+  "\n          to label %invoke.continue1 unwind label %cleanup"
+  "\n"
+  "\ninvoke.continue1:                                 ; preds = %invoke.continue"
+  "\n  %8 = bitcast i8* %7 to %systems.vos.wisey.compiler.tests.MPooledModel.refCounter*"
+  "\n  %9 = getelementptr %systems.vos.wisey.compiler.tests.MPooledModel.refCounter, %systems.vos.wisey.compiler.tests.MPooledModel.refCounter* %8, i32 0, i32 0"
+  "\n  store i64 0, i64* %9"
+  "\n  %10 = getelementptr %systems.vos.wisey.compiler.tests.MPooledModel.refCounter, %systems.vos.wisey.compiler.tests.MPooledModel.refCounter* %8, i32 0, i32 1"
+  "\n  %11 = getelementptr %systems.vos.wisey.compiler.tests.MPooledModel, %systems.vos.wisey.compiler.tests.MPooledModel* %10, i32 0, i32 1"
+  "\n  store %wisey.lang.CMemoryPool* %pool, %wisey.lang.CMemoryPool** %11"
+  "\n  %12 = getelementptr %systems.vos.wisey.compiler.tests.MPooledModel, %systems.vos.wisey.compiler.tests.MPooledModel* %10, i32 0, i32 2"
+  "\n  store i32 %mWidth, i32* %12"
+  "\n  %13 = getelementptr %systems.vos.wisey.compiler.tests.MPooledModel, %systems.vos.wisey.compiler.tests.MPooledModel* %10, i32 0, i32 3"
+  "\n  store i32 %mHeight, i32* %13"
+  "\n  %14 = bitcast %systems.vos.wisey.compiler.tests.MPooledModel* %10 to i8*"
+  "\n  %15 = getelementptr i8, i8* %14, i64 0"
+  "\n  %16 = bitcast i8* %15 to i32 (...)***"
+  "\n  %17 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.MPooledModel.vtable, i32 0, i32 0, i32 0"
+  "\n  %18 = bitcast i8** %17 to i32 (...)**"
+  "\n  store i32 (...)** %18, i32 (...)*** %16"
+  "\n  ret %systems.vos.wisey.compiler.tests.MPooledModel* %10"
+  "\n}"
+  "\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
 TEST_F(ModelTest, buildInvalidObjectBuilderArgumentsDeathTest) {
   Mock::AllowLeak(mField1Expression);
   Mock::AllowLeak(mField2Expression);
@@ -835,7 +899,7 @@ TEST_F(ModelTest, printToStreamPooledTest) {
   
   mPooledModel->printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("external model systems.vos.wisey.compiler.tests.MPooledModel pooled {\n"
+  EXPECT_STREQ("external model systems.vos.wisey.compiler.tests.MPooledModel onPool {\n"
                "\n"
                "  receive int mWidth;\n"
                "  receive int mHeight;\n"

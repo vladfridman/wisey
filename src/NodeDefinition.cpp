@@ -70,7 +70,11 @@ void NodeDefinition::prototypeMethods(IRGenerationContext& context) const {
   context.setObjectType(node);
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
   configureObject(context, node, mObjectElementDeclarations, mInterfaceSpecifiers, NULL);
-  node->defineBuildFunction(context);
+  if (node->isPooled()) {
+    node->defineAllocateFunction(context);
+  } else {
+    node->defineBuildFunction(context);
+  }
   context.setObjectType(lastObjectType);
 }
 

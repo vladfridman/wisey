@@ -8,6 +8,7 @@ import wisey.io.MFileOpenException;
 import wisey.lang.MArrayIndexOutOfBoundsException;
 import wisey.lang.MCastException;
 import wisey.lang.MInterfaceNotBoundException;
+import wisey.lang.MMemoryPoolNonEmpty;
 import wisey.lang.MNullPointerException;
 import wisey.lang.MReferenceCountException;
 
@@ -53,6 +54,8 @@ interface IThreadRunner {
     } catch (MContextNonExistantException* exception) {
       exception.report();
     } catch (MInterfaceNotBoundException* exception) {
+      exception.report();
+    } catch (MMemoryPoolNonEmpty* exception) {
       exception.report();
     }
 

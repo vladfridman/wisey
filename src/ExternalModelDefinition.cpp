@@ -71,7 +71,11 @@ void ExternalModelDefinition::prototypeMethods(IRGenerationContext& context) con
   context.setObjectType(model);
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
   configureObject(context, model, mObjectElementDeclarations, mInterfaceSpecifiers, NULL);
-  model->declareBuildFunction(context);
+  if (model->isPooled()) {
+    model->declareAllocateFunction(context);
+  } else {
+    model->declareBuildFunction(context);
+  }
   model->declareRTTI(context);
   context.setObjectType(lastObjectType);
 }

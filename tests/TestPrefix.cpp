@@ -18,6 +18,8 @@
 #include "wisey/FakeExpressionWithCleanup.hpp"
 #include "wisey/IntConstant.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
+#include "wisey/LLVMPointerTypeSpecifier.hpp"
+#include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/MethodDefinition.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/ModelDefinition.hpp"
@@ -91,6 +93,10 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   threadInterfaceDefinition->prototypeMethods(context);
   callStackDefinition->prototypeMethods(context);
   contextManagerDefinition->prototypeMethods(context);
+  
+  ControllerDefinition* memoryPoolDefinition = defineCMemoryPool(context);
+  memoryPoolDefinition->prototypeObject(context, importProfile);
+  memoryPoolDefinition->prototypeMethods(context);
 
   defineIntrinsicFunctions(context);
 
@@ -114,6 +120,8 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   
   ::testing::Mock::AllowLeak(threadVariable);
   ::testing::Mock::AllowLeak(callStackVariable);
+  
+  defineStructs(context);
 }
 
 void TestPrefix::defineStdErrGlobal(IRGenerationContext& context) {
@@ -326,6 +334,71 @@ ControllerDefinition* TestPrefix::defineCContextManager(IRGenerationContext& con
                                   0);
 }
 
+ControllerDefinition* TestPrefix::defineCMemoryPool(IRGenerationContext& context) {
+  const PrimitiveTypeSpecifier* longSpecifier = PrimitiveTypes::LONG->newTypeSpecifier(0);
+  VariableList arguments;
+  vector<IModelTypeSpecifier*> exceptions;
+  VariableDeclaration* declaration =
+  VariableDeclaration::create(longSpecifier, new Identifier("size", 0), 0);
+  arguments.push_back(declaration);
+  Block* block = new Block();
+  CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
+  LLVMPointerTypeSpecifier* pointerSpecifier =
+  new LLVMPointerTypeSpecifier(LLVMPrimitiveTypes::I8->newTypeSpecifier(0), 0);
+  MethodDefinition* methodAllocate = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
+                                                          pointerSpecifier,
+                                                          Names::getAllocateMethodName(),
+                                                          arguments,
+                                                          exceptions,
+                                                          new MethodQualifiers(0),
+                                                          compoundStatement,
+                                                          0);
+  
+  arguments.clear();
+  block = new Block();
+  compoundStatement = new CompoundStatement(block, 0);
+  MethodDefinition* methodClear = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
+                                                       PrimitiveTypes::VOID->newTypeSpecifier(0),
+                                                       Names::getClearMethodName(),
+                                                       arguments,
+                                                       exceptions,
+                                                       new MethodQualifiers(0),
+                                                       compoundStatement,
+                                                       0);
+  
+  arguments.clear();
+  block = new Block();
+  compoundStatement = new CompoundStatement(block, 0);
+  MethodDefinition* methodDestroy = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
+                                                         PrimitiveTypes::VOID->newTypeSpecifier(0),
+                                                         Names::getDestroyMethodName(),
+                                                         arguments,
+                                                         exceptions,
+                                                         new MethodQualifiers(0),
+                                                         compoundStatement,
+                                                         0);
+
+  PackageType* packageType = new PackageType(Names::getLangPackageName());
+  FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
+  ControllerTypeSpecifierFull* controllerTypeSpecifier =
+  new ControllerTypeSpecifierFull(packageExpression, Names::getCMemoryPoolName(), 0);
+  vector<IObjectElementDefinition*> elementDeclarations;
+  elementDeclarations.push_back(methodAllocate);
+  elementDeclarations.push_back(methodClear);
+  elementDeclarations.push_back(methodDestroy);
+
+  vector<IInterfaceTypeSpecifier*> interfaceSpecifiers;
+  vector<IObjectDefinition*> innerObjectDefinitions;
+  
+  return new ControllerDefinition(AccessLevel::PUBLIC_ACCESS,
+                                  controllerTypeSpecifier,
+                                  elementDeclarations,
+                                  interfaceSpecifiers,
+                                  innerObjectDefinitions,
+                                  NULL,
+                                  0);
+}
+
 InterfaceDefinition* TestPrefix::defineIThread(IRGenerationContext& context) {
   PackageType* packageType = new PackageType(Names::getThreadsPackageName());
   FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
@@ -375,4 +448,8 @@ InterfaceDefinition* TestPrefix::defineIException(IRGenerationContext& context) 
                                  elementDeclarations,
                                  innerObjectDefinitions,
                                  0);
+}
+
+void TestPrefix::defineStructs(IRGenerationContext& context) {
+  StructType::create(context.getLLVMContext(), "AprPool");
 }

@@ -70,7 +70,11 @@ void ExternalNodeDefinition::prototypeMethods(IRGenerationContext& context) cons
   context.setObjectType(node);
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
   configureObject(context, node, mObjectElementDeclarations, mInterfaceSpecifiers, NULL);
-  node->declareBuildFunction(context);
+  if (node->isPooled()) {
+    node->declareAllocateFunction(context);
+  } else {
+    node->declareBuildFunction(context);
+  }
   context.setObjectType(lastObjectType);
 }
 

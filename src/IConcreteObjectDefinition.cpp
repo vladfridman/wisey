@@ -12,6 +12,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMFunction.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/Names.hpp"
 
 using namespace std;
 using namespace wisey;
@@ -28,7 +29,8 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
   tuple<vector<Constant*>, vector<IField*>, vector<IMethod*>, vector<LLVMFunction*>> elements =
     createElements(context, object, elementDeclarations);
   unsigned long numberOfVtables = interfaces.size() ? interfaces.size() : 1u;
-  object->setFields(context, get<1>(elements), numberOfVtables);
+  unsigned long fieldStartIndex = object->isPooled() ? numberOfVtables + 1 : numberOfVtables;
+  object->setFields(context, get<1>(elements), fieldStartIndex);
   object->setInterfaces(interfaces);
   object->setMethods(get<2>(elements));
   object->setConstants(get<0>(elements));
@@ -49,6 +51,7 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
     types.push_back(vtableType);
   }
 
+  maybeAddPoolStore(context, types, object);
   collectFieldTypes(context, types, get<1>(elements));
   object->setStructBodyTypes(types);
   
@@ -170,3 +173,13 @@ void IConcreteObjectDefinition::collectFieldTypes(IRGenerationContext& context,
   }
 }
 
+void IConcreteObjectDefinition::maybeAddPoolStore(IRGenerationContext& context,
+                                                  vector<llvm::Type*>& types,
+                                                  const IConcreteObjectType* concreteObjectType) {
+  if (!concreteObjectType->isPooled()) {
+    return;
+  }
+  
+  const Controller* poolController = context.getController(Names::getCMemoryPoolFullName(), 0);
+  types.push_back(poolController->getLLVMType(context));
+}

@@ -73,6 +73,7 @@ WS  [ \t\v\n\f]
 "::struct"                    return TOKEN(TLLVMSTRUCT);
 "::void"                      return TOKEN(TLLVMVOID);
 "::wisey"                     return TOKEN(TWISEY);
+"allocator"                   return TOKEN(TALLOCATOR);
 "bind"                        return TOKEN(TBIND);
 "boolean"                     return TOKEN(TTYPEBOOLEAN);
 "break"                       return TOKEN(TBREAK);
@@ -109,9 +110,9 @@ WS  [ \t\v\n\f]
 "new"                         return TOKEN(TNEW);
 "node"                        return TOKEN(TNODE);
 "null"                        return TOKEN(TNULL);
+"onPool"                      return TOKEN(TONPOOL);
 "override"                    return TOKEN(TOVERRIDE);
 "package"                     return TOKEN(TPACKAGE);
-"pooled"                      return TOKEN(TPOOLED);
 "printerr"                    return TOKEN(TPRINTERR);
 "printfile"                   return TOKEN(TPRINTFILE);
 "printout"                    return TOKEN(TPRINTOUT);

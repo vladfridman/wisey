@@ -144,6 +144,17 @@ external model wisey.lang.MMainThreadWorker
   void work() throws wisey.threads.MThreadBoundaryException override;
 }
 
+external model wisey.lang.MMemoryPoolNonEmpty
+  implements
+    wisey.lang.IException {
+
+  receive long mObjectCount;
+  receive wisey.lang.IException mNestedException;
+
+  void report() override;
+  long getObjectCount();
+}
+
 external model wisey.lang.MNullPointerException
   implements
     wisey.lang.IException {
@@ -361,18 +372,12 @@ external controller wisey.io.CFileReader {
   wisey.lang.CString* readLine() throws wisey.io.MFileOpenException, wisey.io.MFileCouldNotOpenException;
 }
 
-external controller wisey.lang.CPoolMap {
-
-  constant long START_LENGTH;
+external controller wisey.lang.CMemoryPool {
 
   ::llvm::i8::pointer allocate(
-    string key,
-    long blockSize);
-  void deallocate(
-    string key,
-    ::llvm::i8::pointer objectShell);
-  void erasePool(
-    string key);
+    ::llvm::i64 size);
+  void clear();
+  void destroy();
 }
 
 external controller wisey.lang.CString {
@@ -548,6 +553,9 @@ external controller wisey.threads.CWorkerThreadRunner
 /* Bindings */
 
 /* llvm Structs */
+
+external ::llvm::struct AprPool {
+}
 
 external ::llvm::struct __darwin_pthread_handler_rec {
   ::llvm::void (::llvm::i8::pointer)::pointer,

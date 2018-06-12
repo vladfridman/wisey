@@ -56,6 +56,11 @@ namespace wisey {
     static std::string getReferenceCountExceptionName();
     
     /**
+     * Returns name of the model representing the memory pool non empty exception
+     */
+    static std::string getMemoryPoolNonEmptyExceptionName();
+
+    /**
      * Returns name of the model representing the cast exception
      */
     static std::string getCastExceptionName();
@@ -131,14 +136,14 @@ namespace wisey {
     static std::string getContextManagerFullName();
     
     /**
-     * Get the name of the CPoolMap controller
+     * Get the name of the CMemoryPool controller
      */
-    static std::string getCPoolMapName();
-
+    static std::string getCMemoryPoolName();
+    
     /**
-     * Get the full name of the CPoolMap controller
+     * Get the full name of the CApr controller
      */
-    static std::string getCPoolMapFullName();
+    static std::string getCMemoryPoolFullName();
 
     /**
      * Returns name of the allocate method of CPoolMap
@@ -146,9 +151,14 @@ namespace wisey {
     static std::string getAllocateMethodName();
 
     /**
-     * Returns name of the deallocate method of CPoolMap
+     * Returns name of the clear method of CPoolMap
      */
-    static std::string getDeallocateMethodName();
+    static std::string getClearMethodName();
+
+    /**
+     * Returns name of the destroy method of CPoolMap
+     */
+    static std::string getDestroyMethodName();
 
     /**
      * Returns name of the getInstance method of CContextManager

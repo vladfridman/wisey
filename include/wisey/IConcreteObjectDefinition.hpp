@@ -65,6 +65,10 @@ namespace wisey {
                                   std::vector<llvm::Type*>& types,
                                   std::vector<IField*> fields);
     
+    static void maybeAddPoolStore(IRGenerationContext& context,
+                                  std::vector<llvm::Type*>& types,
+                                  const IConcreteObjectType* concreteObjectType);
+
   };
   
 } /* namespace wisey */

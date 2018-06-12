@@ -125,9 +125,13 @@ namespace wisey {
     bool isScopeInjected(IRGenerationContext& context) const override;
 
     llvm::Function* declareBuildFunction(IRGenerationContext& context) const override;
-    
+
+    llvm::Function* declareAllocateFunction(IRGenerationContext& context) const override;
+
     llvm::Function* defineBuildFunction(IRGenerationContext& context) const override;
-    
+
+    llvm::Function* defineAllocateFunction(IRGenerationContext& context) const override;
+
     bool isPublic() const override;
     
     bool isPooled() const override;
@@ -155,6 +159,11 @@ namespace wisey {
     llvm::Instruction* build(IRGenerationContext& context,
                              const ObjectBuilderArgumentList& objectBuilderArgumentList,
                              int line) const override;
+
+    llvm::Instruction* allocate(IRGenerationContext& context,
+                                const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                                IExpression* poolExpression,
+                                int line) const override;
     
     IField* findField(std::string fieldName) const override;
     
@@ -284,6 +293,11 @@ namespace wisey {
     void checkAllFieldsAreSet(IRGenerationContext& context,
                               const ObjectBuilderArgumentList& objectBuilderArgumentList,
                               int line) const;
+    
+    void populateBuildArguments(IRGenerationContext& context,
+                                const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                                std::vector<llvm::Value*>& callArgumentsVector,
+                                int line) const;
 
   };
   

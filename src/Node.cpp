@@ -23,6 +23,7 @@
 #include "wisey/NodeOwner.hpp"
 #include "wisey/ObjectKindGlobal.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ThreadExpression.hpp"
 
 using namespace llvm;
@@ -317,6 +318,47 @@ Instruction* Node::build(IRGenerationContext& context,
   
   Function* buildFunction = context.getModule()->getFunction(getBuildFunctionNameForObject(this));
   assert(buildFunction && "Build function for node is not defined");
+  
+  vector<Value*> callArgumentsVector;
+  populateBuildArguments(context, objectBuilderArgumentList, callArgumentsVector, line);
+
+  return IRWriter::createCallInst(context, buildFunction, callArgumentsVector, "");
+}
+
+Instruction* Node::allocate(IRGenerationContext& context,
+                            const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                            IExpression* poolExpression,
+                            int line) const {
+  checkArguments(context, objectBuilderArgumentList, line);
+  
+  Function* allocateFunction = context.getModule()->
+    getFunction(getAllocateFunctionNameForObject(this));
+  assert(allocateFunction && "Allocate function for node is not defined");
+  
+  const Controller* cMemoryPool = context.getController(Names::getCMemoryPoolFullName(), 0);
+  const IType* poolType = poolExpression->getType(context);
+  if (poolType != cMemoryPool && poolType != cMemoryPool->getOwner()) {
+    context.reportError(line,
+                        "pool expression in allocate is not of type " + cMemoryPool->getTypeName());
+    throw 1;
+  }
+  
+  vector<Value*> callArgumentsVector;
+  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
+  callArgumentsVector.push_back(threadVariable->generateIdentifierIR(context, mLine));
+  IVariable* callstackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
+  callArgumentsVector.push_back(callstackVariable->generateIdentifierIR(context, mLine));
+  callArgumentsVector.push_back(poolExpression->generateIR(context, PrimitiveTypes::VOID));
+  
+  populateBuildArguments(context, objectBuilderArgumentList, callArgumentsVector, line);
+
+  return IRWriter::createCallInst(context, allocateFunction, callArgumentsVector, "");
+}
+
+void Node::populateBuildArguments(IRGenerationContext& context,
+                                  const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                                  vector<Value*>& callArgumentsVector,
+                                  int line) const {
   Value* callArguments[mReceivedFieldIndexes.size()];
   
   for (const IField* field : mFieldsOrdered) {
@@ -331,7 +373,7 @@ Instruction* Node::build(IRGenerationContext& context,
     
     Value* argumentValue = argument->getValue(context, fieldType);
     const IType* argumentType = argument->getType(context);
-
+    
     if (!argumentType->canAutoCastTo(context, fieldType)) {
       context.reportError(line, "Node builder argument value for field " + argumentName +
                           " does not match its type");
@@ -349,27 +391,25 @@ Instruction* Node::build(IRGenerationContext& context,
     Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);
     callArguments[mReceivedFieldIndexes.at(field)] = castValue;
   }
-  
-  vector<Value*> callArgumentsVector;
-  if (isPooled()) {
-    IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
-    callArgumentsVector.push_back(threadVariable->generateIdentifierIR(context, mLine));
-    IVariable* callstackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
-    callArgumentsVector.push_back(callstackVariable->generateIdentifierIR(context, mLine));
-  }
   for (Value* callArgument : callArguments) {
     callArgumentsVector.push_back(callArgument);
   }
-  
-  return IRWriter::createCallInst(context, buildFunction, callArgumentsVector, "");
 }
 
 Function* Node::declareBuildFunction(IRGenerationContext& context) const {
   return IBuildableObjectType::declareBuildFunctionForObject(context, this);
 }
 
+Function* Node::declareAllocateFunction(IRGenerationContext& context) const {
+  return IBuildableObjectType::declareAllocateFunctionForObject(context, this);
+}
+
 Function* Node::defineBuildFunction(IRGenerationContext& context) const {
   return IBuildableObjectType::defineBuildFunctionForObject(context, this);
+}
+
+Function* Node::defineAllocateFunction(IRGenerationContext& context) const {
+  return IBuildableObjectType::defineAllocateFunctionForObject(context, this);
 }
 
 string Node::getVTableName() const {
