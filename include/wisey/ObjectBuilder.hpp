@@ -9,7 +9,7 @@
 #ifndef ObjectBuilder_h
 #define ObjectBuilder_h
 
-#include "wisey/IExpression.hpp"
+#include "wisey/IObjectCreator.hpp"
 #include "wisey/IBuildableObjectTypeSpecifier.hpp"
 #include "wisey/ObjectBuilderArgument.hpp"
 
@@ -22,7 +22,7 @@ namespace wisey {
    *
    * ModelType* modelA = builder(ModelType).withField(1).build();
    */
-  class ObjectBuilder : public IExpression {
+  class ObjectBuilder : public IObjectCreator {
     
     IBuildableObjectTypeSpecifier* mTypeSpecifier;
     ObjectBuilderArgumentList mObjectBuilderArgumentList;
@@ -48,6 +48,11 @@ namespace wisey {
 
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
+  private:
+    
+    llvm::Value* build(IRGenerationContext& context,
+                       const IBuildableObjectType* buildable) const;
+
   };
   
 } /* namespace wisey */

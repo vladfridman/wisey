@@ -27,15 +27,17 @@ ObjectBuilderArgument::~ObjectBuilderArgument() {
 bool ObjectBuilderArgument::checkArgument(IRGenerationContext& context,
                                           const IConcreteObjectType* object,
                                           int line) {
+  string creator = object->isPooled() ? "allocator" : "builder";
   if (mFieldSpecifier.substr(0, 4).compare("with")) {
-    context.reportError(line, "Object builder argument should start with 'with'. "
+    context.reportError(line, "Object " + creator + " argument should start with 'with'. "
                         "e.g. .withField(value).");
     return false;
   }
   
   string fieldName = deriveFieldName();
   if (object->findField(fieldName) == NULL) {
-    context.reportError(line, "Object builder could not find field " + fieldName + " in object " +
+    context.reportError(line, "Object " + creator +
+                        " could not find field " + fieldName + " in object " +
                         object->getTypeName());
     return false;
   }

@@ -94,11 +94,6 @@ namespace wisey {
                                          llvm::StructType* structType,
                                          ImportProfile* importProfile,
                                          int line);
-
-    /**
-     * Gets a set of field names and returns the ones that are missing
-     */
-    std::vector<std::string> getMissingFields(std::set<std::string> givenFields) const;
     
     /**
      * Returns the name of the global variable containing RTTI type representing this model
@@ -124,14 +119,6 @@ namespace wisey {
     
     bool isScopeInjected(IRGenerationContext& context) const override;
 
-    llvm::Function* declareBuildFunction(IRGenerationContext& context) const override;
-
-    llvm::Function* declareAllocateFunction(IRGenerationContext& context) const override;
-
-    llvm::Function* defineBuildFunction(IRGenerationContext& context) const override;
-
-    llvm::Function* defineAllocateFunction(IRGenerationContext& context) const override;
-
     bool isPublic() const override;
     
     bool isPooled() const override;
@@ -155,15 +142,6 @@ namespace wisey {
     std::vector<LLVMFunction*> getLLVMFunctions() const override;
     
     LLVMFunction* findLLVMFunction(std::string functionName) const override;
-
-    llvm::Instruction* build(IRGenerationContext& context,
-                             const ObjectBuilderArgumentList& objectBuilderArgumentList,
-                             int line) const override;
-
-    llvm::Instruction* allocate(IRGenerationContext& context,
-                                const ObjectBuilderArgumentList& objectBuilderArgumentList,
-                                IExpression* poolExpression,
-                                int line) const override;
     
     IField* findField(std::string fieldName) const override;
     
@@ -171,6 +149,8 @@ namespace wisey {
     
     std::vector<IField*> getFields() const override;
     
+    std::vector<IField*> getReceivedFields() const override;
+
     const IMethod* findMethod(std::string methodName) const override;
     
     std::map<std::string, IMethod*> getNameToMethodMap() const override;
@@ -280,24 +260,10 @@ namespace wisey {
     
     llvm::Constant* getObjectTypeNameGlobal(IRGenerationContext& context) const override;
     
-  private:
-    
-    void checkArguments(IRGenerationContext& context,
-                        const ObjectBuilderArgumentList& objectBuilderArgumentList,
-                        int line) const;
-    
-    void checkArgumentsAreWellFormed(IRGenerationContext& context,
-                                     const ObjectBuilderArgumentList& objectBuilderArgumentList,
-                                     int line) const;
-    
-    void checkAllFieldsAreSet(IRGenerationContext& context,
-                              const ObjectBuilderArgumentList& objectBuilderArgumentList,
-                              int line) const;
-    
-    void populateBuildArguments(IRGenerationContext& context,
-                                const ObjectBuilderArgumentList& objectBuilderArgumentList,
-                                std::vector<llvm::Value*>& callArgumentsVector,
-                                int line) const;
+    void generateCreationArguments(IRGenerationContext& context,
+                                   const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                                   std::vector<llvm::Value*>& callArgumentsVector,
+                                   int line) const override;
 
   };
   

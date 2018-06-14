@@ -19,7 +19,9 @@
 #include "MockExpression.hpp"
 #include "MockVariable.hpp"
 #include "TestFileRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/IRWriter.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/ObjectBuilder.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -43,19 +45,18 @@ struct ObjectBuilderTest : Test {
   NiceMock<MockExpression>* mField1Expression;
   NiceMock<MockExpression>* mField2Expression;
   ModelTypeSpecifier* mModelTypeSpecifier;
-  BasicBlock *mBlock;
+  BasicBlock *mEntryBlock;
+  BasicBlock *mDeclareBlock;
+  Function* mFunction;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   string mPackage = "systems.vos.wisey.compiler.tests";
-  ImportProfile* mImportProfile;
 
   ObjectBuilderTest() :
   mField1Expression(new NiceMock<MockExpression>()),
   mField2Expression(new NiceMock<MockExpression>()) {
     LLVMContext& llvmContext = mContext.getLLVMContext();
-
-    mImportProfile = new ImportProfile(mPackage);
-    mContext.setImportProfile(mImportProfile);
+    TestPrefix::generateIR(mContext);
 
     mModelTypeSpecifier = new ModelTypeSpecifier(NULL, "MShape", 0);
     vector<Type*> types;
@@ -100,13 +101,15 @@ struct ObjectBuilderTest : Test {
     mObjectBuilder = new ObjectBuilder(mModelTypeSpecifier, argumentList, 0);
 
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(llvmContext), false);
-    Function* function = Function::Create(functionType,
-                                          GlobalValue::InternalLinkage,
-                                          "test",
-                                          mContext.getModule());
-    
-    mBlock = BasicBlock::Create(llvmContext, "entry", function);
-    mContext.setBasicBlock(mBlock);
+    mFunction = Function::Create(functionType,
+                                 GlobalValue::InternalLinkage,
+                                 "test",
+                                 mContext.getModule());
+
+    mDeclareBlock = BasicBlock::Create(llvmContext, "declare", mFunction);
+    mEntryBlock = BasicBlock::Create(llvmContext, "entry", mFunction);
+    mContext.setBasicBlock(mEntryBlock);
+    mContext.setDeclarationsBlock(mDeclareBlock);
     mContext.getScopes().pushScope();
 
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -149,6 +152,109 @@ TEST_F(ObjectBuilderTest, printToStreamTest) {
   EXPECT_STREQ("builder(systems.vos.wisey.compiler.tests.MShape)"
                ".withWidth(3).withHeight(5).build()",
                stringStream.str().c_str());
+}
+
+TEST_F(ObjectBuilderTest, generateIRTest) {
+  mObjectBuilder->generateIR(mContext, PrimitiveTypes::VOID);
+  mContext.setBasicBlock(mDeclareBlock);
+  IRWriter::createBranch(mContext, mEntryBlock);
+  
+  *mStringStream << *mFunction;
+  string expected =
+  "\ndefine internal void @test() {"
+  "\ndeclare:"
+  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n  br label %entry"
+  "\n"
+  "\nentry:                                            ; preds = %declare"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.MShape.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.MShape.refCounter, %systems.vos.wisey.compiler.tests.MShape.refCounter* null, i32 1) to i64))"
+  "\n  %buildervar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.MShape.refCounter*"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MShape.refCounter* %buildervar to i8*"
+  "\n  call void @llvm.memset.p0i8.i64(i8* %1, i8 0, i64 ptrtoint (%systems.vos.wisey.compiler.tests.MShape.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.MShape.refCounter, %systems.vos.wisey.compiler.tests.MShape.refCounter* null, i32 1) to i64), i32 4, i1 false)"
+  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MShape.refCounter, %systems.vos.wisey.compiler.tests.MShape.refCounter* %buildervar, i32 0, i32 1"
+  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.MShape, %systems.vos.wisey.compiler.tests.MShape* %2, i32 0, i32 1"
+  "\n  store i32 3, i32* %3"
+  "\n  %4 = getelementptr %systems.vos.wisey.compiler.tests.MShape, %systems.vos.wisey.compiler.tests.MShape* %2, i32 0, i32 2"
+  "\n  store i32 5, i32* %4"
+  "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.MShape* %2 to i8*"
+  "\n  %6 = getelementptr i8, i8* %5, i64 0"
+  "\n  %7 = bitcast i8* %6 to i32 (...)***"
+  "\n  %8 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.MShape.vtable, i32 0, i32 0, i32 0"
+  "\n  %9 = bitcast i8** %8 to i32 (...)**"
+  "\n  store i32 (...)** %9, i32 (...)*** %7"
+  "\n  store %systems.vos.wisey.compiler.tests.MShape* %2, %systems.vos.wisey.compiler.tests.MShape** %0"
+  "\n}"
+  "\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
+TEST_F(ObjectBuilderTest, allocateInvalidObjectBuilderArgumentsDeathTest) {
+  string argumentSpecifier1("width");
+  ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
+                                                               mField1Expression);
+  string argumentSpecifier2("withHeight");
+  ObjectBuilderArgument *argument2 = new ObjectBuilderArgument(argumentSpecifier2,
+                                                               mField2Expression);
+  ObjectBuilderArgumentList argumentList;
+  argumentList.push_back(argument1);
+  argumentList.push_back(argument2);
+  mObjectBuilder = new ObjectBuilder(mModelTypeSpecifier, argumentList, 1);
+
+  const char* expected =
+  "/tmp/source.yz(1): Error: Object builder argument should start with 'with'. e.g. .withField(value).\n";
+  
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mObjectBuilder->generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ(expected, buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
+}
+
+TEST_F(ObjectBuilderTest, allocateIncorrectArgumentTypeDeathTest) {
+  Value* fieldValue = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 2.0f);
+  ON_CALL(*mField2Expression, generateIR(_, _)).WillByDefault(Return(fieldValue));
+  ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
+  
+  string argumentSpecifier1("withWidth");
+  ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
+                                                               mField1Expression);
+  string argumentSpecifier2("withHeight");
+  ObjectBuilderArgument *argument2 = new ObjectBuilderArgument(argumentSpecifier2,
+                                                               mField2Expression);
+  ObjectBuilderArgumentList argumentList;
+  argumentList.push_back(argument1);
+  argumentList.push_back(argument2);
+  mObjectBuilder = new ObjectBuilder(mModelTypeSpecifier, argumentList, 3);
+
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mObjectBuilder->generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Model builder argument value for field mHeight does not match its type\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
+}
+
+TEST_F(ObjectBuilderTest, allocateNotAllFieldsAreSetDeathTest) {
+  string argumentSpecifier1("withWidth");
+  ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
+                                                               mField1Expression);
+  ObjectBuilderArgumentList argumentList;
+  argumentList.push_back(argument1);
+  mObjectBuilder = new ObjectBuilder(mModelTypeSpecifier, argumentList, 7);
+
+  const char* expected =
+  "/tmp/source.yz(7): Error: Field mHeight of object systems.vos.wisey.compiler.tests.MShape is not initialized.\n";
+  
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(mObjectBuilder->generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ(expected, buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
 }
 
 TEST_F(TestFileRunner, buildAllocatableRunDeathTest) {

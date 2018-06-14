@@ -207,19 +207,8 @@ vector<IField*> Model::getFields() const {
   return mFieldsOrdered;
 }
 
-vector<string> Model::getMissingFields(set<string> givenFields) const {
-  vector<string> missingFields;
-  
-  for (map<string, IField*>::const_iterator iterator = mFields.begin();
-       iterator != mFields.end();
-       iterator++) {
-    string fieldName = iterator->first;
-    if (givenFields.find(fieldName) == givenFields.end()) {
-      missingFields.push_back(fieldName);
-    }
-  }
-  
-  return missingFields;
+vector<IField*> Model::getReceivedFields() const {
+  return mFieldsOrdered;
 }
 
 const IMethod* Model::findMethod(std::string methodName) const {
@@ -341,54 +330,10 @@ bool Model::isImmutable() const {
   return true;
 }
 
-Instruction* Model::build(IRGenerationContext& context,
-                          const ObjectBuilderArgumentList& objectBuilderArgumentList,
-                          int line) const {
-  checkArguments(context, objectBuilderArgumentList, line);
-
-  Function* buildFunction = context.getModule()->getFunction(getBuildFunctionNameForObject(this));
-  assert(buildFunction && "Build function for model is not defined");
-
-  vector<Value*> callArgumentsVector;
-  populateBuildArguments(context, objectBuilderArgumentList, callArgumentsVector, line);
-
-  return IRWriter::createCallInst(context, buildFunction, callArgumentsVector, "");
-}
-
-Instruction* Model::allocate(IRGenerationContext& context,
-                             const ObjectBuilderArgumentList& objectBuilderArgumentList,
-                             IExpression* poolExpression,
-                             int line) const {
-  checkArguments(context, objectBuilderArgumentList, line);
-  
-  Function* allocateFunction = context.getModule()->
-  getFunction(getAllocateFunctionNameForObject(this));
-  assert(allocateFunction && "Allocate function for model is not defined");
-  
-  const Controller* cMemoryPool = context.getController(Names::getCMemoryPoolFullName(), 0);
-  const IType* poolType = poolExpression->getType(context);
-  if (poolType != cMemoryPool && poolType != cMemoryPool->getOwner()) {
-    context.reportError(line,
-                        "pool expression in allocate is not of type " + cMemoryPool->getTypeName());
-    throw 1;
-  }
-  
-  vector<Value*> callArgumentsVector;
-  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
-  callArgumentsVector.push_back(threadVariable->generateIdentifierIR(context, mLine));
-  IVariable* callstackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
-  callArgumentsVector.push_back(callstackVariable->generateIdentifierIR(context, mLine));
-  callArgumentsVector.push_back(poolExpression->generateIR(context, PrimitiveTypes::VOID));
-  
-  populateBuildArguments(context, objectBuilderArgumentList, callArgumentsVector, line);
-  
-  return IRWriter::createCallInst(context, allocateFunction, callArgumentsVector, "");
-}
-
-void Model::populateBuildArguments(IRGenerationContext& context,
-                                   const ObjectBuilderArgumentList& objectBuilderArgumentList,
-                                   vector<Value*>& callArgumentsVector,
-                                   int line) const {
+void Model::generateCreationArguments(IRGenerationContext& context,
+                                      const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                                      vector<Value*>& callArgumentsVector,
+                                      int line) const {
   Value* callArguments[mReceivedFieldIndexes.size()];
   
   for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
@@ -400,7 +345,8 @@ void Model::populateBuildArguments(IRGenerationContext& context,
     Value* argumentValue = argument->getValue(context, fieldType);
     const IType* argumentType = argument->getType(context);
     if (!argumentType->canAutoCastTo(context, fieldType)) {
-      context.reportError(line, "Model builder argument value for field " + argumentName +
+      string creator = mIsPooled ? "allocator" : "builder";
+      context.reportError(line, "Model " + creator + " argument value for field " + argumentName +
                           " does not match its type");
       throw 1;
     }
@@ -419,22 +365,6 @@ void Model::populateBuildArguments(IRGenerationContext& context,
   for (Value* callArgument : callArguments) {
     callArgumentsVector.push_back(callArgument);
   }
-}
-
-Function* Model::declareBuildFunction(IRGenerationContext& context) const {
-  return IBuildableObjectType::declareBuildFunctionForObject(context, this);
-}
-
-Function* Model::declareAllocateFunction(IRGenerationContext& context) const {
-  return IBuildableObjectType::declareAllocateFunctionForObject(context, this);
-}
-
-Function* Model::defineBuildFunction(IRGenerationContext& context) const {
-  return IBuildableObjectType::defineBuildFunctionForObject(context, this);
-}
-
-Function* Model::defineAllocateFunction(IRGenerationContext& context) const {
-  return IBuildableObjectType::defineAllocateFunctionForObject(context, this);
 }
 
 void Model::defineRTTI(IRGenerationContext& context) const {
@@ -488,46 +418,6 @@ void Model::declareRTTI(IRGenerationContext& context) const {
                      GlobalValue::LinkageTypes::ExternalLinkage,
                      NULL,
                      getRTTIVariableName());
-}
-
-void Model::checkArguments(IRGenerationContext& context,
-                           const ObjectBuilderArgumentList& objectBuilderArgumentList,
-                           int line) const {
-  checkArgumentsAreWellFormed(context, objectBuilderArgumentList, line);
-  checkAllFieldsAreSet(context, objectBuilderArgumentList, line);
-}
-
-void Model::checkArgumentsAreWellFormed(IRGenerationContext& context,
-                                        const ObjectBuilderArgumentList& objectBuilderArgumentList,
-                                        int line) const {
-  bool areArgumentsWellFormed = true;
-  
-  for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
-    areArgumentsWellFormed &= argument->checkArgument(context, this, line);
-  }
-  
-  if (!areArgumentsWellFormed) {
-    throw 1;
-  }
-}
-
-void Model::checkAllFieldsAreSet(IRGenerationContext& context,
-                                 const ObjectBuilderArgumentList& objectBuilderArgumentList,
-                                 int line) const {
-  set<string> allFieldsThatAreSet;
-  for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
-    allFieldsThatAreSet.insert(argument->deriveFieldName());
-  }
-  
-  vector<string> missingFields = getMissingFields(allFieldsThatAreSet);
-  if (missingFields.size() == 0) {
-    return;
-  }
-  
-  for (string missingField : missingFields) {
-    context.reportError(line, "Field " + missingField + " is not initialized");
-  }
-  throw 1;
 }
 
 string Model::getRTTIVariableName() const {

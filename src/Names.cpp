@@ -111,6 +111,10 @@ string Names::getAllocateMethodName() {
   return "allocate";
 }
 
+string Names::getPallocateMethodName() {
+  return "pallocate";
+}
+
 string Names::getClearMethodName() {
   return "clear";
 }

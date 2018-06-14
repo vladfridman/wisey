@@ -25,6 +25,13 @@ controller CMemoryPool {
   }
 
   /**
+   * Allocate memory of a given size on a given memory pool
+   */
+  public static ::llvm::i8::pointer pallocate(::llvm::struct::AprPool::pointer pool, long size) {
+    return ::llvm::function::apr_palloc(pool, size);
+  }
+
+  /**
    * Clears the pool of all objects; this is called when mCount gets to zero
    */
   public void clear() {
@@ -40,6 +47,6 @@ controller CMemoryPool {
 
   private void initialize() {
     ::llvm::function::apr_initialize();
-    ::llvm::function::apr_pool_create_unmanaged_ex(::llvm::reference(mPool), null, null);
+    ::llvm::function::apr_pool_create_ex(::llvm::reference(mPool), null, null, null);
   }
 }

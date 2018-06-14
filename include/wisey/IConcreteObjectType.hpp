@@ -354,6 +354,11 @@ namespace wisey {
     static llvm::StructType* getOrCreateRefCounterStruct(IRGenerationContext& context,
                                                          const IConcreteObjectType* object);
 
+    /**
+     * Returns struct type that repeats the struct type of wisey.lang.CMemoryPool
+     */
+    static llvm::StructType* getCMemoryPoolStruct(IRGenerationContext& context);
+
   private:
     
     static std::map<std::string, llvm::Function*>
@@ -426,8 +431,6 @@ namespace wisey {
     static void checkMethodOverride(IRGenerationContext& context,
                                     const IConcreteObjectType* object,
                                     IMethod* method);
-    
-    static llvm::StructType* getCMemoryPoolStruct(IRGenerationContext& context);
     
     static void addMemoryPoolDestructor(IRGenerationContext& context,
                                         llvm::Function* function,

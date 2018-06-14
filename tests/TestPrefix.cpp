@@ -20,6 +20,8 @@
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/LLVMPointerTypeSpecifier.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
+#include "wisey/LLVMStructType.hpp"
+#include "wisey/LLVMStructSpecifier.hpp"
 #include "wisey/MethodDefinition.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/ModelDefinition.hpp"
@@ -94,6 +96,8 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   callStackDefinition->prototypeMethods(context);
   contextManagerDefinition->prototypeMethods(context);
   
+  defineStructs(context);
+
   ControllerDefinition* memoryPoolDefinition = defineCMemoryPool(context);
   memoryPoolDefinition->prototypeObject(context, importProfile);
   memoryPoolDefinition->prototypeMethods(context);
@@ -120,8 +124,6 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
   
   ::testing::Mock::AllowLeak(threadVariable);
   ::testing::Mock::AllowLeak(callStackVariable);
-  
-  defineStructs(context);
 }
 
 void TestPrefix::defineStdErrGlobal(IRGenerationContext& context) {
@@ -377,6 +379,25 @@ ControllerDefinition* TestPrefix::defineCMemoryPool(IRGenerationContext& context
                                                          new MethodQualifiers(0),
                                                          compoundStatement,
                                                          0);
+  
+  pointerSpecifier =
+  new LLVMPointerTypeSpecifier(LLVMPrimitiveTypes::I8->newTypeSpecifier(0), 0);
+  arguments.clear();
+  LLVMPointerTypeSpecifier* poolSpecifier =
+  new LLVMPointerTypeSpecifier(new LLVMStructSpecifier("AprPool", 0), 0);
+  arguments.push_back(VariableDeclaration::create(poolSpecifier, new Identifier("pool", 0), 0));
+  longSpecifier = PrimitiveTypes::LONG->newTypeSpecifier(0);
+  declaration = VariableDeclaration::create(longSpecifier, new Identifier("size", 0), 0);
+  arguments.push_back(declaration);
+  block = new Block();
+  compoundStatement = new CompoundStatement(block, 0);
+  StaticMethodDefinition* methodPalloc = new StaticMethodDefinition(PUBLIC_ACCESS,
+                                                                    pointerSpecifier,
+                                                                    Names::getPallocateMethodName(),
+                                                                    arguments,
+                                                                    exceptions,
+                                                                    compoundStatement,
+                                                                    0);
 
   PackageType* packageType = new PackageType(Names::getLangPackageName());
   FakeExpressionWithCleanup* packageExpression = new FakeExpressionWithCleanup(NULL, packageType);
@@ -386,6 +407,7 @@ ControllerDefinition* TestPrefix::defineCMemoryPool(IRGenerationContext& context
   elementDeclarations.push_back(methodAllocate);
   elementDeclarations.push_back(methodClear);
   elementDeclarations.push_back(methodDestroy);
+  elementDeclarations.push_back(methodPalloc);
 
   vector<IInterfaceTypeSpecifier*> interfaceSpecifiers;
   vector<IObjectDefinition*> innerObjectDefinitions;
@@ -451,5 +473,7 @@ InterfaceDefinition* TestPrefix::defineIException(IRGenerationContext& context) 
 }
 
 void TestPrefix::defineStructs(IRGenerationContext& context) {
-  StructType::create(context.getLLVMContext(), "AprPool");
+  StructType* aprPool = StructType::create(context.getLLVMContext(), "AprPool");
+  LLVMStructType* aprPoolLLVM = LLVMStructType::newLLVMStructType(aprPool);
+  context.addLLVMStructType(aprPoolLLVM, 0);
 }

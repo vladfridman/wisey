@@ -1031,6 +1031,8 @@
 		F5E3D64A1F6C01CE00FC37CB /* PrintOutStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E3D6491F6C01CE00FC37CB /* PrintOutStatement.cpp */; };
 		F5E3D64B1F6C01CE00FC37CB /* PrintOutStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E3D6491F6C01CE00FC37CB /* PrintOutStatement.cpp */; };
 		F5E3D64D1F6C19D900FC37CB /* TestPrintOutStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E3D64C1F6C19D900FC37CB /* TestPrintOutStatement.cpp */; };
+		F5E3DD2320D2604E0016514B /* IObjectCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E3DD2220D2604E0016514B /* IObjectCreator.cpp */; };
+		F5E3DD2420D2604E0016514B /* IObjectCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E3DD2220D2604E0016514B /* IObjectCreator.cpp */; };
 		F5E6BD071F190B4700D59444 /* Composer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E6BD061F190B4700D59444 /* Composer.cpp */; };
 		F5E6BD0A1F190B8500D59444 /* FakeExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E6BD091F190B8500D59444 /* FakeExpression.cpp */; };
 		F5E6BD0C1F1B7B1600D59444 /* TestFakeExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E6BD0B1F1B7B1600D59444 /* TestFakeExpression.cpp */; };
@@ -2060,6 +2062,8 @@
 		F5E3D6481F6C00DC00FC37CB /* PrintOutStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = PrintOutStatement.hpp; path = include/wisey/PrintOutStatement.hpp; sourceTree = "<group>"; };
 		F5E3D6491F6C01CE00FC37CB /* PrintOutStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PrintOutStatement.cpp; path = src/PrintOutStatement.cpp; sourceTree = "<group>"; };
 		F5E3D64C1F6C19D900FC37CB /* TestPrintOutStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestPrintOutStatement.cpp; path = tests/TestPrintOutStatement.cpp; sourceTree = "<group>"; };
+		F5E3DD2120D25F550016514B /* IObjectCreator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IObjectCreator.hpp; path = include/wisey/IObjectCreator.hpp; sourceTree = "<group>"; };
+		F5E3DD2220D2604E0016514B /* IObjectCreator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IObjectCreator.cpp; path = src/IObjectCreator.cpp; sourceTree = "<group>"; };
 		F5E48B8E1E870E150087CC70 /* MockExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockExpression.hpp; path = tests/include/MockExpression.hpp; sourceTree = "<group>"; };
 		F5E48B8F1E8710DB0087CC70 /* MockVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockVariable.hpp; path = tests/include/MockVariable.hpp; sourceTree = "<group>"; };
 		F5E48B901E87122E0087CC70 /* MockStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockStatement.hpp; path = tests/include/MockStatement.hpp; sourceTree = "<group>"; };
@@ -3843,6 +3847,7 @@
 			isa = PBXGroup;
 			children = (
 				F534643C20AC8743006369D4 /* IBuildableObjectType.cpp */,
+				F5E3DD2220D2604E0016514B /* IObjectCreator.cpp */,
 				F593629E20CC25C300A8C67A /* ObjectAllocator.cpp */,
 				F5F396D61E34BBDD00F34296 /* ObjectBuilder.cpp */,
 				F5F396DA1E34BFE000F34296 /* ObjectBuilderArgument.cpp */,
@@ -3934,6 +3939,7 @@
 			children = (
 				F53A2C401F01663A00E76A9E /* IBuildableObjectType.hpp */,
 				F593627F20C5462600A8C67A /* IBuildableObjectTypeSpecifier.hpp */,
+				F5E3DD2120D25F550016514B /* IObjectCreator.hpp */,
 				F593629D20CC255200A8C67A /* ObjectAllocator.hpp */,
 				F5089C931ECD01D9004A1223 /* ObjectBuilder.hpp */,
 				F5089C941ECD01D9004A1223 /* ObjectBuilderArgument.hpp */,
@@ -4353,6 +4359,7 @@
 				F5296AC11E564B9B00FB1E1D /* CastExpression.cpp in Sources */,
 				F534010A1DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
 				F50FA2DC1E2D329900435EEA /* ModelTypeSpecifier.cpp in Sources */,
+				F5E3DD2420D2604E0016514B /* IObjectCreator.cpp in Sources */,
 				F534645020AF1F35006369D4 /* TestMSystem.cpp in Sources */,
 				F50D5E3E20B58DCB00A025E9 /* Optimizer.cpp in Sources */,
 				F50FA2B41E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */,
@@ -4912,6 +4919,7 @@
 				F5E3D64A1F6C01CE00FC37CB /* PrintOutStatement.cpp in Sources */,
 				F51581211E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */,
 				F5CB7FC920529DE3007628B5 /* ReceivedFieldDefinition.cpp in Sources */,
+				F5E3DD2320D2604E0016514B /* IObjectCreator.cpp in Sources */,
 				F57411591E01A09B009809FF /* LogicalOrExpression.cpp in Sources */,
 				F51D2BBA1F6940D800510784 /* StaticMethodCall.cpp in Sources */,
 				F57411421E015961009809FF /* ReturnStatement.cpp in Sources */,

@@ -151,6 +151,11 @@ namespace wisey {
     static std::string getAllocateMethodName();
 
     /**
+     * Returns name of the pallocate method of CPoolMap
+     */
+    static std::string getPallocateMethodName();
+
+    /**
      * Returns name of the clear method of CPoolMap
      */
     static std::string getClearMethodName();

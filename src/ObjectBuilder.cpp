@@ -44,7 +44,7 @@ Value* ObjectBuilder::generateIR(IRGenerationContext& context, const IType* assi
                         " can not be built, it should be allocated using allocator command");
     throw 1;
   }
-  Instruction* malloc = buildableType->build(context, mObjectBuilderArgumentList, mLine);
+  Value* malloc = build(context, buildableType);
   
   if (assignToType->isOwner()) {
     return malloc;
@@ -84,4 +84,42 @@ void ObjectBuilder::printToStream(IRGenerationContext& context, std::iostream& s
     argument->printToStream(context, stream);
   }
   stream << ".build()";
+}
+
+Value* ObjectBuilder::build(IRGenerationContext& context,
+                            const IBuildableObjectType* buildable) const {
+  checkArguments(context, buildable, mObjectBuilderArgumentList, mLine);
+  
+  Instruction* malloc = IConcreteObjectType::createMallocForObject(context,
+                                                                   buildable,
+                                                                   "buildervar");
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Value* index[2];
+  index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
+  Instruction* objectStart = IRWriter::createGetElementPtrInst(context, malloc, index);
+  
+  vector<Value*> creationArguments;
+  buildable->generateCreationArguments(context,
+                                       mObjectBuilderArgumentList,
+                                       creationArguments,
+                                       mLine);
+
+  auto iterator = creationArguments.begin();
+  index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  for (const IField* field : buildable->getFields()) {
+    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), buildable->getFieldIndex(field));
+    GetElementPtrInst* fieldPointer =
+    IRWriter::createGetElementPtrInst(context, objectStart, index);
+    IRWriter::newStoreInst(context, *iterator, fieldPointer);
+    const IType* fieldType = field->getType();
+    if (fieldType->isReference()) {
+      ((const IReferenceType*) fieldType)->incrementReferenceCount(context, *iterator);
+    }
+    iterator++;
+  }
+  
+  IConcreteObjectType::initializeVTable(context, buildable, objectStart);
+
+  return objectStart;
 }

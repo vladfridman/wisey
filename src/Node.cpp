@@ -11,19 +11,26 @@
 #include "wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp"
 #include "wisey/AutoCast.hpp"
 #include "wisey/CheckCastToObjectFunction.hpp"
+#include "wisey/ControllerTypeSpecifierFull.hpp"
+#include "wisey/FakeExpression.hpp"
+#include "wisey/FakeExpressionWithCleanup.hpp"
 #include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/IdentifierChain.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/LLVMFunction.hpp"
+#include "wisey/LLVMStructType.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/MethodCall.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/Node.hpp"
 #include "wisey/NodeOwner.hpp"
 #include "wisey/ObjectKindGlobal.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/StaticMethodCall.hpp"
 #include "wisey/ThreadExpression.hpp"
 
 using namespace llvm;
@@ -213,6 +220,10 @@ vector<IField*> Node::getFields() const {
   return mFieldsOrdered;
 }
 
+vector<IField*> Node::getReceivedFields() const {
+  return mReceivedFields;
+}
+
 const IMethod* Node::findMethod(string methodName) const {
   return IConcreteObjectType::findMethodInObject(methodName, this);
 }
@@ -311,56 +322,12 @@ bool Node::isImmutable() const {
   return false;
 }
 
-Instruction* Node::build(IRGenerationContext& context,
-                          const ObjectBuilderArgumentList& objectBuilderArgumentList,
-                          int line) const {
-  checkArguments(context, objectBuilderArgumentList, line);
-  
-  Function* buildFunction = context.getModule()->getFunction(getBuildFunctionNameForObject(this));
-  assert(buildFunction && "Build function for node is not defined");
-  
-  vector<Value*> callArgumentsVector;
-  populateBuildArguments(context, objectBuilderArgumentList, callArgumentsVector, line);
-
-  return IRWriter::createCallInst(context, buildFunction, callArgumentsVector, "");
-}
-
-Instruction* Node::allocate(IRGenerationContext& context,
-                            const ObjectBuilderArgumentList& objectBuilderArgumentList,
-                            IExpression* poolExpression,
-                            int line) const {
-  checkArguments(context, objectBuilderArgumentList, line);
-  
-  Function* allocateFunction = context.getModule()->
-    getFunction(getAllocateFunctionNameForObject(this));
-  assert(allocateFunction && "Allocate function for node is not defined");
-  
-  const Controller* cMemoryPool = context.getController(Names::getCMemoryPoolFullName(), 0);
-  const IType* poolType = poolExpression->getType(context);
-  if (poolType != cMemoryPool && poolType != cMemoryPool->getOwner()) {
-    context.reportError(line,
-                        "pool expression in allocate is not of type " + cMemoryPool->getTypeName());
-    throw 1;
-  }
-  
-  vector<Value*> callArgumentsVector;
-  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
-  callArgumentsVector.push_back(threadVariable->generateIdentifierIR(context, mLine));
-  IVariable* callstackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
-  callArgumentsVector.push_back(callstackVariable->generateIdentifierIR(context, mLine));
-  callArgumentsVector.push_back(poolExpression->generateIR(context, PrimitiveTypes::VOID));
-  
-  populateBuildArguments(context, objectBuilderArgumentList, callArgumentsVector, line);
-
-  return IRWriter::createCallInst(context, allocateFunction, callArgumentsVector, "");
-}
-
-void Node::populateBuildArguments(IRGenerationContext& context,
-                                  const ObjectBuilderArgumentList& objectBuilderArgumentList,
-                                  vector<Value*>& callArgumentsVector,
-                                  int line) const {
+void Node::generateCreationArguments(IRGenerationContext& context,
+                                     const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                                     vector<Value*>& callArgumentsVector,
+                                     int line) const {
   Value* callArguments[mReceivedFieldIndexes.size()];
-  
+
   for (const IField* field : mFieldsOrdered) {
     Value* nullValue = llvm::Constant::getNullValue(field->getType()->getLLVMType(context));
     callArguments[mReceivedFieldIndexes.at(field)] = nullValue;
@@ -396,22 +363,6 @@ void Node::populateBuildArguments(IRGenerationContext& context,
   }
 }
 
-Function* Node::declareBuildFunction(IRGenerationContext& context) const {
-  return IBuildableObjectType::declareBuildFunctionForObject(context, this);
-}
-
-Function* Node::declareAllocateFunction(IRGenerationContext& context) const {
-  return IBuildableObjectType::declareAllocateFunctionForObject(context, this);
-}
-
-Function* Node::defineBuildFunction(IRGenerationContext& context) const {
-  return IBuildableObjectType::defineBuildFunctionForObject(context, this);
-}
-
-Function* Node::defineAllocateFunction(IRGenerationContext& context) const {
-  return IBuildableObjectType::defineAllocateFunctionForObject(context, this);
-}
-
 string Node::getVTableName() const {
   return mName + ".vtable";
 }
@@ -430,98 +381,6 @@ string Node::getTypeTableName() const {
 
 const IObjectOwnerType* Node::getOwner() const {
   return mNodeOwner;
-}
-
-vector<string> Node::getMissingFields(set<string> givenFields) const {
-  vector<string> missingFields;
-  
-  for (IField* receivedField : mReceivedFields) {
-    if (givenFields.find(receivedField->getName()) == givenFields.end()) {
-      missingFields.push_back(receivedField->getName());
-    }
-  }
-  
-  return missingFields;
-}
-
-void Node::checkArguments(IRGenerationContext& context,
-                          const ObjectBuilderArgumentList& objectBuilderArgumentList,
-                          int line) const {
-  checkArgumentsAreWellFormed(context, objectBuilderArgumentList, line);
-  checkAllFieldsAreSet(context, objectBuilderArgumentList, line);
-}
-
-void Node::checkArgumentsAreWellFormed(IRGenerationContext& context,
-                                       const ObjectBuilderArgumentList& objectBuilderArgumentList,
-                                       int line) const {
-  bool areArgumentsWellFormed = true;
-  
-  for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
-    areArgumentsWellFormed &= argument->checkArgument(context, this, line);
-  }
-  
-  if (!areArgumentsWellFormed) {
-    throw 1;
-  }
-}
-
-void Node::checkAllFieldsAreSet(IRGenerationContext& context,
-                                const ObjectBuilderArgumentList& objectBuilderArgumentList,
-                                int line) const {
-  set<string> allFieldsThatAreSet;
-  for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
-    allFieldsThatAreSet.insert(argument->deriveFieldName());
-  }
-  
-  vector<string> missingFields = getMissingFields(allFieldsThatAreSet);
-  if (missingFields.size() == 0) {
-    return;
-  }
-  
-  for (string missingField : missingFields) {
-    context.reportError(line, "Field " + missingField + " of the node " + mName +
-                        " is not initialized.");
-  }
-  throw 1;
-}
-
-void Node::initializePresetFields(IRGenerationContext& context,
-                                  const ObjectBuilderArgumentList& objectBuilderArgumentList,
-                                  Instruction* malloc,
-                                  int line) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  
-  Value* index[2];
-  index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
-  for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
-    string argumentName = argument->deriveFieldName();
-    IField* field = findField(argumentName);
-    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
-    GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
-    const IType* fieldType = field->getType();
-
-    Value* argumentValue = argument->getValue(context, fieldType);
-    const IType* argumentType = argument->getType(context);
-    if (!argumentType->canAutoCastTo(context, fieldType)) {
-      context.reportError(line, "Node builder argument value for field " + argumentName +
-                          " does not match its type");
-      throw 1;
-    }
-    if (field->isState() && (argumentType->isController() || argumentType->isModel())) {
-      context.reportError(line, "Trying to initialize a node state field with object that is "
-                          "not a node. Node state fields can only be of node type");
-      throw 1;
-    }
-    if (field->isState() && argumentType->isInterface() && fieldType->isInterface()) {
-      string typeName = context.getObjectType()->getTypeName();
-      CheckCastToObjectFunction::callCheckCastToNode(context, argumentValue);
-    }
-    Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);
-    IRWriter::newStoreInst(context, castValue, fieldPointer);
-    if (fieldType->isReference()) {
-      ((const IReferenceType*) fieldType)->incrementReferenceCount(context, castValue);
-    }
-  }
 }
 
 bool Node::isExternal() const {

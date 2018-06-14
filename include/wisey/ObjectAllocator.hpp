@@ -9,8 +9,8 @@
 #ifndef ObjectAllocator_h
 #define ObjectAllocator_h
 
-#include "wisey/IExpression.hpp"
 #include "wisey/IBuildableObjectTypeSpecifier.hpp"
+#include "wisey/IObjectCreator.hpp"
 #include "wisey/ObjectBuilderArgument.hpp"
 
 namespace wisey {
@@ -20,9 +20,9 @@ namespace wisey {
    *
    * The object builder is used as follows in the wisey language:
    *
-   * ModelType* modelA = allocate(ModelType).withField(1).onPool(pool);
+   * ModelType* modelA = allocator(ModelType).withField(1).onPool(pool);
    */
-  class ObjectAllocator : public IExpression {
+  class ObjectAllocator : public IObjectCreator {
     
     IBuildableObjectTypeSpecifier* mTypeSpecifier;
     ObjectBuilderArgumentList mObjectBuilderArgumentList;
@@ -50,6 +50,11 @@ namespace wisey {
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
+  private:
+    
+    llvm::Value* allocate(IRGenerationContext& context,
+                          const IBuildableObjectType* buildable) const;
+
   };
   
 } /* namespace wisey */
