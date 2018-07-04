@@ -66,7 +66,7 @@ public:
     mModel->setFields(mContext, fields, 1u);
 
     IConcreteObjectType::declareTypeNameGlobal(mContext, mModel);
-    IConcreteObjectType::declareVTable(mContext, mModel);
+    IConcreteObjectType::defineVTable(mContext, mModel);
 
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
@@ -142,7 +142,7 @@ TEST_F(ParameterOwnerVariableTest, freeTest) {
   "\nentry:                                            ; No predecessors!"
   "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0"
   "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.MShape* %1 to i8*"
-  "\n  call void @__destroyObjectOwnerFunction(i8* %2, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* null)\n";
+  "\n  call void @systems.vos.wisey.compiler.tests.MShape.destructor(i8* %2, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* null)\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

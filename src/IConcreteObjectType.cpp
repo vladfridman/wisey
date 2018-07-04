@@ -219,6 +219,16 @@ void IConcreteObjectType::addDestructorInfo(IRGenerationContext& context,
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
   
+  Function* destructor = declareDestructor(context, object);
+  
+  vTables.at(0).push_back(ConstantExpr::getBitCast(destructor, int8Pointer));
+}
+
+Function* IConcreteObjectType::declareDestructor(IRGenerationContext& context,
+                                                 const IConcreteObjectType* object) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Type* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
+  
   const Interface* thread = context.getInterface(Names::getThreadInterfaceFullName(), 0);
   const Controller* callstack = context.getController(Names::getCallStackControllerFullName(), 0);
   vector<Type*> argumentTypes;
@@ -227,16 +237,14 @@ void IConcreteObjectType::addDestructorInfo(IRGenerationContext& context,
   argumentTypes.push_back(callstack->getLLVMType(context));
   argumentTypes.push_back(int8Pointer);
   Type* llvmReturnType = Type::getVoidTy(llvmContext);
-
+  
   FunctionType* functionType = FunctionType::get(llvmReturnType, argumentTypes, false);
   string functionName = getObjectDestructorFunctionName(object);
   
-  Function* destructor = Function::Create(functionType,
-                                          GlobalValue::ExternalLinkage,
-                                          functionName,
-                                          context.getModule());
-  
-  vTables.at(0).push_back(ConstantExpr::getBitCast(destructor, int8Pointer));
+  return Function::Create(functionType,
+                          GlobalValue::ExternalLinkage,
+                          functionName,
+                          context.getModule());
 }
 
 void IConcreteObjectType::scheduleDestructorBodyComposition(IRGenerationContext& context,
@@ -709,23 +717,33 @@ string IConcreteObjectType::getObjectDestructorFunctionName(const IConcreteObjec
 }
 
 void IConcreteObjectType::composeDestructorCall(IRGenerationContext& context,
+                                                const IConcreteObjectType* object,
                                                 Value* value,
                                                 Value* exception,
                                                 int line) {
+  string destructorFunctionName = getObjectDestructorFunctionName(object);
+  Function* destructor = context.getModule()->getFunction(destructorFunctionName);
+
   Type* int8pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   Value* bitcast = IRWriter::newBitCastInst(context, value, int8pointer);
-  
-  DestroyObjectOwnerFunction::call(context, bitcast, exception, line);
-}
 
-Function* IConcreteObjectType::getDestructorFunctionForObject(IRGenerationContext& context,
-                                                              const IConcreteObjectType* object,
-                                                              int line) {
-  string rceFullName = Names::getLangPackageName() + "." + Names::getReferenceCountExceptionName();
-  context.getScopes().getScope()->addException(context.getModel(rceFullName, line), line);
-  string destructorFunctionName = getObjectDestructorFunctionName(object);
+  vector<Value*> arguments;
+  arguments.push_back(bitcast);
   
-  return context.getModule()->getFunction(destructorFunctionName);
+  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
+  arguments.push_back(threadVariable->generateIdentifierIR(context, line));
+  IVariable* callstackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
+  arguments.push_back(callstackVariable->generateIdentifierIR(context, line));
+  
+  if (exception) {
+    arguments.push_back(exception);
+    IRWriter::createCallInst(context, destructor, arguments, "");
+  } else {
+    llvm::PointerType* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+    Value* nullPointer = ConstantPointerNull::get(int8Pointer);
+    arguments.push_back(nullPointer);
+    IRWriter::createInvokeInst(context, destructor, arguments, "", line);
+  }
 }
 
 void IConcreteObjectType::generateStaticMethodsIR(IRGenerationContext& context,

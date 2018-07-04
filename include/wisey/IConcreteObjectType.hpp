@@ -263,16 +263,10 @@ namespace wisey {
      * Compose a call to destroy a given concrete object
      */
     static void composeDestructorCall(IRGenerationContext& context,
+                                      const IConcreteObjectType* object,
                                       llvm::Value* value,
                                       llvm::Value* exception,
                                       int line);
-
-    /**
-     * Returns destructor function
-     */
-    static llvm::Function* getDestructorFunctionForObject(IRGenerationContext& context,
-                                                          const IConcreteObjectType* object,
-                                                          int line);
     
     /**
      * Generates IR for static methods of a given object
@@ -359,6 +353,12 @@ namespace wisey {
      */
     static llvm::StructType* getCMemoryPoolStruct(IRGenerationContext& context);
 
+    /**
+     * Declares the destructor function
+     */
+    static llvm::Function* declareDestructor(IRGenerationContext& context,
+                                             const IConcreteObjectType* object);
+    
   private:
     
     static std::map<std::string, llvm::Function*>

@@ -77,7 +77,7 @@ void ControllerOwner::free(IRGenerationContext& context,
                            Value* value,
                            Value* exception,
                            int line) const {
-  IConcreteObjectType::composeDestructorCall(context, value, exception, line);
+  IConcreteObjectType::composeDestructorCall(context, mController, value, exception, line);
 }
 
 bool ControllerOwner::isPrimitive() const {

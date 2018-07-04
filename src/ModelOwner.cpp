@@ -75,7 +75,7 @@ void ModelOwner::free(IRGenerationContext& context,
                       Value* value,
                       Value* exception,
                       int line) const {
-  IConcreteObjectType::composeDestructorCall(context, value, exception, line);
+  IConcreteObjectType::composeDestructorCall(context, mModel, value, exception, line);
 }
 
 bool ModelOwner::isPrimitive() const {

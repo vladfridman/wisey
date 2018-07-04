@@ -61,6 +61,7 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
     IConcreteObjectType::declareTypeNameGlobal(context, object);
     IConcreteObjectType::declareVTable(context, object);
     IConcreteObjectType::declareConstants(context, object);
+    IConcreteObjectType::declareDestructor(context, object);
   } else {
     IConcreteObjectType::defineTypeNameGlobal(context, object);
     IConcreteObjectType::defineVTable(context, object);

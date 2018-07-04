@@ -77,6 +77,9 @@ public:
     mContext.setDeclarationsBlock(mDeclareBlock);
     mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
+
+    IConcreteObjectType::declareTypeNameGlobal(mContext, mModel);
+    IConcreteObjectType::defineVTable(mContext, mModel);
   }
   
   ~ArrayElementAssignmentTest() {
@@ -107,7 +110,7 @@ TEST_F(ArrayElementAssignmentTest, generateOwnerArrayAssignmentTest) {
   "\nentry:                                            ; preds = %declare"
   "\n  %0 = load %systems.vos.wisey.compiler.tests.MModel*, %systems.vos.wisey.compiler.tests.MModel** null"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MModel* %0 to i8*"
-  "\n  invoke void @__destroyObjectOwnerFunction(i8* %1, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* null)"
+  "\n  invoke void @systems.vos.wisey.compiler.tests.MModel.destructor(i8* %1, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* null)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\ncleanup:                                          ; preds = %entry"

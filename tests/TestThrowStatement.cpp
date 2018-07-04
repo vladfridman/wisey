@@ -78,7 +78,7 @@ struct ThrowStatementTest : public Test {
     mCircleModel->declareRTTI(mContext);
 
     IConcreteObjectType::declareTypeNameGlobal(mContext, mCircleModel);
-    IConcreteObjectType::declareVTable(mContext, mCircleModel);
+    IConcreteObjectType::defineVTable(mContext, mCircleModel);
 
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     mFunction = Function::Create(functionType,
@@ -227,10 +227,10 @@ TEST_F(ThrowStatementTest, ownerVariablesAreClearedTest) {
   "\n  %11 = getelementptr i8, i8* %10, i64 8"
   "\n  %12 = load %systems.vos.wisey.compiler.tests.MCircle*, %systems.vos.wisey.compiler.tests.MCircle** %pointer2"
   "\n  %13 = bitcast %systems.vos.wisey.compiler.tests.MCircle* %12 to i8*"
-  "\n  call void @__destroyObjectOwnerFunction(i8* %13, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* %11)"
+  "\n  call void @systems.vos.wisey.compiler.tests.MCircle.destructor(i8* %13, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* %11)"
   "\n  %14 = load %systems.vos.wisey.compiler.tests.MCircle*, %systems.vos.wisey.compiler.tests.MCircle** %pointer"
   "\n  %15 = bitcast %systems.vos.wisey.compiler.tests.MCircle* %14 to i8*"
-  "\n  call void @__destroyObjectOwnerFunction(i8* %15, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* %11)"
+  "\n  call void @systems.vos.wisey.compiler.tests.MCircle.destructor(i8* %15, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* %11)"
   "\n  resume { i8*, i32 } %6"
   "\n"
   "\ninvoke.continue:                                  ; preds = %entry"

@@ -115,15 +115,9 @@ struct FieldOwnerVariableTest : Test {
     
     mFieldOwnerVariable = new FieldOwnerVariable("foo", mObject, 0);
     
-    vector<Type*> argumentTypes;
-    argumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-    FunctionType* destructorFunctionType = FunctionType::get(Type::getVoidTy(mLLVMContext),
-                                                             argumentTypes,
-                                                             false);
-    Function::Create(destructorFunctionType,
-                     GlobalValue::InternalLinkage,
-                     mNode->getTypeName() + ".destructor",
-                     mContext.getModule());
+    mInterface->declareInterfaceTypeName(mContext);
+    IConcreteObjectType::declareTypeNameGlobal(mContext, mNode);
+    IConcreteObjectType::defineVTable(mContext, mNode);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -187,7 +181,7 @@ TEST_F(FieldOwnerVariableTest, generateAssignmentIRTest) {
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, %systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
   "\n  %1 = load %systems.vos.wisey.compiler.tests.NNode*, %systems.vos.wisey.compiler.tests.NNode** %0"
   "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.NNode* %1 to i8*"
-  "\n  invoke void @__destroyObjectOwnerFunction(i8* %2, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* null)"
+  "\n  invoke void @systems.vos.wisey.compiler.tests.NNode.destructor(i8* %2, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* null)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\ncleanup:                                          ; preds = %entry"

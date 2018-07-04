@@ -69,7 +69,7 @@ public:
     mModel->setFields(mContext, fields, 1u);
     
     IConcreteObjectType::declareTypeNameGlobal(mContext, mModel);
-    IConcreteObjectType::declareVTable(mContext, mModel);
+    IConcreteObjectType::defineVTable(mContext, mModel);
     
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     mFunction = Function::Create(functionType,
@@ -125,7 +125,7 @@ TEST_F(LocalOwnerVariableTest, generateAssignmentIRTest) {
   "\nentry:                                            ; No predecessors!"
   "\n  %2 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0"
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MShape* %2 to i8*"
-  "\n  invoke void @__destroyObjectOwnerFunction(i8* %3, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* null)"
+  "\n  invoke void @systems.vos.wisey.compiler.tests.MShape.destructor(i8* %3, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* null)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\ncleanup:                                          ; preds = %entry"
@@ -142,7 +142,7 @@ TEST_F(LocalOwnerVariableTest, generateAssignmentIRTest) {
   "\n  %9 = getelementptr i8, i8* %8, i64 8"
   "\n  %10 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0"
   "\n  %11 = bitcast %systems.vos.wisey.compiler.tests.MShape* %10 to i8*"
-  "\n  call void @__destroyObjectOwnerFunction(i8* %11, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* %9)"
+  "\n  call void @systems.vos.wisey.compiler.tests.MShape.destructor(i8* %11, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* %9)"
   "\n  resume { i8*, i32 } %4"
   "\n"
   "\ninvoke.continue:                                  ; preds = %entry"
@@ -240,7 +240,7 @@ TEST_F(LocalOwnerVariableTest, freeTest) {
   "\nentry:                                            ; No predecessors!"
   "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0"
   "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.MShape* %1 to i8*"
-  "\n  call void @__destroyObjectOwnerFunction(i8* %2, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* null)\n";
+  "\n  call void @systems.vos.wisey.compiler.tests.MShape.destructor(i8* %2, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* null)\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

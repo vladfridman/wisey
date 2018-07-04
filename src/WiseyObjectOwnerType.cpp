@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/ArrayType.hpp"
+#include "wisey/DestroyObjectOwnerFunction.hpp"
 #include "wisey/FieldOwnerVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -176,7 +177,10 @@ void WiseyObjectOwnerType::free(IRGenerationContext& context,
                                 Value* value,
                                 llvm::Value* exception,
                                 int line) const {
-  IConcreteObjectType::composeDestructorCall(context, value, exception, line);
+  Type* int8pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+  Value* bitcast = IRWriter::newBitCastInst(context, value, int8pointer);
+  
+  DestroyObjectOwnerFunction::call(context, bitcast, exception, line);
 }
 
 Instruction* WiseyObjectOwnerType::inject(IRGenerationContext& context,

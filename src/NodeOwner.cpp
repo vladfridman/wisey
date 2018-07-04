@@ -76,7 +76,7 @@ void NodeOwner::free(IRGenerationContext &context,
                      Value* value,
                      Value* exception,
                      int line) const {
-  IConcreteObjectType::composeDestructorCall(context, value, exception, line);
+  IConcreteObjectType::composeDestructorCall(context, mNode, value, exception, line);
 }
 
 bool NodeOwner::isPrimitive() const {

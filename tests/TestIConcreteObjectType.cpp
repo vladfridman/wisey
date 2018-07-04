@@ -114,6 +114,9 @@ struct IConcreteObjectTypeTest : public Test {
     mStarModel->setFields(mContext, starFields, 1u);
     mContext.addModel(mStarModel, 0);
     
+    IConcreteObjectType::declareTypeNameGlobal(mContext, mStarModel);
+    IConcreteObjectType::defineVTable(mContext, mStarModel);
+
     vector<Type*> galaxyTypes;
     galaxyTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
                           ->getPointerTo()->getPointerTo());
@@ -130,6 +133,9 @@ struct IConcreteObjectTypeTest : public Test {
                                    0);
     mGalaxyModel->setFields(mContext, galaxyFields, 1u);
     mContext.addModel(mGalaxyModel, 0);
+
+    IConcreteObjectType::declareTypeNameGlobal(mContext, mGalaxyModel);
+    IConcreteObjectType::defineVTable(mContext, mGalaxyModel);
 
     vector<Type*> constellationTypes;
     constellationTypes.push_back(FunctionType::get(Type::getInt32Ty(mLLVMContext), true)
@@ -316,7 +322,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldTe
   "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MGalaxy, %systems.vos.wisey.compiler.tests.MGalaxy* %1, i32 0, i32 1"
   "\n  %3 = load %systems.vos.wisey.compiler.tests.MStar*, %systems.vos.wisey.compiler.tests.MStar** %2"
   "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MStar* %3 to i8*"
-  "\n  call void @__destroyObjectOwnerFunction(i8* %4, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8* %exception)"
+  "\n  call void @systems.vos.wisey.compiler.tests.MStar.destructor(i8* %4, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack, i8* %exception)"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.MGalaxy* %1 to i64*"
   "\n  %6 = getelementptr i64, i64* %5, i64 -1"
   "\n  %refCounter = load i64, i64* %6"
@@ -503,13 +509,13 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorCallTest) {
   ConstantPointerNull* objectPointer = ConstantPointerNull::get(mCarModel->getLLVMType(mContext));
   llvm::PointerType* int8Pointer = Type::getInt8Ty(mLLVMContext)->getPointerTo();
   Value* nullPointer = ConstantPointerNull::get(int8Pointer);
-  IConcreteObjectType::composeDestructorCall(mContext, objectPointer, nullPointer, 0);
+  IConcreteObjectType::composeDestructorCall(mContext, mStarModel, objectPointer, nullPointer, 0);
   
   *mStringStream << *basicBlock;
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MCar* null to i8*"
-  "\n  call void @__destroyObjectOwnerFunction(i8* %0, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* null)\n";
+  "\n  call void @systems.vos.wisey.compiler.tests.MStar.destructor(i8* %0, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* null)\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
