@@ -299,26 +299,6 @@ TEST_F(NodeOwnerTest, getLLVMTypeTest) {
             mComplicatedNode->getLLVMType(mContext));
 }
 
-TEST_F(NodeOwnerTest, getDestructorFunctionTest) {
-  IConcreteObjectType::defineVTable(mContext, mSimplerNode);
-  Function* result = mSimplerNode->getOwner()->getDestructorFunction(mContext, 0);
-  
-  ASSERT_NE(nullptr, result);
-  
-  Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
-  Controller* callStack = mContext.getController(Names::getCallStackControllerFullName(), 0);
-  
-  vector<Type*> argumentTypes;
-  argumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  argumentTypes.push_back(threadInterface->getLLVMType(mContext));
-  argumentTypes.push_back(callStack->getLLVMType(mContext));
-  argumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  Type* llvmReturnType = Type::getVoidTy(mLLVMContext);
-  FunctionType* functionType = FunctionType::get(llvmReturnType, argumentTypes, false);
-  
-  EXPECT_EQ(functionType, result->getFunctionType());
-}
-
 TEST_F(NodeOwnerTest, canCastToTest) {
   EXPECT_FALSE(mComplicatedNode->getOwner()->canCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_FALSE(mComplicatedNode->getOwner()->canCastTo(mContext, mSimplerNode->getOwner()));

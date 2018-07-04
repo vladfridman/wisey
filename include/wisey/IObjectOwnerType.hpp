@@ -26,11 +26,6 @@ namespace wisey {
      * Override method from IType because ObjectOwner llvm type is always a PointerType
      */
     virtual llvm::PointerType* getLLVMType(IRGenerationContext& context) const override = 0;
-    
-    /**
-     * Returns detructor function for this object
-     */
-    virtual llvm::Function* getDestructorFunction(IRGenerationContext& context, int line) const = 0;
 
   };
   

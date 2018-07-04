@@ -80,10 +80,6 @@ void ControllerOwner::free(IRGenerationContext& context,
   IConcreteObjectType::composeDestructorCall(context, value, exception, line);
 }
 
-Function* ControllerOwner::getDestructorFunction(IRGenerationContext& context, int line) const {
-  return IConcreteObjectType::getDestructorFunctionForObject(context, getReference(), line);
-}
-
 bool ControllerOwner::isPrimitive() const {
   return false;
 }

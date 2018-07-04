@@ -297,26 +297,6 @@ TEST_F(ModelOwnerTest, getLLVMTypeTest) {
   EXPECT_EQ(mModel->getOwner()->getLLVMType(mContext), mModel->getLLVMType(mContext));
 }
 
-TEST_F(ModelOwnerTest, getDestructorFunctionTest) {
-  IConcreteObjectType::defineVTable(mContext, mCircleModel);
-  Function* result = mCircleModel->getOwner()->getDestructorFunction(mContext, 0);
-  
-  ASSERT_NE(nullptr, result);
-  
-  Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
-  Controller* callStack = mContext.getController(Names::getCallStackControllerFullName(), 0);
-  
-  vector<Type*> argumentTypes;
-  argumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  argumentTypes.push_back(threadInterface->getLLVMType(mContext));
-  argumentTypes.push_back(callStack->getLLVMType(mContext));
-  argumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  Type* llvmReturnType = Type::getVoidTy(mLLVMContext);
-  FunctionType* functionType = FunctionType::get(llvmReturnType, argumentTypes, false);
-  
-  EXPECT_EQ(functionType, result->getFunctionType());
-}
-
 TEST_F(ModelOwnerTest, canCastToTest) {
   EXPECT_FALSE(mModel->getOwner()->canCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_FALSE(mModel->getOwner()->canCastTo(mContext, mCircleModel->getOwner()));

@@ -78,10 +78,6 @@ void ModelOwner::free(IRGenerationContext& context,
   IConcreteObjectType::composeDestructorCall(context, value, exception, line);
 }
 
-Function* ModelOwner::getDestructorFunction(IRGenerationContext& context, int line) const {
-  return IConcreteObjectType::getDestructorFunctionForObject(context, getReference(), line);
-}
-
 bool ModelOwner::isPrimitive() const {
   return false;
 }

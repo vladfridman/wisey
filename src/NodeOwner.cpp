@@ -79,10 +79,6 @@ void NodeOwner::free(IRGenerationContext &context,
   IConcreteObjectType::composeDestructorCall(context, value, exception, line);
 }
 
-Function* NodeOwner::getDestructorFunction(IRGenerationContext& context, int line) const {
-  return IConcreteObjectType::getDestructorFunctionForObject(context, getReference(), line);
-}
-
 bool NodeOwner::isPrimitive() const {
   return false;
 }

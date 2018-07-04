@@ -246,26 +246,6 @@ TEST_F(ControllerOwnerTest, isObjectTest) {
   EXPECT_FALSE(mMultiplierController->getOwner()->isNode());
 }
 
-TEST_F(ControllerOwnerTest, getDestructorFunctionTest) {
-  IConcreteObjectType::defineVTable(mContext, mAdditorController);
-  Function* result = mAdditorController->getOwner()->getDestructorFunction(mContext, 0);
-  
-  ASSERT_NE(nullptr, result);
-
-  Interface* threadInterface = mContext.getInterface(Names::getThreadInterfaceFullName(), 0);
-  Controller* callStack = mContext.getController(Names::getCallStackControllerFullName(), 0);
-
-  vector<Type*> argumentTypes;
-  argumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  argumentTypes.push_back(threadInterface->getLLVMType(mContext));
-  argumentTypes.push_back(callStack->getLLVMType(mContext));
-  argumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  Type* llvmReturnType = Type::getVoidTy(mLLVMContext);
-  FunctionType* functionType = FunctionType::get(llvmReturnType, argumentTypes, false);
-
-  EXPECT_EQ(functionType, result->getFunctionType());
-}
-
 TEST_F(ControllerOwnerTest, castToFirstInterfaceTest) {
   ConstantPointerNull* pointer =
     ConstantPointerNull::get(mMultiplierController->getLLVMType(mContext));
