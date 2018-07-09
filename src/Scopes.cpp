@@ -208,10 +208,13 @@ BasicBlock* Scopes::getLandingPadBlock(IRGenerationContext& context, int line) {
     LLVMContext& llvmContext = context.getLLVMContext();
     Function* function = context.getBasicBlock()->getParent();
     BasicBlock* freeMemoryBlock = BasicBlock::Create(llvmContext, "freeMem", function);
-    auto landingPadInfo = tryCatchInfo->defineLandingPadBlock(context, freeMemoryBlock);
+    BasicBlock* freeMemoryEndBlock = BasicBlock::Create(llvmContext, "freeMemEnd", function);
+    auto landingPadInfo = tryCatchInfo->defineLandingPadBlock(context,
+                                                              freeMemoryBlock,
+                                                              freeMemoryEndBlock);
     mCachedLandingPadBlock = get<0>(landingPadInfo);
     Value* wrappedException = get<1>(landingPadInfo);
-    freeMemoryAllocatedInTry(context, freeMemoryBlock, wrappedException, line);
+    freeMemoryAllocatedInTry(context, freeMemoryBlock, freeMemoryEndBlock, wrappedException, line);
   } else {
     mCachedLandingPadBlock = Cleanup::generate(context, line);
   }
@@ -224,12 +227,13 @@ void Scopes::clearCachedLandingPadBlock() {
 }
 
 void Scopes::freeMemoryAllocatedInTry(IRGenerationContext& context,
-                                      BasicBlock* basicBlock,
+                                      BasicBlock* freeMemoryBlock,
+                                      BasicBlock* freeMemoryEndBlock,
                                       Value* wrappedException,
                                       int line) {
   LLVMContext& llvmContext = context.getLLVMContext();
   BasicBlock* lastBasicBlock = context.getBasicBlock();
-  context.setBasicBlock(basicBlock);
+  context.setBasicBlock(freeMemoryBlock);
 
   Function* getException = IntrinsicFunctions::getExceptionPointerFunction(context);
   vector<Value*> arguments;
@@ -245,6 +249,7 @@ void Scopes::freeMemoryAllocatedInTry(IRGenerationContext& context,
     }
     scope->freeOwnedMemory(context, exception, line);
   }
+  IRWriter::createBranch(context, freeMemoryEndBlock);
 
   context.setBasicBlock(lastBasicBlock);
 }

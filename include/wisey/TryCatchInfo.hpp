@@ -18,7 +18,8 @@ namespace wisey {
   class Catch;
   
   typedef std::function<bool(IRGenerationContext&, llvm::BasicBlock*, std::vector<Catch*>,
-  llvm::BasicBlock*, llvm::BasicBlock*, llvm::LandingPadInst*, llvm::Value*, llvm::Value*)>
+  llvm::BasicBlock*, llvm::BasicBlock*, llvm::BasicBlock*, llvm::LandingPadInst*, llvm::Value*,
+  llvm::Value*)>
   LandingPadComposingFunction;
   
   /**
@@ -28,7 +29,7 @@ namespace wisey {
     std::vector<Catch*> mCatchList;
     llvm::BasicBlock* mContinueBlock;
     std::vector<std::tuple<LandingPadComposingFunction, llvm::BasicBlock*, llvm::BasicBlock*,
-    llvm::LandingPadInst*, llvm::Value*, llvm::Value*>> mComposingCallbacks;
+    llvm::BasicBlock*, llvm::LandingPadInst*, llvm::Value*, llvm::Value*>> mComposingCallbacks;
     
   public:
     
@@ -45,7 +46,9 @@ namespace wisey {
      * Defines landing pad based block on try/catch statement that created this TryCatchInfo
      */
     std::tuple<llvm::BasicBlock*, llvm::Value*>
-    defineLandingPadBlock(IRGenerationContext& context, llvm::BasicBlock* freeMemoryBlock);
+    defineLandingPadBlock(IRGenerationContext& context,
+                          llvm::BasicBlock* freeMemoryBlock,
+                          llvm::BasicBlock* freeMemoryEndBlock);
     
     /**
      * Run callbacks composing landing pads
@@ -58,7 +61,8 @@ namespace wisey {
                                        llvm::BasicBlock* landingPadBlock,
                                        std::vector<Catch*> catchList,
                                        llvm::BasicBlock* continueBlock,
-                                       llvm::BasicBlock* freeTryMemoryBlock,
+                                       llvm::BasicBlock* freeMemoryBlock,
+                                       llvm::BasicBlock* freeMemoryEndBlock,
                                        llvm::LandingPadInst* landingPadInst,
                                        llvm::Value* wrappedException,
                                        llvm::Value* exceptionTypeId);
