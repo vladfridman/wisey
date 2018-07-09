@@ -179,3 +179,59 @@ TEST_F(ComposerTest, setLineNumberTestTest) {
   
   mStringBuffer.clear();
 }
+
+TEST_F(ComposerTest, incrementReferenceCountUnsafelyTest) {
+  mContext.getScopes().popScope(mContext, 0);
+  mContext.getScopes().pushScope();
+  
+  Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
+  Composer::incrementReferenceCountUnsafely(mContext, nullPointerValue);
+  
+  *mStringStream << *mMainFunction;
+  string expected =
+  "\ndefine internal i32 @main() {"
+  "\nentry:"
+  "\n  %0 = icmp eq i8* null, null"
+  "\n  br i1 %0, label %if.end, label %if.notnull"
+  "\n"
+  "\nif.end:                                           ; preds = %if.notnull, %entry"
+  "\n"
+  "\nif.notnull:                                       ; preds = %entry"
+  "\n  %1 = bitcast i8* null to i64*"
+  "\n  %2 = getelementptr i64, i64* %1, i64 -1"
+  "\n  %count = load i64, i64* %2"
+  "\n  %3 = add i64 %count, 1"
+  "\n  store i64 %3, i64* %2"
+  "\n  br label %if.end"
+  "\n}\n";
+  
+  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
+}
+
+TEST_F(ComposerTest, decrementReferenceCountUnsafelyTest) {
+  mContext.getScopes().popScope(mContext, 0);
+  mContext.getScopes().pushScope();
+  
+  Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
+  Composer::decrementReferenceCountUnsafely(mContext, nullPointerValue);
+  
+  *mStringStream << *mMainFunction;
+  string expected =
+  "\ndefine internal i32 @main() {"
+  "\nentry:"
+  "\n  %0 = icmp eq i8* null, null"
+  "\n  br i1 %0, label %if.end, label %if.notnull"
+  "\n"
+  "\nif.end:                                           ; preds = %if.notnull, %entry"
+  "\n"
+  "\nif.notnull:                                       ; preds = %entry"
+  "\n  %1 = bitcast i8* null to i64*"
+  "\n  %2 = getelementptr i64, i64* %1, i64 -1"
+  "\n  %count = load i64, i64* %2"
+  "\n  %3 = add i64 %count, -1"
+  "\n  store i64 %3, i64* %2"
+  "\n  br label %if.end"
+  "\n}\n";
+  
+  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
+}

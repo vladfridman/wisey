@@ -223,3 +223,39 @@ StructType* Composer::getCCallStackStruct(IRGenerationContext& context) {
   
   return structType;
 }
+
+void Composer::incrementReferenceCountUnsafely(IRGenerationContext& context, Value* object) {
+  return adjustReferenceCountUnsafely(context, object, 1);
+}
+
+void Composer::decrementReferenceCountUnsafely(IRGenerationContext& context, Value* object) {
+  return adjustReferenceCountUnsafely(context, object, -1);
+}
+
+void Composer::adjustReferenceCountUnsafely(IRGenerationContext& context,
+                                            Value* object,
+                                            int adjustmentValue) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Function* function = context.getBasicBlock()->getParent();
+  
+  BasicBlock* ifEndBlock = BasicBlock::Create(llvmContext, "if.end", function);
+  BasicBlock* ifNotNullBlock = BasicBlock::Create(llvmContext, "if.notnull", function);
+  
+  Value* null = ConstantPointerNull::get((llvm::PointerType*) object->getType());
+  Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, object, null, "");
+  IRWriter::createConditionalBranch(context, ifEndBlock, ifNotNullBlock, condition);
+  
+  context.setBasicBlock(ifNotNullBlock);
+  Type* int64Pointer = Type::getInt64Ty(llvmContext)->getPointerTo();
+  Value* objectStart = IRWriter::newBitCastInst(context, object, int64Pointer);
+  Value* index[1];
+  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), -1);
+  Value* counter = IRWriter::createGetElementPtrInst(context, objectStart, index);
+  Value* count = IRWriter::newLoadInst(context, counter, "count");
+  llvm::Constant* adjustment = ConstantInt::get(Type::getInt64Ty(llvmContext), adjustmentValue);
+  Value* sum = IRWriter::createBinaryOperator(context, Instruction::Add, count, adjustment, "");
+  IRWriter::newStoreInst(context, sum, counter);
+  IRWriter::createBranch(context, ifEndBlock);
+  
+  context.setBasicBlock(ifEndBlock);
+}

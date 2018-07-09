@@ -36,12 +36,26 @@ namespace wisey {
      */
     static void setLineNumber(IRGenerationContext& context, int line);
     
+    /**
+     * Increments reference count unsafely for an object that is either controller or a node
+     */
+    static void incrementReferenceCountUnsafely(IRGenerationContext& context, llvm::Value* object);
+    
+    /**
+     * Increments reference count unsafely for an object that is either controller or a node
+     */
+    static void decrementReferenceCountUnsafely(IRGenerationContext& context, llvm::Value* object);
+
   private:
     
     static bool shouldSkip(IRGenerationContext& context);
     
     static llvm::StructType* getCCallStackStruct(IRGenerationContext& context);
     
+    static void adjustReferenceCountUnsafely(IRGenerationContext& context,
+                                             llvm::Value* object,
+                                             int adjustmentValue);
+
   };
   
 } /* namespace wisey */

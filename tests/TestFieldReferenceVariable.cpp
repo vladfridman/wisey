@@ -43,6 +43,7 @@ struct FieldReferenceVariableTest : Test {
   Controller* mObject;
   Node* mNode;
   Interface* mInterface;
+  Function* mFunction;
   BasicBlock* mBasicBlock;
   FieldReferenceVariable* mFieldReferenceVariable;
   string mStringBuffer;
@@ -94,12 +95,12 @@ struct FieldReferenceVariableTest : Test {
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
-    Function* function = Function::Create(functionType,
-                                          GlobalValue::InternalLinkage,
-                                          "main",
-                                          mContext.getModule());
-    BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mFunction = Function::Create(functionType,
+                                 GlobalValue::InternalLinkage,
+                                 "main",
+                                 mContext.getModule());
+    BasicBlock* declareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
     mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
@@ -163,18 +164,41 @@ TEST_F(FieldReferenceVariableTest, generateAssignmentIRTest) {
 
   mFieldReferenceVariable->generateAssignmentIR(mContext, &assignToExpression, arrayIndices, 0);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mFunction;
   string expected = string() +
-  "\nentry:                                            ; No predecessors!" +
+  "\ndefine internal i32 @main() {"
+  "\ndeclare:"
+  "\n"
+  "\nentry:                                            ; No predecessors!"
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1"
   "\n  %1 = load %systems.vos.wisey.compiler.tests.NNode*, %systems.vos.wisey.compiler.tests.NNode** %0"
-  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.NNode* %1 to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %2, i64 -1)"
-  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.NNode* null to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %3, i64 1)"
-  "\n  store %systems.vos.wisey.compiler.tests.NNode* null, "
-  "%systems.vos.wisey.compiler.tests.NNode** %0\n";
-  
+  "\n  %2 = icmp eq %systems.vos.wisey.compiler.tests.NNode* %1, null"
+  "\n  br i1 %2, label %if.end, label %if.notnull"
+  "\n"
+  "\nif.end:                                           ; preds = %if.notnull, %entry"
+  "\n  %3 = icmp eq %systems.vos.wisey.compiler.tests.NNode* null, null"
+  "\n  br i1 %3, label %if.end1, label %if.notnull2"
+  "\n"
+  "\nif.notnull:                                       ; preds = %entry"
+  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.NNode* %1 to i64*"
+  "\n  %5 = getelementptr i64, i64* %4, i64 -1"
+  "\n  %count = load i64, i64* %5"
+  "\n  %6 = add i64 %count, -1"
+  "\n  store i64 %6, i64* %5"
+  "\n  br label %if.end"
+  "\n"
+  "\nif.end1:                                          ; preds = %if.notnull2, %if.end"
+  "\n  store %systems.vos.wisey.compiler.tests.NNode* null, %systems.vos.wisey.compiler.tests.NNode** %0"
+  "\n"
+  "\nif.notnull2:                                      ; preds = %if.end"
+  "\n  %7 = bitcast %systems.vos.wisey.compiler.tests.NNode* null to i64*"
+  "\n  %8 = getelementptr i64, i64* %7, i64 -1"
+  "\n  %count3 = load i64, i64* %8"
+  "\n  %9 = add i64 %count3, 1"
+  "\n  store i64 %9, i64* %8"
+  "\n  br label %if.end1"
+  "\n}\n";
+
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 

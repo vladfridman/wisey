@@ -20,7 +20,6 @@
 #include "MockVariable.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp"
 #include "wisey/Constant.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IntConstant.hpp"
@@ -580,11 +579,25 @@ TEST_F(NodeTest, incrementReferenceCountTest) {
   ConstantPointerNull::get(mComplicatedNode->getLLVMType(mContext));
   mComplicatedNode->incrementReferenceCount(mContext, pointer);
   
-  *mStringStream << *mEntryBlock;
+  *mStringStream << *mFunction;
   string expected =
+  "\ndefine internal void @test() {"
+  "\ndeclare:"
+  "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %0, i64 1)\n";
+  "\n  %0 = icmp eq %systems.vos.wisey.compiler.tests.NComplicatedNode* null, null"
+  "\n  br i1 %0, label %if.end, label %if.notnull"
+  "\n"
+  "\nif.end:                                           ; preds = %if.notnull, %entry"
+  "\n"
+  "\nif.notnull:                                       ; preds = %entry"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i64*"
+  "\n  %2 = getelementptr i64, i64* %1, i64 -1"
+  "\n  %count = load i64, i64* %2"
+  "\n  %3 = add i64 %count, 1"
+  "\n  store i64 %3, i64* %2"
+  "\n  br label %if.end"
+  "\n}\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -595,11 +608,25 @@ TEST_F(NodeTest, decrementReferenceCountTest) {
   ConstantPointerNull::get(mComplicatedNode->getLLVMType(mContext));
   mComplicatedNode->decrementReferenceCount(mContext, pointer);
   
-  *mStringStream << *mEntryBlock;
+  *mStringStream << *mFunction;
   string expected =
+  "\ndefine internal void @test() {"
+  "\ndeclare:"
+  "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %0, i64 -1)\n";
+  "\n  %0 = icmp eq %systems.vos.wisey.compiler.tests.NComplicatedNode* null, null"
+  "\n  br i1 %0, label %if.end, label %if.notnull"
+  "\n"
+  "\nif.end:                                           ; preds = %if.notnull, %entry"
+  "\n"
+  "\nif.notnull:                                       ; preds = %entry"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i64*"
+  "\n  %2 = getelementptr i64, i64* %1, i64 -1"
+  "\n  %count = load i64, i64* %2"
+  "\n  %3 = add i64 %count, -1"
+  "\n  store i64 %3, i64* %2"
+  "\n  br label %if.end"
+  "\n}\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -701,13 +728,27 @@ TEST_F(NodeTest, createParameterVariableTest) {
   
   EXPECT_NE(variable, nullptr);
   
-  *mStringStream << *mEntryBlock;
+  *mStringStream << *mFunction;
   
   string expected =
+  "\ndefine internal void @test() {"
+  "\ndeclare:"
+  "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %0, i64 1)\n";
-  
+  "\n  %0 = icmp eq %systems.vos.wisey.compiler.tests.NComplicatedNode* null, null"
+  "\n  br i1 %0, label %if.end, label %if.notnull"
+  "\n"
+  "\nif.end:                                           ; preds = %if.notnull, %entry"
+  "\n"
+  "\nif.notnull:                                       ; preds = %entry"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i64*"
+  "\n  %2 = getelementptr i64, i64* %1, i64 -1"
+  "\n  %count = load i64, i64* %2"
+  "\n  %3 = add i64 %count, 1"
+  "\n  store i64 %3, i64* %2"
+  "\n  br label %if.end"
+  "\n}\n";
+
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }

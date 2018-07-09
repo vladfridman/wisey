@@ -8,7 +8,6 @@
 
 #include "wisey/AdjustReferenceCounterForArrayFunction.hpp"
 #include "wisey/AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp"
-#include "wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp"
 #include "wisey/AdjustReferenceCounterForImmutableArrayFunction.hpp"
 #include "wisey/AdjustReferenceCountFunction.hpp"
 #include "wisey/CastObjectFunction.hpp"
@@ -40,7 +39,6 @@ EssentialFunctions::~EssentialFunctions() {
 void EssentialFunctions::generateIR(IRGenerationContext& context) const {
   AdjustReferenceCounterForArrayFunction::get(context);
   AdjustReferenceCounterForConcreteObjectSafelyFunction::get(context);
-  AdjustReferenceCounterForConcreteObjectUnsafelyFunction::get(context);
   AdjustReferenceCounterForImmutableArrayFunction::get(context);
   AdjustReferenceCountFunction::get(context);
   CastObjectFunction::get(context);

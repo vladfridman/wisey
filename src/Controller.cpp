@@ -9,8 +9,8 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp"
-#include "wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp"
 #include "wisey/AutoCast.hpp"
+#include "wisey/Composer.hpp"
 #include "wisey/Controller.hpp"
 #include "wisey/ControllerOwner.hpp"
 #include "wisey/ControllerTypeSpecifierFull.hpp"
@@ -595,7 +595,7 @@ void Controller::incrementReferenceCount(IRGenerationContext& context, Value* ob
   if (isThread(context)) {
     AdjustReferenceCounterForConcreteObjectSafelyFunction::call(context, object, 1);
   } else {
-    AdjustReferenceCounterForConcreteObjectUnsafelyFunction::call(context, object, 1);
+    Composer::incrementReferenceCountUnsafely(context, object);
   }
 }
 
@@ -603,7 +603,7 @@ void Controller::decrementReferenceCount(IRGenerationContext& context, Value* ob
   if (isThread(context)) {
     AdjustReferenceCounterForConcreteObjectSafelyFunction::call(context, object, -1);
   } else {
-    AdjustReferenceCounterForConcreteObjectUnsafelyFunction::call(context, object, -1);
+    Composer::decrementReferenceCountUnsafely(context, object);
   }
 }
 
