@@ -110,29 +110,3 @@ TEST_F(ParameterReferenceVariableStaticTest, variableIdentifierTest) {
   
   EXPECT_EQ(fooValueStore, variable.generateIdentifierIR(mContext, 0));
 }
-
-TEST_F(ParameterReferenceVariableStaticTest, decrementReferenceCounterTest) {
-  Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mContext));
-  ParameterReferenceVariableStatic variable("foo", mModel, fooValue, 0);
-  
-  variable.decrementReferenceCounter(mContext);
-  
-  *mStringStream << *mFunction;
-  string expected =
-  "\ndefine internal i32 @test() {"
-  "\ndeclare:"
-  "\n"
-  "\nentry:                                            ; No predecessors!"
-  "\n  %0 = icmp eq %systems.vos.wisey.compiler.tests.MShape* null, null"
-  "\n  br i1 %0, label %if.end, label %if.notnull"
-  "\n"
-  "\nif.end:                                           ; preds = %if.notnull, %entry"
-  "\n"
-  "\nif.notnull:                                       ; preds = %entry"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MShape* null to i64*"
-  "\n  %2 = getelementptr i64, i64* %1, i64 -1"
-  "\n  %3 = atomicrmw add i64* %2, i64 -1 monotonic"
-  "\n  br label %if.end"
-  "\n}\n";
-  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
-}

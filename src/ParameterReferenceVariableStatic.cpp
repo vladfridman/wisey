@@ -70,5 +70,5 @@ Value* ParameterReferenceVariableStatic::generateAssignmentIR(IRGenerationContex
 
 void ParameterReferenceVariableStatic::decrementReferenceCounter(IRGenerationContext&
                                                                  context) const {
-  mType->decrementReferenceCount(context, mValue);
+  assert(false && "Reference count decremented for reference static variable");
 }
