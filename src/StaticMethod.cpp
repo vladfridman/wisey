@@ -197,24 +197,32 @@ void StaticMethod::createArguments(IRGenerationContext& context, Function* funct
   }
   
   llvmFunctionArguments = function->arg_begin();
-  IMethod::storeSystemArgumentValue(context,
+  IMethod::storeStaticArgumentValue(context,
                                     ThreadExpression::THREAD,
                                     context.getInterface(Names::getThreadInterfaceFullName(),
                                                          mLine),
                                     &*llvmFunctionArguments);
   llvmFunctionArguments++;
-  IMethod::storeSystemArgumentValue(context,
+  IMethod::storeStaticArgumentValue(context,
                                     ThreadExpression::CALL_STACK,
                                     context.getController(Names::getCallStackControllerFullName(),
                                                           mLine),
                                     &*llvmFunctionArguments);
   llvmFunctionArguments++;
   for (const Argument* methodArgument : mArguments) {
-    IMethod::storeArgumentValue(context,
-                                methodArgument->getName(),
-                                methodArgument->getType(),
-                                &*llvmFunctionArguments,
-                                mMethodQualifiers->getLine());
+    if (methodArgument->getType()->isReference() &&
+        IType::isObjectType(methodArgument->getType())) {
+      IMethod::storeStaticArgumentValue(context,
+                                        methodArgument->getName(),
+                                        (const IObjectType*) methodArgument->getType(),
+                                        &*llvmFunctionArguments);
+    } else {
+      IMethod::storeArgumentValue(context,
+                                  methodArgument->getName(),
+                                  methodArgument->getType(),
+                                  &*llvmFunctionArguments,
+                                  mMethodQualifiers->getLine());
+    }
     llvmFunctionArguments++;
   }
 }

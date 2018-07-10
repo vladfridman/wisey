@@ -30,7 +30,7 @@ void IMethod::storeArgumentValue(IRGenerationContext& context,
   type->createParameterVariable(context, name, value, line);
 }
 
-void IMethod::storeSystemArgumentValue(IRGenerationContext& context,
+void IMethod::storeStaticArgumentValue(IRGenerationContext& context,
                                        string name,
                                        const IObjectType* type,
                                        Value* value) {

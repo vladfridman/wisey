@@ -41,9 +41,9 @@ namespace wisey {
                                    llvm::Value* value,
                                    int line);
     /**
-     * Store method argument as a variable in the current scope
+     * Store method argument as a variable that does not adjust its ref count in the current scope
      */
-    static void storeSystemArgumentValue(IRGenerationContext& context,
+    static void storeStaticArgumentValue(IRGenerationContext& context,
                                          std::string name,
                                          const IObjectType* type,
                                          llvm::Value* value);
