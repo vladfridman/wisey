@@ -105,7 +105,7 @@ TEST_F(FieldArrayReferenceVariableTest, basicFieldsTest) {
   EXPECT_STREQ("foo", mFieldArrayReferenceVariable->getName().c_str());
   EXPECT_EQ(mArrayType, mFieldArrayReferenceVariable->getType());
   EXPECT_TRUE(mFieldArrayReferenceVariable->isField());
-  EXPECT_FALSE(mFieldArrayReferenceVariable->isSystem());
+  EXPECT_FALSE(mFieldArrayReferenceVariable->isStatic());
 }
 
 TEST_F(FieldArrayReferenceVariableTest, generateIdentifierIRTest) {

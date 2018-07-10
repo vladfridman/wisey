@@ -41,7 +41,7 @@ bool FieldOwnerVariable::isField() const {
   return true;
 }
 
-bool FieldOwnerVariable::isSystem() const {
+bool FieldOwnerVariable::isStatic() const {
   return false;
 }
 

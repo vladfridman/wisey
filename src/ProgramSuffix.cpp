@@ -18,7 +18,7 @@
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/ModelTypeSpecifierFull.hpp"
 #include "wisey/Names.hpp"
-#include "wisey/ParameterSystemReferenceVariable.hpp"
+#include "wisey/ParameterReferenceVariableStatic.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramSuffix.hpp"
@@ -76,7 +76,7 @@ void ProgramSuffix::generateMain(IRGenerationContext& context) const {
   Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
   Value* threadNullValue = ConstantPointerNull::get(threadInterface->getLLVMType(context));
   IReferenceVariable* threadVariable =
-  new ParameterSystemReferenceVariable(ThreadExpression::THREAD,
+  new ParameterReferenceVariableStatic(ThreadExpression::THREAD,
                                        threadInterface,
                                        threadNullValue,
                                        0);
@@ -85,7 +85,7 @@ void ProgramSuffix::generateMain(IRGenerationContext& context) const {
   Controller* callstack = context.getController(Names::getCallStackControllerFullName(), 0);
   Value* callstackValue = ConstantPointerNull::get(callstack->getLLVMType(context));
   IReferenceVariable* callstackVariable =
-  new ParameterSystemReferenceVariable(ThreadExpression::CALL_STACK,
+  new ParameterReferenceVariableStatic(ThreadExpression::CALL_STACK,
                                        callstack,
                                        callstackValue,
                                        0);

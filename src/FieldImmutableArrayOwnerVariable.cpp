@@ -37,7 +37,7 @@ bool FieldImmutableArrayOwnerVariable::isField() const {
   return true;
 }
 
-bool FieldImmutableArrayOwnerVariable::isSystem() const {
+bool FieldImmutableArrayOwnerVariable::isStatic() const {
   return false;
 }
 

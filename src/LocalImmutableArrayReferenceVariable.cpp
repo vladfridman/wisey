@@ -42,7 +42,7 @@ bool LocalImmutableArrayReferenceVariable::isField() const {
   return false;
 }
 
-bool LocalImmutableArrayReferenceVariable::isSystem() const {
+bool LocalImmutableArrayReferenceVariable::isStatic() const {
   return false;
 }
 

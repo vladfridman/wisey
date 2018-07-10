@@ -98,7 +98,7 @@ TEST_F(FieldPrimitiveVariableTest, basicFieldsTest) {
   EXPECT_STREQ("foo", mFieldPrimitiveVariable->getName().c_str());
   EXPECT_EQ(PrimitiveTypes::INT, mFieldPrimitiveVariable->getType());
   EXPECT_TRUE(mFieldPrimitiveVariable->isField());
-  EXPECT_FALSE(mFieldPrimitiveVariable->isSystem());
+  EXPECT_FALSE(mFieldPrimitiveVariable->isStatic());
 }
 
 TEST_F(FieldPrimitiveVariableTest, generateIdentifierIRTest) {

@@ -54,7 +54,7 @@ llvm::Value* LocalArrayOwnerVariable::generateIdentifierReferenceIR(IRGeneration
   return mValueStore;
 }
 
-bool LocalArrayOwnerVariable::isSystem() const {
+bool LocalArrayOwnerVariable::isStatic() const {
   return false;
 }
 

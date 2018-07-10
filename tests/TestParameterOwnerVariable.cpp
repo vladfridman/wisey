@@ -91,7 +91,7 @@ TEST_F(ParameterOwnerVariableTest, basicTest) {
   EXPECT_STREQ("foo", variable.getName().c_str());
   EXPECT_EQ(mModel->getOwner(), variable.getType());
   EXPECT_FALSE(variable.isField());
-  EXPECT_FALSE(variable.isSystem());
+  EXPECT_FALSE(variable.isStatic());
 }
 
 TEST_F(ParameterOwnerVariableTest, generateIdentifierIRTest) {

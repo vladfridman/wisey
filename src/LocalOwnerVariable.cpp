@@ -48,7 +48,7 @@ bool LocalOwnerVariable::isField() const {
   return false;
 }
 
-bool LocalOwnerVariable::isSystem() const {
+bool LocalOwnerVariable::isStatic() const {
   return false;
 }
 

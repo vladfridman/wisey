@@ -48,7 +48,7 @@ bool LocalReferenceVariable::isField() const {
   return false;
 }
 
-bool LocalReferenceVariable::isSystem() const {
+bool LocalReferenceVariable::isStatic() const {
   return false;
 }
 

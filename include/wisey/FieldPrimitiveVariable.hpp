@@ -35,7 +35,7 @@ namespace wisey {
     
     bool isField() const override;
     
-    bool isSystem() const override;
+    bool isStatic() const override;
     
     int getLine() const override;
 

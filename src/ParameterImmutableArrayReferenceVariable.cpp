@@ -44,7 +44,7 @@ bool ParameterImmutableArrayReferenceVariable::isField() const {
   return false;
 }
 
-bool ParameterImmutableArrayReferenceVariable::isSystem() const {
+bool ParameterImmutableArrayReferenceVariable::isStatic() const {
   return false;
 }
 

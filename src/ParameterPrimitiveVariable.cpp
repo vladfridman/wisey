@@ -38,7 +38,7 @@ const IPrimitiveType* ParameterPrimitiveVariable::getType() const {
   return mType;
 }
 
-bool ParameterPrimitiveVariable::isSystem() const {
+bool ParameterPrimitiveVariable::isStatic() const {
   return false;
 }
 

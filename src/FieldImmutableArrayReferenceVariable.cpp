@@ -36,7 +36,7 @@ bool FieldImmutableArrayReferenceVariable::isField() const {
   return true;
 }
 
-bool FieldImmutableArrayReferenceVariable::isSystem() const {
+bool FieldImmutableArrayReferenceVariable::isStatic() const {
   return false;
 }
 

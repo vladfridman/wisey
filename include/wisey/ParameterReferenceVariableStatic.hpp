@@ -1,13 +1,13 @@
 //
-//  ParameterSystemReferenceVariable.hpp
+//  ParameterReferenceVariableStatic.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 3/13/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef ParameterSystemReferenceVariable_h
-#define ParameterSystemReferenceVariable_h
+#ifndef ParameterReferenceVariableStatic_h
+#define ParameterReferenceVariableStatic_h
 
 #include "wisey/IExpression.hpp"
 #include "wisey/IObjectType.hpp"
@@ -16,9 +16,9 @@
 namespace wisey {
   
   /**
-   * Represents a method parameter that is a reference to a system object e.g. this, thread
+   * Represents a method parameter that is a reference that does not require ref count adjustment
    */
-  class ParameterSystemReferenceVariable : public IReferenceVariable {
+  class ParameterReferenceVariableStatic : public IReferenceVariable {
     
     std::string mName;
     const IObjectType* mType;
@@ -27,12 +27,12 @@ namespace wisey {
     
   public:
     
-    ParameterSystemReferenceVariable(std::string name,
+    ParameterReferenceVariableStatic(std::string name,
                                      const IObjectType* type,
                                      llvm::Value* value,
                                      int line);
     
-    ~ParameterSystemReferenceVariable();
+    ~ParameterReferenceVariableStatic();
     
     std::string getName() const override;
     
@@ -40,7 +40,7 @@ namespace wisey {
     
     bool isField() const override;
     
-    bool isSystem() const override;
+    bool isStatic() const override;
     
     int getLine() const override;
 
@@ -60,5 +60,5 @@ namespace wisey {
   
 } /* namespace wisey */
 
-#endif /* ParameterSystemReferenceVariable_h */
+#endif /* ParameterReferenceVariableStatic_h */
 

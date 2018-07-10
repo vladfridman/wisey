@@ -83,7 +83,7 @@ TEST_F(LocalImmutableArrayOwnerVariableTest, basicFieldsTest) {
   EXPECT_STREQ("foo", variable.getName().c_str());
   EXPECT_EQ(mImmutableArrayOwnerType, variable.getType());
   EXPECT_FALSE(variable.isField());
-  EXPECT_FALSE(variable.isSystem());
+  EXPECT_FALSE(variable.isStatic());
 }
 
 TEST_F(LocalImmutableArrayOwnerVariableTest, generateIdentifierIRTest) {

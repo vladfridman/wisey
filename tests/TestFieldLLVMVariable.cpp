@@ -100,7 +100,7 @@ TEST_F(FieldLLVMVariableTest, basicFieldsTest) {
   EXPECT_STREQ("mFoo", mFieldLLVMVariable->getName().c_str());
   EXPECT_EQ(mType, mFieldLLVMVariable->getType());
   EXPECT_TRUE(mFieldLLVMVariable->isField());
-  EXPECT_FALSE(mFieldLLVMVariable->isSystem());
+  EXPECT_FALSE(mFieldLLVMVariable->isStatic());
 }
 
 TEST_F(FieldLLVMVariableTest, generateIdentifierIRTest) {

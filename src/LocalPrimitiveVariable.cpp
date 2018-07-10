@@ -39,7 +39,7 @@ bool LocalPrimitiveVariable::isField() const {
   return false;
 }
 
-bool LocalPrimitiveVariable::isSystem() const {
+bool LocalPrimitiveVariable::isStatic() const {
   return false;
 }
 

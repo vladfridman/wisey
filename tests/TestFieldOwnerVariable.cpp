@@ -132,7 +132,7 @@ TEST_F(FieldOwnerVariableTest, basicFieldsTest) {
   EXPECT_STREQ("foo", mFieldOwnerVariable->getName().c_str());
   EXPECT_EQ(mNode->getOwner(), mFieldOwnerVariable->getType());
   EXPECT_TRUE(mFieldOwnerVariable->isField());
-  EXPECT_FALSE(mFieldOwnerVariable->isSystem());
+  EXPECT_FALSE(mFieldOwnerVariable->isStatic());
 }
 
 TEST_F(FieldOwnerVariableTest, generateIdentifierIRTest) {

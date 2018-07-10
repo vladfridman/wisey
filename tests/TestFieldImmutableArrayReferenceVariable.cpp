@@ -107,7 +107,7 @@ TEST_F(FieldImmutableArrayReferenceVariableTest, basicFieldsTest) {
   EXPECT_STREQ("foo", mFieldImmutableArrayReferenceVariable->getName().c_str());
   EXPECT_EQ(mImmutableArrayType, mFieldImmutableArrayReferenceVariable->getType());
   EXPECT_TRUE(mFieldImmutableArrayReferenceVariable->isField());
-  EXPECT_FALSE(mFieldImmutableArrayReferenceVariable->isSystem());
+  EXPECT_FALSE(mFieldImmutableArrayReferenceVariable->isStatic());
 }
 
 TEST_F(FieldImmutableArrayReferenceVariableTest, generateIdentifierIRTest) {

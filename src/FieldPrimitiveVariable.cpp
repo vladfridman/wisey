@@ -38,7 +38,7 @@ bool FieldPrimitiveVariable::isField() const {
   return true;
 }
 
-bool FieldPrimitiveVariable::isSystem() const {
+bool FieldPrimitiveVariable::isStatic() const {
   return false;
 }
 

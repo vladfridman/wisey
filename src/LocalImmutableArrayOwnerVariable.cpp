@@ -59,7 +59,7 @@ generateIdentifierReferenceIR(IRGenerationContext& context, int line) const {
   return mValueStore;
 }
 
-bool LocalImmutableArrayOwnerVariable::isSystem() const {
+bool LocalImmutableArrayOwnerVariable::isStatic() const {
   return false;
 }
 

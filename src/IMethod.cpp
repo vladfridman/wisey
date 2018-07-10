@@ -15,7 +15,7 @@
 #include "wisey/MethodCall.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/ParameterPrimitiveVariable.hpp"
-#include "wisey/ParameterSystemReferenceVariable.hpp"
+#include "wisey/ParameterReferenceVariableStatic.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace std;
@@ -34,7 +34,7 @@ void IMethod::storeSystemArgumentValue(IRGenerationContext& context,
                                        string name,
                                        const IObjectType* type,
                                        Value* value) {
-  IVariable* variable = new ParameterSystemReferenceVariable(name, type, value, 0);
+  IVariable* variable = new ParameterReferenceVariableStatic(name, type, value, 0);
   context.getScopes().setVariable(context, variable);
 }
 

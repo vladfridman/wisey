@@ -34,7 +34,7 @@
 #include "wisey/ObjectBuilder.hpp"
 #include "wisey/ParameterPrimitiveVariable.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
-#include "wisey/ParameterSystemReferenceVariable.hpp"
+#include "wisey/ParameterReferenceVariableStatic.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ThreadExpression.hpp"
 #include "wisey/ThrowStatement.hpp"
@@ -1066,14 +1066,14 @@ void Interface::composeInjectWithControllerFunction(IRGenerationContext& context
   context.setBasicBlock(basicBlock);
 
   Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
-  IVariable* threadVariable = new ParameterSystemReferenceVariable(ThreadExpression::THREAD,
+  IVariable* threadVariable = new ParameterReferenceVariableStatic(ThreadExpression::THREAD,
                                                                    threadInterface,
                                                                    thread,
                                                                    0);
   context.getScopes().setVariable(context, threadVariable);
   Controller* callstackController =
   context.getController(Names::getCallStackControllerFullName(), 0);
-  IVariable* callstackVariable = new ParameterSystemReferenceVariable(ThreadExpression::CALL_STACK,
+  IVariable* callstackVariable = new ParameterReferenceVariableStatic(ThreadExpression::CALL_STACK,
                                                                       callstackController,
                                                                       callstack,
                                                                       0);

@@ -39,7 +39,7 @@ bool LocalLLVMVariable::isField() const {
   return false;
 }
 
-bool LocalLLVMVariable::isSystem() const {
+bool LocalLLVMVariable::isStatic() const {
   return false;
 }
 

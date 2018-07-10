@@ -46,7 +46,7 @@ bool ParameterArrayReferenceVariable::isField() const {
   return false;
 }
 
-bool ParameterArrayReferenceVariable::isSystem() const {
+bool ParameterArrayReferenceVariable::isStatic() const {
   return false;
 }
 

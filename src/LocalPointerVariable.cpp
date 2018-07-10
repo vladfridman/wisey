@@ -41,7 +41,7 @@ bool LocalPointerVariable::isField() const {
   return false;
 }
 
-bool LocalPointerVariable::isSystem() const {
+bool LocalPointerVariable::isStatic() const {
   return false;
 }
 

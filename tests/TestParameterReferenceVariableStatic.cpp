@@ -1,11 +1,11 @@
 //
-//  TestParameterSystemReferenceVariable.cpp
+//  TestParameterReferenceVariableStatic.cpp
 //  runtests
 //
 //  Created by Vladimir Fridman on 3/13/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link ParameterSystemReferenceVariable}
+//  Tests {@link ParameterReferenceVariableStatic}
 //
 
 #include <gtest/gtest.h>
@@ -19,7 +19,7 @@
 #include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/ParameterSystemReferenceVariable.hpp"
+#include "wisey/ParameterReferenceVariableStatic.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ReceivedField.hpp"
 
@@ -33,7 +33,7 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct ParameterSystemReferenceVariableTest : public Test {
+struct ParameterReferenceVariableStaticTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBasicBlock;
@@ -44,7 +44,7 @@ struct ParameterSystemReferenceVariableTest : public Test {
   
 public:
   
-  ParameterSystemReferenceVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+  ParameterReferenceVariableStaticTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
@@ -80,19 +80,19 @@ public:
   }
 };
 
-TEST_F(ParameterSystemReferenceVariableTest, basicFieldsTest) {
+TEST_F(ParameterReferenceVariableStaticTest, basicFieldsTest) {
   Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mContext));
-  ParameterSystemReferenceVariable variable("foo", mModel, fooValue, 0);
+  ParameterReferenceVariableStatic variable("foo", mModel, fooValue, 0);
   
   EXPECT_STREQ("foo", variable.getName().c_str());
   EXPECT_EQ(mModel, variable.getType());
   EXPECT_FALSE(variable.isField());
-  EXPECT_TRUE(variable.isSystem());
+  EXPECT_TRUE(variable.isStatic());
 }
 
-TEST_F(ParameterSystemReferenceVariableTest, variableAssignmentDeathTest) {
+TEST_F(ParameterReferenceVariableStaticTest, variableAssignmentDeathTest) {
   Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mContext));
-  ParameterSystemReferenceVariable variable("foo", mModel, fooValue, 0);
+  ParameterReferenceVariableStatic variable("foo", mModel, fooValue, 0);
   vector<const IExpression*> arrayIndices;
   
   std::stringstream buffer;
@@ -104,16 +104,16 @@ TEST_F(ParameterSystemReferenceVariableTest, variableAssignmentDeathTest) {
   std::cerr.rdbuf(oldbuffer);
 }
 
-TEST_F(ParameterSystemReferenceVariableTest, variableIdentifierTest) {
+TEST_F(ParameterReferenceVariableStaticTest, variableIdentifierTest) {
   Value* fooValueStore = ConstantPointerNull::get(mModel->getLLVMType(mContext));
-  ParameterSystemReferenceVariable variable("foo", mModel, fooValueStore, 0);
+  ParameterReferenceVariableStatic variable("foo", mModel, fooValueStore, 0);
   
   EXPECT_EQ(fooValueStore, variable.generateIdentifierIR(mContext, 0));
 }
 
-TEST_F(ParameterSystemReferenceVariableTest, decrementReferenceCounterTest) {
+TEST_F(ParameterReferenceVariableStaticTest, decrementReferenceCounterTest) {
   Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mContext));
-  ParameterSystemReferenceVariable variable("foo", mModel, fooValue, 0);
+  ParameterReferenceVariableStatic variable("foo", mModel, fooValue, 0);
   
   variable.decrementReferenceCounter(mContext);
   

@@ -40,7 +40,7 @@ bool FieldReferenceVariable::isField() const {
   return true;
 }
 
-bool FieldReferenceVariable::isSystem() const {
+bool FieldReferenceVariable::isStatic() const {
   return false;
 }
 

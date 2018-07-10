@@ -127,7 +127,7 @@ TEST_F(FieldReferenceVariableTest, basicFieldsTest) {
   EXPECT_STREQ("foo", mFieldReferenceVariable->getName().c_str());
   EXPECT_EQ(mNode, mFieldReferenceVariable->getType());
   EXPECT_TRUE(mFieldReferenceVariable->isField());
-  EXPECT_FALSE(mFieldReferenceVariable->isSystem());
+  EXPECT_FALSE(mFieldReferenceVariable->isStatic());
 }
 
 TEST_F(FieldReferenceVariableTest, generateIdentifierIRTest) {

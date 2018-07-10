@@ -130,7 +130,7 @@ TEST_F(FieldPointerVariableTest, basicFieldsTest) {
   EXPECT_STREQ("foo", mFieldPointerVariable->getName().c_str());
   EXPECT_EQ(mPointerType, mFieldPointerVariable->getType());
   EXPECT_TRUE(mFieldPointerVariable->isField());
-  EXPECT_FALSE(mFieldPointerVariable->isSystem());
+  EXPECT_FALSE(mFieldPointerVariable->isStatic());
 }
 
 TEST_F(FieldPointerVariableTest, generateIdentifierIRTest) {

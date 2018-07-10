@@ -38,7 +38,7 @@ bool FieldArrayReferenceVariable::isField() const {
   return true;
 }
 
-bool FieldArrayReferenceVariable::isSystem() const {
+bool FieldArrayReferenceVariable::isStatic() const {
   return false;
 }
 

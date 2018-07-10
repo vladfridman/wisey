@@ -37,7 +37,7 @@ namespace wisey {
     
     const IOwnerType* getType() const override;
     
-    bool isSystem() const override;
+    bool isStatic() const override;
     
     int getLine() const override;
 

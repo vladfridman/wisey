@@ -98,7 +98,7 @@ TEST_F(LocalPointerVariableTest, basicTest) {
   EXPECT_STREQ("foo", mVariable->getName().c_str());
   EXPECT_EQ(mPointerType, mVariable->getType());
   EXPECT_FALSE(mVariable->isField());
-  EXPECT_FALSE(mVariable->isSystem());
+  EXPECT_FALSE(mVariable->isStatic());
 }
 
 TEST_F(LocalPointerVariableTest, identifierTest) {

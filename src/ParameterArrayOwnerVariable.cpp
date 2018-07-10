@@ -44,7 +44,7 @@ bool ParameterArrayOwnerVariable::isField() const {
   return false;
 }
 
-bool ParameterArrayOwnerVariable::isSystem() const {
+bool ParameterArrayOwnerVariable::isStatic() const {
   return false;
 }
 

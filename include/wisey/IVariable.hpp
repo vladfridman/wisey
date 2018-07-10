@@ -62,9 +62,9 @@ namespace wisey {
     virtual bool isField() const = 0;
     
     /**
-     * Tells whether this is system variable passed to every method, e.g. this, thread, callstack
+     * Tells whether this is a reference variable that does not require reference count adjustment
      */
-    virtual bool isSystem() const = 0;
+    virtual bool isStatic() const = 0;
     
     /**
      * Returns the line number where this variable was defined

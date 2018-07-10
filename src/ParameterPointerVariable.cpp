@@ -39,7 +39,7 @@ bool ParameterPointerVariable::isField() const {
   return false;
 }
 
-bool ParameterPointerVariable::isSystem() const {
+bool ParameterPointerVariable::isStatic() const {
   return false;
 }
 

@@ -48,7 +48,7 @@ bool ParameterOwnerVariable::isField() const {
   return false;
 }
 
-bool ParameterOwnerVariable::isSystem() const {
+bool ParameterOwnerVariable::isStatic() const {
   return false;
 }
 

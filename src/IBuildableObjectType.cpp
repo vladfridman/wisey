@@ -15,7 +15,7 @@
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/MethodCall.hpp"
 #include "wisey/Names.hpp"
-#include "wisey/ParameterSystemReferenceVariable.hpp"
+#include "wisey/ParameterReferenceVariableStatic.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ThreadExpression.hpp"
 
@@ -45,12 +45,12 @@ void IBuildableObjectType::composeAllocateFunctionBody(IRGenerationContext& cont
   llvm::Argument* poolArgument = &*llvmFunctionArguments;
   poolArgument->setName("pool");
 
-  IVariable* threadVariable = new ParameterSystemReferenceVariable(ThreadExpression::THREAD,
+  IVariable* threadVariable = new ParameterReferenceVariableStatic(ThreadExpression::THREAD,
                                                                    thread,
                                                                    threadArgument,
                                                                    0);
   context.getScopes().setVariable(context, threadVariable);
-  IVariable* callstackVariable = new ParameterSystemReferenceVariable(ThreadExpression::CALL_STACK,
+  IVariable* callstackVariable = new ParameterReferenceVariableStatic(ThreadExpression::CALL_STACK,
                                                                       callstack,
                                                                       callstackArgument,
                                                                       0);

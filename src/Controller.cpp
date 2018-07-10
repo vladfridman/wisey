@@ -29,7 +29,7 @@
 #include "wisey/Names.hpp"
 #include "wisey/ObjectKindGlobal.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
-#include "wisey/ParameterSystemReferenceVariable.hpp"
+#include "wisey/ParameterReferenceVariableStatic.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ThreadExpression.hpp"
 #include "wisey/VariableDeclaration.hpp"
@@ -297,14 +297,14 @@ void Controller::composeInjectFunctionBody(IRGenerationContext& context,
   callstack->setName(ThreadExpression::CALL_STACK);
   
   Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
-  IVariable* threadVariable = new ParameterSystemReferenceVariable(ThreadExpression::THREAD,
+  IVariable* threadVariable = new ParameterReferenceVariableStatic(ThreadExpression::THREAD,
                                                                    threadInterface,
                                                                    thread,
                                                                    0);
   context.getScopes().setVariable(context, threadVariable);
   Controller* callstackController =
   context.getController(Names::getCallStackControllerFullName(), 0);
-  IVariable* callstackVariable = new ParameterSystemReferenceVariable(ThreadExpression::CALL_STACK,
+  IVariable* callstackVariable = new ParameterReferenceVariableStatic(ThreadExpression::CALL_STACK,
                                                                       callstackController,
                                                                       callstack,
                                                                       0);
@@ -345,14 +345,14 @@ void Controller::composeContextInjectFunctionBody(IRGenerationContext& context,
   callstack->setName(ThreadExpression::CALL_STACK);
 
   Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
-  IVariable* threadVariable = new ParameterSystemReferenceVariable(ThreadExpression::THREAD,
+  IVariable* threadVariable = new ParameterReferenceVariableStatic(ThreadExpression::THREAD,
                                                                    threadInterface,
                                                                    thread,
                                                                    0);
   context.getScopes().setVariable(context, threadVariable);
   Controller* callstackController =
     context.getController(Names::getCallStackControllerFullName(), 0);
-  IVariable* callstackVariable = new ParameterSystemReferenceVariable(ThreadExpression::CALL_STACK,
+  IVariable* callstackVariable = new ParameterReferenceVariableStatic(ThreadExpression::CALL_STACK,
                                                                       callstackController,
                                                                       callstack,
                                                                       0);
@@ -370,7 +370,7 @@ void Controller::composeContextInjectFunctionBody(IRGenerationContext& context,
   Controller* contextManagerController =
     context.getController(Names::getContextManagerFullName(), 0);
   IVariable* contextManagerVariable =
-  new ParameterSystemReferenceVariable(contextManagerVariableName,
+  new ParameterReferenceVariableStatic(contextManagerVariableName,
                                        contextManagerController,
                                        contextManagerPointer,
                                        0);
@@ -784,7 +784,7 @@ void Controller::injectInjectedFields(IRGenerationContext& context,
   for (IField* field : mReceivedFields) {
     field->getType()->createFieldVariable(context, field->getName(), this, field->getLine());
   }
-  IVariable* thisVariable = new ParameterSystemReferenceVariable(IObjectType::THIS,
+  IVariable* thisVariable = new ParameterReferenceVariableStatic(IObjectType::THIS,
                                                                  this,
                                                                  objectStart,
                                                                  mLine);

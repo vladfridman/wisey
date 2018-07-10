@@ -38,7 +38,7 @@ const ILLVMType* ParameterLLVMVariable::getType() const {
   return mType;
 }
 
-bool ParameterLLVMVariable::isSystem() const {
+bool ParameterLLVMVariable::isStatic() const {
   return false;
 }
 

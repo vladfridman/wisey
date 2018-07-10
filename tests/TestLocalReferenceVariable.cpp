@@ -98,7 +98,7 @@ TEST_F(LocalReferenceVariableTest, basicFieldsTest) {
   EXPECT_STREQ("foo", variable->getName().c_str());
   EXPECT_EQ(mModel, variable->getType());
   EXPECT_FALSE(variable->isField());
-  EXPECT_FALSE(variable->isSystem());
+  EXPECT_FALSE(variable->isStatic());
 }
 
 TEST_F(LocalReferenceVariableTest, localReferenceVariableAssignmentTest) {

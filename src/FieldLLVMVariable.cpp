@@ -40,7 +40,7 @@ bool FieldLLVMVariable::isField() const {
   return true;
 }
 
-bool FieldLLVMVariable::isSystem() const {
+bool FieldLLVMVariable::isStatic() const {
   return false;
 }
 

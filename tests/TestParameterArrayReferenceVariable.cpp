@@ -71,7 +71,7 @@ TEST_F(ParameterArrayReferenceVariableTest, basicFieldsTest) {
   EXPECT_STREQ("foo", mVariable->getName().c_str());
   EXPECT_EQ(mArrayType, mVariable->getType());
   EXPECT_FALSE(mVariable->isField());
-  EXPECT_FALSE(mVariable->isSystem());
+  EXPECT_FALSE(mVariable->isStatic());
 }
 
 TEST_F(ParameterArrayReferenceVariableTest, generateIdentifierIRTest) {

@@ -73,7 +73,7 @@ TEST_F(ParameterArrayOwnerVariableTest, basicFieldsTest) {
   EXPECT_STREQ("foo", mVariable->getName().c_str());
   EXPECT_EQ(mArrayType->getOwner(), mVariable->getType());
   EXPECT_FALSE(mVariable->isField());
-  EXPECT_FALSE(mVariable->isSystem());
+  EXPECT_FALSE(mVariable->isStatic());
 }
 
 TEST_F(ParameterArrayOwnerVariableTest, generateIdentifierIRTest) {

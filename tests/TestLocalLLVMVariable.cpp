@@ -70,7 +70,7 @@ TEST_F(LocalLLVMVariableTest, basicFieldsTest) {
   EXPECT_STREQ("foo", variable.getName().c_str());
   EXPECT_EQ(LLVMPrimitiveTypes::I16, variable.getType());
   EXPECT_FALSE(variable.isField());
-  EXPECT_FALSE(variable.isSystem());
+  EXPECT_FALSE(variable.isStatic());
 }
 
 TEST_F(LocalLLVMVariableTest, generateAssignmentIRTest) {

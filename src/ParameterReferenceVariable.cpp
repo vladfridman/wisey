@@ -43,7 +43,7 @@ bool ParameterReferenceVariable::isField() const {
   return false;
 }
 
-bool ParameterReferenceVariable::isSystem() const {
+bool ParameterReferenceVariable::isStatic() const {
   return false;
 }
 

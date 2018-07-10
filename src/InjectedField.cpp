@@ -15,7 +15,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Names.hpp"
-#include "wisey/ParameterSystemReferenceVariable.hpp"
+#include "wisey/ParameterReferenceVariableStatic.hpp"
 #include "wisey/ThreadExpression.hpp"
 
 using namespace std;
@@ -235,21 +235,21 @@ void InjectedField::composeInjectFunctionBody(IRGenerationContext& context,
   llvm::Argument* fieldPointer = &*llvmArguments;
   fieldPointer->setName("fieldPointer");
   
-  IVariable* thisVariable = new ParameterSystemReferenceVariable(IObjectType::THIS,
+  IVariable* thisVariable = new ParameterReferenceVariableStatic(IObjectType::THIS,
                                                                  controller,
                                                                  thisObject,
                                                                  0);
   context.getScopes().setVariable(context, thisVariable);
 
   Interface* threadInterface = context.getInterface(Names::getThreadInterfaceFullName(), 0);
-  IVariable* threadVariable = new ParameterSystemReferenceVariable(ThreadExpression::THREAD,
+  IVariable* threadVariable = new ParameterReferenceVariableStatic(ThreadExpression::THREAD,
                                                                    threadInterface,
                                                                    thread,
                                                                    0);
   context.getScopes().setVariable(context, threadVariable);
   Controller* callstackController =
     context.getController(Names::getCallStackControllerFullName(), 0);
-  IVariable* callstackVariable = new ParameterSystemReferenceVariable(ThreadExpression::CALL_STACK,
+  IVariable* callstackVariable = new ParameterReferenceVariableStatic(ThreadExpression::CALL_STACK,
                                                                       callstackController,
                                                                       callstack,
                                                                       0);

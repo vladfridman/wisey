@@ -41,7 +41,7 @@ bool FieldPointerVariable::isField() const {
   return true;
 }
 
-bool FieldPointerVariable::isSystem() const {
+bool FieldPointerVariable::isStatic() const {
   return false;
 }
 

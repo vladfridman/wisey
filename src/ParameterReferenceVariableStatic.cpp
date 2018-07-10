@@ -1,5 +1,5 @@
 //
-//  ParameterSystemReferenceVariable.cpp
+//  ParameterReferenceVariableStatic.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 3/13/18.
@@ -11,13 +11,13 @@
 
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Log.hpp"
-#include "wisey/ParameterSystemReferenceVariable.hpp"
+#include "wisey/ParameterReferenceVariableStatic.hpp"
 
 using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-ParameterSystemReferenceVariable::ParameterSystemReferenceVariable(string name,
+ParameterReferenceVariableStatic::ParameterReferenceVariableStatic(string name,
                                                                    const IObjectType* type,
                                                                    Value* value,
                                                                    int line) :
@@ -26,40 +26,40 @@ mName(name), mType(type), mValue(value), mLine(line) {
   assert(value->getType()->getPointerElementType()->isStructTy());
 }
 
-ParameterSystemReferenceVariable::~ParameterSystemReferenceVariable() {
+ParameterReferenceVariableStatic::~ParameterReferenceVariableStatic() {
 }
 
-string ParameterSystemReferenceVariable::getName() const {
+string ParameterReferenceVariableStatic::getName() const {
   return mName;
 }
 
-const IObjectType* ParameterSystemReferenceVariable::getType() const {
+const IObjectType* ParameterReferenceVariableStatic::getType() const {
   return mType;
 }
 
-bool ParameterSystemReferenceVariable::isField() const {
+bool ParameterReferenceVariableStatic::isField() const {
   return false;
 }
 
-bool ParameterSystemReferenceVariable::isSystem() const {
+bool ParameterReferenceVariableStatic::isStatic() const {
   return true;
 }
 
-int ParameterSystemReferenceVariable::getLine() const {
+int ParameterReferenceVariableStatic::getLine() const {
   return mLine;
 }
 
-Value* ParameterSystemReferenceVariable::generateIdentifierIR(IRGenerationContext& context,
+Value* ParameterReferenceVariableStatic::generateIdentifierIR(IRGenerationContext& context,
                                                               int line) const {
   return mValue;
 }
 
-Value* ParameterSystemReferenceVariable::generateIdentifierReferenceIR(IRGenerationContext& context,
+Value* ParameterReferenceVariableStatic::generateIdentifierReferenceIR(IRGenerationContext& context,
                                                                        int line) const {
   assert(false);
 }
 
-Value* ParameterSystemReferenceVariable::generateAssignmentIR(IRGenerationContext& context,
+Value* ParameterReferenceVariableStatic::generateAssignmentIR(IRGenerationContext& context,
                                                               IExpression* assignToExpression,
                                                               vector<const IExpression*>
                                                               arrayIndices,
@@ -68,7 +68,7 @@ Value* ParameterSystemReferenceVariable::generateAssignmentIR(IRGenerationContex
   throw 1;
 }
 
-void ParameterSystemReferenceVariable::decrementReferenceCounter(IRGenerationContext&
+void ParameterReferenceVariableStatic::decrementReferenceCounter(IRGenerationContext&
                                                                  context) const {
   mType->decrementReferenceCount(context, mValue);
 }

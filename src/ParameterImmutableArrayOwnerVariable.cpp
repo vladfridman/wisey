@@ -48,7 +48,7 @@ bool ParameterImmutableArrayOwnerVariable::isField() const {
   return false;
 }
 
-bool ParameterImmutableArrayOwnerVariable::isSystem() const {
+bool ParameterImmutableArrayOwnerVariable::isStatic() const {
   return false;
 }
 
