@@ -149,15 +149,35 @@ TEST_F(ArrayElementAssignmentTest, generateReferenceArrayAssignmentTest) {
                                                     elementStore,
                                                     0);
   
-  *mStringStream << *mEntryBlock;
+  *mStringStream << *mFunction;
   string expected =
+  "\ndefine internal i32 @test() {"
+  "\ndeclare:"
+  "\n"
   "\nentry:                                            ; No predecessors!"
   "\n  %0 = load %systems.vos.wisey.compiler.tests.MModel*, %systems.vos.wisey.compiler.tests.MModel** null"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MModel* %0 to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %1, i64 -1)"
-  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.MModel* null to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %2, i64 1)"
+  "\n  %1 = icmp eq %systems.vos.wisey.compiler.tests.MModel* %0, null"
+  "\n  br i1 %1, label %if.end, label %if.notnull"
+  "\n"
+  "\nif.end:                                           ; preds = %if.notnull, %entry"
+  "\n  %2 = icmp eq %systems.vos.wisey.compiler.tests.MModel* null, null"
+  "\n  br i1 %2, label %if.end1, label %if.notnull2"
+  "\n"
+  "\nif.notnull:                                       ; preds = %entry"
+  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MModel* %0 to i64*"
+  "\n  %4 = getelementptr i64, i64* %3, i64 -1"
+  "\n  %5 = atomicrmw add i64* %4, i64 -1 monotonic"
+  "\n  br label %if.end"
+  "\n"
+  "\nif.end1:                                          ; preds = %if.notnull2, %if.end"
   "\n  store %systems.vos.wisey.compiler.tests.MModel* null, %systems.vos.wisey.compiler.tests.MModel** null"
+  "\n"
+  "\nif.notnull2:                                      ; preds = %if.end"
+  "\n  %6 = bitcast %systems.vos.wisey.compiler.tests.MModel* null to i64*"
+  "\n  %7 = getelementptr i64, i64* %6, i64 -1"
+  "\n  %8 = atomicrmw add i64* %7, i64 1 monotonic"
+  "\n  br label %if.end1"
+  "\n}"
   "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());

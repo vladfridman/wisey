@@ -42,9 +42,19 @@ namespace wisey {
     static void incrementReferenceCountUnsafely(IRGenerationContext& context, llvm::Value* object);
     
     /**
-     * Increments reference count unsafely for an object that is either controller or a node
+     * Decrements reference count unsafely for an object that is either controller or a node
      */
     static void decrementReferenceCountUnsafely(IRGenerationContext& context, llvm::Value* object);
+    
+    /**
+     * Increments reference count safely for an object that is either a model or a thread controller
+     */
+    static void incrementReferenceCountSafely(IRGenerationContext& context, llvm::Value* object);
+    
+    /**
+     * Decrements reference count safely for an object that is either a model or a thread controller
+     */
+    static void decrementReferenceCountSafely(IRGenerationContext& context, llvm::Value* object);
 
   private:
     
@@ -55,6 +65,10 @@ namespace wisey {
     static void adjustReferenceCountUnsafely(IRGenerationContext& context,
                                              llvm::Value* object,
                                              int adjustmentValue);
+    
+    static void adjustReferenceCountSafely(IRGenerationContext& context,
+                                           llvm::Value* object,
+                                           int adjustmentValue);
 
   };
   

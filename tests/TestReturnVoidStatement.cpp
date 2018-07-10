@@ -212,10 +212,10 @@ TEST_F(ReturnVoidStatementTest, referenceVariablesGetTheirRefCountDecrementedTes
   returnStatement.generateIR(mContext);
   BranchInst::Create(entryBlock, declareBlock);
 
-  *mStringStream << *declareBlock;
-  *mStringStream << *entryBlock;
+  *mStringStream << *function;
   
   string expected =
+  "\ndefine internal i64 @test() {"
   "\ndeclare:"
   "\n  %0 = alloca %MModel*"
   "\n  %1 = alloca %MModel*"
@@ -229,12 +229,29 @@ TEST_F(ReturnVoidStatementTest, referenceVariablesGetTheirRefCountDecrementedTes
   "\n  %3 = bitcast i8* %malloccall1 to %MModel*"
   "\n  store %MModel* %3, %MModel** %1"
   "\n  %4 = load %MModel*, %MModel** %1"
-  "\n  %5 = bitcast %MModel* %4 to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %5, i64 -1)"
+  "\n  %5 = icmp eq %MModel* %4, null"
+  "\n  br i1 %5, label %if.end, label %if.notnull"
+  "\n"
+  "\nif.end:                                           ; preds = %if.notnull, %entry"
   "\n  %6 = load %MModel*, %MModel** %0"
-  "\n  %7 = bitcast %MModel* %6 to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %7, i64 -1)"
-  "\n  ret void\n";
+  "\n  %7 = icmp eq %MModel* %6, null"
+  "\n  br i1 %7, label %if.end2, label %if.notnull3"
+  "\n"
+  "\nif.notnull:                                       ; preds = %entry"
+  "\n  %8 = bitcast %MModel* %4 to i64*"
+  "\n  %9 = getelementptr i64, i64* %8, i64 -1"
+  "\n  %10 = atomicrmw add i64* %9, i64 -1 monotonic"
+  "\n  br label %if.end"
+  "\n"
+  "\nif.end2:                                          ; preds = %if.notnull3, %if.end"
+  "\n  ret void"
+  "\n"
+  "\nif.notnull3:                                      ; preds = %if.end"
+  "\n  %11 = bitcast %MModel* %6 to i64*"
+  "\n  %12 = getelementptr i64, i64* %11, i64 -1"
+  "\n  %13 = atomicrmw add i64* %12, i64 -1 monotonic"
+  "\n  br label %if.end2"
+  "\n}\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 

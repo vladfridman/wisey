@@ -8,7 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp"
+#include "wisey/Composer.hpp"
 #include "wisey/DestroyReferenceArrayFunction.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/IRWriter.hpp"
@@ -228,7 +228,7 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   
   Value* objectStore = IRWriter::newBitCastInst(context, elementStore, bytePointer->getPointerTo());
   Value* elementPointer = IRWriter::newLoadInst(context, objectStore, "");
-  AdjustReferenceCounterForConcreteObjectSafelyFunction::call(context, elementPointer, -1);
+  Composer::incrementReferenceCountSafely(context, elementPointer);
   IRWriter::createBranch(context, forCond);
   
   context.setBasicBlock(maybeFreeArray);

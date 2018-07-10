@@ -235,3 +235,55 @@ TEST_F(ComposerTest, decrementReferenceCountUnsafelyTest) {
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
+
+TEST_F(ComposerTest, incrementReferenceCountSafelyTest) {
+  mContext.getScopes().popScope(mContext, 0);
+  mContext.getScopes().pushScope();
+  
+  Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
+  Composer::incrementReferenceCountSafely(mContext, nullPointerValue);
+  
+  *mStringStream << *mMainFunction;
+  string expected =
+  "\ndefine internal i32 @main() {"
+  "\nentry:"
+  "\n  %0 = icmp eq i8* null, null"
+  "\n  br i1 %0, label %if.end, label %if.notnull"
+  "\n"
+  "\nif.end:                                           ; preds = %if.notnull, %entry"
+  "\n"
+  "\nif.notnull:                                       ; preds = %entry"
+  "\n  %1 = bitcast i8* null to i64*"
+  "\n  %2 = getelementptr i64, i64* %1, i64 -1"
+  "\n  %3 = atomicrmw add i64* %2, i64 1 monotonic"
+  "\n  br label %if.end"
+  "\n}\n";
+  
+  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
+}
+
+TEST_F(ComposerTest, decrementReferenceCountSafelyTest) {
+  mContext.getScopes().popScope(mContext, 0);
+  mContext.getScopes().pushScope();
+  
+  Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
+  Composer::decrementReferenceCountSafely(mContext, nullPointerValue);
+  
+  *mStringStream << *mMainFunction;
+  string expected =
+  "\ndefine internal i32 @main() {"
+  "\nentry:"
+  "\n  %0 = icmp eq i8* null, null"
+  "\n  br i1 %0, label %if.end, label %if.notnull"
+  "\n"
+  "\nif.end:                                           ; preds = %if.notnull, %entry"
+  "\n"
+  "\nif.notnull:                                       ; preds = %entry"
+  "\n  %1 = bitcast i8* null to i64*"
+  "\n  %2 = getelementptr i64, i64* %1, i64 -1"
+  "\n  %3 = atomicrmw add i64* %2, i64 -1 monotonic"
+  "\n  br label %if.end"
+  "\n}\n";
+  
+  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
+}

@@ -43,6 +43,7 @@ struct LocalSystemReferenceVariableTest : public Test {
   LLVMContext& mLLVMContext;
   BasicBlock* mEntryBlock;
   BasicBlock* mDeclareBlock;
+  Function* mFunction;
   Model* mModel;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
@@ -53,12 +54,12 @@ public:
     TestPrefix::generateIR(mContext);
     
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
-    Function* function = Function::Create(functionType,
-                                          GlobalValue::InternalLinkage,
-                                          "test",
-                                          mContext.getModule());
-    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
-    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mFunction = Function::Create(functionType,
+                                 GlobalValue::InternalLinkage,
+                                 "test",
+                                 mContext.getModule());
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
     mContext.setDeclarationsBlock(mDeclareBlock);
     mContext.setBasicBlock(mEntryBlock);
     mContext.getScopes().pushScope();
@@ -165,17 +166,26 @@ TEST_F(LocalSystemReferenceVariableTest, decrementReferenceCounterTest) {
   
   variable.decrementReferenceCounter(mContext);
   
-  *mStringStream << *mDeclareBlock;
-  *mStringStream << *mEntryBlock;
+  *mStringStream << *mFunction;
   
   string expected =
+  "\ndefine internal i32 @test() {"
   "\ndeclare:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
   "\n"
   "\nentry:                                            ; No predecessors!"
   "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, %systems.vos.wisey.compiler.tests.MShape** %0"
-  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.MShape* %1 to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %2, i64 -1)\n";
+  "\n  %2 = icmp eq %systems.vos.wisey.compiler.tests.MShape* %1, null"
+  "\n  br i1 %2, label %if.end, label %if.notnull"
+  "\n"
+  "\nif.end:                                           ; preds = %if.notnull, %entry"
+  "\n"
+  "\nif.notnull:                                       ; preds = %entry"
+  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MShape* %1 to i64*"
+  "\n  %4 = getelementptr i64, i64* %3, i64 -1"
+  "\n  %5 = atomicrmw add i64* %4, i64 -1 monotonic"
+  "\n  br label %if.end"
+  "\n}\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 

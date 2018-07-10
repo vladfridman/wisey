@@ -654,12 +654,24 @@ TEST_F(ControllerTest, incrementReferenceCountForThreadTest) {
   ConstantPointerNull* pointer = ConstantPointerNull::get(mThreadController->getLLVMType(mContext));
   mThreadController->incrementReferenceCount(mContext, pointer);
   
-  *mStringStream << *mEntryBlock;
+  *mStringStream << *mFunction;
   string expected =
+  "\ndefine internal void @test() {"
+  "\ndeclare:"
+  "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CThread* null to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %0, i64 1)\n";
-  
+  "\n  %0 = icmp eq %systems.vos.wisey.compiler.tests.CThread* null, null"
+  "\n  br i1 %0, label %if.end, label %if.notnull"
+  "\n"
+  "\nif.end:                                           ; preds = %if.notnull, %entry"
+  "\n"
+  "\nif.notnull:                                       ; preds = %entry"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CThread* null to i64*"
+  "\n  %2 = getelementptr i64, i64* %1, i64 -1"
+  "\n  %3 = atomicrmw add i64* %2, i64 1 monotonic"
+  "\n  br label %if.end"
+  "\n}\n";
+
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
@@ -668,12 +680,24 @@ TEST_F(ControllerTest, decrementReferenceCountForThreadTest) {
   ConstantPointerNull* pointer = ConstantPointerNull::get(mThreadController->getLLVMType(mContext));
   mThreadController->decrementReferenceCount(mContext, pointer);
 
-  *mStringStream << *mEntryBlock;
+  *mStringStream << *mFunction;
   string expected =
+  "\ndefine internal void @test() {"
+  "\ndeclare:"
+  "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CThread* null to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %0, i64 -1)\n";
-  
+  "\n  %0 = icmp eq %systems.vos.wisey.compiler.tests.CThread* null, null"
+  "\n  br i1 %0, label %if.end, label %if.notnull"
+  "\n"
+  "\nif.end:                                           ; preds = %if.notnull, %entry"
+  "\n"
+  "\nif.notnull:                                       ; preds = %entry"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CThread* null to i64*"
+  "\n  %2 = getelementptr i64, i64* %1, i64 -1"
+  "\n  %3 = atomicrmw add i64* %2, i64 -1 monotonic"
+  "\n  br label %if.end"
+  "\n}\n";
+
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
@@ -730,8 +754,10 @@ TEST_F(ControllerTest, createInjectFunctionTest) {
   "\n  store %systems.vos.wisey.compiler.tests.NOwner* %mOwner, %systems.vos.wisey.compiler.tests.NOwner** %2"
   "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, %systems.vos.wisey.compiler.tests.CAdditor* %1, i32 0, i32 2"
   "\n  store %systems.vos.wisey.compiler.tests.MReference* %mReference, %systems.vos.wisey.compiler.tests.MReference** %3"
-  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MReference* %mReference to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %4, i64 1)"
+  "\n  %4 = icmp eq %systems.vos.wisey.compiler.tests.MReference* %mReference, null"
+  "\n  br i1 %4, label %if.end, label %if.notnull"
+  "\n"
+  "\nif.end:                                           ; preds = %if.notnull, %entry"
   "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.CAdditor* %1 to i8*"
   "\n  %6 = getelementptr i8, i8* %5, i64 0"
   "\n  %7 = bitcast i8* %6 to i32 (...)***"
@@ -739,6 +765,12 @@ TEST_F(ControllerTest, createInjectFunctionTest) {
   "\n  %9 = bitcast i8** %8 to i32 (...)**"
   "\n  store i32 (...)** %9, i32 (...)*** %7"
   "\n  ret %systems.vos.wisey.compiler.tests.CAdditor* %1"
+  "\n"
+  "\nif.notnull:                                       ; preds = %entry"
+  "\n  %10 = bitcast %systems.vos.wisey.compiler.tests.MReference* %mReference to i64*"
+  "\n  %11 = getelementptr i64, i64* %10, i64 -1"
+  "\n  %12 = atomicrmw add i64* %11, i64 1 monotonic"
+  "\n  br label %if.end"
   "\n}"
   "\n";
   

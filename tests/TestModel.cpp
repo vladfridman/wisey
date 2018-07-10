@@ -23,7 +23,6 @@
 #include "MockVariable.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp"
 #include "wisey/Constant.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IntConstant.hpp"
@@ -85,6 +84,7 @@ struct ModelTest : public Test {
   string mPackage = "systems.vos.wisey.compiler.tests";
   ImportProfile* mImportProfile;
   LLVMFunction* mLLVMFunction;
+  Function* mFunction;
 
   ModelTest() :
   mLLVMContext(mContext.getLLVMContext()),
@@ -341,13 +341,13 @@ struct ModelTest : public Test {
     IConcreteObjectType::declareVTable(mContext, mStarModel);
 
     FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
-    Function* function = Function::Create(functionType,
-                                          GlobalValue::InternalLinkage,
-                                          "main",
-                                          mContext.getModule());
-    
-    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", function);
-    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mFunction = Function::Create(functionType,
+                                 GlobalValue::InternalLinkage,
+                                 "main",
+                                 mContext.getModule());
+
+    mDeclareBlock = BasicBlock::Create(mLLVMContext, "declare", mFunction);
+    mEntryBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
     mContext.setDeclarationsBlock(mDeclareBlock);
     mContext.setBasicBlock(mEntryBlock);
  
@@ -572,12 +572,24 @@ TEST_F(ModelTest, incrementReferenceCountTest) {
   ConstantPointerNull* pointer = ConstantPointerNull::get(mModel->getLLVMType(mContext));
   mModel->incrementReferenceCount(mContext, pointer);
   
-  *mStringStream << *mEntryBlock;
+  *mStringStream << *mFunction;
   string expected =
+  "\ndefine internal i64 @main() {"
+  "\ndeclare:"
+  "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %0, i64 1)\n";
-  
+  "\n  %0 = icmp eq %systems.vos.wisey.compiler.tests.MSquare* null, null"
+  "\n  br i1 %0, label %if.end, label %if.notnull"
+  "\n"
+  "\nif.end:                                           ; preds = %if.notnull, %entry"
+  "\n"
+  "\nif.notnull:                                       ; preds = %entry"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null to i64*"
+  "\n  %2 = getelementptr i64, i64* %1, i64 -1"
+  "\n  %3 = atomicrmw add i64* %2, i64 1 monotonic"
+  "\n  br label %if.end"
+  "\n}\n";
+
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
@@ -586,11 +598,23 @@ TEST_F(ModelTest, decrementReferenceCountTest) {
   ConstantPointerNull* pointer = ConstantPointerNull::get(mModel->getLLVMType(mContext));
   mModel->decrementReferenceCount(mContext, pointer);
   
-  *mStringStream << *mEntryBlock;
+  *mStringStream << *mFunction;
   string expected =
+  "\ndefine internal i64 @main() {"
+  "\ndeclare:"
+  "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %0, i64 -1)\n";
+  "\n  %0 = icmp eq %systems.vos.wisey.compiler.tests.MSquare* null, null"
+  "\n  br i1 %0, label %if.end, label %if.notnull"
+  "\n"
+  "\nif.end:                                           ; preds = %if.notnull, %entry"
+  "\n"
+  "\nif.notnull:                                       ; preds = %entry"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null to i64*"
+  "\n  %2 = getelementptr i64, i64* %1, i64 -1"
+  "\n  %3 = atomicrmw add i64* %2, i64 -1 monotonic"
+  "\n  br label %if.end"
+  "\n}\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -726,16 +750,25 @@ TEST_F(ModelTest, createParameterVariableTest) {
   
   EXPECT_NE(variable, nullptr);
   
-  *mStringStream << *mDeclareBlock;
-  *mStringStream << *mEntryBlock;
+  *mStringStream << *mFunction;
   
   string expected =
+  "\ndefine internal i64 @main() {"
   "\ndeclare:"
   "\n"
   "\nentry:                                            ; No predecessors!"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %0, i64 1)\n";
-  
+  "\n  %0 = icmp eq %systems.vos.wisey.compiler.tests.MSquare* null, null"
+  "\n  br i1 %0, label %if.end, label %if.notnull"
+  "\n"
+  "\nif.end:                                           ; preds = %if.notnull, %entry"
+  "\n"
+  "\nif.notnull:                                       ; preds = %entry"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null to i64*"
+  "\n  %2 = getelementptr i64, i64* %1, i64 -1"
+  "\n  %3 = atomicrmw add i64* %2, i64 1 monotonic"
+  "\n  br label %if.end"
+  "\n}\n";
+
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
