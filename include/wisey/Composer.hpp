@@ -55,10 +55,15 @@ namespace wisey {
      * Decrements reference count safely for an object that is either a model or a thread controller
      */
     static void decrementReferenceCountSafely(IRGenerationContext& context, llvm::Value* object);
-
+    
+    /**
+     * Checks if the value is null and throws npe if so
+     */
+    static void checkForNull(IRGenerationContext& context, llvm::Value* value);
+    
   private:
     
-    static bool shouldSkip(IRGenerationContext& context);
+    static bool shouldSkipCallStack(IRGenerationContext& context);
     
     static llvm::StructType* getCCallStackStruct(IRGenerationContext& context);
     

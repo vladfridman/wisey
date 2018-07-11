@@ -11,7 +11,6 @@
 #include "wisey/Argument.hpp"
 #include "wisey/ArrayGetSizeMethod.hpp"
 #include "wisey/AutoCast.hpp"
-#include "wisey/CheckForNullAndThrowFunction.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/GetTypeNameMethod.hpp"
 #include "wisey/FakeExpression.hpp"
@@ -102,7 +101,7 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
   Value* objectValue = mExpression->generateIR(context, PrimitiveTypes::VOID);
 
   Composer::setLineNumber(context, mLine);
-  CheckForNullAndThrowFunction::call(context, objectValue);
+  Composer::checkForNull(context, objectValue);
 
   FunctionType* functionType =
     IMethod::getLLVMFunctionType(context, methodDescriptor, interface, mLine);
@@ -143,7 +142,7 @@ Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
   Function* function = getMethodFunction(context, methodDescriptor);
 
   Composer::setLineNumber(context, mLine);
-  CheckForNullAndThrowFunction::call(context, objectValue);
+  Composer::checkForNull(context, objectValue);
 
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
   Value* threadObject = threadVariable->generateIdentifierIR(context, mLine);

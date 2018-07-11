@@ -1,13 +1,13 @@
 //
-//  CheckForNullAndThrowFunction.hpp
+//  ThrowNullPointerExceptionFunction.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 11/17/17.
-//  Copyright © 2017 Vladimir Fridman. All rights reserved.
+//  Created by Vladimir Fridman on 7/11/18.
+//  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef CheckForNullAndThrowFunction_h
-#define CheckForNullAndThrowFunction_h
+#ifndef ThrowNullPointerExceptionFunction_h
+#define ThrowNullPointerExceptionFunction_h
 
 #include <llvm/IR/Instructions.h>
 
@@ -16,9 +16,9 @@
 namespace wisey {
   
   /**
-   * Represents a global function that throws an MNullPointerException if the given parameter is null
+   * Represents a global function that throws an MNullPointerException
    */
-  class CheckForNullAndThrowFunction {
+  class ThrowNullPointerExceptionFunction {
     
   public:
     
@@ -30,7 +30,7 @@ namespace wisey {
     /**
      * Calls function with a given argument
      */
-    static void call(IRGenerationContext& context, llvm::Value* value);
+    static void call(IRGenerationContext& context);
     
   private:
     
@@ -41,10 +41,9 @@ namespace wisey {
     static void compose(IRGenerationContext& context, llvm::Function* function);
     
     static LLVMFunctionType* getLLVMFunctionType(IRGenerationContext& context);
-
+    
   };
   
 } /* namespace wisey */
 
-#endif /* CheckForNullAndThrowFunction_h */
-
+#endif /* ThrowNullPointerExceptionFunction_h */

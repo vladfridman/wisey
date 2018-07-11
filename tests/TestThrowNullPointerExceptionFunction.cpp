@@ -1,11 +1,11 @@
 //
-//  TestCheckForNullAndThrowFunction.cpp
+//  TestThrowNullPointerExceptionFunction.cpp
 //  runtests
 //
 //  Created by Vladimir Fridman on 12/1/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link CheckForNullAndThrowFunction}
+//  Tests {@link ThrowNullPointerExceptionFunction}
 //
 
 #include <gtest/gtest.h>
@@ -14,7 +14,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/CheckForNullAndThrowFunction.hpp"
+#include "wisey/ThrowNullPointerExceptionFunction.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
 using namespace llvm;
@@ -23,7 +23,7 @@ using namespace wisey;
 
 using ::testing::Test;
 
-struct CheckForNullAndThrowFunctionTest : Test {
+struct ThrowNullPointerExceptionFunctionTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mDeclareBlock;
@@ -32,7 +32,7 @@ struct CheckForNullAndThrowFunctionTest : Test {
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  CheckForNullAndThrowFunctionTest() : mLLVMContext(mContext.getLLVMContext()) {
+  ThrowNullPointerExceptionFunctionTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     
     FunctionType* functionType =
@@ -49,13 +49,12 @@ struct CheckForNullAndThrowFunctionTest : Test {
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
-  ~CheckForNullAndThrowFunctionTest() {
+  ~ThrowNullPointerExceptionFunctionTest() {
   }
 };
 
-TEST_F(CheckForNullAndThrowFunctionTest, callTest) {
-  Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  CheckForNullAndThrowFunction::call(mContext, nullPointerValue);
+TEST_F(ThrowNullPointerExceptionFunctionTest, callTest) {
+  ThrowNullPointerExceptionFunction::call(mContext);
   BranchInst::Create(mEntryBlock, mDeclareBlock);
   
   *mStringStream << *mFunction;
@@ -65,23 +64,22 @@ TEST_F(CheckForNullAndThrowFunctionTest, callTest) {
   "\n  br label %entry"
   "\n"
   "\nentry:                                            ; preds = %declare"
-  "\n  %0 = bitcast i8* null to i8*"
-  "\n  invoke void @__checkForNullAndThrow(i8* %0)"
+  "\n  invoke void @__throwNPE()"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\ncleanup:                                          ; preds = %entry"
-  "\n  %1 = landingpad { i8*, i32 }"
+  "\n  %0 = landingpad { i8*, i32 }"
   "\n          cleanup"
-  "\n  %2 = alloca { i8*, i32 }"
+  "\n  %1 = alloca { i8*, i32 }"
   "\n  br label %cleanup.cont"
   "\n"
   "\ncleanup.cont:                                     ; preds = %cleanup"
-  "\n  store { i8*, i32 } %1, { i8*, i32 }* %2"
-  "\n  %3 = getelementptr { i8*, i32 }, { i8*, i32 }* %2, i32 0, i32 0"
-  "\n  %4 = load i8*, i8** %3"
-  "\n  %5 = call i8* @__cxa_get_exception_ptr(i8* %4)"
-  "\n  %6 = getelementptr i8, i8* %5, i64 8"
-  "\n  resume { i8*, i32 } %1"
+  "\n  store { i8*, i32 } %0, { i8*, i32 }* %1"
+  "\n  %2 = getelementptr { i8*, i32 }, { i8*, i32 }* %1, i32 0, i32 0"
+  "\n  %3 = load i8*, i8** %2"
+  "\n  %4 = call i8* @__cxa_get_exception_ptr(i8* %3)"
+  "\n  %5 = getelementptr i8, i8* %4, i64 8"
+  "\n  resume { i8*, i32 } %0"
   "\n"
   "\ninvoke.continue:                                  ; preds = %entry"
   "\n}\n";
@@ -89,21 +87,17 @@ TEST_F(CheckForNullAndThrowFunctionTest, callTest) {
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(CheckForNullAndThrowFunctionTest, getTest) {
+TEST_F(ThrowNullPointerExceptionFunctionTest, getTest) {
   mContext.getScopes().popScope(mContext, 0);
   mContext.getScopes().pushScope();
   
-  Function* function = CheckForNullAndThrowFunction::get(mContext);
+  Function* function = ThrowNullPointerExceptionFunction::get(mContext);
   mContext.runComposingCallbacks();
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @__checkForNullAndThrow(i8* %pointer) personality i32 (...)* @__gxx_personality_v0 {"
+  "\ndefine void @__throwNPE() personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
-  "\n  %cmp = icmp eq i8* %pointer, null"
-  "\n  br i1 %cmp, label %if.then, label %if.end"
-  "\n"
-  "\nif.then:                                          ; preds = %entry"
   "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%wisey.lang.MNullPointerException.refCounter* getelementptr (%wisey.lang.MNullPointerException.refCounter, %wisey.lang.MNullPointerException.refCounter* null, i32 1) to i64))"
   "\n  %buildervar = bitcast i8* %malloccall to %wisey.lang.MNullPointerException.refCounter*"
   "\n  %0 = bitcast %wisey.lang.MNullPointerException.refCounter* %buildervar to i8*"
@@ -124,10 +118,7 @@ TEST_F(CheckForNullAndThrowFunctionTest, getTest) {
   "\n  invoke void @__cxa_throw(i8* %10, i8* %7, i8* null)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
-  "\nif.end:                                           ; preds = %entry"
-  "\n  ret void"
-  "\n"
-  "\ncleanup:                                          ; preds = %if.then"
+  "\ncleanup:                                          ; preds = %entry"
   "\n  %11 = landingpad { i8*, i32 }"
   "\n          cleanup"
   "\n  %12 = alloca { i8*, i32 }"
@@ -141,7 +132,7 @@ TEST_F(CheckForNullAndThrowFunctionTest, getTest) {
   "\n  %16 = getelementptr i8, i8* %15, i64 8"
   "\n  resume { i8*, i32 } %11"
   "\n"
-  "\ninvoke.continue:                                  ; preds = %if.then"
+  "\ninvoke.continue:                                  ; preds = %entry"
   "\n  unreachable"
   "\n}\n";
   

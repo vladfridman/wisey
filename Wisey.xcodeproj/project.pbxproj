@@ -119,7 +119,7 @@
 		F5105FB31FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FB21FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp */; };
 		F5105FB41FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FB21FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp */; };
 		F5105FB61FD1767400ACF57B /* TestGetOriginalObjectFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FB51FD1767400ACF57B /* TestGetOriginalObjectFunction.cpp */; };
-		F5105FBD1FD1A65E00ACF57B /* TestCheckForNullAndThrowFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FBC1FD1A65E00ACF57B /* TestCheckForNullAndThrowFunction.cpp */; };
+		F5105FBD1FD1A65E00ACF57B /* TestThrowNullPointerExceptionFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FBC1FD1A65E00ACF57B /* TestThrowNullPointerExceptionFunction.cpp */; };
 		F5105FBF1FD1ABC900ACF57B /* TestThrowReferenceCountExceptionFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FBE1FD1ABC900ACF57B /* TestThrowReferenceCountExceptionFunction.cpp */; };
 		F5105FC31FD1B18F00ACF57B /* TestAdjustReferenceCountFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FC21FD1B18F00ACF57B /* TestAdjustReferenceCountFunction.cpp */; };
 		F513DDFB201790A1001A075B /* FieldArrayReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F513DDFA201790A1001A075B /* FieldArrayReferenceVariable.cpp */; };
@@ -214,8 +214,6 @@
 		F5296AC11E564B9B00FB1E1D /* CastExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */; };
 		F52C665A1FBF348D00E89B04 /* ThrowReferenceCountExceptionFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52C66591FBF348D00E89B04 /* ThrowReferenceCountExceptionFunction.cpp */; };
 		F52C665B1FBF348D00E89B04 /* ThrowReferenceCountExceptionFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52C66591FBF348D00E89B04 /* ThrowReferenceCountExceptionFunction.cpp */; };
-		F52C665E1FBF38CC00E89B04 /* CheckForNullAndThrowFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52C665D1FBF38CC00E89B04 /* CheckForNullAndThrowFunction.cpp */; };
-		F52C665F1FBF38CC00E89B04 /* CheckForNullAndThrowFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52C665D1FBF38CC00E89B04 /* CheckForNullAndThrowFunction.cpp */; };
 		F52C66661FBF446400E89B04 /* AdjustReferenceCountFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52C66651FBF446400E89B04 /* AdjustReferenceCountFunction.cpp */; };
 		F52C66671FBF446400E89B04 /* AdjustReferenceCountFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52C66651FBF446400E89B04 /* AdjustReferenceCountFunction.cpp */; };
 		F52F2C991EA95C7B0081DE38 /* TestTryCatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52F2C981EA95C7B0081DE38 /* TestTryCatch.cpp */; };
@@ -1034,6 +1032,8 @@
 		F5EEDDA01E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EEDD9F1E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp */; };
 		F5EEDDA11E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EEDD9F1E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp */; };
 		F5EEDDA31E6EF50100215278 /* TestInterfaceTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EEDDA21E6EF50100215278 /* TestInterfaceTypeSpecifier.cpp */; };
+		F5F210CA20F633D700F6D40F /* ThrowNullPointerExceptionFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F210C920F633D700F6D40F /* ThrowNullPointerExceptionFunction.cpp */; };
+		F5F210CB20F633D700F6D40F /* ThrowNullPointerExceptionFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F210C920F633D700F6D40F /* ThrowNullPointerExceptionFunction.cpp */; };
 		F5F2F3771EEAFAF80060CF42 /* ObjectOwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F2F3761EEAFAF80060CF42 /* ObjectOwnerTypeSpecifier.cpp */; };
 		F5F2F3781EEAFAF80060CF42 /* ObjectOwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F2F3761EEAFAF80060CF42 /* ObjectOwnerTypeSpecifier.cpp */; };
 		F5F396D71E34BBDD00F34296 /* ObjectBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396D61E34BBDD00F34296 /* ObjectBuilder.cpp */; };
@@ -1274,7 +1274,7 @@
 		F5105FB11FD16CE700ACF57B /* GetOriginalObjectFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = GetOriginalObjectFunction.hpp; path = include/wisey/GetOriginalObjectFunction.hpp; sourceTree = "<group>"; };
 		F5105FB21FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = GetOriginalObjectFunction.cpp; path = src/GetOriginalObjectFunction.cpp; sourceTree = "<group>"; };
 		F5105FB51FD1767400ACF57B /* TestGetOriginalObjectFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestGetOriginalObjectFunction.cpp; path = tests/TestGetOriginalObjectFunction.cpp; sourceTree = "<group>"; };
-		F5105FBC1FD1A65E00ACF57B /* TestCheckForNullAndThrowFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCheckForNullAndThrowFunction.cpp; path = tests/TestCheckForNullAndThrowFunction.cpp; sourceTree = "<group>"; };
+		F5105FBC1FD1A65E00ACF57B /* TestThrowNullPointerExceptionFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestThrowNullPointerExceptionFunction.cpp; path = tests/TestThrowNullPointerExceptionFunction.cpp; sourceTree = "<group>"; };
 		F5105FBE1FD1ABC900ACF57B /* TestThrowReferenceCountExceptionFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestThrowReferenceCountExceptionFunction.cpp; path = tests/TestThrowReferenceCountExceptionFunction.cpp; sourceTree = "<group>"; };
 		F5105FC21FD1B18F00ACF57B /* TestAdjustReferenceCountFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestAdjustReferenceCountFunction.cpp; path = tests/TestAdjustReferenceCountFunction.cpp; sourceTree = "<group>"; };
 		F513DDF920178FE1001A075B /* FieldArrayReferenceVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = FieldArrayReferenceVariable.hpp; path = include/wisey/FieldArrayReferenceVariable.hpp; sourceTree = "<group>"; };
@@ -1363,8 +1363,6 @@
 		F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CastExpression.cpp; path = src/CastExpression.cpp; sourceTree = "<group>"; };
 		F52C66581FBF33C000E89B04 /* ThrowReferenceCountExceptionFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ThrowReferenceCountExceptionFunction.hpp; path = include/wisey/ThrowReferenceCountExceptionFunction.hpp; sourceTree = "<group>"; };
 		F52C66591FBF348D00E89B04 /* ThrowReferenceCountExceptionFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ThrowReferenceCountExceptionFunction.cpp; path = src/ThrowReferenceCountExceptionFunction.cpp; sourceTree = "<group>"; };
-		F52C665C1FBF387900E89B04 /* CheckForNullAndThrowFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CheckForNullAndThrowFunction.hpp; path = include/wisey/CheckForNullAndThrowFunction.hpp; sourceTree = "<group>"; };
-		F52C665D1FBF38CC00E89B04 /* CheckForNullAndThrowFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CheckForNullAndThrowFunction.cpp; path = src/CheckForNullAndThrowFunction.cpp; sourceTree = "<group>"; };
 		F52C66641FBF441A00E89B04 /* AdjustReferenceCountFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AdjustReferenceCountFunction.hpp; path = include/wisey/AdjustReferenceCountFunction.hpp; sourceTree = "<group>"; };
 		F52C66651FBF446400E89B04 /* AdjustReferenceCountFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = AdjustReferenceCountFunction.cpp; path = src/AdjustReferenceCountFunction.cpp; sourceTree = "<group>"; };
 		F52F2C981EA95C7B0081DE38 /* TestTryCatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestTryCatch.cpp; path = tests/TestTryCatch.cpp; sourceTree = "<group>"; };
@@ -2066,6 +2064,8 @@
 		F5E6BD0D1F1B7DCD00D59444 /* TestComposer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestComposer.cpp; path = tests/TestComposer.cpp; sourceTree = "<group>"; };
 		F5EEDD9F1E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InterfaceTypeSpecifier.cpp; path = src/InterfaceTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F5EEDDA21E6EF50100215278 /* TestInterfaceTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInterfaceTypeSpecifier.cpp; path = tests/TestInterfaceTypeSpecifier.cpp; sourceTree = "<group>"; };
+		F5F210C820F633A500F6D40F /* ThrowNullPointerExceptionFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ThrowNullPointerExceptionFunction.hpp; path = include/wisey/ThrowNullPointerExceptionFunction.hpp; sourceTree = "<group>"; };
+		F5F210C920F633D700F6D40F /* ThrowNullPointerExceptionFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ThrowNullPointerExceptionFunction.cpp; path = src/ThrowNullPointerExceptionFunction.cpp; sourceTree = "<group>"; };
 		F5F2F3751EEAFA110060CF42 /* ObjectOwnerTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ObjectOwnerTypeSpecifier.hpp; path = include/wisey/ObjectOwnerTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F5F2F3761EEAFAF80060CF42 /* ObjectOwnerTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectOwnerTypeSpecifier.cpp; path = src/ObjectOwnerTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F5F396D61E34BBDD00F34296 /* ObjectBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectBuilder.cpp; path = src/ObjectBuilder.cpp; sourceTree = "<group>"; };
@@ -2396,7 +2396,6 @@
 				F5603B4C2021316E00BBA05D /* CheckArrayIndexFunction.cpp */,
 				F50FF85E208A2D04008EDC40 /* CheckArrayNotReferencedFunction.cpp */,
 				F5C0E7D02090B59D0028BBD0 /* CheckCastToObjectFunction.cpp */,
-				F52C665D1FBF38CC00E89B04 /* CheckForNullAndThrowFunction.cpp */,
 				F5E6BD061F190B4700D59444 /* Composer.cpp */,
 				F5BF0C882080FBBB005AF4E5 /* DestroyNativeObjectFunction.cpp */,
 				F58FA2F8206E65C100C86D33 /* DestroyObjectOwnerFunction.cpp */,
@@ -2407,6 +2406,7 @@
 				F5C0E7C1208FB6DD0028BBD0 /* GetOriginalObjectNameFunction.cpp */,
 				F5752AC12088C52F00C00DE1 /* InstanceOfFunction.cpp */,
 				F5C0E7CB2090ACB40028BBD0 /* IsObjectFunction.cpp */,
+				F5F210C920F633D700F6D40F /* ThrowNullPointerExceptionFunction.cpp */,
 				F52C66591FBF348D00E89B04 /* ThrowReferenceCountExceptionFunction.cpp */,
 			);
 			name = composer;
@@ -2422,7 +2422,6 @@
 				F5603B4B2021310800BBA05D /* CheckArrayIndexFunction.hpp */,
 				F50FF85D208A2C73008EDC40 /* CheckArrayNotReferencedFunction.hpp */,
 				F5C0E7D22090B5AB0028BBD0 /* CheckCastToObjectFunction.hpp */,
-				F52C665C1FBF387900E89B04 /* CheckForNullAndThrowFunction.hpp */,
 				F5E6BD051F190B3900D59444 /* Composer.hpp */,
 				F5BF0C872080FB3C005AF4E5 /* DestroyNativeObjectFunction.hpp */,
 				F58FA2F7206E653A00C86D33 /* DestroyObjectOwnerFunction.hpp */,
@@ -2433,6 +2432,7 @@
 				F5C0E7C0208FB64E0028BBD0 /* GetOriginalObjectNameFunction.hpp */,
 				F5752AC02088C44800C00DE1 /* InstanceOfFunction.hpp */,
 				F5C0E7CA2090ABD80028BBD0 /* IsObjectFunction.hpp */,
+				F5F210C820F633A500F6D40F /* ThrowNullPointerExceptionFunction.hpp */,
 				F52C66581FBF33C000E89B04 /* ThrowReferenceCountExceptionFunction.hpp */,
 			);
 			name = composer;
@@ -3503,7 +3503,6 @@
 				F5603B4F2021562800BBA05D /* TestCheckArrayIndexFunction.cpp */,
 				F50FF861208A39CB008EDC40 /* TestCheckArrayNotReferencedFunction.cpp */,
 				F5C0E7D32090B7BA0028BBD0 /* TestCheckCastToObjectFunction.cpp */,
-				F5105FBC1FD1A65E00ACF57B /* TestCheckForNullAndThrowFunction.cpp */,
 				F5E6BD0D1F1B7DCD00D59444 /* TestComposer.cpp */,
 				F5BF0C8B2081014B005AF4E5 /* TestDestroyNativeObjectFunction.cpp */,
 				F58FA2FB206E684B00C86D33 /* TestDestroyObjectOwnerFunction.cpp */,
@@ -3514,6 +3513,7 @@
 				F5C0E7C4208FB91C0028BBD0 /* TestGetOriginalObjectNameFunction.cpp */,
 				F5190A462088CA3A00BC2D93 /* TestInstanceOfFunction.cpp */,
 				F5C0E7CE2090AF970028BBD0 /* TestIsModelObject.cpp */,
+				F5105FBC1FD1A65E00ACF57B /* TestThrowNullPointerExceptionFunction.cpp */,
 				F5105FBE1FD1ABC900ACF57B /* TestThrowReferenceCountExceptionFunction.cpp */,
 			);
 			name = composer;
@@ -4241,6 +4241,7 @@
 				F5D465F92061086D00C1047A /* LLVMFunction.cpp in Sources */,
 				F5ADB6291E69831A00FFC941 /* Method.cpp in Sources */,
 				F5ADB6261E67075400FFC941 /* TestInterface.cpp in Sources */,
+				F5F210CB20F633D700F6D40F /* ThrowNullPointerExceptionFunction.cpp in Sources */,
 				F55CF1881F850EEB00A11426 /* TestPrefix.cpp in Sources */,
 				F5A67DA620120A0A0018068F /* LocalArrayReferenceVariable.cpp in Sources */,
 				F50FF8A5208CA059008EDC40 /* TestAdjustReferenceCounterForImmutableArrayFunction.cpp in Sources */,
@@ -4507,7 +4508,7 @@
 				F56C214B1F5EA91A002510FC /* Cleanup.cpp in Sources */,
 				F58FA2FD206E684B00C86D33 /* TestDestroyObjectOwnerFunction.cpp in Sources */,
 				F5C0E7D42090B7BA0028BBD0 /* TestCheckCastToObjectFunction.cpp in Sources */,
-				F5105FBD1FD1A65E00ACF57B /* TestCheckForNullAndThrowFunction.cpp in Sources */,
+				F5105FBD1FD1A65E00ACF57B /* TestThrowNullPointerExceptionFunction.cpp in Sources */,
 				F5C0E7E92099E4560028BBD0 /* TestIPrintStatement.cpp in Sources */,
 				F56AD4A41E9F6D5B0020868C /* TestIObjectType.cpp in Sources */,
 				F57E2E2B1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp in Sources */,
@@ -4520,7 +4521,6 @@
 				F5ADB61E1E5F587D00FFC941 /* NegateExpression.cpp in Sources */,
 				F54985791FE95FFE004C204C /* TestDestroyOwnerArrayFunction.cpp in Sources */,
 				F54B1493205EC8C50030773F /* TestLLVMPrimitiveTypeSpecifier.cpp in Sources */,
-				F52C665F1FBF38CC00E89B04 /* CheckForNullAndThrowFunction.cpp in Sources */,
 				F532506C202A27AA007D8597 /* TestArrayExactType.cpp in Sources */,
 				F55DB0621F793D8C0009942C /* TestIObjectTypeSpecifier.cpp in Sources */,
 				F5F435CA1FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp in Sources */,
@@ -4831,6 +4831,7 @@
 				F5827050205FA27900839EC7 /* LLVMArrayType.cpp in Sources */,
 				F556E6541EDDD2F900CCC3D7 /* IConcreteObjectType.cpp in Sources */,
 				F57780AD1EC7CC7B0049542D /* BindAction.cpp in Sources */,
+				F5F210CA20F633D700F6D40F /* ThrowNullPointerExceptionFunction.cpp in Sources */,
 				F5325065202A21D2007D8597 /* ArrayExactType.cpp in Sources */,
 				F534644220ACBC2B006369D4 /* ExternalConstantDeclaration.cpp in Sources */,
 				F5436DB61FCF72CE003ABF6F /* NodeTypeSpecifierFull.cpp in Sources */,
@@ -4913,7 +4914,6 @@
 				F5827044205EECAB00839EC7 /* LLVMStructType.cpp in Sources */,
 				F53A2C2C1EFFD5E800E76A9E /* Node.cpp in Sources */,
 				F50FA29E1E2693F400435EEA /* CompoundStatement.cpp in Sources */,
-				F52C665E1FBF38CC00E89B04 /* CheckForNullAndThrowFunction.cpp in Sources */,
 				F55CF1751F7DA11C00A11426 /* ExternalStaticMethod.cpp in Sources */,
 				F5A0DAF0207BE5A500B0E479 /* WiseyModelOwnerType.cpp in Sources */,
 				F52C665A1FBF348D00E89B04 /* ThrowReferenceCountExceptionFunction.cpp in Sources */,

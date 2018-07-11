@@ -13,7 +13,6 @@
 #include "wisey/ArrayType.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/CheckArrayIndexFunction.hpp"
-#include "wisey/CheckForNullAndThrowFunction.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/ImmutableArrayType.hpp"
 #include "wisey/Log.hpp"
@@ -49,7 +48,7 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   Value* arrayStructPointer = mArrayExpression->generateIR(context, PrimitiveTypes::VOID);
   
   Composer::setLineNumber(context, mLine);
-  CheckForNullAndThrowFunction::call(context, arrayStructPointer);
+  Composer::checkForNull(context, arrayStructPointer);
   Value* pointer = getArrayElement(context, arrayStructPointer, mArrayIndexExpresion, mLine);
   
   if (arrayType->getNumberOfDimensions() > 1) {
@@ -129,7 +128,7 @@ Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
     throw 1;
   }
   
-  CheckForNullAndThrowFunction::call(context, arrayStructPointer);
+  Composer::checkForNull(context, arrayStructPointer);
   
   Value* index[2];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);

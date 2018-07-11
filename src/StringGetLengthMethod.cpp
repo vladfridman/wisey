@@ -6,7 +6,6 @@
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/CheckForNullAndThrowFunction.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IntrinsicFunctions.hpp"

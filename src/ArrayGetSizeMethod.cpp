@@ -7,7 +7,7 @@
 //
 
 #include "wisey/ArrayGetSizeMethod.hpp"
-#include "wisey/CheckForNullAndThrowFunction.hpp"
+#include "wisey/Composer.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -30,7 +30,7 @@ const std::string ArrayGetSizeMethod::ARRAY_GET_SIZE_METHOD_NAME = "getSize";
 Value* ArrayGetSizeMethod::generateIR(IRGenerationContext& context, const IExpression* expression) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Value* arrayValue = expression->generateIR(context, PrimitiveTypes::VOID);
-  CheckForNullAndThrowFunction::call(context, arrayValue);
+  Composer::checkForNull(context, arrayValue);
   Value* index[2];
   index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);

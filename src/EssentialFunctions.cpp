@@ -13,7 +13,6 @@
 #include "wisey/CheckArrayNotReferencedFunction.hpp"
 #include "wisey/CheckArrayIndexFunction.hpp"
 #include "wisey/CheckCastToObjectFunction.hpp"
-#include "wisey/CheckForNullAndThrowFunction.hpp"
 #include "wisey/DestroyNativeObjectFunction.hpp"
 #include "wisey/DestroyOwnerArrayFunction.hpp"
 #include "wisey/DestroyObjectOwnerFunction.hpp"

@@ -8,7 +8,6 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/CheckForNullAndThrowFunction.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/GlobalStringConstant.hpp"
 #include "wisey/IMethodCall.hpp"
@@ -16,13 +15,14 @@
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ThreadExpression.hpp"
+#include "wisey/ThrowNullPointerExceptionFunction.hpp"
 
 using namespace std;
 using namespace llvm;
 using namespace wisey;
 
 void Composer::pushCallStack(IRGenerationContext& context, int line) {
-  if (shouldSkip(context)) {
+  if (shouldSkipCallStack(context)) {
     return;
   }
 
@@ -113,7 +113,7 @@ void Composer::pushCallStack(IRGenerationContext& context, int line) {
 }
 
 void Composer::popCallStack(IRGenerationContext& context) {
-  if (shouldSkip(context)) {
+  if (shouldSkipCallStack(context)) {
     return;
   }
 
@@ -141,7 +141,7 @@ void Composer::popCallStack(IRGenerationContext& context) {
 }
 
 void Composer::setLineNumber(IRGenerationContext& context, int line) {
-  if (shouldSkip(context)) {
+  if (shouldSkipCallStack(context)) {
     return;
   }
   
@@ -177,7 +177,7 @@ void Composer::setLineNumber(IRGenerationContext& context, int line) {
   IRWriter::newStoreInst(context, lineNumber, lineStore);
 }
 
-bool Composer::shouldSkip(IRGenerationContext& context) {
+bool Composer::shouldSkipCallStack(IRGenerationContext& context) {
   const IObjectType* objectType = context.getObjectType();
   if (objectType == NULL || !objectType->getTypeName().find(Names::getThreadsPackageName())
       || !objectType->getTypeName().find(Names::getLangPackageName())
@@ -297,4 +297,22 @@ void Composer::adjustReferenceCountSafely(IRGenerationContext& context,
   IRWriter::createBranch(context, ifEndBlock);
   
   context.setBasicBlock(ifEndBlock);
+}
+
+void Composer::checkForNull(IRGenerationContext& context, Value* value) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Function* function = context.getBasicBlock()->getParent();
+
+  BasicBlock* ifNull = BasicBlock::Create(llvmContext, "if.null", function);
+  BasicBlock* ifNotNull = BasicBlock::Create(llvmContext, "if.not.null", function);
+
+  Value* null = ConstantPointerNull::get((llvm::PointerType*) value->getType());
+  Value* isNull = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, value, null, "isNull");
+  IRWriter::createConditionalBranch(context, ifNull, ifNotNull, isNull);
+  
+  context.setBasicBlock(ifNull);
+  ThrowNullPointerExceptionFunction::call(context);
+  IRWriter::newUnreachableInst(context);
+  
+  context.setBasicBlock(ifNotNull);
 }
