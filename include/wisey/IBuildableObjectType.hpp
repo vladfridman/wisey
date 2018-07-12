@@ -34,22 +34,6 @@ namespace wisey {
      */
     virtual std::vector<IField*> getReceivedFields() const = 0;
 
-  private:
-    
-    
-    static void initializeReceivedFieldsForObject(IRGenerationContext& context,
-                                                  llvm::Function::arg_iterator functionArguments,
-                                                  const IBuildableObjectType* object,
-                                                  llvm::Instruction* malloc);
-
-    static void composeBuildFunctionBody(IRGenerationContext& context,
-                                         llvm::Function* buildFunction,
-                                         const void* objectType);
-
-    static void composeAllocateFunctionBody(IRGenerationContext& context,
-                                            llvm::Function* buildFunction,
-                                            const void* objectType);
-
   };
   
 } /* namespace wisey */

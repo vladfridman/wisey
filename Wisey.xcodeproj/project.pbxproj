@@ -399,8 +399,6 @@
 		F53401111DFF333E0002BF7E /* MethodDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53401101DFF333E0002BF7E /* MethodDefinition.cpp */; };
 		F53401121DFF333E0002BF7E /* MethodDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53401101DFF333E0002BF7E /* MethodDefinition.cpp */; };
 		F534011C1E000DBC0002BF7E /* TestMethodDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534011B1E000DBC0002BF7E /* TestMethodDefinition.cpp */; };
-		F534643D20AC8743006369D4 /* IBuildableObjectType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534643C20AC8743006369D4 /* IBuildableObjectType.cpp */; };
-		F534643E20AC8743006369D4 /* IBuildableObjectType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534643C20AC8743006369D4 /* IBuildableObjectType.cpp */; };
 		F534644220ACBC2B006369D4 /* ExternalConstantDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534644120ACBC2B006369D4 /* ExternalConstantDeclaration.cpp */; };
 		F534644320ACBC2B006369D4 /* ExternalConstantDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534644120ACBC2B006369D4 /* ExternalConstantDeclaration.cpp */; };
 		F534644520ACC12F006369D4 /* TestExternalConstantDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534644420ACC12F006369D4 /* TestExternalConstantDeclaration.cpp */; };
@@ -1508,7 +1506,6 @@
 		F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestConditionalExpression.cpp; path = tests/TestConditionalExpression.cpp; sourceTree = "<group>"; };
 		F53401101DFF333E0002BF7E /* MethodDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MethodDefinition.cpp; path = src/MethodDefinition.cpp; sourceTree = "<group>"; };
 		F534011B1E000DBC0002BF7E /* TestMethodDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethodDefinition.cpp; path = tests/TestMethodDefinition.cpp; sourceTree = "<group>"; };
-		F534643C20AC8743006369D4 /* IBuildableObjectType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IBuildableObjectType.cpp; path = src/IBuildableObjectType.cpp; sourceTree = "<group>"; };
 		F534643F20ACBB5D006369D4 /* ExternalConstantDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ExternalConstantDeclaration.hpp; path = include/wisey/ExternalConstantDeclaration.hpp; sourceTree = "<group>"; };
 		F534644120ACBC2B006369D4 /* ExternalConstantDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ExternalConstantDeclaration.cpp; path = src/ExternalConstantDeclaration.cpp; sourceTree = "<group>"; };
 		F534644420ACC12F006369D4 /* TestExternalConstantDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestExternalConstantDeclaration.cpp; path = tests/TestExternalConstantDeclaration.cpp; sourceTree = "<group>"; };
@@ -3828,7 +3825,6 @@
 		F5CB7FA9205280EC007628B5 /* builder */ = {
 			isa = PBXGroup;
 			children = (
-				F534643C20AC8743006369D4 /* IBuildableObjectType.cpp */,
 				F5E3DD2220D2604E0016514B /* IObjectCreator.cpp */,
 				F593629E20CC25C300A8C67A /* ObjectAllocator.cpp */,
 				F5F396D61E34BBDD00F34296 /* ObjectBuilder.cpp */,
@@ -4478,7 +4474,6 @@
 				F534011C1E000DBC0002BF7E /* TestMethodDefinition.cpp in Sources */,
 				F5CB7F8A20519130007628B5 /* TestFieldLLVMVariable.cpp in Sources */,
 				F5A3634A1F373FFE005880B3 /* TestParameterOwnerVariable.cpp in Sources */,
-				F534643E20AC8743006369D4 /* IBuildableObjectType.cpp in Sources */,
 				F5F61AA3201DE99300EF9EB7 /* TestArraySpecificType.cpp in Sources */,
 				F5D4660420611DA000C1047A /* TestLLVMVariableDeclaration.cpp in Sources */,
 				F57780AE1EC7CC7B0049542D /* BindAction.cpp in Sources */,
@@ -4817,7 +4812,6 @@
 				F58748341F95143A0088F1E3 /* ThreadExpression.cpp in Sources */,
 				F59D821D1E0F66E800057FB5 /* IfElseStatement.cpp in Sources */,
 				F5296AC01E564B9B00FB1E1D /* CastExpression.cpp in Sources */,
-				F534643D20AC8743006369D4 /* IBuildableObjectType.cpp in Sources */,
 				F57411731E043EE4009809FF /* Identifier.cpp in Sources */,
 				F581A0132073B11700EA0156 /* LocalLLVMVariable.cpp in Sources */,
 				F52C66661FBF446400E89B04 /* AdjustReferenceCountFunction.cpp in Sources */,
