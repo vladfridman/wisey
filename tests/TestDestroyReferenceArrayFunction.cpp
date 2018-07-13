@@ -180,7 +180,7 @@ TEST_F(DestroyReferenceArrayFunctionTest, getTest) {
   "\nif.notnull:                                       ; preds = %one.dimensional"
   "\n  %16 = bitcast i8* %7 to i64*"
   "\n  %17 = getelementptr i64, i64* %16, i64 -1"
-  "\n  %18 = atomicrmw add i64* %17, i64 1 monotonic"
+  "\n  %18 = atomicrmw add i64* %17, i64 -1 monotonic"
   "\n  br label %if.end"
   "\n}\n";
 
