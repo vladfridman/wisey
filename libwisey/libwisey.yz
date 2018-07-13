@@ -374,13 +374,12 @@ external controller wisey.io.CFileReader {
 
 external controller wisey.lang.CMemoryPool {
 
-  ::llvm::i8::pointer allocate(
-    ::llvm::i64 size);
   static ::llvm::i8::pointer pallocate(
     ::llvm::struct::AprPool::pointer pool,
     long size);
   void clear();
   void destroy();
+  void initialize();
 }
 
 external controller wisey.lang.CString {

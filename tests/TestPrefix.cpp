@@ -340,16 +340,13 @@ ControllerDefinition* TestPrefix::defineCMemoryPool(IRGenerationContext& context
   const PrimitiveTypeSpecifier* longSpecifier = PrimitiveTypes::LONG->newTypeSpecifier(0);
   VariableList arguments;
   vector<IModelTypeSpecifier*> exceptions;
-  VariableDeclaration* declaration =
-  VariableDeclaration::create(longSpecifier, new Identifier("size", 0), 0);
-  arguments.push_back(declaration);
   Block* block = new Block();
   CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
   LLVMPointerTypeSpecifier* pointerSpecifier =
   new LLVMPointerTypeSpecifier(LLVMPrimitiveTypes::I8->newTypeSpecifier(0), 0);
   MethodDefinition* methodAllocate = new MethodDefinition(AccessLevel::PUBLIC_ACCESS,
                                                           pointerSpecifier,
-                                                          Names::getAllocateMethodName(),
+                                                          Names::getInitializeMethodName(),
                                                           arguments,
                                                           exceptions,
                                                           new MethodQualifiers(0),
@@ -387,7 +384,8 @@ ControllerDefinition* TestPrefix::defineCMemoryPool(IRGenerationContext& context
   new LLVMPointerTypeSpecifier(new LLVMStructSpecifier("AprPool", 0), 0);
   arguments.push_back(VariableDeclaration::create(poolSpecifier, new Identifier("pool", 0), 0));
   longSpecifier = PrimitiveTypes::LONG->newTypeSpecifier(0);
-  declaration = VariableDeclaration::create(longSpecifier, new Identifier("size", 0), 0);
+  VariableDeclaration* declaration =
+  VariableDeclaration::create(longSpecifier, new Identifier("size", 0), 0);
   arguments.push_back(declaration);
   block = new Block();
   compoundStatement = new CompoundStatement(block, 0);

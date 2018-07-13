@@ -107,8 +107,8 @@ string Names::getContextManagerName() {
   return "CContextManager";
 }
 
-string Names::getAllocateMethodName() {
-  return "allocate";
+string Names::getInitializeMethodName() {
+  return "initialize";
 }
 
 string Names::getPallocateMethodName() {

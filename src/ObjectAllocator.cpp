@@ -122,8 +122,6 @@ Value* ObjectAllocator::allocate(IRGenerationContext& context,
 
   StructType* refStruct = IConcreteObjectType::getOrCreateRefCounterStruct(context, buildable);
   llvm::Constant* blockSize = ConstantExpr::getSizeOf(refStruct);
-  Type* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
-  Value* objectStore = IRWriter::newAllocaInst(context, int8Pointer, "");
   
   llvm::Constant* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   llvm::Constant* one = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
@@ -135,27 +133,7 @@ Value* ObjectAllocator::allocate(IRGenerationContext& context,
   Value* poolCast = IRWriter::newBitCastInst(context, pool, cMemoryPoolType);
   Value* aprPoolStore = IRWriter::createGetElementPtrInst(context, poolCast, index);
   Value* aprPool = IRWriter::newLoadInst(context, aprPoolStore, "");
-  Value* nullValue = ConstantPointerNull::get((llvm::PointerType*) aprPool->getType());
-  Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, aprPool, nullValue, "");
-  Function* function = context.getBasicBlock()->getParent();
-  BasicBlock* ifNullBlock = BasicBlock::Create(llvmContext, "if.apr.pool.null", function);
-  BasicBlock* ifNotNullBlock = BasicBlock::Create(llvmContext, "if.apr.pool.notnull", function);
-  BasicBlock* ifEndBlock = BasicBlock::Create(llvmContext, "if.apr.pool.end", function);
-  IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
   
-  context.setBasicBlock(ifNullBlock);
-  FakeExpression* poolMapExpression = new FakeExpression(pool, cMemoryPool);
-  IdentifierChain* allocate = new IdentifierChain(poolMapExpression,
-                                                  Names::getAllocateMethodName(),
-                                                  0);
-  ExpressionList allocateCallArguments;
-  allocateCallArguments.push_back(new FakeExpression(blockSize, PrimitiveTypes::LONG));
-  MethodCall* allocateCall = MethodCall::createCantThrow(allocate, allocateCallArguments, 0);
-  Value* memory = allocateCall->generateIR(context, PrimitiveTypes::VOID);
-  IRWriter::newStoreInst(context, memory, objectStore);
-  IRWriter::createBranch(context, ifEndBlock);
-  
-  context.setBasicBlock(ifNotNullBlock);
   index[0] = zero;
   index[1] = one;
   Value* objectCountStore = IRWriter::createGetElementPtrInst(context, poolCast, index);
@@ -177,15 +155,10 @@ Value* ObjectAllocator::allocate(IRGenerationContext& context,
                                                                    Names::getPallocateMethodName(),
                                                                    pallocCallArguments,
                                                                    0);
-  memory = pallocCall->generateIR(context, PrimitiveTypes::VOID);
-  IRWriter::newStoreInst(context, memory, objectStore);
-  IRWriter::createBranch(context, ifEndBlock);
-  
-  context.setBasicBlock(ifEndBlock);
-  Value* object = IRWriter::newLoadInst(context, objectStore, "");
+  Value* memory = pallocCall->generateIR(context, PrimitiveTypes::VOID);
   index[0] = zero;
   index[1] = zero;
-  Value* shellObject = IRWriter::newBitCastInst(context, object, refStruct->getPointerTo());
+  Value* shellObject = IRWriter::newBitCastInst(context, memory, refStruct->getPointerTo());
   Instruction* refCounter = IRWriter::createGetElementPtrInst(context, shellObject, index);
   IRWriter::newStoreInst(context, ConstantInt::get(Type::getInt64Ty(llvmContext), 0), refCounter);
   index[0] = zero;
@@ -218,7 +191,6 @@ Value* ObjectAllocator::allocate(IRGenerationContext& context,
   IConcreteObjectType::initializeVTable(context, buildable, objectStart);
   
   delete pallocCall;
-  delete allocateCall;
   
   return objectStart;
 }
