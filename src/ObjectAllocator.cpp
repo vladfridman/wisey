@@ -150,7 +150,7 @@ Value* ObjectAllocator::allocate(IRGenerationContext& context,
                                                   0);
   ExpressionList allocateCallArguments;
   allocateCallArguments.push_back(new FakeExpression(blockSize, PrimitiveTypes::LONG));
-  MethodCall* allocateCall = MethodCall::create(allocate, allocateCallArguments, 0);
+  MethodCall* allocateCall = MethodCall::createCantThrow(allocate, allocateCallArguments, 0);
   Value* memory = allocateCall->generateIR(context, PrimitiveTypes::VOID);
   IRWriter::newStoreInst(context, memory, objectStore);
   IRWriter::createBranch(context, ifEndBlock);
@@ -173,10 +173,10 @@ Value* ObjectAllocator::allocate(IRGenerationContext& context,
   pallocCallArguments.push_back(new FakeExpression(aprPool,
                                                    aprPoolStruct->getPointerType(context, 0)));
   pallocCallArguments.push_back(new FakeExpression(blockSize, PrimitiveTypes::LONG));
-  StaticMethodCall* pallocCall = StaticMethodCall::create(controllerTypeSpecifier,
-                                                          Names::getPallocateMethodName(),
-                                                          pallocCallArguments,
-                                                          0);
+  StaticMethodCall* pallocCall = StaticMethodCall::createCantThrow(controllerTypeSpecifier,
+                                                                   Names::getPallocateMethodName(),
+                                                                   pallocCallArguments,
+                                                                   0);
   memory = pallocCall->generateIR(context, PrimitiveTypes::VOID);
   IRWriter::newStoreInst(context, memory, objectStore);
   IRWriter::createBranch(context, ifEndBlock);
