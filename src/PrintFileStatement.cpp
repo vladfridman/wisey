@@ -53,8 +53,8 @@ void PrintFileStatement::generateIR(IRGenerationContext& context) const {
                                                          Names::getFileStructMethodName(),
                                                          mLine);
   ExpressionList methodCallArguments;
-  MethodCall methodCall(identifierChain, methodCallArguments, mLine);
-  Value* fileStruct = methodCall.generateIR(context, PrimitiveTypes::VOID);
+  MethodCall* methodCall = MethodCall::create(identifierChain, methodCallArguments, mLine);
+  Value* fileStruct = methodCall->generateIR(context, PrimitiveTypes::VOID);
   const IType* expressionType = mExpression->getType(context);
   if (!StringType::isStringVariation(context, expressionType, mLine) &&
       (!expressionType->isPrimitive() || expressionType == PrimitiveTypes::VOID)) {
@@ -71,5 +71,7 @@ void PrintFileStatement::generateIR(IRGenerationContext& context) const {
   IPrintStatement::addPrintArguments(context, arguments, expressions, mLine);
   
   IRWriter::createCallInst(context, fprintf, arguments, "");
+  
+  delete methodCall;
 }
 

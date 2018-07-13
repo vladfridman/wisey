@@ -12,7 +12,6 @@
 #include "wisey/Argument.hpp"
 #include "wisey/ExternalStaticMethod.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/MethodCall.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -231,17 +231,52 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
   ON_CALL(*argumentExpression, generateIR(_, _)).WillByDefault(Return(value));
   ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
   mArgumentList.push_back(argumentExpression);
-  MethodCall methodCall(mExpression, mArgumentList, 0);
+  MethodCall* methodCall = MethodCall::create(mExpression, mArgumentList, 0);
   
-  Value* irValue = methodCall.generateIR(mContext, PrimitiveTypes::VOID);
-
+  Value* irValue = methodCall->generateIR(mContext, PrimitiveTypes::VOID);
+  
   *mStringStream << *irValue;
   string expected =
   "  %1 = invoke %systems.vos.wisey.compiler.tests.MReturnedModel* "
   "@systems.vos.wisey.compiler.tests.MSquare.foo(%systems.vos.wisey.compiler.tests.MSquare* %0, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, float 0x4014CCCCC0000000)"
   "\n          to label %invoke.continue1 unwind label %cleanup";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
-  EXPECT_EQ(methodCall.getType(mContext), mReturnedModel);
+  EXPECT_EQ(methodCall->getType(mContext), mReturnedModel);
+  
+  delete methodCall;
+}
+
+TEST_F(MethodCallTest, methodCallCantThrowTest) {
+  vector<Type*> argumentTypes;
+  argumentTypes.push_back(mStructType->getPointerTo());
+  argumentTypes.push_back(mThreadInterface->getLLVMType(mContext));
+  argumentTypes.push_back(mCallStack->getLLVMType(mContext));
+  argumentTypes.push_back(PrimitiveTypes::FLOAT->getLLVMType(mContext));
+  FunctionType* functionType = FunctionType::get(mReturnedModel->getLLVMType(mContext),
+                                                 argumentTypes,
+                                                 false);
+  Function::Create(functionType,
+                   GlobalValue::InternalLinkage,
+                   "systems.vos.wisey.compiler.tests.MSquare.foo",
+                   mContext.getModule());
+  
+  NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
+  Value* value = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 5.2);
+  ON_CALL(*argumentExpression, generateIR(_, _)).WillByDefault(Return(value));
+  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
+  mArgumentList.push_back(argumentExpression);
+  MethodCall* methodCall = MethodCall::createCantThrow(mExpression, mArgumentList, 0);
+  
+  Value* irValue = methodCall->generateIR(mContext, PrimitiveTypes::VOID);
+  
+  *mStringStream << *irValue;
+  string expected =
+  "  %1 = call %systems.vos.wisey.compiler.tests.MReturnedModel* "
+  "@systems.vos.wisey.compiler.tests.MSquare.foo(%systems.vos.wisey.compiler.tests.MSquare* %0, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, float 0x4014CCCCC0000000)";
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  EXPECT_EQ(methodCall->getType(mContext), mReturnedModel);
+  
+  delete methodCall;
 }
 
 TEST_F(MethodCallTest, modelMethodCallWithTryCatchTest) {
@@ -264,31 +299,37 @@ TEST_F(MethodCallTest, modelMethodCallWithTryCatchTest) {
   ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(mBarMethod));
   mArgumentList.push_back(argumentExpression);
-  MethodCall methodCall(mExpression, mArgumentList, 0);
+  MethodCall* methodCall = MethodCall::create(mExpression, mArgumentList, 0);
   BasicBlock* continueBlock = BasicBlock::Create(mLLVMContext, "eh.continue");
   vector<Catch*> catchList;
   TryCatchInfo* tryCatchInfo = new TryCatchInfo(catchList, continueBlock);
   mContext.getScopes().beginTryCatch(tryCatchInfo);
 
-  Value* irValue = methodCall.generateIR(mContext, PrimitiveTypes::VOID);
+  Value* irValue = methodCall->generateIR(mContext, PrimitiveTypes::VOID);
   
   *mStringStream << *irValue;
   EXPECT_STREQ("  %2 = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar(%systems.vos.wisey.compiler.tests.MSquare* %1, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, float 0x4014CCCCC0000000)\n"
                "          to label %invoke.continue1 unwind label %eh.landing.pad",
                mStringStream->str().c_str());
-  EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT);
+  EXPECT_EQ(methodCall->getType(mContext), PrimitiveTypes::INT);
+  
+  delete methodCall;
 }
 
 TEST_F(MethodCallTest, isConstantTest) {
-  MethodCall methodCall(mExpression, mArgumentList, 0);
+  MethodCall* methodCall = MethodCall::create(mExpression, mArgumentList, 0);
 
-  EXPECT_FALSE(methodCall.isConstant());
+  EXPECT_FALSE(methodCall->isConstant());
+  
+  delete methodCall;
 }
 
 TEST_F(MethodCallTest, isAssignableTest) {
-  MethodCall methodCall(mExpression, mArgumentList, 0);
+  MethodCall* methodCall = MethodCall::create(mExpression, mArgumentList, 0);
   
-  EXPECT_FALSE(methodCall.isAssignable());
+  EXPECT_FALSE(methodCall->isAssignable());
+  
+  delete methodCall;
 }
 
 TEST_F(MethodCallTest, printToStreamTest) {
@@ -299,25 +340,29 @@ TEST_F(MethodCallTest, printToStreamTest) {
   ON_CALL(*argument2Expression, printToStream(_, _)).WillByDefault(Invoke(printArgument2));
   mArgumentList.push_back(argument2Expression);
 
-  MethodCall methodCall(mExpression, mArgumentList, 0);
+  MethodCall* methodCall = MethodCall::create(mExpression, mArgumentList, 0);
 
   stringstream stringStream;
-  methodCall.printToStream(mContext, stringStream);
+  methodCall->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("object.foo(argument1, argument2)", stringStream.str().c_str());
+  
+  delete methodCall;
 }
 
 TEST_F(MethodCallTest, incorrectNumberOfArgumentsDeathTest) {
-  MethodCall methodCall(mExpression, mArgumentList, 1);
+  MethodCall* methodCall = MethodCall::create(mExpression, mArgumentList, 1);
   Mock::AllowLeak(mExpression);
   
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
-  EXPECT_ANY_THROW(methodCall.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_ANY_THROW(methodCall->generateIR(mContext, PrimitiveTypes::VOID));
   EXPECT_STREQ("/tmp/source.yz(1): Error: Number of arguments for method call 'foo' of the object type 'systems.vos.wisey.compiler.tests.MSquare' is not correct\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
+  
+  delete methodCall;
 }
 
 TEST_F(MethodCallTest, llvmImplementationNotFoundDeathTest) {
@@ -325,17 +370,19 @@ TEST_F(MethodCallTest, llvmImplementationNotFoundDeathTest) {
   ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(mBarMethod));
   mArgumentList.push_back(argumentExpression);
-  MethodCall methodCall(mExpression, mArgumentList, 3);
+  MethodCall* methodCall = MethodCall::create(mExpression, mArgumentList, 3);
   Mock::AllowLeak(mExpression);
   Mock::AllowLeak(argumentExpression);
   
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
-  EXPECT_ANY_THROW(methodCall.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_ANY_THROW(methodCall->generateIR(mContext, PrimitiveTypes::VOID));
   EXPECT_STREQ("/tmp/source.yz(3): Error: LLVM function implementing object 'systems.vos.wisey.compiler.tests.MSquare' method 'bar' was not found\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
+  
+  delete methodCall;
 }
 
 TEST_F(MethodCallTest, incorrectArgumentTypesDeathTest) {
@@ -353,17 +400,19 @@ TEST_F(MethodCallTest, incorrectArgumentTypesDeathTest) {
   NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
   ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG));
   mArgumentList.push_back(argumentExpression);
-  MethodCall methodCall(mExpression, mArgumentList, 5);
+  MethodCall* methodCall = MethodCall::create(mExpression, mArgumentList, 5);
   Mock::AllowLeak(mExpression);
   Mock::AllowLeak(argumentExpression);
   
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
-  EXPECT_ANY_THROW(methodCall.generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_ANY_THROW(methodCall->generateIR(mContext, PrimitiveTypes::VOID));
   EXPECT_STREQ("/tmp/source.yz(5): Error: Call argument types do not match for a call to method 'foo' of the object type 'systems.vos.wisey.compiler.tests.MSquare'\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
+  
+  delete methodCall;
 }
 
 TEST_F(TestFileRunner, modelMethodCallRunTest) {

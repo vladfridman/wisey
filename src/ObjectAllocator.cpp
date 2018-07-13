@@ -150,8 +150,8 @@ Value* ObjectAllocator::allocate(IRGenerationContext& context,
                                                   0);
   ExpressionList allocateCallArguments;
   allocateCallArguments.push_back(new FakeExpression(blockSize, PrimitiveTypes::LONG));
-  MethodCall allocateCall(allocate, allocateCallArguments, 0);
-  Value* memory = allocateCall.generateIR(context, PrimitiveTypes::VOID);
+  MethodCall* allocateCall = MethodCall::create(allocate, allocateCallArguments, 0);
+  Value* memory = allocateCall->generateIR(context, PrimitiveTypes::VOID);
   IRWriter::newStoreInst(context, memory, objectStore);
   IRWriter::createBranch(context, ifEndBlock);
   
@@ -218,6 +218,7 @@ Value* ObjectAllocator::allocate(IRGenerationContext& context,
   IConcreteObjectType::initializeVTable(context, buildable, objectStart);
   
   delete pallocCall;
+  delete allocateCall;
   
   return objectStart;
 }

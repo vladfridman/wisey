@@ -35,7 +35,7 @@ namespace wisey {
     ~StaticMethodCall();
     
     /**
-     * Creates an instance of this class that would translate into invoke llvm instruction
+     * Creates an instance of this class that would translate into an invoke llvm instruction
      */
     static StaticMethodCall* create(IObjectTypeSpecifier* objectTypeSpecifier,
                                     std::string methodName,
@@ -43,7 +43,7 @@ namespace wisey {
                                     int mLine);
     
     /**
-     * Creates an instance of this class that would translate into call llvm instruction
+     * Creates an instance of this class that would translate into a call llvm instruction
      */
     static StaticMethodCall* createCantThrow(IObjectTypeSpecifier* objectTypeSpecifier,
                                              std::string methodName,

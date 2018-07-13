@@ -223,6 +223,9 @@ Value* StringType::callGetContent(IRGenerationContext& context,
                                                          "getContent",
                                                          line);
   ExpressionList arguments;
-  MethodCall methodCall(identifierChain, arguments, line);
-  return methodCall.generateIR(context, PrimitiveTypes::VOID);
+  MethodCall* methodCall = MethodCall::create(identifierChain, arguments, line);
+  Value* result = methodCall->generateIR(context, PrimitiveTypes::VOID);
+  delete methodCall;
+
+  return result;
 }

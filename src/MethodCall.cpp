@@ -31,9 +31,11 @@ using namespace wisey;
 
 MethodCall::MethodCall(IExpression* expression,
                        ExpressionList arguments,
+                       bool canThrow,
                        int line) :
 mExpression(expression),
 mArguments(arguments),
+mCanThrow(canThrow),
 mLine(line) { }
 
 MethodCall::~MethodCall() {
@@ -42,6 +44,14 @@ MethodCall::~MethodCall() {
   }
   mArguments.clear();
   delete mExpression;
+}
+
+MethodCall* MethodCall::create(IExpression* expression, ExpressionList arguments, int line) {
+  return new MethodCall(expression, arguments, true, line);
+}
+
+MethodCall* MethodCall::createCantThrow(IExpression* expression, ExpressionList arguments, int line) {
+  return new MethodCall(expression, arguments, false, line);
 }
 
 int MethodCall::getLine() const {
@@ -214,7 +224,9 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
     methodArgumentIterator++;
   }
   
-  Value* result = IRWriter::createInvokeInst(context, function, arguments, "", mLine);
+  Value* result = mCanThrow
+  ? (Value*) IRWriter::createInvokeInst(context, function, arguments, "", mLine)
+  : (Value*) IRWriter::createCallInst(context, function, arguments, "");
   
   const IType* returnType = methodDescriptor->getReturnType();
   if (!returnType->isOwner() || assignToType->isOwner()) {

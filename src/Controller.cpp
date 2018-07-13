@@ -363,8 +363,8 @@ void Controller::composeContextInjectFunctionBody(IRGenerationContext& context,
                                                           Names::getGetContextManagerMethodName(),
                                                           0);
   ExpressionList callArguments;
-  MethodCall getContextManager(methodIdentifier, callArguments, 0);
-  Value* contextManagerPointer = getContextManager.generateIR(context, PrimitiveTypes::VOID);
+  MethodCall* getContextManager = MethodCall::create(methodIdentifier, callArguments, 0);
+  Value* contextManagerPointer = getContextManager->generateIR(context, PrimitiveTypes::VOID);
   
   string contextManagerVariableName = "contextManager";
   Controller* contextManagerController =
@@ -387,8 +387,8 @@ void Controller::composeContextInjectFunctionBody(IRGenerationContext& context,
   callArguments.clear();
   callArguments.push_back(contextName);
   callArguments.push_back(objectName);
-  MethodCall getInstance(methodIdentifier, callArguments, 0);
-  Value* object = getInstance.generateIR(context, PrimitiveTypes::VOID);
+  MethodCall* getInstance = MethodCall::create(methodIdentifier, callArguments, 0);
+  Value* object = getInstance->generateIR(context, PrimitiveTypes::VOID);
   Value* instance = WiseyObjectType::WISEY_OBJECT_TYPE->castTo(context, object, controller, 0);
 
   BasicBlock* ifNullBlock = BasicBlock::Create(llvmContext, "if.null", function);
@@ -424,12 +424,16 @@ void Controller::composeContextInjectFunctionBody(IRGenerationContext& context,
   callArguments.push_back(contextName);
   callArguments.push_back(objectName);
   callArguments.push_back(instanceExpression);
-  MethodCall setInstance(methodIdentifier, callArguments, 0);
-  setInstance.generateIR(context, PrimitiveTypes::VOID);
+  MethodCall* setInstance = MethodCall::create(methodIdentifier, callArguments, 0);
+  setInstance->generateIR(context, PrimitiveTypes::VOID);
 
   IRWriter::createReturnInst(context, objectStart);
   
   context.getScopes().popScope(context, 0);
+  
+  delete getContextManager;
+  delete getInstance;
+  delete setInstance;
 }
 
 vector<string> Controller::getMissingReceivedFields(set<string> givenFields) const {

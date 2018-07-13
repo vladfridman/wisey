@@ -23,13 +23,24 @@ namespace wisey {
     
     IExpression* mExpression;
     ExpressionList mArguments;
+    bool mCanThrow;
     int mLine;
     
+    MethodCall(IExpression* expression, ExpressionList arguments, bool canThrow, int line);
+
   public:
     
-    MethodCall(IExpression* expression, ExpressionList arguments, int line);
-    
     ~MethodCall();
+    
+    /**
+     * Creates an instance of this class that would translate into an invoke llvm instruction
+     */
+    static MethodCall* create(IExpression* expression,  ExpressionList arguments, int line);
+    
+    /**
+     * Creates an instance of this class that would translate into a call llvm instruction
+     */
+    static MethodCall* createCantThrow(IExpression* expression, ExpressionList arguments, int line);
 
     int getLine() const override;
 

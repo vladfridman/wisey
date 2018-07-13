@@ -19,7 +19,6 @@
 #include "wisey/Composer.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/IMethod.hpp"
-#include "wisey/IMethodCall.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"

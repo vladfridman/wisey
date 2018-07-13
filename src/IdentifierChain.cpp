@@ -9,7 +9,6 @@
 #include <sstream>
 
 #include "wisey/ArrayGetSizeMethod.hpp"
-#include "wisey/IMethodCall.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IdentifierChain.hpp"
 #include "wisey/Log.hpp"

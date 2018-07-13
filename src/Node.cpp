@@ -23,7 +23,6 @@
 #include "wisey/LLVMStructType.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Log.hpp"
-#include "wisey/MethodCall.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/Node.hpp"
 #include "wisey/NodeOwner.hpp"

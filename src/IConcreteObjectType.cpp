@@ -623,8 +623,8 @@ void IConcreteObjectType::composePooledObjectDestructorBody(IRGenerationContext&
   IdentifierChain* clearMethod =
   new IdentifierChain(poolMapExpression, Names::getClearMethodName(), 0);
   ExpressionList clearArguments;
-  MethodCall clearCall(clearMethod, clearArguments, 0);
-  clearCall.generateIR(context, PrimitiveTypes::VOID);
+  MethodCall* clearCall = MethodCall::create(clearMethod, clearArguments, 0);
+  clearCall->generateIR(context, PrimitiveTypes::VOID);
   IRWriter::createBranch(context, poolCountNotZeroBlock);
   
   context.setBasicBlock(poolCountNotZeroBlock);
@@ -639,6 +639,8 @@ void IConcreteObjectType::composePooledObjectDestructorBody(IRGenerationContext&
   IRWriter::createReturnInst(context, NULL);
   
   context.getScopes().popScope(context, 0);
+  
+  delete clearCall;
 }
 
 void IConcreteObjectType::decrementReferenceFields(IRGenerationContext& context,
@@ -1033,6 +1035,8 @@ void IConcreteObjectType::addMemoryPoolDestructor(IRGenerationContext& context,
   IdentifierChain* destroyMethod =
   new IdentifierChain(poolMapExpression, Names::getDestroyMethodName(), 0);
   ExpressionList destroyArguments;
-  MethodCall destroyCall(destroyMethod, destroyArguments, 0);
-  destroyCall.generateIR(context, PrimitiveTypes::VOID);
+  MethodCall* destroyCall = MethodCall::create(destroyMethod, destroyArguments, 0);
+  destroyCall->generateIR(context, PrimitiveTypes::VOID);
+  
+  delete destroyCall;
 }

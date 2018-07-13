@@ -9,10 +9,10 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/Composer.hpp"
+#include "wisey/IMethodCall.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
-#include "wisey/MethodCall.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/ParameterPrimitiveVariable.hpp"
 #include "wisey/ParameterReferenceVariableStatic.hpp"
