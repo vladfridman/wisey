@@ -30,7 +30,6 @@
 #include "wisey/ObjectKindGlobal.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
-#include "wisey/StaticMethodCall.hpp"
 #include "wisey/ThreadExpression.hpp"
 
 using namespace llvm;

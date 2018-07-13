@@ -173,11 +173,11 @@ Value* ObjectAllocator::allocate(IRGenerationContext& context,
   pallocCallArguments.push_back(new FakeExpression(aprPool,
                                                    aprPoolStruct->getPointerType(context, 0)));
   pallocCallArguments.push_back(new FakeExpression(blockSize, PrimitiveTypes::LONG));
-  StaticMethodCall pallocCall(controllerTypeSpecifier,
-                              Names::getPallocateMethodName(),
-                              pallocCallArguments,
-                              0);
-  memory = pallocCall.generateIR(context, PrimitiveTypes::VOID);
+  StaticMethodCall* pallocCall = StaticMethodCall::create(controllerTypeSpecifier,
+                                                          Names::getPallocateMethodName(),
+                                                          pallocCallArguments,
+                                                          0);
+  memory = pallocCall->generateIR(context, PrimitiveTypes::VOID);
   IRWriter::newStoreInst(context, memory, objectStore);
   IRWriter::createBranch(context, ifEndBlock);
   
@@ -216,6 +216,8 @@ Value* ObjectAllocator::allocate(IRGenerationContext& context,
   }
   
   IConcreteObjectType::initializeVTable(context, buildable, objectStart);
+  
+  delete pallocCall;
   
   return objectStart;
 }

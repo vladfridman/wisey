@@ -144,7 +144,7 @@ void ProgramSuffix::generateMain(IRGenerationContext& context) const {
   callArguments.push_back(new FakeExpression(argumentsArray,
                                              genericArrayType->getOwner()));
   StaticMethodCall* startMethodCall =
-  new StaticMethodCall(mainThreadWorker, "startMainThread", callArguments, 0);
+  StaticMethodCall::create(mainThreadWorker, "startMainThread", callArguments, 0);
   
   ReturnStatement returnResultStatement(startMethodCall, 0);
   returnResultStatement.generateIR(context);

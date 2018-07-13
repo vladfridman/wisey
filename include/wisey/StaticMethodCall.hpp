@@ -21,17 +21,35 @@ namespace wisey {
     IObjectTypeSpecifier* mObjectTypeSpecifier;
     std::string mMethodName;
     ExpressionList mArguments;
+    bool mCanThrow;
     int mLine;
-    
-  public:
     
     StaticMethodCall(IObjectTypeSpecifier* objectTypeSpecifier,
                      std::string methodName,
                      ExpressionList arguments,
+                     bool canThrow,
                      int mLine);
+    
+  public:
     
     ~StaticMethodCall();
     
+    /**
+     * Creates an instance of this class that would translate into invoke llvm instruction
+     */
+    static StaticMethodCall* create(IObjectTypeSpecifier* objectTypeSpecifier,
+                                    std::string methodName,
+                                    ExpressionList arguments,
+                                    int mLine);
+    
+    /**
+     * Creates an instance of this class that would translate into call llvm instruction
+     */
+    static StaticMethodCall* createCantThrow(IObjectTypeSpecifier* objectTypeSpecifier,
+                                             std::string methodName,
+                                             ExpressionList arguments,
+                                             int mLine);
+
     int getLine() const override;
 
     llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;

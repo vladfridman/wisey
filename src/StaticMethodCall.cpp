@@ -29,10 +29,12 @@ using namespace wisey;
 StaticMethodCall::StaticMethodCall(IObjectTypeSpecifier* objectTypeSpecifier,
                                    string methodName,
                                    ExpressionList arguments,
+                                   bool canThrow,
                                    int line) :
 mObjectTypeSpecifier(objectTypeSpecifier),
 mMethodName(methodName),
 mArguments(arguments),
+mCanThrow(canThrow),
 mLine(line) { }
 
 StaticMethodCall::~StaticMethodCall() {
@@ -41,6 +43,20 @@ StaticMethodCall::~StaticMethodCall() {
   }
   mArguments.clear();
   delete mObjectTypeSpecifier;
+}
+
+StaticMethodCall* StaticMethodCall::create(IObjectTypeSpecifier* objectTypeSpecifier,
+                                           string methodName,
+                                           ExpressionList arguments,
+                                           int line) {
+  return new StaticMethodCall(objectTypeSpecifier, methodName, arguments, true, line);
+}
+
+StaticMethodCall* StaticMethodCall::createCantThrow(IObjectTypeSpecifier* objectTypeSpecifier,
+                                                    string methodName,
+                                                    ExpressionList arguments,
+                                                    int line) {
+  return new StaticMethodCall(objectTypeSpecifier, methodName, arguments, false, line);
 }
 
 int StaticMethodCall::getLine() const {
@@ -121,7 +137,9 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
   
   Composer::setLineNumber(context, mLine);
 
-  Value* result = IRWriter::createInvokeInst(context, function, arguments, resultName, mLine);
+  Value* result = mCanThrow
+  ? (Value*) IRWriter::createInvokeInst(context, function, arguments, resultName, mLine)
+  : (Value*) IRWriter::createCallInst(context, function, arguments, resultName);
   
   const IType* returnType = methodDescriptor->getReturnType();
   if (!returnType->isOwner() || assignToType->isOwner()) {
