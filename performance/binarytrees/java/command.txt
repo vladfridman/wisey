@@ -1,0 +1,2 @@
+javac binarytrees.java
+time java binarytrees 21

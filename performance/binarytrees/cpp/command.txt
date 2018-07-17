@@ -1,0 +1,3 @@
+g++ -c -pipe -O3 -fomit-frame-pointer -march=native -I/usr/include/apr-1 binarytrees.cpp -o binarytrees.o 
+g++ binarytrees.o -o binarytrees.run -lapr-1
+time ./binarytrees.run 21

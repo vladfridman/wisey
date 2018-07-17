@@ -1,0 +1,78 @@
+package wisey.performance.testing;
+
+import wisey.lang.CMemoryPool;
+import wisey.lang.CString;
+import wisey.lang.MString;
+import wisey.lang.IProgram;
+
+controller CBinaryTrees implements IProgram {
+
+  public constant int MIN_DEPTH = 4;
+
+  inject immediate CMemoryPool* mLongLivedPool;
+  inject immediate CMemoryPool* mAprPool;
+
+  public int run(immutable string[] arguments) override {
+    int n = 21;//CString.createFromString(arguments[1]).toInt();
+
+    int maxDepth = n < (MIN_DEPTH + 2) ? MIN_DEPTH + 2 : n;
+    int stretchDepth = maxDepth + 1;
+
+    NTreeNode* treeNode = bottomUpTree(stretchDepth, mLongLivedPool);
+    printout("stretch tree of depth " + stretchDepth + "\t check: " 
+       + treeNode.itemCheck() + "\n");
+
+    treeNode = bottomUpTree(maxDepth, mLongLivedPool);
+    CString*[]* results = new CString*[(maxDepth - MIN_DEPTH) / 2 + 1];
+
+    for (int depth = MIN_DEPTH; depth <= maxDepth; depth = depth + 2) {
+      int check = 0;
+
+      int iterations = 1 << (maxDepth - depth + CBinaryTrees.MIN_DEPTH);
+      for (int i = 1; i <= iterations; i++) {
+        check = check + CBinaryTrees.bottomUpTree(depth, mAprPool).itemCheck();
+        mAprPool.clear();
+      }
+      CString* resultString = CString.createFromInt(iterations);
+      resultString.appendString("\t trees of depth ");
+      resultString.appendCString(CString.createFromInt(depth));
+      resultString.appendString("\t check: ");
+      resultString.appendCString(CString.createFromInt(check));
+      resultString.appendString("\n");
+      results[(depth - MIN_DEPTH) / 2] = resultString;
+    }
+
+    for (int i = 0; i < results.getSize(); i++) {
+      printout(results[i]);
+    }
+    printout("long lived tree of depth " + maxDepth + "\t check: " + treeNode.itemCheck() + "\n");
+
+    return 1;
+  }
+
+  public static NTreeNode* bottomUpTree(int depth, CMemoryPool pool) {
+    if (0 < depth) {
+      return allocator(NTreeNode)
+        .withLeft(bottomUpTree(depth - 1, pool))
+        .withRight(bottomUpTree(depth - 1, pool))
+        .onPool(pool);
+    }
+    return allocator(NTreeNode).withLeft(null).withRight(null).onPool(pool);
+  }
+
+  public node NTreeNode onPool {
+
+    receive NTreeNode* mLeft;
+    receive NTreeNode* mRight;
+
+    public int itemCheck() {
+      if (null == mLeft) {
+        return 1;
+      }
+      return 1 + mLeft.itemCheck() + mRight.itemCheck();
+      // return 1;
+    }
+  }
+}
+
+bind(IProgram).to(CBinaryTrees);
