@@ -261,5 +261,5 @@ TEST_F(TestFileRunner, buildAllocatableRunDeathTest) {
   expectFailCompile("tests/samples/test_build_allocatable.yz",
                     1,
                     "tests/samples/test_build_allocatable.yz\\(17\\): Error: "
-                    "Object systems.vos.wisey.compiler.tests.MCar can not be built, it should be allocated using allocator command");
+                    "Object systems.vos.wisey.compiler.tests.MCar can not be allocated on heap because it is marked with onPool qualifier");
 }

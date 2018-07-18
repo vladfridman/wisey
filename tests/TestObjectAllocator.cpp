@@ -287,5 +287,5 @@ TEST_F(TestFileRunner, allocateBuildableDeathRunTest) {
   expectFailCompile("tests/samples/test_allocate_buildable.yz",
                     1,
                     "tests/samples/test_allocate_buildable.yz\\(18\\): Error: "
-                    "Object systems.vos.wisey.compiler.tests.MCar can not be allocated on a memory pool beause it is not marked with onPool qualifier, it should be built using builder command");
+                    "Object systems.vos.wisey.compiler.tests.MCar can not be allocated on a memory pool beause it is not marked with onPool qualifier, it should be allocated on heap");
 }

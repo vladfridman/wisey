@@ -52,7 +52,7 @@ Value* ObjectAllocator::generateIR(IRGenerationContext& context, const IType* as
   if (!buildableType->isPooled()) {
     context.reportError(mLine, "Object " + buildableType->getTypeName() +
                         " can not be allocated on a memory pool beause it is not marked with "
-                        "onPool qualifier, it should be built using builder command");
+                        "onPool qualifier, it should be allocated on heap");
     throw 1;
   }
   Value* malloc = allocate(context, buildableType);

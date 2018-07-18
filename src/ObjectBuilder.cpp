@@ -41,7 +41,7 @@ Value* ObjectBuilder::generateIR(IRGenerationContext& context, const IType* assi
   const IBuildableObjectType* buildableType = mTypeSpecifier->getType(context);
   if (buildableType->isPooled()) {
     context.reportError(mLine, "Object " + buildableType->getTypeName() +
-                        " can not be built, it should be allocated using allocator command");
+                        " can not be allocated on heap because it is marked with onPool qualifier");
     throw 1;
   }
   Value* malloc = build(context, buildableType);
