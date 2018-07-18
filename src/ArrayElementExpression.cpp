@@ -130,6 +130,8 @@ Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
   
   Composer::checkForNull(context, arrayStructPointer);
   
+  const IType* elementType = arrayType->getElementType();
+  
   Value* index[2];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
 
@@ -139,8 +141,13 @@ Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
     arrayIndices.pop_back();
     
     Value* element = getArrayElement(context, value, indexExpression, line);
-    const ArrayType* subArrayType = context.getArrayType(arrayType->getElementType(),
-                                                         arrayIndices.size());
+    if (!arrayIndices.size()) {
+      return IRWriter::newBitCastInst(context,
+                                      element,
+                                      elementType->getLLVMType(context)->getPointerTo());
+    }
+
+    const ArrayType* subArrayType = context.getArrayType(elementType, arrayIndices.size());
     value = IRWriter::newBitCastInst(context, element, subArrayType->getLLVMType(context));
   }
   
