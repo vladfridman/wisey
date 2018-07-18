@@ -19,7 +19,7 @@ model MValueContainer {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MValueContainer* valueContainer = builder(MValueContainer).withValue(7).build();
+    MValueContainer* valueContainer = build(MValueContainer).withValue(7).onHeap();
     return IShape.getValue(valueContainer);
   }
 } 

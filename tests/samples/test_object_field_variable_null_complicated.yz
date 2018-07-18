@@ -15,7 +15,7 @@ controller CService {
   state MModel* mAnotherModel;
 
   public void setModel() {
-    mModel = builder(MModel).withValue(7).build();    
+    mModel = build(MModel).withValue(7).onHeap();    
   }
 
   public void setAnotherModel() {

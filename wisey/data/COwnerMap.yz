@@ -18,10 +18,10 @@ controller COwnerMap {
    * Puts a reference to an object into the map according keyed by the given key
    */
   public void put(::llvm::i8::pointer key, ::wisey::object* value) {
-    COwnerList.NElement* element = builder(COwnerList.NElement)
+    COwnerList.NElement* element = build(COwnerList.NElement)
       .withKey(key)
       .withValue(value)
-      .build();
+      .onHeap();
     mPointerMap.put(key, element);
   }
 

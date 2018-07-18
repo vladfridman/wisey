@@ -7,7 +7,7 @@ model MData {}
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MData* data = builder(MData).build();
+    MData* data = build(MData).onHeap();
     return data == null;
   }
 }

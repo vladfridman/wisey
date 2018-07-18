@@ -125,7 +125,7 @@ controller CString {
       return false;
     }
 
-    throw builder(MCastException).withFromType("string").withToType("boolean").build();
+    throw build(MCastException).withFromType("string").withToType("boolean").onHeap();
   }
 
   /**
@@ -138,7 +138,7 @@ controller CString {
       return value;
     }
 
-    throw builder(MCastException).withFromType("string").withToType("char").build();
+    throw build(MCastException).withFromType("string").withToType("char").onHeap();
   }
 
   /**
@@ -151,7 +151,7 @@ controller CString {
       return value;
     }
 
-    throw builder(MCastException).withFromType("string").withToType("int").build();
+    throw build(MCastException).withFromType("string").withToType("int").onHeap();
   }
 
   /**
@@ -164,7 +164,7 @@ controller CString {
       return value;
     }
 
-    throw builder(MCastException).withFromType("string").withToType("long").build();
+    throw build(MCastException).withFromType("string").withToType("long").onHeap();
   }
 
   /**
@@ -177,7 +177,7 @@ controller CString {
       return value;
     }
 
-    throw builder(MCastException).withFromType("string").withToType("float").build();
+    throw build(MCastException).withFromType("string").withToType("float").onHeap();
   }
 
   /**
@@ -190,7 +190,7 @@ controller CString {
       return value;
     }
 
-    throw builder(MCastException).withFromType("string").withToType("double").build();
+    throw build(MCastException).withFromType("string").withToType("double").onHeap();
   }
 
   /**
@@ -199,7 +199,7 @@ controller CString {
   public MString* toModel() {
     char[]* buffer = new char[mLength + 1];
     MSystem.copyMemory(buffer, mBuffer, mLength);
-    return builder(MString).withContent(buffer).build();    
+    return build(MString).withContent(buffer).onHeap();    
   }
 
   /**

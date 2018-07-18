@@ -13,7 +13,7 @@ model MData {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MData data = builder(MData).withValue(3).build();
+    MData data = build(MData).withValue(3).onHeap();
 
     return data.getValue();
   }

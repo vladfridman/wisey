@@ -16,12 +16,12 @@ model MShape {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MShape rectangle = builder(MShape)
+    MShape rectangle = build(MShape)
       .withWidth(3)
       .withHeight(5l)
       .withDepth(2.0)
-      .withColor(builder(MColor).withColor(6.7d).build())
-      .build();
+      .withColor(build(MColor).withColor(6.7d).onHeap())
+      .onHeap();
 
     return 0;
   }

@@ -6,7 +6,7 @@ controller CProgram implements IProgram {
   state MAdder* mAdder;
 
   public int run(immutable string[] arguments) override {
-    mAdder = builder(MAdder).build();
+    mAdder = build(MAdder).onHeap();
     return mAdder.add(3, 4);
   }
 }

@@ -9,7 +9,7 @@ model MModel {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    ::wisey::object* pointer = builder(MModel).withValue(5).build();
+    ::wisey::object* pointer = build(MModel).withValue(5).onHeap();
     return 1;
   }
 }

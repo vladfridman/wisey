@@ -13,7 +13,7 @@ node NCar {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    NCar* car = builder(NCar).withYear(false).build();
+    NCar* car = build(NCar).withYear(false).onHeap();
     
     return car.getYear();
   }

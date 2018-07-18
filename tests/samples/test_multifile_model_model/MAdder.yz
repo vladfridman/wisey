@@ -2,7 +2,7 @@ package systems.vos.wisey.compiler.tests.multifile;
 
 model MAdder {
   public int add(int a, int b) {
-    MDoer doer = builder(MDoer).build();
+    MDoer doer = build(MDoer).onHeap();
 
     return doer.get(a) + doer.get(b); 
   }

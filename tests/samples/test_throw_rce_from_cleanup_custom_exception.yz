@@ -18,7 +18,7 @@ model MMyException implements wisey.lang.IException {
 
 controller CService {
   public void throwException(MData* data) throws MMyException {
-    MMyException* myException = builder(MMyException).build();
+    MMyException* myException = build(MMyException).onHeap();
     throw myException;
   }
 }
@@ -28,7 +28,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     try {
-      MData* data = builder(MData).withValue(1).build();
+      MData* data = build(MData).withValue(1).onHeap();
       MData dataRef = data;
       MData dataRef2 = data;
       mService.throwException(data);

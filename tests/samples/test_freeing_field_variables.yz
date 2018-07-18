@@ -21,7 +21,7 @@ model MModel {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MModel* myModel = builder(MModel).withSubModel(builder(MSubModel).withValue(3).build()).build();
+    MModel* myModel = build(MModel).withSubModel(build(MSubModel).withValue(3).onHeap()).onHeap();
     
     return myModel.getSubModel().getValue();
   }

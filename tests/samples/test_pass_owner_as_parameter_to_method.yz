@@ -19,7 +19,7 @@ controller CProgram implements IProgram {
   inject CService* mService;
 
   public int run(immutable string[] arguments) override {
-    MData* data = builder(MData).build();
+    MData* data = build(MData).onHeap();
     return mService.getResultFromData(data);
   }
 }

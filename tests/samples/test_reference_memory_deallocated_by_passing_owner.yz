@@ -20,7 +20,7 @@ controller CProgram implements IProgram {
   inject CService* mService;
 
   public int run(immutable string[] arguments) override {
-    MData* data = builder(MData).withValue(5).build();
+    MData* data = build(MData).withValue(5).onHeap();
     MData dataRef = data;
     MData anotherRef = dataRef;
     mService.capture(data);

@@ -26,9 +26,9 @@ controller CProgram implements IProgram {
   inject CService* mService;
 
   public int run(immutable string[] arguments) override {
-    MData* owner = builder(MData).withValue(1).build();
+    MData* owner = build(MData).withValue(1).onHeap();
     mService.set(owner);
-    owner = builder(MData).withValue(5).build();
+    owner = build(MData).withValue(5).onHeap();
 
     return mService.getValue();
   }

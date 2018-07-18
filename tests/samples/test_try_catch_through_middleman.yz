@@ -16,7 +16,7 @@ model MException implements IException {
 
 controller CThrower {
   public int doThrow() throws MException {
-    MException* exception = builder(MException).withValue(63).build();
+    MException* exception = build(MException).withValue(63).onHeap();
     throw exception;
   }
 }

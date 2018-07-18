@@ -19,7 +19,7 @@ model MException implements IException {
 
 controller CThrower {
   public int doThrow(int value) throws MException {
-    MException* exception = builder(MException).withValue(value).build();
+    MException* exception = build(MException).withValue(value).onHeap();
     throw exception;
   }
 }
@@ -33,7 +33,7 @@ controller CCatcher {
       return 1;
     } catch (MException* exception) {
       try {
-        MData* data = builder(MData).build();
+        MData* data = build(MData).onHeap();
         mThrower.doThrow(4);
         return 2;
       } catch(MException* exception) {

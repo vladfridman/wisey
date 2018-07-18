@@ -6,7 +6,7 @@ model MCar {
 
 model MRunner {
   public static void run() {
-    MCar* owner = builder(MCar).withValue(5).build();
+    MCar* owner = build(MCar).withValue(5).onHeap();
     MCar* anotherOwner = owner;
   }
 }

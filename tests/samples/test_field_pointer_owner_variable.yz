@@ -11,7 +11,7 @@ controller CProgram implements IProgram {
   state ::wisey::object* mPointer;
 
   public int run(immutable string[] arguments) override {
-    mPointer = builder(MModel).withValue(5).build();
+    mPointer = build(MModel).withValue(5).onHeap();
 
     return 1;
   }

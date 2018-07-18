@@ -16,11 +16,11 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
 
-    MCar* car1 = allocator(MCar).withYear(2018).onPool(mPool);
-    MCar* car2 = allocator(MCar).withYear(2017).onPool(mPool);
-    MCar* car3 = allocator(MCar).withYear(2016).onPool(mPool);
+    MCar* car1 = build(MCar).withYear(2018).onPool(mPool);
+    MCar* car2 = build(MCar).withYear(2017).onPool(mPool);
+    MCar* car3 = build(MCar).withYear(2016).onPool(mPool);
     car1 = null;
-    MCar* car4 = allocator(MCar).withYear(2015).onPool(mPool);
+    MCar* car4 = build(MCar).withYear(2015).onPool(mPool);
     return car2.getYear();
   }
 }

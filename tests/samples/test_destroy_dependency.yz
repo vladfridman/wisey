@@ -13,8 +13,8 @@ model MColor {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MColor* color = builder(MColor).withValue(2).build();
-    MPallete* pallete = builder(MPallete).withColor(color).build();
+    MColor* color = build(MColor).withValue(2).onHeap();
+    MPallete* pallete = build(MPallete).withColor(color).onHeap();
 
     return 5;
   }

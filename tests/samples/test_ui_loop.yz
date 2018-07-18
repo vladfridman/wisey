@@ -10,7 +10,7 @@ thread TDataThread sends MList<MData*>* {
   public void run() {
     while(true) { 
       for (int i = 0; i < 10; i++) {
-        MResult* result = builder(MResult).build();
+        MResult* result = build(MResult).onHeap();
         mList.append(result);
       }
       thread.send(mList.getModel());

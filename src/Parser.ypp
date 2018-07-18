@@ -227,13 +227,13 @@
 %token <string> TFIELDIDENTIFIER TINTERFACEIDENTIFIER TCONTROLLERIDENTIFIER TNODEIDENTIFIER
 %token <string> TCONSTANTIDENTIFIER
 
-%token <token> TALLOCATOR TANDOP TBIND TBREAK TBUILD TBUILDER TCASE TCATCH TCEQ TCGE TCLE TINCOP
+%token <token> TANDOP TBIND TBREAK TBUILD TCASE TCATCH TCEQ TCGE TCLE TINCOP
 %token <token> TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDO TDOUBLECOLON TELIPSIS
 %token <token> TELSE TEXTENDS TEXTERNAL TDEFAULT TFALLTHROUGH TFALSE TFOR TIF TIMMEDIATE TIMMUTABLE
 %token <token> TIMPLEMENTS TIMPORT TINJECTOR TINJECT TINSTANCEOF TINTERFACE  
 %token <token> TLLVM TLLVMARRAY TLLVMDEREFERENCE TLLVMFUNCTION TLLVMI1 TLLVMI8 TLLVMI16 TLLVMI32
 %token <token> TLLVMI64 TLLVMPOINTER TLLVMSTORE TLLVMSTRUCT TLLVMVOID TLLVMREFERENCE
-%token <token> TMODEL TNEW TNODE TNULL TONPOOL TOROP TOVERRIDE TPACKAGE
+%token <token> TMODEL TNEW TNODE TNULL TONHEAP TONPOOL TOROP TOVERRIDE TPACKAGE
 %token <token> TPRINTFILE TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN 
 %token <token> TSCOPEDTO TSHIFTLEFT TSHIFTRIGHT TSTATE TSTATIC TSWITCH 
 %token <token> TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN 
@@ -1539,18 +1539,18 @@ injection_argument
   ;
 
 object_builder
-  : TBUILDER '(' object_type_specifier_buildable ')' object_builder_argument_list
-    '.' TBUILD '(' ')'
+  : TBUILD '(' object_type_specifier_buildable ')' object_builder_argument_list
+    '.' TONHEAP '(' ')'
     { $$ = new ObjectBuilder($3, *$5, yylineno); delete $5; }
-  | TBUILDER '(' object_type_specifier_buildable ')' '.' TBUILD '(' ')'
+  | TBUILD '(' object_type_specifier_buildable ')' '.' TONHEAP '(' ')'
     { ObjectBuilderArgumentList argumentList; $$ = new ObjectBuilder($3, argumentList, yylineno); }
   ;
 
 object_allocator
-  : TALLOCATOR '(' object_type_specifier_buildable ')' object_builder_argument_list
+  : TBUILD '(' object_type_specifier_buildable ')' object_builder_argument_list
     '.' TONPOOL '(' expression ')'
     { $$ = new ObjectAllocator($3, *$5, $9, yylineno); delete $5; }
-  | TALLOCATOR '(' object_type_specifier_buildable ')' '.' TONPOOL '(' expression ')'
+  | TBUILD '(' object_type_specifier_buildable ')' '.' TONPOOL '(' expression ')'
     { 
       ObjectBuilderArgumentList argumentList; 
       $$ = new ObjectAllocator($3, argumentList, $8, yylineno); 

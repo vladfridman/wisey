@@ -10,10 +10,10 @@ model MRectangle {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MRectangle* r1 = builder(MRectangle)
+    MRectangle* r1 = build(MRectangle)
       .withWidth(1)
       .withHeight(3)
-      .build();
+      .onHeap();
 
     MRectangle* r2 = r1;
 

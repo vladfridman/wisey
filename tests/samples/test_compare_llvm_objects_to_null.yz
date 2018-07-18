@@ -9,7 +9,7 @@ model MMyModel {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    ::wisey::model* modelOwner = builder(MMyModel).build();
+    ::wisey::model* modelOwner = build(MMyModel).onHeap();
     ::wisey::model modelReference = null;
     ::wisey::object* objectOwner = null;
     ::wisey::object objectReference = null;

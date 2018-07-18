@@ -11,7 +11,7 @@ model MData {
 controller CService {
 
   public MData* newData() {
-    return builder(MData).build();
+    return build(MData).onHeap();
   }
 }
 

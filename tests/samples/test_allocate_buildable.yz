@@ -15,7 +15,7 @@ controller CProgram implements IProgram {
   inject CMemoryPool* mPool;
 
   public int run(immutable string[] arguments) override {
-    MCar* car = allocator(MCar).withYear(2018).onPool(mPool);
+    MCar* car = build(MCar).withYear(2018).onPool(mPool);
     return car.getYear();
   }
 }

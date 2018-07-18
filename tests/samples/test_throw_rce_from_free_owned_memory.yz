@@ -13,7 +13,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     try {
-      mCarRef = builder(MCar).build();
+      mCarRef = build(MCar).onHeap();
       MCar* owner = null;
       return owner.getYear();
     } catch (wisey.lang.MNullPointerException* exception) {

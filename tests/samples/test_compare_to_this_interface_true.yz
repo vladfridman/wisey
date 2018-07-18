@@ -15,8 +15,8 @@ model MComparator implements ICompareThis {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    ICompareThis* comparator1 = builder(MComparator).build();
-    ICompareThis* comparator2 = builder(MComparator).build();
+    ICompareThis* comparator1 = build(MComparator).onHeap();
+    ICompareThis* comparator2 = build(MComparator).onHeap();
 
     return comparator1.isTheSame(comparator1);
   }

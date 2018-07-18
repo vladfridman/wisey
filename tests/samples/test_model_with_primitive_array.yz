@@ -15,7 +15,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     int[][]* array = new int[4][4];
     array[3][3] = 5;
-    MMyModel* mymodel = builder(MMyModel).withArray(array).build();
+    MMyModel* mymodel = build(MMyModel).withArray(array).onHeap();
     return mymodel.getValue();
   }
 }

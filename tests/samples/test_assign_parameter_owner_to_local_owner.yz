@@ -10,7 +10,7 @@ model MRunner {
   }
 
   public static void run() {
-    MCar* owner = builder(MCar).withValue(5).build();
+    MCar* owner = build(MCar).withValue(5).onHeap();
     getCar(owner);
   }
 }

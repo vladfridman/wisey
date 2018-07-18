@@ -23,7 +23,7 @@ model MCar {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MCar car = builder(MCar).withEngine(builder(MEngine).withVolume(3).build()).build();
+    MCar car = build(MCar).withEngine(build(MEngine).withVolume(3).onHeap()).onHeap();
     int result = car.getEngineVolume();
     printout("Stack trace 2:\n");
     thread.getCallStack().dumpStack();

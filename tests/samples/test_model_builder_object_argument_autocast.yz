@@ -29,7 +29,7 @@ model MCar {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MCar* car = builder(MCar).withYear(builder(MYear).withValue(2017).build()).build();
+    MCar* car = build(MCar).withYear(build(MYear).withValue(2017).onHeap()).onHeap();
     
     return car.getYear();
   }

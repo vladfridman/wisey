@@ -11,7 +11,7 @@ controller COwnerList {
    * Appends a key/value pair to the beginning of the list
    */
   public void append(::llvm::i8::pointer key, ::wisey::object* value) {
-    NElement* element = builder(NElement).withKey(key).withValue(value).build();
+    NElement* element = build(NElement).withKey(key).withValue(value).onHeap();
     mPointerList.append(key, element);
   }
 

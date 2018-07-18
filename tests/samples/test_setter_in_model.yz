@@ -17,7 +17,7 @@ model MData {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MData* data = builder(MData).withValue(2).build();
+    MData* data = build(MData).withValue(2).onHeap();
 
     data.setValue(6);
 

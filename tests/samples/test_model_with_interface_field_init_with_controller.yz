@@ -24,7 +24,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     CWheel* wheelController = injector(CWheel).inject();
-    MCar* car = builder(MCar).withWheel(wheelController).build();
+    MCar* car = build(MCar).withWheel(wheelController).onHeap();
     return car.getWheelWidth();
   }
 }

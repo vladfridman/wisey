@@ -41,7 +41,7 @@ model MSquare implements IShape, IObject, IClickable {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MSquare* square = builder(MSquare).withWidth(5).build();
+    MSquare* square = build(MSquare).withWidth(5).onHeap();
 
     return ((IObject) square).getColor(55) + ((IShape) square).getArea() + 
       ((IShape) square).getPerimeter();

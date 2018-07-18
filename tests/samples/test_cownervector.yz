@@ -17,19 +17,19 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     printout("Vector size: " + mVector.getSize() + ", capacity: " + mVector.getCapacity() + "\n");
     
-    mVector.pushBack(builder(MCar).withYear(2018).build());
+    mVector.pushBack(build(MCar).withYear(2018).onHeap());
 
     printout("Vector size: " + mVector.getSize() + ", capacity: " + mVector.getCapacity() + "\n");
 
-    mVector.pushBack(builder(MCar).withYear(2017).build());
+    mVector.pushBack(build(MCar).withYear(2017).onHeap());
 
     printout("Vector size: " + mVector.getSize() + ", capacity: " + mVector.getCapacity() + "\n");
 
-    mVector.pushBack(builder(MCar).withYear(2016).build());
+    mVector.pushBack(build(MCar).withYear(2016).onHeap());
 
     printout("Vector size: " + mVector.getSize() + ", capacity: " + mVector.getCapacity() + "\n");
 
-    mVector.pushBack(builder(MCar).withYear(2015).build());
+    mVector.pushBack(build(MCar).withYear(2015).onHeap());
 
     printout("Vector size: " + mVector.getSize() + ", capacity: " + mVector.getCapacity() + "\n");
 

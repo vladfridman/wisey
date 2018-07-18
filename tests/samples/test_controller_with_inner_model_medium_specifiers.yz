@@ -5,7 +5,7 @@ import wisey.lang.IProgram;
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    CProgram.MMyModel* object = builder(CProgram.MMyModel).withValue(7).build();
+    CProgram.MMyModel* object = build(CProgram.MMyModel).withValue(7).onHeap();
 
     return object.getValue();
   }

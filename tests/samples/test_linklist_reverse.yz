@@ -45,7 +45,7 @@ controller CLinkList {
 
   public void appendToHead(MData* data) {
     // TODO: implement .withNext(mHead) and set mHead to null
-    NNode* newHead = builder(NNode).withData(data).build(); 
+    NNode* newHead = build(NNode).withData(data).onHeap(); 
     newHead.setNext(mHead);
     mHead = newHead;
     if (mTail == null) {
@@ -54,7 +54,7 @@ controller CLinkList {
   }
 
   public void appendToTail(MData* data) {
-    NNode* newNode = builder(NNode).withData(data).build();
+    NNode* newNode = build(NNode).withData(data).onHeap();
     if (mHead == null) {
       mHead = newNode;
       mTail = mHead;
@@ -85,10 +85,10 @@ controller CProgram implements IProgram {
   inject CLinkList* mLinkList;
 
   public int run(immutable string[] arguments) override {
-    mLinkList.appendToHead(builder(MData).withValue(2).build());
-    mLinkList.appendToHead(builder(MData).withValue(1).build());
-    mLinkList.appendToTail(builder(MData).withValue(3).build());
-    mLinkList.appendToTail(builder(MData).withValue(4).build());
+    mLinkList.appendToHead(build(MData).withValue(2).onHeap());
+    mLinkList.appendToHead(build(MData).withValue(1).onHeap());
+    mLinkList.appendToTail(build(MData).withValue(3).onHeap());
+    mLinkList.appendToTail(build(MData).withValue(4).onHeap());
     // link list looks like this: 1, 2, 3, 4
 
     mLinkList.reverse();

@@ -27,7 +27,7 @@ model MAnotherException implements IException {
 
 controller CThrower {
   public int doThrow() throws MException, MAnotherException {
-    throw builder(MAnotherException).withValue(127).build();
+    throw build(MAnotherException).withValue(127).onHeap();
   }
 }
 

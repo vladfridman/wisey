@@ -10,7 +10,7 @@ model MProducer implements IProducer {
     thread.sleep(1);
     printout("This is producer thread!\n");
     for (int i = 0; i < 2; i++) {
-      MProducerResult* result = builder(MProducerResult).withResult(i).build();
+      MProducerResult* result = build(MProducerResult).withResult(i).onHeap();
       printout("Adding result " + i + "\n");
       result = thread.send(result);
       while (result != null) {
@@ -36,7 +36,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     printout("Thread started = " + mProducerThread.isStarted() + ", has result = " + mProducerThread.hasResult() + "\n");
     printout("Starting producer thread\n");
-    mProducerThread.start(builder(MProducer).build(), 3);
+    mProducerThread.start(build(MProducer).onHeap(), 3);
     printout("Producer thread started\n");
     printout("Thread started = " + mProducerThread.isStarted() + ", has result = " + mProducerThread.hasResult() + "\n");
     thread.sleep(2);

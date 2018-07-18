@@ -13,7 +13,7 @@ controller CController {
 
 
   public int getCarYear() {
-    MCar* car = builder(MCar).build();
+    MCar* car = build(MCar).onHeap();
     mArray[4] = car;
     return car.getYear();
   }

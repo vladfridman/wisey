@@ -20,7 +20,7 @@ controller systems.vos.wisey.compiler.tests.CController implements IProgram {
 
   public int run(immutable string[] arguments) override {
     systems.vos.wisey.compiler.tests.NNode* object = 
-      builder(systems.vos.wisey.compiler.tests.NNode).build();
+      build(systems.vos.wisey.compiler.tests.NNode).onHeap();
     return object.calculate();
   }
 }

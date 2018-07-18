@@ -8,7 +8,7 @@ model MMyModel {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MMyModel* mymodel = builder(MMyModel).build();
+    MMyModel* mymodel = build(MMyModel).onHeap();
     if (mymodel) {
       return 3;
     }

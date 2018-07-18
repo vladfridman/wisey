@@ -19,7 +19,7 @@ model MObject implements IHasValue {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    ::wisey::model object = builder(MObject).build();
+    ::wisey::model object = build(MObject).onHeap();
     IHasSomething hasSomething = object;
     return hasSomething.getSomething();
   }

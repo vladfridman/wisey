@@ -8,7 +8,7 @@ model MMyException {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    throw builder(MMyException).build();
+    throw build(MMyException).onHeap();
     return 1;
   }
 }

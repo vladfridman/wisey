@@ -18,9 +18,9 @@ controller CProgram implements IProgram {
     string toyotaMake = "Toyota";
     string bmwMake = "BMW";
     string mercedesMake = "Mercedes";
-    MCar* toyota = builder(MCar).withMake(toyotaMake).build(); 
-    MCar* bmw = builder(MCar).withMake(bmwMake).build(); 
-    MCar* mercedes = builder(MCar).withMake(mercedesMake).build();
+    MCar* toyota = build(MCar).withMake(toyotaMake).onHeap(); 
+    MCar* bmw = build(MCar).withMake(bmwMake).onHeap(); 
+    MCar* mercedes = build(MCar).withMake(mercedesMake).onHeap();
 
     mMap.put(toyota.getMake(), toyota);
     mMap.put(bmw.getMake(), bmw);

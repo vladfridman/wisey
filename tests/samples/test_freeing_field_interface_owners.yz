@@ -29,7 +29,7 @@ model MModel implements IHasSubModule {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    IHasSubModule* myObject = builder(MModel).withSubModel((IHasValue*) builder(MSubModel).withValue(3).build()).build();
+    IHasSubModule* myObject = build(MModel).withSubModel((IHasValue*) build(MSubModel).withValue(3).onHeap()).onHeap();
     
     return myObject.getSubModel().getValue();
   }

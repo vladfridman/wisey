@@ -15,9 +15,9 @@ controller CProgram implements IProgram {
   inject CReferenceMap* mMap;
 
   public int run(immutable string[] arguments) override {
-    MCar* toyota = builder(MCar).withMake("Toyota").build(); 
-    MCar* bmw = builder(MCar).withMake("BMW").build(); 
-    MCar* mercedes = builder(MCar).withMake("Mercedes").build();
+    MCar* toyota = build(MCar).withMake("Toyota").onHeap(); 
+    MCar* bmw = build(MCar).withMake("BMW").onHeap(); 
+    MCar* mercedes = build(MCar).withMake("Mercedes").onHeap();
 
     mMap.put(toyota.getMake(), toyota);
     mMap.put(bmw.getMake(), bmw);

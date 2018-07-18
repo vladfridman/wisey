@@ -52,12 +52,12 @@ controller CBinaryTrees implements IProgram {
 
   public static NTreeNode* bottomUpTree(int depth, CMemoryPool pool) {
     if (0 < depth) {
-      return allocator(NTreeNode)
+      return build(NTreeNode)
         .withLeft(bottomUpTree(depth - 1, pool))
         .withRight(bottomUpTree(depth - 1, pool))
         .onPool(pool);
     }
-    return allocator(NTreeNode).withLeft(null).withRight(null).onPool(pool);
+    return build(NTreeNode).withLeft(null).withRight(null).onPool(pool);
   }
 
   public node NTreeNode onPool {
@@ -70,7 +70,6 @@ controller CBinaryTrees implements IProgram {
         return 1;
       }
       return 1 + mLeft.itemCheck() + mRight.itemCheck();
-      // return 1;
     }
   }
 }

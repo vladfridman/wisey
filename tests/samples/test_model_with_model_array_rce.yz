@@ -22,9 +22,9 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     MContainer[][]* array = new MContainer[4][4];
-    array[3][3] = builder(MContainer).withContent(5).build();
+    array[3][3] = build(MContainer).withContent(5).onHeap();
     MContainer[] reference = array[2];
-    MMyModel* mymodel = builder(MMyModel).withArray(array).build();
+    MMyModel* mymodel = build(MMyModel).withArray(array).onHeap();
     return mymodel.getValue();
   }
 }

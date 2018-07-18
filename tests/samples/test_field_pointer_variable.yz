@@ -20,7 +20,7 @@ controller CProgram implements IProgram {
   }
 
   public int run(immutable string[] arguments) override {
-    MModel* mymodel = builder(MModel).withValue(1).build();
+    MModel* mymodel = build(MModel).withValue(1).onHeap();
     mPointer = mymodel;
     return method();
   }

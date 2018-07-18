@@ -9,7 +9,7 @@ controller CProgram implements IProgram {
   state MCar* mCar;
 
   public int run(immutable string[] arguments) override {
-    mCar = builder(MCar).build();
+    mCar = build(MCar).onHeap();
     mCar = null;
     printout("car is destoyed\n");
 

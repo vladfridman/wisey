@@ -13,7 +13,7 @@ model MCar {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MCar* car = builder(MCar).withArray(new int[5]).build();
+    MCar* car = build(MCar).withArray(new int[5]).onHeap();
     car.capture();
     return 1;
   }

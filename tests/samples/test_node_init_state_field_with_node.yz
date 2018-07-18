@@ -23,8 +23,8 @@ node NElement {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    IHasValue* subNode = builder(NSubNode).build();
-    NElement* element = builder(NElement).withHasValue(subNode).build();
+    IHasValue* subNode = build(NSubNode).onHeap();
+    NElement* element = build(NElement).withHasValue(subNode).onHeap();
     return element.getValue();
   }
 }

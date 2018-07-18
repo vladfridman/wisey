@@ -15,11 +15,11 @@ controller CProgram implements IProgram {
   inject CMemoryPool* mPool;
 
   public int run(immutable string[] arguments) override {
-    NCar* car1 = allocator(NCar).withYear(2018).onPool(mPool);
-    NCar* car2 = allocator(NCar).withYear(2017).onPool(mPool);
-    NCar* car3 = allocator(NCar).withYear(2016).onPool(mPool);
+    NCar* car1 = build(NCar).withYear(2018).onPool(mPool);
+    NCar* car2 = build(NCar).withYear(2017).onPool(mPool);
+    NCar* car3 = build(NCar).withYear(2016).onPool(mPool);
     car1 = null;
-    NCar* car4 = allocator(NCar).withYear(2015).onPool(mPool);
+    NCar* car4 = build(NCar).withYear(2015).onPool(mPool);
     return car2.getYear();
   }
 }

@@ -14,7 +14,7 @@ model MShape {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MColor* color = builder(MShape).withWidth(1).withHeight(2).build();
+    MColor* color = build(MShape).withWidth(1).withHeight(2).onHeap();
     return 0;
   }
 } 

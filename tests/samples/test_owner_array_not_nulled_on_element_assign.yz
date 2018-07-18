@@ -13,7 +13,7 @@ model MElement {
 controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     MElement*[]* array = new MElement*[1];
-    array[0] = builder(MElement).withContent(0).build();
+    array[0] = build(MElement).withContent(0).onHeap();
     MElement* object = array[0];
 
     return array != null;

@@ -28,8 +28,8 @@ model MModel implements IProcessesHasValue {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    IProcessesHasValue* processor = builder(MModel).build();
-    return processor.processHasValue(builder(MHasValue).build());
+    IProcessesHasValue* processor = build(MModel).onHeap();
+    return processor.processHasValue(build(MHasValue).onHeap());
   }
 }
 

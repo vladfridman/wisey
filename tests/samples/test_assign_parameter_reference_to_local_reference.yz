@@ -10,7 +10,7 @@ model MRunner {
   }
 
   public static void run() {
-    MCar reference = builder(MCar).withValue(5).build();
+    MCar reference = build(MCar).withValue(5).onHeap();
     getCar(reference);
   }
 }

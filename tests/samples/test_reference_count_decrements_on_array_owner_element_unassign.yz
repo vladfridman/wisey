@@ -11,7 +11,7 @@ model MCar {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MCar* car = builder(MCar).build();
+    MCar* car = build(MCar).onHeap();
     MCar[]* array = new MCar[5];
     array[4] = car;
     array[4] = null;

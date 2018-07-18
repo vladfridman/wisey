@@ -18,9 +18,9 @@ model MMainThreadWorker implements IWorker {
    */
   public static int startMainThread(string[]* arguments) {
     CWorkerThread* workerThread = injector(CWorkerThread).inject();
-    MMainThreadWorker* mainThreadWorker = builder(MMainThreadWorker)
+    MMainThreadWorker* mainThreadWorker = build(MMainThreadWorker)
       .withArguments(arguments)
-      .build();
+      .onHeap();
     workerThread.start(mainThreadWorker);
     MProgramResult* result = workerThread.awaitResult();
     if (result != null) {
@@ -36,9 +36,9 @@ model MMainThreadWorker implements IWorker {
   public void work() throws MThreadBoundaryException override {
     IProgram* program = injector(IProgram).inject();
     thread.getContextManager().setContext(IThread.getTypeName(), thread);
-    MProgramResult* programResult = builder(MProgramResult)
+    MProgramResult* programResult = build(MProgramResult)
       .withResult(program.run(mArguments))
-      .build();
+      .onHeap();
     program = null;
     thread.getContextManager().eraseContext(IThread.getTypeName());
     thread.send(programResult);

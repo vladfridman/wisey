@@ -13,7 +13,7 @@ model MColor {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MColor* color = builder(MColor).withValue(true).build();
+    MColor* color = build(MColor).withValue(true).onHeap();
 
     return color.getValue();
   }

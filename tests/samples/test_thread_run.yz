@@ -9,7 +9,7 @@ model MWorker implements IWorker {
   public void work() override {
     thread.sleep(1);
     printout("This is worker thread!\n");
-    MResult* result = builder(MResult).withResult(5).build();
+    MResult* result = build(MResult).withResult(5).onHeap();
     thread.send(result);
   }
 
@@ -28,7 +28,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     printout("Thread started = " + mWorkerThread.isStarted() + ", has finished = " + mWorkerThread.isFinished() + "\n");
     printout("Starting worker thread\n");
-    mWorkerThread.start(builder(MWorker).build());
+    mWorkerThread.start(build(MWorker).onHeap());
     printout("Worker thread started\n");
     printout("Thread started = " + mWorkerThread.isStarted() + ", has finished = " + mWorkerThread.isFinished() + "\n");
     int result = ((MWorker.MResult) mWorkerThread.awaitResult()).getResult();

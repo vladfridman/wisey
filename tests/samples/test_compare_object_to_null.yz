@@ -13,7 +13,7 @@ model MMyModel implements IMyInterface {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MMyModel* mymodel = builder(MMyModel).build();
+    MMyModel* mymodel = build(MMyModel).onHeap();
     MMyModel mymodelref = null;
     IMyInterface* myinterfaceowner = null;
     IMyInterface myinterfacereference = null;

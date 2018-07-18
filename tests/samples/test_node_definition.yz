@@ -16,12 +16,12 @@ node NNode {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    NNode* rectangle = builder(NNode)
+    NNode* rectangle = build(NNode)
       .withWidth(3)
       .withHeight(5l)
       .withDepth(2.0)
-      .withColor(builder(NSubNode).withColor(6.7d).build())
-      .build();
+      .withColor(build(NSubNode).withColor(6.7d).onHeap())
+      .onHeap();
 
     return 0;
   }

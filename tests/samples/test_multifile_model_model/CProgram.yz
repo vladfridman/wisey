@@ -4,7 +4,7 @@ import wisey.lang.IProgram;
 
 model MDoer {
   public int doSomething() {
-    MAdder* adder = builder(MAdder).build();
+    MAdder* adder = build(MAdder).onHeap();
     return adder.add(1, 2);
   }
 
@@ -17,7 +17,7 @@ controller CProgram implements IProgram {
   state MDoer* mDoer;
 
   public int run(immutable string[] arguments) override {
-    mDoer = builder(MDoer).build();
+    mDoer = build(MDoer).onHeap();
     return mDoer.doSomething();
   }
 }

@@ -39,19 +39,19 @@ controller CFile {
    */
   public void close() throws MFileCloseException, MFileCouldNotCloseException {
     if (mFileStruct == null) {
-      throw builder(MFileCloseException).build();
+      throw build(MFileCloseException).onHeap();
     }
     
     int result = ::llvm::function::fclose(mFileStruct);
 
     if (result != 0) {
-      throw builder(MFileCouldNotCloseException).withFileName(mFileName).build();
+      throw build(MFileCouldNotCloseException).withFileName(mFileName).onHeap();
     }
   }
 
   public ::llvm::struct::__sFILE::pointer getFileStruct() throws MFileAccessException {
     if (mFileStruct == null) {
-      throw builder(MFileAccessException).build();
+      throw build(MFileAccessException).onHeap();
     }
     return mFileStruct;
   }
@@ -59,16 +59,16 @@ controller CFile {
   private void open(CString fileName, string mode) 
     throws MFileOpenException, MFileCouldNotOpenException {
     if (mFileStruct != null) {
-      throw builder(MFileOpenException)
+      throw build(MFileOpenException)
         .withNewFile(fileName.toModel())
         .withCurrentFile(mFileName.copy())
-        .build();
+        .onHeap();
     }
     
     mFileName = fileName.toModel();
     mFileStruct = ::llvm::function::fopen(mFileName.getContent(), mode);
     if (mFileStruct == null) {
-      throw builder(MFileCouldNotOpenException).withFileName(mFileName).build();
+      throw build(MFileCouldNotOpenException).withFileName(mFileName).onHeap();
     }
   }
 }

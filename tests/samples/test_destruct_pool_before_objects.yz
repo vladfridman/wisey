@@ -16,7 +16,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
 
-    MCar* car1 = allocator(MCar).withYear(2018).onPool(mPool);
+    MCar* car1 = build(MCar).withYear(2018).onPool(mPool);
     mPool = null;
     return 1;
   }

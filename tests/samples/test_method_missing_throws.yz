@@ -12,7 +12,7 @@ model MException  implements IException {
 
 controller CThrower {
   public int doThrow() {
-    MException* exception = builder(MException).withValue(3).build();
+    MException* exception = build(MException).withValue(3).onHeap();
     throw exception;
   }
 }

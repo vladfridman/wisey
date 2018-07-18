@@ -40,7 +40,7 @@ controller CFibonacciCalculator {
   }
 
   private void setCachedResult(int result) {
-    mResult = builder(MIntNumber).withNumber(result).build();
+    mResult = build(MIntNumber).withNumber(result).onHeap();
   }
 
   private MIntNumber getCachedResult() {

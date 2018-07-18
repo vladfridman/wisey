@@ -6,7 +6,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     systems.vos.wisey.compiler.tests.CProgram.MMyModel* object = 
-      builder(systems.vos.wisey.compiler.tests.CProgram.MMyModel).withValue(3).build();
+      build(systems.vos.wisey.compiler.tests.CProgram.MMyModel).withValue(3).onHeap();
 
     return object.getValue();
   }

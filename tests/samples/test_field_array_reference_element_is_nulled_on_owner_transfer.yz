@@ -13,7 +13,7 @@ controller CController {
 
 
   public void init() {
-    mArray[4] = builder(MCar).build();
+    mArray[4] = build(MCar).onHeap();
   }
 
   public MCar* getOwner() {

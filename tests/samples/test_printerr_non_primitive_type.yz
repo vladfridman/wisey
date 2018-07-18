@@ -13,7 +13,7 @@ model MCar {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    MCar* car = builder(MCar).withYear(2018).build();
+    MCar* car = build(MCar).withYear(2018).onHeap();
 
     printerr("Car year: " + car + "\n");
     return car.getYear();
