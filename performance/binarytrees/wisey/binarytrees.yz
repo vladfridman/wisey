@@ -13,7 +13,7 @@ controller CBinaryTrees implements IProgram {
   inject immediate CMemoryPool* mAprPool;
 
   public int run(immutable string[] arguments) override {
-    int n = 21;//CString.createFromString(arguments[1]).toInt();
+    int n = CString.createFromString(arguments[1]).toInt();
 
     int maxDepth = n < (MIN_DEPTH + 2) ? MIN_DEPTH + 2 : n;
     int stretchDepth = maxDepth + 1;
@@ -31,7 +31,6 @@ controller CBinaryTrees implements IProgram {
       int iterations = 1 << (maxDepth - depth + CBinaryTrees.MIN_DEPTH);
       for (int i = 1; i <= iterations; i++) {
         check = check + CBinaryTrees.bottomUpTree(depth, mAprPool).itemCheck();
-        mAprPool.clear();
       }
       CString* resultString = CString.createFromInt(iterations);
       resultString.appendString("\t trees of depth ");
