@@ -51,6 +51,11 @@ ModelDefinition::~ModelDefinition() {
 
 Model* ModelDefinition::prototypeObject(IRGenerationContext& context,
                                         ImportProfile* importProfile) const {
+  if (mIsPooled) {
+    context.reportError(mModelTypeSpecifierFull->getLine(),
+                        "Models can not be allocated on memory pools");
+    throw 1;
+  }
   string fullName = IObjectDefinition::getFullName(context, mModelTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   

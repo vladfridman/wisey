@@ -3,8 +3,8 @@ package systems.vos.wisey.compiler.tests;
 import wisey.lang.CMemoryPool;
 import wisey.lang.IProgram;
 
-model MCar onPool {
-  int mYear;
+node NCar onPool {
+  receive int mYear;
 
   public int getYear() {
     return mYear;
@@ -16,7 +16,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
 
-    MCar* car1 = build(MCar).withYear(2018).onPool(mPool);
+    NCar* car1 = build(NCar).withYear(2018).onPool(mPool);
     mPool = null;
     return 1;
   }

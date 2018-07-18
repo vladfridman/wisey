@@ -12,26 +12,6 @@
 
 #include "TestFileRunner.hpp"
 
-TEST_F(TestFileRunner, pooledModelDestructorDebugRunTest) {
-  runFileCheckOutputWithDestructorDebug("tests/samples/test_pooled_model.yz",
-                                        "destructor pooled object systems.vos.wisey.compiler.tests.MCar\n"
-                                        "done destructing pooled object systems.vos.wisey.compiler.tests.MCar\n"
-                                        "destructor pooled object systems.vos.wisey.compiler.tests.MCar\n"
-                                        "done destructing pooled object systems.vos.wisey.compiler.tests.MCar\n"
-                                        "destructor pooled object systems.vos.wisey.compiler.tests.MCar\n"
-                                        "done destructing pooled object systems.vos.wisey.compiler.tests.MCar\n"
-                                        "destructor pooled object systems.vos.wisey.compiler.tests.MCar\n"
-                                        "done destructing pooled object systems.vos.wisey.compiler.tests.MCar\n"
-                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n"
-                                        "freeing systems.vos.wisey.compiler.tests.CProgram.mPool\n"
-                                        "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
-                                        "");
-}
-
-TEST_F(TestFileRunner, pooledModelRunTest) {
-  runFile("tests/samples/test_pooled_model.yz", 2017);
-}
-
 TEST_F(TestFileRunner, pooledNodeDestructorDebugRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_pooled_node.yz",
                                         "destructor pooled object systems.vos.wisey.compiler.tests.NCar\n"
@@ -60,4 +40,10 @@ TEST_F(TestFileRunner, destructPoolBeforeObjectsRunDeathTest) {
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_destruct_pool_before_objects.yz:20)\n"
                                "Details: Attempting to destroy a memory pool that still contains 1 allocated object\n"
                                "Main thread ended without a result\n");
+}
+
+TEST_F(TestFileRunner, pooledModelRunDeathTest) {
+  expectFailCompile("tests/samples/test_pooled_model.yz",
+                    1,
+                    "tests/samples/test_pooled_model.yz\\(12\\): Error: Models can not be allocated on memory pools");
 }
