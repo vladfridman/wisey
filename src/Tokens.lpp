@@ -143,6 +143,8 @@ WS  [ \t\v\n\f]
 ">="                          return TOKEN(TCGE);
 "++"                          return TOKEN(TINCOP);
 "--"                          return TOKEN(TDECOP);
+"+="                          return TOKEN(TINCBYOP);
+"-="                          return TOKEN(TDECBYOP);
 "::"                          return TDOUBLECOLON;
 "("                           return TOKEN('(');
 ")"                           return TOKEN(')');

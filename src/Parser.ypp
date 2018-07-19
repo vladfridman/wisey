@@ -3,6 +3,7 @@
   
   #include "wisey/AccessLevel.hpp"
   #include "wisey/AdditiveMultiplicativeExpression.hpp"
+  #include "wisey/AdjustByExpression.hpp"
   #include "wisey/ArrayAllocation.hpp"
   #include "wisey/ArrayAllocationStatic.hpp"
   #include "wisey/ArrayElementExpression.hpp"
@@ -227,10 +228,10 @@
 %token <string> TFIELDIDENTIFIER TINTERFACEIDENTIFIER TCONTROLLERIDENTIFIER TNODEIDENTIFIER
 %token <string> TCONSTANTIDENTIFIER
 
-%token <token> TANDOP TBIND TBREAK TBUILD TCASE TCATCH TCEQ TCGE TCLE TINCOP
-%token <token> TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDO TDOUBLECOLON TELIPSIS
+%token <token> TANDOP TBIND TBREAK TBUILD TCASE TCATCH TCEQ TCGE TCLE
+%token <token> TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDECBYOP TDO TDOUBLECOLON TELIPSIS
 %token <token> TELSE TEXTENDS TEXTERNAL TDEFAULT TFALLTHROUGH TFALSE TFOR TIF TIMMEDIATE TIMMUTABLE
-%token <token> TIMPLEMENTS TIMPORT TINJECTOR TINJECT TINSTANCEOF TINTERFACE  
+%token <token> TIMPLEMENTS TIMPORT TINCOP TINCBYOP TINJECTOR TINJECT TINSTANCEOF TINTERFACE  
 %token <token> TLLVM TLLVMARRAY TLLVMDEREFERENCE TLLVMFUNCTION TLLVMI1 TLLVMI8 TLLVMI16 TLLVMI32
 %token <token> TLLVMI64 TLLVMPOINTER TLLVMSTORE TLLVMSTRUCT TLLVMVOID TLLVMREFERENCE
 %token <token> TMODEL TNEW TNODE TNULL TONHEAP TONPOOL TOROP TOVERRIDE TPACKAGE
@@ -251,7 +252,7 @@
 %type <expression> conditional_expression postfix_expression heap_builder pool_builder
 %type <expression> cast_expression primary_expression assignment unary_expression
 %type <expression> type_comparision_expression injection array_allocation static_array_allocation
-%type <expression> constant_reference static_method_call field_identifier
+%type <expression> constant_reference static_method_call field_identifier increment_by_expression
 %type <expression> llvm_function_call llvm_reference llvm_dereference call_argument
 %type <variable_vector> method_definition_arguments
 %type <expression_vector> call_arguments static_array_elements
@@ -1446,8 +1447,16 @@ additive_expression
     { $$ = new AdditiveMultiplicativeExpression($1, '-', $3, yylineno); }
   ;
 
-shift_expression
+increment_by_expression
   : additive_expression
+  | postfix_expression TINCBYOP additive_expression 
+    { $$ = AdjustByExpression::newIncrementBy($1, $3, yylineno); }
+  | postfix_expression TDECBYOP additive_expression 
+    { $$ = AdjustByExpression::newDecrementBy($1, $3, yylineno); }
+  ;
+
+shift_expression
+  : increment_by_expression
   | shift_expression TSHIFTLEFT additive_expression
     { $$ = new ShiftLeftExpression($1, $3, yylineno); }
   | shift_expression TSHIFTRIGHT additive_expression

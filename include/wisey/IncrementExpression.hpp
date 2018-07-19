@@ -16,7 +16,7 @@
 namespace wisey {
   
   /**
-   * Represents an increment or decrement expresssion such as i++ or i--
+   * Represents an increment or decrement expression such as i++ or i--
    */
   class IncrementExpression : public IExpressionAssignable {
     IExpression* mExpression;
@@ -31,10 +31,20 @@ namespace wisey {
                         bool isPrefix,
                         int line);
     
-    ~IncrementExpression();
-    
   public:
     
+    ~IncrementExpression();
+
+    /**
+     * Create increment by one expression
+     */
+    static IncrementExpression* newIncrementByOne(IExpression* expression, int line);
+    
+    /**
+     * Create decrement by one expression
+     */
+    static IncrementExpression* newDecrementByOne(IExpression* expression, int line);
+
     int getLine() const override;
 
     IVariable* getVariable(IRGenerationContext& context,
@@ -49,16 +59,6 @@ namespace wisey {
     bool isAssignable() const override;
 
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
-    
-    /**
-     * Create increment by one expression
-     */
-    static IncrementExpression* newIncrementByOne(IExpression* expression, int line);
-    
-    /**
-     * Create decrement by one expression
-     */
-    static IncrementExpression* newDecrementByOne(IExpression* expression, int line);
     
   };
   

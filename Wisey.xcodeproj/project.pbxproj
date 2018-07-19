@@ -529,6 +529,9 @@
 		F556E6541EDDD2F900CCC3D7 /* IConcreteObjectType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F556E6531EDDD2F900CCC3D7 /* IConcreteObjectType.cpp */; };
 		F556E6551EDDD2F900CCC3D7 /* IConcreteObjectType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F556E6531EDDD2F900CCC3D7 /* IConcreteObjectType.cpp */; };
 		F556E65A1EDEE3E700CCC3D7 /* TestIConcreteObjectType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F556E6591EDEE3E700CCC3D7 /* TestIConcreteObjectType.cpp */; };
+		F55A7E9C2100CFE300A3D419 /* AdjustByExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55A7E9B2100CFE300A3D419 /* AdjustByExpression.cpp */; };
+		F55A7E9D2100CFE300A3D419 /* AdjustByExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55A7E9B2100CFE300A3D419 /* AdjustByExpression.cpp */; };
+		F55A7E9F2100DE0100A3D419 /* TestAdjustByExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55A7E9E2100DE0100A3D419 /* TestAdjustByExpression.cpp */; };
 		F55CF1751F7DA11C00A11426 /* ExternalStaticMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55CF1741F7DA11C00A11426 /* ExternalStaticMethod.cpp */; };
 		F55CF1761F7DA11C00A11426 /* ExternalStaticMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55CF1741F7DA11C00A11426 /* ExternalStaticMethod.cpp */; };
 		F55CF1781F7DA22800A11426 /* TestExternalStaticMethodDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55CF1771F7DA22800A11426 /* TestExternalStaticMethodDefinition.cpp */; };
@@ -1675,6 +1678,9 @@
 		F556E6531EDDD2F900CCC3D7 /* IConcreteObjectType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IConcreteObjectType.cpp; path = src/IConcreteObjectType.cpp; sourceTree = "<group>"; };
 		F556E6591EDEE3E700CCC3D7 /* TestIConcreteObjectType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIConcreteObjectType.cpp; path = tests/TestIConcreteObjectType.cpp; sourceTree = "<group>"; };
 		F556E65B1EDEE45B00CCC3D7 /* MockConcreteObjectType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockConcreteObjectType.hpp; path = tests/include/MockConcreteObjectType.hpp; sourceTree = "<group>"; };
+		F55A7E9A2100CDD300A3D419 /* AdjustByExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AdjustByExpression.hpp; path = include/wisey/AdjustByExpression.hpp; sourceTree = "<group>"; };
+		F55A7E9B2100CFE300A3D419 /* AdjustByExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = AdjustByExpression.cpp; path = src/AdjustByExpression.cpp; sourceTree = "<group>"; };
+		F55A7E9E2100DE0100A3D419 /* TestAdjustByExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestAdjustByExpression.cpp; path = tests/TestAdjustByExpression.cpp; sourceTree = "<group>"; };
 		F55CF1731F7DA0CC00A11426 /* ExternalStaticMethod.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ExternalStaticMethod.hpp; path = include/wisey/ExternalStaticMethod.hpp; sourceTree = "<group>"; };
 		F55CF1741F7DA11C00A11426 /* ExternalStaticMethod.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ExternalStaticMethod.cpp; path = src/ExternalStaticMethod.cpp; sourceTree = "<group>"; };
 		F55CF1771F7DA22800A11426 /* TestExternalStaticMethodDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestExternalStaticMethodDefinition.cpp; path = tests/TestExternalStaticMethodDefinition.cpp; sourceTree = "<group>"; };
@@ -2866,6 +2872,7 @@
 			isa = PBXGroup;
 			children = (
 				F5089C4A1ECD01D9004A1223 /* AdditiveMultiplicativeExpression.hpp */,
+				F55A7E9A2100CDD300A3D419 /* AdjustByExpression.hpp */,
 				F5089C4B1ECD01D9004A1223 /* Assignment.hpp */,
 				F5089C4C1ECD01D9004A1223 /* AutoCast.hpp */,
 				F5089C511ECD01D9004A1223 /* BooleanNotExpression.hpp */,
@@ -2902,6 +2909,7 @@
 			isa = PBXGroup;
 			children = (
 				F53400ED1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp */,
+				F55A7E9B2100CFE300A3D419 /* AdjustByExpression.cpp */,
 				F531B6471E0A4F76008304F3 /* Assignment.cpp */,
 				F57086011E5317E8007D627E /* AutoCast.cpp */,
 				F57E2E271E82D6E300FE1DB9 /* BooleanNotExpression.cpp */,
@@ -3538,6 +3546,7 @@
 			isa = PBXGroup;
 			children = (
 				F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */,
+				F55A7E9E2100DE0100A3D419 /* TestAdjustByExpression.cpp */,
 				F531B64A1E0A5329008304F3 /* TestAssignment.cpp */,
 				F57086041E533667007D627E /* TestAutoCast.cpp */,
 				F57E2E2A1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp */,
@@ -4579,7 +4588,9 @@
 				F5E209311E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp in Sources */,
 				F53A2C251EFFD0BD00E76A9E /* NodeDefinition.cpp in Sources */,
 				F50FF86E208B68B4008EDC40 /* ImmutableArrayTypeSpecifier.cpp in Sources */,
+				F55A7E9F2100DE0100A3D419 /* TestAdjustByExpression.cpp in Sources */,
 				F50FF872208B6AEC008EDC40 /* ImmutableArrayOwnerTypeSpecifier.cpp in Sources */,
+				F55A7E9D2100CFE300A3D419 /* AdjustByExpression.cpp in Sources */,
 				F5CB7FED2052CAC9007628B5 /* TestStateField.cpp in Sources */,
 				F50FF89F208C9093008EDC40 /* TestParameterImmutableArrayReferenceVariable.cpp in Sources */,
 				F52746C7201A232900503713 /* ArrayAllocationStatic.cpp in Sources */,
@@ -4742,6 +4753,7 @@
 				F51797111E6605FC009B16AA /* MethodSignatureDeclaration.cpp in Sources */,
 				F5FA52931F7437A8001BBE67 /* wiseyrun.cpp in Sources */,
 				F592A7B91F7D62D10026BD2F /* IConcreteObjectDefinition.cpp in Sources */,
+				F55A7E9C2100CFE300A3D419 /* AdjustByExpression.cpp in Sources */,
 				F53CDAD31F8BC4ED00D27687 /* ExternalInterfaceDefinition.cpp in Sources */,
 				F50FA3051E325E5400435EEA /* BooleanConstant.cpp in Sources */,
 				F534644C20AF16DB006369D4 /* EssentialFunctions.cpp in Sources */,

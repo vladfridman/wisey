@@ -1,0 +1,18 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+model MCar {
+  public int getValue() {
+    return 5;
+  }
+}
+
+controller CProgram implements IProgram {
+  public int run(immutable string[] arguments) override {
+    MCar* car = build(MCar).onHeap();
+    return car.getValue() += 5;
+  }
+}
+
+bind(IProgram).to(CProgram);
