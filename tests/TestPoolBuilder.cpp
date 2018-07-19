@@ -176,37 +176,62 @@ TEST_F(PoolBuilderTest, generateIRTest) {
   
   *mStringStream << *mFunction;
   string expected =
-  "\ndefine internal void @test() {"
+  "\ndefine internal void @test() personality i32 (...)* @__gxx_personality_v0 {"
   "\ndeclare:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
   "\n  br label %entry"
   "\n"
   "\nentry:                                            ; preds = %declare"
-  "\n  %1 = bitcast %wisey.lang.CMemoryPool* null to %CMemoryPool*"
-  "\n  %2 = getelementptr %CMemoryPool, %CMemoryPool* %1, i32 0, i32 2"
-  "\n  %3 = load %AprPool*, %AprPool** %2"
-  "\n  %4 = getelementptr %CMemoryPool, %CMemoryPool* %1, i32 0, i32 1"
-  "\n  %5 = load i64, i64* %4"
-  "\n  %6 = add i64 %5, 1"
-  "\n  store i64 %6, i64* %4"
-  "\n  %call = call i8* @wisey.lang.CMemoryPool.pallocate(%wisey.threads.IThread* null, %wisey.threads.CCallStack* null, %AprPool* %3, i64 ptrtoint (%systems.vos.wisey.compiler.tests.MShape.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.MShape.refCounter, %systems.vos.wisey.compiler.tests.MShape.refCounter* null, i32 1) to i64))"
-  "\n  %7 = bitcast i8* %call to %systems.vos.wisey.compiler.tests.MShape.refCounter*"
-  "\n  %8 = getelementptr %systems.vos.wisey.compiler.tests.MShape.refCounter, %systems.vos.wisey.compiler.tests.MShape.refCounter* %7, i32 0, i32 0"
-  "\n  store i64 0, i64* %8"
-  "\n  %9 = getelementptr %systems.vos.wisey.compiler.tests.MShape.refCounter, %systems.vos.wisey.compiler.tests.MShape.refCounter* %7, i32 0, i32 1"
-  "\n  %10 = getelementptr %systems.vos.wisey.compiler.tests.MShape, %systems.vos.wisey.compiler.tests.MShape* %9, i32 0, i32 1"
-  "\n  store %wisey.lang.CMemoryPool* null, %wisey.lang.CMemoryPool** %10"
-  "\n  %11 = getelementptr %systems.vos.wisey.compiler.tests.MShape, %systems.vos.wisey.compiler.tests.MShape* %9, i32 0, i32 2"
-  "\n  store i32 3, i32* %11"
-  "\n  %12 = getelementptr %systems.vos.wisey.compiler.tests.MShape, %systems.vos.wisey.compiler.tests.MShape* %9, i32 0, i32 3"
-  "\n  store i32 5, i32* %12"
-  "\n  %13 = bitcast %systems.vos.wisey.compiler.tests.MShape* %9 to i8*"
-  "\n  %14 = getelementptr i8, i8* %13, i64 0"
-  "\n  %15 = bitcast i8* %14 to i32 (...)***"
-  "\n  %16 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.MShape.vtable, i32 0, i32 0, i32 0"
-  "\n  %17 = bitcast i8** %16 to i32 (...)**"
-  "\n  store i32 (...)** %17, i32 (...)*** %15"
-  "\n  store %systems.vos.wisey.compiler.tests.MShape* %9, %systems.vos.wisey.compiler.tests.MShape** %0"
+  "\n  %1 = icmp eq %wisey.lang.CMemoryPool* null, null"
+  "\n  br i1 %1, label %if.pool.null, label %if.pool.notnull"
+  "\n"
+  "\nif.pool.null:                                     ; preds = %entry"
+  "\n  invoke void @__throwNPE()"
+  "\n          to label %invoke.continue unwind label %cleanup"
+  "\n"
+  "\nif.pool.notnull:                                  ; preds = %entry"
+  "\n  %2 = bitcast %wisey.lang.CMemoryPool* null to %CMemoryPool*"
+  "\n  %3 = getelementptr %CMemoryPool, %CMemoryPool* %2, i32 0, i32 2"
+  "\n  %4 = load %AprPool*, %AprPool** %3"
+  "\n  %5 = getelementptr %CMemoryPool, %CMemoryPool* %2, i32 0, i32 1"
+  "\n  %6 = load i64, i64* %5"
+  "\n  %7 = add i64 %6, 1"
+  "\n  store i64 %7, i64* %5"
+  "\n  %call = call i8* @wisey.lang.CMemoryPool.pallocate(%wisey.threads.IThread* null, %wisey.threads.CCallStack* null, %AprPool* %4, i64 ptrtoint (%systems.vos.wisey.compiler.tests.MShape.refCounter* getelementptr (%systems.vos.wisey.compiler.tests.MShape.refCounter, %systems.vos.wisey.compiler.tests.MShape.refCounter* null, i32 1) to i64))"
+  "\n  %8 = bitcast i8* %call to %systems.vos.wisey.compiler.tests.MShape.refCounter*"
+  "\n  %9 = getelementptr %systems.vos.wisey.compiler.tests.MShape.refCounter, %systems.vos.wisey.compiler.tests.MShape.refCounter* %8, i32 0, i32 0"
+  "\n  store i64 0, i64* %9"
+  "\n  %10 = getelementptr %systems.vos.wisey.compiler.tests.MShape.refCounter, %systems.vos.wisey.compiler.tests.MShape.refCounter* %8, i32 0, i32 1"
+  "\n  %11 = getelementptr %systems.vos.wisey.compiler.tests.MShape, %systems.vos.wisey.compiler.tests.MShape* %10, i32 0, i32 1"
+  "\n  store %wisey.lang.CMemoryPool* null, %wisey.lang.CMemoryPool** %11"
+  "\n  %12 = getelementptr %systems.vos.wisey.compiler.tests.MShape, %systems.vos.wisey.compiler.tests.MShape* %10, i32 0, i32 2"
+  "\n  store i32 3, i32* %12"
+  "\n  %13 = getelementptr %systems.vos.wisey.compiler.tests.MShape, %systems.vos.wisey.compiler.tests.MShape* %10, i32 0, i32 3"
+  "\n  store i32 5, i32* %13"
+  "\n  %14 = bitcast %systems.vos.wisey.compiler.tests.MShape* %10 to i8*"
+  "\n  %15 = getelementptr i8, i8* %14, i64 0"
+  "\n  %16 = bitcast i8* %15 to i32 (...)***"
+  "\n  %17 = getelementptr { [3 x i8*] }, { [3 x i8*] }* @systems.vos.wisey.compiler.tests.MShape.vtable, i32 0, i32 0, i32 0"
+  "\n  %18 = bitcast i8** %17 to i32 (...)**"
+  "\n  store i32 (...)** %18, i32 (...)*** %16"
+  "\n  store %systems.vos.wisey.compiler.tests.MShape* %10, %systems.vos.wisey.compiler.tests.MShape** %0"
+  "\n"
+  "\ncleanup:                                          ; preds = %if.pool.null"
+  "\n  %19 = landingpad { i8*, i32 }"
+  "\n          cleanup"
+  "\n  %20 = alloca { i8*, i32 }"
+  "\n  br label %cleanup.cont"
+  "\n"
+  "\ncleanup.cont:                                     ; preds = %cleanup"
+  "\n  store { i8*, i32 } %19, { i8*, i32 }* %20"
+  "\n  %21 = getelementptr { i8*, i32 }, { i8*, i32 }* %20, i32 0, i32 0"
+  "\n  %22 = load i8*, i8** %21"
+  "\n  %23 = call i8* @__cxa_get_exception_ptr(i8* %22)"
+  "\n  %24 = getelementptr i8, i8* %23, i64 8"
+  "\n  resume { i8*, i32 } %19"
+  "\n"
+  "\ninvoke.continue:                                  ; preds = %if.pool.null"
+  "\n  unreachable"
   "\n}"
   "\n";
   
@@ -277,9 +302,18 @@ TEST_F(PoolBuilderTest, allocateNotAllFieldsAreSetDeathTest) {
   std::cerr.rdbuf(oldbuffer);
 }
 
-TEST_F(TestFileRunner, allocateBuildableDeathRunTest) {
-  expectFailCompile("tests/samples/test_allocate_buildable.yz",
+TEST_F(TestFileRunner, allocateOnHeapObjectRunDeathTest) {
+  expectFailCompile("tests/samples/test_allocate_on_pool_heap_object.yz",
                     1,
-                    "tests/samples/test_allocate_buildable.yz\\(18\\): Error: "
+                    "tests/samples/test_allocate_on_pool_heap_object.yz\\(18\\): Error: "
                     "Object systems.vos.wisey.compiler.tests.MCar can not be allocated on a memory pool beause it is not marked with onPool qualifier, it should be allocated on heap");
+}
+
+TEST_F(TestFileRunner, nullPoolAllocateRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_null_pool_allocate.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MNullPointerException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_null_pool_allocate.yz:12)\n"
+                               "Main thread ended without a result\n");
 }

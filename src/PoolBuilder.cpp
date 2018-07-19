@@ -21,6 +21,7 @@
 #include "wisey/PoolBuilder.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/StaticMethodCall.hpp"
+#include "wisey/ThrowNullPointerExceptionFunction.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -114,6 +115,19 @@ Value* PoolBuilder::allocate(IRGenerationContext& context,
   LLVMContext& llvmContext = context.getLLVMContext();
   Value* pool = mPoolExpression->generateIR(context, PrimitiveTypes::VOID);
   
+  Function* function = context.getBasicBlock()->getParent();
+  BasicBlock* ifNullBlock = BasicBlock::Create(llvmContext, "if.pool.null", function);
+  BasicBlock* ifNotNullBlock = BasicBlock::Create(llvmContext, "if.pool.notnull", function);
+  
+  Value* null = ConstantPointerNull::get((PointerType*) pool->getType());
+  Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, pool, null, "");
+  IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
+  
+  context.setBasicBlock(ifNullBlock);
+  ThrowNullPointerExceptionFunction::call(context);
+  IRWriter::newUnreachableInst(context);
+  
+  context.setBasicBlock(ifNotNullBlock);
   vector<Value*> creationArguments;
   buildable->generateCreationArguments(context,
                                        mBuilderArgumentList,
