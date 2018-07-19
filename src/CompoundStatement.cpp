@@ -6,6 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/Composer.hpp"
 #include "wisey/CompoundStatement.hpp"
 
 using namespace llvm;
@@ -24,5 +25,6 @@ void CompoundStatement::generateIR(IRGenerationContext& context) const {
   
   scopes.pushScope();
   mBlock->generateIR(context);
+  Composer::setLineNumber(context, mLine);
   scopes.popScope(context, mLine);
 }

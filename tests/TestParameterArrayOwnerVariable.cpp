@@ -167,7 +167,7 @@ TEST_F(TestFileRunner, parameterArrayOwnerOfIntsIsFreedRunDeathTest) {
                                1,
                                "",
                                "Unhandled exception wisey.lang.MReferenceCountException\n"
-                               "  at systems.vos.wisey.compiler.tests.CController.init(tests/samples/test_parameter_array_owner_of_ints_is_freed.yz:9)\n"
+                               "  at systems.vos.wisey.compiler.tests.CController.init(tests/samples/test_parameter_array_owner_of_ints_is_freed.yz:10)\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_parameter_array_owner_of_ints_is_freed.yz:18)\n"
                                "Details: Object referenced by expression of type int[][]* still has 1 active reference\n"
                                "Main thread ended without a result\n");
