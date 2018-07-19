@@ -100,6 +100,7 @@ WS  [ \t\v\n\f]
 "import"                      return TOKEN(TIMPORT);
 "inject"                      return TOKEN(TINJECT);
 "injector"                    return TOKEN(TINJECTOR);
+"inScope"                     return TOKEN(TINSCOPE);
 "instanceof"                  return TOKEN(TINSTANCEOF);
 "int"                         return TOKEN(TTYPEINT);
 "interface"                   return TOKEN(TINTERFACE);
@@ -119,7 +120,6 @@ WS  [ \t\v\n\f]
 "public"                      return TOKEN(TPUBLIC);
 "receive"                     return TOKEN(TRECEIVE);
 "return"                      return TOKEN(TRETURN);
-"scopedto"                    return TOKEN(TSCOPEDTO);
 "state"                       return TOKEN(TSTATE);
 "static"                      return TOKEN(TSTATIC);
 "string"                      return TOKEN(TTYPESTRING);

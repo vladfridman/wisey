@@ -2,7 +2,7 @@ package systems.vos.wisey.compiler.tests;
 
 import wisey.lang.IProgram;
 
-controller CService scopedto wisey.threads.IThread {
+controller CService inScope wisey.threads.IThread {
 
   public int getValue() {
     return 3;

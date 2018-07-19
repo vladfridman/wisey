@@ -3,7 +3,7 @@ package systems.vos.wisey.compiler.tests;
 import wisey.lang.IProgram;
 import wisey.threads.IThread;
 
-controller CScopedService scopedto IThread {
+controller CScopedService inScope IThread {
 
 }
 

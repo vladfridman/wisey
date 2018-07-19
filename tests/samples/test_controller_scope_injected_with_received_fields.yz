@@ -1,6 +1,6 @@
 package systems.vos.wisey.compiler.tests;
 
-controller CService scopedto wisey.threads.IThread implements IMyInterface {
+controller CService inScope wisey.threads.IThread implements IMyInterface {
   receive int mValue;
 
   public int getValue() override {
