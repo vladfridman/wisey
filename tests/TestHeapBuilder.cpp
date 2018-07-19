@@ -1,11 +1,11 @@
 //
-//  TestObjectBuilder.cpp
+//  TestHeapBuilder.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 1/30/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link ObjectBuilder}
+//  Tests {@link HeapBuilder}
 //
 
 #include <sstream>
@@ -23,7 +23,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
-#include "wisey/ObjectBuilder.hpp"
+#include "wisey/HeapBuilder.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ReceivedField.hpp"
 
@@ -38,10 +38,10 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct ObjectBuilderTest : Test {
+struct HeapBuilderTest : Test {
   IRGenerationContext mContext;
   Model* mModel;
-  ObjectBuilder* mObjectBuilder;
+  HeapBuilder* mHeapBuilder;
   NiceMock<MockExpression>* mField1Expression;
   NiceMock<MockExpression>* mField2Expression;
   ModelTypeSpecifier* mModelTypeSpecifier;
@@ -52,7 +52,7 @@ struct ObjectBuilderTest : Test {
   raw_string_ostream* mStringStream;
   string mPackage = "systems.vos.wisey.compiler.tests";
 
-  ObjectBuilderTest() :
+  HeapBuilderTest() :
   mField1Expression(new NiceMock<MockExpression>()),
   mField2Expression(new NiceMock<MockExpression>()) {
     LLVMContext& llvmContext = mContext.getLLVMContext();
@@ -90,15 +90,13 @@ struct ObjectBuilderTest : Test {
     IConcreteObjectType::declareVTable(mContext, mModel);
 
     string argumentSpecifier1("withWidth");
-    ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
-                                                               mField1Expression);
+    BuilderArgument *argument1 = new BuilderArgument(argumentSpecifier1, mField1Expression);
     string argumentSpecifier2("withHeight");
-    ObjectBuilderArgument *argument2 = new ObjectBuilderArgument(argumentSpecifier2,
-                                                               mField2Expression);
-    ObjectBuilderArgumentList argumentList;
+    BuilderArgument *argument2 = new BuilderArgument(argumentSpecifier2, mField2Expression);
+    BuilderArgumentList argumentList;
     argumentList.push_back(argument1);
     argumentList.push_back(argument2);
-    mObjectBuilder = new ObjectBuilder(mModelTypeSpecifier, argumentList, 0);
+    mHeapBuilder = new HeapBuilder(mModelTypeSpecifier, argumentList, 0);
 
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(llvmContext), false);
     mFunction = Function::Create(functionType,
@@ -115,7 +113,7 @@ struct ObjectBuilderTest : Test {
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
-  ~ObjectBuilderTest() {
+  ~HeapBuilderTest() {
     delete mField1Expression;
     delete mField2Expression;
     delete mStringStream;
@@ -130,32 +128,32 @@ struct ObjectBuilderTest : Test {
   }
 };
 
-TEST_F(ObjectBuilderTest, getTypeTest) {
-  ObjectBuilderArgumentList argumentList;
-  ObjectBuilder objectBuilder(mModelTypeSpecifier, argumentList, 0);
+TEST_F(HeapBuilderTest, getTypeTest) {
+  BuilderArgumentList argumentList;
+  HeapBuilder HeapBuilder(mModelTypeSpecifier, argumentList, 0);
 
-  EXPECT_EQ(objectBuilder.getType(mContext), mModel->getOwner());
+  EXPECT_EQ(HeapBuilder.getType(mContext), mModel->getOwner());
 }
 
-TEST_F(ObjectBuilderTest, isConstantTest) {
-  EXPECT_FALSE(mObjectBuilder->isConstant());
+TEST_F(HeapBuilderTest, isConstantTest) {
+  EXPECT_FALSE(mHeapBuilder->isConstant());
 }
 
-TEST_F(ObjectBuilderTest, isAssignableTest) {
-  EXPECT_FALSE(mObjectBuilder->isAssignable());
+TEST_F(HeapBuilderTest, isAssignableTest) {
+  EXPECT_FALSE(mHeapBuilder->isAssignable());
 }
 
-TEST_F(ObjectBuilderTest, printToStreamTest) {
+TEST_F(HeapBuilderTest, printToStreamTest) {
   stringstream stringStream;
-  mObjectBuilder->printToStream(mContext, stringStream);
+  mHeapBuilder->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("builder(systems.vos.wisey.compiler.tests.MShape)"
                ".withWidth(3).withHeight(5).build()",
                stringStream.str().c_str());
 }
 
-TEST_F(ObjectBuilderTest, generateIRTest) {
-  mObjectBuilder->generateIR(mContext, PrimitiveTypes::VOID);
+TEST_F(HeapBuilderTest, generateIRTest) {
+  mHeapBuilder->generateIR(mContext, PrimitiveTypes::VOID);
   mContext.setBasicBlock(mDeclareBlock);
   IRWriter::createBranch(mContext, mEntryBlock);
   
@@ -190,17 +188,17 @@ TEST_F(ObjectBuilderTest, generateIRTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(ObjectBuilderTest, allocateInvalidObjectBuilderArgumentsDeathTest) {
+TEST_F(HeapBuilderTest, allocateInvalidBuilderArgumentsDeathTest) {
   string argumentSpecifier1("width");
-  ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
+  BuilderArgument *argument1 = new BuilderArgument(argumentSpecifier1,
                                                                mField1Expression);
   string argumentSpecifier2("withHeight");
-  ObjectBuilderArgument *argument2 = new ObjectBuilderArgument(argumentSpecifier2,
+  BuilderArgument *argument2 = new BuilderArgument(argumentSpecifier2,
                                                                mField2Expression);
-  ObjectBuilderArgumentList argumentList;
+  BuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
-  mObjectBuilder = new ObjectBuilder(mModelTypeSpecifier, argumentList, 1);
+  mHeapBuilder = new HeapBuilder(mModelTypeSpecifier, argumentList, 1);
 
   const char* expected =
   "/tmp/source.yz(1): Error: Object builder argument should start with 'with'. e.g. .withField(value).\n";
@@ -208,43 +206,43 @@ TEST_F(ObjectBuilderTest, allocateInvalidObjectBuilderArgumentsDeathTest) {
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
-  EXPECT_ANY_THROW(mObjectBuilder->generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_ANY_THROW(mHeapBuilder->generateIR(mContext, PrimitiveTypes::VOID));
   EXPECT_STREQ(expected, buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
 
-TEST_F(ObjectBuilderTest, allocateIncorrectArgumentTypeDeathTest) {
+TEST_F(HeapBuilderTest, allocateIncorrectArgumentTypeDeathTest) {
   Value* fieldValue = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 2.0f);
   ON_CALL(*mField2Expression, generateIR(_, _)).WillByDefault(Return(fieldValue));
   ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
   
   string argumentSpecifier1("withWidth");
-  ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
+  BuilderArgument *argument1 = new BuilderArgument(argumentSpecifier1,
                                                                mField1Expression);
   string argumentSpecifier2("withHeight");
-  ObjectBuilderArgument *argument2 = new ObjectBuilderArgument(argumentSpecifier2,
+  BuilderArgument *argument2 = new BuilderArgument(argumentSpecifier2,
                                                                mField2Expression);
-  ObjectBuilderArgumentList argumentList;
+  BuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
-  mObjectBuilder = new ObjectBuilder(mModelTypeSpecifier, argumentList, 3);
+  mHeapBuilder = new HeapBuilder(mModelTypeSpecifier, argumentList, 3);
 
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
-  EXPECT_ANY_THROW(mObjectBuilder->generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_ANY_THROW(mHeapBuilder->generateIR(mContext, PrimitiveTypes::VOID));
   EXPECT_STREQ("/tmp/source.yz(3): Error: Model builder argument value for field mHeight does not match its type\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
 
-TEST_F(ObjectBuilderTest, allocateNotAllFieldsAreSetDeathTest) {
+TEST_F(HeapBuilderTest, allocateNotAllFieldsAreSetDeathTest) {
   string argumentSpecifier1("withWidth");
-  ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
+  BuilderArgument *argument1 = new BuilderArgument(argumentSpecifier1,
                                                                mField1Expression);
-  ObjectBuilderArgumentList argumentList;
+  BuilderArgumentList argumentList;
   argumentList.push_back(argument1);
-  mObjectBuilder = new ObjectBuilder(mModelTypeSpecifier, argumentList, 7);
+  mHeapBuilder = new HeapBuilder(mModelTypeSpecifier, argumentList, 7);
 
   const char* expected =
   "/tmp/source.yz(7): Error: Field mHeight of object systems.vos.wisey.compiler.tests.MShape is not initialized.\n";
@@ -252,7 +250,7 @@ TEST_F(ObjectBuilderTest, allocateNotAllFieldsAreSetDeathTest) {
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
-  EXPECT_ANY_THROW(mObjectBuilder->generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_ANY_THROW(mHeapBuilder->generateIR(mContext, PrimitiveTypes::VOID));
   EXPECT_STREQ(expected, buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }

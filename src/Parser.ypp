@@ -17,6 +17,7 @@
   #include "wisey/BooleanConstant.hpp"
   #include "wisey/BooleanNotExpression.hpp"
   #include "wisey/BreakStatement.hpp"
+  #include "wisey/BuilderArgument.hpp"
   #include "wisey/Catch.hpp"
   #include "wisey/CaseStatement.hpp"
   #include "wisey/CastExpression.hpp"
@@ -46,6 +47,7 @@
   #include "wisey/FakeExpression.hpp"
   #include "wisey/FloatConstant.hpp"
   #include "wisey/ForStatement.hpp"
+  #include "wisey/HeapBuilder.hpp"
   #include "wisey/IBuildableObjectTypeSpecifier.hpp"
   #include "wisey/IControllerTypeSpecifier.hpp"
   #include "wisey/IGlobalStatement.hpp"
@@ -103,11 +105,9 @@
   #include "wisey/NodeTypeSpecifier.hpp"
   #include "wisey/NodeTypeSpecifierFull.hpp"
   #include "wisey/NullExpression.hpp"
-  #include "wisey/ObjectAllocator.hpp"
-  #include "wisey/ObjectBuilder.hpp"
-  #include "wisey/ObjectBuilderArgument.hpp"
   #include "wisey/ObjectOwnerTypeSpecifier.hpp"
   #include "wisey/PackageType.hpp"
+  #include "wisey/PoolBuilder.hpp"
   #include "wisey/PrimitiveTypes.hpp"
   #include "wisey/PrimitiveTypeSpecifier.hpp"
   #include "wisey/PrintErrStatement.hpp"
@@ -182,8 +182,8 @@
   wisey::IBuildableObjectTypeSpecifier* object_type_specifier_buildable;
   wisey::Identifier* identifier;
   wisey::VariableDeclaration* variable_declaration;
-  wisey::ObjectBuilderArgument* object_builder_argument;
-  wisey::ObjectBuilderArgumentList* object_builder_argument_list;
+  wisey::BuilderArgument* builder_argument;
+  wisey::BuilderArgumentList* builder_argument_list;
   wisey::InjectionArgument* injection_argument;
   wisey::InjectionArgumentList* injection_argument_list;
   wisey::IModelTypeSpecifier* model_type_specifier;
@@ -248,7 +248,7 @@
 %type <expression> string_literal constant_value expression multiplicative_expression 
 %type <expression> additive_expression relational_expression equality_expression
 %type <expression> logical_and_expression logical_or_expression shift_expression
-%type <expression> conditional_expression postfix_expression object_builder object_allocator
+%type <expression> conditional_expression postfix_expression heap_builder pool_builder
 %type <expression> cast_expression primary_expression assignment unary_expression
 %type <expression> type_comparision_expression injection array_allocation static_array_allocation
 %type <expression> constant_reference static_method_call field_identifier
@@ -303,8 +303,8 @@
 %type <object_type_specifier> object_type_specifier_inner_short
 %type <object_type_specifier> object_type_specifier_inner_full
 %type <object_type_specifier> object_scope
-%type <object_builder_argument_list> object_builder_argument_list
-%type <object_builder_argument> object_builder_argument
+%type <builder_argument_list> builder_argument_list
+%type <builder_argument> builder_argument
 %type <injection_argument_list> injection_argument_list
 %type <injection_argument> injection_argument
 %type <bind_action> bind_action
@@ -1396,8 +1396,8 @@ primary_expression
   | constant_reference
   | string_literal
   | static_array_allocation
-  | object_builder
-  | object_allocator
+  | heap_builder
+  | pool_builder
   | injection
   | static_method_call
   | llvm_function_call
@@ -1538,33 +1538,33 @@ injection_argument
   : '.' TIDENTIFIER '(' expression ')' { $$ = new InjectionArgument(*$2, $4); delete $2; }
   ;
 
-object_builder
-  : TBUILD '(' object_type_specifier_buildable ')' object_builder_argument_list
+heap_builder
+  : TBUILD '(' object_type_specifier_buildable ')' builder_argument_list
     '.' TONHEAP '(' ')'
-    { $$ = new ObjectBuilder($3, *$5, yylineno); delete $5; }
+    { $$ = new HeapBuilder($3, *$5, yylineno); delete $5; }
   | TBUILD '(' object_type_specifier_buildable ')' '.' TONHEAP '(' ')'
-    { ObjectBuilderArgumentList argumentList; $$ = new ObjectBuilder($3, argumentList, yylineno); }
+    { BuilderArgumentList argumentList; $$ = new HeapBuilder($3, argumentList, yylineno); }
   ;
 
-object_allocator
-  : TBUILD '(' object_type_specifier_buildable ')' object_builder_argument_list
+pool_builder
+  : TBUILD '(' object_type_specifier_buildable ')' builder_argument_list
     '.' TONPOOL '(' expression ')'
-    { $$ = new ObjectAllocator($3, *$5, $9, yylineno); delete $5; }
+    { $$ = new PoolBuilder($3, *$5, $9, yylineno); delete $5; }
   | TBUILD '(' object_type_specifier_buildable ')' '.' TONPOOL '(' expression ')'
     { 
-      ObjectBuilderArgumentList argumentList; 
-      $$ = new ObjectAllocator($3, argumentList, $8, yylineno); 
+      BuilderArgumentList argumentList; 
+      $$ = new PoolBuilder($3, argumentList, $8, yylineno); 
     }
   ;
 
 
-object_builder_argument_list
-  : object_builder_argument { $$ = new ObjectBuilderArgumentList(); $$->push_back($1); }
-  | object_builder_argument_list object_builder_argument { $1->push_back($2); }
+builder_argument_list
+  : builder_argument { $$ = new BuilderArgumentList(); $$->push_back($1); }
+  | builder_argument_list builder_argument { $1->push_back($2); }
   ;
 
-object_builder_argument
-  : '.' TIDENTIFIER '(' expression ')' { $$ = new ObjectBuilderArgument(*$2, $4); delete $2; }
+builder_argument
+  : '.' TIDENTIFIER '(' expression ')' { $$ = new BuilderArgument(*$2, $4); delete $2; }
   ;
 
 call_arguments

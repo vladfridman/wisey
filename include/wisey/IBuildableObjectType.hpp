@@ -10,7 +10,7 @@
 #define IBuildableObjectType_h
 
 #include "wisey/IConcreteObjectType.hpp"
-#include "wisey/ObjectBuilderArgument.hpp"
+#include "wisey/BuilderArgument.hpp"
 
 namespace wisey {
   
@@ -25,7 +25,7 @@ namespace wisey {
      * Generates builder or allocator argument values and reports corresponding errors
      */
     virtual void generateCreationArguments(IRGenerationContext& context,
-                                           const ObjectBuilderArgumentList& objectBuilderArguments,
+                                           const BuilderArgumentList& builderArguments,
                                            std::vector<llvm::Value*>& argumentValues,
                                            int line) const = 0;
     

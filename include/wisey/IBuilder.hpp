@@ -1,24 +1,24 @@
 //
-//  IObjectCreator.hpp
+//  IBuilder.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 6/14/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef IObjectCreator_h
-#define IObjectCreator_h
+#ifndef IBuilder_h
+#define IBuilder_h
 
 #include "wisey/IExpression.hpp"
 #include "wisey/IBuildableObjectType.hpp"
-#include "wisey/ObjectBuilderArgument.hpp"
+#include "wisey/BuilderArgument.hpp"
 
 namespace wisey {
   
   /**
-   * Represents object creator expression such as allocator or builder expressions
+   * Represents object builder expression such as heap builder or pool builder
    */
-  class IObjectCreator : public IExpression {
+  class IBuilder : public IExpression {
   
   public:
 
@@ -27,7 +27,7 @@ namespace wisey {
      */
     static void checkArguments(IRGenerationContext& context,
                                const IBuildableObjectType* buildable,
-                               const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                               const BuilderArgumentList& builderArgumentList,
                                int line);
 
 
@@ -35,12 +35,12 @@ namespace wisey {
     
     static void checkArgumentsAreWellFormed(IRGenerationContext& context,
                                             const IBuildableObjectType* buildable,
-                                            const ObjectBuilderArgumentList& objectBuilderArguments,
+                                            const BuilderArgumentList& builderArguments,
                                             int line);
     
     static void checkAllFieldsAreSet(IRGenerationContext& context,
                                      const IBuildableObjectType* buildable,
-                                     const ObjectBuilderArgumentList& objectBuilderArguments,
+                                     const BuilderArgumentList& builderArguments,
                                      int line);
     
     static std::vector<std::string> getMissingFields(const IBuildableObjectType* buildable,
@@ -51,4 +51,4 @@ namespace wisey {
 } /* namespace wisey */
 
 
-#endif /* IObjectCreator_h */
+#endif /* IBuilder_h */

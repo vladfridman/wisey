@@ -1,40 +1,40 @@
 //
-//  ObjectBuilder.hpp
+//  HeapBuilder.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 1/22/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef ObjectBuilder_h
-#define ObjectBuilder_h
+#ifndef HeapBuilder_h
+#define HeapBuilder_h
 
-#include "wisey/IObjectCreator.hpp"
+#include "wisey/IBuilder.hpp"
 #include "wisey/IBuildableObjectTypeSpecifier.hpp"
-#include "wisey/ObjectBuilderArgument.hpp"
+#include "wisey/BuilderArgument.hpp"
 
 namespace wisey {
   
   /**
-   * Represents builder used to initialize buildable objects
+   * Represents builder used to allocate buildable objects on heap
    *
    * The object builder is used as follows in the wisey language:
    *
-   * ModelType* modelA = builder(ModelType).withField(1).build();
+   * ModelType* modelA = build(ModelType).withField(1).onHeap();
    */
-  class ObjectBuilder : public IObjectCreator {
+  class HeapBuilder : public IBuilder {
     
     IBuildableObjectTypeSpecifier* mTypeSpecifier;
-    ObjectBuilderArgumentList mObjectBuilderArgumentList;
+    BuilderArgumentList mBuilderArgumentList;
     int mLine;
     
   public:
     
-    ObjectBuilder(IBuildableObjectTypeSpecifier* typeSpecifier,
-                  ObjectBuilderArgumentList ObjectBuilderArgumentList,
-                  int line);
+    HeapBuilder(IBuildableObjectTypeSpecifier* typeSpecifier,
+                BuilderArgumentList BuilderArgumentList,
+                int line);
     
-    ~ObjectBuilder();
+    ~HeapBuilder();
     
     int getLine() const override;
 
@@ -57,5 +57,5 @@ namespace wisey {
   
 } /* namespace wisey */
 
-#endif /* ObjectBuilder_h */
+#endif /* HeapBuilder_h */
 

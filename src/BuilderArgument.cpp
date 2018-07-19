@@ -1,5 +1,5 @@
 //
-//  ObjectBuilderArgument.cpp
+//  BuilderArgument.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 1/22/17.
@@ -10,21 +10,21 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Log.hpp"
-#include "wisey/ObjectBuilderArgument.hpp"
+#include "wisey/BuilderArgument.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ObjectBuilderArgument::ObjectBuilderArgument(string fieldSpecifier, IExpression* fieldExpression) :
+BuilderArgument::BuilderArgument(string fieldSpecifier, IExpression* fieldExpression) :
 mFieldSpecifier(fieldSpecifier),
 mFieldExpression(fieldExpression) { }
 
-ObjectBuilderArgument::~ObjectBuilderArgument() {
+BuilderArgument::~BuilderArgument() {
   delete mFieldExpression;
 }
 
-bool ObjectBuilderArgument::checkArgument(IRGenerationContext& context,
+bool BuilderArgument::checkArgument(IRGenerationContext& context,
                                           const IConcreteObjectType* object,
                                           int line) {
   string creator = object->isPooled() ? "allocator" : "builder";
@@ -45,20 +45,19 @@ bool ObjectBuilderArgument::checkArgument(IRGenerationContext& context,
   return true;
 }
 
-string ObjectBuilderArgument::deriveFieldName() const {
+string BuilderArgument::deriveFieldName() const {
   return "m" + mFieldSpecifier.substr(4);
 }
 
-Value* ObjectBuilderArgument::getValue(IRGenerationContext& context,
-                                       const IType* assignToType) const {
+Value* BuilderArgument::getValue(IRGenerationContext& context, const IType* assignToType) const {
   return mFieldExpression->generateIR(context, assignToType);
 }
 
-const IType* ObjectBuilderArgument::getType(IRGenerationContext& context) const {
+const IType* BuilderArgument::getType(IRGenerationContext& context) const {
   return mFieldExpression->getType(context);
 }
 
-void ObjectBuilderArgument::printToStream(IRGenerationContext& context,
+void BuilderArgument::printToStream(IRGenerationContext& context,
                                           iostream &stream) const {
   stream << mFieldSpecifier << "(";
   mFieldExpression->printToStream(context, stream);

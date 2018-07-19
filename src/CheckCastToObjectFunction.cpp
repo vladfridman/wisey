@@ -14,6 +14,7 @@
 #include "wisey/Composer.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/GetOriginalObjectNameFunction.hpp"
+#include "wisey/HeapBuilder.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IfStatement.hpp"
@@ -21,7 +22,6 @@
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
-#include "wisey/ObjectBuilder.hpp"
 #include "wisey/ObjectKindGlobal.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrintOutStatement.hpp"
@@ -133,19 +133,15 @@ void CheckCastToObjectFunction::compose(IRGenerationContext& context, Function* 
   ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(packageExpression,
                                                                   Names::getCastExceptionName(),
                                                                   0);
-  ObjectBuilderArgumentList objectBuilderArgumnetList;
+  BuilderArgumentList builderArgumnetList;
   FakeExpression* fromTypeValue = new FakeExpression(objectName, PrimitiveTypes::STRING);
-  ObjectBuilderArgument* fromTypeArgument = new ObjectBuilderArgument("withFromType",
-                                                                      fromTypeValue);
+  BuilderArgument* fromTypeArgument = new BuilderArgument("withFromType", fromTypeValue);
   FakeExpression* toTypeStringLiteral = new FakeExpression(toType, PrimitiveTypes::STRING);
-  ObjectBuilderArgument* toTypeArgument = new ObjectBuilderArgument("withToType",
-                                                                    toTypeStringLiteral);
-  objectBuilderArgumnetList.push_back(fromTypeArgument);
-  objectBuilderArgumnetList.push_back(toTypeArgument);
-  ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier,
-                                                   objectBuilderArgumnetList,
-                                                   0);
-  ThrowStatement* throwStatement = new ThrowStatement(objectBuilder, 0);
+  BuilderArgument* toTypeArgument = new BuilderArgument("withToType", toTypeStringLiteral);
+  builderArgumnetList.push_back(fromTypeArgument);
+  builderArgumnetList.push_back(toTypeArgument);
+  HeapBuilder* heapBuilder = new HeapBuilder(modelTypeSpecifier, builderArgumnetList, 0);
+  ThrowStatement* throwStatement = new ThrowStatement(heapBuilder, 0);
   
   context.getScopes().pushScope();
   throwStatement->generateIR(context);

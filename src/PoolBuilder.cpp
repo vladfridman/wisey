@@ -1,5 +1,5 @@
 //
-//  ObjectAllocator.cpp
+//  PoolBuilder.cpp
 //  wiseyrun
 //
 //  Created by Vladimir Fridman on 6/9/18.
@@ -18,7 +18,7 @@
 #include "wisey/Log.hpp"
 #include "wisey/MethodCall.hpp"
 #include "wisey/Names.hpp"
-#include "wisey/ObjectAllocator.hpp"
+#include "wisey/PoolBuilder.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/StaticMethodCall.hpp"
 
@@ -26,28 +26,28 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ObjectAllocator::ObjectAllocator(IBuildableObjectTypeSpecifier* typeSpecifier,
-                                 ObjectBuilderArgumentList objectBuilderArgumentList,
-                                 IExpression* poolExpression,
-                                 int line) :
+PoolBuilder::PoolBuilder(IBuildableObjectTypeSpecifier* typeSpecifier,
+                         BuilderArgumentList builderArgumentList,
+                         IExpression* poolExpression,
+                         int line) :
 mTypeSpecifier(typeSpecifier),
-mObjectBuilderArgumentList(objectBuilderArgumentList),
+mBuilderArgumentList(builderArgumentList),
 mPoolExpression(poolExpression),
 mLine(line) { }
 
-ObjectAllocator::~ObjectAllocator() {
+PoolBuilder::~PoolBuilder() {
   delete mTypeSpecifier;
-  for (ObjectBuilderArgument* argument : mObjectBuilderArgumentList) {
+  for (BuilderArgument* argument : mBuilderArgumentList) {
     delete argument;
   }
-  mObjectBuilderArgumentList.clear();
+  mBuilderArgumentList.clear();
 }
 
-int ObjectAllocator::getLine() const {
+int PoolBuilder::getLine() const {
   return mLine;
 }
 
-Value* ObjectAllocator::generateIR(IRGenerationContext& context, const IType* assignToType) const {
+Value* PoolBuilder::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   const IBuildableObjectType* buildableType = mTypeSpecifier->getType(context);
   if (!buildableType->isPooled()) {
     context.reportError(mLine, "Object " + buildableType->getTypeName() +
@@ -73,24 +73,24 @@ Value* ObjectAllocator::generateIR(IRGenerationContext& context, const IType* as
   return malloc;
 }
 
-const IType* ObjectAllocator::getType(IRGenerationContext& context) const {
+const IType* PoolBuilder::getType(IRGenerationContext& context) const {
   const IBuildableObjectType* objectType = mTypeSpecifier->getType(context);
   return objectType->getOwner();
 }
 
-bool ObjectAllocator::isConstant() const {
+bool PoolBuilder::isConstant() const {
   return false;
 }
 
-bool ObjectAllocator::isAssignable() const {
+bool PoolBuilder::isAssignable() const {
   return false;
 }
 
-void ObjectAllocator::printToStream(IRGenerationContext& context, std::iostream& stream) const {
+void PoolBuilder::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   stream << "allocator(";
   mTypeSpecifier->printToStream(context, stream);
   stream << ")";
-  for (ObjectBuilderArgument* argument : mObjectBuilderArgumentList) {
+  for (BuilderArgument* argument : mBuilderArgumentList) {
     stream << ".";
     argument->printToStream(context, stream);
   }
@@ -99,9 +99,9 @@ void ObjectAllocator::printToStream(IRGenerationContext& context, std::iostream&
   stream << ")";
 }
 
-Value* ObjectAllocator::allocate(IRGenerationContext& context,
-                                 const IBuildableObjectType* buildable) const {
-  checkArguments(context, buildable, mObjectBuilderArgumentList, mLine);
+Value* PoolBuilder::allocate(IRGenerationContext& context,
+                             const IBuildableObjectType* buildable) const {
+  checkArguments(context, buildable, mBuilderArgumentList, mLine);
 
   const Controller* cMemoryPool = context.getController(Names::getCMemoryPoolFullName(), 0);
   const IType* poolType = mPoolExpression->getType(context);
@@ -116,7 +116,7 @@ Value* ObjectAllocator::allocate(IRGenerationContext& context,
   
   vector<Value*> creationArguments;
   buildable->generateCreationArguments(context,
-                                       mObjectBuilderArgumentList,
+                                       mBuilderArgumentList,
                                        creationArguments,
                                        mLine);
 

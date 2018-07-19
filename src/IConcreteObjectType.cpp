@@ -23,6 +23,7 @@
 #include "wisey/FieldOwnerVariable.hpp"
 #include "wisey/FieldPrimitiveVariable.hpp"
 #include "wisey/FieldReferenceVariable.hpp"
+#include "wisey/HeapBuilder.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IdentifierChain.hpp"
 #include "wisey/InterfaceOwner.hpp"
@@ -34,7 +35,6 @@
 #include "wisey/Names.hpp"
 #include "wisey/MethodCall.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
-#include "wisey/ObjectBuilder.hpp"
 #include "wisey/ParameterPrimitiveVariable.hpp"
 #include "wisey/ParameterReferenceVariableStatic.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -1009,23 +1009,20 @@ void IConcreteObjectType::addMemoryPoolDestructor(IRGenerationContext& context,
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ModelTypeSpecifier* modelTypeSpecifier =
   new ModelTypeSpecifier(packageExpression, Names::getMemoryPoolNonEmptyExceptionName(), 0);
-  ObjectBuilderArgumentList objectBuilderArgumnetList;
+  BuilderArgumentList builderArgumnetList;
   FakeExpression* fakeExpression = new FakeExpression(objectCount, PrimitiveTypes::LONG);
-  ObjectBuilderArgument* refCountArgument =
-  new ObjectBuilderArgument("withObjectCount", fakeExpression);
+  BuilderArgument* refCountArgument = new BuilderArgument("withObjectCount", fakeExpression);
   Interface* exceptionInterface = context.getInterface(Names::getExceptionInterfaceFullName(), 0);
   Value* exceptionCast = IRWriter::newBitCastInst(context,
                                                   exception,
                                                   exceptionInterface->getLLVMType(context));
   fakeExpression = new FakeExpression(exceptionCast, exceptionInterface);
-  ObjectBuilderArgument* nestedExceptionArgument =
-  new ObjectBuilderArgument("withNestedException", fakeExpression);
-  objectBuilderArgumnetList.push_back(refCountArgument);
-  objectBuilderArgumnetList.push_back(nestedExceptionArgument);
-  ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier,
-                                                   objectBuilderArgumnetList,
-                                                   0);
-  ThrowStatement throwStatement(objectBuilder, 0);
+  BuilderArgument* nestedExceptionArgument =
+  new BuilderArgument("withNestedException", fakeExpression);
+  builderArgumnetList.push_back(refCountArgument);
+  builderArgumnetList.push_back(nestedExceptionArgument);
+  HeapBuilder* heapBuilder = new HeapBuilder(modelTypeSpecifier, builderArgumnetList, 0);
+  ThrowStatement throwStatement(heapBuilder, 0);
   throwStatement.generateIR(context);
   IRWriter::newUnreachableInst(context);
 

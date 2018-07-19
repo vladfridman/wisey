@@ -1,42 +1,42 @@
 //
-//  ObjectAllocator.hpp
+//  PoolBuilder.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 6/9/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef ObjectAllocator_h
-#define ObjectAllocator_h
+#ifndef PoolBuilder_h
+#define PoolBuilder_h
 
 #include "wisey/IBuildableObjectTypeSpecifier.hpp"
-#include "wisey/IObjectCreator.hpp"
-#include "wisey/ObjectBuilderArgument.hpp"
+#include "wisey/IBuilder.hpp"
+#include "wisey/BuilderArgument.hpp"
 
 namespace wisey {
   
   /**
-   * Represents allocator used to allocate buildable objects on memory pools
+   * Represents a build used to allocate buildable objects on memory pools
    *
    * The object builder is used as follows in the wisey language:
    *
-   * ModelType* modelA = allocator(ModelType).withField(1).onPool(pool);
+   * NodeType* nodeA = build(NodeType).withField(1).onPool(pool);
    */
-  class ObjectAllocator : public IObjectCreator {
+  class PoolBuilder : public IBuilder {
     
     IBuildableObjectTypeSpecifier* mTypeSpecifier;
-    ObjectBuilderArgumentList mObjectBuilderArgumentList;
+    BuilderArgumentList mBuilderArgumentList;
     IExpression* mPoolExpression;
     int mLine;
     
   public:
     
-    ObjectAllocator(IBuildableObjectTypeSpecifier* typeSpecifier,
-                    ObjectBuilderArgumentList objectBuilderArgumentList,
+    PoolBuilder(IBuildableObjectTypeSpecifier* typeSpecifier,
+                    BuilderArgumentList builderArgumentList,
                     IExpression* poolExpression,
                     int line);
 
-    ~ObjectAllocator();
+    ~PoolBuilder();
     
     int getLine() const override;
     
@@ -59,4 +59,4 @@ namespace wisey {
   
 } /* namespace wisey */
 
-#endif /* ObjectAllocator_h */
+#endif /* PoolBuilder_h */

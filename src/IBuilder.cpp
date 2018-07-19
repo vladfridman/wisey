@@ -1,34 +1,33 @@
 //
-//  IObjectCreator.cpp
+//  IBuilder.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 6/14/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/IObjectCreator.hpp"
+#include "wisey/IBuilder.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-void IObjectCreator::checkArguments(IRGenerationContext& context,
+void IBuilder::checkArguments(IRGenerationContext& context,
                                     const IBuildableObjectType* buildable,
-                                    const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                                    const BuilderArgumentList& builderArgumentList,
                                     int line) {
-  checkArgumentsAreWellFormed(context, buildable, objectBuilderArgumentList, line);
-  checkAllFieldsAreSet(context, buildable, objectBuilderArgumentList, line);
+  checkArgumentsAreWellFormed(context, buildable, builderArgumentList, line);
+  checkAllFieldsAreSet(context, buildable, builderArgumentList, line);
 }
 
-void IObjectCreator::checkArgumentsAreWellFormed(IRGenerationContext& context,
+void IBuilder::checkArgumentsAreWellFormed(IRGenerationContext& context,
                                                  const IBuildableObjectType* buildable,
-                                                 const ObjectBuilderArgumentList&
-                                                 objectBuilderArgumentList,
+                                                 const BuilderArgumentList& builderArgumentList,
                                                  int line) {
   bool areArgumentsWellFormed = true;
   
-  for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
+  for (BuilderArgument* argument : builderArgumentList) {
     areArgumentsWellFormed &= argument->checkArgument(context, buildable, line);
   }
   
@@ -37,13 +36,12 @@ void IObjectCreator::checkArgumentsAreWellFormed(IRGenerationContext& context,
   }
 }
 
-void IObjectCreator::checkAllFieldsAreSet(IRGenerationContext& context,
+void IBuilder::checkAllFieldsAreSet(IRGenerationContext& context,
                                           const IBuildableObjectType* buildable,
-                                          const ObjectBuilderArgumentList&
-                                          objectBuilderArgumentList,
+                                          const BuilderArgumentList& builderArgumentList,
                                           int line) {
   set<string> allFieldsThatAreSet;
-  for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
+  for (BuilderArgument* argument : builderArgumentList) {
     allFieldsThatAreSet.insert(argument->deriveFieldName());
   }
   
@@ -59,7 +57,7 @@ void IObjectCreator::checkAllFieldsAreSet(IRGenerationContext& context,
   throw 1;
 }
 
-vector<string> IObjectCreator::getMissingFields(const IBuildableObjectType* buildable,
+vector<string> IBuilder::getMissingFields(const IBuildableObjectType* buildable,
                                                 set<string> givenFields) {
   vector<string> missingFields;
   
@@ -71,4 +69,3 @@ vector<string> IObjectCreator::getMissingFields(const IBuildableObjectType* buil
   
   return missingFields;
 }
-

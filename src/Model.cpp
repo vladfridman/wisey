@@ -331,12 +331,12 @@ bool Model::isImmutable() const {
 }
 
 void Model::generateCreationArguments(IRGenerationContext& context,
-                                      const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                                      const BuilderArgumentList& builderArgumentList,
                                       vector<Value*>& callArgumentsVector,
                                       int line) const {
   Value* callArguments[mReceivedFieldIndexes.size()];
   
-  for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
+  for (BuilderArgument* argument : builderArgumentList) {
     string argumentName = argument->deriveFieldName();
     IField* field = findField(argumentName);
     assert(field->isReceived() && "Trying to initialize a field that is not of receive kind");

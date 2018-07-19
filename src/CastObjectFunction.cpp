@@ -14,13 +14,13 @@
 #include "wisey/Environment.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/GetOriginalObjectFunction.hpp"
+#include "wisey/HeapBuilder.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/InstanceOfFunction.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
-#include "wisey/ObjectBuilder.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ThrowStatement.hpp"
 
@@ -127,19 +127,17 @@ void CastObjectFunction::compose(IRGenerationContext& context, llvm::Function* f
   ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(packageExpression,
                                                                   Names::getCastExceptionName(),
                                                                   0);
-  ObjectBuilderArgumentList objectBuilderArgumnetList;
+  BuilderArgumentList builderArgumnetList;
   FakeExpression* fromTypeValue = new FakeExpression(fromTypeName, PrimitiveTypes::STRING);
-  ObjectBuilderArgument* fromTypeArgument = new ObjectBuilderArgument("withFromType",
+  BuilderArgument* fromTypeArgument = new BuilderArgument("withFromType",
                                                                       fromTypeValue);
   FakeExpression* toTypeValue = new FakeExpression(toTypeName, PrimitiveTypes::STRING);
-  ObjectBuilderArgument* toTypeArgument = new ObjectBuilderArgument("withToType", toTypeValue);
-  objectBuilderArgumnetList.push_back(fromTypeArgument);
-  objectBuilderArgumnetList.push_back(toTypeArgument);
+  BuilderArgument* toTypeArgument = new BuilderArgument("withToType", toTypeValue);
+  builderArgumnetList.push_back(fromTypeArgument);
+  builderArgumnetList.push_back(toTypeArgument);
   
-  ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier,
-                                                   objectBuilderArgumnetList,
-                                                   0);
-  ThrowStatement throwStatement(objectBuilder, 0);
+  HeapBuilder* heapBuilder = new HeapBuilder(modelTypeSpecifier, builderArgumnetList, 0);
+  ThrowStatement throwStatement(heapBuilder, 0);
   context.getScopes().pushScope();
   throwStatement.generateIR(context);
   context.getScopes().popScope(context, 0);

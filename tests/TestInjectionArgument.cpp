@@ -68,14 +68,14 @@ struct InjectionArgumentTest : Test {
   }
 };
 
-TEST_F(InjectionArgumentTest, validObjectBuilderArgumentTest) {
+TEST_F(InjectionArgumentTest, validBuilderArgumentTest) {
   string argumentSpecifier("withFieldA");
   InjectionArgument argument(argumentSpecifier, mFieldExpression);
   
   EXPECT_TRUE(argument.checkArgument(mContext, mController, 0));
 }
 
-TEST_F(InjectionArgumentTest, invalidObjectBuilderArgumentTest) {
+TEST_F(InjectionArgumentTest, invalidBuilderArgumentTest) {
   string argumentSpecifier("mFieldA");
   InjectionArgument argument(argumentSpecifier, mFieldExpression);
   
@@ -90,7 +90,7 @@ TEST_F(InjectionArgumentTest, invalidObjectBuilderArgumentTest) {
   cerr.rdbuf(streamBuffer);
 }
 
-TEST_F(InjectionArgumentTest, misspelledObjectBuilderArgumentTest) {
+TEST_F(InjectionArgumentTest, misspelledBuilderArgumentTest) {
   string argumentSpecifier("withFielda");
   InjectionArgument argument(argumentSpecifier, mFieldExpression);
   
@@ -121,7 +121,7 @@ TEST_F(InjectionArgumentTest, getTypeTest) {
 
 TEST_F(InjectionArgumentTest, printToStreamTest) {
   string argumentSpecifier("withFieldA");
-  ObjectBuilderArgument argument(argumentSpecifier, mFieldExpression);
+  BuilderArgument argument(argumentSpecifier, mFieldExpression);
   stringstream stringStream;
   argument.printToStream(mContext, stringStream);
   

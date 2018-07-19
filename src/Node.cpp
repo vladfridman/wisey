@@ -321,7 +321,7 @@ bool Node::isImmutable() const {
 }
 
 void Node::generateCreationArguments(IRGenerationContext& context,
-                                     const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                                     const BuilderArgumentList& builderArgumentList,
                                      vector<Value*>& callArgumentsVector,
                                      int line) const {
   Value* callArguments[mReceivedFieldIndexes.size()];
@@ -331,7 +331,7 @@ void Node::generateCreationArguments(IRGenerationContext& context,
     callArguments[mReceivedFieldIndexes.at(field)] = nullValue;
   }
   
-  for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
+  for (BuilderArgument* argument : builderArgumentList) {
     string argumentName = argument->deriveFieldName();
     IField* field = findField(argumentName);
     const IType* fieldType = field->getType();

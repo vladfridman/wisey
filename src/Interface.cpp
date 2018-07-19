@@ -17,6 +17,7 @@
 #include "wisey/Environment.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/FieldReferenceVariable.hpp"
+#include "wisey/HeapBuilder.hpp"
 #include "wisey/InstanceOfFunction.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceOwner.hpp"
@@ -31,7 +32,6 @@
 #include "wisey/Model.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
-#include "wisey/ObjectBuilder.hpp"
 #include "wisey/ParameterPrimitiveVariable.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
 #include "wisey/ParameterReferenceVariableStatic.hpp"
@@ -983,16 +983,15 @@ void Interface::composeEmptyInjectFunction(IRGenerationContext& context,
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ModelTypeSpecifier* modelTypeSpecifier =
   new ModelTypeSpecifier(packageExpression, Names::getInterfaceNotBoundExceptionName(), 0);
-  ObjectBuilderArgumentList objectBuilderArgumnetList;
+  BuilderArgumentList builderArgumnetList;
   FakeExpression* fakeExpression =
-  new FakeExpression(IObjectType::getObjectNamePointer(interface, context), PrimitiveTypes::STRING);
-  ObjectBuilderArgument* objectNameArgument =
-  new ObjectBuilderArgument("withInterfaceName", fakeExpression);
-  objectBuilderArgumnetList.push_back(objectNameArgument);
-  ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier,
-                                                   objectBuilderArgumnetList,
-                                                   0);
-  ThrowStatement throwStatement(objectBuilder, 0);
+  new FakeExpression(IObjectType::getObjectNamePointer(interface, context), 
+                     PrimitiveTypes::STRING);
+  BuilderArgument* objectNameArgument =
+  new BuilderArgument("withInterfaceName", fakeExpression);
+  builderArgumnetList.push_back(objectNameArgument);
+  HeapBuilder* heapBuilder = new HeapBuilder(modelTypeSpecifier, builderArgumnetList, 0);
+  ThrowStatement throwStatement(heapBuilder, 0);
   throwStatement.generateIR(context);
 
   ConstantInt* one = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);

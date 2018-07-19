@@ -1,5 +1,5 @@
 //
-//  ObjectBuilder.cpp
+//  HeapBuilder.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 1/22/17.
@@ -9,35 +9,35 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/Environment.hpp"
+#include "wisey/HeapBuilder.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/Log.hpp"
-#include "wisey/ObjectBuilder.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ObjectBuilder::ObjectBuilder(IBuildableObjectTypeSpecifier* typeSpecifier,
-                             ObjectBuilderArgumentList ObjectBuilderArgumentList,
+HeapBuilder::HeapBuilder(IBuildableObjectTypeSpecifier* typeSpecifier,
+                             BuilderArgumentList builderArgumentList,
                              int line) :
 mTypeSpecifier(typeSpecifier),
-mObjectBuilderArgumentList(ObjectBuilderArgumentList),
+mBuilderArgumentList(builderArgumentList),
 mLine(line) { }
 
-ObjectBuilder::~ObjectBuilder() {
+HeapBuilder::~HeapBuilder() {
   delete mTypeSpecifier;
-  for (ObjectBuilderArgument* argument : mObjectBuilderArgumentList) {
+  for (BuilderArgument* argument : mBuilderArgumentList) {
     delete argument;
   }
-  mObjectBuilderArgumentList.clear();
+  mBuilderArgumentList.clear();
 }
 
-int ObjectBuilder::getLine() const {
+int HeapBuilder::getLine() const {
   return mLine;
 }
 
-Value* ObjectBuilder::generateIR(IRGenerationContext& context, const IType* assignToType) const {
+Value* HeapBuilder::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   const IBuildableObjectType* buildableType = mTypeSpecifier->getType(context);
   if (buildableType->isPooled()) {
     context.reportError(mLine, "Object " + buildableType->getTypeName() +
@@ -62,33 +62,33 @@ Value* ObjectBuilder::generateIR(IRGenerationContext& context, const IType* assi
   return malloc;
 }
 
-const IType* ObjectBuilder::getType(IRGenerationContext& context) const {
+const IType* HeapBuilder::getType(IRGenerationContext& context) const {
   const IBuildableObjectType* objectType = mTypeSpecifier->getType(context);
   return objectType->getOwner();
 }
 
-bool ObjectBuilder::isConstant() const {
+bool HeapBuilder::isConstant() const {
   return false;
 }
 
-bool ObjectBuilder::isAssignable() const {
+bool HeapBuilder::isAssignable() const {
   return false;
 }
 
-void ObjectBuilder::printToStream(IRGenerationContext& context, std::iostream& stream) const {
+void HeapBuilder::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   stream << "builder(";
   mTypeSpecifier->printToStream(context, stream);
   stream << ")";
-  for (ObjectBuilderArgument* argument : mObjectBuilderArgumentList) {
+  for (BuilderArgument* argument : mBuilderArgumentList) {
     stream << ".";
     argument->printToStream(context, stream);
   }
   stream << ".build()";
 }
 
-Value* ObjectBuilder::build(IRGenerationContext& context,
-                            const IBuildableObjectType* buildable) const {
-  checkArguments(context, buildable, mObjectBuilderArgumentList, mLine);
+Value* HeapBuilder::build(IRGenerationContext& context,
+                          const IBuildableObjectType* buildable) const {
+  checkArguments(context, buildable, mBuilderArgumentList, mLine);
   
   Instruction* malloc = IConcreteObjectType::createMallocForObject(context,
                                                                    buildable,
@@ -101,7 +101,7 @@ Value* ObjectBuilder::build(IRGenerationContext& context,
   
   vector<Value*> creationArguments;
   buildable->generateCreationArguments(context,
-                                       mObjectBuilderArgumentList,
+                                       mBuilderArgumentList,
                                        creationArguments,
                                        mLine);
 

@@ -1,11 +1,11 @@
 //
-//  TestObjectAllocator.cpp
+//  TestPoolBuilder.cpp
 //  runtests
 //
 //  Created by Vladimir Fridman on 6/12/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link ObjectAllocator}
+//  Tests {@link PoolBuilder}
 //
 
 #include <sstream>
@@ -24,7 +24,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
-#include "wisey/ObjectAllocator.hpp"
+#include "wisey/PoolBuilder.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ReceivedField.hpp"
 
@@ -39,11 +39,11 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct ObjectAllocatorTest : Test {
+struct PoolBuilderTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   Model* mModel;
-  ObjectAllocator* mObjectAllocator;
+  PoolBuilder* mPoolBuilder;
   NiceMock<MockExpression>* mField1Expression;
   NiceMock<MockExpression>* mField2Expression;
   NiceMock<MockExpression>* mPoolExpression;
@@ -55,7 +55,7 @@ struct ObjectAllocatorTest : Test {
   raw_string_ostream* mStringStream;
   string mPackage = "systems.vos.wisey.compiler.tests";
   
-  ObjectAllocatorTest() :
+  PoolBuilderTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mField1Expression(new NiceMock<MockExpression>()),
   mField2Expression(new NiceMock<MockExpression>()),
@@ -102,15 +102,13 @@ struct ObjectAllocatorTest : Test {
     ON_CALL(*mPoolExpression, printToStream(_, _)).WillByDefault(Invoke(printPoolExpression));
 
     string argumentSpecifier1("withWidth");
-    ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
-                                                                 mField1Expression);
+    BuilderArgument *argument1 = new BuilderArgument(argumentSpecifier1, mField1Expression);
     string argumentSpecifier2("withHeight");
-    ObjectBuilderArgument *argument2 = new ObjectBuilderArgument(argumentSpecifier2,
-                                                                 mField2Expression);
-    ObjectBuilderArgumentList argumentList;
+    BuilderArgument *argument2 = new BuilderArgument(argumentSpecifier2, mField2Expression);
+    BuilderArgumentList argumentList;
     argumentList.push_back(argument1);
     argumentList.push_back(argument2);
-    mObjectAllocator = new ObjectAllocator(mModelTypeSpecifier, argumentList, mPoolExpression, 0);
+    mPoolBuilder = new PoolBuilder(mModelTypeSpecifier, argumentList, mPoolExpression, 0);
    
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);
     mFunction = Function::Create(functionType,
@@ -127,7 +125,7 @@ struct ObjectAllocatorTest : Test {
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
-  ~ObjectAllocatorTest() {
+  ~PoolBuilderTest() {
     delete mField1Expression;
     delete mField2Expression;
     delete mPoolExpression;
@@ -147,32 +145,32 @@ struct ObjectAllocatorTest : Test {
   }
 };
 
-TEST_F(ObjectAllocatorTest, getTypeTest) {
-  ObjectBuilderArgumentList argumentList;
-  ObjectAllocator allocator(mModelTypeSpecifier, argumentList, mPoolExpression, 0);
+TEST_F(PoolBuilderTest, getTypeTest) {
+  BuilderArgumentList argumentList;
+  PoolBuilder allocator(mModelTypeSpecifier, argumentList, mPoolExpression, 0);
   
   EXPECT_EQ(allocator.getType(mContext), mModel->getOwner());
 }
 
-TEST_F(ObjectAllocatorTest, isConstantTest) {
-  EXPECT_FALSE(mObjectAllocator->isConstant());
+TEST_F(PoolBuilderTest, isConstantTest) {
+  EXPECT_FALSE(mPoolBuilder->isConstant());
 }
 
-TEST_F(ObjectAllocatorTest, isAssignableTest) {
-  EXPECT_FALSE(mObjectAllocator->isAssignable());
+TEST_F(PoolBuilderTest, isAssignableTest) {
+  EXPECT_FALSE(mPoolBuilder->isAssignable());
 }
 
-TEST_F(ObjectAllocatorTest, printToStreamTest) {
+TEST_F(PoolBuilderTest, printToStreamTest) {
   stringstream stringStream;
-  mObjectAllocator->printToStream(mContext, stringStream);
+  mPoolBuilder->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("allocator(systems.vos.wisey.compiler.tests.MShape)"
                ".withWidth(3).withHeight(5).onPool(pool)",
                stringStream.str().c_str());
 }
 
-TEST_F(ObjectAllocatorTest, generateIRTest) {
-  mObjectAllocator->generateIR(mContext, PrimitiveTypes::VOID);
+TEST_F(PoolBuilderTest, generateIRTest) {
+  mPoolBuilder->generateIR(mContext, PrimitiveTypes::VOID);
   mContext.setBasicBlock(mDeclareBlock);
   IRWriter::createBranch(mContext, mEntryBlock);
   
@@ -216,17 +214,15 @@ TEST_F(ObjectAllocatorTest, generateIRTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(ObjectAllocatorTest, allocateInvalidObjectBuilderArgumentsDeathTest) {
+TEST_F(PoolBuilderTest, allocateInvalidBuilderArgumentsDeathTest) {
   string argumentSpecifier1("width");
-  ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
-                                                               mField1Expression);
+  BuilderArgument *argument1 = new BuilderArgument(argumentSpecifier1, mField1Expression);
   string argumentSpecifier2("withHeight");
-  ObjectBuilderArgument *argument2 = new ObjectBuilderArgument(argumentSpecifier2,
-                                                               mField2Expression);
-  ObjectBuilderArgumentList argumentList;
+  BuilderArgument *argument2 = new BuilderArgument(argumentSpecifier2, mField2Expression);
+  BuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
-  mObjectAllocator = new ObjectAllocator(mModelTypeSpecifier, argumentList, mPoolExpression, 1);
+  mPoolBuilder = new PoolBuilder(mModelTypeSpecifier, argumentList, mPoolExpression, 1);
 
   const char* expected =
   "/tmp/source.yz(1): Error: Object allocator argument should start with 'with'. e.g. .withField(value).\n";
@@ -234,43 +230,41 @@ TEST_F(ObjectAllocatorTest, allocateInvalidObjectBuilderArgumentsDeathTest) {
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
 
-  EXPECT_ANY_THROW(mObjectAllocator->generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_ANY_THROW(mPoolBuilder->generateIR(mContext, PrimitiveTypes::VOID));
   EXPECT_STREQ(expected, buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
 
-TEST_F(ObjectAllocatorTest, allocateIncorrectArgumentTypeDeathTest) {
+TEST_F(PoolBuilderTest, allocateIncorrectArgumentTypeDeathTest) {
   Value* fieldValue = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 2.0f);
   ON_CALL(*mField2Expression, generateIR(_, _)).WillByDefault(Return(fieldValue));
   ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
 
   string argumentSpecifier1("withWidth");
-  ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
+  BuilderArgument *argument1 = new BuilderArgument(argumentSpecifier1,
                                                                mField1Expression);
   string argumentSpecifier2("withHeight");
-  ObjectBuilderArgument *argument2 = new ObjectBuilderArgument(argumentSpecifier2,
-                                                               mField2Expression);
-  ObjectBuilderArgumentList argumentList;
+  BuilderArgument *argument2 = new BuilderArgument(argumentSpecifier2, mField2Expression);
+  BuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
-  mObjectAllocator = new ObjectAllocator(mModelTypeSpecifier, argumentList, mPoolExpression, 3);
+  mPoolBuilder = new PoolBuilder(mModelTypeSpecifier, argumentList, mPoolExpression, 3);
 
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
 
-  EXPECT_ANY_THROW(mObjectAllocator->generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_ANY_THROW(mPoolBuilder->generateIR(mContext, PrimitiveTypes::VOID));
   EXPECT_STREQ("/tmp/source.yz(3): Error: Model allocator argument value for field mHeight does not match its type\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
 
-TEST_F(ObjectAllocatorTest, allocateNotAllFieldsAreSetDeathTest) {
+TEST_F(PoolBuilderTest, allocateNotAllFieldsAreSetDeathTest) {
   string argumentSpecifier1("withWidth");
-  ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
-                                                               mField1Expression);
-  ObjectBuilderArgumentList argumentList;
+  BuilderArgument *argument1 = new BuilderArgument(argumentSpecifier1, mField1Expression);
+  BuilderArgumentList argumentList;
   argumentList.push_back(argument1);
-  mObjectAllocator = new ObjectAllocator(mModelTypeSpecifier, argumentList, mPoolExpression, 7);
+  mPoolBuilder = new PoolBuilder(mModelTypeSpecifier, argumentList, mPoolExpression, 7);
 
   const char* expected =
   "/tmp/source.yz(7): Error: Field mHeight of object systems.vos.wisey.compiler.tests.MShape is not initialized.\n";
@@ -278,7 +272,7 @@ TEST_F(ObjectAllocatorTest, allocateNotAllFieldsAreSetDeathTest) {
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
 
-  EXPECT_ANY_THROW(mObjectAllocator->generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_ANY_THROW(mPoolBuilder->generateIR(mContext, PrimitiveTypes::VOID));
   EXPECT_STREQ(expected, buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }

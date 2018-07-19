@@ -13,12 +13,12 @@
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/FakeExpression.hpp"
+#include "wisey/HeapBuilder.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IfStatement.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
-#include "wisey/ObjectBuilder.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ThrowStatement.hpp"
 
@@ -93,17 +93,15 @@ void CheckArrayIndexFunction::compose(IRGenerationContext& context, Function* fu
   FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ModelTypeSpecifier* modelTypeSpecifier =
   new ModelTypeSpecifier(packageExpression, Names::getArrayIndexOutOfBoundsModelName(), 0);
-  ObjectBuilderArgumentList objectBuilderArgumnetList;
+  BuilderArgumentList builderArgumnetList;
   FakeExpression* sizeExpression = new FakeExpression(size, PrimitiveTypes::LONG);
-  ObjectBuilderArgument* argument = new ObjectBuilderArgument("withArraySize", sizeExpression);
-  objectBuilderArgumnetList.push_back(argument);
+  BuilderArgument* argument = new BuilderArgument("withArraySize", sizeExpression);
+  builderArgumnetList.push_back(argument);
   FakeExpression* indexExpression = new FakeExpression(index, PrimitiveTypes::LONG);
-  argument = new ObjectBuilderArgument("withIndex", indexExpression);
-  objectBuilderArgumnetList.push_back(argument);
-  ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier,
-                                                   objectBuilderArgumnetList,
-                                                   0);
-  ThrowStatement* throwStatement = new ThrowStatement(objectBuilder, 0);
+  argument = new BuilderArgument("withIndex", indexExpression);
+  builderArgumnetList.push_back(argument);
+  HeapBuilder* heapBuilder = new HeapBuilder(modelTypeSpecifier, builderArgumnetList, 0);
+  ThrowStatement* throwStatement = new ThrowStatement(heapBuilder, 0);
   thenBlock->getStatements().push_back(throwStatement);
   CompoundStatement* thenStatement = new CompoundStatement(thenBlock, 0);
   IfStatement ifStatement(compareExpression, thenStatement);

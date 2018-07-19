@@ -14,7 +14,7 @@
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
-#include "wisey/ObjectBuilder.hpp"
+#include "wisey/HeapBuilder.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ThrowNullPointerExceptionFunction.hpp"
 #include "wisey/ThrowStatement.hpp"
@@ -72,11 +72,11 @@ void ThrowNullPointerExceptionFunction::compose(IRGenerationContext& context, Fu
   ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(packageExpression,
                                                                   Names::getNPEModelName(),
                                                                   0);
-  ObjectBuilderArgumentList objectBuilderArgumnetList;
-  ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier,
-                                                   objectBuilderArgumnetList,
+  BuilderArgumentList builderArgumnetList;
+  HeapBuilder* heapBuilder = new HeapBuilder(modelTypeSpecifier,
+                                                   builderArgumnetList,
                                                    0);
-  ThrowStatement throwStatement(objectBuilder, 0);
+  ThrowStatement throwStatement(heapBuilder, 0);
   
   context.getScopes().pushScope();
   throwStatement.generateIR(context);

@@ -15,7 +15,7 @@
 
 #include "wisey/IBuildableObjectType.hpp"
 #include "wisey/IMethod.hpp"
-#include "wisey/ObjectBuilderArgument.hpp"
+#include "wisey/BuilderArgument.hpp"
 
 namespace wisey {
   
@@ -261,7 +261,7 @@ namespace wisey {
     llvm::Constant* getObjectTypeNameGlobal(IRGenerationContext& context) const override;
     
     void generateCreationArguments(IRGenerationContext& context,
-                                   const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                                   const BuilderArgumentList& builderArgumentList,
                                    std::vector<llvm::Value*>& callArgumentsVector,
                                    int line) const override;
 

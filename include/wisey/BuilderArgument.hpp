@@ -1,13 +1,13 @@
 //
-//  ObjectBuilderArgument.hpp
+//  BuilderArgument.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 1/22/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef ObjectBuilderArgument_h
-#define ObjectBuilderArgument_h
+#ifndef BuilderArgument_h
+#define BuilderArgument_h
 
 #include <string>
 
@@ -23,24 +23,26 @@ namespace wisey {
   class IConcreteObjectType;
   
   /**
-   * Represents one argument in the model builder pattern.
+   * Represents one argument in an object builder pattern.
    *
-   * The model builder is of the form:
+   * The object builder is of the form:
    *
-   * ModelType modelA = builder(ModelType).withField(1).builder();
+   * ModelType* modelA = build(ModelType).withField(1).onHeap();
+   * or
+   * NodeType* nodeB = build(NodyType).withField(1).onPool(pool);
    *
-   * withField(1) represents one model builder argument
+   * withField(1) represents one object builder argument
    */
-  class ObjectBuilderArgument : public IPrintable {
+  class BuilderArgument : public IPrintable {
     
     std::string mFieldSpecifier;
     IExpression* mFieldExpression;
     
   public:
     
-    ObjectBuilderArgument(std::string fieldSpecifier, IExpression* fieldExpression);
+    BuilderArgument(std::string fieldSpecifier, IExpression* fieldExpression);
     
-    ~ObjectBuilderArgument();
+    ~BuilderArgument();
     
     /**
      * Checks the legality for the builder argument and prints an error if necessary
@@ -71,9 +73,9 @@ namespace wisey {
   /**
    * Represents a list of model builder arguments
    */
-  typedef std::vector<ObjectBuilderArgument*> ObjectBuilderArgumentList;
+  typedef std::vector<BuilderArgument*> BuilderArgumentList;
   
 } /* namespace wisey */
 
-#endif /* ObjectBuilderArgument_h */
+#endif /* BuilderArgument_h */
 
