@@ -1,17 +1,30 @@
 package wisey.data;
 
+import wisey.lang.CMemoryPool;
+
 /**
  * Map of owner references to wisey objects
  */
 controller COwnerMap {
 
-  inject CPointerMap* mPointerMap.withSize(CPointerMap.DEFAULT_SIZE);
+  public constant long DEFAULT_SIZE = 109l;
+
+  receive long mSize;
+  inject immediate CPointerMap* mPointerMap.withSize(mSize);
+  inject immediate CMemoryPool* mMemoryPool;
 
   /**
    * Creates a hashmap of deafault size
    */
   public static COwnerMap* create() {
-    return injector(COwnerMap).inject();
+    return injector(COwnerMap).withSize(DEFAULT_SIZE).inject();
+  }
+
+  /**
+   * Creates a hashmap of a given size
+   */
+  public static COwnerMap* createWithSize(long size) {
+    return injector(COwnerMap).withSize(size).inject();
   }
 
   /**
@@ -21,7 +34,7 @@ controller COwnerMap {
     COwnerList.NElement* element = build(COwnerList.NElement)
       .withKey(key)
       .withValue(value)
-      .onHeap();
+      .onPool(mMemoryPool);
     mPointerMap.put(key, element);
   }
 

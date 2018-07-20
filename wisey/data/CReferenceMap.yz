@@ -1,17 +1,30 @@
 package wisey.data;
 
+import wisey.lang.CMemoryPool;
+
 /**
  * Map of references to wisey objects
  */
 controller CReferenceMap {
 
-  inject CPointerMap* mPointerMap.withSize(CPointerMap.DEFAULT_SIZE);
+  public constant long DEFAULT_SIZE = 109l;
+
+  receive long mSize;
+  inject immediate CPointerMap* mPointerMap.withSize(mSize);
+  inject immediate CMemoryPool* mMemoryPool;
 
   /**
    * Creates a hashmap of deafault size
    */
   public static CReferenceMap* create() {
-    return injector(CReferenceMap).inject();
+    return injector(CReferenceMap).withSize(DEFAULT_SIZE).inject();
+  }
+
+  /**
+   * Creates a hashmap of a given size
+   */
+  public static CReferenceMap* createWithSize(long size) {
+    return injector(CReferenceMap).withSize(size).inject();
   }
 
   /**
@@ -21,7 +34,7 @@ controller CReferenceMap {
     CReferenceList.NElement* element = build(CReferenceList.NElement)
       .withKey(key)
       .withValue(value)
-      .onHeap();
+      .onPool(mMemoryPool);
     mPointerMap.put(key, element);
   }
 

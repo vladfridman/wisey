@@ -247,7 +247,13 @@ external controller wisey.data.COwnerList {
 
 external controller wisey.data.COwnerMap {
 
+  constant long DEFAULT_SIZE;
+
+  receive long mSize;
+
   static wisey.data.COwnerMap* create();
+  static wisey.data.COwnerMap* createWithSize(
+    long size);
   void put(
     ::llvm::i8::pointer key,
     ::wisey::object* value);
@@ -320,7 +326,13 @@ external controller wisey.data.CReferenceList {
 
 external controller wisey.data.CReferenceMap {
 
+  constant long DEFAULT_SIZE;
+
+  receive long mSize;
+
   static wisey.data.CReferenceMap* create();
+  static wisey.data.CReferenceMap* createWithSize(
+    long size);
   void put(
     ::llvm::i8::pointer key,
     ::wisey::object value);

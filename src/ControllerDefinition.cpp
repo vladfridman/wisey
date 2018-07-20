@@ -99,9 +99,9 @@ void ControllerDefinition::generateIR(IRGenerationContext& context) const {
   context.setObjectType(controller);
 
   IObjectDefinition::generateInnerObjectIR(context, mInnerObjectDefinitions);
+  IConcreteObjectType::declareFieldVariables(context, controller);
   controller->checkInjectedFields(context);
   IConcreteObjectType::generateStaticMethodsIR(context, controller);
-  IConcreteObjectType::declareFieldVariables(context, controller);
   IConcreteObjectType::generateMethodsIR(context, controller);
   IConcreteObjectType::generateLLVMFunctionsIR(context, controller);
   IConcreteObjectType::scheduleDestructorBodyComposition(context, controller);

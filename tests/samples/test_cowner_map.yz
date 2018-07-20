@@ -12,7 +12,7 @@ model MCar {
 }
 
 controller CProgram implements IProgram {
-  inject COwnerMap* mMap;
+  inject COwnerMap* mMap.withSize(107);
 
   public int run(immutable string[] arguments) override {
     string toyotaMake = "Toyota";

@@ -1,17 +1,20 @@
 package wisey.data;
 
+import wisey.lang.CMemoryPool;
+
 /**
  * Link list of references
  */
 controller CReferenceList {
 
-  inject CPointerList* mPointerList;
+  inject immediate CPointerList* mPointerList;
+  inject immediate CMemoryPool* mMemoryPool;
 
   /**
    * Appends a key/value pair to the beginning of the list
    */
   public void append(::llvm::i8::pointer key, ::wisey::object value) {
-    NElement* element = build(NElement).withKey(key).withValue(value).onHeap();
+    NElement* element = build(NElement).withKey(key).withValue(value).onPool(mMemoryPool);
     mPointerList.append(key, element);
   }
 
@@ -33,7 +36,7 @@ controller CReferenceList {
   /**
    * Represents list element where value field is of object reference type
    */
-  public node NElement implements CPointerList.IListElement {
+  public node NElement onPool implements CPointerList.IListElement {
     receive ::llvm::i8::pointer mKey;
     receive ::wisey::object mValue;
     state NElement* mNext;
