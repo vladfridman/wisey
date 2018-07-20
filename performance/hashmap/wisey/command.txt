@@ -1,0 +1,7 @@
+
+~/wisey/bin/wiseyc ~/wisey/libwisey/libwisey.yz ~/wisey/performance/hashmap/wisey/hashmap.yz
+g++ -L/Users/vlad/wisey/libwisey -lwisey -o runnable compiled.o 
+rm ./compiled.o
+time ./runnable
+time ./runnable
+time ./runnable 

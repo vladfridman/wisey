@@ -1,0 +1,42 @@
+package wisey.performance.testing;
+
+import wisey.data.CReferenceMap;
+import wisey.lang.CMemoryPool;
+import wisey.lang.IProgram;
+
+controller CBinaryTrees implements IProgram {
+  private constant long ARRAY_SIZE = 1024000l;
+
+  inject NElement*[ARRAY_SIZE]* mArray;
+  inject immediate CMemoryPool* mPool;
+  inject CReferenceMap* mMap.withSize(1007);
+
+  public int run(immutable string[] arguments) override {
+    for (long i = 0; i < ARRAY_SIZE; i++) {
+      mArray[i] = build(NElement).withKey(i).onPool(mPool);
+    }
+    for (long j = 0; j < 1; j++) {
+      for (long i = 0; i < ARRAY_SIZE; i++) {
+        mMap.put(mArray[i], mArray[i]);
+      }
+    }
+    long sum = 0;
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+      sum += ((NElement) mMap.get(mArray[i])).getKey();
+    }
+    printout("Sum: " + sum + "\n");
+
+    mMap.clear();
+    return 1;
+  }
+}
+
+node NElement onPool {
+  receive long mKey;
+
+  public long getKey() {
+    return mKey;
+  }
+}
+
+bind(IProgram).to(CBinaryTrees);
