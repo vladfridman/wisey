@@ -180,7 +180,7 @@ Value* PoolBuilder::allocate(IRGenerationContext& context,
   Instruction* objectStart = IRWriter::createGetElementPtrInst(context, shellObject, index);
   
   unsigned long numberOfInterfaces = buildable->getFlattenedInterfaceHierarchy().size();
-  unsigned long poolStoreIndex = numberOfInterfaces > 0 ? numberOfInterfaces + 1 : 1;
+  unsigned long poolStoreIndex = numberOfInterfaces > 1 ? numberOfInterfaces + 1 : 1;
   index[0] = zero;
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), poolStoreIndex);
   Instruction* poolStore = IRWriter::createGetElementPtrInst(context, objectStart, index);
