@@ -490,6 +490,8 @@
 		F54625FF1DE5ED0700074D66 /* libcurses.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625FE1DE5ED0700074D66 /* libcurses.dylib */; };
 		F54626011DE5ED1B00074D66 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F54626001DE5ED1B00074D66 /* libz.dylib */; };
 		F54626031DE5ED3500074D66 /* libm.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F54626021DE5ED3500074D66 /* libm.dylib */; };
+		F547DDC4210FA0D1000ABE13 /* libwisey.so in Frameworks */ = {isa = PBXBuildFile; fileRef = F547DDC3210FA0D0000ABE13 /* libwisey.so */; };
+		F547DDC5210FA0DB000ABE13 /* libwisey.so in Frameworks */ = {isa = PBXBuildFile; fileRef = F547DDC3210FA0D0000ABE13 /* libwisey.so */; };
 		F54985791FE95FFE004C204C /* TestDestroyOwnerArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54985781FE95FFE004C204C /* TestDestroyOwnerArrayFunction.cpp */; };
 		F54B14352059015F0030773F /* TestIdentifierReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B14342059015F0030773F /* TestIdentifierReference.cpp */; };
 		F54B1466205D66AB0030773F /* LLVMi1Type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B1465205D66AB0030773F /* LLVMi1Type.cpp */; };
@@ -537,8 +539,6 @@
 		F55CF1781F7DA22800A11426 /* TestExternalStaticMethodDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55CF1771F7DA22800A11426 /* TestExternalStaticMethodDefinition.cpp */; };
 		F55CF17A1F7DA3EA00A11426 /* TestExternalMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55CF1791F7DA3EA00A11426 /* TestExternalMethod.cpp */; };
 		F55CF17C1F7DA54900A11426 /* TestExternalStaticMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55CF17B1F7DA54900A11426 /* TestExternalStaticMethod.cpp */; };
-		F55CF1831F85052500A11426 /* libwisey.so in Frameworks */ = {isa = PBXBuildFile; fileRef = F55CF1821F85052500A11426 /* libwisey.so */; };
-		F55CF1851F850D5B00A11426 /* libwisey.so in Frameworks */ = {isa = PBXBuildFile; fileRef = F55CF1821F85052500A11426 /* libwisey.so */; };
 		F55CF1881F850EEB00A11426 /* TestPrefix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55CF1871F850EEB00A11426 /* TestPrefix.cpp */; };
 		F55DB05F1F7914CB0009942C /* IObjectTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55DB05E1F7914CB0009942C /* IObjectTypeSpecifier.cpp */; };
 		F55DB0601F7914CB0009942C /* IObjectTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55DB05E1F7914CB0009942C /* IObjectTypeSpecifier.cpp */; };
@@ -1637,6 +1637,7 @@
 		F54625FE1DE5ED0700074D66 /* libcurses.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurses.dylib; path = /usr/lib/libcurses.dylib; sourceTree = "<absolute>"; };
 		F54626001DE5ED1B00074D66 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
 		F54626021DE5ED3500074D66 /* libm.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libm.dylib; path = /usr/lib/libm.dylib; sourceTree = "<absolute>"; };
+		F547DDC3210FA0D0000ABE13 /* libwisey.so */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libwisey.so; path = lib/libwisey.so; sourceTree = "<group>"; };
 		F54985781FE95FFE004C204C /* TestDestroyOwnerArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestDestroyOwnerArrayFunction.cpp; path = tests/TestDestroyOwnerArrayFunction.cpp; sourceTree = "<group>"; };
 		F54B14342059015F0030773F /* TestIdentifierReference.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestIdentifierReference.cpp; path = tests/TestIdentifierReference.cpp; sourceTree = "<group>"; };
 		F54B1464205D61100030773F /* LLVMi1Type.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMi1Type.hpp; path = include/wisey/LLVMi1Type.hpp; sourceTree = "<group>"; };
@@ -2109,7 +2110,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F55CF1851F850D5B00A11426 /* libwisey.so in Frameworks */,
+				F547DDC5210FA0DB000ABE13 /* libwisey.so in Frameworks */,
 				F53400E41DFBF1D10002BF7E /* libgmock.a in Frameworks */,
 				F53400E51DFBF1D10002BF7E /* libgtest.a in Frameworks */,
 				F53400DF1DFBE7ED0002BF7E /* libcurses.dylib in Frameworks */,
@@ -2251,7 +2252,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F55CF1831F85052500A11426 /* libwisey.so in Frameworks */,
+				F547DDC4210FA0D1000ABE13 /* libwisey.so in Frameworks */,
 				F54626031DE5ED3500074D66 /* libm.dylib in Frameworks */,
 				F54626011DE5ED1B00074D66 /* libz.dylib in Frameworks */,
 				F54625FF1DE5ED0700074D66 /* libcurses.dylib in Frameworks */,
@@ -2444,6 +2445,7 @@
 		F53060C71F7947800098D637 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F547DDC3210FA0D0000ABE13 /* libwisey.so */,
 				F593629B20CC033500A8C67A /* libapr-1.dylib */,
 				F5CB7F6C20514C84007628B5 /* libpthread.dylib */,
 				F55CF1801F8504C100A11426 /* libwisey.so */,
@@ -5248,6 +5250,7 @@
 					/usr/local/lib,
 					/usr/lib,
 					"$(PROJECT_DIR)/libwisey",
+					"$(PROJECT_DIR)/lib",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				OTHER_CFLAGS = (
@@ -5294,6 +5297,7 @@
 					/usr/local/lib,
 					/usr/lib,
 					"$(PROJECT_DIR)/libwisey",
+					"$(PROJECT_DIR)/lib",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				OTHER_CFLAGS = (

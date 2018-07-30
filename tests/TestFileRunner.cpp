@@ -26,7 +26,7 @@ extern int yyparse();
 extern FILE* yyin;
 extern ProgramFile* programFile;
 
-const string TestFileRunner::LIBWISEY = "libwisey/libwisey.yz";
+const string TestFileRunner::LIBWISEY = "wisey/headers/libwisey.yz";
 const char TestFileRunner::STDOUT_FILE[] = "build/wisey.out";
 const char TestFileRunner::STDERR_FILE[] = "build/wisey.err";
 
