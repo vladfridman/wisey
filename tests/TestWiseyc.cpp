@@ -86,7 +86,7 @@ TEST_F(MainTest, outputToFileTest) {
   system("mkdir -p build");
 
   system("bin/wiseyc tests/samples/test_addition.yz libwisey/libwisey.yz -o build/test.o 2>&1");
-  system("g++ -o build/test build/test.o -Llibwisey -lwisey");
+  system("g++ -o build/test build/test.o -Llib -lwisey");
   int result = system("build/test");
   int returnValue = WEXITSTATUS(result);
   
