@@ -1,0 +1,36 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+model MCar {
+  int mYear;
+
+  public int getYear() {
+    return mYear;
+  }
+
+  public ::llvm::function ::llvm::void fakeDestroy(::llvm::i8::pointer object) {
+    printout("destroy\n");
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    ::llvm::i8::pointer map = ::llvm::function::stl_map_create();
+
+    MCar* car1 = build(MCar).withYear(2018).onHeap();
+    MCar* car2 = build(MCar).withYear(2017).onHeap();
+    ::llvm::function::stl_map_put(map, car1, car1);
+    ::llvm::function::stl_map_put(map, car2, car2);
+    ::llvm::function::stl_map_put(map, car2, car2);
+
+    ::llvm::function::stl_map_destroy_objects(map, MCar.fakeDestroy);
+    MCar value = ::llvm::function::stl_map_get(map, car1);
+
+    printout("car year = " + value.getYear() + "\n");
+    return 1;
+  }
+}
+
+bind(IProgram).to(CProgram);
