@@ -83,6 +83,14 @@ public:
                                     std::string expectedErr);
 
   /**
+   * Compile and run given file with destructor debugging on and compare the result
+   */
+  void compileAndRunFileWithDestructorDebugCheckOutput(std::string fileName,
+                                                       int expectedResult,
+                                                       std::string expectedOut,
+                                                       std::string expectedErr);
+
+  /**
    * Call this to run a sample wisey file that is expected to fail at compilation
    */
   void expectFailCompile(std::string fileName,

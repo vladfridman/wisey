@@ -41,7 +41,10 @@ Value* LLVMFunctionCall::generateIR(IRGenerationContext& context, const IType* a
   vector<const IType*> argumentTypes = functionType->getArgumentTypes();
   auto argumentTypesIterator = argumentTypes.begin();
   for (const IExpression* argumentExpression : mArguments) {
-    Value* expressionValue = argumentExpression->generateIR(context, PrimitiveTypes::VOID);
+    const IType* assignToType = (argumentTypesIterator != argumentTypes.end())
+    ? *argumentTypesIterator : PrimitiveTypes::VOID;
+    Value* expressionValue = argumentExpression->generateIR(context, assignToType);
+    
     if (argumentTypesIterator == argumentTypes.end()) {
       arguments.push_back(expressionValue);
       continue;

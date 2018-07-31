@@ -21,14 +21,22 @@ controller CProgram implements IProgram {
 
     MCar* car1 = build(MCar).withYear(2018).onHeap();
     MCar* car2 = build(MCar).withYear(2017).onHeap();
-    ::llvm::function::stl_map_put(map, car1, car1);
-    ::llvm::function::stl_map_put(map, car2, car2);
-    ::llvm::function::stl_map_put(map, car2, car2);
+    MCar car1ref = car1;
+    MCar car2ref = car2;
+    ::llvm::function::stl_map_put_owner(map, car1ref, car1);
+    ::llvm::function::stl_map_put_owner(map, car2ref, car2);
 
-    ::llvm::function::stl_map_destroy_objects(map, MCar.fakeDestroy);
-    MCar value = ::llvm::function::stl_map_get(map, car1);
+    MCar value1 = ::llvm::function::stl_map_get(map, car1ref);
+    MCar value2 = ::llvm::function::stl_map_get(map, car2ref);
+    printout("car year = " + value1.getYear() + "\n");
+    printout("car year = " + value2.getYear() + "\n");
+    value1 = null;
+    value2 = null;
+    car1ref = null;
+    car2ref = null;
+    ::llvm::function::stl_map_destroy_objects(map);
+    printout("done destroying\n");
 
-    printout("car year = " + value.getYear() + "\n");
     return 1;
   }
 }
