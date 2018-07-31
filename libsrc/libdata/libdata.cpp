@@ -4,6 +4,8 @@
  * Library of functions that work with STL data structures
  */
 
+void adjust_reference_count(void* objectPointer, int adjustment);
+
 /**
  * Creates a hash map
  */
@@ -25,6 +27,7 @@ extern "C" void stl_map_destroy(void* map) {
 extern "C" void stl_map_put_reference(void* map, void* key, void* value) {
   std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
   mapCast->insert(std::pair<void*, void*>(key, value));
+  adjust_reference_count(value, 1);
 }
 
 /**
@@ -51,24 +54,8 @@ extern "C" void* stl_map_get(void* map, void* key) {
  */
 extern "C" void stl_map_decrement_reference_counts(void* map) {
   std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
-  int8_t** previous = NULL;
   for (std::map<void*, void*>::iterator iterator = mapCast->begin(); iterator != mapCast->end(); iterator++) {
-    int8_t** object = (int8_t**) iterator->second;
-    if (object == previous) {
-      printf("Same as previous\n");
-    } else {
-      printf("Different from previous\n");
-    }
-    int8_t* firstTable = *object;
-    int64_t* offsetPointer = (int64_t*) firstTable;
-    int64_t offset = *offsetPointer;
-    int8_t* objectStart = ((int8_t*) object) - offset;
-    int8_t* objectShell = objectStart - sizeof(int64_t);
-    int64_t* referenceCounter = (int64_t*) objectShell;
-    printf("ref count was: %lld\n", *referenceCounter);
-    *referenceCounter = *referenceCounter - 1;
-    printf("ref count is: %lld\n", *referenceCounter);
-    previous = object;
+    adjust_reference_count(iterator->second, -1);
   }
 }
 
@@ -91,4 +78,15 @@ extern "C" void stl_map_destroy_objects(void* map) {
 
     destructor(objectStart, NULL, NULL, NULL);
   }
+}
+
+void adjust_reference_count(void* objectPointer, int adjustment) {
+  int8_t** object = (int8_t**) objectPointer;
+  int8_t* firstTable = *object;
+  int64_t* offsetPointer = (int64_t*) firstTable;
+  int64_t offset = *offsetPointer;
+  int8_t* objectStart = ((int8_t*) object) - offset;
+  int8_t* objectShell = objectStart - sizeof(int64_t);
+  int64_t* referenceCounter = (int64_t*) objectShell;
+  *referenceCounter = *referenceCounter + adjustment;
 }

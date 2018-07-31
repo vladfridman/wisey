@@ -24,3 +24,18 @@ TEST_F(TestFileRunner, stlMapOfOwnersRunTest) {
                                                   "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
                                                   "");
 }
+
+TEST_F(TestFileRunner, stlMapOfReferencesRunTest) {
+  compileAndRunFileWithDestructorDebugCheckOutput("tests/samples/test_stl_map_of_references.yz",
+                                                  1,
+                                                  "car year = 2018\n"
+                                                  "car year = 2017\n"
+                                                  "done decrementing references\n"
+                                                  "destructor systems.vos.wisey.compiler.tests.MCar\n"
+                                                  "done destructing systems.vos.wisey.compiler.tests.MCar\n"
+                                                  "destructor systems.vos.wisey.compiler.tests.MCar\n"
+                                                  "done destructing systems.vos.wisey.compiler.tests.MCar\n"
+                                                  "destructor systems.vos.wisey.compiler.tests.CProgram\n"
+                                                  "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
+                                                  "");
+}

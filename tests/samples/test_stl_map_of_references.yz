@@ -1,0 +1,40 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+model MCar {
+  int mYear;
+
+  public int getYear() {
+    return mYear;
+  }
+
+  public ::llvm::function ::llvm::void fakeDestroy(::llvm::i8::pointer object) {
+    printout("destroy\n");
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    ::llvm::i8::pointer map = ::llvm::function::stl_map_create();
+
+    MCar* car1 = build(MCar).withYear(2018).onHeap();
+    MCar* car2 = build(MCar).withYear(2017).onHeap();
+    MCar car1ref = car1;
+    MCar car2ref = car2;
+    ::llvm::function::stl_map_put_reference(map, car1ref, car1);
+    ::llvm::function::stl_map_put_reference(map, car2ref, car2);
+
+    MCar value1 = ::llvm::function::stl_map_get(map, car1ref);
+    MCar value2 = ::llvm::function::stl_map_get(map, car2ref);
+    printout("car year = " + value1.getYear() + "\n");
+    printout("car year = " + value2.getYear() + "\n");
+    ::llvm::function::stl_map_decrement_reference_counts(map);
+    printout("done decrementing references\n");
+
+    return 1;
+  }
+}
+
+bind(IProgram).to(CProgram);
