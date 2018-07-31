@@ -82,11 +82,22 @@ extern "C" void stl_map_destroy_objects(void* map) {
 
 void adjust_reference_count(void* objectPointer, int adjustment) {
   int8_t** object = (int8_t**) objectPointer;
-  int8_t* firstTable = *object;
-  int64_t* offsetPointer = (int64_t*) firstTable;
+  int8_t* vTablePortion = *object;
+  int64_t* offsetPointer = (int64_t*) vTablePortion;
   int64_t offset = *offsetPointer;
   int8_t* objectStart = ((int8_t*) object) - offset;
   int8_t* objectShell = objectStart - sizeof(int64_t);
   int64_t* referenceCounter = (int64_t*) objectShell;
-  *referenceCounter = *referenceCounter + adjustment;
+
+  int8_t*** vTable = (int8_t***) objectStart;
+  int8_t** firstTable = *vTable;
+  int8_t** typeTable = (int8_t**) firstTable[1];
+  char* typeShortName = (char*) typeTable[0];
+  char firstLetter = typeShortName[0];
+  if (firstLetter == 'm' || firstLetter == 't') {
+    // TODO: change to safe reference counter adjustment here
+    *referenceCounter = *referenceCounter + adjustment;
+  } else {
+    *referenceCounter = *referenceCounter + adjustment;
+  }
 }
