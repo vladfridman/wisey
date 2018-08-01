@@ -81,11 +81,11 @@ struct LLVMFunctionIdentifierTest : public Test {
                                                                false);
     mPublicFunction = llvm::Function::Create(functionType,
                                              GlobalValue::InternalLinkage,
-                                             "systems.vos.wisey.tests.IObject.publicFunction",
+                                             "systems.vos.wisey.tests.IObject.method.publicFunction",
                                              mContext.getModule());
     llvm::Function::Create(functionType,
                            GlobalValue::InternalLinkage,
-                           "systems.vos.wisey.tests.IObject.privateFunction",
+                           "systems.vos.wisey.tests.IObject.method.privateFunction",
                            mContext.getModule());
     ON_CALL(*mObjectSpecifier, getType(_)).WillByDefault(Return(mObject));
     ON_CALL(*mObject, findLLVMFunction("publicFunction")).

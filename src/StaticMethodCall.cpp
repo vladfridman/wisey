@@ -98,8 +98,8 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
   if (methodDescriptor == GetTypeNameMethod::GET_TYPE_NAME_METHOD) {
     return GetTypeNameMethod::GET_TYPE_NAME_METHOD->generateIR(context, objectType);
   }
-  string llvmFunctionName = objectType->getTypeName() + "." + mMethodName;
-  
+  string llvmFunctionName = IMethodCall::translateObjectMethodToLLVMFunctionName(objectType,
+                                                                                 mMethodName);
   Function *function = context.getModule()->getFunction(llvmFunctionName.c_str());
   if (function == NULL) {
     context.reportError(mLine, "LLVM function implementing object " + objectType->getTypeName() +

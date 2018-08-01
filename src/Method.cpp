@@ -79,7 +79,7 @@ vector<const Model*> Method::getThrownExceptions() const {
 }
 
 string Method::getTypeName() const {
-  return mObjectType->getTypeName() + "." + getName();
+  return IMethodCall::translateObjectMethodToLLVMFunctionName(mObjectType, getName());
 }
 
 FunctionType* Method::getLLVMType(IRGenerationContext& context) const {

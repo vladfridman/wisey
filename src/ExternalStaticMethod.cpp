@@ -11,6 +11,7 @@
 #include "wisey/AccessLevel.hpp"
 #include "wisey/Argument.hpp"
 #include "wisey/ExternalStaticMethod.hpp"
+#include "wisey/IMethodCall.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
 using namespace llvm;
@@ -107,7 +108,7 @@ MethodQualifiers* ExternalStaticMethod::getMethodQualifiers() const {
 }
 
 string ExternalStaticMethod::getTypeName() const {
-  return mObjectType->getTypeName() + "." + getName();
+  return IMethodCall::translateObjectMethodToLLVMFunctionName(mObjectType, getName());
 }
 
 FunctionType* ExternalStaticMethod::getLLVMType(IRGenerationContext& context) const {

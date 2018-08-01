@@ -120,7 +120,7 @@ TEST_F(ComposerTest, pushCallStackTest) {
   "\n  br i1 %4, label %if.overflow, label %if.continue"
   "\n"
   "\nif.overflow:                                      ; preds = %entry"
-  "\n  call void @wisey.threads.CCallStack.throwStackOverflowException(%wisey.threads.IThread* null, %wisey.threads.CCallStack* null)"
+  "\n  call void @wisey.threads.CCallStack.method.throwStackOverflowException(%wisey.threads.IThread* null, %wisey.threads.CCallStack* null)"
   "\n  unreachable"
   "\n"
   "\nif.continue:                                      ; preds = %entry"

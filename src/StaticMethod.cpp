@@ -76,7 +76,7 @@ vector<const Model*> StaticMethod::getThrownExceptions() const {
 }
 
 string StaticMethod::getTypeName() const {
-  return mObjectType->getTypeName() + "." + getName();
+  return IMethodCall::translateObjectMethodToLLVMFunctionName(mObjectType, getName());
 }
 
 FunctionType* StaticMethod::getLLVMType(IRGenerationContext& context) const {

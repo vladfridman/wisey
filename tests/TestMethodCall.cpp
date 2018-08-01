@@ -187,7 +187,7 @@ public:
 TEST_F(MethodCallTest, translateObjectMethodToLLVMFunctionNameTest) {
   string functionName = IMethodCall::translateObjectMethodToLLVMFunctionName(mModel, "foo");
   
-  EXPECT_STREQ(functionName.c_str(), "systems.vos.wisey.compiler.tests.MSquare.foo");
+  EXPECT_STREQ(functionName.c_str(), "systems.vos.wisey.compiler.tests.MSquare.method.foo");
   delete mExpression;
 }
 
@@ -223,7 +223,7 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
                                                  false);
   Function::Create(functionType,
                    GlobalValue::InternalLinkage,
-                   "systems.vos.wisey.compiler.tests.MSquare.foo",
+                   "systems.vos.wisey.compiler.tests.MSquare.method.foo",
                    mContext.getModule());
   
   NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
@@ -237,8 +237,7 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
   
   *mStringStream << *irValue;
   string expected =
-  "  %1 = invoke %systems.vos.wisey.compiler.tests.MReturnedModel* "
-  "@systems.vos.wisey.compiler.tests.MSquare.foo(%systems.vos.wisey.compiler.tests.MSquare* %0, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, float 0x4014CCCCC0000000)"
+  "  %1 = invoke %systems.vos.wisey.compiler.tests.MReturnedModel* @systems.vos.wisey.compiler.tests.MSquare.method.foo(%systems.vos.wisey.compiler.tests.MSquare* %0, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, float 0x4014CCCCC0000000)"
   "\n          to label %invoke.continue1 unwind label %cleanup";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(methodCall->getType(mContext), mReturnedModel);
@@ -257,7 +256,7 @@ TEST_F(MethodCallTest, methodCallCantThrowTest) {
                                                  false);
   Function::Create(functionType,
                    GlobalValue::InternalLinkage,
-                   "systems.vos.wisey.compiler.tests.MSquare.foo",
+                   "systems.vos.wisey.compiler.tests.MSquare.method.foo",
                    mContext.getModule());
   
   NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
@@ -271,8 +270,7 @@ TEST_F(MethodCallTest, methodCallCantThrowTest) {
   
   *mStringStream << *irValue;
   string expected =
-  "  %1 = call %systems.vos.wisey.compiler.tests.MReturnedModel* "
-  "@systems.vos.wisey.compiler.tests.MSquare.foo(%systems.vos.wisey.compiler.tests.MSquare* %0, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, float 0x4014CCCCC0000000)";
+  "  %1 = call %systems.vos.wisey.compiler.tests.MReturnedModel* @systems.vos.wisey.compiler.tests.MSquare.method.foo(%systems.vos.wisey.compiler.tests.MSquare* %0, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, float 0x4014CCCCC0000000)";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(methodCall->getType(mContext), mReturnedModel);
   
@@ -290,7 +288,7 @@ TEST_F(MethodCallTest, modelMethodCallWithTryCatchTest) {
                                                  false);
   Function::Create(functionType,
                    GlobalValue::InternalLinkage,
-                   "systems.vos.wisey.compiler.tests.MSquare.bar",
+                   "systems.vos.wisey.compiler.tests.MSquare.method.bar",
                    mContext.getModule());
   
   NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
@@ -308,7 +306,7 @@ TEST_F(MethodCallTest, modelMethodCallWithTryCatchTest) {
   Value* irValue = methodCall->generateIR(mContext, PrimitiveTypes::VOID);
   
   *mStringStream << *irValue;
-  EXPECT_STREQ("  %2 = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar(%systems.vos.wisey.compiler.tests.MSquare* %1, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, float 0x4014CCCCC0000000)\n"
+  EXPECT_STREQ("  %2 = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.method.bar(%systems.vos.wisey.compiler.tests.MSquare* %1, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, float 0x4014CCCCC0000000)\n"
                "          to label %invoke.continue1 unwind label %eh.landing.pad",
                mStringStream->str().c_str());
   EXPECT_EQ(methodCall->getType(mContext), PrimitiveTypes::INT);
@@ -394,7 +392,7 @@ TEST_F(MethodCallTest, incorrectArgumentTypesDeathTest) {
                                                  false);
   Function::Create(functionType,
                    GlobalValue::InternalLinkage,
-                   "systems.vos.wisey.compiler.tests.MSquare.foo",
+                   "systems.vos.wisey.compiler.tests.MSquare.method.foo",
                    mContext.getModule());
   
   NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();

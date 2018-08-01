@@ -602,7 +602,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorBodyPooledObjectTest) {
   "\n          to label %invoke.continue1 unwind label %cleanup"
   "\n"
   "\nif.not.null:                                      ; preds = %pool.count.zero"
-  "\n  invoke void @wisey.lang.CMemoryPool.clear(%wisey.lang.CMemoryPool* %6, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack)"
+  "\n  invoke void @wisey.lang.CMemoryPool.method.clear(%wisey.lang.CMemoryPool* %6, %wisey.threads.IThread* %thread, %wisey.threads.CCallStack* %callstack)"
   "\n          to label %invoke.continue2 unwind label %cleanup"
   "\n"
   "\ninvoke.continue1:                                 ; preds = %if.null"

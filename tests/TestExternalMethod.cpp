@@ -87,7 +87,8 @@ TEST_F(ExternalMethodTest, basicMethodTest) {
   EXPECT_EQ(PrimitiveTypes::BOOLEAN, mMethod->getReturnType());
   EXPECT_EQ(2u, mMethod->getArguments().size());
   EXPECT_FALSE(mMethod->isStatic());
-  EXPECT_STREQ("systems.vos.wisey.compiler.tests.MObject.mymethod", mMethod->getTypeName().c_str());
+  EXPECT_STREQ("systems.vos.wisey.compiler.tests.MObject.method.mymethod",
+               mMethod->getTypeName().c_str());
 }
 
 TEST_F(ExternalMethodTest, elementTypeTest) {
@@ -143,7 +144,7 @@ TEST_F(ExternalMethodTest, declareFunctionTest) {
   Function* function = method.declareFunction(mContext);
   
   *mStringStream << *function;
-  string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.foo(%systems.vos.wisey.compiler.tests.MObject*, %wisey.threads.IThread*, %wisey.threads.CCallStack*, i32)\n";
+  string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.method.foo(%systems.vos.wisey.compiler.tests.MObject*, %wisey.threads.IThread*, %wisey.threads.CCallStack*, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
