@@ -686,8 +686,14 @@ void IConcreteObjectType::freeOwnerFields(IRGenerationContext& context,
       printOutArguments.push_back(stringLiteral);
       PrintOutStatement::printExpressionList(context, printOutArguments, 0);
     }
-
+    
     Value* fieldValuePointer = getFieldValuePointer(context, thisValue, object, field);
+
+    if (field->isInjected()) {
+      ((InjectedField*) field)->free(context, fieldValuePointer, exception, line);
+      continue;
+    }
+
     const IOwnerType* ownerType = (const IOwnerType*) fieldType;
     ownerType->free(context, fieldValuePointer, exception, line);
   }

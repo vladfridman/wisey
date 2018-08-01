@@ -82,6 +82,14 @@ Value* InjectedField::inject(IRGenerationContext& context) const {
   return mInjectedType->inject(context, mInjectionArgumentList, mLine);
 }
 
+void InjectedField::free(IRGenerationContext& context,
+                         Value* fieldValue,
+                         Value* exception,
+                         int line) const {
+  const IOwnerType* ownerType = (const IOwnerType*) mType;
+  ownerType->free(context, fieldValue, exception, line);
+}
+
 void InjectedField::checkType(IRGenerationContext& context) const {
   if (!mInjectedType->isController() && !mInjectedType->isInterface() &&
       !mInjectedType->isArray()) {

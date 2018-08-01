@@ -97,6 +97,14 @@ namespace wisey {
      * Tells whether this is an immediate injection field
      */
     bool isImmediate() const;
+    
+    /**
+     * Frees the object pointed to by the injected field
+     */
+    void free(IRGenerationContext& context,
+              llvm::Value* fieldValue,
+              llvm::Value* exception,
+              int line) const;
 
     std::string getName() const override;
     
