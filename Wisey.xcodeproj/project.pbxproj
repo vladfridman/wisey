@@ -492,7 +492,6 @@
 		F54626031DE5ED3500074D66 /* libm.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F54626021DE5ED3500074D66 /* libm.dylib */; };
 		F547DDC4210FA0D1000ABE13 /* libwisey.so in Frameworks */ = {isa = PBXBuildFile; fileRef = F547DDC3210FA0D0000ABE13 /* libwisey.so */; };
 		F547DDC5210FA0DB000ABE13 /* libwisey.so in Frameworks */ = {isa = PBXBuildFile; fileRef = F547DDC3210FA0D0000ABE13 /* libwisey.so */; };
-		F547DDC7210FA1D8000ABE13 /* TestStlMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F547DDC6210FA1D8000ABE13 /* TestStlMap.cpp */; };
 		F54985791FE95FFE004C204C /* TestDestroyOwnerArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54985781FE95FFE004C204C /* TestDestroyOwnerArrayFunction.cpp */; };
 		F54B14352059015F0030773F /* TestIdentifierReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B14342059015F0030773F /* TestIdentifierReference.cpp */; };
 		F54B1466205D66AB0030773F /* LLVMi1Type.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B1465205D66AB0030773F /* LLVMi1Type.cpp */; };
@@ -1639,7 +1638,6 @@
 		F54626001DE5ED1B00074D66 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
 		F54626021DE5ED3500074D66 /* libm.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libm.dylib; path = /usr/lib/libm.dylib; sourceTree = "<absolute>"; };
 		F547DDC3210FA0D0000ABE13 /* libwisey.so */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libwisey.so; path = lib/libwisey.so; sourceTree = "<group>"; };
-		F547DDC6210FA1D8000ABE13 /* TestStlMap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestStlMap.cpp; path = tests/TestStlMap.cpp; sourceTree = "<group>"; };
 		F54985781FE95FFE004C204C /* TestDestroyOwnerArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestDestroyOwnerArrayFunction.cpp; path = tests/TestDestroyOwnerArrayFunction.cpp; sourceTree = "<group>"; };
 		F54B14342059015F0030773F /* TestIdentifierReference.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestIdentifierReference.cpp; path = tests/TestIdentifierReference.cpp; sourceTree = "<group>"; };
 		F54B1464205D61100030773F /* LLVMi1Type.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMi1Type.hpp; path = include/wisey/LLVMi1Type.hpp; sourceTree = "<group>"; };
@@ -4058,7 +4056,6 @@
 				F5D159A920A7258100107E84 /* TestCWorkerThread.cpp */,
 				F5D1599A20A498EC00107E84 /* TestMString.cpp */,
 				F534644E20AF1F35006369D4 /* TestMSystem.cpp */,
-				F547DDC6210FA1D8000ABE13 /* TestStlMap.cpp */,
 			);
 			name = wisey;
 			sourceTree = "<group>";
@@ -4405,7 +4402,6 @@
 				F53401121DFF333E0002BF7E /* MethodDefinition.cpp in Sources */,
 				F55496FC1E06430500DDA2AF /* TestIdentifier.cpp in Sources */,
 				F5CB7F66205116D4007628B5 /* FieldLLVMVariable.cpp in Sources */,
-				F547DDC7210FA1D8000ABE13 /* TestStlMap.cpp in Sources */,
 				F50FF88F208BAF21008EDC40 /* FieldImmutableArrayReferenceVariable.cpp in Sources */,
 				F5D159AC20A7261500107E84 /* TestCProducerThread.cpp in Sources */,
 				F5CB18151EB0F1BA007E2E43 /* TryCatchStatement.cpp in Sources */,

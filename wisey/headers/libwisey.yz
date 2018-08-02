@@ -641,15 +641,6 @@ external ::llvm::function ::llvm::i8::pointer "malloc"(::llvm::i64);
 external ::llvm::function ::llvm::i32 "printf"(::llvm::i8::pointer, ...);
 external ::llvm::function ::llvm::i32 "sprintf"(::llvm::i8::pointer, ::llvm::i8::pointer, ...);
 external ::llvm::function ::llvm::i32 "sscanf"(::llvm::i8::pointer, ::llvm::i8::pointer, ...);
-external ::llvm::function ::llvm::i8::pointer "stl_map_create"();
-external ::llvm::function ::llvm::void "stl_map_destroy"(::llvm::i8::pointer);
-external ::llvm::function ::llvm::void "stl_map_erase_owner"(::llvm::i8::pointer, ::llvm::i8::pointer);
-external ::llvm::function ::llvm::void "stl_map_erase_reference"(::llvm::i8::pointer, ::llvm::i8::pointer);
-external ::llvm::function ::llvm::i8::pointer "stl_map_get"(::llvm::i8::pointer, ::llvm::i8::pointer);
-external ::llvm::function ::llvm::void "stl_map_of_owners_clear"(::llvm::i8::pointer);
-external ::llvm::function ::llvm::void "stl_map_of_references_clear"(::llvm::i8::pointer);
-external ::llvm::function ::llvm::void "stl_map_put_owner"(::llvm::i8::pointer, ::llvm::i8::pointer, ::wisey::object*);
-external ::llvm::function ::llvm::void "stl_map_put_reference"(::llvm::i8::pointer, ::llvm::i8::pointer, ::wisey::object);
 external ::llvm::function ::llvm::i32 "strcmp"(::llvm::i8::pointer, ::llvm::i8::pointer);
 external ::llvm::function ::llvm::i64 "strlen"(::llvm::i8::pointer);
 
