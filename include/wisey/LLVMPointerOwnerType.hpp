@@ -97,6 +97,26 @@ namespace wisey {
     llvm::Instruction* inject(IRGenerationContext& context,
                               const InjectionArgumentList injectionArgumentList,
                               int line) const override;
+    
+  private:
+    
+    void checkInjectionArguments(IRGenerationContext& context,
+                                 const InjectionArgumentList injectionArgumentList,
+                                 int line) const;
+    
+    void checkConstructorType(IRGenerationContext& context,
+                              const IType* constructorType,
+                              int line) const;
+    
+    void checkDestructorType(IRGenerationContext& context,
+                             const IType* constructorType,
+                             int line) const;
+
+    InjectionArgument* getConstructorArgument(const InjectionArgumentList
+                                              injectionArgumentList) const;
+
+    InjectionArgument* getDestructorArgument(const InjectionArgumentList
+                                             injectionArgumentList) const;
 
   };
   

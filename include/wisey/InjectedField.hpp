@@ -157,6 +157,8 @@ namespace wisey {
     
     void checkControllerType(IRGenerationContext& context, const Controller* controller) const;
     
+    const LLVMFunction* getDestructorFunction(IRGenerationContext& context) const;
+    
   };
   
 } /* namespace wisey */

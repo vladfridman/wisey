@@ -13,6 +13,7 @@
 #include "wisey/InjectedField.hpp"
 #include "wisey/InterfaceOwner.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LLVMFunction.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/ParameterReferenceVariableStatic.hpp"
@@ -87,18 +88,44 @@ void InjectedField::free(IRGenerationContext& context,
                          Value* exception,
                          int line) const {
   const IOwnerType* ownerType = (const IOwnerType*) mType;
-  ownerType->free(context, fieldValue, exception, NULL, line);
+  const LLVMFunction* destructor = getDestructorFunction(context);
+  ownerType->free(context, fieldValue, exception, destructor, line);
+}
+
+const LLVMFunction* InjectedField::getDestructorFunction(IRGenerationContext& context) const {
+  InjectionArgument* destructorArgument = NULL;
+  if (!mInjectionArgumentList.size()) {
+    return NULL;
+  }
+  if (!mInjectionArgumentList.front()->deriveFieldName().compare("mDestructor")) {
+    destructorArgument = mInjectionArgumentList.front();
+  } else if (!mInjectionArgumentList.back()->deriveFieldName().compare("mDestructor")) {
+    destructorArgument = mInjectionArgumentList.back();
+  }
+  if (!destructorArgument) {
+    return NULL;
+  }
+  if (!destructorArgument->getType(context)->isFunction()) {
+    return NULL;
+  }
+  return (const LLVMFunction*) destructorArgument->getType(context);
 }
 
 void InjectedField::checkType(IRGenerationContext& context) const {
   if (!mInjectedType->isController() && !mInjectedType->isInterface() &&
-      !mInjectedType->isArray()) {
+      !mInjectedType->isArray() &&
+      !mInjectedType->isPointer()) {
     context.reportError(mLine, "Only controllers, interfaces bound to controllers and arrays "
                         "may be injected in fields");
     throw 1;
   }
   
-  if (mInjectedType->isArray()) {
+  if (mInjectedType->isPointer() && !mInjectedType->isOwner()) {
+    context.reportError(mLine, "Injected pointer must be an owner reference");
+    throw 1;
+  }
+
+  if (mInjectedType->isArray() || mInjectedType->isPointer()) {
     return;
   }
   
@@ -144,7 +171,7 @@ void InjectedField::checkControllerType(IRGenerationContext& context,
 }
 
 void InjectedField::checkInjectionArguments(IRGenerationContext& context) const {
-  if (mInjectedType->isArray()) {
+  if (mInjectedType->isArray() || mInjectedType->isPointer()) {
     return;
   }
   

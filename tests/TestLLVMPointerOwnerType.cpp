@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockConcreteObjectType.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMPointerOwnerType.hpp"
@@ -188,7 +189,17 @@ TEST_F(LLVMPointerOwnerTypeTest, injectDeathTest) {
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
   EXPECT_ANY_THROW(mLLVMPointerOwnerType->inject(mContext, arguments, 3));
-  EXPECT_STREQ("/tmp/source.yz(3): Error: type ::llvm::i8::pointer* is not injectable\n",
+  EXPECT_STREQ("/tmp/source.yz(3): Error: Both constructor and destructor must be provided for pointer injection\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
+}
+
+TEST_F(TestFileRunner, customConstructorDestructorRunTest) {
+  runFileCheckOutputWithDestructorDebug("tests/samples/test_custom_constructor_destructor.yz",
+                                        "Custom constructor\n"
+                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n"
+                                        "freeing systems.vos.wisey.compiler.tests.CProgram.mPointerFied\n"
+                                        "Custom destructor\n"
+                                        "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "");
 }

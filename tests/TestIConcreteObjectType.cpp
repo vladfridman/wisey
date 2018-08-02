@@ -434,7 +434,6 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectReferenceFie
   mStringBuffer.clear();
 }
 
-
 TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFieldsTest) {
   mContext.getScopes().popScope(mContext, 0);
   mContext.getScopes().pushScope();

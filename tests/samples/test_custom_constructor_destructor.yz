@@ -1,0 +1,22 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+  inject immediate ::llvm::i8::pointer* mPointerFied.withConstructor(constructor).withDestructor(destructor);
+
+  public int run(immutable string[] arguments) override {
+    return 1;
+  }
+
+  private ::llvm::function ::llvm::i8::pointer constructor() {
+    printout("Custom constructor\n");
+    return null;
+  }
+
+  private ::llvm::function ::llvm::void destructor(::llvm::i8::pointer object) {
+    printout("Custom destructor\n");
+  }
+}
+
+bind(IProgram).to(CProgram);

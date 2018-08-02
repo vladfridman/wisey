@@ -13,6 +13,7 @@
 #include "wisey/FieldOwnerVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LLVMFunction.hpp"
 #include "wisey/LLVMPointerOwnerType.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
@@ -159,12 +160,110 @@ void LLVMPointerOwnerType::free(IRGenerationContext& context,
                                 llvm::Value* exception,
                                 const LLVMFunction* customDestructor,
                                 int line) const {
-  DestroyNativeObjectFunction::call(context, value);
+  if (!customDestructor) {
+    DestroyNativeObjectFunction::call(context, value);
+    return;
+  }
+  
+  vector<Value*> arguments;
+  arguments.push_back(value);
+  Function* destructorFunction = customDestructor->getLLVMFunction(context);
+  IRWriter::createCallInst(context, destructorFunction, arguments, "");
 }
 
 Instruction* LLVMPointerOwnerType::inject(IRGenerationContext& context,
-                                     const InjectionArgumentList injectionArgumentList,
-                                     int line) const {
-  repotNonInjectableType(context, this, line);
-  throw 1;
+                                          const InjectionArgumentList injectionArgumentList,
+                                          int line) const {
+  checkInjectionArguments(context, injectionArgumentList, line);
+  vector<Value*> callArguments;
+  InjectionArgument* constructorArgument = getConstructorArgument(injectionArgumentList);
+  const LLVMFunction* constructor = (const LLVMFunction*) constructorArgument->getType(context);
+  Function* llvmFunction = constructor->getLLVMFunction(context);
+
+  return IRWriter::createCallInst(context, llvmFunction, callArguments, "");
+}
+
+void LLVMPointerOwnerType::checkInjectionArguments(IRGenerationContext &context,
+                                                   const InjectionArgumentList injectionArgumentList,
+                                                   int line) const {
+  if (injectionArgumentList.size() != 2) {
+    context.reportError(line, "Both constructor and destructor must be provided "
+                        "for pointer injection");
+    throw 1;
+  }
+  InjectionArgument* constructorArgument = getConstructorArgument(injectionArgumentList);
+  InjectionArgument* destructorArgument = getDestructorArgument(injectionArgumentList);
+  
+  if (!constructorArgument) {
+    context.reportError(line, "Constructor function is not specified");
+    throw 1;
+  }
+  if (!destructorArgument) {
+    context.reportError(line, "Destructor function is not specified");
+    throw 1;
+  }
+  
+  checkConstructorType(context, constructorArgument->getType(context), line);
+  checkDestructorType(context, destructorArgument->getType(context), line);
+}
+
+InjectionArgument* LLVMPointerOwnerType::
+getConstructorArgument(const InjectionArgumentList injectionArgumentList) const {
+  if (!injectionArgumentList.front()->deriveFieldName().compare("mConstructor")) {
+    return injectionArgumentList.front();
+  } else if (!injectionArgumentList.back()->deriveFieldName().compare("mConstructor")) {
+    return injectionArgumentList.back();
+  }
+  return NULL;
+}
+
+InjectionArgument* LLVMPointerOwnerType::
+getDestructorArgument(const InjectionArgumentList injectionArgumentList) const {
+  if (!injectionArgumentList.front()->deriveFieldName().compare("mDestructor")) {
+    return injectionArgumentList.front();
+  } else if (!injectionArgumentList.back()->deriveFieldName().compare("mDestructor")) {
+    return injectionArgumentList.back();
+  }
+  return NULL;
+}
+
+void LLVMPointerOwnerType::checkConstructorType(IRGenerationContext& context,
+                                                const wisey::IType* constructorType,
+                                                int line) const {
+  if (!constructorType->isFunction()) {
+    context.reportError(line, "Injected pointer constructor must be a function");
+    throw 1;
+  }
+  const LLVMFunctionType* functionType = ((const LLVMFunction*) constructorType)->getType();
+  if (functionType->getReturnType() != mPointerType) {
+    context.reportError(line, "Injected pointer constructor should return the pointer type");
+    throw 1;
+  }
+  if (functionType->getArgumentTypes().size()) {
+    context.reportError(line, "Injected pointer constructor should not have any arguments");
+    throw 1;
+  }
+}
+
+void LLVMPointerOwnerType::checkDestructorType(IRGenerationContext& context,
+                                               const wisey::IType* destructorType,
+                                               int line) const {
+  if (!destructorType->isFunction()) {
+    context.reportError(line, "Injected pointer destructor must be a function");
+    throw 1;
+  }
+  const LLVMFunctionType* functionType = ((const LLVMFunction*) destructorType)->getType();
+  if (functionType->getReturnType() != LLVMPrimitiveTypes::VOID) {
+    context.reportError(line, "Injected pointer destructor should return ::llvm::void");
+    throw 1;
+  }
+  if (functionType->getArgumentTypes().size() != 1) {
+    context.reportError(line, "Injected pointer destructor function should have one argument");
+    throw 1;
+  }
+  if (functionType->getArgumentTypes().front() != mPointerType) {
+    context.reportError(line, "Injected pointer destructor should take pointer type "
+                        "as the only argument");
+    throw 1;
+  }
 }
