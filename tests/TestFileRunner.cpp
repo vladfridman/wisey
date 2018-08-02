@@ -125,7 +125,7 @@ void TestFileRunner::compileAndRunFile(string fileName, int expectedResult) {
   string wiseyCompileCommand = "bin/wiseyc " + fileName + " " + LIBWISEY +
     " --no-optimization -o build/test.o";
   exec(wiseyCompileCommand.c_str());
-  exec("g++ -o build/test build/test.o -Llib -lwisey -ldata");
+  exec("g++ -o build/test build/test.o -Llib -lwisey");
   int result = system("build/test");
   int returnValue = WEXITSTATUS(result);
   
@@ -141,26 +141,7 @@ void TestFileRunner::compileAndRunFileCheckOutput(string fileName,
   string wiseyCompileCommand = "bin/wiseyc " + fileName + " " + LIBWISEY +
   " --no-optimization -o build/test.o";
   exec(wiseyCompileCommand.c_str());
-  exec("g++ -o build/test build/test.o -Llib -lwisey -ldata");
-  int result = system("build/test > build/wisey.out 2> build/wisey.err");
-  int returnValue = WEXITSTATUS(result);
-  
-  checkOutput(STDOUT_FILE, expectedOut);
-  checkOutput(STDERR_FILE, expectedErr);
-  
-  EXPECT_EQ(returnValue, expectedResult);
-}
-
-void TestFileRunner::compileAndRunFileWithDestructorDebugCheckOutput(string fileName,
-                                                                     int expectedResult,
-                                                                     string expectedOut,
-                                                                     string expectedErr) {
-  exec("mkdir -p build");
-  
-  string wiseyCompileCommand = "bin/wiseyc " + fileName + " " + LIBWISEY +
-  " --no-optimization -d -o build/test.o";
-  exec(wiseyCompileCommand.c_str());
-  exec("g++ -o build/test build/test.o -Llib -lwisey -ldata");
+  exec("g++ -o build/test build/test.o -Llib -lwisey");
   int result = system("build/test > build/wisey.out 2> build/wisey.err");
   int returnValue = WEXITSTATUS(result);
   
