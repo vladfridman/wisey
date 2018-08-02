@@ -103,6 +103,7 @@ llvm::Value* ArrayOwnerType::castTo(IRGenerationContext& context,
 void ArrayOwnerType::free(IRGenerationContext& context,
                           llvm::Value* arrayPointer,
                           llvm::Value* exception,
+                          const LLVMFunction* customDestructor,
                           int line) const {
   const IType* elementType = mArrayType->getElementType();
   llvm::Type* genericPointer = llvm::Type::getInt64Ty(context.getLLVMContext())->getPointerTo();

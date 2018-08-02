@@ -31,6 +31,7 @@ namespace wisey {
     void free(IRGenerationContext& context,
               llvm::Value* arrayPointer,
               llvm::Value* exception,
+              const LLVMFunction* customDestructor,
               int line) const override;
     
     std::string getTypeName() const override;

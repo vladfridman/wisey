@@ -81,6 +81,6 @@ void ParameterOwnerVariable::setToNull(IRGenerationContext& context, int line) {
 
 void ParameterOwnerVariable::free(IRGenerationContext& context, Value* exception, int line) const {
   Value* valueLoaded = IRWriter::newLoadInst(context, mValueStore, "");
-  mType->free(context, valueLoaded, exception, line);
+  mType->free(context, valueLoaded, exception, NULL, line);
 }
 

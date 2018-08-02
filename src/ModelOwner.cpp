@@ -74,6 +74,7 @@ Value* ModelOwner::castTo(IRGenerationContext& context,
 void ModelOwner::free(IRGenerationContext& context,
                       Value* value,
                       Value* exception,
+                      const LLVMFunction* customDestructor,
                       int line) const {
   IConcreteObjectType::composeDestructorCall(context, mModel, value, exception, line);
 }

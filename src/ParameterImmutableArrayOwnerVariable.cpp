@@ -89,5 +89,5 @@ void ParameterImmutableArrayOwnerVariable::free(IRGenerationContext& context,
                                                 Value* exception,
                                                 int line) const {
   Value* valueLoaded = IRWriter::newLoadInst(context, mValueStore, "");
-  mImmutableArrayOwnerType->free(context, valueLoaded, exception, line);
+  mImmutableArrayOwnerType->free(context, valueLoaded, exception, NULL, line);
 }

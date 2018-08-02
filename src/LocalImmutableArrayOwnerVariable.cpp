@@ -118,5 +118,5 @@ void LocalImmutableArrayOwnerVariable::free(IRGenerationContext& context,
                                             Value* exception,
                                             int line) const {
   Value* value = IRWriter::newLoadInst(context, mValueStore, "");
-  mImmutableArrayOwnerType->free(context, value, exception, line);
+  mImmutableArrayOwnerType->free(context, value, exception, NULL, line);
 }

@@ -176,6 +176,7 @@ const WiseyObjectType* WiseyObjectOwnerType::getReference() const {
 void WiseyObjectOwnerType::free(IRGenerationContext& context,
                                 Value* value,
                                 llvm::Value* exception,
+                                const LLVMFunction* customDestructor,
                                 int line) const {
   Type* int8pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   Value* bitcast = IRWriter::newBitCastInst(context, value, int8pointer);

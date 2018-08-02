@@ -87,7 +87,7 @@ void InjectedField::free(IRGenerationContext& context,
                          Value* exception,
                          int line) const {
   const IOwnerType* ownerType = (const IOwnerType*) mType;
-  ownerType->free(context, fieldValue, exception, line);
+  ownerType->free(context, fieldValue, exception, NULL, line);
 }
 
 void InjectedField::checkType(IRGenerationContext& context) const {

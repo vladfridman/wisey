@@ -16,6 +16,7 @@
 namespace wisey {
   
   class IReferenceType;
+  class LLVMFunction;
   
   /**
    * Represents an IType that is an owner reference
@@ -35,6 +36,7 @@ namespace wisey {
     virtual void free(IRGenerationContext& context,
                       llvm::Value* value,
                       llvm::Value* exception,
+                      const LLVMFunction* customDestructor,
                       int line) const = 0;
     
     /**

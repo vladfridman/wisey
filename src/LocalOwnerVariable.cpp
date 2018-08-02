@@ -98,6 +98,6 @@ void LocalOwnerVariable::setToNull(IRGenerationContext& context, int line) {
 
 void LocalOwnerVariable::free(IRGenerationContext& context, Value* exception, int line) const {
   Value* valueLoaded = IRWriter::newLoadInst(context, mValueStore, "");
-  mType->free(context, valueLoaded, exception, line);
+  mType->free(context, valueLoaded, exception, NULL, line);
 }
 

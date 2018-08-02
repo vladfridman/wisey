@@ -66,6 +66,7 @@ llvm::Value* ArrayExactOwnerType::castTo(IRGenerationContext &context,
 void ArrayExactOwnerType::free(IRGenerationContext& context,
                                llvm::Value* arrayPointer,
                                llvm::Value* exception,
+                               const LLVMFunction* customDestructor,
                                int line) const {
   // This should never be called
   assert(false);

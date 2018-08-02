@@ -76,6 +76,7 @@ Value* ControllerOwner::castTo(IRGenerationContext& context,
 void ControllerOwner::free(IRGenerationContext& context,
                            Value* value,
                            Value* exception,
+                           const LLVMFunction* customDestructor,
                            int line) const {
   IConcreteObjectType::composeDestructorCall(context, mController, value, exception, line);
 }

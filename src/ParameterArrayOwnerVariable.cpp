@@ -79,5 +79,5 @@ void ParameterArrayOwnerVariable::free(IRGenerationContext& context,
                                        Value* exception,
                                        int line) const {
   Value* valueLoaded = IRWriter::newLoadInst(context, mValueStore, "");
-  mArrayOwnerType->free(context, valueLoaded, exception, line);
+  mArrayOwnerType->free(context, valueLoaded, exception, NULL, line);
 }

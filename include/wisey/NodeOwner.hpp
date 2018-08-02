@@ -36,6 +36,7 @@ namespace wisey {
     void free(IRGenerationContext& context,
               llvm::Value* value,
               llvm::Value* exception,
+              const LLVMFunction* customDestructor,
               int line) const override;
     
     bool canCastTo(IRGenerationContext& context, const IType* toType) const override;

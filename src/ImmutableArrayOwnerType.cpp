@@ -75,6 +75,7 @@ llvm::Value* ImmutableArrayOwnerType::castTo(IRGenerationContext &context,
 void ImmutableArrayOwnerType::free(IRGenerationContext& context,
                                    llvm::Value* arrayPointer,
                                    llvm::Value* exception,
+                                   const LLVMFunction* customDestructor,
                                    int line) const {
   const ArrayType* arrayType = getArrayType(context, line);
   

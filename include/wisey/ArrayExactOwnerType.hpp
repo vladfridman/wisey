@@ -35,6 +35,7 @@ namespace wisey {
     void free(IRGenerationContext& context,
               llvm::Value* arrayPointer,
               llvm::Value* exception,
+              const LLVMFunction* customDestructor,
               int line) const override;
     
     std::string getTypeName() const override;
@@ -97,7 +98,7 @@ namespace wisey {
     const IReferenceType* getReference() const override;
     
     llvm::Instruction* inject(IRGenerationContext& context,
-                              const std::vector<InjectionArgument*> injectionArgumentList,
+                              const InjectionArgumentList injectionArgumentList,
                               int line) const override;
 
   };

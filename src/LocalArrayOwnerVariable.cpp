@@ -117,5 +117,5 @@ void LocalArrayOwnerVariable::setToNull(IRGenerationContext& context, int line) 
 
 void LocalArrayOwnerVariable::free(IRGenerationContext& context, Value* exception, int line) const {
   Value* value = IRWriter::newLoadInst(context, mValueStore, "");
-  mArrayOwnerType->free(context, value, exception, line);
+  mArrayOwnerType->free(context, value, exception, NULL, line);
 }

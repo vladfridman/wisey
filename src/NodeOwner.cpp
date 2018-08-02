@@ -75,6 +75,7 @@ Value* NodeOwner::castTo(IRGenerationContext& context,
 void NodeOwner::free(IRGenerationContext &context,
                      Value* value,
                      Value* exception,
+                     const LLVMFunction* customDestructor,
                      int line) const {
   IConcreteObjectType::composeDestructorCall(context, mNode, value, exception, line);
 }

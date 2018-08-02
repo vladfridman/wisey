@@ -695,7 +695,7 @@ void IConcreteObjectType::freeOwnerFields(IRGenerationContext& context,
     }
 
     const IOwnerType* ownerType = (const IOwnerType*) fieldType;
-    ownerType->free(context, fieldValuePointer, exception, line);
+    ownerType->free(context, fieldValuePointer, exception, NULL, line);
   }
 }
 
