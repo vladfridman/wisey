@@ -105,10 +105,11 @@ const LLVMFunction* InjectedField::getDestructorFunction(IRGenerationContext& co
   if (!destructorArgument) {
     return NULL;
   }
-  if (!destructorArgument->getType(context)->isFunction()) {
+  const IType* destructorType = destructorArgument->getType(context);
+  if (!destructorType->isFunction()) {
     return NULL;
   }
-  return (const LLVMFunction*) destructorArgument->getType(context);
+  return (const LLVMFunction*) destructorType;
 }
 
 void InjectedField::checkType(IRGenerationContext& context) const {

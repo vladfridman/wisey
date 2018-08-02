@@ -7,8 +7,8 @@ import wisey.data.COwnerMap;
  * Manages instances of context injected objects
  */
 controller CContextManager {
-  inject CReferenceMap* mContextNameToContextMap.withSize(CReferenceMap.DEFAULT_SIZE);
-  inject COwnerMap* mContextToObjectMap.withSize(COwnerMap.DEFAULT_SIZE);
+  inject immediate CReferenceMap* mContextNameToContextMap;
+  inject immediate COwnerMap* mContextToObjectMap;
 
   /**
    * Find the existing instance of the object with the given name in the given context

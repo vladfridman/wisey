@@ -12,44 +12,43 @@ model MCar {
 }
 
 controller CProgram implements IProgram {
-  inject CReferenceMap* mMap.withSize(107);
-
   public int run(immutable string[] arguments) override {
     MCar* toyota = build(MCar).withMake("Toyota").onHeap(); 
     MCar* bmw = build(MCar).withMake("BMW").onHeap(); 
     MCar* mercedes = build(MCar).withMake("Mercedes").onHeap();
+    CReferenceMap* map = CReferenceMap.create();
 
-    mMap.put(toyota.getMake(), toyota);
-    mMap.put(bmw.getMake(), bmw);
-    mMap.put(bmw.getMake(), bmw);
-    mMap.put(mercedes.getMake(), mercedes);
+    map.put(toyota.getMake(), toyota);
+    map.put(bmw.getMake(), bmw);
+    map.put(bmw.getMake(), bmw);
+    map.put(mercedes.getMake(), mercedes);
 
-    MCar car = mMap.get(toyota.getMake());
+    MCar car = map.get(toyota.getMake());
     printout("Lookup " + toyota.getMake() + ": " + car.getMake() + "\n");
-    car = mMap.get(bmw.getMake());
+    car = map.get(bmw.getMake());
     printout("Lookup " + bmw.getMake() + ": " + car.getMake() + "\n");
-    car = mMap.get(mercedes.getMake());
+    car = map.get(mercedes.getMake());
     printout("Lookup " + mercedes.getMake() + ": " + car.getMake() + "\n");
 
-    mMap.erase(bmw.getMake());
-    car = mMap.get(bmw.getMake());
+    map.erase(bmw.getMake());
+    car = map.get(bmw.getMake());
     if (car == null) {
       printout("BMW was erased\n");
     } else {
       printout("BMW is still there\n");
     }
 
-    mMap.erase(toyota.getMake());
-    mMap.erase(bmw.getMake());
-    mMap.erase(mercedes.getMake());
+    map.erase(toyota.getMake());
+    map.erase(bmw.getMake());
+    map.erase(mercedes.getMake());
 
-    car = mMap.get(toyota.getMake());
+    car = map.get(toyota.getMake());
     if (car == null) {
       printout("Toyota was erased\n");
     } else {
       printout("Toyota is still there\n");
     }
-    car = mMap.get(mercedes.getMake());
+    car = map.get(mercedes.getMake());
     if (car == null) {
       printout("Mercedes was erased\n");
     } else {

@@ -9,7 +9,7 @@ controller CBinaryTrees implements IProgram {
 
   inject NElement*[ARRAY_SIZE]* mArray;
   inject immediate CMemoryPool* mPool;
-  inject CReferenceMap* mMap.withSize(1007);
+  inject CReferenceMap* mMap;
 
   public int run(immutable string[] arguments) override {
     for (long i = 0; i < ARRAY_SIZE; i++) {

@@ -34,7 +34,8 @@ controller CProgram implements IProgram {
     value2 = null;
     car1ref = null;
     car2ref = null;
-    ::llvm::function::stl_map_destroy_objects(map);
+    ::llvm::function::stl_map_of_owners_clear(map);
+    ::llvm::function::stl_map_destroy(map);
     printout("done destroying\n");
 
     return 1;

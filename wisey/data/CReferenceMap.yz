@@ -1,62 +1,53 @@
 package wisey.data;
 
-import wisey.lang.CMemoryPool;
-
 /**
  * Map of references to wisey objects
  */
 controller CReferenceMap {
 
-  public constant long DEFAULT_SIZE = 109l;
-
-  receive long mSize;
-  inject immediate CPointerMap* mPointerMap.withSize(mSize);
-  inject immediate CMemoryPool* mMemoryPool;
-
-  /**
-   * Creates a hashmap of deafault size
-   */
-  public static CReferenceMap* create() {
-    return injector(CReferenceMap).withSize(DEFAULT_SIZE).inject();
-  }
-
-  /**
-   * Creates a hashmap of a given size
-   */
-  public static CReferenceMap* createWithSize(long size) {
-    return injector(CReferenceMap).withSize(size).inject();
-  }
+  inject immediate ::llvm::i8::pointer* mStdMap.withConstructor(mapCreate).withDestructor(mapDestroy);
 
   /**
    * Puts a reference to an object into the map according keyed by the given key
    */
   public void put(::llvm::i8::pointer key, ::wisey::object value) {
-    CReferenceList.NElement* element = build(CReferenceList.NElement)
-      .withKey(key)
-      .withValue(value)
-      .onPool(mMemoryPool);
-    mPointerMap.put(key, element);
+    ::llvm::function::stl_map_put_reference(mStdMap, key, value);
   }
 
   /**
    * Looks up a reference to an object given by the key
    */
   public ::wisey::object get(::llvm::i8::pointer key) {
-    CPointerList.IListElement element = mPointerMap.get(key);
-    return element ? ((CReferenceList.NElement) element).getValue() : null;
+    return ::llvm::function::stl_map_get(mStdMap, key);
+  }
+
+  /**
+   * Creates an instance of the CReferenceMap
+   */
+  public static CReferenceMap* create() {
+    return injector(CReferenceMap).inject();
   }
 
   /**
    * Erases entries in the hashmap with the given key
    */
   public void erase(::llvm::i8::pointer key) {
-    mPointerMap.erase(key);
+    ::llvm::function::stl_map_erase_reference(mStdMap, key);
   }
 
   /**
    * Clears the map
    */
   public void clear() {
-    mPointerMap.clear();
+    ::llvm::function::stl_map_of_references_clear(mStdMap);
+  }
+
+  private ::llvm::function ::llvm::i8::pointer mapCreate() {
+    return ::llvm::function::stl_map_create();
+  }
+
+  private ::llvm::function ::llvm::void mapDestroy(::llvm::i8::pointer map) {
+    ::llvm::function::stl_map_of_references_clear(map);
+    ::llvm::function::stl_map_destroy(map);
   }
 }

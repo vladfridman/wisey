@@ -247,18 +247,12 @@ external controller wisey.data.COwnerList {
 
 external controller wisey.data.COwnerMap {
 
-  constant long DEFAULT_SIZE;
-
-  receive long mSize;
-
-  static wisey.data.COwnerMap* create();
-  static wisey.data.COwnerMap* createWithSize(
-    long size);
   void put(
     ::llvm::i8::pointer key,
     ::wisey::object* value);
   ::wisey::object get(
     ::llvm::i8::pointer key);
+  static wisey.data.COwnerMap* create();
   void erase(
     ::llvm::i8::pointer key);
   void clear();
@@ -326,18 +320,12 @@ external controller wisey.data.CReferenceList {
 
 external controller wisey.data.CReferenceMap {
 
-  constant long DEFAULT_SIZE;
-
-  receive long mSize;
-
-  static wisey.data.CReferenceMap* create();
-  static wisey.data.CReferenceMap* createWithSize(
-    long size);
   void put(
     ::llvm::i8::pointer key,
     ::wisey::object value);
   ::wisey::object get(
     ::llvm::i8::pointer key);
+  static wisey.data.CReferenceMap* create();
   void erase(
     ::llvm::i8::pointer key);
   void clear();
@@ -654,10 +642,12 @@ external ::llvm::function ::llvm::i32 "printf"(::llvm::i8::pointer, ...);
 external ::llvm::function ::llvm::i32 "sprintf"(::llvm::i8::pointer, ::llvm::i8::pointer, ...);
 external ::llvm::function ::llvm::i32 "sscanf"(::llvm::i8::pointer, ::llvm::i8::pointer, ...);
 external ::llvm::function ::llvm::i8::pointer "stl_map_create"();
-external ::llvm::function ::llvm::void "stl_map_decrement_reference_counts"(::llvm::i8::pointer);
 external ::llvm::function ::llvm::void "stl_map_destroy"(::llvm::i8::pointer);
-external ::llvm::function ::llvm::void "stl_map_destroy_objects"(::llvm::i8::pointer);
+external ::llvm::function ::llvm::void "stl_map_erase_owner"(::llvm::i8::pointer, ::llvm::i8::pointer);
+external ::llvm::function ::llvm::void "stl_map_erase_reference"(::llvm::i8::pointer, ::llvm::i8::pointer);
 external ::llvm::function ::llvm::i8::pointer "stl_map_get"(::llvm::i8::pointer, ::llvm::i8::pointer);
+external ::llvm::function ::llvm::void "stl_map_of_owners_clear"(::llvm::i8::pointer);
+external ::llvm::function ::llvm::void "stl_map_of_references_clear"(::llvm::i8::pointer);
 external ::llvm::function ::llvm::void "stl_map_put_owner"(::llvm::i8::pointer, ::llvm::i8::pointer, ::wisey::object*);
 external ::llvm::function ::llvm::void "stl_map_put_reference"(::llvm::i8::pointer, ::llvm::i8::pointer, ::wisey::object);
 external ::llvm::function ::llvm::i32 "strcmp"(::llvm::i8::pointer, ::llvm::i8::pointer);

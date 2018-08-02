@@ -409,6 +409,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
                                                 const void* object) {
   const IConcreteObjectType* concreteObject = (const IConcreteObjectType*) object;
   LLVMContext& llvmContext = context.getLLVMContext();
+  context.setObjectType(concreteObject);
   
   BasicBlock* basicBlock = BasicBlock::Create(llvmContext, "entry", function, 0);
   context.setBasicBlock(basicBlock);
@@ -512,6 +513,7 @@ void IConcreteObjectType::composePooledObjectDestructorBody(IRGenerationContext&
                                                             const void* object) {
   const IConcreteObjectType* concreteObject = (const IConcreteObjectType*) object;
   LLVMContext& llvmContext = context.getLLVMContext();
+  context.setObjectType(concreteObject);
   
   BasicBlock* basicBlock = BasicBlock::Create(llvmContext, "entry", function, 0);
   context.setBasicBlock(basicBlock);

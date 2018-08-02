@@ -30,7 +30,8 @@ controller CProgram implements IProgram {
     MCar value2 = ::llvm::function::stl_map_get(map, car2ref);
     printout("car year = " + value1.getYear() + "\n");
     printout("car year = " + value2.getYear() + "\n");
-    ::llvm::function::stl_map_decrement_reference_counts(map);
+    ::llvm::function::stl_map_of_references_clear(map);
+    ::llvm::function::stl_map_destroy(map);
     printout("done decrementing references\n");
 
     return 1;

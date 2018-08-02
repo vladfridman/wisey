@@ -27,7 +27,6 @@ TEST_F(TestFileRunner, cReferenceMapRunTest) {
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
                                         "done destructing systems.vos.wisey.compiler.tests.MCar\n"
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n"
-                                        "freeing systems.vos.wisey.compiler.tests.CProgram.mMap\n"
                                         "done destructing systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");
 }
