@@ -299,6 +299,7 @@ external controller wisey.data.CReferenceToOwnerMap {
   void erase(
     ::llvm::i8::pointer key);
   void clear();
+  long getSize();
 }
 
 external controller wisey.data.CReferenceToReferenceMap {
@@ -312,6 +313,7 @@ external controller wisey.data.CReferenceToReferenceMap {
   void erase(
     ::llvm::i8::pointer key);
   void clear();
+  long getSize();
 }
 
 external controller wisey.data.CReferenceVector {

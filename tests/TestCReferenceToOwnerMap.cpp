@@ -14,6 +14,7 @@
 
 TEST_F(TestFileRunner, cReferenceToOwnerMapRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_creference_to_owner_map.yz",
+                                        "Hashmap size: 3\n"
                                         "bmw is null\n"
                                         "Lookup Toyota: Toyota\n"
                                         "Lookup BMW: BMW\n"

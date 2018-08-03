@@ -14,6 +14,7 @@
 
 TEST_F(TestFileRunner, cReferenceToReferenceMapRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_creference_to_reference_map.yz",
+                                        "Hashmap size: 3\n"
                                         "Lookup Toyota: Toyota\n"
                                         "Lookup BMW: BMW\n"
                                         "Lookup Mercedes: Mercedes\n"

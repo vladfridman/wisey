@@ -26,6 +26,8 @@ controller CProgram implements IProgram {
     mMap.put(bmw.getMake(), bmw);
     mMap.put(mercedes.getMake(), mercedes);
 
+    printout("Hashmap size: " + mMap.getSize() + "\n");
+
     if (bmw == null) {
       printout("bmw is null\n");
     } else {

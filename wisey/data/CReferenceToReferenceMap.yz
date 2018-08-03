@@ -42,6 +42,13 @@ controller CReferenceToReferenceMap {
     ::llvm::function::stl_reference_to_reference_map_clear(mStdMap);
   }
 
+  /**
+   * Returns map size
+   */
+  public long getSize() {
+    return ::llvm::function::stl_reference_to_object_map_size(mStdMap);
+  }
+
   private ::llvm::function ::llvm::i8::pointer mapCreate() {
     return ::llvm::function::stl_reference_to_object_map_create();
   }

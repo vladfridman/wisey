@@ -113,6 +113,14 @@ extern "C" void stl_reference_to_owner_map_clear(void* map) {
   mapCast->clear();
 }
 
+/**
+ * Returns map size
+ */
+extern "C" int64_t stl_reference_to_object_map_size(void* map) {
+  std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
+  return mapCast->size();
+}
+
 void destroy_wisey_object(void* objectPointer) {
   int8_t** object = (int8_t**) objectPointer;
   int8_t* vTablePortion = *object;
