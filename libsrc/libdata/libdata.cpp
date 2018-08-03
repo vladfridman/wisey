@@ -143,8 +143,7 @@ void adjust_wisey_object_reference_count(void* objectPointer, int adjustment) {
   char* typeShortName = (char*) typeTable[0];
   char firstLetter = typeShortName[0];
   if (firstLetter == 'm' || firstLetter == 't') {
-    // TODO: change to safe reference counter adjustment here
-    *referenceCounter = *referenceCounter + adjustment;
+    __sync_fetch_and_add(referenceCounter, adjustment);
   } else {
     *referenceCounter = *referenceCounter + adjustment;
   }
