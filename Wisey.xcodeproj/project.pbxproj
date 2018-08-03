@@ -801,6 +801,7 @@
 		F59362A220CFE98800A8C67A /* TestPoolBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59362A120CFE98800A8C67A /* TestPoolBuilder.cpp */; };
 		F596927D2114C97600F19C4E /* TestCReferenceToOwnerMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F596927B2114C97600F19C4E /* TestCReferenceToOwnerMap.cpp */; };
 		F596927E2114C97600F19C4E /* TestCReferenceToReferenceMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F596927C2114C97600F19C4E /* TestCReferenceToReferenceMap.cpp */; };
+		F5969280211502D000F19C4E /* TestCLongToIntMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F596927F211502D000F19C4E /* TestCLongToIntMap.cpp */; };
 		F598117A20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117B20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117E20A0676E003AADCA /* TestObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */; };
@@ -1849,6 +1850,7 @@
 		F59362A120CFE98800A8C67A /* TestPoolBuilder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestPoolBuilder.cpp; path = tests/TestPoolBuilder.cpp; sourceTree = "<group>"; };
 		F596927B2114C97600F19C4E /* TestCReferenceToOwnerMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCReferenceToOwnerMap.cpp; path = tests/TestCReferenceToOwnerMap.cpp; sourceTree = "<group>"; };
 		F596927C2114C97600F19C4E /* TestCReferenceToReferenceMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCReferenceToReferenceMap.cpp; path = tests/TestCReferenceToReferenceMap.cpp; sourceTree = "<group>"; };
+		F596927F211502D000F19C4E /* TestCLongToIntMap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCLongToIntMap.cpp; path = tests/TestCLongToIntMap.cpp; sourceTree = "<group>"; };
 		F598117720A05DAC003AADCA /* ObjectKindGlobal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ObjectKindGlobal.hpp; path = include/wisey/ObjectKindGlobal.hpp; sourceTree = "<group>"; };
 		F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectKindGlobal.cpp; path = src/ObjectKindGlobal.cpp; sourceTree = "<group>"; };
 		F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectKindGlobal.cpp; path = tests/TestObjectKindGlobal.cpp; sourceTree = "<group>"; };
@@ -4044,6 +4046,7 @@
 			children = (
 				F5D159A720A7133500107E84 /* TestCContextManager.cpp */,
 				F5D1599620A48E5E00107E84 /* TestCFileReader.cpp */,
+				F596927F211502D000F19C4E /* TestCLongToIntMap.cpp */,
 				F593627920C424D600A8C67A /* TestCMemoryPool.cpp */,
 				F5D159A320A7020D00107E84 /* TestCOwnerList.cpp */,
 				F50D5E3720B4884100A025E9 /* TestCOwnerVector.cpp */,
@@ -4603,6 +4606,7 @@
 				F5C6FD6D1E48B37D0054209D /* TestVoidType.cpp in Sources */,
 				F556E6551EDDD2F900CCC3D7 /* IConcreteObjectType.cpp in Sources */,
 				F55CF17A1F7DA3EA00A11426 /* TestExternalMethod.cpp in Sources */,
+				F5969280211502D000F19C4E /* TestCLongToIntMap.cpp in Sources */,
 				F55CF1781F7DA22800A11426 /* TestExternalStaticMethodDefinition.cpp in Sources */,
 				F50FA2D81E2D324100435EEA /* CaseStatement.cpp in Sources */,
 				F52746C9201A3C0700503713 /* TestArrayAllocationStatic.cpp in Sources */,

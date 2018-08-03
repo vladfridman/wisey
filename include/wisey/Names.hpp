@@ -94,6 +94,11 @@ namespace wisey {
      * Returns name of the io package
      */
     static std::string getIOPackageName();
+    
+    /**
+     * Returns name of the data package
+     */
+    static std::string getDataPackageName();
 
     /**
      * Get name of the stderr pointer

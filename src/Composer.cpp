@@ -181,7 +181,8 @@ bool Composer::shouldSkipCallStack(IRGenerationContext& context) {
   const IObjectType* objectType = context.getObjectType();
   if (objectType == NULL || !objectType->getTypeName().find(Names::getThreadsPackageName())
       || !objectType->getTypeName().find(Names::getLangPackageName())
-      || !objectType->getTypeName().find(Names::getIOPackageName())) {
+      || !objectType->getTypeName().find(Names::getIOPackageName())
+      || !objectType->getTypeName().find(Names::getDataPackageName())) {
     // avoid inifinite recursion in wisey.lang.TMainThread
     return true;
   }

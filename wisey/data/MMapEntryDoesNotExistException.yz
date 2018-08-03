@@ -1,0 +1,13 @@
+package wisey.data;
+
+import wisey.lang.IException;
+
+/**
+ * Thrown when trying to get an entry that does not exist
+ */
+model MMapEntryDoesNotExistException implements IException {
+
+  public void report() override {
+    callstack.reportException(this);
+  }
+}

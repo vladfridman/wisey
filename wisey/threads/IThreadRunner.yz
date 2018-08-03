@@ -1,5 +1,6 @@
 package wisey.threads;
 
+import wisey.data.MMapEntryDoesNotExistException;
 import wisey.io.MFileAccessException;
 import wisey.io.MFileCloseException;
 import wisey.io.MFileCouldNotCloseException;
@@ -56,6 +57,8 @@ interface IThreadRunner {
     } catch (MInterfaceNotBoundException* exception) {
       exception.report();
     } catch (MMemoryPoolNonEmpty* exception) {
+      exception.report();
+    } catch (MMapEntryDoesNotExistException* exception) {
       exception.report();
     }
 

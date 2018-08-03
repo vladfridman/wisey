@@ -53,6 +53,13 @@ external interface wisey.threads.IWorker {
 
 /* Models */
 
+external model wisey.data.MMapEntryDoesNotExistException
+  implements
+    wisey.lang.IException {
+
+  void report() override;
+}
+
 external model wisey.io.MFileAccessException
   implements
     wisey.lang.IException {
@@ -233,6 +240,22 @@ external model wisey.threads.MThreadBoundaryException
 }
 
 /* Controllers */
+
+external controller wisey.data.CLongToIntMap {
+
+  void put(
+    long key,
+    int value);
+  int get(
+    long key) throws wisey.data.MMapEntryDoesNotExistException;
+  boolean has(
+    long key) throws wisey.data.MMapEntryDoesNotExistException;
+  static wisey.data.CLongToIntMap* create();
+  void erase(
+    long key);
+  void clear();
+  long getSize();
+}
 
 external controller wisey.data.COwnerList {
 

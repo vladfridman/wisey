@@ -71,6 +71,10 @@ string Names::getIOPackageName() {
   return "wisey.io";
 }
 
+string Names::getDataPackageName() {
+  return "wisey.data";
+}
+
 string Names::getStdErrName() {
   return "__stderrp";
 }

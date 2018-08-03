@@ -14,11 +14,20 @@ extern "C" void* stl_reference_to_object_map_create() {
   return new std::map<void*, void*>();
 }
 
+extern "C" void* stl_long_to_int_map_create() {
+  return new std::map<int64_t, int32_t>();
+}
+
 /**
  * Destroys a hash map
  */
 extern "C" void stl_reference_to_object_map_destroy(void* map) {
   std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
+  delete mapCast;
+}
+
+extern "C" void stl_long_to_int_map_destroy(void* map) {
+  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
   delete mapCast;
 }
 
@@ -49,6 +58,17 @@ extern "C" void stl_reference_to_owner_map_erase(void* map, void* key) {
 }
 
 /**
+ * Erases map entry with the given key
+ */
+extern "C" void stl_long_to_int_map_erase(void* map, int64_t key) {
+  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
+  if (!mapCast->count(key)) {
+    return;
+  }
+  mapCast->erase(key);
+}
+
+/**
  * Puts a key value pair into a hash map where value is a wisey object reference
  */
 extern "C" void stl_reference_to_reference_map_put(void* map, void* key, void* value) {
@@ -68,6 +88,23 @@ extern "C" void stl_reference_to_owner_map_put(void* map, void* key, void* value
 }
 
 /**
+ * Puts a key value pair into a long to int hash map
+ */
+extern "C" void stl_long_to_int_map_put(void* map, int64_t key, int32_t value) {
+  stl_long_to_int_map_erase(map, key);
+  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
+  mapCast->insert(std::pair<int64_t, int32_t>(key, value));
+}
+
+/**
+ * Return a value for the given key from a hash map
+ */
+extern "C" bool stl_long_to_int_map_has(void* map, int64_t key) {
+  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
+  return mapCast->count(key);
+}
+
+/**
  * Return a value for the given key from a hash map
  */
 extern "C" void* stl_reference_to_object_map_get(void* map, void* key) {
@@ -76,6 +113,14 @@ extern "C" void* stl_reference_to_object_map_get(void* map, void* key) {
     return mapCast->at(key);
   }
   return NULL;
+}
+
+/**
+ * Return a value for the given key from a long to int hash map
+ */
+extern "C" int32_t stl_long_to_int_map_get(void* map, int64_t key) {
+  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
+  return mapCast->at(key);
 }
 
 /**
@@ -114,10 +159,26 @@ extern "C" void stl_reference_to_owner_map_clear(void* map) {
 }
 
 /**
- * Returns map size
+ * Clears a long to int hash map
+ */
+extern "C" void stl_long_to_int_map_clear(void* map) {
+  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
+  mapCast->clear();
+}
+
+/**
+ * Returns reference to reference or reference to owner map size
  */
 extern "C" int64_t stl_reference_to_object_map_size(void* map) {
   std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
+  return mapCast->size();
+}
+
+/**
+ * Returns long to int map size
+ */
+extern "C" int64_t stl_long_to_int_map_size(void* map) {
+  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
   return mapCast->size();
 }
 

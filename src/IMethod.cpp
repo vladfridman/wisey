@@ -56,7 +56,8 @@ void IMethod::checkForUnhandledExceptions(IRGenerationContext& context,
   for (auto iterator = exceptions.begin(); iterator != exceptions.end(); iterator++) {
     if (!iterator->first.find(Names::getLangPackageName()) ||
         !iterator->first.find(Names::getThreadsPackageName()) ||
-        !iterator->first.find(Names::getIOPackageName())) {
+        !iterator->first.find(Names::getIOPackageName()) ||
+        !iterator->first.find(Names::getDataPackageName())) {
       continue;
     }
     string prefix = (method->isStatic() ? "Static method " : "Method ");

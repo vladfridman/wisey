@@ -1,0 +1,48 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.data.CLongToIntMap;
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+  inject CLongToIntMap* mMap;
+
+  public int run(immutable string[] arguments) override {
+    mMap.put(1l, 2);
+    mMap.put(2l, 4);
+    mMap.put(3l, 6);
+
+    printout("Hashmap size: " + mMap.getSize() + "\n");
+
+    printout("Lookup " + 1l + ": " + mMap.get(1l) + "\n");
+    printout("Lookup " + 2l + ": " + mMap.get(2l) + "\n");
+    printout("Lookup " + 3l + ": " + mMap.get(3l) + "\n");
+
+    mMap.erase(1l);
+    if (!mMap.has(1l)) {
+      printout("1 was erased\n");
+    } else {
+      printout("1 is still there\n");
+    }
+
+    mMap.erase(1l);
+    mMap.erase(2l);
+    mMap.erase(3l);
+
+    if (!mMap.has(2l)) {
+      printout("2 was erased\n");
+    } else {
+      printout("2 is still there\n");
+    }
+    if (!mMap.has(3l)) {
+      printout("3 was erased\n");
+    } else {
+      printout("3 is still there\n");
+    }
+
+    printout("Hashmap size: " + mMap.getSize() + "\n");
+
+    return 1;
+  }
+}
+
+bind(IProgram).to(CProgram);

@@ -1,7 +1,5 @@
 package wisey.data;
 
-import wisey.lang.CMemoryPool;
-
 /**
  * Map of owner references to wisey objects
  */
