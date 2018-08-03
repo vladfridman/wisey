@@ -1,18 +1,18 @@
 
-external ::llvm::function ::llvm::i8::pointer stl_map_create();
+external ::llvm::function ::llvm::i8::pointer stl_reference_to_object_map_create();
 
-external ::llvm::function ::llvm::void stl_map_destroy(::llvm::i8::pointer);
+external ::llvm::function ::llvm::void stl_reference_to_object_map_destroy(::llvm::i8::pointer);
 
-external ::llvm::function ::llvm::void stl_map_put_reference(::llvm::i8::pointer, ::llvm::i8::pointer, ::wisey::object);
+external ::llvm::function ::llvm::void stl_reference_to_reference_map_put(::llvm::i8::pointer, ::llvm::i8::pointer, ::wisey::object);
 
-external ::llvm::function ::llvm::void stl_map_put_owner(::llvm::i8::pointer, ::llvm::i8::pointer, ::wisey::object*);
+external ::llvm::function ::llvm::void stl_reference_to_owner_map_put(::llvm::i8::pointer, ::llvm::i8::pointer, ::wisey::object*);
 
-external ::llvm::function ::llvm::i8::pointer stl_map_get(::llvm::i8::pointer, ::llvm::i8::pointer);
+external ::llvm::function ::llvm::i8::pointer stl_reference_to_object_map_get(::llvm::i8::pointer, ::llvm::i8::pointer);
 
-external ::llvm::function ::llvm::void stl_map_of_references_clear(::llvm::i8::pointer);
+external ::llvm::function ::llvm::void stl_reference_to_reference_map_clear(::llvm::i8::pointer);
 
-external ::llvm::function ::llvm::void stl_map_of_owners_clear(::llvm::i8::pointer);
+external ::llvm::function ::llvm::void stl_reference_to_owner_map_clear(::llvm::i8::pointer);
 
-external ::llvm::function ::llvm::void stl_map_erase_reference(::llvm::i8::pointer, ::llvm::i8::pointer);
+external ::llvm::function ::llvm::void stl_reference_to_reference_map_erase(::llvm::i8::pointer, ::llvm::i8::pointer);
 
-external ::llvm::function ::llvm::void stl_map_erase_owner(::llvm::i8::pointer, ::llvm::i8::pointer);
+external ::llvm::function ::llvm::void stl_reference_to_owner_map_erase(::llvm::i8::pointer, ::llvm::i8::pointer);

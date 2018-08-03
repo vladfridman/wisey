@@ -13,14 +13,14 @@ controller CReferenceToOwnerMap {
    * Puts a reference to an object into the map according keyed by the given key
    */
   public void put(::llvm::i8::pointer key, ::wisey::object* value) {
-    ::llvm::function::stl_map_put_owner(mStdMap, key, value);
+    ::llvm::function::stl_reference_to_owner_map_put(mStdMap, key, value);
   }
 
   /**
    * Looks up a reference to an object given by the key
    */
   public ::wisey::object get(::llvm::i8::pointer key) {
-    return ::llvm::function::stl_map_get(mStdMap, key);
+    return ::llvm::function::stl_reference_to_object_map_get(mStdMap, key);
   }
 
   /**
@@ -34,22 +34,22 @@ controller CReferenceToOwnerMap {
    * Erases entries in the hashmap with the given key
    */
   public void erase(::llvm::i8::pointer key) {
-    ::llvm::function::stl_map_erase_owner(mStdMap, key);
+    ::llvm::function::stl_reference_to_owner_map_erase(mStdMap, key);
   }
 
   /**
    * Clears the map
    */
   public void clear() {
-    ::llvm::function::stl_map_of_owners_clear(mStdMap);
+    ::llvm::function::stl_reference_to_owner_map_clear(mStdMap);
   }
 
   private ::llvm::function ::llvm::i8::pointer mapCreate() {
-    return ::llvm::function::stl_map_create();
+    return ::llvm::function::stl_reference_to_object_map_create();
   }
 
   private ::llvm::function ::llvm::void mapDestroy(::llvm::i8::pointer map) {
-    ::llvm::function::stl_map_of_owners_clear(map);
-    ::llvm::function::stl_map_destroy(map);
+    ::llvm::function::stl_reference_to_owner_map_clear(map);
+    ::llvm::function::stl_reference_to_object_map_destroy(map);
   }
 }

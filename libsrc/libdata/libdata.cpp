@@ -4,20 +4,20 @@
  * Library of functions that work with STL data structures
  */
 
-void adjust_reference_count(void* objectPointer, int adjustment);
-void destroy_object(void* objectPointer);
+void adjust_wisey_object_reference_count(void* objectPointer, int adjustment);
+void destroy_wisey_object(void* objectPointer);
 
 /**
  * Creates a hash map
  */
-extern "C" void* stl_map_create() {
+extern "C" void* stl_reference_to_object_map_create() {
   return new std::map<void*, void*>();
 }
 
 /**
  * Destroys a hash map
  */
-extern "C" void stl_map_destroy(void* map) {
+extern "C" void stl_reference_to_object_map_destroy(void* map) {
   std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
   delete mapCast;
 }
@@ -25,44 +25,44 @@ extern "C" void stl_map_destroy(void* map) {
 /**
  * Erases map entry with the given key and decrements reference count of the contained object
  */
-extern "C" void stl_map_erase_reference(void* map, void* key) {
+extern "C" void stl_reference_to_reference_map_erase(void* map, void* key) {
   std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
   if (!mapCast->count(key)) {
     return;
   }
   void* value = mapCast->at(key);
-  adjust_reference_count(value, -1);
+  adjust_wisey_object_reference_count(value, -1);
   mapCast->erase(key);
 }
 
 /**
  * Erases map entry with the given key and destroys the contained object
  */
-extern "C" void stl_map_erase_owner(void* map, void* key) {
+extern "C" void stl_reference_to_owner_map_erase(void* map, void* key) {
   std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
   if (!mapCast->count(key)) {
     return;
   }
   void* value = mapCast->at(key);
-  destroy_object(value);
+  destroy_wisey_object(value);
   mapCast->erase(key);
 }
 
 /**
  * Puts a key value pair into a hash map where value is a wisey object reference
  */
-extern "C" void stl_map_put_reference(void* map, void* key, void* value) {
-  stl_map_erase_reference(map, key);
+extern "C" void stl_reference_to_reference_map_put(void* map, void* key, void* value) {
+  stl_reference_to_reference_map_erase(map, key);
   std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
   mapCast->insert(std::pair<void*, void*>(key, value));
-  adjust_reference_count(value, 1);
+  adjust_wisey_object_reference_count(value, 1);
 }
 
 /**
  * Puts a key value pair into a hash map where value is a wisey object owner
  */
-extern "C" void stl_map_put_owner(void* map, void* key, void* value) {
-  stl_map_erase_owner(map, key);
+extern "C" void stl_reference_to_owner_map_put(void* map, void* key, void* value) {
+  stl_reference_to_owner_map_erase(map, key);
   std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
   mapCast->insert(std::pair<void*, void*>(key, value));
 }
@@ -70,7 +70,7 @@ extern "C" void stl_map_put_owner(void* map, void* key, void* value) {
 /**
  * Return a value for the given key from a hash map
  */
-extern "C" void* stl_map_get(void* map, void* key) {
+extern "C" void* stl_reference_to_object_map_get(void* map, void* key) {
   std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
   if (mapCast->count(key)) {
     return mapCast->at(key);
@@ -81,10 +81,10 @@ extern "C" void* stl_map_get(void* map, void* key) {
 /**
  * Decrement references of objects contained in the hash map
  */
-extern "C" void stl_map_of_references_clear(void* map) {
+extern "C" void stl_reference_to_reference_map_clear(void* map) {
   std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
   for (std::map<void*, void*>::iterator iterator = mapCast->begin(); iterator != mapCast->end(); iterator++) {
-    adjust_reference_count(iterator->second, -1);
+    adjust_wisey_object_reference_count(iterator->second, -1);
   }
   mapCast->clear();
 }
@@ -92,15 +92,15 @@ extern "C" void stl_map_of_references_clear(void* map) {
 /**
  * Destoys objects referenced by owner references in the hash map
  */
-extern "C" void stl_map_of_owners_clear(void* map) {
+extern "C" void stl_reference_to_owner_map_clear(void* map) {
   std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
   for (std::map<void*, void*>::iterator iterator = mapCast->begin(); iterator != mapCast->end(); iterator++) {
-    destroy_object(iterator->second);
+    destroy_wisey_object(iterator->second);
   }
   mapCast->clear();
 }
 
-void destroy_object(void* objectPointer) {
+void destroy_wisey_object(void* objectPointer) {
   int8_t** object = (int8_t**) objectPointer;
   int8_t* vTablePortion = *object;
   int64_t* offsetPointer = (int64_t*) vTablePortion;
@@ -115,7 +115,7 @@ void destroy_object(void* objectPointer) {
   destructor(objectStart, NULL, NULL, NULL);
 }
 
-void adjust_reference_count(void* objectPointer, int adjustment) {
+void adjust_wisey_object_reference_count(void* objectPointer, int adjustment) {
   int8_t** object = (int8_t**) objectPointer;
   int8_t* vTablePortion = *object;
   int64_t* offsetPointer = (int64_t*) vTablePortion;
