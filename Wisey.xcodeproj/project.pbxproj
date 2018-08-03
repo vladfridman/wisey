@@ -799,6 +799,8 @@
 		F593629F20CC25C300A8C67A /* PoolBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F593629E20CC25C300A8C67A /* PoolBuilder.cpp */; };
 		F59362A020CC25C700A8C67A /* PoolBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F593629E20CC25C300A8C67A /* PoolBuilder.cpp */; };
 		F59362A220CFE98800A8C67A /* TestPoolBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59362A120CFE98800A8C67A /* TestPoolBuilder.cpp */; };
+		F596927D2114C97600F19C4E /* TestCReferenceToOwnerMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F596927B2114C97600F19C4E /* TestCReferenceToOwnerMap.cpp */; };
+		F596927E2114C97600F19C4E /* TestCReferenceToReferenceMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F596927C2114C97600F19C4E /* TestCReferenceToReferenceMap.cpp */; };
 		F598117A20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117B20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117E20A0676E003AADCA /* TestObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */; };
@@ -986,9 +988,7 @@
 		F5D1599920A498A900107E84 /* TestCString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D1599820A498A900107E84 /* TestCString.cpp */; };
 		F5D1599B20A498EC00107E84 /* TestMString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D1599A20A498EC00107E84 /* TestMString.cpp */; };
 		F5D159A020A5F0E500107E84 /* TestCReferenceList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D1599F20A5F0E500107E84 /* TestCReferenceList.cpp */; };
-		F5D159A220A6DD1900107E84 /* TestCReferenceMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159A120A6DD1900107E84 /* TestCReferenceMap.cpp */; };
 		F5D159A420A7020D00107E84 /* TestCOwnerList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159A320A7020D00107E84 /* TestCOwnerList.cpp */; };
-		F5D159A620A70A1800107E84 /* TestCOwnerMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159A520A70A1800107E84 /* TestCOwnerMap.cpp */; };
 		F5D159A820A7133500107E84 /* TestCContextManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159A720A7133500107E84 /* TestCContextManager.cpp */; };
 		F5D159AA20A7258100107E84 /* TestCWorkerThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159A920A7258100107E84 /* TestCWorkerThread.cpp */; };
 		F5D159AC20A7261500107E84 /* TestCProducerThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5D159AB20A7261500107E84 /* TestCProducerThread.cpp */; };
@@ -1847,6 +1847,8 @@
 		F593629D20CC255200A8C67A /* PoolBuilder.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = PoolBuilder.hpp; path = include/wisey/PoolBuilder.hpp; sourceTree = "<group>"; };
 		F593629E20CC25C300A8C67A /* PoolBuilder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PoolBuilder.cpp; path = src/PoolBuilder.cpp; sourceTree = "<group>"; };
 		F59362A120CFE98800A8C67A /* TestPoolBuilder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestPoolBuilder.cpp; path = tests/TestPoolBuilder.cpp; sourceTree = "<group>"; };
+		F596927B2114C97600F19C4E /* TestCReferenceToOwnerMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCReferenceToOwnerMap.cpp; path = tests/TestCReferenceToOwnerMap.cpp; sourceTree = "<group>"; };
+		F596927C2114C97600F19C4E /* TestCReferenceToReferenceMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCReferenceToReferenceMap.cpp; path = tests/TestCReferenceToReferenceMap.cpp; sourceTree = "<group>"; };
 		F598117720A05DAC003AADCA /* ObjectKindGlobal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ObjectKindGlobal.hpp; path = include/wisey/ObjectKindGlobal.hpp; sourceTree = "<group>"; };
 		F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectKindGlobal.cpp; path = src/ObjectKindGlobal.cpp; sourceTree = "<group>"; };
 		F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectKindGlobal.cpp; path = tests/TestObjectKindGlobal.cpp; sourceTree = "<group>"; };
@@ -2016,9 +2018,7 @@
 		F5D1599820A498A900107E84 /* TestCString.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCString.cpp; path = tests/TestCString.cpp; sourceTree = "<group>"; };
 		F5D1599A20A498EC00107E84 /* TestMString.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestMString.cpp; path = tests/TestMString.cpp; sourceTree = "<group>"; };
 		F5D1599F20A5F0E500107E84 /* TestCReferenceList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCReferenceList.cpp; path = tests/TestCReferenceList.cpp; sourceTree = "<group>"; };
-		F5D159A120A6DD1900107E84 /* TestCReferenceMap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCReferenceMap.cpp; path = tests/TestCReferenceMap.cpp; sourceTree = "<group>"; };
 		F5D159A320A7020D00107E84 /* TestCOwnerList.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCOwnerList.cpp; path = tests/TestCOwnerList.cpp; sourceTree = "<group>"; };
-		F5D159A520A70A1800107E84 /* TestCOwnerMap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCOwnerMap.cpp; path = tests/TestCOwnerMap.cpp; sourceTree = "<group>"; };
 		F5D159A720A7133500107E84 /* TestCContextManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCContextManager.cpp; path = tests/TestCContextManager.cpp; sourceTree = "<group>"; };
 		F5D159A920A7258100107E84 /* TestCWorkerThread.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCWorkerThread.cpp; path = tests/TestCWorkerThread.cpp; sourceTree = "<group>"; };
 		F5D159AB20A7261500107E84 /* TestCProducerThread.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCProducerThread.cpp; path = tests/TestCProducerThread.cpp; sourceTree = "<group>"; };
@@ -4046,11 +4046,11 @@
 				F5D1599620A48E5E00107E84 /* TestCFileReader.cpp */,
 				F593627920C424D600A8C67A /* TestCMemoryPool.cpp */,
 				F5D159A320A7020D00107E84 /* TestCOwnerList.cpp */,
-				F5D159A520A70A1800107E84 /* TestCOwnerMap.cpp */,
 				F50D5E3720B4884100A025E9 /* TestCOwnerVector.cpp */,
 				F5D159AB20A7261500107E84 /* TestCProducerThread.cpp */,
 				F5D1599F20A5F0E500107E84 /* TestCReferenceList.cpp */,
-				F5D159A120A6DD1900107E84 /* TestCReferenceMap.cpp */,
+				F596927B2114C97600F19C4E /* TestCReferenceToOwnerMap.cpp */,
+				F596927C2114C97600F19C4E /* TestCReferenceToReferenceMap.cpp */,
 				F50D5E3920B4CF1900A025E9 /* TestCReferenceVector.cpp */,
 				F5D1599820A498A900107E84 /* TestCString.cpp */,
 				F5D159A920A7258100107E84 /* TestCWorkerThread.cpp */,
@@ -4331,7 +4331,6 @@
 				F51581221E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */,
 				F5ADB62B1E69860F00FFC941 /* TestMethod.cpp in Sources */,
 				F51581301E8AAB12009CE419 /* Controller.cpp in Sources */,
-				F5D159A620A70A1800107E84 /* TestCOwnerMap.cpp in Sources */,
 				F5436DA61FCF6551003ABF6F /* ControllerTypeSpecifierFull.cpp in Sources */,
 				F531B63F1E089ED6008304F3 /* TestExpressionStatement.cpp in Sources */,
 				F5FE0A201F7D9E7C000621CA /* TestStaticMethodDefinition.cpp in Sources */,
@@ -4539,6 +4538,7 @@
 				F53A2C1C1EF92D8300E76A9E /* TestParameterReferenceVariable.cpp in Sources */,
 				F593627A20C424D600A8C67A /* TestCMemoryPool.cpp in Sources */,
 				F50FF893208BB263008EDC40 /* TestFieldImmutableArrayReferenceVariable.cpp in Sources */,
+				F596927E2114C97600F19C4E /* TestCReferenceToReferenceMap.cpp in Sources */,
 				F517970A1E5C95BC009B16AA /* TestCastExpression.cpp in Sources */,
 				F593628D20C5CCF200A8C67A /* DereferenceExpression.cpp in Sources */,
 				F5D159B220A792F600107E84 /* TestGetTypeNameMethod.cpp in Sources */,
@@ -4679,7 +4679,6 @@
 				F5436DB41FCF72BB003ABF6F /* ModelTypeSpecifierFull.cpp in Sources */,
 				F5A8208B209CB23A003DA505 /* IStatement.cpp in Sources */,
 				F5A8208D209CB2F3003DA505 /* TestIStatement.cpp in Sources */,
-				F5D159A220A6DD1900107E84 /* TestCReferenceMap.cpp in Sources */,
 				F5C0E7D52091DC430028BBD0 /* CheckCastToObjectFunction.cpp in Sources */,
 				F5827080206013CA00839EC7 /* TestLLVMFunctionDeclaration.cpp in Sources */,
 				F56AD49D1E9F4E400020868C /* ThrowStatement.cpp in Sources */,
@@ -4717,6 +4716,7 @@
 				F5D4660220611BEF00C1047A /* TestLLVMFunctionDefinition.cpp in Sources */,
 				F5D1599720A48E5E00107E84 /* TestCFileReader.cpp in Sources */,
 				F51701BD2010649C00A10B7C /* ArrayOwnerType.cpp in Sources */,
+				F596927D2114C97600F19C4E /* TestCReferenceToOwnerMap.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

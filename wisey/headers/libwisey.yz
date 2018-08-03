@@ -293,6 +293,8 @@ external controller wisey.data.CReferenceToOwnerMap {
     ::wisey::object* value);
   ::wisey::object get(
     ::llvm::i8::pointer key);
+  ::wisey::object* take(
+    ::llvm::i8::pointer key);
   static wisey.data.CReferenceToOwnerMap* create();
   void erase(
     ::llvm::i8::pointer key);

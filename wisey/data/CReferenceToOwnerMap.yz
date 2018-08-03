@@ -24,6 +24,13 @@ controller CReferenceToOwnerMap {
   }
 
   /**
+   * Returns the object associated with the given key
+   */
+  public ::wisey::object* take(::llvm::i8::pointer key) {
+    return ::llvm::function::stl_reference_to_owner_map_take(mStdMap, key);
+  }
+
+  /**
    * Creates an instance of the COwnerMap
    */
   public static CReferenceToOwnerMap* create() {

@@ -47,16 +47,20 @@ controller CProgram implements IProgram {
       printout("BMW is still there\n");
     }
 
-    mMap.erase(toyotaMake);
-    mMap.erase(bmwMake);
-    mMap.erase(mercedesMake);
-
+    MCar* carOwner = mMap.take(toyotaMake);
+    printout("Take result: " + carOwner.getMake() + "\n");
+    carOwner = null;
     car = mMap.get(toyotaMake);
     if (car == null) {
       printout("Toyota was erased\n");
     } else {
       printout("Toyota is still there\n");
     }
+
+    mMap.erase(toyotaMake);
+    mMap.erase(bmwMake);
+    mMap.erase(mercedesMake);
+
     car = mMap.get(mercedesMake);
     if (car == null) {
       printout("Mercedes was erased\n");

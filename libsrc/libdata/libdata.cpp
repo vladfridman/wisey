@@ -79,6 +79,19 @@ extern "C" void* stl_reference_to_object_map_get(void* map, void* key) {
 }
 
 /**
+ * Return a value for the given key from a hash map, result is cast to ::wisey::object*
+ */
+extern "C" void* stl_reference_to_owner_map_take(void* map, void* key) {
+  std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
+  if (!mapCast->count(key)) {
+    return NULL;
+  }
+  void* result = mapCast->at(key);
+  mapCast->erase(key);
+  return result;
+}
+
+/**
  * Decrement references of objects contained in the hash map
  */
 extern "C" void stl_reference_to_reference_map_clear(void* map) {

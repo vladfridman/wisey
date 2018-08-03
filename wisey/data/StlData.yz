@@ -9,6 +9,8 @@ external ::llvm::function ::llvm::void stl_reference_to_owner_map_put(::llvm::i8
 
 external ::llvm::function ::llvm::i8::pointer stl_reference_to_object_map_get(::llvm::i8::pointer, ::llvm::i8::pointer);
 
+external ::llvm::function ::wisey::object* stl_reference_to_owner_map_take(::llvm::i8::pointer, ::llvm::i8::pointer);
+
 external ::llvm::function ::llvm::void stl_reference_to_reference_map_clear(::llvm::i8::pointer);
 
 external ::llvm::function ::llvm::void stl_reference_to_owner_map_clear(::llvm::i8::pointer);
