@@ -1,6 +1,6 @@
 package systems.vos.wisey.compiler.tests;
 
-import wisey.data.COwnerMap;
+import wisey.data.CReferenceToOwnerMap;
 import wisey.lang.IProgram;
 
 model MCar {
@@ -12,7 +12,7 @@ model MCar {
 }
 
 controller CProgram implements IProgram {
-  inject COwnerMap* mMap;
+  inject CReferenceToOwnerMap* mMap;
 
   public int run(immutable string[] arguments) override {
     string toyotaMake = "Toyota";

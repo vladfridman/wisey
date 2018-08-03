@@ -1,14 +1,14 @@
 package wisey.threads;
 
-import wisey.data.CReferenceMap;
-import wisey.data.COwnerMap;
+import wisey.data.CReferenceToReferenceMap;
+import wisey.data.CReferenceToOwnerMap;
 
 /**
  * Manages instances of context injected objects
  */
 controller CContextManager {
-  inject immediate CReferenceMap* mContextNameToContextMap;
-  inject immediate COwnerMap* mContextToObjectMap;
+  inject immediate CReferenceToReferenceMap* mContextNameToContextMap;
+  inject immediate CReferenceToOwnerMap* mContextToObjectMap;
 
   /**
    * Find the existing instance of the object with the given name in the given context
@@ -18,7 +18,7 @@ controller CContextManager {
     if (context == null) {
       throw build(MContextNonExistantException).withContextName(contextName).onHeap();
     }
-    COwnerMap objectNameToObjectMap = mContextToObjectMap.get(context);
+    CReferenceToOwnerMap objectNameToObjectMap = mContextToObjectMap.get(context);
     return objectNameToObjectMap.get(objectName);
   }
 
@@ -27,9 +27,9 @@ controller CContextManager {
    */
   public void setContext(string contextName, ::wisey::object context) {
     mContextNameToContextMap.put(contextName, context);
-    CReferenceMap objectNameToObjectMap = mContextToObjectMap.get(context);
+    CReferenceToReferenceMap objectNameToObjectMap = mContextToObjectMap.get(context);
     if (objectNameToObjectMap == null) {
-      mContextToObjectMap.put(context, COwnerMap.create());
+      mContextToObjectMap.put(context, CReferenceToOwnerMap.create());
     }
   }
 
@@ -53,7 +53,7 @@ controller CContextManager {
     if (context == null) {
       throw build(MContextNonExistantException).withContextName(contextName).onHeap();
     }
-    COwnerMap objectNameToObjectMap = mContextToObjectMap.get(context);
+    CReferenceToOwnerMap objectNameToObjectMap = mContextToObjectMap.get(context);
     objectNameToObjectMap.put(objectName, instance);
   }
 }

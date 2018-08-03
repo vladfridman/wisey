@@ -245,19 +245,6 @@ external controller wisey.data.COwnerList {
     ::llvm::i8::pointer key);
 }
 
-external controller wisey.data.COwnerMap {
-
-  void put(
-    ::llvm::i8::pointer key,
-    ::wisey::object* value);
-  ::wisey::object get(
-    ::llvm::i8::pointer key);
-  static wisey.data.COwnerMap* create();
-  void erase(
-    ::llvm::i8::pointer key);
-  void clear();
-}
-
 external controller wisey.data.COwnerVector {
 
   constant long DEFAULT_INITIAL_CAPACITY;
@@ -288,25 +275,6 @@ external controller wisey.data.CPointerList {
     ::llvm::i8::pointer key);
 }
 
-external controller wisey.data.CPointerMap {
-
-  constant long DEFAULT_SIZE;
-
-  receive long mSize;
-
-  static wisey.data.CPointerMap* create();
-  static wisey.data.CPointerMap* createWithSize(
-    long size);
-  void put(
-    ::llvm::i8::pointer key,
-    wisey.data.CPointerList.IListElement* element);
-  wisey.data.CPointerList.IListElement get(
-    ::llvm::i8::pointer key);
-  void erase(
-    ::llvm::i8::pointer key);
-  void clear();
-}
-
 external controller wisey.data.CReferenceList {
 
   void append(
@@ -318,14 +286,27 @@ external controller wisey.data.CReferenceList {
     ::llvm::i8::pointer key);
 }
 
-external controller wisey.data.CReferenceMap {
+external controller wisey.data.CReferenceToOwnerMap {
+
+  void put(
+    ::llvm::i8::pointer key,
+    ::wisey::object* value);
+  ::wisey::object get(
+    ::llvm::i8::pointer key);
+  static wisey.data.CReferenceToOwnerMap* create();
+  void erase(
+    ::llvm::i8::pointer key);
+  void clear();
+}
+
+external controller wisey.data.CReferenceToReferenceMap {
 
   void put(
     ::llvm::i8::pointer key,
     ::wisey::object value);
   ::wisey::object get(
     ::llvm::i8::pointer key);
-  static wisey.data.CReferenceMap* create();
+  static wisey.data.CReferenceToReferenceMap* create();
   void erase(
     ::llvm::i8::pointer key);
   void clear();

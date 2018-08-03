@@ -1,17 +1,19 @@
 package wisey.data;
 
+import wisey.lang.CMemoryPool;
+
 /**
- * Map of references to wisey objects
+ * Map of owner references to wisey objects
  */
-controller CReferenceMap {
+controller CReferenceToOwnerMap {
 
   inject immediate ::llvm::i8::pointer* mStdMap.withConstructor(mapCreate).withDestructor(mapDestroy);
 
   /**
    * Puts a reference to an object into the map according keyed by the given key
    */
-  public void put(::llvm::i8::pointer key, ::wisey::object value) {
-    ::llvm::function::stl_map_put_reference(mStdMap, key, value);
+  public void put(::llvm::i8::pointer key, ::wisey::object* value) {
+    ::llvm::function::stl_map_put_owner(mStdMap, key, value);
   }
 
   /**
@@ -22,24 +24,24 @@ controller CReferenceMap {
   }
 
   /**
-   * Creates an instance of the CReferenceMap
+   * Creates an instance of the COwnerMap
    */
-  public static CReferenceMap* create() {
-    return injector(CReferenceMap).inject();
+  public static CReferenceToOwnerMap* create() {
+    return injector(CReferenceToOwnerMap).inject();
   }
 
   /**
    * Erases entries in the hashmap with the given key
    */
   public void erase(::llvm::i8::pointer key) {
-    ::llvm::function::stl_map_erase_reference(mStdMap, key);
+    ::llvm::function::stl_map_erase_owner(mStdMap, key);
   }
 
   /**
    * Clears the map
    */
   public void clear() {
-    ::llvm::function::stl_map_of_references_clear(mStdMap);
+    ::llvm::function::stl_map_of_owners_clear(mStdMap);
   }
 
   private ::llvm::function ::llvm::i8::pointer mapCreate() {
@@ -47,7 +49,7 @@ controller CReferenceMap {
   }
 
   private ::llvm::function ::llvm::void mapDestroy(::llvm::i8::pointer map) {
-    ::llvm::function::stl_map_of_references_clear(map);
+    ::llvm::function::stl_map_of_owners_clear(map);
     ::llvm::function::stl_map_destroy(map);
   }
 }

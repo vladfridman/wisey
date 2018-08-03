@@ -1,6 +1,6 @@
 package systems.vos.wisey.compiler.tests;
 
-import wisey.data.CReferenceMap;
+import wisey.data.CReferenceToReferenceMap;
 import wisey.lang.IProgram;
 
 model MCar {
@@ -16,7 +16,7 @@ controller CProgram implements IProgram {
     MCar* toyota = build(MCar).withMake("Toyota").onHeap(); 
     MCar* bmw = build(MCar).withMake("BMW").onHeap(); 
     MCar* mercedes = build(MCar).withMake("Mercedes").onHeap();
-    CReferenceMap* map = CReferenceMap.create();
+    CReferenceToReferenceMap* map = CReferenceToReferenceMap.create();
 
     map.put(toyota.getMake(), toyota);
     map.put(bmw.getMake(), bmw);

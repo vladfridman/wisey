@@ -1,19 +1,19 @@
 //
-//  TestCReferenceMap.cpp
+//  TestCReferenceToReferenceMap.cpp
 //  runtests
 //
 //  Created by Vladimir Fridman on 5/12/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link wisey.data.CReferenceMap}
+//  Tests {@link wisey.data.CReferenceToReferenceMap}
 //
 
 #include <gtest/gtest.h>
 
 #include "TestFileRunner.hpp"
 
-TEST_F(TestFileRunner, cReferenceMapRunTest) {
-  runFileCheckOutputWithDestructorDebug("tests/samples/test_creference_map.yz",
+TEST_F(TestFileRunner, cReferenceToReferenceMapRunTest) {
+  runFileCheckOutputWithDestructorDebug("tests/samples/test_creference_to_reference_map.yz",
                                         "Lookup Toyota: Toyota\n"
                                         "Lookup BMW: BMW\n"
                                         "Lookup Mercedes: Mercedes\n"
