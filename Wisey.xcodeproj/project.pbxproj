@@ -805,6 +805,9 @@
 		F59692832116166B00F19C4E /* BitwiseAndExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692822116166B00F19C4E /* BitwiseAndExpression.cpp */; };
 		F59692842116166B00F19C4E /* BitwiseAndExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692822116166B00F19C4E /* BitwiseAndExpression.cpp */; };
 		F596928621162F6400F19C4E /* TestBitwiseAndExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F596928521162F6400F19C4E /* TestBitwiseAndExpression.cpp */; };
+		F59692892116445600F19C4E /* BitwiseXorExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692882116445600F19C4E /* BitwiseXorExpression.cpp */; };
+		F596928A2116445600F19C4E /* BitwiseXorExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692882116445600F19C4E /* BitwiseXorExpression.cpp */; };
+		F596928C211644EA00F19C4E /* TestBitwiseXorExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F596928B211644EA00F19C4E /* TestBitwiseXorExpression.cpp */; };
 		F598117A20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117B20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117E20A0676E003AADCA /* TestObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */; };
@@ -1857,6 +1860,9 @@
 		F5969281211615D700F19C4E /* BitwiseAndExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = BitwiseAndExpression.hpp; path = include/wisey/BitwiseAndExpression.hpp; sourceTree = "<group>"; };
 		F59692822116166B00F19C4E /* BitwiseAndExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = BitwiseAndExpression.cpp; path = src/BitwiseAndExpression.cpp; sourceTree = "<group>"; };
 		F596928521162F6400F19C4E /* TestBitwiseAndExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestBitwiseAndExpression.cpp; path = tests/TestBitwiseAndExpression.cpp; sourceTree = "<group>"; };
+		F59692872116442300F19C4E /* BitwiseXorExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = BitwiseXorExpression.hpp; path = include/wisey/BitwiseXorExpression.hpp; sourceTree = "<group>"; };
+		F59692882116445600F19C4E /* BitwiseXorExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = BitwiseXorExpression.cpp; path = src/BitwiseXorExpression.cpp; sourceTree = "<group>"; };
+		F596928B211644EA00F19C4E /* TestBitwiseXorExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestBitwiseXorExpression.cpp; path = tests/TestBitwiseXorExpression.cpp; sourceTree = "<group>"; };
 		F598117720A05DAC003AADCA /* ObjectKindGlobal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ObjectKindGlobal.hpp; path = include/wisey/ObjectKindGlobal.hpp; sourceTree = "<group>"; };
 		F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectKindGlobal.cpp; path = src/ObjectKindGlobal.cpp; sourceTree = "<group>"; };
 		F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectKindGlobal.cpp; path = tests/TestObjectKindGlobal.cpp; sourceTree = "<group>"; };
@@ -2886,6 +2892,7 @@
 				F5089C4B1ECD01D9004A1223 /* Assignment.hpp */,
 				F5089C4C1ECD01D9004A1223 /* AutoCast.hpp */,
 				F5969281211615D700F19C4E /* BitwiseAndExpression.hpp */,
+				F59692872116442300F19C4E /* BitwiseXorExpression.hpp */,
 				F5089C511ECD01D9004A1223 /* BooleanNotExpression.hpp */,
 				F5089C551ECD01D9004A1223 /* Cast.hpp */,
 				F5089C561ECD01D9004A1223 /* CastExpression.hpp */,
@@ -2924,6 +2931,7 @@
 				F531B6471E0A4F76008304F3 /* Assignment.cpp */,
 				F57086011E5317E8007D627E /* AutoCast.cpp */,
 				F59692822116166B00F19C4E /* BitwiseAndExpression.cpp */,
+				F59692882116445600F19C4E /* BitwiseXorExpression.cpp */,
 				F57E2E271E82D6E300FE1DB9 /* BooleanNotExpression.cpp */,
 				F5ADB60F1E5DA08200FFC941 /* Cast.cpp */,
 				F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */,
@@ -3562,6 +3570,7 @@
 				F531B64A1E0A5329008304F3 /* TestAssignment.cpp */,
 				F57086041E533667007D627E /* TestAutoCast.cpp */,
 				F596928521162F6400F19C4E /* TestBitwiseAndExpression.cpp */,
+				F596928B211644EA00F19C4E /* TestBitwiseXorExpression.cpp */,
 				F57E2E2A1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp */,
 				F5ADB6121E5DA13600FFC941 /* TestCast.cpp */,
 				F51797091E5C95BC009B16AA /* TestCastExpression.cpp */,
@@ -4706,6 +4715,7 @@
 				F5601F3B1EB39B4400C9E2D8 /* IRWriter.cpp in Sources */,
 				F5190A472088CA3A00BC2D93 /* TestInstanceOfFunction.cpp in Sources */,
 				F52FF1821F1B8731003F4D37 /* FakeExpression.cpp in Sources */,
+				F596928C211644EA00F19C4E /* TestBitwiseXorExpression.cpp in Sources */,
 				F55CF1761F7DA11C00A11426 /* ExternalStaticMethod.cpp in Sources */,
 				F52010311F9A4BB200D982B5 /* TestConstantReference.cpp in Sources */,
 				F5D466102061606200C1047A /* TestLLVMFunctionCall.cpp in Sources */,
@@ -4726,6 +4736,7 @@
 				F5436DB71FCF72CE003ABF6F /* NodeTypeSpecifierFull.cpp in Sources */,
 				F5A67DB920171D060018068F /* TestFieldArrayOwnerVariable.cpp in Sources */,
 				F5C0E7ED209A03A20028BBD0 /* PrintFileStatement.cpp in Sources */,
+				F596928A2116445600F19C4E /* BitwiseXorExpression.cpp in Sources */,
 				F523D519206C28AE0017D5B4 /* TestWiseyObjectOwnerTypeSpecifier.cpp in Sources */,
 				F593629120C6D93100A8C67A /* TestStoreInReference.cpp in Sources */,
 				F5D4660220611BEF00C1047A /* TestLLVMFunctionDefinition.cpp in Sources */,
@@ -4792,6 +4803,7 @@
 				F53400EE1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp in Sources */,
 				F59D82231E0F6DAE00057FB5 /* IfStatement.cpp in Sources */,
 				F58FA300206FC80400C86D33 /* AdjustReferenceCounterForArrayFunction.cpp in Sources */,
+				F59692892116445600F19C4E /* BitwiseXorExpression.cpp in Sources */,
 				F5B9B1531E7A9DB000456CB4 /* TypeComparisionExpression.cpp in Sources */,
 				F593628820C5C3BD00A8C67A /* StoreInReference.cpp in Sources */,
 				F50D5E4620B7068B00A025E9 /* ShiftRightExpression.cpp in Sources */,

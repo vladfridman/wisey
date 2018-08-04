@@ -163,6 +163,7 @@ WS  [ \t\v\n\f]
 ";"                           return TOKEN(';');
 "!"                           return TOKEN('!');
 "&"                           return TOKEN('&');
+"^"                           return TOKEN('^');
 "&&"                          return TOKEN(TANDOP);
 "||"                          return TOKEN(TOROP);
 [A-Z][A-Z0-9_]*               SAVE_TOKEN; return TCONSTANTIDENTIFIER;

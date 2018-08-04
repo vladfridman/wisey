@@ -1,0 +1,12 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+
+  public int run(immutable string[] arguments) override {
+    return 3 ^ 6;
+  }
+}
+
+bind(IProgram).to(CProgram);

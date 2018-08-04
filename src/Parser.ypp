@@ -15,6 +15,7 @@
   #include "wisey/BindAction.hpp"
   #include "wisey/BindActionGlobalStatement.hpp"
   #include "wisey/BitwiseAndExpression.hpp"
+  #include "wisey/BitwiseXorExpression.hpp"
   #include "wisey/Block.hpp"
   #include "wisey/BooleanConstant.hpp"
   #include "wisey/BooleanNotExpression.hpp"
@@ -255,7 +256,7 @@
 %type <expression> type_comparision_expression injection array_allocation static_array_allocation
 %type <expression> constant_reference static_method_call field_identifier increment_by_expression
 %type <expression> llvm_function_call llvm_reference llvm_dereference call_argument
-%type <expression> bitwise_and_expression 
+%type <expression> bitwise_and_expression bitwise_xor_expression
 %type <variable_vector> method_definition_arguments
 %type <expression_vector> call_arguments static_array_elements
 %type <block> block_item_list 
@@ -1497,9 +1498,15 @@ bitwise_and_expression
     { $$ = new BitwiseAndExpression($1, $3, yylineno); }
   ;
 
-logical_and_expression
+bitwise_xor_expression
   : bitwise_and_expression
-  | logical_and_expression TANDOP bitwise_and_expression
+  | bitwise_xor_expression '^' bitwise_and_expression
+    { $$ = new BitwiseXorExpression($1, $3, yylineno); }
+  ;
+
+logical_and_expression
+  : bitwise_xor_expression
+  | logical_and_expression TANDOP bitwise_xor_expression
     { $$ = new LogicalAndExpression($1, $3, yylineno); }
   ;
 

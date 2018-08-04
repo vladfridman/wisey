@@ -1,12 +1,12 @@
 //
-//  BitwiseAndExpression.cpp
+//  BitwiseXorExpression.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 8/4/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/BitwiseAndExpression.hpp"
+#include "wisey/BitwiseXorExpression.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -14,19 +14,19 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-BitwiseAndExpression::BitwiseAndExpression(const IExpression* left,
+BitwiseXorExpression::BitwiseXorExpression(const IExpression* left,
                                            const IExpression* right,
                                            int line) :
 mLeft(left), mRight(right), mLine(line) {}
 
-BitwiseAndExpression::~BitwiseAndExpression() {
+BitwiseXorExpression::~BitwiseXorExpression() {
 }
 
-int BitwiseAndExpression::getLine() const {
+int BitwiseXorExpression::getLine() const {
   return mLine;
 }
 
-Value* BitwiseAndExpression::generateIR(IRGenerationContext& context,
+Value* BitwiseXorExpression::generateIR(IRGenerationContext& context,
                                         const IType* assignToType) const {
   checkTypes(context);
   
@@ -38,39 +38,39 @@ Value* BitwiseAndExpression::generateIR(IRGenerationContext& context,
     rightValue = rightType->castTo(context, rightValue, leftType, mLine);
   }
   
-  return IRWriter::createBinaryOperator(context, Instruction::And, leftValue, rightValue, "");
+  return IRWriter::createBinaryOperator(context, Instruction::Xor, leftValue, rightValue, "");
 }
 
-void BitwiseAndExpression::checkTypes(IRGenerationContext& context) const {
+void BitwiseXorExpression::checkTypes(IRGenerationContext& context) const {
   Type* leftLLVMType = mLeft->getType(context)->getLLVMType(context);
   Type* rightLLVMType = mRight->getType(context)->getLLVMType(context);
   if (!leftLLVMType->isIntegerTy()) {
-    context.reportError(mLine, "Left expression in bitwise and operation must be integer type");
+    context.reportError(mLine, "Left expression in bitwise xor operation must be integer type");
     throw 1;
   }
   if (!rightLLVMType->isIntegerTy()) {
-    context.reportError(mLine, "Right expression in bitwise and operation must be integer type");
+    context.reportError(mLine, "Right expression in bitwise xor operation must be integer type");
     throw 1;
   }
 }
 
-const IType* BitwiseAndExpression::getType(IRGenerationContext& context) const {
+const IType* BitwiseXorExpression::getType(IRGenerationContext& context) const {
   checkTypes(context);
   
   return mLeft->getType(context);
 }
 
-bool BitwiseAndExpression::isConstant() const {
+bool BitwiseXorExpression::isConstant() const {
   return false;
 }
 
-bool BitwiseAndExpression::isAssignable() const {
+bool BitwiseXorExpression::isAssignable() const {
   return false;
 }
 
-void BitwiseAndExpression::printToStream(IRGenerationContext& context,
+void BitwiseXorExpression::printToStream(IRGenerationContext& context,
                                          std::iostream& stream) const {
   mLeft->printToStream(context, stream);
-  stream << " & ";
+  stream << " ^ ";
   mRight->printToStream(context, stream);
 }
