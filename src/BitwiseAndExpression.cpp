@@ -1,12 +1,12 @@
 //
-//  AndExpression.cpp
+//  BitwiseAndExpression.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 8/4/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/AndExpression.hpp"
+#include "wisey/BitwiseAndExpression.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -14,17 +14,20 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-AndExpression::AndExpression(const IExpression* left, const IExpression* right, int line) :
+BitwiseAndExpression::BitwiseAndExpression(const IExpression* left,
+                                           const IExpression* right,
+                                           int line) :
 mLeft(left), mRight(right), mLine(line) {}
 
-AndExpression::~AndExpression() {
+BitwiseAndExpression::~BitwiseAndExpression() {
 }
 
-int AndExpression::getLine() const {
+int BitwiseAndExpression::getLine() const {
   return mLine;
 }
 
-Value* AndExpression::generateIR(IRGenerationContext& context, const IType* assignToType) const {
+Value* BitwiseAndExpression::generateIR(IRGenerationContext& context,
+                                        const IType* assignToType) const {
   checkTypes(context);
   
   Value* leftValue = mLeft->generateIR(context, PrimitiveTypes::VOID);
@@ -38,7 +41,7 @@ Value* AndExpression::generateIR(IRGenerationContext& context, const IType* assi
   return IRWriter::createBinaryOperator(context, Instruction::And, leftValue, rightValue, "");
 }
 
-void AndExpression::checkTypes(IRGenerationContext& context) const {
+void BitwiseAndExpression::checkTypes(IRGenerationContext& context) const {
   Type* leftLLVMType = mLeft->getType(context)->getLLVMType(context);
   Type* rightLLVMType = mRight->getType(context)->getLLVMType(context);
   if (!leftLLVMType->isIntegerTy()) {
@@ -51,21 +54,21 @@ void AndExpression::checkTypes(IRGenerationContext& context) const {
   }
 }
 
-const IType* AndExpression::getType(IRGenerationContext& context) const {
+const IType* BitwiseAndExpression::getType(IRGenerationContext& context) const {
   checkTypes(context);
   
   return mLeft->getType(context);
 }
 
-bool AndExpression::isConstant() const {
+bool BitwiseAndExpression::isConstant() const {
   return false;
 }
 
-bool AndExpression::isAssignable() const {
+bool BitwiseAndExpression::isAssignable() const {
   return false;
 }
 
-void AndExpression::printToStream(IRGenerationContext& context, std::iostream& stream) const {
+void BitwiseAndExpression::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   mLeft->printToStream(context, stream);
   stream << " & ";
   mRight->printToStream(context, stream);

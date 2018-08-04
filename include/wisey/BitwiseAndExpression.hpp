@@ -1,13 +1,13 @@
 //
-//  AndExpression.hpp
+//  BitwiseAndExpression.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 8/4/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef AndExpression_h
-#define AndExpression_h
+#ifndef BitwiseAndExpression_h
+#define BitwiseAndExpression_h
 
 #include "wisey/IExpression.hpp"
 #include "wisey/ITypeSpecifier.hpp"
@@ -17,16 +17,16 @@ namespace wisey {
   /**
    * Represents bitwise AND operation
    */
-  class AndExpression : public IExpression {
+  class BitwiseAndExpression : public IExpression {
     const IExpression* mLeft;
     const IExpression* mRight;
     int mLine;
     
   public:
     
-    AndExpression(const IExpression* left, const IExpression* right, int line);
+    BitwiseAndExpression(const IExpression* left, const IExpression* right, int line);
     
-    ~AndExpression();
+    ~BitwiseAndExpression();
     
     int getLine() const override;
     
@@ -48,4 +48,4 @@ namespace wisey {
   
 } /* namespace wisey */
 
-#endif /* AndExpression_h */
+#endif /* BitwiseAndExpression_h */
