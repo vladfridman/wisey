@@ -26,7 +26,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     IHasValue* car = build(MCar).onHeap();
-    IHasValue* service = injector(CService).inject();
+    IHasValue* service = inject(CService).onHeap();
     NElement* element = build(NElement).withHasValue(service).onHeap();
     return element.getValue();
   }

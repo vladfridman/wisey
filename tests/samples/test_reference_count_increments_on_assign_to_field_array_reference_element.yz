@@ -24,7 +24,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     MCar* car = build(MCar).onHeap();
-    CController* mycontroller = injector(CController).withArray(new MCar[5]).inject();
+    CController* mycontroller = inject(CController).withArray(new MCar[5]).onHeap();
     mycontroller.set(car);
     car = null;
 

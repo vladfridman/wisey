@@ -22,7 +22,7 @@ controller CProgram implements IProgram {
   public int run(immutable string[] arguments) override {
     string mycontext = "mycontext";
     string toyotaMake = "Toyota";
-    CCar* toyota = injector(CCar).withMake(toyotaMake).inject(); 
+    CCar* toyota = inject(CCar).withMake(toyotaMake).onHeap(); 
 
     mContextManager.setContext(mycontext, mContext);
     mContextManager.setInstance(mycontext, toyotaMake, toyota);

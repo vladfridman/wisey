@@ -13,7 +13,7 @@ controller CService {
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    CService* service = injector(CService).withValue(5).inject();
+    CService* service = inject(CService).withValue(5).onHeap();
     return service.getValue();
   }
 }

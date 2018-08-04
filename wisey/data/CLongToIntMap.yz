@@ -35,7 +35,7 @@ controller CLongToIntMap {
    * Creates an instance of the CLongToIntMap
    */
   public static CLongToIntMap* create() {
-    return injector(CLongToIntMap).inject();
+    return inject(CLongToIntMap).onHeap();
   }
 
   /**

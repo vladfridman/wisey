@@ -16,7 +16,7 @@ controller CFileReader {
   receive MString* mFileName;
 
   public static CFileReader* create(CString fileName) {
-    return injector(CFileReader).withFileName(fileName.toModel()).inject();
+    return inject(CFileReader).withFileName(fileName.toModel()).onHeap();
   }
 
   public CString* readLine() throws MFileOpenException, MFileCouldNotOpenException {

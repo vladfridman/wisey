@@ -21,7 +21,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     MCar*[]* array = new MCar*[5];
-    CController* mycontroller = injector(CController).withArray(array).inject();
+    CController* mycontroller = inject(CController).withArray(array).onHeap();
 
     return mycontroller.getCarYear();
   }

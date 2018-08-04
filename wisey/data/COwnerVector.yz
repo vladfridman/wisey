@@ -17,16 +17,16 @@ controller COwnerVector {
    * Creates a vector with default initial capacity
    */
   public static COwnerVector* create() {
-    return injector(COwnerVector).withCapacity(DEFAULT_INITIAL_CAPACITY)
-      .inject();    
+    return inject(COwnerVector).withCapacity(DEFAULT_INITIAL_CAPACITY)
+      .onHeap();    
   }
 
   /**
    * Creates a vector with specified initial capacity
    */
   public static COwnerVector* createWithCapacity(long initialCapacity) {
-    return injector(COwnerVector).withCapacity(initialCapacity)
-      .inject();
+    return inject(COwnerVector).withCapacity(initialCapacity)
+      .onHeap();
   }
 
   /**

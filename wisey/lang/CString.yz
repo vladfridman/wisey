@@ -15,11 +15,11 @@ controller CString {
    * Creates an empty modifiable CString
    */
   public static CString* create() {
-    return injector(CString)
+    return inject(CString)
       .withBuffer(new char[DEFAULT_INITIAL_CAPACITY])
       .withCapacity(DEFAULT_INITIAL_CAPACITY)
       .withLength(0)
-      .inject();
+      .onHeap();
   }
 
   /**
@@ -215,11 +215,11 @@ controller CString {
   public CString* copy() {
     char[]* buffer = new char[mCapacity];
     MSystem.copyMemory(buffer, mBuffer, mCapacity);
-    return injector(CString)
+    return inject(CString)
       .withBuffer(buffer)
       .withCapacity(mCapacity)
       .withLength(mLength)
-      .inject();
+      .onHeap();
   }
 
   /**
@@ -326,11 +326,11 @@ controller CString {
     long capacity = estimateCapacity(length);
     char[]* buffer = new char[capacity];
     MSystem.copyMemory(buffer, source, length);
-    return injector(CString)
+    return inject(CString)
       .withBuffer(buffer)
       .withCapacity(capacity)
       .withLength(length)
-      .inject();
+      .onHeap();
   }
 
   private CString append(::llvm::i8::pointer source, long sourceLength) {

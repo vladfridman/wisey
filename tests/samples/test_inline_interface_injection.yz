@@ -18,7 +18,7 @@ bind(IHasValue).to(CService);
 controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
-    IHasValue* hasValue = injector(IHasValue).inject();
+    IHasValue* hasValue = inject(IHasValue).onHeap();
     return hasValue.getValue();
   }
 }

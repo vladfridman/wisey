@@ -16,8 +16,8 @@ controller CProgram implements IProgram {
   inject CService* mService;
 
   public int run(immutable string[] arguments) override {
-    CScopedService scopedService = injector(CScopedService).inject();
-    CService service = injector(CService).inject();
+    CScopedService scopedService = inject(CScopedService).onHeap();
+    CService service = inject(CService).onHeap();
     if (mScopedService == scopedService) {
       printout("Scoped services are the same\n");
     } else {

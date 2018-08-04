@@ -32,7 +32,7 @@ controller CReferenceToOwnerMap {
    * Creates an instance of the COwnerMap
    */
   public static CReferenceToOwnerMap* create() {
-    return injector(CReferenceToOwnerMap).inject();
+    return inject(CReferenceToOwnerMap).onHeap();
   }
 
   /**

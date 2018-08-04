@@ -17,16 +17,16 @@ controller CReferenceVector {
    * Creates a vector with default initial capacity
    */
   public static CReferenceVector* create() {
-    return injector(CReferenceVector).withCapacity(DEFAULT_INITIAL_CAPACITY)
-      .inject();    
+    return inject(CReferenceVector).withCapacity(DEFAULT_INITIAL_CAPACITY)
+      .onHeap();    
   }
 
   /**
    * Creates a vector with specified initial capacity
    */
   public static CReferenceVector* createWithCapacity(long initialCapacity) {
-    return injector(CReferenceVector).withCapacity(initialCapacity)
-      .inject();
+    return inject(CReferenceVector).withCapacity(initialCapacity)
+      .onHeap();
   }
 
   /**

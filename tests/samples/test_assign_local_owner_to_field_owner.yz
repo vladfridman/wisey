@@ -15,7 +15,7 @@ controller CGarage {
 model MRunner {
 
   public static void run() {
-    CGarage* garage = injector(CGarage).inject();
+    CGarage* garage = inject(CGarage).onHeap();
 
     MCar* owner = garage.getCar();
   }

@@ -231,7 +231,7 @@
 %token <token> TANDOP TBIND TBREAK TBUILD TCASE TCATCH TCEQ TCGE TCLE
 %token <token> TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDECBYOP TDO TDOUBLECOLON TELIPSIS
 %token <token> TELSE TEXTENDS TEXTERNAL TDEFAULT TFALLTHROUGH TFALSE TFOR TIF TIMMEDIATE TIMMUTABLE
-%token <token> TIMPLEMENTS TIMPORT TINCOP TINCBYOP TINJECTOR TINJECT TINSTANCEOF TINTERFACE  
+%token <token> TIMPLEMENTS TIMPORT TINCOP TINCBYOP TINJECT TINSTANCEOF TINTERFACE  
 %token <token> TLLVM TLLVMARRAY TLLVMDEREFERENCE TLLVMFUNCTION TLLVMI1 TLLVMI8 TLLVMI16 TLLVMI32
 %token <token> TLLVMI64 TLLVMPOINTER TLLVMSTORE TLLVMSTRUCT TLLVMVOID TLLVMREFERENCE
 %token <token> TMODEL TNEW TNODE TNULL TONHEAP TONPOOL TOROP TOVERRIDE TPACKAGE
@@ -1532,9 +1532,9 @@ static_array_elements
   ;
 
 injection
-  : TINJECTOR '(' object_type_specifier_injectable ')' injection_argument_list '.' TINJECT '(' ')'
+  : TINJECT '(' object_type_specifier_injectable ')' injection_argument_list '.' TONHEAP '(' ')'
     { $$ = new Injector($3, *$5, yylineno); delete $5; }
-  | TINJECTOR '(' object_type_specifier_injectable ')' '.' TINJECT '(' ')'
+  | TINJECT '(' object_type_specifier_injectable ')' '.' TONHEAP '(' ')'
     { InjectionArgumentList argumentList; $$ = new Injector($3, argumentList, yylineno); }
   ;
 

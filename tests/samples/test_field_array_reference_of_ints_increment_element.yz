@@ -22,7 +22,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     int[]* array = new int[5];
-    CController* mycontroller = injector(CController).withArray(array).inject();
+    CController* mycontroller = inject(CController).withArray(array).onHeap();
     mycontroller.init();
     mycontroller.increment();
     mycontroller.increment();
