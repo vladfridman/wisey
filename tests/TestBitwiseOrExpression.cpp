@@ -1,11 +1,11 @@
 //
-//  TestBitwiseAndExpression.cpp
+//  TestBitwiseOrExpression.cpp
 //  runtests
 //
-//  Created by Vladimir Fridman on 8/4/18.
+//  Created by Vladimir Fridman on 8/5/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link BitwiseAndExpression}
+//  Tests {@link BitwiseOrExpression}
 //
 
 #include <gtest/gtest.h>
@@ -17,7 +17,7 @@
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/BitwiseAndExpression.hpp"
+#include "wisey/BitwiseOrExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -34,7 +34,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-struct BitwiseAndExpressionTest : Test {
+struct BitwiseOrExpressionTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   NiceMock<MockExpression>* mLeft;
@@ -42,9 +42,9 @@ struct BitwiseAndExpressionTest : Test {
   BasicBlock* mBasicBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
-  BitwiseAndExpression* mBitwiseAndExpression;
+  BitwiseOrExpression* mBitwiseOrExpression;
   
-  BitwiseAndExpressionTest() :
+  BitwiseOrExpressionTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mLeft(new NiceMock<MockExpression>()),
   mRight(new NiceMock<MockExpression>()) {
@@ -71,12 +71,12 @@ struct BitwiseAndExpressionTest : Test {
     
     mStringStream = new raw_string_ostream(mStringBuffer);
     
-    mBitwiseAndExpression = new BitwiseAndExpression(mLeft, mRight, 11);
+    mBitwiseOrExpression = new BitwiseOrExpression(mLeft, mRight, 11);
   }
   
-  ~BitwiseAndExpressionTest() {
+  ~BitwiseOrExpressionTest() {
     delete mStringStream;
-    delete mBitwiseAndExpression;
+    delete mBitwiseOrExpression;
     delete mLeft;
     delete mRight;
   }
@@ -90,33 +90,33 @@ struct BitwiseAndExpressionTest : Test {
   }
 };
 
-TEST_F(BitwiseAndExpressionTest, isConstantTest) {
-  EXPECT_FALSE(mBitwiseAndExpression->isConstant());
+TEST_F(BitwiseOrExpressionTest, isConstantTest) {
+  EXPECT_FALSE(mBitwiseOrExpression->isConstant());
 }
 
-TEST_F(BitwiseAndExpressionTest, isAssignableTest) {
-  EXPECT_FALSE(mBitwiseAndExpression->isAssignable());
+TEST_F(BitwiseOrExpressionTest, isAssignableTest) {
+  EXPECT_FALSE(mBitwiseOrExpression->isAssignable());
 }
 
-TEST_F(BitwiseAndExpressionTest, generateIRTest) {
-  mBitwiseAndExpression->generateIR(mContext, PrimitiveTypes::VOID);
+TEST_F(BitwiseOrExpressionTest, generateIRTest) {
+  mBitwiseOrExpression->generateIR(mContext, PrimitiveTypes::VOID);
   
   ASSERT_EQ(1ul, mBasicBlock->size());
   Instruction &instruction = mBasicBlock->front();
   *mStringStream << instruction;
-  ASSERT_STREQ("  %0 = and i32 3, 5", mStringStream->str().c_str());
+  ASSERT_STREQ("  %0 = or i32 3, 5", mStringStream->str().c_str());
 }
 
-TEST_F(BitwiseAndExpressionTest, printToStreamTest) {
+TEST_F(BitwiseOrExpressionTest, printToStreamTest) {
   stringstream stringStream;
   ON_CALL(*mLeft, printToStream(_, _)).WillByDefault(Invoke(printLeftExpression));
   ON_CALL(*mRight, printToStream(_, _)).WillByDefault(Invoke(printRightExpression));
-  mBitwiseAndExpression->printToStream(mContext, stringStream);
+  mBitwiseOrExpression->printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("i & j", stringStream.str().c_str());
+  EXPECT_STREQ("i | j", stringStream.str().c_str());
 }
 
-TEST_F(BitwiseAndExpressionTest, leftExpressionNotIntegerTypeDeathTest) {
+TEST_F(BitwiseOrExpressionTest, leftExpressionNotIntegerTypeDeathTest) {
   Mock::AllowLeak(mLeft);
   Mock::AllowLeak(mRight);
   
@@ -127,13 +127,13 @@ TEST_F(BitwiseAndExpressionTest, leftExpressionNotIntegerTypeDeathTest) {
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
-  EXPECT_ANY_THROW(mBitwiseAndExpression->generateIR(mContext, PrimitiveTypes::VOID));
-  EXPECT_STREQ("/tmp/source.yz(11): Error: Left expression in bitwise AND operation must be integer type\n",
+  EXPECT_ANY_THROW(mBitwiseOrExpression->generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(11): Error: Left expression in bitwise OR operation must be integer type\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
 
-TEST_F(BitwiseAndExpressionTest, rightExpressionNotIntegerTypeDeathTest) {
+TEST_F(BitwiseOrExpressionTest, rightExpressionNotIntegerTypeDeathTest) {
   Mock::AllowLeak(mLeft);
   Mock::AllowLeak(mRight);
   
@@ -144,12 +144,12 @@ TEST_F(BitwiseAndExpressionTest, rightExpressionNotIntegerTypeDeathTest) {
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
-  EXPECT_ANY_THROW(mBitwiseAndExpression->generateIR(mContext, PrimitiveTypes::VOID));
-  EXPECT_STREQ("/tmp/source.yz(11): Error: Right expression in bitwise AND operation must be integer type\n",
+  EXPECT_ANY_THROW(mBitwiseOrExpression->generateIR(mContext, PrimitiveTypes::VOID));
+  EXPECT_STREQ("/tmp/source.yz(11): Error: Right expression in bitwise OR operation must be integer type\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
 
-TEST_F(TestFileRunner, bitwiseAndTest) {
-  runFile("tests/samples/test_bitwise_and.yz", 2);
+TEST_F(TestFileRunner, bitwiseOrTest) {
+  runFile("tests/samples/test_bitwise_or.yz", 7);
 }

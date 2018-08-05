@@ -45,11 +45,11 @@ void BitwiseAndExpression::checkTypes(IRGenerationContext& context) const {
   Type* leftLLVMType = mLeft->getType(context)->getLLVMType(context);
   Type* rightLLVMType = mRight->getType(context)->getLLVMType(context);
   if (!leftLLVMType->isIntegerTy()) {
-    context.reportError(mLine, "Left expression in bitwise and operation must be integer type");
+    context.reportError(mLine, "Left expression in bitwise AND operation must be integer type");
     throw 1;
   }
   if (!rightLLVMType->isIntegerTy()) {
-    context.reportError(mLine, "Right expression in bitwise and operation must be integer type");
+    context.reportError(mLine, "Right expression in bitwise AND operation must be integer type");
     throw 1;
   }
 }
