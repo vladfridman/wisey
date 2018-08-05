@@ -284,10 +284,6 @@ TEST_F(TestFileRunner, subtractionRunTest) {
   runFile("tests/samples/test_subtraction.yz", 14);
 }
 
-TEST_F(TestFileRunner, divisionRunTest) {
-  runFile("tests/samples/test_division.yz", 5);
-}
-
 TEST_F(TestFileRunner, moduloRunTest) {
   runFile("tests/samples/test_modulo.yz", 3);
 }

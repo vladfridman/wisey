@@ -1,5 +1,5 @@
 //
-//  MultiplyExpression.cpp
+//  DivideExpression.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 8/5/18.
@@ -7,33 +7,33 @@
 //
 
 #include "wisey/AutoCast.hpp"
+#include "wisey/DivideExpression.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/MultiplyExpression.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-MultiplyExpression::MultiplyExpression(const IExpression* left,
-                                       const IExpression* right,
-                                       int line) :
+DivideExpression::DivideExpression(const IExpression* left,
+                                   const IExpression* right,
+                                   int line) :
 mLeft(left), mRight(right), mLine(line) {}
 
-MultiplyExpression::~MultiplyExpression() {
+DivideExpression::~DivideExpression() {
   delete mLeft;
   delete mRight;
 }
 
-int MultiplyExpression::getLine() const {
+int DivideExpression::getLine() const {
   return mLine;
 }
 
-Value* MultiplyExpression::generateIR(IRGenerationContext& context,
-                                      const IType* assignToType) const {
+Value* DivideExpression::generateIR(IRGenerationContext& context,
+                                    const IType* assignToType) const {
   const IType* leftType = mLeft->getType(context);
   const IType* rightType = mRight->getType(context);
-  checkTypes(context, leftType, rightType, '*', mLine);
+  checkTypes(context, leftType, rightType, '/', mLine);
   
   Value* leftValue = mLeft->generateIR(context, PrimitiveTypes::VOID);
   Value* rightValue = mRight->generateIR(context, PrimitiveTypes::VOID);
@@ -42,7 +42,7 @@ Value* MultiplyExpression::generateIR(IRGenerationContext& context,
   leftType == PrimitiveTypes::DOUBLE ||
   rightType == PrimitiveTypes::FLOAT ||
   rightType == PrimitiveTypes::DOUBLE;
-  Instruction::BinaryOps instruction = isFloat ? Instruction::FMul : Instruction::Mul;
+  Instruction::BinaryOps instruction = isFloat ? Instruction::FDiv : Instruction::SDiv;
   
   if (leftType->canAutoCastTo(context, rightType)) {
     leftValue = AutoCast::maybeCast(context, leftType, leftValue, rightType, mLine);
@@ -50,13 +50,13 @@ Value* MultiplyExpression::generateIR(IRGenerationContext& context,
     rightValue = AutoCast::maybeCast(context, rightType, rightValue, leftType, mLine);
   }
   
-  return IRWriter::createBinaryOperator(context, instruction, leftValue, rightValue, "mul");
+  return IRWriter::createBinaryOperator(context, instruction, leftValue, rightValue, "div");
 }
 
-const IType* MultiplyExpression::getType(IRGenerationContext& context) const {
+const IType* DivideExpression::getType(IRGenerationContext& context) const {
   const IType* leftType = mLeft->getType(context);
   const IType* rightType = mRight->getType(context);
-  checkTypes(context, leftType, rightType, '*', mLine);
+  checkTypes(context, leftType, rightType, '/', mLine);
   
   if (leftType->canAutoCastTo(context, rightType)) {
     return rightType;
@@ -64,18 +64,19 @@ const IType* MultiplyExpression::getType(IRGenerationContext& context) const {
   return leftType;
 }
 
-bool MultiplyExpression::isConstant() const {
+bool DivideExpression::isConstant() const {
   return false;
 }
 
-bool MultiplyExpression::isAssignable() const {
+bool DivideExpression::isAssignable() const {
   return false;
 }
 
-void MultiplyExpression::printToStream(IRGenerationContext& context,
-                                       std::iostream& stream) const {
+void DivideExpression::printToStream(IRGenerationContext& context,
+                                     std::iostream& stream) const {
   mLeft->printToStream(context, stream);
-  stream << " * ";
+  stream << " / ";
   mRight->printToStream(context, stream);
 }
+
 

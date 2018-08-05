@@ -816,6 +816,9 @@
 		F596929A21177E2B00F19C4E /* IArithmeticExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F596929921177E2B00F19C4E /* IArithmeticExpression.cpp */; };
 		F596929B21177E2B00F19C4E /* IArithmeticExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F596929921177E2B00F19C4E /* IArithmeticExpression.cpp */; };
 		F596929D2117AA7200F19C4E /* TestMultiplyExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F596929C2117AA7200F19C4E /* TestMultiplyExpression.cpp */; };
+		F59692A02117BBBB00F19C4E /* DivideExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F596929F2117BBBB00F19C4E /* DivideExpression.cpp */; };
+		F59692A12117BBBB00F19C4E /* DivideExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F596929F2117BBBB00F19C4E /* DivideExpression.cpp */; };
+		F59692A42117BC1700F19C4E /* TestDivideExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692A22117BC1700F19C4E /* TestDivideExpression.cpp */; };
 		F598117A20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117B20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117E20A0676E003AADCA /* TestObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */; };
@@ -1879,6 +1882,9 @@
 		F596929821177C3B00F19C4E /* IArithmeticExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IArithmeticExpression.hpp; path = include/wisey/IArithmeticExpression.hpp; sourceTree = "<group>"; };
 		F596929921177E2B00F19C4E /* IArithmeticExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IArithmeticExpression.cpp; path = src/IArithmeticExpression.cpp; sourceTree = "<group>"; };
 		F596929C2117AA7200F19C4E /* TestMultiplyExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestMultiplyExpression.cpp; path = tests/TestMultiplyExpression.cpp; sourceTree = "<group>"; };
+		F596929E2117BB8300F19C4E /* DivideExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DivideExpression.hpp; path = include/wisey/DivideExpression.hpp; sourceTree = "<group>"; };
+		F596929F2117BBBB00F19C4E /* DivideExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DivideExpression.cpp; path = src/DivideExpression.cpp; sourceTree = "<group>"; };
+		F59692A22117BC1700F19C4E /* TestDivideExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestDivideExpression.cpp; path = tests/TestDivideExpression.cpp; sourceTree = "<group>"; };
 		F598117720A05DAC003AADCA /* ObjectKindGlobal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ObjectKindGlobal.hpp; path = include/wisey/ObjectKindGlobal.hpp; sourceTree = "<group>"; };
 		F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectKindGlobal.cpp; path = src/ObjectKindGlobal.cpp; sourceTree = "<group>"; };
 		F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectKindGlobal.cpp; path = tests/TestObjectKindGlobal.cpp; sourceTree = "<group>"; };
@@ -2915,6 +2921,7 @@
 				F5089C561ECD01D9004A1223 /* CastExpression.hpp */,
 				F5089C5B1ECD01D9004A1223 /* ConditionalExpression.hpp */,
 				F593628A20C5CC7000A8C67A /* DereferenceExpression.hpp */,
+				F596929E2117BB8300F19C4E /* DivideExpression.hpp */,
 				F5089C651ECD01D9004A1223 /* EmptyExpression.hpp */,
 				F5E6BD081F190B7800D59444 /* FakeExpression.hpp */,
 				F5CB7F6E205152DC007628B5 /* FakeExpressionWithCleanup.hpp */,
@@ -2957,6 +2964,7 @@
 				F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */,
 				F53401081DFF09230002BF7E /* ConditionalExpression.cpp */,
 				F593628B20C5CCF200A8C67A /* DereferenceExpression.cpp */,
+				F596929F2117BBBB00F19C4E /* DivideExpression.cpp */,
 				F59D82181E0F4AB500057FB5 /* EmptyExpression.cpp */,
 				F5E6BD091F190B8500D59444 /* FakeExpression.cpp */,
 				F5CB7F6F2051532A007628B5 /* FakeExpressionWithCleanup.cpp */,
@@ -3599,6 +3607,7 @@
 				F51797091E5C95BC009B16AA /* TestCastExpression.cpp */,
 				F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */,
 				F593628E20C6D48400A8C67A /* TestDereferenceExpression.cpp */,
+				F59692A22117BC1700F19C4E /* TestDivideExpression.cpp */,
 				F59D82161E0F414F00057FB5 /* TestEmptyExpression.cpp */,
 				F5E6BD0B1F1B7B1600D59444 /* TestFakeExpression.cpp */,
 				F5CB7F83205181FC007628B5 /* TestFakeExpressionWithCleanup.cpp */,
@@ -4234,6 +4243,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F59692A12117BBBB00F19C4E /* DivideExpression.cpp in Sources */,
 				F531B6491E0A4F76008304F3 /* Assignment.cpp in Sources */,
 				F58FA30A20728D2200C86D33 /* WiseyObjectTypeSpecifier.cpp in Sources */,
 				F582706C205FE32700839EC7 /* TestLLVMFunctionType.cpp in Sources */,
@@ -4499,6 +4509,7 @@
 				F5C7D1601F7CFCD700D65584 /* ExternalMethod.cpp in Sources */,
 				F5CB7FEB2052CA62007628B5 /* TestReceivedField.cpp in Sources */,
 				F534010C1DFF09D30002BF7E /* TestConditionalExpression.cpp in Sources */,
+				F59692A42117BC1700F19C4E /* TestDivideExpression.cpp in Sources */,
 				F526D8AB1FEBB33A008103B9 /* TestArrayAllocation.cpp in Sources */,
 				F50FF883208B8A43008EDC40 /* LocalImmutableArrayReferenceVariable.cpp in Sources */,
 				F598117E20A0676E003AADCA /* TestObjectKindGlobal.cpp in Sources */,
@@ -4891,6 +4902,7 @@
 				F54B146A205D69D20030773F /* LLVMi8Type.cpp in Sources */,
 				F5827071205FF91B00839EC7 /* LLVMVoidType.cpp in Sources */,
 				F5F61AA0201DDF2300EF9EB7 /* ArraySpecificTypeSpecifier.cpp in Sources */,
+				F59692A02117BBBB00F19C4E /* DivideExpression.cpp in Sources */,
 				F5A3634D1F374680005880B3 /* FieldOwnerVariable.cpp in Sources */,
 				F54ED95F1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp in Sources */,
 				F5827050205FA27900839EC7 /* LLVMArrayType.cpp in Sources */,

@@ -36,6 +36,7 @@
   #include "wisey/ControllerTypeSpecifierFull.hpp"
   #include "wisey/DefaultCaseStatement.hpp"
   #include "wisey/DereferenceExpression.hpp"
+  #include "wisey/DivideExpression.hpp"
   #include "wisey/DoStatement.hpp"
   #include "wisey/DoubleConstant.hpp"
   #include "wisey/EmptyExpression.hpp"
@@ -1439,7 +1440,7 @@ multiplicative_expression
   | multiplicative_expression '*' cast_expression
     { $$ = new MultiplyExpression($1, $3, yylineno); }
   | multiplicative_expression '/' cast_expression
-    { $$ = new AdditiveMultiplicativeExpression($1, '/', $3, yylineno); }
+    { $$ = new DivideExpression($1, $3, yylineno); }
   | multiplicative_expression '%' cast_expression
     { $$ = new AdditiveMultiplicativeExpression($1, '%', $3, yylineno); }
   ;

@@ -86,7 +86,6 @@ Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context
   switch (mOperation) {
     case '+': name = "add"; instruction = isFloat ? Instruction::FAdd : Instruction::Add; break;
     case '-': name = "sub"; instruction = isFloat ? Instruction::FSub : Instruction::Sub; break;
-    case '/': name = "div"; instruction = isFloat ? Instruction::FDiv : Instruction::SDiv; break;
     case '%': name = "div"; instruction = isFloat ? Instruction::FRem : Instruction::SRem; break;
     default: return NULL;
   }
