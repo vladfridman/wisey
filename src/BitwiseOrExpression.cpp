@@ -20,6 +20,8 @@ BitwiseOrExpression::BitwiseOrExpression(const IExpression* left,
 mLeft(left), mRight(right), mLine(line) {}
 
 BitwiseOrExpression::~BitwiseOrExpression() {
+  delete mLeft;
+  delete mRight;
 }
 
 int BitwiseOrExpression::getLine() const {

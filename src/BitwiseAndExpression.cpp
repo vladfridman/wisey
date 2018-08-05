@@ -20,6 +20,8 @@ BitwiseAndExpression::BitwiseAndExpression(const IExpression* left,
 mLeft(left), mRight(right), mLine(line) {}
 
 BitwiseAndExpression::~BitwiseAndExpression() {
+  delete mLeft;
+  delete mRight;
 }
 
 int BitwiseAndExpression::getLine() const {

@@ -20,6 +20,8 @@ BitwiseXorExpression::BitwiseXorExpression(const IExpression* left,
 mLeft(left), mRight(right), mLine(line) {}
 
 BitwiseXorExpression::~BitwiseXorExpression() {
+  delete mLeft;
+  delete mRight;
 }
 
 int BitwiseXorExpression::getLine() const {

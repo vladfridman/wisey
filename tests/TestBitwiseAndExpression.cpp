@@ -77,8 +77,6 @@ struct BitwiseAndExpressionTest : Test {
   ~BitwiseAndExpressionTest() {
     delete mStringStream;
     delete mBitwiseAndExpression;
-    delete mLeft;
-    delete mRight;
   }
   
   static void printLeftExpression(IRGenerationContext& context, iostream& stream) {

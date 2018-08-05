@@ -77,8 +77,6 @@ struct BitwiseXorExpressionTest : Test {
   ~BitwiseXorExpressionTest() {
     delete mStringStream;
     delete mBitwiseXorExpression;
-    delete mLeft;
-    delete mRight;
   }
   
   static void printLeftExpression(IRGenerationContext& context, iostream& stream) {
