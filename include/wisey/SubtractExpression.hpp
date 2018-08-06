@@ -14,7 +14,7 @@
 namespace wisey {
   
   /**
-   * Represents a multiply expression such as 'a - b'
+   * Represents a subtract expression such as 'a - b'
    */
   class SubtractExpression : public IArithmeticExpression {
     const IExpression* mLeft;

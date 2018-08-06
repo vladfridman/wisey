@@ -14,7 +14,7 @@
 #include <llvm/IR/Instructions.h>
 
 #include "MockExpression.hpp"
-#include "wisey/AdditiveMultiplicativeExpression.hpp"
+#include "wisey/AddExpression.hpp"
 #include "wisey/IPrintStatement.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -43,7 +43,7 @@ struct IPrintStatementTest : public Test {
 };
 
 TEST_F(IPrintStatementTest, getExpressionsTest) {
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
+  AddExpression expression(mLeftExpression, mRightExpression, 0);
 
   ExpressionList expressions = IPrintStatement::getExpressions(mContext, &expression, 0);
   

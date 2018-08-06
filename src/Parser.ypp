@@ -2,7 +2,7 @@
   #include <sstream>
   
   #include "wisey/AccessLevel.hpp"
-  #include "wisey/AdditiveMultiplicativeExpression.hpp"
+  #include "wisey/AddExpression.hpp"
   #include "wisey/AdjustByExpression.hpp"
   #include "wisey/ArrayAllocation.hpp"
   #include "wisey/ArrayAllocationStatic.hpp"
@@ -253,8 +253,8 @@
  */
 %type <identifier> identifier
 %type <string> package_optional package_name string_identifier llvm_function_name
-%type <expression> string_literal constant_value expression multiplicative_expression 
-%type <expression> additive_expression relational_expression equality_expression
+%type <expression> string_literal constant_value expression multiply_divide_expression 
+%type <expression> add_subtract_expression relational_expression equality_expression
 %type <expression> logical_and_expression logical_or_expression shift_expression
 %type <expression> conditional_expression postfix_expression heap_builder pool_builder
 %type <expression> cast_expression primary_expression assignment unary_expression
@@ -1437,37 +1437,37 @@ cast_expression
   | '(' type_specifier ')' cast_expression { $$ = new CastExpression($2, $4, yylineno); }
   ;
 
-multiplicative_expression
+multiply_divide_expression
   : cast_expression
-  | multiplicative_expression '*' cast_expression
+  | multiply_divide_expression '*' cast_expression
     { $$ = new MultiplyExpression($1, $3, yylineno); }
-  | multiplicative_expression '/' cast_expression
+  | multiply_divide_expression '/' cast_expression
     { $$ = new DivideExpression($1, $3, yylineno); }
-  | multiplicative_expression '%' cast_expression
+  | multiply_divide_expression '%' cast_expression
     { $$ = new ReminderExpression($1, $3, yylineno); }
   ;
 
-additive_expression
-  : multiplicative_expression
-  | additive_expression '+' multiplicative_expression
-    { $$ = new AdditiveMultiplicativeExpression($1, '+', $3, yylineno); }
-  | additive_expression '-' multiplicative_expression
+add_subtract_expression
+  : multiply_divide_expression
+  | add_subtract_expression '+' multiply_divide_expression
+    { $$ = new AddExpression($1, $3, yylineno); }
+  | add_subtract_expression '-' multiply_divide_expression
     { $$ = new SubtractExpression($1, $3, yylineno); }
   ;
 
 increment_by_expression
-  : additive_expression
-  | postfix_expression TINCBYOP additive_expression 
+  : add_subtract_expression
+  | postfix_expression TINCBYOP add_subtract_expression 
     { $$ = AdjustByExpression::newIncrementBy($1, $3, yylineno); }
-  | postfix_expression TDECBYOP additive_expression 
+  | postfix_expression TDECBYOP add_subtract_expression 
     { $$ = AdjustByExpression::newDecrementBy($1, $3, yylineno); }
   ;
 
 shift_expression
   : increment_by_expression
-  | shift_expression TSHIFTLEFT additive_expression
+  | shift_expression TSHIFTLEFT add_subtract_expression
     { $$ = new ShiftLeftExpression($1, $3, yylineno); }
-  | shift_expression TSHIFTRIGHT additive_expression
+  | shift_expression TSHIFTRIGHT add_subtract_expression
     { $$ = new ShiftRightExpression($1, $3, yylineno); }
   ;
 

@@ -8,7 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/AdditiveMultiplicativeExpression.hpp"
+#include "wisey/AddExpression.hpp"
 #include "wisey/IPrintStatement.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -37,8 +37,7 @@ ExpressionList IPrintStatement::getExpressions(IRGenerationContext& context,
     return expressions;
   }
   
-  const AdditiveMultiplicativeExpression* addition =
-    (const AdditiveMultiplicativeExpression*) expression;
+  const AddExpression* addition = (const AddExpression*) expression;
   const IExpression* leftExpression = addition->getLeft();
   const IExpression* rightExpression = addition->getRight();
   ExpressionList leftExpressions = getExpressions(context, leftExpression, line);

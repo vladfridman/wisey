@@ -1,11 +1,11 @@
 //
-//  testAdditiveMultiplicativeExpression.cpp
-//  Wisey
+//  TestAddExpression.cpp
+//  runtests
 //
-//  Created by Vladimir Fridman on 12/9/16.
-//  Copyright © 2016 Vladimir Fridman. All rights reserved.
+//  Created by Vladimir Fridman on 8/6/18.
+//  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link AdditiveMultiplicativeExpression}
+//  Tests {@link AddExpression}
 //
 
 #include <gtest/gtest.h>
@@ -17,7 +17,7 @@
 #include "MockExpression.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
-#include "wisey/AdditiveMultiplicativeExpression.hpp"
+#include "wisey/AddExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -35,28 +35,28 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-struct AdditiveMultiplicativeExpressionTest : Test {
+struct AddExpressionTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  NiceMock<MockExpression>* mLeftExpression;
-  NiceMock<MockExpression>* mRightExpression;
+  NiceMock<MockExpression>* mLeft;
+  NiceMock<MockExpression>* mRight;
   BasicBlock* mBasicBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
-
-  AdditiveMultiplicativeExpressionTest() :
+  
+  AddExpressionTest() :
   mLLVMContext(mContext.getLLVMContext()),
-  mLeftExpression(new NiceMock<MockExpression>()),
-  mRightExpression(new NiceMock<MockExpression>()) {
+  mLeft(new NiceMock<MockExpression>()),
+  mRight(new NiceMock<MockExpression>()) {
     TestPrefix::generateIR(mContext);
     
     Value* leftValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
     Value* rightValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
-    ON_CALL(*mLeftExpression, generateIR(_, _)).WillByDefault(Return(leftValue));
-    ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
-    ON_CALL(*mRightExpression, generateIR(_, _)).WillByDefault(Return(rightValue));
-    ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
-
+    ON_CALL(*mLeft, generateIR(_, _)).WillByDefault(Return(leftValue));
+    ON_CALL(*mLeft, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
+    ON_CALL(*mRight, generateIR(_, _)).WillByDefault(Return(rightValue));
+    ON_CALL(*mRight, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
+    
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
     Function* function = Function::Create(functionType,
@@ -68,49 +68,50 @@ struct AdditiveMultiplicativeExpressionTest : Test {
     mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
- 
+    
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
-  ~AdditiveMultiplicativeExpressionTest() {
+  ~AddExpressionTest() {
     delete mStringStream;
   }
-
+  
   static void printLeftExpression(IRGenerationContext& context, iostream& stream) {
     stream << "i";
   }
-
+  
   static void printRightExpression(IRGenerationContext& context, iostream& stream) {
     stream << "j";
   }
 };
 
-TEST_F(AdditiveMultiplicativeExpressionTest, getLeftTest) {
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
+TEST_F(AddExpressionTest, isConstantTest) {
+  AddExpression expression(mLeft, mRight, 11);
   
-  EXPECT_EQ(mLeftExpression, expression.getLeft());
-}
-
-TEST_F(AdditiveMultiplicativeExpressionTest, getRightTest) {
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
-  
-  EXPECT_EQ(mRightExpression, expression.getRight());
-}
-
-TEST_F(AdditiveMultiplicativeExpressionTest, isConstantTest) {
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
-
   EXPECT_FALSE(expression.isConstant());
 }
 
-TEST_F(AdditiveMultiplicativeExpressionTest, isAssignableTest) {
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
+TEST_F(AddExpressionTest, isAssignableTest) {
+  AddExpression expression(mLeft, mRight, 11);
   
   EXPECT_FALSE(expression.isAssignable());
 }
 
-TEST_F(AdditiveMultiplicativeExpressionTest, additionTest) {
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
+TEST_F(AddExpressionTest, getLeftTest) {
+  AddExpression expression(mLeft, mRight, 11);
+  
+  EXPECT_EQ(mLeft, expression.getLeft());
+}
+
+TEST_F(AddExpressionTest, getRightTest) {
+  AddExpression expression(mLeft, mRight, 11);
+  
+  EXPECT_EQ(mRight, expression.getRight());
+}
+
+TEST_F(AddExpressionTest, generateIRTest) {
+  AddExpression expression(mLeft, mRight, 11);
+  
   expression.generateIR(mContext, PrimitiveTypes::VOID);
   
   ASSERT_EQ(1ul, mBasicBlock->size());
@@ -119,16 +120,16 @@ TEST_F(AdditiveMultiplicativeExpressionTest, additionTest) {
   ASSERT_STREQ("  %add = add i32 3, 5", mStringStream->str().c_str());
 }
 
-TEST_F(AdditiveMultiplicativeExpressionTest, pointerAddTest) {
+TEST_F(AddExpressionTest, pointerAddTest) {
   const LLVMPointerType* pointerType = LLVMPrimitiveTypes::I8->getPointerType(mContext, 0);
   Value* leftValue = ConstantPointerNull::get(pointerType->getLLVMType(mContext));
   Value* rightValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  ON_CALL(*mLeftExpression, generateIR(_, _)).WillByDefault(Return(leftValue));
-  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(pointerType));
-  ON_CALL(*mRightExpression, generateIR(_, _)).WillByDefault(Return(rightValue));
-  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
-
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
+  ON_CALL(*mLeft, generateIR(_, _)).WillByDefault(Return(leftValue));
+  ON_CALL(*mLeft, getType(_)).WillByDefault(Return(pointerType));
+  ON_CALL(*mRight, generateIR(_, _)).WillByDefault(Return(rightValue));
+  ON_CALL(*mRight, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
+  
+  AddExpression expression(mLeft, mRight, 11);
   expression.generateIR(mContext, PrimitiveTypes::VOID);
   
   ASSERT_EQ(1ul, mBasicBlock->size());
@@ -137,27 +138,24 @@ TEST_F(AdditiveMultiplicativeExpressionTest, pointerAddTest) {
   ASSERT_STREQ("  %0 = getelementptr i8, i8* null, i32 3", mStringStream->str().c_str());
 }
 
-TEST_F(AdditiveMultiplicativeExpressionTest, printToStreamTest) {
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '%', mRightExpression, 0);
+TEST_F(AddExpressionTest, printToStreamTest) {
+  AddExpression expression(mLeft, mRight, 11);
   
   stringstream stringStream;
-  ON_CALL(*mLeftExpression, printToStream(_, _)).WillByDefault(Invoke(printLeftExpression));
-  ON_CALL(*mRightExpression, printToStream(_, _)).WillByDefault(Invoke(printRightExpression));
+  ON_CALL(*mLeft, printToStream(_, _)).WillByDefault(Invoke(printLeftExpression));
+  ON_CALL(*mRight, printToStream(_, _)).WillByDefault(Invoke(printRightExpression));
   expression.printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("i % j", stringStream.str().c_str());
+  EXPECT_STREQ("i + j", stringStream.str().c_str());
 }
 
-TEST_F(AdditiveMultiplicativeExpressionTest, incompatibleTypesDeathTest) {
-  Mock::AllowLeak(mLeftExpression);
-  Mock::AllowLeak(mRightExpression);
-
+TEST_F(AddExpressionTest, incompatibleTypesDeathTest) {
   Value* rightValue = ConstantFP::get(Type::getFloatTy(mLLVMContext), 5.5);
-  ON_CALL(*mRightExpression, generateIR(_, _)).WillByDefault(Return(rightValue));
-  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
-
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 11);
-
+  ON_CALL(*mRight, generateIR(_, _)).WillByDefault(Return(rightValue));
+  ON_CALL(*mRight, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
+  
+  AddExpression expression(mLeft, mRight, 11);
+  
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
   
@@ -167,9 +165,9 @@ TEST_F(AdditiveMultiplicativeExpressionTest, incompatibleTypesDeathTest) {
   std::cerr.rdbuf(oldbuffer);
 }
 
-TEST_F(AdditiveMultiplicativeExpressionTest, nonPrimitiveTypesDeathTest) {
-  Mock::AllowLeak(mLeftExpression);
-  Mock::AllowLeak(mRightExpression);
+TEST_F(AddExpressionTest, nonPrimitiveTypesDeathTest) {
+  Mock::AllowLeak(mLeft);
+  Mock::AllowLeak(mRight);
   
   string modelFullName = "systems.vos.wisey.compiler.tests.MShape";
   StructType* structType = StructType::create(mLLVMContext, modelFullName);
@@ -178,11 +176,11 @@ TEST_F(AdditiveMultiplicativeExpressionTest, nonPrimitiveTypesDeathTest) {
                                  structType,
                                  mContext.getImportProfile(),
                                  0);
-
-  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(model));
-  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(model));
   
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 9);
+  ON_CALL(*mLeft, getType(_)).WillByDefault(Return(model));
+  ON_CALL(*mRight, getType(_)).WillByDefault(Return(model));
+  
+  AddExpression expression(mLeft, mRight, 9);
   
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
@@ -193,14 +191,14 @@ TEST_F(AdditiveMultiplicativeExpressionTest, nonPrimitiveTypesDeathTest) {
   std::cerr.rdbuf(oldbuffer);
 }
 
-TEST_F(AdditiveMultiplicativeExpressionTest, voidTypesDeathTest) {
-  Mock::AllowLeak(mLeftExpression);
-  Mock::AllowLeak(mRightExpression);
+TEST_F(AddExpressionTest, voidTypesDeathTest) {
+  Mock::AllowLeak(mLeft);
+  Mock::AllowLeak(mRight);
   
-  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID));
-  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID));
+  ON_CALL(*mLeft, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID));
+  ON_CALL(*mRight, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID));
   
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 5);
+  AddExpression expression(mLeft, mRight, 5);
   
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
@@ -211,14 +209,14 @@ TEST_F(AdditiveMultiplicativeExpressionTest, voidTypesDeathTest) {
   std::cerr.rdbuf(oldbuffer);
 }
 
-TEST_F(AdditiveMultiplicativeExpressionTest, explicitCastNeededOnGenerateIRDeathTest) {
-  Mock::AllowLeak(mLeftExpression);
-  Mock::AllowLeak(mRightExpression);
+TEST_F(AddExpressionTest, explicitCastNeededOnGenerateIRDeathTest) {
+  Mock::AllowLeak(mLeft);
+  Mock::AllowLeak(mRight);
   
-  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG));
-  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
+  ON_CALL(*mLeft, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG));
+  ON_CALL(*mRight, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
   
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 3);
+  AddExpression expression(mLeft, mRight, 3);
   
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
@@ -229,21 +227,21 @@ TEST_F(AdditiveMultiplicativeExpressionTest, explicitCastNeededOnGenerateIRDeath
   std::cerr.rdbuf(oldbuffer);
 }
 
-TEST_F(AdditiveMultiplicativeExpressionTest, explicitCastNeededOnGetTypeDeathTest) {
-  Mock::AllowLeak(mLeftExpression);
-  Mock::AllowLeak(mRightExpression);
+TEST_F(AddExpressionTest, explicitCastNeededOnGetTypeDeathTest) {
+  Mock::AllowLeak(mLeft);
+  Mock::AllowLeak(mRight);
   
-  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG));
-  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
+  ON_CALL(*mLeft, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG));
+  ON_CALL(*mRight, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT));
   
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 1);
+  AddExpression expression(mLeft, mRight, 1);
   
   std::stringstream buffer;
   std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
-
+  
   EXPECT_ANY_THROW(expression.getType(mContext));
   EXPECT_STREQ("/tmp/source.yz(1): Error: Incompatible types in '+' operation that require an explicit cast\n",
-              buffer.str().c_str());
+               buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
 }
 
