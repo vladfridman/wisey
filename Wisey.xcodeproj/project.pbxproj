@@ -822,6 +822,9 @@
 		F59692A72117BF2500F19C4E /* ReminderExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692A62117BF2500F19C4E /* ReminderExpression.cpp */; };
 		F59692A82117BF2500F19C4E /* ReminderExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692A62117BF2500F19C4E /* ReminderExpression.cpp */; };
 		F59692AA2117C00800F19C4E /* TestReminderExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692A92117C00800F19C4E /* TestReminderExpression.cpp */; };
+		F59692AD21189A9E00F19C4E /* SubtractExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692AC21189A9E00F19C4E /* SubtractExpression.cpp */; };
+		F59692AE21189A9E00F19C4E /* SubtractExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692AC21189A9E00F19C4E /* SubtractExpression.cpp */; };
+		F59692B021189D9C00F19C4E /* TestSubtractExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692AF21189D9C00F19C4E /* TestSubtractExpression.cpp */; };
 		F598117A20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117B20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117E20A0676E003AADCA /* TestObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */; };
@@ -1891,6 +1894,9 @@
 		F59692A52117BEEC00F19C4E /* ReminderExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ReminderExpression.hpp; path = include/wisey/ReminderExpression.hpp; sourceTree = "<group>"; };
 		F59692A62117BF2500F19C4E /* ReminderExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ReminderExpression.cpp; path = src/ReminderExpression.cpp; sourceTree = "<group>"; };
 		F59692A92117C00800F19C4E /* TestReminderExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestReminderExpression.cpp; path = tests/TestReminderExpression.cpp; sourceTree = "<group>"; };
+		F59692AB21189A5600F19C4E /* SubtractExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = SubtractExpression.hpp; path = include/wisey/SubtractExpression.hpp; sourceTree = "<group>"; };
+		F59692AC21189A9E00F19C4E /* SubtractExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SubtractExpression.cpp; path = src/SubtractExpression.cpp; sourceTree = "<group>"; };
+		F59692AF21189D9C00F19C4E /* TestSubtractExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestSubtractExpression.cpp; path = tests/TestSubtractExpression.cpp; sourceTree = "<group>"; };
 		F598117720A05DAC003AADCA /* ObjectKindGlobal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ObjectKindGlobal.hpp; path = include/wisey/ObjectKindGlobal.hpp; sourceTree = "<group>"; };
 		F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectKindGlobal.cpp; path = src/ObjectKindGlobal.cpp; sourceTree = "<group>"; };
 		F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectKindGlobal.cpp; path = tests/TestObjectKindGlobal.cpp; sourceTree = "<group>"; };
@@ -2950,6 +2956,7 @@
 				F59692A52117BEEC00F19C4E /* ReminderExpression.hpp */,
 				F50D5E4020B6FCBD00A025E9 /* ShiftLeftExpression.hpp */,
 				F50D5E4420B7065A00A025E9 /* ShiftRightExpression.hpp */,
+				F59692AB21189A5600F19C4E /* SubtractExpression.hpp */,
 				F58748321F9513B00088F1E3 /* ThreadExpression.hpp */,
 				F5089CA91ECD01D9004A1223 /* TypeComparisionExpression.hpp */,
 			);
@@ -2990,6 +2997,7 @@
 				F59692A62117BF2500F19C4E /* ReminderExpression.cpp */,
 				F50D5E4120B6FD0600A025E9 /* ShiftLeftExpression.cpp */,
 				F50D5E4520B7068B00A025E9 /* ShiftRightExpression.cpp */,
+				F59692AC21189A9E00F19C4E /* SubtractExpression.cpp */,
 				F58748331F95143A0088F1E3 /* ThreadExpression.cpp */,
 				F5B9B1521E7A9DB000456CB4 /* TypeComparisionExpression.cpp */,
 			);
@@ -3633,6 +3641,7 @@
 				F59692A92117C00800F19C4E /* TestReminderExpression.cpp */,
 				F50D5E4820B7079200A025E9 /* TestShiftLeftExpression.cpp */,
 				F50D5E4B20B70ACA00A025E9 /* TestShiftRightExpression.cpp */,
+				F59692AF21189D9C00F19C4E /* TestSubtractExpression.cpp */,
 				F5B9B1571E7AC0F200456CB4 /* TestTypeComparisionExpression.cpp */,
 			);
 			name = expressions;
@@ -4479,6 +4488,7 @@
 				F5CB7FE72052C895007628B5 /* TestInjectedField.cpp in Sources */,
 				F50FA3081E32640B00435EEA /* TestBooleanConstant.cpp in Sources */,
 				F50FF876208B6DDD008EDC40 /* TestImmutableArrayOwnerTypeSpecifier.cpp in Sources */,
+				F59692B021189D9C00F19C4E /* TestSubtractExpression.cpp in Sources */,
 				F5378F6E2058F11500E5B5FD /* IdentifierReference.cpp in Sources */,
 				F5BF0C8A2080FBBB005AF4E5 /* DestroyNativeObjectFunction.cpp in Sources */,
 				F513DE082018A0F7001A075B /* ParameterArrayReferenceVariable.cpp in Sources */,
@@ -4533,6 +4543,7 @@
 				F57411431E015961009809FF /* ReturnStatement.cpp in Sources */,
 				F51942F11FE30024009C3158 /* TestPackageType.cpp in Sources */,
 				F582704E205FA01600839EC7 /* LLVMArrayTypeSpecifer.cpp in Sources */,
+				F59692AE21189A9E00F19C4E /* SubtractExpression.cpp in Sources */,
 				F57086051E533667007D627E /* TestAutoCast.cpp in Sources */,
 				F5B9B1541E7A9DB000456CB4 /* TypeComparisionExpression.cpp in Sources */,
 				F5C2B80C20764DA3008CB77F /* TestBindAction.cpp in Sources */,
@@ -4953,6 +4964,7 @@
 				F5E209301E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp in Sources */,
 				F5E6BD0A1F190B8500D59444 /* FakeExpression.cpp in Sources */,
 				F531B65A1E0DE52F008304F3 /* CharConstant.cpp in Sources */,
+				F59692AD21189A9E00F19C4E /* SubtractExpression.cpp in Sources */,
 				F53A2C451F0298E800E76A9E /* NullType.cpp in Sources */,
 				F57411631E01BBFC009809FF /* Scope.cpp in Sources */,
 				F50427A81E4D226C001CB148 /* LocalPrimitiveVariable.cpp in Sources */,

@@ -14,7 +14,7 @@
 namespace wisey {
   
   /**
-   * Represents a multiply expression such as 'a * b'
+   * Represents a reminder expression such as 'a % b'
    */
   class ReminderExpression : public IArithmeticExpression {
     const IExpression* mLeft;

@@ -58,18 +58,10 @@ Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context
   Value* leftValue = mLeftExpression->generateIR(context, PrimitiveTypes::VOID);
   Value* rightValue = mRightExpression->generateIR(context, PrimitiveTypes::VOID);
   
-  if (leftType->isPointer() && rightType == leftType && mOperation == '-') {
-    Value* leftLongValue = leftType->castTo(context, leftValue, PrimitiveTypes::LONG, mLine);
-    Value* rightLongValue = leftType->castTo(context, rightValue, PrimitiveTypes::LONG, mLine);
-    return IRWriter::createBinaryOperator(context,
-                                          Instruction::Sub,
-                                          leftLongValue,
-                                          rightLongValue,
-                                          "sub");
-  }
-  
   if (leftType->isPointer()) {
-    return computePointer(context, leftValue, rightType, rightValue);
+    Value* index[1];
+    index[0] = rightValue;
+    return IRWriter::createGetElementPtrInst(context, leftValue, index);
   }
 
   if (mOperation == '+' &&
@@ -85,7 +77,6 @@ Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context
     rightType == PrimitiveTypes::DOUBLE;
   switch (mOperation) {
     case '+': name = "add"; instruction = isFloat ? Instruction::FAdd : Instruction::Add; break;
-    case '-': name = "sub"; instruction = isFloat ? Instruction::FSub : Instruction::Sub; break;
     default: return NULL;
   }
   
@@ -195,24 +186,4 @@ bool AdditiveMultiplicativeExpression::isPointerArithmetic(const IType* leftType
   }
   
   return false;
-}
-
-Value* AdditiveMultiplicativeExpression::computePointer(IRGenerationContext& context,
-                                                        Value* pointerValue,
-                                                        const IType* integerType,
-                                                        Value* integerValue) const {
-  Value* index[1];
-  if (mOperation == '+') {
-    index[0] = integerValue;
-    return IRWriter::createGetElementPtrInst(context, pointerValue, index);
-  }
-  
-  Value* zero = ConstantInt::get(integerType->getLLVMType(context), 0);
-  Value* negated = IRWriter::createBinaryOperator(context,
-                                                  Instruction::Sub,
-                                                  zero,
-                                                  integerValue,
-                                                  "sub");
-  index[0] = negated;
-  return IRWriter::createGetElementPtrInst(context, pointerValue, index);
 }
