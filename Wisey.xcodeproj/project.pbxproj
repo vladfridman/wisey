@@ -825,6 +825,9 @@
 		F59692B32118A06A00F19C4E /* AddExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692B22118A06A00F19C4E /* AddExpression.cpp */; };
 		F59692B42118A06A00F19C4E /* AddExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692B22118A06A00F19C4E /* AddExpression.cpp */; };
 		F59692B62118A1F300F19C4E /* TestAddExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692B52118A1F300F19C4E /* TestAddExpression.cpp */; };
+		F59692B92118ADD000F19C4E /* HexConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692B82118ADD000F19C4E /* HexConstant.cpp */; };
+		F59692BA2118ADD000F19C4E /* HexConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692B82118ADD000F19C4E /* HexConstant.cpp */; };
+		F59692BC2118AEBC00F19C4E /* TestHexConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692BB2118AEBC00F19C4E /* TestHexConstant.cpp */; };
 		F598117A20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117B20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117E20A0676E003AADCA /* TestObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */; };
@@ -1897,6 +1900,9 @@
 		F59692B12118A00000F19C4E /* AddExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AddExpression.hpp; path = include/wisey/AddExpression.hpp; sourceTree = "<group>"; };
 		F59692B22118A06A00F19C4E /* AddExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = AddExpression.cpp; path = src/AddExpression.cpp; sourceTree = "<group>"; };
 		F59692B52118A1F300F19C4E /* TestAddExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestAddExpression.cpp; path = tests/TestAddExpression.cpp; sourceTree = "<group>"; };
+		F59692B72118AD9700F19C4E /* HexConstant.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = HexConstant.hpp; path = include/wisey/HexConstant.hpp; sourceTree = "<group>"; };
+		F59692B82118ADD000F19C4E /* HexConstant.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HexConstant.cpp; path = src/HexConstant.cpp; sourceTree = "<group>"; };
+		F59692BB2118AEBC00F19C4E /* TestHexConstant.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestHexConstant.cpp; path = tests/TestHexConstant.cpp; sourceTree = "<group>"; };
 		F598117720A05DAC003AADCA /* ObjectKindGlobal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ObjectKindGlobal.hpp; path = include/wisey/ObjectKindGlobal.hpp; sourceTree = "<group>"; };
 		F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectKindGlobal.cpp; path = src/ObjectKindGlobal.cpp; sourceTree = "<group>"; };
 		F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectKindGlobal.cpp; path = tests/TestObjectKindGlobal.cpp; sourceTree = "<group>"; };
@@ -2861,6 +2867,7 @@
 				F5089C631ECD01D9004A1223 /* DoubleConstant.hpp */,
 				F534643F20ACBB5D006369D4 /* ExternalConstantDeclaration.hpp */,
 				F5089C6B1ECD01D9004A1223 /* FloatConstant.hpp */,
+				F59692B72118AD9700F19C4E /* HexConstant.hpp */,
 				F5089C761ECD01D9004A1223 /* IntConstant.hpp */,
 				F5089C8A1ECD01D9004A1223 /* LongConstant.hpp */,
 				F5089CA51ECD01D9004A1223 /* StringLiteral.hpp */,
@@ -2879,6 +2886,7 @@
 				F50FA2E11E2E3B0900435EEA /* DoubleConstant.cpp */,
 				F534644120ACBC2B006369D4 /* ExternalConstantDeclaration.cpp */,
 				F50FA2E21E2E3B0900435EEA /* FloatConstant.cpp */,
+				F59692B82118ADD000F19C4E /* HexConstant.cpp */,
 				F50FA2E31E2E3B0900435EEA /* IntConstant.cpp */,
 				F50FA2E41E2E3B0900435EEA /* LongConstant.cpp */,
 				F531B6531E0DDD96008304F3 /* StringLiteral.cpp */,
@@ -3601,6 +3609,7 @@
 				F50FA2ED1E2E3B2A00435EEA /* TestDoubleConstant.cpp */,
 				F534644420ACC12F006369D4 /* TestExternalConstantDeclaration.cpp */,
 				F50FA2EE1E2E3B2A00435EEA /* TestFloatConstant.cpp */,
+				F59692BB2118AEBC00F19C4E /* TestHexConstant.cpp */,
 				F50FA2EF1E2E3B2A00435EEA /* TestIntConstant.cpp */,
 				F50FA2F01E2E3B2A00435EEA /* TestLongConstant.cpp */,
 				F531B6561E0DE040008304F3 /* TestStringLiteral.cpp */,
@@ -4754,6 +4763,7 @@
 				F534644520ACC12F006369D4 /* TestExternalConstantDeclaration.cpp in Sources */,
 				F53A2C291EFFD42000E76A9E /* NodeTypeSpecifier.cpp in Sources */,
 				F59D82201E0F68DF00057FB5 /* TestIfElseStatement.cpp in Sources */,
+				F59692BC2118AEBC00F19C4E /* TestHexConstant.cpp in Sources */,
 				F5105FB41FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp in Sources */,
 				F5752AC32088C52F00C00DE1 /* InstanceOfFunction.cpp in Sources */,
 				F5BF0C902081028F005AF4E5 /* TestLLVMPointerOwnerType.cpp in Sources */,
@@ -4793,6 +4803,7 @@
 				F57E2E291E82D6E300FE1DB9 /* BooleanNotExpression.cpp in Sources */,
 				F5B9B8B120764B37009C5650 /* BindActionGlobalStatement.cpp in Sources */,
 				F531B6391E07A80F008304F3 /* TestPrimitiveTypeSpecifier.cpp in Sources */,
+				F59692BA2118ADD000F19C4E /* HexConstant.cpp in Sources */,
 				F5CE2D441EF6A4CB002ABB85 /* TestIType.cpp in Sources */,
 				F5436DB71FCF72CE003ABF6F /* NodeTypeSpecifierFull.cpp in Sources */,
 				F5A67DB920171D060018068F /* TestFieldArrayOwnerVariable.cpp in Sources */,
@@ -4971,6 +4982,7 @@
 				F50FF89A208C8CBA008EDC40 /* ParameterImmutableArrayReferenceVariable.cpp in Sources */,
 				F5F396D71E34BBDD00F34296 /* HeapBuilder.cpp in Sources */,
 				F54B147F205D701C0030773F /* LLVMPrimitiveTypeSpecifier.cpp in Sources */,
+				F59692B92118ADD000F19C4E /* HexConstant.cpp in Sources */,
 				F5827069205FD8B600839EC7 /* LLVMFunctionType.cpp in Sources */,
 				F50FA2E81E2E3B0900435EEA /* LongConstant.cpp in Sources */,
 				F5C0E7D12090B59D0028BBD0 /* CheckCastToObjectFunction.cpp in Sources */,

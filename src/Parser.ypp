@@ -53,6 +53,7 @@
   #include "wisey/FloatConstant.hpp"
   #include "wisey/ForStatement.hpp"
   #include "wisey/HeapBuilder.hpp"
+  #include "wisey/HexConstant.hpp"
   #include "wisey/IBuildableObjectTypeSpecifier.hpp"
   #include "wisey/IControllerTypeSpecifier.hpp"
   #include "wisey/IGlobalStatement.hpp"
@@ -233,7 +234,7 @@
  */
 %token <string> TIDENTIFIER TCHAR TINTEGER TLONG TFLOAT TDOUBLE TSTRING_LITERAL TMODELIDENTIFIER
 %token <string> TFIELDIDENTIFIER TINTERFACEIDENTIFIER TCONTROLLERIDENTIFIER TNODEIDENTIFIER
-%token <string> TCONSTANTIDENTIFIER
+%token <string> TCONSTANTIDENTIFIER THEXADECIMAL
 
 %token <token> TANDOP TBIND TBREAK TBUILD TCASE TCATCH TCEQ TCGE TCLE
 %token <token> TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDECBYOP TDO TDOUBLECOLON TELIPSIS
@@ -1365,6 +1366,7 @@ constant_value
   | TLONG { $$ = new LongConstant(atoll($1->c_str()), yylineno); delete $1; }
   | TFLOAT { $$ = new FloatConstant(atof($1->c_str()), yylineno); delete $1; }
   | TDOUBLE { $$ = new DoubleConstant(strtod($1->c_str(), NULL), yylineno); delete $1; }
+  | THEXADECIMAL { $$ = new HexConstant(std::stoul($1->c_str(), NULL, 16), yylineno); delete $1; }
   | TTRUE { $$ = new BooleanConstant(true, yylineno); }
   | TFALSE { $$ = new BooleanConstant(false, yylineno); }
   ;

@@ -149,5 +149,5 @@ TEST_F(BitwiseAndExpressionTest, rightExpressionNotIntegerTypeDeathTest) {
 }
 
 TEST_F(TestFileRunner, bitwiseAndTest) {
-  runFile("tests/samples/test_bitwise_and.yz", 2);
+  runFile("tests/samples/test_bitwise_and.yz", 3);
 }

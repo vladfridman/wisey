@@ -60,4 +60,3 @@ TEST_F(IntConstantTest, printToStreamTest) {
   
   EXPECT_STREQ("5", stringStream.str().c_str());
 }
-
