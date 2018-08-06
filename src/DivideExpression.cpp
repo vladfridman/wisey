@@ -58,10 +58,7 @@ const IType* DivideExpression::getType(IRGenerationContext& context) const {
   const IType* rightType = mRight->getType(context);
   checkTypes(context, leftType, rightType, '/', mLine);
   
-  if (leftType->canAutoCastTo(context, rightType)) {
-    return rightType;
-  }
-  return leftType;
+  return leftType->canAutoCastTo(context, rightType) ? rightType : leftType;
 }
 
 bool DivideExpression::isConstant() const {

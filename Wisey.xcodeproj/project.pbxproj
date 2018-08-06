@@ -819,6 +819,9 @@
 		F59692A02117BBBB00F19C4E /* DivideExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F596929F2117BBBB00F19C4E /* DivideExpression.cpp */; };
 		F59692A12117BBBB00F19C4E /* DivideExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F596929F2117BBBB00F19C4E /* DivideExpression.cpp */; };
 		F59692A42117BC1700F19C4E /* TestDivideExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692A22117BC1700F19C4E /* TestDivideExpression.cpp */; };
+		F59692A72117BF2500F19C4E /* ReminderExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692A62117BF2500F19C4E /* ReminderExpression.cpp */; };
+		F59692A82117BF2500F19C4E /* ReminderExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692A62117BF2500F19C4E /* ReminderExpression.cpp */; };
+		F59692AA2117C00800F19C4E /* TestReminderExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692A92117C00800F19C4E /* TestReminderExpression.cpp */; };
 		F598117A20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117B20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117E20A0676E003AADCA /* TestObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */; };
@@ -1885,6 +1888,9 @@
 		F596929E2117BB8300F19C4E /* DivideExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DivideExpression.hpp; path = include/wisey/DivideExpression.hpp; sourceTree = "<group>"; };
 		F596929F2117BBBB00F19C4E /* DivideExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DivideExpression.cpp; path = src/DivideExpression.cpp; sourceTree = "<group>"; };
 		F59692A22117BC1700F19C4E /* TestDivideExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestDivideExpression.cpp; path = tests/TestDivideExpression.cpp; sourceTree = "<group>"; };
+		F59692A52117BEEC00F19C4E /* ReminderExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ReminderExpression.hpp; path = include/wisey/ReminderExpression.hpp; sourceTree = "<group>"; };
+		F59692A62117BF2500F19C4E /* ReminderExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ReminderExpression.cpp; path = src/ReminderExpression.cpp; sourceTree = "<group>"; };
+		F59692A92117C00800F19C4E /* TestReminderExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestReminderExpression.cpp; path = tests/TestReminderExpression.cpp; sourceTree = "<group>"; };
 		F598117720A05DAC003AADCA /* ObjectKindGlobal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ObjectKindGlobal.hpp; path = include/wisey/ObjectKindGlobal.hpp; sourceTree = "<group>"; };
 		F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectKindGlobal.cpp; path = src/ObjectKindGlobal.cpp; sourceTree = "<group>"; };
 		F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectKindGlobal.cpp; path = tests/TestObjectKindGlobal.cpp; sourceTree = "<group>"; };
@@ -2941,6 +2947,7 @@
 				F53A2C471F029AF700E76A9E /* NullExpression.hpp */,
 				F5089C9F1ECD01D9004A1223 /* RelationalExpression.hpp */,
 				F5089CA01ECD01D9004A1223 /* RelationalOperation.hpp */,
+				F59692A52117BEEC00F19C4E /* ReminderExpression.hpp */,
 				F50D5E4020B6FCBD00A025E9 /* ShiftLeftExpression.hpp */,
 				F50D5E4420B7065A00A025E9 /* ShiftRightExpression.hpp */,
 				F58748321F9513B00088F1E3 /* ThreadExpression.hpp */,
@@ -2980,6 +2987,7 @@
 				F5ADB61A1E5F568400FFC941 /* NegateExpression.cpp */,
 				F53A2C481F029BA500E76A9E /* NullExpression.cpp */,
 				F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */,
+				F59692A62117BF2500F19C4E /* ReminderExpression.cpp */,
 				F50D5E4120B6FD0600A025E9 /* ShiftLeftExpression.cpp */,
 				F50D5E4520B7068B00A025E9 /* ShiftRightExpression.cpp */,
 				F58748331F95143A0088F1E3 /* ThreadExpression.cpp */,
@@ -3622,6 +3630,7 @@
 				F5ADB61C1E5F587300FFC941 /* TestNegateExpression.cpp */,
 				F53A2C4D1F02A4EC00E76A9E /* TestNullExpression.cpp */,
 				F53400FA1DFD999B0002BF7E /* TestRelationalExpression.cpp */,
+				F59692A92117C00800F19C4E /* TestReminderExpression.cpp */,
 				F50D5E4820B7079200A025E9 /* TestShiftLeftExpression.cpp */,
 				F50D5E4B20B70ACA00A025E9 /* TestShiftRightExpression.cpp */,
 				F5B9B1571E7AC0F200456CB4 /* TestTypeComparisionExpression.cpp */,
@@ -4296,6 +4305,7 @@
 				F50FA2AE1E27AFA500435EEA /* TestCaseStatement.cpp in Sources */,
 				F534644320ACBC2B006369D4 /* ExternalConstantDeclaration.cpp in Sources */,
 				F5ADB61D1E5F587300FFC941 /* TestNegateExpression.cpp in Sources */,
+				F59692AA2117C00800F19C4E /* TestReminderExpression.cpp in Sources */,
 				F54B1491205EC82B0030773F /* TestLLVMi64Type.cpp in Sources */,
 				F5BF0C8E208101E7005AF4E5 /* TestLLVMPointerOwnerTypeSpecifier.cpp in Sources */,
 				F5105FBF1FD1ABC900ACF57B /* TestThrowReferenceCountExceptionFunction.cpp in Sources */,
@@ -4614,6 +4624,7 @@
 				F57411461E015DBC009809FF /* TestReturnStatement.cpp in Sources */,
 				F5A363421F33C1A8005880B3 /* LocalOwnerVariable.cpp in Sources */,
 				F59D82171E0F414F00057FB5 /* TestEmptyExpression.cpp in Sources */,
+				F59692A82117BF2500F19C4E /* ReminderExpression.cpp in Sources */,
 				F515812B1E89BFB6009CE419 /* TestControllerDefinition.cpp in Sources */,
 				F5C6FD8A1E48D08F0054209D /* TestModel.cpp in Sources */,
 				F574115A1E01A09B009809FF /* LogicalOrExpression.cpp in Sources */,
@@ -5015,6 +5026,7 @@
 				F5170197200DCB5700A10B7C /* DestroyReferenceArrayFunction.cpp in Sources */,
 				F50FA2B31E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */,
 				F574116B1E042390009809FF /* IncrementExpression.cpp in Sources */,
+				F59692A72117BF2500F19C4E /* ReminderExpression.cpp in Sources */,
 				F5FE0A231F7DA00B000621CA /* ExternalStaticMethodDefinition.cpp in Sources */,
 				F5609F072057C07F00664ADD /* ParameterReferenceVariableStatic.cpp in Sources */,
 				F5C7D1611F7D02FD00D65584 /* ExternalMethod.cpp in Sources */,
