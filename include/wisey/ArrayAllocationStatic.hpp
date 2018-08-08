@@ -52,8 +52,6 @@ namespace wisey {
     
     void checkArrayElements(IRGenerationContext& context) const;
     
-    ExpressionList flattenExpressionList(IRGenerationContext& context) const;
-    
   };
   
 } /* namespace wisey */

@@ -120,32 +120,3 @@ void ArrayAllocationStatic::checkArrayElements(IRGenerationContext &context) con
 ExpressionList ArrayAllocationStatic::getExpressionList() const {
   return mExpressionList;
 }
-
-ExpressionList ArrayAllocationStatic::flattenExpressionList(IRGenerationContext&
-                                                                  context) const {
-  list<const IExpression*> stack;
-  for (const IExpression* expression : mExpressionList) {
-    stack.push_back(expression);
-  }
-  list<const IExpression*> result;
-
-  while (stack.size()) {
-    const IExpression* expression = stack.back();
-    stack.pop_back();
-    if (expression->getType(context)->isArray()) {
-      for (const IExpression* subExpression :
-           ((const ArrayAllocationStatic*) expression)->getExpressionList()) {
-        stack.push_back(subExpression);
-      }
-    } else {
-      result.push_front(expression);
-    }
-  }
-  
-  ExpressionList resultVector;
-  for (const IExpression* expression : result) {
-    resultVector.push_back(expression);
-  }
-
-  return resultVector;
-}
