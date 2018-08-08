@@ -18,8 +18,6 @@
 
 namespace wisey {
   
-  class ArrayExactOwnerType;
-  
   /**
    * Represents the array type where each dimension is exactly defined and has a constant value.
    *
@@ -29,18 +27,12 @@ namespace wisey {
     
     const IType* mElementType;
     std::list<unsigned long> mDimensions;
-    const ArrayExactOwnerType* mArrayExactOwnerType;
     
   public:
     
     ArrayExactType(const IType* elementType, std::list<unsigned long> dimensions);
     
     ~ArrayExactType();
-    
-    /**
-     * Returns the owner type for this exact array type
-     */
-    const ArrayExactOwnerType* getOwner() const;
     
     /**
      * Returns the number of dimensions in this array
@@ -59,7 +51,7 @@ namespace wisey {
     
     std::string getTypeName() const override;
     
-    llvm::PointerType* getLLVMType(IRGenerationContext& context) const override;
+    llvm::StructType* getLLVMType(IRGenerationContext& context) const override;
     
     bool canCastTo(IRGenerationContext& context, const IType* toType) const override;
     
@@ -118,6 +110,12 @@ namespace wisey {
                               const InjectionArgumentList injectionArgumentList,
                               int line) const override;
 
+  private:
+    
+    llvm::Value* allocateArray(IRGenerationContext& context,
+                               llvm::Value* staticArray,
+                               const IType* toType) const;
+    
   };
   
 } /* namespace wisey */

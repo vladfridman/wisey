@@ -9,9 +9,10 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/ArrayType.hpp"
-#include "wisey/ArrayExactOwnerType.hpp"
 #include "wisey/ArrayExactType.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/IntrinsicFunctions.hpp"
+#include "wisey/LocalArrayOwnerVariable.hpp"
 #include "wisey/Log.hpp"
 
 using namespace std;
@@ -20,15 +21,9 @@ using namespace wisey;
 ArrayExactType::ArrayExactType(const IType* elementType, list<unsigned long> dimensions) :
 mElementType(elementType), mDimensions(dimensions) {
   assert(dimensions.size());
-  mArrayExactOwnerType = new ArrayExactOwnerType(this);
 }
 
 ArrayExactType::~ArrayExactType() {
-  delete mArrayExactOwnerType;
-}
-
-const ArrayExactOwnerType* ArrayExactType::getOwner() const {
-  return mArrayExactOwnerType;
 }
 
 list<unsigned long> ArrayExactType::getDimensions() const {
@@ -47,31 +42,35 @@ string ArrayExactType::getTypeName() const {
   return name;
 }
 
-llvm::PointerType* ArrayExactType::getLLVMType(IRGenerationContext& context) const {
+llvm::StructType* ArrayExactType::getLLVMType(IRGenerationContext& context) const {
   llvm::LLVMContext& llvmContext = context.getLLVMContext();
   
-  llvm::Type* type = mElementType->getLLVMType(context);
+  llvm::Type* elementType = mElementType->getLLVMType(context);
+  llvm::StructType* structType = NULL;
   list<unsigned long> dimensionsReversed = mDimensions;
   dimensionsReversed.reverse();
   for (unsigned long dimension : dimensionsReversed) {
-    llvm::ArrayType* arrayType = llvm::ArrayType::get(type, dimension);
+    llvm::ArrayType* arrayType = llvm::ArrayType::get(structType ? structType : elementType,
+                                                      dimension);
     vector<llvm::Type*> types;
     types.push_back(llvm::Type::getInt64Ty(llvmContext));
     types.push_back(llvm::Type::getInt64Ty(llvmContext));
     types.push_back(llvm::Type::getInt64Ty(llvmContext));
     types.push_back(arrayType);
-    type = llvm::StructType::get(llvmContext, types);
+    structType = llvm::StructType::get(llvmContext, types);
   }
   
-  return type->getPointerTo();
+  return structType;
 }
 
-bool ArrayExactType::canCastTo(IRGenerationContext& context, const IType *toType) const {
-  return toType == this;
+bool ArrayExactType::canCastTo(IRGenerationContext& context, const IType* toType) const {
+  return toType == this ||
+  getArrayType(context, 0) == toType ||
+  getArrayType(context, 0)->getOwner() == toType;
 }
 
-bool ArrayExactType::canAutoCastTo(IRGenerationContext& context, const IType *toType) const {
-  return toType == this;
+bool ArrayExactType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
+  return canCastTo(context, toType);
 }
 
 llvm::Value* ArrayExactType::castTo(IRGenerationContext &context,
@@ -82,7 +81,35 @@ llvm::Value* ArrayExactType::castTo(IRGenerationContext &context,
     return fromValue;
   }
   
-  return NULL;
+  
+  llvm::Value* malloc = allocateArray(context, fromValue, toType);
+  
+  if (toType->isOwner()) {
+    return malloc;
+  }
+  
+  string variableName = IVariable::getTemporaryVariableName(this);
+  const ArrayOwnerType* arrayOwnerType = toType->getArrayType(context, line)->getOwner();
+  llvm::Value* alloc = IRWriter::newAllocaInst(context, arrayOwnerType->getLLVMType(context), "");
+  IRWriter::newStoreInst(context, malloc, alloc);
+  IVariable* variable = new LocalArrayOwnerVariable(variableName,
+                                                    toType->getArrayType(context, line)->getOwner(),
+                                                    alloc,
+                                                    line);
+  context.getScopes().setVariable(context, variable);
+  return malloc;
+}
+
+llvm::Value* ArrayExactType::allocateArray(IRGenerationContext& context,
+                                           llvm::Value* staticArray,
+                                           const IType* toType) const {
+  llvm::StructType* structType = getLLVMType(context);
+  llvm::Constant* allocSize = llvm::ConstantExpr::getSizeOf(structType);
+  llvm::Constant* one = llvm::ConstantInt::get(llvm::Type::getInt64Ty(context.getLLVMContext()), 1);
+  llvm::Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, one, "arr");
+  IRWriter::newStoreInst(context, staticArray, malloc);
+
+  return IRWriter::newBitCastInst(context, malloc, toType->getLLVMType(context));
 }
 
 unsigned long ArrayExactType::getNumberOfDimensions() const {

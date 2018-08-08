@@ -9,7 +9,7 @@
 #ifndef ArrayAllocationStatic_h
 #define ArrayAllocationStatic_h
 
-#include "wisey/ArrayExactOwnerType.hpp"
+#include "wisey/ArrayExactType.hpp"
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/IExpression.hpp"
 
@@ -36,36 +36,24 @@ namespace wisey {
     
     int getLine() const override;
 
-    llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
+    llvm::Constant* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
     
     bool isConstant() const override;
     
     bool isAssignable() const override;
     
-    const ArrayExactOwnerType* getType(IRGenerationContext& context) const override;
+    const ArrayExactType* getType(IRGenerationContext& context) const override;
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 
   private:
     
-    void initializeArray(IRGenerationContext& context,
-                         llvm::Value* arrayStructPointer,
-                         const IType* elementType,
-                         std::list<unsigned long> dimensions) const;
-
     const ArrayExactType* getExactType(IRGenerationContext& context) const;
     
     void checkArrayElements(IRGenerationContext& context) const;
     
     ExpressionList flattenExpressionList(IRGenerationContext& context) const;
     
-    static llvm::Value* allocateArray(IRGenerationContext &context,
-                                      const ArrayExactType* arrayType);
-
-    static void initializeEmptyArray(IRGenerationContext& context,
-                                     llvm::Value* arrayStructPointer,
-                                     std::list<unsigned long> dimensions);
-
   };
   
 } /* namespace wisey */

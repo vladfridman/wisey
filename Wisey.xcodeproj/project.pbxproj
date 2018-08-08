@@ -341,10 +341,7 @@
 		F53227E52063FFB300605E1B /* TestLocalSystemReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53227E42063FFB300605E1B /* TestLocalSystemReferenceVariable.cpp */; };
 		F5325065202A21D2007D8597 /* ArrayExactType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5325064202A21D2007D8597 /* ArrayExactType.cpp */; };
 		F5325066202A21D2007D8597 /* ArrayExactType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5325064202A21D2007D8597 /* ArrayExactType.cpp */; };
-		F5325069202A22B7007D8597 /* ArrayExactOwnerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5325068202A22B7007D8597 /* ArrayExactOwnerType.cpp */; };
-		F532506A202A22B7007D8597 /* ArrayExactOwnerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5325068202A22B7007D8597 /* ArrayExactOwnerType.cpp */; };
 		F532506C202A27AA007D8597 /* TestArrayExactType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F532506B202A27AA007D8597 /* TestArrayExactType.cpp */; };
-		F532506E202A286B007D8597 /* TestArrayExactOwnerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F532506D202A286B007D8597 /* TestArrayExactOwnerType.cpp */; };
 		F5325071202B8E29007D8597 /* ArraySpecificOwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5325070202B8E29007D8597 /* ArraySpecificOwnerTypeSpecifier.cpp */; };
 		F5325072202B8E29007D8597 /* ArraySpecificOwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5325070202B8E29007D8597 /* ArraySpecificOwnerTypeSpecifier.cpp */; };
 		F5325074202B9EE6007D8597 /* TestArraySpecificOwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5325073202B9EE6007D8597 /* TestArraySpecificOwnerTypeSpecifier.cpp */; };
@@ -1513,10 +1510,7 @@
 		F53227E42063FFB300605E1B /* TestLocalSystemReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLocalSystemReferenceVariable.cpp; path = tests/TestLocalSystemReferenceVariable.cpp; sourceTree = "<group>"; };
 		F5325063202A2129007D8597 /* ArrayExactType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ArrayExactType.hpp; path = include/wisey/ArrayExactType.hpp; sourceTree = "<group>"; };
 		F5325064202A21D2007D8597 /* ArrayExactType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ArrayExactType.cpp; path = src/ArrayExactType.cpp; sourceTree = "<group>"; };
-		F5325067202A226C007D8597 /* ArrayExactOwnerType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ArrayExactOwnerType.hpp; path = include/wisey/ArrayExactOwnerType.hpp; sourceTree = "<group>"; };
-		F5325068202A22B7007D8597 /* ArrayExactOwnerType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ArrayExactOwnerType.cpp; path = src/ArrayExactOwnerType.cpp; sourceTree = "<group>"; };
 		F532506B202A27AA007D8597 /* TestArrayExactType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestArrayExactType.cpp; path = tests/TestArrayExactType.cpp; sourceTree = "<group>"; };
-		F532506D202A286B007D8597 /* TestArrayExactOwnerType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestArrayExactOwnerType.cpp; path = tests/TestArrayExactOwnerType.cpp; sourceTree = "<group>"; };
 		F532506F202B8DCC007D8597 /* ArraySpecificOwnerTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ArraySpecificOwnerTypeSpecifier.hpp; path = include/wisey/ArraySpecificOwnerTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F5325070202B8E29007D8597 /* ArraySpecificOwnerTypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ArraySpecificOwnerTypeSpecifier.cpp; path = src/ArraySpecificOwnerTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F5325073202B9EE6007D8597 /* TestArraySpecificOwnerTypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestArraySpecificOwnerTypeSpecifier.cpp; path = tests/TestArraySpecificOwnerTypeSpecifier.cpp; sourceTree = "<group>"; };
@@ -3543,7 +3537,6 @@
 				F52746C8201A3C0700503713 /* TestArrayAllocationStatic.cpp */,
 				F5A67DAB20134C920018068F /* TestArrayElementAssignment.cpp */,
 				F51942E11FE030AA009C3158 /* TestArrayElementExpression.cpp */,
-				F532506D202A286B007D8597 /* TestArrayExactOwnerType.cpp */,
 				F532506B202A27AA007D8597 /* TestArrayExactType.cpp */,
 				F5A34F64209EF50500DCAF5E /* TestArrayGetSizeMethod.cpp */,
 				F51701A6200E9A9300A10B7C /* TestArrayOwnerType.cpp */,
@@ -4148,7 +4141,6 @@
 				F52746C4201A231000503713 /* ArrayAllocationStatic.hpp */,
 				F5A67DA72012DAA60018068F /* ArrayElementAssignment.hpp */,
 				F51942DB1FDFE98C009C3158 /* ArrayElementExpression.hpp */,
-				F5325067202A226C007D8597 /* ArrayExactOwnerType.hpp */,
 				F5325063202A2129007D8597 /* ArrayExactType.hpp */,
 				F5A34F60209EE77D00DCAF5E /* ArrayGetSizeMethod.hpp */,
 				F51701A5200E993800A10B7C /* ArrayOwnerType.hpp */,
@@ -4174,7 +4166,6 @@
 				F52746C5201A232900503713 /* ArrayAllocationStatic.cpp */,
 				F5A67DA82012DBEB0018068F /* ArrayElementAssignment.cpp */,
 				F51942DC1FDFEDFF009C3158 /* ArrayElementExpression.cpp */,
-				F5325068202A22B7007D8597 /* ArrayExactOwnerType.cpp */,
 				F5325064202A21D2007D8597 /* ArrayExactType.cpp */,
 				F5A34F61209EE7DA00DCAF5E /* ArrayGetSizeMethod.cpp */,
 				F51701A3200E992200A10B7C /* ArrayOwnerType.cpp */,
@@ -4280,7 +4271,6 @@
 				F51DF67B1FDAB2F800475F0B /* IObjectDefinition.cpp in Sources */,
 				F5F396E01E3F8C5700F34296 /* TestHeapBuilder.cpp in Sources */,
 				F5A3635C1F377F84005880B3 /* TestIFieldVariable.cpp in Sources */,
-				F532506E202A286B007D8597 /* TestArrayExactOwnerType.cpp in Sources */,
 				F5CB7FCA20529DE3007628B5 /* ReceivedFieldDefinition.cpp in Sources */,
 				F50FF86A208B66BD008EDC40 /* ImmutableArrayOwnerType.cpp in Sources */,
 				F54B148F205EC79D0030773F /* TestLLVMi32Type.cpp in Sources */,
@@ -4598,7 +4588,6 @@
 				F57085FF1E51F8C9007D627E /* TestMethodCall.cpp in Sources */,
 				F5FCAE341ED5C38B00C69899 /* Compiler.cpp in Sources */,
 				F53A2C141EF018EE00E76A9E /* TestInterfaceOwner.cpp in Sources */,
-				F532506A202A22B7007D8597 /* ArrayExactOwnerType.cpp in Sources */,
 				F56C214B1F5EA91A002510FC /* Cleanup.cpp in Sources */,
 				F58FA2FD206E684B00C86D33 /* TestDestroyObjectOwnerFunction.cpp in Sources */,
 				F5C0E7D42090B7BA0028BBD0 /* TestCheckCastToObjectFunction.cpp in Sources */,
@@ -5087,7 +5076,6 @@
 				F53227DC2062832800605E1B /* LLVMExternalStructDefinition.cpp in Sources */,
 				F593628C20C5CCF200A8C67A /* DereferenceExpression.cpp in Sources */,
 				F513DE0120186900001A075B /* ParameterArrayOwnerVariable.cpp in Sources */,
-				F5325069202A22B7007D8597 /* ArrayExactOwnerType.cpp in Sources */,
 				F53A2C1E1EF96C0200E76A9E /* IVariable.cpp in Sources */,
 				F59D82111E0F311B00057FB5 /* ForStatement.cpp in Sources */,
 				F581A0182073B3CB00EA0156 /* ILLVMType.cpp in Sources */,

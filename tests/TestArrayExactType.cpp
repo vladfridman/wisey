@@ -66,9 +66,7 @@ TEST_F(ArrayExactTypeTest, getNameTest) {
 }
 
 TEST_F(ArrayExactTypeTest, getLLVMTypeTest) {
-  llvm::PointerType* arrayLLVMType = mArrayExactType->getLLVMType(mContext);
-  ASSERT_TRUE(arrayLLVMType->getPointerElementType()->isStructTy());
-  llvm::StructType* arrayStruct = (llvm::StructType*) arrayLLVMType->getPointerElementType();
+  llvm::StructType* arrayStruct = mArrayExactType->getLLVMType(mContext);
   
   EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(0));
   EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(1));
