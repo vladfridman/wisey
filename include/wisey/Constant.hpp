@@ -47,11 +47,6 @@ namespace wisey {
      */
     llvm::Value* define(IRGenerationContext& context, const IObjectType* objectType) const;
 
-    /**
-     * Declare a constant that is defined externally
-     */
-    llvm::Value* declare(IRGenerationContext& context, const IObjectType* objectType) const;
-
     std::string getName() const;
     
     const IType* getType() const;

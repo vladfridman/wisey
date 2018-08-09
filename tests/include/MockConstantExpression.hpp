@@ -21,8 +21,8 @@
 class MockConstantExpression : public wisey::IConstantExpression {
 public:
   MOCK_CONST_METHOD0(getLine, int ());
-  MOCK_CONST_METHOD2(generateIR, llvm::Value* (wisey::IRGenerationContext&,
-                                               const wisey::IType* assignToType));
+  MOCK_CONST_METHOD2(generateIR, llvm::Constant* (wisey::IRGenerationContext&,
+                                                  const wisey::IType* assignToType));
   MOCK_CONST_METHOD1(getType, const wisey::IType* (wisey::IRGenerationContext&));
   MOCK_CONST_METHOD0(isConstant, bool ());
   MOCK_CONST_METHOD0(isAssignable, bool ());

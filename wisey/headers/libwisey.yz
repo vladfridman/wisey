@@ -270,7 +270,7 @@ external controller wisey.data.COwnerList {
 
 external controller wisey.data.COwnerVector {
 
-  constant long DEFAULT_INITIAL_CAPACITY;
+  constant long DEFAULT_INITIAL_CAPACITY = 16l;
 
   receive long mCapacity;
 
@@ -341,7 +341,7 @@ external controller wisey.data.CReferenceToReferenceMap {
 
 external controller wisey.data.CReferenceVector {
 
-  constant long DEFAULT_INITIAL_CAPACITY;
+  constant long DEFAULT_INITIAL_CAPACITY = 16l;
 
   receive long mCapacity;
 
@@ -371,7 +371,7 @@ external controller wisey.io.CFile {
 
 external controller wisey.io.CFileReader {
 
-  constant int BUFFER_SIZE;
+  constant int BUFFER_SIZE = 256;
 
   receive wisey.lang.MString* mFileName;
 
@@ -392,7 +392,7 @@ external controller wisey.lang.CMemoryPool {
 
 external controller wisey.lang.CString {
 
-  constant long DEFAULT_INITIAL_CAPACITY;
+  constant long DEFAULT_INITIAL_CAPACITY = 16l;
 
   receive char[]* mBuffer;
   receive long mCapacity;
@@ -454,7 +454,7 @@ external controller wisey.lang.CString {
 
 external controller wisey.threads.CCallStack {
 
-  constant int CALL_STACK_SIZE;
+  constant int CALL_STACK_SIZE = 1024;
 
   static void throwStackOverflowException();
   void dumpStack();

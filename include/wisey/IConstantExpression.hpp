@@ -19,6 +19,14 @@ namespace wisey {
    * Interface representing an expression that computes to a constant
    */
   class IConstantExpression : public IExpression {
+    
+  public:
+    
+    /**
+     * Generate LLVM constant corresponding to this expression
+     */
+    virtual llvm::Constant* generateIR(IRGenerationContext& context,
+                                       const IType* assignToType) const = 0;
   };
   
   /**

@@ -80,7 +80,7 @@ void ExternalInterfaceDefinition::prototypeMethods(IRGenerationContext& context)
   interface->defineExternalInjectionFunctionPointer(context, mLine);
   IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
   interface->buildMethods(context);
-  interface->declareConstants(context);
+  interface->defineConstants(context);
   interface->defineStaticMethodFunctions(context);
   context.setObjectType(lastObjectType);
 }

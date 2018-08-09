@@ -278,11 +278,6 @@ namespace wisey {
      * Generates IR for non-static methods of a given object
      */
     static void generateMethodsIR(IRGenerationContext& context, const IConcreteObjectType* object);
-    
-    /**
-     * Declare constants difined externally
-     */
-    static void declareConstants(IRGenerationContext& context, const IConcreteObjectType* object);
 
     /**
      * Defines constants defined in the object and generates IR for their initializtion

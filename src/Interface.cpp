@@ -321,12 +321,6 @@ IMethod* Interface::findStaticMethod(string methodName) const {
   return NULL;
 }
 
-void Interface::declareConstants(IRGenerationContext& context) const {
-  for (Constant* constant : mConstants) {
-    constant->declare(context, this);
-  }
-}
-
 void Interface::defineConstants(IRGenerationContext& context) const {
   for (Constant* constant : mConstants) {
     constant->define(context, this);

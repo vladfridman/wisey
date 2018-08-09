@@ -394,9 +394,6 @@
 		F53401111DFF333E0002BF7E /* MethodDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53401101DFF333E0002BF7E /* MethodDefinition.cpp */; };
 		F53401121DFF333E0002BF7E /* MethodDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53401101DFF333E0002BF7E /* MethodDefinition.cpp */; };
 		F534011C1E000DBC0002BF7E /* TestMethodDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534011B1E000DBC0002BF7E /* TestMethodDefinition.cpp */; };
-		F534644220ACBC2B006369D4 /* ExternalConstantDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534644120ACBC2B006369D4 /* ExternalConstantDeclaration.cpp */; };
-		F534644320ACBC2B006369D4 /* ExternalConstantDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534644120ACBC2B006369D4 /* ExternalConstantDeclaration.cpp */; };
-		F534644520ACC12F006369D4 /* TestExternalConstantDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534644420ACC12F006369D4 /* TestExternalConstantDeclaration.cpp */; };
 		F534644820ACCD26006369D4 /* GlobalStringConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534644720ACCD26006369D4 /* GlobalStringConstant.cpp */; };
 		F534644920ACCD26006369D4 /* GlobalStringConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534644720ACCD26006369D4 /* GlobalStringConstant.cpp */; };
 		F534644C20AF16DB006369D4 /* EssentialFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534644B20AF16DB006369D4 /* EssentialFunctions.cpp */; };
@@ -1528,9 +1525,6 @@
 		F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestConditionalExpression.cpp; path = tests/TestConditionalExpression.cpp; sourceTree = "<group>"; };
 		F53401101DFF333E0002BF7E /* MethodDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MethodDefinition.cpp; path = src/MethodDefinition.cpp; sourceTree = "<group>"; };
 		F534011B1E000DBC0002BF7E /* TestMethodDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethodDefinition.cpp; path = tests/TestMethodDefinition.cpp; sourceTree = "<group>"; };
-		F534643F20ACBB5D006369D4 /* ExternalConstantDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ExternalConstantDeclaration.hpp; path = include/wisey/ExternalConstantDeclaration.hpp; sourceTree = "<group>"; };
-		F534644120ACBC2B006369D4 /* ExternalConstantDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ExternalConstantDeclaration.cpp; path = src/ExternalConstantDeclaration.cpp; sourceTree = "<group>"; };
-		F534644420ACC12F006369D4 /* TestExternalConstantDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestExternalConstantDeclaration.cpp; path = tests/TestExternalConstantDeclaration.cpp; sourceTree = "<group>"; };
 		F534644620ACCCAD006369D4 /* GlobalStringConstant.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = GlobalStringConstant.hpp; path = include/wisey/GlobalStringConstant.hpp; sourceTree = "<group>"; };
 		F534644720ACCD26006369D4 /* GlobalStringConstant.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = GlobalStringConstant.cpp; path = src/GlobalStringConstant.cpp; sourceTree = "<group>"; };
 		F534644A20AF1694006369D4 /* EssentialFunctions.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = EssentialFunctions.hpp; path = include/wisey/EssentialFunctions.hpp; sourceTree = "<group>"; };
@@ -2862,7 +2856,6 @@
 				F5E2706D1F98F44F008D2EB7 /* ConstantDefinition.hpp */,
 				F5A98A341F9A36910063D626 /* ConstantReference.hpp */,
 				F5089C631ECD01D9004A1223 /* DoubleConstant.hpp */,
-				F534643F20ACBB5D006369D4 /* ExternalConstantDeclaration.hpp */,
 				F5089C6B1ECD01D9004A1223 /* FloatConstant.hpp */,
 				F59692B72118AD9700F19C4E /* HexConstant.hpp */,
 				F5089C761ECD01D9004A1223 /* IntConstant.hpp */,
@@ -2881,7 +2874,6 @@
 				F5E2706F1F98F4AA008D2EB7 /* ConstantDefinition.cpp */,
 				F5A98A351F9A37910063D626 /* ConstantReference.cpp */,
 				F50FA2E11E2E3B0900435EEA /* DoubleConstant.cpp */,
-				F534644120ACBC2B006369D4 /* ExternalConstantDeclaration.cpp */,
 				F50FA2E21E2E3B0900435EEA /* FloatConstant.cpp */,
 				F59692B82118ADD000F19C4E /* HexConstant.cpp */,
 				F50FA2E31E2E3B0900435EEA /* IntConstant.cpp */,
@@ -3604,7 +3596,6 @@
 				F55173D51F99025400613993 /* TestConstantDefinition.cpp */,
 				F52010301F9A4BB200D982B5 /* TestConstantReference.cpp */,
 				F50FA2ED1E2E3B2A00435EEA /* TestDoubleConstant.cpp */,
-				F534644420ACC12F006369D4 /* TestExternalConstantDeclaration.cpp */,
 				F50FA2EE1E2E3B2A00435EEA /* TestFloatConstant.cpp */,
 				F59692BB2118AEBC00F19C4E /* TestHexConstant.cpp */,
 				F50FA2EF1E2E3B2A00435EEA /* TestIntConstant.cpp */,
@@ -4315,7 +4306,6 @@
 				F5C0E7EF209A0A640028BBD0 /* TestPrintFileStatement.cpp in Sources */,
 				F59D82261E0F6E8800057FB5 /* TestIfStatement.cpp in Sources */,
 				F50FA2AE1E27AFA500435EEA /* TestCaseStatement.cpp in Sources */,
-				F534644320ACBC2B006369D4 /* ExternalConstantDeclaration.cpp in Sources */,
 				F5ADB61D1E5F587300FFC941 /* TestNegateExpression.cpp in Sources */,
 				F59692AA2117C00800F19C4E /* TestReminderExpression.cpp in Sources */,
 				F54B1491205EC82B0030773F /* TestLLVMi64Type.cpp in Sources */,
@@ -4753,7 +4743,6 @@
 				F5A67DBA20171F0B0018068F /* FieldArrayOwnerVariable.cpp in Sources */,
 				F5CB7FCE20529E77007628B5 /* InjectedFieldDefinition.cpp in Sources */,
 				F5F396D81E34BBDD00F34296 /* HeapBuilder.cpp in Sources */,
-				F534644520ACC12F006369D4 /* TestExternalConstantDeclaration.cpp in Sources */,
 				F53A2C291EFFD42000E76A9E /* NodeTypeSpecifier.cpp in Sources */,
 				F59D82201E0F68DF00057FB5 /* TestIfElseStatement.cpp in Sources */,
 				F59692BC2118AEBC00F19C4E /* TestHexConstant.cpp in Sources */,
@@ -4935,7 +4924,6 @@
 				F57780AD1EC7CC7B0049542D /* BindAction.cpp in Sources */,
 				F5F210CA20F633D700F6D40F /* ThrowNullPointerExceptionFunction.cpp in Sources */,
 				F5325065202A21D2007D8597 /* ArrayExactType.cpp in Sources */,
-				F534644220ACBC2B006369D4 /* ExternalConstantDeclaration.cpp in Sources */,
 				F5436DB61FCF72CE003ABF6F /* NodeTypeSpecifierFull.cpp in Sources */,
 				F582707D20600ECD00839EC7 /* LLVMFunctionDeclaration.cpp in Sources */,
 				F5BF0C812080F4F9005AF4E5 /* LLVMPointerOwnerType.cpp in Sources */,

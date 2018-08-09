@@ -798,13 +798,6 @@ void IConcreteObjectType::checkMethodOverride(IRGenerationContext& context,
   throw 1;
 }
 
-void IConcreteObjectType::declareConstants(IRGenerationContext& context,
-                                           const IConcreteObjectType* object) {
-  for (Constant* constant : object->getConstants()) {
-    constant->declare(context, object);
-  }
-}
-
 void IConcreteObjectType::defineConstants(IRGenerationContext& context,
                                           const IConcreteObjectType* object) {
   for (Constant* constant : object->getConstants()) {

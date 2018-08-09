@@ -398,7 +398,7 @@ TEST_F(InterfaceTest, printToStreamTest) {
                "  extends\n"
                "    systems.vos.wisey.compiler.tests.IObject {\n"
                "\n"
-               "  constant int MYCONSTANT;\n"
+               "  constant int MYCONSTANT = 5;\n"
                "\n"
                "  int foo();\n"
                "  static int foostatic();\n"

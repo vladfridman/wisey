@@ -96,14 +96,6 @@ TEST_F(ConstantTest, defineTest) {
   EXPECT_NE(mContext.getModule()->getNamedGlobal("constant.MObject.MYCONSTANT"), nullptr);
 }
 
-TEST_F(ConstantTest, declareTest) {
-  EXPECT_EQ(mContext.getModule()->getNamedGlobal("constant.MObject.MYCONSTANT"), nullptr);
-  
-  mExternalConstant->declare(mContext, mObject);
-  
-  EXPECT_NE(mContext.getModule()->getNamedGlobal("constant.MObject.MYCONSTANT"), nullptr);
-}
-
 TEST_F(ConstantTest, defineForNonConstantExpressionDeathTest) {
   Mock::AllowLeak(mExpression);
   Mock::AllowLeak(mObject);
@@ -136,7 +128,7 @@ TEST_F(ConstantTest, printPublicConstantToStreamTest) {
   stringstream stringStream;
   mConstant->printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("  constant int MYCONSTANT;\n", stringStream.str().c_str());
+  EXPECT_STREQ("  constant int MYCONSTANT = expression;\n", stringStream.str().c_str());
 }
 
 TEST_F(ConstantTest, printPrivateConstantToStreamTest) {

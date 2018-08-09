@@ -690,7 +690,7 @@ TEST_F(ModelTest, printToStreamTest) {
                "    systems.vos.wisey.compiler.tests.IShape,\n"
                "    systems.vos.wisey.compiler.tests.IObject {\n"
                "\n"
-               "  constant int MYCONSTANT;\n"
+               "  constant int MYCONSTANT = 5;\n"
                "\n"
                "  receive int mWidth;\n"
                "  receive int mHeight;\n"

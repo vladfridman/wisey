@@ -46,16 +46,15 @@ void Constant::printToStream(IRGenerationContext& context, iostream& stream) con
     return;
   }
   
-  stream << "  constant " << mType->getTypeName() << " " << mName << ";\n";
+  stream << "  constant " << mType->getTypeName() << " " << mName << " = ";
+  mExpression->printToStream(context, stream);
+  stream << ";\n";
 }
 
 llvm::Value* Constant::define(IRGenerationContext& context, const IObjectType* objectType) const {
   assert(mExpression && "Constant definition does not have an initialization expression");
 
   llvm::Type* llvmType = mType->getLLVMType(context);
-  llvm::GlobalValue::LinkageTypes linkageType = mIsPublic
-  ? llvm::GlobalValue::ExternalLinkage
-  : llvm::GlobalValue::InternalLinkage;
   
   if (!mExpression->isConstant()) {
     context.reportError(mLine, "Constant is initialized with a non-constant expression");
@@ -71,26 +70,10 @@ llvm::Value* Constant::define(IRGenerationContext& context, const IObjectType* o
   return new llvm::GlobalVariable(*context.getModule(),
                                   llvmType,
                                   true,
-                                  linkageType,
+                                  llvm::GlobalValue::InternalLinkage,
                                   (llvm::Constant*) mExpression->generateIR(context, mType),
                                   getConstantGlobalName(objectType));
 }
-
-llvm::Value* Constant::declare(IRGenerationContext& context, const IObjectType* objectType) const {
-  llvm::Type* llvmType = mType->getLLVMType(context);
-  llvm::GlobalValue::LinkageTypes linkageType = mIsPublic
-  ? llvm::GlobalValue::ExternalLinkage
-  : llvm::GlobalValue::InternalLinkage;
-  
-  assert(mExpression == NULL && "External constant is supposed to have no expression");
-  
-  return new llvm::GlobalVariable(*context.getModule(),
-                                  llvmType,
-                                  true,
-                                  linkageType,
-                                  NULL,
-                                  getConstantGlobalName(objectType));
-  }
 
 string Constant::getConstantGlobalName(const IObjectType* objectType) const {
   return "constant." + objectType->getTypeName() + "." + mName;

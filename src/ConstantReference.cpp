@@ -32,8 +32,8 @@ int ConstantReference::getLine() const {
   return mLine;
 }
 
-Value* ConstantReference::generateIR(IRGenerationContext& context,
-                                     const IType* assignToType) const {
+llvm::Constant* ConstantReference::generateIR(IRGenerationContext& context,
+                                              const IType* assignToType) const {
   const IObjectType* objectType = getObjectType(context);
   Constant* constant = objectType->findConstant(context, mConstantName, mLine);
   if (!constant->isPublic() && objectType != context.getObjectType()) {
@@ -42,8 +42,9 @@ Value* ConstantReference::generateIR(IRGenerationContext& context,
     throw 1;
   }
   string constantGlobalName = constant->getConstantGlobalName(objectType);
-  llvm::Constant* constantStore = context.getModule()->getNamedGlobal(constantGlobalName);
-  return IRWriter::newLoadInst(context, constantStore, "");
+  llvm::GlobalVariable* constantStore = context.getModule()->getNamedGlobal(constantGlobalName);
+  assert(constantStore->hasInitializer() && "Constant does not have an initializer");
+  return constantStore->getInitializer();
 }
 
 const IType* ConstantReference::getType(IRGenerationContext& context) const {

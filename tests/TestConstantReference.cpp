@@ -83,6 +83,13 @@ public:
     mContext.setDeclarationsBlock(declareBlock);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
+    
+    new llvm::GlobalVariable(*mContext.getModule(),
+                             llvm::Type::getInt32Ty(mLLVMContext),
+                             true,
+                             llvm::GlobalValue::InternalLinkage,
+                             llvm::ConstantInt::get(llvm::Type::getInt32Ty(mLLVMContext), 5),
+                             "constant.MMyObject.MYCONSTANT");
 
     mStringStream = new llvm::raw_string_ostream(mStringBuffer);
   }
@@ -111,14 +118,8 @@ TEST_F(ConstantReferenceTest, isAssignableTest) {
 }
 
 TEST_F(ConstantReferenceTest, generateIRTest) {
-  mConstantReference->generateIR(mContext, PrimitiveTypes::VOID);
-  
-  *mStringStream << *mBasicBlock;
-  string expected =
-  "\nentry:                                            ; No predecessors!"
-  "\n  %0 = load i32, i32* @constant.MMyObject.MYCONSTANT\n";
-  
-  ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
+  llvm::Constant* constant = mConstantReference->generateIR(mContext, PrimitiveTypes::VOID);
+  EXPECT_EQ(llvm::ConstantInt::get(llvm::Type::getInt32Ty(mLLVMContext), 5), constant);
 }
 
 TEST_F(ConstantReferenceTest, printToStreamTest) {

@@ -667,7 +667,7 @@ TEST_F(NodeTest, printToStreamTest) {
                "    systems.vos.wisey.compiler.tests.IComplicatedElement,\n"
                "    systems.vos.wisey.compiler.tests.IObject {\n"
                "\n"
-               "  constant int MYCONSTANT;\n"
+               "  constant int MYCONSTANT = 5;\n"
                "\n"
                "  receive int mLeft;\n"
                "  receive int mRight;\n"
