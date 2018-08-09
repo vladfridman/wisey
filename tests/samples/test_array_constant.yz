@@ -1,0 +1,15 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+  
+  private constant int[] ARRAY = { 1, 2, 3, 4, 5 };
+
+  public int run(immutable string[] arguments) override {
+    
+    return ARRAY[2];
+  }
+}
+
+bind(IProgram).to(CProgram);

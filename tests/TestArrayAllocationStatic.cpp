@@ -156,3 +156,11 @@ TEST_F(TestFileRunner, localArrayOwnerOfIntsStaticAllocationTrailingCommaRunTest
   runFile("tests/samples/test_local_array_owner_of_ints_static_allocation_trailing_comma.yz", 5);
 }
 
+TEST_F(TestFileRunner, localArrayOwner3dOfIntsStaticAllocationRunTest) {
+  runFile("tests/samples/test_local_array_owner_3d_of_ints_static_allocation.yz", 12);
+}
+
+TEST_F(TestFileRunner, arrayConstantRunTest) {
+  runFile("tests/samples/test_array_constant.yz", 3);
+}
+

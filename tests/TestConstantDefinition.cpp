@@ -23,6 +23,7 @@ using namespace wisey;
 using ::testing::_;
 using ::testing::Invoke;
 using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
 
 struct ConstantDefinitionTest : public Test {
@@ -37,7 +38,8 @@ public:
   mExpression(new NiceMock<MockExpression>()),
   mName("MYCONSTANT") {
     ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
-    
+    ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
+
     const PrimitiveTypeSpecifier* typeSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
     mConstantDefinition = new ConstantDefinition(PUBLIC_ACCESS,
                                                  typeSpecifier,

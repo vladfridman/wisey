@@ -118,15 +118,16 @@ struct InterfaceTest : public Test {
     Block* staticMethodBlock = new Block();
     CompoundStatement* staticMethodCompoundStatement = new CompoundStatement(staticMethodBlock, 0);
     mStaticMethod = new StaticMethodDefinition(AccessLevel::PUBLIC_ACCESS,
-                                                intSpecifier,
-                                                "foostatic",
-                                                staticArguments,
-                                                staticMethodExceptions,
-                                                staticMethodCompoundStatement,
-                                                0);
-    
+                                               intSpecifier,
+                                               "foostatic",
+                                               staticArguments,
+                                               staticMethodExceptions,
+                                               staticMethodCompoundStatement,
+                                               0);
+
     mMockExpression = new NiceMock<MockExpression>();
     ON_CALL(*mMockExpression, printToStream(_,_)).WillByDefault(Invoke(printExpression));
+    ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT));
     intSpecifier = PrimitiveTypes::INT->newTypeSpecifier(0);
     mConstantDefinition = new ConstantDefinition(PUBLIC_ACCESS,
                                                  intSpecifier,

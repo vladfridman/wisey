@@ -43,6 +43,9 @@ llvm::Constant* ConstantReference::generateIR(IRGenerationContext& context,
   }
   string constantGlobalName = constant->getConstantGlobalName(objectType);
   llvm::GlobalVariable* constantStore = context.getModule()->getNamedGlobal(constantGlobalName);
+  if (constant->getType()->isArray()) {
+    return constantStore;
+  }
   assert(constantStore->hasInitializer() && "Constant does not have an initializer");
   return constantStore->getInitializer();
 }
