@@ -55,6 +55,7 @@
   #include "wisey/HeapBuilder.hpp"
   #include "wisey/HexConstant.hpp"
   #include "wisey/IBuildableObjectTypeSpecifier.hpp"
+  #include "wisey/IConstantExpression.hpp"
   #include "wisey/IControllerTypeSpecifier.hpp"
   #include "wisey/IGlobalStatement.hpp"
   #include "wisey/IInterfaceTypeSpecifier.hpp"
@@ -171,6 +172,7 @@
  */
 %union {
   wisey::IExpression* expression;
+  wisey::IConstantExpression* constant_expression;
   wisey::IStatement* statement;
   wisey::IGlobalStatement* global_statement;
   wisey::GlobalStatementList* global_statement_list;
@@ -212,6 +214,7 @@
   std::vector<wisey::Catch*>* catch_vector;
   std::vector<wisey::VariableDeclaration*>* variable_vector;
   std::vector<const wisey::IExpression*>* expression_vector;
+  std::vector<const wisey::IConstantExpression*>* constant_expression_vector;
   std::vector<wisey::MethodSignatureDeclaration*>* method_signature_vector;
   std::tuple<std::vector<wisey::IObjectElementDefinition*>,
              std::vector<wisey::IObjectDefinition*>>* object_element_list;
@@ -254,18 +257,21 @@
  */
 %type <identifier> identifier
 %type <string> package_optional package_name string_identifier llvm_function_name
-%type <expression> string_literal constant_value expression multiply_divide_expression 
+%type <expression> expression multiply_divide_expression 
 %type <expression> add_subtract_expression relational_expression equality_expression
 %type <expression> logical_and_expression logical_or_expression shift_expression
 %type <expression> conditional_expression postfix_expression heap_builder pool_builder
 %type <expression> cast_expression primary_expression assignment unary_expression
-%type <expression> type_comparision_expression injection array_allocation static_array_allocation
-%type <expression> constant_reference static_method_call field_identifier increment_by_expression
+%type <expression> type_comparision_expression injection array_allocation 
+%type <expression> static_method_call field_identifier increment_by_expression
 %type <expression> llvm_function_call llvm_reference llvm_dereference call_argument
 %type <expression> bitwise_and_expression bitwise_or_expression bitwise_xor_expression
+%type <constant_expression> constant_expression constant_value string_literal constant_reference 
+%type <constant_expression> static_array_allocation
 %type <variable_vector> method_definition_arguments
-%type <expression_vector> call_arguments static_array_elements
-%type <block> block_item_list 
+%type <expression_vector> call_arguments
+%type <constant_expression_vector> static_array_elements
+%type <block> block_item_list
 %type <program_file> program
 %type <statement> statement variable_declaration
 %type <statement> method_argument_declaration jump_statement block_item
@@ -1403,10 +1409,7 @@ field_identifier
 primary_expression
   : identifier { $$ = (IExpression*) $1; }
   | field_identifier
-  | constant_value
-  | constant_reference
-  | string_literal
-  | static_array_allocation
+  | constant_expression { $$ = (IExpression*) $1; }
   | heap_builder
   | pool_builder
   | injection
@@ -1416,6 +1419,13 @@ primary_expression
   | llvm_dereference
   | '(' expression ')' { $$ = $2; }
   | TNULL { $$ = new NullExpression(yylineno); }
+  ;
+
+constant_expression
+  : constant_value
+  | string_literal
+  | constant_reference
+  | static_array_allocation
   ;
 
 postfix_expression
@@ -1554,9 +1564,9 @@ static_array_allocation
   ;
 
 static_array_elements
-  : expression { $$ = new ExpressionList(); $$->push_back($1); }
-  | call_arguments ',' expression  { $1->push_back($3); $$ = $1; }
-  | call_arguments ','  { $$ = $1; }
+  : constant_expression { $$ = new ConstantExpressionList(); $$->push_back($1); }
+  | static_array_elements ',' constant_expression  { $1->push_back($3); $$ = $1; }
+  | static_array_elements ','  { $$ = $1; }
   ;
 
 injection

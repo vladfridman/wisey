@@ -11,28 +11,23 @@
 
 #include "wisey/ArrayExactType.hpp"
 #include "wisey/ArrayOwnerType.hpp"
-#include "wisey/IExpression.hpp"
+#include "wisey/IConstantExpression.hpp"
 
 namespace wisey {
   
   /**
    * Represents a static array allocation expression of the form: { 1, 2, 3, 4, 5 }
    */
-  class ArrayAllocationStatic : public IExpression {
+  class ArrayAllocationStatic : public IConstantExpression {
     
-    ExpressionList mExpressionList;
+    ConstantExpressionList mExpressionList;
     int mLine;
     
   public:
     
-    ArrayAllocationStatic(ExpressionList expressionList, int line);
+    ArrayAllocationStatic(ConstantExpressionList expressionList, int line);
     
     ~ArrayAllocationStatic();
-
-    /**
-     * Returns list of expression used to initialize the array
-     */
-    ExpressionList getExpressionList() const;
     
     int getLine() const override;
 

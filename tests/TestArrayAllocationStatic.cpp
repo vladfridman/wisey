@@ -14,7 +14,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "MockExpression.hpp"
+#include "MockConstantExpression.hpp"
 #include "MockVariable.hpp"
 #include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
@@ -43,14 +43,14 @@ struct ArrayAllocationStaticTest : Test {
   Function* mFunction;
   BasicBlock* mBasicBlock;
   ArrayAllocationStatic* mArrayAllocationStatic;
-  NiceMock<MockExpression>* mMockExpression1;
-  NiceMock<MockExpression>* mMockExpression2;
-  ExpressionList mExpressionList;
+  NiceMock<MockConstantExpression>* mMockExpression1;
+  NiceMock<MockConstantExpression>* mMockExpression2;
+  ConstantExpressionList mExpressionList;
 
   ArrayAllocationStaticTest() :
   mLLVMContext(mContext.getLLVMContext()),
-  mMockExpression1(new NiceMock<MockExpression>()),
-  mMockExpression2(new NiceMock<MockExpression>()) {
+  mMockExpression1(new NiceMock<MockConstantExpression>()),
+  mMockExpression2(new NiceMock<MockConstantExpression>()) {
     TestPrefix::generateIR(mContext);
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);

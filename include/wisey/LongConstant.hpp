@@ -9,7 +9,7 @@
 #ifndef LongConstant_h
 #define LongConstant_h
 
-#include "wisey/IExpression.hpp"
+#include "wisey/IConstantExpression.hpp"
 #include "wisey/IHasType.hpp"
 
 namespace wisey {
@@ -17,7 +17,7 @@ namespace wisey {
   /**
    * Represents a long constant
    */
-  class LongConstant : public IExpression {
+  class LongConstant : public IConstantExpression {
     
     long long mValue;
     int mLine;

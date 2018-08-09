@@ -9,7 +9,7 @@
 #ifndef IntConstant_h
 #define IntConstant_h
 
-#include "wisey/IExpression.hpp"
+#include "wisey/IConstantExpression.hpp"
 #include "wisey/IHasType.hpp"
 
 namespace wisey {
@@ -17,7 +17,7 @@ namespace wisey {
   /**
    * Represents an integer constant
    */
-  class IntConstant : public IExpression {
+  class IntConstant : public IConstantExpression {
     
     long mValue;
     int mLine;

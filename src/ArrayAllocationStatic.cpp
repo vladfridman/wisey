@@ -24,7 +24,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ArrayAllocationStatic::ArrayAllocationStatic(ExpressionList expressionList, int line) :
+ArrayAllocationStatic::ArrayAllocationStatic(ConstantExpressionList expressionList, int line) :
 mExpressionList(expressionList), mLine(line) {
 }
 
@@ -115,8 +115,4 @@ void ArrayAllocationStatic::checkArrayElements(IRGenerationContext &context) con
                         "All elements in static array allocation should be of the same type");
     throw 1;
   }
-}
-
-ExpressionList ArrayAllocationStatic::getExpressionList() const {
-  return mExpressionList;
 }

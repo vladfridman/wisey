@@ -9,7 +9,7 @@
 #ifndef HexConstant_h
 #define HexConstant_h
 
-#include "wisey/IExpression.hpp"
+#include "wisey/IConstantExpression.hpp"
 #include "wisey/IHasType.hpp"
 
 namespace wisey {
@@ -17,7 +17,7 @@ namespace wisey {
   /**
    * Represents a hexadecimal constant
    */
-  class HexConstant : public IExpression {
+  class HexConstant : public IConstantExpression {
     
     unsigned long mValue;
     int mLine;

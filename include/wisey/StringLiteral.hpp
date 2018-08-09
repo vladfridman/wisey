@@ -9,14 +9,14 @@
 #ifndef StringLiteral_h
 #define StringLiteral_h
 
-#include "wisey/IExpression.hpp"
+#include "wisey/IConstantExpression.hpp"
 
 namespace wisey {
   
   /**
    * Represents a string literal
    */
-  class StringLiteral : public IExpression {
+  class StringLiteral : public IConstantExpression {
     std::string mValue;
     int mLine;
     

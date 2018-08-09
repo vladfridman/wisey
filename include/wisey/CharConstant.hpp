@@ -11,7 +11,7 @@
 
 #include <string>
 
-#include "wisey/IExpression.hpp"
+#include "wisey/IConstantExpression.hpp"
 #include "wisey/IHasType.hpp"
 
 namespace wisey {
@@ -19,7 +19,7 @@ namespace wisey {
   /**
    * Represents a constant character
    */
-  class CharConstant : public IExpression {
+  class CharConstant : public IConstantExpression {
     std::string mValue;
     int mLine;
     

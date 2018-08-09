@@ -9,7 +9,7 @@
 #ifndef ConstantReference_h
 #define ConstantReference_h
 
-#include "wisey/IExpression.hpp"
+#include "wisey/IConstantExpression.hpp"
 #include "wisey/IObjectTypeSpecifier.hpp"
 
 namespace wisey {
@@ -17,7 +17,7 @@ namespace wisey {
   /**
    * Represents a constant reference that looks like my.packge.MMyObject.MYCONSTANT
    */
-  class ConstantReference : public IExpression {
+  class ConstantReference : public IConstantExpression {
     
     const IObjectTypeSpecifier* mObjectTypeSpecifier;
     std::string mConstantName;

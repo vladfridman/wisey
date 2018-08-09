@@ -1897,6 +1897,8 @@
 		F59692B72118AD9700F19C4E /* HexConstant.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = HexConstant.hpp; path = include/wisey/HexConstant.hpp; sourceTree = "<group>"; };
 		F59692B82118ADD000F19C4E /* HexConstant.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HexConstant.cpp; path = src/HexConstant.cpp; sourceTree = "<group>"; };
 		F59692BB2118AEBC00F19C4E /* TestHexConstant.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestHexConstant.cpp; path = tests/TestHexConstant.cpp; sourceTree = "<group>"; };
+		F59692BD211BBE0A00F19C4E /* IConstantExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IConstantExpression.hpp; path = include/wisey/IConstantExpression.hpp; sourceTree = "<group>"; };
+		F59692BE211BC3A400F19C4E /* MockConstantExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockConstantExpression.hpp; path = tests/include/MockConstantExpression.hpp; sourceTree = "<group>"; };
 		F598117720A05DAC003AADCA /* ObjectKindGlobal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ObjectKindGlobal.hpp; path = include/wisey/ObjectKindGlobal.hpp; sourceTree = "<group>"; };
 		F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectKindGlobal.cpp; path = src/ObjectKindGlobal.cpp; sourceTree = "<group>"; };
 		F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectKindGlobal.cpp; path = tests/TestObjectKindGlobal.cpp; sourceTree = "<group>"; };
@@ -2665,6 +2667,7 @@
 			isa = PBXGroup;
 			children = (
 				F556E65B1EDEE45B00CCC3D7 /* MockConcreteObjectType.hpp */,
+				F59692BE211BC3A400F19C4E /* MockConstantExpression.hpp */,
 				F5E48B8E1E870E150087CC70 /* MockExpression.hpp */,
 				F5752ABF2088A19700C00DE1 /* MockExpressionAssignable.hpp */,
 				F50EF2A01EDC7A97002E68A8 /* MockGlobalStatement.hpp */,
@@ -2940,6 +2943,7 @@
 				F5E6BD081F190B7800D59444 /* FakeExpression.hpp */,
 				F5CB7F6E205152DC007628B5 /* FakeExpressionWithCleanup.hpp */,
 				F596929821177C3B00F19C4E /* IArithmeticExpression.hpp */,
+				F59692BD211BBE0A00F19C4E /* IConstantExpression.hpp */,
 				F5089C6E1ECD01D9004A1223 /* Identifier.hpp */,
 				F51942F21FE302C3009C3158 /* IdentifierChain.hpp */,
 				F5378F6B2058F0B500E5B5FD /* IdentifierReference.hpp */,

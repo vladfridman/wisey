@@ -9,7 +9,7 @@
 #ifndef BooleanConstant_h
 #define BooleanConstant_h
 
-#include "wisey/IExpression.hpp"
+#include "wisey/IConstantExpression.hpp"
 #include "wisey/IHasType.hpp"
 
 namespace wisey {
@@ -17,7 +17,7 @@ namespace wisey {
   /**
    * Represents a constant boolean
    */
-  class BooleanConstant : public IExpression {
+  class BooleanConstant : public IConstantExpression {
     bool mValue;
     int mLine;
     

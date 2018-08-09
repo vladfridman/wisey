@@ -9,7 +9,7 @@
 #ifndef FloatConstant_h
 #define FloatConstant_h
 
-#include "wisey/IExpression.hpp"
+#include "wisey/IConstantExpression.hpp"
 #include "wisey/IHasType.hpp"
 
 namespace wisey {
@@ -17,7 +17,7 @@ namespace wisey {
   /**
    * Represents a float constant
    */
-  class FloatConstant: public IExpression {
+  class FloatConstant: public IConstantExpression {
     double mValue;
     int mLine;
     

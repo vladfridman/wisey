@@ -11,6 +11,7 @@
   #include "wisey/ControllerTypeSpecifier.hpp"
   #include "wisey/CaseStatement.hpp"
   #include "wisey/DefaultCaseStatement.hpp"
+  #include "wisey/IConstantExpression.hpp"
   #include "wisey/ILLVMTypeSpecifier.hpp"
   #include "wisey/IObjectDefinition.hpp"
   #include "wisey/Identifier.hpp"

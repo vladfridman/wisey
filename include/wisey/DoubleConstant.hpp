@@ -9,7 +9,7 @@
 #ifndef DoubleConstant_h
 #define DoubleConstant_h
 
-#include "wisey/IExpression.hpp"
+#include "wisey/IConstantExpression.hpp"
 #include "wisey/IHasType.hpp"
 
 namespace wisey {
@@ -17,7 +17,7 @@ namespace wisey {
   /**
    * Represents a double constant
    */
-  class DoubleConstant : public IExpression {
+  class DoubleConstant : public IConstantExpression {
     long double mValue;
     int mLine;
     
