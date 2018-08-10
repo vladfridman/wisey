@@ -828,6 +828,9 @@
 		F59692C7211E0B9300F19C4E /* ByteType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692C6211E0B9300F19C4E /* ByteType.cpp */; };
 		F59692C8211E0B9300F19C4E /* ByteType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692C6211E0B9300F19C4E /* ByteType.cpp */; };
 		F59692CA211E102E00F19C4E /* TestByteType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692C9211E102E00F19C4E /* TestByteType.cpp */; };
+		F59692CD211E29A000F19C4E /* ByteConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692CC211E29A000F19C4E /* ByteConstant.cpp */; };
+		F59692CE211E29A000F19C4E /* ByteConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692CC211E29A000F19C4E /* ByteConstant.cpp */; };
+		F59692D0211E29FC00F19C4E /* TestByteConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692CF211E29FC00F19C4E /* TestByteConstant.cpp */; };
 		F598117A20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117B20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117E20A0676E003AADCA /* TestObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */; };
@@ -1905,6 +1908,9 @@
 		F59692C5211E0B5900F19C4E /* ByteType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ByteType.hpp; path = include/wisey/ByteType.hpp; sourceTree = "<group>"; };
 		F59692C6211E0B9300F19C4E /* ByteType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ByteType.cpp; path = src/ByteType.cpp; sourceTree = "<group>"; };
 		F59692C9211E102E00F19C4E /* TestByteType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestByteType.cpp; path = tests/TestByteType.cpp; sourceTree = "<group>"; };
+		F59692CB211E295A00F19C4E /* ByteConstant.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ByteConstant.hpp; path = include/wisey/ByteConstant.hpp; sourceTree = "<group>"; };
+		F59692CC211E29A000F19C4E /* ByteConstant.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ByteConstant.cpp; path = src/ByteConstant.cpp; sourceTree = "<group>"; };
+		F59692CF211E29FC00F19C4E /* TestByteConstant.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestByteConstant.cpp; path = tests/TestByteConstant.cpp; sourceTree = "<group>"; };
 		F598117720A05DAC003AADCA /* ObjectKindGlobal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ObjectKindGlobal.hpp; path = include/wisey/ObjectKindGlobal.hpp; sourceTree = "<group>"; };
 		F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectKindGlobal.cpp; path = src/ObjectKindGlobal.cpp; sourceTree = "<group>"; };
 		F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectKindGlobal.cpp; path = tests/TestObjectKindGlobal.cpp; sourceTree = "<group>"; };
@@ -2865,6 +2871,7 @@
 			isa = PBXGroup;
 			children = (
 				F5089C4F1ECD01D9004A1223 /* BooleanConstant.hpp */,
+				F59692CB211E295A00F19C4E /* ByteConstant.hpp */,
 				F5089C581ECD01D9004A1223 /* CharConstant.hpp */,
 				F5E270711F98F5C6008D2EB7 /* Constant.hpp */,
 				F5E2706D1F98F44F008D2EB7 /* ConstantDefinition.hpp */,
@@ -2884,6 +2891,7 @@
 			isa = PBXGroup;
 			children = (
 				F50FA3041E325E5400435EEA /* BooleanConstant.cpp */,
+				F59692CC211E29A000F19C4E /* ByteConstant.cpp */,
 				F531B6591E0DE52F008304F3 /* CharConstant.cpp */,
 				F5E270721F98F6A4008D2EB7 /* Constant.cpp */,
 				F5E2706F1F98F4AA008D2EB7 /* ConstantDefinition.cpp */,
@@ -3607,6 +3615,7 @@
 			isa = PBXGroup;
 			children = (
 				F50FA3071E32640B00435EEA /* TestBooleanConstant.cpp */,
+				F59692CF211E29FC00F19C4E /* TestByteConstant.cpp */,
 				F531B65C1E0DEB26008304F3 /* TestCharConstant.cpp */,
 				F5E270761F990024008D2EB7 /* TestConstant.cpp */,
 				F55173D51F99025400613993 /* TestConstantDefinition.cpp */,
@@ -4321,6 +4330,7 @@
 				F50FA3021E3240D800435EEA /* TestScopes.cpp in Sources */,
 				F5A0DAF9207BE83500B0E479 /* TestWiseyModelOwnerTypeSpecifier.cpp in Sources */,
 				F51D2BAF1F68453500510784 /* StaticMethod.cpp in Sources */,
+				F59692CE211E29A000F19C4E /* ByteConstant.cpp in Sources */,
 				F5C0E7EF209A0A640028BBD0 /* TestPrintFileStatement.cpp in Sources */,
 				F59D82261E0F6E8800057FB5 /* TestIfStatement.cpp in Sources */,
 				F50FA2AE1E27AFA500435EEA /* TestCaseStatement.cpp in Sources */,
@@ -4552,6 +4562,7 @@
 				F5C6FD861E48B7A00054209D /* LongType.cpp in Sources */,
 				F53A2C3B1F00029600E76A9E /* TestNodeDefinition.cpp in Sources */,
 				F53400F91DFC775A0002BF7E /* RelationalExpression.cpp in Sources */,
+				F59692D0211E29FC00F19C4E /* TestByteConstant.cpp in Sources */,
 				F531B6431E0A16D7008304F3 /* Block.cpp in Sources */,
 				F5BF0C8C2081014B005AF4E5 /* TestDestroyNativeObjectFunction.cpp in Sources */,
 				F57411431E015961009809FF /* ReturnStatement.cpp in Sources */,
@@ -5096,6 +5107,7 @@
 				F59D82111E0F311B00057FB5 /* ForStatement.cpp in Sources */,
 				F581A0182073B3CB00EA0156 /* ILLVMType.cpp in Sources */,
 				F58FA2F9206E65C100C86D33 /* DestroyObjectOwnerFunction.cpp in Sources */,
+				F59692CD211E29A000F19C4E /* ByteConstant.cpp in Sources */,
 				F5190A4A2088DA3400BC2D93 /* CastObjectFunction.cpp in Sources */,
 				F53227E22063FB0900605E1B /* LocalSystemReferenceVariable.cpp in Sources */,
 				F5BF0C892080FBBB005AF4E5 /* DestroyNativeObjectFunction.cpp in Sources */,

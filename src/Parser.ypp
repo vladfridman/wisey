@@ -22,6 +22,7 @@
   #include "wisey/BooleanNotExpression.hpp"
   #include "wisey/BreakStatement.hpp"
   #include "wisey/BuilderArgument.hpp"
+  #include "wisey/ByteConstant.hpp"
   #include "wisey/Catch.hpp"
   #include "wisey/CaseStatement.hpp"
   #include "wisey/CastExpression.hpp"
@@ -235,9 +236,9 @@
 /**
  * Tokens used in wisey 
  */
-%token <string> TIDENTIFIER TCHAR TINTEGER TLONG TFLOAT TDOUBLE TSTRING_LITERAL TMODELIDENTIFIER
-%token <string> TFIELDIDENTIFIER TINTERFACEIDENTIFIER TCONTROLLERIDENTIFIER TNODEIDENTIFIER
-%token <string> TCONSTANTIDENTIFIER THEXADECIMAL
+%token <string> TIDENTIFIER TBYTE TCHAR TINTEGER TLONG TFLOAT TDOUBLE TSTRING_LITERAL 
+%token <string> TMODELIDENTIFIER TFIELDIDENTIFIER TINTERFACEIDENTIFIER TCONTROLLERIDENTIFIER 
+%token <string> TNODEIDENTIFIER TCONSTANTIDENTIFIER THEXADECIMAL
 
 %token <token> TANDOP TBIND TBREAK TBUILD TCASE TCATCH TCEQ TCGE TCLE
 %token <token> TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDECBYOP TDO TDOUBLECOLON TELIPSIS
@@ -1371,6 +1372,7 @@ access_specifier
 unsigned_constant_number
   : TINTEGER { $$ = new IntConstant(atol($1->c_str()), yylineno); delete $1; }
   | TLONG { $$ = new LongConstant(atoll($1->c_str()), yylineno); delete $1; }
+  | TBYTE { $$ = new ByteConstant(atoi($1->c_str()), yylineno); delete $1; }
   | TFLOAT { $$ = new FloatConstant(atof($1->c_str()), yylineno); delete $1; }
   | TDOUBLE { $$ = new DoubleConstant(strtod($1->c_str(), NULL), yylineno); delete $1; }
   ;
