@@ -19,7 +19,7 @@ Value* Cast::widenIntCast(IRGenerationContext& context,
                           const IType* toType) {
   Type* toLLVMType = toType->getLLVMType(context);
   
-  return IRWriter::createZExtOrBitCast(context, fromValue, toLLVMType);
+  return IRWriter::createSExtOrBitCast(context, fromValue, toLLVMType);
 }
 
 Value* Cast::truncIntCast(IRGenerationContext& context,

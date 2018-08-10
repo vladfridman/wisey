@@ -120,7 +120,7 @@ TEST_F(CastExpressionTest, castExpressionAutoCastTest) {
   result = castExpression.generateIR(mContext, PrimitiveTypes::INT);
   
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv = zext i1 true to i32", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv = sext i1 true to i32", mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 

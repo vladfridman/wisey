@@ -281,20 +281,20 @@ TEST_F(IRWriterTest, newLoadInst) {
   EXPECT_EQ(mBasicBlock->size(), 2u);
 }
 
-TEST_F(IRWriterTest, createZExtOrBitCastTest) {
+TEST_F(IRWriterTest, createSExtOrBitCastTest) {
   ConstantInt* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 0);
   Type* type = Type::getInt64Ty(mLLVMContext);
-  CastInst* castInst = IRWriter::createZExtOrBitCast(mContext, value, type);
+  CastInst* castInst = IRWriter::createSExtOrBitCast(mContext, value, type);
 
   EXPECT_EQ(mBasicBlock->size(), 1u);
   *mStringStream << *castInst;
-  ASSERT_STREQ(mStringStream->str().c_str(), "  %conv = zext i32 0 to i64");
+  ASSERT_STREQ(mStringStream->str().c_str(), "  %conv = sext i32 0 to i64");
   
   IRWriter::createReturnInst(mContext, value);
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
   
-  IRWriter::createZExtOrBitCast(mContext, value, type);
+  IRWriter::createSExtOrBitCast(mContext, value, type);
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
 }

@@ -154,7 +154,7 @@ TEST_F(ReturnStatementTest, parentFunctionIntTest) {
   *mStringStream << *basicBlock;
   string expected = string() +
     "\nentry:"
-    "\n  %conv = zext i32 3 to i64" +
+    "\n  %conv = sext i32 3 to i64" +
     "\n  ret i64 %conv\n";
   ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
   
@@ -211,7 +211,7 @@ TEST_F(ReturnStatementTest, ownerVariablesAreClearedTest) {
   "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint (%MShape* getelementptr (%MShape, %MShape* null, i32 1) to i64))"
   "\n  %1 = bitcast i8* %malloccall1 to %MShape*"
   "\n  store %MShape* %1, %MShape** %pointer2"
-  "\n  %conv = zext i32 3 to i64"
+  "\n  %conv = sext i32 3 to i64"
   "\n  %2 = load %MShape*, %MShape** %pointer2"
   "\n  %3 = bitcast %MShape* %2 to i8*"
   "\n  invoke void @systems.vos.wisey.compiler.tests.MShape.destructor(i8* %3, %wisey.threads.IThread* null, %wisey.threads.CCallStack* null, i8* null)"
@@ -303,7 +303,7 @@ TEST_F(ReturnStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
   "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint (i32* getelementptr (i32, i32* null, i32 1) to i64))"
   "\n  %3 = bitcast i8* %malloccall1 to %MModel*"
   "\n  store %MModel* %3, %MModel** %1"
-  "\n  %conv = zext i32 3 to i64"
+  "\n  %conv = sext i32 3 to i64"
   "\n  %4 = load %MModel*, %MModel** %1"
   "\n  %5 = icmp eq %MModel* %4, null"
   "\n  br i1 %5, label %if.end, label %if.notnull"

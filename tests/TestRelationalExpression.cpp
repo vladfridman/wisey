@@ -128,7 +128,7 @@ TEST_F(RelationalExpressionTest, compareIntsWithCastTest) {
   ASSERT_EQ(2ul, mBasicBlock->size());
   EXPECT_EQ(expression.getType(mContext), PrimitiveTypes::BOOLEAN);
   *mStringStream << mBasicBlock->front();
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %conv = zext i32 5 to i64");
+  EXPECT_STREQ(mStringStream->str().c_str(), "  %conv = sext i32 5 to i64");
   mStringBuffer.clear();
   *mStringStream << mBasicBlock->back();
   EXPECT_STREQ(mStringStream->str().c_str(), "  %cmp = icmp sge i64 3, %conv");

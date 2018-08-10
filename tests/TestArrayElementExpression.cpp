@@ -121,7 +121,7 @@ TEST_F(ArrayElementExpressionTest, generateIRTest) {
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\nif.not.null:                                      ; preds = %entry"
-  "\n  %conv = zext i32 3 to i64"
+  "\n  %conv = sext i32 3 to i64"
   "\n  %0 = getelementptr { i64, i64, i64, [0 x i32] }, { i64, i64, i64, [0 x i32] }* null, i64 0, i32 1"
   "\n  %arraySize = load i64, i64* %0"
   "\n  invoke void @__checkArrayIndexFunction(i64 %conv, i64 %arraySize)"

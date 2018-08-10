@@ -134,7 +134,7 @@ TEST_F(IntTypeTest, castToTest) {
   
   result = mIntType.castTo(mContext, expressionValue, PrimitiveTypes::LONG, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv2 = zext i32 5 to i64", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv2 = sext i32 5 to i64", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = mIntType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT, 0);

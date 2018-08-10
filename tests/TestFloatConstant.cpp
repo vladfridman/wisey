@@ -59,4 +59,3 @@ TEST_F(FloatConstantTest, printToStreamTest) {
   
   EXPECT_STREQ("3.5", stringStream.str().c_str());
 }
-

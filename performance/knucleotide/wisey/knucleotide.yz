@@ -1,0 +1,15 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+  private constant byte[] CODES = { -1b, 0b, -1b, 1b, 3b, -1b, -1b, 2b };
+  private constant char[] NUCLEOTIDES = { 'A', 'C', 'G', 'T' };
+
+
+  public int run(immutable string[] arguments) override {
+    return CODES[0];
+  }
+}
+
+bind(IProgram).to(CProgram);

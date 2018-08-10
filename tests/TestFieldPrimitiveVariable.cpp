@@ -156,7 +156,7 @@ TEST_F(FieldPrimitiveVariableTest, generateAssignmentWithCastIRTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:                                            ; No predecessors!" +
-  "\n  %conv = zext i8 3 to i32"
+  "\n  %conv = sext i8 3 to i32"
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, %systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1"
   "\n  store i32 %conv, i32* %0\n";
  

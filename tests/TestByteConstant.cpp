@@ -15,6 +15,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "TestFileRunner.hpp"
 #include "wisey/ByteConstant.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -59,4 +60,8 @@ TEST_F(ByteConstantTest, printToStreamTest) {
   mByteConstant.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("3", stringStream.str().c_str());
+}
+
+TEST_F(TestFileRunner, signedCastByteToIntRunTest) {
+  runFile("tests/samples/test_signed_cast_byte_to_int.yz", -1);
 }

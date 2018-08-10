@@ -118,22 +118,22 @@ TEST_F(BooleanTypeTest, castToTest) {
   
   result = mBoleanType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv = zext i1 true to i8", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv = sext i1 true to i8", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = mBoleanType.castTo(mContext, expressionValue, PrimitiveTypes::BYTE, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv1 = zext i1 true to i8", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv1 = sext i1 true to i8", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = mBoleanType.castTo(mContext, expressionValue, PrimitiveTypes::INT, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv2 = zext i1 true to i32", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv2 = sext i1 true to i32", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = mBoleanType.castTo(mContext, expressionValue, PrimitiveTypes::LONG, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv3 = zext i1 true to i64", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv3 = sext i1 true to i64", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = mBoleanType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT, 0);

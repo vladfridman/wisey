@@ -77,7 +77,7 @@ TEST_F(CastTest, widenIntCastTest) {
   Value* result = Cast::widenIntCast(mContext, expressionValue, PrimitiveTypes::LONG);
   
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv = zext i32 5 to i64", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv = sext i32 5 to i64", mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 

@@ -124,7 +124,7 @@ namespace wisey {
     /**
      * Add a CastInst that zero-extends an int value to a longer int type
      */
-    static llvm::CastInst* createZExtOrBitCast(IRGenerationContext& context,
+    static llvm::CastInst* createSExtOrBitCast(IRGenerationContext& context,
                                                llvm::Value* fromValue,
                                                llvm::Type* toLLVMType);
     

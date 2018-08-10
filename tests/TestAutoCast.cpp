@@ -86,7 +86,7 @@ TEST_F(AutoCastTest, castBooleanTest) {
                                PrimitiveTypes::CHAR,
                                0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv = zext i1 true to i8", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv = sext i1 true to i8", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = AutoCast::maybeCast(mContext,
@@ -95,7 +95,7 @@ TEST_F(AutoCastTest, castBooleanTest) {
                                PrimitiveTypes::BYTE,
                                0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv1 = zext i1 true to i8", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv1 = sext i1 true to i8", mStringStream->str().c_str());
   mStringBuffer.clear();
 
   result = AutoCast::maybeCast(mContext,
@@ -104,7 +104,7 @@ TEST_F(AutoCastTest, castBooleanTest) {
                                PrimitiveTypes::INT,
                                0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv2 = zext i1 true to i32", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv2 = sext i1 true to i32", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = AutoCast::maybeCast(mContext,
@@ -113,7 +113,7 @@ TEST_F(AutoCastTest, castBooleanTest) {
                                PrimitiveTypes::LONG,
                                0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv3 = zext i1 true to i64", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv3 = sext i1 true to i64", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = AutoCast::maybeCast(mContext,
@@ -180,7 +180,7 @@ TEST_F(AutoCastTest, castCharTest) {
                                PrimitiveTypes::INT,
                                0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv = zext i8 97 to i32", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv = sext i8 97 to i32", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = AutoCast::maybeCast(mContext,
@@ -189,7 +189,7 @@ TEST_F(AutoCastTest, castCharTest) {
                                PrimitiveTypes::LONG,
                                0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv1 = zext i8 97 to i64", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv1 = sext i8 97 to i64", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = AutoCast::maybeCast(mContext,
@@ -256,7 +256,7 @@ TEST_F(AutoCastTest, castByteTest) {
                                PrimitiveTypes::INT,
                                0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv = zext i8 5 to i32", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv = sext i8 5 to i32", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = AutoCast::maybeCast(mContext,
@@ -265,7 +265,7 @@ TEST_F(AutoCastTest, castByteTest) {
                                PrimitiveTypes::LONG,
                                0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv1 = zext i8 5 to i64", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv1 = sext i8 5 to i64", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = AutoCast::maybeCast(mContext,
@@ -323,7 +323,7 @@ TEST_F(AutoCastTest, castIntTest) {
                                PrimitiveTypes::LONG,
                                0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv = zext i32 5 to i64", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv = sext i32 5 to i64", mStringStream->str().c_str());
   mStringBuffer.clear();
   buffer.clear();
   

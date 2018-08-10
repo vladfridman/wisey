@@ -203,7 +203,7 @@ LoadInst* IRWriter::newLoadInst(IRGenerationContext& context,
   return new LoadInst(pointer, variableName, currentBlock);
 }
 
-CastInst* IRWriter::createZExtOrBitCast(IRGenerationContext& context,
+CastInst* IRWriter::createSExtOrBitCast(IRGenerationContext& context,
                                         Value* fromValue,
                                         Type* toLLVMType) {
   BasicBlock* currentBlock = context.getBasicBlock();
@@ -212,7 +212,7 @@ CastInst* IRWriter::createZExtOrBitCast(IRGenerationContext& context,
     return NULL;
   }
   
-  return CastInst::CreateZExtOrBitCast(fromValue, toLLVMType, "conv", currentBlock);
+  return CastInst::CreateSExtOrBitCast(fromValue, toLLVMType, "conv", currentBlock);
 }
 
 TruncInst* IRWriter::newTruncInst(IRGenerationContext& context,
@@ -228,8 +228,8 @@ TruncInst* IRWriter::newTruncInst(IRGenerationContext& context,
 }
 
 FPTruncInst* IRWriter::newFPTruncInst(IRGenerationContext& context,
-                                    Value* fromValue,
-                                    Type* toLLVMType) {
+                                      Value* fromValue,
+                                      Type* toLLVMType) {
   BasicBlock* currentBlock = context.getBasicBlock();
   
   if(currentBlock->getTerminator()) {

@@ -217,3 +217,7 @@ TEST_F(LongTypeTest, injectDeathTest) {
 TEST_F(TestFileRunner, longCastToBooleanRunTest) {
   runFile("tests/samples/test_long_cast_to_boolean.yz", 5);
 }
+
+TEST_F(TestFileRunner, signedCastLongToIntRunTest) {
+  runFile("tests/samples/test_signed_cast_long_to_int.yz", -3);
+}

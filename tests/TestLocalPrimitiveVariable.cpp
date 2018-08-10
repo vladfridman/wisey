@@ -114,7 +114,7 @@ TEST_F(LocalPrimitiveVariableTest, generateAssignmentIRWithCastTest) {
   
   ASSERT_EQ(2ul, mEntryBlock->size());
   *mStringStream << mEntryBlock->front();
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %conv = zext i1 true to i32");
+  EXPECT_STREQ(mStringStream->str().c_str(), "  %conv = sext i1 true to i32");
   mStringBuffer.clear();
   
   *mStringStream << mEntryBlock->back();
