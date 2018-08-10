@@ -822,6 +822,9 @@
 		F59692B92118ADD000F19C4E /* HexConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692B82118ADD000F19C4E /* HexConstant.cpp */; };
 		F59692BA2118ADD000F19C4E /* HexConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692B82118ADD000F19C4E /* HexConstant.cpp */; };
 		F59692BC2118AEBC00F19C4E /* TestHexConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692BB2118AEBC00F19C4E /* TestHexConstant.cpp */; };
+		F59692C1211D1DCA00F19C4E /* ConstantNegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692C0211D1DCA00F19C4E /* ConstantNegate.cpp */; };
+		F59692C2211D1DCA00F19C4E /* ConstantNegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692C0211D1DCA00F19C4E /* ConstantNegate.cpp */; };
+		F59692C4211D1F3800F19C4E /* TestConstantNegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692C3211D1F3800F19C4E /* TestConstantNegate.cpp */; };
 		F598117A20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117B20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117E20A0676E003AADCA /* TestObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */; };
@@ -1893,6 +1896,9 @@
 		F59692BB2118AEBC00F19C4E /* TestHexConstant.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestHexConstant.cpp; path = tests/TestHexConstant.cpp; sourceTree = "<group>"; };
 		F59692BD211BBE0A00F19C4E /* IConstantExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IConstantExpression.hpp; path = include/wisey/IConstantExpression.hpp; sourceTree = "<group>"; };
 		F59692BE211BC3A400F19C4E /* MockConstantExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockConstantExpression.hpp; path = tests/include/MockConstantExpression.hpp; sourceTree = "<group>"; };
+		F59692BF211D1D2700F19C4E /* ConstantNegate.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ConstantNegate.hpp; path = include/wisey/ConstantNegate.hpp; sourceTree = "<group>"; };
+		F59692C0211D1DCA00F19C4E /* ConstantNegate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ConstantNegate.cpp; path = src/ConstantNegate.cpp; sourceTree = "<group>"; };
+		F59692C3211D1F3800F19C4E /* TestConstantNegate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestConstantNegate.cpp; path = tests/TestConstantNegate.cpp; sourceTree = "<group>"; };
 		F598117720A05DAC003AADCA /* ObjectKindGlobal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ObjectKindGlobal.hpp; path = include/wisey/ObjectKindGlobal.hpp; sourceTree = "<group>"; };
 		F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectKindGlobal.cpp; path = src/ObjectKindGlobal.cpp; sourceTree = "<group>"; };
 		F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectKindGlobal.cpp; path = tests/TestObjectKindGlobal.cpp; sourceTree = "<group>"; };
@@ -2854,6 +2860,7 @@
 				F5089C581ECD01D9004A1223 /* CharConstant.hpp */,
 				F5E270711F98F5C6008D2EB7 /* Constant.hpp */,
 				F5E2706D1F98F44F008D2EB7 /* ConstantDefinition.hpp */,
+				F59692BF211D1D2700F19C4E /* ConstantNegate.hpp */,
 				F5A98A341F9A36910063D626 /* ConstantReference.hpp */,
 				F5089C631ECD01D9004A1223 /* DoubleConstant.hpp */,
 				F5089C6B1ECD01D9004A1223 /* FloatConstant.hpp */,
@@ -2872,6 +2879,7 @@
 				F531B6591E0DE52F008304F3 /* CharConstant.cpp */,
 				F5E270721F98F6A4008D2EB7 /* Constant.cpp */,
 				F5E2706F1F98F4AA008D2EB7 /* ConstantDefinition.cpp */,
+				F59692C0211D1DCA00F19C4E /* ConstantNegate.cpp */,
 				F5A98A351F9A37910063D626 /* ConstantReference.cpp */,
 				F50FA2E11E2E3B0900435EEA /* DoubleConstant.cpp */,
 				F50FA2E21E2E3B0900435EEA /* FloatConstant.cpp */,
@@ -3594,6 +3602,7 @@
 				F531B65C1E0DEB26008304F3 /* TestCharConstant.cpp */,
 				F5E270761F990024008D2EB7 /* TestConstant.cpp */,
 				F55173D51F99025400613993 /* TestConstantDefinition.cpp */,
+				F59692C3211D1F3800F19C4E /* TestConstantNegate.cpp */,
 				F52010301F9A4BB200D982B5 /* TestConstantReference.cpp */,
 				F50FA2ED1E2E3B2A00435EEA /* TestDoubleConstant.cpp */,
 				F50FA2EE1E2E3B2A00435EEA /* TestFloatConstant.cpp */,
@@ -4380,6 +4389,7 @@
 				F54B1485205D737B0030773F /* LLVMStructDefinition.cpp in Sources */,
 				F5F61A9D201DDCCE00EF9EB7 /* ArraySpecificType.cpp in Sources */,
 				F50FA2EB1E2E3B1500435EEA /* IntConstant.cpp in Sources */,
+				F59692C2211D1DCA00F19C4E /* ConstantNegate.cpp in Sources */,
 				F50FF8A3208C9F14008EDC40 /* AdjustReferenceCounterForImmutableArrayFunction.cpp in Sources */,
 				F53A2C0D1EEC37E900E76A9E /* InterfaceOwner.cpp in Sources */,
 				F5A67DAC20134C920018068F /* TestArrayElementAssignment.cpp in Sources */,
@@ -4452,6 +4462,7 @@
 				F53A2C371EFFFCEE00E76A9E /* TestNode.cpp in Sources */,
 				F582705E205FCA6C00839EC7 /* LLVMPointerType.cpp in Sources */,
 				F50D5E4A20B7079200A025E9 /* TestShiftLeftExpression.cpp in Sources */,
+				F59692C4211D1F3800F19C4E /* TestConstantNegate.cpp in Sources */,
 				F5609F1820580DE000664ADD /* LocalPointerVariable.cpp in Sources */,
 				F58725631F70143100FA25E6 /* IPrintStatement.cpp in Sources */,
 				F5D159A820A7133500107E84 /* TestCContextManager.cpp in Sources */,
@@ -5022,6 +5033,7 @@
 				F5ADB6101E5DA08200FFC941 /* Cast.cpp in Sources */,
 				F51942DD1FDFEDFF009C3158 /* ArrayElementExpression.cpp in Sources */,
 				F53401091DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
+				F59692C1211D1DCA00F19C4E /* ConstantNegate.cpp in Sources */,
 				F5F61A9C201DDCCE00EF9EB7 /* ArraySpecificType.cpp in Sources */,
 				F5E270731F98F6A4008D2EB7 /* Constant.cpp in Sources */,
 				F5A34F62209EE7DA00DCAF5E /* ArrayGetSizeMethod.cpp in Sources */,

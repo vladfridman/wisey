@@ -29,6 +29,7 @@
   #include "wisey/CompoundStatement.hpp"
   #include "wisey/ConditionalExpression.hpp"
   #include "wisey/ConstantDefinition.hpp"
+  #include "wisey/ConstantNegate.hpp"
   #include "wisey/ConstantReference.hpp"
   #include "wisey/ContinueStatement.hpp"
   #include "wisey/ControllerDefinition.hpp"
@@ -265,8 +266,9 @@
 %type <expression> static_method_call field_identifier increment_by_expression
 %type <expression> llvm_function_call llvm_reference llvm_dereference call_argument
 %type <expression> bitwise_and_expression bitwise_or_expression bitwise_xor_expression
-%type <constant_expression> constant_expression constant_value string_literal constant_reference 
-%type <constant_expression> static_array_allocation
+%type <constant_expression> unsigned_constant_expression constant_value string_literal  
+%type <constant_expression> constant_reference static_array_allocation unsigned_constant_number
+%type <constant_expression> signed_constant_expression
 %type <variable_vector> method_definition_arguments
 %type <expression_vector> call_arguments
 %type <constant_expression_vector> static_array_elements
@@ -1366,12 +1368,15 @@ access_specifier
   | TPRIVATE { $$ = AccessLevel::PRIVATE_ACCESS; }
   ;
 
-constant_value
-  : TCHAR { $$ = new CharConstant($1->substr(1, $1->length() - 2), yylineno); delete $1; }
-  | TINTEGER { $$ = new IntConstant(atol($1->c_str()), yylineno); delete $1; }
+unsigned_constant_number
+  : TINTEGER { $$ = new IntConstant(atol($1->c_str()), yylineno); delete $1; }
   | TLONG { $$ = new LongConstant(atoll($1->c_str()), yylineno); delete $1; }
   | TFLOAT { $$ = new FloatConstant(atof($1->c_str()), yylineno); delete $1; }
   | TDOUBLE { $$ = new DoubleConstant(strtod($1->c_str(), NULL), yylineno); delete $1; }
+  ;
+
+constant_value
+  : TCHAR { $$ = new CharConstant($1->substr(1, $1->length() - 2), yylineno); delete $1; }
   | THEXADECIMAL { $$ = new HexConstant(std::stoul($1->c_str(), NULL, 16), yylineno); delete $1; }
   | TTRUE { $$ = new BooleanConstant(true, yylineno); }
   | TFALSE { $$ = new BooleanConstant(false, yylineno); }
@@ -1409,7 +1414,7 @@ field_identifier
 primary_expression
   : identifier { $$ = (IExpression*) $1; }
   | field_identifier
-  | constant_expression { $$ = (IExpression*) $1; }
+  | unsigned_constant_expression { $$ = (IExpression*) $1; }
   | heap_builder
   | pool_builder
   | injection
@@ -1421,8 +1426,18 @@ primary_expression
   | TNULL { $$ = new NullExpression(yylineno); }
   ;
 
-constant_expression
+unsigned_constant_expression
   : constant_value
+  | unsigned_constant_number
+  | string_literal
+  | constant_reference
+  | static_array_allocation
+  ;
+
+signed_constant_expression
+  : constant_value
+  | unsigned_constant_number
+  | '-' unsigned_constant_number { $$ = new ConstantNegate($2, yylineno); }
   | string_literal
   | constant_reference
   | static_array_allocation
@@ -1564,8 +1579,8 @@ static_array_allocation
   ;
 
 static_array_elements
-  : constant_expression { $$ = new ConstantExpressionList(); $$->push_back($1); }
-  | static_array_elements ',' constant_expression  { $1->push_back($3); $$ = $1; }
+  : signed_constant_expression { $$ = new ConstantExpressionList(); $$->push_back($1); }
+  | static_array_elements ',' signed_constant_expression  { $1->push_back($3); $$ = $1; }
   | static_array_elements ','  { $$ = $1; }
   ;
 
