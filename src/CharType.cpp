@@ -59,6 +59,7 @@ bool CharType::canAutoCastTo(IRGenerationContext& context, const IType* toType) 
 
   return toType == PrimitiveTypes::BOOLEAN ||
     toType == PrimitiveTypes::CHAR ||
+    toType == PrimitiveTypes::BYTE ||
     toType == PrimitiveTypes::INT ||
     toType == PrimitiveTypes::LONG ||
     toType == PrimitiveTypes::FLOAT ||
@@ -77,7 +78,7 @@ Value* CharType::castTo(IRGenerationContext& context,
                                  fromValue,
                                  ConstantInt::get(getLLVMType(context), 0),
                                  "");
-  } else if (toType == PrimitiveTypes::CHAR) {
+  } else if (toType == PrimitiveTypes::CHAR || toType == PrimitiveTypes::BYTE) {
     return fromValue;
   } else if (toType == PrimitiveTypes::INT || toType == PrimitiveTypes::LONG) {
     return Cast::widenIntCast(context, fromValue, toType);

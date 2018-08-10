@@ -248,7 +248,7 @@
 %token <token> TMODEL TNEW TNODE TNULL TONHEAP TONPOOL TOROP TOVERRIDE TPACKAGE
 %token <token> TPRINTFILE TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN 
 %token <token> TINSCOPE TSHIFTLEFT TSHIFTRIGHT TSTATE TSTATIC TSWITCH 
-%token <token> TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN 
+%token <token> TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN TTYPEBYTE 
 %token <token> TTYPECHAR TTYPEDOUBLE TTYPEFLOAT TTYPEINT TTYPELONG TTYPESTRING TTYPEVOID TWHILE
 %token <token> TWISEY TWISEYMODEL TWISEYOBJECT
 
@@ -1665,6 +1665,7 @@ non_array_type_specifier
 primitive_type_specifier
   : TTYPEBOOLEAN { $$ = PrimitiveTypes::BOOLEAN->newTypeSpecifier(yylineno); }
   | TTYPECHAR { $$ = PrimitiveTypes::CHAR->newTypeSpecifier(yylineno); }
+  | TTYPEBYTE { $$ = PrimitiveTypes::BYTE->newTypeSpecifier(yylineno); }
   | TTYPEDOUBLE { $$ = PrimitiveTypes::DOUBLE->newTypeSpecifier(yylineno); }
   | TTYPEFLOAT { $$ = PrimitiveTypes::FLOAT->newTypeSpecifier(yylineno); }
   | TTYPEINT { $$ = PrimitiveTypes::INT->newTypeSpecifier(yylineno); }

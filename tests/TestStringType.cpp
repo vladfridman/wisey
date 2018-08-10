@@ -79,6 +79,7 @@ TEST_F(StringTypeTest, stringTypeTest) {
 TEST_F(StringTypeTest, canAutoCastToTest) {
   EXPECT_TRUE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN));
   EXPECT_FALSE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::CHAR));
+  EXPECT_FALSE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::BYTE));
   EXPECT_FALSE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::DOUBLE));
   EXPECT_FALSE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::FLOAT));
   EXPECT_FALSE(mStringType.canAutoCastTo(mContext, PrimitiveTypes::INT));
@@ -90,6 +91,7 @@ TEST_F(StringTypeTest, canAutoCastToTest) {
 TEST_F(StringTypeTest, canCastTest) {
   EXPECT_TRUE(mStringType.canCastTo(mContext, PrimitiveTypes::BOOLEAN));
   EXPECT_FALSE(mStringType.canCastTo(mContext, PrimitiveTypes::CHAR));
+  EXPECT_FALSE(mStringType.canCastTo(mContext, PrimitiveTypes::BYTE));
   EXPECT_FALSE(mStringType.canCastTo(mContext, PrimitiveTypes::DOUBLE));
   EXPECT_FALSE(mStringType.canCastTo(mContext, PrimitiveTypes::FLOAT));
   EXPECT_FALSE(mStringType.canCastTo(mContext, PrimitiveTypes::INT));
@@ -109,12 +111,14 @@ TEST_F(StringTypeTest, castToTest) {
   EXPECT_ANY_THROW(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::VOID, 5));
   
   EXPECT_ANY_THROW(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR, 5));
+  EXPECT_ANY_THROW(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::BYTE, 5));
   EXPECT_ANY_THROW(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::INT, 5));
   EXPECT_ANY_THROW(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::LONG, 5));
   EXPECT_ANY_THROW(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT, 5));
   EXPECT_ANY_THROW(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE, 5));
   EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type string to void\n"
                "/tmp/source.yz(5): Error: Incompatible types: can not cast from type string to char\n"
+               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type string to byte\n"
                "/tmp/source.yz(5): Error: Incompatible types: can not cast from type string to int\n"
                "/tmp/source.yz(5): Error: Incompatible types: can not cast from type string to long\n"
                "/tmp/source.yz(5): Error: Incompatible types: can not cast from type string to float\n"

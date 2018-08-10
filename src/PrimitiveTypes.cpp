@@ -18,6 +18,8 @@ DoubleType* PrimitiveTypes::DOUBLE = new DoubleType();
 
 FloatType* PrimitiveTypes::FLOAT = new FloatType();
 
+ByteType* PrimitiveTypes::BYTE = new ByteType();
+
 IntType* PrimitiveTypes::INT = new IntType();
 
 LongType* PrimitiveTypes::LONG = new LongType();

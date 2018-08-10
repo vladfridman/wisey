@@ -80,6 +80,7 @@ WS  [ \t\v\n\f]
 "boolean"                     return TOKEN(TTYPEBOOLEAN);
 "break"                       return TOKEN(TBREAK);
 "build"                       return TOKEN(TBUILD);
+"byte"                        return TOKEN(TTYPEBYTE);
 "case"                        return TOKEN(TCASE);
 "catch"                       return TOKEN(TCATCH);
 "char"                        return TOKEN(TTYPECHAR);

@@ -59,6 +59,7 @@ bool BooleanType::canAutoCastTo(IRGenerationContext& context, const IType* toTyp
   
   return toType == PrimitiveTypes::BOOLEAN ||
     toType == PrimitiveTypes::CHAR ||
+    toType == PrimitiveTypes::BYTE ||
     toType == PrimitiveTypes::INT ||
     toType == PrimitiveTypes::LONG ||
     toType == PrimitiveTypes::FLOAT ||
@@ -74,6 +75,7 @@ Value* BooleanType::castTo(IRGenerationContext& context,
   } else if (toType == PrimitiveTypes::BOOLEAN) {
     return fromValue;
   } else if (toType == PrimitiveTypes::CHAR ||
+             toType == PrimitiveTypes::BYTE ||
              toType == PrimitiveTypes::INT ||
              toType == PrimitiveTypes::LONG) {
     return Cast::widenIntCast(context, fromValue, toType);

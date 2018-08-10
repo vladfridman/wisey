@@ -1,20 +1,20 @@
 //
-//  IntType.cpp
+//  ByteType.cpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 2/6/17.
-//  Copyright © 2017 Vladimir Fridman. All rights reserved.
+//  Created by Vladimir Fridman on 8/10/18.
+//  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
 #include <llvm/IR/Constants.h>
 
 #include "wisey/ArrayType.hpp"
 #include "wisey/Cast.hpp"
+#include "wisey/ByteType.hpp"
 #include "wisey/FieldPrimitiveVariable.hpp"
 #include "wisey/IObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/IntType.hpp"
 #include "wisey/LocalPrimitiveVariable.hpp"
 #include "wisey/ParameterPrimitiveVariable.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
@@ -24,21 +24,21 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-IntType::IntType() {
+ByteType::ByteType() {
 }
 
-IntType::~IntType() {
+ByteType::~ByteType() {
 }
 
-string IntType::getTypeName() const {
-  return "int";
+string ByteType::getTypeName() const {
+  return "byte";
 }
 
-llvm::Type* IntType::getLLVMType(IRGenerationContext& context) const {
-  return Type::getInt32Ty(context.getLLVMContext());
+llvm::Type* ByteType::getLLVMType(IRGenerationContext& context) const {
+  return Type::getInt8Ty(context.getLLVMContext());
 }
 
-bool IntType::canCastTo(IRGenerationContext& context, const IType* toType) const {
+bool ByteType::canCastTo(IRGenerationContext& context, const IType* toType) const {
   if (toType->isNative() && toType->getLLVMType(context) == getLLVMType(context)) {
     return true;
   }
@@ -49,7 +49,7 @@ bool IntType::canCastTo(IRGenerationContext& context, const IType* toType) const
   return toType != PrimitiveTypes::VOID && toType != PrimitiveTypes::STRING;
 }
 
-bool IntType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
+bool ByteType::canAutoCastTo(IRGenerationContext& context, const IType* toType) const {
   if (toType->isNative() && toType->getLLVMType(context) == getLLVMType(context)) {
     return true;
   }
@@ -58,15 +58,18 @@ bool IntType::canAutoCastTo(IRGenerationContext& context, const IType* toType) c
   }
   
   return toType == PrimitiveTypes::BOOLEAN ||
-    toType == PrimitiveTypes::INT ||
-    toType == PrimitiveTypes::LONG ||
-    toType == PrimitiveTypes::DOUBLE;
+  toType == PrimitiveTypes::CHAR ||
+  toType == PrimitiveTypes::BYTE ||
+  toType == PrimitiveTypes::INT ||
+  toType == PrimitiveTypes::LONG ||
+  toType == PrimitiveTypes::FLOAT ||
+  toType == PrimitiveTypes::DOUBLE;
 }
 
-Value* IntType::castTo(IRGenerationContext& context,
-                       Value* fromValue,
-                       const IType* toType,
-                       int line) const {
+Value* ByteType::castTo(IRGenerationContext& context,
+                        Value* fromValue,
+                        const IType* toType,
+                        int line) const {
   if (toType->isNative() && toType->getLLVMType(context) == getLLVMType(context)) {
     return fromValue;
   } else if (toType == PrimitiveTypes::BOOLEAN) {
@@ -76,10 +79,8 @@ Value* IntType::castTo(IRGenerationContext& context,
                                  ConstantInt::get(getLLVMType(context), 0),
                                  "");
   } else if (toType == PrimitiveTypes::CHAR || toType == PrimitiveTypes::BYTE) {
-    return Cast::truncIntCast(context, fromValue, toType);
-  } else if (toType == PrimitiveTypes::INT) {
     return fromValue;
-  } else if (toType == PrimitiveTypes::LONG) {
+  } else if (toType == PrimitiveTypes::INT || toType == PrimitiveTypes::LONG) {
     return Cast::widenIntCast(context, fromValue, toType);
   } else if (toType == PrimitiveTypes::FLOAT || toType == PrimitiveTypes::DOUBLE) {
     return Cast::intToFloatCast(context, fromValue, toType);
@@ -88,69 +89,69 @@ Value* IntType::castTo(IRGenerationContext& context,
   return NULL;
 }
 
-bool IntType::isPrimitive() const {
+bool ByteType::isPrimitive() const {
   return true;
 }
 
-bool IntType::isOwner() const {
+bool ByteType::isOwner() const {
   return false;
 }
 
-bool IntType::isReference() const {
+bool ByteType::isReference() const {
   return false;
 }
 
-bool IntType::isArray() const {
+bool ByteType::isArray() const {
   return false;
 }
 
-bool IntType::isFunction() const {
+bool ByteType::isFunction() const {
   return false;
 }
 
-bool IntType::isPackage() const {
+bool ByteType::isPackage() const {
   return false;
 }
 
-bool IntType::isController() const {
+bool ByteType::isController() const {
   return false;
 }
 
-bool IntType::isInterface() const {
+bool ByteType::isInterface() const {
   return false;
 }
 
-bool IntType::isModel() const {
+bool ByteType::isModel() const {
   return false;
 }
 
-bool IntType::isNode() const {
+bool ByteType::isNode() const {
   return false;
 }
 
-bool IntType::isNative() const {
+bool ByteType::isNative() const {
   return false;
 }
 
-bool IntType::isPointer() const {
+bool ByteType::isPointer() const {
   return false;
 }
 
-bool IntType::isImmutable() const {
+bool ByteType::isImmutable() const {
   return false;
 }
 
-string IntType::getFormat() const {
+string ByteType::getFormat() const {
   return "%d";
 }
 
-void IntType::printToStream(IRGenerationContext &context, iostream& stream) const {
+void ByteType::printToStream(IRGenerationContext &context, iostream& stream) const {
   stream << getTypeName();
 }
 
-void IntType::createLocalVariable(IRGenerationContext& context,
-                                  string name,
-                                  int line) const {
+void ByteType::createLocalVariable(IRGenerationContext& context,
+                                   string name,
+                                   int line) const {
   Type* llvmType = getLLVMType(context);
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
   
@@ -161,34 +162,34 @@ void IntType::createLocalVariable(IRGenerationContext& context,
   IRWriter::newStoreInst(context, value, alloc);
 }
 
-void IntType::createFieldVariable(IRGenerationContext& context,
-                                  string name,
-                                  const IConcreteObjectType* object,
-                                  int line) const {
+void ByteType::createFieldVariable(IRGenerationContext& context,
+                                   string name,
+                                   const IConcreteObjectType* object,
+                                   int line) const {
   IVariable* variable = new FieldPrimitiveVariable(name, object, line);
   context.getScopes().setVariable(context, variable);
 }
 
-void IntType::createParameterVariable(IRGenerationContext& context,
-                                      string name,
-                                      Value* value,
-                                      int line) const {
+void ByteType::createParameterVariable(IRGenerationContext& context,
+                                       string name,
+                                       Value* value,
+                                       int line) const {
   IVariable* variable = new ParameterPrimitiveVariable(name, this, value, line);
   context.getScopes().setVariable(context, variable);
 }
 
-const wisey::ArrayType* IntType::getArrayType(IRGenerationContext& context, int line) const {
+const wisey::ArrayType* ByteType::getArrayType(IRGenerationContext& context, int line) const {
   reportNonArrayType(context, line);
   throw 1;
 }
 
-const PrimitiveTypeSpecifier* IntType::newTypeSpecifier(int line) const {
+const PrimitiveTypeSpecifier* ByteType::newTypeSpecifier(int line) const {
   return new PrimitiveTypeSpecifier(this, line);
 }
 
-Instruction* IntType::inject(IRGenerationContext& context,
-                             const InjectionArgumentList injectionArgumentList,
-                             int line) const {
+Instruction* ByteType::inject(IRGenerationContext& context,
+                              const InjectionArgumentList injectionArgumentList,
+                              int line) const {
   repotNonInjectableType(context, this, line);
   throw 1;
 }

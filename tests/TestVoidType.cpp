@@ -68,6 +68,7 @@ TEST_F(VoidTypeTest, canAutoCastToTest) {
   EXPECT_TRUE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::VOID));
   EXPECT_FALSE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN));
   EXPECT_FALSE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::CHAR));
+  EXPECT_FALSE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::BYTE));
   EXPECT_FALSE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_FALSE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::LONG));
   EXPECT_FALSE(mVoidType.canAutoCastTo(mContext, PrimitiveTypes::FLOAT));
@@ -78,6 +79,7 @@ TEST_F(VoidTypeTest, canCastTest) {
   EXPECT_TRUE(mVoidType.canCastTo(mContext, PrimitiveTypes::VOID));
   EXPECT_FALSE(mVoidType.canCastTo(mContext, PrimitiveTypes::BOOLEAN));
   EXPECT_FALSE(mVoidType.canCastTo(mContext, PrimitiveTypes::CHAR));
+  EXPECT_FALSE(mVoidType.canCastTo(mContext, PrimitiveTypes::BYTE));
   EXPECT_FALSE(mVoidType.canCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_FALSE(mVoidType.canCastTo(mContext, PrimitiveTypes::LONG));
   EXPECT_FALSE(mVoidType.canCastTo(mContext, PrimitiveTypes::FLOAT));
@@ -96,12 +98,14 @@ TEST_F(VoidTypeTest, castToTest) {
   
   EXPECT_ANY_THROW(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN, 5));
   EXPECT_ANY_THROW(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR, 5));
+  EXPECT_ANY_THROW(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::BYTE, 5));
   EXPECT_ANY_THROW(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::INT, 5));
   EXPECT_ANY_THROW(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::LONG, 5));
   EXPECT_ANY_THROW(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT, 5));
   EXPECT_ANY_THROW(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE, 5));
   EXPECT_STREQ("/tmp/source.yz(5): Error: Incompatible types: can not cast from type void to boolean\n"
                "/tmp/source.yz(5): Error: Incompatible types: can not cast from type void to char\n"
+               "/tmp/source.yz(5): Error: Incompatible types: can not cast from type void to byte\n"
                "/tmp/source.yz(5): Error: Incompatible types: can not cast from type void to int\n"
                "/tmp/source.yz(5): Error: Incompatible types: can not cast from type void to long\n"
                "/tmp/source.yz(5): Error: Incompatible types: can not cast from type void to float\n"

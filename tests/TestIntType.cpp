@@ -81,6 +81,7 @@ TEST_F(IntTypeTest, canAutoCastToTest) {
   EXPECT_FALSE(mIntType.canAutoCastTo(mContext, PrimitiveTypes::STRING));
   EXPECT_TRUE(mIntType.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN));
   EXPECT_FALSE(mIntType.canAutoCastTo(mContext, PrimitiveTypes::CHAR));
+  EXPECT_FALSE(mIntType.canAutoCastTo(mContext, PrimitiveTypes::BYTE));
   EXPECT_TRUE(mIntType.canAutoCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_TRUE(mIntType.canAutoCastTo(mContext, PrimitiveTypes::LONG));
   EXPECT_FALSE(mIntType.canAutoCastTo(mContext, PrimitiveTypes::FLOAT));
@@ -92,6 +93,7 @@ TEST_F(IntTypeTest, canCastTest) {
   EXPECT_FALSE(mIntType.canCastTo(mContext, PrimitiveTypes::STRING));
   EXPECT_TRUE(mIntType.canCastTo(mContext, PrimitiveTypes::BOOLEAN));
   EXPECT_TRUE(mIntType.canCastTo(mContext, PrimitiveTypes::CHAR));
+  EXPECT_TRUE(mIntType.canCastTo(mContext, PrimitiveTypes::BYTE));
   EXPECT_TRUE(mIntType.canCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_TRUE(mIntType.canCastTo(mContext, PrimitiveTypes::LONG));
   EXPECT_TRUE(mIntType.canCastTo(mContext, PrimitiveTypes::FLOAT));
@@ -122,22 +124,27 @@ TEST_F(IntTypeTest, castToTest) {
   EXPECT_STREQ("  %conv = trunc i32 5 to i8", mStringStream->str().c_str());
   mStringBuffer.clear();
 
+  result = mIntType.castTo(mContext, expressionValue, PrimitiveTypes::BYTE, 0);
+  *mStringStream << *result;
+  EXPECT_STREQ("  %conv1 = trunc i32 5 to i8", mStringStream->str().c_str());
+  mStringBuffer.clear();
+
   result = mIntType.castTo(mContext, expressionValue, PrimitiveTypes::INT, 0);
   EXPECT_EQ(result, expressionValue);
   
   result = mIntType.castTo(mContext, expressionValue, PrimitiveTypes::LONG, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv1 = zext i32 5 to i64", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv2 = zext i32 5 to i64", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = mIntType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv2 = sitofp i32 5 to float", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv3 = sitofp i32 5 to float", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = mIntType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE, 0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv3 = sitofp i32 5 to double", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv4 = sitofp i32 5 to double", mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 

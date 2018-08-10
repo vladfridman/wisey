@@ -72,7 +72,8 @@ Value* LongType::castTo(IRGenerationContext& context,
                                  fromValue,
                                  ConstantInt::get(getLLVMType(context), 0),
                                  "");
-  } else if (toType == PrimitiveTypes::CHAR || toType == PrimitiveTypes::INT) {
+  } else if (toType == PrimitiveTypes::CHAR || toType == PrimitiveTypes::BYTE ||
+             toType == PrimitiveTypes::INT) {
     return Cast::truncIntCast(context, fromValue, toType);
   } else if (toType == PrimitiveTypes::LONG) {
     return fromValue;

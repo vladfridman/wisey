@@ -81,6 +81,7 @@ TEST_F(CharTypeTest, canAutoCastToTest) {
   EXPECT_FALSE(mCharType.canAutoCastTo(mContext, PrimitiveTypes::STRING));
   EXPECT_TRUE(mCharType.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN));
   EXPECT_TRUE(mCharType.canAutoCastTo(mContext, PrimitiveTypes::CHAR));
+  EXPECT_TRUE(mCharType.canAutoCastTo(mContext, PrimitiveTypes::BYTE));
   EXPECT_TRUE(mCharType.canAutoCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_TRUE(mCharType.canAutoCastTo(mContext, PrimitiveTypes::LONG));
   EXPECT_TRUE(mCharType.canAutoCastTo(mContext, PrimitiveTypes::FLOAT));
@@ -92,6 +93,7 @@ TEST_F(CharTypeTest, canCastTest) {
   EXPECT_FALSE(mCharType.canCastTo(mContext, PrimitiveTypes::STRING));
   EXPECT_TRUE(mCharType.canCastTo(mContext, PrimitiveTypes::BOOLEAN));
   EXPECT_TRUE(mCharType.canCastTo(mContext, PrimitiveTypes::CHAR));
+  EXPECT_TRUE(mCharType.canCastTo(mContext, PrimitiveTypes::BYTE));
   EXPECT_TRUE(mCharType.canCastTo(mContext, PrimitiveTypes::INT));
   EXPECT_TRUE(mCharType.canCastTo(mContext, PrimitiveTypes::LONG));
   EXPECT_TRUE(mCharType.canCastTo(mContext, PrimitiveTypes::FLOAT));
@@ -118,6 +120,9 @@ TEST_F(CharTypeTest, castToTest) {
   mStringBuffer.clear();
 
   result = mCharType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR, 0);
+  EXPECT_EQ(result, expressionValue);
+  
+  result = mCharType.castTo(mContext, expressionValue, PrimitiveTypes::BYTE, 0);
   EXPECT_EQ(result, expressionValue);
   
   result = mCharType.castTo(mContext, expressionValue, PrimitiveTypes::INT, 0);

@@ -75,6 +75,7 @@ Value* FloatType::castTo(IRGenerationContext& context,
                                  ConstantFP::get(getLLVMType(context), 0),
                                  "");
   } else if (toType == PrimitiveTypes::CHAR ||
+             toType == PrimitiveTypes::BYTE ||
              toType == PrimitiveTypes::INT ||
              toType == PrimitiveTypes::LONG) {
     return Cast::floatToIntCast(context, fromValue, toType);

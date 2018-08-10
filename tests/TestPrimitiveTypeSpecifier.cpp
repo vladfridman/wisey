@@ -29,15 +29,17 @@ struct PrimitiveTypeSpecifierTest : public Test {
 TEST_F(PrimitiveTypeSpecifierTest, creationTest) {
   PrimitiveTypeSpecifier booleanTypeSpecifier(PrimitiveTypes::BOOLEAN, 1);
   PrimitiveTypeSpecifier charTypeSpecifier(PrimitiveTypes::CHAR, 2);
-  PrimitiveTypeSpecifier doubleTypeSpecifier(PrimitiveTypes::DOUBLE, 3);
-  PrimitiveTypeSpecifier floatTypeSpecifier(PrimitiveTypes::FLOAT, 4);
-  PrimitiveTypeSpecifier intTypeSpecifier(PrimitiveTypes::INT, 5);
-  PrimitiveTypeSpecifier longTypeSpecifier(PrimitiveTypes::LONG, 6);
-  PrimitiveTypeSpecifier stringTypeSpecifier(PrimitiveTypes::STRING, 7);
-  PrimitiveTypeSpecifier voidTypeSpecifier(PrimitiveTypes::VOID, 8);
+  PrimitiveTypeSpecifier byteTypeSpecifier(PrimitiveTypes::BYTE, 3);
+  PrimitiveTypeSpecifier doubleTypeSpecifier(PrimitiveTypes::DOUBLE, 4);
+  PrimitiveTypeSpecifier floatTypeSpecifier(PrimitiveTypes::FLOAT, 5);
+  PrimitiveTypeSpecifier intTypeSpecifier(PrimitiveTypes::INT, 6);
+  PrimitiveTypeSpecifier longTypeSpecifier(PrimitiveTypes::LONG, 7);
+  PrimitiveTypeSpecifier stringTypeSpecifier(PrimitiveTypes::STRING, 8);
+  PrimitiveTypeSpecifier voidTypeSpecifier(PrimitiveTypes::VOID, 9);
 
   EXPECT_EQ(PrimitiveTypes::BOOLEAN, booleanTypeSpecifier.getType(mContext));
   EXPECT_EQ(PrimitiveTypes::CHAR, charTypeSpecifier.getType(mContext));
+  EXPECT_EQ(PrimitiveTypes::BYTE, byteTypeSpecifier.getType(mContext));
   EXPECT_EQ(PrimitiveTypes::DOUBLE, doubleTypeSpecifier.getType(mContext));
   EXPECT_EQ(PrimitiveTypes::FLOAT, floatTypeSpecifier.getType(mContext));
   EXPECT_EQ(PrimitiveTypes::INT, intTypeSpecifier.getType(mContext));
@@ -47,12 +49,13 @@ TEST_F(PrimitiveTypeSpecifierTest, creationTest) {
 
   EXPECT_EQ(1, booleanTypeSpecifier.getLine());
   EXPECT_EQ(2, charTypeSpecifier.getLine());
-  EXPECT_EQ(3, doubleTypeSpecifier.getLine());
-  EXPECT_EQ(4, floatTypeSpecifier.getLine());
-  EXPECT_EQ(5, intTypeSpecifier.getLine());
-  EXPECT_EQ(6, longTypeSpecifier.getLine());
-  EXPECT_EQ(7, stringTypeSpecifier.getLine());
-  EXPECT_EQ(8, voidTypeSpecifier.getLine());
+  EXPECT_EQ(3, byteTypeSpecifier.getLine());
+  EXPECT_EQ(4, doubleTypeSpecifier.getLine());
+  EXPECT_EQ(5, floatTypeSpecifier.getLine());
+  EXPECT_EQ(6, intTypeSpecifier.getLine());
+  EXPECT_EQ(7, longTypeSpecifier.getLine());
+  EXPECT_EQ(8, stringTypeSpecifier.getLine());
+  EXPECT_EQ(9, voidTypeSpecifier.getLine());
 }
 
 TEST_F(PrimitiveTypeSpecifierTest, printToStreamTest) {
@@ -66,6 +69,11 @@ TEST_F(PrimitiveTypeSpecifierTest, printToStreamTest) {
   charTypeSpecifier.printToStream(mContext, charStringStream);
   EXPECT_STREQ("char", charStringStream.str().c_str());
   
+  PrimitiveTypeSpecifier byteTypeSpecifier(PrimitiveTypes::BYTE, 0);
+  stringstream byteStringStream;
+  byteTypeSpecifier.printToStream(mContext, byteStringStream);
+  EXPECT_STREQ("byte", byteStringStream.str().c_str());
+
   PrimitiveTypeSpecifier doubleTypeSpecifier(PrimitiveTypes::DOUBLE, 0);
   stringstream doubleStringStream;
   doubleTypeSpecifier.printToStream(mContext, doubleStringStream);

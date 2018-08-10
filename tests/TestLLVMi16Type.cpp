@@ -87,6 +87,7 @@ TEST_F(LLVMi16TypeTest, canCastToTest) {
   LLVMi8Type i8Type;
   EXPECT_FALSE(mLLVMi16Type.canCastTo(mContext, &i8Type));
   EXPECT_FALSE(mLLVMi16Type.canCastTo(mContext, PrimitiveTypes::CHAR));
+  EXPECT_FALSE(mLLVMi16Type.canCastTo(mContext, PrimitiveTypes::BYTE));
 }
 
 TEST_F(LLVMi16TypeTest, canAutoCastToTest) {
@@ -94,6 +95,7 @@ TEST_F(LLVMi16TypeTest, canAutoCastToTest) {
   LLVMi8Type i8Type;
   EXPECT_FALSE(mLLVMi16Type.canAutoCastTo(mContext, &i8Type));
   EXPECT_FALSE(mLLVMi16Type.canAutoCastTo(mContext, PrimitiveTypes::CHAR));
+  EXPECT_FALSE(mLLVMi16Type.canAutoCastTo(mContext, PrimitiveTypes::BYTE));
 }
 
 TEST_F(LLVMi16TypeTest, getPointerTypeTest) {

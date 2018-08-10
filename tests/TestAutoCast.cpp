@@ -92,10 +92,19 @@ TEST_F(AutoCastTest, castBooleanTest) {
   result = AutoCast::maybeCast(mContext,
                                PrimitiveTypes::BOOLEAN,
                                expressionValue,
+                               PrimitiveTypes::BYTE,
+                               0);
+  *mStringStream << *result;
+  EXPECT_STREQ("  %conv1 = zext i1 true to i8", mStringStream->str().c_str());
+  mStringBuffer.clear();
+
+  result = AutoCast::maybeCast(mContext,
+                               PrimitiveTypes::BOOLEAN,
+                               expressionValue,
                                PrimitiveTypes::INT,
                                0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv1 = zext i1 true to i32", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv2 = zext i1 true to i32", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = AutoCast::maybeCast(mContext,
@@ -104,7 +113,7 @@ TEST_F(AutoCastTest, castBooleanTest) {
                                PrimitiveTypes::LONG,
                                0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv2 = zext i1 true to i64", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv3 = zext i1 true to i64", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = AutoCast::maybeCast(mContext,
@@ -113,7 +122,7 @@ TEST_F(AutoCastTest, castBooleanTest) {
                                PrimitiveTypes::FLOAT,
                                0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv3 = sitofp i1 true to float", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv4 = sitofp i1 true to float", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = AutoCast::maybeCast(mContext,
@@ -122,7 +131,7 @@ TEST_F(AutoCastTest, castBooleanTest) {
                                PrimitiveTypes::DOUBLE,
                                0);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv4 = sitofp i1 true to double", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv5 = sitofp i1 true to double", mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
@@ -146,6 +155,13 @@ TEST_F(AutoCastTest, castCharTest) {
                                PrimitiveTypes::CHAR,
                                expressionValue,
                                PrimitiveTypes::CHAR,
+                               0);
+  EXPECT_EQ(result, expressionValue);
+
+  result = AutoCast::maybeCast(mContext,
+                               PrimitiveTypes::CHAR,
+                               expressionValue,
+                               PrimitiveTypes::BYTE,
                                0);
   EXPECT_EQ(result, expressionValue);
 
@@ -195,6 +211,82 @@ TEST_F(AutoCastTest, castCharTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(AutoCastTest, castByteTest) {
+  Value* result;
+  Value* expressionValue = ConstantInt::get(Type::getInt8Ty(mLLVMContext), 5);
+  
+  std::stringstream buffer;
+  std::streambuf* oldbuffer = std::cerr.rdbuf(buffer.rdbuf());
+  
+  EXPECT_ANY_THROW(AutoCast::maybeCast(mContext,
+                                       PrimitiveTypes::BYTE,
+                                       expressionValue,
+                                       PrimitiveTypes::VOID,
+                                       11));
+  EXPECT_STREQ("/tmp/source.yz(11): Error: Incompatible types: can not cast from type byte to void\n",
+               buffer.str().c_str());
+  std::cerr.rdbuf(oldbuffer);
+  
+  result = AutoCast::maybeCast(mContext,
+                               PrimitiveTypes::BYTE,
+                               expressionValue,
+                               PrimitiveTypes::CHAR,
+                               0);
+  EXPECT_EQ(result, expressionValue);
+  
+  result = AutoCast::maybeCast(mContext,
+                               PrimitiveTypes::BYTE,
+                               expressionValue,
+                               PrimitiveTypes::BYTE,
+                               0);
+  EXPECT_EQ(result, expressionValue);
+  
+  result = AutoCast::maybeCast(mContext,
+                               PrimitiveTypes::BYTE,
+                               expressionValue,
+                               PrimitiveTypes::BOOLEAN,
+                               0);
+  *mStringStream << *result;
+  EXPECT_STREQ("  %0 = icmp ne i8 5, 0", mStringStream->str().c_str());
+  mStringBuffer.clear();
+  
+  result = AutoCast::maybeCast(mContext,
+                               PrimitiveTypes::BYTE,
+                               expressionValue,
+                               PrimitiveTypes::INT,
+                               0);
+  *mStringStream << *result;
+  EXPECT_STREQ("  %conv = zext i8 5 to i32", mStringStream->str().c_str());
+  mStringBuffer.clear();
+  
+  result = AutoCast::maybeCast(mContext,
+                               PrimitiveTypes::BYTE,
+                               expressionValue,
+                               PrimitiveTypes::LONG,
+                               0);
+  *mStringStream << *result;
+  EXPECT_STREQ("  %conv1 = zext i8 5 to i64", mStringStream->str().c_str());
+  mStringBuffer.clear();
+  
+  result = AutoCast::maybeCast(mContext,
+                               PrimitiveTypes::BYTE,
+                               expressionValue,
+                               PrimitiveTypes::FLOAT,
+                               0);
+  *mStringStream << *result;
+  EXPECT_STREQ("  %conv2 = sitofp i8 5 to float", mStringStream->str().c_str());
+  mStringBuffer.clear();
+  
+  result = AutoCast::maybeCast(mContext,
+                               PrimitiveTypes::BYTE,
+                               expressionValue,
+                               PrimitiveTypes::DOUBLE,
+                               0);
+  *mStringStream << *result;
+  EXPECT_STREQ("  %conv3 = sitofp i8 5 to double", mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
 TEST_F(AutoCastTest, castIntTest) {
   Value* result;
   Value* expressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
@@ -211,6 +303,11 @@ TEST_F(AutoCastTest, castIntTest) {
                                        PrimitiveTypes::INT,
                                        expressionValue,
                                        PrimitiveTypes::CHAR,
+                                       11));
+  EXPECT_ANY_THROW(AutoCast::maybeCast(mContext,
+                                       PrimitiveTypes::INT,
+                                       expressionValue,
+                                       PrimitiveTypes::BYTE,
                                        11));
 
   result = AutoCast::maybeCast(mContext,
@@ -237,6 +334,7 @@ TEST_F(AutoCastTest, castIntTest) {
                                        11));
   EXPECT_STREQ("/tmp/source.yz(11): Error: Incompatible types: can not cast from type int to void\n"
                "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type int to char\n"
+               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type int to byte\n"
                "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type int to float\n",
                buffer.str().c_str());
   std::cerr.rdbuf(oldbuffer);
@@ -280,6 +378,11 @@ TEST_F(AutoCastTest, castLongTest) {
   EXPECT_ANY_THROW(AutoCast::maybeCast(mContext,
                                        PrimitiveTypes::LONG,
                                        expressionValue,
+                                       PrimitiveTypes::BYTE,
+                                       11));
+  EXPECT_ANY_THROW(AutoCast::maybeCast(mContext,
+                                       PrimitiveTypes::LONG,
+                                       expressionValue,
                                        PrimitiveTypes::INT,
                                        11));
   
@@ -302,6 +405,7 @@ TEST_F(AutoCastTest, castLongTest) {
                                        11));
   EXPECT_STREQ("/tmp/source.yz(11): Error: Incompatible types: can not cast from type long to void\n"
                "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type long to char\n"
+               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type long to byte\n"
                "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type long to int\n"
                "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type long to float\n"
                "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type long to double\n",
@@ -338,6 +442,11 @@ TEST_F(AutoCastTest, castFloatTest) {
   EXPECT_ANY_THROW(AutoCast::maybeCast(mContext,
                                        PrimitiveTypes::FLOAT,
                                        expressionValue,
+                                       PrimitiveTypes::BYTE,
+                                       11));
+  EXPECT_ANY_THROW(AutoCast::maybeCast(mContext,
+                                       PrimitiveTypes::FLOAT,
+                                       expressionValue,
                                        PrimitiveTypes::INT,
                                        11));
   EXPECT_ANY_THROW(AutoCast::maybeCast(mContext,
@@ -347,6 +456,7 @@ TEST_F(AutoCastTest, castFloatTest) {
                                        11));
   EXPECT_STREQ("/tmp/source.yz(11): Error: Incompatible types: can not cast from type float to void\n"
                "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type float to char\n"
+               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type float to byte\n"
                "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type float to int\n"
                "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type float to long\n",
                buffer.str().c_str());
@@ -398,6 +508,11 @@ TEST_F(AutoCastTest, castDoubleTest) {
   EXPECT_ANY_THROW(AutoCast::maybeCast(mContext,
                                        PrimitiveTypes::DOUBLE,
                                        expressionValue,
+                                       PrimitiveTypes::BYTE,
+                                       11));
+  EXPECT_ANY_THROW(AutoCast::maybeCast(mContext,
+                                       PrimitiveTypes::DOUBLE,
+                                       expressionValue,
                                        PrimitiveTypes::INT,
                                        11));
   EXPECT_ANY_THROW(AutoCast::maybeCast(mContext,
@@ -412,6 +527,7 @@ TEST_F(AutoCastTest, castDoubleTest) {
                                        11));
   EXPECT_STREQ("/tmp/source.yz(11): Error: Incompatible types: can not cast from type double to void\n"
                "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type double to char\n"
+               "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type double to byte\n"
                "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type double to int\n"
                "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type double to long\n"
                "/tmp/source.yz(11): Error: Incompatible types: need explicit cast from type double to float\n",

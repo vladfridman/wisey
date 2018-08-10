@@ -10,6 +10,7 @@
 #define PrimitiveTypes_h
 
 #include "wisey/BooleanType.hpp"
+#include "wisey/ByteType.hpp"
 #include "wisey/CharType.hpp"
 #include "wisey/DoubleType.hpp"
 #include "wisey/FloatType.hpp"
@@ -32,6 +33,7 @@ namespace wisey {
     static CharType* CHAR;
     static DoubleType* DOUBLE;
     static FloatType* FLOAT;
+    static ByteType* BYTE;
     static IntType* INT;
     static LongType* LONG;
     static StringType* STRING;

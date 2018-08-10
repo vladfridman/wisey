@@ -65,6 +65,7 @@ Value* IncrementExpression::generateIR(IRGenerationContext& context,
   }
   if (expressionType != PrimitiveTypes::INT &&
       expressionType != PrimitiveTypes::CHAR &&
+      expressionType != PrimitiveTypes::BYTE &&
       expressionType != PrimitiveTypes::LONG) {
     context.reportError(mLine,
                         "Expression is of a type that is incompatible with "

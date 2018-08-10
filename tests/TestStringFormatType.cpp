@@ -65,6 +65,7 @@ TEST_F(StringFormatTypeTest, stringFormatTypeTest) {
 TEST_F(StringFormatTypeTest, canAutoCastToTest) {
   EXPECT_FALSE(mStringFormatType.canAutoCastTo(mContext, PrimitiveTypes::BOOLEAN));
   EXPECT_FALSE(mStringFormatType.canAutoCastTo(mContext, PrimitiveTypes::CHAR));
+  EXPECT_FALSE(mStringFormatType.canAutoCastTo(mContext, PrimitiveTypes::BYTE));
   EXPECT_FALSE(mStringFormatType.canAutoCastTo(mContext, PrimitiveTypes::DOUBLE));
   EXPECT_FALSE(mStringFormatType.canAutoCastTo(mContext, PrimitiveTypes::FLOAT));
   EXPECT_FALSE(mStringFormatType.canAutoCastTo(mContext, PrimitiveTypes::INT));
@@ -77,6 +78,7 @@ TEST_F(StringFormatTypeTest, canAutoCastToTest) {
 TEST_F(StringFormatTypeTest, canCastTest) {
   EXPECT_FALSE(mStringFormatType.canCastTo(mContext, PrimitiveTypes::BOOLEAN));
   EXPECT_FALSE(mStringFormatType.canCastTo(mContext, PrimitiveTypes::CHAR));
+  EXPECT_FALSE(mStringFormatType.canCastTo(mContext, PrimitiveTypes::BYTE));
   EXPECT_FALSE(mStringFormatType.canCastTo(mContext, PrimitiveTypes::DOUBLE));
   EXPECT_FALSE(mStringFormatType.canCastTo(mContext, PrimitiveTypes::FLOAT));
   EXPECT_FALSE(mStringFormatType.canCastTo(mContext, PrimitiveTypes::INT));

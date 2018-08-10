@@ -825,6 +825,9 @@
 		F59692C1211D1DCA00F19C4E /* ConstantNegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692C0211D1DCA00F19C4E /* ConstantNegate.cpp */; };
 		F59692C2211D1DCA00F19C4E /* ConstantNegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692C0211D1DCA00F19C4E /* ConstantNegate.cpp */; };
 		F59692C4211D1F3800F19C4E /* TestConstantNegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692C3211D1F3800F19C4E /* TestConstantNegate.cpp */; };
+		F59692C7211E0B9300F19C4E /* ByteType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692C6211E0B9300F19C4E /* ByteType.cpp */; };
+		F59692C8211E0B9300F19C4E /* ByteType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692C6211E0B9300F19C4E /* ByteType.cpp */; };
+		F59692CA211E102E00F19C4E /* TestByteType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692C9211E102E00F19C4E /* TestByteType.cpp */; };
 		F598117A20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117B20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117E20A0676E003AADCA /* TestObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */; };
@@ -1899,6 +1902,9 @@
 		F59692BF211D1D2700F19C4E /* ConstantNegate.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ConstantNegate.hpp; path = include/wisey/ConstantNegate.hpp; sourceTree = "<group>"; };
 		F59692C0211D1DCA00F19C4E /* ConstantNegate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ConstantNegate.cpp; path = src/ConstantNegate.cpp; sourceTree = "<group>"; };
 		F59692C3211D1F3800F19C4E /* TestConstantNegate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestConstantNegate.cpp; path = tests/TestConstantNegate.cpp; sourceTree = "<group>"; };
+		F59692C5211E0B5900F19C4E /* ByteType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ByteType.hpp; path = include/wisey/ByteType.hpp; sourceTree = "<group>"; };
+		F59692C6211E0B9300F19C4E /* ByteType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ByteType.cpp; path = src/ByteType.cpp; sourceTree = "<group>"; };
+		F59692C9211E102E00F19C4E /* TestByteType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestByteType.cpp; path = tests/TestByteType.cpp; sourceTree = "<group>"; };
 		F598117720A05DAC003AADCA /* ObjectKindGlobal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ObjectKindGlobal.hpp; path = include/wisey/ObjectKindGlobal.hpp; sourceTree = "<group>"; };
 		F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectKindGlobal.cpp; path = src/ObjectKindGlobal.cpp; sourceTree = "<group>"; };
 		F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectKindGlobal.cpp; path = tests/TestObjectKindGlobal.cpp; sourceTree = "<group>"; };
@@ -2808,6 +2814,7 @@
 			isa = PBXGroup;
 			children = (
 				F5089C521ECD01D9004A1223 /* BooleanType.hpp */,
+				F59692C5211E0B5900F19C4E /* ByteType.hpp */,
 				F5089C591ECD01D9004A1223 /* CharType.hpp */,
 				F5089C641ECD01D9004A1223 /* DoubleType.hpp */,
 				F5089C6C1ECD01D9004A1223 /* FloatType.hpp */,
@@ -2834,6 +2841,7 @@
 			isa = PBXGroup;
 			children = (
 				F5C6FD6E1E48B40F0054209D /* BooleanType.cpp */,
+				F59692C6211E0B9300F19C4E /* ByteType.cpp */,
 				F5C6FD641E48AB3B0054209D /* CharType.cpp */,
 				F5C6FD751E48B50A0054209D /* DoubleType.cpp */,
 				F5C6FD7A1E48B64C0054209D /* FloatType.cpp */,
@@ -3796,6 +3804,7 @@
 			isa = PBXGroup;
 			children = (
 				F5C6FD731E48B4920054209D /* TestBooleanType.cpp */,
+				F59692C9211E102E00F19C4E /* TestByteType.cpp */,
 				F5C6FD671E48B16F0054209D /* TestCharType.cpp */,
 				F5C6FD781E48B59C0054209D /* TestDoubleType.cpp */,
 				F5C6FD7D1E48B6810054209D /* TestFloatType.cpp */,
@@ -4489,6 +4498,7 @@
 				F59D82121E0F311B00057FB5 /* ForStatement.cpp in Sources */,
 				F5CB7FD42052A5B9007628B5 /* TestReceivedFieldDefinition.cpp in Sources */,
 				F5ADB6131E5DA13600FFC941 /* TestCast.cpp in Sources */,
+				F59692C8211E0B9300F19C4E /* ByteType.cpp in Sources */,
 				F5CB7FE72052C895007628B5 /* TestInjectedField.cpp in Sources */,
 				F50FA3081E32640B00435EEA /* TestBooleanConstant.cpp in Sources */,
 				F50FF876208B6DDD008EDC40 /* TestImmutableArrayOwnerTypeSpecifier.cpp in Sources */,
@@ -4721,6 +4731,7 @@
 				F5BD74641EE15BD00035E8FC /* TestDefaultCaseStatement.cpp in Sources */,
 				F5D159A420A7020D00107E84 /* TestCOwnerList.cpp in Sources */,
 				F508E0701E73076E005D6115 /* Environment.cpp in Sources */,
+				F59692CA211E102E00F19C4E /* TestByteType.cpp in Sources */,
 				F5D465F52060FA4F00C1047A /* LLVMFunctionDefinition.cpp in Sources */,
 				F5827066205FD6A600839EC7 /* LLVMFunctionTypeSpecifier.cpp in Sources */,
 				F5EEDDA11E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp in Sources */,
@@ -4907,6 +4918,7 @@
 				F5A67DB72017023D0018068F /* FieldArrayOwnerVariable.cpp in Sources */,
 				F50FA2E71E2E3B0900435EEA /* IntConstant.cpp in Sources */,
 				F50FA2E61E2E3B0900435EEA /* FloatConstant.cpp in Sources */,
+				F59692C7211E0B9300F19C4E /* ByteType.cpp in Sources */,
 				F5F396DB1E34BFE000F34296 /* BuilderArgument.cpp in Sources */,
 				F54DC5C12073B9B700841E0F /* ParameterLLVMVariable.cpp in Sources */,
 				F50FF86D208B68B4008EDC40 /* ImmutableArrayTypeSpecifier.cpp in Sources */,

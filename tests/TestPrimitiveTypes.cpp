@@ -27,6 +27,7 @@ struct PrimitiveTypesTest : public Test {
 TEST_F(PrimitiveTypesTest, isFloatTypeTest) {
   EXPECT_FALSE(PrimitiveTypes::isFloatType(PrimitiveTypes::BOOLEAN));
   EXPECT_FALSE(PrimitiveTypes::isFloatType(PrimitiveTypes::CHAR));
+  EXPECT_FALSE(PrimitiveTypes::isFloatType(PrimitiveTypes::BYTE));
   EXPECT_FALSE(PrimitiveTypes::isFloatType(PrimitiveTypes::INT));
   EXPECT_FALSE(PrimitiveTypes::isFloatType(PrimitiveTypes::LONG));
   EXPECT_TRUE(PrimitiveTypes::isFloatType(PrimitiveTypes::FLOAT));
