@@ -122,12 +122,19 @@ namespace wisey {
                                        std::string variableName);
     
     /**
-     * Add a CastInst that zero-extends an int value to a longer int type
+     * Add a CastInst that zero-extends a signed int value to a longer int type
      */
     static llvm::CastInst* createSExtOrBitCast(IRGenerationContext& context,
                                                llvm::Value* fromValue,
                                                llvm::Type* toLLVMType);
     
+    /**
+     * Add a CastInst that zero-extends an unsigned int value to a longer int type
+     */
+    static llvm::CastInst* createZExtOrBitCast(IRGenerationContext& context,
+                                               llvm::Value* fromValue,
+                                               llvm::Type* toLLVMType);
+
     /**
      * Add a TruncInst that truncates an int value to a given int type
      */

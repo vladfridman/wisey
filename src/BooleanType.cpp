@@ -78,7 +78,7 @@ Value* BooleanType::castTo(IRGenerationContext& context,
              toType == PrimitiveTypes::BYTE ||
              toType == PrimitiveTypes::INT ||
              toType == PrimitiveTypes::LONG) {
-    return Cast::widenIntCast(context, fromValue, toType);
+    return IRWriter::createZExtOrBitCast(context, fromValue, toType->getLLVMType(context));
   } else if (toType == PrimitiveTypes::FLOAT || toType == PrimitiveTypes::DOUBLE) {
     return Cast::intToFloatCast(context, fromValue, toType);
   }
