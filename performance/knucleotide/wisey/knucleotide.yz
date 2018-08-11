@@ -29,7 +29,7 @@ controller CProgram implements IProgram {
     }
   }
 
-  public node NKeyValuePair {
+  public node NKeyValuePair onPool {
     receive long mKey;
     receive int mValue;
 

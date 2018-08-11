@@ -11,6 +11,7 @@
 #include <gtest/gtest.h>
 
 #include "MockVariable.hpp"
+#include "TestFileRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IVariable.hpp"
@@ -67,3 +68,9 @@ TEST_F(IVariableTest, getVariableDoesNotExistDeathTest) {
   std::cerr.rdbuf(oldbuffer);
 }
 
+TEST_F(TestFileRunner, accessFieldVariableFromStaticMethodRunTest) {
+  expectFailCompile("tests/samples/test_access_field_variable_from_static_method.yz",
+                    1,
+                    "tests/samples/test_access_field_variable_from_static_method.yz\\(9\\): "
+                    "Error: Member variables are not accessible from static methods");
+}

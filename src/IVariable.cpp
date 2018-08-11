@@ -23,10 +23,15 @@ string IVariable::getTemporaryVariableName(const void* object) {
 
 IVariable* IVariable::getVariable(IRGenerationContext& context, std::string name, int line) {
   IVariable* variable = context.getScopes().getVariable(name);
-  if (variable != NULL) {
-    return variable;
+  if (variable == NULL) {
+    context.reportError(line, "Undeclared variable '" + name + "'");
+    throw 1;
   }
   
-  context.reportError(line, "Undeclared variable '" + name + "'");
-  throw 1;
+  if (variable->isField() && !context.getThis()) {
+    context.reportError(line, "Member variables are not accessible from static methods");
+    throw 1;
+  }
+  
+  return variable;
 }
