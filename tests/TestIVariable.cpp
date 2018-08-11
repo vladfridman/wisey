@@ -68,7 +68,7 @@ TEST_F(IVariableTest, getVariableDoesNotExistDeathTest) {
   std::cerr.rdbuf(oldbuffer);
 }
 
-TEST_F(TestFileRunner, accessFieldVariableFromStaticMethodRunTest) {
+TEST_F(TestFileRunner, accessFieldVariableFromStaticMethodRunDeathTest) {
   expectFailCompile("tests/samples/test_access_field_variable_from_static_method.yz",
                     1,
                     "tests/samples/test_access_field_variable_from_static_method.yz\\(9\\): "

@@ -252,3 +252,10 @@ TEST_F(TestFileRunner, additionRunTest) {
 TEST_F(TestFileRunner, additionWithCastRunTest) {
   runFile("tests/samples/test_addition_with_cast.yz", 3);
 }
+
+TEST_F(TestFileRunner, stringFormatErrorRunDeathTest) {
+  expectFailCompile("tests/samples/test_string_format_error.yz",
+                    1,
+                    "tests/samples/test_string_format_error.yz\\(8\\): "
+                    "Error: Can not concatenate strings using '\\+' sign");
+}

@@ -52,7 +52,8 @@ Value* AddExpression::generateIR(IRGenerationContext& context,
 
   if (StringType::isStringVariation(context, leftType, mLine) ||
       StringType::isStringVariation(context, rightType, mLine)) {
-    assert(false && "attempting to get value of a stringformat type expression");
+    context.reportError(mLine, "Can not concatenate strings using '+' sign");
+    throw 1;
   }
 
   bool isFloat = leftType == PrimitiveTypes::FLOAT ||
