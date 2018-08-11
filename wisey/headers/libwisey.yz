@@ -255,6 +255,7 @@ external controller wisey.data.CLongToIntMap {
     long key);
   void clear();
   long getSize();
+  int[]* toArray();
 }
 
 external controller wisey.data.COwnerList {

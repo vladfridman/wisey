@@ -13,6 +13,11 @@ controller CProgram implements IProgram {
 
     printout("Hashmap size: " + mMap.getSize() + "\n");
 
+    int[]* array = mMap.toArray();
+    for (int i = 0; i < array.getSize(); i++) {
+      printout("Array element " + i + ": " + array[i] + "\n");
+    }
+
     printout("Lookup " + 1l + ": " + mMap.get(1l) + "\n");
     printout("Lookup " + 2l + ": " + mMap.get(2l) + "\n");
     printout("Lookup " + 3l + ": " + mMap.get(3l) + "\n");

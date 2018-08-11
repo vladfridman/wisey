@@ -182,6 +182,33 @@ extern "C" int64_t stl_long_to_int_map_size(void* map) {
   return mapCast->size();
 }
 
+/**
+ * Returns a wisey array containing values of a long to int map
+ */
+extern "C" void* stl_long_to_int_map_to_array(void *map) {
+  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
+  int64_t allocSize = mapCast->size() * sizeof(int32_t) + 3 * sizeof(int64_t);
+  void* memory = malloc(allocSize);
+  int8_t* location = (int8_t*) memory;
+  int64_t* referenceCounter = (int64_t*) location;
+  *referenceCounter = 0;
+  location += sizeof(int64_t);
+  int64_t* arraySize = (int64_t*) location;
+  *arraySize = mapCast->size();
+  location += sizeof(int64_t);
+  int64_t* elementSize = (int64_t*) location;
+  *elementSize = sizeof(int32_t);
+  location += sizeof(int64_t);
+  int32_t* element = (int32_t*) location;
+
+  for (std::map<int64_t, int32_t>::iterator iterator = mapCast->begin(); iterator != mapCast->end(); iterator++) {
+    *element = iterator->second;
+    element++;
+  }
+
+  return memory;
+}
+
 void destroy_wisey_object(void* objectPointer) {
   int8_t** object = (int8_t**) objectPointer;
   int8_t* vTablePortion = *object;

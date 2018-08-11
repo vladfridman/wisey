@@ -12,9 +12,12 @@
 
 #include "TestFileRunner.hpp"
 
-TEST_F(TestFileRunner, cLongToIntRunTest) {
+TEST_F(TestFileRunner, cLongToIntMapRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_clong_to_int_map.yz",
                                         "Hashmap size: 3\n"
+                                        "Array element 0: 2\n"
+                                        "Array element 1: 4\n"
+                                        "Array element 2: 6\n"
                                         "Lookup 1: 2\n"
                                         "Lookup 2: 4\n"
                                         "Lookup 3: 6\n"

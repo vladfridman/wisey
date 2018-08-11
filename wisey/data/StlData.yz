@@ -36,3 +36,5 @@ external ::llvm::function ::llvm::void stl_long_to_int_map_erase(::llvm::i8::poi
 external ::llvm::function ::llvm::i64 stl_reference_to_object_map_size(::llvm::i8::pointer);
 
 external ::llvm::function ::llvm::i64 stl_long_to_int_map_size(::llvm::i8::pointer);
+
+external ::llvm::function int[]* stl_long_to_int_map_to_array(::llvm::i8::pointer);
