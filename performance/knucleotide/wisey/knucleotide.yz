@@ -1,14 +1,73 @@
 package systems.vos.wisey.compiler.tests;
 
+import wisey.data.CLongToIntMap;
+import wisey.lang.CString;
 import wisey.lang.IProgram;
 
 controller CProgram implements IProgram {
   private constant byte[] CODES = { -1b, 0b, -1b, 1b, 3b, -1b, -1b, 2b };
   private constant char[] NUCLEOTIDES = { 'A', 'C', 'G', 'T' };
 
-
   public int run(immutable string[] arguments) override {
-    return CODES[0];
+    return 1;
+  }
+
+  public controller CResult {
+    inject CLongToIntMap* mMap;
+    receive int mKeyLength;
+
+    public CLongToIntMap getMap() {
+      return mMap;
+    }
+
+    public int getKeyLength() {
+      return mKeyLength;
+    }
+  }
+
+  private static CString* writeCount(CResult[] results, 
+                                    CString nucleotideFragment) {
+    byte[]* key = toCodes(nucleotideFragment.getContent(), (int) nucleotideFragment.getLength());
+    long k = getKey(key, 0, (int) nucleotideFragment.getLength());
+    int count = 0;
+    for (int i = 0; i < results.getSize(); i++) {
+      CResult result = results[i];
+      if (result.getKeyLength() == nucleotideFragment.getLength()) {
+        count += result.getMap().get(k);
+      }
+    }
+
+    CString* value = CString.createFromInt(count);
+    value.appendString("\t");
+    value.appendCString(nucleotideFragment);
+    value.appendString("\n");
+    return value;
+  }
+
+  private static CString keyToString(long keyParam, int length) {
+    long key = keyParam;
+    char[]* res = new char[length];
+    for (int i = 0; i < length; i++) {
+      res[length - i - 1] = NUCLEOTIDES[(int) (key & 0x3)];
+      key = key >> 2;
+    }
+    return CString.createFromCharArray(res);
+  }
+
+  private static long getKey(byte[] arr, int offset, int length) {
+    long key = 0;
+    for (int i = offset; i < offset + length; i++) {
+      key = key * 4 + arr[i];
+    }
+    return key;
+  }
+
+  private static byte[]* toCodes(char[] sequence, int length) {
+    byte[]* result = new byte[length];
+    for (int i = 0; i < length; i++) {
+      result[i] = CODES[(byte) sequence[i] & 0x7];
+    }
+    return result;
   }
 }
 

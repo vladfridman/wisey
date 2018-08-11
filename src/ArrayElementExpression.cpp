@@ -77,6 +77,7 @@ Value* ArrayElementExpression::getArrayElement(IRGenerationContext &context,
   LLVMContext& llvmContext = context.getLLVMContext();
   const IType* arrayIndexExpressionType = indexExpression->getType(context);
   if (arrayIndexExpressionType != PrimitiveTypes::INT &&
+      arrayIndexExpressionType != PrimitiveTypes::BYTE &&
       arrayIndexExpressionType != PrimitiveTypes::LONG) {
     context.reportError(line, "Array index should be integer type, but it is " +
                         arrayIndexExpressionType->getTypeName());
