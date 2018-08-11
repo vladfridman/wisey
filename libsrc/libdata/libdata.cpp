@@ -185,7 +185,7 @@ extern "C" int64_t stl_long_to_int_map_size(void* map) {
 /**
  * Returns a wisey array containing values of a long to int map
  */
-extern "C" void* stl_long_to_int_map_to_array(void *map) {
+extern "C" void* stl_long_to_int_map_get_values_array(void *map) {
   std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
   int64_t allocSize = mapCast->size() * sizeof(int32_t) + 3 * sizeof(int64_t);
   void* memory = malloc(allocSize);
@@ -203,6 +203,33 @@ extern "C" void* stl_long_to_int_map_to_array(void *map) {
 
   for (std::map<int64_t, int32_t>::iterator iterator = mapCast->begin(); iterator != mapCast->end(); iterator++) {
     *element = iterator->second;
+    element++;
+  }
+
+  return memory;
+}
+
+/**
+ * Returns a wisey array containing keys of a long to int map
+ */
+extern "C" void* stl_long_to_int_map_get_keys_array(void *map) {
+  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
+  int64_t allocSize = mapCast->size() * sizeof(int64_t) + 3 * sizeof(int64_t);
+  void* memory = malloc(allocSize);
+  int8_t* location = (int8_t*) memory;
+  int64_t* referenceCounter = (int64_t*) location;
+  *referenceCounter = 0;
+  location += sizeof(int64_t);
+  int64_t* arraySize = (int64_t*) location;
+  *arraySize = mapCast->size();
+  location += sizeof(int64_t);
+  int64_t* elementSize = (int64_t*) location;
+  *elementSize = sizeof(int64_t);
+  location += sizeof(int64_t);
+  int64_t* element = (int64_t*) location;
+
+  for (std::map<int64_t, int32_t>::iterator iterator = mapCast->begin(); iterator != mapCast->end(); iterator++) {
+    *element = iterator->first;
     element++;
   }
 

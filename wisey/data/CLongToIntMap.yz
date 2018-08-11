@@ -62,8 +62,15 @@ controller CLongToIntMap {
   /**
    * Returns an array containing map values
    */
-  public int[]* toArray() {
-    return ::llvm::function::stl_long_to_int_map_to_array(mStdMap);
+  public int[]* getValues() {
+    return ::llvm::function::stl_long_to_int_map_get_values_array(mStdMap);
+  }
+
+  /**
+   * Returns an array containing map keys
+   */
+  public long[]* getKeys() {
+    return ::llvm::function::stl_long_to_int_map_get_keys_array(mStdMap);
   }
 
   private ::llvm::function ::llvm::i8::pointer mapCreate() {

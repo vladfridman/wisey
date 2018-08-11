@@ -1,12 +1,16 @@
 package systems.vos.wisey.compiler.tests;
 
+import wisey.data.COwnerVector;
 import wisey.data.CLongToIntMap;
 import wisey.lang.CString;
+import wisey.lang.CMemoryPool;
 import wisey.lang.IProgram;
 
 controller CProgram implements IProgram {
   private constant byte[] CODES = { -1b, 0b, -1b, 1b, 3b, -1b, -1b, 2b };
   private constant char[] NUCLEOTIDES = { 'A', 'C', 'G', 'T' };
+
+  inject CMemoryPool* mMemoryPool;
 
   public int run(immutable string[] arguments) override {
     return 1;
@@ -23,6 +27,42 @@ controller CProgram implements IProgram {
     public int getKeyLength() {
       return mKeyLength;
     }
+  }
+
+  public node NKeyValuePair {
+    receive long mKey;
+    receive int mValue;
+
+    public long getKey() {
+      return mKey;
+    }
+
+    public int getValue() {
+      return mValue;
+    }
+  }
+
+  private static boolean compare(NKeyValuePair left, NKeyValuePair right) {
+    return left.getValue() < right.getValue();
+  }
+
+  private static CString* writeFrequencies(float totalCount, CResult frequencies) {
+    long[]* keysArray = frequencies.getMap().getKeys();
+    int[]* valuesArray = frequencies.getMap().getValues();
+    COwnerVector* vector = COwnerVector.create();
+    for (int i = 0; i < keysArray.getSize(); i++) {
+      vector.pushBack(build(NKeyValuePair).withKey(keysArray[i]).withValue(valuesArray[i]).onPool(mMemoryPool));
+    }
+    vector.sort(compare);
+    CString* sb = CString.create();
+    int keyLength = frequencies.getKeyLength();
+    for (int i = 0; i < keysArray.getSize(); i++) {
+      sb.appendCString(keyToString(keysArray[i], keyLength));
+      sb.appendString(" ");
+      sb.appendCString(CString.createFromFloat(valuesArray[i] * 100.0 / totalCount));
+    }
+    sb.appendString("\n");
+    return sb;
   }
 
   private static CString* writeCount(CResult[] results, 
@@ -44,7 +84,7 @@ controller CProgram implements IProgram {
     return value;
   }
 
-  private static CString keyToString(long keyParam, int length) {
+  private static CString* keyToString(long keyParam, int length) {
     long key = keyParam;
     char[]* res = new char[length];
     for (int i = 0; i < length; i++) {
