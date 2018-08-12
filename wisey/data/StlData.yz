@@ -40,3 +40,17 @@ external ::llvm::function ::llvm::i64 stl_long_to_int_map_size(::llvm::i8::point
 external ::llvm::function int[]* stl_long_to_int_map_get_values_array(::llvm::i8::pointer);
 
 external ::llvm::function long[]* stl_long_to_int_map_get_keys_array(::llvm::i8::pointer);
+
+external ::llvm::function ::llvm::i8::pointer stl_object_vector_create();
+
+external ::llvm::function ::llvm::void stl_owner_vector_destroy(::llvm::i8::pointer);
+
+external ::llvm::function ::llvm::void stl_owner_vector_clear(::llvm::i8::pointer);
+
+external ::llvm::function ::llvm::void stl_owner_vector_push_back(::llvm::i8::pointer, ::wisey::object*);
+
+external ::llvm::function ::wisey::object* stl_owner_vector_pop_back(::llvm::i8::pointer);
+
+external ::llvm::function ::llvm::i8::pointer stl_owner_vector_at(::llvm::i8::pointer, ::llvm::i64);
+
+external ::llvm::function ::llvm::i64 stl_owner_vector_size(::llvm::i8::pointer);

@@ -1,4 +1,5 @@
 #include <map>
+#include <vector>
 
 /**
  * Library of functions that work with STL data structures
@@ -8,32 +9,17 @@ void adjust_wisey_object_reference_count(void* objectPointer, int adjustment);
 void destroy_wisey_object(void* objectPointer);
 
 /**
- * Creates a hash map
+ * Hashmap where key is an object reference and value is an object reference
  */
 extern "C" void* stl_reference_to_object_map_create() {
   return new std::map<void*, void*>();
 }
 
-extern "C" void* stl_long_to_int_map_create() {
-  return new std::map<int64_t, int32_t>();
-}
-
-/**
- * Destroys a hash map
- */
 extern "C" void stl_reference_to_object_map_destroy(void* map) {
   std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
   delete mapCast;
 }
 
-extern "C" void stl_long_to_int_map_destroy(void* map) {
-  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
-  delete mapCast;
-}
-
-/**
- * Erases map entry with the given key and decrements reference count of the contained object
- */
 extern "C" void stl_reference_to_reference_map_erase(void* map, void* key) {
   std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
   if (!mapCast->count(key)) {
@@ -44,8 +30,36 @@ extern "C" void stl_reference_to_reference_map_erase(void* map, void* key) {
   mapCast->erase(key);
 }
 
+extern "C" void stl_reference_to_reference_map_put(void* map, void* key, void* value) {
+  stl_reference_to_reference_map_erase(map, key);
+  std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
+  mapCast->insert(std::pair<void*, void*>(key, value));
+  adjust_wisey_object_reference_count(value, 1);
+}
+
+extern "C" void* stl_reference_to_object_map_get(void* map, void* key) {
+  std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
+  if (mapCast->count(key)) {
+    return mapCast->at(key);
+  }
+  return NULL;
+}
+
+extern "C" void stl_reference_to_reference_map_clear(void* map) {
+  std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
+  for (std::map<void*, void*>::iterator iterator = mapCast->begin(); iterator != mapCast->end(); iterator++) {
+    adjust_wisey_object_reference_count(iterator->second, -1);
+  }
+  mapCast->clear();
+}
+
+extern "C" int64_t stl_reference_to_object_map_size(void* map) {
+  std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
+  return mapCast->size();
+}
+
 /**
- * Erases map entry with the given key and destroys the contained object
+ * Hashmap where key is an object reference and value is an object owner
  */
 extern "C" void stl_reference_to_owner_map_erase(void* map, void* key) {
   std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
@@ -57,75 +71,12 @@ extern "C" void stl_reference_to_owner_map_erase(void* map, void* key) {
   mapCast->erase(key);
 }
 
-/**
- * Erases map entry with the given key
- */
-extern "C" void stl_long_to_int_map_erase(void* map, int64_t key) {
-  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
-  if (!mapCast->count(key)) {
-    return;
-  }
-  mapCast->erase(key);
-}
-
-/**
- * Puts a key value pair into a hash map where value is a wisey object reference
- */
-extern "C" void stl_reference_to_reference_map_put(void* map, void* key, void* value) {
-  stl_reference_to_reference_map_erase(map, key);
-  std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
-  mapCast->insert(std::pair<void*, void*>(key, value));
-  adjust_wisey_object_reference_count(value, 1);
-}
-
-/**
- * Puts a key value pair into a hash map where value is a wisey object owner
- */
 extern "C" void stl_reference_to_owner_map_put(void* map, void* key, void* value) {
   stl_reference_to_owner_map_erase(map, key);
   std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
   mapCast->insert(std::pair<void*, void*>(key, value));
 }
 
-/**
- * Puts a key value pair into a long to int hash map
- */
-extern "C" void stl_long_to_int_map_put(void* map, int64_t key, int32_t value) {
-  stl_long_to_int_map_erase(map, key);
-  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
-  mapCast->insert(std::pair<int64_t, int32_t>(key, value));
-}
-
-/**
- * Return a value for the given key from a hash map
- */
-extern "C" bool stl_long_to_int_map_has(void* map, int64_t key) {
-  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
-  return mapCast->count(key);
-}
-
-/**
- * Return a value for the given key from a hash map
- */
-extern "C" void* stl_reference_to_object_map_get(void* map, void* key) {
-  std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
-  if (mapCast->count(key)) {
-    return mapCast->at(key);
-  }
-  return NULL;
-}
-
-/**
- * Return a value for the given key from a long to int hash map
- */
-extern "C" int32_t stl_long_to_int_map_get(void* map, int64_t key) {
-  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
-  return mapCast->at(key);
-}
-
-/**
- * Return a value for the given key from a hash map, result is cast to ::wisey::object*
- */
 extern "C" void* stl_reference_to_owner_map_take(void* map, void* key) {
   std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
   if (!mapCast->count(key)) {
@@ -136,20 +87,6 @@ extern "C" void* stl_reference_to_owner_map_take(void* map, void* key) {
   return result;
 }
 
-/**
- * Decrement references of objects contained in the hash map
- */
-extern "C" void stl_reference_to_reference_map_clear(void* map) {
-  std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
-  for (std::map<void*, void*>::iterator iterator = mapCast->begin(); iterator != mapCast->end(); iterator++) {
-    adjust_wisey_object_reference_count(iterator->second, -1);
-  }
-  mapCast->clear();
-}
-
-/**
- * Destoys objects referenced by owner references in the hash map
- */
 extern "C" void stl_reference_to_owner_map_clear(void* map) {
   std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
   for (std::map<void*, void*>::iterator iterator = mapCast->begin(); iterator != mapCast->end(); iterator++) {
@@ -159,24 +96,46 @@ extern "C" void stl_reference_to_owner_map_clear(void* map) {
 }
 
 /**
- * Clears a long to int hash map
+ * Hashmap where key is of type long and value is of type int
  */
+extern "C" void* stl_long_to_int_map_create() {
+  return new std::map<int64_t, int32_t>();
+}
+
+extern "C" void stl_long_to_int_map_destroy(void* map) {
+  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
+  delete mapCast;
+}
+
+extern "C" void stl_long_to_int_map_erase(void* map, int64_t key) {
+  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
+  if (!mapCast->count(key)) {
+    return;
+  }
+  mapCast->erase(key);
+}
+
+extern "C" void stl_long_to_int_map_put(void* map, int64_t key, int32_t value) {
+  stl_long_to_int_map_erase(map, key);
+  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
+  mapCast->insert(std::pair<int64_t, int32_t>(key, value));
+}
+
+extern "C" bool stl_long_to_int_map_has(void* map, int64_t key) {
+  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
+  return mapCast->count(key);
+}
+
+extern "C" int32_t stl_long_to_int_map_get(void* map, int64_t key) {
+  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
+  return mapCast->at(key);
+}
+
 extern "C" void stl_long_to_int_map_clear(void* map) {
   std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
   mapCast->clear();
 }
 
-/**
- * Returns reference to reference or reference to owner map size
- */
-extern "C" int64_t stl_reference_to_object_map_size(void* map) {
-  std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
-  return mapCast->size();
-}
-
-/**
- * Returns long to int map size
- */
 extern "C" int64_t stl_long_to_int_map_size(void* map) {
   std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
   return mapCast->size();
@@ -270,4 +229,46 @@ void adjust_wisey_object_reference_count(void* objectPointer, int adjustment) {
   } else {
     *referenceCounter = *referenceCounter + adjustment;
   }
+}
+
+/**
+ * Vector of owner references
+ */
+extern "C" void* stl_object_vector_create() {
+  return new std::vector<void*>();
+}
+
+extern "C" void stl_owner_vector_clear(void* vector) {
+  std::vector<void*>* vectorCast = (std::vector<void*>*) vector;
+  for (std::vector<void*>::iterator iterator = vectorCast->begin(); iterator != vectorCast->end(); iterator++) {
+    destroy_wisey_object(*iterator);
+  }
+  vectorCast->clear();
+}
+
+extern "C" void stl_owner_vector_destroy(void* vector) {
+  std::vector<void*>* vectorCast = (std::vector<void*>*) vector;
+  delete vectorCast;
+}
+
+extern "C" void stl_owner_vector_push_back(void* vector, void* object) {
+  std::vector<void*>* vectorCast = (std::vector<void*>*) vector;
+  vectorCast->push_back(object);
+}
+
+extern "C" void* stl_owner_vector_pop_back(void* vector) {
+  std::vector<void*>* vectorCast = (std::vector<void*>*) vector;
+  void* last = vectorCast->back();
+  vectorCast->pop_back();
+  return last;
+}
+
+extern "C" void* stl_owner_vector_at(void* vector, int64_t index) {
+  std::vector<void*>* vectorCast = (std::vector<void*>*) vector;
+  return vectorCast->at(index);
+}
+
+extern "C" int64_t stl_owner_vector_size(void* vector) {
+  std::vector<void*>* vectorCast = (std::vector<void*>*) vector;
+  return vectorCast->size();
 }

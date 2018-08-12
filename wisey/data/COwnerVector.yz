@@ -7,83 +7,49 @@ import wisey.lang.MSystem;
  */
 controller COwnerVector {
 
-  public constant long DEFAULT_INITIAL_CAPACITY = 16l;
-
-  receive long mCapacity;
-  inject ::wisey::object*[mCapacity]* mData;
-  state long mSize;
-
-  /**
-   * Creates a vector with default initial capacity
-   */
-  public static COwnerVector* create() {
-    return inject(COwnerVector).withCapacity(DEFAULT_INITIAL_CAPACITY)
-      .onHeap();    
-  }
-
-  /**
-   * Creates a vector with specified initial capacity
-   */
-  public static COwnerVector* createWithCapacity(long initialCapacity) {
-    return inject(COwnerVector).withCapacity(initialCapacity)
-      .onHeap();
-  }
+  inject immediate ::llvm::i8::pointer* mStdVector.withConstructor(vectorCreate).withDestructor(vectorDestroy);
 
   /**
    * Appends a value to the end of the vector
    */
   public void pushBack(::wisey::object* value) {
-    if (mSize >= mData.getSize()) {
-      resize();
-    }
-    mData[mSize] = value;
-    mSize++; 
+    ::llvm::function::stl_owner_vector_push_back(mStdVector, value);
   }
 
   /**
    * Deletes the last element from the vector
    */
   public ::wisey::object* popBack() {
-    mSize--; 
-    return mData[mSize];
+    return ::llvm::function::stl_owner_vector_pop_back(mStdVector);
   }
 
   /**
    * Returns the elemtn with the given inde
    */
   public ::wisey::object getAt(long index) {
-    return mData[index];
+    return ::llvm::function::stl_owner_vector_at(mStdVector, index);
   }
 
   /**
    * Returns vector size
    */
   public long getSize() {
-    return mSize;
-  }
-
-  /**
-   * Returns vector capacity
-   */
-  public long getCapacity() {
-    return mCapacity;
+    return ::llvm::function::stl_owner_vector_size(mStdVector);
   }
 
   /**
    * Clears the vector
    */
   public void clear() {
-    for (int i = 0; i < mData.getSize(); i++) {
-      mData[i] = null;
-    }
-    mSize = 0;
+    ::llvm::function::stl_owner_vector_clear(mStdVector);
   }
 
-  private void resize() {
-    mCapacity = mSize * 2;
-    ::wisey::object*[]* array = new ::wisey::object*[mCapacity];
-    MSystem.copyMemory(array, mData, mSize * 8);
-    MSystem.zeroMemory(mData, mSize * 8);
-    mData = array;
+  private ::llvm::function ::llvm::i8::pointer vectorCreate() {
+    return ::llvm::function::stl_object_vector_create();
+  }
+
+  private ::llvm::function ::llvm::void vectorDestroy(::llvm::i8::pointer map) {
+    ::llvm::function::stl_owner_vector_clear(map);
+    ::llvm::function::stl_owner_vector_destroy(map);
   }
 }

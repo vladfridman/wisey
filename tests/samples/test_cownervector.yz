@@ -12,26 +12,26 @@ model MCar {
 }
 
 controller CProgram implements IProgram {
-  inject COwnerVector* mVector.withCapacity(3);
+  inject COwnerVector* mVector;
 
   public int run(immutable string[] arguments) override {
-    printout("Vector size: " + mVector.getSize() + ", capacity: " + mVector.getCapacity() + "\n");
+    printout("Vector size: " + mVector.getSize() + "\n");
     
     mVector.pushBack(build(MCar).withYear(2018).onHeap());
 
-    printout("Vector size: " + mVector.getSize() + ", capacity: " + mVector.getCapacity() + "\n");
+    printout("Vector size: " + mVector.getSize() + "\n");
 
     mVector.pushBack(build(MCar).withYear(2017).onHeap());
 
-    printout("Vector size: " + mVector.getSize() + ", capacity: " + mVector.getCapacity() + "\n");
+    printout("Vector size: " + mVector.getSize() + "\n");
 
     mVector.pushBack(build(MCar).withYear(2016).onHeap());
 
-    printout("Vector size: " + mVector.getSize() + ", capacity: " + mVector.getCapacity() + "\n");
+    printout("Vector size: " + mVector.getSize() + "\n");
 
     mVector.pushBack(build(MCar).withYear(2015).onHeap());
 
-    printout("Vector size: " + mVector.getSize() + ", capacity: " + mVector.getCapacity() + "\n");
+    printout("Vector size: " + mVector.getSize() + "\n");
 
     MCar* car = mVector.popBack();
 
@@ -39,7 +39,7 @@ controller CProgram implements IProgram {
 
     car = null;
 
-    printout("Vector size: " + mVector.getSize() + ", capacity: " + mVector.getCapacity() + "\n");
+    printout("Vector size: " + mVector.getSize() + "\n");
 
     MCar carRef = mVector.getAt(0);
 

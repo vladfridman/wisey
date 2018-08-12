@@ -46,7 +46,7 @@ controller CProgram implements IProgram {
     return left.getValue() < right.getValue();
   }
 
-  private static CString* writeFrequencies(float totalCount, CResult frequencies) {
+  private CString* writeFrequencies(float totalCount, CResult frequencies) {
     long[]* keysArray = frequencies.getMap().getKeys();
     int[]* valuesArray = frequencies.getMap().getValues();
     COwnerVector* vector = COwnerVector.create();
@@ -65,8 +65,7 @@ controller CProgram implements IProgram {
     return sb;
   }
 
-  private static CString* writeCount(CResult[] results, 
-                                    CString nucleotideFragment) {
+  private CString* writeCount(CResult[] results, CString nucleotideFragment) {
     byte[]* key = toCodes(nucleotideFragment.getContent(), (int) nucleotideFragment.getLength());
     long k = getKey(key, 0, (int) nucleotideFragment.getLength());
     int count = 0;

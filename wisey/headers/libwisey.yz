@@ -272,20 +272,12 @@ external controller wisey.data.COwnerList {
 
 external controller wisey.data.COwnerVector {
 
-  constant long DEFAULT_INITIAL_CAPACITY = 16l;
-
-  receive long mCapacity;
-
-  static wisey.data.COwnerVector* create();
-  static wisey.data.COwnerVector* createWithCapacity(
-    long initialCapacity);
   void pushBack(
     ::wisey::object* value);
   ::wisey::object* popBack();
   ::wisey::object getAt(
     long index);
   long getSize();
-  long getCapacity();
   void clear();
 }
 
