@@ -14,13 +14,13 @@
 
 TEST_F(TestFileRunner, cReferenceVectorRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_creferencevector.yz",
-                                        "Vector size: 0, capacity: 3\n"
-                                        "Vector size: 1, capacity: 3\n"
-                                        "Vector size: 2, capacity: 3\n"
-                                        "Vector size: 3, capacity: 3\n"
-                                        "Vector size: 4, capacity: 6\n"
+                                        "Vector size: 0\n"
+                                        "Vector size: 1\n"
+                                        "Vector size: 2\n"
+                                        "Vector size: 3\n"
+                                        "Vector size: 4\n"
                                         "Car year: 2015\n"
-                                        "Vector size: 3, capacity: 6\n"
+                                        "Vector size: 3\n"
                                         "Car year: 2018\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
                                         "done destructing systems.vos.wisey.compiler.tests.MCar\n"

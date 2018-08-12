@@ -24,17 +24,17 @@ controller COwnerVector {
   }
 
   /**
-   * Returns the elemtn with the given inde
+   * Returns the element with the given index
    */
   public ::wisey::object getAt(long index) {
-    return ::llvm::function::stl_owner_vector_at(mStdVector, index);
+    return ::llvm::function::stl_object_vector_at(mStdVector, index);
   }
 
   /**
    * Returns vector size
    */
   public long getSize() {
-    return ::llvm::function::stl_owner_vector_size(mStdVector);
+    return ::llvm::function::stl_object_vector_size(mStdVector);
   }
 
   /**
@@ -50,6 +50,6 @@ controller COwnerVector {
 
   private ::llvm::function ::llvm::void vectorDestroy(::llvm::i8::pointer map) {
     ::llvm::function::stl_owner_vector_clear(map);
-    ::llvm::function::stl_owner_vector_destroy(map);
+    ::llvm::function::stl_object_vector_destroy(map);
   }
 }

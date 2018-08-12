@@ -246,7 +246,7 @@ extern "C" void stl_owner_vector_clear(void* vector) {
   vectorCast->clear();
 }
 
-extern "C" void stl_owner_vector_destroy(void* vector) {
+extern "C" void stl_object_vector_destroy(void* vector) {
   std::vector<void*>* vectorCast = (std::vector<void*>*) vector;
   delete vectorCast;
 }
@@ -263,12 +263,34 @@ extern "C" void* stl_owner_vector_pop_back(void* vector) {
   return last;
 }
 
-extern "C" void* stl_owner_vector_at(void* vector, int64_t index) {
+extern "C" void* stl_object_vector_at(void* vector, int64_t index) {
   std::vector<void*>* vectorCast = (std::vector<void*>*) vector;
   return vectorCast->at(index);
 }
 
-extern "C" int64_t stl_owner_vector_size(void* vector) {
+extern "C" int64_t stl_object_vector_size(void* vector) {
   std::vector<void*>* vectorCast = (std::vector<void*>*) vector;
   return vectorCast->size();
+}
+
+extern "C" void stl_reference_vector_clear(void* vector) {
+  std::vector<void*>* vectorCast = (std::vector<void*>*) vector;
+  for (std::vector<void*>::iterator iterator = vectorCast->begin(); iterator != vectorCast->end(); iterator++) {
+    adjust_wisey_object_reference_count(*iterator, -1);
+  }
+  vectorCast->clear();
+}
+
+extern "C" void stl_reference_vector_push_back(void* vector, void* object) {
+  std::vector<void*>* vectorCast = (std::vector<void*>*) vector;
+  adjust_wisey_object_reference_count(object, 1);
+  vectorCast->push_back(object);
+}
+
+extern "C" void* stl_reference_vector_pop_back(void* vector) {
+  std::vector<void*>* vectorCast = (std::vector<void*>*) vector;
+  void* last = vectorCast->back();
+  vectorCast->pop_back();
+  adjust_wisey_object_reference_count(last, -1);
+  return last;
 }

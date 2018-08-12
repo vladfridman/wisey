@@ -335,20 +335,12 @@ external controller wisey.data.CReferenceToReferenceMap {
 
 external controller wisey.data.CReferenceVector {
 
-  constant long DEFAULT_INITIAL_CAPACITY = 16l;
-
-  receive long mCapacity;
-
-  static wisey.data.CReferenceVector* create();
-  static wisey.data.CReferenceVector* createWithCapacity(
-    long initialCapacity);
   void pushBack(
     ::wisey::object value);
   ::wisey::object popBack();
   ::wisey::object getAt(
     long index);
   long getSize();
-  long getCapacity();
   void clear();
 }
 
