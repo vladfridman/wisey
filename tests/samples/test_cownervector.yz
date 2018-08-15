@@ -1,6 +1,7 @@
 package systems.vos.wisey.compiler.tests;
 
 import wisey.data.COwnerVector;
+import wisey.data.IObjectComparator;
 import wisey.lang.IProgram;
 
 model MCar {
@@ -11,7 +12,7 @@ model MCar {
   }
 }
 
-controller CProgram implements wisey.data.COwnerVector.IComparator, IProgram {
+controller CProgram implements IProgram, IObjectComparator {
   inject COwnerVector* mVector;
 
   public int run(immutable string[] arguments) override {

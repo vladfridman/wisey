@@ -1,12 +1,5 @@
 /* Interfaces */
 
-external interface wisey.data.COwnerVector.IComparator {
-
-  boolean compare(
-    ::wisey::object left,
-    ::wisey::object right);
-}
-
 external interface wisey.data.CPointerList.IListElement {
 
   wisey.data.CPointerList.IListElement getNext();
@@ -14,6 +7,13 @@ external interface wisey.data.CPointerList.IListElement {
   void setNext(
     wisey.data.CPointerList.IListElement* element);
   ::llvm::i8::pointer getKey();
+}
+
+external interface wisey.data.IObjectComparator {
+
+  boolean compare(
+    ::wisey::object left,
+    ::wisey::object right);
 }
 
 external interface wisey.lang.IException {
@@ -287,7 +287,7 @@ external controller wisey.data.COwnerVector {
   long getSize();
   void clear();
   void sort(
-    wisey.data.COwnerVector.IComparator comparator);
+    wisey.data.IObjectComparator comparator);
 }
 
 external controller wisey.data.CPointerList {
@@ -351,6 +351,8 @@ external controller wisey.data.CReferenceVector {
     long index);
   long getSize();
   void clear();
+  void sort(
+    wisey.data.IObjectComparator comparator);
 }
 
 external controller wisey.io.CFile {

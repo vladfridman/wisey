@@ -1,0 +1,8 @@
+package wisey.data;
+
+/**
+ * Specifies the interface for comparing two objects when sorting
+ */
+interface IObjectComparator {
+  boolean compare(::wisey::object left, ::wisey::object right);
+}

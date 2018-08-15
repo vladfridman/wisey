@@ -1,6 +1,7 @@
 package systems.vos.wisey.compiler.tests;
 
 import wisey.data.CReferenceVector;
+import wisey.data.IObjectComparator;
 import wisey.lang.IProgram;
 
 model MCar {
@@ -11,32 +12,24 @@ model MCar {
   }
 }
 
-controller CProgram implements IProgram {
+controller CProgram implements IProgram, IObjectComparator {
   inject CReferenceVector* mVector;
 
   public int run(immutable string[] arguments) override {
-    MCar* car1 = build(MCar).withYear(2018).onHeap();
-    MCar* car2 = build(MCar).withYear(2017).onHeap();
-    MCar* car3 = build(MCar).withYear(2016).onHeap();
-    MCar* car4 = build(MCar).withYear(2015).onHeap();
+    mVector.pushBack(build(MCar).withYear(2018).onHeap());
+    mVector.pushBack(build(MCar).withYear(2017).onHeap());
+    mVector.pushBack(build(MCar).withYear(2016).onHeap());
+    mVector.pushBack(build(MCar).withYear(2015).onHeap());
 
-    printout("Vector size: " + mVector.getSize() + "\n");
+    for (int i = 0; i < mVector.getSize(); i++) {
+      printout("Car year: " + ((MCar) mVector.getAt(i)).getYear() + "\n");
+    }
     
-    mVector.pushBack(car1);
+    mVector.sort(this);
 
-    printout("Vector size: " + mVector.getSize() + "\n");
-
-    mVector.pushBack(car2);
-
-    printout("Vector size: " + mVector.getSize() + "\n");
-
-    mVector.pushBack(car3);
-
-    printout("Vector size: " + mVector.getSize() + "\n");
-
-    mVector.pushBack(car4);
-
-    printout("Vector size: " + mVector.getSize() + "\n");
+    for (int i = 0; i < mVector.getSize(); i++) {
+      printout("Car year: " + ((MCar) mVector.getAt(i)).getYear() + "\n");
+    }
 
     MCar car = mVector.popBack();
 
@@ -51,6 +44,10 @@ controller CProgram implements IProgram {
     printout("Car year: " + carRef.getYear() + "\n");
 
     return 1;
+  }
+
+  public boolean compare(MCar left, MCar right) override {
+    return left.getYear() < right.getYear();
   }
 }
 
