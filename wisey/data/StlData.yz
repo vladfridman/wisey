@@ -60,3 +60,5 @@ external ::llvm::function ::llvm::void stl_reference_vector_clear(::llvm::i8::po
 external ::llvm::function ::llvm::void stl_reference_vector_push_back(::llvm::i8::pointer, ::wisey::object);
 
 external ::llvm::function ::wisey::object stl_reference_vector_pop_back(::llvm::i8::pointer);
+
+external ::llvm::function ::llvm::void stl_object_vector_sort(::llvm::i8::pointer, ::llvm::i8::pointer, wisey.threads.IThread, wisey.threads.CCallStack);

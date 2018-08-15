@@ -11,27 +11,24 @@ model MCar {
   }
 }
 
-controller CProgram implements IProgram {
+controller CProgram implements wisey.data.COwnerVector.IComparator, IProgram {
   inject COwnerVector* mVector;
 
   public int run(immutable string[] arguments) override {
-    printout("Vector size: " + mVector.getSize() + "\n");
-    
     mVector.pushBack(build(MCar).withYear(2018).onHeap());
-
-    printout("Vector size: " + mVector.getSize() + "\n");
-
     mVector.pushBack(build(MCar).withYear(2017).onHeap());
-
-    printout("Vector size: " + mVector.getSize() + "\n");
-
     mVector.pushBack(build(MCar).withYear(2016).onHeap());
-
-    printout("Vector size: " + mVector.getSize() + "\n");
-
     mVector.pushBack(build(MCar).withYear(2015).onHeap());
 
-    printout("Vector size: " + mVector.getSize() + "\n");
+    for (int i = 0; i < mVector.getSize(); i++) {
+      printout("Car year: " + ((MCar) mVector.getAt(i)).getYear() + "\n");
+    }
+    
+    mVector.sort(this);
+
+    for (int i = 0; i < mVector.getSize(); i++) {
+      printout("Car year: " + ((MCar) mVector.getAt(i)).getYear() + "\n");
+    }
 
     MCar* car = mVector.popBack();
 
@@ -49,6 +46,10 @@ controller CProgram implements IProgram {
     mVector.clear();
 
     return 1;
+  }
+
+  public boolean compare(MCar left, MCar right) override {
+    return left.getYear() < right.getYear();
   }
 }
 

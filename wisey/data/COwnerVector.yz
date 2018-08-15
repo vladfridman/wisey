@@ -7,6 +7,13 @@ import wisey.lang.MSystem;
  */
 controller COwnerVector {
 
+  /**
+   * Specifies the interface for comparing throw owner objects when sorting
+   */
+  public interface IComparator {
+    boolean compare(::wisey::object left, ::wisey::object right);
+  }
+
   inject immediate ::llvm::i8::pointer* mStdVector.withConstructor(vectorCreate).withDestructor(vectorDestroy);
 
   /**
@@ -42,6 +49,13 @@ controller COwnerVector {
    */
   public void clear() {
     ::llvm::function::stl_owner_vector_clear(mStdVector);
+  }
+
+  /**
+   * Sort vector using the given compare function
+   */
+  public void sort(COwnerVector.IComparator comparator) {
+    ::llvm::function::stl_object_vector_sort(mStdVector, comparator, thread, callstack);
   }
 
   private ::llvm::function ::llvm::i8::pointer vectorCreate() {

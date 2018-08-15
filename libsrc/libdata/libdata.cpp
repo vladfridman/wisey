@@ -273,6 +273,25 @@ extern "C" int64_t stl_object_vector_size(void* vector) {
   return vectorCast->size();
 }
 
+extern "C" void stl_object_vector_sort(void* vector, 
+                                       void* object,
+                                       void* thread,
+                                       void* callstack) {
+  int8_t*** vTable = (int8_t***) object;
+  int8_t** firstTable = *vTable;
+  int8_t* functionPointer = firstTable[3];
+  bool (*compare_function) (void*, void*, void*, void*, void*) =
+     (bool (*) (void*, void*, void*, void*, void*)) functionPointer;
+
+  std::vector<void*>* vectorCast = (std::vector<void*>*) vector;
+  std::sort(vectorCast->begin(), vectorCast->end(), [&compare_function, &object, &thread, &callstack](void* a, void* b) {
+    return compare_function(object, thread, callstack, a, b);   
+  });
+}
+
+/**
+ * Vector of object references
+ */
 extern "C" void stl_reference_vector_clear(void* vector) {
   std::vector<void*>* vectorCast = (std::vector<void*>*) vector;
   for (std::vector<void*>::iterator iterator = vectorCast->begin(); iterator != vectorCast->end(); iterator++) {
