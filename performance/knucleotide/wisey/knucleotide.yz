@@ -6,12 +6,14 @@ import wisey.data.IObjectComparator;
 import wisey.lang.CString;
 import wisey.lang.CMemoryPool;
 import wisey.lang.IProgram;
+import wisey.io.CInputReader;
 
 controller CProgram implements IProgram, IObjectComparator {
   private constant byte[] CODES = { -1b, 0b, -1b, 1b, 3b, -1b, -1b, 2b };
   private constant char[] NUCLEOTIDES = { 'A', 'C', 'G', 'T' };
 
   inject CMemoryPool* mMemoryPool;
+  inject CInputReader* mInputReader;
 
   public int run(immutable string[] arguments) override {
     byte[]* sequence = { 1b, 2b, 3b};
@@ -159,6 +161,30 @@ controller CProgram implements IProgram, IObjectComparator {
       result[i] = CODES[(byte) array[i] & 0x7];
     }
     return result;
+  }
+
+  private byte[] read() {
+    CString* line;
+    while ((line = mInputReader.readLine()) != null) {
+      if (line.startsWith(">THREE")) {
+        break;
+      }
+    }
+
+    byte[] bytes = new byte[1048576];
+    int position = 0;
+    while ((line = mInputReader.readLine()) != null && line.charAt(0) != '>') {
+      if (line.getLength() + position > bytes.getSize()) {
+        byte[] newBytes = new byte[bytes.getLength() * 2];
+        System.arraycopy(bytes, 0, newBytes, 0, position);
+        bytes = newBytes;
+      }
+      for (int i = 0; i < line.length(); i++) {
+        bytes[position++] = (byte) line.charAt(i);
+      }
+    }
+
+    return toCodes(bytes, position);
   }
 }
 

@@ -24,9 +24,14 @@
 ::llvm::function ::llvm::i64 strlen(::llvm::i8::pointer);
 
 /**
- * Compares two strins and returns zero if they are equal
+ * Compares two strings and returns zero if they are equal
  */
 ::llvm::function ::llvm::i32 strcmp(::llvm::i8::pointer, ::llvm::i8::pointer);
+
+/**
+ * Compares two strings up to a given number of characters and returns zero if they are equal
+ */
+::llvm::function int strncmp(::llvm::i8::pointer, ::llvm::i8::pointer, ::llvm::i64);
 
 /**
  * Prints to a character array

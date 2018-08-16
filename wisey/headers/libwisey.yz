@@ -454,6 +454,8 @@ external controller wisey.lang.CString {
     immutable char[] input);
   int compareToCharArray(
     char[] input);
+  boolean startsWith(
+    string start);
 }
 
 external controller wisey.threads.CCallStack {
@@ -655,6 +657,7 @@ external ::llvm::function ::llvm::i32 "sprintf"(::llvm::i8::pointer, ::llvm::i8:
 external ::llvm::function ::llvm::i32 "sscanf"(::llvm::i8::pointer, ::llvm::i8::pointer, ...);
 external ::llvm::function ::llvm::i32 "strcmp"(::llvm::i8::pointer, ::llvm::i8::pointer);
 external ::llvm::function ::llvm::i64 "strlen"(::llvm::i8::pointer);
+external ::llvm::function int "strncmp"(::llvm::i8::pointer, ::llvm::i8::pointer, ::llvm::i64);
 
 /* llvm Globals */
 

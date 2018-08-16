@@ -318,6 +318,16 @@ controller CString {
     return ::llvm::function::strcmp(mBuffer, input);
   }
 
+  /**
+   * Returns true is this string starts with the given string
+   */
+  public boolean startsWith(string start) {
+    if (start.getLength() > getLength()) {
+      return false;
+    }
+    return ::llvm::function::strncmp(mBuffer, start, start.getLength()) == 0;
+  }
+
   private static long estimateCapacity(long size) {
     return (long) (((float) (size + 1)) * 1.5);
   }
