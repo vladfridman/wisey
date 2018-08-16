@@ -456,6 +456,8 @@ external controller wisey.lang.CString {
     char[] input);
   boolean startsWith(
     string start);
+  char charAt(
+    long i);
 }
 
 external controller wisey.threads.CCallStack {

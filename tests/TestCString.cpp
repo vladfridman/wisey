@@ -153,6 +153,10 @@ TEST_F(TestFileRunner, cstringStartsWithRunTest) {
   runFile("tests/samples/test_cstring_starts_with.yz", 1);
 }
 
+TEST_F(TestFileRunner, cstringCharAtRunTest) {
+  runFile("tests/samples/test_cstring_charat.yz", 1);
+}
+
 TEST_F(TestFileRunner, cstringToFloatRunTest) {
   runFileCheckOutput("tests/samples/test_cstring_to_float.yz",
                      "Result: 3.141590\n",

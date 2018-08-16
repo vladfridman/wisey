@@ -328,6 +328,13 @@ controller CString {
     return ::llvm::function::strncmp(mBuffer, start, start.getLength()) == 0;
   }
 
+  /**
+   * Returns character at a given position
+   */
+  public char charAt(long i) {
+    return mBuffer[i];
+  }
+
   private static long estimateCapacity(long size) {
     return (long) (((float) (size + 1)) * 1.5);
   }
