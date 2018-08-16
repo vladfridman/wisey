@@ -412,7 +412,7 @@ TEST_F(IRGenerationContextTest, printToStreamTest) {
                "\n"
                "/* llvm Globals */\n"
                "\n"
-               "::llvm::struct::mystructtype::pointer myglobal;"
+               "external ::llvm::struct::mystructtype::pointer myglobal;"
                "\n",
                stringStream.str().c_str());
 }

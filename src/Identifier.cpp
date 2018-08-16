@@ -49,6 +49,7 @@ Value* Identifier::generateIR(IRGenerationContext& context, const IType* assignT
   if (assignToType->isOwner() && variable->getType()->isOwner()) {
     ((IOwnerVariable*) variable)->setToNull(context, mLine);
   }
+  
   return value;
 }
 

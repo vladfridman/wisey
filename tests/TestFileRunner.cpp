@@ -122,8 +122,7 @@ void TestFileRunner::expectFailCompile(string fileName,
 void TestFileRunner::compileAndRunFile(string fileName, int expectedResult) {
   exec("mkdir -p build");
   
-  string wiseyCompileCommand = "bin/wiseyc " + fileName + " " + LIBWISEY +
-    " --no-optimization -o build/test.o";
+  string wiseyCompileCommand = "bin/wiseyc " + fileName + " " + LIBWISEY + " -o build/test.o";
   exec(wiseyCompileCommand.c_str());
   exec("g++ -o build/test build/test.o -Llib -lwisey");
   int result = system("build/test");
@@ -138,11 +137,30 @@ void TestFileRunner::compileAndRunFileCheckOutput(string fileName,
                                                   string expectedErr) {
   exec("mkdir -p build");
   
-  string wiseyCompileCommand = "bin/wiseyc " + fileName + " " + LIBWISEY +
-  " --no-optimization -o build/test.o";
+  string wiseyCompileCommand = "bin/wiseyc " + fileName + " " + LIBWISEY + " -o build/test.o";
   exec(wiseyCompileCommand.c_str());
   exec("g++ -o build/test build/test.o -Llib -lwisey");
   int result = system("build/test > build/wisey.out 2> build/wisey.err");
+  int returnValue = WEXITSTATUS(result);
+  
+  checkOutput(STDOUT_FILE, expectedOut);
+  checkOutput(STDERR_FILE, expectedErr);
+  
+  EXPECT_EQ(returnValue, expectedResult);
+}
+
+void TestFileRunner::compileAndRunFileWithInputCheckOutput(string fileName,
+                                                           int expectedResult,
+                                                           string inputFile,
+                                                           string expectedOut,
+                                                           string expectedErr) {
+  exec("mkdir -p build");
+  
+  string wiseyCompileCommand = "bin/wiseyc " + fileName + " " + LIBWISEY + " -o build/test.o";
+  exec(wiseyCompileCommand.c_str());
+  exec("g++ -o build/test build/test.o -Llib -lwisey");
+  string command = "build/test < " + inputFile + "> build/wisey.out 2> build/wisey.err";
+  int result = system(command.c_str());
   int returnValue = WEXITSTATUS(result);
   
   checkOutput(STDOUT_FILE, expectedOut);

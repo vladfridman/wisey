@@ -1,0 +1,21 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.io.CInputReader;
+import wisey.lang.CString;
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+  inject CInputReader* mReader;
+
+  public int run(immutable string[] arguments) override {
+    CString* line = mReader.readLine();
+    while (line != null) {
+      printout("line: " + line);
+      line = mReader.readLine();
+    }
+
+    return 1;
+  }
+}
+
+bind(IProgram).to(CProgram);

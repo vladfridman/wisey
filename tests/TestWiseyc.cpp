@@ -129,7 +129,7 @@ TEST_F(MainTest, extractHeadersTest) {
                "\n"
                "/* llvm Globals */\n"
                "\n"
-               "::llvm::struct::__sFILE::pointer __stderrp;\n",
+               "external ::llvm::struct::__sFILE::pointer __stderrp;\n",
                output.c_str());
   stream.close();
 }

@@ -83,6 +83,15 @@ public:
                                     std::string expectedErr);
 
   /**
+   * Compile and run given file with the given input file and compare the result
+   */
+  void compileAndRunFileWithInputCheckOutput(std::string fileName,
+                                             int expectedResult,
+                                             std::string inputFile,
+                                             std::string expectedOut,
+                                             std::string expectedErr);
+
+  /**
    * Call this to run a sample wisey file that is expected to fail at compilation
    */
   void expectFailCompile(std::string fileName,

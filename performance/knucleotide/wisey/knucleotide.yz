@@ -2,17 +2,35 @@ package systems.vos.wisey.compiler.tests;
 
 import wisey.data.COwnerVector;
 import wisey.data.CLongToIntMap;
+import wisey.data.IObjectComparator;
 import wisey.lang.CString;
 import wisey.lang.CMemoryPool;
 import wisey.lang.IProgram;
 
-controller CProgram implements IProgram {
+controller CProgram implements IProgram, IObjectComparator {
   private constant byte[] CODES = { -1b, 0b, -1b, 1b, 3b, -1b, -1b, 2b };
   private constant char[] NUCLEOTIDES = { 'A', 'C', 'G', 'T' };
 
   inject CMemoryPool* mMemoryPool;
 
   public int run(immutable string[] arguments) override {
+    byte[]* sequence = { 1b, 2b, 3b};
+
+    int[] fragmentLengths = { 1, 2, 3, 4, 6, 12, 18 };
+    COwnerVector* fragments = createFragments(sequence, fragmentLengths);
+
+    CString stringBuilder = CString.create();
+
+    stringBuilder.appendCString(writeFrequencies((float) sequence.getSize(), fragments.getAt(0)));
+    stringBuilder.appendCString(writeFrequencies((float) sequence.getSize() - 1.0, sumTwoMaps(fragments.getAt(1), fragments.getAt(1))));
+
+    string[] nucleotideFragments = { "GGT", "GGTA", "GGTATT", "GGTATTTTAATT", "GGTATTTTAATTTATAGT" };
+    for (int i = 0; i < nucleotideFragments.getSize(); i++) {
+      string nucleotideFragment = nucleotideFragments[i];
+      stringBuilder.appendCString(writeCount(fragments, nucleotideFragment));
+    }
+
+    printout(stringBuilder + "\n");
     return 1;
   }
 
@@ -42,35 +60,67 @@ controller CProgram implements IProgram {
     }
   }
 
-  private static boolean compare(NKeyValuePair left, NKeyValuePair right) {
+  private COwnerVector* createFragments(byte[] sequence, int[] fragmentLengths) {
+    COwnerVector* vector = inject(COwnerVector).onHeap();
+    for (int i = 0; i < fragmentLengths.getSize(); i++) {
+      int fragmentLength = fragmentLengths[i];
+      for (int index = 0; index < fragmentLength; index++) {
+        int offset = index;
+        vector.pushBack(createFragmentMap(sequence, offset, fragmentLength));
+      }
+    }
+    return vector;
+  }
+
+  private CResult* createFragmentMap(byte[] sequence, int offset, int fragmentLength) {
+      CResult* res = inject(CResult).withKeyLength(fragmentLength).onHeap();
+      CLongToIntMap map = res.getMap();
+      int lastIndex = (int) sequence.getSize() - fragmentLength + 1;
+      for (int index = offset; index < lastIndex; index += fragmentLength) {
+          map.put(getKey(sequence, index, fragmentLength), 1);
+      }
+
+      return res;
+  }
+
+  private CResult sumTwoMaps(CResult result1, CResult result2) {
+    long[]* keysArray = result2.getMap().getKeys();
+    int[]* valuesArray = result2.getMap().getValues();
+    for (int i = 0; i < keysArray.getSize(); i++) {
+      result1.getMap().put(keysArray[i], valuesArray[i]);
+    }
+    return result1;
+  }
+
+  private boolean compare(NKeyValuePair left, NKeyValuePair right) override {
     return left.getValue() < right.getValue();
   }
 
   private CString* writeFrequencies(float totalCount, CResult frequencies) {
     long[]* keysArray = frequencies.getMap().getKeys();
     int[]* valuesArray = frequencies.getMap().getValues();
-    COwnerVector* vector = COwnerVector.create();
+    COwnerVector* vector = inject(COwnerVector).onHeap();
     for (int i = 0; i < keysArray.getSize(); i++) {
       vector.pushBack(build(NKeyValuePair).withKey(keysArray[i]).withValue(valuesArray[i]).onPool(mMemoryPool));
     }
-    vector.sort(compare);
+    vector.sort(this);
     CString* sb = CString.create();
     int keyLength = frequencies.getKeyLength();
     for (int i = 0; i < keysArray.getSize(); i++) {
       sb.appendCString(keyToString(keysArray[i], keyLength));
       sb.appendString(" ");
-      sb.appendCString(CString.createFromFloat(valuesArray[i] * 100.0 / totalCount));
+      sb.appendCString(CString.createFromFloat(((float) valuesArray[i]) * 100.0 / totalCount));
     }
     sb.appendString("\n");
     return sb;
   }
 
-  private CString* writeCount(CResult[] results, CString nucleotideFragment) {
-    byte[]* key = toCodes(nucleotideFragment.getContent(), (int) nucleotideFragment.getLength());
+  private CString* writeCount(COwnerVector* results, string nucleotideFragment) {
+    byte[]* key = toCodes(nucleotideFragment);
     long k = getKey(key, 0, (int) nucleotideFragment.getLength());
     int count = 0;
     for (int i = 0; i < results.getSize(); i++) {
-      CResult result = results[i];
+      CResult result = (CResult) results.getAt(i);
       if (result.getKeyLength() == nucleotideFragment.getLength()) {
         count += result.getMap().get(k);
       }
@@ -78,7 +128,7 @@ controller CProgram implements IProgram {
 
     CString* value = CString.createFromInt(count);
     value.appendString("\t");
-    value.appendCString(nucleotideFragment);
+    value.appendString(nucleotideFragment);
     value.appendString("\n");
     return value;
   }
@@ -101,10 +151,12 @@ controller CProgram implements IProgram {
     return key;
   }
 
-  private static byte[]* toCodes(char[] sequence, int length) {
-    byte[]* result = new byte[length];
-    for (int i = 0; i < length; i++) {
-      result[i] = CODES[(byte) sequence[i] & 0x7];
+  private static byte[]* toCodes(string sequence) {
+    CString* cstring = CString.createFromString(sequence);
+    char[] array = cstring.getContent();
+    byte[]* result = new byte[array.getSize()];
+    for (int i = 0; i < array.getSize(); i++) {
+      result[i] = CODES[(byte) array[i] & 0x7];
     }
     return result;
   }

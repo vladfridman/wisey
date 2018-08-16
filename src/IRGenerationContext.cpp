@@ -340,6 +340,13 @@ void IRGenerationContext::setLLVMGlobalVariable(const IType* type, string name) 
   mGlobalVariables[name] = type;
 }
 
+const IType* IRGenerationContext::getLLVMGlobalVariableType(string name) const {
+  if (mGlobalVariables.count(name)) {
+    return mGlobalVariables.at(name);
+  }
+  return NULL;
+}
+
 void IRGenerationContext::registerLLVMInternalFunctionNamedType(string name,
                                                                 const LLVMFunctionType*
                                                                 functionType,
@@ -560,7 +567,7 @@ void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& 
        iterator++) {
     string name = iterator->first;
     const IType* type = iterator->second;
-    stream << type->getTypeName() << " " << name << ";";
+    stream << "external " << type->getTypeName() << " " << name << ";";
     stream << endl;
   }
 }

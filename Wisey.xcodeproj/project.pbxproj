@@ -831,6 +831,12 @@
 		F59692CD211E29A000F19C4E /* ByteConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692CC211E29A000F19C4E /* ByteConstant.cpp */; };
 		F59692CE211E29A000F19C4E /* ByteConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692CC211E29A000F19C4E /* ByteConstant.cpp */; };
 		F59692D0211E29FC00F19C4E /* TestByteConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692CF211E29FC00F19C4E /* TestByteConstant.cpp */; };
+		F59692DA2125320C00F19C4E /* LLVMExternalGlobalDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692D92125320C00F19C4E /* LLVMExternalGlobalDeclaration.cpp */; };
+		F59692DB2125320C00F19C4E /* LLVMExternalGlobalDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692D92125320C00F19C4E /* LLVMExternalGlobalDeclaration.cpp */; };
+		F59692DE212533E700F19C4E /* LLVMGlobalIdentifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692DD212533E700F19C4E /* LLVMGlobalIdentifier.cpp */; };
+		F59692DF212533E700F19C4E /* LLVMGlobalIdentifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692DD212533E700F19C4E /* LLVMGlobalIdentifier.cpp */; };
+		F59692E121254F9700F19C4E /* TestLLVMGlobalIdentifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692E021254F9700F19C4E /* TestLLVMGlobalIdentifier.cpp */; };
+		F59692E321256B0200F19C4E /* TestCInputReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692E221256B0100F19C4E /* TestCInputReader.cpp */; };
 		F598117A20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117B20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117E20A0676E003AADCA /* TestObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */; };
@@ -1911,6 +1917,12 @@
 		F59692CB211E295A00F19C4E /* ByteConstant.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ByteConstant.hpp; path = include/wisey/ByteConstant.hpp; sourceTree = "<group>"; };
 		F59692CC211E29A000F19C4E /* ByteConstant.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ByteConstant.cpp; path = src/ByteConstant.cpp; sourceTree = "<group>"; };
 		F59692CF211E29FC00F19C4E /* TestByteConstant.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestByteConstant.cpp; path = tests/TestByteConstant.cpp; sourceTree = "<group>"; };
+		F59692D8212531C000F19C4E /* LLVMExternalGlobalDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMExternalGlobalDeclaration.hpp; path = include/wisey/LLVMExternalGlobalDeclaration.hpp; sourceTree = "<group>"; };
+		F59692D92125320C00F19C4E /* LLVMExternalGlobalDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMExternalGlobalDeclaration.cpp; path = src/LLVMExternalGlobalDeclaration.cpp; sourceTree = "<group>"; };
+		F59692DC212533A000F19C4E /* LLVMGlobalIdentifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LLVMGlobalIdentifier.hpp; path = include/wisey/LLVMGlobalIdentifier.hpp; sourceTree = "<group>"; };
+		F59692DD212533E700F19C4E /* LLVMGlobalIdentifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMGlobalIdentifier.cpp; path = src/LLVMGlobalIdentifier.cpp; sourceTree = "<group>"; };
+		F59692E021254F9700F19C4E /* TestLLVMGlobalIdentifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMGlobalIdentifier.cpp; path = tests/TestLLVMGlobalIdentifier.cpp; sourceTree = "<group>"; };
+		F59692E221256B0100F19C4E /* TestCInputReader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCInputReader.cpp; path = tests/TestCInputReader.cpp; sourceTree = "<group>"; };
 		F598117720A05DAC003AADCA /* ObjectKindGlobal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ObjectKindGlobal.hpp; path = include/wisey/ObjectKindGlobal.hpp; sourceTree = "<group>"; };
 		F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectKindGlobal.cpp; path = src/ObjectKindGlobal.cpp; sourceTree = "<group>"; };
 		F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectKindGlobal.cpp; path = tests/TestObjectKindGlobal.cpp; sourceTree = "<group>"; };
@@ -3444,6 +3456,7 @@
 				F54B1481205D71C60030773F /* ILLVMTypeSpecifier.hpp */,
 				F582704A205F9D5400839EC7 /* LLVMArrayType.hpp */,
 				F582704B205F9F1A00839EC7 /* LLVMArrayTypeSpecifer.hpp */,
+				F59692D8212531C000F19C4E /* LLVMExternalGlobalDeclaration.hpp */,
 				F53227DA206282EB00605E1B /* LLVMExternalStructDefinition.hpp */,
 				F5D465F62061078F00C1047A /* LLVMFunction.hpp */,
 				F5D4660B20614C0A00C1047A /* LLVMFunctionCall.hpp */,
@@ -3452,6 +3465,7 @@
 				F5827067205FD81800839EC7 /* LLVMFunctionType.hpp */,
 				F5827063205FD5D900839EC7 /* LLVMFunctionTypeSpecifier.hpp */,
 				F5A0DADD2078074900B0E479 /* LLVMGlobalDeclaration.hpp */,
+				F59692DC212533A000F19C4E /* LLVMGlobalIdentifier.hpp */,
 				F54B1464205D61100030773F /* LLVMi1Type.hpp */,
 				F54B1468205D69940030773F /* LLVMi8Type.hpp */,
 				F54B146C205D6A910030773F /* LLVMi16Type.hpp */,
@@ -3486,6 +3500,7 @@
 				F581A0172073B3CB00EA0156 /* ILLVMType.cpp */,
 				F582704F205FA27900839EC7 /* LLVMArrayType.cpp */,
 				F582704C205FA01600839EC7 /* LLVMArrayTypeSpecifer.cpp */,
+				F59692D92125320C00F19C4E /* LLVMExternalGlobalDeclaration.cpp */,
 				F53227DB2062832800605E1B /* LLVMExternalStructDefinition.cpp */,
 				F5D465F72061086D00C1047A /* LLVMFunction.cpp */,
 				F5D4660C20614CAF00C1047A /* LLVMFunctionCall.cpp */,
@@ -3494,6 +3509,7 @@
 				F5827068205FD8B600839EC7 /* LLVMFunctionType.cpp */,
 				F5827064205FD6A600839EC7 /* LLVMFunctionTypeSpecifier.cpp */,
 				F5A0DADE2078082300B0E479 /* LLVMGlobalDeclaration.cpp */,
+				F59692DD212533E700F19C4E /* LLVMGlobalIdentifier.cpp */,
 				F54B1465205D66AB0030773F /* LLVMi1Type.cpp */,
 				F54B1469205D69D20030773F /* LLVMi8Type.cpp */,
 				F54B146D205D6ACB0030773F /* LLVMi16Type.cpp */,
@@ -3734,6 +3750,7 @@
 				F5D4660120611BEF00C1047A /* TestLLVMFunctionDefinition.cpp */,
 				F582706B205FE32700839EC7 /* TestLLVMFunctionType.cpp */,
 				F582706D205FE5CA00839EC7 /* TestLLVMFunctionTypeSpecifier.cpp */,
+				F59692E021254F9700F19C4E /* TestLLVMGlobalIdentifier.cpp */,
 				F54B1488205EC5CD0030773F /* TestLLVMi1Type.cpp */,
 				F54B148A205EC7090030773F /* TestLLVMi8Type.cpp */,
 				F54B148C205EC7510030773F /* TestLLVMi16Type.cpp */,
@@ -4139,6 +4156,7 @@
 			children = (
 				F5D159A720A7133500107E84 /* TestCContextManager.cpp */,
 				F5D1599620A48E5E00107E84 /* TestCFileReader.cpp */,
+				F59692E221256B0100F19C4E /* TestCInputReader.cpp */,
 				F596927F211502D000F19C4E /* TestCLongToIntMap.cpp */,
 				F593627920C424D600A8C67A /* TestCMemoryPool.cpp */,
 				F5D159A320A7020D00107E84 /* TestCOwnerList.cpp */,
@@ -4344,6 +4362,7 @@
 				F5D465F92061086D00C1047A /* LLVMFunction.cpp in Sources */,
 				F5ADB6291E69831A00FFC941 /* Method.cpp in Sources */,
 				F5ADB6261E67075400FFC941 /* TestInterface.cpp in Sources */,
+				F59692E121254F9700F19C4E /* TestLLVMGlobalIdentifier.cpp in Sources */,
 				F5F210CB20F633D700F6D40F /* ThrowNullPointerExceptionFunction.cpp in Sources */,
 				F55CF1881F850EEB00A11426 /* TestPrefix.cpp in Sources */,
 				F5A67DA620120A0A0018068F /* LocalArrayReferenceVariable.cpp in Sources */,
@@ -4402,6 +4421,7 @@
 				F5A363481F37257C005880B3 /* ParameterOwnerVariable.cpp in Sources */,
 				F598117B20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */,
 				F53A2C1F1EF96C0200E76A9E /* IVariable.cpp in Sources */,
+				F59692DF212533E700F19C4E /* LLVMGlobalIdentifier.cpp in Sources */,
 				F59362A220CFE98800A8C67A /* TestPoolBuilder.cpp in Sources */,
 				F507D2661E43551900495E2D /* Model.cpp in Sources */,
 				F531B65B1E0DE52F008304F3 /* CharConstant.cpp in Sources */,
@@ -4460,6 +4480,7 @@
 				F519ED7A1FD8665400BE3FED /* TestInjectionArgument.cpp in Sources */,
 				F534644D20AF16DB006369D4 /* EssentialFunctions.cpp in Sources */,
 				F54B1477205D6BFD0030773F /* LLVMi64Type.cpp in Sources */,
+				F59692E321256B0200F19C4E /* TestCInputReader.cpp in Sources */,
 				F51797121E6605FC009B16AA /* MethodSignatureDeclaration.cpp in Sources */,
 				F50FA2BA1E28C0C900435EEA /* TestDoStatement.cpp in Sources */,
 				F50FF866208B6422008EDC40 /* ImmutableArrayType.cpp in Sources */,
@@ -4475,6 +4496,7 @@
 				F50FF89D208C8EF8008EDC40 /* TestParameterImmutableArrayOwnerVariable.cpp in Sources */,
 				F5E270741F98F6A4008D2EB7 /* Constant.cpp in Sources */,
 				F53400DE1DFBE6F60002BF7E /* Tokens.lpp in Sources */,
+				F59692DB2125320C00F19C4E /* LLVMExternalGlobalDeclaration.cpp in Sources */,
 				F5601F3D1EB4C5E300C9E2D8 /* TestIRWriter.cpp in Sources */,
 				F54B147B205D6D340030773F /* LLVMPrimitiveTypes.cpp in Sources */,
 				F58FA310207295B500C86D33 /* TestWiseyObjectTypeSpecifier.cpp in Sources */,
@@ -5075,6 +5097,7 @@
 				F587255E1F6FFB2D00FA25E6 /* PrintErrStatement.cpp in Sources */,
 				F5B9B8B020764B37009C5650 /* BindActionGlobalStatement.cpp in Sources */,
 				F507D26D1E46044700495E2D /* PrimitiveTypes.cpp in Sources */,
+				F59692DA2125320C00F19C4E /* LLVMExternalGlobalDeclaration.cpp in Sources */,
 				F5EEDDA01E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp in Sources */,
 				F50FA2E51E2E3B0900435EEA /* DoubleConstant.cpp in Sources */,
 				F508E0661E72CB0E005D6115 /* MethodSignature.cpp in Sources */,
@@ -5105,6 +5128,7 @@
 				F513DE0120186900001A075B /* ParameterArrayOwnerVariable.cpp in Sources */,
 				F53A2C1E1EF96C0200E76A9E /* IVariable.cpp in Sources */,
 				F59D82111E0F311B00057FB5 /* ForStatement.cpp in Sources */,
+				F59692DE212533E700F19C4E /* LLVMGlobalIdentifier.cpp in Sources */,
 				F581A0182073B3CB00EA0156 /* ILLVMType.cpp in Sources */,
 				F58FA2F9206E65C100C86D33 /* DestroyObjectOwnerFunction.cpp in Sources */,
 				F59692CD211E29A000F19C4E /* ByteConstant.cpp in Sources */,

@@ -70,6 +70,7 @@ WS  [ \t\v\n\f]
 "::i64"                       return TOKEN(TLLVMI64);
 "::model"                     return TOKEN(TWISEYMODEL);
 "::llvm"                      return TOKEN(TLLVM);
+"::global"                    return TOKEN(TLLVMGLOBAL);
 "::object"                    return TOKEN(TWISEYOBJECT);
 "::pointer"                   return TOKEN(TLLVMPOINTER);
 "::reference"                 return TOKEN(TLLVMREFERENCE);

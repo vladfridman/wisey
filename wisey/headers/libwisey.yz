@@ -377,6 +377,13 @@ external controller wisey.io.CFileReader {
   wisey.lang.CString* readLine() throws wisey.io.MFileOpenException, wisey.io.MFileCouldNotOpenException;
 }
 
+external controller wisey.io.CInputReader {
+
+  constant int BUFFER_SIZE = 256;
+
+  wisey.lang.CString* readLine();
+}
+
 external controller wisey.lang.CMemoryPool {
 
   static ::llvm::i8::pointer pallocate(
@@ -651,4 +658,5 @@ external ::llvm::function ::llvm::i64 "strlen"(::llvm::i8::pointer);
 
 /* llvm Globals */
 
-::llvm::struct::__sFILE::pointer __stderrp;
+external ::llvm::struct::__sFILE::pointer __stderrp;
+external ::llvm::struct::__sFILE::pointer __stdinp;

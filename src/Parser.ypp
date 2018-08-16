@@ -84,8 +84,10 @@
   #include "wisey/InterfaceTypeSpecifier.hpp"
   #include "wisey/InterfaceTypeSpecifierFull.hpp"
   #include "wisey/LLVMArrayTypeSpecifer.hpp"
+  #include "wisey/LLVMExternalGlobalDeclaration.hpp"
   #include "wisey/LLVMExternalStructDefinition.hpp"
   #include "wisey/LLVMGlobalDeclaration.hpp"
+  #include "wisey/LLVMGlobalIdentifier.hpp"
   #include "wisey/LLVMFunctionCall.hpp"
   #include "wisey/LLVMFunctionDeclaration.hpp"
   #include "wisey/LLVMFunctionDefinition.hpp"
@@ -244,8 +246,8 @@
 %token <token> TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDECBYOP TDO TDOUBLECOLON TELIPSIS
 %token <token> TELSE TEXTENDS TEXTERNAL TDEFAULT TFALLTHROUGH TFALSE TFOR TIF TIMMEDIATE TIMMUTABLE
 %token <token> TIMPLEMENTS TIMPORT TINCOP TINCBYOP TINJECT TINSTANCEOF TINTERFACE  
-%token <token> TLLVM TLLVMARRAY TLLVMDEREFERENCE TLLVMFUNCTION TLLVMI1 TLLVMI8 TLLVMI16 TLLVMI32
-%token <token> TLLVMI64 TLLVMPOINTER TLLVMSTORE TLLVMSTRUCT TLLVMVOID TLLVMREFERENCE
+%token <token> TLLVM TLLVMARRAY TLLVMDEREFERENCE TLLVMGLOBAL TLLVMFUNCTION TLLVMI1 TLLVMI8 TLLVMI16 
+%token <token> TLLVMI32 TLLVMI64 TLLVMPOINTER TLLVMSTORE TLLVMSTRUCT TLLVMVOID TLLVMREFERENCE
 %token <token> TMODEL TNEW TNODE TNULL TONHEAP TONPOOL TOROP TOVERRIDE TPACKAGE
 %token <token> TPRINTFILE TPRINTERR TPRINTOUT TPRIVATE TPUBLIC TRECEIVE TRETURN 
 %token <token> TINSCOPE TSHIFTLEFT TSHIFTRIGHT TSTATE TSTATIC TSWITCH 
@@ -266,7 +268,8 @@
 %type <expression> type_comparision_expression injection array_allocation 
 %type <expression> static_method_call field_identifier increment_by_expression
 %type <expression> llvm_function_call llvm_reference llvm_dereference call_argument
-%type <expression> bitwise_and_expression bitwise_or_expression bitwise_xor_expression
+%type <expression> bitwise_and_expression bitwise_or_expression bitwise_xor_expression 
+%type <expression> llvm_global_identifier
 %type <constant_expression> unsigned_constant_expression constant_value string_literal  
 %type <constant_expression> constant_reference static_array_allocation unsigned_constant_number
 %type <constant_expression> signed_constant_expression
@@ -441,6 +444,8 @@ llvm_statement
 llvm_global_declaration
   : llvm_type_specifier TIDENTIFIER ';'
     { $$ = new LLVMGlobalDeclaration($1, *$2); delete $2; }
+  | TEXTERNAL llvm_type_specifier TIDENTIFIER ';'
+    { $$ = new LLVMExternalGlobalDeclaration($2, *$3); delete $3; }
   ;
 
 llvm_function_declaration
@@ -1409,12 +1414,17 @@ identifier
   : TIDENTIFIER { $$ = new Identifier(*$1, yylineno); delete $1; }
   ;
 
+llvm_global_identifier
+  : TLLVM TLLVMGLOBAL TDOUBLECOLON TIDENTIFIER { $$ = new LLVMGlobalIdentifier(*$4, yylineno); delete $4; }
+  ;
+
 field_identifier
   : TFIELDIDENTIFIER { $$ = new Identifier(*$1, yylineno); delete $1; }
   ;
 
 primary_expression
   : identifier { $$ = (IExpression*) $1; }
+  | llvm_global_identifier
   | field_identifier
   | unsigned_constant_expression { $$ = (IExpression*) $1; }
   | heap_builder

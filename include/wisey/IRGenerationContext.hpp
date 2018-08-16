@@ -201,6 +201,11 @@ namespace wisey {
     void setLLVMGlobalVariable(const IType* type, std::string name);
     
     /**
+     * Returns type of the global llvm variable
+     */
+    const IType* getLLVMGlobalVariableType(std::string name) const;
+    
+    /**
      * Registers an internal llvm function with the given type and name
      */
     void registerLLVMInternalFunctionNamedType(std::string name,
