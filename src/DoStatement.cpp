@@ -6,6 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/AutoCast.hpp"
 #include "wisey/DoStatement.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -41,7 +42,12 @@ void DoStatement::generateIR(IRGenerationContext& context) const {
   
   context.setBasicBlock(doCond);
   Value* conditionValue = mConditionExpression->generateIR(context, PrimitiveTypes::BOOLEAN);
-  IRWriter::createConditionalBranch(context, doBody, doEnd, conditionValue);
+  Value* conditionValueCast = AutoCast::maybeCast(context,
+                                                  mConditionExpression->getType(context),
+                                                  conditionValue,
+                                                  PrimitiveTypes::BOOLEAN,
+                                                  mConditionExpression->getLine());
+  IRWriter::createConditionalBranch(context, doBody, doEnd, conditionValueCast);
   
   scopes.setBreakToBlock(NULL);
   scopes.setContinueToBlock(NULL);

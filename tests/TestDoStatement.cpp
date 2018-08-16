@@ -22,6 +22,7 @@
 #include "TestFileRunner.hpp"
 #include "wisey/DoStatement.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using ::testing::_;
 using ::testing::NiceMock;
@@ -62,7 +63,9 @@ struct DoStatementTest : Test {
 TEST_F(DoStatementTest, doStatementSimpleTest) {
   Value * conditionValue = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 1);
   ON_CALL(*mConditionExpression, generateIR(_, _)).WillByDefault(testing::Return(conditionValue));
-  
+  ON_CALL(*mConditionExpression, getType(_))
+  .WillByDefault(testing::Return(PrimitiveTypes::BOOLEAN));
+
   DoStatement doStatement(mStatement, mConditionExpression);
   doStatement.generateIR(mContext);
   

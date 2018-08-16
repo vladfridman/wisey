@@ -21,6 +21,7 @@
 #include "MockStatement.hpp"
 #include "TestFileRunner.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 #include "wisey/WhileStatement.hpp"
 
 using ::testing::_;
@@ -62,7 +63,9 @@ struct WhileStatementTest : Test {
 TEST_F(WhileStatementTest, whileStatementSimpleTest) {
   Value * conditionValue = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 1);
   ON_CALL(*mConditionExpression, generateIR(_, _)).WillByDefault(testing::Return(conditionValue));
-  
+  ON_CALL(*mConditionExpression, getType(_))
+  .WillByDefault(testing::Return(PrimitiveTypes::BOOLEAN));
+
   WhileStatement whileStatement(mConditionExpression, mStatement);
   whileStatement.generateIR(mContext);
   

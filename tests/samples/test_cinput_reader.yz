@@ -9,7 +9,7 @@ controller CProgram implements IProgram {
 
   public int run(immutable string[] arguments) override {
     CString* line = mReader.readLine();
-    while (line != null) {
+    while (line) {
       printout("line: " + line);
       line = mReader.readLine();
     }

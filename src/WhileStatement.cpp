@@ -6,6 +6,7 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/AutoCast.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/WhileStatement.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -34,7 +35,12 @@ void WhileStatement::generateIR(IRGenerationContext& context) const {
   IRWriter::createBranch(context, whileCond);
   context.setBasicBlock(whileCond);
   Value* conditionValue = mConditionExpression->generateIR(context, PrimitiveTypes::BOOLEAN);
-  IRWriter::createConditionalBranch(context, whileBody, whileEnd, conditionValue);
+  Value* conditionValueCast = AutoCast::maybeCast(context,
+                                                  mConditionExpression->getType(context),
+                                                  conditionValue,
+                                                  PrimitiveTypes::BOOLEAN,
+                                                  mConditionExpression->getLine());
+  IRWriter::createConditionalBranch(context, whileBody, whileEnd, conditionValueCast);
   
   context.setBasicBlock(whileBody);
   scopes.setBreakToBlock(whileEnd);
