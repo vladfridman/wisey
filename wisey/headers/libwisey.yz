@@ -382,12 +382,13 @@ external controller wisey.io.CFileReader {
   static wisey.io.CFileReader* create(
     wisey.lang.CString fileName);
   wisey.lang.CString* readLine() throws wisey.io.MFileOpenException, wisey.io.MFileCouldNotOpenException;
+  static wisey.lang.CString* readLineFromFile(
+    ::llvm::struct::__sFILE::pointer fileStruct);
 }
 
 external controller wisey.io.CInputReader {
 
-  constant int BUFFER_SIZE = 256;
-
+  wisey.io.CInputReader* create();
   wisey.lang.CString* readLine();
 }
 

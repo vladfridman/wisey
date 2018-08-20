@@ -12,6 +12,6 @@
 
 #include "TestFileRunner.hpp"
 
-TEST_F(TestFileRunner, cfileReaderRunTest) {
+TEST_F(TestFileRunner, cFileReaderRunTest) {
   runFileCheckOutput("tests/samples/test_cfile_reader.yz", "one\ntwo\nthree\n", "");
 }

@@ -16,9 +16,9 @@ TEST_F(TestFileRunner, cInputReaderRunTest) {
   compileAndRunFileWithInputCheckOutput("tests/samples/test_cinput_reader.yz",
                                         1,
                                         "tests/samples/testinput.txt",
-                                        "line: this\n"
-                                        "line: is\n"
-                                        "line: a\n"
+                                        "line: this"
+                                        "line: is"
+                                        "line: a"
                                         "line: test",
                                         "");
 }

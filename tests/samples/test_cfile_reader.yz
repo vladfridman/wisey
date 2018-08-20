@@ -12,7 +12,7 @@ controller CProgram implements IProgram {
       CString.createFromString("tests/samples/inputs/textfile.txt"));
     CString* line = reader.readLine();
     while (line != null) {
-      printout(line);
+      printout(line + "\n");
       line = reader.readLine();
     }
     return 1;
