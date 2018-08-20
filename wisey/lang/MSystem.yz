@@ -14,17 +14,16 @@ model MSystem {
   /**
    * Forwards the call to memcopy function for needed architecture
    */
-  public ::llvm::function ::llvm::void copyMemory(::llvm::i8::pointer destination, 
-                                                  ::llvm::i8::pointer source, 
-                                                  ::llvm::i64 size) {
+  public static void copyMemory(::llvm::i8::pointer destination, 
+                                ::llvm::i8::pointer source, 
+                                ::llvm::i64 size) {
     ::llvm::function::"llvm.memcpy.p0i8.p0i8.i64"(destination, source, size, 4, false);
   }
 
   /**
    * Sets memory pointer to by given pointer and of the given size in bytes to all zeros
    */
-  public ::llvm::function ::llvm::void zeroMemory(::llvm::i8::pointer pointer, 
-                                                  ::llvm::i64 size) {
+  public static void zeroMemory(::llvm::i8::pointer pointer, ::llvm::i64 size) {
     ::llvm::function::"llvm.memset.p0i8.i64"(pointer, (char) 0, size, 4, false);
   }
 }

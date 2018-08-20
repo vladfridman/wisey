@@ -1,0 +1,4 @@
+javac ../../fasta/java/fasta.java 
+java -cp ../../fasta/java fasta 25000000 > knucleotide-input25000000.txt
+javac -d . -cp .:./lib/fastutil-8.2.1.jar knucleotide.java
+java -cp .:./lib/fastutil-8.2.1.jar  knucleotide 0 < knucleotide-input25000000.txt 

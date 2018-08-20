@@ -6,6 +6,7 @@ import wisey.data.IObjectComparator;
 import wisey.lang.CString;
 import wisey.lang.CMemoryPool;
 import wisey.lang.IProgram;
+import wisey.lang.MSystem;
 import wisey.io.CInputReader;
 
 controller CProgram implements IProgram, IObjectComparator {
@@ -16,7 +17,8 @@ controller CProgram implements IProgram, IObjectComparator {
   inject CInputReader* mInputReader;
 
   public int run(immutable string[] arguments) override {
-    byte[]* sequence = { 1b, 2b, 3b};
+    byte[]* sequence = read();
+    printout("sequence length = " + sequence.getSize() + "\n");
 
     int[] fragmentLengths = { 1, 2, 3, 4, 6, 12, 18 };
     COwnerVector* fragments = createFragments(sequence, fragmentLengths);
@@ -26,7 +28,7 @@ controller CProgram implements IProgram, IObjectComparator {
     stringBuilder.appendCString(writeFrequencies((float) sequence.getSize(), fragments.getAt(0)));
     stringBuilder.appendCString(writeFrequencies((float) sequence.getSize() - 1.0, sumTwoMaps(fragments.getAt(1), fragments.getAt(1))));
 
-    string[] nucleotideFragments = { "GGT", "GGTA", "GGTATT", "GGTATTTTAATT", "GGTATTTTAATTTATAGT" };
+    string[]* nucleotideFragments = { "GGT", "GGTA", "GGTATT", "GGTATTTTAATT", "GGTATTTTAATTTATAGT" };
     for (int i = 0; i < nucleotideFragments.getSize(); i++) {
       string nucleotideFragment = nucleotideFragments[i];
       stringBuilder.appendCString(writeCount(fragments, nucleotideFragment));
@@ -79,7 +81,8 @@ controller CProgram implements IProgram, IObjectComparator {
       CLongToIntMap map = res.getMap();
       int lastIndex = (int) sequence.getSize() - fragmentLength + 1;
       for (int index = offset; index < lastIndex; index += fragmentLength) {
-          map.put(getKey(sequence, index, fragmentLength), 1);
+        long key = getKey(sequence, index, fragmentLength);
+        map.put(key, 1);
       }
 
       return res;
@@ -112,19 +115,22 @@ controller CProgram implements IProgram, IObjectComparator {
       sb.appendCString(keyToString(keysArray[i], keyLength));
       sb.appendString(" ");
       sb.appendCString(CString.createFromFloat(((float) valuesArray[i]) * 100.0 / totalCount));
+      sb.appendString("\n");
     }
     sb.appendString("\n");
     return sb;
   }
 
-  private CString* writeCount(COwnerVector* results, string nucleotideFragment) {
-    byte[]* key = toCodes(nucleotideFragment);
+  private CString* writeCount(COwnerVector results, string nucleotideFragment) {
+    byte[]* key = toCodesFromString(nucleotideFragment);
     long k = getKey(key, 0, (int) nucleotideFragment.getLength());
     int count = 0;
     for (int i = 0; i < results.getSize(); i++) {
       CResult result = (CResult) results.getAt(i);
       if (result.getKeyLength() == nucleotideFragment.getLength()) {
-        count += result.getMap().get(k);
+        if (result.getMap().has(k)) {
+          count += result.getMap().get(k);
+        }
       }
     }
 
@@ -153,17 +159,25 @@ controller CProgram implements IProgram, IObjectComparator {
     return key;
   }
 
-  private static byte[]* toCodes(string sequence) {
-    CString* cstring = CString.createFromString(sequence);
-    char[] array = cstring.getContent();
-    byte[]* result = new byte[array.getSize()];
-    for (int i = 0; i < array.getSize(); i++) {
-      result[i] = CODES[(byte) array[i] & 0x7];
+  private static byte[]* toCodes(byte[] sequence, long length) {
+    byte[]* result = new byte[length];
+    for (int i = 0; i < length; i++) {
+      result[i] = CODES[sequence[i] & 0x7];
     }
     return result;
   }
 
-  private byte[] read() {
+  private static byte[]* toCodesFromString(string input) {
+    CString* cstring = CString.createFromString(input);
+    char[] cstringContent = cstring.getContent();
+    byte[]* result = new byte[cstringContent.getSize() - 1];
+    for (int i = 0; i < cstringContent.getSize() - 1; i++) {
+      result[i] = CODES[(byte) cstringContent[i] & 0x7];
+    }
+    return result;
+  }
+
+  private byte[]* read() {
     CString* line;
     while ((line = mInputReader.readLine()) != null) {
       if (line.startsWith(">THREE")) {
@@ -171,15 +185,15 @@ controller CProgram implements IProgram, IObjectComparator {
       }
     }
 
-    byte[] bytes = new byte[1048576];
-    int position = 0;
+    byte[]* bytes = new byte[1048576];
+    long position = 0;
     while ((line = mInputReader.readLine()) != null && line.charAt(0) != '>') {
       if (line.getLength() + position > bytes.getSize()) {
-        byte[] newBytes = new byte[bytes.getLength() * 2];
-        System.arraycopy(bytes, 0, newBytes, 0, position);
+        byte[]* newBytes = new byte[bytes.getSize() * 2];
+        MSystem.copyMemory(newBytes, bytes, position);
         bytes = newBytes;
       }
-      for (int i = 0; i < line.length(); i++) {
+      for (int i = 0; i < line.getLength(); i++) {
         bytes[position++] = (byte) line.charAt(i);
       }
     }

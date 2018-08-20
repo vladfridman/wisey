@@ -217,6 +217,13 @@ external model wisey.lang.MSystem {
 
   static string getOriginalObjectTypeName(
     ::wisey::object object);
+  static void copyMemory(
+    ::llvm::i8::pointer destination,
+    ::llvm::i8::pointer source,
+    ::llvm::i64 size);
+  static void zeroMemory(
+    ::llvm::i8::pointer pointer,
+    ::llvm::i64 size);
 }
 
 external model wisey.threads.MContextNonExistantException
