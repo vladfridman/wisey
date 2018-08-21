@@ -18,15 +18,18 @@ controller CProgram implements IProgram, IObjectComparator {
 
   public int run(immutable string[] arguments) override {
     byte[]* sequence = read();
-    printout("sequence length = " + sequence.getSize() + "\n");
 
     int[] fragmentLengths = { 1, 2, 3, 4, 6, 12, 18 };
     COwnerVector* fragments = createFragments(sequence, fragmentLengths);
 
     CString stringBuilder = CString.create();
 
+    CResult result = fragments.getAt(0);
+    long[]* keysArray = result.getMap().getKeys();
+    int[]* valuesArray = result.getMap().getValues();
+
     stringBuilder.appendCString(writeFrequencies((float) sequence.getSize(), fragments.getAt(0)));
-    stringBuilder.appendCString(writeFrequencies((float) sequence.getSize() - 1.0, sumTwoMaps(fragments.getAt(1), fragments.getAt(1))));
+    stringBuilder.appendCString(writeFrequencies((float) sequence.getSize() - 1.0, sumTwoMaps(fragments.getAt(1), fragments.getAt(2))));
 
     string[]* nucleotideFragments = { "GGT", "GGTA", "GGTATT", "GGTATTTTAATT", "GGTATTTTAATTTATAGT" };
     for (int i = 0; i < nucleotideFragments.getSize(); i++) {
@@ -34,7 +37,7 @@ controller CProgram implements IProgram, IObjectComparator {
       stringBuilder.appendCString(writeCount(fragments, nucleotideFragment));
     }
 
-    printout(stringBuilder + "\n");
+    printout(stringBuilder);
     return 1;
   }
 
@@ -77,22 +80,31 @@ controller CProgram implements IProgram, IObjectComparator {
   }
 
   private CResult* createFragmentMap(byte[] sequence, int offset, int fragmentLength) {
-      CResult* res = inject(CResult).withKeyLength(fragmentLength).onHeap();
-      CLongToIntMap map = res.getMap();
-      int lastIndex = (int) sequence.getSize() - fragmentLength + 1;
-      for (int index = offset; index < lastIndex; index += fragmentLength) {
-        long key = getKey(sequence, index, fragmentLength);
+    CResult* res = inject(CResult).withKeyLength(fragmentLength).onHeap();
+    CLongToIntMap map = res.getMap();
+    int lastIndex = (int) sequence.getSize() - fragmentLength + 1;
+    for (int index = offset; index < lastIndex; index += fragmentLength) {
+      long key = getKey(sequence, index, fragmentLength);
+      if (map.has(key)) {
+        map.put(key, map.get(key) + 1);
+      } else {
         map.put(key, 1);
       }
+    }
 
-      return res;
+    return res;
   }
 
   private CResult sumTwoMaps(CResult result1, CResult result2) {
     long[]* keysArray = result2.getMap().getKeys();
     int[]* valuesArray = result2.getMap().getValues();
     for (int i = 0; i < keysArray.getSize(); i++) {
-      result1.getMap().put(keysArray[i], valuesArray[i]);
+      long key = keysArray[i];
+      if (result1.getMap().has(key)) {
+        result1.getMap().put(key, result1.getMap().get(key) + valuesArray[i]);
+      } else {
+        result1.getMap().put(key, valuesArray[i]);
+      }
     }
     return result1;
   }

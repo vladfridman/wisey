@@ -17,7 +17,7 @@ import java.util.concurrent.Future;
 import java.util.HashMap;
 import java.util.Map;
 
-public class knucleotidevanila {
+public class knucleotide {
     static final byte[] codes = { -1, 0, -1, 1, 3, -1, -1, 2 };
     static final char[] nucleotides = { 'A', 'C', 'G', 'T' };
 
@@ -60,7 +60,7 @@ public class knucleotidevanila {
     static long getKey(byte[] arr, int offset, int length) {
         long key = 0;
         for (int i = offset; i < offset + length; i++) {
-            key = key * 4;// + arr[i];
+            key = key * 4 + arr[i];
         }
         return key;
     }
