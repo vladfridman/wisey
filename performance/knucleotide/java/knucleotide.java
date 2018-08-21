@@ -1,5 +1,3 @@
-import it.unimi.dsi.fastutil.longs.Long2IntOpenHashMap;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,13 +14,15 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.HashMap;
+import java.util.Map;
 
-public class knucleotide {
+public class knucleotidevanila {
     static final byte[] codes = { -1, 0, -1, 1, 3, -1, -1, 2 };
     static final char[] nucleotides = { 'A', 'C', 'G', 'T' };
 
     static class Result {
-        Long2IntOpenHashMap map = new Long2IntOpenHashMap();
+        Map<Long, Integer> map = new HashMap<Long, Integer>();
         int keyLength;
     
         public Result(int keyLength) {
@@ -30,31 +30,43 @@ public class knucleotide {
         }
     }
 
-    static ArrayList<Callable<Result>> createFragmentTasks(final byte[] sequence,
-            int[] fragmentLengths) {
-        ArrayList<Callable<Result>> tasks = new ArrayList<>();
+    static ArrayList<Result> createFragments(final byte[] sequence, int[] fragmentLengths) {
+        ArrayList<Result> results = new ArrayList<>();
         for (int fragmentLength : fragmentLengths) {
             for (int index = 0; index < fragmentLength; index++) {
                 int offset = index;
-                tasks.add(() -> createFragmentMap(sequence, offset, fragmentLength));
+                results.add(createFragmentMap(sequence, offset, fragmentLength));
             }
         }
-        return tasks;
+        return results;
     }
 
     static Result createFragmentMap(byte[] sequence, int offset, int fragmentLength) {
         Result res = new Result(fragmentLength);
-        Long2IntOpenHashMap map = res.map;
+        Map<Long, Integer> map = res.map;
         int lastIndex = sequence.length - fragmentLength + 1;
         for (int index = offset; index < lastIndex; index += fragmentLength) {
-            map.addTo(getKey(sequence, index, fragmentLength), 1);
+            long key = getKey(sequence, index, fragmentLength);
+            map.put(key, map.getOrDefault(key, 0) + 1);
         }
 
         return res;
     }
 
+    /**
+     * Get the long key for given byte array of codes at given offset and length
+     * (length must be less than 32)
+     */
+    static long getKey(byte[] arr, int offset, int length) {
+        long key = 0;
+        for (int i = offset; i < offset + length; i++) {
+            key = key * 4;// + arr[i];
+        }
+        return key;
+    }
+
     static Result sumTwoMaps(Result map1, Result map2) {
-        map2.map.forEach((key, value) -> map1.map.addTo(key, value));
+        map2.map.forEach((key, value) -> map1.map.put(key, map1.map.getOrDefault(key, 0) + value));
         return map1;
     }
 
@@ -71,16 +83,15 @@ public class knucleotide {
         return sb.append('\n').toString();
     }
 
-    static String writeCount(List<Future<Result>> futures, String nucleotideFragment)
+    static String writeCount(List<Result> fragments, String nucleotideFragment)
             throws Exception {
         byte[] key = toCodes(nucleotideFragment.getBytes(StandardCharsets.ISO_8859_1),
                 nucleotideFragment.length());
         long k = getKey(key, 0, nucleotideFragment.length());
         int count = 0;
-        for (Future<Result> future : futures) {
-            Result f = future.get();
+        for (Result f : fragments) {
             if (f.keyLength == nucleotideFragment.length()) {
-                count += f.map.get(k);
+                count += f.map.getOrDefault(k, 0);
             }
         }
 
@@ -97,18 +108,6 @@ public class knucleotide {
             key >>= 2;
         }
         return new String(res);
-    }
-
-    /**
-     * Get the long key for given byte array of codes at given offset and length
-     * (length must be less than 32)
-     */
-    static long getKey(byte[] arr, int offset, int length) {
-        long key = 0;
-        for (int i = offset; i < offset + length; i++) {
-            key = key * 4 + arr[i];
-        }
-        return key;
     }
 
     /**
@@ -150,23 +149,19 @@ public class knucleotide {
     public static void main(String[] args) throws Exception {
         byte[] sequence = read(System.in);
 
-        ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime()
-                .availableProcessors());
         int[] fragmentLengths = { 1, 2, 3, 4, 6, 12, 18 };
-        List<Future<Result>> futures = pool.invokeAll(createFragmentTasks(sequence,
-                fragmentLengths));
-        pool.shutdown();
+        ArrayList<Result> fragments = createFragments(sequence, fragmentLengths);
 
         StringBuilder sb = new StringBuilder();
 
-        sb.append(writeFrequencies(sequence.length, futures.get(0).get()));
+        sb.append(writeFrequencies(sequence.length, fragments.get(0)));
         sb.append(writeFrequencies(sequence.length - 1,
-                sumTwoMaps(futures.get(1).get(), futures.get(2).get())));
+                sumTwoMaps(fragments.get(1), fragments.get(2))));
 
         String[] nucleotideFragments = { "GGT", "GGTA", "GGTATT", "GGTATTTTAATT",
                 "GGTATTTTAATTTATAGT" };
         for (String nucleotideFragment : nucleotideFragments) {
-            sb.append(writeCount(futures, nucleotideFragment));
+            sb.append(writeCount(fragments, nucleotideFragment));
         }
 
         System.out.print(sb);
