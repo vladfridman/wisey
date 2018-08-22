@@ -73,7 +73,7 @@ public:
 TEST_F(LongTypeTest, longTypeTest) {
   EXPECT_EQ(Type::getInt64Ty(mLLVMContext), mLongType.getLLVMType(mContext));
   EXPECT_STREQ("long", mLongType.getTypeName().c_str());
-  EXPECT_EQ("%d", mLongType.getFormat());
+  EXPECT_EQ("%ld", mLongType.getFormat());
 }
 
 TEST_F(LongTypeTest, canAutoCastToTest) {
