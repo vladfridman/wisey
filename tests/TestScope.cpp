@@ -93,6 +93,16 @@ TEST_F(ScopeTest, freeOwnedMemoryTest) {
   mScope.freeOwnedMemory(mContext, NULL, 0);
 }
 
+TEST_F(ScopeTest, hasOwnerVariablesTest) {
+  mScope.setVariable("foo", mReferenceVariable);
+
+  EXPECT_FALSE(mScope.hasOwnerVariables());
+
+  mScope.setVariable("bar", mOwnerVariable);
+
+  EXPECT_TRUE(mScope.hasOwnerVariables());
+}
+
 TEST_F(ScopeTest, addExceptionTest) {
   ASSERT_EQ(mScope.getExceptions().size(), 0u);
   

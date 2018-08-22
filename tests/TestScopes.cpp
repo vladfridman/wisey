@@ -226,6 +226,21 @@ TEST_F(ScopesTest, freeOwnedMemoryTest) {
   mScopes.freeOwnedMemory(mContext, NULL, 0);
 }
 
+TEST_F(ScopesTest, hasOwnerVariablesTest) {
+  NiceMock<MockOwnerVariable> foo;
+  ON_CALL(foo, getName()).WillByDefault(Return("foo"));
+  ON_CALL(foo, getType()).WillByDefault(Return(mInterface->getOwner()));
+  
+  mScopes.pushScope();
+
+  EXPECT_FALSE(mScopes.hasOwnerVariables());
+  
+  mScopes.setVariable(mContext, &foo);
+  mScopes.pushScope();
+
+  EXPECT_TRUE(mScopes.hasOwnerVariables());
+}
+
 TEST_F(ScopesTest, variableHidingDeathTest) {
   mScopes.pushScope();
   Value* outerValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);

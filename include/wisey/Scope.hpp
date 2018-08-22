@@ -122,6 +122,11 @@ namespace wisey {
      */
     std::map<std::string, int> getExceptions();
     
+    /**
+     * Tells whether the scope has any owner variables
+     */
+    bool hasOwnerVariables() const;
+    
   };
   
 } // namespace wisey

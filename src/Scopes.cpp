@@ -102,6 +102,15 @@ void Scopes::freeOwnedMemory(IRGenerationContext& context, Value* exception, int
   }
 }
 
+bool Scopes::hasOwnerVariables() const {
+  for (Scope* scope : mScopes) {
+    if (scope->hasOwnerVariables()) {
+      return true;
+    }
+  }
+  return false;
+}
+
 void Scopes::setBreakToBlock(BasicBlock* block) {
   getScope()->setBreakToBlock(block);
 }

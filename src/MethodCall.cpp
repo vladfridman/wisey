@@ -108,9 +108,10 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
                                                  const Interface* interface,
                                                  const IMethodDescriptor* methodDescriptor,
                                                  const IType* assignToType) const {
+  Composer::setLineNumber(context, mLine);
+
   Value* objectValue = mExpression->generateIR(context, PrimitiveTypes::VOID);
 
-  Composer::setLineNumber(context, mLine);
   Composer::checkForNull(context, objectValue);
 
   FunctionType* functionType =

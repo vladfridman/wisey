@@ -25,6 +25,8 @@ void CompoundStatement::generateIR(IRGenerationContext& context) const {
   
   scopes.pushScope();
   mBlock->generateIR(context);
-  Composer::setLineNumber(context, mLine);
+  if (scopes.hasOwnerVariables()) {
+    Composer::setLineNumber(context, mLine);
+  }
   scopes.popScope(context, mLine);
 }

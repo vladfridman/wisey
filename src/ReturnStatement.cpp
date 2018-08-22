@@ -40,7 +40,9 @@ void ReturnStatement::generateIR(IRGenerationContext& context) const {
     throw 1;
   }
 
-  Composer::setLineNumber(context, mLine);
+  if (context.getScopes().hasOwnerVariables()) {
+    Composer::setLineNumber(context, mLine);
+  }
 
   Value* result = AutoCast::maybeCast(context,
                                       mExpression->getType(context),

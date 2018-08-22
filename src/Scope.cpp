@@ -54,6 +54,10 @@ void Scope::setVariable(string name, IVariable* variable) {
   }
 }
 
+bool Scope::hasOwnerVariables() const {
+  return mOwnerVariables.size();
+}
+
 void Scope::setBreakToBlock(BasicBlock* block) {
   mBreakToBlock = block;
 }

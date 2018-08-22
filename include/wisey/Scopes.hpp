@@ -71,6 +71,11 @@ namespace wisey {
     void freeOwnedMemory(IRGenerationContext& context, llvm::Value* exception, int line);
     
     /**
+     * Tells whether there are any owner variables in any of the scopes
+     */
+    bool hasOwnerVariables() const;
+
+    /**
      * Set block to break to out of a loop or a switch statement
      */
     void setBreakToBlock(llvm::BasicBlock* block);
