@@ -1,13 +1,13 @@
 //
-//  CheckArrayIndexFunction.hpp
+//  ThrowArrayIndexExceptionFunction.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 1/31/18.
+//  Created by Vladimir Fridman on 8/23/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef CheckArrayIndexFunction_h
-#define CheckArrayIndexFunction_h
+#ifndef ThrowArrayIndexExceptionFunction_h
+#define ThrowArrayIndexExceptionFunction_h
 
 #include <llvm/IR/Instructions.h>
 
@@ -16,10 +16,9 @@
 namespace wisey {
   
   /**
-   * Represents a global function that throws an MArrayIndexOutOfBoundsException if the given
-   * index is greater than or equal to the given size.
+   * Represents a global function that throws an MArrayIndexOutOfBoundsException
    */
-  class CheckArrayIndexFunction {
+  class ThrowArrayIndexExceptionFunction {
     
   public:
     
@@ -29,11 +28,11 @@ namespace wisey {
     static llvm::Function* get(IRGenerationContext& context);
     
     /**
-     * Calls function with given index and array size arguments
+     * Calls function with a given argument
      */
     static void call(IRGenerationContext& context,
-                     llvm::Value* index,
                      llvm::Value* size,
+                     llvm::Value* index,
                      int line);
     
   private:
@@ -45,10 +44,9 @@ namespace wisey {
     static void compose(IRGenerationContext& context, llvm::Function* function);
     
     static LLVMFunctionType* getLLVMFunctionType(IRGenerationContext& context);
-
+    
   };
   
 } /* namespace wisey */
 
-#endif /* CheckArrayIndexFunction_h */
-
+#endif /* ThrowArrayIndexExceptionFunction_h */

@@ -11,7 +11,6 @@
 #include "wisey/AdjustReferenceCountFunction.hpp"
 #include "wisey/CastObjectFunction.hpp"
 #include "wisey/CheckArrayNotReferencedFunction.hpp"
-#include "wisey/CheckArrayIndexFunction.hpp"
 #include "wisey/CheckCastToObjectFunction.hpp"
 #include "wisey/DestroyNativeObjectFunction.hpp"
 #include "wisey/DestroyOwnerArrayFunction.hpp"
@@ -25,6 +24,7 @@
 #include "wisey/IsObjectFunction.hpp"
 #include "wisey/EssentialFunctions.hpp"
 #include "wisey/ReturnStatement.hpp"
+#include "wisey/ThrowArrayIndexExceptionFunction.hpp"
 #include "wisey/ThrowReferenceCountExceptionFunction.hpp"
 
 using namespace llvm;
@@ -40,7 +40,6 @@ void EssentialFunctions::generateIR(IRGenerationContext& context) const {
   AdjustReferenceCountFunction::get(context);
   CastObjectFunction::get(context);
   CheckArrayNotReferencedFunction::get(context);
-  CheckArrayIndexFunction::get(context);
   CheckCastToObjectFunction::get(context);
   DestroyNativeObjectFunction::get(context);
   DestroyOwnerArrayFunction::get(context);
@@ -51,5 +50,6 @@ void EssentialFunctions::generateIR(IRGenerationContext& context) const {
   GetOriginalObjectNameFunction::get(context);
   InstanceOfFunction::get(context);
   IsObjectFunction::get(context);
+  ThrowArrayIndexExceptionFunction::get(context);
   ThrowReferenceCountExceptionFunction::get(context);
 }

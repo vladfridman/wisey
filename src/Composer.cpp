@@ -15,6 +15,7 @@
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ThreadExpression.hpp"
+#include "wisey/ThrowArrayIndexExceptionFunction.hpp"
 #include "wisey/ThrowNullPointerExceptionFunction.hpp"
 
 using namespace std;
@@ -322,4 +323,31 @@ void Composer::checkForNull(IRGenerationContext& context, Value* value, int line
   IRWriter::newUnreachableInst(context);
   
   context.setBasicBlock(ifNotNull);
+}
+
+void Composer::checkArrayIndex(IRGenerationContext& context,
+                               Value* index,
+                               Value* size,
+                               int line) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Function* function = context.getBasicBlock()->getParent();
+  
+  BasicBlock* inRange = BasicBlock::Create(llvmContext, "in.range", function);
+  BasicBlock* notInRange = BasicBlock::Create(llvmContext, "not.in.range", function);
+  
+  llvm::Constant* zero = ConstantInt::get(PrimitiveTypes::LONG->getLLVMType(context), 0);
+  Value* compareToSize = IRWriter::newICmpInst(context, ICmpInst::ICMP_SGE, index, size, "cmp");
+  Value* compareToZero = IRWriter::newICmpInst(context, ICmpInst::ICMP_SLT, index, zero, "cmp");
+  Value* condition = IRWriter::createBinaryOperator(context,
+                                                    Instruction::Or,
+                                                    compareToSize,
+                                                    compareToZero,
+                                                    "");
+  IRWriter::createConditionalBranch(context, notInRange, inRange, condition);
+  
+  context.setBasicBlock(notInRange);
+  ThrowArrayIndexExceptionFunction::call(context, size, index, line);
+  IRWriter::newUnreachableInst(context);
+
+  context.setBasicBlock(inRange);
 }

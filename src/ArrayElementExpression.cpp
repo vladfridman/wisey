@@ -12,7 +12,6 @@
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/ArrayType.hpp"
 #include "wisey/Composer.hpp"
-#include "wisey/CheckArrayIndexFunction.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/ImmutableArrayType.hpp"
 #include "wisey/Log.hpp"
@@ -94,7 +93,7 @@ Value* ArrayElementExpression::getArrayElement(IRGenerationContext &context,
   index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 1);
   Value* arraySizeStore = IRWriter::createGetElementPtrInst(context, arrayStructPointer, index);
   Value* arraySize = IRWriter::newLoadInst(context, arraySizeStore, "arraySize");
-  CheckArrayIndexFunction::call(context, indexValueCast, arraySize, line);
+  Composer::checkArrayIndex(context, indexValueCast, arraySize, line);
   index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 2);
   Value* elementSizeStore = IRWriter::createGetElementPtrInst(context, arrayStructPointer, index);
   Value* elementSize = IRWriter::newLoadInst(context, elementSizeStore, "elementSize");

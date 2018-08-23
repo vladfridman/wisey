@@ -540,9 +540,6 @@
 		F5603B4820211E7B00BBA05D /* ArraySpecificOwnerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5603B4720211E7B00BBA05D /* ArraySpecificOwnerType.cpp */; };
 		F5603B492021219200BBA05D /* TestArraySpecificOwnerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5603B4420211E5100BBA05D /* TestArraySpecificOwnerType.cpp */; };
 		F5603B4A202121B000BBA05D /* ArraySpecificOwnerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5603B4720211E7B00BBA05D /* ArraySpecificOwnerType.cpp */; };
-		F5603B4D2021316E00BBA05D /* CheckArrayIndexFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5603B4C2021316E00BBA05D /* CheckArrayIndexFunction.cpp */; };
-		F5603B4E2021316E00BBA05D /* CheckArrayIndexFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5603B4C2021316E00BBA05D /* CheckArrayIndexFunction.cpp */; };
-		F5603B502021562800BBA05D /* TestCheckArrayIndexFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5603B4F2021562800BBA05D /* TestCheckArrayIndexFunction.cpp */; };
 		F5609F072057C07F00664ADD /* ParameterReferenceVariableStatic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F062057C07F00664ADD /* ParameterReferenceVariableStatic.cpp */; };
 		F5609F082057C07F00664ADD /* ParameterReferenceVariableStatic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F062057C07F00664ADD /* ParameterReferenceVariableStatic.cpp */; };
 		F5609F0C2057C54900664ADD /* TestParameterReferenceVariableStatic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5609F0B2057C54900664ADD /* TestParameterReferenceVariableStatic.cpp */; };
@@ -837,6 +834,9 @@
 		F59692DF212533E700F19C4E /* LLVMGlobalIdentifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692DD212533E700F19C4E /* LLVMGlobalIdentifier.cpp */; };
 		F59692E121254F9700F19C4E /* TestLLVMGlobalIdentifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692E021254F9700F19C4E /* TestLLVMGlobalIdentifier.cpp */; };
 		F59692E321256B0200F19C4E /* TestCInputReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692E221256B0100F19C4E /* TestCInputReader.cpp */; };
+		F59692E6212EA7C300F19C4E /* ThrowArrayIndexExceptionFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692E5212EA7C300F19C4E /* ThrowArrayIndexExceptionFunction.cpp */; };
+		F59692E7212EA7C300F19C4E /* ThrowArrayIndexExceptionFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692E5212EA7C300F19C4E /* ThrowArrayIndexExceptionFunction.cpp */; };
+		F59692E9212EAA8300F19C4E /* TestThrowArrayIndexExceptionFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59692E8212EAA8300F19C4E /* TestThrowArrayIndexExceptionFunction.cpp */; };
 		F598117A20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117B20A05E58003AADCA /* ObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */; };
 		F598117E20A0676E003AADCA /* TestObjectKindGlobal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */; };
@@ -1727,9 +1727,6 @@
 		F5603B4420211E5100BBA05D /* TestArraySpecificOwnerType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestArraySpecificOwnerType.cpp; path = tests/TestArraySpecificOwnerType.cpp; sourceTree = "<group>"; };
 		F5603B4620211E6B00BBA05D /* ArraySpecificOwnerType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ArraySpecificOwnerType.hpp; path = include/wisey/ArraySpecificOwnerType.hpp; sourceTree = "<group>"; };
 		F5603B4720211E7B00BBA05D /* ArraySpecificOwnerType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ArraySpecificOwnerType.cpp; path = src/ArraySpecificOwnerType.cpp; sourceTree = "<group>"; };
-		F5603B4B2021310800BBA05D /* CheckArrayIndexFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CheckArrayIndexFunction.hpp; path = include/wisey/CheckArrayIndexFunction.hpp; sourceTree = "<group>"; };
-		F5603B4C2021316E00BBA05D /* CheckArrayIndexFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CheckArrayIndexFunction.cpp; path = src/CheckArrayIndexFunction.cpp; sourceTree = "<group>"; };
-		F5603B4F2021562800BBA05D /* TestCheckArrayIndexFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCheckArrayIndexFunction.cpp; path = tests/TestCheckArrayIndexFunction.cpp; sourceTree = "<group>"; };
 		F5609F052057BF7300664ADD /* ParameterReferenceVariableStatic.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ParameterReferenceVariableStatic.hpp; path = include/wisey/ParameterReferenceVariableStatic.hpp; sourceTree = "<group>"; };
 		F5609F062057C07F00664ADD /* ParameterReferenceVariableStatic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ParameterReferenceVariableStatic.cpp; path = src/ParameterReferenceVariableStatic.cpp; sourceTree = "<group>"; };
 		F5609F0B2057C54900664ADD /* TestParameterReferenceVariableStatic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestParameterReferenceVariableStatic.cpp; path = tests/TestParameterReferenceVariableStatic.cpp; sourceTree = "<group>"; };
@@ -1923,6 +1920,9 @@
 		F59692DD212533E700F19C4E /* LLVMGlobalIdentifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMGlobalIdentifier.cpp; path = src/LLVMGlobalIdentifier.cpp; sourceTree = "<group>"; };
 		F59692E021254F9700F19C4E /* TestLLVMGlobalIdentifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLLVMGlobalIdentifier.cpp; path = tests/TestLLVMGlobalIdentifier.cpp; sourceTree = "<group>"; };
 		F59692E221256B0100F19C4E /* TestCInputReader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCInputReader.cpp; path = tests/TestCInputReader.cpp; sourceTree = "<group>"; };
+		F59692E4212EA74500F19C4E /* ThrowArrayIndexExceptionFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ThrowArrayIndexExceptionFunction.hpp; path = include/wisey/ThrowArrayIndexExceptionFunction.hpp; sourceTree = "<group>"; };
+		F59692E5212EA7C300F19C4E /* ThrowArrayIndexExceptionFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ThrowArrayIndexExceptionFunction.cpp; path = src/ThrowArrayIndexExceptionFunction.cpp; sourceTree = "<group>"; };
+		F59692E8212EAA8300F19C4E /* TestThrowArrayIndexExceptionFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestThrowArrayIndexExceptionFunction.cpp; path = tests/TestThrowArrayIndexExceptionFunction.cpp; sourceTree = "<group>"; };
 		F598117720A05DAC003AADCA /* ObjectKindGlobal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ObjectKindGlobal.hpp; path = include/wisey/ObjectKindGlobal.hpp; sourceTree = "<group>"; };
 		F598117920A05E58003AADCA /* ObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectKindGlobal.cpp; path = src/ObjectKindGlobal.cpp; sourceTree = "<group>"; };
 		F598117D20A0676E003AADCA /* TestObjectKindGlobal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectKindGlobal.cpp; path = tests/TestObjectKindGlobal.cpp; sourceTree = "<group>"; };
@@ -2471,7 +2471,6 @@
 				F50FF8A1208C9F14008EDC40 /* AdjustReferenceCounterForImmutableArrayFunction.cpp */,
 				F52C66651FBF446400E89B04 /* AdjustReferenceCountFunction.cpp */,
 				F5190A492088DA3400BC2D93 /* CastObjectFunction.cpp */,
-				F5603B4C2021316E00BBA05D /* CheckArrayIndexFunction.cpp */,
 				F50FF85E208A2D04008EDC40 /* CheckArrayNotReferencedFunction.cpp */,
 				F5C0E7D02090B59D0028BBD0 /* CheckCastToObjectFunction.cpp */,
 				F5E6BD061F190B4700D59444 /* Composer.cpp */,
@@ -2484,6 +2483,7 @@
 				F5C0E7C1208FB6DD0028BBD0 /* GetOriginalObjectNameFunction.cpp */,
 				F5752AC12088C52F00C00DE1 /* InstanceOfFunction.cpp */,
 				F5C0E7CB2090ACB40028BBD0 /* IsObjectFunction.cpp */,
+				F59692E5212EA7C300F19C4E /* ThrowArrayIndexExceptionFunction.cpp */,
 				F5F210C920F633D700F6D40F /* ThrowNullPointerExceptionFunction.cpp */,
 				F52C66591FBF348D00E89B04 /* ThrowReferenceCountExceptionFunction.cpp */,
 			);
@@ -2497,7 +2497,6 @@
 				F50FF8A0208C9EE9008EDC40 /* AdjustReferenceCounterForImmutableArrayFunction.hpp */,
 				F52C66641FBF441A00E89B04 /* AdjustReferenceCountFunction.hpp */,
 				F5190A482088D93300BC2D93 /* CastObjectFunction.hpp */,
-				F5603B4B2021310800BBA05D /* CheckArrayIndexFunction.hpp */,
 				F50FF85D208A2C73008EDC40 /* CheckArrayNotReferencedFunction.hpp */,
 				F5C0E7D22090B5AB0028BBD0 /* CheckCastToObjectFunction.hpp */,
 				F5E6BD051F190B3900D59444 /* Composer.hpp */,
@@ -2510,6 +2509,7 @@
 				F5C0E7C0208FB64E0028BBD0 /* GetOriginalObjectNameFunction.hpp */,
 				F5752AC02088C44800C00DE1 /* InstanceOfFunction.hpp */,
 				F5C0E7CA2090ABD80028BBD0 /* IsObjectFunction.hpp */,
+				F59692E4212EA74500F19C4E /* ThrowArrayIndexExceptionFunction.hpp */,
 				F5F210C820F633A500F6D40F /* ThrowNullPointerExceptionFunction.hpp */,
 				F52C66581FBF33C000E89B04 /* ThrowReferenceCountExceptionFunction.hpp */,
 			);
@@ -3608,7 +3608,6 @@
 				F50FF8A4208CA059008EDC40 /* TestAdjustReferenceCounterForImmutableArrayFunction.cpp */,
 				F5105FC21FD1B18F00ACF57B /* TestAdjustReferenceCountFunction.cpp */,
 				F5190A4C2088E0A000BC2D93 /* TestCastObjectFunction.cpp */,
-				F5603B4F2021562800BBA05D /* TestCheckArrayIndexFunction.cpp */,
 				F50FF861208A39CB008EDC40 /* TestCheckArrayNotReferencedFunction.cpp */,
 				F5C0E7D32090B7BA0028BBD0 /* TestCheckCastToObjectFunction.cpp */,
 				F5E6BD0D1F1B7DCD00D59444 /* TestComposer.cpp */,
@@ -3621,6 +3620,7 @@
 				F5C0E7C4208FB91C0028BBD0 /* TestGetOriginalObjectNameFunction.cpp */,
 				F5190A462088CA3A00BC2D93 /* TestInstanceOfFunction.cpp */,
 				F5C0E7CE2090AF970028BBD0 /* TestIsModelObject.cpp */,
+				F59692E8212EAA8300F19C4E /* TestThrowArrayIndexExceptionFunction.cpp */,
 				F5105FBC1FD1A65E00ACF57B /* TestThrowNullPointerExceptionFunction.cpp */,
 				F5105FBE1FD1ABC900ACF57B /* TestThrowReferenceCountExceptionFunction.cpp */,
 			);
@@ -4710,7 +4710,6 @@
 				F574115C1E01A13B009809FF /* TestLogicalOrExpression.cpp in Sources */,
 				F5CB7FC320529D20007628B5 /* StateFieldDefinition.cpp in Sources */,
 				F54B148D205EC7510030773F /* TestLLVMi16Type.cpp in Sources */,
-				F5603B4E2021316E00BBA05D /* CheckArrayIndexFunction.cpp in Sources */,
 				F5B3DCE61F9116AF00FC76D3 /* IMethodCall.cpp in Sources */,
 				F51942FB1FE3D7D6009C3158 /* TestIdentifierChain.cpp in Sources */,
 				F5A98A371F9A37910063D626 /* ConstantReference.cpp in Sources */,
@@ -4796,6 +4795,7 @@
 				F59692922117761C00F19C4E /* TestBitwiseOrExpression.cpp in Sources */,
 				F534644920ACCD26006369D4 /* GlobalStringConstant.cpp in Sources */,
 				F5A67DBA20171F0B0018068F /* FieldArrayOwnerVariable.cpp in Sources */,
+				F59692E9212EAA8300F19C4E /* TestThrowArrayIndexExceptionFunction.cpp in Sources */,
 				F5CB7FCE20529E77007628B5 /* InjectedFieldDefinition.cpp in Sources */,
 				F5F396D81E34BBDD00F34296 /* HeapBuilder.cpp in Sources */,
 				F53A2C291EFFD42000E76A9E /* NodeTypeSpecifier.cpp in Sources */,
@@ -4806,7 +4806,6 @@
 				F5BF0C902081028F005AF4E5 /* TestLLVMPointerOwnerType.cpp in Sources */,
 				F598118220A0A17F003AADCA /* StringGetLengthMethod.cpp in Sources */,
 				F50FA2A11E269B4700435EEA /* TestCompoundStatement.cpp in Sources */,
-				F5603B502021562800BBA05D /* TestCheckArrayIndexFunction.cpp in Sources */,
 				F5436DB41FCF72BB003ABF6F /* ModelTypeSpecifierFull.cpp in Sources */,
 				F5A8208B209CB23A003DA505 /* IStatement.cpp in Sources */,
 				F5A8208D209CB2F3003DA505 /* TestIStatement.cpp in Sources */,
@@ -4852,6 +4851,7 @@
 				F5D4660220611BEF00C1047A /* TestLLVMFunctionDefinition.cpp in Sources */,
 				F5D1599720A48E5E00107E84 /* TestCFileReader.cpp in Sources */,
 				F51701BD2010649C00A10B7C /* ArrayOwnerType.cpp in Sources */,
+				F59692E7212EA7C300F19C4E /* ThrowArrayIndexExceptionFunction.cpp in Sources */,
 				F596927D2114C97600F19C4E /* TestCReferenceToOwnerMap.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4921,6 +4921,7 @@
 				F52FF1851F1C570C003F4D37 /* Names.cpp in Sources */,
 				F53A2C281EFFD42000E76A9E /* NodeTypeSpecifier.cpp in Sources */,
 				F5CB7FD82052AA49007628B5 /* InjectedField.cpp in Sources */,
+				F59692E6212EA7C300F19C4E /* ThrowArrayIndexExceptionFunction.cpp in Sources */,
 				F58725521F6D749100FA25E6 /* StringType.cpp in Sources */,
 				F531B63C1E089E59008304F3 /* ExpressionStatement.cpp in Sources */,
 				F58A83521F798A6C00369388 /* ExternalModelDefinition.cpp in Sources */,
@@ -5005,7 +5006,6 @@
 				F593629F20CC25C300A8C67A /* PoolBuilder.cpp in Sources */,
 				F569E9F01DF9CC9600BBB20E /* Log.cpp in Sources */,
 				F5105FAA1FD02B6200ACF57B /* ImportProfile.cpp in Sources */,
-				F5603B4D2021316E00BBA05D /* CheckArrayIndexFunction.cpp in Sources */,
 				F5ADB6211E66F9B400FFC941 /* Interface.cpp in Sources */,
 				F523D509206BD1E70017D5B4 /* WiseyObjectOwnerTypeSpecifier.cpp in Sources */,
 				F5E209301E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp in Sources */,

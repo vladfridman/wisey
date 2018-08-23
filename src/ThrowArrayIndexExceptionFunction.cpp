@@ -1,31 +1,30 @@
 //
-//  CheckArrayIndexFunction.cpp
+//  ThrowArrayIndexExceptionFunction.cpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 1/31/18.
+//  Created by Vladimir Fridman on 8/23/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/CheckArrayIndexFunction.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/HeapBuilder.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/IfStatement.hpp"
 #include "wisey/LLVMPrimitiveTypes.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ThreadExpression.hpp"
+#include "wisey/ThrowArrayIndexExceptionFunction.hpp"
 #include "wisey/ThrowStatement.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Function* CheckArrayIndexFunction::get(IRGenerationContext& context) {
+Function* ThrowArrayIndexExceptionFunction::get(IRGenerationContext& context) {
   Function* function = context.getModule()->getFunction(getName());
   
   if (function) {
@@ -38,10 +37,10 @@ Function* CheckArrayIndexFunction::get(IRGenerationContext& context) {
   return function;
 }
 
-void CheckArrayIndexFunction::call(IRGenerationContext& context,
-                                   Value* index,
-                                   Value* size,
-                                   int line) {
+void ThrowArrayIndexExceptionFunction::call(IRGenerationContext& context,
+                                            Value* size,
+                                            Value* index,
+                                            int line) {
   Function* function = get(context);
   vector<Value*> arguments;
   IVariable* callstackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
@@ -49,22 +48,23 @@ void CheckArrayIndexFunction::call(IRGenerationContext& context,
   arguments.push_back(ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), line));
   arguments.push_back(index);
   arguments.push_back(size);
-  
+
   IRWriter::createInvokeInst(context, function, arguments, "", 0);
 }
 
-string CheckArrayIndexFunction::getName() {
-  return "__checkArrayIndexFunction";
+string ThrowArrayIndexExceptionFunction::getName() {
+  return "__throwArrayIndexException";
 }
 
-Function* CheckArrayIndexFunction::define(IRGenerationContext& context) {
+Function* ThrowArrayIndexExceptionFunction::define(IRGenerationContext& context) {
   return Function::Create(getLLVMFunctionType(context)->getLLVMType(context),
                           GlobalValue::ExternalLinkage,
                           getName(),
                           context.getModule());
 }
 
-LLVMFunctionType* CheckArrayIndexFunction::getLLVMFunctionType(IRGenerationContext& context) {
+LLVMFunctionType* ThrowArrayIndexExceptionFunction::getLLVMFunctionType(IRGenerationContext&
+                                                                         context) {
   const Controller* callstack = context.getController(Names::getCallStackControllerFullName(), 0);
   
   vector<const IType*> argumentTypes;
@@ -72,11 +72,13 @@ LLVMFunctionType* CheckArrayIndexFunction::getLLVMFunctionType(IRGenerationConte
   argumentTypes.push_back(PrimitiveTypes::INT);
   argumentTypes.push_back(LLVMPrimitiveTypes::I64);
   argumentTypes.push_back(LLVMPrimitiveTypes::I64);
-  
+
   return context.getLLVMFunctionType(LLVMPrimitiveTypes::VOID, argumentTypes);
 }
 
-void CheckArrayIndexFunction::compose(IRGenerationContext& context, Function* function) {
+void ThrowArrayIndexExceptionFunction::compose(IRGenerationContext& context, Function* function) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+
   Function::arg_iterator llvmArguments = function->arg_begin();
   Value* callstackArgument = &*llvmArguments;
   callstackArgument->setName(ThreadExpression::CALL_STACK);
@@ -89,27 +91,10 @@ void CheckArrayIndexFunction::compose(IRGenerationContext& context, Function* fu
   llvmArguments++;
   Value* size = &*llvmArguments;
   size->setName("size");
+
+  BasicBlock* basicBlock = BasicBlock::Create(llvmContext, "entry", function);
+  context.setBasicBlock(basicBlock);
   
-  LLVMContext& llvmContext = context.getLLVMContext();
-  BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function);
-  BasicBlock* throwBlock = BasicBlock::Create(llvmContext, "throw", function);
-  BasicBlock* returnBlock = BasicBlock::Create(llvmContext, "return", function);
-  context.setBasicBlock(entryBlock);
-  
-  llvm::Constant* zero = ConstantInt::get(PrimitiveTypes::LONG->getLLVMType(context), 0);
-  Value* compareToSize = IRWriter::newICmpInst(context, ICmpInst::ICMP_SGE, index, size, "cmp");
-  Value* compareToZero = IRWriter::newICmpInst(context, ICmpInst::ICMP_SLT, index, zero, "cmp");
-  Value* condition = IRWriter::createBinaryOperator(context,
-                                                    Instruction::Or,
-                                                    compareToSize,
-                                                    compareToZero,
-                                                    "");
-  IRWriter::createConditionalBranch(context, throwBlock, returnBlock, condition);
-  
-  context.setBasicBlock(returnBlock);
-  IRWriter::createReturnInst(context, NULL);
-  
-  context.setBasicBlock(throwBlock);
   Composer::setLineNumberAtRuntime(context, callstackArgument, lineNumber);
   context.getScopes().pushScope();
   PackageType* packageType = context.getPackageType(Names::getLangPackageName());
@@ -131,4 +116,3 @@ void CheckArrayIndexFunction::compose(IRGenerationContext& context, Function* fu
   
   context.registerLLVMInternalFunctionNamedType(getName(), getLLVMFunctionType(context), 0);
 }
-

@@ -68,6 +68,14 @@ namespace wisey {
      */
     static void checkForNull(IRGenerationContext& context, llvm::Value* value, int line);
     
+    /**
+     * Checks that array index is in range
+     */
+    static void checkArrayIndex(IRGenerationContext& context,
+                                llvm::Value* index,
+                                llvm::Value* size,
+                                int line);
+    
   private:
     
     static bool shouldSkipCallStack(IRGenerationContext& context);
