@@ -95,6 +95,14 @@ controller CProgram implements IProgram, IObjectComparator {
     return res;
   }
 
+  private static long getKey(byte[] arr, int offset, int length) {
+    long key = 0;
+    for (int i = offset; i < offset + length; i++) {
+      key = key * 4 + arr[i];
+    }
+    return key;
+  }
+
   private CResult sumTwoMaps(CResult result1, CResult result2) {
     long[]* keysArray = result2.getMap().getKeys();
     int[]* valuesArray = result2.getMap().getValues();
@@ -161,14 +169,6 @@ controller CProgram implements IProgram, IObjectComparator {
       key = key >> 2;
     }
     return CString.createFromCharArray(res);
-  }
-
-  private static long getKey(byte[] arr, int offset, int length) {
-    long key = 0;
-    for (int i = offset; i < offset + length; i++) {
-      key = key * 4 + arr[i];
-    }
-    return key;
   }
 
   private static byte[]* toCodes(byte[] sequence, long length) {

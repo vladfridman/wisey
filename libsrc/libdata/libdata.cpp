@@ -1,4 +1,5 @@
 #include <map>
+#include <unordered_map>
 #include <vector>
 
 /**
@@ -99,16 +100,16 @@ extern "C" void stl_reference_to_owner_map_clear(void* map) {
  * Hashmap where key is of type long and value is of type int
  */
 extern "C" void* stl_long_to_int_map_create() {
-  return new std::map<int64_t, int32_t>();
+  return new std::unordered_map<int64_t, int32_t>();
 }
 
 extern "C" void stl_long_to_int_map_destroy(void* map) {
-  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
+  std::unordered_map<int64_t, int32_t>* mapCast = (std::unordered_map<int64_t, int32_t>*) map;
   delete mapCast;
 }
 
 extern "C" void stl_long_to_int_map_erase(void* map, int64_t key) {
-  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
+  std::unordered_map<int64_t, int32_t>* mapCast = (std::unordered_map<int64_t, int32_t>*) map;
   if (!mapCast->count(key)) {
     return;
   }
@@ -117,27 +118,27 @@ extern "C" void stl_long_to_int_map_erase(void* map, int64_t key) {
 
 extern "C" void stl_long_to_int_map_put(void* map, int64_t key, int32_t value) {
   stl_long_to_int_map_erase(map, key);
-  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
-  mapCast->insert(std::pair<int64_t, int32_t>(key, value));
+  std::unordered_map<int64_t, int32_t>* mapCast = (std::unordered_map<int64_t, int32_t>*) map;
+  (*mapCast)[key] = value;
 }
 
 extern "C" bool stl_long_to_int_map_has(void* map, int64_t key) {
-  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
+  std::unordered_map<int64_t, int32_t>* mapCast = (std::unordered_map<int64_t, int32_t>*) map;
   return mapCast->count(key);
 }
 
 extern "C" int32_t stl_long_to_int_map_get(void* map, int64_t key) {
-  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
+  std::unordered_map<int64_t, int32_t>* mapCast = (std::unordered_map<int64_t, int32_t>*) map;
   return mapCast->at(key);
 }
 
 extern "C" void stl_long_to_int_map_clear(void* map) {
-  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
+  std::unordered_map<int64_t, int32_t>* mapCast = (std::unordered_map<int64_t, int32_t>*) map;
   mapCast->clear();
 }
 
 extern "C" int64_t stl_long_to_int_map_size(void* map) {
-  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
+  std::unordered_map<int64_t, int32_t>* mapCast = (std::unordered_map<int64_t, int32_t>*) map;
   return mapCast->size();
 }
 
@@ -145,7 +146,7 @@ extern "C" int64_t stl_long_to_int_map_size(void* map) {
  * Returns a wisey array containing values of a long to int map
  */
 extern "C" void* stl_long_to_int_map_get_values_array(void *map) {
-  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
+  std::unordered_map<int64_t, int32_t>* mapCast = (std::unordered_map<int64_t, int32_t>*) map;
   int64_t allocSize = mapCast->size() * sizeof(int32_t) + 3 * sizeof(int64_t);
   void* memory = malloc(allocSize);
   int8_t* location = (int8_t*) memory;
@@ -160,7 +161,7 @@ extern "C" void* stl_long_to_int_map_get_values_array(void *map) {
   location += sizeof(int64_t);
   int32_t* element = (int32_t*) location;
 
-  for (std::map<int64_t, int32_t>::iterator iterator = mapCast->begin(); iterator != mapCast->end(); iterator++) {
+  for (std::unordered_map<int64_t, int32_t>::iterator iterator = mapCast->begin(); iterator != mapCast->end(); iterator++) {
     *element = iterator->second;
     element++;
   }
@@ -172,7 +173,7 @@ extern "C" void* stl_long_to_int_map_get_values_array(void *map) {
  * Returns a wisey array containing keys of a long to int map
  */
 extern "C" void* stl_long_to_int_map_get_keys_array(void *map) {
-  std::map<int64_t, int32_t>* mapCast = (std::map<int64_t, int32_t>*) map;
+  std::unordered_map<int64_t, int32_t>* mapCast = (std::unordered_map<int64_t, int32_t>*) map;
   int64_t allocSize = mapCast->size() * sizeof(int64_t) + 3 * sizeof(int64_t);
   void* memory = malloc(allocSize);
   int8_t* location = (int8_t*) memory;
@@ -187,7 +188,7 @@ extern "C" void* stl_long_to_int_map_get_keys_array(void *map) {
   location += sizeof(int64_t);
   int64_t* element = (int64_t*) location;
 
-  for (std::map<int64_t, int32_t>::iterator iterator = mapCast->begin(); iterator != mapCast->end(); iterator++) {
+  for (std::unordered_map<int64_t, int32_t>::iterator iterator = mapCast->begin(); iterator != mapCast->end(); iterator++) {
     *element = iterator->first;
     element++;
   }
