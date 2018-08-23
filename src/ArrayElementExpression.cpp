@@ -47,8 +47,7 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   const ArrayType* arrayType = expressionType->getArrayType(context, mLine);
   Value* arrayStructPointer = mArrayExpression->generateIR(context, PrimitiveTypes::VOID);
   
-  Composer::setLineNumber(context, mLine);
-  Composer::checkForNull(context, arrayStructPointer);
+  Composer::checkForNull(context, arrayStructPointer, mLine);
   Value* pointer = getArrayElement(context, arrayStructPointer, mArrayIndexExpresion, mLine);
   
   if (arrayType->getNumberOfDimensions() > 1) {
@@ -95,7 +94,7 @@ Value* ArrayElementExpression::getArrayElement(IRGenerationContext &context,
   index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 1);
   Value* arraySizeStore = IRWriter::createGetElementPtrInst(context, arrayStructPointer, index);
   Value* arraySize = IRWriter::newLoadInst(context, arraySizeStore, "arraySize");
-  CheckArrayIndexFunction::call(context, indexValueCast, arraySize);
+  CheckArrayIndexFunction::call(context, indexValueCast, arraySize, line);
   index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 2);
   Value* elementSizeStore = IRWriter::createGetElementPtrInst(context, arrayStructPointer, index);
   Value* elementSize = IRWriter::newLoadInst(context, elementSizeStore, "elementSize");
@@ -129,7 +128,7 @@ Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
     throw 1;
   }
   
-  Composer::checkForNull(context, arrayStructPointer);
+  Composer::checkForNull(context, arrayStructPointer, line);
   
   const IType* elementType = arrayType->getElementType();
   

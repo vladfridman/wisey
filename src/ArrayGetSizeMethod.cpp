@@ -27,10 +27,12 @@ const ArrayGetSizeMethod* ArrayGetSizeMethod::ARRAY_GET_SIZE_METHOD = new ArrayG
 
 const std::string ArrayGetSizeMethod::ARRAY_GET_SIZE_METHOD_NAME = "getSize";
 
-Value* ArrayGetSizeMethod::generateIR(IRGenerationContext& context, const IExpression* expression) {
+Value* ArrayGetSizeMethod::generateIR(IRGenerationContext& context,
+                                      const IExpression* expression,
+                                      int line) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Value* arrayValue = expression->generateIR(context, PrimitiveTypes::VOID);
-  Composer::checkForNull(context, arrayValue);
+  Composer::checkForNull(context, arrayValue, line);
   Value* index[2];
   index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);

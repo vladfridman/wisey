@@ -81,7 +81,7 @@ TEST_F(ArrayGetSizeMethodTest, getLLVMTypeTest) {
 TEST_F(ArrayGetSizeMethodTest, generateIRTest) {
   wisey::ArrayType* arrayType = mContext.getArrayType(PrimitiveTypes::FLOAT, 1);
   Value* null = ConstantPointerNull::get(arrayType->getLLVMType(mContext));
-  ArrayGetSizeMethod::generateIR(mContext, new FakeExpression(null, arrayType));
+  ArrayGetSizeMethod::generateIR(mContext, new FakeExpression(null, arrayType), 5);
   BranchInst::Create(mEntryBlock, mDeclareBlock);
   
   *mStringStream << *mFunction;

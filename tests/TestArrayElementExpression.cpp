@@ -124,7 +124,7 @@ TEST_F(ArrayElementExpressionTest, generateIRTest) {
   "\n  %conv = sext i32 3 to i64"
   "\n  %0 = getelementptr { i64, i64, i64, [0 x i32] }, { i64, i64, i64, [0 x i32] }* null, i64 0, i32 1"
   "\n  %arraySize = load i64, i64* %0"
-  "\n  invoke void @__checkArrayIndexFunction(i64 %conv, i64 %arraySize)"
+  "\n  invoke void @__checkArrayIndexFunction(%wisey.threads.CCallStack* null, i32 3, i64 %conv, i64 %arraySize)"
   "\n          to label %invoke.continue1 unwind label %cleanup"
   "\n"
   "\ncleanup:                                          ; preds = %if.not.null, %if.null"

@@ -66,7 +66,7 @@ Value* MethodCall::generateIR(IRGenerationContext& context, const IType* assignT
   context.getScopes().getScope()->addExceptions(thrownExceptions, mLine);
   
   if (methodDescriptor == ArrayGetSizeMethod::ARRAY_GET_SIZE_METHOD) {
-    return ArrayGetSizeMethod::generateIR(context, mExpression);
+    return ArrayGetSizeMethod::generateIR(context, mExpression, mLine);
   }
   if (methodDescriptor == StringGetLengthMethod::STRING_GET_LENGTH_METHOD) {
     return StringGetLengthMethod::generateIR(context, mExpression);
@@ -112,7 +112,7 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
 
   Value* objectValue = mExpression->generateIR(context, PrimitiveTypes::VOID);
 
-  Composer::checkForNull(context, objectValue);
+  Composer::checkForNull(context, objectValue, mLine);
 
   FunctionType* functionType =
     IMethod::getLLVMFunctionType(context, methodDescriptor, interface, mLine);
@@ -153,7 +153,7 @@ Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
   Function* function = getMethodFunction(context, methodDescriptor);
 
   Composer::setLineNumber(context, mLine);
-  Composer::checkForNull(context, objectValue);
+  Composer::checkForNull(context, objectValue, mLine);
 
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
   Value* threadObject = threadVariable->generateIdentifierIR(context, mLine);

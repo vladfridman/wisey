@@ -37,6 +37,13 @@ namespace wisey {
     static void setLineNumber(IRGenerationContext& context, int line);
     
     /**
+     * Sets the current line number in the latest entry in the call stack
+     */
+    static void setLineNumberAtRuntime(IRGenerationContext& context,
+                                       llvm::Value* callStackValue,
+                                       llvm::Value* lineNumber);
+
+    /**
      * Increments reference count unsafely for an object that is either controller or a node
      */
     static void incrementReferenceCountUnsafely(IRGenerationContext& context, llvm::Value* object);
@@ -59,7 +66,7 @@ namespace wisey {
     /**
      * Checks if the value is null and throws npe if so
      */
-    static void checkForNull(IRGenerationContext& context, llvm::Value* value);
+    static void checkForNull(IRGenerationContext& context, llvm::Value* value, int line);
     
   private:
     

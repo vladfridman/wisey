@@ -31,7 +31,10 @@ namespace wisey {
     /**
      * Calls function with given index and array size arguments
      */
-    static void call(IRGenerationContext& context, llvm::Value* index, llvm::Value* size);
+    static void call(IRGenerationContext& context,
+                     llvm::Value* index,
+                     llvm::Value* size,
+                     int line);
     
   private:
     

@@ -39,7 +39,9 @@ namespace wisey {
     /**
      * Generates IR to get array size
      */
-    static llvm::Value* generateIR(IRGenerationContext& context, const IExpression* expression);
+    static llvm::Value* generateIR(IRGenerationContext& context,
+                                   const IExpression* expression,
+                                   int line);
     
     std::string getName() const override;
     

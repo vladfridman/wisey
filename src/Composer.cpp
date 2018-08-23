@@ -145,10 +145,16 @@ void Composer::setLineNumber(IRGenerationContext& context, int line) {
     return;
   }
   
-  LLVMContext& llvmContext = context.getLLVMContext();
   IVariable* callStackVariable = context.getScopes().getVariable(ThreadExpression::CALL_STACK);
   Value* callStackValue = callStackVariable->generateIdentifierIR(context, 0);
-  
+  llvm::Constant* lineNumber = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), line);
+  setLineNumberAtRuntime(context, callStackValue, lineNumber);
+}
+
+void Composer::setLineNumberAtRuntime(IRGenerationContext& context,
+                                      Value* callStackValue,
+                                      Value* lineNumber) {
+  LLVMContext& llvmContext = context.getLLVMContext();
   Type* i32 = Type::getInt32Ty(llvmContext);
   llvm::Constant* zero = ConstantInt::get(i32, 0);
   llvm::Constant* one = ConstantInt::get(i32, 1);
@@ -173,7 +179,6 @@ void Composer::setLineNumber(IRGenerationContext& context, int line) {
   Value* arrayPointer = IRWriter::createGetElementPtrInst(context, arrayStruct, indexes);
   indexes[1] = newCallstackIndex;
   Value* lineStore = IRWriter::createGetElementPtrInst(context, arrayPointer, indexes);
-  llvm::Constant* lineNumber = ConstantInt::get(i32, line);
   IRWriter::newStoreInst(context, lineNumber, lineStore);
 }
 
@@ -300,7 +305,7 @@ void Composer::adjustReferenceCountSafely(IRGenerationContext& context,
   context.setBasicBlock(ifEndBlock);
 }
 
-void Composer::checkForNull(IRGenerationContext& context, Value* value) {
+void Composer::checkForNull(IRGenerationContext& context, Value* value, int line) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Function* function = context.getBasicBlock()->getParent();
 
@@ -312,6 +317,7 @@ void Composer::checkForNull(IRGenerationContext& context, Value* value) {
   IRWriter::createConditionalBranch(context, ifNull, ifNotNull, isNull);
   
   context.setBasicBlock(ifNull);
+  Composer::setLineNumber(context, line);
   ThrowNullPointerExceptionFunction::call(context);
   IRWriter::newUnreachableInst(context);
   
