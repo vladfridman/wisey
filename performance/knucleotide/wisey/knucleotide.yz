@@ -85,11 +85,7 @@ controller CProgram implements IProgram, IObjectComparator {
     int lastIndex = (int) sequence.getSize() - fragmentLength + 1;
     for (int index = offset; index < lastIndex; index += fragmentLength) {
       long key = getKey(sequence, index, fragmentLength);
-      if (map.has(key)) {
-        map.put(key, map.get(key) + 1);
-      } else {
-        map.put(key, 1);
-      }
+      map.addTo(key, 1);
     }
 
     return res;
@@ -108,11 +104,7 @@ controller CProgram implements IProgram, IObjectComparator {
     int[]* valuesArray = result2.getMap().getValues();
     for (int i = 0; i < keysArray.getSize(); i++) {
       long key = keysArray[i];
-      if (result1.getMap().has(key)) {
-        result1.getMap().put(key, result1.getMap().get(key) + valuesArray[i]);
-      } else {
-        result1.getMap().put(key, valuesArray[i]);
-      }
+      result1.getMap().addTo(key, valuesArray[i]);
     }
     return result1;
   }

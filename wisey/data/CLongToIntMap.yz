@@ -15,6 +15,13 @@ controller CLongToIntMap {
   }
 
   /**
+   * Adds a value to the value contained in the map with the given key
+   */
+  public void addTo(long key, int value) {
+    ::llvm::function::stl_long_to_int_map_addTo(mStdMap, key, value);
+  }
+
+  /**
    * Looks up a reference to an object given by the key
    */
   public int get(long key) throws MMapEntryDoesNotExistException {

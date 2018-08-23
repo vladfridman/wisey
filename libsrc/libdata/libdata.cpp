@@ -100,7 +100,8 @@ extern "C" void stl_reference_to_owner_map_clear(void* map) {
  * Hashmap where key is of type long and value is of type int
  */
 extern "C" void* stl_long_to_int_map_create() {
-  return new std::unordered_map<int64_t, int32_t>();
+  std::unordered_map<int64_t, int32_t>* map = new std::unordered_map<int64_t, int32_t>();
+  return map;
 }
 
 extern "C" void stl_long_to_int_map_destroy(void* map) {
@@ -117,7 +118,6 @@ extern "C" void stl_long_to_int_map_erase(void* map, int64_t key) {
 }
 
 extern "C" void stl_long_to_int_map_put(void* map, int64_t key, int32_t value) {
-  stl_long_to_int_map_erase(map, key);
   std::unordered_map<int64_t, int32_t>* mapCast = (std::unordered_map<int64_t, int32_t>*) map;
   (*mapCast)[key] = value;
 }
@@ -125,6 +125,11 @@ extern "C" void stl_long_to_int_map_put(void* map, int64_t key, int32_t value) {
 extern "C" bool stl_long_to_int_map_has(void* map, int64_t key) {
   std::unordered_map<int64_t, int32_t>* mapCast = (std::unordered_map<int64_t, int32_t>*) map;
   return mapCast->count(key);
+}
+
+extern "C" void stl_long_to_int_map_addTo(void* map, int64_t key, int32_t value) {
+  std::unordered_map<int64_t, int32_t>* mapCast = (std::unordered_map<int64_t, int32_t>*) map;
+  (*mapCast)[key] += value;
 }
 
 extern "C" int32_t stl_long_to_int_map_get(void* map, int64_t key) {

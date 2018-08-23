@@ -15,6 +15,8 @@ external ::llvm::function ::llvm::void stl_long_to_int_map_put(::llvm::i8::point
 
 external ::llvm::function ::llvm::i1 stl_long_to_int_map_has(::llvm::i8::pointer, ::llvm::i64);
 
+external ::llvm::function ::llvm::i1 stl_long_to_int_map_addTo(::llvm::i8::pointer, ::llvm::i64, ::llvm::i32);
+
 external ::llvm::function ::llvm::i8::pointer stl_reference_to_object_map_get(::llvm::i8::pointer, ::llvm::i8::pointer);
 
 external ::llvm::function ::llvm::i32 stl_long_to_int_map_get(::llvm::i8::pointer, ::llvm::i64);

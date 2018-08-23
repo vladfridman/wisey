@@ -260,6 +260,9 @@ external controller wisey.data.CLongToIntMap {
   void put(
     long key,
     int value);
+  void addTo(
+    long key,
+    int value);
   int get(
     long key) throws wisey.data.MMapEntryDoesNotExistException;
   boolean has(

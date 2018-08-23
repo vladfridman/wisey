@@ -15,9 +15,6 @@
 TEST_F(TestFileRunner, cLongToIntMapRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_clong_to_int_map.yz",
                                         "Hashmap size: 3\n"
-                                        "Key: 1, Value: 2\n"
-                                        "Key: 2, Value: 4\n"
-                                        "Key: 3, Value: 6\n"
                                         "Lookup 1: 2\n"
                                         "Lookup 2: 4\n"
                                         "Lookup 3: 6\n"
