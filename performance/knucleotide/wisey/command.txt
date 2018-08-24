@@ -1,4 +1,4 @@
 ~/wisey/bin/wiseyc ~/wisey/wisey/headers/libwisey.yz ~/wisey/performance/knucleotide/wisey/knucleotide.yz
 g++ -L/Users/vlad/wisey/lib -lwisey -o runnable compiled.o 
 rm ./compiled.o
-./runnable < knucleotide-input.txt
+./runnable < knucleotide-input25000000.txt
