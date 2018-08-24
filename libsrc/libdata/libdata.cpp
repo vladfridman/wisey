@@ -1,4 +1,3 @@
-#include <map>
 #include <unordered_map>
 #include <vector>
 
@@ -13,49 +12,49 @@ void destroy_wisey_object(void* objectPointer);
  * Hashmap where key is an object reference and value is an object reference
  */
 extern "C" void* stl_reference_to_object_map_create() {
-  return new std::map<void*, void*>();
+  return new std::unordered_map<void*, void*>();
 }
 
 extern "C" void stl_reference_to_object_map_destroy(void* map) {
-  std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
+  std::unordered_map<void*, void*>* mapCast = (std::unordered_map<void*, void*>*) map;
   delete mapCast;
 }
 
 extern "C" void stl_reference_to_reference_map_erase(void* map, void* key) {
-  std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
+  std::unordered_map<void*, void*>* mapCast = (std::unordered_map<void*, void*>*) map;
   if (!mapCast->count(key)) {
     return;
   }
-  void* value = mapCast->at(key);
+  void* value = (*mapCast)[key];
   adjust_wisey_object_reference_count(value, -1);
   mapCast->erase(key);
 }
 
 extern "C" void stl_reference_to_reference_map_put(void* map, void* key, void* value) {
   stl_reference_to_reference_map_erase(map, key);
-  std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
-  mapCast->insert(std::pair<void*, void*>(key, value));
+  std::unordered_map<void*, void*>* mapCast = (std::unordered_map<void*, void*>*) map;
+  (*mapCast)[key] = value;
   adjust_wisey_object_reference_count(value, 1);
 }
 
 extern "C" void* stl_reference_to_object_map_get(void* map, void* key) {
-  std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
+  std::unordered_map<void*, void*>* mapCast = (std::unordered_map<void*, void*>*) map;
   if (mapCast->count(key)) {
-    return mapCast->at(key);
+    return (*mapCast)[key];
   }
   return NULL;
 }
 
 extern "C" void stl_reference_to_reference_map_clear(void* map) {
-  std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
-  for (std::map<void*, void*>::iterator iterator = mapCast->begin(); iterator != mapCast->end(); iterator++) {
+  std::unordered_map<void*, void*>* mapCast = (std::unordered_map<void*, void*>*) map;
+  for (std::unordered_map<void*, void*>::iterator iterator = mapCast->begin(); iterator != mapCast->end(); iterator++) {
     adjust_wisey_object_reference_count(iterator->second, -1);
   }
   mapCast->clear();
 }
 
 extern "C" int64_t stl_reference_to_object_map_size(void* map) {
-  std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
+  std::unordered_map<void*, void*>* mapCast = (std::unordered_map<void*, void*>*) map;
   return mapCast->size();
 }
 
@@ -63,34 +62,34 @@ extern "C" int64_t stl_reference_to_object_map_size(void* map) {
  * Hashmap where key is an object reference and value is an object owner
  */
 extern "C" void stl_reference_to_owner_map_erase(void* map, void* key) {
-  std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
+  std::unordered_map<void*, void*>* mapCast = (std::unordered_map<void*, void*>*) map;
   if (!mapCast->count(key)) {
     return;
   }
-  void* value = mapCast->at(key);
+  void* value = (*mapCast)[key];
   destroy_wisey_object(value);
   mapCast->erase(key);
 }
 
 extern "C" void stl_reference_to_owner_map_put(void* map, void* key, void* value) {
   stl_reference_to_owner_map_erase(map, key);
-  std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
-  mapCast->insert(std::pair<void*, void*>(key, value));
+  std::unordered_map<void*, void*>* mapCast = (std::unordered_map<void*, void*>*) map;
+  (*mapCast)[key] = value;
 }
 
 extern "C" void* stl_reference_to_owner_map_take(void* map, void* key) {
-  std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
+  std::unordered_map<void*, void*>* mapCast = (std::unordered_map<void*, void*>*) map;
   if (!mapCast->count(key)) {
     return NULL;
   }
-  void* result = mapCast->at(key);
+  void* result = (*mapCast)[key];
   mapCast->erase(key);
   return result;
 }
 
 extern "C" void stl_reference_to_owner_map_clear(void* map) {
-  std::map<void*, void*>* mapCast = (std::map<void*, void*>*) map;
-  for (std::map<void*, void*>::iterator iterator = mapCast->begin(); iterator != mapCast->end(); iterator++) {
+  std::unordered_map<void*, void*>* mapCast = (std::unordered_map<void*, void*>*) map;
+  for (std::unordered_map<void*, void*>::iterator iterator = mapCast->begin(); iterator != mapCast->end(); iterator++) {
     destroy_wisey_object(iterator->second);
   }
   mapCast->clear();
@@ -134,7 +133,7 @@ extern "C" void stl_long_to_int_map_addTo(void* map, int64_t key, int32_t value)
 
 extern "C" int32_t stl_long_to_int_map_get(void* map, int64_t key) {
   std::unordered_map<int64_t, int32_t>* mapCast = (std::unordered_map<int64_t, int32_t>*) map;
-  return mapCast->at(key);
+  return (*mapCast)[key];
 }
 
 extern "C" void stl_long_to_int_map_clear(void* map) {
