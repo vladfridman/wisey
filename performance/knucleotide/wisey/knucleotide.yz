@@ -1,4 +1,4 @@
-package systems.vos.wisey.compiler.tests;
+package wisey.performance.testing;
 
 import wisey.data.COwnerVector;
 import wisey.data.CLongToIntMap;
